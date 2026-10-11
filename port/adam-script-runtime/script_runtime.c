@@ -376,5 +376,5 @@ int dh2_script_vm_get_global(dh2_script_vm* vm,const char* name,dh2_script_value
   Operation op={0};if(!vm||!name||!value)return -1;op.name=name;op.out=value;
   return protected_operation(vm,get_entry,&op);
 }
-const char* dh2_script_vm_error(const dh2_script_vm* vm){return !vm?"invalid VM":vm->error?vm->error:"script failed without a VM error";}
+const char* dh2_script_vm_error(const dh2_script_vm* vm){return vm?vm->error:"invalid VM";}
 size_t dh2_script_vm_memory(const dh2_script_vm* vm){return vm?vm->used:0;}

@@ -1731,7 +1731,7 @@ std::int32_t native_player_interactive_service(void* raw,
     dh2::character_ai_classification::Status::complete)return 1;
  *value=result.word;return 0;
 }
-bool native_player_interactive_for_actor(ObjectActor& actor) {
+[[maybe_unused]] bool native_player_interactive_for_actor(ObjectActor& actor) {
  if(!prince_source_ai||!actor.identity||actor.kind!=1||
     native_char_ai_actor(actor.identity)!=&actor||
     prince_source_ai->character_identity!=prince_character.identity()||
@@ -8132,12 +8132,20 @@ struct NativeCharacterInventoryOwnerV1 {
      const dh2::character::CombatItemInstance4* (&main_hands)[2],
      dh2::character::CombatEquipSet8 (&sets)[2],
      dh2::character::CombatInventory16& projected,std::string& error)const{
-  if(!inventory||!source_init_equipment_complete||actor!=&subject||
+  if(!inventory||actor!=&subject||
      inventory->character()!=subject.identity||!inventory->properties()||
      inventory->properties()!=&subject.properties){
    error="Monster combat query requires its completed canonical Character V4 inventory";return false;
   }
   const auto& item_table=inventory->table();
+  if(!source_init_equipment_complete) {
+   // _InitEquipment did not finish (e.g. unsupported powered loot): fight
+   // with an empty loadout, as an unequipped source Character does.
+   std::copy(subject.properties.resolved.begin(),subject.properties.resolved.end(),properties.words);
+   rows.clear();rows.resize(1);
+   for(std::size_t set=0;set<2;++set){main_hands[set]=nullptr;sets[set].main_hand=nullptr;}
+   projected={sets,2,0};error.clear();return true;
+  }
   if(item_table.rows.size()>65536){error="Monster ItemTable exceeds source projection budget";return false;}
   std::copy(subject.properties.resolved.begin(),subject.properties.resolved.end(),properties.words);
   rows.reserve(item_table.rows.size());
@@ -8153,7 +8161,8 @@ struct NativeCharacterInventoryOwnerV1 {
     }
     equipped_items[set].item_id=item_id;main_hands[set]=&equipped_items[set];
    }
-   sets[set].main_hand=&main_hands[set];
+   // An empty main-hand slot is a null reference, not a reference to null.
+   sets[set].main_hand=main_hands[set]?&main_hands[set]:nullptr;
   }
   projected={sets,2,inventory->current_equipment()};
   if(projected.current_set<0||projected.current_set>=2){
@@ -10674,7 +10683,7 @@ bool run_direct_source_character_init_final_v1(
  state.initialized_1395=actor.source_init_final_latch_1395;
  state.spawn_probability_274=row->spawn_probability_274;
  state.visual_2d8=row->visual_object_2d8?&visual:nullptr;
- DirectCharacterInitFinalContextV1 context{&runtime,&actor,{}};
+ DirectCharacterInitFinalContextV1 context{&runtime,&actor,{},{}};
  const dh2::character_init_final_v1::Services services{
      &context,&direct_character_init_final_invoke_v1};
  dh2::character_init_final_v1::Runtime init_final(&state,services);
@@ -13593,8 +13602,14 @@ struct NativeMonsterInitialization {
    return;
   }
   case attack_range_parameters:{
-   if(request->subject!=actor.identity||!actor.source_inventory){
-    fail("Monster CanRangeAttack parameters lack canonical Character inventory");return;
+   // The attack kernel names the CharAI (its state owner) as subject.
+   if(request->subject!=actor.identity&&request->subject!=state->owner){
+    fail("Monster CanRangeAttack request names neither the Character nor its CharAI");return;
+   }
+   // ItemInventory::CanRangeAttack is false without an equipped ranged item;
+   // an unequipped (template/Limbus) Character simply cannot range attack.
+   if(!actor.source_inventory||!actor.source_inventory->source_init_equipment_complete){
+    response->word=0;response->identity=0;return;
    }
    std::int32_t parameters[3]{};bool capable=false;std::string error;
    if(!actor.source_inventory->range_parameters(actor,parameters,capable,error)){
@@ -13849,8 +13864,14 @@ struct NativeMonsterInitialization {
   auto& s=self(raw);
   if(!s.subject(id)||!s.owner||s.owner->actor!=&s.actor()||
      s.owner->character.owner()!=id||!s.ai||!s.initialized||!s.vm.ready()||
-     native_host.online||!s.owner->runtime_ready||!s.actor().source_inventory||
-     !s.actor().source_inventory->source_init_equipment_complete)return 1;
+     native_host.online||!s.owner->runtime_ready||!s.actor().source_inventory){
+   __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+       "Monster Attack precondition | %s | vm %d | runtime %d | inventory %d | equipment %d",
+       s.actor().name.c_str(),int(s.vm.ready()),int(s.owner&&s.owner->runtime_ready),
+       int(s.actor().source_inventory!=nullptr),
+       int(s.actor().source_inventory&&s.actor().source_inventory->source_init_equipment_complete));
+   return 1;
+  }
   const auto resolved=target?target:s.ai->state.target_40;
   if(!resolved||!s.ai->state.active_ais_1c||
      (resolved!=prince_character.identity()&&
@@ -26312,7 +26333,7 @@ ObjectActor* skill_target(std::uintptr_t identity){
  if(raw>std::size_t(INT_MAX))return nullptr;
  return player_target(static_cast<int>(raw));
 }
-bool native_target_search_character_available(const ObjectActor* actor){
+[[maybe_unused]] bool native_target_search_character_available(const ObjectActor* actor){
  if(!actor||actor->kind!=1)return false;
  if(!actor->gated_spawn)return true;
  const auto& owner=actor->spawn_owner;
@@ -29390,6 +29411,11 @@ bool gameplay_pose_snapshot(GameplayPoseSnapshotV1& output,std::string& error){
   auto* enemy=player_target(static_cast<int>(i));
   if(!enemy||enemy->kind!=1||enemy->combat_state.dead||enemy->properties.resolved[36]<=0)
    continue;
+  // Development scenarios target hostile Monsters only, not followers/NPCs.
+  try {
+   if(!native_character_classification(*enemy,
+        dh2::character_ai_classification::Query::monster))continue;
+  } catch(...) {continue;}
   const double dx=double(enemy->position[0])-actor_position[0];
   const double dy=double(enemy->position[1])-actor_position[1];
   const double dz=double(enemy->position[2])-actor_position[2];
@@ -40726,7 +40752,7 @@ bool ensure_native_world_items(std::string& error) {
  }
  error.clear();return true;
 }
-bool source_drop_position(const ObjectActor& victim,
+[[maybe_unused]] bool source_drop_position(const ObjectActor& victim,
                           std::array<float,3>& spawn_position,
                           std::array<float,3>& out,
                           std::string& error) {
