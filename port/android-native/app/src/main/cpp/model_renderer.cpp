@@ -1482,6 +1482,7 @@ std::uint32_t native_character_classification(ObjectActor& actor,dh2::character_
  return result.word;
 }
 ObjectActor* native_char_ai_actor(std::uintptr_t character);
+bool move_direct_actor_v1(ObjectActor& actor,const float* target_position);
 std::int32_t source_ooi_interaction_type(ObjectActor& actor);
 bool native_character_position_for_target(std::uintptr_t identity,float (&position)[3]) {
  const dh2::character::aggro_search::GameObject* object=nullptr;
@@ -3105,7 +3106,18 @@ std::int32_t NativeCryptRoomRuntime::enroll_service(
   return 0;
  }
  const auto found=self->actors.find(request->object);
- if(found==self->actors.end()||!found->second)return 1;
+ if(found==self->actors.end()||!found->second) {
+  // Source non-Character rows (Door, Trigger, containers, MoveInZone) have
+  // no port RoomZone membership owner yet. RoomZone::AddInitialObject skips
+  // a non-zonable object, leaving it on HandleNoRoomObjects' always-active
+  // list; answer that for them instead of failing level enrollment. The
+  // original zones Door/Trigger (IsZonable 1), so they are not culled here.
+  if(request->operation==dh2::room_zone_enrollment::Operation::is_zonable&&
+     self->manager.find_by_identity(request->object)) {
+   *value=0;return 0;
+  }
+  return 1;
+ }
  auto& actor=*found->second;
  switch(request->operation) {
  case dh2::room_zone_enrollment::Operation::is_zonable:
@@ -10371,6 +10383,7 @@ namespace {
 struct DirectCharacterInitFinalContextV1 {
  NativeCryptRoomRuntime* runtime{};
  ObjectActor* actor{};
+ std::array<float,3> target_position{};
  std::string provider_error;
 };
 
@@ -10382,8 +10395,12 @@ int direct_character_init_final_invoke_v1(void* raw,
  auto* context=static_cast<DirectCharacterInitFinalContextV1*>(raw);
  auto* runtime=context?context->runtime:nullptr;
  auto* actor=context?context->actor:nullptr;
+ // Character::InitFinal's follow block queries the local Player Character
+ // (look vector, target position); every other call names this actor.
+ const bool player_query=request.operation==Operation::look_at_vector||
+     request.operation==Operation::target_position;
  if(!runtime||!actor||state.character!=actor->identity||
-    request.subject!=actor->identity||actor->kind!=1||
+    (!player_query&&request.subject!=actor->identity)||actor->kind!=1||
     !actor->source_character_construction||!actor->spawn_owner||
     !actor->native_ai||actor->native_ai->character_identity!=actor->identity||
     actor->native_ai->state.owner_04!=actor->identity||
@@ -10490,12 +10507,54 @@ int direct_character_init_final_invoke_v1(void* raw,
    reply.word=static_cast<std::int32_t>(value);
    return 0;
   }
-  case Operation::local_player:
-  case Operation::look_at_vector:
-  case Operation::target_position:
+  // IDA Character::InitFinal: IsFaerie||IsFollower places the Character at
+  // local Player target position + look vector; no local Player is a no-op.
+  case Operation::local_player: {
+   dh2::character_faery_placement_v1::Reply player{};
+   const dh2::character_faery_placement_v1::Request query{
+       dh2::character_faery_placement_v1::Operation::local_player,
+       actor->identity,0,request.argument0,nullptr,
+       static_cast<std::int32_t>(request.argument1)};
+   if(native_faery_placement_service(nullptr,query,&player)!=0||!player.identity) {
+    reply.character_660=0;return 0;
+   }
+   dh2::character_faery_placement_v1::Reply character{};
+   const dh2::character_faery_placement_v1::Request resolve{
+       dh2::character_faery_placement_v1::Operation::player_character,
+       player.identity,0,0,nullptr,0};
+   if(native_faery_placement_service(nullptr,resolve,&character)!=0) {
+    error="Direct Character::InitFinal Player Character resolution failed";return 1;
+   }
+   reply.character_660=character.identity;return 0;
+  }
+  case Operation::look_at_vector: {
+   dh2::character_faery_placement_v1::Reply placement{};
+   const dh2::character_faery_placement_v1::Request query{
+       dh2::character_faery_placement_v1::Operation::look_at_vector,
+       request.subject,0,0,nullptr,0};
+   if(native_faery_placement_service(nullptr,query,&placement)!=0) {
+    error="Direct Character::InitFinal Player look-vector provider failed";return 1;
+   }
+   std::copy_n(&placement.vector.x,3,reply.vector);return 0;
+  }
+  case Operation::target_position: {
+   dh2::character_faery_placement_v1::Reply placement{};
+   const dh2::character_faery_placement_v1::Request query{
+       dh2::character_faery_placement_v1::Operation::target_position,
+       request.subject,0,0,nullptr,0};
+   if(native_faery_placement_service(nullptr,query,&placement)!=0) {
+    error="Direct Character::InitFinal Player target-position provider failed";return 1;
+   }
+   context->target_position={placement.vector.x,placement.vector.y,
+                             placement.vector.z};
+   reply.target=context->target_position.data();
+   return 0;
+  }
   case Operation::set_position:
-   error="Direct Character::InitFinal follower placement branch is not bound for this actor";
-   return 1;
+   if(!request.vector||!move_direct_actor_v1(*actor,request.vector)) {
+    error="Direct Character::InitFinal GameObject SetPosition failed";return 1;
+   }
+   return 0;
   case Operation::light_set: {
    if(!request.name||actor->visual_object_2d8!=actor->identity||
       row->visual_object_2d8!=actor->visual_object_2d8) {
@@ -22675,6 +22734,57 @@ std::int32_t authored_faery_stop(void* raw,std::uintptr_t identity) {
     &context,authored_faery_stop_control_service};
  return dh2_character_controller_character(&controller,controller_stop,0,&services)==1?0:1;
 }
+// GameObject::SetPosition for a direct source Character: moves the canonical
+// row, owner bounds, path/controller state, physical body and visual together.
+bool move_direct_actor_v1(ObjectActor& actor,const float* target_position) {
+ if(!actor.spawn_owner)return false;
+ auto& owner=*actor.spawn_owner;
+ const float delta[3]{target_position[0]-actor.position[0],
+                      target_position[1]-actor.position[1],
+                      target_position[2]-actor.position[2]};
+ actor.position={target_position[0],target_position[1],target_position[2]};
+ actor.placement[12]=target_position[0];
+ actor.placement[13]=target_position[1];
+ actor.placement[14]=target_position[2];
+ auto* mutable_manager_object=source_level_owner.object_manager().find_by_identity(
+     actor.identity);
+ if(!mutable_manager_object)return false;
+ if(mutable_manager_object->live_fields.world_x)
+  *mutable_manager_object->live_fields.world_x=target_position[0];
+ else mutable_manager_object->world_x=target_position[0];
+ if(mutable_manager_object->live_fields.world_y)
+  *mutable_manager_object->live_fields.world_y=target_position[1];
+ else mutable_manager_object->world_y=target_position[1];
+ for(unsigned i=0;i<3;++i) {
+  owner.owner_bounds.absolute_box[i]+=delta[i];
+  owner.owner_bounds.absolute_box[i+3]+=delta[i];
+  owner.runtime.subobjects.absolute_bounds[i]+=delta[i];
+  owner.runtime.subobjects.absolute_bounds[i+3]+=delta[i];
+ }
+ if(owner.runtime.path.count&&dh2_nav_drop_path(&owner.runtime.path))return false;
+ owner.path_to.path_nonempty=0;
+ owner.runtime.controller.path_requested=0;
+ owner.runtime.controller.heading.active=0;
+ std::fill(owner.runtime.controller.heading.direction,
+     owner.runtime.controller.heading.direction+3,0.f);
+ owner.runtime.subobjects.path_count=0;
+ owner.runtime.object.motion.object_flags&=~2u;
+ std::copy(target_position,target_position+3,owner.runtime.subobjects.position);
+ std::copy(target_position,target_position+3,owner.runtime.subobjects.destination);
+ std::copy(target_position,target_position+3,owner.runtime.path.position);
+ std::copy(target_position,target_position+3,owner.runtime.path.target);
+ std::copy(target_position,target_position+3,owner.runtime.controller.position);
+ std::copy(target_position,target_position+3,owner.runtime.controller.destination);
+ std::copy(target_position,target_position+3,owner.runtime.object.motion.position);
+ std::copy(target_position,target_position+3,owner.runtime.subobjects.path_target);
+ std::copy(target_position,target_position+3,owner.visual.root.position);
+ if(dh2_native_body_set_position(&owner.body,target_position))return false;
+ std::string error;
+ if(!owner.visual.update_world(owner.scene,error))return false;
+ owner.register_runtime_object();
+ sync_search_projection(actor);
+ return true;
+}
 int native_level_script_actor_command(void*,
     const dh2_script_runtime::SpawnServices::ActorCommandRequest* request) {
  try {
@@ -22812,51 +22922,7 @@ int native_level_script_actor_command(void*,
      !native_characters.contains_identity(actor->identity,&occurrences)||
      occurrences!=1||!owner.body.body)return -1;
   if(owner.character.transition(3)<0)return -1;
-  const float delta[3]{target_position[0]-actor->position[0],
-                       target_position[1]-actor->position[1],
-                       target_position[2]-actor->position[2]};
-  actor->position={target_position[0],target_position[1],target_position[2]};
-  actor->placement[12]=target_position[0];
-  actor->placement[13]=target_position[1];
-  actor->placement[14]=target_position[2];
-  auto* mutable_manager_object=source_level_owner.object_manager().find_by_identity(
-      actor->identity);
-  if(!mutable_manager_object)return -1;
-  if(mutable_manager_object->live_fields.world_x)
-   *mutable_manager_object->live_fields.world_x=target_position[0];
-  else mutable_manager_object->world_x=target_position[0];
-  if(mutable_manager_object->live_fields.world_y)
-   *mutable_manager_object->live_fields.world_y=target_position[1];
-  else mutable_manager_object->world_y=target_position[1];
-  for(unsigned i=0;i<3;++i) {
-   owner.owner_bounds.absolute_box[i]+=delta[i];
-   owner.owner_bounds.absolute_box[i+3]+=delta[i];
-   owner.runtime.subobjects.absolute_bounds[i]+=delta[i];
-   owner.runtime.subobjects.absolute_bounds[i+3]+=delta[i];
-  }
-  if(owner.runtime.path.count&&dh2_nav_drop_path(&owner.runtime.path))return -1;
-  owner.path_to.path_nonempty=0;
-  owner.runtime.controller.path_requested=0;
-  owner.runtime.controller.heading.active=0;
-  std::fill(owner.runtime.controller.heading.direction,
-      owner.runtime.controller.heading.direction+3,0.f);
-  owner.runtime.subobjects.path_count=0;
-  owner.runtime.object.motion.object_flags&=~2u;
-  std::copy(target_position,target_position+3,owner.runtime.subobjects.position);
-  std::copy(target_position,target_position+3,owner.runtime.subobjects.destination);
-  std::copy(target_position,target_position+3,owner.runtime.path.position);
-  std::copy(target_position,target_position+3,owner.runtime.path.target);
-  std::copy(target_position,target_position+3,owner.runtime.controller.position);
-  std::copy(target_position,target_position+3,owner.runtime.controller.destination);
-  std::copy(target_position,target_position+3,owner.runtime.object.motion.position);
-  std::copy(target_position,target_position+3,owner.runtime.subobjects.path_target);
-  std::copy(target_position,target_position+3,owner.visual.root.position);
-  if(dh2_native_body_set_position(&owner.body,target_position))return -1;
-  std::string error;
-  if(!owner.visual.update_world(owner.scene,error))return -1;
-  owner.register_runtime_object();
-  sync_search_projection(*actor);
-  return 1;
+  return move_direct_actor_v1(*actor,target_position)?1:-1;
  } catch(...) {
   return -1;
  }
