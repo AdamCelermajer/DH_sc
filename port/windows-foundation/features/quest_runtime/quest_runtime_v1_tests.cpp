@@ -135,8 +135,28 @@ void swamp_chain(const std::shared_ptr<const QuestTableV1>& table) {
     // (source Objective_TalkToNPC::Register / Unregister, Character+762): Moths 365 and Lizman 366 offer a quest.
     check(h.runtime->talk_objective_registered(365) && h.runtime->talk_objective_registered(366), "Available accept NPCs are registered");
     check(!h.runtime->talk_objective_registered(1) && !h.runtime->talk_objective_registered(-1), "an NPC without a talk objective is not registered");
+    // B093: kills before the registered NPC acceptance are not retroactive.
+    h.kill_template(94);
+    check(h.runtime->progress_of(std::int32_t(moths))->objectives[0].quantity == 0, "unaccepted kills ignored");
+    QuestEvent talk;
+    talk.kind = QuestEvent::Kind::talk_to_npc;
+    talk.object_id = 365;
+    talk.secondary_id = 40;
+    h.runtime->handle(talk, error);
+    check(error.empty() && h.state(moths) == QuestStateV1::available, "wrong-level talk refused");
+    talk.object_id = -1;
+    talk.secondary_id = 41;
+    h.runtime->handle(talk, error);
+    check(error.empty() && h.state(moths) == QuestStateV1::available, "wrong-NPC talk refused");
+    check(quest_combat_kill_admitted_v1(true, true, false, false), "non-player ordinary death admitted regardless of attacker");
+    check(!quest_combat_kill_admitted_v1(false, true, false, false), "failed damage rejected");
+    check(!quest_combat_kill_admitted_v1(true, false, false, false), "nondeath damage rejected");
+    check(!quest_combat_kill_admitted_v1(true, true, true, false), "player victim rejected");
+    check(!quest_combat_kill_admitted_v1(true, true, false, true), "summon suppress byte rejected");
     // Moths: TalkToNPC accept (oid 365/41) then 8 template-94 kills; 7 kills stay Active.
-    check(h.runtime->accept_quest(std::int32_t(moths), error), error.c_str());
+    talk.object_id = 365;
+    h.runtime->handle(talk, error);
+    check(error.empty(), error.c_str());
     check(h.state(moths) == QuestStateV1::active, "accepted Moths becomes Active");
     check(!h.runtime->talk_objective_registered(365) && h.runtime->talk_objective_registered(366), "accepted Moths unregisters only its own NPC");
     const auto banners = h.runtime->take_banners();

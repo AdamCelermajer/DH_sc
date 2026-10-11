@@ -4395,7 +4395,7 @@ int main(int argc,char** argv) {
                              <<" gold="<<banner.reward_gold<<" text='"<<banner.text<<"'\n";
             });
         };
-        // P16 QUESTS: kills of this update (death events whose attacker is the player) become quest kill events
+        // B093: admitted victim deaths of this update become quest kill events, regardless of attacker.
         // carrying the victim's CharacterTable row (property) and Charater_Templates row (template).
         // P17 CONDITIONS: evaluates only when a quest state changed since the last flush (dirty-driven, not polled).
         const auto flushConditionFlips=[&](const char* cause) {
@@ -4433,7 +4433,9 @@ int main(int argc,char** argv) {
                 if(std::getenv("DH_QUEST_TRACE")&&event.applied&&event.target_died)std::cout<<"Quest kill trace target="<<event.target<<" attacker="<<event.attacker<<" player="<<combatSession->player_id()<<" known="<<questActorIdentity.count(event.target)<<'\n'; // B093 trace
                 // B093: Character::Kill (0x3a... Kill, tail after DistributeXP) raises the four kill events for EVERY non-player death
                 // regardless of the killer (ally, DOT, skill), except Summon-created actors (suppress_quest +5348 set by GameObject::_Summon).
-                if(!event.applied||!event.target_died||event.target==combatSession->player_id()||spawnPool.owns(event.target))continue;
+                const auto* victimTraits=combatSession->world()->traits(event.target);
+                if(!victimTraits||!f::quest_runtime::quest_combat_kill_admitted_v1(event.applied,event.target_died,
+                    victimTraits->is_player,spawnPool.owns(event.target)))continue;
                 const auto identity=questActorIdentity.find(event.target);
                 if(identity==questActorIdentity.end())continue;
                 f::quest_runtime::QuestEvent kill;
@@ -7485,7 +7487,8 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                                         if(killProgress->objectives[i].completed||remaining<=0)continue;
                                         std::vector<std::array<float,3>> liveMatches;
                                         for(const auto& [actorId,actor]:combatSession->world()->actors()) {
-                                            if(actorId==combatSession->player_id()||!actor.alive())continue;
+                                            // GetPositions virtual +52 is IsDead (byte5193), not HP or IsSummoned.
+                                            if(actor.is_dead())continue;
                                             const auto identity=questActorIdentity.find(actorId);
                                             if(identity==questActorIdentity.end()||(byProperty?identity->second.first:identity->second.second)!=objective.oid1)continue;
                                             liveMatches.push_back({actor.transform.position[0],actor.transform.position[1],actor.transform.position[2]});
