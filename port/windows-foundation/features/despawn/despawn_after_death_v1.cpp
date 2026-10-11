@@ -102,7 +102,17 @@ bool DespawnAfterDeathV1::restore_dead(std::uint64_t actor, bool summoned, std::
     }
     // Hide also removes the body's physical/collision presence. Do not synthesize
     // End34, play a clip, or restart CharacterDesign.Despawn_Delay after a load.
-    if(!enter_limbus_or_finish(actor,record,services,error,found,records_))return false;
+    if(record.summoned) {
+        // World replacement deliberately resets the transient pool. A restored
+        // source-dead summoned actor is already retired when its owned slot is
+        // free; only a still-busy slot needs release. Keep ordinary release
+        // strict so duplicate deaths and invalid slot identities still fail.
+        const auto& reconcile=services.reconcile_restored_slot
+            ? services.reconcile_restored_slot : services.release_slot;
+        if(!reconcile){error="Restored despawn slot owner is unavailable";return false;}
+        if(!reconcile(actor,error)){if(error.empty())error="Restored despawn slot reconciliation failed";return false;}
+        records_.erase(found);
+    } else if(!enter_limbus_or_finish(actor,record,services,error,found,records_))return false;
     restored_.insert(actor);
     note(services,"DESPAWN restored actor="+name_of(actor)+" state=Limbus clip=not-replayed");
     error.clear();return true;

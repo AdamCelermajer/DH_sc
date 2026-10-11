@@ -60,6 +60,10 @@ struct Services {
     std::function<bool(std::uint64_t actor, bool& done, std::string& error)> finished;
     // Summoned actors: free the pool slot after the actor is hidden.
     std::function<bool(std::uint64_t actor, std::string& error)> release_slot;
+    // Restored source-dead summoned actors may already have a free transient
+    // slot after a world replacement. Reconcile only this restore path; normal
+    // despawn continues to use strict release_slot admission.
+    std::function<bool(std::uint64_t actor, std::string& error)> reconcile_restored_slot;
     // Source event 47 at its expiry: revive at the initial anchor and show again (Limbus -> Spawn in the source).
     std::function<bool(std::uint64_t actor, std::string& error)> respawn;
     std::function<void(const std::string& line)> log;
