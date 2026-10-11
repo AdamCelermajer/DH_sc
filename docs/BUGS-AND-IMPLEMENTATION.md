@@ -261,3 +261,26 @@ Only root accepts a release. Preview11 (FD850478) is accepted; do not modify tha
 | B087 | No exclamation marker above the NPC head (shot-8). | OPEN, session assigned | fresh Sonnet session |
 | B088 | Context button shows talk bubble but does not switch to attack when a monster is near; Space does not talk to the NPC (shot-8). | OPEN, session assigned | fresh Sonnet session |
 | B089 | A destroyed vase stays targetable (red ring remains on the broken pieces) (shot-9). | OPEN, session assigned | fresh Sonnet session |
+
+### 2m. Second v20 batch (2026-10-11 evening): B090-B107 (fresh Sonnet session per bug; brief section "Second v20 batch" in `coordination/v20.1/BUGFIX-BRIEF.md`)
+
+| ID | Observed | State | Owner |
+|---|---|---|---|
+| B090 | Level-up effect fine but no level-up sound. | OPEN, queued | fresh Sonnet session |
+| B091 | Mobs not targetable/attacking after a scripted animation (shots 10, 13). | OPEN, queued | fresh Sonnet session |
+| B092 | Big moth corpse takes a long time to disappear (shot 11). | OPEN, queued | fresh Sonnet session |
+| B093 | Quest system: MAKE ACTIVE does not really work, no kill tracking, killed 8 Bog Moths and nothing happened (shot 12). | OPEN, queued | fresh Sonnet session |
+| B094 | An NPC (she) appears not targetable; intended? | OPEN, queued | fresh Sonnet session |
+| B095 | Clicking the bag again does not return to the equipment global page. | OPEN, queued | fresh Sonnet session |
+| B096 | Level up: no button to learn a new skill (shot 15). | OPEN, queued | fresh Sonnet session |
+| B097 | Skill rank up does not change the skill stats (shot 16). | OPEN, queued | fresh Sonnet session |
+| B098 | Killed monsters do not play the death animation / do not disappear (shot 17). | OPEN, queued | fresh Sonnet session |
+| B099 | No NEW QUEST sound. | OPEN, queued | fresh Sonnet session |
+| B100 | Cannot talk to the merchant, no icon above his head (shot 18). | OPEN, queued | fresh Sonnet session |
+| B101 | Wall of fire must be reproduced: deep IDA inspection (shot 19). | OPEN, queued | fresh Sonnet session |
+| B102 | EQUIP button does not work (shots 14, 20). | OPEN, queued | fresh Sonnet session |
+| B103 | Character menu buttons still not clickable (shot 21). | OPEN, queued | fresh Sonnet session |
+| B104 | No sound on quest completion (Bogwalker quest). | OPEN, queued | fresh Sonnet session |
+| B105 | Celeste glow is broken (shot 22). | OPEN, queued | fresh Sonnet session |
+| B106 | E does not work / does not teleport (Travel to Bogwitch Cavern, shot 23). | OPEN, queued | fresh Sonnet session |
+| B107 | User note about one screenshot ("abomination"): not identified, no action. | NEEDS USER CLARIFICATION | fresh Sonnet session |
