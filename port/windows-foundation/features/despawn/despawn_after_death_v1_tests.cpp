@@ -26,6 +26,7 @@ struct Fake {
     bool fail_hide = false;
     bool fail_slot = false;
     bool slot_busy = true;
+    bool slot_failed = false;
     bool unknown_slot = false;
     Services services() {
         Services s;
@@ -53,15 +54,17 @@ struct Fake {
             calls.push_back("release_slot " + std::to_string(a));
             if(unknown_slot){e="unknown slot";return false;}
             if(!slot_busy){e="slot not busy";return false;}
-            if(fail_slot){e="slot refused";return false;}
+            if(slot_failed||fail_slot){e="slot refused";return false;}
             slot_busy=false;
             return true;
         };
-        s.reconcile_restored_slot = [this](std::uint64_t a, std::string& e) {
+        const auto strict_release=s.release_slot;
+        s.reconcile_restored_slot = [this,strict_release](std::uint64_t a, std::string& e) {
             calls.push_back("reconcile_restored_slot " + std::to_string(a));
             if(unknown_slot){e="unknown slot";return false;}
+            if(slot_failed){e="slot refused";return false;}
             if(!slot_busy){e.clear();return true;}
-            return s.release_slot(a,e);
+            return strict_release(a,e);
         };
         s.respawn = [this](std::uint64_t a, std::string&) {
             calls.push_back("respawn " + std::to_string(a));
@@ -247,13 +250,18 @@ int main() {
         // A world replacement has reset the transient pool: an owned but free
         // slot is already retired. The restored path reconciles it quietly,
         // while ordinary release still rejects the same duplicate.
-        fake.calls.clear();fake.slot_busy=false;fake.unknown_slot=false;
+        fake.calls.clear();fake.slot_busy=false;fake.slot_failed=false;fake.unknown_slot=false;
         expect(owner.restore_dead(62,true,0,services,error)&&!owner.tracked(62)&&
                fake.count("hide 62")==1&&fake.count("reconcile_restored_slot 62")==1&&
                fake.count("release_slot 62")==0,
                "restored dead summon accepts an already-free owned slot once");
         expect(!services.release_slot(62,error)&&error=="slot not busy",
                "ordinary duplicate slot release remains strict after restore reconciliation");
+        fake.slot_failed=true;
+        expect(!owner.restore_dead(65,true,0,services,error)&&owner.record(65)&&
+               owner.record(65)->restored_hidden&&error=="slot refused",
+               "restored reconciliation rejects a failed slot even when its busy bit is clear");
+        fake.slot_failed=false;
         fake.unknown_slot=true;
         expect(!owner.restore_dead(63,true,0,services,error)&&owner.tracked(63)&&
                owner.record(63)->restored_hidden&&error=="unknown slot",
