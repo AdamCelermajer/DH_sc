@@ -91,6 +91,8 @@
 #include "features/quests/source_quest_menu_page_provider_v1.hpp" // P16 QUESTUI
 #include "features/quests/quest_text_resolver_v1.hpp" // P16 QUESTUI
 #include "features/inventory/source_item_descriptors.hpp"
+#include "features/merchant/merchant_shop_ui_v1.hpp"
+#include "../engine-ui/localization_parse_ex_v1.hpp"
 #include "../engine-ui/item_text_owner_v5.hpp"
 #include "features/inventory/runtime_session_potion_use_v1.hpp"
 #include "features/frontend/menu_return/menu_return_v1.hpp"
@@ -2198,13 +2200,13 @@ int main(int argc,char** argv) {
             } else std::cout<<"Level world restore status=none level="<<options.level.generic_string()<<'\n';
         }
         f::OriginalScene targetMarker;f::OriginalActorLabels actorLabels;f::HudGlyphFont targetFont;
-        f::OriginalScene questMarker[2]; // B087: quest-giver "!" over NPC heads (DesignSettings QuestMarker / QuestMarkerSecondary); [1] may stay empty (falls back to [0])
+        f::OriginalScene questMarker[3]; // B100: [2] = quest_marker_merchant (DesignSettings effect 139, Character::Update merchant marker); B087: quest-giver "!" over NPC heads (DesignSettings QuestMarker / QuestMarkerSecondary); [1] may stay empty (falls back to [0])
         if(combatSession&&options.hud) {
             const auto& markers=f::original_target_marker_art();const auto marker=std::find_if(markers.begin(),markers.end(),[](const auto& art){return art.interaction_type==8;});
             if(marker==markers.end()||!f::decode_original_scene(f::read_content(assets,marker->model_uri),targetMarker,error))throw std::runtime_error("Original attack marker: "+error);
             for(auto& range:targetMarker.mesh.ranges)range.material.lightingEnabled=!marker->self_illum;
-            for(int variant=0;variant<2;++variant) { // B087: quest_marker.bdae (effect 137), quest_marker_blue.bdae (effect 138)
-                const char* uri=variant?"data/3D/interface/quest_marker_blue.bdae":"data/3D/interface/quest_marker.bdae";
+            for(int variant=0;variant<3;++variant) { // B087: quest_marker.bdae (effect 137), quest_marker_blue.bdae (138); B100: quest_marker_merchant.bdae (139)
+                const char* uri=variant==2?"data/3D/interface/quest_marker_merchant.bdae":variant?"data/3D/interface/quest_marker_blue.bdae":"data/3D/interface/quest_marker.bdae";
                 std::string markerError;
                 try {
                     if(!f::decode_original_scene(f::read_content(assets,uri),questMarker[variant],markerError)){std::cout<<"Quest marker "<<uri<<" not decoded: "<<markerError<<'\n';questMarker[variant]=f::OriginalScene();}
@@ -4053,6 +4055,7 @@ int main(int argc,char** argv) {
         // P16 MAPMARKERS: Map page marker facts of the loaded level (built at load) and the producer registry.
         std::vector<f::map_visit::MapLevelObjectV1> mapLevelObjects;   // CheckpointZone / SpawnPoint / TriggerZoneExitLevel
         std::vector<f::map_visit::MapCharacterV1> mapCharacters;       // placed characters (quest giver and merchant facts)
+        std::set<f::ActorId> merchantActors;                           // B100: placed Characters whose AI row type is 7 (Character::IsMerchant)
         std::optional<std::int32_t> mapLevelEntryPoint;                // current entry (the spawn the player was placed on)
         const f::map_visit::MapMarkerRegistryV1 mapMarkers=f::map_visit::standard_map_marker_registry_v1();
         std::unique_ptr<f::quest_runtime::QuestRuntimeV1> questRuntime;
@@ -4293,7 +4296,7 @@ int main(int argc,char** argv) {
             // P16 MAPMARKERS: marker facts of this level, once per load. Level objects are the authored classes of the
             // IDA map producers (activation gate from the active conditions). Characters carry the CharacterTable row
             // (quest giver match) and the merchant fact (AI row type 7 = Character::IsMerchant, IDA GetCharType).
-            mapLevelObjects.clear();mapCharacters.clear();mapLevelEntryPoint.reset();
+            mapLevelObjects.clear();mapCharacters.clear();merchantActors.clear();mapLevelEntryPoint.reset();
             for(const auto& declaration:population.definitions()) {
                 if(!f::map_visit::map_object_class_rule_v1(declaration.gametype))continue;
                 f::map_visit::MapLevelObjectV1 object;object.gametype=declaration.gametype;
@@ -4337,6 +4340,7 @@ int main(int argc,char** argv) {
                         character.merchant=cached->second;
                     }
                     mapCharacters.push_back(character);
+                    if(character.merchant)merchantActors.insert(placed.definition.stableId);
                 }
             }
             std::cout<<"Map marker facts level_objects="<<mapLevelObjects.size()<<" characters="<<mapCharacters.size()
@@ -4555,6 +4559,29 @@ int main(int argc,char** argv) {
             f::quest_runtime::raise_quest_event(talk);
             return true;
         };
+        // B100: Character::Interact 0x3a4d78 for a merchant: raises the TalkToNPC quest event for its CharacterTable row (any NPC),
+        // then (when it is not a registered quest NPC, +762 == 0) opens the merchant menu (openMerchantMenu, MenuMerchant).
+        // The shop menu is NOT ported yet (no buy/sell page exists in features/character_menu), so only the event is raised.
+        // B110: merchant screen and transactions borrow the same player profile and production equipment owner.
+        std::function<void(f::ActorId)> openMerchantShop;
+        std::map<std::string,std::unique_ptr<f::merchant::Shop>> merchantShops;
+        std::unique_ptr<f::merchant::ShopUi> merchantUi;
+        f::merchant::Shop* merchantShop=nullptr;
+        std::string merchantKey,merchantLevel;
+        bool merchantOpen=false;
+        const auto merchantInteract=[&](f::ActorId id) -> bool {
+            if(!merchantActors.count(id))return false;
+            const auto identity=questActorIdentity.find(id);
+            if(questRuntime&&identity!=questActorIdentity.end()) {
+                f::quest_runtime::QuestEvent talk;
+                talk.kind=f::quest_runtime::QuestEvent::Kind::talk_to_npc;
+                talk.object_id=identity->second.first;talk.secondary_id=questLevelRow;
+                f::quest_runtime::raise_quest_event(talk);
+            }
+            if(openMerchantShop)openMerchantShop(id);
+            std::cout<<"Context merchant interact id="<<id<<" row="<<(identity==questActorIdentity.end()?-1:identity->second.first)<<" menu=openMerchantMenu open="<<merchantOpen<<'\n';
+            return true;
+        };
         // P16 QUESTUI: quest zone entries of this frame (player position against the level's quest zones).
         const auto raiseQuestZones=[&]() {
             if(!questRuntime||!combatSession||questZones.zones().empty())return;
@@ -4600,6 +4627,65 @@ int main(int argc,char** argv) {
             f::inventory::SourceDescriptors descriptors;
             if(!f::inventory::source_bare_item_descriptors(item,itemTable,dropTextOwner->services(),descriptors,e))return false;
             dropNameCache[item.definition_id]=descriptors.name;out=descriptors.name;e.clear();return true;
+        };
+        const auto merchantPotionStatus=[&]() {
+            std::uint32_t held=0;const auto& table=menuSourceOwner.source().loot.items();
+            for(const auto& i:state.inventory){const auto* row=dh2::data::item(table,dh2::data::item_id(table,i.definition_id));if(row&&dh2::data::item_type(*row)==14)held+=i.quantity;}
+            const auto* props=combatSession->world()->combat_properties(combatSession->player_id());
+            const auto cap=props?f::loot::potion_capacity_from_property_v1(props->sheets.resolved[194]):0;
+            if(merchantUi)merchantUi->potion_status(held,cap);return std::make_pair(held,cap);
+        };
+        openMerchantShop=[&](f::ActorId id) {
+            if(!combatSession||!menuSourceOwner.valid()||!deathRewards.bound())return;
+            const auto identity=questActorIdentity.find(id);
+            if(identity==questActorIdentity.end()||identity->second.first<0||std::size_t(identity->second.first)>=properties.characters.names.size())return;
+            // A merchant installed as an active TalkToNPC quest target uses the dialogue path (+762), not the shop.
+            if(questRuntime&&questTable)for(std::int32_t q=0;q<std::int32_t(questTable->rows().size());++q) {
+                f::quest_runtime::QuestStateV1 qs{};if(!questRuntime->state_of(q,qs)||qs!=f::quest_runtime::QuestStateV1::active)continue;
+                const auto* progress=questRuntime->progress_of(q);const auto& def=questTable->rows()[std::size_t(q)];
+                for(std::size_t i=0;i<def.objectives.size();++i)if(def.objectives[i].type==5&&def.objectives[i].oid1==identity->second.first&&
+                    (!progress||i>=progress->objectives.size()||!progress->objectives[i].completed))return;
+            }
+            std::string e;f::OriginalCombatProperties merchantProps;
+            if(!f::build_original_combat_properties(properties,properties.characters.names[identity->second.first],f::OriginalActorPropertyOptions{},{},f::OriginalCombatFacts{},merchantProps,e))throw std::runtime_error("Merchant properties: "+e);
+            const auto loot=merchantProps.sheets.resolved[9];
+            const auto bytes=assets.read("original-cache/data/pydata/loot_table_pyarray.bin");std::vector<f::merchant::MerchantRow> rows;
+            if(!f::merchant::parse_merchant_rows(bytes.data(),bytes.size(),menuSourceOwner.source().loot.consumed(),rows,e))throw std::runtime_error("Merchant table: "+e);
+            if(loot<0||std::size_t(loot)>=rows.size())return;
+            const auto& table=menuSourceOwner.source().loot.items();
+            merchantKey=options.level.generic_string()+":"+std::to_string(character_current_difficulty(state))+":"+std::to_string(id);
+            if(merchantLevel!=options.level.generic_string()){merchantShops.clear();merchantLevel=options.level.generic_string();}
+            auto& shop=merchantShops[merchantKey];
+            if(!shop)shop=std::make_unique<f::merchant::Shop>(rows[std::size_t(loot)]);
+            if(shop->inventory().inventory.empty()) {
+                std::vector<std::pair<std::int32_t,std::uint32_t>> stock;
+                if(!f::merchant::roll_stock(rows[std::size_t(loot)],deathRewards.loot_source().loot,deathRewards.loot_source().power_resources,deathRewards.loot_entry_services(),
+                    [&](const auto& op,std::string& error){return combatSession->world()->with_loot_random(op,error);},stock,e))throw std::runtime_error("Merchant stock: "+e);
+                shop->add_stock(table,stock);
+            }
+            if(!shop->sort_stock(table,itemDisplayName,e))throw std::runtime_error("Merchant stock names: "+e);
+            bindEquipmentPage();if(!runtimeEquipment||!runtimeEquipment->ready(e))throw std::runtime_error("Merchant equipment owner: "+e);
+            const auto* actor=combatSession->actor(combatSession->player_id());const auto* props=combatSession->world()->combat_properties(actor->id);
+            f::equipment_menu::Options menuOptions;menuOptions.player_class_id=actor->definition_id;
+            f::inventory::DetailBindings bindings;
+            bindings.item_name=[&](const auto& item,const auto&,std::string& out,std::string& e){return itemDisplayName(item,out,e);};
+            menuOptions.item_name=bindings.item_name;
+            bindings.symbol=[&](const std::string& sym,std::string& out,std::string& e){return menuLocalization.symbol(sym,&state,out,e);};
+            bindings.item_details=[&](const std::string& path,const f::InventoryItem& item,std::string& out,std::string& e) {
+                std::string ignored;if(!itemDisplayName(item,ignored,e))return false;
+                f::inventory::SourceDescriptors desc;if(!f::inventory::source_bare_item_descriptors(item,menuSourceOwner.source().loot.items(),dropTextOwner->services(),desc,e))return false;
+                out=path.find("ItemInfo1")!=std::string::npos?desc.stats:path.find("ItemReq")!=std::string::npos?desc.requirements:std::string();return true;
+            };
+            merchantShop=shop.get();merchantUi=std::make_unique<f::merchant::ShopUi>(state,*shop,table,*actor,*props,properties,std::move(menuOptions),std::move(bindings));
+            merchantUi->parsed_text([&](const std::string& symbol,const std::vector<std::string>& values,std::string& out,std::string& e) {
+                dh2::ui::HudTextV1* text=nullptr;dh2::ui::HudTextEnvironmentV1 env;
+                if(!menuLocalization.bind_profile(&state,e)||!menuLocalization.borrow_text(text,env,e))return false;
+                std::vector<dh2::ui::LocalizationArgumentV1> args;for(const auto& value:values)args.push_back({0.f,true,value});
+                return text->parsed_string_v4(symbol,args,env,out,e);
+            });
+            if(!merchantUi->open(e))throw std::runtime_error("Merchant open: "+e);
+            merchantPotionStatus();characterMenu.open();merchantOpen=true;
+            std::cout<<"Merchant opened key="<<merchantKey<<" loot="<<loot<<" stock="<<shop->inventory().inventory.size()<<" gold="<<state.gold<<'\n';
         };
         sourceEffectsCamera=camera(options.sourceCamera?cinematicCameraPose():(useTimeline?timeline.sample():freeCamera.pose()));
         bindSourcePresentations();
@@ -5570,6 +5656,8 @@ int main(int argc,char** argv) {
             if(std::find(options.campaignSkipFrames.begin(),options.campaignSkipFrames.end(),int(drawn))!=options.campaignSkipFrames.end()) { campaignHost.press_skip(); std::cout<<"Scripted SKIP press frame="<<drawn<<'\n'; } // P16 CINE (verification input)
             if(uiInput.menu_back){
                 if(statConfirmOpen){statConfirmOpen=false;std::cout<<"Stats confirmation dismissed frame="<<drawn<<" via Escape\n";}
+                else if(merchantOpen&&merchantUi&&merchantUi->confirmation_visible())merchantUi->cancel_confirmation();
+                else if(merchantOpen&&merchantUi&&merchantUi->error_visible())merchantUi->dismiss_error();
                 else if(characterMenu.is_open()){characterMenu.close();escapeClosedMenu=true;}
                 else if(pauseConfirmation)pauseConfirmation=false;
                 else if(pauseMenuOpen){pauseMenuOpen=false;std::cout<<"Pause menu resumed frame="<<drawn<<" via Escape\n";}
@@ -5614,7 +5702,46 @@ int main(int argc,char** argv) {
                 if(!characterMenuComposition->select(characterMenu,f::character_menu::Tab::quest,error))throw std::runtime_error("Quest Log page diagnostic selection: "+error);
                 std::cout<<"Character menu Quest Log selected frame="<<drawn<<'\n';
             }
+            if(merchantOpen&&!characterMenu.is_open()){merchantOpen=false;merchantUi.reset();merchantShop=nullptr;std::cout<<"Merchant closed frame="<<drawn<<'\n';}
+            bool merchantSoldThisFrame=false; // MenuMerchant::Update 0x433548 / NativeMerchantSellItem +196 gate
             for(const auto& click:uiInput.clicks) {
+                if(merchantOpen&&merchantUi) {
+                    const auto cmd=merchantUi->release(click.position.x*480.f/window.width(),click.position.y*320.f/window.height(),error);
+                    if(!error.empty())throw std::runtime_error("Merchant release: "+error);
+                    using Kind=f::merchant::ShopUi::Command::Kind;
+                    if(cmd.kind==Kind::close){characterMenu.close();merchantOpen=false;merchantUi.reset();merchantShop=nullptr;std::cout<<"Merchant closed frame="<<drawn<<" via Back\n";continue;}
+                    if(cmd.kind==Kind::none)continue;
+                    const auto& table=menuSourceOwner.source().loot.items();const auto goldBefore=state.gold;
+                    f::merchant::TradeResult result=f::merchant::TradeResult::ok;std::int32_t price=0;bool changed=false;
+                    if(cmd.kind==Kind::equip)changed=runtimeEquipment->equip_to_slot(cmd.instance_id,cmd.slot,error);
+                    else if(cmd.kind==Kind::unequip)changed=runtimeEquipment->unequip(cmd.slot,error);
+                    else if(cmd.kind==Kind::sell) {
+                        if(merchantSoldThisFrame){std::cout<<"Merchant duplicate sell blocked frame="<<drawn<<'\n';continue;}
+                        merchantSoldThisFrame=true;
+                        // TransferItemTo removes equipment in both sets before transferring the whole instance.
+                        const auto bindings=state.equipment;
+                        const auto owned=std::find_if(state.inventory.begin(),state.inventory.end(),[&](const auto& i){return i.instance_id==cmd.instance_id;});
+                        for(const auto& b:bindings)if(owned!=state.inventory.end()&&owned->quantity==1&&b.item_instance_id==cmd.instance_id&&b.equipment_set<=0&&b.source_slot>=0&&b.source_slot<9)
+                            if(!runtimeEquipment->unequip(unsigned(b.source_slot),error))throw std::runtime_error("Merchant sell unequip: "+error);
+                        result=merchantShop->sell(cmd.instance_id,state,table,price);changed=result==f::merchant::TradeResult::ok;
+                    } else {
+                        f::merchant::TradeRules rules;const auto [held,capacity]=merchantPotionStatus();rules.potion_capacity=capacity;
+                        if(sourceScopes){bool infinite=false;std::string e;if(sourceScopes->debug_switch("InfiniteInventory",infinite,e))rules.infinite_inventory=infinite;}
+                        const auto count=cmd.kind==Kind::buy_potions?std::uint32_t(capacity>held?capacity-held:0):1u;
+                        for(std::uint32_t n=0;n<count;++n){result=merchantShop->buy(cmd.instance_id,state,table,rules,price);if(result!=f::merchant::TradeResult::ok)break;changed=true;}
+                    }
+                    merchantUi->show_error(result);merchantPotionStatus();
+                    if(changed) {
+                        if(!f::save_character(options.save,state,error))throw std::runtime_error("Merchant transaction save: "+error);
+                        equipmentRebindRequested=true;
+                        f::equipment_menu::RuntimeEquipmentRenderChangeV1 change;
+                        if(runtimeEquipment->take_render_change(change,error)){runtimeEquipmentAttachments=change.attachments;syncPlayerBodyParts();if(locomotionLibrary)bindSourcePlayerLocomotion(*combatSession);}
+                        if(!merchantShop->sort_stock(table,itemDisplayName,error))throw std::runtime_error("Merchant stock sort: "+error);
+                        if(!merchantUi->refresh(error))throw std::runtime_error("Merchant refresh: "+error);
+                    }
+                    std::cout<<"Merchant transaction frame="<<drawn<<" kind="<<int(cmd.kind)<<" instance="<<cmd.instance_id<<" result="<<int(result)<<" price="<<price<<" gold="<<goldBefore<<"->"<<state.gold<<" playerItems="<<state.inventory.size()<<" stock="<<merchantShop->inventory().inventory.size()<<" changed="<<changed<<" error="<<error<<'\n';
+                    continue;
+                }
                 if(statConfirmOpen){routeStatConfirmClick(click.position);continue;}
                 if(pauseMenuOpen){routePauseClick(click.position);continue;}
                 {
@@ -6294,6 +6421,7 @@ int main(int argc,char** argv) {
                                 std::cout<<"Context approach start frame="<<drawn<<" declaration="<<containerRuntime.instance(containerIndex).name<<'\n';
                             }
                         } else if(useLeverObject(ooi)) {
+                        } else if(merchantInteract(ooi)) {
                         } else if(!talkToNpcObject(ooi))
                             std::cout<<"Context button ooi="<<ooi<<" type="<<objectOfInterest.interaction_type()<<" status=unhandled frame="<<drawn<<" (logged)\n";
                     }
@@ -6589,6 +6717,17 @@ int main(int argc,char** argv) {
                             entry.eligible=questRuntime->talk_objective_registered(identity->second.first); // B088: source Objective_TalkToNPC::Register sets Character+762 (TargetList mask 0x40)
                             entry.provider.interaction_type=[](f::ActorId) -> int { return 3; }; // source Character::GetInteractionType: friendly NPC
                             std::string regError;if(!interactables.upsert(entry,regError))throw std::runtime_error("Interactable NPC: "+regError);
+                        }
+                    // B100: merchants are OOI candidates too (TargetList::_IsCharacterValid 0x4a1ab8 mask bit 0x10 = Character::IsMerchant;
+                    // GetInteractionType: friendly NPC = 3). Always eligible while the placed character is enabled and alive.
+                    if(combatSession&&!merchantActors.empty())
+                        for(const auto& placed:population.actors()) {
+                            if(!merchantActors.count(placed.definition.stableId)||!placed.enabled)continue;
+                            if(const auto* live=combatSession->actor(placed.definition.stableId))if(!live->alive())continue;
+                            f::InteractableEntryV1 entry;entry.id=placed.definition.stableId;entry.is_character=true;
+                            entry.position={placed.definition.placement[12],placed.definition.placement[13],placed.definition.placement[14]};entry.radius=0.f;
+                            entry.provider.interaction_type=[](f::ActorId) -> int { return 3; };
+                            std::string regError;if(!interactables.upsert(entry,regError))throw std::runtime_error("Interactable merchant: "+regError);
                         }
                 }
                 if(!gameplayPaused)f::update_object_of_interest_v1(*combatSession,combatSession->player_id(),gameplayDt,objectOfInterest,&interactables); // B004/B029 (+P16 registry)
@@ -7137,6 +7276,20 @@ int main(int argc,char** argv) {
                     }
                 }
             }
+            // B100: merchant marker (Character::Update, pseudocode-all.c line 126689: IsMerchant && enabled(+138): GrabAnimFX(139) while the
+            // character is not a registered quest NPC (+762 == 0); dropped otherwise). Effect 139 = quest_marker_merchant (money bag).
+            if(combatSession&&!merchantActors.empty()&&!questMarker[2].mesh.vertices.empty()) {
+                for(const auto& placed:population.actors()) {
+                    if(!merchantActors.count(placed.definition.stableId)||!placed.enabled)continue;
+                    const auto identity=questActorIdentity.find(placed.definition.stableId);
+                    if(questRuntime&&identity!=questActorIdentity.end()&&questRuntime->talk_objective_registered(identity->second.first))continue;
+                    auto placement=f::identity();placement[12]=placed.definition.placement[12];placement[13]=placed.definition.placement[13];placement[14]=placed.definition.placement[14];
+                    if(const auto* live=combatSession->actor(placed.definition.stableId)){if(!live->alive())continue;placement[12]=live->transform.position[0];placement[13]=live->transform.position[1];placement[14]=live->transform.position[2];}
+                    queue.submit(questMarker[2].mesh,placement);
+                    static std::set<f::ActorId> loggedMerchantMarkers;
+                    if(loggedMerchantMarkers.insert(placed.definition.stableId).second)std::cout<<"Merchant marker drawn id="<<placed.definition.stableId<<" at="<<placement[12]<<','<<placement[13]<<','<<placement[14]<<" frame="<<(drawn+1)<<'\n';
+                }
+            }
             // B075: a destructible OOI (source type 8, Character FX[8] "attack" circle, CONTEXT report 1.3) gets the same ring under it
             // as an enemy target. Only unbroken destructibles are OOI candidates; chests (type 0) need their own circle art (not drawn).
             if(!markerTarget&&combatSession&&!targetMarker.mesh.vertices.empty()&&objectOfInterest.object()!=f::invalid_actor_id&&objectOfInterest.interaction_type()==8) {
@@ -7359,7 +7512,9 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                         if(!questMenuBinding->load_progress_from_character(questMenuError)||!questMenuBinding->show(0,0,f::CharacterQuestCategoryV1::assigned,questMenuError))
                             std::cerr<<"Quest Log refresh diagnostic: "<<questMenuError<<'\n';
                     }
-                    f::character_menu::Frame menu;if(!characterMenu.frame(bindings,window.width(),window.height(),menu,error))throw std::runtime_error("Character menu: "+error);
+                    f::character_menu::Frame menu;
+                    if(merchantOpen&&merchantUi){merchantUi->update_properties(*player,*bindings.properties);if(!merchantUi->frame(window.width(),window.height(),menu,error))throw std::runtime_error("Merchant frame: "+error);}
+                    else if(!characterMenu.frame(bindings,window.width(),window.height(),menu,error))throw std::runtime_error("Character menu: "+error);
                     const auto& transform=menu.transform;
                     auto drawMenuSolid=[&](const f::character_menu::MenuSolidBatch& solid) {
                         std::vector<f::OverlayTriangleVertex> vertices;
@@ -7597,7 +7752,7 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                         }
                     };
                     for(const auto& solid:menu.solids)if(solid.after_bitmap_role.empty())drawMenuSolid(solid);
-                    const auto& sourcePanes=f::inventory::original_inventory_character_panes_v1();
+                    const auto& sourcePanes=merchantOpen?f::merchant::merchant_art().panes:f::inventory::original_inventory_character_panes_v1();
                     std::vector<bool> drawnPanes(sourcePanes.size(),false);
                     const auto drawEquipmentPane=[&](const f::inventory::SourceCharacterPaneV1& pane) {
                         if(!runtimeEquipment->with_preview_packets(equipmentRenderBindings.callbacks(),[&](const auto& frame,std::string& e) {
@@ -7618,8 +7773,8 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                     // P16 MAP: the level is drawn after the sheet backdrop batch and before the MapSheet art (icons, legend, buttons).
                     bool mapDrawn=false;
                     for(const auto& batch:menu.art.batches) {
-                        if(!mapDrawn&&characterMenu.tab()==f::character_menu::Tab::map&&batch.role.compare(0,14,"menu_MapSheet/")==0){drawMapPage();mapDrawn=true;}
-                        if(characterMenu.tab()==f::character_menu::Tab::equipment&&runtimeEquipment)
+                        if(!merchantOpen&&!mapDrawn&&characterMenu.tab()==f::character_menu::Tab::map&&batch.role.compare(0,14,"menu_MapSheet/")==0){drawMapPage();mapDrawn=true;}
+                        if((merchantOpen||characterMenu.tab()==f::character_menu::Tab::equipment)&&runtimeEquipment)
                             for(std::size_t i=0;i<sourcePanes.size();++i)
                                 if(!drawnPanes[i]&&!sourcePanes[i].before_role.empty()&&
                                    batch.role.compare(0,sourcePanes[i].before_role.size(),sourcePanes[i].before_role)==0) {
@@ -7632,13 +7787,13 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                         if(!overlay.drawTriangles(vertices,damaskPanel?menuDamaskTexture:hudTexture))throw std::runtime_error("Character menu original-art draw rejected");
                         for(const auto& solid:menu.solids)if(solid.after_bitmap_role==batch.role)drawMenuSolid(solid);
                     }
-                    if(characterMenu.tab()==f::character_menu::Tab::map&&!mapDrawn)drawMapPage();
+                    if(!merchantOpen&&characterMenu.tab()==f::character_menu::Tab::map&&!mapDrawn)drawMapPage();
                     // P16 MAP legend: each legend caption's icon type at its authored position (legend popup frame).
                     mapClip={-1e9f,-1e9f,1e9f,1e9f}; // legend icons are not clipped to the map rectangle
-                    if(characterMenu.tab()==f::character_menu::Tab::map&&characterMenu.map_legend_shown())
+                    if(!merchantOpen&&characterMenu.tab()==f::character_menu::Tab::map&&characterMenu.map_legend_shown())
                         for(const auto& icon:f::character_menu::original_map_legend_icons())
                             drawMapIcon(icon.type,transform.x+icon.x*transform.scale_x,transform.y+icon.y*transform.scale_y);
-                    if(characterMenu.tab()==f::character_menu::Tab::equipment&&runtimeEquipment&&
+                    if((merchantOpen||characterMenu.tab()==f::character_menu::Tab::equipment)&&runtimeEquipment&&
                        std::none_of(drawnPanes.begin(),drawnPanes.end(),[](bool drawn){return drawn;}))
                         throw std::runtime_error("Original Equipment active avatar display-list anchor is unavailable");
                     const auto drawMenuGlyph=[&](const f::character_menu::MenuTextField& field,
@@ -7661,12 +7816,13 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                             throw std::runtime_error("Original menu glyph affine draw rejected");
                     };
                     for(const auto& text:menu.text) {
+                        const auto popupPage=text.field.path.find("MerchantErrorPopup/")!=std::string::npos?250:text.field.path.compare(0,14,"menu_confirm2/")==0?785:0;
                         const auto sourceFlags=std::find_if(std::begin(f::character_menu::source_text_flag_rows_v1),std::end(f::character_menu::source_text_flag_rows_v1),[&](const auto& row) {
-                            return row.movie==f::character_menu::SourceMenuMovieV1::character_menu&&row.field_character==text.field.character_id;
+                            return row.movie==f::character_menu::SourceMenuMovieV1::character_menu&&row.field_character==text.field.character_id&&(!popupPage||row.page_character==popupPage);
                         });
-                        if(sourceFlags!=std::end(f::character_menu::source_text_flag_rows_v1)&&(sourceFlags->raw_flags&0x6000)) {
+                        if((sourceFlags!=std::end(f::character_menu::source_text_flag_rows_v1)&&(sourceFlags->raw_flags&0x6000))||text.value.find('\n')!=std::string::npos) {
                             f::character_menu::MenuTextLayoutFieldV1 field;
-                            field.page_character=sourceFlags->page_character;field.field_character=sourceFlags->field_character;
+                            field.page_character=sourceFlags==std::end(f::character_menu::source_text_flag_rows_v1)?0:sourceFlags->page_character;field.field_character=text.field.character_id;
                             field.local_rect=text.field.local_bounds;field.matrix=text.field.matrix;field.margins=text.field.margins;
                             field.alignment=text.field.align;field.source_height=text.field.source_height;field.paragraph_leading=text.field.leading;
                             field.source_font_character=static_cast<std::uint16_t>(text.field.font_id);

@@ -132,14 +132,16 @@ int main() {
                   near(layout.lines[0].baseline[0], 100) && near(layout.lines[0].baseline[1], 50),
               "Existing one-line stats output changed or was clipped during layout");
 
-        auto old = layout.lines;
-        check(!menu_text_layout_v1(stats, "bad\nline", unit_advance(), layout, error) &&
-                  layout.lines.size() == old.size() && layout.lines[0].text == old[0].text,
-              "Single-line field accepted a newline or failed layout mutated output");
+        check(menu_text_layout_v1(stats, "first\nsecond", unit_advance(), layout, error) &&
+                  layout.lines.size()==2&&layout.lines[0].text=="first"&&layout.lines[1].text=="second",
+              "Original append_text explicit newline branch was rejected by single-line flags");
+        auto plain=stats;plain.movie=SourceMenuMovieV1::generic_frontend;plain.page_character=95;plain.field_character=58;
+        check(menu_text_layout_v1(plain,"first\r\nsecond",unit_advance(),layout,error)&&layout.lines.size()==2,
+              "Plain explicit CRLF should produce exactly two source glyph runs");
         check(!menu_text_layout_v1(field, "x", {}, layout, error),
               "Missing actual HudGlyphFont advance provider guessed widths");
 
-        std::cout << "PASS source menu text layout v1: 84 exact SWF flag keys, HTML subset/styles, measured wrap/multiline, source baselines/clips, one-line stats preserved\n";
+        std::cout << "PASS source menu text layout v1: 86 exact SWF flag keys, HTML subset/styles, measured wrap/multiline, source baselines/clips, one-line stats preserved\n";
         return 0;
     } catch (const std::exception& e) {
         std::cerr << e.what() << '\n';
