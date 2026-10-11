@@ -202,6 +202,15 @@ int main(){try{
     }
     properties.sheets.resolved[97]=-1;menu.frame(bindings,960,640,frame,error);
     check(std::none_of(frame.art.batches.begin(),frame.art.batches.end(),[](const auto& batch){return batch.role.find("ElementDamageType")!=std::string::npos;}),"negative elemental sentinel did not hide icon");
+    properties.facts.two_hander=false;properties.facts.dual_wield=true;
+    properties.sheets.resolved[97]=-1;properties.sheets.resolved[100]=2*256;
+    properties.sheets.resolved[98]=6*256;properties.sheets.resolved[99]=10*256;
+    check(menu.frame(bindings,960,640,frame,error),error.c_str());
+    check(std::any_of(frame.text.begin(),frame.text.end(),[](const auto& t){return t.field.path.find("LH/Damage_Elemental_Min_Off_Hand")!=std::string::npos&&t.value=="6 - 10";}),"dual offhand elemental damage range absent");
+    check(std::none_of(frame.art.batches.begin(),frame.art.batches.end(),[](const auto& batch){return batch.role.find("/TWOH/")!=std::string::npos;}),"dual wield retained two-hand art");
+    properties.facts.dual_wield=false;properties.facts.main_damage_class=-1;
+    check(menu.frame(bindings,960,640,frame,error),error.c_str());
+    check(std::none_of(frame.text.begin(),frame.text.end(),[](const auto& t){return t.field.path.find("/LH/")!=std::string::npos||t.field.path.find("/TWOH/")!=std::string::npos;}),"unarmed page showed hidden hands");
     menu.close();
     std::cout<<"character menu native tests PASS\n";return 0;
 }catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}}

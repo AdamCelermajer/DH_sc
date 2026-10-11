@@ -381,7 +381,11 @@ bool RuntimeSessionAudioV1::play_named_plain(const char* name,std::string& error
     if(!host_) {error="Audio host is unavailable";return false;}
     const auto ordinal=name?host_->source_ordinal(name):-1;
     if(ordinal<0) {error.clear();return true;}
-    return script_play_plain(ordinal,0,error);
+    if(host_->submit_script_plain_sound(ordinal,0,error)) {
+        log_<<"Plain sound submitted name="<<name<<" ordinal="<<ordinal<<'\n';error.clear();return true;
+    }
+    if(missing_original_asset_v1(error)){log_<<"Script PlaySound silent: "<<error<<'\n';error.clear();return true;}
+    return false;
 }
 
 bool RuntimeSessionAudioV1::script_stop_plain(std::int32_t ordinal,int fade_ms,std::string& error) {
