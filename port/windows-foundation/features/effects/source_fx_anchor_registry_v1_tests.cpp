@@ -41,20 +41,75 @@ int main() {
     try {
         SourceFxAnchorRegistryV1 registry;
         std::string error;
-        check(registry.register_actor("Player", 6, 17, error), error.c_str());
+        SourceFxAnchorPoseV1 actor_pose;
+        actor_pose.position = {1.f, 2.f, 3.f};
+        actor_pose.rotation = {0.1f, 0.2f, 0.3f};
+        actor_pose.scale = {1.f, 1.f, 1.f};
+        actor_pose.alive = true;
+        actor_pose.disabled = false;
+        actor_pose.stationary = false;
+        int actor_provider_calls = 0;
+        constexpr ActorId source_actor_id = static_cast<ActorId>(0xC123456789abcdefULL);
         SourceFxAnchorKeyV1 actor_key;
+        check(registry.register_actor("Player", 6, source_actor_id,
+            [&](SourceFxAnchorPoseV1& out, std::string&) {
+                ++actor_provider_calls;
+                out = actor_pose;
+                return true;
+            }, actor_key, error), error.c_str());
         bool found = false;
         check(registry.resolve("Player", 6, actor_key, found, error) && found,
-              "resolve direct session actor");
+              "resolve exact live session actor");
         check(actor_key.kind == SourceFxAnchorKindV1::actor &&
-              actor_key.manager_identity == 17 && actor_key.generation == registry.generation(),
-              "actor keeps its actual session identity");
+              actor_key.manager_identity != static_cast<std::uintptr_t>(source_actor_id) &&
+              SourceFxAnchorRegistryV1::is_actor_identity(actor_key.manager_identity) &&
+              actor_key.actor_identity == source_actor_id &&
+              actor_key.generation == registry.generation(),
+              "actor stores its true session identity behind a distinct opaque manager key");
         dh2::fx::MeshFxRequestV1 actor_request{};
         actor_request.operation = Op::anchor_position;
         actor_request.identity = actor_key.manager_identity;
-        bool handled = true;
+        bool handled = false;
+        check(registry.query(actor_request, handled, error) && handled,
+              "tagged actor anchor uses its registered live-session provider");
+        for (unsigned i = 0; i < 3; ++i)
+            check(std::abs(actor_request.point[i] - actor_pose.position[i]) < 0.0001f,
+                  "actor provider forwards live position");
+        check(actor_provider_calls == 1, "actor anchor is sampled from the live provider");
+        query_vector(registry, actor_key.manager_identity, Op::anchor_rotation, actor_pose.rotation);
+        query_vector(registry, actor_key.manager_identity, Op::anchor_scale, actor_pose.scale);
+        query_scalar(registry, actor_key.manager_identity, Op::anchor_dead, 0);
+        query_scalar(registry, actor_key.manager_identity, Op::anchor_disabled, 0);
+        query_scalar(registry, actor_key.manager_identity, Op::anchor_stationary, 0);
+        actor_pose.rotation = {0.4f, 0.5f, 0.6f};
+        actor_pose.scale = {2.f, 3.f, 4.f};
+        actor_pose.alive = false;
+        actor_pose.disabled = true;
+        actor_pose.stationary = true;
+        query_vector(registry, actor_key.manager_identity, Op::anchor_rotation, actor_pose.rotation);
+        query_vector(registry, actor_key.manager_identity, Op::anchor_scale, actor_pose.scale);
+        query_scalar(registry, actor_key.manager_identity, Op::anchor_dead, 1);
+        query_scalar(registry, actor_key.manager_identity, Op::anchor_disabled, 1);
+        query_scalar(registry, actor_key.manager_identity, Op::anchor_stationary, 1);
+        actor_pose.position = {4.f, 5.f, 6.f};
+        const int actor_calls_before_relocation_query = actor_provider_calls;
+        actor_request = {};
+        actor_request.operation = Op::anchor_position;
+        actor_request.identity = actor_key.manager_identity;
+        check(registry.query(actor_request, handled, error) && handled &&
+              actor_provider_calls == actor_calls_before_relocation_query + 1 &&
+              std::abs(actor_request.point[0] - 4.f) < 0.0001f,
+              "actor provider resamples after scripted actor relocation");
+        actor_request.identity = static_cast<std::uintptr_t>(source_actor_id);
+        check(!registry.query(actor_request, handled, error) && handled && !error.empty(),
+              "raw full-width ActorId is rejected by the strict opaque manager bridge");
+        actor_request.identity = 0;
         check(registry.query(actor_request, handled, error) && !handled,
-              "real ActorId stays on the factory's existing live-session provider path");
+              "zero remains the explicit unanchored manager identity");
+        std::uintptr_t actor_identity{};
+        check(registry.resolve_actor_identity(source_actor_id, actor_identity, found, error) && found &&
+              actor_identity == actor_key.manager_identity,
+              "manager-facing actor key resolves from retained real ActorId");
 
         SourceFxAnchorPoseV1 pose;
         pose.position = {-503.271f, 1505.86f, 128.244f};
@@ -99,8 +154,15 @@ int main() {
         check(!registry.register_object("_prim_Waypoint_WitchSpotter", 0, 0x12345679u,
               [](SourceFxAnchorPoseV1&, std::string&) { return true; }, ignored, error),
               "duplicate source name/module is rejected");
-        check(!registry.register_actor("Player", 6, 18, error),
+        check(!registry.register_actor("Player", 6, 18,
+              [](SourceFxAnchorPoseV1&, std::string&) { return true; }, ignored, error),
               "duplicate actor name/module is rejected");
+        check(!registry.register_actor("PlayerAlias", 7, source_actor_id,
+              [](SourceFxAnchorPoseV1&, std::string&) { return true; }, ignored, error),
+              "duplicate real ActorId alias registration is rejected rather than issuing divergent manager handles");
+        check(registry.resolve_actor_identity(source_actor_id, actor_identity, found, error) && found &&
+              actor_identity == actor_key.manager_identity,
+              "Player/LocalPlayer-style aliases resolve through the single retained ActorId key");
         check(!registry.register_object("MissingProvider", 0, 0x1234567au, {}, ignored, error),
               "missing object provider is rejected");
         check(!registry.register_object("MissingIdentity", 0, 0,
@@ -108,6 +170,23 @@ int main() {
               "missing active source-object identity is rejected");
         check(registry.resolve("Absent", 0, resolved, found, error) && !found,
               "missing source name is explicit and harmless");
+
+        SourceFxAnchorPoseV1 unknown_lifecycle_pose;
+        unknown_lifecycle_pose.position = {7.f, 8.f, 9.f};
+        SourceFxAnchorKeyV1 unknown_lifecycle_key;
+        check(registry.register_object("UnknownLifecycle", 0, 0x1234567cu,
+              [&](SourceFxAnchorPoseV1& out, std::string&) {
+                  out = unknown_lifecycle_pose; return true;
+              }, unknown_lifecycle_key, error), error.c_str());
+        dh2::fx::MeshFxRequestV1 unknown_dead_request{};
+        unknown_dead_request.operation = Op::anchor_dead;
+        unknown_dead_request.identity = unknown_lifecycle_key.manager_identity;
+        handled = false;
+        check(!registry.query(unknown_dead_request, handled, error) && handled &&
+              error == "Source FX anchor dead-state is unavailable",
+              "unknown source death semantics fail closed rather than infer from health/presence");
+        query_vector(registry, unknown_lifecycle_key.manager_identity,
+                     Op::anchor_position, unknown_lifecycle_pose.position);
 
         SourceFxAnchorKeyV1 failing_key;
         check(registry.register_object("BrokenWaypoint", 0, 0x1234567bu,
@@ -131,6 +210,21 @@ int main() {
         handled = false;
         check(!registry.query(stale_request, handled, error) && handled && !error.empty(),
               "stale tagged object identity fails as handled, without actor fallback");
+        stale_request.identity = actor_key.manager_identity;
+        handled = false;
+        check(!registry.query(stale_request, handled, error) && handled && !error.empty(),
+              "stale tagged actor identity also fails as handled, without ActorId fallback");
+        SourceFxAnchorKeyV1 replacement_actor;
+        const ActorId replacement_actor_id = static_cast<ActorId>(waypoint_key.manager_identity);
+        check(registry.register_actor("ReplacementActor", 4, replacement_actor_id,
+              [&](SourceFxAnchorPoseV1& out, std::string&) { out = actor_pose; return true; },
+              replacement_actor, error), error.c_str());
+        check(replacement_actor.actor_identity == replacement_actor_id &&
+              replacement_actor.manager_identity != waypoint_key.manager_identity,
+              "arbitrary new session ActorId equal to a stale object handle gets a fresh opaque actor handle");
+        check(registry.resolve_actor_identity(replacement_actor_id, actor_identity, found, error) && found &&
+              actor_identity == replacement_actor.manager_identity,
+              "replacement actor lookup returns its new typed manager identity");
         check(registry.register_object("_prim_Waypoint_WitchSpotter", 0, source_waypoint_id,
               [&](SourceFxAnchorPoseV1& out, std::string&) { out = pose; return true; },
               ignored, error), error.c_str());

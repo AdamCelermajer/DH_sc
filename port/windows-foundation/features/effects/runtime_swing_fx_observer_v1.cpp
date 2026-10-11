@@ -31,6 +31,7 @@ struct CallContext {
     dh2::data::EffectsTables::Borrow* effects{};
     dh2::fx::CharacterMeshFxOwnerV4* manager{};
     const RuntimeSwingFxEnabledResolverV1* enabled{};
+    const RuntimeSwingFxManagerAnchorResolverV1* manager_anchor{};
     ActorId actor = invalid_actor_id;
     std::string* error{};
     std::vector<std::int32_t>* played_sets{};
@@ -64,6 +65,21 @@ bool actor_position(CallContext& c, float output[3]) {
     return true;
 }
 
+bool actor_manager_identity(CallContext& c, std::uintptr_t& identity) {
+    identity = 0;
+    if (!c.manager_anchor || !*c.manager_anchor)
+        return fail(*c.error, "Opaque source FX actor-anchor resolver is required");
+    bool found = false;
+    if (!(*c.manager_anchor)(c.actor, identity, found, *c.error)) return false;
+    if (!found || !identity) return fail(*c.error, "Current source FX actor has no opaque manager identity");
+    return true;
+}
+
+bool manager_owner_matches(CallContext& c, std::uintptr_t owner) {
+    std::uintptr_t expected{};
+    return actor_manager_identity(c, expected) && owner == expected;
+}
+
 int play_item_fx(void* raw, std::int32_t set, bool anchored) {
     auto& c = *static_cast<CallContext*>(raw);
     if (!c.effects || !*c.effects || set < 0 ||
@@ -71,7 +87,8 @@ int play_item_fx(void* raw, std::int32_t set, bool anchored) {
         return fail(*c.error, "ItemRecord SwooshFX is outside the original EffectsTables set rows") ? 0 : -1;
     float position[3]{};
     const float* rotation = nullptr;
-    std::uintptr_t anchor = static_cast<std::uintptr_t>(c.actor);
+    std::uintptr_t anchor = 0;
+    if (anchored && !actor_manager_identity(c, anchor)) return -1;
     if (!anchored) {
         if (!actor_position(c, position)) return -1;
         const auto* state = c.session->actor(c.actor);
@@ -96,9 +113,8 @@ int play_sound_owned_by_audio_first(void*, std::int32_t) {
 }
 
 int step_owner(void* raw, std::uintptr_t& owner) {
-    const auto& c = *static_cast<CallContext*>(raw);
-    owner = static_cast<std::uintptr_t>(c.actor);
-    return owner ? 0 : -1;
+    auto& c = *static_cast<CallContext*>(raw);
+    return actor_manager_identity(c, owner) ? 0 : -1;
 }
 
 int step_swoosh_gate(void* raw, const dh2::data::AnimationStep& step, bool& gate) {
@@ -121,12 +137,12 @@ int step_swoosh_gate(void* raw, const dh2::data::AnimationStep& step, bool& gate
 
 int step_position(void* raw, std::uintptr_t owner, float output[3]) {
     auto& c = *static_cast<CallContext*>(raw);
-    return owner == static_cast<std::uintptr_t>(c.actor) && actor_position(c, output) ? 0 : -1;
+    return manager_owner_matches(c, owner) && actor_position(c, output) ? 0 : -1;
 }
 
 int step_rotation(void* raw, std::uintptr_t owner, float output[3]) {
     auto& c = *static_cast<CallContext*>(raw);
-    if (owner != static_cast<std::uintptr_t>(c.actor))
+    if (!manager_owner_matches(c, owner))
         return fail(*c.error, "AnimTable FX rotation owner differs from same-session ActorId") ? 0 : -1;
     const auto* state = c.session->actor(c.actor);
     if (!state) return fail(*c.error, "AnimTable FX actor left its CombatSession") ? 0 : -1;
@@ -152,10 +168,11 @@ RuntimeSwingFxObserverV1::RuntimeSwingFxObserverV1(CombatSession& session,
     dh2::data::EffectsTables::Borrow effects,
     dh2::fx::CharacterMeshFxOwnerV4& manager,
     std::function<void(const RuntimeSwingFxDiagnosticV1&)> diagnostic,
-    RuntimeSwingFxEnabledResolverV1 enabled)
+    RuntimeSwingFxEnabledResolverV1 enabled,
+    RuntimeSwingFxManagerAnchorResolverV1 manager_anchor)
     : session_(session), animations_(animations), items_(items),
       effects_(std::move(effects)), manager_(manager), diagnostic_(std::move(diagnostic)),
-      enabled_(std::move(enabled)) {}
+      enabled_(std::move(enabled)), manager_anchor_(std::move(manager_anchor)) {}
 
 CombatSessionStepObserver RuntimeSwingFxObserverV1::step_entry_observer() {
     return [this](const CombatSessionStepEntry& entry) { dispatch(entry); };
@@ -217,7 +234,8 @@ void RuntimeSwingFxObserverV1::dispatch(const CombatSessionStepEntry& entry) {
             off_item = &item->record;
         }
         CallContext context{&session_, traits->main_item ? &*traits->main_item : nullptr,
-            off_item, &effects_, &manager_, &enabled_, entry.actor, nullptr, &d.source_sets};
+            off_item, &effects_, &manager_, &enabled_, &manager_anchor_, entry.actor,
+            nullptr, &d.source_sets, {}};
         std::string error;
         context.error = &error;
         dh2::character::AnimationStepFxServicesV2 services{};

@@ -1,4 +1,5 @@
 #include "runtime_effects_factory_v1.hpp"
+#include "source_fx_anchor_registry_v1.hpp"
 #include "runtime_swing_fx_observer_v1.hpp"
 #include "../skills_animation/skill_animation_program.hpp"
 #include "../../../game-data/data.hpp"
@@ -469,11 +470,40 @@ int main(int argc, char** argv) {
         // test. This mesh-only source set must not request camera/driver policy.
         dh2::navigation::CollisionWorld same_pf_world{};
         RenderCpuFixture cpu;
+        SourceFxAnchorRegistryV1 source_fx_anchors;
+        for (const auto& entry : session->world()->actors()) {
+            const ActorId id = entry.first;
+            SourceFxAnchorKeyV1 key;
+            const auto name = "_test_actor_" + std::to_string(id);
+            check(source_fx_anchors.register_actor(name, -1, id,
+                [&, id](SourceFxAnchorPoseV1& out, std::string& problem) {
+                    const auto* state = session->actor(id);
+                    if (!state) { problem = "test actor left session"; return false; }
+                    out.position = state->transform.position;
+                    out.rotation = state->transform.rotation;
+                    out.scale = state->transform.scale;
+                    // This fixture only registers actors initialized in their
+                    // known live test state; production uses recovered IsDead.
+                    out.alive = true;
+                    out.disabled = false;
+                    out.stationary = false;
+                    problem.clear();
+                    return true;
+                }, key, error), error);
+        }
+        const RuntimeSwingFxManagerAnchorResolverV1 test_manager_anchor =
+            [&](ActorId id, std::uintptr_t& identity, bool& found, std::string& problem) {
+                return source_fx_anchors.resolve_actor_identity(id, identity, found, problem);
+            };
         RuntimeEffectsFactoryBindingsV1 factory_bindings;
         factory_bindings.assets = &source_effect_assets;
         factory_bindings.tables = table;
         factory_bindings.same_pf_world = &same_pf_world;
         factory_bindings.scene_view = {&cpu, RenderCpuFixture::camera, RenderCpuFixture::driver};
+        factory_bindings.source_anchor_query = [&](dh2::fx::MeshFxRequestV1& request,
+                bool& handled, std::string& problem) {
+            return source_fx_anchors.query(request, handled, problem);
+        };
         factory_bindings.textures = {
             [&cpu](const TextureImage& image, std::uint32_t& id, std::string& e) {
                 return cpu.upload(image, id, e);
@@ -498,7 +528,7 @@ int main(int argc, char** argv) {
         RuntimeSwingFxObserverV1 swing(*session, animations, item_table, table,
             factory->manager(), [&](const RuntimeSwingFxDiagnosticV1& d) {
                 swing_diagnostics.push_back(d);
-            });
+            }, {}, test_manager_anchor);
         const auto swing_observer = swing.step_entry_observer();
         std::optional<CombatSessionStepEntry> actual_swoosh_entry;
         std::optional<CombatSessionStepEntry> actual_bashdown_entry;
@@ -807,6 +837,10 @@ int main(int argc, char** argv) {
         bashdown_bindings.same_pf_world = &same_pf_world;
         bashdown_bindings.scene_view = {&cpu, RenderCpuFixture::bashdown_test_camera,
             RenderCpuFixture::driver, RuntimeEffectsParticleColorPolicyV1::source_white};
+        bashdown_bindings.source_anchor_query = [&](dh2::fx::MeshFxRequestV1& request,
+                bool& handled, std::string& problem) {
+            return source_fx_anchors.query(request, handled, problem);
+        };
         bashdown_bindings.textures = {
             [&cpu](const TextureImage& image, std::uint32_t& id, std::string& e) {
                 return cpu.upload(image, id, e);
@@ -833,7 +867,7 @@ int main(int argc, char** argv) {
         RuntimeSwingFxObserverV1 bashdown_swing(*session, animations, item_table, table,
             bashdown_factory->manager(), [&](const RuntimeSwingFxDiagnosticV1& d) {
                 bashdown_diagnostics.push_back(d);
-            });
+            }, {}, test_manager_anchor);
         const auto bashdown_observer = bashdown_swing.step_entry_observer();
         actual_bashdown_entry.reset();
         session->set_step_entry_observer([&](const CombatSessionStepEntry& entry) {
@@ -893,7 +927,7 @@ int main(int argc, char** argv) {
         RuntimeSwingFxObserverV1 rejected_swing(*session, rejected_animations, item_table,
             table, bashdown_factory->manager(), [&](const RuntimeSwingFxDiagnosticV1& d) {
                 rejected_diagnostics.push_back(d);
-            });
+            }, {}, test_manager_anchor);
         rejected_swing.step_entry_observer()(*actual_bashdown_entry);
         const bool callback_failure_detail_preserved = !rejected_diagnostics.empty() &&
             !rejected_diagnostics.back().dispatched &&
