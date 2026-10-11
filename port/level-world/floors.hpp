@@ -11,7 +11,7 @@ namespace dh2::floors {
 // Own all collision, octree, query and graph storage. Records have stable
 // addresses; neither APK assets nor original ABI service pointers are retained.
 struct Record {
- std::string name;unsigned room=0,geometry=0;
+ std::string name;std::string floor_type_tag;unsigned room=0,geometry=0;
  selector::Matrix clone{};floor_source::Flags flags{};octree::Box local{},world{},bounds{};
  std::vector<collision::Triangle> triangles,retained,selected;
  std::vector<octree::Node> octants;std::vector<unsigned> indices,scratch,selected_ids;
@@ -54,4 +54,7 @@ int find_path(World&,navigation::PathObject&,const float* target,unsigned limit,
 // graph/capability state; gameplay pursuit has not been attached to this API.
 void clear_route_cache(World&);
 bool height(const World&,const float* point,float&);
+// Returns the source `floortypes` tag of the first selected floor hit at this
+// world point. The returned string is owned by the retained floor record.
+const std::string* floor_type_at(const World&,const float* point) noexcept;
 }

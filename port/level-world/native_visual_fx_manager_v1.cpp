@@ -4,6 +4,7 @@
 #include <cmath>
 #include <cstring>
 #include <limits>
+#include <new>
 #include <stdexcept>
 #include <utility>
 
@@ -12,6 +13,7 @@ namespace {
 constexpr std::size_t kMaxRows = 10000;
 constexpr std::size_t kMaxString = 4096;
 constexpr std::size_t kPoolLimit = 6; // _GetAnimFX: reject when count > 5.
+constexpr std::size_t kMaxNestedSetDepth = 64;
 
 class Reader {
 public:
@@ -89,10 +91,10 @@ void require_schema(Bytes bytes, const char* const* expected, std::size_t expect
     static const char* const effect_fields[] = {
         "BloodDeathEffect", "BloodEffect", "FootprintEffect", "SwooshEffect", "TriggerFloorFX"
     };
-    static const char* const floor_fields[] = {"Effect", "Floortype", "RunSound", "WalkSound"};
+    static const char* const footstep_fields[] = {"Effect", "Floortype", "RunSound", "WalkSound"};
     compare(animation_fields, sizeof(animation_fields) / sizeof(animation_fields[0]));
     compare(effect_fields, sizeof(effect_fields) / sizeof(effect_fields[0]));
-    compare(floor_fields, sizeof(floor_fields) / sizeof(floor_fields[0]));
+    compare(footstep_fields, sizeof(footstep_fields) / sizeof(footstep_fields[0]));
     if (reader.remaining() != 0)
         throw std::runtime_error("Unexpected suffix in Visual FX field schemas");
     if (expected_count != 12)
@@ -106,6 +108,22 @@ const EffectSequence* lookup(const Catalog* catalog, std::int32_t id) noexcept {
     return sequence.row == static_cast<std::uint32_t>(id) ? &sequence : nullptr;
 }
 }
+
+struct Owner::SetData {
+    std::int32_t effect_table_id{-1};
+    std::size_t step_index{};
+    std::size_t depth{};
+    std::int32_t loops_remaining{};
+    std::int32_t source_loop_count{};
+    std::array<float, 3> position{};
+    std::array<float, 3> origin{};
+    void* source_game_object{};
+    SetData* parent{};
+    bool end_of_loop_pending{};
+    bool completed{};
+};
+
+Owner::Owner(const Catalog* catalog) noexcept : catalog_(catalog) {}
 
 bool load_catalog(Bytes effect_array, Bytes names, Bytes fields,
                   Bytes dictionary, Bytes dictionary_names,
@@ -121,8 +139,11 @@ bool load_catalog(Bytes effect_array, Bytes names, Bytes fields,
 
         Reader name_reader(names);
         auto sequence_names = name_reader.strings();
-        // effects_pyarraynames.bin contains additional array-name sections.
-        // The source AnimatedEffectTable reader consumes only its first section.
+        auto character_effect_names = name_reader.strings();
+        auto footstep_names = name_reader.strings();
+        if (name_reader.remaining() != 0 || character_effect_names.empty() ||
+            footstep_names.empty())
+            throw std::runtime_error("Visual FX source name sections are incomplete");
         if (sequence_names.empty() || sequence_names.size() > kMaxRows)
             throw std::runtime_error("Visual FX sequence-name section is empty or too large");
 
@@ -184,6 +205,64 @@ bool load_catalog(Bytes effect_array, Bytes names, Bytes fields,
         }
         next.effect_array_consumed = data.offset();
         next.effect_array_suffix = data.remaining();
+
+        // The source CharEffectTable follows AnimatedEffectTable in the same
+        // pyarray stream. Each serialized row is four effect-table indices
+        // and the TriggerFloorFX byte; the runtime's 24-byte row includes
+        // its leading object word and alignment padding.
+        const auto character_effect_count = data.count();
+        if (character_effect_count != character_effect_names.size())
+            throw std::runtime_error("CharEffectTable row/name counts differ");
+        next.character_effects.reserve(character_effect_count);
+        for (std::uint32_t row = 0; row < character_effect_count; ++row) {
+            CharacterEffect effect;
+            effect.row = row;
+            effect.name = character_effect_names[row];
+            effect.blood_death_effect = data.integer();
+            effect.blood_effect = data.integer();
+            effect.footprint_effect = data.integer();
+            effect.swoosh_effect = data.integer();
+            effect.trigger_floor_fx = data.boolean();
+            const auto valid_effect_id = [&](std::int32_t id) {
+                return id >= -1 && (id < 0 || static_cast<std::size_t>(id) < next.sequences.size());
+            };
+            if (!valid_effect_id(effect.blood_death_effect) ||
+                !valid_effect_id(effect.blood_effect) ||
+                !valid_effect_id(effect.footprint_effect) ||
+                !valid_effect_id(effect.swoosh_effect))
+                throw std::runtime_error("CharEffectTable effect reference is invalid");
+            next.character_effects.push_back(std::move(effect));
+        }
+        next.character_effect_table_consumed = data.offset();
+        // FootstepEffectTable is the final section of this same effects array
+        // (the third names section is its seven exact source member names).
+        const auto footstep_count = data.count();
+        if (footstep_count != footstep_names.size())
+            throw std::runtime_error("FootstepEffectTable row/name counts differ");
+        next.footstep_effects.reserve(footstep_count);
+        for (std::uint32_t row = 0; row < footstep_count; ++row) {
+            FootstepEffect effect;
+            effect.row = row;
+            effect.name = footstep_names[row];
+            effect.effect = data.integer();
+            effect.floor_type = data.string(true);
+            const auto valid_effect_id = [&](std::int32_t id) {
+                return id >= -1 && (id < 0 || static_cast<std::size_t>(id) < next.sequences.size());
+            };
+            if (!valid_effect_id(effect.effect))
+                throw std::runtime_error("FootstepEffectTable effect reference is invalid");
+            const auto sound_rows = [&](std::vector<std::int32_t>& output) {
+                const auto count = data.count();
+                output.reserve(count);
+                for (std::uint32_t i = 0; i < count; ++i) output.push_back(data.integer());
+            };
+            sound_rows(effect.run_sound);
+            sound_rows(effect.walk_sound);
+            next.footstep_effects.push_back(std::move(effect));
+        }
+        next.remaining_effect_array_suffix = data.remaining();
+        if (next.remaining_effect_array_suffix != 0)
+            throw std::runtime_error("Unexpected bytes after FootstepEffectTable");
         output = std::move(next);
         return true;
     } catch (const std::exception& exception) {
@@ -208,6 +287,15 @@ const EffectSequence* Owner::sequence(std::int32_t id) const noexcept {
     return lookup(catalog_, id);
 }
 
+const FootstepEffect* Owner::footstep_effect(std::string_view floor_type) const noexcept {
+    if (!catalog_ || floor_type.empty()) return nullptr;
+    const auto found = std::find_if(catalog_->footstep_effects.begin(),
+        catalog_->footstep_effects.end(), [floor_type](const FootstepEffect& row) {
+            return row.floor_type == floor_type;
+        });
+    return found == catalog_->footstep_effects.end() ? nullptr : &*found;
+}
+
 Status Owner::GrabAnimFX(std::int32_t id, void* source_game_object,
                          void** output, std::string& error) {
     error.clear();
@@ -221,16 +309,155 @@ Status Owner::GrabAnimFX(std::int32_t id, void* source_game_object,
         error = "AnimatedEffectTable catalog is not bound or the source row is absent";
         return Status::catalog_missing;
     }
-    if (!backend_.create || !backend_.destroy || !backend_.start_sequence ||
+    if (selected->type != 1 && selected->type != 2 && selected->steps.size() > 1) {
+        error = "AnimatedEffectTable sequence type has no source-backed progression provider";
+        return Status::unsupported_sequence;
+    }
+    if (!backend_.create || !backend_.destroy || !backend_.start_step ||
         !backend_.reset_for_pool) {
         error = "VisualFXManager requires the shared AnimatedFX/scene backend";
         return Status::backend_missing;
     }
-    // IDA: VisualFXManager::GrabAnimFX (0x495430) selects the first step's
-    // File/EffectDict id, then _GetAnimFX (0x494ad4) owns/reuses that bucket.
-    const auto dict_id = selected->steps.front().effect_dict_id;
+    return start_step_instance(id, 0, 0, selected->loop, true,
+                               selected->type == 2, source_game_object,
+                               nullptr, nullptr, output, error);
+}
+
+Status Owner::RegisterFXSetToLoad(std::int32_t id, std::string& error) {
+    error.clear();
+    if (!catalog_) {
+        error = "VisualFXManager cannot register effect sets without its source catalog";
+        return Status::catalog_missing;
+    }
+    std::vector<std::int32_t> recursion_stack;
+    try {
+        const auto status = register_fx_set_recursive(id, recursion_stack, error);
+        return status;
+    } catch (const std::bad_alloc&) {
+        error = "VisualFXManager effect-set registration allocation failed";
+        return Status::allocation_failed;
+    }
+}
+
+Status Owner::PlayAnimFXSetByName(std::string_view source_name,
+                                  const std::array<float, 3>& position,
+                                  void* source_game_object,
+                                  bool& matched, bool& launched,
+                                  std::string& error) {
+    error.clear();
+    matched = false;
+    launched = false;
+    if (!catalog_) {
+        error = "VisualFXManager cannot play a named set without its source catalog";
+        return Status::catalog_missing;
+    }
+    if (source_name.empty()) {
+        error = "PlayAnimFXSet source name is empty";
+        return Status::invalid_request;
+    }
+    const auto it = std::find_if(catalog_->sequences.begin(), catalog_->sequences.end(),
+        [source_name](const EffectSequence& row) { return row.name == source_name; });
+    if (it == catalog_->sequences.end()) return Status::ok; // source lookup miss: no-op
+    return PlayAnimFXSet(static_cast<std::int32_t>(it->row), position,
+                         source_game_object, matched, launched, error);
+}
+
+Status Owner::PlayAnimFXSet(std::int32_t id,
+                            const std::array<float, 3>& position,
+                            void* source_game_object,
+                            bool& matched, bool& launched,
+                            std::string& error) {
+    error.clear();
+    matched = false;
+    launched = false;
+    if (!catalog_) {
+        error = "VisualFXManager cannot play a source set without its catalog";
+        return Status::catalog_missing;
+    }
+    if (!sequence(id)) return Status::ok; // source integer overload returns unchanged
+    matched = true;
+    static constexpr std::array<float, 3> source_origin{};
+    try {
+        return begin_anim_fx_set(id, position,
+                                 source_origin, source_game_object, nullptr, 0,
+                                 launched, error);
+    } catch (const std::bad_alloc&) {
+        error = "PlayAnimFXSet source data allocation failed";
+        return Status::allocation_failed;
+    }
+}
+
+Status Owner::register_fx_set_recursive(std::int32_t id,
+                                        std::vector<std::int32_t>& recursion_stack,
+                                        std::string& error) {
+    if (id < 0 || !sequence(id)) {
+        error = "RegisterFXSetToLoad references an absent AnimatedEffectTable row";
+        return Status::invalid_request;
+    }
+    if (std::find(recursion_stack.begin(), recursion_stack.end(), id) != recursion_stack.end()) {
+        error = "RegisterFXSetToLoad encountered a recursive source set cycle";
+        return Status::invalid_request;
+    }
+    if (std::find(registered_effect_sets_.begin(), registered_effect_sets_.end(), id) !=
+        registered_effect_sets_.end())
+        return Status::ok;
+    registered_effect_sets_.push_back(id);
+    recursion_stack.push_back(id);
+    const auto* selected = sequence(id);
+    for (const auto& step : selected->steps) {
+        if (step.effect_dict_id < 0) continue;
+        if (step.redirect == 1) {
+            const auto status = register_fx_set_recursive(step.effect_dict_id,
+                                                           recursion_stack, error);
+            if (status != Status::ok) {
+                recursion_stack.pop_back();
+                return status;
+            }
+        } else if (std::find(registered_effect_dicts_.begin(),
+                             registered_effect_dicts_.end(), step.effect_dict_id) ==
+                   registered_effect_dicts_.end()) {
+            registered_effect_dicts_.push_back(step.effect_dict_id);
+        }
+    }
+    recursion_stack.pop_back();
+    return Status::ok;
+}
+
+Status Owner::start_step_instance(std::int32_t id,
+                                  std::size_t pool_step_index,
+                                  std::size_t playback_step_index,
+                                  std::int32_t sequence_loops_remaining,
+                                  bool grab_entry,
+                                  bool random_set_entry,
+                                  void* source_game_object,
+                                  void* target_character,
+                                  void* animator_character,
+                                  void** output, std::string& error,
+                                  const SetData* set_data) {
+    error.clear();
+    if (output) *output = nullptr;
+    const auto* selected = sequence(id);
+    if (!output || !selected || pool_step_index >= selected->steps.size() ||
+        playback_step_index >= selected->steps.size()) {
+        error = "AnimatedEffectTable step request is outside the source sequence";
+        return selected ? Status::invalid_request : Status::catalog_missing;
+    }
+    const bool has_start = set_data ? backend_.start_anim_fx_set_step != nullptr :
+                                      backend_.start_step != nullptr;
+    if (!catalog_ || !backend_.create || !backend_.destroy || !has_start ||
+        !backend_.reset_for_pool) {
+        error = "VisualFXManager requires the shared AnimatedFX/scene backend";
+        return catalog_ ? Status::backend_missing : Status::catalog_missing;
+    }
+    // IDA: GrabAnimFX and PlayAnimFXStep both reach _GetAnimFX for the
+    // selected step's EffectDict row. All steps share this one manager pool.
+    // GrabAnimFX obtains its AnimatedFX from step zero's EffectDict before
+    // choosing a type-2 AnimFXSetData variant. Later PlayAnimFXStep calls use
+    // that selected step's own dictionary. Keep pool and playback indices
+    // distinct so the initial acquisition follows the source order.
+    const auto dict_id = selected->steps[pool_step_index].effect_dict_id;
     if (dict_id < 0 || static_cast<std::size_t>(dict_id) >= catalog_->effect_paths.size()) {
-        error = "AnimatedEffectTable first step has no loadable EffectDict row";
+        error = "AnimatedEffectTable step has no loadable EffectDict row";
         return Status::invalid_request;
     }
     const auto& path = catalog_->effect_paths[static_cast<std::size_t>(dict_id)];
@@ -251,7 +478,11 @@ Status Owner::GrabAnimFX(std::int32_t id, void* source_game_object,
             return Status::load_failed;
         }
         try {
-            slots_.push_back(Slot{instance, dict_id, id, false});
+            Slot slot{};
+            slot.instance = instance;
+            slot.effect_dict_id = dict_id;
+            slot.effect_table_id = id;
+            slots_.push_back(slot);
             chosen = &slots_.back();
         } catch (...) {
             backend_.destroy(backend_.context, instance);
@@ -259,8 +490,58 @@ Status Owner::GrabAnimFX(std::int32_t id, void* source_game_object,
             return Status::allocation_failed;
         }
     }
-    if (!backend_.start_sequence(backend_.context, chosen->instance, *selected,
-                                source_game_object, error)) {
+    if (random_set_entry) {
+        if (!backend_.random_below) {
+            error = "Type-2 AnimatedEffectTable set requires the canonical source RNG provider";
+            return Status::backend_missing;
+        }
+        std::uint32_t choice = 0;
+        if (!backend_.random_below(backend_.context,
+                static_cast<std::uint32_t>(selected->steps.size()), choice, error)) {
+            if (error.empty()) error = "Canonical source RNG rejected type-2 set selection";
+            return Status::lifecycle_failed;
+        }
+        if (choice >= selected->steps.size()) {
+            error = "Canonical source RNG returned a type-2 index outside the source set";
+            return Status::lifecycle_failed;
+        }
+        playback_step_index = choice;
+    }
+    bool start_ok = false;
+    if (set_data) {
+        const auto& step = selected->steps[playback_step_index];
+        std::int32_t loop_count = step.loop;
+        if (selected->type != 1) {
+            if (step.loop == -1 || set_data->source_loop_count == -1) {
+                loop_count = -1;
+            } else if (step.loop != 0) {
+                const auto combined = static_cast<std::int64_t>(step.loop) *
+                                      static_cast<std::int64_t>(set_data->source_loop_count);
+                if (combined < std::numeric_limits<std::int32_t>::min() ||
+                    combined > std::numeric_limits<std::int32_t>::max()) {
+                    error = "PlayAnimFXSet effective loop count overflows its source field";
+                    return Status::invalid_request;
+                }
+                loop_count = set_data->source_loop_count != 0 ? static_cast<std::int32_t>(combined) :
+                                                   step.loop;
+            } else {
+                loop_count = set_data->source_loop_count;
+            }
+        }
+        const AnimFXSetPlayback playback{
+            id, playback_step_index, set_data->position, set_data->origin,
+            step.orient_once, step.orient_with_anchor, step.self_illum,
+            step.scale_with_anchor, step.speed, step.play_time, loop_count,
+            set_data->source_game_object, set_data, set_data->parent
+        };
+        start_ok = backend_.start_anim_fx_set_step(
+            backend_.context, chosen->instance, *selected, playback, error);
+    } else {
+        start_ok = backend_.start_step(backend_.context, chosen->instance, *selected,
+                                       playback_step_index, grab_entry,
+                                       source_game_object, error);
+    }
+    if (!start_ok) {
         std::string reset_error;
         if (!backend_.reset_for_pool(backend_.context, chosen->instance, reset_error)) {
             error += error.empty() ? "Source animation start and pool reset both failed" :
@@ -270,9 +551,192 @@ Status Owner::GrabAnimFX(std::int32_t id, void* source_game_object,
         return Status::start_failed;
     }
     chosen->effect_table_id = id;
+    chosen->step_index = playback_step_index;
+    chosen->sequence_loops_remaining = sequence_loops_remaining;
+    chosen->source_game_object = source_game_object;
+    chosen->target_character = nullptr;
+    chosen->animator_character = nullptr;
+    chosen->set_data = set_data;
+    if (target_character) {
+        if (!backend_.bind_game_object ||
+            !backend_.bind_game_object(backend_.context, chosen->instance,
+                                       target_character, error) ||
+            !backend_.sync_irr_data ||
+            !backend_.sync_irr_data(backend_.context, chosen->instance, true, error) ||
+            !backend_.set_visible ||
+            !backend_.set_visible(backend_.context, chosen->instance, true, error)) {
+            if (error.empty()) error = "AnimatedFX next-step Character bind failed";
+            std::string reset_error;
+            (void)backend_.reset_for_pool(backend_.context, chosen->instance, reset_error);
+            chosen->active = false;
+            return Status::lifecycle_failed;
+        }
+        chosen->target_character = target_character;
+    }
+    if (animator_character) {
+        if (!backend_.bind_animator_character ||
+            !backend_.bind_animator_character(backend_.context, chosen->instance,
+                                              animator_character, error)) {
+            if (error.empty()) error = "AnimatedFX next-step Animator bind failed";
+            std::string reset_error;
+            (void)backend_.reset_for_pool(backend_.context, chosen->instance, reset_error);
+            chosen->active = false;
+            return Status::lifecycle_failed;
+        }
+        chosen->animator_character = animator_character;
+    }
     chosen->active = true;
     *output = chosen->instance;
     return Status::ok;
+}
+
+Status Owner::begin_anim_fx_set(std::int32_t id,
+                                const std::array<float, 3>& position,
+                                const std::array<float, 3>& origin,
+                                void* source_game_object,
+                                SetData* parent, std::size_t depth,
+                                bool& launched, std::string& error) {
+    launched = false;
+    const auto* selected = sequence(id);
+    if (!selected) {
+        // The source integer overload returns without dispatch for an invalid
+        // AnimatedEffectTable ID. A name hit can therefore still be a source
+        // no-launch if its redirected ID is invalid.
+        return Status::ok;
+    }
+    if (depth >= kMaxNestedSetDepth) {
+        error = "PlayAnimFXSet exceeded the supported source nesting depth";
+        return Status::invalid_request;
+    }
+    if (selected->steps.empty()) return Status::ok;
+
+    std::size_t first_step = 0;
+    if (selected->type == 2) {
+        if (!backend_.random_below) {
+            error = "Type-2 PlayAnimFXSet requires the canonical source RNG provider";
+            return Status::backend_missing;
+        }
+        std::uint32_t choice = 0;
+        if (!backend_.random_below(backend_.context,
+                static_cast<std::uint32_t>(selected->steps.size()), choice, error)) {
+            if (error.empty()) error = "Canonical source RNG rejected PlayAnimFXSet selection";
+            return Status::lifecycle_failed;
+        }
+        if (choice >= selected->steps.size()) {
+            error = "Canonical source RNG returned a PlayAnimFXSet index outside the set";
+            return Status::lifecycle_failed;
+        }
+        first_step = choice;
+    }
+
+    auto set_data = std::make_unique<SetData>();
+    set_data->effect_table_id = id;
+    set_data->step_index = first_step;
+    set_data->loops_remaining = selected->loop;
+    set_data->source_loop_count = selected->loop;
+    set_data->position = position;
+    set_data->origin = origin;
+    set_data->source_game_object = source_game_object;
+    set_data->parent = parent;
+    auto* retained = set_data.get();
+    set_data_.push_back(std::move(set_data)); // source row list owns this until Flush
+    retained->depth = depth;
+    return dispatch_anim_fx_set_step(*retained, launched, error);
+}
+
+Status Owner::dispatch_anim_fx_set_step(SetData& set_data, bool& launched,
+                                        std::string& error) {
+    launched = false;
+    const auto* selected = sequence(set_data.effect_table_id);
+    if (!selected || set_data.step_index >= selected->steps.size()) {
+        error = "PlayAnimFXSet source step is outside its AnimatedEffectTable row";
+        return Status::stale_instance;
+    }
+    const auto& step = selected->steps[set_data.step_index];
+    if (step.effect_dict_id < 0) return Status::ok; // source _GetAnimFX null is a no-op
+    if (step.redirect == 1) {
+        bool child_launched = false;
+        const auto status = begin_anim_fx_set(step.effect_dict_id, set_data.position,
+            set_data.origin, set_data.source_game_object, &set_data,
+            set_data.depth + 1, child_launched, error);
+        if (status == Status::ok) { launched = child_launched; return Status::ok; }
+        return status;
+    }
+    void* instance = nullptr;
+    const auto status = start_step_instance(set_data.effect_table_id,
+        set_data.step_index, set_data.step_index, set_data.loops_remaining,
+        false, false, set_data.source_game_object, nullptr, nullptr, &instance,
+        error, &set_data);
+    if (status == Status::pool_exhausted) {
+        // PlayAnimFX returns without effect when _GetAnimFX cannot allocate.
+        error.clear();
+        return Status::ok;
+    }
+    if (status == Status::ok) launched = instance != nullptr;
+    return status;
+}
+
+Status Owner::advance_anim_fx_set(SetData& set_data, std::string& error) {
+    const auto* selected = sequence(set_data.effect_table_id);
+    if (!selected) {
+        error = "PlayAnimFXSet callback lost its source AnimatedEffectTable row";
+        return Status::stale_instance;
+    }
+    auto next_step = set_data.step_index + 1;
+    if (next_step >= selected->steps.size()) {
+        if (set_data.loops_remaining == -1) {
+            next_step = 0;
+        } else if (set_data.loops_remaining > 0) {
+            --set_data.loops_remaining;
+            next_step = 0;
+        } else {
+            return complete_anim_fx_set(set_data, error);
+        }
+    }
+    set_data.step_index = next_step;
+    bool launched = false;
+    return dispatch_anim_fx_set_step(set_data, launched, error);
+}
+
+Status Owner::complete_anim_fx_set(SetData& set_data, std::string& error) {
+    if (set_data.completed) return Status::ok;
+    set_data.completed = true;
+    if (!set_data.parent) return Status::ok;
+    // Child completion is a source callback boundary. Only a type-1 parent
+    // consumes its child-complete flag and advances to its next step.
+    const auto* parent_sequence = sequence(set_data.parent->effect_table_id);
+    if (!parent_sequence) {
+        error = "PlayAnimFXSet parent callback lost its source sequence";
+        return Status::stale_instance;
+    }
+    if (parent_sequence->type != 1) {
+        set_data.parent->end_of_loop_pending = true;
+        return Status::ok;
+    }
+    set_data.parent->end_of_loop_pending = true;
+    return handle_anim_fx_set_end(set_data.parent, error);
+}
+
+Status Owner::handle_anim_fx_set_end(const SetData* set_data,
+                                     std::string& error) {
+    if (!set_data) return Status::ok;
+    auto* mutable_data = const_cast<SetData*>(set_data);
+    if (mutable_data->completed) return Status::ok;
+    const auto* selected = sequence(mutable_data->effect_table_id);
+    if (!selected) {
+        error = "AnimatedFX SetData callback references a missing source row";
+        return Status::stale_instance;
+    }
+    if (selected->type == 1) {
+        // IDA _HandleSequence (0x496144) only consumes set-data records whose
+        // +0 child-complete byte is set. A direct type-1 leaf callback alone
+        // does not advance its parent set; nested completion sets this bit.
+        if (!mutable_data->end_of_loop_pending) return Status::ok;
+        mutable_data->end_of_loop_pending = false;
+        return advance_anim_fx_set(*mutable_data, error);
+    }
+    if (!mutable_data->parent) return Status::ok; // source top-level non-type-1 no-op
+    return complete_anim_fx_set(*mutable_data, error);
 }
 
 Status Owner::DropAnimatedFX(void** instance, std::string& error) {
@@ -286,6 +750,10 @@ Status Owner::DropAnimatedFX(void** instance, std::string& error) {
     if (!backend_.reset_for_pool) { error = "VisualFXManager pool reset backend is not bound"; return Status::backend_missing; }
     if (!backend_.reset_for_pool(backend_.context, slot->instance, error)) return Status::lifecycle_failed;
     slot->active = false;
+    slot->source_game_object = nullptr;
+    slot->target_character = nullptr;
+    slot->animator_character = nullptr;
+    slot->set_data = nullptr;
     *instance = nullptr;
     return Status::ok;
 }
@@ -297,6 +765,7 @@ Status Owner::BindCharacter(void* instance, void* character, std::string& error)
         if (error.empty()) error = "AnimatedFX GameObject binding backend is missing";
         return backend_.bind_game_object ? Status::lifecycle_failed : Status::backend_missing;
     }
+    slot->target_character = character;
     return Status::ok;
 }
 Status Owner::BindAnimatorCharacter(void* instance, void* character, std::string& error) {
@@ -306,6 +775,7 @@ Status Owner::BindAnimatorCharacter(void* instance, void* character, std::string
         if (error.empty()) error = "AnimatedFX nested animator binding backend is missing";
         return backend_.bind_animator_character ? Status::lifecycle_failed : Status::backend_missing;
     }
+    slot->animator_character = character;
     return Status::ok;
 }
 Status Owner::SyncIrrData(void* instance, bool force, std::string& error) {
@@ -336,6 +806,61 @@ Status Owner::ResumeAnimator(void* instance, std::string& error) {
     return Status::ok;
 }
 
+Status Owner::advance_sequence_step(void* instance, std::string& error) {
+    error.clear();
+    auto* current = find(instance);
+    if (!current || !current->active) {
+        error = "AnimatedFX sequence callback uses an unknown or inactive instance";
+        return Status::stale_instance;
+    }
+    const auto* selected = sequence(current->effect_table_id);
+    if (!selected) {
+        error = "Active AnimatedFX lost its source sequence row";
+        return Status::stale_instance;
+    }
+    if (selected->type == 2) {
+        // A top-level GrabAnimFX type-2 set stores its own selected data with
+        // no parent AnimFXSetData link (+44 is null), so its end callback is
+        // source-observed as a no-op. Nested set traversal belongs to the
+        // PlayAnimFXSet call path and is not represented by this top-level API.
+        return Status::ok;
+    }
+    if (selected->type != 1) {
+        if (selected->steps.size() <= 1) return Status::ok;
+        error = "AnimatedEffectTable sequence type has no source-backed progression provider";
+        return Status::unsupported_sequence;
+    }
+
+    auto next_step = current->step_index + 1;
+    auto loops_remaining = current->sequence_loops_remaining;
+    if (next_step >= selected->steps.size()) {
+        if (loops_remaining == -1) {
+            next_step = 0;
+        } else if (loops_remaining > 0) {
+            --loops_remaining;
+            next_step = 0;
+        } else {
+            return Status::ok;
+        }
+    }
+
+    const auto effect_table_id = current->effect_table_id;
+    const auto source_game_object = current->source_game_object;
+    const auto target_character = current->target_character;
+    const auto animator_character = current->animator_character;
+    void* next_instance = nullptr;
+    const auto status = start_step_instance(effect_table_id, next_step, next_step,
+        loops_remaining, false, false, source_game_object, target_character,
+        animator_character, &next_instance, error);
+    if (status == Status::pool_exhausted) {
+        // Source PlayAnimFXStep simply receives null when _GetAnimFX reaches
+        // its per-dictionary cap; no sibling instance is fabricated.
+        error.clear();
+        return Status::ok;
+    }
+    return status;
+}
+
 Status Owner::Update(std::string& error) {
     error.clear();
     if (!catalog_) { error = "VisualFXManager cannot update without its source catalog"; return Status::catalog_missing; }
@@ -343,18 +868,32 @@ Status Owner::Update(std::string& error) {
         error = "VisualFXManager requires the shared AnimatedFX update backend";
         return Status::backend_missing;
     }
-    for (auto& slot : slots_) {
-        if (!slot.instance || !slot.active) continue;
-        const auto* selected = sequence(slot.effect_table_id);
+    // Source callback transitions can append a new step instance. Visit only
+    // the instances that were active at frame start; new steps begin on the
+    // following manager tick, matching the callback/animator phase ordering.
+    const auto frame_slot_count = slots_.size();
+    for (std::size_t i = 0; i < frame_slot_count; ++i) {
+        if (!slots_[i].instance || !slots_[i].active) continue;
+        const auto instance = slots_[i].instance;
+        const auto* selected = sequence(slots_[i].effect_table_id);
         if (!selected) { error = "Active AnimatedFX lost its source sequence row"; return Status::stale_instance; }
-        bool drop = false;
-        if (!backend_.update(backend_.context, slot.instance, *selected, drop, error)) {
+        const auto step_index = slots_[i].step_index;
+        bool end_of_loop_callback_due = false;
+        bool source_hidden = false;
+        if (!backend_.update(backend_.context, instance, *selected, step_index,
+                             end_of_loop_callback_due, source_hidden, error)) {
             if (error.empty()) error = "AnimatedFX source frame update failed";
             return Status::lifecycle_failed;
         }
-        if (drop) {
-            void* instance = slot.instance;
-            const auto status = DropAnimatedFX(&instance, error);
+        if (end_of_loop_callback_due) {
+            const auto status = slots_[i].set_data
+                ? handle_anim_fx_set_end(slots_[i].set_data, error)
+                : advance_sequence_step(instance, error);
+            if (status != Status::ok) return status;
+        }
+        if (source_hidden) {
+            void* dropped_instance = instance;
+            const auto status = DropAnimatedFX(&dropped_instance, error);
             if (status != Status::ok) return status;
         }
     }
@@ -437,6 +976,9 @@ void Owner::Flush() noexcept {
     if (backend_.destroy) for (auto& slot : slots_) if (slot.instance)
         backend_.destroy(backend_.context, slot.instance);
     slots_.clear();
+    set_data_.clear();
+    registered_effect_sets_.clear();
+    registered_effect_dicts_.clear();
 }
 
 PoolSnapshot Owner::pool(std::int32_t id) const noexcept {

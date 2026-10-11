@@ -19,6 +19,14 @@ floor_source::Flags source_flags(const scene::Node& node){
                            "Source floor type flags rejected");
  return flags;
 }
+std::string source_floor_type_tag(const scene::Node& node){
+ const auto* bytes=node.user_properties.c_str();
+ const dh2::floor_types::Span key{"floortypes",10};
+ dh2::floor_types::Property property{};
+ const auto parsed=dh2::floor_types::find_property(bytes,node.user_properties.size()+1U,key,&property);
+ require(parsed==dh2::floor_types::Error::ok,"Source floor properties rejected");
+ return property.found?std::string(property.value.data,property.value.size):std::string{};
+}
 unsigned query(void* owner,unsigned id,const float* point){
  auto& world=*static_cast<World*>(owner);if(id>=world.selectors.size())return 0;collision::Result result{};
  return dh2_selector_floor(&result,&world.selectors[id],point)==1;
@@ -28,7 +36,7 @@ bool append(const resources::BresView& view,const scene::Scene& scene,const scen
  error.clear();try{
   require(out.records.size()<512,"Too many native floors");require(instance.node_index<scene.graph.size(),"Invalid floor node");const auto& node=scene.graph[instance.node_index];
   require(node.parent>=0&&unsigned(node.parent)<scene.graph.size(),"Floor has no room parent");
-  auto record=std::make_unique<Record>();record->name=node.name;record->room=room;record->geometry=instance.geometry;record->flags=source_flags(node);
+  auto record=std::make_unique<Record>();record->name=node.name;record->floor_type_tag=source_floor_type_tag(node);record->room=room;record->geometry=instance.geometry;record->flags=source_flags(node);
   // constructNode creates a CSceneNode with the authored TRS, then a
   // BaseMeshSceneNode child with identity local TRS. _LoadNavMesh reads
   // properties/name from that CSceneNode, moves the child to its cached
@@ -169,5 +177,15 @@ bool height(const World& world,const float* point,float& result){
   result=hit.point[2];return true;
  }
  return false;
+}
+const std::string* floor_type_at(const World& world,const float* point) noexcept {
+ if(!point||!world.sewn||world.records.size()!=world.collision_world.floor_count)
+  return nullptr;
+ for(unsigned i=0;i<3;++i)if(!std::isfinite(point[i]))return nullptr;
+ navigation::WorldHit hit{};
+ if(dh2_nav_world_collision(&hit,&world.collision_world,point,0)!=1||
+    hit.floor>=world.records.size()||!world.records[hit.floor])return nullptr;
+ const auto& type=world.records[hit.floor]->floor_type_tag;
+ return type.empty()?nullptr:&type;
 }
 }
