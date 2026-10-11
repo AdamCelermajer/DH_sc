@@ -9,8 +9,9 @@
 // rule the campaign trigger zones use. Rotated blocks are reported and not built
 // (the source rotation convention is not verified here).
 //
-// Entry is a rising edge of "player inside the box". The first update only records
-// the state, so a player who starts inside a zone does not trigger it.
+// Entry models the source MoveInZone OnCollisionBegins callback: an overlap
+// present at the first physics update is an entry, and a later re-entry fires
+// once after the player has left.
 #include "quest_table_v1.hpp"
 #include "quest_events_v1.hpp"
 
@@ -55,7 +56,6 @@ public:
 private:
     std::vector<QuestZoneV1> zones_;
     std::vector<std::string> notes_;
-    bool primed_{};
 };
 
 // The zone names authored by quest MoveInZone objectives (accept and objective rows), sorted and unique.

@@ -32,6 +32,15 @@ int main(int argc,char**argv){try{
  check(argc==3,"Expected shared asset root and fixture directory");dh::foundation::AssetCatalog assets(argv[1]);
  const std::string priest="original-cache/data/3d/characters/npcs/priest_good.bdae";
  auto original=load(assets,priest);check(original.original_materials().size()==1&&original.original_materials()[0].id=="diffuse","Original priest binding changed");
+ // B068: the rigid additive halo is part of the faery model, alongside its skin.
+ auto faery=load(assets,"original-cache/data/3d/characters/faeries/faeries_02_celeste.bdae");
+ dh::foundation::CharacterVisual fullFaery;dh::foundation::CharacterVisualConfig fullConfig;
+ fullConfig.model_path="original-cache/data/3d/characters/faeries/faeries_02_celeste.bdae";fullConfig.include_static_instances=true;
+ std::string fullError;check(fullFaery.load(assets,fullConfig,fullError),fullError);
+ check(fullFaery.meshes().size()>faery.meshes().size(),"Faery rigid halo was omitted");
+ bool additiveRigid=false;for(std::size_t i=faery.meshes().size();i<fullFaery.meshes().size();++i)
+   for(const auto& range:fullFaery.meshes()[i].ranges)additiveRigid|=range.material.additive||(range.material.sourcePass&&range.material.sourcePass->blend);
+ check(additiveRigid,"Faery halo must retain original blend pass");
  auto prisoner=load(assets,"original-cache/data/3d/characters/npcs/prisoner.bdae");
  check(prisoner.original_materials().size()==2&&prisoner.original_materials()[0].id=="diffuse"&&prisoner.original_materials()[1].id=="alpha","Original prisoner bindings changed");
  Bytes b=assets.read(priest);const auto instance=first_skinned_instance(b);check(instance!=0,"No source skin instance");

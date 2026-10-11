@@ -199,7 +199,8 @@ bool SessionActorTransitionConsumerV1::blur(
             [&session](ActorId id){return session.actor(id);},error))return false;
         return set_body_pinned(session,actor.id,true,error);
     }
-    case 11:error.clear();return true;
+    case 11:
+    case 14:error.clear();return true; // CSAnim::OnBlur 0x3c2dd0 has no effects.
     case 12:{
         // Controller unlock is a lifecycle tail owned elsewhere. The physical
         // projection restores the body's source filter only when it exists.
@@ -220,6 +221,10 @@ bool SessionActorTransitionConsumerV1::focus_prefix(
     CombatSession&,const CombatSessionActorTransition& event,
     ActorState& actor,std::string& error){
     switch(event.to_state){
+    case 14:
+        // Script_PlayActorAnim -> SM_SetAnimState(...,false,true); CSAnim.Focus 0x3c324c.
+        actor.source_flags520=0x2240u;
+        error.clear();return true;
     case 3:{
         if(!config_.source.read_idle_suppressed538)
             return fail(error,"Reached Idle Focus requires actual Character+0x538 getter");
@@ -302,6 +307,7 @@ bool SessionActorTransitionConsumerV1::focus_suffix(
     CombatSession& session,const CombatSessionActorTransition& event,
     ActorState& actor,std::string& error){
     switch(event.to_state){
+    case 14:error.clear();return true;
     case 3:error.clear();return true;
     case 4:
         // Move Focus unpins only after UpdateType/animation publication.

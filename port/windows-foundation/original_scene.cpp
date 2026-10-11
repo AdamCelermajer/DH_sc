@@ -73,6 +73,7 @@ bool decode_original_scene_module(const std::vector<std::uint8_t>& bytes,
         result.minimum={infinity,infinity,infinity}; result.maximum={-infinity,-infinity,-infinity};
         result.nodeCount=selectedNodes;
         std::size_t helpers=0;
+        Mesh floorGeometry,minimapGeometry; // B072: see OriginalScene::mapMesh
         for(const auto& instance:authored.instances) {
             if(selected>=0) {
                 auto parent=static_cast<std::int32_t>(instance.node_index);
@@ -106,6 +107,33 @@ bool decode_original_scene_module(const std::vector<std::uint8_t>& bytes,
                         }
                     }
                 }
+                // B072: Map-page geometry. IDA PFWorld floor loader (pseudocode-all.c 377589-377625): for each `_floor` node
+                // AddNodeToMap(last `_minimap` node of the module when one exists, else the floor node itself).
+                const auto& helperNode=authored.graph.at(instance.node_index);
+                const bool isMinimap=helperNode.name.find("_minimap")!=std::string::npos||helperNode.id.find("_minimap")!=std::string::npos;
+                const bool isFloor=helperNode.name.find("_floor")!=std::string::npos||helperNode.id.find("_floor")!=std::string::npos;
+                if((isMinimap||isFloor)&&instance.controller<0) {
+                    dh2::assets::Mesh geometry{};
+                    if(dh2_mesh_open(&geometry,&view,instance.geometry)!=dh2::assets::Error::ok) throw std::runtime_error("Map geometry rejected: "+instance.node);
+                    Mesh& target=isMinimap?minimapGeometry:floorGeometry;
+                    for(std::uint32_t j=0;j<geometry.primitives;++j) {
+                        dh2::assets::Primitive primitive{};
+                        if(dh2_mesh_primitive(&geometry,j,&primitive)!=dh2::assets::Error::ok||primitive.collada_type!=0||primitive.index_count%3) continue;
+                        dh2::assets::Attribute positions{};
+                        if(dh2_mesh_attribute(&geometry,primitive.attributes[0],&positions)!=dh2::assets::Error::ok||positions.components<3) continue;
+                        const auto base=static_cast<std::uint32_t>(target.vertices.size());
+                        for(std::uint32_t k=0;k<geometry.vertices;++k) {
+                            float values[4]{};Vertex vertex;
+                            if(!dh2_attribute_read(&positions,k,values)) throw std::runtime_error("Map geometry position decode failed");
+                            vertex.position=point(world,values);vertex.normal={0,0,1};target.vertices.push_back(vertex);
+                        }
+                        for(std::uint32_t k=0;k<primitive.index_count;++k) {
+                            std::uint32_t index=0;
+                            if(!dh2_index_read(&primitive,k,&index)||index>=geometry.vertices) throw std::runtime_error("Map geometry index outside vertex domain");
+                            target.indices.push_back(base+index);
+                        }
+                    }
+                }
                 continue;
             }
             ++result.instanceCount;
@@ -136,7 +164,17 @@ bool decode_original_scene_module(const std::vector<std::uint8_t>& bytes,
                 // color shaders forward Color0 directly; avoid adding the
                 // foundation preview's directional lighting over that stream.
                 range.material.lightingEnabled=!hasColors;
+                // B076: materials of the GL_Diffuse_L1 shader family are lit by the level's point light (Renderer::setLevelLight).
+                range.material.levelLit=original.effect_file.rfind("GL_Diffuse_L1",0)==0;
+                // B076: authored NORMAL stream (attribute 1), rotated by the module placement, when the primitive has one.
+                dh2::assets::Attribute normals{};
+                const bool hasNormals=dh2_mesh_attribute(&mesh,primitive.attributes[1],&normals)==dh2::assets::Error::ok&&normals.components>=3;
                 OriginalMaterial metadata; metadata.id=original.id;metadata.diffuse=original.diffuse;
+                {   // technique "L1_<Vc>_<Al|At>_<Sp>_<..>": the fourth slot enables the specular term
+                    std::vector<std::string> slots;std::size_t from=0;
+                    for(;;){const auto next=original.gles2_technique.find('_',from);slots.push_back(original.gles2_technique.substr(from,next==std::string::npos?std::string::npos:next-from));if(next==std::string::npos)break;from=next+1;}
+                    if(range.material.levelLit&&slots.size()>=4&&slots[3]=="Sp"&&!original.specular_map.empty()&&original.glossiness>0){metadata.specularMap=original.specular_map;metadata.glossiness=original.glossiness;range.material.glossiness=original.glossiness;}
+                }
                 metadata.alphaMap=original.alpha_map;metadata.effectFile=original.effect_file;
                 metadata.technique=original.gles2_technique;
                 std::copy(original.texture_matrix,original.texture_matrix+16,metadata.textureMatrix.begin());
@@ -145,6 +183,11 @@ bool decode_original_scene_module(const std::vector<std::uint8_t>& bytes,
                     float values[4]{}; Vertex vertex;
                     if(!dh2_attribute_read(&positions,k,values)) throw std::runtime_error("Position decode failed");
                     vertex.position=point(world,values); vertex.normal={}; include(result,vertex.position);
+                    if(hasNormals) {
+                        float n[4]{};
+                        if(!dh2_attribute_read(&normals,k,n)) throw std::runtime_error("Normal decode failed");
+                        vertex.normal={world[0]*n[0]+world[4]*n[1]+world[8]*n[2],world[1]*n[0]+world[5]*n[1]+world[9]*n[2],world[2]*n[0]+world[6]*n[1]+world[10]*n[2]};
+                    }
                     if(hasColors) {
                         if(!dh2_attribute_read(&colors,k,values)) throw std::runtime_error("Vertex color decode failed");
                         for(std::uint32_t c=0;c<colors.components;++c) vertex.color[c]=values[c]/(colors.type==1?255.f:1.f);
@@ -164,7 +207,7 @@ bool decode_original_scene_module(const std::vector<std::uint8_t>& bytes,
                     result.mesh.indices.push_back(base+index);
                 }
                 // Face accumulation also handles nonuniform authored scale.
-                for(std::size_t k=range.firstIndex;k<range.firstIndex+range.indexCount;k+=3) {
+                for(std::size_t k=range.firstIndex;!hasNormals&&k<range.firstIndex+range.indexCount;k+=3) {
                     auto& a=result.mesh.vertices[result.mesh.indices[k]];
                     auto& b=result.mesh.vertices[result.mesh.indices[k+1]];
                     auto& c=result.mesh.vertices[result.mesh.indices[k+2]];
@@ -175,6 +218,9 @@ bool decode_original_scene_module(const std::vector<std::uint8_t>& bytes,
                 result.mesh.ranges.push_back(range);result.materials.push_back(std::move(metadata));
             }
         }
+        // B072: `_minimap` nodes replace the `_floor` nodes of the module when any exist (one DrawRange for the whole module part).
+        result.mapMesh=std::move(minimapGeometry.indices.empty()?floorGeometry:minimapGeometry);
+        if(!result.mapMesh.indices.empty()) {DrawRange mapRange;mapRange.firstIndex=0;mapRange.indexCount=result.mapMesh.indices.size();mapRange.material.doubleSided=true;result.mapMesh.ranges.push_back(mapRange);}
         if(result.mesh.indices.empty()) throw std::runtime_error("Original scene has no visible triangle geometry");
         for(auto& vertex:result.mesh.vertices) {
             const float length=std::sqrt(vertex.normal.x*vertex.normal.x+vertex.normal.y*vertex.normal.y+vertex.normal.z*vertex.normal.z);

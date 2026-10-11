@@ -17,7 +17,7 @@ std::string lower_basename(const std::string& path) {
 }
 
 // Source fields that the runtime cannot honour (it fails the executor if they are present).
-constexpr const char* kProviderFields[] = {"script_all_player", "script_all_player_move_out", "effect_one_player", "is_door_closed"};
+constexpr const char* kProviderFields[] = {"script_all_player", "script_all_player_move_out", "effect_one_player"};
 
 } // namespace
 
@@ -101,7 +101,6 @@ bool TriggerZoneSet::build(const std::vector<ActorDefinition>& declarations,Orig
         std::array<float,3> rotation{}, scale{1,1,1};
         if (!property("rotation").empty() && !parse_vec3(property("rotation"), rotation)) { reject("invalid rotation"); continue; }
         if (!property("scale").empty() && !parse_vec3(property("scale"), scale)) { reject("invalid scale"); continue; }
-        if (!property("activate_cond").empty()) { reject("activate_cond is not evaluated by the host"); continue; }
         bool provider_field = false;
         for (const char* field : kProviderFields) if (!property(field).empty()) { reject(std::string("requires source provider ") + field); provider_field = true; break; }
         if (provider_field) continue;
@@ -134,18 +133,31 @@ bool TriggerZoneSet::build(const std::vector<ActorDefinition>& declarations,Orig
         zone.name = declaration.name;
         zone.script = script;
         zone.script_id = runtime.script_id(script, false);
+        zone.activate_cond = property("activate_cond"); // P17 CONDITIONS: gated by the evaluator at contact time
+        zone.is_door_closed = property("is_door_closed");
         zone.box = oriented_zone_box(declaration.placement);
         zones_.push_back(std::move(zone));
     }
     return true;
 }
 
-void TriggerZoneSet::update(OriginalCampaignRuntime& runtime,const std::array<float,3>& player,bool qualified,int module) {
+void TriggerZoneSet::update(OriginalCampaignRuntime& runtime,const std::array<float,3>& player,bool qualified,int module,
+                           const std::function<bool(const std::string&)>& condition_active,
+                           const std::function<bool(const std::string&,bool&,std::string&)>& door_gate_suppressed) {
     for (auto& zone : zones_) {
         if (zone.disabled) continue;
-        zone.inside = point_inside(zone.box, player);
+        const bool allowed = zone.activate_cond.empty() || (condition_active && condition_active(zone.activate_cond));
+        bool door_suppressed=false,door_gate_evaluated=false;
+        if(!zone.is_door_closed.empty()){
+            if(!door_gate_suppressed){zone.disabled=true;std::cout<<"[campaign] trigger "<<zone.name<<" disabled: source door gate provider unavailable\n";continue;}
+            std::string gate_error;
+            if(!door_gate_suppressed(zone.is_door_closed,door_suppressed,gate_error)){zone.disabled=true;std::cout<<"[campaign] trigger "<<zone.name<<" disabled after source door gate error: "<<gate_error<<'\n';continue;}
+            door_gate_evaluated=true;
+            if(door_suppressed)continue; // IDA TriggerZone::Update returns before mutating Zone's inside edge.
+        }
+        zone.inside = allowed && point_inside(zone.box, player);
         std::string error;
-        if (!runtime.trigger_contact(zone.key, zone.inside, qualified, module, error)) {
+        if (!runtime.trigger_contact(zone.key, zone.inside, qualified, module, error,door_gate_evaluated,door_suppressed)) {
             zone.disabled = true;
             std::cout << "[campaign] trigger " << zone.name << " disabled after contact error: " << error << '\n';
             continue;

@@ -16,6 +16,8 @@ namespace dh::foundation::effects {
 
 using RuntimeSwingFxEnabledResolverV1 =
     std::function<bool(ActorId, std::uint8_t&, std::string&)>;
+using RuntimeSwingFxManagerAnchorResolverV1 =
+    std::function<bool(ActorId, std::uintptr_t&, bool&, std::string&)>;
 
 // Uses the same GetTargetPosition owner fields as the source step FX kernel:
 // known-null node selects ActorState position even if the cache is stale;
@@ -66,7 +68,11 @@ public:
         const dh2::data::ItemTable&, dh2::data::EffectsTables::Borrow,
         dh2::fx::CharacterMeshFxOwnerV4&,
         std::function<void(const RuntimeSwingFxDiagnosticV1&)> diagnostic = {},
-        RuntimeSwingFxEnabledResolverV1 enabled = {});
+        RuntimeSwingFxEnabledResolverV1 enabled = {},
+        // Must return an opaque ID registered with the same FX factory's
+        // source_anchor_query. Anchored calls fail if this is absent or missing;
+        // raw ActorIds are never forwarded to the production manager.
+        RuntimeSwingFxManagerAnchorResolverV1 manager_anchor = {});
     RuntimeSwingFxObserverV1(const RuntimeSwingFxObserverV1&) = delete;
     RuntimeSwingFxObserverV1& operator=(const RuntimeSwingFxObserverV1&) = delete;
 
@@ -85,6 +91,7 @@ private:
     dh2::fx::CharacterMeshFxOwnerV4& manager_;
     std::function<void(const RuntimeSwingFxDiagnosticV1&)> diagnostic_;
     RuntimeSwingFxEnabledResolverV1 enabled_;
+    RuntimeSwingFxManagerAnchorResolverV1 manager_anchor_;
     std::set<OccurrenceKey> delivered_;
     std::weak_ptr<const void> active_lease_;
 };

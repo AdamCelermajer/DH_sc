@@ -13,6 +13,7 @@
 #include <stdexcept>
 #include <limits>
 #include <cctype>
+#include <sstream>
 
 namespace dh::foundation {
 namespace {
@@ -53,6 +54,7 @@ struct CharacterVisual::Impl {
     bool dynamic_channels=false;
     std::vector<AnimationMarkers> marker_tracks;
     std::int32_t motion_node=-1;
+    bool absolute_root=false; // B068: scripted cutscene clip, root translation is not cancelled
     std::vector<std::array<float,3>> motion_starts,motion_ends;
     std::array<float,3> motion_previous{};
     Vec3 motion_delta{};
@@ -107,7 +109,7 @@ struct CharacterVisual::Impl {
                 // Original object _colbox_ groups supply physical bounds, not
                 // visible model geometry. Retain their graph for source sampling.
                 // Existing actor configurations keep their established policy.
-                if(object_scene){
+                { // B068: VisualObject ctor 0x472a0c hides `_colbox_` for characters as well as decor.
                     auto node=static_cast<std::int32_t>(instance.node_index);bool collider=false;
                     while(node>=0){const auto& source=scene.graph.at(node);
                         const auto& name=source.name.empty()?source.id:source.name;
@@ -287,7 +289,17 @@ bool CharacterVisual::load_with_ranges(const AssetCatalog& assets,const Characte
             require(std::none_of(next->clips.begin(),next->clips.begin()+i,[&](const auto& clip){return clip.first==next->clips[i].first;}),"Duplicate character animation name: "+next->clips[i].first);
             const auto data=assets.read(next->clips[i].second);
             require(next->players[i].load(data.data(),data.size(),next->scene,error,targetPolicy), next->clips[i].second+": "+error);
-            require(next->players[i].track_count()>0 || next->players[i].skipped>0,"Character animation has no bound tracks");
+            if(next->players[i].track_count()==0 && next->players[i].skipped==0) {
+                std::ostringstream detail;
+                detail << "Character animation has no bound tracks: name=" << next->clips[i].first
+                       << " path=" << next->clips[i].second
+                       << " bytes=" << data.size()
+                       << " segments=" << next->players[i].segment_count()
+                       << " bound=" << next->players[i].track_count()
+                       << " unbound=" << next->players[i].unbound
+                       << " skipped=" << next->players[i].skipped;
+                require(false,detail.str());
+            }
             next->unbound_targets+=next->players[i].unbound;
         }
         // Original actor sets use the dynamic default-data producer even for
@@ -410,7 +422,7 @@ bool CharacterVisual::update(double seconds,std::string& error) {
         }
         state.motion_delta={delta[0],delta[1],delta[2]};
         std::copy(node.translation,node.translation+3,state.motion_previous.begin());
-        if(state.config.consume_root_motion && !samePose) {
+        if(state.config.consume_root_motion && !state.absolute_root && !samePose) {
             // Original VisualObject helper parent cancels the animated root's XYZ.
             Mat4 compensation{1,0,0,0,0,1,0,0,0,0,1,0,-node.translation[0],-node.translation[1],-node.translation[2],1};
             for(auto& sceneNode:state.scene.graph)sceneNode.world=dh2::scene::multiply(compensation,sceneNode.world);
@@ -450,6 +462,8 @@ bool CharacterVisual::loaded() const {return impl_ && impl_->ready;}
 const dh2::scene::Scene* CharacterVisual::retained_scene_borrow() const noexcept {return loaded()?&impl_->scene:nullptr;}
 const CharacterVisualConfig* CharacterVisual::configuration() const noexcept {return loaded()?&impl_->config:nullptr;}
 const char* CharacterVisual::animation_name() const {return loaded() && !impl_->clips.empty() ? impl_->clips[impl_->active_clip].second.c_str() : "";}
+// P17 FIREWALL: the NAME of the active clip (the key of select/animation_range), not its source path.
+const char* CharacterVisual::active_clip_name() const {return loaded() && !impl_->clips.empty() ? impl_->clips[impl_->active_clip].first.c_str() : "";}
 const std::vector<Mesh>& CharacterVisual::meshes() const {static const std::vector<Mesh> empty;return impl_ ? impl_->meshes : empty;}
 std::vector<Mesh>& CharacterVisual::mutable_meshes() {if(!impl_)impl_=std::make_unique<Impl>();return impl_->meshes;}
 const std::vector<std::string>& CharacterVisual::texture_uris() const {static const std::vector<std::string> empty;return impl_ ? impl_->textures : empty;}
@@ -513,6 +527,7 @@ bool CharacterVisual::socket_world(const std::string& name,const Mat4& offset,Ma
 }
 Vec3 CharacterVisual::root_motion_delta() const {return impl_ ? impl_->motion_delta : Vec3{};}
 Vec3 CharacterVisual::take_root_motion() {const auto delta=root_motion_delta();if(impl_)impl_->motion_delta={};return delta;}
+void CharacterVisual::set_absolute_root(bool absolute) noexcept {if(impl_)impl_->absolute_root=absolute;}
 const char* CharacterVisual::root_motion_node_id() const {return impl_ && impl_->motion_node>=0 ? impl_->scene.graph[impl_->motion_node].id.c_str() : "";}
 Vec3 CharacterVisual::root_motion_rest_origin() const {return impl_ ? impl_->motion_rest_origin : Vec3{};}
 const char* CharacterVisual::source_motion_root_name(bool characterOnly) const {
@@ -561,14 +576,28 @@ bool CharacterVisual::sample_local_pose(const std::string& name,std::int32_t tim
 bool CharacterVisual::apply_local_pose(const SkeletalPose& pose,std::string& error) {
     if(!loaded()) {error="Actor visual not loaded";return false;}
     auto candidate=impl_->scene;if(!apply_scene_pose(pose,candidate,error))return false;
-    if(impl_->config.consume_root_motion && impl_->motion_node>=0) {
+    if(impl_->config.consume_root_motion && !impl_->absolute_root && impl_->motion_node>=0) {
         const auto* root=candidate.graph[impl_->motion_node].translation;
         Mat4 helper{1,0,0,0,0,1,0,0,0,0,1,0,-root[0],-root[1],-root[2],1};
         for(auto& node:candidate.graph)node.world=dh2::scene::multiply(helper,node.world);
         for(auto& instance:candidate.instances)instance.world=dh2::scene::multiply(helper,instance.world);
     }
-    auto previousMeshes=impl_->meshes;auto previous=std::move(impl_->scene);impl_->scene=std::move(candidate);
-    if(!impl_->deform(error)) {impl_->scene=std::move(previous);impl_->meshes=std::move(previousMeshes);return false;}
+    // The source Character caches GetTargetNode() as a node pointer for the
+    // lifetime of the loaded visual. Keep those node/instance cells stable
+    // while updating their contents; replacing the Scene vectors invalidates
+    // the cached source target_node address on every scripted pose change.
+    if(candidate.graph.size()!=impl_->scene.graph.size() ||
+       candidate.instances.size()!=impl_->scene.instances.size()) {
+        error="Actor pose changed retained scene topology";return false;
+    }
+    auto previousMeshes=impl_->meshes;auto previous=impl_->scene;
+    for(std::size_t i=0;i<candidate.graph.size();++i)impl_->scene.graph[i]=std::move(candidate.graph[i]);
+    for(std::size_t i=0;i<candidate.instances.size();++i)impl_->scene.instances[i]=std::move(candidate.instances[i]);
+    if(!impl_->deform(error)) {
+        for(std::size_t i=0;i<previous.graph.size();++i)impl_->scene.graph[i]=std::move(previous.graph[i]);
+        for(std::size_t i=0;i<previous.instances.size();++i)impl_->scene.instances[i]=std::move(previous.instances[i]);
+        impl_->meshes=std::move(previousMeshes);return false;
+    }
     impl_->sampled=false;error.clear();return true;
 }
 bool CharacterVisual::current_local_pose(SkeletalPose& output,std::string& error) const {

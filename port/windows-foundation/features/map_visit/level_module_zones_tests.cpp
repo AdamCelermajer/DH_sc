@@ -41,6 +41,27 @@ std::vector<LevelModuleZone> load_checked(const std::filesystem::path& root, con
                     level + ": invalid bounds for " + zone.name);
     }
     require(rangeTotal == scene.mesh.ranges.size(), level + ": zone ranges do not cover the scene draw ranges");
+    // B072: Map-page geometry (`_minimap` else `_floor` nodes) exists for every module, is contiguous per zone, and is
+    // position-only walkable-floor geometry that lies inside its own module's horizontal room box (not the visual meshes).
+    std::size_t mapRangeTotal = 0;
+    for (const auto& zone : zones) {
+        require(zone.mapRangeCount > 0, level + ": module without Map-page geometry " + zone.name);
+        require(zone.mapFirstRange == mapRangeTotal, level + ": Map ranges are not contiguous in manifest order");
+        mapRangeTotal += zone.mapRangeCount;
+        for (std::size_t r = zone.mapFirstRange; r < zone.mapFirstRange + zone.mapRangeCount; ++r) {
+            const auto& range = scene.mapMesh.ranges.at(r);
+            // The floor may overhang the room box (Darkwood), so the module's floor CENTROID must lie inside the box.
+            double cx = 0, cy = 0;
+            for (std::size_t i = range.firstIndex; i < range.firstIndex + range.indexCount; ++i) {
+                const auto& p = scene.mapMesh.vertices.at(scene.mapMesh.indices.at(i)).position;
+                cx += p.x; cy += p.y;
+            }
+            cx /= double(range.indexCount); cy /= double(range.indexCount);
+            require(cx >= zone.bounds[0] && cx <= zone.bounds[3] && cy >= zone.bounds[1] && cy <= zone.bounds[4],
+                    level + ": Map geometry centroid is outside its module room box: " + zone.name);
+        }
+    }
+    require(mapRangeTotal == scene.mapMesh.ranges.size(), level + ": zone Map ranges do not cover the Map mesh");
 
     // Visiting every zone through the tracker (player inside each box, camera looking at the whole level) marks all of them.
     RoomZoneVisitTrackerV1 tracker;

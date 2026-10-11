@@ -13,7 +13,11 @@ param(
     [int]$Height=576,
     [int]$Fps=24,
     [string]$VideoBitrate='3000k',
-    [string]$AudioBitrate='192k'
+    [string]$AudioBitrate='192k',
+    # B078: optional authentic audiovisual logo. Explicit story offset is required;
+    # different original editions have different embedded logo heads.
+    [string]$LogoSource,
+    [double]$StoryStartSeconds=-1
 )
 $ErrorActionPreference='Stop'
 if(-not (Test-Path -LiteralPath $Source)) { throw "Source not found: $Source" }
@@ -22,15 +26,34 @@ New-Item -ItemType Directory -Force -Path $OutDir | Out-Null
 $srcFull=(Resolve-Path -LiteralPath $Source).Path
 $outFile=Join-Path (Resolve-Path -LiteralPath $OutDir).Path 'intro_v1.mpg'
 # mpeg1video: no B-frames (bf 0) and a GOP of one second keep the stream simple for the decoder.
-& $Ffmpeg -v error -y -i $srcFull -map 0:v:0 -map 0:a:0 `
+if ($LogoSource) {
+    if (-not (Test-Path -LiteralPath $LogoSource)) { throw "Logo source not found: $LogoSource" }
+    if ($StoryStartSeconds -lt 0 -or [double]::IsNaN($StoryStartSeconds) -or [double]::IsInfinity($StoryStartSeconds)) {
+        throw 'An authentic logo requires explicit finite -StoryStartSeconds >= 0'
+    }
+    $logoFull=(Resolve-Path -LiteralPath $LogoSource).Path
+    $offset=$StoryStartSeconds.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
+    # One audiovisual timeline, so the cue shares the existing movie clock and
+    # SKIP/natural-completion voice ownership. Do not layer a separate jingle voice.
+    $filter="[0:v]scale=${Width}:${Height},setsar=1,fps=${Fps},setpts=PTS-STARTPTS[lv];[0:a]aresample=48000,aformat=channel_layouts=stereo,asetpts=PTS-STARTPTS[la];[1:v]trim=start=${offset},setpts=PTS-STARTPTS,scale=${Width}:${Height},setsar=1,fps=${Fps}[sv];[1:a]atrim=start=${offset},asetpts=PTS-STARTPTS,aresample=48000,aformat=channel_layouts=stereo[sa];[lv][la][sv][sa]concat=n=2:v=1:a=1[v][a]"
+    & $Ffmpeg -v error -y -i $logoFull -i $srcFull -filter_complex $filter -map '[v]' -map '[a]' `
+        -c:v mpeg1video -b:v $VideoBitrate -maxrate 3500k -bufsize 1835k -s "${Width}x${Height}" -r $Fps -g $Fps -bf 0 `
+        -c:a mp2 -b:a $AudioBitrate -ar 48000 -ac 2 -f mpeg $outFile
+} else {
+    if ($StoryStartSeconds -ne -1) { throw '-StoryStartSeconds requires -LogoSource' }
+    & $Ffmpeg -v error -y -i $srcFull -map 0:v:0 -map 0:a:0 `
     -c:v mpeg1video -b:v $VideoBitrate -maxrate 3500k -bufsize 1835k -s "${Width}x${Height}" -r $Fps -g $Fps -bf 0 `
     -c:a mp2 -b:a $AudioBitrate -ar 48000 -ac 2 -f mpeg $outFile
+}
 if($LASTEXITCODE -ne 0) { throw "ffmpeg conversion failed ($LASTEXITCODE)" }
 # B054: the segment table travels with the movie (read by the boot runner from <movie>.segments.txt).
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'intro_v1.segments.txt') -Destination (Join-Path (Split-Path $outFile) 'intro_v1.segments.txt') -Force
 $sha=(Get-FileHash -Algorithm SHA256 -LiteralPath $outFile).Hash
 "file=$outFile bytes=$((Get-Item $outFile).Length) sha256=$sha"
 "video=mpeg1video ${Width}x${Height} fps=$Fps bitrate=$VideoBitrate audio=mp2 48000Hz stereo bitrate=$AudioBitrate"
+if ($LogoSource) {
+    "authentic_logo=$logoFull sha256=$((Get-FileHash -Algorithm SHA256 -LiteralPath $logoFull).Hash) story_start=$offset source_sha256=$((Get-FileHash -Algorithm SHA256 -LiteralPath $srcFull).Hash)"
+}
 if($Ffprobe -and (Test-Path -LiteralPath $Ffprobe)) {
     & $Ffprobe -v error -count_frames -select_streams v:0 -show_entries stream=nb_read_frames,codec_name -of default=nw=1 $outFile
 }

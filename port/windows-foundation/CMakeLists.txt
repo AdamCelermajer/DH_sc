@@ -27,7 +27,7 @@ endif()
 add_library(recovered_content STATIC
   ../engine-resources/resources.cpp ../asset-payloads/payloads.cpp
   ../engine-math/math.cpp ../scene-materials/scene.cpp
-  ../engine-animation/animation.cpp ../engine-animation/angle_interpreter.cpp
+  ../engine-animation/animation.cpp ../engine-animation/angle_interpreter.cpp ../engine-animation/channel_filter.cpp
   ../engine-animation/events.cpp ../engine-animation/event_track.cpp
   ../engine-animation/animation_blend.cpp ../level-world/animation_blender.cpp
   ../level-world/visual_timeline.cpp
@@ -52,6 +52,7 @@ add_library(foundation_data STATIC character_state.cpp save_store.cpp camera.cpp
   features/skills_animation/skill_animation_program.cpp
   original_pose_blend.cpp
   retained_pose_playback.cpp original_campaign_runtime.cpp
+  ../level-loader/script_manager_owner_v52.cpp
   retained_animation_owner.cpp campaign_camera_adapter.cpp
   retained_sequence_playback.cpp
   original_actor_camera_anchor.cpp
@@ -66,12 +67,18 @@ target_sources(dh2_freetype237 PRIVATE "${DH2_FT237}/src/base/ftbitmap.c")
 target_include_directories(foundation_data PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
 target_link_libraries(foundation_data PUBLIC recovered_content content_xml dh2_freetype237)
 add_executable(dh-foundation main.cpp ${DH2_PLATFORM_SOURCES} renderer.cpp render_queue.cpp overlay_renderer.cpp)
+target_sources(foundation_data PRIVATE ../level-world/character_kill.cpp)
 target_sources(dh-foundation PRIVATE features/generic_skills/pc_skill_hud_projection_v1.cpp features/generic_skills/pc_gameplay_hud_v1.cpp features/generic_skills/pc_gameplay_hud_source_art_v1.cpp features/generic_skills/pc_gameplay_hud_button_art_v1.cpp)
 target_sources(dh-foundation PRIVATE features/frontend/menu_return/menu_return_v1.cpp)
+# v20 SCRIPTSVC: Script_PlaySound/StopSound/SaveGame orchestration (pure; owners bound in main/campaign_host).
+add_executable(script_source_services_v1_tests features/cinematics/script_source_services_v1_tests.cpp features/cinematics/script_source_services_v1.cpp)
+add_test(NAME script_source_services_v1 COMMAND script_source_services_v1_tests)
 # B004/B029: OOI owner (500 ms candidate refresh) and live Session adapter for the rendered target marker.
 target_sources(dh-foundation PRIVATE features/combat/auto_target_marker_v1.cpp features/combat/object_of_interest_owner_v1.cpp features/combat/object_of_interest_world_v1.cpp)
 # P16 CONTEXT: Space context button, interaction-type registry, walk-over pickup contact (isolated tests: features/combat/run_context_p16_tests.ps1)
 target_sources(dh-foundation PRIVATE features/combat/context_button_v1.cpp features/interactions/interactable_registry_v1.cpp)
+# B069: context-button approach rule (AI_IsInInteractionRange + walk to the interaction spot).
+target_sources(dh-foundation PRIVATE features/interactions/interaction_approach_v1.cpp)
 add_library(foundation_runtime_potion STATIC
   features/inventory/runtime_session_potion_use_v1.cpp
   ../level-world/character_skill_application_v6.cpp ../level-world/character_skill_attack_v6.cpp
@@ -91,13 +98,48 @@ target_link_libraries(dh-foundation PRIVATE foundation_containers)
 # P16 CONTAINERS2 (T4-T6): container rewards (DropLootTable into the DROPS store), OBJS persistence,
 # and the OnOpen script contract (Summon verb). Source kernels are the existing interactions owners.
 add_library(foundation_container_drops STATIC
-  features/containers/container_loot_v1.cpp features/containers/container_open_script_v1.cpp
+  features/containers/container_loot_v1.cpp
   features/containers/container_world_v1.cpp
   features/interactions/source_container_loot_v1.cpp features/interactions/world_object_container_state_v1.cpp)
 target_link_libraries(foundation_container_drops PUBLIC foundation_containers foundation_runtime_loot foundation_data)
 target_link_libraries(dh-foundation PRIVATE foundation_container_drops)
+# v20 GENERAL: authored OnOpen scripts (data/scripts/objects/*.luac, plain Lua text) run in the original Lua
+# runtime (the dh2_script_runtime recipe, minus script_constants.cpp which foundation_runtime_potion owns).
+add_library(foundation_container_open_lua STATIC features/containers/container_open_script_v1.cpp
+  ../script-runtime/script_design_bindings.c ../script-runtime/script_function_alias.cpp
+  ../script-runtime/script_game_bindings.c ../script-runtime/script_int_bindings.cpp
+  ../script-runtime/script_object_bridge.c ../script-runtime/script_runtime_return_v3.c
+  ../script-runtime/script_scalar_bindings.c
+  ../script-runtime/lua/lapi.c
+  ../script-runtime/lua/lauxlib.c
+  ../script-runtime/lua/lbaselib.c
+  ../script-runtime/lua/lcode.c
+  ../script-runtime/lua/ldebug.c
+  ../script-runtime/lua/ldo.c
+  ../script-runtime/lua/ldump.c
+  ../script-runtime/lua/lfunc.c
+  ../script-runtime/lua/lgc.c
+  ../script-runtime/lua/llex.c
+  ../script-runtime/lua/lmathlib.c
+  ../script-runtime/lua/lmem.c
+  ../script-runtime/lua/lobject.c
+  ../script-runtime/lua/lopcodes.c
+  ../script-runtime/lua/lparser.c
+  ../script-runtime/lua/lstate.c
+  ../script-runtime/lua/lstring.c
+  ../script-runtime/lua/lstrlib.c
+  ../script-runtime/lua/ltable.c
+  ../script-runtime/lua/ltablib.c
+  ../script-runtime/lua/ltm.c
+  ../script-runtime/lua/lundump.c
+  ../script-runtime/lua/lvm.c
+  ../script-runtime/lua/lzio.c)
+target_include_directories(foundation_container_open_lua PUBLIC ../script-runtime PRIVATE ../script-runtime/lua)
+target_compile_options(foundation_container_open_lua PRIVATE -fno-fast-math -ffp-contract=off)
+target_link_libraries(foundation_container_open_lua PRIVATE m)
+target_link_libraries(dh-foundation PRIVATE foundation_container_open_lua)
 add_executable(container_open_script_v1_tests features/containers/container_open_script_v1_tests.cpp)
-target_link_libraries(container_open_script_v1_tests PRIVATE foundation_container_drops)
+target_link_libraries(container_open_script_v1_tests PRIVATE foundation_container_drops foundation_container_open_lua)
 
 # P16 DESPAWN: automatic despawn after death (state machine; isolated test with fake owners).
 add_library(foundation_despawn STATIC features/despawn/despawn_after_death_v1.cpp)
@@ -277,6 +319,7 @@ add_library(foundation_runtime_effects STATIC
   ../asset-payloads/sha256.cpp
   features/effects/runtime_source_fx_asset_v1.cpp
   features/effects/runtime_swing_fx_observer_v1.cpp
+  features/effects/embedded_scene_fx_v1.cpp
   features/effects/runtime_level_up_presentation_v1.cpp
   features/effects/runtime_effects_factory_v1.cpp
   features/effects/runtime_combat_effects_v1.cpp
@@ -388,9 +431,49 @@ add_test(NAME quest_conditions_v1 COMMAND quest_conditions_v1_tests)
 add_executable(quest_banner_presenter_v1_tests features/quests/quest_banner_presenter_v1_tests.cpp)
 target_link_libraries(quest_banner_presenter_v1_tests PRIVATE foundation_runtime_quests)
 add_test(NAME quest_banner_presenter_v1 COMMAND quest_banner_presenter_v1_tests)
+# B073: Quest Journal source art invariants (header/completed icons, QuestPrio frames).
+add_executable(quest_journal_art_v1_tests features/quests/quest_journal_art_v1_tests.cpp)
+target_link_libraries(quest_journal_art_v1_tests PRIVATE foundation_runtime_quests)
+add_test(NAME quest_journal_art_v1 COMMAND quest_journal_art_v1_tests)
 add_test(NAME quest_runtime_v1 COMMAND quest_runtime_v1_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/claude-preview16/levels-root/original-cache/data/pydata")
 # End Preview 16 quest runtime.
+# P17 CONDITIONS: one authored v2Conditions evaluator (features/conditions) and the event-driven flip watch.
+add_library(foundation_conditions STATIC
+  features/conditions/authored_conditions_v1.cpp
+  features/conditions/condition_watch_v1.cpp)
+target_link_libraries(foundation_conditions PUBLIC foundation_runtime_quests foundation_data)
+target_link_libraries(dh-foundation PRIVATE foundation_conditions)
+add_executable(conditions_v1_tests features/conditions/conditions_v1_tests.cpp)
+target_link_libraries(conditions_v1_tests PRIVATE foundation_conditions)
+add_test(NAME conditions_v1 COMMAND conditions_v1_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/claude-preview16/levels-root/original-cache/data/pydata")
+# End Preview 17 conditions.
+# P17 CONDITIONS: gated world declarations as persistent world objects (component dh2.world-gate.v1).
+add_library(foundation_world_gates STATIC features/world_gates/world_gate_v1.cpp)
+add_executable(world_gate_v1_tests features/world_gates/world_gate_v1_tests.cpp)
+target_link_libraries(world_gate_v1_tests PRIVATE foundation_world_gates)
+add_test(NAME world_gate_v1 COMMAND world_gate_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")
+target_link_libraries(foundation_world_gates PUBLIC foundation_conditions foundation_data)
+target_link_libraries(dh-foundation PRIVATE foundation_world_gates)
+# P17 DOORS: Door visuals, Script_OpenDoor/CloseDoor, TriggerObject levers and gated AnimatedDecor (features/doors).
+add_library(foundation_doors STATIC
+  features/doors/door_runtime_v1.cpp features/doors/world_objects_v1.cpp
+  features/doors/door_world_v1.cpp features/doors/door_commands_v1.cpp
+  features/doors/door_collision_v1.cpp features/doors/door_collision_geometry_v1.cpp)
+target_link_libraries(foundation_doors PUBLIC foundation_containers foundation_world_gates foundation_data)
+target_link_libraries(dh-foundation PRIVATE foundation_doors)
+add_executable(door_collision_v1_tests features/doors/door_collision_v1_tests.cpp)
+target_link_libraries(door_collision_v1_tests PRIVATE foundation_doors)
+add_test(NAME door_collision_v1 COMMAND door_collision_v1_tests)
+add_executable(door_collision_geometry_v1_tests features/doors/door_collision_geometry_v1_tests.cpp)
+target_link_libraries(door_collision_geometry_v1_tests PRIVATE foundation_doors)
+add_test(NAME door_collision_geometry_v1 COMMAND door_collision_geometry_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/v20/asset-stage/assets")
+add_executable(door_runtime_restore_v1_tests features/doors/door_runtime_restore_v1_tests.cpp)
+target_link_libraries(door_runtime_restore_v1_tests PRIVATE foundation_doors)
+add_test(NAME door_runtime_restore_v1 COMMAND door_runtime_restore_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/v20/asset-stage/assets")
+# End Preview 17 doors.
+# End Preview 17 world gates.
 
 enable_testing()
 foreach(test save camera asset level_manifest animation_markers combat_system actor_movement gameplay_camera actor_definitions content_paths actor_root_motion original_actor_properties equipment_visual original_melee_bindings original_combat_visual_plan original_attack_sequence)
@@ -547,9 +630,46 @@ target_link_libraries(original_campaign_world_adapter_tests PRIVATE foundation_d
 add_test(NAME original_campaign_world_adapter COMMAND original_campaign_world_adapter_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-encounter-source")
 # P16 HOST (Preview 16): campaign script-host providers, executor dispatch router and generic trigger zones.
 # Additive; the live binding is off unless the EXE gets --campaign-triggers.
-target_sources(foundation_data PRIVATE features/campaign_host/campaign_host.cpp features/campaign_host/trigger_zones.cpp features/campaign_host/actor_clip_manifest.cpp features/cinematics/source_campaign_dispatch_v1.cpp)
+target_sources(foundation_data PRIVATE features/campaign_host/campaign_host.cpp features/campaign_host/trigger_zones.cpp features/campaign_host/actor_clip_manifest.cpp features/cinematics/source_campaign_dispatch_v1.cpp features/cinematics/script_source_services_v1.cpp)
+add_executable(compiled_campaign_bank_tests tests/compiled_campaign_bank_tests.cpp)
+target_link_libraries(compiled_campaign_bank_tests PRIVATE foundation_data)
+add_test(NAME compiled_campaign_bank COMMAND compiled_campaign_bank_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/v20/asset-stage/assets")
+target_sources(foundation_data PRIVATE features/effects/source_script_fx_adapter_v1.cpp)
+target_sources(foundation_data PRIVATE features/effects/source_fx_anchor_registry_v1.cpp)
+add_executable(source_script_fx_adapter_v1_tests features/effects/source_script_fx_adapter_v1_tests.cpp)
+target_link_libraries(source_script_fx_adapter_v1_tests PRIVATE foundation_data)
+add_test(NAME source_script_fx_adapter_v1 COMMAND source_script_fx_adapter_v1_tests)
+add_executable(source_fx_anchor_registry_v1_tests features/effects/source_fx_anchor_registry_v1_tests.cpp)
+target_link_libraries(source_fx_anchor_registry_v1_tests PRIVATE foundation_data)
+add_test(NAME source_fx_anchor_registry_v1 COMMAND source_fx_anchor_registry_v1_tests)
+target_sources(foundation_data PRIVATE features/persistence/death_restart_v1.cpp
+  features/persistence/death_flow_v1.cpp
+  features/persistence/death_screen_v1.cpp features/persistence/death_screen_renderer_v1.cpp
+  features/persistence/death_screen_runtime_v1.cpp features/persistence/death_checkpoint_load_v1.cpp
+  features/persistence/death_checkpoint_snapshot_v1.cpp features/persistence/death_checkpoint_zone_v1.cpp
+  features/persistence/source_character_restore_plan_v1.cpp
+  features/persistence/death_fade_from_black_v1.cpp
+  features/persistence/death_fade_from_black_renderer_v1.cpp
+  features/persistence/death_host_v1.cpp)
+add_executable(death_host_v1_tests features/persistence/death_host_v1_tests.cpp)
+target_link_libraries(death_host_v1_tests PRIVATE foundation_data)
+add_test(NAME death_host_v1 COMMAND death_host_v1_tests)
+add_executable(death_flow_v1_tests features/persistence/death_flow_v1_tests.cpp)
+target_link_libraries(death_flow_v1_tests PRIVATE foundation_data)
+add_test(NAME death_flow_v1 COMMAND death_flow_v1_tests)
+add_executable(death_runtime_v1_tests features/persistence/death_runtime_v1_tests.cpp)
+target_link_libraries(death_runtime_v1_tests PRIVATE foundation_data)
+add_test(NAME death_runtime_v1 COMMAND death_runtime_v1_tests)
+add_executable(death_checkpoint_zone_v1_tests features/persistence/death_checkpoint_zone_tests.cpp)
+target_link_libraries(death_checkpoint_zone_v1_tests PRIVATE foundation_data)
+add_test(NAME death_checkpoint_zone_v1 COMMAND death_checkpoint_zone_v1_tests)
+add_executable(death_checkpoint_snapshot_v1_tests features/persistence/death_checkpoint_snapshot_codec_tests.cpp)
+target_link_libraries(death_checkpoint_snapshot_v1_tests PRIVATE foundation_data)
+add_test(NAME death_checkpoint_snapshot_v1 COMMAND death_checkpoint_snapshot_v1_tests)
 # P16 OPENING4: scripted scene objects (AnimatedDecor named by PlayAnimByName).
 target_sources(foundation_data PRIVATE features/scene_decor/scene_decor_v1.cpp)
+# B076: level PlayerLight (GL_Diffuse_L1 environment lighting) read from the LevelConfig light set.
+target_sources(foundation_data PRIVATE features/level_lighting/level_light_v1.cpp features/scene_decor/ambient_decor_v1.cpp)
 add_executable(campaign_host_tests features/campaign_host/campaign_host_tests.cpp)
 target_link_libraries(campaign_host_tests PRIVATE foundation_data)
 add_test(NAME campaign_host COMMAND campaign_host_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-15-rc3/assets")
@@ -557,7 +677,7 @@ add_executable(campaign_trigger_zone_tests features/campaign_host/trigger_zone_t
 target_link_libraries(campaign_trigger_zone_tests PRIVATE foundation_data)
 add_test(NAME campaign_trigger_zones COMMAND campaign_trigger_zone_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-15-rc3/assets" "${CMAKE_CURRENT_SOURCE_DIR}/assets/original-cache" "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/assets-extra/android")
 # P16 CINE (Preview 16): cinematic runner (caption queue, cutscene contract, SKIP hit test, frame description).
-target_sources(foundation_data PRIVATE features/cinematic_runner/cinematic_runner.cpp)
+target_sources(foundation_data PRIVATE features/cinematic_runner/cinematic_runner.cpp features/cinematic_runner/dialog_tables.cpp) # B068 dialog tables
 # P16 HUDART: original dqhud_droid HUD panels (btn_interact, SKIP, caption box, quest banners), generated batches.
 target_sources(foundation_data PRIVATE features/hud_panels/hud_panels_art_v1.cpp)
 add_executable(cinematic_runner_tests features/cinematic_runner/cinematic_runner_tests.cpp)
@@ -764,9 +884,16 @@ add_library(foundation_runtime_enemy STATIC
   features/enemy_ai/runtime_enemy_contact_binding_v1.cpp
   features/enemy_ai/runtime_enemy_controller_v1.cpp
   features/enemy_ai/runtime_enemy_navigation_v1.cpp
-  features/enemy_ai/monster_decisions.cpp)
+  features/enemy_ai/monster_decisions.cpp
+  features/companions/follower_decision_v1.cpp features/companions/runtime_follower_controller_v1.cpp
+  features/companions/catch_up_buff_v1.cpp) # B077 FOLLOW; v20 GENERAL catch-up buff from the authored AI script
 target_link_libraries(foundation_runtime_enemy PUBLIC foundation_data)
 target_link_libraries(dh-foundation PRIVATE foundation_runtime_enemy)
+# B077 FOLLOW: pure follower decision tests (CharAI::_UpdateMaster events, follower.luac / rene.luac).
+add_executable(follower_decision_v1_tests features/companions/follower_decision_v1_tests.cpp features/companions/follower_decision_v1.cpp)
+add_test(NAME follower_decision_v1 COMMAND follower_decision_v1_tests)
+add_executable(catch_up_buff_v1_tests features/companions/catch_up_buff_v1_tests.cpp features/companions/catch_up_buff_v1.cpp)
+add_test(NAME catch_up_buff_v1 COMMAND catch_up_buff_v1_tests)
 
 # P16 SPAWN: generic spawn-character-from-template owner (pool, plan, placement,
 # clip policy) and its focused test over real CharacterTable/profile assets.
@@ -797,6 +924,12 @@ add_library(foundation_runtime_loot STATIC
   ../game-data/loot_audiovisual_v8.cpp)
 target_link_libraries(foundation_runtime_loot PUBLIC foundation_data foundation_frontend foundation_runtime_equipment_menu)
 target_link_libraries(dh-foundation PRIVATE foundation_runtime_loot)
+add_executable(runtime_death_rewards_v1_tests features/loot/runtime_death_rewards_v1_tests.cpp)
+target_link_libraries(runtime_death_rewards_v1_tests PRIVATE foundation_runtime_loot)
+add_test(NAME runtime_death_rewards_v1 COMMAND runtime_death_rewards_v1_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets"
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/player-loot-v7/cache"
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/design-settings")
 
 # P14 DROPS: world item rules, source item-drop renderer projection and its
 # focused test (rules/pool/scatter/pickup gates over the actual ItemTable).
@@ -992,3 +1125,58 @@ target_sources(foundation_data PRIVATE original_camera_clip.cpp)
 add_executable(original_camera_clip_tests features/cinematics/original_camera_clip_tests.cpp)
 target_link_libraries(original_camera_clip_tests PRIVATE foundation_data)
 add_test(NAME original_camera_clip COMMAND original_camera_clip_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-15-rc3/assets")
+
+# B076: ambient AnimatedDecor/Decor material clips + level PlayerLight reader (Swamp assets; skipped parts report SKIP).
+add_executable(ambient_decor_tests features/scene_decor/ambient_decor_tests.cpp)
+target_link_libraries(ambient_decor_tests PRIVATE foundation_data)
+add_test(NAME ambient_decor COMMAND ambient_decor_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-15-rc3/assets" "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/assets-extra/android")
+# P17 DOORS: compiled animation channels without a scene-node target are skipped and logged once.
+add_executable(channel_filter_tests features/animation_channels/channel_filter_tests.cpp ../engine-animation/channel_filter.cpp)
+add_test(NAME animation_channel_filter COMMAND channel_filter_tests)
+# End Preview 17 doors channel filter.
+# P17 TRANSITIONS: generic level exit/checkpoint zones (TriggerZoneExitLevel, CheckpointZone; QuestMoveInZone delegated),
+# level-table target resolution, SpawnPoint entry resolution and the condition interface stub.
+target_sources(foundation_data PRIVATE features/transitions/level_transitions_v1.cpp)
+# P17 TRANSITIONS2: travel prompt (armed exit, placeholder frame), entry-point component and per-level world snapshot paths.
+target_sources(foundation_data PRIVATE features/transitions/transition_prompt_v1.cpp features/transitions/transition_persistence_v1.cpp)
+add_executable(level_transitions_tests features/transitions/level_transitions_v1_tests.cpp)
+target_link_libraries(level_transitions_tests PRIVATE foundation_data foundation_frontend)
+add_test(NAME level_transitions COMMAND level_transitions_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-15-rc3/assets" "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/assets-extra/android")
+
+# P17 PROCGEN: procedural `.rule.xml` levels. The canonical generator (port/level-loader procedural_*_v1,
+# reader interface in procedural_asset_source_v1) runs over the AssetCatalog; features/procedural emits a
+# Level document per (rule, seed) that the fixed-map loaders consume. See coordination/claude-preview17/PROCGEN-report.md.
+add_library(foundation_procedural STATIC
+  features/procedural/procedural_level_v1.cpp
+  ../level-loader/procedural_asset_source_v1.cpp
+  ../level-loader/procedural_random_v1.cpp ../level-loader/procedural_file_list_v1.cpp
+  ../level-loader/procedural_sources_v1.cpp ../level-loader/procedural_blocks_v1.cpp
+  ../level-loader/procedural_connections_v1.cpp ../level-loader/procedural_lists_v1.cpp
+  ../level-loader/procedural_rules_v1.cpp ../level-loader/procedural_instances_v1.cpp
+  ../level-loader/procedural_layout_v1.cpp ../level-loader/procedural_modules_v1.cpp)
+target_include_directories(foundation_procedural PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
+target_compile_options(foundation_procedural PRIVATE -fno-fast-math -ffp-contract=off)
+target_link_libraries(foundation_procedural PUBLIC foundation_data)
+target_link_libraries(dh-foundation PRIVATE foundation_procedural)
+add_executable(procedural_level_v1_tests features/procedural/procedural_level_v1_tests.cpp)
+target_link_libraries(procedural_level_v1_tests PRIVATE foundation_procedural)
+add_test(NAME procedural_level_v1 COMMAND procedural_level_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/claude-preview16/levels-root")
+# P17 MERGE: one character save carries every feature component (seed, entry, owned bytes) and reloads exact at schema 4.
+add_executable(save_all_components_v4_tests features/save_components/save_all_components_v4_tests.cpp)
+target_link_libraries(save_all_components_v4_tests PRIVATE foundation_procedural)
+add_test(NAME save_all_components_v4 COMMAND save_all_components_v4_tests)
+# P17 PROCGEN2: RNG and layout locked against the original ARM oracle (features/procedural/reference/*.tsv).
+add_executable(procedural_layout_fidelity_tests features/procedural/procedural_layout_fidelity_tests.cpp)
+target_link_libraries(procedural_layout_fidelity_tests PRIVATE foundation_procedural)
+add_test(NAME procedural_layout_fidelity COMMAND procedural_layout_fidelity_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/claude-preview16/levels-root")
+# P17 PROCGEN diagnostic: per-rule generation and fixed-map load coverage over the asset root (not a ctest).
+add_executable(procedural_coverage features/procedural/procedural_coverage.cpp)
+target_link_libraries(procedural_coverage PRIVATE foundation_procedural)
+# P17 PROCGEN2 diagnostic: module node triangle counts (voidmaze 14-22 triangles investigation; not a ctest).
+add_executable(procedural_module_probe features/procedural/procedural_module_probe.cpp)
+target_link_libraries(procedural_module_probe PRIVATE foundation_procedural)
+
+add_executable(source_actor_placement_tests tests/source_actor_placement_tests.cpp)
+add_test(NAME source_actor_placement COMMAND source_actor_placement_tests)
+add_executable(source_fx_version_overrides_tests tests/source_fx_version_overrides_tests.cpp)
+add_test(NAME source_fx_version_overrides COMMAND source_fx_version_overrides_tests)

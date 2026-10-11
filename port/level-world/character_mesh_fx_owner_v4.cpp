@@ -1,4 +1,5 @@
 // Versioned particle resource extension. Frozen V1 source remains unchanged.
+#include "source_fx_version_overrides_v1.hpp"
 #include "character_mesh_fx_owner_v4.hpp"
 #include "visual_fx_manager_libraries_v63.hpp"
 #include "fx_texture_animation_v1.hpp"
@@ -10,7 +11,9 @@
 #include "../engine-animation/animation.hpp"
 #include <algorithm>
 #include <cmath>
+#include <cstdlib>
 #include <cstring>
+#include <iostream>
 #include <map>
 #include <stdexcept>
 namespace dh2::fx {
@@ -127,7 +130,7 @@ struct CharacterMeshFxOwnerV4::Impl {
  std::shared_ptr<Runtime> find(FxState96V1* state){for(const auto& x:records)if(&x.second->state==state)return x.second;return {};}
  static int invoke(void* context,FxState96V1* state,FxRequest32V1* q){auto& s=*static_cast<Impl*>(context);auto r=s.find(state);if(!r){s.failure="FX state identity expired";return -1;}std::uint32_t result=0;switch(q->operation){
   case FxOperationV1::sync:return s.sync(*r,q->argument!=0)?0:-1;
-  case FxOperationV1::speed:return dh2_timeline_scale(&r->timeline,q->scalar);
+  case FxOperationV1::speed:return dh2_timeline_scale(&r->timeline,source_fx_effective_speed_v1(r->uri,q->scalar));
   case FxOperationV1::loop:return dh2_timeline_loop(&r->timeline,q->argument);
   case FxOperationV1::start:return dh2_timeline_jump(&r->timeline,r->timeline.start_ms);
   case FxOperationV1::visible:return 0; // state written first; root visibility is draw gate

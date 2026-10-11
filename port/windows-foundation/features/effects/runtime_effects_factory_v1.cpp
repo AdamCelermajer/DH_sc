@@ -115,6 +115,11 @@ struct RuntimeEffectsFactoryV1::Impl {
         case Op::anchor_position:
         case Op::anchor_rotation:
         case Op::anchor_scale: {
+            if (self.bindings.source_anchor_query) {
+                bool handled = false;
+                if (!self.bindings.source_anchor_query(q, handled, error)) return false;
+                if (handled) { error.clear(); return true; }
+            }
             ActorId id{}; const ActorState* state{};
             if (!self.actor(q.identity, id, state, error)) return false;
             if (q.operation == Op::anchor_dead) {
@@ -236,6 +241,19 @@ RuntimeCombatEffectsV1& RuntimeEffectsFactoryV1::runtime() noexcept {
 }
 dh2::fx::CharacterMeshFxOwnerV4& RuntimeEffectsFactoryV1::manager() noexcept {
     return *impl_->manager;
+}
+// P17 FIREWALL: authored FX resource of one scene model (BRES bytes), created with this session's camera,
+// driver, force and scene services. Returns false (with error) when the model has no authored FX family.
+bool RuntimeEffectsFactoryV1::create_embedded_fx(
+    const std::shared_ptr<const std::vector<std::uint8_t>>& bytes,
+    std::shared_ptr<dh2::fx::CharacterParticleFxResourceV2>& out, std::string& error) {
+    out.reset();
+    if (!bytes || bytes->empty()) return fail(error, "Required embedded FX model bytes");
+    const auto factory = impl_->resources.factory();
+    return factory.create(factory.context, bytes, *impl_->scene, out, error) && out;
+}
+void RuntimeEffectsFactoryV1::set_embedded_sources(std::vector<EmbeddedFxSourceV1> sources) {
+    impl_->runtime->set_embedded_sources(std::move(sources));
 }
 std::size_t RuntimeEffectsFactoryV1::cached_original_textures() const noexcept {
     return impl_->materials ? impl_->materials->texture_count() : 0;

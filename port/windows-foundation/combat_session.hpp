@@ -380,6 +380,8 @@ public:
     // D3 (OPENING3): the campaign host serializes its lifecycle state into the GameSave components (campaign_lifecycle_v1)
     // and rebuilds it on restore, so the bound lifecycle/controller providers are checkpointable. Off by default.
     void set_lifecycle_serialized_by_host(bool serialized) noexcept;
+    // P17 DOORS: the initial lifecycle states applied at load are rebuilt from the level on every load; they are the baseline.
+    void mark_lifecycle_baseline() noexcept;
     // Host must clear its OriginalActorLifecycle borrowed records as well before
     // actor replacement. These lifecycle providers/state flags are not serialized.
     bool clear_lifecycle_services(std::string& error);
@@ -442,6 +444,13 @@ public:
     // A successful call means the command was processed; original admission,
     // range and cooldown rules may legitimately leave the actor idle.
     bool request_actor_attack(ActorId,ActorId target,double dt,std::string& error);
+    // v20 SCRIPTSVC: true for a bound scripted animation-only actor (rejects combat commands; never an enemy owner).
+    bool is_animation_only(ActorId) const;
+    bool script_kill_actor(ActorId,std::string& error);
+    bool script_death_event(ActorId,std::string& error);
+    bool script_move_handoff(ActorId,std::string& error);
+    bool script_put_idle(ActorId,std::string& error,bool wait_for_animation=false);
+    bool scripted_actor_pose(ActorId)const noexcept;
     // Same-world calculation -> basic health -> existing Injury/death runtime.
     // Repeated/stale occurrences return success with receipt.applied=false and
     // consume no RNG. Frame events include the receipt on the next update.

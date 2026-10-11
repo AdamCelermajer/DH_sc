@@ -278,9 +278,10 @@ void zone_builder(const std::shared_ptr<const QuestTableV1>& table) {
     check(zones.notes().empty(), "a plain Block builds without notes");
     check(std::fabs(zones.zones()[0].min[0] - (178.335f - 730.955f)) < 0.01f, "box min is position - 100 * |scale|");
     check(std::fabs(zones.zones()[0].max[0] - zones.zones()[0].min[0] - 2.0f * 730.955f) < 0.01f, "box width is 2 * 100 * scale_x");
-    // Rising edge: a start inside does not fire, leaving and re-entering does.
+    // Source OnCollisionBegins fires for initial overlap and later re-entry.
     const std::array<float, 3> inside{178.0f, 246.0f, 255.0f}, outside{-5000.0f, 0.0f, 255.0f};
-    check(zones.update(inside).empty(), "first frame inside only primes the state");
+    check(zones.update(inside).size() == 1, "first physics update reports an initial overlap");
+    check(zones.update(inside).empty(), "staying inside does not repeat");
     check(zones.update(outside).empty(), "leaving a zone fires nothing");
     check(zones.update(inside).size() == 1, "re-entering fires once");
     check(zones.update(inside).empty(), "staying inside does not repeat");

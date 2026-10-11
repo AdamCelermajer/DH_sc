@@ -113,6 +113,10 @@ public:
                               std::optional<std::uint32_t> source_mask,
                               DamageEvent& result, std::string& error);
     bool interrupt(ActorId actor);
+    // Scripted Cmd_Kill: source already-dead gate, no damage formula/RNG/hit receipt.
+    bool kill(ActorId actor,std::string& error);
+    bool death_event(ActorId,std::string& error);
+    bool death_complete(ActorId actor) const;
     bool interrupt(ActorId actor,std::string& error);
     // P16 DESPAWN2: hands the actor's pose to a lifecycle-owned state sequence. The death pose is released and not re-asserted
     // while the actor is dead (synchronize); a new pose from this runtime clears the hand-over.

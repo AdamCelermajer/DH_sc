@@ -75,6 +75,17 @@ fs::path AssetCatalog::resolve(const fs::path& relative) const {
     for (const auto& component : relative) {
         if (component == "..") throw std::invalid_argument("Asset path cannot traverse parents");
     }
+    if (has_virtual_file(relative)) return root_ / relative; // P17 PROCGEN: absolute, so lexically_relative(root) keeps the uri
+    return resolve_authored(relative);
+}
+
+// P17 PROCGEN: the file on disk for `relative` (same containment rules), ignoring virtual documents.
+fs::path AssetCatalog::resolve_authored(const fs::path& relative) const {
+    if (relative.empty() || relative.has_root_path())
+        throw std::invalid_argument("Asset path must be a nonempty relative path");
+    for (const auto& component : relative) {
+        if (component == "..") throw std::invalid_argument("Asset path cannot traverse parents");
+    }
     std::error_code ec;
     const auto path = fs::canonical(root_ / relative, ec);
     if (ec) throw std::runtime_error("Asset not found: " + relative.generic_string());
@@ -85,7 +96,15 @@ fs::path AssetCatalog::resolve(const fs::path& relative) const {
 }
 
 std::vector<std::uint8_t> AssetCatalog::read(const fs::path& relative) const {
-    const auto path = resolve(relative);
+    if (has_virtual_file(relative)) return virtual_files_.at(lower(relative.generic_string()));
+    return read_disk(resolve(relative), relative);
+}
+
+std::vector<std::uint8_t> AssetCatalog::read_authored(const fs::path& relative) const {
+    return read_disk(resolve_authored(relative), relative);
+}
+
+std::vector<std::uint8_t> AssetCatalog::read_disk(const fs::path& path, const fs::path& relative) {
     const auto count = fs::file_size(path);
     if (count > std::numeric_limits<std::size_t>::max() ||
         count > static_cast<std::uintmax_t>(std::numeric_limits<std::streamsize>::max()))
@@ -139,5 +158,19 @@ std::vector<AssetEntry> AssetCatalog::prince_resources() const {
         return name.find("prince") == std::string::npos && name.rfind("mc_", 0) != 0;
     }), entries.end());
     return entries;
+}
+} // namespace dh::foundation
+
+namespace dh::foundation {
+// P17 PROCGEN: virtual documents are keyed by lower-case generic path (Windows is case-insensitive).
+void AssetCatalog::set_virtual_file(const fs::path& relative, const std::vector<std::uint8_t>& bytes) {
+    if (relative.empty() || relative.has_root_path())
+        throw std::invalid_argument("Virtual asset path must be a nonempty relative path");
+    virtual_files_[lower(relative.generic_string())] = bytes;
+}
+
+bool AssetCatalog::has_virtual_file(const fs::path& relative) const {
+    if (virtual_files_.empty()) return false;
+    return virtual_files_.count(lower(relative.generic_string())) != 0;
 }
 } // namespace dh::foundation

@@ -138,6 +138,7 @@ bool RuntimeAudioHostV1::device_clock(RetainedFrameAudioClock& out,
 bool RuntimeAudioHostV1::submit_actual_play(
     const dh2::character::CombatSoundPlayV1& play,std::int64_t event_qpc,
     std::string& error) {
+    if(fx_muted_) {error.clear();return true;} // I024 DEATH: FX muted (source VolumeFX 0)
     if(!session_) {error=std::string("Required live same-session ")+native_audio_backend_name+" host";return false;}
     context_->gate_error.clear();
     if(!session_->submit_actual_play(play,event_qpc,error)) {
@@ -183,6 +184,46 @@ bool RuntimeAudioHostV1::submit_world_item_sound(std::int32_t source_ordinal,
     result.status=WorldItemSoundStatusV1::submitted;
     // ItemObject Play3D passes a null target: the subject is invalid_actor_id.
     return submit_source_sound(invalid_actor_id,source_ordinal,position,event_ns,error);
+}
+
+bool RuntimeAudioHostV1::submit_script_plain_sound(std::int32_t source_ordinal,int delay_ms,std::string& error) {
+    if(source_ordinal<0) {error.clear();return true;} // Play36b80c: ordinal<0 returns before any emitter
+    if(delay_ms<0) {error="Required nonnegative script Play delay";return false;}
+    auto* runtime=session_?session_->runtime_on_producer():nullptr;
+    if(!runtime) {error="Required same AudioNativeSessionV42 producer for script Play";return false;}
+    const auto* row=runtime->bindings().row(source_ordinal);
+    if(!row||row->event!=0) {
+        error="Required plain generated source row for script Play ordinal "+std::to_string(source_ordinal);
+        return false;
+    }
+    std::int64_t event_ns{};
+    if(!winmm_monotonic_ns(event_ns,error))return false;
+    std::uint64_t delay_frames{};
+    if(delay_ms>0) {
+        dh2::audio::AudioDeviceClockV40 clock;
+        if(!runtime->clock().snapshot(clock)||!clock.ready||!clock.rate) {
+            error="Required actual output rate for script Play delay";return false;
+        }
+        delay_frames=std::uint64_t(delay_ms)*clock.rate/1000;
+    }
+    // Fresh emitter body as the menu's verified plain Play (gain/pitch/volume group). Source SetGroup is skipped for
+    // field12=0, so the group is the sound row's; a VXN row has no source music-state provider here and fails closed.
+    return runtime->submit_plain_source(source_ordinal,event_ns,
+        [](const dh2::audio::AudioSoundV34& sound,const dh2::audio::AudioGroupV34& group,
+           dh2::audio::AudioCommandV34& command,std::string& e) {
+            if(sound.format==2) {e="Script Play of a native VXN row has no source music-state provider";return false;}
+            command.left=command.right=dh2::audio::original_fresh_emitter_gain_v40();
+            command.pitch=dh2::audio::original_fresh_emitter_pitch_v40();
+            command.volume_group=group.volume_group;
+            e.clear();return true;
+        },error,delay_frames);
+}
+
+bool RuntimeAudioHostV1::stop_script_plain_sound(std::int32_t source_ordinal,int fade_ms,std::string& error) {
+    if(source_ordinal<0) {error.clear();return true;}
+    auto* runtime=session_?session_->runtime_on_producer():nullptr;
+    if(!runtime) {error="Required same AudioNativeSessionV42 producer for script Stop";return false;}
+    return runtime->stop_source_sound_v106(source_ordinal,fade_ms,error);
 }
 
 bool RuntimeAudioHostV1::set_current_emitter_mix(float gain,float pitch,

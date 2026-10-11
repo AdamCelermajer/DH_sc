@@ -3,7 +3,7 @@ project(dh2_engine_animation LANGUAGES CXX)
 if(NOT TARGET dh2_scene_materials)
   add_subdirectory(../scene-materials "${CMAKE_CURRENT_BINARY_DIR}/scene-materials")
 endif()
-add_library(dh2_engine_animation SHARED animation.cpp events.cpp event_track.cpp animation_blend.cpp animation_registration.cpp component_applicator.cpp angle_interpreter.cpp)
+add_library(dh2_engine_animation SHARED animation.cpp channel_filter.cpp events.cpp event_track.cpp animation_blend.cpp animation_registration.cpp component_applicator.cpp angle_interpreter.cpp)
 target_sources(dh2_engine_animation PRIVATE material_color.cpp)
 target_sources(dh2_engine_animation PRIVATE particle_box_v2.cpp particle_cloud_runtime_v2.cpp particle_resource_init_v2.cpp material_color_v3.cpp)
 target_sources(dh2_engine_animation PRIVATE particle_cloud_runtime_v3.cpp

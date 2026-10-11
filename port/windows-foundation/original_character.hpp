@@ -75,6 +75,8 @@ public:
     const dh2::scene::Scene* retained_scene_borrow() const noexcept;
     const CharacterVisualConfig* configuration() const noexcept;
     const char* animation_name() const;
+    // P17 FIREWALL: name of the active clip (key of select/animation_range); "" when none.
+    const char* active_clip_name() const;
     const std::vector<Mesh>& meshes() const;
     std::vector<Mesh>& mutable_meshes();
     const std::vector<std::string>& texture_uris() const;
@@ -99,6 +101,9 @@ public:
                       Mat4& output, std::string& error) const;
     // Per-update authored local delta (XYZ); original movement consumes XY and
     // supplies scale, facing and collision externally. Consumption clears it once.
+    // B068: a scripted cutscene clip (PlayActorAnim, name "cs:<id>") draws the actor at its AUTHORED absolute root position: the helper
+    // parent that cancels the animated root (consume_root_motion) is not applied while this is set. Cleared for every other clip.
+    void set_absolute_root(bool absolute) noexcept;
     Vec3 root_motion_delta() const;
     Vec3 take_root_motion();
     const char* root_motion_node_id() const;

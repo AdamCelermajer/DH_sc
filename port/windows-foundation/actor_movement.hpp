@@ -49,6 +49,10 @@ public:
     const ActorMovementConfig& config() const noexcept { return config_; }
     const ActorMovementState& state() const noexcept { return state_; }
     void setPosition(Vec3 feet, float facingRadians = 0);
+    // P17 PROCGEN: placement onto the floor under the current XY (startup and level arrival). Exported spawn
+    // heights can lie below the floor surface (generated witch cave: entry z 37, floor z 87..122); the floor is
+    // searched both ways, so the feet take the floor height and the actor is grounded when a floor supports it.
+    bool snap_to_floor(const CollisionScene&);
     // Publish current authoritative actor placement during the source
     // SubObjects phase. Preserve the already admitted heading/action/analog
     // intent; setPosition remains the startup/restore reset operation.

@@ -1,9 +1,17 @@
 #include "original_campaign_runtime.hpp"
 #include "content_paths.hpp"
 #include "../level-loader/vendor/tinyxml/tinyxml.h"
+#include "../level-loader/level_script_paths_v51.hpp"
+#include "../level-loader/script_manager_owner_v52.hpp"
+#include "../level-loader/script_command_receivers_v59.hpp"
 #include <cstring>
 #include <stdexcept>
 #include <utility>
+#include <memory>
+#include <iostream>
+namespace dh2::loader {
+#include "../level-loader/command_c1_descriptors_v59.inc"
+}
 namespace dh::foundation { namespace {
 std::string attr(const TiXmlElement& n,const char* key){auto*p=n.Attribute(key);if(!p)throw std::runtime_error(std::string("Missing campaign field ")+key);return p;}
 std::int64_t number(const std::string&s){std::size_t n=0;auto v=std::stoll(s,&n);if(n!=s.size())throw std::runtime_error("Invalid campaign integer");return v;}
@@ -11,6 +19,53 @@ std::uint32_t word(const OriginalCampaignCommand&c,unsigned o){auto i=c.scalars.
 std::int32_t signed_bits(std::uint32_t b){std::int32_t v;std::memcpy(&v,&b,4);return v;}
 int trigger_int(const OriginalCampaignTrigger&t,const char*k,int fallback){auto i=t.attributes.find(k);return i==t.attributes.end()?fallback:int(number(i->second));}
 std::string trigger_text(const OriginalCampaignTrigger&t,const char*k){auto i=t.attributes.find(k);return i==t.attributes.end()?"":i->second;}
+std::string optional_attr(const TiXmlElement& n,const char* key){const char* p=n.Attribute(key);return p?p:"";}
+std::string level_script_file(const AssetCatalog& assets,const std::string& uri){
+ auto raw=assets.read(uri);if(raw.empty())throw std::runtime_error("Missing active level config: "+uri);
+ std::string text(raw.begin(),raw.end());if(text.find('\0')!=std::string::npos||text.find("<!DOCTYPE")!=std::string::npos||text.find("<!ENTITY")!=std::string::npos)throw std::runtime_error("Unsupported active level config document");
+ TiXmlDocument doc;doc.Parse(text.c_str());if(doc.Error())throw std::runtime_error(doc.ErrorDesc());auto* root=doc.RootElement();if(!root)throw std::runtime_error("Active level config has no root");
+ if(!optional_attr(*root,"scriptFile").empty())return optional_attr(*root,"scriptFile");
+ for(auto* object=root->FirstChildElement("GameObject");object;object=object->NextSiblingElement("GameObject"))
+  if(optional_attr(*object,"gametype")=="LevelConfig")return optional_attr(*object,"scriptFile");
+ // Some authoring versions nest GameObject declarations in a parent level node.
+ for(auto* node=root->FirstChildElement();node;node=node->NextSiblingElement())for(auto* object=node->FirstChildElement("GameObject");object;object=object->NextSiblingElement("GameObject"))
+  if(optional_attr(*object,"gametype")=="LevelConfig")return optional_attr(*object,"scriptFile");
+ return {};
+}
+using SourceScripts=std::vector<OriginalCampaignScript>;
+void append_compiled_bank(const AssetCatalog& assets,const std::string& command_file,const std::string& name_file,
+                          const char* scope,SourceScripts& scripts){
+ auto commands=read_content(assets,command_file),names=read_content(assets,name_file);
+ if(commands.empty()&&names.empty())return;
+ if(commands.empty()||names.empty())throw std::runtime_error(std::string("Compiled ")+scope+" script/name bank pair is incomplete: "+command_file);
+ auto command_owner=std::make_shared<std::vector<std::uint8_t>>(std::move(commands));
+ auto name_owner=std::make_shared<std::vector<std::uint8_t>>(std::move(names));
+ dh2::loader::ScriptFileV52 command_file_view{command_owner,command_owner->data(),command_owner->size(),true};
+ dh2::loader::ScriptFileV52 name_file_view{name_owner,name_owner->data(),name_owner->size(),true};
+ dh2::loader::ScriptReaderV52 command_reader(std::move(command_file_view));
+ dh2::loader::ScriptReaderV52 name_reader(std::move(name_file_view));
+ const auto script_count=command_reader.word(),name_count=name_reader.word();
+ if(script_count!=name_count||script_count>8192||scripts.size()+script_count>8192)throw std::runtime_error(std::string("Compiled ")+scope+" script/name counts differ or exceed source bounds");
+ const auto& descriptors=dh2::loader::command_c1_descriptors_v59();
+ for(std::uint32_t local=0;local<script_count;++local){
+  const auto name_size=name_reader.word();auto name=name_reader.text(name_size);const auto command_count=command_reader.word();
+  if(command_count>65536)throw std::runtime_error("Compiled script command count outside source bounds");
+  OriginalCampaignScript script;script.id=int(scripts.size());script.scope=scope;script.name=name.data();script.commands.reserve(command_count);
+  for(std::uint32_t i=0;i<command_count;++i){
+   const auto kind_bits=command_reader.peek_word();const auto kind=static_cast<std::int32_t>(kind_bits);
+   const auto descriptor=descriptors.find(kind);if(kind<0||kind>=80||descriptor==descriptors.end())throw std::runtime_error("Compiled script has unknown C1 descriptor kind "+std::to_string(kind));
+   std::string parse_error;auto data=dh2::loader::ScriptCommandDataV52::original_storage_factory(kind,parse_error);
+   if(!data||!data->read(command_reader,parse_error))throw std::runtime_error("Compiled script data decode failed for "+std::string(name.data())+": "+parse_error);
+   OriginalCampaignCommand command;command.kind=kind;command.class_name=descriptor->second.class_name;
+   for(const auto& field:data->scalar_fields())command.scalars.emplace(field.first,field.second.bits);
+   for(const auto& field:data->strings())command.strings.emplace(field.first,std::string(field.second.data()));
+   for(const auto& field:data->arrays())command.arrays.emplace(field.first,field.second);
+   script.commands.push_back(std::move(command));
+  }
+  scripts.push_back(std::move(script));
+ }
+ if(!command_reader.finished()||!name_reader.finished())throw std::runtime_error(std::string("Compiled ")+scope+" script bank has an unexpected trailing record");
+}
 }
 bool OriginalCampaignRuntime::fail(std::string message,std::string&error){failure_=message.empty()?"Original campaign callback failed":std::move(message);error=failure_;return false;}
 bool OriginalCampaignRuntime::load(const AssetCatalog&assets,const std::string&path,std::string&error){
@@ -47,6 +102,21 @@ bool OriginalCampaignRuntime::load(const AssetCatalog&assets,const std::string&p
   }
   scripts_=std::move(scripts);triggers_=std::move(triggers);common_count_=common;contexts_.assign(scripts_.size(),{});trigger_state_.clear();failure_.clear();error.clear();return true;
  }catch(const std::exception&e){error=e.what();return false;}
+}
+bool OriginalCampaignRuntime::load_compiled_level(const AssetCatalog& assets,const std::string& level_uri,std::string& error){
+ try{
+  for(const auto& c:contexts_)if(c.state!=2)throw std::runtime_error("Cannot replace active compiled campaign bank");
+  auto script_file=level_script_file(assets,level_uri);if(script_file.empty())throw std::runtime_error("Active level has no authored LevelConfig scriptFile: "+level_uri);
+  auto paths=dh2::loader::level_script_paths_v51(script_file);if(!paths.reached)throw std::runtime_error("LevelConfig scriptFile has no source .pyscript suffix: "+script_file);
+  SourceScripts scripts;
+  append_compiled_bank(assets,dh2::loader::common_command_file_v51,dh2::loader::common_command_names_v51,"common",scripts);
+  const auto common_count=scripts.size();
+  append_compiled_bank(assets,paths.command_file,paths.name_file,"active-level",scripts);
+  if(scripts.size()==common_count)throw std::runtime_error("Active level compiled script bank is absent: "+paths.command_file);
+  scripts_=std::move(scripts);contexts_.assign(scripts_.size(),{});triggers_.clear();trigger_state_.clear();common_count_=common_count;failure_.clear();error.clear();
+  std::cout<<"[campaign] compiled banks common="<<common_count_<<" level="<<(scripts_.size()-common_count_)<<" level_uri="<<level_uri<<" script_file="<<script_file<<'\n';
+  return true;
+ }catch(const std::exception& e){error=e.what();return false;}
 }
 int OriginalCampaignRuntime::script_id(const std::string&name,bool common)const{for(std::size_t i=common?0:common_count_;i<scripts_.size();++i)if(scripts_[i].name==name)return int(i);return -1;}
 std::map<std::string,std::int32_t> OriginalCampaignRuntime::trigger_activations()const{
@@ -113,12 +183,16 @@ std::size_t OriginalCampaignRuntime::abandon_running_scripts(){
  failure_.clear();ticking_=false;
  return abandoned;
 }
-bool OriginalCampaignRuntime::trigger_contact(const std::string&key,bool inside,bool qualified,int module,std::string&error){
+bool OriginalCampaignRuntime::trigger_contact(const std::string&key,bool inside,bool qualified,int module,std::string&error,bool door_gate_evaluated,bool door_gate_suppressed){
  if(failed()){error=failure_;return false;}auto t=triggers_.find(key);if(t==triggers_.end()){error="Unknown source trigger key";return false;}if(!qualified){error.clear();return true;}
  const auto&source=t->second;if(trigger_text(source,"gametype")!="TriggerZone"){error="Source object is not TriggerZone";return false;}
  try{
-  for(const char* field:{"script_all_player","script_all_player_move_out","effect_one_player","is_door_closed"})
+  for(const char* field:{"script_all_player","script_all_player_move_out","effect_one_player"})
    if(!trigger_text(source,field).empty())return fail(std::string("Original trigger feature requires additional source provider: ")+field,error);
+  if(!trigger_text(source,"is_door_closed").empty()){
+   if(!door_gate_evaluated)return fail("Original trigger feature requires source IsDoorClosedActivated provider",error);
+   if(door_gate_suppressed){error.clear();return true;}
+  }
   auto&s=trigger_state_[key];int count=trigger_int(source,"triggercount",1);if((count>=0&&s.activations>=count)||s.delay>0){error.clear();return true;}if(s.inside==inside){error.clear();return true;}
   auto name=trigger_text(source,inside?"script":"script_move_out");s.inside=inside;
   if(!name.empty()){int id=script_id(name,false);if(id<0)return fail("Source trigger script unresolved: "+name,error);if(!running(id)&&!start(id,module,false,error))return false;}

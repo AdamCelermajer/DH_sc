@@ -49,7 +49,25 @@ struct Material {
     bool additive = false;
     // Authored vertex lighting can be displayed without applying a second light.
     bool lightingEnabled = true;
+    // B076: material uses the source GL_Diffuse_L1 shader family: (ambient + diffuse*N.L*attenuation) * vertex colour with the
+    // level point light. Ignored (old look) until Renderer::setLevelLight enabled a light.
+    bool levelLit = false;
+    // B076: level-lit materials with the shader's Sp slot add light0.specular * specularMap.rgb * att * pow(N.H, glossiness)
+    // in a second additive pass (source GL_Diffuse_L1_iPhone_FS/VS.glsl). glossiness 0 = no specular.
+    std::uint32_t specularTexture = 0;
+    float glossiness = 0.0f;
+    // B076: texture-matrix translation added to the vertex UVs (source material animation of offsetU/offsetV).
+    std::array<float, 2> uvOffset{0.0f, 0.0f};
     std::optional<SourceMaterialPass> sourcePass;
+};
+
+// World-space point light of the source LightSet (Light0 of GL_Diffuse_L1_iPhone_VS.glsl). Colours are 0..1,
+// attenuation = {constant, linear, quadratic} after the source unit conversion.
+struct LevelPointLight {
+    bool enabled = false;
+    Vec3 position;
+    std::array<float, 3> attenuation{1.0f, 0.0f, 0.0f};
+    std::array<float, 3> ambient{}, diffuse{};
 };
 
 struct DrawRange {
@@ -101,6 +119,10 @@ public:
     bool game_object_visual_quality(bool& full_quality,std::string& error)const;
     void resize(int width, int height);
     void beginFrame(const Camera& camera);
+    // B076: the level light for materials flagged levelLit; takes effect at the next beginFrame/withViewport camera setup.
+    void setLevelLight(const LevelPointLight& light) noexcept { levelLight_ = light; }
+    // B076: framebuffer clear colour (LevelConfig clear_color); default is the preview colour.
+    void setClearColor(float r, float g, float b) noexcept { clearColor_ = {r, g, b}; }
     // Pixel rectangle uses OpenGL's bottom-left origin. Synchronous drawing
     // preserves surrounding GL state and color; only the clipped depth is cleared.
     bool withViewport(int x, int y, int width, int height, const Camera& camera,
@@ -139,6 +161,8 @@ private:
                       RenderPass pass, const DrawRange* singleRange);
     int width_ = 1;
     int height_ = 1;
+    LevelPointLight levelLight_;
+    std::array<float, 3> clearColor_{0.035f, 0.045f, 0.06f};
     Camera camera_;
     struct TextureAlpha { bool hasAlpha = false; bool hasPartialAlpha = false; };
     std::unordered_map<std::uint32_t, TextureAlpha> textureAlpha_;

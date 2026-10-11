@@ -51,7 +51,7 @@ bool ActorCombatRuntime::bind(ActorState& actor, CombatVisualBinding visual,
             if (!inspect_clip(binding, *clip, track, duration, error)) return false;
         }
     }
-    if(binding.poses.restore_dead_terminal&&!actor.alive()&&!binding.poses.death_clip_id.empty()) {
+    if(binding.poses.restore_dead_terminal&&actor.is_dead()&&!binding.poses.death_clip_id.empty()) {
         if(binding.visual.source_clock&&!binding.visual.hold_terminal) {error="Source saved corpse requires terminal pose publication without clock replay";return false;}
         if(!start_pose(binding,Pose::death,error,nullptr,true))return false;
         if(binding.visual.hold_terminal) {
@@ -96,7 +96,7 @@ bool ActorCombatRuntime::transition(Binding& binding,CombatRuntimeTransition rec
 bool ActorCombatRuntime::depart(Binding& binding,CombatRuntimeTransitionCause cause,std::string& error){
     if(binding.pose==Pose::none)return true;
     CombatRuntimeTransition receipt;
-    if(!capture_transition(binding,binding.actor->alive()?3:12,cause,binding.cursor.generation,receipt,error)||
+    if(!capture_transition(binding,binding.actor->is_dead()?12:3,cause,binding.cursor.generation,receipt,error)||
        !transition(binding,receipt,CombatRuntimeTransitionStage::before_change,error))return false;
     release(binding);
     return transition(binding,receipt,CombatRuntimeTransitionStage::after_change,error);
@@ -277,7 +277,7 @@ bool ActorCombatRuntime::start_injure_reaction(Binding& binding,const DamageEven
 
 bool ActorCombatRuntime::synchronize(Binding& binding, std::string& error) {
     auto& actor = *binding.actor;
-    if (!actor.alive()) {
+    if (actor.is_dead()) {
         if (binding.pose != Pose::death && !binding.yielded) {
             if (!start_pose(binding, Pose::death, error)) return false;
         }
@@ -298,6 +298,31 @@ bool ActorCombatRuntime::synchronize(Binding& binding, std::string& error) {
     if (binding.pose == Pose::none && actor.action == CharacterAction::hurt)
         return start_pose(binding, Pose::react, error);
     return true;
+}
+
+bool ActorCombatRuntime::kill(ActorId id,std::string& error) {
+    if(!validate_transition_checkpoint(error))return false;
+    const auto found=bindings_.find(id);
+    if(found==bindings_.end()){error="Script kill requires the live bound actor";return false;}
+    auto& binding=found->second;
+    if(binding.actor->is_dead())return true;
+    kill_actor_state(*binding.actor);
+    binding.yielded=false;
+    return synchronize(binding,error);
+}
+bool ActorCombatRuntime::death_complete(ActorId id) const {
+    const auto found=bindings_.find(id);if(found==bindings_.end()||found->second.pose!=Pose::death)return false;
+    const auto& binding=found->second;
+    if(binding.terminal_hold)return true;
+    if(binding.visual.source_clock&&binding.visual.source_clock())return binding.visual.source_finished&&binding.visual.source_finished();
+    return binding.cursor.elapsed_ms>=binding.duration_ms;
+}
+bool ActorCombatRuntime::death_event(ActorId id,std::string& error){
+    if(!validate_transition_checkpoint(error))return false;
+    const auto found=bindings_.find(id);
+    if(found==bindings_.end()||!found->second.actor->is_dead()){error="Death event requires its bound dead actor";return false;}
+    found->second.yielded=false;
+    return synchronize(found->second,error);
 }
 
 bool ActorCombatRuntime::interrupt(ActorId actor) {

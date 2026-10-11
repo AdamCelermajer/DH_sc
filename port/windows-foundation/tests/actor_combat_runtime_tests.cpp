@@ -132,7 +132,7 @@ void invalidated_nullable_melee_swing() {
         };
         check(runtime.bind(world.actors[1],visual.binding(),poses,error),error);
         check(runtime.begin(1,invalid_actor_id,attack(),error),error);
-        if(mode==0)world.actors[1].health=0;
+        if(mode==0)kill_actor_state(world.actors[1]);
         if(mode==1)world.actors[1].target_id=2;
         if(mode==2)world.actors[1].action=CharacterAction::moving;
         check(!combat.active_attack_valid(1),"Invalidated null run retained admission validity");
@@ -208,7 +208,7 @@ void source_clock_timing() {
     check(std::abs(combat.cooldown_remaining(1)-.5)<1e-10,"Departure delay did not start at actual source callback frame");
 }
 void restored_terminal_death() {
-    TestWorld world;world.actors[1]=actor(1);world.actors[1].health=0;world.actors[1].action=CharacterAction::dead;
+    TestWorld world;world.actors[1]=actor(1);kill_actor_state(world.actors[1]);world.actors[1].action=CharacterAction::dead;
     world.actors[1].transform.position={12,34,56};Visual visual;visual.add("death",100,300,150);
     CombatSystem combat(world);ActorCombatRuntime runtime(combat);std::string error;unsigned holds=0;
     auto binding=visual.binding();binding.source_clock=[](){return true;};
@@ -219,7 +219,7 @@ void restored_terminal_death() {
     check(runtime.bind(world.actors[1],binding,poses,error),error);std::vector<DamageEvent> events;
     check(runtime.owns_pose(1)&&holds==1,"Restored corpse did not acquire terminal pose");
     check(runtime.update(2,events,error)&&visual.updates==0&&world.actors[1].transform.position==std::array<float,3>{12,34,56},"Restored death replayed visual displacement");
-    world.actors[1].health=10;world.actors[1].action=CharacterAction::idle;
+    revive_actor_state(world.actors[1]);
     check(runtime.update(0,events,error)&&!runtime.owns_pose(1),"Revived corpse retained terminal hold");
 }
 void synchronous_source_delivery() {
@@ -452,7 +452,7 @@ void calculated_result_application() {
 // P16 DESPAWN2: a dead actor takes its death pose from the runtime. After yield_pose (the lifecycle hand-over) the runtime does
 // not re-assert that pose while the actor stays dead; before the hand-over it does.
 void yielded_death_pose_not_reasserted() {
-    TestWorld world;world.actors[1]=actor(1);world.actors[1].health=0;world.actors[1].action=CharacterAction::dead;
+    TestWorld world;world.actors[1]=actor(1);kill_actor_state(world.actors[1]);world.actors[1].action=CharacterAction::dead;
     Visual visual;visual.add("death",0,200,1000);visual.add("despawn",0,300,1000);
     CombatSystem combat(world);ActorCombatRuntime runtime(combat);std::string error;
     CombatPoseBindings poses;poses.death_clip_id="death";
@@ -464,8 +464,46 @@ void yielded_death_pose_not_reasserted() {
         check(runtime.update(0.05,events,error)&&!runtime.owns_pose(1),"Dead actor re-asserted its death pose after the hand-over");
     check(runtime.yield_pose(99,error),"Hand-over of an unbound actor must be a no-op");
 }
+void scripted_kill_uses_death_without_hit() {
+    TestWorld world;world.actors[1]=actor(1);world.actors[2]=actor(2);
+    Visual visual;visual.add("death",0,100,1000);
+    CombatSystem combat(world);ActorCombatRuntime runtime(combat);std::string error;
+    std::int32_t state=3;unsigned deaths=0;CombatPoseBindings poses;poses.death_clip_id="death";
+    poses.transition_state=[&](std::int32_t& out,std::string&){out=state;return true;};
+    poses.transition=[&](const CombatRuntimeTransition& t,std::string&){if(t.stage==CombatRuntimeTransitionStage::after_change){state=t.to_state;++deaths;}return true;};
+    check(runtime.bind(world.actors[1],visual.binding(),poses,error),error);
+    check(runtime.kill(1,error),error);
+    check(!world.actors[1].alive()&&state==12&&deaths==1&&visual.selected=="death","Script kill must publish existing Dead/Died path");
+    check(runtime.kill(1,error)&&deaths==1,"Duplicate scripted kill repeated death focus");
+    std::vector<DamageEvent> events;check(runtime.update(.2,events,error),error);
+    check(events.empty()&&world.damage_queries==0&&world.eligibility_queries==0&&world.actors[2].health==10,"Script kill fabricated a hit/query or changed another actor");
+    check(!runtime.kill(999,error),"Unavailable kill actor must fail explicitly");
+}
+
+void logical_dead_is_independent_of_vitals() {
+    TestWorld world;world.actors[1]=actor(1);auto& a=world.actors[1];a.health=0;
+    std::string error;check(!a.alive()&&!a.is_dead()&&validate_actor_state(a,error),"HP0 initial actor falsely became source-dead: "+error);
+    reset_actor_action(a,CharacterAction::idle);check(a.action==CharacterAction::idle,"HP0 not-dead Idle changed to Dead");
+    Visual visual;visual.add("death",0,100,1000);CombatSystem combat(world);ActorCombatRuntime runtime(combat);
+    CombatPoseBindings poses;poses.death_clip_id="death";unsigned deaths=0;std::int32_t state=17;
+    poses.transition_state=[&](std::int32_t& out,std::string&){out=state;return true;};
+    poses.transition=[&](const CombatRuntimeTransition& t,std::string&){if(t.stage==CombatRuntimeTransitionStage::after_change){state=t.to_state;if(state==12)++deaths;}return true;};
+    check(runtime.bind(a,visual.binding(),poses,error),error);std::vector<DamageEvent> events;
+    check(runtime.update(0,events,error)&&!runtime.owns_pose(1)&&!a.is_dead(),"HP0 PreSpawn fabricated Died");
+    check(runtime.kill(1,error)&&a.is_dead()&&deaths==1&&visual.selected=="death", "HP0 explicit Kill failed source death");
+    check(runtime.kill(1,error)&&deaths==1,"HP0 duplicate Kill replayed death");
+    revive_actor_state(a);check(a.alive()&&!a.is_dead()&&a.health==10&&a.action==CharacterAction::idle,"Revive did not clear source death");
+    check(runtime.update(0,events,error)&&!runtime.owns_pose(1),error);
+    check(apply_actor_damage(a,10)==10&&a.is_dead()&&a.action==CharacterAction::dead,"Positive HP lethal did not publish source dead");
+    check(apply_actor_damage(a,1)==0&&a.is_dead(),"Duplicate lethal damage changed death");
+    ActorState restored=actor(2);restore_actor_dead_state(restored,true);check(restored.is_dead()&&restored.health==0,"Explicit true restore lost flag");
+    restore_actor_dead_state(restored,false);check(!restored.is_dead()&&restored.health==0,"Explicit false restore inferred dead from HP");
+}
+
 int main() {
     try {
+        logical_dead_is_independent_of_vitals();
+        scripted_kill_uses_death_without_hit();
         nullable_melee_swing();
         invalidated_nullable_melee_swing();
         departure_timing();
@@ -523,7 +561,7 @@ int main() {
         check(second.selected=="death" && runtime.owns_pose(2), "Death clip not acquired");
         check(runtime.update(1,events,error), error);
         check(runtime.owns_pose(2) && std::abs(second.elapsed-.2)<1e-10, "Death terminal pose not held");
-        world.actors[2].health=world.actors[2].max_health; world.actors[2].action=CharacterAction::idle;
+        revive_actor_state(world.actors[2]);
         check(runtime.update(0,events,error) && !runtime.owns_pose(2), "Revival retained death ownership");
         check(runtime.unbind(2), "Unbind failed");
         check(runtime.bind(world.actors[2], second.binding(), {}, error), error);
@@ -534,8 +572,8 @@ int main() {
               "Simultaneous lethal markers were not deterministically cancelled");
         runtime.clear();
         check(!runtime.owns_pose(1) && !runtime.owns_pose(2), "Clear retained ownership");
-        world.actors[1].health=10; world.actors[1].action=CharacterAction::idle;
-        world.actors[2].health=10; world.actors[2].action=CharacterAction::idle;
+        revive_actor_state(world.actors[1]);
+        revive_actor_state(world.actors[2]);
         world.damage=3;
         CombatPoseBindings rates; rates.clip_rates["attack"] = 2;
         check(runtime.bind(world.actors[1], first.binding(), rates, error), error);

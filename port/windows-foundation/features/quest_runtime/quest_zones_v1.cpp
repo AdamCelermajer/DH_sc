@@ -61,7 +61,6 @@ std::vector<std::string> quest_zone_names_v1(const QuestTableV1& table) {
 void QuestZoneSetV1::build(const QuestTableV1& table, const std::vector<QuestZoneDeclarationV1>& declarations) {
     zones_.clear();
     notes_.clear();
-    primed_ = false;
     for (const auto& name : quest_zone_names_v1(table)) {
         // Level declarations are searched by authored name; the first Block wins.
         const QuestZoneDeclarationV1* match = nullptr;
@@ -99,10 +98,12 @@ std::vector<std::string> QuestZoneSetV1::update(const std::array<float, 3>& play
         for (std::size_t i = 0; i < 3; ++i) {
             if (!(zone.min[i] <= player[i] && player[i] <= zone.max[i])) { inside = false; break; }
         }
-        if (inside && !zone.inside && primed_) entered.push_back(zone.name);
+        // The original MoveInZone is an OnCollisionBegins consumer. A player
+        // already overlapping when the first physics step runs still begins a
+        // contact, so the first sampled overlap is an entry too.
+        if (inside && !zone.inside) entered.push_back(zone.name);
         zone.inside = inside;
     }
-    primed_ = true;
     return entered;
 }
 

@@ -1,5 +1,7 @@
 // P16 HOST provider contract tests. Argument: directory containing the campaign original-campaign.xml.
 // Uses the real extracted Swamp script bank through the same executor path as the live host.
+#include <filesystem>
+#include <fstream>
 #include "campaign_host.hpp"
 #include "../../campaign_camera_adapter.hpp"
 #include "../../original_actor_lifecycle.hpp"
@@ -27,12 +29,15 @@ struct Rig {
     OriginalActorLifecycle lifecycle;
     CampaignCameraAdapter camera;
     bool globalBlocked = false;
+    std::array<float,3> livePosition{};
     std::map<ActorId, bool> characterBlocked;
     std::map<ActorId, std::int32_t> states;
     std::unique_ptr<OriginalCampaignWorldAdapter> world;
     std::unique_ptr<CampaignHost> host;
 
-    explicit Rig(const std::string& campaignDirectory) {
+    // fxResolver (optional) binds Script_PlayEffect's anchor resolver; unset keeps the production-unbound default.
+    explicit Rig(const std::string& campaignDirectory, const std::filesystem::path& tutorialSettings = {},
+                 std::function<bool(const std::string&, int, std::uintptr_t&, bool&, std::string&)> fxResolver = {}) {
         assetCatalog = std::make_unique<AssetCatalog>(campaignDirectory);
         std::string error;
         check(runtime.load(*assetCatalog, "original-campaign.xml", error), "campaign load: " + error);
@@ -58,6 +63,9 @@ struct Rig {
         check(camera.seed_target(1, error), "camera seed: " + error);
 
         CampaignHostServices services;
+        services.tutorial_settings_path = tutorialSettings; // B070
+        if (fxResolver) services.actor_verbs.resolve_fx_anchor = std::move(fxResolver);
+        services.actor_verbs.position_of = [this](ActorId, std::array<float,3>& p, std::string&) { p=livePosition; return true; };
         services.all_actors = [](std::vector<ActorId>& out, std::string&) { out = {1, 101, 102}; return true; };
         services.actor_state = [this](ActorId id, bool& alive, std::int32_t& state, std::string&) {
             alive = true;
@@ -66,6 +74,7 @@ struct Rig {
             return true;
         };
         services.set_actor_state = [this](ActorId id, std::int32_t state, std::string&) { states[id] = state; return true; };
+        services.set_idle = [this](ActorId id,bool,std::string&){states[id]=3;return true;};
         services.read_camera_clip = [this](std::int32_t id, std::vector<std::uint8_t>& clip, std::vector<std::uint8_t>& scene, std::string& path, std::string& e) {
             return clipLibrary.read(*assetCatalog, id, clip, scene, path, e);
         };
@@ -90,6 +99,26 @@ std::string summary(const CampaignHost& host) {
     std::stringstream out;
     host.unsupported().print_summary(out);
     return out.str();
+}
+
+void scripted_trigger_contacts(const std::string& directory) {
+    Rig rig(directory);std::string error;
+    ActorDefinition zone;zone.name="gate-test";zone.sourcePath="gate-test.mgp";zone.gametype="TriggerZone";
+    zone.placement={1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1};zone.properties={{"name","gate-test"},{"gametype","TriggerZone"},{"type","Block"},{"script","enterLocation_StartRoom"},{"triggercount","-1"}};
+    check(rig.host->build_zones({zone},error),error);
+    const std::string key="gate-test.mgp::gate-test";
+    rig.host->frame(0,{0,0,0},true,1);
+    check(rig.runtime.trigger_activations().at(key)==1,"Initial zone entry must fire once");
+    OriginalCampaignCommand mark;mark.kind=32;mark.scalars={{8,1}};mark.strings={{16,"All"}};bool blocking=false;
+    check(rig.world->command(CampaignCommandPhase::execute,mark,-1,false,blocking,error),error);
+    rig.livePosition={1000,0,0};rig.host->frame(0,rig.livePosition,true,1);
+    check(rig.runtime.trigger_inside().size()==1,"Scripted displacement must preserve the contact edge");
+    mark.scalars[8]=0;check(rig.world->command(CampaignCommandPhase::execute,mark,-1,false,blocking,error),error);
+    rig.livePosition={0,0,0};rig.host->frame(0,{1000,0,0},true,1);
+    check(rig.runtime.trigger_inside().size()==1&&rig.runtime.trigger_activations().at(key)==1,"End teleport must use current position, not stale pre-tick input");
+    rig.livePosition={1000,0,0};rig.host->frame(0,{},true,1);
+    rig.livePosition={0,0,0};rig.host->frame(0,{},true,1);
+    check(rig.runtime.trigger_activations().at(key)==2,"Free-play re-entry still fires repeatable zone");
 }
 
 // Begin/End contract and the explicit failure path: spawn has no lifecycle record, so the executor stops.
@@ -296,6 +325,44 @@ void do_tutorial_starts_named_script(const std::string& directory) {
     check(!rig.host->cinematic().active() && !rig.globalBlocked, "tutorial leaves no cutscene flags behind");
 }
 
+// B070: the one-shot tutorial flag is stored in the settings file: a second session (relaunch, save/load, new
+// character) does not replay the tutorial; deleting the file restores the default (all enabled); a malformed file
+// means defaults.
+void tutorial_is_one_shot_across_sessions(const std::string& directory) {
+    const auto file = std::filesystem::temp_directory_path() / "dh_b070_tutorials.bin";
+    std::filesystem::remove(file);
+    std::string error;
+    const auto run = [&](bool& started) {
+        Rig rig(directory, file);
+        rig.host->set_caption_text([](std::int32_t id, std::string& t, std::string&) { t = "line " + std::to_string(id); return true; });
+        rig.host->set_caption_auto_tap_ms(300);
+        const int movement = rig.runtime.script_id("Movement_Tuto", false);
+        const int movement2 = rig.runtime.script_id("Movement_Tuto2", false);
+        check(rig.runtime.start(movement, -1, false, error), error);
+        started = false;
+        for (int i = 0; i < 4000 && rig.host->aborts() == 0; ++i) {
+            rig.step(10);
+            if (rig.runtime.running(movement2)) started = true;
+            if (started && !rig.runtime.running(movement2)) break;
+            if (!started && !rig.runtime.running(movement)) break;
+        }
+        check(rig.host->aborts() == 0, "tutorial run must not abort");
+    };
+    bool started = false;
+    run(started);
+    check(started, "first session shows the Movement tutorial");
+    check(std::filesystem::exists(file), "consuming the tutorial writes the settings file");
+    run(started);
+    check(!started, "second session must not replay the consumed tutorial");
+    std::filesystem::remove(file); // fresh settings = defaults, all enabled
+    run(started);
+    check(started, "default settings enable the tutorial again");
+    { std::ofstream bad(file, std::ios::binary | std::ios::trunc); bad << "garbage"; }
+    run(started);
+    check(started, "a malformed settings file means defaults");
+    std::filesystem::remove(file);
+}
+
 // Without a resolver the line is an explicit marker, listed as unresolved, and the script still finishes.
 void unresolved_caption_is_explicit(const std::string& directory) {
     Rig rig(directory);
@@ -391,6 +458,9 @@ void camera_clip_blocks_then_releases(const std::string& directory) {
     follow.position = {10, 20, 30};
     follow.target = {11, 21, 31};
     const CameraPose early = rig.host->source_camera_pose(follow);
+    const CameraPose translated = rig.host->source_camera_pose(follow,{-6000,12000,255});
+    check(std::abs(translated.position.x-early.position.x+6000)<.01f&&std::abs(translated.target.y-early.target.y-12000)<.01f&&
+          std::abs(translated.position.z-early.position.z-255)<.01f,"Script camera must share the live module rig translation exactly once");
     check(early.position.x != follow.position.x || early.position.y != follow.position.y, "the source pose follows the clip, not the follow camera");
     check(rig.host->camera_clip_active(), "clip is active after execute");
     rig.step(2000);
@@ -413,19 +483,88 @@ void camera_clip_blocks_then_releases(const std::string& directory) {
     check(!rig.host->camera_clip_active(), "a failed PlayCamera leaves no clip playing");
 }
 
+// Script_PlayEffect (kind 20) branches through the real executor: placed target plays once per command (no dedupe),
+// unplaced target and resolver failure do not play, an unbound resolver fails closed, and a play failure continues.
+void play_effect_branches(const std::string& directory) {
+    struct Play { std::int32_t set; std::array<float,3> at; std::uintptr_t anchor; };
+    const auto make_command = [](std::int32_t set, const std::string& target) {
+        OriginalCampaignCommand c;
+        c.kind = 20; c.class_name = "Script_PlayEffect";
+        c.scalars[8] = static_cast<std::uint32_t>(set);
+        c.scalars[16] = 0; c.scalars[20] = 0; c.scalars[24] = 0;
+        c.strings[32] = target;
+        return c;
+    };
+    // Placed target: two identical authored cues produce two plays with the same anchor and local offset.
+    {
+        int resolves = 0; bool placed = true; bool failResolver = false;
+        Rig rig(directory, {}, [&](const std::string&, int, std::uintptr_t& id, bool& found, std::string& e) {
+            ++resolves;
+            if (failResolver) { e = "anchor lookup failed"; return false; }
+            id = 0x8000000000000001ull; found = placed; return true;
+        });
+        std::vector<Play> plays;
+        rig.host->bind_fx([&](std::int32_t set, const std::array<float,3>& at, std::uintptr_t anchor, std::string&) {
+            plays.push_back({set, at, anchor}); return true; }, [](std::int32_t, std::string&) { return true; });
+        bool blocking = true; std::string error;
+        const auto cue = make_command(132, "_prim_Waypoint_doorport");
+        check(rig.host->execute_diagnostic_command(cue, -1, blocking, error) && !blocking && error.empty(), "placed PlayEffect continues: " + error);
+        check(rig.host->execute_diagnostic_command(cue, -1, blocking, error), "second authored cue continues: " + error);
+        check(resolves == 2 && plays.size() == 2, "each authored cue resolves and plays once (no dedupe)");
+        check(plays[0].set == 132 && plays[1].set == 132 && plays[0].anchor == plays[1].anchor && plays[0].anchor == 0x8000000000000001ull,
+              "set and opaque anchor are forwarded unchanged");
+        check(plays[0].at == std::array<float,3>{0.f, 0.f, 0.f} && plays[1].at == plays[0].at, "authored local offset is unchanged");
+
+        // Unplaced target: the command completes without any play call.
+        placed = false;
+        check(rig.host->execute_diagnostic_command(make_command(119, "_prim_Missing"), -1, blocking, error) && plays.size() == 2,
+              "unplaced target is a logged no-op, not a fabricated cue");
+        // Resolver failure: the error propagates and nothing plays.
+        failResolver = true;
+        check(!rig.host->execute_diagnostic_command(make_command(119, "_prim_Waypoint_5"), -1, blocking, error) &&
+              error.find("anchor lookup failed") != std::string::npos && plays.size() == 2,
+              "resolver failure propagates without a cue");
+        failResolver = false;
+    }
+    // Play failure: the reason is reported and the cutscene command still completes.
+    {
+        Rig rig(directory, {}, [](const std::string&, int, std::uintptr_t& id, bool& found, std::string&) { id = 0x8000000000000002ull; found = true; return true; });
+        int plays = 0;
+        rig.host->bind_fx([&](std::int32_t, const std::array<float,3>&, std::uintptr_t, std::string& e) { ++plays; e = "original asset missing"; return false; },
+                          [](std::int32_t, std::string&) { return true; });
+        bool blocking = true; std::string error;
+        check(rig.host->execute_diagnostic_command(make_command(120, "_prim_Waypoint_5"), -1, blocking, error) && plays == 1,
+              "failed play continues the command after one attempt");
+        check(summary(*rig.host).find("PlayEffect set failed") != std::string::npos, "failed play is listed explicitly");
+    }
+    // Unbound resolver: fail closed before any play.
+    {
+        Rig rig(directory);
+        int plays = 0;
+        rig.host->bind_fx([&](std::int32_t, const std::array<float,3>&, std::uintptr_t, std::string&) { ++plays; return true; },
+                          [](std::int32_t, std::string&) { return true; });
+        bool blocking = true; std::string error;
+        check(!rig.host->execute_diagnostic_command(make_command(119, "_prim_Waypoint_5"), -1, blocking, error) && plays == 0,
+              "unbound FX anchor resolver fails closed");
+    }
+}
+
 int main(int argc, char** argv) {
     try {
         check(argc == 2, "Supply the campaign asset directory");
         lizard_intro_contract(argv[1]);
         skip_press_contract(argv[1]);
+        scripted_trigger_contacts(argv[1]);
         skipped_cutscene_matches_played(argv[1]);
         skip_ends_captions_in_one_frame(argv[1]);
         captions_block_then_release(argv[1]);
         unresolved_caption_is_explicit(argv[1]);
         do_tutorial_starts_named_script(argv[1]);
+        tutorial_is_one_shot_across_sessions(argv[1]);
         unsupported_commands_named(argv[1]);
         camera_clip_blocks_then_releases(argv[1]);
         actor_clip_manifest_collects_script_clips(argv[1]);
+        play_effect_branches(argv[1]);
         std::cout << "campaign_host tests passed\n";
         return 0;
     } catch (const std::exception& e) {

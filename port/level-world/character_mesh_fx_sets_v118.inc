@@ -3,8 +3,10 @@
 std::shared_ptr<CharacterMeshFxOwnerV4::Impl::Set> CharacterMeshFxOwnerV4::Impl::set_data_v118(std::uintptr_t id){
  for(const auto& data:sets)if(reinterpret_cast<std::uintptr_t>(data.get())==id)return data;return {};
 }
+//DH_FX_DEBUG (diagnostic logging only; no behaviour change).
+static bool fx_debug_enabled_v118(){static const bool v=std::getenv("DH_FX_DEBUG")!=nullptr;return v;}
 bool CharacterMeshFxOwnerV4::Impl::play_set_v118(std::int32_t id,const float* p,const float* rotation,std::uintptr_t anchor,const std::shared_ptr<Set>& parent,std::uintptr_t* out){
- if(id<0||std::size_t(id)>=tables.sets().size())return true;
+ if(id<0||std::size_t(id)>=tables.sets().size()){if(fx_debug_enabled_v118())std::cout<<"[fx-debug] set="<<id<<" outside EffectsTables (silent no-op, returns played)"<<std::endl;return true;}
  if(!set_dispatch_depth_v118)set_dispatch_count_v118=0;
  if(++set_dispatch_count_v118>65536||set_dispatch_depth_v118>=4096){failure="Authored FX redirect/sequence dispatch exceeds native lifetime bound";return false;}
  ++set_dispatch_depth_v118;struct Depth{std::size_t& n;~Depth(){--n;}}depth{set_dispatch_depth_v118};
@@ -43,17 +45,17 @@ bool CharacterMeshFxOwnerV4::Impl::play_step_v118(const std::shared_ptr<Set>& da
 }
 bool CharacterMeshFxOwnerV4::Impl::play_file_v118(std::int32_t file,const std::shared_ptr<Set>& data,std::uintptr_t* out,bool initial){
  if(!module())return failure.empty(); //original Debug/Module BEFORE _GetAnimFX
- if(file<0)return true; //real _GetAnimFX negative-ID NULL branch
+ if(file<0){if(fx_debug_enabled_v118())std::cout<<"[fx-debug] set="<<data->id<<" step="<<data->step<<" file=-1 (NULL resource branch, nothing drawn)"<<std::endl;return true;} //real _GetAnimFX negative-ID NULL branch
  if(std::size_t(file)>=tables.dictionary().values.size()){failure="FX source file outside actual dictionary";return false;}
- std::shared_ptr<Runtime> r;auto& pool=free[file];auto& current=active[file];
+ std::shared_ptr<Runtime> r;auto& pool=free[file];auto& current=active[file];bool cold_v118=false;
  if(!pool.empty()){auto identity=pool.back();auto found=records.find(identity);if(found==records.end()){failure="Lost SAME free FX instance";return false;}
   r=found->second;std::fill_n(r->visual_scale,3,1.f);pool.pop_back();r->pooled=false;++warm;
- }else{if(current.size()>5)return true;
+ }else{if(current.size()>5){if(fx_debug_enabled_v118())std::cout<<"[fx-debug] set="<<data->id<<" file="<<file<<" active pool full (silent no-op, returns played)"<<std::endl;return true;}
   r=std::make_shared<Runtime>();r->state.file=file;r->uri=tables.dictionary().values[file];r->resource=std::make_shared<Resource>();
   if(!r->resource->load(assets,r->uri,factory,*live,failure))return false;
   r->state.visual=reinterpret_cast<std::uintptr_t>(r->resource.get());r->state.loop=-1;r->timeline.scale=1;r->timeline.library_present=1;
   if(dh2_timeline_clip(&r->timeline,0,r->resource->start_ms(),r->resource->end_ms())){failure="FX source timeline construction";return false;}
-  records.emplace(reinterpret_cast<std::uintptr_t>(r.get()),r);++cold;
+  records.emplace(reinterpret_cast<std::uintptr_t>(r.get()),r);++cold;cold_v118=true;
  }
  const auto identity=reinterpret_cast<std::uintptr_t>(r.get());current.push_back(identity);if(!publish_active_v88(r))return false;
  const auto& row=tables.sets()[data->id];const auto& step=row.steps[data->step];
@@ -61,7 +63,10 @@ bool CharacterMeshFxOwnerV4::Impl::play_file_v118(std::int32_t file,const std::s
  if(dh2_fx_data_v1(&projected,&native,row.type,data->loops,reinterpret_cast<std::uintptr_t>(data.get()))){failure="FX step source projection";return false;}
  auto callbacks=state_services();const bool rotated=initial?data->explicit_rotation:(data->rotation[0]!=0.f||data->rotation[1]!=0.f||data->rotation[2]!=0.f);
  const float* rotation=rotated?data->rotation:nullptr;
- if(dh2_fx_play_v1(&r->state,data->position,rotation,data->anchor,&projected,1,&callbacks)){if(failure.empty())failure="FX step play source delivery";return false;}
+ if(dh2_fx_play_v1(&r->state,data->position,rotation,data->anchor,&projected,1,&callbacks)){if(failure.empty())failure="FX step play source delivery";
+  if(fx_debug_enabled_v118())std::cout<<"[fx-debug] set="<<data->id<<" step="<<data->step<<" resource="<<r->uri<<" pool="<<(cold_v118?"cold":"warm")<<" anchor=0x"<<std::hex<<data->anchor<<std::dec<<" play=failed error="<<failure<<std::endl;
+  return false;}
+ if(fx_debug_enabled_v118())std::cout<<"[fx-debug] set="<<data->id<<" step="<<data->step<<" resource="<<r->uri<<" pool="<<(cold_v118?"cold":"warm")<<" instance=0x"<<std::hex<<identity<<std::dec<<" anchor=0x"<<std::hex<<data->anchor<<std::dec<<" play=ok"<<std::endl;
  if(out)*out=identity;return true;
 }
 bool CharacterMeshFxOwnerV4::Impl::sequence_v118(const std::shared_ptr<Set>& input,bool parent){

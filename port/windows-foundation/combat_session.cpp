@@ -66,6 +66,7 @@ struct CombatSession::Impl {
         std::string sourceSelectedClip;
         bool diagnosticAI=false;
         bool stateManaged=false,stateSequence=false,stateFrozen=false,attackProgram=true;
+        bool scriptIdleSuppressed=false;
         bool permission=true,baseTargetable=true;
         std::optional<std::int32_t> lifecycleOriginalState;
         std::optional<std::int32_t> presentationInitialState;
@@ -132,6 +133,10 @@ struct CombatSession::Impl {
     std::vector<CombatSessionAnimationDispatch> animationDispatches;
     bool lifecycleRegistered=false;
     bool lifecycleSerializedByHost=false; // D3 (OPENING3): see set_lifecycle_serialized_by_host
+    // P17 DOORS: set only by lifecycle activity (state changes, state sequences, freeze). Registration of a host
+    // permission provider alone does not set it: such a provider is a pure function of the lifecycle state, which is
+    // the population state rebuilt at load, so an idle lifecycle is reconstructible at checkpoint.
+    bool lifecycleActivity=false;
     bool sourceCheckpointReadyAtDetach=false;
     AttackOwnerProvider attackOwnerProvider;
     std::vector<CombatSessionComboBoundary> comboBoundaries;
@@ -711,12 +716,15 @@ struct CombatSession::Impl {
             if(name==entry.attack.animation_clip_id) {if(loop){error="Retained finite action cannot loop";return false;}
                 if(entry.sourceCombo){if(entry.comboGeneration==UINT64_MAX){error="Source combo action generation exhausted";return false;}++entry.comboGeneration;}
                 if(!entry.attackProgram){auto selection=*entry.sequenceCallerSelection;selection.actor_rate=entry.sourceActorRate;if(!entry.retained->prepare_preserving(*assets,*entry.sequencePlan,sequencePolicies,selection,retained_services(world_id(entry)),entry.attack.animation_clip_id,error))return false;entry.attackProgram=true;}
-                entry.stateManaged=entry.stateSequence=entry.stateFrozen=false;entry.sourceAction=true;entry.sourceSelectedClip=name;entry.locomotionSelected.clear();return entry.retained->begin(error);}
+                entry.sourceAction=true;entry.sourceSelectedClip=name;entry.locomotionSelected.clear();
+                if(!entry.retained->begin(error))return false;
+                entry.scriptIdleSuppressed=false;entry.stateManaged=entry.stateSequence=entry.stateFrozen=false;return true;}
             const OriginalCombatPhase* selected=nullptr;
             for(const auto& sequence:entry.sequencePlan->sequences)for(const auto& phase:sequence.phases)if(phase.clipName==name)selected=&phase;
             if(!selected){error="Retained pose source metadata missing: "+name;return false;}
             entry.sourceAction=false;entry.sourceSelectedClip=name;entry.locomotionSelected.clear();RetainedAnimationFrame frame;
-            return seed_source(entry,*selected,loop,static_cast<float>(selected->speed)*entry.sourceActorRate,*entry.retained,frame,error);
+            if(!seed_source(entry,*selected,loop,static_cast<float>(selected->speed)*entry.sourceActorRate,*entry.retained,frame,error))return false;
+            entry.scriptIdleSuppressed=false;entry.stateManaged=entry.stateSequence=entry.stateFrozen=false;return true;
         };
         binding.update=[&entry](double seconds,std::string& error){return entry.sourceAction?entry.retained->advance(seconds,error):entry.retained->advance_seeded(seconds,error);};
         binding.source_clock=[](){return true;};
@@ -843,7 +851,7 @@ struct CombatSession::Impl {
     }
     bool select_source_attack_for_request(ActorId id,std::string& error){
         auto& entry=entries.at(id);if(!entry.sourceAttackStateSelection)return true;
-        if(entry.stateSequence||entry.stateManaged){error="Source attack cannot replace a managed state before departure";return false;}
+        if(entry.stateSequence||(entry.stateManaged&&!entry.scriptIdleSuppressed)){error="Source attack cannot replace a managed state before departure";return false;}
         auto selection=*entry.sequenceCallerSelection;
         selection.state=live_original_state(id)==4?"Attack":"AttackStatic";
         const auto* properties=world->combat_properties(id);
@@ -1223,6 +1231,19 @@ bool CombatSession::initialize(const AssetCatalog& assets,const OriginalProperty
                !policy.sourceAttackBank->sequence("Attack",0)||!policy.sourceAttackBank->sequence("AttackStatic",0)))
                 throw std::runtime_error("Source attack focus selection requires both explicit player full roots without unresolved choices");
             CharacterVisualConfig visualConfig=plan.config;
+            if(policy.animationOnly&&!policy.receiveDamage) {
+                // Presentation-only actors do not consume combat Injury
+                // reactions. Some authored Injury records are valid zero-time
+                // assets (0 tracks, no events, no range); the source animator
+                // leaves the current pose unchanged for those records. Keep
+                // all source sequence metadata in `plan`, but don't eagerly
+                // load unused generated Injury leaves into the visual bank.
+                std::set<std::string> unusedInjuryClips;
+                for(const auto& sequence:plan.sequences)if(sequence.state=="Injured")
+                    for(const auto& phase:sequence.phases)if(!phase.clipName.empty())unusedInjuryClips.insert(phase.clipName);
+                visualConfig.clips.erase(std::remove_if(visualConfig.clips.begin(),visualConfig.clips.end(),
+                    [&](const auto& clip){return unusedInjuryClips.count(clip.first)!=0;}),visualConfig.clips.end());
+            }
             const auto appendSourceClips=[&](const std::vector<std::pair<std::string,std::string>>& clips){
                 for(const auto& extra:clips){
                     if(extra.first.empty()||extra.second.empty())throw std::runtime_error("Source animation bank requires explicit alias and resource path");
@@ -1404,7 +1425,11 @@ bool CombatSession::initialize(const AssetCatalog& assets,const OriginalProperty
             const auto policy=config.profiles.find(populationActor.profileId);if(policy==config.profiles.end())continue;
             const auto& matrix=populationActor.definition.placement;
             prepare(populationActor.definition.stableId,populationActor.profileId,policy->second,populationActor.visual,
-                    policy->second.customization,{matrix[12],matrix[13],matrix[14]},std::atan2(matrix[1],matrix[0]),false,&populationActor.definition);
+                    policy->second.customization,{matrix[12],matrix[13],matrix[14]},
+                    // B068 (3): an authored Character faces the OPPOSITE way of the placement x-axis. Evidence: the LizardMan_Intro
+                    // lizards (obj_3of4_brdwalk_sw_00.mgp, rotation z=89.62) with +pi jump from the wall perch to the landing exactly as
+                    // in the reference video (t=224.5-226 s), while the bare x-axis heading jumps in from the opposite side.
+                    std::atan2(-matrix[1],-matrix[0]),false,&populationActor.definition);
         }
         // Validate runtime bindings against staged visuals before publishing.
         for(auto& stage:staged)if(!next->runtime->bind(*next->world->find_actor(stage.id),
@@ -1513,6 +1538,9 @@ bool CombatSession::update(double dt,const InputActions& input,Vec3 position,flo
     for(const auto& entry:s.entries){
         if(entry.first==s.player||!entry.second.diagnosticAI)continue;
         if(s.actorDecisionProvider)continue;
+        // v20 SCRIPTSVC: animation-only (scripted, non-combat) actors reject command_request by contract (see above); they
+        // never issue attacks, so the AI loop must not abort the frame when a leave-safe-zone gives them a target.
+        if(entry.second.animationOnly)continue;
         auto* a=s.world->find_actor(entry.first);
         if(!s.command_request(entry.first,a->target_id,dt,error))return false;
     }
@@ -1600,6 +1628,11 @@ bool CombatSession::select_next_player_target(ActorId& selected,std::string& err
     }
     if(!refresh_actor_combat_permissions(error))return false;
     return s.cycle_player_target(selected,error);
+}
+bool CombatSession::is_animation_only(ActorId actor) const {
+    if(!impl_)return false;
+    const auto found=impl_->entries.find(actor);
+    return found!=impl_->entries.end()&&found->second.animationOnly;
 }
 bool CombatSession::request_actor_attack(ActorId actor,ActorId target,double dt,std::string& error){
     error.clear();
@@ -1929,6 +1962,8 @@ bool CombatSession::select_actor_locomotion(ActorId id,const std::string& alias,
     if(!entry.retainedPhaseClock||!entry.retained||policy==entry.locomotion.end()){error="Explicit player locomotion alias is not bound: "+alias;return false;}
     const auto* actor=impl_->world->find_actor(id);
     if(!actor||!actor->alive()||impl_->runtime->owns_pose(id)||entry.stateSequence){error="Combat/death/source sequence owns actor pose; locomotion selection is unavailable";return false;}
+    // CSIdle.Focus suppresses selection while +1336 is set; a new Move departs Idle and clears it.
+    if(entry.scriptIdleSuppressed&&policy->second.originalState==3)return true;
     if(entry.locomotionSelected==alias&&entry.sourceSelectedClip==policy->second.phase.clipName&&!entry.sourceAction)return true;
     auto& s=*impl_;const auto& phase=policy->second.phase;RetainedAnimationFrame frame;
     CombatRuntimeTransition receipt;
@@ -1942,6 +1977,7 @@ bool CombatSession::select_actor_locomotion(ActorId id,const std::string& alias,
     }
     if(!entry.retained->seed_sequence(*impl_->assets,phase.clipName,phase.resolvedPath,policy->second.rate,
         static_cast<std::int32_t>(phase.blendOut),phase.moveGO!=0,policy->second.repeats,frame,error))return false;
+    entry.scriptIdleSuppressed=false;entry.stateManaged=false;
     entry.sourceAction=false;entry.sourceEvents.clear();entry.sourceSerial=0;entry.sourceSelectedClip=phase.clipName;entry.locomotionSelected=alias;
     if(s.actorTransitionHandler){
         reset_actor_action(*s.world->find_actor(id),policy->second.originalState==4?CharacterAction::moving:CharacterAction::idle);
@@ -2061,7 +2097,16 @@ bool CombatSession::refresh_actor_combat_permissions(std::string& error){
     error.clear();if(!impl_||impl_->detached){error="Actor permissions require attached initialized session";return false;}
     auto& s=*impl_;try{for(auto& pair:s.entries){auto& entry=pair.second;bool allowed=!s.permissionProvider||s.permissionProvider(pair.first);allowed=allowed&&!entry.lifecycleOriginalState;
         entry.permission=allowed;entry.traits.targetable=entry.baseTargetable&&allowed;
-        if(!allowed){if(s.runtime->owns_pose(pair.first)&&!s.runtime->interrupt(pair.first,error))return false;s.combat->interrupt(pair.first);entry.sourceEvents.clear();s.world->find_actor(pair.first)->target_id=invalid_actor_id;}
+        if(!allowed){
+            auto* actor=s.world->find_actor(pair.first);
+            if(s.runtime->owns_pose(pair.first)) {
+                // B068: CSDespawn/hidden retirement releases Died permanently; interrupting it every
+                // frame lets synchronize restart Died, replaying the clip, sound and root motion.
+                if(actor->alive()){if(!s.runtime->interrupt(pair.first,error))return false;}
+                else if(s.runtime->death_complete(pair.first)&&!s.runtime->yield_pose(pair.first,error))return false;
+            }
+            s.combat->interrupt(pair.first);if(actor->alive()||!s.runtime->owns_pose(pair.first))entry.sourceEvents.clear();actor->target_id=invalid_actor_id;
+        }
         if(!s.facts(pair.first,error))return false;
     }for(const auto& pair:s.entries){auto* actor=s.world->find_actor(pair.first);const auto target=s.entries.find(actor->target_id);if(target!=s.entries.end()&&!target->second.permission)actor->target_id=invalid_actor_id;}
     }catch(const std::exception& failure){error=failure.what();return false;}return true;
@@ -2072,7 +2117,50 @@ bool CombatSession::set_actor_original_state(ActorId id,std::int32_t state,std::
     auto& entry=impl_->entries.at(id);
     // P16 LIFECYCLE: under a bound handler the target was already published by its admitted transition (idempotent).
     if(impl_->actorTransitionHandler&&!impl_->publish_source_state(id,state,error))return false;
-    entry.lifecycleOriginalState=state==3?std::optional<std::int32_t>{}:state;impl_->lifecycleRegistered=true;return refresh_actor_combat_permissions(error);
+    entry.lifecycleOriginalState=state==3?std::optional<std::int32_t>{}:state;impl_->lifecycleRegistered=true;impl_->lifecycleActivity=true;return refresh_actor_combat_permissions(error);
+}
+bool CombatSession::script_kill_actor(ActorId id,std::string& error){
+    if(!impl_||impl_->detached||!impl_->entries.count(id)){error="Script kill actor is unavailable";return false;}
+    return impl_->runtime->kill(id,error);
+}
+bool CombatSession::script_death_event(ActorId id,std::string& error){
+    if(!impl_||impl_->detached){error="Death event requires live session";return false;}
+    return impl_->runtime->death_event(id,error);
+}
+bool CombatSession::script_move_handoff(ActorId id,std::string& error){
+    if(!impl_||impl_->detached||!impl_->entries.count(id)){error="Script move actor is unavailable";return false;}
+    auto& s=*impl_;auto& entry=s.entries.at(id);
+    if(!s.world->find_actor(id)->alive()){error="Script move cannot replace a dead actor pose";return false;}
+    if(entry.dispatchingDeparture||(entry.stateSequence&&entry.sourceStatePolicy)){error="Script move requires source program departure";return false;}
+    if(s.runtime->owns_pose(id)&&!s.runtime->interrupt(id,error))return false;
+    s.combat->interrupt(id);entry.sourceAttack.continued=0;entry.sourceAttack.last=0;
+    entry.lifecycleOriginalState.reset();entry.scriptIdleSuppressed=false;entry.stateManaged=false;entry.stateSequence=false;entry.stateFrozen=false;entry.stateServices={};
+    entry.sourceAction=false;entry.sourceEvents.clear();entry.locomotionSelected.clear();
+    return true;
+}
+bool CombatSession::scripted_actor_pose(ActorId id)const noexcept{
+    if(!impl_||impl_->detached)return false;const auto it=impl_->entries.find(id);
+    return it!=impl_->entries.end()&&it->second.stateManaged&&!it->second.stateSequence;
+}
+bool CombatSession::script_put_idle(ActorId id,std::string& error,bool wait_for_animation){
+    if(!impl_||impl_->detached||!impl_->entries.count(id)){error="Script Idle actor unavailable";return false;}
+    auto& s=*impl_;auto& entry=s.entries.at(id);auto* actor=s.world->find_actor(id);
+    if(!actor->alive())return true;
+    CombatRuntimeTransition receipt{id,s.live_original_state(id),3,0,CombatRuntimeTransitionCause::source_program};
+    if(!s.actor_transition(id,receipt,error))return false;
+    {struct Scope{bool& flag;~Scope(){flag=false;}} scope{s.suppressRuntimeTransitions};s.suppressRuntimeTransitions=true;
+        if(s.runtime->owns_pose(id)&&!s.runtime->interrupt(id,error))return false;s.combat->interrupt(id);}
+    // SM_SetIdleState enters 3 immediately. CSIdle.Focus skips flags and animation when +1336 is set.
+    // A 3->3 transition first runs CSIdle.Blur, which clears that byte.
+    const bool suppressed=wait_for_animation&&receipt.from_state!=3;
+    entry.lifecycleOriginalState.reset();entry.scriptIdleSuppressed=suppressed;
+    entry.stateManaged=suppressed;entry.stateSequence=false;entry.stateFrozen=false;
+    entry.stateServices={};entry.sourceAction=false;entry.sourceEvents.clear();entry.locomotionSelected.clear();
+    if(!suppressed){auto binding=s.retained_binding(entry);if(!binding.select(entry.idle,true,error))return false;}
+    reset_actor_action(*actor,CharacterAction::idle);
+    if(!s.facts(id,error))return false;
+    receipt.stage=CombatRuntimeTransitionStage::after_change;
+    return s.actor_transition(id,receipt,error);
 }
 bool CombatSession::select_actor_state_leaf(ActorId id,const CombatSessionChoice& choice,double actor_rate,bool frozen,
     CombatSessionStateAnimationServices services,std::string& error,std::int32_t lifecycle_to_state){
@@ -2092,7 +2180,7 @@ bool CombatSession::select_actor_state_leaf(ActorId id,const CombatSessionChoice
         s.runtime->interrupt(id);s.combat->interrupt(id);
         if(frozen){if(!entry.retained->seed_sequence(*s.assets,selected.clipName,selected.resolvedPath,0,static_cast<int>(selected.blendOut),selected.moveGO!=0,0,frame,error))return false;}
         else if(!s.seed_source(entry,selected,sequence&&sequence->loop!=0,rate,*entry.retained,frame,error))return false;
-        entry.stateManaged=true;entry.stateSequence=false;entry.stateFrozen=frozen;entry.stateServices=std::move(services);entry.sourceAction=false;entry.sourceSelectedClip=selected.clipName;entry.locomotionSelected.clear();entry.sourceEvents.clear();s.lifecycleRegistered=true;error.clear();
+        entry.stateManaged=true;entry.stateSequence=false;entry.stateFrozen=frozen;entry.stateServices=std::move(services);entry.sourceAction=false;entry.sourceSelectedClip=selected.clipName;entry.locomotionSelected.clear();entry.sourceEvents.clear();s.lifecycleRegistered=true;s.lifecycleActivity=true;error.clear();
     }catch(const std::exception& failure){error=failure.what();return false;}
     if(s.actorTransitionHandler){receipt.stage=CombatRuntimeTransitionStage::after_change;return s.actor_transition(id,receipt,error);}
     return true;
@@ -2105,12 +2193,17 @@ bool CombatSession::play_actor_clip(ActorId id,const std::string& clip,const std
     if(entry.dispatchingDeparture||(entry.stateSequence&&entry.sourceStatePolicy)){error="Actor clip requires accepted source departure";return false;}
     // P16 OPENING: the scripted clip replaces the current pose; the source repeats a single-leaf clip forever for loop
     // and completes once otherwise (RetainedSequencePlayback::seed_sequence repeat policy).
-    s.runtime->interrupt(id);s.combat->interrupt(id);
+    CombatRuntimeTransition receipt{id,s.live_original_state(id),14,0,CombatRuntimeTransitionCause::source_program};
+    if(!s.actor_transition(id,receipt,error))return false;
+    {struct Scope{bool& flag;~Scope(){flag=false;}} scope{s.suppressRuntimeTransitions};s.suppressRuntimeTransitions=true;
+        if(s.runtime->owns_pose(id)&&!s.runtime->interrupt(id,error))return false;s.combat->interrupt(id);}
     RetainedAnimationFrame frame;
     if(!entry.retained->seed_sequence(*s.assets,clip,path,1.0f,0,false,loop?-1:0,frame,error))return false;
     entry.stateManaged=true;entry.stateSequence=false;entry.stateFrozen=false;entry.stateServices={};entry.sourceAction=false;
     entry.sourceSelectedClip=clip;entry.locomotionSelected.clear();entry.sourceEvents.clear();
-    return true;
+    entry.scriptIdleSuppressed=false;entry.lifecycleOriginalState=14;if(!s.facts(id,error))return false;
+    receipt.stage=CombatRuntimeTransitionStage::after_change;
+    return s.actor_transition(id,receipt,error);
 }
 bool CombatSession::actor_clip_duration_ms(ActorId id,const std::string& clip,std::int32_t& duration_ms,std::string& error)const{
     error.clear();
@@ -2186,7 +2279,7 @@ bool CombatSession::play_actor_source_sequence(ActorId id,const OriginalCombatVi
     if(!entry.retained->prepare_preserving(*s.assets,plan,policies,selection,s.retained_services(id),alias,error))return false;
     entry.attackProgram=false;entry.stateManaged=true;entry.stateSequence=true;entry.stateFrozen=false;entry.stateServices=std::move(services);entry.sourceAction=false;entry.sourceEvents.clear();entry.locomotionSelected.clear();
     entry.sourceStatePolicy=generic?std::optional<CombatSessionSourceSequencePolicy>{policy}:std::nullopt;
-    if(!generic)s.lifecycleRegistered=true;
+    if(!generic){s.lifecycleRegistered=true;s.lifecycleActivity=true;} // P17 DOORS2: same condition as the registration (generic source programs stay admissible)
     if(policy.original_state==10)reset_actor_action(*s.world->find_actor(id),CharacterAction::knocked_back);
     if(generic&&!s.facts(id,error))return false;
     if(!entry.retained->begin(error))return false;
@@ -2215,14 +2308,17 @@ bool CombatSession::cancel_actor_source_sequence(ActorId id,std::weak_ptr<const 
 bool CombatSession::freeze_actor_state_animation(ActorId id,std::string& error){
     if(!impl_||impl_->detached||!impl_->entries.count(id)){error="Frozen state-animation actor unavailable";return false;}auto& entry=impl_->entries.at(id);
     if(!entry.retained||!entry.stateManaged){error="Explicit state animation must be selected before freeze";return false;}
-    if(!entry.retained->set_source_rate(0,error))return false;entry.stateFrozen=true;impl_->lifecycleRegistered=true;return true;
+    if(!entry.retained->set_source_rate(0,error))return false;entry.stateFrozen=true;impl_->lifecycleRegistered=true;impl_->lifecycleActivity=true;return true;
 }
 void CombatSession::set_lifecycle_serialized_by_host(bool serialized) noexcept{if(impl_)impl_->lifecycleSerializedByHost=serialized;}
 bool CombatSession::validate_lifecycle_checkpoint(std::string& error)const{
     // Presentation observes an already-applied gameplay event. Its live output
     // and device clock are transient host state; registering it does not add
     // campaign/controller state to the gameplay checkpoint.
-    if(impl_&&!impl_->lifecycleSerializedByHost&&(impl_->lifecycleRegistered||impl_->permissionProvider||impl_->controllerAdmissionProvider||impl_->networkModeProvider)){error="Campaign lifecycle/controller providers are not persisted; checkpoint/restore requires explicit serialization or clearing transient services";return false;}
+    // P17 DOORS: only lifecycle activity is unreconstructible. The permission provider is a pure function of the
+    // lifecycle state (population rebuilt at load), so a registered-but-idle lifecycle is admitted.
+    // OPENING3 (D3): a host that serializes its lifecycle into the GameSave admits it (set_lifecycle_serialized_by_host).
+    if(impl_&&!impl_->lifecycleSerializedByHost&&(impl_->lifecycleActivity||impl_->controllerAdmissionProvider||impl_->networkModeProvider)){error="Campaign lifecycle/controller providers are not persisted; checkpoint/restore requires explicit serialization or clearing transient services";return false;}
     if(impl_){
         if(impl_->detached){if(!impl_->sourceCheckpointReadyAtDetach){error="Detached source program had no quiescent checkpoint admission";return false;}}
         else if(!impl_->source_checkpoint(error)||!impl_->animation_checkpoint(error))return false;
@@ -2232,13 +2328,16 @@ bool CombatSession::validate_lifecycle_checkpoint(std::string& error)const{
     }
     error.clear();return true;
 }
+// P17 DOORS: called by the host once the lifecycle records of this load are applied. Those initial states are rebuilt
+// from the level on every load, so only transitions after this point make the lifecycle unreconstructible.
+void CombatSession::mark_lifecycle_baseline() noexcept{if(impl_)impl_->lifecycleActivity=false;}
 bool CombatSession::clear_lifecycle_services(std::string& error){
     if(!impl_){error.clear();return true;}auto& s=*impl_;
     // This legacy cleanup is not an admitted generic Skill/Cast exit and must
     // not erase Post or outstanding cooldowns to bypass checkpoint admission.
     if(s.detached){if(!s.sourceCheckpointReadyAtDetach){error="Cannot clear an unpersisted detached source program";return false;}}
     else if(!s.source_checkpoint(error))return false;
-    s.permissionProvider={};s.retainedFrameAudioObserver={};s.retainedFrameAudioDiagnostics.clear();s.stepObserver={};s.stepDiagnostics.clear();s.lifecycleRegistered=false;s.sourceCheckpointReadyAtDetach=true;
+    s.permissionProvider={};s.retainedFrameAudioObserver={};s.retainedFrameAudioDiagnostics.clear();s.stepObserver={};s.stepDiagnostics.clear();s.lifecycleRegistered=false;s.lifecycleActivity=false;s.sourceCheckpointReadyAtDetach=true;
     for(auto& pair:s.entries){auto& e=pair.second;if(e.stateManaged&&e.retained){e.retained->cancel();e.sourceSelectedClip.clear();e.attackProgram=false;}e.stateManaged=e.stateSequence=e.stateFrozen=false;e.stateServices={};e.sourceStatePolicy.reset();e.lifecycleOriginalState.reset();e.permission=true;e.traits.targetable=e.baseTargetable;}
     if(s.detached){error.clear();return true;}return refresh_actor_combat_permissions(error);
 }

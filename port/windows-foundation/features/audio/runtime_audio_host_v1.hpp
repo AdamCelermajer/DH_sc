@@ -71,6 +71,7 @@ class RuntimeAudioHostV1 {
 public:
     struct Context;
 private:
+    bool fx_muted_{};
     std::shared_ptr<Context> context_;
     dh2::audio::AudioLifecycleGateV40 lifecycle_;
     std::unique_ptr<dh2::audio::AudioNativeSessionV42> session_;
@@ -99,6 +100,10 @@ public:
     bool device_clock(RetainedFrameAudioClock&,std::string& error) const;
     bool submit_actual_play(const dh2::character::CombatSoundPlayV1&,
         std::int64_t event_qpc_ns,std::string& error);
+    // I024 DEATH: source SetSoundVolume(VolumeFX,0) while the death screen is up. A muted submission is accepted
+    // and dropped (the source plays at zero volume); producer state is not altered.
+    void set_fx_muted(bool muted) noexcept { fx_muted_=muted; }
+    bool fx_muted() const noexcept { return fx_muted_; }
     // Source-authored AnimTable/ItemTable sound ID through this exact manager,
     // provider gate and AudioNativeSessionV42 producer.
     bool submit_source_sound(ActorId subject,std::int32_t sound_id,
@@ -110,6 +115,10 @@ public:
     bool submit_world_item_sound(std::int32_t source_ordinal,
         const std::array<float,3>& position,WorldItemSoundResultV1& result,
         std::string& error);
+    // v20 SCRIPTSVC: Script_PlaySound plain (VoxSoundManager::Play, a4 = delay ms, loop from the XML emitter) and
+    // Script_StopSound plain (VoxSoundManager::Stop, fade ms). ordinal<0 is a source no-op. Uses the same producer.
+    bool submit_script_plain_sound(std::int32_t source_ordinal,int delay_ms,std::string& error);
+    bool stop_script_plain_sound(std::int32_t source_ordinal,int fade_ms,std::string& error);
     // Producer-thread source settings, initialized from the exact fresh
     // emitter defaults and updated only when the current source DSP changes.
     bool set_current_emitter_mix(float gain,float pitch,std::string& error);

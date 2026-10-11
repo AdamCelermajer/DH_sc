@@ -267,7 +267,7 @@ bool RuntimeSessionAudioV1::window_activity(bool focused,bool minimized,std::str
 bool RuntimeSessionAudioV1::set_level_music(const std::string& name,std::string& error) {
     if(!host_) {error="Audio host is unavailable";return false;}
     level_music_name_=name;level_music_base_=name;level_music_in_safe_zone_=false;
-    level_music_error_.clear();level_music_revive_pending_=false;error.clear();return true;
+    level_music_error_.clear();level_music_revive_pending_=false;level_music_start_pending_=!name.empty();error.clear();return true;
 }
 
 void RuntimeSessionAudioV1::set_level_music_safezone(const std::string& name) {
@@ -287,6 +287,7 @@ bool RuntimeSessionAudioV1::set_level_music_safe_zone(bool entering,std::string&
     const std::string& target=entering?level_music_safezone_:level_music_base_;
     if(level_music_name_!=target) {
         level_music_name_=target;
+        level_music_start_pending_=true; // SetInSafeZoneMusic: PlayMusic(new track) at the switch
         log_<<"Safe zone music: "<<(entering?"enter":"leave")<<" track="<<target<<'\n';
     }
     return true;
@@ -300,6 +301,11 @@ bool RuntimeSessionAudioV1::on_local_players_revived(std::string& error) {
         log_<<level_music_transition_line_v1("revive-stop",level_music_name_,kLevelMusicReviveStopMs,"")<<'\n';
     }
     level_music_revive_pending_=true;error.clear();return true;
+}
+
+bool RuntimeSessionAudioV1::set_fx_muted(bool muted,std::string& error) {
+    if(!host_) {error="Audio host is unavailable";return false;}
+    host_->set_fx_muted(muted);error.clear();return true;
 }
 
 bool RuntimeSessionAudioV1::on_return_to_menu(std::string& error) {
@@ -342,6 +348,40 @@ bool RuntimeSessionAudioV1::submit_world_item_sound(std::int32_t source_ordinal,
     return host_->submit_world_item_sound(source_ordinal,position,result,error);
 }
 
+namespace {
+bool missing_original_asset_v1(const std::string& error){return error.rfind("Unavailable original audio asset: ",0)==0;}
+}
+
+bool RuntimeSessionAudioV1::script_play_music(std::int32_t ordinal,bool change,int fade_ms,std::string& error) {
+    if(!host_) {error="Audio host is unavailable";return false;}
+    if(ordinal<0) {
+        // VoxSoundManager::PlayMusic(-1, change): StopMusic only when the change flag is set.
+        if(!change){error.clear();return true;}
+        return host_->stop_level_music(fade_ms,error);
+    }
+    RuntimeAudioHostV1::LevelMusicActionV1 action{};
+    if(host_->play_level_music(ordinal,fade_ms,action,error)) {error.clear();return true;}
+    if(missing_original_asset_v1(error)) {log_<<"Script PlayMusic silent: "<<error<<'\n';error.clear();return true;}
+    return false;
+}
+
+bool RuntimeSessionAudioV1::script_stop_music(int fade_ms,std::string& error) {
+    if(!host_) {error="Audio host is unavailable";return false;}
+    return host_->stop_level_music(fade_ms,error);
+}
+
+bool RuntimeSessionAudioV1::script_play_plain(std::int32_t ordinal,int delay_ms,std::string& error) {
+    if(!host_) {error="Audio host is unavailable";return false;}
+    if(host_->submit_script_plain_sound(ordinal,delay_ms,error)) {error.clear();return true;}
+    if(missing_original_asset_v1(error)) {log_<<"Script PlaySound silent: "<<error<<'\n';error.clear();return true;}
+    return false;
+}
+
+bool RuntimeSessionAudioV1::script_stop_plain(std::int32_t ordinal,int fade_ms,std::string& error) {
+    if(!host_) {error="Audio host is unavailable";return false;}
+    return host_->stop_script_plain_sound(ordinal,fade_ms,error);
+}
+
 bool RuntimeSessionAudioV1::after_update(std::string& error) {
     if(!host_) {error="Audio host is unavailable";return false;}
     if(!host_->update(error))return false;
@@ -360,9 +400,10 @@ bool RuntimeSessionAudioV1::after_update(std::string& error) {
                     log_<<level_music_transition_line_v1("revive-restart",level_music_name_,kLevelMusicReviveFadeMs,"")<<'\n';
                 }
             }
-        } else if(level_music_start_due_v1(true,outputActive,ordinal,host_->level_music_ordinal())) {
+        } else if(level_music_start_pending_&&outputActive&&ordinal>=0) {
             RuntimeAudioHostV1::LevelMusicActionV1 action{};
             if(host_->play_level_music(ordinal,kLevelMusicStartFadeMs,action,musicError)) {
+                level_music_start_pending_=false;
                 const char* kind=action==RuntimeAudioHostV1::LevelMusicActionV1::switched?"switch":"start";
                 log_<<level_music_transition_line_v1(kind,level_music_name_,kLevelMusicStartFadeMs,
                         "ordinal="+std::to_string(ordinal))<<'\n';

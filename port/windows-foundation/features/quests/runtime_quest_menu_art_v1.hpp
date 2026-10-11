@@ -14,6 +14,7 @@ struct RuntimeQuestMenuSourceArtV1 {
     std::vector<character_menu::MenuSolidBatch> activate_solids;
     std::vector<character_menu::MenuTextField> activate_fields;
     std::array<std::array<float,6>,2> row_parent_matrices;
+    std::array<std::vector<HudGeometryBatch>,2> prio_art; // B073: QuestPrio frame 0 main (crown), 1 side
 };
 const RuntimeQuestMenuSourceArtV1& original_runtime_quest_menu_art_v1();
 }

@@ -85,6 +85,62 @@ void helper_geometry() {
     check(!parse_vec3("1,2", v) && !parse_vec3("1,2,3,4", v) && !parse_vec3("1,x,3", v), "malformed vector rejected");
 }
 
+// I027: source TriggerZone::Update returns before changing the contact edge while
+// IsDoorClosedActivated is false. Exercise the production zone adapter with a
+// minimal source-shaped declaration and runtime bank so open/opening never
+// fabricates an enter/leave edge, while closed/closing resumes normal contact.
+void source_door_gate_edges() {
+    const auto dir = fs::temp_directory_path() / ("dh-source-door-gate-" + std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));
+    fs::create_directories(dir);
+    struct Cleanup { fs::path p; ~Cleanup() { std::error_code ec; fs::remove_all(p, ec); } } cleanup{dir};
+    {
+        std::ofstream out(dir / "campaign.xml", std::ios::binary);
+        out << "<originalCampaign version=\"1\"><scripts scope=\"level\"><script id=\"0\" name=\"DoorContact\">"
+               "<command index=\"0\" kind=\"26\" className=\"Script_Wait\"><scalar offset=\"8\" bits=\"0\"/></command>"
+               "</script></scripts></originalCampaign>";
+        check(out.good(), "source door gate fixture write");
+    }
+    OriginalCampaignRuntime runtime;
+    std::string error;
+    check(runtime.load(AssetCatalog(dir), "campaign.xml", error), "source door gate runtime: " + error);
+    const std::string key = "fixture.mgp::_prim_DoorGate";
+    check(runtime.register_trigger(key, {{"name", "_prim_DoorGate"}, {"gametype", "TriggerZone"},
+        {"triggercount", "-1"}, {"script", "DoorContact"}, {"is_door_closed", "_prim_Door"}}, error),
+        "source door trigger registration: " + error);
+    ActorDefinition declaration;
+    declaration.name = "_prim_DoorGate";
+    declaration.gametype = "TriggerZone";
+    declaration.sourcePath = "fixture.mgp";
+    declaration.properties = {{"type", "Block"}, {"script", "DoorContact"}, {"is_door_closed", "_prim_Door"}};
+    declaration.placement = {1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1};
+    TriggerZoneSet zones;
+    check(zones.build({declaration}, runtime, error), "source door gate zone build: " + error);
+    Counter counter;
+    counter.bind(runtime);
+    const std::array<float,3> inside{0,0,0}, outside{1000,0,0};
+    bool door_open_or_opening = true;
+    const auto gate = [&](const std::string& name, bool& suppressed, std::string&) {
+        check(name == "_prim_Door", "door gate preserves authored name");
+        suppressed = door_open_or_opening;
+        return true;
+    };
+    zones.update(runtime, inside, true, 0, {}, gate);
+    check(counter.starts["DoorContact"] == 0 && runtime.trigger_inside().empty(),
+          "opened/opening door suppresses contact without mutating source edge");
+    door_open_or_opening = false; // closed or closing: source gate admits contact.
+    zones.update(runtime, inside, true, 0, {}, gate);
+    check(counter.starts["DoorContact"] == 1 && runtime.trigger_inside().size() == 1,
+          "closed/closing door admits the enter edge and source script");
+    door_open_or_opening = true;
+    zones.update(runtime, outside, true, 0, {}, gate);
+    check(runtime.trigger_inside().size() == 1 && zones.zones().front().inside,
+          "opened/opening door leaves the previous source contact edge untouched");
+    door_open_or_opening = false;
+    zones.update(runtime, outside, true, 0, {}, gate);
+    check(runtime.trigger_inside().empty() && !zones.zones().front().inside,
+          "closed/closing door resumes the pending leave edge");
+}
+
 // Swamp declarations through the real campaign bank: edge, count and re-entry behaviour.
 void swamp_edges(const std::string& campaign, const std::string& cache) {
     AssetCatalog catalogue(cache);
@@ -132,10 +188,10 @@ void swamp_edges(const std::string& campaign, const std::string& cache) {
     zones.update(runtime, camp_centre, true, -1);
     check(counter.starts["enterLocation_MerchantCamp"] == 2, "unlimited zone starts on each entry");
 
-// Activation-conditioned zones are not evaluated, so they are not fed.
+// P17 CONDITIONS: activation-conditioned zones are built and gated by their condition, not skipped.
     bool listed = false;
-    for (const auto& line : zones.skipped()) listed = listed || line.find("activate_cond is not evaluated") != std::string::npos;
-    check(listed, "zones with unevaluated activate_cond are reported, not fed");
+    for (const auto& line : zones.skipped()) listed = listed || line.find("activate_cond") != std::string::npos;
+    check(!listed, "activate_cond zones are no longer skipped");
     std::cout << "swamp: fed=" << zones.zones().size() << " not-fed=" << zones.skipped().size() << '\n';
 }
 
@@ -220,6 +276,7 @@ void second_level_loader(const std::string& android) {
     int tested = 0;
     for (const auto& zone : zones.zones()) {
         if (uses[zone.script] != 1) continue;
+        if (!zone.activate_cond.empty()) continue; // P17 CONDITIONS: gated zones need a condition answer (covered by the EXE runs)
         settle(runtime);
         const std::array<float,3> centre_point{(zone.box.min[0] + zone.box.max[0]) * 0.5f, (zone.box.min[1] + zone.box.max[1]) * 0.5f, (zone.box.min[2] + zone.box.max[2]) * 0.5f};
         const std::array<float,3> far_point{zone.box.max[0] + 100000.f, centre_point[1], centre_point[2]};
@@ -242,6 +299,7 @@ int main(int argc, char** argv) {
     try {
         check(argc == 4, "Supply campaign assets, original-cache root and Android assets root");
         helper_geometry();
+        source_door_gate_edges();
         swamp_edges(argv[1], argv[2]);
         failure_keeps_zones(argv[1], argv[2]);
         second_level_loader(argv[3]);

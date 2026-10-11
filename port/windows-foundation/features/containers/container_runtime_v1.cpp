@@ -3,6 +3,7 @@
 #include "../../animation_markers.hpp"
 #include "../../embedded_scene_clips.hpp"
 
+#include <algorithm>
 #include <cmath>
 #include <stdexcept>
 
@@ -110,7 +111,7 @@ std::int32_t ContainerRuntimeV1::interaction_type(std::size_t index) const {
     return index < slots_.size() ? slots_[index].instance.interaction_type : -1;
 }
 
-ContainerInteractResultV1 ContainerRuntimeV1::interact(std::size_t index, const float player_position[3]) {
+ContainerInteractResultV1 ContainerRuntimeV1::interact(std::size_t index, const float player_position[3], float max_distance) {
     ContainerInteractResultV1 result;
     result.index = index;
     if (index >= slots_.size()) {
@@ -128,7 +129,7 @@ ContainerInteractResultV1 ContainerRuntimeV1::interact(std::size_t index, const 
     const float dx = t[12] - player_position[0];
     const float dy = t[13] - player_position[1];
     result.distance = std::sqrt(dx * dx + dy * dy);
-    if (!(result.distance <= kContainerInteractRange)) {
+    if (!(result.distance <= max_distance)) {
         result.status = ContainerInteractStatusV1::out_of_range;
         return result;
     }
@@ -246,6 +247,22 @@ bool ContainerRuntimeV1::restore(std::size_t index, std::uint8_t state, std::uin
     }
     slot.state = kContainerStateIdle;
     return slot.visual->select("idle", true, error);
+}
+
+} // namespace dh::foundation::containers
+
+namespace dh::foundation::containers {
+
+float ContainerRuntimeV1::interaction_radius(std::size_t index) const {
+    if (index >= slots_.size() || !slots_[index].visual) return 0.0f;
+    Vec3 lo{}, hi{};
+    std::string error;
+    if (!slots_[index].visual->indexed_bounds(lo, hi, error)) return 0.0f;
+    const auto& t = slots_[index].instance.transform;
+    const float sx = std::sqrt(t[0] * t[0] + t[1] * t[1] + t[2] * t[2]);
+    const float sy = std::sqrt(t[4] * t[4] + t[5] * t[5] + t[6] * t[6]);
+    const float side = std::min((hi.x - lo.x) * sx, (hi.y - lo.y) * sy);
+    return side > 0.0f ? side * 0.5f : 0.0f;
 }
 
 } // namespace dh::foundation::containers

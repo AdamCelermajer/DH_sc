@@ -32,6 +32,7 @@ struct QuestEvent {
     std::int32_t secondary_id{-1}; // talk: second authored id (oid2)
     std::string zone;              // zone_enter: authored trigger zone name (str2 of MoveInZone)
     std::int32_t level_row{-1};    // zone_enter: current level row (-1 when unknown)
+    std::int32_t objective_type{-1}; // native kill fan-out; -1 is the aggregate ordinary-combat event
 };
 
 using QuestEventSink = std::function<void(const QuestEvent&)>;

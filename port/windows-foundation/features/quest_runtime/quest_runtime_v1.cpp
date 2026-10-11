@@ -247,6 +247,8 @@ bool QuestRuntimeV1::set_state(std::int32_t row, QuestStateV1 next, std::string&
     if (!progress_.record_source_state(character_, CharacterQuestIdV1{0, d, row},
                                        std::int32_t(next), error))
         return false;
+    // P17 CONDITIONS: the authored state is recorded; dependent conditions re-evaluate on this event.
+    if (services_.state_changed) services_.state_changed(row, std::int32_t(next));
     const auto& def = table_->rows()[std::size_t(row)];
     // OPENING2: the state's authored script starts through the script owner (the Swamp opening starts this way).
     const auto slot = quest_script_slot_v1(next, previous);
@@ -350,6 +352,7 @@ bool QuestRuntimeV1::prerequisites_met(std::int32_t row, bool& met) {
 }
 
 bool QuestRuntimeV1::objective_matches(const Objective& def, const QuestEvent& event) const {
+    if(event.objective_type>=0&&event.objective_type!=def.type)return false;
     switch (static_cast<QuestObjectiveTypeV1>(def.type)) {
     case QuestObjectiveTypeV1::kill_x_enemies:
         return event.kind == QuestEvent::Kind::kill && event.property_id == def.oid1;

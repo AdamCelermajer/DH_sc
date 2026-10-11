@@ -18,8 +18,8 @@ constexpr int kSentenceSlotV1 = 1;
 constexpr int kRewardHeadingSlotV1 = 2;
 constexpr int kRewardValuesSlotV1 = 3;
 
-// Presentation timing (placeholder fit to the reference frames; the original hold is not decoded).
-constexpr float kNewQuestSecondsV1 = 3.0f;
+// Presentation timing (fit to the reference frames, B068: 4 fps sampling of Part 1 172-178 s; the original hold is not decoded).
+constexpr float kNewQuestSecondsV1 = 2.0f; // B068 (8): reference video 174.5-176.5 s (banner appears 0.25 s after the HUD returns, gone 2.0 s later)
 constexpr float kCompletedSecondsV1 = 4.5f;
 constexpr float kFadeSecondsV1 = 0.5f;
 

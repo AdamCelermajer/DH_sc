@@ -96,6 +96,9 @@ struct QuestRuntimeServicesV1 {
     // D1 (OPENING3): Quest::TestIsScriptRunning. True while the named authored script is still running. A state
     // leaves only when the script of its wait slot has finished (IDA Quest::Update*). Absent owner: never running.
     std::function<bool(const std::string& script)> script_running;
+    // P17 CONDITIONS: called once per applied state transition (row, new state). Condition watches
+    // use it to mark dependent authored conditions dirty; no per-frame polling.
+    std::function<void(std::int32_t row, std::int32_t state)> state_changed;
 };
 
 // Quest::Update* wait slot (IDA 0x481380..0x481818): the script slot a state must see finished before it advances.

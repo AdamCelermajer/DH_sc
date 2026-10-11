@@ -2,6 +2,8 @@
 // With a movie path argument (converted intro_v1.mpg) they also check the decoded picture
 // and soundtrack: size, frame rate, due-time cursor, soundtrack length. Pixel comparison
 // against ffmpeg frames is done by the verifier script (port/windows-foundation/tools).
+// Optional argv[3]=expected soundtrack seconds, argv[4]=expected video frames
+// support measured authentic editions beyond the original Android movie fixture.
 
 #include "intro_movie_v2.hpp"
 #include "pcm_wav_v2.hpp"
@@ -120,7 +122,9 @@ int main(int argc, char** argv) {
             const double seconds = double(pcm.size() / 2) / 48000.0;
             std::printf("movie: %ux%u fps=%.3f soundtrack=%.3f s (%zu stereo frames)\n", info.width, info.height, info.fps,
                         seconds, pcm.size() / 2);
-            CHECK(seconds > 50.0 && seconds < 50.6);
+            const double expectedSeconds = argc > 3 ? std::stod(argv[3]) : 50.3;
+            CHECK(std::isfinite(expectedSeconds) && expectedSeconds > 0.0);
+            CHECK(std::abs(seconds - expectedSeconds) < 0.3);
             // Play to the end: the cursor must reach the end and report it.
             int guard = 0;
             while (!movie.at_end() && guard++ < 100000) {
@@ -129,7 +133,8 @@ int main(int argc, char** argv) {
             }
             CHECK(movie.at_end());
             std::printf("movie: frames=%llu\n", static_cast<unsigned long long>(movie.frames_decoded()));
-            CHECK(movie.frames_decoded() == 1207);
+            const auto expectedFrames = argc > 4 ? std::stoull(argv[4]) : 1207ULL;
+            CHECK(expectedFrames > 0 && movie.frames_decoded() == expectedFrames);
         }
     }
     if (failures == 0) std::puts("intro_movie_v2 tests: all passed");

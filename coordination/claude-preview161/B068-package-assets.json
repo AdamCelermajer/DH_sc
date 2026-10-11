@@ -1,0 +1,57 @@
+[
+  {
+    "source": ".local-inputs/assets-extra/android/data/3d/interface/cs_sk_intro_scene03_dustoffthecieling.bdae",
+    "destination": "assets/data/3d/interface/cs_sk_intro_scene03_dustoffthecieling.bdae",
+    "reason": "Original Swamp serpent cinematic FX used by PlayEffect/animation event"
+  },
+  {
+    "source": ".local-inputs/assets-extra/android/data/3d/interface/cs_sk_intro_scene04_lizardmansplashes.bdae",
+    "destination": "assets/data/3d/interface/cs_sk_intro_scene04_lizardmansplashes.bdae",
+    "reason": "Original Swamp serpent cinematic FX used by PlayEffect/animation event"
+  },
+  {
+    "source": ".local-inputs/assets-extra/android/data/3d/interface/cs_sk_intro_scene08_swampkingwave.bdae",
+    "destination": "assets/data/3d/interface/cs_sk_intro_scene08_swampkingwave.bdae",
+    "reason": "Original Swamp serpent cinematic FX used by PlayEffect/animation event"
+  },
+  {
+    "source": ".local-inputs/assets-extra/android/data/3d/interface/cs_sk_intro_scene09_bitelizardmanintwo.bdae",
+    "destination": "assets/data/3d/interface/cs_sk_intro_scene09_bitelizardmanintwo.bdae",
+    "reason": "Original Swamp serpent cinematic FX used by PlayEffect/animation event"
+  },
+  {
+    "source": ".local-inputs/assets-extra/android/data/3d/interface/cs_sk_intro_scene10_swampkingrawrr.bdae",
+    "destination": "assets/data/3d/interface/cs_sk_intro_scene10_swampkingrawrr.bdae",
+    "reason": "Original Swamp serpent cinematic FX used by PlayEffect/animation event"
+  },
+  {
+    "source": ".local-inputs/assets-extra/android/data/3d/interface/cs_sk_outro_scene02_smokinhead.bdae",
+    "destination": "assets/data/3d/interface/cs_sk_outro_scene02_smokinhead.bdae",
+    "reason": "Original Swamp serpent cinematic FX used by PlayEffect/animation event"
+  },
+  {
+    "source": ".local-inputs/assets-extra/android/data/3d/interface/cs_sk_outro_scene04_smokinhead.bdae",
+    "destination": "assets/data/3d/interface/cs_sk_outro_scene04_smokinhead.bdae",
+    "reason": "Original Swamp serpent cinematic FX used by PlayEffect/animation event"
+  },
+  {
+    "source": ".local-inputs/assets-extra/android/data/3d/interface/cs_sk_outro_scene05_smokinhead.bdae",
+    "destination": "assets/data/3d/interface/cs_sk_outro_scene05_smokinhead.bdae",
+    "reason": "Original Swamp serpent cinematic FX used by PlayEffect/animation event"
+  },
+  {
+    "source": ".local-inputs/assets-extra/android/data/3d/interface/cs_sk_outro_scene07_smokinhead.bdae",
+    "destination": "assets/data/3d/interface/cs_sk_outro_scene07_smokinhead.bdae",
+    "reason": "Original Swamp serpent cinematic FX used by PlayEffect/animation event"
+  },
+  {
+    "source": ".local-inputs/assets-extra/android/data/pydata/dialogs_pyarray.bin",
+    "destination": "assets/data/pydata/dialogs_pyarray.bin",
+    "reason": "Original DialogActors name StrID rows required by StartDialog speaker plate; combined diagnostic missing table logged"
+  },
+  {
+    "source": ".local-inputs/assets-extra/android/data/3d/interface/cutscene_dh2_witch_intro_scene_01_portal.bdae",
+    "destination": "assets/data/3d/interface/cutscene_dh2_witch_intro_scene_01_portal.bdae",
+    "reason": "Normal compiled Intro_Witch command19 PlayEffect; missing exact source asset observed on frozen6845"
+  }
+]

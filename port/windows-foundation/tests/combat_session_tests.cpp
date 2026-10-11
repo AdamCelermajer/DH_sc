@@ -45,6 +45,27 @@ int main(int argc,char** argv){try{
     }
     check(session.world()->actors().size()==2&&session.player_id()==1,"Shared source registry missing actors");
     {
+        check(bindings.sequence("SwampKing","Injured",0)!=nullptr,
+              "Presentation-only regression needs the retained source Injury record");
+        auto presentationConfig=config;
+        CombatSessionProfile presentation;presentation.animationOnly=true;presentation.retainedPhaseClock=true;
+        presentation.initialIdle={"Idle",0,{0}};presentation.propertyOptions.refill_vitals=false;
+        presentationConfig.profiles.emplace("SwampKing",presentation);
+        ActorPopulation presentationPopulation;PopulationActor boss;boss.profileId="SwampKing";
+        boss.definition.stableId=3;boss.definition.sourceId="script-visual-only-empty-injury";
+        boss.definition.placement={1,0,0,0,0,1,0,0,0,0,1,0,5000,0,0,1};
+        boss.transform={1,0,0,0,0,1,0,0,0,0,1,0,5000,0,0,1};
+        presentationPopulation.actors().push_back(std::move(boss));
+        CharacterVisual presentationPlayer;CombatSession presentationSession;
+        check(presentationSession.initialize(assets,database,bindings,presentationConfig,presentationPlayer,
+              presentationPopulation,{0,0,0},customization,error),error);
+        const auto* bossVisual=presentationSession.retained_actor_visual_borrow(3);
+        check(bossVisual&&bossVisual->animation_name()!=nullptr,
+              "Presentation-only actor failed to bind its nonempty Idle pose");
+        check(bindings.sequence("SwampKing","Injured",0)!=nullptr,
+              "Visual preload filtering mutated canonical source Injury data");
+    }
+    {
         const auto originalTraits=*session.world()->traits(1);
         auto unequippedTraits=originalTraits;unequippedTraits.main_item.reset();
         check(originalTraits.main_item.has_value(),"Equipment regression requires original main weapon");
@@ -231,13 +252,13 @@ int main(int argc,char** argv){try{
     for(unsigned frame=0;frame<100&&!restoredHit;++frame){check(session.update(.016,input,{0,0,0},0,error),error);restoredHit=!session.events().empty();}
     check(restoredHit,"Retained owners or event services lost after save rebind");
     std::cout<<"Retained source combat passed firstHitFrame="<<firstSourceHit<<" motionSegments="<<retainedSegments<<" saveRebind=verified\n";
-    session.actor(2)->health=0;const auto savedCorpsePosition=session.actor(2)->transform.position;
+    kill_actor_state(*session.actor(2));const auto savedCorpsePosition=session.actor(2)->transform.position;
     check(capture_game_save("source-test-level",1,character,*session.world(),captured,error),error);
     session.detach_for_restore();check(restore_game_save(captured,"source-test-level",*session.world(),character,error)&&session.rebind_after_restore(error),error);
     input={};for(unsigned frame=0;frame<100;++frame)check(session.update(.016,input,{0,0,0},0,error),error);
     check(session.actor(2)->transform.position==savedCorpsePosition&&session.owns_pose(2),"Restored source death replay moved saved corpse");
     std::cout<<"Retained saved corpse position preserved with terminal source pose\n";
-    session.actor(2)->health=session.actor(2)->max_health;session.actor(2)->action=CharacterAction::idle;
+    revive_actor_state(*session.actor(2));
     session.actor(2)->transform.position={10000,0,0};session.actor(1)->target_id=invalid_actor_id;input.attack=true;
     check(session.update(0,input,{0,0,0},0,error)&&session.actor(1)->target_id==invalid_actor_id,"Basic melee auto-target selected an actor beyond original melee reach");
     check(!session.uses_retained_player_locomotion()&&!session.has_player_locomotion("walk"),"Unbound locomotion aliases were inferred");
@@ -275,7 +296,7 @@ int main(int argc,char** argv){try{
     for(unsigned i=0;i<180;++i)check(session.select_player_locomotion("walk",error)&&session.update(.032,input,{0,0,0},0,error),error);pose=session.retained_player_pose();check(pose->slots()[pose->current_slot()].timeline.loop==0&&(pose->slots()[0].generation>generation||pose->slots()[1].generation>generation),"Source locomotion used raw wrap instead of completion/NewAnim repeat");
     session.set_motion_handler([](ActorState&,Vec3,bool,std::string&){return true;});
     check(session.select_player_locomotion("idle",error),error);input={};check(session.update(.05,input,{0,0,0},0,error),error);
-    session.actor(2)->transform.position={0,-100,0};session.actor(2)->health=session.actor(2)->max_health;session.actor(2)->action=CharacterAction::idle;
+    session.actor(2)->transform.position={0,-100,0};revive_actor_state(*session.actor(2));
     const auto outgoingSlot=session.retained_player_pose()->current_slot();const auto outgoingClip=session.retained_player_pose()->slots()[outgoingSlot].clip_id;const auto outgoingTime=session.retained_player_pose()->slots()[outgoingSlot].timeline.last_seconds;
     // B051 (Equipment avatar): the pane presents the bound idle clip on its own clock. Record the idle clip now, while the actor is idle.
     std::string idlePreviewClip;
@@ -408,10 +429,13 @@ int main(int argc,char** argv){try{
         [&](ActorId id,bool& value,std::string&){if(id==1)++playerNetworkQueries;else ++npcNetworkQueries;value=online;return true;});
     check(session.uses_diagnostic_controller_admission()&&session.original_ai_tables()==&session.world()->factions(),
         "Session lost typed source-controller/AI table binding");
+    // B068: a placed Character's initial heading is the opposite of the placement x-axis (identity placement -> pi); the test only
+    // requires that the blocked command leaves both headings unchanged.
+    const float blockedHeading1=session.actor(1)->transform.rotation[2],blockedHeading2=session.actor(2)->transform.rotation[2];
     input={};input.attack=true;
     check(session.update(.01,input,{0,0,0},0,error),error);
     check(!session.owns_pose(1)&&!session.owns_pose(2)&&session.actor(1)->target_id==0&&session.actor(2)->target_id==0&&
-        session.actor(1)->transform.rotation[2]==0&&session.actor(2)->transform.rotation[2]==0&&
+        session.actor(1)->transform.rotation[2]==blockedHeading1&&session.actor(2)->transform.rotation[2]==blockedHeading2&&
         playerNetworkQueries==0&&npcNetworkQueries==0,"blocked command mutated target/turn/pose or queried network");
     playerFlags.forced=255;
     check(session.update(.01,input,{0,0,0},0,error),error);
