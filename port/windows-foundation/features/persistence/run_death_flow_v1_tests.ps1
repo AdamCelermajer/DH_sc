@@ -9,6 +9,7 @@ $exe = Join-Path $out 'death_flow_v1_tests.exe'
 $args = @('-std=c++17','-O0','-static','-Wall','-Wextra','-Werror','-Wpedantic',
     'port/windows-foundation/features/persistence/death_restart_v1.cpp',
     'port/windows-foundation/features/persistence/death_flow_v1.cpp',
+    'port/windows-foundation/features/persistence/death_screen_v1.cpp',
     'port/windows-foundation/features/persistence/death_flow_v1_tests.cpp',
     '-o',$exe)
 Push-Location $repo

@@ -30,13 +30,14 @@ bool begin_death_flow_v1(const DeathAdmissionV1&, DeathFlowTicketV1&,
                          std::string& error);
 
 struct ContinueServicesV1 {
-    bool (*hide_continue_control)(void*, std::string&) = nullptr;
-    bool (*play_parent_timeline)(void*, std::string&) = nullptr;
+    // One source action: parent.gotoAndPlay("Hide"). The frame label is
+    // passed explicitly so the UI owner does not invent a native Hide call.
+    bool (*goto_parent_label)(void*, const char*, std::string&) = nullptr;
     void* context = nullptr;
 };
 
-// Mirrors dqhud_droid root/sprite742's btn_Continue release: Hide(1), then
-// parent gotoAndPlay. This event deliberately does not revive the Character.
+// Mirrors dqhud_droid root/sprite742's btn_Continue release:
+// parent.gotoAndPlay("Hide"). This event deliberately does not revive the Character.
 bool activate_continue_v1(DeathFlowTicketV1&, const ContinueServicesV1&,
                           std::string& error);
 

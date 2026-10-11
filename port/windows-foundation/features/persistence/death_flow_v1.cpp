@@ -46,10 +46,16 @@ bool activate_continue_v1(DeathFlowTicketV1& ticket,
         return false;
     }
     ticket.continue_consumed = true;
-    return call(services.hide_continue_control, services.context,
-                "Source Continue control requires its Hide(1) provider", error) &&
-           call(services.play_parent_timeline, services.context,
-                "Source Continue control requires its parent timeline provider", error);
+    if (!services.goto_parent_label) {
+        error = "Source Continue control requires its parent timeline-label provider";
+        return false;
+    }
+    if (!services.goto_parent_label(services.context, "Hide", error)) {
+        if (error.empty()) error = "Source parent timeline-label provider failed";
+        return false;
+    }
+    error.clear();
+    return true;
 }
 
 bool run_authored_revive_v1(
