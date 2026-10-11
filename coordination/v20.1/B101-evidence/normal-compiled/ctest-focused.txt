@@ -1,0 +1,14 @@
+Internal ctest changing into directory: C:/Users/adamc/Desktop/workspace/DH_wt/build-fixfx
+Test project C:/Users/adamc/Desktop/workspace/DH_wt/build-fixfx
+    Start  20: door_runtime_restore_v1
+1/4 Test  #20: door_runtime_restore_v1 ..........   Passed    2.68 sec
+    Start  21: door_clip_lifecycle_v1
+2/4 Test  #21: door_clip_lifecycle_v1 ...........   Passed    2.08 sec
+    Start  68: original_camera_transition
+3/4 Test  #68: original_camera_transition .......   Passed    2.20 sec
+    Start 172: embedded_particle_fidelity
+4/4 Test #172: embedded_particle_fidelity .......   Passed    0.46 sec
+
+100% tests passed, 0 tests failed out of 4
+
+Total Test time (real) =   7.46 sec
