@@ -595,6 +595,10 @@ add_test(NAME original_campaign_runtime COMMAND original_campaign_runtime_tests 
 add_executable(npc_root_sample_tests tests/npc_root_sample_tests.cpp)
 target_link_libraries(npc_root_sample_tests PRIVATE foundation_data)
 add_test(NAME npc_root_sample COMMAND npc_root_sample_tests "${CMAKE_CURRENT_SOURCE_DIR}/../..")
+# B079: item spawn arc (itemdrops.bdae clip 0) and hero Interact clip evidence.
+add_executable(item_spawn_clip_tests tests/item_spawn_clip_tests.cpp)
+target_link_libraries(item_spawn_clip_tests PRIVATE foundation_data)
+add_test(NAME item_spawn_clip COMMAND item_spawn_clip_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v20/assets")
 add_executable(retained_animation_owner_tests tests/retained_animation_owner_tests.cpp)
 target_link_libraries(retained_animation_owner_tests PRIVATE foundation_data)
 add_test(NAME retained_animation_owner COMMAND retained_animation_owner_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")

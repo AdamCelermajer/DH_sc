@@ -1525,6 +1525,19 @@ int main(int argc,char** argv) {
             const auto records=read("animations_pyarray.bin"),animationNames=read("animations_pyarraynames.bin"),fields=read("animations_pystructnames.bin");
             if(!dh2::data::load_dictionary({names.data(),names.size()},{values.data(),values.size()},skillAnimationDictionary,error)||
                !dh2::data::load_animation_tables({records.data(),records.size()},{animationNames.data(),animationNames.size()},{fields.data(),fields.size()},skillAnimationDictionary,skillAnimationTables,error))throw std::runtime_error("Source skill animation tables: "+error);
+            // B079: the hero's CharAnimTable "Interact" clips (index = interaction type) join the same retained clip bank, so the
+            // context button can play them (source CSInteract, SM_SetInteractState 0x3c64ac).
+            {
+                const auto interactTable=dh2_character_animation_table_id(actorProperties.sheets.resolved[2],std::int32_t(skillAnimationTables.characters.size()));
+                for(std::size_t variant=0;variant<8;++variant) {
+                    const auto* sequence=dh2::data::animation_state(skillAnimationTables,interactTable,"Interact",variant);
+                    if(!sequence||sequence->steps.empty())break;
+                    const auto* clipPath=dh2::data::animation_clip(sequence->steps.front(),skillAnimationDictionary);
+                    const std::string clipName="interact/"+std::to_string(variant);
+                    if(clipPath&&std::none_of(options.character.clips.begin(),options.character.clips.end(),[&](const auto& entry){return entry.first==clipName;}))
+                        options.character.clips.push_back({clipName,*clipPath});
+                }
+            }
             skillVisualPlan={};skillVisualPlan.profileId=options.combat.playerProfileId;skillVisualPlan.roleId="player-source-skills";skillVisualPlan.config=options.character;
             skillSequencePolicies={};
             f::generic_skills::RuntimeSkillAnimationBankRequestV1 request;
@@ -1795,6 +1808,10 @@ int main(int argc,char** argv) {
         f::InteractableRegistryV1 interactables; // P16 CONTEXT: non-actor interaction-type providers (empty until containers/NPC register)
         // B069: context-button approach (source AI_SetTarget(OOI) then walk to GetInteractionSpot until AI_IsInInteractionRange).
         f::ActorId contextApproachTarget=f::invalid_actor_id;std::size_t contextApproachIndex=0;int contextApproachStartFrame=0;double contextApproachClock=0,contextApproachCheckClock=0;float contextApproachCheckDistance=0;
+        // B079: hero interaction animation. Source CharAI::AI_InteractWith (0x3cff34) enters CSInteract with the target's
+        // GetInteractionType (OpenableContainer = 0) as the CharAnimTable "Interact" index; the "interact" marker of that clip
+        // calls target->Interact (Container::Interact -> chest activate clip -> "opened" -> DoOpen). Controls stay locked meanwhile.
+        struct HeroInteractV1 {bool active=false;std::size_t container=0;double clock=0,eventSeconds=0,durationSeconds=0;bool fired=false;} heroInteract;
         int lastActionIcon=-2; // P16 CONTEXT: last published HUD action-button frame (log on change)
         bool actionButtonHeld=false; // P16 HUDART: Space held this frame (pressed ring of the action button)
         const auto bindSourcePlayerLocomotion=[&](f::CombatSession& session) {
@@ -6089,11 +6106,51 @@ int main(int argc,char** argv) {
                     in.target_type=containerRuntime.interaction_type(ci);
                     return f::interaction_in_range_v1(in);
                 };
-                const auto ctxUseContainer=[&](std::size_t ci) {
+                const auto ctxFireContainer=[&](std::size_t ci) {
                     const float p[3]={ctxOwner->transform.position[0],ctxOwner->transform.position[1],ctxOwner->transform.position[2]};
                     const auto r=containerRuntime.interact(ci,p,std::numeric_limits<float>::infinity()); // range already satisfied by ctxContainerRange
                     std::cout<<"Context container declaration="<<containerRuntime.instance(ci).name<<" status="<<f::containers::container_status_name(r.status)<<" state="<<int(r.state_before)<<"->"<<int(r.state_after)<<" distance="<<r.distance<<" frame="<<drawn<<'\n';
+                    // Container::Interact (0x3a0b38): VoxSoundManager::Play3D(GetSound(), object position) on an accepted interaction.
+                    if(r.status==f::containers::ContainerInteractStatusV1::accepted&&runtimeAudio&&r.sound_id>=0) {
+                        const auto& at=containerRuntime.instance(ci).transform;f::audio::WorldItemSoundResultV1 sr;std::string se;
+                        if(!runtimeAudio->submit_world_item_sound(r.sound_id,{at[12],at[13],at[14]},sr,se))std::cout<<"Container sound ordinal="<<r.sound_id<<" status=failed detail="<<se<<'\n';
+                        else std::cout<<"Container sound ordinal="<<r.sound_id<<" uid="<<sr.uid<<" status="<<(sr.status==f::audio::WorldItemSoundStatusV1::asset_missing?"asset_missing":"submitted")<<" frame="<<drawn<<'\n';
+                    }
                 };
+                const auto ctxUseContainer=[&](std::size_t ci) {
+                    // B079: an openable container (interaction type >= 0, not the destructible 8) is opened from the hero's Interact clip.
+                    const auto type=containerRuntime.interaction_type(ci);
+                    const auto* interactSequence=(type>=0&&type!=8&&!heroInteract.active&&containerRuntime.state(ci)==f::containers::kContainerStateIdle&&skillAnimationTables.characters.size())?
+                        dh2::data::animation_state(skillAnimationTables,dh2_character_animation_table_id(actorProperties.sheets.resolved[2],std::int32_t(skillAnimationTables.characters.size())),"Interact",std::size_t(type)):nullptr;
+                    const std::string* clipPath=(interactSequence&&!interactSequence->steps.empty())?dh2::data::animation_clip(interactSequence->steps.front(),skillAnimationDictionary):nullptr;
+                    std::string clipError;std::int32_t durationMs=0;const std::string interactClip="interact/"+std::to_string(type);
+                    if(clipPath&&combatSession->play_actor_clip(combatSession->player_id(),interactClip,*clipPath,false,clipError)&&combatSession->actor_clip_duration_ms(combatSession->player_id(),interactClip,durationMs,clipError)&&durationMs>0) {
+                        double eventMs=0;std::string markerError;
+                        if(const auto* visualBorrow=combatSession->retained_actor_visual_borrow(combatSession->player_id()))
+                            if(const auto* markers=visualBorrow->markers(interactClip,markerError))
+                                for(const auto& marker:markers->markers())if(marker.name=="interact")eventMs=marker.time_ms-markers->start_ms();
+                        heroInteract={true,ci,0,eventMs/1000.0,durationMs/1000.0,false};
+                        std::cout<<"Hero interact start declaration="<<containerRuntime.instance(ci).name<<" type="<<type<<" clip="<<*clipPath<<" eventMs="<<eventMs<<" durationMs="<<durationMs<<" frame="<<drawn<<'\n';
+                    } else {
+                        if(clipPath)std::cout<<"Hero interact clip unavailable ("<<clipError<<"): opening without the hero animation\n";
+                        ctxFireContainer(ci);
+                    }
+                };
+                if(heroInteract.active) { // B079: advance the hero Interact clip; fire the container at its "interact" marker; unlock at the end
+                    if(!ctxOwner->alive()) {
+                        std::cout<<"Hero interact cancelled reason=dead frame="<<drawn<<'\n';heroInteract.active=false;
+                    } else {
+                        heroInteract.clock+=gameplayDt;
+                        if(!heroInteract.fired&&heroInteract.clock>=heroInteract.eventSeconds) {
+                            heroInteract.fired=true;ctxFireContainer(heroInteract.container);
+                        }
+                        if(heroInteract.clock>=heroInteract.durationSeconds) {
+                            if(!heroInteract.fired){heroInteract.fired=true;ctxFireContainer(heroInteract.container);}
+                            std::string idleError;combatSession->script_put_idle(combatSession->player_id(),idleError,false);
+                            std::cout<<"Hero interact end frame="<<drawn<<'\n';heroInteract.active=false;
+                        }
+                    }
+                }
                 {   // B069: approach update (cancelled by manual movement, a lock, a spent container, a stall or a timeout)
                     const bool approachLocked=!ctxOwner->alive()||globalControllerBlocked||characterControllerBlocked[combatSession->player_id()];
                     if(contextApproachTarget!=f::invalid_actor_id) {
@@ -6131,7 +6188,7 @@ int main(int argc,char** argv) {
                 }
                 // P16 SPACEBTN: the press-edge use is refused while the controller is locked (cutscene/tutorial LockTutorial,
                 // dead, character lock), as the source HUD does not reach Cmd_UseOOI then. Attack handling is unchanged.
-                const bool ctxControllerLocked=!ctxOwner->alive()||globalControllerBlocked||characterControllerBlocked[combatSession->player_id()];
+                const bool ctxControllerLocked=!ctxOwner->alive()||globalControllerBlocked||characterControllerBlocked[combatSession->player_id()]||heroInteract.active;
                 // P17 TRANSITIONS2: the travel prompt is confirmed by this same context button. An armed exit (the player
                 // stands in it and the prompt is shown) takes the press edge when no object of interest is present;
                 // NPCs, chests and levers keep priority.
@@ -6176,7 +6233,8 @@ int main(int argc,char** argv) {
             if(drawn>=options.moveFromFrame&&drawn<options.moveFrames){gameplayInput.move2D=options.scriptedMove;gameplayInput.run=options.scriptedRun&&runBound;}
             for(const auto& seg:options.moveSegments)if(int(drawn)>=seg.start&&int(drawn)<seg.end){gameplayInput.move2D=seg.axis;gameplayInput.run=options.scriptedRun&&runBound;}
             if(gameplayPaused)gameplayInput={};
-            const bool playerControllerBlocked=combatSession&&(!combatSession->actor(combatSession->player_id())->alive()||globalControllerBlocked||characterControllerBlocked[combatSession->player_id()]);
+            if(heroInteract.active)gameplayInput.attack=false; // B079: controls are locked while the hero plays the Interact clip
+            const bool playerControllerBlocked=combatSession&&(!combatSession->actor(combatSession->player_id())->alive()||globalControllerBlocked||characterControllerBlocked[combatSession->player_id()]||heroInteract.active);
             bindEnemyAI();
             bindSourcePhysicalTransitions();
             auto applyPlayerFrameControls=[&]() {
@@ -6306,7 +6364,7 @@ int main(int argc,char** argv) {
                 // Direction/target input still uses the preview admission policy.
                 gameplayInput.move2D={};gameplayInput.run=false;gameplayInput.targetSelect=false;
             }
-            if(!gameplayPaused&&motor&&(!combatSession||(combatSession->actor(combatSession->player_id())->alive()&&!combatSession->owns_pose(combatSession->player_id())&&!(campaignHost.cutscene_mode()&&campaignHost.scripted_clip_pose(combatSession->player_id()))))) { // B068: a scripted PlayActorAnim pose is not replaced by the locomotion selection
+            if(!gameplayPaused&&motor&&!heroInteract.active&&(!combatSession||(combatSession->actor(combatSession->player_id())->alive()&&!combatSession->owns_pose(combatSession->player_id())&&!(campaignHost.cutscene_mode()&&campaignHost.scripted_clip_pose(combatSession->player_id()))))) { // B068: a scripted PlayActorAnim pose is not replaced by the locomotion selection
                 f::InputActions input;input.move2D=gameplayInput.move2D;input.run=gameplayInput.run;
                 if(playerControllerBlocked)input={};
                 auto basis=options.sourceCamera?originalCamera.movementBasis():f::cameraMovementBasis(freeCamera.pose());
