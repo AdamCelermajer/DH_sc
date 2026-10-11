@@ -8,6 +8,8 @@
 #include "../scene-materials/particle_scene_v1.hpp"
 #include "source_fx_node_matrix_v4.hpp" // P16 LEVELUP2: camera-facing billboard pass for FX scene nodes
 #include "../engine-animation/animation.hpp"
+#include <cstdio>
+#include <cstdlib>
 #include "../engine-animation/particle_box_v2.hpp"
 #include "../engine-animation/material_color.hpp"
 #include "../engine-animation/material_color_v3.hpp"
@@ -133,7 +135,11 @@ public:
  // virtualf8 and returns count<=0. Selected SParticle getter64bb90 reads the
  // SAME vector begin/end divided by100; it does not disable generation.
  bool completed(bool& out,std::string&)const override{out=emission_&&emission_->particles().empty();return ready_;}
- bool draw_parts(std::vector<skinning::VisualDrawPartV6>& out,std::string& error)const override{if(!ready_||!draw_){error="Blood source render backing";return false;}if(draw_->geometry.positions.empty()){out.clear();return true;}skinning::VisualDrawPartV6 part;part.retention=draw_;part.geometry=&draw_->geometry;part.material_table=&draw_->materials;part.materials=&draw_->binding;part.positions=draw_->geometry.positions;part.world={1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1};out={std::move(part)};return true;}
+ bool draw_parts(std::vector<skinning::VisualDrawPartV6>& out,std::string& error)const override{if(!ready_||!draw_){error="Blood source render backing";return false;}
+  // FIRE3 diagnostic (DH_FX_DEBUG): live particle count and drawn vertex count per emitter.
+  { static const bool dbg=std::getenv("DH_FX_DEBUG")!=nullptr; static int n=0;
+    if(dbg&&(n++%60)==0)std::fprintf(stderr,"FXEMIT node=%u name=%s particles=%zu vertices=%zu scalar_bindings=%zu birth_rate=%.2f\n",emitter_node_,input_.name.c_str(),emission_?emission_->particles().size():std::size_t(0),draw_->geometry.positions.size(),scalar_bindings_.size(),generation_?generation_->generation().birth_rate:-1.f); }
+  if(draw_->geometry.positions.empty()){out.clear();return true;}skinning::VisualDrawPartV6 part;part.retention=draw_;part.geometry=&draw_->geometry;part.material_table=&draw_->materials;part.materials=&draw_->binding;part.positions=draw_->geometry.positions;part.world={1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1};out={std::move(part)};return true;}
  bool draw_sources_v3(std::vector<CharacterParticleDrawSourceV3>& out,std::string& error)const override{
   std::vector<skinning::VisualDrawPartV6> parts;if(!draw_parts(parts,error))return false;
   std::vector<CharacterParticleDrawSourceV3> result;for(auto& part:parts){

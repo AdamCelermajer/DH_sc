@@ -32,27 +32,39 @@ Evidence folder (not committed): `DH_sc/.local-inputs/claude-preview17/fire3/` (
 - After `skinning::palette`/`positions` the deformed bounds are x 177..1037, y -716..808, **z 259..967**. The whole sheet is lifted about 400 units and its base floats at z 259 (door origin z 74). The sheet is no longer on the floor and also not tall in the expected place.
 - The palette offset is the cause: each joint's palette is `world * inverse_bind * bind_shape` with the animated bone world. Bone_01 animated translation is (206, 146, 904), which is absolute in the clip. If the inverse bind assumes a different rest pose, the offset appears. The joint-level breakdown is being measured (`FXJOINT` lines, build `p17fire3` after `joint diagnostic` commit).
 
-## Implementation
-- (pending)
+### Joint and NOBIND experiment (build `p17fire3` at `2ea3e23a`, run `fire3/nobind/`, frame 240 `nobind/nobind-240.png`)
+- Joint breakdown (`FXJOINT`): bone_01 world (201,147,908) and inverse bind (-207,-145,-896) give J*IBM about (-6,2,12), i.e. the animated bones are near rest. The large offset comes only from the bind-shape translation (180.7, 47.0, 397.2), which every palette carries.
+- IDA: `CColladaSoftwareSkinTechnique::prepareCache` (`0x66fe34`, `pseudocode-all.c` line 668244) and `CColladaHardwareMatrixSkinTechnique::prepareCache` (`0x66cd18`, line 665083) both build palette = node matrix * inverse bind * bind shape. So the original applies bind shape to skins. Dropping it is not supported by the source for this node; the NOBIND experiment is a diagnostic only.
+- NOBIND result: deformed z goes from 259..967 to -139..563 (grounded tall sheet). In frame 240 the flame is almost invisible, not a wall. So the sheet placement alone does not produce the reference look. NOBIND is not a fix and stays env-gated.
+
+### Emitter (new finding)
+- Log line `Animation channel skipped (target is not a scene node) type=28 target=GL_PCloud01-emitter` is from the scene channel filter. It does not stop the emitter: the composite uses its own scalar binding (`scalar_bindings=1`, `AuthoredEmitterV32` in `character_authored_resource_v32.cpp`).
+- Diagnostic (`FXEMIT`, build `p17fire3` after commit for emitter diagnostic, run `fire3/emit/`): the emitter is live, 15 particles steady (60 vertices drawn), birth rate 15/s during the idle loop (`idleclosed`). So particles are drawn in the baseline.
+- The birth-rate bursts (150/s at about 2.8 s, open clip; 30 -> 150 at about 8.3 s, close clip) are never reached in the idle run. Whether the reference's tall orange mass is these bursts, the sheet at correct placement, or both is NOT decided. The reference state (open/closed) at the 7:59 frame is not established.
+
+### Status
+- No implementation. The problem is not solved. The root cause is not proven; candidate causes are (a) the wall sheet placement with bind shape (the authored data may place it correctly and the reference is a different door state), and (b) the emitter burst states not exercised in the idle run.
 
 ## Isolated tests
-- (pending)
+- None. No fix exists to test.
 
 ## Integrated runtime verification (real EXE, quiet_run, rc3 package)
-1. Red door same-frame vs reference (`ref-wall-of-fire-0759.png`, Part 1 about 610-624 s): (pending)
-2. Ramp sequence (4 frames): (pending)
-3. Contact sheet: (pending)
-4. Frame cost `DH_PERF=1`: (pending)
-5. ctest (`-j 6`, llvm-mingw on PATH; expect only `session_skill_binding` to fail): (pending)
+1. Red door same-frame vs reference (`ref-wall-of-fire-0759.png`, Part 1 about 610-624 s): NOT DONE. The idle-state frame (base and NOBIND) does not match the reference state, which is not yet established.
+2. Ramp sequence (4 frames): NOT DONE. The local video does not show the ramp (see Reference).
+3. Contact sheet: NOT DONE.
+4. Frame cost `DH_PERF=1`: NOT DONE.
+5. ctest: NOT RUN (no code change to the fix path; only env-gated diagnostics were added).
 
 ## Gaps
-- (pending)
+- The reference door state at 7:59 and the matching gameplay state are unknown. The idle run never reaches the open/close bursts.
+- IDA for the skin path confirms bind shape is applied; IDA for the emitter's placement (`GL_PCloud01` parent and emitter world) and for the door's state-to-clip mapping is not yet decoded.
+- The `FXJOINT` diagnostic calls `skinning::palette` directly, so its palette_t includes bind shape even in the NOBIND run. Use `FXDBG` deformed bounds for the real skin result.
 
 ## Placeholders
-- (pending)
+- None introduced. The `DH_FX_NOBIND` and `DH_FX_DEBUG` / `FXEMIT` hooks are env-gated diagnostics, not user-facing behaviour.
 
 ## Package files required
 - rc3 package (`windows-source-clock-v19-preview-15-rc3`).
 
 ## Verifier script
-- (pending)
+- None. Frame conversion helper (`ppm2png.py`, stdlib only) is in the evidence folder, not committed.
