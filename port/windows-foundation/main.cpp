@@ -4267,6 +4267,7 @@ int main(int argc,char** argv) {
                     if(found!=characterRows.end())row=found->second;
                 }
                 questActorIdentity[placed.definition.stableId]={row,placed.source_template_cache};
+                if(std::getenv("DH_QUEST_TRACE"))std::cout<<"Quest identity actor="<<placed.definition.name<<" profile="<<placed.profileId<<" row="<<row<<" template="<<placed.source_template_cache<<" pool="<<spawnPool.owns(placed.definition.stableId)<<'\n'; // B093 trace
             }
             // P16 MAPMARKERS: marker facts of this level, once per load. Level objects are the authored classes of the
             // IDA map producers (activation gate from the active conditions). Characters carry the CharacterTable row
@@ -4425,6 +4426,7 @@ int main(int argc,char** argv) {
         const auto raiseQuestKills=[&]() {
             if(!questRuntime||!combatSession)return;
             for(const auto& event:combatSession->events()) {
+                if(std::getenv("DH_QUEST_TRACE")&&event.applied&&event.target_died)std::cout<<"Quest kill trace target="<<event.target<<" attacker="<<event.attacker<<" player="<<combatSession->player_id()<<" known="<<questActorIdentity.count(event.target)<<'\n'; // B093 trace
                 if(!event.applied||!event.target_died||event.attacker!=combatSession->player_id())continue;
                 const auto identity=questActorIdentity.find(event.target);
                 if(identity==questActorIdentity.end())continue;
@@ -7455,6 +7457,29 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                             // IDA ShowObjectivesIcons: the CURRENT quest's objectives; MoveInZone positions at the zone's box centre.
                             const auto current=questRuntime->current_quest();
                             if(current>=0&&std::size_t(current)<questTable->rows().size()) {
+                                // B093: kill objectives GetPositions (IDA 0x47ca18 property id, 0x47cb1c template id): the list holds
+                                // (required - killed) icons, pre-filled with the player position, replaced by the closest LIVE matching characters.
+                                if(const auto* killProgress=questRuntime->progress_of(current); killProgress&&combatSession&&combatSession->world()&&combatSession->actor(combatSession->player_id())) {
+                                    const auto& killObjectives=questTable->rows()[std::size_t(current)].objectives;
+                                    const auto* playerActor=combatSession->actor(combatSession->player_id());
+                                    const std::array<float,3> playerPosition{playerActor->transform.position[0],playerActor->transform.position[1],playerActor->transform.position[2]};
+                                    for(std::size_t i=0;i<killObjectives.size()&&i<killProgress->objectives.size();++i) {
+                                        const auto& objective=killObjectives[i];
+                                        const bool byProperty=objective.type==int(f::quest_runtime::QuestObjectiveTypeV1::kill_x_enemies);
+                                        if(!byProperty&&objective.type!=int(f::quest_runtime::QuestObjectiveTypeV1::kill_enemy_template))continue;
+                                        const int remaining=objective.value-killProgress->objectives[i].quantity;
+                                        if(killProgress->objectives[i].completed||remaining<=0)continue;
+                                        std::vector<std::array<float,3>> liveMatches;
+                                        for(const auto& [actorId,actor]:combatSession->world()->actors()) {
+                                            if(actorId==combatSession->player_id()||!actor.alive())continue;
+                                            const auto identity=questActorIdentity.find(actorId);
+                                            if(identity==questActorIdentity.end()||(byProperty?identity->second.first:identity->second.second)!=objective.oid1)continue;
+                                            liveMatches.push_back({actor.transform.position[0],actor.transform.position[1],actor.transform.position[2]});
+                                        }
+                                        for(const auto& position:f::map_visit::map_kill_objective_positions_v1(remaining,playerPosition,liveMatches))
+                                            markerInputs.objective_zones.push_back({"kill",position});
+                                    }
+                                }
                                 for(const auto& objective:questTable->rows()[std::size_t(current)].objectives) {
                                     if(objective.type!=int(f::quest_runtime::QuestObjectiveTypeV1::move_in_zone))continue;
                                     for(const auto& zone:questZones.zones()) {

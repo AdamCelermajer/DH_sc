@@ -92,6 +92,25 @@ void map_provider_level_objects_v1(const MapMarkerInputsV1& inputs, MapMarkersV1
     }
 }
 
+std::vector<std::array<float, 3>> map_kill_objective_positions_v1(int remaining, const std::array<float, 3>& player,
+                                                                  const std::vector<std::array<float, 3>>& live_matches) {
+    if (remaining <= 0) return {};
+    std::vector<std::pair<float, std::array<float, 3>>> slots(std::size_t(remaining), {-1.0f, player}); // -1 = prefill
+    for (const auto& position : live_matches) {
+        const float dx = position[0] - player[0], dy = position[1] - player[1], dz = position[2] - player[2];
+        const float distance = dx * dx + dy * dy + dz * dz;
+        std::size_t farthest = 0; // addClosest: empty prefill slots are replaced first, then the farthest
+        for (std::size_t s = 1; s < slots.size(); ++s) {
+            const bool sEmpty = slots[s].first < 0.0f, fEmpty = slots[farthest].first < 0.0f;
+            if ((sEmpty && !fEmpty) || (sEmpty == fEmpty && slots[s].first > slots[farthest].first)) farthest = s;
+        }
+        if (slots[farthest].first < 0.0f || distance < slots[farthest].first) slots[farthest] = {distance, position};
+    }
+    std::vector<std::array<float, 3>> out;
+    for (const auto& slot : slots) out.push_back(slot.second);
+    return out;
+}
+
 void map_provider_objectives_v1(const MapMarkerInputsV1& inputs, MapMarkersV1& out) {
     // IDA ShowObjectivesIcons: no visited check (the objective position is drawn whether or not its room is visited).
     for (const auto& zone : inputs.objective_zones) out.push_back({MapMarkerKindV1::objective, zone.position});
