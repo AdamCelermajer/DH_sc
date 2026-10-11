@@ -128,3 +128,32 @@ Current consumer rejects that field and current Witch test did not activate the
 campaign trigger path. Integration must bind the generic source gate and active
 level script bank before claiming this original route works. Physical open-cross
 attempts that clamp at missing source floor remain disqualified as passage proof.
+
+## Continued integration gates (not acceptance)
+
+The finite additions now total 310 unique package destinations: 267 P17 records,
+28 source-derived actor dependencies, ten B068 assets including the original
+dialogue speaker table, three teleport dependencies and two authentic Gameloft
+movie files. Root validated every source file and duplicate destination hash;
+the generated preflight is `.local-inputs/v20/package-assets-preflight.json`.
+No package was created. Final metadata must use actual clean source, full CTest
+and frozen executable results rather than these intermediate diagnostics.
+
+Normal compiled common/active-level script banks are integrated. Source-derived
+actor retention exposed an unused empty SwampKing injury clip and then a cached
+target-node pointer invalidated by replacement of the posed scene graph. The
+empty generated injury preload is excluded only for visual-only, non-damageable
+profiles; the source state metadata remains. Stable node lifetime is being
+repaired with pose rollback, foreign-token and reload tests. The failing runs
+are diagnostic failures, not accepted cinematic or campaign tests.
+
+The latest Witch first-overlap diagnostic emitted `questZoneEntered` and applied
+its quest event once before that unrelated target-cache failure. This verifies
+the bound producer in that fixture; it does not prove the complete Witch scene.
+Source logical death is now distinct from HP and persisted in the V4 witness
+tail. The death screen geometry/timeline has isolated tests, but actual lethal
+hit, visible screen, Continue, revive and checkpoint/world restoration still
+require production wiring and runtime verification. The authentic launch movie
+has silent decoder and lifecycle checks; audibility remains unverified under
+the user's silent-test rule. Actual Door_Teleport light-effect capture and all
+final frozen package checks remain pending.

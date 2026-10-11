@@ -792,6 +792,350 @@
     {
       "source": ".local-inputs/assets-extra/android/data/scene/022_swamp2_trollcave.rule.xml",
       "destination": "assets/data/scene/022_swamp2_trollcave.rule.xml"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/mgxlist.txt",
+      "destination": "assets/data/3d/modules/swamp/mgx/mgxlist.txt"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/bossroomb_swpcave_w_01.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/bossroomb_swpcave_w_01.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/bossroom_ruins_ns_.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/bossroom_ruins_ns_.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/bossroom_swpcave_w_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/bossroom_swpcave_w_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/corner_brdwalk_ne_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/corner_brdwalk_ne_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/corner_brdwalk_se_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/corner_brdwalk_se_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/corner_brdwalk_sw_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/corner_brdwalk_sw_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/corner_ruin_ne_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/corner_ruin_ne_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/corner_ruin_nw_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/corner_ruin_nw_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/corner_ruin_se_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/corner_ruin_se_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/corner_ruin_wn_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/corner_ruin_wn_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/corner_ruin_ws_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/corner_ruin_ws_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/corner_swpcave_ne_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/corner_swpcave_ne_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/corner_swpcave_nw_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/corner_swpcave_nw_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/corner_swpcave_se_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/corner_swpcave_se_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/corner_swpcave_sw_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/corner_swpcave_sw_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/deadendb_swpcave_n_01.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/deadendb_swpcave_n_01.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/deadend_brdwalk_e_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/deadend_brdwalk_e_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/deadend_brdwalk_se_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/deadend_brdwalk_se_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/deadend_brdwalk_s_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/deadend_brdwalk_s_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/deadend_brdwalk_we_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/deadend_brdwalk_we_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/deadend_brdwalk_w_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/deadend_brdwalk_w_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/deadend_ruin_w_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/deadend_ruin_w_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/deadend_swpcave_e_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/deadend_swpcave_e_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/deadend_swpcave_n_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/deadend_swpcave_n_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/deadend_swpcave_s_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/deadend_swpcave_s_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/deadend_swpcave_w_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/deadend_swpcave_w_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/merchantcamp_ruins_swe_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/merchantcamp_ruins_swe_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/obj_1of4_brdwalk_nse_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/obj_1of4_brdwalk_nse_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/obj_2of4_brdwalk_sw_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/obj_2of4_brdwalk_sw_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/obj_3of4_brdwalk_sw_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/obj_3of4_brdwalk_sw_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/obj_4of4_brdwalk_sw_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/obj_4of4_brdwalk_sw_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/straight_brdwalk_ns_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/straight_brdwalk_ns_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/straight_brdwalk_we_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/straight_brdwalk_we_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/straight_ruin_ns_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/straight_ruin_ns_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/straight_ruin_we_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/straight_ruin_we_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/straight_swpcave_ns_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/straight_swpcave_ns_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/straight_swpcave_we_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/straight_swpcave_we_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/t_ruin_nse_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/t_ruin_nse_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/t_ruin_nsw_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/t_ruin_nsw_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/t_swpcave_nse_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/t_swpcave_nse_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mgx/t_swpcave_nsw_00.mgx",
+      "destination": "assets/data/3d/modules/swamp/mgx/t_swpcave_nsw_00.mgx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/bossroomb_swpcave_w_01.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/bossroomb_swpcave_w_01.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/bossroom_ruins_ns_.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/bossroom_ruins_ns_.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/bossroom_swpcave_w_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/bossroom_swpcave_w_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/corner_brdwalk_ne_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/corner_brdwalk_ne_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/corner_brdwalk_se_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/corner_brdwalk_se_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/corner_brdwalk_sw_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/corner_brdwalk_sw_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/corner_ruin_ne_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/corner_ruin_ne_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/corner_ruin_nw_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/corner_ruin_nw_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/corner_ruin_se_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/corner_ruin_se_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/corner_ruin_wn_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/corner_ruin_wn_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/corner_ruin_ws_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/corner_ruin_ws_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/corner_swpcave_ne_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/corner_swpcave_ne_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/corner_swpcave_nw_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/corner_swpcave_nw_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/corner_swpcave_se_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/corner_swpcave_se_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/corner_swpcave_sw_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/corner_swpcave_sw_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/deadendb_swpcave_n_01.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/deadendb_swpcave_n_01.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/deadend_brdwalk_e_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/deadend_brdwalk_e_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/deadend_brdwalk_se_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/deadend_brdwalk_se_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/deadend_brdwalk_s_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/deadend_brdwalk_s_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/deadend_brdwalk_we_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/deadend_brdwalk_we_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/deadend_brdwalk_w_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/deadend_brdwalk_w_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/deadend_ruin_w_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/deadend_ruin_w_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/deadend_swpcave_e_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/deadend_swpcave_e_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/deadend_swpcave_n_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/deadend_swpcave_n_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/deadend_swpcave_s_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/deadend_swpcave_s_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/deadend_swpcave_w_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/deadend_swpcave_w_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/merchantcamp_ruins_swe_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/merchantcamp_ruins_swe_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/obj_1of4_brdwalk_nse_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/obj_1of4_brdwalk_nse_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/obj_2of4_brdwalk_sw_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/obj_2of4_brdwalk_sw_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/obj_3of4_brdwalk_sw_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/obj_3of4_brdwalk_sw_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/obj_4of4_brdwalk_sw_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/obj_4of4_brdwalk_sw_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/straight_brdwalk_ns_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/straight_brdwalk_ns_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/straight_brdwalk_we_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/straight_brdwalk_we_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/straight_ruin_ns_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/straight_ruin_ns_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/straight_ruin_we_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/straight_ruin_we_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/straight_swpcave_ns_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/straight_swpcave_ns_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/straight_swpcave_we_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/straight_swpcave_we_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/t_ruin_nse_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/t_ruin_nse_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/t_ruin_nsw_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/t_ruin_nsw_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/t_swpcave_nse_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/t_swpcave_nse_00.mvx"
+    },
+    {
+      "source": ".local-inputs/claude-preview16/levels-root/data/3d/modules/swamp/mvx/t_swpcave_nsw_00.mvx",
+      "destination": "assets/data/3d/modules/swamp/mvx/t_swpcave_nsw_00.mvx"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+      "destination": "assets/data/pydata/scripts_pyscripts.bin"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+      "destination": "assets/data/pydata/scripts_pyscriptnames.bin"
+    },
+    {
+      "source": ".local-inputs/assets-extra/android/data/3d/characters/witch/witch.bdae",
+      "destination": "assets/data/3d/characters/witch/witch.bdae"
     }
   ]
 }
