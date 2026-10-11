@@ -19,6 +19,7 @@ use GPT-6.1 Sol HIGH. Concurrency is limited to five workers plus root.
 | B094/B091 boss cinematic state | `/root/b094_b091_boss_cinematics` | fix091 | Fresh session after user clarification; fresh reviewer queued |
 | B095 bag navigation | `/root/b095_bag_navigation` | fix095 | Temporarily interrupted for new B112; corrected cinematic-free reproduction pending |
 | B112 green NPC targeting | `/root/b112_npc_green_target` | fix112 / codex/b112 | New user report assigned immediately; fresh read-only reviewer queued |
+| B113 original travel-message widget | `/root/b113_travel_prompt` | fix113 / codex/b113 | New screenshot/report assigned immediately; fresh reviewer queued |
 
 Root retains follow-up ownership of B095, B111/B103, B091, B093 and B097 runtime
 gaps until their fresh sessions can start (B091 has now been assigned below). Finished branches and already-merged
@@ -98,6 +99,45 @@ B109 and B110 resumed when those reviews freed slots. New user B112 report then
 opened a fresh worker immediately; B095 was temporarily interrupted to free
 its slot. User clarified that related work may share the existing session/
 worktree; keep evidence separate and prevent duplicate shared-core writes.
+
+## Subsequent review/integration updates
+
+- B112 clarified ground circle ONLY. `/root/b112_review` READY WITH CAVEATS;
+  original quest/merchant status marker meshes contain the circle, type3 target
+  FX set265 has no file. No speculative pointer targeting added. B100 is a
+  private verification dependency and still needs its own review. Correct B112
+  dialogue timestamp to about407s (406/406.5 retain marker).
+- B105 `/root/b105_review` READY WITH CAVEATS for normal Celeste. Core/pose/
+  billboard evidence and3/3 independent tests checked. Model-switch material
+  cache pointer reuse is an inherited source-only follow-up, not a proven current
+  Celeste failure. Broader hide/visibility/parameter clips remain unverified.
+- B101 `/root/b101_review` READY FOR SCOPED CORE WITH B101 OPEN. Moving puffs
+  improve but orange-wall appearance still differs. Color peak audit correction:
+  raw133.333–400ms means particle ages roughly0.333–1s, not late-life peak.
+  An inherited random-direction predicate differs from IDA; fire(0,0,1) unaffected.
+- B091/B094 initial review NEEDS WORK caught missing scripted flag. Owner repaired
+  exact current-state !scripted return-Idle gate (not clip-end/Unset-edge only).
+  Re-review READY WITH CAVEATS at3a4aec63, frozen96413324...99C680A2,
+  captain Unset301→release302 and five runtime branches checked. Initial schema
+  replacement error5 retained, retries/full167/168 pass, cause unproven.
+- Reviewed B101 core, B105 and B091/B094 now merged into integration. Build and
+  focused combined executable checks still needed before any resolution.
+- B095 reviewer NEEDS WORK for closed-menu queued release reaching hidden page
+  provider. Original accepted-tab reset is sound; owner repairing that admission
+  boundary with a queued Close→second-release regression before integration.
+- B109 reviewer NEEDS WORK for specular transport lost on removal of baked decor;
+  source repair8b1eb74c/tip1a3e199f binds full diffuse/alpha/specular generically,
+  checks source alpha channel and preserves lookup failure atomics. Re-review
+  pending. User explicitly confirms render appearance fixed in supplied B113
+  screenshot; prior silhouette/scale comparison gaps are now bounded by that
+  user confirmation, not claimed original pixel parity.
+- B113 is travel-text/presentation only. Original P1~716/725s has bronze
+  destination button with destination name only, plus separate World map route.
+  Owner restores exact upper widget and PC[E]hint; unsupported separate world
+  map/fast-travel route remains a feature gap, not an inert new control.
+- Fresh B111 worker `/root/b111_stat_pages` and B093 `/root/b093_quests` now run
+  their preserved worktrees. B093 owns actual quest accept/dialogue/script proof;
+  merchant B110 does not supply that dependency.
 
 ## Acceptance gates still open
 
