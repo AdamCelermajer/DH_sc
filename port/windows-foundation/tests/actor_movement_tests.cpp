@@ -26,6 +26,12 @@ void run(){
  check(a.step(move(1,0),basis,plane,1),"flat actor moves");
  check(near(a.state().position.x,4)&&near(a.state().position.z,0),"walk speed in units per second");
  check(a.state().grounded&&a.state().action==ActorAction::Walk&&a.state().animationName=="walk","walking state follows actual movement");
+ check(a.setDesiredHeading({0,1,0}),"look-at fixture heading setup");const auto scriptedHeading=a.state().desiredHeading;
+ a.setFacingRadians(-2.25f);
+ check(near(a.state().facingRadians,-2.25f)&&a.state().desiredHeading.active==scriptedHeading.active&&
+       near(a.state().desiredHeading.direction.y,scriptedHeading.direction.y)&&
+       near(a.state().desiredHeading.sourceAngleRadians,scriptedHeading.sourceAngleRadians),
+       "accepted scripted facing publication changed the separate desired-heading command state");
  for(int i=0;i<10;++i)b.step(move(1,0),basis,plane,.1);
  check(near(a.state().position.x,b.state().position.x),"flat displacement dt partition invariant");
  a.setPosition({0,0,0});a.step(move(1,1),basis,plane,1);

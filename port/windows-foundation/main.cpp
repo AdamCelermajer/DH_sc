@@ -2397,6 +2397,10 @@ int main(int argc,char** argv) {
         hostServices.actor_verbs.face=[&](f::ActorId id,std::array<float,3> target,std::string& e){
             if(auto* actor=combatSession?combatSession->actor(id):nullptr) {
                 actor->transform.rotation[2]=std::atan2(target[1]-actor->transform.position[1],target[0]-actor->transform.position[0]);
+                // Source LookAt writes GameObject yaw directly. Publish that same
+                // accepted player heading to the movement owner so the next
+                // CombatSession update cannot replace it with a stale input yaw.
+                if(id==combatSession->player_id()&&motor)motor->setFacingRadians(actor->transform.rotation[2]);
                 return true;
             }
             if(auto* placed=populationActor(id)) {
