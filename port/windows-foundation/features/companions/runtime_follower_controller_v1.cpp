@@ -1,6 +1,7 @@
 #include "runtime_follower_controller_v1.hpp"
 
 #include <cmath>
+#include <cstdlib>
 #include <iostream>
 
 namespace dh::foundation::companions {
@@ -105,6 +106,12 @@ bool RuntimeFollowerControllerV1::update(CombatSession& session, double dt_secon
         }
         default: break;
         }
+        // Diagnostic (DH_FOLLOWER_DEBUG=1): periodic positions of follower and master, for measuring follow behaviour.
+        static const bool trace = std::getenv("DH_FOLLOWER_DEBUG") != nullptr;
+        if (trace && ++runtime.trace_ticks % 30 == 0)
+            std::cout << "[follower] track actor=" << id << " script=" << ai->script << " pos=" << a[0] << ',' << a[1] << ',' << a[2]
+                      << " master=" << b[0] << ',' << b[1] << ',' << b[2] << " distance=" << input.distance
+                      << " moving=" << (runtime.memory.moving ? 1 : 0) << " catching_up=" << (runtime.memory.catching_up ? 1 : 0) << '\n';
         if (runtime.memory.moving && ++runtime.moving_ticks % 120 == 0)
             std::cout << "[follower] actor=" << id << " walking position=" << a[0] << ',' << a[1] << ',' << a[2]
                       << " distance=" << input.distance << " action=" << int(owner->action)
