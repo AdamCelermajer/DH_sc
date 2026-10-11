@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <string>
+#include <iostream>
 
 namespace dh::foundation::effects {
 namespace {
@@ -63,6 +64,16 @@ bool EffectsRenderBridge::convert(const dh2::skinning::VisualDrawPartV6& part,
     if(!range.material.sourcePass)return fail(error,"Required original FX render-pass state");
     if(!material.diffuse.empty()&&!range.material.texture)return fail(error,"Required decoded original FX texture");
     if(!normal&&range.material.lightingEnabled)return fail(error,"FX shader requires unavailable original normal stream");
+    static const bool packetDebug=std::getenv("DH_FX_PACKET_DEBUG")!=nullptr;
+    static unsigned particlePackets=0;
+    if(packetDebug&&result.source.kind==EffectDrawKind::authored_particle&&particlePackets++%30==0) {
+        const auto& m=range.material;const auto& v=result.mesh.vertices.front();
+        std::cout<<"FXPACKET uri="<<result.source.resource_uri<<" material="<<material.id
+                 <<" tint="<<m.color[0]<<','<<m.color[1]<<','<<m.color[2]<<','<<m.color[3]
+                 <<" vertex="<<v.color[0]<<','<<v.color[1]<<','<<v.color[2]<<','<<v.color[3]
+                 <<" blend="<<m.sourcePass->blendSource<<','<<m.sourcePass->blendDestination
+                 <<" lighting="<<m.lightingEnabled<<" texture="<<m.texture<<'\n';
+    }
     result.mesh.ranges.push_back(std::move(range));output=std::move(result);return true;
 }
 bool EffectsRenderBridge::prepare(std::shared_ptr<const EffectRenderFrame>& output,std::string& error) const {

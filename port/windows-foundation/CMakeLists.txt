@@ -475,6 +475,9 @@ add_test(NAME door_collision_geometry_v1 COMMAND door_collision_geometry_v1_test
 add_executable(door_runtime_restore_v1_tests features/doors/door_runtime_restore_v1_tests.cpp)
 target_link_libraries(door_runtime_restore_v1_tests PRIVATE foundation_doors)
 add_test(NAME door_runtime_restore_v1 COMMAND door_runtime_restore_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/v20/asset-stage/assets")
+add_executable(door_clip_lifecycle_v1_tests features/doors/door_clip_lifecycle_v1_tests.cpp)
+target_link_libraries(door_clip_lifecycle_v1_tests PRIVATE foundation_doors)
+add_test(NAME door_clip_lifecycle_v1 COMMAND door_clip_lifecycle_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v20/assets")
 # End Preview 17 doors.
 # End Preview 17 world gates.
 
