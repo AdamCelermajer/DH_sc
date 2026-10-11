@@ -1,4 +1,5 @@
 #include "campaign_host.hpp"
+#include <cmath>
 #include <cstdlib>
 #include <algorithm>
 #include <cctype>
@@ -413,7 +414,15 @@ CameraPose CampaignHost::source_camera_pose(const CameraPose& follow) const {
     pose.position = clip_eye_;
     pose.target = clip_target_;
     if (clip_view_.has_up) pose.up = clip_view_.up;
-    if (clip_view_.has_fov) pose.verticalFovDegrees = clip_view_.vertical_fov_degrees;
+    if (clip_view_.has_fov) {
+        // B068 (4): the clip channel is the camera's xfov, a HORIZONTAL field of view in degrees (the camera node default is 45). The render
+        // camera takes a vertical FOV; the original stage is 800x480 (OriginalGameplayCamera::sourceAspect 0x3fd578e9), so
+        // vertical = 2 atan(tan(xfov/2) / aspect). Before this the horizontal value was used as the vertical one (view far too wide).
+        constexpr float kSourceAspect = 1.6670971f; // float 0x3fd578e9
+        constexpr float kRadiansToDegrees = 57.29577951308232f;
+        const float half = clip_view_.vertical_fov_degrees * 0.5f / kRadiansToDegrees;
+        pose.verticalFovDegrees = 2.0f * std::atan(std::tan(half) / kSourceAspect) * kRadiansToDegrees;
+    }
     return pose;
 }
 

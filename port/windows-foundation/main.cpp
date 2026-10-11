@@ -4969,7 +4969,7 @@ int main(int argc,char** argv) {
             // turned to Waypoint_LookSpot (south) by the script, which is the identity orientation of those clips. The gameplay facing of
             // this port (+x forward clips) is therefore turned a quarter turn for a scripted pose, and the unit scale is kept.
             const bool heroScriptedPose=combatSession&&campaignHost.scripted_clip_pose(combatSession->player_id());
-            auto actorWorld=f::identity();float angle=(options.sourceHeadingRotation?sourceVisualYaw:(motor?motor->state().facingRadians:0))+(heroScriptedPose?1.5707963f:0.f),c=std::cos(angle),s=std::sin(angle);
+            auto actorWorld=f::identity();float angle=(heroScriptedPose?combatSession->actor(combatSession->player_id())->transform.rotation[2]:(options.sourceHeadingRotation?sourceVisualYaw:(motor?motor->state().facingRadians:0)))+(heroScriptedPose?1.5707963f:0.f),c=std::cos(angle),s=std::sin(angle);
             const f::Vec3 drawScale=heroScriptedPose?f::Vec3{1,1,1}:actorScale;
             actorWorld[0]=c*drawScale.x;actorWorld[1]=s*drawScale.x;actorWorld[4]=-s*drawScale.y;actorWorld[5]=c*drawScale.y;actorWorld[10]=drawScale.z;
             actorWorld[12]=options.actorPosition.x;actorWorld[13]=options.actorPosition.y;actorWorld[14]=options.actorPosition.z;
@@ -4997,6 +4997,11 @@ int main(int argc,char** argv) {
                     const float sx=std::hypot(placement[0],placement[1]),sy=std::hypot(placement[4],placement[5]);
                     const float yaw=live->transform.rotation[2]+(campaignHost.scripted_clip_pose(actor.definition.stableId)?1.5707963f:0.f);placement[0]=std::cos(yaw)*sx;placement[1]=std::sin(yaw)*sx;placement[4]=-std::sin(yaw)*sy;placement[5]=std::cos(yaw)*sy;
                     placement[12]=live->transform.position[0];placement[13]=live->transform.position[1];placement[14]=live->transform.position[2];
+                } else if(campaignHost.scripted_clip_pose(actor.definition.stableId)) {
+                    // B068 (10): a population-only actor (no session body, e.g. the intro prisoner) holding a scripted cutscene clip is turned the same quarter
+                    // turn as the session actors above, otherwise its absolute clip root lies in the wrong frame.
+                    const float sx=std::hypot(placement[0],placement[1]),sy=std::hypot(placement[4],placement[5]);
+                    const float yaw=std::atan2(placement[1],placement[0])+1.5707963f;placement[0]=std::cos(yaw)*sx;placement[1]=std::sin(yaw)*sx;placement[4]=-std::sin(yaw)*sy;placement[5]=std::cos(yaw)*sy;
                 }
                 for(const auto& mesh:actor.visual.meshes())queue.submit(mesh,placement);
             }
