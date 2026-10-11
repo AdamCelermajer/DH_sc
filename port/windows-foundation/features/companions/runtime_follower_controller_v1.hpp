@@ -46,7 +46,7 @@ public:
     const FollowerMemoryV1* memory(ActorId) const noexcept;
 
 private:
-    struct Runtime { FollowerMemoryV1 memory; FollowerActionV1 last = FollowerActionV1::none; bool failed = false; const char* skip = nullptr; };
+    struct Runtime { FollowerMemoryV1 memory; FollowerActionV1 last = FollowerActionV1::none; bool failed = false; const char* skip = nullptr; unsigned moving_ticks = 0; };
     RuntimeFollowerServicesV1 services_;
     std::map<ActorId, Runtime> actors_;
     RuntimeFollowerReportV1 report_;

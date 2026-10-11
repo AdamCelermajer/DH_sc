@@ -105,6 +105,11 @@ bool RuntimeFollowerControllerV1::update(CombatSession& session, double dt_secon
         }
         default: break;
         }
+        if (runtime.memory.moving && ++runtime.moving_ticks % 120 == 0)
+            std::cout << "[follower] actor=" << id << " walking position=" << a[0] << ',' << a[1] << ',' << a[2]
+                      << " distance=" << input.distance << " action=" << int(owner->action)
+                      << " flags520=" << (owner->source_flags520 ? int(*owner->source_flags520) : -1)
+                      << " movementType=" << (owner->source_movement_type ? int(*owner->source_movement_type) : -1) << '\n';
         if (action != runtime.last) {
             std::cout << "[follower] actor=" << id << " script=" << ai->script << " action=" << action_name(action)
                       << " distance=" << input.distance << " view=" << input.radii.view_radius

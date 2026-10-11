@@ -3518,6 +3518,7 @@ int main(int argc,char** argv) {
         semanticInput.set_surface(std::move(uiSurface));
         std::shared_ptr<f::enemy_ai::RuntimeEnemyNavigationV1> enemyNavigation;
         std::shared_ptr<f::enemy_ai::RuntimeEnemyControllerV1> enemyController;
+        std::shared_ptr<f::companions::RuntimeFollowerControllerV1> followerController; // B077 FOLLOW
         std::shared_ptr<f::SourceNavigationWorldStorage> enemyNavigationWorld;
         auto bindEnemyAI=[&](){
             if(!options.runtimeEnemyAI)return;
@@ -3588,6 +3589,7 @@ int main(int argc,char** argv) {
             followServices.enabled=[&](f::ActorId id){for(const auto& a:population.actors())if(a.definition.stableId==id)return a.enabled!=0;return true;};
             followServices.active=[&](){return !campaignHost.cutscene_mode();};
             auto followers=std::make_shared<f::companions::RuntimeFollowerControllerV1>(std::move(followServices));
+            followerController=followers;
             combatSession->set_actor_decision_provider([owner=enemyNavigation,controller=enemyController,followers](auto& session,double dt,std::string& error){
                 if(!controller->update(session,dt,error))return false;
                 return followers->update(session,dt,error);
@@ -4569,7 +4571,10 @@ int main(int argc,char** argv) {
                         const auto placed=std::find_if(population.actors().begin(),population.actors().end(),[&](const auto& p){return p.definition.stableId==actor.id;});
                         if(placed==population.actors().end()){e="Attack movement visual unavailable";return false;}
                         const auto policy=options.combat.profiles.find(placed->profileId);
-                        if(policy==options.combat.profiles.end()||policy->second.motionRoot.empty())return true;
+                        // B077 FOLLOW: a follower walking after its master consumes its root motion even when its profile names no
+                        // explicit --combat-motion-root (scripted NPC clips keep ignoring theirs).
+                        const auto* walker=followerController?followerController->memory(actor.id):nullptr;
+                        if(policy==options.combat.profiles.end()||(policy->second.motionRoot.empty()&&!(walker&&walker->moving)))return true;
                         scale={std::hypot(placed->transform[0],placed->transform[1]),std::hypot(placed->transform[4],placed->transform[5]),std::abs(placed->transform[10])};
                         auto& owner=populationMotors[actor.id];
                         if(!owner) {
