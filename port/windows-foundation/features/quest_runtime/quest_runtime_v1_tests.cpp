@@ -3,6 +3,7 @@
 // Scenarios use the authored Swamp rows (level row 41) and rows of other acts from the same table.
 #include "quest_runtime_v1.hpp"
 #include "quest_zones_v1.hpp"
+#include "../quests/runtime_quest_menu_v1.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -166,6 +167,27 @@ void swamp_chain(const std::shared_ptr<const QuestTableV1>& table) {
     for (int i = 0; i < 7; ++i) h.kill_template(94);
     check(h.state(moths) == QuestStateV1::active, "7 Moth kills keep Moths Active");
     check(h.runtime->progress_of(std::int32_t(moths))->objectives[0].quantity == 7, "7 kills recorded");
+    // B093: MAKE ACTIVE writes the same CQPG owner, then main reloads the
+    // runtime. Selection must preserve saved counts for every other quest.
+    check(h.runtime->save(error), error.c_str());
+    CharacterQuestProgressV1 menu_progress;
+    CharacterQuestLogPolicyV1 menu_policy;
+    menu_policy.debug_priority = kQuestPriorityDebugV1;
+    RuntimeQuestMenuV1 menu(h.character, menu_progress, table, menu_policy,
+        [](const CharacterState&, std::int32_t id, std::string& text, std::string& e) {
+            text = std::to_string(id); e.clear(); return true;
+        });
+    check(menu.load_progress_from_character(error) && menu.refresh(0, 0, CharacterQuestCategoryV1::assigned, error), error.c_str());
+    check(menu.route_hit(RuntimeQuestMenuHitV1::quest_row_release, {0, 0, std::int32_t(escape)}, error), error.c_str());
+    check(menu.route_hit(RuntimeQuestMenuHitV1::activate_release, {0, 0, std::int32_t(escape)}, error), error.c_str());
+    h.open();
+    check(h.runtime->current_quest() == std::int32_t(escape), "MAKE ACTIVE current quest reloads");
+    check(h.runtime->progress_of(std::int32_t(moths))->objectives[0].quantity == 7, "MAKE ACTIVE preserves seven Moth kills");
+    check(menu.route_hit(RuntimeQuestMenuHitV1::quest_row_release, {0, 0, std::int32_t(moths)}, error), error.c_str());
+    check(menu.route_hit(RuntimeQuestMenuHitV1::activate_release, {0, 0, std::int32_t(moths)}, error), error.c_str());
+    check(menu.route_hit(RuntimeQuestMenuHitV1::activate_release, {0, 0, std::int32_t(moths)}, error), error.c_str());
+    h.open();
+    check(h.runtime->progress_of(std::int32_t(moths))->objectives[0].quantity == 7, "duplicate MAKE ACTIVE preserves counters");
     h.kill_template(93); // Lizman's template does not advance Moths
     check(h.runtime->progress_of(std::int32_t(moths))->objectives[0].quantity == 7, "other template ignored");
     h.kill_template(94);

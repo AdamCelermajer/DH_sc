@@ -1,5 +1,6 @@
 #include "runtime_quest_menu_v1.hpp"
 #include "runtime_quest_menu_art_v1.hpp"
+#include "../../character_quest_blob.hpp"
 #include <algorithm>
 
 namespace dh::foundation {
@@ -97,11 +98,19 @@ bool RuntimeQuestMenuV1::load_progress_from_character(std::string& error){
     return progress_->decode(*character_,*tables_,character_->source_quest_progress_cqpg,error);
 }
 
-bool RuntimeQuestMenuV1::persist_progress_to_character(std::string& error){
+bool RuntimeQuestMenuV1::persist_progress_to_character(std::string& error,bool preserve_objective_counters){
     if(!character_||!progress_||!tables_||!progress_->belongs_to(*character_))
         return fail(error,"Quest save write requires the matching CharacterState/progress owner and original Quest table");
     std::vector<std::uint8_t> encoded;
     if(!progress_->encode(*tables_,encoded,error))return false;
+    // B093: NativeSetCurrentQuest only changes currentquest. The page's
+    // state-only codec must not erase the runtime's saved objective quantities.
+    // Stage both sections before replacing the shared CharacterState blob.
+    if(preserve_objective_counters&&!character_->source_quest_progress_cqpg.empty()){
+        std::vector<QuestObjectiveCounterV2> counters;
+        if(!read_quest_counters(character_->id,character_->source_quest_progress_cqpg,counters,error)||
+           !write_quest_counters(character_->id,encoded,counters,error))return false;
+    }
     character_->source_quest_progress_cqpg=std::move(encoded);
     error.clear();return true;
 }
@@ -110,7 +119,7 @@ bool RuntimeQuestMenuV1::initialize_fresh_progress(std::string& error){
     if(!character_||!progress_||!tables_||!tables_->ready())
         return fail(error,"Fresh Quest initialization requires the same CharacterState and original Quest table");
     if(!progress_->initialize_fresh(*character_,*tables_,error))return false;
-    return persist_progress_to_character(error);
+    return persist_progress_to_character(error,false); // Explicit fresh initialization resets quantities too.
 }
 
 bool RuntimeQuestMenuV1::record_accepted_source_state(const CharacterQuestIdV1& id,
