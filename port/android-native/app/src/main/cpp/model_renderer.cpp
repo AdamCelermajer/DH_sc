@@ -10284,6 +10284,8 @@ bool run_direct_source_character_init_post_v1(NativeCryptRoomRuntime& runtime,
   if(row->live_fields.serialized_flag_8a)*row->live_fields.serialized_flag_8a=0;
   if(row->live_fields.updating_85)*row->live_fields.updating_85=0;
   actor.visible_80=0;actor.renderer_visible=false;actor.source_updates_enabled=false;
+  // Keep the SpawnOwner's enable/visible callbacks in step with the row.
+  if(actor.spawn_owner){actor.spawn_owner->source_enabled=false;actor.spawn_owner->source_visible=false;}
   actor.source_init_post_terminal_1394=1;
   return true;
  }
@@ -12452,8 +12454,10 @@ int faery_external_process_invoke(void* raw,FaeryRecord& record,
       record.source_external_script_path!="data/scripts/ai/"||
       !owner->assets)return 1;
    try {
+    // The source chunk name keeps data/scripts/ai/; the packaged asset tree
+    // stores the same file as scripts/ai/<name>.luac.
     const std::string path=record.source_external_script_path+row->script+".luac";
-    const auto bytes=read(owner->assets,path,"scripts");
+    const auto bytes=read(owner->assets,"ai/"+row->script+".luac","scripts");
     return completed(session->load_external_named(
         {bytes.data(),bytes.size()},path.c_str(),error))?0:1;
    } catch(...) {return 1;}
@@ -25611,7 +25615,9 @@ bool update_ordered_character_v1(void* raw,
  if(actor->spawn_owner&&
     actor->spawn_owner->source_enabled!=
         (object->serialized_flag_8a!=0)) {
-  context.error="ObjectManager Character +0x8a differs from its retained SpawnOwner enable callback";
+  context.error="ObjectManager Character +0x8a differs from its retained SpawnOwner enable callback: "+
+      actor->name+" row "+std::to_string(int(object->serialized_flag_8a))+
+      " owner "+std::to_string(int(actor->spawn_owner->source_enabled));
   return false;
  }
  if(actor->source_room_zone_managed&&!actor->source_updates_enabled)return true;

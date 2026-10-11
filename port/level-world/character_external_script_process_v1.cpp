@@ -1,4 +1,5 @@
 #include "character_external_script_process_v1.hpp"
+#include <string>
 
 #include "ais_external_init_callbacks.hpp"
 #include "ais_external_init_vcb.hpp"
@@ -171,8 +172,10 @@ void invoke(void* raw, Lifecycle* state, const Request* request,
                 ais.identity != state->pending || !session || !session->ready())
                 fail(dispatch, "external pending InitVCB identity is not canonical");
             ais_external_init_vcb::State projection{ais.identity, ais.flags_b8};
+            // The callbacks read an ExternalCallbacks context, not the Session.
+            ExternalCallbacks vcb_context{session, dispatch.error};
             const ais_external_init_vcb::Services vcb_services{
-                session, contains_external};
+                &vcb_context, contains_external};
             ais_external_init_vcb::Result result{};
             if (ais_external_init_vcb::initialize_external(&projection,
                     &vcb_services, &result) != ais_external_init_vcb::Status::complete)
@@ -195,8 +198,9 @@ void invoke(void* raw, Lifecycle* state, const Request* request,
                     ? ais_external_init_callbacks::Callback::post
                     : ais_external_init_callbacks::Callback::final;
             ais_external_init_callbacks::State projection{ais.identity};
+            ExternalCallbacks callback_context{session, dispatch.error};
             const ais_external_init_callbacks::Services callback_services{
-                session, call_external};
+                &callback_context, call_external};
             ais_external_init_callbacks::Result callback_result{};
             if (ais_external_init_callbacks::invoke(&projection, callback,
                     &callback_services, &callback_result) !=
@@ -255,7 +259,8 @@ void invoke(void* raw, Lifecycle* state, const Request* request,
             if (dispatch.services->invoke(dispatch.services->context,
                     *dispatch.record, dispatch.record->source_external_ais.get(),
                     state, request, response, &nested) != 0)
-                fail(dispatch, "external Character/CharAI source lifecycle provider failed");
+                fail(dispatch, ("external Character/CharAI source lifecycle provider failed at service " +
+                               std::to_string(static_cast<unsigned>(request->service))).c_str());
             if (create_step) {
                 auto* const created = dispatch.record->source_external_ais.get();
                 if (!created || (session_before && created != session_before) ||
