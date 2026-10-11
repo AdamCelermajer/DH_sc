@@ -775,6 +775,7 @@ bool CampaignHost::advance_actor_clips(std::int32_t dt_ms, std::string& error) {
     error.clear();
     const auto step = std::max<std::int32_t>(0, dt_ms);
     for (auto it = actor_clips_.begin(); it != actor_clips_.end();) {
+        const bool advancing = it->second.remaining_ms > 0;
         if (it->second.remaining_ms > 0) it->second.remaining_ms -= step;
         if (it->second.remaining_ms > 0) { ++it; continue; }
         const auto id = it->first;
@@ -782,12 +783,16 @@ bool CampaignHost::advance_actor_clips(std::int32_t dt_ms, std::string& error) {
         // CSAnim::OnUpdate 0x3c1a3c gates Idle on Character+5248 (scripted)==0.
         // Keep the completed entry until Unset, rather than losing its deferred release.
         // Script replacements, chained clips and explicit Idle still own their cancellation.
-        if(chained<0&&character_scripted(id)){++it;continue;}
+        if(chained<0&&character_scripted(id)){
+            if(advancing)std::cout<<"[campaign] actor clip completion deferred actor="<<id<<" scripted=1 frame="<<frames_<<'\n';
+            ++it;continue;
+        }
         it = actor_clips_.erase(it);
         if (chained < 0) { // B091: CSAnim::OnUpdate -> SM_SetIdleState when the scripted clip is over
             if (services_.scripted_clip_finished) {
                 bool released = false;
                 if (!services_.scripted_clip_finished(id, released, error)) return false;
+                std::cout<<"[campaign] actor clip completion actor="<<id<<" scripted=0 released="<<released<<" frame="<<frames_<<'\n';
                 if (released) held_clip_actors_.erase(id);
             }
             continue;
