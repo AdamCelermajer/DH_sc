@@ -67,6 +67,7 @@ void OriginalCampaignRuntime::restore_trigger_activations(const std::map<std::st
  for(const auto& count:counts) trigger_state_[count.first].activations=count.second;
 }
 bool OriginalCampaignRuntime::running(int id)const{return id>=0&&std::size_t(id)<contexts_.size()&&contexts_[id].state!=2;}
+bool OriginalCampaignRuntime::any_running()const{for(const auto&ctx:contexts_)if(ctx.state!=2)return true;return false;}
 bool OriginalCampaignRuntime::start(int id,int module,bool received,std::string&error){
  try {
  if(failed()){error=failure_;return false;}if(id<0||std::size_t(id)>=scripts_.size()){error.clear();return true;}
@@ -87,7 +88,8 @@ bool OriginalCampaignRuntime::execute(std::size_t id,std::int32_t dt,std::string
    ctx.state=1;
   }
   bool block=false;
-  if(c.kind==26)block=ctx.elapsed<ctx.duration;
+  if(skipping_&&c.kind!=0){} // SKIP16: IDA ExecuteScript does not consult IsBlocking while skipping (Wait included)
+  else if(c.kind==26)block=ctx.elapsed<ctx.duration;
   else if(c.kind==0)block=word(c,24)!=0&&running(ctx.child);
   else if(!services_.command||!services_.command(CampaignCommandPhase::is_blocking,c,ctx.module,block,error))return fail(error.empty()?"Unsupported original blocking query "+c.class_name:error,error);
   if(block){if(c.kind==26)ctx.elapsed=signed_bits(std::uint32_t(ctx.elapsed)+std::uint32_t(dt));else if(c.kind!=0){bool ignored=false;if(!services_.command(CampaignCommandPhase::update,c,ctx.module,ignored,error))return fail(error,error);}return true;}

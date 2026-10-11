@@ -342,6 +342,11 @@ struct Options {
     std::string campaignCommands;
     bool campaignTriggers=false; // P16 HOST: --campaign-triggers (off until verified)
     int campaignSkipFrame=-1; std::string campaignStart; // P16 CINE: scripted SKIP press frame; harness start by authored script name
+    // SKIP16 verification input: a click at an authored point (480x320 space, mapped like the PC HUD) is a pointer down on
+    // FRAME and an up on FRAME+1 through the same cursor branch as a real mouse or touch release. Enter presses are
+    // scheduled frames through the same key edge as the keyboard.
+    struct AuthoredClick { int frame=0; float x=0, y=0; };
+    std::vector<AuthoredClick> campaignClicks; std::vector<int> campaignEnterFrames;
     int captionAutoTapMs=0; // OPENING2: verification only; taps tap-wait captions after N ms (0 = the player taps)
     struct ScheduledSourceCommand {std::string script;std::size_t index=0;int frame=0;};
     std::vector<ScheduledSourceCommand> sourceCommands;
@@ -463,6 +468,12 @@ Options parse(int argc, char** argv) {
         else if(arg=="--campaign-commands") o.campaignCommands=value();
         else if(arg=="--campaign-triggers") o.campaignTriggers=true; // P16 HOST
         else if(arg=="--campaign-skip-frame") o.campaignSkipFrame=std::stoi(value()); // P16 CINE
+        else if(arg=="--campaign-click") { // SKIP16: FRAME:X:Y in the authored 480x320 space
+            const auto text=value();const auto a=text.find(':');const auto b=a==std::string::npos?a:text.find(':',a+1);
+            if(b==std::string::npos)throw std::runtime_error("Campaign click requires FRAME:X:Y (authored 480x320 space)");
+            o.campaignClicks.push_back({std::stoi(text.substr(0,a)),std::stof(text.substr(a+1,b-a-1)),std::stof(text.substr(b+1))});
+        }
+        else if(arg=="--campaign-enter-frame") o.campaignEnterFrames.push_back(std::stoi(value())); // SKIP16
         else if(arg=="--caption-auto-tap-ms") o.captionAutoTapMs=std::stoi(value()); // OPENING2 (verification input)
         else if(arg=="--campaign-start") o.campaignStart=value(); // P16 CINE
         else if(arg=="--campaign-command") {auto text=value();std::istringstream parts(text);Options::ScheduledSourceCommand c;std::string index,frame,extra;if(!std::getline(parts,c.script,':')||!std::getline(parts,index,':')||!std::getline(parts,frame,':')||std::getline(parts,extra,':')||c.script.empty()||index.empty()||frame.empty()||index.find_first_not_of("0123456789")!=std::string::npos||frame.find_first_not_of("0123456789")!=std::string::npos)throw std::runtime_error("Campaign command must be SCRIPT:INDEX:FRAME");c.index=std::stoull(index);c.frame=std::stoi(frame);o.sourceCommands.push_back(std::move(c));}
@@ -3342,7 +3353,7 @@ int main(int argc,char** argv) {
         sourceEffectsCamera=camera(options.sourceCamera?campaignHost.source_camera_pose(originalCamera.pose()):(useTimeline?timeline.sample():freeCamera.pose()));
         bindSourcePresentations();
         f::platform_input::SemanticInput semanticInput;
-        std::uint64_t menuOpened=0,menuDrawn=0;bool mouseHeld=false,escapeClosedMenu=false;
+        std::uint64_t menuOpened=0,menuDrawn=0;bool mouseHeld=false,escapeClosedMenu=false,enterHeld=false;
         bool pauseMenuOpen=false,pauseConfirmation=false;
         // Preview 15 B049: the Stats confirmation box (see statConfirmYes/No below). Every menu close path
         // (Back, Escape, profile key, release actions) goes through the guard while points are staged.
@@ -3838,8 +3849,15 @@ int main(int argc,char** argv) {
             const bool scheduledSpaceHeld=std::any_of(options.spaceKeyIntervals.begin(),options.spaceKeyIntervals.end(),[&](const auto& interval){return drawn>=interval.first&&drawn<interval.first+interval.second;});
             for(int key:uiKeys)semanticInput.key(key,window.key_down(key)||(key==VK_SPACE&&scheduledSpaceHeld));
             float pointerX=0,pointerY=0;
-            if(window.cursor_position(pointerX,pointerY)) {
-                const bool down=window.key_down(VK_LBUTTON);
+            bool cursorKnown=window.cursor_position(pointerX,pointerY);
+            bool down=cursorKnown&&window.key_down(VK_LBUTTON);
+            // SKIP16: verification click (authored point mapped like the PC HUD draw) goes through this same cursor branch.
+            for(const auto& click:options.campaignClicks) if(drawn==click.frame||drawn==click.frame+1) {
+                const auto view=f::cinematic_runner::viewport_for(float(window.width()),float(window.height()));
+                pointerX=(click.x+view.offset)*view.scale;pointerY=click.y*view.scale;
+                cursorKnown=true;down=drawn==click.frame;
+            }
+            if(cursorKnown) {
                 if(down&&!mouseHeld)semanticInput.pointer(0,f::platform_input::PointerPhase::down,{pointerX,pointerY});
                 else if(!down&&mouseHeld) {
                     // P16 CINE: a release on the SKIP control of a running cutscene presses SKIP (ignored when hidden).
@@ -3850,6 +3868,17 @@ int main(int argc,char** argv) {
                 }
                 else if(down)semanticInput.pointer(0,f::platform_input::PointerPhase::move,{pointerX,pointerY});
                 mouseHeld=down;
+            }
+            // SKIP16: Enter is the keyboard form of the release above (PC adaptation: platform_key_codes enter = the
+            // Preview 15 press/tap key): SKIP when the control is up, otherwise a caption tap. Edge-triggered.
+            {
+                const bool scheduledEnter=std::find(options.campaignEnterFrames.begin(),options.campaignEnterFrames.end(),drawn)!=options.campaignEnterFrames.end();
+                const bool enterDown=window.focused()&&(window.key_down(VK_RETURN)||scheduledEnter);
+                if(enterDown&&!enterHeld&&campaignHost.enabled()) {
+                    if(campaignHost.skip_visible())campaignHost.press_skip();
+                    else campaignHost.caption_tap();
+                }
+                enterHeld=enterDown;
             }
             if(drawn==options.profileClickFrame) {
                 std::array<float,4> bounds;if(!f::original_hud_portrait_bounds(0,bounds,error))throw std::runtime_error(error);

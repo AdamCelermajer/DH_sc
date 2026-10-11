@@ -71,7 +71,7 @@ void CampaignHost::bind_world_providers(OriginalCampaignWorldProviders& p) {
         blocking = false;
         if (phase != CampaignCommandPhase::execute) return true;
         if (menu == "HUD") { hud_visible_ = show; return true; }
-        if (menu == "menu_skipcutscene") { skip_visible_ = show; cinematic_.set_skip_visible(show); if (!show) skip_pressed_ = false; return true; } // P16 CINE: drawn by the runner
+        if (menu == "menu_skipcutscene") { skip_visible_ = show; cinematic_.set_skip_visible(show); return true; } // P16 CINE: drawn by the runner
         unsupported_.note("flash menu " + menu + " (no owner bound)");
         e = "Unsupported flash menu: " + menu;
         return false;
@@ -83,6 +83,8 @@ void CampaignHost::bind_world_providers(OriginalCampaignWorldProviders& p) {
         if (c.kind == 12) { blocking = cinematic_.waiting(); return true; }
         blocking = false;
         if (phase != CampaignCommandPhase::execute) return true;
+        // SKIP16: IDA Script_StartDialog::Execute does nothing when skipping (no DialogMsg is enqueued).
+        if (skip_active()) return true;
         const auto field = [&c](unsigned offset) -> std::int32_t {
             const auto i = c.scalars.find(offset);
             return i == c.scalars.end() ? -1 : static_cast<std::int32_t>(i->second);
@@ -178,7 +180,7 @@ void CampaignHost::bind_world_providers(OriginalCampaignWorldProviders& p) {
         const bool active = cutscene_depth_ > 0;
         cutscene_mode_ = active;
         cinematic_.set_active(active); // P16 CINE: exit clears lines and the SKIP control
-        if (!active) { skip_pressed_ = false; save_blocked_ = false; } // [inf] the cutscene's own SaveGame ends the block
+        if (!active) save_blocked_ = false; // [inf] the cutscene's own SaveGame ends the block
         return true;
     };
     if (!p.tutorial_gate) p.tutorial_gate = [this](int id, OriginalTutorialGate& gate, std::string&) {
@@ -244,8 +246,9 @@ void CampaignHost::bind_world_providers(OriginalCampaignWorldProviders& p) {
 bool CampaignHost::bind_executor(OriginalCampaignRuntime& runtime, OriginalCampaignWorldAdapter& world, std::string& error) {
     if (runtime_) { error = "Campaign host executor is already bound"; return false; }
     SourceCampaignDispatchServicesV1 routes;
+    // SKIP16: every command samples the fast-forward flag (IDA ExecuteScript passes the global skip state to Execute).
     routes.skip = [this](const OriginalCampaignCommand&, bool& skip, std::string&) {
-        skip = skip_pressed_ && skip_visible_;
+        skip = skipping_;
         return true;
     };
     // No SourceCinematicCommands, door or audio owner is bound in this milestone: pass-through to the router.
@@ -292,8 +295,83 @@ bool CampaignHost::build_zones(const std::vector<ActorDefinition>& declarations,
 
 void CampaignHost::press_skip() {
     if (!skip_visible_) return;
-    skip_pressed_ = true;
-    std::cout << "[campaign] SKIP pressed (applies to commands sampled after this press)\n";
+    skip_requested_ = true;
+    cinematic_.flush(); // IDA ScriptManager::SkipScript: MenuMessageManager<DialogMsg>::FlushEnqueuedMessages at once
+    std::cout << "[campaign] SKIP pressed (fast-forward at the next frame)\n";
+}
+
+// SKIP16: fast-forward of the running scripts (IDA ScriptManager::SkipScript + ExecuteScript). While the pass runs,
+// every command gets skip=1 (its Execute applies the state change and gates its presentation as the source does),
+// nothing waits on a blocking query (ExecScript still waits for its child), and the passes repeat until no script
+// runs. The camera clip and the actor clip timers end at the press: the source replaces the playing clip with the
+// level idle clip (PlayCamera) and no clip starts (PlayActorAnim); the actor pose stays where the clip left it.
+bool CampaignHost::fast_forward(std::string& error) {
+    constexpr std::size_t kMaxPasses = 1000;
+    skip_requested_ = false;
+    clip_active_ = false;
+    clip_id_ = -1;
+    actor_clips_.clear();
+    cinematic_.flush();
+    skipping_ = true;
+    runtime_->set_skipping(true);
+    std::size_t passes = 0;
+    bool ok = true;
+    while (ok && runtime_->any_running()) {
+        if (++passes > kMaxPasses) { error = "SKIP fast-forward did not finish within " + std::to_string(kMaxPasses) + " passes"; ok = false; break; }
+        ok = runtime_->tick(0, error);
+    }
+    runtime_->set_skipping(false);
+    skipping_ = false;
+    std::cout << "[campaign] SKIP fast-forward passes=" << passes << " frame=" << frames_ << " ok=" << ok << '\n';
+    if (!ok) return false;
+    // The End contract: the scripts end the cutscene with their own EndScriptedCutScene commands. A skipped script that
+    // left cutscene mode entered gets the host side of the End applied here (logged), so the HUD and the locks return.
+    if (cutscene_depth_ > 0 && !runtime_->any_running()) {
+        std::cout << "[campaign] SKIP applied the End contract: cutscene mode was still entered after the fast-forward\n";
+        return restore_presentation(error);
+    }
+    return true;
+}
+
+// Host side of the End contract: HUD back, controller locks released, cutscene mode left, captions and clips dropped.
+bool CampaignHost::restore_presentation(std::string& error) {
+    cutscene_depth_ = 0;
+    cutscene_mode_ = false;
+    hud_visible_ = true;
+    cinematic_.set_active(false);
+    skip_visible_ = false;
+    save_blocked_ = false;
+    clip_active_ = false;
+    clip_id_ = -1;
+    actor_clips_.clear();
+    std::string restore_error;
+    bool ok = true;
+    if (global_blocked_ && previous_global_ && !previous_global_(false, restore_error)) ok = false;
+    global_blocked_ = false;
+    if (previous_character_) {
+        for (const auto id : character_blocked_) if (!previous_character_(id, false, restore_error)) ok = false;
+    }
+    character_blocked_.clear();
+    error = ok ? std::string() : restore_error;
+    return ok;
+}
+
+CampaignHost::HostState CampaignHost::host_state() const {
+    HostState state;
+    state.hud_visible = hud_visible_;
+    state.skip_visible = skip_visible_;
+    state.cutscene_mode = cutscene_mode_;
+    state.cinematic_active = cinematic_.active();
+    state.save_blocked = save_blocked_;
+    state.global_blocked = global_blocked_;
+    state.camera_clip = clip_active_;
+    state.actor_clips = actor_clips_.size();
+    state.character_blocked = character_blocked_;
+    state.scripted = scripted_;
+    state.consumed_tutorials = consumed_tutorials_;
+    state.safe_zone = safe_zone_;
+    state.aborts = aborts_;
+    return state;
 }
 
 bool CampaignHost::execute_router(CampaignCommandPhase phase, const OriginalCampaignCommand& c, int module, bool skip, bool& blocking, std::string& e) {
@@ -353,7 +431,9 @@ bool CampaignHost::abort_cutscene(std::string& error) {
     cinematic_.set_active(false); // P16 CINE: abort drops caption lines and the SKIP control
     hud_visible_ = true;
     skip_visible_ = false;
-    skip_pressed_ = false;
+    skip_requested_ = false;
+    skipping_ = false;
+    runtime_->set_skipping(false);
     cutscene_mode_ = false;
     cutscene_depth_ = 0;
     save_blocked_ = false;
@@ -397,6 +477,7 @@ bool CampaignHost::actor_verb(const OriginalCampaignCommand& c, CampaignCommandP
             return true;
         }
         if (phase != CampaignCommandPhase::execute) return true;
+        if (skip_active()) return true; // SKIP16: IDA Script_PlayActorAnim::Execute does nothing when skipping
         if (!resolve(string_field(c, 24), id, found, e)) return false;
         if (!found) return true;
         if (!v.play_clip) return unbound("actor clip");
@@ -470,6 +551,7 @@ bool CampaignHost::actor_verb(const OriginalCampaignCommand& c, CampaignCommandP
     case 6:  if (phase == CampaignCommandPhase::execute) unsupported_.note("stub SetCameraClip (camera transition tuning not decoded)"); return true;
     case 19: { // Script_PlayAnimByName: object @24 plays clip @12 on its visual (IDA: visual animator Play(clip,0,0,0)); no wait
         if (phase != CampaignCommandPhase::execute) return true;
+        if (skip_active()) return true; // SKIP16: IDA Script_PlayAnimByName::Execute is gated on !skip
         if (!v.play_object_clip) { unsupported_.note("stub PlayAnimByName (no scene object owner bound)"); return true; }
         const auto object = string_field(c, 24);
         bool placed = false;
@@ -479,6 +561,7 @@ bool CampaignHost::actor_verb(const OriginalCampaignCommand& c, CampaignCommandP
     }
     case 20: { // Script_PlayEffect: set @8 at the position of the object @32 plus the authored offsets @16/@20/@24 (IDA Script_PlayEffect::Execute)
         if (phase != CampaignCommandPhase::execute) return true;
+        if (skip_active()) return true; // SKIP16: IDA Script_PlayEffect::Execute is gated on !skip (no FX while skipping)
         const auto waypoint = string_field(c, 32);
         std::array<float,3> position{};
         bool placed = false;
@@ -549,8 +632,12 @@ void CampaignHost::frame(std::int32_t dt_ms, const std::array<float,3>& player, 
     ++frames_;
     cinematic_.update(dt_ms > 0 ? static_cast<std::uint32_t>(dt_ms) : 0u); // P16 CINE: caption hold, same clock as the executor
     std::string error;
+    // SKIP16: a pressed SKIP fast-forwards first (same frame as the press is consumed, before the normal clock).
+    bool ok = true;
+    if (skip_requested_) ok = fast_forward(error);
     // P16 CINE2: the camera clip advances on the same clock before the executor reads is_blocking.
-    if (!advance_camera_clip(dt_ms, error) || !advance_actor_clips(dt_ms, error) || !runtime_->tick(dt_ms, error)) {
+    if (ok) ok = advance_camera_clip(dt_ms, error) && advance_actor_clips(dt_ms, error) && runtime_->tick(dt_ms, error);
+    if (!ok) {
         // Policy: the failing cutscene is aborted, the session keeps its other triggers.
         // The runtime failure is cleared BEFORE contacts are fed, so one bad script cannot disable zones.
         ++aborts_;

@@ -42,6 +42,12 @@ public:
     // failure so the session keeps its other triggers. Returns the number of scripts abandoned.
     std::size_t abandon_running_scripts();
     bool running(int global_id) const;
+    bool any_running() const;
+    // SKIP16: ScriptManager::SkipScript fast-forward (IDA ScriptManager::ExecuteScript). While skipping, no blocking
+    // query is made for any command except ExecScript (which waits for its child), and Wait (kind 26) does not wait.
+    // The host sets it only for the fast-forward pass and clears it after.
+    void set_skipping(bool skipping) noexcept { skipping_ = skipping; }
+    bool skipping() const noexcept { return skipping_; }
     // D3 (OPENING3): once-activation counts of the triggers (campaign lifecycle component). Restore clears the
     // contact/delay state and sets the counts; keys absent from the map read as never activated.
     std::map<std::string,std::int32_t> trigger_activations() const;
@@ -64,6 +70,7 @@ private:
     OriginalCampaignServices services_;
     std::string failure_;
     bool ticking_=false;
+    bool skipping_=false; // SKIP16
     bool fail(std::string message,std::string& error);
     bool execute(std::size_t id,std::int32_t dt,std::string& error);
 };

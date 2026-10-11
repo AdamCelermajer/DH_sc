@@ -144,9 +144,31 @@ void frame_content() {
 
 }  // namespace
 
+// SKIP16: the hit area is the exported SKIP art bounds (every triangle of the drawn control), and it follows the same
+// letterbox mapping as the draw in main.cpp at every window size: the centre of the art hits, the margins miss.
+void skip_hit_art_at_window_sizes() {
+    const auto art = skip_art_layout();
+    check(art.x > 3.0f && art.x < 3.6f && art.y == 0.f && art.w > 178.f && art.w < 180.f && art.h > 54.f && art.h < 55.f,
+          "SKIP hit area is the exported art bounds (3.35..182.35 x 0..54.45)");
+    CinematicRunner r;
+    r.set_active(true);
+    r.set_skip_visible(true);
+    const float cx = art.x + art.w * 0.5f, cy = art.y + art.h * 0.5f;
+    const std::pair<float, float> sizes[] = {{480, 320}, {960, 640}, {1280, 720}, {1920, 1080}, {800, 600}, {1000, 320}, {320, 480}, {1280, 1024}};
+    for (const auto& size : sizes) {
+        const auto v = viewport_for(size.first, size.second);
+        const float wx = (cx + v.offset) * v.scale, wy = cy * v.scale;
+        check(r.skip_hit(wx, wy, size.first, size.second), "SKIP centre hits at window " + std::to_string(int(size.first)) + "x" + std::to_string(int(size.second)));
+        const float left = (art.x - 2.f + v.offset) * v.scale, bottom = (art.y + art.h + 2.f) * v.scale;
+        check(!r.skip_hit(left, wy, size.first, size.second), "two authored px left of the art misses at " + std::to_string(int(size.first)) + "x" + std::to_string(int(size.second)));
+        check(!r.skip_hit(wx, bottom, size.first, size.second), "two authored px below the art misses at " + std::to_string(int(size.first)) + "x" + std::to_string(int(size.second)));
+    }
+}
+
 int main() {
     try {
         duration_policy();
+        skip_hit_art_at_window_sizes();
         tap_driven_queue();
         tap_during_show_hides_at_once();
         auto_line_plays_through();

@@ -71,10 +71,12 @@ struct Frame {
 struct Viewport { float scale = 1.f, offset = 0.f; };
 Viewport viewport_for(float window_w, float window_h) noexcept;
 
-// SKIP hit area in the authored space: the exported SKIP art bounds (X icon and label, hud_panels).
+// SKIP hit area in the authored space: the exported SKIP art bounds (X icon, plate and label; hud_panels skip_batches).
 struct SkipLayout {
-    float x = 3.4f, y = 0.f, w = 193.f, h = 54.5f;
+    float x = 0.f, y = 0.f, w = 0.f, h = 0.f;
 };
+// SKIP16: the bounds of every exported SKIP triangle (the drawn control), in the authored space.
+SkipLayout skip_art_layout() noexcept;
 
 class CinematicRunner {
 public:
@@ -112,7 +114,7 @@ public:
     std::uint64_t lines_shown() const noexcept { return lines_shown_; }
 
     // Hit test in the authored space. x/y are window pixels; the window size maps them.
-    bool skip_hit(float x, float y, float window_w, float window_h, const SkipLayout& layout = {}) const noexcept;
+    bool skip_hit(float x, float y, float window_w, float window_h, const SkipLayout& layout = skip_art_layout()) const noexcept;
 
     // Flat frame for the current state; empty when nothing is visible.
     Frame build_frame() const;

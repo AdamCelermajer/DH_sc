@@ -131,14 +131,110 @@ void skip_press_contract(const std::string& directory) {
     Rig rig(directory);
     std::string error;
     rig.host->press_skip();
-    check(!rig.host->skip_active(), "SKIP press while hidden must be ignored");
+    check(!rig.host->skip_pending(), "SKIP press while hidden must be ignored");
     check(rig.runtime.start(rig.runtime.script_id("LizardMan_Intro", false), -1, false, error), error);
     for (int i = 0; i < 4; ++i) rig.step(0);
     check(rig.host->skip_visible(), "SKIP visible during the cutscene");
     rig.host->press_skip();
-    check(rig.host->skip_active(), "SKIP press while visible must be sampled by later commands");
-    for (int i = 0; i < 40 && rig.host->aborts() == 0; ++i) rig.step(100);
-    check(rig.host->aborts() == 1 && !rig.host->skip_active(), "cutscene end or failure must clear the SKIP press");
+    check(rig.host->skip_pending() && !rig.host->skip_active(), "SKIP press is a pending fast-forward until the next frame");
+    // SKIP16: the fast-forward reaches the lifecycle spawn, which has no record here: the cutscene aborts explicitly.
+    rig.step(0);
+    check(rig.host->aborts() == 1 && !rig.host->skip_pending() && !rig.host->skip_active(), "failure during a skip aborts the cutscene and clears the skip");
+    check(!rig.globalBlocked && rig.host->host_state().hud_visible, "abort after a skip restores the HUD and the controller");
+}
+
+// SKIP16: final host state of a scripted cutscene. The played run ends by its own commands; a skipped run must end in
+// the same state (HUD, SKIP, cutscene mode, locks, save block, scripted/tutorial flags, trigger counts and the executor).
+struct Outcome {
+    CampaignHost::HostState host;
+    std::map<std::string, std::int32_t> triggers;
+    bool running = false;
+    std::uint64_t lines = 0;
+    std::uint64_t steps = 0;
+};
+
+Outcome run_cutscene(const std::string& directory, const std::string& script_name, int skip_after_steps) {
+    Rig rig(directory);
+    std::string error;
+    rig.host->set_caption_text([](std::int32_t id, std::string& text, std::string&) {
+        text = "line " + std::to_string(id);
+        return true;
+    });
+    rig.host->set_caption_auto_tap_ms(300);
+    const int script = rig.runtime.script_id(script_name, false);
+    check(script >= 0, script_name + " present");
+    check(rig.runtime.start(script, -1, false, error), error);
+    Outcome out;
+    bool pressed = skip_after_steps < 0;
+    for (int i = 0; i < 20000 && rig.runtime.any_running(); ++i) {
+        // The press is made on the first frame at or after the requested step on which the SKIP control is drawn.
+        if (!pressed && i >= skip_after_steps && rig.host->skip_visible()) {
+            rig.host->press_skip();
+            pressed = true;
+        }
+        rig.step(10);
+        ++out.steps;
+        check(rig.host->aborts() == 0, script_name + " must not abort");
+    }
+    check(pressed, script_name + ": SKIP was pressed while drawn");
+    check(!rig.runtime.any_running(), script_name + " must finish");
+    out.host = rig.host->host_state();
+    out.triggers = rig.runtime.trigger_activations();
+    out.running = rig.runtime.running(script);
+    out.lines = rig.host->cinematic().lines_shown();
+    return out;
+}
+
+void check_same_state(const Outcome& played, const Outcome& skipped, const std::string& label) {
+    const auto& a = played.host;
+    const auto& b = skipped.host;
+    check(a.hud_visible && b.hud_visible, label + ": HUD is back after the cutscene (played and skipped)");
+    check(!a.skip_visible && !b.skip_visible, label + ": SKIP control hidden at the end");
+    check(a.cutscene_mode == b.cutscene_mode && !b.cutscene_mode, label + ": cutscene mode left");
+    check(a.cinematic_active == b.cinematic_active && !b.cinematic_active, label + ": no caption cinematic left");
+    check(a.save_blocked == b.save_blocked && !b.save_blocked, label + ": save block released");
+    check(a.global_blocked == b.global_blocked && !b.global_blocked, label + ": controller unlocked");
+    check(a.character_blocked == b.character_blocked, label + ": character locks match");
+    check(a.camera_clip == b.camera_clip && !b.camera_clip, label + ": camera follows the player again");
+    check(a.actor_clips == b.actor_clips, label + ": actor clip timers match");
+    check(a.scripted == b.scripted, label + ": scripted-actor flags match");
+    check(a.consumed_tutorials == b.consumed_tutorials, label + ": tutorial flags match");
+    check(a.safe_zone == b.safe_zone, label + ": safe-zone state matches");
+    check(a.aborts == b.aborts && b.aborts == 0, label + ": no aborts");
+    check(played.triggers == skipped.triggers, label + ": trigger activation counts match");
+    check(!played.running && !skipped.running, label + ": script not running at the end");
+    check(skipped.lines <= played.lines, label + ": a skipped cutscene shows no more captions than the played one");
+}
+
+// SKIP16: Movement_Tuto (DoTutorial -> Movement_Tuto2, four captions after waits) and CombatTuto (nine captions, WaitDialog)
+// skipped at three points each (after a few commands, mid-caption, and late) leave the same state as the played run.
+void skipped_cutscene_matches_played(const std::string& directory) {
+    for (const char* name : {"Movement_Tuto", "CombatTuto"}) {
+        const auto played = run_cutscene(directory, name, -1);
+        check(played.lines > 0, std::string(name) + " has captions when played");
+        for (const int at : {2, 30, 150}) {
+            const auto skipped = run_cutscene(directory, name, at);
+            check_same_state(played, skipped, std::string(name) + " skipped at step " + std::to_string(at));
+            check(skipped.steps <= played.steps, std::string(name) + ": the skipped run is not longer than the played run");
+        }
+    }
+}
+
+// SKIP16: a SKIP press drops the queued captions at once and the cutscene ends in the frame of the press (one
+// fast-forward), with no caption shown after it.
+void skip_ends_captions_in_one_frame(const std::string& directory) {
+    Rig rig(directory);
+    std::string error;
+    rig.host->set_caption_text([](std::int32_t id, std::string& text, std::string&) { text = "line " + std::to_string(id); return true; });
+    const int script = rig.runtime.script_id("CombatTuto", false);
+    check(rig.runtime.start(script, -1, false, error), error);
+    for (int i = 0; i < 100 && rig.host->cinematic().current() == nullptr; ++i) rig.step(10);
+    check(rig.host->cinematic().current() != nullptr && rig.runtime.running(script), "a caption is up before the press");
+    rig.host->press_skip();
+    rig.step(0);
+    check(!rig.runtime.running(script) && rig.host->cinematic().current() == nullptr, "SKIP ends the script and its caption in one frame");
+    check(!rig.host->cinematic().active() && rig.host->host_state().hud_visible && !rig.globalBlocked, "End contract: HUD back and unlocked");
+    check(rig.host->host_state().aborts == 0, "skip is not an abort");
 }
 
 // P16 CINE: StartDialog queues caption lines with their StrID text; WaitDialog blocks until each line's hold ends.
@@ -322,6 +418,8 @@ int main(int argc, char** argv) {
         check(argc == 2, "Supply the campaign asset directory");
         lizard_intro_contract(argv[1]);
         skip_press_contract(argv[1]);
+        skipped_cutscene_matches_played(argv[1]);
+        skip_ends_captions_in_one_frame(argv[1]);
         captions_block_then_release(argv[1]);
         unresolved_caption_is_explicit(argv[1]);
         do_tutorial_starts_named_script(argv[1]);

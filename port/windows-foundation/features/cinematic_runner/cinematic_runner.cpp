@@ -120,6 +120,23 @@ void CinematicRunner::finish_shown() noexcept {
     start_next();   // StopDialog pops the line; the next queued line starts at once
 }
 
+SkipLayout skip_art_layout() noexcept {
+    SkipLayout out;
+    bool first = true;
+    float x0 = 0.f, y0 = 0.f, x1 = 0.f, y1 = 0.f;
+    for (const auto& batch : hud_panels::skip_batches_v1()) {
+        for (const auto& v : batch.triangles) {
+            if (first || v.x < x0) x0 = v.x;
+            if (first || v.x > x1) x1 = v.x;
+            if (first || v.y < y0) y0 = v.y;
+            if (first || v.y > y1) y1 = v.y;
+            first = false;
+        }
+    }
+    out.x = x0; out.y = y0; out.w = x1 - x0; out.h = y1 - y0;
+    return out;
+}
+
 bool CinematicRunner::skip_hit(float x, float y, float window_w, float window_h, const SkipLayout& layout) const noexcept {
     if (!active_ || !skip_visible_) return false;
     const Viewport v = viewport_for(window_w, window_h);

@@ -114,11 +114,31 @@ public:
     // Verification input (--caption-auto-tap-ms): taps tap-wait captions after this many ms. 0 = player only.
     void set_caption_auto_tap_ms(std::uint32_t ms) { cinematic_.set_auto_tap_ms(ms); }
 
-    // Abstract SKIP press. Ignored unless the SKIP control is currently visible.
+    // Abstract SKIP press. Ignored unless the SKIP control is currently visible. SKIP16: the press is a one-shot
+    // fast-forward of every running script at the next frame (IDA ScriptManager::SkipScript): queued captions are
+    // dropped at once, the scripts run their state changes without waiting, and they end at their own End commands.
     void press_skip();
+    bool skip_pending() const noexcept { return skip_requested_; }
     bool hud_visible() const noexcept { return hud_visible_; }
     bool skip_visible() const noexcept { return skip_visible_; }
-    bool skip_active() const noexcept { return skip_pressed_ && skip_visible_; } // value sampled by the next command
+    bool skip_active() const noexcept { return skipping_; } // value sampled by every command during the fast-forward
+    // SKIP16: the host-owned state that a finished cutscene leaves behind (played and skipped runs must match).
+    struct HostState {
+        bool hud_visible = true;
+        bool skip_visible = false;
+        bool cutscene_mode = false;
+        bool cinematic_active = false;
+        bool save_blocked = false;
+        bool global_blocked = false;
+        bool camera_clip = false;
+        std::size_t actor_clips = 0;
+        std::set<ActorId> character_blocked;
+        std::set<ActorId> scripted;
+        std::set<int> consumed_tutorials;
+        bool safe_zone = false;
+        std::uint64_t aborts = 0;
+    };
+    HostState host_state() const;
     bool cutscene_mode() const noexcept { return cutscene_mode_; }
     bool save_blocked() const noexcept { return save_blocked_; }
     bool global_controller_blocked() const noexcept { return global_blocked_; }
@@ -174,7 +194,8 @@ private:
     std::set<std::string> actor_verb_unresolved_;
     bool hud_visible_=true;
     bool skip_visible_=false;
-    bool skip_pressed_=false;
+    bool skip_requested_=false; // SKIP16: pressed, fast-forward pending for the next frame
+    bool skipping_=false;       // SKIP16: the fast-forward pass is running (sampled by every command)
     bool cutscene_mode_=false;
     bool safe_zone_=false; // P17 SAFEZONE: Enter/Leave state (IDA VoxSoundManager in-safe-zone flag)
     std::function<bool(bool,std::string&)> safe_zone_music_;
@@ -188,6 +209,8 @@ private:
 
     bool execute_router(CampaignCommandPhase,const OriginalCampaignCommand&,int module,bool skip,bool& blocking,std::string&);
     bool abort_cutscene(std::string& error);
+    bool fast_forward(std::string& error); // SKIP16
+    bool restore_presentation(std::string& error); // SKIP16: the End contract's host side (HUD, locks, captions, clips)
     std::string script_name_of(const OriginalCampaignCommand&,int& index) const;
 };
 
