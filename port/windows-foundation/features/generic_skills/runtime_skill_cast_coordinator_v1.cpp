@@ -20,7 +20,7 @@ bool fail(std::string& error, const char* message) {
 
 // P15 FAERYSOUND (B050): original OnPreSkill_ PlaySound3D labels. Called after the
 // UseMana/cooldown prefix is committed, for every cast (empty target list included).
-void request_faery_pre_sound(const RuntimeSkillFaeryPreSoundSinkV1& sink, CombatSession& session,
+[[maybe_unused]] void request_faery_pre_sound(const RuntimeSkillFaeryPreSoundSinkV1& sink, CombatSession& session,
                              ActorId caster, bool hotty, std::size_t target_count) {
     if (!sink) return;
     RuntimeSkillFaeryPreSoundV1 request;
@@ -402,11 +402,15 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
     // in use (unless Character+1312 & 0x8000) or casting. Attack is NOT a
     // rejection: CSAttack::OnInit registers 50005 -> state 6 unguarded, so a
     // skill interrupts the swing (its OnBlur runs in play_actor_source_sequence).
-    // Hurt stays rejected until its source Injured admission is verified.
+    // CSInjured::OnInit3c8850 likewise registers50005->6 unguarded; the
+    // session transition owner runs outgoing Injured Blur and retires its pose.
     if (actor->action == CharacterAction::casting)
         return fail(error, "Source skill is already casting; a new skill cast is rejected");
-    if (actor->action == CharacterAction::hurt)
-        return fail(error, "Hurt action rejects a new skill cast (source Injured admission unverified)");
+    // NativeHUDSpell/AI_BeginSpell3d81c0 uses SM_SetCastState3c6394
+    // event50006. CSInjured registers only50005->Skill6, not Cast7.
+    if (actor->action == CharacterAction::hurt &&
+        request.dispatch == RuntimeSkillCastDispatchV1::native_hud_spell)
+        return fail(error, "CSInjured has no native Cast7 event50006 admission");
     if (active_.count(request.actor) &&
         active_.at(request.actor).receipt.phase != RuntimeSkillCastPhaseV1::completed &&
         active_.at(request.actor).receipt.phase != RuntimeSkillCastPhaseV1::interrupted &&
@@ -762,7 +766,7 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
     if (pre_search && !query_source_character_targets_v1(session, request.actor,
             order, request.target_facts, request.non_character_attackable_objects_absent,
             pre_range, 3.1415927410125732421875f,
-            SkillTargetSortV1::frontal_first, target, error)) return false;
+            SkillTargetSortV1::frontal_first, target, error, request.object_targets)) return false;
     if ((branch == RuntimeWarriorSkillBranchV1::bashdown ||
          branch == RuntimeWarriorSkillBranchV1::charge ||
          branch == RuntimeWarriorSkillBranchV1::rogue_jump_kick) &&
@@ -784,7 +788,8 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
     if ((branch == RuntimeWarriorSkillBranchV1::bashdown ||
          branch == RuntimeWarriorSkillBranchV1::charge ||
          branch == RuntimeWarriorSkillBranchV1::rogue_jump_kick) &&
-        target.status == SkillActorTargetQueryStatusV1::selected_character &&
+        (target.status == SkillActorTargetQueryStatusV1::selected_character ||
+         target.status == SkillActorTargetQueryStatusV1::selected_object) &&
         !look_at_bashdown_target_v1(session, target, error)) return false;
 
     ActiveCastV1 active;
@@ -799,7 +804,7 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
     active.receipt.skill_table_id = visual.skill_table_id;
     active.receipt.skill_name = visual.source_skill_name;
     active.receipt.source_script = visual.source_script;
-    active.receipt.target_order = target.ordered_character_targets;
+    active.receipt.target_order = request.object_targets ? target.ordered_targets : target.ordered_character_targets;
     active.receipt.phase = RuntimeSkillCastPhaseV1::prepared_pending_use;
     active.source_state = 6;
     active.source_focus_flags = 0x6341u;
@@ -843,9 +848,10 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
             ? 4.71238898038468986f : 3.1415927410125732421875f;
     active.cooldown_ms = cooldown_ms;
     active.target_query = target;
+    if (request.object_targets) active.object_targets = *request.object_targets;
     // An admitted skill departs the swing (CSAttack::OnBlur/interrupt), so a
     // failed sequence start must not restore Attack with no attack owner.
-    active.previous_action = actor->action == CharacterAction::attacking
+    active.previous_action = (actor->action == CharacterAction::attacking || actor->action == CharacterAction::hurt)
         ? CharacterAction::idle : actor->action;
 
     const bool mana_ok = prepare_skill_cast_mana_v1(*request.character, session, request.actor,
@@ -1098,7 +1104,8 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
         if (!query_source_character_targets_v1(session, actor_id,
                 active.population_order, active.target_facts,
                 active.non_character_attackable_objects_absent,
-                range, active.target_cone_radians, sort, use_targets, error)) {
+                range, active.target_cone_radians, sort, use_targets, error,
+                active.object_targets ? &*active.object_targets : nullptr)) {
             active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
             active.receipt.detail = "Source Use target query failed after the OnPre mana/cooldown prefix";
             output = active.receipt;
@@ -1112,6 +1119,7 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
         return fail(error, "Character-only Session cannot resolve the source Use target-list object category");
     }
     if (use_targets.status != SkillActorTargetQueryStatusV1::selected_character &&
+        use_targets.status != SkillActorTargetQueryStatusV1::selected_object &&
         use_targets.status != SkillActorTargetQueryStatusV1::no_actor_target) {
         active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
         active.receipt.detail = "Source Use target-list query returned an unsupported status after OnPre";
@@ -1126,11 +1134,19 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
     if (active.warrior_branch == RuntimeWarriorSkillBranchV1::bashdown) {
         if (use_targets.status == SkillActorTargetQueryStatusV1::selected_character) {
             use_targets.ordered_character_targets.assign(1, use_targets.selected);
+            use_targets.ordered_targets.assign(1, use_targets.selected);
+            use_targets.ordered_object_targets.clear();
+        } else if (use_targets.status == SkillActorTargetQueryStatusV1::selected_object) {
+            use_targets.ordered_character_targets.clear();
+            use_targets.ordered_targets.assign(1, use_targets.selected);
+            use_targets.ordered_object_targets.assign(1, use_targets.selected);
         } else {
             use_targets.ordered_character_targets.clear();
+            use_targets.ordered_targets.clear();
+            use_targets.ordered_object_targets.clear();
         }
     }
-    active.receipt.target_order = use_targets.ordered_character_targets;
+    active.receipt.target_order = active.object_targets ? use_targets.ordered_targets : use_targets.ordered_character_targets;
     const auto* use_class = active.class_token.c_str();
     if (active.warrior_branch == RuntimeWarriorSkillBranchV1::charge && current->facts.shield)
         use_class = "Skill_Warrior_Charge_ShieldBonus";
@@ -1158,7 +1174,22 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
 
     active.receipt.applied_results.clear();
     std::uint32_t event_index = 0;
-    for (const auto target : use_targets.ordered_character_targets) {
+    // Legacy Character-only callers retain their exact target order.
+    const auto& ordered = active.object_targets ? use_targets.ordered_targets : use_targets.ordered_character_targets;
+    for (const auto target : ordered) {
+        if (session.world()->find_object(target)) {
+            // _SkillCombatRoll3b9fbc: non-Character type8 -> vt152 Interact,
+            // returns false; no Character result or combat RNG is fabricated.
+            if (!active.object_targets || !active.object_targets->interact ||
+                !active.object_targets->interact(session, target, actor_id, error)) {
+                active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
+                active.receipt.detail = "Source object SkillCombatRoll Interact failed after committed OnPre";
+                output = active.receipt;
+                return false;
+            }
+            active.receipt.delivered_object_interactions.push_back(target);
+            continue;
+        }
         CombatSessionSourceHit hit;
         hit.attacker = actor_id;
         hit.target = target;
@@ -1183,8 +1214,10 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
     }
     active.use_delivered = true;
     active.receipt.phase = RuntimeSkillCastPhaseV1::use_applied;
-    active.receipt.detail = active.receipt.applied_results.empty()
-        ? "Authored source skill Use completed with an empty Character subset target list"
+    active.receipt.detail = !active.receipt.delivered_object_interactions.empty()
+        ? "Authored source skill Use delivered typed object Interact and its ordered Character result subset"
+        : active.receipt.applied_results.empty()
+        ? "Authored source skill Use completed with an empty target list"
         : "Authored source skill Use applied the ordered Character SkillCombatRoll result loop";
     output = active.receipt;
     error.clear();

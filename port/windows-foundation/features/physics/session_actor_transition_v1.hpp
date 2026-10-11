@@ -34,6 +34,9 @@ struct SessionActorTransitionProvidersV1 {
     std::function<bool(const CombatSessionActorTransition&, std::string&)> attack_focus_delay_gate;
     std::function<bool(const CombatSessionActorTransition&, std::string&)> attack_blur_delay_timer;
 
+    // CSInjured OnBlur3c4ba4 -> Cmd_LookAt(Character408), including null.
+    std::function<bool(const CombatSessionActorTransition&, std::string&)> injured_blur_look_at;
+
     // Skill6 joins the current coordinator receipt's actor+generation to its
     // actual SkillTable row and returns scalar.words[2]&0xff; it must fail if
     // that same source row/owner is unavailable.

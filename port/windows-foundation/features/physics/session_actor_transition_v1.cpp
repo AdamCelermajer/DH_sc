@@ -200,6 +200,8 @@ bool SessionActorTransitionConsumerV1::blur(
         return set_body_pinned(session,actor.id,true,error);
     }
     case 11:
+        if(!config_.source.injured_blur_look_at)return fail(error,"Injured Blur requires actual controller/target408 LookAt provider");
+        return config_.source.injured_blur_look_at(event,error);
     case 14:error.clear();return true; // CSAnim::OnBlur 0x3c2dd0 has no effects.
     case 12:{
         // Controller unlock is a lifecycle tail owned elsewhere. The physical

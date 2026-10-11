@@ -56,7 +56,7 @@ struct Fixture {
     std::shared_ptr<enemy_ai::RuntimeEnemyNavigationV1> navigation;
     std::shared_ptr<SessionActorTransitionConsumerV1> consumer;
     std::vector<std::string> calls;
-    std::size_t dead_filter_calls=0,dead_reset_calls=0,attack_gate_calls=0,attack_timer_calls=0;
+    std::size_t dead_filter_calls=0,dead_reset_calls=0,attack_gate_calls=0,attack_timer_calls=0,injured_blur_calls=0;
     std::optional<bool> attack_root_moving;
     std::map<ActorId,std::uint32_t> source_gate528;
     std::uint64_t active_skill_generation=0;
@@ -212,6 +212,7 @@ struct Fixture {
             calls.push_back("attack-focus-gate:"+std::to_string(event.actor));return true;};
         consumer_config.source.attack_blur_delay_timer=[&](const CombatSessionActorTransition& event,std::string&){
             ++attack_timer_calls;calls.push_back("attack-blur-timer:"+std::to_string(event.actor));return true;};
+        consumer_config.source.injured_blur_look_at=[&](const auto& event,std::string& detail){++injured_blur_calls;calls.push_back("injured-blur-look-at:"+std::to_string(event.actor));detail.clear();return true;};
         consumer_config.source.skill_focus_moving_byte=[&](const CombatSessionActorTransition& event,bool& value,std::string& detail){
             if(event.actor!=1||event.generation!=active_skill_generation||active_skill_table_id<0||
                static_cast<std::size_t>(active_skill_table_id)>=skill_tables.skills().size()){
@@ -419,8 +420,8 @@ void run_attack_injury_dead(const char* assets){
           enemy_observation.pinned==1&&enemy_observation.mass==0.f,
           "Dead12 transition entry changed the actual body's pin/mass state");
     check(f.session.apply_source_result(lethal,dead,f.error)&&!dead.applied,f.error);
-    check(f.dead_filter_calls==1&&f.attack_timer_calls==0,
-          "Duplicate Died occurrence replayed filter/timer effects");
+    check(f.dead_filter_calls==1&&f.attack_timer_calls==0&&f.injured_blur_calls==1,
+          "Injured Blur was lost or duplicate Died occurrence replayed its effects");
     std::cout<<"attack_state=5 flags=0x2341 body_id="<<player_identity
              <<" injury_state=11 flags=0x2b41 death_state=12 flags=0x241 body_id="
              <<enemy_identity<<" dead_filter_calls="<<f.dead_filter_calls

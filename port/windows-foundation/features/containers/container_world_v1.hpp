@@ -24,7 +24,7 @@ inline constexpr const char* container_hits_component_v1 = "dh2.container.hits.v
 // Binds one neutral WorldObject per loaded declaration and writes its initial OBJS
 // (visible, enabled, idle). Declarations whose ID is already bound are noticed and
 // skipped (they still interact, but do not persist).
-bool bind_container_world_objects_v1(PlayableActorWorld& world, const ContainerRuntimeV1& runtime,
+bool bind_container_world_objects_v1(PlayableActorWorld& world, ContainerRuntimeV1& runtime,
                                      std::vector<std::string>& notices, std::string& error);
 
 // Writes the state of every declaration changed since the last call into its object.

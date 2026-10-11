@@ -496,8 +496,8 @@ int main(int argc, char** argv) {
         const auto animation_names = assets.read(anim_root + "animations_pyarraynames.bin");
         const auto animation_schema = assets.read(anim_root + "animations_pystructnames.bin");
         const auto dictionary_values = assets.read(anim_root + "animations_dictionary_pyarray.bin");
-        const auto dictionary_names = AssetCatalog(repo).read(
-            ".local-inputs/actors/animations_dictionary_pyarraynames.bin");
+        const auto dictionary_names = AssetCatalog(repo / ".local-inputs/actors").read(
+            "animations_dictionary_pyarraynames.bin");
         dh2::data::Dictionary dictionary;
         dh2::data::AnimationTables animation_tables;
         check(dh2::data::load_dictionary(bytes(dictionary_names), bytes(dictionary_values), dictionary, error), error);
@@ -1076,6 +1076,36 @@ int main(int argc, char** argv) {
               retained_actor->resource == 0 && state.stats.resource == 0,
               "Source UseMana did not debit/publish the same player property and vital owners");
 
+        // B083: real same-world object identities participate in source Search.
+        WorldObject barrel;barrel.id=99;barrel.name="query-object";barrel.transform.position={0,-30,0};
+        check(session.world()->bind_object(barrel,error),error);
+        SkillObjectTargetArmV1 object_arm;object_arm.authored_order={99};object_arm.registry_order={99,2,3};
+        SkillObjectTargetFactsV1 object_facts;object_facts.visible=true;object_facts.zonable=true;
+        object_facts.zoned=false;object_facts.interactive=true;object_facts.interaction_type=8;object_facts.interaction_radius=10.f;
+        object_arm.facts=[&](const WorldObject& object,ActorId caster,SkillObjectTargetFactsV1& out,std::string&){check(object.id==99&&caster==1,"Wrong live object borrower");out=object_facts;return true;};
+        SkillActorTargetQueryV1 mixed;
+        check(query_source_character_targets_v1(session,1,source_population_order,source_target_facts,{},160.f,3.14159274f,SkillTargetSortV1::frontal_first,mixed,error,&object_arm),error);
+        check(mixed.status==SkillActorTargetQueryStatusV1::selected_character&&mixed.ordered_targets.back()==99,"Sorted query lost Character-before-object priority");
+        nearer_side->transform.position={800,0,0};farther_front->transform.position={900,0,0};
+        check(query_source_character_targets_v1(session,1,source_population_order,source_target_facts,{},160.f,3.14159274f,SkillTargetSortV1::frontal_first,mixed,error,&object_arm),error);
+        check(mixed.status==SkillActorTargetQueryStatusV1::selected_object&&mixed.selected==99&&mixed.ordered_character_targets.empty(),"Actual attackable object not selected");
+        object_facts.interactive=false;object_facts.interaction_type.reset();
+        check(query_source_character_targets_v1(session,1,source_population_order,source_target_facts,{},160.f,3.14159274f,SkillTargetSortV1::frontal_first,mixed,error,&object_arm)&&mixed.status==SkillActorTargetQueryStatusV1::no_actor_target,error);
+        object_facts.interactive=true;
+        check(!query_source_character_targets_v1(session,1,source_population_order,source_target_facts,{},160.f,3.14159274f,SkillTargetSortV1::frontal_first,mixed,error,&object_arm)&&error.find("interaction type")!=std::string::npos,"Unknown reached source object type guessed");
+        object_facts.interaction_type=0;
+        check(query_source_character_targets_v1(session,1,source_population_order,source_target_facts,{},160.f,3.14159274f,SkillTargetSortV1::frontal_first,mixed,error,&object_arm)&&mixed.status==SkillActorTargetQueryStatusV1::no_actor_target,error);
+        object_facts.interaction_type=8;object_facts.zoned=true;object_facts.in_zone=false;
+        check(query_source_character_targets_v1(session,1,source_population_order,source_target_facts,{},160.f,3.14159274f,SkillTargetSortV1::frontal_first,mixed,error,&object_arm)&&mixed.status==SkillActorTargetQueryStatusV1::no_actor_target,error);
+        object_facts.zoned=false;session.world()->find_object(99)->transform.position={1000,0,0};
+        check(query_source_character_targets_v1(session,1,source_population_order,source_target_facts,{},160.f,3.14159274f,SkillTargetSortV1::frontal_first,mixed,error,&object_arm)&&mixed.status==SkillActorTargetQueryStatusV1::no_actor_target,error);
+        object_arm.authored_order={99,99};
+        check(!query_source_character_targets_v1(session,1,source_population_order,source_target_facts,{},160.f,3.14159274f,SkillTargetSortV1::frontal_first,mixed,error,&object_arm),"Duplicate object query accepted");
+        object_arm.authored_order={99};object_facts.visible=false;object_facts.zonable.reset();
+        check(query_source_character_targets_v1(session,1,source_population_order,source_target_facts,{},160.f,3.14159274f,SkillTargetSortV1::frontal_first,mixed,error,&object_arm)&&mixed.status==SkillActorTargetQueryStatusV1::no_actor_target,error);
+        check(session.world()->remove_object(99),"Failed removing query object");
+        nearer_side->transform.position={20,-50,0};farther_front->transform.position={20,-110,0};
+
         // The authored do_skill marker is the only source point that reaches
         // BashDown ApplyPropClass + SkillCombatRoll. Exercise the staged
         // coordinator against the original saved hotbar, same CharacterState,
@@ -1236,6 +1266,46 @@ int main(int argc, char** argv) {
         check(state.stats.resource < full_mp.sheets.resolved[41] && state.skills[0].rank == 1 &&
               session.actor(1)->action == CharacterAction::idle,
               "BashDown coordinator did not preserve rank, spend same-source mana or restore lifecycle action");
+
+        // B083 cast consumer: nil and real object targets retain mana/animation,
+        // object Use is once-only and never creates Character damage/RNG.
+        const auto restore_b083_mp=[&]() {
+            auto props=*session.world()->combat_properties(1);
+            auto view=dh2::data::property_view(property_rules,props.sheets);
+            check(dh2_property_set(&view,41,props.sheets.resolved[43])==0,"MP fixture failed");
+            check(session.world()->update_combat_properties(1,props,*session.world()->traits(1),error),error);
+            session.actor(1)->resource=original_signed256(props.sheets.resolved[41]);state.stats.resource=session.actor(1)->resource;
+        };
+        check(session.world()->bind_object(barrel,error),error);
+        object_facts.visible=true;object_facts.zonable=true;object_facts.zoned=false;object_facts.interactive=true;object_facts.interaction_type=8;
+        unsigned object_interactions=0;
+        object_arm.interact=[&](CombatSession& current,ObjectId object,ActorId caster,std::string&){check(&current==&session&&object==99&&caster==1,"Wrong object Interact owners");++object_interactions;return true;};
+        cast_request.object_targets=&object_arm;
+        nearer_side->transform.position={800,0,0};farther_front->transform.position={900,0,0};
+        session.world()->find_object(99)->transform.position={1000,0,0};
+        restore_b083_mp();session.actor(1)->action=CharacterAction::hurt;
+        auto injured_spell=cast_request;injured_spell.dispatch=RuntimeSkillCastDispatchV1::native_hud_spell;
+        RuntimeSkillCastReceiptV1 refused_spell;const auto before_spell_mp=session.world()->combat_properties(1)->sheets.resolved[41];
+        check(!cast_coordinator.begin_skill_cast_v1(injured_spell,session,refused_spell,error)&&error.find("event50006")!=std::string::npos&&session.world()->combat_properties(1)->sheets.resolved[41]==before_spell_mp,"Injured skill admission incorrectly admitted native Cast7 or spent spell mana");
+        marker_count=0;completion_count=0;RuntimeSkillCastReceiptV1 nil_cast;
+        check(cast_coordinator.begin_skill_cast_v1(cast_request,session,nil_cast,error),error);
+        check(nil_cast.phase==RuntimeSkillCastPhaseV1::prepared_pending_use&&nil_cast.mana.mana_spent&&nil_cast.target_order.empty(),"Injured/nil cast refused or skipped MP");
+        const auto nil_mp=session.world()->combat_properties(1)->sheets.resolved[41];
+        RuntimeSkillCastReceiptV1 refused_duplicate;
+        check(!cast_coordinator.begin_skill_cast_v1(cast_request,session,refused_duplicate,error)&&session.world()->combat_properties(1)->sheets.resolved[41]==nil_mp,"Duplicate nil cast debited MP");
+        for(unsigned frame=0;frame<180&&completion_count==0;++frame){check(session.update(1./60.,{},{0,0,0},0.f,error),error);check(cast_coordinator.advance_after_session_update(session,1./60.,error),error);}
+        check(marker_count==1&&completion_count==1&&session.actor(1)->action==CharacterAction::idle&&cast_coordinator.receipt(1)->applied_results.empty()&&object_interactions==0,"Nil cast failed marker/Post or restored orphan Injured");
+        restore_b083_mp();session.world()->find_object(99)->transform.position={0,-30,0};
+        marker_count=0;completion_count=0;RuntimeSkillCastReceiptV1 object_cast;
+        const auto object_rng=session.world()->random_state();
+        check(cast_coordinator.begin_skill_cast_v1(cast_request,session,object_cast,error),error);
+        check(object_cast.phase==RuntimeSkillCastPhaseV1::prepared_pending_use&&object_cast.mana.mana_spent,"Object cast failed Pre");
+        for(unsigned frame=0;frame<180&&completion_count==0;++frame){check(session.update(1./60.,{},{0,0,0},0.f,error),error);check(cast_coordinator.advance_after_session_update(session,1./60.,error),error);}
+        check(object_interactions==1&&cast_coordinator.receipt(1)->applied_results.empty()&&session.world()->random_state().seed==object_rng.seed&&session.world()->random_state().calls==object_rng.calls,"Object SkillCombatRoll invented Character damage/RNG or duplicate Interact");
+        RuntimeSkillCastReceiptV1 object_duplicate;
+        check(cast_coordinator.apply_retained_use_event_v1(session,1,object_cast.generation,RuntimeSkillSourceAnimStateV1::skill,actual_source_event,object_duplicate,error)&&object_interactions==1,error);
+        cast_request.object_targets=nullptr;check(session.world()->remove_object(99),"Object removal failed");
+        nearer_side->transform.position={20,-50,0};farther_front->transform.position={20,-110,0};restore_b083_mp();
 
         // Normal progression/remapping occurs after the source bank and
         // CharacterVisual are initialized. Train the same live CharacterState
