@@ -33,3 +33,7 @@ main.cpp admits every `auto_spawn=0` declared character whose profile is not in 
 - Remaining skip-path notes from code audit (no behaviour change made): `fast_forward` clears `actor_clips_` but not `held_clip_actors_` (cleared later by set_idle(!wait)/MoveActor/SetActorPosition); MarkCharacterAsScripted is stored only, no AI consumer.
 
 Package files required: none.
+
+## Fresh independent review correction — 2026-10-12
+
+The earlier no-footage and unidentified-lizard claims above are superseded: original P1 267–283.5s directly shows MothIntro, entrance, targeting and combat. Fresh reviewer /root/b080_b084_review inspected that sequence and matched accepted-v20 versus repaired early SKIP20 fixtures. Accepted lizard remains Spawn with no body/ring/damage; repaired shows ring, nameplate, attacks both ways and legitimate kills. Previous SKIP2250 occurred after lizard spawn and did not prove the early branch. Frozen96413324… reviewed proof is retained at .local-inputs/claude-v20.1/b080-b084-review/REVIEW.md. Wider cinematic audits remain qualified.

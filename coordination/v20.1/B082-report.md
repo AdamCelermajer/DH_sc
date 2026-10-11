@@ -3,7 +3,7 @@
 Branch fix/b082 (from windows-foundation 2a8faf0f), build exit 0, ctest only session_skill_binding fails (known). Scratch/evidence: `.local-inputs/claude-v20.1/fix082/run1/` (run.args, run.log, f*.png). Fixture: `--test-player-hp 10` next to a lizard (deathwire runF args, own isolated save dir).
 
 ## Evidence
-- Video: NONE. No death screen exists in P1/P2 (v20 DEATH-FLOW report: sparse grids + blackdetect). No video match can be claimed.
+- Video: NONE. No death screen was found in the inspected sparse grids and blackdetect candidates in P1/P2 (v20 DEATH-FLOW report); this does not prove absence throughout both videos. No video match can be claimed.
 - SWF (dqhud_droid.swf, sprite742 `menu_FadeToBlackScreen`, re-read from dqhud_droid-tree.json): children are only flush_text, btn_Block (empty action), btn_Continue (full-stage hit rect, action `gotoAndPlay("Hide")`), black fade shape496, panel shape739 (skull aperture), FlashingText sprite741 = `GLOBAL_DEATH{1..5}_01`. No button graphic, no "try again", no "return to checkpoint" text. `RespawnText`/`TimerNumber_txt` (sprite747) belong to the ONLINE death timer. A search of tree/inventory for retry/try again/checkpoint/revive/game over found nothing else offline.
 - IDA (APK 1.0.2): `_HandleLocalDeaths` 0x375fe8 pushes menu_FadeToBlackScreen once offline; `NativeReviveAllPlayers` 0x43b1e4 (SWF frame 88) -> `ReviveLocalPlayers` 0x37565c -> `Level::LoadCheckpoint` 0x3f0428 + `Character::Revive`. So the original's single offline action IS "return to checkpoint"; there is no choice.
 - Match: our flow matches the SWF/IDA logic (fade+skull, quote, tap = Continue, checkpoint reload, revive, fade-from-black). Visual layout vs original device: not verifiable (no footage).
