@@ -124,6 +124,12 @@ bool map_activation_gate_v1(const std::map<std::string, std::string>& properties
 std::optional<MapMarkerKindV1> map_character_marker_kind_v1(const MapCharacterV1& character,
                                                             const std::set<std::int32_t>& questTalkRows);
 
+// B093: kill-objective positions (IDA ObjectiveTemplate_KillCharacter::GetPositions 0x47ca18/0x47cb1c): `remaining`
+// Capacity is (required - killed). Only actual non-dead matching character positions
+// are returned; the player position is a distance reference, not a filler marker.
+std::vector<std::array<float, 3>> map_kill_objective_positions_v1(int remaining, const std::array<float, 3>& player,
+                                                                  const std::vector<std::array<float, 3>>& live_matches);
+
 // Providers (also exposed for tests).
 void map_provider_characters_v1(const MapMarkerInputsV1& inputs, MapMarkersV1& out);
 void map_provider_level_objects_v1(const MapMarkerInputsV1& inputs, MapMarkersV1& out);

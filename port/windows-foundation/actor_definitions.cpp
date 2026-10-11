@@ -1,5 +1,6 @@
 #include "actor_definitions.hpp"
 #include "level_manifest.hpp"
+#include "authored_transform.hpp"
 #include "content_paths.hpp"
 #include "../level-loader/vendor/tinyxml/tinyxml.h"
 #include "../engine-math/math.hpp"
@@ -117,18 +118,8 @@ Mat4 transform(const Properties& properties, const std::array<float, 3>& offset)
     auto position = tuple(value(properties, "position"), {});
     auto rotation = tuple(value(properties, "rotation"), {});
     auto scale = tuple(value(properties, "scale"), {1,1,1});
-    for (unsigned i=0; i<3; ++i) { position[i] += offset[i]; if (std::abs(scale[i]) < 0.0001f) scale[i] = 1; }
-    constexpr float degrees = 0.01745329251994329577f;
-    dh2::math::Quaternion q{};
-    dh2_quat_from_euler(&q, rotation[1]*degrees, -rotation[0]*degrees, -rotation[2]*degrees);
-    float x=q.x,y=q.y,z=q.z,w=q.w;
-    Mat4 result{
-        (1-2*y*y-2*z*z)*scale[0], (2*x*y+2*z*w)*scale[0], (2*x*z-2*y*w)*scale[0], 0,
-        (2*x*y-2*z*w)*scale[1], (1-2*x*x-2*z*z)*scale[1], (2*y*z+2*x*w)*scale[1], 0,
-        (2*x*z+2*y*w)*scale[2], (2*y*z-2*x*w)*scale[2], (1-2*x*x-2*y*y)*scale[2], 0,
-        position[0],position[1],position[2],1};
-    for (float component : result) if (!std::isfinite(component)) throw std::runtime_error("Actor transform overflow");
-    return result;
+    for (unsigned i=0; i<3; ++i) position[i] += offset[i];
+    return authored_transform(position, rotation, scale);
 }
 std::uint64_t identity_hash(const std::string& identity) {
     std::uint64_t hash = 14695981039346656037ull;

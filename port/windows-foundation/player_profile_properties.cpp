@@ -72,6 +72,10 @@ bool project_player_profile_properties(const OriginalPropertyDatabase& database,
     for(const auto vital:{std::pair<unsigned,float>{36,profile.stats.health},{41,profile.stats.resource}}){
         std::int32_t wanted=0;if(!fixed(vital.second,wanted)){error="Profile vital exceeds source Q8 range";return false;}
         const auto maximum=candidate.sheets.resolved[vital.first==36?38:43];
+        // B086: a profile written while its hero was dead (health 0) must not start a session dead. The source builds every
+        // Character at level load through Character::InitPost (0x3b4d60): Revive(this,nullptr,1) then _InitHpMp (RegenHP(-1) fills
+        // HP to the maximum). A dead profile therefore starts revived with full health; live partial health stays as saved.
+        if(vital.first==36&&wanted<=0&&maximum>0)wanted=maximum;
         if(maximum<0||wanted>maximum){error="Profile vital exceeds prepared source maximum";return false;}
         if(!set(vital.first,wanted))return false;
     }

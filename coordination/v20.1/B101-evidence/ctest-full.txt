@@ -1,0 +1,1455 @@
+Internal ctest changing into directory: C:/Users/adamc/Desktop/workspace/DH_wt/build-fixfx
+Test project C:/Users/adamc/Desktop/workspace/DH_wt/build-fixfx
+        Start 142: combat_session_incoming_receiver
+        Start 139: combat_session_source_departure
+        Start 150: combat_session_actor_transition
+        Start 151: session_actor_transition_physics
+  1/171 Test #139: combat_session_source_departure ...............   Passed    8.01 sec
+        Start  10: startup_intro_movie_v2
+  2/171 Test #151: session_actor_transition_physics ..............   Passed   13.80 sec
+        Start 143: combat_session_source_attack_bank
+  3/171 Test #150: combat_session_actor_transition ...............   Passed   22.69 sec
+        Start  50: combat_session
+  4/171 Test #142: combat_session_incoming_receiver ..............   Passed   29.49 sec
+        Start 118: b035_session_push_effect_v1
+  5/171 Test  #10: startup_intro_movie_v2 ........................   Passed   21.60 sec
+        Start  83: campaign_host
+  6/171 Test #143: combat_session_source_attack_bank .............   Passed   14.36 sec
+        Start 117: combat_session_combo
+  7/171 Test  #50: combat_session ................................   Passed    9.74 sec
+        Start 145: combat_session_motion_phase
+  8/171 Test #118: b035_session_push_effect_v1 ...................   Passed   17.61 sec
+        Start 138: combat_session_equipment_multiplicity
+  9/171 Test #117: combat_session_combo ..........................   Passed   14.62 sec
+        Start 156: schema_v4
+ 10/171 Test #145: combat_session_motion_phase ...................   Passed   14.79 sec
+        Start 167: procedural_layout_fidelity
+ 11/171 Test #138: combat_session_equipment_multiplicity .........   Passed    6.42 sec
+        Start  42: renderer_static_geometry
+ 12/171 Test #156: schema_v4 .....................................   Passed    5.78 sec
+        Start  51: combat_session_pose_step
+ 13/171 Test #167: procedural_layout_fidelity ....................   Passed    5.66 sec
+        Start  43: frame_pacer
+ 14/171 Test  #42: renderer_static_geometry ......................   Passed    5.81 sec
+        Start  36: original_combat_visual_plan
+ 15/171 Test  #51: combat_session_pose_step ......................   Passed    6.06 sec
+        Start 147: combat_session_death_end_regression
+ 16/171 Test  #43: frame_pacer ...................................   Passed    6.41 sec
+        Start  40: window_lifecycle
+ 17/171 Test  #36: original_combat_visual_plan ...................   Passed    6.51 sec
+        Start 155: combat_session_presentation_state
+ 18/171 Test #147: combat_session_death_end_regression ...........   Passed    8.14 sec
+        Start  91: source_material_pass
+ 19/171 Test  #40: window_lifecycle ..............................   Passed    7.57 sec
+        Start  41: renderer_visual_quality
+ 20/171 Test #155: combat_session_presentation_state .............   Passed    7.70 sec
+        Start  52: source_session_program
+ 21/171 Test  #91: source_material_pass ..........................   Passed    6.32 sec
+        Start 159: level_module_zones
+ 22/171 Test  #41: renderer_visual_quality .......................   Passed    6.52 sec
+        Start 131: combat_session_target_cycle
+ 23/171 Test  #52: source_session_program ........................   Passed    6.94 sec
+        Start 104: source_module_floors
+ 24/171 Test #159: level_module_zones ............................   Passed    7.29 sec
+        Start  24: asset
+ 25/171 Test #131: combat_session_target_cycle ...................   Passed    7.32 sec
+        Start 144: playable_actor_physics_frame
+ 26/171 Test #104: source_module_floors ..........................   Passed    7.36 sec
+        Start 120: combat_text_live
+ 27/171 Test  #24: asset .........................................   Passed    7.13 sec
+        Start 149: combat_session_reconstructible_notification
+ 28/171 Test #144: playable_actor_physics_frame ..................   Passed    7.33 sec
+        Start  67: retained_sequence_playback
+ 29/171 Test #120: combat_text_live ..............................   Passed    6.56 sec
+        Start 146: retained_seeded_completion
+ 30/171 Test #149: combat_session_reconstructible_notification ...   Passed    6.16 sec
+        Start  84: campaign_trigger_zones
+ 31/171 Test  #67: retained_sequence_playback ....................   Passed    5.45 sec
+        Start 116: source_combo_chain
+ 32/171 Test #146: retained_seeded_completion ....................   Passed    5.87 sec
+        Start 165: procedural_level_v1
+ 33/171 Test  #84: campaign_trigger_zones ........................   Passed    6.39 sec
+        Start  73: deferred_population
+ 34/171 Test #116: source_combo_chain ............................   Passed    6.68 sec
+        Start 115: faery_cast_sound_v1
+ 35/171 Test #165: procedural_level_v1 ...........................   Passed    6.42 sec
+        Start 114: character_state_page
+ 36/171 Test  #73: deferred_population ...........................   Passed    5.96 sec
+        Start 113: menu_text
+ 37/171 Test #115: faery_cast_sound_v1 ...........................   Passed    5.89 sec
+        Start 141: stat_training_v1
+ 38/171 Test #114: character_state_page ..........................   Passed    5.68 sec
+        Start 140: runtime_skill_session_training
+ 39/171 Test #113: menu_text .....................................   Passed    6.14 sec
+        Start 112: semantic_input
+ 40/171 Test #141: stat_training_v1 ..............................   Passed    6.22 sec
+        Start 103: source_root_scopes
+ 41/171 Test #112: semantic_input ................................   Passed    4.00 sec
+        Start 148: game_save_physical_presence
+ 42/171 Test #140: runtime_skill_session_training ................   Passed    8.66 sec
+        Start  39: actor_population_template_selection
+ 43/171 Test #103: source_root_scopes ............................   Passed    6.32 sec
+        Start  30: actor_definitions
+ 44/171 Test #148: game_save_physical_presence ...................   Passed   14.38 sec
+        Start  32: actor_root_motion
+ 45/171 Test  #39: actor_population_template_selection ...........   Passed   14.20 sec
+        Start 108: original_actor_subobjects
+ 46/171 Test  #30: actor_definitions .............................   Passed   22.33 sec
+        Start 111: character_menu
+ 47/171 Test  #32: actor_root_motion .............................   Passed   14.46 sec
+        Start 110: hud_xp_bar
+ 48/171 Test #108: original_actor_subobjects .....................   Passed   14.00 sec
+        Start  22: save
+ 49/171 Test #111: character_menu ................................   Passed    5.58 sec
+        Start 109: hud_geometry
+ 50/171 Test #110: hud_xp_bar ....................................   Passed    5.32 sec
+        Start 119: combat_text
+ 51/171 Test  #83: campaign_host .................................***Timeout 124.66 sec
+[campaign] frame=0 player position=0,0,0 qualified=1
+[campaign] command script=BeginScriptedCutScene index=0 kind=70 class=Script_BlockSaveGame frame=2
+[campaign] command script=BeginScriptedCutScene index=1 kind=79 class=Script_FlushMessages frame=2
+[campaign] command script=BeginScriptedCutScene index=2 kind=32 class=Script_MarkCharacterAsScripted frame=2
+[campaign] unsupported or stubbed (first occurrence): scripted flag stored only (no AI consumer bound yet)
+[campaign] command script=BeginScriptedCutScene index=3 kind=23 class=Script_HideFlash frame=2
+[campaign] command script=BeginScriptedCutScene index=4 kind=22 class=Script_ShowFlash frame=2
+[campaign] command script=BeginScriptedCutScene index=5 kind=24 class=Script_LockCharacter frame=2
+[campaign] command script=BeginScriptedCutScene index=6 kind=39 class=Script_StopActor frame=2
+[campaign] unsupported or stubbed (first occurrence): stub StopActor (movement ends through the controller lock)
+[campaign] command script=BeginScriptedCutScene index=7 kind=1 class=Script_EnterCutSceneMode frame=2
+[campaign] command script=LizardMan_Intro index=1 kind=24 class=Script_LockCharacter frame=2
+[campaign] command script=LizardMan_Intro index=2 kind=8 class=Script_SetCameraTarget frame=2
+[campaign] command script=LizardMan_Intro index=4 kind=30 class=Script_SpawnCharacter frame=10
+[campaign] cutscene aborted: Unknown original lifecycle actor
+[campaign] HUD, SKIP, cutscene mode, save block and controller locks restored; 1 running script(s) abandoned
+[campaign] command script=BeginScriptedCutScene index=0 kind=70 class=Script_BlockSaveGame frame=13
+[campaign] command script=BeginScriptedCutScene index=1 kind=79 class=Script_FlushMessages frame=13
+[campaign] command script=BeginScriptedCutScene index=2 kind=32 class=Script_MarkCharacterAsScripted frame=13
+[campaign] command script=BeginScriptedCutScene index=3 kind=23 class=Script_HideFlash frame=13
+[campaign] command script=BeginScriptedCutScene index=4 kind=22 class=Script_ShowFlash frame=13
+[campaign] command script=BeginScriptedCutScene index=5 kind=24 class=Script_LockCharacter frame=13
+[campaign] command script=BeginScriptedCutScene index=6 kind=39 class=Script_StopActor frame=13
+[campaign] command script=BeginScriptedCutScene index=7 kind=1 class=Script_EnterCutSceneMode frame=13
+[campaign] command script=CombatTuto index=1 kind=24 class=Script_LockCharacter frame=13
+[campaign] command script=CombatTuto index=2 kind=10 class=Script_StartDialog frame=13
+[campaign] unsupported or stubbed (first occurrence): dialogue StrID unresolved
+[campaign] caption frame=13 strid=2097213 actor=49 speaker= style= text=[StrID 2097213 unresolved]
+[campaign] command script=CombatTuto index=3 kind=12 class=Script_WaitDialog frame=13
+[campaign] frame=30 player position=0,0,0 qualified=1
+[campaign] frame=60 player position=0,0,0 qualified=1
+[campaign] frame=90 player position=0,0,0 qualified=1
+[campaign] frame=120 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=4 kind=10 class=Script_StartDialog frame=147
+[campaign] caption frame=147 strid=2097214 actor=49 speaker= style= text=[StrID 2097214 unresolved]
+[campaign] command script=CombatTuto index=5 kind=12 class=Script_WaitDialog frame=147
+[campaign] frame=150 player position=0,0,0 qualified=1
+[campaign] frame=180 player position=0,0,0 qualified=1
+[campaign] frame=210 player position=0,0,0 qualified=1
+[campaign] frame=240 player position=0,0,0 qualified=1
+[campaign] frame=270 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=6 kind=10 class=Script_StartDialog frame=281
+[campaign] caption frame=281 strid=2097215 actor=49 speaker= style= text=[StrID 2097215 unresolved]
+[campaign] command script=CombatTuto index=7 kind=12 class=Script_WaitDialog frame=281
+[campaign] frame=300 player position=0,0,0 qualified=1
+[campaign] frame=330 player position=0,0,0 qualified=1
+[campaign] frame=360 player position=0,0,0 qualified=1
+[campaign] frame=390 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=8 kind=10 class=Script_StartDialog frame=415
+[campaign] caption frame=415 strid=2097216 actor=49 speaker= style= text=[StrID 2097216 unresolved]
+[campaign] command script=CombatTuto index=9 kind=12 class=Script_WaitDialog frame=415
+[campaign] frame=420 player position=0,0,0 qualified=1
+[campaign] frame=450 player position=0,0,0 qualified=1
+[campaign] frame=480 player position=0,0,0 qualified=1
+[campaign] frame=510 player position=0,0,0 qualified=1
+[campaign] frame=540 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=10 kind=10 class=Script_StartDialog frame=549
+[campaign] caption frame=549 strid=2097217 actor=49 speaker= style= text=[StrID 2097217 unresolved]
+[campaign] command script=CombatTuto index=11 kind=12 class=Script_WaitDialog frame=549
+[campaign] frame=570 player position=0,0,0 qualified=1
+[campaign] frame=600 player position=0,0,0 qualified=1
+[campaign] frame=630 player position=0,0,0 qualified=1
+[campaign] frame=660 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=12 kind=10 class=Script_StartDialog frame=683
+[campaign] caption frame=683 strid=2097218 actor=49 speaker= style= text=[StrID 2097218 unresolved]
+[campaign] command script=CombatTuto index=13 kind=12 class=Script_WaitDialog frame=683
+[campaign] frame=690 player position=0,0,0 qualified=1
+[campaign] frame=720 player position=0,0,0 qualified=1
+[campaign] frame=750 player position=0,0,0 qualified=1
+[campaign] frame=780 player position=0,0,0 qualified=1
+[campaign] frame=810 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=14 kind=10 class=Script_StartDialog frame=817
+[campaign] caption frame=817 strid=2097219 actor=49 speaker= style= text=[StrID 2097219 unresolved]
+[campaign] command script=CombatTuto index=15 kind=12 class=Script_WaitDialog frame=817
+[campaign] frame=840 player position=0,0,0 qualified=1
+[campaign] frame=870 player position=0,0,0 qualified=1
+[campaign] frame=900 player position=0,0,0 qualified=1
+[campaign] frame=930 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=16 kind=10 class=Script_StartDialog frame=951
+[campaign] caption frame=951 strid=2097220 actor=49 speaker= style= text=[StrID 2097220 unresolved]
+[campaign] command script=CombatTuto index=17 kind=12 class=Script_WaitDialog frame=951
+[campaign] frame=960 player position=0,0,0 qualified=1
+[campaign] frame=990 player position=0,0,0 qualified=1
+[campaign] frame=1020 player position=0,0,0 qualified=1
+[campaign] frame=1050 player position=0,0,0 qualified=1
+[campaign] frame=1080 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=18 kind=10 class=Script_StartDialog frame=1085
+[campaign] caption frame=1085 strid=2097221 actor=49 speaker= style= text=[StrID 2097221 unresolved]
+[campaign] command script=CombatTuto index=19 kind=12 class=Script_WaitDialog frame=1085
+[campaign] frame=1110 player position=0,0,0 qualified=1
+[campaign] frame=1140 player position=0,0,0 qualified=1
+[campaign] frame=1170 player position=0,0,0 qualified=1
+[campaign] frame=1200 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=20 kind=8 class=Script_SetCameraTarget frame=1219
+[campaign] command script=CombatTuto index=21 kind=77 class=Script_LockTutorial frame=1219
+[campaign] unsupported or stubbed (first occurrence): stub tutorial flag persistence (session only; no settings path bound)
+[campaign] command script=CombatTuto index=22 kind=25 class=Script_UnlockCharacter frame=1219
+[campaign] command script=EndScriptedCutScene index=0 kind=31 class=Script_PutCharacterInIdle frame=1220
+[campaign] command script=EndScriptedCutScene index=1 kind=12 class=Script_WaitDialog frame=1220
+[campaign] command script=EndScriptedCutScene index=2 kind=22 class=Script_ShowFlash frame=1220
+[campaign] command script=EndScriptedCutScene index=3 kind=23 class=Script_HideFlash frame=1220
+[campaign] command script=EndScriptedCutScene index=4 kind=32 class=Script_MarkCharacterAsScripted frame=1220
+[campaign] command script=EndScriptedCutScene index=5 kind=25 class=Script_UnlockCharacter frame=1220
+[campaign] command script=EndScriptedCutScene index=6 kind=2 class=Script_ExitCutSceneMode frame=1220
+[campaign] command script=EndScriptedCutScene index=7 kind=69 class=Script_SaveGame frame=1220
+[campaign] unsupported or stubbed (first occurrence): stub SaveGame (regular save owner not bound; nothing written)
+[campaign] frame=0 player position=0,0,0 qualified=1
+[campaign] command script=BeginScriptedCutScene index=0 kind=70 class=Script_BlockSaveGame frame=2
+[campaign] command script=BeginScriptedCutScene index=1 kind=79 class=Script_FlushMessages frame=2
+[campaign] command script=BeginScriptedCutScene index=2 kind=32 class=Script_MarkCharacterAsScripted frame=2
+[campaign] unsupported or stubbed (first occurrence): scripted flag stored only (no AI consumer bound yet)
+[campaign] command script=BeginScriptedCutScene index=3 kind=23 class=Script_HideFlash frame=2
+[campaign] command script=BeginScriptedCutScene index=4 kind=22 class=Script_ShowFlash frame=2
+[campaign] command script=BeginScriptedCutScene index=5 kind=24 class=Script_LockCharacter frame=2
+[campaign] command script=BeginScriptedCutScene index=6 kind=39 class=Script_StopActor frame=2
+[campaign] unsupported or stubbed (first occurrence): stub StopActor (movement ends through the controller lock)
+[campaign] command script=BeginScriptedCutScene index=7 kind=1 class=Script_EnterCutSceneMode frame=2
+[campaign] command script=LizardMan_Intro index=1 kind=24 class=Script_LockCharacter frame=2
+[campaign] command script=LizardMan_Intro index=2 kind=8 class=Script_SetCameraTarget frame=2
+[campaign] SKIP pressed (fast-forward at the next frame)
+[campaign] command script=LizardMan_Intro index=4 kind=30 class=Script_SpawnCharacter skip=1 frame=5
+[campaign] SKIP fast-forward passes=1 frame=5 ok=0
+[campaign] cutscene aborted: Unknown original lifecycle actor
+[campaign] HUD, SKIP, cutscene mode, save block and controller locks restored; 1 running script(s) abandoned
+[campaign] trigger zone fed: gate-test script=enterLocation_StartRoom min=-100,-100,-100 max=100,100,100
+[campaign] trigger zones fed=1 not-fed=0
+[campaign] frame=0 player position=0,0,0 qualified=1
+[campaign] trigger gate-test -> script enterLocation_StartRoom started
+[campaign] unsupported or stubbed (first occurrence): scripted flag stored only (no AI consumer bound yet)
+[campaign] command script=enterLocation_StartRoom index=0 kind=10 class=Script_StartDialog frame=2
+[campaign] unsupported or stubbed (first occurrence): dialogue StrID unresolved
+[campaign] caption frame=2 strid=1703960 actor=-1 speaker= style= text=[StrID 1703960 unresolved]
+[campaign] script enterLocation_StartRoom finished
+[campaign] trigger gate-test -> script enterLocation_StartRoom started
+[campaign] frame=0 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto index=0 kind=78 class=Script_DoTutorial frame=1
+[campaign] unsupported or stubbed (first occurrence): stub tutorial flag persistence (session only; no settings path bound)
+[campaign] unsupported or stubbed (first occurrence): stub tutorial settings save (nothing written)
+[campaign] frame=30 player position=0,0,0 qualified=1
+[campaign] frame=60 player position=0,0,0 qualified=1
+[campaign] frame=90 player position=0,0,0 qualified=1
+[campaign] command script=BeginScriptedCutScene index=0 kind=70 class=Script_BlockSaveGame frame=102
+[campaign] command script=BeginScriptedCutScene index=1 kind=79 class=Script_FlushMessages frame=102
+[campaign] command script=BeginScriptedCutScene index=2 kind=32 class=Script_MarkCharacterAsScripted frame=102
+[campaign] unsupported or stubbed (first occurrence): scripted flag stored only (no AI consumer bound yet)
+[campaign] command script=BeginScriptedCutScene index=3 kind=23 class=Script_HideFlash frame=102
+[campaign] command script=BeginScriptedCutScene index=4 kind=22 class=Script_ShowFlash frame=102
+[campaign] command script=BeginScriptedCutScene index=5 kind=24 class=Script_LockCharacter frame=102
+[campaign] command script=BeginScriptedCutScene index=6 kind=39 class=Script_StopActor frame=102
+[campaign] unsupported or stubbed (first occurrence): stub StopActor (movement ends through the controller lock)
+[campaign] command script=BeginScriptedCutScene index=7 kind=1 class=Script_EnterCutSceneMode frame=102
+[campaign] command script=Movement_Tuto2 index=2 kind=24 class=Script_LockCharacter frame=102
+[campaign] frame=120 player position=0,0,0 qualified=1
+[campaign] frame=150 player position=0,0,0 qualified=1
+[campaign] frame=180 player position=0,0,0 qualified=1
+[campaign] frame=210 player position=0,0,0 qualified=1
+[campaign] frame=240 player position=0,0,0 qualified=1
+[campaign] frame=270 player position=0,0,0 qualified=1
+[campaign] frame=300 player position=0,0,0 qualified=1
+[campaign] frame=330 player position=0,0,0 qualified=1
+[campaign] frame=360 player position=0,0,0 qualified=1
+[campaign] frame=390 player position=0,0,0 qualified=1
+[campaign] frame=420 player position=0,0,0 qualified=1
+[campaign] frame=450 player position=0,0,0 qualified=1
+[campaign] frame=480 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto2 index=4 kind=79 class=Script_FlushMessages frame=502
+[campaign] command script=Movement_Tuto2 index=5 kind=10 class=Script_StartDialog frame=502
+[campaign] caption frame=502 strid=2097188 actor=49 speaker= style= text=line 2097188
+[campaign] command script=Movement_Tuto2 index=6 kind=12 class=Script_WaitDialog frame=502
+[campaign] frame=510 player position=0,0,0 qualified=1
+[campaign] frame=540 player position=0,0,0 qualified=1
+[campaign] frame=570 player position=0,0,0 qualified=1
+[campaign] frame=600 player position=0,0,0 qualified=1
+[campaign] frame=630 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto2 index=7 kind=10 class=Script_StartDialog frame=636
+[campaign] caption frame=636 strid=2097189 actor=49 speaker= style= text=line 2097189
+[campaign] command script=Movement_Tuto2 index=8 kind=12 class=Script_WaitDialog frame=636
+[campaign] frame=660 player position=0,0,0 qualified=1
+[campaign] frame=690 player position=0,0,0 qualified=1
+[campaign] frame=720 player position=0,0,0 qualified=1
+[campaign] frame=750 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto2 index=9 kind=10 class=Script_StartDialog frame=770
+[campaign] caption frame=770 strid=2097190 actor=49 speaker= style= text=line 2097190
+[campaign] command script=Movement_Tuto2 index=10 kind=12 class=Script_WaitDialog frame=770
+[campaign] frame=780 player position=0,0,0 qualified=1
+[campaign] frame=810 player position=0,0,0 qualified=1
+[campaign] frame=840 player position=0,0,0 qualified=1
+[campaign] frame=870 player position=0,0,0 qualified=1
+[campaign] frame=900 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto2 index=11 kind=10 class=Script_StartDialog frame=904
+[campaign] caption frame=904 strid=2097191 actor=49 speaker= style= text=line 2097191
+[campaign] command script=Movement_Tuto2 index=12 kind=12 class=Script_WaitDialog frame=904
+[campaign] frame=930 player position=0,0,0 qualified=1
+[campaign] frame=960 player position=0,0,0 qualified=1
+[campaign] frame=990 player position=0,0,0 qualified=1
+[campaign] frame=1020 player position=0,0,0 qualified=1
+[campaign] frame=1050 player position=0,0,0 qualified=1
+[campaign] frame=1080 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto2 index=14 kind=77 class=Script_LockTutorial frame=1088
+[campaign] command script=Movement_Tuto2 index=15 kind=25 class=Script_UnlockCharacter frame=1088
+[campaign] command script=EndScriptedCutScene index=0 kind=31 class=Script_PutCharacterInIdle frame=1089
+[campaign] command script=EndScriptedCutScene index=1 kind=12 class=Script_WaitDialog frame=1089
+[campaign] command script=EndScriptedCutScene index=2 kind=22 class=Script_ShowFlash frame=1089
+[campaign] command script=EndScriptedCutScene index=3 kind=23 class=Script_HideFlash frame=1089
+[campaign] command script=EndScriptedCutScene index=4 kind=32 class=Script_MarkCharacterAsScripted frame=1089
+[campaign] command script=EndScriptedCutScene index=5 kind=25 class=Script_UnlockCharacter frame=1089
+[campaign] command script=EndScriptedCutScene index=6 kind=2 class=Script_ExitCutSceneMode frame=1089
+[campaign] command script=EndScriptedCutScene index=7 kind=69 class=Script_SaveGame frame=1089
+[campaign] unsupported or stubbed (first occurrence): stub SaveGame (regular save owner not bound; nothing written)
+[campaign] frame=0 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto index=0 kind=78 class=Script_DoTutorial frame=1
+[campaign] unsupported or stubbed (first occurrence): stub tutorial flag persistence (session only; no settings path bound)
+[campaign] unsupported or stubbed (first occurrence): stub tutorial settings save (nothing written)
+[campaign] frame=30 player position=0,0,0 qualified=1
+[campaign] frame=60 player position=0,0,0 qualified=1
+[campaign] frame=90 player position=0,0,0 qualified=1
+[campaign] command script=BeginScriptedCutScene index=0 kind=70 class=Script_BlockSaveGame frame=102
+[campaign] command script=BeginScriptedCutScene index=1 kind=79 class=Script_FlushMessages frame=102
+[campaign] command script=BeginScriptedCutScene index=2 kind=32 class=Script_MarkCharacterAsScripted frame=102
+[campaign] unsupported or stubbed (first occurrence): scripted flag stored only (no AI consumer bound yet)
+[campaign] command script=BeginScriptedCutScene index=3 kind=23 class=Script_HideFlash frame=102
+[campaign] command script=BeginScriptedCutScene index=4 kind=22 class=Script_ShowFlash frame=102
+[campaign] command script=BeginScriptedCutScene index=5 kind=24 class=Script_LockCharacter frame=102
+[campaign] command script=BeginScriptedCutScene index=6 kind=39 class=Script_StopActor frame=102
+[campaign] unsupported or stubbed (first occurrence): stub StopActor (movement ends through the controller lock)
+[campaign] command script=BeginScriptedCutScene index=7 kind=1 class=Script_EnterCutSceneMode frame=102
+[campaign] command script=Movement_Tuto2 index=2 kind=24 class=Script_LockCharacter frame=102
+[campaign] SKIP pressed (fast-forward at the next frame)
+[campaign] command script=Movement_Tuto2 index=4 kind=79 class=Script_FlushMessages skip=1 frame=103
+[campaign] command script=Movement_Tuto2 index=5 kind=10 class=Script_StartDialog skip=1 frame=103
+[campaign] command script=Movement_Tuto2 index=6 kind=12 class=Script_WaitDialog skip=1 frame=103
+[campaign] command script=Movement_Tuto2 index=7 kind=10 class=Script_StartDialog skip=1 frame=103
+[campaign] command script=Movement_Tuto2 index=8 kind=12 class=Script_WaitDialog skip=1 frame=103
+[campaign] command script=Movement_Tuto2 index=9 kind=10 class=Script_StartDialog skip=1 frame=103
+[campaign] command script=Movement_Tuto2 index=10 kind=12 class=Script_WaitDialog skip=1 frame=103
+[campaign] command script=Movement_Tuto2 index=11 kind=10 class=Script_StartDialog skip=1 frame=103
+[campaign] command script=Movement_Tuto2 index=12 kind=12 class=Script_WaitDialog skip=1 frame=103
+[campaign] command script=Movement_Tuto2 index=14 kind=77 class=Script_LockTutorial skip=1 frame=103
+[campaign] command script=Movement_Tuto2 index=15 kind=25 class=Script_UnlockCharacter skip=1 frame=103
+[campaign] command script=EndScriptedCutScene index=0 kind=31 class=Script_PutCharacterInIdle skip=1 frame=103
+[campaign] command script=EndScriptedCutScene index=1 kind=12 class=Script_WaitDialog skip=1 frame=103
+[campaign] command script=EndScriptedCutScene index=2 kind=22 class=Script_ShowFlash skip=1 frame=103
+[campaign] command script=EndScriptedCutScene index=3 kind=23 class=Script_HideFlash skip=1 frame=103
+[campaign] command script=EndScriptedCutScene index=4 kind=32 class=Script_MarkCharacterAsScripted skip=1 frame=103
+[campaign] command script=EndScriptedCutScene index=5 kind=25 class=Script_UnlockCharacter skip=1 frame=103
+[campaign] command script=EndScriptedCutScene index=6 kind=2 class=Script_ExitCutSceneMode skip=1 frame=103
+[campaign] command script=EndScriptedCutScene index=7 kind=69 class=Script_SaveGame skip=1 frame=103
+[campaign] unsupported or stubbed (first occurrence): stub SaveGame (regular save owner not bound; nothing written)
+[campaign] SKIP fast-forward passes=2 frame=103 ok=1
+[campaign] frame=0 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto index=0 kind=78 class=Script_DoTutorial frame=1
+[campaign] unsupported or stubbed (first occurrence): stub tutorial flag persistence (session only; no settings path bound)
+[campaign] unsupported or stubbed (first occurrence): stub tutorial settings save (nothing written)
+[campaign] frame=30 player position=0,0,0 qualified=1
+[campaign] frame=60 player position=0,0,0 qualified=1
+[campaign] frame=90 player position=0,0,0 qualified=1
+[campaign] command script=BeginScriptedCutScene index=0 kind=70 class=Script_BlockSaveGame frame=102
+[campaign] command script=BeginScriptedCutScene index=1 kind=79 class=Script_FlushMessages frame=102
+[campaign] command script=BeginScriptedCutScene index=2 kind=32 class=Script_MarkCharacterAsScripted frame=102
+[campaign] unsupported or stubbed (first occurrence): scripted flag stored only (no AI consumer bound yet)
+[campaign] command script=BeginScriptedCutScene index=3 kind=23 class=Script_HideFlash frame=102
+[campaign] command script=BeginScriptedCutScene index=4 kind=22 class=Script_ShowFlash frame=102
+[campaign] command script=BeginScriptedCutScene index=5 kind=24 class=Script_LockCharacter frame=102
+[campaign] command script=BeginScriptedCutScene index=6 kind=39 class=Script_StopActor frame=102
+[campaign] unsupported or stubbed (first occurrence): stub StopActor (movement ends through the controller lock)
+[campaign] command script=BeginScriptedCutScene index=7 kind=1 class=Script_EnterCutSceneMode frame=102
+[campaign] command script=Movement_Tuto2 index=2 kind=24 class=Script_LockCharacter frame=102
+[campaign] SKIP pressed (fast-forward at the next frame)
+[campaign] command script=Movement_Tuto2 index=4 kind=79 class=Script_FlushMessages skip=1 frame=103
+[campaign] command script=Movement_Tuto2 index=5 kind=10 class=Script_StartDialog skip=1 frame=103
+[campaign] command script=Movement_Tuto2 index=6 kind=12 class=Script_WaitDialog skip=1 frame=103
+[campaign] command script=Movement_Tuto2 index=7 kind=10 class=Script_StartDialog skip=1 frame=103
+[campaign] command script=Movement_Tuto2 index=8 kind=12 class=Script_WaitDialog skip=1 frame=103
+[campaign] command script=Movement_Tuto2 index=9 kind=10 class=Script_StartDialog skip=1 frame=103
+[campaign] command script=Movement_Tuto2 index=10 kind=12 class=Script_WaitDialog skip=1 frame=103
+[campaign] command script=Movement_Tuto2 index=11 kind=10 class=Script_StartDialog skip=1 frame=103
+[campaign] command script=Movement_Tuto2 index=12 kind=12 class=Script_WaitDialog skip=1 frame=103
+[campaign] command script=Movement_Tuto2 index=14 kind=77 class=Script_LockTutorial skip=1 frame=103
+[campaign] command script=Movement_Tuto2 index=15 kind=25 class=Script_UnlockCharacter skip=1 frame=103
+[campaign] command script=EndScriptedCutScene index=0 kind=31 class=Script_PutCharacterInIdle skip=1 frame=103
+[campaign] command script=EndScriptedCutScene index=1 kind=12 class=Script_WaitDialog skip=1 frame=103
+[campaign] command script=EndScriptedCutScene index=2 kind=22 class=Script_ShowFlash skip=1 frame=103
+[campaign] command script=EndScriptedCutScene index=3 kind=23 class=Script_HideFlash skip=1 frame=103
+[campaign] command script=EndScriptedCutScene index=4 kind=32 class=Script_MarkCharacterAsScripted skip=1 frame=103
+[campaign] command script=EndScriptedCutScene index=5 kind=25 class=Script_UnlockCharacter skip=1 frame=103
+[campaign] command script=EndScriptedCutScene index=6 kind=2 class=Script_ExitCutSceneMode skip=1 frame=103
+[campaign] command script=EndScriptedCutScene index=7 kind=69 class=Script_SaveGame skip=1 frame=103
+[campaign] unsupported or stubbed (first occurrence): stub SaveGame (regular save owner not bound; nothing written)
+[campaign] SKIP fast-forward passes=2 frame=103 ok=1
+[campaign] frame=0 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto index=0 kind=78 class=Script_DoTutorial frame=1
+[campaign] unsupported or stubbed (first occurrence): stub tutorial flag persistence (session only; no settings path bound)
+[campaign] unsupported or stubbed (first occurrence): stub tutorial settings save (nothing written)
+[campaign] frame=30 player position=0,0,0 qualified=1
+[campaign] frame=60 player position=0,0,0 qualified=1
+[campaign] frame=90 player position=0,0,0 qualified=1
+[campaign] command script=BeginScriptedCutScene index=0 kind=70 class=Script_BlockSaveGame frame=102
+[campaign] command script=BeginScriptedCutScene index=1 kind=79 class=Script_FlushMessages frame=102
+[campaign] command script=BeginScriptedCutScene index=2 kind=32 class=Script_MarkCharacterAsScripted frame=102
+[campaign] unsupported or stubbed (first occurrence): scripted flag stored only (no AI consumer bound yet)
+[campaign] command script=BeginScriptedCutScene index=3 kind=23 class=Script_HideFlash frame=102
+[campaign] command script=BeginScriptedCutScene index=4 kind=22 class=Script_ShowFlash frame=102
+[campaign] command script=BeginScriptedCutScene index=5 kind=24 class=Script_LockCharacter frame=102
+[campaign] command script=BeginScriptedCutScene index=6 kind=39 class=Script_StopActor frame=102
+[campaign] unsupported or stubbed (first occurrence): stub StopActor (movement ends through the controller lock)
+[campaign] command script=BeginScriptedCutScene index=7 kind=1 class=Script_EnterCutSceneMode frame=102
+[campaign] command script=Movement_Tuto2 index=2 kind=24 class=Script_LockCharacter frame=102
+[campaign] frame=120 player position=0,0,0 qualified=1
+[campaign] SKIP pressed (fast-forward at the next frame)
+[campaign] frame=150 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto2 index=4 kind=79 class=Script_FlushMessages skip=1 frame=151
+[campaign] command script=Movement_Tuto2 index=5 kind=10 class=Script_StartDialog skip=1 frame=151
+[campaign] command script=Movement_Tuto2 index=6 kind=12 class=Script_WaitDialog skip=1 frame=151
+[campaign] command script=Movement_Tuto2 index=7 kind=10 class=Script_StartDialog skip=1 frame=151
+[campaign] command script=Movement_Tuto2 index=8 kind=12 class=Script_WaitDialog skip=1 frame=151
+[campaign] command script=Movement_Tuto2 index=9 kind=10 class=Script_StartDialog skip=1 frame=151
+[campaign] command script=Movement_Tuto2 index=10 kind=12 class=Script_WaitDialog skip=1 frame=151
+[campaign] command script=Movement_Tuto2 index=11 kind=10 class=Script_StartDialog skip=1 frame=151
+[campaign] command script=Movement_Tuto2 index=12 kind=12 class=Script_WaitDialog skip=1 frame=151
+[campaign] command script=Movement_Tuto2 index=14 kind=77 class=Script_LockTutorial skip=1 frame=151
+[campaign] command script=Movement_Tuto2 index=15 kind=25 class=Script_UnlockCharacter skip=1 frame=151
+[campaign] command script=EndScriptedCutScene index=0 kind=31 class=Script_PutCharacterInIdle skip=1 frame=151
+[campaign] command script=EndScriptedCutScene index=1 kind=12 class=Script_WaitDialog skip=1 frame=151
+[campaign] command script=EndScriptedCutScene index=2 kind=22 class=Script_ShowFlash skip=1 frame=151
+[campaign] command script=EndScriptedCutScene index=3 kind=23 class=Script_HideFlash skip=1 frame=151
+[campaign] command script=EndScriptedCutScene index=4 kind=32 class=Script_MarkCharacterAsScripted skip=1 frame=151
+[campaign] command script=EndScriptedCutScene index=5 kind=25 class=Script_UnlockCharacter skip=1 frame=151
+[campaign] command script=EndScriptedCutScene index=6 kind=2 class=Script_ExitCutSceneMode skip=1 frame=151
+[campaign] command script=EndScriptedCutScene index=7 kind=69 class=Script_SaveGame skip=1 frame=151
+[campaign] unsupported or stubbed (first occurrence): stub SaveGame (regular save owner not bound; nothing written)
+[campaign] SKIP fast-forward passes=2 frame=151 ok=1
+[campaign] frame=0 player position=0,0,0 qualified=1
+[campaign] command script=BeginScriptedCutScene index=0 kind=70 class=Script_BlockSaveGame frame=2
+[campaign] command script=BeginScriptedCutScene index=1 kind=79 class=Script_FlushMessages frame=2
+[campaign] command script=BeginScriptedCutScene index=2 kind=32 class=Script_MarkCharacterAsScripted frame=2
+[campaign] unsupported or stubbed (first occurrence): scripted flag stored only (no AI consumer bound yet)
+[campaign] command script=BeginScriptedCutScene index=3 kind=23 class=Script_HideFlash frame=2
+[campaign] command script=BeginScriptedCutScene index=4 kind=22 class=Script_ShowFlash frame=2
+[campaign] command script=BeginScriptedCutScene index=5 kind=24 class=Script_LockCharacter frame=2
+[campaign] command script=BeginScriptedCutScene index=6 kind=39 class=Script_StopActor frame=2
+[campaign] unsupported or stubbed (first occurrence): stub StopActor (movement ends through the controller lock)
+[campaign] command script=BeginScriptedCutScene index=7 kind=1 class=Script_EnterCutSceneMode frame=2
+[campaign] command script=CombatTuto index=1 kind=24 class=Script_LockCharacter frame=2
+[campaign] command script=CombatTuto index=2 kind=10 class=Script_StartDialog frame=2
+[campaign] caption frame=2 strid=2097213 actor=49 speaker= style= text=line 2097213
+[campaign] command script=CombatTuto index=3 kind=12 class=Script_WaitDialog frame=2
+[campaign] frame=30 player position=0,0,0 qualified=1
+[campaign] frame=60 player position=0,0,0 qualified=1
+[campaign] frame=90 player position=0,0,0 qualified=1
+[campaign] frame=120 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=4 kind=10 class=Script_StartDialog frame=136
+[campaign] caption frame=136 strid=2097214 actor=49 speaker= style= text=line 2097214
+[campaign] command script=CombatTuto index=5 kind=12 class=Script_WaitDialog frame=136
+[campaign] frame=150 player position=0,0,0 qualified=1
+[campaign] frame=180 player position=0,0,0 qualified=1
+[campaign] frame=210 player position=0,0,0 qualified=1
+[campaign] frame=240 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=6 kind=10 class=Script_StartDialog frame=270
+[campaign] caption frame=270 strid=2097215 actor=49 speaker= style= text=line 2097215
+[campaign] command script=CombatTuto index=7 kind=12 class=Script_WaitDialog frame=270
+[campaign] frame=270 player position=0,0,0 qualified=1
+[campaign] frame=300 player position=0,0,0 qualified=1
+[campaign] frame=330 player position=0,0,0 qualified=1
+[campaign] frame=360 player position=0,0,0 qualified=1
+[campaign] frame=390 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=8 kind=10 class=Script_StartDialog frame=404
+[campaign] caption frame=404 strid=2097216 actor=49 speaker= style= text=line 2097216
+[campaign] command script=CombatTuto index=9 kind=12 class=Script_WaitDialog frame=404
+[campaign] frame=420 player position=0,0,0 qualified=1
+[campaign] frame=450 player position=0,0,0 qualified=1
+[campaign] frame=480 player position=0,0,0 qualified=1
+[campaign] frame=510 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=10 kind=10 class=Script_StartDialog frame=538
+[campaign] caption frame=538 strid=2097217 actor=49 speaker= style= text=line 2097217
+[campaign] command script=CombatTuto index=11 kind=12 class=Script_WaitDialog frame=538
+[campaign] frame=540 player position=0,0,0 qualified=1
+[campaign] frame=570 player position=0,0,0 qualified=1
+[campaign] frame=600 player position=0,0,0 qualified=1
+[campaign] frame=630 player position=0,0,0 qualified=1
+[campaign] frame=660 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=12 kind=10 class=Script_StartDialog frame=672
+[campaign] caption frame=672 strid=2097218 actor=49 speaker= style= text=line 2097218
+[campaign] command script=CombatTuto index=13 kind=12 class=Script_WaitDialog frame=672
+[campaign] frame=690 player position=0,0,0 qualified=1
+[campaign] frame=720 player position=0,0,0 qualified=1
+[campaign] frame=750 player position=0,0,0 qualified=1
+[campaign] frame=780 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=14 kind=10 class=Script_StartDialog frame=806
+[campaign] caption frame=806 strid=2097219 actor=49 speaker= style= text=line 2097219
+[campaign] command script=CombatTuto index=15 kind=12 class=Script_WaitDialog frame=806
+[campaign] frame=810 player position=0,0,0 qualified=1
+[campaign] frame=840 player position=0,0,0 qualified=1
+[campaign] frame=870 player position=0,0,0 qualified=1
+[campaign] frame=900 player position=0,0,0 qualified=1
+[campaign] frame=930 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=16 kind=10 class=Script_StartDialog frame=940
+[campaign] caption frame=940 strid=2097220 actor=49 speaker= style= text=line 2097220
+[campaign] command script=CombatTuto index=17 kind=12 class=Script_WaitDialog frame=940
+[campaign] frame=960 player position=0,0,0 qualified=1
+[campaign] frame=990 player position=0,0,0 qualified=1
+[campaign] frame=1020 player position=0,0,0 qualified=1
+[campaign] frame=1050 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=18 kind=10 class=Script_StartDialog frame=1074
+[campaign] caption frame=1074 strid=2097221 actor=49 speaker= style= text=line 2097221
+[campaign] command script=CombatTuto index=19 kind=12 class=Script_WaitDialog frame=1074
+[campaign] frame=1080 player position=0,0,0 qualified=1
+[campaign] frame=1110 player position=0,0,0 qualified=1
+[campaign] frame=1140 player position=0,0,0 qualified=1
+[campaign] frame=1170 player position=0,0,0 qualified=1
+[campaign] frame=1200 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=20 kind=8 class=Script_SetCameraTarget frame=1208
+[campaign] command script=CombatTuto index=21 kind=77 class=Script_LockTutorial frame=1208
+[campaign] unsupported or stubbed (first occurrence): stub tutorial flag persistence (session only; no settings path bound)
+[campaign] command script=CombatTuto index=22 kind=25 class=Script_UnlockCharacter frame=1208
+[campaign] command script=EndScriptedCutScene index=0 kind=31 class=Script_PutCharacterInIdle frame=1209
+[campaign] command script=EndScriptedCutScene index=1 kind=12 class=Script_WaitDialog frame=1209
+[campaign] command script=EndScriptedCutScene index=2 kind=22 class=Script_ShowFlash frame=1209
+[campaign] command script=EndScriptedCutScene index=3 kind=23 class=Script_HideFlash frame=1209
+[campaign] command script=EndScriptedCutScene index=4 kind=32 class=Script_MarkCharacterAsScripted frame=1209
+[campaign] command script=EndScriptedCutScene index=5 kind=25 class=Script_UnlockCharacter frame=1209
+[campaign] command script=EndScriptedCutScene index=6 kind=2 class=Script_ExitCutSceneMode frame=1209
+[campaign] command script=EndScriptedCutScene index=7 kind=69 class=Script_SaveGame frame=1209
+[campaign] unsupported or stubbed (first occurrence): stub SaveGame (regular save owner not bound; nothing written)
+[campaign] frame=0 player position=0,0,0 qualified=1
+[campaign] command script=BeginScriptedCutScene index=0 kind=70 class=Script_BlockSaveGame frame=2
+[campaign] command script=BeginScriptedCutScene index=1 kind=79 class=Script_FlushMessages frame=2
+[campaign] command script=BeginScriptedCutScene index=2 kind=32 class=Script_MarkCharacterAsScripted frame=2
+[campaign] unsupported or stubbed (first occurrence): scripted flag stored only (no AI consumer bound yet)
+[campaign] command script=BeginScriptedCutScene index=3 kind=23 class=Script_HideFlash frame=2
+[campaign] command script=BeginScriptedCutScene index=4 kind=22 class=Script_ShowFlash frame=2
+[campaign] command script=BeginScriptedCutScene index=5 kind=24 class=Script_LockCharacter frame=2
+[campaign] command script=BeginScriptedCutScene index=6 kind=39 class=Script_StopActor frame=2
+[campaign] unsupported or stubbed (first occurrence): stub StopActor (movement ends through the controller lock)
+[campaign] command script=BeginScriptedCutScene index=7 kind=1 class=Script_EnterCutSceneMode frame=2
+[campaign] command script=CombatTuto index=1 kind=24 class=Script_LockCharacter frame=2
+[campaign] command script=CombatTuto index=2 kind=10 class=Script_StartDialog frame=2
+[campaign] caption frame=2 strid=2097213 actor=49 speaker= style= text=line 2097213
+[campaign] command script=CombatTuto index=3 kind=12 class=Script_WaitDialog frame=2
+[campaign] SKIP pressed (fast-forward at the next frame)
+[campaign] command script=CombatTuto index=4 kind=10 class=Script_StartDialog skip=1 frame=3
+[campaign] command script=CombatTuto index=5 kind=12 class=Script_WaitDialog skip=1 frame=3
+[campaign] command script=CombatTuto index=6 kind=10 class=Script_StartDialog skip=1 frame=3
+[campaign] command script=CombatTuto index=7 kind=12 class=Script_WaitDialog skip=1 frame=3
+[campaign] command script=CombatTuto index=8 kind=10 class=Script_StartDialog skip=1 frame=3
+[campaign] command script=CombatTuto index=9 kind=12 class=Script_WaitDialog skip=1 frame=3
+[campaign] command script=CombatTuto index=10 kind=10 class=Script_StartDialog skip=1 frame=3
+[campaign] command script=CombatTuto index=11 kind=12 class=Script_WaitDialog skip=1 frame=3
+[campaign] command script=CombatTuto index=12 kind=10 class=Script_StartDialog skip=1 frame=3
+[campaign] command script=CombatTuto index=13 kind=12 class=Script_WaitDialog skip=1 frame=3
+[campaign] command script=CombatTuto index=14 kind=10 class=Script_StartDialog skip=1 frame=3
+[campaign] command script=CombatTuto index=15 kind=12 class=Script_WaitDialog skip=1 frame=3
+[campaign] command script=CombatTuto index=16 kind=10 class=Script_StartDialog skip=1 frame=3
+[campaign] command script=CombatTuto index=17 kind=12 class=Script_WaitDialog skip=1 frame=3
+[campaign] command script=CombatTuto index=18 kind=10 class=Script_StartDialog skip=1 frame=3
+[campaign] command script=CombatTuto index=19 kind=12 class=Script_WaitDialog skip=1 frame=3
+[campaign] command script=CombatTuto index=20 kind=8 class=Script_SetCameraTarget skip=1 frame=3
+[campaign] command script=CombatTuto index=21 kind=77 class=Script_LockTutorial skip=1 frame=3
+[campaign] unsupported or stubbed (first occurrence): stub tutorial flag persistence (session only; no settings path bound)
+[campaign] command script=CombatTuto index=22 kind=25 class=Script_UnlockCharacter skip=1 frame=3
+[campaign] command script=EndScriptedCutScene index=0 kind=31 class=Script_PutCharacterInIdle skip=1 frame=3
+[campaign] command script=EndScriptedCutScene index=1 kind=12 class=Script_WaitDialog skip=1 frame=3
+[campaign] command script=EndScriptedCutScene index=2 kind=22 class=Script_ShowFlash skip=1 frame=3
+[campaign] command script=EndScriptedCutScene index=3 kind=23 class=Script_HideFlash skip=1 frame=3
+[campaign] command script=EndScriptedCutScene index=4 kind=32 class=Script_MarkCharacterAsScripted skip=1 frame=3
+[campaign] command script=EndScriptedCutScene index=5 kind=25 class=Script_UnlockCharacter skip=1 frame=3
+[campaign] command script=EndScriptedCutScene index=6 kind=2 class=Script_ExitCutSceneMode skip=1 frame=3
+[campaign] command script=EndScriptedCutScene index=7 kind=69 class=Script_SaveGame skip=1 frame=3
+[campaign] unsupported or stubbed (first occurrence): stub SaveGame (regular save owner not bound; nothing written)
+[campaign] SKIP fast-forward passes=2 frame=3 ok=1
+[campaign] frame=0 player position=0,0,0 qualified=1
+[campaign] command script=BeginScriptedCutScene index=0 kind=70 class=Script_BlockSaveGame frame=2
+[campaign] command script=BeginScriptedCutScene index=1 kind=79 class=Script_FlushMessages frame=2
+[campaign] command script=BeginScriptedCutScene index=2 kind=32 class=Script_MarkCharacterAsScripted frame=2
+[campaign] unsupported or stubbed (first occurrence): scripted flag stored only (no AI consumer bound yet)
+[campaign] command script=BeginScriptedCutScene index=3 kind=23 class=Script_HideFlash frame=2
+[campaign] command script=BeginScriptedCutScene index=4 kind=22 class=Script_ShowFlash frame=2
+[campaign] command script=BeginScriptedCutScene index=5 kind=24 class=Script_LockCharacter frame=2
+[campaign] command script=BeginScriptedCutScene index=6 kind=39 class=Script_StopActor frame=2
+[campaign] unsupported or stubbed (first occurrence): stub StopActor (movement ends through the controller lock)
+[campaign] command script=BeginScriptedCutScene index=7 kind=1 class=Script_EnterCutSceneMode frame=2
+[campaign] command script=CombatTuto index=1 kind=24 class=Script_LockCharacter frame=2
+[campaign] command script=CombatTuto index=2 kind=10 class=Script_StartDialog frame=2
+[campaign] caption frame=2 strid=2097213 actor=49 speaker= style= text=line 2097213
+[campaign] command script=CombatTuto index=3 kind=12 class=Script_WaitDialog frame=2
+[campaign] SKIP pressed (fast-forward at the next frame)
+[campaign] frame=30 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=4 kind=10 class=Script_StartDialog skip=1 frame=31
+[campaign] command script=CombatTuto index=5 kind=12 class=Script_WaitDialog skip=1 frame=31
+[campaign] command script=CombatTuto index=6 kind=10 class=Script_StartDialog skip=1 frame=31
+[campaign] command script=CombatTuto index=7 kind=12 class=Script_WaitDialog skip=1 frame=31
+[campaign] command script=CombatTuto index=8 kind=10 class=Script_StartDialog skip=1 frame=31
+[campaign] command script=CombatTuto index=9 kind=12 class=Script_WaitDialog skip=1 frame=31
+[campaign] command script=CombatTuto index=10 kind=10 class=Script_StartDialog skip=1 frame=31
+[campaign] command script=CombatTuto index=11 kind=12 class=Script_WaitDialog skip=1 frame=31
+[campaign] command script=CombatTuto index=12 kind=10 class=Script_StartDialog skip=1 frame=31
+[campaign] command script=CombatTuto index=13 kind=12 class=Script_WaitDialog skip=1 frame=31
+[campaign] command script=CombatTuto index=14 kind=10 class=Script_StartDialog skip=1 frame=31
+[campaign] command script=CombatTuto index=15 kind=12 class=Script_WaitDialog skip=1 frame=31
+[campaign] command script=CombatTuto index=16 kind=10 class=Script_StartDialog skip=1 frame=31
+[campaign] command script=CombatTuto index=17 kind=12 class=Script_WaitDialog skip=1 frame=31
+[campaign] command script=CombatTuto index=18 kind=10 class=Script_StartDialog skip=1 frame=31
+[campaign] command script=CombatTuto index=19 kind=12 class=Script_WaitDialog skip=1 frame=31
+[campaign] command script=CombatTuto index=20 kind=8 class=Script_SetCameraTarget skip=1 frame=31
+[campaign] command script=CombatTuto index=21 kind=77 class=Script_LockTutorial skip=1 frame=31
+[campaign] unsupported or stubbed (first occurrence): stub tutorial flag persistence (session only; no settings path bound)
+[campaign] command script=CombatTuto index=22 kind=25 class=Script_UnlockCharacter skip=1 frame=31
+[campaign] command script=EndScriptedCutScene index=0 kind=31 class=Script_PutCharacterInIdle skip=1 frame=31
+[campaign] command script=EndScriptedCutScene index=1 kind=12 class=Script_WaitDialog skip=1 frame=31
+[campaign] command script=EndScriptedCutScene index=2 kind=22 class=Script_ShowFlash skip=1 frame=31
+[campaign] command script=EndScriptedCutScene index=3 kind=23 class=Script_HideFlash skip=1 frame=31
+[campaign] command script=EndScriptedCutScene index=4 kind=32 class=Script_MarkCharacterAsScripted skip=1 frame=31
+[campaign] command script=EndScriptedCutScene index=5 kind=25 class=Script_UnlockCharacter skip=1 frame=31
+[campaign] command script=EndScriptedCutScene index=6 kind=2 class=Script_ExitCutSceneMode skip=1 frame=31
+[campaign] command script=EndScriptedCutScene index=7 kind=69 class=Script_SaveGame skip=1 frame=31
+[campaign] unsupported or stubbed (first occurrence): stub SaveGame (regular save owner not bound; nothing written)
+[campaign] SKIP fast-forward passes=2 frame=31 ok=1
+[campaign] frame=0 player position=0,0,0 qualified=1
+[campaign] command script=BeginScriptedCutScene index=0 kind=70 class=Script_BlockSaveGame frame=2
+[campaign] command script=BeginScriptedCutScene index=1 kind=79 class=Script_FlushMessages frame=2
+[campaign] command script=BeginScriptedCutScene index=2 kind=32 class=Script_MarkCharacterAsScripted frame=2
+[campaign] unsupported or stubbed (first occurrence): scripted flag stored only (no AI consumer bound yet)
+[campaign] command script=BeginScriptedCutScene index=3 kind=23 class=Script_HideFlash frame=2
+[campaign] command script=BeginScriptedCutScene index=4 kind=22 class=Script_ShowFlash frame=2
+[campaign] command script=BeginScriptedCutScene index=5 kind=24 class=Script_LockCharacter frame=2
+[campaign] command script=BeginScriptedCutScene index=6 kind=39 class=Script_StopActor frame=2
+[campaign] unsupported or stubbed (first occurrence): stub StopActor (movement ends through the controller lock)
+[campaign] command script=BeginScriptedCutScene index=7 kind=1 class=Script_EnterCutSceneMode frame=2
+[campaign] command script=CombatTuto index=1 kind=24 class=Script_LockCharacter frame=2
+[campaign] command script=CombatTuto index=2 kind=10 class=Script_StartDialog frame=2
+[campaign] caption frame=2 strid=2097213 actor=49 speaker= style= text=line 2097213
+[campaign] command script=CombatTuto index=3 kind=12 class=Script_WaitDialog frame=2
+[campaign] frame=30 player position=0,0,0 qualified=1
+[campaign] frame=60 player position=0,0,0 qualified=1
+[campaign] frame=90 player position=0,0,0 qualified=1
+[campaign] frame=120 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=4 kind=10 class=Script_StartDialog frame=136
+[campaign] caption frame=136 strid=2097214 actor=49 speaker= style= text=line 2097214
+[campaign] command script=CombatTuto index=5 kind=12 class=Script_WaitDialog frame=136
+[campaign] SKIP pressed (fast-forward at the next frame)
+[campaign] frame=150 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=6 kind=10 class=Script_StartDialog skip=1 frame=151
+[campaign] command script=CombatTuto index=7 kind=12 class=Script_WaitDialog skip=1 frame=151
+[campaign] command script=CombatTuto index=8 kind=10 class=Script_StartDialog skip=1 frame=151
+[campaign] command script=CombatTuto index=9 kind=12 class=Script_WaitDialog skip=1 frame=151
+[campaign] command script=CombatTuto index=10 kind=10 class=Script_StartDialog skip=1 frame=151
+[campaign] command script=CombatTuto index=11 kind=12 class=Script_WaitDialog skip=1 frame=151
+[campaign] command script=CombatTuto index=12 kind=10 class=Script_StartDialog skip=1 frame=151
+[campaign] command script=CombatTuto index=13 kind=12 class=Script_WaitDialog skip=1 frame=151
+[campaign] command script=CombatTuto index=14 kind=10 class=Script_StartDialog skip=1 frame=151
+[campaign] command script=CombatTuto index=15 kind=12 class=Script_WaitDialog skip=1 frame=151
+[campaign] command script=CombatTuto index=16 kind=10 class=Script_StartDialog skip=1 frame=151
+[campaign] command script=CombatTuto index=17 kind=12 class=Script_WaitDialog skip=1 frame=151
+[campaign] command script=CombatTuto index=18 kind=10 class=Script_StartDialog skip=1 frame=151
+[campaign] command script=CombatTuto index=19 kind=12 class=Script_WaitDialog skip=1 frame=151
+[campaign] command script=CombatTuto index=20 kind=8 class=Script_SetCameraTarget skip=1 frame=151
+[campaign] command script=CombatTuto index=21 kind=77 class=Script_LockTutorial skip=1 frame=151
+[campaign] unsupported or stubbed (first occurrence): stub tutorial flag persistence (session only; no settings path bound)
+[campaign] command script=CombatTuto index=22 kind=25 class=Script_UnlockCharacter skip=1 frame=151
+[campaign] command script=EndScriptedCutScene index=0 kind=31 class=Script_PutCharacterInIdle skip=1 frame=151
+[campaign] command script=EndScriptedCutScene index=1 kind=12 class=Script_WaitDialog skip=1 frame=151
+[campaign] command script=EndScriptedCutScene index=2 kind=22 class=Script_ShowFlash skip=1 frame=151
+[campaign] command script=EndScriptedCutScene index=3 kind=23 class=Script_HideFlash skip=1 frame=151
+[campaign] command script=EndScriptedCutScene index=4 kind=32 class=Script_MarkCharacterAsScripted skip=1 frame=151
+[campaign] command script=EndScriptedCutScene index=5 kind=25 class=Script_UnlockCharacter skip=1 frame=151
+[campaign] command script=EndScriptedCutScene index=6 kind=2 class=Script_ExitCutSceneMode skip=1 frame=151
+[campaign] command script=EndScriptedCutScene index=7 kind=69 class=Script_SaveGame skip=1 frame=151
+[campaign] unsupported or stubbed (first occurrence): stub SaveGame (regular save owner not bound; nothing written)
+[campaign] SKIP fast-forward passes=2 frame=151 ok=1
+[campaign] frame=0 player position=0,0,0 qualified=1
+[campaign] command script=BeginScriptedCutScene index=0 kind=70 class=Script_BlockSaveGame frame=2
+[campaign] command script=BeginScriptedCutScene index=1 kind=79 class=Script_FlushMessages frame=2
+[campaign] command script=BeginScriptedCutScene index=2 kind=32 class=Script_MarkCharacterAsScripted frame=2
+[campaign] unsupported or stubbed (first occurrence): scripted flag stored only (no AI consumer bound yet)
+[campaign] command script=BeginScriptedCutScene index=3 kind=23 class=Script_HideFlash frame=2
+[campaign] command script=BeginScriptedCutScene index=4 kind=22 class=Script_ShowFlash frame=2
+[campaign] command script=BeginScriptedCutScene index=5 kind=24 class=Script_LockCharacter frame=2
+[campaign] command script=BeginScriptedCutScene index=6 kind=39 class=Script_StopActor frame=2
+[campaign] unsupported or stubbed (first occurrence): stub StopActor (movement ends through the controller lock)
+[campaign] command script=BeginScriptedCutScene index=7 kind=1 class=Script_EnterCutSceneMode frame=2
+[campaign] command script=CombatTuto index=1 kind=24 class=Script_LockCharacter frame=2
+[campaign] command script=CombatTuto index=2 kind=10 class=Script_StartDialog frame=2
+[campaign] caption frame=2 strid=2097213 actor=49 speaker= style= text=line 2097213
+[campaign] command script=CombatTuto index=3 kind=12 class=Script_WaitDialog frame=2
+[campaign] SKIP pressed (fast-forward at the next frame)
+[campaign] command script=CombatTuto index=4 kind=10 class=Script_StartDialog skip=1 frame=3
+[campaign] command script=CombatTuto index=5 kind=12 class=Script_WaitDialog skip=1 frame=3
+[campaign] command script=CombatTuto index=6 kind=10 class=Script_StartDialog skip=1 frame=3
+[campaign] command script=CombatTuto index=7 kind=12 class=Script_WaitDialog skip=1 frame=3
+[campaign] command script=CombatTuto index=8 kind=10 class=Script_StartDialog skip=1 frame=3
+[campaign] command script=CombatTuto index=9 kind=12 class=Script_WaitDialog skip=1 frame=3
+[campaign] command script=CombatTuto index=10 kind=10 class=Script_StartDialog skip=1 frame=3
+[campaign] command script=CombatTuto index=11 kind=12 class=Script_WaitDialog skip=1 frame=3
+[campaign] command script=CombatTuto index=12 kind=10 class=Script_StartDialog skip=1 frame=3
+[campaign] command script=CombatTuto index=13 kind=12 class=Script_WaitDialog skip=1 frame=3
+[campaign] command script=CombatTuto index=14 kind=10 class=Script_StartDialog skip=1 frame=3
+[campaign] command script=CombatTuto index=15 kind=12 class=Script_WaitDialog skip=1 frame=3
+[campaign] command script=CombatTuto index=16 kind=10 class=Script_StartDialog skip=1 frame=3
+[campaign] command script=CombatTuto index=17 kind=12 class=Script_WaitDialog skip=1 frame=3
+[campaign] command script=CombatTuto index=18 kind=10 class=Script_StartDialog skip=1 frame=3
+[campaign] command script=CombatTuto index=19 kind=12 class=Script_WaitDialog skip=1 frame=3
+[campaign] command script=CombatTuto index=20 kind=8 class=Script_SetCameraTarget skip=1 frame=3
+[campaign] command script=CombatTuto index=21 kind=77 class=Script_LockTutorial skip=1 frame=3
+[campaign] unsupported or stubbed (first occurrence): stub tutorial flag persistence (session only; no settings path bound)
+[campaign] command script=CombatTuto index=22 kind=25 class=Script_UnlockCharacter skip=1 frame=3
+[campaign] command script=EndScriptedCutScene index=0 kind=31 class=Script_PutCharacterInIdle skip=1 frame=3
+[campaign] command script=EndScriptedCutScene index=1 kind=12 class=Script_WaitDialog skip=1 frame=3
+[campaign] command script=EndScriptedCutScene index=2 kind=22 class=Script_ShowFlash skip=1 frame=3
+[campaign] command script=EndScriptedCutScene index=3 kind=23 class=Script_HideFlash skip=1 frame=3
+[campaign] command script=EndScriptedCutScene index=4 kind=32 class=Script_MarkCharacterAsScripted skip=1 frame=3
+[campaign] command script=EndScriptedCutScene index=5 kind=25 class=Script_UnlockCharacter skip=1 frame=3
+[campaign] command script=EndScriptedCutScene index=6 kind=2 class=Script_ExitCutSceneMode skip=1 frame=3
+[campaign] command script=EndScriptedCutScene index=7 kind=69 class=Script_SaveGame skip=1 frame=3
+[campaign] unsupported or stubbed (first occurrence): stub SaveGame (regular save owner not bound; nothing written)
+[campaign] SKIP fast-forward passes=2 frame=3 ok=1
+[campaign] frame=0 player position=0,0,0 qualified=1
+[campaign] command script=BeginScriptedCutScene index=0 kind=70 class=Script_BlockSaveGame frame=2
+[campaign] command script=BeginScriptedCutScene index=1 kind=79 class=Script_FlushMessages frame=2
+[campaign] command script=BeginScriptedCutScene index=2 kind=32 class=Script_MarkCharacterAsScripted frame=2
+[campaign] unsupported or stubbed (first occurrence): scripted flag stored only (no AI consumer bound yet)
+[campaign] command script=BeginScriptedCutScene index=3 kind=23 class=Script_HideFlash frame=2
+[campaign] command script=BeginScriptedCutScene index=4 kind=22 class=Script_ShowFlash frame=2
+[campaign] command script=BeginScriptedCutScene index=5 kind=24 class=Script_LockCharacter frame=2
+[campaign] command script=BeginScriptedCutScene index=6 kind=39 class=Script_StopActor frame=2
+[campaign] unsupported or stubbed (first occurrence): stub StopActor (movement ends through the controller lock)
+[campaign] command script=BeginScriptedCutScene index=7 kind=1 class=Script_EnterCutSceneMode frame=2
+[campaign] command script=CombatTuto index=1 kind=24 class=Script_LockCharacter frame=2
+[campaign] command script=CombatTuto index=2 kind=10 class=Script_StartDialog frame=2
+[campaign] caption frame=2 strid=2097213 actor=49 speaker= style= text=line 2097213
+[campaign] command script=CombatTuto index=3 kind=12 class=Script_WaitDialog frame=2
+[campaign] frame=30 player position=0,0,0 qualified=1
+[campaign] frame=60 player position=0,0,0 qualified=1
+[campaign] frame=90 player position=0,0,0 qualified=1
+[campaign] frame=120 player position=0,0,0 qualified=1
+[campaign] frame=150 player position=0,0,0 qualified=1
+[campaign] frame=180 player position=0,0,0 qualified=1
+[campaign] frame=210 player position=0,0,0 qualified=1
+[campaign] frame=240 player position=0,0,0 qualified=1
+[campaign] frame=270 player position=0,0,0 qualified=1
+[campaign] frame=300 player position=0,0,0 qualified=1
+[campaign] frame=330 player position=0,0,0 qualified=1
+[campaign] frame=360 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=4 kind=10 class=Script_StartDialog frame=369
+[campaign] caption frame=369 strid=2097214 actor=49 speaker= style= text=line 2097214
+[campaign] command script=CombatTuto index=5 kind=12 class=Script_WaitDialog frame=369
+[campaign] frame=390 player position=0,0,0 qualified=1
+[campaign] frame=420 player position=0,0,0 qualified=1
+[campaign] frame=450 player position=0,0,0 qualified=1
+[campaign] frame=480 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=6 kind=10 class=Script_StartDialog frame=503
+[campaign] caption frame=503 strid=2097215 actor=49 speaker= style= text=line 2097215
+[campaign] command script=CombatTuto index=7 kind=12 class=Script_WaitDialog frame=503
+[campaign] frame=510 player position=0,0,0 qualified=1
+[campaign] frame=540 player position=0,0,0 qualified=1
+[campaign] frame=570 player position=0,0,0 qualified=1
+[campaign] frame=600 player position=0,0,0 qualified=1
+[campaign] frame=630 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=8 kind=10 class=Script_StartDialog frame=637
+[campaign] caption frame=637 strid=2097216 actor=49 speaker= style= text=line 2097216
+[campaign] command script=CombatTuto index=9 kind=12 class=Script_WaitDialog frame=637
+[campaign] frame=660 player position=0,0,0 qualified=1
+[campaign] frame=690 player position=0,0,0 qualified=1
+[campaign] frame=720 player position=0,0,0 qualified=1
+[campaign] frame=750 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=10 kind=10 class=Script_StartDialog frame=771
+[campaign] caption frame=771 strid=2097217 actor=49 speaker= style= text=line 2097217
+[campaign] command script=CombatTuto index=11 kind=12 class=Script_WaitDialog frame=771
+[campaign] frame=780 player position=0,0,0 qualified=1
+[campaign] frame=810 player position=0,0,0 qualified=1
+[campaign] frame=840 player position=0,0,0 qualified=1
+[campaign] frame=870 player position=0,0,0 qualified=1
+[campaign] frame=900 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=12 kind=10 class=Script_StartDialog frame=905
+[campaign] caption frame=905 strid=2097218 actor=49 speaker= style= text=line 2097218
+[campaign] command script=CombatTuto index=13 kind=12 class=Script_WaitDialog frame=905
+[campaign] frame=930 player position=0,0,0 qualified=1
+[campaign] frame=960 player position=0,0,0 qualified=1
+[campaign] frame=990 player position=0,0,0 qualified=1
+[campaign] frame=1020 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=14 kind=10 class=Script_StartDialog frame=1039
+[campaign] caption frame=1039 strid=2097219 actor=49 speaker= style= text=line 2097219
+[campaign] command script=CombatTuto index=15 kind=12 class=Script_WaitDialog frame=1039
+[campaign] frame=1050 player position=0,0,0 qualified=1
+[campaign] frame=1080 player position=0,0,0 qualified=1
+[campaign] frame=1110 player position=0,0,0 qualified=1
+[campaign] frame=1140 player position=0,0,0 qualified=1
+[campaign] frame=1170 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=16 kind=10 class=Script_StartDialog frame=1173
+[campaign] caption frame=1173 strid=2097220 actor=49 speaker= style= text=line 2097220
+[campaign] command script=CombatTuto index=17 kind=12 class=Script_WaitDialog frame=1173
+[campaign] frame=1200 player position=0,0,0 qualified=1
+[campaign] frame=1230 player position=0,0,0 qualified=1
+[campaign] frame=1260 player position=0,0,0 qualified=1
+[campaign] frame=1290 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=18 kind=10 class=Script_StartDialog frame=1307
+[campaign] caption frame=1307 strid=2097221 actor=49 speaker= style= text=line 2097221
+[campaign] command script=CombatTuto index=19 kind=12 class=Script_WaitDialog frame=1307
+[campaign] frame=1320 player position=0,0,0 qualified=1
+[campaign] frame=1350 player position=0,0,0 qualified=1
+[campaign] frame=1380 player position=0,0,0 qualified=1
+[campaign] frame=1410 player position=0,0,0 qualified=1
+[campaign] frame=1440 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=20 kind=8 class=Script_SetCameraTarget frame=1441
+[campaign] command script=CombatTuto index=21 kind=77 class=Script_LockTutorial frame=1441
+[campaign] unsupported or stubbed (first occurrence): stub tutorial flag persistence (session only; no settings path bound)
+[campaign] command script=CombatTuto index=22 kind=25 class=Script_UnlockCharacter frame=1441
+[campaign] command script=EndScriptedCutScene index=0 kind=31 class=Script_PutCharacterInIdle frame=1442
+[campaign] command script=EndScriptedCutScene index=1 kind=12 class=Script_WaitDialog frame=1442
+[campaign] command script=EndScriptedCutScene index=2 kind=22 class=Script_ShowFlash frame=1442
+[campaign] command script=EndScriptedCutScene index=3 kind=23 class=Script_HideFlash frame=1442
+[campaign] command script=EndScriptedCutScene index=4 kind=32 class=Script_MarkCharacterAsScripted frame=1442
+[campaign] command script=EndScriptedCutScene index=5 kind=25 class=Script_UnlockCharacter frame=1442
+[campaign] command script=EndScriptedCutScene index=6 kind=2 class=Script_ExitCutSceneMode frame=1442
+[campaign] command script=EndScriptedCutScene index=7 kind=69 class=Script_SaveGame frame=1442
+[campaign] unsupported or stubbed (first occurrence): stub SaveGame (regular save owner not bound; nothing written)
+[campaign] frame=0 player position=0,0,0 qualified=1
+[campaign] command script=BeginScriptedCutScene index=0 kind=70 class=Script_BlockSaveGame frame=2
+[campaign] command script=BeginScriptedCutScene index=1 kind=79 class=Script_FlushMessages frame=2
+[campaign] command script=BeginScriptedCutScene index=2 kind=32 class=Script_MarkCharacterAsScripted frame=2
+[campaign] unsupported or stubbed (first occurrence): scripted flag stored only (no AI consumer bound yet)
+[campaign] command script=BeginScriptedCutScene index=3 kind=23 class=Script_HideFlash frame=2
+[campaign] command script=BeginScriptedCutScene index=4 kind=22 class=Script_ShowFlash frame=2
+[campaign] command script=BeginScriptedCutScene index=5 kind=24 class=Script_LockCharacter frame=2
+[campaign] command script=BeginScriptedCutScene index=6 kind=39 class=Script_StopActor frame=2
+[campaign] unsupported or stubbed (first occurrence): stub StopActor (movement ends through the controller lock)
+[campaign] command script=BeginScriptedCutScene index=7 kind=1 class=Script_EnterCutSceneMode frame=2
+[campaign] command script=CombatTuto index=1 kind=24 class=Script_LockCharacter frame=2
+[campaign] command script=CombatTuto index=2 kind=10 class=Script_StartDialog frame=2
+[campaign] unsupported or stubbed (first occurrence): dialogue StrID unresolved
+[campaign] caption frame=2 strid=2097213 actor=49 speaker= style= text=[StrID 2097213 unresolved]
+[campaign] command script=CombatTuto index=3 kind=12 class=Script_WaitDialog frame=2
+[campaign] frame=30 player position=0,0,0 qualified=1
+[campaign] frame=60 player position=0,0,0 qualified=1
+[campaign] frame=90 player position=0,0,0 qualified=1
+[campaign] frame=120 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=4 kind=10 class=Script_StartDialog frame=136
+[campaign] caption frame=136 strid=2097214 actor=49 speaker= style= text=[StrID 2097214 unresolved]
+[campaign] command script=CombatTuto index=5 kind=12 class=Script_WaitDialog frame=136
+[campaign] frame=150 player position=0,0,0 qualified=1
+[campaign] frame=180 player position=0,0,0 qualified=1
+[campaign] frame=210 player position=0,0,0 qualified=1
+[campaign] frame=240 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=6 kind=10 class=Script_StartDialog frame=270
+[campaign] caption frame=270 strid=2097215 actor=49 speaker= style= text=[StrID 2097215 unresolved]
+[campaign] command script=CombatTuto index=7 kind=12 class=Script_WaitDialog frame=270
+[campaign] frame=270 player position=0,0,0 qualified=1
+[campaign] frame=300 player position=0,0,0 qualified=1
+[campaign] frame=330 player position=0,0,0 qualified=1
+[campaign] frame=360 player position=0,0,0 qualified=1
+[campaign] frame=390 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=8 kind=10 class=Script_StartDialog frame=404
+[campaign] caption frame=404 strid=2097216 actor=49 speaker= style= text=[StrID 2097216 unresolved]
+[campaign] command script=CombatTuto index=9 kind=12 class=Script_WaitDialog frame=404
+[campaign] frame=420 player position=0,0,0 qualified=1
+[campaign] frame=450 player position=0,0,0 qualified=1
+[campaign] frame=480 player position=0,0,0 qualified=1
+[campaign] frame=510 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=10 kind=10 class=Script_StartDialog frame=538
+[campaign] caption frame=538 strid=2097217 actor=49 speaker= style= text=[StrID 2097217 unresolved]
+[campaign] command script=CombatTuto index=11 kind=12 class=Script_WaitDialog frame=538
+[campaign] frame=540 player position=0,0,0 qualified=1
+[campaign] frame=570 player position=0,0,0 qualified=1
+[campaign] frame=600 player position=0,0,0 qualified=1
+[campaign] frame=630 player position=0,0,0 qualified=1
+[campaign] frame=660 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=12 kind=10 class=Script_StartDialog frame=672
+[campaign] caption frame=672 strid=2097218 actor=49 speaker= style= text=[StrID 2097218 unresolved]
+[campaign] command script=CombatTuto index=13 kind=12 class=Script_WaitDialog frame=672
+[campaign] frame=690 player position=0,0,0 qualified=1
+[campaign] frame=720 player position=0,0,0 qualified=1
+[campaign] frame=750 player position=0,0,0 qualified=1
+[campaign] frame=780 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=14 kind=10 class=Script_StartDialog frame=806
+[campaign] caption frame=806 strid=2097219 actor=49 speaker= style= text=[StrID 2097219 unresolved]
+[campaign] command script=CombatTuto index=15 kind=12 class=Script_WaitDialog frame=806
+[campaign] frame=810 player position=0,0,0 qualified=1
+[campaign] frame=840 player position=0,0,0 qualified=1
+[campaign] frame=870 player position=0,0,0 qualified=1
+[campaign] frame=900 player position=0,0,0 qualified=1
+[campaign] frame=930 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=16 kind=10 class=Script_StartDialog frame=940
+[campaign] caption frame=940 strid=2097220 actor=49 speaker= style= text=[StrID 2097220 unresolved]
+[campaign] command script=CombatTuto index=17 kind=12 class=Script_WaitDialog frame=940
+[campaign] frame=960 player position=0,0,0 qualified=1
+[campaign] frame=990 player position=0,0,0 qualified=1
+[campaign] frame=1020 player position=0,0,0 qualified=1
+[campaign] frame=1050 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=18 kind=10 class=Script_StartDialog frame=1074
+[campaign] caption frame=1074 strid=2097221 actor=49 speaker= style= text=[StrID 2097221 unresolved]
+[campaign] command script=CombatTuto index=19 kind=12 class=Script_WaitDialog frame=1074
+[campaign] frame=1080 player position=0,0,0 qualified=1
+[campaign] frame=1110 player position=0,0,0 qualified=1
+[campaign] frame=1140 player position=0,0,0 qualified=1
+[campaign] frame=1170 player position=0,0,0 qualified=1
+[campaign] frame=1200 player position=0,0,0 qualified=1
+[campaign] command script=CombatTuto index=20 kind=8 class=Script_SetCameraTarget frame=1208
+[campaign] command script=CombatTuto index=21 kind=77 class=Script_LockTutorial frame=1208
+[campaign] unsupported or stubbed (first occurrence): stub tutorial flag persistence (session only; no settings path bound)
+[campaign] command script=CombatTuto index=22 kind=25 class=Script_UnlockCharacter frame=1208
+[campaign] command script=EndScriptedCutScene index=0 kind=31 class=Script_PutCharacterInIdle frame=1209
+[campaign] command script=EndScriptedCutScene index=1 kind=12 class=Script_WaitDialog frame=1209
+[campaign] command script=EndScriptedCutScene index=2 kind=22 class=Script_ShowFlash frame=1209
+[campaign] command script=EndScriptedCutScene index=3 kind=23 class=Script_HideFlash frame=1209
+[campaign] command script=EndScriptedCutScene index=4 kind=32 class=Script_MarkCharacterAsScripted frame=1209
+[campaign] command script=EndScriptedCutScene index=5 kind=25 class=Script_UnlockCharacter frame=1209
+[campaign] command script=EndScriptedCutScene index=6 kind=2 class=Script_ExitCutSceneMode frame=1209
+[campaign] command script=EndScriptedCutScene index=7 kind=69 class=Script_SaveGame frame=1209
+[campaign] unsupported or stubbed (first occurrence): stub SaveGame (regular save owner not bound; nothing written)
+[campaign] frame=0 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto index=0 kind=78 class=Script_DoTutorial frame=1
+[campaign] unsupported or stubbed (first occurrence): stub tutorial flag persistence (session only; no settings path bound)
+[campaign] unsupported or stubbed (first occurrence): stub tutorial settings save (nothing written)
+[campaign] frame=30 player position=0,0,0 qualified=1
+[campaign] frame=60 player position=0,0,0 qualified=1
+[campaign] frame=90 player position=0,0,0 qualified=1
+[campaign] command script=BeginScriptedCutScene index=0 kind=70 class=Script_BlockSaveGame frame=102
+[campaign] command script=BeginScriptedCutScene index=1 kind=79 class=Script_FlushMessages frame=102
+[campaign] command script=BeginScriptedCutScene index=2 kind=32 class=Script_MarkCharacterAsScripted frame=102
+[campaign] unsupported or stubbed (first occurrence): scripted flag stored only (no AI consumer bound yet)
+[campaign] command script=BeginScriptedCutScene index=3 kind=23 class=Script_HideFlash frame=102
+[campaign] command script=BeginScriptedCutScene index=4 kind=22 class=Script_ShowFlash frame=102
+[campaign] command script=BeginScriptedCutScene index=5 kind=24 class=Script_LockCharacter frame=102
+[campaign] command script=BeginScriptedCutScene index=6 kind=39 class=Script_StopActor frame=102
+[campaign] unsupported or stubbed (first occurrence): stub StopActor (movement ends through the controller lock)
+[campaign] command script=BeginScriptedCutScene index=7 kind=1 class=Script_EnterCutSceneMode frame=102
+[campaign] command script=Movement_Tuto2 index=2 kind=24 class=Script_LockCharacter frame=102
+[campaign] frame=120 player position=0,0,0 qualified=1
+[campaign] frame=150 player position=0,0,0 qualified=1
+[campaign] frame=180 player position=0,0,0 qualified=1
+[campaign] frame=210 player position=0,0,0 qualified=1
+[campaign] frame=240 player position=0,0,0 qualified=1
+[campaign] frame=270 player position=0,0,0 qualified=1
+[campaign] frame=300 player position=0,0,0 qualified=1
+[campaign] frame=330 player position=0,0,0 qualified=1
+[campaign] frame=360 player position=0,0,0 qualified=1
+[campaign] frame=390 player position=0,0,0 qualified=1
+[campaign] frame=420 player position=0,0,0 qualified=1
+[campaign] frame=450 player position=0,0,0 qualified=1
+[campaign] frame=480 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto2 index=4 kind=79 class=Script_FlushMessages frame=502
+[campaign] command script=Movement_Tuto2 index=5 kind=10 class=Script_StartDialog frame=502
+[campaign] caption frame=502 strid=2097188 actor=49 speaker= style= text=line 2097188
+[campaign] command script=Movement_Tuto2 index=6 kind=12 class=Script_WaitDialog frame=502
+[campaign] frame=510 player position=0,0,0 qualified=1
+[campaign] frame=540 player position=0,0,0 qualified=1
+[campaign] frame=570 player position=0,0,0 qualified=1
+[campaign] frame=600 player position=0,0,0 qualified=1
+[campaign] frame=630 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto2 index=7 kind=10 class=Script_StartDialog frame=636
+[campaign] caption frame=636 strid=2097189 actor=49 speaker= style= text=line 2097189
+[campaign] command script=Movement_Tuto2 index=8 kind=12 class=Script_WaitDialog frame=636
+[campaign] frame=660 player position=0,0,0 qualified=1
+[campaign] frame=690 player position=0,0,0 qualified=1
+[campaign] frame=720 player position=0,0,0 qualified=1
+[campaign] frame=750 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto2 index=9 kind=10 class=Script_StartDialog frame=770
+[campaign] caption frame=770 strid=2097190 actor=49 speaker= style= text=line 2097190
+[campaign] command script=Movement_Tuto2 index=10 kind=12 class=Script_WaitDialog frame=770
+[campaign] frame=780 player position=0,0,0 qualified=1
+[campaign] frame=810 player position=0,0,0 qualified=1
+[campaign] frame=840 player position=0,0,0 qualified=1
+[campaign] frame=870 player position=0,0,0 qualified=1
+[campaign] frame=900 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto2 index=11 kind=10 class=Script_StartDialog frame=904
+[campaign] caption frame=904 strid=2097191 actor=49 speaker= style= text=line 2097191
+[campaign] command script=Movement_Tuto2 index=12 kind=12 class=Script_WaitDialog frame=904
+[campaign] frame=930 player position=0,0,0 qualified=1
+[campaign] frame=960 player position=0,0,0 qualified=1
+[campaign] frame=990 player position=0,0,0 qualified=1
+[campaign] frame=1020 player position=0,0,0 qualified=1
+[campaign] frame=1050 player position=0,0,0 qualified=1
+[campaign] frame=1080 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto2 index=14 kind=77 class=Script_LockTutorial frame=1088
+[campaign] command script=Movement_Tuto2 index=15 kind=25 class=Script_UnlockCharacter frame=1088
+[campaign] command script=EndScriptedCutScene index=0 kind=31 class=Script_PutCharacterInIdle frame=1089
+[campaign] command script=EndScriptedCutScene index=1 kind=12 class=Script_WaitDialog frame=1089
+[campaign] command script=EndScriptedCutScene index=2 kind=22 class=Script_ShowFlash frame=1089
+[campaign] command script=EndScriptedCutScene index=3 kind=23 class=Script_HideFlash frame=1089
+[campaign] command script=EndScriptedCutScene index=4 kind=32 class=Script_MarkCharacterAsScripted frame=1089
+[campaign] command script=EndScriptedCutScene index=5 kind=25 class=Script_UnlockCharacter frame=1089
+[campaign] command script=EndScriptedCutScene index=6 kind=2 class=Script_ExitCutSceneMode frame=1089
+[campaign] command script=EndScriptedCutScene index=7 kind=69 class=Script_SaveGame frame=1089
+[campaign] unsupported or stubbed (first occurrence): stub SaveGame (regular save owner not bound; nothing written)
+[campaign] frame=0 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto index=0 kind=78 class=Script_DoTutorial frame=1
+[campaign] frame=30 player position=0,0,0 qualified=1
+[campaign] frame=60 player position=0,0,0 qualified=1
+[campaign] frame=90 player position=0,0,0 qualified=1
+[campaign] command script=BeginScriptedCutScene index=0 kind=70 class=Script_BlockSaveGame frame=102
+[campaign] command script=BeginScriptedCutScene index=1 kind=79 class=Script_FlushMessages frame=102
+[campaign] command script=BeginScriptedCutScene index=2 kind=32 class=Script_MarkCharacterAsScripted frame=102
+[campaign] unsupported or stubbed (first occurrence): scripted flag stored only (no AI consumer bound yet)
+[campaign] command script=BeginScriptedCutScene index=3 kind=23 class=Script_HideFlash frame=102
+[campaign] command script=BeginScriptedCutScene index=4 kind=22 class=Script_ShowFlash frame=102
+[campaign] command script=BeginScriptedCutScene index=5 kind=24 class=Script_LockCharacter frame=102
+[campaign] command script=BeginScriptedCutScene index=6 kind=39 class=Script_StopActor frame=102
+[campaign] unsupported or stubbed (first occurrence): stub StopActor (movement ends through the controller lock)
+[campaign] command script=BeginScriptedCutScene index=7 kind=1 class=Script_EnterCutSceneMode frame=102
+[campaign] command script=Movement_Tuto2 index=2 kind=24 class=Script_LockCharacter frame=102
+[campaign] frame=120 player position=0,0,0 qualified=1
+[campaign] frame=150 player position=0,0,0 qualified=1
+[campaign] frame=180 player position=0,0,0 qualified=1
+[campaign] frame=210 player position=0,0,0 qualified=1
+[campaign] frame=240 player position=0,0,0 qualified=1
+[campaign] frame=270 player position=0,0,0 qualified=1
+[campaign] frame=300 player position=0,0,0 qualified=1
+[campaign] frame=330 player position=0,0,0 qualified=1
+[campaign] frame=360 player position=0,0,0 qualified=1
+[campaign] frame=390 player position=0,0,0 qualified=1
+[campaign] frame=420 player position=0,0,0 qualified=1
+[campaign] frame=450 player position=0,0,0 qualified=1
+[campaign] frame=480 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto2 index=4 kind=79 class=Script_FlushMessages frame=502
+[campaign] command script=Movement_Tuto2 index=5 kind=10 class=Script_StartDialog frame=502
+[campaign] caption frame=502 strid=2097188 actor=49 speaker= style= text=line 2097188
+[campaign] command script=Movement_Tuto2 index=6 kind=12 class=Script_WaitDialog frame=502
+[campaign] frame=510 player position=0,0,0 qualified=1
+[campaign] frame=540 player position=0,0,0 qualified=1
+[campaign] frame=570 player position=0,0,0 qualified=1
+[campaign] frame=600 player position=0,0,0 qualified=1
+[campaign] frame=630 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto2 index=7 kind=10 class=Script_StartDialog frame=636
+[campaign] caption frame=636 strid=2097189 actor=49 speaker= style= text=line 2097189
+[campaign] command script=Movement_Tuto2 index=8 kind=12 class=Script_WaitDialog frame=636
+[campaign] frame=660 player position=0,0,0 qualified=1
+[campaign] frame=690 player position=0,0,0 qualified=1
+[campaign] frame=720 player position=0,0,0 qualified=1
+[campaign] frame=750 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto2 index=9 kind=10 class=Script_StartDialog frame=770
+[campaign] caption frame=770 strid=2097190 actor=49 speaker= style= text=line 2097190
+[campaign] command script=Movement_Tuto2 index=10 kind=12 class=Script_WaitDialog frame=770
+[campaign] frame=780 player position=0,0,0 qualified=1
+[campaign] frame=810 player position=0,0,0 qualified=1
+[campaign] frame=840 player position=0,0,0 qualified=1
+[campaign] frame=870 player position=0,0,0 qualified=1
+[campaign] frame=900 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto2 index=11 kind=10 class=Script_StartDialog frame=904
+[campaign] caption frame=904 strid=2097191 actor=49 speaker= style= text=line 2097191
+[campaign] command script=Movement_Tuto2 index=12 kind=12 class=Script_WaitDialog frame=904
+[campaign] frame=930 player position=0,0,0 qualified=1
+[campaign] frame=960 player position=0,0,0 qualified=1
+[campaign] frame=990 player position=0,0,0 qualified=1
+[campaign] frame=1020 player position=0,0,0 qualified=1
+[campaign] frame=1050 player position=0,0,0 qualified=1
+[campaign] frame=1080 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto2 index=14 kind=77 class=Script_LockTutorial frame=1088
+[campaign] command script=Movement_Tuto2 index=15 kind=25 class=Script_UnlockCharacter frame=1088
+[campaign] command script=EndScriptedCutScene index=0 kind=31 class=Script_PutCharacterInIdle frame=1089
+[campaign] command script=EndScriptedCutScene index=1 kind=12 class=Script_WaitDialog frame=1089
+[campaign] command script=EndScriptedCutScene index=2 kind=22 class=Script_ShowFlash frame=1089
+[campaign] command script=EndScriptedCutScene index=3 kind=23 class=Script_HideFlash frame=1089
+[campaign] command script=EndScriptedCutScene index=4 kind=32 class=Script_MarkCharacterAsScripted frame=1089
+[campaign] command script=EndScriptedCutScene index=5 kind=25 class=Script_UnlockCharacter frame=1089
+[campaign] command script=EndScriptedCutScene index=6 kind=2 class=Script_ExitCutSceneMode frame=1089
+[campaign] command script=EndScriptedCutScene index=7 kind=69 class=Script_SaveGame frame=1089
+[campaign] unsupported or stubbed (first occurrence): stub SaveGame (regular save owner not bound; nothing written)
+[campaign] frame=0 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto index=0 kind=78 class=Script_DoTutorial frame=1
+[campaign] tutorial settings loaded: 1 consumed
+[campaign] frame=0 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto index=0 kind=78 class=Script_DoTutorial frame=1
+[campaign] frame=30 player position=0,0,0 qualified=1
+[campaign] frame=60 player position=0,0,0 qualified=1
+[campaign] frame=90 player position=0,0,0 qualified=1
+[campaign] command script=BeginScriptedCutScene index=0 kind=70 class=Script_BlockSaveGame frame=102
+[campaign] command script=BeginScriptedCutScene index=1 kind=79 class=Script_FlushMessages frame=102
+[campaign] command script=BeginScriptedCutScene index=2 kind=32 class=Script_MarkCharacterAsScripted frame=102
+[campaign] unsupported or stubbed (first occurrence): scripted flag stored only (no AI consumer bound yet)
+[campaign] command script=BeginScriptedCutScene index=3 kind=23 class=Script_HideFlash frame=102
+[campaign] command script=BeginScriptedCutScene index=4 kind=22 class=Script_ShowFlash frame=102
+[campaign] command script=BeginScriptedCutScene index=5 kind=24 class=Script_LockCharacter frame=102
+[campaign] command script=BeginScriptedCutScene index=6 kind=39 class=Script_StopActor frame=102
+[campaign] unsupported or stubbed (first occurrence): stub StopActor (movement ends through the controller lock)
+[campaign] command script=BeginScriptedCutScene index=7 kind=1 class=Script_EnterCutSceneMode frame=102
+[campaign] command script=Movement_Tuto2 index=2 kind=24 class=Script_LockCharacter frame=102
+[campaign] frame=120 player position=0,0,0 qualified=1
+[campaign] frame=150 player position=0,0,0 qualified=1
+[campaign] frame=180 player position=0,0,0 qualified=1
+[campaign] frame=210 player position=0,0,0 qualified=1
+[campaign] frame=240 player position=0,0,0 qualified=1
+[campaign] frame=270 player position=0,0,0 qualified=1
+[campaign] frame=300 player position=0,0,0 qualified=1
+[campaign] frame=330 player position=0,0,0 qualified=1
+[campaign] frame=360 player position=0,0,0 qualified=1
+[campaign] frame=390 player position=0,0,0 qualified=1
+[campaign] frame=420 player position=0,0,0 qualified=1
+[campaign] frame=450 player position=0,0,0 qualified=1
+[campaign] frame=480 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto2 index=4 kind=79 class=Script_FlushMessages frame=502
+[campaign] command script=Movement_Tuto2 index=5 kind=10 class=Script_StartDialog frame=502
+[campaign] caption frame=502 strid=2097188 actor=49 speaker= style= text=line 2097188
+[campaign] command script=Movement_Tuto2 index=6 kind=12 class=Script_WaitDialog frame=502
+[campaign] frame=510 player position=0,0,0 qualified=1
+[campaign] frame=540 player position=0,0,0 qualified=1
+[campaign] frame=570 player position=0,0,0 qualified=1
+[campaign] frame=600 player position=0,0,0 qualified=1
+[campaign] frame=630 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto2 index=7 kind=10 class=Script_StartDialog frame=636
+[campaign] caption frame=636 strid=2097189 actor=49 speaker= style= text=line 2097189
+[campaign] command script=Movement_Tuto2 index=8 kind=12 class=Script_WaitDialog frame=636
+[campaign] frame=660 player position=0,0,0 qualified=1
+[campaign] frame=690 player position=0,0,0 qualified=1
+[campaign] frame=720 player position=0,0,0 qualified=1
+[campaign] frame=750 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto2 index=9 kind=10 class=Script_StartDialog frame=770
+[campaign] caption frame=770 strid=2097190 actor=49 speaker= style= text=line 2097190
+[campaign] command script=Movement_Tuto2 index=10 kind=12 class=Script_WaitDialog frame=770
+[campaign] frame=780 player position=0,0,0 qualified=1
+[campaign] frame=810 player position=0,0,0 qualified=1
+[campaign] frame=840 player position=0,0,0 qualified=1
+[campaign] frame=870 player position=0,0,0 qualified=1
+[campaign] frame=900 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto2 index=11 kind=10 class=Script_StartDialog frame=904
+[campaign] caption frame=904 strid=2097191 actor=49 speaker= style= text=line 2097191
+[campaign] command script=Movement_Tuto2 index=12 kind=12 class=Script_WaitDialog frame=904
+[campaign] frame=930 player position=0,0,0 qualified=1
+[campaign] frame=960 player position=0,0,0 qualified=1
+[campaign] frame=990 player position=0,0,0 qualified=1
+[campaign] frame=1020 player position=0,0,0 qualified=1
+[campaign] frame=1050 player position=0,0,0 qualified=1
+[campaign] frame=1080 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto2 index=14 kind=77 class=Script_LockTutorial frame=1088
+[campaign] command script=Movement_Tuto2 index=15 kind=25 class=Script_UnlockCharacter frame=1088
+[campaign] command script=EndScriptedCutScene index=0 kind=31 class=Script_PutCharacterInIdle frame=1089
+[campaign] command script=EndScriptedCutScene index=1 kind=12 class=Script_WaitDialog frame=1089
+[campaign] command script=EndScriptedCutScene index=2 kind=22 class=Script_ShowFlash frame=1089
+[campaign] command script=EndScriptedCutScene index=3 kind=23 class=Script_HideFlash frame=1089
+[campaign] command script=EndScriptedCutScene index=4 kind=32 class=Script_MarkCharacterAsScripted frame=1089
+[campaign] command script=EndScriptedCutScene index=5 kind=25 class=Script_UnlockCharacter frame=1089
+[campaign] command script=EndScriptedCutScene index=6 kind=2 class=Script_ExitCutSceneMode frame=1089
+[campaign] command script=EndScriptedCutScene index=7 kind=69 class=Script_SaveGame frame=1089
+[campaign] unsupported or stubbed (first occurrence): stub SaveGame (regular save owner not bound; nothing written)
+[campaign] frame=0 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto index=0 kind=78 class=Script_DoTutorial frame=1
+[campaign] tutorial settings file is malformed; defaults used
+[campaign] frame=30 player position=0,0,0 qualified=1
+[campaign] frame=60 player position=0,0,0 qualified=1
+[campaign] frame=90 player position=0,0,0 qualified=1
+[campaign] command script=BeginScriptedCutScene index=0 kind=70 class=Script_BlockSaveGame frame=102
+[campaign] command script=BeginScriptedCutScene index=1 kind=79 class=Script_FlushMessages frame=102
+[campaign] command script=BeginScriptedCutScene index=2 kind=32 class=Script_MarkCharacterAsScripted frame=102
+[campaign] unsupported or stubbed (first occurrence): scripted flag stored only (no AI consumer bound yet)
+[campaign] command script=BeginScriptedCutScene index=3 kind=23 class=Script_HideFlash frame=102
+[campaign] command script=BeginScriptedCutScene index=4 kind=22 class=Script_ShowFlash frame=102
+[campaign] command script=BeginScriptedCutScene index=5 kind=24 class=Script_LockCharacter frame=102
+[campaign] command script=BeginScriptedCutScene index=6 kind=39 class=Script_StopActor frame=102
+[campaign] unsupported or stubbed (first occurrence): stub StopActor (movement ends through the controller lock)
+[campaign] command script=BeginScriptedCutScene index=7 kind=1 class=Script_EnterCutSceneMode frame=102
+[campaign] command script=Movement_Tuto2 index=2 kind=24 class=Script_LockCharacter frame=102
+[campaign] frame=120 player position=0,0,0 qualified=1
+[campaign] frame=150 player position=0,0,0 qualified=1
+[campaign] frame=180 player position=0,0,0 qualified=1
+[campaign] frame=210 player position=0,0,0 qualified=1
+[campaign] frame=240 player position=0,0,0 qualified=1
+[campaign] frame=270 player position=0,0,0 qualified=1
+[campaign] frame=300 player position=0,0,0 qualified=1
+[campaign] frame=330 player position=0,0,0 qualified=1
+[campaign] frame=360 player position=0,0,0 qualified=1
+[campaign] frame=390 player position=0,0,0 qualified=1
+[campaign] frame=420 player position=0,0,0 qualified=1
+[campaign] frame=450 player position=0,0,0 qualified=1
+[campaign] frame=480 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto2 index=4 kind=79 class=Script_FlushMessages frame=502
+[campaign] command script=Movement_Tuto2 index=5 kind=10 class=Script_StartDialog frame=502
+[campaign] caption frame=502 strid=2097188 actor=49 speaker= style= text=line 2097188
+[campaign] command script=Movement_Tuto2 index=6 kind=12 class=Script_WaitDialog frame=502
+[campaign] frame=510 player position=0,0,0 qualified=1
+[campaign] frame=540 player position=0,0,0 qualified=1
+[campaign] frame=570 player position=0,0,0 qualified=1
+[campaign] frame=600 player position=0,0,0 qualified=1
+[campaign] frame=630 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto2 index=7 kind=10 class=Script_StartDialog frame=636
+[campaign] caption frame=636 strid=2097189 actor=49 speaker= style= text=line 2097189
+[campaign] command script=Movement_Tuto2 index=8 kind=12 class=Script_WaitDialog frame=636
+[campaign] frame=660 player position=0,0,0 qualified=1
+[campaign] frame=690 player position=0,0,0 qualified=1
+[campaign] frame=720 player position=0,0,0 qualified=1
+[campaign] frame=750 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto2 index=9 kind=10 class=Script_StartDialog frame=770
+[campaign] caption frame=770 strid=2097190 actor=49 speaker= style= text=line 2097190
+[campaign] command script=Movement_Tuto2 index=10 kind=12 class=Script_WaitDialog frame=770
+[campaign] frame=780 player position=0,0,0 qualified=1
+[campaign] frame=810 player position=0,0,0 qualified=1
+[campaign] frame=840 player position=0,0,0 qualified=1
+[campaign] frame=870 player position=0,0,0 qualified=1
+[campaign] frame=900 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto2 index=11 kind=10 class=Script_StartDialog frame=904
+[campaign] caption frame=904 strid=2097191 actor=49 speaker= style= text=line 2097191
+[campaign] command script=Movement_Tuto2 index=12 kind=12 class=Script_WaitDialog frame=904
+[campaign] frame=930 player position=0,0,0 qualified=1
+[campaign] frame=960 player position=0,0,0 qualified=1
+[campaign] frame=990 player position=0,0,0 qualified=1
+[campaign] frame=1020 player position=0,0,0 qualified=1
+[campaign] frame=1050 player position=0,0,0 qualified=1
+[campaign] frame=1080 player position=0,0,0 qualified=1
+[campaign] command script=Movement_Tuto2 index=14 kind=77 class=Script_LockTutorial frame=1088
+[campaign] command script=Movement_Tuto2 index=15 kind=25 class=Script_UnlockCharacter frame=1088
+[campaign] command script=EndScriptedCutScene index=0 kind=31 class=Script_PutCharacterInIdle frame=1089
+[campaign] command script=EndScriptedCutScene index=1 kind=12 class=Script_WaitDialog frame=1089
+[campaign] command script=EndScriptedCutScene index=2 kind=22 class=Script_ShowFlash frame=1089
+[campaign] command script=EndScriptedCutScene index=3 kind=23 class=Script_HideFlash frame=1089
+
+        Start 132: player_profile_properties
+ 52/171 Test  #22: save ..........................................   Passed    9.45 sec
+        Start 164: level_transitions
+ 53/171 Test #109: hud_geometry ..................................   Passed    9.89 sec
+        Start 106: original_actor_motion_frame
+ 54/171 Test #119: combat_text ...................................   Passed   16.06 sec
+        Start 136: inventory_details_row_geometry
+ 55/171 Test #132: player_profile_properties .....................   Passed   14.76 sec
+        Start   7: startup_intro_segments_v1
+ 56/171 Test #164: level_transitions .............................   Passed   14.62 sec
+        Start 137: inventory_drop_gate
+ 57/171 Test #106: original_actor_motion_frame ...................   Passed   14.72 sec
+        Start 107: original_actor_target_position
+ 58/171 Test #136: inventory_details_row_geometry ................   Passed    8.57 sec
+        Start 105: source_motion_flags
+ 59/171 Test   #7: startup_intro_segments_v1 .....................   Passed    8.21 sec
+        Start  96: original_actor_navigation
+ 60/171 Test #137: inventory_drop_gate ...........................   Passed    8.12 sec
+        Start 130: neutral_world_save
+ 61/171 Test #107: original_actor_target_position ................   Passed   15.94 sec
+        Start 128: world_drop_rules_v1
+ 62/171 Test #105: source_motion_flags ...........................   Passed   16.58 sec
+        Start   4: frontend_music_v1
+ 63/171 Test  #96: original_actor_navigation .....................   Passed   16.20 sec
+        Start 102: source_module_construction
+ 64/171 Test #130: neutral_world_save ............................   Passed   16.60 sec
+        Start 129: source_fx_billboard_basis_v1
+ 65/171 Test #128: world_drop_rules_v1 ...........................   Passed   15.00 sec
+        Start   5: winmm_pump_priority_v1
+ 66/171 Test   #4: frontend_music_v1 .............................   Passed   14.11 sec
+        Start  63: npc_root_sample
+ 67/171 Test #102: source_module_construction ....................   Passed   14.55 sec
+        Start   6: startup_boot_flow_v1
+ 68/171 Test #129: source_fx_billboard_basis_v1 ..................   Passed   13.92 sec
+        Start  98: source_level_config
+ 69/171 Test   #5: winmm_pump_priority_v1 ........................   Passed    7.39 sec
+        Start 101: original_actor_collision_filter
+ 70/171 Test  #63: npc_root_sample ...............................   Passed    7.21 sec
+        Start  72: source_world_objects
+ 71/171 Test   #6: startup_boot_flow_v1 ..........................   Passed    7.41 sec
+        Start   9: startup_intro_soundtrack_v2
+ 72/171 Test  #98: source_level_config ...........................   Passed   15.91 sec
+        Start  99: original_actor_body_plan
+ 73/171 Test #101: original_actor_collision_filter ...............   Passed   16.17 sec
+        Start 100: playable_actor_bodies
+ 74/171 Test  #72: source_world_objects ..........................   Passed   16.88 sec
+        Start  82: death_checkpoint_snapshot_v1
+ 75/171 Test   #9: startup_intro_soundtrack_v2 ...................   Passed   16.65 sec
+        Start   8: startup_loading_art_v1
+ 76/171 Test  #99: original_actor_body_plan ......................   Passed    8.26 sec
+        Start  90: original_actor_bounds
+ 77/171 Test #100: playable_actor_bodies .........................   Passed    8.18 sec
+        Start  80: death_runtime_v1
+ 78/171 Test  #82: death_checkpoint_snapshot_v1 ..................   Passed    7.71 sec
+        Start  81: death_checkpoint_zone_v1
+ 79/171 Test   #8: startup_loading_art_v1 ........................   Passed    7.68 sec
+        Start   2: despawn_after_death_v1
+ 80/171 Test  #90: original_actor_bounds .........................   Passed   16.06 sec
+        Start  15: quest_npc_marker_v1
+ 81/171 Test  #80: death_runtime_v1 ..............................   Passed   15.61 sec
+        Start   3: container_open_script_v1
+ 82/171 Test  #81: death_checkpoint_zone_v1 ......................   Passed   23.88 sec
+        Start  37: original_attack_sequence
+ 83/171 Test   #2: despawn_after_death_v1 ........................   Passed   23.78 sec
+        Start  26: animation_markers
+ 84/171 Test  #15: quest_npc_marker_v1 ...........................   Passed   15.21 sec
+        Start  79: death_flow_v1
+ 85/171 Test   #3: container_open_script_v1 ......................   Passed   15.27 sec
+        Start   1: script_source_services_v1
+ 86/171 Test  #37: original_attack_sequence ......................   Passed    6.92 sec
+        Start 161: original_camera_clip
+ 87/171 Test  #26: animation_markers .............................   Passed    9.43 sec
+        Start  13: quest_journal_art_v1
+ 88/171 Test  #79: death_flow_v1 .................................   Passed    9.89 sec
+        Start  14: quest_runtime_v1
+ 89/171 Test   #1: script_source_services_v1 .....................   Passed    9.96 sec
+        Start 160: menu_metadata_v1
+ 90/171 Test #161: original_camera_clip ..........................   Passed   10.87 sec
+        Start  61: retained_pose_playback
+ 91/171 Test  #13: quest_journal_art_v1 ..........................   Passed    8.47 sec
+        Start  49: playable_actor_world
+ 92/171 Test  #14: quest_runtime_v1 ..............................   Passed   12.88 sec
+        Start  56: hud_glyphs
+ 93/171 Test #160: menu_metadata_v1 ..............................   Passed   13.06 sec
+        Start  31: content_paths
+ 94/171 Test  #61: retained_pose_playback ........................   Passed   12.38 sec
+        Start  78: death_host_v1
+ 95/171 Test  #49: playable_actor_world ..........................   Passed   12.41 sec
+        Start  88: original_trigger_contacts
+ 96/171 Test  #56: hud_glyphs ....................................   Passed    7.83 sec
+        Start  19: door_collision_geometry_v1
+ 97/171 Test  #31: content_paths .................................   Passed    7.90 sec
+        Start  60: character_pose_seam
+ 98/171 Test  #78: death_host_v1 .................................   Passed   13.99 sec
+        Start  89: actor_lighting
+ 99/171 Test  #88: original_trigger_contacts .....................   Passed   13.62 sec
+        Start 152: source_physical_filter_ops
+100/171 Test  #19: door_collision_geometry_v1 ....................   Passed   13.90 sec
+        Start  59: skinned_material_binding
+101/171 Test  #60: character_pose_seam ...........................   Passed   21.94 sec
+        Start  65: retained_animation_owner
+102/171 Test  #89: actor_lighting ................................   Passed   16.07 sec
+        Start  62: original_campaign_runtime
+103/171 Test #152: source_physical_filter_ops ....................   Passed   24.53 sec
+        Start  17: world_gate_v1
+104/171 Test  #59: skinned_material_binding ......................   Passed   24.20 sec
+        Start  76: source_script_fx_adapter_v1
+105/171 Test  #62: original_campaign_runtime .....................   Passed   13.85 sec
+        Start  68: original_camera_transition
+106/171 Test  #65: retained_animation_owner ......................   Passed   17.88 sec
+        Start  18: door_collision_v1
+107/171 Test  #17: world_gate_v1 .................................   Passed    7.41 sec
+        Start  35: original_melee_bindings
+108/171 Test  #76: source_script_fx_adapter_v1 ...................   Passed    7.73 sec
+        Start  58: original_pose_blend
+109/171 Test  #68: original_camera_transition ....................   Passed    8.08 sec
+        Start  34: equipment_visual
+110/171 Test  #18: door_collision_v1 .............................   Passed    8.37 sec
+        Start 135: equipment_main_page
+111/171 Test  #35: original_melee_bindings .......................   Passed    8.98 sec
+        Start  16: conditions_v1
+112/171 Test  #58: original_pose_blend ...........................   Passed    9.20 sec
+        Start  57: original_actor_labels
+113/171 Test  #34: equipment_visual ..............................   Passed   15.58 sec
+        Start  77: source_fx_anchor_registry_v1
+114/171 Test #135: equipment_main_page ...........................   Passed   15.46 sec
+        Start  66: campaign_camera_adapter
+115/171 Test  #16: conditions_v1 .................................   Passed   14.89 sec
+        Start  25: level_manifest
+116/171 Test  #57: original_actor_labels .........................   Passed   14.69 sec
+        Start  12: quest_banner_presenter_v1
+117/171 Test  #77: source_fx_anchor_registry_v1 ..................   Passed    8.00 sec
+        Start  11: quest_conditions_v1
+118/171 Test  #66: campaign_camera_adapter .......................   Passed    8.00 sec
+        Start 124: actor_profile_derivation_v1
+119/171 Test  #25: level_manifest ................................   Passed    8.41 sec
+        Start 134: equipment_inventory_actions
+120/171 Test  #12: quest_banner_presenter_v1 .....................   Passed    8.27 sec
+        Start 127: runtime_level_up_presentation_v1
+121/171 Test  #11: quest_conditions_v1 ...........................   Passed    7.96 sec
+        Start 163: animation_channel_filter
+122/171 Test #124: actor_profile_derivation_v1 ...................   Passed    8.00 sec
+        Start 123: spawn_character_v1
+123/171 Test #134: equipment_inventory_actions ...................   Passed    7.94 sec
+        Start 125: runtime_death_rewards_v1
+124/171 Test #127: runtime_level_up_presentation_v1 ..............   Passed    8.55 sec
+        Start 162: ambient_decor
+125/171 Test #163: animation_channel_filter ......................   Passed    8.83 sec
+        Start  74: original_campaign_world_adapter
+126/171 Test #123: spawn_character_v1 ............................   Passed    8.96 sec
+        Start  71: original_actor_lifecycle
+127/171 Test #125: runtime_death_rewards_v1 ......................   Passed    8.63 sec
+        Start  75: compiled_campaign_bank
+128/171 Test #162: ambient_decor .................................   Passed    8.28 sec
+        Start 153: playable_actor_body_construction
+129/171 Test  #74: original_campaign_world_adapter ...............   Passed    8.39 sec
+        Start  94: original_actor_physical
+130/171 Test  #71: original_actor_lifecycle ......................   Passed    8.41 sec
+        Start  95: source_level_construction
+131/171 Test  #75: compiled_campaign_bank ........................   Passed    8.65 sec
+        Start  92: original_controller_commands
+132/171 Test #153: playable_actor_body_construction ..............   Passed    8.45 sec
+        Start 126: world_item_sound_v1
+133/171 Test  #94: original_actor_physical .......................   Passed    8.46 sec
+        Start  93: source_actor_camera_anchors
+134/171 Test  #95: source_level_construction .....................   Passed    7.99 sec
+        Start  54: game_save
+135/171 Test  #92: original_controller_commands ..................   Passed   14.00 sec
+        Start  70: modular_defaults
+136/171 Test #126: world_item_sound_v1 ...........................   Passed   14.02 sec
+        Start  28: actor_movement
+137/171 Test  #93: source_actor_camera_anchors ...................   Passed   13.58 sec
+        Start  33: original_actor_properties
+138/171 Test  #54: game_save .....................................   Passed   21.95 sec
+        Start  29: gameplay_camera
+139/171 Test  #70: modular_defaults ..............................   Passed   15.84 sec
+        Start  23: camera
+140/171 Test  #28: actor_movement ................................   Passed   15.53 sec
+        Start 169: source_fx_version_overrides
+141/171 Test  #33: original_actor_properties .....................   Passed   15.75 sec
+        Start  64: item_spawn_clip
+142/171 Test  #29: gameplay_camera ...............................   Passed    7.75 sec
+        Start  48: actor_combat_runtime
+143/171 Test  #23: camera ........................................   Passed    7.66 sec
+        Start 133: equipment_adapter
+144/171 Test #169: source_fx_version_overrides ...................   Passed    8.17 sec
+        Start 166: save_all_components_v4
+145/171 Test  #64: item_spawn_clip ...............................   Passed    9.11 sec
+        Start  44: private_save_transport_win32
+146/171 Test  #48: actor_combat_runtime ..........................   Passed   17.12 sec
+        Start  21: door_clip_lifecycle_v1
+147/171 Test #133: equipment_adapter .............................   Passed   15.76 sec
+        Start 122: catch_up_buff_v1
+148/171 Test #166: save_all_components_v4 ........................   Passed   15.51 sec
+        Start  45: root_pivot
+149/171 Test  #44: private_save_transport_win32 ..................   Passed   14.50 sec
+        Start  87: run_binding
+150/171 Test  #21: door_clip_lifecycle_v1 ........................   Passed    6.76 sec
+        Start  38: original_character
+151/171 Test #122: catch_up_buff_v1 ..............................   Passed    8.44 sec
+        Start 168: source_actor_placement
+152/171 Test  #45: root_pivot ....................................   Passed    8.80 sec
+        Start  97: original_actor_animation_events
+153/171 Test  #87: run_binding ...................................   Passed   17.07 sec
+        Start 121: follower_decision_v1
+154/171 Test  #38: original_character ............................   Passed   16.20 sec
+        Start 158: map_markers
+155/171 Test #168: source_actor_placement ........................   Passed   15.86 sec
+        Start  27: combat_system
+156/171 Test  #97: original_actor_animation_events ...............   Passed   15.11 sec
+        Start  55: hud_target
+157/171 Test #121: follower_decision_v1 ..........................   Passed   10.50 sec
+        Start 154: native_world_character_creation_failure
+158/171 Test #158: map_markers ...................................   Passed   11.03 sec
+        Start  86: source_module_trace
+159/171 Test  #27: combat_system .................................   Passed   11.20 sec
+        Start  46: original_combat_properties
+160/171 Test  #55: hud_target ....................................   Passed   11.56 sec
+        Start 157: map_visit
+161/171 Test #154: native_world_character_creation_failure .......   Passed    8.00 sec
+        Start  47: target_selection_runtime
+162/171 Test  #86: source_module_trace ...........................   Passed    8.12 sec
+        Start  85: cinematic_runner
+163/171 Test  #46: original_combat_properties ....................   Passed    7.64 sec
+        Start  69: original_actor_camera_anchor
+164/171 Test #157: map_visit .....................................   Passed    7.70 sec
+        Start  20: door_runtime_restore_v1
+165/171 Test  #47: target_selection_runtime ......................   Passed    6.37 sec
+        Start 170: embedded_particle_fidelity
+166/171 Test  #85: cinematic_runner ..............................   Passed    4.90 sec
+        Start  53: session_skill_binding
+167/171 Test  #69: original_actor_camera_anchor ..................   Passed   12.10 sec
+        Start 171: actor_embedded_visual
+168/171 Test  #20: door_runtime_restore_v1 .......................   Passed   11.88 sec
+169/171 Test #170: embedded_particle_fidelity ....................   Passed   11.28 sec
+170/171 Test  #53: session_skill_binding .........................***Failed   10.59 sec
+Asset path escapes asset root
+
+171/171 Test #171: actor_embedded_visual .........................   Passed    1.79 sec
+
+99% tests passed, 2 tests failed out of 171
+
+Total Test time (real) = 509.67 sec
+
+The following tests FAILED:
+	 53 - session_skill_binding (Failed)
+	 83 - campaign_host (Timeout)

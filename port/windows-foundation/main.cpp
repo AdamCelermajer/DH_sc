@@ -42,6 +42,7 @@
 #include "features/combat/context_button_v1.hpp" // P16 CONTEXT: Space context button + action icon
 #include "features/interactions/interactable_registry_v1.hpp" // P16 CONTEXT: interaction-type providers (chests/NPCs register here)
 #include "features/interactions/interaction_approach_v1.hpp" // B069: AI_IsInInteractionRange + walk to the interaction spot
+#include "features/interactions/interaction_facing_v1.hpp" // B079: CSInteract requested LookAt
 #include "features/generic_skills/runtime_skills_menu_v1.hpp"
 #include "features/generic_skills/runtime_skill_progression_v1.hpp"
 #include "features/generic_skills/runtime_skill_session_training_v1.hpp"
@@ -91,6 +92,8 @@
 #include "features/quests/source_quest_menu_page_provider_v1.hpp" // P16 QUESTUI
 #include "features/quests/quest_text_resolver_v1.hpp" // P16 QUESTUI
 #include "features/inventory/source_item_descriptors.hpp"
+#include "features/merchant/merchant_shop_ui_v1.hpp"
+#include "../engine-ui/localization_parse_ex_v1.hpp"
 #include "../engine-ui/item_text_owner_v5.hpp"
 #include "features/inventory/runtime_session_potion_use_v1.hpp"
 #include "features/frontend/menu_return/menu_return_v1.hpp"
@@ -426,6 +429,7 @@ struct Options {
     std::string meleeBindings;
     bool diagnosticAI=false;
     int attackFrames=0, attackStartFrame=0, targetFrame=-1, saveFrame=-1, loadFrame=-1;
+    int testStatPoints=0,testSkillPoints=0; // B103 TEST ONLY\r
     float testPlayerHealth=0.f; // I024 TEST ONLY: --test-player-hp N[@FRAME] sets the local Character HP at FRAME (inert unless passed)
     int testPlayerHealthFrame=0;
     f::Vec3 actorPosition{};
@@ -436,6 +440,10 @@ struct Options {
     std::vector<std::pair<std::string,int>> leverUseRequests; // P17 DOORS: --lever-use DECLARATION@FRAME (debug use of a lever, default off)
     double fixedStep = 0;
     bool probe = false, timeline = false, saveNow = false, resumeGame = false;
+    // B086: Continue. resumeLevelWorld = set at start (menu route) when the profile's level-world save is valid: the frame-0
+    // restore reads it instead of --game-save.
+    bool resumeLevelWorld = false;
+    int quitFrame = -1; // B086 test aid: --quit-frame N takes the same exit path as closing the window (Application::Quit quick save)
     bool movable=false, sourceCamera=false, hud=false, freshPlayer=false;
     bool combatText=false;
     std::optional<bool> staticActorAnchor;
@@ -627,6 +635,8 @@ Options parse(int argc, char** argv) {
         else if(arg=="--attack-start-frame") {o.attackStartFrame=std::stoi(value());if(o.attackStartFrame<0)throw std::runtime_error("Attack start frame must be nonnegative");}
         else if(arg=="--target-frame") {o.targetFrame=std::stoi(value());if(o.targetFrame<0)throw std::runtime_error("Target frame must be nonnegative");}
         else if(arg=="--move") o.movable=true;
+        else if(arg=="--test-skill-points") o.testSkillPoints=std::stoi(value()); // B096 TEST ONLY
+        else if(arg=="--test-stat-points") o.testStatPoints=std::stoi(value()); // B103 TEST ONLY
         else if(arg=="--fresh-player") o.freshPlayer=true;
         else if(arg=="--motion-node") o.motionNode=value();
         else if(arg=="--controller-policy") o.controllerPolicy=value();
@@ -712,6 +722,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--combat-retained-phase") o.combat.profiles[value()].retainedPhaseClock=true;
         else if(arg=="--combat-source-combo") o.combat.profiles[value()].sourceCombo=true;
         else if(arg=="--resume-game") {o.loadFrame=0;o.resumeGame=true;} // P17 VERIFY17: continue from --game-save at frame 0 (F9 rule)
+        else if(arg=="--quit-frame") {o.quitFrame=std::stoi(value());if(o.quitFrame<0)throw std::runtime_error("Quit frame must be nonnegative");} // B086 test aid
         else if(arg=="--save-frame") {o.saveFrame=std::stoi(value());if(o.saveFrame<0)throw std::runtime_error("Save frame must be nonnegative");}
         else if(arg=="--load-frame") {o.loadFrame=std::stoi(value());if(o.loadFrame<0)throw std::runtime_error("Load frame must be nonnegative");}
         else if(arg=="--character-name") o.characterName=value();
@@ -856,6 +867,9 @@ int main(int argc,char** argv) {
         bool returnMenuScriptConsumed=false;
         bool bootShown=false;  // Preview 15: the boot runs once per process, not on return-to-menu
         f::Window window;f::Renderer renderer;bool windowOpened=false;renderer.setGlLoader(&f::Window::gl_proc); // B066: buffer objects for static level geometry
+        // B106: keyboard press history belongs to the persistent window. A held
+        // travel key must not become a new press when loading replaces a session.
+        f::platform_input::SemanticInput semanticInput;
         // P17 TRANSITIONS: state that survives a level transition (the session loop below re-enters on the target level
         // in this process). The character itself travels through the profile save file, like a checkpoint.
         std::optional<f::transitions::PendingTransition> pendingTransition; // set by the frame loop, consumed after its cleanup
@@ -1286,6 +1300,26 @@ int main(int argc,char** argv) {
             // The direct bootstrap below regenerates starter gear from the live actor; drop the file copy so slots are not duplicated.
             state.equipment.clear();state.inventory.clear();
         }
+        // B086 Continue. The source menu Continue (MenuBase::FS_ContinueGame 0x420e64) starts the profile's level with the load flag, and
+        // Level state 0x21 then runs LevelSavegame::Load: the saved world AND the player's position come back. The save is written by
+        // Application::Quit 0x323bc4 / GoToMainMenu 0x32c1f4 (Level::QuickSave, skipped for a dead hero) and by scripts/checkpoints.
+        // Here the level-world save of this profile is validated (same level, same profile identity) and, when valid, the verified
+        // frame-0 restore (--resume-game, VERIFY17) replays it. A missing/foreign/unreadable save starts the level fresh.
+        if(frontendStarted&&!options.resumeGame&&options.transitionEntryId<0&&!options.save.empty()&&!options.level.empty()) {
+            const auto resumeWorldPath=f::transitions::level_world_path(options.save,options.level.generic_string());
+            std::error_code resumeExists;
+            if(!fs::exists(resumeWorldPath,resumeExists))std::cout<<"Continue level world status=none level="<<options.level.generic_string()<<'\n';
+            else {
+                f::GameSave resumeSnapshot;std::string resumeError;
+                if(!f::load_game(resumeWorldPath,resumeSnapshot,resumeError))std::cout<<"Continue level world status=unreadable detail="<<resumeError<<'\n';
+                else if(resumeSnapshot.level_uri!=options.level.generic_string())std::cout<<"Continue level world status=other_level saved="<<resumeSnapshot.level_uri<<'\n';
+                else if(resumeSnapshot.character.id!=state.id)std::cout<<"Continue level world status=other_profile\n";
+                else {
+                    options.loadFrame=0;options.resumeGame=true;options.resumeLevelWorld=true;
+                    std::cout<<"Continue level world status=valid level="<<options.level.generic_string()<<" actors="<<resumeSnapshot.actors.size()<<" path="<<resumeWorldPath.generic_string()<<'\n';
+                }
+            }
+        }
         if(!frontendStarted&&options.freshPlayer&&options.hud&&!options.meleeBindings.empty()) {
             if(options.actorRow!=options.combat.playerProfileId)throw std::runtime_error("Direct skill bank requires the same source player class");
             if(!menuSourceOwner.valid()&&!f::frontend::creation::load_runtime_creation_source_v1(assets,creationRandom,menuSourceOwner,error))
@@ -1386,6 +1420,7 @@ int main(int argc,char** argv) {
             f::equipment_menu::RuntimePlayerLocomotionLibraryRequestV1 request;
             request.profile_id=options.combat.playerProfileId;request.profile_library_uri=options.profiles.generic_string();request.role="player-source-locomotion";
             request.main_hand_item_id=hands.first;request.off_hand_item_id=hands.second;
+            request.preload_all_equipment_stances=true;request.max_programs=f::equipment_menu::RuntimePlayerLocomotionLibraryV1::hard_program_limit;
             const auto prefix=request.role+"/";
             options.character.clips.erase(std::remove_if(options.character.clips.begin(),options.character.clips.end(),[&](const auto& clip){return clip.first.compare(0,prefix.size(),prefix)==0;}),options.character.clips.end());
             f::equipment_menu::RuntimePlayerLocomotionLibraryV1 next;
@@ -1502,7 +1537,7 @@ int main(int argc,char** argv) {
             }
         }
         if(!options.level.empty()) {
-            if(!f::load_level_with_module_zones(assets,options.level,scene,levelModuleZones,error)) throw std::runtime_error("Level: "+error);
+            if(!f::load_level_with_module_zones(assets,options.level,scene,levelModuleZones,error,{options.meleeBindings.empty()||options.noAmbientDecor})) throw std::runtime_error("Level: "+error);
             loadingScreen.progress(0.4);  // level stage complete
             for(const auto& notice:scene.notices)std::cerr<<"Level notice: "<<notice<<'\n';
             std::cout<<"Level triangles="<<scene.triangleCount<<" instances="<<scene.instanceCount<<" ranges="<<scene.mesh.ranges.size()<<'\n';
@@ -1685,7 +1720,7 @@ int main(int argc,char** argv) {
                 if(!exitZones.build(population.definitions(),transitionRows,transitionClasses,exitError))throw std::runtime_error("Level exits: "+exitError);
                 for(const auto& zone:exitZones.zones()) {
                     if(zone.built&&zone.kind==f::transitions::ZoneKind::level_exit)
-                        std::cout<<"Level exit zone name="<<zone.name<<" target="<<zone.target_name<<" file="<<zone.target_file<<" entry="<<zone.entry_id<<" condition="<<(zone.condition.empty()?"none":zone.condition)<<" procedural="<<(zone.target_procedural?1:0)<<'\n';
+                        std::cout<<"Level exit zone name="<<zone.name<<" target="<<zone.target_name<<" file="<<zone.target_file<<" entry="<<zone.entry_id<<" condition="<<(zone.condition.empty()?"none":zone.condition)<<" procedural="<<(zone.target_procedural?1:0)<<" centre="<<zone.box.centre[0]<<","<<zone.box.centre[1]<<","<<zone.box.centre[2]<<'\n';
                     else if(zone.built)
                         std::cout<<"Level zone name="<<zone.name<<" kind="<<f::transitions::zone_kind_name(zone.kind)
                                  <<" centre="<<zone.box.centre[0]<<','<<zone.box.centre[1]<<','<<zone.box.centre[2]
@@ -1970,13 +2005,14 @@ int main(int argc,char** argv) {
         initializeCombat();
         // P17 TRANSITIONS2: LevelSavegame rule. The world kept for this level on its last visit (killed actors, opened containers,
         // object states) is restored; the controlled actor is placed at the arrival entry, not at its saved position (Level::_LoadPlayer).
-        const auto saveLevelWorld=[&](const char* reason,std::string& e)->bool {
+        const auto saveLevelWorld=[&](const char* reason,std::string& e,f::GameSave* keep=nullptr)->bool {
             if(!combatSession||options.save.empty())return true;
             f::GameSave worldSnapshot;
             if(!f::capture_game_save(options.level.generic_string(),combatSession->player_id(),state,*combatSession->world(),worldSnapshot,e))return false;
             const auto worldPath=f::transitions::level_world_path(options.save,options.level.generic_string());
             for(const auto& pa:worldSnapshot.actors)if(pa.actor.id==worldSnapshot.controlled_actor_id)std::cout<<"Level world snapshot actor position="<<pa.actor.transform.position[0]<<","<<pa.actor.transform.position[1]<<","<<pa.actor.transform.position[2]<<" reason="<<reason<<"\n";
             if(!f::save_game(worldPath,worldSnapshot,e))return false;
+            if(keep)*keep=worldSnapshot; // B086: the resume point also rewrites the profile from this exact snapshot
             std::cout<<"Level world saved reason="<<reason<<" level="<<options.level.generic_string()<<" objects="<<worldSnapshot.objects.size()<<" actors="<<worldSnapshot.actors.size()<<" path="<<worldPath.generic_string()<<'\n';
             return true;
         };
@@ -1988,6 +2024,8 @@ int main(int argc,char** argv) {
         f::quest_runtime::QuestRuntimeV1* questRuntimeForCheckpoint=nullptr;
         std::array<float,3> activeSourceCheckpointKey{};
         bool sourceCheckpointKeyLoaded=false;
+        f::persistence::death_flow::DeathCheckpointLevelStartStateV1 levelStartCheckpoint;
+        std::optional<std::array<float,3>> levelStartCheckpointKey;
         if(!options.save.empty()) {
             const auto path=deathCheckpointPath();
             if(fs::exists(path)) {
@@ -2007,7 +2045,9 @@ int main(int argc,char** argv) {
         }
         const auto saveSourceCheckpointContact=[&](const f::transitions::ExitZone& zone,
                                                     const f::ActorState& player,
-                                                    std::string& checkpointError)->bool {
+                                                    std::string& checkpointError,
+                                                    bool initial=false,
+                                                    f::persistence::death_flow::DeathCheckpointZoneReceiptV1* outcome=nullptr)->bool {
             using namespace f::persistence::death_flow;
             if(!combatSession||options.save.empty()) {checkpointError="Source LevelSavegame/profile path is unavailable";return false;}
             struct Context {
@@ -2151,8 +2191,22 @@ int main(int argc,char** argv) {
             contact.current_checkpoint_key=activeSourceCheckpointKey;
             contact.current_character_position=player.transform.position;
             DeathCheckpointZoneReceiptV1 receipt;
-            if(!run_death_checkpoint_zone_contact_v1(contact,services,receipt,checkpointError))return false;
-            if(receipt.result==DeathCheckpointZoneResultV1::saved) {
+            bool ran=false;
+            if(initial) {
+                DeathCheckpointLevelSaveV1 request;
+                request.source_level_state=contact.source_level_state;
+                request.local_character_present=contact.local_character_present;
+                request.local_character_is_dead=contact.local_character_is_dead;
+                request.level_savegame_present=contact.level_savegame_present;
+                request.level_uri=contact.level_uri;request.checkpoint_name=zone.name;
+                request.checkpoint_key=zone.source_position;request.current_character_position=player.transform.position;
+                request.arrival=arrivedByTransition;
+                ran=run_death_checkpoint_level_start_v1(request,sourceCheckpointKeyLoaded,
+                    levelStartCheckpoint,services,receipt,checkpointError);
+            } else ran=run_death_checkpoint_zone_contact_v1(contact,services,receipt,checkpointError);
+            if(outcome)*outcome=receipt;
+            if(!ran)return false;
+            if(receipt.complete&&receipt.result==DeathCheckpointZoneResultV1::saved) {
                 activeSourceCheckpointKey=zone.source_position;sourceCheckpointKeyLoaded=true;
                 std::cout<<"Source checkpoint saved zone="<<zone.name<<" key="<<receipt.snapshot.checkpoint_key_position[0]<<','
                          <<receipt.snapshot.checkpoint_key_position[1]<<','<<receipt.snapshot.checkpoint_key_position[2]<<" revive="
@@ -2194,13 +2248,13 @@ int main(int argc,char** argv) {
             } else std::cout<<"Level world restore status=none level="<<options.level.generic_string()<<'\n';
         }
         f::OriginalScene targetMarker;f::OriginalActorLabels actorLabels;f::HudGlyphFont targetFont;
-        f::OriginalScene questMarker[2]; // B087: quest-giver "!" over NPC heads (DesignSettings QuestMarker / QuestMarkerSecondary); [1] may stay empty (falls back to [0])
+        f::OriginalScene questMarker[3]; // B100: [2] = quest_marker_merchant (DesignSettings effect 139, Character::Update merchant marker); B087: quest-giver "!" over NPC heads (DesignSettings QuestMarker / QuestMarkerSecondary); [1] may stay empty (falls back to [0])
         if(combatSession&&options.hud) {
             const auto& markers=f::original_target_marker_art();const auto marker=std::find_if(markers.begin(),markers.end(),[](const auto& art){return art.interaction_type==8;});
             if(marker==markers.end()||!f::decode_original_scene(f::read_content(assets,marker->model_uri),targetMarker,error))throw std::runtime_error("Original attack marker: "+error);
             for(auto& range:targetMarker.mesh.ranges)range.material.lightingEnabled=!marker->self_illum;
-            for(int variant=0;variant<2;++variant) { // B087: quest_marker.bdae (effect 137), quest_marker_blue.bdae (effect 138)
-                const char* uri=variant?"data/3D/interface/quest_marker_blue.bdae":"data/3D/interface/quest_marker.bdae";
+            for(int variant=0;variant<3;++variant) { // B087: quest_marker.bdae (effect 137), quest_marker_blue.bdae (138); B100: quest_marker_merchant.bdae (139)
+                const char* uri=variant==2?"data/3D/interface/quest_marker_merchant.bdae":variant?"data/3D/interface/quest_marker_blue.bdae":"data/3D/interface/quest_marker.bdae";
                 std::string markerError;
                 try {
                     if(!f::decode_original_scene(f::read_content(assets,uri),questMarker[variant],markerError)){std::cout<<"Quest marker "<<uri<<" not decoded: "<<markerError<<'\n';questMarker[variant]=f::OriginalScene();}
@@ -2935,7 +2989,9 @@ int main(int argc,char** argv) {
         initializeSourceTargetNodes();
         f::effects::RuntimeEffectsRendererV1 sourceEffectsRenderer(renderer);
         f::effects::EmbeddedSceneFxV1 embeddedSceneFx; // P17 FIREWALL: scene-owned authored FX (doors)
+        f::effects::EmbeddedSceneFxV1 embeddedActorFx; // B105: separate actor identity domain, particles only
         const void* embeddedSceneFxOwner=nullptr;
+        std::map<std::uint64_t,std::string> embeddedActorTried; // B105: current model offered for each actor
         dh2::data::EffectsTables sourceEffectsTables;
         std::unique_ptr<f::effects::RuntimeEffectsFactoryV1> sourceEffectsFactory;
         // P16 OPENING: scripted FX (PlayEffect/StopEffect) go through the source effects manager, the same owner as the level-up
@@ -2960,7 +3016,7 @@ int main(int argc,char** argv) {
             f::CameraPose pose{{sourceEffectsCamera.eye.x,sourceEffectsCamera.eye.y,sourceEffectsCamera.eye.z},
                 {sourceEffectsCamera.target.x,sourceEffectsCamera.target.y,sourceEffectsCamera.target.z},
                 {sourceEffectsCamera.up.x,sourceEffectsCamera.up.y,sourceEffectsCamera.up.z},sourceEffectsCamera.verticalFovDegrees};
-            const auto matrix=f::cameraViewMatrix(pose);std::copy(matrix.begin(),matrix.end(),view);
+            const auto matrix=f::sourceCameraViewMatrix(pose);std::copy(matrix.begin(),matrix.end(),view);
             position[0]=sourceEffectsCamera.eye.x;position[1]=sourceEffectsCamera.eye.y;position[2]=sourceEffectsCamera.eye.z;e.clear();return true;
         };
         std::int32_t sourceEffectsMs=0;double sourceEffectsFractionMs=0;
@@ -2974,7 +3030,7 @@ int main(int argc,char** argv) {
             if(!sourceEffectsRenderer.finish_and_drain(e))throw std::runtime_error("FX queue drain: "+e);
             celestEffects.reset();
             if(sourceEffectsFactory)sourceEffectsFactory->clear_original_textures();
-            embeddedSceneFx.clear();embeddedSceneFxOwner=nullptr; // P17 FIREWALL: resources die with their factory
+            embeddedSceneFx.clear();embeddedActorFx.clear();embeddedSceneFxOwner=nullptr;embeddedActorTried.clear(); // P17 FIREWALL: resources die with their factory
             sourceEffectsFactory.reset();
         };
         const auto bindSourceEffects=[&]() {
@@ -3369,9 +3425,7 @@ int main(int argc,char** argv) {
         auto bindMaterials=[&]() {
         for(std::size_t i=0;i<scene.materials.size();++i) {
             const auto& m=scene.materials[i];
-            const bool blue=m.effectFile=="GL_Diffuse_L1_VC_iPhone.bdae"&&m.technique=="L1_Vc_Al_----_----_----_----";
-            scene.mesh.ranges[i].material.texture=loadTexture(m.diffuse,m.alphaMap,blue);
-            scene.mesh.ranges[i].material.specularTexture=m.specularMap.empty()?0:loadTexture(m.specularMap); // B076: GL_Diffuse_L1 specular map
+            f::bind_original_material_textures(m,scene.mesh.ranges[i].material,loadTexture);
         }
         // P17 PROCGEN2: the LevelConfig skybox materials (drawn by the sky pass before the level).
         if(scene.skybox) for(std::size_t i=0;i<scene.skybox->materials.size()&&i<scene.skybox->mesh.ranges.size();++i) {
@@ -3417,7 +3471,8 @@ int main(int argc,char** argv) {
             const auto& m=view.visual->original_materials()[i];const bool blue=m.effectFile=="GL_Diffuse_L1_VC_iPhone.bdae"&&m.technique=="L1_Vc_Al_----_----_----_----";
             for(auto& range:view.visual->mutable_meshes()[i].ranges)range.material.texture=loadDoorTexture(m,blue);}
         bindMaterials();
-        ambientDecor.bind_textures([&](const f::OriginalMaterial& m){return loadTexture(m.diffuse,m.alphaMap,false);}); // B076
+        ambientDecor.bind_textures(loadTexture); // B109: same full material transport as baked level geometry
+        {std::size_t ranges=0,specular=0,opaqueSp=0;for(const auto& decor:ambientDecor.instances())for(const auto& range:decor.scene->mesh.ranges){++ranges;if(range.material.specularTexture){++specular;if(range.material.levelLit&&!range.material.transparent&&range.material.alphaReference<=0)++opaqueSp;}}std::cout<<"[scene] ambient material ranges="<<ranges<<" specularBound="<<specular<<" opaqueSpBound="<<opaqueSp<<'\n';}
         std::uint32_t hudTexture=options.hud?loadTexture("MenusGraphics_droid.tga"):0;f::OverlayRenderer overlay;
         // B056: Details list damask is the MenuGraphics02 picture (shipped texture, not the MenusGraphics_droid atlas).
         std::uint32_t menuDamaskTexture=options.hud?loadTexture("MenuGraphics02.tga"):0;
@@ -3668,8 +3723,7 @@ int main(int argc,char** argv) {
         f::SourceEquipmentOriginalBindingsV1 equipmentRenderBindings(assets,std::move(equipmentTextureServices),{});
         const f::EquipmentAttachmentSet* runtimeEquipmentAttachments=nullptr;
         std::weak_ptr<const void> equipmentAttemptLease;
-        bool menuUsedSkillPoint=false;
-        // Preview 14/15: Stats +/- staged spends of one menu visit (features/character_menu/stat_training_v1.hpp); cleared at each open.
+        // B103: one shared Stats/Skills allocation visit; cleared at each menu open.
         auto statTrainingVisit=std::make_shared<f::character_menu::StatTrainingVisitV1>();
         bool equipmentRebindRequested=false; // P14 DROPS: a pickup added a definition the equipment text policy must list
         // B061: the gameplay body shows the equipped modular parts (helm/torso/gloves/boots),
@@ -3843,14 +3897,13 @@ int main(int argc,char** argv) {
                     bool available=false;
                     if(!f::generic_skills::probe_skill_training_in_session_v1(character,*combatSession,properties,skillTables,skillCaps,position,available,e))return false;
                     if(!available){e="Source same-Session skill training probe rejected the current row";return false;}
-                    // The authored first skill spend saves before mutation;
-                    // subsequent spends in this menu visit skip that prefix.
-                    if(!menuUsedSkillPoint&&!f::save_character(options.save,character,e))return false;
+                    // B103: both original flags gate one shared pre-allocation
+                    // save. A preceding stat spend must not be saved here.
+                    if(!f::character_menu::begin_allocation_visit_v1(character,*combatSession,*statTrainingVisit,
+                        [&](const f::CharacterState& c,std::string& saveError){return f::save_character(options.save,c,saveError);},e))return false;
                     f::generic_skills::SessionSkillTrainingCommitV1 commit;
                     if(!f::generic_skills::train_skill_in_session_v1(character,*combatSession,properties,skillTables,skillCaps,position,commit,e))return false;
-                    // Preview 14: the authored prefix above saves only the pre-spend state, so persist the committed spend too (every spend, not only the first in a visit).
-                    if(!f::save_character(options.save,character,e))return false;
-                    menuUsedSkillPoint=true;
+                    ++statTrainingVisit->staged_skills; // deferred until shared Yes, restored by shared No
                     std::cout<<"Source skill training row="<<commit.saved_skill_row<<" rank="<<commit.previous_rank<<"->"<<commit.current_rank<<" points="<<commit.remaining_points<<" potionCapacity="<<unsigned(commit.potion_capacity)<<'\n';
                     return true;
                 };
@@ -3999,6 +4052,15 @@ int main(int argc,char** argv) {
             // P15 LEVELUP (I026): Character::LevelUp presentation (FX set 135 on the
             // hero; MENU_LEVEL_UP text logged only). An FX failure does not abort the award.
             rewardBindings.level_up_presentation=[&](f::ActorId id,std::int32_t level,std::string& e) {
+                // v20.1 SOUNDS (B090): Character::LevelUp 0x3beb88 starts ScriptManager "PlayerLevelUp" before FX set 135. That
+                // authored script (encounter-source-scripts.json id 12) is one Script_PlaySound(sound 127 = "LevelUp",
+                // sfx_level_up.wav); it is submitted here through the same plain Play row the script executor uses.
+                {
+                    std::string soundError;
+                    const auto cue=runtimeAudio?runtimeAudio->play_named_ui_sound("LevelUp",soundError):f::audio::NamedUiCueResultV1{};
+                    std::cout<<"Level up sound LevelUp ordinal="<<cue.ordinal<<" uid="<<cue.uid<<" token="<<cue.token<<" status="<<f::audio::named_ui_cue_status_v1(cue.status)
+                             <<(soundError.empty()?"":" detail="+soundError)<<" frame="<<drawn<<"\n";
+                }
                 f::effects::RuntimeLevelUpPresentationResultV1 result;
                 const bool ok=f::effects::play_level_up_presentation_v1(sourceEffectsTables.borrow(),
                     [&](std::int32_t set,const float* position,const float* rotation,std::uintptr_t anchor,std::uintptr_t* created,std::string& fxError) {
@@ -4048,6 +4110,7 @@ int main(int argc,char** argv) {
         // P16 MAPMARKERS: Map page marker facts of the loaded level (built at load) and the producer registry.
         std::vector<f::map_visit::MapLevelObjectV1> mapLevelObjects;   // CheckpointZone / SpawnPoint / TriggerZoneExitLevel
         std::vector<f::map_visit::MapCharacterV1> mapCharacters;       // placed characters (quest giver and merchant facts)
+        std::set<f::ActorId> merchantActors;                           // B100: placed Characters whose AI row type is 7 (Character::IsMerchant)
         std::optional<std::int32_t> mapLevelEntryPoint;                // current entry (the spawn the player was placed on)
         const f::map_visit::MapMarkerRegistryV1 mapMarkers=f::map_visit::standard_map_marker_registry_v1();
         std::unique_ptr<f::quest_runtime::QuestRuntimeV1> questRuntime;
@@ -4064,6 +4127,17 @@ int main(int argc,char** argv) {
         conditionActive=[&](const std::string& name){return transitionConditions.condition_active(name);};
         f::quest_runtime::QuestZoneSetV1 questZones; // P16 QUESTUI: MoveInZone boxes of this level
         f::QuestBannerPresenterV1 questBanners;      // P16 QUESTUI: NEW QUEST / updates / QUEST COMPLETED
+        // v20.1 SOUNDS (B099 NEW QUEST, B104 QUEST COMPLETED): the HUD dialog frame show handler (dqhud_droid.swf, QuestMsgDialog
+        // frame: NativePlaySoundFX("QuestNew"); QuestCompletedMsgDialog frame: NativePlaySoundFX("QuestComplete")) runs when the
+        // banner is shown. NativePlaySoundFX -> VoxSoundManager::PlayMenu(Arrays::Sounds id) (0x43ae10 -> 0x36bc34).
+        f::audio::NamedUiCueRetryV1 questCue([&](const char* cue) {
+            std::string soundError;
+            const auto result=runtimeAudio?runtimeAudio->play_named_ui_sound(cue,soundError):f::audio::NamedUiCueResultV1{};
+            std::cout<<"Quest banner sound "<<cue<<" ordinal="<<result.ordinal<<" uid="<<result.uid<<" token="<<result.token<<" status="<<f::audio::named_ui_cue_status_v1(result.status)
+                     <<(soundError.empty()?"":" detail="+soundError)<<" frame="<<drawn<<"\n";
+            return result;
+        });
+        questBanners.on_shown=[&](bool completed){questCue.begin(completed?"QuestComplete":"QuestNew");};
         std::set<std::int32_t> questTalkOids;        // P16 QUESTUI: TalkToNPC oid1 values (CharacterTable rows)
         bool questTalkHeld=false;                    // P16 QUESTUI: interact press edge for NPC talk
         std::shared_ptr<f::CharacterQuestProgressV1> questMenuProgress; // P16 QUESTUI: Quest Log page progress (CQPG view)
@@ -4284,11 +4358,12 @@ int main(int argc,char** argv) {
                     if(found!=characterRows.end())row=found->second;
                 }
                 questActorIdentity[placed.definition.stableId]={row,placed.source_template_cache};
+                if(std::getenv("DH_QUEST_TRACE"))std::cout<<"Quest identity actor="<<placed.definition.name<<" profile="<<placed.profileId<<" row="<<row<<" template="<<placed.source_template_cache<<" pool="<<spawnPool.owns(placed.definition.stableId)<<'\n'; // B093 trace
             }
             // P16 MAPMARKERS: marker facts of this level, once per load. Level objects are the authored classes of the
             // IDA map producers (activation gate from the active conditions). Characters carry the CharacterTable row
             // (quest giver match) and the merchant fact (AI row type 7 = Character::IsMerchant, IDA GetCharType).
-            mapLevelObjects.clear();mapCharacters.clear();mapLevelEntryPoint.reset();
+            mapLevelObjects.clear();mapCharacters.clear();merchantActors.clear();mapLevelEntryPoint.reset();
             for(const auto& declaration:population.definitions()) {
                 if(!f::map_visit::map_object_class_rule_v1(declaration.gametype))continue;
                 f::map_visit::MapLevelObjectV1 object;object.gametype=declaration.gametype;
@@ -4332,6 +4407,7 @@ int main(int argc,char** argv) {
                         character.merchant=cached->second;
                     }
                     mapCharacters.push_back(character);
+                    if(character.merchant)merchantActors.insert(placed.definition.stableId);
                 }
             }
             std::cout<<"Map marker facts level_objects="<<mapLevelObjects.size()<<" characters="<<mapCharacters.size()
@@ -4407,7 +4483,7 @@ int main(int argc,char** argv) {
                              <<" gold="<<banner.reward_gold<<" text='"<<banner.text<<"'\n";
             });
         };
-        // P16 QUESTS: kills of this update (death events whose attacker is the player) become quest kill events
+        // B093: admitted victim deaths of this update become quest kill events, regardless of attacker.
         // carrying the victim's CharacterTable row (property) and Charater_Templates row (template).
         // P17 CONDITIONS: evaluates only when a quest state changed since the last flush (dirty-driven, not polled).
         const auto flushConditionFlips=[&](const char* cause) {
@@ -4442,7 +4518,12 @@ int main(int argc,char** argv) {
         const auto raiseQuestKills=[&]() {
             if(!questRuntime||!combatSession)return;
             for(const auto& event:combatSession->events()) {
-                if(!event.applied||!event.target_died||event.attacker!=combatSession->player_id())continue;
+                if(std::getenv("DH_QUEST_TRACE")&&event.applied&&event.target_died)std::cout<<"Quest kill trace target="<<event.target<<" attacker="<<event.attacker<<" player="<<combatSession->player_id()<<" known="<<questActorIdentity.count(event.target)<<'\n'; // B093 trace
+                // B093: Character::Kill (0x3a... Kill, tail after DistributeXP) raises the four kill events for EVERY non-player death
+                // regardless of the killer (ally, DOT, skill), except Summon-created actors (suppress_quest +5348 set by GameObject::_Summon).
+                const auto* victimTraits=combatSession->world()->traits(event.target);
+                if(!victimTraits||!f::quest_runtime::quest_combat_kill_admitted_v1(event.applied,event.target_died,
+                    victimTraits->is_player,spawnPool.owns(event.target)))continue;
                 const auto identity=questActorIdentity.find(event.target);
                 if(identity==questActorIdentity.end())continue;
                 f::quest_runtime::QuestEvent kill;
@@ -4550,6 +4631,29 @@ int main(int argc,char** argv) {
             f::quest_runtime::raise_quest_event(talk);
             return true;
         };
+        // B100: Character::Interact 0x3a4d78 for a merchant: raises the TalkToNPC quest event for its CharacterTable row (any NPC),
+        // then (when it is not a registered quest NPC, +762 == 0) opens the merchant menu (openMerchantMenu, MenuMerchant).
+        // The shop menu is NOT ported yet (no buy/sell page exists in features/character_menu), so only the event is raised.
+        // B110: merchant screen and transactions borrow the same player profile and production equipment owner.
+        std::function<void(f::ActorId)> openMerchantShop;
+        std::map<std::string,std::unique_ptr<f::merchant::Shop>> merchantShops;
+        std::unique_ptr<f::merchant::ShopUi> merchantUi;
+        f::merchant::Shop* merchantShop=nullptr;
+        std::string merchantKey,merchantLevel;
+        bool merchantOpen=false;
+        const auto merchantInteract=[&](f::ActorId id) -> bool {
+            if(!merchantActors.count(id))return false;
+            const auto identity=questActorIdentity.find(id);
+            if(questRuntime&&identity!=questActorIdentity.end()) {
+                f::quest_runtime::QuestEvent talk;
+                talk.kind=f::quest_runtime::QuestEvent::Kind::talk_to_npc;
+                talk.object_id=identity->second.first;talk.secondary_id=questLevelRow;
+                f::quest_runtime::raise_quest_event(talk);
+            }
+            if(openMerchantShop)openMerchantShop(id);
+            std::cout<<"Context merchant interact id="<<id<<" row="<<(identity==questActorIdentity.end()?-1:identity->second.first)<<" menu=openMerchantMenu open="<<merchantOpen<<'\n';
+            return true;
+        };
         // P16 QUESTUI: quest zone entries of this frame (player position against the level's quest zones).
         const auto raiseQuestZones=[&]() {
             if(!questRuntime||!combatSession||questZones.zones().empty())return;
@@ -4596,9 +4700,67 @@ int main(int argc,char** argv) {
             if(!f::inventory::source_bare_item_descriptors(item,itemTable,dropTextOwner->services(),descriptors,e))return false;
             dropNameCache[item.definition_id]=descriptors.name;out=descriptors.name;e.clear();return true;
         };
+        const auto merchantPotionStatus=[&]() {
+            std::uint32_t held=0;const auto& table=menuSourceOwner.source().loot.items();
+            for(const auto& i:state.inventory){const auto* row=dh2::data::item(table,dh2::data::item_id(table,i.definition_id));if(row&&dh2::data::item_type(*row)==14)held+=i.quantity;}
+            const auto* props=combatSession->world()->combat_properties(combatSession->player_id());
+            const auto cap=props?f::loot::potion_capacity_from_property_v1(props->sheets.resolved[194]):0;
+            if(merchantUi)merchantUi->potion_status(held,cap);return std::make_pair(held,cap);
+        };
+        openMerchantShop=[&](f::ActorId id) {
+            if(!combatSession||!menuSourceOwner.valid()||!deathRewards.bound())return;
+            const auto identity=questActorIdentity.find(id);
+            if(identity==questActorIdentity.end()||identity->second.first<0||std::size_t(identity->second.first)>=properties.characters.names.size())return;
+            // A merchant installed as an active TalkToNPC quest target uses the dialogue path (+762), not the shop.
+            if(questRuntime&&questTable)for(std::int32_t q=0;q<std::int32_t(questTable->rows().size());++q) {
+                f::quest_runtime::QuestStateV1 qs{};if(!questRuntime->state_of(q,qs)||qs!=f::quest_runtime::QuestStateV1::active)continue;
+                const auto* progress=questRuntime->progress_of(q);const auto& def=questTable->rows()[std::size_t(q)];
+                for(std::size_t i=0;i<def.objectives.size();++i)if(def.objectives[i].type==5&&def.objectives[i].oid1==identity->second.first&&
+                    (!progress||i>=progress->objectives.size()||!progress->objectives[i].completed))return;
+            }
+            std::string e;f::OriginalCombatProperties merchantProps;
+            if(!f::build_original_combat_properties(properties,properties.characters.names[identity->second.first],f::OriginalActorPropertyOptions{},{},f::OriginalCombatFacts{},merchantProps,e))throw std::runtime_error("Merchant properties: "+e);
+            const auto loot=merchantProps.sheets.resolved[9];
+            const auto bytes=assets.read("original-cache/data/pydata/loot_table_pyarray.bin");std::vector<f::merchant::MerchantRow> rows;
+            if(!f::merchant::parse_merchant_rows(bytes.data(),bytes.size(),menuSourceOwner.source().loot.consumed(),rows,e))throw std::runtime_error("Merchant table: "+e);
+            if(loot<0||std::size_t(loot)>=rows.size())return;
+            const auto& table=menuSourceOwner.source().loot.items();
+            merchantKey=options.level.generic_string()+":"+std::to_string(character_current_difficulty(state))+":"+std::to_string(id);
+            if(merchantLevel!=options.level.generic_string()){merchantShops.clear();merchantLevel=options.level.generic_string();}
+            auto& shop=merchantShops[merchantKey];
+            if(!shop)shop=std::make_unique<f::merchant::Shop>(rows[std::size_t(loot)]);
+            if(shop->inventory().inventory.empty()) {
+                std::vector<std::pair<std::int32_t,std::uint32_t>> stock;
+                if(!f::merchant::roll_stock(rows[std::size_t(loot)],deathRewards.loot_source().loot,deathRewards.loot_source().power_resources,deathRewards.loot_entry_services(),
+                    [&](const auto& op,std::string& error){return combatSession->world()->with_loot_random(op,error);},stock,e))throw std::runtime_error("Merchant stock: "+e);
+                shop->add_stock(table,stock);
+            }
+            if(!shop->sort_stock(table,itemDisplayName,e))throw std::runtime_error("Merchant stock names: "+e);
+            bindEquipmentPage();if(!runtimeEquipment||!runtimeEquipment->ready(e))throw std::runtime_error("Merchant equipment owner: "+e);
+            const auto* actor=combatSession->actor(combatSession->player_id());const auto* props=combatSession->world()->combat_properties(actor->id);
+            f::equipment_menu::Options menuOptions;menuOptions.player_class_id=actor->definition_id;
+            f::inventory::DetailBindings bindings;
+            bindings.item_name=[&](const auto& item,const auto&,std::string& out,std::string& e){return itemDisplayName(item,out,e);};
+            menuOptions.item_name=bindings.item_name;
+            bindings.symbol=[&](const std::string& sym,std::string& out,std::string& e){return menuLocalization.symbol(sym,&state,out,e);};
+            bindings.item_details=[&](const std::string& path,const f::InventoryItem& item,std::string& out,std::string& e) {
+                std::string ignored;if(!itemDisplayName(item,ignored,e))return false;
+                f::inventory::SourceDescriptors desc;if(!f::inventory::source_bare_item_descriptors(item,menuSourceOwner.source().loot.items(),dropTextOwner->services(),desc,e))return false;
+                out=path.find("ItemInfo1")!=std::string::npos?desc.stats:path.find("ItemReq")!=std::string::npos?desc.requirements:std::string();return true;
+            };
+            merchantShop=shop.get();merchantUi=std::make_unique<f::merchant::ShopUi>(state,*shop,table,*actor,*props,properties,std::move(menuOptions),std::move(bindings));
+            merchantUi->parsed_text([&](const std::string& symbol,const std::vector<std::string>& values,std::string& out,std::string& e) {
+                dh2::ui::HudTextV1* text=nullptr;dh2::ui::HudTextEnvironmentV1 env;
+                if(!menuLocalization.bind_profile(&state,e)||!menuLocalization.borrow_text(text,env,e))return false;
+                std::vector<dh2::ui::LocalizationArgumentV1> args;for(const auto& value:values)args.push_back({0.f,true,value});
+                return text->parsed_string_v4(symbol,args,env,out,e);
+            });
+            if(!merchantUi->open(e))throw std::runtime_error("Merchant open: "+e);
+            merchantPotionStatus();characterMenu.open();merchantOpen=true;
+            std::cout<<"Merchant opened key="<<merchantKey<<" loot="<<loot<<" stock="<<shop->inventory().inventory.size()<<" gold="<<state.gold<<'\n';
+        };
         sourceEffectsCamera=camera(options.sourceCamera?cinematicCameraPose():(useTimeline?timeline.sample():freeCamera.pose()));
         bindSourcePresentations();
-        f::platform_input::SemanticInput semanticInput;
         std::uint64_t menuOpened=0,menuDrawn=0;bool mouseHeld=false,escapeClosedMenu=false,enterHeld=false,cinematicInputWasLocked=false,cinematicSpaceHeld=false;
         bool pauseMenuOpen=false,pauseConfirmation=false;
         // Preview 15 B049: the Stats confirmation box (see statConfirmYes/No below). Every menu close path
@@ -4766,7 +4928,7 @@ int main(int argc,char** argv) {
             if(point.x>=bounds[0]*scale&&point.x<=bounds[1]*scale&&point.y>=bounds[2]*scale&&point.y<=bounds[3]*scale)return Hit{Control::profile,0};
             return Hit{};
         };
-        semanticInput.set_surface(std::move(uiSurface));
+        semanticInput.replace_session_surface(std::move(uiSurface));
         std::shared_ptr<f::enemy_ai::RuntimeEnemyNavigationV1> enemyNavigation;
         std::shared_ptr<f::enemy_ai::RuntimeEnemyControllerV1> enemyController;
         std::shared_ptr<f::companions::RuntimeFollowerControllerV1> followerController; // B077 FOLLOW
@@ -5031,9 +5193,9 @@ int main(int argc,char** argv) {
         };
         bool gameplayWasPaused=false;std::uint64_t gameplayPausedFrames=0;
         bool returnToFrontend=false;
-        // Preview 15 B049: Stats staged spends. Closing the Character menu with staged points opens the original
+        // B103: either Stats or Skills staging opens the shared original
         // "Confirm character point allocation?" box instead: Yes saves and closes; No refunds every staged spend
-        // on the live Session, saves the reverted state and closes (features/character_menu/stat_training_v1).
+        // on the live Session with current gear, saves the reverted state and closes (stat_training_v1).
         const auto persistStatState=[&](const f::CharacterState& c,std::string& e){return f::save_character(options.save,c,e);};
         const auto statConfirmYes=[&]() {
             std::string e;
@@ -5449,8 +5611,39 @@ int main(int argc,char** argv) {
                          <<','<<a.transform.position[2]<<" hp="<<a.health<<" dead="<<(a.is_dead()?1:0)<<'\n';
             }
         };
+        // B086: the resume point. Source Application::Quit (0x323bc4) and GoToMainMenu (0x32c1f4) run Level::QuickSave (0x3f059c: only
+        // for a LIVE hero, Level state 38) and then SG_Save the profile; the next Continue restores that level save (world + position).
+        // A cutscene that blocks saving, a dead hero or a rejected checkpoint keeps the previous level save (never a half state).
+        // Returns 1 saved, 0 skipped for good (dead hero, cutscene, profile write failure), -1 rejected for now (an active action
+        // such as an attack window blocks the checkpoint): the quit path retries for a short grace period.
+        bool quitPending=false;int quitDeadline=0;
+        const auto saveResumePoint=[&](const char* reason)->int {
+            if(!combatSession||options.save.empty())return 0;
+            const auto* hero=combatSession->actor(combatSession->player_id());
+            if(!hero||!hero->alive()){std::cout<<"Resume point skipped reason="<<reason<<" detail=hero_dead\n";return 0;}
+            if(campaignHost.enabled()&&campaignHost.save_blocked()){std::cout<<"Resume point skipped reason="<<reason<<" detail=cutscene_blocks_saving\n";return 0;}
+            std::string e;
+            if((skillCastCoordinator&&!skillCastCoordinator->checkpoint_v1(*combatSession,e))||!combatSession->validate_lifecycle_checkpoint(e))return -1;
+            if(options.campaignTriggers&&!campaignHost.persist_lifecycle(*combatSession->world(),e))return -1;
+            stampSaveMetadata(state,options.level.generic_string());
+            f::GameSave snapshot;
+            if(!saveLevelWorld(reason,e,&snapshot))return -1;
+            if(!f::save_character(options.save,snapshot.character,e)){std::cout<<"Resume point profile save failed reason="<<reason<<" detail="<<e<<'\n';return 0;}
+            std::cout<<"Resume point saved reason="<<reason<<" level="<<options.level.generic_string()<<" HP="<<snapshot.character.stats.health<<'\n';
+            return 1;
+        };
         dh::foundation::FramePacer framePacer; // B066: deadline pacing replaces sleep(1) (a 15.6 ms tick on Windows)
-        while(!window.should_close()) {
+        // Poll can latch a platform close before the next iteration. Admit that iteration so the
+        // Application::Quit save/retry handler below owns shutdown instead of bypassing it.
+        while(true) {
+            // B086 Application::Quit: closing the window (or --quit-frame) quick-saves the level world and the profile first. An active
+            // action can reject the checkpoint for a moment; the game keeps running up to 90 frames until the save is accepted.
+            if(!returnToFrontend&&(window.should_close()||(options.quitFrame>=0&&drawn>=options.quitFrame))) {
+                if(!quitPending){quitPending=true;quitDeadline=drawn+90;std::cout<<"Quit requested frame="<<drawn<<'\n';}
+                const int quitResult=saveResumePoint("quit");
+                if(quitResult==-1)std::cout<<"Resume point retry frame="<<drawn<<'\n';
+                if(quitResult>=0||drawn>=quitDeadline)break;
+            }
             dh::foundation::perf::FramePerf::get().begin_frame(); // B062: unclamped per-phase timing, DH_PERF=1
             framePacer.begin(); // B066
             if(options.hud&&combatSession)bindEquipmentPage();
@@ -5466,6 +5659,7 @@ int main(int argc,char** argv) {
             if(!window.focused()){semanticInput.lose_focus();mouseHeld=false;}
             const std::array<int,15> uiKeys{'A','D','W','S',VK_SHIFT,VK_SPACE,VK_TAB,'E','C',VK_ESCAPE,'1','2','3','4','5'};
             const bool scheduledSpaceHeld=std::any_of(options.spaceKeyIntervals.begin(),options.spaceKeyIntervals.end(),[&](const auto& interval){return drawn>=interval.first&&drawn<interval.first+interval.second;});
+            const bool scheduledEHeld=std::find(options.transitionKeyFrames.begin(),options.transitionKeyFrames.end(),int(drawn))!=options.transitionKeyFrames.end();
             // I024 DEATH: the death modal captures input. Keys and pointer presses stay out of the game and menus.
             const bool deathModal=deathHost.modal();
             if(deathModal&&!deathModalWasOpen){semanticInput.lose_focus();mouseHeld=false;}
@@ -5483,7 +5677,7 @@ int main(int argc,char** argv) {
                 cinematicSpaceHeld=spaceDown;
             } else {
                 cinematicSpaceHeld=false;
-                for(int key:uiKeys)semanticInput.key(key,!deathModal&&(window.key_down(key)||(key==VK_SPACE&&scheduledSpaceHeld)));
+                for(int key:uiKeys)semanticInput.key(key,!deathModal&&(window.key_down(key)||(key==VK_SPACE&&scheduledSpaceHeld)||(key=='E'&&scheduledEHeld))); // B106: --transition-key drives the real E binding
             }
             {
                 // I024 DEATH: Space is the PC release of the death screen (press edge; a held Space does not repeat it).
@@ -5565,25 +5759,35 @@ int main(int argc,char** argv) {
             if(std::find(options.campaignSkipFrames.begin(),options.campaignSkipFrames.end(),int(drawn))!=options.campaignSkipFrames.end()) { campaignHost.press_skip(); std::cout<<"Scripted SKIP press frame="<<drawn<<'\n'; } // P16 CINE (verification input)
             if(uiInput.menu_back){
                 if(statConfirmOpen){statConfirmOpen=false;std::cout<<"Stats confirmation dismissed frame="<<drawn<<" via Escape\n";}
+                else if(merchantOpen&&merchantUi&&merchantUi->confirmation_visible())merchantUi->cancel_confirmation();
+                else if(merchantOpen&&merchantUi&&merchantUi->error_visible())merchantUi->dismiss_error();
                 else if(characterMenu.is_open()){characterMenu.close();escapeClosedMenu=true;}
                 else if(pauseConfirmation)pauseConfirmation=false;
                 else if(pauseMenuOpen){pauseMenuOpen=false;std::cout<<"Pause menu resumed frame="<<drawn<<" via Escape\n";}
             }
             if(uiInput.pause_pressed&&options.hud&&combatSession){pauseMenuOpen=true;pauseConfirmation=false;std::cout<<"Pause menu opened frame="<<drawn<<" via source HUD/Escape\n";}
-            if(uiInput.profile_pressed&&options.hud&&combatSession){pauseMenuOpen=false;pauseConfirmation=false;if(characterMenu.is_open())characterMenu.close();else{characterMenu.open();menuUsedSkillPoint=false;statTrainingVisit->open_visit();++menuOpened;std::cout<<"Character menu opened frame="<<drawn<<" via profile input\n";}}
+            if(uiInput.profile_pressed&&options.hud&&combatSession){pauseMenuOpen=false;pauseConfirmation=false;if(characterMenu.is_open())characterMenu.close();else{characterMenu.open();statTrainingVisit->open_visit();++menuOpened;std::cout<<"Character menu opened frame="<<drawn<<" via profile input\n";}}
+            if((options.testStatPoints>0||options.testSkillPoints>0)&&drawn==60&&combatSession) { // B103 TEST ONLY: --test-stat-points N grants N stat points through the profile projection (never in packaged args)
+                const auto* testSheet=combatSession->world()->combat_properties(combatSession->player_id());const auto* testTraits=combatSession->world()->traits(combatSession->player_id());
+                std::string testError;f::OriginalCombatProperties projected;
+                state.source_stat_points=std::uint32_t(options.testStatPoints);state.source_skill_points=std::uint32_t(options.testSkillPoints);state.source_points_known=true;
+                if(testSheet&&testTraits&&f::project_player_profile_properties(properties,state,*testSheet,projected,testError)&&
+                   combatSession->world()->update_combat_properties(combatSession->player_id(),std::move(projected),*testTraits,testError))std::cout<<"Test stat points granted="<<options.testStatPoints<<'\n';
+                else std::cerr<<"Test stat points: "<<testError<<'\n';
+            }
             if(drawn==options.skillsPageFrame) {
-                if(!characterMenu.is_open()){characterMenu.open();menuUsedSkillPoint=false;statTrainingVisit->open_visit();++menuOpened;}
+                if(!characterMenu.is_open()){characterMenu.open();statTrainingVisit->open_visit();++menuOpened;}
                 if(!characterMenuComposition->select(characterMenu,f::character_menu::Tab::skills,error))throw std::runtime_error("Skills page diagnostic selection: "+error);
                 std::cout<<"Character menu Skills selected frame="<<drawn<<" via same-state source provider\n";
             }
             if(drawn==options.equipmentPageFrame) {
-                if(!characterMenu.is_open()){characterMenu.open();menuUsedSkillPoint=false;statTrainingVisit->open_visit();++menuOpened;}
+                if(!characterMenu.is_open()){characterMenu.open();statTrainingVisit->open_visit();++menuOpened;}
                 if(!characterMenuComposition->select(characterMenu,f::character_menu::Tab::equipment,error))throw std::runtime_error("Equipment page diagnostic selection: "+error);
                 std::cout<<"Character menu Equipment selected frame="<<drawn<<" via same-state source provider\n";
             }
             // P16 MAP: --map-page-frame=N opens the character menu on the Map tab (composition provider).
             if(drawn==options.mapPageFrame) {
-                if(!characterMenu.is_open()){characterMenu.open();menuUsedSkillPoint=false;++menuOpened;}
+                if(!characterMenu.is_open()){characterMenu.open();statTrainingVisit->open_visit();++menuOpened;}
                 if(!characterMenuComposition->select(characterMenu,f::character_menu::Tab::map,error))throw std::runtime_error("Map page diagnostic selection: "+error);
                 std::cout<<"Character menu Map selected frame="<<drawn<<" level="<<options.level.generic_string()<<" zones="<<levelModuleZones.size()<<'\n';
                 if(options.mapLegend&&characterMenu.map_legend_shown()==false)characterMenu.map_control(f::character_menu::Action::map_legend);
@@ -5591,23 +5795,67 @@ int main(int argc,char** argv) {
             }
             // P14 FAERY: --faery-page-frame=N opens the menu on the Faery tab (CharacterState provider).
             if(drawn==options.faeryPageFrame) {
-                if(!characterMenu.is_open()){characterMenu.open();menuUsedSkillPoint=false;++menuOpened;}
+                if(!characterMenu.is_open()){characterMenu.open();statTrainingVisit->open_visit();++menuOpened;}
                 if(!characterMenuComposition->select(characterMenu,f::character_menu::Tab::faery,error))throw std::runtime_error("Faery page diagnostic selection: "+error);
                 std::cout<<"Character menu Faery selected frame="<<drawn<<" via CharacterState provider\n";
             }
             // P16 QUESTUI: --quest-page-frame=N opens the menu on the Quest Log tab (test aid).
             if(drawn==options.questPageFrame) {
-                if(!characterMenu.is_open()){characterMenu.open();menuUsedSkillPoint=false;++menuOpened;}
+                if(!characterMenu.is_open()){characterMenu.open();statTrainingVisit->open_visit();++menuOpened;}
                 if(!characterMenuComposition->select(characterMenu,f::character_menu::Tab::quest,error))throw std::runtime_error("Quest Log page diagnostic selection: "+error);
                 std::cout<<"Character menu Quest Log selected frame="<<drawn<<'\n';
             }
+            if(merchantOpen&&!characterMenu.is_open()){merchantOpen=false;merchantUi.reset();merchantShop=nullptr;std::cout<<"Merchant closed frame="<<drawn<<'\n';}
+            bool merchantSoldThisFrame=false; // MenuMerchant::Update 0x433548 / NativeMerchantSellItem +196 gate
             for(const auto& click:uiInput.clicks) {
+                if(merchantOpen&&merchantUi) {
+                    const auto cmd=merchantUi->release(click.position.x*480.f/window.width(),click.position.y*320.f/window.height(),error);
+                    if(!error.empty())throw std::runtime_error("Merchant release: "+error);
+                    using Kind=f::merchant::ShopUi::Command::Kind;
+                    if(cmd.kind==Kind::close){characterMenu.close();merchantOpen=false;merchantUi.reset();merchantShop=nullptr;std::cout<<"Merchant closed frame="<<drawn<<" via Back\n";continue;}
+                    if(cmd.kind==Kind::none)continue;
+                    const auto& table=menuSourceOwner.source().loot.items();const auto goldBefore=state.gold;
+                    f::merchant::TradeResult result=f::merchant::TradeResult::ok;std::int32_t price=0;bool changed=false;
+                    if(cmd.kind==Kind::equip)changed=runtimeEquipment->equip_to_slot(cmd.instance_id,cmd.slot,error);
+                    else if(cmd.kind==Kind::unequip)changed=runtimeEquipment->unequip(cmd.slot,error);
+                    else if(cmd.kind==Kind::sell) {
+                        if(merchantSoldThisFrame){std::cout<<"Merchant duplicate sell blocked frame="<<drawn<<'\n';continue;}
+                        merchantSoldThisFrame=true;
+                        // TransferItemTo removes equipment in both sets before transferring the whole instance.
+                        const auto bindings=state.equipment;
+                        const auto owned=std::find_if(state.inventory.begin(),state.inventory.end(),[&](const auto& i){return i.instance_id==cmd.instance_id;});
+                        for(const auto& b:bindings)if(owned!=state.inventory.end()&&owned->quantity==1&&b.item_instance_id==cmd.instance_id&&b.equipment_set<=0&&b.source_slot>=0&&b.source_slot<9)
+                            if(!runtimeEquipment->unequip(unsigned(b.source_slot),error))throw std::runtime_error("Merchant sell unequip: "+error);
+                        result=merchantShop->sell(cmd.instance_id,state,table,price);changed=result==f::merchant::TradeResult::ok;
+                    } else {
+                        f::merchant::TradeRules rules;const auto [held,capacity]=merchantPotionStatus();rules.potion_capacity=capacity;
+                        if(sourceScopes){bool infinite=false;std::string e;if(sourceScopes->debug_switch("InfiniteInventory",infinite,e))rules.infinite_inventory=infinite;}
+                        const auto count=cmd.kind==Kind::buy_potions?std::uint32_t(capacity>held?capacity-held:0):1u;
+                        for(std::uint32_t n=0;n<count;++n){result=merchantShop->buy(cmd.instance_id,state,table,rules,price);if(result!=f::merchant::TradeResult::ok)break;changed=true;}
+                    }
+                    merchantUi->show_error(result);merchantPotionStatus();
+                    if(changed) {
+                        if(!f::save_character(options.save,state,error))throw std::runtime_error("Merchant transaction save: "+error);
+                        equipmentRebindRequested=true;
+                        f::equipment_menu::RuntimeEquipmentRenderChangeV1 change;
+                        if(runtimeEquipment->take_render_change(change,error)){runtimeEquipmentAttachments=change.attachments;syncPlayerBodyParts();if(locomotionLibrary)bindSourcePlayerLocomotion(*combatSession);}
+                        if(!merchantShop->sort_stock(table,itemDisplayName,error))throw std::runtime_error("Merchant stock sort: "+error);
+                        if(!merchantUi->refresh(error))throw std::runtime_error("Merchant refresh: "+error);
+                    }
+                    std::cout<<"Merchant transaction frame="<<drawn<<" kind="<<int(cmd.kind)<<" instance="<<cmd.instance_id<<" result="<<int(result)<<" price="<<price<<" gold="<<goldBefore<<"->"<<state.gold<<" playerItems="<<state.inventory.size()<<" stock="<<merchantShop->inventory().inventory.size()<<" changed="<<changed<<" error="<<error<<'\n';
+                    continue;
+                }
                 if(statConfirmOpen){routeStatConfirmClick(click.position);continue;}
                 if(pauseMenuOpen){routePauseClick(click.position);continue;}
-                const auto action=characterMenu.hit_test(click.position.x,click.position.y,window.width(),window.height());
                 {
                     // P14 FAERY: Faery goes through the composition like Equipment/Skills (provider registered above).
-                    characterMenuComposition->release(characterMenu,click.position.x,click.position.y,window.width(),window.height(),error);
+                    const auto releasedAction=characterMenuComposition->release(characterMenu,click.position.x,click.position.y,window.width(),window.height(),error);
+                    if(f::character_menu::is_stat_page_action(releasedAction)) {
+                        // B111: btn*Tab.on_clicked = NativePopMenu + NativePushMenu(menu_CharacterSheet<Page>) + NativePlaySoundFX("MenuSelect").
+                        std::cout<<"Character menu Statistics sub-page="<<int(characterMenu.stat_page())<<" frame="<<drawn<<"\n";
+                        std::string soundError;
+                        if(runtimeAudio&&!runtimeAudio->play_named_plain("MenuSelect",soundError))std::cerr<<"Character menu MenuSelect sound diagnostic: "<<soundError<<"\n";
+                    }
                     // P16 QUESTUI: a MAKE ACTIVE / row release changes the CQPG; the runtime reloads it so the next save keeps it.
                     if(questRuntime) { std::string reloadError;if(!questRuntime->load(reloadError))std::cerr<<"Quest reload diagnostic: "<<reloadError<<'\n';
                         if(conditionWatch) { // P17 CONDITIONS: the restored quest state is the new baseline (no flips on reload)
@@ -5688,6 +5936,7 @@ int main(int argc,char** argv) {
                     if(!f::frontend::menu_return::commit_v1(ticket,*skillCastCoordinator,options.level.generic_string(),options.liveSave,options.save,state,receipt,saveError)||!receipt.may_return_to_frontend)
                         throw std::runtime_error("Pause main-menu save: "+saveError);
                     std::cout<<"Pause main-menu save prefix frame="<<drawn<<" HP="<<state.stats.health<<" MP="<<state.stats.resource<<" profile="<<options.save.generic_string()<<" levelSaved="<<receipt.level_saved<<'\n';
+                    if(receipt.level_saved)saveResumePoint("main-menu"); // B086: GoToMainMenu quick save, so the next Continue resumes here
                 } else {
                     // A transient world program is not serializable here. Its
                     // stable profile remains independently persistable.
@@ -5901,6 +6150,26 @@ int main(int argc,char** argv) {
                 for(const auto& banner:takeQuestBanners())
                     std::cout<<"Quest banner kind="<<questBannerKindName(banner.kind)<<" row="<<banner.row<<" (frame)\n";
             }
+            // B108: Level state 0x23 initial checkpoint (IDA Level state machine ~179586): when LevelSavegame::ValidateCheckpoint fails (no
+            // checkpoint record for this level) or the level was entered by a transition (Level+245), Level::CheckpointSave runs once at the
+            // spawn point (key = spawn, revive = the Character position; arrival: revive = spawn). Same selective snapshot as a CheckpointZone
+            // contact, so Continue after a death always has a record even when no CheckpointZone was touched.
+            if(combatSession&&!levelStartCheckpoint.complete&&drawn>=1&&!options.save.empty()&&!pendingTransition) {
+                if(const auto* player=combatSession->actor(combatSession->player_id()); player&&!player->is_dead()) {
+                    f::transitions::ExitZone startZone;startZone.kind=f::transitions::ZoneKind::checkpoint;startZone.name="level_start";
+                    if(!levelStartCheckpointKey)levelStartCheckpointKey=player->transform.position;
+                    startZone.source_position=*levelStartCheckpointKey; // retry keeps the initial key; revive follows source arg3
+                    std::string checkpointError;
+                    f::persistence::death_flow::DeathCheckpointZoneReceiptV1 receipt;
+                    const bool ran=saveSourceCheckpointContact(startZone,*player,checkpointError,true,&receipt);
+                    if(ran&&receipt.complete&&receipt.result==f::persistence::death_flow::DeathCheckpointZoneResultV1::saved)
+                        std::cout<<"Level start checkpoint frame="<<drawn<<'\n';
+                    else if(ran&&receipt.result==f::persistence::death_flow::DeathCheckpointZoneResultV1::skipped_existing_checkpoint)
+                        std::cout<<"Level start checkpoint status=exists frame="<<drawn<<'\n';
+                    else std::cout<<"Level start checkpoint status=not_saved result="<<unsigned(receipt.result)
+                        <<" detail="<<checkpointError<<" frame="<<drawn<<'\n';
+                }
+            }
             // P17 TRANSITIONS: exit/checkpoint zone contacts of this frame, the --player-to test aid (places the player at the
             // zone centre), and the fast-travel confirm. An armed exit (player inside, condition true) becomes a pending transition
             // that the session loop carries out after its cleanup. Checkpoints save on the begin edge (CheckpointZone rule).
@@ -5942,7 +6211,7 @@ int main(int argc,char** argv) {
                         const bool confirmDown=std::find(options.transitionKeyFrames.begin(),options.transitionKeyFrames.end(),int(drawn))!=options.transitionKeyFrames.end();
                         const bool confirmEdge=confirmDown&&!transitionKeyDown;
                         transitionKeyDown=confirmDown;
-                        if(armed&&confirmEdge&&!pendingTransition&&!pauseMenuOpen&&!characterMenu.is_open()) {
+                        if(false&&armed&&confirmEdge&&!pendingTransition&&!pauseMenuOpen&&!characterMenu.is_open()) { // B106: superseded, --transition-key now presses the real E key
                             const auto& zone=exitZones.zones()[armed->zone];
                             pendingTransition=f::transitions::PendingTransition{zone.name,zone.kind,zone.target_name,zone.target_file,zone.entry_id};
                             std::cout<<"Transition confirmed key=test zone="<<zone.name<<" target="<<zone.target_name<<" file="<<zone.target_file<<" entry="<<zone.entry_id<<" frame="<<drawn<<'\n';
@@ -6061,7 +6330,12 @@ int main(int argc,char** argv) {
                 scriptRoutes.clear(); // restored actor bindings must not inherit an earlier session's movement goals
                 if(options.combatText)combatText.clear_for_reload();
                 if(combatSession) {
-                    f::GameSave snapshot;if(!f::load_game(options.liveSave,snapshot,error))throw std::runtime_error("Read live save: "+error);
+                    // B086: the Continue restore at the start frame reads the profile's level-world save (validated at startup);
+                    // an explicit F9/R reload later reads the live checkpoint save as before.
+                    const bool continueRestore=options.resumeLevelWorld&&drawn==options.loadFrame;
+                    const auto restorePath=continueRestore?f::transitions::level_world_path(options.save,options.level.generic_string()):options.liveSave;
+                    if(continueRestore)std::cout<<"Continue restore frame="<<drawn<<" path="<<restorePath.generic_string()<<'\n';
+                    f::GameSave snapshot;if(!f::load_game(restorePath,snapshot,error))throw std::runtime_error("Read live save: "+error);
                     if(!combatSession->detach_for_restore([&](std::string& e) {
                         retireSourceEffects();
                         clearNativeBodies();
@@ -6153,20 +6427,39 @@ int main(int argc,char** argv) {
                         else std::cout<<"Container sound ordinal="<<r.sound_id<<" uid="<<sr.uid<<" status="<<(sr.status==f::audio::WorldItemSoundStatusV1::asset_missing?"asset_missing":"submitted")<<" frame="<<drawn<<'\n';
                     }
                 };
+                const auto ctxFaceContainer=[&](std::size_t ci,bool respectSitting) {
+                    auto* owner=combatSession->actor(combatSession->player_id());
+                    const auto& at=containerRuntime.instance(ci).transform;
+                    const auto* props=combatSession->world()->combat_properties(owner->id);
+                    const auto* ai=props?dh2::data::ai_props(combatSession->world()->factions(),props->sheets.resolved[1]):nullptr;
+                    // Character::GetCharAI returns AITable; IsCharSitting is Flags bit3.
+                    const bool sitting=respectSitting&&ai&&(ai->flags&8u);
+                    const float before=owner->transform.rotation[2];float yaw=before;
+                    if(f::interaction_facing_v1(owner->transform.position,{at[12],at[13],at[14]},true,sitting,yaw,respectSitting)) {
+                        owner->transform.rotation[2]=yaw;
+                        if(motor)motor->setFacingRadians(yaw);
+                        std::cout<<"Context container facing declaration="<<containerRuntime.instance(ci).name<<" before="<<before<<" after="<<yaw<<" frame="<<drawn<<'\n';
+                    }
+                };
                 const auto ctxUseContainer=[&](std::size_t ci) {
+                    // Recheck the same UseOOI admission on approach arrival, too.
+                    if(!ctxOwner->alive()||globalControllerBlocked||characterControllerBlocked[combatSession->player_id()]||heroInteract.active||
+                       ctxOwner->target_id!=f::invalid_actor_id||!ctxInput.owner_idle_or_moving)return;
+                    const bool idleContainer=containerRuntime.state(ci)==f::containers::kContainerStateIdle;
+                    if(idleContainer&&!ctxContainerRange(ci))return;
                     if(ctxIsDestructible(ci)&&containerRuntime.state(ci)==f::containers::kContainerStateIdle) {
                         // B085: attacking a destructible = the hero's weapon swing; the hit lands on the swing's hit marker
                         // (source AISDefault::OnAttack 0x3dc12c -> target->Interact). The press edge only starts the swing.
-                        {const auto& at=containerRuntime.instance(ci).transform; // face the target (source Cmd_LookAt before the melee)
-                         auto* swinger=combatSession->actor(combatSession->player_id());
-                         swinger->transform.rotation[2]=std::atan2(at[13]-swinger->transform.position[1],at[12]-swinger->transform.position[0]);
-                         if(motor)motor->setFacingRadians(swinger->transform.rotation[2]);}
+                        ctxFaceContainer(ci,false); // preserve B085's destructible heading policy
                         gameplayInput.attack=true;
                         std::cout<<"Context destructible swing declaration="<<containerRuntime.instance(ci).name<<" frame="<<drawn<<'\n';
                         return;
                     }
                     // B079: an openable container (interaction type >= 0, not the destructible 8) is opened from the hero's Interact clip.
                     const auto type=containerRuntime.interaction_type(ci);
+                    // AI_InteractWith passes look-at=true to SM_SetInteractState;
+                    // CSInteract::OnFocus turns non-sitting actors before the pose.
+                    if(type>=0&&type!=8&&idleContainer)ctxFaceContainer(ci,true);
                     const auto* interactSequence=(type>=0&&type!=8&&!heroInteract.active&&containerRuntime.state(ci)==f::containers::kContainerStateIdle&&skillAnimationTables.characters.size())?
                         dh2::data::animation_state(skillAnimationTables,dh2_character_animation_table_id(actorProperties.sheets.resolved[2],std::int32_t(skillAnimationTables.characters.size())),"Interact",std::size_t(type)):nullptr;
                     const std::string* clipPath=(interactSequence&&!interactSequence->steps.empty())?dh2::data::animation_clip(interactSequence->steps.front(),skillAnimationDictionary):nullptr;
@@ -6248,11 +6541,14 @@ int main(int argc,char** argv) {
                 // P17 TRANSITIONS2: the travel prompt is confirmed by this same context button. An armed exit (the player
                 // stands in it and the prompt is shown) takes the press edge when no object of interest is present;
                 // NPCs, chests and levers keep priority.
-                if(ctxInput.pressed_edge&&armedPrompt&&!pendingTransition&&objectOfInterest.object()==f::invalid_actor_id&&!ctxControllerLocked) {
+                // B106: the prompt shows [E]; E is the PC key of the HUD travel button (source: the DisplayFastTravel button calls
+                // NativeGoToZone independently of the context/action button), so it confirms even when an NPC is the object of interest.
+                const bool travelByE=uiInput.actions.interact,travelBySpace=ctxInput.pressed_edge&&objectOfInterest.object()==f::invalid_actor_id;
+                if((travelByE||travelBySpace)&&armedPrompt&&!pendingTransition&&!ctxControllerLocked) {
                     const auto& zone=exitZones.zones()[armedPrompt->zone];
                     pendingTransition=f::transitions::PendingTransition{zone.name,zone.kind,zone.target_name,zone.target_file,zone.entry_id};
-                    gameplayInput.attack=false;
-                    std::cout<<"Transition confirmed key=Space zone="<<zone.name<<" target="<<zone.target_name<<" file="<<zone.target_file<<" entry="<<zone.entry_id<<" frame="<<drawn<<'\n';
+                    if(!travelByE)gameplayInput.attack=false;
+                    std::cout<<"Transition confirmed key="<<(travelByE?"E":"Space")<<" zone="<<zone.name<<" target="<<zone.target_name<<" file="<<zone.target_file<<" entry="<<zone.entry_id<<" frame="<<drawn<<'\n';
                 }
                 if(ctxInput.pressed_edge&&ctxDecision.use_object_of_interest&&ctxControllerLocked)
                     std::cout<<"Context button frame="<<drawn<<" ooi="<<objectOfInterest.object()<<" type="<<objectOfInterest.interaction_type()<<" status=refused_controller_locked\n";
@@ -6276,6 +6572,7 @@ int main(int argc,char** argv) {
                                 std::cout<<"Context approach start frame="<<drawn<<" declaration="<<containerRuntime.instance(containerIndex).name<<'\n';
                             }
                         } else if(useLeverObject(ooi)) {
+                        } else if(merchantInteract(ooi)) {
                         } else if(!talkToNpcObject(ooi))
                             std::cout<<"Context button ooi="<<ooi<<" type="<<objectOfInterest.interaction_type()<<" status=unhandled frame="<<drawn<<" (logged)\n";
                     }
@@ -6572,6 +6869,17 @@ int main(int argc,char** argv) {
                             entry.provider.interaction_type=[](f::ActorId) -> int { return 3; }; // source Character::GetInteractionType: friendly NPC
                             std::string regError;if(!interactables.upsert(entry,regError))throw std::runtime_error("Interactable NPC: "+regError);
                         }
+                    // B100: merchants are OOI candidates too (TargetList::_IsCharacterValid 0x4a1ab8 mask bit 0x10 = Character::IsMerchant;
+                    // GetInteractionType: friendly NPC = 3). Always eligible while the placed character is enabled and alive.
+                    if(combatSession&&!merchantActors.empty())
+                        for(const auto& placed:population.actors()) {
+                            if(!merchantActors.count(placed.definition.stableId)||!placed.enabled)continue;
+                            if(const auto* live=combatSession->actor(placed.definition.stableId))if(!live->alive())continue;
+                            f::InteractableEntryV1 entry;entry.id=placed.definition.stableId;entry.is_character=true;
+                            entry.position={placed.definition.placement[12],placed.definition.placement[13],placed.definition.placement[14]};entry.radius=0.f;
+                            entry.provider.interaction_type=[](f::ActorId) -> int { return 3; };
+                            std::string regError;if(!interactables.upsert(entry,regError))throw std::runtime_error("Interactable merchant: "+regError);
+                        }
                 }
                 if(!gameplayPaused)f::update_object_of_interest_v1(*combatSession,combatSession->player_id(),gameplayDt,objectOfInterest,&interactables); // B004/B029 (+P16 registry)
                 dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::sim_update); // B066 frame pacing probe
@@ -6600,6 +6908,7 @@ int main(int argc,char** argv) {
                 if(!gameplayPaused) raiseQuestKills(); // P16 QUESTS: kill events of this update
                 if(!gameplayPaused) raiseQuestZones(); // P16 QUESTUI: zone entries of this update
                 if(!gameplayPaused) questBanners.tick(float(dt)); // P16 QUESTUI: banner timing
+                questCue.tick(questBanners.visible()); // retired cues cannot play after their banner closes
                 // P16 QUESTUI: NPC talk on the interact press edge (--quest-talk-frame is a scripted press for tests).
                 // P16 SPACEBTN: NPC talk is the Space context button now (E no longer talks); this scripted press stays for tests.
                 const bool questTalkPressed=std::find(options.questTalkFrames.begin(),options.questTalkFrames.end(),int(drawn))!=options.questTalkFrames.end();
@@ -6822,6 +7131,14 @@ int main(int argc,char** argv) {
                 world[12]=position.x;world[13]=position.y;world[14]=position.z;
                 return world;
             };
+            // B105: prepare the same current pose before target, FX and draw consumers borrow it.
+            const auto actorDrawWorld=[&](const f::PopulationActor& actor) {
+                const auto& p=actor.transform;
+                const auto* live=combatSession?combatSession->actor(actor.definition.stableId):nullptr;
+                const f::Vec3 position=live?f::Vec3{live->transform.position[0],live->transform.position[1],live->transform.position[2]}:f::Vec3{p[12],p[13],p[14]};
+                const auto rotation=live?live->transform.rotation:std::array<float,3>{0,0,std::atan2(p[1],p[0])};
+                return sourceActorWorld(actor.definition.stableId,position,rotation,{std::hypot(p[0],p[1]),std::hypot(p[4],p[5]),p[10]});
+            };
             if(options.sourceTargetPosition) {
                 for(const auto& entry:combatSession->world()->actors()) {
                     auto* actor=combatSession->actor(entry.first);auto* graphics=actorVisual(entry.first);
@@ -6874,6 +7191,13 @@ int main(int argc,char** argv) {
             auto activeCamera=camera(options.sourceCamera?cinematicCameraPose():(useTimeline?timeline.sample():freeCamera.pose()));
             if(options.sourceCamera){if(window.width()!=previousWidth||window.height()!=previousHeight){sourceProjectionAspect=float(window.width())/window.height();previousWidth=window.width();previousHeight=window.height();}activeCamera.nearPlane=campaignHost.camera_near_override()>0?campaignHost.camera_near_override():originalCamera.config().nearPlane;activeCamera.farPlane=campaignHost.camera_far_override()>0?campaignHost.camera_far_override():originalCamera.config().farPlane;activeCamera.aspectRatio=sourceProjectionAspect;}
             dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::camera);
+            const f::CameraPose billboardCamera{{activeCamera.eye.x,activeCamera.eye.y,activeCamera.eye.z},
+                {activeCamera.target.x,activeCamera.target.y,activeCamera.target.z},
+                {activeCamera.up.x,activeCamera.up.y,activeCamera.up.z},activeCamera.verticalFovDegrees};
+            const auto billboardView=f::sourceCameraViewMatrix(billboardCamera);
+            for(auto& actor:population.actors())if(actor.enabled)
+                if(!actor.visual.prepare_camera_billboards(actorDrawWorld(actor),billboardView,activeCamera.eye,error))
+                    throw std::runtime_error("Actor billboard: "+error);
             sourceEffectsCamera=activeCamera;
             if(sourceEffectsFactory&&!sourceEffectsPresentationFailed) {
                 std::string effectError;bool prepared=true;
@@ -6895,7 +7219,7 @@ int main(int argc,char** argv) {
                     for(const auto& view:leverRuntime.views())if(view.instance)addEmbeddedVisual(view.instance->stableId,view.instance->name,view.instance->visual_file,view.visual,view.instance->transform);
                     for(const auto& view:decorRuntime.views())if(view.instance)addEmbeddedVisual(view.instance->stableId,view.instance->name,view.instance->dae,view.visual,view.instance->transform);
                     if(embeddedSceneFxOwner!=sourceEffectsFactory.get()) {
-                        embeddedSceneFx.clear();embeddedSceneFxOwner=sourceEffectsFactory.get();
+                        embeddedSceneFx.clear();embeddedActorFx.clear();embeddedActorTried.clear();embeddedSceneFxOwner=sourceEffectsFactory.get();
                         for(const auto& item:embeddedVisuals) {
                             if(item.model->empty())continue;
                             std::vector<std::uint8_t> raw;
@@ -6923,7 +7247,39 @@ int main(int argc,char** argv) {
                             std::cerr<<"Embedded FX "<<*item.name<<" update: "<<embeddedError<<'\n';prepared=false;effectError=embeddedError;
                         }
                     }
-                    sourceEffectsFactory->set_embedded_sources(embeddedSceneFx.sources());
+                    // B105: keep skinned actor meshes on CharacterVisual. Embedded resources contribute only
+                    // particles, and use a separate ID domain because actor IDs are full-width content hashes.
+                    embeddedActorFx.begin_frame();
+                    for(auto& actor:population.actors()) {
+                        const auto* config=actor.visual.configuration();
+                        if(!actor.enabled||!config||config->model_path.empty())continue;
+                        const auto& modelPath=config->model_path;
+                        const auto key=actor.definition.stableId;
+                        const auto tried=embeddedActorTried.find(key);
+                        if(tried==embeddedActorTried.end()||tried->second!=modelPath) {
+                            embeddedActorFx.detach(key);
+                            embeddedActorTried[key]=modelPath;
+                            std::vector<std::uint8_t> raw;
+                            try{raw=assets.read(modelPath);}catch(const std::exception&){raw.clear();}
+                            const bool readable=!raw.empty();
+                            std::string reason;
+                            if(readable&&embeddedActorFx.attach(key,modelPath,std::make_shared<const std::vector<std::uint8_t>>(std::move(raw)),*sourceEffectsFactory,reason,false))
+                                std::cout<<"Embedded FX actor "<<actor.definition.name<<" attached model="<<modelPath<<'\n';
+                            else if(std::getenv("DH_FX_DEBUG"))std::cout<<"Embedded FX actor "<<actor.definition.name<<" not attached model="<<modelPath<<": "<<(!readable?std::string("unreadable"):reason)<<'\n';
+                        }
+                        if(!embeddedActorFx.attached(key))continue;
+                        std::int32_t sourceMs=0;
+                        if(!f::effects::embedded_clip_source_ms_v1(actor.visual,sourceMs))continue;
+                        const auto world=actorDrawWorld(actor);
+                        std::string embeddedError;
+                        if(!embeddedActorFx.update(key,sourceMs,sourceEffectsMs,gameplayPaused?0:std::int32_t(gameplayDt*1000),world,embeddedError,actor.visual.retained_scene_borrow())) {
+                            std::cerr<<"Embedded FX actor "<<actor.definition.name<<" update: "<<embeddedError<<'\n';prepared=false;effectError=embeddedError;
+                        }
+                    }
+                    auto embeddedSources=embeddedSceneFx.sources();
+                    const auto actorSources=embeddedActorFx.sources();
+                    embeddedSources.insert(embeddedSources.end(),actorSources.begin(),actorSources.end());
+                    sourceEffectsFactory->set_embedded_sources(std::move(embeddedSources));
                     if(embeddedPerf){embeddedMs+=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-embeddedT0).count();
                         if(++embeddedFrames==120){std::cout<<"DH_PERF embedded_fx_ms_avg="<<embeddedMs/embeddedFrames<<" attached="<<embeddedSceneFx.size()<<" frames="<<embeddedFrames<<'\n';embeddedMs=0;embeddedFrames=0;}}
                 }
@@ -7026,16 +7382,9 @@ int main(int argc,char** argv) {
                     } else queue.submit(mesh,world);
                 }
             }
-            for(const auto& actor:population.actors()) {
+            for(auto& actor:population.actors()) {
                 if(!actor.enabled)continue;
-                auto placement=actor.transform;
-                const auto* live=combatSession?combatSession->actor(actor.definition.stableId):nullptr;
-                const f::Vec3 position=live?f::Vec3{live->transform.position[0],live->transform.position[1],live->transform.position[2]}
-                                           :f::Vec3{placement[12],placement[13],placement[14]};
-                const std::array<float,3> rotation=live?live->transform.rotation
-                    :std::array<float,3>{0,0,std::atan2(placement[1],placement[0])};
-                const f::Vec3 scale{std::hypot(placement[0],placement[1]),std::hypot(placement[4],placement[5]),placement[10]};
-                placement=sourceActorWorld(actor.definition.stableId,position,rotation,scale);
+                const auto placement=actorDrawWorld(actor);
                 if(campaignHost.scripted_clip_pose(actor.definition.stableId)&&std::find(options.captureFrames.begin(),options.captureFrames.end(),drawn+1)!=options.captureFrames.end()){
                     std::array<float,3> low{INFINITY,INFINITY,INFINITY},high{-INFINITY,-INFINITY,-INFINITY};
                     for(const auto& mesh:actor.visual.meshes())for(const auto& v:mesh.vertices){const float p[3]{placement[0]*v.position.x+placement[4]*v.position.y+placement[8]*v.position.z+placement[12],placement[1]*v.position.x+placement[5]*v.position.y+placement[9]*v.position.z+placement[13],placement[2]*v.position.x+placement[6]*v.position.y+placement[10]*v.position.z+placement[14]};for(unsigned axis=0;axis<3;++axis){low[axis]=std::min(low[axis],p[axis]);high[axis]=std::max(high[axis],p[axis]);}}
@@ -7077,6 +7426,20 @@ int main(int argc,char** argv) {
                         if(loggedQuestMarkers.insert({marker.quest_row,marker.npc_row}).second)std::cout<<"Quest marker drawn quest_row="<<marker.quest_row<<" npc_row="<<marker.npc_row<<" secondary="<<marker.secondary<<" at="<<placement[12]<<','<<placement[13]<<','<<placement[14]<<" frame="<<(drawn+1)<<" mesh_min="<<art.minimum.x<<','<<art.minimum.y<<','<<art.minimum.z<<" mesh_max="<<art.maximum.x<<','<<art.maximum.y<<','<<art.maximum.z<<" verts="<<art.mesh.vertices.size()<<'\n';
                         break;
                     }
+                }
+            }
+            // B100: merchant marker (Character::Update, pseudocode-all.c line 126689: IsMerchant && enabled(+138): GrabAnimFX(139) while the
+            // character is not a registered quest NPC (+762 == 0); dropped otherwise). Effect 139 = quest_marker_merchant (money bag).
+            if(combatSession&&!merchantActors.empty()&&!questMarker[2].mesh.vertices.empty()) {
+                for(const auto& placed:population.actors()) {
+                    if(!merchantActors.count(placed.definition.stableId)||!placed.enabled)continue;
+                    const auto identity=questActorIdentity.find(placed.definition.stableId);
+                    if(questRuntime&&identity!=questActorIdentity.end()&&questRuntime->talk_objective_registered(identity->second.first))continue;
+                    auto placement=f::identity();placement[12]=placed.definition.placement[12];placement[13]=placed.definition.placement[13];placement[14]=placed.definition.placement[14];
+                    if(const auto* live=combatSession->actor(placed.definition.stableId)){if(!live->alive())continue;placement[12]=live->transform.position[0];placement[13]=live->transform.position[1];placement[14]=live->transform.position[2];}
+                    queue.submit(questMarker[2].mesh,placement);
+                    static std::set<f::ActorId> loggedMerchantMarkers;
+                    if(loggedMerchantMarkers.insert(placed.definition.stableId).second)std::cout<<"Merchant marker drawn id="<<placed.definition.stableId<<" at="<<placement[12]<<','<<placement[13]<<','<<placement[14]<<" frame="<<(drawn+1)<<'\n';
                 }
             }
             // B075: a destructible OOI (source type 8, Character FX[8] "attack" circle, CONTEXT report 1.3) gets the same ring under it
@@ -7175,26 +7538,35 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                     }
                     cinematicText.draw(overlay);
                 }
-                // P17 TRANSITIONS2: travel prompt (placeholder frame; text through the frontend text owner, stage units as the cinematic boxes).
-                if(armedPrompt&&combatSession&&campaignHost.hud_visible()) {
+                // B113: original destination button, mapped with the same aspect-preserving stage viewport as its text.
+                // Original QuestMsgDialog/QuestCompletedMsgDialog hides LocationsMenu until its banner leaves.
+                if(options.hud&&armedPrompt&&combatSession&&campaignHost.hud_visible()&&!questBanners.visible()) {
                     const auto promptFrame=f::transitions::build_prompt_frame(*armedPrompt);
                     const auto view=f::cinematic_runner::viewport_for(float(window.width()),float(window.height()));
-                    for(const auto& rect:promptFrame.rects) {
-                        const float x0=(rect.x+view.offset)*view.scale,y0=rect.y*view.scale,x1=(rect.x+rect.w+view.offset)*view.scale,y1=(rect.y+rect.h)*view.scale;
-                        const std::vector<f::OverlayTriangleVertex> quad{{x0,y0,0,0},{x1,y0,0,0},{x1,y1,0,0},{x0,y0,0,0},{x1,y1,0,0},{x0,y1,0,0}};
-                        if(!overlay.drawTriangles(quad,0,{rect.rgba[0]/255.f,rect.rgba[1]/255.f,rect.rgba[2]/255.f,rect.rgba[3]/255.f}))throw std::runtime_error("Transition prompt box draw rejected");
+                    if(promptFrame.art) for(const auto& batch:*promptFrame.art) {
+                        std::vector<f::OverlayTriangleVertex> vertices; vertices.reserve(batch.triangles.size());
+                        for(const auto& vertex:batch.triangles)
+                            vertices.push_back({(vertex.x+view.offset)*view.scale,vertex.y*view.scale,vertex.u,vertex.v});
+                        if(!overlay.drawTriangles(vertices,batch.bitmap?hudTexture:0,batch.rgba))throw std::runtime_error("Travel source button draw rejected");
                     }
                     const float promptScale=480.f*view.scale/float(window.width());
                     f::frontend::art::ScreenArt promptArt;
                     auto promptSignature=std::to_string(window.width())+":"+std::to_string(window.height());
                     for(const auto& item:promptFrame.texts) {
                         f::frontend::art::TextField field;
-                        field.font_id=5; // placeholder face (Fontin SmallCaps), as the cinematic caption
-                        field.source_height=14; field.rgba=item.rgba; field.align=0; field.margins={2,2,0}; field.leading=0;
-                        field.matrix={promptScale,0,0,1,0,0};
+                        // HUD font7 and frontend font5 both bind the original Fontin SmallCaps.ttf.
+                        field.font_id=5;
+                        field.source_height=item.height; field.rgba=item.rgba; field.align=item.align; field.margins={0,0,0}; field.leading=2;
+                        field.font_metrics={911.f,215.f,102.f}; // DefineFont3 font7 raw ascent/descent/leading divided by20
+                        f::HudGlyphRun measured;
+                        if(!targetFont.raster(item.text,int(item.height),2,measured,error))throw std::runtime_error("Travel text metrics: "+error);
+                        const float fit=f::transitions::prompt_text_fit(item,measured.advance);
+                        if(fit<=0)throw std::runtime_error("Travel text metrics rejected");
+                        // Keep long translations on one line within the authored box. Fit is a PC adaptation.
                         const float left=(item.x+view.offset)*promptScale;
-                        field.local_bounds={left,left+item.w*promptScale,item.y,item.y+item.h};
-                        field.bounds=field.local_bounds;
+                        field.matrix={promptScale*fit,0,0,fit,left,item.y+(1.f-fit)*item.height*.5f};
+                        field.local_bounds={0,item.w/fit,0,item.h/fit};
+                        field.bounds={left,left+item.w*promptScale,item.y,item.y+item.h};
                         field.initial_text=item.text;
                         promptArt.text_fields.push_back(field);
                         promptSignature+=':'+item.text;
@@ -7274,7 +7646,7 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                     const auto classRow=std::find(properties.characters.names.begin(),properties.characters.names.end(),player->definition_id);
                     if(classRow==properties.characters.names.end())throw std::runtime_error("Original class header has no same player source row");
                     if(!menuLocalization.character_class_level(properties.characters,static_cast<std::int32_t>(classRow-properties.characters.names.begin()),&state,bindings.class_label,error))throw std::runtime_error("Original class header: "+error);
-                    bindings.text=[&](const std::string& path,std::string& value,std::string& e){return menuLocalization.label(path,&state,value,e);};
+                    bindings.text=[&](const std::string& path,std::string& value,std::string& e){return menuLocalization.label(path,&state,value,e,bindings.properties);};
                     // P16 MAPFIX: MapName = MenuCharMenu_Map::ShowLevelName (IDA 0x45335c): LevelList row of the current
                     // level (Level+60), LevelName StrID at row word 9 (IDA +36), localized through the StringManager lookup.
                     bindings.map_name.clear();
@@ -7292,7 +7664,9 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                         if(!questMenuBinding->load_progress_from_character(questMenuError)||!questMenuBinding->show(0,0,f::CharacterQuestCategoryV1::assigned,questMenuError))
                             std::cerr<<"Quest Log refresh diagnostic: "<<questMenuError<<'\n';
                     }
-                    f::character_menu::Frame menu;if(!characterMenu.frame(bindings,window.width(),window.height(),menu,error))throw std::runtime_error("Character menu: "+error);
+                    f::character_menu::Frame menu;
+                    if(merchantOpen&&merchantUi){merchantUi->update_properties(*player,*bindings.properties);if(!merchantUi->frame(window.width(),window.height(),menu,error))throw std::runtime_error("Merchant frame: "+error);}
+                    else if(!characterMenu.frame(bindings,window.width(),window.height(),menu,error))throw std::runtime_error("Character menu: "+error);
                     const auto& transform=menu.transform;
                     auto drawMenuSolid=[&](const f::character_menu::MenuSolidBatch& solid) {
                         std::vector<f::OverlayTriangleVertex> vertices;
@@ -7472,6 +7846,30 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                             // IDA ShowObjectivesIcons: the CURRENT quest's objectives; MoveInZone positions at the zone's box centre.
                             const auto current=questRuntime->current_quest();
                             if(current>=0&&std::size_t(current)<questTable->rows().size()) {
+                                // B093: kill objectives GetPositions (IDA 0x47ca18 property id, 0x47cb1c template id): the list holds
+                                // Capacity is (required - killed); only real closest non-dead matching characters become icons.
+                                if(const auto* killProgress=questRuntime->progress_of(current); killProgress&&combatSession&&combatSession->world()&&combatSession->actor(combatSession->player_id())) {
+                                    const auto& killObjectives=questTable->rows()[std::size_t(current)].objectives;
+                                    const auto* playerActor=combatSession->actor(combatSession->player_id());
+                                    const std::array<float,3> playerPosition{playerActor->transform.position[0],playerActor->transform.position[1],playerActor->transform.position[2]};
+                                    for(std::size_t i=0;i<killObjectives.size()&&i<killProgress->objectives.size();++i) {
+                                        const auto& objective=killObjectives[i];
+                                        const bool byProperty=objective.type==int(f::quest_runtime::QuestObjectiveTypeV1::kill_x_enemies);
+                                        if(!byProperty&&objective.type!=int(f::quest_runtime::QuestObjectiveTypeV1::kill_enemy_template))continue;
+                                        const int remaining=objective.value-killProgress->objectives[i].quantity;
+                                        if(killProgress->objectives[i].completed||remaining<=0)continue;
+                                        std::vector<std::array<float,3>> liveMatches;
+                                        for(const auto& [actorId,actor]:combatSession->world()->actors()) {
+                                            // GetPositions virtual +52 is IsDead (byte5193), not HP or IsSummoned.
+                                            if(actor.is_dead())continue;
+                                            const auto identity=questActorIdentity.find(actorId);
+                                            if(identity==questActorIdentity.end()||(byProperty?identity->second.first:identity->second.second)!=objective.oid1)continue;
+                                            liveMatches.push_back({actor.transform.position[0],actor.transform.position[1],actor.transform.position[2]});
+                                        }
+                                        for(const auto& position:f::map_visit::map_kill_objective_positions_v1(remaining,playerPosition,liveMatches))
+                                            markerInputs.objective_zones.push_back({"kill",position});
+                                    }
+                                }
                                 for(const auto& objective:questTable->rows()[std::size_t(current)].objectives) {
                                     if(objective.type!=int(f::quest_runtime::QuestObjectiveTypeV1::move_in_zone))continue;
                                     for(const auto& zone:questZones.zones()) {
@@ -7530,7 +7928,7 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                         }
                     };
                     for(const auto& solid:menu.solids)if(solid.after_bitmap_role.empty())drawMenuSolid(solid);
-                    const auto& sourcePanes=f::inventory::original_inventory_character_panes_v1();
+                    const auto& sourcePanes=merchantOpen?f::merchant::merchant_art().panes:f::inventory::original_inventory_character_panes_v1();
                     std::vector<bool> drawnPanes(sourcePanes.size(),false);
                     const auto drawEquipmentPane=[&](const f::inventory::SourceCharacterPaneV1& pane) {
                         if(!runtimeEquipment->with_preview_packets(equipmentRenderBindings.callbacks(),[&](const auto& frame,std::string& e) {
@@ -7551,8 +7949,8 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                     // P16 MAP: the level is drawn after the sheet backdrop batch and before the MapSheet art (icons, legend, buttons).
                     bool mapDrawn=false;
                     for(const auto& batch:menu.art.batches) {
-                        if(!mapDrawn&&characterMenu.tab()==f::character_menu::Tab::map&&batch.role.compare(0,14,"menu_MapSheet/")==0){drawMapPage();mapDrawn=true;}
-                        if(characterMenu.tab()==f::character_menu::Tab::equipment&&runtimeEquipment)
+                        if(!merchantOpen&&!mapDrawn&&characterMenu.tab()==f::character_menu::Tab::map&&batch.role.compare(0,14,"menu_MapSheet/")==0){drawMapPage();mapDrawn=true;}
+                        if((merchantOpen||characterMenu.tab()==f::character_menu::Tab::equipment)&&runtimeEquipment)
                             for(std::size_t i=0;i<sourcePanes.size();++i)
                                 if(!drawnPanes[i]&&!sourcePanes[i].before_role.empty()&&
                                    batch.role.compare(0,sourcePanes[i].before_role.size(),sourcePanes[i].before_role)==0) {
@@ -7565,13 +7963,13 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                         if(!overlay.drawTriangles(vertices,damaskPanel?menuDamaskTexture:hudTexture))throw std::runtime_error("Character menu original-art draw rejected");
                         for(const auto& solid:menu.solids)if(solid.after_bitmap_role==batch.role)drawMenuSolid(solid);
                     }
-                    if(characterMenu.tab()==f::character_menu::Tab::map&&!mapDrawn)drawMapPage();
+                    if(!merchantOpen&&characterMenu.tab()==f::character_menu::Tab::map&&!mapDrawn)drawMapPage();
                     // P16 MAP legend: each legend caption's icon type at its authored position (legend popup frame).
                     mapClip={-1e9f,-1e9f,1e9f,1e9f}; // legend icons are not clipped to the map rectangle
-                    if(characterMenu.tab()==f::character_menu::Tab::map&&characterMenu.map_legend_shown())
+                    if(!merchantOpen&&characterMenu.tab()==f::character_menu::Tab::map&&characterMenu.map_legend_shown())
                         for(const auto& icon:f::character_menu::original_map_legend_icons())
                             drawMapIcon(icon.type,transform.x+icon.x*transform.scale_x,transform.y+icon.y*transform.scale_y);
-                    if(characterMenu.tab()==f::character_menu::Tab::equipment&&runtimeEquipment&&
+                    if((merchantOpen||characterMenu.tab()==f::character_menu::Tab::equipment)&&runtimeEquipment&&
                        std::none_of(drawnPanes.begin(),drawnPanes.end(),[](bool drawn){return drawn;}))
                         throw std::runtime_error("Original Equipment active avatar display-list anchor is unavailable");
                     const auto drawMenuGlyph=[&](const f::character_menu::MenuTextField& field,
@@ -7594,12 +7992,13 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                             throw std::runtime_error("Original menu glyph affine draw rejected");
                     };
                     for(const auto& text:menu.text) {
+                        const auto popupPage=text.field.path.find("MerchantErrorPopup/")!=std::string::npos?250:text.field.path.compare(0,14,"menu_confirm2/")==0?785:0;
                         const auto sourceFlags=std::find_if(std::begin(f::character_menu::source_text_flag_rows_v1),std::end(f::character_menu::source_text_flag_rows_v1),[&](const auto& row) {
-                            return row.movie==f::character_menu::SourceMenuMovieV1::character_menu&&row.field_character==text.field.character_id;
+                            return row.movie==f::character_menu::SourceMenuMovieV1::character_menu&&row.field_character==text.field.character_id&&(!popupPage||row.page_character==popupPage);
                         });
-                        if(sourceFlags!=std::end(f::character_menu::source_text_flag_rows_v1)&&(sourceFlags->raw_flags&0x6000)) {
+                        if((sourceFlags!=std::end(f::character_menu::source_text_flag_rows_v1)&&(sourceFlags->raw_flags&0x6000))||text.value.find('\n')!=std::string::npos) {
                             f::character_menu::MenuTextLayoutFieldV1 field;
-                            field.page_character=sourceFlags->page_character;field.field_character=sourceFlags->field_character;
+                            field.page_character=sourceFlags==std::end(f::character_menu::source_text_flag_rows_v1)?0:sourceFlags->page_character;field.field_character=text.field.character_id;
                             field.local_rect=text.field.local_bounds;field.matrix=text.field.matrix;field.margins=text.field.margins;
                             field.alignment=text.field.align;field.source_height=text.field.source_height;field.paragraph_leading=text.field.leading;
                             field.source_font_character=static_cast<std::uint16_t>(text.field.font_id);
@@ -7811,6 +8210,7 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
             options.combat.diagnosticRngSeed=launchOptions.combat.diagnosticRngSeed;
             options.startMode="swamp";
             options.freshPlayer=false;
+            if(options.resumeLevelWorld){options.resumeLevelWorld=false;options.resumeGame=false;options.loadFrame=-1;} // B086: the Continue restore belongs to the first session only
             options.verifyFrontendCreation=false;options.verifyFrontendSlots=false;
             transitionFrameBase=drawn;
             continue;

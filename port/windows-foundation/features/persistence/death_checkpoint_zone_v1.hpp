@@ -25,7 +25,9 @@ enum class DeathCheckpointZoneResultV1 : std::uint8_t {
     skipped_same_checkpoint_key,
     skipped_level_or_character_gate,
     saved,
-    failed
+    failed,
+    skipped_existing_checkpoint,
+    skipped_initial_complete
 };
 
 struct DeathCheckpointZoneServicesV1 {
@@ -50,6 +52,30 @@ struct DeathCheckpointZoneReceiptV1 {
     DeathCheckpointSnapshotV1 snapshot;
     bool complete = false;
 };
+
+// Level::CheckpointSave inputs, separate from CheckpointZone contact admission.
+struct DeathCheckpointLevelSaveV1 {
+    std::int32_t source_level_state = 0;
+    bool local_character_present = false;
+    bool local_character_is_dead = false;
+    bool level_savegame_present = false;
+    std::string level_uri;
+    std::string checkpoint_name;
+    std::array<float,3> checkpoint_key{};
+    std::array<float,3> current_character_position{};
+    bool arrival = false; // Source arg3: revive at key instead of Character position.
+};
+
+struct DeathCheckpointLevelStartStateV1 {
+    bool complete = false;
+};
+
+// State 0x23: retain a valid existing checkpoint unless arriving; no zone gates.
+// Host/provider failures leave state incomplete so a later ready frame can retry.
+bool run_death_checkpoint_level_start_v1(
+    const DeathCheckpointLevelSaveV1&, bool valid_existing_checkpoint,
+    DeathCheckpointLevelStartStateV1&, const DeathCheckpointZoneServicesV1&,
+    DeathCheckpointZoneReceiptV1&, std::string& error);
 
 // Generic CheckpointZone source gate and call order for any loaded level.
 bool run_death_checkpoint_zone_contact_v1(

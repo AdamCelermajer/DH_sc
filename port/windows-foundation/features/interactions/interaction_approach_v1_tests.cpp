@@ -1,5 +1,6 @@
 // B069: AI_IsInInteractionRange rule and the world-to-camera movement conversion.
 #include "interaction_approach_v1.hpp"
+#include "interaction_facing_v1.hpp"
 
 #include <cmath>
 #include <cstdio>
@@ -25,6 +26,17 @@ InteractionRangeInputV1 chest(float distance, float melee = 50.0f, float radius 
 } // namespace
 
 int main() {
+    {
+        float yaw=.7f;
+        check(!interaction_facing_v1({0,0,0},{0,-100,0},false,false,yaw)&&yaw==.7f,"look-at not requested preserves yaw");
+        check(!interaction_facing_v1({0,0,0},{0,-100,0},true,true,yaw)&&yaw==.7f,"sitting actor preserves yaw");
+        check(!interaction_facing_v1({0,0,0},{0,0,100},true,false,yaw)&&yaw==.7f,"same XY preserves yaw (height is not heading)");
+        check(interaction_facing_v1({0,0,0},{0,0,100},true,false,yaw,false)&&yaw==0.f,"B085 destructible keeps its existing coincident atan2 heading policy");
+        check(interaction_facing_v1({-2198.67f,1035.187f,255},{-2198.67f,935.187f,250},true,false,yaw)&&std::fabs(yaw+1.5707963f)<1e-6f,"side-facing chest requests target heading");
+        for(const auto target: {std::array<float,3>{1,1,0},{-1,1,0},{-1,-1,0},{1,-1,0}}) {
+            check(interaction_facing_v1({0,0,0},target,true,false,yaw)&&std::cos(yaw)*target[0]+std::sin(yaw)*target[1]>1.4f,"heading faces target in each quadrant");
+        }
+    }
     // limit = InteractRadius (100); v = d - melee - radius = d - 80.
     check(interaction_in_range_v1(chest(180.0f)), "chest exactly at the limit is in range (v == limit)");
     check(!interaction_in_range_v1(chest(180.5f)), "chest just beyond the limit is out of range");

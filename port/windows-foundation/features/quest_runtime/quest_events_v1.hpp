@@ -9,6 +9,14 @@
 
 namespace dh::foundation::quest_runtime {
 
+// Character::Kill 0x3a5b18: ordinary combat has already admitted the unique
+// live-to-dead transition. Quest fanout belongs to the victim, independently
+// of the attacking actor. The summon-created suppress byte is a separate gate.
+constexpr bool quest_combat_kill_admitted_v1(bool applied, bool target_died,
+    bool victim_is_player, bool suppress_quest) noexcept {
+    return applied && target_died && !victim_is_player && !suppress_quest;
+}
+
 struct QuestEvent {
     enum class Kind : std::uint8_t {
         // Character killed. Matches KillXEnemies/ClearEnemies by property_id

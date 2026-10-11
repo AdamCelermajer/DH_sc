@@ -219,6 +219,50 @@ bool RuntimeAudioHostV1::submit_script_plain_sound(std::int32_t source_ordinal,i
         },error,delay_frames);
 }
 
+NamedUiCueResultV1 RuntimeAudioHostV1::submit_named_ui_sound(const char* name,std::string& error) {
+    NamedUiCueResultV1 result;
+    error.clear();
+    auto* runtime=session_?session_->runtime_on_producer():nullptr;
+    if(!runtime||!runtime->source_data_initialized()) {
+        error="Required initialized same AudioNativeSessionV42 producer for named UI sound";
+        return result;
+    }
+    result.ordinal=source_ordinal(name);
+    if(result.ordinal<0) {result.status=NamedUiCueStatusV1::absent_in_sound_table;return result;}
+    result.status=NamedUiCueStatusV1::failed;
+    const auto* row=runtime->bindings().row(result.ordinal);
+    const auto* sound=row?runtime->catalog().sound(row->uid):nullptr;
+    if(!row||row->event!=0||!sound||sound->format==2) {
+        error="Required plain PCM generated source row for named UI sound";return result;
+    }
+    result.uid=row->uid;
+    // Original Play loads the exact datasource before readiness admission.
+    if(!runtime->load_sample_actual_xml_uid(row->uid,error)) {
+        if(error.rfind("Unavailable original audio asset: ",0)==0)result.status=NamedUiCueStatusV1::asset_missing;
+        return result;
+    }
+    RetainedFrameAudioClock clock;
+    if(!ready()||!device_clock(clock,error)) {
+        result.status=NamedUiCueStatusV1::output_not_ready;
+        if(error.empty())error=native_audio_clock_failure;
+        return result;
+    }
+    // Preserve the existing verified fresh plain emitter body and zero delay.
+    if(!submit_script_plain_sound(result.ordinal,0,error)) {
+        // Only exact output admission failures may race the preceding snapshot.
+        if(error=="Required actual same-epoch foreground audio output timestamp"||
+           error=="Required actual authored Play time and focused device clock")
+            result.status=NamedUiCueStatusV1::output_not_ready;
+        return result;
+    }
+    result.token=runtime->last_token();
+    if(!result.token||runtime->last_xml_uid()!=result.uid) {
+        error="Named UI sound returned without its own queued voice token";return result;
+    }
+    result.status=NamedUiCueStatusV1::submitted;
+    return result;
+}
+
 bool RuntimeAudioHostV1::stop_script_plain_sound(std::int32_t source_ordinal,int fade_ms,std::string& error) {
     if(source_ordinal<0) {error.clear();return true;}
     auto* runtime=session_?session_->runtime_on_producer():nullptr;

@@ -1,4 +1,5 @@
 #include "level_manifest.hpp"
+#include "authored_transform.hpp"
 #include "../level-loader/vendor/tinyxml/tinyxml.h"
 #include "../engine-math/math.hpp"
 #include "../scene-materials/scene.hpp"
@@ -92,21 +93,7 @@ Mat4 placement(const TiXmlElement& element) {
     if (!matrix.empty()) return tuple<16>(matrix, {});
     const auto position = tuple<3>(attribute(element, "position"), {});
     const auto rotation = tuple<3>(attribute(element, "rotation"), {});
-    auto scale = tuple<3>(attribute(element, "scale"), {1, 1, 1});
-    for (float& component : scale) if (std::abs(component) < 0.0001f) component = 1;
-    constexpr float radians = 0.01745329251994329577f;
-    dh2::math::Quaternion q{};
-    // This export's Y,-X,-Z conversion is recovered in visual_transform_v1.
-    dh2_quat_from_euler(&q, rotation[1] * radians, -rotation[0] * radians, -rotation[2] * radians);
-    const float x=q.x, y=q.y, z=q.z, w=q.w;
-    Mat4 result{
-        (1-2*y*y-2*z*z)*scale[0], (2*x*y+2*z*w)*scale[0], (2*x*z-2*y*w)*scale[0], 0,
-        (2*x*y-2*z*w)*scale[1], (1-2*x*x-2*z*z)*scale[1], (2*y*z+2*x*w)*scale[1], 0,
-        (2*x*z+2*y*w)*scale[2], (2*y*z-2*x*w)*scale[2], (1-2*x*x-2*y*y)*scale[2], 0,
-        position[0], position[1], position[2], 1};
-    for (float component : result) if (!std::isfinite(component))
-        throw std::runtime_error("Authored transform overflow");
-    return result;
+    return authored_transform(position, rotation, tuple<3>(attribute(element, "scale"), {1, 1, 1}));
 }
 }
 

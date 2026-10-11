@@ -8,6 +8,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <locale>
+#include <iostream>
 #include <sstream>
 #include <stdexcept>
 
@@ -163,7 +164,10 @@ bool DoorRuntimeV1::adopt(const AssetCatalog& assets, std::vector<std::string>& 
             slot.clip_end_ms[direction] = end;
             if (const auto* markers = visual->markers(clip, markerError))
                 for (const auto& marker : markers->markers())
-                    if (marker.name == "opened" || marker.name == "closed") slot.marker_ms[direction] = marker.time_ms;
+                    if (marker.name == (direction ? "opened" : "closed") &&
+                        marker.time_ms >= start && marker.time_ms <= end &&
+                        (slot.marker_ms[direction] < 0 || marker.time_ms < slot.marker_ms[direction]))
+                        slot.marker_ms[direction] = marker.time_ms;
         }
         slot.visual = std::move(visual);
         // Startup (Door::InitFinal -> Opened(0)/Closed(0)): the idle clip of the authored state.
@@ -262,6 +266,7 @@ bool DoorRuntimeV1::transition(std::size_t index, bool opening, bool skip, std::
         slot.busy = true;
         slot.state = opening ? DoorStateV1::opening : DoorStateV1::closing;
         slot.marker_fired = false;
+        slot.transition_direction = opening ? 1 : 0;
         if (!select_clip(*slot.visual, opening ? "open" : "close", false, error)) {
             // No transition clip: the source plays the end state at once.
             slot.busy = false;
@@ -304,7 +309,7 @@ bool DoorRuntimeV1::update(double seconds, std::string& error) {
         if (!slot.visual->update(seconds, error)) return false;
         if (!slot.busy) continue;
         const double elapsedSeconds = slot.visual->animation_elapsed_seconds();
-        const bool opening = slot.state == DoorStateV1::opening;
+        const bool opening = slot.transition_direction == 1;
         // __EventCallback: the authored marker applies the end state (no idle replay).
         const int direction = opening ? 1 : 0;
         const double clipStart = slot.clip_start_ms[direction];
@@ -314,17 +319,25 @@ bool DoorRuntimeV1::update(double seconds, std::string& error) {
             slot.state = opening ? DoorStateV1::opened : DoorStateV1::closed;
             slot.filter_enabled = !opening;
             slot.dirty = true;
+            if(std::getenv("DH_DOOR_DEBUG"))std::cout<<"DOORDBG marker name="<<slot.instance.name
+                <<" state="<<int(slot.state)<<" busy="<<slot.busy<<" clip="<<slot.visual->active_clip_name()
+                <<" sourceMs="<<clipStart+elapsedSeconds*1000<<'\n';
         }
-        // __Callback: the clip ended; the transition is over and the idle clip of the end state plays.
+        // __Callback3e8568 clears busy, but only switches to idle when state is
+        // still transitional. A marker3e8450 already made it terminal: hold the
+        // current one-shot's last frame rather than restart another clip.
         if (slot.clip_end_ms[direction] >= 0.0 &&
             door_clip_reached_v1(clipStart, elapsedSeconds, slot.clip_end_ms[direction])) {
             slot.busy = false;
-            if (!slot.marker_fired) {
+            if (slot.state == (opening ? DoorStateV1::opening : DoorStateV1::closing)) {
                 slot.state = opening ? DoorStateV1::opened : DoorStateV1::closed;
                 slot.filter_enabled = !opening;
+                if (!show_idle(slot, error)) return false;
             }
             slot.dirty = true;
-            if (!show_idle(slot, error)) return false;
+            if(std::getenv("DH_DOOR_DEBUG"))std::cout<<"DOORDBG end name="<<slot.instance.name
+                <<" state="<<int(slot.state)<<" busy="<<slot.busy<<" clip="<<slot.visual->active_clip_name()
+                <<" endedSourceMs="<<clipStart+elapsedSeconds*1000<<'\n';
         }
     }
     return true;

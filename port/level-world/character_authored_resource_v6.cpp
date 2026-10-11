@@ -105,7 +105,7 @@ public:
   // below; untouched diagnostic context cells never become gameplay defaults.
   ParticleContextSeed92 context{};generation_=ParticleGenerationOwner::create(context);if(!register_particle_cloud_models_v1(*generation_,models_))throw std::runtime_error("Blood parameter owner registration");
   const int initialized=initialize_particle_resource_v2(*generation_,input_,{this,emitter,shape},{this,vector,render_initialize});if(initialized)throw std::runtime_error(failure_.empty()?"Required blood resource initialization":failure_);
-  const float center[3]{};if(input_.record[2]==0?dh2_particle_box_construct_v2(&box_,dimensions_):dh2_particle_sphere_construct_v1(&models_.sphere,center,radius_,0))throw std::runtime_error("Blood source sphere constructor");
+  const float center[3]{};if(input_.record[2]==0?particle_box_from_shape_v2(&box_,dimensions_):dh2_particle_sphere_construct_v1(&models_.sphere,center,radius_,0))throw std::runtime_error("Blood source sphere constructor");
   dh2_particle_billboard_uv_v1(uv_);
   bool has_scalar=false;for(unsigned i=0;i<dh2_bres_library_count(&image_,resources::Library::animation);++i){assets::Animation a{};if(dh2_animation_open(&a,&image_,i,0)!=assets::Error::ok)throw std::runtime_error("Required source scalar accessor");auto type=dh2_animation_type(&a,0);has_scalar|=type==28||type==37||type==38;}
   if(has_scalar){scalar_animation_=ParticleScalarAnimationResourceV6::create(bytes_->data(),bytes_->size(),error);if(!scalar_animation_)return false;

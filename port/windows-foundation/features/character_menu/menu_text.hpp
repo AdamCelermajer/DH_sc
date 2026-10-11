@@ -59,6 +59,6 @@ public:
                      std::string& error);
     // Suitable for Bindings.text: unrecognized path returns empty success;
     // recognized source label requires actual corpus lookup (missing rejects).
-    bool label(const std::string& source_field_path,const CharacterState* actual_profile,std::string& value,std::string& error);
+    bool label(const std::string& source_field_path,const CharacterState* actual_profile,std::string& value,std::string& error,const OriginalCombatProperties* properties=nullptr);
 };
 }

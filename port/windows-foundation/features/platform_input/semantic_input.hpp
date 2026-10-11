@@ -43,6 +43,9 @@ class SemanticInput {
 public:
     explicit SemanticInput(Bindings bindings = {});
     void set_surface(Surface surface);
+    // A replacement gameplay session keeps keyboard levels and consumed edges
+    // with its window, but cannot inherit pointer captures or pending events.
+    void replace_session_surface(Surface surface);
     void set_menu_open(bool open);
     // Global level input-disabled cancels controls; controller block only masks
     // movement/selection. Attack must reach original controller admission gates.

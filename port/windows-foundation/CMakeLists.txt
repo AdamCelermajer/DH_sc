@@ -42,7 +42,8 @@ add_library(recovered_content STATIC
   ../game-data/ai.cpp ../level-world/character_attack_geometry.cpp
   ../level-world/actor_rotation.cpp ../level-world/navigation_heading.cpp
   ../engine-ui/localization.cpp ../engine-ui/localization_parse_ex_v1.cpp ../script-runtime/script_constants.cpp
-  ../level-world/gameplay_camera_scene_v3.cpp ../level-world/gameplay_camera_damping_v1.cpp)
+  ../level-world/gameplay_camera_scene_v3.cpp ../level-world/gameplay_camera_damping_v1.cpp
+  ../level-world/source_fx_node_matrix_v4.cpp ../level-world/source_fx_billboard_basis_v1.cpp)
 add_library(content_xml STATIC
   ../level-loader/vendor/tinyxml/tinyxml.cpp
   ../level-loader/vendor/tinyxml/tinyxmlparser.cpp
@@ -339,8 +340,6 @@ add_library(foundation_runtime_effects STATIC
   ../level-world/character_fx_kernels_v1.cpp
   ../level-world/character_fx_state_v1.cpp
   ../level-world/visual_fx_manager_libraries_v63.cpp
-  ../level-world/source_fx_node_matrix_v4.cpp
-  ../level-world/source_fx_billboard_basis_v1.cpp
   ../level-world/fx_texture_animation_v1.cpp
   ../level-world/visual_fx_preload.cpp
   ../scene-materials/particle_scene_v1.cpp
@@ -398,7 +397,7 @@ target_sources(foundation_frontend PRIVATE features/menu_metadata/menu_metadata_
 target_link_libraries(foundation_frontend PUBLIC foundation_data ${DH2_PLATFORM_LIBRARIES})
 target_include_directories(foundation_frontend PRIVATE
   ../scene-materials ../engine-animation ../engine-skinning ../engine-resources)
-target_link_libraries(dh-foundation PRIVATE foundation_frontend foundation_map_visit) # P16 map: RoomZone tracker + Map page model
+target_link_libraries(dh-foundation PRIVATE foundation_frontend foundation_map_visit foundation_merchant) # P16 map: RoomZone tracker + Map page model
 if(MINGW)
   add_link_options(-static)
   target_link_options(dh-foundation PRIVATE -static)
@@ -476,6 +475,9 @@ add_test(NAME door_collision_geometry_v1 COMMAND door_collision_geometry_v1_test
 add_executable(door_runtime_restore_v1_tests features/doors/door_runtime_restore_v1_tests.cpp)
 target_link_libraries(door_runtime_restore_v1_tests PRIVATE foundation_doors)
 add_test(NAME door_runtime_restore_v1 COMMAND door_runtime_restore_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/v20/asset-stage/assets")
+add_executable(door_clip_lifecycle_v1_tests features/doors/door_clip_lifecycle_v1_tests.cpp)
+target_link_libraries(door_clip_lifecycle_v1_tests PRIVATE foundation_doors)
+add_test(NAME door_clip_lifecycle_v1 COMMAND door_clip_lifecycle_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v20/assets")
 # End Preview 17 doors.
 # End Preview 17 world gates.
 
@@ -822,7 +824,7 @@ target_sources(foundation_data PRIVATE original_actor_subobjects.cpp ../level-wo
 add_executable(original_actor_subobjects_tests tests/original_actor_subobjects_tests.cpp)
 target_link_libraries(original_actor_subobjects_tests PRIVATE foundation_data)
 add_test(NAME original_actor_subobjects COMMAND original_actor_subobjects_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")
-target_sources(foundation_data PRIVATE features/character_menu/character_menu.cpp features/character_menu/original_art.cpp features/platform_input/semantic_input.cpp)
+target_sources(foundation_data PRIVATE features/character_menu/character_menu.cpp features/character_menu/original_art.cpp features/character_menu/stat_pages_art.cpp features/platform_input/semantic_input.cpp)
 target_sources(foundation_data PRIVATE features/character_menu/menu_text.cpp)
 target_sources(foundation_data PRIVATE features/character_menu/menu_stats.cpp)
 target_sources(foundation_data PRIVATE ../engine-ui/hud_text_v1.cpp ../engine-ui/hud_text_format_v1.cpp)
@@ -1188,3 +1190,22 @@ add_executable(source_actor_placement_tests tests/source_actor_placement_tests.c
 add_test(NAME source_actor_placement COMMAND source_actor_placement_tests)
 add_executable(source_fx_version_overrides_tests tests/source_fx_version_overrides_tests.cpp)
 add_test(NAME source_fx_version_overrides COMMAND source_fx_version_overrides_tests)
+
+add_executable(embedded_particle_fidelity_tests tests/embedded_particle_fidelity_tests.cpp)
+target_link_libraries(embedded_particle_fidelity_tests PRIVATE foundation_runtime_effects)
+add_test(NAME embedded_particle_fidelity COMMAND embedded_particle_fidelity_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/assets-extra/android/data/3d/gameobjects/go_door_fire_red.bdae")
+
+add_executable(actor_embedded_visual_tests tests/actor_embedded_visual_tests.cpp)
+target_link_libraries(actor_embedded_visual_tests PRIVATE foundation_runtime_effects)
+add_test(NAME actor_embedded_visual COMMAND actor_embedded_visual_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v20/assets")
+# B110: merchant shop (model + Details-panel UI composition + exported menu_Merchant chrome)
+add_library(foundation_merchant STATIC features/merchant/merchant_shop_v1.cpp features/merchant/merchant_shop_ui_v1.cpp features/merchant/merchant_art.cpp)
+target_link_libraries(foundation_merchant PUBLIC foundation_data foundation_runtime_loot)
+add_executable(merchant_shop_v1_tests features/merchant/merchant_shop_v1_tests.cpp)
+target_link_libraries(merchant_shop_v1_tests PRIVATE foundation_merchant)
+add_test(NAME merchant_shop_v1 COMMAND merchant_shop_v1_tests)
+add_executable(menu_text_layout_v1_tests features/character_menu/menu_text_layout_v1_tests.cpp)
+target_link_libraries(menu_text_layout_v1_tests PRIVATE foundation_runtime_skills_menu)
+add_test(NAME menu_text_layout_v1 COMMAND menu_text_layout_v1_tests)

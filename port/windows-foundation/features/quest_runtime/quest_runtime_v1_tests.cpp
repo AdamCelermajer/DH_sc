@@ -3,6 +3,8 @@
 // Scenarios use the authored Swamp rows (level row 41) and rows of other acts from the same table.
 #include "quest_runtime_v1.hpp"
 #include "quest_zones_v1.hpp"
+#include "../quests/runtime_quest_menu_v1.hpp"
+#include "../../character_quest_blob.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -135,8 +137,28 @@ void swamp_chain(const std::shared_ptr<const QuestTableV1>& table) {
     // (source Objective_TalkToNPC::Register / Unregister, Character+762): Moths 365 and Lizman 366 offer a quest.
     check(h.runtime->talk_objective_registered(365) && h.runtime->talk_objective_registered(366), "Available accept NPCs are registered");
     check(!h.runtime->talk_objective_registered(1) && !h.runtime->talk_objective_registered(-1), "an NPC without a talk objective is not registered");
+    // B093: kills before the registered NPC acceptance are not retroactive.
+    h.kill_template(94);
+    check(h.runtime->progress_of(std::int32_t(moths))->objectives[0].quantity == 0, "unaccepted kills ignored");
+    QuestEvent talk;
+    talk.kind = QuestEvent::Kind::talk_to_npc;
+    talk.object_id = 365;
+    talk.secondary_id = 40;
+    h.runtime->handle(talk, error);
+    check(error.empty() && h.state(moths) == QuestStateV1::available, "wrong-level talk refused");
+    talk.object_id = -1;
+    talk.secondary_id = 41;
+    h.runtime->handle(talk, error);
+    check(error.empty() && h.state(moths) == QuestStateV1::available, "wrong-NPC talk refused");
+    check(quest_combat_kill_admitted_v1(true, true, false, false), "non-player ordinary death admitted regardless of attacker");
+    check(!quest_combat_kill_admitted_v1(false, true, false, false), "failed damage rejected");
+    check(!quest_combat_kill_admitted_v1(true, false, false, false), "nondeath damage rejected");
+    check(!quest_combat_kill_admitted_v1(true, true, true, false), "player victim rejected");
+    check(!quest_combat_kill_admitted_v1(true, true, false, true), "summon suppress byte rejected");
     // Moths: TalkToNPC accept (oid 365/41) then 8 template-94 kills; 7 kills stay Active.
-    check(h.runtime->accept_quest(std::int32_t(moths), error), error.c_str());
+    talk.object_id = 365;
+    h.runtime->handle(talk, error);
+    check(error.empty(), error.c_str());
     check(h.state(moths) == QuestStateV1::active, "accepted Moths becomes Active");
     check(!h.runtime->talk_objective_registered(365) && h.runtime->talk_objective_registered(366), "accepted Moths unregisters only its own NPC");
     const auto banners = h.runtime->take_banners();
@@ -146,6 +168,28 @@ void swamp_chain(const std::shared_ptr<const QuestTableV1>& table) {
     for (int i = 0; i < 7; ++i) h.kill_template(94);
     check(h.state(moths) == QuestStateV1::active, "7 Moth kills keep Moths Active");
     check(h.runtime->progress_of(std::int32_t(moths))->objectives[0].quantity == 7, "7 kills recorded");
+    const auto partial_banners = h.runtime->take_banners();
+    // B093: MAKE ACTIVE writes the same CQPG owner, then main reloads the
+    // runtime. Selection must preserve saved counts for every other quest.
+    check(h.runtime->save(error), error.c_str());
+    CharacterQuestProgressV1 menu_progress;
+    CharacterQuestLogPolicyV1 menu_policy;
+    menu_policy.debug_priority = kQuestPriorityDebugV1;
+    RuntimeQuestMenuV1 menu(h.character, menu_progress, table, menu_policy,
+        [](const CharacterState&, std::int32_t id, std::string& text, std::string& e) {
+            text = std::to_string(id); e.clear(); return true;
+        });
+    check(menu.load_progress_from_character(error) && menu.refresh(0, 0, CharacterQuestCategoryV1::assigned, error), error.c_str());
+    check(menu.route_hit(RuntimeQuestMenuHitV1::quest_row_release, {0, 0, std::int32_t(escape)}, error), error.c_str());
+    check(menu.route_hit(RuntimeQuestMenuHitV1::activate_release, {0, 0, std::int32_t(escape)}, error), error.c_str());
+    h.open();
+    check(h.runtime->current_quest() == std::int32_t(escape), "MAKE ACTIVE current quest reloads");
+    check(h.runtime->progress_of(std::int32_t(moths))->objectives[0].quantity == 7, "MAKE ACTIVE preserves seven Moth kills");
+    check(menu.route_hit(RuntimeQuestMenuHitV1::quest_row_release, {0, 0, std::int32_t(moths)}, error), error.c_str());
+    check(menu.route_hit(RuntimeQuestMenuHitV1::activate_release, {0, 0, std::int32_t(moths)}, error), error.c_str());
+    check(menu.route_hit(RuntimeQuestMenuHitV1::activate_release, {0, 0, std::int32_t(moths)}, error), error.c_str());
+    h.open();
+    check(h.runtime->progress_of(std::int32_t(moths))->objectives[0].quantity == 7, "duplicate MAKE ACTIVE preserves counters");
     h.kill_template(93); // Lizman's template does not advance Moths
     check(h.runtime->progress_of(std::int32_t(moths))->objectives[0].quantity == 7, "other template ignored");
     h.kill_template(94);
@@ -158,18 +202,37 @@ void swamp_chain(const std::shared_ptr<const QuestTableV1>& table) {
     check(completed_banner, "QUEST COMPLETED banner with rewards");
     // P16 QUESTUI: counted progress below the authored count queues a QUEST UPDATED banner with the counter.
     bool counter_banner = false;
-    for (const auto& b : after)
+    for (const auto& b : partial_banners)
         counter_banner = counter_banner || (b.kind == QuestBannerV1::Kind::updated && b.row == std::int32_t(moths) && b.quantity == 7 && b.required == 8);
     check(counter_banner, "objective counter banner shows 7 of 8 before completion");
     check(h.xp_awards.size() == 1 && h.xp_awards[0] == 20, "Moths reward XP 20 once");
+    check(h.runtime->save(error), error.c_str());
+    std::vector<QuestObjectiveCounterV2> completed_counters;
+    check(read_quest_counters(h.character.id, h.character.source_quest_progress_cqpg, completed_counters, error), error.c_str());
+    check(h.runtime->current_quest() == std::int32_t(escape), "completed side falls back to the active source primary");
+    std::vector<QuestObjectiveCounterV2> fallback_counters;
+    check(read_quest_counters(h.character.id, h.character.source_quest_progress_cqpg, fallback_counters, error), error.c_str());
+    check(completed_counters == fallback_counters && h.runtime->take_banners().empty(), "getter changes no counters or banners");
+    check(h.character.gold == 150 && h.xp_awards.size() == 1, "getter grants no duplicate reward");
     h.kill_template(94); // duplicate after completion is ignored
     check(h.character.gold == 150 && h.xp_awards.size() == 1, "duplicate kill grants nothing");
+    check(h.runtime->save(error) && menu.load_progress_from_character(error) &&
+        menu.refresh(0, 0, CharacterQuestCategoryV1::assigned, error), error.c_str());
+    const auto closed_bytes = h.character.source_quest_progress_cqpg;
+    check(!menu.route_hit(RuntimeQuestMenuHitV1::activate_release, {0, 0, std::int32_t(moths)}, error), "completed activation refused");
+    check(h.character.source_quest_progress_cqpg == closed_bytes, "refused activation preserves counts and states");
+    h.character.source_quest_progress_cqpg.push_back(0); // malformed existing counter section
+    const auto malformed_bytes = h.character.source_quest_progress_cqpg;
+    check(!menu.persist_progress_to_character(error), "malformed saved counters refuse a page write");
+    check(h.character.source_quest_progress_cqpg == malformed_bytes, "failed page write does not replace saved bytes");
+    h.character.source_quest_progress_cqpg = closed_bytes;
 
     // Persistence: reload keeps the closed state, the counters and the rewards (no double).
     std::string load_error;
     check(h.runtime->save(load_error), load_error.c_str());
     h.open();
     check(h.state(moths) == QuestStateV1::post_closed, "reload keeps Moths closed");
+    check(h.runtime->current_quest() == std::int32_t(escape), "fallback current survives save/reload");
     check(h.character.gold == 150 && h.xp_awards.size() == 1, "reload does not repay rewards");
 
     // Lizman partial progress survives a save/reload and completes after 2 more kills.
@@ -199,6 +262,74 @@ void swamp_chain(const std::shared_ptr<const QuestTableV1>& table) {
     check(h.state(witch) == QuestStateV1::post_closed, "Bogwitch property kill completes the Witch quest");
     check(h.character.gold == 150 + 200 + 50, "Witch gold 50");
     check(h.xp_awards.size() == 3 && h.xp_awards[2] == 50, "Witch XP 50 once");
+}
+
+void current_getter_rules(const std::shared_ptr<const QuestTableV1>& table) {
+    CharacterState character;
+    character.id = "current-getter-source-fixture";
+    character.gold = 150; character.experience = 45;
+    CharacterQuestProgressV1 progress;
+    std::string error;
+    check(progress.initialize_fresh(character, *table, error), error.c_str());
+    std::vector<std::int32_t> primary;
+    for (std::size_t row = 0; row < table->rows().size(); ++row) {
+        if (table->rows()[row].priority == kQuestPriorityPrimaryV1) primary.push_back(std::int32_t(row));
+        for (int difficulty = 0; difficulty < 3; ++difficulty)
+            check(progress.record_source_state(character, {0, difficulty, std::int32_t(row)}, 0, error), error.c_str());
+    }
+    check(primary.size() >= 2, "authored table supplies at least two primary rows");
+    const auto side = std::int32_t(row_index(*table, "Swamp_Moths"));
+    check(table->rows()[std::size_t(side)].priority != kQuestPriorityPrimaryV1, "authored Moths is side priority");
+    auto state = [&](int difficulty, int row, int value) {
+        check(progress.record_source_state(character, {0, difficulty, row}, value, error), error.c_str());
+    };
+    auto current = [&](int difficulty, int row) {
+        check(progress.set_current_quest(character, 0, difficulty, row, error), error.c_str());
+    };
+    auto verify = [&](int difficulty, int expected, bool expected_changed) {
+        bool changed = !expected_changed;
+        check(progress.verify_current_quest(character, *table, difficulty, changed, error), error.c_str());
+        CharacterQuestProgressV1::BucketView view;
+        check(progress.bucket(character, 0, difficulty, view, error), error.c_str());
+        check(view.current_quest == expected && changed == expected_changed, "source current getter result/write gate");
+    };
+    state(0, primary[0], 6); state(0, primary[1], 6); state(0, side, 6); current(0, side);
+    verify(0, side, false); // Any current Active row wins, including side quests.
+    state(0, side, 13);
+    verify(0, primary[0], true); // Two eligible rows: authored order, not title sort.
+    state(0, primary[0], 5); current(0, -1);
+    verify(0, primary[1], true); // Only exact state6 qualifies.
+    state(0, primary[1], 13); current(0, side);
+    verify(0, side, false); // No eligible primary leaves an invalid current untouched.
+    state(0, side, 6); current(0, -1);
+    verify(0, -1, false); // Never choose a replacement side quest.
+    state(1, primary[1], 6); current(1, -1);
+    verify(1, primary[1], true); verify(0, -1, false); // Current-difficulty regular array only.
+
+    // Journal getter independently verifies/persists the same current field.
+    // Make its title order the reverse of authored order and retain two counter buckets.
+    state(0, primary[0], 6); state(0, primary[1], 6); state(0, side, 13); current(0, side);
+    check(progress.encode(*table, character.source_quest_progress_cqpg, error), error.c_str());
+    const std::vector<QuestObjectiveCounterV2> counters{{0, 0, std::uint32_t(side), 0, 8, true},
+                                                     {0, 1, std::uint32_t(side), 0, 3, false}};
+    check(write_quest_counters(character.id, character.source_quest_progress_cqpg, counters, error), error.c_str());
+    CharacterQuestLogPolicyV1 policy; policy.debug_priority = kQuestPriorityDebugV1;
+    RuntimeQuestMenuV1 menu(character, progress, table, policy,
+        [&](const CharacterState&, std::int32_t id, std::string& text, std::string& e) {
+            text = id == table->rows()[std::size_t(primary[0])].text_fields[0] ? "Z first authored" : "A later authored";
+            e.clear(); return true;
+        });
+    check(menu.refresh(0, 0, CharacterQuestCategoryV1::assigned, error), error.c_str());
+    verify(0, primary[0], false);
+    check(menu.frame().selection && menu.frame().selection->row.id.row == primary[0], "journal initially selects verified current primary");
+    std::vector<QuestObjectiveCounterV2> after;
+    check(read_quest_counters(character.id, character.source_quest_progress_cqpg, after, error) && after == counters,
+        "journal fallback preserves all difficulty objective counters");
+    check(character.gold == 150 && character.experience == 45, "journal getter changes no reward fields");
+    CharacterQuestProgressV1 reloaded;
+    check(reloaded.decode(character, *table, character.source_quest_progress_cqpg, error), error.c_str());
+    CharacterQuestProgressV1::BucketView view;
+    check(reloaded.bucket(character, 0, 0, view, error) && view.current_quest == primary[0], "verified primary persisted in CQPG");
 }
 
 void make_active_and_log(const std::shared_ptr<const QuestTableV1>& table) {
@@ -326,6 +457,7 @@ int main(int argc, char** argv) {
         table_rejects_truncation(array, names);
         swamp_chain(table);
         make_active_and_log(table);
+        current_getter_rules(table);
         other_act_rows(table);
         event_bus(table);
         zone_builder(table);

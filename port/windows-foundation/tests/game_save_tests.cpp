@@ -230,6 +230,14 @@ int main(int argc,char** argv){try{
         rng.seed==previous_rng.seed,"changed original actor role overwritten");
     check(world.update_combat_properties(1,knight,{true,true,sword},error),error);
     check(restore_game_save(saved,"original/level",world,character,error),error);
+    { // B086: `targetable` is runtime-derived (lifecycle permission). A save that holds the actor untargetable restores into a fresh
+      // load where it is still targetable (Continue in a new process); a save claiming targetable for a now-untargetable binding is refused.
+      auto hidden=saved;hidden.actors[0].traits.targetable=false;
+      check(restore_game_save(hidden,"original/level",world,character,error),"saved-untargetable restore into a targetable fresh load refused: "+error);
+      check(!world.traits(1)->targetable,"restore did not apply the saved untargetable permission");
+      check(!restore_game_save(saved,"original/level",world,character,error),"saved-targetable restore into an untargetable binding accepted");
+      check(world.update_combat_properties(1,knight,{true,true,sword},error),error);
+    }
     const auto corrupt_path=std::filesystem::path(path.string()+".corrupt");auto damaged=previous_file;damaged[damaged.size()/2]^=1;write(corrupt_path,damaged);
     auto protected_output=loaded;check(!load_game(corrupt_path,protected_output,error)&&
         protected_output.level_uri==loaded.level_uri&&protected_output.random.seed==loaded.random.seed,"corrupt load changed output");

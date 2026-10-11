@@ -75,12 +75,15 @@ void QuestBannerPresenterV1::push(const quest_runtime::QuestBannerV1& banner) {
     entry.total = seconds_for(banner);
     entry.remaining = entry.total;
     queue_.push_back(std::move(entry));
+    if (queue_.size() == 1) announce_front();
 }
 
 void QuestBannerPresenterV1::tick(float seconds) {
     if (queue_.empty()) return;
     queue_.front().remaining -= std::max(seconds, 0.0f);
+    const std::size_t before = queue_.size();
     while (!queue_.empty() && queue_.front().remaining <= 0.0f) queue_.pop_front();
+    if (queue_.size() != before) announce_front();
 }
 
 QuestBannerDisplayV1 QuestBannerPresenterV1::current() const {

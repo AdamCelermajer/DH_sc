@@ -22,7 +22,7 @@ Logic (`.local-inputs/ida-apk-export-2026-10-07/.../pseudocode-all.c`, `port/eng
   jumps to the spend block when the flag is already true). An earlier reading that treated
   the flag as a spend gate was wrong and is withdrawn.
 - NativeStatsAssignPoint (IDA 0x43eb7c) -> Character::IncStatStr/Dex/End/Nrg: debit property
-  148 by 1, credit stat by 1, UpdateBaseProperties. No gate in native code.
+  148 by 1, credit stat by 1, UpdateBaseProperties. The 2026-10-11 re-audit corrects the old gate claim: each native IncStat requires positive property 148 before mutation.
 - CharacterMenu onPush (0xe265): `AddedStatsThisTurn=false`, `Starting*=0`, `useSkillPoint=false`.
 - CharacterMenu btnBack onRelease (0xe55b..0xe5c9): with `AddedStatsThisTurn` true and
   `useSkillPoint` false, WarningType "SettingStats" and the menu_confirm2 box

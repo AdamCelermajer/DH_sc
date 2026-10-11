@@ -14,6 +14,7 @@
 
 #include <cstdint>
 #include <deque>
+#include <functional>
 #include <string>
 #include <vector>
 
@@ -46,7 +47,11 @@ public:
     bool visible() const noexcept { return !queue_.empty(); }
     QuestBannerDisplayV1 current() const;
     std::size_t queued() const noexcept { return queue_.size(); }
+    // v20.1 SOUNDS (B099/B104): fired when a banner becomes the shown one (the HUD frame show handler plays
+    // NativePlaySoundFX QuestNew / QuestComplete there). completed = QuestCompletedMsgDialog, else QuestMsgDialog.
+    std::function<void(bool completed)> on_shown;
 private:
+    void announce_front() const { if (on_shown && !queue_.empty()) on_shown(queue_.front().display.completed); }
     struct Entry {
         QuestBannerDisplayV1 display;
         float remaining{};
