@@ -1984,6 +1984,7 @@ int main(int argc,char** argv) {
         f::campaign_host::CampaignHost campaignHost(hostServices);
         bool globalControllerBlocked=false;
         std::map<f::ActorId,bool> characterControllerBlocked;
+        std::set<f::ActorId> characterControllerBlockedNoticeIds; // P16 FIX16: one log line per NPC without a session body
         f::CampaignCameraFrame lastSourceCameraFrame;
         std::map<f::ActorId,bool> lifecyclePhysical,lifecycleCollisions,lifecycleIdleSuppressed;
         std::map<f::ActorId,std::uint32_t> lifecycleFlags;
@@ -2179,7 +2180,14 @@ int main(int argc,char** argv) {
             f::OriginalCampaignWorldProviders providers;
             providers.named_character=[&](const std::string& name,int module,f::ActorId& id,bool& found,std::string& e){return sourceObjects.named_character(name,module,id,found,e);};
             providers.global_controller_blocked=[&](bool blocked,std::string&){globalControllerBlocked=blocked;return true;};
-            providers.character_controller_blocked=[&](f::ActorId id,bool blocked,std::string& e){if(!combatSession->actor(id)){e="Source character controller unavailable";return false;}characterControllerBlocked[id]=blocked;return true;};
+            // P16 FIX16: only the player has a controller. Lock/Unlock on a named NPC with no live session body records the flag
+            // (nothing else reads it for NPCs) and logs once, instead of aborting the cutscene.
+            providers.character_controller_blocked=[&](f::ActorId id,bool blocked,std::string& e){
+                if(!combatSession->actor(id)){
+                    if(characterControllerBlockedNoticeIds.insert(id).second)std::cout<<"[campaign] LockCharacter: actor "<<id<<" has no live session body; controller flag recorded only\n";
+                    characterControllerBlocked[id]=blocked;return true;
+                }
+                characterControllerBlocked[id]=blocked;return true;};
             // P14 FAERY (T3): Script_SetFaeryState / Script_IncFaeryLevel write the live CharacterState and persist it.
             // Legacy saves without source Faery rows (known=false) are a logged limitation: the script continues, nothing is invented.
             providers.set_faery_state=[&](std::uint32_t slot,std::uint32_t value,std::string& e){
