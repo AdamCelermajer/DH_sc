@@ -147,11 +147,7 @@
 #include "character_coordinator.hpp"
 #include "character_animation_events.hpp"
 #include "../../../../../level-world/player_attack_step_v1.hpp"
-// Keep the Player-buff Lua value ABI private in this translation unit. The
-// renderer also includes the independent PyData value ABI with this typedef.
-#define dh2_script_value dh2_player_buff_script_value
 #include "../../../../../level-world/character_player_buffs_v1.hpp"
-#undef dh2_script_value
 #include "native_player_character_owner_v1.hpp"
 #include "character_factory.hpp"
 #include "object_creation_map_v1.hpp"

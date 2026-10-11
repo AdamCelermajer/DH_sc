@@ -50,7 +50,7 @@ static uint32_t find_script(const dh2_script_table *table, const char *name) {
     return index < 0 ? 0xffffffffu : (uint32_t)index;
 }
 
-static void check_i32(const dh2_script_value *value, int32_t expected,
+static void check_i32(const dh2_pydata_script_value *value, int32_t expected,
                       const char *label) {
     check(value->kind == DH2_SCRIPT_VALUE_I32 && value->value.i32 == expected,
           label);

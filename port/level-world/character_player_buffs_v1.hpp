@@ -1,8 +1,12 @@
 #pragma once
 #include "../game-data/properties.hpp"
-#include "../adam-script-runtime/script_runtime.h"
 #include "character_timers.hpp"
+#include <cstddef>
 #include <memory>
+
+// Pointer-only callbacks use the canonical Lua ABI; its definition belongs
+// in the implementation rather than under a caller's type-renaming macro.
+typedef struct dh2_script_value dh2_script_value;
 
 namespace dh2::character_player_buffs_v1 {
 enum class Operation : std::uint32_t {timer_start,timer_stop,timer_time_left,fx_load,fx_release,fx_object,fx_enable,apply_class,recalculate};

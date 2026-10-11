@@ -1,4 +1,5 @@
 #include "character_player_buffs_v1.hpp"
+#include "../adam-script-runtime/script_runtime.h"
 #include <algorithm>
 #include <cmath>
 #include <cstdio>

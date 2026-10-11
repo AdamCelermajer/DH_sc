@@ -292,7 +292,7 @@ static bool read_array(Reader *reader, dh2_script_i32_array *out_array) {
 
 static bool read_value(Reader *reader,
                        uint8_t field_code,
-                       dh2_script_value *out_value) {
+                       dh2_pydata_script_value *out_value) {
     memset(out_value, 0, sizeof(*out_value));
     switch (field_code) {
         case FIELD_I32:
@@ -550,7 +550,7 @@ extern "C" void dh2_script_table_destroy(dh2_script_table *table) {
                     for (uint32_t field_index = 0;
                          field_index < command->field_count;
                          ++field_index) {
-                        dh2_script_value *field = &command->fields[field_index];
+                        dh2_pydata_script_value *field = &command->fields[field_index];
                         if (field->kind == DH2_SCRIPT_VALUE_I32_ARRAY) {
                             free((void *)field->value.i32_array.data);
                         }
