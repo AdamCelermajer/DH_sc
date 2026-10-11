@@ -79,7 +79,8 @@
 #include "features/level_lighting/level_light_v1.hpp" // B076: level PlayerLight
 #include "features/scene_decor/ambient_decor_v1.hpp" // B076: ambient AnimatedDecor (torches, caustics, glows)
 #include "features/containers/container_loot_v1.hpp" // P16 CONTAINERS2 (T4 DoOpen loot)
-#include "features/containers/container_open_script_v1.hpp" // P16 CONTAINERS2 (T6 OnOpen contract)
+#include "features/containers/container_open_script_v1.hpp" // P16 CONTAINERS2 (T6 OnOpen: authored Lua via the script runtime)
+#include "features/companions/catch_up_buff_v1.hpp" // v20 GENERAL: follower catch-up buff from the authored AI script
 #include "features/containers/container_world_v1.hpp" // P16 CONTAINERS2 (T5 OBJS persistence)
 #include "features/despawn/despawn_after_death_v1.hpp" // P16 DESPAWN (automatic despawn after death)
 #include "features/quest_runtime/quest_zones_v1.hpp" // P16 QUESTUI: quest trigger zones
@@ -727,6 +728,14 @@ std::string transition_resource_counts() {
 #else
     return "n/a";
 #endif
+}
+
+// v20 GENERAL: authored script text from the package. OnOpen of a container is data/scripts/objects/<script>.luac
+// (plain Lua text); a follower's catch-up buff is named by data/scripts/ai/<script>.luac. Missing files are reported
+// by the caller; nothing is substituted.
+static bool read_authored_script_text(const f::AssetCatalog& assets,const std::string& relative,std::string& text,std::string& error){
+    try{const auto bytes=assets.read(relative);text.assign(bytes.begin(),bytes.end());return true;}
+    catch(const std::exception& e){error=e.what();return false;}
 }
 
 int main(int argc,char** argv) {
@@ -1621,7 +1630,11 @@ int main(int argc,char** argv) {
             // P16 CONTAINERS2 (T6): Summon targets of this level's OnOpen contracts reserve pool slots like --spawn-test names.
             std::vector<std::string> spawnNames;
             for(const auto& test:options.spawnTests)spawnNames.push_back(test.name);
-            for(const auto& view:containerRuntime.views())if(view.instance)if(const auto* contract=f::containers::find_open_script_contract_v1(view.instance->script))for(const auto& character:f::containers::open_contract_summon_characters_v1(*contract))if(std::find(spawnNames.begin(),spawnNames.end(),character)==spawnNames.end())spawnNames.push_back(character);
+            for(const auto& view:containerRuntime.views())if(view.instance&&!view.instance->script.empty()){
+                std::string openSource,openError;
+                if(!read_authored_script_text(assets,"data/scripts/objects/"+view.instance->script+".luac",openSource,openError)){std::cout<<"Container OnOpen script="<<view.instance->script<<" status=no_authored_source detail="<<openError<<'\n';continue;}
+                for(const auto& character:f::containers::authored_open_summon_rows_v1(openSource))if(std::find(spawnNames.begin(),spawnNames.end(),character)==spawnNames.end())spawnNames.push_back(character);
+            }
             if(!spawnNames.empty()) {
                 if(properties.characters.names.empty()&&!f::load_original_property_tables(assets,"original-cache/data/pydata",properties,error))throw std::runtime_error("Spawn property tables: "+error);
                 const auto templateRecords=assets.read("original-cache/data/pydata/character_templates_pyarray.bin");
@@ -4614,16 +4627,21 @@ int main(int argc,char** argv) {
                     if(!slot) {
                         double factor=1.0;
                         const auto* props=session.world()->combat_properties(owner.id);
-                        const auto buff=std::find(properties.classes.names.begin(),properties.classes.names.end(),"Buff_Rene_Haste");
-                        std::string classError;
-                        if(props&&buff!=properties.classes.names.end()) {
+                        // v20 GENERAL: the catch-up buff row is the one the authored AI script applies (ApplyBuff in ai/<script>.luac).
+                        std::string buffName,classError;
+                        std::string buffText;
+                        if(!read_authored_script_text(assets,"data/scripts/ai/"+ai.script+".luac",buffText,classError))classError="authored AI script unavailable: "+classError;
+                        else buffName=f::companions::catch_up_buff_name_v1(buffText);
+                        if(buffName.empty()&&classError.empty())classError="script applies no class buff";
+                        const auto buff=std::find(properties.classes.names.begin(),properties.classes.names.end(),buffName);
+                        if(props&&!buffName.empty()&&buff!=properties.classes.names.end()) {
                             auto sheet=props->sheets.resolved;
                             if(dh2::data::apply_class(properties.classes,std::int32_t(buff-properties.classes.names.begin()),sheet,classError)) {
                                 const double before=f::original_speed_modifier(props->sheets.resolved[46]),after=f::original_speed_modifier(sheet[46]);
                                 if(before>0&&after>before)factor=after/before;
                             }
                         }
-                        std::cout<<"[follower] actor="<<owner.id<<" catch-up walk rate factor="<<factor<<(factor==1.0?" (Buff_Rene_Haste Speed_Modifier_Walk change unavailable: "+classError+")":"")<<'\n';
+                        std::cout<<"[follower] actor="<<owner.id<<" catch-up buff="<<(buffName.empty()?std::string("(none)"):buffName)<<" walk rate factor="<<factor<<(factor==1.0?" (Speed_Modifier_Walk change unavailable: "+classError+")":"")<<'\n';
                         auto config2=hasteBase;config2.walk_alias="ai-haste-walk";config2.walk_rate=hasteBase.walk_rate*factor;
                         slot=std::make_shared<f::enemy_ai::RuntimeEnemyNavigationV1>(std::move(config2));
                     }
@@ -5277,8 +5295,9 @@ int main(int argc,char** argv) {
                     else std::cout<<"Container loot declaration="<<instance.name<<" table="<<instance.loot_id<<" selected="<<outcome.receipt.selected_items<<" delivered="<<outcome.receipt.delivered_items<<" gold_unpriced="<<outcome.gold_unpriced<<" status=ok frame="<<frame<<'\n';
                 }
                 if(instance.script.empty()){std::cout<<"Container OnOpen script=(none) declaration="<<instance.name<<" frame="<<frame<<'\n';return;}
-                const auto* contract=f::containers::find_open_script_contract_v1(instance.script);
-                if(!contract){if(containerScriptsNoticed.insert(instance.script).second)std::cout<<"Container OnOpen script="<<instance.script<<" status=no_contract (logged once)\n";return;}
+                std::string openSource,openError;
+                if(!read_authored_script_text(assets,"data/scripts/objects/"+instance.script+".luac",openSource,openError)){if(containerScriptsNoticed.insert(instance.script).second)std::cout<<"Container OnOpen script="<<instance.script<<" status=no_authored_source (logged once) detail="<<openError<<'\n';return;}
+                f::containers::OpenScriptServicesV1 openServices;
                 f::containers::OpenScriptRunReportV1 report;std::string scriptError;
                 const auto random=[&](std::int32_t lo,std::int32_t hi,std::int32_t& value,std::string& e){
                     std::uint32_t drawnValue=0;
@@ -5286,17 +5305,24 @@ int main(int argc,char** argv) {
                     if(!combatSession->world()->random_uniform(101,drawnValue,e))return false;
                     value=std::int32_t(drawnValue);std::cout<<"Container OnOpen GetRand(0,100)="<<value<<" declaration="<<instance.name<<" frame="<<frame<<'\n';return true;};
                 const auto summon=[&](const f::containers::OpenScriptSummonRequestV1& request,std::string& reason){
+                    // Summon(..., spawn, x, y, z, relative): relative offsets are taken from the opened object. Only
+                    // spawn=true is an authored case; spawn=false has no owner here and is refused explicitly.
+                    if(!request.spawn){reason="Summon spawn=false has no owner";return false;}
                     f::spawn::SpawnRequestV1 spawnRequest;spawnRequest.name=request.character;
-                    spawnRequest.position={instance.transform[12],instance.transform[13],instance.transform[14]};
+                    const float origin[3]={request.relative?instance.transform[12]:0.f,request.relative?instance.transform[13]:0.f,request.relative?instance.transform[14]:0.f};
+                    spawnRequest.position={origin[0]+request.offset[0],origin[1]+request.offset[1],origin[2]+request.offset[2]};
                     spawnRequest.heading_radians=0;
                     spawnRequest.host_level_raw=frontendStarted?std::int32_t(state.stats.level*256):actorProperties.level_raw;
                     f::spawn::SpawnResultV1 spawnResult;std::string spawnError;
                     if(f::spawn::spawn_character_v1(spawnPool,spawnRequest,makeSpawnServices(),spawnResult,spawnError))return true;
                     reason=spawnError;return false;};
-                if(!f::containers::run_open_script_v1(*contract,random,summon,report,scriptError))
-                    std::cout<<"Container OnOpen script="<<instance.script<<" status=failed detail="<<scriptError<<" frame="<<frame<<'\n';
+                openServices.random=random;openServices.summon=summon;
+                openServices.character_rows=&properties.characters.names;openServices.object_name=instance.name;
+                const bool ran=f::containers::run_authored_open_script_v1(openSource,instance.script,openServices,report,scriptError);
+                if(!ran)std::cout<<"Container OnOpen script="<<instance.script<<" status=failed detail="<<scriptError<<" frame="<<frame<<'\n';
                 std::cout<<"Container OnOpen script="<<instance.script<<" declaration="<<instance.name<<" draws="<<report.draws<<" summon_calls="<<report.summon_calls<<" spawned="<<report.summons_spawned<<" frame="<<frame<<'\n';
                 for(const auto& line:report.summon_lines)std::cout<<"Container OnOpen script="<<instance.script<<" declaration="<<instance.name<<" "<<line<<" frame="<<frame<<'\n';
+                for(const auto& line:report.trace_lines)std::cout<<"Container OnOpen script="<<instance.script<<" declaration="<<instance.name<<" trace="<<line<<" frame="<<frame<<'\n';
             };
             for(const auto& test:options.spawnTests)if(test.frame==drawn&&combatSession) {
                 auto spawnServices=makeSpawnServices();
