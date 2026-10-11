@@ -59,6 +59,12 @@ inline bool door_close_admitted_v1(DoorStateV1 state, bool busy) noexcept {
     return !busy && state == DoorStateV1::opened;
 }
 
+// True once a transition clock has reached an authored time. elapsed_seconds is the visual clock
+// (relative to clip_start_ms); target_ms is an authored marker or clip end on the same timeline.
+inline bool door_clip_reached_v1(double clip_start_ms, double elapsed_seconds, double target_ms) noexcept {
+    return clip_start_ms + elapsed_seconds * 1000.0 >= target_ms;
+}
+
 // One Play3D request for the caller's audio owner (ordinal = authored Arrays::Doors sound id).
 struct DoorSoundRequestV1 {
     std::int32_t ordinal = -1;
@@ -167,6 +173,9 @@ private:
         bool dirty = false;
         // Per direction (0 = closing 'close' clip, 1 = opening 'open' clip): authored clip end and
         // the 'opened'/'closed' marker in milliseconds, -1 when absent.
+        // Authored clip times are on the visual's own timeline. The visual clock is relative to
+        // the clip start (CharacterVisual::update clamps it to end-start), so comparisons add it back.
+        double clip_start_ms[2] = {0.0, 0.0};
         double clip_end_ms[2] = {-1.0, -1.0};
         double marker_ms[2] = {-1.0, -1.0};
         bool marker_fired = false;
