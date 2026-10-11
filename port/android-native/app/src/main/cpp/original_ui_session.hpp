@@ -105,6 +105,9 @@ public:
     // Android system Back uses the same live gameplay menu owner as the
     // authored NativeBackToHud callback; it never reloads the selected level.
     bool back_to_hud(std::string&);
+    // GSLevel::Dtor hides menu_HUD_0 on the retained movie before deleting
+    // the old Level. This does not destroy the UI session or pop other menus.
+    bool close_source_hud(std::string&);
     bool active() const;
     bool overlays_player() const;
     void deactivate();

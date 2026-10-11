@@ -3273,6 +3273,42 @@ bool OriginalUiSession::camera_pan_allowed()const noexcept{
 bool OriginalUiSession::back_to_hud(std::string& error){
     return Impl::back_to_hud(impl_.get(),error);
 }
+bool OriginalUiSession::close_source_hud(std::string& error){
+    if(!impl_||!impl_->selected||!impl_->loaded||!impl_->live_player||
+       !impl_->front_screen.empty()||!impl_->movie){
+        error="GSLevel HUD hide requires the retained gameplay UI session";
+        return false;
+    }
+    auto& self=*impl_;
+    // GSLevel::Dtor 0x3860bc queries menu_HUD_0 and invokes virtual Hide.
+    // MenuBase::Hide 0x424af4 exits when hidden; otherwise it sets visibility
+    // false, unregisters the listener, then invokes the authored onPop.
+    return self.movie->menu_action_script(&self,
+        [](void* raw,ui::SwfAsGraph& graph,std::string& nested_error){
+            auto& owner=*static_cast<Impl*>(raw);
+            ui::SwfAsValue root,hud,visibility,result;
+            bool visible=false,accepted=false,callable=false,found=false;
+            if(!graph.root_value(root,nested_error)||
+               !graph.find_target(root,"_root.menu_HUD_0",hud,nested_error))return false;
+            // GetMenuByName returning null is a legitimate source branch.
+            if(!hud.identity()){nested_error.clear();return true;}
+            if(!graph.get_member(hud,"_visible",visibility,found,nested_error))return false;
+            if(!found){nested_error="Authored HUD visibility member absent";return false;}
+            if(!graph.to_boolean(visibility,visible,nested_error))return false;
+            if(!visible){nested_error.clear();return true;}
+            if(!graph.set_member(hud,"_visible",ui::SwfAsValue::boolean(false),
+                                 accepted,nested_error))return false;
+            if(!accepted){nested_error="Authored HUD visibility write rejected";return false;}
+            // This session's listener/input dispatch consults this same flag.
+            // Cancel deferred reactivation so a later UI frame cannot reopen
+            // the old HUD between Hide and Level destruction.
+            owner.gameplay_hud_active=false;
+            owner.gameplay_back_to_hud_pending=false;
+            owner.gameplay_native_back_to_hud_pending=false;
+            owner.gameplay_hud_refresh={};
+            return graph.invoke(hud,hud,"onPop",{},result,callable,nested_error);
+        },error);
+}
 std::string OriginalUiSession::consume_menu_sound(){
     auto& queue=impl_->menu_sounds;
     if(queue.empty())return {};
