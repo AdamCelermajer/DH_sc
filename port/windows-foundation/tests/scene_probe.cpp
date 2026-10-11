@@ -1,5 +1,6 @@
 #include "original_scene.hpp"
 #include "assembled_level.hpp"
+#include "texture_loader.hpp"
 #include "../scene-materials/scene.hpp"
 #include "../asset-payloads/payloads.hpp"
 #include <algorithm>
@@ -140,6 +141,28 @@ void write_plan(const dh::foundation::OriginalScene& scene,const char* path,floa
 }
 
 int main(int argc,char** argv) {
+    if(argc==3&&std::string(argv[1])=="--params") {
+        const auto bytes=read_all(argv[2]);dh2::resources::BresView view{};
+        if(dh2_bres_open(&view,bytes.data(),bytes.size())!=dh2::resources::BresError::ok)return 1;
+        const auto word=[&](std::size_t p){if(p+4>bytes.size())throw std::runtime_error("parameter outside BRES");return std::uint32_t(bytes[p])|(std::uint32_t(bytes[p+1])<<8)|(std::uint32_t(bytes[p+2])<<16)|(std::uint32_t(bytes[p+3])<<24);};
+        const auto string=[&](std::size_t p){if(!p||p>=bytes.size())return std::string();const auto end=std::find(bytes.begin()+p,bytes.end(),0);return std::string(bytes.begin()+p,end);};
+        for(const auto lib:{dh2::resources::Library::material,dh2::resources::Library::effect})for(std::uint32_t i=0;i<dh2_bres_library_count(&view,lib);++i){
+            const auto p=std::size_t(dh2_bres_library_item(&view,lib,i)-bytes.data());
+            std::cout<<(lib==dh2::resources::Library::material?"material ":"effect ")<<string(word(p))<<'\n';
+            for(unsigned j=0;j<word(p+16);++j){const auto q=word(p+20)+24*j;std::cout<<"  "<<string(word(q))<<" words=";
+                for(unsigned k=1;k<6;++k)std::cout<<word(q+4*k)<<',';
+                const auto data=word(q+20);if(data&&data+64<=bytes.size()){std::cout<<" floats=";for(unsigned k=0;k<16;++k){auto b=word(data+4*k);float f;std::memcpy(&f,&b,4);std::cout<<f<<',';}}
+                std::cout<<'\n';}
+        }return 0;
+    }
+    if(argc==4&&std::string(argv[1])=="--texture") {
+        const auto bytes=read_all(argv[2]);
+        dh::foundation::TextureImage texture;std::string error;
+        if(!dh::foundation::decode_texture(bytes.data(),bytes.size(),texture,error)){std::cerr<<error<<'\n';return 1;}
+        std::ofstream out(argv[3],std::ios::binary);out<<"P6\n"<<texture.width<<' '<<texture.height<<"\n255\n";
+        for(std::size_t i=0;i<texture.rgba.size();i+=4)out.write(reinterpret_cast<const char*>(texture.rgba.data()+i),3);
+        std::cout<<"texture "<<texture.width<<'x'<<texture.height<<'\n';return out.good()?0:1;
+    }
     if(argc<2) {std::cerr<<"Usage: scene_probe [--plan <out.ppm> <x0> <y0> <x1> <y1> <px>] <original.bdae> [module-node] | --level <asset-root> <manifest-relative> | --nodes|--anims|--dump <original.bdae>\n";return 2;}
     dh::foundation::OriginalScene scene;
     std::string error;

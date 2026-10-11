@@ -3,11 +3,14 @@
 #include "ambient_decor_v1.hpp"
 #include "../level_lighting/level_light_v1.hpp"
 #include "../../actor_definitions.hpp"
+#include "../../assembled_level.hpp"
+#include "../../../scene-materials/scene.hpp"
 
 #include <cmath>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <cstring>
 
 namespace f = dh::foundation;
 namespace sd = dh::foundation::scene_decor;
@@ -20,6 +23,57 @@ static bool near(float a, float b) { return std::fabs(a - b) < 1e-4f; }
 static std::vector<std::uint8_t> read_file(const std::filesystem::path& path) {
     std::ifstream in(path, std::ios::binary);
     return {std::istreambuf_iterator<char>(in), {}};
+}
+
+static void material_defaults(const std::vector<std::uint8_t>& source) {
+    using namespace dh2;
+    resources::BresView view{};scene::Scene decoded;std::string error;
+    check(dh2_bres_open(&view,source.data(),source.size())==resources::BresError::ok,"caustics fixture BRES");
+    check(scene::load(view,decoded,error),"local effect defaults load");
+    const auto find=[&](const scene::Scene& s)->const scene::Material*{for(const auto& m:s.materials)if(m.id=="Standard_2")return &m;return nullptr;};
+    const auto* material=find(decoded);
+    check(material&&near(material->texture_matrix[0],0.25f)&&near(material->texture_matrix[5],0.25f),"caustics inherit the effect's 4x4 atlas matrix");
+    if(!material)return;
+    const auto word=[&](std::size_t p){return std::uint32_t(source[p])|(std::uint32_t(source[p+1])<<8)|(std::uint32_t(source[p+2])<<16)|(std::uint32_t(source[p+3])<<24);};
+    const auto p=std::size_t(dh2_bres_library_item(&view,resources::Library::material,0)-source.data());
+    auto changed=source;
+    const auto put=[&](std::size_t p,std::uint32_t v){for(unsigned j=0;j<4;++j)changed[p+j]=std::uint8_t(v>>(8*j));};
+    // Replace one irrelevant material boolean with an explicit identity matrix.
+    // The real local effect stays at 0.25; an explicit identity must win.
+    const auto param=word(p+20);
+    const std::string name="texture-matrix";
+    const auto nameOffset=std::uint32_t(changed.size());changed.insert(changed.end(),name.begin(),name.end());changed.push_back(0);
+    while(changed.size()%4)changed.push_back(0);
+    const auto data=std::uint32_t(changed.size());changed.resize(changed.size()+64,0);
+    for(unsigned i=0;i<16;++i)if(i%5==0)put(data+i*4,0x3f800000);
+    put(param,nameOffset);put(param+8,10);put(param+20,data);put(12,std::uint32_t(changed.size()));
+    check(dh2_bres_open(&view,changed.data(),changed.size())==resources::BresError::ok&&scene::load(view,decoded,error),"explicit matrix override fixture load");
+    material=find(decoded);check(material&&near(material->texture_matrix[0],1)&&near(material->texture_matrix[5],1),"explicit identity overrides nonidentity effect default");
+    put(param+8,7);
+    check(!scene::load(view,decoded,error)&&!error.empty()&&decoded.materials.empty(),"malformed matrix override fails without partial scene");
+}
+
+static void render_ownership(const std::filesystem::path& root,const std::vector<std::uint8_t>& torches) {
+    f::AssetCatalog assets(root);
+    const auto virtual_xml=[&](const char* path,const std::string& text){assets.set_virtual_file(path,{text.begin(),text.end()});};
+    assets.set_virtual_file("torch.bdae",torches);
+    virtual_xml("owner-test.mlx","<Level><GameObject name='module' gametype='Module' dae='data/3d/modules/swamp/swamp.bdae' xrefobject='_module_deadend_brdwalk_w_00' mvp='owner-test.mvp'/></Level>");
+    virtual_xml("owner-test.mvp","<Module><GameObject name='torch' gametype='AnimatedDecor' dae='torch.bdae' xrefobject='_anim_swamp_torchsingle'/></Module>");
+    f::OriginalScene preview,gameplay;std::vector<f::LevelModuleZone> zones;std::string error;
+    check(f::load_level_with_module_zones(assets,"owner-test.mlx",preview,zones,error),"geometry preview retains static decor");
+    check(f::load_level_with_module_zones(assets,"owner-test.mlx",gameplay,zones,error,{false}),"gameplay level excludes runtime decor");
+    std::vector<f::ActorDefinition> defs;
+    check(f::load_actor_definitions(assets,"owner-test.mlx",defs,error),"runtime decor declarations load");
+    sd::AmbientDecorRuntimeV1 runtime;std::vector<std::string> notices;
+    check(runtime.load(assets,defs,{},notices,error)&&runtime.instances().size()==1,"runtime owns one decor instance");
+    if(runtime.instances().size()==1)check(preview.triangleCount==gameplay.triangleCount+runtime.instances()[0].scene->triangleCount,"preview/runtime ownership partitions the same geometry once");
+    for(auto& d:defs)if(d.gametype=="AnimatedDecor")d.properties["activate_cond"]="QuestStarted";
+    check(runtime.load(assets,defs,{},notices,error)&&runtime.instances().empty(),"conditional decor excluded from ambient owner");
+    for(auto& d:defs)if(d.gametype=="AnimatedDecor"){d.properties["activate_cond"]="Invalid";d.properties["visible"]="0";}
+    check(runtime.load(assets,defs,{},notices,error)&&runtime.instances().empty(),"hidden decor excluded from ambient owner");
+    for(auto& d:defs)if(d.gametype=="AnimatedDecor")d.properties["visible"]="1";
+    check(runtime.load(assets,defs,{"torch"},notices,error)&&runtime.instances().empty(),"script-owned decor excluded from ambient owner");
+    check(runtime.load(assets,defs,{},notices,error)&&runtime.instances().size()==1,"Invalid sentinel leaves ordinary decor admitted");
 }
 
 int main(int argc, char** argv) {
@@ -44,6 +98,8 @@ int main(int argc, char** argv) {
     const auto torches = read_file(extra / "data/3d/animateddecors/swamp_tikitorches.bdae");
     if (torches.empty()) { std::cerr << "SKIP decor libraries missing\n"; }
     else {
+        material_defaults(read_file(extra / "data/3d/animateddecors/swamp_cave_watercaustics.bdae"));
+        render_ownership(assets,torches);
         sd::AmbientDecorModel model;
         std::string error;
         check(sd::parse_ambient_model(torches, model, error), "parse torches");

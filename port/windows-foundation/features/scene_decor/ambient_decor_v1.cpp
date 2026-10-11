@@ -109,7 +109,7 @@ bool AmbientDecorRuntimeV1::load(const AssetCatalog& assets, const std::vector<A
         if(property("visible")=="0") continue;
         // Conditional AnimatedDecor belongs to DecorRuntimeV1. Drawing it here
         // would bypass its campaign admission gate and duplicate its geometry.
-        const auto conditioned=[](const std::string& v){return !v.empty()&&v!="0";};
+        const auto conditioned=[](const std::string& v){return !v.empty()&&v!="Invalid";};
         if(conditioned(property("activate_cond"))||conditioned(property("deactivate_cond"))) continue;
         if (skip.count(definition.name)) continue;
         if (lower(base_name(definition.modelPath)).rfind("cs_", 0) == 0) continue; // cutscene clip libraries
