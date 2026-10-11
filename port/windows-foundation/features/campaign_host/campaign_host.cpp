@@ -100,7 +100,14 @@ void CampaignHost::bind_world_providers(OriginalCampaignWorldProviders& p) {
             line.text = "[StrID " + std::to_string(line.text_id) + " unresolved]";
             unsupported_.note("dialogue StrID unresolved");
         }
-        std::cout << "[campaign] caption frame=" << frames_ << " strid=" << line.text_id << " actor=" << line.actor << " text=" << line.text << '\n';
+        // B068: speaker name plate = localized DialogActors row name; box variant = DialogStyles name of the style value.
+        if (line.actor >= 0 && static_cast<std::size_t>(line.actor) < dialog_actors_.size() && caption_text_) {
+            std::string speaker, speaker_error;
+            if (caption_text_(dialog_actors_[static_cast<std::size_t>(line.actor)].name_string_id, speaker, speaker_error)) line.speaker = speaker;
+            else unsupported_.note("dialogue speaker name unresolved");
+        }
+        if (const auto style = dialog_styles_.find(line.style); style != dialog_styles_.end()) line.style_label = style->second;
+        std::cout << "[campaign] caption frame=" << frames_ << " strid=" << line.text_id << " actor=" << line.actor << " speaker=" << line.speaker << " style=" << line.style_label << " text=" << line.text << '\n';
         cinematic_.enqueue(std::move(line));
         return true;
     };

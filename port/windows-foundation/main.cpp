@@ -1994,6 +1994,7 @@ int main(int argc,char** argv) {
         };
         f::campaign_host::CampaignHost campaignHost(hostServices);
         bool globalControllerBlocked=false;
+        std::function<bool(f::ActorId,std::string&)> stopActorHook; // B068: Script_StopActor (Cmd_Stop) for enemy AI walkers; set when the enemy navigation is bound
         std::map<f::ActorId,bool> characterControllerBlocked;
         std::set<f::ActorId> characterControllerBlockedNoticeIds; // P16 FIX16: one log line per NPC without a session body
         f::CampaignCameraFrame lastSourceCameraFrame;
@@ -2191,6 +2192,8 @@ int main(int argc,char** argv) {
             f::OriginalCampaignWorldProviders providers;
             providers.named_character=[&](const std::string& name,int module,f::ActorId& id,bool& found,std::string& e){return sourceObjects.named_character(name,module,id,found,e);};
             providers.global_controller_blocked=[&](bool blocked,std::string&){globalControllerBlocked=blocked;return true;};
+            // B068: Script_StopActor (IDA 0x45dd.. region, Cmd_Stop) ends an AI actor's walk: the route is dropped and the idle pose selected.
+            providers.stop_actor=[&](f::ActorId id,std::string& e){return stopActorHook?stopActorHook(id,e):true;};
             // P16 FIX16: only the player has a controller. Lock/Unlock on a named NPC with no live session body records the flag
             // (nothing else reads it for NPCs) and logs once, instead of aborting the cutscene.
             providers.character_controller_blocked=[&](f::ActorId id,bool blocked,std::string& e){
@@ -2540,6 +2543,16 @@ int main(int argc,char** argv) {
         // P16 CINE: caption lines resolve their authored StrID through the same original localization owner.
         // P16 OPENING: caption text substitutes the source $player token with the character name (the reference shows the name).
         if(options.campaignTriggers) campaignHost.set_caption_auto_tap_ms(std::uint32_t(options.captionAutoTapMs>0?options.captionAutoTapMs:0));
+        if(options.campaignTriggers) { // B068: original dialogs tables (speaker names, DialogBox style variants); absent tables are logged, lines stay text-only
+            std::vector<f::cinematic_runner::DialogActorRow> dialogActors;std::map<std::int32_t,std::string> dialogStyles;std::string tableError;
+            try{
+                if(!f::cinematic_runner::decode_dialog_actors(f::read_content(assets,"data/pydata/dialogs_pyarray.bin"),dialogActors,tableError))std::cout<<"Dialog actors table: "<<tableError<<'\n';
+            }catch(const std::exception& ex){std::cout<<"Dialog actors table unavailable ("<<ex.what()<<"): speaker names are not shown\n";}
+            try{
+                if(!f::cinematic_runner::decode_dialog_styles(f::read_content(assets,"data/pydata/dialogs_pycst.bin"),dialogStyles,tableError))std::cout<<"Dialog styles table: "<<tableError<<'\n';
+            }catch(const std::exception& ex){std::cout<<"Dialog styles table unavailable ("<<ex.what()<<"): caption box uses the default variant\n";}
+            campaignHost.set_dialog_tables(std::move(dialogActors),std::move(dialogStyles));
+        }
         if(options.campaignTriggers) campaignHost.set_caption_text([&menuLocalization,&state](std::int32_t id,std::string& text,std::string& e){if(!menuLocalization.string_id(id,text,e))return false;for(auto at=text.find("$player");at!=std::string::npos;at=text.find("$player",at+state.name.size()))text.replace(at,7,state.name);return true;});
         f::CameraPose start;
         float extent=200;
@@ -3537,6 +3550,14 @@ int main(int argc,char** argv) {
                 if(globalControllerBlocked)return true;
                 return controller->update(session,dt,error);
             });
+            stopActorHook=[&](f::ActorId id,std::string& e){
+                if(!combatSession||id==combatSession->player_id()||!enemyNavigation)return true;
+                auto* stopped=combatSession->actor(id);
+                if(!stopped||!stopped->alive())return true;
+                std::string stopError;
+                if(!enemyNavigation->stop(*combatSession,*stopped,stopError)){std::cout<<"[campaign] StopActor actor="<<id<<" not applied: "<<stopError<<'\n';}
+                return true; // actors without an enemy walk owner (NPCs, hidden spawns) have nothing to stop
+            };
             enemyNavigationWorld=sourceObstacles;
         };
         auto bindSourceContacts=[&](f::CombatSession& session,std::uint32_t dtMs,std::string& e) {

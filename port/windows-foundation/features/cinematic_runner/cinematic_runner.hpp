@@ -50,6 +50,9 @@ struct CaptionLine {
     std::int32_t style = -1;
     std::int32_t actor = -1;
     std::string text;
+    // B068: speaker name for the name plate (DialogActors row of `actor`, localized) and the DialogBox variant (DialogStyles name).
+    std::string speaker;
+    std::string style_label;
 };
 
 struct TextItem {
@@ -100,6 +103,7 @@ public:
     void flush() noexcept;                         // FlushMessages: drops queued and shown lines
 
     // Player tap (btn_next). Only a skippable line responds; returns true when the tap was used.
+    // B068 (PC adaptation, requested): a tap during the hide animation ends it at once, so repeated clicks run through the lines.
     bool tap() noexcept;
     // Advances the timers. Returns the number of lines that finished.
     std::size_t update(std::uint32_t dt_ms) noexcept;

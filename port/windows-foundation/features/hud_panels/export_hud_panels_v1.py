@@ -277,6 +277,34 @@ def build_panels(swf: Swf) -> dict:
             if child in swf.sprites:
                 edit_slots(swf, child, frame, child_matrix, panel_texts)
         out[key] = {"batches": panel_batches, "texts": panel_texts, "label": label, "frame": variant}
+    # B068: every DialogBox variant (one frame label per DialogStyles value) so the caption box matches the style of each line:
+    # the name plate (GraphBox) and text band (dialogBox) of MiddleBubble, and the tutorial variants.
+    variants = []
+    for label in sorted(swf.labels[dialog_sprite], key=lambda k: swf.labels[dialog_sprite][k]):
+        variant = swf.frame_of(dialog_sprite, label)
+        panel_batches, panel_texts, skipped = [], [], []
+        for _, p in sorted(swf.sprites[dialog_sprite][variant].items()):
+            name = p.get("name", "")
+            child = p.get("character")
+            color = p.get("color", [[1.] * 4, [0.] * 4])
+            if child is None or name in DIALOG_EXCLUDED or (color[0][3] == 0 and color[1][3] == 0):
+                continue
+            child_matrix = compose(dialog_matrix, p["matrix"])
+            frame = rest_frame(swf, child) if child in swf.sprites else 0
+            found: list = []
+            try:
+                leaves(swf, child, frame, child_matrix, list(color[0]), f"dialog_{label}/{name}", found)
+                got = []
+                for leaf in found:
+                    got.extend(b for b in button.shape_batches(swf.dec, swf.shapes, swf.cache, leaf) if visible(b))
+            except ValueError as err:
+                skipped.append(f"{name or child}: {err}")
+                continue
+            panel_batches.extend(got)
+            if child in swf.sprites:
+                edit_slots(swf, child, frame, child_matrix, panel_texts)
+        variants.append({"label": label, "batches": panel_batches, "texts": panel_texts, "skipped": skipped})
+    out["variants"] = variants
     return out
 
 
@@ -320,8 +348,15 @@ def write(panels: dict, swf: Swf) -> dict:
     for key in DIALOG_VARIANTS:
         lines.append(f"const std::vector<PcGameplayHudArtBatchV1> {key}_batches{{" + cpp_batches(panels[key]["batches"]) + "};")
         lines.append(f"const std::vector<HudPanelTextSlotV1> {key}_texts{{" + cpp_texts(panels[key]["texts"]) + "};")
+    table = []
+    for i, v in enumerate(panels["variants"]):
+        lines.append(f"const std::vector<PcGameplayHudArtBatchV1> variant_{i}_batches{{" + cpp_batches(v["batches"]) + "};")
+        lines.append(f"const std::vector<HudPanelTextSlotV1> variant_{i}_texts{{" + cpp_texts(v["texts"]) + "};")
+        table.append('{"' + v["label"] + '",&variant_' + str(i) + '_batches,&variant_' + str(i) + '_texts}')
+    lines.append("const std::vector<DialogVariantV1> dialog_variants{" + ",".join(table) + "};")
     lines += [
         "} // namespace",
+        "const std::vector<DialogVariantV1>& dialog_variants_v1() noexcept { return dialog_variants; }",
         "const std::vector<PcGameplayHudArtBatchV1>& action_base_v1() noexcept { return action_base; }",
         "const std::vector<PcGameplayHudArtBatchV1>& action_pressed_v1() noexcept { return action_pressed; }",
         "const std::vector<PcGameplayHudArtBatchV1>& action_icon_v1(std::size_t frame) noexcept { return *action_icons[frame]; }",
@@ -346,6 +381,7 @@ def write(panels: dict, swf: Swf) -> dict:
         "action_icons": [{"label": i["label"], "batches": len(i["batches"])} for i in action["icons"]],
         "skip_batches": len(panels["skip"]["batches"]),
         "skip_texts": [t["name"] + ":" + t["variable"] for t in panels["skip"]["texts"]],
+        "variants": [{"label": v["label"], "batches": len(v["batches"]), "texts": [t["container"] + "/" + t["name"] + ":" + str(t["align"]) + str([round(c, 1) for c in t["rect"]]) for t in v["texts"]], "skipped": v["skipped"]} for v in panels["variants"]],
         "dialog": {k: {"frame": panels[k]["frame"], "batches": len(panels[k]["batches"]),
                        "texts": [t["name"] + ":" + t["variable"] for t in panels[k]["texts"]]} for k in DIALOG_VARIANTS},
     }

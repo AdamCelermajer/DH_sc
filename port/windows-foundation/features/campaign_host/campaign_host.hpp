@@ -13,6 +13,7 @@
 #include "trigger_zones.hpp"
 #include "../cinematics/source_campaign_dispatch_v1.hpp"
 #include "../cinematic_runner/cinematic_runner.hpp" // P16 CINE
+#include "../cinematic_runner/dialog_tables.hpp" // B068
 #include "../../original_campaign_world_adapter.hpp"
 #include "../../original_camera_clip.hpp" // P16 CINE2: PlayCamera clips
 #include "../../camera.hpp"
@@ -95,6 +96,11 @@ public:
     // P16 CINE: StrID resolver for caption lines (main binds the original MenuLocalization after its load).
     // Without it a caption line shows an explicit "[StrID n unresolved]" marker.
     void set_caption_text(std::function<bool(std::int32_t,std::string&,std::string&)> resolver) { caption_text_=std::move(resolver); }
+    // B068: DialogActors rows (speaker name plate) and DialogStyles names (box variant) of the original dialogs tables.
+    void set_dialog_tables(std::vector<cinematic_runner::DialogActorRow> actors, std::map<std::int32_t, std::string> styles) {
+        dialog_actors_ = std::move(actors);
+        dialog_styles_ = std::move(styles);
+    }
     // P17 SAFEZONE: the music owner for Script_EnterSafeZone (true) and Script_LeaveSafeZone (false). Without it the
     // command still updates the host state (safe_zone()), and the log records the transition.
     void bind_safe_zone(std::function<bool(bool entering,std::string&)> music) { safe_zone_music_=std::move(music); }
@@ -178,6 +184,8 @@ private:
     std::set<int> consumed_tutorials_;
     cinematic_runner::CinematicRunner cinematic_; // P16 CINE
     std::function<bool(std::int32_t,std::string&,std::string&)> caption_text_; // P16 CINE
+    std::vector<cinematic_runner::DialogActorRow> dialog_actors_; // B068
+    std::map<std::int32_t, std::string> dialog_styles_;           // B068
     OriginalCameraClip clip_;                     // P16 CINE2: PlayCamera owner (one clip at a time, as CameraLevel)
     bool clip_active_=false;
     std::int32_t clip_id_=-1;

@@ -44,6 +44,15 @@ const std::vector<HudPanelTextSlotV1>& skip_texts_v1() noexcept;
 const std::vector<PcGameplayHudArtBatchV1>& caption_batches_v1() noexcept;
 const std::vector<HudPanelTextSlotV1>& caption_texts_v1() noexcept;
 
+// B068: every DialogBox variant by frame label (the DialogStyles name): name plate and text band art plus the text slots
+// (container "NameBox" = speaker name plate, "TextBox" = the line). Missing label -> nullptr.
+struct DialogVariantV1 {
+    const char* label;
+    const std::vector<PcGameplayHudArtBatchV1>* batches;
+    const std::vector<HudPanelTextSlotV1>* texts;
+};
+const std::vector<DialogVariantV1>& dialog_variants_v1() noexcept;
+
 // Quest banners (DialogBox QuestMsgDialog and QuestCompletedMsgDialog variants, rest poses).
 const std::vector<PcGameplayHudArtBatchV1>& quest_new_batches_v1() noexcept;
 const std::vector<HudPanelTextSlotV1>& quest_new_texts_v1() noexcept;
