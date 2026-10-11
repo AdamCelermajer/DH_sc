@@ -163,6 +163,13 @@ void CampaignHost::bind_world_providers(OriginalCampaignWorldProviders& p) {
         return true;
     };
     if (!p.block_save) p.block_save = [this](std::string&) { save_blocked_ = true; return true; };
+    // P17 SAFEZONE: Script_EnterSafeZone / Script_LeaveSafeZone. Non-blocking; the music owner decides the track.
+    if (!p.safe_zone) p.safe_zone = [this](bool entering, std::string& e) {
+        safe_zone_ = entering;
+        std::cout << "[campaign] safe zone " << (entering ? "entered" : "left") << " frame=" << frames_ << '\n';
+        if (!safe_zone_music_) return true;
+        return safe_zone_music_(entering, e);
+    };
     if (!p.cutscene_mode) p.cutscene_mode = [this](bool entering, std::string&) {
         // OPENING2: cutscene mode nests. A tutorial that ends inside the opening must not restore the HUD and the
         // controller while the opening is still running, so the mode ends when the last enter has been exited.
