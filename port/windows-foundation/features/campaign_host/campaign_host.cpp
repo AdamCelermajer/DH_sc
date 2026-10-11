@@ -795,7 +795,7 @@ bool CampaignHost::advance_actor_clips(std::int32_t dt_ms, std::string& error) {
             ++it;continue;
         }
         it = actor_clips_.erase(it);
-        if (chained < 0) { // B091: CSAnim::OnUpdate -> SM_SetIdleState when the scripted clip is over
+        if (chained < 0) { // B091: CSAnim::OnUpdate -> Idle only after the source scripted gate clears
             if (services_.scripted_clip_finished) {
                 bool released = false;
                 if (!services_.scripted_clip_finished(id, released, error)) return false;

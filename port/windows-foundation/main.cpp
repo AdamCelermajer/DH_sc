@@ -2572,8 +2572,8 @@ int main(int argc,char** argv) {
             if(!wait&&actorLifecycle.status(id)&&!actorLifecycle.put_idle(id,e))return false;
             return combatSession&&combatSession->script_put_idle(id,e,wait);};
         hostServices.scripted_actor_pose=[&](f::ActorId id){return combatSession&&combatSession->scripted_actor_pose(id);};
-        // B091: source CSAnim::OnUpdate (0x3c1a3c) returns a character to SM_SetIdleState once its scripted clip is over (Script_PlayActorAnim
-        // starts it with the idle-when-done flag). Release all gameplay actors, including held Idle after the End command;
+        // B091: source CSAnim::OnUpdate (0x3c1a3c) returns a character to SM_SetIdleState when its scripted flag clears (Script_PlayActorAnim
+        // enables the un-scripted OnUpdate flag). The host owns that admission gate. Release gameplay actors, including held Idle after End;
         // presentation-only props and companions keep their held pose. Source no longer relies on a later AI command to release the clip.
         hostServices.scripted_clip_finished=[&](f::ActorId id,bool& released,std::string& e){
             released=false;

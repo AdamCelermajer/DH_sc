@@ -631,6 +631,9 @@ void scripted_clip_deferred_until_unset(const std::string& directory) {
         scripted(false);rig.step(0);check(finishes==4&&!rig.host->scripted_clip_pose(101),
             "Kill/Limbus cancels a deferred completion; Unset cannot restore its gameplay pose");
     }
+    scripted(true);play();rig.step(100);scripted(false);scripted(true);rig.step(0);
+    check(finishes==4&&rig.host->scripted_clip_pose(101),"Re-mark before update closes an earlier Unset admission");
+    scripted(false);rig.step(0);check(finishes==5&&!rig.host->scripted_clip_pose(101),"Later real Unset admits the retained clip once");
 }
 
 int main(int argc, char** argv) {
