@@ -2317,8 +2317,14 @@ struct OriginalUiSession::Impl {
         if(!std::strcmp(name,"NativePauseAllSounds")||
            !std::strcmp(name,"NatvieResumeAllSounds")||
            !std::strcmp(name,"NativePauseMusic")){
-            // The original routines are no-ops until VoxSoundManager exists;
-            // gameplay audio ownership is not connected to this menu session.
+            // Keep game-authored controls separate from Activity lifecycle
+            // pause/resume so game resume cannot revive background audio.
+            if(!std::strcmp(name,"NativePauseAllSounds"))
+                self.menu_audio.emplace_back("pause-all");
+            else if(!std::strcmp(name,"NatvieResumeAllSounds"))
+                self.menu_audio.emplace_back("resume-all");
+            else
+                self.menu_audio.emplace_back("pause-music");
             return true;
         }
         if(!std::strcmp(name,"NativePopAllMenus")){

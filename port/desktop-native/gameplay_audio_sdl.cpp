@@ -190,6 +190,7 @@ struct MusicVoice {
     std::uint64_t cursor = 0;
     std::uint32_t gain_q30 = 0, fade_remaining = 0, fade_target_q30 = 0;
     std::int32_t step_q30 = 0;
+    bool paused = false, pause_when_silent = false;
     std::uint64_t decoded_block = std::numeric_limits<std::uint64_t>::max();
     std::array<std::int16_t, kBlockFrames * kChannels> decoded{};
 
@@ -218,6 +219,7 @@ struct EffectVoice {
     std::vector<std::int16_t> samples;
     std::size_t cursor = 0;
     bool looping = false;
+    bool paused = false, pause_when_silent = false;
     float gain = 1.f, target_gain = 1.f, gain_step = 0.f;
     std::uint32_t fade_remaining = 0;
     float left = 1.f, right = 1.f;
@@ -312,7 +314,65 @@ struct GameplayAudioSdl::Impl {
     std::vector<EffectVoice> effects;
     std::array<MusicVoice, 3> music{}; // Android owner slots: dying, old, current.
     float music_volume = 1.f, effect_volume = 1.f;
-    bool resumed = true;
+    bool native_audio_paused = false, native_music_paused = false;
+
+    static void fade_music(MusicVoice& voice, std::uint32_t target,
+                           std::uint32_t frames, bool pause_at_zero) noexcept {
+        if (!voice.asset) return;
+        voice.paused = false;
+        voice.fade_target_q30 = target;
+        voice.fade_remaining = frames;
+        voice.step_q30 = frames ? static_cast<std::int32_t>(
+            (std::int64_t(target) - voice.gain_q30) / frames) : 0;
+        voice.pause_when_silent = pause_at_zero;
+        if (!frames) {
+            voice.gain_q30 = target;
+            voice.step_q30 = 0;
+            if (pause_at_zero && !target) voice.paused = true;
+        }
+    }
+
+    void pause_effects(std::uint32_t frames) noexcept {
+        for (auto& voice : effects) {
+            if (voice.paused) continue;
+            if (voice.pause_when_silent && voice.fade_remaining <= frames) continue;
+            voice.target_gain = 0.f;
+            voice.fade_remaining = frames;
+            voice.gain_step = frames ? -voice.gain / static_cast<float>(frames) : 0.f;
+            voice.pause_when_silent = true;
+            if (!frames) { voice.gain = 0.f; voice.paused = true; }
+        }
+    }
+
+    void resume_effects(std::uint32_t frames) noexcept {
+        for (auto& voice : effects) {
+            if (!voice.paused && !voice.pause_when_silent) continue;
+            voice.paused = false;
+            voice.pause_when_silent = false;
+            voice.target_gain = 1.f;
+            voice.fade_remaining = frames;
+            voice.gain_step = frames ? (1.f - voice.gain) / static_cast<float>(frames) : 0.f;
+            if (!frames) voice.gain = 1.f;
+        }
+    }
+
+    void pause_music_voices(std::uint32_t frames, bool current_only) noexcept {
+        const std::size_t first = current_only ? 2 : 0;
+        for (std::size_t i = first; i < music.size(); ++i) {
+            auto& voice = music[i];
+            if (!voice.asset) continue;
+            if (voice.pause_when_silent && voice.fade_remaining <= frames) continue;
+            fade_music(voice, 0, frames, true);
+        }
+    }
+
+    void resume_music_voices(std::uint32_t frames) noexcept {
+        for (auto& voice : music) {
+            if (!voice.asset || (!voice.paused && !voice.pause_when_silent)) continue;
+            voice.pause_when_silent = false;
+            fade_music(voice, kQ30One, frames, false);
+        }
+    }
 
     static void callback(void* raw, Uint8* stream, int length) noexcept {
         auto* self = static_cast<Impl*>(raw);
@@ -326,37 +386,44 @@ struct GameplayAudioSdl::Impl {
         std::lock_guard<std::mutex> lock(self->mutex);
         for (std::size_t frame = 0; frame < frames; ++frame) {
             std::int64_t left = 0, right = 0;
-            for (auto& voice : self->music) {
-                if (voice.asset) {
-                    const auto high_gain = static_cast<std::int32_t>(voice.gain_q30 >> 15);
-                    left += static_cast<std::int64_t>(
-                        (std::int32_t(voice.next(0)) * high_gain) >> 15) * self->music_volume;
-                    right += static_cast<std::int64_t>(
-                        (std::int32_t(voice.next(1)) * high_gain) >> 15) * self->music_volume;
-                }
-                if (voice.fade_remaining && --voice.fade_remaining == 0) {
-                    voice.gain_q30 = voice.fade_target_q30; voice.step_q30 = 0;
-                    if (!voice.gain_q30) voice.asset.reset();
-                } else if (voice.fade_remaining) {
-                    voice.gain_q30 = static_cast<std::uint32_t>(
-                        std::int64_t(voice.gain_q30) + voice.step_q30);
+            {
+                for (auto& voice : self->music) {
+                    if (voice.asset && !voice.paused) {
+                        const auto high_gain = static_cast<std::int32_t>(voice.gain_q30 >> 15);
+                        left += static_cast<std::int64_t>(
+                            (std::int32_t(voice.next(0)) * high_gain) >> 15) * self->music_volume;
+                        right += static_cast<std::int64_t>(
+                            (std::int32_t(voice.next(1)) * high_gain) >> 15) * self->music_volume;
+                    }
+                    if (voice.fade_remaining && --voice.fade_remaining == 0) {
+                        voice.gain_q30 = voice.fade_target_q30; voice.step_q30 = 0;
+                        if (!voice.gain_q30) {
+                            if (voice.pause_when_silent) voice.paused = true;
+                            else voice.asset.reset();
+                        }
+                    } else if (voice.fade_remaining) {
+                        voice.gain_q30 = static_cast<std::uint32_t>(
+                            std::int64_t(voice.gain_q30) + voice.step_q30);
+                    }
                 }
             }
             for (auto it = self->effects.begin(); it != self->effects.end();) {
+                if (it->paused) { ++it; continue; }
                 if (it->samples.empty() || it->cursor + 1 >= it->samples.size()) {
                     if (it->looping && !it->samples.empty()) it->cursor = 0;
                     else { it = self->effects.erase(it); continue; }
                 }
-                if (self->resumed) {
-                    left += static_cast<std::int64_t>(it->samples[it->cursor]) *
-                            it->gain * it->left * self->effect_volume;
-                    right += static_cast<std::int64_t>(it->samples[it->cursor + 1]) *
-                             it->gain * it->right * self->effect_volume;
-                }
+                left += static_cast<std::int64_t>(it->samples[it->cursor]) *
+                        it->gain * it->left * self->effect_volume;
+                right += static_cast<std::int64_t>(it->samples[it->cursor + 1]) *
+                         it->gain * it->right * self->effect_volume;
                 it->cursor += 2;
                 if (it->fade_remaining && --it->fade_remaining == 0) {
                     it->gain = it->target_gain; it->gain_step = 0.f;
-                    if (it->target_gain == 0.f) { it = self->effects.erase(it); continue; }
+                    if (it->target_gain == 0.f) {
+                        if (it->pause_when_silent) { it->paused = true; ++it; continue; }
+                        it = self->effects.erase(it); continue;
+                    }
                 } else if (it->fade_remaining) it->gain += it->gain_step;
                 ++it;
             }
@@ -426,7 +493,32 @@ struct GameplayAudioSdl::Impl {
 
     bool menu_audio_command(std::string_view command, std::string& error) {
         if (command == "resume") {
-            std::lock_guard<std::mutex> lock(mutex); resumed = true;
+            std::lock_guard<std::mutex> lock(mutex);
+            native_audio_paused = false; native_music_paused = false;
+            resume_effects(kRate / 5); resume_music_voices(kRate / 5);
+            error.clear(); return true;
+        }
+        if (command == "pause-all" || command == "resume-all" ||
+            command == "pause-music") {
+            std::lock_guard<std::mutex> lock(mutex);
+            constexpr std::uint32_t kAllEmitterFadeFrames = kRate / 5;
+            constexpr std::uint32_t kSingleEmitterFadeFrames = kRate / 20;
+            if (command == "pause-all") {
+                native_audio_paused = true;
+                native_music_paused = false;
+                pause_effects(kAllEmitterFadeFrames);
+                pause_music_voices(kAllEmitterFadeFrames, false);
+            }
+            else if (command == "pause-music") {
+                if (!music[2].asset) { error.clear(); return true; }
+                native_music_paused = true;
+                pause_music_voices(kSingleEmitterFadeFrames, true);
+            }
+            else {
+                native_audio_paused = false; native_music_paused = false;
+                resume_effects(kAllEmitterFadeFrames);
+                resume_music_voices(kAllEmitterFadeFrames);
+            }
             error.clear(); return true;
         }
         const auto first_comma = command.find(',');
@@ -455,6 +547,7 @@ struct GameplayAudioSdl::Impl {
         for (auto it = effects.begin(); it != effects.end();) {
             if (it->owner != owner || it->sound_id != sound_id) { ++it; continue; }
             if (fade_ms <= 0) { it = effects.erase(it); continue; }
+            it->pause_when_silent = false;
             const auto frames = static_cast<std::uint64_t>(fade_ms) * kRate / 1000;
             it->target_gain = 0.f;
             it->fade_remaining = static_cast<std::uint32_t>(std::clamp<std::uint64_t>(
