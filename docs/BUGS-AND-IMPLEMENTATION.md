@@ -298,3 +298,11 @@ are recorded in `coordination/v20.1/CODEX-RUN.md`; no row is resolved by dispatc
 | B113 | User: "b109 the rendering is fixed but not the TP text messages it need to be conform"; screenshot `.local-inputs/v20.1/user-shots/B113-travel-prompt.png`. | Original upper destination widget restored, fresh review READY WITH CAVEATS at9623f483; merged, combined B106 input/render checks pending | `/root/b113_travel_prompt` in fix113/codex/b113; `/root/b113_review`; root integration |
 | B114 | User: lighting is extremely bright, no fog/everything clear; original gameplay darkens with distance, especially over water. | OPEN overall brightness/fog; reviewed source specular blue-channel/light transport repair merged; global ambient/light admission investigation continues | `/root/b114_lighting_fog`; `/root/b114_review`; root integration |
 | B115 | User: water texture looks wrong, alongside excessively bright water. | OPEN appearance; existing B109 atlas/ownership fixes verified, but direct original pond sequence shows much subtler cells; material/animation enrollment audit resumed with B114 | `/root/b115_water`; `/root/b115_review`; root integration |
+
+### V21 wrap instruction (2026-10-12)
+
+The user requested agents wrap up and output v21. Ship the reviewed current casting, corpse and UV-axis patches after combined verification; stop further appearance research. Fire appearance is explicitly approved as a remaining v21 issue. Broader water brightness/cells/fog remain documented open; neither the specular nor UV corrections establish full visual closure.
+
+| ID | Observed | State | Owner |
+|---|---|---|---|
+| B116 | Repeated real F9 after loading/retiring a dead moth rejects saved targetable1/current0; normal frontend Continue and tested alive F9 succeed. | Deferred v21 caveat under user wrap instruction; restore identity guard preserved, no corrective patch claimed | Root/shared-save owner; /root/b092_b098_review reproduction/review evidence |
