@@ -386,8 +386,9 @@ bool menu_text_layout_v1(const MenuTextLayoutFieldV1& field, std::string_view te
     const bool wrap = flags.multiline && flags.word_wrap;
     if (!flags.html && (text.find('<') != std::string_view::npos || text.find('&') != std::string_view::npos))
         return fail(error, "Markup is not admitted by source non-HTML field flags");
-    if (!flags.multiline && (text.find('\n') != std::string_view::npos || text.find('\r') != std::string_view::npos ||
-                             text.find("<BR") != std::string_view::npos || text.find("<br") != std::string_view::npos ||
+    // gameswf::edit_text_character::append_text accepts explicit CR/LF regardless of multiline (0x78cb90).
+    // Multiline/word-wrap still govern automatic wrapping; authored error strings use ^n in field236 (0x8d22).
+    if (!flags.multiline && (text.find("<BR") != std::string_view::npos || text.find("<br") != std::string_view::npos ||
                              text.find("</P>") != std::string_view::npos || text.find("</p>") != std::string_view::npos))
         return fail(error, "Line break is not admitted by source single-line field flags");
     for (unsigned char c : text)
@@ -397,8 +398,13 @@ bool menu_text_layout_v1(const MenuTextLayoutFieldV1& field, std::string_view te
     if (flags.html) {
         if (!parse_markup(text, field.source_rgba, paragraphs, error)) return false;
     } else {
-        paragraphs.emplace_back();
-        append_text(paragraphs.back(), text, field.source_rgba);
+        std::size_t at=0;
+        for(;;){
+            paragraphs.emplace_back();const auto end=text.find_first_of("\r\n",at);
+            append_text(paragraphs.back(),text.substr(at,end==std::string_view::npos?end:end-at),field.source_rgba);
+            if(end==std::string_view::npos)break;
+            at=end+1;if(text[end]=='\r'&&at<text.size()&&text[at]=='\n')++at;
+        }
     }
     const float available = field.local_rect[1] - field.local_rect[0] - field.margins[1] -
                             width_fudge - std::max(0.f, field.margins[0] + field.margins[2]);

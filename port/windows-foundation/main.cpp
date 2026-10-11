@@ -5687,7 +5687,8 @@ int main(int argc,char** argv) {
                     else if(cmd.kind==Kind::sell) {
                         // TransferItemTo removes equipment in both sets before transferring the whole instance.
                         const auto bindings=state.equipment;
-                        for(const auto& b:bindings)if(b.item_instance_id==cmd.instance_id&&b.source_slot>=0&&b.source_slot<9)
+                        const auto owned=std::find_if(state.inventory.begin(),state.inventory.end(),[&](const auto& i){return i.instance_id==cmd.instance_id;});
+                        for(const auto& b:bindings)if(owned!=state.inventory.end()&&owned->quantity==1&&b.item_instance_id==cmd.instance_id&&b.equipment_set<=0&&b.source_slot>=0&&b.source_slot<9)
                             if(!runtimeEquipment->unequip(unsigned(b.source_slot),error))throw std::runtime_error("Merchant sell unequip: "+error);
                         result=merchantShop->sell(cmd.instance_id,state,table,price);changed=result==f::merchant::TradeResult::ok;
                     } else {
@@ -7728,12 +7729,13 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                             throw std::runtime_error("Original menu glyph affine draw rejected");
                     };
                     for(const auto& text:menu.text) {
+                        const auto popupPage=text.field.path.find("MerchantErrorPopup/")!=std::string::npos?250:text.field.path.compare(0,14,"menu_confirm2/")==0?785:0;
                         const auto sourceFlags=std::find_if(std::begin(f::character_menu::source_text_flag_rows_v1),std::end(f::character_menu::source_text_flag_rows_v1),[&](const auto& row) {
-                            return row.movie==f::character_menu::SourceMenuMovieV1::character_menu&&row.field_character==text.field.character_id;
+                            return row.movie==f::character_menu::SourceMenuMovieV1::character_menu&&row.field_character==text.field.character_id&&(!popupPage||row.page_character==popupPage);
                         });
-                        if(sourceFlags!=std::end(f::character_menu::source_text_flag_rows_v1)&&(sourceFlags->raw_flags&0x6000)) {
+                        if((sourceFlags!=std::end(f::character_menu::source_text_flag_rows_v1)&&(sourceFlags->raw_flags&0x6000))||text.value.find('\n')!=std::string::npos) {
                             f::character_menu::MenuTextLayoutFieldV1 field;
-                            field.page_character=sourceFlags->page_character;field.field_character=sourceFlags->field_character;
+                            field.page_character=sourceFlags==std::end(f::character_menu::source_text_flag_rows_v1)?0:sourceFlags->page_character;field.field_character=text.field.character_id;
                             field.local_rect=text.field.local_bounds;field.matrix=text.field.matrix;field.margins=text.field.margins;
                             field.alignment=text.field.align;field.source_height=text.field.source_height;field.paragraph_leading=text.field.leading;
                             field.source_font_character=static_cast<std::uint16_t>(text.field.font_id);

@@ -22,6 +22,9 @@ struct SourceTextFlagRowV1 {
 // Generic menu: dqmenus.swf, SHA256 3c1a8ff1d43e89fa5608fb38dc1b27540b07dbd018206f02c6fb8d3ba061c6a5.
 // Character pages: dqcharmenu_droid.swf, SHA256 43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0.
 inline constexpr SourceTextFlagRowV1 source_text_flag_rows_v1[]{
+    // B110: exact shared DefineEditText 236 used by merchant error and buy confirmation popups.
+    {SourceMenuMovieV1::character_menu, 250, 236, 0x8d22},
+    {SourceMenuMovieV1::character_menu, 785, 236, 0x8d22},
     {SourceMenuMovieV1::generic_frontend, 95, 56, 0x8d30},
     {SourceMenuMovieV1::generic_frontend, 95, 58, 0x0d30},
     {SourceMenuMovieV1::generic_frontend, 95, 67, 0x8d30},

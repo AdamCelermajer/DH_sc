@@ -1195,3 +1195,6 @@ target_link_libraries(foundation_merchant PUBLIC foundation_data foundation_runt
 add_executable(merchant_shop_v1_tests features/merchant/merchant_shop_v1_tests.cpp)
 target_link_libraries(merchant_shop_v1_tests PRIVATE foundation_merchant)
 add_test(NAME merchant_shop_v1 COMMAND merchant_shop_v1_tests)
+add_executable(menu_text_layout_v1_tests features/character_menu/menu_text_layout_v1_tests.cpp)
+target_link_libraries(menu_text_layout_v1_tests PRIVATE foundation_runtime_skills_menu)
+add_test(NAME menu_text_layout_v1 COMMAND menu_text_layout_v1_tests)
