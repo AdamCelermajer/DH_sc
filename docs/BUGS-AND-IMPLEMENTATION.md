@@ -114,6 +114,21 @@ Screenshots: `.local-inputs/claude-preview15/user-shots/b0NN-*.png`.
 | ID | Observed / reproduction | State | Owner |
 |---|---|---|---|
 
+### 2j. Reported on Preview 16 (2026-10-11): B068-B077, fix sessions running (Sonnet 5.5 medium, one session each; brief `coordination/claude-preview161/BUGFIX-BRIEF.md`, screenshots `.local-inputs/claude-preview161/user-shots/`)
+
+| ID | Observed / reproduction | State | Owner |
+|---|---|---|---|
+| B068 | ALL cinematic problems: controls (swing/menu) usable during cutscenes; SKIP button does not work and opens the character menu; lizard ambush: lizards do not jump to the right place and attack directly; camera and character animation bugs; overlay problems; tutorial panel off-centre and speaker name missing; tap/click should speed dialogue; "New Quest" banner appeared only after death + relaunch. | PARTIAL (fix/b068 @21e76885, NOT merged): input lock, SKIP hit-test, captions/speaker/tap, banner, lizard heading, opening cutscene audited and fixed. TODO: opening leftovers (faery glow, missing moth, title re-fire); audit MothIntro, lizard ambush recheck, Combat/Movement tutorial scenes, Camp_Intro, serpent/witch/troll-return | fresh Sonnet session |
+| B069 | Space does not open the chest next to the hero. | FIXED on fix/b069, merged in p16.1/integrate (needs v20 release) | fresh Sonnet session |
+| B070 | Movement Tutorial appears again after it was completed. | FIXED on fix/b070, merged in p16.1/integrate | fresh Sonnet session |
+| B071 | Moth animation wrong; spawned moths untargetable/unkillable and follow the player. | PARTIAL FIX on fix/b071 (moths leave Spawn, targetable/killable); wrong animation/following unverified; merged in p16.1/integrate | fresh Sonnet session |
+| B072 | Map page not as intended / not working. | FIXED on fix/b072 (draw); zoom/pan unverified in game; merged in p16.1/integrate | fresh Sonnet session |
+| B073 | Quest Journal not as intended. | FIXED on fix/b073; MAKE ACTIVE/tab clicks unverified; merged in p16.1/integrate | fresh Sonnet session |
+| B074 | Hero attacks from too far (range). | NO DIVERGENCE FOUND (report only); possible cause = swoosh size ~1.4x video (B041 area), needs user confirmation | fresh Sonnet session |
+| B075 | Vases untargetable but break when walked on (check vs original). | HALF FIXED on fix/b075 (attack ring under destructible); walk-over breaking not reproduced; merged in p16.1/integrate | fresh Sonnet session |
+| B076 | Something missing in the visuals (effect or colour) vs the original. | MOSTLY FIXED on fix/b076 (hero light, specular, ambient decor, clear colour); dust motes/torch breathing/actor lighting open; merged in p16.1/integrate | fresh Sonnet session |
+| B077 | Rene and Celeste do not follow the player. | FIXED on fix/b077 (follower controller); Rene ranged attack not implemented; merged in p16.1/integrate | fresh Sonnet session |
+
 ### 2h. Implementation requests from the same session (feature work, Preview 15)
 
 | ID | Request | State | Owner |
