@@ -103,6 +103,29 @@ int main(int argc,char** argv){try{
         out={matrix[12],matrix[13],matrix[14]};return true;
     },result,error)&&cache&&*cache==OriginalTargetPosition{boss_authored->world[12],boss_authored->world[13],boss_authored->world[14]},
           "actual boss own scene node failed source cache producer");
+    // Native GameObject caches this target node across scripted pose updates.
+    // Exercise the production visual pose path twice and ensure the same token
+    // continues to resolve the newly-applied world transform.
+    std::size_t target_pose_index=boss_scene.graph.size();
+    for(std::size_t i=0;i<boss_scene.graph.size();++i)
+        if(boss_scene.graph[i].name=="target_node"){target_pose_index=i;break;}
+    check(target_pose_index<boss_scene.graph.size(),"boss pose lacks authored target_node");
+    SkeletalPose boss_pose;check(boss.current_local_pose(boss_pose,error),error.c_str());
+    const auto original_boss_world=world;
+    boss_pose[target_pose_index].translation[0]+=3.0f;
+    check(boss.apply_local_pose(boss_pose,error),error.c_str());
+    check(boss.source_target_node_world(token,world,error)&&world!=original_boss_world,
+          "first applied pose invalidated or failed to update cached source node");
+    const auto first_pose_world=world;
+    boss_pose[target_pose_index].translation[0]+=2.0f;
+    check(boss.apply_local_pose(boss_pose,error),error.c_str());
+    check(boss.source_target_node_world(token,world,error)&&world!=first_pose_world,
+          "second applied pose invalidated or failed to update cached source node");
+    const auto before_bad_pose=world;
+    auto malformed_pose=boss_pose;malformed_pose[target_pose_index].id+="_wrong";
+    check(!boss.apply_local_pose(malformed_pose,error)&&
+          boss.source_target_node_world(token,world,error)&&world==before_bad_pose,
+          "invalid pose mutated scene or invalidated cached source node");
     check(boss.update(.1,error)&&boss.source_target_node_world(token,world,error),"same boss graph update invalidated node");
     auto bad_boss=boss_config;bad_boss.model_path="missing-model.bdae";
     check(!boss.load(assets,bad_boss,error)&&boss.source_target_node_world(token,world,error),"failed reload invalidated retained node");

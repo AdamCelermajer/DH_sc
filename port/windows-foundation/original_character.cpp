@@ -13,6 +13,7 @@
 #include <stdexcept>
 #include <limits>
 #include <cctype>
+#include <sstream>
 
 namespace dh::foundation {
 namespace {
@@ -288,7 +289,17 @@ bool CharacterVisual::load_with_ranges(const AssetCatalog& assets,const Characte
             require(std::none_of(next->clips.begin(),next->clips.begin()+i,[&](const auto& clip){return clip.first==next->clips[i].first;}),"Duplicate character animation name: "+next->clips[i].first);
             const auto data=assets.read(next->clips[i].second);
             require(next->players[i].load(data.data(),data.size(),next->scene,error,targetPolicy), next->clips[i].second+": "+error);
-            require(next->players[i].track_count()>0 || next->players[i].skipped>0,"Character animation has no bound tracks");
+            if(next->players[i].track_count()==0 && next->players[i].skipped==0) {
+                std::ostringstream detail;
+                detail << "Character animation has no bound tracks: name=" << next->clips[i].first
+                       << " path=" << next->clips[i].second
+                       << " bytes=" << data.size()
+                       << " segments=" << next->players[i].segment_count()
+                       << " bound=" << next->players[i].track_count()
+                       << " unbound=" << next->players[i].unbound
+                       << " skipped=" << next->players[i].skipped;
+                require(false,detail.str());
+            }
             next->unbound_targets+=next->players[i].unbound;
         }
         // Original actor sets use the dynamic default-data producer even for
@@ -571,8 +582,22 @@ bool CharacterVisual::apply_local_pose(const SkeletalPose& pose,std::string& err
         for(auto& node:candidate.graph)node.world=dh2::scene::multiply(helper,node.world);
         for(auto& instance:candidate.instances)instance.world=dh2::scene::multiply(helper,instance.world);
     }
-    auto previousMeshes=impl_->meshes;auto previous=std::move(impl_->scene);impl_->scene=std::move(candidate);
-    if(!impl_->deform(error)) {impl_->scene=std::move(previous);impl_->meshes=std::move(previousMeshes);return false;}
+    // The source Character caches GetTargetNode() as a node pointer for the
+    // lifetime of the loaded visual. Keep those node/instance cells stable
+    // while updating their contents; replacing the Scene vectors invalidates
+    // the cached source target_node address on every scripted pose change.
+    if(candidate.graph.size()!=impl_->scene.graph.size() ||
+       candidate.instances.size()!=impl_->scene.instances.size()) {
+        error="Actor pose changed retained scene topology";return false;
+    }
+    auto previousMeshes=impl_->meshes;auto previous=impl_->scene;
+    for(std::size_t i=0;i<candidate.graph.size();++i)impl_->scene.graph[i]=std::move(candidate.graph[i]);
+    for(std::size_t i=0;i<candidate.instances.size();++i)impl_->scene.instances[i]=std::move(candidate.instances[i]);
+    if(!impl_->deform(error)) {
+        for(std::size_t i=0;i<previous.graph.size();++i)impl_->scene.graph[i]=std::move(previous.graph[i]);
+        for(std::size_t i=0;i<previous.instances.size();++i)impl_->scene.instances[i]=std::move(previous.instances[i]);
+        impl_->meshes=std::move(previousMeshes);return false;
+    }
     impl_->sampled=false;error.clear();return true;
 }
 bool CharacterVisual::current_local_pose(SkeletalPose& output,std::string& error) const {
