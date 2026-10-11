@@ -280,6 +280,7 @@ Accepted v21 on 2026-10-12: resolved stable IDs moved to `docs/RESOLVED-BUGS.md`
 
 | ID | Observed | State | Implementation owner | Reviewer |
 |---|---|---|---|---|
-| B117 | Opening `_prim_OpenableContainer_1` starts `prince_interaction.bdae` at frame10290, then exits with `Live combat: Physical locomotion must be admitted through the current authored locomotion selection`. User supplied facing/context/interaction log. | OPEN; fresh implementation and independent source/runtime review assigned immediately. Suspected retained interaction versus neutralized locomotion admission; not yet reproduced or fixed. | `/root/b117_chest_crash`; root integration | `/root/b117_chest_review` |
 
 Accepted v21 and its user saves remain untouched. Root copied profile, world and selective checkpoint read-only into `.local-inputs/b117/user-seed` for further isolated reproduction copies. Fix must preserve the source locomotion admission guard and distinguish actual interaction/retained pose ownership. Earlier idle chest tests do not cover this moving-to-interaction failure.
+
+B117 resolved in accepted v21.1: exact shipped crash reproduced with full physical transition admission; retained managed animation ownership repaired; independent source/runtime/visual and packaged checks READY;175 checks pass across full run plus corrected reruns. Evidence and stable ID retained in `docs/RESOLVED-BUGS.md` and `coordination/v21/B117-hotfix.md`. Existing v21 progress copied to the separate hotfix folder; originals preserved.
