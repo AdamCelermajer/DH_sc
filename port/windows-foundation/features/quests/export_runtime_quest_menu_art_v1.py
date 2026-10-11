@@ -409,7 +409,10 @@ def mask_vertices(character, matrix, depth=0):
     if depth > 30:
         raise ValueError("Quest clip-mask nesting bound")
     if character in shapes:
-        return shape_vertices(shapes[character], matrix)
+        # B073: a mask shape may be solid-filled (the Assigned/Completed list mask is); its coverage is the
+        # union of the bitmap and solid triangles. Using only the bitmap triangles produced an empty mask
+        # that clipped every bitmap under `content` (list underlines, header and completed icons).
+        return shape_vertices(shapes[character], matrix) + solid_shape_vertices(shapes[character], matrix)
     if character in solids:
         return shape_vertices(solids[character], matrix)
     if character not in sprites or not sprites[character]:
@@ -444,7 +447,9 @@ def walk(character, matrix, path, frame_overrides=None, excluded=frozenset(), de
     if character in shapes:
         shape = shapes[character]
         bitmap = [(path, character, shape_vertices(shape, matrix))] if shape["triangles"] else []
-        solid = ([(path, character, solid_shape_vertices(shape, matrix), shape["solid_rgba"], "")
+        # B073: a solid fill of a shape that also has a bitmap fill is drawn after that bitmap (same path).
+        solid = ([(path, character, solid_shape_vertices(shape, matrix), shape["solid_rgba"],
+                   path if bitmap else "")
                   ] if shape["solid_triangles"] else [])
         return bitmap, solid, []
     if character in edits:
@@ -473,7 +478,9 @@ def walk(character, matrix, path, frame_overrides=None, excluded=frozenset(), de
                        frame_overrides, excluded, depth + 1)
         first = len(art)
         art.extend(a)
-        solid_art.extend(s)
+        # B073: depth order. A child solid with no bitmap of its own sits above the bitmaps placed before it.
+        solid_art.extend((p_, c_, v_, rgba_, after_ or (art[first - 1][0] if first else ""))
+                         for p_, c_, v_, rgba_, after_ in s)
         fields.extend(f)
         for _, mask in masks:
             for index in range(first, len(art)):
@@ -516,6 +523,12 @@ page_art, page_solids, page_fields = walk(599, page_matrix, "menu_QuestLogSheetN
                                           excluded=exclude_page)
 page_art = flatten_groups(page_art)
 page_solids = flatten_solids(page_solids)
+# B073: QuestPrio is a two-frame clip (frame 1 = main-quest crown, frame 2 = side-quest bullet, SWF 0x2648x/0x264d0);
+# the page frame no longer carries it, the runtime picks the frame from Quest::IsPrimary.
+side_art, _, _ = walk(599, page_matrix, "menu_QuestLogSheetNEW", {589: 1}, exclude_page)
+is_prio = lambda group: "/QuestPrio/" in group[0]
+prio_art = [[g for g in page_art if is_prio(g)], [g for g in flatten_groups(side_art) if is_prio(g)]]
+page_art = [g for g in page_art if not is_prio(g)]
 
 # Dynamic duplicated row template remains local; caller composes this exact
 # source matrix with its authored `_y = i * 50` row index.
@@ -576,6 +589,7 @@ struct RuntimeQuestMenuSourceArtV1 {
     std::vector<character_menu::MenuSolidBatch> activate_solids;
     std::vector<character_menu::MenuTextField> activate_fields;
     std::array<std::array<float,6>,2> row_parent_matrices;
+    std::array<std::vector<HudGeometryBatch>,2> prio_art; // B073: QuestPrio frame 0 main (crown), 1 side
 };
 const RuntimeQuestMenuSourceArtV1& original_runtime_quest_menu_art_v1();
 }
@@ -604,12 +618,13 @@ source.append(vec("page_fields", "character_menu::MenuTextField", page_fields, m
 for i, values in enumerate(row_states): source.append(vec(f"row_art_{i}", "HudGeometryBatch", values, menu_batch_init))
 for i, values in enumerate(row_state_solids): source.append(vec(f"row_solids_{i}", "character_menu::MenuSolidBatch", values, menu_solid_init))
 for i, values in enumerate(row_fields): source.append(vec(f"row_fields_{i}", "character_menu::MenuTextField", values, menu_field_init))
+for i, values in enumerate(prio_art): source.append(vec(f"prio_art_{i}", "HudGeometryBatch", values, menu_batch_init))
 source.append(vec("marker_art", "HudGeometryBatch", marker_art, menu_batch_init))
 source.append(vec("marker_solids", "character_menu::MenuSolidBatch", marker_solids, menu_solid_init))
 source.append(vec("activate_art", "HudGeometryBatch", activate_art, menu_batch_init))
 source.append(vec("activate_solids", "character_menu::MenuSolidBatch", activate_solids, menu_solid_init))
 source.append(vec("activate_fields", "character_menu::MenuTextField", activate_fields, menu_field_init))
-source.append("const RuntimeQuestMenuSourceArtV1& original_runtime_quest_menu_art_v1(){static const RuntimeQuestMenuSourceArtV1 art=[](){RuntimeQuestMenuSourceArtV1 x;x.page_art=page_art;x.page_solids=page_solids;x.page_fields=page_fields;x.row_art={row_art_0,row_art_1};x.row_solids={row_solids_0,row_solids_1};x.row_fields={row_fields_0,row_fields_1};x.current_marker_art=marker_art;x.current_marker_solids=marker_solids;x.activate_art=activate_art;x.activate_solids=activate_solids;x.activate_fields=activate_fields;" + "".join(f"x.row_parent_matrices[{i}]={arr(m)};" for i, m in enumerate(category_transforms)) + "return x;}();return art;}\n")
+source.append("const RuntimeQuestMenuSourceArtV1& original_runtime_quest_menu_art_v1(){static const RuntimeQuestMenuSourceArtV1 art=[](){RuntimeQuestMenuSourceArtV1 x;x.page_art=page_art;x.page_solids=page_solids;x.page_fields=page_fields;x.row_art={row_art_0,row_art_1};x.row_solids={row_solids_0,row_solids_1};x.row_fields={row_fields_0,row_fields_1};x.prio_art={prio_art_0,prio_art_1};x.current_marker_art=marker_art;x.current_marker_solids=marker_solids;x.activate_art=activate_art;x.activate_solids=activate_solids;x.activate_fields=activate_fields;" + "".join(f"x.row_parent_matrices[{i}]={arr(m)};" for i, m in enumerate(category_transforms)) + "return x;}();return art;}\n")
 source.append("}\n")
 SOURCE.write_text("".join(source), encoding="utf-8")
 print(json.dumps({"status":"generated", "movie_sha256":__import__("hashlib").sha256(raw).hexdigest(),
