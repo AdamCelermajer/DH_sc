@@ -299,12 +299,14 @@ bool Player::load(const std::uint8_t* input,std::size_t size,const scene::Scene&
         if(count>10000)throw std::runtime_error("Animation track count exceeds limit");
         const auto segments=dh2_animation_segments(&view);
         if(!count){
-            if(segments>256)throw std::runtime_error("Animation segment count exceeds limit");
-            for(unsigned segment=0;segment<segments;++segment){
+            // Track-less images (static props, invisible Characters) only
+            // borrow clip time from a valid contiguous segment table. Static
+            // BDAEs may carry no or degenerate segments; they load with no
+            // clip range, as before the clip-time change.
+            for(unsigned segment=0;segments<=256&&segment<segments;++segment){
                 std::int32_t begin=0,finish=0;
                 if(!dh2_animation_segment_range(&view,static_cast<std::int32_t>(segment),&begin,&finish)
-                   ||finish<=begin||(segment&&begin!=ranges.back()[1]))
-                    throw std::runtime_error("Animation segments are not contiguous");
+                   ||finish<=begin||(segment&&begin!=ranges.back()[1])){ranges.clear();break;}
                 ranges.push_back({begin,finish});
             }
             if(!ranges.empty()){

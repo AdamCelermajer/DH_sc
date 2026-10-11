@@ -7201,17 +7201,19 @@ bool native_level_save_commit_source_noncharacter_v1(void* context,
  using Kind=dh2::level_savegame_player_load_v1::SourceNoncharacterKind;
  if(state.kind==Kind::container) {
   SourceDestructibleContainer* container=nullptr;
-  for(auto& candidate:runtime->source_destructible_containers)
-   if(candidate&&candidate->owner.object==&row&&
-      candidate->source.gametype=="DestructibleContainer")container=candidate.get();
-  if(!runtime||!container||runtime->manager.find_by_identity(row.identity)!=&row) {
+  if(runtime)
+   for(auto& candidate:runtime->source_destructible_containers)
+    if(candidate&&candidate->owner.object==&row&&
+       candidate->source.gametype=="DestructibleContainer")container=candidate.get();
+  auto* current=runtime?runtime->manager.find_by_identity(row.identity):nullptr;
+  if(!runtime||!container||current!=&row) {
    error="Container Deserialize commit lost its canonical row";return true;
   }
   if(!container->properties.keep_solid) {error.clear();return false;}
   // GameObject::Deserialize updates its same-row base bytes, clears both
   // ConditionData tested receipts, then synchronizes the borrowed VisualObject.
-  row.visible_80=state.game_object.object_base_flag_80;
-  row.serialized_flag_8a=state.game_object.object_base_flag_8a;
+  current->visible_80=state.game_object.object_base_flag_80;
+  current->serialized_flag_8a=state.game_object.object_base_flag_8a;
   if(row.live_fields.visible_80)
    *row.live_fields.visible_80=state.game_object.object_base_flag_80;
   if(row.live_fields.serialized_flag_8a)
@@ -16341,13 +16343,13 @@ bool initialize_crypt_projectile_owner(NativeCryptLevelProjection& projection,
   error="ProjectileTable requires the active current-Level source owner";return false;
  }
  try {
-  const auto records=read(assets,"data/pydata/projectiles_pyarray.bin","");
-  const auto names=read(assets,"data/pydata/projectiles_pyarraynames.bin","");
-  const auto schema=read(assets,"data/pydata/projectiles_pystructnames.bin","");
+  const auto records=read(assets,"data/projectiles_pyarray.bin","");
+  const auto names=read(assets,"data/projectiles_pyarraynames.bin","");
+  const auto schema=read(assets,"data/projectiles_pystructnames.bin","");
   const auto dictionary_names=read(assets,
-      "data/pydata/projectiles_dictionary_pyarraynames.bin","");
+      "data/projectiles_dictionary_pyarraynames.bin","");
   const auto dictionary_values=read(assets,
-      "data/pydata/projectiles_dictionary_pyarray.bin","");
+      "data/projectiles_dictionary_pyarray.bin","");
   auto table=std::make_unique<dh2::data::ProjectileTableV1>();
   if(!dh2::data::load_projectile_table_v1(
        {records.data(),records.size()},{names.data(),names.size()},
@@ -31572,7 +31574,6 @@ bool apply_player_faery_change(std::uint32_t id,std::string& error) {
 
 namespace FaeryPlacement=dh2::character_faery_placement_v1;
 
-} // namespace
 AuthoredCryptFaeryOwner* native_faery_owner(std::uintptr_t identity) {
  if(!active_crypt_room_runtime)return nullptr;
  const auto found=std::find_if(active_crypt_room_runtime->faeries.begin(),
@@ -31681,7 +31682,6 @@ bool faery_external_visual_target_position(std::uintptr_t identity,
         std::isfinite(position[2]);
 }
 
-namespace {
 bool faery_external_character_position(std::uintptr_t identity,float (&position)[3]) {
  if(!identity||!active_crypt_room_runtime)return false;
  std::size_t occurrences=0;
@@ -31784,7 +31784,6 @@ int faery_external_warp_service(void* raw,
  if(controller.path.count&&dh2_nav_drop_path(&controller.path)!=0)return -1;
  controller.moving=0;
  return 1;
-}
 }
 
 std::int32_t faery_external_has_master(void* raw,std::uintptr_t identity,

@@ -573,9 +573,16 @@ struct OriginalUiSession::Impl {
         const char* inputs[]={"design_pyarray.bin","design_pyarraynames.bin","design_pystructnames.bin"};
         for(unsigned i=0;i<3;++i)
             if(!raw_asset((std::string("original-cache/data/pydata/")+inputs[i]).c_str(),metadata[i],error))return false;
+        // The renderer borrows the DesignSettings rows from this snapshot;
+        // drop that view before the snapshot is replaced, then rebind it.
+        model_renderer::bind_xp_design_settings(nullptr,0);
         option_table=ui::GameOptionTableV1();
         if(!option_table.load_design_cache({metadata[0].data(),metadata[0].size()},
             {metadata[1].data(),metadata[1].size()},{metadata[2].data(),metadata[2].size()},error))return false;
+        {
+            const auto design=option_table.borrow().design_settings_table();
+            model_renderer::bind_xp_design_settings(design.data,design.size);
+        }
         settings=std::make_unique<ui::OwnedHudSettingsV1>(option_table.borrow());
         settings_files=std::make_unique<ui::SettingsNativeFilesV1>(directory);
         return load_settings(this,error);

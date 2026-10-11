@@ -74,6 +74,9 @@ struct GameObject {
     // PFObject constructor's +0x1cc word. GameObject::Enabled/Disabled
     // toggles bit 3 here before updating its PhysicsObject and nav state.
     std::uint32_t pf_object_flags_1cc{8};
+    // GameObject::SetPhysicalObject (0x394bf8) keeps its PhysicalObject at
+    // +732 (word 183). Projected as presence; the body stays with its owner.
+    std::uint8_t physical_present_732{};
     // ObjectBase::setUpdating and SetVisible write these on the same source
     // row. They are distinct from the ObjectManager update-list membership.
     std::uint8_t updating_85{};
