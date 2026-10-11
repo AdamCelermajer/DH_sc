@@ -1889,6 +1889,7 @@ int main(int argc,char** argv) {
         f::OriginalCampaignWorldAdapter campaignWorld(actorLifecycle,&sourceCameraTargets);
         // P16 HOST: script-host providers and generic trigger zones (bound only with --campaign-triggers).
         f::campaign_host::CampaignHostServices hostServices;
+        hostServices.tutorial_settings_path=fs::absolute(options.save).parent_path()/"dh2_settings.tutorials"; // B070: global one-shot tutorial flags (original dh2_settings.savegame)
         f::CameraClipLibrary cameraClipLibrary; // P16 CINE2: PlayCamera dictionary -> cs_* clip bytes
         cameraClipLibrary.set_scene_file(originalCamera.config().file); // the level camera the clips drive
         hostServices.read_camera_clip=[&](std::int32_t id,std::vector<std::uint8_t>& clip,std::vector<std::uint8_t>& scene,std::string& path,std::string& e){return cameraClipLibrary.read(assets,id,clip,scene,path,e);};
