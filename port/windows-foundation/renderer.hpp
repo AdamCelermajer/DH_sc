@@ -52,7 +52,7 @@ struct Material {
     // B076: material uses the source GL_Diffuse_L1 shader family: (ambient + diffuse*N.L*attenuation) * vertex colour with the
     // level point light. Ignored (old look) until Renderer::setLevelLight enabled a light.
     bool levelLit = false;
-    // B076: level-lit materials with the shader's Sp slot add light0.specular * specularMap.rgb * att * pow(N.H, glossiness)
+    // Level-lit Sp adds source light0.specular * specularMap.z * att * pow(N.H, glossiness)
     // in a second additive pass (source GL_Diffuse_L1_iPhone_FS/VS.glsl). glossiness 0 = no specular.
     std::uint32_t specularTexture = 0;
     float glossiness = 0.0f;
@@ -67,7 +67,7 @@ struct LevelPointLight {
     bool enabled = false;
     Vec3 position;
     std::array<float, 3> attenuation{1.0f, 0.0f, 0.0f};
-    std::array<float, 3> ambient{}, diffuse{};
+    std::array<float, 3> ambient{}, diffuse{}, specular{};
 };
 
 struct DrawRange {
@@ -114,6 +114,7 @@ enum class VisualAssetQuality { Full, ReducedOptional };
 // Call every method on the context's owning thread while that context is current.
 class Renderer {
 public:
+    ~Renderer();
     bool initialize(int width, int height);
     void setVisualAssetQuality(VisualAssetQuality quality)noexcept{visualQuality_=quality;}
     bool game_object_visual_quality(bool& full_quality,std::string& error)const;
@@ -153,6 +154,7 @@ public:
     bool textureHasAlpha(std::uint32_t texture) const;
 
 private:
+    void releaseSourceSpecularProgram() noexcept;
     void applyCamera(const Camera& camera);
     VisualAssetQuality visualQuality_=VisualAssetQuality::Full;
     std::uintptr_t qualityContext_{},qualityDeviceContext_{};
@@ -167,6 +169,7 @@ private:
     struct TextureAlpha { bool hasAlpha = false; bool hasPartialAlpha = false; };
     std::unordered_map<std::uint32_t, TextureAlpha> textureAlpha_;
     std::vector<std::array<float, 4>> vertexColors_;
+    std::uint32_t sourceSpecularProgram_ = 0;
 
     // B066 static-mesh cache.
     struct StaticMesh {

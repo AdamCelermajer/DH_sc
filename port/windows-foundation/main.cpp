@@ -7281,7 +7281,7 @@ int main(int argc,char** argv) {
                 }
             }
             dh::foundation::perf::FramePerf::get().mark(dh::foundation::perf::fx_prepare);
-            if(levelPlayerLight.present){f::LevelPointLight light;light.enabled=true;light.position={options.actorPosition.x+levelPlayerLight.attachedOffset[0],options.actorPosition.y+levelPlayerLight.attachedOffset[1],options.actorPosition.z+levelPlayerLight.attachedOffset[2]};light.attenuation=levelPlayerLight.attenuation;light.ambient=levelPlayerLight.ambient;light.diffuse=levelPlayerLight.diffuse;renderer.setLevelLight(light);} // B076
+            if(levelPlayerLight.present){f::LevelPointLight light;light.enabled=true;light.position={options.actorPosition.x+levelPlayerLight.attachedOffset[0],options.actorPosition.y+levelPlayerLight.attachedOffset[1],options.actorPosition.z+levelPlayerLight.attachedOffset[2]};light.attenuation=levelPlayerLight.attenuation;light.ambient=levelPlayerLight.ambient;light.diffuse=levelPlayerLight.diffuse;light.specular=levelPlayerLight.specular;renderer.setLevelLight(light);} // B076/B114: preserve all authored light colors.
             renderer.beginFrame(activeCamera);
             // B068 (4)(9): scripted PlayActorAnim clips (cutscene "cs:" BDAEs) are authored in the world frame of the cutscene: the clip root
             // carries absolute positions (Bip01 of the hero at the cage, the troll next to it) and the actors are placed at Waypoint_5 and
