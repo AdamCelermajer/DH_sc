@@ -1,9 +1,13 @@
 #include "door_runtime_v1.hpp"
 
 #include "../../animation_markers.hpp"
+#include "door_collision_geometry_v1.hpp"
 
+#include <algorithm>
 #include <cctype>
+#include <cmath>
 #include <cstdlib>
+#include <sstream>
 #include <stdexcept>
 
 namespace dh::foundation::doors {
@@ -16,6 +20,19 @@ std::string property(const ActorDefinition& definition, const char* key) {
 
 bool is_no_condition(const std::string& name) {
     return name.empty() || name == "Invalid";
+}
+
+std::array<float, 3> authored_tuple(const ActorDefinition& definition, const char* key,
+                                    std::array<float, 3> fallback) {
+    const auto text = property(definition, key);
+    if (text.empty()) return fallback;
+    std::istringstream stream(text);
+    for (auto& value : fallback)
+        if (!(stream >> value) || !std::isfinite(value))
+            throw std::runtime_error("Door " + definition.name + ": invalid " + key + " tuple");
+    stream >> std::ws;
+    if (!stream.eof()) throw std::runtime_error("Door " + definition.name + ": trailing " + key + " tuple data");
+    return fallback;
 }
 
 // Clip names: the source spells them "Open", "IdleOpened"; the embedded scene stores them lower case.
@@ -49,9 +66,18 @@ bool DoorRuntimeV1::load(const containers::ContainerTablesV1& tables, const std:
         instance.name = definition.name;
         instance.data = property(definition, "data");
         instance.transform = definition.placement;
+        instance.rotation_degrees = authored_tuple(definition, "rotation", {});
+        instance.visual_scale = authored_tuple(definition, "scale", {1.0f, 1.0f, 1.0f});
         instance.activate_cond = property(definition, "activate_cond");
         instance.deactivate_cond = property(definition, "deactivate_cond");
         instance.opened_authored = property(definition, "opened") == "1";
+        const auto collision = property(definition, "door_collision");
+        if (collision.empty() || collision == "1" || collision == "true") instance.door_collision = true;
+        else if (collision == "0" || collision == "false") instance.door_collision = false;
+        else {
+            error = "Door " + definition.name + ": unsupported door_collision value " + collision;
+            return false;
+        }
         const auto fail = [&](const char* reason) {
             notices.push_back("Door " + definition.name + " data=" + instance.data + ": " + reason);
         };
@@ -79,6 +105,8 @@ bool DoorRuntimeV1::load(const containers::ContainerTablesV1& tables, const std:
         else
             instance.visual_file = *file;
         slot.state = instance.opened_authored ? DoorStateV1::opened : DoorStateV1::closed;
+        slot.collision_enabled = instance.door_collision;
+        slot.filter_enabled = !instance.opened_authored;
         slot.present = true;  // refresh_conditions applies the gates
         slot.dirty = false;
         slots_.push_back(std::move(slot));
@@ -102,6 +130,21 @@ bool DoorRuntimeV1::adopt(const AssetCatalog& assets, std::vector<std::string>& 
         if (!ok) {
             notices.push_back("door visual unavailable " + slot.instance.visual_file + ": " + loadError);
             continue;
+        }
+        if (slot.collision_enabled) {
+            const float position[]{slot.instance.transform[12], slot.instance.transform[13], slot.instance.transform[14]};
+            float source_box[6]{};
+            std::string geometryError;
+            if (source_door_apply_mesh_box_v1(assets, *visual, position,
+                    slot.instance.rotation_degrees.data(), slot.instance.visual_scale.data(), source_box, geometryError)) {
+                slot.source_bounds_xy[0] = source_box[0];
+                slot.source_bounds_xy[1] = source_box[1];
+                slot.source_bounds_xy[2] = source_box[3];
+                slot.source_bounds_xy[3] = source_box[4];
+                slot.source_bounds_valid = true;
+            } else {
+                notices.push_back("door source ApplyMeshBox unavailable " + slot.instance.name + ": " + geometryError);
+            }
         }
         std::string markerError;
         for (int direction = 0; direction < 2; ++direction) {
@@ -173,6 +216,22 @@ std::vector<DoorViewV1> DoorRuntimeV1::views() {
     return out;
 }
 
+std::vector<DoorPhysicalBindingV1> DoorRuntimeV1::physical_bindings() const {
+    std::vector<DoorPhysicalBindingV1> out;
+    out.reserve(slots_.size());
+    for (const auto& slot : slots_) {
+        DoorPhysicalBindingV1 binding{};
+        binding.stable_id = slot.instance.stableId;
+        binding.collision_enabled = slot.collision_enabled;
+        binding.present = slot.present;
+        binding.filter_enabled = slot.filter_enabled;
+        std::copy_n(slot.source_bounds_xy, 4, binding.source_bounds_xy);
+        binding.source_bounds_valid = slot.source_bounds_valid;
+        out.push_back(binding);
+    }
+    return out;
+}
+
 bool DoorRuntimeV1::show_idle(Slot& slot, std::string& error) {
     if (!slot.visual) return true;
     const bool opened = slot.state == DoorStateV1::opened || slot.state == DoorStateV1::opening;
@@ -201,11 +260,13 @@ bool DoorRuntimeV1::transition(std::size_t index, bool opening, bool skip, std::
             // No transition clip: the source plays the end state at once.
             slot.busy = false;
             slot.state = end;
+            slot.filter_enabled = !opening;
             error.clear();
             if (!show_idle(slot, error)) return false;
         }
     } else {
         slot.state = end;
+        slot.filter_enabled = !opening;
         if (!show_idle(slot, error)) return false;
     }
     request_sound(slot, opening);
@@ -215,14 +276,14 @@ bool DoorRuntimeV1::transition(std::size_t index, bool opening, bool skip, std::
 bool DoorRuntimeV1::open(std::size_t index, bool skip, std::string& error) {
     error.clear();
     auto& slot = slots_.at(index);
-    if (slot.busy || slot.state != DoorStateV1::closed) return true;  // Door::Open guard: state 0 and not busy
+    if (!door_open_admitted_v1(slot.state, slot.busy)) return true;  // Door::Open guard: state 0 and not busy
     return transition(index, true, skip, error);
 }
 
 bool DoorRuntimeV1::close(std::size_t index, bool skip, std::string& error) {
     error.clear();
     auto& slot = slots_.at(index);
-    if (slot.busy || slot.state != DoorStateV1::opened) return true;  // Door::Close guard: state 1 and not busy
+    if (!door_close_admitted_v1(slot.state, slot.busy)) return true;  // Door::Close guard: state 1 and not busy
     return transition(index, false, skip, error);
 }
 
@@ -243,12 +304,16 @@ bool DoorRuntimeV1::update(double seconds, std::string& error) {
         if (!slot.marker_fired && slot.marker_ms[direction] >= 0.0 && elapsedMs >= slot.marker_ms[direction]) {
             slot.marker_fired = true;
             slot.state = opening ? DoorStateV1::opened : DoorStateV1::closed;
+            slot.filter_enabled = !opening;
             slot.dirty = true;
         }
         // __Callback: the clip ended; the transition is over and the idle clip of the end state plays.
         if (slot.clip_end_ms[direction] >= 0.0 && elapsedMs >= slot.clip_end_ms[direction]) {
             slot.busy = false;
-            if (!slot.marker_fired) slot.state = opening ? DoorStateV1::opened : DoorStateV1::closed;
+            if (!slot.marker_fired) {
+                slot.state = opening ? DoorStateV1::opened : DoorStateV1::closed;
+                slot.filter_enabled = !opening;
+            }
             slot.dirty = true;
             if (!show_idle(slot, error)) return false;
         }
@@ -268,9 +333,15 @@ bool DoorRuntimeV1::set_present(std::size_t index, bool present, std::string& er
 bool DoorRuntimeV1::restore(std::size_t index, DoorStateV1 state, std::string& error) {
     error.clear();
     auto& slot = slots_.at(index);
-    slot.state = state;
-    slot.busy = false;
-    slot.dirty = false;
+    DoorRestoreProjectionV1 projection{};
+    if (!project_door_restore_v1(static_cast<std::uint8_t>(state), projection)) {
+        error = "Door restore state is outside the serialized range";
+        return false;
+    }
+    slot.state = projection.state;
+    slot.busy = projection.busy;
+    slot.dirty = projection.dirty;
+    slot.filter_enabled = projection.filter_enabled;
     return show_idle(slot, error);
 }
 
