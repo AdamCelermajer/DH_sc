@@ -223,6 +223,10 @@ Wave 5 additions:
   whole record (DataObj). The mangled EmitterObj symbol takes EmitterHandleUserData&,
   which does not match the port's `const uintptr_t&`. Left as is (see Open questions).
 
+- Wave 6: VoxNativeSubDecoderPCM Reset, SetState and GetState are empty bodies (4-byte
+  ARM, bare return), ledgered reconstructed. GetNbAvailableSamples returns 0 for a zero
+  buffer_bytes_, where the original divides without a guard.
+
 ## Open questions
 
 - StreamCFile::Init and StreamCFileCursor::Init test the owner's +0x1c value and
@@ -261,6 +265,20 @@ Wave 5 additions:
 - EmitterObj::SetUserData signature mismatch (see Decisions).
 - Android JNI setters (VoxSetJavaVM, VoxSetDataThreshold, VoxSetAndroidAPILevel) are
   queued but not started. They belong with DriverAndroid.
+
+- Float helpers (wave 6). The bl targets 0x30ed6c, 0x30e2f8, 0x30e70c, 0x30e9ac, 0x30e4cc,
+  0x30e964, 0x30ec94, 0x30eba4, 0x30e2a4, 0x30e904 are PLT stubs, so symbols.csv has no
+  names for them. 0x30ed6c is __aeabi_fmul: the 16384.0f argument (0x46800000) in
+  SetDriverCallbackPeriod and SetGain fixes the meaning. 0x30e2a4 is __aeabi_idiv (Ghidra
+  names it in GetNbAvailableSamples); 0x30e904 is taken as the remainder helper (inferred). 0x30e4cc
+  (float to int) and 0x30e964 (int to float) are inferred from the Q14 scale. The two
+  compare helpers (0x30e2f8, 0x30e70c) are not confirmed as eq or le. SetPitch, SetGain
+  and the mix bodies stay partial until they are.
+- GetPitch and GetGain: wave 5 used 2^-15. The ARM constant 0x38800000 is 2^-14, so wave
+  6 corrected both (driver_callback.cpp and their ledger rows).
+- DriverBuffer +0x10 is named field_10_ (the count GetNbAvailableSamples subtracts);
+  +0x08 and +0x0c stay unidentified.
+
 
 ## Remaining work (743 unledgered of 1374 queued)
 
