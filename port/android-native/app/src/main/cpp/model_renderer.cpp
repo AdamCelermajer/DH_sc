@@ -1374,6 +1374,9 @@ constexpr StaticMlxLevelV1 static_mlx_levels[]{
  {1,"ABBEY_RUINS_01","009a_abbey.mlx","009a_abbey","data/3d/modules/crypt/crypt.bdae",2,508,484},
  {28,"ICY_HUB","025_icy_hub.mlx","025_icy_hub","data/3d/modules/icy_hub/icy_hub2.bdae",8,494,509},
  {33,"MACHINE_ROOMS_01","037_machine_rooms_01.mlx","037_machine_rooms_01","data/3d/modules/machineroom/machineroom.bdae",14,503,0},
+ {7,"DARK_DUNGEON_TEMPLE_01","038_dark_temple.mlx","038_dark_temple","data/3d/modules/darktemple/darktemple.bdae",9,504,0},
+ {8,"DARK_DUNGEON_TEMPLE_BOSSROOM","039_dark_temple_bossroom_01.mlx","039_dark_temple_bossroom_01","data/3d/modules/darktemple/darktemple_bossroom.bdae",3,504,0},
+ {35,"PORTAL_ROOM","003_darkwood.mlx","003_portal_room","data/3d/modules/darkwood/darkwood2.bdae",25,471,0},
  {20,"FIRE_TEMPLE_01","031_firetemple.mlx","031_firetemple","data/3d/modules/firetemple/firetemple.bdae",13,493,0},
 };
 }
@@ -26207,6 +26210,15 @@ std::int32_t native_aggro_search_service(void* raw,
  }
  case ai_melee_radius: {
   std::string error;float radius=0.f;
+  if(request->subject==owner.identity&&!owner.source_inventory){
+   // Unequipped Character: AI_GetMeleeRadius = weapon range 0 + AITable +32.
+   if(dh2::character::player_attack_melee_radius_v1::query(nullptr,&actor_ai_tables,
+        owner.properties.resolved[1],&radius)!=
+        dh2::character::player_attack_melee_radius_v1::Status::complete){
+    native_aggro_fail="searcher AI melee radius unavailable: AITable row";return 1;
+   }
+   response->number=radius;return 0;
+  }
   if(request->subject!=owner.identity||!owner.source_inventory||
      !owner.source_inventory->melee_radius(owner,radius,error)){
    static std::string reason;
@@ -39321,6 +39333,8 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
         generated_crypt_faery_sources;
     std::vector<dh2::world::StaticDactActorHandleV1>
         source_static_actor_handles;
+    // Template Characters whose GameObject::CheckSpawnProbability roll failed.
+    std::vector<std::int32_t> spawn_probability_skipped_handles;
     std::vector<dh2::world::SourceCharacterCensusV1>
         source_character_census;
     std::size_t generated_crypt_deferred_mvp_count=0;
@@ -39809,9 +39823,20 @@ std::vector<dh2::world::EntryPoint> entrypoints;
           source_character_uses_authored_template(source);
        if(source_template_character){
         if(source.module_index>=candidate.rooms||source.name.empty()||
-           source.source_handle<0||
-           (!source.spawn_probability.empty()&&source.spawn_probability!="100"))
-         throw std::runtime_error("SWAMP MonsterCommonType source row has unresolved room, identity, or spawn probability: "+source.name);
+           source.source_handle<0)
+         throw std::runtime_error("SWAMP MonsterCommonType source row has unresolved room or identity: "+source.name);
+        if(!source.spawn_probability.empty()&&source.spawn_probability!="100"){
+         // Character::InitPost (0x3b4d60) -> GameObject::CheckSpawnProbability
+         // (0x38bd64): one s_seed % 99 draw; a draw >= spawn_prob deletes the
+         // Character before it is constructed.
+         char* parsed_end=nullptr;
+         const long probability=std::strtol(source.spawn_probability.c_str(),&parsed_end,10);
+         if(!parsed_end||*parsed_end||probability<0||probability>1000)
+          throw std::runtime_error("Template Character spawn_prob is not a source integer: "+source.name);
+         const auto roll=dh2_random_next(&dh2::random_lifecycle::process_state(),99,0);
+         if(roll<0||roll>=99)throw std::runtime_error("Template Character spawn_prob roll failed");
+         if(roll>=probability){spawn_probability_skipped_handles.push_back(source.source_handle);continue;}
+        }
         dh2::objects::Record record{};record.kind=1;
         record.room=source.module_index;record.name=source.name;
         record.position=source.world.position;
@@ -40407,9 +40432,12 @@ std::vector<dh2::world::EntryPoint> entrypoints;
      std::size_t selected_source_templates=0,missing_source_templates=0;
      const auto expected_source_templates=static_cast<std::size_t>(
          std::count_if(source_character_census.begin(),source_character_census.end(),
-          [](const auto& row){
+          [&](const auto& row){
            return !row.duplicate_name&&
-                  source_character_uses_authored_template(row);
+                  source_character_uses_authored_template(row)&&
+                  std::find(spawn_probability_skipped_handles.begin(),
+                            spawn_probability_skipped_handles.end(),
+                            row.source_handle)==spawn_probability_skipped_handles.end();
           }));
      if(source_static_actor_handles.size()!=object_records.size())
       throw std::runtime_error("SWAMP source Character records do not have a one-to-one retained MGP handle vector");

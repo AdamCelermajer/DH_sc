@@ -87,6 +87,12 @@ bool build_native_level_transition_plan_v1(
          "data/3d/modules/icy_hub/icy_hub2.bdae"},
         {33, "MACHINE_ROOMS_01", "037_machine_rooms_01.mlx", "037_machine_rooms_01",
          "data/3d/modules/machineroom/machineroom.bdae"},
+        {7, "DARK_DUNGEON_TEMPLE_01", "038_dark_temple.mlx", "038_dark_temple",
+         "data/3d/modules/darktemple/darktemple.bdae"},
+        {8, "DARK_DUNGEON_TEMPLE_BOSSROOM", "039_dark_temple_bossroom_01.mlx",
+         "039_dark_temple_bossroom_01", "data/3d/modules/darktemple/darktemple_bossroom.bdae"},
+        {35, "PORTAL_ROOM", "003_darkwood.mlx", "003_portal_room",
+         "data/3d/modules/darkwood/darkwood2.bdae"},
         {20, "FIRE_TEMPLE_01", "031_firetemple.mlx", "031_firetemple",
          "data/3d/modules/firetemple/firetemple.bdae"},
     };
