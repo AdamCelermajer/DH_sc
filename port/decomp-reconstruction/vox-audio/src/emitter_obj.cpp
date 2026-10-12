@@ -245,6 +245,29 @@ float EmitterObj::GetGain() {
     return gain;
 }
 
+// 0x86bb24 _ZN3vox10EmitterObj7SetGainEff
+// partial: the original tail-calls Mutex::Unlock and returns its int result. The port's
+// Mutex::Unlock is void and SetGain returns void, so the dropped result is not observable.
+// The requested gain is stored raw (+0x40) and not clamped. The fade starts from where the
+// previous fade has reached, and its duration is the time as given, with no +0.001.
+// GetGain still reads gain_ (+0x3c), which SetGain does not write.
+void EmitterObj::SetGain(float gain, float time) {
+    mutex.Lock();
+    requested_gain_ = gain;
+    RestartFadeWithDuration(gain_fade_, gain, time);
+    mutex.Unlock();
+}
+
+// 0x86bc40 _ZN3vox10EmitterObj8SetPitchEff
+// partial: same unlock-result difference as SetGain. The requested pitch is stored raw at +0x74
+// (pitch_) and is also the fade target at +0x7c. The fade restarts with the duration as given.
+void EmitterObj::SetPitch(float pitch, float time) {
+    mutex.Lock();
+    pitch_ = pitch;
+    RestartFadeWithDuration(pitch_fade_, pitch, time);
+    mutex.Unlock();
+}
+
 // 0x865784 _ZN3vox10EmitterObj9ShouldDieEv
 bool EmitterObj::ShouldDie() {
     mutex.Lock();

@@ -105,6 +105,34 @@ int main() {
     d.SetAutoKillAfterDone(true);
     CHECK(d.auto_kill_);
 
+    // Gain fade (SetGain 0x86bb24): the raw gain is kept and not clamped, the fade starts from
+    // where the previous one has reached, and the duration is the time as given (no +0.001).
+    vox::EmitterObj g;
+    g.SetGain(0.5f, 2.0f);
+    CHECK(g.requested_gain_ == 0.5f);
+    CHECK(g.gain_fade_.current == 0.0f);
+    CHECK(g.gain_fade_.target == 0.5f);
+    CHECK(g.gain_fade_.duration == 2.0f);
+    CHECK(g.gain_fade_.elapsed == 0.0f && !g.gain_fade_.flag);
+    CHECK(g.GetGain() == 0.0f);              // GetGain reads gain_ (+0x3c), which SetGain leaves alone
+    g.gain_fade_.elapsed = 1.0f;             // as the update would advance it
+    g.SetGain(3.0f, 4.0f);                   // above 1: not clamped
+    CHECK(g.requested_gain_ == 3.0f && g.gain_fade_.target == 3.0f);
+    CHECK(g.gain_fade_.current == 0.25f);    // 0 + 1 * (0.5 - 0) / 2
+    CHECK(g.gain_fade_.duration == 4.0f && g.gain_fade_.elapsed == 0.0f);
+    g.SetGain(1.0f, 0.0f);                   // the old fade has a duration, so current is still computed
+    CHECK(g.gain_fade_.current == 0.25f);
+    g.SetGain(0.0f, 0.0f);                   // zero elapsed and zero duration: current is the target
+    CHECK(g.gain_fade_.current == 1.0f);
+    CHECK(g.gain_fade_.target == 0.0f);
+
+    // Pitch fade (SetPitch 0x86bc40): raw pitch at +0x74 and the fade target at +0x7c.
+    vox::EmitterObj pf;
+    pf.SetPitch(2.0f, 1.5f);
+    CHECK(pf.pitch_ == 2.0f && pf.GetPitch() == 2.0f);
+    CHECK(pf.pitch_fade_.target == 2.0f && pf.pitch_fade_.duration == 1.5f);
+    CHECK(pf.pitch_fade_.current == 0.0f);
+
     std::printf("emitter_obj_test: %s\n", g_failures == 0 ? "ok" : "FAILED");
     return g_failures == 0 ? 0 : 1;
 }

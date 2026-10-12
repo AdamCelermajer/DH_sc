@@ -6,6 +6,7 @@
 
 #include <cstdint>
 
+#include "vox-audio/vox/gain_fade.hpp"
 #include "vox-audio/vox/handlable.hpp"
 #include "vox-audio/vox/voxengine_types.hpp"
 
@@ -65,7 +66,8 @@ public:
                                         EmitterExternState& status);  // 0x864bec
     int GetStatus();                        // 0x864b5c (locks; codes 0, 2, 4, 0x11, 0x21)
 
-    // Declared for the VoxEngineInternal forwarders. Bodies not reconstructed yet.
+    // Declared for the VoxEngineInternal forwarders. Bodies not reconstructed yet, except
+    // SetGain and SetPitch, which restart the gain and pitch fades (partial, see the .cpp).
     void Play(float fade);                  // 0x86e304 (fade state machine, not reconstructed)
     void Pause(float fade);                 // 0x86e428
     void Stop(float fade);                  // 0x86e868
@@ -85,11 +87,14 @@ public:
     // Words and bytes the accessors above touch (original offsets in comments).
     std::uint8_t ready_flag_ = 0;           // +0x1c
     float gain_ = 0.0f;                     // +0x3c, returned by GetGain
+    float requested_gain_ = 0.0f;           // +0x40, the raw gain last passed to SetGain (not clamped)
+    VoxGainFade gain_fade_;                 // +0x48..+0x58: fade toward the SetGain target (target +0x4c)
     int group_ = 0;                         // +0x28
     int bank_ = 0;                          // +0x30, priority bank index (passed to PriorityBankManager)
     bool in_bank_ = false;                  // +0x34, emitter is registered with a priority bank
     float gain_modifier_ = 1.0f;            // +0x44
-    float pitch_ = 0.0f;                    // +0x74, returned by GetPitch
+    float pitch_ = 0.0f;                    // +0x74, returned by GetPitch, written raw by SetPitch
+    VoxGainFade pitch_fade_;                // +0x78..+0x88: fade toward the SetPitch target (target +0x7c)
     std::uint8_t loop_read_ = 0;            // +0x8c, read by GetLoop
     std::uint8_t loop_ = 0;                 // +0x8d, written by SetLoop
     bool callback_pending_ = false;         // +0x98, set when a state change needs a callback
