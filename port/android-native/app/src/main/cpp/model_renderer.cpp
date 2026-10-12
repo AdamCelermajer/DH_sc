@@ -680,19 +680,30 @@ std::uint64_t snapshot_checksum(const dh2::data::PropertySheet& sheet){
  std::uint64_t result=14695981039346656037ull;for(auto value:sheet)for(unsigned i=0;i<4;++i){result^=(std::uint32_t(value)>>(8*i))&255;result*=1099511628211ull;}return result;
 }
 std::vector<ObjectGroup> object_groups;
-// SWAMP MVP AnimatedDecor VisualObjects named by level scripts. The owner keeps
-// the BDAE clip timeline and Animator pose; draws mirror the container
-// VisualObject path. Duplicate names stay in module order and PlayAnimByName
-// plays the first name match, as ObjectManager's name lookup does.
+// MVP AnimatedDecor VisualObjects of every static MLX level. Each prop owns its
+// BDAE clip timeline and Animator pose; props with the same BDAE share one GPU
+// batch set (vertex/index buffers and textures), which is safe because each
+// prop uploads its own skinned vertices immediately before its draw. Duplicate
+// names stay in module order and PlayAnimByName plays the first name match, as
+// ObjectManager's name lookup does.
+struct SourceAnimatedDecorGpu {
+ std::vector<Draw> draws;std::vector<GLuint> images;
+};
 struct SourceAnimatedDecor {
- std::string name,dae_path,start_animation;
+ std::string name,dae_path,start_animation,activate_condition,deactivate_condition;
  std::unique_ptr<dh2::destructible_container_visual_owner_v1::Owner> visual;
- std::vector<Draw> visual_draws;std::vector<GLuint> visual_images;
+ std::shared_ptr<SourceAnimatedDecorGpu> gpu;
+ // Indices into resource.primitives under this prop's xrefobject node; a BDAE
+ // can hold several authored props (one water sheet or torch per root).
+ std::vector<std::uint32_t> primitives;
  Matrix placement{};
+ // ObjectBase condition state, re-tested on a 250 ms cadence while live.
+ bool enabled=true;bool condition_tested=false;std::uint32_t condition_tested_ms=0;
 };
 std::vector<SourceAnimatedDecor> source_animated_decors;
 void release_source_animated_decors(std::vector<SourceAnimatedDecor>& decors,bool gl_context) noexcept {
- for(auto& decor:decors)release_source_container_visual_gpu(decor.visual_draws,decor.visual_images,gl_context);
+ for(auto& decor:decors)
+  if(decor.gpu)release_source_container_visual_gpu(decor.gpu->draws,decor.gpu->images,gl_context);
  decors.clear();
 }
 // Non-owning renderer view of an exact Player -> Faery Character+0x420 link.
@@ -23668,6 +23679,8 @@ bool native_level_script_host_supports(void*,const dh2_script_command* command){
  case 22: case 23: // ShowFlash/HideFlash(I, name S, B)
   return c.field_count==3&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32&&
       native_script_name_field(c,1)&&c.fields[2].kind==DH2_SCRIPT_VALUE_BOOL;
+ case 1: case 2: // EnterCutSceneMode()/ExitCutSceneMode()
+  return true;
  case 66: // AwardTrophy(I id)
   return c.field_count==1&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32;
  case 27: // SetFaeryState(I index, I state)
@@ -23999,6 +24012,17 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
    std::string error;
    return prince_combat.savegame->set_faery_state(std::uint32_t(index),state,
        std::uint32_t(native_save_difficulty),error)?1:-1;
+  }
+  case 1: case 2: {
+   // Script_EnterCutSceneMode 0x45a384 / Script_ExitCutSceneMode 0x4599ac:
+   // the HUD root movie's StartCutscene / StopCutscene AS callbacks.
+   if(!native_gameplay_ui)return -2;
+   std::string error;
+   const bool ok=c.command_id==1?native_gameplay_ui->enter_source_cutscene(error):
+                                 native_gameplay_ui->exit_source_cutscene(error);
+   if(!ok)__android_log_print(ANDROID_LOG_ERROR,"DH2Native","Script %s failed | %s",
+       c.command_id==1?"EnterCutSceneMode":"ExitCutSceneMode",error.c_str());
+   return ok?1:-1;
   }
   case 66: {
    // Script_AwardTrophy::Execute 0x4593c4 -> TrophyManager::UnlockTrophy
@@ -40043,45 +40067,96 @@ std::vector<dh2::world::EntryPoint> entrypoints;
       mvp_render_instances.push_back(std::move(instance));
      }
     }
-    if(source_static_level&&std::string(static_level_source->name)=="SWAMP"){
-     // Script PlayAnimByName targets from SWAMP's MVP AnimatedDecor census.
-     // Other SWAMP AnimatedDecor rows (torches, water, motes, bubbles) remain
-     // deferred until their own owners are reviewed.
-     static const char* const script_targets[]{"_anim_cage_001","_anim_destructible_wall_001"};
+    if(source_static_level){
+     // Every AnimatedDecor GameObject of the authored static level. Rows whose
+     // identity, BDAE or start clip is unsupported are counted as deferred; a
+     // prop that fails its own BDAE/GPU load is skipped with a log line rather
+     // than failing the whole level.
      std::vector<dh2::world::GeneratedCryptMvpFileV1> animated_mvps;
      animated_mvps.reserve(source_mvps.size());
      for(const auto& mvp:source_mvps)animated_mvps.push_back({mvp.source_path,mvp.data,mvp.size});
      std::vector<dh2::world::SourceAnimatedDecorV1> animated_rows;
      std::size_t animated_deferred=0;
      if(!dh2::world::compile_source_animated_decor_v1(source_mlx_bytes.data(),source_mlx_bytes.size(),
-          "SWAMP","data/scene/001_swamp.mlx",animated_mvps.data(),animated_mvps.size(),animated_rows,animated_deferred,error))
-      throw std::runtime_error("SWAMP source MVP AnimatedDecor import rejected: "+error);
+          level_assets.name.c_str(),static_scene_path.c_str(),animated_mvps.data(),animated_mvps.size(),animated_rows,animated_deferred,error))
+      throw std::runtime_error(level_assets.name+" source MVP AnimatedDecor import rejected: "+error);
+     std::map<std::string,std::vector<std::uint8_t>> bytes_by_dae;
+     std::map<std::string,std::shared_ptr<SourceAnimatedDecorGpu>> gpu_by_dae;
+     std::size_t animated_failed=0,animated_conditional=0,animated_particle_only=0;
      for(const auto& row:animated_rows){
-      if(std::find_if(std::begin(script_targets),std::end(script_targets),
-           [&](const char* name){return row.name==name;})==std::end(script_targets))continue;
       SourceAnimatedDecor decor;
       decor.name=row.name;decor.dae_path=row.dae_path;decor.start_animation=row.start_animation;
-      decor.visual=std::make_unique<dh2::destructible_container_visual_owner_v1::Owner>();
-      const auto bytes=read(assets,row.dae_path,"original-cache");
-      if(!decor.visual->load(bytes.data(),bytes.size(),error))
-       throw std::runtime_error("SWAMP AnimatedDecor BDAE rejected for "+row.name+": "+error);
-      const float half=3.14159265358979323846f/360.f;
-      const float x=row.world_transform[3]*half,y=row.world_transform[4]*half,z=row.world_transform[5]*half;
-      const float sx=std::sin(x),cx=std::cos(x),sy=std::sin(y),cy=std::cos(y),sz=std::sin(z),cz=std::cos(z);
-      const float quaternion[]{sx*cy*cz-cx*sy*sz,cx*sy*cz+sx*cy*sz,cx*cy*sz-sx*sy*cz,cx*cy*cz+sx*sy*sz};
-      const float position[]{row.world_transform[0],row.world_transform[1],row.world_transform[2]};
-      const float scale[]{row.world_transform[6],row.world_transform[7],row.world_transform[8]};
-      dh2_node_matrix(decor.placement.data(),position,quaternion,scale);
-      if(decor.visual->has_clip(decor.start_animation.c_str())&&
-         !decor.visual->play_named(decor.start_animation.c_str(),true,nullptr,nullptr,nullptr,error))
-       throw std::runtime_error("SWAMP AnimatedDecor start clip rejected for "+row.name+": "+error);
-      if(!prepare_source_container_visual_gpu(assets,*decor.visual,decor.visual_draws,decor.visual_images,error))
-       throw std::runtime_error("SWAMP AnimatedDecor GPU preparation failed for "+row.name+": "+error);
-      candidate_animated_decors.push_back(std::move(decor));
+      decor.activate_condition=row.activate_condition;decor.deactivate_condition=row.deactivate_condition;
+      if(!decor.activate_condition.empty()||!decor.deactivate_condition.empty())++animated_conditional;
+      try{
+       auto bytes_it=bytes_by_dae.find(row.dae_path);
+       if(bytes_it==bytes_by_dae.end())
+        bytes_it=bytes_by_dae.emplace(row.dae_path,read(assets,row.dae_path,"original-cache")).first;
+       const auto& bytes=bytes_it->second;
+       decor.visual=std::make_unique<dh2::destructible_container_visual_owner_v1::Owner>();
+       if(!decor.visual->load(bytes.data(),bytes.size(),error))
+        throw std::runtime_error("BDAE rejected: "+error);
+       {
+        const auto& graph=decor.visual->resource().scene.graph;
+        std::int64_t root=-1;
+        for(std::size_t n=0;n<graph.size()&&root<0;++n)
+         if(graph[n].name==row.xrefobject)root=static_cast<std::int64_t>(n);
+        if(root<0)throw std::runtime_error("xrefobject "+row.xrefobject+" is not a BDAE node");
+        const auto& primitives=decor.visual->resource().primitives;
+        for(std::size_t p=0;p<primitives.size();++p){
+         std::int64_t node=primitives[p].node;
+         for(std::size_t steps=0;node>=0&&node<std::int64_t(graph.size())&&steps<=graph.size()&&node!=root;++steps)
+          node=graph[std::size_t(node)].parent;
+         if(node==root)decor.primitives.push_back(static_cast<std::uint32_t>(p));
+        }
+        if(decor.primitives.empty())throw std::runtime_error("xrefobject "+row.xrefobject+" has no primitives");
+       }
+       const float half=3.14159265358979323846f/360.f;
+       const float x=row.world_transform[3]*half,y=row.world_transform[4]*half,z=row.world_transform[5]*half;
+       const float sx=std::sin(x),cx=std::cos(x),sy=std::sin(y),cy=std::cos(y),sz=std::sin(z),cz=std::cos(z);
+       const float quaternion[]{sx*cy*cz-cx*sy*sz,cx*sy*cz+sx*cy*sz,cx*cy*sz-sx*sy*cz,cx*cy*cz+sx*sy*sz};
+       const float position[]{row.world_transform[0],row.world_transform[1],row.world_transform[2]};
+       const float scale[]{row.world_transform[6],row.world_transform[7],row.world_transform[8]};
+       dh2_node_matrix(decor.placement.data(),position,quaternion,scale);
+       // AnimatedDecor::InitPost 0x389128: an empty startanim becomes "idle";
+       // the VisualObject plays it looped (slot 8) when its clip library has
+       // the name (slot 5), else clip index 0 looped (slot 7). "randomall"
+       // (random clip + end callback) is used by no MVP and stays deferred.
+       if(decor.start_animation.empty())decor.start_animation="idle";
+       std::string start_lower=decor.start_animation;
+       for(auto& ch:start_lower)ch=static_cast<char>(std::tolower(static_cast<unsigned char>(ch)));
+       if(start_lower=="randomall")
+        throw std::runtime_error("startanim randomall is not bound");
+       const auto& clips=decor.visual->clips();
+       const char* start_clip=decor.visual->has_clip(decor.start_animation.c_str())?
+           decor.start_animation.c_str():clips.empty()?nullptr:clips.front().name.c_str();
+       if(start_clip&&!decor.visual->play_named(start_clip,true,nullptr,nullptr,nullptr,error))
+        throw std::runtime_error("start clip rejected: "+error);
+       auto& gpu=gpu_by_dae[row.dae_path];
+       if(!gpu){
+        auto candidate=std::make_shared<SourceAnimatedDecorGpu>();
+        if(!prepare_source_container_visual_gpu(assets,*decor.visual,candidate->draws,candidate->images,error)){
+         release(candidate->draws,candidate->images);
+         throw std::runtime_error("GPU preparation failed: "+error);
+        }
+        gpu=std::move(candidate);
+       }
+       decor.gpu=gpu;
+       candidate_animated_decors.push_back(std::move(decor));
+      }catch(const std::exception& exception){
+       // Particle-only BDAEs (dust motes, fog) carry emitters, not drawable meshes;
+       // their emitter playback is not bound here.
+       const std::string message=exception.what();
+       if(message.find("no visible")!=std::string::npos)++animated_particle_only;
+       else ++animated_failed;
+       __android_log_print(ANDROID_LOG_WARN,"DH2Native","AnimatedDecor %s (%s) skipped | %s",
+           row.name.c_str(),row.dae_path.c_str(),exception.what());
+      }
      }
      __android_log_print(ANDROID_LOG_INFO,"DH2Native",
-       "SWAMP MVP AnimatedDecor owners | retained %zu | script targets _anim_cage_001 and _anim_destructible_wall_001 | activate_cond not evaluated (IsBefore_Swamp_Escape assumed true) | unsupported AnimatedDecor rows skipped %zu | other AnimatedDecor not bound",
-       candidate_animated_decors.size(),animated_deferred);
+       "AnimatedDecor | %s | %zu props | %zu resources | conditional %zu | unsupported rows deferred %zu | particle-only deferred %zu | load failures %zu | RoomZone membership not bound",
+       level_assets.name.c_str(),candidate_animated_decors.size(),
+       gpu_by_dae.size(),animated_conditional,animated_deferred,animated_particle_only,animated_failed);
     }
     if(level_assets.generated_crypt_layout){
      if(!level_assets.generated_crypt_handle_ledger)
@@ -43714,22 +43789,50 @@ void draw(int width,int height){
     }
   }
   if(world_mode&&!source_map_render_pass)for(auto& decor:source_animated_decors){
-   if(!decor.visual||!decor.visual->controller_present()||decor.visual_draws.empty())continue;
+   if(!decor.visual||!decor.visual->controller_present()||!decor.gpu||decor.gpu->draws.empty())continue;
    const auto scene_time_value=native_scene_clock_ms();
    if(!std::isfinite(scene_time_value)||scene_time_value<0.f||scene_time_value>4294967040.f)
-    throw std::runtime_error("SWAMP AnimatedDecor lost the shared scene timestamp");
+    throw std::runtime_error("AnimatedDecor lost the shared scene timestamp");
+   const auto now=static_cast<std::uint32_t>(scene_time_value);
+   if(!decor.activate_condition.empty()||!decor.deactivate_condition.empty()){
+    if(!decor.condition_tested||now<decor.condition_tested_ms||now-decor.condition_tested_ms>=250u){
+     // ObjectBase::TestEnableCondition: activate_cond defaults to true when its
+     // name is unknown; TestDisableCondition keeps the prop hidden when its
+     // deactivate_cond does not hold (unknown names read false).
+     bool enabled=true;bool ok=true;std::string condition_error;
+     if(!decor.activate_condition.empty())
+      ok=evaluate_source_zone_condition(decor.activate_condition,true,enabled,condition_error);
+     if(ok&&enabled&&!decor.deactivate_condition.empty()){
+      bool deactivate_holds=false;
+      ok=evaluate_source_zone_condition(decor.deactivate_condition,false,deactivate_holds,condition_error);
+      enabled=deactivate_holds;
+     }
+     if(ok){decor.enabled=enabled;}
+     else{
+      static bool condition_warned=false;
+      if(!condition_warned){
+       condition_warned=true;
+       __android_log_print(ANDROID_LOG_WARN,"DH2Native","AnimatedDecor %s condition test deferred | %s",
+           decor.name.c_str(),condition_error.c_str());
+      }
+     }
+     decor.condition_tested=true;decor.condition_tested_ms=now;
+    }
+   }
+   if(!decor.enabled)continue;
    std::string visual_error;
    if(!frozen&&decor.visual->clip_active()&&
-      !decor.visual->update(static_cast<std::uint32_t>(scene_time_value),visual_error))
-    throw std::runtime_error("SWAMP AnimatedDecor Animator update failed: "+visual_error);
+      !decor.visual->update(now,visual_error))
+    throw std::runtime_error("AnimatedDecor Animator update failed: "+visual_error);
    auto& resource=decor.visual->resource();
-   for(std::size_t i=0;i<decor.visual_draws.size();++i){
-    if(i>=resource.primitives.size())
-     throw std::runtime_error("SWAMP AnimatedDecor draw/resource banks diverged");
+   const auto& batches=decor.gpu->draws;
+   for(const auto i:decor.primitives){
+    if(i>=resource.primitives.size()||i>=batches.size())
+     throw std::runtime_error("AnimatedDecor draw/resource banks diverged");
     const auto& primitive=resource.primitives[i];
-    const auto& batch=decor.visual_draws[i];
+    const auto& batch=batches[i];
     if(primitive.node>=resource.scene.graph.size())
-     throw std::runtime_error("SWAMP AnimatedDecor primitive node is invalid");
+     throw std::runtime_error("AnimatedDecor primitive node is invalid");
     if(!primitive.skin.nodes.empty()){
      glBindBuffer(GL_ARRAY_BUFFER,batch.vertices);
      glBufferSubData(GL_ARRAY_BUFFER,0,primitive.vertices.size()*sizeof(Vertex),primitive.vertices.data());

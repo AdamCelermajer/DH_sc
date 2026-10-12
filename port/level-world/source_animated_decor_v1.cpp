@@ -4,6 +4,7 @@
 
 #include <cmath>
 #include <cstring>
+#include <string>
 #include <utility>
 
 namespace dh2::world {
@@ -57,8 +58,11 @@ bool compile_source_animated_decor_v1(
     return false;
   }
   for (std::uint32_t module = 0; module < source.value.module_count; ++module) {
-    if (!mvps[module].source_path || !mvps[module].data || !mvps[module].size) {
-      error = "Source AnimatedDecor MVP input is incomplete";
+    // A Module without an authored MVP (MGP-only or empty) has no GameObjects.
+    if (!mvps[module].data || !mvps[module].size) continue;
+    if (!mvps[module].source_path) {
+      error = "Source AnimatedDecor MVP path is missing for Module " +
+          std::to_string(module) + " of " + std::to_string(source.value.module_count);
       return false;
     }
     if (dh2_world_import_module_objects(&source.value, module, RecordKind::mvp,
@@ -83,11 +87,15 @@ bool compile_source_animated_decor_v1(
     const auto* dae = dh2_world_field(&object, "dae");
     const auto* start_animation = dh2_world_field(&object, "startanim");
     char canonical_dae[256]{};
-    if (!type || std::strcmp(type, "Block") || !template_name ||
-        std::strcmp(template_name, "AnimatedDecor") || !root || !*root ||
-        !dae || dh2_world_cache_path(canonical_dae, sizeof(canonical_dae),
-            dae, &diagnostic) != Error::ok || !start_animation ||
-        !*start_animation) {
+    // gametype selects the ObjectFactory class. Some authored rows (water,
+    // torches, dust motes) omit _templateName and startanim; their xrefobject
+    // selects a subtree of a shared BDAE and a missing startanim reads as
+    // "idle" (AnimatedDecor::InitPost).
+    if (!type || std::strcmp(type, "Block") ||
+        (template_name && std::strcmp(template_name, "AnimatedDecor")) ||
+        !root || !*root || !dae ||
+        dh2_world_cache_path(canonical_dae, sizeof(canonical_dae),
+            dae, &diagnostic) != Error::ok) {
       ++deferred_count;
       continue;
     }
@@ -105,9 +113,11 @@ bool compile_source_animated_decor_v1(
     row.xrefobject = root;
     row.dae_path = canonical_dae;
     row.source_path = object.source_path ? object.source_path : "";
-    row.start_animation = start_animation;
+    row.start_animation = start_animation ? start_animation : "";
     const auto* activate = dh2_world_field(&object, "activate_cond");
     row.activate_condition = activate ? activate : "";
+    const auto* deactivate = dh2_world_field(&object, "deactivate_cond");
+    row.deactivate_condition = deactivate ? deactivate : "";
     const auto& module = source.value.modules[object.module_index].record;
     for (unsigned axis = 0; axis < 3; ++axis) {
       row.world_transform[axis] = object.world_position[axis];
