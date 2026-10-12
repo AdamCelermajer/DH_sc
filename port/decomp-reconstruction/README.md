@@ -1,9 +1,17 @@
 # Decompiled-function reconstruction
 
-Readable, compilable C++ rebuilt function by function from the Ghidra
-pseudocode of `libDungeonHunter2.so` (`recovered/native/decompiled/`). The
-target is code that builds and runs on Windows (MinGW-w64 or MSVC) and on the
-host; Android builds come later through the existing app projects.
+Readable, compilable C++ rebuilt function by function from the IDA Hex-Rays
+pseudocode of `libDungeonHunter2.so` (`recovered/native/hexrays-all/`, 31,724
+functions in `chunk_000.c` to `chunk_063.c`). The target is code that builds and
+runs on Windows (MinGW-w64 or MSVC) and on the host; Android builds come later
+through the existing app projects.
+
+**Source rule: Hex-Rays is the primary source.** `tools/decomp_extract.py`
+reads it by default. Use the older Ghidra export (`recovered/native/decompiled/`,
+`--source ghidra`) only as a fallback when a function has no usable Hex-Rays
+body. Ghidra's output garbles some ARM tail calls and missing returns, which is
+why the earlier `partial` rows were produced; re-reconstruct those from Hex-Rays
+and replace the old ledger row in place (one row per address, never a duplicate).
 
 This tree is deliberately separate from the live-gameplay reconstruction
 (`port/level-world`, `port/game-data`, `port/engine-*`, `port/android-native`,
