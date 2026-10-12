@@ -71,9 +71,17 @@
 //     CGM: int 0x5bfe68, v2i 0x5bfd44, v3i 0x5bfc18, v4i 0x5c38b0, f 0x5c3764, v2f 0x5c3640, v3f 0x5c3514, v4f 0x5c3308, SColor 0x5c30b0, SColorf 0x5c2e9c
 //     CMat: int 0x5c9a88, v2i 0x5c9988, v3i 0x5c9880, v4i 0x5c9778, f 0x5c964c, v2f 0x5c954c, v3f 0x5c9444, v4f 0x5c9258, SColor 0x5c9020, SColorf 0x5c8e2c
 //     CMR: int 0x5d2744, v2i 0x5d265c, v3i 0x5d256c, v4i 0x5d247c, f 0x5d2368, v2f 0x5d2280, v3f 0x5d2190, v4f 0x5d1fbc, SColor 0x5d1d9c, SColorf 0x5d1bc0
-//   Not ledgered: setParameterElement (9), the intrusive_ptr instances of CLight and ITexture (48),
-//   and setParameterAt<SColorf> (0x5cac8c, queued but not yet ledgered). The CMaterial SColor Cvt body
-//   (0x5cad38) performs that helper's compare and write inline (CvtCodec<SColor>::same and store).
+//   Queued instances added in this pass (the address of each body, by member):
+//   setPointer: CGM CLight: 0x5be68c, 0x5c5be0; CGM ITexture: 0x5c3f40, 0x5c48a0; CMR CLight: 0x5d4f34, 0x5d5174; CMR ITexture: 0x5d691c, 0x5d76e0; CMat CLight: 0x5cc1b8, 0x5ce95c; CMat ITexture: 0x5cd324, 0x5cec4c
+//   getPointer: CGM CLight: 0x5c58ec, 0x5c5a40; CGM ITexture: 0x5beaa4, 0x5bf7dc; CMR CLight: 0x5d50f0, 0x5d7578; CMR ITexture: 0x5d68a0, 0x5d7848; CMat CLight: 0x5cc3b4, 0x5ceae0; CMat ITexture: 0x5cdabc, 0x5cedd0
+//   setPointerArray: CGM CLight: 0x5c568c; CGM ITexture: 0x5c0c94; CMR CLight: 0x5d5004; CMR ITexture: 0x5d599c; CMat CLight: 0x5cc2b8; CMat ITexture: 0x5cc8b4
+//   getPointerArray: CGM CLight: 0x5c2198; CGM ITexture: 0x5c24d8; CMR CLight: 0x5d5378; CMR ITexture: 0x5d52ac; CMat CLight: 0x5cc50c; CMat ITexture: 0x5cc43c
+//   setPointerArrayCvt: CGM CLight: 0x5c540c; CGM ITexture: 0x5c0bd4; CMR CLight: 0x5d56d8; CMR ITexture: 0x5d57e4; CMat CLight: 0x5cce20; CMat ITexture: 0x5cc820
+//   getPointerArrayCvt: CGM CLight: 0x5c518c; CGM ITexture: 0x5c4fa8; CMR CLight: 0x5d55cc; CMR ITexture: 0x5d5da4; CMat CLight: 0x5cd0d8; CMat ITexture: 0x5ccc7c
+//   setParameterElement: CGM: 0x5beb84, 0x5becc4, 0x5c0aa8; CMR: 0x5d404c, 0x5d4154, 0x5d425c; CMat: 0x5caf68, 0x5cb098, 0x5cb1c4
+//   setParameterAt: CMat: 0x5cac8c
+//   The CMaterial SColor Cvt body (0x5cad38) performs that helper compare and write inline
+//   (CvtCodec<SColor>::same and store). setParameterAt is the free function of that name.
 #pragma once
 
 #include <cstddef>
@@ -81,6 +89,7 @@
 #include <cstring>
 #include <vector>
 
+#include "glitch-core-io/boost/intrusive_ptr.hpp"
 #include "glitch-core-io/core/sided_collection.hpp"
 #include "glitch-core-io/deps/glitch_core.hpp"
 
@@ -586,6 +595,108 @@ struct CvtCodec<glitch::video::SColorf> {
     }
 };
 
+// Base type and element count used by setParameterElement (ValueTypeBaseType and ValueTypeArraySize,
+// neither table is in the container). The base types are read from the pseudocode gates: 0 for bytes,
+// 1 for int, 5 for float. Counts are the components of each type; the matrix (11) has 16 floats. Codes
+// not listed here are refused. Code 9 and 10 are not confirmed (see NOTES.md).
+inline std::uint8_t valueBaseType(std::uint8_t code) {
+    switch (code) {
+        case 1: case 2: case 3: case 4:
+            return 1;
+        case 5: case 6: case 7: case 8: case 10: case 11: case 17:
+            return 5;
+        case 16:
+            return 0;
+        default:
+            return 0xFF;
+    }
+}
+inline std::uint32_t valueArraySize(std::uint8_t code) {
+    switch (code) {
+        case 1: case 5: return 1;
+        case 2: case 6: return 2;
+        case 3: case 7: return 3;
+        case 4: case 8: case 16: case 17: return 4;
+        case 10: return 9;
+        case 11: return 16;
+        default: return 0;
+    }
+}
+
+// Element traits of setParameterElement: the base type each value must have.
+template <class T>
+struct ElementTraits;
+template <>
+struct ElementTraits<std::uint8_t> {
+    static constexpr std::uint8_t kBase = 0;
+};
+template <>
+struct ElementTraits<int> {
+    static constexpr std::uint8_t kBase = 1;
+};
+template <>
+struct ElementTraits<float> {
+    static constexpr std::uint8_t kBase = 5;
+};
+
+// Pointer-valued parameters. The original stores a 4-byte pointer per element and keeps a use on the
+// object; the port uses sizeof(void*) bytes per element and the same use counting (see
+// boost/intrusive_ptr.hpp). PtrTraits gives the stored type codes each object kind accepts.
+template <class P>
+struct PtrTraits;
+
+// ITexture: codes 12..15 (the four switch cases). A non-null value must be stored under its own
+// sub-type code, 12 + (slotType & 3); a null value accepts any of the four codes.
+template <>
+struct PtrTraits<boost::intrusive_ptr<glitch::video::ITexture>> {
+    using Object = glitch::video::ITexture;
+    static bool storedOk(std::uint8_t c) { return c - 12u <= 3u; }
+    static bool setOk(std::uint8_t c, const Object* v) {
+        return v ? c == 12u + (v->slotType & 3u) : storedOk(c);
+    }
+};
+
+// CLight: code 18 only (the Convertions bit 0x40000 selects that code alone).
+template <>
+struct PtrTraits<boost::intrusive_ptr<glitch::video::CLight>> {
+    using Object = glitch::video::CLight;
+    static bool storedOk(std::uint8_t c) { return c == 18; }
+    static bool setOk(std::uint8_t c, const Object*) { return c == 18; }
+};
+
+inline constexpr std::size_t kPtrSlot = sizeof(void*);
+
+template <class T>
+T* loadRaw(const std::uint8_t* slot) {
+    T* p;
+    std::memcpy(&p, slot, sizeof p);
+    return p;
+}
+template <class T>
+void storeRaw(std::uint8_t* slot, T* p) {
+    std::memcpy(slot, &p, sizeof p);
+}
+// The slot takes a use on the new object and drops the one it held (boost::intrusive_ptr assignment).
+template <class T>
+void assignSlot(std::uint8_t* slot, T* value) {
+    T* old = loadRaw<T>(slot);
+    if (value) boost::intrusive_ptr_add_ref(value);
+    storeRaw(slot, value);
+    if (old) boost::intrusive_ptr_release(old);
+}
+
+// CMaterial::setParameterAt<SColorf>(SColorf* dst, SColor const& src) (0x5cac8c). Each byte of the
+// colour becomes byte * (1/255); the dirty range is marked when the stored value differs beyond the
+// SColorf::equals tolerance. The source's first byte is red, the fourth is alpha.
+inline void setParameterAt(MaterialParameterStorage& storage, glitch::video::SColorf* dst,
+                           const glitch::video::SColor& src) {
+    const std::uint8_t* b = reinterpret_cast<const std::uint8_t*>(&src);
+    const glitch::video::SColorf value{byteToFloat(b[0]), byteToFloat(b[1]), byteToFloat(b[2]),
+                                       byteToFloat(b[3])};
+    if (!ParamEquals<glitch::video::SColorf>::equal(*dst, value)) storage.markDirty();
+    *dst = value;
+}
+
 template <class Storage>
 class IMaterialParameters {
 public:
@@ -704,6 +815,129 @@ public:
             C::store(dst + i * dstStep, c, v);
         }
         return true;
+    }
+
+    // setParameterElement<T>(id, index, component, value): one component of an element. The base type
+    // must match and the component must be inside the value type. A matrix (type 11) is a pointer slot:
+    // the matrix is allocated on first use with the identity and its flag is cleared. A byte element
+    // is addressed by index + component (the original's byte form), int and float by 4 * (index +
+    // component). The matrix allocation is not released by this class (partial, see NOTES.md).
+    template <class T>
+    bool setParameterElement(std::uint16_t id, std::uint32_t index, std::uint8_t component, T value) {
+        const SShaderParameterDef* def = storage.definition(id);
+        if (!def || valueBaseType(def->type) != ElementTraits<T>::kBase ||
+            component >= valueArraySize(def->type) || index >= def->count) {
+            return false;
+        }
+        std::uint8_t* slot = storage.data(def->offset);
+        if (def->type == 11) {
+            auto* matrix = loadRaw<glitch::core::CMatrix4<float>>(slot);
+            if (!matrix) {
+                matrix = new glitch::core::CMatrix4<float>(glitch::core::CMatrix4<float>::EM4CONST_IDENTITY);
+                storeRaw(slot, matrix);
+            }
+            const float v = static_cast<float>(value);
+            storage.noteIndexed(matrix->M[component] != v);
+            matrix->flag = false;
+            matrix->M[component] = v;
+            return true;
+        }
+        std::uint8_t* dst;
+        if constexpr (sizeof(T) == 1) {
+            dst = storage.data(def->offset + index + component);
+            storage.noteIndexed(*dst != static_cast<std::uint8_t>(value));
+            *dst = static_cast<std::uint8_t>(value);
+        } else {
+            dst = storage.data(def->offset + 4u * (index + component));
+            const T current = [&] {
+                T t;
+                std::memcpy(&t, dst, sizeof t);
+                return t;
+            }();
+            storage.noteIndexed(current != value);
+            std::memcpy(dst, &value, sizeof value);
+        }
+        return true;
+    }
+
+    // getParameter(id, index, Ptr&) and getParameterCvt(id, index, Ptr&) for intrusive_ptr slots.
+    // Both forms are the same here: the Cvt gate for pointers is the stored-code check alone.
+    template <class T>
+    bool getPointer(std::uint16_t id, std::uint32_t index, boost::intrusive_ptr<T>& out) const {
+        using Traits = PtrTraits<boost::intrusive_ptr<T>>;
+        const SShaderParameterDef* def = storage.definition(id);
+        if (!def || !Traits::storedOk(def->type) || index >= def->count) return false;
+        out = loadRaw<T>(storage.data(def->offset + static_cast<std::uint32_t>(kPtrSlot) * index));
+        return true;
+    }
+
+    // getParameter(id, Ptr*, stride): element i is written to out + i * stride (0 means the element size).
+    // The original copies the raw slots when the stride is 0 or 4; the port assigns each element so the
+    // uses stay balanced (see NOTES.md).
+    template <class T>
+    bool getPointerArray(std::uint16_t id, boost::intrusive_ptr<T>* out, int stride) const {
+        using Traits = PtrTraits<boost::intrusive_ptr<T>>;
+        const SShaderParameterDef* def = storage.definition(id);
+        if (!def || !Traits::storedOk(def->type)) return false;
+        const std::ptrdiff_t step = stride == 0 ? static_cast<std::ptrdiff_t>(sizeof(out[0])) : stride;
+        auto* dst = reinterpret_cast<std::uint8_t*>(out);
+        const std::uint8_t* src = storage.data(def->offset);
+        for (std::uint32_t i = 0; i < def->count; ++i) {
+            auto& element = *reinterpret_cast<boost::intrusive_ptr<T>*>(dst + static_cast<std::ptrdiff_t>(i) * step);
+            element = loadRaw<T>(src + i * kPtrSlot);
+        }
+        return true;
+    }
+
+    // getParameterCvt(id, Ptr*, stride): as getPointerArray, but a zero stride copies nothing.
+    template <class T>
+    bool getPointerArrayCvt(std::uint16_t id, boost::intrusive_ptr<T>* out, int stride) const {
+        if (stride == 0) {
+            const SShaderParameterDef* def = storage.definition(id);
+            return def && PtrTraits<boost::intrusive_ptr<T>>::storedOk(def->type);
+        }
+        return getPointerArray(id, out, stride);
+    }
+
+    // setParameter(id, index, Ptr const&) / setParameterCvt(id, index, Ptr const&). On CMaterial the
+    // dirty range is marked when the stored object changes.
+    template <class T>
+    bool setPointer(std::uint16_t id, std::uint32_t index, const boost::intrusive_ptr<T>& value) {
+        using Traits = PtrTraits<boost::intrusive_ptr<T>>;
+        const SShaderParameterDef* def = storage.definition(id);
+        if (!def || !Traits::setOk(def->type, value.get()) || index >= def->count) return false;
+        std::uint8_t* slot = storage.data(def->offset + static_cast<std::uint32_t>(kPtrSlot) * index);
+        storage.noteIndexed(loadRaw<T>(slot) != value.get());
+        assignSlot(slot, value.get());
+        return true;
+    }
+
+    // setParameter(id, Ptr const*, stride): stride 0 means the element size. Marks the range first.
+    template <class T>
+    bool setPointerArray(std::uint16_t id, const boost::intrusive_ptr<T>* src, int stride) {
+        using Traits = PtrTraits<boost::intrusive_ptr<T>>;
+        const SShaderParameterDef* def = storage.definition(id);
+        if (!def || !Traits::storedOk(def->type)) return false;
+        storage.noteArray();
+        const std::ptrdiff_t step = stride == 0 ? static_cast<std::ptrdiff_t>(sizeof(src[0])) : stride;
+        const auto* in = reinterpret_cast<const std::uint8_t*>(src);
+        std::uint8_t* dst = storage.data(def->offset);
+        for (std::uint32_t i = 0; i < def->count; ++i) {
+            const auto& element = *reinterpret_cast<const boost::intrusive_ptr<T>*>(in + static_cast<std::ptrdiff_t>(i) * step);
+            assignSlot(dst + i * kPtrSlot, element.get());
+        }
+        return true;
+    }
+
+    // setParameterCvt(id, Ptr const*, stride): a zero stride marks the range and copies nothing.
+    template <class T>
+    bool setPointerArrayCvt(std::uint16_t id, const boost::intrusive_ptr<T>* src, int stride) {
+        using Traits = PtrTraits<boost::intrusive_ptr<T>>;
+        const SShaderParameterDef* def = storage.definition(id);
+        if (!def || !Traits::storedOk(def->type)) return false;
+        storage.noteArray();
+        if (stride == 0) return true;
+        return setPointerArray(id, src, stride);
     }
 
 private:

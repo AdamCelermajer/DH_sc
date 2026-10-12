@@ -5,6 +5,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <initializer_list>
+#include <string>
 #include <vector>
 
 #include "glitch-core-io/io/attributes.hpp"
@@ -85,6 +86,8 @@ public:
     void setColor(glitch::video::SColor value) override;                    // 0x3249f8
     void setColor(glitch::video::SColorf value) override;                   // 0x324b78
     void setMatrix(const glitch::core::CMatrix4<float>& value) override;    // 0x325bc4
+    std::string getString() const override;     // 0x32d220 (partial: float formatting inferred)
+    std::wstring getStringW() const override;   // 0x32d52c (partial: float formatting inferred)
 
 protected:
     // Element access on the active list (float or int), with the original's conversions:

@@ -1,5 +1,8 @@
 #include "glitch-video/ccommon_gl_driver.hpp"
 
+#include <cstdlib>
+#include <cstring>
+
 #include "glitch-video/deps/gl_function_table.hpp"
 
 namespace glitch::video {
@@ -331,6 +334,55 @@ void CCommonGLDriver::setClearColor(SColor color) {
 }
 
 // Virtual hooks with empty defaults in the port.
+// 0x5b1860 _ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE10beginSceneEv
+// Partial: the original also runs IVideoDriver::beginScene (0x5a8b74). CCommonGLDriverBase
+// is not derived from IVideoDriver in this port, so that base call is not made.
+bool CCommonGLDriver::beginScene() { return true; }
+
+// 0x5b1838 _ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE8endSceneEv
+// Partial: the original also runs IVideoDriver::endScene (0x5aab20), which is not
+// reachable from this base in the port.
+bool CCommonGLDriver::endScene() {
+    flush();
+    auto& t = deps::activeGLFunctionTable();
+    if (t.flush) t.flush();
+    return true;
+}
+
+// 0x5b13f4 _ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE12createBufferENS0_13E_BUFFER_TYPEENS0_14E_BUFFER_USAGEEjPvb
+boost::intrusive_ptr<IBuffer> CCommonGLDriver::createBuffer(E_BUFFER_TYPE type, E_BUFFER_USAGE usage, uint32_t size,
+                                                            void* data, bool flag) {
+    return boost::intrusive_ptr<IBuffer>(new CCommonGLDriverBase::CBufferBase(this, type, usage, size, data, flag));
+}
+
+// 0x5b5be4 _ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE17registerBufferMapEjjjjPKv
+void CCommonGLDriver::registerBufferMap(uint32_t key, uint32_t arg1, uint32_t arg2, uint32_t arg3, size_t byteCount,
+                                        const void* data) {
+    BufferInfo info;
+    info.arg1 = arg1;
+    info.arg2 = arg2;
+    info.arg3 = arg3;
+    info.byteCount = byteCount;
+    info.data = std::malloc(byteCount);
+    std::memcpy(info.data, data, byteCount);
+    // insert_unique: an existing key keeps its old entry; the new copy is not freed.
+    m_bufferMap.insert(std::make_pair(key, info));
+}
+
+// 0x5b1f5c _ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE19unregisterBufferMapEj
+void CCommonGLDriver::unregisterBufferMap(uint32_t key) {
+    auto it = m_bufferMap.find(key);
+    if (it == m_bufferMap.end()) return;
+    std::free(it->second.data);
+    m_bufferMap.erase(it);
+}
+
+// 0x5b35d8 _ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE14clearBufferMapEv
+void CCommonGLDriver::clearBufferMap() {
+    for (auto& entry : m_bufferMap) std::free(entry.second.data);
+    m_bufferMap.clear();
+}
+
 void CCommonGLDriver::flush() {}
 void CCommonGLDriver::presentHook() {}
 void CCommonGLDriver::stateHook() {}

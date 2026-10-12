@@ -356,4 +356,78 @@ void CAttributes::getAttributeEnumerationLiteralsOfEnumeration(int index, std::v
     (void)literals;
 }
 
+// 0x5684d8 _ZN6glitch2io11CAttributes9addBinaryEPKcPvib
+void CAttributes::addBinary(const char* name, void* data, int size, bool flag) {
+    currentAttributes().push_back(new CStringAttribute(name, data, size, flag));
+}
+
+// Searches the current group for an attribute with this name (the original compares the
+// names directly, not through getAttributeP). Returns the attribute or nullptr.
+namespace {
+IAttribute* findInGroup(std::vector<IAttribute*>& list, const char* name, std::size_t* where) {
+    for (std::size_t i = 0; i < list.size(); ++i) {
+        if (list[i]->name == name) {
+            if (where != nullptr) *where = i;
+            return list[i];
+        }
+    }
+    return nullptr;
+}
+}  // namespace
+
+// 0x56a948 _ZN6glitch2io11CAttributes12setAttributeEPKcS3_
+// Found: a non-null value goes to setString(char) (+0x90); a null value drops the
+// attribute and removes it from the group. Not found: a non-null value adds a new
+// narrow string attribute with flag false.
+void CAttributes::setAttribute(const char* name, const char* value) {
+    auto& list = currentAttributes();
+    std::size_t where = 0;
+    if (IAttribute* a = findInGroup(list, name, &where)) {
+        if (value != nullptr) {
+            a->setString(value);
+        } else {
+            a->drop();
+            list.erase(list.begin() + static_cast<std::ptrdiff_t>(where));
+        }
+        return;
+    }
+    if (value != nullptr) list.push_back(new CStringAttribute(name, value, false));
+}
+
+// 0x56aa98 _ZN6glitch2io11CAttributes12setAttributeEPKcPKw
+// Same as the narrow overload, with the wide setString (+0x94) and a wide-value add.
+void CAttributes::setAttribute(const char* name, const wchar_t* value) {
+    auto& list = currentAttributes();
+    std::size_t where = 0;
+    if (IAttribute* a = findInGroup(list, name, &where)) {
+        if (value != nullptr) {
+            a->setString(value);
+        } else {
+            a->drop();
+            list.erase(list.begin() + static_cast<std::ptrdiff_t>(where));
+        }
+        return;
+    }
+    if (value != nullptr) list.push_back(new CStringAttribute(name, value, false));
+}
+
+// 0x56b4ac _ZN6glitch2io11CAttributes12setAttributeEPKcPvi
+void CAttributes::setAttribute(const char* name, void* data, int size) {
+    if (IAttribute* a = getAttributeP(name)) {
+        a->setBinary(data, size);
+    } else {
+        currentAttributes().push_back(new CStringAttribute(name, data, size, false));
+    }
+}
+
+// 0x56bb8c _ZN6glitch2io11CAttributes12setAttributeEPKcNS_4core8line3dIfEE
+void CAttributes::setAttribute(const char* name, glitch::core::line3d<float> value) {
+    if (IAttribute* a = getAttributeP(name)) a->setLine3d(value); else addLine3d(name, value, false);
+}
+
+// 0x56bdcc _ZN6glitch2io11CAttributes12setAttributeEPKcNS_4core10triangle3dIfEE
+void CAttributes::setAttribute(const char* name, const glitch::core::triangle3d<float>& value) {
+    if (IAttribute* a = getAttributeP(name)) a->setTriangle(value); else addTriangle3d(name, value, false);
+}
+
 }  // namespace glitch::io

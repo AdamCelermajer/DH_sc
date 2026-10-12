@@ -6,6 +6,7 @@ namespace glitch::video {
 
 // 0x6dab0c _ZN6glitch5video14CVideoModeListC1Ev
 // 0x6daabc _ZN6glitch5video14CVideoModeListC2Ev
+// +0x04 is set to 1 (m_unknown04 default); the rest is zeroed as in the original.
 CVideoModeList::CVideoModeList() = default;
 
 CVideoModeList::CVideoModeList(std::vector<SVideoMode> modes,
@@ -15,6 +16,18 @@ CVideoModeList::CVideoModeList(std::vector<SVideoMode> modes,
 // 0x6dae50 _ZN6glitch5video14CVideoModeListD1Ev
 // The original frees the mode array; the std::vector member does the same.
 // (The deleting variant _ZN6glitch5video14CVideoModeListD0Ev is compiler generated.)
+
+// 0x6dae90 _ZN6glitch5video14CVideoModeList7addModeERKNS_4core11dimension2dIiEEi
+// Partial: the original's heapsort (glitch::core::heapsort on SVideoMode) is not ported.
+void CVideoModeList::addMode(const core::dimension2d<uint32_t>& resolution, uint32_t depth) {
+    for (const SVideoMode& mode : m_modes) {
+        if (mode.Resolution.Width == resolution.Width && mode.Resolution.Height == resolution.Height &&
+            mode.Depth == depth) {
+            return;
+        }
+    }
+    m_modes.push_back(SVideoMode{resolution, depth});
+}
 
 // 0x6dab74 _ZNK6glitch5video14CVideoModeList17getVideoModeCountEv
 uint32_t CVideoModeList::getVideoModeCount() const {

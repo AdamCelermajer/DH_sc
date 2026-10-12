@@ -10,8 +10,8 @@
 namespace glitch::io {
 
 // 0x56f494 _ZN6glitch2io13SPakFileEntryC1Ev
-// Partial: the three strings start empty, as in the original. The original does not set
-// the two integers (+0x48, +0x4c); they are zeroed here by their default initialisers.
+// The three strings start empty, as in the original (the decompile allocates an empty buffer
+// for each). The two integers are zeroed by their default initialisers.
 SPakFileEntry::SPakFileEntry() {}
 
 // 0x56f500 _ZN6glitch2io13SPakFileEntryC1ERKS1_
@@ -44,10 +44,9 @@ const SPakFileEntry* CPakReader::getFileInfo(int index) const {
 }
 
 // 0x56f6f4 _ZN6glitch2io10CPakReaderD1Ev
-// 0x56f73c _ZN6glitch2io10CPakReaderD2Ev
-// Partial: the body releases the read file. The original also resets the vtable and
-// destroys the entry vector with the glitch allocator; here the vector is destroyed by
-// its own destructor and the vtable is the compiler's.
+// 0x56f73c _ZN6glitch2io10CPakReaderD2Ev (same body)
+// Releases the read file and then the entry vector (the vector is destroyed by its own
+// destructor here, as the original does with the glitch allocator).
 CPakReader::~CPakReader() {
     if (readFile != nullptr) readFile->drop();
 }

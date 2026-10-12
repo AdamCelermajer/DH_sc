@@ -28,17 +28,19 @@ int main() {
     CHECK(code.m_name.empty());
 
     // CMaterialRendererManager: the id comes back only when the flag word is set and the id is non-zero.
-    CMaterialRendererManager manager;
+    CMaterialRendererManager manager(nullptr);
     CMaterialRendererManager::STemporaryID id;
     id.value = 5;
     CHECK(manager.getTechnique(id) == 0);
     CHECK(manager.getParameterDef(id) == 0);
-    manager.m_unknown90 = 1;
+    manager.m_creationState = new CMaterialRendererManager::SCreationState(nullptr);
     CHECK(manager.getTechnique(id) == 5);
     CHECK(manager.getParameterDef(id) == 5);
     id.value = 0;
     CHECK(manager.getTechnique(id) == 0);
     CHECK(manager.getParameterDef(id) == 0);
+    manager.clearCreationState();
+    CHECK(manager.m_creationState == nullptr);
 
     std::printf("%s\n", failures ? "driver_factory: FAILED" : "driver_factory: ok");
     return failures != 0;
