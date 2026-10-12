@@ -28132,9 +28132,14 @@ void skill_sync_target_objects(PlayerSkillTargetList& state){
   if(count) {
    auto* info=native_host.registry.entries?native_host.registry.entries[0]:nullptr;
    auto* record=info?native_host.record_for(info):nullptr;
-   if(!info||!record||!record->number_678||
-      record->character_660!=prince_character.identity()){
-    state.projection_error="PlayerList +0x678/friendly-character owner is not proven for this PlayerInfo";return;
+   // PlayerList::GetChar is PlayerManager::GetPlayer(index, true)->+0x660:
+   // _GetInternalIDByFriendlyID (0x36e5b4) takes the index-th registry entry
+   // whose Character word (+0x660) is nonzero. The sole offline PlayerInfo is
+   // that entry exactly when it carries the live Player Character. Its ordinal
+   // word (+0x678) is the zero-based player number (0 for the first player) and
+   // takes no part in the selection.
+   if(!info||!record||record->character_660!=prince_character.identity()){
+    state.projection_error="PlayerList friendly-character owner is not proven for this PlayerInfo";return;
    }
    state.player_candidate=record->character_660;
    if(!add_identity(state.player_candidate))return;
@@ -28169,7 +28174,10 @@ void skill_sync_target_objects(PlayerSkillTargetList& state){
   state.source_methods={&state,
    [](void* raw)->int {auto* s=static_cast<PlayerSkillTargetList*>(raw);if(!s)return 1;s->source_cursor=0;return 0;},
    [](void* raw,std::uint32_t* end)->int {auto* s=static_cast<PlayerSkillTargetList*>(raw);if(!s||!end)return 1;*end=s->source_cursor>=s->source_count;return 0;},
-   [](void* raw,Target** out)->int {auto* s=static_cast<PlayerSkillTargetList*>(raw);if(!s||!out||s->source_cursor>=s->source_count||!s->player_candidate)return 1;const auto it=s->by_identity.find(s->player_candidate);if(it==s->by_identity.end()||it->second>=s->objects.size())return 1;*out=&s->objects[it->second];return 0;},
+   [](void* raw,Target** out)->int {auto* s=static_cast<PlayerSkillTargetList*>(raw);if(!s||!out||s->source_cursor>=s->source_count||!s->player_candidate)return 1;const auto it=s->by_identity.find(s->player_candidate);if(it==s->by_identity.end()||it->second>=s->objects.size())return 1;
+    // The source's PlayerList entry for the searching Player is that same GameObject,
+    // which the search skips (`object!=owner`); keep that identity, not a second copy.
+    *out=s->player_candidate==s->owner.identity?&s->owner:&s->objects[it->second];return 0;},
    [](void* raw)->int {auto* s=static_cast<PlayerSkillTargetList*>(raw);if(!s)return 1;++s->source_cursor;return 0;}};
  } else if(state.candidate_route==PlayerSkillTargetList::CandidateRoute::characters) {
   state.source_methods={&state,
@@ -28188,7 +28196,7 @@ void skill_sync_target_objects(PlayerSkillTargetList& state){
     if(m.get_char(m.context,&c)!=0||!c)return 1;
     const auto it=s->by_identity.find(c->identity);
     if(it==s->by_identity.end()||it->second>=s->objects.size())return 1;
-    *out=&s->objects[it->second];return 0;
+    *out=c->identity==s->owner.identity?&s->owner:&s->objects[it->second];return 0;
    },
    [](void* raw)->int {
     auto* s=static_cast<PlayerSkillTargetList*>(raw);const auto& m=native_characters.methods();
@@ -28212,7 +28220,7 @@ void skill_sync_target_objects(PlayerSkillTargetList& state){
     if(s->room_cursor.owner!=&m||!m.room_object_cursor_get(&s->room_cursor,&id))return 1;
     const auto it=s->by_identity.find(id);
     if(it==s->by_identity.end()||it->second>=s->objects.size())return 1;
-    *out=&s->objects[it->second];return 0;
+    *out=id==s->owner.identity?&s->owner:&s->objects[it->second];return 0;
    },
    [](void* raw)->int {
     auto* s=static_cast<PlayerSkillTargetList*>(raw);

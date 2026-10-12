@@ -33,6 +33,9 @@ struct Runtime::Impl {
     std::uint32_t* callbacks=nullptr;
     std::uint32_t* lua_errors=nullptr;
     int* last_lua_status=nullptr;
+    bool tolerate_required=false;
+    std::uint32_t* required_failures=nullptr;
+    std::string* first_required=nullptr;
     std::string error;
     Impl(player_skill_session_v1::Session& s,prep::Owner& p,std::uintptr_t a,
          std::uintptr_t c,const std::int32_t& m):session(s),owner(p),ai(a),character(c),machine(m){}
@@ -70,6 +73,14 @@ struct Runtime::Impl {
         const int status=session.call_all(fn,a.empty()?nullptr:a.data(),std::uint32_t(a.size()),observe,&r,error);
         if(!last_lua_status||!lua_errors)return -1;
         *last_lua_status=status;
+        if(status==DH2_SCRIPT_REQUIRED_FAILURE_STATUS&&tolerate_required&&required_failures&&first_required){
+            // The script raised (or a Lua pcall caught) a required-service failure.
+            // Count it, then treat it like the ordinary Lua error the original sees.
+            ++*required_failures;
+            if(first_required->empty())*first_required=std::string(fn)+": "+(error.empty()?"required native service failure":error);
+            ++*lua_errors;projection.error=1;r.values.clear();r.texts.clear();r.sync();
+            return 0;
+        }
         if(status<0)return -1;
         projection.error=static_cast<std::uint32_t>(status);
         if(status){++*lua_errors;r.values.clear();r.texts.clear();r.sync();}
@@ -161,9 +172,11 @@ Runtime::Runtime(player_skill_session_v1::Session& s,prep::Owner& p,std::uintptr
 }
 Runtime::~Runtime()=default;
 std::size_t Runtime::retained_failed_returns()const noexcept{return impl_->returns.size();}
+void Runtime::continue_past_required_failures(bool enabled)noexcept{impl_->tolerate_required=enabled;}
 int Runtime::update(Result& output,std::string& error){
     auto& s=*impl_;if(s.busy){error="player skill update reentry";return -1;}
     Busy busy(s.busy);output={};s.callbacks=&output.callbacks;s.lua_errors=&output.lua_errors;s.last_lua_status=&output.last_lua_status;s.error.clear();
+    s.required_failures=&output.required_failures;s.first_required=&output.first_required_failure;
     try{
         if(s.owner.state().owner!=s.character)throw std::runtime_error("player skill owner changed");
         all::State state{s.ai,s.character,range(s.owner.slots(prep::source::List::skill)),range(s.owner.slots(prep::source::List::faery))};
@@ -182,6 +195,7 @@ int Runtime::update_current_faery(const data::PlayerSavegameV1& savegame,
         error="selected-faery Save, Character, preparation owner and VM identities differ";return -1;
     }
     Busy busy(s.busy);output={};s.callbacks=&output.callbacks;s.lua_errors=&output.lua_errors;s.last_lua_status=&output.last_lua_status;s.error.clear();
+    s.required_failures=&output.required_failures;s.first_required=&output.first_required_failure;
     try{
         selected::State state{s.ai,s.character,&s.machine,&savegame,&difficulty};
         const selected::Services services{&s,Impl::invoke_selected_vector,Impl::invoke_selected_script};

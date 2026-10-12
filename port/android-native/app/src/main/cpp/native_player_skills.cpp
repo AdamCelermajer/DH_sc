@@ -712,6 +712,11 @@ struct Runtime::Impl {
   s.timer_fields=s.preparation->lease_timer_fields(q->character);
   if(!s.timer_fields){error="Player skill field18 lease unavailable";return 1;}
   s.updates=std::make_unique<dh2::player_skill_update_session_v1::Runtime>(*s.session,*s.preparation,s.bindings.ai,q->character,s.bindings.coordinator->state.current);
+  // CharAI::UpdateAllSkills/UpdateSkills call each script's OnSkillUpdate and ignore
+  // the result: LuaScript::Call logs and swallows script failures. A native the
+  // port has not bound must not stop the walk or latch the whole runtime either;
+  // it is reported loudly through log_required_failures instead.
+  s.updates->continue_past_required_failures(true);
   s.uses=std::make_unique<dh2::player_skill_use_session_v1::Runtime>(*s.session,*s.preparation,q->character);
   s.update_slot=s.updates.get();s.use_slot=s.uses.get();return 0;
  }
@@ -812,8 +817,12 @@ struct Runtime::Impl {
    *bindings.current_difficulty,bindings.savegame->current_faery(*bindings.current_difficulty),bindings.savegame->faery_level(0,*bindings.current_difficulty));
  }
  void log_initial_update(){
+  log_required_failures("InitProcess UpdateAllSkills",updated.required_failures,updated.first_required_failure);
   __android_log_print(ANDROID_LOG_INFO,"DH2Native","Native Player skill update complete | attempt %u | callbacks %u | skill slots %u | faery slots %u | buffs %u | groups %u | one VM/save/property store; source InitProcess complete, activation pending",update_attempts,updated.callbacks,updated.source.skill_slots,updated.source.faery_slots,buffs->count(),property_view.group_count);
   log_buffs("initial");
+ }
+ void log_required_failures(const char* phase,std::uint32_t count,const std::string& first){
+  if(count)__android_log_print(ANDROID_LOG_ERROR,"DH2Native","Native Player %s | %u OnSkillUpdate call(s) raised a required-service failure; the source ignores script failures and the update continues | first: %s",phase,count,first.c_str());
  }
  bool update_after_saved_skill_slot_write(std::string& output_error){
   if(!initialized||update_blocked||!updates){output_error="Native Player UpdateSkills owner is unavailable or blocked";return false;}
@@ -822,7 +831,9 @@ struct Runtime::Impl {
   ++update_attempts;
   // SG_SetSkillInSlot ends at CharAI::UpdateSkills: saved slot keys plus the
   // current difficulty's one Faery, through this Save/Character/VM owner.
-  if(updates->update_current_faery(*bindings.savegame,*bindings.current_difficulty,selected_updated,error)){
+  const auto selected_status=updates->update_current_faery(*bindings.savegame,*bindings.current_difficulty,selected_updated,error);
+  log_required_failures("UpdateSkills",selected_updated.required_failures,selected_updated.first_required_failure);
+  if(selected_status){
    update_blocked=true;
    __android_log_print(ANDROID_LOG_INFO,"DH2Native","Native Player UpdateSkills blocked | attempt %u | callbacks %u | VM status %d | faery %u | %s | source effects retained; remaining providers pending",update_attempts,selected_updated.callbacks,selected_updated.last_lua_status,selected_updated.source.faery_index,error.c_str());
    output_error=error;return false;
@@ -835,7 +846,9 @@ struct Runtime::Impl {
   catch(const std::exception& e){output_error=e.what();return false;}
   ++update_attempts;
   // ChangeFaery's source tail is UpdateAllSkills and stays distinct above.
-  if(updates->update(updated,error)){
+  const auto all_status=updates->update(updated,error);
+  log_required_failures("UpdateAllSkills",updated.required_failures,updated.first_required_failure);
+  if(all_status){
    update_blocked=true;
    __android_log_print(ANDROID_LOG_INFO,"DH2Native","Native Player UpdateAllSkills blocked | attempt %u | callbacks %u | VM status %d | %s | source effects retained; remaining providers pending",update_attempts,updated.callbacks,updated.last_lua_status,error.c_str());
    output_error=error;return false;
