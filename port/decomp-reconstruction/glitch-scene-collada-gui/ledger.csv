@@ -911,3 +911,73 @@ elf_address,symbol,status,source_file,notes
 0x578d3c,_ZN6glitch5scene10CBatchMesh6SBatchC1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_nodes.hpp,defaulted constructor, zeroed members
 0x578d5c,_ZN6glitch5scene10CBatchMesh6SBatchC2Et,reconstructed,glitch-scene-collada-gui/src/scene_nodes.cpp,
 0x578d7c,_ZN6glitch5scene10CBatchMesh6SBatchC1Et,reconstructed,glitch-scene-collada-gui/src/scene_nodes.cpp,
+0x53c510,_ZN6glitch3gui18IGUIFileOpenDialogD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/gui_simple_accessors.hpp,empty D1 vtable stores and IGUIElement base destructor call implicit
+0x540a74,_ZN6glitch3gui9IGUIImageD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/gui_simple_accessors.hpp,empty D1 vtable stores and IGUIElement base destructor call implicit
+0x541844,_ZN6glitch3gui14IGUIInOutFaderD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/gui_simple_accessors.hpp,empty D1 vtable stores and IGUIElement base destructor call implicit
+0x544428,_ZN6glitch3gui11IGUIListBoxD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/gui_simple_accessors.hpp,empty D1 vtable stores and IGUIElement base destructor call implicit
+0x545bb4,_ZN6glitch3gui15IGUIContextMenuD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/gui_simple_accessors.hpp,empty D1 vtable stores and IGUIElement base destructor call implicit
+0x5467d8,_ZN6glitch3gui14IGUIMeshViewerD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/gui_simple_accessors.hpp,empty D1 vtable stores and IGUIElement base destructor call implicit
+0x547c50,_ZN6glitch3gui10IGUIWindowD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/gui_simple_accessors.hpp,empty D1 vtable stores and IGUIElement base destructor call implicit
+0x549f44,_ZN6glitch3gui13IGUIScrollBarD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/gui_simple_accessors.hpp,empty D1 vtable stores and IGUIElement base destructor call implicit
+0x54f364,_ZN6glitch3gui11IGUISpinBoxD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/gui_simple_accessors.hpp,empty D1 vtable stores and IGUIElement base destructor call implicit
+0x550f24,_ZN6glitch3gui14IGUIStaticTextD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/gui_simple_accessors.hpp,empty D1 vtable stores and IGUIElement base destructor call implicit
+0x553f30,_ZN6glitch3gui7IGUITabD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/gui_simple_accessors.hpp,empty D1 vtable stores and IGUIElement base destructor call implicit
+0x554070,_ZN6glitch3gui14IGUITabControlD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/gui_simple_accessors.hpp,empty D1 vtable stores and IGUIElement base destructor call implicit
+0x557aa0,_ZN6glitch3gui9IGUITableD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/gui_simple_accessors.hpp,empty D1 vtable stores and IGUIElement base destructor call implicit
+0x55b7c8,_ZN6glitch3gui11IGUIToolBarD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/gui_simple_accessors.hpp,empty D1 vtable stores and IGUIElement base destructor call implicit
+0x6a69b8,_ZN6glitch3gui10IGUIButtonD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/gui_simple_accessors.hpp,empty D1 vtable stores and IGUIElement base destructor call implicit
+0x6a7d54,_ZN6glitch3gui12IGUICheckBoxD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/gui_simple_accessors.hpp,empty D1 vtable stores and IGUIElement base destructor call implicit
+0x6a9b90,_ZN6glitch3gui21IGUIColorSelectDialogD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/gui_simple_accessors.hpp,empty D1 vtable stores and IGUIElement base destructor call implicit
+0x6acbbc,_ZN6glitch3gui12IGUIComboBoxD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/gui_simple_accessors.hpp,empty D1 vtable stores and IGUIElement base destructor call implicit
+0x6b0b38,_ZN6glitch3gui11IGUIEditBoxD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/gui_simple_accessors.hpp,empty D1 vtable stores and IGUIElement base destructor call implicit
+0x5520a8,_ZNK6glitch3gui7CGUITab12getTextColorEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x5520f8,_ZNK6glitch3gui7CGUITab18getBackgroundColorEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x541ff4,_ZN6glitch3gui11CGUIListBox20setItemOverrideColorEjRKNS_5video6SColorE,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,index not checked in the original; out-of-range index ignored here
+0x6a5cd0,_ZNK6glitch3gui25CDefaultGUIElementFactory27getCreateableGUIElementTypeEi,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,indices above 0x15 become 0x17
+0x6a5ce0,_ZNK6glitch3gui25CDefaultGUIElementFactory31getCreateableGUIElementTypeNameEi,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,name table read from the binary's relocations; entries 9 and 17 and 19 resolved as noted in the source
+0x6a5d00,_ZNK6glitch3gui25CDefaultGUIElementFactory31getCreateableGUIElementTypeNameENS0_17EGUI_ELEMENT_TYPEE,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,same name table as the int overload
+0x6b96c0,_ZNK6glitch5scene32CDefaultSceneNodeAnimatorFactory38getCreateableSceneNodeAnimatorTypeNameEj,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,name table read from the binary's relocations
+0x6b96e0,_ZNK6glitch5scene32CDefaultSceneNodeAnimatorFactory38getCreateableSceneNodeAnimatorTypeNameENS0_26E_SCENE_NODE_ANIMATOR_TYPEE,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,enum overload of the same name table
+0x6b9cf0,_ZNK6glitch5scene24CDefaultSceneNodeFactory30getCreatableSceneNodeTypeCountEv,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_simple_accessors.hpp,count is the record count of the creatable-type vector (28-byte records)
+0x6b9d1c,_ZNK6glitch5scene24CDefaultSceneNodeFactory26getCreateableSceneNodeTypeEj,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_simple_accessors.hpp,out-of-range value is the id unkn
+0x6b9d60,_ZNK6glitch5scene24CDefaultSceneNodeFactory30getCreateableSceneNodeTypeNameEj,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_simple_accessors.hpp,
+0x64944c,_ZNK6glitch7collada28CModularSkinnedMeshSceneNode13getModuleNameEii,reconstructed,glitch-scene-collada-gui/src/collada_scene_accessors.cpp,tail call into CModularSkinnedMesh::getModuleName
+0x649454,_ZNK6glitch7collada28CModularSkinnedMeshSceneNode20getCurrentModuleNameEi,reconstructed,glitch-scene-collada-gui/src/collada_scene_accessors.cpp,tail call into CModularSkinnedMesh::getCurrentModuleName
+0x649464,_ZNK6glitch7collada28CModularSkinnedMeshSceneNode11getModuleIdEPKc,reconstructed,glitch-scene-collada-gui/src/collada_scene_accessors.cpp,tail call into CModularSkinnedMesh::getModuleId
+0x64946c,_ZNK6glitch7collada28CModularSkinnedMeshSceneNode15getCategoryNameEi,reconstructed,glitch-scene-collada-gui/src/collada_scene_accessors.cpp,tail call into CModularSkinnedMesh::getCategoryName
+0x6494e0,_ZNK6glitch7collada28CModularSkinnedMeshSceneNode13getCategoryIdEPKc,reconstructed,glitch-scene-collada-gui/src/collada_scene_accessors.cpp,tail call into CModularSkinnedMesh::getCategoryId
+0x6a00a0,_ZNK6glitch16CAndroidOSDevice14CCursorControl9isVisibleEv,reconstructed,glitch-scene-collada-gui/src/platform_stubs.cpp,Android cursor control visible flag
+0x6a02b0,_ZN6glitch16CAndroidOSDevice12createWindowEv,reconstructed,glitch-scene-collada-gui/src/platform_stubs.cpp,Android device stub returns true
+0x6a02b8,_ZN6glitch16CAndroidOSDevice9setResizeEii,reconstructed,glitch-scene-collada-gui/src/platform_stubs.cpp,Android device stub empty
+0x6a02bc,_ZN6glitch16CAndroidOSDevice5flushEv,reconstructed,glitch-scene-collada-gui/src/platform_stubs.cpp,Android device stub empty
+0x6a02c0,_ZN6glitch16CAndroidOSDevice5yieldEv,reconstructed,glitch-scene-collada-gui/src/platform_stubs.cpp,Android device stub empty
+0x6a02c4,_ZN6glitch16CAndroidOSDevice16setWindowCaptionEPKw,reconstructed,glitch-scene-collada-gui/src/platform_stubs.cpp,Android device stub empty
+0x6a02c8,_ZNK6glitch16CAndroidOSDevice14isWindowActiveEv,reconstructed,glitch-scene-collada-gui/src/platform_stubs.cpp,Android device stub returns true
+0x6a02d0,_ZNK6glitch16CAndroidOSDevice15isWindowFocusedEv,reconstructed,glitch-scene-collada-gui/src/platform_stubs.cpp,Android device stub returns true
+0x6a02d8,_ZNK6glitch16CAndroidOSDevice17isWindowMinimizedEv,reconstructed,glitch-scene-collada-gui/src/platform_stubs.cpp,Android device stub returns false
+0x6a02e0,_ZN6glitch16CAndroidOSDevice12postKeyEventEPvRNS_6SEventEb,reconstructed,glitch-scene-collada-gui/src/platform_stubs.cpp,Android device stub empty
+0x6a02e4,_ZN6glitch16CAndroidOSDevice14postMouseEventEPvRNS_6SEventE,reconstructed,glitch-scene-collada-gui/src/platform_stubs.cpp,Android device stub empty
+0x6a02e8,_ZN6glitch16CAndroidOSDevice18storeMouseLocationEv,reconstructed,glitch-scene-collada-gui/src/platform_stubs.cpp,Android device stub empty
+0x6a02ec,_ZN6glitch16CAndroidOSDevice16setMouseLocationEii,reconstructed,glitch-scene-collada-gui/src/platform_stubs.cpp,Android device stub empty
+0x6a0330,_ZN6glitch16CAndroidOSDevice16setCursorVisibleEb,reconstructed,glitch-scene-collada-gui/src/platform_stubs.cpp,Android device stub empty
+0x6a0340,_ZN6glitch16CAndroidOSDevice12initKeycodesEv,reconstructed,glitch-scene-collada-gui/src/platform_stubs.cpp,Android device stub empty
+0x6a0344,_ZN6glitch16CAndroidOSDevice13setResizeAbleEb,reconstructed,glitch-scene-collada-gui/src/platform_stubs.cpp,Android device stub empty
+0x6a0348,_ZN6glitch16CAndroidOSDevice16getVideoModeListEv,reconstructed,glitch-scene-collada-gui/src/platform_stubs.cpp,Android device stub returns null video mode list
+0x6a0350,_ZN6glitch16CAndroidOSDevice14CCursorControlD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/platform_stubs.hpp,empty D1 of the cursor control
+0x6a08b0,_ZN6glitch7ILoggerD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/platform_stubs.hpp,empty D1 of the logger interface
+0x6a092c,_ZNK6glitch7CLogger11getLogLevelEv,reconstructed,glitch-scene-collada-gui/src/platform_stubs.cpp,
+0x6a0934,_ZN6glitch7CLogger11setLogLevelENS_10ELOG_LEVELE,reconstructed,glitch-scene-collada-gui/src/platform_stubs.cpp,
+0x6a093c,_ZN6glitch7CLogger11setReceiverEPNS_14IEventReceiverE,reconstructed,glitch-scene-collada-gui/src/platform_stubs.cpp,
+0x6a0944,_ZN6glitch7CLoggerD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/platform_stubs.hpp,empty D1
+0x6a0c7c,_ZN6glitch11IOSOperatorD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/platform_stubs.hpp,empty D1 of the OS operator interface
+0x6a0c80,_ZNK6glitch11COSOperator25getOperationSystemVersionEv,reconstructed,glitch-scene-collada-gui/src/platform_stubs.cpp,returns the osVersion field at +0x4c
+0x6a0c88,_ZNK6glitch11COSOperator15copyToClipboardEPKc,reconstructed,glitch-scene-collada-gui/src/platform_stubs.cpp,empty
+0x6a0c8c,_ZNK6glitch11COSOperator20getTextFromClipboardEv,reconstructed,glitch-scene-collada-gui/src/platform_stubs.cpp,returns null
+0x6a0c94,_ZNK6glitch11COSOperator20getProcessorSpeedMHzEPj,reconstructed,glitch-scene-collada-gui/src/platform_stubs.cpp,returns false (upstream bool)
+0x6a0c9c,_ZNK6glitch11COSOperator15getSystemMemoryEPjS1_,reconstructed,glitch-scene-collada-gui/src/platform_stubs.cpp,returns false (upstream bool)
+0x6a118c,_ZN6glitch7IObjectC2Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/platform_stubs.hpp,empty base constructor C2
+0x6a1190,_ZN6glitch7IObjectC1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/platform_stubs.hpp,empty base constructor C1
+0x6a1194,_ZN6glitch7IObjectD2Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/platform_stubs.hpp,empty base destructor D2
+0x6a1198,_ZN6glitch7IObjectD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/platform_stubs.hpp,empty base destructor D1
+0x64d290,_ZN6glitch2ps6PS_NEWEj,partial,glitch-scene-collada-gui/src/ps_types.cpp,GlitchAlloc with hint 0 in the original; std::malloc used here
+0x64d778,_ZN6glitch2ps7PS_FREEEPv,reconstructed,glitch-scene-collada-gui/src/ps_types.cpp,

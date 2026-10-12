@@ -188,6 +188,26 @@ int main() {
     boost::intrusive_ptr<const IAnimatedMesh> keyNone;
     CHECK(cache.getMeshFilename(keyNone) == nullptr);
 
+    // Animator name table and the creatable scene-node factory records.
+    CDefaultSceneNodeAnimatorFactory animNames;
+    CHECK(std::strcmp(animNames.getCreateableSceneNodeAnimatorTypeName(4), "texture") == 0);
+    CHECK(std::strcmp(animNames.getCreateableSceneNodeAnimatorTypeName(ESNAT_CAMERA_MAYA), "cameraMaya") == 0);
+    CHECK(animNames.getCreateableSceneNodeAnimatorTypeName(9u) == nullptr);
+    CDefaultSceneNodeFactory nodeFactory;
+    CHECK(nodeFactory.getCreatableSceneNodeTypeCount() == 0);
+    CHECK(nodeFactory.getCreateableSceneNodeType(0) == 0x6e6b6e75u);
+    CDefaultSceneNodeFactory::SCreatableType kinds[2];
+    kinds[0].type = 0x6d657368u;
+    kinds[0].name = "mesh";
+    kinds[1].type = 0x74787420u;
+    kinds[1].name = "text";
+    nodeFactory.types.assign(kinds, kinds + 2);
+    CHECK(nodeFactory.getCreatableSceneNodeTypeCount() == 2);
+    CHECK(nodeFactory.getCreateableSceneNodeType(1) == 0x74787420u);
+    CHECK(std::strcmp(nodeFactory.getCreateableSceneNodeTypeName(0), "mesh") == 0);
+    CHECK(nodeFactory.getCreateableSceneNodeTypeName(2) == nullptr);
+    CHECK(nodeFactory.getCreateableSceneNodeType(2) == 0x6e6b6e75u);
+
     std::printf("%s\n", failures ? "scene_simple_accessors: FAILED" : "scene_simple_accessors: ok");
     return failures != 0;
 }

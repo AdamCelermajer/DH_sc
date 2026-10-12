@@ -78,6 +78,17 @@ public:
     std::uint32_t getCategoryCount() const;
     // 0x64945c _ZNK6glitch7collada28CModularSkinnedMeshSceneNode18getCurrentModuleIdEi
     std::int32_t getCurrentModuleId(int category) const;
+    // The five accessors below are tail calls into the mesh (thunks in the original).
+    // 0x64944c _ZNK6glitch7collada28CModularSkinnedMeshSceneNode13getModuleNameEii
+    const char* getModuleName(int category, int module) const;
+    // 0x649454 _ZNK6glitch7collada28CModularSkinnedMeshSceneNode20getCurrentModuleNameEi
+    const char* getCurrentModuleName(int category) const;
+    // 0x649464 _ZNK6glitch7collada28CModularSkinnedMeshSceneNode11getModuleIdEPKc
+    std::int32_t getModuleId(const char* name) const;
+    // 0x64946c _ZNK6glitch7collada28CModularSkinnedMeshSceneNode15getCategoryNameEi
+    const char* getCategoryName(int category) const;
+    // 0x6494e0 _ZNK6glitch7collada28CModularSkinnedMeshSceneNode13getCategoryIdEPKc
+    std::int32_t getCategoryId(const char* name) const;
 
     CModularSkinnedMesh* mesh = nullptr;  // +0x134
 };

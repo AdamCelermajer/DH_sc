@@ -353,6 +353,16 @@ void CGUITab::setTextColor(video::SColor value) {
     textColor = value;
 }
 
+// 0x5520a8 _ZNK6glitch3gui7CGUITab12getTextColorEv
+video::SColor CGUITab::getTextColor() const {
+    return textColor;
+}
+
+// 0x5520f8 _ZNK6glitch3gui7CGUITab18getBackgroundColorEv
+video::SColor CGUITab::getBackgroundColor() const {
+    return backgroundColor;
+}
+
 // 0x541bcc _ZNK6glitch3gui11CGUIListBox12getItemCountEv
 std::int32_t CGUIListBox::getItemCount() const {
     return static_cast<std::int32_t>(items.size());
@@ -400,6 +410,17 @@ video::SColor CGUIListBox::getItemOverrideColor(std::uint32_t index, std::uint32
         return video::SColor{};
     }
     return items[index].overrides[which].color;
+}
+
+// 0x541ff4 _ZN6glitch3gui11CGUIListBox20setItemOverrideColorEjRKNS_5video6SColorE
+// Sets the first override record (flag and colour) of the item. The original does not
+// check the index; out-of-range indices are ignored here instead of writing past the list.
+void CGUIListBox::setItemOverrideColor(std::uint32_t index, const video::SColor& color) {
+    if (index >= items.size()) {
+        return;
+    }
+    items[index].overrides[0].enabled = true;
+    items[index].overrides[0].color = color;
 }
 
 }  // namespace glitch::gui

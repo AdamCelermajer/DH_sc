@@ -42,6 +42,31 @@ std::int32_t CModularSkinnedMeshSceneNode::getCurrentModuleId(int category) cons
     return mesh->getCurrentModuleId(category);
 }
 
+// 0x64944c _ZNK6glitch7collada28CModularSkinnedMeshSceneNode13getModuleNameEii
+const char* CModularSkinnedMeshSceneNode::getModuleName(int category, int module) const {
+    return mesh->getModuleName(category, module);
+}
+
+// 0x649454 _ZNK6glitch7collada28CModularSkinnedMeshSceneNode20getCurrentModuleNameEi
+const char* CModularSkinnedMeshSceneNode::getCurrentModuleName(int category) const {
+    return mesh->getCurrentModuleName(category);
+}
+
+// 0x649464 _ZNK6glitch7collada28CModularSkinnedMeshSceneNode11getModuleIdEPKc
+std::int32_t CModularSkinnedMeshSceneNode::getModuleId(const char* name) const {
+    return mesh->getModuleId(name);
+}
+
+// 0x64946c _ZNK6glitch7collada28CModularSkinnedMeshSceneNode15getCategoryNameEi
+const char* CModularSkinnedMeshSceneNode::getCategoryName(int category) const {
+    return mesh->getCategoryName(category);
+}
+
+// 0x6494e0 _ZNK6glitch7collada28CModularSkinnedMeshSceneNode13getCategoryIdEPKc
+std::int32_t CModularSkinnedMeshSceneNode::getCategoryId(const char* name) const {
+    return mesh->getCategoryId(name);
+}
+
 // 0x65f0fc _ZN6glitch7collada21CSceneNodeAnimatorSet18getAnimationLengthEi
 // The original tail-calls CAnimationSet::getAnimationLength with the index unchanged.
 std::uint32_t CSceneNodeAnimatorSet::getAnimationLength(int index) {

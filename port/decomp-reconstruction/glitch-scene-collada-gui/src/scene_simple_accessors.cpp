@@ -257,6 +257,39 @@ std::uint32_t CDefaultSceneNodeAnimatorFactory::getCreateableSceneNodeAnimatorTy
     return index > 8 ? 10 : index;
 }
 
+// Name table of glitch::scene::SceneNodeAnimatorTypeNames (0x957ba4 in the binary, nine
+// words). Entry 4 ("texture") is a tail-merged literal inferred from the suffix of
+// "GL_EXT_paletted_texture" in the binary's string data.
+static const char* const kSceneNodeAnimatorTypeNames[9] = {
+    "flyCircle", "flyStraight", "followSpline", "rotation", "texture",
+    "deletion", "collisionResponse", "cameraFPS", "cameraMaya",
+};
+
+// 0x6b96c0 _ZNK6glitch5scene32CDefaultSceneNodeAnimatorFactory38getCreateableSceneNodeAnimatorTypeNameEj
+const char* CDefaultSceneNodeAnimatorFactory::getCreateableSceneNodeAnimatorTypeName(std::uint32_t index) const {
+    return index < 9 ? kSceneNodeAnimatorTypeNames[index] : nullptr;
+}
+
+// 0x6b96e0 _ZNK6glitch5scene32CDefaultSceneNodeAnimatorFactory38getCreateableSceneNodeAnimatorTypeNameENS0_26E_SCENE_NODE_ANIMATOR_TYPEE
+const char* CDefaultSceneNodeAnimatorFactory::getCreateableSceneNodeAnimatorTypeName(E_SCENE_NODE_ANIMATOR_TYPE type) const {
+    return static_cast<std::uint32_t>(type) < 9 ? kSceneNodeAnimatorTypeNames[type] : nullptr;
+}
+
+// 0x6b9cf0 _ZNK6glitch5scene24CDefaultSceneNodeFactory30getCreatableSceneNodeTypeCountEv
+std::int32_t CDefaultSceneNodeFactory::getCreatableSceneNodeTypeCount() const {
+    return static_cast<std::int32_t>(types.size());
+}
+
+// 0x6b9d1c _ZNK6glitch5scene24CDefaultSceneNodeFactory26getCreateableSceneNodeTypeEj
+std::uint32_t CDefaultSceneNodeFactory::getCreateableSceneNodeType(std::uint32_t index) const {
+    return index < types.size() ? types[index].type : 0x6e6b6e75u;  // 'unkn'
+}
+
+// 0x6b9d60 _ZNK6glitch5scene24CDefaultSceneNodeFactory30getCreateableSceneNodeTypeNameEj
+const char* CDefaultSceneNodeFactory::getCreateableSceneNodeTypeName(std::uint32_t index) const {
+    return index < types.size() ? types[index].name : nullptr;
+}
+
 // 0x599efc _ZNK6glitch5scene13IAnimatedMesh11getMeshTypeEv
 std::uint32_t IAnimatedMesh::getMeshType() const { return 0; }
 

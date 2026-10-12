@@ -215,6 +215,8 @@ public:
     bool hasItemOverrideColor(std::uint32_t index, std::uint32_t which) const;
     // 0x5421c8 _ZNK6glitch3gui11CGUIListBox20getItemOverrideColorEjNS0_18EGUI_LISTBOX_COLORE (0 when out of range)
     video::SColor getItemOverrideColor(std::uint32_t index, std::uint32_t which) const;
+    // 0x541ff4 _ZN6glitch3gui11CGUIListBox20setItemOverrideColorEjRKNS_5video6SColorE
+    void setItemOverrideColor(std::uint32_t index, const video::SColor& color);
     // 0x541ee4 _ZN6glitch3gui11CGUIListBox20setAutoScrollEnabledEb
     void setAutoScrollEnabled(bool enabled);
     // 0x541eec _ZNK6glitch3gui11CGUIListBox19isAutoScrollEnabledEv
@@ -286,6 +288,10 @@ public:
     void setBackgroundColor(video::SColor color);
     // 0x552080 _ZN6glitch3gui7CGUITab12setTextColorENS_5video6SColorE
     void setTextColor(video::SColor color);
+    // 0x5520a8 _ZNK6glitch3gui7CGUITab12getTextColorEv
+    video::SColor getTextColor() const;
+    // 0x5520f8 _ZNK6glitch3gui7CGUITab18getBackgroundColorEv
+    video::SColor getBackgroundColor() const;
 
     int number = 0;               // +0x158
     bool drawBackground = false;  // +0x15c

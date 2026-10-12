@@ -158,6 +158,21 @@ int main() {
     CHECK(tabStrip.getTab(0) == &firstTab);
     CHECK(tabStrip.getTab(1) == nullptr);
 
+    // Tab colours, and the list box single-colour setter (first override record).
+    CGUITab colourTab;
+    colourTab.setTextColor(glitch::video::SColor{0x11223344u});
+    colourTab.setBackgroundColor(glitch::video::SColor{0x55667788u});
+    CHECK(colourTab.getTextColor().color == 0x11223344u);
+    CHECK(colourTab.getBackgroundColor().color == 0x55667788u);
+    ListBoxForTest colourList;
+    SListItem colourItem;
+    colourList.items.push_back(colourItem);
+    colourList.setItemOverrideColor(0, glitch::video::SColor{0xAABBCCDDu});
+    CHECK(colourList.hasItemOverrideColor(0, 0));
+    CHECK(colourList.getItemOverrideColor(0, 0).color == 0xAABBCCDDu);
+    colourList.setItemOverrideColor(5, glitch::video::SColor{0x1u});
+    CHECK(colourList.getItemCount() == 1);
+
     std::printf("%s\n", failures ? "gui_elements: FAILED" : "gui_elements: ok");
     return failures != 0;
 }

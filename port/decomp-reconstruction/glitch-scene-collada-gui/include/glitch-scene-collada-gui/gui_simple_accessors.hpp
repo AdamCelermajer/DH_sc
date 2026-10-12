@@ -408,12 +408,165 @@ public:
     ~IGUIElementFactory() = default;
 };
 
+// Element type ids in the factory's name table (glitch's order; the upstream
+// EGUIElementTypes.h list is the same up to EGUIET_WINDOW minus its tree-view entry).
+enum EGUI_ELEMENT_TYPE : std::uint32_t {
+    EGUIET_BUTTON = 0,
+    EGUIET_CHECK_BOX,
+    EGUIET_COMBO_BOX,
+    EGUIET_CONTEXT_MENU,
+    EGUIET_MENU,
+    EGUIET_EDIT_BOX,
+    EGUIET_FILE_OPEN_DIALOG,
+    EGUIET_COLOR_SELECT_DIALOG,
+    EGUIET_IN_OUT_FADER,
+    EGUIET_IMAGE,
+    EGUIET_LIST_BOX,
+    EGUIET_MESH_VIEWER,
+    EGUIET_MESSAGE_BOX,
+    EGUIET_MODAL_SCREEN,
+    EGUIET_SCROLL_BAR,
+    EGUIET_SPIN_BOX,
+    EGUIET_STATIC_TEXT,
+    EGUIET_TAB,
+    EGUIET_TAB_CONTROL,
+    EGUIET_TABLE,
+    EGUIET_TOOL_BAR,
+    EGUIET_WINDOW,
+};
+
 class CDefaultGUIElementFactory {
 public:
     // 0x6a5d20 _ZN6glitch3gui25CDefaultGUIElementFactoryD1Ev (empty)
     ~CDefaultGUIElementFactory() = default;
     // 0x6a5cc8 _ZNK6glitch3gui25CDefaultGUIElementFactory31getCreatableGUIElementTypeCountEv (returns 0x16)
     std::uint32_t getCreatableGUIElementTypeCount() const;
+    // 0x6a5cd0 _ZNK6glitch3gui25CDefaultGUIElementFactory27getCreateableGUIElementTypeEi
+    // Indices above 0x15 (including negative ones read as unsigned) become 0x17.
+    std::uint32_t getCreateableGUIElementType(std::int32_t index) const;
+    // 0x6a5ce0 _ZNK6glitch3gui25CDefaultGUIElementFactory31getCreateableGUIElementTypeNameEi (null when out of range)
+    const char* getCreateableGUIElementTypeName(std::int32_t index) const;
+    // 0x6a5d00 _ZNK6glitch3gui25CDefaultGUIElementFactory31getCreateableGUIElementTypeNameENS0_17EGUI_ELEMENT_TYPEE (null when out of range)
+    const char* getCreateableGUIElementTypeName(EGUI_ELEMENT_TYPE type) const;
+};
+
+// ---- Interface destructors (D1 bodies) ----
+// Each interface destructor stores the vtable pointers, runs the IGUIElement base
+// destructor and returns. The stand-ins have no vtables and no base members, so the
+// destructors are defaulted here. The deleting variants (D0) are not ledgered.
+
+class IGUIFileOpenDialog {
+public:
+    // 0x53c510 _ZN6glitch3gui18IGUIFileOpenDialogD1Ev (empty D1)
+    ~IGUIFileOpenDialog() = default;
+};
+
+class IGUIImage {
+public:
+    // 0x540a74 _ZN6glitch3gui9IGUIImageD1Ev (empty D1)
+    ~IGUIImage() = default;
+};
+
+class IGUIInOutFader {
+public:
+    // 0x541844 _ZN6glitch3gui14IGUIInOutFaderD1Ev (empty D1)
+    ~IGUIInOutFader() = default;
+};
+
+class IGUIListBox {
+public:
+    // 0x544428 _ZN6glitch3gui11IGUIListBoxD1Ev (empty D1)
+    ~IGUIListBox() = default;
+};
+
+class IGUIContextMenu {
+public:
+    // 0x545bb4 _ZN6glitch3gui15IGUIContextMenuD1Ev (empty D1)
+    ~IGUIContextMenu() = default;
+};
+
+class IGUIMeshViewer {
+public:
+    // 0x5467d8 _ZN6glitch3gui14IGUIMeshViewerD1Ev (empty D1)
+    ~IGUIMeshViewer() = default;
+};
+
+class IGUIWindow {
+public:
+    // 0x547c50 _ZN6glitch3gui10IGUIWindowD1Ev (empty D1)
+    ~IGUIWindow() = default;
+};
+
+class IGUIScrollBar {
+public:
+    // 0x549f44 _ZN6glitch3gui13IGUIScrollBarD1Ev (empty D1)
+    ~IGUIScrollBar() = default;
+};
+
+class IGUISpinBox {
+public:
+    // 0x54f364 _ZN6glitch3gui11IGUISpinBoxD1Ev (empty D1)
+    ~IGUISpinBox() = default;
+};
+
+class IGUIStaticText {
+public:
+    // 0x550f24 _ZN6glitch3gui14IGUIStaticTextD1Ev (empty D1)
+    ~IGUIStaticText() = default;
+};
+
+class IGUITab {
+public:
+    // 0x553f30 _ZN6glitch3gui7IGUITabD1Ev (empty D1)
+    ~IGUITab() = default;
+};
+
+class IGUITabControl {
+public:
+    // 0x554070 _ZN6glitch3gui14IGUITabControlD1Ev (empty D1)
+    ~IGUITabControl() = default;
+};
+
+class IGUITable {
+public:
+    // 0x557aa0 _ZN6glitch3gui9IGUITableD1Ev (empty D1)
+    ~IGUITable() = default;
+};
+
+class IGUIToolBar {
+public:
+    // 0x55b7c8 _ZN6glitch3gui11IGUIToolBarD1Ev (empty D1)
+    ~IGUIToolBar() = default;
+};
+
+class IGUIButton {
+public:
+    // 0x6a69b8 _ZN6glitch3gui10IGUIButtonD1Ev (empty D1)
+    ~IGUIButton() = default;
+};
+
+class IGUICheckBox {
+public:
+    // 0x6a7d54 _ZN6glitch3gui12IGUICheckBoxD1Ev (empty D1)
+    ~IGUICheckBox() = default;
+};
+
+class IGUIColorSelectDialog {
+public:
+    // 0x6a9b90 _ZN6glitch3gui21IGUIColorSelectDialogD1Ev (empty D1)
+    ~IGUIColorSelectDialog() = default;
+};
+
+class IGUIComboBox {
+public:
+    // 0x6acbbc _ZN6glitch3gui12IGUIComboBoxD1Ev (empty D1)
+    ~IGUIComboBox() = default;
+};
+
+class IGUIEditBox {
+public:
+    // 0x6b0b38 _ZN6glitch3gui11IGUIEditBoxD1Ev (empty D1)
+    ~IGUIEditBox() = default;
 };
 
 }  // namespace glitch::gui

@@ -187,4 +187,11 @@ public:
     void initPLifeModel() {}
 };
 
+// Particle-system heap helpers. PS_NEW calls GlitchAlloc with hint 0 in the original; the
+// port uses std::malloc (partial). PS_FREE is std::free in the original.
+// 0x64d290 _ZN6glitch2ps6PS_NEWEj
+void* PS_NEW(std::uint32_t size);
+// 0x64d778 _ZN6glitch2ps7PS_FREEEPv
+void PS_FREE(void* p);
+
 }  // namespace glitch::ps

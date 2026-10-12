@@ -1,5 +1,7 @@
 #include "glitch-scene-collada-gui/ps_types.hpp"
 
+#include <cstdlib>
+
 namespace glitch::ps {
 
 // 0x69ac94 _ZNK6glitch2ps7PDPoint7getTypeEv
@@ -73,6 +75,16 @@ std::uint32_t PDBlob::getType() const {
 // 0x69bf7c _ZNK6glitch2ps6PDBlob4sizeEv
 float PDBlob::size() const {
     return 1.0f;
+}
+
+// 0x64d290 _ZN6glitch2ps6PS_NEWEj
+void* PS_NEW(std::uint32_t size) {
+    return std::malloc(size);
+}
+
+// 0x64d778 _ZN6glitch2ps7PS_FREEEPv
+void PS_FREE(void* p) {
+    std::free(p);
 }
 
 }  // namespace glitch::ps

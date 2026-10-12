@@ -6,6 +6,7 @@
 #include "glitch-scene-collada-gui/collada_empty_dtors.hpp"
 
 #include <cstdio>
+#include <cstring>
 
 using namespace glitch::collada;
 
@@ -43,6 +44,8 @@ int main() {
         CModularSkinnedMesh::SCategoryEntry entries[2] = {};
         entries[0].moduleCount = 4;
         entries[1].moduleCount = 7;
+        entries[0].name = "cat0";
+        entries[1].name = "cat1";
         CModularSkinnedMesh::SCategoryTable table;
         table.count = 2;
         table.entries = entries;
@@ -56,6 +59,11 @@ int main() {
         CHECK(node.getCategoryModuleCount(1) == 7);
         CHECK(node.getCategoryModuleCount(0) == 4);
         CHECK(node.getCurrentModuleId(1) == 9);
+        CHECK(std::strcmp(node.getCategoryName(1), "cat1") == 0);
+        CHECK(node.getCategoryName(2) == nullptr);
+        CHECK(node.getCategoryId("cat1") == 1);
+        CHECK(node.getCategoryId("missing") == -1);
+        CHECK(node.getModuleName(5, 0) == nullptr);
     }
 
     // Animation set ranges read through the scene-node animator set.

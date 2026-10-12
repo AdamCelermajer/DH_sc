@@ -462,6 +462,20 @@ public:
     void updateTime(std::uint32_t time);
 };
 
+// Scene-node animator ids in the factory's name table (the upstream
+// ESceneNodeAnimatorTypes.h order for these nine entries).
+enum E_SCENE_NODE_ANIMATOR_TYPE : std::uint32_t {
+    ESNAT_FLY_CIRCLE = 0,
+    ESNAT_FLY_STRAIGHT,
+    ESNAT_FOLLOW_SPLINE,
+    ESNAT_ROTATION,
+    ESNAT_TEXTURE,
+    ESNAT_DELETION,
+    ESNAT_COLLISION_RESPONSE,
+    ESNAT_CAMERA_FPS,
+    ESNAT_CAMERA_MAYA,
+};
+
 class CDefaultSceneNodeAnimatorFactory {
 public:
     // 0x6b96a8 _ZNK6glitch5scene32CDefaultSceneNodeAnimatorFactory38getCreatableSceneNodeAnimatorTypeCountEv (returns 9)
@@ -469,6 +483,31 @@ public:
     // 0x6b96b0 _ZNK6glitch5scene32CDefaultSceneNodeAnimatorFactory34getCreateableSceneNodeAnimatorTypeEj
     // Indices above 8 are clamped to 10, as in the original.
     std::uint32_t getCreateableSceneNodeAnimatorType(std::uint32_t index) const;
+    // 0x6b96c0 _ZNK6glitch5scene32CDefaultSceneNodeAnimatorFactory38getCreateableSceneNodeAnimatorTypeNameEj (null when index is 9 or more)
+    const char* getCreateableSceneNodeAnimatorTypeName(std::uint32_t index) const;
+    // 0x6b96e0 _ZNK6glitch5scene32CDefaultSceneNodeAnimatorFactory38getCreateableSceneNodeAnimatorTypeNameENS0_26E_SCENE_NODE_ANIMATOR_TYPEE (null when out of range)
+    const char* getCreateableSceneNodeAnimatorTypeName(E_SCENE_NODE_ANIMATOR_TYPE type) const;
+};
+
+// Creatable scene-node types. Each record is 0x1c bytes in the original: the type word
+// at +0x00 and the name pointer at +0x18; the words between are not mapped.
+class CDefaultSceneNodeFactory {
+public:
+    struct SCreatableType {
+        std::uint32_t type = 0;          // +0x00
+        std::uint32_t reserved[5] = {};  // +0x04..+0x17
+        const char* name = nullptr;      // +0x18
+    };
+
+    // 0x6b9cf0 _ZNK6glitch5scene24CDefaultSceneNodeFactory30getCreatableSceneNodeTypeCountEv
+    std::int32_t getCreatableSceneNodeTypeCount() const;
+    // 0x6b9d1c _ZNK6glitch5scene24CDefaultSceneNodeFactory26getCreateableSceneNodeTypeEj
+    // Out-of-range indices return the four-character id 'unkn'.
+    std::uint32_t getCreateableSceneNodeType(std::uint32_t index) const;
+    // 0x6b9d60 _ZNK6glitch5scene24CDefaultSceneNodeFactory30getCreateableSceneNodeTypeNameEj (null when out of range)
+    const char* getCreateableSceneNodeTypeName(std::uint32_t index) const;
+
+    std::vector<SCreatableType> types;  // +0x08 (begin) .. +0x0c (end)
 };
 
 // ---- Remaining interface destructors (empty D1 bodies). ----

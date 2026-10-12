@@ -3,6 +3,7 @@
 #include "glitch-scene-collada-gui/gui_simple_accessors.hpp"
 
 #include <cstdio>
+#include <cstring>
 
 using namespace glitch::gui;
 
@@ -231,6 +232,38 @@ int main() {
 
     CDefaultGUIElementFactory factory;
     CHECK(factory.getCreatableGUIElementTypeCount() == 0x16);
+    CHECK(factory.getCreateableGUIElementType(3) == 3);
+    CHECK(factory.getCreateableGUIElementType(0x16) == 0x17);
+    CHECK(factory.getCreateableGUIElementType(-1) == 0x17);
+    CHECK(std::strcmp(factory.getCreateableGUIElementTypeName(0), "button") == 0);
+    CHECK(std::strcmp(factory.getCreateableGUIElementTypeName(EGUIET_IMAGE), "image") == 0);
+    CHECK(std::strcmp(factory.getCreateableGUIElementTypeName(EGUIET_TAB), "tab") == 0);
+    CHECK(std::strcmp(factory.getCreateableGUIElementTypeName(EGUIET_WINDOW), "window") == 0);
+    CHECK(factory.getCreateableGUIElementTypeName(0x16) == nullptr);
+    CHECK(factory.getCreateableGUIElementTypeName(-1) == nullptr);
+
+    // Interface destructors are defaulted; each class must construct and destroy cleanly.
+    {
+        IGUIFileOpenDialog a;
+        IGUIImage b;
+        IGUIInOutFader c;
+        IGUIListBox d;
+        IGUIContextMenu e;
+        IGUIMeshViewer f;
+        IGUIWindow g;
+        IGUIScrollBar h;
+        IGUISpinBox i;
+        IGUIStaticText j;
+        IGUITab k;
+        IGUITabControl l;
+        IGUITable m;
+        IGUIToolBar n;
+        IGUIButton o;
+        IGUICheckBox p;
+        IGUIColorSelectDialog q;
+        IGUIComboBox r;
+        IGUIEditBox s;
+    }
 
     std::printf("%s\n", failures ? "gui_simple_accessors: FAILED" : "gui_simple_accessors: ok");
     return failures != 0;

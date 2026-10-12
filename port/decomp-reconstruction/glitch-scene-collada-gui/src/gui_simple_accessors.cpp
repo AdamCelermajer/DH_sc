@@ -169,6 +169,37 @@ std::int32_t CGUIEditBox::getMax() const { return maxChars; }
 // 0x6a5cc8 _ZNK6glitch3gui25CDefaultGUIElementFactory31getCreatableGUIElementTypeCountEv
 std::uint32_t CDefaultGUIElementFactory::getCreatableGUIElementTypeCount() const { return 0x16; }
 
+// Name table of glitch::gui::GUIElementTypeNames (0x956b40 in the binary, 23 words, the
+// last one null). Entries 9, 17 and 19 are tail-merged literals: "image" and "table" were
+// located inside longer strings; "tab" is inferred from the enum order (its literal is not
+// in strings.csv).
+static const char* const kGUIElementTypeNames[0x16] = {
+    "button",   "checkBox",     "comboBox",   "contextMenu", "menu",         "editBox",
+    "fileOpenDialog", "colorSelectDialog", "inOutFader", "image", "listBox", "meshViewer",
+    "messageBox", "modalScreen", "scrollBar", "spinBox",     "staticText",  "tab",
+    "tabControl", "table",      "toolBar",    "window",
+};
+
+// 0x6a5cd0 _ZNK6glitch3gui25CDefaultGUIElementFactory27getCreateableGUIElementTypeEi
+std::uint32_t CDefaultGUIElementFactory::getCreateableGUIElementType(std::int32_t index) const {
+    std::uint32_t type = static_cast<std::uint32_t>(index);
+    if (type > 0x15) {
+        type = 0x17;
+    }
+    return type;
+}
+
+// 0x6a5ce0 _ZNK6glitch3gui25CDefaultGUIElementFactory31getCreateableGUIElementTypeNameEi
+const char* CDefaultGUIElementFactory::getCreateableGUIElementTypeName(std::int32_t index) const {
+    const std::uint32_t type = static_cast<std::uint32_t>(index);
+    return type < 0x16 ? kGUIElementTypeNames[type] : nullptr;
+}
+
+// 0x6a5d00 _ZNK6glitch3gui25CDefaultGUIElementFactory31getCreateableGUIElementTypeNameENS0_17EGUI_ELEMENT_TYPEE
+const char* CDefaultGUIElementFactory::getCreateableGUIElementTypeName(EGUI_ELEMENT_TYPE type) const {
+    return static_cast<std::uint32_t>(type) < 0x16 ? kGUIElementTypeNames[type] : nullptr;
+}
+
 // 0x54aa24 _ZNK6glitch3gui8CGUISkin8getColorENS0_18EGUI_DEFAULT_COLORE
 // Out of range (>= 0x15) the original returns whatever the caller left in its
 // registers; zero is returned here (partial).
