@@ -20,7 +20,7 @@ public:
     virtual ~IAttribute() = default;
 
     virtual int getInt() const { return 0; }                              // +0x0c
-    virtual glitch::video::SColorf getColorf() const { return {0.f, 0.f, 0.f, 1.f}; }  // +0x14
+    virtual glitch::video::SColorf getColorf() const { return {1.f, 1.f, 1.f, 1.f}; }  // +0x14
     virtual glitch::core::vector3d<float> getVector3d() const { return {}; }            // +0x30
     virtual glitch::core::vector4d<float> getVector4d() const { return {}; }            // +0x34
     virtual glitch::core::position2d<std::int32_t> getPosition() const { return {}; }   // +0x38
@@ -29,10 +29,12 @@ public:
     virtual glitch::core::vector2d<std::int32_t> getVector2di() const { return {}; }    // +0x50
     virtual glitch::core::vector3d<std::int32_t> getVector3di() const { return {}; }    // +0x54
     virtual glitch::core::vector4d<std::int32_t> getVector4di() const { return {}; }    // +0x58
+    virtual glitch::video::SColor getColor() const { return {0xffffffffu}; }  // 0x31d5f8
     virtual float getFloat() const { return 0.f; }                        // +0x10
     virtual bool getBool() const { return false; }                        // +0x28
     virtual void getBinary(void*, int) const {}                           // +0x2c
     virtual int getEnum() const { return 0; }                             // +0x80
+    virtual void* getUserPointer() const { return nullptr; }             // 0x31d81c
     virtual void setInt(int) {}                                           // +0x88
     virtual void setFloat(float) {}                                       // +0x8c
     virtual void setString(const char*) {}                                // +0x90
@@ -46,6 +48,7 @@ public:
     virtual void setVector3d(const glitch::core::vector3d<float>&) {}     // +0xb0
     virtual void setVector4d(const glitch::core::vector4d<float>&) {}     // +0xb4
     virtual void setPosition(glitch::core::position2d<std::int32_t>) {}   // +0xb8
+    virtual void setRect(glitch::core::rect<std::int32_t>) {}              // 0x31d86c
     virtual void setVector2di(glitch::core::vector2d<std::int32_t>) {}    // +0xcc
     virtual void setVector3di(const glitch::core::vector3d<std::int32_t>&) {}  // +0xd0
     virtual void setVector4di(const glitch::core::vector4d<std::int32_t>&) {}  // +0xd4

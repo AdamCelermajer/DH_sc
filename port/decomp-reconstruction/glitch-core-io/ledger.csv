@@ -149,3 +149,37 @@ elf_address,symbol,status,source_file,notes
 0x32697c,_ZN6glitch2io18CVector3DAttributeD0Ev,skipped,glitch-core-io/include/glitch-core-io/io/typed_attributes.hpp,compiler-generated destructor
 0x326878,_ZN6glitch2io18CVector4DAttributeD1Ev,skipped,glitch-core-io/include/glitch-core-io/io/typed_attributes.hpp,compiler-generated destructor
 0x3269b8,_ZN6glitch2io18CVector4DAttributeD0Ev,skipped,glitch-core-io/include/glitch-core-io/io/typed_attributes.hpp,compiler-generated destructor
+0x31d580,_ZN6glitch17IReferenceCountedD1Ev,skipped,glitch-core-io/include/glitch-core-io/deps/glitch_core.hpp,compiler-generated empty base destructor (pseudocode is a bare return); the class uses a defaulted virtual destructor
+0x31d584,_ZNK6glitch17IReferenceCounted4dropEv,reconstructed,glitch-core-io/src/reference_counted.cpp,decrements the count; on zero calls onDelete then deletes the object
+0x31d5cc,_ZN6glitch17IReferenceCounted8onDeleteEv,reconstructed,glitch-core-io/include/glitch-core-io/deps/glitch_core.hpp,empty virtual hook
+0x31d5d0,_ZN6glitch2io10IAttribute6getIntEv,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base returns 0
+0x31d5d8,_ZN6glitch2io10IAttribute8getFloatEv,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base returns 0
+0x31d5e0,_ZN6glitch2io10IAttribute9getColorfEv,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base returns opaque white (all four channels 1.0)
+0x31d5f8,_ZN6glitch2io10IAttribute8getColorEv,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base returns 0xffffffff
+0x31d61c,_ZN6glitch2io10IAttribute8getArrayEv,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base returns an empty vector
+0x31d630,_ZN6glitch2io10IAttribute7getBoolEv,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base returns false
+0x31d638,_ZN6glitch2io10IAttribute9getBinaryEPvi,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base does nothing
+0x31d63c,_ZN6glitch2io10IAttribute11getVector3dEv,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base returns zero vector
+0x31d650,_ZN6glitch2io10IAttribute11getVector4dEv,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base returns zero vector
+0x31d668,_ZN6glitch2io10IAttribute11getPositionEv,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base returns zero position
+0x31d678,_ZN6glitch2io10IAttribute7getRectEv,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base returns zero rect
+0x31d6d8,_ZN6glitch2io10IAttribute11getVector2dEv,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base returns zero vector
+0x31d6e8,_ZN6glitch2io10IAttribute12getVector2diEv,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base returns zero vector
+0x31d6f8,_ZN6glitch2io10IAttribute12getVector3diEv,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base returns zero vector
+0x31d70c,_ZN6glitch2io10IAttribute12getVector4diEv,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base returns zero vector
+0x31d814,_ZN6glitch2io10IAttribute7getEnumEv,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base returns 0
+0x31d81c,_ZN6glitch2io10IAttribute14getUserPointerEv,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base returns null
+0x31d824,_ZN6glitch2io10IAttribute6setIntEi,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base does nothing
+0x31d828,_ZN6glitch2io10IAttribute8setFloatEf,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base does nothing
+0x31d82c,_ZN6glitch2io10IAttribute9setStringEPKc,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base does nothing
+0x31d830,_ZN6glitch2io10IAttribute8setArrayESt6vectorISbIwSt11char_traitsIwENS_4core10SAllocatorIwLNS_6memory13E_MEMORY_HINTE0EEEENS6_ISA_LS8_0EEEE,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base does nothing
+0x31d834,_ZN6glitch2io10IAttribute8setColorENS_5video7SColorfE,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base does nothing
+0x31d848,_ZN6glitch2io10IAttribute8setColorENS_5video6SColorE,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base does nothing
+0x31d854,_ZN6glitch2io10IAttribute7setBoolEb,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base does nothing
+0x31d858,_ZN6glitch2io10IAttribute9setBinaryEPvi,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base does nothing
+0x31d864,_ZN6glitch2io10IAttribute11setVector4dERKNS_4core8vector4dIfEE,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base does nothing
+0x31d868,_ZN6glitch2io10IAttribute11setPositionENS_4core10position2dIiEE,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base does nothing
+0x31d86c,_ZN6glitch2io10IAttribute7setRectENS_4core4rectIiEE,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base does nothing
+0x31d894,_ZN6glitch2io10IAttribute12setVector4diERKNS_4core8vector4dIiEE,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base does nothing
+0x31d8bc,_ZN6glitch2io10IAttribute14setUserPointerEPv,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base does nothing
+0x31d8c0,_ZN6glitch2io10IAttribute7setEnumEPKcPKS3_,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base does nothing

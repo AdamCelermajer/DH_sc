@@ -59,8 +59,22 @@
 - CStringAttribute and CFloatAttribute setString need `glitch::core::fast_atof_move`
   and `int2stringw`, which are outside this category's queue so far.
 
+## Session 2 additions
+- `glitch::IReferenceCounted` (deps header): `referenceCounter` is `mutable` because
+  `drop()` is const in the original (`_ZNK...4dropEv`). `drop()` lives in
+  `src/reference_counted.cpp`; `onDelete()` is a virtual hook called before delete.
+- `IAttribute` base defaults now ledgered (34 rows). Corrections from the pseudocode:
+  base `getColorf()` returns opaque white (all channels 1.0, not black with alpha 1).
+  Added `getColor()` (0xffffffff), `getUserPointer()` (null), `setRect()`.
+- Base defaults still not written (need deps types that do not exist yet):
+  getQuaternion (+0x80 area), getTriangle, getLine2d/2di/3d/3di, getDimension2d,
+  getBBox, getPlane, getTexture, getLight, getMatrix, getString/getStringW, and the
+  matching setters for quaternion, matrix, triangle, line, dimension2d, bbox, plane,
+  texture and light. Base getPlane default is normal (0,1,0) with d = -0.0f.
+- `getBBox` default is the box (-1,-1,-1)..(1,1,1); `getLine3d` default is (0,0,0)-(1,1,1).
+
 ## Remaining
-- About 1,660 queued functions are still open. Next candidates: CAttributes
+- About 1,630 queued functions are still open. Next candidates: CAttributes
   getters for group and stack handling (pop, setGroup), CNumbersAttribute
   vector/rect/matrix getters and setters, CReadFile/CWriteFile simple accessors,
   and the heap/binary-search templates once the comparators are checked.
