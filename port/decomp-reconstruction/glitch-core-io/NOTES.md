@@ -464,12 +464,12 @@ Open questions:
 
 ## Hex-Rays re-run (partial rows redone from the IDA Hex-Rays export)
 
-Scope: 306 partial rows at the start. This pass re-read 98 of them from `recovered/native/hexrays-all/`
-(addresses in `ledger.csv`, notes start "Hex-Rays re-run"). Result: 36 rows changed to reconstructed,
-1 to skipped (a compiler-generated destructor), and 61 stay partial. 269 partial rows remain in total:
-61 re-read and kept partial, and 208 not yet re-read (the wave-7 material-parameter instances,
-the SIDedCollection instances, the pak, zip and file-system readers, and the rest of the CAttributes
-string families). A later pass should start from `--redo-partial` and skip the addresses already noted.
+Scope: 306 partial rows at the start. This pass re-read 75 of them from `recovered/native/hexrays-all/`
+(notes start "Hex-Rays re-run" in `ledger.csv`). Result: 36 rows changed to reconstructed, 1 to skipped
+(a compiler-generated destructor), and 38 stay partial. 269 partial rows remain in total: the 38 above,
+and 231 not yet re-read (the wave-7 material-parameter instances, the SIDedCollection instances, the pak,
+zip and file-system readers, and the rest of the CAttributes string families). A later pass should start
+from `--redo-partial` and skip the addresses already noted.
 
 Sources checked with `tools/decomp_asm.py` (the IDA listing in `recovered/native/ida-asm/`):
 - Type-name literals are UTF-32LE data in the listing, each cross-referenced only from its own
@@ -510,3 +510,5 @@ Partial, with the reason in the ledger notes:
   and the enum setters stay partial. The compiler-generated ~CEnumAttribute is skipped.
 - CVector4DAttribute::getMatrix reads four floats with no length check; the port zero-fills past the list.
 - CFileSystem, CFile, CPakReader, CZipReader and the archive containers are not in the port yet.
+- Box setter: setAttribute(name, aabbox) keeps its new-object branch partial until the class behind vtable
+  off_972D78 is matched to a port class.
