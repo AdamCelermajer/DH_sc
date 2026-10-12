@@ -11,6 +11,7 @@
 
 #include <cstdint>
 #include <vector>
+#include <list>
 
 #include "vox-audio/vox/access_controller.hpp"
 #include "vox-audio/vox/gain_fade.hpp"
@@ -26,7 +27,8 @@ class DataObj;
 
 class VoxEngineInternal {
 public:
-    virtual ~VoxEngineInternal();
+    VoxEngineInternal();                                                   // 0x869a94, 0x869d8c (partial)
+    virtual ~VoxEngineInternal();                                          // 0x86be68 (D1), 0x86c02c (D2)
     virtual void Initialize();                                             // +0x08
     virtual void Suspend();                                                // +0x0c
     virtual void Resume();                                                 // +0x10
@@ -128,7 +130,7 @@ public:
     std::uint32_t GetDuration(DataHandle& data);
     int IsValid(DataHandle& data);
     int IsReady(DataHandle& data);
-    void GetAllDataSources(DataHandle* out, int max_count);
+    int GetAllDataSources(DataHandle* out, int max_count);  // 0x86ac94: returns the count written
     int GetEmitterHandles(DataHandle& data, EmitterHandle* out, int max_count);  // 0x8689bc: returns the count
     void ReleaseDatasource(unsigned int id);
     void ReleaseDatasource(DataHandle& data);
@@ -166,7 +168,10 @@ public:
     // Emitter lookup (0x8674cc) and the emitter fast path use these. Offsets from the original.
     EmitterObj* GetEmitterObject(EmitterHandle& emitter);  // 0x8674cc (partial, see the .cpp)
     EmitterObj* DetachEmitterObject(std::int64_t id);      // 0x86a5d0 (declared only)
-    DataObj* GetDataObject(DataHandle& data);              // 0x8686bc (declared only)
+    DataObj* GetDataObject(DataHandle& data);              // 0x8686bc (partial, see the .cpp)
+    Handlable* DetachDataObject(std::int64_t id);          // 0x86a940
+    void ReleaseDatasource(DataObj* data);                 // 0x86a628: destroys a data object
+    void _ReleaseAllDatasource();                          // 0x86a710: releases every data object
 
 private:
     // Listener state (+0x3f8..+0x43a). Each Set marks its block dirty (the bytes the
@@ -209,6 +214,12 @@ private:
     HandlableContainer emitter_pending_;       // +0x98
     DriverInterface* driver_ = nullptr;        // +0x54c
     Mutex mutex_;                              // +0x3f4
+    std::uint32_t data_stamps_[16] = {};       // +0x550: stamp per slot; a handle is current when it matches
+    unsigned int next_data_slot_ = 0;          // +0x590: slot for the next data object (mod 16)
+    std::list<DataObj*> data_queue_;           // +0x6c (sentinel), +0x70 (tail): data objects waiting for the update loop
+    Mutex data_queue_mutex_;                   // +0x74
+    // Adds a data object to data_queue_ unless its +0x4c flag (queued_) is already set.
+    void QueueForRelease(DataObj* data);
 };
 
 }  // namespace vox
