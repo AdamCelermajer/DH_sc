@@ -77,10 +77,18 @@ listing is in `recovered/native/ida-asm/` for checks (`tools/decomp_asm.py`). Gh
     (part 1c 26, part d 57). 11 rows that part 1a cites as skipped stay unbound. 29 rows with no part
     implementation (the intrusive_ptr rows, setArrayParameter and setParameterElement callers) stay unbound.
     40 unbound rows in total. Each is recorded in its ledger note.
-  - Table records: owner G uses the 20-byte record (part 1a `SParamEntry`: type +0x06, count +0x08, offset
-    +0x0c, ref +0x00). Part 1b's `ParamEntry` has the same fields at the same offsets, so its `set` flag is
-    `ref != 0`. Owners M and R use the 16-byte `SParameterEntry` in `material_parameters.hpp`. Part 1b's M
-    record (`ParamEntry`, 16 bytes) and `MaterialParameterBlock` duplicate it and should be replaced.
+  - Table records. Checked with a compiler (2026-10-12):
+    - Owner G: part 1a `SParamEntry` is 20 bytes, with type at +0x06, count at +0x08 and offset at +0x0c,
+      and it has a static_assert. Canonical.
+    - Owners M and R: `SParameterEntry` in `material_parameters.hpp` is 16 bytes, with type at +0x06, count
+      at +0x08 and valueOffset at +0x0c. Canonical. It has no static_assert yet; add one.
+    - Part 1b's `ParamEntry` is 12 bytes, with type at +0x01, count at +0x04 and offset at +0x08. It matches
+      neither record, despite its comment. Its rows read struct fields, so they are consistent with
+      themselves, but they cannot read the binary's table memory: a real table would be read at the wrong
+      bytes. Part 1b's `MaterialParameterBlock` holds that record too.
+    - Decision: unify on the two canonical records and retire `ParamEntry`. Its `set` flag becomes `ref != 0`
+      for G. The core-video thread keeps both copies in step until its M and R bindings land, then migrates
+      the 1b rows to the canonical records.
   - Pointer storage: owners M and R keep pointer slots as `boost::intrusive_ptr` in part 1c's
     `SPointerSlots`, keyed by the original byte offset. The listings do the reference-count add before the
     store and the release after it, and only an intrusive pointer reproduces that. Part 1b's raw-pointer
@@ -119,7 +127,18 @@ listing is in `recovered/native/ida-asm/` for checks (`tools/decomp_asm.py`). Gh
   glitch-core-io/video/`. Video should reconstruct them there, then remove the core-io copy.
 - glitch-video: 13 queued functions have no ledger row yet, all video's C2DDriver family (`0x59f0b0` to
   `0x59fbd4`, `0x5fea04`, `0x5fed6c`).
-- glitch-video: the material-parameter binding above is decided and not yet written (271 rows).
+- glitch-video: the material-parameter binding above is decided. The core-video thread has pushed owner G
+  (88 rows) at `622dc3fe` on its branch. Owners M and R are still in progress there. Merge when they land.
+- glitch-video: four hooks are declared in `material_parameters_part_1b.hpp` (lines 124-127) and defined
+  nowhere in the library. Any executable that links the binding must supply them:
+  - `destroyLight(CLight*)`: the last-reference release of a CLight (Matrix4Pool push, LC_API_FREE).
+    Called at `material_parameters_part_1b.cpp:305`.
+  - `textureAddRef(ITexture*)` and `textureDrop(ITexture*)`: the reference count at +0x04 of an ITexture, and
+    IReferenceCounted::drop (0x31d584). Called at lines 401, 403, 455 and 459.
+  - `textureStateWord(const ITexture*)`: the packed state word at +0x38 (type bits 0 to 1). Called at line 394.
+  The only definitions are test stubs in `tests/material_parameters_part_1b_test.cpp` (lines 15-18). The host
+  and Windows builds link because only that test pulls in the object, so the binding is test-only until the
+  real definitions exist. The glitch-video owner must supply them with the texture and light code.
 - IDA archive `ida 2.zip` (new, 2026-10-12): `recovered/native/ida-types/` holds the local-types C header
   and one listing. The header has no glitch:: class bodies (only forward declarations and std internals).
   The type library names 105 `glitch::scene::` classes, but their layouts stay encoded in IDA's binary
