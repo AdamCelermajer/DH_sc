@@ -1,4 +1,4 @@
-// Stand-ins for the classes CConnectionManager calls into. CMatching, CConnection,
+// Stand-ins for the classes CConnectionManager calls into. CMatching, CConnectionStandIn,
 // CEventQueueBase and CTransportManager are owned by other slices; only the members the
 // connection manager uses are declared here. Slot numbers are the byte offsets of the
 // virtual calls in the original vtables. Bodies are no-op or simple test doubles and must
@@ -36,14 +36,14 @@ private:
     bool server_ = false;
 };
 
-// CConnection: one peer connection. Members used by the connection manager.
+// CConnectionStandIn: one peer connection. Members used by the connection manager.
 // Layout (original, 32-bit): +0x18 state, +0x1c member id, +0x20 network id,
 // +0x50 timeout, +0x1b8 key (two words). The vtable is +0x00/+0x04 dtors, +0x08 Connect,
 // +0x0c Accept, +0x10 Disconnect, +0x14 Update, +0x18 Send.
-class CConnection {
+class CConnectionStandIn {
 public:
-    CConnection() = default;
-    virtual ~CConnection() = default;
+    CConnectionStandIn() = default;
+    virtual ~CConnectionStandIn() = default;
 
     virtual int Connect(int member_id, CNetworkId& id);                       // +0x08
     virtual int Accept(int member_id, CNetworkId& id, std::uint64_t key);     // +0x0c

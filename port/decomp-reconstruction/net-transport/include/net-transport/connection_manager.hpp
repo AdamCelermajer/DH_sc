@@ -57,9 +57,9 @@ public:
     static void Terminate();                       // 0x7fcd98
 
     // Connection table lookups.
-    CConnection* GetConnectionByNetworkId(CNetworkId& id);  // 0x7fbda0
+    CConnectionStandIn* GetConnectionByNetworkId(CNetworkId& id);  // 0x7fbda0
     int GetMemberId(CNetworkId& id);                        // 0x7fbdf8
-    CConnection* GetConnectionByMemberId(int member_id);    // 0x7fc438
+    CConnectionStandIn* GetConnectionByMemberId(int member_id);    // 0x7fc438
     CNetworkId GetMemberNetworkId(int member_id);           // 0x7fc6a8
     bool IsConnected(int member_id);                        // 0x7fc6f4
     int GetConnectionCount(bool connected_only);            // 0x7fbe94
@@ -68,7 +68,7 @@ public:
     // Connection management.
     int Connect(int member_id, CNetworkId& id);                      // 0x7fc930
     int Accept(int member_id, CNetworkId& id, std::uint64_t key);    // 0x7fc9cc
-    int AddConnection(int member_id, CConnection* conn);             // 0x7fc8d0
+    int AddConnection(int member_id, CConnectionStandIn* conn);             // 0x7fc8d0
     int Disconnect(int member_id, bool notify);                      // 0x7fc718
     int DisconnectPeer(int member_id);                               // 0x7fc680
     int DisconnectAll();                                             // 0x7fbe54
@@ -124,7 +124,7 @@ private:
 
     CEventQueueBase event_queue_;                       // +0x08
     CNetMutex mutex_;                                   // +0x0c
-    CConnection* connections_[kConnectionSlots] = {};   // +0x1c
+    CConnectionStandIn* connections_[kConnectionSlots] = {};   // +0x1c
     std::intptr_t transports_[kTransportSlots] = {};    // +0x9c
     bool initialized_ = false;                          // +0xa8
 };

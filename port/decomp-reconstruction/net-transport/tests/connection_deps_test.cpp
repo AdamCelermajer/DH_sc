@@ -16,8 +16,8 @@ int main() {
     CHECK(CMatching::Get()->GetMemberIndex(32) == -1);
     CHECK(CMatching::Get()->GetMemberIndex(-1) == -1);
 
-    // CConnection stand-in: state and member id accessors.
-    CConnection conn;
+    // CConnectionStandIn stand-in: state and member id accessors.
+    CConnectionStandIn conn;
     CHECK(conn.State() == 0);
     CHECK(conn.MemberId() == -1);
     conn.SetState(4);
