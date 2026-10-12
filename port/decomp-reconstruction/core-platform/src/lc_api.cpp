@@ -1,6 +1,7 @@
 #include "core-platform/lc_api.hpp"
 
 #include <cctype>
+#include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -80,22 +81,39 @@ char* FUN_008ac2cc(char* s, int c, int n) {
     return s + consumed;
 }
 
-// 0x89c314 LC_API_ITOA(int, char*, int)
-// The listing writes a zero result as "0", writes '-' for negatives, and then
-// stores one digit from the table "0123...XYZ" before the tail call to
-// __aeabi_idiv. No terminator follows the digit.
-void LC_API_ITOA(int value, char* out, int base) {
+// 0x89c314 LC_API_ITOA(int num, char* str, int radix)
+// Zero is written as "0". Otherwise digits are written least significant first
+// from the table "0123...XYZ" (after a '-' for negatives), terminated, and then
+// reversed in place. Returns str.
+char* LC_API_ITOA(int num, char* str, int radix) {
     static const char kDigits[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    if (value == 0) {
-        out[0] = '0';
-        out[1] = '\0';
-        return;
+    if (num == 0) {
+        str[0] = '0';
+        str[1] = '\0';
+        return str;
     }
-    if (value < 0) {
-        *out++ = '-';
-        value = -value;
+    const bool negative = num < 0;
+    int value = negative ? -num : num;
+    char* last = negative ? str + 1 : str;
+    if (negative) {
+        *str = '-';
     }
-    *out = kDigits[value % base];
+    char* digit = last;
+    for (;;) {
+        *digit = kDigits[value % radix];
+        value /= radix;
+        if (value == 0) {
+            break;
+        }
+        ++digit;
+    }
+    digit[1] = '\0';
+    for (char* first = last; first < digit; ++first, --digit) {
+        const char tmp = *first;
+        *first = *digit;
+        *digit = tmp;
+    }
+    return str;
 }
 
 // 0x89c88c LC_API_PARSE_DATA
@@ -302,12 +320,32 @@ char* LC_API_IP_INT2STR(unsigned int address, char* out) {
     return out;
 }
 
-// 0x89cc9c LC_API_GET_RANDOM. Partial, see the header. Like the original, it
-// reseeds from the clock on every call before drawing one value.
-long LC_API_GET_RANDOM(const char* seed) {
-    std::srand(static_cast<unsigned>(std::time(nullptr)));
-    if (seed != nullptr) {
-        LC_API_STRLEN(seed);
+namespace {
+// POSIX srand48(seed) followed by one lrand48(): the 48-bit linear congruential
+// generator X = (0x5DEECE66D * X + 0xB) mod 2^48, seeded with the low 32 bits of
+// the seed in the high part and 0x330E in the low 16 bits. lrand48 returns X >> 17.
+long FirstLrand48After(long seed) {
+    std::uint64_t x = (static_cast<std::uint64_t>(static_cast<std::uint32_t>(seed)) << 16) | 0x330Eu;
+    x = (0x5DEECE66DULL * x + 0xBULL) & ((std::uint64_t{1} << 48) - 1);
+    return static_cast<long>(x >> 17);
+}
+}  // namespace
+
+// 0x89cc9c LC_API_GET_RANDOM(char*). Reseeds from time() on every call. Without a
+// name the result is lrand48(); with a non-empty name it is lrand48() plus the sum
+// of the name's bytes (read as signed char, as the listing does).
+int LC_API_GET_RANDOM(const char* name) {
+    const long seed = static_cast<long>(std::time(nullptr));
+    if (name == nullptr) {
+        return static_cast<int>(FirstLrand48After(seed));
     }
-    return static_cast<long>(std::rand());
+    const std::size_t length = LC_API_STRLEN(name);
+    if (length == 0) {
+        return static_cast<int>(FirstLrand48After(seed));
+    }
+    int sum = 0;
+    for (std::size_t i = 0; i < length; ++i) {
+        sum += static_cast<signed char>(name[i]);
+    }
+    return static_cast<int>(FirstLrand48After(seed)) + sum;
 }

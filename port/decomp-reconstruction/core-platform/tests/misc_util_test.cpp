@@ -19,7 +19,8 @@ int main() {
     CHECK(in_cksum(odd, 0) == 0xFFFF);
 
     Point3D<float> c{255.f, 10.f, 0.f};
-    CHECK(Color255To01(c) == 1.0f);
+    CHECK(Color255To01(c) == 0.0f);  // returns the new Z
+    CHECK(c.X == 1.0f && c.Y == 10.f / 255.f && c.Z == 0.0f);
 
     int* p = new int(5);
     SafeDelete(p);

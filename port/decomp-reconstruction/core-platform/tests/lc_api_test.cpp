@@ -15,12 +15,14 @@ int main() {
     CHECK(LC_API_STRCHRFIND(text, ',', 0) == text);
     CHECK(FUN_008ac2cc(text, ',', 1) == text + 2);
 
-    // Integer to text: zero, negative, and the single-digit output of the listing.
-    char num[8];
-    LC_API_ITOA(0, num, 10);
-    CHECK(std::strcmp(num, "0") == 0);
-    LC_API_ITOA(-7, num, 10);
-    CHECK(num[0] == '-' && num[1] == '7');
+    // Integer to text: zero, negatives, several digits and other radixes.
+    char num[16];
+    CHECK(LC_API_ITOA(0, num, 10) == num && std::strcmp(num, "0") == 0);
+    CHECK(std::strcmp(LC_API_ITOA(-7, num, 10), "-7") == 0);
+    CHECK(std::strcmp(LC_API_ITOA(1234, num, 10), "1234") == 0);
+    CHECK(std::strcmp(LC_API_ITOA(255, num, 16), "FF") == 0);
+    CHECK(std::strcmp(LC_API_ITOA(-255, num, 16), "-FF") == 0);
+    CHECK(std::strcmp(LC_API_ITOA(35, num, 36), "Z") == 0);
 
     // Parse: skip one separator, copy the rest.
     char out[32];

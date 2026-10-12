@@ -20,15 +20,16 @@ char* LC_API_STRCHRFIND(char* s, int c, int n);
 // entry. Partial: the entry state is assumed to match LC_API_STRCHRFIND.
 char* FUN_008ac2cc(char* s, int c, int n);
 
-// 0x89c314 LC_API_ITOA. Partial: the listing stores only the least significant
-// digit (after a '-' for negatives) and tail-calls a divide; see NOTES.md.
-void LC_API_ITOA(int value, char* out, int base);
+// 0x89c314 LC_API_ITOA(int, char*, int): writes num in the given radix (digits
+// 0-9 then A-Z) into str and returns str.
+char* LC_API_ITOA(int num, char* str, int radix);
 
 // 0x89c88c LC_API_PARSE_DATA: copies the text after skipping `skip` separators;
 // returns the offset of the first copied character, or -1.
 int LC_API_PARSE_DATA(const char* in, char* out, int skip, char separator);
-// 0x89c9a0 getValueLC: same copy as LC_API_PARSE_DATA. The listing returns 0 on
-// every path, so the result is always 0.
+// 0x89c9a0 getValueLC(char const*, char*, int, char): copies the pos-th field
+// (fields split on `label`) into dst. Always returns 0 (Hex-Rays: every return
+// is 0); the copied text is the result.
 int getValueLC(const char* in, char* out, int skip, char separator);
 
 // 0x89ca14 _Z14LC_API_TOLOWERPKcPc
@@ -70,6 +71,7 @@ int LC_API_GET_TIME();                                     // 0x89d3a8 (alias of
 // 0x89cc4c LC_API_IP_INT2STR: dotted quad, low byte first.
 char* LC_API_IP_INT2STR(unsigned int address, char* out);
 
-// 0x89cc9c LC_API_GET_RANDOM. Partial: srand48/lrand48 are not available on the
-// Windows target, so std::rand over a time seed stands in for them.
-long LC_API_GET_RANDOM(const char* seed);
+// 0x89cc9c LC_API_GET_RANDOM(char*): reseeds srand48 from time(), then returns
+// lrand48() plus the sum of the (signed) bytes of name when name is non-empty.
+// srand48/lrand48 are the POSIX 48-bit generator, reproduced in lc_api.cpp.
+int LC_API_GET_RANDOM(const char* name);

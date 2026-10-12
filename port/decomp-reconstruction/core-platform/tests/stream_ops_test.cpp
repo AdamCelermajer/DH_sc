@@ -26,7 +26,7 @@ int main() {
         std::ostringstream os;
         std::vector<Point3D<float>> pts{{1.f, 2.f, 3.f}, {4.f, 5.f, 6.f}};
         os << pts;
-        CHECK(os.str() == "1,2,3, 4,5,6");
+        CHECK(os.str() == "1,2,3;4,5,6");
     }
     {
         std::istringstream is("1280,720");

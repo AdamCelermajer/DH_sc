@@ -1,9 +1,10 @@
 #include "core-platform/stream_ops.hpp"
 
 // 0x30fdd0 _ZlsRSoRKN6glitch4core8vector3dIfEE
-// Partial: the separator is written as one ',' here. The listing shows a
-// one-character separator literal that is not recoverable from the stripped
-// binary, so the character is an assumption.
+// Partial: the listing does two _M_put_nowiden calls between the three numbers,
+// but the string argument is register r1, which the preceding __put_num call
+// clobbers (Hex-Rays shows the same leftover). The separator text cannot be
+// recovered, so ',' is written as a placeholder.
 std::ostream& operator<<(std::ostream& os, const glitch::core::vector3d<float>& v) {
     os << static_cast<double>(v.X) << ',';
     os << static_cast<double>(v.Y) << ',';
@@ -12,15 +13,16 @@ std::ostream& operator<<(std::ostream& os, const glitch::core::vector3d<float>& 
 }
 
 // 0x30ff48 _ZlsRSoRKN6glitch4core8vector3dIiEE
-// Partial: same separator assumption as the float overload.
+// Partial: same unrecovered separator as the float overload (',' placeholder).
 std::ostream& operator<<(std::ostream& os, const glitch::core::vector3d<int>& v) {
     os << v.X << ',' << v.Y << ',' << v.Z;
     return os;
 }
 
 // 0x310178 _ZlsRSoRKN6glitch5video6SColorE
-// Partial: the channels are written as raw bytes (put, not a number). The
-// listing's two separator writes carry no visible literal, so none are written.
+// Partial: the channels are written as single characters (_M_put_char, as the
+// listing shows). The two separator writes between them pass a clobbered
+// register, as in the vector3d overload, so no separator is written.
 std::ostream& operator<<(std::ostream& os, const glitch::video::SColor& c) {
     os.put(static_cast<char>(c.R));
     os.put(static_cast<char>(c.G));
@@ -29,13 +31,14 @@ std::ostream& operator<<(std::ostream& os, const glitch::video::SColor& c) {
 }
 
 // 0x3133e0 _ZlsRSoRKSt6vectorI7Point3DIfESaIS2_EE
-// Partial: the element separator is a multi-character literal that is not
-// recoverable from the listing; ", " is used here. Each element is written as
-// three floats with ',' between them, like the vector3d overload.
+// Partial: the separator between elements is ";" (Hex-Rays literal, confirmed
+// from the string at 0x8be4a0). Each element is written by the Point3D<float>
+// writer (0x313360), whose separators are the same unrecovered kind as in the
+// vector3d overload; ',' is used there.
 std::ostream& operator<<(std::ostream& os, const std::vector<Point3D<float>>& v) {
     for (std::size_t i = 0; i < v.size(); ++i) {
         if (i != 0) {
-            os << ", ";
+            os << ';';
         }
         os << static_cast<double>(v[i].X) << ',' << static_cast<double>(v[i].Y) << ','
            << static_cast<double>(v[i].Z);

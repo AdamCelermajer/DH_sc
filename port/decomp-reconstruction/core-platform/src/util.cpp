@@ -3,20 +3,24 @@
 #include <cstring>
 
 // 0x317a04 _Z7strrstrPKcS0_
-// Partial: the original tail-calls into an unrecovered routine for non-empty
-// needles. This implements the name's meaning (last occurrence) and is not
-// verified against the binary.
+// Empty needle: returns the haystack. Otherwise the original scans candidate
+// starts from the end of the haystack back to its first byte and returns the
+// first full match, i.e. the last occurrence. An empty haystack gives no match.
 const char* strrstr(const char* haystack, const char* needle) {
     if (*needle == '\0') {
         return haystack;
     }
-    const char* found = nullptr;
-    const char* p = haystack;
-    while ((p = std::strstr(p, needle)) != nullptr) {
-        found = p;
-        ++p;
+    const std::size_t hayLen = std::strlen(haystack);
+    const std::size_t needleLen = std::strlen(needle);
+    if (needleLen > hayLen) {
+        return nullptr;
     }
-    return found;
+    for (std::size_t start = hayLen - needleLen + 1; start-- > 0;) {
+        if (std::strncmp(haystack + start, needle, needleLen) == 0) {
+            return haystack + start;
+        }
+    }
+    return nullptr;
 }
 
 // 0x69f54c _Z22util_number_is_power_2j

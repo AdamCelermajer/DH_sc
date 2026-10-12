@@ -37,16 +37,19 @@ unsigned short in_cksum(const unsigned char* data, int length) {
 }
 
 // 0x3ef1b8 _Z12Color255To01R7Point3DIfE
-// Partial: the listing divides only the first component by 255.0f and returns
-// that value; the other components are not used.
+// Divides X, Y and Z in place by 255.0f and returns the new Z (Hex-Rays and the
+// IDA listing agree: three float divides through the same helper).
 float Color255To01(Point3D<float>& color) {
-    return color.X / 255.0f;
+    color.X = color.X / 255.0f;
+    color.Y = color.Y / 255.0f;
+    color.Z = color.Z / 255.0f;
+    return color.Z;
 }
 
 // 0x827970 _Z9TransToIpRPc
-// Partial: resolves the host name and writes its first IPv4 address as text into
-// a new 128-byte buffer that replaces *host. The listing copies the address into
-// a local array; the output buffer is taken to be the intended destination.
+// Resolves the host name and writes its first IPv4 address as text into a new
+// 0x80-byte CustomAlloc buffer that replaces *host (Hex-Rays: CustomAlloc(0x80),
+// memset, strcpy of inet_ntoa). The original returns nothing on a failed lookup.
 void TransToIp(char** host) {
     hostent* entry = gethostbyname(*host);
     if (entry == nullptr) {

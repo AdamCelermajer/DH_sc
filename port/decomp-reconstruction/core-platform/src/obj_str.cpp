@@ -1,5 +1,7 @@
 #include "core-platform/obj_str.hpp"
 
+#include "core-platform/debug_out.hpp"
+
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -86,9 +88,9 @@ void StrToObj(const char* text, Point2D<int>& value) {
 }
 
 // 0x30f0c8 _Z8StrToObjPKcRN6glitch4core11dimension2dIiEE
-// Partial: the decompiled body parses two integers but its stores are missing
-// and the second parameter is not visible. Width and Height are assumed from
-// the ObjToStr counterpart (Width first).
+// Width is the first comma field (stored at +0) and Height the second (+4), as
+// Hex-Rays and the IDA listing both show. A missing field leaves its member
+// unchanged; the original stores whatever its uninitialised register holds.
 void StrToObj(const char* text, glitch::core::dimension2d<int>& value) {
     const auto tokens = SplitCommas(text);
     if (tokens.size() > 0) {
@@ -129,8 +131,8 @@ void StrToObj(const char* text, Point3D<float>& value) {
 }
 
 // 0x30f2a4 _Z8StrToObjPKcRN6glitch4core11dimension2dIfEE
-// Partial: same shape as the integer variant; the decompiled stores are
-// missing, so Width and Height are assumed from the ObjToStr counterpart.
+// Same shape as the integer variant: Width at +0, Height at +4, parsed with
+// strtod. A missing field leaves its member unchanged (see the integer variant).
 void StrToObj(const char* text, glitch::core::dimension2d<float>& value) {
     const auto tokens = SplitCommas(text);
     if (tokens.size() > 0) {
@@ -156,9 +158,8 @@ void StrToObj(const char* text, glitch::core::vector3d<float>& value) {
 }
 
 // 0x30f010 _Z8StrToObjPKcRSt6vectorI7Point3DIfESaIS3_EE
-// Partial: the original only emits a "NEED TO CHECK" debug line and leaves the
-// vector untouched. The debug sink is an original debug-output function that is
-// not recovered; plain stdout is used here.
+// The whole body is one _DEBUG_OUT call (Hex-Rays); the vector is left untouched.
+// The debug sink is the _DEBUG_OUT stand-in in debug_out.cpp.
 void StrToObj(const char*, std::vector<Point3D<float>>&) {
-    std::printf("%s\n", "NEED TO CHECK Venkat Vikram ********** ********** ************");
+    _DEBUG_OUT("NEED TO CHECK Venkat Vikram ********** ********** ************");
 }

@@ -6,10 +6,10 @@
 // 0x840000 in_cksum(unsigned short*, int): the Internet one's-complement checksum.
 unsigned short in_cksum(const unsigned char* data, int length);
 
-// 0x3ef1b8 Color255To01(Point3D<float>&). Partial, see the source.
+// 0x3ef1b8 Color255To01(Point3D<float>&): divides all three components by 255.
 float Color255To01(Point3D<float>& color);
 
-// 0x827970 TransToIp(char*&). Partial, see the source.
+// 0x827970 TransToIp(char*&).
 void TransToIp(char** host);
 
 // 0x3cb46c SafeDelete<T>(T*&): deletes the object (through its virtual destructor)

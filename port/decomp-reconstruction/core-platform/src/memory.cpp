@@ -70,8 +70,8 @@ void* GlitchAlloc(unsigned size, glitch::memory::E_MEMORY_HINT, int, const char*
     return CustomAlloc(size, file, static_cast<unsigned>(line), func);
 }
 
-// 0x310660 _Z11CustomAllocjPKcjS0_
-void* CustomAlloc(unsigned size, const char*, unsigned, const char*) { return MallocOrReport(size); }
+// 0x310660 _Z11CustomAllocjPKcjS0_ (thunk: forwards to the one-argument CustomAlloc)
+void* CustomAlloc(unsigned size, const char*, unsigned, const char*) { return CustomAlloc(size); }
 
 // 0x317c94 _Z15internal_mallocjPKcjS0_
 void* internal_malloc(unsigned size, const char*, unsigned, const char*) { return std::malloc(size); }
@@ -174,17 +174,17 @@ unsigned s_heapTotalAllocated = 0;
 void CustomFree(void* p) { std::free(p); }
 
 // 0x310454 _Z11CustomAllocj
-// Note: the original's condition text for this assert (DAT_008ce400) is not
-// recovered; "allocation" stands in for it.
+// Hex-Rays: LC_API_MALLOC, then on failure ShowMemoryStats("Out of memory:") and
+// the assert for level 2 (the original writes to address 0; abort() here, same
+// effect: the process stops) or level 1 (condition text "ptr", line 58).
 void* CustomAlloc(unsigned size) {
     void* p = std::malloc(size);
     if (p == nullptr) {
         ShowMemoryStats("Out of memory:");
         if (gAssertLevel == 2) {
-            // The original writes to address 0 here to force a crash.
             std::abort();
         } else if (gAssertLevel == 1) {
-            ReportAssert("allocation", kMemoryCppPath, 0x3a);
+            ReportAssert("ptr", kMemoryCppPath, 0x3a);
         }
     }
     return p;
@@ -230,8 +230,8 @@ void* internal_malloc_aligned(unsigned, unsigned size, const char*, unsigned, co
 // 0x317c98 _Z11AllocateMemjjPKcjS0_
 // Takes the heap mutex, tries the aligned path when an alignment is given, then
 // falls back to the plain internal heap. Reports out-of-memory on a null result.
-// The decompiled fallback call shows one argument; file, line and function are
-// forwarded from this call's arguments.
+// The fallback call passes size, file, line and function (the IDA listing sets
+// four argument registers for internal_malloc at 0x317c94).
 void* AllocateMem(unsigned size, unsigned alignment, const char* file, unsigned line, const char* func) {
     LockMemoryMutex();
     if (!s_heapsInitialized) {
