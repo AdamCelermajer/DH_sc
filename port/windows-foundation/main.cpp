@@ -7406,7 +7406,7 @@ int main(int argc,char** argv) {
                     // Character::GetCharAI returns AITable; IsCharSitting is Flags bit3.
                     const bool sitting=respectSitting&&ai&&(ai->flags&8u);
                     const float before=owner->transform.rotation[2];float yaw=before;
-                    if(f::interaction_facing_v1(owner->transform.position,{at[12],at[13],at[14]},true,sitting,yaw,respectSitting)) {
+                    if(f::interaction_facing_v1(owner->transform.position,{at[12],at[13],at[14]},true,sitting,yaw)) { // B151: source LookTowards yaw
                         owner->transform.rotation[2]=yaw;
                         if(motor)motor->setFacingRadians(yaw);
                         std::cout<<"Context container facing declaration="<<containerRuntime.instance(ci).name<<" before="<<before<<" after="<<yaw<<" frame="<<drawn<<'\n';
@@ -7421,7 +7421,7 @@ int main(int argc,char** argv) {
                     if(ctxIsDestructible(ci)&&containerRuntime.state(ci)==f::containers::kContainerStateIdle) {
                         // B085: attacking a destructible = the hero's weapon swing; the hit lands on the swing's hit marker
                         // (source AISDefault::OnAttack 0x3dc12c -> target->Interact). The press edge only starts the swing.
-                        ctxFaceContainer(ci,false); // preserve B085's destructible heading policy
+                        ctxFaceContainer(ci,false); // B085: destructibles ignore the sitting bit
                         gameplayInput.attack=true;
                         std::cout<<"Context destructible swing declaration="<<containerRuntime.instance(ci).name<<" frame="<<drawn<<'\n';
                         return;

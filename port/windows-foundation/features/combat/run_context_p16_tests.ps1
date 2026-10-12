@@ -6,7 +6,7 @@ New-Item -ItemType Directory -Force -Path $taskBuild | Out-Null
 $foundation = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
 $tests = @(
     @{ name='object_of_interest_owner_v1_tests'; sources=@('features/combat/object_of_interest_owner_v1.cpp','features/combat/auto_target_marker_v1.cpp','features/combat/object_of_interest_owner_v1_tests.cpp') },
-    @{ name='interaction_approach_v1_tests'; sources=@('features/interactions/interaction_approach_v1.cpp','features/interactions/interaction_approach_v1_tests.cpp') },
+    @{ name='interaction_approach_v1_tests'; sources=@('features/interactions/interaction_approach_v1.cpp','features/interactions/interaction_approach_v1_tests.cpp','../level-world/navigation_heading.cpp','../level-world/character_path_commands.cpp') },
     @{ name='context_button_v1_tests'; sources=@('features/combat/context_button_v1.cpp','features/combat/context_button_v1_tests.cpp') },
     @{ name='world_item_contact_v1_tests'; sources=@('features/loot/world_item_contact_v1.cpp','features/loot/world_item_contact_v1_tests.cpp') },
     @{ name='interactable_registry_v1_tests'; sources=@('features/interactions/interactable_registry_v1.cpp','features/combat/object_of_interest_owner_v1.cpp','features/combat/auto_target_marker_v1.cpp','features/interactions/interactable_registry_v1_tests.cpp') }

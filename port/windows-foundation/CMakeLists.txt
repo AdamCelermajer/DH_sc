@@ -80,6 +80,10 @@ target_sources(dh-foundation PRIVATE features/combat/auto_target_marker_v1.cpp f
 target_sources(dh-foundation PRIVATE features/combat/context_button_v1.cpp features/interactions/interactable_registry_v1.cpp)
 # B069: context-button approach rule (AI_IsInInteractionRange + walk to the interaction spot).
 target_sources(dh-foundation PRIVATE features/interactions/interaction_approach_v1.cpp)
+# B151: range rule + source LookTowards interaction facing (vase/chest turn) regression suite.
+add_executable(interaction_approach_v1_tests features/interactions/interaction_approach_v1_tests.cpp features/interactions/interaction_approach_v1.cpp
+  ../level-world/navigation_heading.cpp ../level-world/character_path_commands.cpp)
+add_test(NAME interaction_approach_v1 COMMAND interaction_approach_v1_tests)
 add_library(foundation_runtime_potion STATIC
   features/inventory/runtime_session_potion_use_v1.cpp
   ../level-world/character_skill_application_v6.cpp ../level-world/character_skill_attack_v6.cpp
