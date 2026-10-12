@@ -293,6 +293,9 @@ bool ActorCombatRuntime::synchronize(Binding& binding, std::string& error) {
             return depart(binding,CombatRuntimeTransitionCause::interruption,error);
     }
     binding.restored_dead=false; // revival is a fresh live occurrence
+    // B152: the lifecycle hand-over (yield_pose) belongs to the previous dead occurrence. Left set, it suppressed the
+    // Died pose of the next death of a respawned/restored actor (no death animation, body stays standing).
+    binding.yielded=false;
     if (binding.pose == Pose::death&&!depart(binding,CombatRuntimeTransitionCause::interruption,error))return false;
     if (binding.pose == Pose::attack
         && (!combat_.attacking(actor.id) || actor.action != CharacterAction::attacking)&&

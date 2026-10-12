@@ -6965,12 +6965,15 @@ int main(int argc,char** argv) {
                 std::string declaredLine,declaredError;
                 f::spawn::spawn_declared_v1(request.name,placed->definition.stableId,status->state,declaredServices,declaredLine,declaredError);
             }
-            // P16 DESPAWN2 debug trigger: --kill-test NAME@FRAME sets an authored actor to 0 HP; the runtime then takes its death pose.
+            // P16 DESPAWN2 debug trigger: --kill-test NAME@FRAME kills an authored actor through the source kill owner
+            // (kill_actor_state + runtime death pose, as a scripted KillActor does). B152: it used to set HP/action only,
+            // which left the actor alive for the combat runtime and the despawn owner.
             for(const auto& request:options.killTests)if(request.frame==drawn&&combatSession) {
                 const auto placed=placedNamed(request.name);
                 auto* victim=placed==population.actors().end()?nullptr:combatSession->actor(placed->definition.stableId);
                 if(!victim){std::cout<<"KILL test rejected name="<<request.name<<" reason=no live population actor\n";continue;}
-                victim->health=0;f::reset_actor_action(*victim,f::CharacterAction::dead);
+                std::string killError;
+                if(!combatSession->script_kill_actor(victim->id,killError)){std::cout<<"KILL test refused name="<<request.name<<" reason="<<killError<<" frame="<<drawn<<'\n';continue;}
                 std::cout<<"KILL test actor="<<victim->id<<" name="<<request.name<<" frame="<<drawn<<'\n';
             }
             for(const auto& request:options.despawnTests)if(request.frame==drawn&&combatSession) {
