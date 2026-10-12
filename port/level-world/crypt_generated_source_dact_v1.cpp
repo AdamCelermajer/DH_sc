@@ -74,7 +74,9 @@ bool compile_generated_crypt_dact_v1(
     std::vector<GeneratedCryptTriggerZoneSourceV1>* trigger_sources,
     std::vector<GeneratedCryptDoorSourceV1>* door_sources,
     std::vector<GeneratedCryptConditionalCharacterSourceV1>*
-        conditional_character_sources) {
+        conditional_character_sources,
+    SpawnProbabilityRollV1 spawn_probability_roll,
+    void* spawn_probability_context) {
   actor_sources.clear();
   if (faery_sources) faery_sources->clear();
   if (template_sources) template_sources->clear();
@@ -428,15 +430,36 @@ bool compile_generated_crypt_dact_v1(
       const auto* auto_spawn = dh2_world_field(&object, "auto_spawn");
       const auto* ai_state = dh2_world_field(&object, "ai_state");
       const auto* spawn_probability = dh2_world_field(&object, "spawn_prob");
+      long probability = 100;
+      if (spawn_probability && *spawn_probability &&
+          std::strcmp(spawn_probability, "100") != 0) {
+        char* parsed_end = nullptr;
+        probability = std::strtol(spawn_probability, &parsed_end, 10);
+        if (!parsed_end || *parsed_end || probability < 0 || probability > 1000) {
+          probability = -1;
+        }
+      }
       if ((auto_spawn && std::strcmp(auto_spawn, "0") != 0 &&
            std::strcmp(auto_spawn, "1") != 0) ||
-          (spawn_probability && *spawn_probability &&
-           std::strcmp(spawn_probability, "100") != 0)) {
+          (probability < 100 && !spawn_probability_roll) || probability < 0) {
         template_sources->clear();
         actor_sources.clear();
         if (faery_sources) faery_sources->clear();
         error = "Generated Crypt template Character has unsupported spawn policy";
         return false;
+      }
+      if (probability < 100) {
+        // GameObject::CheckSpawnProbability (0x38bd64): one s_seed % 99 draw;
+        // a draw >= spawn_prob deletes the Character before construction.
+        const int roll_result = spawn_probability_roll(spawn_probability_context, probability);
+        if (roll_result < 0) {
+          template_sources->clear();
+          actor_sources.clear();
+          if (faery_sources) faery_sources->clear();
+          error = "Generated Crypt template Character spawn_prob roll failed";
+          return false;
+        }
+        if (roll_result == 0) continue;
       }
       retained.gated_spawn = auto_spawn && std::strcmp(auto_spawn, "0") == 0;
       if ((retained.gated_spawn &&

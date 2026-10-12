@@ -52,6 +52,10 @@ struct GeneratedCryptFaerySourceV1 {
   float authored_world_transform[9] = {};
 };
 
+// Returns 1 when the Character spawns, 0 when its spawn_prob draw deletes it,
+// and -1 when the draw fails. The caller supplies the Level random stream.
+using SpawnProbabilityRollV1 = int (*)(void* context, long probability);
+
 // Source-backed non-Faery Character template route. This retains the source
 // ObjectManager key and MGP properties while keeping the actor out of DACT;
 // resolution stays unattempted until the runtime supplies the actual catalog.
@@ -145,6 +149,8 @@ bool compile_generated_crypt_dact_v1(
     std::vector<GeneratedCryptTriggerZoneSourceV1>* trigger_sources = nullptr,
     std::vector<GeneratedCryptDoorSourceV1>* door_sources = nullptr,
     std::vector<GeneratedCryptConditionalCharacterSourceV1>*
-        conditional_character_sources = nullptr);
+        conditional_character_sources = nullptr,
+    SpawnProbabilityRollV1 spawn_probability_roll = nullptr,
+    void* spawn_probability_context = nullptr);
 
 }  // namespace dh2::world

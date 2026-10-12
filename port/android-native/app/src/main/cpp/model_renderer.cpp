@@ -17317,6 +17317,25 @@ std::vector<std::uint8_t> read(AAssetManager* assets,const std::string& name,con
     const auto packaged_relative="scripts/"+path.substr(13);
     a=AAssetManager_open(assets,packaged_relative.c_str(),AASSET_MODE_BUFFER);
   }
+  // Rule XML names module files in the original mixed case (ABBEY_..., IC01_...),
+  // while the packaged cache stores them lowercase. Retry only the basename of
+  // the four module folders (mgp/mgx/mvp/mvx) under data/3d/modules/.
+  if(!a&&folder=="original-cache"&&path.rfind("data/3d/modules/",0)==0){
+    const auto slash=path.find_last_of('/');
+    const auto dir=slash==std::string::npos?std::string():path.substr(0,slash);
+    const auto dir_slash=dir.find_last_of('/');
+    const auto kind=dir_slash==std::string::npos?dir:dir.substr(dir_slash+1);
+    if(slash!=std::string::npos&&(kind=="mgp"||kind=="mgx"||kind=="mvp"||kind=="mvx")){
+      auto packaged=path;
+      for(std::size_t i=slash+1;i<packaged.size();++i)
+        packaged[i]=static_cast<char>(std::tolower(static_cast<unsigned char>(packaged[i])));
+      if(packaged!=path){
+        const auto packaged_relative=folder+"/"+packaged;
+        a=AAssetManager_open(assets,packaged_relative.c_str(),AASSET_MODE_BUFFER);
+        if(a)__android_log_print(ANDROID_LOG_INFO,"DH2Native","Lowercase module resource | %s",packaged.c_str());
+      }
+    }
+  }
   if(!a&&folder=="actors"&&path.rfind("data/3d/",0)==0){
     const auto original_relative="original-cache/"+path;
     a=AAssetManager_open(assets,original_relative.c_str(),AASSET_MODE_BUFFER);
@@ -21217,6 +21236,38 @@ bool load_crypt_rule_assets(AAssetManager* assets,const std::string& rule_file,
    return true;
   };
   if(!read_source(module_root+"mgx/mgxlist.txt",bytes->mgx_list))return false;
+  // mgxlist.txt can name MGX-only modules with no MVX scene (e.g.
+  // objstart_watertemp_s_). Level::LoadTile only loads tiles that a rule
+  // entry names, so drop unreferenced rows whose MVX is absent from the cache.
+  {
+   std::set<std::string> rule_entry_names;
+   for(const auto& list:parsed.document->lists)
+    for(const auto& entry:list.entries)rule_entry_names.insert(entry.name);
+   std::string kept;
+   const std::string_view source(bytes->mgx_list);
+   for(std::size_t cursor=0;cursor<=source.size();){
+    const auto end=source.find('\n',cursor);
+    const auto line=source.substr(cursor,end==std::string::npos?source.size()-cursor:end-cursor);
+    auto trimmed=line;
+    while(!trimmed.empty()&&std::isspace(static_cast<unsigned char>(trimmed.front())))trimmed.remove_prefix(1);
+    while(!trimmed.empty()&&std::isspace(static_cast<unsigned char>(trimmed.back())))trimmed.remove_suffix(1);
+    bool keep=true;
+    if(trimmed.size()>4&&trimmed.compare(trimmed.size()-4,4,".mgx")==0){
+     const std::string name(trimmed.substr(0,trimmed.size()-4));
+     if(!rule_entry_names.count(name)){
+      try{read(assets,module_root+"mvx/"+name+".mvx","original-cache");}
+      catch(const std::exception&){
+       keep=false;
+       __android_log_print(ANDROID_LOG_INFO,"DH2Native","Crypt mgxlist module without MVX skipped | %s",name.c_str());
+      }
+     }
+    }
+    if(keep&&!trimmed.empty()){kept.append(line);kept.push_back('\n');}
+    if(end==std::string::npos)break;
+    cursor=end+1;
+   }
+   bytes->mgx_list=std::move(kept);
+  }
   std::set<std::string> module_names,gameplay_names,visual_names;
   for(std::size_t cursor=0;cursor<=bytes->mgx_list.size();){
    const auto end=bytes->mgx_list.find('\n',cursor);
@@ -39829,7 +39880,13 @@ std::vector<dh2::world::EntryPoint> entrypoints;
           generated_crypt_actor_sources,source_object_bytes,actor_count,
           deferred_count,error,&generated_crypt_faery_sources,
           &generated_crypt_template_sources,&generated_crypt_template_catalog,
-          &level_assets.generated_crypt_triggers))
+          &level_assets.generated_crypt_triggers,nullptr,nullptr,
+          // GameObject::CheckSpawnProbability (0x38bd64) for template Characters.
+          +[](void*,long probability)->int{
+           const auto roll=dh2_random_next(&dh2::random_lifecycle::process_state(),99,0);
+           if(roll<0||roll>=99)return -1;
+           return roll<probability?1:0;
+          },nullptr))
        throw std::runtime_error("Generated Crypt MGP actor import rejected: "+error);
       // Character::IsFaerie reads CharType from the linked AI row; the MGP
       // template label alone does not make this a Faery. Validate that source
