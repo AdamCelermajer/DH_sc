@@ -512,3 +512,24 @@ Layout notes that are confirmed by the pseudocode: include/glitch-scene-collada-
 - Slice 13's test needed definitions for the externs its partial rows call. Test doubles were
   added to the test file, not to src. The test never calls them.
 - Ledger: 3131 rows, one per address. Status counts: 1277 reconstructed, 1299 partial, 555 skipped.
+
+## Rerouted rows: slices 31 to 33
+The integrator moved 216 rows into this queue (feature/decomp-reconstruction 21297a2d). They were
+split into three slices of 72. Results: 2 reconstructed, 188 partial and 26 skipped (rows in
+new_31/32/33.tsv). Every partial is an unattached free function with a stub note.
+- Data issue: the body_bytes column in the rerouted queue does not match the Hex-Rays body size
+  for many rows (for example 0x6c42a8: 76 in the queue, 14228 in the decompiled body). Trust the
+  decompiler size, not the queue column.
+- Camera and light nodes (0x582160, 0x582948, 0x583d88) were reconstructed by slice 31. The brief
+  assigns camera to the other session, so review that split.
+- The ledger now has 3347 rows.
+
+## Scene camera and light nodes
+glitch::scene camera and light nodes (0x582160, 0x582948, 0x583d88) are engine scene-graph classes,
+not the game's camera logic. They stay in this category.
+
+## Layout wave
+Four layout workers write header-only member declarations from the Hex-Rays offsets, one family
+each: layouts/animation_track.hpp, layouts/scene.hpp, layouts/collada_db.hpp, layouts/gui.hpp.
+Each header compiles alone. Partial rows (1487 of them, from the ledger) are rerun against these
+headers in a later wave.
