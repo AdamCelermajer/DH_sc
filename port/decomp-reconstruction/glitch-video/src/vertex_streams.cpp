@@ -1,5 +1,7 @@
 #include "glitch-video/vertex_streams.hpp"
 
+#include <cstring>
+
 namespace glitch::video {
 
 // 0x5a0a58 _ZNK6glitch5video14CVertexStreams22getActiveAttributeMaskEv
@@ -128,5 +130,18 @@ void CVertexStreams::setStream(SVertexStream* stream, const SVertexStreamData& d
 // 0x5a0e24 _ZN6glitch5video14CVertexStreams12updateStatesEb
 // Thunk: the ARM body is `b #0x5a0d80`, so this forwards to updateStatesInternal.
 void CVertexStreams::updateStates(bool flag) { updateStatesInternal(flag); }
+
+// 0x5a08f4 _ZN6glitch5video23makeDefaultAttributeMapEPKNS0_14CVertexStreamsEPh
+uint8_t* makeDefaultAttributeMap(const CVertexStreams* streams, uint8_t* map) {
+    constexpr uint32_t kMapSize = 0x1e;
+    std::memset(map, 0xff, kMapSize);
+    for (size_t index = 0; index < streams->m_streams.size(); ++index) {
+        const uint32_t attribute = streams->m_streams[index].attribute;
+        if (attribute < kMapSize) {
+            map[attribute] = static_cast<uint8_t>(index);
+        }
+    }
+    return map;
+}
 
 }  // namespace glitch::video

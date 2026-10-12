@@ -6,11 +6,17 @@
 #include <cstddef>
 #include <cstdint>
 
+#include "glitch-video/deps/glitch_video_types.hpp"
+
 namespace glitch::video {
 
 class IBuffer {
 public:
     IBuffer() = default;
+    virtual ~IBuffer() = default;
+    // 0x5a1908 (C2) / 0x5a197c (C1): stores type, usage, size, data and the flag byte. Bit 1 of
+    // the flag byte is set when the buffer has a size, data and a usage other than 4.
+    IBuffer(E_BUFFER_TYPE type, E_BUFFER_USAGE usage, uint32_t size, void* data, uint8_t flags);
     // 0x5a1c1c: when the buffer does not own its data and has a size, gives it a
     // private copy of the current bytes.
     void copy();
@@ -18,8 +24,11 @@ public:
     // not modelled and is skipped when the buffer is not flagged for it.
     void unmap();
 
+    uint32_t m_refCount = 0;     // +0x04, zeroed by the constructor
     uint8_t* m_data = nullptr;   // +0x08
     uint32_t m_size = 0;         // +0x0c
+    uint8_t m_type = 0;          // +0x10, E_BUFFER_TYPE
+    uint8_t m_usage = 0;         // +0x11, E_BUFFER_USAGE
     uint8_t m_flags12 = 0;       // +0x12, bit 0 = data not privately owned, bit 5 = unmap callback
     uint8_t m_mapCount13 = 0;    // +0x13, low 5 bits = map count
 };

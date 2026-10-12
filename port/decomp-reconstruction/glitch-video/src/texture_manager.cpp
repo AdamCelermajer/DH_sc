@@ -1,5 +1,7 @@
 #include "glitch-video/texture_manager.hpp"
 
+#include <algorithm>
+
 namespace glitch::video {
 
 // 0x5e8260 _ZN6glitch5video15CTextureManager16clearPlaceHolderENS0_14E_TEXTURE_TYPEEPNS0_8ITextureE
@@ -32,6 +34,34 @@ void CTextureManager::addExternalImageWriter(IImageWriter* writer) {
     if (writer == nullptr) return;
     ++writer->m_refCount;
     m_externalImageWriters.push_back(writer);
+}
+
+// 0x3849a0 _ZN6glitch5video15CTextureManager13removeTextureEPNS0_8ITextureE
+int32_t CTextureManager::removeTexture(ITexture* texture) {
+    if (texture == nullptr) {
+        return 0;
+    }
+    int32_t removed = 0;
+    auto it = std::find(m_textures.begin(), m_textures.end(), texture);
+    if (it != m_textures.end()) {
+        m_textures.erase(it);
+        removed = 1;
+    }
+    if (removed != 0) {
+        clearPlaceHolder(static_cast<int32_t>(texture->m_flags38 & 3), texture);
+    }
+    return removed;
+}
+
+// 0x384eb4 _ZN6glitch5video15CTextureManager13removeTextureERN5boost13intrusive_ptrINS0_8ITextureEEE
+uint32_t CTextureManager::removeTexture(boost::intrusive_ptr<ITexture>& texture) {
+    ITexture* raw = texture.get();
+    if (raw == nullptr) {
+        return 0;
+    }
+    texture = boost::intrusive_ptr<ITexture>();
+    // The original drops one reference here; the stand-in pointer does not count.
+    return static_cast<uint32_t>(removeTexture(raw));
 }
 
 }  // namespace glitch::video

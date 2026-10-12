@@ -75,4 +75,9 @@ public:
     uint16_t m_flags = 0;                  // +0x0e, see kFlag* above
 };
 
+// 0x5a08f4: fills the 30-byte attribute map (0xff = unset) with the index of each
+// stream whose attribute is the map slot. Attributes past the map are skipped here;
+// the original writes without a check.
+uint8_t* makeDefaultAttributeMap(const CVertexStreams* streams, uint8_t* map);
+
 }  // namespace glitch::video

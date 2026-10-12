@@ -2,6 +2,8 @@
 
 #include <cstring>
 
+#include "glitch-video/pixel_format.hpp"
+
 namespace glitch::video {
 
 // 0x602c84 _ZN6glitch5video12IImageLoader23hasTextureLoadInterfaceEv
@@ -136,5 +138,78 @@ bool CImageLoaderJPG::fill_input_buffer(jpeg_decompress_struct*) { return true; 
 
 // 0x604b08 _ZN6glitch5video15CImageLoaderJPG11term_sourceEP22jpeg_decompress_struct
 void CImageLoaderJPG::term_source(jpeg_decompress_struct*) {}
+
+namespace {
+
+// ARM register shifts: a shift of 32 or more gives 0 (logical) or the sign fill (arithmetic).
+uint32_t lsrArm(uint32_t value, uint32_t amount) {
+    return amount >= 32 ? 0u : value >> amount;
+}
+
+int32_t asrArm(int32_t value, uint32_t amount) {
+    if (amount >= 32) return value < 0 ? -1 : 0;
+    return value >> amount;
+}
+
+}  // namespace
+
+// 0x607654 _ZN6glitch5video12IImageLoader19ITextureDataLoadingC2Ev
+// 0x6076a8 _ZN6glitch5video12IImageLoader19ITextureDataLoadingC1Ev
+// The original only writes the defaults that the member initialisers in the header provide.
+IImageLoader::ITextureDataLoading::ITextureDataLoading() = default;
+
+// 0x6077c4 _ZN6glitch5video12IImageLoader19ITextureDataLoading12getFilePitchEh
+// The source reports through its first slot (+0x0c) whether the pitch is taken from the
+// descriptor. The original computes the pitch and drops the result, so this body only
+// keeps the flag. Partial: the pitch value has no consumer in the original path either.
+void IImageLoader::ITextureDataLoading::getFilePitch(uint8_t mip) {
+    int32_t special = m_source != nullptr ? m_source->unidentifiedSlot0c() : 0;
+    if (special == 0) {
+        int32_t width = asrArm(static_cast<int32_t>(m_desc->width), mip);
+        if (width < 1) width = 1;
+        static_cast<void>(pixel_format::computePitch(m_desc->format, static_cast<uint32_t>(width)));
+        m_pitchKnown = true;
+        return;
+    }
+    m_pitchKnown = false;
+}
+
+// 0x607898 _ZNK6glitch5video12IImageLoader19ITextureDataLoading13getSourceStepEh
+// Partial: the pitch flag selects the header dimensions (the descriptor is not
+// asked for a size); the descriptor path calls computeMipmapSizeInBytes.
+int32_t IImageLoader::ITextureDataLoading::getSourceStep(uint8_t mip) const {
+    if (!m_pitchKnown) {
+        int32_t width = asrArm(static_cast<int32_t>(m_info->header->width), mip);
+        if (width < 1) width = 1;
+        uint32_t height = lsrArm(m_info->header->height, mip);
+        if (height == 0) height = 1;
+        return static_cast<int32_t>(height * static_cast<uint32_t>(m_sourceStep) * static_cast<uint32_t>(width));
+    }
+    return static_cast<int32_t>(pixel_format::computeMipmapSizeInBytes(
+        m_desc->format, m_desc->width, m_desc->height, m_desc->depth, mip, m_desc->layoutType == 1));
+}
+
+// 0x607d1c _ZN6glitch5video12IImageLoader19ITextureDataLoading4readEPvj
+// Partial: the byte-swap path (pixel_format::swapBytes into the +0x08 destination)
+// is not reconstructed, and the original's read-error log line is not written.
+uint32_t IImageLoader::ITextureDataLoading::read(void* buffer, int32_t size) {
+    int32_t got = m_file->read(buffer, static_cast<uint32_t>(size));
+    if (got == size) {
+        return 1;
+    }
+    m_flag20 = true;
+    return 0;
+}
+
+// 0x6041cc (anonymous namespace) _ZN6glitch5video12_GLOBAL__N_113readDDSHeaderEPNS_2io9IReadFileERNS1_23SDDSSurfaceFormatHeaderE
+static_assert(sizeof(SDDSSurfaceFormatHeader) == 0x7c, "DDS header is 0x7c bytes");
+bool readDDSHeader(io::IReadFile* file, SDDSSurfaceFormatHeader& header) {
+    file->seek(4, false);
+    int32_t got = file->read(&header, 0x7c);
+    if (got == static_cast<int32_t>(header.size)) {
+        return header.pixelFormatSize == 0x20;
+    }
+    return false;
+}
 
 }  // namespace glitch::video

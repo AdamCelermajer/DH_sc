@@ -47,4 +47,13 @@ CImageWriterPNG* createImageWriterPNG() { return new CImageWriterPNG(); }
 // 0x60762c _ZN6glitch5video20createImageWriterTGAEv
 CImageWriterTGA* createImageWriterTGA() { return new CImageWriterTGA(); }
 
+// 0x602dc4 _ZN6glitch5video20createImageLoaderATCEv
+CImageLoaderATC* createImageLoaderATC() { return new CImageLoaderATC(); }
+
+// 0x60500c _ZN6glitch5video20createImageLoaderPNGEv
+CImageLoaderPng* createImageLoaderPNG() { return new CImageLoaderPng(); }
+
+// 0x60632c _ZN6glitch5video20createImageLoaderTGAEv
+CImageLoaderTGA* createImageLoaderTGA() { return new CImageLoaderTGA(); }
+
 }  // namespace glitch::video

@@ -11,14 +11,103 @@ struct jpeg_decompress_struct;
 
 namespace glitch::video {
 
+struct STextureLoadInfo;
+struct STextureDataInfo;
+
 class IImageLoader {
 public:
     virtual ~IImageLoader() = default;
     virtual bool hasTextureLoadInterface();                               // 0x602c84
     virtual bool loadTextureHeader(io::IReadFile* file, STextureDesc& desc) const;  // 0x602c8c
 
+    // Stand-in for the object at +0x08 of ITextureDataLoading. Its vtable is not
+    // identified; the default answers are the no-special-case values.
+    class ITextureDataSource {
+    public:
+        virtual ~ITextureDataSource() = default;
+        // Vtable +0x0c. Non-zero makes getFilePitch skip the pitch computation.
+        virtual int32_t unidentifiedSlot0c() const { return 0; }
+        // Vtable +0x10. Destination pointer for the byte swap in read.
+        virtual void* unidentifiedSlot10() const { return nullptr; }
+    };
+
+    // Texture data reader used by the loaders (0x607654 / 0x6076a8 constructors).
+    // Only the fields that the reconstructed paths touch are named; the source
+    // and loader objects (+0x08, +0x10) are not modelled, see the member notes.
+    class ITextureDataLoading {
+    public:
+        ITextureDataLoading();
+        virtual ~ITextureDataLoading() = default;
+
+        // 0x6077c4 (void in the original): the pitch value is computed and discarded
+        // by the original, so only the flag at +0x22 is kept. Partial.
+        void getFilePitch(uint8_t mip);
+        // 0x607898: bytes of one mip level, from the file or the in-memory descriptor. Partial.
+        int32_t getSourceStep(uint8_t mip) const;
+        // 0x607d1c: reads size bytes and checks the count. The byte-swap path (pixel_format::swapBytes)
+        // is not reconstructed. Partial.
+        uint32_t read(void* buffer, int32_t size);
+
+        io::IReadFile* m_file = nullptr;              // +0x04
+        ITextureDataSource* m_source = nullptr;       // +0x08
+        STextureLoadInfo* m_desc = nullptr;           // +0x0c
+        const STextureDataInfo* m_info = nullptr;     // +0x10
+        int32_t m_unknown14 = 0;                      // +0x14, zeroed by the constructors
+        int32_t m_unknown18 = 0;                      // +0x18, zeroed by the constructors
+        int32_t m_sourceStep = 0;                     // +0x1c, multiplier used by getSourceStep
+        bool m_flag20 = false;                        // +0x20, set when a read fails
+        bool m_flag21 = true;                         // +0x21, set by the constructors
+        bool m_pitchKnown = false;                    // +0x22, set by getFilePitch
+    };
+
     uint32_t m_refCount = 1;  // +0x04, set to 1 by the loader constructors
 };
+
+// Minimal descriptor shapes used by ITextureDataLoading. Offsets are the
+// original's; the field names follow how the reconstructed code reads them.
+struct STextureLoadInfo {
+    uint32_t unknown00 = 0;               // +0x00
+    E_PIXEL_FORMAT format = 0;            // +0x04
+    uint32_t layoutType = 0;              // +0x08, a value of 1 selects the cube-face size path
+    uint32_t unknown0c = 0;               // +0x0c
+    uint32_t width = 0;                   // +0x10
+    uint32_t height = 0;                  // +0x14
+    uint32_t depth = 0;                   // +0x18
+};
+
+// Header block reached through the first word of STextureDataInfo.
+struct STextureHeaderBlock {
+    uint8_t unknown00[0x24] = {};         // +0x00..+0x23
+    uint32_t width = 0;                   // +0x24
+    uint32_t height = 0;                  // +0x28
+};
+
+struct STextureDataInfo {
+    const STextureHeaderBlock* header = nullptr;  // +0x00
+    uint8_t unknown04[9] = {};            // +0x04..+0x0c
+    bool swapBytes = false;               // +0x0d, read uses it to choose the swap path
+};
+
+// DDS_HEADER as read after the "DDS " magic (0x7c bytes, first word is the size).
+struct SDDSSurfaceFormatHeader {
+    uint32_t size = 0;                    // +0x00 (0x7c)
+    uint32_t flags = 0;                   // +0x04
+    uint32_t height = 0;                  // +0x08
+    uint32_t width = 0;                   // +0x0c
+    uint32_t pitchOrLinearSize = 0;       // +0x10
+    uint32_t depth = 0;                   // +0x14
+    uint32_t mipMapCount = 0;             // +0x18
+    uint32_t reserved1[11] = {};          // +0x1c..+0x47
+    uint32_t pixelFormatSize = 0;         // +0x48, DDS_PIXELFORMAT.dwSize (0x20)
+    uint32_t pixelFormat[7] = {};         // +0x4c..+0x67, the rest of DDS_PIXELFORMAT
+    uint32_t caps[4] = {};                // +0x68..+0x77
+    uint32_t reserved2 = 0;               // +0x78, header ends at 0x7c
+};
+
+// 0x6041cc (anonymous namespace in the original): reads the DDS header at file
+// offset 4 and returns true when the size word matches the bytes read and the
+// pixel-format size is 32.
+bool readDDSHeader(io::IReadFile* file, SDDSSurfaceFormatHeader& header);
 
 class CImageLoaderATC : public IImageLoader {
 public:
@@ -96,6 +185,7 @@ private:
 };
 
 // Factories: new object, default constructed, returned to the caller.
+CImageLoaderATC* createImageLoaderATC();  // 0x602dc4
 CImageLoaderDDS* createImageLoaderDDS();  // 0x604344
 CImageLoaderJPG* createImageLoaderJPG();  // 0x604bc0
 CImageLoaderPVR* createImageLoaderPVR();  // 0x6057c0

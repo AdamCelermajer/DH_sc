@@ -1,5 +1,7 @@
 #include "glitch-video/texture.hpp"
 
+#include <cstring>
+
 namespace glitch::video {
 
 // 0x5e80e8 _ZNK6glitch5video8ITexture14getSizeInBytesEv
@@ -71,6 +73,67 @@ void ITexture::setWrapClamp() {
         m_flags38 = (v & 0xff1fffffu) | 0x400000u;
         m_dirtyFlags40 = static_cast<uint16_t>(m_dirtyFlags40 | 0x20);
     }
+}
+
+}  // namespace glitch::video
+
+namespace glitch::video {
+
+// 0x5fdc0c _ZNK6glitch5video8ITexture5unmapEv
+// Partial: the unlock callback (vtable +0x18, taken when bit 0x20 of +0x3f is set) is not
+// modelled, so that branch only clears the state.
+void ITexture::unmap() const {
+    uint8_t count = m_lockCount42;
+    if ((count & 0x1f) > 1) {
+        m_lockCount42 = static_cast<uint8_t>(((count & 0x1f) - 1) | (count & 0xe0));
+        return;
+    }
+    m_lockCount42 = 0;
+    m_flags3f = static_cast<uint8_t>(m_flags3f & 0xbf);
+    m_lockFlags43 = 0;
+}
+
+// 0x5fdae8 _ZNK6glitch5video8ITexture12setDataDirtyEb
+// The bitmap is the word array that follows the per-mip sizes: index mip + 1 onwards.
+void ITexture::setDataDirty(bool flag) const {
+    const uint32_t mipCount = m_mipCount3e;
+    const uint32_t faces = (m_flags38 & 3) == 2 ? 6u : 1u;
+    uint32_t* bitmap = reinterpret_cast<uint32_t*>(m_levelSizes) + mipCount + 1;
+    if ((m_flags3f & 2) == 0) {
+        if (m_data != nullptr || flag) {
+            uint32_t words = (mipCount * faces + 0x1fu) >> 5;
+            m_dirtyFlags40 = static_cast<uint16_t>(m_dirtyFlags40 | 1);
+            for (uint32_t i = 0; i < words; ++i) {
+                bitmap[i] = 0xffffffffu;
+            }
+        }
+        return;
+    }
+    if (m_data != nullptr || flag) {
+        m_dirtyFlags40 = static_cast<uint16_t>(m_dirtyFlags40 | 1);
+        uint32_t position = 0;
+        for (uint32_t face = 0; face < faces; ++face) {
+            bitmap[position >> 5] |= 1u << (position & 0x1fu);
+            position += mipCount;
+        }
+    }
+}
+
+// 0x5ff26c _ZN6glitch5video8ITexture4copyEv
+// Partial, see texture.hpp. Sizes follow getSizeInBytes: one face plus five 128-byte-aligned faces for cubes.
+uint32_t ITexture::copy() {
+    const bool ownsData = (m_flags3f & 1) == 0;
+    if (!ownsData && m_data != nullptr) {
+        return 0;
+    }
+    const uint8_t* source = m_data;
+    const uint32_t total = getSizeInBytes();
+    uint8_t* dest = new uint8_t[total];
+    m_data = dest;
+    if (source != nullptr) {
+        std::memcpy(dest, source, total);
+    }
+    return 1;
 }
 
 }  // namespace glitch::video

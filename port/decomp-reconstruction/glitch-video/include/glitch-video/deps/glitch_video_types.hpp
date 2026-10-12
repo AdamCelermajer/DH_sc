@@ -21,6 +21,9 @@ using E_TRANSFORMATION_STATE = int32_t;
 using E_TEXTURE_CUBE_MAP_FACE = int32_t;
 using E_PIXEL_FORMAT = int32_t;
 using E_DRIVER_TYPE = int32_t;
+using E_BUFFER_TYPE = int32_t;
+using E_BUFFER_USAGE = int32_t;
+using E_PRIMITIVE_TYPE = int32_t;
 
 class ITexture;
 class IImage;
