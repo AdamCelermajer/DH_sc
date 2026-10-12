@@ -1247,6 +1247,8 @@ struct RuntimeLevelAssets {
  std::string descriptor="crypt01.dwld",bres="crypt.bdae",spawns="crypt01.spwn",objects="crypt01.dact";
  std::string camera_file="CameraTests.bdae",camera_name,camera_animset="Default";
  float camera_near_clip=0.0f,camera_far_clip=0.0f;
+ // LevelConfig planes; Script_SetCameraClip's -2 restores these.
+ float camera_near_clip_default=0.0f,camera_far_clip_default=0.0f;
  bool source_combat_music_enabled=true;
  // Source LevelConfig projection + authored idle rig and bounded per-frame
  // CameraLevel/CameraTarget follow/zoom composition; animation/input providers
@@ -20716,6 +20718,8 @@ bool load_source_level_camera_clip_planes(AAssetManager* assets,
   }
   level.camera_near_clip=planes.near_clip;
   level.camera_far_clip=planes.far_clip;
+  level.camera_near_clip_default=planes.near_clip;
+  level.camera_far_clip_default=planes.far_clip;
   level.source_combat_music_enabled=combat_music_enabled;
   level.camera_file=std::move(camera_route.camera_file);
   level.camera_name=std::move(camera_route.camera_name);
@@ -23435,6 +23439,22 @@ bool native_level_script_host_supports(void*,const dh2_script_command* command){
  case 79: // FlushMessages()
  case 16: case 17: // EnterSafeZone()/LeaveSafeZone()
   return c.field_count==0;
+ case 13: // PlaySound(I, isMusic B, B, uid I)
+  return c.field_count==4&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32&&
+      c.fields[1].kind==DH2_SCRIPT_VALUE_BOOL&&c.fields[2].kind==DH2_SCRIPT_VALUE_BOOL&&
+      c.fields[3].kind==DH2_SCRIPT_VALUE_I32;
+ case 14: // StopSound(I, isMusic B, uid I)
+  return c.field_count==3&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32&&
+      c.fields[1].kind==DH2_SCRIPT_VALUE_BOOL&&c.fields[2].kind==DH2_SCRIPT_VALUE_I32;
+ case 6: // SetCameraClip(far I, near I)
+  return c.field_count==2&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32&&
+      c.fields[1].kind==DH2_SCRIPT_VALUE_I32;
+ case 20: // PlayEffect(set I, x I, y I, z I, target S, B)
+  return c.field_count==6&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32&&
+      c.fields[1].kind==DH2_SCRIPT_VALUE_I32&&c.fields[2].kind==DH2_SCRIPT_VALUE_I32&&
+      c.fields[3].kind==DH2_SCRIPT_VALUE_I32&&c.fields[4].kind==DH2_SCRIPT_VALUE_STRING&&
+      c.fields[4].value.string.size<dh2_script_runtime::MAX_NAME_BYTES&&
+      c.fields[5].kind==DH2_SCRIPT_VALUE_BOOL;
  case 77: // LockTutorial(I)
   return c.field_count==1&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32;
  case 24: case 25: // LockCharacter/UnlockCharacter(S)
@@ -23560,6 +23580,67 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
    const auto uid=source_level_vxn_music_uid();
    if(uid&&!dh2::player_gameplay_audio::enqueue_source_vxn_music_state(uid,"ambient"))return -1;
    return 1;
+  }
+  case 13: {
+   // Script_PlaySound::Execute 0x45fefc: music -> PlayMusic(uid, loop, ...),
+   // otherwise VoxSoundManager::Play(uid, loop, ...). Sounds without a
+   // packaged PCM resource stay silent rather than failing the script.
+   const auto uid=c.fields[3].value.i32;
+   if(uid<0||uid>0xffff)return 1;
+   const bool music=c.fields[1].value.boolean!=0,loop=c.fields[2].value.boolean!=0;
+   if(music){
+    if(dh2::player_gameplay_audio::source_music_resource(std::uint16_t(uid)))
+     dh2::player_gameplay_audio::enqueue_source_music_state(std::uint16_t(uid),"ambient");
+    return 1;
+   }
+   if(const auto* entry=dh2::player_gameplay_audio::find_uid(std::uint16_t(uid)))
+    dh2::player_gameplay_audio::enqueue_play(entry->label,std::strlen(entry->label),0,loop,0);
+   return 1;
+  }
+  case 14: {
+   // Script_StopSound::Execute 0x45fe2c: music -> StopMusic(fade) (no music
+   // stop in the gameplay queue yet), otherwise Stop(uid, fade).
+   if(c.fields[1].value.boolean)return 1;
+   const auto uid=c.fields[2].value.i32;
+   if(uid<0||uid>0xffff)return 1;
+   if(const auto* entry=dh2::player_gameplay_audio::find_uid(std::uint16_t(uid)))
+    dh2::player_gameplay_audio::enqueue_stop(entry->label,std::strlen(entry->label),0,
+        float(c.fields[0].value.i32));
+   return 1;
+  }
+  case 6: {
+   // Script_SetCameraClip::Execute 0x45c670: camera setNearValue(+12) and
+   // setFarValue(+8); -2 selects the LevelConfig plane.
+   const auto near_value=c.fields[1].value.i32,far_value=c.fields[0].value.i32;
+   const float next_near=near_value==-2?active_level_assets.camera_near_clip_default:float(near_value);
+   const float next_far=far_value==-2?active_level_assets.camera_far_clip_default:float(far_value);
+   if(!(next_near>0.0f)||!(next_far>next_near))return 1;
+   active_level_assets.camera_near_clip=next_near;
+   active_level_assets.camera_far_clip=next_far;
+   return 1;
+  }
+  case 20: {
+   // Script_PlayEffect::Execute 0x1143c7 -> VisualFXManager::PlayAnimFXSet
+   // (0x495d14) with the FX set, Pos3D and optional named target object.
+   // A named target supplies the position; the object attachment itself is
+   // not reconstructed.
+   if(!native_fx_owner)return 1;
+   std::array<float,3> position{float(c.fields[1].value.i32),float(c.fields[2].value.i32),
+                                float(c.fields[3].value.i32)};
+   const auto name=native_script_string(c,4);
+   if(!name.empty()){
+    dh2_script_runtime::ObjectRecord record{};
+    const int status=native_level_script_object_lookup(nullptr,name.c_str(),&record);
+    if(status==0)return 0;
+    if(status!=1||!record.identity)return -1;
+    float target[3]{};
+    if(!native_level_script_position_for_target(record.identity,target))return -1;
+    position={target[0],target[1],target[2]};
+   }
+   bool matched=false,launched=false;std::string error;
+   const auto status=native_fx_owner->PlayAnimFXSet(c.fields[0].value.i32,position,nullptr,
+       matched,launched,error);
+   return status==dh2::native_visual_fx_manager_v1::Status::ok?1:-1;
   }
   case 77: {
    // Script_LockTutorial::Execute 0x45925c.
@@ -38735,6 +38816,8 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
     }
     active_level_assets.camera_near_clip=level_assets.camera_near_clip;
     active_level_assets.camera_far_clip=level_assets.camera_far_clip;
+    active_level_assets.camera_near_clip_default=level_assets.camera_near_clip_default;
+    active_level_assets.camera_far_clip_default=level_assets.camera_far_clip_default;
     active_level_assets.source_player_camera_enabled=
         level_assets.source_player_camera_enabled;
     if(!restore){

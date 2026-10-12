@@ -152,6 +152,11 @@ inline const CatalogEntry* find_label(const char* label,std::size_t length){
     for(const auto& entry:catalog)if(requested==entry.label)return &entry;
     return nullptr;
 }
+// sounds.xml UID (the VoxSoundManager::Play argument used by level scripts).
+inline const CatalogEntry* find_uid(std::uint16_t uid){
+    for(const auto& entry:catalog)if(entry.uid==uid)return &entry;
+    return nullptr;
+}
 inline const CatalogEntry* find_source_sound_id(std::uint16_t id){
     for(const auto& entry:catalog)if(entry.source_sound_id==id)return &entry;
     return nullptr;
