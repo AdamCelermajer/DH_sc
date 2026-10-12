@@ -16,7 +16,8 @@ constexpr std::int32_t kKeepAliveIntervalMs = 90000;
 
 // The original checks only that the array is allocated and the index is not negative.
 // The port also stops at the end of the vector, which the original does not check.
-bool ElementPresent(const std::vector<std::int32_t>& list, std::int32_t index) {
+template <typename T>
+bool ElementPresent(const std::vector<T>& list, std::int32_t index) {
     return index >= 0 && static_cast<std::size_t>(index) < list.size();
 }
 }  // namespace
@@ -44,8 +45,6 @@ const char* GLXPlayerLogin::getProductName(std::int32_t index) const {
     }
     return nullptr;
 }
-
-// 0x833cbc is in glx_player_login_requests.cpp.
 
 // 0x834bd4 _ZN14GLXPlayerLoginC1Ev, 0x834c80 _ZN14GLXPlayerLoginC2Ev
 GLXPlayerLogin::GLXPlayerLogin() {
