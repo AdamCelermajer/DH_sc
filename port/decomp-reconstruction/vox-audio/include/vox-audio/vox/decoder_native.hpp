@@ -71,8 +71,9 @@ void* DecoderNativeFactory(void* params);
 // decoder. Its methods are partial where they call the sub-decoder (see the .cpp).
 class DecoderNativeCursor final : public DecoderCursorInterface {
 public:
-    // C1 0x8742f4, C2 0x874678 (partial). Parses the file on the first cursor, then
-    // would create the sub-decoders (not ported).
+    // C1 0x8742f4, C2 0x874678 (partial). Parses the file on the first cursor, copies the
+    // playlist manager, creates the PCM or IMA ADPCM sub-decoder with two states, and takes
+    // the track parameters. The header words come from ParseFile, which is not complete.
     DecoderNativeCursor(DecoderInterface* decoder, StreamCursorInterface* stream);
     // D1 0x872314, D2 0x872440 (partial: the playlist manager's array is not freed).
     ~DecoderNativeCursor() override;

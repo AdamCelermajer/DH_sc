@@ -712,3 +712,56 @@ Ledger part: `ledger.parts/w10-debuginfo.csv` (4 rows: 2 reconstructed, 2 partia
   the cursor's first params word (TrackParams::channels at cursor +0x04) is not reachable from the base
   cursor class. The VoxEngineInternal path has no test because the engine vtable links undefined methods.
 - PriorityBankManager::GetDebugInfo stays partial (the unlock result is not returned).
+
+## Wave 10: containers (w10-containers)
+
+Ledger part: `ledger.parts/w10-containers.csv` (11 rows: 9 reconstructed, 2 partial; the
+cursor rows C1 and C2 are partial and the playlist container is partial).
+
+Containers (`include/vox-audio/vox/native_containers.hpp`, new):
+- `NativeChunks` and `AudioSegments` are the same vector of 24-byte `NativeChunk` records
+  (`std::vector<NativeChunk>`). The segment code reads it as the chunk table (`(*chunks_)[i]`).
+- `States` is `std::vector<std::int32_t>` (the state ids).
+- `TransitionRules` is `std::vector<TransitionRule>` (36-byte records; TransitionRule moved
+  here from native_sub_decoder.hpp).
+- `TransitionParams` is a 36-byte record of nine words (fields not named).
+- The decoder holds `states_`, `segments_` and `rules_` as these vectors. The count words
+  (+0x30, +0x48, +0x50) are the vector sizes now, and the Create*Container functions assign the
+  vectors. The extra_bytes argument is not kept (the original's trailing bytes).
+
+Layouts:
+- `NativeHeaderWords` (the VoxN header words the sub-decoder constructors read, decoder
+  offsets): base_offset +0x18, format_word +0x24 (low half the format tag, high half the
+  channels), field_0c +0x28, sample_word +0x2c (low half the bytes per sample, high half the
+  bits). Stored as `DecoderNative::header_words_`. ParseFile does not fill it yet.
+- The sub-decoder constructor argument order follows the mangled name and the cursor call:
+  stream, header words, States*, AudioSegments*, the loop lists, TransitionRules*, the
+  transition parameter lists, the state-name map and the playlist manager. The header block
+  is not the NativeChunks vector; the mangled name used the wrong type for that argument.
+- Base constructor slots: +0x04 stream, +0x18 chunks (segments), +0x1c rules, +0x20 states,
+  +0x24 transitions, +0x28 names, +0x2c loop lists, +0x30 playlists.
+- The three segment records are written as in the pseudocode: play mode 3, 2 and 1 for
+  A (+0x98), B (+0xdc) and C (+0x120); state 2, one loop entry with one left, decoding slot -1.
+  has_data_ is set (byte +0x16c).
+
+Decisions and differences:
+- Format tags: the pseudocode selects PCM on tag 1 and IMA ADPCM on tag 17, and no sub-decoder
+  for any other tag. The old comment said "anything else PCM"; the cursor now follows the
+  pseudocode.
+- Cursor C1 and C2: sub-decoder creation, the playlist copy, the states and the track parameters
+  are ported. The cursor is partial only because header_words_ comes from ParseFile.
+- NativeSubDecoderState C1 and C2 (0x8860dc, 0x88621c): the scalar defaults match SetStopped,
+  so these rows are reconstructed. A null manager gets a default manager.
+- The IMA constructor's extra allocations (decode buffers, pending block) are reproduced with
+  VoxAlloc. Failures zero the track words, as the LABEL_12 path does.
+- CreatePlaylistsContainer (0x872ac8) stays partial: the binary returns the pointer that
+  NativePlaylistsManager::Init allocates (void* in the binary, void in the port).
+
+Open:
+- ParseFile must fill `DecoderNative::header_words_` (from the fmt chunk and the header block) for
+  the cursor and the sub-decoder constructors to get real values. Until then the constructors
+  run on zero words and the track parameters come out zero.
+
+Tests: `tests/native_subdecoder_ctor_containers_test.cpp` (PCM and IMA constructors: header
+words, the segment records, the IMA buffers and frames per block, and the nine-channel limit).
+Host build passes all tests. No MinGW or Wine run in this slice.
