@@ -69,6 +69,22 @@ std::int32_t ShopUi::selected_price() const {
     if (id.empty()) return 0;
     return mode_ == Mode::buy ? shop_.buy_price(id, items_) : shop_.sell_price(id, player_, items_);
 }
+bool ShopUi::list_contains(float x,float y) const {
+    if(error_visible()||confirmation_visible())return false;
+    const auto& art=inventory::original_inventory_details();
+    return std::any_of(art.rows.begin(),art.rows.end(),[&](const auto& row){return inventory::details_row_hit(row,x,y);});
+}
+bool ShopUi::step_rows(int delta,std::string& error) {
+    error.clear();if(error_visible()||confirmation_visible()||delta==0)return true;
+    std::vector<equipment_menu::OwnedSelection> rows;
+    if(!pane().selection->view_for_selected_slot(rows,error))return false;
+    if(rows.empty())return true;
+    const auto current=std::min(pane().details->selected_index(),rows.size()-1);std::size_t target=current;
+    if(delta<0){const auto amount=static_cast<std::uint64_t>(-static_cast<std::int64_t>(delta));target=amount>current?0:current-static_cast<std::size_t>(amount);}
+    else{const auto amount=static_cast<std::uint64_t>(delta);const auto remaining=rows.size()-1-current;target=amount>remaining?rows.size()-1:current+static_cast<std::size_t>(amount);}
+    if(target!=current&&!pane().selection->select_instance(rows[target].instance_id,error))return false;
+    error.clear();return true;
+}
 bool ShopUi::action_available(std::string& error) const {
     const auto id = selected_instance(error);
     if (id.empty()) return false;
@@ -102,8 +118,8 @@ ShopUi::Command ShopUi::release(float x, float y, std::string& error) {
         return command;
     }
     if (inside(art.hits[4], x, y)) { command.kind = Command::Kind::close; return command; }
-    if (inside(art.hits[0], x, y)) { if (mode_ != Mode::buy) set_mode(Mode::buy, error); return command; }
-    if (inside(art.hits[1], x, y)) { if (mode_ != Mode::sell) set_mode(Mode::sell, error); return command; }
+    if (inside(art.hits[0], x, y)) { command.kind=Command::Kind::select_mode; command.mode=Mode::buy; return command; }
+    if (inside(art.hits[1], x, y)) { command.kind=Command::Kind::select_mode; command.mode=Mode::sell; return command; }
     if (inside(art.hits[2], x, y)) {
         if(!action_available(error))return command;
         const auto id = selected_instance(error);

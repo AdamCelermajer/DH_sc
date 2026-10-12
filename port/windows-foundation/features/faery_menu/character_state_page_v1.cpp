@@ -253,7 +253,9 @@ bool select_character_state_faery_v1(CharacterStateFaeryBindingsV1& bindings,
         }
     }
     if (bindings.activate_slot) {
-        if (!bindings.activate_slot(menu_slot, error)) {
+        const bool activated=bindings.activate_slot(menu_slot, error);
+        if(bindings.selection_post_callback)bindings.selection_post_callback();
+        if (!activated) {
             if (error.empty()) error = "Same-owner source SetActiveFaery action failed";
             return false;
         }
@@ -268,6 +270,7 @@ bool select_character_state_faery_v1(CharacterStateFaeryBindingsV1& bindings,
         error = "Transactional source Faery selection did not commit";
         return false;
     }
+    if(bindings.selection_post_callback)bindings.selection_post_callback();
     error.clear();
     return true;
 }

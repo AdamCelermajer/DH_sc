@@ -35,11 +35,40 @@ bool SourceInstanceDescriptorProvider::present(const InventoryItem& owned,Source
     if(!lease.owner||!lease.item||!lease.owns||!lease.owns(lease.item)||!lease.text_owner||!lease.descriptors_current){error="Required same-owner current ItemInstance and ItemTextOwner lease unavailable";return false;}
     std::int16_t quantity;std::memcpy(&quantity,&lease.item->quantity,2); // Original LDRSH GetQty.
     const auto id=dh2::data::item_id(table_,owned.definition_id);if(id<0||lease.item->id!=id||quantity<0||std::uint32_t(quantity)!=owned.quantity){error="Canonical source item identity/quantity differs from selected owned item";return false;}
+    // Nullopt is the legacy/known-bare representation. A native power list
+    // without its persisted metadata is stale projection, never a bare ring.
+    if(!owned.source&&!lease.item->powers.empty()){
+        error="Canonical source item has powers but persistent generated-item metadata is absent";return false;
+    }
+    if(owned.source){
+        if(!lease.power_definitions||lease.item->value!=owned.source->value||
+           lease.item->identified!=owned.source->identified){
+            error="Canonical source item value/identified metadata differs from persistent inventory or current power table unavailable";return false;
+        }
+        const auto& names=lease.power_definitions.names();
+        std::vector<std::string> actual_names;actual_names.reserve(lease.item->powers.size());
+        const auto* owned_powers=lease.powers?lease.powers->powers(*lease.item):nullptr;
+        if(!lease.item->powers.empty()&&(!owned_powers||owned_powers->size()!=lease.item->powers.size())){
+            error="Canonical ordered powers have no same-owner ItemPresentation lease";return false;
+        }
+        for(std::size_t i=0;i<lease.item->powers.size();++i){
+            const auto power_id=lease.item->powers[i];
+            if(power_id<0||static_cast<std::size_t>(power_id)>=names.size()||
+               names[static_cast<std::size_t>(power_id)].empty()||
+               (owned_powers&&(*owned_powers)[i].id!=power_id)){
+                error="Canonical ordered ItemPower ID is stale or detached from current table";return false;
+            }
+            actual_names.push_back(names[static_cast<std::size_t>(power_id)]);
+        }
+        if(actual_names!=owned.source->power_names){
+            error="Canonical source item ordered power names differ from persistent inventory";return false;
+        }
+    }
     SourceOwnedDescriptors next;next.base={lease.item->name,lease.item->description,lease.item->requirements};next.quantity=quantity;next.value=lease.item->value;next.identified=lease.item->identified!=0;
     if(!lease.item->powers.empty()){
         if(!lease.powers){error="Canonical powered ItemPresentationOwnerV5 unavailable";return false;}const auto* powers=lease.powers->powers(*lease.item);
         if(!powers||powers->size()!=lease.item->powers.size()){error="Canonical source power descriptors detached from actual instance";return false;}
-        for(std::size_t i=0;i<powers->size();++i){if((*powers)[i].id!=lease.item->powers[i]){error="Canonical source power identity mismatch";return false;}next.powers.push_back((*powers)[i].description);}
+        for(std::size_t i=0;i<powers->size();++i){const auto id=lease.item->powers[i];if((*powers)[i].id!=id||id<0||!lease.power_definitions||static_cast<std::size_t>(id)>=lease.power_definitions.names().size()||lease.power_definitions.names()[static_cast<std::size_t>(id)].empty()){error="Canonical source power identity/name mismatch";return false;}next.powers.push_back((*powers)[i].description);}
     }
     output=std::move(next);error.clear();return true;
 }

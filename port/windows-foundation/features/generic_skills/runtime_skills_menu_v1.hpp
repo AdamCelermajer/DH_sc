@@ -22,6 +22,7 @@ using RuntimeSkillsActiveSetV1 = std::function<bool(
 using RuntimeSkillsTrainAvailableV1 = std::function<bool(
     const CharacterState&, int skill_list_id, int class_skill_position,
     int skill_table_id, bool& available, std::string& error)>;
+using RuntimeSkillsAfterTrainReleaseV1 = std::function<void()>;
 using RuntimeSkillsSymbolTextV1 = character_menu::SkillPageSymbolTextV1;
 class RuntimeSkillsMenuV1 : public std::enable_shared_from_this<RuntimeSkillsMenuV1> {
     std::shared_ptr<CharacterState> state_;
@@ -37,6 +38,7 @@ class RuntimeSkillsMenuV1 : public std::enable_shared_from_this<RuntimeSkillsMen
     RuntimeSkillsActiveSetV1 active_set_;
     RuntimeSkillsSymbolTextV1 symbol_text_;
     RuntimeSkillsTrainAvailableV1 train_available_;
+    RuntimeSkillsAfterTrainReleaseV1 after_train_release_;
 
     bool ready(std::string&) const;
     bool append(character_menu::Frame&, std::string&);
@@ -51,7 +53,8 @@ public:
                         RuntimeSkillsActiveSetV1 = {},
                         RuntimeSkillsReleaseV1 = {},
                         RuntimeSkillsSymbolTextV1 = {},
-                        RuntimeSkillsTrainAvailableV1 = {});
+                        RuntimeSkillsTrainAvailableV1 = {},
+                        RuntimeSkillsAfterTrainReleaseV1 = {});
 
     const std::shared_ptr<CharacterState>& shared_state() const noexcept { return state_; }
     PageV1& page() noexcept { return page_; }

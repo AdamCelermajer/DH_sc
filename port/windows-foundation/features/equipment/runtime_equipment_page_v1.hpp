@@ -16,6 +16,7 @@ struct RuntimeEquipmentPageBindingsV1 {
     inventory::MenuBindings inventory_text;
     inventory::DetailBindings details_text;
     RuntimeEquipmentSourceInstanceCheckV1 source_instance_current;
+    NativeEquipmentActions::ActionCue action_cue;
 };
 
 struct RuntimeEquipmentPageReleaseV1 {

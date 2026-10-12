@@ -24,6 +24,10 @@ class ItemPresentationOwnerV5 {
  ItemPowerTablesV5::Borrow tables_;std::map<ItemInstanceV1*,std::vector<ItemPowerInstanceV5>> powers_;bool running_{};
 public:
  explicit ItemPresentationOwnerV5(ItemPowerTablesV5::Borrow b):tables_(std::move(b)){}
+ ItemPowerTablesV5::Borrow definitions()const noexcept{return tables_;}
+ // Saved canonical order is authenticated separately from AddPower's source
+ // positional sorting words; preserve identities/descriptions together.
+ bool restore_saved_power_order(ItemInstanceV1&,const std::vector<std::int32_t>&,std::string&);
  bool add_power(ItemInstanceV1&,std::int32_t id,std::int32_t mode,const ItemTextServicesV5&,std::string&);
  const std::vector<ItemPowerInstanceV5>* powers(const ItemInstanceV1&)const noexcept;
  bool forget(ItemInstanceV1&,std::string&) noexcept;

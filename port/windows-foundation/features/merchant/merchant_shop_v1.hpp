@@ -5,6 +5,8 @@
 #include "../../character_state.hpp"
 #include "../../../game-data/items.hpp"
 #include "../../../game-data/loot_item_selection_v8.hpp"
+#include "../../../game-data/loot_creation_v8.hpp"
+#include "../../../game-data/item_power_tables_v5.hpp"
 #include "../../../game-data/loot_power_resources_v7.hpp"
 #include "../../../game-data/loot_table_selection_v8.hpp"
 #include <cstdint>
@@ -36,6 +38,15 @@ bool roll_stock(const MerchantRow& row, const dh2::data::LootTablesV2::Borrow& t
                 const dh2::data::LootPowerResourcesV7::Borrow& powers, const dh2::data::LootEntryServicesV8& entry,
                 const WithLootRandom& with_rng, std::vector<std::pair<std::int32_t, std::uint32_t>>& item_quantities,
                 std::string& error);
+using ReleaseGeneratedItemPresentation = bool(*)(void*,dh2::data::ItemInstanceV1&,std::string&);
+// Full source AddLoot path. Caller supplies the exact source query, power/text
+// providers, same-session RNG loan and the presentation-owner release hook.
+bool roll_stock_instances(const MerchantRow&,const dh2::data::LootTablesV2::Borrow&,
+                const dh2::data::LootPowerResourcesV7::Borrow&,
+                const dh2::data::ItemPowerTablesV5::Borrow&,
+                const dh2::data::LootCreationServicesV8&,
+                ReleaseGeneratedItemPresentation,void*,bool give_all,
+                const WithLootRandom&,std::vector<InventoryItem>&,std::string&);
 
 // NativeMerchantBuyItem return codes (the Flash menu shows MerchantErrorPopup for 1..3).
 enum class TradeResult { ok = 0, insufficient_gold = 1, inventory_full = 2, potion_full = 3, not_found = 4, equipped = 5 };
@@ -54,8 +65,15 @@ public:
     explicit Shop(MerchantRow row) : row_(std::move(row)) {}
     const MerchantRow& row() const noexcept { return row_; }
     bool stocked() const noexcept { return stocked_; }
+    // Explicit source-aware legacy classification; absent schema payload is
+    // unknown until this authenticates a bare current instance.
+    void bind_verified_bare(std::function<bool(const InventoryItem&)> predicate){verified_bare_=std::move(predicate);}
     // Source gate: stock is added only while the merchant inventory is empty (GetNumItems == 0).
     void add_stock(const dh2::data::ItemTable& items, const std::vector<std::pair<std::int32_t, std::uint32_t>>& item_quantities);
+    // Full generated instance path. The generator supplies stable merchant
+    // occurrence IDs and ItemInstance metadata; this method never projects it
+    // back to a template/quantity pair.
+    void add_generated_stock(const dh2::data::ItemTable&, const std::vector<InventoryItem>&);
     CharacterState& inventory() noexcept { return stock_; }
     const CharacterState& inventory() const noexcept { return stock_; }
     bool is_buyback(const std::string& stock_instance) const;
@@ -73,6 +91,7 @@ private:
     std::vector<std::string> buyback_;   // stock instance ids that came from the player (flag +105)
     std::uint32_t counter_{0};
     bool stocked_{false};
+    std::function<bool(const InventoryItem&)> verified_bare_;
 };
 
 }

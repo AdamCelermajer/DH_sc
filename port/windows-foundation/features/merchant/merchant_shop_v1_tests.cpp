@@ -20,6 +20,34 @@ static dh2::data::ItemTable table() {
     return t;
 }
 
+static dh2::data::ItemTable navigation_table() {
+    dh2::data::ItemTable t;
+    for (unsigned i = 0; i < 8; ++i) {
+        t.identifiers.push_back("Row" + std::to_string(i));
+        t.rows.emplace_back();
+        auto& record = t.rows.back().record;
+        record.words[17] = 17;
+        record.words[22] = 4;
+        record.words[26] = 1; // all eight rows belong to the same weapon category
+        record.words[27] = 1;
+        record.words[28] = i + 1;
+    }
+    return t;
+}
+
+static std::pair<float,float> first_row_center() {
+    const auto& rows = inventory::original_inventory_details().rows;
+    float x0=0,y0=0,x1=0,y1=0;bool any=false;
+    const auto include=[&](const character_menu::MenuArt& art) {
+        for(const auto& batch:art.batches)for(const auto& v:batch.triangles) {
+            if(!any){x0=x1=v.x;y0=y1=v.y;any=true;}
+            else {x0=std::min(x0,v.x);x1=std::max(x1,v.x);y0=std::min(y0,v.y);y1=std::max(y1,v.y);}
+        }
+    };
+    if(!rows.empty()){include(rows.front().unselected);include(rows.front().selected);}
+    return any?std::make_pair((x0+x1)*.5f,(y0+y1)*.5f):std::make_pair(-1.0f,-1.0f);
+}
+
 int main(int argc,char** argv) {
     // Isolated EXE verification fixture/inspector, never touches default or user save paths.
     if(argc>1) {
@@ -45,6 +73,17 @@ int main(int argc,char** argv) {
     CHECK(trade_price(50, 40) == 20);
     CHECK(trade_price(1, 40) == 1);          // never below 1
     CHECK(trade_price(3, 100) == 3);
+    {
+        Shop generated({40,120,{}});
+        const std::vector<InventoryItem> occurrences{{"roll-a","Potion0",1},{"roll-b","Potion0",1}};
+        generated.add_generated_stock(items,occurrences);
+        CHECK(generated.inventory().inventory.size()==2&&generated.inventory().inventory[0].quantity==1&&generated.inventory().inventory[1].quantity==1);
+        CharacterState buyer;buyer.gold=100;buyer.inventory.push_back({"existing-potion","Potion0",2});
+        TradeRules generatedRules;std::int32_t generatedPrice=0;
+        const auto first=generated.inventory().inventory.front().instance_id;
+        CHECK(generated.buy(first,buyer,items,generatedRules,generatedPrice)==TradeResult::ok);
+        CHECK(buyer.inventory.size()==1&&buyer.inventory.front().quantity==3&&generated.inventory().inventory.size()==1);
+    }
     Shop shop({40, 120, {}});
     shop.add_stock(items, {{0, 1}, {1, 5}});
     CHECK(shop.stocked() && shop.inventory().inventory.size() == 2);
@@ -119,8 +158,67 @@ int main(int argc,char** argv) {
         CHECK(ui.release(235,208,e).kind==ShopUi::Command::Kind::none&&!ui.error_visible()); // visible source OK centre, independent of exported contour
         character_menu::Frame frame;CHECK(ui.frame(960,640,frame,e));
         CHECK(std::any_of(frame.text.begin(),frame.text.end(),[](const auto& t){return t.field.path.find("/player_gold/")!=std::string::npos&&t.value=="1000";}));
-        CHECK(ui.release(410,15,e).kind==ShopUi::Command::Kind::none&&ui.mode()==ShopUi::Mode::sell);
+        const auto sell_tab=ui.release(410,15,e);
+        CHECK(sell_tab.kind==ShopUi::Command::Kind::select_mode&&ui.mode()==ShopUi::Mode::buy);
+        CHECK(ui.set_mode(sell_tab.mode,e)&&ui.mode()==ShopUi::Mode::sell);
         CHECK(ui.release(20,20,e).kind==ShopUi::Command::Kind::close);
+    }
+    // B124: the PC adapter steps the source-owned row selection. The existing
+    // presenter remains the only scroll/focus state and clamps at list bounds.
+    {
+        auto t=navigation_table();Shop stock({40,120,{}});
+        std::vector<std::pair<std::int32_t,std::uint32_t>> merchandise;
+        for(unsigned i=0;i<8;++i)merchandise.emplace_back(i,1);
+        stock.add_stock(t,merchandise);CharacterState owned;owned.gold=1000;
+        ActorState actor;OriginalCombatProperties props;OriginalPropertyDatabase db;std::string e;
+        inventory::DetailBindings bindings;
+        bindings.symbol=[](const std::string& s,std::string& out,std::string& e){out=s;e.clear();return true;};
+        bindings.item_name=[](const InventoryItem& i,const auto&,std::string& out,std::string& e){out=i.definition_id;e.clear();return true;};
+        equipment_menu::Options options;options.item_name=bindings.item_name;
+        ShopUi ui(owned,stock,t,actor,props,db,options,bindings);CHECK(ui.open(e));
+        inventory::DetailRailBox box;CHECK(inventory::details_rail_box(inventory::original_inventory_details(),1,box));
+        ui.release((box.x0+box.x1)/2,(box.y0+box.y1)/2,e);
+        const auto id=[&](unsigned i){return stock.inventory().inventory[i].instance_id;};
+        CHECK(ui.selected_instance(e)==id(0));
+        const auto [cx,cy]=first_row_center();CHECK(cx>=0&&cy>=0);
+        CHECK(ui.list_contains(cx,cy));CHECK(!ui.list_contains(20,20));
+        CHECK(ui.step_rows(-1,e)&&ui.selected_instance(e)==id(0)); // first-row boundary
+        CHECK(ui.step_rows(1,e)&&ui.selected_instance(e)==id(1));
+        character_menu::Frame frame;CHECK(ui.frame(1774,1091,frame,e));
+        CHECK(std::any_of(frame.text.begin(),frame.text.end(),[](const auto& value){return value.value=="Row1";}));
+        // Rapid, distinct row steps stay tied to the presented instance and
+        // the details frame follows the same selection immediately.
+        for(unsigned i=2;i<=5;++i)CHECK(ui.step_rows(1,e)&&ui.selected_instance(e)==id(i));
+        CHECK(ui.frame(960,640,frame,e));
+        CHECK(std::any_of(frame.text.begin(),frame.text.end(),[](const auto& value){return value.value=="Row5";}));
+        CHECK(ui.step_rows(0,e)&&ui.selected_instance(e)==id(5)); // duplicate/no-op transport event
+        CHECK(ui.step_rows(100,e)&&ui.selected_instance(e)==id(7)); // large/page movement clamps at last row
+        CHECK(ui.step_rows(1,e)&&ui.selected_instance(e)==id(7));
+        CHECK(ui.step_rows(-100,e)&&ui.selected_instance(e)==id(0));
+        CHECK(ui.release(270,305,e).kind==ShopUi::Command::Kind::none&&ui.confirmation_visible());
+        CHECK(!ui.list_contains(cx,cy));CHECK(ui.step_rows(1,e)&&ui.selected_instance(e)==id(0)); // modal owns input
+        ui.cancel_confirmation();ui.show_error(TradeResult::insufficient_gold);
+        CHECK(!ui.list_contains(cx,cy));CHECK(ui.step_rows(1,e)&&ui.selected_instance(e)==id(0));
+        ui.dismiss_error();
+
+        CHECK(inventory::details_rail_box(inventory::original_inventory_details(),9,box));
+        ui.release((box.x0+box.x1)/2,(box.y0+box.y1)/2,e);
+        CHECK(ui.selected_instance(e).empty()); // empty category
+        CHECK(ui.step_rows(1,e)&&ui.selected_instance(e).empty());
+        CHECK(!ui.list_contains(-100,-100));
+        // A category switch reopens the source list at its authored initial
+        // selection, rather than carrying a stale row index across lists.
+        CHECK(inventory::details_rail_box(inventory::original_inventory_details(),1,box));
+        ui.release((box.x0+box.x1)/2,(box.y0+box.y1)/2,e);
+        CHECK(ui.selected_instance(e)==id(0));
+        CHECK(ui.step_rows(3,e)&&ui.selected_instance(e)==id(3));
+        CHECK(ui.release(20,20,e).kind==ShopUi::Command::Kind::close);
+        CHECK(ui.open(e)&&ui.selected_instance(e)==id(0)); // reopen resets to first source row
+
+        Shop one_stock({40,120,{}});one_stock.add_stock(t,{{0,1}});ShopUi one(owned,one_stock,t,actor,props,db,options,bindings);
+        CHECK(one.open(e));CHECK(inventory::details_rail_box(inventory::original_inventory_details(),1,box));
+        one.release((box.x0+box.x1)/2,(box.y0+box.y1)/2,e);const auto only=one.selected_instance(e);
+        CHECK(!only.empty()&&one.step_rows(5,e)&&one.selected_instance(e)==only); // single-row category
     }
     // Authored admission is distinct from native defensive transfer behavior.
     {

@@ -120,6 +120,15 @@ std::vector<unsigned char> encode(const CharacterState& state) {
     w.count(state.inventory.size());
     for (const auto& item : state.inventory) {
         w.string(item.instance_id); w.string(item.definition_id); w.integer(item.quantity, 4);
+        if (state.schema_version >= 5) {
+            w.integer(item.source.has_value() ? 1 : 0, 1);
+            if (item.source) {
+                w.integer(unsigned_bits(item.source->value), 4);
+                w.integer(item.source->identified != 0 ? 1 : 0, 1);
+                w.count(item.source->power_names.size());
+                for (const auto& power : item.source->power_names) w.string(power);
+            }
+        }
     }
     w.count(state.equipment.size());
     for (const auto& item : state.equipment) {
@@ -192,6 +201,16 @@ CharacterState decode(const std::vector<unsigned char>& bytes) {
     for (auto count = r.count(); count > 0; --count) {
         InventoryItem item;
         item.instance_id = r.string(); item.definition_id = r.string(); item.quantity = r.u32();
+        if (serialized_schema >= 5) {
+            if (r.flag()) {
+                SourceItemMetadata source;
+                source.value = signed_bits(r.u32());
+                source.identified = r.flag() ? 1 : 0;
+                for (auto powers = r.count(); powers > 0; --powers)
+                    source.power_names.push_back(r.string());
+                item.source = std::move(source);
+            }
+        }
         state.inventory.push_back(std::move(item));
     }
     for (auto count = r.count(); count > 0; --count) {

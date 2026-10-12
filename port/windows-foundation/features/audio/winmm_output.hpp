@@ -29,6 +29,16 @@ struct WinmmPumpStatsV1 {
  std::uint64_t updates{},refills{},underruns{},max_update_gap_ns{},first_ns{},last_ns{},gaps_over_40ms{};
  int pump_thread_priority{}; // GetThreadPriority of the promoted pump thread (15 = time-critical); 0 = not promoted
 };
+// B122 opt-in final refill diagnostics (DH_AUDIO_PCM_METRICS=1). Atomic cumulative
+// counters retain short cues after their voice ends. Device frames are observed
+// TIME_SAMPLES, while submitted_frames count only successful waveOutWrite calls.
+struct WinmmPcmStatsV1 {
+ bool enabled{},silent_output{};
+ std::uint64_t refills{},write_ok{},write_failed{},submitted_frames{},device_frames{};
+ std::uint64_t mixer_nonzero_samples{},submitted_nonzero_samples{},last_signal_first_frame{};
+ float mixer_peak{}; unsigned submitted_peak{};
+};
+WinmmPcmStatsV1 winmm_pcm_stats_v1() noexcept;
 WinmmPumpStatsV1 winmm_pump_stats_v1() noexcept;
 void winmm_pump_stats_reset_v1() noexcept;
 // B039: the WinMM ring (8 x 512 frames = 85 ms) is refilled by polling from the dedicated audio control

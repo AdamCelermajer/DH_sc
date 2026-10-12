@@ -2,14 +2,17 @@
 
 #include <array>
 #include <cstdint>
+#include <optional>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace dh::foundation {
 
-inline constexpr std::uint32_t character_schema_version = 4;
+inline constexpr std::uint32_t character_schema_version = 5;
 // Schema history: 1 base, 2 source stats/equipment/skills/faery, 3 CQPG quest blob,
-// 4 menu metadata + current/unlocked difficulty + visited-module section.
+// 4 menu metadata + current/unlocked difficulty + visited-module section;
+// 5 source ItemInstance value/identified/power-name payloads.
 inline constexpr std::uint32_t character_difficulty_count = 3;
 inline constexpr std::size_t character_visited_limit = 16384;
 inline constexpr std::size_t character_collection_limit = 4096;
@@ -32,10 +35,26 @@ struct CharacterStats {
     float energy = 0.0f;
 };
 
+struct SourceItemMetadata {
+    // Persistent source truth. Power names mirror PlayerSavegame::__SaveInventory
+    // and remain stable across ItemPower table reloads; display strings are
+    // resolved from current ItemText and ItemPresentation owners.
+    std::int32_t value{};
+    std::uint8_t identified{1};
+    std::vector<std::string> power_names;
+};
+
 struct InventoryItem {
     std::string instance_id;
     std::string definition_id;
     std::uint32_t quantity = 1;
+    // Absent on pre-v5/known-bare items. Generated source items always carry
+    // this payload, including an explicitly empty power list.
+    std::optional<SourceItemMetadata> source;
+    InventoryItem() = default;
+    InventoryItem(std::string instance,std::string definition,std::uint32_t count=1,
+                  std::optional<SourceItemMetadata> metadata={})
+        :instance_id(std::move(instance)),definition_id(std::move(definition)),quantity(count),source(std::move(metadata)){}
 };
 
 struct EquipmentBinding {

@@ -34,6 +34,22 @@ bool item_update_requirements_v5(ItemInstanceV1& i,const ItemTextServicesV5& s,s
  }return true;
 }
 const std::vector<ItemPowerInstanceV5>* ItemPresentationOwnerV5::powers(const ItemInstanceV1& i)const noexcept{auto it=powers_.find(const_cast<ItemInstanceV1*>(&i));return it==powers_.end()?nullptr:&it->second;}
+bool ItemPresentationOwnerV5::restore_saved_power_order(ItemInstanceV1& item,const std::vector<std::int32_t>& ids,std::string& e){
+ if(running_)return fail(e,"Reentrant saved ItemPower reconstruction unsupported");
+ if(ids.empty()&&item.powers.empty()){e.clear();return true;}
+ auto found=powers_.find(&item);
+ if(found==powers_.end()||found->second.size()!=item.powers.size()||ids.size()!=item.powers.size())return fail(e,"Saved power order requires actual synchronized presentation");
+ const auto& current=found->second;std::vector<bool> used(current.size());std::vector<ItemPowerInstanceV5> next;next.reserve(ids.size());
+ for(std::size_t position=0;position<ids.size();++position){
+  if(ids[position]<0||std::size_t(ids[position])>=tables_.rows().size())return fail(e,"Saved power ID absent from same source definitions");
+  std::size_t match=0;for(;match<current.size();++match)if(!used[match]&&current[match].id==ids[position]&&item.powers[match]==ids[position])break;
+  if(match==current.size())return fail(e,"Saved power order changed actual generated identities");used[match]=true;
+  // Source AddPower sorting moves ID/description while retaining positional
+  // sorting words. Reconstruction applies the same pairing invariant.
+  next.push_back({ids[position],current[position].sorting_order,current[match].description});
+ }
+ found->second=std::move(next);item.powers=ids;e.clear();return true;
+}
 bool ItemPresentationOwnerV5::forget(ItemInstanceV1& i,std::string& e)noexcept{if(running_){e="Destructive ItemPower reentry unsupported";return false;}powers_.erase(&i);return true;}
 bool ItemPresentationOwnerV5::add_power(ItemInstanceV1& i,std::int32_t id,std::int32_t mode,const ItemTextServicesV5& s,std::string& e){
  e.clear();if(running_)return fail(e,"Reentrant ItemPower mutation unsupported");if(!tables_||id<0||std::size_t(id)>=tables_.rows().size())return fail(e,"Source invalid ItemPower assertion domain unsupported");auto& state=powers_[&i];if(state.size()!=i.powers.size())return fail(e,"ItemPower owner not synchronized to actual item IDs");for(std::size_t j=0;j<state.size();++j)if(state[j].id!=i.powers[j])return fail(e,"ItemPower item IDs were changed outside owner");

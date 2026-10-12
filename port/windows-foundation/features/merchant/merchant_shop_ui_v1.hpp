@@ -16,9 +16,10 @@ class ShopUi {
 public:
     enum class Mode { buy, sell };
     struct Command {
-        enum class Kind { none, close, buy, sell, equip, unequip, buy_potions } kind{Kind::none};
+        enum class Kind { none, close, buy, sell, equip, unequip, buy_potions, select_mode } kind{Kind::none};
         std::string instance_id;
         unsigned slot{};
+        Mode mode{Mode::buy}; // target for select_mode; caller plays the authored cue before set_mode
     };
     ShopUi(CharacterState& player, Shop& shop, const dh2::data::ItemTable& items, const ActorState& actor,
            const OriginalCombatProperties& properties, const OriginalPropertyDatabase& database,
@@ -27,9 +28,11 @@ public:
     bool open(std::string& error);
     Mode mode() const noexcept { return mode_; }
     bool set_mode(Mode mode, std::string& error);
-    // Authored 480x320 pointer position (already inverse-transformed). Back/tabs/pane navigation act here; a Buy/Sell
-    // button press returns the command for the caller to execute (it owns equipment/world side effects).
+    // Authored 480x320 pointer position (already inverse-transformed). Back/tabs/pane navigation act here; a tab
+    // release returns select_mode without mutating mode so the caller can emit the authored cue first.
     Command release(float authored_x, float authored_y, std::string& error);
+    bool list_contains(float authored_x, float authored_y) const;
+    bool step_rows(int delta, std::string& error);
     // Instance selected in the active list; empty when the category has no rows.
     std::string selected_instance(std::string& error) const;
     // Price shown in the VALUE box for the selected row (0 when none).

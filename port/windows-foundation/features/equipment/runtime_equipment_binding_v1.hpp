@@ -19,6 +19,7 @@ struct RuntimeEquipmentOptionsV1 {
     bool dual_wield = false;
     bool one_hand_two_hander = false;
     EquipmentPowerResolver powers;
+    std::function<bool(const InventoryItem&,std::int32_t&,std::uint32_t&,std::string&)> item_rank;
     equipment_menu::Options menu;
     // `load` validates the caller's retained Debug owner; `query` reaches its
     // real Debug.GetSwitch provider (SourceRootScopes' combined adapter also

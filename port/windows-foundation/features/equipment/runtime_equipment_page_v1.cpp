@@ -68,6 +68,7 @@ bool RuntimeEquipmentPageV1::bind(RuntimeEquipmentBindingV1& runtime,
         next->table = table;
         next->equipment = equipment;
         next->bindings = std::move(bindings);
+        actions.action_cue = next->bindings.action_cue;
         next->inventory = std::make_unique<inventory::MenuPresenter>(character, *table);
         next->details = std::make_unique<inventory::DetailsPresenter>(character, *table, *equipment);
         next->page = std::make_unique<MainPage>(*equipment, *next->inventory, *next->details,

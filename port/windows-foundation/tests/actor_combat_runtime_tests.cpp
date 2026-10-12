@@ -540,6 +540,12 @@ void logical_dead_is_independent_of_vitals() {
     check(apply_actor_damage(a,1)==0&&a.is_dead(),"Duplicate lethal damage changed death");
     ActorState restored=actor(2);restore_actor_dead_state(restored,true);check(restored.is_dead()&&restored.health==0,"Explicit true restore lost flag");
     restore_actor_dead_state(restored,false);check(!restored.is_dead()&&restored.health==0,"Explicit false restore inferred dead from HP");
+    ActorState limbus=actor(3);limbus.health=limbus.max_health=47.5f;limbus.source_dead=true;limbus.source_limbus=true;
+    check(!limbus.alive()&&limbus.is_dead()&&validate_actor_state(limbus,error),"Source Limbus dead bit with saved positive HP was not represented explicitly: "+error);
+    limbus.source_limbus=false;
+    check(!validate_actor_state(limbus,error),"Positive HP was accepted for a source-dead actor without Limbus provenance");
+    limbus.source_limbus=true;revive_actor_state(limbus);
+    check(limbus.alive()&&!limbus.source_dead&&!limbus.source_limbus,"Revive did not clear source Limbus provenance");
 }
 
 int main() {

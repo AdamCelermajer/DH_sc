@@ -270,6 +270,13 @@ public:
         if (!presenter.select(tab, error)) return false;
         if (previous < state_->pages.size() && state_->pages[previous].leave)
             state_->pages[previous].leave();
+        // Authored Inventory tab release pushes its main page. An Equipment
+        // Details page can survive Close -> portrait (Stats); reset that retained
+        // destination only after its readiness and selection have succeeded.
+        const auto destination = index(tab);
+        if (tab == Tab::equipment && destination != previous && destination < state_->pages.size() &&
+            state_->pages[destination].leave)
+            state_->pages[destination].leave();
         return true;
     }
 
@@ -310,7 +317,8 @@ public:
     // Use Presenter::hit_test here, not Presenter::release: the latter changes
     // tabs directly and would bypass the preselection readiness gate.
     Action release(Presenter& presenter, float screen_x, float screen_y,
-                   int width, int height, std::string& error) const {
+                   int width, int height, std::string& error,
+                   const std::function<void()>& before_close = {}) const {
         // Close/Escape can retire the modal before another captured release is
         // drained. A hit-test miss must not dispatch to that hidden page owner.
         if (!presenter.is_open()) { error.clear(); return Action::none; }
@@ -321,7 +329,7 @@ public:
         const auto action = presenter.hit_test(screen_x, screen_y, width, height);
         switch (action) {
         case Action::close:
-            presenter.close(); error.clear(); return action;
+            (void)presenter.close_with_before(before_close); error.clear(); return action;
         case Action::stats:
             if (!select(presenter, Tab::stats, error)) return Action::none;
             return action;

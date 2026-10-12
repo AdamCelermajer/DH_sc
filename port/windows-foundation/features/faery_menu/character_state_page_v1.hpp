@@ -67,6 +67,7 @@ struct CharacterStateFaeryBindingsV1 {
     // CharacterMenuFaeryActions callback. When absent, the page helper only
     // commits the validated single CharacterState current-slot cell (fixture use).
     std::function<bool(std::uint32_t, std::string&)> activate_slot;
+    std::function<void()> selection_post_callback;
 };
 
 bool present_character_state_faery_v1(const CharacterStateFaeryBindingsV1&,

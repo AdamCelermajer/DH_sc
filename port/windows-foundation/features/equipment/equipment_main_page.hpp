@@ -29,9 +29,12 @@ std::string describe_equipment(const CharacterState&);
 // same-owner projection refresh before returning success. No native owner or
 // item identity is retained by MainPage.
 struct NativeEquipmentActions {
+    enum class CueAction { equip, unequip };
+    using ActionCue = std::function<void(CueAction, unsigned source_slot)>;
     std::function<bool(const std::string& instance_id, unsigned source_slot,
                        std::string& error)> equip;
     std::function<bool(unsigned source_slot, std::string& error)> unequip;
+    ActionCue action_cue;
     bool bound() const noexcept { return bool(equip) && bool(unequip); }
     bool partial() const noexcept { return bool(equip) != bool(unequip); }
 };

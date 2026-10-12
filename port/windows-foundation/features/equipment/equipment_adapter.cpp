@@ -135,7 +135,7 @@ bool EquipmentAdapter::change(const std::string* requested,unsigned remove,std::
                 if(!options_.powers(item,powers,error))return false;
                 GearPowerView16V5 view{powers.data(),std::uint32_t(powers.size()),0};
                 if(dh2_gear_power_v5(props.sheets.gear.data(),rules.defaults.data(),&view,slot==2))return fail("Source gear power load failed");
-            }
+            }else if(item.source)return fail("Generated equipped item requires canonical power owner");
         }
         if(!recalc_properties_with_class(database_.classes,rules,props.sheets,error))return false;
         state.flag1320=policy_flag(options_.dual_wield,202);state.flag1324=policy_flag(options_.one_hand_two_hander,203);
@@ -162,10 +162,11 @@ bool EquipmentAdapter::change(const std::string* requested,unsigned remove,std::
                 target==-2?(slot==5||slot==6):(target==-4&&slot==1);
             if(!offered)continue;
             Candidate c{i,0,0,next.inventory[i].definition_id};
-            // Bare-item ItemInstance value: ARM32 wrapping product of the two actual metadata words (same projection as
-            // source_bare_item_descriptors); powered-item values are not persisted by CharacterState.
-            c.score=equipment_sort_score(std::int32_t(std::uint32_t(item.record.words[27])*std::uint32_t(item.record.words[28])),item,player_class);
-            if(options_.powers){std::vector<GearPowerProperty12V5> powers;if(!options_.powers(next.inventory[i],powers,error))return false;c.powers=powers.size();}
+            auto value=std::int32_t(std::uint32_t(item.record.words[27])*std::uint32_t(item.record.words[28]));
+            std::uint32_t power_count{};
+            if(options_.item_rank){if(!options_.item_rank(next.inventory[i],value,power_count,error))return false;}
+            else if(next.inventory[i].source)return fail("Generated auto-equip candidate requires canonical item rank owner");
+            c.score=equipment_sort_score(value,item,player_class);c.powers=power_count;
             if(options_.item_name&&!options_.item_name(next.inventory[i],item,c.name,error))return false;
             list.push_back(std::move(c));
         }

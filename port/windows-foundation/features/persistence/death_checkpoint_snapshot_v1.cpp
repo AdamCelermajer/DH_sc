@@ -321,6 +321,15 @@ bool restore_death_checkpoint_snapshot_v1(
                !same_equipment(candidate.equipment,p.actor.equipment)||candidate.attack_ids!=p.actor.attack_ids||
                candidate.persistent_character_id!=p.actor.persistent_character_id)
                 return (error="Source Character projection changed live actor identity/bindings",false);
+            std::string actorValidation;
+            if(!validate_actor_state(candidate,actorValidation)) {
+                error="Death checkpoint staged actor validation failed actor="+std::to_string(id)+
+                    " definition="+candidate.definition_id+" savedCS="+std::to_string(saved.source_cs_state)+
+                    " savedDead="+(saved.source_dead?"1":"0")+" resultingDead="+(candidate.source_dead?"1":"0")+
+                    " resultingLimbus="+(candidate.source_limbus?"1":"0")+" HP="+std::to_string(candidate.health)+
+                    "/"+std::to_string(candidate.max_health)+": "+actorValidation;
+                return false;
+            }
             p.actor=std::move(candidate);
             stagedActors.push_back(std::move(p));
             ++receipt.actors_restored;

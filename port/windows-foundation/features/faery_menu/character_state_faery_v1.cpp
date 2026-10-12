@@ -120,6 +120,7 @@ bool register_character_state_faery_page_v1(dh::foundation::character_menu::Sour
     bindings.activate_slot = [host, difficulty](std::uint32_t slot, std::string& e) {
         return commit_character_state_faery_selection_v1(host, difficulty, slot, e);
     };
+    bindings.selection_post_callback=std::move(host.selection_post_callback);
     dh::foundation::character_menu::SourcePageProviderV1 provider;
     if (!bind_character_state_faery_provider_v1(bindings, provider, error)) return false;
     return composition.register_page(dh::foundation::character_menu::Tab::faery,

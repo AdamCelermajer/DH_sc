@@ -46,6 +46,7 @@ struct SourceCharacterRestorePlanV1 {
     bool requires_can_respawn = false;
     bool can_respawn_allowed = false;
     bool resulting_dead = false;
+    bool resulting_limbus = false;
     std::vector<SourceCharacterRestoreOpV1> ordered_operations;
 };
 

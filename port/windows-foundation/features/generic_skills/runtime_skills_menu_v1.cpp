@@ -87,12 +87,14 @@ RuntimeSkillsMenuV1::RuntimeSkillsMenuV1(
     RuntimeSkillsActiveSetV1 active_set,
     RuntimeSkillsReleaseV1 release,
     RuntimeSkillsSymbolTextV1 symbol_text,
-    RuntimeSkillsTrainAvailableV1 train_available)
+    RuntimeSkillsTrainAvailableV1 train_available,
+    RuntimeSkillsAfterTrainReleaseV1 after_train_release)
     : state_(std::move(same_state)), source_owner_(std::move(same_source_owner)),
       characters_(&characters), tables_(tables), skill_level_text_(services.skill_level_text),
       page_(require_state(state_), characters, std::move(tables), std::move(services)),
       renderer_(std::move(renderer)), release_(std::move(release)), active_set_(std::move(active_set)),
-      symbol_text_(std::move(symbol_text)), train_available_(std::move(train_available)) {}
+      symbol_text_(std::move(symbol_text)), train_available_(std::move(train_available)),
+      after_train_release_(std::move(after_train_release)) {}
 
 bool RuntimeSkillsMenuV1::ready(std::string& error) const {
     error.clear();
@@ -413,7 +415,9 @@ bool RuntimeSkillsMenuV1::release(float x, float y, std::string& error) {
                 }
                 if (!available)
                     return fail(error, "NativeSkillsTrainSkill source admission rejected training");
-                return page_.train(error);
+                const bool trained=page_.train(error);
+                if(after_train_release_)after_train_release_();
+                return trained;
             }
             case skill_ui::HitKind::assign: {
                 if (!active_set_) return fail(error, "Original skill-slot click requires the source active-set provider");
