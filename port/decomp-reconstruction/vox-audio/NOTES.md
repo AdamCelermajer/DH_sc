@@ -496,3 +496,42 @@ Still partial (this slice):
   (LABEL_7 then LABEL_3). Left empty until the assembly settles it.
 - CreatePlaylistsContainer: the original returns NativePlaylistsManager::Init's result, which
   the port does not return.
+
+## Wave 9: files-xml slice (SLICE w9-files-xml)
+
+Rows: 23 (ledger.parts/w9-files-xml.csv). Reconstructed 12, partial 7, skipped 4 (decided from
+the Hex-Rays body and the ARM listing via decomp_asm.py). Host build passes 47 of 47 tests
+(new: sound_pack_event_pick_test, zip_path_strip_test). No MinGW or Wine run in this slice.
+
+Layouts confirmed by the listing:
+- `vox::StreamInterface` base: `Size()` returns the word at +0x04 (LDR R0,[R0,#4]). Still
+  partial; the port's stream classes keep their own size_.
+- `vox::FileInterface`: handle at +0x04. Seek calls slot (handle, offset, origin); Tell
+  calls slot (handle). Both return -1 for a null handle or slot. The slots are
+  off_A33EB4 and off_A33EB8 read through m_IOFunc.
+- `vox::FileSystemInterface::CloseFile`: vtable slot +0x18 of the file is tested; a nonzero
+  result calls off_A33EC0; then vtable slot 0, VoxFree, return 0.
+- `vox::VoxSoundPackXML` event record (44 bytes): used list +0x08 (sentinel at +0x08),
+  picked uids pool vector +0x10..+0x18, mode short +0x1c (0 random without repeat, 1 in
+  order), max used short +0x1e, percent-no-sound short +0x20, mode 1 index short +0x22.
+  ResetEvent stores the event record count in the +0x22 index (STRH R3, count).
+- `VoxSoundPackXML` +0x48: string-keyed map (StringComp order) of group masks; the port
+  member is group_masks_.
+- `CZipReader::files_`: the map orders keys with StringComp (the port now uses it too).
+  The entry data offset (+0x48 in the port's SZipFileEntry) and the method and uncompressed
+  size in the local header are consistent with the listing's node offsets (+0x10 node
+  header of 16 bytes plus the 24-byte key string).
+- `CZipReader::deletePathFromFilename`: the string ends at +0x10 and starts at +0x14; the
+  loop walks backwards from the end.
+
+Still open in this slice:
+- EventXMLDef (88a090, 88b104, 88b1fc) and SoundXMLDef (889e98) are loader records that
+  are not in the port. The original copies the +0x28 pointer block shallowly and frees it
+  in the destructor, so two copies would double-free. Not reproduced.
+- LoadXML (88d344) and the VoxSoundPackXML constructors (88ec4c, 88ecc4) are partial: LoadXML
+  is a stub, so a pack built from a file is empty. The TinyXML loader belongs with the
+  TinyXML category.
+- VoxSoundPackXML destructors (88c2cc, 88c36c) use the implicit destructor.
+- FileSystemInterface::CloseFile needs the vtable slot +0x18 (not in the port).
+- The owner of the FileInterface slots (off_A33EB4..off_A33EC0 through m_IOFunc) is still
+  not identified.
