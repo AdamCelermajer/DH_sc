@@ -5,6 +5,7 @@
 
 #include <cstdint>
 
+#include "glitch-video/buffer.hpp"
 #include "glitch-video/deps/glitch_core.hpp"
 #include "glitch-video/deps/glitch_video_types.hpp"
 
@@ -12,17 +13,35 @@ namespace glitch::video {
 
 class CCommonGLDriverBase {
 public:
-    class CBufferBase {
+    // Shadow copy of the driver state. The word names are not identified; only the
+    // constructor's initial values are reconstructed.
+    struct SCommonShadowState {
+        SCommonShadowState();  // 0x6dcd54 (C2) / 0x6dcd90 (C1)
+        uint32_t m_words[12];  // +0x00..+0x2c
+    };
+
+    class CBufferBase : public IBuffer {
     public:
+        // 0x6ddf18 (C2) / 0x6ddf84 (C1): IBuffer base, then the driver and a zeroed word.
+        CBufferBase(CCommonGLDriverBase* driver, E_BUFFER_TYPE type, E_BUFFER_USAGE usage,
+                    uint32_t size, void* data, bool flag);
         void* getMappedPtr() const;  // 0x6dcbe4
     private:
-        void* m_mappedPtr = nullptr;  // +0x1c
+        CCommonGLDriverBase* m_driver = nullptr;  // +0x14
+        uint32_t m_unknown18 = 0;                 // +0x18, zeroed by the constructor
+        void* m_mappedPtr = nullptr;              // +0x1c
     };
 
     class CTextureBase {
     public:
+        // 0x6dde98 (C2) / 0x6dded8 (C1). Partial: the ITexture base constructor (0x5fe404) is not
+        // ported, so only the vtable and the two fields after the base call are set here.
+        CTextureBase(const char* name, CCommonGLDriverBase* driver, const STextureDesc& desc);
         void* getMappedPtr() const;  // 0x6dcbec
         void unmapImpl() const;      // 0x6dcbf4
+    private:
+        uint32_t m_unknown54 = 0;  // +0x54, zeroed by the constructor
+        uint8_t m_unknown58 = 0;   // +0x58, zeroed by the constructor
     };
 
     class CFramebufferBase {
@@ -33,8 +52,21 @@ public:
     class CRenderTargetBase {
     public:
         E_PIXEL_FORMAT getColorFormat() const;  // 0x6dcd4c
+        // 0x6dcbfc: number of targets for an IRenderTarget::E_ATTACHMENT_TYPE (int32 alias).
+        // Type 0 returns the byte at +0x59, types 1 and 2 test the two handles, and type 3
+        // tests that the first handle is set and equal to the second.
+        int32_t getTargetCount(int32_t attachmentType) const;
+        // Test helper, not in the original: sets the three fields that getTargetCount reads.
+        void setTargetStateForTest(const void* attachment0, const void* attachment1, uint8_t count) {
+            m_attachment0 = attachment0;
+            m_attachment1 = attachment1;
+            m_targetCount = count;
+        }
     private:
-        uint8_t m_colorFormat = 0;   // +0x58, byte
+        const void* m_attachment0 = nullptr;  // +0x4c, handle name inferred from the switch
+        const void* m_attachment1 = nullptr;  // +0x54, handle name inferred from the switch
+        uint8_t m_targetCount = 0;            // +0x59, byte
+        uint8_t m_colorFormat = 0;            // +0x58, byte
     };
 
     virtual ~CCommonGLDriverBase() = default;

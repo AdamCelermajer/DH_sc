@@ -25,6 +25,9 @@ public:
 
     class CTexture {
     public:
+        // 0x5b9558 (C1) / 0x5b95dc (C2). Partial: the ITexture base (name, driver, descriptor)
+        // is not ported, so the arguments are not stored.
+        CTexture(const char* name, CNullDriver* driver, const STextureDesc& desc);
         virtual ~CTexture() = default;
     virtual bool bindImpl(bool);
     virtual void unbindImpl();
@@ -46,6 +49,7 @@ public:
     virtual ~CNullDriver() = default;
     virtual bool checkDriverReset();
     virtual bool beginScene();
+    virtual bool endScene();  // 0x5b93ec, partial: see null_driver.cpp
     virtual bool captureFramebufferImpl(const intrusive_ptr<ITexture>& texture, const core::position2d<int32_t>& pos, const core::rect<int32_t>& area, uint8_t mip, E_TEXTURE_CUBE_MAP_FACE face, bool flag);
     virtual bool swapBuffers(int32_t);
     virtual void clearBuffers(int32_t);

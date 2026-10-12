@@ -23,6 +23,14 @@ public:
     // 0x637a68: releases one map reference. The unmap callback (vtable +0x18) is
     // not modelled and is skipped when the buffer is not flagged for it.
     void unmap();
+    // 0x5a19f0: maps the buffer for an access mode and returns its pointer, or nullptr.
+    // The E_BUFFER_READ_MAP_ACCESS overload (0x5a1adc) is not ported: that enum is an
+    // int32 alias here, so it would collide with this overload.
+    uint8_t* map(int32_t access);
+    // vtable +0x14 (index 5): the driver's mapping for the access mode. Base default.
+    virtual uint8_t* mapImpl(int32_t access);
+    // vtable +0x1c (index 7): the pointer of a counted map with the callback flag set. Base default.
+    virtual uint8_t* getMappedData();
 
     uint32_t m_refCount = 0;     // +0x04, zeroed by the constructor
     uint8_t* m_data = nullptr;   // +0x08

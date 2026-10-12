@@ -29,6 +29,12 @@ void CNullDriver::CBuffer::unmapImpl() const {}
 uint8_t* CNullDriver::CBuffer::getMappedPtr() const { return nullptr; }
 
 
+// 0x5b9558 _ZN6glitch5video11CNullDriver8CTextureC1EPKcPS1_RKNS0_12STextureDescE
+// 0x5b95dc _ZN6glitch5video11CNullDriver8CTextureC2EPKcPS1_RKNS0_12STextureDescE
+// Partial: the ITexture base is not ported; the arguments are not used.
+CNullDriver::CTexture::CTexture(const char*, CNullDriver*, const STextureDesc&) {}
+
+
 // 0x5b8da4 _ZN6glitch5video11CNullDriver8CTexture8bindImplEb
 bool CNullDriver::CTexture::bindImpl(bool) { m_flags = static_cast<uint16_t>(m_flags & ~3u); return false; }
 
@@ -76,6 +82,12 @@ bool CNullDriver::swapBuffers(int32_t) { return true; }
 // 0x5b8df8 _ZN6glitch5video11CNullDriver12clearBuffersEi
 void CNullDriver::clearBuffers(int32_t) {}
 
+
+// 0x5b93ec _ZN6glitch5video11CNullDriver8endSceneEv
+// Partial: the original passes the timer value and the four frame counters (this+0x78..+0x84)
+// to CFPSCounter::registerFrame. The null driver here has no FPS counter or counters, so only
+// the return value of 1 is reproduced.
+bool CNullDriver::endScene() { return true; }
 
 // 0x5b8dfc _ZN6glitch5video11CNullDriver12beginScene2DEv
 bool CNullDriver::beginScene2D() { return true; }

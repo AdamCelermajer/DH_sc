@@ -11,12 +11,52 @@ void* CCommonGLDriverBase::CTextureBase::getMappedPtr() const { return nullptr; 
 // 0x6dcbf4 _ZNK6glitch5video19CCommonGLDriverBase12CTextureBase9unmapImplEv
 void CCommonGLDriverBase::CTextureBase::unmapImpl() const {}
 
+// 0x6dcd54 _ZN6glitch5video19CCommonGLDriverBase18SCommonShadowStateC2Ev
+// 0x6dcd90 _ZN6glitch5video19CCommonGLDriverBase18SCommonShadowStateC1Ev
+// Partial: the word names are not identified. Word +0x18 starts at 4, the rest at zero.
+CCommonGLDriverBase::SCommonShadowState::SCommonShadowState() : m_words{} {
+    m_words[6] = 4;
+}
+
+// 0x6ddf84 _ZN6glitch5video19CCommonGLDriverBase11CBufferBaseC2EPS1_NS0_13E_BUFFER_TYPEENS0_14E_BUFFER_USAGEEjPvb
+// 0x6ddf18 _ZN6glitch5video19CCommonGLDriverBase11CBufferBaseC1EPS1_NS0_13E_BUFFER_TYPEENS0_14E_BUFFER_USAGEEjPvb
+CCommonGLDriverBase::CBufferBase::CBufferBase(CCommonGLDriverBase* driver, E_BUFFER_TYPE type,
+                                              E_BUFFER_USAGE usage, uint32_t size, void* data,
+                                              bool flag)
+    : IBuffer(type, usage, size, data, static_cast<uint8_t>(flag)), m_driver(driver) {}
+
+// 0x6dded8 _ZN6glitch5video19CCommonGLDriverBase12CTextureBaseC2EPKcPS1_RKNS0_12STextureDescE
+// 0x6dde98 _ZN6glitch5video19CCommonGLDriverBase12CTextureBaseC1EPKcPS1_RKNS0_12STextureDescE
+// Partial: the ITexture base constructor (0x5fe404) is not ported. Only the two fields that
+// follow the base call are set, by the member initialisers.
+CCommonGLDriverBase::CTextureBase::CTextureBase(const char*, CCommonGLDriverBase*,
+                                                const STextureDesc&) {}
+
 // 0x6dcbf8 _ZN6glitch5video19CCommonGLDriverBase16CFramebufferBase6unbindEv
 void CCommonGLDriverBase::CFramebufferBase::unbind() {}
 
 // 0x6dcd4c _ZNK6glitch5video19CCommonGLDriverBase17CRenderTargetBase14getColorFormatEv
 E_PIXEL_FORMAT CCommonGLDriverBase::CRenderTargetBase::getColorFormat() const {
     return m_colorFormat;
+}
+
+// 0x6dcbfc _ZNK6glitch5video19CCommonGLDriverBase17CRenderTargetBase14getTargetCountENS0_13IRenderTarget17E_ATTACHMENT_TYPEE
+int32_t CCommonGLDriverBase::CRenderTargetBase::getTargetCount(int32_t attachmentType) const {
+    switch (attachmentType) {
+        case 0:
+            return m_targetCount;
+        case 1:
+            return m_attachment0 != nullptr ? 1 : 0;
+        case 2:
+            return m_attachment1 != nullptr ? 1 : 0;
+        case 3:
+            if (m_attachment0 == nullptr) {
+                return 0;
+            }
+            return m_attachment0 == m_attachment1 ? 1 : 0;
+        default:
+            return 0;
+    }
 }
 
 // 0x6dcdcc _ZNK6glitch5video19CCommonGLDriverBase14getColorFormatEv
