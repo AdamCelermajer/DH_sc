@@ -285,3 +285,82 @@ elf_address,symbol,status,source_file,notes
 0x82a4b8,_ZN4CTcp16CreateBySocketIdEij,reconstructed,net-transport/src/ctcp.cpp,CTcp::CreateBySocketId: adopts the accepted handle with options 4 (CSocketAbstract::Assign)
 0x82a540,_ZN4CTcp17AcceptConnectionsEv,partial,net-transport/src/ctcp.cpp,CTcp::AcceptConnections: accepts one peer and hands the new CTcp to AcceptCallback (stand-in)
 0x82a5dc,_ZN4CTcp7ReceiveEv,reconstructed,net-transport/src/ctcp.cpp,"CTcp::Receive: accepts when listening, otherwise reads packets"
+0x828f78,_ZN16CBluetoothSocketD1Ev,reconstructed,net-transport/src/bluetooth_socket.cpp,CBluetoothSocket dtor D1 (members only)
+0x829140,_ZN16CBluetoothSocketD0Ev,skipped,net-transport/src/bluetooth_socket.cpp,deleting destructor D0 is compiler-generated
+0x824c80,_ZN16CBluetoothSocket16RestartBluetoothEv,reconstructed,net-transport/src/bluetooth_socket.cpp,RestartBluetooth: empty in the original
+0x824c84,_ZN16CBluetoothSocket22DisconnectFromAllPeersEv,reconstructed,net-transport/src/bluetooth_socket.cpp,DisconnectFromAllPeers returns 1 (no Bluetooth stack in the Android build)
+0x828c3c,_ZNK16CBluetoothSocket11IsConnectedEv,reconstructed,net-transport/src/bluetooth_socket.cpp,CBluetoothSocket::IsConnected returns 0 (original constant)
+0x828c44,_ZN16CBluetoothSocket12OpenReliableESsjb,reconstructed,net-transport/src/bluetooth_socket.cpp,OpenReliable returns 0 (original constant; Bluetooth OS calls absent)
+0x828c4c,_ZN16CBluetoothSocket14OpenUnreliableESsjb,reconstructed,net-transport/src/bluetooth_socket.cpp,OpenUnreliable returns 0 (original constant)
+0x828c54,_ZN16CBluetoothSocket5CloseEv,reconstructed,net-transport/src/bluetooth_socket.cpp,Close returns 0 (original constant)
+0x828c5c,_ZN16CBluetoothSocket7ConnectEj,reconstructed,net-transport/src/bluetooth_socket.cpp,Connect returns 0 (original constant)
+0x828c64,_ZN16CBluetoothSocket4SendEPKvi,reconstructed,net-transport/src/bluetooth_socket.cpp,Send returns 0 (original constant)
+0x828c6c,_ZN16CBluetoothSocket6SendToEjPKvi,reconstructed,net-transport/src/bluetooth_socket.cpp,SendTo returns 0 (original constant)
+0x828c74,_ZN16CBluetoothSocket7ReceiveEPci,reconstructed,net-transport/src/bluetooth_socket.cpp,Receive returns 0 (original constant)
+0x828c7c,_ZN16CBluetoothSocket11ReceiveFromEjPci,reconstructed,net-transport/src/bluetooth_socket.cpp,ReceiveFrom returns 0 (original constant)
+0x828c84,_ZNK16CBluetoothSocket14GetLocalPeerIdEv,reconstructed,net-transport/src/bluetooth_socket.cpp,GetLocalPeerId returns 0 (original constant)
+0x828c8c,_ZNK16CBluetoothSocket15GetRemotePeerIdEv,reconstructed,net-transport/src/bluetooth_socket.cpp,GetRemotePeerId returns 0 (original constant)
+0x828c94,_ZNK16CBluetoothSocket6IsPeerEv,reconstructed,net-transport/src/bluetooth_socket.cpp,IsPeer returns false (original constant)
+0x828c9c,_ZNK16CBluetoothSocket8IsClientEv,reconstructed,net-transport/src/bluetooth_socket.cpp,IsClient returns false (original constant)
+0x828ca4,_ZNK16CBluetoothSocket8IsServerEv,reconstructed,net-transport/src/bluetooth_socket.cpp,IsServer returns false (original constant)
+0x828cac,_ZN16CBluetoothSocket14StartBroadcastEv,reconstructed,net-transport/src/bluetooth_socket.cpp,StartBroadcast: empty in the original
+0x828cb0,_ZN16CBluetoothSocket13StopBroadcastEv,reconstructed,net-transport/src/bluetooth_socket.cpp,StopBroadcast: empty in the original
+0x828fe0,_ZNK16CBluetoothSocket19GetRemoteDeviceNameEv,reconstructed,net-transport/src/bluetooth_socket.cpp,GetRemoteDeviceName returns an empty string
+0x824da8,_ZN24CBluetoothSocketAbstract21GetDeviceNameByPeerIdEj,reconstructed,net-transport/src/bluetooth_socket.cpp,GetDeviceNameByPeerId returns an empty string (the original ignores the peer)
+0x828c14,_ZN24CBluetoothSocketAbstract16SetSocketOptionsEj,reconstructed,net-transport/src/bluetooth_socket.cpp,CBluetoothSocketAbstract::SetSocketOptions returns 0
+0x828c1c,_ZN24CBluetoothSocketAbstract14GetSocketErrorEv,reconstructed,net-transport/src/bluetooth_socket.cpp,CBluetoothSocketAbstract::GetSocketError returns 0
+0x828c24,_ZN24CBluetoothSocketAbstract10WouldBlockEv,reconstructed,net-transport/src/bluetooth_socket.cpp,CBluetoothSocketAbstract::WouldBlock returns false
+0x828c2c,_ZNK24CBluetoothSocketAbstract12IsConnectingEv,reconstructed,net-transport/src/bluetooth_socket.cpp,CBluetoothSocketAbstract::IsConnecting returns false
+0x828c34,_ZN24CBluetoothSocketAbstract9TerminateEv,reconstructed,net-transport/src/bluetooth_socket.cpp,CBluetoothSocketAbstract::Terminate: empty
+0x828c38,_ZN24CBluetoothSocketAbstract16UpdateConnectingEv,reconstructed,net-transport/src/bluetooth_socket.cpp,CBluetoothSocketAbstract::UpdateConnecting: empty
+0x828fac,_ZN24CBluetoothSocketAbstractD1Ev,reconstructed,net-transport/src/bluetooth_socket.cpp,CBluetoothSocketAbstract dtor D1 (device name member)
+0x829104,_ZN24CBluetoothSocketAbstractD0Ev,skipped,net-transport/src/bluetooth_socket.cpp,deleting destructor D0 is compiler-generated
+0x317e14,_ZN16updateJob_threadC2Ei,reconstructed,net-transport/src/update_job_thread.cpp,"updateJob_thread ctor C2 (flag set, argument stored)"
+0x317e44,_ZN16updateJob_threadC1Ei,reconstructed,net-transport/src/update_job_thread.cpp,updateJob_thread ctor C1
+0x317e74,_ZN16updateJob_threadD2Ev,reconstructed,net-transport/src/update_job_thread.cpp,updateJob_thread dtor D2; joins a running worker (deviation)
+0x317e78,_ZN16updateJob_threadD1Ev,reconstructed,net-transport/src/update_job_thread.cpp,updateJob_thread dtor D1
+0x317e7c,_ZN16updateJob_thread3RunEv,reconstructed,net-transport/src/update_job_thread.cpp,Run: empty in the original
+0x317e80,_ZN16updateJob_thread6KernelEv,reconstructed,net-transport/src/update_job_thread.cpp,Kernel returns 1
+0x317e88,_ZN16updateJob_thread7PrepareEv,reconstructed,net-transport/src/update_job_thread.cpp,Prepare returns 1
+0x317e90,_ZN16updateJob_thread22IsCurrectThreadRunningEv,reconstructed,net-transport/src/update_job_thread.cpp,IsCurrectThreadRunning returns 1
+0x317e98,_ZN16updateJob_thread6Start2Ev,partial,net-transport/src/update_job_thread.cpp,Start2: worker is Run(); threadfun3 not reconstructed; fails when a worker is running
+0x317ef8,_ZN16updateJob_thread5StartEv,partial,net-transport/src/update_job_thread.cpp,Start: worker is Run(); threadfun2 not reconstructed; fails when a worker is running
+0x317f58,_ZN16updateJob_thread4StopEv,partial,net-transport/src/update_job_thread.cpp,Stop returns 1; debug trace dropped
+0x317f74,_ZN16updateJob_thread6FinishEv,partial,net-transport/src/update_job_thread.cpp,Finish returns 1; debug trace dropped
+0x317fcc,_ZN16updateJob_threadD0Ev,skipped,net-transport/src/update_job_thread.cpp,deleting destructor D0 is compiler-generated
+0x8296bc,_ZN20CBluetoothUnreliable7GetTypeEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::GetType returns 3
+0x8296c4,_ZN20CBluetoothUnreliable17CanDisconnectFromER10CNetworkId,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::CanDisconnectFrom returns 0
+0x8296cc,_ZN20CBluetoothUnreliable10InitializeEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::Initialize sets the initialized flag
+0x8296e8,_ZN20CBluetoothUnreliable10DisconnectEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::Disconnect clears the initialized flag
+0x829704,_ZN20CBluetoothUnreliable11IsConnectedEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::IsConnected returns 0
+0x82970c,_ZN20CBluetoothUnreliable13IsConnectedToER10CNetworkId,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::IsConnectedTo returns 0
+0x829714,_ZN20CBluetoothUnreliable6IsPeerEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::IsPeer returns 0
+0x82971c,_ZN20CBluetoothUnreliable8IsClientEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::IsClient returns 0
+0x829724,_ZN20CBluetoothUnreliable11IsListeningEv,reconstructed,net-transport/src/bluetooth_transport.cpp,"CBluetoothUnreliable::IsListening: initialized, server role and listening bit"
+0x829764,_ZN20CBluetoothUnreliable14StartBroadcastEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::StartBroadcast: empty
+0x829768,_ZN20CBluetoothUnreliable13StopBroadcastEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::StopBroadcast: empty
+0x82976c,_ZN20CBluetoothUnreliable4SendER10CNetworkIdPvi,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::Send returns -1
+0x829774,_ZN20CBluetoothUnreliable7ReceiveEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::Receive returns -1
+0x82977c,_ZN20CBluetoothUnreliable7SetModeE19_tBLUETOOTH_SESSION,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::SetMode: empty
+0x829780,_ZN20CBluetoothUnreliable18TerminateTransportEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::TerminateTransport clears s_initialized
+0x828cb4,_ZN18CBluetoothReliable7GetTypeEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothReliable::GetType returns 4
+0x828cbc,_ZN18CBluetoothReliable17CanDisconnectFromER10CNetworkId,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothReliable::CanDisconnectFrom returns 0
+0x828cc4,_ZN18CBluetoothReliable10InitializeEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothReliable::Initialize sets the initialized flag
+0x828ce0,_ZN18CBluetoothReliable10DisconnectEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothReliable::Disconnect clears the initialized flag
+0x828cfc,_ZN18CBluetoothReliable11IsConnectedEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothReliable::IsConnected returns 0
+0x828d04,_ZN18CBluetoothReliable13IsConnectedToER10CNetworkId,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothReliable::IsConnectedTo returns 0
+0x828d0c,_ZN18CBluetoothReliable6IsPeerEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothReliable::IsPeer returns 0
+0x828d14,_ZN18CBluetoothReliable8IsClientEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothReliable::IsClient returns 0
+0x828d1c,_ZN18CBluetoothReliable11IsListeningEv,reconstructed,net-transport/src/bluetooth_transport.cpp,"CBluetoothReliable::IsListening: initialized, server role and listening bit"
+0x828d5c,_ZN18CBluetoothReliable14StartBroadcastEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothReliable::StartBroadcast: empty
+0x828d60,_ZN18CBluetoothReliable13StopBroadcastEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothReliable::StopBroadcast: empty
+0x828d64,_ZN18CBluetoothReliable4SendER10CNetworkIdPvi,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothReliable::Send returns -1
+0x828d6c,_ZN18CBluetoothReliable7ReceiveEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothReliable::Receive returns -1
+0x828d74,_ZN18CBluetoothReliable7SetModeE19_tBLUETOOTH_SESSION,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothReliable::SetMode: empty
+0x828d78,_ZN18CBluetoothReliable18TerminateTransportEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothReliable::TerminateTransport clears s_initialized
+0x3a3578,_ZN22NetStructInterpolationIfED1Ev,reconstructed,net-transport/src/net_struct_interpolation.cpp,NetStructInterpolation<float> dtor D1 (empty; header template)
+0x3a37cc,_ZN22NetStructInterpolationIfED0Ev,skipped,net-transport/src/net_struct_interpolation.cpp,deleting destructor D0 is compiler-generated
+0x3a2f24,_ZN32NetStructInterpolatedRangedFloatILj18ELin200000ELi200000EED1Ev,reconstructed,net-transport/src/net_struct_interpolation.cpp,"NetStructInterpolatedRangedFloat<18,...> dtor D1 (empty)"
+0x3a2f34,_ZN32NetStructInterpolatedRangedFloatILj16ELin50000ELi50000EED1Ev,reconstructed,net-transport/src/net_struct_interpolation.cpp,"NetStructInterpolatedRangedFloat<16,...> dtor D1 (empty)"
+0x3a3808,_ZN32NetStructInterpolatedRangedFloatILj18ELin200000ELi200000EED0Ev,skipped,net-transport/src/net_struct_interpolation.cpp,"deleting destructor D0 is compiler-generated (<18,...> instance)"
+0x3a388c,_ZN32NetStructInterpolatedRangedFloatILj16ELin50000ELi50000EED0Ev,skipped,net-transport/src/net_struct_interpolation.cpp,"deleting destructor D0 is compiler-generated (<16,...> instance)"

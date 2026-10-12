@@ -369,4 +369,48 @@ void CNumbersAttribute::setQuaternion(const glitch::core::quaternion& value) {
     if (count > 3) setActive(3, value.W);
 }
 
+// 0x326af4 _ZNK6glitch2io17CNumbersAttribute9getMatrixEv
+// Identity with the first count values (row-major) replaced.
+glitch::core::CMatrix4<float> CNumbersAttribute::getMatrix() const {
+    glitch::core::CMatrix4<float> m = detail::identityMatrix();
+    for (std::size_t k = 0; k < count && k < 16; ++k) m.M[k] = activeFloat(k);
+    return m;
+}
+
+// 0x3264c4 _ZN6glitch2io17CNumbersAttribute13getFloatArrayEv
+// An int list is converted into the float storage first (the float storage is
+// cleared and refilled), then the float storage is returned by value.
+std::vector<float> CNumbersAttribute::getFloatArray() {
+    if (!isFloatList) {
+        floatValues.clear();
+        for (std::size_t i = 0; i < count; ++i) floatValues.push_back(static_cast<float>(intValues[i]));
+    }
+    return floatValues;
+}
+
+// 0x3270d8 _ZN6glitch2io17CNumbersAttribute11getIntArrayEv
+// Symmetric to getFloatArray: a float list is converted into the int storage.
+std::vector<std::int32_t> CNumbersAttribute::getIntArray() {
+    if (isFloatList) {
+        intValues.clear();
+        for (std::size_t i = 0; i < count; ++i) intValues.push_back(static_cast<std::int32_t>(floatValues[i]));
+    }
+    return intValues;
+}
+
+// 0x31ee9c _ZN6glitch2io17CNumbersAttribute13setFloatArrayERSt6vectorIfNS_4core10SAllocatorIfLNS_6memory13E_MEMORY_HINTE0EEEE
+// Clears the active list, then copies up to count values from the array.
+void CNumbersAttribute::setFloatArray(std::vector<float>& values) {
+    clearActive();
+    if (values.empty() || count == 0) return;
+    for (std::size_t i = 0; i < values.size() && i < count; ++i) setActive(i, values[i]);
+}
+
+// 0x324564 _ZN6glitch2io17CNumbersAttribute11setIntArrayERSt6vectorIiNS_4core10SAllocatorIiLNS_6memory13E_MEMORY_HINTE0EEEE
+void CNumbersAttribute::setIntArray(std::vector<std::int32_t>& values) {
+    clearActive();
+    if (values.empty() || count == 0) return;
+    for (std::size_t i = 0; i < values.size() && i < count; ++i) setActive(i, values[i]);
+}
+
 }  // namespace glitch::io

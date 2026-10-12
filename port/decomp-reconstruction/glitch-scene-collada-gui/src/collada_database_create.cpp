@@ -103,7 +103,7 @@ void CColladaDatabase::constructForce(const char* name, CRootSceneNode* root) co
     constructForce(getForce(tables(), name), root);
 }
 
-// 0x61a994 _ZNK6glitch7collada16CColladaDatabase14constructForceEPNS0_16SInstanceForceEPNS0_14CRootSceneNodeE
+// 0x61a994 _ZNK6glitch7collada16CColladaDatabase14constructForceEPNS0_14SInstanceForceEPNS0_14CRootSceneNodeE
 // The instance URL is "#<name>"; the name starts one byte in.
 void CColladaDatabase::constructForce(SInstanceForce* instance, CRootSceneNode* root) const {
     constructForce(instance->url + 1, root);

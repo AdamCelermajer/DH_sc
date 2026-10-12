@@ -36,29 +36,29 @@ class IGUISpriteBank;
 // single bytes; the ID is an int.
 class IGUIElement {
 public:
-    // 0x534f90 _ZNK6glitch3gui10IGUIElement9isVisibleEv
+    // 0x534f90 _ZNK6glitch3gui11IGUIElement9isVisibleEv
     bool isVisible() const;
-    // 0x534f98 _ZN6glitch3gui10IGUIElement10setVisibleEb
+    // 0x534f98 _ZN6glitch3gui11IGUIElement10setVisibleEb
     void setVisible(bool visible);
-    // 0x534fa0 _ZNK6glitch3gui10IGUIElement12isSubElementEv
+    // 0x534fa0 _ZNK6glitch3gui11IGUIElement12isSubElementEv
     bool isSubElement() const;
-    // 0x534fa8 _ZN6glitch3gui10IGUIElement13setSubElementEb
+    // 0x534fa8 _ZN6glitch3gui11IGUIElement13setSubElementEb
     void setSubElement(bool subElement);
-    // 0x534fb0 _ZNK6glitch3gui10IGUIElement9isEnabledEv
+    // 0x534fb0 _ZNK6glitch3gui11IGUIElement9isEnabledEv
     bool isEnabled() const;
-    // 0x534fb8 _ZN6glitch3gui10IGUIElement10setEnabledEb
+    // 0x534fb8 _ZN6glitch3gui11IGUIElement10setEnabledEb
     void setEnabled(bool enabled);
-    // 0x534fc0 _ZNK6glitch3gui10IGUIElement7getTextEv
+    // 0x534fc0 _ZNK6glitch3gui11IGUIElement7getTextEv
     const wchar_t* getText() const;
-    // 0x534fc8 _ZNK6glitch3gui10IGUIElement14getToolTipTextEv
+    // 0x534fc8 _ZNK6glitch3gui11IGUIElement14getToolTipTextEv
     const std::wstring& getToolTipText() const;
-    // 0x534fd0 _ZNK6glitch3gui10IGUIElement5getIDEv
+    // 0x534fd0 _ZNK6glitch3gui11IGUIElement5getIDEv
     int getID() const;
-    // 0x534fd8 _ZN6glitch3gui10IGUIElement5setIDEi
+    // 0x534fd8 _ZN6glitch3gui11IGUIElement5setIDEi
     void setID(int id);
-    // 0x534fe0 _ZNK6glitch3gui10IGUIElement7getNameEv
+    // 0x534fe0 _ZNK6glitch3gui11IGUIElement7getNameEv
     const char* getName() const;
-    // 0x535014 _ZNK6glitch3gui10IGUIElement11getChildrenEv
+    // 0x535014 _ZNK6glitch3gui11IGUIElement11getChildrenEv
     const std::vector<IGUIElement*>& getChildren() const;
 
     std::vector<IGUIElement*> children;  // +0x04, the child list (core::list in the original)
@@ -75,21 +75,21 @@ public:
 // identity; the factory list is a vector of element-factory pointers.
 class CGUIEnvironment {
 public:
-    // 0x535598 _ZNK6glitch3gui14CGUIEnvironment8getFocusEv
+    // 0x535598 _ZNK6glitch3gui15CGUIEnvironment8getFocusEv
     IGUIElement* getFocus() const;
-    // 0x53562c _ZNK6glitch3gui14CGUIEnvironment8hasFocusEPNS0_10IGUIElementE
+    // 0x53562c _ZNK6glitch3gui15CGUIEnvironment8hasFocusEPNS0_11IGUIElementE
     bool hasFocus(IGUIElement* element) const;
-    // 0x535640 _ZNK6glitch3gui14CGUIEnvironment14getVideoDriverEv
+    // 0x535640 _ZNK6glitch3gui15CGUIEnvironment14getVideoDriverEv
     video::IVideoDriver* getVideoDriver() const;
-    // 0x535648 _ZNK6glitch3gui14CGUIEnvironment13getFileSystemEv
+    // 0x535648 _ZNK6glitch3gui15CGUIEnvironment13getFileSystemEv
     const boost::intrusive_ptr<io::IFileSystem>& getFileSystem() const;
-    // 0x535650 _ZNK6glitch3gui14CGUIEnvironment13getOSOperatorEv
+    // 0x535650 _ZNK6glitch3gui15CGUIEnvironment13getOSOperatorEv
     os::IOSOperator* getOSOperator() const;
-    // 0x535768 _ZN6glitch3gui14CGUIEnvironment20setUserEventReceiverEPNS_14IEventReceiverE
+    // 0x535768 _ZN6glitch3gui15CGUIEnvironment20setUserEventReceiverEPNS_14IEventReceiverE
     void setUserEventReceiver(IEventReceiver* receiver);
-    // 0x535770 _ZNK6glitch3gui14CGUIEnvironment7getSkinEv
+    // 0x535770 _ZNK6glitch3gui15CGUIEnvironment7getSkinEv
     IGUISkin* getSkin() const;
-    // 0x5357e8 _ZNK6glitch3gui14CGUIEnvironment34getRegisteredGUIElementFactoryCountEv
+    // 0x5357e8 _ZNK6glitch3gui15CGUIEnvironment35getRegisteredGUIElementFactoryCountEv
     std::uint32_t getRegisteredGUIElementFactoryCount() const;
 
     IGUIElement* focus = nullptr;                                 // +0x1b0
@@ -124,10 +124,10 @@ public:
     // 0x53dbdc _ZN6glitch3gui8CGUIFont4drawEPKcRKNS_4core4rectIiEENS_5video6SColorEbbPS7_ (empty)
     void draw(const char* text, const core::rect<int>& area, video::SColor color, bool hcenter, bool vcenter,
               const core::rect<int>* clip);
-    // 0x53dbe8 _ZN6glitch3gui8CGUIFont13drawInTextureEPKwRKN5boost13intrusive_ptrINS_5video8ITextureEEENS_4core4rectIiEENS3_6SColorEbb (empty)
+    // 0x53dbe8 _ZN6glitch3gui8CGUIFont13drawInTextureEPKwRKN5boost13intrusive_ptrINS_5video8ITextureEEENS_4core4rectIiEENS6_6SColorEbb (empty)
     void drawInTexture(const wchar_t* text, const boost::intrusive_ptr<video::ITexture>& texture,
                        core::rect<int> area, video::SColor color, bool hcenter, bool vcenter);
-    // 0x53dbec _ZN6glitch3gui8CGUIFont13drawInTextureEPKcRKN5boost13intrusive_ptrINS_5video8ITextureEEENS_4core4rectIiEENS3_6SColorEbb (empty)
+    // 0x53dbec _ZN6glitch3gui8CGUIFont13drawInTextureEPKcRKN5boost13intrusive_ptrINS_5video8ITextureEEENS_4core4rectIiEENS6_6SColorEbb (empty)
     void drawInTexture(const char* text, const boost::intrusive_ptr<video::ITexture>& texture,
                        core::rect<int> area, video::SColor color, bool hcenter, bool vcenter);
     // 0x53dbf0 _ZN6glitch3gui8CGUIFont9setBorderEjNS_5video6SColorE (empty)
@@ -140,11 +140,11 @@ public:
 
 class CGUIImage {
 public:
-    // 0x540514 _ZN6glitch3gui9CGUIImage19setUseAlphaChannelEb
+    // 0x540514 _ZN6glitch3gui9CGUIImage18setUseAlphaChannelEb
     void setUseAlphaChannel(bool use);
-    // 0x54052c _ZNK6glitch3gui9CGUIImage19isAlphaChannelUsedEv
+    // 0x54052c _ZNK6glitch3gui9CGUIImage18isAlphaChannelUsedEv
     bool isAlphaChannelUsed() const;
-    // 0x54051c _ZN6glitch3gui9CGUIImage14setScaleImageEb
+    // 0x54051c _ZN6glitch3gui9CGUIImage13setScaleImageEb
     void setScaleImage(bool scale);
     // 0x540524 _ZNK6glitch3gui9CGUIImage13isImageScaledEv
     bool isImageScaled() const;
@@ -157,9 +157,9 @@ class CGUIListBox {
 public:
     // 0x541dc4 _ZNK6glitch3gui11CGUIListBox11getSelectedEv
     int getSelected() const;
-    // 0x541ee4 _ZN6glitch3gui11CGUIListBox21setAutoScrollEnabledEb
+    // 0x541ee4 _ZN6glitch3gui11CGUIListBox20setAutoScrollEnabledEb
     void setAutoScrollEnabled(bool enabled);
-    // 0x541eec _ZNK6glitch3gui11CGUIListBox20isAutoScrollEnabledEv
+    // 0x541eec _ZNK6glitch3gui11CGUIListBox19isAutoScrollEnabledEv
     bool isAutoScrollEnabled() const;
     // 0x541c6c _ZN6glitch3gui11CGUIListBox7addItemEPKw
     // Adds the item with icon -1; the call goes through the virtual addItem(text, icon).
@@ -173,19 +173,19 @@ public:
 
 class CGUIScrollBar {
 public:
-    // 0x548f2c _ZNK6glitch3gui12CGUIScrollBar12getSmallStepEv
+    // 0x548f2c _ZNK6glitch3gui13CGUIScrollBar12getSmallStepEv
     int getSmallStep() const;
-    // 0x548f34 _ZN6glitch3gui12CGUIScrollBar12setSmallStepEi
+    // 0x548f34 _ZN6glitch3gui13CGUIScrollBar12setSmallStepEi
     // Steps of zero or less fall back to 10 in the original.
     void setSmallStep(int step);
-    // 0x548f48 _ZNK6glitch3gui12CGUIScrollBar12getLargeStepEv
+    // 0x548f48 _ZNK6glitch3gui13CGUIScrollBar12getLargeStepEv
     int getLargeStep() const;
-    // 0x548f50 _ZN6glitch3gui12CGUIScrollBar12setLargeStepEi
+    // 0x548f50 _ZN6glitch3gui13CGUIScrollBar12setLargeStepEi
     // Steps of zero or less fall back to 50 in the original.
     void setLargeStep(int step);
-    // 0x548f64 _ZNK6glitch3gui12CGUIScrollBar6getMaxEv
+    // 0x548f64 _ZNK6glitch3gui13CGUIScrollBar6getMaxEv
     int getMax() const;
-    // 0x548fd0 _ZNK6glitch3gui12CGUIScrollBar6getPosEv
+    // 0x548fd0 _ZNK6glitch3gui13CGUIScrollBar6getPosEv
     int getPos() const;
 
     int pos = 0;        // +0x174
@@ -196,15 +196,15 @@ public:
 
 class CGUISpinBox {
 public:
-    // 0x54df38 _ZNK6glitch3gui10CGUISpinBox10getEditBoxEv
+    // 0x54df38 _ZNK6glitch3gui11CGUISpinBox10getEditBoxEv
     IGUIEditBox* getEditBox() const;
-    // 0x54df5c _ZNK6glitch3gui10CGUISpinBox6getMinEv
+    // 0x54df5c _ZNK6glitch3gui11CGUISpinBox6getMinEv
     float getMin() const;
-    // 0x54df64 _ZNK6glitch3gui10CGUISpinBox6getMaxEv
+    // 0x54df64 _ZNK6glitch3gui11CGUISpinBox6getMaxEv
     float getMax() const;
-    // 0x54df6c _ZNK6glitch3gui10CGUISpinBox11getStepSizeEv
+    // 0x54df6c _ZNK6glitch3gui11CGUISpinBox11getStepSizeEv
     float getStepSize() const;
-    // 0x54df74 _ZN6glitch3gui10CGUISpinBox11setStepSizeEf
+    // 0x54df74 _ZN6glitch3gui11CGUISpinBox11setStepSizeEf
     void setStepSize(float step);
 
     IGUIEditBox* editBox = nullptr;  // +0x158
@@ -219,9 +219,9 @@ public:
     int getNumber() const;
     // 0x552048 _ZN6glitch3gui7CGUITab9setNumberEi
     void setNumber(int number);
-    // 0x552050 _ZN6glitch3gui7CGUITab18setDrawBackgroundEb
+    // 0x552050 _ZN6glitch3gui7CGUITab17setDrawBackgroundEb
     void setDrawBackground(bool draw);
-    // 0x5520f0 _ZNK6glitch3gui7CGUITab20isDrawingBackgroundEv
+    // 0x5520f0 _ZNK6glitch3gui7CGUITab19isDrawingBackgroundEv
     bool isDrawingBackground() const;
 
     int number = 0;               // +0x158
@@ -230,9 +230,9 @@ public:
 
 class CGUIButton {
 public:
-    // 0x6a5df0 _ZN6glitch3gui10CGUIButton14setDrawBorderEb
+    // 0x6a5df0 _ZN6glitch3gui10CGUIButton13setDrawBorderEb
     void setDrawBorder(bool draw);
-    // 0x6a5eec _ZNK6glitch3gui10CGUIButton14isDrawingBorderEv
+    // 0x6a5eec _ZNK6glitch3gui10CGUIButton15isDrawingBorderEv
     bool isDrawingBorder() const;
     // 0x6a5ec4 _ZN6glitch3gui10CGUIButton15setIsPushButtonEb
     void setIsPushButton(bool push);
@@ -240,9 +240,9 @@ public:
     bool isPushButton() const;
     // 0x6a5ecc _ZNK6glitch3gui10CGUIButton9isPressedEv
     bool isPressed() const;
-    // 0x6a5edc _ZN6glitch3gui10CGUIButton19setUseAlphaChannelEb
+    // 0x6a5edc _ZN6glitch3gui10CGUIButton18setUseAlphaChannelEb
     void setUseAlphaChannel(bool use);
-    // 0x6a5ee4 _ZNK6glitch3gui10CGUIButton19isAlphaChannelUsedEv
+    // 0x6a5ee4 _ZNK6glitch3gui10CGUIButton18isAlphaChannelUsedEv
     bool isAlphaChannelUsed() const;
 
     std::uint8_t pressed = 0;       // +0x158

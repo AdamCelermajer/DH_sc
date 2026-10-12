@@ -80,6 +80,10 @@ public:
     // 0x5974f4 _ZNK6glitch5scene10ISceneNode17getRenderingLayerEv
     int getRenderingLayer() const;
 
+    // 0x59719c _ZN6glitch5scene10ISceneNode19setAutomaticCullingENS0_14E_CULLING_TYPEE
+    // E_CULLING_TYPE is a 32-bit enum; the value is stored as given.
+    void setAutomaticCulling(std::uint32_t culling);
+
     // 0x5971bc _ZNK6glitch5scene10ISceneNode13isDebugObjectEv
     bool isDebugObject() const;
     // 0x5971a4 _ZN6glitch5scene10ISceneNode16setIsDebugObjectEb
@@ -110,6 +114,7 @@ public:
     void* gameData = nullptr;                             // +0x124
     float cameraOffset = 0.0f;                            // +0x128
     int renderingLayer = 0;                               // +0x12c
+    std::uint32_t automaticCulling = 0;                   // +0x118
 };
 
 }  // namespace glitch::scene

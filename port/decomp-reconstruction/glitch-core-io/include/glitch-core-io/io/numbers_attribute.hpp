@@ -61,6 +61,13 @@ public:
     glitch::video::SColorf getColorf() const override;                // 0x31defc
     glitch::core::quaternion getQuaternion() const override;          // 0x31e25c
     void setQuaternion(const glitch::core::quaternion& value) override;  // 0x32465c
+    glitch::core::CMatrix4<float> getMatrix() const override;          // 0x326af4
+    // Array accessors. The list of the other kind is cleared and refilled with the
+    // converted values (getFloatArray / getIntArray); the setters write up to count values.
+    std::vector<float> getFloatArray();                                  // 0x3264c4
+    std::vector<std::int32_t> getIntArray();                             // 0x3270d8
+    void setFloatArray(std::vector<float>& values);                      // 0x31ee9c
+    void setIntArray(std::vector<std::int32_t>& values);                 // 0x324564
 
 protected:
     // Element access on the active list (float or int), with the original's conversions:

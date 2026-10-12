@@ -19,6 +19,19 @@ struct position2d {
 };
 
 template <typename T>
+struct vector3d {
+    T X{};
+    T Y{};
+    T Z{};
+};
+
+template <typename T>
+struct aabbox3d {
+    vector3d<T> MinEdge;
+    vector3d<T> MaxEdge;
+};
+
+template <typename T>
 struct rect {
     position2d<T> UpperLeftCorner;
     position2d<T> LowerRightCorner;

@@ -1,10 +1,5 @@
 #include "net-session-online/multiplayer_state_machine.hpp"
 
-#include <cstdlib>
-
-namespace {
-// Unlinks an entry from the list and frees it. The count is reduced by the caller.
-}  // namespace
 
 // 0x4a00d8 _ZN23MultiplayerStateMachine16initStateMachineEv
 void MultiplayerStateMachine::initStateMachine() {
@@ -70,8 +65,8 @@ void MultiplayerStateMachine::removeStateEntry(std::int32_t stateId) {
 }
 
 // 0x4a0254 _ZN23MultiplayerStateMachine19destroyStateMachineEv
-// Partial: the original does not reset the count or the state here. They are kept
-// unchanged, as in the original.
+// Frees every entry. The count and the current state are left unchanged, as in the
+// original.
 void MultiplayerStateMachine::destroyStateMachine() {
     while (head_ != nullptr) {
         Entry* e = head_;

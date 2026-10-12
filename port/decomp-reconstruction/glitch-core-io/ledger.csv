@@ -344,3 +344,37 @@ elf_address,symbol,status,source_file,notes
 0x324df4,_ZN6glitch2io17CNumbersAttribute11setVector3dERKNS_4core8vector3dIfEE,reconstructed,glitch-core-io/src/numbers_attribute.cpp,"CNumbersAttribute::setVector3d: clears the active list, writes up to three components"
 0x3251d0,_ZN6glitch2io17CNumbersAttribute11setVector2dENS_4core8vector2dIiEE,reconstructed,glitch-core-io/src/numbers_attribute.cpp,"CNumbersAttribute::setVector2d(int): clears the active list, writes up to two components"
 0x325830,_ZN6glitch2io17CNumbersAttribute14setDimension2dENS_4core11dimension2dIiEE,reconstructed,glitch-core-io/src/numbers_attribute.cpp,"CNumbersAttribute::setDimension2d: clears the active list, writes width and height"
+0x31defc,_ZN6glitch2io17CNumbersAttribute9getColorfEv,reconstructed,glitch-core-io/src/numbers_attribute.cpp,"CNumbersAttribute::getColorf: float lists read directly, int lists divide by 255; missing components zero"
+0x31e25c,_ZN6glitch2io17CNumbersAttribute13getQuaternionEv,reconstructed,glitch-core-io/src/numbers_attribute.cpp,"CNumbersAttribute::getQuaternion: first four components, zero when missing"
+0x32465c,_ZN6glitch2io17CNumbersAttribute13setQuaternionENS_4core10quaternionE,reconstructed,glitch-core-io/src/numbers_attribute.cpp,"CNumbersAttribute::setQuaternion: clears the active list, writes up to four components"
+0x56a1a0,_ZN6glitch2io11CAttributes11addVector2dEPKcRKNS_4core8vector2dIfEEb,reconstructed,glitch-core-io/src/attributes_add.cpp,"addVector2d: appends a CVector2DAttribute (CNumbersAttribute layout, float list)"
+0x56a030,_ZN6glitch2io11CAttributes11addVector3dEPKcRKNS_4core8vector3dIfEEb,reconstructed,glitch-core-io/src/attributes_add.cpp,addVector3d: appends a CVector3DAttribute
+0x569ebc,_ZN6glitch2io11CAttributes11addVector4dEPKcRKNS_4core8vector4dIfEEb,reconstructed,glitch-core-io/src/attributes_add.cpp,addVector4d: appends a CVector4DAttribute
+0x5692c8,_ZN6glitch2io11CAttributes12addVector2diEPKcRKNS_4core8vector2dIiEEb,reconstructed,glitch-core-io/src/attributes_add.cpp,addVector2di: appends a CVector2DIAttribute (int list)
+0x569158,_ZN6glitch2io11CAttributes12addVector3diEPKcRKNS_4core8vector3dIiEEb,reconstructed,glitch-core-io/src/attributes_add.cpp,addVector3di: appends a CVector3DIAttribute (int list)
+0x568fe4,_ZN6glitch2io11CAttributes12addVector4diEPKcRKNS_4core8vector4dIiEEb,reconstructed,glitch-core-io/src/attributes_add.cpp,addVector4di: appends a CVector4DIAttribute (int list)
+0x568e64,_ZN6glitch2io11CAttributes13addPosition2dEPKcNS_4core10position2dIiEEb,reconstructed,glitch-core-io/src/attributes_add.cpp,addPosition2d: appends a CPosition2DAttribute (int list)
+0x569604,_ZN6glitch2io11CAttributes9addLine2dEPKcNS_4core6line2dIfEEb,reconstructed,glitch-core-io/src/attributes_add.cpp,addLine2d: appends a CLine2dAttribute (float list)
+0x56944c,_ZN6glitch2io11CAttributes9addLine3dEPKcNS_4core6line3dIfEEb,reconstructed,glitch-core-io/src/attributes_add.cpp,addLine3d: appends a CLine3dAttribute (float list)
+0x5697ac,_ZN6glitch2io11CAttributes13addTriangle3dEPKcNS_4core10triangle3dIfEEb,reconstructed,glitch-core-io/src/attributes_add.cpp,addTriangle3d: appends a CTriangleAttribute (float list)
+0x569b3c,_ZN6glitch2io11CAttributes8addBox3dEPKcNS_4core8aabbox3dIfEEb,reconstructed,glitch-core-io/src/attributes_add.cpp,addBox3d: appends a CBBoxAttribute (float list)
+0x569998,_ZN6glitch2io11CAttributes10addPlane3dEPKcNS_4core7plane3dIfEEb,reconstructed,glitch-core-io/src/attributes_add.cpp,addPlane3d: appends a CPlaneAttribute (float list)
+0x569d00,_ZN6glitch2io11CAttributes13addQuaternionEPKcNS_4core10quaternionEb,reconstructed,glitch-core-io/src/attributes_add.cpp,addQuaternion: appends a CQuaternionAttribute (float list)
+0x56a31c,_ZN6glitch2io11CAttributes9addColorfEPKcNS_5video7SColorfEb,reconstructed,glitch-core-io/src/attributes_add.cpp,addColorf: appends a CColorfAttribute (float list)
+0x56a70c,_ZN6glitch2io11CAttributes9addMatrixEPKcRKNS_4core8CMatrix4IfEEb,reconstructed,glitch-core-io/src/attributes_add.cpp,addMatrix: appends a CMatrixAttribute (sixteen floats)
+0x5659b4,_ZN6glitch2io11CAttributes12setAttributeEPKcRKNS_4core8vector2dIfEE,reconstructed,glitch-core-io/src/attributes_add.cpp,"setAttribute(name, vector2d<float>): setVector2d on the existing attribute, else addVector2d with flag false"
+0x567a9c,_ZN6glitch2io11CAttributes12setAttributeEPKcRKNS_4core8vector2dIiEE,reconstructed,glitch-core-io/src/attributes_add.cpp,"setAttribute(name, vector2d<int>): setVector2d(int) on the existing attribute, else addVector2di"
+0x56b7b8,_ZN6glitch2io11CAttributes12setAttributeEPKcRKNS_4core8vector3dIfEE,reconstructed,glitch-core-io/src/attributes_add.cpp,"setAttribute(name, vector3d<float>): setVector3d, else addVector3d"
+0x56b6f8,_ZN6glitch2io11CAttributes12setAttributeEPKcRKNS_4core8vector4dIfEE,reconstructed,glitch-core-io/src/attributes_add.cpp,"setAttribute(name, vector4d<float>): setVector4d, else addVector4d"
+0x56b638,_ZN6glitch2io11CAttributes12setAttributeEPKcRKNS_4core8vector3dIiEE,reconstructed,glitch-core-io/src/attributes_add.cpp,"setAttribute(name, vector3d<int>): setVector3di, else addVector3di"
+0x56b578,_ZN6glitch2io11CAttributes12setAttributeEPKcRKNS_4core8vector4dIiEE,reconstructed,glitch-core-io/src/attributes_add.cpp,"setAttribute(name, vector4d<int>): setVector4di, else addVector4di"
+0x56b978,_ZN6glitch2io11CAttributes12setAttributeEPKcNS_4core10position2dIiEE,reconstructed,glitch-core-io/src/attributes_add.cpp,"setAttribute(name, position2d<int>): setPosition, else addPosition2d"
+0x56bcc4,_ZN6glitch2io11CAttributes12setAttributeEPKcNS_4core6line2dIfEE,reconstructed,glitch-core-io/src/attributes_add.cpp,"setAttribute(name, line2d<float>): setLine2d, else addLine2d"
+0x56bf4c,_ZN6glitch2io11CAttributes12setAttributeEPKcNS_4core7plane3dIfEE,reconstructed,glitch-core-io/src/attributes_add.cpp,"setAttribute(name, plane3d<float>): setPlane, else addPlane3d"
+0x56add0,_ZN6glitch2io11CAttributes12setAttributeEPKcNS_4core10quaternionE,reconstructed,glitch-core-io/src/attributes_add.cpp,"setAttribute(name, quaternion): setQuaternion, else addQuaternion"
+0x56aee4,_ZN6glitch2io11CAttributes12setAttributeEPKcRKNS_4core8CMatrix4IfEE,reconstructed,glitch-core-io/src/attributes_add.cpp,"setAttribute(name, CMatrix4): setMatrix, else addMatrix"
+0x326af4,_ZN6glitch2io17CNumbersAttribute9getMatrixEv,reconstructed,glitch-core-io/src/numbers_attribute.cpp,"CNumbersAttribute::getMatrix: identity default, row-major from float list"
+0x3264c4,_ZN6glitch2io17CNumbersAttribute13getFloatArrayEv,reconstructed,glitch-core-io/src/numbers_attribute.cpp,CNumbersAttribute::getFloatArray: refills float list from converted int list when int list is active
+0x3270d8,_ZN6glitch2io17CNumbersAttribute11getIntArrayEv,reconstructed,glitch-core-io/src/numbers_attribute.cpp,CNumbersAttribute::getIntArray: refills int list from converted float list when float list is active
+0x31ee9c,_ZN6glitch2io17CNumbersAttribute13setFloatArrayERSt6vectorIfNS_4core10SAllocatorIfLNS_6memory13E_MEMORY_HINTE0EEEE,reconstructed,glitch-core-io/src/numbers_attribute.cpp,"CNumbersAttribute::setFloatArray: clears active list, copies up to count"
+0x324564,_ZN6glitch2io17CNumbersAttribute11setIntArrayERSt6vectorIiNS_4core10SAllocatorIiLNS_6memory13E_MEMORY_HINTE0EEEE,reconstructed,glitch-core-io/src/numbers_attribute.cpp,"CNumbersAttribute::setIntArray: clears active list, copies up to count"

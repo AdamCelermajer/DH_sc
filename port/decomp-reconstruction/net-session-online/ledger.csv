@@ -366,3 +366,32 @@ elf_address,symbol,status,source_file,notes
 0x83c484,_ZN13GLXPlayerUser19processUserGameListEPc,partial,port/decomp-reconstruction/net-session-online/src/glx_player_user_responses.cpp,clears game list first; parse not reconstructed
 0x83c6f8,_ZN13GLXPlayerUser21processUserReputationEPc,partial,port/decomp-reconstruction/net-session-online/src/glx_player_user_responses.cpp,parse of the reputation not reconstructed
 0x83adec,_ZN13GLXPlayerUser16processLiveFeedsEPc,partial,port/decomp-reconstruction/net-session-online/src/glx_player_user_responses.cpp,live feed list (+0x12c _LiveFeed array) not modelled; body is empty
+0x4a00d8,_ZN23MultiplayerStateMachine16initStateMachineEv,reconstructed,port/decomp-reconstruction/net-session-online/src/multiplayer_state_machine.cpp,
+0x4a00f8,_ZN23MultiplayerStateMachine29replaceStateEntryCallbackFuncEiPFiPvE,reconstructed,port/decomp-reconstruction/net-session-online/src/multiplayer_state_machine.cpp,first entry with the id
+0x4a012c,_ZN23MultiplayerStateMachine9skipStateEi,reconstructed,port/decomp-reconstruction/net-session-online/src/multiplayer_state_machine.cpp,first entry with the id
+0x4a0164,_ZN23MultiplayerStateMachine15runStateMachineEv,reconstructed,port/decomp-reconstruction/net-session-online/src/multiplayer_state_machine.cpp,"callback gets a null argument (the original passes the skip byte, 0)"
+0x4a01dc,_ZN23MultiplayerStateMachine16removeStateEntryEi,reconstructed,port/decomp-reconstruction/net-session-online/src/multiplayer_state_machine.cpp,entries are malloc and free in the original; new and delete here
+0x4a0254,_ZN23MultiplayerStateMachine19destroyStateMachineEv,reconstructed,port/decomp-reconstruction/net-session-online/src/multiplayer_state_machine.cpp,"count and state are not reset, as in the original"
+0x4a02a0,_ZN23MultiplayerStateMachine13addStateEntryEiPFiPvEb,reconstructed,port/decomp-reconstruction/net-session-online/src/multiplayer_state_machine.cpp,
+0x31d8d8,_ZN6IEventD1Ev,reconstructed,port/decomp-reconstruction/net-session-online/include/net-session-online/i_event.hpp,empty virtual destructor
+0x31d8dc,_ZNK6IEvent10getEventIDEv,reconstructed,port/decomp-reconstruction/net-session-online/include/net-session-online/i_event.hpp,returns the id at +0x04
+0x31fc20,_ZN6IEventD0Ev,skipped,port/decomp-reconstruction/net-session-online/include/net-session-online/i_event.hpp,compiler-generated deleting destructor; virtual dtor covers it
+0x32fdbc,_ZN14IEventReceiverD1Ev,reconstructed,port/decomp-reconstruction/net-session-online/include/net-session-online/i_event_receiver.hpp,empty virtual destructor
+0x330674,_ZN14IEventReceiverD0Ev,skipped,port/decomp-reconstruction/net-session-online/include/net-session-online/i_event_receiver.hpp,compiler-generated deleting destructor; virtual dtor covers it
+0x31f484,_ZN12CMsgDropLoot10GetDataPtrEv,reconstructed,port/decomp-reconstruction/net-session-online/include/net-session-online/c_msg_drop_loot.hpp,returns the 24-byte header at +0x50
+0x31f48c,_ZNK12CMsgDropLoot11GetDataSizeEv,reconstructed,port/decomp-reconstruction/net-session-online/src/c_msg_drop_loot.cpp,24 plus block length
+0x31fb84,_ZN12CMsgDropLoot9ResetDataEv,reconstructed,port/decomp-reconstruction/net-session-online/src/c_msg_drop_loot.cpp,zeroes byte +0x50 and +0x54..+0x67 as the original; frees the block and clears the pointer
+0x31ffa8,_ZN12CMsgDropLootD1Ev,reconstructed,port/decomp-reconstruction/net-session-online/src/c_msg_drop_loot.cpp,
+0x3203bc,_ZN12CMsgDropLoot8ReadDataER12NetBitStream,reconstructed,port/decomp-reconstruction/net-session-online/src/c_msg_drop_loot.cpp,returns the size from before the read; block read only when length is above 0
+0x3204a4,_ZN12CMsgDropLoot9WriteDataER12NetBitStream,reconstructed,port/decomp-reconstruction/net-session-online/src/c_msg_drop_loot.cpp,block write args from the ARM listing; returns the size from before the write
+0x3243c0,_ZN12CMsgDropLootD0Ev,skipped,port/decomp-reconstruction/net-session-online/include/net-session-online/c_msg_drop_loot.hpp,compiler-generated deleting destructor; virtual dtor covers it
+0x327908,_ZN12CMsgDropLoot13SetPropertiesEv,reconstructed,port/decomp-reconstruction/net-session-online/src/c_msg_drop_loot.cpp,type name string at +0x14 not modelled
+0x328c84,_ZN12CMsgDropLootC1Eb,partial,port/decomp-reconstruction/net-session-online/src/c_msg_drop_loot.cpp,"CMessage(const char*, bool) base ctor not recovered; the bool is not stored"
+0x31f4a8,_ZNK14CMsgQuestsSync11GetDataSizeEv,reconstructed,port/decomp-reconstruction/net-session-online/src/c_msg_quests_sync.cpp,block length plus 8
+0x31fbc0,_ZN14CMsgQuestsSync9ResetDataEv,reconstructed,port/decomp-reconstruction/net-session-online/src/c_msg_quests_sync.cpp,zeroes the 8-byte header and frees the block
+0x320434,_ZN14CMsgQuestsSync8ReadDataER12NetBitStream,reconstructed,port/decomp-reconstruction/net-session-online/src/c_msg_quests_sync.cpp,returns the size from before the read; negative length read as 0
+0x3204fc,_ZN14CMsgQuestsSync9WriteDataER12NetBitStream,reconstructed,port/decomp-reconstruction/net-session-online/src/c_msg_quests_sync.cpp,writes nothing and returns 0 when no block is set
+0x325d28,_ZN14CMsgQuestsSyncD1Ev,reconstructed,port/decomp-reconstruction/net-session-online/include/net-session-online/c_msg_quests_sync.hpp,defaulted; block freed by unique_ptr
+0x325d80,_ZN14CMsgQuestsSyncD0Ev,skipped,port/decomp-reconstruction/net-session-online/include/net-session-online/c_msg_quests_sync.hpp,compiler-generated deleting destructor; virtual dtor covers it
+0x32793c,_ZN14CMsgQuestsSync13SetPropertiesEv,reconstructed,port/decomp-reconstruction/net-session-online/src/c_msg_quests_sync.cpp,type name string at +0x14 not modelled
+0x3291f8,_ZN14CMsgQuestsSyncC1Eb,partial,port/decomp-reconstruction/net-session-online/src/c_msg_quests_sync.cpp,"CMessage(const char*, bool) base ctor not recovered; flags set here only"
