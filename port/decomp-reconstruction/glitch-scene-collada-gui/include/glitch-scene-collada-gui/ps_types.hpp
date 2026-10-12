@@ -57,78 +57,78 @@ public:
 template <typename Particle>
 class GNPSSizeModel {
 public:
-    // 0x63802c GNPSSizeModel<GNPSParticle>::initPSizeModel() (empty)
+    // 0x63802c _ZN6glitch2ps13GNPSSizeModelINS0_12GNPSParticleEE14initPSizeModelEv (empty)
     void initPSizeModel() {}
 };
 
 template <typename Particle>
 class PSizeModel {
 public:
-    // 0x64bd08 PSizeModel<SParticle>::initPSizeModel() (empty)
+    // 0x64bd08 _ZN6glitch2ps10PSizeModelINS0_9SParticleEE14initPSizeModelEv (empty)
     void initPSizeModel() {}
 };
 
 template <typename Particle>
 class GNPSColorModel {
 public:
-    // 0x6380d8 GNPSColorModel<GNPSParticle>::initPColorModel() (empty)
+    // 0x6380d8 _ZN6glitch2ps14GNPSColorModelINS0_12GNPSParticleEE15initPColorModelEv (empty)
     void initPColorModel() {}
 };
 
 template <typename Particle>
 class PColorModel {
 public:
-    // 0x64beec PColorModel<SParticle>::initPColorModel() (empty)
+    // 0x64beec _ZN6glitch2ps11PColorModelINS0_9SParticleEE15initPColorModelEv (empty)
     void initPColorModel() {}
 };
 
 template <typename Particle>
 class GNPSMotionModel {
 public:
-    // 0x638634 GNPSMotionModel<GNPSParticle>::initPMotionModel() (empty)
+    // 0x638634 _ZN6glitch2ps15GNPSMotionModelINS0_12GNPSParticleEE16initPMotionModelEv (empty)
     void initPMotionModel() {}
 };
 
 template <typename Particle>
 class PMotionModel {
 public:
-    // 0x64c17c PMotionModel<SParticle>::initPMotionModel() (empty)
+    // 0x64c17c _ZN6glitch2ps12PMotionModelINS0_9SParticleEE16initPMotionModelEv (empty)
     void initPMotionModel() {}
 };
 
 template <typename Particle>
 class PForcesModel {
 public:
-    // 0x638648 PForcesModel<GNPSParticle>::initPForces(GNPSParticle*, GNPSParticle*) (empty)
-    // 0x64c234 PForcesModel<SParticle>::initPForces(SParticle*, SParticle*) (empty)
+    // 0x638648 _ZN6glitch2ps12PForcesModelINS0_12GNPSParticleEE11initPForcesEPS2_S4_ (empty)
+    // 0x64c234 _ZN6glitch2ps12PForcesModelINS0_9SParticleEE11initPForcesEPS2_S4_ (empty)
     void initPForces(Particle* /*first*/, Particle* /*second*/) {}
 };
 
 template <typename Particle>
 class GNPSSpinModel {
 public:
-    // 0x63865c GNPSSpinModel<GNPSParticle>::initPSpinModel() (empty)
+    // 0x63865c _ZN6glitch2ps13GNPSSpinModelINS0_12GNPSParticleEE14initPSpinModelEv (empty)
     void initPSpinModel() {}
 };
 
 template <typename Particle>
 class PSpinModel {
 public:
-    // 0x64c248 PSpinModel<SParticle>::initPSpinModel() (empty)
+    // 0x64c248 _ZN6glitch2ps10PSpinModelINS0_9SParticleEE14initPSpinModelEv (empty)
     void initPSpinModel() {}
 };
 
 template <typename Particle>
 class GNPSLifeModel {
 public:
-    // 0x638670 GNPSLifeModel<GNPSParticle>::initPLifeModel() (empty)
+    // 0x638670 _ZN6glitch2ps13GNPSLifeModelINS0_12GNPSParticleEE14initPLifeModelEv (empty)
     void initPLifeModel() {}
 };
 
 template <typename Particle>
 class PLifeModel {
 public:
-    // 0x64c2e8 PLifeModel<SParticle>::initPLifeModel() (empty)
+    // 0x64c2e8 _ZN6glitch2ps10PLifeModelINS0_9SParticleEE14initPLifeModelEv (empty)
     void initPLifeModel() {}
 };
 

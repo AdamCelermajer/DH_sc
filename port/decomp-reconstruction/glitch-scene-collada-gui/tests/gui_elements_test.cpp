@@ -86,6 +86,20 @@ int main() {
     CHECK(button.isPushButton() && button.isDrawingBorder() && button.isAlphaChannelUsed());
     CHECK(!button.isPressed());
 
+    element.guiType = 3;
+    CHECK(element.getTypeName() == nullptr);
+
+    SBuiltInFontNode fontNode;
+    fontNode.font = &font;
+    SBuiltInFontNode fontSentinel;
+    CGUIEnvironment fonts;
+    CHECK(fonts.getBuiltInFont() == nullptr);
+    fonts.builtInFontBegin = &fontNode;
+    fonts.builtInFontEnd = &fontSentinel;
+    CHECK(fonts.getBuiltInFont() == &font);
+    fonts.builtInFontBegin = &fontSentinel;
+    CHECK(fonts.getBuiltInFont() == nullptr);
+
     std::printf("%s\n", failures ? "gui_elements: FAILED" : "gui_elements: ok");
     return failures != 0;
 }

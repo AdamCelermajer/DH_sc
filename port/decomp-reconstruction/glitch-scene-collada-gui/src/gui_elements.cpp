@@ -59,6 +59,18 @@ const char* IGUIElement::getName() const {
 }
 
 // 0x535014 _ZNK6glitch3gui11IGUIElement11getChildrenEv
+// Name table indexed by guiType. The original reads it from a static table
+// (glitch::gui::GUIElementTypeNames) that is not mapped yet, so it stays null
+// and getTypeName then returns null.
+namespace {
+const char* const* guiElementTypeNames = nullptr;
+}  // namespace
+
+// 0x5350a4 _ZNK6glitch3gui11IGUIElement11getTypeNameEv
+const char* IGUIElement::getTypeName() const {
+    return guiElementTypeNames ? guiElementTypeNames[guiType] : nullptr;
+}
+
 const std::vector<IGUIElement*>& IGUIElement::getChildren() const {
     return children;
 }
@@ -310,6 +322,14 @@ void CGUIButton::setUseAlphaChannel(bool use) {
 // 0x6a5ee4 _ZNK6glitch3gui10CGUIButton18isAlphaChannelUsedEv
 bool CGUIButton::isAlphaChannelUsed() const {
     return useAlphaChannel != 0;
+}
+
+// 0x535bf8 _ZNK6glitch3gui15CGUIEnvironment14getBuiltInFontEv
+CGUIFont* CGUIEnvironment::getBuiltInFont() const {
+    if (builtInFontBegin == builtInFontEnd) {
+        return nullptr;
+    }
+    return builtInFontBegin->font;
 }
 
 }  // namespace glitch::gui

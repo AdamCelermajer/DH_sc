@@ -1,7 +1,10 @@
 # glitch-scene-collada-gui notes
 
-Queue: 4138 functions (all owner engine-glitch). Ledger: 215 rows
-(129 reconstructed, 82 partial, 4 skipped). Only collada functions are done so far.
+Queue: 4138 functions (all owner engine-glitch). Ledger: 372 rows
+(281 reconstructed, 87 partial, 4 skipped). Wave 3 added 157 rows: 84 from the
+CColladaFactory, collada database creators and GUI accessors, then 73 from the
+scene, timeline, PS and collada-misc batch (two of them GUI partials). The
+`decomp_extract --remaining` count is 3406 unledgered.
 
 ## Classes and inferred layouts
 - CVisibilityEx: visible flag is a 32-bit word at +0x11c, bit 0 = visible. Base
@@ -51,25 +54,101 @@ Queue: 4138 functions (all owner engine-glitch). Ledger: 215 rows
   overloads and getDefaultValue/getBlendableAnimation are not done: they forward
   through SChannel and the ISceneNode/collada vtables.
 
+- CColladaFactory (collada_factory.hpp): the 30 pure virtuals in vtable order
+  (slots +0x08..+0x7c, see decomp_vtable.py). getExternalLightSceneNode has two
+  empty base bodies; its error helper (0x62ff80) is not reconstructed.
+- CColladaDatabase (wave 3): record at +0x00, factory at +0x04, record+0x20 file
+  name, record+0x24 file data, data+0x20 the SDatabaseTables holder. Each table is
+  a (count, base) word pair: the base is at the listed offset and the count is one
+  word before it. Strides: effects 0x74 (+0x58), geometry 0x10 (+0x6c), controllers
+  0x0c (+0x74), forces 0x10 (+0x8c), cameras 0x1c (+0x40), lights 0x18 (+0x48),
+  images 0x14 (+0x50), materials 0x24 (+0x60).
+  SGeometry notInstantiated at +0x08; SForce kind at +0x08 (0 gravity, 1 wind,
+  2 deflector); SInstanceForce url at +0x04.
+- CGUIEnvironment (wave 3): factory vector at +0x16c, built-in font list begin
+  +0x178 and end +0x17c (the sentinel). SBuiltInFontNode keeps the font pointer at
+  +0x18. IGUIElement: type index guiType at +0x154.
+- CSceneManager: hierarchyChanged +0x288, visibilityChanged +0x289.
+  CCameraSceneNode: input-receiver byte +0x165, bounding box +0x1d4.
+  CBillboardSceneNode: size +0x134, bounding box +0x13c.
+  CBatchMesh::SSegment: indexBegin +0x10, indexEnd +0x14, visible byte +0x20.
+  ISceneNode::automaticCulling at +0x118 (set by setAutomaticCulling).
+- ITimeController (base: update and destructor) and ITimelineController (derived:
+  currentFrame +0x04, jumpTo, getLoop, setScale, and getScale fixed at 1.0).
+  Collada CTimelineController keeps scale at +0x30.
+- CSceneNodeAnimatorSynchronizedSet: segment array at +0x60, count +0x6c, reachedEnd
+  byte +0x80. SSyncSegment is 0x20 bytes (timestamp +0x00, length +0x04).
+  ISkinnedMesh: skinning-enabled byte +0x18. Collada ISceneNodeAnimator: length +0x14.
+- Shape types PDPoint/PDLine/PDBox/PDCylinder return tags 3/4/0/2. They are
+  stand-ins without the PDomain base, so each empty destructor (D1) is its own body.
+- IParticleSystem<P>: world-matrix pointer at +0x0c (both particle types). The model
+  initialisers (GNPS* and P* for size, colour, motion, forces, spin, life) are
+  empty templates. Each instantiation is its own ledger row.
+
+## Type tags and symbols
+- Four-character type tags are stored as the little-endian word from the
+  pseudocode and commented with the ASCII form: "emty" 0x79746d65, "cam_" 0x5f6d6163,
+  "lght" 0x7468676c, "mesh" 0x6873656d, "smgr" 0x72676d73, "bill" 0x6c6c6962,
+  "basn" 0x6e736162.
+- Every `// 0xADDR _Z...` comment was checked against queue.csv. Hand-typed mangled
+  names had 118 length-prefix errors, which were corrected to the queue name. Keep
+  the check: the queue is the source of truth for the name, not the header text.
+- Int-index helpers (effectAt, geometryAt, forceAt, lightAt, cameraAt and the
+  constructX(int) overloads) index the table without a bounds check, as the original
+  getEffect(int) does (param * stride + base).
+
 ## Partial status
 generated_stubs.hpp holds 80 empty or constant-return bodies from the collada queue.
 Each is a free function template named by its original address, not yet attached
 to its owning class, so those ledger rows are `partial`.
 
+## Partial rows added in wave 3
+- IGUIElement::getTypeName (0x5350a4): returns guiElementTypeNames[guiType]. The name
+  table (glitch::gui::GUIElementTypeNames, 92 bytes of .data.rel.ro) is not mapped, so
+  the hook stays null and the function returns null.
+- CGUIEnvironment::getBuiltInFont (0x535bf8): the sentinel comparison and the font
+  pointer at +0x18 are reconstructed. The list links are a pad.
+
 ## Decisions
 - Refcounts: boost::intrusive_ptr out-parameters are modelled as `T*&` plus a
   count increment, matching the original's assignment behaviour.
 - Destructors and deleting destructors: the D1 body is kept where it is empty;
-  D0 (delete this) is `skipped` as a compiler-generated thunk.
+  D0 (delete this) is `skipped` as a compiler-generated thunk. Wave 3 added no D0
+  rows (the 4 skipped rows are from earlier waves).
+- Empty bodies are reconstructed, not partial. A body that returns a constant or
+  reads one field is reconstructed. Only a stubbed or unmapped table is partial.
 - Pointer-chasing through offsets is replaced by typed fields; no raw offset
   arithmetic is used.
 
+## Deferred (dependencies not mapped or claimed elsewhere)
+- constructController(SController*) 0x60fa24: claimed by another category.
+- constructNode, constructGNPSEmitter, constructCoronas, constructEmitter pointer
+  overloads: not in this queue.
+- CRootSceneNode::attachSkin 0x65b434: needs the list head at +0x160, which conflicts
+  with the SIntrusiveList size.
+- constructImage and the CImage constructor; constructMaterial(SMaterial*) (584 bytes).
+- CResFileManager load/unload; CColladaDatabase constructors and destructor.
+- getAnimation with SChannel; the CVirtualEx family (704 bytes); CDynamicAnimationSet
+  small functions (need getDatabaseIndex and SChannel).
+- IGUIElement::setName 0x539ec8: the string layout conflicts with getName.
+- CGUIEnvironment::getDefaultGUIElementFactory needs a pure virtual
+  getGUIElementFactory, which would break the existing test construction.
+- CGUIEnvironment::getRootGUIElement: embedded object, layout not mapped.
+- CTweakable (glitch::debugger): in the queue but out of scope for these classes.
+- Deleting destructors (D0, about 306 queued): left unledgered. The category uses
+  `skipped` for them, so add those rows only when the target calls for them.
+
 ## Remaining
-- CColladaDatabase constructors and construct* creators (60 left), CRootSceneNode construct paths, CColladaFactory creators,
-  CSkinnedMesh/CModularSkinnedMesh virtual paths, CSceneNodeAnimatorSynchronizedSet,
-  animation_track::CVisibilityEx/CVector3dEx/CTextureTransformEx blend and key-based
-  paths (need SAnimationAccessor and CApplicatorInfo), CParticleSystemSceneNode,
-  glitch::scene, glitch::gui and glitch::ps classes (not started).
+- CColladaDatabase constructors and remaining construct* creators, CRootSceneNode
+  construct paths, CSkinnedMesh/CModularSkinnedMesh virtual paths,
+  CSkinnedMeshSceneNode and CModularSkinnedMeshSceneNode destructors and
+  getAbsoluteTransformation, CSceneManager node-entry operator< (STransparentNodeEntry,
+  SDefaultNodeEntry), SViewFrustum::intersects, CSceneNodeAnimatorSynchronizedBlender
+  (segment vtable slots), animation_track::CVisibilityEx/CVector3dEx/CTextureTransformEx
+  blend and key-based paths (need SAnimationAccessor and CApplicatorInfo),
+  CParticleSystemSceneNode.
+- glitch::ps: PDomain, PDCone and PDBlob bases, the copy, transform, within and
+  generate members of the shapes, IParticleSystem beyond getWorldMatrixPtr.
 - Attach generated_stubs entries to their owning classes, which also makes those
   rows reconstructed.
 - Intrusive_ptr add_ref/release (0x60bbd4, 0x60c598) and onUnbindAll need the

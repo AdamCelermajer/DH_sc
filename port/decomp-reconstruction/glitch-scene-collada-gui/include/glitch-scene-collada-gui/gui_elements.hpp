@@ -28,6 +28,7 @@ class ITexture;
 namespace glitch::gui {
 
 class IGUIElement;
+class CGUIFont;
 class IGUIEditBox;
 class IGUISkin;
 class IGUISpriteBank;
@@ -60,6 +61,8 @@ public:
     const char* getName() const;
     // 0x535014 _ZNK6glitch3gui11IGUIElement11getChildrenEv
     const std::vector<IGUIElement*>& getChildren() const;
+    // 0x5350a4 _ZNK6glitch3gui11IGUIElement11getTypeNameEv (partial: the name table is not mapped)
+    const char* getTypeName() const;
 
     std::vector<IGUIElement*> children;  // +0x04, the child list (core::list in the original)
     const char* name = nullptr;          // +0x20, data pointer returned by getName
@@ -69,16 +72,26 @@ public:
     const wchar_t* text = nullptr;       // +0xe4
     std::wstring toolTipText;            // +0xe8
     int id = 0;                          // +0x130
+    int guiType = 0;                     // +0x154, index into the type-name table
 };
 
 // Environment fields read by the accessors. The focus element is compared by
 // identity; the factory list is a vector of element-factory pointers.
+// One node of the built-in font list. Only the font pointer at +0x18 is mapped;
+// the links before it are not reconstructed.
+struct SBuiltInFontNode {
+    std::uint8_t links[0x18] = {};  // +0x00..+0x17
+    CGUIFont* font = nullptr;       // +0x18
+};
+
 class CGUIEnvironment {
 public:
     // 0x535598 _ZNK6glitch3gui15CGUIEnvironment8getFocusEv
     IGUIElement* getFocus() const;
     // 0x53562c _ZNK6glitch3gui15CGUIEnvironment8hasFocusEPNS0_11IGUIElementE
     bool hasFocus(IGUIElement* element) const;
+    // 0x535bf8 _ZNK6glitch3gui15CGUIEnvironment14getBuiltInFontEv (partial: list links are not mapped)
+    CGUIFont* getBuiltInFont() const;
     // 0x535640 _ZNK6glitch3gui15CGUIEnvironment14getVideoDriverEv
     video::IVideoDriver* getVideoDriver() const;
     // 0x535648 _ZNK6glitch3gui15CGUIEnvironment13getFileSystemEv
@@ -99,6 +112,8 @@ public:
     IGUISkin* skin = nullptr;                                     // +0x1bc
     IEventReceiver* userEventReceiver = nullptr;                  // +0x1c4
     std::vector<void*> guiElementFactories;                       // +0x16c..+0x170
+    SBuiltInFontNode* builtInFontBegin = nullptr;                 // +0x178
+    SBuiltInFontNode* builtInFontEnd = nullptr;                   // +0x17c, sentinel
 };
 
 // Font accessors. The kerning values and sprite bank are the only mapped members.
