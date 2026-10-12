@@ -70,6 +70,20 @@ Status build_from_assets(const char* level_name, const char* source_path,
                          const std::uint8_t* bres_bytes, std::size_t bres_size,
                          Owner*, Result*) noexcept;
 
+// One source catalogue BRES and the dae path it was loaded from. Modules are
+// bound to the catalogue whose path equals their cache_dae (Module::LoadModule
+// opens each module's own file). An empty path marks the single-catalogue form.
+struct CatalogueBytes {
+    std::string path;
+    const std::uint8_t* bytes;
+    std::size_t size;
+};
+
+Status build_from_catalogues(const char* level_name, const char* source_path,
+                             const std::uint8_t* mlx_bytes, std::size_t mlx_size,
+                             const std::vector<CatalogueBytes>& catalogues,
+                             Owner*, Result*) noexcept;
+
 const char* status_name(Status) noexcept;
 
 } // namespace dh2::crypt_module_bounds_registry_v1

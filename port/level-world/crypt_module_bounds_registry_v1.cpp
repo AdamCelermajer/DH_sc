@@ -6,6 +6,7 @@
 #include <cmath>
 #include <cstring>
 #include <limits>
+#include <memory>
 #include <new>
 #include <utility>
 
@@ -27,14 +28,25 @@ bool finite_bounds(const dh2::octree::Box& box) noexcept {
     return true;
 }
 
+// One opened source catalogue. The owning path is the dae name Module::LoadModule
+// uses for that file; an empty path marks the single-catalogue form.
+struct OpenedCatalogue {
+    std::string path;
+    dh2::resources::BresView view{};
+    dh2::scene_payload::Scene scene{};
+};
+
 Status build_parsed(const dh2::world::SourceLevel* source,
-                    const dh2::scene_payload::Scene* scene,
-                    const dh2::resources::BresView* catalogue,
+                    const std::vector<std::unique_ptr<OpenedCatalogue>>& catalogues,
                     Owner* owner, Result* report) {
-    if (!source || !scene || !catalogue || !owner || !report ||
-        !catalogue->bytes || !catalogue->size ||
-        scene->image.bytes != catalogue->bytes || scene->image.size != catalogue->size)
-        return Status::invalid_argument;
+    if (!source || catalogues.empty() || !owner || !report) return Status::invalid_argument;
+    for (const auto& opened : catalogues) {
+        if (!opened || !opened->view.bytes || !opened->view.size ||
+            opened->scene.image.bytes != opened->view.bytes ||
+            opened->scene.image.size != opened->view.size)
+            return Status::invalid_argument;
+    }
+    const bool single = catalogues.size() == 1 && catalogues[0]->path.empty();
     if (!source->module_count) return Status::empty_root;
     if (source->module_count > max_modules || !source->modules)
         return Status::module_limit;
@@ -53,12 +65,28 @@ Status build_parsed(const dh2::world::SourceLevel* source,
             *report = totals;
             return Status::identity_missing;
         }
-        if (i == 0) {
-            candidate.catalogue_path = module.cache_dae;
-        } else if (std::strcmp(candidate.catalogue_path.c_str(), module.cache_dae) != 0) {
-            totals.failed_module_index = i;
-            *report = totals;
-            return Status::catalogue_mismatch;
+        // Each Module reads its own dae (Module::LoadModule), so the module's
+        // catalogue is the opened file whose path equals its cache_dae.
+        const OpenedCatalogue* catalogue = nullptr;
+        if (single) {
+            if (i == 0) {
+                candidate.catalogue_path = module.cache_dae;
+            } else if (std::strcmp(candidate.catalogue_path.c_str(), module.cache_dae) != 0) {
+                totals.failed_module_index = i;
+                *report = totals;
+                return Status::catalogue_mismatch;
+            }
+            catalogue = catalogues[0].get();
+        } else {
+            for (const auto& opened : catalogues) {
+                if (opened->path == module.cache_dae) { catalogue = opened.get(); break; }
+            }
+            if (!catalogue) {
+                totals.failed_module_index = i;
+                *report = totals;
+                return Status::catalogue_mismatch;
+            }
+            if (i == 0) candidate.catalogue_path = module.cache_dae;
         }
 
         for (float coordinate : {module.record.world_position[0],
@@ -73,7 +101,7 @@ Status build_parsed(const dh2::world::SourceLevel* source,
 
         dh2::module_scene_root_bounds::Result root{};
         const auto root_status = dh2::module_scene_root_bounds::build(
-            &module, scene, catalogue, module.record.world_position, &root);
+            &module, &catalogue->scene, &catalogue->view, module.record.world_position, &root);
         if (root_status == dh2::module_scene_root_bounds::Status::unsupported_transform) {
             totals.failed_module_index = i;
             *report = totals;
@@ -143,16 +171,16 @@ struct SourceOwner {
 
 } // namespace
 
-Status build_from_assets(const char* level_name, const char* source_path,
-                         const std::uint8_t* mlx_bytes, std::size_t mlx_size,
-                         const std::uint8_t* bres_bytes, std::size_t bres_size,
-                         Owner* owner, Result* report) noexcept {
+Status build_from_catalogues(const char* level_name, const char* source_path,
+                             const std::uint8_t* mlx_bytes, std::size_t mlx_size,
+                             const std::vector<CatalogueBytes>& catalogues,
+                             Owner* owner, Result* report) noexcept {
     if (!report) return Status::invalid_argument;
     Result initial{};
     initial.failed_module_index = no_module;
     *report = initial;
     if (!level_name || !*level_name || !source_path || !*source_path ||
-        !mlx_bytes || !mlx_size || !bres_bytes || !bres_size || !owner)
+        !mlx_bytes || !mlx_size || catalogues.empty() || !owner)
         return Status::invalid_argument;
 
     try {
@@ -162,18 +190,32 @@ Status build_from_assets(const char* level_name, const char* source_path,
                 mlx_bytes, mlx_size, &diagnostic) != dh2::world::Error::ok)
             return Status::import_failure;
 
-        dh2::resources::BresView catalogue{};
-        if (dh2_bres_open(&catalogue, bres_bytes, bres_size) !=
-            dh2::resources::BresError::ok) return Status::catalogue_failure;
-        dh2::scene_payload::Scene scene{};
-        if (dh2_scene_open(&scene, &catalogue) != dh2::scene_payload::Error::ok)
-            return Status::scene_failure;
-        return build_parsed(&source.value, &scene, &catalogue, owner, report);
+        std::vector<std::unique_ptr<OpenedCatalogue>> opened;
+        for (const auto& input : catalogues) {
+            if (!input.bytes || !input.size) return Status::invalid_argument;
+            auto item = std::make_unique<OpenedCatalogue>();
+            item->path = input.path;
+            if (dh2_bres_open(&item->view, input.bytes, input.size) !=
+                dh2::resources::BresError::ok) return Status::catalogue_failure;
+            if (dh2_scene_open(&item->scene, &item->view) != dh2::scene_payload::Error::ok)
+                return Status::scene_failure;
+            opened.push_back(std::move(item));
+        }
+        return build_parsed(&source.value, opened, owner, report);
     } catch (const std::bad_alloc&) {
         return Status::allocation_failure;
     } catch (...) {
         return Status::allocation_failure;
     }
+}
+
+Status build_from_assets(const char* level_name, const char* source_path,
+                         const std::uint8_t* mlx_bytes, std::size_t mlx_size,
+                         const std::uint8_t* bres_bytes, std::size_t bres_size,
+                         Owner* owner, Result* report) noexcept {
+    // Single-catalogue form: every module of the level comes from this BRES.
+    return build_from_catalogues(level_name, source_path, mlx_bytes, mlx_size,
+        {CatalogueBytes{std::string(), bres_bytes, bres_size}}, owner, report);
 }
 
 const char* status_name(Status status) noexcept {

@@ -74,7 +74,8 @@ struct SourceObjectCensusV1 {
 struct SpawnSelection{EntryPoint source;Point position{};Point rotation_degrees{};bool floor_snapped=false;};
 // Generated worlds with an authoritative SPWN sidecar may defer descriptor
 // spawn-floor validation until the selected source entrypoint is loaded.
-bool load(const resources::BresView&,const std::uint8_t* descriptor,std::size_t,
+// Multi-BDAE form: room r's template is resolved in views[room_sources[r]] (empty = views[0]).
+bool load(const std::vector<resources::BresView>&,const std::vector<std::uint32_t>& room_sources,const std::uint8_t* descriptor,std::size_t,Level&,std::string&,bool validate_descriptor_spawn=true);bool load(const resources::BresView&,const std::uint8_t* descriptor,std::size_t,
           Level&,std::string&,bool validate_descriptor_spawn=true);
 // Build the bounded static Module layout from the original Level .mlx and
 // selected SpawnPoint sidecar. This replaces the generated DWLD module table

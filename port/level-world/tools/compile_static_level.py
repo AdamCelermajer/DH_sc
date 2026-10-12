@@ -316,6 +316,13 @@ def compile_level(cache_path: Path, output: Path, *, row: int, level_name: str,
                 if not dae_value:
                     raise CompileError(f"module row {module_index} lacks dae")
                 paths["dae"] = add_source(dae_value, MAX_BDAE_BYTES)
+                # Module::LoadModule opens each module's own dae. The room
+                # template node must exist inside that file, or the runtime
+                # would fail to resolve it at load time.
+                dae_raw, _ = source_assets[paths["dae"]]
+                if module_id.encode("utf-8") not in dae_raw:
+                    raise CompileError(
+                        f"module row {module_index} node {module_id!r} is absent from {dae_value}")
 
                 children = []
                 if has_children:
@@ -488,6 +495,10 @@ def compile_level(cache_path: Path, output: Path, *, row: int, level_name: str,
                 _write_file(stage, "assets/" + relative, raw)
             (stage / f"{out_prefix}.dwld").write_bytes(dwld)
             (stage / f"{out_prefix}.spwn").write_bytes(spwn)
+            # One module dae path per DWLD room, in room order (sidecar read by
+            # the runtime so each room template resolves in its own BDAE).
+            dae_sidecar = "".join(str(row_["dae"]) + "\n" for row_ in module_rows).encode("utf-8")
+            (stage / f"{out_prefix}.dae").write_bytes(dae_sidecar)
 
             asset_manifest = []
             for relative, (raw, member) in sorted(source_assets.items()):
@@ -504,6 +515,7 @@ def compile_level(cache_path: Path, output: Path, *, row: int, level_name: str,
             generated = {
                 f"{out_prefix}.dwld": {"bytes": len(dwld), "sha256": sha256(dwld)},
                 f"{out_prefix}.spwn": {"bytes": len(spwn), "sha256": sha256(spwn)},
+                f"{out_prefix}.dae": {"bytes": len(dae_sidecar), "sha256": sha256(dae_sidecar)},
             }
             manifest: dict[str, object] = {
                 "format": "dh2-static-level-bundle-v1",

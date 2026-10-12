@@ -39710,7 +39710,8 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
     if(dh2_bres_open(&view,raw.data(),raw.size())!=dh2::resources::BresError::ok)throw std::runtime_error("World BRES rejected");
     dh2::world::Level candidate;
     const bool validate_descriptor_spawn=!level_assets.generated_crypt_layout||source_spawn_bytes.empty();
-    if(!dh2::world::load(view,selected_descriptor,selected_descriptor_size,candidate,error,validate_descriptor_spawn))throw std::runtime_error(error);
+    std::vector<dh2::resources::BresView> world_views{view};std::vector<std::vector<std::uint8_t>> world_bytes;std::vector<std::uint32_t> world_room_sources;std::vector<std::string> world_names{level_assets.bres};if(static_level_source){std::vector<std::uint8_t> sidecar;try{sidecar=read(assets,std::string(static_level_source->prefix)+".dae","worlds");}catch(const std::exception&){sidecar.clear();}for(std::size_t p=0;p<sidecar.size();){auto e=std::find(sidecar.begin()+p,sidecar.end(),std::uint8_t('\n'));std::string dae(sidecar.begin()+p,e);p=(e==sidecar.end())?sidecar.size():std::size_t(e-sidecar.begin())+1;if(dae.empty())throw std::runtime_error("World room BDAE sidecar rejected");auto known=std::find(world_names.begin(),world_names.end(),dae);if(known==world_names.end()){world_bytes.push_back(read(assets,dae,"original-cache"));dh2::resources::BresView module_view{};if(dh2_bres_open(&module_view,world_bytes.back().data(),world_bytes.back().size())!=dh2::resources::BresError::ok)throw std::runtime_error("Module BRES rejected: "+dae);world_views.push_back(module_view);world_names.push_back(dae);known=world_names.end()-1;}world_room_sources.push_back(std::uint32_t(known-world_names.begin()));}}
+    if(!dh2::world::load(world_views,world_room_sources,selected_descriptor,selected_descriptor_size,candidate,error,validate_descriptor_spawn))throw std::runtime_error(error);
     if(source_static_level||
        (generated_rule_level_name(level_assets.name,level_assets.level_file)&&
         (level_assets.generated_crypt_layout||level_assets.development_layout))){
@@ -39725,9 +39726,10 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
        level_assets.generated_crypt_layout?"data/scene/generated_crypt.mlx":
        "data/scene/x07_crypt_backup.mlx";
      dh2::crypt_module_bounds_registry_v1::Result bounds_result{};
-     const auto bounds_status=dh2::crypt_module_bounds_registry_v1::build_from_assets(
+     std::vector<dh2::crypt_module_bounds_registry_v1::CatalogueBytes> bounds_catalogues;for(std::size_t c=0;c<world_views.size();++c)bounds_catalogues.push_back({static_level_source?world_names[c]:std::string(),world_views[c].bytes,world_views[c].size});
+     const auto bounds_status=dh2::crypt_module_bounds_registry_v1::build_from_catalogues(
        level_assets.name.c_str(),source_path,
-       source_mlx->data(),source_mlx->size(),raw.data(),raw.size(),
+       source_mlx->data(),source_mlx->size(),bounds_catalogues,
        &candidate_crypt_module_bounds,&bounds_result);
      if(bounds_status!=dh2::crypt_module_bounds_registry_v1::Status::complete||
         candidate.rooms!=bounds_result.module_count)
