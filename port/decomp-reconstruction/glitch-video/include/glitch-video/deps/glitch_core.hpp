@@ -33,6 +33,16 @@ struct vector4d {
     T W{};
 };
 
+// glitch::core::CMatrix4<float>: sixteen values, row-major, then one flag byte at +0x40. The
+// parameter code copies 0x41 bytes (the 16 values and the flag). A flag set means identity
+// (the parameter setters release the heap matrix in that case). sizeof is 68, the original stride.
+// Only the layout is carried here; the constructors and operators are in glitch-core-io.
+template <typename T>
+struct CMatrix4 {
+    T M[16];                    // +0x00
+    bool flag = false;          // +0x40
+};
+
 }  // namespace glitch::core
 
 namespace glitch::video {

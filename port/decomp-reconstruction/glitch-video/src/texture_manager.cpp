@@ -36,6 +36,14 @@ void CTextureManager::addExternalImageWriter(IImageWriter* writer) {
     m_externalImageWriters.push_back(writer);
 }
 
+// 0x5e8dd4 _ZN6glitch5video15CTextureManager23markTextureAsUnloadableERKN5boost13intrusive_ptrINS0_8ITextureEEE
+void CTextureManager::markTextureAsUnloadable(const boost::intrusive_ptr<ITexture>& texture) {
+    ITexture* raw = texture.get();
+    if (std::find(m_textures.begin(), m_textures.end(), raw) == m_textures.end()) {
+        m_textures.push_back(raw);
+    }
+}
+
 // 0x3849a0 _ZN6glitch5video15CTextureManager13removeTextureEPNS0_8ITextureE
 int32_t CTextureManager::removeTexture(ITexture* texture) {
     if (texture == nullptr) {
