@@ -45,30 +45,44 @@ void NetStructBool::Write(NetBitStream& stream) const {
 
 // --- NetStructRangedFloat<Bits, Min, Max> ------------------------------------
 
-// Read: the original divides the raw value by 2^Bits - 1 (constant 0x487fffc0 for
-// 18 bits, 0x477fff00 for 16 bits). Mapping that fraction onto [Min, Max] is
-// inferred from the matching +Min offset in Write.
+namespace {
+
+// The original divides by 262140 for the 18-bit form (0x487fffc0), not by 2^18 - 1.
+// The 16-bit forms divide by 65535 = 2^16 - 1.
+template <unsigned Bits>
+constexpr float RangedDivisor() {
+    return Bits == 18 ? 262140.0f : static_cast<float>((1u << Bits) - 1);
+}
+
+// ARM VCVT.U32.F32 saturates (negative and NaN give 0, large values give 0xffffffff),
+// and the original converts with it, so the port does the same.
+std::uint32_t SaturatingToU32(float value) {
+    if (!(value > 0.f)) {
+        return 0;
+    }
+    if (value >= 4294967296.0f) {
+        return 0xffffffffu;
+    }
+    return static_cast<std::uint32_t>(value);
+}
+
+}  // namespace
+
+// Read (0x3a3c64 / 0x3a3cc4 / 0x3a3d24): raw / divisor, mapped onto [Min, Max] as
+// Min + fraction * (Max - Min). The 16/-1..1 form computes (f + f) - 1, the same value.
 template <unsigned Bits, int Min, int Max>
 void NetStructRangedFloat<Bits, Min, Max>::Read(NetBitStream& stream) {
     std::uint32_t raw = stream.ReadU32(Bits);
-    float fraction = static_cast<float>(raw) / static_cast<float>((1u << Bits) - 1);
+    float fraction = static_cast<float>(raw) / RangedDivisor<Bits>();
     SetValue(static_cast<float>(Min) + fraction * static_cast<float>(Max - Min));
 }
 
-// Write: the original adds -Min (0x48435000 = +200000 for Min -200000); the
-// scaling to Bits-bit fixed point is inferred.
+// Write (0x3a3d7c / 0x3a3dc4 / 0x3a3e0c): (value - Min) / (Max - Min) * divisor,
+// converted to an unsigned integer by truncation (no rounding, no clamping).
 template <unsigned Bits, int Min, int Max>
 void NetStructRangedFloat<Bits, Min, Max>::Write(NetBitStream& stream) const {
     float fraction = (value_ - static_cast<float>(Min)) / static_cast<float>(Max - Min);
-    float scaled = std::round(fraction * static_cast<float>((1u << Bits) - 1));
-    if (scaled < 0.f) {
-        scaled = 0.f;
-    }
-    float top = static_cast<float>((1u << Bits) - 1);
-    if (scaled > top) {
-        scaled = top;
-    }
-    stream.WriteU32(static_cast<std::uint32_t>(scaled), Bits);
+    stream.WriteU32(SaturatingToU32(fraction * RangedDivisor<Bits>()), Bits);
 }
 
 // NetStructRangedFloat<..>::TestValue 0x3a360c (16/-1..1), 0x3a3654 (16/+-50000), 0x3a3698 (18/+-200000)

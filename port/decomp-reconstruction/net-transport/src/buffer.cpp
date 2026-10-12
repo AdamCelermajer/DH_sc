@@ -9,20 +9,26 @@ Buffer::~Buffer() {
 }
 
 // 0x316568 _ZNK6Buffer4readEjPvj
+// Copies `length` bytes starting at `offset`, walking block by block. Each chunk is
+// min(remaining, block_size - in_block); after the first block the chunks start at 0.
+// Partial: the original's debug ASSERT is dropped. For a null or missing block the
+// original memcpy()s from null (a crash); here the read stops at that block instead.
 void Buffer::read(std::uint32_t offset, void* out, std::uint32_t length) const {
     std::uint32_t index = offset / block_size_;
     std::uint32_t in_block = offset % block_size_;
-    std::uint32_t count = std::min(length, block_size_ - in_block);
-    if (length == 0) {
-        return;
+    std::uint8_t* dst = static_cast<std::uint8_t*>(out);
+    std::uint32_t remaining = length;
+    while (remaining != 0) {
+        if (index >= blocks_.size() || blocks_[index] == nullptr) {
+            return;
+        }
+        std::uint32_t count = std::min(remaining, block_size_ - in_block);
+        std::memcpy(dst, blocks_[index] + in_block, count);
+        dst += count;
+        remaining -= count;
+        in_block = 0;
+        ++index;
     }
-    // Original asserts on a null block (debug ASSERT, not reproduced) and then
-    // memcpy()s from it; here the copy is skipped instead of dereferencing null.
-    const std::uint8_t* block = blocks_[index];
-    if (block == nullptr) {
-        return;
-    }
-    std::memcpy(out, block + in_block, count);
 }
 
 // 0x316f0c _ZN6Buffer5writeEjPKvj
@@ -54,8 +60,9 @@ void Buffer::clear() {
 }
 
 // 0x317014 _ZN6Buffer7setSizeEj
+// Partial: the original asserts the buffer is empty first (debug ASSERT dropped).
+// Otherwise the body matches the Hex-Rays pseudocode: one block of `size`, then a null sentinel.
 void Buffer::setSize(std::uint32_t size) {
-    // Original asserts the buffer is empty first (debug ASSERT, not reproduced).
     blocks_.reserve(2);
     std::uint8_t* block = new std::uint8_t[size];
     blocks_.push_back(block);

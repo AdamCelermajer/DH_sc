@@ -100,8 +100,8 @@ void CNetworkEmulation::SetPeakInfo(int base_ms, int jitter_ms, int period_s) {
 }
 
 // 0x826b8c _ZN17CNetworkEmulation21SetNetConditionPresetE18tNET_EMULATION_SET21tNET_CONDITION_PRESET
-// Preset 0 (and anything not 1..3) zeroes the set. The decompile drops the
-// SetPacketDelay arguments for that branch; zeros are assumed, as in the other calls.
+// Preset 0 (and anything not 1..3) zeroes the set. Hex-Rays shows the explicit zero
+// arguments for that branch, so the body matches the pseudocode.
 void CNetworkEmulation::SetNetConditionPreset(int set, int preset) {
     if (preset == 2) {
         SetPacketDelay(set, 90, 15);
@@ -139,12 +139,13 @@ void CNetworkEmulation::Clear() {
 }
 
 // 0x826f24 _ZN17CNetworkEmulation14CalcPercentageEfff
-// The three float arguments are not used by the original; the result is a
-// uniform value in [0, 100) with two decimal places.
-float CNetworkEmulation::CalcPercentage(float, float, float) {
+// Hex-Rays: roll = (|lrand48| % 10000) / 100 in [0, 100); the result is
+// (100 - param) / 100 * roll + prev * param / 100. The rate argument is not used.
+float CNetworkEmulation::CalcPercentage(float, float param, float prev) {
     std::int32_t r = Lrand48();
     std::int32_t magnitude = r < 0 ? -r : r;
-    return static_cast<float>(magnitude % 10000) / 100.0f;
+    float roll = static_cast<float>(magnitude % 10000) / 100.0f;
+    return (100.0f - param) / 100.0f * roll + (prev * param) / 100.0f;
 }
 
 // 0x826fbc _ZN17CNetworkEmulation9CalcDelayEii
@@ -162,6 +163,8 @@ int CNetworkEmulation::CalcDelay(int base_ms, int jitter_ms) {
 }
 
 // 0x826fec _ZN17CNetworkEmulation22GetCurrentConditionSetEv
+// Partial: the peak timer logic matches the pseudocode; only the clock is replaced
+// (NowMs stands in for GetOnline()'s time call).
 CNetworkEmulation::NetConditionSet* CNetworkEmulation::GetCurrentConditionSet() {
     if (!initialized_) {
         SetNetConditionPreset(0, 0);
@@ -185,13 +188,17 @@ CNetworkEmulation::NetConditionSet* CNetworkEmulation::GetCurrentConditionSet() 
 }
 
 // 0x827084 _ZN17CNetworkEmulation15GetReorderDelayEv
-// The original's final comparison is the only value it returns, so the
-// return value is inferred as "reorder roll is below the reorder rate".
-bool CNetworkEmulation::GetReorderDelay() {
+// Returns a delay when the reorder roll falls below the reorder rate (delay drawn
+// from reorder_param_a +/- reorder_param_b), otherwise 0. The roll is kept in a
+// function-local static, as in the original.
+int CNetworkEmulation::GetReorderDelay() {
     static float reorder_perc = 0.f;
     NetConditionSet* set = GetCurrentConditionSet();
     reorder_perc = CalcPercentage(set->reorder_rate, set->reorder_param_c, reorder_perc);
-    return reorder_perc < set->reorder_rate;
+    if (reorder_perc < set->reorder_rate) {
+        return CalcDelay(set->reorder_param_a, set->reorder_param_b);
+    }
+    return 0;
 }
 
 // 0x8270e0 _ZN17CNetworkEmulation18IsPacketDuplicatedEv

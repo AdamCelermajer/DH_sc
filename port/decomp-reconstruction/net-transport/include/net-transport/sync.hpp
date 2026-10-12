@@ -69,13 +69,13 @@ public:
 
     int Start();                        // 0x855688 _ZN6Thread5StartEv
     int Stop();                         // 0x85560c _ZN6Thread4StopEv
-    bool IsCurrentThreadRunning() const;  // 0x85559c _ZN6Thread22IsCurrectThreadRunningEv
+    bool IsCurrentThreadRunning() const;  // 0x84559c _ZN6Thread22IsCurrectThreadRunningEv
 
 protected:
     virtual int Init() { return 0; }    // vtable +0x08
     virtual void Step() = 0;            // vtable +0x0C
     virtual void Cleanup() {}           // vtable +0x10
-    void Run();                         // 0x8555c0 _ZN6Thread3RunEv
+    void Run();                         // 0x8455c0 _ZN6Thread3RunEv
 
 private:
     std::thread handle_;                // +0x04 (pthread_t)

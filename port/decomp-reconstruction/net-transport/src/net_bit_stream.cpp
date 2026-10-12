@@ -1,6 +1,7 @@
 #include "net-transport/net_bit_stream.hpp"
 
 #include <cstring>
+#include <new>
 
 namespace {
 constexpr std::uint32_t kReadOverflow = 1;
@@ -22,25 +23,38 @@ NetBitStream::NetBitStream(std::uint32_t size) {
 
 // 0x80ef8c _ZN12NetBitStreamC2ERKS_
 // 0x80eef4 _ZN12NetBitStreamC1ERKS_
-// The original copies the bytes but never stores size_, so a copy reports size 0.
+// Partial: the original allocates with nothrow new and then memsets the result even
+// when the allocation failed (a crash). Here the copy is skipped on a null buffer
+// and a throwing allocation is not used. Copies buffer, size and both positions.
 NetBitStream::NetBitStream(const NetBitStream& other) {
-    buffer_ = new std::uint8_t[other.size_]();
-    std::memcpy(buffer_, other.buffer_, other.size_);
+    buffer_ = new (std::nothrow) std::uint8_t[other.size_]();
+    if (buffer_ != nullptr) {
+        std::memcpy(buffer_, other.buffer_, other.size_);
+        size_ = other.size_;
+        read_pos_ = other.read_pos_;
+        write_pos_ = other.write_pos_;
+    }
 }
 
 // 0x80ee5c _ZN12NetBitStreamaSERKS_
-// When the destination is too small the original replaces the buffer but does
-// not update size_; that is reproduced here.
+// Partial: nothrow allocation; the original memsets the buffer even when it is null.
+// Here that memset is skipped. Copies the bytes, then size, read and write position.
 NetBitStream& NetBitStream::operator=(const NetBitStream& other) {
     if (this != &other) {
         std::uint32_t n = other.size_;
         if (size_ < n) {
-            delete[] buffer_;
-            buffer_ = new std::uint8_t[n]();
+            if (buffer_ != nullptr) {
+                delete[] buffer_;
+                buffer_ = nullptr;
+            }
+            buffer_ = new (std::nothrow) std::uint8_t[n]();
         }
-        std::memset(buffer_, 0, n);
         if (buffer_ != nullptr) {
+            std::memset(buffer_, 0, n);
             std::memcpy(buffer_, other.buffer_, other.size_);
+            size_ = other.size_;
+            read_pos_ = other.read_pos_;
+            write_pos_ = other.write_pos_;
         }
     }
     return *this;
@@ -53,8 +67,7 @@ NetBitStream::~NetBitStream() {
 }
 
 // 0x80f024 _ZN12NetBitStreameqERKS_
-// Original tail-calls memcmp and returns its raw value (0 when equal). Written
-// here with the intended meaning: equal streams compare true.
+// Hex-Rays: memcmp(...) == 0 over the written bytes, so equal streams compare true.
 bool NetBitStream::operator==(const NetBitStream& other) const {
     if (this == &other) {
         return true;
@@ -168,8 +181,7 @@ std::uint32_t NetBitStream::ReadByte(std::uint32_t bits) {
 }
 
 // 0x80e5dc _ZN12NetBitStream8WriteU32Ejj
-// The decompile drops the bit-count argument of the per-byte WriteByte call;
-// it is taken here as min(remaining, 8), mirroring ReadU32.
+// Hex-Rays: ceil(bits / 8) calls to WriteByte, each with min(remaining, 8) bits.
 void NetBitStream::WriteU32(std::uint32_t value, std::uint32_t bits) {
     std::uint32_t remaining = bits;
     while (remaining > 0) {
@@ -197,10 +209,13 @@ std::uint32_t NetBitStream::ReadU32(std::uint32_t bits) {
     return result;
 }
 
-// 0x80eac8 _ZN12NetBitStream12ShiftMemCopyEPvjPKvji (write direction)
+// 0x80eac8 _ZN12NetBitStream12ShiftMemCopyEPvjPKvji (write direction, a6 = shift >= 0)
+// Partial: one function in the original, split here into CopyBitsIn and CopyBitsOut.
 // dst is the byte holding the next write bit, shift = that bit offset in the byte.
-// The first byte is OR-ed into the existing data, following bytes are assigned,
-// as in the original. Stores past dst_end are skipped.
+// shift 0: memcpy of ceil(bits/8) bytes, then the last byte keeps only its top bits.
+// shift > 0: the first byte is OR-ed into the existing data, following bytes are
+// assigned, as in the original. Bounds guards: the original writes one byte past the
+// end when a write ends at the buffer end; that byte is skipped here.
 void NetBitStream::CopyBitsIn(std::uint8_t* dst, std::uint8_t* dst_end, unsigned shift,
                               const std::uint8_t* src, std::uint32_t bits) {
     std::uint32_t count = BytesFor(bits);
@@ -209,6 +224,9 @@ void NetBitStream::CopyBitsIn(std::uint8_t* dst, std::uint8_t* dst_end, unsigned
     }
     if (shift == 0) {
         std::memcpy(dst, src, count);
+        if ((bits & 7) != 0) {
+            dst[count - 1] &= static_cast<std::uint8_t>(0xffu << (8 - (bits & 7)));
+        }
         return;
     }
     std::uint8_t carry = dst < dst_end ? dst[0] : 0;
@@ -223,8 +241,11 @@ void NetBitStream::CopyBitsIn(std::uint8_t* dst, std::uint8_t* dst_end, unsigned
     }
 }
 
-// 0x80eac8 (read direction): dst receives bits starting at src bit offset shift.
-// Trailing bits of the last byte are cleared so the output is deterministic.
+// 0x80eac8 (read direction, a6 = -shift in the original): dst receives `bits` bits
+// starting at src bit offset shift. shift 0: memcpy plus last-byte mask, as the
+// original. shift > 0: each byte is (src[k] << shift) | (src[k+1] >> (8 - shift)), with
+// no mask on the last byte (the original does not clear it). The byte after the
+// last one is read only inside src_end (bounds guard, see CopyBitsIn).
 void NetBitStream::CopyBitsOut(std::uint8_t* dst, const std::uint8_t* src, const std::uint8_t* src_end,
                                unsigned shift, std::uint32_t bits) {
     std::uint32_t count = BytesFor(bits);
@@ -233,15 +254,15 @@ void NetBitStream::CopyBitsOut(std::uint8_t* dst, const std::uint8_t* src, const
     }
     if (shift == 0) {
         std::memcpy(dst, src, count);
-    } else {
-        for (std::uint32_t k = 0; k < count; ++k) {
-            std::uint8_t lo = src[k];
-            std::uint8_t hi = src + k + 1 < src_end ? src[k + 1] : 0;
-            dst[k] = static_cast<std::uint8_t>((lo << shift) | (hi >> (8 - shift)));
+        if ((bits & 7) != 0) {
+            dst[count - 1] &= static_cast<std::uint8_t>(0xffu << (8 - (bits & 7)));
         }
+        return;
     }
-    if ((bits & 7) != 0) {
-        dst[count - 1] &= static_cast<std::uint8_t>(0xffu << (8 - (bits & 7)));
+    for (std::uint32_t k = 0; k < count; ++k) {
+        std::uint8_t lo = src[k];
+        std::uint8_t hi = src + k + 1 < src_end ? src[k + 1] : 0;
+        dst[k] = static_cast<std::uint8_t>((lo << shift) | (hi >> (8 - shift)));
     }
 }
 
@@ -296,7 +317,10 @@ void NetBitStream::WriteStream(const NetBitStream& other) {
 }
 
 // 0x80edb0 _ZN12NetBitStream11WriteStringESsj
-// max_len == 0 means no limit. The length is written as one byte.
+// Partial: Hex-Rays reads the length from the string object (end - begin, capped by
+// the object's second word when that is nonzero) and does not read the third
+// argument. The string layout is not recovered, so std::string::size() with max_len
+// (0 = no limit) is used. The length is written as one byte.
 void NetBitStream::WriteString(const std::string& text, std::uint32_t max_len) {
     std::uint32_t length = static_cast<std::uint32_t>(text.size());
     if (max_len != 0 && max_len <= length) {
@@ -307,7 +331,7 @@ void NetBitStream::WriteString(const std::string& text, std::uint32_t max_len) {
 }
 
 // 0x80ee0c _ZN12NetBitStream9GetBufferEPcj
-// The second argument is not used by the original body.
+// The second argument is not used by the original body (the copy length is the write position).
 void NetBitStream::GetBuffer(char* out, std::uint32_t) {
     std::memcpy(out, buffer_, BytesFor(write_pos_));
 }

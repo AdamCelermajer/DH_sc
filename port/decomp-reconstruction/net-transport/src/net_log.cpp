@@ -3,7 +3,7 @@
 CNetLog CNetLog::s_log;
 
 // 0x80f078 _ZN7CNetLog6UpdateEv
-// Original body is empty.
+// Hex-Rays body is empty (bx lr), so the empty body is the complete reconstruction.
 void CNetLog::Update() {}
 
 // 0x80f07c _ZN7CNetLog11GetInstanceEv

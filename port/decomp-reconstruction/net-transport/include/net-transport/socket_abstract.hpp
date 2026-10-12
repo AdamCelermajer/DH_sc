@@ -21,7 +21,7 @@ public:
 
 protected:
     // Vtable slot 0 in the original (CSocket::SetSocketOptions).
-    virtual void SetSocketOptions(unsigned int options) = 0;
+    virtual int SetSocketOptions(unsigned int options) = 0;
     // Vtable slot +0x14 in the original (CSocket::IsConnected).
     virtual bool IsConnected() const = 0;
 

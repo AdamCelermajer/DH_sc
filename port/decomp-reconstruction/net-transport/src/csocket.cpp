@@ -110,7 +110,8 @@ int CSocket::GetSocketError() const {
 }
 
 // 0x828064 _ZN7CSocket14GetPeerAddressEv
-// On failure the address recorded by Accept is returned.
+// Hex-Rays: getpeername() address, or the address recorded by Accept on failure. The
+// strerror_r and inet_ntoa results in the failure path are never read, so they are omitted.
 std::uint32_t CSocket::GetPeerAddress() {
     sockaddr_in sa{};
     socklen_t len = sizeof(sa);
@@ -162,6 +163,7 @@ std::int64_t CSocket::ReceiveFrom(in_addr& from, std::uint16_t& from_port, char*
 }
 
 // 0x8282ac _ZN7CSocket7ReceiveEPci
+// The original also increments a static counter (_ZL7printed) that nothing reads, so it is omitted.
 std::int64_t CSocket::Receive(char* buf, int len) {
     if (!valid_ || !IsConnected()) {
         return -1;
@@ -181,7 +183,7 @@ std::int64_t CSocket::Receive(char* buf, int len) {
 }
 
 // 0x828380 _ZN7CSocket6SendToERK7in_addrtPvi
-// Partial: the decompile shows no return value; the sendto() result is returned here.
+// Returns the sendto() result (the decompile returns it).
 std::int64_t CSocket::SendTo(const in_addr& to, std::uint16_t port, const void* data, int len) {
     if (!valid_) {
         return -1;
@@ -209,38 +211,47 @@ std::int64_t CSocket::Send(const void* data, int len) {
 }
 
 // 0x8284c8 _ZN7CSocket16SetSocketOptionsEj
-// Bit 1: SO_REUSEADDR. Bit 0: SO_BROADCAST. Bit 2: TCP_NODELAY. Each failure logs and stops.
-void CSocket::SetSocketOptions(unsigned int options) {
+// Bit 1: SO_REUSEADDR. Bit 0: SO_BROADCAST. Bit 2: TCP_NODELAY. As in the original, a
+// failed REUSEADDR call ends the work; otherwise a failed broadcast call ends it before
+// nodelay runs, and a failed nodelay call ends it. Returns the last setsockopt() result
+// (0 when no call ran).
+int CSocket::SetSocketOptions(unsigned int options) {
     int on = 1;
+    int result = static_cast<int>(options & 2);
     if ((options & 2) != 0) {
-        if (::setsockopt(static_cast<NativeSocket>(handle_), SOL_SOCKET, SO_REUSEADDR,
-                         reinterpret_cast<const char*>(&on), sizeof(on)) < 0) {
+        result = ::setsockopt(static_cast<NativeSocket>(handle_), SOL_SOCKET, SO_REUSEADDR,
+                              reinterpret_cast<const char*>(&on), sizeof(on));
+        if (result < 0) {
             GetSocketError();
-            return;
+            return result;
         }
     }
     if ((options & 1) != 0) {
-        if (::setsockopt(static_cast<NativeSocket>(handle_), SOL_SOCKET, SO_BROADCAST,
-                         reinterpret_cast<const char*>(&on), sizeof(on)) < 0) {
+        result = ::setsockopt(static_cast<NativeSocket>(handle_), SOL_SOCKET, SO_BROADCAST,
+                              reinterpret_cast<const char*>(&on), sizeof(on));
+        if (result < 0) {
             GetSocketError();
-            return;
+            return result;
         }
     }
     if ((options & 4) != 0) {
-        if (::setsockopt(static_cast<NativeSocket>(handle_), IPPROTO_TCP, TCP_NODELAY,
-                         reinterpret_cast<const char*>(&on), sizeof(on)) < 0) {
+        result = ::setsockopt(static_cast<NativeSocket>(handle_), IPPROTO_TCP, TCP_NODELAY,
+                              reinterpret_cast<const char*>(&on), sizeof(on));
+        if (result < 0) {
             GetSocketError();
         }
     }
+    return result;
 }
 
 // 0x8285ec _ZN7CSocket6AcceptER7in_addrRt
-// Partial: the decompiled body sets O_NONBLOCK on the listening handle and records the
-// peer, but never stores the accepted handle. The new handle is returned here so the
-// caller can keep it; the original's use of it is not recovered.
+// Returns 0 when no connection is pending, -1 when accept() fails, and the accepted
+// handle otherwise. O_NONBLOCK is set on the listening handle. The peer port is stored
+// as the raw network-order word, as the original does (the assembly uses LDRH/STRH with no
+// byte swap), so it is not host order.
 int CSocket::Accept(in_addr& from, std::uint16_t& from_port) {
     if (!DataAvailable(0)) {
-        return -1;
+        return 0;
     }
     sockaddr_in sa{};
     socklen_t len = sizeof(sa);
@@ -252,7 +263,7 @@ int CSocket::Accept(in_addr& from, std::uint16_t& from_port) {
     }
     net_platform::SetNonBlocking(static_cast<NativeSocket>(handle_));
     from = sa.sin_addr;
-    from_port = ntohs(sa.sin_port);
+    from_port = sa.sin_port;
     peer_address_ = static_cast<std::uint32_t>(sa.sin_addr.s_addr);
     peer_port_ = from_port;
     return accepted;
@@ -271,8 +282,8 @@ int CSocket::Listen() {
 }
 
 // 0x828738 _ZN7CSocket7ConnectERK7in_addrt
-// Returns 0 when connected or the attempt would block, 1 when the connect is in progress
-// (the connected flag is set), and -1 after a hard failure (the socket is closed).
+// Returns 0 when connected, already connected or would-block; 1 when the connect is in
+// progress (the connected flag is set); -1 after a hard failure (the socket is closed).
 int CSocket::Connect(const in_addr& peer, std::uint16_t port) {
     sockaddr_in sa = MakeAddress(peer, port);
     int result = ::connect(static_cast<NativeSocket>(handle_), reinterpret_cast<const sockaddr*>(&sa), sizeof(sa));
@@ -289,8 +300,8 @@ int CSocket::Connect(const in_addr& peer, std::uint16_t port) {
 }
 
 // 0x8289bc _ZN7CSocket7OpenUDPEtj
-// Partial: SetSocketOptions returns nothing in this port, so the original's negative
-// check on its result is always passed.
+// Order as in the original: socket, bind, nonblocking, options. A negative result from
+// SetSocketOptions closes the socket and is returned.
 int CSocket::OpenUDP(std::uint16_t port, unsigned int options) {
     if (!can_open_) {
         return -1;
@@ -310,14 +321,18 @@ int CSocket::OpenUDP(std::uint16_t port, unsigned int options) {
         return -1;
     }
     net_platform::SetNonBlocking(static_cast<NativeSocket>(handle_));
-    SetSocketOptions(options);
+    int result = SetSocketOptions(options);
+    if (result < 0) {
+        Close();
+        return result;
+    }
     valid_ = true;
     return 0;
 }
 
 // 0x828868 _ZN7CSocket7OpenTCPEtj
-// Partial: same SetSocketOptions caveat as OpenUDP. The original closes the handle when
-// the options fail; this port closes it when bind fails.
+// Order as in the original: socket, nonblocking, options, bind. A negative result from
+// SetSocketOptions closes the socket and is returned.
 int CSocket::OpenTCP(std::uint16_t port, unsigned int options) {
     if (!can_open_) {
         return -1;
@@ -328,7 +343,11 @@ int CSocket::OpenTCP(std::uint16_t port, unsigned int options) {
         return -1;
     }
     net_platform::SetNonBlocking(static_cast<NativeSocket>(handle_));
-    SetSocketOptions(options);
+    int result = SetSocketOptions(options);
+    if (result < 0) {
+        Close();
+        return result;
+    }
     sockaddr_in sa{};
     sa.sin_family = AF_INET;
     sa.sin_port = htons(port);
@@ -343,9 +362,10 @@ int CSocket::OpenTCP(std::uint16_t port, unsigned int options) {
 }
 
 // 0x827da0 _ZN7CSocket15GetLocalAddressEv
-// Walks the interface list and returns the first up, non-loopback IPv4 address. Winsock has
-// no SIOCGIFCONF, so the Windows build asks the resolver for the host's addresses instead.
-// Partial. The original leaks its probe socket on success; it is closed here.
+// Walks the SIOCGIFCONF list and returns the first up, non-loopback IPv4 address. Winsock
+// has no SIOCGIFCONF, so the Windows build asks the resolver for the host's addresses.
+// Partial: the original leaks its probe socket on the ioctl-failure and found paths; the
+// port closes it on every path. The Windows branch is a stand-in.
 std::uint32_t CSocket::GetLocalAddress() {
 #ifndef _WIN32
     int fd = ::socket(AF_INET, SOCK_DGRAM, 0);

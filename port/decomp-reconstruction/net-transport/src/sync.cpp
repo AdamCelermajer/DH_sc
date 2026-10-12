@@ -24,15 +24,16 @@ int CMutex::IsLocked() const {
 CSemaphore::CSemaphore(int initial) : count_(initial) {}
 
 // 0x80e2e4 _ZN10CSemaphore4WaitEv
-// Original body is empty; no blocking is performed.
+// Hex-Rays body is empty (bx lr); no blocking is performed. Kept partial: the
+// no-op is the original behaviour, and real primitives need a design decision.
 void CSemaphore::Wait() {}
 
 // 0x80e2e8 _ZN10CSemaphore7ReleaseEi
-// Original body is empty; the count is not changed.
+// Hex-Rays body is empty; the count is not changed. Partial, as Wait.
 void CSemaphore::Release(int) {}
 
 // 0x80e33c _ZN14CReadWriteLock9LockWriteEv
-// Original body is empty: not a real lock.
+// Hex-Rays body is empty: not a real lock. Partial, as CSemaphore::Wait.
 void CReadWriteLock::LockWrite() {}
 
 // 0x80e340 _ZN14CReadWriteLock11UnlockWriteEv
@@ -71,15 +72,17 @@ Thread::~Thread() {
     }
 }
 
-// 0x85559c _ZN6Thread22IsCurrectThreadRunningEv
-// The original probes the pthread with pthread_kill(tid, 0) and treats EINVAL
-// and ESRCH as "not running". std::thread has no probe; joinable() is used.
+// 0x84559c _ZN6Thread22IsCurrectThreadRunningEv
+// Partial: the original probes the pthread with pthread_kill(tid, 0) and reports
+// running unless the result is EINVAL (22) or ESRCH (3). std::thread has no probe;
+// joinable() stands in for it.
 bool Thread::IsCurrentThreadRunning() const {
     return handle_.joinable();
 }
 
-// 0x8555c0 _ZN6Thread3RunEv
-// Original prints "PthredSelf" via XP_DEBUG_OUT first; that log is omitted.
+// 0x8455c0 _ZN6Thread3RunEv
+// Partial: the original prints "PthredSelf" via XP_DEBUG_OUT first; that log is dropped.
+// The loop itself matches the pseudocode: while (!stop) Step().
 void Thread::Run() {
     while (!stop_.load()) {
         Step();

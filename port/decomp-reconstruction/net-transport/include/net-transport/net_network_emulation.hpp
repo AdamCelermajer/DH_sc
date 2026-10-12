@@ -48,7 +48,7 @@ public:
 
     bool IsPacketLost();                                  // 0x827140
     bool IsPacketDuplicated();                            // 0x8270e0
-    bool GetReorderDelay();                               // 0x827084
+    int GetReorderDelay();                                // 0x827084, delay or 0
     int GetPacketDelay();                                 // 0x827120
 
     const NetConditionSet& Set(int index) const { return sets_[index]; }

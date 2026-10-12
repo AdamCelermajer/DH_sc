@@ -8,11 +8,11 @@
 //   +0x0a connected flag                    (CSocketAbstract::connected_)
 //   +0x0b listening flag, set by Listen
 //   +0x0c peer address (in_addr), set by Accept
-//   +0x10 peer port (host order), set by Accept
+//   +0x10 peer port (raw network-order word), set by Accept
 //
-// Deviations: debug logging (strerror_r and inet_ntoa results, the static print
-// counter) is not reproduced; the original's vtable-dispatched error hooks are
-// direct calls here (CSocket is not subclassed in this tree).
+// Deviations: debug logging is not reproduced (strerror_r and inet_ntoa results that
+// are never read, and the static print counter); the original's vtable-dispatched error
+// hooks are direct calls here (CSocket is not subclassed in this tree).
 #pragma once
 
 #include <cstddef>
@@ -42,8 +42,8 @@ public:
     std::int64_t Receive(char* buf, int len);        // 0x8282ac _ZN7CSocket7ReceiveEPci
     std::int64_t SendTo(const in_addr& to, std::uint16_t port, const void* data, int len);  // 0x828380
     std::int64_t Send(const void* data, int len);    // 0x82844c _ZN7CSocket4SendEPvi
-    void SetSocketOptions(unsigned int options) override;  // 0x8284c8 _ZN7CSocket16SetSocketOptionsEj
-    // Accepts one pending connection; returns the new handle or -1. Partial (see notes).
+    int SetSocketOptions(unsigned int options) override;  // 0x8284c8 _ZN7CSocket16SetSocketOptionsEj, returns last setsockopt result
+    // Accepts one pending connection: 0 when none is pending, -1 on error, else the new handle.
     int Accept(in_addr& from, std::uint16_t& from_port);   // 0x8285ec _ZN7CSocket6AcceptER7in_addrRt
     int Listen();                                    // 0x8286e4 _ZN7CSocket6ListenEv
     bool IsListening() const { return listening_; }  // accessor, not in the original

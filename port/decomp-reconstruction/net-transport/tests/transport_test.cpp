@@ -14,7 +14,10 @@ public:
     bool connected = true;
 
 protected:
-    void SetSocketOptions(unsigned int options) override { last_options = options; }
+    int SetSocketOptions(unsigned int options) override {
+        last_options = options;
+        return 0;
+    }
     bool IsConnected() const override { return connected; }
 };
 }  // namespace
