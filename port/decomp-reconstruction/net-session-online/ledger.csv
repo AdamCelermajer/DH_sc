@@ -684,3 +684,28 @@ elf_address,symbol,status,source_file,notes
 0x82cacc,_ZN19GLXPlayerUserFriendD1Ev,reconstructed,net-session-online/src/glx_player_user_friend_requests.cpp,D1: vectors release the lists (original clearFriendsList first)
 0x82cb24,_ZN19GLXPlayerUserFriendD2Ev,reconstructed,net-session-online/src/glx_player_user_friend_requests.cpp,D2: same as D1
 0x82cb08,_ZN19GLXPlayerUserFriendD0Ev,skipped,net-session-online/src/glx_player_user_friend_requests.cpp,compiler-generated deleting destructor; the virtual dtor covers it
+0x82cecc,_ZN13GLXPlayerHttp14GetResponseLenEv,reconstructed,src/glx_player_http.cpp,accessor for +0x40c (response length)
+0x82ce08,_ZN13GLXPlayerHttp5StartEv,reconstructed,src/glx_player_http.cpp,forwards to the socket Start (vtable +0x0c)
+0x82ce48,_ZN13GLXPlayerHttp13UpdateRequestEv,reconstructed,src/glx_player_http.cpp,forwards to the socket Run (vtable +0x10); the transport step is not reconstructed
+0x82ce6c,_ZN13GLXPlayerHttp12IsInProgressEv,reconstructed,src/glx_player_http.cpp,"forwards to the socket IsInProgress (vtable +0x18), 0 without a socket"
+0x82ce98,_ZN13GLXPlayerHttp15IsErrorOccurredEv,reconstructed,src/glx_player_http.cpp,"forwards to the socket IsErrorOccurred (vtable +0x1c), 0 without a socket"
+0x82ceec,_ZN13GLXPlayerHttp6CancelEv,reconstructed,src/glx_player_http.cpp,the port clears the response and post body pointers after freeing them; the original leaves them dangling
+0x82d23c,_ZN13GLXPlayerHttp15SetResponseDataEPci,reconstructed,src/glx_player_http.cpp,copies length bytes into a zero-terminated new buffer
+0x82d298,_ZN13GLXPlayerHttpD1Ev,partial,src/glx_player_http.cpp,frees response and post body with operator delete in the original; the port owns them with unique_ptr; the socket is deleted by unique_ptr
+0x82d37c,_ZN13GLXPlayerHttpD2Ev,partial,src/glx_player_http.cpp,second destructor frees the response and post body with free (LC_API_FREE) and the strings with delete[]; the port uses unique_ptr for all
+0x82d360,_ZN13GLXPlayerHttpD0Ev,skipped,src/glx_player_http.cpp,deleting destructor (D0): the port uses delete
+0x82deac,_ZN13GLXPlayerHttpC1EPcS0_S0_,partial,src/glx_player_http.cpp,"copies the three strings and creates the socket; the factory makes the base socket class, not CAndroidSocket; observer callbacks not recovered"
+0x82df54,_ZN13GLXPlayerHttpC2EPcS0_S0_,partial,src/glx_player_http.cpp,same as C1: complete-object constructor alias; factory and observer gaps as in C1
+0x83007c,_ZN15GLXPlayerSocket6CancelEv,reconstructed,src/glx_player_socket.cpp,"cancels only states other than 0, 6 and 7; the vtable +0x3c hook is a no-op in the port"
+0x8300bc,_ZN15GLXPlayerSocket12IsInProgressEv,reconstructed,src/glx_player_socket.cpp,"states 0, 7 and 8 are not in progress; state 6 gives 0; others give 1"
+0x8301ac,_ZN15GLXPlayerSocket5StartEv,reconstructed,src/glx_player_socket.cpp,"clears the 0x800 receive buffer and its length, sets handle -1 and state 1, field +0x0c 0"
+0x8301e4,_ZN15GLXPlayerSocketD1Ev,reconstructed,src/glx_player_socket.cpp,members are freed by unique_ptr and std::string; the defaulted destructor covers the body
+0x83026c,_ZN15GLXPlayerSocketD2Ev,reconstructed,src/glx_player_socket.cpp,same body as D1
+0x830250,_ZN15GLXPlayerSocketD0Ev,skipped,src/glx_player_socket.cpp,deleting destructor (D0): the port uses delete
+0x8302f0,_ZN15GLXPlayerSocketC1EPciP23GLXPlayerSocketObserver,reconstructed,src/glx_player_socket.cpp,ARM listing confirms the host copy into +0x14 and the observer and port stores; pseudocode omits the copy
+0x83039c,_ZN15GLXPlayerSocketC2EPciP23GLXPlayerSocketObserver,reconstructed,src/glx_player_socket.cpp,same as C1 (second constructor alias)
+0x830448,_ZN15GLXPlayerSocket15ParseHttpHeaderEPc,partial,src/glx_player_socket.cpp,"lower-cases name and header block and searches; returns npos when the CRLF CRLF terminator is missing (original copies npos bytes there, undefined)"
+0x8305bc,_ZN15GLXPlayerSocket16RemoveHttpHeaderEv,reconstructed,src/glx_player_socket.cpp,drops content through the first CRLF CRLF when it is found after position 0
+0x83067c,_ZN15GLXPlayerSocket19ParseChunkedContentEv,partial,src/glx_player_socket.cpp,"chunked decode kept as decompiled; the size line is cut at the absolute CRLF position and the next offset is CRLF+2+CRLF, which may not decode multi-chunk bodies correctly; out-of-range substr returns empty"
+0x830cb0,_ZN15GLXPlayerSocket20CalculateTotalLengthEv,reconstructed,src/glx_player_socket.cpp,Content-Length (case variants) from the header block; 0 when absent; -1 when the header is incomplete or the value line is unterminated
+0x831528,_ZN22GLXPlayerSocketFactory9GetSocketEPciP23GLXPlayerSocketObserver,partial,src/glx_player_socket.cpp,GetSocket returns the base GLXPlayerSocket; the original allocates and constructs CAndroidSocket (0xcf4 bytes)
