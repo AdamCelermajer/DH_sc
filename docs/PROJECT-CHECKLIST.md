@@ -2,6 +2,21 @@
 
 Updated: 2026-10-12. Branch: `feature/desktop-gameplay-loop` (off `development`).
 
+Static-level and level-transition round (2026-10-12, latest):
+- [x] Level transition SWAMP → DARKWOOD completes: the PROP save writer now writes the saved-delta sheet, so the PlayerManager activation accepts the new Level (`4562ac61`).
+- [x] Static MLX levels load on desktop: SWAMP, DARKWOOD, RED_DESERT_HUB, ABBEY_RUINS_01, UNDERWORLD_HUB, INFECTED_VILLAGE_01, FIRE_TEMPLE_01 (plus Crypt).
+- [x] Transparent environment pass draws alpha-mapped materials after opaque geometry without depth writes; rotated floor clones take the node's absolute rotation and scale (`f80e3688`).
+- [x] All static levels use the source gameplay camera route (`2dc8a435`).
+- [x] DestructibleContainer `spawn_prob` follows GameObject::CheckSpawnProbability; source script paths (`data/scripts/...`) resolve to the packaged scripts tree (`7c2c4013`).
+- [x] Unknown char_template rows are reported and skipped instead of staged (`f80e3688`).
+- [x] FIRE_TEMPLE_01 starts at its DWLD start when no SpawnPoint is enabled (`503ff0c2`).
+- [x] Packaged assets are stored byte-exact (`-text`), so clones reproduce the original-cache bytes (`15220a60`).
+- [ ] ICY_HUB (rotated module) and MACHINE_ROOMS_01 (visual-only modules) in progress.
+- [ ] Back-to-front sort for the transparent pass.
+- [ ] Spawn heading on the DWLD-start fallback.
+- [ ] Remaining level-script commands.
+- [ ] Android verification of the new static levels is pending.
+
 Combat-loop and second-level round (2026-10-12, later):
 - [x] Monsters attack and damage the Player: AI_IsInMeleeRange(0) evaluates the CharAI current target, unequipped AITable melee radius, LookAt no longer applies CSDead's label/lock outside death. Desktop `--scenario move-defend` verifies damage.
 - [x] Player death and revive: OnDeath aggro cleanup through the canonical relation owner, offline `_HandleLocalDeaths` pushes `menu_FadeToBlackScreen`, its btn_Continue reaches `NativeReviveAllPlayers`, `Character::Revive` rebuilds the body, LoadCheckpoint tolerates absent checkpoints. Verified: HP 0 → death screen → Continue → full HP.
