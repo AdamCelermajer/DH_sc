@@ -1,6 +1,6 @@
 # net-session-online notes
 
-Status: 1268 functions queued. Ledger has 722 rows (554 reconstructed, 99 partial, 69 skipped).
+Status: 1235 functions queued. Ledger has 996 rows (710 reconstructed, 168 partial, 118 skipped).
 Wave 7 added 124 rows (598 at its start). 546 queued functions remain (see "Wave 7" below).
 
 ## Layouts (original 32-bit offsets, kept as comments)
@@ -169,7 +169,7 @@ int32 at +0x50; second header word at +0x54; block owned at +0x58. GetDataSize =
 ## Wave 6: sign-in, observers, GameCenter, CXPlayerManager, COnline (this session)
 
 Ledger: 598 rows in total, 202 added this session (185 reconstructed, 14 partial, 3 skipped).
-Queue: 1268 rows, 670 still unledgered. Every ledger address is in queue.csv (checked numerically).
+Queue: 1235 rows, 239 still unledgered. Every ledger address is in queue.csv (checked numerically).
 
 ### Layouts (original 32-bit offsets, kept as comments)
 
