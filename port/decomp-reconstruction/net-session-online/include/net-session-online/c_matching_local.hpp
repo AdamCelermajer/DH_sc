@@ -29,7 +29,7 @@ static_assert(sizeof(RoomServerHeader) == 40, "RoomServerHeader is the 40-byte w
 
 class CMatchingLocal {
 public:
-    // 0x807e44 _ZN14CMatchingLocalC1Ev: sets the counters and empty containers. The original
+    // 0x807e44 _ZN14CMatchingLocalC2Ev: sets the counters and empty containers. The original
     // also runs Reset() and the NetStruct member constructors, which are not in this port yet.
     CMatchingLocal();
     // 0x807f80 _ZN14CMatchingLocalD1Ev: the members release themselves. The NetStruct member
@@ -82,13 +82,13 @@ public:
     std::int32_t OpenRoom(bool open);
     // 0x80795c _ZN14CMatchingLocal9LeaveRoomEv
     std::int32_t LeaveRoom();
-    // 0x8079d4 _ZN14CMatchingLocal21CreateJoinRoomInternalEbR15CRoomAttributes
+    // 0x8079d4 _ZN14CMatchingLocal22CreateJoinRoomInternalEbR15CRoomAttributes
     std::int32_t CreateJoinRoomInternal(bool open, const CRoomAttributes& attributes);
-    // 0x807bec _ZN14CMatchingLocal18SearchRoomInternalER16CRoomSearchFilterbh
+    // 0x807bec _ZN14CMatchingLocal18SearchRoomInternalER17CRoomSearchFilterbh
     std::int32_t SearchRoomInternal(const CRoomSearchFilter& filter, bool flag, std::uint8_t mode);
     // 0x808774 _ZN14CMatchingLocal16JoinRoomInternalEy
     std::int32_t JoinRoomInternal(std::uint64_t key);
-    // 0x808694 _ZN14CMatchingLocal24GetSearchRoomAttributesEy
+    // 0x808694 _ZN14CMatchingLocal23GetSearchRoomAttributesEy
     CRoomAttributes GetSearchRoomAttributes(std::uint64_t key) const;
 
     // Members (c_matching_local_members.cpp)
@@ -109,27 +109,27 @@ public:
     void RemoveServer(const CNetworkId& address);
     // 0x8073c4 _ZN14CMatchingLocal12PurgeServersEv
     std::int32_t PurgeServers();
-    // 0x8097c4 _ZN14CMatchingLocal17ProcessServerMessageER10CNetworkIdR12NetBitStream
+    // 0x8097c4 _ZN14CMatchingLocal20ProcessServerMessageER10CNetworkIdR12NetBitStream
     void ProcessServerMessage(const CNetworkId& from, class NetBitStream& stream);
     // 0x808538 _ZN14CMatchingLocal13GetMemberNameEi (partial: transport names are stand-ins)
     std::string GetMemberName(std::int32_t memberId) const;
 
     // Messages (c_matching_local_messages.cpp)
-    // 0x805d58 _ZN14CMatchingLocal22SendChangeServerMessageEv
+    // 0x805d58 _ZN14CMatchingLocal23SendChangeServerMessageEv
     std::int32_t SendChangeServerMessage();
     // 0x805de0 _ZN14CMatchingLocal18SendServerResponseEb (partial: room attributes not written)
     std::int32_t SendServerResponse(bool flag);
     // 0x805f2c _ZN14CMatchingLocal17SendClientRequestEv
     std::int32_t SendClientRequest();
-    // 0x805ee0 _ZN14CMatchingLocal19ProcessClientMessageER10CNetworkIdR12NetBitStream (partial)
+    // 0x805ee0 _ZN14CMatchingLocal20ProcessClientMessageER10CNetworkIdR12NetBitStream (partial)
     void ProcessClientMessage(const CNetworkId& from, class NetBitStream& stream);
-    // 0x805fa8 _ZN14CMatchingLocal21PacketReceiverCallbackEiPci
+    // 0x805fa8 _ZN14CMatchingLocal22PacketReceiverCallbackEiPci
     void PacketReceiverCallback(std::int32_t from, char* data, std::uint32_t size);
-    // 0x80601c _ZN14CMatchingLocal22sPacketReceiverCallbackEiPci
+    // 0x80601c _ZN14CMatchingLocal23sPacketReceiverCallbackEiPci
     static void sPacketReceiverCallback(std::int32_t from, char* data, int size);
-    // 0x8098cc _ZN14CMatchingLocal28BroadcastPacketReceiverCallbackER10CNetworkIdPci
+    // 0x8098cc _ZN14CMatchingLocal31BroadcastPacketReceiverCallbackER10CNetworkIdPci
     void BroadcastPacketReceiverCallback(CNetworkId& from, char* data, std::uint32_t size);
-    // 0x80995c _ZN14CMatchingLocal29sBroadcastPacketReceiverCallbackER10CNetworkIdPci
+    // 0x80995c _ZN14CMatchingLocal32sBroadcastPacketReceiverCallbackER10CNetworkIdPci
     static void sBroadcastPacketReceiverCallback(CNetworkId& from, char* data, int size);
     // 0x80890c _ZN14CMatchingLocal6UpdateEv (partial: see update.cpp)
     std::int32_t Update();

@@ -5,7 +5,7 @@
 // Packet type ids used by these bodies: 1 server message, 2 client message/request,
 // 4 change-server message (see the registrations in Initialize).
 
-// 0x805d58 _ZN14CMatchingLocal22SendChangeServerMessageEv
+// 0x805d58 _ZN14CMatchingLocal23SendChangeServerMessageEv
 std::int32_t CMatchingLocal::SendChangeServerMessage() {
     NetBitStream stream(0x800);
     const std::uint8_t type = 4;
@@ -48,7 +48,7 @@ bool CMatchingLocal::ClientRequestAccepted(const CNetworkId& /*from*/) const {
     return false;
 }
 
-// 0x805ee0 _ZN14CMatchingLocal19ProcessClientMessageER10CNetworkIdR12NetBitStream
+// 0x805ee0 _ZN14CMatchingLocal20ProcessClientMessageER10CNetworkIdR12NetBitStream
 // Partial: see ClientRequestAccepted. The original's stream argument is not read here.
 void CMatchingLocal::ProcessClientMessage(const CNetworkId& from, NetBitStream& /*stream*/) {
     if (memberId_ >= 0 && memberId_ == serverMemberId_) {
@@ -58,7 +58,7 @@ void CMatchingLocal::ProcessClientMessage(const CNetworkId& from, NetBitStream& 
     }
 }
 
-// 0x805fa8 _ZN14CMatchingLocal21PacketReceiverCallbackEiPci
+// 0x805fa8 _ZN14CMatchingLocal22PacketReceiverCallbackEiPci
 void CMatchingLocal::PacketReceiverCallback(std::int32_t from, char* data, std::uint32_t size) {
     NetBitStream stream(size);
     stream.SetBuffer(data, size);
@@ -69,13 +69,13 @@ void CMatchingLocal::PacketReceiverCallback(std::int32_t from, char* data, std::
     }
 }
 
-// 0x80601c _ZN14CMatchingLocal22sPacketReceiverCallbackEiPci
+// 0x80601c _ZN14CMatchingLocal23sPacketReceiverCallbackEiPci
 // Routes to the matching object. The original does not check for a missing object either.
 void CMatchingLocal::sPacketReceiverCallback(std::int32_t from, char* data, int size) {
     s_Matching->PacketReceiverCallback(from, data, static_cast<std::uint32_t>(size));
 }
 
-// 0x8098cc _ZN14CMatchingLocal28BroadcastPacketReceiverCallbackER10CNetworkIdPci
+// 0x8098cc _ZN14CMatchingLocal31BroadcastPacketReceiverCallbackER10CNetworkIdPci
 void CMatchingLocal::BroadcastPacketReceiverCallback(CNetworkId& from, char* data, std::uint32_t size) {
     NetBitStream stream(size);
     stream.SetBuffer(data, size);
@@ -88,7 +88,7 @@ void CMatchingLocal::BroadcastPacketReceiverCallback(CNetworkId& from, char* dat
     }
 }
 
-// 0x80995c _ZN14CMatchingLocal29sBroadcastPacketReceiverCallbackER10CNetworkIdPci
+// 0x80995c _ZN14CMatchingLocal32sBroadcastPacketReceiverCallbackER10CNetworkIdPci
 void CMatchingLocal::sBroadcastPacketReceiverCallback(CNetworkId& from, char* data, int size) {
     s_Matching->BroadcastPacketReceiverCallback(from, data, static_cast<std::uint32_t>(size));
 }

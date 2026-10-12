@@ -50,7 +50,7 @@ void CMatchingLocal::ProcessChangeServerMessage(std::int32_t /*from*/, NetBitStr
 // The matching object the static packet callbacks use (CMatching::s_Matching in the original).
 CMatchingLocal* CMatchingLocal::s_Matching = nullptr;
 
-// 0x807e44 _ZN14CMatchingLocalC1Ev
+// 0x807e44 _ZN14CMatchingLocalC2Ev
 // Partial: the original runs Reset() and constructs the NetStruct members (room info, member
 // and server-backup records) before the counters are final. Reset() is not in this port
 // yet, and the NetStruct members are not modelled, so only the counters and containers are set.

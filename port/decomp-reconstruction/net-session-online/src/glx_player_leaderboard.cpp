@@ -210,8 +210,10 @@ void GLXPlayerLeaderboard::processRanking(char* text) {
     }
 
     const auto n = static_cast<std::size_t>(entries);
-    names_.assign(n, nullptr);
-    countries_.assign(n, nullptr);
+    names_.clear();
+    names_.resize(n);
+    countries_.clear();
+    countries_.resize(n);
     positions_.assign(n, 0);
     scores_.assign(n, 0);
     scoreData_.clear();
@@ -254,7 +256,8 @@ void GLXPlayerLeaderboard::processRankingAround(char* text) {
     }
 
     const auto n = static_cast<std::size_t>(entries);
-    names_.assign(n, nullptr);
+    names_.clear();
+    names_.resize(n);
     positions_.assign(n, 0);
     scores_.assign(n, 0);
     scoreData_.clear();

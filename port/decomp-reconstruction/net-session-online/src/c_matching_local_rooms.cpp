@@ -50,7 +50,7 @@ std::int32_t CMatchingLocal::LeaveRoom() {
     return 0;
 }
 
-// 0x8079d4 _ZN14CMatchingLocal21CreateJoinRoomInternalEbR15CRoomAttributes
+// 0x8079d4 _ZN14CMatchingLocal22CreateJoinRoomInternalEbR15CRoomAttributes
 // Partial: the original writes the local member's id and listen address into its member-table
 // entry (this + 408 * index + 0x4d10 and + 0x4d38, index from CMatching::GetMemberIndex). Those
 // member-info records are not in this port yet, so the writes are not reproduced.
@@ -73,7 +73,7 @@ std::int32_t CMatchingLocal::CreateJoinRoomInternal(bool open, const CRoomAttrib
     return 0;
 }
 
-// 0x807bec _ZN14CMatchingLocal18SearchRoomInternalER16CRoomSearchFilterbh
+// 0x807bec _ZN14CMatchingLocal18SearchRoomInternalER17CRoomSearchFilterbh
 // The bool and the byte are not used by the original body.
 std::int32_t CMatchingLocal::SearchRoomInternal(const CRoomSearchFilter& filter, bool /*flag*/,
                                                 std::uint8_t /*mode*/) {
@@ -106,7 +106,7 @@ std::int32_t CMatchingLocal::JoinRoomInternal(std::uint64_t key) {
     return 0;
 }
 
-// 0x808694 _ZN14CMatchingLocal24GetSearchRoomAttributesEy
+// 0x808694 _ZN14CMatchingLocal23GetSearchRoomAttributesEy
 CRoomAttributes CMatchingLocal::GetSearchRoomAttributes(std::uint64_t key) const {
     auto it = servers_.find(key);
     if (it == servers_.end()) {

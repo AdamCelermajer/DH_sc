@@ -68,7 +68,7 @@ std::int32_t CMatchingLocal::PurgeServers() {
     return 0;
 }
 
-// 0x8097c4 _ZN14CMatchingLocal17ProcessServerMessageER10CNetworkIdR12NetBitStream
+// 0x8097c4 _ZN14CMatchingLocal20ProcessServerMessageER10CNetworkIdR12NetBitStream
 // The sender's id (from) is not used by the original body; the record carries the address.
 void CMatchingLocal::ProcessServerMessage(const CNetworkId& /*from*/, NetBitStream& stream) {
     if (memberId_ < 0 || memberId_ != serverMemberId_) {
