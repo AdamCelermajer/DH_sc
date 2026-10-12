@@ -8,6 +8,8 @@ namespace glitch::io {
 
 class CBoolAttribute : public IAttribute {
 public:
+    CBoolAttribute() = default;
+    CBoolAttribute(const char* attrName, bool v, bool f);  // 0x56716c
     bool value = false;  // +0x21
 
     int getInt() const override;          // 0x31d8f8
@@ -22,6 +24,8 @@ public:
 
 class CIntAttribute : public IAttribute {
 public:
+    CIntAttribute() = default;
+    CIntAttribute(const char* attrName, int v, bool f);  // 0x5672a4
     int value = 0;  // +0x24
 
     int getInt() const override;          // 0x31d978
@@ -35,6 +39,8 @@ public:
 
 class CFloatAttribute : public IAttribute {
 public:
+    CFloatAttribute() = default;
+    CFloatAttribute(const char* attrName, float v, bool f);  // 0x567208
     float value = 0.f;  // +0x24
 
     int getInt() const override;          // 0x31d9d8
@@ -62,6 +68,8 @@ public:
 
 class CUserPointerAttribute : public IAttribute {
 public:
+    CUserPointerAttribute() = default;
+    CUserPointerAttribute(const char* attrName, void* p, bool f);  // 0x566bf4
     void* value = nullptr;  // +0x24
 
     int getInt() const override;          // 0x560708

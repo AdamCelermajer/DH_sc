@@ -137,4 +137,29 @@ void CUserPointerAttribute::setString(const char* text) {
     value = reinterpret_cast<void*>(static_cast<std::uintptr_t>(raw));
 }
 
+
+// 0x56716c _ZN6glitch2io14CBoolAttributeC1EPKcbb
+CBoolAttribute::CBoolAttribute(const char* attrName, bool v, bool f) : value(v) {
+    name = attrName;
+    flag = f;
+}
+
+// 0x5672a4 _ZN6glitch2io13CIntAttributeC1EPKcib
+CIntAttribute::CIntAttribute(const char* attrName, int v, bool f) : value(v) {
+    name = attrName;
+    flag = f;
+}
+
+// 0x567208 _ZN6glitch2io15CFloatAttributeC1EPKcfb
+CFloatAttribute::CFloatAttribute(const char* attrName, float v, bool f) : value(v) {
+    name = attrName;
+    flag = f;
+}
+
+// 0x566bf4 _ZN6glitch2io21CUserPointerAttributeC1EPKcPvb
+CUserPointerAttribute::CUserPointerAttribute(const char* attrName, void* p, bool f) : value(p) {
+    name = attrName;
+    flag = f;
+}
+
 }  // namespace glitch::io

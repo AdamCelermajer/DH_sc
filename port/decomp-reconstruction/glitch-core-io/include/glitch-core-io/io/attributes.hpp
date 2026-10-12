@@ -26,6 +26,8 @@ class IAttribute : public glitch::IReferenceCounted {
 public:
     // +0x1c (c_str of the glitch string at +0x08): attribute name.
     std::string name;
+    // +0x20: flag passed to the constructors; the io attribute code never reads it.
+    bool flag = false;
 
     ~IAttribute() override = default;
 
@@ -194,6 +196,20 @@ public:
     void setGroup(unsigned int index);                // 0x561908
     const std::string& getGroupName() const;          // 0x561924
     int getGroupsCount() const;                       // 0x5618f0
+
+    // Typed attributes appended to the current group (no check for an existing name).
+    void addInt(const char* name, int value, bool flag);                       // 0x568b1c
+    void addFloat(const char* name, float value, bool flag);                  // 0x56891c
+    void addBool(const char* name, bool value, bool flag);                    // 0x56871c
+    void addUserPointer(const char* name, void* value, bool flag);            // 0x568038
+    void addRect(const char* name, glitch::core::rect<std::int32_t> value, bool flag);  // 0x568ce0
+
+    // By name: set the existing attribute, or append a new one with flag false.
+    void setAttribute(const char* name, int value);                           // 0x56b11c
+    void setAttribute(const char* name, float value);                         // 0x56b07c
+    void setAttribute(const char* name, bool value);                          // 0x56b1bc
+    void setAttribute(const char* name, void* value);                         // 0x56ad30
+    void setAttribute(const char* name, glitch::core::rect<std::int32_t> value);  // 0x56b878
 
     // Name lookup in the current group (0x5628f4 .. 0x562374).
     unsigned int findAttribute(const char* name) const;   // 0x5628f4: index, or 0xffffffff

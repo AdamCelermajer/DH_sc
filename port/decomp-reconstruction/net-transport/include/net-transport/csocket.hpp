@@ -4,7 +4,7 @@
 // Original layout (32-bit offsets):
 //   +0x04 handle (-1 when closed)          (CSocketAbstract::handle_)
 //   +0x08 valid flag: the socket is open   (CSocketAbstract::valid_)
-//   +0x09 flag, set to 1 by the constructor (not read by the recovered bodies)
+//   +0x09 can-open flag: 1 until a socket is opened (OpenUDP/OpenTCP check it)
 //   +0x0a connected flag                    (CSocketAbstract::connected_)
 //   +0x0b listening flag, set by Listen
 //   +0x0c peer address (in_addr), set by Accept
@@ -46,10 +46,16 @@ public:
     // Accepts one pending connection; returns the new handle or -1. Partial (see notes).
     int Accept(in_addr& from, std::uint16_t& from_port);   // 0x8285ec _ZN7CSocket6AcceptER7in_addrRt
     int Listen();                                    // 0x8286e4 _ZN7CSocket6ListenEv
+    // Creates a UDP socket bound to port (0 for any) with the given option bits. Returns 0 or -1.
+    int OpenUDP(std::uint16_t port, unsigned int options);  // 0x8289bc _ZN7CSocket7OpenUDPEtj
+    // Creates a TCP socket bound to port. Returns 0 or -1.
+    int OpenTCP(std::uint16_t port, unsigned int options);  // 0x828868 _ZN7CSocket7OpenTCPEtj
+    // First non-loopback IPv4 address of an up interface (network order), or 0.
+    std::uint32_t GetLocalAddress();                 // 0x827da0 _ZN7CSocket15GetLocalAddressEv
     int Connect(const in_addr& peer, std::uint16_t port);  // 0x828738 _ZN7CSocket7ConnectERK7in_addrt
 
 private:
-    bool flag09_ = true;                             // +0x09
+    bool can_open_ = true;                           // +0x09
     bool listening_ = false;                         // +0x0b
     std::uint32_t peer_address_ = 0;                     // +0x0c
     std::uint16_t peer_port_ = 0;                    // +0x10

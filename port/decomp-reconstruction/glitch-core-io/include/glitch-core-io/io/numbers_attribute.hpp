@@ -3,6 +3,7 @@
 #pragma once
 
 #include <cstddef>
+#include <cstdint>
 #include <vector>
 
 #include "glitch-core-io/io/attributes.hpp"
@@ -11,6 +12,14 @@ namespace glitch::io {
 
 class CNumbersAttribute : public IAttribute {
 public:
+    CNumbersAttribute() = default;
+    // The constructors store the components in declaration order (ARM listings of
+    // the original). The list kind and element count are set as the original does.
+    CNumbersAttribute(const char* attrName, const glitch::core::rect<std::int32_t>& value, bool f);      // 0x567340
+    CNumbersAttribute(const char* attrName, const glitch::core::vector2d<float>& value, bool f);         // 0x565880
+    CNumbersAttribute(const char* attrName, const glitch::core::vector2d<std::int32_t>& value, bool f);  // 0x567968
+    CNumbersAttribute(const char* attrName, const glitch::video::SColorf& value, bool f);                // 0x565a54
+    CNumbersAttribute(const char* attrName, const glitch::core::line3d<float>& value, bool f);           // 0x567b3c
     // +0x24: int storage (valid when !isFloatList)
     std::vector<int> intValues;
     // +0x30: float storage (valid when isFloatList)

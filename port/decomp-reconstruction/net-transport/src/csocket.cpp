@@ -2,6 +2,13 @@
 
 #include <cstring>
 
+#ifndef _WIN32
+#include <net/if.h>
+#include <sys/ioctl.h>
+#else
+#include <cstdio>
+#endif
+
 using net_platform::NativeSocket;
 
 namespace {
@@ -279,4 +286,118 @@ int CSocket::Connect(const in_addr& peer, std::uint16_t port) {
         return -1;
     }
     return 0;
+}
+
+// 0x8289bc _ZN7CSocket7OpenUDPEtj
+// Partial: SetSocketOptions returns nothing in this port, so the original's negative
+// check on its result is always passed.
+int CSocket::OpenUDP(std::uint16_t port, unsigned int options) {
+    if (!can_open_) {
+        return -1;
+    }
+    handle_ = static_cast<int>(::socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP));
+    if (handle_ < 0) {
+        GetSocketError();
+        return -1;
+    }
+    sockaddr_in sa{};
+    sa.sin_family = AF_INET;
+    sa.sin_port = htons(port);
+    sa.sin_addr.s_addr = htonl(INADDR_ANY);
+    if (::bind(static_cast<NativeSocket>(handle_), reinterpret_cast<sockaddr*>(&sa), sizeof(sa)) < 0) {
+        GetSocketError();
+        Close();
+        return -1;
+    }
+    net_platform::SetNonBlocking(static_cast<NativeSocket>(handle_));
+    SetSocketOptions(options);
+    valid_ = true;
+    return 0;
+}
+
+// 0x828868 _ZN7CSocket7OpenTCPEtj
+// Partial: same SetSocketOptions caveat as OpenUDP. The original closes the handle when
+// the options fail; this port closes it when bind fails.
+int CSocket::OpenTCP(std::uint16_t port, unsigned int options) {
+    if (!can_open_) {
+        return -1;
+    }
+    handle_ = static_cast<int>(::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP));
+    if (handle_ < 0) {
+        GetSocketError();
+        return -1;
+    }
+    net_platform::SetNonBlocking(static_cast<NativeSocket>(handle_));
+    SetSocketOptions(options);
+    sockaddr_in sa{};
+    sa.sin_family = AF_INET;
+    sa.sin_port = htons(port);
+    sa.sin_addr.s_addr = htonl(INADDR_ANY);
+    if (::bind(static_cast<NativeSocket>(handle_), reinterpret_cast<sockaddr*>(&sa), sizeof(sa)) < 0) {
+        GetSocketError();
+        Close();
+        return -1;
+    }
+    valid_ = true;
+    return 0;
+}
+
+// 0x827da0 _ZN7CSocket15GetLocalAddressEv
+// Walks the interface list and returns the first up, non-loopback IPv4 address. Winsock has
+// no SIOCGIFCONF, so the Windows build asks the resolver for the host's addresses instead.
+// Partial. The original leaks its probe socket on success; it is closed here.
+std::uint32_t CSocket::GetLocalAddress() {
+#ifndef _WIN32
+    int fd = ::socket(AF_INET, SOCK_DGRAM, 0);
+    if (fd < 0) {
+        return 0;
+    }
+    char buffer[4000];
+    ifconf conf{};
+    conf.ifc_len = static_cast<int>(sizeof(buffer));
+    conf.ifc_buf = buffer;
+    if (::ioctl(fd, SIOCGIFCONF, &conf) < 0) {
+        ::close(fd);
+        return 0;
+    }
+    std::uint32_t found = 0;
+    for (char* p = buffer; p < buffer + conf.ifc_len; p += sizeof(ifreq)) {
+        ifreq entry{};
+        std::memcpy(&entry, p, sizeof(entry));
+        if (entry.ifr_addr.sa_family != AF_INET) {
+            continue;
+        }
+        const sockaddr_in* addr = reinterpret_cast<const sockaddr_in*>(&entry.ifr_addr);
+        char* colon = std::strchr(entry.ifr_name, ':');
+        if (colon != nullptr) {
+            *colon = '\0';
+        }
+        if (::ioctl(fd, SIOCGIFFLAGS, &entry) < 0) {
+            continue;
+        }
+        if ((entry.ifr_flags & IFF_UP) != 0 && addr->sin_addr.s_addr != htonl(INADDR_LOOPBACK)) {
+            found = static_cast<std::uint32_t>(addr->sin_addr.s_addr);
+            break;
+        }
+    }
+    ::close(fd);
+    return found;
+#else
+    char host[256] = {};
+    if (::gethostname(host, sizeof(host)) != 0) {
+        return 0;
+    }
+    hostent* he = ::gethostbyname(host);
+    if (he == nullptr || he->h_addrtype != AF_INET) {
+        return 0;
+    }
+    for (char** list = he->h_addr_list; list != nullptr && *list != nullptr; ++list) {
+        in_addr addr{};
+        std::memcpy(&addr, *list, sizeof(addr));
+        if (addr.s_addr != htonl(INADDR_LOOPBACK)) {
+            return static_cast<std::uint32_t>(addr.s_addr);
+        }
+    }
+    return 0;
+#endif
 }

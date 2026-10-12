@@ -253,3 +253,52 @@ elf_address,symbol,status,source_file,notes
 0x533560,appDebugLog,partial,core-platform/src/debug_out.cpp,Android logcat write replaced by stderr
 0x34e024,_Z11ToLowerCaseRSsii,reconstructed,core-platform/src/util.cpp,
 0x34e090,_Z11ToLowerCaseRSbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS1_6memory13E_MEMORY_HINTE0EEEEii,partial,core-platform/src/util.cpp,template over the glitch string type; only data()/size() interface assumed
+0x89c2f4,FUN_008ac2f4,reconstructed,core-platform/src/lc_api.cpp,bare return in the binary
+0x89c2f8,LC_API_STRCHR,reconstructed,core-platform/src/lc_api.cpp,bare return in the binary
+0x89c2fc,LC_DEBUG_INIT,reconstructed,core-platform/src/lc_api.cpp,bare return in the binary
+0x89c300,LC_DEBUG_FINALIZE,reconstructed,core-platform/src/lc_api.cpp,bare return in the binary
+0x89c304,LC_DEBUG_OUT,reconstructed,core-platform/src/lc_api.cpp,bare return in the binary (varargs stub)
+0x89c310,LC_API_FTOA,reconstructed,core-platform/src/lc_api.cpp,bare return in the binary
+0x89c29c,LC_API_STRCHRFIND,reconstructed,core-platform/src/lc_api.cpp,counted search: pointer past the n-th match; n of 0 returns the string
+0x89c2cc,FUN_008ac2cc,partial,core-platform/src/lc_api.cpp,same search as LC_API_STRCHRFIND; register-passed entry state assumed equal
+0x89c314,LC_API_ITOA,partial,core-platform/src/lc_api.cpp,listing stores only the least significant digit and tail-calls a divide; no terminator after the digit
+0x89c42c,_Z22ConvertUnicodeToUTF8LCPcPKti,reconstructed,core-platform/src/utf_text.cpp,shared with the glitch ConvertUnicodeToUTF8; standard UTF-8 encoding
+0x89c514,_Z22ConvertUTF8ToUnicodeLCPtPKci,reconstructed,core-platform/src/utf_text.cpp,shared with the glitch ConvertUTF8ToUnicode
+0x89c5dc,_Z19UTF8ToUnicode_OldLCPtPKc,partial,core-platform/src/utf_text.cpp,"legacy decoder; standard decoding assumed, control flow not reproduced"
+0x89c88c,LC_API_PARSE_DATA,reconstructed,core-platform/src/lc_api.cpp,
+0x89c99c,_Z21LC_API_GetNationalityPc,reconstructed,core-platform/src/lc_api.cpp,bare return in the binary
+0x89c9a0,getValueLC,partial,core-platform/src/lc_api.cpp,listing returns 0 on every path; the copied text is the result
+0x89ca14,_Z14LC_API_TOLOWERPKcPc,reconstructed,core-platform/src/lc_api.cpp,
+0x89ca7c,_Z26LC_DEBUG_SAVE_RECVDATA_LOGPKci,reconstructed,core-platform/src/lc_api.cpp,
+0x89caa4,_Z26LC_DEBUG_SAVE_SENDDATA_LOGPKci,reconstructed,core-platform/src/lc_api.cpp,
+0x89cacc,LC_API_FILE_WRITE,reconstructed,core-platform/src/lc_api.cpp,
+0x89caf8,_Z27LC_DEBUG_CLOSE_RECVDATA_LOGv,reconstructed,core-platform/src/lc_api.cpp,
+0x89cb18,_Z27LC_DEBUG_CLOSE_SENDDATA_LOGv,reconstructed,core-platform/src/lc_api.cpp,
+0x89cb38,LC_API_FILE_CLOSE,reconstructed,core-platform/src/lc_api.cpp,
+0x89cb6c,_Z26LC_DEBUG_OPEN_RECVDATA_LOGv,reconstructed,core-platform/src/lc_api.cpp,"log_recv.txt, text mode write"
+0x89cbac,_Z26LC_DEBUG_OPEN_SENDDATA_LOGv,reconstructed,core-platform/src/lc_api.cpp,"log_send.txt, text mode write"
+0x89cbec,LC_API_FILE_OPEN,reconstructed,core-platform/src/lc_api.cpp,"eight file slots, handles are 1-based"
+0x89cc4c,LC_API_IP_INT2STR,reconstructed,core-platform/src/lc_api.cpp,
+0x89cc98,LC_API_STRLEN,reconstructed,core-platform/src/lc_api.cpp,tail call to strlen
+0x89cc9c,LC_API_GET_RANDOM,partial,core-platform/src/lc_api.cpp,srand48/lrand48 replaced by std::rand (sequence differs)
+0x89cd00,LC_API_STRTRIM,reconstructed,core-platform/src/lc_api.cpp,"only measures the string, as the listing does"
+0x89ce28,LC_API_FILE_GET_LENGTH,reconstructed,core-platform/src/lc_api.cpp,
+0x89ce98,LC_API_FILE_READ,reconstructed,core-platform/src/lc_api.cpp,
+0x89cec4,LC_API_ATOF,reconstructed,core-platform/src/lc_api.cpp,strtod with a null end pointer
+0x89cecc,LC_API_ATOI,reconstructed,core-platform/src/lc_api.cpp,tail call to atoi
+0x89ced0,LC_API_STRSTR,reconstructed,core-platform/src/lc_api.cpp,tail call to strstr
+0x89ced4,LC_API_STRCAT,reconstructed,core-platform/src/lc_api.cpp,tail call to strcat
+0x89ced8,LC_API_STRNCPY,reconstructed,core-platform/src/lc_api.cpp,tail call to strncpy
+0x89cedc,LC_API_STRCPY,reconstructed,core-platform/src/lc_api.cpp,tail call to strcpy
+0x89cee0,LC_API_STRCASECMP,reconstructed,core-platform/src/lc_api.cpp,ASCII case-insensitive compare written out (strcasecmp is not on Windows)
+0x89cee4,LC_API_STRNCMP,reconstructed,core-platform/src/lc_api.cpp,tail call to strncmp
+0x89cee8,LC_API_STRCMP,reconstructed,core-platform/src/lc_api.cpp,tail call to strcmp
+0x89ceec,LC_API_MEMCPY,reconstructed,core-platform/src/lc_api.cpp,tail call to memcpy
+0x89cf00,LC_API_MEMSET,reconstructed,core-platform/src/lc_api.cpp,tail call to memset
+0x89d264,_Z23TranslateUtf82UnicodeLCPPtPcii,reconstructed,core-platform/src/utf_text.cpp,"shared with the glitch TranslateUtf82Unicode; the glitch copy calls XP_API_MEMSET, treated as memset"
+0x89d2c0,_Z23TranslateUnicode2Utf8LCPPcPtii,reconstructed,core-platform/src/utf_text.cpp,shared with the glitch TranslateUnicode2Utf8
+0x82a788,_Z20ConvertUnicodeToUTF8PcPKti,reconstructed,core-platform/src/utf_text.cpp,shared with LC copy 0x89c42c
+0x82a868,_Z20ConvertUTF8ToUnicodePtPKci,reconstructed,core-platform/src/utf_text.cpp,shared with LC copy 0x89c514
+0x82a938,_Z17UTF8ToUnicode_OldPtPKc,partial,core-platform/src/utf_text.cpp,"legacy decoder; standard decoding assumed, control flow not reproduced"
+0x82b6cc,_Z21TranslateUtf82UnicodePPtPcii,reconstructed,core-platform/src/utf_text.cpp,
+0x82b728,_Z21TranslateUnicode2Utf8PPcPtii,reconstructed,core-platform/src/utf_text.cpp,

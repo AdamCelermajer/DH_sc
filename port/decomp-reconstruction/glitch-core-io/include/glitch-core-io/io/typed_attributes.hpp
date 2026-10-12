@@ -63,8 +63,14 @@ public:
     int getType() const override;  // 0x5604cc
 };
 
-class CRectAttribute : public IAttribute {
+// The rect, matrix, quaternion, box, plane, triangle, line and 2D/3D/4D integer
+// vector attributes share the CNumbersAttribute layout (their vtables inherit the
+// CNumbersAttribute slots; addRect builds a CNumbersAttribute and sets this vtable).
+class CRectAttribute : public CNumbersAttribute {
 public:
+    CRectAttribute() = default;
+    CRectAttribute(const char* attrName, const glitch::core::rect<std::int32_t>& value, bool f)
+        : CNumbersAttribute(attrName, value, f) {}
     int getType() const override;  // 0x5604e4
 };
 

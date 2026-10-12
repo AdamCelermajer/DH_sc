@@ -70,4 +70,41 @@ void CNumbersAttribute::setFloat(float value) {
 // The original tail-calls the virtual setInt (vtable +0x88) with the bool.
 void CNumbersAttribute::setBool(bool value) { setInt(value ? 1 : 0); }
 
+
+// 0x567340 _ZN6glitch2io17CNumbersAttributeC2EPKcNS_4core4rectIiEEb
+CNumbersAttribute::CNumbersAttribute(const char* attrName, const glitch::core::rect<std::int32_t>& value, bool f)
+    : intValues{value.X1, value.Y1, value.X2, value.Y2}, count(4), isFloatList(false) {
+    name = attrName;
+    flag = f;
+}
+
+// 0x565880 _ZN6glitch2io17CNumbersAttributeC2EPKcRKNS_4core8vector2dIfEEb
+CNumbersAttribute::CNumbersAttribute(const char* attrName, const glitch::core::vector2d<float>& value, bool f)
+    : floatValues{value.X, value.Y}, count(2), isFloatList(true) {
+    name = attrName;
+    flag = f;
+}
+
+// 0x567968 _ZN6glitch2io17CNumbersAttributeC2EPKcRKNS_4core8vector2dIiEEb
+CNumbersAttribute::CNumbersAttribute(const char* attrName, const glitch::core::vector2d<std::int32_t>& value, bool f)
+    : intValues{value.X, value.Y}, count(2), isFloatList(false) {
+    name = attrName;
+    flag = f;
+}
+
+// 0x565a54 _ZN6glitch2io17CNumbersAttributeC2EPKcRKNS_5video7SColorfEb
+CNumbersAttribute::CNumbersAttribute(const char* attrName, const glitch::video::SColorf& value, bool f)
+    : floatValues{value.r, value.g, value.b, value.a}, count(4), isFloatList(true) {
+    name = attrName;
+    flag = f;
+}
+
+// 0x567b3c _ZN6glitch2io17CNumbersAttributeC2EPKcNS_4core6line3dIfEEb
+CNumbersAttribute::CNumbersAttribute(const char* attrName, const glitch::core::line3d<float>& value, bool f)
+    : floatValues{value.start.X, value.start.Y, value.start.Z, value.end.X, value.end.Y, value.end.Z},
+      count(6), isFloatList(true) {
+    name = attrName;
+    flag = f;
+}
+
 }  // namespace glitch::io

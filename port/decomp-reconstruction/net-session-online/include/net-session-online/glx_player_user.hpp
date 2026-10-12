@@ -80,6 +80,30 @@ public:
     // 0x83aa38 _ZN13GLXPlayerUser19processUploadAvatarEPc: empty in the original.
     void processUploadAvatar(char* data);
 
+    // Request builders (src/glx_player_user_requests.cpp). Each one sends a request
+    // through SendByGet or SendByPost, or reports a rejected argument to the observer.
+    void sendGetLiveFeeds(std::int32_t kind);                        // 0x83cdc8
+    void sendSetUserMind(char* mind);                                // 0x83cea0 (partial)
+    void sendSetUserState(std::int32_t state);                       // 0x83cf88
+    void sendGetChatWarning();                                       // 0x83d080
+    void sendGetAdvAttachment(std::int32_t id);                      // 0x83d13c
+    void sendGetAdvRSS(std::int32_t id);                             // 0x83d200 (POST)
+    void sendGetGameTrophyList(std::int32_t page);                   // 0x83d2f8
+    void sendGetTrophyIcon(std::int32_t trophy, std::int32_t mode);  // 0x83d3f0
+    void sendDelUserStoreData(char* key);                            // 0x83d4d0
+    void sendGetUserAvatarList();                                    // 0x83d5c0
+    void sendDelUserAvatar(char* avatarKey);                         // 0x83d67c
+    void sendUploadUserAvatar(char* path);                           // 0x83d77c (partial)
+    void sendDownloadUserAvatar(char* avatarKey);                    // 0x83d84c
+    void sendGetUserUID(char* name, bool byUserName);                // 0x83d910
+    void sendPointUserReputation(char* name, std::int32_t points, bool byUserName);  // 0x83da24
+    void sendSetUserStoreData(char* key, char* value);               // 0x83db50 (POST)
+    void sendRetrievalPassword(char* name);                          // 0x83dc4c
+    void sendChangeEmail(char* name, char* password, char* newEmail);  // 0x83dd34
+    void sendChangePassword(char* name, char* password, char* newPassword, char* repeat);  // 0x83de3c
+    void sendChangeUserName(char* name, char* password, char* newName, bool keepOther);    // 0x83df58
+    void sendGetUsedApp(char* name);                                 // 0x83e068
+
     // Clears (free the owned fields and reset the flags they feed).
     void clearUserInformation();                                     // 0x83aa3c
     void clearAvatarList();                                          // 0x83aba4
