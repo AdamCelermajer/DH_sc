@@ -83,7 +83,7 @@ void VoxEngine::UpdateSourcesThreaded(void* a, void* b) {
     (void)b;
 }
 
-// 0x861880 _ZN3vox9VoxEngine12GetDebugInfoERNS_9DebugInfoE (partial: target VoxEngineInternal::GetDebugInfo is skipped (DebugChunk layout unknown))
+// 0x861880 _ZN3vox9VoxEngine12GetDebugInfoERNS_9DebugInfoE (reconstructed: forwards to VoxEngineInternal::GetDebugInfo)
 void VoxEngine::GetDebugInfo(DebugInfo& info) {
     if (m_internal != nullptr) {
         m_internal->GetDebugInfo(info);

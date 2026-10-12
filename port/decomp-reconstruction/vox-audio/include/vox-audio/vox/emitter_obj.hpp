@@ -23,6 +23,27 @@ struct EmitterHandleUserData {
     std::uintptr_t word = 0;
 };
 
+// One emitter as EmitterObj::GetDebugInfo reports it (0x74 bytes in the original). The
+// offsets are the original's chunk offsets. Fields +0x20 and +0x28 are not named by the port
+// (see the GetDebugInfo notes in the .cpp), so they are written as zero.
+struct DebugChunk_emitter {
+    std::int64_t emitter_id = 0;     // +0x00 (EmitterObj id)
+    std::int64_t data_id = 0;        // +0x08 (DataObj id, 0 without a data object)
+    VoxVector3f position;            // +0x10..+0x18 (parameter 8)
+    std::int32_t state = 0;          // +0x1c (state_set_)
+    std::int32_t unnamed_20 = 0;     // +0x20 (EmitterObj +0x38, owner not identified)
+    float gain = 0.0f;               // +0x24 (gain modifier * resume fade target * gain fade target)
+    std::int32_t unnamed_28 = 0;     // +0x28 (EmitterObj +0x70, not named in the port)
+    float pitch = 0.0f;              // +0x2c (pitch_)
+    std::int32_t loop = 0;           // +0x30 (loop_read_)
+    std::int32_t ref_count = 0;      // +0x34 (Handlable ref_count)
+    std::int32_t group = 0;          // +0x38 (group_)
+    VoxVector3f velocity;            // +0x3c..+0x44 (parameter 9)
+    VoxVector3f direction;           // +0x48..+0x50 (parameter 10)
+    std::int32_t param0 = 0;         // +0x54 (parameter 0; set to -1 when the cursor has more than one channel)
+    float params[7] = {};            // +0x58..+0x70 (parameters 1..7)
+};
+
 class EmitterObj : public Handlable {
 public:
     EmitterObj() = default;
@@ -90,6 +111,7 @@ public:
     void CleanUp();                         // 0x863954 (partial: DSP buffers only, see the .cpp)
     void SetInteractiveMusicStateChange(const char* state);  // 0x866abc
     void PrintDebug();                      // 0x864e28
+    void GetDebugInfo(DebugChunk_emitter& out);  // 0x866818 (partial: unnamed words, see DebugChunk_emitter)
     // Wave 9 (src/w9-emitter-slots): the cursor-to-source pull and the 3D push.
     int ProcessNonNativeData(float dt);     // 0x863228: pulls one ring block from the cursor
     int ProcessNativeData(float dt);        // 0x866b30 (partial, see the .cpp)

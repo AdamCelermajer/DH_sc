@@ -692,3 +692,23 @@ ProcessNonNativeData). Edited in place: UpdateDSP (`src/emitter_obj_state.cpp`) 
 - Deviations recorded in the rows: GetPlayCursor and CleanUp unlock or clear where the original
   does not (the pseudocode shows the lock held or the pointers set). ProcessNonNativeData returns 0
   when a pointer or the ring count is missing, where the original would fault.
+
+## Wave 10 (w10-debuginfo): GetDebugInfo rows
+
+Ledger part: `ledger.parts/w10-debuginfo.csv` (4 rows: 2 reconstructed, 2 partial). New sources:
+`src/w10-debuginfo/debuginfo_emitter.cpp` (EmitterObj::GetDebugInfo) and
+`src/w10-debuginfo/debuginfo_engine.cpp` (VoxEngineInternal::GetDebugInfo). Test:
+`tests/debuginfo_w10_test.cpp` (EmitterObj record fields and the DebugInfo defaults).
+
+- DebugInfo (voxengine_types.hpp), 16 bytes: +0x00 data_count (data_objects_ node count, container
+  +0x10 = VoxEngineInternal +0x18), +0x04 emitter_count (emitters_ node count at +0x88), +0x08
+  playing_count, +0x0c end_marker (always -1). Read locks: data_objects_access_ (+0x54) and
+  emitter_access_ (+0xc4). HandlableContainer::Size() added to handlable.hpp for the counts.
+- DebugChunk_emitter (emitter_obj.hpp), 0x74 bytes: +0x00 emitter id (int64), +0x08 data id (int64),
+  +0x10 position xyz, +0x1c state (state_set_), +0x20 unnamed (EmitterObj +0x38), +0x24 gain,
+  +0x28 unnamed (EmitterObj +0x70), +0x2c pitch, +0x30 loop_read_, +0x34 ref count, +0x38 group,
+  +0x3c velocity xyz, +0x48 direction xyz, +0x54 param0, +0x58..+0x70 parameters 1..7.
+- Open for EmitterObj::GetDebugInfo: the owners of EmitterObj +0x38 and +0x70 are not identified, and
+  the cursor's first params word (TrackParams::channels at cursor +0x04) is not reachable from the base
+  cursor class. The VoxEngineInternal path has no test because the engine vtable links undefined methods.
+- PriorityBankManager::GetDebugInfo stays partial (the unlock result is not returned).
