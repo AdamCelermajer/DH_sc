@@ -69,7 +69,7 @@ void VoxEngineInternal::PrintDebug() {
         data->PrintDebug();
         mutex_.Lock();
         for (const auto& link : data->emitters_) {
-            Handlable* emitter = emitters_.Find(link.first);
+            Handlable* emitter = emitters_.Find(link);
             if (emitter != nullptr) {
                 static_cast<EmitterObj*>(emitter)->PrintDebug();
             }

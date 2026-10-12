@@ -1,11 +1,15 @@
 #include "vox-audio/vox/data_obj.hpp"
 
+#include <cstring>
+
+#include "vox-audio/vox/decoder.hpp"
+#include "vox-audio/vox/stream.hpp"
+
 namespace vox {
 
-// 0x863c24 _ZN3vox7DataObjD1Ev and 0x863cac _ZN3vox7DataObjD0Ev.
-// Partial: the original frees the emitter list nodes, then resets the list
-// sentinel and destroys the Handlable mutex. The std::list and the member
-// mutexes do the same here.
+// 0x863c24 _ZN3vox7DataObjD1Ev. The original frees the emitter list nodes, resets the
+// sentinel and destroys the state mutex and the Handlable mutex. The std::list and the
+// member mutexes do the same here.
 DataObj::~DataObj() = default;
 
 // 0x865878 _ZN3vox7DataObj11GetUserDataEv
@@ -33,29 +37,49 @@ bool DataObj::IsReady() {
 }
 
 // 0x8658fc _ZN3vox7DataObj11GetDurationEv
-// Partial: returns 0 when not ready. Otherwise the original reads the duration
-// through three external helpers (0x30e2e0, 0x30e964, 0x30ec94) that are not
-// reconstructed, so the port returns 0 there.
+// Returns the bit pattern of a float: length / sample rate, read under the Handlable
+// mutex, or 0.0f when the object is not ready (state != 0).
 std::uint32_t DataObj::GetDuration() {
-    if (!IsReady()) {
-        return 0;
+    float seconds = 0.0f;
+    if (IsReady()) {
+        mutex.Lock();
+        seconds = static_cast<float>(static_cast<std::uint32_t>(length_)) /
+                  static_cast<float>(sample_rate_);
+        mutex.Unlock();
     }
-    mutex.Lock();
-    std::uint32_t duration = 0;
-    mutex.Unlock();
-    return duration;
+    std::uint32_t bits = 0;
+    std::memcpy(&bits, &seconds, sizeof(bits));
+    return bits;
 }
 
 // 0x865954 _ZN3vox7DataObj12GetDebugInfoERNS_21DebugChunk_dataSourceE
-// Partial: depends on DebugChunk_dataSource, which is not reconstructed.
-void DataObj::GetDebugInfo(void* chunk) {
-    (void)chunk;
-    (void)GetDuration();
+// Fills the chunk under the Handlable mutex. The stream and decoder types come from
+// their GetType virtuals (stream +0x1c, decoder +0x18). The duration is taken before
+// the lock, as the original does.
+void DataObj::GetDebugInfo(DebugChunk_dataSource& chunk) {
+    const std::uint32_t duration_bits = GetDuration();
+    mutex.Lock();
+    chunk.id = id;
+    chunk.stream_type = stream_->GetType();
+    chunk.decoder_type = decoder_->GetType();
+    chunk.priority_bank_id = priority_bank_id_;
+    chunk.sample_rate = sample_rate_;
+    chunk.channels = channels_;
+    chunk.bits_per_sample = bits_per_sample_;
+    std::memcpy(&chunk.duration, &duration_bits, sizeof(chunk.duration));
+    chunk.group = group_;
+    chunk.ref_count = ref_count;
+    mutex.Unlock();
 }
 
 // 0x8659ec _ZN3vox7DataObj10PrintDebugEv
-// Partial: the debug printout itself is not reconstructed.
-void DataObj::PrintDebug() { (void)GetDuration(); }
+// The binary calls GetDuration and takes and releases the mutex. It prints nothing,
+// so the port keeps the same calls and the result is discarded.
+void DataObj::PrintDebug() {
+    (void)GetDuration();
+    mutex.Lock();
+    mutex.Unlock();
+}
 
 // 0x865a0c _ZN3vox7DataObj7IsGroupEj
 // Tests bit group_ of the mask: the asm uses (mask & (1 << group_)) != 0.
@@ -75,12 +99,20 @@ int DataObj::GetGroup() {
 }
 
 // 0x865a70 _ZN3vox7DataObj9ShouldDieEv
-// Partial: the asm walks the emitter list and checks need_to_die_ and the
-// state, then returns (state == -1). The port returns that state check only;
-// the list walk is not reconstructed.
+// Under the Handlable mutex: true when no emitter is registered and the reference
+// count is 0; otherwise true when need_to_die_ is set; otherwise true only in state -1.
+// The original walks the emitter list to its sentinel before the flag tests. The walk
+// only follows the links, so the port does not repeat it.
 bool DataObj::ShouldDie() {
     mutex.Lock();
-    bool result = state_ == -1;
+    bool result;
+    if (emitters_.empty() && ref_count == 0) {
+        result = true;
+    } else if (!need_to_die_) {
+        result = state_ == -1;
+    } else {
+        result = true;
+    }
     mutex.Unlock();
     return result;
 }
@@ -98,20 +130,23 @@ void DataObj::NeedToDie() {
 }
 
 // 0x865b30 _ZN3vox7DataObj17UnregisterEmitterEx
-// Partial: the asm finds the list node with the id and the matching word at
-// +0xc, unlinks it and frees it. The port removes by id only.
-void DataObj::UnregisterEmitter(std::int64_t emitter_id, void* emitter) {
-    (void)emitter;
+// Under the Handlable mutex, removes the first node whose id matches and frees it.
+void DataObj::UnregisterEmitter(std::int64_t emitter_id) {
     mutex.Lock();
-    emitters_.remove_if([emitter_id](const std::pair<std::int64_t, void*>& e) { return e.first == emitter_id; });
+    for (auto it = emitters_.begin(); it != emitters_.end(); ++it) {
+        if (*it == emitter_id) {
+            emitters_.erase(it);
+            break;
+        }
+    }
     mutex.Unlock();
 }
 
 // 0x865ba8 _ZN3vox7DataObj15RegisterEmitterEx
-// Partial: the asm allocates a 0x10-byte list node. The port appends the pair.
-void DataObj::RegisterEmitter(std::int64_t emitter_id, void* emitter) {
+// Under the Handlable mutex, appends a node with the id at the tail.
+void DataObj::RegisterEmitter(std::int64_t emitter_id) {
     mutex.Lock();
-    emitters_.emplace_back(emitter_id, emitter);
+    emitters_.push_back(emitter_id);
     mutex.Unlock();
 }
 
