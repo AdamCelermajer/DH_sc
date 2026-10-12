@@ -27944,7 +27944,18 @@ int spell_status_select_animation(void* raw,std::uintptr_t character,
  if(effective<0||static_cast<std::size_t>(effective)>=
       actor_animation_tables.characters.size())return 1;
  const auto& row=actor_animation_tables.characters[static_cast<std::size_t>(effective)];
- const auto field=static_cast<std::size_t>(row_offset/4);
+ // row_offset is a raw Structs::CharAnim byte offset (SM_SetKnockBackState
+ // reads +36/+72, Dodging +32, Blocking +12, Injured +60, Scared +124,
+ // Stunned +140). The port row stores scalar k at schema index k, so map the
+ // dword with the original layout: 4(k+1) for k<=14, 4(k+2) for 16..30 and
+ // 4(k+3) for 32..36. Interact (k=15) and Spells (k=31) arrays are rejected.
+ const auto dword=row_offset/4;
+ std::int32_t field_index=-1;
+ if(dword>=1&&dword<=15)field_index=dword-1;
+ else if(dword>=18&&dword<=32)field_index=dword-2;
+ else if(dword>=35&&dword<=39)field_index=dword-3;
+ if(field_index<0)return 1;
+ const auto field=static_cast<std::size_t>(field_index);
  if(field>=row.fields.size()||row.fields[field].size()!=1)return 1;
  auto selected=row.fields[field][0];
  dh2_pycst_result source_mask{};
@@ -40412,7 +40423,7 @@ std::vector<dh2::world::EntryPoint> entrypoints;
           for(const auto& step:animation_tables.sequences[id].steps){if(step.redir==1)collect(step.anim,depth+1);else if(step.anim>=0)ids.insert(step.anim);else throw std::runtime_error("Actor clip bank contains an empty clip");}
         };
         // Idle is required; non-combat rows (DARKWOOD NPCs) may omit Walk/Attack/Died.
-        for(const auto* state_name:{"Idle","Walk","Attack","Died"}){const auto* state=dh2::data::animation_state(animation_tables,animation_table,state_name);
+        for(const auto* state_name:{"Idle","Walk","Attack","Died","GreatKnockedBack","KnockedBack"}){const auto* state=dh2::data::animation_state(animation_tables,animation_table,state_name);
           if(!state){if(!std::strcmp(state_name,"Idle"))throw std::runtime_error("Actor clip bank Idle state missing: "+object.model);
             __android_log_print(ANDROID_LOG_WARN,"DH2Native","Actor clip bank state absent | %s | AnimTable %d | %s",object.model.c_str(),animation_table,state_name);continue;}
           collect(state-animation_tables.sequences.data(),0);}
