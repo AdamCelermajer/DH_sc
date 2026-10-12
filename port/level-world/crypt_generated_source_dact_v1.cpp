@@ -309,7 +309,7 @@ bool compile_generated_crypt_dact_v1(
   dh2::random_level::CryptGeneratedDactDiagnosticV1 projection_diagnostic{};
   const auto status = dh2::random_level::crypt_compile_generated_dact_v1(
       source.value, characters, models, projected, &projection_diagnostic,
-      &retained_characters);
+      &retained_characters, spawn_probability_roll, spawn_probability_context);
   if (status != dh2::random_level::CryptGeneratedDactStatusV1::ok) {
     error = projection_diagnostic.message[0]
         ? projection_diagnostic.message
@@ -461,17 +461,14 @@ bool compile_generated_crypt_dact_v1(
         }
         if (roll_result == 0) continue;
       }
-      retained.gated_spawn = auto_spawn && std::strcmp(auto_spawn, "0") == 0;
-      if ((retained.gated_spawn &&
-           (!ai_state || std::strcmp(ai_state, "Limbus") != 0)) ||
-          (!retained.gated_spawn && ai_state && *ai_state &&
-           std::strcmp(ai_state, "Idle") != 0)) {
-        template_sources->clear();
-        actor_sources.clear();
-        if (faery_sources) faery_sources->clear();
-        error = "Generated Crypt template Character spawn state is unsupported";
-        return false;
-      }
+      // Level::_LoadCharStates 0x3effc8 maps Character::GetPreSetAIState
+      // 0x3a57a4 (ai_state "Limbus" -> 0, "PreSpawn" -> 17, anything else -> 3)
+      // to SM_SetPreSpawnState for 0/17 and SM_SetIdleState(false) otherwise.
+      // auto_spawn=0 rows stay gated as before.
+      retained.gated_spawn =
+          (auto_spawn && std::strcmp(auto_spawn, "0") == 0) ||
+          (ai_state && (std::strcmp(ai_state, "Limbus") == 0 ||
+                        std::strcmp(ai_state, "PreSpawn") == 0));
       template_sources->push_back(std::move(retained));
     }
   }

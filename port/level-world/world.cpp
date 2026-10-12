@@ -70,7 +70,7 @@ bool load(const std::vector<resources::BresView>& views,const std::vector<std::u
      if(version==2)apply_module_root_transform(record,copied);}
     mapping[i]=level.scene.graph.size();level.scene.graph.push_back(std::move(copied));}
    level.scene.nodes=level.scene.graph.size();
-   for(const auto& instance:source.instances){if(mapping[instance.node_index]<0)continue;auto copied=instance;for(auto& m:copied.materials)m+=material_base[k];copied.node_index=mapping[instance.node_index];copied.node=level.scene.graph[copied.node_index].id;level.scene.instances.push_back(std::move(copied));}
+   for(const auto& instance:source.instances){if(mapping[instance.node_index]<0)continue;auto copied=instance;copied.source_view=k;for(auto& m:copied.materials)m+=material_base[k];copied.node_index=mapping[instance.node_index];copied.node=level.scene.graph[copied.node_index].id;level.scene.instances.push_back(std::move(copied));}
    if(!scene::update_world(level.scene,error))throw std::runtime_error(error);
    unsigned floors=0;
    for(auto i=level.scene.instances.begin();i!=level.scene.instances.end();){

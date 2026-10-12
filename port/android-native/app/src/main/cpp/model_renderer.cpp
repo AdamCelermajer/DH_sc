@@ -6548,6 +6548,9 @@ bool NativeCryptRoomRuntime::initialize_source_doors(std::string& error) {
  const auto count=std::count_if(sources.begin(),sources.end(),[](const auto& row){
   return row.gametype=="Door";
  });
+ // Container InitFinal shares this ObjectManager generation binding even when
+ // the Level has no Door rows.
+ source_door_init_runtime=this;
  if(!count)return true;
  const auto* ledger=active_level_assets.generated_crypt_layout
      ?active_level_assets.generated_crypt_handle_ledger.get()
@@ -23893,6 +23896,8 @@ bool native_level_script_host_supports(void*,const dh2_script_command* command){
   return true;
  case 66: // AwardTrophy(I id)
   return c.field_count==1&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32;
+ case 28: // IncFaeryLevel(I index)
+  return c.field_count==1&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32;
  case 27: // SetFaeryState(I index, I state)
   return c.field_count==2&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32&&
       c.fields[1].kind==DH2_SCRIPT_VALUE_I32;
@@ -23909,6 +23914,7 @@ bool native_level_script_host_supports(void*,const dh2_script_command* command){
  default:return false;
  }
 }
+bool native_player_inc_faery_level(std::uint32_t index,std::string& error);
 int native_level_script_host_command(void*,const dh2_script_command* command,
                                      std::uintptr_t* handle){
  try {
@@ -24208,6 +24214,18 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
    native_script_moves.push_back(move);
    *handle=native_script_moves.size();
    return 2;
+  }
+  case 28: {
+   // Script_IncFaeryLevel::Execute 0x45f5cc (offline: local Player Character)
+   // -> Character::IncFaeryLevel 0x3ae61c: SG_SetFaerieLevel(idx, level+1),
+   // CharAI::UpdateAllSkills, then faery_charged once every faery level != 0.
+   if(native_host_online_v1())return -2;
+   std::string error;
+   if(!native_player_inc_faery_level(std::uint32_t(c.fields[0].value.i32),error)){
+    __android_log_print(ANDROID_LOG_ERROR,"DH2Native","Script IncFaeryLevel failed | %s",error.c_str());
+    return -1;
+   }
+   return 1;
   }
   case 27: {
    // Script_SetFaeryState::Execute 0x45f6c8 -> Character::SetFaeryState(local
@@ -33346,6 +33364,25 @@ bool apply_player_faery_change(std::uint32_t id,std::string& error) {
      dh2::data::player_faery_change_v1::Status::complete;
 }
 
+// Character::IncFaeryLevel 0x3ae61c. SG_GetFaerieCount is the Save row count (5).
+bool native_player_inc_faery_level(std::uint32_t index,std::string& error) {
+ constexpr std::uint32_t faery_count=5;
+ if(native_save_difficulty<0||native_save_difficulty>2||!prince_combat.savegame){
+  error="Character::IncFaeryLevel requires the retained Player Save";return false;
+ }
+ const auto diff=std::uint32_t(native_save_difficulty);
+ if(index>=faery_count){error="faeryIdx >= SG_GetFaerieCount";return false;}
+ auto& save=*prince_combat.savegame;
+ if(!save.set_faery_level(index,std::int32_t(save.faery_level(index,diff)+1),diff,error))return false;
+ if(!prince_skills||!prince_skills->initialized()||
+    !prince_skills->update_after_source_skill_inputs_changed(error)){
+  if(error.empty())error="Character::IncFaeryLevel requires the UpdateAllSkills owner";
+  return false;
+ }
+ for(std::uint32_t i=0;i<faery_count;++i)if(save.faery_level(i,diff)==0)return true;
+ return unlock_source_trophy("faery_charged","Character::IncFaeryLevel",error);
+}
+
 namespace FaeryPlacement=dh2::character_faery_placement_v1;
 
 AuthoredCryptFaeryOwner* native_faery_owner(std::uintptr_t identity) {
@@ -39950,7 +39987,18 @@ std::vector<dh2::world::EntryPoint> entrypoints;
       // Character::IsFaerie reads CharType from the linked AI row; the MGP
       // template label alone does not make this a Faery. Validate that source
       // discriminator before a descriptor can ever reach a Character owner.
-      for(const auto& faery:generated_crypt_faery_sources){
+      for(auto faery_it=generated_crypt_faery_sources.begin();faery_it!=generated_crypt_faery_sources.end();){
+       const auto& faery=*faery_it;
+       if(faery.ai_table_id>=0&&std::size_t(faery.ai_table_id)<ai_tables.rows.size()&&
+          ai_tables.rows[std::size_t(faery.ai_table_id)].type!=3){
+        // Character::IsFaerie reads CharType: a Faery-template row on a
+        // non-Faery CharType (DummyLightningFaery) is not a companion owner.
+        __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+         "Generated Crypt Faery-template row deferred | %s | %s | CharType %d",
+         faery.name.c_str(),faery.character.c_str(),int(ai_tables.rows[std::size_t(faery.ai_table_id)].type));
+        faery_it=generated_crypt_faery_sources.erase(faery_it);continue;
+       }
+       ++faery_it;
        if(faery.ai_table_id<0||
           std::size_t(faery.ai_table_id)>=ai_tables.rows.size()||
           ai_tables.rows[std::size_t(faery.ai_table_id)].type!=3)
@@ -41030,7 +41078,7 @@ std::vector<dh2::world::EntryPoint> entrypoints;
         character_table.names[static_cast<std::size_t>(source_actor.character_table_id)]==
           source_actor.character;
       const bool source_invisible_man=source_static_level&&object.kind==1&&
-        object.model=="invisible_man.bdae"&&
+        (object.model=="invisible_man.bdae"||object.model=="energyspawner.bdae")&&
         native_source_static_character_actor(source_actor)&&
         source_character_table_match;
       const bool model_loaded=source_invisible_man
@@ -41191,7 +41239,8 @@ std::vector<dh2::world::EntryPoint> entrypoints;
                    primitive.indices.data(),GL_STATIC_DRAW);check("Item drop buffer upload");
      }
      for(const auto& instance:candidate.scene.instances){dh2::assets::Mesh mesh{};
-      if(dh2_mesh_open(&mesh,&view,instance.geometry)!=dh2::assets::Error::ok||mesh.primitives!=instance.materials.size())throw std::runtime_error("World mesh/binding rejected");
+      if(dh2_mesh_open(&mesh,&world_views.at(instance.source_view),instance.geometry)!=dh2::assets::Error::ok)throw std::runtime_error("World mesh/binding rejected");
+      if(mesh.primitives!=instance.materials.size())throw std::runtime_error("World mesh/binding rejected");
       for(unsigned j=0;j<mesh.primitives;++j){dh2::assets::Primitive p{};dh2_mesh_primitive(&mesh,j,&p);
         if(p.collada_type||p.index_count%3||mesh.vertices>65536)throw std::runtime_error("World topology rejected");
         Draw batch;batch.environment=true;batch.placement=instance.world;batch.material=candidate.scene.materials.at(instance.materials[j]);
