@@ -12,6 +12,12 @@ const SChannelRecord* CDynamicAnimationSet::getChannel(unsigned index) const {
     return channels + index;
 }
 
+// 0x62fc58 _ZN6glitch7collada20CDynamicAnimationSet8clearSetEv
+void CDynamicAnimationSet::clearSet() {
+    databases.clear();
+    setCleared = true;
+}
+
 // 0x6e5a38 _ZNK6glitch7collada17CCoronasSceneNode14getBoundingBoxEv
 const core::aabbox3d<float>& CCoronasSceneNode::getBoundingBox() const {
     return boundingBox;
@@ -91,6 +97,26 @@ std::uint32_t CSceneNodeAnimatorSet::getTargetCount() {
 // 0x65cd70 _ZNK6glitch7collada10CSceneNode15getUserPropertyEv
 std::int32_t CSceneNode::getUserProperty() const {
     return userProperties ? userProperties->value : 0;
+}
+
+// 0x65cd28 _ZNK6glitch7collada10CSceneNode6getUIDEv
+const char* CSceneNode::getUID() const {
+    return userProperties ? userProperties->uid : "";
+}
+
+// 0x65cd4c _ZNK6glitch7collada10CSceneNode10getScopeIDEv
+const char* CSceneNode::getScopeID() const {
+    return userProperties ? userProperties->scopeID : "";
+}
+
+// 0x644404 _ZNK6glitch7collada15CLightSceneNode10getLightIDEv
+std::uint32_t CLightSceneNode::getLightID() const {
+    return slot160.lightID;
+}
+
+// 0x64440c _ZNK6glitch7collada15CLightSceneNode6getUIDEv
+std::uint32_t CLightSceneNode::getUID() const {
+    return *slot160.uidSource;
 }
 
 // 0x64bb78 _ZNK6glitch7collada24CParticleSystemSceneNode6getUIDEv

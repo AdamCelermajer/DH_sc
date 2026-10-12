@@ -57,4 +57,43 @@ std::uint32_t ISceneNodeAnimator::getLength() const {
     return length;
 }
 
+// 0x368ebc _ZNK6glitch7collada33CSceneNodeAnimatorSynchronizedSet29getSynchronizationElapsedTimeEv
+std::int32_t CSceneNodeAnimatorSynchronizedSet::getSynchronizationElapsedTime() const {
+    return static_cast<std::int32_t>(elapsedTime);
+}
+
+namespace detail {
+
+// 0x66b940 _ZN6glitch7collada6detail35CColladaHardwareMatrixSkinTechnique6attachEPNS_5scene10ISceneNodeE
+void CColladaHardwareMatrixSkinTechnique::attach(glitch::scene::ISceneNode* node) {
+    attachedNode = node;
+}
+
+// 0x66d080 _ZN6glitch7collada6detail33CColladaHardwareQuatSkinTechnique6attachEPNS_5scene10ISceneNodeE
+void CColladaHardwareQuatSkinTechnique::attach(glitch::scene::ISceneNode* node) {
+    attachedNode = node;
+}
+
+// 0x66e778 _ZN6glitch7collada6detail36CColladaHardwareTextureSkinTechnique6attachEPNS_5scene10ISceneNodeE
+void CColladaHardwareTextureSkinTechnique::attach(glitch::scene::ISceneNode* node) {
+    attachedNode = node;
+}
+
+}  // namespace detail
+
+CAnimationStreamingManager* CAnimationStreamingManager::Instance = nullptr;
+
+// 0x60b3cc _ZN6glitch7collada26CAnimationStreamingManagerC2Ev
+// 0x60b410 _ZN6glitch7collada26CAnimationStreamingManagerC1Ev
+CAnimationStreamingManager::CAnimationStreamingManager() {
+    for (std::uint32_t& word : words) {
+        word = 0;
+    }
+    Instance = this;
+}
+
+// 0x6e21c0 _ZN6glitch7collada35CAnimationSetTransformationTemplateC2EPKc
+// 0x6e21f4 _ZN6glitch7collada35CAnimationSetTransformationTemplateC1EPKc
+CAnimationSetTransformationTemplate::CAnimationSetTransformationTemplate(const char* /*name*/) {}
+
 }  // namespace glitch::collada

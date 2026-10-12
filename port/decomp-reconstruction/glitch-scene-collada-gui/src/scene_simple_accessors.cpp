@@ -1,5 +1,7 @@
 #include "glitch-scene-collada-gui/scene_simple_accessors.hpp"
 
+#include <cstring>
+
 namespace glitch::scene {
 
 namespace {
@@ -121,6 +123,11 @@ const core::aabbox3d<float>& CShadowVolumeSceneNode::getBoundingBox() const { re
 // 0x6fe984 _ZN6glitch5scene22CShadowVolumeSceneNode13SetBiasFactorEf
 void CShadowVolumeSceneNode::SetBiasFactor(float factor) { biasFactor = factor; }
 
+// 0x6fe974 _ZN6glitch5scene22CShadowVolumeSceneNode4loadEPNS_2io9IReadFileE
+std::uint32_t CShadowVolumeSceneNode::load(io::IReadFile* /*file*/) {
+    return 0;
+}
+
 // 0x6f5fc4 _ZNK6glitch5scene22CAnimatedMeshSceneNode7getTypeEv
 std::uint32_t CAnimatedMeshSceneNode::getType() const { return kTagAnimatedMesh; }
 
@@ -170,6 +177,14 @@ void CParticleSystemSceneNode::reallocateBuffers() {}
 
 // 0x6bbc68 _ZNK6glitch5scene5CMesh14getBoundingBoxEv
 const core::aabbox3d<float>& CMesh::getBoundingBox() const { return boundingBox; }
+
+// 0x6bbc70 _ZN6glitch5scene5CMesh14setBoundingBoxERKNS_4core8aabbox3dIfEE
+void CMesh::setBoundingBox(const core::aabbox3d<float>& box) { boundingBox = box; }
+
+// 0x6bbedc _ZN6glitch5scene5CMesh5clearEv
+void CMesh::clear() {
+    buffers.clear();
+}
 
 // 0x6c77e4 _ZNK6glitch5scene27CSceneNodeAnimatorCameraFPS22isEventReceiverEnabledEv
 bool CSceneNodeAnimatorCameraFPS::isEventReceiverEnabled() const { return true; }
@@ -236,6 +251,11 @@ std::uint32_t CSceneNodeAnimatorFlyCircle::getType() const { return 0; }
 
 // 0x6cc070 _ZNK6glitch5scene29CSceneNodeAnimatorFlyStraight7getTypeEv
 std::uint32_t CSceneNodeAnimatorFlyStraight::getType() const { return 1; }
+
+// 0x6cc330 _ZN6glitch5scene29CSceneNodeAnimatorFlyStraight25recalculateImidiateValuesEv
+float CSceneNodeAnimatorFlyStraight::recalculateImidiateValues() const {
+    return minuend - subtrahend;
+}
 
 // 0x6cc754 _ZNK6glitch5scene30CSceneNodeAnimatorFollowSpline7getTypeEv
 std::uint32_t CSceneNodeAnimatorFollowSpline::getType() const { return 2; }
@@ -318,6 +338,11 @@ void CSceneNodeAnimatorCameraFPS::setVerticalMovement(bool allowed) {
 // 0x6c95cc _ZN6glitch5scene28CSceneNodeAnimatorCameraMaya14isMouseKeyDownEi
 bool CSceneNodeAnimatorCameraMaya::isMouseKeyDown(int key) const {
     return mouseKeyDown[key];
+}
+
+// 0x6c97f4 _ZN6glitch5scene28CSceneNodeAnimatorCameraMaya20updateAnimationStateEv
+float CSceneNodeAnimatorCameraMaya::updateAnimationState() const {
+    return stateA - stateB;
 }
 
 // 0x6c95d8 _ZN6glitch5scene28CSceneNodeAnimatorCameraMaya9allKeysUpEv
@@ -440,4 +465,34 @@ const char* CMeshCache::getMeshFilename(const boost::intrusive_ptr<const IAnimat
     }
     return nullptr;
 }
+// 0x6be530 _ZNK6glitch5scene10CMeshCache12getMeshIndexERKN5boost13intrusive_ptrIKNS0_13IAnimatedMeshEEE
+std::int32_t CMeshCache::getMeshIndex(const boost::intrusive_ptr<const IAnimatedMesh>& mesh) const {
+    for (std::size_t i = 0; i < entries.size(); ++i) {
+        if (entries[i].mesh == mesh.get()) {
+            return static_cast<std::int32_t>(i);
+        }
+    }
+    return -1;
+}
+
+// 0x6bea64 _ZN6glitch5scene10CMeshCache5clearEv
+void CMeshCache::clear() {
+    entries.clear();
+}
+
+// 0x6be474 _ZN6glitch5scene10CMeshCacheC2EPNS_5video12IVideoDriverE
+// 0x6be4bc _ZN6glitch5scene10CMeshCacheC1EPNS_5video12IVideoDriverE
+CMeshCache::CMeshCache(video::IVideoDriver* driver) : videoDriver(driver) {}
+
+// 0x6b8878 _ZN6glitch5scene17CAppendMeshBuffer5clearEv
+void CAppendMeshBuffer::clear() {
+    fillCounterB = 0;
+    fillCounterA = 0;
+}
+
+// 0x6b9538 _ZNK6glitch5scene24CColladaBinaryFileLoader24isALoadableFileExtensionEPKc
+bool CColladaBinaryFileLoader::isALoadableFileExtension(const char* filename) const {
+    return std::strstr(filename, ".bdae") != nullptr;
+}
+
 }  // namespace glitch::scene

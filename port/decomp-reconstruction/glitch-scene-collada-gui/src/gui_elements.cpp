@@ -116,6 +116,11 @@ std::uint32_t CGUIEnvironment::getRegisteredGUIElementFactoryCount() const {
     return static_cast<std::uint32_t>(guiElementFactories.size());
 }
 
+// 0x5357fc _ZNK6glitch3gui15CGUIEnvironment20getGUIElementFactoryEj
+void* CGUIEnvironment::getGUIElementFactory(std::uint32_t index) const {
+    return index < guiElementFactories.size() ? guiElementFactories[index] : nullptr;
+}
+
 // 0x53e26c _ZNK6glitch3gui8CGUIFont13getSpriteBankEv
 IGUISpriteBank* CGUIFont::getSpriteBank() const {
     return spriteBank;

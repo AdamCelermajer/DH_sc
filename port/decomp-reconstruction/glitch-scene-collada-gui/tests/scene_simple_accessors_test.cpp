@@ -208,6 +208,60 @@ int main() {
     CHECK(nodeFactory.getCreateableSceneNodeTypeName(2) == nullptr);
     CHECK(nodeFactory.getCreateableSceneNodeType(2) == 0x6e6b6e75u);
 
+    {
+        // Mesh cache: index lookup, clear and the driver constructor.
+        int meshTagA = 0, meshTagB = 0;
+        const IAnimatedMesh* meshA = reinterpret_cast<const IAnimatedMesh*>(&meshTagA);
+        const IAnimatedMesh* meshB = reinterpret_cast<const IAnimatedMesh*>(&meshTagB);
+        CMeshCache indexCache;
+        CMeshCache::SMeshEntry entryA;
+        entryA.mesh = meshA;
+        CMeshCache::SMeshEntry entryB;
+        entryB.mesh = meshB;
+        indexCache.entries.push_back(entryA);
+        indexCache.entries.push_back(entryB);
+        CHECK(indexCache.getMeshIndex(boost::intrusive_ptr<const IAnimatedMesh>(meshB)) == 1);
+        CHECK(indexCache.getMeshIndex(boost::intrusive_ptr<const IAnimatedMesh>(meshA)) == 0);
+        CHECK(indexCache.getMeshIndex(boost::intrusive_ptr<const IAnimatedMesh>()) == -1);
+        indexCache.clear();
+        CHECK(indexCache.getMeshCount() == 0);
+        CMeshCache driverCache(nullptr);
+        CHECK(driverCache.referenceCount == 1 && driverCache.getMeshCount() == 0);
+
+        // Mesh: clear drops the buffers; the box setter stores the box.
+        CMesh clearedMesh;
+        clearedMesh.buffers.push_back(7);
+        clearedMesh.clear();
+        CHECK(clearedMesh.buffers.empty());
+        glitch::core::aabbox3d<float> sceneBox{{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}};
+        clearedMesh.setBoundingBox(sceneBox);
+        CHECK(clearedMesh.getBoundingBox().MaxEdge.Z == 6.0f);
+
+        // Shadow volume load returns zero.
+        CShadowVolumeSceneNode shadow;
+        CHECK(shadow.load(nullptr) == 0);
+
+        // Append buffer clear and the binary loader's extension test.
+        CAppendMeshBuffer appendBuffer;
+        appendBuffer.fillCounterA = 3;
+        appendBuffer.fillCounterB = 4;
+        appendBuffer.clear();
+        CHECK(appendBuffer.fillCounterA == 0 && appendBuffer.fillCounterB == 0);
+        CColladaBinaryFileLoader binaryLoader;
+        CHECK(binaryLoader.isALoadableFileExtension("scene.bdae"));
+        CHECK(!binaryLoader.isALoadableFileExtension("scene.dae"));
+
+        // Camera Maya difference and fly-straight difference.
+        CSceneNodeAnimatorCameraMaya maya;
+        maya.stateA = 10.0f;
+        maya.stateB = 4.0f;
+        CHECK(maya.updateAnimationState() == 6.0f);
+        CSceneNodeAnimatorFlyStraight fly;
+        fly.minuend = 2.0f;
+        fly.subtrahend = 0.5f;
+        CHECK(fly.recalculateImidiateValues() == 1.5f);
+    }
+
     std::printf("%s\n", failures ? "scene_simple_accessors: FAILED" : "scene_simple_accessors: ok");
     return failures != 0;
 }

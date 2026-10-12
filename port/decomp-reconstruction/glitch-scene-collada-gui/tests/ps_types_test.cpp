@@ -63,6 +63,17 @@ int main() {
     GNPSLifeModel<GNPSParticle>().initPLifeModel();
     PLifeModel<SParticle>().initPLifeModel();
 
+    // Colour animation track presence.
+    GNPSColorModel<GNPSParticle> gnpsColor;
+    CHECK(gnpsColor.hasColorAnimationTrack() == 0);
+    int trackTag = 0;
+    gnpsColor.colorAnimationTrack = &trackTag;
+    CHECK(gnpsColor.hasColorAnimationTrack() == 1);
+    PColorModel<SParticle> pColor;
+    CHECK(pColor.hasColorAnimationTrack() == 0);
+    pColor.colorAnimationTrack = &trackTag;
+    CHECK(pColor.hasColorAnimationTrack() == 1);
+
     std::printf("%s\n", failures ? "ps_types: FAILED" : "ps_types: ok");
     return failures != 0;
 }

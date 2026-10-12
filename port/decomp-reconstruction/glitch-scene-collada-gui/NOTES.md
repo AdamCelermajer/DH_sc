@@ -7,8 +7,10 @@ scene, timeline, PS and collada-misc batch (two of them GUI partials). Wave 4
 added 219 rows (180 reconstructed, 39 partial), all in glitch::scene particle
 emitters and affectors (see "Wave 4" below). The `decomp_extract --remaining`
 count is 3547 unledgered.
-Wave 5 added 228 rows (222 reconstructed, 6 partial; see "Wave 5" below). The current
-ledger is 819 rows and the `decomp_extract --remaining` count is 3319 unledgered.
+Wave 5 added 228 rows (222 reconstructed, 6 partial; see "Wave 5" below).
+Wave 6 added 201 rows (183 reconstructed, 18 partial; see "Wave 6" below). The current
+ledger is 1020 rows (866 reconstructed, 150 partial, 4 skipped) and the
+`decomp_extract --remaining` count is 3118 unledgered.
 
 ## Classes and inferred layouts
 - CVisibilityEx: visible flag is a 32-bit word at +0x11c, bit 0 = visible. Base
@@ -301,4 +303,98 @@ Ledger: 228 rows (222 reconstructed, 6 partial). Queue remaining 3319 of 4138.
 - Virtual-slot getters listed above, and the CMatrix4 layout the matrix bodies need.
 - Large classes with many small bodies still unfinished: CSceneManager, CColladaDatabase,
   CGUIEnvironment, ISceneNode, IGUIElement and CSceneNodeAnimatorSynchronizedBlender.
+- PD within(), generate() and copy() bodies, and the PSRandom dependency.
+
+## Wave 6: GUI, scene, collada accessors and platform stubs
+Files: new include/glitch-scene-collada-gui/platform_stubs.hpp, src/platform_stubs.cpp and
+tests/platform_stubs_test.cpp. Extended: gui_simple_accessors.hpp/.cpp (CGUISpriteBank,
+factory constructor, word-wrap setters), gui_elements.hpp/.cpp (CGUIEnvironment factory lookup),
+scene_simple_accessors.hpp/.cpp (CMeshCache, CMesh, CAppendMeshBuffer, CColladaBinaryFileLoader,
+CShadowVolumeSceneNode::load, animator differences), collada_scene_accessors.hpp/.cpp (CSceneNode
+uid and scope, CLightSceneNode, CDynamicAnimationSet::clearSet), collada_misc.hpp/.cpp (skin
+attach hooks, streaming manager, transformation template, synchronized-set elapsed time),
+ps_types.hpp (colour-model track tests), ps_types.cpp (PS_NEW and PS_FREE). Tests were added to
+each matching tests/*_test.cpp.
+Ledger: 201 rows this wave (183 reconstructed, 18 partial). Host and Windows builds pass with
+24 ctest tests and no warnings.
+
+- Layouts (offsets are comments; members are typed, pads fill the rest):
+  - SListItem: text pointer +0x44, icon +0x48, four 5-byte override records from +0x4c (flag byte,
+    then the packed colour). The override index is the EGUI_LISTBOX_COLOR value.
+  - CGUITable: SCell (0x98 stride; text +0x44, colour +0x90, data +0x94) and SRow (cell vector +0x00).
+  - CGUIComboBox SItem: stride 0x48, text +0x44. Items vector +0x164..+0x168, selected +0x170.
+  - CGUIContextMenu SItem: stride 0x60. Text +0x44, enabled +0x49, checked +0x4a, width +0x4c,
+    height +0x50, offset +0x54, sub-menu +0x58.
+  - CGUISkin colour table: getColor is partial. Indices of 21 and above return zero, because the
+    register value the original leaves is not recoverable.
+  - CGUISpriteBank: sprite vector +0x08, position vector +0x14, texture vector +0x20 (only the
+    texture vector is modelled; getSprites and getPositions are not written).
+  - CGUITTFont tracking +0x38 (negative values stored as zero). CGUIStaticText and CGUIEditBox
+    word-wrap flags at +0x171 and +0x188.
+  - STerrainPatch (stride 0x38): LOD word +0x00, bounding box +0x04.
+  - CMeshCache: refcount base +0x04, entries +0x08..+0x0c (stride 0x1c, name +0x14, mesh +0x18),
+    driver +0x14.
+  - CSceneNode property block (pointer at +0x154): uid +0x00, scope id +0x08, user property +0x48.
+  - CLightSceneNode +0x160: getLightID reads the word, getUID follows it as a pointer to the uid
+    word. The union in the header keeps both readings (getUID is partial for that reason).
+  - CBatchMesh SBatch: mesh buffer +0x00, material +0x04, vertex attribute map +0x08, three 16-bit
+    fields +0x0c/+0x0e/+0x10 zeroed by the constructor (roles unknown).
+  - CModularSkinnedMesh: SModuleHolder (name +0x04), SModuleRecord (holder +0x04, 8 bytes),
+    category entries 0x10 bytes.
+  - CDefaultSceneNodeFactory::SCreatableType: 28 bytes, type +0x00, name +0x18. Indices out of
+    range return the 'unkn' tag (0x6e6b6e75).
+  - CAndroidOSDevice::CCursorControl: position words +0x08/+0x0c, owning device +0x30, visible
+    flag +0x34. CAndroidOSDevice running flag +0x109 (cleared by closeDevice).
+  - CSceneNodeAnimatorSynchronizedSet: elapsed time float +0x7c, reached-end flag +0x80.
+  - CAppendMeshBuffer: fill counters at +0x3c and +0x44 (roles not confirmed).
+  - CDynamicAnimationSet: database vector +0x24..+0x28, set-cleared flag +0x70, channels +0x74.
+  - CAnimationStreamingManager: eight words at +0x00..+0x1c zeroed by the constructor, which also
+    publishes the object through the static Instance pointer.
+- Name tables: the GUI element type names and the scene animator names are read from the binary.
+  The relocation addends (R_ARM_RELATIVE) point at string literals in strings.csv. Image, table and
+  texture resolve as suffixes of longer literals. Entry 9 "tab" is inferred from the enum order,
+  and that is noted in the source.
+- Thunks: a 4-byte body that is a single `b` is a thunk. CGUIWindow::updateAbsolutePosition
+  (0x55eb40) and ISceneNodeAnimator::onUnbindAll (0x3662c4) forward to bodies that are not yet
+  in the port, so they are not written.
+- Destructors: D1 and D2 bodies that only store the vtable and call a base destructor are
+  defaulted. D0 deleting variants are not ledgered. CAnimationSetTransformationTemplate D1 and D2
+  are partial because the base IAnimationSetTemplate is not ported.
+- Constructor pairs (C1 and C2 with the same body) share one body with two address comments.
+- Refcounted getters and setters (intrusive_ptr out-parameters) are skipped. There is no refcount
+  model, so CMeshSceneNode::getMesh, CShadowVolumeSceneNode::setShadowMesh, CTerrainSceneNode
+  ::getRenderBuffer and similar are left out. Clear-style bodies that drop references (CMeshCache,
+  CMesh, CDynamicAnimationSet) are partial with a note.
+- Virtual-slot dispatch is not modelled, so those rows are skipped. Examples are
+  CGUIEnvironment::getDefaultGUIElementFactory, CMorphingMesh::getMeshBufferCount,
+  CTimelineController::getClipLength and the synchronized-blender getters.
+- Tail calls into __aeabi_fsub (CSceneNodeAnimatorCameraMaya::updateAnimationState,
+  CSceneNodeAnimatorFlyStraight::recalculateImidiateValues) return the difference. The decompiled
+  void signature hides the float return, so both are partial.
+- CCursorControl::setVisible adds a null check on the owning device, which the original does not
+  have. The row is reconstructed with that note.
+- The skin techniques' needOutputBuffer bodies stay in generated_stubs.hpp (partial). Only the
+  attach hooks of the three hardware techniques are attached to their classes here.
+- PS_NEW is partial: GlitchAlloc with hint 0 is replaced by std::malloc.
+
+- Not taken this wave, with the reason:
+  - CColladaFactory getVertexBufferConfig and getIndexBufferConfig: the sret struct return conflicts
+    with the uint32 virtual signature. Not written until the signature is confirmed.
+  - CGUISkin::getFont (0x54aac4): reads a font table that overlaps the colour table.
+  - os::Timer is not in the port, so the fader, button and fader-ready time bodies wait for it.
+  - CMatrix4 has no layout here, so CDummyTransformationSceneNode matrix accessors wait.
+  - recalculateScrollBar, breakText and addTransformationTargets are not ported, so the tab
+    control's width and height setters and the word-wrap re-break are partial or skipped.
+  - CAnimationSet::getAnimationCount is not in the queue, so CSceneNodeAnimatorSet::getAnimationCount
+    cannot forward to it yet.
+  - CDynamicAnimationSet::remAnimationLibrary and remAnimationLibraryBindings need getDatabaseIndex.
+  - CSkinnedMesh::getBoundingBox needs computeBoundingBox.
+  - CGUIFont::getSpriteNoFromChar is a tree lookup that needs the node stand-in.
+
+## Remaining after wave 6
+- The CVirtualEx family and the remaining animation_track templates (see wave 5).
+- Virtual-slot getters, Timer-based GUI bodies and the CMatrix4 layout (see above).
+- CAnimationStreamingManager release, cache, checkMemoryUsage and the block registry (large).
+- CColladaHardware and CColladaSoftware skin technique constructors, skin, init and prepareCache.
+- CSceneManager compile and CBatchSceneNode accessors that dispatch through segment objects.
 - PD within(), generate() and copy() bodies, and the PSRandom dependency.

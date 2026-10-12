@@ -128,6 +128,11 @@ class GNPSColorModel {
 public:
     // 0x6380d8 _ZN6glitch2ps14GNPSColorModelINS0_12GNPSParticleEE15initPColorModelEv (empty)
     void initPColorModel() {}
+    // 0x638524 _ZN6glitch2ps14GNPSColorModelINS0_12GNPSParticleEE22hasColorAnimationTrackEv
+    // Returns 1 when the colour animation track at +0x08 is set.
+    int hasColorAnimationTrack() const { return colorAnimationTrack != nullptr ? 1 : 0; }
+
+    const void* colorAnimationTrack = nullptr;  // +0x08
 };
 
 template <typename Particle>
@@ -135,6 +140,11 @@ class PColorModel {
 public:
     // 0x64beec _ZN6glitch2ps11PColorModelINS0_9SParticleEE15initPColorModelEv (empty)
     void initPColorModel() {}
+    // 0x64c06c _ZN6glitch2ps11PColorModelINS0_9SParticleEE22hasColorAnimationTrackEv
+    // Returns 1 when the colour animation track at +0x08 is set.
+    int hasColorAnimationTrack() const { return colorAnimationTrack != nullptr ? 1 : 0; }
+
+    const void* colorAnimationTrack = nullptr;  // +0x08
 };
 
 template <typename Particle>

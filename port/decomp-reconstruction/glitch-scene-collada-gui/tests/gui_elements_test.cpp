@@ -173,6 +173,13 @@ int main() {
     colourList.setItemOverrideColor(5, glitch::video::SColor{0x1u});
     CHECK(colourList.getItemCount() == 1);
 
+    // Factory list lookup by index.
+    CGUIEnvironment factoryEnv;
+    int factoryTag = 0;
+    factoryEnv.guiElementFactories.push_back(&factoryTag);
+    CHECK(factoryEnv.getGUIElementFactory(0) == &factoryTag);
+    CHECK(factoryEnv.getGUIElementFactory(1) == nullptr);
+
     std::printf("%s\n", failures ? "gui_elements: FAILED" : "gui_elements: ok");
     return failures != 0;
 }

@@ -230,7 +230,21 @@ int main() {
     editBoxNew.setTextAlignment(1, 2);
     CHECK(editBoxNew.horizontalAlign == 1 && editBoxNew.verticalAlign == 2);
 
-    CDefaultGUIElementFactory factory;
+    int envTag = 0;
+    CDefaultGUIElementFactory factory(reinterpret_cast<IGUIEnvironment*>(&envTag));
+    CHECK(factory.referenceCount == 1 && factory.environment == reinterpret_cast<IGUIEnvironment*>(&envTag));
+
+    CGUITTFont ttf;
+    ttf.setTracking(-3);
+    CHECK(ttf.getTracking() == 0);
+    ttf.setTracking(4);
+    CHECK(ttf.getTracking() == 4);
+
+    CGUISpriteBank bank;
+    CHECK(bank.getTextureCount() == 0);
+    bank.textures.resize(2);
+    CHECK(bank.getTextureCount() == 2);
+
     CHECK(factory.getCreatableGUIElementTypeCount() == 0x16);
     CHECK(factory.getCreateableGUIElementType(3) == 3);
     CHECK(factory.getCreateableGUIElementType(0x16) == 0x17);

@@ -104,6 +104,8 @@ public:
     IGUISkin* getSkin() const;
     // 0x5357e8 _ZNK6glitch3gui15CGUIEnvironment35getRegisteredGUIElementFactoryCountEv
     std::uint32_t getRegisteredGUIElementFactoryCount() const;
+    // 0x5357fc _ZNK6glitch3gui15CGUIEnvironment20getGUIElementFactoryEj (null when out of range)
+    void* getGUIElementFactory(std::uint32_t index) const;
 
     IGUIElement* focus = nullptr;                                 // +0x1b0
     video::IVideoDriver* videoDriver = nullptr;                   // +0x1a8

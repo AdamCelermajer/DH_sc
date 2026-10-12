@@ -174,6 +174,31 @@ int main() {
     colladaMesh.setBoundingBox(colladaBox);
     CHECK(colladaMesh.getBoundingBox().MaxEdge.X == 2.0f);
 
+    // Scene-node uid and scope accessors, light id and uid, and the dynamic set clear.
+    {
+        CSceneNode uidNode;
+        CHECK(std::strcmp(uidNode.getUID(), "") == 0);
+        CHECK(std::strcmp(uidNode.getScopeID(), "") == 0);
+        SNodeUserProperties nodeProps;
+        nodeProps.uid = "node-7";
+        nodeProps.scopeID = "scope";
+        uidNode.userProperties = &nodeProps;
+        CHECK(std::strcmp(uidNode.getUID(), "node-7") == 0);
+        CHECK(std::strcmp(uidNode.getScopeID(), "scope") == 0);
+
+        CLightSceneNode light;
+        light.slot160.lightID = 42;
+        CHECK(light.getLightID() == 42);
+        std::uint32_t uidWord = 99;
+        light.slot160.uidSource = &uidWord;
+        CHECK(light.getUID() == 99);
+
+        CDynamicAnimationSet dynamicSet;
+        dynamicSet.databases.resize(3);
+        dynamicSet.clearSet();
+        CHECK(dynamicSet.databases.empty() && dynamicSet.setCleared);
+    }
+
     std::printf("%s\n", failures ? "collada_scene_accessors: FAILED" : "collada_scene_accessors: ok");
     return failures != 0;
 }

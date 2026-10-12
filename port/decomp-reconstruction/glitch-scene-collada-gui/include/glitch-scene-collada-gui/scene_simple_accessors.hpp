@@ -10,6 +10,14 @@
 #include "glitch-scene-collada-gui/deps/core_stand_ins.hpp"
 #include "glitch-scene-collada-gui/deps/intrusive_ptr.hpp"
 
+namespace glitch::video {
+class IVideoDriver;
+}
+
+namespace glitch::io {
+class IReadFile;
+}
+
 namespace glitch::scene {
 
 class ITriangleSelector;
@@ -251,6 +259,8 @@ public:
     const core::aabbox3d<float>& getBoundingBox() const;
     // 0x6fe984 _ZN6glitch5scene22CShadowVolumeSceneNode13SetBiasFactorEf
     void SetBiasFactor(float factor);
+    // 0x6fe974 _ZN6glitch5scene22CShadowVolumeSceneNode4loadEPNS_2io9IReadFileE (returns 0)
+    std::uint32_t load(io::IReadFile* file);
 
     core::aabbox3d<float> boundingBox;  // +0x168
     float biasFactor = 0.0f;            // +0x188
@@ -328,8 +338,12 @@ public:
     const core::aabbox3d<float>& getBoundingBox() const;
     // 0x6bbc70 _ZN6glitch5scene5CMesh14setBoundingBoxERKNS_4core8aabbox3dIfEE
     void setBoundingBox(const core::aabbox3d<float>& box);
+    // 0x6bbedc _ZN6glitch5scene5CMesh5clearEv
+    // Partial: the buffer entries are dropped without releasing their references.
+    void clear();
 
-    core::aabbox3d<float> boundingBox;  // +0x14
+    std::vector<std::uint32_t> buffers;  // +0x08 (begin) .. +0x0c (end); buffer elements not mapped
+    core::aabbox3d<float> boundingBox;   // +0x14
 };
 
 // Animator types: the type tag is the constant each class returns.
@@ -384,10 +398,19 @@ public:
     // 0x6c95d8 _ZN6glitch5scene28CSceneNodeAnimatorCameraMaya9allKeysUpEv
     void allKeysUp();
 
-    float zoomSpeed = 0.0f;    // +0x24
-    float rotateSpeed = 0.0f;  // +0x28
-    float moveSpeed = 0.0f;    // +0x2c
-    bool mouseKeyDown[3] = {};  // +0x0c..+0x0e (cleared by allKeysUp)
+    // 0x6c97f4 _ZN6glitch5scene28CSceneNodeAnimatorCameraMaya20updateAnimationStateEv
+    // Partial: the original tail-calls __aeabi_fsub(+0x14, +0x54), so the difference is returned.
+    float updateAnimationState() const;
+
+    bool mouseKeyDown[3] = {};         // +0x0c..+0x0e (cleared by allKeysUp)
+    std::uint8_t pad_000f[0x05] = {};  // +0x0f..+0x13 (not mapped)
+    float stateA = 0.0f;               // +0x14 (minuend of updateAnimationState)
+    std::uint8_t pad_0018[0x0c] = {};  // +0x18..+0x23 (not mapped)
+    float zoomSpeed = 0.0f;            // +0x24
+    float rotateSpeed = 0.0f;          // +0x28
+    float moveSpeed = 0.0f;            // +0x2c
+    std::uint8_t pad_0030[0x24] = {};  // +0x30..+0x53 (not mapped)
+    float stateB = 0.0f;               // +0x54 (subtrahend of updateAnimationState)
 };
 
 class CSceneNodeAnimatorCollisionResponse {
@@ -440,6 +463,14 @@ class CSceneNodeAnimatorFlyStraight {
 public:
     // 0x6cc070 _ZNK6glitch5scene29CSceneNodeAnimatorFlyStraight7getTypeEv (returns 1)
     std::uint32_t getType() const;
+    // 0x6cc330 _ZN6glitch5scene29CSceneNodeAnimatorFlyStraight25recalculateImidiateValuesEv
+    // Partial: the original tail-calls __aeabi_fsub(+0x18, +0x0c), so the difference is returned.
+    float recalculateImidiateValues() const;
+
+    std::uint8_t pad_0000[0x0c] = {};  // +0x00..+0x0b (not mapped)
+    float subtrahend = 0.0f;           // +0x0c
+    std::uint8_t pad_0010[0x08] = {};  // +0x10..+0x17 (not mapped)
+    float minuend = 0.0f;              // +0x18
 };
 
 class CSceneNodeAnimatorFollowSpline {
@@ -558,8 +589,21 @@ public:
     // 0x6be64c _ZNK6glitch5scene10CMeshCache15getMeshFilenameERKN5boost13intrusive_ptrIKNS0_13IAnimatedMeshEEE
     // The first entry whose mesh matches is used; null when none matches.
     const char* getMeshFilename(const boost::intrusive_ptr<const IAnimatedMesh>& mesh) const;
+    // 0x6be530 _ZNK6glitch5scene10CMeshCache12getMeshIndexERKN5boost13intrusive_ptrIKNS0_13IAnimatedMeshEEE
+    // Index of the first entry whose mesh matches, or -1 when none does.
+    std::int32_t getMeshIndex(const boost::intrusive_ptr<const IAnimatedMesh>& mesh) const;
+    // 0x6bea64 _ZN6glitch5scene10CMeshCache5clearEv
+    // Partial: the entries are dropped without releasing their mesh references.
+    void clear();
 
-    std::vector<SMeshEntry> entries;  // +0x08 (begin) .. +0x0c (end)
+    CMeshCache() = default;
+    // 0x6be474 _ZN6glitch5scene10CMeshCacheC2EPNS_5video12IVideoDriverE
+    // 0x6be4bc _ZN6glitch5scene10CMeshCacheC1EPNS_5video12IVideoDriverE
+    explicit CMeshCache(video::IVideoDriver* driver);
+
+    std::uint32_t referenceCount = 1;           // +0x04 (IReferenceCounted base, starts at 1)
+    std::vector<SMeshEntry> entries;            // +0x08 (begin) .. +0x0c (end)
+    video::IVideoDriver* videoDriver = nullptr;  // +0x14
 };
 
 class IBillboard {
@@ -608,6 +652,28 @@ public:
     core::aabbox3d<float> boundingBox;  // +0x08
     std::vector<void*> meshes;          // +0x20 (begin) .. +0x24 (end), one entry per frame
     std::uint32_t meshType = 0;         // +0x2c
+};
+
+// Append mesh buffer. Only the two fill counters cleared by clear() are mapped; their
+// roles are not confirmed.
+class CAppendMeshBuffer {
+public:
+    // 0x6b8878 _ZN6glitch5scene17CAppendMeshBuffer5clearEv
+    void clear();
+
+    std::uint8_t pad_0000[0x3c] = {};  // +0x00..+0x3b (not mapped)
+    std::uint32_t fillCounterA = 0;    // +0x3c
+    std::uint8_t pad_0040[0x04] = {};  // +0x40..+0x43 (not mapped)
+    std::uint32_t fillCounterB = 0;    // +0x44
+};
+
+// Binary COLLADA file loader. Only the extension test is mapped.
+class CColladaBinaryFileLoader {
+public:
+    // 0x6b9538 _ZNK6glitch5scene24CColladaBinaryFileLoader24isALoadableFileExtensionEPKc
+    // The original returns a char* that is 1 when the name contains ".bdae" and null
+    // otherwise; here that is a bool.
+    bool isALoadableFileExtension(const char* filename) const;
 };
 
 }  // namespace glitch::scene

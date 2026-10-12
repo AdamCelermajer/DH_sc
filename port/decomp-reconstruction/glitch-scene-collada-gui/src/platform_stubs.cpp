@@ -45,6 +45,25 @@ bool CAndroidOSDevice::CCursorControl::isVisible() const {
     return visible;
 }
 
+// 0x6a0334 _ZN6glitch16CAndroidOSDevice14CCursorControl10setVisibleEb
+// The original has no null check on the owning device; one is added here.
+void CAndroidOSDevice::CCursorControl::setVisible(bool value) {
+    visible = value;
+    if (device != nullptr) {
+        device->setCursorVisible(value);
+    }
+}
+
+// 0x6a0164 _ZN6glitch16CAndroidOSDevice14CCursorControl11getPositionEv
+core::position2d<std::int32_t> CAndroidOSDevice::CCursorControl::getPosition() const {
+    return core::position2d<std::int32_t>{positionX, positionY};
+}
+
+// 0x6a02a4 _ZN6glitch16CAndroidOSDevice11closeDeviceEv
+void CAndroidOSDevice::closeDevice() {
+    running = false;
+}
+
 // 0x6a02b0 _ZN6glitch16CAndroidOSDevice12createWindowEv
 bool CAndroidOSDevice::createWindow() {
     return true;

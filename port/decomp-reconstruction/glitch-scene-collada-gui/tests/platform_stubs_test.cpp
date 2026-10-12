@@ -50,6 +50,16 @@ int main() {
         CHECK(!cursor.isVisible());
         cursor.visible = true;
         CHECK(cursor.isVisible());
+        cursor.device = &device;
+        cursor.setVisible(false);
+        CHECK(!cursor.isVisible());
+        cursor.positionX = 12;
+        cursor.positionY = 34;
+        core::position2d<std::int32_t> where = cursor.getPosition();
+        CHECK(where.X == 12 && where.Y == 34);
+        device.running = true;
+        device.closeDevice();
+        CHECK(!device.running);
     }
 
     {

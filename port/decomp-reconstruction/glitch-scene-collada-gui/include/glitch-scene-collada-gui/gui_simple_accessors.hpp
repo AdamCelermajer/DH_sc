@@ -99,6 +99,9 @@ public:
     void enableOverrideColor(bool enable);
     // 0x54ffbc _ZNK6glitch3gui14CGUIStaticText22isOverrideColorEnabledEv
     bool isOverrideColorEnabled() const;
+    // 0x551838 _ZN6glitch3gui14CGUIStaticText11setWordWrapEb
+    // Partial: the original then re-breaks the text; breakText is not ported, so only the flag is set.
+    void setWordWrap(bool enable);
     // 0x54ffc4 _ZNK6glitch3gui14CGUIStaticText17isWordWrapEnabledEv
     bool isWordWrapEnabled() const;
     // 0x54ff1c _ZN6glitch3gui14CGUIStaticText16setOverrideColorENS_5video6SColorE
@@ -235,6 +238,9 @@ public:
     std::int32_t getKerningWidth(const wchar_t* first, const wchar_t* second) const;
     // 0x55bce4 _ZNK6glitch3gui10CGUITTFont16getKerningHeightEv (returns 0)
     std::int32_t getKerningHeight() const;
+    // 0x55bcec _ZN6glitch3gui10CGUITTFont11setTrackingEi
+    // Negative values are stored as zero.
+    void setTracking(std::int32_t value);
     // 0x55bd00 _ZNK6glitch3gui10CGUITTFont11getTrackingEv
     std::int32_t getTracking() const;
     // 0x55bd08 _ZN6glitch3gui10CGUITTFont12setAntiAliasEb
@@ -362,6 +368,9 @@ public:
     void setDrawBorder(bool draw);
     // 0x6afab0 _ZN6glitch3gui11CGUIEditBox19enableOverrideColorEb
     void enableOverrideColor(bool enable);
+    // 0x6b1624 _ZN6glitch3gui11CGUIEditBox11setWordWrapEb
+    // Partial: the original then re-breaks the text; breakText is not ported, so only the flag is set.
+    void setWordWrap(bool enable);
     // 0x6afab8 _ZNK6glitch3gui11CGUIEditBox17isWordWrapEnabledEv
     bool isWordWrapEnabled() const;
     // 0x6afac0 _ZN6glitch3gui11CGUIEditBox12setMultiLineEb
@@ -437,6 +446,9 @@ enum EGUI_ELEMENT_TYPE : std::uint32_t {
 
 class CDefaultGUIElementFactory {
 public:
+    // 0x6a56ec _ZN6glitch3gui25CDefaultGUIElementFactoryC2EPNS0_15IGUIEnvironmentE
+    // 0x6a571c _ZN6glitch3gui25CDefaultGUIElementFactoryC1EPNS0_15IGUIEnvironmentE
+    explicit CDefaultGUIElementFactory(IGUIEnvironment* env);
     // 0x6a5d20 _ZN6glitch3gui25CDefaultGUIElementFactoryD1Ev (empty)
     ~CDefaultGUIElementFactory() = default;
     // 0x6a5cc8 _ZNK6glitch3gui25CDefaultGUIElementFactory31getCreatableGUIElementTypeCountEv (returns 0x16)
@@ -448,6 +460,9 @@ public:
     const char* getCreateableGUIElementTypeName(std::int32_t index) const;
     // 0x6a5d00 _ZNK6glitch3gui25CDefaultGUIElementFactory31getCreateableGUIElementTypeNameENS0_17EGUI_ELEMENT_TYPEE (null when out of range)
     const char* getCreateableGUIElementTypeName(EGUI_ELEMENT_TYPE type) const;
+
+    std::uint32_t referenceCount = 1;        // +0x04 (IReferenceCounted base, starts at 1)
+    IGUIEnvironment* environment = nullptr;  // +0x08
 };
 
 // ---- Interface destructors (D1 bodies) ----
@@ -567,6 +582,17 @@ class IGUIEditBox {
 public:
     // 0x6b0b38 _ZN6glitch3gui11IGUIEditBoxD1Ev (empty D1)
     ~IGUIEditBox() = default;
+};
+
+// Sprite bank. Only the texture list is mapped; the sprite and position lists
+// that come before it are not modelled yet.
+class CGUISpriteBank {
+public:
+    // 0x54f8c0 _ZNK6glitch3gui14CGUISpriteBank15getTextureCountEv
+    std::int32_t getTextureCount() const;
+
+    std::uint8_t pad_0000[0x20] = {};  // +0x00..+0x1f (sprite and position lists, not mapped)
+    std::vector<void*> textures;       // +0x20 (begin) .. +0x24 (end), one entry per texture
 };
 
 }  // namespace glitch::gui

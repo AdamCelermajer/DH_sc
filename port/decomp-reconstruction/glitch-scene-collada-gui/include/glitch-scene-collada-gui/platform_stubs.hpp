@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+#include "glitch-scene-collada-gui/deps/core_stand_ins.hpp"
+
 namespace glitch {
 
 struct SEvent;
@@ -86,12 +88,26 @@ public:
     public:
         // 0x6a00a0 _ZNK6glitch16CAndroidOSDevice14CCursorControl9isVisibleEv
         bool isVisible() const;
+        // 0x6a0334 _ZN6glitch16CAndroidOSDevice14CCursorControl10setVisibleEb
+        // Stores the flag, then passes it to the owning device (+0x30).
+        void setVisible(bool value);
+        // 0x6a0164 _ZN6glitch16CAndroidOSDevice14CCursorControl11getPositionEv
+        // The two position words are copied out unchanged; int elements are assumed.
+        core::position2d<std::int32_t> getPosition() const;
         // 0x6a0350 _ZN6glitch16CAndroidOSDevice14CCursorControlD1Ev (empty D1)
         ~CCursorControl() = default;
 
-        bool visible = false;  // +0x34
+        std::uint8_t pad_0000[0x08] = {};   // +0x00..+0x07 (not mapped)
+        std::int32_t positionX = 0;         // +0x08
+        std::int32_t positionY = 0;         // +0x0c
+        std::uint8_t pad_0010[0x20] = {};   // +0x10..+0x2f (not mapped)
+        CAndroidOSDevice* device = nullptr;  // +0x30 (owning device)
+        bool visible = false;                // +0x34
     };
 
+    // 0x6a02a4 _ZN6glitch16CAndroidOSDevice11closeDeviceEv
+    // Clears the running flag at +0x109.
+    void closeDevice();
     // 0x6a02b0 _ZN6glitch16CAndroidOSDevice12createWindowEv (returns true)
     bool createWindow();
     // 0x6a02b8 _ZN6glitch16CAndroidOSDevice9setResizeEii (empty)
@@ -124,6 +140,9 @@ public:
     void setResizeAble(bool);
     // 0x6a0348 _ZN6glitch16CAndroidOSDevice16getVideoModeListEv (null)
     video::IVideoModeList* getVideoModeList();
+
+    std::uint8_t pad_0000[0x109] = {};  // +0x00..+0x108 (not mapped)
+    bool running = false;               // +0x109 (cleared by closeDevice; initial value not mapped)
 };
 
 }  // namespace glitch

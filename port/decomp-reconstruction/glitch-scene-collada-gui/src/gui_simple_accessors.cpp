@@ -33,6 +33,9 @@ void CGUIStaticText::enableOverrideColor(bool enable) { overrideColorEnabled = e
 bool CGUIStaticText::isOverrideColorEnabled() const { return overrideColorEnabled; }
 
 // 0x54ffc4 _ZNK6glitch3gui14CGUIStaticText17isWordWrapEnabledEv
+// 0x551838 _ZN6glitch3gui14CGUIStaticText11setWordWrapEb
+void CGUIStaticText::setWordWrap(bool enable) { wordWrap = enable; }
+
 bool CGUIStaticText::isWordWrapEnabled() const { return wordWrap; }
 
 // 0x55250c _ZNK6glitch3gui14CGUITabControl12getTabHeightEv
@@ -94,6 +97,9 @@ std::int32_t CGUITTFont::getKerningWidth(const wchar_t* /*first*/, const wchar_t
 // 0x55bce4 _ZNK6glitch3gui10CGUITTFont16getKerningHeightEv
 std::int32_t CGUITTFont::getKerningHeight() const { return 0; }
 
+// 0x55bcec _ZN6glitch3gui10CGUITTFont11setTrackingEi
+void CGUITTFont::setTracking(std::int32_t value) { tracking = value < 0 ? 0 : value; }
+
 // 0x55bd00 _ZNK6glitch3gui10CGUITTFont11getTrackingEv
 std::int32_t CGUITTFont::getTracking() const { return tracking; }
 
@@ -143,6 +149,9 @@ void CGUIEditBox::setDrawBorder(bool draw) { drawBorder = draw; }
 void CGUIEditBox::enableOverrideColor(bool enable) { overrideColorEnabled = enable; }
 
 // 0x6afab8 _ZNK6glitch3gui11CGUIEditBox17isWordWrapEnabledEv
+// 0x6b1624 _ZN6glitch3gui11CGUIEditBox11setWordWrapEb
+void CGUIEditBox::setWordWrap(bool enable) { wordWrap = enable; }
+
 bool CGUIEditBox::isWordWrapEnabled() const { return wordWrap; }
 
 // 0x6afac0 _ZN6glitch3gui11CGUIEditBox12setMultiLineEb
@@ -168,6 +177,10 @@ std::int32_t CGUIEditBox::getMax() const { return maxChars; }
 
 // 0x6a5cc8 _ZNK6glitch3gui25CDefaultGUIElementFactory31getCreatableGUIElementTypeCountEv
 std::uint32_t CDefaultGUIElementFactory::getCreatableGUIElementTypeCount() const { return 0x16; }
+
+// 0x6a56ec _ZN6glitch3gui25CDefaultGUIElementFactoryC2EPNS0_15IGUIEnvironmentE
+// 0x6a571c _ZN6glitch3gui25CDefaultGUIElementFactoryC1EPNS0_15IGUIEnvironmentE
+CDefaultGUIElementFactory::CDefaultGUIElementFactory(IGUIEnvironment* env) : environment(env) {}
 
 // Name table of glitch::gui::GUIElementTypeNames (0x956b40 in the binary, 23 words, the
 // last one null). Entries 9, 17 and 19 are tail-merged literals: "image" and "table" were
@@ -421,6 +434,11 @@ void CGUIEditBox::setOverrideColor(video::SColor color) {
 void CGUIEditBox::setTextAlignment(std::uint32_t horizontal, std::uint32_t vertical) {
     horizontalAlign = horizontal;
     verticalAlign = vertical;
+}
+
+// 0x54f8c0 _ZNK6glitch3gui14CGUISpriteBank15getTextureCountEv
+std::int32_t CGUISpriteBank::getTextureCount() const {
+    return static_cast<std::int32_t>(textures.size());
 }
 
 }  // namespace glitch::gui

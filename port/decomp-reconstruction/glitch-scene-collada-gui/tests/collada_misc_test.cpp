@@ -45,6 +45,29 @@ int main() {
     animator.length = 900;
     CHECK(animator.getLength() == 900);
 
+    set.elapsedTime = 3.75f;
+    CHECK(set.getSynchronizationElapsedTime() == 3);
+
+    int nodeTag = 0;
+    glitch::scene::ISceneNode* node = reinterpret_cast<glitch::scene::ISceneNode*>(&nodeTag);
+    detail::CColladaHardwareMatrixSkinTechnique matrixSkin;
+    matrixSkin.attach(node);
+    CHECK(matrixSkin.attachedNode == node);
+    detail::CColladaHardwareQuatSkinTechnique quatSkin;
+    quatSkin.attach(node);
+    CHECK(quatSkin.attachedNode == node);
+    detail::CColladaHardwareTextureSkinTechnique textureSkin;
+    textureSkin.attach(node);
+    CHECK(textureSkin.attachedNode == node);
+
+    CAnimationStreamingManager streaming;
+    CHECK(CAnimationStreamingManager::Instance == &streaming);
+    CHECK(streaming.words[7] == 0);
+    CAnimationStreamingManager::Instance = nullptr;
+
+    CAnimationSetTransformationTemplate transformTemplate("targets");
+    CHECK(transformTemplate.reserved04 == 0 && transformTemplate.reserved0c == 0);
+
     std::printf("%s\n", failures ? "collada_misc: FAILED" : "collada_misc: ok");
     return failures != 0;
 }

@@ -5,6 +5,7 @@
 #pragma once
 
 #include <cstdint>
+#include <vector>
 
 #include "glitch-scene-collada-gui/animation_set.hpp"
 #include "glitch-scene-collada-gui/deps/core_stand_ins.hpp"
@@ -41,8 +42,15 @@ public:
     SChannelRecord* getChannel(unsigned index);
     // 0x62dbac _ZNK6glitch7collada20CDynamicAnimationSet10getChannelEj
     const SChannelRecord* getChannel(unsigned index) const;
+    // 0x62fc58 _ZN6glitch7collada20CDynamicAnimationSet8clearSetEv
+    // Partial: the database entries are dropped without releasing their references.
+    void clearSet();
 
-    SChannelRecord* channels = nullptr;  // +0x74
+    std::vector<std::uint32_t> databases;  // +0x24 (begin) .. +0x28 (end); elements not mapped
+    std::uint8_t pad_0030[0x40] = {};      // +0x30..+0x6f (not mapped)
+    bool setCleared = false;               // +0x70 (set by clearSet)
+    std::uint8_t pad_0071[0x03] = {};      // +0x71..+0x73 (not mapped)
+    SChannelRecord* channels = nullptr;    // +0x74
 };
 
 class CCoronasSceneNode {
@@ -107,10 +115,14 @@ public:
     CAnimationSet* animationSet = nullptr;  // +0x24
 };
 
-// Scene-node property block: the user property word is at +0x48.
+// Scene-node property block (pointed to by +0x154 of the node). The uid string is the
+// word at +0x00, the scope id the word at +0x08 and the user property word at +0x48.
 struct SNodeUserProperties {
-    std::uint8_t pad_0000[0x48];
-    std::int32_t value = 0;  // +0x48
+    const char* uid = nullptr;         // +0x00
+    std::uint8_t pad_0004[0x04] = {};  // +0x04..+0x07 (not mapped)
+    const char* scopeID = nullptr;     // +0x08
+    std::uint8_t pad_0010[0x38] = {};  // +0x10..+0x47 (not mapped)
+    std::int32_t value = 0;            // +0x48
 };
 
 class CSceneNode {
@@ -118,8 +130,28 @@ public:
     // 0x65cd70 _ZNK6glitch7collada10CSceneNode15getUserPropertyEv
     // Returns 0 when the node has no property block.
     std::int32_t getUserProperty() const;
+    // 0x65cd28 _ZNK6glitch7collada10CSceneNode6getUIDEv (returns "" when there is no block)
+    const char* getUID() const;
+    // 0x65cd4c _ZNK6glitch7collada10CSceneNode10getScopeIDEv (returns "" when there is no block)
+    const char* getScopeID() const;
 
     SNodeUserProperties* userProperties = nullptr;  // +0x154
+};
+
+// Light scene node. The word at +0x160 is read two ways: getLightID returns it as a
+// value and getUID follows it as a pointer to the uid word.
+class CLightSceneNode {
+public:
+    // 0x644404 _ZNK6glitch7collada15CLightSceneNode10getLightIDEv
+    std::uint32_t getLightID() const;
+    // 0x64440c _ZNK6glitch7collada15CLightSceneNode6getUIDEv
+    // Partial: the pointee type of +0x160 is inferred from the two accesses.
+    std::uint32_t getUID() const;
+
+    union {
+        std::uint32_t lightID;           // +0x160 (value read by getLightID)
+        const std::uint32_t* uidSource;  // +0x160 (pointer followed by getUID)
+    } slot160{};
 };
 
 class CParticleSystemSceneNode {
