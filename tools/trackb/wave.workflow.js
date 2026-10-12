@@ -70,7 +70,7 @@ Steps:
 6. Where the logic can run on its own (arithmetic, parsing, state changes), add a test port/decomp-reconstruction/${cat}/tests/${id}_test.cpp that returns non-zero on failure, and run it with bash tools/trackb/check_tu.sh --test <test.cpp> <your .cpp>.
 7. Write ledger rows for EVERY batch function to port/decomp-reconstruction/${cat}/ledger.d/${id}.csv with header elf_address,symbol,status,source_file,notes. Quote any field containing a comma (CSV). status is one of reconstructed, partial, skipped, upstream; source_file is relative to port/decomp-reconstruction.
 8. Do not run git. Do not edit ledger.csv, queue.csv or CMakeLists.txt.
-${fix ? `\nThis is a FIX pass. A verifier found these problems in the first attempt; the files already exist, correct them and update the ledger part:\n${fix}\n` : ''}
+${args.redo ? `\nThis is a REDO pass: every function in this batch already has a partial reconstruction. Find each one by address in port/decomp-reconstruction/${cat}/src (grep the 0x address), read why it is partial (grep the address in port/decomp-reconstruction/${cat}/ledger.csv, notes column), and complete it IN PLACE where the evidence now allows (headers, layouts and callees may have been added since). Do not create a second definition; only create port/decomp-reconstruction/${cat}/src/${id}.cpp if a function has no body anywhere. The ledger part still gets a row for every batch function with its new status.\n` : ''}${fix ? `\nThis is a FIX pass. A verifier found these problems in the first attempt; the files already exist, correct them and update the ledger part:\n${fix}\n` : ''}
 Return the structured result.`
 }
 

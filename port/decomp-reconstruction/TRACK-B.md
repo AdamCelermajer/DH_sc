@@ -24,8 +24,16 @@ to reserve or count as claimed are queued again:
 | game-anim | 365 | animators, blenders, v2 controllers, animation sets |
 | additions | 812 | claimed engine, net and pydata functions routed to their existing categories |
 
-In-scope total: 21,849 functions. Thunks, the STL runtime and `libStormGLOFT.so` stay out of scope.
-gameswf, Lua and Box2D (3,369) are vendored upstream libraries, tracked separately.
+Vendored libraries (2026-10-13, `reports/decomp-reconstruction/vendored-libraries.md`): vendor-lua (471,
+Lua 5.1.4 with float `lua_Number`), vendor-box2d (318, Box2D 2.0.1 with the DH2 `b2Settings`) and
+vendor-gameswf (2,370, gameswf r1714 plus Gameloft changes). Pristine upstream sources are in
+`vendor-*/upstream/`; DH2 changes are marked `// DH2:` and host-build fixes `HOST-PORT:`. Rows that match
+upstream by name and size are ledgered `upstream`; the rest are reconstructed like any other row. RenderFX
+glue moved to game-ui and the `sfc::script::lua` wrapper to game-app.
+
+In-scope total: 25,218 functions. Thunks, the STL runtime and `libStormGLOFT.so` stay out of scope.
+`dh2_vendor_lua` and `dh2_vendor_box2d` build and link into `dh2_game`; gameswf is headers-only until the
+glitch render backend exists. Game code may include `lua.h`, `Box2D.h` and `gameswf/gameswf_value.h`.
 
 ## One tree, one definition
 
@@ -71,6 +79,12 @@ gameswf, Lua and Box2D (3,369) are vendored upstream libraries, tracked separate
 3. pydata `Arrays` stride: the same rule. Tables are decoded at the file stride into host-sized elements.
 4. A thunk is forwarded to its target. It is never reimplemented.
 5. No guessing: an unknown branch, table or layout keeps the row `partial`, and its note says what is missing.
+6. Engine conflicts (2026-10-13): the binary wins. `CCameraSceneNode` derives from `ICameraSceneNode`, and its
+   `SViewFrustum` owns the overlapping box and matrices. `CNetPlayerInfo` derives from `NetStruct`, and its
+   member id defaults to 0 as the constructor sets it. `NetStructMemberType<bool>` keeps the value at +0x1d.
+   `ByteArray` owns its buffer.
+7. The pydata generated headers are hand-maintained source. `gen_structs.py` and `gen_script_cmd.py` are retired.
+8. Claimed by Track A means nothing in Track B. Every row is ledgered on its own evidence.
 
 ## Worker protocol (one batch = one owner class, up to about 20 functions)
 

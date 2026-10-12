@@ -63,12 +63,34 @@ if(TARGET dh2_glitch_scene_collada_gui)
   endforeach()
 endif()
 
+# Vendored upstream libraries (vendor-*/upstream, see their README.md and NOTES.md).
+# Lua 5.1.4 with the DH2 float lua_Number; linit.c is not built (the sfc wrapper opens libraries).
+set(DH2_LUA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/vendor-lua/upstream/lua-5.1.4/src)
+file(GLOB lua_srcs CONFIGURE_DEPENDS ${DH2_LUA_DIR}/*.c)
+list(FILTER lua_srcs EXCLUDE REGEX "/(lua|luac|print|linit|liolib|loslib|loadlib)\\.c$")
+add_library(dh2_vendor_lua STATIC ${lua_srcs})
+set_target_properties(dh2_vendor_lua PROPERTIES C_STANDARD 99)
+target_include_directories(dh2_vendor_lua SYSTEM PUBLIC ${DH2_LUA_DIR})
+# Box2D 2.0.1 with the DH2 b2Settings; b2Collision.cpp is not in the DH2 build.
+set(DH2_BOX2D_DIR ${CMAKE_CURRENT_SOURCE_DIR}/vendor-box2d/upstream/box2d-2.0.1)
+file(GLOB_RECURSE box2d_srcs CONFIGURE_DEPENDS ${DH2_BOX2D_DIR}/Source/*.cpp)
+list(FILTER box2d_srcs EXCLUDE REGEX "/b2Collision\\.cpp$")
+add_library(dh2_vendor_box2d STATIC ${box2d_srcs})
+target_include_directories(dh2_vendor_box2d SYSTEM PUBLIC ${DH2_BOX2D_DIR}/Include ${DH2_BOX2D_DIR}/Source)
+if(NOT MSVC)
+  target_compile_options(dh2_vendor_box2d PRIVATE -w -fno-fast-math -ffp-contract=off -include cstring)
+endif()
+# gameswf r1714: headers only for now (the library needs the glitch render backend to link).
+set(DH2_GAMESWF_DIR ${CMAKE_CURRENT_SOURCE_DIR}/vendor-gameswf/upstream/gameswf-r1714)
+
 # The include directories a game translation unit sees: the game class headers first,
-# then every engine and library category, addressed as <category>/<file>.hpp.
+# then every engine and library category, addressed as <category>/<file>.hpp, then the
+# vendored libraries (lua.h, Box2D.h, gameswf/gameswf_value.h).
 set(DH2_GAME_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/game/include ${CMAKE_CURRENT_SOURCE_DIR}/shared/include)
 foreach(cat IN LISTS DH2_DECOMP_CATEGORIES)
   list(APPEND DH2_GAME_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/${cat}/include)
 endforeach()
+list(APPEND DH2_GAME_INCLUDES ${DH2_LUA_DIR} ${DH2_BOX2D_DIR}/Include ${DH2_BOX2D_DIR}/Source ${DH2_GAMESWF_DIR})
 
 set(game_srcs)
 foreach(cat IN LISTS DH2_GAME_CATEGORIES)
@@ -80,6 +102,10 @@ list(APPEND game_srcs ${game_shared_srcs})
 if(game_srcs)
   add_library(dh2_game STATIC ${game_srcs})
   target_include_directories(dh2_game PUBLIC ${DH2_GAME_INCLUDES})
+  target_link_libraries(dh2_game PUBLIC dh2_vendor_lua dh2_vendor_box2d)
+  # gameswf configuration as the DH2 build uses it; NOMINMAX keeps windows.h macros out of tu-testbed.
+  target_compile_definitions(dh2_game PUBLIC NOMINMAX TU_CONFIG_LINK_TO_JPEGLIB=0 TU_CONFIG_LINK_TO_LIBPNG=0
+    TU_CONFIG_LINK_TO_FREETYPE=0 TU_CONFIG_LINK_TO_THREAD=0)
   dh2_warnings(dh2_game)
   foreach(cat IN LISTS DH2_GAME_CATEGORIES)
     file(GLOB tests CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${cat}/tests/*.cpp)

@@ -19,6 +19,11 @@ includes_for() {  # category of a path -> -I flags
   if [[ $cat == game || $cat == game-* ]]; then
     printf -- '-I%s\n' "$dr/game/include" "$dr/shared/include"
     for c in "${engine[@]}"; do printf -- '-I%s\n' "$dr/$c/include"; done
+    printf -- '%s\n' -DNOMINMAX -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_THREAD=0
+    for v in vendor-lua/upstream/lua-5.1.4/src vendor-box2d/upstream/box2d-2.0.1/Include \
+             vendor-box2d/upstream/box2d-2.0.1/Source vendor-gameswf/upstream/gameswf-r1714; do
+      printf -- '-isystem\n%s\n' "$(cygpath -m "$dr/$v" 2>/dev/null || echo "$dr/$v")"
+    done
   else
     printf -- '-I%s\n' "$dr/$cat/include" "$dr/shared/include"
   fi
