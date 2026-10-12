@@ -278,6 +278,7 @@ target_compile_options(dh2_level_world PRIVATE -Wall -Wextra -fno-fast-math -ffp
 target_link_libraries(dh2_level_world PUBLIC dh2_engine_skinning dh2_game_data dh2_box2d_201 PRIVATE dh2_script_runtime)
 if(ANDROID)
  target_link_options(dh2_level_world PRIVATE -Wl,-z,max-page-size=16384 -Wl,--no-undefined)
+ target_link_libraries(dh2_level_world PRIVATE log)
 else()
  add_executable(character_spell_combat_roll_v1_audit tests/character_spell_combat_roll_v1.cpp)
  target_link_libraries(character_spell_combat_roll_v1_audit PRIVATE dh2_level_world)
