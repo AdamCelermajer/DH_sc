@@ -867,3 +867,45 @@ Tests: decoder_native_parse_w10_test builds a VoxN file in memory (Afmt, Segm, C
 Plst, and an unknown chunk) and checks the header words, the cue lists after SetImplicitSegmentCues,
 the state table and name map, the transition lists and the playlist count. Host build passes 56 of 56.
 No MinGW or Wine run in this slice.
+
+## Wave 10 (w10-dataobj-emitter): DataObj, EmitterObj constructors, emitter creation
+
+Ledger part: `ledger.parts/w10-dataobj-emitter.csv` (21 rows: 12 reconstructed, 9 partial).
+New sources: `src/w10-dataobj-emitter/` (emitter_obj_ctor_load.cpp, emitter_obj_update.cpp,
+voxengine_create_emitter.cpp). Edited in place: `src/data_obj.cpp`, `src/driver.cpp`,
+`src/driver_android.cpp`. Test: `tests/emitter_obj_ctor_test.cpp`.
+
+- DataObj words (see data_obj.hpp): +0x28 channels, +0x2c sample rate, +0x30 bits per sample,
+  +0x34 length (frames). The four form a TrackParams block in that order. Duration is
+  length / sample rate (float bits, GetDuration). Stream at +0x38, decoder at +0x3c, the emitter
+  id list at +0x40 (a list of ids: the original nodes are 16 bytes, two links and the id).
+- GetDebugInfo writes DebugChunk_dataSource: id +0x00, stream type +0x08 (stream vptr+0x1c),
+  decoder type +0x0c (decoder vptr+0x18), bank +0x10, rate +0x14, channels +0x18, bits +0x1c,
+  duration bits +0x20, group +0x24, refcount +0x28. The brief named DebugChunk_emitter for this
+  row; the signature takes DebugChunk_dataSource&, so that name is used. The emitter's own
+  debug chunk is in the w10-debuginfo part.
+- EmitterObj words named this wave: source_gain_ +0x38 and source_pitch_ +0x70 (the values
+  Update reads back from the source; the constructors set both to 1.0), decoder_type_ +0x140
+  (the decoder GetType stored by the constructors), flag_145_ +0x145, and the buffer ring as
+  std::vector<void*> at +0xf4 (begin), +0xf8 (end), +0xfc (capacity).
+- Vtable slots used here (vptr-relative): StreamInterface Size +0x10, CreateNewCursor +0x14,
+  DestroyCursor +0x18, GetType +0x1c (from the Update and GetDebugInfo listings). The port's
+  StreamInterface declares them in another order; the calls go through the names.
+  DriverInterface CreateDriverSource +0x44 (params, user, flags) and DestroyDriverSource +0x48
+  are now virtual in the base (null and empty). DriverAndroid overrides them as stubs, so the
+  creation paths return the null handle on Android until its source is ported.
+- One stamp table at VoxEngineInternal +0x550. GetDataObject, CreateEmitter and the emitter
+  constructors index the same words (340 + slot in the pseudocode). The earlier separate
+  emitter_stamps_ array at the same offset is removed; its users now use data_stamps_.
+- Track words: the original reads four words from the cursor (LoadAsync, CreateEmitter,
+  Update) or from the decoder cursor's params block (DataObj::Update). The port cursors have
+  no params block, so these use the data object's words (same values the cursor was built
+  from) or the decoder's GetParam block (as LoadDataSource does). A decoder whose GetParam
+  returns null (MSWav, MPC8) leaves the DataObj words unset, so DataObj::Update fails there.
+- Deviations: decoder_type_ is 0 when the data is not ready (the original calls GetType on
+  null); ShouldDie does not walk the emitter list (the walk has no effect); PrintDebug prints
+  nothing, as the binary does.
+- Unnamed words still not stored by the constructors: +0x120, +0x124 (1.0), +0x128, +0x12c,
+  +0x130 (set to 1 in the 4-argument and 7-argument constructors). Their rows are partial.
+- Not tested: the engine creation paths. VoxEngineInternal does not link in a test while
+  EmitterObj::SetPlayCursor is declared but undefined in the port.
