@@ -144,6 +144,10 @@ public:
     }
     std::int32_t MemberIdForTest() const { return memberId_; }
     std::int32_t ServerMemberIdForTest() const { return serverMemberId_; }
+    void SetInitializedForTest(bool value) { initialized_ = value; }
+    void SetBaseRoomClosedForTest(bool value) { baseRoomClosed_ = value; }
+    void SetJoinThresholdForTest(std::int32_t value) { joinThreshold_ = value; }
+    bool IsInitializedForTest() const { return initialized_; }
 
 private:
     std::int32_t memberId_ = 0;     // +0x3638
