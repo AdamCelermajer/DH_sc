@@ -24,6 +24,20 @@ struct rect {
     position2d<T> LowerRightCorner;
 };
 
+// Layout only (same as the shared glitch_core.hpp: X, Y then Z). Methods are not copied here.
+template <typename T>
+struct vector2d {
+    T X{};
+    T Y{};
+};
+
+template <typename T>
+struct vector3d {
+    T X{};
+    T Y{};
+    T Z{};
+};
+
 // Four words in the original; copied as a block by the parameter code.
 template <typename T>
 struct vector4d {

@@ -174,8 +174,10 @@ void ITexture::setDataDirty(bool flag) const {
 // 0x5ff26c _ZN6glitch5video8ITexture4copyEv
 // Partial, see texture.hpp. Sizes follow getSizeInBytes: one face plus five 128-byte-aligned faces for cubes.
 uint32_t ITexture::copy() {
-    const bool ownsData = (m_flags3f & 1) == 0;
-    if (!ownsData && m_data != nullptr) {
+    // Bit 0 of +0x3f means the data is owned (freed by setData), as in the asm at 0x5ff26c
+    // (TST R3,#1 then the non-zero check that returns 0). A copy is refused only when owned data exists.
+    const bool ownsData = (m_flags3f & 1) != 0;
+    if (ownsData && m_data != nullptr) {
         return 0;
     }
     const uint8_t* source = m_data;

@@ -500,3 +500,146 @@ Still blocked: 0x5b73e0 (open: question 11).
 - Still open in this slice: string helpers (process buffer and ctype bit 0x04 not identified), the three convertPackedImpl
   instantiations (about 50 KB Hex-Rays each), the clustering helpers (vector3d and aabbox3d not in glitch-video deps),
   CGenericBaker (needs the CMaterial parameter layout), and the CTexture nested class under the CCommonGLDriver instance.
+
+## ITexture +0x3f bit 0 (settled from the asm, integrator, 2026-10-12)
+
+- Bit 0 of +0x3f means the data is owned. Evidence: setData (0x5fdf74) branches to `delete[]` when
+  bit 0 is set (TST R3,#1 then BL _ZdaPv), and sets the bit from its `owned` argument.
+- copy (0x5ff26c) tests bit 0 first; it returns 0 when owned data exists (non-null pointer) and
+  otherwise computes the size. The port had the test inverted and was fixed in src/texture.cpp.
+
+## dep-shader-manager: IShaderManager header (dependency worker, 2026-10-12)
+
+Header written: include/glitch-video/shader_manager.hpp (IShaderManager, SShaderProperties). Compile check:
+g++ -std=c++17 -Wall -fsyntax-only passes. No row bodies written; no other header changed.
+
+Confirmed (binary evidence):
+- Vtable 0x9781e8 (36 bytes, 2 header words + 7 slots). vptr = symbol + 8 (C1 0x5e5704, ADD #8).
+  Slots: +0x08 init 0x5e78dc, +0x0c removeUnusedShaders 0x5e67b0, +0x10 clearDriverSpecificResources 0x5e5b2c,
+  +0x14 pure in base (createEmptyShader in CNull 0x5b9bb4 and CGLSL 0x6dfd4c), +0x18 createBatchBaker 0x5e562c.
+- Object: +0x00 vptr; +0x04 collection (0x28 bytes, entries +0x1c/+0x20/+0x24, next id +0x28, count +0x2a);
+  +0x2c driver (init stores it; createShader reads a2+0x2c); +0x30 search-path vector (+0x30/+0x34/+0x38, stride 24);
+  +0x3c name std::string (char* data at +0x50); end +0x54 = ICodeShaderManager::m_shaderCodes (ctor 0x6e0ca4, this+84).
+  Evidence: C1 listing 0x5e5704 (STR #0x38, #0x2c, #0x30, #0x34, string at R4+#0x3C), dtor 0x5e67c4, init 0x5e78dc,
+  loadShader 0x5e72bc (search-path char* at element +0x14), addShader(ptr) 0x5e7298 (name = IShader+0x20).
+- Collection entries: stride 8 (value at +0, node pointer at +4), getBatchBaker 0x5e4798 and createShader 0x5b9bf4.
+- Batch baker cache: SIdValue+0x00 (node+0x18) of the IShader instance, read by 0x5e4798, cleared by 0x5e4878.
+- createBatchBaker 0x5e562c: the receiver (a2) is unused; the shader is a3; new 0x18-byte CGenericBaker, refcount at +4.
+- ICodeShaderManager ctor 0x6e0ca4 calls IShaderManager::IShaderManager; CShaderCodeManager collection at +0x54;
+  +0x7c = 0, +0x80 = -1.
+
+Open questions (not coded as fact):
+1. Node id position differs per instance. IShader getId 0x5d85d0 reads node+0x1c (LDRH [R5,#0x1c]) and the IShader
+   SIdValue ctors 0x5e5490/0x5e54a0 store the id at SIdValue+0x04 (node+0x1c). IShaderCode getId 0x6e1ab4 reads
+   node+0x18. ITexture getId 0x5e8ed8 reads node+0x34. deps/sid_collection.hpp hard-codes SIdValue+0x1c (ITexture),
+   so the shared template does not match the shader instances. Shared owner must decide (per-instance SIdValue).
+   Only node internals depend on it; the entry layout, nextId and count are the same.
+2. IShader must derive from glitch::IReferenceCounted (vtable +0x08 onDelete, count at +0x04) for the
+   SIDedCollection traits (addRef/release use referenceCounter and drop). The port's IShader in shader_attributes.hpp
+   does not derive from it yet.
+3. Pure slot +0x14 of IShaderManager: the name createEmptyShader is inferred from the two derived vtables; the
+   clearDriverSpecificResources row calls IShader vtable +0x14 (null in the IShader dump; the derived class supplies it).
+   CNullShader::releaseDriverSpecificResources (0x6e0554) is a candidate, not confirmed.
+4. clearDriverSpecificResources returns int in the pseudocode; the value is the last virtual call's result (treated as void).
+5. addShaderSearchPath(path, bool): the flag selects the insertion point; flag set inserts at the front (inferred from the
+   _M_fill_insert_aux at begin). Name kept as atFront; confirm before relying on it.
+6. The base return type of getBatchBaker and createBatchBaker: the pseudocode stores a plain pointer; CGenericBaker is the
+   concrete type from the new call; the base type name (IBatchBaker) is not confirmed.
+7. CNullShaderManager must derive from IShaderManager and return boost::intrusive_ptr<IShader> from createEmptyShader to
+   override the pure slot (the current null_shader_manager.hpp stand-in returns intrusive_ptr<CNullShader>, which would
+   not override). Change belongs to the owner of null_shader_manager.hpp.
+
+Rows this header unblocks (addresses; bodies still to write):
+- IShaderManager: 0x5e4798 getBatchBaker, 0x5e4878 removeBatchBaker, 0x5e562c createBatchBaker, 0x5e5704 C1,
+  0x5e5770 C2, 0x5e59ac serializeShader, 0x5e5b2c clearDriverSpecificResources, 0x5e67b0 removeUnusedShaders,
+  0x5e67c4 D1, 0x5e683c D2, 0x5e6820 D0, 0x5e7298 addShader(ptr), 0x5e72bc loadShader, 0x5e7510 addShader(name),
+  0x5e771c addShaderSearchPath, 0x5e78dc init. Sixteen rows; twelve carry the "blocked: IShaderManager" note.
+- CNullShaderManager: 0x5b9bf4 createShader (needs the base and item 7), 0x5b9b80 D1, 0x5b9cf0 D0 thunk, 0x5b9cec thunk.
+- ICodeShaderManager base calls: 0x6e0ca4 / 0x6e0cf0 ctors, 0x6e176c / 0x6e17d8 dtors, 0x6e2034 removeUnusedShaders.
+- CShaderCodeManager ctors 0x6e0804 / 0x6e0818 and dtors 0x6e1758 / 0x6e1828 (layout confirmed; still stand-in members).
+- IShader::getBatchBaker 0x5e4998 and IShader::removeBatchBaker 0x5e49b8 (forward to the manager).
+
+## Dependency: typed IMaterialParameters accessors (dep worker)
+
+Header: include/glitch-video/material_parameters_typed.hpp (declarations only, no row bodies).
+
+Confirmed (binary):
+- Value-type switch in the setParameter dispatcher 0x5c57b0 and the other seven dispatchers of each owner (24 total, checked case by case against their callee names): 1 int, 2-4 vector2/3/4d<int>, 5 float, 6-8 vector2/3/4d<float>, 11 CMatrix4<float> (non-template), 12-15 intrusive_ptr<ITexture>, 16 SColor, 17 SColorf, 18 intrusive_ptr<CLight>. Codes 9, 10 and outside 1..18 return 0. ARM jump table at 0x5c57c0 indexes with type - 1.
+- Each owner has exactly one instance per (family, value type, form): 4 families (get, set, getCvt, setCvt) x 12 types x 2 forms (pointer+count, index+reference). 288 addresses in total; every address in the header comments was checked against queue.csv.
+
+Open:
+- Enumerator names of E_SHADER_PARAMETER_VALUE_TYPE are port names (values are confirmed).
+- Semantics of the Cvt families are not read; the header declares them only.
+- IMaterialParameters must derive from IMaterialParametersTyped<Derived> and add using-declarations (see the header). Not done here.
+- vector2d and vector3d were added to deps/glitch_core.hpp as layout only (no getAngle or normalize from shared/glitch_core.hpp).
+- SIsValidSetMaterialParamaterOverload is a std::false_type trait with 12 true specialisations (the mangled name shows it guards both get and set).
+
+## dep-material-renderer-manager layout (wave 3, dependency worker)
+
+Header: include/glitch-video/material_renderer_manager_layout.hpp (constants only, each with its address).
+Test: tests/material_renderer_manager_layout_test.cpp (static_asserts; built with g++ into the scratch dir, passes).
+Existing material_renderer_manager.hpp/.cpp and pink_bind_test.cpp are unchanged and still pass.
+
+Confirmed from pseudocode and listing (ctor 0x5d8f24, SCreationState ctor 0x5d7c5c, makeTechnique 0x5dc824,
+addRenderPass 0x5d93e8, SCreationState dtor 0x5dafe8, endTechnique 0x5dd664, endMaterialRenderer 0x5dddb4):
+- Manager: driver +0x28; uint16 id table +0x2c[17] (ctor memset 0x22 bytes); name maps A +0x50 and B +0x68 (24-byte
+  headers, count +0x60 / +0x78; getNameID 0x5dbb60 indexes this + 24*a3 + 80); creation state +0x90; current renderer
+  id +0x94 (-1 when none; beginMR 0x5ddaec sets it, endMR resets it).
+- Instance table: entries at +0x18/+0x1c, stride 8 (renderer pointer, node iterator). Props at node +0x18: default
+  CMaterial* at +0x00, material type u16 at +0x08 (createMR writes node +0x20), renderer id u16 at +0x0a (node +0x22:
+  read by getId 0x5d98c4 and clearUnusedInstances 0x5d9e94).
+- Creation state S (0x58 bytes): name +0x00, in-progress technique SSharedString +0x04, technique list sentinel +0x08,
+  pending pass list sentinel +0x10, pass cursor +0x18, holder list sentinel +0x1c, pass count u8 +0x24, technique
+  count u8 +0x25 (max 0x20), pink list +0x28 with cursor +0x30, parameter map header +0x34 (count +0x44),
+  binding total +0x54.
+- Technique node (0x14): next/prev, STechnique at +0x08 = name +0x00, pass count u8 +0x0c, pass array pointer +0x10.
+  Pass array elements are 52-byte SRenderPass (stride 52).
+- Pending pass node (0x3c): next/prev, SRenderPass at +0x08. SRenderPass: 8 words +0x00..+0x1f copied from the
+  state argument, IShader* +0x20 (refcount at +4), binding table pointer +0x24 (8-byte entries), +0x28 u32, +0x2c u16,
+  +0x2e u16, +0x30 u8 (1 at creation).
+- Holder node (0x0c): next/prev, pass array pointer +0x08 (released by the dtor).
+- Pink node (0x10): next/prev, id +0x08, flag u8 +0x0c (pass index = count - 1), value u16 +0x0e.
+- Parameter map node: key SSharedString +0x10, value SParameterDef inline at +0x14 (size not recovered).
+
+Open questions (not coded as fact):
+1. Renderer id offset conflict. The shared SIDedCollection template puts the id at SIdValue +0x1c (node +0x34). For the
+   CMaterialRenderer collection, getId and clearUnusedInstances read node +0x22. The write site (node construction in
+   the insert path 0x5dc548) is not read yet. The shared template must not be changed for the other instances until
+   this is settled. The layout header uses +0x22.
+2. Refcount offset. clearUnusedInstance (0x5d9db8), createMaterialInstance (0x5d9af0) and getMaterialInstance
+   (0x5dd0e4) read and write the CMaterialRenderer / CMaterial count at +0x00. addRenderPass and makeTechnique use +4
+   for IShader. Which base class holds the count for CMaterial and CMaterialRenderer is not confirmed.
+3. Pass cursor (+0x18): the reuse branch is read, the append branch in addRenderPass lines 126-215 is only partly read.
+4. The 8 words copied into SRenderPass (+0x00..+0x1f) come from the third argument of SCreationState::addRenderPass.
+   The symbol has a fourth argument (material SRenderState) that the pseudocode does not show. Which renderpass state
+   type this is, and where the material state goes, is open.
+5. The binding table count (pass +0x24, 8 * n bytes): n is computed from IShader fields at +44, +46, +52, +54
+   (addRenderPass). Those IShader fields are in the IShader category, not confirmed here.
+6. Unknown fields: manager +0x80, +0x84, +0x88, +0x8c; S +0x48, +0x4c, +0x50; S +0x0d (technique node) and the pass
+   +0x28, +0x2c, +0x2e words.
+7. Which name map is used for which name: getNameID with a3 = 0 (+0x50) or a3 = 1 (+0x68). Callers are not read.
+8. The existing SCreationState in material_renderer_manager.hpp: m_pinkCounter24 is the pass count (addRenderPass
+   increments +0x24, makeTechnique copies it), and m_inProgress04 is an SSharedString pointer, not a bool. The
+   names are kept for now because pink_bind_test depends on them. A rename is a follow-up for the category owner.
+9. State size 0x58 comes from the constant passed by beginMaterialRenderer (printed as dword_58). Not checked against
+   the allocator's signature.
+
+Rows the layout unblocks (addresses; bodies not written in this slice):
+- Layout alone (the body names only the layout and CMaterial refcount, see question 2): 0x5d9db8 clearUnusedInstance,
+  0x5d9e94 clearUnusedInstances (after 0x5d9db8).
+- Layout plus SSharedString / SData get and release (not in port yet): 0x5dbac0 findTechnique, 0x5dbb48 getTechniqueID,
+  0x5dbb60 getNameID, 0x5dbc04 getParameterIDInternal (also needs the SSharedString compare), 0x5dc824 makeTechnique,
+  0x5dd80c beginTechnique, 0x5ddaec beginMaterialRenderer (also process-buffer helpers), 0x5dcf2c addRenderPass (the
+  else branch calls createPinkWireFrameRenderPass, still blocked).
+- Not in the ledger but unblocked by the layout: SCreationState::addRenderPass 0x5d93e8 (5833 bytes).
+- Still blocked by other categories: 0x5d8b28 (collada), 0x5d9af0 and 0x5dd0e4 (CMaterial::allocate), 0x5d9bd8 and
+  0x5dcf90 and 0x5dd088 (shader manager at driver +0xd8), 0x5dca40 (SParameterDef and the parameter map insert), 0x5dcd64
+  (needs addParameter), 0x5dcdd4 and 0x5ddac0 and 0x5ddd28 (pink shader and render pass), 0x5da160 and the four other
+  bind rows (0x5da5a0, 0x5da6f0, 0x5da83c, 0x631bc4) (shader parameter and global parameter tables), 0x5dd250
+  (global parameter manager), 0x5dd664 and 0x5dddb4 (need autoAddAndBindParameter and bindParameter), 0x5dad20 (batch
+  baker), 0x5dc71c and 0x5dc7cc (IReadFile and collada), 0x631b58 (needs getParameterIDInternal).
+- Total: 33 blocked rows in the ledger with the "blocked:" note in glitch-video. 2 unblocked alone, 8 unblocked with the
+  SSharedString helpers, 23 still blocked by other categories.
+
+Shared files: none changed. The header is glitch-video only. The shared SIDedCollection template (question 1) is the one
+place another category could be affected once that question is settled.
