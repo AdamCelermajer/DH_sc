@@ -695,7 +695,11 @@ add_test(NAME campaign_trigger_zones COMMAND campaign_trigger_zone_tests "${CMAK
 # P16 CINE (Preview 16): cinematic runner (caption queue, cutscene contract, SKIP hit test, frame description).
 target_sources(foundation_data PRIVATE features/cinematic_runner/cinematic_runner.cpp features/cinematic_runner/dialog_tables.cpp) # B068 dialog tables
 # P16 HUDART: original dqhud_droid HUD panels (btn_interact, SKIP, caption box, quest banners), generated batches.
-target_sources(foundation_data PRIVATE features/hud_panels/hud_panels_art_v1.cpp)
+target_sources(foundation_data PRIVATE features/hud_panels/hud_panels_art_v1.cpp features/hud_panels/status_message_v1.cpp) # B144 status line queue/timeline
+# B144: original HUD status line (queue + authored itemname_text timeline), isolated host test.
+add_executable(status_message_v1_tests features/hud_panels/status_message_v1_tests.cpp)
+target_link_libraries(status_message_v1_tests PRIVATE foundation_data)
+add_test(NAME status_message_v1 COMMAND status_message_v1_tests)
 add_executable(cinematic_runner_tests features/cinematic_runner/cinematic_runner_tests.cpp)
 target_link_libraries(cinematic_runner_tests PRIVATE foundation_data)
 add_test(NAME cinematic_runner COMMAND cinematic_runner_tests)

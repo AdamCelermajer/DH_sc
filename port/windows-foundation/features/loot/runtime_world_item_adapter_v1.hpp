@@ -107,6 +107,18 @@ public:
                                     RuntimeWorldItemIdV1& published_item,
                                     std::string& error);
 
+    // B144: same ItemObject::DropAndAwardLoot placement for an authored neutral
+    // object (chest / barrel DoOpen = DropLootTable(row, SAME object, opener)):
+    // landing = _GetRandomDropPos(object, opener) over the SAME loot RNG. A null
+    // rng or an unusable landing keeps the item at the object (no reward lost).
+    bool publish_source_object_drop_scattered(const RuntimeWorldItemRecordV1&,
+                                              const dh::foundation::ActorDefinition&,
+                                              const dh::foundation::WorldObject&,
+                                              const std::array<float, 3>* opener_position,
+                                              dh2::data::LootRandom8V2* rng,
+                                              RuntimeWorldItemIdV1& published_item,
+                                              std::string& error);
+
     // ItemObject::DropAndAwardLoot placement: the landing point comes from
     // _GetRandomDropPos over the SAME loot RNG (killer position optional).
     // The plain publish_death_drop() keeps the item at the victim position.

@@ -143,6 +143,40 @@ int main(int argc, char** argv) try {
     check(store.inspect(first, entry, error) && entry.source_position == rested,
           "a stopped item does not move again");
 
+    // B144: chest / barrel drops (DoOpen = DropLootTable(table, SAME object, opener)) are thrown toward the
+    // opener like enemy drops; they no longer rest at the object origin.
+    {
+        ActorDefinition chest_definition;
+        chest_definition.stableId = 77;
+        chest_definition.name = "_prim_OpenableContainer_test";
+        WorldObject chest;
+        chest.id = 77;
+        chest.name = chest_definition.name;
+        chest.transform.position = {0, 0, 10};
+        const std::array<float, 3> opener{500, 0, 10};
+        RuntimeWorldItemAdapterV1 chest_store(env.tables);
+        LootRandom8V2 chest_rng{4242, 0};
+        RuntimeWorldItemIdV1 thrown{}, kept{};
+        check(chest_store.publish_source_object_drop_scattered(env.record("Longsword01", 1, 77), chest_definition, chest,
+                                                               &opener, &chest_rng, thrown, error), error);
+        RuntimeWorldItemEntryV1 thrown_entry;
+        check(chest_store.inspect(thrown, thrown_entry, error), error);
+        check(thrown_entry.source_position == chest.transform.position && thrown_entry.destination != chest.transform.position,
+              "a chest drop starts inside the chest and has a landing point");
+        check(thrown_entry.destination[0] >= 150.0f && thrown_entry.destination[0] <= 350.0f,
+              "chest drop lands 150..349 units toward the opener");
+        check(chest_rng.calls == 2, "a chest drop consumes exactly the two scatter draws from the loot RNG");
+        for (int i = 0; i < 200; ++i) chest_store.advance(16);
+        check(chest_store.inspect(thrown, thrown_entry, error) && thrown_entry.source_position[0] > 60.0f,
+              "the thrown chest drop leaves the chest and comes to rest");
+        // No RNG / no opener position keeps the drop at the object (nothing is lost).
+        check(chest_store.publish_source_object_drop_scattered(env.record("Longsword01", 1, 77), chest_definition, chest,
+                                                               nullptr, nullptr, kept, error), error);
+        RuntimeWorldItemEntryV1 kept_entry;
+        check(chest_store.inspect(kept, kept_entry, error) && kept_entry.destination == chest.transform.position,
+              "without an opener the drop stays at the object");
+    }
+
     // Pool: 5 live per visual category; the sixth recycles the oldest.
     std::vector<RuntimeWorldItemIdV1> ids{first};
     for (int i = 0; i < 4; ++i) {
