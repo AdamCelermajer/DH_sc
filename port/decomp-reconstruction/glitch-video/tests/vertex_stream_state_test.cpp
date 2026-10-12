@@ -111,6 +111,26 @@ int main() {
         CHECK(s.m_flags == (CVertexStreams::kFlagHomogeneous | CVertexStreams::kFlagHasData));
     }
 
+    // setStream copies the description and recomputes homogeneity from the flag.
+    {
+        CVertexStreams s;
+        addStream(s, &a, 0);
+        addStream(s, &a, 1);
+        SVertexStreamData data;
+        data.buffer = boost::intrusive_ptr<IBuffer>(&b);
+        data.offset = 64;
+        data.field08 = 7;
+        data.field0c = 9;
+        data.field0e = 11;
+        s.setStream(&s.m_streams[1], data, false);
+        CHECK(s.m_streams[1].buffer.get() == &b);
+        CHECK(s.m_streams[1].offset == 64);
+        CHECK(s.m_streams[1].field0a == 7 && s.m_streams[1].field0c == 9 && s.m_streams[1].field0e == 11);
+        CHECK((s.m_flags & CVertexStreams::kFlagHomogeneous) == 0);  // a and b are now adjacent
+        s.setStream(&s.m_streams[1], data, true);
+        CHECK((s.m_flags & CVertexStreams::kFlagHomogeneous) == 0);
+    }
+
     std::printf("%s\n", failures ? "vertex_stream_state: FAILED" : "vertex_stream_state: ok");
     return failures != 0;
 }

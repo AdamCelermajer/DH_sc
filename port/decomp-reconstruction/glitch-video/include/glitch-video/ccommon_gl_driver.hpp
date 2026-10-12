@@ -97,9 +97,6 @@ protected:
     // Shared body of the capability setters: flush, enable or disable, store.
     void setCapEnable(bool& state, bool enable, uint32_t cap);
 
-    uint32_t m_colorMask = 0;      // +0x1ec, packed R | G<<8 | B<<16 | A<<24
-    uint32_t m_blendColor = 0;     // +0x204, packed SColor
-    uint32_t m_clearColor = 0;     // +0x208, packed SColor
     bool m_frontFaceFlip = false;  // +0x4a0, byte at word index 0x128: inverts the winding map
     int32_t m_scissorFlag = 0;     // +0x23c, cached with the scissor rectangle
 };

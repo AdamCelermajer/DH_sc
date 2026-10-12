@@ -74,6 +74,9 @@ public:
     uint8_t getStencilOpZPass() const;         // 0x6dcf9c
     uint8_t getStencilMask(bool*) const;       // 0x6dcfa4
     uint8_t getClearStencil() const;           // 0x6dcfac
+    void getColorMask(bool& r, bool& g, bool& b, bool& a) const;  // 0x6dce40
+    uint32_t getBlendColor() const;            // 0x6dcdf0, packed SColor
+    uint32_t getClearColor() const;            // 0x6dce68, packed SColor
     E_PIXEL_FORMAT getColorFormat() const;     // 0x6dcdcc
 
 protected:
@@ -117,6 +120,9 @@ protected:
     uint8_t m_stencilMask = 0;                 // +0x1f8
     uint8_t m_clearStencil = 0;                // +0x1f9
     E_PIXEL_FORMAT m_colorFormat = 0;          // +0x284
+    uint32_t m_colorMask = 0;                  // +0x1ec, packed R | G<<8 | B<<16 | A<<24
+    uint32_t m_blendColor = 0;                 // +0x204, packed SColor
+    uint32_t m_clearColor = 0;                 // +0x208, packed SColor
 };
 
 }  // namespace glitch::video

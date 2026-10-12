@@ -1,4 +1,4 @@
-# glitch-video notes
+Ledger: 581 rows (349 reconstructed, 70 partial, 162 skipped). Queue total 1345, 764 still open.
 
 Ledger: 315 rows (221 reconstructed, 10 partial, 84 skipped). Queue total 1345, about 1030 still open.
 
@@ -30,10 +30,10 @@ Ledger: 315 rows (221 reconstructed, 10 partial, 84 skipped). Queue total 1345, 
 - The port adds two test helpers, not in the original: CVideoModeList(vector, ...) and
   CImage(w, h). They are marked in the headers.
 
-## Blockers and open items
+## Blockers and open items (earlier waves; see Wave 5 below)
 
 - pixel_format::detail::PFDTable (1600 bytes at 0x8e36c0 in .rodata, 40 rows of 0x28) is
-  not in the repo. The table bytes are absent from recovered/native/assembly and symbols.
+  not in the repo. Wave 5 declares the row layout and a zero-filled table; see Wave 5. The table bytes are absent from recovered/native/assembly and symbols.
   getPackedType, getFormat, computePitch, computeSizeInBytes, computeMipmapSizeInBytes,
   swapBytes, convert, and every converter depend on it. Blocked until the table is dumped.
 - SColor::getInterpolated, SColorHSL::toRGB/toRGB1, SColorf::equals: decompiler output is
@@ -72,3 +72,63 @@ Ledger: 315 rows (221 reconstructed, 10 partial, 84 skipped). Queue total 1345, 
 - CProgrammableGLDriver / CCommonGLDriver<...> template instances: the template is not
   modelled; getters and shader-manager accessors are still open.
 - getStringsInternal (string tables) and the pixel_format PFD table: data not in repo.
+
+## Wave 5
+
+Ledger after this wave: 581 rows (349 reconstructed, 70 partial, 162 skipped).
+
+Class layouts added:
+
+- CVertexStreams (vertex_streams.hpp): +0x04 m_attributeMask, +0x0e m_flags (bit 0 kFlagHomogeneous,
+  bit 1 kFlagHasData), +0x10..+0x24 is the stream array, here a std::vector. SVertexStreamData is the
+  setStream input; setStream copies +0x08 to the entry's +0x0a, and not the attribute at +0x08.
+- CVertexAttributeMap (vertex_attribute_map.hpp): +0x00 word zeroed by the constructors and not copied
+  by operator=; +0x04..+0x21 is a 30-byte slot-to-stream-index map, 0xff when unset.
+- CCommonGLDriverBase: m_colorMask (+0x1ec), m_blendColor (+0x204) and m_clearColor (+0x208) moved here
+  from CCommonGLDriver, because the getters are base methods. Blend src/dst are uint8 at +0x200/+0x201.
+- CCommonGLDriver (ccommon_gl_driver.hpp): render-state setters over the GL function table; m_frontFaceFlip
+  (+0x4a0), m_scissorFlag (+0x23c). flush(), presentHook() and stateHook() are virtual no-op defaults.
+- CProgrammableGLDriver (programmable_gl_driver.hpp): queryMaxLightCount 8, getMaxUserClipPlanes 6,
+  getShaderManager (+0xd8), getDriverType (0x78), commitShader records m_currentShader (+0xf4).
+- IShader m_glProgram (+0x4c); CGLSLShader (gl_small.hpp) stores the glCreateProgram result there.
+- glitch::core::vector4d and glitch::video::SColorf added to deps/glitch_core.hpp.
+- IMaterialParameters<Owner, kTrackDirty> (material_parameters.hpp): dirty words at +0x0c/+0x10 only when
+  kTrackDirty is true (CMaterial). Explicit instances: CGlobalMaterialParameterManager (false), CMaterial
+  (true), CMaterialRenderer (false).
+- Image loaders and writers: m_refCount on IImageLoader, m_unknown04 = 1 on the JPG loader and the JPG and PNG
+  writers (texture_loaders.hpp, image_loaders.hpp, src/image_factories.cpp).
+- pixel_format (pixel_format.hpp): SFormatEntry is the 0x28-byte PFDTable row. The table is zero-filled here,
+  so the size helpers are reconstructed but partial until the table data is supplied.
+
+Decisions:
+
+- Thunks (4-byte `b #target`): ledgered reconstructed only when the target is already in the port and the
+  body forwards to it (0x5a0e24 to updateStatesInternal). Otherwise skipped, with the target from the ARM
+  listing. Every target was checked against recovered/native/assembly.
+- Compiler clones (`.clone.N`) with a constant argument: only the generic body (0x7d46fc, setStream with a
+  flag) is implemented. The clones are skipped and name the constant. Clones with identical bodies are
+  also skipped, so no body is written twice.
+- Ghidra shows some mip-level helpers as void (0x5edbcc, 0x5edbec, 0x5edc80). Their ARM tail-branches into
+  computeSizeInBytes, so they return the size.
+- ARM register shifts of 32 or more give 0. pixel_format uses lsrOrZero to match, since C++ shifts that
+  large are undefined.
+- CVertexAttributeMap::set ignores slots past the 30-byte map. The original writes without a check.
+- deps/intrusive_ptr.hpp does not count references. setStream and the CVertexStreams destructor are partial
+  because the original drops references there.
+- Matrix overloads of IMaterialParameters (CMatrix4 is not in deps) are skipped, along with the thunks that
+  forward to them.
+- Destructor chains (D1/D0 with base destructor calls) are skipped as compiler generated. The port's
+  implicit destructors cover them.
+
+Still open:
+
+- getStringsInternal (about 24 functions): the E_* types are int32 aliases, so the overloads collide, and the
+  string table contents are not in the repo.
+- IMaterialParameters E_SHADER_PARAMETER_VALUE_TYPE overloads (316-byte switch bodies), grabParameters and
+  dropParameter (the template needs the matrix and value switches).
+- CMaterial hash code, equals, init and reset: the CMaterial layout beyond the first members is not in the port.
+- CGlobalMaterialParameterManager, CMaterialRendererManager, C2DDriver, CTextureManager, CGLSLShaderManager,
+  CLight, CImage: most small bodies depend on classes that are only forward-declared.
+- IVideoDriver: vtable slots +0x1f8 (binding), +0x0c (render buffer release) and the setMaterial overloads are
+  not identified.
+- Image writer encode paths and the libjpeg/libpng callbacks; IBuffer::map and copy-to-buffer paths.

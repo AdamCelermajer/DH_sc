@@ -138,4 +138,19 @@ uint8_t CCommonGLDriverBase::getStencilMask(bool*) const { return m_stencilMask;
 // 0x6dcfac _ZNK6glitch5video19CCommonGLDriverBase15getClearStencilEv
 uint8_t CCommonGLDriverBase::getClearStencil() const { return m_clearStencil; }
 
+// 0x6dce40 _ZNK6glitch5video19CCommonGLDriverBase12getColorMaskERbS2_S2_S2_
+// Each channel is one byte of the packed mask (R in the lowest byte).
+void CCommonGLDriverBase::getColorMask(bool& r, bool& g, bool& b, bool& a) const {
+    r = (m_colorMask & 0xffu) != 0;
+    g = ((m_colorMask >> 8) & 0xffu) != 0;
+    b = ((m_colorMask >> 16) & 0xffu) != 0;
+    a = ((m_colorMask >> 24) & 0xffu) != 0;
+}
+
+// 0x6dcdf0 _ZNK6glitch5video19CCommonGLDriverBase13getBlendColorEv
+uint32_t CCommonGLDriverBase::getBlendColor() const { return m_blendColor; }
+
+// 0x6dce68 _ZNK6glitch5video19CCommonGLDriverBase13getClearColorEv
+uint32_t CCommonGLDriverBase::getClearColor() const { return m_clearColor; }
+
 }  // namespace glitch::video

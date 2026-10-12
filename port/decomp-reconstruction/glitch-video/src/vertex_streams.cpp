@@ -115,6 +115,16 @@ void CVertexStreams::updateStatesInternal(bool flag) {
     }
 }
 
+// 0x7d46fc _ZN6glitch5video14CVertexStreams9setStreamEPNS0_13SVertexStreamERKNS0_17SVertexStreamDataEb
+void CVertexStreams::setStream(SVertexStream* stream, const SVertexStreamData& data, bool flag) {
+    stream->buffer = data.buffer;
+    stream->offset = data.offset;
+    stream->field0a = data.field08;
+    stream->field0c = data.field0c;
+    stream->field0e = data.field0e;
+    updateHomogeneityInternal(flag);
+}
+
 // 0x5a0e24 _ZN6glitch5video14CVertexStreams12updateStatesEb
 // Thunk: the ARM body is `b #0x5a0d80`, so this forwards to updateStatesInternal.
 void CVertexStreams::updateStates(bool flag) { updateStatesInternal(flag); }

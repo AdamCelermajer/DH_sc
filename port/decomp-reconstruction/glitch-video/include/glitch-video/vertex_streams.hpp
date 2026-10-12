@@ -22,8 +22,23 @@ struct SVertexStream {
     uint16_t field0e = 0;                  // +0x0e, copied by setStream; meaning not identified
 };
 
+// Stream description passed to CVertexStreams::setStream (SVertexStreamData in the original).
+struct SVertexStreamData {
+    boost::intrusive_ptr<IBuffer> buffer;  // +0x00
+    uint32_t offset = 0;                   // +0x04
+    uint16_t field08 = 0;                  // +0x08, copied to SVertexStream::field0a
+    uint16_t field0a = 0;                  // +0x0a, not read by setStream
+    uint16_t field0c = 0;                  // +0x0c, copied to SVertexStream::field0c
+    uint16_t field0e = 0;                  // +0x0e, copied to SVertexStream::field0e
+};
+
 class CVertexStreams {
 public:
+    // 0x7d46fc: copies the description into one stream entry, then recomputes
+    // homogeneity with flag. Partial: the original takes a reference on the new
+    // buffer and drops the old one; the intrusive_ptr stand-in does neither.
+    void setStream(SVertexStream* stream, const SVertexStreamData& data, bool flag);
+
     // 0x5a0a58: bit mask of the attributes whose stream has a buffer.
     uint32_t getActiveAttributeMask() const;
 
