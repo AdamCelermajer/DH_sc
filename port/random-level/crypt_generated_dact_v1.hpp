@@ -29,8 +29,18 @@ enum class CryptGeneratedDactSkipReasonV1 : std::uint32_t {
   known_factory_template,
   conditional_object,
   scripted_object,
-  object_manager_duplicate
+  object_manager_duplicate,
+  // GameObject::CheckSpawnProbability (0x38bd64): a draw >= spawn_prob makes
+  // Character::InitPost (0x3b4d60) delete the Character before construction.
+  spawn_probability_rejected,
+  // Character::SafeGetCharPropsId (0x3b3d38) yields -1 (unknown row); the
+  // port skips the Character with a warning instead of failing the level.
+  unresolved_character_properties
 };
+
+// Same shape as world::SpawnProbabilityRollV1: one s_seed % 99 draw for the
+// given spawn_prob. Returns 1 spawn, 0 deleted, -1 failure.
+using CryptGeneratedSpawnRollV1 = int (*)(void* context, long probability);
 
 struct CryptGeneratedDactRetainedSourceV1 {
   std::uint32_t module_index = 0;
@@ -116,6 +126,8 @@ CryptGeneratedDactStatusV1 crypt_compile_generated_dact_v1(
     CryptGeneratedDactV1& output,
     CryptGeneratedDactDiagnosticV1* diagnostic = nullptr,
     const std::vector<CryptGeneratedDactRetainedSourceV1>* retained_sources =
-        nullptr) noexcept;
+        nullptr,
+    CryptGeneratedSpawnRollV1 spawn_roll = nullptr,
+    void* spawn_roll_context = nullptr) noexcept;
 
 }  // namespace dh2::random_level

@@ -181,6 +181,18 @@ void remove_last_field(world::Object& object) {
   field = {};
 }
 
+// DACT v2 gate word of the record projected from `object` (false for v1).
+bool gate_of(const random_level::CryptGeneratedDactV1& result,
+             const world::Object* object) {
+  if (result.bytes.size() < 16 || result.bytes[4] != 2) return false;
+  for (const auto& actor : result.source_order) {
+    if (actor.module_index == object->module_index &&
+        actor.source_record == object->source_record)
+      return result.bytes[16 + actor.dact_record * 256 + 236] == 1;
+  }
+  return false;
+}
+
 void test_fail_closed(world::SourceLevel& source,
                       const data::CharacterTable& characters,
                       const data::Dictionary& models) {
@@ -189,14 +201,58 @@ void test_fail_closed(world::SourceLevel& source,
   auto* direct = const_cast<world::Object*>(object_at(source, 3, 3));
   require(direct != nullptr, "Synthetic script test actor missing");
   const auto* old_ai = dh2_world_field(direct, "ai_state");
+  // GetPreSetAIState (0x3a57a4): any ai_state other than Limbus/PreSpawn is
+  // the ordinary idle spawn; the actor stays an ungated DACT row.
   set_field(*direct, "ai_state", "Attack");
-  // Unsupported actor states fail the transaction and expose no partial DACT.
   auto status = random_level::crypt_compile_generated_dact_v1(
       source, characters, models, output, &diagnostic);
-  require(status == random_level::CryptGeneratedDactStatusV1::unsupported_spawn_policy,
-          "Unsupported source AI state was accepted");
-  require(output.bytes.empty(), "Failed DACT compile exposed partial bytes");
+  require(status == random_level::CryptGeneratedDactStatusV1::ok &&
+              output.source_order.size() == 13 && !gate_of(output, direct),
+          "Non-Limbus source AI state was rejected or gated");
+  set_field(*direct, "ai_state", "Limbus");
+  status = random_level::crypt_compile_generated_dact_v1(
+      source, characters, models, output, &diagnostic);
+  require(status == random_level::CryptGeneratedDactStatusV1::ok &&
+              output.bytes[4] == 2 && gate_of(output, direct),
+          "Limbus source AI state did not produce a gated DACT v2");
   set_field(*direct, "ai_state", old_ai ? old_ai : "");
+
+  // CheckSpawnProbability (0x38bd64): non-100 spawn_prob consumes a draw.
+  const auto* old_prob = dh2_world_field(direct, "spawn_prob");
+  const bool had_prob = old_prob != nullptr;
+  if (had_prob) set_field(*direct, "spawn_prob", "50");
+  else add_field(*direct, "spawn_prob", "50");
+  status = random_level::crypt_compile_generated_dact_v1(
+      source, characters, models, output, &diagnostic);
+  require(status == random_level::CryptGeneratedDactStatusV1::unsupported_spawn_policy &&
+              output.bytes.empty(),
+          "spawn_prob without the original draw was accepted");
+  long rolled_probability = -1;
+  auto roll_delete = +[](void* context, long probability) -> int {
+    *static_cast<long*>(context) = probability;
+    return 0;
+  };
+  status = random_level::crypt_compile_generated_dact_v1(
+      source, characters, models, output, &diagnostic, nullptr, roll_delete,
+      &rolled_probability);
+  require(status == random_level::CryptGeneratedDactStatusV1::ok &&
+              rolled_probability == 50 && output.source_order.size() == 12 &&
+              has_skip(output, 3, 3,
+                  random_level::CryptGeneratedDactSkipReasonV1::spawn_probability_rejected),
+          "spawn_prob draw >= value did not delete the Character");
+  auto roll_keep = +[](void*, long) -> int { return 1; };
+  status = random_level::crypt_compile_generated_dact_v1(
+      source, characters, models, output, &diagnostic, nullptr, roll_keep);
+  require(status == random_level::CryptGeneratedDactStatusV1::ok &&
+              output.source_order.size() == 13,
+          "spawn_prob draw < value deleted the Character");
+  set_field(*direct, "spawn_prob", "abc");
+  status = random_level::crypt_compile_generated_dact_v1(
+      source, characters, models, output, &diagnostic, nullptr, roll_keep);
+  require(status == random_level::CryptGeneratedDactStatusV1::unsupported_spawn_policy,
+          "Non-integer spawn_prob was accepted");
+  if (had_prob) set_field(*direct, "spawn_prob", old_prob);
+  else remove_last_field(*direct);
 
   add_field(*direct, "script", "unsafe.lua");
   status = random_level::crypt_compile_generated_dact_v1(
@@ -209,17 +265,21 @@ void test_fail_closed(world::SourceLevel& source,
   remove_last_field(*direct);
 
   const auto* old_template = dh2_world_field(direct, "_templateName");
+  // Every non-Monster, non-Faery template (SafeGetCharPropsId 0x3b3d38 route)
+  // is owned by the runtime template route and omitted from DACT.
   set_field(*direct, "_templateName", "UnreviewedActorType");
   status = random_level::crypt_compile_generated_dact_v1(
       source, characters, models, output, &diagnostic);
-  require(status == random_level::CryptGeneratedDactStatusV1::unsupported_type &&
-              output.bytes.empty(),
-          "Unknown Character factory type was guessed into DACT");
+  require(status == random_level::CryptGeneratedDactStatusV1::ok &&
+              output.source_order.size() == 12 &&
+              has_skip(output, 3, 3,
+                  random_level::CryptGeneratedDactSkipReasonV1::known_factory_template),
+          "Unreviewed Character template was rejected or projected into DACT");
   set_field(*direct, "_templateName", old_template);
 
   // Runtime char_template selects Charater_Templates rows and requires the
-  // original RNG draw. A direct DACT row carries only charpropsname, so reject
-  // instead of silently projecting the wrong CharacterTable row.
+  // original RNG draw. A direct DACT row carries only charpropsname, so the
+  // row is left to the template route instead of projecting the wrong row.
   const auto* old_char_template = dh2_world_field(direct, "char_template");
   if (old_char_template)
     set_field(*direct, "char_template", "GothicusCrypt_Ghosts");
@@ -227,8 +287,10 @@ void test_fail_closed(world::SourceLevel& source,
     add_field(*direct, "char_template", "GothicusCrypt_Ghosts");
   status = random_level::crypt_compile_generated_dact_v1(
       source, characters, models, output, &diagnostic);
-  require(status == random_level::CryptGeneratedDactStatusV1::unsupported_type &&
-              output.bytes.empty(),
+  require(status == random_level::CryptGeneratedDactStatusV1::ok &&
+              output.source_order.size() == 12 &&
+              has_skip(output, 3, 3,
+                  random_level::CryptGeneratedDactSkipReasonV1::known_factory_template),
           "Direct Monster runtime template was silently projected as charpropsname");
   if (old_char_template)
     set_field(*direct, "char_template", old_char_template);
