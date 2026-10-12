@@ -154,3 +154,11 @@ elf_address,symbol,status,source_file,notes
 0x80a710,_ZN10CMessaging13IsInitializedEv,reconstructed,net-session-online/src/c_messaging.cpp,
 0x80a738,_ZN10CMessaging9TerminateEv,reconstructed,net-session-online/src/c_messaging.cpp,
 0x80a77c,_ZN10CMessaging6UpdateEv,reconstructed,net-session-online/src/c_messaging.cpp,
+0x836a20,_ZN23CLobbyParameterAndQuery13PackParameterERi,reconstructed,net-session-online/src/c_lobby_parameter_and_query.cpp,packs count byte and non-empty values; returns new[] buffer
+0x836b10,_ZN23CLobbyParameterAndQuery17AddQueryConditionEi11compareOptTPc,partial,net-session-online/src/c_lobby_parameter_and_query.cpp,only index guard recovered; post-guard tail call (XP_API_STRLEN) not identified so nothing stored
+0x836c0c,_ZN23CLobbyParameterAndQuery17SetParameterValueEiPc,partial,net-session-online/src/c_lobby_parameter_and_query.cpp,only index guard recovered; store not identified
+0x836d00,_ZN23CLobbyParameterAndQueryD1Ev,reconstructed,net-session-online/src/c_lobby_parameter_and_query.cpp,deletes non-null values; original uses scalar delete on new[] memory (deviation: delete[])
+0x836d90,_ZN23CLobbyParameterAndQueryD0Ev,skipped,net-session-online/src/c_lobby_parameter_and_query.cpp,compiler-generated deleting destructor thunk (dtor then operator delete)
+0x836dac,_ZN23CLobbyParameterAndQueryD2Ev,reconstructed,net-session-online/src/c_lobby_parameter_and_query.cpp,same body as D1
+0x836e3c,_ZN23CLobbyParameterAndQueryC1Ev,partial,net-session-online/src/c_lobby_parameter_and_query.cpp,file oconf.bar load not recovered; only not-found debug trace kept
+0x837224,_ZN23CLobbyParameterAndQueryC2Ev,partial,net-session-online/src/c_lobby_parameter_and_query.cpp,same body as C1; file load not recovered

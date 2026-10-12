@@ -39,3 +39,17 @@ Slot names are inferred from call sites; the vtable dump shows them as null/pure
 - CEventQueueBase and the CEventQueue<...> templates: most ledger candidates decompile to a bare tail call into CNetMutex::Lock. This looks like identical-code folding or mislabeled thunks, not real bodies. Only HasEvents (0x7fde10) has a real body. Needs a check against the binary before it is ledgered.
 - Still queued: CMsgDropLoot and CMsgQuestsSync, CMessaging, CSignIn*, GameCenter, MultiplayerCallback, lib-online-glx (GLXPlayer*, COnline*, Json::), item, channel, tFriendInfo/tRoomInfo.
 - Stand-ins in deps/ are minimal. NetBitStream is byte-aligned only. The real implementation belongs to net-transport.
+
+## CLobbyParameterAndQuery (session 2)
+
+Layout (`include/net-session-online/c_lobby_parameter_and_query.hpp`), vtable `_ZTV23CLobbyParameterAndQuery`:
+- +0x00 vptr, +0x04 parameter count, +0x14 array of owned value buffers, +0x18 inline int array of value lengths.
+- PackParameter: count byte = number of non-empty parameters, then the non-empty values concatenated; returns nullptr when total length is 0.
+- The original's ctor loads "oconf.bar" and parses it, then ends in a non-returning tail call. Only the not-found trace is kept (partial).
+- AddQueryCondition and SetParameterValue: only the index guard is recovered (partial). Test seams Reserve and StoreParameter are not in the original.
+- Deviation: the original frees values with scalar delete over new[] memory; the port uses delete[].
+
+## Still not done
+
+- GLXPlayerMPLobby::mpSend* (0x8376fc..0x83a744) need ConnectionLobby and GLXPlayerUserFriend stand-ins and the GLXPlayerMPLobby layout (+0x4, +0x48, +0x50, +0x60, +0x74, +0x80, +0x84). Not started.
+- The rest of the queue (about 1100 functions) is unchanged.
