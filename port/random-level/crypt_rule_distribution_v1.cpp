@@ -129,6 +129,15 @@ RuleDistributionCatalogV1 enumerate_source_rule_distributions_v1(
   return result;
 }
 
+std::uint8_t source_rule_distribution_byte_v1(
+    const RuleDistributionCatalogV1& catalog, std::size_t record_index,
+    std::size_t position) {
+  const std::size_t flat = record_index * 6 + position;
+  const std::size_t end = catalog.records.size() * 6;
+  if (flat < end) return catalog.records[flat / 6].bytes[flat % 6];
+  return flat == end ? std::uint8_t{0xff} : std::uint8_t{0};
+}
+
 bool shuffle_source_rule_distributions_v1(RuleDistributionCatalogV1& catalog,
                                           RandomGeneratorV1& random) {
   return source_shuffle(catalog.records, random);

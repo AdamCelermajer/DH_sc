@@ -30,6 +30,11 @@ void triangles(const resources::BresView& view,const scene::Instance& instance,u
 }
 bool load(const resources::BresView& view,const std::uint8_t* descriptor,std::size_t size,
           Level& out,std::string& error,bool validate_descriptor_spawn){
+ return load(std::vector<resources::BresView>{view},{},descriptor,size,out,error,validate_descriptor_spawn);
+}
+bool load(const std::vector<resources::BresView>& views,const std::vector<std::uint32_t>& room_sources,
+          const std::uint8_t* descriptor,std::size_t size,
+          Level& out,std::string& error,bool validate_descriptor_spawn){
  out={};error.clear();try{
   if(!descriptor||size<24||std::memcmp(descriptor,"DWLD",4))throw std::runtime_error("World descriptor rejected");
   // v1: 128-byte records (id, position, reserved zero). v2: 152-byte records adding
@@ -39,11 +44,22 @@ bool load(const resources::BresView& view,const std::uint8_t* descriptor,std::si
   const std::size_t record_size=version==1?128:152;
   const auto count=word(descriptor+8);if(!count||count>512||size!=24+std::uint64_t(count)*record_size)throw std::runtime_error("World room table rejected");
   Level level;level.rooms=count;level.native_floor=std::make_unique<floors::World>();for(unsigned i=0;i<3;++i)level.spawn[i]=value(descriptor+12+i*4);
-  scene::Scene source;if(!scene::load(view,source,error))throw std::runtime_error(error);level.scene.materials=source.materials;
+  if(views.empty()||(!room_sources.empty()&&room_sources.size()!=count))throw std::runtime_error("World room source table rejected");
+  // Each Module loads its own dae (Module::LoadModule 0x38a88c); scenes are loaded on first use and their
+  // materials appended once, so instance material indices are offset by material_base.
+  std::vector<scene::Scene> sources(views.size());std::vector<bool> loaded(views.size(),false);std::vector<std::uint32_t> material_base(views.size(),0);
+  auto ensure_source=[&](std::uint32_t k){
+   if(loaded[k])return;
+   if(!scene::load(views[k],sources[k],error))throw std::runtime_error(error);
+   loaded[k]=true;material_base[k]=static_cast<std::uint32_t>(level.scene.materials.size());
+   level.scene.materials.insert(level.scene.materials.end(),sources[k].materials.begin(),sources[k].materials.end());
+  };
   for(unsigned room=0;room<count;++room){const auto* record=descriptor+24+room*record_size;auto* end=static_cast<const std::uint8_t*>(std::memchr(record,0,112));
    if(!end||end==record||(version==1&&word(record+124)))throw std::runtime_error("World room identifier rejected");
    const unsigned flags=version==2?word(record+148):1;
    if(flags!=1&&flags!=2)throw std::runtime_error("World room flags rejected");
+   const std::uint32_t k=room_sources.empty()?0u:room_sources[room];if(k>=views.size())throw std::runtime_error("World room source rejected");
+   ensure_source(k);const auto& source=sources[k];
    std::string id(reinterpret_cast<const char*>(record),end-record);auto root=std::find_if(source.graph.begin(),source.graph.end(),[&](const scene::Node& n){return n.id==id&&n.parent==-1;});
    if(root==source.graph.end())throw std::runtime_error("Missing room template: "+id);
    const unsigned root_index=root-source.graph.begin();
@@ -54,11 +70,11 @@ bool load(const resources::BresView& view,const std::uint8_t* descriptor,std::si
      if(version==2)apply_module_root_transform(record,copied);}
     mapping[i]=level.scene.graph.size();level.scene.graph.push_back(std::move(copied));}
    level.scene.nodes=level.scene.graph.size();
-   for(const auto& instance:source.instances){if(mapping[instance.node_index]<0)continue;auto copied=instance;copied.node_index=mapping[instance.node_index];copied.node=level.scene.graph[copied.node_index].id;level.scene.instances.push_back(std::move(copied));}
+   for(const auto& instance:source.instances){if(mapping[instance.node_index]<0)continue;auto copied=instance;copied.source_view=k;for(auto& m:copied.materials)m+=material_base[k];copied.node_index=mapping[instance.node_index];copied.node=level.scene.graph[copied.node_index].id;level.scene.instances.push_back(std::move(copied));}
    if(!scene::update_world(level.scene,error))throw std::runtime_error(error);
    unsigned floors=0;
    for(auto i=level.scene.instances.begin();i!=level.scene.instances.end();){
-    if(i->node_index>=first&&i->node.find("/_floor_")!=std::string::npos){triangles(view,*i,room,level);++floors;i=level.scene.instances.erase(i);}
+    if(i->node_index>=first&&i->node.find("/_floor_")!=std::string::npos){triangles(views[k],*i,room,level);++floors;i=level.scene.instances.erase(i);}
     else if(i->node_index==first||(i->node_index>=first&&i->node.find("/_exit_")!=std::string::npos))i=level.scene.instances.erase(i);
     else ++i;
    }
@@ -82,9 +98,14 @@ bool load_entrypoints(const std::uint8_t* data,std::size_t size,unsigned room_co
                       std::vector<EntryPoint>& out,std::string& error){
  out.clear();error.clear();
  try{
-  constexpr std::size_t header_size=16,record_size=144;
-  if(!data||size<header_size||std::memcmp(data,"SPWN",4)||word(data+4)!=1)
+  // SPWN v1 has no script field; v2 appends a 96-byte NUL-padded SpawnPoint script
+  // name after the 144-byte v1 record. Empty v2 names mean no SpawnPoint script.
+  constexpr std::size_t header_size=16,record_size_v1=144,record_size_v2=240;
+  if(!data||size<header_size||std::memcmp(data,"SPWN",4)||
+     (word(data+4)!=1&&word(data+4)!=2))
    throw std::runtime_error("SpawnPoint sidecar header rejected");
+  const bool has_scripts=word(data+4)==2;
+  const std::size_t record_size=has_scripts?record_size_v2:record_size_v1;
   const unsigned count=word(data+8);
   if(!count||count>512||!room_count||word(data+12)||
      size!=header_size+std::uint64_t(count)*record_size)
@@ -105,6 +126,14 @@ bool load_entrypoints(const std::uint8_t* data,std::size_t size,unsigned room_co
     throw std::runtime_error("Duplicate SpawnPoint entrypoint ID");
    EntryPoint point;point.id=id;point.room=room;
    point.name.assign(reinterpret_cast<const char*>(name_begin),name_end-name_begin);
+   if(has_scripts){
+    const auto* script_begin=record+144;
+    const auto* script_end=static_cast<const std::uint8_t*>(std::memchr(script_begin,0,96));
+    if(!script_end)throw std::runtime_error("SpawnPoint script field rejected");
+    for(auto* p=script_end+1;p<script_begin+96;++p)if(*p)
+     throw std::runtime_error("SpawnPoint script padding rejected");
+    point.script.assign(reinterpret_cast<const char*>(script_begin),script_end-script_begin);
+   }
    float values[18];for(unsigned n=0;n<18;++n)values[n]=value(record+72+n*4);
    for(unsigned axis=0;axis<3;++axis){
     point.local.position[axis]=values[axis];

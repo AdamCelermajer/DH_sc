@@ -1,0 +1,152 @@
+{
+  "source_layout": "data/scene/x30_el_air_backup.mlx",
+  "selected_characters": 1,
+  "source_character_records": 45,
+  "selection": "direct Monster; no activation/deactivation condition; auto_spawn != 0; initial ai_state absent or Idle",
+  "actors": [
+    {
+      "kind": 1,
+      "room": 5,
+      "name": "_prim_Monster_airboss",
+      "character": "El_Wind",
+      "model": "skydevil.bdae",
+      "model_path": "data/3d/characters/lizardman/skydevil.bdae",
+      "animation_table": 34,
+      "position": [
+        0.0,
+        18873.201,
+        361.335
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.5,
+        1.5,
+        1.5
+      ],
+      "source_mgp": "data/3d/modules/castle/mgp/boss_air.mgp",
+      "source_record": 2
+    }
+  ],
+  "animation_states": [
+    {
+      "table": 34,
+      "character": "LizardMan",
+      "state": "Idle",
+      "sequence": 376
+    },
+    {
+      "table": 34,
+      "character": "LizardMan",
+      "state": "Walk",
+      "sequence": 383
+    },
+    {
+      "table": 34,
+      "character": "LizardMan",
+      "state": "Attack",
+      "sequence": 370
+    },
+    {
+      "table": 34,
+      "character": "LizardMan",
+      "state": "Died",
+      "sequence": 374
+    }
+  ],
+  "clip_ids": [
+    806,
+    811,
+    817,
+    818,
+    822,
+    832
+  ],
+  "dact": {
+    "bytes": 272,
+    "sha256": "d8e8687c3a2444e3259ddf59bc87e772a9fa277e6cdf2c11e880a957eb687a29"
+  },
+  "assets": [
+    {
+      "asset": "actors/lizardman_attack_01.bdae",
+      "bytes": 11520,
+      "sha256": "6013cf3fc40bedebd08bf1315ecdd78a0899acb04ea85af3157f6b7a27c23993",
+      "source": "data/3d/characters/lizardman/animations/lizardman_attack_01.bdae",
+      "source_file": "lizardman_attack_01.bdae"
+    },
+    {
+      "asset": "actors/lizardman_dying_01.bdae",
+      "bytes": 12292,
+      "sha256": "d71cde5d2ce5e18bde7c3d5542c63016ccc2c9900d22f48e6ce048ffd06ea8a8",
+      "source": "data/3d/characters/lizardman/animations/lizardman_dying_01.bdae",
+      "source_file": "lizardman_dying_01.bdae"
+    },
+    {
+      "asset": "actors/lizardman_idle_01.bdae",
+      "bytes": 35556,
+      "sha256": "c9c64c805495459da201947f19eb4dbae598e1f8843d0054f8c09dbec5b407f6",
+      "source": "data/3d/characters/lizardman/animations/lizardman_idle_01.bdae",
+      "source_file": "lizardman_idle_01.bdae"
+    },
+    {
+      "asset": "actors/lizardman_post_attack_01.bdae",
+      "bytes": 8076,
+      "sha256": "7842a020af319c8d678153b1241322c652c1feb97be4c546bd61629a89f6a863",
+      "source": "data/3d/characters/lizardman/animations/lizardman_post_attack_01.bdae",
+      "source_file": "lizardman_post_attack_01.bdae"
+    },
+    {
+      "asset": "actors/lizardman_pre_attack_01.bdae",
+      "bytes": 6696,
+      "sha256": "25b0cd37c2156298affcd337036ed987a60737b0de5b6a2e5cde1b3d0e9e61b1",
+      "source": "data/3d/characters/lizardman/animations/lizardman_pre_attack_01.bdae",
+      "source_file": "lizardman_pre_attack_01.bdae"
+    },
+    {
+      "asset": "actors/lizardman_walk_01.bdae",
+      "bytes": 13536,
+      "sha256": "8d687c16a9424285f495aba63ee623af2d37b1c0d8629e9cc7cd22373528b896",
+      "source": "data/3d/characters/lizardman/animations/lizardman_walk_01.bdae",
+      "source_file": "lizardman_walk_01.bdae"
+    },
+    {
+      "asset": "actors/skydevil.bdae",
+      "bytes": 48712,
+      "sha256": "c990db9c42652e4e42697428cc507aa48236bfc46b52734cd0915f0070272046",
+      "source": "data/3d/characters/lizardman/skydevil.bdae",
+      "source_file": "skydevil.bdae"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001.tga",
+      "bytes": 524348,
+      "sha256": "12b326ab884126622721864edb49ab7e30bafb21a269d11db4f185515e4eca7c",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001.tga",
+      "source_file": "atlas_dh2_game_objects_001.tga"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001_alpha.tga",
+      "bytes": 524348,
+      "sha256": "4989829958943daff0d0b977ae98c52def30bb0c966dba21d19e949f9321fc79",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001_alpha.tga",
+      "source_file": "atlas_dh2_game_objects_001_alpha.tga"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001_specular.tga",
+      "bytes": 131132,
+      "sha256": "49c66c6eab5b957acadcf1f8216eb4720ed69b60f86a2b8776505bf54a5d7398",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001_specular.tga",
+      "source_file": "atlas_dh2_game_objects_001_specular.tga"
+    },
+    {
+      "asset": "textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+      "bytes": 524348,
+      "sha256": "b481139257068aca633269161be908e66f839f241f7b42b035337c705e121e83",
+      "source": "data/3d/textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+      "source_file": "atlas_skinned_characters_animdecor_gameobjects_001.tga"
+    }
+  ],
+  "runtime_gaps": "Module rotation/scale, conditional/template/NPC/container factories, source AI activation and LevelSavegame are not implied."
+}

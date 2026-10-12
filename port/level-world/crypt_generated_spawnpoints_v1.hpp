@@ -20,11 +20,10 @@ struct GeneratedMgpView {
 // and runs the object's script. ObjectManager::LoadFromXML (0x34b868) adds the
 // Module origin to MGP XYZ only; object rotation and scale remain authored.
 //
-// SPWN v1 cannot carry activation conditions or scripts, and its current
-// reader rejects duplicate entrypoint IDs. This function therefore fails
-// closed if any SpawnPoint has a nonempty activate_cond/deactivate_cond/script
-// or if any entrypoint ID repeats. It does not decide which conditional point
-// would be active at runtime.
+// SPWN v1 cannot carry SpawnPoint scripts; v2 appends the script name, which the
+// runtime starts through the level ScriptManager session. Activation conditions
+// and repeated entrypoint IDs still fail closed: this function does not decide
+// which conditional point would be active at runtime.
 bool compile_generated_spawnpoints_v1(
     const std::uint8_t* level_xml, std::size_t level_size,
     const char* level_name, const char* level_source_path,
@@ -34,8 +33,8 @@ bool compile_generated_spawnpoints_v1(
 // Compile only the selected entrypoint used by the current level load. The
 // source Level::_LoadPlayer loop applies every active SpawnPoint with this ID
 // in ObjectManager order, so the final transform comes from the last matching
-// module/MGP record. Selected points with conditions or scripts still fail
-// closed because this projection does not run those source callbacks.
+// module/MGP record. Selected points with conditions still fail closed; a selected SpawnPoint
+// script is carried in SPWN v2 and started by the level ScriptManager session.
 bool compile_generated_spawnpoint_v1(
     const std::uint8_t* level_xml, std::size_t level_size,
     const char* level_name, const char* level_source_path,

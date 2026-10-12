@@ -87,13 +87,44 @@ std::vector<SourceRuleExitCandidateV1> match_source_block_names_v1(
 bool filter_and_shuffle_rule_impl_exits_v1(
     std::vector<SourceRuleExitCandidateV1>& candidates,
     RandomGeneratorV1& random) {
-  candidates.erase(
-      std::remove_if(candidates.begin(), candidates.end(), [](const auto& candidate) {
+  // The native loop (0x48e690) erases only the first matching pair: after
+  // _M_erase it jumps past the scan (goto LABEL_16) straight to random_shuffle.
+  const auto first_start = std::find_if(
+      candidates.begin(), candidates.end(), [](const auto& candidate) {
         return candidate.destination_block_name.find("_start") !=
                std::string::npos;
-      }),
-      candidates.end());
+      });
+  if (first_start != candidates.end()) candidates.erase(first_start);
   return source_shuffle(candidates, random);
+}
+
+std::optional<std::uint32_t> source_rule_exit_direction_v1(
+    std::string_view exit_attribute) {
+  if (exit_attribute == "north") return 0u;
+  if (exit_attribute == "east") return 1u;
+  if (exit_attribute == "south") return 2u;
+  if (exit_attribute == "west") return 3u;
+  return std::nullopt;
+}
+
+bool source_step_can_requeue_exit_v1(std::size_t entry_exit_count,
+                                     std::size_t current_queue_size) {
+  return (entry_exit_count * entry_exit_count + entry_exit_count) / 2 >
+         current_queue_size;
+}
+
+bool source_path_add_exit_allows_v1(const SourcePathAddExitInputV1& input) {
+  if (input.block_width != 1 || input.block_height != 1) return false;
+  if (input.dead_end) return input.exit_count == 1;
+  if (input.exit_count != 2) return false;
+  return !input.straight_only || input.block_is_straight;
+}
+
+bool source_force_block_direction_gate_allows_v1(
+    std::uint32_t rule_direction_136, std::uint32_t exit_direction,
+    std::uint32_t rule_value_140, std::uint32_t exit_value_24) {
+  if (rule_direction_136 == 4) return true;
+  return rule_direction_136 == exit_direction && rule_value_140 == exit_value_24;
 }
 
 SourceRuleStepCandidatesV1 prepare_source_rule_step_candidates_v1(

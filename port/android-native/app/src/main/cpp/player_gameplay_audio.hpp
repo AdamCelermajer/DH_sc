@@ -299,22 +299,43 @@ inline bool enqueue_stop_all(std::int32_t fade_ms){
 }
 // These source Sounds rows resolve through retained original audio inputs.
 // UIDs 484-487 share the cathedral VXN bank; UID 467 has the SWAMP VXN bank;
-// UID 505 is a single looping SWAMP safe-zone ADPCM WAV. Their state sets are
-// derived from source LevelConfig labels and sounds.xml rows.
+// UIDs 468-504 are the other exported level VXN banks; UIDs 505-509 are single
+// looping safe-zone ADPCM WAVs. Their state sets are derived from source
+// LevelConfig labels and sounds.xml rows.
 struct SourceMusicResource {
     std::uint16_t sound_uid;
     const char* source_label;
     const char* source_filename;
     bool has_vxn_states;
 };
-inline constexpr std::array<SourceMusicResource,7> source_music_resources{{
+inline constexpr std::array<SourceMusicResource,27> source_music_resources{{
     {467,"SwampHubAmbientMusic","m_level_swamp_sfx_swamp.vxn",true},
+    {468,"SwampWitchCaveAmbientMusic","m_level_swamp_sfx_witch.vxn",true},
+    {470,"WaterTempleCaveAmbientMusic","m_level_swamp_sfx_water.vxn",true},
     {471,"DarkWoodHubAmbientMusic","m_level_darkwood_sfx_darkwood.vxn",true},
+    {472,"RootDenOneAmbientMusic","m_level_darkwood_sfx_root_den.vxn",true},
+    {474,"EarthTempleAmbientMusic","m_level_darkwood_sfx_void_maze.vxn",true},
+    {475,"InfectedVillageAmbientMusic","m_level_darkwood_sfx_infected.vxn",true},
+    {477,"GothicusCastleHubAmbientMusic","m_level_gothicus_no_ambiance.vxn",true},
     {484,"AbbeyRuinsOneAmbientMusic","m_level_cathedral_sfx_catacomb.vxn",true},
     {485,"PortalRoomAmbientMusic","m_level_cathedral_sfx_catacomb.vxn",true},
     {486,"CryptOneAmbientMusic","m_level_cathedral_sfx_catacomb.vxn",true},
     {487,"SecretCryptAmbientMusic","m_level_cathedral_sfx_catacomb.vxn",true},
+    {488,"RedDesertHubAmbientMusic","m_level_red_desert_sfx_red_desert.vxn",true},
+    {489,"RedDesertCaveOneAmbientMusic","m_level_red_desert_sfx_red_desert.vxn",true},
+    {492,"LighthouseTempleAmbientMusic","m_level_red_desert_no_ambiance.vxn",true},
+    {493,"FireTempleAmbientMusic","m_level_red_desert_sfx_fire.vxn",true},
+    {494,"IcyCliffHubAmbientMusic","m_level_icy_cliff_sfx_ice_hub.vxn",true},
+    {496,"IcyCaveTwoAmbientMusic","m_level_icy_cliff_sfx_ice_cavern.vxn",true},
+    {501,"WindTempleAmbientMusic","m_level_icy_cliff_sfx_wind.vxn",true},
+    {502,"UnderworldHubAmbientMusic","m_level_hell_sfx_dark.vxn",true},
+    {503,"MachineRoomsAmbientMusic","m_level_hell_sfx_dark.vxn",true},
+    {504,"DarkDungeonTempleAmbientMusic","m_level_hell_sfx_dark.vxn",true},
     {505,"SwampMerchantCampMusic","m_safe_zone_01_sfx_swamp.wav",false},
+    {506,"BloodSandsMusic","m_safe_zone_01_sfx_red_desert.wav",false},
+    {507,"KingsGraveMusic","m_safe_zone_01_sfx_dark_temple.wav",false},
+    {508,"GatedCastleVillageMusic","m_safe_zone_02_sfx_darkwood.wav",false},
+    {509,"NortherlandMusic","m_safe_zone_02_sfx_ice_hub.wav",false},
 }};
 inline const SourceMusicResource* source_music_resource(std::uint16_t uid) noexcept {
     for(const auto& row:source_music_resources)
@@ -340,10 +361,11 @@ inline bool enqueue_source_music_state(std::uint16_t sound_uid,
     pending.push_back(std::move(command));
     return true;
 }
+// Level music rows are either two-state VXN banks or single-track ambient WAVs;
+// enqueue_source_music_state enforces each row's own state set.
 inline bool enqueue_source_vxn_music_state(std::uint16_t sound_uid,
                                            std::string_view state){
-    return source_vxn_music_resource(sound_uid)&&
-        enqueue_source_music_state(sound_uid,state);
+    return enqueue_source_music_state(sound_uid,state);
 }
 // The currently selected Crypt LevelConfig resolves specifically to UID 486.
 inline bool enqueue_crypt_music_state(std::uint16_t sound_uid,

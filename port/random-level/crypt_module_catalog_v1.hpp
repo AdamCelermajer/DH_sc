@@ -54,6 +54,11 @@ struct CryptModuleAssetV1 {
   bool mgx_file_valid = false;
   bool gameplay_file_valid = false;
   bool visual_file_valid = false;
+  // False when the rule names no file (empty attribute) or the named file does
+  // not exist: Module::LoadModule (0x38a88c) / Level::LoadFile (0x3f3b40) then
+  // load nothing and succeed, so the Module has no MGP / MVP objects.
+  bool gameplay_present = false;
+  bool visual_present = false;
   bool mvx_file_valid = false;
   bool mvx_scene_root_valid = false;
 

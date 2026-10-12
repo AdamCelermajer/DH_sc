@@ -1,0 +1,185 @@
+{
+  "source_layout": "data/scene/x09_abbey_backup.mlx",
+  "selected_characters": 2,
+  "source_character_records": 66,
+  "selection": "direct Monster; no activation/deactivation condition; auto_spawn != 0; initial ai_state absent or Idle",
+  "actors": [
+    {
+      "kind": 1,
+      "room": 1,
+      "name": "_prim_Monster",
+      "character": "Crypt_Ghost_RE",
+      "model": "ghost.bdae",
+      "model_path": "data/3d/characters/ghost/ghost.bdae",
+      "animation_table": 24,
+      "position": [
+        0.0,
+        5921.49,
+        0.0
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/crypt/mgp/abbey_straight_ns_01.mgp",
+      "source_record": 5
+    },
+    {
+      "kind": 1,
+      "room": 1,
+      "name": "_prim_Monster01_001",
+      "character": "Crypt_Ghost_RE",
+      "model": "ghost.bdae",
+      "model_path": "data/3d/characters/ghost/ghost.bdae",
+      "animation_table": 24,
+      "position": [
+        0.0,
+        5489.342,
+        0.0
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/crypt/mgp/abbey_straight_ns_01.mgp",
+      "source_record": 6
+    }
+  ],
+  "animation_states": [
+    {
+      "table": 24,
+      "character": "Ghost",
+      "state": "Idle",
+      "sequence": 210
+    },
+    {
+      "table": 24,
+      "character": "Ghost",
+      "state": "Walk",
+      "sequence": 216
+    },
+    {
+      "table": 24,
+      "character": "Ghost",
+      "state": "Attack",
+      "sequence": 204
+    },
+    {
+      "table": 24,
+      "character": "Ghost",
+      "state": "Died",
+      "sequence": 208
+    }
+  ],
+  "clip_ids": [
+    697,
+    700,
+    706,
+    707,
+    710,
+    717
+  ],
+  "dact": {
+    "bytes": 528,
+    "sha256": "09fef776334d901975c1b40e67d3f024f24c036b53abd4abe175ae1a628e1cea"
+  },
+  "assets": [
+    {
+      "asset": "actors/ghost.bdae",
+      "bytes": 67104,
+      "sha256": "bbd26136f6141d0d319d090e20b99f12d29cce18efad134724bcd5bb008a2183",
+      "source": "data/3d/characters/ghost/ghost.bdae",
+      "source_file": "ghost.bdae"
+    },
+    {
+      "asset": "actors/ghost_attack_01.bdae",
+      "bytes": 8980,
+      "sha256": "3715fe78633e0c04a57e41a1b1d80943a35d1663aa82a13801713c938577436a",
+      "source": "data/3d/characters/ghost/animations/ghost_attack_01.bdae",
+      "source_file": "ghost_attack_01.bdae"
+    },
+    {
+      "asset": "actors/ghost_dying_01.bdae",
+      "bytes": 11416,
+      "sha256": "10d0454f550b1aa90de4f22a2ffba2af585feb84b23d90fd62040c292e917327",
+      "source": "data/3d/characters/ghost/animations/ghost_dying_01.bdae",
+      "source_file": "ghost_dying_01.bdae"
+    },
+    {
+      "asset": "actors/ghost_idle_01.bdae",
+      "bytes": 24052,
+      "sha256": "b21af05cfa1c767726b10d4f5b5a674ea2546d8fc7590215be132865afd75895",
+      "source": "data/3d/characters/ghost/animations/ghost_idle_01.bdae",
+      "source_file": "ghost_idle_01.bdae"
+    },
+    {
+      "asset": "actors/ghost_post_attack_01.bdae",
+      "bytes": 8036,
+      "sha256": "7c0639fcfa028b2fc2595da67c2dfaaeecbbcbb3993ec3916d3586010f59c994",
+      "source": "data/3d/characters/ghost/animations/ghost_post_attack_01.bdae",
+      "source_file": "ghost_post_attack_01.bdae"
+    },
+    {
+      "asset": "actors/ghost_pre_attack_01.bdae",
+      "bytes": 7476,
+      "sha256": "e9b9a4cb395672ad451b60b37cb4959812c5bf6ed9bcf1bd3e04f6418b9856c0",
+      "source": "data/3d/characters/ghost/animations/ghost_pre_attack_01.bdae",
+      "source_file": "ghost_pre_attack_01.bdae"
+    },
+    {
+      "asset": "actors/ghost_walk_01.bdae",
+      "bytes": 39896,
+      "sha256": "bd381b8bdcd2e948620fcd90ca8bf5f4e54c156285584e4e130cd369933c3ddc",
+      "source": "data/3d/characters/ghost/animations/ghost_walk_01.bdae",
+      "source_file": "ghost_walk_01.bdae"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001.tga",
+      "bytes": 524348,
+      "sha256": "12b326ab884126622721864edb49ab7e30bafb21a269d11db4f185515e4eca7c",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001.tga",
+      "source_file": "atlas_dh2_game_objects_001.tga"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001_alpha.tga",
+      "bytes": 524348,
+      "sha256": "4989829958943daff0d0b977ae98c52def30bb0c966dba21d19e949f9321fc79",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001_alpha.tga",
+      "source_file": "atlas_dh2_game_objects_001_alpha.tga"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001_specular.tga",
+      "bytes": 131132,
+      "sha256": "49c66c6eab5b957acadcf1f8216eb4720ed69b60f86a2b8776505bf54a5d7398",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001_specular.tga",
+      "source_file": "atlas_dh2_game_objects_001_specular.tga"
+    },
+    {
+      "asset": "textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+      "bytes": 524348,
+      "sha256": "b481139257068aca633269161be908e66f839f241f7b42b035337c705e121e83",
+      "source": "data/3d/textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+      "source_file": "atlas_skinned_characters_animdecor_gameobjects_001.tga"
+    },
+    {
+      "asset": "textures/fx_smoke_03.tga",
+      "bytes": 2108,
+      "sha256": "4575579f951123fe869e875d4e76ce45a6bf02cdf78a99a976f54fe815fe35f0",
+      "source": "data/3d/textures/fx_smoke_03.tga",
+      "source_file": "fx_smoke_03.tga"
+    }
+  ],
+  "runtime_gaps": "Module rotation/scale, conditional/template/NPC/container factories, source AI activation and LevelSavegame are not implied."
+}

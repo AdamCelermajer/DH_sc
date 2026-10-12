@@ -158,7 +158,7 @@ def fixed_ascii(value: str, width: int, label: str) -> bytes:
 
 
 def verify_level_row(cache: Path, index: dict[str, list[Path]], row: int,
-                     level_name: str, mlx: str) -> None:
+                     level_name: str, mlx: str, backup: bool = False) -> None:
     """Check the LevelList row against the requested name and MLX (compile_static_level rules)."""
     import importlib.util
     spec = importlib.util.spec_from_file_location("dh2_static_actor_catalogue", CATALOGUE_SOURCE)
@@ -173,7 +173,11 @@ def verify_level_row(cache: Path, index: dict[str, list[Path]], row: int,
     if len(catalogue.levels) <= row:
         raise CompileError(f"LevelList has no row {row}")
     declaration = catalogue.levels[row]
-    if declaration.name != level_name or declaration.level_file.lower() != mlx.lower():
+    expected_file = declaration.level_file
+    if backup:
+        # Level::_LoadProcess (0x3f6990): 'x' + name up to the first '.', "_BACKUP.mlx".
+        expected_file = ("x" + expected_file[1:]).split(".", 1)[0] + "_backup.mlx"
+    if declaration.name != level_name or expected_file.lower() != mlx.lower():
         raise CompileError(
             f"LevelList row {row} is {declaration.name!r}/{declaration.level_file!r}; "
             f"expected {level_name!r}/{mlx!r}")
@@ -193,6 +197,8 @@ def main() -> None:
     parser.add_argument("--level-name", help="expected LevelList name for the row")
     parser.add_argument("--mlx", help="LevelFile basename under data/scene/ (e.g. 003_darkwood.mlx)")
     parser.add_argument("--out-prefix", help="output stem; default is the MLX basename without extension")
+    parser.add_argument("--backup", action="store_true",
+        help="--mlx is the x<NN>_..._backup.mlx fallback of a generated (.rule.xml) row")
     parser.add_argument("--provenance", type=Path,
         help="static-level manifest (compile_static_level.py output); default "
              "<assets>/worlds/<out-prefix>-provenance.json")
@@ -226,7 +232,7 @@ def main() -> None:
     index = source_index(cache)
 
     try:
-        verify_level_row(cache, index, row, level_name, mlx)
+        verify_level_row(cache, index, row, level_name, mlx, args.backup)
         level_raw, _ = read_source(cache, index, level_path)
         level = parse_xml(level_raw, level_path, "Level")
         source_modules = [item for item in level.findall("GameObject")
@@ -265,6 +271,12 @@ def main() -> None:
         actors: list[dict[str, object]] = []
         skipped: collections.Counter[str] = collections.Counter()
         character_records = 0
+        # ObjectManager::Add keeps the first object per name and destroys later
+        # same-name candidates. Level roots register first (file order), then each
+        # Module loads its MGP and then its MVP. A repeated tile (a _BACKUP layout
+        # reuses MGPs) therefore owns its Characters in the first Module only.
+        seen_object_names = {item.get("name") for item in level.findall("GameObject")
+                             if item.get("name")}
         for room, module in enumerate(source_modules):
             name = module.get("name")
             # MGP is optional: a visual-only module (no children) has no actors.
@@ -288,10 +300,26 @@ def main() -> None:
                 if digest(mgp_raw) != source_hashes[mgp_path]:
                     raise CompileError(f"MGP differs from pinned provenance: {mgp_path}")
                 mgp_records = parse_xml(mgp_raw, mgp_path, "Module").findall("GameObject")
+            duplicate_records = set()
+            for record, obj in enumerate(mgp_records):
+                object_name = obj.get("name")
+                if object_name in seen_object_names:
+                    duplicate_records.add(record)
+                elif object_name:
+                    seen_object_names.add(object_name)
+            mvp_value = module.get("mvp") or None
+            if mvp_value:
+                mvp_raw, _ = read_source(cache, index, canonical(mvp_value))
+                for obj in parse_xml(mvp_raw, canonical(mvp_value), "Module").findall("GameObject"):
+                    if obj.get("name"):
+                        seen_object_names.add(obj.get("name"))
             for record, obj in enumerate(mgp_records):
                 if obj.get("gametype") != "Character":
                     continue
                 character_records += 1
+                if record in duplicate_records:
+                    skipped["duplicate ObjectManager name (first-name-wins)"] += 1
+                    continue
                 template = obj.get("charpropsname")
                 authored_name = obj.get("name")
                 if obj.get("_templateName") != "Monster":

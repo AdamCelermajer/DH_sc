@@ -113,14 +113,9 @@ int main() {
       exit_candidate(0, "hall"), exit_candidate(1, "crypt_start_room"),
       exit_candidate(2, "pre_start_mid"), exit_candidate(3, "crypt_Start"),
       exit_candidate(4, "_start")};
+  // Rule::Impl::FilterExits (0x48e690) erases only the first "_start" match.
   auto expected_filtered = filter_input;
-  expected_filtered.erase(
-      std::remove_if(expected_filtered.begin(), expected_filtered.end(),
-                     [](const auto& candidate) {
-                       return candidate.destination_block_name.find("_start") !=
-                              std::string::npos;
-                     }),
-      expected_filtered.end());
+  expected_filtered.erase(expected_filtered.begin() + 1);
   RandomGeneratorV1 filter_rng(1234);
   RandomGeneratorV1 expected_filter_rng(1234);
   check(source_shuffle(expected_filtered, expected_filter_rng),
@@ -128,8 +123,8 @@ int main() {
   check(filter_and_shuffle_rule_impl_exits_v1(filter_input, filter_rng) &&
             same_exit_order(filter_input, expected_filtered) &&
             filter_rng.state() == expected_filter_rng.state() &&
-            filter_input.size() == 2,
-        "Rule FilterExits removes case-sensitive _start substring then shuffles");
+            filter_input.size() == 4,
+        "Rule FilterExits removes only the first case-sensitive _start match then shuffles");
 
   const auto distributions = catalog({{{0, 1, 0, 0, 0, 0}},
                                       {{0, 1, 0, 0, 0, 0}},
@@ -201,7 +196,64 @@ int main() {
   check(malformed.status == SourceRuleStepCandidateStatusV1::malformed_record,
         "negative signed-char distribution values are rejected as malformed");
 
+  // Rule::Impl::Impl (0x48bebc): exit attribute -> sDirections id 0..3.
+  check(source_rule_exit_direction_v1("north") == 0u &&
+            source_rule_exit_direction_v1("east") == 1u &&
+            source_rule_exit_direction_v1("south") == 2u &&
+            source_rule_exit_direction_v1("west") == 3u,
+        "exit attribute names map to sDirections ids 0..3");
+  check(!source_rule_exit_direction_v1("North") &&
+            !source_rule_exit_direction_v1("") &&
+            !source_rule_exit_direction_v1("up"),
+        "exit attribute compare is case-sensitive and unknown text is null");
+
+  // Step re-queue capacity (n*n + n)/2 > current size.
+  check(!source_step_can_requeue_exit_v1(1, 1) &&
+            source_step_can_requeue_exit_v1(2, 2) &&
+            !source_step_can_requeue_exit_v1(2, 3) &&
+            source_step_can_requeue_exit_v1(4, 9) &&
+            !source_step_can_requeue_exit_v1(4, 10),
+        "Step re-queues a mismatched exit only below (n*n+n)/2 entries");
+
+  // Path::Impl::AddExit (0x48f05c).
+  SourcePathAddExitInputV1 gate;
+  gate.block_width = 1;
+  gate.block_height = 1;
+  gate.exit_count = 2;
+  check(source_path_add_exit_allows_v1(gate),
+        "AddExit accepts a 1x1 two-exit block mid-path");
+  gate.exit_count = 1;
+  check(!source_path_add_exit_allows_v1(gate),
+        "AddExit rejects a one-exit block mid-path");
+  gate.exit_count = 3;
+  check(!source_path_add_exit_allows_v1(gate),
+        "AddExit rejects a three-exit block");
+  gate.dead_end = true;
+  gate.exit_count = 1;
+  check(source_path_add_exit_allows_v1(gate),
+        "AddExit accepts a one-exit block at the dead end");
+  gate.exit_count = 2;
+  check(!source_path_add_exit_allows_v1(gate),
+        "AddExit rejects a two-exit block at the dead end");
+  gate.dead_end = false;
+  gate.block_width = 2;
+  check(!source_path_add_exit_allows_v1(gate),
+        "AddExit rejects blocks larger than 1x1");
+  gate.block_width = 1;
+  gate.straight_only = true;
+  check(!source_path_add_exit_allows_v1(gate),
+        "AddExit straight_only requires Block::IsStraight");
+  gate.block_is_straight = true;
+  check(source_path_add_exit_allows_v1(gate),
+        "AddExit straight_only accepts a straight block");
+
+  // ForceBlock::Impl::FilterExits (0x48f47c): Rule+136 == 4 never gates.
+  check(source_force_block_direction_gate_allows_v1(4, 2, 0, 9) &&
+            !source_force_block_direction_gate_allows_v1(1, 2, 0, 0) &&
+            source_force_block_direction_gate_allows_v1(1, 1, 5, 5),
+        "ForceBlock direction gate is inactive at the constructor value 4");
+
   if (failures) return 1;
-  std::cout << "PASS: 16 source-backed candidate-selection checks\n";
+  std::cout << "PASS: 29 source-backed candidate-selection checks\n";
   return 0;
 }

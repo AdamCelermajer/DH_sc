@@ -1,0 +1,433 @@
+{
+  "source_layout": "data/scene/x21_gothicus_castle_02_backup.mlx",
+  "selected_characters": 7,
+  "source_character_records": 47,
+  "selection": "direct Monster; no activation/deactivation condition; auto_spawn != 0; initial ai_state absent or Idle",
+  "actors": [
+    {
+      "kind": 1,
+      "room": 2,
+      "name": "_prim_Monster_09",
+      "character": "Castle2RCultist",
+      "model": "cultist_ranged.bdae",
+      "model_path": "data/3d/characters/npcs/cultist_ranged.bdae",
+      "animation_table": 11,
+      "position": [
+        -4012.71,
+        -7144.17,
+        25.356069482400002
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        -90.698
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/castle/mgp/gc02_straightb_ew_01.mgp",
+      "source_record": 7
+    },
+    {
+      "kind": 1,
+      "room": 2,
+      "name": "_prim_Monster_10",
+      "character": "Castle2RCultist",
+      "model": "cultist_ranged.bdae",
+      "model_path": "data/3d/characters/npcs/cultist_ranged.bdae",
+      "animation_table": 11,
+      "position": [
+        -4052.4300000000003,
+        -6681.557,
+        25.356069482400002
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        -90.698
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/castle/mgp/gc02_straightb_ew_01.mgp",
+      "source_record": 8
+    },
+    {
+      "kind": 1,
+      "room": 2,
+      "name": "_prim_Monster_11",
+      "character": "Castle2RCultist",
+      "model": "cultist_ranged.bdae",
+      "model_path": "data/3d/characters/npcs/cultist_ranged.bdae",
+      "animation_table": 11,
+      "position": [
+        -6136.251,
+        -7374.21,
+        -327.94603051760004
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        -90.698
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/castle/mgp/gc02_straightb_ew_01.mgp",
+      "source_record": 10
+    },
+    {
+      "kind": 1,
+      "room": 3,
+      "name": "_prim_Monster_05",
+      "character": "Castle2RCultist",
+      "model": "cultist_ranged.bdae",
+      "model_path": "data/3d/characters/npcs/cultist_ranged.bdae",
+      "animation_table": 11,
+      "position": [
+        -11540.404,
+        -6643.546,
+        -291.844816895
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        40.2869
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/castle/mgp/gc02_corner_se_01.mgp",
+      "source_record": 0
+    },
+    {
+      "kind": 1,
+      "room": 5,
+      "name": "_prim_Monster_01",
+      "character": "Castle2Cultist",
+      "model": "cultist.bdae",
+      "model_path": "data/3d/characters/npcs/cultist.bdae",
+      "animation_table": 9,
+      "position": [
+        -12235.401,
+        -18807.472999999998,
+        19.267110000000002
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/castle/mgp/gc02_straighta_ns_01.mgp",
+      "source_record": 1
+    },
+    {
+      "kind": 1,
+      "room": 5,
+      "name": "_prim_Monster_02",
+      "character": "Castle2Cultist",
+      "model": "cultist.bdae",
+      "model_path": "data/3d/characters/npcs/cultist.bdae",
+      "animation_table": 9,
+      "position": [
+        -11707.234,
+        -18807.472999999998,
+        19.267110000000002
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/castle/mgp/gc02_straighta_ns_01.mgp",
+      "source_record": 2
+    },
+    {
+      "kind": 1,
+      "room": 5,
+      "name": "_prim_Monster_03",
+      "character": "Castle2RCultist",
+      "model": "cultist_ranged.bdae",
+      "model_path": "data/3d/characters/npcs/cultist_ranged.bdae",
+      "animation_table": 11,
+      "position": [
+        -11990.60352,
+        -18274.395,
+        19.267110000000002
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/castle/mgp/gc02_straighta_ns_01.mgp",
+      "source_record": 3
+    }
+  ],
+  "animation_states": [
+    {
+      "table": 9,
+      "character": "Cultist",
+      "state": "Idle",
+      "sequence": 262
+    },
+    {
+      "table": 9,
+      "character": "Cultist",
+      "state": "Walk",
+      "sequence": 280
+    },
+    {
+      "table": 9,
+      "character": "Cultist",
+      "state": "Attack",
+      "sequence": 114
+    },
+    {
+      "table": 9,
+      "character": "Cultist",
+      "state": "Died",
+      "sequence": 116
+    },
+    {
+      "table": 11,
+      "character": "CultistRanged",
+      "state": "Idle",
+      "sequence": 262
+    },
+    {
+      "table": 11,
+      "character": "CultistRanged",
+      "state": "Walk",
+      "sequence": 280
+    },
+    {
+      "table": 11,
+      "character": "CultistRanged",
+      "state": "Attack",
+      "sequence": 252
+    },
+    {
+      "table": 11,
+      "character": "CultistRanged",
+      "state": "Died",
+      "sequence": 116
+    }
+  ],
+  "clip_ids": [
+    956,
+    959,
+    962,
+    964,
+    965,
+    966,
+    968,
+    970,
+    972,
+    1023,
+    1040,
+    1041,
+    1077,
+    1078,
+    1079,
+    1126
+  ],
+  "dact": {
+    "bytes": 1808,
+    "sha256": "98ed85db3ce453f8d1957d1b193402cf967c51c106b0837bf62ca9d45a7dcdfa"
+  },
+  "assets": [
+    {
+      "asset": "actors/cultist.bdae",
+      "bytes": 62100,
+      "sha256": "2344dd14fc7c8ab8802bb49cf72aabf9a2e277fa38ff490ea3287d5c59275909",
+      "source": "data/3d/characters/npcs/cultist.bdae",
+      "source_file": "cultist.bdae"
+    },
+    {
+      "asset": "actors/cultist_ranged.bdae",
+      "bytes": 62976,
+      "sha256": "1334d06c9e8694284e6c647ade79ddc8fa0a49beecca89400fd6bf8314587a3c",
+      "source": "data/3d/characters/npcs/cultist_ranged.bdae",
+      "source_file": "cultist_ranged.bdae"
+    },
+    {
+      "asset": "actors/prince_1hand_combo_01_moving.bdae",
+      "bytes": 8164,
+      "sha256": "936b818f66704902a71a37841b25ac5f21847b95b3df075694bafb8499022238",
+      "source": "data/3d/characters/prince/animations/prince_1hand_combo_01_moving.bdae",
+      "source_file": "prince_1hand_combo_01_moving.bdae"
+    },
+    {
+      "asset": "actors/prince_1hand_combo_02_moving.bdae",
+      "bytes": 8056,
+      "sha256": "8c0003dab5b063cb815f98722b8dacc853fff3da84ebdca62250baed3f902f01",
+      "source": "data/3d/characters/prince/animations/prince_1hand_combo_02_moving.bdae",
+      "source_file": "prince_1hand_combo_02_moving.bdae"
+    },
+    {
+      "asset": "actors/prince_1hand_combo_03_moving.bdae",
+      "bytes": 8236,
+      "sha256": "a74ae9bb176ac62c0dba27950a689355542732ac084a1657eee78c4f0c1aecd1",
+      "source": "data/3d/characters/prince/animations/prince_1hand_combo_03_moving.bdae",
+      "source_file": "prince_1hand_combo_03_moving.bdae"
+    },
+    {
+      "asset": "actors/prince_1hand_post_combo_01_moving.bdae",
+      "bytes": 8924,
+      "sha256": "4a96765cc4554f57d9905a7e3b58226793d473ae392186d0463f1d0a87f5f97e",
+      "source": "data/3d/characters/prince/animations/prince_1hand_post_combo_01_moving.bdae",
+      "source_file": "prince_1hand_post_combo_01_moving.bdae"
+    },
+    {
+      "asset": "actors/prince_1hand_post_combo_02_moving.bdae",
+      "bytes": 8524,
+      "sha256": "7449a78d729709ce6a5f200e5176f3ca54cef9948111d15f924b317094a260af",
+      "source": "data/3d/characters/prince/animations/prince_1hand_post_combo_02_moving.bdae",
+      "source_file": "prince_1hand_post_combo_02_moving.bdae"
+    },
+    {
+      "asset": "actors/prince_1hand_post_combo_03_moving.bdae",
+      "bytes": 9044,
+      "sha256": "192356eae935e5f9dc03b2c54a2a9979ef7bb1456ea4738d823aff0bba7351b8",
+      "source": "data/3d/characters/prince/animations/prince_1hand_post_combo_03_moving.bdae",
+      "source_file": "prince_1hand_post_combo_03_moving.bdae"
+    },
+    {
+      "asset": "actors/prince_1hand_pre_combo_01_moving.bdae",
+      "bytes": 6984,
+      "sha256": "afbf0803ec654d75867a59c7e2045c58c036abb4a385c592d850566f61414cf0",
+      "source": "data/3d/characters/prince/animations/prince_1hand_pre_combo_01_moving.bdae",
+      "source_file": "prince_1hand_pre_combo_01_moving.bdae"
+    },
+    {
+      "asset": "actors/prince_1hand_pre_combo_02_moving.bdae",
+      "bytes": 7012,
+      "sha256": "840a144e1c64ae0f8f7d2421f3a4280879648af439942728f14376a9c3799548",
+      "source": "data/3d/characters/prince/animations/prince_1hand_pre_combo_02_moving.bdae",
+      "source_file": "prince_1hand_pre_combo_02_moving.bdae"
+    },
+    {
+      "asset": "actors/prince_1hand_pre_combo_03_moving.bdae",
+      "bytes": 6808,
+      "sha256": "6312157e626c4750b8a5bb03d8a1506fe10069244739e33ab2ddc5347f7402fc",
+      "source": "data/3d/characters/prince/animations/prince_1hand_pre_combo_03_moving.bdae",
+      "source_file": "prince_1hand_pre_combo_03_moving.bdae"
+    },
+    {
+      "asset": "actors/prince_dying_01.bdae",
+      "bytes": 14992,
+      "sha256": "e428e68037ff7497da52394ac8e7a4e8833ad9e9bfdfb857201b6cdf882c108a",
+      "source": "data/3d/characters/prince/animations/prince_dying_01.bdae",
+      "source_file": "prince_dying_01.bdae"
+    },
+    {
+      "asset": "actors/prince_idle_shield.bdae",
+      "bytes": 54600,
+      "sha256": "300847b1c34a4752bf51730df32db559bfc21e53ef8203a9e797426f3316bd92",
+      "source": "data/3d/characters/prince/animations/prince_idle_shield.bdae",
+      "source_file": "prince_idle_shield.bdae"
+    },
+    {
+      "asset": "actors/prince_idle_shield_02.bdae",
+      "bytes": 14996,
+      "sha256": "936bef30f346576f16bf5025ad0e0289cc9197e1144c4bcbbf80aee286e00c13",
+      "source": "data/3d/characters/prince/animations/prince_idle_shield_02.bdae",
+      "source_file": "prince_idle_shield_02.bdae"
+    },
+    {
+      "asset": "actors/prince_ranged_attack.bdae",
+      "bytes": 11752,
+      "sha256": "f09a30b58cdf6aa2abf8e4f06b5a84eb438862fa605799c1f84f3f71f40523ed",
+      "source": "data/3d/characters/prince/animations/prince_ranged_attack.bdae",
+      "source_file": "prince_ranged_attack.bdae"
+    },
+    {
+      "asset": "actors/prince_ranged_attack_02.bdae",
+      "bytes": 12088,
+      "sha256": "e1c3f234b5a2ba0b9c5accd9bea653c1acf600a5e485d0aa75b34502b9dd6cc6",
+      "source": "data/3d/characters/prince/animations/prince_ranged_attack_02.bdae",
+      "source_file": "prince_ranged_attack_02.bdae"
+    },
+    {
+      "asset": "actors/prince_ranged_attack_03.bdae",
+      "bytes": 12400,
+      "sha256": "72aeb6c800d33e8b6890c0031a004eae47d65c68dad721a25a53b5e305900cf3",
+      "source": "data/3d/characters/prince/animations/prince_ranged_attack_03.bdae",
+      "source_file": "prince_ranged_attack_03.bdae"
+    },
+    {
+      "asset": "actors/prince_walk_slow.bdae",
+      "bytes": 68492,
+      "sha256": "768fb52be0fe01ebf9a6cf2c791e989a19805ea2c23e3f86a75aede88c539967",
+      "source": "data/3d/characters/prince/animations/prince_walk_slow.bdae",
+      "source_file": "prince_walk_slow.bdae"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001.tga",
+      "bytes": 524348,
+      "sha256": "12b326ab884126622721864edb49ab7e30bafb21a269d11db4f185515e4eca7c",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001.tga",
+      "source_file": "atlas_dh2_game_objects_001.tga"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001_alpha.tga",
+      "bytes": 524348,
+      "sha256": "4989829958943daff0d0b977ae98c52def30bb0c966dba21d19e949f9321fc79",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001_alpha.tga",
+      "source_file": "atlas_dh2_game_objects_001_alpha.tga"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001_specular.tga",
+      "bytes": 131132,
+      "sha256": "49c66c6eab5b957acadcf1f8216eb4720ed69b60f86a2b8776505bf54a5d7398",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001_specular.tga",
+      "source_file": "atlas_dh2_game_objects_001_specular.tga"
+    },
+    {
+      "asset": "textures/atlas_skinned_characters_animdecor_gameobjects_002.tga",
+      "bytes": 524348,
+      "sha256": "80bb4294c81a677bca7b2725ca170c4bbd663ccfc6d05c7c57399413f0a44309",
+      "source": "data/3d/textures/atlas_skinned_characters_animdecor_gameobjects_002.tga",
+      "source_file": "atlas_skinned_characters_animdecor_gameobjects_002.tga"
+    },
+    {
+      "asset": "textures/atlas_weapons_dh2.tga",
+      "bytes": 524348,
+      "sha256": "5f096c7ddbcf4aff6c3ebcf436fd60efcf023ca275b90f9c89d0721d71b9b6c1",
+      "source": "data/3d/textures/atlas_weapons_dh2.tga",
+      "source_file": "atlas_weapons_dh2.tga"
+    },
+    {
+      "asset": "textures/envmap_swamp.tga",
+      "bytes": 2108,
+      "sha256": "db73421e085b1068185f7ec04f8a0950fa0cb5a768a0b81953a692cbafd47bb7",
+      "source": "data/3d/textures/envmap_swamp.tga",
+      "source_file": "envmap_swamp.tga"
+    }
+  ],
+  "runtime_gaps": "Module rotation/scale, conditional/template/NPC/container factories, source AI activation and LevelSavegame are not implied."
+}

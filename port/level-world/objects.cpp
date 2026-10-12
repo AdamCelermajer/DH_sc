@@ -65,12 +65,13 @@ bool sample(Resource& r,const animation::Player& clip,std::int32_t ms,std::strin
 static bool load_resource_impl(const std::uint8_t* input,std::size_t size,const std::vector<std::string>* modules,const std::uint8_t* clip,std::size_t clip_size,Resource& out,std::string& error,bool allow_intentional_empty=false){
  out={};error.clear();try{
   resources::BresView view{};if(dh2_bres_open(&view,input,size)!=resources::BresError::ok)throw std::runtime_error("Object BRES rejected");
-  const bool empty_asset=allow_intentional_empty&&size==960&&
-   dh2_bres_library_count(&view,resources::Library::geometry)==0&&
-   dh2_bres_library_count(&view,resources::Library::controller)==0&&
-   dh2_bres_library_count(&view,resources::Library::material)==0;
+  // A Character model with no geometry at all is a skeleton-only VisualObject
+  // (no mesh node to draw); the 960-byte invisible_man scene additionally
+  // keeps its exact signature below.
+  const bool empty_asset=allow_intentional_empty&&   dh2_bres_library_count(&view,resources::Library::geometry)==0&&
+   dh2_bres_library_count(&view,resources::Library::controller)==0;
   Resource candidate;if(!scene::load(view,candidate.scene,error,empty_asset?scene::EmptyGeometryPolicy::allow:scene::EmptyGeometryPolicy::reject))throw std::runtime_error(error);
-  if(empty_asset){
+  if(empty_asset&&size==960){
    const auto& graph=candidate.scene.graph;
    if(graph.size()!=3||candidate.scene.nodes!=3||candidate.scene.ignored_instances!=1||
       !candidate.scene.instances.empty()||graph[0].id!="VisualSceneNode"||

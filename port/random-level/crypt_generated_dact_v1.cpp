@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <cstdlib>
 #include <cstring>
 #include <new>
 #include <set>
@@ -142,33 +143,35 @@ bool has_script(const world::Object& object) {
   return false;
 }
 
-bool is_known_factory_template(const char* name) {
-  if (!name) return false;
-  constexpr std::array<std::string_view, 4> known = {
-      "MonsterCommonType1", "MonsterChampionType1", "NPC", "Faery"};
-  return std::find(known.begin(), known.end(), name) != known.end();
+// GameObject::CheckSpawnProbability (0x38bd64) compares one s_seed % 99 draw
+// with the Character's spawn_prob (+0x274, default 100). The port, like the
+// static-level path, draws only for an authored non-"100" value. Returns false
+// when the authored value is not an integer.
+bool parse_spawn_probability(const world::Object& object, bool& draws,
+                             long& probability) {
+  draws = false;
+  probability = 100;
+  const auto* spawn_prob = dh2_world_field(&object, "spawn_prob");
+  if (!spawn_prob || !*spawn_prob || std::strcmp(spawn_prob, "100") == 0)
+    return true;
+  char* end = nullptr;
+  probability = std::strtol(spawn_prob, &end, 10);
+  if (!end || *end || end == spawn_prob || probability < 0 || probability > 1000)
+    return false;
+  draws = true;
+  return true;
 }
 
-bool parse_spawn_policy(const world::Object& object, bool& gated) {
+// Level::_LoadCharStates (0x3effc8) via Character::GetPreSetAIState (0x3a57a4):
+// ai_state "Limbus" -> 0 and "PreSpawn" -> 17 start in the pre-spawn state
+// (gated until SpawnCharacter); any other string is SM_SetIdleState(false).
+// auto_spawn=0 rows stay gated as well.
+bool spawn_is_gated(const world::Object& object) {
   const auto* auto_spawn = dh2_world_field(&object, "auto_spawn");
   const auto* ai_state = dh2_world_field(&object, "ai_state");
-  const auto* spawn_prob = dh2_world_field(&object, "spawn_prob");
-  if (spawn_prob && *spawn_prob && std::strcmp(spawn_prob, "100") != 0)
-    return false;
-
-  const bool is_disabled = auto_spawn && std::strcmp(auto_spawn, "0") == 0;
-  if (auto_spawn && std::strcmp(auto_spawn, "0") != 0 &&
-      std::strcmp(auto_spawn, "1") != 0)
-    return false;
-  if (is_disabled) {
-    if (!ai_state || std::strcmp(ai_state, "Limbus") != 0) return false;
-    gated = true;
-    return true;
-  }
-  if (ai_state && *ai_state && std::strcmp(ai_state, "Idle") != 0)
-    return false;
-  gated = false;
-  return true;
+  return (auto_spawn && std::strcmp(auto_spawn, "0") == 0) ||
+         (ai_state && (std::strcmp(ai_state, "Limbus") == 0 ||
+                       std::strcmp(ai_state, "PreSpawn") == 0));
 }
 
 struct ProjectedActor {
@@ -187,7 +190,8 @@ CryptGeneratedDactStatusV1 crypt_compile_generated_dact_v1(
     const data::Dictionary& models,
     CryptGeneratedDactV1& output,
     CryptGeneratedDactDiagnosticV1* diagnostic,
-    const std::vector<CryptGeneratedDactRetainedSourceV1>* retained_sources) noexcept {
+    const std::vector<CryptGeneratedDactRetainedSourceV1>* retained_sources,
+    CryptGeneratedSpawnRollV1 spawn_roll, void* spawn_roll_context) noexcept {
   output = {};
   if (diagnostic) *diagnostic = {};
   if (!source.modules || !source.module_count ||
@@ -197,7 +201,7 @@ CryptGeneratedDactStatusV1 crypt_compile_generated_dact_v1(
                   "Generated source level has no usable module/entity table");
   }
   for (std::uint32_t i = 0; i < source.module_count; ++i) {
-    if (!source.modules[i].mgp_loaded || !source.modules[i].cache_mgp ||
+    if ((source.modules[i].cache_mgp && !source.modules[i].mgp_loaded) ||
         !identity_module_transform(source.modules[i].record)) {
       return reject(diagnostic, Status::incomplete_module_gameplay,
                     "Every generated module needs loaded MGP data and translation-only placement",
@@ -261,11 +265,12 @@ CryptGeneratedDactStatusV1 crypt_compile_generated_dact_v1(
                       module_index, object.source_record);
       }
       if (std::strcmp(template_name, "Monster")) {
-        if (!is_known_factory_template(template_name)) {
-          return reject(diagnostic, Status::unsupported_type,
-                        "Character template is outside the reviewed DACT subset",
-                        module_index, object.source_record);
-        }
+        // ObjectManager::LoadFromXML creates a Character for every row; the
+        // _templateName discriminator only selects the editor primitive.
+        // Every non-Monster, non-Faery template (MonsterCommonType1,
+        // MonsterUncommonType1, NPC, ...) resolves its CharacterTable row at
+        // runtime through char_template (SafeGetCharPropsId 0x3b3d38), which
+        // the template-Character route owns; none becomes a DACT row.
         if (std::strcmp(template_name, "Faery") == 0) {
           const auto* character = dh2_world_field(&object, "charpropsname");
           if (!object.name || !*object.name || !character || !*character) {
@@ -366,19 +371,44 @@ CryptGeneratedDactStatusV1 crypt_compile_generated_dact_v1(
       // over charpropsname. DACT v1 stores only the direct CharacterTable
       // link, so accepting this source route would silently lose the template
       // selection and its caller-owned RNG draw.
+      // The runtime template route owns such rows (selection and RNG draw).
       const auto* character_template = dh2_world_field(&object, "char_template");
       if (character_template && *character_template) {
-        return reject(diagnostic, Status::unsupported_type,
-                      "Direct Monster char_template route requires source selection",
-                      module_index, object.source_record);
+        skipped.push_back({module_index, object.source_record,
+                           CryptGeneratedDactSkipReasonV1::known_factory_template,
+                           object.name});
+        continue;
       }
 
-      bool gated = false;
-      if (!parse_spawn_policy(object, gated)) {
+      // Character::InitPost (0x3b4d60) runs CheckSpawnProbability first; a
+      // draw >= spawn_prob deletes the Character before anything else.
+      bool draws = false;
+      long probability = 100;
+      if (!parse_spawn_probability(object, draws, probability)) {
         return reject(diagnostic, Status::unsupported_spawn_policy,
-                      "Direct Monster has unsupported spawn probability/state policy",
+                      "Direct Monster spawn_prob is not a source integer",
                       module_index, object.source_record);
       }
+      if (draws) {
+        if (!spawn_roll) {
+          return reject(diagnostic, Status::unsupported_spawn_policy,
+                        "Direct Monster spawn_prob needs the original RNG draw",
+                        module_index, object.source_record);
+        }
+        const int rolled = spawn_roll(spawn_roll_context, probability);
+        if (rolled < 0) {
+          return reject(diagnostic, Status::unsupported_spawn_policy,
+                        "Direct Monster spawn_prob roll failed",
+                        module_index, object.source_record);
+        }
+        if (rolled == 0) {
+          skipped.push_back({module_index, object.source_record,
+              CryptGeneratedDactSkipReasonV1::spawn_probability_rejected,
+              object.name});
+          continue;
+        }
+      }
+      const bool gated = spawn_is_gated(object);
       if (!unique_names.emplace(module_index, object.name).second) {
         return reject(diagnostic, Status::duplicate_identity,
                       "DACT v1/v2 requires one actor name per generated room",
@@ -389,6 +419,13 @@ CryptGeneratedDactStatusV1 crypt_compile_generated_dact_v1(
       const auto* scale_x = data::property(characters, character, "Scale_X");
       const auto* scale_y = data::property(characters, character, "Scale_Y");
       const auto* scale_z = data::property(characters, character, "Scale_Z");
+      if (!model_id && !scale_x && !scale_y && !scale_z) {
+        // SafeGetCharPropsId yields -1 for a name absent from CharacterTable.
+        skipped.push_back({module_index, object.source_record,
+            CryptGeneratedDactSkipReasonV1::unresolved_character_properties,
+            object.name});
+        continue;
+      }
       if (!model_id || *model_id < 0 ||
           static_cast<std::size_t>(*model_id) >= models.values.size() ||
           !scale_x || !scale_y || !scale_z) {
@@ -441,10 +478,8 @@ CryptGeneratedDactStatusV1 crypt_compile_generated_dact_v1(
       actors.push_back(std::move(actor));
     }
 
-    if (actors.empty()) {
-      return reject(diagnostic, Status::unsupported_type,
-                    "Generated MGP set contains no DACT-supported direct Monsters");
-    }
+    // A level whose Characters are all template/conditional/deleted rows has
+    // no direct records: ObjectManager still loads them, DACT is just empty.
     const auto dact_version = has_gate ? 2U : 1U;
     CryptGeneratedDactV1 candidate;
     candidate.bytes.assign(kHeaderBytes + actors.size() * kRecordBytes, 0);

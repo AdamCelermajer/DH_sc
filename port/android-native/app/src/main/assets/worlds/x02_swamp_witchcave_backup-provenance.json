@@ -1,0 +1,402 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "compiler": "compile_static_level.py",
+  "entrypoint_zero": {
+    "activate_condition": null,
+    "deactivate_condition": null,
+    "entrypoint_id": 0,
+    "local_position": [
+      203.611,
+      557.532,
+      37.0598
+    ],
+    "local_rotation": [
+      0.0,
+      0.0,
+      -49.9
+    ],
+    "local_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "module_index": 0,
+    "name": "_prim_EntryPoint",
+    "source_path": "data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp",
+    "source_record": 1,
+    "world_position": [
+      203.611,
+      557.532,
+      37.0598
+    ],
+    "world_rotation": [
+      0.0,
+      0.0,
+      -49.9
+    ],
+    "world_scale": [
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "entrypoint_zero_candidates": 1,
+  "entrypoint_zero_policy": "unconditional_unique",
+  "entrypoint_zero_spread": 0.0,
+  "format": "dh2-static-level-bundle-v1",
+  "generated": {
+    "x02_swamp_witchcave_backup.dae": {
+      "bytes": 266,
+      "sha256": "5be143e0b7911f6e6a9e87928446ec86b626bbfda8c5fd2c2c5490467cfc9309"
+    },
+    "x02_swamp_witchcave_backup.dwld": {
+      "bytes": 920,
+      "sha256": "18d3708c07bff007b498765165487f1a082fc22e5fefb8ba8d1d51f27db1176d"
+    },
+    "x02_swamp_witchcave_backup.spwn": {
+      "bytes": 160,
+      "sha256": "65f3c931a1b016eb554ba5bc4e5b7fb6e2c81f0b21ec3d6325b9d442b3237240"
+    }
+  },
+  "level_list": {
+    "level_file": "002_swamp_witchcave.rule.xml",
+    "name": "SWAMP_CAVE_WITCH_A",
+    "row": 44
+  },
+  "level_list_inputs": {
+    "data/pydata/levels_pyarray.bin": {
+      "bytes": 5574,
+      "sha256": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c"
+    },
+    "data/pydata/levels_pyarraynames.bin": {
+      "bytes": 1943,
+      "sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432"
+    }
+  },
+  "module_count": 7,
+  "modules": [
+    {
+      "dae": "data/3d/modules/swamp/swamp_cave.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp",
+      "mgp_records": 8,
+      "module_index": 0,
+      "mvp": "data/3d/modules/swamp/mvp/deadend_swpcave_s_00_01.mvp",
+      "mvp_records": 8,
+      "name": "deadend_swpcave_s_00_0",
+      "node_id": "_module_deadend_swpcave_s_00-node",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 1
+    },
+    {
+      "dae": "data/3d/modules/swamp/swamp_cave.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/swamp/mgp/witch_a_wpcave_nw_00_01.mgp",
+      "mgp_records": 13,
+      "module_index": 1,
+      "mvp": "data/3d/modules/swamp/mvp/corner_swpcave_nw_00_01.mvp",
+      "mvp_records": 1,
+      "name": "corner_swpcave_nw_00_1",
+      "node_id": "_module_corner_swpcave_nw_00-node",
+      "position": [
+        0.0,
+        -6000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 2
+    },
+    {
+      "dae": "data/3d/modules/swamp/swamp_cave.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/swamp/mgp/witch_a_wpcave_se_00_01.mgp",
+      "mgp_records": 6,
+      "module_index": 2,
+      "mvp": "data/3d/modules/swamp/mvp/corner_swpcave_se_00_01.mvp",
+      "mvp_records": 1,
+      "name": "corner_swpcave_se_00_2",
+      "node_id": "_module_corner_swpcave_se_00-node",
+      "position": [
+        -6000.0,
+        -6000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 3
+    },
+    {
+      "dae": "data/3d/modules/swamp/swamp_cave.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/swamp/mgp/witch_a_e_nse_00_01.mgp",
+      "mgp_records": 12,
+      "module_index": 3,
+      "mvp": "data/3d/modules/swamp/mvp/t_swpcave_nse_00_01.mvp",
+      "mvp_records": 1,
+      "name": "t_swpcave_nse_00_3",
+      "node_id": "_module_t_swpcave_nse_00-node",
+      "position": [
+        -6000.0,
+        -12000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 4
+    },
+    {
+      "dae": "data/3d/modules/swamp/swamp_cave.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/swamp/mgp/witch_a__swpcave_we_00_01.mgp",
+      "mgp_records": 5,
+      "module_index": 4,
+      "mvp": "data/3d/modules/swamp/mvp/straight_swpcave_we_00_01.mvp",
+      "mvp_records": 1,
+      "name": "straight_swpcave_we_00_4",
+      "node_id": "_module_straight_swpcave_we_00-node",
+      "position": [
+        0.0,
+        -12000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 5
+    },
+    {
+      "dae": "data/3d/modules/swamp/swamp_cave.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/swamp/mgp/bossroom_witch_.mgp",
+      "mgp_records": 21,
+      "module_index": 5,
+      "mvp": "data/3d/modules/swamp/mvp/witch_a_swpcave_n_00_01.mvp",
+      "mvp_records": 2,
+      "name": "bossroom_swpcave_w_00_5",
+      "node_id": "_module_bossroom_swpcave_w_00-node",
+      "position": [
+        6000.0,
+        -12000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 6
+    },
+    {
+      "dae": "data/3d/modules/swamp/swamp_cave.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/swamp/mgp/deadend_swpcave_n_00.mgp",
+      "mgp_records": 4,
+      "module_index": 6,
+      "mvp": "data/3d/modules/swamp/mvp/deadend_swpcave_n_00_01.mvp",
+      "mvp_records": 1,
+      "name": "deadend_swpcave_n_00_6",
+      "node_id": "_module_deadend_swpcave_n_00-node",
+      "position": [
+        -6000.0,
+        -18000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 7
+    }
+  ],
+  "scope": "authored static module transforms and unique unconditional spawn selectors; no gameplay activation",
+  "selectable_entrypoints": [
+    0
+  ],
+  "source_assets": [
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_cave_watercaustics.bdae",
+      "bytes": 199252,
+      "path": "data/3d/animateddecors/swamp_cave_watercaustics.bdae",
+      "sha256": "40b8363c5b6082c7f64fe3658903ae771dfc8833bdd49c57443cdf5fe555edbb"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "bytes": 18208,
+      "path": "data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "sha256": "631dfe779d9933cf5c1ef7a45992cc71f646287c153103df7dee398ecbd129d1"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/bossroom_witch_.mgp",
+      "bytes": 6513,
+      "path": "data/3d/modules/swamp/mgp/bossroom_witch_.mgp",
+      "sha256": "288c32f0aa4823cd8b648e54963e42fc7d094ac5597c7d812e2be675e72e97fa"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/deadend_swpcave_n_00.mgp",
+      "bytes": 2191,
+      "path": "data/3d/modules/swamp/mgp/deadend_swpcave_n_00.mgp",
+      "sha256": "c52d3f12f7c8cf0c1e9ff076245caef8cc62fddb2aa5a7b7ed8436e28f3271f5"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp",
+      "bytes": 3449,
+      "path": "data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp",
+      "sha256": "cbe691a4a8ea7a189796b0a0eff526e47ae8127f050a1bb3e75f32c0aa7d7a3e"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/witch_a__swpcave_we_00_01.mgp",
+      "bytes": 2291,
+      "path": "data/3d/modules/swamp/mgp/witch_a__swpcave_we_00_01.mgp",
+      "sha256": "ddaf269b6b24c97139f635b58a41f32f3017e7b6fd884b038e7f5a2721da6228"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/witch_a_e_nse_00_01.mgp",
+      "bytes": 6248,
+      "path": "data/3d/modules/swamp/mgp/witch_a_e_nse_00_01.mgp",
+      "sha256": "1dd51e94c70e90d0136d1e8331a8101f9c47f956d4b5e7be69ce74856f43d840"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/witch_a_wpcave_nw_00_01.mgp",
+      "bytes": 6635,
+      "path": "data/3d/modules/swamp/mgp/witch_a_wpcave_nw_00_01.mgp",
+      "sha256": "e39b0a26b3e0d35e277f11225570bec1170f1ef1bf9ad4079afedb6fc3288798"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/witch_a_wpcave_se_00_01.mgp",
+      "bytes": 3532,
+      "path": "data/3d/modules/swamp/mgp/witch_a_wpcave_se_00_01.mgp",
+      "sha256": "14d56dd58657cf871dfd497412f3b2313e12cec2ea35c9cd92c9c6d71c4763a2"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/corner_swpcave_nw_00_01.mvp",
+      "bytes": 769,
+      "path": "data/3d/modules/swamp/mvp/corner_swpcave_nw_00_01.mvp",
+      "sha256": "f42148458ebc26692b3c8dca2c271f872ea4e6f1790d1aee6f0d0e5a3621d354"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/corner_swpcave_se_00_01.mvp",
+      "bytes": 769,
+      "path": "data/3d/modules/swamp/mvp/corner_swpcave_se_00_01.mvp",
+      "sha256": "06f5ab20dbd6b7be2b7035959c7915743ae103deab5ec99655d77c9b26a794a1"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/deadend_swpcave_n_00_01.mvp",
+      "bytes": 769,
+      "path": "data/3d/modules/swamp/mvp/deadend_swpcave_n_00_01.mvp",
+      "sha256": "52ebc4b8bd5c5cc1f80e853177fbe4eb1f09cea45ca1ce9e0425e1db52560e97"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/deadend_swpcave_s_00_01.mvp",
+      "bytes": 3661,
+      "path": "data/3d/modules/swamp/mvp/deadend_swpcave_s_00_01.mvp",
+      "sha256": "43b8710713f91505800951e9b451ec2dbcaa7aa45c1eb0b9c5e2cae4102a3161"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/straight_swpcave_we_00_01.mvp",
+      "bytes": 773,
+      "path": "data/3d/modules/swamp/mvp/straight_swpcave_we_00_01.mvp",
+      "sha256": "9e677cff4ad4ae23268c8d1fcf693cae6c2d3ddc3d01281b57a73533d65132da"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/t_swpcave_nse_00_01.mvp",
+      "bytes": 761,
+      "path": "data/3d/modules/swamp/mvp/t_swpcave_nse_00_01.mvp",
+      "sha256": "d1b2892cfb20b05102c9f16c90cfe65cf013837cc4951a19ae406e3d18bdc61f"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/witch_a_swpcave_n_00_01.mvp",
+      "bytes": 1187,
+      "path": "data/3d/modules/swamp/mvp/witch_a_swpcave_n_00_01.mvp",
+      "sha256": "979c996f16d968b201a7e4e6e40c73b8fbbb2d76cbce2093f6d019830ce4e56f"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/swamp_cave.bdae",
+      "bytes": 1277144,
+      "path": "data/3d/modules/swamp/swamp_cave.bdae",
+      "sha256": "408d75f602dddd842b1656daf2326626c2416471f3ed0ff3c4e50a4966ff695a"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/props/swamp/prop_swamp_corpses.bdae",
+      "bytes": 162552,
+      "path": "data/3d/props/swamp/prop_swamp_corpses.bdae",
+      "sha256": "50b681e96d5e5f2647adee92e7344be815afd821e0a2586e61a61dd60e1b9e01"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/scene/x02_swamp_witchcave_backup.mlx",
+      "bytes": 7545,
+      "path": "data/scene/x02_swamp_witchcave_backup.mlx",
+      "sha256": "9213eccf87eed5b8c7187faa5a0f79f4ae0536d3c92c2fa204ed031a985ab3cb"
+    }
+  ],
+  "source_layout": "data/scene/x02_swamp_witchcave_backup.mlx",
+  "spawn_point_count": 1,
+  "texture_hints": {
+    "data/3d/modules/swamp/swamp_cave.bdae": {
+      "found_in_cache_not_copied": [
+        "data/3d/textures/env_swamp.tga",
+        "data/3d/textures/env_swamp_spec.tga",
+        "data/3d/textures/pvr2_env_swamp_alpha.tga"
+      ],
+      "missing_from_cache": []
+    }
+  },
+  "unsupported_entrypoints": [],
+  "unsupported_spawn_id_groups": []
+}

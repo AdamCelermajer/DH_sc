@@ -1,0 +1,69 @@
+{
+  "schema": "dh2-level-music-source-export-v1",
+  "uid": 472,
+  "sounds_member": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sounds.xml",
+  "sounds_sha256": "4bc1de654d65470d49e48cee354d5d5cdd45006c18d65420ddc07acf5b400a6e",
+  "sounds_row": {
+    "bank": "1",
+    "filename": "m_level_darkwood_sfx_root_den.vxn",
+    "format": "vxn",
+    "group": "2",
+    "label": "RootDenOneAmbientMusic",
+    "loadingflags": "none",
+    "loop": "yes",
+    "priority": "1",
+    "uid": "472"
+  },
+  "source_member": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_darkwood_sfx_root_den.vxn",
+  "source_kind": "vxn",
+  "source_bytes": 11692544,
+  "source_crc32": "d95c6b95",
+  "source_sha256": "dd978b178529fd307432a6d89917b6c904e065667b22da9b0c43391e734a5171",
+  "vxn": {
+    "file_bytes": 11692544,
+    "audio_base": 512,
+    "codec": "VoxNativeSubDecoderIMAADPCM",
+    "channels": 2,
+    "sample_rate_hz": 32000,
+    "block_bytes": 1024,
+    "frames_per_block": 1017,
+    "states": [
+      "ambient",
+      "combat"
+    ],
+    "segments": [
+      {
+        "state": "ambient",
+        "source_offset": 0,
+        "source_bytes": 5846016,
+        "sample_frames": 5805166
+      },
+      {
+        "state": "combat",
+        "source_offset": 5846016,
+        "source_bytes": 5846016,
+        "sample_frames": 5805166
+      }
+    ]
+  },
+  "outputs": [
+    {
+      "asset": "root_den_ambient_music.wav",
+      "bytes": 5846076,
+      "sha256": "d7633f95fb3561a4666984c1f7113c3e915b6378fa65e290eeaef218ba143a76",
+      "source_segment_offset": 0,
+      "source_segment_bytes": 5846016,
+      "sample_frames": 5805166,
+      "state": "ambient"
+    },
+    {
+      "asset": "root_den_combat_music.wav",
+      "bytes": 5846076,
+      "sha256": "ca34153b28245dfc253bec1243be039c722110b6487a57874431d04a6d3d6b94",
+      "source_segment_offset": 5846016,
+      "source_segment_bytes": 5846016,
+      "sample_frames": 5805166,
+      "state": "combat"
+    }
+  ]
+}

@@ -1,9 +1,11 @@
 #include "../crypt_rule_generation_runtime_v1.hpp"
 
 #include <algorithm>
+#include <array>
 #include <cstdint>
 #include <iostream>
 #include <memory>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -23,11 +25,24 @@ struct Rule {
   int id = 0;
   std::vector<const Rule*> children;
   CryptPathRuntimeV1* path_runtime = nullptr;
+  std::optional<CryptDirectionKeyV1> required_direction;
+  bool end_path = false;
+
+  Rule(int rule_id, std::vector<const Rule*> rule_children,
+       CryptPathRuntimeV1* path,
+       std::optional<CryptDirectionKeyV1> direction = std::nullopt,
+       bool is_end_path = false)
+      : id(rule_id),
+        children(std::move(rule_children)),
+        path_runtime(path),
+        required_direction(direction),
+        end_path(is_end_path) {}
 };
 
 struct Tile {
   int id = 0;
   const Block* block = nullptr;
+  int x = 1;
 };
 
 struct Mock {
@@ -50,6 +65,9 @@ struct Mock {
   std::vector<std::string> path_direction_blocks;
   std::vector<std::string> spawned_blocks;
   bool child_assignments_are_default = true;
+  std::vector<CryptDirectionKeyV1> exit_dirs;
+  std::vector<SourceRuleExitCandidateV1> trailing;
+  bool staggered = false;
   CryptDirectionKeyV1 opposite_direction = 7;
   CryptRuleGenerationCallbacksV1* execution_callbacks = nullptr;
   CryptRuleGenerationResultV1 generation_result;
@@ -86,6 +104,8 @@ CryptRuleChildCreateStatusV1 create_child(
   child.rule = child_rule;
   child.child_rule_count = child_rule->children.size();
   child.path_runtime = child_rule->path_runtime;
+  child.required_exit_direction = child_rule->required_direction;
+  child.end_path = child_rule->end_path;
   mock.created.push_back(child_rule->id);
   return CryptRuleChildCreateStatusV1::created;
 }
@@ -122,6 +142,23 @@ CryptRuleCallbackStatusV1 candidate_exits(
   return CryptRuleCallbackStatusV1::ready;
 }
 
+CryptRuleCallbackStatusV1 trailing_exits(
+    void* context, const CryptRuleExecutionFrameV1&, std::size_t,
+    std::vector<SourceRuleExitCandidateV1>& exits) {
+  auto& mock = *static_cast<Mock*>(context);
+  exits.insert(exits.end(), mock.trailing.begin(), mock.trailing.end());
+  return CryptRuleCallbackStatusV1::ready;
+}
+
+CryptRuleCallbackStatusV1 exit_direction(
+    void* context, const CryptRuleExecutionFrameV1&, std::size_t index,
+    CryptDirectionKeyV1& direction) {
+  auto& mock = *static_cast<Mock*>(context);
+  if (index >= mock.exit_dirs.size()) return CryptRuleCallbackStatusV1::error;
+  direction = mock.exit_dirs[index];
+  return CryptRuleCallbackStatusV1::ready;
+}
+
 CryptRuleCallbackStatusV1 opposite_anchor_direction(
     void* context, const CryptRuleExecutionFrameV1&, std::size_t,
     CryptDirectionKeyV1& opposite_direction) {
@@ -148,7 +185,8 @@ CryptRuleSpawnStatusV1 try_spawn(
   tile->id = static_cast<int>(mock.tiles.size() + 1);
   tile->block = static_cast<const Block*>(block);
   mock.spawned_blocks.push_back(tile->block->name);
-  if (!mock.map.try_place(tile.get(), 1, 0, 1, 1)) {
+  tile->x = mock.staggered ? static_cast<int>(mock.tiles.size()) : 1;
+  if (!mock.map.try_place(tile.get(), tile->x, 0, 1, 1)) {
     return CryptRuleSpawnStatusV1::rejected;
   }
   spawned.tile = tile.get();
@@ -167,7 +205,7 @@ CryptRuleGenerationResultV1 recurse_child(
 bool unspawn(void* context, const CryptRuleSpawnedTileV1& spawned) {
   auto& mock = *static_cast<Mock*>(context);
   const auto* tile = static_cast<const Tile*>(spawned.token);
-  const bool removed = mock.map.remove(tile, 1, 0, 1, 1);
+  const bool removed = mock.map.remove(tile, tile->x, 0, 1, 1);
   mock.unspawned.push_back(tile->id);
   return removed;
 }
@@ -223,6 +261,19 @@ RootPlacementStepStatusV1 place_root_and_step(
              : RootPlacementStepStatusV1::candidate_failed;
 }
 
+// Path::Impl::OneStep at max length calls Rule::Impl::Step (0x48fd64); the mock
+// records the anchor and tile it was handed.
+std::vector<std::pair<std::string, std::size_t>> g_length_steps;
+CryptRuleGenerationResultV1 path_length_reached_step(
+    void*, const CryptRuleExecutionFrameV1& child, std::size_t anchor,
+    RandomGeneratorV1&) {
+  g_length_steps.emplace_back(
+      static_cast<const Tile*>(child.tile)->block->name, anchor);
+  CryptRuleGenerationResultV1 result;
+  result.status = CryptRuleGenerationStatusV1::success;
+  return result;
+}
+
 bool expect(bool condition, const char* message, int& checks) {
   ++checks;
   if (!condition) std::cerr << "FAIL: " << message << '\n';
@@ -258,6 +309,7 @@ int main() {
   callbacks.module_exit_directions = &module_exit_directions;
   callbacks.try_spawn = &try_spawn;
   callbacks.recurse_child = &recurse_child;
+  callbacks.exit_direction = &exit_direction;
   callbacks.unspawn = &unspawn;
   callbacks.destroy_child_rule = &destroy_child;
   callbacks.remove_neighbors = &remove_neighbors;
@@ -334,7 +386,7 @@ int main() {
   path_mock.good_path_block.step_exits = {make_exit(0, "good_out")};
   path_mock.opposite_direction = 8;
   CryptPathRuntimeV1 path_state;
-  path_state.chosen_length = 4;
+  path_state.chosen_length = 2;
   path_state.current_step = 1;
   path_state.direction = 7;
   Rule path_rule{3, {}, &path_state};
@@ -348,6 +400,7 @@ int main() {
                "Path fixture reserves its root tile", checks);
   CryptRuleGenerationCallbacksV1 path_callbacks = callbacks;
   path_callbacks.context = &path_mock;
+  path_callbacks.path_length_reached_step = &path_length_reached_step;
   path_mock.execution_callbacks = &path_callbacks;
   CryptRuleExecutionFrameV1 path_root_frame;
   path_root_frame.rule = &path_mock.root_rule;
@@ -385,6 +438,182 @@ int main() {
                        &path_mock.good_path_block,
                "candidate-specific Path placement leaves the accepted MGX in occupancy",
                checks);
+
+  ok &= expect(g_length_steps ==
+                   std::vector<std::pair<std::string, std::size_t>>(
+                       {{"good", 1}}),
+               "Path at max length steps the new tile excluding the connected exit",
+               checks);
+
+  // Path::Impl::OneStep appends the same-name candidates after the shuffle.
+  {
+    Mock trailing_mock;
+    trailing_mock.root_block.step_exits = {make_exit(0, "module")};
+    trailing_mock.root_block.one_step_candidates = {make_exit(0, "bad")};
+    trailing_mock.trailing = {make_exit(0, "good")};
+    trailing_mock.bad_path_block.directions = {7, 8};
+    trailing_mock.good_path_block.directions = {8, 9};
+    trailing_mock.opposite_direction = 8;
+    CryptPathRuntimeV1 trailing_state;
+    trailing_state.chosen_length = 2;
+    trailing_state.current_step = 1;
+    trailing_state.direction = 7;
+    Rule trailing_rule{5, {}, &trailing_state};
+    trailing_mock.root_rule.children = {&trailing_rule};
+    auto root = std::make_unique<Tile>();
+    root->block = &trailing_mock.root_block;
+    const Tile* root_handle = root.get();
+    trailing_mock.tiles.push_back(std::move(root));
+    trailing_mock.map.try_place(root_handle, 0, 0, 1, 1);
+    CryptRuleGenerationCallbacksV1 trailing_callbacks = callbacks;
+    trailing_callbacks.context = &trailing_mock;
+    trailing_callbacks.trailing_candidate_exits = &trailing_exits;
+    trailing_callbacks.path_length_reached_step = &path_length_reached_step;
+    trailing_mock.execution_callbacks = &trailing_callbacks;
+    CryptRuleExecutionFrameV1 frame;
+    frame.rule = &trailing_mock.root_rule;
+    frame.tile = root_handle;
+    frame.child_rule_count = 1;
+    RandomGeneratorV1 random(3);
+    const auto result =
+        execute_crypt_rule_step_v1(frame, trailing_callbacks, random);
+    ok &= expect(result.status == CryptRuleGenerationStatusV1::success &&
+                     trailing_mock.spawned_blocks ==
+                         std::vector<std::string>({"good"}),
+                 "trailing candidates are tried after the filtered ones",
+                 checks);
+  }
+
+  // A Path of length 3 continues through its own OneStep, then Steps at the
+  // length: three tiles are spawned before the length-reached Step.
+  {
+    g_length_steps.clear();
+    Mock chain_mock;
+    chain_mock.staggered = true;
+    chain_mock.root_block.step_exits = {make_exit(0, "module")};
+    chain_mock.root_block.one_step_candidates = {make_exit(0, "good")};
+    chain_mock.good_path_block.directions = {8, 9};
+    chain_mock.good_path_block.one_step_candidates = {make_exit(1, "good")};
+    chain_mock.opposite_direction = 8;
+    CryptPathRuntimeV1 chain_state;
+    chain_state.chosen_length = 3;
+    chain_state.dont_go_back = false;
+    Rule chain_rule{6, {}, &chain_state};
+    chain_mock.root_rule.children = {&chain_rule};
+    auto root = std::make_unique<Tile>();
+    root->block = &chain_mock.root_block;
+    const Tile* root_handle = root.get();
+    chain_mock.tiles.push_back(std::move(root));
+    chain_mock.map.try_place(root_handle, 0, 0, 1, 1);
+    CryptRuleGenerationCallbacksV1 chain_callbacks = callbacks;
+    chain_callbacks.context = &chain_mock;
+    chain_callbacks.path_length_reached_step = &path_length_reached_step;
+    chain_mock.execution_callbacks = &chain_callbacks;
+    CryptRuleExecutionFrameV1 frame;
+    frame.rule = &chain_mock.root_rule;
+    frame.tile = root_handle;
+    frame.child_rule_count = 1;
+    RandomGeneratorV1 random(5);
+    const auto result =
+        execute_crypt_rule_step_v1(frame, chain_callbacks, random);
+    ok &= expect(result.status == CryptRuleGenerationStatusV1::success &&
+                     chain_mock.spawned_blocks.size() == 3 &&
+                     chain_state.current_step == 3 &&
+                     g_length_steps.size() == 1 &&
+                     g_length_steps[0].first == "good" &&
+                     g_length_steps[0].second == 0,
+                 "Path recurses through OneStep until its chosen length",
+                 checks);
+  }
+
+  // EndPath terminates an exit without a tile; a directional mismatch fails
+  // the row when no re-queue room is left.
+  {
+    Mock end_mock;
+    end_mock.root_block.step_exits = {make_exit(0, "module")};
+    end_mock.exit_dirs = {2};
+    Rule matching{7, {}, nullptr, CryptDirectionKeyV1{2}, true};
+    end_mock.root_rule.children = {&matching};
+    auto root = std::make_unique<Tile>();
+    root->block = &end_mock.root_block;
+    const Tile* root_handle = root.get();
+    end_mock.tiles.push_back(std::move(root));
+    CryptRuleGenerationCallbacksV1 end_callbacks = callbacks;
+    end_callbacks.context = &end_mock;
+    end_mock.execution_callbacks = &end_callbacks;
+    CryptRuleExecutionFrameV1 frame;
+    frame.rule = &end_mock.root_rule;
+    frame.tile = root_handle;
+    frame.child_rule_count = 1;
+    RandomGeneratorV1 random(1);
+    auto result = execute_crypt_rule_step_v1(frame, end_callbacks, random);
+    ok &= expect(result.status == CryptRuleGenerationStatusV1::success &&
+                     end_mock.spawned_blocks.empty() &&
+                     result.one_step_candidates_tried == 0,
+                 "EndPath succeeds without candidates or a spawned tile",
+                 checks);
+
+    Mock mismatch_mock;
+    mismatch_mock.root_block.step_exits = {make_exit(0, "module")};
+    mismatch_mock.exit_dirs = {2};
+    Rule wrong{8, {}, nullptr, CryptDirectionKeyV1{1}, true};
+    mismatch_mock.root_rule.children = {&wrong};
+    CryptRuleGenerationCallbacksV1 mismatch_callbacks = callbacks;
+    mismatch_callbacks.context = &mismatch_mock;
+    mismatch_mock.execution_callbacks = &mismatch_callbacks;
+    auto mismatch_root = std::make_unique<Tile>();
+    mismatch_root->block = &mismatch_mock.root_block;
+    frame.rule = &mismatch_mock.root_rule;
+    frame.tile = mismatch_root.get();
+    RandomGeneratorV1 random2(1);
+    result = execute_crypt_rule_step_v1(frame, mismatch_callbacks, random2);
+    ok &= expect(result.status == CryptRuleGenerationStatusV1::failed &&
+                     result.rows_tried == 1 && result.row_rollbacks == 1 &&
+                     mismatch_mock.created == std::vector<int>({8}) &&
+                     mismatch_mock.destroyed == std::vector<int>({8}),
+                 "one exit cannot be re-queued: the mismatching row fails",
+                 checks);
+
+    // Two exits (dirs 0 and 1), children {needs east EndPath, free EndPath}.
+    // With the exit order [exit0, exit1] and row {0,1} first, child 0 mismatches
+    // exit0, which is re-queued (cap 3 > 2); the re-queued entry mismatches
+    // again at size 3 and the row fails. The second row then succeeds.
+    std::uint32_t seed = 0;
+    for (;; ++seed) {
+      auto catalog = enumerate_source_rule_distributions_v1(2, 2);
+      RandomGeneratorV1 probe(seed);
+      const auto prepared = prepare_source_rule_step_candidates_v1(
+          {make_exit(0, "m"), make_exit(1, "m")}, 2, catalog, probe);
+      if (prepared.status != SourceRuleStepCandidateStatusV1::ready) return 2;
+      if (prepared.shuffled_exits.front().source_exit_index == 0 &&
+          prepared.rows.front().source_record ==
+              std::array<std::uint8_t, 6>({0, 1, 0, 0, 0, 0}))
+        break;
+      if (seed == 100000) return 2;
+    }
+    Mock queue_mock;
+    queue_mock.root_block.step_exits = {make_exit(0, "m"), make_exit(1, "m")};
+    queue_mock.exit_dirs = {0, 1};
+    Rule needs_east{10, {}, nullptr, CryptDirectionKeyV1{1}, true};
+    Rule free_end{11, {}, nullptr, std::nullopt, true};
+    queue_mock.root_rule.children = {&needs_east, &free_end};
+    CryptRuleGenerationCallbacksV1 queue_callbacks = callbacks;
+    queue_callbacks.context = &queue_mock;
+    queue_mock.execution_callbacks = &queue_callbacks;
+    auto queue_root = std::make_unique<Tile>();
+    queue_root->block = &queue_mock.root_block;
+    frame.rule = &queue_mock.root_rule;
+    frame.tile = queue_root.get();
+    frame.child_rule_count = 2;
+    RandomGeneratorV1 random3(seed);
+    result = execute_crypt_rule_step_v1(frame, queue_callbacks, random3);
+    ok &= expect(result.status == CryptRuleGenerationStatusV1::success &&
+                     result.rows_tried == 2 && result.row_rollbacks == 1 &&
+                     queue_mock.created ==
+                         std::vector<int>({10, 11, 10, 11, 10}),
+                 "mismatched exit is re-queued with zero-padded row bytes",
+                 checks);
+  }
 
   Mock terminal_mock;
   terminal_mock.root_block.step_exits = {make_exit(0, "module")};

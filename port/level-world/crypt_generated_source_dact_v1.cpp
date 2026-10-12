@@ -7,6 +7,7 @@
 #include <cctype>
 #include <cerrno>
 #include <cmath>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <limits>
@@ -74,7 +75,9 @@ bool compile_generated_crypt_dact_v1(
     std::vector<GeneratedCryptTriggerZoneSourceV1>* trigger_sources,
     std::vector<GeneratedCryptDoorSourceV1>* door_sources,
     std::vector<GeneratedCryptConditionalCharacterSourceV1>*
-        conditional_character_sources) {
+        conditional_character_sources,
+    SpawnProbabilityRollV1 spawn_probability_roll,
+    void* spawn_probability_context) {
   actor_sources.clear();
   if (faery_sources) faery_sources->clear();
   if (template_sources) template_sources->clear();
@@ -106,6 +109,7 @@ bool compile_generated_crypt_dact_v1(
   }
 
   for (std::uint32_t i = 0; i < source.value.module_count; ++i) {
+    if (!source.value.modules[i].cache_mgp) continue;  // no gameplay file named
     if (!mgps[i].source_path || !mgps[i].data || !mgps[i].size) {
       error = "Generated Crypt MGP input is incomplete";
       return false;
@@ -219,11 +223,14 @@ bool compile_generated_crypt_dact_v1(
       const auto* all_move_out =
           dh2_world_field(&object, "script_all_player_move_out");
       const auto* one_player = dh2_world_field(&object, "effect_one_player");
-      std::int32_t activation_limit = 0, configured_delay_ms = 0;
+      // Trigger::Trigger (0x398fd4) initializes triggercount (+0x3a8) to 1 and
+      // triggerdelay (+0x3ac) to 0; a TriggerZone that omits either property
+      // (bossroom_witch_.mgp _prim_TriggerZone_11/12) keeps those constructor values.
+      std::int32_t activation_limit = 1, configured_delay_ms = 0;
       if (!template_name || std::strcmp(template_name, "TriggerZone") != 0 ||
-          !script || !count || !parse_i32(count, &activation_limit) ||
+          !script || (count && !parse_i32(count, &activation_limit)) ||
           (activation_limit != -1 && activation_limit < 0) ||
-          !delay || !parse_i32(delay, &configured_delay_ms) ||
+          (delay && !parse_i32(delay, &configured_delay_ms)) ||
           configured_delay_ms < 0 ||
           dh2_world_field(&object, "dimensions") ||
           (dh2_world_field(&object, "door") &&
@@ -307,7 +314,7 @@ bool compile_generated_crypt_dact_v1(
   dh2::random_level::CryptGeneratedDactDiagnosticV1 projection_diagnostic{};
   const auto status = dh2::random_level::crypt_compile_generated_dact_v1(
       source.value, characters, models, projected, &projection_diagnostic,
-      &retained_characters);
+      &retained_characters, spawn_probability_roll, spawn_probability_context);
   if (status != dh2::random_level::CryptGeneratedDactStatusV1::ok) {
     error = projection_diagnostic.message[0]
         ? projection_diagnostic.message
@@ -405,6 +412,19 @@ bool compile_generated_crypt_dact_v1(
       }
       if (found->duplicate_name) continue;
 
+      // Character::SafeGetCharPropsId (0x3b3d38) caches -1 for an unknown
+      // char_template; InitPost then has no model, so the port skips the
+      // modelless Character with a warning exactly like static Levels do.
+      if (template_catalog &&
+          std::none_of(template_catalog->templates.begin(),
+              template_catalog->templates.end(), [&](const auto& entry) {
+                return entry.name == runtime_template;
+              })) {
+        std::fprintf(stderr,
+            "Generated Crypt template Character skipped | %s | unknown char_template %s | SafeGetCharPropsId -1\n",
+            object.name ? object.name : "", runtime_template);
+        continue;
+      }
       GeneratedCryptTemplateCharacterSourceV1 retained;
       std::string projection_error;
       const auto projection_status = template_catalog
@@ -428,27 +448,45 @@ bool compile_generated_crypt_dact_v1(
       const auto* auto_spawn = dh2_world_field(&object, "auto_spawn");
       const auto* ai_state = dh2_world_field(&object, "ai_state");
       const auto* spawn_probability = dh2_world_field(&object, "spawn_prob");
+      long probability = 100;
+      if (spawn_probability && *spawn_probability &&
+          std::strcmp(spawn_probability, "100") != 0) {
+        char* parsed_end = nullptr;
+        probability = std::strtol(spawn_probability, &parsed_end, 10);
+        if (!parsed_end || *parsed_end || probability < 0 || probability > 1000) {
+          probability = -1;
+        }
+      }
       if ((auto_spawn && std::strcmp(auto_spawn, "0") != 0 &&
            std::strcmp(auto_spawn, "1") != 0) ||
-          (spawn_probability && *spawn_probability &&
-           std::strcmp(spawn_probability, "100") != 0)) {
+          (probability < 100 && !spawn_probability_roll) || probability < 0) {
         template_sources->clear();
         actor_sources.clear();
         if (faery_sources) faery_sources->clear();
         error = "Generated Crypt template Character has unsupported spawn policy";
         return false;
       }
-      retained.gated_spawn = auto_spawn && std::strcmp(auto_spawn, "0") == 0;
-      if ((retained.gated_spawn &&
-           (!ai_state || std::strcmp(ai_state, "Limbus") != 0)) ||
-          (!retained.gated_spawn && ai_state && *ai_state &&
-           std::strcmp(ai_state, "Idle") != 0)) {
-        template_sources->clear();
-        actor_sources.clear();
-        if (faery_sources) faery_sources->clear();
-        error = "Generated Crypt template Character spawn state is unsupported";
-        return false;
+      if (probability < 100) {
+        // GameObject::CheckSpawnProbability (0x38bd64): one s_seed % 99 draw;
+        // a draw >= spawn_prob deletes the Character before construction.
+        const int roll_result = spawn_probability_roll(spawn_probability_context, probability);
+        if (roll_result < 0) {
+          template_sources->clear();
+          actor_sources.clear();
+          if (faery_sources) faery_sources->clear();
+          error = "Generated Crypt template Character spawn_prob roll failed";
+          return false;
+        }
+        if (roll_result == 0) continue;
       }
+      // Level::_LoadCharStates 0x3effc8 maps Character::GetPreSetAIState
+      // 0x3a57a4 (ai_state "Limbus" -> 0, "PreSpawn" -> 17, anything else -> 3)
+      // to SM_SetPreSpawnState for 0/17 and SM_SetIdleState(false) otherwise.
+      // auto_spawn=0 rows stay gated as before.
+      retained.gated_spawn =
+          (auto_spawn && std::strcmp(auto_spawn, "0") == 0) ||
+          (ai_state && (std::strcmp(ai_state, "Limbus") == 0 ||
+                        std::strcmp(ai_state, "PreSpawn") == 0));
       template_sources->push_back(std::move(retained));
     }
   }

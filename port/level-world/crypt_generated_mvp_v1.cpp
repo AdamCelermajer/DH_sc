@@ -91,6 +91,34 @@ bool valid_transform(const GeneratedCryptAnimatedDecorV1& row) {
 
 }  // namespace
 
+bool generated_crypt_module_daes_v1(
+    const std::uint8_t* level_xml, std::size_t level_size,
+    const char* level_name, const char* level_source_path,
+    std::vector<std::string>& output, std::string& error) {
+  output.clear();
+  error.clear();
+  SourceOwner source;
+  Diagnostic diagnostic{};
+  if (!level_xml || !level_size || !level_name || !*level_name ||
+      !level_source_path ||
+      dh2_world_import_level(&source.value, level_name, level_source_path,
+          level_xml, level_size, &diagnostic) != Error::ok) {
+    error = diagnostic.message[0] ? diagnostic.message
+                                  : "Generated Level XML import failed";
+    return false;
+  }
+  for (std::uint32_t module = 0; module < source.value.module_count; ++module) {
+    const char* dae = source.value.modules[module].cache_dae;
+    if (!dae || !*dae) {
+      error = "Generated Module dae is missing";
+      output.clear();
+      return false;
+    }
+    output.emplace_back(dae);
+  }
+  return true;
+}
+
 bool compile_generated_crypt_animated_decor_v1(
     const std::uint8_t* level_xml, std::size_t level_size,
     const char* level_name, const char* level_source_path,
@@ -121,7 +149,9 @@ bool compile_generated_crypt_animated_decor_v1(
   }
 
   for (std::uint32_t module = 0; module < source.value.module_count; ++module) {
-    if (!mvps[module].source_path || !mvps[module].data || !mvps[module].size) {
+    // A Module whose rule names no (or a non-existent) visual file loads none.
+    if (!mvps[module].data || !mvps[module].size) continue;
+    if (!mvps[module].source_path) {
       error = "Generated Crypt MVP input is incomplete";
       return false;
     }
@@ -159,19 +189,23 @@ bool compile_generated_crypt_animated_decor_v1(
     const auto* dae = dh2_world_field(&object, "dae");
     const auto* start_animation = dh2_world_field(&object, "startanim");
     char canonical_dae[256]{};
-    if (!type || std::strcmp(type, "Block") || !template_name ||
-        std::strcmp(template_name, "AnimatedDecor") || !root || !*root ||
-        !dae || dh2_world_cache_path(canonical_dae, sizeof(canonical_dae),
-            dae, &diagnostic) != Error::ok || !start_animation ||
-        !*start_animation) {
-      error = "Generated Crypt AnimatedDecor has an unsupported source identity";
-      return false;
+    // gametype selects the ObjectFactory class (same rule as static Levels):
+    // authored rows (water, torches, dust motes) may omit _templateName and
+    // startanim; a missing startanim reads as "idle" (AnimatedDecor::InitPost
+    // 0x389128). Rows with another identity or a non-BDAE model are deferred.
+    if (!type || std::strcmp(type, "Block") ||
+        (template_name && std::strcmp(template_name, "AnimatedDecor")) ||
+        !root || !*root || !dae ||
+        dh2_world_cache_path(canonical_dae, sizeof(canonical_dae),
+            dae, &diagnostic) != Error::ok) {
+      ++deferred_count;
+      continue;
     }
     const auto dae_length = std::strlen(canonical_dae);
     if (dae_length < 5 ||
         std::strcmp(canonical_dae + dae_length - 5, ".bdae") != 0) {
-      error = "Generated Crypt AnimatedDecor does not reference a BDAE model";
-      return false;
+      ++deferred_count;
+      continue;
     }
 
     if (!empty_or_invalid(dh2_world_field(&object, "activate_cond")) ||
@@ -190,7 +224,7 @@ bool compile_generated_crypt_animated_decor_v1(
     row.xrefobject = root;
     row.dae_path = canonical_dae;
     row.source_path = object.source_path ? object.source_path : "";
-    row.start_animation = start_animation;
+    row.start_animation = start_animation ? start_animation : "";
     const auto& module = source.value.modules[object.module_index].record;
     for (unsigned axis = 0; axis < 3; ++axis) {
       row.local_transform[axis] = object.local.position[axis];

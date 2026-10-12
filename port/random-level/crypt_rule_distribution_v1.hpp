@@ -39,6 +39,16 @@ struct RuleDistributionCatalogV1 {
 RuleDistributionCatalogV1 enumerate_source_rule_distributions_v1(
     std::size_t open_exit_count, std::size_t child_rule_count);
 
+// Byte that Rule::Impl::Step reads at `position` of the table row whose
+// original (unshuffled) record index is `record_index`. Step indexes rows with
+// a raw pointer (gDistributions + 6*row), so positions past the 6th byte run
+// into the next original record, then into the 0xff terminator record (first
+// byte 0xff, i.e. signed -1) and the zero padding after it (verified at
+// 0x8cf9a2: record, ff 00 00 ..., zeros). Used when Step re-queues exits.
+std::uint8_t source_rule_distribution_byte_v1(
+    const RuleDistributionCatalogV1& catalog, std::size_t record_index,
+    std::size_t position);
+
 // The native code shuffles pointers to these records after table lookup. This
 // helper applies the existing shared source_shuffle/RNG to the record vector.
 bool shuffle_source_rule_distributions_v1(RuleDistributionCatalogV1& catalog,

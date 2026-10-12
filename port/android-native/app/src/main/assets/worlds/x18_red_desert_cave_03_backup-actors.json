@@ -1,0 +1,236 @@
+{
+  "source_layout": "data/scene/x18_red_desert_cave_03_backup.mlx",
+  "selected_characters": 3,
+  "source_character_records": 57,
+  "selection": "direct Monster; no activation/deactivation condition; auto_spawn != 0; initial ai_state absent or Idle",
+  "actors": [
+    {
+      "kind": 1,
+      "room": 9,
+      "name": "_prim_Monster",
+      "character": "Tar_mine_queen",
+      "model": "slime_red.bdae",
+      "model_path": "data/3d/characters/slime/slime_red.bdae",
+      "animation_table": 64,
+      "position": [
+        -17948.4512,
+        26249.1,
+        37.0176
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.35,
+        1.35,
+        1.35
+      ],
+      "source_mgp": "data/3d/modules/desert_cave/mgp/rdc03_obj03_dsrtcave_ns_00_01.mgp",
+      "source_record": 8
+    },
+    {
+      "kind": 1,
+      "room": 9,
+      "name": "_prim_Monster01_001",
+      "character": "TarSlime",
+      "model": "slime_black.bdae",
+      "model_path": "data/3d/characters/slime/slime_black.bdae",
+      "animation_table": 64,
+      "position": [
+        -18319.074,
+        25685.33,
+        37.0176
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/desert_cave/mgp/rdc03_obj03_dsrtcave_ns_00_01.mgp",
+      "source_record": 9
+    },
+    {
+      "kind": 1,
+      "room": 9,
+      "name": "_prim_Monster02",
+      "character": "TarSlime",
+      "model": "slime_black.bdae",
+      "model_path": "data/3d/characters/slime/slime_black.bdae",
+      "animation_table": 64,
+      "position": [
+        -17686.67,
+        25685.33,
+        37.0176
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/desert_cave/mgp/rdc03_obj03_dsrtcave_ns_00_01.mgp",
+      "source_record": 10
+    }
+  ],
+  "animation_states": [
+    {
+      "table": 64,
+      "character": "Slime",
+      "state": "Idle",
+      "sequence": 613
+    },
+    {
+      "table": 64,
+      "character": "Slime",
+      "state": "Walk",
+      "sequence": 620
+    },
+    {
+      "table": 64,
+      "character": "Slime",
+      "state": "Attack",
+      "sequence": 607
+    },
+    {
+      "table": 64,
+      "character": "Slime",
+      "state": "Died",
+      "sequence": 611
+    }
+  ],
+  "clip_ids": [
+    1246,
+    1247,
+    1248,
+    1249,
+    1251,
+    1258,
+    1259,
+    1261,
+    1262,
+    1268
+  ],
+  "dact": {
+    "bytes": 784,
+    "sha256": "a85fc9de0ee73d701e7d72078baa14d4599ba4ab647382f5c04a20ad7fa05cac"
+  },
+  "assets": [
+    {
+      "asset": "actors/slime_attack_01.bdae",
+      "bytes": 3256,
+      "sha256": "21ea289f9b9d2d2128445c311cbdeabbf406e15e570763ed228fd6976362e0c0",
+      "source": "data/3d/characters/slime/animations/slime_attack_01.bdae",
+      "source_file": "slime_attack_01.bdae"
+    },
+    {
+      "asset": "actors/slime_attack_01_to_idle.bdae",
+      "bytes": 4136,
+      "sha256": "19194ac919bcce58739a8df48b9448c251a09d0b598f7b597ee828361693843f",
+      "source": "data/3d/characters/slime/animations/slime_attack_01_to_idle.bdae",
+      "source_file": "slime_attack_01_to_idle.bdae"
+    },
+    {
+      "asset": "actors/slime_attack_02.bdae",
+      "bytes": 3776,
+      "sha256": "bd906d1f0ef2086deb2617ea1451531a3a9c2cb549bbe776b22f5877c6b3bbe1",
+      "source": "data/3d/characters/slime/animations/slime_attack_02.bdae",
+      "source_file": "slime_attack_02.bdae"
+    },
+    {
+      "asset": "actors/slime_attack_02_to_idle.bdae",
+      "bytes": 4452,
+      "sha256": "86f01551aa577f5c86beac627914c288f5c3cacb05a08ef7d03dd3511c6f5238",
+      "source": "data/3d/characters/slime/animations/slime_attack_02_to_idle.bdae",
+      "source_file": "slime_attack_02_to_idle.bdae"
+    },
+    {
+      "asset": "actors/slime_black.bdae",
+      "bytes": 25708,
+      "sha256": "6148097dc7822377ec69beacd98da83d364962f360aa9e76c67d4bca667847cb",
+      "source": "data/3d/characters/slime/slime_black.bdae",
+      "source_file": "slime_black.bdae"
+    },
+    {
+      "asset": "actors/slime_dying.bdae",
+      "bytes": 6992,
+      "sha256": "60057288188a3c56f4690e66529c7663ca67f7f05e9ff15d7d26bb6fa43321fc",
+      "source": "data/3d/characters/slime/animations/slime_dying.bdae",
+      "source_file": "slime_dying.bdae"
+    },
+    {
+      "asset": "actors/slime_idle.bdae",
+      "bytes": 5792,
+      "sha256": "f3135891294b0277a66f1bb08b7aec87efade7317a93ea2993d5df9e62591472",
+      "source": "data/3d/characters/slime/animations/slime_idle.bdae",
+      "source_file": "slime_idle.bdae"
+    },
+    {
+      "asset": "actors/slime_idle_02.bdae",
+      "bytes": 5728,
+      "sha256": "fdf12aecf3b38dc20de496e2fcb2d90db88512b794b2ee05ad95842c9cd41baf",
+      "source": "data/3d/characters/slime/animations/slime_idle_02.bdae",
+      "source_file": "slime_idle_02.bdae"
+    },
+    {
+      "asset": "actors/slime_pre_attack_01.bdae",
+      "bytes": 3168,
+      "sha256": "eb07914aadac438e79cd901a05f0f90b2b7e08a6822494b08be68047dc8293ae",
+      "source": "data/3d/characters/slime/animations/slime_pre_attack_01.bdae",
+      "source_file": "slime_pre_attack_01.bdae"
+    },
+    {
+      "asset": "actors/slime_pre_attack_02.bdae",
+      "bytes": 3252,
+      "sha256": "315a2f52e8cbcabc3899dd8763d1bfa36696ca23911f36a26c40ca4a52480a19",
+      "source": "data/3d/characters/slime/animations/slime_pre_attack_02.bdae",
+      "source_file": "slime_pre_attack_02.bdae"
+    },
+    {
+      "asset": "actors/slime_red.bdae",
+      "bytes": 33072,
+      "sha256": "56417ccfcac1c8af4c9257c99f065c3b8b0863b297403ee0f55043ae2f10c508",
+      "source": "data/3d/characters/slime/slime_red.bdae",
+      "source_file": "slime_red.bdae"
+    },
+    {
+      "asset": "actors/slime_walk.bdae",
+      "bytes": 5212,
+      "sha256": "966d248d406756d06f028570f79208ac3f047d0bb0c537103405b60694b80f05",
+      "source": "data/3d/characters/slime/animations/slime_walk.bdae",
+      "source_file": "slime_walk.bdae"
+    },
+    {
+      "asset": "textures/atlas_skinned_characters_animdecor_gameobjects_002.tga",
+      "bytes": 524348,
+      "sha256": "80bb4294c81a677bca7b2725ca170c4bbd663ccfc6d05c7c57399413f0a44309",
+      "source": "data/3d/textures/atlas_skinned_characters_animdecor_gameobjects_002.tga",
+      "source_file": "atlas_skinned_characters_animdecor_gameobjects_002.tga"
+    },
+    {
+      "asset": "textures/fx_magic_smoke_black.tga",
+      "bytes": 8252,
+      "sha256": "29df1652125536531f8451c30b747a2839e84b7adffbd1e512ae0b6cd533aeac",
+      "source": "data/3d/textures/fx_magic_smoke_black.tga",
+      "source_file": "fx_magic_smoke_black.tga"
+    },
+    {
+      "asset": "textures/fx_particles_dust.tga",
+      "bytes": 8252,
+      "sha256": "94139370ed4d8f3f9a88c86e61d3adea80888a10123ee4706b183205a633db47",
+      "source": "data/3d/textures/fx_particles_dust.tga",
+      "source_file": "fx_particles_dust.tga"
+    }
+  ],
+  "runtime_gaps": "Module rotation/scale, conditional/template/NPC/container factories, source AI activation and LevelSavegame are not implied."
+}

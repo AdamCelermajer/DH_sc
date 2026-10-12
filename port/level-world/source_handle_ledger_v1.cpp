@@ -104,11 +104,13 @@ Status build(const std::uint8_t* level_xml, std::size_t level_size,
         }
 
         const auto module_count = static_cast<std::size_t>(imported.value.module_count);
-        // Only Modules with an MGP/MVP pair own ordered files. A visual-only Module
-        // (no children) still takes its root handle slot in the register loop below.
+        // Each Module owns ordered files only for the MGP / MVP it names. A Module
+        // with neither still takes its root handle slot in the register loop below.
         std::size_t expected_files = 0;
-        for (std::size_t m = 0; m < module_count; ++m)
-            if (imported.value.modules[m].cache_mgp) expected_files += 2;
+        for (std::size_t m = 0; m < module_count; ++m) {
+            if (imported.value.modules[m].cache_mgp) ++expected_files;
+            if (imported.value.modules[m].cache_mvp) ++expected_files;
+        }
         if (!module_count || module_count > max_module_files / 2 ||
             file_count != expected_files) {
             set_error(error, "Need one ordered MGP and MVP file per source Module with children");
@@ -117,9 +119,10 @@ Status build(const std::uint8_t* level_xml, std::size_t level_size,
 
         std::size_t cursor = 0;
         for (std::size_t m = 0; m < module_count; ++m) {
-            if (!imported.value.modules[m].cache_mgp) continue;
-            for (std::size_t k = 0; k < 2; ++k, ++cursor) {
-                const auto& file = ordered_files[cursor];
+            for (std::size_t k = 0; k < 2; ++k) {
+                if (!(k == 0 ? imported.value.modules[m].cache_mgp
+                             : imported.value.modules[m].cache_mvp)) continue;
+                const auto& file = ordered_files[cursor++];
                 const auto wanted = k == 0 ? ModuleFileKind::mgp : ModuleFileKind::mvp;
                 if (file.module_index != m || file.kind != wanted ||
                     !file.source_path || !file.data || !file.size) {

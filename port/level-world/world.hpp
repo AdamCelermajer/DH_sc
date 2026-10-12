@@ -12,7 +12,7 @@ using Point=std::array<float,3>;
 struct Triangle{Point a,b,c;unsigned room;};
 struct Level{scene::Scene scene;std::vector<Triangle> floor;Point spawn{};unsigned rooms=0;std::unique_ptr<floors::World> native_floor;};
 struct Transform{Point position{};Point rotation_degrees{};Point scale{1,1,1};};
-struct EntryPoint{std::int32_t id=-1;unsigned room=0;std::string name;Transform local;Transform world;};
+struct EntryPoint{std::int32_t id=-1;unsigned room=0;std::string name;Transform local;Transform world;std::string script;};
 struct SourceMgpView{const char* source_path=nullptr;const std::uint8_t* data=nullptr;std::size_t size=0;};
 struct SourceMvpView{const char* source_path=nullptr;const std::uint8_t* data=nullptr;std::size_t size=0;};
 struct SourceMvpDecor{
@@ -74,7 +74,8 @@ struct SourceObjectCensusV1 {
 struct SpawnSelection{EntryPoint source;Point position{};Point rotation_degrees{};bool floor_snapped=false;};
 // Generated worlds with an authoritative SPWN sidecar may defer descriptor
 // spawn-floor validation until the selected source entrypoint is loaded.
-bool load(const resources::BresView&,const std::uint8_t* descriptor,std::size_t,
+// Multi-BDAE form: room r's template is resolved in views[room_sources[r]] (empty = views[0]).
+bool load(const std::vector<resources::BresView>&,const std::vector<std::uint32_t>& room_sources,const std::uint8_t* descriptor,std::size_t,Level&,std::string&,bool validate_descriptor_spawn=true);bool load(const resources::BresView&,const std::uint8_t* descriptor,std::size_t,
           Level&,std::string&,bool validate_descriptor_spawn=true);
 // Build the bounded static Module layout from the original Level .mlx and
 // selected SpawnPoint sidecar. This replaces the generated DWLD module table

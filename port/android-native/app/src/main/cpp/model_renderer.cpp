@@ -555,6 +555,9 @@ struct ObjectActor:dh2::objects::Record {
  std::int32_t source_handle=-1;
  std::string source_activate_condition,source_deactivate_condition;
  unsigned visual_root=std::numeric_limits<unsigned>::max();
+ // VisualObject::SetPosition (0x470c24) replaces the loaded xrefobject root's local translation
+ // with the GameObject position, so the root's authored library offset is not drawn.
+ std::array<float,3> visual_root_origin{0.f,0.f,0.f};
  // Live source GameObject zoning fields for the bounded Crypt actor adapter.
  // The RoomZone identity is an opaque port token, never a native pointer.
  std::uintptr_t room_zone_2f4=0;
@@ -680,19 +683,30 @@ std::uint64_t snapshot_checksum(const dh2::data::PropertySheet& sheet){
  std::uint64_t result=14695981039346656037ull;for(auto value:sheet)for(unsigned i=0;i<4;++i){result^=(std::uint32_t(value)>>(8*i))&255;result*=1099511628211ull;}return result;
 }
 std::vector<ObjectGroup> object_groups;
-// SWAMP MVP AnimatedDecor VisualObjects named by level scripts. The owner keeps
-// the BDAE clip timeline and Animator pose; draws mirror the container
-// VisualObject path. Duplicate names stay in module order and PlayAnimByName
-// plays the first name match, as ObjectManager's name lookup does.
+// MVP AnimatedDecor VisualObjects of every static MLX level. Each prop owns its
+// BDAE clip timeline and Animator pose; props with the same BDAE share one GPU
+// batch set (vertex/index buffers and textures), which is safe because each
+// prop uploads its own skinned vertices immediately before its draw. Duplicate
+// names stay in module order and PlayAnimByName plays the first name match, as
+// ObjectManager's name lookup does.
+struct SourceAnimatedDecorGpu {
+ std::vector<Draw> draws;std::vector<GLuint> images;
+};
 struct SourceAnimatedDecor {
- std::string name,dae_path,start_animation;
+ std::string name,dae_path,start_animation,activate_condition,deactivate_condition;
  std::unique_ptr<dh2::destructible_container_visual_owner_v1::Owner> visual;
- std::vector<Draw> visual_draws;std::vector<GLuint> visual_images;
+ std::shared_ptr<SourceAnimatedDecorGpu> gpu;
+ // Indices into resource.primitives under this prop's xrefobject node; a BDAE
+ // can hold several authored props (one water sheet or torch per root).
+ std::vector<std::uint32_t> primitives;
  Matrix placement{};
+ // ObjectBase condition state, re-tested on a 250 ms cadence while live.
+ bool enabled=true;bool condition_tested=false;std::uint32_t condition_tested_ms=0;
 };
 std::vector<SourceAnimatedDecor> source_animated_decors;
 void release_source_animated_decors(std::vector<SourceAnimatedDecor>& decors,bool gl_context) noexcept {
- for(auto& decor:decors)release_source_container_visual_gpu(decor.visual_draws,decor.visual_images,gl_context);
+ for(auto& decor:decors)
+  if(decor.gpu)release_source_container_visual_gpu(decor.gpu->draws,decor.gpu->images,gl_context);
  decors.clear();
 }
 // Non-owning renderer view of an exact Player -> Faery Character+0x420 link.
@@ -1304,6 +1318,8 @@ struct RuntimeLevelAssets {
  std::shared_ptr<dh2::random_level::CryptRuleDocumentV1> crypt_rules;
  std::shared_ptr<dh2::random_level::CryptModuleAssetBytesV1> crypt_asset_bytes;
  std::shared_ptr<dh2::random_level::CryptModuleCatalogueV1> crypt_catalogue;
+ // Generated rule header: <rules music="..."> label and scriptFile table stem.
+ std::string generated_music_label,generated_script_stem;
 };
 struct GeneratedWorldPayload {
  std::vector<std::uint8_t> dwld_v1;
@@ -1353,6 +1369,9 @@ struct StaticMlxLevelV1 {
  // Level::SetLevelConfig 0x3f150c: LevelConfig music / safezone_music names
  // resolved through Arrays::Sounds (0 = not set).
  std::uint16_t music_uid;std::uint16_t safezone_music_uid;
+ // Level script table stem when it differs from the prefix (a _BACKUP MLX
+ // names the same scriptFile as its generated rule).
+ const char* script_stem=nullptr;
 };
 constexpr StaticMlxLevelV1 static_mlx_levels[]{
  {41,"SWAMP","001_swamp.mlx","001_swamp","data/3d/modules/swamp/swamp.bdae",10,467,505},
@@ -1363,16 +1382,236 @@ constexpr StaticMlxLevelV1 static_mlx_levels[]{
  {1,"ABBEY_RUINS_01","009a_abbey.mlx","009a_abbey","data/3d/modules/crypt/crypt.bdae",2,508,484},
  {28,"ICY_HUB","025_icy_hub.mlx","025_icy_hub","data/3d/modules/icy_hub/icy_hub2.bdae",8,494,509},
  {33,"MACHINE_ROOMS_01","037_machine_rooms_01.mlx","037_machine_rooms_01","data/3d/modules/machineroom/machineroom.bdae",14,503,0},
+ {7,"DARK_DUNGEON_TEMPLE_01","038_dark_temple.mlx","038_dark_temple","data/3d/modules/darktemple/darktemple.bdae",9,504,0},
+ {8,"DARK_DUNGEON_TEMPLE_BOSSROOM","039_dark_temple_bossroom_01.mlx","039_dark_temple_bossroom_01","data/3d/modules/darktemple/darktemple_bossroom.bdae",3,504,0},
+ {35,"PORTAL_ROOM","003_darkwood.mlx","003_portal_room","data/3d/modules/darkwood/darkwood2.bdae",25,471,0},
  {20,"FIRE_TEMPLE_01","031_firetemple.mlx","031_firetemple","data/3d/modules/firetemple/firetemple.bdae",13,493,0},
 };
 }
+namespace {
+// Generated rule-driven LevelList rows (LevelList names a .rule.xml). The rule
+// supplies its folder, music label and scriptFile. Row 23 keeps the original
+// Crypt names and paths unchanged.
+struct GeneratedRuleLevelV1 {std::int32_t row;const char* name;const char* level_file;};
+constexpr GeneratedRuleLevelV1 generated_rule_levels[]{
+ {0,"ABBEY_ENTRANCE_01","009_abbey.rule.xml"},
+ {9,"DESERT_CAVE_01","016_red_desert_cave_01.rule.xml"},
+ {10,"DESERT_CAVE_02","017_red_desert_cave_02.rule.xml"},
+ {11,"DESERT_CAVE_03","018_red_desert_cave_03.rule.xml"},
+ {12,"EARTH_TEMPLE_01","011_earth_temple_01.rule.xml"},
+ {13,"EARTH_TEMPLE_02","012_earth_temple_02.rule.xml"},
+ {14,"EARTH_TEMPLE_03","013_earth_temple_03.rule.xml"},
+ {15,"ELEMENTAL_AIR","030_el_air.rule.xml"},
+ {16,"ELEMENTAL_EARTH","014_el_earth.rule.xml"},
+ {17,"ELEMENTAL_FIRE","032_el_fire.rule.xml"},
+ {18,"ELEMENTAL_LIGHT","010_el_lightning.rule.xml"},
+ {19,"ELEMENTAL_WATER","024_el_water.rule.xml"},
+ {21,"GOTHICUS_CASTLE_01","008_gothicus_castle_01.rule.xml"},
+ {22,"GOTHICUS_CASTLE_02","021_gothicus_castle_02.rule.xml"},
+ {23,"GOTHICUS_CRYPT_01","007_crypt_01.rule.xml"},
+ {24,"GOTHICUS_CRYPT_02","020_crypt_02.rule.xml"},
+ {25,"ICY_CAVERN_01","026_icy_cavern_01.rule.xml"},
+ {26,"ICY_CAVERN_02","027_icy_cavern_02.rule.xml"},
+ {27,"ICY_CAVERN_03","028_icy_cavern_03.rule.xml"},
+ {30,"LIGHT_HOUSE_01","019_light_house_01.rule.xml"},
+ {31,"LIGHT_HOUSE_02","019_light_house_02.rule.xml"},
+ {32,"LIGHT_HOUSE_03","019_light_house_03.rule.xml"},
+ {39,"ROOT_DEN_01","004_root_den.rule.xml"},
+ {40,"SECRET_BASEMENT_01","006_basement.rule.xml"},
+ {42,"SWAMP_02","022_swamp2.rule.xml"},
+ {43,"SWAMP_CAVE_TROLL_A","022_swamp2_trollcave.rule.xml"},
+ {44,"SWAMP_CAVE_WITCH_A","002_swamp_witchcave.rule.xml"},
+ {46,"VOID_MAZE_01","033_voidmaze_01.rule.xml"},
+ {47,"VOID_MAZE_02","034_voidmaze_02.rule.xml"},
+ {48,"VOID_MAZE_03","035_voidmaze_03.rule.xml"},
+ {49,"WATER_TEMPLE_01","023_watertemple.rule.xml"},
+ {50,"WIND_TEMPLE_01","029_wind_temple.rule.xml"},
+};
+// Level::_LoadProcess (0x3f6990) case 7: when Level::GenerateRandomLevel (0x3f07f8)
+// fails, the first byte of the LevelList file name becomes 'x', the name is cut
+// at its first '.', "_BACKUP.mlx" (0x8c6b38) is appended and Level::LoadFile
+// (0x3f3b40) loads that authored MLX instead. The binary appends upper case
+// "_BACKUP.mlx"; the cache (and so the APK) holds the files in lower case, which
+// is how every cache path is canonicalized, so the packaged name is lower case.
+// Each row below is the precompiled static form (worlds/<prefix>.*) of that MLX;
+// `level.level_file` is the derived backup file name.
+struct GeneratedBackupLevelV1 {StaticMlxLevelV1 level;const char* rule_level_file;};
+constexpr GeneratedBackupLevelV1 generated_backup_levels[]{
+ {{0,"ABBEY_ENTRANCE_01","x09_abbey_backup.mlx","x09_abbey_backup",
+   "data/3d/modules/crypt/crypt.bdae",12,484,0,"009_abbey"},
+  "009_abbey.rule.xml"},
+ {{9,"DESERT_CAVE_01","x16_red_desert_cave_01_backup.mlx","x16_red_desert_cave_01_backup",
+   "data/3d/modules/desert_cave/room_cave.bdae",11,489,0,"016_red_desert_cave_01"},
+  "016_red_desert_cave_01.rule.xml"},
+ {{10,"DESERT_CAVE_02","x17_red_desert_cave_02_backup.mlx","x17_red_desert_cave_02_backup",
+   "data/3d/modules/desert_cave/room_cave.bdae",11,490,0,"017_red_desert_cave_02"},
+  "017_red_desert_cave_02.rule.xml"},
+ {{11,"DESERT_CAVE_03","x18_red_desert_cave_03_backup.mlx","x18_red_desert_cave_03_backup",
+   "data/3d/modules/desert_cave/room_cave.bdae",12,491,0,"018_red_desert_cave_03"},
+  "018_red_desert_cave_03.rule.xml"},
+ {{12,"EARTH_TEMPLE_01","x11_earth_temple_01_backup.mlx","x11_earth_temple_01_backup",
+   "data/3d/modules/earth_temple/earth_temple.bdae",7,474,0,"011_earth_temple_01"},
+  "011_earth_temple_01.rule.xml"},
+ {{13,"EARTH_TEMPLE_02","x12_earth_temple_02_backup.mlx","x12_earth_temple_02_backup",
+   "data/3d/modules/earth_temple/earth_temple.bdae",8,474,0,"012_earth_temple_02"},
+  "012_earth_temple_02.rule.xml"},
+ {{14,"EARTH_TEMPLE_03","x13_earth_temple_03_backup.mlx","x13_earth_temple_03_backup",
+   "data/3d/modules/earth_temple/earth_temple.bdae",6,474,0,"013_earth_temple_03"},
+  "013_earth_temple_03.rule.xml"},
+ {{15,"ELEMENTAL_AIR","x30_el_air_backup.mlx","x30_el_air_backup",
+   "data/3d/modules/castle/castle.bdae",8,481,0,"030_elemental_air_room"},
+  "030_el_air.rule.xml"},
+ {{17,"ELEMENTAL_FIRE","x32_el_fire_backup.mlx","x32_el_fire_backup",
+   "data/3d/modules/castle/castle.bdae",9,478,0,"032_elemental_fire_room"},
+  "032_el_fire.rule.xml"},
+ {{18,"ELEMENTAL_LIGHT","x10_el_lightning_backup.mlx","x10_el_lightning_backup",
+   "data/3d/modules/castle/castle.bdae",8,482,0,"010_elemental_lightning_room"},
+  "010_el_lightning.rule.xml"},
+ {{19,"ELEMENTAL_WATER","x24_el_water_backup.mlx","x24_el_water_backup",
+   "data/3d/modules/castle/castle.bdae",9,480,0,"024_elemental_water_room"},
+  "024_el_water.rule.xml"},
+ {{21,"GOTHICUS_CASTLE_01","x08_gothicus_castle_01_backup.mlx","x08_gothicus_castle_01_backup",
+   "data/3d/modules/castle/castle.bdae",8,0,0,"008_gothicus_castle_01"},
+  "008_gothicus_castle_01.rule.xml"},
+ {{22,"GOTHICUS_CASTLE_02","x21_gothicus_castle_02_backup.mlx","x21_gothicus_castle_02_backup",
+   "data/3d/modules/castle/castle.bdae",8,477,0,"021_gothicus_castle_02"},
+  "021_gothicus_castle_02.rule.xml"},
+ {{26,"ICY_CAVERN_02","x27_icy_cavern_02_backup.mlx","x27_icy_cavern_02_backup",
+   "data/3d/modules/icy_cavern/icy_cavern.bdae",14,496,0,"027_icy_caverns_02"},
+  "027_icy_cavern_02.rule.xml"},
+ {{32,"LIGHT_HOUSE_03","x19_light_house_03_backup.mlx","x19_light_house_03_backup",
+   "data/3d/modules/lighthousse/lighthouse.bdae",2,492,0,"019_light_house_01"},
+  "019_light_house_03.rule.xml"},
+ {{40,"SECRET_BASEMENT_01","x06_basement_backup.mlx","x06_basement_backup",
+   "data/3d/modules/root_den/root_den_rooms.bdae",9,476,0,"006_driedwell"},
+  "006_basement.rule.xml"},
+ {{42,"SWAMP_02","x22_swamp2_backup.mlx","x22_swamp2_backup",
+   "data/3d/modules/swamp/swamp.bdae",12,467,0,"022_swamp2"},
+  "022_swamp2.rule.xml"},
+ {{44,"SWAMP_CAVE_WITCH_A","x02_swamp_witchcave_backup.mlx","x02_swamp_witchcave_backup",
+   "data/3d/modules/swamp/swamp_cave.bdae",8,468,0,"002_swamp_cave_witch"},
+  "002_swamp_witchcave.rule.xml"},
+};
+// Name derivation of the original failure path (lower-cased like cache paths).
+std::string generated_backup_mlx_name(const std::string& level_file){
+ std::string name=level_file;
+ if(!name.empty())name[0]='x';
+ const auto dot=name.find('.');
+ if(dot!=std::string::npos)name.resize(dot);
+ name+="_BACKUP.mlx";
+ for(auto& ch:name)ch=static_cast<char>(std::tolower(static_cast<unsigned char>(ch)));
+ return name;
+}
+// Row whose generated level failed during the load now in progress. Reset when
+// each NativeStartGame plan is resolved.
+std::int32_t active_generated_backup_row=-1;
+const GeneratedBackupLevelV1* generated_backup_level(std::int32_t row,const std::string& name,
+                                                     const std::string& level_file){
+ for(const auto& backup:generated_backup_levels)
+  if(backup.level.row==row&&name==backup.level.name&&level_file==backup.rule_level_file&&
+     generated_backup_mlx_name(level_file)==backup.level.level_file)return &backup;
+ return nullptr;
+}
+// Rule <rules music="..."> label resolved to the Sounds.xml UID. CatacombsMusic
+// (void maze) has no sounds.xml row, so its UID is absent and no cue is queued.
+struct GeneratedRuleMusicV1 {const char* label;std::uint16_t uid;};
+constexpr GeneratedRuleMusicV1 generated_rule_music[]{
+ {"CryptOneAmbientMusic",486},{"SecretCryptAmbientMusic",487},{"AbbeyRuinsOneAmbientMusic",484},
+ {"GothicusCastleHubAmbientMusic",477},{"FireTowerAmbientMusic",478},{"EartheTowerAmbientMusic",479},
+ {"WaterTowerAmbientMusic",480},{"AirTowerAmbientMusic",481},{"LightTowerAmbientMusic",482},
+ {"EarthTempleAmbientMusic",474},{"RedDesertCaveOneAmbientMusic",489},{"RedDesertCaveTwoAmbientMusic",490},
+ {"RedDesertThreeAmbientMusic",491},{"LighthouseTempleAmbientMusic",492},{"IcyCaveTwoAmbientMusic",496},
+ {"IcyCaveThreeAmbientMusic",497},{"IcyCaveOneTwoAmbientMusic",499},{"WindTempleAmbientMusic",501},
+ {"WaterTempleCaveAmbientMusic",470},{"RootDenOneAmbientMusic",472},{"SecretBasementAmbientMusic",476},
+ {"SwampHubAmbientMusic",467},{"SwampWitchCaveAmbientMusic",468},
+};
+// Rule folder to base BDAE (the folder's own file, read from original-cache).
+struct GeneratedRuleBdaeV1 {const char* folder;const char* bdae;};
+constexpr GeneratedRuleBdaeV1 generated_rule_bdae[]{
+ {"data/3d/modules/crypt","crypt.bdae"},{"data/3d/modules/castle","castle.bdae"},
+ {"data/3d/modules/desert_cave","room_cave.bdae"},{"data/3d/modules/earth_temple","earth_temple.bdae"},
+ {"data/3d/modules/icy_cavern","icy_cavern.bdae"},{"data/3d/modules/lighthousse","lighthouse.bdae"},
+ {"data/3d/modules/root_den","root_den_rooms.bdae"},{"data/3d/modules/swamp","swamp.bdae"},
+ {"data/3d/modules/void_maze","void_maze.bdae"},{"data/3d/modules/water_temple","water_temple.bdae"},
+ {"data/3d/modules/wind_temple","wind_temple.bdae"},
+};
+const GeneratedRuleLevelV1* generated_rule_level(std::int32_t row,const std::string& name,
+                                                 const std::string& level_file){
+ if(row==active_generated_backup_row)return nullptr;  // the _BACKUP MLX replaced it
+ for(const auto& level:generated_rule_levels)
+  if(level.row==row&&name==level.name&&level_file==level.level_file)return &level;
+ return nullptr;
+}
+bool generated_rule_level_name(const std::string& name,const std::string& level_file){
+ if(active_generated_backup_row>=0)
+  for(const auto& backup:generated_backup_levels)
+   if(backup.level.row==active_generated_backup_row&&name==backup.level.name&&
+      level_file==backup.rule_level_file)return false;
+ for(const auto& level:generated_rule_levels)
+  if(name==level.name&&level_file==level.level_file)return true;
+ return false;
+}
+// Descriptor/scene stem: Crypt keeps "crypt"; other rows use the rule file stem.
+std::string generated_rule_stem(const std::string& level_file){
+ static constexpr char suffix[]=".rule.xml";
+ constexpr std::size_t suffix_size=sizeof(suffix)-1;
+ if(level_file=="007_crypt_01.rule.xml")return "crypt";
+ std::string stem=level_file;
+ if(stem.size()>=suffix_size&&stem.compare(stem.size()-suffix_size,suffix_size,suffix)==0)
+  stem.resize(stem.size()-suffix_size);
+ return stem;
+}
+std::string generated_rule_scene_path(const std::string& level_file){
+ return "data/scene/generated_"+generated_rule_stem(level_file)+".mlx";
+}
+std::string generated_rule_bres(const std::string& level_file,const std::string& folder){
+ if(level_file=="007_crypt_01.rule.xml")return "crypt.bdae";
+ for(const auto& entry:generated_rule_bdae)
+  if(folder==entry.folder)return folder+"/"+entry.bdae;
+ return std::string();
+}
+// Attribute of the <rules ...> header element (e.g. music, scriptFile).
+std::string generated_rule_header_attribute(std::string_view xml,std::string_view name){
+ const auto begin=xml.find("<rules");
+ if(begin==std::string_view::npos)return {};
+ const auto end=xml.find('>',begin);
+ if(end==std::string_view::npos)return {};
+ const auto header=xml.substr(begin,end-begin);
+ const std::string key=std::string(name)+"=\"";
+ for(auto at=header.find(key);at!=std::string_view::npos;at=header.find(key,at+1)){
+  if(at==0||!std::isspace(static_cast<unsigned char>(header[at-1])))continue;
+  const auto value=at+key.size();
+  const auto close=header.find('"',value);
+  if(close==std::string_view::npos)return {};
+  return std::string(header.substr(value,close-value));
+ }
+ return {};
+}
+std::uint16_t generated_rule_music_uid(const std::string& label){
+ for(const auto& music:generated_rule_music)if(label==music.label)return music.uid;
+ return 0;
+}
+// Script table stem: the rule scriptFile basename, lowercase, without extension.
+std::string generated_rule_script_stem(const std::string& script_file){
+ auto base=script_file;
+ const auto slash=base.find_last_of("/\\");
+ if(slash!=std::string::npos)base=base.substr(slash+1);
+ const auto dot=base.rfind('.');
+ if(dot!=std::string::npos)base.resize(dot);
+ for(auto& ch:base)ch=static_cast<char>(std::tolower(static_cast<unsigned char>(ch)));
+ return base;
+}
+} // namespace
 const char* static_level_name_for_row(std::int32_t row){
  for(const auto& level:static_mlx_levels)if(level.row==row)return level.name;
+ for(const auto& level:generated_rule_levels)if(level.row==row)return level.name;
  return nullptr;
 }
 bool gameplay_startup_loaded(const std::string& startup){
  if(startup.rfind("Crypt |",0)==0)return true;
  for(const auto& level:static_mlx_levels)
+  if(startup.rfind(std::string(level.name)+" |",0)==0)return true;
+ for(const auto& level:generated_rule_levels)
   if(startup.rfind(std::string(level.name)+" |",0)==0)return true;
  return false;
 }
@@ -1380,6 +1619,10 @@ namespace {
 const StaticMlxLevelV1* static_mlx_level(const std::string& name,const std::string& level_file){
  for(const auto& level:static_mlx_levels)
   if(name==level.name&&level_file==level.level_file)return &level;
+ if(active_generated_backup_row>=0)
+  for(const auto& backup:generated_backup_levels)
+   if(backup.level.row==active_generated_backup_row&&name==backup.level.name&&
+      level_file==backup.rule_level_file)return &backup.level;
  return nullptr;
 }
 const StaticMlxLevelV1* static_mlx_level_for_row(std::int32_t row,const std::string& name,
@@ -1391,6 +1634,9 @@ bool static_mlx_level_active(){
  return !active_level_assets.development_layout&&
      static_mlx_level(active_level_assets.name,active_level_assets.level_file);
 }
+const char* static_script_stem(const StaticMlxLevelV1& level){
+ return level.script_stem?level.script_stem:level.prefix;
+}
 std::string static_mlx_scene_path(const StaticMlxLevelV1& level){
  return std::string("data/scene/")+level.level_file;
 }
@@ -1400,6 +1646,8 @@ std::uint16_t source_level_vxn_music_uid() noexcept {
  if(active_level_assets.row==23&&
     active_level_assets.name=="GOTHICUS_CRYPT_01"&&
     active_level_assets.level_file=="007_crypt_01.rule.xml")return 486;
+ if(generated_rule_level(active_level_assets.row,active_level_assets.name,active_level_assets.level_file))
+  return generated_rule_music_uid(active_level_assets.generated_music_label);
  return 0;
 }
 // MenuMainMenu's preview selection is separate from PlayerInfo::saveSlot664.
@@ -5749,7 +5997,11 @@ bool NativeCryptRoomRuntime::initialize_source_exit_level_zones(
   source_handles.reserve(source_handles.size()+static_cast<std::size_t>(count));
   for(const auto& source:sources) {
    if(source.gametype!="TriggerZoneExitLevel")continue;
-   if(source.duplicate_name||source.source_handle<0||source.name.empty()||
+   // Generated Levels place one tile MGP in several Modules. ObjectManager::Add
+   // keeps the first object per name and destroys later same-name candidates
+   // (source handle ledger duplicate_name); those never reach InitPost.
+   if(source.duplicate_name)continue;
+   if(source.source_handle<0||source.name.empty()||
       source.source_record==std::numeric_limits<std::uint32_t>::max()||
       source.source_module_id<0||
       source.module_index>=ledger->initial_top_level_handle_offset-1) {
@@ -6403,6 +6655,9 @@ bool NativeCryptRoomRuntime::initialize_source_doors(std::string& error) {
  const auto count=std::count_if(sources.begin(),sources.end(),[](const auto& row){
   return row.gametype=="Door";
  });
+ // Container InitFinal shares this ObjectManager generation binding even when
+ // the Level has no Door rows.
+ source_door_init_runtime=this;
  if(!count)return true;
  const auto* ledger=active_level_assets.generated_crypt_layout
      ?active_level_assets.generated_crypt_handle_ledger.get()
@@ -6438,7 +6693,11 @@ bool NativeCryptRoomRuntime::initialize_source_doors(std::string& error) {
   };
   for(const auto& source:sources) {
    if(source.gametype!="Door")continue;
-   if(source.duplicate_name||source.source_handle<0||
+   // Generated Levels place one tile MGP in several Modules. ObjectManager::Add
+   // keeps the first object per name and destroys later same-name candidates;
+   // those never reach InitPost (source handle ledger duplicate_name).
+   if(source.duplicate_name)continue;
+   if(source.source_handle<0||
       source.source_record==std::numeric_limits<std::uint32_t>::max()||
       source.source_module_id<0||
       std::find(source_handles.begin(),source_handles.end(),source.source_handle)!=source_handles.end()) {
@@ -8891,6 +9150,8 @@ float player_camera_rig_default_target_distance=0.0f;
 float player_camera_input_yaw=dh2::native::crypt_camera_frame_v1::kInputYawRadians;
 float player_camera_input_pitch=dh2::native::crypt_camera_frame_v1::input_pitch_radians();
 dh2::character::crypt_scripts::SpawnSession native_level_script_session;
+// SpawnPoint script name selected for this load (SPWN v2); started once after a fresh bind.
+std::string native_spawn_script_name;
 std::uint32_t native_level_script_generation=0;
 std::string native_level_script_level_name;
 SourceDialogServicesV1 native_source_dialog_services{};
@@ -16860,8 +17121,10 @@ void build_search_world() {
  if(registered_player&&player_character_listed&&player_character_count!=1)
   throw std::runtime_error("Crypt player roster transaction has duplicate Character-list entries");
  if(!player_roster_committed)native_characters.clear();
- if(!level.rooms||level.rooms>512||world_objects.empty())
+ if(!level.rooms||level.rooms>512)
   throw std::runtime_error("Character search room projection unavailable");
+ // A generated level whose Modules name no Character-bearing gameplay files
+ // (VOID_MAZE_02/03) has no world objects; the search lists are then empty.
  search_world.rooms.resize(level.rooms);
  search_world.object_heads.resize(level.rooms);
  search_world.object_entries.resize(world_objects.size()+1);
@@ -17171,6 +17434,25 @@ std::vector<std::uint8_t> read(AAssetManager* assets,const std::string& name,con
   if(!a&&folder=="scripts"&&path.rfind("data/scripts/",0)==0){
     const auto packaged_relative="scripts/"+path.substr(13);
     a=AAssetManager_open(assets,packaged_relative.c_str(),AASSET_MODE_BUFFER);
+  }
+  // Rule XML names module files in the original mixed case (ABBEY_..., IC01_...),
+  // while the packaged cache stores them lowercase. Retry only the basename of
+  // the four module folders (mgp/mgx/mvp/mvx) under data/3d/modules/.
+  if(!a&&folder=="original-cache"&&path.rfind("data/3d/modules/",0)==0){
+    const auto slash=path.find_last_of('/');
+    const auto dir=slash==std::string::npos?std::string():path.substr(0,slash);
+    const auto dir_slash=dir.find_last_of('/');
+    const auto kind=dir_slash==std::string::npos?dir:dir.substr(dir_slash+1);
+    if(slash!=std::string::npos&&(kind=="mgp"||kind=="mgx"||kind=="mvp"||kind=="mvx")){
+      auto packaged=path;
+      for(std::size_t i=slash+1;i<packaged.size();++i)
+        packaged[i]=static_cast<char>(std::tolower(static_cast<unsigned char>(packaged[i])));
+      if(packaged!=path){
+        const auto packaged_relative=folder+"/"+packaged;
+        a=AAssetManager_open(assets,packaged_relative.c_str(),AASSET_MODE_BUFFER);
+        if(a)__android_log_print(ANDROID_LOG_INFO,"DH2Native","Lowercase module resource | %s",packaged.c_str());
+      }
+    }
   }
   if(!a&&folder=="actors"&&path.rfind("data/3d/",0)==0){
     const auto original_relative="original-cache/"+path;
@@ -20835,10 +21117,10 @@ bool load_source_level_camera_clip_planes(AAssetManager* assets,
    source_path=static_mlx_scene_path(*static_level);
    bytes=read(assets,source_path.c_str(),"original-cache");
    xml={reinterpret_cast<const char*>(bytes.data()),bytes.size()};
-  }else if(level.name=="GOTHICUS_CRYPT_01"&&level.level_file=="007_crypt_01.rule.xml"){
-   bytes=read(assets,"007_crypt_01.rule.xml","worlds");
+  }else if(generated_rule_level_name(level.name,level.level_file)){
+   bytes=read(assets,level.level_file,"worlds");
    xml={reinterpret_cast<const char*>(bytes.data()),bytes.size()};
-   source_path="007_crypt_01.rule.xml";
+   source_path=level.level_file;
   }else{
    error="No source LevelConfig camera clip fields for "+level.name+" / "+level.level_file;
    return false;
@@ -21046,17 +21328,20 @@ bool crypt_safe_asset_directory(std::string_view value){
  return true;
 }
 
-bool load_crypt_rule_assets(AAssetManager* assets,
+bool load_crypt_rule_assets(AAssetManager* assets,const std::string& rule_file,
     std::shared_ptr<dh2::random_level::CryptRuleDocumentV1>& rules,
     std::shared_ptr<dh2::random_level::CryptModuleAssetBytesV1>& source_bytes,
     std::shared_ptr<dh2::random_level::CryptModuleCatalogueV1>& catalogue,
+    std::string& music_label,std::string& script_stem,
     std::string& error){
  using namespace dh2::random_level;
  try{
-  const auto rule_bytes=read(assets,"007_crypt_01.rule.xml","worlds");
+  const auto rule_bytes=read(assets,rule_file,"worlds");
   const std::string_view rule_xml(reinterpret_cast<const char*>(rule_bytes.data()),rule_bytes.size());
   const auto parsed=parse_crypt_rule_v1(rule_xml);
   if(!parsed){error="Crypt rule parse failed: "+parsed.error;return false;}
+  music_label=generated_rule_header_attribute(rule_xml,"music");
+  script_stem=generated_rule_script_stem(generated_rule_header_attribute(rule_xml,"scriptFile"));
   if(!crypt_safe_asset_directory(parsed.document->folder)){
    error="Crypt rule has an unsafe source module folder";return false;
   }
@@ -21069,6 +21354,38 @@ bool load_crypt_rule_assets(AAssetManager* assets,
    return true;
   };
   if(!read_source(module_root+"mgx/mgxlist.txt",bytes->mgx_list))return false;
+  // mgxlist.txt can name MGX-only modules with no MVX scene (e.g.
+  // objstart_watertemp_s_). Level::LoadTile only loads tiles that a rule
+  // entry names, so drop unreferenced rows whose MVX is absent from the cache.
+  {
+   std::set<std::string> rule_entry_names;
+   for(const auto& list:parsed.document->lists)
+    for(const auto& entry:list.entries)rule_entry_names.insert(entry.name);
+   std::string kept;
+   const std::string_view source(bytes->mgx_list);
+   for(std::size_t cursor=0;cursor<=source.size();){
+    const auto end=source.find('\n',cursor);
+    const auto line=source.substr(cursor,end==std::string::npos?source.size()-cursor:end-cursor);
+    auto trimmed=line;
+    while(!trimmed.empty()&&std::isspace(static_cast<unsigned char>(trimmed.front())))trimmed.remove_prefix(1);
+    while(!trimmed.empty()&&std::isspace(static_cast<unsigned char>(trimmed.back())))trimmed.remove_suffix(1);
+    bool keep=true;
+    if(trimmed.size()>4&&trimmed.compare(trimmed.size()-4,4,".mgx")==0){
+     const std::string name(trimmed.substr(0,trimmed.size()-4));
+     if(!rule_entry_names.count(name)){
+      try{read(assets,module_root+"mvx/"+name+".mvx","original-cache");}
+      catch(const std::exception&){
+       keep=false;
+       __android_log_print(ANDROID_LOG_INFO,"DH2Native","Crypt mgxlist module without MVX skipped | %s",name.c_str());
+      }
+     }
+    }
+    if(keep&&!trimmed.empty()){kept.append(line);kept.push_back('\n');}
+    if(end==std::string::npos)break;
+    cursor=end+1;
+   }
+   bytes->mgx_list=std::move(kept);
+  }
   std::set<std::string> module_names,gameplay_names,visual_names;
   for(std::size_t cursor=0;cursor<=bytes->mgx_list.size();){
    const auto end=bytes->mgx_list.find('\n',cursor);
@@ -21087,34 +21404,48 @@ bool load_crypt_rule_assets(AAssetManager* assets,
   }
   for(const auto& list:parsed.document->lists){
    for(const auto& entry:list.entries){
-    if(!crypt_safe_asset_basename(entry.name+".mgx",".mgx")||
-       !crypt_safe_asset_basename(entry.gameplay,".mgp")||
-       !crypt_safe_asset_basename(entry.visual,".mvp")){
-     error="Crypt rule contains an unsafe gameplay or visual filename";return false;
+    if(!crypt_safe_asset_basename(entry.name+".mgx",".mgx")){
+     error="Crypt rule contains an unsafe module filename";return false;
     }
     module_names.insert(entry.name);
-    gameplay_names.insert(entry.gameplay);
-    visual_names.insert(entry.visual);
+    // Tile::SaveAsModuleXML (0x491d90) writes the mgp / mvp attribute only for
+    // a non-empty gameplay / visual, Module::LoadModule (0x38a88c) loads only
+    // named files, and Level::LoadFile (0x3f3b40) returns success without
+    // loading when no candidate path exists. So an empty name, a name without
+    // the .mgp / .mvp extension that names no file (034 voidmaze_02), or a file
+    // the cache lacks (033 / 035 "vm011_" typo) simply loads nothing.
+    if(crypt_safe_asset_basename(entry.gameplay,".mgp"))gameplay_names.insert(entry.gameplay);
+    if(crypt_safe_asset_basename(entry.visual,".mvp"))visual_names.insert(entry.visual);
    }
   }
   const auto read_module_files=[&](const std::set<std::string>& names,
       const char* directory,const char* extension,
-      std::map<std::string,std::string>& output)->bool{
+      std::map<std::string,std::string>& output,bool optional)->bool{
    for(const auto& name:names){
     const std::string suffix(extension);
     const bool has_suffix=name.size()>=suffix.size()&&
         name.compare(name.size()-suffix.size(),suffix.size(),suffix)==0;
     const auto filename=has_suffix?name:name+suffix;
     std::string contents;
-    if(!read_source(module_root+directory+"/"+filename,contents))return false;
+    if(optional){
+     try{
+      const auto value=read(assets,module_root+directory+"/"+filename,"original-cache");
+      if(value.empty())continue;
+      contents.assign(reinterpret_cast<const char*>(value.data()),value.size());
+     }catch(const std::exception&){
+      __android_log_print(ANDROID_LOG_INFO,"DH2Native","Crypt %s file absent, loads nothing | %s",
+          directory,filename.c_str());
+      continue;
+     }
+    }else if(!read_source(module_root+directory+"/"+filename,contents))return false;
     output.emplace(filename,std::move(contents));
    }
    return true;
   };
-  if(!read_module_files(module_names,"mgx",".mgx",bytes->mgx)||
-     !read_module_files(module_names,"mvx",".mvx",bytes->mvx)||
-     !read_module_files(gameplay_names,"mgp",".mgp",bytes->mgp)||
-     !read_module_files(visual_names,"mvp",".mvp",bytes->mvp))return false;
+  if(!read_module_files(module_names,"mgx",".mgx",bytes->mgx,false)||
+     !read_module_files(module_names,"mvx",".mvx",bytes->mvx,false)||
+     !read_module_files(gameplay_names,"mgp",".mgp",bytes->mgp,true)||
+     !read_module_files(visual_names,"mvp",".mvp",bytes->mvp,true))return false;
 
   auto checked=std::make_shared<CryptModuleCatalogueV1>(
       build_crypt_module_catalogue_from_bytes_v1(*parsed.document,*bytes));
@@ -21149,7 +21480,10 @@ bool build_generated_crypt_mgp_views(
   for(const auto& module:runtime.generated_crypt_modules){
    const auto found=runtime.crypt_asset_bytes->mgp.find(module.gameplay);
    if(found==runtime.crypt_asset_bytes->mgp.end()||found->second.empty()){
-    error="Generated Crypt MGP is missing: "+module.gameplay;return false;
+    // No gameplay file named or present: the Module loads no MGP objects.
+    source_paths.emplace_back();
+    views.push_back({nullptr,nullptr,0});
+    continue;
    }
    source_paths.push_back(runtime.crypt_rules->folder+"/mgp/"+module.gameplay);
    const auto& bytes=found->second;
@@ -21177,7 +21511,10 @@ bool build_generated_crypt_mvp_views(
   for(const auto& module:runtime.generated_crypt_modules){
    const auto found=runtime.crypt_asset_bytes->mvp.find(module.visual);
    if(found==runtime.crypt_asset_bytes->mvp.end()||found->second.empty()){
-    error="Generated Crypt MVP is missing: "+module.visual;return false;
+    // No visual file named or present: the Module loads no MVP objects.
+    source_paths.emplace_back();
+    views.push_back({nullptr,nullptr,0});
+    continue;
    }
    source_paths.push_back(runtime.crypt_rules->folder+"/mvp/"+module.visual);
    const auto& bytes=found->second;
@@ -21213,16 +21550,15 @@ bool build_generated_crypt_handle_ledger(
    const auto& module=runtime.generated_crypt_modules[index];
    const auto mgp=runtime.crypt_asset_bytes->mgp.find(module.gameplay);
    const auto mvp=runtime.crypt_asset_bytes->mvp.find(module.visual);
-   if(mgp==runtime.crypt_asset_bytes->mgp.end()||mgp->second.empty()||
-      mvp==runtime.crypt_asset_bytes->mvp.end()||mvp->second.empty()){
-    error="Generated Crypt ObjectManager file is missing: "+module.gameplay+
-          " / "+module.visual;return false;
-   }
    const auto module_index=static_cast<std::uint32_t>(index);
-   paths.push_back(runtime.crypt_rules->folder+"/mgp/"+module.gameplay);
-   refs.push_back({module_index,ModuleFileKind::mgp,&mgp->second});
-   paths.push_back(runtime.crypt_rules->folder+"/mvp/"+module.visual);
-   refs.push_back({module_index,ModuleFileKind::mvp,&mvp->second});
+   if(mgp!=runtime.crypt_asset_bytes->mgp.end()&&!mgp->second.empty()){
+    paths.push_back(runtime.crypt_rules->folder+"/mgp/"+module.gameplay);
+    refs.push_back({module_index,ModuleFileKind::mgp,&mgp->second});
+   }
+   if(mvp!=runtime.crypt_asset_bytes->mvp.end()&&!mvp->second.empty()){
+    paths.push_back(runtime.crypt_rules->folder+"/mvp/"+module.visual);
+    refs.push_back({module_index,ModuleFileKind::mvp,&mvp->second});
+   }
   }
   std::vector<OrderedModuleFile> files;
   files.reserve(refs.size());
@@ -21243,7 +21579,7 @@ bool build_generated_crypt_handle_ledger(
   const auto& xml=runtime.generated_crypt_source_xml;
   const auto status=source_handle_ledger_v1::build(
       reinterpret_cast<const std::uint8_t*>(xml.data()),xml.size(),
-      runtime.name.c_str(),"data/scene/generated_crypt.mlx",
+      runtime.name.c_str(),generated_rule_scene_path(runtime.level_file).c_str(),
       files.data(),files.size(),first_source_handle,root_offset,*ledger,error);
   if(status!=source_handle_ledger_v1::Status::ok){
    error="Generated Crypt ObjectManager order rejected: "+error;return false;
@@ -21267,7 +21603,7 @@ bool compile_generated_crypt_spawnpoint(
  if(xml.empty()){error="Generated Crypt Level XML is empty";return false;}
  return dh2::world::compile_generated_spawnpoint_v1(
      reinterpret_cast<const std::uint8_t*>(xml.data()),xml.size(),
-     "GOTHICUS_CRYPT_01","data/scene/generated_crypt.mlx",
+     runtime.name.c_str(),generated_rule_scene_path(runtime.level_file).c_str(),
      views.data(),views.size(),entrypoint,output,error);
 }
 
@@ -21324,19 +21660,43 @@ bool prepare_native_transition_runtime_v1(
    error="Source SWAMP transition DWLD asset is unavailable";return false;
   }
  }else if(plan.runtime_kind==dh2::ui::NativeDestinationRuntimeKindV1::crypt_generated){
-  if(plan.level_row!=23||plan.level_name!="GOTHICUS_CRYPT_01"||
-     plan.load.file!="007_crypt_01.rule.xml"){
+  // A repeated entry into a level whose last generation fell back to its
+  // _BACKUP MLX generates afresh; the flag is set again below if it fails.
+  if(active_generated_backup_row==plan.level_row)active_generated_backup_row=-1;
+  if(!generated_rule_level(plan.level_row,plan.level_name,plan.load.file)){
    error="Generated Crypt transition adapter does not match its source LevelList row";return false;
   }
-  runtime.descriptor=plan.descriptor;runtime.bres=plan.bres;
+  runtime.descriptor=plan.descriptor;
   runtime.spawns=plan.spawns;runtime.objects=plan.objects;
-  if(!load_crypt_rule_assets(transition.assets,runtime.crypt_rules,
-      runtime.crypt_asset_bytes,runtime.crypt_catalogue,error))return false;
+  if(!load_crypt_rule_assets(transition.assets,plan.load.file,runtime.crypt_rules,
+      runtime.crypt_asset_bytes,runtime.crypt_catalogue,runtime.generated_music_label,
+      runtime.generated_script_stem,error))return false;
+  runtime.bres=generated_rule_bres(plan.load.file,runtime.crypt_rules->folder);
+  if(runtime.bres.empty()){
+   error="Generated rule folder has no base BDAE: "+runtime.crypt_rules->folder;return false;
+  }
   const auto generated=dh2::random_level::generate_crypt_level_v1(
       *runtime.crypt_rules,*runtime.crypt_catalogue,runtime.source_load_seed);
   if(generated.status!=dh2::random_level::CryptLevelGeneratorStatusV1::success){
-   error="Source Crypt transition generation failed: "+generated.message;return false;
-  }
+   // Level::_LoadProcess (0x3f6990) case 7: load the "_BACKUP.mlx" layout.
+   const auto* backup=generated_backup_level(plan.level_row,plan.level_name,plan.load.file);
+   if(!backup){
+    error="Source Crypt transition generation failed: "+generated.message;return false;
+   }
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+     "Generated level failed (%s) | loading %s | row %d | seed %u",generated.message.c_str(),
+     backup->level.level_file,plan.level_row,runtime.source_load_seed);
+   runtime=RuntimeLevelAssets{};runtime.row=plan.level_row;runtime.name=plan.level_name;
+   runtime.level_file=plan.load.file;runtime.source_load_seed=plan.load.seed;
+   runtime.source_load_synchronized_seed=plan.load.synchronized_seed;
+   active_generated_backup_row=plan.level_row;
+   const std::string prefix=backup->level.prefix;
+   runtime.descriptor=prefix+".dwld";runtime.bres=backup->level.bres;
+   runtime.spawns=prefix+".spwn";runtime.objects=prefix+".dact";runtime.development_layout=false;
+   payload.dwld_v1=read(transition.assets,runtime.descriptor,"worlds");
+   if(!static_level_entrypoint_fallback(transition.assets,runtime.spawns,
+        transition.plan.load.entry_point,error))return false;
+  }else{
   runtime.generated_crypt_layout=true;runtime.development_layout=false;
   runtime.generated_crypt_source_xml=generated.layout.source_level_xml;
   runtime.generated_crypt_modules=generated.modules;
@@ -21347,6 +21707,7 @@ bool prepare_native_transition_runtime_v1(
   if(!compile_generated_crypt_spawnpoint(runtime,plan.load.entry_point,
        payload.spwn_v1,error)){
    error="Generated Crypt transition SpawnPoint compile failed: "+error;return false;
+  }
   }
  }else{
   error="Destination is present in LevelList but has no native runtime adapter";return false;
@@ -21419,7 +21780,7 @@ bool prepare_native_menu_start(std::int32_t slot,bool has_numeric_difficulty,
    // Crypt row 23 and the authored static MLX levels other than the
    // campaign's first (SWAMP) are available as debug launch overrides.
    if(context.debug_level_row!=23&&!static_level_name_for_row(context.debug_level_row)){
-    failure="Only source Crypt row 23 and the authored static MLX rows are available as debug launch overrides";return false;
+    failure="Only source LevelList rows with a native loader are available as debug launch overrides";return false;
    }
    for(auto& row:view.level_rows)row=context.debug_level_row;
   }
@@ -21494,26 +21855,49 @@ bool prepare_native_menu_start(std::int32_t slot,bool has_numeric_difficulty,
     slot,plan.saved_spawn_flag_row_to_clear,unsigned(plan.load_spawn_flag),
     std::size_t(save_transaction.save_identity));
  }
+ active_generated_backup_row=-1;
  runtime={};runtime.row=plan.level_row;runtime.name=plan.level_name;runtime.level_file=plan.level_file;
  runtime.source_load_seed=application_seed.ordinary_seed;
  runtime.source_load_synchronized_seed=application_seed.synchronized_seed;
- if(const auto* static_level=static_mlx_level_for_row(plan.level_row,plan.level_name,plan.level_file)){
+ const auto configure_static_level=[&](const StaticMlxLevelV1* static_level)->bool{
   const std::string prefix=static_level->prefix;
   runtime.descriptor=prefix+".dwld";runtime.bres=static_level->bres;
   runtime.spawns=prefix+".spwn";runtime.objects=prefix+".dact";runtime.development_layout=false;
   payload.dwld_v1=read(assets,runtime.descriptor,"worlds");
-  if(std::string(static_level->name)!="SWAMP"&&
-     !static_level_entrypoint_fallback(assets,runtime.spawns,plan.entry_point,error))return false;
- }else if(plan.level_row==23&&plan.level_name=="GOTHICUS_CRYPT_01"&&
-          plan.level_file=="007_crypt_01.rule.xml"){
-  runtime.descriptor="generated-crypt.dwld";runtime.bres="crypt.bdae";
-  runtime.spawns="generated-crypt.spwn";runtime.objects="generated-crypt.dact";
-  if(!load_crypt_rule_assets(assets,runtime.crypt_rules,
-      runtime.crypt_asset_bytes,runtime.crypt_catalogue,error))return false;
+  return std::string(static_level->name)=="SWAMP"||
+      static_level_entrypoint_fallback(assets,runtime.spawns,plan.entry_point,error);
+ };
+ if(const auto* static_level=static_mlx_level_for_row(plan.level_row,plan.level_name,plan.level_file)){
+  if(!configure_static_level(static_level))return false;
+ }else if(generated_rule_level(plan.level_row,plan.level_name,plan.level_file)){
+  const auto stem=generated_rule_stem(plan.level_file);
+  runtime.descriptor="generated-"+stem+".dwld";
+  runtime.spawns="generated-"+stem+".spwn";runtime.objects="generated-"+stem+".dact";
+  if(!load_crypt_rule_assets(assets,plan.level_file,runtime.crypt_rules,
+      runtime.crypt_asset_bytes,runtime.crypt_catalogue,runtime.generated_music_label,
+      runtime.generated_script_stem,error))return false;
+  runtime.bres=generated_rule_bres(plan.level_file,runtime.crypt_rules->folder);
+  if(runtime.bres.empty()){
+   error="Generated rule folder has no base BDAE: "+runtime.crypt_rules->folder;return false;
+  }
   auto generated=dh2::random_level::generate_crypt_level_v1(
       *runtime.crypt_rules,*runtime.crypt_catalogue,runtime.source_load_seed);
   if(generated.status!=dh2::random_level::CryptLevelGeneratorStatusV1::success){
-   error="Source Crypt generation failed: "+generated.message;return false;
+   // Level::_LoadProcess (0x3f6990) case 7: a failed GenerateRandomLevel loads
+   // the "_BACKUP.mlx" authored layout (generated_backup_levels) instead.
+   const auto* backup=generated_backup_level(plan.level_row,plan.level_name,plan.level_file);
+   if(!backup){
+    error="Source Crypt generation failed: "+generated.message;return false;
+   }
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+     "Generated level failed (%s) | loading %s | row %d | seed %u",generated.message.c_str(),
+     backup->level.level_file,plan.level_row,runtime.source_load_seed);
+   const auto seed=runtime.source_load_seed;const auto synchronized_seed=runtime.source_load_synchronized_seed;
+   runtime={};runtime.row=plan.level_row;runtime.name=plan.level_name;runtime.level_file=plan.level_file;
+   runtime.source_load_seed=seed;runtime.source_load_synchronized_seed=synchronized_seed;
+   active_generated_backup_row=plan.level_row;
+   if(!configure_static_level(&backup->level))return false;
+   error.clear();return true;
   }
   runtime.generated_crypt_layout=true;runtime.development_layout=false;
   runtime.generated_crypt_source_xml=std::move(generated.layout.source_level_xml);
@@ -21527,7 +21911,8 @@ bool prepare_native_menu_start(std::int32_t slot,bool has_numeric_difficulty,
    error="Generated Crypt SpawnPoint compile failed: "+error;return false;
   }
   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
-    "Source Crypt generated | seed %u | modules %zu | Step rows %zu | candidates %zu | rollbacks %zu | spawn entrypoint %d | rule entries %zu | exact tuples %zu | MGX/MVX %zu/%zu | MGP/MVP %zu/%zu",
+    "%s | seed %u | modules %zu | Step rows %zu | candidates %zu | rollbacks %zu | spawn entrypoint %d | rule entries %zu | exact tuples %zu | MGX/MVX %zu/%zu | MGP/MVP %zu/%zu",
+    stem=="crypt"?"Source Crypt generated":"Source generated rule level",
     runtime.source_load_seed,runtime.generated_crypt_modules.size(),
     generated.generation_result.rows_tried,
     generated.generation_result.one_step_candidates_tried,
@@ -23450,6 +23835,13 @@ int crypt_script_camera(void*,std::uint8_t use_crit,std::int32_t clip_id) {
   return -1;
  }
 }
+dh2::character::crypt_scripts::SpawnDispatch native_level_script_dispatch();
+void log_native_level_script_providers(const std::string& level_name){
+ std::uint32_t supported=0,total=0;std::string blockers;
+ native_level_script_session.supported_level_scripts(supported,total,&blockers);
+ __android_log_print(ANDROID_LOG_INFO,"DH2Native","%s level scripts with bound command providers | %u of %u | first blockers (id x count) %s",
+     level_name.c_str(),supported,total,blockers.c_str());
+}
 void initialize_crypt_script(AAssetManager* assets,bool restore,
     const dh2::world::GeneratedCryptTriggerZoneSourceV1* generated_trigger=nullptr) {
  const auto source_level=source_level_owner.snapshot();
@@ -23493,13 +23885,16 @@ void initialize_crypt_script(AAssetManager* assets,bool restore,
   seeds.push_back(seed);
  }
  const auto& source=dh2_crypt_spawn_trigger::GHOST_AMBUSH_01;
+ const std::string script_stem=active_level_assets.generated_script_stem.empty()?
+     std::string("007_crypt_01"):active_level_assets.generated_script_stem;
  std::string error;
- if(!native_level_script_session.load(read(assets,"scripts_pyscriptnames.bin","scripts"),read(assets,"scripts_pyscripts.bin","scripts"),read(assets,"007_crypt_01_pyscriptnames.bin","scripts"),read(assets,"007_crypt_01_pyscripts.bin","scripts"),seeds.data(),seeds.size(),source.trigger_name,source.script_name,source.activation_limit,{nullptr,crypt_script_spawn,crypt_script_camera,native_level_script_object_lookup,native_level_script_actor_command},error))throw std::runtime_error(error);
+ if(!native_level_script_session.load(read(assets,"scripts_pyscriptnames.bin","scripts"),read(assets,"scripts_pyscripts.bin","scripts"),read(assets,script_stem+"_pyscriptnames.bin","scripts"),read(assets,script_stem+"_pyscripts.bin","scripts"),seeds.data(),seeds.size(),source.trigger_name,source.script_name,source.activation_limit,native_level_script_dispatch(),error))throw std::runtime_error(error);
  crypt_trigger_position=position;crypt_trigger_scale=scale;crypt_trigger_room=trigger_room;
  dh2_crypt_spawn_trigger::init_state(&crypt_trigger_state);
  native_level_script_generation=source_level.generation;
  native_level_script_level_name=active_level_assets.name;
- __android_log_print(ANDROID_LOG_INFO,"DH2Native","Crypt script ready | common %u | level %u | script %d | room %u | trigger %.6g %.6g %.6g | source AABB contact | other scripts pending",native_level_script_session.runtime()->common_table->script_count,native_level_script_session.runtime()->level_table->script_count,native_level_script_session.runtime()->trigger_script_id,crypt_trigger_room,position.x,position.y,position.z);
+ __android_log_print(ANDROID_LOG_INFO,"DH2Native","Crypt script ready | common %u | level %u | script %d | room %u | trigger %.6g %.6g %.6g | source AABB contact | full command providers bound",native_level_script_session.runtime()->common_table->script_count,native_level_script_session.runtime()->level_table->script_count,native_level_script_session.runtime()->trigger_script_id,crypt_trigger_room,position.x,position.y,position.z);
+ log_native_level_script_providers(active_level_assets.name);
 }
 // Generic level-script host commands. Each case follows the original
 // Script_<Command>::Execute recovered from IDA; commands whose canonical owner
@@ -23668,7 +24063,13 @@ bool native_level_script_host_supports(void*,const dh2_script_command* command){
  case 22: case 23: // ShowFlash/HideFlash(I, name S, B)
   return c.field_count==3&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32&&
       native_script_name_field(c,1)&&c.fields[2].kind==DH2_SCRIPT_VALUE_BOOL;
+ case 1: case 2: // EnterCutSceneMode()/ExitCutSceneMode()
+  return true;
+ case 69: // SaveGame()
+  return c.field_count==0;
  case 66: // AwardTrophy(I id)
+  return c.field_count==1&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32;
+ case 28: // IncFaeryLevel(I index)
   return c.field_count==1&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32;
  case 27: // SetFaeryState(I index, I state)
   return c.field_count==2&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32&&
@@ -23686,6 +24087,8 @@ bool native_level_script_host_supports(void*,const dh2_script_command* command){
  default:return false;
  }
 }
+bool native_player_inc_faery_level(std::uint32_t index,std::string& error);
+bool native_level_script_save_game(std::string& error);
 int native_level_script_host_command(void*,const dh2_script_command* command,
                                      std::uintptr_t* handle){
  try {
@@ -23883,6 +24286,13 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
    std::string error;
    return native_gameplay_ui->lock_source_tutorial(c.fields[0].value.i32,error)?1:-1;
   }
+  case 69: {
+   // Script_SaveGame::Execute 0x45c994: DebugSwitches trace query, then (for
+   // the current Level) Level::SG_BlockLevel(false) + Level::QuickSave(false),
+   // then the local Player's Character::SG_Block(false) + Character::SG_Save.
+   std::string error;
+   return native_level_script_save_game(error)?1:-1;
+  }
   case 79: {
    // Script_FlushMessages::Execute 0x460a58.
    if(!native_gameplay_ui)return 1;
@@ -23986,6 +24396,18 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
    *handle=native_script_moves.size();
    return 2;
   }
+  case 28: {
+   // Script_IncFaeryLevel::Execute 0x45f5cc (offline: local Player Character)
+   // -> Character::IncFaeryLevel 0x3ae61c: SG_SetFaerieLevel(idx, level+1),
+   // CharAI::UpdateAllSkills, then faery_charged once every faery level != 0.
+   if(native_host_online_v1())return -2;
+   std::string error;
+   if(!native_player_inc_faery_level(std::uint32_t(c.fields[0].value.i32),error)){
+    __android_log_print(ANDROID_LOG_ERROR,"DH2Native","Script IncFaeryLevel failed | %s",error.c_str());
+    return -1;
+   }
+   return 1;
+  }
   case 27: {
    // Script_SetFaeryState::Execute 0x45f6c8 -> Character::SetFaeryState(local
    // Player, index, state) 0x3ae7d4 -> SG_SetFaerieState. Its tutorial branch
@@ -23999,6 +24421,17 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
    std::string error;
    return prince_combat.savegame->set_faery_state(std::uint32_t(index),state,
        std::uint32_t(native_save_difficulty),error)?1:-1;
+  }
+  case 1: case 2: {
+   // Script_EnterCutSceneMode 0x45a384 / Script_ExitCutSceneMode 0x4599ac:
+   // the HUD root movie's StartCutscene / StopCutscene AS callbacks.
+   if(!native_gameplay_ui)return -2;
+   std::string error;
+   const bool ok=c.command_id==1?native_gameplay_ui->enter_source_cutscene(error):
+                                 native_gameplay_ui->exit_source_cutscene(error);
+   if(!ok)__android_log_print(ANDROID_LOG_ERROR,"DH2Native","Script %s failed | %s",
+       c.command_id==1?"EnterCutSceneMode":"ExitCutSceneMode",error.c_str());
+   return ok?1:-1;
   }
   case 66: {
    // Script_AwardTrophy::Execute 0x4593c4 -> TrophyManager::UnlockTrophy
@@ -24120,29 +24553,8 @@ int native_level_script_host_command_blocking(void*,std::uintptr_t handle,std::u
   move.active=false;return 0;
  }catch(...){return -1;}
 }
-void initialize_swamp_level_script_session(AAssetManager* assets,bool restore) {
- if(!restore){native_script_camera_target=0;native_script_camera_target_dirty=false;native_script_moves.clear();}
+dh2::character::crypt_scripts::SpawnDispatch native_level_script_dispatch(){
  const auto source_level=source_level_owner.snapshot();
- if(!source_level.source_level||
-    source_level.phase!=dh2::source_level_owner_v1::Phase::active||
-    !static_mlx_level_active())
-  throw std::runtime_error("Static Level ScriptManager binding requires its active source Level");
- if(restore&&native_level_script_session.ready()&&
-    native_level_script_generation==source_level.generation&&
-    native_level_script_level_name==active_level_assets.name)return;
- native_level_script_session.clear();
- crypt_trigger_state={};
- std::vector<dh2_script_runtime::ObjectSeed> seeds;
- for(const auto& group:object_groups)for(const auto& actor:group.instances)if(actor.spawn_owner){
-  dh2_script_runtime::ObjectSeed seed{};
-  if(actor.name.size()>=sizeof(seed.name)||actor.state.size()>=sizeof(seed.ai_state))
-   throw std::runtime_error("SWAMP source Character seed exceeds ScriptManager bounds");
-  std::strcpy(seed.name,actor.name.c_str());
-  std::strcpy(seed.gametype,"Character");
-  std::strcpy(seed.ai_state,actor.state.c_str());
-  seed.auto_spawn=actor.gated_spawn?0:1;
-  seeds.push_back(seed);
- }
  native_level_dialog_dispatch_context={source_level.source_level,
                                        source_level.generation};
  const auto start_dialog=[](void* raw,
@@ -24231,14 +24643,78 @@ void initialize_swamp_level_script_session(AAssetManager* assets,bool restore) {
      native_level_script_door_is_blocking,start_dialog_id,
      native_level_script_host_supports,native_level_script_host_command,
      native_level_script_host_command_blocking};
+ return dispatch;
+}
+// Generated and static level scripts bind the same command providers.
+void initialize_generated_level_script_session(AAssetManager* assets,bool restore) {
+ const auto source_level=source_level_owner.snapshot();
+ if(!source_level.source_level||source_level.phase!=dh2::source_level_owner_v1::Phase::active)
+  throw std::runtime_error("Generated Level ScriptManager binding requires its active source Level");
+ if(restore&&native_level_script_session.ready()&&
+    native_level_script_generation==source_level.generation&&
+    native_level_script_level_name==active_level_assets.name)return;
+ native_level_script_session.clear();
+ crypt_trigger_state={};
+ std::vector<dh2_script_runtime::ObjectSeed> seeds;
+ for(const auto& group:object_groups)for(const auto& actor:group.instances)if(actor.spawn_owner){
+  dh2_script_runtime::ObjectSeed seed{};
+  if(actor.name.size()>=sizeof(seed.name)||actor.state.size()>=sizeof(seed.ai_state))
+   throw std::runtime_error("Generated Level Character seed exceeds ScriptManager bounds");
+  std::strcpy(seed.name,actor.name.c_str());
+  std::strcpy(seed.gametype,"Character");
+  std::strcpy(seed.ai_state,actor.state.c_str());
+  seed.auto_spawn=actor.gated_spawn?0:1;
+  seeds.push_back(seed);
+ }
+ const auto dispatch=native_level_script_dispatch();
+ const std::string script_stem=active_level_assets.generated_script_stem.empty()?
+     std::string("007_crypt_01"):active_level_assets.generated_script_stem;
+ std::string error;
+ if(!native_level_script_session.load_level(read(assets,"scripts_pyscriptnames.bin","scripts"),
+      read(assets,"scripts_pyscripts.bin","scripts"),
+      read(assets,script_stem+"_pyscriptnames.bin","scripts"),
+      read(assets,script_stem+"_pyscripts.bin","scripts"),
+      seeds.data(),static_cast<std::uint32_t>(seeds.size()),dispatch,error))
+  throw std::runtime_error("Generated Level ScriptManager table bind failed: "+error);
+ native_level_script_generation=source_level.generation;
+ native_level_script_level_name=active_level_assets.name;
+ const auto* runtime=native_level_script_session.runtime();
+ __android_log_print(ANDROID_LOG_INFO,"DH2Native","Generated Level ScriptManager bound | source Level generation %u | common %u | level %u | canonical Character seeds %zu | no GhostAmbush01 trigger",
+     source_level.generation,runtime->common_table->script_count,runtime->level_table->script_count,seeds.size());
+ log_native_level_script_providers(active_level_assets.name);
+}
+void initialize_swamp_level_script_session(AAssetManager* assets,bool restore) {
+ if(!restore){native_script_camera_target=0;native_script_camera_target_dirty=false;native_script_moves.clear();}
+ const auto source_level=source_level_owner.snapshot();
+ if(!source_level.source_level||
+    source_level.phase!=dh2::source_level_owner_v1::Phase::active||
+    !static_mlx_level_active())
+  throw std::runtime_error("Static Level ScriptManager binding requires its active source Level");
+ if(restore&&native_level_script_session.ready()&&
+    native_level_script_generation==source_level.generation&&
+    native_level_script_level_name==active_level_assets.name)return;
+ native_level_script_session.clear();
+ crypt_trigger_state={};
+ std::vector<dh2_script_runtime::ObjectSeed> seeds;
+ for(const auto& group:object_groups)for(const auto& actor:group.instances)if(actor.spawn_owner){
+  dh2_script_runtime::ObjectSeed seed{};
+  if(actor.name.size()>=sizeof(seed.name)||actor.state.size()>=sizeof(seed.ai_state))
+   throw std::runtime_error("SWAMP source Character seed exceeds ScriptManager bounds");
+  std::strcpy(seed.name,actor.name.c_str());
+  std::strcpy(seed.gametype,"Character");
+  std::strcpy(seed.ai_state,actor.state.c_str());
+  seed.auto_spawn=actor.gated_spawn?0:1;
+  seeds.push_back(seed);
+ }
+ const auto dispatch=native_level_script_dispatch();
  std::string error;
  if(!native_level_script_session.load_level(
       read(assets,"scripts_pyscriptnames.bin","scripts"),
       read(assets,"scripts_pyscripts.bin","scripts"),
-      read(assets,(std::string(static_mlx_level(active_level_assets.name,
-           active_level_assets.level_file)->prefix)+"_pyscriptnames.bin").c_str(),"scripts"),
-      read(assets,(std::string(static_mlx_level(active_level_assets.name,
-           active_level_assets.level_file)->prefix)+"_pyscripts.bin").c_str(),"scripts"),
+      read(assets,(std::string(static_script_stem(*static_mlx_level(active_level_assets.name,
+           active_level_assets.level_file)))+"_pyscriptnames.bin").c_str(),"scripts"),
+      read(assets,(std::string(static_script_stem(*static_mlx_level(active_level_assets.name,
+           active_level_assets.level_file)))+"_pyscripts.bin").c_str(),"scripts"),
       seeds.data(),static_cast<std::uint32_t>(seeds.size()),dispatch,error))
   throw std::runtime_error("SWAMP Level ScriptManager table bind failed: "+error);
  native_level_script_generation=source_level.generation;
@@ -24255,7 +24731,9 @@ void initialize_swamp_level_script_session(AAssetManager* assets,bool restore) {
 }
 void update_crypt_contact() {
  // The GhostAmbush01 spawn trigger belongs to the Crypt ScriptManager only.
- if(!native_level_script_session.ready()||static_mlx_level_active())return;
+ // Generated levels without that trigger bind the full table with no trigger (id -1).
+ if(!native_level_script_session.ready()||static_mlx_level_active()||
+    native_level_script_session.runtime()->trigger_script_id<0)return;
  const auto* box=prince_runtime.subobjects.absolute_bounds;
  const dh2_crypt_spawn_trigger::PlayerAabb player{{box[0],box[1],box[2],box[3],box[4],box[5]},1};
  // The selected original program never marks/locks a player and this local
@@ -26183,6 +26661,15 @@ std::int32_t native_aggro_search_service(void* raw,
  }
  case ai_melee_radius: {
   std::string error;float radius=0.f;
+  if(request->subject==owner.identity&&!owner.source_inventory){
+   // Unequipped Character: AI_GetMeleeRadius = weapon range 0 + AITable +32.
+   if(dh2::character::player_attack_melee_radius_v1::query(nullptr,&actor_ai_tables,
+        owner.properties.resolved[1],&radius)!=
+        dh2::character::player_attack_melee_radius_v1::Status::complete){
+    native_aggro_fail="searcher AI melee radius unavailable: AITable row";return 1;
+   }
+   response->number=radius;return 0;
+  }
   if(request->subject!=owner.identity||!owner.source_inventory||
      !owner.source_inventory->melee_radius(owner,radius,error)){
    static std::string reason;
@@ -33058,6 +33545,37 @@ bool apply_player_faery_change(std::uint32_t id,std::string& error) {
      dh2::data::player_faery_change_v1::Status::complete;
 }
 
+// Character::IncFaeryLevel 0x3ae61c. SG_GetFaerieCount is the Save row count (5).
+bool native_level_script_save_game(std::string& error) {
+ const auto active=source_level_owner.snapshot();
+ if(!active.source_level||!source_level_owner.sg_block_level(active.source_level,0)){
+  error="Script_SaveGame Level::SG_BlockLevel requires the active source Level";return false;
+ }
+ if(!native_level_quick_save_v1(false,error))return false;
+ const auto player=prince_character.identity();
+ if(!player||!prince_character.sg_block(player,0)){
+  error="Script_SaveGame Character::SG_Block requires the local Player";return false;
+ }
+ return ui_player_save_game(player,error);
+}
+bool native_player_inc_faery_level(std::uint32_t index,std::string& error) {
+ constexpr std::uint32_t faery_count=5;
+ if(native_save_difficulty<0||native_save_difficulty>2||!prince_combat.savegame){
+  error="Character::IncFaeryLevel requires the retained Player Save";return false;
+ }
+ const auto diff=std::uint32_t(native_save_difficulty);
+ if(index>=faery_count){error="faeryIdx >= SG_GetFaerieCount";return false;}
+ auto& save=*prince_combat.savegame;
+ if(!save.set_faery_level(index,std::int32_t(save.faery_level(index,diff)+1),diff,error))return false;
+ if(!prince_skills||!prince_skills->initialized()||
+    !prince_skills->update_after_source_skill_inputs_changed(error)){
+  if(error.empty())error="Character::IncFaeryLevel requires the UpdateAllSkills owner";
+  return false;
+ }
+ for(std::uint32_t i=0;i<faery_count;++i)if(save.faery_level(i,diff)==0)return true;
+ return unlock_source_trophy("faery_charged","Character::IncFaeryLevel",error);
+}
+
 namespace FaeryPlacement=dh2::character_faery_placement_v1;
 
 AuthoredCryptFaeryOwner* native_faery_owner(std::uintptr_t identity) {
@@ -34773,6 +35291,27 @@ bool ui_player_hud_projection(std::uintptr_t identity,bool refresh_usable,
  value.infos[15]=prince_combat.properties.resolved[148];
  out=value;error.clear();return true;
 }
+// DELIBERATE USER-APPROVED DEVIATION support for the enemy bar follow: the
+// displayed target's head point (world position with the same +350 Z offset the
+// original InfoHUDManager uses for allies) and the live gameplay camera
+// view-projection. valid=false when no live target or camera frame exists.
+bool ui_enemy_target_head_projection(std::uintptr_t target,float head_world[3],
+        float view_projection[16],int& width,int& height,bool& valid,std::string& error){
+ valid=false;error.clear();
+ if(!target||!source_camera_level_has_frame||source_camera.width<=0||source_camera.height<=0)return true;
+ ObjectActor* actor=nullptr;
+ for(auto& group:object_groups){
+  const auto found=std::find_if(group.instances.begin(),group.instances.end(),
+      [&](const ObjectActor& candidate){return candidate.kind==1&&candidate.identity==target;});
+  if(found!=group.instances.end()){actor=&*found;break;}
+ }
+ if(!actor)return true;
+ head_world[0]=actor->position[0];head_world[1]=actor->position[1];
+ volatile float head_z=actor->position[2]+350.f;head_world[2]=head_z;
+ static_assert(sizeof(source_camera.matrix.elements)==16*sizeof(float));
+ std::memcpy(view_projection,source_camera.matrix.elements,16*sizeof(float));
+ width=source_camera.width;height=source_camera.height;valid=true;return true;
+}
 bool ui_player_enemy_hud_projection(std::uintptr_t identity,
         UiEnemyHudProjectionV1& out,std::string& error){
  std::uintptr_t current=0;if(!ui_player_identity(current,error))return false;
@@ -34799,7 +35338,9 @@ bool ui_player_enemy_hud_projection(std::uintptr_t identity,
    view.level=source_level(actor->properties.resolved[19]);
    view.hp_fraction=(float(actor->properties.resolved[36])/256.f)/
                     (float(actor->properties.resolved[38])/256.f);
-   view.present=true;view.is_character=true;
+   // Target HP 0 means the monster is dead: report no target so the HUD hides
+   // the enemy group (InfoHUDManager hides on target clear).
+   view.present=view.hp_fraction>0.f;view.is_character=true;
    view.is_monster=native_character_classification(*actor,
        dh2::character_ai_classification::Query::monster)!=0;
    view.is_boss=native_character_classification(*actor,
@@ -35446,7 +35987,7 @@ bool source_npc_active_level_objects_v1(ObjectActor& victim,std::uintptr_t kille
       candidate.source_updates_enabled&&
       native_character_classification(candidate,
         dh2::character_ai_classification::Query::monster)!=0;
-  const bool crypt=active_level_assets.name=="GOTHICUS_CRYPT_01"&&
+  const bool crypt=generated_rule_level_name(active_level_assets.name,active_level_assets.level_file)&&
       active_level_assets.generated_crypt_layout&&
       native_source_crypt_monster_candidate(candidate);
   return swamp||crypt;
@@ -36897,7 +37438,7 @@ const dh2::data::AiProps* native_actor_cached_ai_props(
  return dh2::data::ai_props(actor_ai_tables,actor.properties.resolved[1]);
 }
 bool native_source_crypt_monster_candidate(ObjectActor& actor){
- if(active_level_assets.name!="GOTHICUS_CRYPT_01"||
+ if(!generated_rule_level_name(active_level_assets.name,active_level_assets.level_file)||
     !active_level_assets.generated_crypt_layout||actor.kind!=1||
     actor.gated_spawn||actor.source_handle<0||
     !actor.source_room_zone_managed||
@@ -39216,7 +39757,9 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
         load_source_level_camera_clip_planes(assets,level_assets,camera_config_error);
     dh2::native::crypt_camera_frame_v1::static_mlx_camera_route=
         [](std::string_view name,std::string_view file){
-         return static_mlx_level(std::string(name),std::string(file))!=nullptr;};
+         // Generated rule levels carry the same LevelConfig camera shape.
+         return static_mlx_level(std::string(name),std::string(file))!=nullptr||
+             generated_rule_level_name(std::string(name),std::string(file));};
     const bool source_camera_route=dh2::native::crypt_camera_frame_v1::
         verified_crypt_route(level_assets.name,level_assets.level_file)||
         dh2::native::crypt_camera_frame_v1::verified_swamp_default_camera_route(
@@ -39274,12 +39817,14 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
         generated_crypt_faery_sources;
     std::vector<dh2::world::StaticDactActorHandleV1>
         source_static_actor_handles;
+    // Template Characters whose GameObject::CheckSpawnProbability roll failed.
+    std::vector<std::int32_t> spawn_probability_skipped_handles;
     std::vector<dh2::world::SourceCharacterCensusV1>
         source_character_census;
     std::size_t generated_crypt_deferred_mvp_count=0;
     if(generated_spawnpoints||generated_spawnpoints_size){
       if(!generated_spawnpoints||!generated_spawnpoints_size||
-         generated_spawnpoints_size>16+512*144)
+         generated_spawnpoints_size>16+512*240)
         throw std::runtime_error("Generated SPWN payload is incomplete or exceeds the runtime limit");
       source_spawn_bytes.assign(generated_spawnpoints,
                                 generated_spawnpoints+generated_spawnpoints_size);
@@ -39393,13 +39938,45 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
         level_assets.source_level_handle_ledger->occurrences.size(),
         level_assets.source_level_handle_ledger->entries.size());
     }
-    auto raw=read(assets,level_assets.bres,source_static_level?"original-cache":"worlds");dh2::resources::BresView view{};
+    auto raw=read(assets,level_assets.bres,(source_static_level||level_assets.bres.find('/')!=std::string::npos)?"original-cache":"worlds");dh2::resources::BresView view{};
     if(dh2_bres_open(&view,raw.data(),raw.size())!=dh2::resources::BresError::ok)throw std::runtime_error("World BRES rejected");
     dh2::world::Level candidate;
     const bool validate_descriptor_spawn=!level_assets.generated_crypt_layout||source_spawn_bytes.empty();
-    if(!dh2::world::load(view,selected_descriptor,selected_descriptor_size,candidate,error,validate_descriptor_spawn))throw std::runtime_error(error);
+    std::vector<dh2::resources::BresView> world_views{view};std::vector<std::vector<std::uint8_t>> world_bytes;std::vector<std::uint32_t> world_room_sources;std::vector<std::string> world_names{level_assets.bres};if(static_level_source){std::vector<std::uint8_t> sidecar;try{sidecar=read(assets,std::string(static_level_source->prefix)+".dae","worlds");}catch(const std::exception&){sidecar.clear();}for(std::size_t p=0;p<sidecar.size();){auto e=std::find(sidecar.begin()+p,sidecar.end(),std::uint8_t('\n'));std::string dae(sidecar.begin()+p,e);p=(e==sidecar.end())?sidecar.size():std::size_t(e-sidecar.begin())+1;if(dae.empty())throw std::runtime_error("World room BDAE sidecar rejected");auto known=std::find(world_names.begin(),world_names.end(),dae);if(known==world_names.end()){world_bytes.push_back(read(assets,dae,"original-cache"));dh2::resources::BresView module_view{};if(dh2_bres_open(&module_view,world_bytes.back().data(),world_bytes.back().size())!=dh2::resources::BresError::ok)throw std::runtime_error("Module BRES rejected: "+dae);world_views.push_back(module_view);world_names.push_back(dae);known=world_names.end()-1;}world_room_sources.push_back(std::uint32_t(known-world_names.begin()));}}
+    else if(level_assets.generated_crypt_layout){
+     // Each generated Module reads its own dae (Module::LoadModule 0x38a88c): the
+     // swamp cave Modules use swamp_cave.bdae while the rule folder's default is
+     // swamp.bdae. Open the distinct daes in Module order like the static sidecar.
+     const auto& dae_xml=level_assets.generated_crypt_source_xml;
+     std::vector<std::string> module_daes;std::string dae_error;
+     if(!dh2::world::generated_crypt_module_daes_v1(
+         reinterpret_cast<const std::uint8_t*>(dae_xml.data()),dae_xml.size(),
+         level_assets.name.c_str(),generated_rule_scene_path(level_assets.level_file).c_str(),
+         module_daes,dae_error))
+      throw std::runtime_error("Generated Module dae import failed: "+dae_error);
+     const auto dae_basename=[](std::string value){
+      const auto slash=value.find_last_of('/');
+      if(slash!=std::string::npos)value.erase(0,slash+1);
+      for(auto& ch:value)ch=static_cast<char>(std::tolower(static_cast<unsigned char>(ch)));
+      return value;
+     };
+     bool all_primary=true;
+     for(const auto& dae:module_daes)all_primary=all_primary&&dae_basename(dae)==dae_basename(level_assets.bres);
+     if(!all_primary)for(const auto& dae:module_daes){
+      if(dae.empty())throw std::runtime_error("Generated Module dae is missing");
+      auto known=std::find(world_names.begin(),world_names.end(),dae);
+      if(known==world_names.end()){
+       world_bytes.push_back(read(assets,dae,"original-cache"));
+       dh2::resources::BresView module_view{};
+       if(dh2_bres_open(&module_view,world_bytes.back().data(),world_bytes.back().size())!=dh2::resources::BresError::ok)throw std::runtime_error("Module BRES rejected: "+dae);
+       world_views.push_back(module_view);world_names.push_back(dae);known=world_names.end()-1;
+      }
+      world_room_sources.push_back(std::uint32_t(known-world_names.begin()));
+     }
+    }
+    if(!dh2::world::load(world_views,world_room_sources,selected_descriptor,selected_descriptor_size,candidate,error,validate_descriptor_spawn))throw std::runtime_error(error);
     if(source_static_level||
-       (level_assets.name=="GOTHICUS_CRYPT_01"&&
+       (generated_rule_level_name(level_assets.name,level_assets.level_file)&&
         (level_assets.generated_crypt_layout||level_assets.development_layout))){
      std::vector<std::uint8_t> backup_mlx;
      const auto* source_mlx=&source_mlx_bytes;
@@ -39412,9 +39989,10 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
        level_assets.generated_crypt_layout?"data/scene/generated_crypt.mlx":
        "data/scene/x07_crypt_backup.mlx";
      dh2::crypt_module_bounds_registry_v1::Result bounds_result{};
-     const auto bounds_status=dh2::crypt_module_bounds_registry_v1::build_from_assets(
+     std::vector<dh2::crypt_module_bounds_registry_v1::CatalogueBytes> bounds_catalogues;for(std::size_t c=0;c<world_views.size();++c)bounds_catalogues.push_back({(static_level_source||world_views.size()>1)?world_names[c]:std::string(),world_views[c].bytes,world_views[c].size});
+     const auto bounds_status=dh2::crypt_module_bounds_registry_v1::build_from_catalogues(
        level_assets.name.c_str(),source_path,
-       source_mlx->data(),source_mlx->size(),raw.data(),raw.size(),
+       source_mlx->data(),source_mlx->size(),bounds_catalogues,
        &candidate_crypt_module_bounds,&bounds_result);
      if(bounds_status!=dh2::crypt_module_bounds_registry_v1::Status::complete||
         candidate.rooms!=bounds_result.module_count)
@@ -39455,6 +40033,7 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
        module.bounds.maximum[0],module.bounds.maximum[1],module.bounds.maximum[2]);
     }
     if(!restore){
+      native_spawn_script_name.clear();
       if(source_spawn_bytes.empty())source_spawn_bytes=read(assets,level_assets.spawns,"worlds");
       const auto& spawn_bytes=source_spawn_bytes;
       if(spawn_bytes.size()<16+144){
@@ -39468,6 +40047,7 @@ std::vector<dh2::world::EntryPoint> entrypoints;
       if(!dh2::world::select_entrypoint(candidate,entrypoints,entrypoint,start,error))throw std::runtime_error(error);
       candidate.spawn=start.position;
       source_spawn_heading=start.rotation_degrees[2]*0.01745329251994329577f;
+      native_spawn_script_name=start.source.script;
       __android_log_print(ANDROID_LOG_INFO,"DH2Native","Source SpawnPoint selected | ID %d | %s | room %u | floor snapped %u | source xyz %.4f %.4f %.4f | start xyz %.4f %.4f %.4f | source rotation z %.4f deg",
         start.source.id,start.source.name.c_str(),start.source.room,unsigned(start.floor_snapped),start.source.world.position[0],start.source.world.position[1],start.source.world.position[2],start.position[0],start.position[1],start.position[2],start.rotation_degrees[2]);
       }
@@ -39616,18 +40196,35 @@ std::vector<dh2::world::EntryPoint> entrypoints;
        throw std::runtime_error("Generated Crypt source handle ledger is unavailable");
       if(!dh2::world::compile_generated_crypt_dact_v1(
           source_mlx_bytes.data(),source_mlx_bytes.size(),
-          "GOTHICUS_CRYPT_01","data/scene/generated_crypt.mlx",
+          level_assets.name.c_str(),generated_rule_scene_path(level_assets.level_file).c_str(),
           generated_crypt_mgps.data(),generated_crypt_mgps.size(),
           character_table,model_table,*level_assets.generated_crypt_handle_ledger,
           generated_crypt_actor_sources,source_object_bytes,actor_count,
           deferred_count,error,&generated_crypt_faery_sources,
           &generated_crypt_template_sources,&generated_crypt_template_catalog,
-          &level_assets.generated_crypt_triggers))
+          &level_assets.generated_crypt_triggers,nullptr,nullptr,
+          // GameObject::CheckSpawnProbability (0x38bd64) for template Characters.
+          +[](void*,long probability)->int{
+           const auto roll=dh2_random_next(&dh2::random_lifecycle::process_state(),99,0);
+           if(roll<0||roll>=99)return -1;
+           return roll<probability?1:0;
+          },nullptr))
        throw std::runtime_error("Generated Crypt MGP actor import rejected: "+error);
       // Character::IsFaerie reads CharType from the linked AI row; the MGP
       // template label alone does not make this a Faery. Validate that source
       // discriminator before a descriptor can ever reach a Character owner.
-      for(const auto& faery:generated_crypt_faery_sources){
+      for(auto faery_it=generated_crypt_faery_sources.begin();faery_it!=generated_crypt_faery_sources.end();){
+       const auto& faery=*faery_it;
+       if(faery.ai_table_id>=0&&std::size_t(faery.ai_table_id)<ai_tables.rows.size()&&
+          ai_tables.rows[std::size_t(faery.ai_table_id)].type!=3){
+        // Character::IsFaerie reads CharType: a Faery-template row on a
+        // non-Faery CharType (DummyLightningFaery) is not a companion owner.
+        __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+         "Generated Crypt Faery-template row deferred | %s | %s | CharType %d",
+         faery.name.c_str(),faery.character.c_str(),int(ai_tables.rows[std::size_t(faery.ai_table_id)].type));
+        faery_it=generated_crypt_faery_sources.erase(faery_it);continue;
+       }
+       ++faery_it;
        if(faery.ai_table_id<0||
           std::size_t(faery.ai_table_id)>=ai_tables.rows.size()||
           ai_tables.rows[std::size_t(faery.ai_table_id)].type!=3)
@@ -39689,13 +40286,13 @@ std::vector<dh2::world::EntryPoint> entrypoints;
        census_mgps.push_back({mgp.source_path,mgp.data,mgp.size});
       if(!handle_ledger||!dh2::world::census_source_characters_with_handles_for_level(
           source_mlx_bytes.data(),source_mlx_bytes.size(),
-          "GOTHICUS_CRYPT_01","data/scene/generated_crypt.mlx",
+          level_assets.name.c_str(),generated_rule_scene_path(level_assets.level_file).c_str(),
           census_mgps.data(),census_mgps.size(),*handle_ledger,
           source_character_census,error))
        throw std::runtime_error("Generated Crypt source Character census rejected: "+error);
       if(!handle_ledger||!dh2::world::census_source_objects_with_handles_for_level(
           source_mlx_bytes.data(),source_mlx_bytes.size(),
-          "GOTHICUS_CRYPT_01","data/scene/generated_crypt.mlx",
+          level_assets.name.c_str(),generated_rule_scene_path(level_assets.level_file).c_str(),
           census_mgps.data(),census_mgps.size(),nullptr,*handle_ledger,
           level_assets.source_object_census,error))
        throw std::runtime_error("Generated Crypt generic ObjectManager census rejected: "+error);
@@ -39762,9 +40359,20 @@ std::vector<dh2::world::EntryPoint> entrypoints;
           source_character_uses_authored_template(source);
        if(source_template_character){
         if(source.module_index>=candidate.rooms||source.name.empty()||
-           source.source_handle<0||
-           (!source.spawn_probability.empty()&&source.spawn_probability!="100"))
-         throw std::runtime_error("SWAMP MonsterCommonType source row has unresolved room, identity, or spawn probability: "+source.name);
+           source.source_handle<0)
+         throw std::runtime_error("SWAMP MonsterCommonType source row has unresolved room or identity: "+source.name);
+        if(!source.spawn_probability.empty()&&source.spawn_probability!="100"){
+         // Character::InitPost (0x3b4d60) -> GameObject::CheckSpawnProbability
+         // (0x38bd64): one s_seed % 99 draw; a draw >= spawn_prob deletes the
+         // Character before it is constructed.
+         char* parsed_end=nullptr;
+         const long probability=std::strtol(source.spawn_probability.c_str(),&parsed_end,10);
+         if(!parsed_end||*parsed_end||probability<0||probability>1000)
+          throw std::runtime_error("Template Character spawn_prob is not a source integer: "+source.name);
+         const auto roll=dh2_random_next(&dh2::random_lifecycle::process_state(),99,0);
+         if(roll<0||roll>=99)throw std::runtime_error("Template Character spawn_prob roll failed");
+         if(roll>=probability){spawn_probability_skipped_handles.push_back(source.source_handle);continue;}
+        }
         dh2::objects::Record record{};record.kind=1;
         record.room=source.module_index;record.name=source.name;
         record.position=source.world.position;
@@ -40043,52 +40651,103 @@ std::vector<dh2::world::EntryPoint> entrypoints;
       mvp_render_instances.push_back(std::move(instance));
      }
     }
-    if(source_static_level&&std::string(static_level_source->name)=="SWAMP"){
-     // Script PlayAnimByName targets from SWAMP's MVP AnimatedDecor census.
-     // Other SWAMP AnimatedDecor rows (torches, water, motes, bubbles) remain
-     // deferred until their own owners are reviewed.
-     static const char* const script_targets[]{"_anim_cage_001","_anim_destructible_wall_001"};
+    if(source_static_level){
+     // Every AnimatedDecor GameObject of the authored static level. Rows whose
+     // identity, BDAE or start clip is unsupported are counted as deferred; a
+     // prop that fails its own BDAE/GPU load is skipped with a log line rather
+     // than failing the whole level.
      std::vector<dh2::world::GeneratedCryptMvpFileV1> animated_mvps;
      animated_mvps.reserve(source_mvps.size());
      for(const auto& mvp:source_mvps)animated_mvps.push_back({mvp.source_path,mvp.data,mvp.size});
      std::vector<dh2::world::SourceAnimatedDecorV1> animated_rows;
      std::size_t animated_deferred=0;
      if(!dh2::world::compile_source_animated_decor_v1(source_mlx_bytes.data(),source_mlx_bytes.size(),
-          "SWAMP","data/scene/001_swamp.mlx",animated_mvps.data(),animated_mvps.size(),animated_rows,animated_deferred,error))
-      throw std::runtime_error("SWAMP source MVP AnimatedDecor import rejected: "+error);
+          level_assets.name.c_str(),static_scene_path.c_str(),animated_mvps.data(),animated_mvps.size(),animated_rows,animated_deferred,error))
+      throw std::runtime_error(level_assets.name+" source MVP AnimatedDecor import rejected: "+error);
+     std::map<std::string,std::vector<std::uint8_t>> bytes_by_dae;
+     std::map<std::string,std::shared_ptr<SourceAnimatedDecorGpu>> gpu_by_dae;
+     std::size_t animated_failed=0,animated_conditional=0,animated_particle_only=0;
      for(const auto& row:animated_rows){
-      if(std::find_if(std::begin(script_targets),std::end(script_targets),
-           [&](const char* name){return row.name==name;})==std::end(script_targets))continue;
       SourceAnimatedDecor decor;
       decor.name=row.name;decor.dae_path=row.dae_path;decor.start_animation=row.start_animation;
-      decor.visual=std::make_unique<dh2::destructible_container_visual_owner_v1::Owner>();
-      const auto bytes=read(assets,row.dae_path,"original-cache");
-      if(!decor.visual->load(bytes.data(),bytes.size(),error))
-       throw std::runtime_error("SWAMP AnimatedDecor BDAE rejected for "+row.name+": "+error);
-      const float half=3.14159265358979323846f/360.f;
-      const float x=row.world_transform[3]*half,y=row.world_transform[4]*half,z=row.world_transform[5]*half;
-      const float sx=std::sin(x),cx=std::cos(x),sy=std::sin(y),cy=std::cos(y),sz=std::sin(z),cz=std::cos(z);
-      const float quaternion[]{sx*cy*cz-cx*sy*sz,cx*sy*cz+sx*cy*sz,cx*cy*sz-sx*sy*cz,cx*cy*cz+sx*sy*sz};
-      const float position[]{row.world_transform[0],row.world_transform[1],row.world_transform[2]};
-      const float scale[]{row.world_transform[6],row.world_transform[7],row.world_transform[8]};
-      dh2_node_matrix(decor.placement.data(),position,quaternion,scale);
-      if(decor.visual->has_clip(decor.start_animation.c_str())&&
-         !decor.visual->play_named(decor.start_animation.c_str(),true,nullptr,nullptr,nullptr,error))
-       throw std::runtime_error("SWAMP AnimatedDecor start clip rejected for "+row.name+": "+error);
-      if(!prepare_source_container_visual_gpu(assets,*decor.visual,decor.visual_draws,decor.visual_images,error))
-       throw std::runtime_error("SWAMP AnimatedDecor GPU preparation failed for "+row.name+": "+error);
-      candidate_animated_decors.push_back(std::move(decor));
+      decor.activate_condition=row.activate_condition;decor.deactivate_condition=row.deactivate_condition;
+      if(!decor.activate_condition.empty()||!decor.deactivate_condition.empty())++animated_conditional;
+      try{
+       auto bytes_it=bytes_by_dae.find(row.dae_path);
+       if(bytes_it==bytes_by_dae.end())
+        bytes_it=bytes_by_dae.emplace(row.dae_path,read(assets,row.dae_path,"original-cache")).first;
+       const auto& bytes=bytes_it->second;
+       decor.visual=std::make_unique<dh2::destructible_container_visual_owner_v1::Owner>();
+       if(!decor.visual->load(bytes.data(),bytes.size(),error))
+        throw std::runtime_error("BDAE rejected: "+error);
+       {
+        const auto& graph=decor.visual->resource().scene.graph;
+        std::int64_t root=-1;
+        for(std::size_t n=0;n<graph.size()&&root<0;++n)
+         if(graph[n].name==row.xrefobject)root=static_cast<std::int64_t>(n);
+        if(root<0)throw std::runtime_error("xrefobject "+row.xrefobject+" is not a BDAE node");
+        const auto& primitives=decor.visual->resource().primitives;
+        for(std::size_t p=0;p<primitives.size();++p){
+         std::int64_t node=primitives[p].node;
+         for(std::size_t steps=0;node>=0&&node<std::int64_t(graph.size())&&steps<=graph.size()&&node!=root;++steps)
+          node=graph[std::size_t(node)].parent;
+         if(node==root)decor.primitives.push_back(static_cast<std::uint32_t>(p));
+        }
+        if(decor.primitives.empty())throw std::runtime_error("xrefobject "+row.xrefobject+" has no primitives");
+       }
+       const float half=3.14159265358979323846f/360.f;
+       const float x=row.world_transform[3]*half,y=row.world_transform[4]*half,z=row.world_transform[5]*half;
+       const float sx=std::sin(x),cx=std::cos(x),sy=std::sin(y),cy=std::cos(y),sz=std::sin(z),cz=std::cos(z);
+       const float quaternion[]{sx*cy*cz-cx*sy*sz,cx*sy*cz+sx*cy*sz,cx*cy*sz-sx*sy*cz,cx*cy*cz+sx*sy*sz};
+       const float position[]{row.world_transform[0],row.world_transform[1],row.world_transform[2]};
+       const float scale[]{row.world_transform[6],row.world_transform[7],row.world_transform[8]};
+       dh2_node_matrix(decor.placement.data(),position,quaternion,scale);
+       // AnimatedDecor::InitPost 0x389128: an empty startanim becomes "idle";
+       // the VisualObject plays it looped (slot 8) when its clip library has
+       // the name (slot 5), else clip index 0 looped (slot 7). "randomall"
+       // (random clip + end callback) is used by no MVP and stays deferred.
+       if(decor.start_animation.empty())decor.start_animation="idle";
+       std::string start_lower=decor.start_animation;
+       for(auto& ch:start_lower)ch=static_cast<char>(std::tolower(static_cast<unsigned char>(ch)));
+       if(start_lower=="randomall")
+        throw std::runtime_error("startanim randomall is not bound");
+       const auto& clips=decor.visual->clips();
+       const char* start_clip=decor.visual->has_clip(decor.start_animation.c_str())?
+           decor.start_animation.c_str():clips.empty()?nullptr:clips.front().name.c_str();
+       if(start_clip&&!decor.visual->play_named(start_clip,true,nullptr,nullptr,nullptr,error))
+        throw std::runtime_error("start clip rejected: "+error);
+       auto& gpu=gpu_by_dae[row.dae_path];
+       if(!gpu){
+        auto candidate=std::make_shared<SourceAnimatedDecorGpu>();
+        if(!prepare_source_container_visual_gpu(assets,*decor.visual,candidate->draws,candidate->images,error)){
+         release(candidate->draws,candidate->images);
+         throw std::runtime_error("GPU preparation failed: "+error);
+        }
+        gpu=std::move(candidate);
+       }
+       decor.gpu=gpu;
+       candidate_animated_decors.push_back(std::move(decor));
+      }catch(const std::exception& exception){
+       // Particle-only BDAEs (dust motes, fog) carry emitters, not drawable meshes;
+       // their emitter playback is not bound here.
+       const std::string message=exception.what();
+       if(message.find("no visible")!=std::string::npos)++animated_particle_only;
+       else ++animated_failed;
+       __android_log_print(ANDROID_LOG_WARN,"DH2Native","AnimatedDecor %s (%s) skipped | %s",
+           row.name.c_str(),row.dae_path.c_str(),exception.what());
+      }
      }
      __android_log_print(ANDROID_LOG_INFO,"DH2Native",
-       "SWAMP MVP AnimatedDecor owners | retained %zu | script targets _anim_cage_001 and _anim_destructible_wall_001 | activate_cond not evaluated (IsBefore_Swamp_Escape assumed true) | unsupported AnimatedDecor rows skipped %zu | other AnimatedDecor not bound",
-       candidate_animated_decors.size(),animated_deferred);
+       "AnimatedDecor | %s | %zu props | %zu resources | conditional %zu | unsupported rows deferred %zu | particle-only deferred %zu | load failures %zu | RoomZone membership not bound",
+       level_assets.name.c_str(),candidate_animated_decors.size(),
+       gpu_by_dae.size(),animated_conditional,animated_deferred,animated_particle_only,animated_failed);
     }
     if(level_assets.generated_crypt_layout){
      if(!level_assets.generated_crypt_handle_ledger)
       throw std::runtime_error("Generated Crypt source handle ledger is unavailable");
      if(!dh2::world::compile_generated_crypt_animated_decor_v1(
           source_mlx_bytes.data(),source_mlx_bytes.size(),
-          "GOTHICUS_CRYPT_01","data/scene/generated_crypt.mlx",
+          level_assets.name.c_str(),generated_rule_scene_path(level_assets.level_file).c_str(),
           generated_crypt_mvps.data(),generated_crypt_mvps.size(),
           *level_assets.generated_crypt_handle_ledger,
           generated_crypt_animated_decors,generated_crypt_deferred_mvp_count,
@@ -40309,9 +40968,12 @@ std::vector<dh2::world::EntryPoint> entrypoints;
      std::size_t selected_source_templates=0,missing_source_templates=0;
      const auto expected_source_templates=static_cast<std::size_t>(
          std::count_if(source_character_census.begin(),source_character_census.end(),
-          [](const auto& row){
+          [&](const auto& row){
            return !row.duplicate_name&&
-                  source_character_uses_authored_template(row);
+                  source_character_uses_authored_template(row)&&
+                  std::find(spawn_probability_skipped_handles.begin(),
+                            spawn_probability_skipped_handles.end(),
+                            row.source_handle)==spawn_probability_skipped_handles.end();
           }));
      if(source_static_actor_handles.size()!=object_records.size())
       throw std::runtime_error("SWAMP source Character records do not have a one-to-one retained MGP handle vector");
@@ -40642,7 +41304,7 @@ std::vector<dh2::world::EntryPoint> entrypoints;
         character_table.names[static_cast<std::size_t>(source_actor.character_table_id)]==
           source_actor.character;
       const bool source_invisible_man=source_static_level&&object.kind==1&&
-        object.model=="invisible_man.bdae"&&
+        (object.model=="invisible_man.bdae"||object.model=="energyspawner.bdae")&&
         native_source_static_character_actor(source_actor)&&
         source_character_table_match;
       const bool model_loaded=source_invisible_man
@@ -40713,8 +41375,18 @@ std::vector<dh2::world::EntryPoint> entrypoints;
           :record.model;
         const auto model=read(assets,resource_name,
             mvp.packaged_actor_asset?"actors":"original-cache");
-        if(!dh2::objects::load_resource(model.data(),model.size(),nullptr,0,found->resource,error))
+        if(!dh2::objects::load_resource(model.data(),model.size(),nullptr,0,found->resource,error)){
+          if(error.find("no visible geometry")!=std::string::npos){
+            // Particle-only AnimatedDecor BDAE (dust motes, fog): emitters, not
+            // meshes; emitter playback is not bound, so the prop is deferred
+            // exactly like the static-Level AnimatedDecor path.
+            candidate_groups.pop_back();
+            __android_log_print(ANDROID_LOG_WARN,"DH2Native","Source MVP %s (%s) skipped | particle-only BDAE: %s",
+                record.name.c_str(),record.model.c_str(),error.c_str());
+            error.clear();continue;
+          }
           throw std::runtime_error("Source MVP BDAE rejected: "+error);
+        }
         for(const auto& primitive:found->resource.primitives){
           Draw draw;draw.node=primitive.node;draw.material=found->resource.scene.materials.at(primitive.material);
           draw.skin=primitive.skin;draw.cpu_vertices=primitive.vertices;draw.rest_positions=primitive.rest_positions;
@@ -40729,21 +41401,49 @@ std::vector<dh2::world::EntryPoint> entrypoints;
         }
       }
 
-      const auto root_id=mvp.xrefobject+"-node";
-      const auto root_matches=std::count_if(found->resource.scene.graph.begin(),found->resource.scene.graph.end(),
+      // AnimatedDecor xrefobject selects a subtree by node id ("<name>-node")
+      // or, for shared BDAEs, by node name (same selector as static Levels).
+      auto root_id=mvp.xrefobject+"-node";
+      auto root_matches=std::count_if(found->resource.scene.graph.begin(),found->resource.scene.graph.end(),
         [&](const auto& node){return node.id==root_id;});
-      if(root_matches!=1)throw std::runtime_error("Source MVP xrefobject root is absent or ambiguous: "+root_id);
+      if(root_matches==0){
+        root_matches=std::count_if(found->resource.scene.graph.begin(),found->resource.scene.graph.end(),
+          [&](const auto& node){return node.name==mvp.xrefobject;});
+        if(root_matches==1){
+          root_id=std::find_if(found->resource.scene.graph.begin(),found->resource.scene.graph.end(),
+            [&](const auto& node){return node.name==mvp.xrefobject;})->id;
+          root_matches=std::count_if(found->resource.scene.graph.begin(),found->resource.scene.graph.end(),
+            [&](const auto& node){return node.id==root_id;});
+        }
+      }
+      if(root_matches!=1){
+        if(mvp.packaged_actor_asset){
+          __android_log_print(ANDROID_LOG_WARN,"DH2Native","Source MVP %s skipped | xrefobject %s is absent or ambiguous in %s",
+              record.name.c_str(),mvp.xrefobject.c_str(),record.model.c_str());
+          if(found->instances.empty()&&found->draws.empty())candidate_groups.erase(found);
+          continue;
+        }
+        throw std::runtime_error("Source MVP xrefobject root is absent or ambiguous: "+root_id);
+      }
       const auto root=std::find_if(found->resource.scene.graph.begin(),found->resource.scene.graph.end(),
         [&](const auto& node){return node.id==root_id;});
       const auto root_index=static_cast<unsigned>(root-found->resource.scene.graph.begin());
       if(std::none_of(found->resource.primitives.begin(),found->resource.primitives.end(),
-          [&](const auto& primitive){return item_node_below(found->resource,primitive.node,root_index);}))
+          [&](const auto& primitive){return item_node_below(found->resource,primitive.node,root_index);})){
+        if(mvp.packaged_actor_asset){
+          __android_log_print(ANDROID_LOG_WARN,"DH2Native","Source MVP %s skipped | xrefobject %s has no renderable primitive",
+              record.name.c_str(),root_id.c_str());
+          continue;
+        }
         throw std::runtime_error("Source MVP xrefobject root has no renderable primitive: "+root_id);
+      }
       ObjectActor instance(record);instance.identity=0;instance.source_root_node_id=root_id;
       instance.source_module_index=mvp.module_index;instance.source_record=mvp.source_record;
       instance.source_handle=mvp.source_handle;instance.source_visual_path=mvp.dae_path;
       instance.packaged_actor_asset=mvp.packaged_actor_asset;
-      instance.visual_root=root_index;found->instances.push_back(std::move(instance));
+      instance.visual_root=root_index;
+      {const auto& rest_world=found->resource.scene.graph[root_index].world;for(unsigned axis=0;axis<3;++axis)instance.visual_root_origin[axis]=rest_world[12+axis];}
+      found->instances.push_back(std::move(instance));
     }
      auto itemdrops_bytes=read(assets,"itemdrops.bdae","actors");
      if(!dh2::objects::load_resource(itemdrops_bytes.data(),itemdrops_bytes.size(),
@@ -40803,7 +41503,8 @@ std::vector<dh2::world::EntryPoint> entrypoints;
                    primitive.indices.data(),GL_STATIC_DRAW);check("Item drop buffer upload");
      }
      for(const auto& instance:candidate.scene.instances){dh2::assets::Mesh mesh{};
-      if(dh2_mesh_open(&mesh,&view,instance.geometry)!=dh2::assets::Error::ok||mesh.primitives!=instance.materials.size())throw std::runtime_error("World mesh/binding rejected");
+      if(dh2_mesh_open(&mesh,&world_views.at(instance.source_view),instance.geometry)!=dh2::assets::Error::ok)throw std::runtime_error("World mesh/binding rejected");
+      if(mesh.primitives!=instance.materials.size())throw std::runtime_error("World mesh/binding rejected");
       for(unsigned j=0;j<mesh.primitives;++j){dh2::assets::Primitive p{};dh2_mesh_primitive(&mesh,j,&p);
         if(p.collada_type||p.index_count%3||mesh.vertices>65536)throw std::runtime_error("World topology rejected");
         Draw batch;batch.environment=true;batch.placement=instance.world;batch.material=candidate.scene.materials.at(instance.materials[j]);
@@ -41095,7 +41796,7 @@ std::vector<dh2::world::EntryPoint> entrypoints;
     initialize_gated_characters(assets,true);
     initialize_source_merchant_inventories();
     initialize_active_crypt_room_zones(assets);
-    if(active_level_assets.name=="GOTHICUS_CRYPT_01"&&
+    if(generated_rule_level_name(active_level_assets.name,active_level_assets.level_file)&&
        active_level_assets.generated_crypt_layout)
       initialize_gated_characters(assets,false,false,true);
     if(!ensure_native_world_items(error))throw std::runtime_error("World item runtime restore failed: "+error);
@@ -41172,7 +41873,7 @@ std::vector<dh2::world::EntryPoint> entrypoints;
     bind_native_player_skill_state_callbacks();
     bind_native_player_cast_state_callbacks();
     initialize_native_monster_scripts(assets);
-    if(level_assets.name=="GOTHICUS_CRYPT_01"){
+    if(generated_rule_level_name(level_assets.name,level_assets.level_file)){
       if(level_assets.generated_crypt_layout){
        const auto trigger=std::find_if(level_assets.generated_crypt_triggers.begin(),
           level_assets.generated_crypt_triggers.end(),[](const auto& candidate){
@@ -41180,16 +41881,22 @@ std::vector<dh2::world::EntryPoint> entrypoints;
           });
        if(trigger!=level_assets.generated_crypt_triggers.end())
         initialize_crypt_script(assets,restore,&*trigger);
-       else{
-        native_level_script_session.clear();crypt_trigger_state={};
-        __android_log_print(ANDROID_LOG_INFO,"DH2Native","Generated Crypt has no authored GhostAmbush01 TriggerZone in this selected module set");
-       }
+       else initialize_generated_level_script_session(assets,restore);
       }else initialize_crypt_script(assets,restore);
     }else if(static_mlx_level(level_assets.name,level_assets.level_file)){
       initialize_swamp_level_script_session(assets,restore);
     }else{
       native_level_script_session.clear();native_level_script_generation=0;
       native_level_script_level_name.clear();crypt_trigger_state={};
+    }
+    if(!restore&&!native_spawn_script_name.empty()){
+      // SpawnPoint::PlaceObject -> ScriptManager::StartScript(id, this+100, 0) runs
+      // when Level::_LoadPlayer places the Player; the offline runtime keeps the
+      // argument on the task record and no reconstructed command reads it.
+      std::string script_error;
+      if(!native_level_script_session.start_script(native_spawn_script_name,0,false,false,script_error))
+        throw std::runtime_error("SpawnPoint script "+native_spawn_script_name+" start failed: "+script_error);
+      __android_log_print(ANDROID_LOG_INFO,"DH2Native","SpawnPoint script started | %s | check-running 0 | offline | runs in the level script update",native_spawn_script_name.c_str());
     }
     build_search_world();
     const char* display_level=level_assets.name=="GOTHICUS_CRYPT_01"?"Crypt":level_assets.name.c_str();
@@ -43674,7 +44381,7 @@ void draw(int width,int height){
         glBindBuffer(GL_ARRAY_BUFFER,batch.vertices);glBufferSubData(GL_ARRAY_BUFFER,0,vertices.size()*sizeof(Vertex),vertices.data());
       }
       auto transform=owner?projection:dh2::scene::multiply(projection,instance.placement);
-      if(primitive.skin.nodes.empty())transform=dh2::scene::multiply(transform,scene.graph[primitive.node].world);submit(batch,transform);
+      if(primitive.skin.nodes.empty()){auto node_world=scene.graph[primitive.node].world;if(instance.visual_root!=std::numeric_limits<unsigned>::max())for(unsigned axis=0;axis<3;++axis)node_world[12+axis]-=instance.visual_root_origin[axis];transform=dh2::scene::multiply(transform,node_world);}submit(batch,transform);
     }};
     if(group.animation_table<0){
       const auto& clip=group.resource.animation;int ms=clip.start;
@@ -43714,22 +44421,50 @@ void draw(int width,int height){
     }
   }
   if(world_mode&&!source_map_render_pass)for(auto& decor:source_animated_decors){
-   if(!decor.visual||!decor.visual->controller_present()||decor.visual_draws.empty())continue;
+   if(!decor.visual||!decor.visual->controller_present()||!decor.gpu||decor.gpu->draws.empty())continue;
    const auto scene_time_value=native_scene_clock_ms();
    if(!std::isfinite(scene_time_value)||scene_time_value<0.f||scene_time_value>4294967040.f)
-    throw std::runtime_error("SWAMP AnimatedDecor lost the shared scene timestamp");
+    throw std::runtime_error("AnimatedDecor lost the shared scene timestamp");
+   const auto now=static_cast<std::uint32_t>(scene_time_value);
+   if(!decor.activate_condition.empty()||!decor.deactivate_condition.empty()){
+    if(!decor.condition_tested||now<decor.condition_tested_ms||now-decor.condition_tested_ms>=250u){
+     // ObjectBase::TestEnableCondition: activate_cond defaults to true when its
+     // name is unknown; TestDisableCondition keeps the prop hidden when its
+     // deactivate_cond does not hold (unknown names read false).
+     bool enabled=true;bool ok=true;std::string condition_error;
+     if(!decor.activate_condition.empty())
+      ok=evaluate_source_zone_condition(decor.activate_condition,true,enabled,condition_error);
+     if(ok&&enabled&&!decor.deactivate_condition.empty()){
+      bool deactivate_holds=false;
+      ok=evaluate_source_zone_condition(decor.deactivate_condition,false,deactivate_holds,condition_error);
+      enabled=deactivate_holds;
+     }
+     if(ok){decor.enabled=enabled;}
+     else{
+      static bool condition_warned=false;
+      if(!condition_warned){
+       condition_warned=true;
+       __android_log_print(ANDROID_LOG_WARN,"DH2Native","AnimatedDecor %s condition test deferred | %s",
+           decor.name.c_str(),condition_error.c_str());
+      }
+     }
+     decor.condition_tested=true;decor.condition_tested_ms=now;
+    }
+   }
+   if(!decor.enabled)continue;
    std::string visual_error;
    if(!frozen&&decor.visual->clip_active()&&
-      !decor.visual->update(static_cast<std::uint32_t>(scene_time_value),visual_error))
-    throw std::runtime_error("SWAMP AnimatedDecor Animator update failed: "+visual_error);
+      !decor.visual->update(now,visual_error))
+    throw std::runtime_error("AnimatedDecor Animator update failed: "+visual_error);
    auto& resource=decor.visual->resource();
-   for(std::size_t i=0;i<decor.visual_draws.size();++i){
-    if(i>=resource.primitives.size())
-     throw std::runtime_error("SWAMP AnimatedDecor draw/resource banks diverged");
+   const auto& batches=decor.gpu->draws;
+   for(const auto i:decor.primitives){
+    if(i>=resource.primitives.size()||i>=batches.size())
+     throw std::runtime_error("AnimatedDecor draw/resource banks diverged");
     const auto& primitive=resource.primitives[i];
-    const auto& batch=decor.visual_draws[i];
+    const auto& batch=batches[i];
     if(primitive.node>=resource.scene.graph.size())
-     throw std::runtime_error("SWAMP AnimatedDecor primitive node is invalid");
+     throw std::runtime_error("AnimatedDecor primitive node is invalid");
     if(!primitive.skin.nodes.empty()){
      glBindBuffer(GL_ARRAY_BUFFER,batch.vertices);
      glBufferSubData(GL_ARRAY_BUFFER,0,primitive.vertices.size()*sizeof(Vertex),primitive.vertices.data());

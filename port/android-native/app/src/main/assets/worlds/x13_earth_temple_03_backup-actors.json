@@ -1,0 +1,212 @@
+{
+  "source_layout": "data/scene/x13_earth_temple_03_backup.mlx",
+  "selected_characters": 3,
+  "source_character_records": 39,
+  "selection": "direct Monster; no activation/deactivation condition; auto_spawn != 0; initial ai_state absent or Idle",
+  "actors": [
+    {
+      "kind": 1,
+      "room": 2,
+      "name": "_prim_Monster_Doorplant",
+      "character": "EarthTemple_DoorPlant_C",
+      "model": "large_plant.bdae",
+      "model_path": "data/3d/characters/plants/large_plant.bdae",
+      "animation_table": 33,
+      "position": [
+        0.0,
+        8889.95,
+        0.0
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/earth_temple/mgp/et03_objboss_earthtemp_s__01.mgp",
+      "source_record": 19
+    },
+    {
+      "kind": 1,
+      "room": 2,
+      "name": "_prim_Monster_Doorplant01",
+      "character": "EarthTemple_SmallPlantMinion",
+      "model": "small_plant.bdae",
+      "model_path": "data/3d/characters/plants/small_plant.bdae",
+      "animation_table": 65,
+      "position": [
+        267.942,
+        8679.69,
+        0.0
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/earth_temple/mgp/et03_objboss_earthtemp_s__01.mgp",
+      "source_record": 22
+    },
+    {
+      "kind": 1,
+      "room": 2,
+      "name": "_prim_Monster_Doorplant02",
+      "character": "EarthTemple_SmallPlantMinion",
+      "model": "small_plant.bdae",
+      "model_path": "data/3d/characters/plants/small_plant.bdae",
+      "animation_table": 65,
+      "position": [
+        -338.912,
+        8679.69,
+        0.0
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/earth_temple/mgp/et03_objboss_earthtemp_s__01.mgp",
+      "source_record": 23
+    }
+  ],
+  "animation_states": [
+    {
+      "table": 33,
+      "character": "LargePlant",
+      "state": "Idle",
+      "sequence": 360
+    },
+    {
+      "table": 33,
+      "character": "LargePlant",
+      "state": "Walk",
+      "sequence": 364
+    },
+    {
+      "table": 33,
+      "character": "LargePlant",
+      "state": "Attack",
+      "sequence": -1
+    },
+    {
+      "table": 33,
+      "character": "LargePlant",
+      "state": "Died",
+      "sequence": 359
+    },
+    {
+      "table": 65,
+      "character": "SmallMinionPlant",
+      "state": "Idle",
+      "sequence": 625
+    },
+    {
+      "table": 65,
+      "character": "SmallMinionPlant",
+      "state": "Walk",
+      "sequence": 629
+    },
+    {
+      "table": 65,
+      "character": "SmallMinionPlant",
+      "state": "Attack",
+      "sequence": -1
+    },
+    {
+      "table": 65,
+      "character": "SmallMinionPlant",
+      "state": "Died",
+      "sequence": 624
+    }
+  ],
+  "clip_ids": [
+    788,
+    790,
+    1271,
+    1273
+  ],
+  "dact": {
+    "bytes": 784,
+    "sha256": "4609dba4807dd235cc6a02549bd77153e903ba9da9aaeeae41682857984e762c"
+  },
+  "assets": [
+    {
+      "asset": "actors/large_plant.bdae",
+      "bytes": 50444,
+      "sha256": "58afc5a75c19188455c82bbbef49d7ced6ff3a7bdd46f643b35e62cc5005681e",
+      "source": "data/3d/characters/plants/large_plant.bdae",
+      "source_file": "large_plant.bdae"
+    },
+    {
+      "asset": "actors/large_plant_full_dying.bdae",
+      "bytes": 9500,
+      "sha256": "f600f36ae35d38b4233dd1930eed8a6b85c4b786c0a2375bd460ba70fce5f742",
+      "source": "data/3d/characters/plants/animations/large_plant_full_dying.bdae",
+      "source_file": "large_plant_full_dying.bdae"
+    },
+    {
+      "asset": "actors/large_plant_full_idle.bdae",
+      "bytes": 20120,
+      "sha256": "cf1b8ad6f3c2363217a01f701ff2543e7b96d53f0a25d80964172f0279ebbfc9",
+      "source": "data/3d/characters/plants/animations/large_plant_full_idle.bdae",
+      "source_file": "large_plant_full_idle.bdae"
+    },
+    {
+      "asset": "actors/small_plant.bdae",
+      "bytes": 35480,
+      "sha256": "f3901f72f0f45fb46ce497a0030635f6fd61b039a5ed48cc35f950a14baff4d4",
+      "source": "data/3d/characters/plants/small_plant.bdae",
+      "source_file": "small_plant.bdae"
+    },
+    {
+      "asset": "actors/small_plant_dying.bdae",
+      "bytes": 8444,
+      "sha256": "06e0ef0bdd375c581e724512f72508adb1294ca8ac1e39af1bebe4c351ef0aba",
+      "source": "data/3d/characters/plants/animations/small_plant_dying.bdae",
+      "source_file": "small_plant_dying.bdae"
+    },
+    {
+      "asset": "actors/small_plant_idle.bdae",
+      "bytes": 7840,
+      "sha256": "da582fa3d354e72762d5915efa805c0728e6eba0bb424e2b35fb583d063ef44c",
+      "source": "data/3d/characters/plants/animations/small_plant_idle.bdae",
+      "source_file": "small_plant_idle.bdae"
+    },
+    {
+      "asset": "textures/env_earth_temple.tga",
+      "bytes": 524348,
+      "sha256": "2853699d71695bdab8315640346a403e31b66ca6af6031913af85eb1d213b17c",
+      "source": "data/3d/textures/env_earth_temple.tga",
+      "source_file": "env_earth_temple.tga"
+    },
+    {
+      "asset": "textures/env_earth_temple_alpha.tga",
+      "bytes": 262204,
+      "sha256": "d1ef48eeb7dc850a6b8efe346af16fe1fbe12bc13e8cb90e998b14f2a5dd2495",
+      "source": "data/3d/textures/pvr2_env_earth_temple_alpha.tga",
+      "source_file": "pvr2_env_earth_temple_alpha.tga"
+    },
+    {
+      "asset": "textures/env_earth_temple_spec.tga",
+      "bytes": 131132,
+      "sha256": "0bc3b02490bb0814dc821eef69a7b91b0ce482a2a3b498ff2d6409e2e009e634",
+      "source": "data/3d/textures/env_earth_temple_spec.tga",
+      "source_file": "env_earth_temple_spec.tga"
+    }
+  ],
+  "runtime_gaps": "Module rotation/scale, conditional/template/NPC/container factories, source AI activation and LevelSavegame are not implied."
+}

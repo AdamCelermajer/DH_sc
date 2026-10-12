@@ -1,0 +1,69 @@
+{
+  "schema": "dh2-level-music-source-export-v1",
+  "uid": 468,
+  "sounds_member": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sounds.xml",
+  "sounds_sha256": "4bc1de654d65470d49e48cee354d5d5cdd45006c18d65420ddc07acf5b400a6e",
+  "sounds_row": {
+    "bank": "1",
+    "filename": "m_level_swamp_sfx_witch.vxn",
+    "format": "vxn",
+    "group": "2",
+    "label": "SwampWitchCaveAmbientMusic",
+    "loadingflags": "none",
+    "loop": "yes",
+    "priority": "1",
+    "uid": "468"
+  },
+  "source_member": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_swamp_sfx_witch.vxn",
+  "source_kind": "vxn",
+  "source_bytes": 12278272,
+  "source_crc32": "a1d79606",
+  "source_sha256": "c3530cfea409d0cd855ffa070a49e9496bcb175dfd4a1c400f8437d6c43a0c0f",
+  "vxn": {
+    "file_bytes": 12278272,
+    "audio_base": 512,
+    "codec": "VoxNativeSubDecoderIMAADPCM",
+    "channels": 2,
+    "sample_rate_hz": 32000,
+    "block_bytes": 1024,
+    "frames_per_block": 1017,
+    "states": [
+      "ambient",
+      "combat"
+    ],
+    "segments": [
+      {
+        "state": "ambient",
+        "source_offset": 0,
+        "source_bytes": 6138880,
+        "sample_frames": 6096650
+      },
+      {
+        "state": "combat",
+        "source_offset": 6138880,
+        "source_bytes": 6138880,
+        "sample_frames": 6096650
+      }
+    ]
+  },
+  "outputs": [
+    {
+      "asset": "swamp_witch_ambient_music.wav",
+      "bytes": 6138940,
+      "sha256": "ce0ee506e9c00eb6e15b0b396f62fabfada70bed3162c4f10e86ab659d78f074",
+      "source_segment_offset": 0,
+      "source_segment_bytes": 6138880,
+      "sample_frames": 6096650,
+      "state": "ambient"
+    },
+    {
+      "asset": "swamp_witch_combat_music.wav",
+      "bytes": 6138940,
+      "sha256": "b6a7b2a247373b176de8b4c2ccd46dbbe9854231c6edda1a8910083e61070611",
+      "source_segment_offset": 6138880,
+      "source_segment_bytes": 6138880,
+      "sample_frames": 6096650,
+      "state": "combat"
+    }
+  ]
+}

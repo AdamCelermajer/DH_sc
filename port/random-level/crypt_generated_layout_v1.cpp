@@ -303,9 +303,11 @@ Status validate_module(const CryptGeneratedModuleV1& module,
     return reject(diagnostic, status, message, index);
   };
   if (module.block_name.empty() || module.catalogue_xrefobject.empty() ||
-      module.gameplay_path.empty() || module.mvp_path.empty() ||
       module.bres_path.empty())
     return fail(Status::argument, "Module identity or asset path is empty");
+  // gameplay_path / mvp_path are optional: Tile::SaveAsModuleXML (0x491d90) omits
+  // the mgp / mvp attribute when the ListElem gameplay / visual is empty, and
+  // Module::LoadModule (0x38a88c) loads only the files that are named.
   if (!valid_xml_text(module.block_name) ||
       !valid_xml_text(module.catalogue_xrefobject) ||
       !valid_xml_text(module.bres_path) ||
@@ -327,8 +329,8 @@ Status validate_module(const CryptGeneratedModuleV1& module,
       module.is_solid.size() > kMaxAttributeBytes)
     return fail(Status::limit, "Native module property would truncate");
   if (!valid_cache_path(module.bres_path) ||
-      !valid_cache_path(module.gameplay_path) ||
-      !valid_cache_path(module.mvp_path) ||
+      (!module.gameplay_path.empty() && !valid_cache_path(module.gameplay_path)) ||
+      (!module.mvp_path.empty() && !valid_cache_path(module.mvp_path)) ||
       (!module.xrefmax.empty() && !valid_cache_path(module.xrefmax)))
     return fail(Status::invalid_path, "Module asset path is not a safe data/ cache path");
   if (!module.block_width || !module.block_height)
@@ -475,8 +477,10 @@ CryptGeneratedLayoutStatusV1 crypt_serialize_generated_layout_v1(
           (!module.fog_color.empty() && !append_attribute(xml, "fog_color", module.fog_color)) ||
           (!module.is_solid.empty() && !append_attribute(xml, "is_solid", module.is_solid)) ||
           !append_attribute(xml, "dae", module.bres_path) ||
-          !append_attribute(xml, "mgp", module.gameplay_path) ||
-          !append_attribute(xml, "mvp", module.mvp_path) ||
+          (!module.gameplay_path.empty() &&
+           !append_attribute(xml, "mgp", module.gameplay_path)) ||
+          (!module.mvp_path.empty() &&
+           !append_attribute(xml, "mvp", module.mvp_path)) ||
           !append_bounded(xml, "/>\n"))
         return reject(diagnostic, Status::limit,
                       "Module XML attributes exceed the source limit",

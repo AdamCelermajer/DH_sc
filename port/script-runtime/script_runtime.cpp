@@ -293,15 +293,27 @@ static Error execute_command(Runtime *runtime, Task *task,
                               task->depth, task, command->command_id, -1, 1);
         }
         case 1:  // EnterCutSceneMode
+        case 2: {  // ExitCutSceneMode
+            // Script_EnterCutSceneMode 0x45a384 / Script_ExitCutSceneMode
+            // 0x4599ac invoke the HUD's StartCutscene/StopCutscene; the host
+            // owns the HUD. Both are non-blocking; -2 means no host handler.
+            if (runtime->spawn_services.host_command != NULL) {
+                uintptr_t handle = 0;
+                const int accepted = runtime->spawn_services.host_command(
+                    runtime->spawn_services.context, command, &handle);
+                if (accepted != 1 && accepted != -2) return ERROR_HOST_COMMAND_SERVICE;
+            }
+            if (command->command_id == 2) {
+                runtime->cutscene_mode = 0;
+                return emit(runtime, EVENT_CUTSCENE_MODE_CHANGED, task,
+                            command->command_id, 0, "exit")
+                    ? ERROR_OK : runtime->error;
+            }
             runtime->cutscene_mode = 1;
             return emit(runtime, EVENT_CUTSCENE_MODE_CHANGED, task,
                         command->command_id, 1, "enter")
                 ? ERROR_OK : runtime->error;
-        case 2:  // ExitCutSceneMode
-            runtime->cutscene_mode = 0;
-            return emit(runtime, EVENT_CUTSCENE_MODE_CHANGED, task,
-                        command->command_id, 0, "exit")
-                ? ERROR_OK : runtime->error;
+        }
         case 5: {  // Script_PlayCamera::Execute(bool, int)
             if (command->field_count != 2 ||
                 command->fields[0].kind != DH2_SCRIPT_VALUE_I32 ||

@@ -1,5 +1,6 @@
 #include "authored_gameplay_hud_v1.hpp"
 #include "authored_hud_edge_layout_v6.hpp"
+#include "scrolling_combat_text_projection_v1.hpp"
 #if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-parameter"
@@ -17,6 +18,7 @@
 #pragma clang diagnostic pop
 #endif
 #include <algorithm>
+#include <cmath>
 namespace dh2::ui {
 namespace {
 struct Invocation {const std::string* path;const char* method;const std::vector<SwfAsValue>* args;};
@@ -42,6 +44,30 @@ bool geometry_graph(void* p,SwfAsGraph& graph,std::string& error){
  gameswf::character* top{};out.hit=c->get_topmost_mouse_entity(top,pp.m_x,pp.m_y);
  for(auto* a=c;a;a=a->get_parent())if(!a->get_visible())out.hit=false;
  return true;
+}
+}
+namespace {
+struct EnemyFollow {const std::string* path;float stage_x,stage_y;};
+// Runs inside with_authored_hud_edge_layout_v6 so parent world matrices match
+// the layout used by geometry() and display(). stage_x/y are SWF pixels.
+bool enemy_follow_graph(void* p,SwfAsGraph& graph,std::string& error){
+ auto& q=*static_cast<EnemyFollow*>(p);SwfAsValue root,value;gameswf::as_object* object{};
+ if(!graph.root_value(root,error)||!graph.find_target(root,q.path->c_str(),value,error)||!graph.borrow_object(value,object,error))return false;
+ if(!object||!object->is(gameswf::character::m_class_id)){error="Required authored enemy HUD group: "+*q.path;return false;}
+ auto* group=static_cast<gameswf::character*>(object);auto* parent=group->get_parent();
+ if(!parent){error="Authored enemy HUD group has no parent";return false;}
+ // Stage pixels to twips, then to the group's parent-local space.
+ gameswf::point anchor;parent->get_world_matrix().transform_by_inverse(&anchor,gameswf::point(q.stage_x*20.f,q.stage_y*20.f));
+ // Centre the group's authored bounds on the anchor. get_bound already reports
+ // the bounds in the group's parent space (they move with its matrix), so the
+ // offset is applied to the translation of the current matrix each frame.
+ gameswf::rect bounds;group->get_bound(&bounds);gameswf::point centre(0,0);
+ if(bounds.m_x_min<=bounds.m_x_max&&bounds.m_y_min<=bounds.m_y_max)
+  centre=gameswf::point((bounds.m_x_min+bounds.m_x_max)*.5f,(bounds.m_y_min+bounds.m_y_max)*.5f);
+ gameswf::matrix matrix=group->get_matrix();
+ matrix.m_[0][2]+=anchor.m_x-centre.m_x;matrix.m_[1][2]+=anchor.m_y-centre.m_y;
+ if(!std::isfinite(matrix.m_[0][2])||!std::isfinite(matrix.m_[1][2])){error="Authored enemy HUD follow produced a non-finite position";return false;}
+ group->set_matrix(matrix);return true;
 }
 }
 bool AuthoredGameplayHudV1::invoke(const std::string& path,const char* method,const std::vector<SwfAsValue>& args,std::string& error){Invocation q{&path,method,&args};return movie_.action_script(&q,invoke_graph,error);}
@@ -144,6 +170,21 @@ bool AuthoredGameplayHudV1::enemy_bar_is_sprite(bool& result,std::string& error)
   return true;
  },error);
 }
+bool AuthoredGameplayHudV1::enemy_follow(const float head_world[3],const float view_projection[16],
+ int viewport_width,int viewport_height,std::string& error){
+ if(style_<0){error="Authored HUD is not bound";return false;}
+ // DELIBERATE USER-APPROVED DEVIATION (see header). Projection is the same
+ // gameplay camera path the scrolling combat text uses; Android top-left pixels.
+ float pixels[2]{};bool inside{};
+ if(!project_world_to_screen_pixels_v1(view_projection,viewport_width,viewport_height,head_world,pixels,&inside,error))return false;
+ // Pixels to SWF stage pixels through the movie's retained source viewport.
+ float stage[2]{pixels[0],pixels[1]};
+ if(!movie_.screen_to_logical(stage,error))return false;
+ const auto path=elements_+".HealthBars.enemy";
+ EnemyFollow q{&path,stage[0],stage[1]};
+ return with_authored_hud_edge_layout_v6(movie_,*this,[&](std::string& e){
+  return movie_.action_script(&q,enemy_follow_graph,e);},error);
+}
 bool AuthoredGameplayHudV1::update(const std::array<std::int32_t,17>& infos,
  const std::array<std::int32_t,3>& skill_slots,std::int32_t cls,bool dpad,std::string& error){
  if(style_<0){error="Authored HUD is not bound";return false;}
@@ -169,14 +210,15 @@ bool AuthoredGameplayHudV1::update(const std::array<std::int32_t,17>& infos,
     *q.slot=number>=0&&number<=2?static_cast<unsigned>(number):0;return true;},error))return false;
   }
   if(style_>1){
-   // The authored onPush hides an unassigned fixed-layout button, but leaves
-   // its btimg child visible on placeholder frame zero. Keep the button shell
-   // reachable and preserve that authored child for empty Save slots; onPush
-   // remains the only producer of an assigned skill icon frame.
+   // IDA setSkillsButtons fixed-layout branch: btn_skillN._visible is
+   // CurUsedSkillsIDs[N-1] > -1, so an empty Save slot stays hidden. Forcing
+   // every shell visible here reintroduced the three-button row. The btimg child
+   // is kept visible so the placeholder frame still exists; onPush remains the
+   // only producer of an assigned skill icon frame.
    // Fixed layouts may assign the three visual buttons to Save slots in a
    // different order. Use the same authored SlotId selected above for both
    // availability and cooldown/usable projection.
-   if(!movie_.set_visible(controls_[4+n].c_str(),true,error)||
+   if(!movie_.set_visible(controls_[4+n].c_str(),skill_slots[n]>=0,error)||
       !movie_.set_visible((controls_[4+n]+".btimg").c_str(),true,error))return false;
   }
   // FastUpdate owns cooldown/Grey projection; source onPush owns icon frames.

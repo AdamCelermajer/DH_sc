@@ -173,6 +173,46 @@ int main(int argc, char** argv) {
   ok &= check(planned_deadends && planned_deadends->allowed_list_entries.size() == 3,
               "deadends remains a three-module allowed domain");
 
+  // TinyXML tolerance used by the native rule loader (see CryptXmlParser).
+  const auto mismatched = parse_crypt_rule_v1(
+      "<rules target=\"t\" folder=\"f\"><list name=\"a\"><elem name=\"x\" gameplay=\"g\" visual=\"v\"/></list>"
+      "<RootRule name=\"#a\"><Path name=\"#a\" length=\"1\"><ForceBlock name=\"#a\"/></Forceblock></Path></RootRule></rules>");
+  ok &= check(mismatched.document.has_value(),
+              "mismatched close tag keeps the partially linked tree");
+  if (mismatched.document) {
+    ok &= check(mismatched.document->lists.size() == 1 &&
+                    mismatched.document->root.children.size() == 1 &&
+                    mismatched.document->root.children[0].children.size() == 1,
+                "mismatched close tag keeps children read before it and stops parsing");
+  }
+  const auto case_mismatch = parse_crypt_rule_v1(
+      "<rules target=\"t\" folder=\"f\"><RootRule name=\"#a\"><ForceBlock name=\"#a\"></Forceblock></RootRule></rules>");
+  ok &= check(case_mismatch.document.has_value() &&
+                  case_mismatch.document->root.children.size() == 1 &&
+                  case_mismatch.document->root.children[0].children.empty(),
+              "close tag comparison is case-sensitive (Forceblock does not close ForceBlock)");
+  const auto text_list = parse_crypt_rule_v1(
+      "<rules target=\"t\" folder=\"f\"><list name=\"a\">---<elem name=\"x\" gameplay=\"g\" visual=\"v\"/>tail</list>"
+      "<RootRule name=\"#a\"/></rules>\n  trailing text");
+  ok &= check(text_list.document.has_value() && text_list.document->lists.size() == 1 &&
+                  text_list.document->lists[0].entries.size() == 1,
+              "list character data and trailing document text are ignored");
+  const auto end_path = parse_crypt_rule_v1(
+      "<rules target=\"t\" folder=\"f\"><RootRule name=\"#a\"><EndPath exit=\"north\"/>"
+      "<Path name=\"#a\" length=\"2\" exit=\"south\" id=\"x\"/></RootRule></rules>");
+  ok &= check(end_path.document.has_value() && end_path.document->root.children.size() == 2 &&
+                  end_path.document->root.children[0].kind == RuleKindV1::end_path &&
+                  !end_path.document->root.children[0].exit.has_value(),
+              "nameless EndPath is a terminal child without exit metadata");
+  ok &= check(end_path.document && end_path.document->root.children[1].exit == std::optional<std::string>("south") &&
+                  end_path.document->root.children[1].id == std::optional<std::string>("x"),
+              "named rule stores exit and id attributes");
+  const auto default_path = parse_crypt_rule_v1(
+      "<rules target=\"t\" folder=\"f\"><RootRule name=\"#a\"><Path name=\"#a\"/></RootRule></rules>");
+  ok &= check(default_path.document && default_path.document->root.children[0].path.min_length == 1 &&
+                  default_path.document->root.children[0].path.max_length == 1,
+              "Path without length keeps the Rule::Rule default of 1..1");
+
   std::cout << "{\"validation\":\"" << (ok ? "PASS" : "FAIL")
             << "\",\"checks\":" << checks
             << ",\"source\":\"007_crypt_01.rule.xml\",\"stage\":\"root-and-rule-plan\"}\n";

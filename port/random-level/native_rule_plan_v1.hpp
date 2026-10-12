@@ -54,7 +54,9 @@ struct CryptListV1 {
   std::vector<CryptListEntryV1> entries;
 };
 
-enum class RuleKindV1 { root, force_block, path };
+// EndPath (rnd::EndPath, vtable off_969B78/off_969B98): OneStep returns 1 and
+// places no tile, so it is a terminal child rule.
+enum class RuleKindV1 { root, force_block, path, end_path };
 
 struct RuleSelectorV1 {
   std::string source_text;
@@ -65,8 +67,10 @@ struct RuleSelectorV1 {
 };
 
 struct PathOptionsV1 {
-  std::optional<std::int32_t> min_length;
-  std::optional<std::int32_t> max_length;
+  // Rule::Rule (0x48dc90) sets the min and max length words to 1. Path::LoadFromXml
+  // (0x49130c) overwrites them only when a `length` attribute is present.
+  std::optional<std::int32_t> min_length = 1;
+  std::optional<std::int32_t> max_length = 1;
   // Path constructor sets this true. The Crypt file's lowercase
   // `dontgoback="false"` is not the native case-sensitive numeric
   // `dontGoBack` attribute, so it leaves the default unchanged.
@@ -78,6 +82,10 @@ struct RuleNodeV1 {
   RuleKindV1 kind = RuleKindV1::root;
   RuleSelectorV1 selector;
   PathOptionsV1 path;
+  // Rule::LoadFromXml stores these only after a successful name lookup.
+  // exit is the raw string (may be empty); id is the raw id before RoomPool hashing.
+  std::optional<std::string> exit;
+  std::optional<std::string> id;
   std::vector<RuleNodeV1> children;
 };
 
@@ -110,6 +118,8 @@ const CryptListV1* find_list_v1(const CryptRuleDocumentV1& document,
 struct RulePlanNodeV1 {
   RuleKindV1 kind = RuleKindV1::root;
   RuleSelectorV1 selector;
+  std::optional<std::string> exit;
+  std::optional<std::string> id;
   // This is an allowed domain for native exit filtering, not a chosen module.
   // The choice requires MGX exits, MGP fit and native recursion/backtracking.
   std::vector<CryptListEntryV1> allowed_list_entries;

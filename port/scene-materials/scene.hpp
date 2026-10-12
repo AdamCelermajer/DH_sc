@@ -20,6 +20,7 @@ struct Instance {
     std::array<float,16> world;
     std::vector<std::uint32_t> materials;
     std::int32_t controller=-1;
+    std::uint32_t source_view=0; // index of the BRES view that owns `geometry`
 };
 struct Node {
     std::string id,sid,name,user_properties;

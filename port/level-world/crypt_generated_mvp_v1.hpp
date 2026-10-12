@@ -45,4 +45,11 @@ bool compile_generated_crypt_animated_decor_v1(
     std::vector<GeneratedCryptAnimatedDecorV1>& output,
     std::size_t& deferred_count, std::string& error);
 
+// Normalized cache dae path (Module::LoadModule opens each Module's own dae) of
+// every Module in a serialized generated Level, in Module order.
+bool generated_crypt_module_daes_v1(
+    const std::uint8_t* level_xml, std::size_t level_size,
+    const char* level_name, const char* level_source_path,
+    std::vector<std::string>& output, std::string& error);
+
 }  // namespace dh2::world

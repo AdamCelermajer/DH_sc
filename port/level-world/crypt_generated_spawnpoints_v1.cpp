@@ -15,6 +15,9 @@ namespace {
 
 constexpr std::size_t header_size = 16;
 constexpr std::size_t record_size = 144;
+// SPWN v2 appends one NUL-padded SpawnPoint script name to each v1 record.
+constexpr std::size_t record_size_v2 = 240;
+constexpr std::size_t script_bytes = 96;
 constexpr std::uint32_t max_spawnpoints = 512;
 constexpr float max_component = 10000000.0f;
 
@@ -27,6 +30,7 @@ struct SpawnRecord {
     std::int32_t id = 0;
     std::uint32_t module = 0;
     std::string name;
+    std::string script;
     float transforms[18]{};
 };
 
@@ -130,7 +134,7 @@ bool append_identity_level(const SourceLevel& original, std::string& xml) {
         const auto* mgp = dh2_world_field(&module, "mgp");
         const auto* mvp = dh2_world_field(&module, "mvp");
         const auto* xref = dh2_world_field(&module, "xrefobject");
-        if (!module.name || !type || !dae || !mgp || !mvp || !xref) return false;
+        if (!module.name || !type || !dae || !xref) return false;
         xml += "<GameObject";
         if (!append_xml_attribute(xml, "type", type) ||
             !append_xml_attribute(xml, "name", module.name) ||
@@ -139,8 +143,8 @@ bool append_identity_level(const SourceLevel& original, std::string& xml) {
             !append_xml_attribute(xml, "rotation", "0,0,0") ||
             !append_xml_attribute(xml, "scale", "1,1,1") ||
             !append_xml_attribute(xml, "dae", dae) ||
-            !append_xml_attribute(xml, "mgp", mgp) ||
-            !append_xml_attribute(xml, "mvp", mvp) ||
+            (mgp && !append_xml_attribute(xml, "mgp", mgp)) ||
+            (mvp && !append_xml_attribute(xml, "mvp", mvp)) ||
             !append_xml_attribute(xml, "xrefobject", xref)) return false;
         xml += "/>";
     }
@@ -171,16 +175,22 @@ bool build_records(const SourceLevel& placements, const SourceLevel& objects,
             set_error(error, "SPWN v1 cannot preserve SpawnPoint activation conditions");
             return false;
         }
-        if (nonempty(dh2_world_field(&object, "script"))) {
-            set_error(error, "SPWN v1 cannot preserve SpawnPoint scripts");
-            return false;
-        }
         if (!object.name || !*object.name || std::strlen(object.name) >= 64) {
             set_error(error, "SpawnPoint name does not fit SPWN v1");
             return false;
         }
         record.name = object.name;
         record.module = object.module_index;
+        const char* script = dh2_world_field(&object, "script");
+        if (nonempty(script)) {
+            if (std::strlen(script) >= script_bytes) {
+                set_error(error, "SpawnPoint script name does not fit SPWN v2");
+                return false;
+            }
+            // Level::_LoadPlayer -> SpawnPoint::PlaceObject starts this script
+            // through ScriptManager::StartScript(id, arg, 0) when the Player spawns.
+            record.script = script;
+        }
 
         const auto& module = placements.modules[record.module].record;
         for (unsigned axis = 0; axis < 3; ++axis) {
@@ -211,8 +221,13 @@ bool build_records(const SourceLevel& placements, const SourceLevel& objects,
                 return false;
             }
             // Level::_LoadPlayer applies every matching point in source order.
-            // With unsupported scripts/conditions rejected above, the final
-            // player transform is the last matching source record.
+            // Each matching PlaceObject starts its own script, so repeated IDs
+            // are supported only when no script is involved; conditions stay
+            // rejected above. The final transform is the last matching record.
+            if (!prior->script.empty() || !record.script.empty()) {
+                set_error(error, "SPWN cannot preserve repeated SpawnPoint scripts for one entrypoint");
+                return false;
+            }
             *prior = std::move(record);
         } else {
             records.push_back(std::move(record));
@@ -279,6 +294,7 @@ static bool compile_generated_spawnpoints_impl_v1(
     }
 
     for (std::uint32_t i = 0; i < placements.value.module_count; ++i) {
+        if (!objects.value.modules[i].cache_mgp) continue;  // no gameplay file named
         if (!mgps[i].source_path || !mgps[i].data || !mgps[i].size) {
             set_error(error, "Generated MGP input is incomplete");
             return false;
@@ -295,18 +311,25 @@ static bool compile_generated_spawnpoints_impl_v1(
     std::vector<SpawnRecord> records;
     if (!build_records(placements.value, objects.value, selected_entrypoint_id,
                        records, error)) return false;
-    std::vector<std::uint8_t> serialized(header_size + records.size() * record_size, 0);
+    // Scriptless output stays byte-identical SPWN v1; v2 is emitted only when a
+    // SpawnPoint carries a script that the runtime must start.
+    bool has_script = false;
+    for (const auto& record : records) has_script = has_script || !record.script.empty();
+    const std::size_t stride = has_script ? record_size_v2 : record_size;
+    std::vector<std::uint8_t> serialized(header_size + records.size() * stride, 0);
     std::memcpy(serialized.data(), "SPWN", 4);
-    write_u32(serialized.data() + 4, 1);
+    write_u32(serialized.data() + 4, has_script ? 2 : 1);
     write_u32(serialized.data() + 8, static_cast<std::uint32_t>(records.size()));
     write_u32(serialized.data() + 12, 0);
     for (std::size_t i = 0; i < records.size(); ++i) {
-        auto* row = serialized.data() + header_size + i * record_size;
+        auto* row = serialized.data() + header_size + i * stride;
         write_i32(row, records[i].id);
         write_u32(row + 4, records[i].module);
         std::memcpy(row + 8, records[i].name.data(), records[i].name.size());
         for (unsigned j = 0; j < 18; ++j)
             write_float(row + 72 + j * 4, records[i].transforms[j]);
+        if (has_script)
+            std::memcpy(row + 144, records[i].script.data(), records[i].script.size());
     }
     output = std::move(serialized);
     return true;

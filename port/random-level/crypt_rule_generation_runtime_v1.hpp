@@ -28,6 +28,12 @@ struct CryptRuleExecutionFrameV1 {
   // Non-null only for Path::Impl. The pointed-to state belongs to this rule
   // instance and is initialized by create_child_rule, including RNG draws.
   CryptPathRuntimeV1* path_runtime = nullptr;
+  // Rule::Impl+60 (set by Rule::Impl::Impl 0x48bebc from the `exit` attribute):
+  // Step skips this child, and re-queues the exit, when the open exit's
+  // direction id differs.
+  std::optional<CryptDirectionKeyV1> required_exit_direction;
+  // EndPath::Impl (0x48c018): OneStep (0x48bd38) returns 1, spawning nothing.
+  bool end_path = false;
 };
 
 enum class CryptRuleGenerationStatusV1 {
@@ -130,6 +136,21 @@ struct CryptRuleGenerationCallbacksV1 {
   bool (*destroy_child_rule)(
       void* context, const CryptRuleExecutionFrameV1& child) = nullptr;
   bool (*remove_neighbors)(void* context, const void* tile) = nullptr;
+
+  // Direction id of the parent tile's raw exit (Exit+20 -> Direction id) used
+  // by Step's required-direction check. Omission with a directional child
+  // returns `unsupported`.
+  CryptRuleCallbackStatusV1 (*exit_direction)(
+      void* context, const CryptRuleExecutionFrameV1& parent,
+      std::size_t source_exit_index, CryptDirectionKeyV1& direction) = nullptr;
+
+  // Path::Impl::OneStep (0x48fd64) appends, after FilterExits' _start removal
+  // and shuffle, the candidates for the same-named block that it excluded
+  // from the pre-filter vector (index == -1 only). Optional; no RNG use.
+  CryptRuleCallbackStatusV1 (*trailing_candidate_exits)(
+      void* context, const CryptRuleExecutionFrameV1& child,
+      std::size_t anchor_exit_index,
+      std::vector<SourceRuleExitCandidateV1>& exits) = nullptr;
 
   // Path::Impl calls Rule::Impl::Step on the current tile when its chosen
   // length is reached, using a source-specific incoming-exit choice. Supply

@@ -137,6 +137,17 @@ int main() {
                   actual_rng.state() == expected_rng.state(),
               "distribution shuffle reuses shared RNG and exact draw order");
 
+  // Step reads row bytes through a raw pointer: past byte 5 it runs into the
+  // next original record, then the 0xff terminator, then zero padding.
+  const auto small = enumerate_source_rule_distributions_v1(2, 2);
+  ok &= check(source_rule_distribution_byte_v1(small, 0, 1) == 1 &&
+                  source_rule_distribution_byte_v1(small, 0, 2) == 0 &&
+                  source_rule_distribution_byte_v1(small, 0, 6) == 1 &&
+                  source_rule_distribution_byte_v1(small, 0, 7) == 0 &&
+                  source_rule_distribution_byte_v1(small, 1, 6) == 0xff &&
+                  source_rule_distribution_byte_v1(small, 1, 7) == 0,
+              "row byte reads continue through the table memory layout");
+
   std::cout << "crypt_rule_distribution_v1 checks=" << checks
             << " status=" << (ok ? "PASS" : "FAIL") << '\n';
   return ok ? 0 : 1;

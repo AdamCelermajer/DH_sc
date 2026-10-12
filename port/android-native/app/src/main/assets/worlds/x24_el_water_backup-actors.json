@@ -1,0 +1,202 @@
+{
+  "source_layout": "data/scene/x24_el_water_backup.mlx",
+  "selected_characters": 2,
+  "source_character_records": 51,
+  "selection": "direct Monster; no activation/deactivation condition; auto_spawn != 0; initial ai_state absent or Idle",
+  "actors": [
+    {
+      "kind": 1,
+      "room": 6,
+      "name": "_prim_water01",
+      "character": "El_Water",
+      "model": "sharkman.bdae",
+      "model_path": "data/3d/characters/sharkman/sharkman.bdae",
+      "animation_table": 61,
+      "position": [
+        11496.493,
+        24885.518,
+        361.335
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.25,
+        1.25,
+        1.25
+      ],
+      "source_mgp": "data/3d/modules/castle/mgp/boss_water.mgp",
+      "source_record": 2
+    },
+    {
+      "kind": 1,
+      "room": 6,
+      "name": "_prim_water02",
+      "character": "El_Water",
+      "model": "sharkman.bdae",
+      "model_path": "data/3d/characters/sharkman/sharkman.bdae",
+      "animation_table": 61,
+      "position": [
+        12365.699,
+        24885.518,
+        361.335
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.25,
+        1.25,
+        1.25
+      ],
+      "source_mgp": "data/3d/modules/castle/mgp/boss_water.mgp",
+      "source_record": 3
+    }
+  ],
+  "animation_states": [
+    {
+      "table": 61,
+      "character": "Sharkman",
+      "state": "Idle",
+      "sequence": 579
+    },
+    {
+      "table": 61,
+      "character": "Sharkman",
+      "state": "Walk",
+      "sequence": 587
+    },
+    {
+      "table": 61,
+      "character": "Sharkman",
+      "state": "Attack",
+      "sequence": 571
+    },
+    {
+      "table": 61,
+      "character": "Sharkman",
+      "state": "Died",
+      "sequence": 575
+    }
+  ],
+  "clip_ids": [
+    1155,
+    1156,
+    1158,
+    1165,
+    1167,
+    1168,
+    1171,
+    1172,
+    1177
+  ],
+  "dact": {
+    "bytes": 528,
+    "sha256": "e462ec44882467006b0a1639ed2bb0f29fe44401d7b236e05dc576c89decf53d"
+  },
+  "assets": [
+    {
+      "asset": "actors/sharkman.bdae",
+      "bytes": 56444,
+      "sha256": "140b46a487da86daf7fcab3efa2165db937cb49ce89fd2129fe8767e837f8e95",
+      "source": "data/3d/characters/sharkman/sharkman.bdae",
+      "source_file": "sharkman.bdae"
+    },
+    {
+      "asset": "actors/sharkman_attack_01.bdae",
+      "bytes": 23016,
+      "sha256": "5bbf27ec856180d11f229d6b06cf6dc14a5a696fcf9d8212b04daa6fa6e2dce4",
+      "source": "data/3d/characters/sharkman/animations/sharkman_attack_01.bdae",
+      "source_file": "sharkman_attack_01.bdae"
+    },
+    {
+      "asset": "actors/sharkman_attack_02.bdae",
+      "bytes": 25848,
+      "sha256": "4e5e33f061d06cd20c8d745796ad69f2aba7875c3fbf55b1aedb39920d50e6ee",
+      "source": "data/3d/characters/sharkman/animations/sharkman_attack_02.bdae",
+      "source_file": "sharkman_attack_02.bdae"
+    },
+    {
+      "asset": "actors/sharkman_dying.bdae",
+      "bytes": 13548,
+      "sha256": "5f4c10fc07f6cb0fbead360b66e3da82720d8a4f5436703008998c8ea43c531f",
+      "source": "data/3d/characters/sharkman/animations/sharkman_dying.bdae",
+      "source_file": "sharkman_dying.bdae"
+    },
+    {
+      "asset": "actors/sharkman_idle.bdae",
+      "bytes": 28704,
+      "sha256": "5174a4356a2ba6b509a162370248f9d4bb2a311c104c5c78ccc5ccb4d5f9cfa0",
+      "source": "data/3d/characters/sharkman/animations/sharkman_idle.bdae",
+      "source_file": "sharkman_idle.bdae"
+    },
+    {
+      "asset": "actors/sharkman_post_attack_01.bdae",
+      "bytes": 24288,
+      "sha256": "c1a605a6737bb9777bbaf1c706050bef862894ccbaa1898ad5d3e0cdbc00c380",
+      "source": "data/3d/characters/sharkman/animations/sharkman_post_attack_01.bdae",
+      "source_file": "sharkman_post_attack_01.bdae"
+    },
+    {
+      "asset": "actors/sharkman_post_attack_02.bdae",
+      "bytes": 34312,
+      "sha256": "755427637a3d185aa4f60e2eb9f01070f642152172218d7b4266c20449f9bc63",
+      "source": "data/3d/characters/sharkman/animations/sharkman_post_attack_02.bdae",
+      "source_file": "sharkman_post_attack_02.bdae"
+    },
+    {
+      "asset": "actors/sharkman_pre_attack_01.bdae",
+      "bytes": 21444,
+      "sha256": "6ec3491fcb8aa9baed6a32c595cf6aa6f84d1dbc0505d2239fd91b9051e0aa22",
+      "source": "data/3d/characters/sharkman/animations/sharkman_pre_attack_01.bdae",
+      "source_file": "sharkman_pre_attack_01.bdae"
+    },
+    {
+      "asset": "actors/sharkman_pre_attack_02.bdae",
+      "bytes": 32912,
+      "sha256": "97a2b85c7b0280ddfc0059ed033547a7c73142e1d83f59aebfc50197d5824790",
+      "source": "data/3d/characters/sharkman/animations/sharkman_pre_attack_02.bdae",
+      "source_file": "sharkman_pre_attack_02.bdae"
+    },
+    {
+      "asset": "actors/sharkman_walk.bdae",
+      "bytes": 11684,
+      "sha256": "03088bb78999fe12e0d814b568b8e4ee404fa027a71e76215da732207f9c91da",
+      "source": "data/3d/characters/sharkman/animations/sharkman_walk.bdae",
+      "source_file": "sharkman_walk.bdae"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001.tga",
+      "bytes": 524348,
+      "sha256": "12b326ab884126622721864edb49ab7e30bafb21a269d11db4f185515e4eca7c",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001.tga",
+      "source_file": "atlas_dh2_game_objects_001.tga"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001_alpha.tga",
+      "bytes": 524348,
+      "sha256": "4989829958943daff0d0b977ae98c52def30bb0c966dba21d19e949f9321fc79",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001_alpha.tga",
+      "source_file": "atlas_dh2_game_objects_001_alpha.tga"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001_specular.tga",
+      "bytes": 131132,
+      "sha256": "49c66c6eab5b957acadcf1f8216eb4720ed69b60f86a2b8776505bf54a5d7398",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001_specular.tga",
+      "source_file": "atlas_dh2_game_objects_001_specular.tga"
+    },
+    {
+      "asset": "textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+      "bytes": 524348,
+      "sha256": "b481139257068aca633269161be908e66f839f241f7b42b035337c705e121e83",
+      "source": "data/3d/textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+      "source_file": "atlas_skinned_characters_animdecor_gameobjects_001.tga"
+    }
+  ],
+  "runtime_gaps": "Module rotation/scale, conditional/template/NPC/container factories, source AI activation and LevelSavegame are not implied."
+}
