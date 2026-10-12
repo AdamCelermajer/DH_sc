@@ -6976,6 +6976,16 @@ int main(int argc,char** argv) {
                 std::cout<<"Source potion key=5 frame="<<drawn<<" result="<<int(receipt.result)<<" consumed="<<receipt.consumed<<" quantity="<<receipt.quantity_before<<"->"<<receipt.quantity_after<<" HPraw="<<receipt.hp_before<<"->"<<receipt.hp_after<<" MPraw="<<receipt.mp_before<<"->"<<receipt.mp_after<<" diagnostic="<<potionError;
                 if(!used&&!potionDebug.error.empty())std::cout<<" sourceDebug="<<potionDebug.error;
                 std::cout<<'\n';
+                // NativeUsePotion plays the generated PotionDrink only after its
+                // caller gates pass and Cmd_UsePotion has been dispatched.
+                if(receipt.consumed&&runtimeAudio) {
+                    std::string soundError;const bool submitted=runtimeAudio->play_named_plain("PotionDrink",soundError);
+                    std::cout<<"Potion sound name=PotionDrink ordinal=160 uid=147 submitted="<<submitted<<" frame="<<drawn;
+                    if(!soundError.empty())std::cout<<" detail="<<soundError;std::cout<<'\n';
+                }
+            } else if(uiInput.potion.pressed) {
+                std::cout<<"Source potion key=5 frame="<<drawn<<" result=outer_gate_rejected gameplayPaused="<<gameplayPaused
+                         <<" controllerBlocked="<<playerControllerBlocked<<" session="<<bool(combatSession)<<'\n';
             }
             if(playerControllerBlocked) {
                 // Attack requests reach the shared source admission wrapper.
