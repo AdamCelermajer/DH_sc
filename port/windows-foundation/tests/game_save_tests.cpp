@@ -35,7 +35,19 @@ static std::vector<char> legacy_game_save_v1(const std::vector<char>& v2){
     skip_text(v2,at);skip_text(v2,at);skip_text(v2,at);at+=4; // identity and level
     at+=7*4;erase_ranges.emplace_back(at,at+18);at+=18; // v2 source stats/points/known flags
     at+=16; // experience and gold
-    auto count=read_u32(v2,at);for(std::uint32_t i=0;i<count;++i){skip_text(v2,at);skip_text(v2,at);at+=4;}
+    auto count=read_u32(v2,at);for(std::uint32_t i=0;i<count;++i){
+        skip_text(v2,at);skip_text(v2,at);at+=4;
+        if(schema>=5){
+            const auto metadata_start=at;
+            if(at>=payload_end)throw std::runtime_error("test legacy parser truncated source-item marker");
+            const bool present=v2[at++]!=0;
+            if(present){
+                at+=4+1;const auto powers=read_u32(v2,at);
+                for(std::uint32_t p=0;p<powers;++p)skip_text(v2,at);
+            }
+            erase_ranges.emplace_back(metadata_start,at);
+        }
+    }
     count=read_u32(v2,at);for(std::uint32_t i=0;i<count;++i){
         skip_text(v2,at);skip_text(v2,at);erase_ranges.emplace_back(at,at+8);at+=8;
     }
@@ -101,11 +113,16 @@ int main(int argc,char** argv){try{
     character.visited_modules={{"original/level",3,1},{"original/level",9,0}};
     auto* live=world.find_actor(1);live->transform.position={13,27,4};live->action=CharacterAction::attacking;live->target_id=2;
     apply_actor_damage(*live,5.5f);apply_actor_damage(*world.find_actor(2),world.find_actor(2)->health);
+    auto limbusProperties=mob;const auto limbusHp=mob.sheets.resolved[38]/2;
+    limbusProperties.sheets.base[36]=limbusProperties.sheets.saved[36]=limbusProperties.sheets.resolved[36]=limbusHp;
+    check(world.update_combat_properties(2,limbusProperties,{false,true,std::nullopt},error),error);
+    world.find_actor(2)->health=original_signed256(limbusHp);world.find_actor(2)->source_dead=true;world.find_actor(2)->source_limbus=true;
     rng.seed=98765;rng.calls=117; // Explicit already-advanced test stream.
     GameSave saved;check(capture_game_save("original/level",1,character,world,saved,error),error);
     check(saved.actors[0].actor.action==CharacterAction::idle&&saved.actors[0].actor.target_id==0&&
         saved.actors[1].actor.action==CharacterAction::dead,"transient normalization/death lost");
-    check(saved.actors[1].combat.sheets.resolved[36]==0,"dead enemy original HP sheet not synchronized");
+    check(saved.actors[1].combat.sheets.resolved[36]==limbusHp&&saved.actors[1].actor.health==original_signed256(limbusHp),
+          "Limbus actor's positive saved HP was not retained in the world snapshot");
     { // v20 SAVEFIX: targetable attacking actor whose source resource sheet is the -1 "no pool" sentinel (projected to 0 live)
         auto npcProps=mob;npcProps.sheets.resolved[41]=npcProps.sheets.resolved[43]=-1;
         npcProps.sheets.saved[41]=npcProps.sheets.saved[43]=-1;npcProps.sheets.base[41]=npcProps.sheets.base[43]=-1;
@@ -126,6 +143,7 @@ int main(int argc,char** argv){try{
     const std::filesystem::path path(argv[3]);check(save_game(path,saved,error),error);
     GameSave loaded;check(load_game(path,loaded,error),error);
     check(loaded.random.seed==98765&&loaded.random.calls==117&&loaded.actors.size()==2&&
+        loaded.actors[1].actor.source_limbus&&
         loaded.actors[0].combat.sheets.base==saved.actors[0].combat.sheets.base&&
         loaded.actors[0].combat.sheets.saved==saved.actors[0].combat.sheets.saved&&
         loaded.actors[0].combat.sheets.gear==saved.actors[0].combat.sheets.gear&&
@@ -178,7 +196,8 @@ int main(int argc,char** argv){try{
     live->health=1;live->transform.position={0,0,0};auto* enemy=world.find_actor(2);enemy->health=enemy->max_health;enemy->action=CharacterAction::idle;
     rng.seed=1;rng.calls=0;check(restore_game_save(loaded,"original/level",world,character,error),error);
     live=world.find_actor(1);check(live->transform.position[0]==13&&live->health==saved.character.stats.health&&
-        world.find_actor(2)->health==0&&world.find_actor(2)->action==CharacterAction::dead&&rng.seed==98765&&rng.calls==117,
+        world.find_actor(2)->source_limbus&&
+        world.find_actor(2)->health==original_signed256(limbusHp)&&world.find_actor(2)->action==CharacterAction::dead&&rng.seed==98765&&rng.calls==117,
         "live pose/vitals/death/RNG restore differs");
     check(character.stats.endurance==18.5f&&character.stats.energy==6.25f&&
           character.skill_slots.size()==2&&character.skill_slots[1].saved_skill_row==2&&
@@ -251,7 +270,7 @@ int main(int argc,char** argv){try{
     invalid=saved;invalid.actors[0].actor.source_target_position184=std::array<float,3>{1,2,3};
     check(!save_game(path,invalid,error)&&read(path)==previous_file,"Derived scene target cache silently persisted over a valid save");
     auto invalid_actors=saved.actors;invalid_actors[1].actor.faction_id=999;
-    check(!world.replace_actors(invalid_actors,{1,0},error)&&world.find_actor(2)->health==0&&rng.seed==previous_rng.seed,
+    check(!world.replace_actors(invalid_actors,{1,0},error)&&world.find_actor(2)->health==original_signed256(limbusHp)&&rng.seed==previous_rng.seed,
         "failed transactional actor restore altered world/RNG");
     std::filesystem::remove(corrupt_path);
     std::cout<<"game_save PASS: original stat/equipment sheets, live vitals/pose, enemy death, exact RNG, transient reset, atomic failures\n";

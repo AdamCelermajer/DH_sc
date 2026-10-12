@@ -16,9 +16,10 @@ class ShopUi {
 public:
     enum class Mode { buy, sell };
     struct Command {
-        enum class Kind { none, close, buy, sell, equip, unequip, buy_potions } kind{Kind::none};
+        enum class Kind { none, close, buy, sell, equip, unequip, buy_potions, select_mode, select_navigation } kind{Kind::none};
         std::string instance_id;
         unsigned slot{};
+        Mode mode{Mode::buy}; // target for select_mode; caller plays the authored cue before set_mode
     };
     ShopUi(CharacterState& player, Shop& shop, const dh2::data::ItemTable& items, const ActorState& actor,
            const OriginalCombatProperties& properties, const OriginalPropertyDatabase& database,
@@ -27,9 +28,11 @@ public:
     bool open(std::string& error);
     Mode mode() const noexcept { return mode_; }
     bool set_mode(Mode mode, std::string& error);
-    // Authored 480x320 pointer position (already inverse-transformed). Back/tabs/pane navigation act here; a Buy/Sell
-    // button press returns the command for the caller to execute (it owns equipment/world side effects).
+    // Authored 480x320 pointer position (already inverse-transformed). Back/tabs/pane navigation act here; a tab
+    // release returns select_mode without mutating mode so the caller can emit the authored cue first.
     Command release(float authored_x, float authored_y, std::string& error);
+    bool list_contains(float authored_x, float authored_y) const;
+    bool step_rows(int delta, std::string& error);
     // Instance selected in the active list; empty when the category has no rows.
     std::string selected_instance(std::string& error) const;
     // Price shown in the VALUE box for the selected row (0 when none).
@@ -45,6 +48,9 @@ public:
     void update_properties(const ActorState& actor, const OriginalCombatProperties& properties) { actor_=actor;properties_=properties; }
     using ParsedText = std::function<bool(const std::string&,const std::vector<std::string>&,std::string&,std::string&)>;
     void parsed_text(ParsedText callback) { parsed_=std::move(callback); }
+    using ItemName = std::function<bool(const InventoryItem&,const dh2::data::Item&,std::string&,std::string&)>;
+    // Only native inventory ItemName displays; raw names remain in confirmations/stock.
+    void sell_item_name(ItemName callback) { sell_item_name_=std::move(callback); }
     bool frame(int width, int height, character_menu::Frame& output, std::string& error) const;
 private:
     struct Pane;
@@ -55,6 +61,7 @@ private:
     OriginalCombatProperties properties_;
     inventory::DetailBindings bindings_;
     ParsedText parsed_;
+    ItemName sell_item_name_;
     std::unique_ptr<Pane> buy_, sell_;
     Mode mode_{Mode::buy};
     unsigned slot_{0};

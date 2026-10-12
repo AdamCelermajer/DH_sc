@@ -119,6 +119,38 @@ std::vector<char> read_bytes(const std::filesystem::path& p) {
     require(static_cast<bool>(f), "cannot read test save");
     return {std::istreambuf_iterator<char>(f), std::istreambuf_iterator<char>()};
 }
+void strip_schema5_source_markers(std::vector<char>& bytes, std::size_t rows) {
+    std::size_t pos=16;
+    const auto u32=[&](std::size_t at) {
+        if(at+4>bytes.size())throw std::runtime_error("truncated save while locating inventory metadata");
+        return std::uint32_t(static_cast<unsigned char>(bytes[at]))|
+            (std::uint32_t(static_cast<unsigned char>(bytes[at+1]))<<8)|
+            (std::uint32_t(static_cast<unsigned char>(bytes[at+2]))<<16)|
+            (std::uint32_t(static_cast<unsigned char>(bytes[at+3]))<<24);
+    };
+    const auto skip_string=[&](std::size_t& cursor) {
+        const auto size=u32(cursor);cursor+=4;
+        if(size>bytes.size()-cursor)throw std::runtime_error("truncated save string while locating inventory metadata");
+        cursor+=size;
+    };
+    skip_string(pos);skip_string(pos);skip_string(pos);
+    pos+=4+9*4+1+4+4+1+8+8;
+    const auto encoded_rows=u32(pos);pos+=4;
+    if(encoded_rows!=rows)throw std::runtime_error("inventory row count changed while making schema2 fixture");
+    std::vector<std::size_t> markers;
+    for(std::size_t i=0;i<rows;++i) {
+        skip_string(pos);skip_string(pos);pos+=4;
+        if(pos>=bytes.size())throw std::runtime_error("truncated save inventory metadata marker");
+        const auto marker=static_cast<unsigned char>(bytes[pos]);markers.push_back(pos++);
+        if(marker>1)throw std::runtime_error("invalid schema5 source marker in fixture");
+        if(marker) {
+            pos+=5;
+            const auto powers=u32(pos);pos+=4;
+            for(std::uint32_t p=0;p<powers;++p)skip_string(pos);
+        }
+    }
+    for(auto it=markers.rbegin();it!=markers.rend();++it)bytes.erase(bytes.begin()+std::ptrdiff_t(*it));
+}
 void write_bytes(const std::filesystem::path& p, const std::vector<char>& bytes) {
     std::ofstream f(p, std::ios::binary | std::ios::trunc);
     f.write(bytes.data(), static_cast<std::streamsize>(bytes.size()));
@@ -150,13 +182,14 @@ int main() {
         require(equal(loaded, original), "roundtrip lost character fields");
         const auto bytes = read_bytes(save);
         require(bytes.size() > 16, "save unexpectedly short");
-        // Older schema2 representation is unchanged except for the appended
-        // schema3 payload length. Loading it must preserve unknown progress.
+        // Older schema2 representation omits the schema3 quest length and
+        // schema5's per-item source-presence byte. Loading it preserves unknown progress.
         // Schema v4 appended a fixed 41-byte tail (difficulty, menu metadata, empty
         // visited list) after the quest payload; strip it for the older layouts.
         // The component count (u32 0) follows the visited list; it is part of the v4 tail too.
         constexpr std::size_t v4_empty_tail=4+4+1+4+12+12+4+4;
-        auto old_v2=bytes;old_v2[12]=2;old_v2.resize(old_v2.size()-v4_empty_tail-4);
+        auto old_v2=bytes;old_v2[12]=2;strip_schema5_source_markers(old_v2,original.inventory.size());
+        old_v2.resize(old_v2.size()-v4_empty_tail-4);
         write_bytes(corrupt,old_v2);auto migrated_v2=loaded;
         require(load_character(corrupt,migrated_v2,error)&&migrated_v2.source_quest_progress_cqpg.empty(),"schema2 quest migration differs");
         require(read_bytes(corrupt)==old_v2,"schema2 read changed file");

@@ -106,18 +106,21 @@ void test_source_character_restore_state_table(){
     check(!source_character_restore_plan_v1(0,false,false,false,std::nullopt,false,p,error),
           "Limbus-state CanRespawn group permission remains explicit when source gates permit the call");
     check(source_character_restore_plan_v1(0,false,false,false,false,false,p,error)&&
-          p.requires_can_respawn&&p.resulting_dead&&
+          p.requires_can_respawn&&p.resulting_dead&&p.resulting_limbus&&
           p.ordered_operations.front()==SourceCharacterRestoreOpV1::restore_serialized_dead_bit&&
           p.ordered_operations.back()==SourceCharacterRestoreOpV1::clear_target&&
-          std::find(p.ordered_operations.begin(),p.ordered_operations.end(),SourceCharacterRestoreOpV1::set_limbus_if_not_already)==p.ordered_operations.end(),
-          "Limbus source branch records dead bit first and does not force Limbus when CanRespawn is false");
-    check(source_character_restore_plan_v1(12,false,false,false,true,false,p,error)&&p.resulting_dead&&
+          std::find(p.ordered_operations.begin(),p.ordered_operations.end(),SourceCharacterRestoreOpV1::set_limbus_if_not_already)!=p.ordered_operations.end()&&
+          std::find(p.ordered_operations.begin(),p.ordered_operations.end(),SourceCharacterRestoreOpV1::set_source_dead_true)!=p.ordered_operations.end()&&
+          !p.can_respawn_allowed,
+          "Limbus source branch enters Limbus with false CanRespawn and source-dead set without HP zeroing");
+    check(source_character_restore_plan_v1(12,false,false,false,true,false,p,error)&&p.resulting_dead&&p.resulting_limbus&&
           p.ordered_operations[1]==SourceCharacterRestoreOpV1::can_respawn_gate&&
-          p.ordered_operations[2]==SourceCharacterRestoreOpV1::set_limbus_if_not_already,
-          "Limbus state branch attempts CanRespawn before setting Limbus and dead state");
-    check(source_character_restore_plan_v1(2,false,true,false,std::nullopt,false,p,error)&&p.resulting_dead&&
+          p.ordered_operations[2]==SourceCharacterRestoreOpV1::set_limbus_if_not_already&&
+          std::find(p.ordered_operations.begin(),p.ordered_operations.end(),SourceCharacterRestoreOpV1::set_source_dead_true)!=p.ordered_operations.end(),
+          "state-12 Limbus branch marks source-dead while preserving positive HP in the explicit Limbus state");
+    check(source_character_restore_plan_v1(2,false,true,false,std::nullopt,false,p,error)&&p.resulting_dead&&p.resulting_limbus&&
           !p.requires_can_respawn,
-          "already-Limbus state skips CanRespawn and remains dead");
+          "already-Limbus state skips CanRespawn but retains its Limbus/dead-state facts");
     check(source_character_restore_plan_v1(17,true,false,false,std::nullopt,false,p,error)&&p.resulting_dead&&
           !p.requires_can_respawn&&
           std::find(p.ordered_operations.begin(),p.ordered_operations.end(),SourceCharacterRestoreOpV1::set_pre_spawn_if_not_already)!=p.ordered_operations.end(),

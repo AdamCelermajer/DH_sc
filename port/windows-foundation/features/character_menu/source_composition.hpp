@@ -41,6 +41,7 @@ class SourceCompositionV1 {
         std::map<std::string, SourcePageProviderV1> source_menu_pages;
         std::function<int(float, float)> stat_button;
         std::function<bool(std::uint32_t, std::string&)> stat_training;
+        std::function<void(std::uint32_t)> stat_training_post_release;
         bool content_installed{};
     };
     std::shared_ptr<State> state_;
@@ -230,6 +231,7 @@ public:
         std::shared_ptr<void> owner,
         std::function<int(float authored_x, float authored_y)> source_button_hit,
         std::function<bool(std::uint32_t, std::string&)> train,
+        std::function<void(std::uint32_t)> post_release,
         std::string& error) {
         if (!state_->owner || !owner || owner.get() != state_->owner.get() ||
             !source_button_hit || !train) {
@@ -238,6 +240,7 @@ public:
         }
         state_->stat_button = std::move(source_button_hit);
         state_->stat_training = std::move(train);
+        state_->stat_training_post_release = std::move(post_release);
         error.clear();
         return true;
     }
@@ -267,6 +270,13 @@ public:
         if (!presenter.select(tab, error)) return false;
         if (previous < state_->pages.size() && state_->pages[previous].leave)
             state_->pages[previous].leave();
+        // Authored Inventory tab release pushes its main page. An Equipment
+        // Details page can survive Close -> portrait (Stats); reset that retained
+        // destination only after its readiness and selection have succeeded.
+        const auto destination = index(tab);
+        if (tab == Tab::equipment && destination != previous && destination < state_->pages.size() &&
+            state_->pages[destination].leave)
+            state_->pages[destination].leave();
         return true;
     }
 
@@ -307,7 +317,8 @@ public:
     // Use Presenter::hit_test here, not Presenter::release: the latter changes
     // tabs directly and would bypass the preselection readiness gate.
     Action release(Presenter& presenter, float screen_x, float screen_y,
-                   int width, int height, std::string& error) const {
+                   int width, int height, std::string& error,
+                   const std::function<void()>& before_close = {}) const {
         // Close/Escape can retire the modal before another captured release is
         // drained. A hit-test miss must not dispatch to that hidden page owner.
         if (!presenter.is_open()) { error.clear(); return Action::none; }
@@ -318,7 +329,7 @@ public:
         const auto action = presenter.hit_test(screen_x, screen_y, width, height);
         switch (action) {
         case Action::close:
-            presenter.close(); error.clear(); return action;
+            (void)presenter.close_with_before(before_close); error.clear(); return action;
         case Action::stats:
             if (!select(presenter, Tab::stats, error)) return Action::none;
             return action;
@@ -373,6 +384,8 @@ public:
             }
             const auto index = static_cast<std::uint32_t>(stat);
             state_->stat_training(index, error);
+            // The authored handler continues to NativePlaySoundFX after its void native call.
+            if (state_->stat_training_post_release) state_->stat_training_post_release(index);
             return Action::none;
         }
         const auto slot = index(presenter.tab());

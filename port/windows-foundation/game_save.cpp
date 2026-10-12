@@ -72,7 +72,15 @@ void character(Archive& a,CharacterState& c){
         a.u32(c.source_stat_points);a.u32(c.source_skill_points);a.flag(c.source_points_known);
     }
     a.u64(c.experience);a.u64(c.gold);
-    a.list(c.inventory,[&](auto& i){a.text(i.instance_id);a.text(i.definition_id);a.u32(i.quantity);});
+    a.list(c.inventory,[&](auto& i){
+        a.text(i.instance_id);a.text(i.definition_id);a.u32(i.quantity);
+        if(schema>=5){
+            bool present=i.source.has_value();a.flag(present);
+            if(a.reading){if(present)i.source=SourceItemMetadata{};else i.source.reset();}
+            if(present){a.i32(i.source->value);bool identified=i.source->identified!=0;a.flag(identified);if(a.reading)i.source->identified=std::uint8_t(identified);
+                a.list(i.source->power_names,[&](auto& name){a.text(name);});}
+        }
+    });
     a.list(c.equipment,[&](auto& i){
         a.text(i.slot);a.text(i.item_instance_id);
         if(schema>=2){a.i32(i.equipment_set);a.i32(i.source_slot);}
@@ -158,7 +166,7 @@ void object_record(Archive& a,WorldObject& object){
     }
 }
 void snapshot(Archive& a,GameSave& g){a.u32(g.version);
-    if(g.version<1||g.version>4)throw std::runtime_error("Unsupported game save version");
+    if(g.version<1||g.version>6)throw std::runtime_error("Unsupported game save version");
     character(a,g.character);a.text(g.level_uri);
     a.u64(g.controlled_actor_id);a.u32(g.random.seed);a.u32(g.random.calls);
     a.list(g.actors,[&](auto& actor){actor_record(a,actor);});
@@ -172,6 +180,8 @@ void snapshot(Archive& a,GameSave& g){a.u32(g.version);
     for(auto& record:g.actors){
         if(g.version>=4)a.flag(record.actor.source_dead);
         else if(a.reading)restore_actor_dead_state(record.actor,record.actor.health==0);
+        if(g.version>=6)a.flag(record.actor.source_limbus);
+        else if(a.reading)record.actor.source_limbus=false;
         if(a.reading)record.actor.action=record.actor.is_dead()?CharacterAction::dead:CharacterAction::idle;
     }
 }
@@ -254,7 +264,7 @@ bool checkpoint_binding_compatible(const PersistedPlayableActor& saved,const Act
 }
 bool validate_game_save(const GameSave& g,std::string& error,bool checkpointUnboundVitals){
     const auto fail=[&](const char* why){error=why;return false;};
-    if(g.version<1||g.version>4)return fail("Unsupported game save version");
+    if(g.version<1||g.version>6)return fail("Unsupported game save version");
     if((g.version==1&&!g.objects.empty())||g.objects.size()>character_collection_limit)return fail("Invalid saved object version/count");
     const auto character_valid=validate_character_state(g.character);
     if(!character_valid.ok()){error=character_valid.errors.front();return false;}
@@ -262,6 +272,8 @@ bool validate_game_save(const GameSave& g,std::string& error,bool checkpointUnbo
         return fail("Invalid game save level/controlled actor/count");
     std::set<ActorId> ids;const ActorState* controlled=nullptr;
     for(const auto& p:g.actors){
+        if(g.version<6&&p.actor.source_limbus)
+            return fail("Legacy game save cannot retain a source Limbus restore fact");
         if(g.version<3&&p.actor.source_physical_present.has_value())
             return fail("Legacy game save cannot retain a known actor physical assignment");
         if(!ids.insert(p.actor.id).second)return fail("Duplicate saved actor ID");
@@ -315,7 +327,7 @@ bool capture_game_save(const std::string& level,ActorId controlled,const Charact
         PersistedPlayableActor record{entry.second,*props,*traits};normalize(record);next.actors.push_back(std::move(record));
     }
     for(const auto& entry:world.objects())next.objects.push_back(entry.second);
-    next.version=4;
+    next.version=6;
     const auto* live=world.find_actor(controlled);if(!live){error="Controlled live actor absent";return false;}
     next.character.stats.health=live->health;next.character.stats.max_health=live->max_health;
     next.character.stats.resource=live->resource;next.character.stats.max_resource=live->max_resource;

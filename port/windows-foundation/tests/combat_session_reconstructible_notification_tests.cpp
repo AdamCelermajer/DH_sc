@@ -162,8 +162,8 @@ int main(int argc,char** argv){try{
     CharacterState character=make_default_character("reconstructible-notification-character","Test","warrior");
     const std::filesystem::path save_path(argv[2]);GameSave captured;
     check(capture_game_save("original/notification-checkpoint",1,character,*session.world(),captured,error),error);
-    check(captured.version==4&&captured.actors[1].actor.source_physical_present==std::optional<bool>(false),
-          "Typed End34 body-absence witness did not produce a v4 checkpoint");
+    check(captured.version==6&&captured.actors[1].actor.source_physical_present==std::optional<bool>(false),
+          "Typed End34 body-absence witness did not produce a current checkpoint");
     check(save_game(save_path,captured,error),error);GameSave loaded;
     check(load_game(save_path,loaded,error),error);
     const auto ends_before_detach=trace.end_events;

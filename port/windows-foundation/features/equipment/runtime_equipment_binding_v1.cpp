@@ -288,6 +288,7 @@ bool RuntimeEquipmentBindingV1::bind(CombatSession& session, CharacterState& cha
         adapter_options.dual_wield = next->options.dual_wield;
         adapter_options.one_hand_two_hander = next->options.one_hand_two_hander;
         adapter_options.powers = std::move(next->options.powers);
+        adapter_options.item_rank = std::move(next->options.item_rank);
         // SortByValueAndClass name tie-break uses the same localized ItemName provider as the menu rows.
         adapter_options.item_name = [state = next.get()](const InventoryItem& i, const dh2::data::Item& d,
                 std::string& name, std::string& e) {

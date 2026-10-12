@@ -53,6 +53,9 @@ struct ActorState {
     // Character+5193, independent of HP, enabled state and animation state.
     // The original constructor clears it; only Kill/Revive/restore own it.
     bool source_dead = false;
+    // Source CS Limbus is a distinct Character state. Deserialize may restore
+    // +5193=true with positive saved HP while placing a Character in Limbus.
+    bool source_limbus = false;
 
     bool alive() const noexcept;
     bool is_dead() const noexcept { return source_dead; }

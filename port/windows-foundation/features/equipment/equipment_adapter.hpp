@@ -33,6 +33,9 @@ struct EquipmentAdapterOptions {
     // (ItemInstance::operator< compares ItemInstance name strings). When absent the
     // definition id is used, which only matters between equal-value equal-power items.
     std::function<bool(const InventoryItem&,const dh2::data::Item&,std::string&,std::string&)> item_name;
+    // Actual generated value and number of ItemPowers (not number of property
+    // entries inside those powers), validated by the same descriptor owner.
+    std::function<bool(const InventoryItem&,std::int32_t&,std::uint32_t&,std::string&)> item_rank;
 };
 // Original ItemInstance::IsEquippableBy class gate (IDA 0x3fa... switch on Item[34]):
 // ClassRequirement 1..9 names KnightPlayerBase, ..._Berserker, ..._Paladin, RoguePlayerBase,

@@ -285,6 +285,7 @@ add_library(foundation_runtime_skill_cast STATIC
 target_link_libraries(foundation_runtime_skill_cast PUBLIC foundation_runtime_skills_menu)
 target_link_libraries(dh-foundation PRIVATE foundation_runtime_skill_cast)
 add_library(foundation_runtime_equipment_menu STATIC
+  features/equipment/equipment_action_confirmation_v1.cpp
   features/equipment/runtime_equipment_binding_v1.cpp
   features/equipment/runtime_equipment_page_v1.cpp
   features/equipment/runtime_equipment_text_v1.cpp
@@ -306,8 +307,10 @@ add_library(foundation_runtime_equipment_menu STATIC
   features/inventory/inventory_feature.cpp features/inventory/inventory_menu.cpp
   features/inventory/inventory_details.cpp features/inventory/original_inventory_art.cpp
   features/inventory/source_item_descriptors.cpp
+  features/inventory/source_metadata_owner_v1.cpp
+  features/inventory/runtime_item_resources_v1.cpp
   ../engine-ui/item_text_owner_v5.cpp ../engine-ui/item_text_varargs_v5.cpp
-  ../engine-ui/character_menu_potion_text_v4.cpp ../game-data/item_presentation_v5.cpp
+  ../engine-ui/character_menu_potion_text_v4.cpp ../engine-ui/character_menu_font_palette_v1.cpp ../game-data/item_presentation_v5.cpp
   ../game-data/player_equipment_v3.cpp ../game-data/item_power_tables_v5.cpp
   ../engine-skinning/visual_skin_owner_v6.cpp
   ../engine-skinning/visual_skin_selection_v6.cpp ../engine-skinning/skin_pose_cache_v32.cpp)
@@ -676,6 +679,9 @@ add_test(NAME death_checkpoint_zone_v1 COMMAND death_checkpoint_zone_v1_tests)
 add_executable(death_checkpoint_snapshot_v1_tests features/persistence/death_checkpoint_snapshot_codec_tests.cpp)
 target_link_libraries(death_checkpoint_snapshot_v1_tests PRIVATE foundation_data)
 add_test(NAME death_checkpoint_snapshot_v1 COMMAND death_checkpoint_snapshot_v1_tests)
+add_executable(authored_actor_save_migration_v1_tests features/persistence/authored_actor_save_migration_v1_tests.cpp)
+target_link_libraries(authored_actor_save_migration_v1_tests PRIVATE foundation_data)
+add_test(NAME authored_actor_save_migration_v1 COMMAND authored_actor_save_migration_v1_tests)
 # P16 OPENING4: scripted scene objects (AnimatedDecor named by PlayAnimByName).
 target_sources(foundation_data PRIVATE features/scene_decor/scene_decor_v1.cpp)
 # B076: level PlayerLight (GL_Diffuse_L1 environment lighting) read from the LevelConfig light set.
@@ -938,6 +944,9 @@ add_library(foundation_runtime_loot STATIC
   ../game-data/loot_entry_selection_v8.cpp
   ../game-data/loot_power_creation_v7.cpp
   ../game-data/loot_power_resources_v7.cpp
+  ../game-data/loot_creation_v8.cpp
+  ../game-data/item_inventory_v1.cpp
+  ../game-data/player_savegame_v1.cpp
   ../game-data/loot_audiovisual_v8.cpp)
 target_link_libraries(foundation_runtime_loot PUBLIC foundation_data foundation_frontend foundation_runtime_equipment_menu)
 target_link_libraries(dh-foundation PRIVATE foundation_runtime_loot)
@@ -1009,6 +1018,9 @@ add_executable(equipment_main_page_tests features/equipment/equipment_main_page_
 target_link_libraries(equipment_main_page_tests PRIVATE foundation_runtime_equipment_menu)
 add_test(NAME equipment_main_page COMMAND equipment_main_page_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")
+add_executable(equipment_action_confirmation_v1_tests features/equipment/equipment_action_confirmation_v1_tests.cpp)
+target_link_libraries(equipment_action_confirmation_v1_tests PRIVATE foundation_runtime_equipment_menu)
+add_test(NAME equipment_action_confirmation_v1 COMMAND equipment_action_confirmation_v1_tests)
 # P14 EQUIP (B045): Details list row hit geometry.
 add_executable(inventory_details_row_geometry_tests features/inventory/details_row_geometry_tests.cpp)
 target_link_libraries(inventory_details_row_geometry_tests PRIVATE foundation_runtime_equipment_menu)
@@ -1208,7 +1220,7 @@ target_link_libraries(actor_embedded_visual_tests PRIVATE foundation_runtime_eff
 add_test(NAME actor_embedded_visual COMMAND actor_embedded_visual_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v20/assets")
 # B110: merchant shop (model + Details-panel UI composition + exported menu_Merchant chrome)
-add_library(foundation_merchant STATIC features/merchant/merchant_shop_v1.cpp features/merchant/merchant_shop_ui_v1.cpp features/merchant/merchant_art.cpp)
+add_library(foundation_merchant STATIC features/merchant/merchant_shop_v1.cpp features/merchant/merchant_shop_ui_v1.cpp features/merchant/merchant_art.cpp features/merchant/merchant_stock_generator_v1.cpp)
 target_link_libraries(foundation_merchant PUBLIC foundation_data foundation_runtime_loot)
 add_executable(merchant_shop_v1_tests features/merchant/merchant_shop_v1_tests.cpp)
 target_link_libraries(merchant_shop_v1_tests PRIVATE foundation_merchant)

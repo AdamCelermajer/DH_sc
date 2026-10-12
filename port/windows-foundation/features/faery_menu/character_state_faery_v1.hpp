@@ -54,6 +54,7 @@ struct CharacterStateFaeryPageHostV1 {
     std::function<bool(const std::string&, std::string&, std::string&)> localize; // symbol, value, error
     std::function<bool(std::string&)> persist;          // saves the committed selection; failure rolls back
     std::function<void()> refresh_hud;                  // re-composes the key-4 circle after a change
+    std::function<void()> selection_post_callback;       // SWF MenuSelect postlude after admitted SetActiveFaery attempt
 };
 
 // Action owner for an accepted page click: commits current_faery, persists through host.persist

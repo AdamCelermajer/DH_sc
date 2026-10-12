@@ -56,6 +56,7 @@
 #include "features/campaign_host/actor_clip_manifest.hpp" // P16 OPENING: scripted actor clip names (PlayActorAnim)
 #include "features/skill_ui/skill_ui.hpp"
 #include "features/equipment/runtime_equipment_text_v1.hpp"
+#include "features/equipment/equipment_action_confirmation_v1.hpp"
 #include "features/faery_menu/character_state_faery_v1.hpp" // P14 FAERY: CharacterState Faery page host + script effects
 #include "features/equipment/equipment_inventory_actions_v1.hpp"
 #include "features/equipment/runtime_player_locomotion_library_v1.hpp"
@@ -95,12 +96,15 @@
 #include "features/quests/source_quest_menu_page_provider_v1.hpp" // P16 QUESTUI
 #include "features/quests/quest_text_resolver_v1.hpp" // P16 QUESTUI
 #include "features/inventory/source_item_descriptors.hpp"
+#include "features/inventory/source_metadata_owner_v1.hpp"
+#include "features/inventory/runtime_item_resources_v1.hpp"
 #include "features/merchant/merchant_shop_ui_v1.hpp"
 #include "../engine-ui/localization_parse_ex_v1.hpp"
 #include "../engine-ui/item_text_owner_v5.hpp"
 #include "features/inventory/runtime_session_potion_use_v1.hpp"
 #include "features/frontend/menu_return/menu_return_v1.hpp"
 #include "features/persistence/death_checkpoint_snapshot_v1.hpp"
+#include "features/persistence/authenticated_ordinary_legacy_admission_v1.hpp"
 #include "features/persistence/death_checkpoint_zone_v1.hpp"
 #include "features/persistence/death_screen_runtime_v1.hpp"
 #include "features/persistence/death_fade_from_black_v1.hpp"
@@ -145,6 +149,8 @@
 #include "combat_session.hpp"
 #include "source_navigation_world_storage.hpp"
 #include "game_save.hpp"
+#include "features/persistence/authored_actor_save_migration_v1.hpp"
+#include "features/persistence/source_can_respawn_v1.hpp"
 #include "hud_glyphs.hpp"
 #include "character_state.hpp"
 #include "original_character.hpp"
@@ -1867,6 +1873,61 @@ int main(int argc,char** argv) {
         struct HeroInteractV1 {bool active=false;std::size_t container=0;double clock=0,eventSeconds=0,durationSeconds=0;bool fired=false;} heroInteract;
         int lastActionIcon=-2; // P16 CONTEXT: last published HUD action-button frame (log on change)
         bool actionButtonHeld=false; // P16 HUDART: Space held this frame (pressed ring of the action button)
+        // B123/B125/B135: prepare the one canonical item/power/text owner before
+        // CombatSession initialization so saved equipped powers participate in
+        // the strict Continue binding check. These owners are reused by the
+        // equipment UI and DeathRewards later in this session.
+        auto menuLocalizationOwner=std::make_shared<f::character_menu::MenuLocalization>();
+        auto& menuLocalization=*menuLocalizationOwner;
+        if(!menuLocalization.load(assets,"original-cache/data",0,error))throw std::runtime_error("Character menu labels: "+error);
+        if(!menuLocalization.bind_profile(&state,error))throw std::runtime_error("Character menu profile: "+error);
+        dh2::ui::HudTextV1* dropHudText=nullptr;
+        dh2::ui::HudTextEnvironmentV1 dropTextEnvironment;
+        std::shared_ptr<dh2::ui::ItemTextOwnerV5> dropTextOwner;
+        std::shared_ptr<f::loot::RuntimeLootSourceOwnerV1> preparedRuntimeLootOwner;
+        f::loot::RuntimeLootSourceV1 preparedRuntimeLootSource;
+        std::shared_ptr<f::inventory::RuntimeItemResourcesV1> runtimeItemResources;
+        std::unique_ptr<f::inventory::SourceMetadataOwnerV1> playerMetadataOwner;
+        std::shared_ptr<dh2::ui::CharacterMenuFontPaletteV1> itemNameFontPalette;
+        const auto resolvePlayerInventoryRow=[&](const std::string& id,f::InventoryItem& out,std::string& e){
+            const auto found=std::find_if(state.inventory.begin(),state.inventory.end(),[&](const f::InventoryItem& row){return row.instance_id==id;});
+            if(found==state.inventory.end()){e="Current player inventory instance is absent";return false;}out=*found;e.clear();return true;
+        };
+        const auto prepareRuntimeItemOwners=[&](std::string& e)->bool {
+            if(!menuSourceOwner.valid()){e="Canonical player item resources require the active creation source";return false;}
+            if(!preparedRuntimeLootOwner){
+                auto next=std::make_shared<f::loot::RuntimeLootSourceOwnerV1>();
+                if(!next->load(assets,menuSourceOwner,e))return false;
+                preparedRuntimeLootSource=next->borrow();
+                if(!preparedRuntimeLootSource.valid()){e="Prepared runtime loot source is incomplete";return false;}
+                preparedRuntimeLootOwner=std::move(next);
+            }
+            if(!menuLocalization.bind_profile(&state,e)||
+               !menuLocalization.borrow_text(dropHudText,dropTextEnvironment,e)||!dropHudText){
+                if(e.empty())e="Canonical ItemText owner unavailable";return false;
+            }
+            if(!itemNameFontPalette) {
+                const auto rows=f::read_content(assets,"data/fonts_pyarray.bin");
+                const auto schema=f::read_content(assets,"data/fonts_pystructnames.bin");
+                auto palette=std::make_shared<dh2::ui::CharacterMenuFontPaletteV1>();
+                if(!palette->load({rows.data(),rows.size()},{schema.data(),schema.size()},e))return false;
+                itemNameFontPalette=std::move(palette);
+            }
+            if(!dropTextOwner)dropTextOwner=std::make_shared<dh2::ui::ItemTextOwnerV5>(
+                preparedRuntimeLootSource.loot.items(),properties.characters,*dropHudText,dropTextEnvironment);
+            if(!f::inventory::bind_runtime_item_resources_v1(preparedRuntimeLootSource.loot,
+                preparedRuntimeLootSource.item_power_tables,preparedRuntimeLootSource.power_resources,
+                preparedRuntimeLootSource.properties,dropTextOwner,
+                std::static_pointer_cast<const void>(menuLocalizationOwner),runtimeItemResources,e))return false;
+            if(!playerMetadataOwner)playerMetadataOwner=runtimeItemResources->inventory(resolvePlayerInventoryRow);
+            e.clear();return true;
+        };
+        const auto refreshPlayerMetadataOwner=[&](std::string& e)->bool {
+            if(!prepareRuntimeItemOwners(e))return false;
+            if(playerMetadataOwner)playerMetadataOwner->invalidate();
+            playerMetadataOwner=runtimeItemResources->inventory(resolvePlayerInventoryRow);
+            e.clear();return true;
+        };
         const auto bindSourcePlayerLocomotion=[&](f::CombatSession& session) {
             if(!locomotionLibrary)return;
             const auto hands=currentLocomotionItems();
@@ -1881,19 +1942,57 @@ int main(int argc,char** argv) {
             }
             std::cout<<"Source player stance="<<selected.stance<<" main="<<hands.first<<" off="<<hands.second<<" preloadedPrograms="<<locomotionLibrary->program_count()<<'\n';
         };
+        std::vector<std::string> newlyOrdinarySourceMonsterProfiles;
+        std::vector<f::ActorId> newlyOrdinarySourceMonsterIds;
         auto initializeCombat=[&]() {
             if(options.meleeBindings.empty())return;
+            if(equipmentStateInitialized&&!refreshPlayerMetadataOwner(error))
+                throw std::runtime_error("Selected player item metadata: "+error);
             skillCastCoordinator=std::make_unique<f::generic_skills::RuntimeSkillCastCoordinatorV1>();
             lastSkillPhase=-1;lastSkillGeneration=0;
             if(equipmentStateInitialized) {
                 options.combat.equippedItemIds.clear();options.combat.mainItemId.clear();options.combat.offItemId.clear();
+                options.combat.selectedPlayerGear.clear();
+                const auto& itemTable=preparedRuntimeLootSource.loot.items();
+                const auto sourceSlotFor=[](const f::EquipmentBinding& binding)->std::optional<std::int32_t>{
+                    if(binding.equipment_set==0&&binding.source_slot>=0&&binding.source_slot<9)return binding.source_slot;
+                    if(binding.equipment_set!=-1||binding.source_slot!=-1)return std::nullopt;
+                    if(binding.slot=="main_hand")return 1;
+                    if(binding.slot=="off_hand")return 2;
+                    if(binding.slot.size()==6&&binding.slot.compare(0,5,"slot-")==0&&binding.slot[5]>='0'&&binding.slot[5]<='8')
+                        return std::int32_t(binding.slot[5]-'0');
+                    return std::nullopt;
+                };
                 for(const auto& equipped:state.equipment) {
-                    if(equipped.equipment_set>0)continue;
+                    if(equipped.equipment_set!=0&&equipped.equipment_set!=-1)continue;
                     const auto item=std::find_if(state.inventory.begin(),state.inventory.end(),[&](const auto& candidate){return candidate.instance_id==equipped.item_instance_id;});
                     if(item==state.inventory.end())throw std::runtime_error("Selected equipment instance is not owned");
                     options.combat.equippedItemIds.push_back(item->definition_id);
-                    if(equipped.source_slot==1||equipped.slot=="slot-1")options.combat.mainItemId=item->definition_id;
-                    if(equipped.source_slot==2||equipped.slot=="slot-2")options.combat.offItemId=item->definition_id;
+                    const auto slot=sourceSlotFor(equipped);
+                    if(!slot)throw std::runtime_error("Selected equipment binding has no authenticated source slot");
+                    if(*slot==1)options.combat.mainItemId=item->definition_id;
+                    if(*slot==2)options.combat.offItemId=item->definition_id;
+                    const auto itemIndex=dh2::data::item_id(itemTable,item->definition_id);
+                    const auto* itemRow=dh2::data::item(itemTable,itemIndex);
+                    if(!itemRow)throw std::runtime_error("Selected equipment definition is absent from the current ItemTable");
+                    f::CombatSessionConfig::SelectedPlayerGearV1 projected;
+                    projected.item_instance_id=item->instance_id;projected.definition_id=item->definition_id;
+                    projected.equipment_set=equipped.equipment_set;projected.source_slot=*slot;
+                    projected.source.record=itemRow->record;projected.source.left_hand=*slot==2;
+                    if(item->source) {
+                        if(!playerMetadataOwner->properties(*item,projected.source.powers,error))
+                            throw std::runtime_error("Selected source item powers: "+error);
+                        projected.authentication=f::CombatSessionConfig::SelectedPlayerGearV1::Authentication::saved_source_metadata;
+                    } else {
+                        // The legacy foundation save representation stored only
+                        // ItemTable identities; these rows are admitted as bare
+                        // only after exact current-table identity and source-domain checks.
+                        if(item->instance_id.empty()||!item->quantity||item->quantity>32767||
+                           dh2::data::item_type(*itemRow)==13)
+                            throw std::runtime_error("Selected legacy bare item is outside the supported source domain");
+                        projected.authentication=f::CombatSessionConfig::SelectedPlayerGearV1::Authentication::verified_legacy_bare;
+                    }
+                    options.combat.selectedPlayerGear.push_back(std::move(projected));
                 }
             }
             if(!meleeBindings.load(assets,options.meleeBindings,error))throw std::runtime_error("Melee bindings: "+error);
@@ -1904,7 +2003,25 @@ int main(int argc,char** argv) {
                 const auto preset=placed.definition.properties.find("ai_state"),autoSpawn=placed.definition.properties.find("auto_spawn");
                 const bool campaignRetained=autoSpawn!=placed.definition.properties.end()&&autoSpawn->second=="0";
                 const bool scriptSpawnable=preset!=placed.definition.properties.end()&&(preset->second=="Limbus"||preset->second=="PreSpawn")&&campaignRetained;
-                if((!campaignRetained&&!scriptSpawnable&&!scriptControlledActors.count(placed.definition.name))||!profiles.find(id))continue;
+                const auto* authoredProfile=profiles.find(id);
+                if(!authoredProfile)continue;
+                // Ordinary authored source monsters need the same live source policy as
+                // scripted spawns. A rendered actor without a CombatSession profile is
+                // absent from target selection; preserve the distinct visual-only branch.
+                bool ordinarySourceMonster=false;
+                if(!campaignRetained&&!scriptSpawnable&&!scriptControlledActors.count(placed.definition.name)&&
+                   options.combat.profiles.find(id)==options.combat.profiles.end()) {
+                    if(!derivedTablesLoaded) {
+                        if(!f::spawn::load_profile_derivation_tables_v1(assets,"original-cache/data/pydata",derivedTables,error))
+                            throw std::runtime_error("Authored actor policy tables: "+error);
+                        derivedTablesLoaded=true;
+                    }
+                    const auto aiProperty=authoredProfile->raw_properties.find("AI");
+                    const auto* sourceAi=aiProperty==authoredProfile->raw_properties.end()?nullptr:
+                        dh2::data::ai_props(derivedTables.ai,std::int32_t(aiProperty->second.raw));
+                    ordinarySourceMonster=sourceAi&&sourceAi->script=="monster";
+                }
+                if(!campaignRetained&&!scriptSpawnable&&!scriptControlledActors.count(placed.definition.name)&&!ordinarySourceMonster)continue;
                 // B080: a script-spawned actor that no script retires is a gameplay monster, not a cutscene prop: it gets the derived combat policy
                 // below (targetable, AI after the script puts it in Idle) instead of the animation-only presentation.
                 if(scriptVisualOnlyProfiles.count(id)&&!scriptGameplayActors.count(placed.definition.name)) {
@@ -1942,9 +2059,15 @@ int main(int argc,char** argv) {
                     if(!f::spawn::derive_enemy_combat_policy_v1(derivedTables,id,derivedPolicy,error))throw std::runtime_error("Derived combat policy: "+error);
                     derivedPolicy.diagnosticAIEnabled=options.diagnosticAI&&id!=options.combat.playerProfileId;
                     options.combat.profiles.emplace(id,std::move(derivedPolicy));
+                    if(ordinarySourceMonster&&std::find(newlyOrdinarySourceMonsterProfiles.begin(),newlyOrdinarySourceMonsterProfiles.end(),id)==newlyOrdinarySourceMonsterProfiles.end())
+                        newlyOrdinarySourceMonsterProfiles.push_back(id);
                 }
                 if(!meleeBindings.find_actor(id)&&std::find(derivedProfileIds.begin(),derivedProfileIds.end(),id)==derivedProfileIds.end())derivedProfileIds.push_back(id);
             }
+            for(const auto& placed:population.actors())
+                if(std::find(newlyOrdinarySourceMonsterProfiles.begin(),newlyOrdinarySourceMonsterProfiles.end(),placed.profileId)!=newlyOrdinarySourceMonsterProfiles.end()&&
+                   std::find(newlyOrdinarySourceMonsterIds.begin(),newlyOrdinarySourceMonsterIds.end(),placed.definition.stableId)==newlyOrdinarySourceMonsterIds.end())
+                    newlyOrdinarySourceMonsterIds.push_back(placed.definition.stableId);
             // P16 OPENING: script clips join the source bank of their actor's combat profile (the session's visual load).
             for(const auto& entry:scriptClipsByProfile) {
                 const auto policy=options.combat.profiles.find(entry.first);
@@ -2016,6 +2139,94 @@ int main(int argc,char** argv) {
             for(const auto& line:combatSession->logs())std::cout<<"Combat binding: "<<line<<'\n';
         };
         initializeCombat();
+        // A source-initial save is captured before the menu/Continue paths run.
+        // Bind the freshly created controlled actor to the selected profile now,
+        // so the initial receipt uses the same identity as later saves.
+        if(combatSession)if(auto* player=combatSession->actor(combatSession->player_id()))
+            player->persistent_character_id=state.id;
+        // Preserve the source-initial records for only the ordinary authored monsters
+        // admitted by the B127 source-policy repair. Old saves predate those records;
+        // migration adds these exact initial rows without changing saved witnesses.
+        f::GameSave sourceInitialActorSnapshot;
+        if(combatSession&&!f::capture_game_save(options.level.generic_string(),combatSession->player_id(),state,*combatSession->world(),sourceInitialActorSnapshot,error))
+            throw std::runtime_error("Source-initial actor receipt: "+error);
+        // A legacy V1 checkpoint did not serialize PopulationActor.enabled.
+        // Preserve only an immutable source-initial admission fact and derive a
+        // fallback for narrowly authenticated ordinary authored monsters.
+        std::map<f::ActorId,bool> sourceInitialPopulationAdmission;
+        for(const auto& placed:population.actors())
+            sourceInitialPopulationAdmission.emplace(placed.definition.stableId,placed.initially_enabled);
+        f::OriginalCampaignRuntime legacyAdmissionBanks;
+        bool legacyAdmissionBanksAvailable=false;
+        if(!options.save.empty()) {
+            auto legacyPath=f::transitions::level_world_path(options.save,options.level.generic_string());
+            legacyPath += ".source-checkpoint-v1";
+            if(fs::exists(legacyPath)) {
+                std::string bankError;
+                legacyAdmissionBanksAvailable=legacyAdmissionBanks.load_compiled_level(assets,options.level.generic_string(),bankError);
+                if(!legacyAdmissionBanksAvailable)
+                    std::cout<<"Legacy checkpoint admission remains unknown: compiled source bank unavailable: "<<bankError<<'\n';
+            }
+        }
+        const auto legacyCheckpointAdmission=[&](const f::persistence::death_flow::DeathCheckpointActorV1& saved)->std::optional<bool> {
+            using namespace f::persistence::death_flow;
+            if(saved.population_admission||saved.player||!legacyAdmissionBanksAvailable||!options.campaignCommands.empty())return std::nullopt;
+            const auto origin=std::find_if(population.definitions().begin(),population.definitions().end(),
+                [&](const f::ActorDefinition& row){return row.stableId==saved.id;});
+            if(origin==population.definitions().end())return std::nullopt;
+            const auto initial=sourceInitialPopulationAdmission.find(saved.id);
+            const auto placed=std::find_if(population.actors().begin(),population.actors().end(),
+                [&](const f::PopulationActor& row){return row.definition.stableId==saved.id;});
+            if(initial==sourceInitialPopulationAdmission.end()||placed==population.actors().end())return std::nullopt;
+            const auto* sourceProfile=profiles.find(placed->profileId);
+            if(!sourceProfile)return std::nullopt;
+            const auto aiProperty=sourceProfile->raw_properties.find("AI");
+            if(aiProperty==sourceProfile->raw_properties.end())return std::nullopt;
+            if(!derivedTablesLoaded) {
+                std::string tableError;
+                if(!f::spawn::load_profile_derivation_tables_v1(assets,"original-cache/data/pydata",derivedTables,tableError)) {
+                    std::cout<<"Legacy checkpoint admission remains unknown actor="<<saved.id
+                             <<" source AI tables unavailable: "<<tableError<<'\n';
+                    return std::nullopt;
+                }
+                derivedTablesLoaded=true;
+            }
+            const auto* sourceAi=dh2::data::ai_props(derivedTables.ai,std::int32_t(aiProperty->second.raw));
+            const std::optional<bool> sourceMonster=sourceAi?std::optional<bool>(sourceAi->script=="monster"):std::nullopt;
+            const auto admitted=authenticated_ordinary_legacy_admission_v1(*origin,saved.definition_id,
+                saved.source_cs_state,saved.source_dead,std::optional<bool>(initial->second),sourceMonster,
+                &legacyAdmissionBanks.scripts());
+            if(!admitted||!*admitted)return std::nullopt;
+            std::cout<<"Legacy checkpoint admission authenticated actor="<<saved.id
+                     <<" definition="<<saved.definition_id<<" source=ordinary-authored-monster initial=1\n";
+            return admitted;
+        };
+        const auto migrateAdmittedActors=[&](f::GameSave& saved,std::string& e) {
+            return f::migrate_missing_authored_actor_records_v1(saved,sourceInitialActorSnapshot.actors,newlyOrdinarySourceMonsterIds,e);
+        };
+        std::vector<f::persistence::death_flow::DeathCheckpointActorV1> sourceInitialDeathCheckpointActors;
+        if(combatSession)for(const auto& persisted:sourceInitialActorSnapshot.actors) {
+            bool skip=false;
+            const auto definition=std::find_if(population.definitions().begin(),population.definitions().end(),[&](const auto& item){return item.stableId==persisted.actor.id;});
+            if(definition!=population.definitions().end()) {
+                const auto value=definition->properties.find("skip_checkpoint");
+                if(value!=definition->properties.end()) {
+                    if(value->second=="1"||value->second=="true")skip=true;
+                    else if(value->second!="0"&&value->second!="false")throw std::runtime_error("Source-initial checkpoint eligibility is not boolean: "+value->second);
+                }
+            }
+            if(skip)continue;
+            const auto* actor=combatSession->actor(persisted.actor.id);
+            const auto sourceState=combatSession->original_actor_state(persisted.actor.id);
+            if(!actor||sourceState<0)throw std::runtime_error("Source-initial checkpoint state is unavailable for actor "+std::to_string(persisted.actor.id));
+            f::persistence::death_flow::DeathCheckpointActorV1 receipt;
+            receipt.id=persisted.actor.id;receipt.definition_id=persisted.actor.definition_id;
+            receipt.player=persisted.traits.is_player||persisted.actor.id==sourceInitialActorSnapshot.controlled_actor_id;
+            receipt.transform=persisted.actor.transform;receipt.source_cs_state=std::uint32_t(sourceState);receipt.source_dead=actor->is_dead();
+            if(!receipt.player){receipt.npc_vitals_present=true;receipt.health=persisted.actor.health;receipt.max_health=persisted.actor.max_health;
+                receipt.resource=persisted.actor.resource;receipt.max_resource=persisted.actor.max_resource;}
+            sourceInitialDeathCheckpointActors.push_back(std::move(receipt));
+        }
         // P17 TRANSITIONS2: LevelSavegame rule. The world kept for this level on its last visit (killed actors, opened containers,
         // object states) is restored; the controlled actor is placed at the arrival entry, not at its saved position (Level::_LoadPlayer).
         const auto saveLevelWorld=[&](const char* reason,std::string& e,f::GameSave* keep=nullptr)->bool {
@@ -2050,6 +2261,8 @@ int main(int argc,char** argv) {
                     throw std::runtime_error("Source checkpoint snapshot is invalid: "+error);
                 if(savedCheckpoint.level_uri!=options.level.generic_string())
                     throw std::runtime_error("Source checkpoint snapshot belongs to a different level");
+                if(!f::migrate_missing_authored_checkpoint_actor_records_v1(savedCheckpoint,sourceInitialDeathCheckpointActors,newlyOrdinarySourceMonsterIds,error))
+                    throw std::runtime_error("Source checkpoint authored-actor migration: "+error);
                 activeSourceCheckpointKey=savedCheckpoint.checkpoint_key_position;
                 sourceCheckpointKeyLoaded=true;
                 std::cout<<"Source checkpoint loaded level="<<savedCheckpoint.level_uri<<" zone="<<savedCheckpoint.checkpoint_name
@@ -2128,6 +2341,15 @@ int main(int argc,char** argv) {
                 const auto source_state=c.session->original_actor_state(id);
                 if(!actor||source_state<0){e="Source checkpoint actor state/death fact is unavailable";return false;}
                 cs_state=static_cast<std::uint32_t>(source_state);dead=actor->is_dead();e.clear();return true;
+            };
+            services.capture_services.actor_population_admission=[](void* raw,f::ActorId id,std::optional<bool>& admission,std::string& e) {
+                auto& c=*static_cast<Context*>(raw);admission.reset();
+                for(const auto& actor:c.population->actors())if(actor.definition.stableId==id) {
+                    admission=actor.enabled;e.clear();return true;
+                }
+                // Controlled player/non-population Character has no PopulationActor projection.
+                // Preserve unknown rather than infer it from HP, Character family or action.
+                e.clear();return true;
             };
             services.capture_services.object_checkpoint_facts=[](void* raw,f::ObjectId id,
                  SourceCheckpointObjectFamilyV1& family,bool& skip,std::string& e) {
@@ -2234,6 +2456,8 @@ int main(int argc,char** argv) {
                 f::GameSave worldSnapshot;std::string worldError;
                 if(!f::load_game(worldPath,worldSnapshot,worldError))std::cout<<"Level world restore status=unreadable detail="<<worldError<<'\n';
                 else {
+                    if(!migrateAdmittedActors(worldSnapshot,worldError))std::cout<<"Level world admission migration status=refused detail="<<worldError<<'\n';
+                    else {
                     combatSession->actor(combatSession->player_id())->persistent_character_id=state.id; // same binding as the reload path
                     // The fresh start and a loaded character name equipment slots differently (slot-N vs source-type/N); the same worn
                     // instance keeps its live slot name, so the identity check compares equal (the equipment is the same).
@@ -2256,6 +2480,7 @@ int main(int argc,char** argv) {
                             if(arrivedEntryId>=0)f::transitions::set_entry_component(state,options.level.generic_string(),arrivedEntryId);
                             std::cout<<"Level world restored level="<<options.level.generic_string()<<" objects="<<worldSnapshot.objects.size()<<" actors="<<worldSnapshot.actors.size()<<" path="<<worldPath.generic_string()<<'\n';
                         }
+                    }
                     }
                 }
             } else std::cout<<"Level world restore status=none level="<<options.level.generic_string()<<'\n';
@@ -2452,13 +2677,21 @@ int main(int argc,char** argv) {
                     }
                     if(sourcePhysicalFrameEnabled) {
                         const auto context=nativeBodyContexts.find(entry.first);
-                        if(context==nativeBodyContexts.end()||context->second->attackTimerMs||context->second->skillPinTimerMs) {
+                        const auto* props=combatSession->world()->combat_properties(entry.first);
+                        const auto* traits=combatSession->world()->traits(entry.first);
+                        // Character::Serialize (0x3a65c4) saves actual dead5193,
+                        // not CharTimers. Rebind consumes non-player saved-dead
+                        // as a silent terminal receipt and despawn retires it
+                        // into Limbus; its old timers have no restored consumer.
+                        // Player revival, unknown contexts/traits, and live
+                        // actors retain the existing timer requirement.
+                        const bool savedDeadRetirement=actor->is_dead()&&traits&&!traits->is_player;
+                        if(context==nativeBodyContexts.end()||(!savedDeadRetirement&&
+                           (context->second->attackTimerMs||context->second->skillPinTimerMs))) {
                             e="Body checkpoint requires quiescent source physical timers actor="+std::to_string(entry.first)+
                               " attackRemainingMs="+std::to_string(context==nativeBodyContexts.end()?0:context->second->attackTimerMs.value_or(0))+
                               " skillPinRemainingMs="+std::to_string(context==nativeBodyContexts.end()?0:context->second->skillPinTimerMs.value_or(0));return false;
                         }
-                        const auto* props=combatSession->world()->combat_properties(entry.first);
-                        const auto* traits=combatSession->world()->traits(entry.first);
                         std::optional<std::uint32_t> expected;
                         if(props&&traits)switch(props->facts.original_state) {
                         case 3:expected=0x2380u;break;
@@ -2870,6 +3103,8 @@ int main(int argc,char** argv) {
         const auto cinematicCameraPose=[&](){f::CameraVec3 rig{};
             if(!originalCamera.rig_position(rig,error))throw std::runtime_error("Cinematic camera rig: "+error);
             return campaignHost.source_camera_pose(originalCamera.pose(),rig);};
+        const bool stateTraceEnabled=[](){const char* value=std::getenv("DH_STATE_TRACE");return value&&value[0]=='1';}();
+        int stateTraceFrame=0;
         bool globalControllerBlocked=false;
         std::function<bool(f::ActorId,std::string&)> stopActorHook; // B068: Script_StopActor (Cmd_Stop) for enemy AI walkers; set when the enemy navigation is bound
         std::map<f::ActorId,bool> characterControllerBlocked;
@@ -3155,7 +3390,9 @@ int main(int argc,char** argv) {
         if(combatSession) {
             f::OriginalCampaignWorldProviders providers;
             providers.named_character=[&](const std::string& name,int module,f::ActorId& id,bool& found,std::string& e){return sourceObjects.named_character(name,module,id,found,e);};
-            providers.global_controller_blocked=[&](bool blocked,std::string&){globalControllerBlocked=blocked;return true;};
+            providers.global_controller_blocked=[&](bool blocked,std::string&){
+                if(stateTraceEnabled&&globalControllerBlocked!=blocked)std::cout<<"STATE_TRACE edge=controller-global frame="<<stateTraceFrame<<" old="<<globalControllerBlocked<<" new="<<blocked<<'\n';
+                globalControllerBlocked=blocked;return true;};
             // B068: Script_StopActor (IDA 0x45dd.. region, Cmd_Stop) ends an AI actor's walk: the route is dropped and the idle pose selected.
             providers.stop_actor=[&](f::ActorId id,std::string& e){return stopActorHook?stopActorHook(id,e):true;};
             // P16 FIX16: only the player has a controller. Lock/Unlock on a named NPC with no live session body records the flag
@@ -3163,8 +3400,12 @@ int main(int argc,char** argv) {
             providers.character_controller_blocked=[&](f::ActorId id,bool blocked,std::string& e){
                 if(!combatSession->actor(id)){
                     if(characterControllerBlockedNoticeIds.insert(id).second)std::cout<<"[campaign] LockCharacter: actor "<<id<<" has no live session body; controller flag recorded only\n";
+                    const auto prior=characterControllerBlocked.find(id);const bool old=prior!=characterControllerBlocked.end()&&prior->second;
+                    if(stateTraceEnabled&&old!=blocked)std::cout<<"STATE_TRACE edge=controller-local frame="<<stateTraceFrame<<" actor="<<id<<" old="<<old<<" new="<<blocked<<'\n';
                     characterControllerBlocked[id]=blocked;return true;
                 }
+                const auto prior=characterControllerBlocked.find(id);const bool old=prior!=characterControllerBlocked.end()&&prior->second;
+                if(stateTraceEnabled&&old!=blocked)std::cout<<"STATE_TRACE edge=controller-local frame="<<stateTraceFrame<<" actor="<<id<<" old="<<old<<" new="<<blocked<<'\n';
                 characterControllerBlocked[id]=blocked;return true;};
             // P14 FAERY (T3): Script_SetFaeryState / Script_IncFaeryLevel write the live CharacterState and persist it.
             // Legacy saves without source Faery rows (known=false) are a logged limitation: the script continues, nothing is invented.
@@ -3194,7 +3435,7 @@ int main(int argc,char** argv) {
                     [](f::ActorId,bool& online,std::string&){online=false;return true;});
             }
         }
-        if((options.sourceCamera&&!options.sourceCommands.empty())||options.campaignTriggers) { // P16 HOST: camera admission also serves trigger scripts
+        if(options.sourceCamera||options.campaignTriggers) { // Bind whenever original camera or campaign triggers consume this provider.
             if(!combatSession)throw std::runtime_error("Source camera targets require the bound local player");
             // P16 CINE3: a Character camera anchor (IDA GameObject::GetCameraAnchorPosition returns the object's own
             // position unless an auxiliary anchor is attached; none is decoded) is the live position of its session or
@@ -3542,9 +3783,7 @@ int main(int argc,char** argv) {
             combatTextFractionMs=0;
         };
         bindCombatText();
-        f::character_menu::MenuLocalization menuLocalization;
-        if(options.hud&&combatSession&&!menuLocalization.load(assets,"original-cache/data",0,error))throw std::runtime_error("Character menu labels: "+error);
-        if(options.hud&&combatSession&&!menuLocalization.bind_profile(&state,error))throw std::runtime_error("Character menu profile: "+error);
+        if(!menuLocalization.bind_profile(&state,error))throw std::runtime_error("Character menu profile: "+error);
         // P16 CINE: caption lines resolve their authored StrID through the same original localization owner.
         // P16 OPENING: caption text substitutes the source $player token with the character name (the reference shows the name).
         if(options.campaignTriggers) campaignHost.set_caption_auto_tap_ms(std::uint32_t(options.captionAutoTapMs>0?options.captionAutoTapMs:0));
@@ -3727,6 +3966,10 @@ int main(int argc,char** argv) {
         std::unique_ptr<f::equipment_menu::RuntimeEquipmentBindingV1> runtimeEquipment;
         std::shared_ptr<f::equipment_menu::RuntimeEquipmentPageV1> runtimeEquipmentPage;
         f::equipment_menu::RuntimeEquipmentTextProviderV1 runtimeEquipmentText;
+        f::loot::RuntimeSessionDeathRewardsV1 deathRewards;
+        std::map<std::string,std::unique_ptr<f::inventory::SourceMetadataOwnerV1>> merchantMetadataOwners;
+        f::inventory::SourceMetadataOwnerV1* activeMerchantMetadataOwner=nullptr;
+        std::map<std::string,std::string> dropNameCache;
         // P14 EQUIP: Details Transmute amount (source ValueBox value). Drop publishes through equipment_menu::drop_item_to_world,
         // which reports "no world store bound" until the DROPS stream's world-item store is merged.
         std::function<bool(const f::InventoryItem&,std::int32_t&,std::string&)> equipmentTransmuteAmount;
@@ -3739,6 +3982,12 @@ int main(int argc,char** argv) {
         // B103: one shared Stats/Skills allocation visit; cleared at each menu open.
         auto statTrainingVisit=std::make_shared<f::character_menu::StatTrainingVisitV1>();
         bool equipmentRebindRequested=false; // P14 DROPS: a pickup added a definition the equipment text policy must list
+        const auto ensureDropTextOwner=[&](std::string& e)->bool {
+            return prepareRuntimeItemOwners(e);
+        };
+        const auto ensureRuntimeItemResources=[&](std::string& e)->bool {
+            return prepareRuntimeItemOwners(e);
+        };
         // B061: the gameplay body shows the equipped modular parts (helm/torso/gloves/boots),
         // using the same slot-to-part plan as the equipment page. A failure keeps the old body.
         const auto syncPlayerBodyParts=[&]() {
@@ -3750,6 +3999,10 @@ int main(int argc,char** argv) {
             bindMaterials();
             std::cout<<"Player body parts:";for(const auto& id:ids)std::cout<<' '<<id;std::cout<<'\n';
         };
+        f::equipment_menu::confirmation_v1::Pending equipmentActionConfirmation;
+        std::uint64_t equipmentSourceVisitEpoch=1;
+        std::size_t equipmentConfirmListIndex=0;
+        std::string equipmentConfirmationText;
         const auto bindEquipmentPage=[&]() {
             if(!combatSession||!menuSourceOwner.valid())return;
             std::string equipmentError;
@@ -3771,6 +4024,13 @@ int main(int argc,char** argv) {
             runtimeEquipmentAttachments=nullptr;runtimeEquipmentPage.reset();runtimeEquipment.reset();
             runtimeEquipmentText=f::equipment_menu::RuntimeEquipmentTextProviderV1{};
             f::equipment_menu::RuntimeEquipmentOptionsV1 config;
+            if(!ensureRuntimeItemResources(equipmentError)){std::cerr<<"Equipment item resource diagnostic: "<<equipmentError<<'\n';return;}
+            auto resolve_player_row=[&](const std::string& id,f::InventoryItem& out,std::string& e){
+                const auto found=std::find_if(state.inventory.begin(),state.inventory.end(),[&](const f::InventoryItem& row){return row.instance_id==id;});
+                if(found==state.inventory.end()){e="Current player inventory instance is absent";return false;}out=*found;e.clear();return true;
+            };
+            if(playerMetadataOwner)playerMetadataOwner->invalidate();
+            playerMetadataOwner=runtimeItemResources->inventory(resolve_player_row);
             config.source_appearance_debug.load=[&](std::string& e){if(!sourceScopes){e="Equipment appearance requires the actual source Debug owner";return false;}return sourceScopes->debug_load(e);};
             config.source_appearance_debug.query=[&](const char* key,std::string& e){bool value=false;if(!sourceScopes){e="Equipment appearance requires the actual source Debug owner";return false;}return sourceScopes->debug_switch(key,value,e);};
             for(unsigned slot=0;slot<config.slots.size();++slot)config.slots[slot]="slot-"+std::to_string(slot);
@@ -3781,12 +4041,37 @@ int main(int argc,char** argv) {
             }
             config.table_root=fs::relative(f::resolve_content_path(assets,"data/pydata/loot_table_pyarray.bin").parent_path(),assets.root()).generic_string();
             f::equipment_menu::RuntimeEquipmentBareDefinitionPolicyV1 policy;
+            policy.existing_text_owner=dropTextOwner;
+            policy.font_palette=itemNameFontPalette;
             std::set<std::string> heldDefinitions;
             for(const auto& item:state.inventory)heldDefinitions.insert(item.definition_id);
             policy.supported_unpowered_definition_ids.assign(heldDefinitions.begin(),heldDefinitions.end());
             f::equipment_menu::RuntimeEquipmentPageBindingsV1 pageBindings;
             pageBindings.inventory_text.equipment_slots=config.slots;
-            if(!runtimeEquipmentText.bind(menuSourceOwner.source().loot.items(),properties.characters,menuLocalization,state,std::move(policy),config,pageBindings,equipmentError)) {
+            pageBindings.action_cue=[&](f::equipment_menu::NativeEquipmentActions::CueAction action,unsigned slot){
+                const char* cue=(slot==1||slot==2)?"PickupWeapon":slot==9?"PickupPotion":"PickupArmor";
+                std::string cueError;const auto result=runtimeAudio?runtimeAudio->play_named_ui_sound(cue,cueError):f::audio::NamedUiCueResultV1{};
+                std::cout<<"Equipment sound name="<<cue<<" ordinal="<<result.ordinal<<" uid="<<result.uid<<" token="<<result.token
+                         <<" status="<<f::audio::named_ui_cue_status_v1(result.status)<<" slot="<<slot<<" action="<<(action==f::equipment_menu::NativeEquipmentActions::CueAction::equip?"equip":"unequip")<<" frame="<<drawn;
+                if(!cueError.empty())std::cout<<" detail="<<cueError;std::cout<<'\n';
+            };
+            f::equipment_menu::RuntimeEquipmentInstanceResolverV1 resolver=[&,resolve_player_row](const f::InventoryItem& item,f::equipment_menu::RuntimeEquipmentInstanceResolutionV1& result,std::string& e){
+                f::InventoryItem current;if(!resolve_player_row(item.instance_id,current,e))return false;
+                if(current.definition_id!=item.definition_id||current.quantity!=item.quantity||current.source.has_value()!=item.source.has_value()||
+                   (item.source&&(current.source->value!=item.source->value||current.source->identified!=item.source->identified||current.source->power_names!=item.source->power_names))){e="Equipment row differs from the current complete inventory instance";return false;}
+                if(!item.source){result.verified_bare=true;e.clear();return true;}
+                return playerMetadataOwner->resolve(item,result.lease,e);
+            };
+            config.powers=[&](const f::InventoryItem& item,std::vector<dh2::data::GearPowerProperty12V5>& powers,std::string& e){
+                if(!item.source){powers.clear();e.clear();return true;}return playerMetadataOwner->properties(item,powers,e);
+            };
+            config.item_rank=[&](const f::InventoryItem& item,std::int32_t& value,std::uint32_t& count,std::string& e){
+                if(item.source)return playerMetadataOwner->rank(item,value,count,e);
+                const auto* row=dh2::data::item(menuSourceOwner.source().loot.items(),dh2::data::item_id(menuSourceOwner.source().loot.items(),item.definition_id));
+                if(!row){e="Bare equipment rank ItemTable row unavailable";return false;}
+                const auto product=std::uint32_t(row->record.words[27])*std::uint32_t(row->record.words[28]);std::memcpy(&value,&product,sizeof(value));count=0;e.clear();return true;
+            };
+            if(!runtimeEquipmentText.bind(menuSourceOwner.source().loot.items(),properties.characters,menuLocalization,state,std::move(policy),std::move(resolver),config,pageBindings,equipmentError)) {
                 std::cerr<<"Equipment text diagnostic: "<<equipmentError<<'\n';return;
             }
             const auto designBytes=assets.read("original-cache/data/pydata/design_pycst.bin");
@@ -3851,6 +4136,7 @@ int main(int argc,char** argv) {
             syncPlayerBodyParts(); // B061
         };
         const auto retireEquipmentPage=[&]() {
+            equipmentActionConfirmation.cancel();equipmentConfirmationText.clear();++equipmentSourceVisitEpoch;
             // The provider borrows the actor/Scene through this binding. Retire
             // it while the old Session is alive, before any actor replacement.
             if(runtimeEquipmentPage)runtimeEquipmentPage->leave_page();
@@ -3861,6 +4147,10 @@ int main(int argc,char** argv) {
             unavailable.release=[](float,float,std::string& e){e="Equipment provider awaits the replacement Session";return false;};
             if(!characterMenuComposition->register_page(f::character_menu::Tab::equipment,std::move(unavailable),error))throw std::runtime_error(error);
             runtimeEquipmentAttachments=nullptr;runtimeEquipmentPage.reset();runtimeEquipment.reset();equipmentAttemptLease.reset();
+            if(playerMetadataOwner)playerMetadataOwner->invalidate();playerMetadataOwner.reset();
+            for(auto& entry:merchantMetadataOwners)if(entry.second)entry.second->invalidate();
+            merchantMetadataOwners.clear();activeMerchantMetadataOwner=nullptr;runtimeItemResources.reset();dropTextOwner.reset();itemNameFontPalette.reset();
+            dropHudText=nullptr;dropTextEnvironment={};dropNameCache.clear();
             characterMenuBindings.actor=nullptr;characterMenuBindings.properties=nullptr;
         };
         // P14 FAERY: set below, after updatePcHud is defined; the Faery page calls it after a selection change.
@@ -3959,6 +4249,11 @@ int main(int argc,char** argv) {
                         if(progression.skill_list_id!=list||progression.skill_table_id!=id){e="Skill training probe source list/row changed";return false;}
                         if(!combatSession){e="Skill training probe requires the current Session";return false;}
                         return f::generic_skills::probe_skill_training_in_session_v1(character,*combatSession,properties,skillTables,skillCaps,position,available,e);
+                    },[&]{
+                        std::string cueError;const auto cue=runtimeAudio?runtimeAudio->play_named_ui_sound("MenuSpending",cueError):f::audio::NamedUiCueResultV1{};
+                        std::cout<<"Skills sound name=MenuSpending ordinal="<<cue.ordinal<<" uid="<<cue.uid<<" token="<<cue.token
+                                 <<" status="<<f::audio::named_ui_cue_status_v1(cue.status)<<" frame="<<drawn;
+                        if(!cueError.empty())std::cout<<" detail="<<cueError;std::cout<<'\n';
                     });
                 if(!characterMenuComposition->register_page(f::character_menu::Tab::skills,runtimeSkillsMenu->source_page_provider(),error))
                     throw std::runtime_error("Skills composition: "+error);
@@ -3977,7 +4272,14 @@ int main(int argc,char** argv) {
             if(!f::character_menu::register_stat_training_v1(*characterMenuComposition,sharedCharacter,state,
                    [&]()->f::CombatSession*{return combatSession.get();},properties,
                    [&](const f::CharacterState& c,std::string& e){return f::save_character(options.save,c,e);},
-                   statTrainingVisit,error))throw std::runtime_error("Stats training: "+error);
+                   statTrainingVisit,[&](std::uint32_t){
+                       if(!runtimeAudio)return;
+                       std::string soundError;
+                       const auto cue=runtimeAudio->play_named_ui_sound("MenuSpending",soundError);
+                       std::cout<<"Character menu stat allocation sound ordinal="<<cue.ordinal<<" uid="<<cue.uid<<" token="<<cue.token
+                                <<" status="<<f::audio::named_ui_cue_status_v1(cue.status)
+                                <<(soundError.empty()?"":" detail="+soundError)<<" frame="<<drawn<<"\n";
+                   },error))throw std::runtime_error("Stats training: "+error);
                 // P14 FAERY: Faery tab over the live CharacterState (features/faery_menu/character_state_faery_v1.*).
                 // An unbindable page (e.g. legacy state without source Faery rows) stays unregistered and is diagnosed.
                 {
@@ -3996,13 +4298,17 @@ int main(int argc,char** argv) {
                     faeryHost.refresh_hud=[&](){
                         std::cout<<"Faery selection committed current="<<state.faery_by_difficulty[std::size_t(f::faery_menu::active_faery_difficulty_v1())].current_faery<<" HUD key-4 refresh\n";
                         if(refreshPcHudForFaery)refreshPcHudForFaery();};
+                    faeryHost.selection_post_callback=[&]{
+                        std::string cueError;const auto cue=runtimeAudio?runtimeAudio->play_named_ui_sound("MenuSelect",cueError):f::audio::NamedUiCueResultV1{};
+                        std::cout<<"Faery sound name=MenuSelect ordinal="<<cue.ordinal<<" uid="<<cue.uid<<" token="<<cue.token
+                                 <<" status="<<f::audio::named_ui_cue_status_v1(cue.status)<<" frame="<<drawn;
+                        if(!cueError.empty())std::cout<<" detail="<<cueError;std::cout<<'\n';};
                     if(!f::faery_menu::register_character_state_faery_page_v1(*characterMenuComposition,std::move(faeryHost),faeryError))
                         std::cerr<<"Faery page diagnostic: "<<faeryError<<'\n';
                 }
                 if(!characterMenuComposition->install_content(characterMenuBindings,error))throw std::runtime_error(error);
             }
         }
-        f::loot::RuntimeSessionDeathRewardsV1 deathRewards;
         std::shared_ptr<f::loot::RuntimeWorldItemAdapterV1> worldItems;
         // P14 DROPS: presentation + pickup state for items lying in the world.
         std::unique_ptr<f::interactions::WorldDropRuntimeV1> worldDrops;
@@ -4010,9 +4316,6 @@ int main(int argc,char** argv) {
         f::loot::WorldItemContactTrackerV1 worldItemContacts; // B063: walk-over pickup (contact begin triggers Interact, no key)
         double worldItemFractionMs=0;
         std::string worldItemStatus;std::uint32_t worldItemStatusRgb=0xFFFFFF;int worldItemStatusFrames=0;
-        dh2::ui::HudTextV1* dropHudText=nullptr;dh2::ui::HudTextEnvironmentV1 dropTextEnvironment;
-        std::unique_ptr<dh2::ui::ItemTextOwnerV5> dropTextOwner;
-        std::map<std::string,std::string> dropNameCache;
         auto rewardContext=std::make_shared<GameplayRewardContext>();
         std::uint64_t rewardBindingGeneration{};
         rewardContext->debug=[&](const char* key,bool& value,std::string& e) {
@@ -4048,6 +4351,7 @@ int main(int argc,char** argv) {
         const auto bindDeathRewards=[&]() {
             deathRewards.reset();
             if(!combatSession||!menuSourceOwner.valid())return;
+            if(!prepareRuntimeItemOwners(error))throw std::runtime_error("Prepared DeathRewards item source: "+error);
             // P14 schema: CurrentDifficulty/UnlockedDiff come from the shared profile (single accessor), not a fixed Normal.
             rewardContext->currentDifficulty=f::character_current_difficulty(state);rewardContext->unlockedDifficulty=f::character_unlocked_difficulty(state);
             if(!worldItems)worldItems=std::make_shared<f::loot::RuntimeWorldItemAdapterV1>(menuSourceOwner.loot_owner->borrow());
@@ -4087,7 +4391,7 @@ int main(int argc,char** argv) {
                 std::cout<<"Level up presentation frame="<<drawn<<" actor="<<id<<" level="<<level<<" "<<result.fx<<" "<<result.text<<'\n';
                 return ok;
             };
-            if(!deathRewards.bind(*combatSession,menuSourceOwner,assets,worldItems,std::move(rewardBindings),error))
+            if(!deathRewards.bind_prepared(*combatSession,menuSourceOwner,preparedRuntimeLootSource,worldItems,std::move(rewardBindings),error))
                 throw std::runtime_error("Source death rewards: "+error);
             // P15 B048: item drop/pickup cues. The ordinal comes from the item's own ItemAudioVisualTable row
             // (drop row+4, pickup row+8). A selected WAV that is absent stays silent and is logged, never substituted.
@@ -4694,6 +4998,10 @@ int main(int argc,char** argv) {
         f::merchant::Shop* merchantShop=nullptr;
         std::string merchantKey,merchantLevel;
         bool merchantOpen=false;
+        std::array<bool,4> merchantNavKeysDown{};
+        bool merchantDragActive=false,merchantDragWasDown=false;
+        bool merchantDragDidScroll=false;
+        float merchantDragLastY=0.f,merchantDragStartX=0.f,merchantDragStartY=0.f,merchantDragRemainder=0.f;
         const auto merchantInteract=[&](f::ActorId id) -> bool {
             if(!merchantActors.count(id))return false;
             const auto identity=questActorIdentity.find(id);
@@ -4739,19 +5047,31 @@ int main(int argc,char** argv) {
             worldDrops=std::move(drops);
         };
         bindWorldDrops();
+        const auto sourceOwnedDescriptors=[&](const f::InventoryItem& item,f::inventory::SourceOwnedDescriptors& output,std::string& e)->bool {
+            if(!ensureDropTextOwner(e))return false;
+            if(!item.source)return f::inventory::source_bare_item_descriptors(item,menuSourceOwner.source().loot.items(),dropTextOwner->services(),output.base,e);
+            f::inventory::SourceMetadataOwnerV1* owner=nullptr;
+            const auto playerRow=std::find_if(state.inventory.begin(),state.inventory.end(),[&](const auto& row){return row.instance_id==item.instance_id;});
+            if(playerRow!=state.inventory.end())owner=playerMetadataOwner.get();
+            else if(activeMerchantMetadataOwner)owner=activeMerchantMetadataOwner;
+            if(!owner){e="Powered inventory row has no current player or merchant native-item cache";return false;}
+            f::inventory::SourceInstanceDescriptorProvider provider(menuSourceOwner.source().loot.items(),
+                [owner,item](const std::string& id,f::inventory::SourceInstanceLease& lease,std::string& message){
+                    if(id!=item.instance_id){message="Item descriptor requested a different stable instance ID";return false;}
+                    return owner->resolve(item,lease,message);
+                });
+            return provider.present(item,output,e);
+        };
         // ItemInstance name text through the same source ItemText owner the inventory uses.
         const auto itemDisplayName=[&](const f::InventoryItem& item,std::string& out,std::string& e)->bool {
             const auto cached=dropNameCache.find(item.definition_id);
-            if(cached!=dropNameCache.end()){out=cached->second;e.clear();return true;}
+            if(!item.source&&cached!=dropNameCache.end()){out=cached->second;e.clear();return true;}
             if(!menuSourceOwner.valid()){e="Item name requires the source loot tables";return false;}
-            const auto& itemTable=menuSourceOwner.source().loot.items();
-            if(!dropTextOwner) {
-                if(!menuLocalization.bind_profile(&state,e)||!menuLocalization.borrow_text(dropHudText,dropTextEnvironment,e)||!dropHudText){if(e.empty())e="Item name text owner unavailable";return false;}
-                dropTextOwner=std::make_unique<dh2::ui::ItemTextOwnerV5>(itemTable,properties.characters,*dropHudText,dropTextEnvironment);
-            }
-            f::inventory::SourceDescriptors descriptors;
-            if(!f::inventory::source_bare_item_descriptors(item,itemTable,dropTextOwner->services(),descriptors,e))return false;
-            dropNameCache[item.definition_id]=descriptors.name;out=descriptors.name;e.clear();return true;
+            if(!ensureDropTextOwner(e))return false;
+            f::inventory::SourceOwnedDescriptors descriptors;
+            if(!sourceOwnedDescriptors(item,descriptors,e))return false;
+            if(!item.source)dropNameCache[item.definition_id]=descriptors.base.name;
+            out=descriptors.base.name;e.clear();return true;
         };
         const auto merchantPotionStatus=[&]() {
             std::uint32_t held=0;const auto& table=menuSourceOwner.source().loot.items();
@@ -4778,16 +5098,37 @@ int main(int argc,char** argv) {
             if(!f::merchant::parse_merchant_rows(bytes.data(),bytes.size(),menuSourceOwner.source().loot.consumed(),rows,e))throw std::runtime_error("Merchant table: "+e);
             if(loot<0||std::size_t(loot)>=rows.size())return;
             const auto& table=menuSourceOwner.source().loot.items();
+            if(!ensureRuntimeItemResources(e))throw std::runtime_error("Merchant item resources: "+e);
             merchantKey=options.level.generic_string()+":"+std::to_string(character_current_difficulty(state))+":"+std::to_string(id);
-            if(merchantLevel!=options.level.generic_string()){merchantShops.clear();merchantLevel=options.level.generic_string();}
+            if(merchantLevel!=options.level.generic_string()){for(auto& entry:merchantMetadataOwners)if(entry.second)entry.second->invalidate();merchantMetadataOwners.clear();activeMerchantMetadataOwner=nullptr;merchantShops.clear();merchantLevel=options.level.generic_string();}
             auto& shop=merchantShops[merchantKey];
             if(!shop)shop=std::make_unique<f::merchant::Shop>(rows[std::size_t(loot)]);
+            shop->bind_verified_bare([resources=runtimeItemResources](const f::InventoryItem& item){
+                if(item.source||item.definition_id!="Potion0")return false;
+                if(!resources)return false;const auto& table=resources->loot.items();
+                const auto id=dh2::data::item_id(table,item.definition_id);const auto* row=dh2::data::item(table,id);
+                return row&&dh2::data::item_type(*row)==14;
+            });
             if(shop->inventory().inventory.empty()) {
-                std::vector<std::pair<std::int32_t,std::uint32_t>> stock;
-                if(!f::merchant::roll_stock(rows[std::size_t(loot)],deathRewards.loot_source().loot,deathRewards.loot_source().power_resources,deathRewards.loot_entry_services(),
+                const auto actualQuery=[&](const dh2::data::LootCreationQueryV8& query,dh2::data::LootCreationResponseV8& response,std::string& qe){
+                    if(!combatSession||!combatSession->world()){qe="Merchant AddLoot query has no current source Session/Level";return false;}
+                    response.present=true;
+                    if(query.operation==dh2::data::LootCreationOperationV8::current_level)response.value=f::character_current_difficulty(state);
+                    else if(query.operation==dh2::data::LootCreationOperationV8::player_count){
+                        std::int32_t count=0;for(const auto& actor:combatSession->world()->actors()){const auto* traits=combatSession->world()->traits(actor.first);if(traits&&traits->is_player)++count;}response.value=count;
+                    } else {qe="Unknown source AddLoot query operation";return false;}
+                    qe.clear();return true;
+                };
+                f::inventory::RuntimeItemLootCreationV1 creation(runtimeItemResources,deathRewards.loot_entry_services(),actualQuery);
+                std::vector<f::InventoryItem> stock;
+                if(!f::merchant::roll_stock_instances(rows[std::size_t(loot)],runtimeItemResources->loot,runtimeItemResources->power_resources,
+                    runtimeItemResources->definitions,creation.services(),f::inventory::RuntimeItemLootCreationV1::release_generated,&creation,false,
                     [&](const auto& op,std::string& error){return combatSession->world()->with_loot_random(op,error);},stock,e))throw std::runtime_error("Merchant stock: "+e);
-                shop->add_stock(table,stock);
+                shop->add_generated_stock(table,stock);
             }
+            auto& merchantOwner=merchantMetadataOwners[merchantKey];
+            if(!merchantOwner){auto rowBorrow=[shopPtr=shop.get()](const std::string& itemId,f::InventoryItem& out,std::string& e){const auto found=std::find_if(shopPtr->inventory().inventory.begin(),shopPtr->inventory().inventory.end(),[&](const auto& row){return row.instance_id==itemId;});if(found==shopPtr->inventory().inventory.end()){e="Current merchant stock instance is absent";return false;}out=*found;e.clear();return true;};merchantOwner=runtimeItemResources->inventory(rowBorrow);}
+            activeMerchantMetadataOwner=merchantOwner.get();
             if(!shop->sort_stock(table,itemDisplayName,e))throw std::runtime_error("Merchant stock names: "+e);
             bindEquipmentPage();if(!runtimeEquipment||!runtimeEquipment->ready(e))throw std::runtime_error("Merchant equipment owner: "+e);
             const auto* actor=combatSession->actor(combatSession->player_id());const auto* props=combatSession->world()->combat_properties(actor->id);
@@ -4798,10 +5139,24 @@ int main(int argc,char** argv) {
             bindings.symbol=[&](const std::string& sym,std::string& out,std::string& e){return menuLocalization.symbol(sym,&state,out,e);};
             bindings.item_details=[&](const std::string& path,const f::InventoryItem& item,std::string& out,std::string& e) {
                 std::string ignored;if(!itemDisplayName(item,ignored,e))return false;
-                f::inventory::SourceDescriptors desc;if(!f::inventory::source_bare_item_descriptors(item,menuSourceOwner.source().loot.items(),dropTextOwner->services(),desc,e))return false;
-                out=path.find("ItemInfo1")!=std::string::npos?desc.stats:path.find("ItemReq")!=std::string::npos?desc.requirements:std::string();return true;
+                f::inventory::SourceOwnedDescriptors desc;if(!sourceOwnedDescriptors(item,desc,e))return false;
+                out=path.find("ItemInfo1")!=std::string::npos?desc.base.stats:path.find("ItemReq")!=std::string::npos?desc.base.requirements:std::string();
+                for(unsigned i=0;i<4;++i)if(path.find("ItemInfo"+std::to_string(i+2))!=std::string::npos){if(i<desc.powers.size())out=desc.powers[i];break;}return true;
             };
             merchantShop=shop.get();merchantUi=std::make_unique<f::merchant::ShopUi>(state,*shop,table,*actor,*props,properties,std::move(menuOptions),std::move(bindings));
+            merchantUi->sell_item_name([&](const f::InventoryItem& requested,const auto&,std::string& out,std::string& e) {
+                const auto live=std::find_if(state.inventory.begin(),state.inventory.end(),[&](const auto& row){return row.instance_id==requested.instance_id;});
+                if(live==state.inventory.end()||live->definition_id!=requested.definition_id||live->quantity!=requested.quantity||
+                   live->source.has_value()!=requested.source.has_value()||(live->source&&
+                   (live->source->value!=requested.source->value||live->source->identified!=requested.source->identified||live->source->power_names!=requested.source->power_names))) {
+                    e="Merchant inventory ItemName no longer matches the current player row";return false;
+                }
+                if(!itemNameFontPalette){e="Merchant inventory ItemName requires genuine source FontPalette";return false;}
+                f::inventory::SourceOwnedDescriptors desc;
+                if(!sourceOwnedDescriptors(*live,desc,e))return false;
+                return dh2::ui::character_menu_item_name_color_v1(desc.base.name,
+                    f::loot::item_power_font_palette_row_v1(desc.powers.size()),*itemNameFontPalette,out,e);
+            });
             merchantUi->parsed_text([&](const std::string& symbol,const std::vector<std::string>& values,std::string& out,std::string& e) {
                 dh2::ui::HudTextV1* text=nullptr;dh2::ui::HudTextEnvironmentV1 env;
                 if(!menuLocalization.bind_profile(&state,e)||!menuLocalization.borrow_text(text,env,e))return false;
@@ -4835,6 +5190,7 @@ int main(int argc,char** argv) {
         bool pcHudReady=false;
         std::string pcHudTextSignature;
         int pauseTextSurface=-1,pauseTextWidth=0,pauseTextHeight=0;
+        std::string pauseTextContentSignature;
         if(options.hud&&combatSession&&!pauseText.load(assets.root()/"original-cache",error))throw std::runtime_error("Pause source font: "+error);
         if(options.hud&&combatSession&&!pcHudText.load(assets.root()/"original-cache",error))throw std::runtime_error("PC HUD font: "+error);
         f::frontend::FrontendText cinematicText; // P16 CINE: caption and SKIP text (same frontend text owner as the PC HUD)
@@ -4917,14 +5273,15 @@ int main(int argc,char** argv) {
             }
         }};
         // messageSymbol (Preview 15 B049): replaces the WarningBox/confirm_msg text of the confirmation frame.
-        const auto drawPauseArt=[&](const f::pause_ui::SourcePauseUiFrameV1& frame,bool labels,const char* messageSymbol) {
+        const auto drawPauseArt=[&](const f::pause_ui::SourcePauseUiFrameV1& frame,bool labels,const char* messageSymbol,const std::string* messageOverride=nullptr) {
             auto art=frame.art;
             const std::string messageSuffix="WarningBox/confirm_msg/text";
             if(labels)for(auto& field:art.text_fields) {
                 field.initial_text.clear();
-                if(messageSymbol&&field.path.size()>=messageSuffix.size()&&
+                    if((messageSymbol||messageOverride)&&field.path.size()>=messageSuffix.size()&&
                    field.path.compare(field.path.size()-messageSuffix.size(),messageSuffix.size(),messageSuffix)==0) {
-                    if(!menuLocalization.symbol(std::string(messageSymbol),&state,field.initial_text,error))throw std::runtime_error("Stats confirmation text: "+error);
+                    if(messageOverride)field.initial_text=*messageOverride;
+                    else if(!menuLocalization.symbol(std::string(messageSymbol),&state,field.initial_text,error))throw std::runtime_error("Stats confirmation text: "+error);
                     continue;
                 }
                 for(const auto& binding:f::pause_ui::source_pause_ui_text_bindings_v1()) {
@@ -4945,10 +5302,11 @@ int main(int argc,char** argv) {
             }
             if(labels) {
                 // A replaced message is a different text key, so the same confirmation surface rebuilds its text.
-                const int textKey=int(frame.surface)+(messageSymbol?1000:0);
-                if(pauseTextSurface!=textKey||pauseTextWidth!=window.width()||pauseTextHeight!=window.height()) {
+                const int textKey=int(frame.surface)+((messageSymbol||messageOverride)?1000:0);
+                const std::string textSignature=messageOverride?*messageOverride:(messageSymbol?std::string(messageSymbol):std::string{});
+                if(pauseTextSurface!=textKey||pauseTextWidth!=window.width()||pauseTextHeight!=window.height()||pauseTextContentSignature!=textSignature) {
                     if(!pauseText.rebuild(art,window.width(),window.height(),renderer,error))throw std::runtime_error("Pause source text: "+error);
-                    pauseTextSurface=textKey;pauseTextWidth=window.width();pauseTextHeight=window.height();
+                    pauseTextSurface=textKey;pauseTextWidth=window.width();pauseTextHeight=window.height();pauseTextContentSignature=textSignature;
                 }
                 pauseText.draw(overlay);
             }
@@ -4956,6 +5314,9 @@ int main(int argc,char** argv) {
         f::platform_input::Surface uiSurface;
         uiSurface.hit=[&](auto point){
             using namespace f::platform_input;
+            // A pending source menu_confirm2 owns every pointer release, including
+            // its deadzone, until Yes/No resolves the captured request.
+            if(equipmentActionConfirmation.visible())return Hit{Control::menu_item,std::numeric_limits<std::uint64_t>::max()-7};
             if(pauseMenuOpen) {
                 const auto hit=f::pause_ui::source_pause_ui_hit_test_v1(currentPauseArt(),point.x*480.f/window.width(),point.y*320.f/window.height());
                 return hit.hit?Hit{Control::menu_item,std::uint64_t(hit.action)}:Hit{};
@@ -5475,25 +5836,68 @@ int main(int argc,char** argv) {
         // Checkpoint-restore state shared by the load step and the provider callbacks below.
         struct DeathRestoreStateV1 {
             f::PlayableActorBodies* bodies=nullptr;
+            f::ActorPopulation* population=nullptr;
             f::PlayableActorWorld* world=nullptr;
             f::CombatSession* session=nullptr;
             f::persistence::death_flow::DeathCheckpointSnapshotV1 snapshot;
             bool loaded=false;
+            const bool* state_trace_enabled=nullptr;
+            const int* state_trace_frame=nullptr;
+            std::vector<f::ActorId> limbus_after_rebind;
+            // Source Character::Deserialize calls InitPhysicalObject for the
+            // ordinary saved-alive branch when +732 is null. Queue only that
+            // branch here; the body factory runs after Session rebind.
+            std::vector<f::ActorId> initialize_physical_after_rebind;
         } deathRestore;
         struct DeathProfileCountsV1 { std::size_t inventory=0,equipment=0; std::uint64_t xp=0,gold=0; } deathProfileBefore;
         deathRestore.bodies=&nativeBodies;
+        deathRestore.population=&population;
+        deathRestore.state_trace_enabled=&stateTraceEnabled;deathRestore.state_trace_frame=&stateTraceFrame;
         const auto deathCurrentStates=[](void* raw,f::ActorId id,bool& limbus,bool& preSpawn,std::optional<bool>& canRespawn,
                                          std::optional<bool>& physical,std::string& e)->bool {
             auto& r=*static_cast<DeathRestoreStateV1*>(raw);
-            // The port has no Limbus or PreSpawn owner, so both report not-already; CanRespawn stays unknown and
-            // any saved state that needs it fails closed in source_character_restore_plan_v1.
+            // Exact current-state predicates: SM_IsInLimbus is state 0 and SM_IsInPreSpawn is state 17.
+            // CanRespawn stays unknown unless a source gate is already decisive from the authenticated live sheet.
             limbus=false;preSpawn=false;canRespawn.reset();physical.reset();
-            // "Already" facts come from the live Session state: 1 Spawn and 17 PreSpawn (lifecycle program targets).
-            if(r.session){const auto live=r.session->original_actor_state(id);preSpawn=(live==1||live==17);}
+            // Current Session state is the source FSM witness; state 1 is Spawn, not PreSpawn.
+            const auto liveState=r.session?r.session->original_actor_state(id):-1;
+            if(r.session){preSpawn=(liveState==17);limbus=(liveState==0);}
+            const auto* combatProperties=r.session&&r.session->world()?r.session->world()->combat_properties(id):nullptr;
+            if(combatProperties) {
+                std::optional<bool> initSpawned,groupPresent;
+                const auto placed=r.population?std::find_if(r.population->actors().begin(),r.population->actors().end(),[&](const auto& item){return item.definition.stableId==id;}):std::vector<f::PopulationActor>::const_iterator{};
+                if(r.population&&placed!=r.population->actors().end()&&placed->definition.gametype=="Character") {
+                    // This exact stable ID is an ObjectManager-authored Character row;
+                    // InitSpawned is only the SpawnGroupManager path for generated IDs.
+                    initSpawned=false;
+                    const auto group=placed->definition.properties.find("char_group");
+                    if(group!=placed->definition.properties.end()&&group->second.empty())groupPresent=false;
+                    else if(group!=placed->definition.properties.end())groupPresent=true;
+                }
+                canRespawn=f::persistence::death_flow::source_can_respawn_v1(
+                    combatProperties->sheets.resolved[11],initSpawned,groupPresent);
+            }
             // Physical-body presence: the live body registry when it has an entry for this Character, otherwise the
             // actor's recorded source_physical_present fact (published by the body assembly). Unknown stays unknown.
             if(r.bodies)if(const auto* body=r.bodies->physical(id))physical=body->native().body!=nullptr;
-            if(!physical&&r.world)if(const auto* actor=r.world->find_actor(id))physical=actor->source_physical_present;
+            const auto* liveActor=r.world?r.world->find_actor(id):nullptr;
+            if(!physical&&liveActor)physical=liveActor->source_physical_present;
+            if(r.state_trace_enabled&&*r.state_trace_enabled) {
+                const auto saved=std::find_if(r.snapshot.actors.begin(),r.snapshot.actors.end(),[&](const auto& entry){return entry.id==id;});
+                const auto property11=combatProperties?combatProperties->sheets.resolved[11]:std::numeric_limits<std::int32_t>::min();
+                std::cout<<"STATE_TRACE edge=death-restore-actor frame="<<(r.state_trace_frame?*r.state_trace_frame:0)<<" actor="<<id
+                    <<" savedState="<<(saved==r.snapshot.actors.end()?-1:std::int32_t(saved->source_cs_state))
+                    <<" savedDead="<<(saved==r.snapshot.actors.end()?0:saved->source_dead)
+                    <<" liveState="<<liveState<<" liveDead="<<(liveActor?liveActor->source_dead:0)
+                    <<" property11="<<(property11==std::numeric_limits<std::int32_t>::min()?"unknown":std::to_string(property11))
+                    <<" limbus="<<limbus<<" preSpawn="<<preSpawn<<" canRespawn="<<(canRespawn?(*canRespawn?"true":"false"):"unknown")
+                    <<" physical="<<(physical?(*physical?"true":"false"):"unknown")<<" groupOwner=unavailable"
+                    <<" levelCheckpoint="<<r.snapshot.checkpoint_name<<" key="<<r.snapshot.checkpoint_key_position[0]<<','
+                    <<r.snapshot.checkpoint_key_position[1]<<','<<r.snapshot.checkpoint_key_position[2]
+                    <<" revive="<<r.snapshot.revive_position[0]<<','<<r.snapshot.revive_position[1]<<','<<r.snapshot.revive_position[2];
+                if(liveActor)std::cout<<" livePos="<<liveActor->transform.position[0]<<','<<liveActor->transform.position[1]<<','<<liveActor->transform.position[2];
+                std::cout<<'\n';
+            }
             e.clear();return true;
         };
         const auto deathInitializeQest=[](void* raw,std::vector<std::uint8_t>& bytes,std::string& e)->bool {
@@ -5503,20 +5907,24 @@ int main(int argc,char** argv) {
             if(r.snapshot.qest_present){e.clear();return true;}
             e="Source PlayerSavegame INITQUESTS initializer is not ported and the checkpoint has no QEST";return false;
         };
-        const auto deathApplyState=[](void*,const f::persistence::death_flow::SourceCharacterRestorePlanV1& plan,
+        const auto deathApplyState=[](void* raw,const f::persistence::death_flow::SourceCharacterRestorePlanV1& plan,
                                       f::ActorState& actor,std::string& e)->bool {
+            auto& restore=*static_cast<DeathRestoreStateV1*>(raw);
             using Op=f::persistence::death_flow::SourceCharacterRestoreOpV1;
+            actor.source_limbus=plan.resulting_limbus;
             for(const auto op:plan.ordered_operations) {
                 switch(op) {
                 case Op::restore_serialized_dead_bit: actor.source_dead=plan.saved_dead; break;
-                case Op::set_source_dead_true: actor.source_dead=true; break;
+                case Op::set_source_dead_true: actor.source_dead=true;actor.action=f::CharacterAction::dead;actor.target_id=f::invalid_actor_id;break;
                 case Op::set_hp_zero: actor.health=0.f; break;
                 case Op::set_ai_dead: actor.action=f::CharacterAction::dead; actor.target_id=f::invalid_actor_id; break;
                 case Op::set_idle_zero: actor.action=f::CharacterAction::idle; actor.action_elapsed_seconds=0.f; break;
                 case Op::clear_target: actor.target_id=f::invalid_actor_id; break;
-                case Op::can_respawn_gate:
-                case Op::initialize_physical_if_missing: break; // physical bodies are rebuilt from the restored transforms
-                case Op::set_limbus_if_not_already: e="Source Limbus owner is not ported (saved CS state "+std::to_string(plan.saved_state)+")";return false;
+                case Op::can_respawn_gate: break;
+                case Op::initialize_physical_if_missing:
+                    restore.initialize_physical_after_rebind.push_back(actor.id);
+                    break;
+                case Op::set_limbus_if_not_already: restore.limbus_after_rebind.push_back(actor.id); break;
                 case Op::set_pre_spawn_if_not_already: e="Source PreSpawn owner is not ported (saved CS state "+std::to_string(plan.saved_state)+")";return false;
                 }
             }
@@ -5540,6 +5948,8 @@ int main(int argc,char** argv) {
             if(snapshot.level_uri!=options.level.generic_string()) {e="Source checkpoint belongs to a different level";return false;}
             if(!combatSession->world()->find_actor(combatSession->player_id())) {e="Checkpoint restore requires the local player Character";return false;}
             if(snapshot.controlled_actor_id!=combatSession->player_id()) {e="Checkpoint records a different controlled Character";return false;}
+            if(!f::migrate_missing_authored_checkpoint_actor_records_v1(
+                    snapshot,sourceInitialDeathCheckpointActors,newlyOrdinarySourceMonsterIds,e)) return false;
             // The recorded revive position is the Character position at contact. It must equal the snapshot's own player record
             // (the current live position may be anywhere when the death happens).
             const auto recorded=std::find_if(snapshot.actors.begin(),snapshot.actors.end(),
@@ -5550,6 +5960,8 @@ int main(int argc,char** argv) {
                 e="Checkpoint revive position differs from its recorded Character contact position";return false;
             }
             deathRestore.snapshot=snapshot;deathRestore.loaded=true;deathRestore.world=combatSession->world();deathRestore.session=combatSession.get();
+            deathRestore.limbus_after_rebind.clear();
+            deathRestore.initialize_physical_after_rebind.clear();
             f::persistence::death_flow::DeathCheckpointRestoreServicesV1 services;
             services.context=&deathRestore;services.current_source_states=deathCurrentStates;
             services.initialize_source_qest=deathInitializeQest;services.apply_source_state=deathApplyState;
@@ -5565,26 +5977,55 @@ int main(int argc,char** argv) {
             f::persistence::death_flow::DeathCheckpointRestoreReceiptV1 receipt;
             const bool restored=detached&&f::persistence::death_flow::restore_death_checkpoint_snapshot_v1(
                 snapshot,options.level.generic_string(),*combatSession->world(),state,services,receipt,restoreError);
-            actorLifecycle.clear();lifecyclePhysical.clear();lifecycleCollisions.clear();lifecycleIdleSuppressed.clear();lifecycleFlags.clear();
+            // V1 carries no admission bits. Publish only the narrow positive
+            // legacy classification after the actor snapshot has committed;
+            // unknown/scripted actors retain their current host projection.
+            if(restored&&snapshot.version==1)for(const auto& saved:snapshot.actors)
+                if(const auto admission=legacyCheckpointAdmission(saved))
+                    receipt.population_admission[saved.id]=*admission;
+            if(restored) {actorLifecycle.clear();lifecyclePhysical.clear();lifecycleCollisions.clear();lifecycleIdleSuppressed.clear();lifecycleFlags.clear();}
             std::string rebindError;
             const bool rebound=combatSession->rebind_after_restore(rebindError);
-            if(!detached||!restored) {e=restoreError.empty()?"Death checkpoint restore failed":restoreError;return false;}
+            if(!detached) {e=restoreError.empty()?"Death checkpoint teardown failed":restoreError;return false;}
             if(!rebound) {e="Rebind after checkpoint restore: "+rebindError;return false;}
+            if(restored)for(const auto id:deathRestore.limbus_after_rebind)
+                if(!combatSession->set_actor_original_state(id,0,e)){e="Checkpoint Character::SM_SetLimbusState: "+e;return false;}
             {std::string containerError;if(!f::containers::restore_container_world_state_v1(*combatSession->world(),containerRuntime,containerError)){e="Checkpoint container restore: "+containerError;return false;}}
             rebuildNativeBodies();
+            if(restored)for(const auto id:deathRestore.initialize_physical_after_rebind) {
+                auto* actor=combatSession->actor(id);
+                const auto* body=nativeBodies.physical(id);
+                if(!actor||!body) {e="Character::Deserialize InitPhysicalObject actor/body binding is unavailable: "+std::to_string(id);return false;}
+                if(!body->native().body&&!nativeBodies.initialize_physical(id,e)) {
+                    e="Character::Deserialize InitPhysicalObject failed actor="+std::to_string(id)+": "+e;return false;
+                }
+                const auto* attached=nativeBodies.physical(id);
+                const bool present=attached&&attached->native().body;
+                if(!present) {e="Character::Deserialize InitPhysicalObject returned without an attached native body actor="+std::to_string(id);return false;}
+                actor->source_physical_present=true;
+                std::cout<<"Source restore InitPhysicalObject actor="<<id<<" trigger=ordinary-saved-alive present=1 frame="<<drawn<<'\n';
+            }
+            if(restored)for(const auto& [id,admitted]:receipt.population_admission) {
+                if(!population.set_enabled(id,admitted,e)) {
+                    e="Checkpoint captured population admission: "+e;return false;
+                }
+                std::cout<<"Source restore population admission actor="<<id<<" enabled="<<admitted
+                         <<" receipt="<<(snapshot.version==2?"captured-v2":"authenticated-legacy-v1")<<" frame="<<drawn<<'\n';
+            }
             initializeSourceNavigation();
             initializeSourceTargetNodes();
             bindCombatText();
             {std::string audioError;if(runtimeAudio&&!runtimeAudio->bind(combatSession,audioError))std::cerr<<"Audio checkpoint rebind diagnostic: "<<audioError<<'\n';}
-            bindEquipmentPage();
             bindDeathRewards();
+            bindEquipmentPage();
             bindContainerLoot();
             bindQuestRuntime(false);
             bindSourcePresentations();
             skillCastCoordinator=std::make_unique<f::generic_skills::RuntimeSkillCastCoordinatorV1>();lastSkillPhase=-1;lastSkillGeneration=0;
             faeryCooldownClock={};faeryCooldownClock.binding_lease=combatSession->actor_binding_lease();faeryCooldownClock.has_binding_lease=true;faeryCooldownClock.session_update_serial=combatSession->update_serial();
-            scriptRoutes.clear();
+            if(restored)scriptRoutes.clear();
             if(options.combatText)combatText.clear_for_reload();
+            if(!restored) {e=restoreError.empty()?"Death checkpoint restore failed before commit":restoreError;return false;}
             std::cout<<"Death profile after restore: equipment="<<state.equipment.size()<<" inventory="<<state.inventory.size()<<" gold="<<state.gold<<" xp="<<state.experience<<" profileInventoryBefore="<<deathProfileBefore.inventory<<" profileEquipmentBefore="<<deathProfileBefore.equipment<<" profileXpBefore="<<deathProfileBefore.xp<<" profileGoldBefore="<<deathProfileBefore.gold<<" frame="<<drawn<<'\n';
             std::cout<<"Death checkpoint restored frame="<<drawn<<" zone="<<snapshot.checkpoint_name<<" actorsRestored="<<receipt.actors_restored
                      <<" actorsMissing="<<receipt.actors_missing_skipped<<" objectsRestored="<<receipt.objects_restored
@@ -5620,6 +6061,20 @@ int main(int argc,char** argv) {
             if(!player){e="Character::Revive: the local player Character is absent";return false;}
             // B083: the source sheet (cells 36/41) is revived together with the ActorState mirror; the skill mana gate reads the sheet.
             if(!combatSession->world()->revive_actor(combatSession->player_id(),e))return false;
+            // ReviveLocalPlayers calls Revive(nullptr, true); source Revive
+            // initializes the local player's physical object after its gates.
+            if(options.sourceNativeBodies) {
+                const auto id=combatSession->player_id();
+                const auto* body=nativeBodies.physical(id);
+                if(!body) {e="Character::Revive InitPhysicalObject player binding is unavailable";return false;}
+                if(!body->native().body&&!nativeBodies.initialize_physical(id,e)) {
+                    e="Character::Revive InitPhysicalObject failed: "+e;return false;
+                }
+                const auto* attached=nativeBodies.physical(id);
+                if(!attached||!attached->native().body) {e="Character::Revive InitPhysicalObject returned without an attached native body";return false;}
+                player->source_physical_present=true;
+                std::cout<<"Source Revive InitPhysicalObject actor="<<id<<" present=1 frame="<<drawn<<'\n';
+            }
             std::cout<<"Death Character::Revive frame="<<drawn<<" HP="<<player->health<<'/'<<player->max_health
                      <<" MP="<<player->resource<<'/'<<player->max_resource<<'\n';
             e.clear();return true;
@@ -5738,6 +6193,7 @@ int main(int argc,char** argv) {
         // Poll can latch a platform close before the next iteration. Admit that iteration so the
         // Application::Quit save/retry handler below owns shutdown instead of bypassing it.
         while(true) {
+            stateTraceFrame=drawn;
             // B086 Application::Quit: closing the window (or --quit-frame) quick-saves the level world and the profile first. An active
             // action can reject the checkpoint for a moment; the game keeps running up to 90 frames until the save is accepted.
             if(!returnToFrontend&&(window.should_close()||(options.quitFrame>=0&&drawn>=options.quitFrame))) {
@@ -5764,6 +6220,7 @@ int main(int argc,char** argv) {
             const bool scheduledEHeld=std::find(options.transitionKeyFrames.begin(),options.transitionKeyFrames.end(),int(drawn))!=options.transitionKeyFrames.end();
             // I024 DEATH: the death modal captures input. Keys and pointer presses stay out of the game and menus.
             const bool deathModal=deathHost.modal();
+            const bool deathModalChanged=deathModal!=deathModalWasOpen;
             if(deathModal&&!deathModalWasOpen){semanticInput.lose_focus();mouseHeld=false;}
             deathModalWasOpen=deathModal;
             // B068 (1)(2): while a scripted cutscene owns the screen (SKIP shown / cutscene mode, source HUD hidden by
@@ -5820,6 +6277,9 @@ int main(int argc,char** argv) {
             } else if(cursorKnown) {
                 if(down&&!mouseHeld)semanticInput.pointer(0,f::platform_input::PointerPhase::down,{pointerX,pointerY});
                 else if(!down&&mouseHeld) {
+                    if(equipmentActionConfirmation.visible())
+                        std::cout<<"Equipment confirmation pointer-up frame="<<drawn<<" client="<<window.width()<<'x'<<window.height()
+                                 <<" raw="<<pointerX<<','<<pointerY<<" normalized="<<pointerX*480.f/window.width()<<','<<pointerY*320.f/window.height()<<'\n';
                     // P16 CINE: a release on the SKIP control of a running cutscene presses SKIP (ignored when hidden).
                     // OPENING2: a release advances a tap-wait caption (btn_next, PC adaptation: any tap on the screen).
                     if(campaignHost.enabled()&&campaignHost.cinematic_skip_hit(pointerX,pointerY,float(window.width()),float(window.height())))campaignHost.press_skip();
@@ -5854,21 +6314,80 @@ int main(int argc,char** argv) {
             }
             for(const auto& scheduled:options.skillKeyFrames)if(scheduled.first==drawn)semanticInput.key('0'+scheduled.second,true);
             auto uiInput=semanticInput.take_frame();
+            // B126/B128/B129/B130/B131 diagnostic only. Enable with DH_STATE_TRACE=1
+            // in isolated runs. This samples the actual admission state; it does not
+            // change input, controller, action, inventory, or restore behavior.
+            const auto traceState=[&](const char* edge) {
+                if(!stateTraceEnabled||!combatSession)return;
+                const auto id=combatSession->player_id();const auto* hero=combatSession->actor(id);
+                if(!hero)return;
+                const auto pose=combatSession->retained_actor_pose(id);
+                const auto* attack=combatSession->source_attack_state(id);
+                const auto localBlockEntry=characterControllerBlocked.find(id);
+                const bool localBlocked=localBlockEntry!=characterControllerBlocked.end()&&localBlockEntry->second;
+                std::string equipmentError;const bool equipmentReady=runtimeEquipment&&runtimeEquipment->ready(equipmentError);
+                std::cout<<"STATE_TRACE edge="<<edge<<" frame="<<drawn<<" dt="<<dt
+                    <<" focus="<<window.focused()<<" modal="<<deathHost.modal()<<" menu="<<characterMenu.is_open()
+                    <<" pause="<<pauseMenuOpen<<" cinematic="<<cinematicInputLocked
+                    <<" raw="<<window.key_down('W')<<window.key_down('A')<<window.key_down('S')<<window.key_down('D')
+                    <<window.key_down(VK_SPACE)<<window.key_down('5')<<window.key_down(VK_LBUTTON)
+                    <<" cursor="<<cursorKnown<<','<<pointerX<<','<<pointerY<<",mouseHeld="<<mouseHeld
+                    <<" semantic="<<uiInput.attack.pressed<<','<<uiInput.attack.held<<','<<uiInput.attack.released
+                    <<','<<uiInput.potion.pressed<<','<<uiInput.potion.held<<','<<uiInput.potion.released
+                    <<",interact="<<uiInput.actions.interact<<",move="<<uiInput.actions.move2D.x<<','<<uiInput.actions.move2D.y
+                    <<" hero="<<id<<" alive="<<hero->alive()<<" dead5193="<<hero->source_dead
+                    <<" hp="<<hero->health<<'/'<<hero->max_health<<" action="<<int(hero->action)
+                    <<" elapsed="<<hero->action_elapsed_seconds<<" target="<<hero->target_id
+                    <<" sourceState="<<combatSession->original_actor_state(id)<<" ownsPose="<<combatSession->owns_pose(id)
+                    <<" updateSerial="<<combatSession->update_serial()
+                    <<" flags520="<<(hero->source_flags520?std::to_string(*hero->source_flags520):"unknown")
+                    <<" globalBlock="<<globalControllerBlocked<<" localBlock="<<localBlocked
+                    <<" attack528="<<(attack?std::to_string(attack->owner_flags528):"unknown")
+                    <<" attackActive="<<(attack?std::to_string(attack->continued):"unknown")
+                    <<" attackLast="<<(attack?std::to_string(attack->last):"unknown")
+                    <<" attackIndex="<<(attack?std::to_string(attack->index):"unknown")
+                    <<" attackFinisher="<<(attack?std::to_string(attack->finisher):"unknown")
+                    <<" headingActive="<<(attack?std::to_string(attack->heading_active):"unknown")
+                    <<" OOI="<<(attack?std::to_string(attack->object_of_interest):"unknown")
+                    <<" lastTarget="<<(attack?std::to_string(attack->last_target):"unknown")
+                    <<" interact="<<heroInteract.active<<','<<heroInteract.clock<<','<<heroInteract.durationSeconds<<','<<heroInteract.fired
+                    <<" equipmentReady="<<equipmentReady<<" equipmentError="<<(equipmentError.empty()?"none":equipmentError);
+                if(pose) {
+                    const auto slot=pose->current_slot();const auto& slots=pose->slots();const auto& samples=pose->samples();
+                    std::cout<<" poseSlot="<<slot<<" clip="<<slots[slot].clip_id<<" poseBound="<<slots[slot].bound<<" poseGeneration="<<slots[slot].generation
+                        <<" poseEnded="<<pose->current_ended();
+                    if(!samples.empty())std::cout<<" poseSample="<<samples.back().previous_ms<<'>'<<samples.back().current_ms
+                        <<" poseEndNow="<<samples.back().ended_now;
+                }
+                std::cout<<'\n';
+            };
+            const bool stateTraceEdge=uiInput.attack.pressed||uiInput.attack.released||uiInput.potion.pressed||uiInput.potion.released||
+                uiInput.actions.interact||uiInput.profile_pressed||uiInput.menu_back||
+                uiInput.clicks.size()>0||deathModalChanged;
+            if(stateTraceEnabled&&(stateTraceEdge||drawn%30==0))traceState(stateTraceEdge?"input":"periodic");
+            const auto playMenuUiCue=[&](const char* name){
+                std::string cueError;const auto cue=runtimeAudio?runtimeAudio->play_named_ui_sound(name,cueError):f::audio::NamedUiCueResultV1{};
+                std::cout<<"Character menu sound name="<<name<<" ordinal="<<cue.ordinal<<" uid="<<cue.uid<<" token="<<cue.token
+                         <<" status="<<f::audio::named_ui_cue_status_v1(cue.status)<<" frame="<<drawn;
+                if(!cueError.empty())std::cout<<" detail="<<cueError;std::cout<<'\n';
+                return cue;
+            };
             if(!options.spaceKeyIntervals.empty())std::cout<<"Semantic Space frame="<<drawn<<" scheduled="<<scheduledSpaceHeld<<" pressed="<<uiInput.attack.pressed<<" held="<<uiInput.attack.held<<" released="<<uiInput.attack.released<<" action="<<uiInput.actions.attack<<" focused="<<window.focused()<<'\n';
             for(const auto& scheduled:options.skillKeyFrames)if(scheduled.first==drawn)semanticInput.key('0'+scheduled.second,false);
             if(drawn==options.menuCloseFrame)semanticInput.key(VK_ESCAPE,false);
             if(drawn==options.pauseCloseFrame)semanticInput.key(VK_ESCAPE,false);
             if(std::find(options.campaignSkipFrames.begin(),options.campaignSkipFrames.end(),int(drawn))!=options.campaignSkipFrames.end()) { campaignHost.press_skip(); std::cout<<"Scripted SKIP press frame="<<drawn<<'\n'; } // P16 CINE (verification input)
             if(uiInput.menu_back){
-                if(statConfirmOpen){statConfirmOpen=false;std::cout<<"Stats confirmation dismissed frame="<<drawn<<" via Escape\n";}
+                if(equipmentActionConfirmation.visible()){equipmentActionConfirmation.cancel();equipmentConfirmationText.clear();++equipmentSourceVisitEpoch;std::cout<<"Equipment confirmation dismissed frame="<<drawn<<" via Escape\n";}
+                else if(statConfirmOpen){statConfirmOpen=false;std::cout<<"Stats confirmation dismissed frame="<<drawn<<" via Escape\n";}
                 else if(merchantOpen&&merchantUi&&merchantUi->confirmation_visible())merchantUi->cancel_confirmation();
                 else if(merchantOpen&&merchantUi&&merchantUi->error_visible())merchantUi->dismiss_error();
-                else if(characterMenu.is_open()){characterMenu.close();escapeClosedMenu=true;}
+                else if(characterMenu.is_open()){escapeClosedMenu=characterMenu.close_with_before([&]{playMenuUiCue("MenuBack");});}
                 else if(pauseConfirmation)pauseConfirmation=false;
                 else if(pauseMenuOpen){pauseMenuOpen=false;std::cout<<"Pause menu resumed frame="<<drawn<<" via Escape\n";}
             }
             if(uiInput.pause_pressed&&options.hud&&combatSession){pauseMenuOpen=true;pauseConfirmation=false;std::cout<<"Pause menu opened frame="<<drawn<<" via source HUD/Escape\n";}
-            if(uiInput.profile_pressed&&options.hud&&combatSession){pauseMenuOpen=false;pauseConfirmation=false;if(characterMenu.is_open())characterMenu.close();else{characterMenu.open();statTrainingVisit->open_visit();++menuOpened;std::cout<<"Character menu opened frame="<<drawn<<" via profile input\n";}}
+            if(uiInput.profile_pressed&&options.hud&&combatSession&&!equipmentActionConfirmation.visible()){pauseMenuOpen=false;pauseConfirmation=false;if(characterMenu.is_open())(void)characterMenu.close_with_before([&]{playMenuUiCue("MenuBack");});else{characterMenu.open();playMenuUiCue("MenuTab");statTrainingVisit->open_visit();++menuOpened;std::cout<<"Character menu opened frame="<<drawn<<" via profile input\n";}}
             if((options.testStatPoints>0||options.testSkillPoints>0)&&drawn==60&&combatSession) { // B103 TEST ONLY: --test-stat-points N grants N stat points through the profile projection (never in packaged args)
                 const auto* testSheet=combatSession->world()->combat_properties(combatSession->player_id());const auto* testTraits=combatSession->world()->traits(combatSession->player_id());
                 std::string testError;f::OriginalCombatProperties projected;
@@ -5907,21 +6426,172 @@ int main(int argc,char** argv) {
                 if(!characterMenuComposition->select(characterMenu,f::character_menu::Tab::quest,error))throw std::runtime_error("Quest Log page diagnostic selection: "+error);
                 std::cout<<"Character menu Quest Log selected frame="<<drawn<<'\n';
             }
-            if(merchantOpen&&!characterMenu.is_open()){merchantOpen=false;merchantUi.reset();merchantShop=nullptr;std::cout<<"Merchant closed frame="<<drawn<<'\n';}
+            if(merchantOpen&&!characterMenu.is_open()){merchantOpen=false;merchantUi.reset();merchantShop=nullptr;activeMerchantMetadataOwner=nullptr;std::cout<<"Merchant closed frame="<<drawn<<'\n';}
+            bool merchantSuppressRelease=false;
+            if(merchantOpen&&merchantUi) {
+                float cursorX=0.f,cursorY=0.f;const bool hasCursor=window.cursor_position(cursorX,cursorY);
+                const float authoredX=hasCursor?cursorX*480.f/window.width():0.f;
+                const float authoredY=hasCursor?cursorY*320.f/window.height():0.f;
+                const int wheel=window.take_wheel_notches();
+                if(window.focused()&&hasCursor&&wheel&&merchantUi->list_contains(authoredX,authoredY)) {
+                    if(!merchantUi->step_rows(-wheel,error))throw std::runtime_error("Merchant wheel navigation: "+error);
+                }
+                const auto navPressed=[&](int key,std::size_t slot) {
+                    const bool down=window.key_down(key);const bool pressed=down&&!merchantNavKeysDown[slot];merchantNavKeysDown[slot]=down;return pressed;
+                };
+                const auto pageRows=std::max(1,int(f::inventory::original_inventory_details().rows.size()));
+                int rowDelta=0;
+                if(navPressed(VK_UP,0))rowDelta=-1;
+                if(navPressed(VK_DOWN,1))rowDelta=1;
+                if(navPressed(VK_PRIOR,2))rowDelta=-pageRows;
+                if(navPressed(VK_NEXT,3))rowDelta=pageRows;
+                if(rowDelta&&!merchantUi->step_rows(rowDelta,error))throw std::runtime_error("Merchant key navigation: "+error);
+                const bool leftDown=window.key_down(VK_LBUTTON);
+                if(leftDown&&!merchantDragWasDown&&hasCursor&&merchantUi->list_contains(authoredX,authoredY)) {
+                    merchantDragActive=true;merchantDragDidScroll=false;merchantDragStartX=authoredX;merchantDragStartY=authoredY;merchantDragLastY=authoredY;merchantDragRemainder=0.f;
+                }
+                if(!window.focused()||merchantUi->confirmation_visible()||merchantUi->error_visible()) {
+                    merchantDragActive=false;merchantDragDidScroll=false;merchantDragRemainder=0.f;
+                }
+                if(merchantDragActive&&leftDown&&hasCursor&&merchantUi->list_contains(authoredX,authoredY)) {
+                    merchantDragRemainder+=authoredY-merchantDragLastY;merchantDragLastY=authoredY;
+                    float pitch=0.f;const auto& rows=f::inventory::original_inventory_details().rows;
+                    const auto bounds=[](const f::inventory::DetailRowArt& row){std::array<float,2> y{std::numeric_limits<float>::infinity(),-std::numeric_limits<float>::infinity()};for(const auto& v:row.hit){y[0]=std::min(y[0],v.y);y[1]=std::max(y[1],v.y);}return y;};
+                    const auto current=std::find_if(rows.begin(),rows.end(),[](const auto& row){return row.relative_index==0;});
+                    const auto next=std::find_if(rows.begin(),rows.end(),[](const auto& row){return row.relative_index==1;});
+                    if(current!=rows.end()&&next!=rows.end())pitch=std::abs((bounds(*current)[0]+bounds(*current)[1]-bounds(*next)[0]-bounds(*next)[1])*.5f);
+                    if(pitch>0.f&&std::abs(merchantDragRemainder)>=pitch) {
+                        const int crossed=int(std::abs(merchantDragRemainder)/pitch);
+                        const int dragDelta=merchantDragRemainder>0.f?-crossed:crossed;
+                        if(!merchantUi->step_rows(dragDelta,error))throw std::runtime_error("Merchant drag navigation: "+error);
+                        merchantDragDidScroll=true;
+                        merchantDragRemainder+=merchantDragRemainder>0.f?-crossed*pitch:crossed*pitch;
+                    }
+                } else if(merchantDragActive&&leftDown&&hasCursor)merchantDragLastY=authoredY;
+                if(!leftDown){
+                    const float dragDx=authoredX-merchantDragStartX,dragDy=authoredY-merchantDragStartY;
+                    merchantSuppressRelease=merchantDragWasDown&&merchantDragActive&&(merchantDragDidScroll||dragDx*dragDx+dragDy*dragDy>25.f);
+                    merchantDragActive=false;merchantDragRemainder=0.f;merchantDragDidScroll=false;
+                }
+                merchantDragWasDown=leftDown;
+            } else {
+                merchantDragActive=false;merchantDragWasDown=false;merchantDragDidScroll=false;merchantDragRemainder=0.f;
+                for(auto& down:merchantNavKeysDown)down=false;
+                if(merchantOpen||!(characterMenu.is_open()&&characterMenu.tab()==f::character_menu::Tab::map))
+                    (void)window.take_wheel_notches();
+            }
             bool merchantSoldThisFrame=false; // MenuMerchant::Update 0x433548 / NativeMerchantSellItem +196 gate
             for(const auto& click:uiInput.clicks) {
+                if(equipmentActionConfirmation.visible()) {
+                    const float x=click.position.x*480.f/window.width(),y=click.position.y*320.f/window.height();
+                    const auto& hits=f::merchant::merchant_art().confirm_hits;
+                    const auto contains=[&](const std::vector<float>& points) {
+                        if(points.size()<6||points.size()%6)return false;
+                        for(std::size_t i=0;i+5<points.size();i+=6) {
+                            const auto cross=[](float ax,float ay,float bx,float by,float px,float py){return (px-ax)*(by-ay)-(py-ay)*(bx-ax);};
+                            const float a=cross(points[i],points[i+1],points[i+2],points[i+3],x,y);
+                            const float b=cross(points[i+2],points[i+3],points[i+4],points[i+5],x,y);
+                            const float c=cross(points[i+4],points[i+5],points[i],points[i+1],x,y);
+                            if((a>=0&&b>=0&&c>=0)||(a<=0&&b<=0&&c<=0))return true;
+                        }
+                        return false;
+                    };
+                    const auto button=contains(hits[0])?f::equipment_menu::confirmation_v1::Button::yes:
+                        contains(hits[1])?f::equipment_menu::confirmation_v1::Button::no:f::equipment_menu::confirmation_v1::Button::other;
+                    std::cout<<"Equipment confirmation semantic-click frame="<<drawn<<" client="<<window.width()<<'x'<<window.height()
+                             <<" raw="<<click.position.x<<','<<click.position.y<<" normalized="<<x<<','<<y
+                             <<" button="<<int(button)<<'\n';
+                    const auto released=equipmentActionConfirmation.release(button,*sharedCharacter,equipmentSourceVisitEpoch,
+                        [&](const auto& request,const auto& current,std::string& checkError) {
+                            const auto& admitted=request.admitted_item;
+                            if(current.instance_id!=admitted.instance_id||current.definition_id!=admitted.definition_id||current.quantity!=admitted.quantity||current.source.has_value()!=admitted.source.has_value()) {
+                                checkError="Confirmed item identity or source payload changed";return false;
+                            }
+                            if(current.source&&(current.source->value!=admitted.source->value||current.source->identified!=admitted.source->identified||current.source->power_names!=admitted.source->power_names)) {
+                                checkError="Confirmed item metadata changed";return false;
+                            }
+                            if(current.source) {
+                                f::inventory::SourceInstanceLease lease;
+                                if(!playerMetadataOwner||!playerMetadataOwner->resolve(current,lease,checkError)||
+                                   !lease.item||!lease.owns||!lease.owns(lease.item)) {
+                                    if(checkError.empty())checkError="Confirmed source item lease expired";
+                                    return false;
+                                }
+                            } else {
+                                const auto& table=menuSourceOwner.source().loot.items();
+                                const auto* row=dh2::data::item(table,dh2::data::item_id(table,current.definition_id));
+                                if(!row||current.instance_id.empty()||!current.quantity||current.quantity>32767||dh2::data::item_type(*row)==13) {
+                                    checkError="Confirmed legacy bare item no longer has a supported source row";return false;
+                                }
+                            }
+                            if(request.action==f::equipment_menu::confirmation_v1::Action::transmute) {
+                                std::int32_t amount=0;
+                                if(!equipmentTransmuteAmount||!equipmentTransmuteAmount(current,amount,checkError)||amount!=request.transmute_value) {
+                                    if(checkError.empty())checkError="Confirmed transmute value changed";
+                                    return false;
+                                }
+                            }
+                            checkError.clear();return true;
+                        },error);
+                    std::cout<<"Equipment confirmation result frame="<<drawn<<" outcome="<<int(released.outcome)
+                             <<" action="<<int(released.request.action)<<" instance="<<released.request.instance_id
+                             <<" error="<<error<<'\n';
+                    if(released.outcome==f::equipment_menu::confirmation_v1::Outcome::confirmed) {
+                        const auto& request=released.request;bool done=false;
+                        if(request.action==f::equipment_menu::confirmation_v1::Action::transmute) {
+                            done=f::equipment_menu::transmute_inventory_item(*sharedCharacter,request.instance_id,request.transmute_value,error);
+                            playMenuUiCue("PickupGold");
+                            if(done&&!f::save_character(options.save,state,error))throw std::runtime_error("Equipment transmute save: "+error);
+                        } else {
+                            const auto* dropper=combatSession?combatSession->actor(combatSession->player_id()):nullptr;
+                            if(worldItems&&dropper) {f::loot::RuntimeWorldItemIdV1 published=f::loot::invalid_runtime_world_item_v1;
+                                done=f::loot::drop_item_to_world(*worldItems,*sharedCharacter,request.instance_id,1,
+                                    {dropper->transform.position[0],dropper->transform.position[1],dropper->transform.position[2]},combatSession->player_id(),published,error);
+                            } else done=f::equipment_menu::drop_inventory_item(*sharedCharacter,request.instance_id,error);
+                            playMenuUiCue("MenuConfirm");
+                        }
+                        if(!done)std::cerr<<"Equipment confirmed action diagnostic: "<<error<<" instance="<<request.instance_id<<'\n';
+                        else if(runtimeEquipmentPage&&!runtimeEquipmentPage->reselect_details_near(equipmentConfirmListIndex,error))throw std::runtime_error("Equipment Details reselection: "+error);
+                    } else if(released.outcome==f::equipment_menu::confirmation_v1::Outcome::rejected&&!error.empty())std::cerr<<"Equipment confirmation rejected: "<<error<<'\n';
+                    if(!equipmentActionConfirmation.visible())equipmentConfirmationText.clear();continue;
+                }
                 if(merchantOpen&&merchantUi) {
+                    if(merchantSuppressRelease)continue;
+                    const bool merchantConfirmWasVisible=merchantUi->confirmation_visible();
                     const auto cmd=merchantUi->release(click.position.x*480.f/window.width(),click.position.y*320.f/window.height(),error);
                     if(!error.empty())throw std::runtime_error("Merchant release: "+error);
+                    if(!merchantConfirmWasVisible&&merchantUi->confirmation_visible()) {
+                        std::string cueError;const auto cue=runtimeAudio?runtimeAudio->play_named_ui_sound("MenuConfirm",cueError):f::audio::NamedUiCueResultV1{};
+                        std::cout<<"Merchant sound name=MenuConfirm ordinal="<<cue.ordinal<<" uid="<<cue.uid<<" token="<<cue.token
+                                 <<" status="<<f::audio::named_ui_cue_status_v1(cue.status)<<" frame="<<drawn;
+                        if(!cueError.empty())std::cout<<" detail="<<cueError;std::cout<<'\n';
+                    }
                     using Kind=f::merchant::ShopUi::Command::Kind;
-                    if(cmd.kind==Kind::close){characterMenu.close();merchantOpen=false;merchantUi.reset();merchantShop=nullptr;std::cout<<"Merchant closed frame="<<drawn<<" via Back\n";continue;}
+                    if(cmd.kind==Kind::select_mode) {
+                        std::string cueError;const auto cue=runtimeAudio?runtimeAudio->play_named_ui_sound("MenuSelect",cueError):f::audio::NamedUiCueResultV1{};
+                        std::cout<<"Merchant sound name=MenuSelect ordinal="<<cue.ordinal<<" uid="<<cue.uid<<" token="<<cue.token
+                                 <<" status="<<f::audio::named_ui_cue_status_v1(cue.status)<<" frame="<<drawn<<" mode="<<int(cmd.mode);
+                        if(!cueError.empty())std::cout<<" detail="<<cueError;std::cout<<'\n';
+                        if(!merchantUi->set_mode(cmd.mode,error))throw std::runtime_error("Merchant mode selection: "+error);
+                        continue;
+                    }
+                    if(cmd.kind==Kind::select_navigation) {playMenuUiCue("MenuSelect");continue;}
+                    if(cmd.kind==Kind::close){std::string cueError;const auto cue=runtimeAudio?runtimeAudio->play_named_ui_sound("MenuBack",cueError):f::audio::NamedUiCueResultV1{};
+                        std::cout<<"Merchant sound name=MenuBack ordinal="<<cue.ordinal<<" uid="<<cue.uid<<" token="<<cue.token<<" status="<<f::audio::named_ui_cue_status_v1(cue.status)<<" frame="<<drawn;
+                        if(!cueError.empty())std::cout<<" detail="<<cueError;std::cout<<'\n';
+                        characterMenu.close();merchantOpen=false;merchantUi.reset();merchantShop=nullptr;activeMerchantMetadataOwner=nullptr;std::cout<<"Merchant closed frame="<<drawn<<" via Back\n";continue;}
                     if(cmd.kind==Kind::none)continue;
                     const auto& table=menuSourceOwner.source().loot.items();const auto goldBefore=state.gold;
                     f::merchant::TradeResult result=f::merchant::TradeResult::ok;std::int32_t price=0;bool changed=false;
                     if(cmd.kind==Kind::equip)changed=runtimeEquipment->equip_to_slot(cmd.instance_id,cmd.slot,error);
                     else if(cmd.kind==Kind::unequip)changed=runtimeEquipment->unequip(cmd.slot,error);
                     else if(cmd.kind==Kind::sell) {
-                        if(merchantSoldThisFrame){std::cout<<"Merchant duplicate sell blocked frame="<<drawn<<'\n';continue;}
+                        if(merchantSoldThisFrame){
+                            std::string cueError;const auto cue=runtimeAudio?runtimeAudio->play_named_ui_sound("PickupGold",cueError):f::audio::NamedUiCueResultV1{};
+                            std::cout<<"Merchant sound name=PickupGold ordinal="<<cue.ordinal<<" uid="<<cue.uid<<" token="<<cue.token
+                                     <<" status="<<f::audio::named_ui_cue_status_v1(cue.status)<<" frame="<<drawn<<" duplicate=1";
+                            if(!cueError.empty())std::cout<<" detail="<<cueError;std::cout<<'\n';
+                            std::cout<<"Merchant duplicate sell blocked frame="<<drawn<<'\n';continue;}
                         merchantSoldThisFrame=true;
                         // TransferItemTo removes equipment in both sets before transferring the whole instance.
                         const auto bindings=state.equipment;
@@ -5936,6 +6606,12 @@ int main(int argc,char** argv) {
                         for(std::uint32_t n=0;n<count;++n){result=merchantShop->buy(cmd.instance_id,state,table,rules,price);if(result!=f::merchant::TradeResult::ok)break;changed=true;}
                     }
                     merchantUi->show_error(result);merchantPotionStatus();
+                    if(cmd.kind==Kind::sell||cmd.kind==Kind::buy||cmd.kind==Kind::buy_potions) {
+                        std::string cueError;const auto cue=runtimeAudio?runtimeAudio->play_named_ui_sound("PickupGold",cueError):f::audio::NamedUiCueResultV1{};
+                        std::cout<<"Merchant sound name=PickupGold ordinal="<<cue.ordinal<<" uid="<<cue.uid<<" token="<<cue.token
+                                 <<" status="<<f::audio::named_ui_cue_status_v1(cue.status)<<" frame="<<drawn;
+                        if(!cueError.empty())std::cout<<" detail="<<cueError;std::cout<<'\n';
+                    }
                     if(changed) {
                         if(!f::save_character(options.save,state,error))throw std::runtime_error("Merchant transaction save: "+error);
                         equipmentRebindRequested=true;
@@ -5951,7 +6627,12 @@ int main(int argc,char** argv) {
                 if(pauseMenuOpen){routePauseClick(click.position);continue;}
                 {
                     // P14 FAERY: Faery goes through the composition like Equipment/Skills (provider registered above).
-                    const auto releasedAction=characterMenuComposition->release(characterMenu,click.position.x,click.position.y,window.width(),window.height(),error);
+                    const auto releasedAction=characterMenuComposition->release(characterMenu,click.position.x,click.position.y,window.width(),window.height(),error,
+                        [&]{playMenuUiCue("MenuBack");});
+                    if(releasedAction==f::character_menu::Action::stats||releasedAction==f::character_menu::Action::equipment||
+                       releasedAction==f::character_menu::Action::skills||releasedAction==f::character_menu::Action::faery||
+                       releasedAction==f::character_menu::Action::quest||releasedAction==f::character_menu::Action::map)
+                        playMenuUiCue("MenuTab");
                     if(f::character_menu::is_stat_page_action(releasedAction)) {
                         // B111: btn*Tab.on_clicked = NativePopMenu + NativePushMenu(menu_CharacterSheet<Page>) + NativePlaySoundFX("MenuSelect").
                         std::cout<<"Character menu Statistics sub-page="<<int(characterMenu.stat_page())<<" frame="<<drawn<<"\n";
@@ -5971,6 +6652,7 @@ int main(int argc,char** argv) {
                         if(runtimeEquipmentPage->take_source_pending_command(pending,error)) {
                             // P14 EQUIP: original NativeInvAutoEquipSlot(slot) for the Details button and NativeInvAutoEquipSlot(-1) for the ALL banner.
                             if(pending.command==f::equipment_menu::MainPageCommand::request_auto_equip) {
+                                playMenuUiCue("MenuConfirm");
                                 if(!runtimeEquipment->auto_equip_slot(pending.source_slot,error))
                                     std::cerr<<"Equipment AutoEquip diagnostic: "<<error<<'\n';
                                 else std::cout<<"Equipment AutoEquip slot="<<pending.source_slot<<" -> "<<f::equipment_menu::describe_equipment(*sharedCharacter)<<'\n';
@@ -5979,32 +6661,22 @@ int main(int argc,char** argv) {
                                     std::cerr<<"Equipment AutoEquip diagnostic: "<<error<<'\n';
                                 else std::cout<<"Equipment AutoEquip ALL -> "<<f::equipment_menu::describe_equipment(*sharedCharacter)<<'\n';
                             } else if(pending.command==f::equipment_menu::MainPageCommand::request_transmute||pending.command==f::equipment_menu::MainPageCommand::request_drop) {
-                                // P14 EQUIP: NativeInvTransmuteItem / NativeInvDropItem on the selected Details row. The original asks menu_confirm2
-                                // first (GAMEPLAYMENUS_TRANSMUTE_QUESTION / _DROP_QUESTION); that confirmation popup is not ported yet (EQUIP report).
                                 const bool transmute=pending.command==f::equipment_menu::MainPageCommand::request_transmute;
-                                const auto listIndex=runtimeEquipmentPage->details_selected_index();
-                                const auto goldBefore=sharedCharacter->gold;
                                 const auto ownedAt=std::find_if(sharedCharacter->inventory.begin(),sharedCharacter->inventory.end(),[&](const f::InventoryItem& item){return item.instance_id==pending.selected_instance_id;});
-                                const std::string definition=ownedAt==sharedCharacter->inventory.end()?std::string("?"):ownedAt->definition_id;
-                                bool done=false;std::int32_t amount=0;
-                                if(ownedAt==sharedCharacter->inventory.end())error="Selected item is not owned";
-                                else if(transmute) {
-                                    done=equipmentTransmuteAmount&&equipmentTransmuteAmount(*ownedAt,amount,error)&&
-                                        f::equipment_menu::transmute_inventory_item(*sharedCharacter,pending.selected_instance_id,amount,error);
-                                    if(!equipmentTransmuteAmount&&error.empty())error="Transmute value owner is unavailable";
-                                } else if(worldItems&&combatSession&&combatSession->actor(combatSession->player_id())) {
-                                    // Integration (P14 EQUIP + DROPS): the real world-item store publishes the dropped unit at the player.
-                                    const auto* dropper=combatSession->actor(combatSession->player_id());
-                                    f::loot::RuntimeWorldItemIdV1 publishedDrop=f::loot::invalid_runtime_world_item_v1;
-                                    done=f::loot::drop_item_to_world(*worldItems,*sharedCharacter,pending.selected_instance_id,1,
-                                        {dropper->transform.position[0],dropper->transform.position[1],dropper->transform.position[2]},combatSession->player_id(),publishedDrop,error);
-                                } else done=f::equipment_menu::drop_inventory_item(*sharedCharacter,pending.selected_instance_id,error);
-                                if(!done)std::cerr<<(transmute?"Equipment Transmute diagnostic: ":"Equipment Drop diagnostic: ")<<error<<" instance="<<pending.selected_instance_id<<'\n';
-                                else {
-                                    if(transmute)std::cout<<"Equipment Transmute instance="<<pending.selected_instance_id<<" item="<<definition<<" gold "<<goldBefore<<" -> "<<sharedCharacter->gold<<" amount="<<amount<<'\n';
-                                    else std::cout<<"Equipment Drop instance="<<pending.selected_instance_id<<" item="<<definition<<" -> world item"<<'\n';
-                                    if(!runtimeEquipmentPage->reselect_details_near(listIndex,error))throw std::runtime_error("Equipment Details reselection: "+error);
-                                }
+                                if(ownedAt==sharedCharacter->inventory.end())throw std::runtime_error("Selected item is no longer owned");
+                                std::int32_t amount=0;
+                                if(transmute&&(!equipmentTransmuteAmount||!equipmentTransmuteAmount(*ownedAt,amount,error)))throw std::runtime_error(error.empty()?"Transmute value owner is unavailable":error);
+                                const std::string symbol=transmute?"GAMEPLAYMENUS_TRANSMUTE_QUESTION":"GAMEPLAYMENUS_DROP_QUESTION";
+                                std::string itemName;if(!itemDisplayName(*ownedAt,itemName,error))throw std::runtime_error("Equipment confirmation item name: "+error);
+                                dh2::ui::HudTextV1* promptText=nullptr;dh2::ui::HudTextEnvironmentV1 promptEnv;
+                                if(!menuLocalization.bind_profile(&state,error)||!menuLocalization.borrow_text(promptText,promptEnv,error)||!promptText)throw std::runtime_error("Equipment confirmation text owner: "+error);
+                                const std::vector<dh2::ui::LocalizationArgumentV1> args{{0.f,true,itemName},{0.f,true,transmute?std::to_string(amount):std::string()}};
+                                if(!promptText->parsed_string_v4(symbol,args,promptEnv,equipmentConfirmationText,error))throw std::runtime_error("Equipment confirmation prompt: "+error);
+                                equipmentConfirmListIndex=runtimeEquipmentPage->details_selected_index();
+                                if(transmute)playMenuUiCue("MenuSelect");
+                                if(!equipmentActionConfirmation.open(transmute?f::equipment_menu::confirmation_v1::Action::transmute:f::equipment_menu::confirmation_v1::Action::drop,
+                                    *ownedAt,pending.source_slot,amount,equipmentSourceVisitEpoch,error))throw std::runtime_error("Equipment confirmation open: "+error);
+                                if(!transmute)playMenuUiCue("MenuConfirm");
                             } else std::cerr<<"Equipment action requires a gameplay owner: command="<<static_cast<int>(pending.command)<<" instance="<<pending.selected_instance_id<<'\n';
                         } else if(!error.empty())throw std::runtime_error(error);
                         f::equipment_menu::RuntimeEquipmentRenderChangeV1 changed;
@@ -6412,8 +7084,8 @@ int main(int argc,char** argv) {
                 bindCombatText();
                 if(runtimeAudio&&!runtimeAudio->bind(combatSession,error))
                     std::cerr<<"Audio reload diagnostic: "<<error<<'\n';
-                bindEquipmentPage();
                 bindDeathRewards();
+                bindEquipmentPage();
                 bindContainerLoot();
                 bindQuestRuntime(false); // P16 QUESTS (P17 DOORS2: no bind banners on reload)
                 bindSourcePresentations();
@@ -6442,6 +7114,7 @@ int main(int argc,char** argv) {
                 }
             }
             if((pressed(VK_F9)||drawn==options.loadFrame)&&!campaignSaveRefused("Restore")&&checkpointAllowed("Restore")) {
+                traceState("restore-before");
                 scriptRoutes.clear(); // restored actor bindings must not inherit an earlier session's movement goals
                 if(options.combatText)combatText.clear_for_reload();
                 if(combatSession) {
@@ -6451,6 +7124,7 @@ int main(int argc,char** argv) {
                     const auto restorePath=continueRestore?f::transitions::level_world_path(options.save,options.level.generic_string()):options.liveSave;
                     if(continueRestore)std::cout<<"Continue restore frame="<<drawn<<" path="<<restorePath.generic_string()<<'\n';
                     f::GameSave snapshot;if(!f::load_game(restorePath,snapshot,error))throw std::runtime_error("Read live save: "+error);
+                    if(!migrateAdmittedActors(snapshot,error))throw std::runtime_error("Live save authored-actor migration: "+error);
                     if(!combatSession->detach_for_restore([&](std::string& e) {
                         retireSourceEffects();
                         clearNativeBodies();
@@ -6479,13 +7153,14 @@ int main(int argc,char** argv) {
                     if(options.sourceCamera&&!originalCamera.reset(restoredAnchor,error))throw std::runtime_error(error);
                     if(runtimeAudio&&!runtimeAudio->bind(combatSession,error))
                         std::cerr<<"Audio restore diagnostic: "<<error<<'\n';
-                    bindEquipmentPage();
                     bindDeathRewards();
+                    bindEquipmentPage();
                     bindContainerLoot();
                     bindQuestRuntime(false); // P16 QUESTS (P17 DOORS2: restore shows no bind banners)
                     bindSourcePresentations();
                     skillCastCoordinator=std::make_unique<f::generic_skills::RuntimeSkillCastCoordinatorV1>();lastSkillPhase=-1;lastSkillGeneration=0;
                     faeryCooldownClock={};faeryCooldownClock.binding_lease=combatSession->actor_binding_lease();faeryCooldownClock.has_binding_lease=true;faeryCooldownClock.session_update_serial=combatSession->update_serial();
+                    traceState("restore-after");
                     std::cout<<"Restored live checkpoint frame="<<drawn<<" HP="<<player->health<<" RNG="<<snapshot.random.seed<<'/'<<snapshot.random.calls<<'\n';
                 } else if(!f::load_character(options.save,state,error))std::cerr<<error<<'\n';else std::cout<<"Restored character\n";
             }
@@ -6500,7 +7175,7 @@ int main(int argc,char** argv) {
             gameplayWasPaused=gameplayPaused;if(gameplayPaused)++gameplayPausedFrames;
             const float speed=float(gameplayDt)*extent*.4f;
             if(!motor)freeCamera.move((window.key_down('D')-window.key_down('A'))*speed,(window.key_down('E')-window.key_down('Q'))*speed,(window.key_down('W')-window.key_down('S'))*speed);
-            freeCamera.rotate(float(gameplayDt)*60*(window.key_down(VK_RIGHT)-window.key_down(VK_LEFT)),float(gameplayDt)*60*(window.key_down(VK_UP)-window.key_down(VK_DOWN)));
+            if(!gameplayPaused)freeCamera.rotate(float(gameplayDt)*60*(window.key_down(VK_RIGHT)-window.key_down(VK_LEFT)),float(gameplayDt)*60*(window.key_down(VK_UP)-window.key_down(VK_DOWN)));
             if(!gameplayPaused&&timeline.playing()) timeline.update(gameplayDt);
             gameplayInput=uiInput.actions;
             actionButtonHeld=uiInput.attack.held; // P16 HUDART: pressed ring of the action button
@@ -6708,6 +7383,18 @@ int main(int argc,char** argv) {
             bindSourcePhysicalTransitions();
             auto applyPlayerFrameControls=[&]() {
             if(sourcePhysicalFrameEnabled&&!gameplayPaused&&!playerControllerBlocked&&combatSession&&gameplayInput.targetSelect) {
+                if(stateTraceEnabled)for(const auto& placed:population.actors())if(const auto* candidate=combatSession->actor(placed.definition.stableId)) {
+                    const auto* traits=combatSession->world()->traits(candidate->id);
+                    const auto* source=combatSession->world()->combat_properties(candidate->id);
+                    const auto prop=[&](const char* name){const auto found=placed.definition.properties.find(name);return found==placed.definition.properties.end()?std::string("unknown"):found->second;};
+                    std::cout<<"STATE_TRACE edge=target-candidate frame="<<drawn<<" id="<<candidate->id<<" name="<<placed.definition.name
+                        <<" profile="<<placed.profileId<<" enabled="<<placed.enabled<<" present=1 alive="<<candidate->alive()
+                        <<" dead="<<candidate->source_dead<<" action="<<int(candidate->action)<<" state="<<combatSession->original_actor_state(candidate->id)
+                        <<" player="<<(traits?traits->is_player:0)<<" targetable="<<(traits?traits->targetable:0)
+                        <<" sourceState="<<(source?source->facts.original_state:-1)<<" interactive="<<prop("interactive")
+                        <<" zonable="<<prop("zonable")<<" enemy="<<prop("ai_enemy")
+                        <<" target="<<candidate->target_id<<" pos="<<candidate->transform.position[0]<<','<<candidate->transform.position[1]<<','<<candidate->transform.position[2]<<'\n';
+                }
                 f::ActorId selected=f::invalid_actor_id;
                 if(!combatSession->select_next_player_target(selected,error))throw std::runtime_error("Source target command: "+error);
                 // Commit one accepted PC selection to the real controller's
@@ -6760,8 +7447,19 @@ int main(int argc,char** argv) {
                                 if(combatSession->actor(id)||combatSession->world()->find_object(id))objectTargets.registry_order.push_back(id);
                                 if(combatSession->world()->find_object(id))objectTargets.authored_order.push_back(id);
                             }
+                            // The campaign lifecycle record is a typed persistence
+                            // owner enrolled after authored declarations, with no
+                            // gameplay interaction surface.
+                            for(const auto& pair:combatSession->world()->objects())
+                                if(f::campaign_host::CampaignHost::is_lifecycle_object(pair.second)) {
+                                    objectTargets.authored_order.push_back(pair.first);
+                                    objectTargets.registry_order.push_back(pair.first);
+                                }
                             objectTargets.facts=[&](const f::WorldObject& object,f::ActorId,
                                 f::generic_skills::SkillObjectTargetFactsV1& facts,std::string& e) {
+                                if(f::campaign_host::CampaignHost::is_lifecycle_object(object)) {
+                                    facts.interaction_type=-1;e.clear();return true;
+                                }
                                 for(std::size_t ci=0;ci<containerRuntime.size();++ci)if(containerRuntime.instance(ci).stableId==object.id) {
                                     // Container IsZonable39f534 -> MeetCondition38ab60=true.
                                     // The same typed runtime owns explicit DisableZoning during
@@ -6880,14 +7578,50 @@ int main(int argc,char** argv) {
                 }
                 std::cout<<"Source Faery key=4 frame="<<drawn<<" slot="<<selected.faery_slot<<" sequence="<<selected.animation_sequence_id<<" generation="<<receipt.generation<<" phase="<<int(receipt.phase)<<" MP="<<state.stats.resource<<" diagnostic="<<(castError.empty()?receipt.detail:castError)<<'\n';
             }
-            if(!gameplayPaused&&!playerControllerBlocked&&combatSession&&uiInput.potion.pressed) {
+            if(!gameplayPaused&&combatSession&&uiInput.potion.pressed) {
                 f::inventory::RuntimePotionUseReceiptV1 receipt;std::string potionError;
-                potionDebug.error.clear();potionDebug.strings.clear();
-                const f::inventory::RuntimePotionUseServicesV1 services{&locomotionItems,&menuSkillPropertyRules,&potionDebugServices};
-                const bool used=potionUse.dispatch(*combatSession,combatSession->player_id(),state,uiInput.potion,services,receipt,potionError);
-                std::cout<<"Source potion key=5 frame="<<drawn<<" result="<<int(receipt.result)<<" consumed="<<receipt.consumed<<" quantity="<<receipt.quantity_before<<"->"<<receipt.quantity_after<<" HPraw="<<receipt.hp_before<<"->"<<receipt.hp_after<<" MPraw="<<receipt.mp_before<<"->"<<receipt.mp_after<<" diagnostic="<<potionError;
-                if(!used&&!potionDebug.error.empty())std::cout<<" sourceDebug="<<potionDebug.error;
-                std::cout<<'\n';
+                bool dispatched=false;
+                const auto* actor=combatSession->actor(combatSession->player_id());
+                std::int16_t count=0;
+                bool potionIdentityAmbiguous=false;
+                for(const auto& item:state.inventory) {
+                    if(item.definition_id!="Potion0")continue;
+                    if(potionIdentityAmbiguous){count=0;break;}
+                    potionIdentityAmbiguous=true;
+                    count=static_cast<std::int16_t>(item.quantity&0xffffu);
+                }
+                const bool hpBelow=actor&&actor->max_health>0&&
+                    static_cast<int>(actor->health/actor->max_health)<1;
+                const bool mpBelow=actor&&actor->max_resource>0&&
+                    static_cast<int>(actor->resource/actor->max_resource)<1;
+                // The native wrapper requires a current player pointer, stock,
+                // and at least one non-full vital; it does not test IsDead.
+                const bool outerAdmitted=actor&&count>0&&(hpBelow||mpBelow);
+                if(playerControllerBlocked) {
+                    // Controller locks/death belong to Cmd_UsePotion, so they
+                    // suppress mutation but not the caller's following cue.
+                    std::cout<<"Source potion key=5 frame="<<drawn<<" result=controller_command_refused outerAdmitted="<<outerAdmitted
+                             <<" consumed=0 controllerBlocked=1 playerPresent="<<bool(actor)<<" alive="<<(actor?actor->alive():false)<<" HP="<<(actor?actor->health:0)<<'/'<<(actor?actor->max_health:0)
+                             <<" MP="<<(actor?actor->resource:0)<<'/'<<(actor?actor->max_resource:0)<<" stock="<<count<<'\n';
+                } else {
+                    potionDebug.error.clear();potionDebug.strings.clear();
+                    const f::inventory::RuntimePotionUseServicesV1 services{&locomotionItems,&menuSkillPropertyRules,&potionDebugServices};
+                    dispatched=potionUse.dispatch(*combatSession,combatSession->player_id(),state,uiInput.potion,services,receipt,potionError);
+                    std::cout<<"Source potion key=5 frame="<<drawn<<" result="<<int(receipt.result)<<" consumed="<<receipt.consumed<<" quantity="<<receipt.quantity_before<<"->"<<receipt.quantity_after<<" HPraw="<<receipt.hp_before<<"->"<<receipt.hp_after<<" MPraw="<<receipt.mp_before<<"->"<<receipt.mp_after<<" diagnostic="<<potionError;
+                    if(!dispatched&&!potionDebug.error.empty())std::cout<<" sourceDebug="<<potionDebug.error;
+                    std::cout<<'\n';
+                }
+                // The source caller plays plain PotionDrink after Cmd_UsePotion,
+                // regardless of whether its controller command mutates state.
+                if(outerAdmitted&&runtimeAudio) {
+                    std::string soundError;const auto cue=runtimeAudio->play_named_plain_result("PotionDrink",soundError);
+                    std::cout<<"Potion sound name=PotionDrink ordinal="<<cue.ordinal<<" uid="<<cue.uid
+                             <<" token="<<cue.token<<" status="<<f::audio::named_ui_cue_status_v1(cue.status)<<" frame="<<drawn;
+                    if(!soundError.empty())std::cout<<" detail="<<soundError;std::cout<<'\n';
+                }
+            } else if(uiInput.potion.pressed) {
+                std::cout<<"Source potion key=5 frame="<<drawn<<" result=outer_gate_rejected gameplayPaused="<<gameplayPaused
+                         <<" controllerBlocked="<<playerControllerBlocked<<" session="<<bool(combatSession)<<'\n';
             }
             if(playerControllerBlocked) {
                 // Attack requests reach the shared source admission wrapper.
@@ -7009,6 +7743,7 @@ int main(int argc,char** argv) {
                         std::cout<<"Character menu audio clock frame="<<drawn<<" generation="<<audioClock->output_generation<<" deviceSamples="<<audioClock->device_samples<<" qpcNs="<<audioClock->qpc_monotonic_ns<<'\n';
                 }
                 {DH_PROBE("combatSession.update");if(!gameplayPaused&&!combatSession->update(gameplayDt,gameplayInput,options.actorPosition,motor?motor->state().facingRadians:0,error,audioClock))throw std::runtime_error("Live combat: "+error);}
+                if(stateTraceEnabled&&drawn%30==0)traceState("post-update");
                 // P16 SPACEBTN: the OOI candidates that are not combat actors are re-registered each frame from their owners:
                 // containers (source GetInteractionType: openable 0, destructible 8; broken destructibles are not candidates)
                 // and talk NPCs (type 3, Character so they queue with the characters, as in the source flag order).
@@ -7149,9 +7884,21 @@ int main(int argc,char** argv) {
                         if(sourceScopes){bool infinite=false;std::string debugError;if(sourceScopes->debug_switch("InfiniteInventory",infinite,debugError))pickupRules.infinite_inventory=infinite;}
                         std::string pickedId;if(worldItems->inspect(id,targetEntry,targetError)&&targetEntry.authored_item)pickedId=worldItems->tables().items().identifiers.at(std::size_t(targetEntry.source_outcome.item_id));
                         const auto goldBefore=state.gold;const auto stacksBefore=state.inventory.size();
+                        const auto storeBefore=worldItems->size();
+                        const auto playerPosition=itemPlayer?itemPlayer->transform.position:std::array<float,3>{};
                         f::loot::WorldItemPickupReportV1 pickup;
                         const bool picked=f::loot::interact_world_item_v1(*worldItems,id,combatSession->player_id(),true,itemPlayer,pickupServices,pickupRules,pickup);
                         std::cout<<"World item pickup frame="<<drawn<<" item="<<id<<" id="<<pickedId<<" reason="<<reason<<" outcome="<<int(pickup.outcome)<<" picked="<<picked<<" gold="<<goldBefore<<"->"<<state.gold<<" stacks="<<stacksBefore<<"->"<<state.inventory.size()<<" store="<<worldItems->size()<<'\n';
+                        if(stateTraceEnabled) {
+                            const auto dx=targetEntry.source_position[0]-playerPosition[0],dy=targetEntry.source_position[1]-playerPosition[1],dz=targetEntry.source_position[2]-playerPosition[2];
+                            std::cout<<"STATE_TRACE edge=item-interact frame="<<drawn<<" item="<<id<<" source="<<pickedId<<" reason="<<reason
+                                <<" alive="<<(itemPlayer&&itemPlayer->alive())<<" moving="<<(itemPlayer&&itemPlayer->action==f::CharacterAction::moving)
+                                <<" playerPos="<<playerPosition[0]<<','<<playerPosition[1]<<','<<playerPosition[2]<<" itemPos="<<targetEntry.source_position[0]<<','<<targetEntry.source_position[1]<<','<<targetEntry.source_position[2]
+                                <<" delta="<<dx<<','<<dy<<','<<dz<<" qty="<<targetEntry.quantity<<" owner="<<targetEntry.owner_actor
+                                <<" protectedPlayer="<<combatSession->player_id()<<" ownerProtectMs="<<targetEntry.owner_protect_ms
+                                <<" outcome="<<int(pickup.outcome)<<" picked="<<picked<<" gold="<<goldBefore<<"->"<<state.gold
+                                <<" inventory="<<stacksBefore<<"->"<<state.inventory.size()<<" store="<<storeBefore<<"->"<<worldItems->size()<<" error="<<targetError<<'\n';
+                        }
                         std::string textError;
                         if(picked) {
                             if(worldItemTarget==id)worldItemTarget=f::loot::invalid_runtime_world_item_v1;
@@ -7178,6 +7925,26 @@ int main(int argc,char** argv) {
                     }
                     const auto previousTarget=worldItemTarget;
                     worldItemTarget=itemPlayer&&itemPlayer->alive()?f::loot::select_world_item_target_v1(*worldItems,itemPlayer->transform.position):f::loot::invalid_runtime_world_item_v1;
+                    if(stateTraceEnabled&&drawn%30==0&&!worldItems->entries().empty()) {
+                        auto nearest=worldItems->entries().begin();float nearestDistance=std::numeric_limits<float>::infinity();
+                        for(auto candidate=worldItems->entries().begin();candidate!=worldItems->entries().end();++candidate) {
+                            const float dx=candidate->second.source_position[0]-(itemPlayer?itemPlayer->transform.position[0]:0.f);
+                            const float dy=candidate->second.source_position[1]-(itemPlayer?itemPlayer->transform.position[1]:0.f);
+                            const float dz=candidate->second.source_position[2]-(itemPlayer?itemPlayer->transform.position[2]:0.f);
+                            const float distance=dx*dx+dy*dy+dz*dz;if(distance<nearestDistance){nearest=candidate;nearestDistance=distance;}
+                        }
+                        const auto& entry=nearest->second;
+                        const auto dx=entry.source_position[0]-(itemPlayer?itemPlayer->transform.position[0]:0.f);
+                        const auto dy=entry.source_position[1]-(itemPlayer?itemPlayer->transform.position[1]:0.f);
+                        const auto dz=entry.source_position[2]-(itemPlayer?itemPlayer->transform.position[2]:0.f);
+                        const auto itemName=entry.authored_item&&entry.source_outcome.item_id>=0?worldItems->tables().items().identifiers.at(std::size_t(entry.source_outcome.item_id)):std::string("?");
+                        std::cout<<"STATE_TRACE edge=item-nearest frame="<<drawn<<" item="<<nearest->first<<" source="<<itemName
+                            <<" alive="<<(itemPlayer&&itemPlayer->alive())<<" moving="<<(itemPlayer&&itemPlayer->action==f::CharacterAction::moving)
+                            <<" playerPos="<<(itemPlayer?itemPlayer->transform.position[0]:0)<<','<<(itemPlayer?itemPlayer->transform.position[1]:0)<<','<<(itemPlayer?itemPlayer->transform.position[2]:0)
+                            <<" itemPos="<<entry.source_position[0]<<','<<entry.source_position[1]<<','<<entry.source_position[2]<<" delta="<<dx<<','<<dy<<','<<dz
+                            <<" qty="<<entry.quantity<<" owner="<<entry.owner_actor<<" ownerProtectMs="<<entry.owner_protect_ms
+                            <<" contactsActive="<<(itemPlayer&&itemPlayer->alive())<<'\n';
+                    }
                     f::loot::RuntimeWorldItemEntryV1 targetEntry;std::string targetError;
                     if(worldItemTarget!=f::loot::invalid_runtime_world_item_v1&&worldItemTarget!=previousTarget&&worldItems->inspect(worldItemTarget,targetEntry,targetError))
                         std::cout<<"World item target frame="<<drawn<<" item="<<worldItemTarget<<" id="<<(targetEntry.authored_item?worldItems->tables().items().identifiers.at(std::size_t(targetEntry.source_outcome.item_id)):std::string("?"))<<" qty="<<targetEntry.quantity<<" position="<<targetEntry.source_position[0]<<","<<targetEntry.source_position[1]<<","<<targetEntry.source_position[2]<<'\n';
@@ -8177,7 +8944,9 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                         const auto sourceFlags=std::find_if(std::begin(f::character_menu::source_text_flag_rows_v1),std::end(f::character_menu::source_text_flag_rows_v1),[&](const auto& row) {
                             return row.movie==f::character_menu::SourceMenuMovieV1::character_menu&&row.field_character==text.field.character_id&&(!popupPage||row.page_character==popupPage);
                         });
-                        if((sourceFlags!=std::end(f::character_menu::source_text_flag_rows_v1)&&(sourceFlags->raw_flags&0x6000))||text.value.find('\n')!=std::string::npos) {
+                        const bool hasColorFontMarkup=text.value.find("<font ")!=std::string::npos||text.value.find("<FONT ")!=std::string::npos;
+                        if((sourceFlags!=std::end(f::character_menu::source_text_flag_rows_v1)&&(sourceFlags->raw_flags&0x6000))||
+                           text.value.find('\n')!=std::string::npos||hasColorFontMarkup) {
                             f::character_menu::MenuTextLayoutFieldV1 field;
                             field.page_character=sourceFlags==std::end(f::character_menu::source_text_flag_rows_v1)?0:sourceFlags->page_character;field.field_character=text.field.character_id;
                             field.local_rect=text.field.local_bounds;field.matrix=text.field.matrix;field.margins=text.field.margins;
@@ -8244,6 +9013,50 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                             drawMenuGlyph(text.field,baseline,glyph,0,handle->second,color);
                         }
                     }
+                    if(equipmentActionConfirmation.visible()) {
+                        // The source WarningBox is a modal display-list above the
+                        // whole page. Draw its dim layer and art after the page
+                        // (and its avatar/text), then its localized prompt last.
+                        const std::vector<f::OverlayTriangleVertex> dim{
+                            {0,0,0,0},{float(window.width()),0,0,0},{float(window.width()),float(window.height()),0,0},
+                            {0,0,0,0},{float(window.width()),float(window.height()),0,0},{0,float(window.height()),0,0}};
+                        if(!overlay.drawTriangles(dim,0,{0,0,0,191.f/255.f}))throw std::runtime_error("Equipment confirmation dim draw rejected");
+                        const auto& confirm=f::merchant::merchant_art().confirm;
+                        for(const auto& solid:confirm.solids)if(solid.after_bitmap_role.empty())drawMenuSolid(solid);
+                        for(const auto& batch:confirm.batches) {
+                            std::vector<f::OverlayTriangleVertex> vertices;
+                            for(const auto& v:batch.triangles)vertices.push_back({transform.x+v.x*transform.scale_x,transform.y+v.y*transform.scale_y,v.u,v.v});
+                            if(!overlay.drawTriangles(vertices,hudTexture))throw std::runtime_error("Equipment confirmation art draw rejected");
+                            for(const auto& solid:confirm.solids)if(solid.after_bitmap_role==batch.role)drawMenuSolid(solid);
+                        }
+                        for(const auto& field:confirm.text_fields)if(field.path.find("/confirm_msg/")!=std::string::npos&&!equipmentConfirmationText.empty()) {
+                            f::character_menu::MenuTextLayoutFieldV1 layoutField;
+                            layoutField.page_character=785;layoutField.field_character=field.character_id;layoutField.local_rect=field.local_bounds;
+                            layoutField.matrix=field.matrix;layoutField.margins=field.margins;layoutField.alignment=field.align;
+                            layoutField.source_height=field.source_height;layoutField.paragraph_leading=field.leading;
+                            layoutField.source_font_character=static_cast<std::uint16_t>(field.font_id);
+                            for(unsigned channel=0;channel<4;++channel)layoutField.source_rgba[channel]=field.rgba[channel]/255.f;
+                            layoutField.font_descent=0.f;layoutField.font_leading=0.f;
+                            if(const auto* font=f::character_menu::original_menu_font(field.font_id)){layoutField.font_descent=font->descent;layoutField.font_leading=font->leading;layoutField.define_font3=font->define_font3;}
+                            f::character_menu::MenuTextLayoutV1 layout;
+                            if(!f::character_menu::menu_text_layout_v1(layoutField,equipmentConfirmationText,[&](std::string_view value,float& advance,std::string& e) {
+                                f::HudGlyphRun measured;if(!targetFont.raster(std::string(value),int(layoutField.source_height),transform.scale,measured,e))return false;
+                                advance=measured.advance;return true;
+                            },layout,error))throw std::runtime_error("Equipment confirmation text layout: "+error);
+                            for(const auto& line:layout.lines) {
+                                float cursor=0.f;
+                                for(const auto& styled:line.runs) {
+                                    f::HudGlyphRun run;if(!targetFont.raster(styled.text,int(layoutField.source_height),transform.scale,run,error))throw std::runtime_error("Equipment confirmation glyphs: "+error);
+                                    for(const auto& glyph:run.glyphs)if(glyph.width>0&&glyph.height>0) {
+                                        const auto key=glyphTextureKey(glyph,"confirm-menu-glyph");
+                                        auto handle=textures.find(key);if(handle==textures.end()){auto texture=renderer.createTexture(glyph.image.width,glyph.image.height,glyph.image.rgba.data());if(!texture)throw std::runtime_error("Equipment confirmation glyph upload failed");handle=textures.emplace(key,texture).first;}
+                                        drawMenuGlyph(field,line.baseline,glyph,cursor,handle->second,styled.rgba);
+                                    }
+                                    cursor+=styled.advance;
+                                }
+                            }
+                        }
+                    }
                     ++menuDrawn;
                 }
                 // Preview 15 B049: "Confirm character point allocation?" over the Character menu (original WarningBox frame).
@@ -8301,6 +9114,12 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
         if(options.combatText)std::cout<<"Combat text final results="<<combatTextResults<<" labels="<<combatTextLabels<<" drawnFrames="<<combatTextDrawnFrames<<" active="<<combatText.active_count()<<"; original source snapshots and styles, full CUI call ordering remains incomplete\n";
         if(runtimeAudio) {
             runtimeAudio->summary();std::string audioError;
+            const auto pcm=f::audio::winmm_pcm_stats_v1();
+            if(pcm.enabled)std::cout<<"AUDIO_PCM endpoint=gameplay refills="<<pcm.refills<<" writeOk="<<pcm.write_ok
+                <<" writeFailed="<<pcm.write_failed<<" submittedFrames="<<pcm.submitted_frames<<" deviceFrames="<<pcm.device_frames
+                <<" mixerPeak="<<pcm.mixer_peak<<" mixerNonzero="<<pcm.mixer_nonzero_samples
+                <<" submittedPeak="<<pcm.submitted_peak<<" submittedNonzero="<<pcm.submitted_nonzero_samples
+                <<" silentOutput="<<pcm.silent_output<<" lastSignalFirstFrame="<<pcm.last_signal_first_frame<<'\n';
             if(!runtimeAudio->shutdown(audioError))std::cerr<<"Audio shutdown diagnostic: "<<audioError<<'\n';
         }
         equipmentRenderBindings.clear_textures();

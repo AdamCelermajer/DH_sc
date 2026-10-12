@@ -1,6 +1,7 @@
 #include "runtime_equipment_text_v1.hpp"
 
 #include "../inventory/source_item_descriptors.hpp"
+#include "../loot/world_drop_rules_v1.hpp"
 #include "../../../engine-ui/character_menu_potions_v4.hpp"
 #include "../../../engine-ui/item_text_owner_v5.hpp"
 
@@ -8,6 +9,8 @@
 #include <cstring>
 #include <limits>
 #include <set>
+#include <type_traits>
+#include <utility>
 
 namespace dh::foundation::equipment_menu {
 namespace {
@@ -26,6 +29,13 @@ std::int32_t source_transmute_value(std::int32_t value, std::int32_t raw_bonus,
         wrapped_multiply(signed_word(std::uint32_t(value) << 8), bonus) >> 8) >> 16;
     return amount < 1 ? 1 : amount;
 }
+template<class T,class=void> struct HasSourceItemMetadata : std::false_type {};
+template<class T> struct HasSourceItemMetadata<T,std::void_t<decltype(std::declval<const T&>().source)>>
+    : std::true_type {};
+template<class T> bool has_source_item_metadata(const T& item) {
+    if constexpr (HasSourceItemMetadata<T>::value) return item.source.has_value();
+    return false;
+}
 }
 
 struct RuntimeEquipmentTextProviderV1::State {
@@ -34,8 +44,10 @@ struct RuntimeEquipmentTextProviderV1::State {
     character_menu::MenuLocalization* localization{};
     dh2::ui::HudTextV1* text{};
     dh2::ui::HudTextEnvironmentV1 environment;
-    std::unique_ptr<dh2::ui::ItemTextOwnerV5> text_owner;
+    std::shared_ptr<dh2::ui::ItemTextOwnerV5> text_owner;
+    std::shared_ptr<const dh2::ui::CharacterMenuFontPaletteV1> font_palette;
     std::set<std::string> supported_unpowered;
+    RuntimeEquipmentInstanceResolverV1 resolve_instance;
     std::string potion_format;
 
     bool supported(const InventoryItem& inventory, const dh2::data::Item*& row,
@@ -58,39 +70,81 @@ struct RuntimeEquipmentTextProviderV1::State {
         return true;
     }
 
-    bool same_source_row(const InventoryItem& inventory, const dh2::data::Item& supplied,
-                         const dh2::data::Item*& row, std::string& error) const {
-        if (!supported(inventory, row, error)) return false;
-        if (std::memcmp(&row->record, &supplied.record, sizeof(row->record)) != 0) {
-            error = "Runtime equipment item row differs from the provider's original ItemTable";
+    bool present(const InventoryItem& inventory, const dh2::data::Item* supplied,
+                 inventory::SourceOwnedDescriptors& output, std::string& error) const {
+        if (!resolve_instance) {
+            error = "Runtime equipment canonical instance/bare classifier is unavailable";
             return false;
         }
-        return true;
-    }
-
-    bool descriptors(const InventoryItem& inventory, const dh2::data::Item* supplied,
-                     inventory::SourceDescriptors& output, std::string& error) const {
-        const dh2::data::Item* row{};
+        RuntimeEquipmentInstanceResolutionV1 resolution;
+        if (!resolve_instance(inventory, resolution, error)) {
+            if (error.empty()) error = "Runtime equipment canonical source resolver rejected the selected instance";
+            return false;
+        }
+        const auto source_id = dh2::data::item_id(*table, inventory.definition_id);
+        const dh2::data::Item* row = dh2::data::item(*table, source_id);
+        if (!row || dh2::data::item_type(*row) == 13 || !inventory.quantity ||
+            inventory.quantity > 32767) {
+            error = "Runtime equipment selected instance has no supported source Item row or quantity";
+            return false;
+        }
         if (supplied) {
-            if (!same_source_row(inventory, *supplied, row, error)) return false;
-        } else if (!supported(inventory, row, error)) {
-            return false;
+            if (std::memcmp(&row->record, &supplied->record, sizeof(row->record)) != 0) {
+                error = "Runtime equipment item row differs from the provider's original ItemTable";
+                return false;
+            }
         }
-        if (!text_owner) {
-            error = "Runtime equipment source HudText adapter is unavailable";
-            return false;
+        if (resolution.verified_bare) {
+            if (has_source_item_metadata(inventory)) {
+                error = "Generated/source inventory metadata cannot be classified as a bare ItemTable row";
+                return false;
+            }
+            const dh2::data::Item* bare_row{};
+            if (!supported(inventory, bare_row, error)) return false;
+            const auto& lease = resolution.lease;
+            if (lease.owner || lease.item || lease.powers || lease.text_owner || lease.owns) {
+                error = "Bare classification carries a source instance lease; refusing ambiguous downgrade";
+                return false;
+            }
+            inventory::SourceDescriptors base;
+            if (!text_owner || !inventory::source_bare_item_descriptors(
+                    inventory, *table, text_owner->services(), base, error)) return false;
+            const auto product = std::uint32_t(row->record.words[27]) *
+                                 std::uint32_t(row->record.words[28]);
+            std::int32_t source_value{};
+            std::memcpy(&source_value, &product, sizeof(source_value));
+            inventory::SourceOwnedDescriptors next;
+            next.base = std::move(base);
+            next.quantity = static_cast<std::int32_t>(inventory.quantity);
+            next.value = source_value;
+            output = std::move(next);
+            error.clear();
+            return true;
         }
-        return inventory::source_bare_item_descriptors(inventory, *table,
-                                                       text_owner->services(), output, error);
+        auto lease = std::move(resolution.lease);
+        inventory::SourceInstanceDescriptorProvider actual(*table,
+            [instance_id = inventory.instance_id, lease = std::move(lease)](
+                    const std::string& requested, inventory::SourceInstanceLease& output_lease,
+                    std::string& message) mutable {
+                if (requested != instance_id) {
+                    message = "Runtime equipment source resolver requested a different item instance";
+                    return false;
+                }
+                output_lease = lease;
+                message.clear();
+                return true;
+            });
+        return actual.present(inventory, output, error);
     }
 
     bool name(const InventoryItem& inventory, const dh2::data::Item* supplied,
               std::string& output, std::string& error) const {
-        inventory::SourceDescriptors value;
-        if (!descriptors(inventory, supplied, value, error)) return false;
-        output = std::move(value.name);
-        error.clear();
-        return true;
+        inventory::SourceOwnedDescriptors value;
+        if (!present(inventory, supplied, value, error)) return false;
+        if (!font_palette) {error="Runtime equipment actual FontPalette owner is unavailable";return false;}
+        return dh2::ui::character_menu_item_name_color_v1(value.base.name,
+            loot::item_power_font_palette_row_v1(value.powers.size()),
+            *font_palette, output, error);
     }
 
     bool symbol(const std::string& key, std::string& output, std::string& error) const {
@@ -103,21 +157,26 @@ struct RuntimeEquipmentTextProviderV1::State {
 
     bool details(const std::string& field, const InventoryItem& inventory,
                  std::string& output, std::string& error) const {
-        inventory::SourceDescriptors value;
-        if (!descriptors(inventory, nullptr, value, error)) return false;
-        if (field.find("ItemInfo1") != std::string::npos) output = std::move(value.stats);
-        else if (field.find("ItemReq") != std::string::npos) output = std::move(value.requirements);
+        inventory::SourceOwnedDescriptors value;
+        if (!present(inventory, nullptr, value, error)) return false;
+        std::string result;
+        if (field.find("ItemInfo1") != std::string::npos) result = value.base.stats;
+        else if (field.find("ItemReq") != std::string::npos) result = value.base.requirements;
         else if (field.find("ItemInfo2") != std::string::npos ||
                  field.find("ItemInfo3") != std::string::npos ||
                  field.find("ItemInfo4") != std::string::npos ||
                  field.find("ItemInfo5") != std::string::npos) {
-            // These are blank for a certified bare definition. A generated
-            // instance needs the source-owned power descriptor provider.
-            output.clear();
+            for (unsigned i = 0; i < 4; ++i) {
+                if (field.find("ItemInfo" + std::to_string(i + 2)) != std::string::npos) {
+                    if (i < value.powers.size()) result = value.powers[i];
+                    break;
+                }
+            }
         } else {
             error = "Runtime equipment source details field is outside the bare item contract";
             return false;
         }
+        output = std::move(result);
         error.clear();
         return true;
     }
@@ -153,18 +212,15 @@ struct RuntimeEquipmentTextProviderV1::State {
             error = "Transmute amount request is stale or differs from the currently owned item";
             return false;
         }
-        const dh2::data::Item* row{};
-        if (!supported(selected, row, error)) return false;
+        inventory::SourceOwnedDescriptors item_descriptors;
+        if (!present(selected, nullptr, item_descriptors, error)) return false;
         if (!text_owner || !text) {
             error = "Runtime equipment source HudText adapter is unavailable for transmute formatting";
             return false;
         }
 
         const auto source_id = dh2::data::item_id(*table, selected.definition_id);
-        const auto product = std::uint32_t(row->record.words[27]) *
-                             std::uint32_t(row->record.words[28]);
-        std::int32_t source_value{};
-        std::memcpy(&source_value, &product, sizeof(source_value));
+        const auto source_value = item_descriptors.value;
         dh2::data::ItemInstanceV1 source_item;
         source_item.id = source_id;
         source_item.value = source_value;
@@ -238,6 +294,7 @@ bool RuntimeEquipmentTextProviderV1::bind(
         character_menu::MenuLocalization& localization,
         const CharacterState& same_character_state,
         RuntimeEquipmentBareDefinitionPolicyV1 policy,
+        RuntimeEquipmentInstanceResolverV1 resolve_instance,
         RuntimeEquipmentOptionsV1& options,
         RuntimeEquipmentPageBindingsV1& page,
         std::string& error) {
@@ -254,6 +311,13 @@ bool RuntimeEquipmentTextProviderV1::bind(
     next->table = &table;
     next->profile = &same_character_state;
     next->localization = &localization;
+    if (!resolve_instance) {
+        error = "Runtime equipment requires a canonical source-instance/verified-bare resolver";
+        return false;
+    }
+    next->resolve_instance = std::move(resolve_instance);
+    if (!policy.font_palette) {error="Runtime equipment requires genuine source FontPalette rows";return false;}
+    next->font_palette=std::move(policy.font_palette);
     for (auto& definition : policy.supported_unpowered_definition_ids) {
         if (definition.empty() || !next->supported_unpowered.insert(definition).second) {
             error = "Runtime equipment unpowered-definition policy has an empty or duplicate ID";
@@ -273,8 +337,19 @@ bool RuntimeEquipmentTextProviderV1::bind(
         return false;
     }
     next->text = text;
-    next->text_owner = std::make_unique<dh2::ui::ItemTextOwnerV5>(
-        table, source_characters, *text, next->environment);
+    next->text_owner = policy.existing_text_owner ? std::move(policy.existing_text_owner) :
+        std::make_shared<dh2::ui::ItemTextOwnerV5>(
+            table, source_characters, *text, next->environment);
+    auto shared_services = next->text_owner->services();
+    for (const auto& definition : next->supported_unpowered) {
+        dh2::data::ItemInstanceV1 identity;
+        identity.id = dh2::data::item_id(table, definition);
+        if (!shared_services.metadata || shared_services.metadata(
+                shared_services.context, identity, error) != dh2::data::item(table, identity.id)) {
+            error = "Runtime equipment shared ItemText wrapper belongs to a different ItemTable owner";
+            return false;
+        }
+    }
     bool source_null = false;
     if (!dh2::ui::character_menu_potion_localized_format_v4(
             *text, next->environment, next->potion_format, source_null, error)) return false;
@@ -297,11 +372,21 @@ bool RuntimeEquipmentTextProviderV1::bind(
     if (!page.inventory_text.item_name) {
         page.inventory_text.item_name = [next](const inventory::Row& row,
                 std::string& output, std::string& message) {
-            InventoryItem item;
-            item.instance_id = row.instance_id;
-            item.definition_id = row.definition_id;
-            item.quantity = row.quantity;
-            return next->name(item, nullptr, output, message);
+            if (!next->profile) {
+                message = "Runtime equipment inventory row has no current CharacterState owner";
+                return false;
+            }
+            const auto current = std::find_if(next->profile->inventory.begin(),
+                next->profile->inventory.end(), [&](const InventoryItem& item) {
+                    return item.instance_id == row.instance_id;
+                });
+            if (current == next->profile->inventory.end() ||
+                current->definition_id != row.definition_id ||
+                current->quantity != row.quantity) {
+                message = "Runtime equipment inventory row is stale or differs from current owned instance";
+                return false;
+            }
+            return next->name(*current, nullptr, output, message);
         };
     }
     if (!page.inventory_text.symbol) {
@@ -332,6 +417,13 @@ bool RuntimeEquipmentTextProviderV1::bind(
         page.details_text.item_details = [next](const std::string& field,
                 const InventoryItem& item, std::string& output, std::string& message) {
             return next->details(field, item, output, message);
+        };
+    }
+    if (!page.source_instance_current) {
+        page.source_instance_current = [next](const InventoryItem& item,
+                const dh2::data::Item& row, std::string& message) {
+            inventory::SourceOwnedDescriptors current;
+            return next->present(item, &row, current, message);
         };
     }
     state_ = std::move(next);

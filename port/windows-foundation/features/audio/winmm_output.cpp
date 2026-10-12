@@ -13,6 +13,7 @@
 namespace dh::foundation::audio {
 // Test/verification aid: DH_AUDIO_SILENT=1 mixes and queues as usual but submits zeros (no sound).
 [[maybe_unused]] static bool silent_output(){static const bool v=[]{const char* e=std::getenv("DH_AUDIO_SILENT");return e&&*e&&*e!='0';}();return v;}
+[[maybe_unused]] static bool pcm_metrics_enabled(){static const bool v=[]{const char* e=std::getenv("DH_AUDIO_PCM_METRICS");return e&&*e&&*e!='0';}();return v;}
 #ifdef _WIN32
 namespace {
 constexpr unsigned kBuffers=kWinmmBufferCount;
@@ -21,6 +22,9 @@ constexpr unsigned kSamples=kFrames*2;
 // Process-wide pump diagnostics (B039). Written only by the single pump owner.
 std::atomic<std::uint64_t> g_pump_updates{},g_pump_refills{},g_pump_underruns{},g_pump_max_gap_ns{},g_pump_last_ns{},g_pump_first_ns{},g_pump_gaps_over_40ms{};
 std::atomic<int> g_pump_thread_priority{};
+std::atomic<std::uint64_t> g_pcm_refills{},g_pcm_write_ok{},g_pcm_write_failed{},g_pcm_frames{},g_pcm_device_frames{},g_pcm_mix_nonzero{},g_pcm_submit_nonzero{},g_pcm_last_signal_frame{};
+std::atomic<float> g_pcm_mix_peak{};
+std::atomic<unsigned> g_pcm_submit_peak{};
 std::uint64_t pump_now_ns() {
  return std::uint64_t(std::chrono::duration_cast<std::chrono::nanoseconds>(
   std::chrono::steady_clock::now().time_since_epoch()).count());
@@ -51,6 +55,12 @@ bool WinmmAudioOutput::open(std::string& error){
  if(opened())return true;WAVEFORMATEX f{};f.wFormatTag=WAVE_FORMAT_PCM;f.nChannels=2;f.nSamplesPerSec=48000;f.wBitsPerSample=16;f.nBlockAlign=4;f.nAvgBytesPerSec=192000;
  auto result=waveOutOpen(&impl_->device,WAVE_MAPPER,&f,0,0,CALLBACK_NULL);if(result!=MMSYSERR_NOERROR){impl_->device=nullptr;error="Required WinMM output: "+std::to_string(result);return false;}
  if(!impl_->mixer.set_rate(f.nSamplesPerSec)){error="Required stopped mixer before WinMM open";close();return false;}
+ // The exclusive output handoff closes the previous endpoint before open.
+ // Reset diagnostics here so frontend PCM cannot masquerade as gameplay PCM.
+ if(pcm_metrics_enabled()){
+  g_pcm_refills=0;g_pcm_write_ok=0;g_pcm_write_failed=0;g_pcm_frames=0;g_pcm_device_frames=0;
+  g_pcm_mix_nonzero=0;g_pcm_submit_nonzero=0;g_pcm_last_signal_frame=0;g_pcm_mix_peak=0;g_pcm_submit_peak=0;
+ }
  impl_->base_frame=impl_->mixer.output_frame();impl_->position_wrap=0;impl_->last_position=0;
  for(unsigned i=0;i<kBuffers;++i){auto& h=impl_->headers[i];h={};h.lpData=reinterpret_cast<char*>(impl_->pcm[i].data());h.dwBufferLength=kSamples*sizeof(std::int16_t);result=waveOutPrepareHeader(impl_->device,&h,sizeof h);if(result!=MMSYSERR_NOERROR){error="WinMM prepare: "+std::to_string(result);close();return false;}impl_->prepared[i]=true;}
  return true;
@@ -74,9 +84,23 @@ bool WinmmAudioOutput::update(std::string& error){
  }
  std::array<float,kSamples> mixed{};
  for(unsigned i=0;i<kBuffers;++i){auto& h=impl_->headers[i];if(impl_->submitted[i]&&!(h.dwFlags&WHDR_DONE))continue;
+  const bool metrics=pcm_metrics_enabled();
+  const auto first_frame=metrics?impl_->mixer.output_frame():0;
+  std::uint64_t mix_nonzero=0,submit_nonzero=0;float mix_peak=0;unsigned submit_peak=0;
   impl_->mixer.render(mixed.data(),kFrames);
-  for(unsigned j=0;j<kSamples;++j){float v=std::isfinite(mixed[j])?std::clamp(mixed[j],-1.f,1.f):0.f;impl_->pcm[i][j]=silent_output()?std::int16_t(0):std::int16_t(v*32767.f);}
-  auto result=waveOutWrite(impl_->device,&h,sizeof h);if(result!=MMSYSERR_NOERROR){error="WinMM write: "+std::to_string(result);return false;}impl_->submitted[i]=true;
+  for(unsigned j=0;j<kSamples;++j){float v=std::isfinite(mixed[j])?std::clamp(mixed[j],-1.f,1.f):0.f;impl_->pcm[i][j]=silent_output()?std::int16_t(0):std::int16_t(v*32767.f);
+   if(metrics){const float peak=std::abs(v);if(peak>0)++mix_nonzero;mix_peak=std::max(mix_peak,peak);
+    const auto p=unsigned(std::abs(int(impl_->pcm[i][j])));if(p)++submit_nonzero;submit_peak=std::max(submit_peak,p);}
+  }
+  auto result=waveOutWrite(impl_->device,&h,sizeof h);
+  if(metrics){g_pcm_refills.fetch_add(1,std::memory_order_relaxed);g_pcm_mix_nonzero.fetch_add(mix_nonzero,std::memory_order_relaxed);
+   if(mix_peak>g_pcm_mix_peak.load(std::memory_order_relaxed))g_pcm_mix_peak.store(mix_peak,std::memory_order_relaxed);
+   if(mix_nonzero)g_pcm_last_signal_frame.store(first_frame,std::memory_order_relaxed);
+   if(result==MMSYSERR_NOERROR){g_pcm_write_ok.fetch_add(1,std::memory_order_relaxed);g_pcm_frames.fetch_add(kFrames,std::memory_order_relaxed);
+    g_pcm_submit_nonzero.fetch_add(submit_nonzero,std::memory_order_relaxed);if(submit_peak>g_pcm_submit_peak.load(std::memory_order_relaxed))g_pcm_submit_peak.store(submit_peak,std::memory_order_relaxed);
+   }else g_pcm_write_failed.fetch_add(1,std::memory_order_relaxed);
+  }
+  if(result!=MMSYSERR_NOERROR){error="WinMM write: "+std::to_string(result);return false;}impl_->submitted[i]=true;
   g_pump_refills.fetch_add(1,std::memory_order_relaxed);
  }return true;
 #else
@@ -104,7 +128,7 @@ bool winmm_monotonic_ns(std::int64_t& ns,std::string& error){
 bool WinmmAudioOutput::device_clock(std::uint64_t generation,dh2::audio::AudioDeviceClockV40& clock,std::string& error){clock={};
 #ifdef _WIN32
  if(!opened()||!generation){error="Required live WinMM clock generation";return false;}MMTIME time{};time.wType=TIME_SAMPLES;auto status=waveOutGetPosition(impl_->device,&time,sizeof time);if(status!=MMSYSERR_NOERROR||time.wType!=TIME_SAMPLES){error="Required actual WinMM sample timestamp: "+std::to_string(status);return false;}std::int64_t ns{};if(!winmm_monotonic_ns(ns,error))return false;
- if(time.u.sample<impl_->last_position)impl_->position_wrap+=std::uint64_t(1)<<32;impl_->last_position=time.u.sample;clock={std::int64_t(impl_->position_wrap+time.u.sample),ns,impl_->base_frame,generation,48000,true};return true;
+ if(time.u.sample<impl_->last_position)impl_->position_wrap+=std::uint64_t(1)<<32;impl_->last_position=time.u.sample;if(pcm_metrics_enabled())g_pcm_device_frames.store(impl_->position_wrap+time.u.sample,std::memory_order_relaxed);clock={std::int64_t(impl_->position_wrap+time.u.sample),ns,impl_->base_frame,generation,48000,true};return true;
 #else
  (void)generation;error="Required actual platform device timestamp";return false;
 #endif
@@ -117,6 +141,9 @@ bool WinmmAudioOutput::focus(bool focused,std::string& error){
 #endif
 }
 #ifdef _WIN32
+WinmmPcmStatsV1 winmm_pcm_stats_v1() noexcept {
+ return {pcm_metrics_enabled(),silent_output(),g_pcm_refills.load(),g_pcm_write_ok.load(),g_pcm_write_failed.load(),g_pcm_frames.load(),g_pcm_device_frames.load(),g_pcm_mix_nonzero.load(),g_pcm_submit_nonzero.load(),g_pcm_last_signal_frame.load(),g_pcm_mix_peak.load(),g_pcm_submit_peak.load()};
+}
 WinmmPumpStatsV1 winmm_pump_stats_v1() noexcept {
  return {g_pump_updates.load(),g_pump_refills.load(),g_pump_underruns.load(),g_pump_max_gap_ns.load(),g_pump_first_ns.load(),g_pump_last_ns.load(),g_pump_gaps_over_40ms.load(),g_pump_thread_priority.load()};
 }
@@ -130,6 +157,7 @@ void winmm_pump_stats_reset_v1() noexcept {
  g_pump_updates=0;g_pump_refills=0;g_pump_underruns=0;g_pump_max_gap_ns=0;g_pump_last_ns=0;g_pump_first_ns=0;g_pump_gaps_over_40ms=0;
 }
 #else
+WinmmPcmStatsV1 winmm_pcm_stats_v1() noexcept {return {};}
 WinmmPumpStatsV1 winmm_pump_stats_v1() noexcept {return {};}
 void winmm_pump_stats_reset_v1() noexcept {}
 bool winmm_promote_pump_thread_v1() noexcept {return false;}

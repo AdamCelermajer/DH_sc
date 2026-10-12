@@ -3,7 +3,7 @@
 #include <filesystem>
 namespace dh::foundation {
 struct GameSave {
-    std::uint32_t version = 1;
+    std::uint32_t version = 6;
     CharacterState character;
     std::string level_uri;
     ActorId controlled_actor_id = invalid_actor_id;
@@ -15,6 +15,8 @@ struct GameSave {
     // Version3 appends actors' optional actual physical-presence witnesses.
     // Legacy versions omit them and retain unknown; no receiver is serialized.
     // Version4 appends each actor's explicit source-dead bool in actor order.
+    // Version5 carries Character schema5's per-item source metadata.
+    // Version6 carries the source-specific Limbus restore fact separately from +5193 and HP.
     // Earlier PC checkpoints use their old HP classification as a migration.
 };
 bool validate_game_save(const GameSave&,std::string& error,bool checkpointUnboundVitals=false);

@@ -110,6 +110,26 @@ struct CombatSessionConfig {
     // Generated powers/real persistent instance IDs require a separate host.
     std::vector<std::string> equippedItemIds;
     std::string mainItemId, offItemId;
+    // Authenticated frontend-profile gear, in the same occurrence order as
+    // equippedItemIds. The source owner resolves saved instance powers before
+    // Session binding so strict GameSave compatibility sees the same gear
+    // sheet that the saved Character had. Null selectedPlayerProfile keeps
+    // legacy diagnostic callers on their existing definition-only policy.
+    struct SelectedPlayerGearV1 {
+        std::string item_instance_id;
+        std::string definition_id;
+        std::int32_t equipment_set=-1;
+        std::int32_t source_slot=-1;
+        // Set only by the main resource owner after SourceMetadataOwnerV1
+        // validated the exact saved row, or by an explicit legacy provenance
+        // check. This marker is not itself source authentication.
+        enum class Authentication : std::uint8_t {
+            saved_source_metadata,
+            verified_legacy_bare
+        } authentication=Authentication::saved_source_metadata;
+        OriginalEquippedItem source;
+    };
+    std::vector<SelectedPlayerGearV1> selectedPlayerGear;
     CharacterVisualConfig playerVisualConfig;
     std::map<std::string,CombatSessionProfile> profiles;
     // Actual selected save/creation state, borrowed only during initialize.

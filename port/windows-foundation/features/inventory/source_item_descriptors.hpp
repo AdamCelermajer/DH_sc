@@ -24,9 +24,17 @@ struct SourceInstanceLease {
     std::shared_ptr<const void> owner;
     const dh2::data::ItemInstanceV1* item=nullptr;
     const dh2::data::ItemPresentationOwnerV5* powers=nullptr;
+    // Immutable source ID/name table matching the same ItemPresentationOwner.
+    // Required even for a metadata-bearing zero-power instance so its saved
+    // empty payload is validated against the current source table owner.
+    dh2::data::ItemPowerTablesV5::Borrow power_definitions;
     const dh2::ui::ItemTextOwnerV5* text_owner=nullptr;
     // Actual index in FreshInventoryOwnedV4::items() when this lease resolves.
     std::uint32_t source_index{};
+    // The ItemInstance and ItemPresentationOwner must belong to the same
+    // canonical inventory/effects owner. Set only after metadata, ordered
+    // power identities, localized descriptions, and live effect projection
+    // have been reconciled for the current owner revision.
     bool descriptors_current=false;
     std::function<bool(const dh2::data::ItemInstanceV1*)> owns;
 };

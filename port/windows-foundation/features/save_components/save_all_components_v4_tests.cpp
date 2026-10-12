@@ -1,5 +1,5 @@
 // P17 MERGE: one character save carries every feature component at once (procgen seed, transition entry, and the
-// component bytes of the door/gate, lifecycle and container owners). It saves at schema 4 with no version bump, the
+// component bytes of the door/gate, lifecycle and container owners). It saves at the current schema5, the
 // components reload exactly, and a re-save is byte exact. Owners of the other components write their own bytes; this
 // test only checks that the save roster keeps them.
 #include "../procedural/procedural_level_v1.hpp"
@@ -53,10 +53,10 @@ int main() {
     check(save_character(first, state, error), "all-component save: " + error);
     CharacterState reloaded;
     check(load_character(first, reloaded, error), "all-component reload: " + error);
-    check(reloaded.schema_version == 4 && character_schema_version == 4, "schema stays 4 with all components");
+    check(reloaded.schema_version == 5 && character_schema_version == 5, "schema stays 5 with all components");
 
     const auto bytes = read_bytes(first);
-    check(bytes.size() > 12 && bytes[12] == 4, "the file header says schema 4");
+    check(bytes.size() > 12 && bytes[12] == 5, "the file header says schema 5");
     check(procedural::saved_seeds(reloaded) == seeds, "procgen seed component survives the reload");
     std::string level;
     int entry = -1;

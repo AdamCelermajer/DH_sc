@@ -2,7 +2,10 @@
 
 #include "runtime_equipment_page_v1.hpp"
 #include "../character_menu/menu_text.hpp"
+#include "../inventory/source_item_descriptors.hpp"
 #include "../../../game-data/items.hpp"
+#include "../../../engine-ui/character_menu_font_palette_v1.hpp"
+#include <functional>
 
 namespace dh::foundation::equipment_menu {
 
@@ -12,16 +15,34 @@ namespace dh::foundation::equipment_menu {
 // native generated powers or ItemInstance valuation.
 struct RuntimeEquipmentBareDefinitionPolicyV1 {
     std::vector<std::string> supported_unpowered_definition_ids;
+    // Reuse the caller's same authentic ItemText wrapper/cache epoch. Its
+    // ItemTable metadata identity is checked before installing callbacks.
+    std::shared_ptr<dh2::ui::ItemTextOwnerV5> existing_text_owner;
+    std::shared_ptr<const dh2::ui::CharacterMenuFontPaletteV1> font_palette;
 };
 
+// Resolves each live menu row against its current canonical item/effects/text
+// owner. `verified_bare` is an explicit classification: it may be true only
+// when the source inventory metadata says this instance has no generated
+// instance payload. If false, `lease` must own the matching ItemInstanceV1,
+// ItemPresentationOwnerV5, and ItemTextOwnerV5 for the same current revision.
+// A failed or stale resolution is an error and must never downgrade to the
+// bare-definition formatter.
+struct RuntimeEquipmentInstanceResolutionV1 {
+    bool verified_bare{};
+    inventory::SourceInstanceLease lease;
+};
+using RuntimeEquipmentInstanceResolverV1 = std::function<bool(
+    const InventoryItem&, RuntimeEquipmentInstanceResolutionV1&, std::string&)>;
+
 // Source NativeInvGetItemDetails' fourth value/string pair for a currently
-// selected approved bare item. The caller supplies property197 from the same
+// selected canonical or approved bare item. The caller supplies property197 from the same
 // live player CombatSession. The caller also passes the real CharacterDesign
 // multiplier from its source constants owner because MenuLocalization does not
-// own design_pycst. This provider supplies the source bare Item value from the
-// exact ItemTable row, source fixed-point transmute result, and original
+// own design_pycst. This provider supplies the actual saved ItemInstance value
+// or approved bare ItemTable value, source fixed-point transmute result, and original
 // localized formatting. Generated/powered ItemInstances require their
-// canonical source instance provider and are rejected by this adapter.
+// canonical source instance provider through the required resolver.
 struct RuntimeEquipmentTransmuteValuePacketV1 {
     std::string instance_id;
     std::string definition_id;
@@ -46,6 +67,7 @@ public:
               character_menu::MenuLocalization&,
               const CharacterState& same_character_state,
               RuntimeEquipmentBareDefinitionPolicyV1,
+              RuntimeEquipmentInstanceResolverV1,
               RuntimeEquipmentOptionsV1&,
               RuntimeEquipmentPageBindingsV1&,
               std::string& error);
@@ -60,3 +82,4 @@ public:
 };
 
 } // namespace dh::foundation::equipment_menu
+

@@ -388,6 +388,11 @@ bool RuntimeSessionAudioV1::play_named_plain(const char* name,std::string& error
     return false;
 }
 
+NamedUiCueResultV1 RuntimeSessionAudioV1::play_named_plain_result(const char* name,std::string& error) {
+    error.clear();if(!host_)return {};
+    return host_->submit_named_plain_sound(name,error);
+}
+
 // NativePlaySoundFX: Arrays::GetMemberIDByString<Sounds>(name) then VoxSoundManager::PlayMenu (a miss is a source no-op).
 NamedUiCueResultV1 RuntimeSessionAudioV1::play_named_ui_sound(const char* name,std::string& error) {
     error.clear();
@@ -454,6 +459,12 @@ void RuntimeSessionAudioV1::summary() const {
         <<" diagnostics="<<diagnostics_<<"; original assets, no substituted samples\n";
 #ifdef _WIN32
     // B039: wall time is first-to-latest pump update; rendered time is mixer frames at 48 kHz.
+    const auto pcm=winmm_pcm_stats_v1();
+    if(pcm.enabled)log_<<"WinMM PCM: silent="<<pcm.silent_output<<" refills="<<pcm.refills
+        <<" writeOk="<<pcm.write_ok<<" writeFailed="<<pcm.write_failed<<" submittedFrames="<<pcm.submitted_frames
+        <<" deviceFrames="<<pcm.device_frames<<" mixNonzero="<<pcm.mixer_nonzero_samples<<" mixPeak="<<pcm.mixer_peak
+        <<" submittedNonzero="<<pcm.submitted_nonzero_samples<<" submittedPeak="<<pcm.submitted_peak
+        <<" lastSignalFirstFrame="<<pcm.last_signal_first_frame<<'\n';
     const auto pump=winmm_pump_stats_v1();
     if(pump.updates&&host_)
         log_<<"WinMM pump: underruns="<<pump.underruns<<" refills="<<pump.refills

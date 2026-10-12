@@ -4,6 +4,7 @@
 #include "../features/combat/runtime_player_combo_chain_v1.hpp"
 #include "../features/combat/runtime_player_profile_attack_bank_v1.hpp"
 #include "../../script-runtime/script_constants.hpp"
+#include <array>
 #include <iostream>
 #include <set>
 #include <stdexcept>
@@ -105,7 +106,24 @@ int main(int argc,char** argv){try{
         throw std::runtime_error("Held attack did not advance four dual root groups");
     }
     check(session.actor(1)->equipment.size()==gear.size()&&session.actor(1)->target_id==2,"Attack lost gear or living target");
-    auto character=make_default_character("source-bank-test","Rogue",config.playerProfileId);session.actor(1)->persistent_character_id=character.id;
+    auto character=make_default_character("source-bank-test","Rogue",config.playerProfileId);
+    const std::array<std::int32_t,5> sourceSlots{0,3,4,1,2};
+    for(std::size_t i=0;i<config.equippedItemIds.size();++i){
+        const auto instance="source-bank-gear-"+std::to_string(i);
+        character.inventory.push_back({instance,config.equippedItemIds[i],1});
+        const auto slot=sourceSlots[i];
+        character.equipment.push_back({slot==1?"main_hand":slot==2?"off_hand":"slot-"+std::to_string(slot),instance,0,slot});
+        const auto itemIndex=dh2::data::item_id(items,config.equippedItemIds[i]);
+        const auto* item=dh2::data::item(items,itemIndex);check(item,"Selected gear source row missing");
+        CombatSessionConfig::SelectedPlayerGearV1 projected;
+        projected.item_instance_id=instance;projected.definition_id=config.equippedItemIds[i];
+        projected.equipment_set=0;projected.source_slot=slot;
+        projected.authentication=CombatSessionConfig::SelectedPlayerGearV1::Authentication::verified_legacy_bare;
+        projected.source.record=item->record;projected.source.left_hand=slot==2;
+        config.selectedPlayerGear.push_back(std::move(projected));
+    }
+    config.selectedPlayerProfile=&character;
+    session.actor(1)->persistent_character_id=character.id;
     GameSave saved;check(capture_game_save("source-bank",1,character,*session.world(),saved,error),error);
     session.detach_for_restore();check(restore_game_save(saved,"source-bank",*session.world(),character,error)&&session.rebind_after_restore(error),error);
     const auto rng=session.world()->random_state();
@@ -189,6 +207,7 @@ int main(int argc,char** argv){try{
     // Real selected save properties must precede full-combat vital validation.
     OriginalActorProperties fresh;check(resolve_original_fresh_player(db,config.playerProfileId,fresh,error),error);
     auto selected=make_default_character("selected-rogue-startup","Selected",config.playerProfileId);
+    selected.inventory=character.inventory;selected.equipment=character.equipment;
     selected.stats.level=1;
     selected.stats.health=fresh.health-7.25f;selected.stats.max_health=fresh.max_health;
     selected.stats.resource=fresh.resource-2.5f;selected.stats.max_resource=fresh.max_resource;

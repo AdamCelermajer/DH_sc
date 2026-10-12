@@ -69,6 +69,22 @@ std::int32_t ShopUi::selected_price() const {
     if (id.empty()) return 0;
     return mode_ == Mode::buy ? shop_.buy_price(id, items_) : shop_.sell_price(id, player_, items_);
 }
+bool ShopUi::list_contains(float x,float y) const {
+    if(error_visible()||confirmation_visible())return false;
+    const auto& art=inventory::original_inventory_details();
+    return std::any_of(art.rows.begin(),art.rows.end(),[&](const auto& row){return inventory::details_row_hit(row,x,y);});
+}
+bool ShopUi::step_rows(int delta,std::string& error) {
+    error.clear();if(error_visible()||confirmation_visible()||delta==0)return true;
+    std::vector<equipment_menu::OwnedSelection> rows;
+    if(!pane().selection->view_for_selected_slot(rows,error))return false;
+    if(rows.empty())return true;
+    const auto current=std::min(pane().details->selected_index(),rows.size()-1);std::size_t target=current;
+    if(delta<0){const auto amount=static_cast<std::uint64_t>(-static_cast<std::int64_t>(delta));target=amount>current?0:current-static_cast<std::size_t>(amount);}
+    else{const auto amount=static_cast<std::uint64_t>(delta);const auto remaining=rows.size()-1-current;target=amount>remaining?rows.size()-1:current+static_cast<std::size_t>(amount);}
+    if(target!=current&&!pane().selection->select_instance(rows[target].instance_id,error))return false;
+    error.clear();return true;
+}
 bool ShopUi::action_available(std::string& error) const {
     const auto id = selected_instance(error);
     if (id.empty()) return false;
@@ -102,8 +118,8 @@ ShopUi::Command ShopUi::release(float x, float y, std::string& error) {
         return command;
     }
     if (inside(art.hits[4], x, y)) { command.kind = Command::Kind::close; return command; }
-    if (inside(art.hits[0], x, y)) { if (mode_ != Mode::buy) set_mode(Mode::buy, error); return command; }
-    if (inside(art.hits[1], x, y)) { if (mode_ != Mode::sell) set_mode(Mode::sell, error); return command; }
+    if (inside(art.hits[0], x, y)) { command.kind=Command::Kind::select_mode; command.mode=Mode::buy; return command; }
+    if (inside(art.hits[1], x, y)) { command.kind=Command::Kind::select_mode; command.mode=Mode::sell; return command; }
     if (inside(art.hits[2], x, y)) {
         if(!action_available(error))return command;
         const auto id = selected_instance(error);
@@ -123,23 +139,28 @@ ShopUi::Command ShopUi::release(float x, float y, std::string& error) {
     }
     inventory::DetailAction action{};
     if (!pane().details->release(x, y, action, error)) return command;
+    const unsigned previous_slot=slot_;
     if(action==inventory::DetailAction::equip&&mode_==Mode::sell&&slot_<9){command.kind=Command::Kind::equip;command.instance_id=selected_instance(error);command.slot=slot_;}
     if(action==inventory::DetailAction::unequip&&slot_<9){command.kind=Command::Kind::unequip;command.slot=slot_;}
     if (action == inventory::DetailAction::slot || action == inventory::DetailAction::previous || action == inventory::DetailAction::next)
         slot_ = pane().selection->selected_slot();
     // Keep both lists on the same category (the slot rail and arrows act on the visible one).
     if (slot_ <= 9) { Pane& other = mode_ == Mode::buy ? *sell_ : *buy_; if (other.selection->selected_slot() != slot_) other.details->open(slot_, error); }
+    if((action==inventory::DetailAction::previous||action==inventory::DetailAction::next)&&slot_!=previous_slot)
+        command.kind=Command::Kind::select_navigation;
     return command;
 }
 bool ShopUi::frame(int width, int height, character_menu::Frame& output, std::string& error) const {
     character_menu::Frame f;
     if (!character_menu::Presenter::viewport(width, height, f.transform, error)) return false;
-    if (!pane().details->frame(bindings_, f, error)) return false;
     const bool buy = mode_ == Mode::buy;
+    auto sellBindings=bindings_;
+    if(sell_item_name_)sellBindings.item_name=sell_item_name_;
+    if (!pane().details->frame(buy?bindings_:sellBindings, f, error)) return false;
     const auto upper=[](const std::string& p){return p.find("/EquipedItem")!=std::string::npos||p.find("/EquipedSwordIcon/")!=std::string::npos||p.find("/btn_Unequip/")!=std::string::npos;};
     // BUY's comparison column is the player's equipment, never the merchant's inventory.
     if(buy){
-        character_menu::Frame owned;if(!sell_->details->frame(bindings_,owned,error))return false;
+        character_menu::Frame owned;if(!sell_->details->frame(sellBindings,owned,error))return false;
         f.art.batches.erase(std::remove_if(f.art.batches.begin(),f.art.batches.end(),[&](const auto& b){return upper(b.role)||b.role.find("/btn_EquipItem/")!=std::string::npos;}),f.art.batches.end());
         f.text.erase(std::remove_if(f.text.begin(),f.text.end(),[&](const auto& t){return upper(t.field.path)||t.field.path.find("/btn_EquipItem/")!=std::string::npos;}),f.text.end());
         for(const auto& b:owned.art.batches)if(upper(b.role))f.art.batches.push_back(b);

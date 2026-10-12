@@ -80,6 +80,13 @@ ValidationResult validate_character_state(const CharacterState& state) {
     if (inventory_ok) for (const auto& item : state.inventory) {
         check_text(result, item.instance_id, "inventory.instance_id");
         check_text(result, item.definition_id, "inventory.definition_id");
+        if (item.source) {
+            if (item.source->identified > 1)
+                result.errors.emplace_back("inventory source identified must be 0 or 1");
+            if (check_count(result, item.source->power_names.size(), "inventory source powers"))
+                for (const auto& power : item.source->power_names)
+                    check_text(result, power, "inventory source power name");
+        }
         if (!items.insert(item.instance_id).second)
             result.errors.emplace_back("duplicate inventory instance: " + item.instance_id);
         if (item.quantity == 0)

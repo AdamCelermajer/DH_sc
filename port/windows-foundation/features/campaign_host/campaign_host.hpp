@@ -208,6 +208,15 @@ public:
     // at level load like the containers) carries component campaign_lifecycle_v1 (trigger once-activation counts).
     // Persist before a GameSave capture; restore after restore_game_save. Quest states already live in CQPG.
     bool bind_lifecycle_object(PlayableActorWorld& world, std::string& error);
+    // The campaign save adapter participates in the typed registry but has no
+    // gameplay interaction. Match its complete owner identity; never classify
+    // arbitrary hidden objects as infrastructure.
+    static bool is_lifecycle_object(const WorldObject& object) noexcept {
+        return object.id == 0x43414d504c494650ull &&
+               object.name == "campaign.lifecycle" && !object.visual.visible &&
+               object.visual.model.empty() && object.visual.material.empty() &&
+               object.visual.animation.empty();
+    }
     bool persist_lifecycle(PlayableActorWorld& world, std::string& error) const;
     bool restore_lifecycle(const PlayableActorWorld& world, std::string& error);
     // Number of cutscenes aborted by an executor error (the session itself keeps running).

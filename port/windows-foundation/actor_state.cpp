@@ -15,7 +15,7 @@ bool nonnegative(float value) { return std::isfinite(value) && value >= 0.0f; }
 }
 
 bool ActorState::alive() const noexcept {
-    return std::isfinite(health) && health > 0.0f;
+    return !source_dead && std::isfinite(health) && health > 0.0f;
 }
 
 bool validate_actor_state(const ActorState& actor, std::string& error) {
@@ -41,8 +41,10 @@ bool validate_actor_state(const ActorState& actor, std::string& error) {
     case CharacterAction::hurt: case CharacterAction::dead: case CharacterAction::knocked_back: break;
     default: return fail("actor action is invalid");
     }
-    if (actor.is_dead() && actor.health != 0.0f)
-        return fail("source-dead actor retains health");
+    if (actor.is_dead() && actor.health != 0.0f && !actor.source_limbus)
+        return fail("source-dead non-Limbus actor retains health");
+    if (actor.source_limbus && !actor.is_dead())
+        return fail("source Limbus actor lacks the source-dead bit");
     if (actor.target_id == actor.id) return fail("actor cannot target itself");
     if (!actor.alive() && actor.target_id != invalid_actor_id)
         return fail("dead actor retains a target");
@@ -75,16 +77,19 @@ void reset_actor_action(ActorState& actor, CharacterAction action) noexcept {
 
 void kill_actor_state(ActorState& actor) noexcept {
     actor.source_dead = true; // Kill publishes +5193 before PROPS_Set(HP,0).
+    actor.source_limbus = false;
     actor.health = 0.0f;
 }
 void revive_actor_state(ActorState& actor) noexcept {
     actor.source_dead = false;
+    actor.source_limbus = false;
     actor.health = actor.max_health;
     actor.resource = actor.max_resource;
     reset_actor_action(actor, CharacterAction::idle);
 }
 void restore_actor_dead_state(ActorState& actor, bool dead) noexcept {
     actor.source_dead = dead;
+    actor.source_limbus = false;
     if (dead) actor.health = 0.0f;
 }
 

@@ -81,14 +81,14 @@ int main(int argc, char** argv) {
     check(placements.size() == a.modules, "manifest module count equals emitted modules");
 
     // Session seed: a forced seed wins, the saved per-difficulty seed next, and a fresh seed last. The seed survives a
-    // save/load round trip (named component, schema 4) and does not leak into another difficulty.
+    // save/load round trip (named component, current schema5) and does not leak into another difficulty.
     CharacterState profile = make_default_character("procgen-seed", "Seed", "KnightPlayerBase");
     check(session_seed(profile, 0, std::nullopt, 77u) == 77u, "fresh seed used when nothing is saved");
     check(session_seed(profile, 0, 555u, 77u) == 555u, "forced seed wins over the fresh seed");
     record_session_seed(profile, 1, 4242u);
     check(session_seed(profile, 1, std::nullopt, 77u) == 4242u, "saved seed of the active difficulty is used");
     check(session_seed(profile, 0, std::nullopt, 77u) == 77u, "a seed of one difficulty does not leak into another");
-    // Schema v4 component roster (no version bump): the seeds are the named component `procedural_seed_component_id`.
+    // Current schema5 component roster: the seeds are the named component `procedural_seed_component_id`.
     const auto seedDir = std::filesystem::temp_directory_path() / "dh-procgen-seed-tests";
     std::error_code dirError;
     std::filesystem::create_directories(seedDir, dirError);
@@ -108,16 +108,16 @@ int main(int argc, char** argv) {
     // The file offset of the schema field (magic 8 + file format version 4).
     constexpr std::size_t schemaFieldAt = 12;
 
-    // 1. Round trip: seeds per difficulty survive, the schema stays 4, and a re-save is byte exact.
+    // 1. Round trip: seeds per difficulty survive and a re-save is byte exact.
     ProceduralSeeds stored{1234u, 98765u, 7u};
     CharacterState seeded = profile;
     store_saved_seeds(seeded, stored);
     CharacterState reloaded;
     check(save_character(seedFile, seeded, saveError) && load_character(seedFile, reloaded, saveError) &&
-          saved_seeds(reloaded) == stored && reloaded.schema_version == 4 && character_schema_version == 4,
-          "saved procedural seeds survive a save/load round trip at schema 4" + (saveError.empty() ? std::string() : ": " + saveError));
+          saved_seeds(reloaded) == stored && reloaded.schema_version == 5 && character_schema_version == 5,
+          "saved procedural seeds survive a schema5 round trip" + (saveError.empty() ? std::string() : ": " + saveError));
     const auto seedBytes = readBytes(seedFile);
-    check(seedBytes.size() > schemaFieldAt && seedBytes[schemaFieldAt] == 4, "the seed component is written at schema 4 (no bump)");
+    check(seedBytes.size() > schemaFieldAt && seedBytes[schemaFieldAt] == 5, "the seed component is written at schema5");
     CharacterState resaved;
     check(load_character(seedFile, resaved, saveError) && save_character(legacyFile, resaved, saveError) &&
           readBytes(legacyFile) == seedBytes, "re-saving a seeded profile is byte exact");
@@ -126,20 +126,21 @@ int main(int argc, char** argv) {
     CharacterState plainProfile = make_default_character("procgen-plain", "Plain", "KnightPlayerBase");
     check(save_character(legacyFile, plainProfile, saveError), "plain profile saves");
     auto preComponent = readBytes(legacyFile);
+    preComponent[schemaFieldAt] = 4;
     preComponent.resize(preComponent.size() - 4);   // drop the (empty) component count
     writeBytes(legacyFile, preComponent);
     CharacterState legacy;
     check(load_character(legacyFile, legacy, saveError) && saved_seeds(legacy) == ProceduralSeeds{} &&
-          legacy.components.empty() && legacy.schema_version == 4,
+          legacy.components.empty() && legacy.schema_version == 5,
           "a pre-component v4 save loads with zero procedural seeds" + (saveError.empty() ? std::string() : ": " + saveError));
 
-    // 3. Old v5 reads stay out: a file that claims schema 5 is rejected (no version bump was shipped).
+    // 3. Unknown future schema6 reads stay out.
     auto v5Bytes = seedBytes;
-    v5Bytes[schemaFieldAt] = 5;
+    v5Bytes[schemaFieldAt] = 6;
     writeBytes(v5File, v5Bytes);
     CharacterState v5Loaded = plainProfile;
     check(!load_character(v5File, v5Loaded, saveError) && v5Loaded.id == plainProfile.id,
-          "a schema 5 save is rejected and the destination is untouched");
+          "a schema 6 save is rejected and the destination is untouched");
 
     // 4. Named roster: an unknown component survives the round trip next to the seed component.
     CharacterState roster = seeded;

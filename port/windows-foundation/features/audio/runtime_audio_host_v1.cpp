@@ -219,7 +219,7 @@ bool RuntimeAudioHostV1::submit_script_plain_sound(std::int32_t source_ordinal,i
         },error,delay_frames);
 }
 
-NamedUiCueResultV1 RuntimeAudioHostV1::submit_named_ui_sound(const char* name,std::string& error) {
+NamedUiCueResultV1 RuntimeAudioHostV1::submit_named_plain_sound(const char* name,std::string& error) {
     NamedUiCueResultV1 result;
     error.clear();
     auto* runtime=session_?session_->runtime_on_producer():nullptr;
@@ -261,6 +261,10 @@ NamedUiCueResultV1 RuntimeAudioHostV1::submit_named_ui_sound(const char* name,st
     }
     result.status=NamedUiCueStatusV1::submitted;
     return result;
+}
+
+NamedUiCueResultV1 RuntimeAudioHostV1::submit_named_ui_sound(const char* name,std::string& error) {
+    return submit_named_plain_sound(name,error);
 }
 
 bool RuntimeAudioHostV1::stop_script_plain_sound(std::int32_t source_ordinal,int fade_ms,std::string& error) {

@@ -40,6 +40,7 @@ public:
  data::LootPowerResourcesV7::Borrow powers()const{return powers_.borrow();}
  data::LootAudioVisualV8::Borrow audiovisual()const{return audiovisual_.borrow();}
  data::ItemTextServicesV5 text()const{return text_?text_->services():data::ItemTextServicesV5{};}
+ ui::ItemTextOwnerV5* text_owner()const noexcept{return text_.get();}
  const auto& presentation()const noexcept{return presentation_;}
  const auto& merchants_v114()const noexcept{return merchants_v114_;}
  const auto& merchant_names_v114()const noexcept{return merchant_names_v114_;}

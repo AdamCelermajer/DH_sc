@@ -94,12 +94,19 @@ bool MainPage::release(float x, float y, MainPageCommand& command, std::string& 
                     error = "Canonical equipment action requires the selected source item and slot";
                     return false;
                 }
-                if (!native_actions_.equip(id, slot, error)) return false;
+                const bool applied=native_actions_.equip(id, slot, error);
+                if(native_actions_.action_cue)native_actions_.action_cue(NativeEquipmentActions::CueAction::equip,slot);
+                if (!applied) return false;
                 command = MainPageCommand::equipped;
                 error.clear();
                 return true;
             }
-            if (!equipment_.equip_selected(error)) return false;
+            {
+                const auto slot=equipment_.selected_slot();
+                const bool applied=equipment_.equip_selected(error);
+                if(native_actions_.action_cue)native_actions_.action_cue(NativeEquipmentActions::CueAction::equip,slot);
+                if(!applied)return false;
+            }
             command = MainPageCommand::equipped;
             return true;
         case inventory::DetailAction::unequip:
@@ -113,12 +120,17 @@ bool MainPage::release(float x, float y, MainPageCommand& command, std::string& 
                     error = "Canonical equipment action requires a selected source slot";
                     return false;
                 }
+                if(native_actions_.action_cue)native_actions_.action_cue(NativeEquipmentActions::CueAction::unequip,slot);
                 if (!native_actions_.unequip(slot, error)) return false;
                 command = MainPageCommand::unequipped;
                 error.clear();
                 return true;
             }
-            if (!equipment_.unequip_selected_slot(error)) return false;
+            {
+                const auto slot=equipment_.selected_slot();
+                if(native_actions_.action_cue)native_actions_.action_cue(NativeEquipmentActions::CueAction::unequip,slot);
+                if(!equipment_.unequip_selected_slot(error))return false;
+            }
             command = MainPageCommand::unequipped;
             return true;
         case inventory::DetailAction::drop:

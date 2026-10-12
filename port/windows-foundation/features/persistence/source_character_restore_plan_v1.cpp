@@ -36,13 +36,17 @@ bool source_character_restore_plan_v1(
     // never shift by an unbounded serialized value.
     const std::uint32_t state_bit=saved_state<=17 ? (std::uint32_t(1u)<<saved_state) : 0u;
     if ((state_bit & 0x1005u)!=0u) {
+        plan.resulting_limbus=true;
         if (!already_limbus) {
             plan.requires_can_respawn=true;
             plan.ordered_operations.push_back(SourceCharacterRestoreOpV1::can_respawn_gate);
             if (!can_respawn) { error="Character::CanRespawn source group permission is unavailable"; return false; }
             plan.can_respawn_allowed=*can_respawn;
-            if (*can_respawn) plan.ordered_operations.push_back(SourceCharacterRestoreOpV1::set_limbus_if_not_already);
+            plan.ordered_operations.push_back(SourceCharacterRestoreOpV1::set_limbus_if_not_already);
         }
+        // Deserialize writes +5193=true for this mask after restoring the
+        // saved field; it does not zero HP here. Model the explicit Limbus
+        // exception separately from ordinary corpses.
         plan.ordered_operations.push_back(SourceCharacterRestoreOpV1::set_source_dead_true);
         plan.resulting_dead=true;
     } else if ((state_bit & 0x20002u)!=0u) {
@@ -50,6 +54,7 @@ bool source_character_restore_plan_v1(
         // The saved Character+5193 dead value is retained on this branch.
         plan.resulting_dead=saved_dead;
     } else if (saved_dead) {
+        plan.resulting_limbus=true;
         plan.ordered_operations.push_back(SourceCharacterRestoreOpV1::set_source_dead_true);
         plan.ordered_operations.push_back(SourceCharacterRestoreOpV1::set_hp_zero);
         plan.ordered_operations.push_back(SourceCharacterRestoreOpV1::set_ai_dead);
@@ -57,7 +62,7 @@ bool source_character_restore_plan_v1(
         plan.ordered_operations.push_back(SourceCharacterRestoreOpV1::can_respawn_gate);
         if (!can_respawn) { error="Character::CanRespawn source group permission is unavailable"; return false; }
         plan.can_respawn_allowed=*can_respawn;
-        if (*can_respawn) plan.ordered_operations.push_back(SourceCharacterRestoreOpV1::set_limbus_if_not_already);
+        plan.ordered_operations.push_back(SourceCharacterRestoreOpV1::set_limbus_if_not_already);
         plan.resulting_dead=true;
     } else {
         if (!physical_body_present) {

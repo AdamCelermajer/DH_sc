@@ -6,6 +6,7 @@
 #include <array>
 #include <cstdint>
 #include <optional>
+#include <map>
 #include <string>
 #include <vector>
 
@@ -46,6 +47,7 @@ struct SourceCharacterRestorePlanV1 {
     bool requires_can_respawn = false;
     bool can_respawn_allowed = false;
     bool resulting_dead = false;
+    bool resulting_limbus = false;
     std::vector<SourceCharacterRestoreOpV1> ordered_operations;
 };
 
@@ -66,6 +68,9 @@ struct DeathCheckpointActorV1 {
     Transform transform;
     std::uint32_t source_cs_state = 0;
     bool source_dead = false;
+    // Version2 stores the current host PopulationActor admission projection.
+    // Unknown is preserved for legacy V1/non-population actors.
+    std::optional<bool> population_admission;
     bool npc_vitals_present = false;
     float health = 0.0f, max_health = 0.0f;
     float resource = 0.0f, max_resource = 0.0f;
@@ -92,6 +97,7 @@ struct DeathCheckpointCaptureServicesV1 {
                                bool& source_dead, std::string&) = nullptr;
     bool (*object_checkpoint_facts)(void*, ObjectId, SourceCheckpointObjectFamilyV1&,
                                    bool& skip_checkpoint, std::string&) = nullptr;
+    bool (*actor_population_admission)(void*, ActorId, std::optional<bool>&, std::string&) = nullptr;
 };
 
 bool capture_death_checkpoint_snapshot_v1(
@@ -134,6 +140,8 @@ struct DeathCheckpointRestoreReceiptV1 {
     std::size_t objects_restored = 0;
     std::size_t objects_missing_skipped = 0;
     bool qest_restored = false;
+    // Published only after world commit; host applies before targeting/draw.
+    std::map<ActorId,bool> population_admission;
     bool complete = false;
 };
 

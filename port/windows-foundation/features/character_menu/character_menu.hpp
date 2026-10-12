@@ -101,7 +101,12 @@ public:
     // Optional close policy (Preview 15 Stats confirmation): consulted by every close
     // path (Back, Escape, profile key). Returning false keeps the menu open.
     std::function<bool()> close_guard;
-    void close() {if(close_guard&&!close_guard())return;open_=false;}
+    bool close_with_before(const std::function<void()>& before_close) {
+        if(close_guard&&!close_guard())return false;
+        if(before_close)before_close();
+        open_=false;return true;
+    }
+    void close() {(void)close_with_before({});}
     bool is_open() const noexcept{return open_;}
     Tab tab() const noexcept{return tab_;}
     bool select(Tab,std::string& error);

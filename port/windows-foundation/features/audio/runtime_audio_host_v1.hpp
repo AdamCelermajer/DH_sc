@@ -120,6 +120,7 @@ public:
     // Script_StopSound plain (VoxSoundManager::Stop, fade ms). ordinal<0 is a source no-op. Uses the same producer.
     bool submit_script_plain_sound(std::int32_t source_ordinal,int delay_ms,std::string& error);
     // Named event diagnostics preserve missing-sample/no-output distinctions.
+    NamedUiCueResultV1 submit_named_plain_sound(const char* name,std::string& error);
     NamedUiCueResultV1 submit_named_ui_sound(const char* name,std::string& error);
     bool stop_script_plain_sound(std::int32_t source_ordinal,int fade_ms,std::string& error);
     // Producer-thread source settings, initialized from the exact fresh
