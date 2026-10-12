@@ -52,4 +52,8 @@ private:
     TrackParams params_;  // +0x04..+0x13
 };
 
+// 0x874e2c _ZN3vox16DecoderRawFactoryEPv. VoxAlloc a DecoderRaw and construct it from
+// the TrackParams block passed in; returns the new object.
+void* DecoderRawFactory(void* params);
+
 }  // namespace vox

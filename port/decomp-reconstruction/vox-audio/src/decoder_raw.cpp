@@ -128,3 +128,17 @@ void DecoderRaw::DestroyCursor(DecoderCursorInterface* cursor) {
 }
 
 }  // namespace vox
+
+namespace vox {
+
+// 0x874e2c _ZN3vox16DecoderRawFactoryEPv (ARM: VoxAlloc(0x14), then the C1 constructor
+// 0x874a64 with the params block; the object pointer is returned).
+void* DecoderRawFactory(void* params) {
+    void* mem = VoxAlloc(sizeof(DecoderRaw), kVoxMemHintDefault);
+    if (mem == nullptr) {
+        return nullptr;
+    }
+    return new (mem) DecoderRaw(static_cast<const TrackParams*>(params));
+}
+
+}  // namespace vox

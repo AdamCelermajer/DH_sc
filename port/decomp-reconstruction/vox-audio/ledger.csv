@@ -538,3 +538,42 @@ elf_address,symbol,status,source_file,notes
 0x887b24,_ZN3vox22VoxNativeSubDecoderPCMD2Ev,reconstructed,vox-audio/src/native_sub_decoder.cpp,D2 variant of the PCM destructor; empty
 0x887b28,_ZN3vox22VoxNativeSubDecoderPCMD1Ev,reconstructed,vox-audio/src/native_sub_decoder.cpp,D1 variant of the PCM destructor; empty
 0x887b2c,_ZN3vox22VoxNativeSubDecoderPCM31GetBytePositionFromSampleOffsetEj,reconstructed,vox-audio/src/native_sub_decoder.cpp,sample offset times the 16-bit bytes-per-sample word at +0x10
+0x8947d4,_ZN3vox9openStdIOEPKcNS_17VoxFileAccessModeE,reconstructed,vox-audio/src/file_stdio.cpp,"openStdIO: modes 0..11 map to fopen strings, others null"
+0x8947d0,_ZN3vox10closeStdIOEPv,reconstructed,vox-audio/src/file_stdio.cpp,closeStdIO: fclose on the handle
+0x8948f8,_ZN3vox9readStdIOEPviiS0_,partial,vox-audio/src/file_stdio.cpp,readStdIO: original tail-calls fread and returns its count in r0; port keeps void pseudocode signature and drops the count
+0x8948f4,_ZN3vox10writeStdIOEPKviiPv,partial,vox-audio/src/file_stdio.cpp,writeStdIO: original tail-calls fwrite and returns its count in r0; port keeps void pseudocode signature
+0x8948dc,_ZN3vox9seekStdIOEPviNS_17VoxFileSeekOriginE,reconstructed,vox-audio/src/file_stdio.cpp,"seekStdIO: whence 2 -> SEEK_END, 1 -> SEEK_CUR, else SEEK_SET; fseek result discarded"
+0x8948d8,_ZN3vox9tellStdIOEPv,partial,vox-audio/src/file_stdio.cpp,tellStdIO: original tail-calls ftell and returns its result; port keeps void pseudocode signature
+0x874e2c,_ZN3vox17DecoderRawFactoryEPv,reconstructed,vox-audio/src/decoder_raw.cpp,DecoderRawFactory: VoxAlloc(sizeof DecoderRaw) then placement construct from params
+0x870548,_ZN3vox12DecoderMSWavC1Ev,reconstructed,vox-audio/src/decoder_mswav.cpp,"DecoderMSWav C1 constructor: vtable, flag byte +0x40 = 1, data node pointer +0x3c = null"
+0x870514,_ZN3vox12DecoderMSWavC2Ev,reconstructed,vox-audio/src/decoder_mswav.cpp,DecoderMSWav C2 constructor: same body as C1
+0x881834,_ZN3vox15PlaylistElementC1Ev,reconstructed,vox-audio/src/native_playlist.cpp,PlaylistElement C1 constructor: five words set as Reset does
+0x881810,_ZN3vox15PlaylistElementC2Ev,reconstructed,vox-audio/src/native_playlist.cpp,PlaylistElement C2 constructor: same body as C1
+0x8818b0,_ZN3vox15PlaylistElement5ResetEv,reconstructed,vox-audio/src/native_playlist.cpp,PlaylistElement::Reset; field names are offsets only (not identified)
+0x881eec,_ZN3vox14NativePlaylist17GetCurrentElementEv,reconstructed,vox-audio/src/native_playlist.cpp,NativePlaylist::GetCurrentElement: element id table at +0x30 indexed by the current position
+0x881efc,_ZN3vox14NativePlaylist18GetCurrentPositionEv,reconstructed,vox-audio/src/native_playlist.cpp,NativePlaylist::GetCurrentPosition
+0x88219c,_ZN3vox14NativePlaylist7IsValidEv,reconstructed,vox-audio/src/native_playlist.cpp,NativePlaylist::IsValid reads the flag byte at +0x00
+0x882448,_ZN3vox22NativePlaylistsManagerC2Ev,reconstructed,vox-audio/src/native_playlist.cpp,NativePlaylistsManager C2 constructor
+0x882464,_ZN3vox22NativePlaylistsManagerC1Ev,reconstructed,vox-audio/src/native_playlist.cpp,NativePlaylistsManager C1 constructor: same body as C2
+0x882480,_ZN3vox22NativePlaylistsManager14GetNbPlaylistsEv,reconstructed,vox-audio/src/native_playlist.cpp,NativePlaylistsManager::GetNbPlaylists returns the count at +0x08
+0x8824c0,_ZN3vox22NativePlaylistsManager7IsValidEv,reconstructed,vox-audio/src/native_playlist.cpp,NativePlaylistsManager::IsValid reads the flag at +0x00
+0x882548,_ZN3vox22NativePlaylistsManager4InitEi,reconstructed,vox-audio/src/native_playlist.cpp,NativePlaylistsManager::Init: VoxAlloc(count*4); flag cleared on failure; count not written
+0x8824c8,_ZN3vox22NativePlaylistsManager25PeekAtNextPlaylistElementEi,partial,vox-audio/src/native_playlist_calls.cpp,"PeekAtNextPlaylistElement forwards to NativePlaylist::PeekAtNextElement, which is not ported (declared only)"
+0x8824d4,_ZN3vox22NativePlaylistsManager13ResetPlaylistEi,partial,vox-audio/src/native_playlist_calls.cpp,ResetPlaylist: negative index returns; the forward to NativePlaylist::Reset is not ported (declared only)
+0x8824e8,_ZN3vox22NativePlaylistsManager26SetPlaylistToPreviousStateEi,partial,vox-audio/src/native_playlist_calls.cpp,"SetPlaylistToPreviousState forwards to NativePlaylist::SetToPreviousState, not ported (declared only)"
+0x88ed68,_ZN3vox29DriverCallbackSourceInterface20AllowBufferReferenceEv,reconstructed,vox-audio/src/driver_callback.cpp,AllowBufferReference returns 1
+0x88ed70,_ZN3vox29DriverCallbackSourceInterface14GetBufferCountEv,reconstructed,vox-audio/src/driver_callback.cpp,GetBufferCount returns the count at +0x44
+0x88fce4,_ZN3vox29DriverCallbackSourceInterface6UpdateEf,partial,vox-audio/src/driver_callback.cpp,"Update(float): ARM tail-calls __aeabi_fmul(dt, 16384); the scaled value is computed and dropped because the pseudocode signature is void and the result is not confirmed"
+0x890148,_ZN3vox29DriverCallbackSourceInterface13FreeAllBufferEv,reconstructed,vox-audio/src/driver_callback.cpp,"FreeAllBuffer: every buffer ready flag set, read and write indices reset"
+0x890288,_ZN3vox29DriverCallbackSourceInterface19SetDriverSampleRateEi,reconstructed,vox-audio/src/driver_callback.cpp,SetDriverSampleRate stores the static sample rate
+0x890fd0,_ZN3vox29DriverCallbackSourceInterface4PlayEv,reconstructed,vox-audio/src/driver_callback.cpp,Play: state 1 unless state is -1; under the lock
+0x890f48,_ZN3vox29DriverCallbackSourceInterface5PauseEv,reconstructed,vox-audio/src/driver_callback.cpp,Pause: state 1 becomes 2 and the words at +0x2c and +0x30 clear
+0x890f84,_ZN3vox29DriverCallbackSourceInterface4StopEv,reconstructed,vox-audio/src/driver_callback.cpp,"Stop: state other than -1 becomes 3, FreeAllBuffer runs, +0x2c, +0x58 and +0x30 clear"
+0x890ee8,_ZN3vox29DriverCallbackSourceInterface5ResetEv,reconstructed,vox-audio/src/driver_callback.cpp,"Reset: with buffers, state 0, FreeAllBuffer, byte offset 0 (ARM divides by 0x18 with a multiply-by-inverse)"
+0x890e8c,_ZN3vox29DriverCallbackSourceInterface8GetStateEv,reconstructed,vox-audio/src/driver_callback.cpp,GetState: state 1 becomes 3 while the write buffer is ready; port skips the read when no buffer array exists
+0x890e0c,_ZN3vox29DriverCallbackSourceInterface8NeedDataEv,reconstructed,vox-audio/src/driver_callback.cpp,NeedData: ready flag of the read buffer; 0 when state is -1 or no buffers
+0x890b28,_ZN3vox29DriverCallbackSourceInterface13SetByteOffsetEi,reconstructed,vox-audio/src/driver_callback.cpp,SetByteOffset stores +0x58 under the lock
+0x890b50,_ZN3vox29DriverCallbackSourceInterface13GetByteOffsetEv,reconstructed,vox-audio/src/driver_callback.cpp,GetByteOffset reads +0x58 under the lock
+0x890af8,_ZN3vox29DriverCallbackSourceInterface7CleanupEv,reconstructed,vox-audio/src/driver_callback.cpp,Cleanup: buffer list end set to the begin pointer
+0x890b78,_ZN3vox29DriverCallbackSourceInterface8GetPitchEv,partial,vox-audio/src/driver_callback.cpp,"GetPitch: word at +0x34 times 2^-15 via helpers 0x30e964 and 0x30ed6c, not identified by name"
+0x890bb0,_ZN3vox29DriverCallbackSourceInterface7GetGainEv,partial,vox-audio/src/driver_callback.cpp,GetGain: word at +0x28 times 2^-15 via the same helpers as GetPitch
