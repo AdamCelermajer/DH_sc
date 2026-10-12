@@ -395,3 +395,129 @@ elf_address,symbol,status,source_file,notes
 0x325d80,_ZN14CMsgQuestsSyncD0Ev,skipped,port/decomp-reconstruction/net-session-online/include/net-session-online/c_msg_quests_sync.hpp,compiler-generated deleting destructor; virtual dtor covers it
 0x32793c,_ZN14CMsgQuestsSync13SetPropertiesEv,reconstructed,port/decomp-reconstruction/net-session-online/src/c_msg_quests_sync.cpp,type name string at +0x14 not modelled
 0x3291f8,_ZN14CMsgQuestsSyncC1Eb,partial,port/decomp-reconstruction/net-session-online/src/c_msg_quests_sync.cpp,"CMessage(const char*, bool) base ctor not recovered; flags set here only"
+0x81a4dc,_ZN7CSignIn10InitializeEv,reconstructed,net-session-online/src/c_sign_in.cpp,
+0x81a4f4,_ZN7CSignIn11CancelLoginEv,reconstructed,net-session-online/src/c_sign_in.cpp,
+0x81a4f8,_ZN7CSignIn6UpdateEv,reconstructed,net-session-online/src/c_sign_in.cpp,
+0x81a4fc,_ZN7CSignIn9TerminateEv,reconstructed,net-session-online/src/c_sign_in.cpp,
+0x81a528,_ZN7CSignIn7DestroyEv,reconstructed,net-session-online/src/c_sign_in.cpp,
+0x81a854,_ZN7CSignInD0Ev,skipped,net-session-online/src/c_sign_in.cpp,compiler-generated deleting destructor; virtual dtor covers it
+0x81a9c4,_ZN18CSignInCredentialsC2EPcS0_Pv,reconstructed,net-session-online/src/c_sign_in.cpp,
+0x81a9cc,_ZN18CSignInCredentialsC1EPcS0_Pv,reconstructed,net-session-online/src/c_sign_in.cpp,
+0x81a9d4,_ZN18CSignInCredentialsD2Ev,reconstructed,net-session-online/src/c_sign_in.cpp,
+0x81a9d8,_ZN18CSignInCredentialsD1Ev,reconstructed,net-session-online/src/c_sign_in.cpp,
+0x81a4c8,_ZN12CSignInDummy6SignInEv,reconstructed,net-session-online/src/c_sign_in.cpp,
+0x81a4d0,_ZN12CSignInDummy6SignInER18CSignInCredentials,reconstructed,net-session-online/src/c_sign_in.cpp,
+0x81a4d8,_ZN12CSignInDummy7SignOutEv,reconstructed,net-session-online/src/c_sign_in.cpp,
+0x81a954,_ZN12CSignInDummyD1Ev,partial,net-session-online/src/c_sign_in.cpp,base dtor CSignIn::~CSignIn (0x81a7b4) not rebuilt; the default dtor is used
+0x81a988,_ZN12CSignInDummyD0Ev,skipped,net-session-online/src/c_sign_in.cpp,compiler-generated deleting destructor; virtual dtor covers it
+0x82a664,XP_DEBUG_INIT,reconstructed,net-session-online/src/xp_api.cpp,no-op (bx lr)
+0x82a668,XP_DEBUG_FINALIZE,reconstructed,net-session-online/src/xp_api.cpp,no-op (bx lr)
+0x82acdc,_Z21XP_API_GetNationalityPc,reconstructed,net-session-online/src/xp_api.cpp,no-op (bx lr)
+0x82b334,XP_API_STRSTR,reconstructed,net-session-online/src/xp_api.cpp,tail call to strstr
+0x82b338,XP_API_STRCAT,reconstructed,net-session-online/src/xp_api.cpp,tail call to strcat
+0x82b33c,XP_API_STRNCPY,reconstructed,net-session-online/src/xp_api.cpp,tail call to strncpy
+0x82b340,XP_API_STRCPY,reconstructed,net-session-online/src/xp_api.cpp,tail call to strcpy; returns char* as the callee does (pseudocode shows void)
+0x82b344,XP_API_STRCASECMP,reconstructed,net-session-online/src/xp_api.cpp,tail call to strcasecmp (_stricmp on Windows)
+0x82b348,XP_API_STRNCMP,reconstructed,net-session-online/src/xp_api.cpp,tail call to strncmp
+0x82b34c,XP_API_STRCMP,reconstructed,net-session-online/src/xp_api.cpp,tail call to strcmp
+0x82b364,XP_API_MEMSET,reconstructed,net-session-online/src/xp_api.cpp,tail call to memset
+0x82b320,XP_API_ATOI,reconstructed,net-session-online/src/xp_api.cpp,tail call to atoi
+0x82b318,XP_API_ATOF,reconstructed,net-session-online/src/xp_api.cpp,tail call to strtod with a null end pointer; returns double (pseudocode shows void)
+0x82afac,XP_API_STRLEN,reconstructed,net-session-online/src/xp_api.cpp,tail call to strlen
+0x82b350,XP_API_MEMCPY,reconstructed,net-session-online/src/xp_api.cpp,calls memcpy and returns dest (pseudocode shows void)
+0x82b9f0,XP_API_MALLOC,reconstructed,net-session-online/src/xp_api.cpp,tail call to malloc
+0x82b9e4,XP_API_FREE,reconstructed,net-session-online/src/xp_api.cpp,free unless null
+0x82b9a0,XP_API_STRNEW,reconstructed,net-session-online/src/xp_api.cpp,"copy made with operator new[] (_Znaj), not malloc; release with delete[]"
+0x82b324,XP_API_STRCHR,reconstructed,net-session-online/src/xp_api.cpp,"strchr when mode is 1, otherwise strrchr"
+0x82b014,XP_API_STRTRIM,reconstructed,net-session-online/src/xp_api.cpp,removes leading spaces in place; body from the ARM listing (pseudocode is truncated)
+0x832198,_ZN20GLXPlayerLeaderboard35getCurrentPlayerLeaderboardPositionEv,reconstructed,net-session-online/src/glx_player_leaderboard.cpp,
+0x8321a0,_ZN20GLXPlayerLeaderboard34getCurrentPlayerLeaderboardCountryEv,reconstructed,net-session-online/src/glx_player_leaderboard.cpp,
+0x8321a8,_ZN20GLXPlayerLeaderboard32getCurrentPlayerLeaderboardScoreEv,reconstructed,net-session-online/src/glx_player_leaderboard.cpp,
+0x8321b0,_ZN20GLXPlayerLeaderboard36getCurrentPlayerLeaderboardScoreDataEv,reconstructed,net-session-online/src/glx_player_leaderboard.cpp,
+0x8321b8,_ZN20GLXPlayerLeaderboard18getLeaderboardSizeEv,reconstructed,net-session-online/src/glx_player_leaderboard.cpp,-1 when no names are held
+0x83223c,_ZN20GLXPlayerLeaderboard29getLeaderboardEntryPlayerNameEi,reconstructed,net-session-online/src/glx_player_leaderboard.cpp,
+0x832264,_ZN20GLXPlayerLeaderboard32getLeaderboardEntryPlayerCountryEi,reconstructed,net-session-online/src/glx_player_leaderboard.cpp,
+0x83228c,_ZN20GLXPlayerLeaderboard33getLeaderboardEntryPlayerPositionEi,reconstructed,net-session-online/src/glx_player_leaderboard.cpp,
+0x8322b4,_ZN20GLXPlayerLeaderboard30getLeaderboardEntryPlayerScoreEi,reconstructed,net-session-online/src/glx_player_leaderboard.cpp,default is 0xfff5d3d6 as in the original
+0x8322e0,_ZN20GLXPlayerLeaderboard34getLeaderboardEntryPlayerScoreDataEi,reconstructed,net-session-online/src/glx_player_leaderboard.cpp,
+0x834d2c,_ZN16GLXPlayerMessage15getMsgListCountEv,reconstructed,net-session-online/src/glx_player_message.cpp,
+0x834d34,_ZN16GLXPlayerMessage11getMsgCountEii,reconstructed,net-session-online/src/glx_player_message.cpp,
+0x834dc0,_ZN16GLXPlayerMessage17getMySentMsgCountEv,reconstructed,net-session-online/src/glx_player_message.cpp,
+0x834dc8,_ZN16GLXPlayerMessage8getMsgIDEi,reconstructed,net-session-online/src/glx_player_message.cpp,
+0x834df8,_ZN16GLXPlayerMessage11getMsgTitleEi,reconstructed,net-session-online/src/glx_player_message.cpp,"titles are std::string, so an empty title is """" and a missing one is null"
+0x834e28,_ZN16GLXPlayerMessage18getMsgSenderNumberEi,reconstructed,net-session-online/src/glx_player_message.cpp,
+0x834e58,_ZN16GLXPlayerMessage12getMsgSenderEi,reconstructed,net-session-online/src/glx_player_message.cpp,
+0x834e88,_ZN16GLXPlayerMessage23getMsgDesUserNumberListEi,reconstructed,net-session-online/src/glx_player_message.cpp,
+0x834eb8,_ZN16GLXPlayerMessage21getMsgDesUserNameListEi,reconstructed,net-session-online/src/glx_player_message.cpp,
+0x834ee8,_ZN16GLXPlayerMessage17getMsgCreatedTimeEi,reconstructed,net-session-online/src/glx_player_message.cpp,
+0x834f18,_ZN16GLXPlayerMessage15getMsgReadStateEi,reconstructed,net-session-online/src/glx_player_message.cpp,
+0x834f44,_ZN16GLXPlayerMessage10getMsgBodyEv,partial,net-session-online/src/glx_player_message.cpp,"body is a std::string, so an unset body gives """" where the original returns null"
+0x834f4c,_ZN16GLXPlayerMessage15getCurrentMsgIDEv,reconstructed,net-session-online/src/glx_player_message.cpp,
+0x834f54,_ZN16GLXPlayerMessage21getCurrentMsgPositionEv,reconstructed,net-session-online/src/glx_player_message.cpp,
+0x834fa4,_ZN16GLXPlayerMessage10getMsgTypeEi,reconstructed,net-session-online/src/glx_player_message.cpp,
+0x834fd4,_ZN16GLXPlayerMessage13clearMsgCountEv,reconstructed,net-session-online/src/glx_player_message.cpp,
+0x833374,_ZN14GLXPlayerLogin9getAPNSIPEv,reconstructed,net-session-online/src/glx_player_login.cpp,
+0x83337c,_ZN14GLXPlayerLogin11getAPNSPortEv,reconstructed,net-session-online/src/glx_player_login.cpp,
+0x833384,_ZN14GLXPlayerLogin17getAPNSFeedBackIPEv,reconstructed,net-session-online/src/glx_player_login.cpp,
+0x83338c,_ZN14GLXPlayerLogin19getAPNSFeedBackPortEv,reconstructed,net-session-online/src/glx_player_login.cpp,
+0x833394,_ZN14GLXPlayerLogin20getAPNSPublicPemPathEv,reconstructed,net-session-online/src/glx_player_login.cpp,
+0x83339c,_ZN14GLXPlayerLogin24getAPNSPrivateKeyPemPathEv,reconstructed,net-session-online/src/glx_player_login.cpp,
+0x8333a4,_ZN14GLXPlayerLogin25getAPNSPrivateKeyPasswordEv,reconstructed,net-session-online/src/glx_player_login.cpp,
+0x8333ac,_ZN14GLXPlayerLogin19getProductListCountEv,reconstructed,net-session-online/src/glx_player_login.cpp,
+0x8333b4,_ZN14GLXPlayerLogin13getProductGGIEi,partial,net-session-online/src/glx_player_login.cpp,"the original has no count check, only the array-allocated check; the port also bounds the index to the vector"
+0x8333d8,_ZN14GLXPlayerLogin12getProductIDEi,partial,net-session-online/src/glx_player_login.cpp,as getProductGGI: the port bounds the index to the vector
+0x8333fc,_ZN14GLXPlayerLogin14getProductNameEi,partial,net-session-online/src/glx_player_login.cpp,as getProductGGI: the port bounds the index to the vector
+0x83341c,_ZN14GLXPlayerLogin19ShouldSendKeepAliveEv,reconstructed,net-session-online/src/glx_player_login.cpp,timestamp read through XP_API_GET_TIME (stand-in returns 0 in host tests)
+0x821254,_ZN29CMatchingGLLiveFriendObserverC2Ev,reconstructed,net-session-online/src/c_matching_gl_live_observers.cpp,
+0x821280,_ZN29CMatchingGLLiveFriendObserverC1Ev,reconstructed,net-session-online/src/c_matching_gl_live_observers.cpp,
+0x8212ac,_ZN29CMatchingGLLiveFriendObserverD2Ev,reconstructed,net-session-online/src/c_matching_gl_live_observers.cpp,
+0x8212b0,_ZN29CMatchingGLLiveFriendObserverD1Ev,reconstructed,net-session-online/src/c_matching_gl_live_observers.cpp,
+0x8212b4,_ZN29CMatchingGLLiveFriendObserver14OnNetworkErrorEv,reconstructed,net-session-online/src/c_matching_gl_live_observers.cpp,no-op
+0x8212b8,_ZN29CMatchingGLLiveFriendObserver16OnRequestTimeoutEi,reconstructed,net-session-online/src/c_matching_gl_live_observers.cpp,no-op
+0x8212bc,_ZN29CMatchingGLLiveFriendObserver16OnRequestSuccessEiPci,reconstructed,net-session-online/src/c_matching_gl_live_observers.cpp,sets the flag when the code is 0x3d
+0x8212cc,_ZN29CMatchingGLLiveFriendObserver16OnRequestFailureEii,reconstructed,net-session-online/src/c_matching_gl_live_observers.cpp,no-op
+0x8241d4,_ZN30CMatchingGLLiveMessageObserver14OnNetworkErrorEv,reconstructed,net-session-online/src/c_matching_gl_live_observers.cpp,no-op
+0x8241d8,_ZN30CMatchingGLLiveMessageObserver16OnRequestTimeoutEi,reconstructed,net-session-online/src/c_matching_gl_live_observers.cpp,no-op
+0x8241dc,_ZN30CMatchingGLLiveMessageObserver16OnRequestFailureEii,reconstructed,net-session-online/src/c_matching_gl_live_observers.cpp,no-op
+0x8241e0,_ZN30CMatchingGLLiveMessageObserver16OnRequestSuccessEiPci,partial,net-session-online/src/c_matching_gl_live_observers.cpp,the write to the CMatching singleton (+0x6c02) for codes 0x6f and 0x70 is not reconstructed
+0x8212f8,_ZN28CMatchingGLLiveLobbyObserver30OnMPEstablishConnectionSuccessEv,reconstructed,net-session-online/src/c_matching_gl_live_observers.cpp,
+0x82130c,_ZN28CMatchingGLLiveLobbyObserver16OnMPLoginSuccessEP10DataPacket,reconstructed,net-session-online/src/c_matching_gl_live_observers.cpp,
+0x821328,_ZN28CMatchingGLLiveLobbyObserver24OnMPKickOutPlayerSuccessEv,reconstructed,net-session-online/src/c_matching_gl_live_observers.cpp,
+0x821334,_ZN28CMatchingGLLiveLobbyObserver20OnMPStartGameSuccessEP10DataPacket,reconstructed,net-session-online/src/c_matching_gl_live_observers.cpp,
+0x82134c,_ZN28CMatchingGLLiveLobbyObserver16OnMPGetLobbyInfoEP10DataPacket,partial,net-session-online/src/c_matching_gl_live_observers.cpp,the packet dump (PrintDatapacket) is not called; state change kept
+0x821368,_ZN28CMatchingGLLiveLobbyObserver19OnMPSetParamSuccessEi,reconstructed,net-session-online/src/c_matching_gl_live_observers.cpp,no-op
+0x82136c,_ZN28CMatchingGLLiveLobbyObserver31OnMPProcessPushSetGameParameterEP10DataPacket,reconstructed,net-session-online/src/c_matching_gl_live_observers.cpp,returns 0
+0x821374,_ZN28CMatchingGLLiveLobbyObserver28OnMPProcessPushSetUserStatusEP10DataPacket,reconstructed,net-session-online/src/c_matching_gl_live_observers.cpp,returns 0
+0x82137c,_ZN28CMatchingGLLiveLobbyObserver31OnMPProcessPushGameserverParamsEP10DataPacket,reconstructed,net-session-online/src/c_matching_gl_live_observers.cpp,returns 0
+0x821384,_ZN28CMatchingGLLiveLobbyObserver28OnMPProcessPushAutomatchUserEP10DataPacket,reconstructed,net-session-online/src/c_matching_gl_live_observers.cpp,returns 0
+0x821448,_ZN28CMatchingGLLiveLobbyObserver9TerminateEv,partial,net-session-online/src/c_matching_gl_live_observers.cpp,ClearRoomList (0x8213ec) is not reconstructed; it is a no-op here
+0x821470,_ZN28CMatchingGLLiveLobbyObserver21OnMPDisconnectSuccessEv,partial,net-session-online/src/c_matching_gl_live_observers.cpp,ClearRoomList (0x8213ec) is not reconstructed; it is a no-op here
+0x83003c,_ZN15GLXPlayerSocket11GetAcceptIPEv,reconstructed,net-session-online/src/glx_player_socket.cpp,
+0x830044,_ZN15GLXPlayerSocket13GetAcceptPortEv,reconstructed,net-session-online/src/glx_player_socket.cpp,
+0x83004c,_ZN15GLXPlayerSocket13SetAcceptPortEi,reconstructed,net-session-online/src/glx_player_socket.cpp,
+0x830054,_ZN15GLXPlayerSocket9SetSocketEi,reconstructed,net-session-online/src/glx_player_socket.cpp,
+0x83005c,_ZN15GLXPlayerSocket13GetSocketTypeEv,reconstructed,net-session-online/src/glx_player_socket.cpp,
+0x830064,_ZN15GLXPlayerSocket13SetSocketTypeEi,reconstructed,net-session-online/src/glx_player_socket.cpp,
+0x83006c,_ZN15GLXPlayerSocket17GetSendPercentageEv,reconstructed,net-session-online/src/glx_player_socket.cpp,values above 100 read as 0
+0x8300e8,_ZN15GLXPlayerSocket15IsErrorOccurredEv,reconstructed,net-session-online/src/glx_player_socket.cpp,
+0x8302d8,_ZN15GLXPlayerSocket11SetAcceptIPEPc,partial,net-session-online/src/glx_player_socket.cpp,"the port frees the previous address copy; the original leaks it. A null argument is copied as """""
+0x82ce00,_ZN13GLXPlayerHttp12IsSendByPostEv,reconstructed,net-session-online/src/glx_player_http.cpp,
+0x82ce2c,_ZN13GLXPlayerHttp16GetServerAddressEv,reconstructed,net-session-online/src/glx_player_http.cpp,
+0x82ce34,_ZN13GLXPlayerHttp14GetRequestDataEv,reconstructed,net-session-online/src/glx_player_http.cpp,
+0x82cec4,_ZN13GLXPlayerHttp11GetResponseEv,reconstructed,net-session-online/src/glx_player_http.cpp,
+0x82ced4,_ZN13GLXPlayerHttp14SetResponseLenEi,reconstructed,net-session-online/src/glx_player_http.cpp,
+0x82cedc,_ZN13GLXPlayerHttp17GetSendPercentageEv,reconstructed,net-session-online/src/glx_player_http.cpp,returns the socket's percentage (the pseudocode shows void; the ARM tail-calls the socket method)
+0x82d220,_ZN13GLXPlayerHttp16GetRequestLengthEv,reconstructed,net-session-online/src/glx_player_http.cpp,GET path is strlen of the inline buffer (XP_API_STRLEN tail call)
+0x8a0184,_ZN15LCXPlayerSocket11GetAcceptIPEv,reconstructed,net-session-online/src/lcx_player_socket.cpp,
+0x8a018c,_ZN15LCXPlayerSocket13GetAcceptPortEv,reconstructed,net-session-online/src/lcx_player_socket.cpp,
+0x8a0194,_ZN15LCXPlayerSocket13SetAcceptPortEi,reconstructed,net-session-online/src/lcx_player_socket.cpp,
+0x8a019c,_ZN15LCXPlayerSocket9SetSocketEi,reconstructed,net-session-online/src/lcx_player_socket.cpp,
+0x8a01a4,_ZN15LCXPlayerSocket13GetSocketTypeEv,reconstructed,net-session-online/src/lcx_player_socket.cpp,
+0x8a01ac,_ZN15LCXPlayerSocket13SetSocketTypeEi,reconstructed,net-session-online/src/lcx_player_socket.cpp,
+0x8a0220,_ZN15LCXPlayerSocket15IsErrorOccurredEv,reconstructed,net-session-online/src/lcx_player_socket.cpp,
+0x8a02fc,_ZN15LCXPlayerSocket11SetAcceptIPEPc,partial,net-session-online/src/lcx_player_socket.cpp,LC_API_STRNEW (0x89d31c) not reconstructed; the copy uses the same new[] logic and the previous address is released
+0x89d3ac,_ZN13LCXPlayerHttp14GetRequestDataEv,reconstructed,net-session-online/src/lcx_player_http.cpp,
+0x89d414,_ZN13LCXPlayerHttp11GetResponseEv,reconstructed,net-session-online/src/lcx_player_http.cpp,
+0x89d41c,_ZN13LCXPlayerHttp14GetResponseLenEv,reconstructed,net-session-online/src/lcx_player_http.cpp,
+0x89d424,_ZN13LCXPlayerHttp14SetResponseLenEi,reconstructed,net-session-online/src/lcx_player_http.cpp,
+0x89d484,_ZN13LCXPlayerHttp16GetRequestLengthEv,reconstructed,net-session-online/src/lcx_player_http.cpp,GET path is strlen of the inline buffer (LC_API_STRLEN tail call)
