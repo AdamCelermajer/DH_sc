@@ -379,6 +379,8 @@ public:
     // playback. No lifecycle callbacks run: completion does not change the actor's source state. The duration is the
     // clip's authored range (end - start) reported by the actor visual.
     bool play_actor_clip(ActorId,const std::string& clip,const std::string& path,bool loop,std::string& error);
+    // B153: bind a scripted clip's source events for a retained actor before its cue (see RetainedSequencePlayback::prebind_clip).
+    bool prebind_actor_clip(ActorId,const std::string& clip,const std::string& path,std::string& error);
     bool actor_clip_duration_ms(ActorId,const std::string& clip,std::int32_t& duration_ms,std::string& error)const;
     // External original skill/cinematic programs execute through the SAME
     // retained pose owner and session clock. Their clips must already be loaded

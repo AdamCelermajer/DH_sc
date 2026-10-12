@@ -109,6 +109,17 @@ bool RetainedSequencePlayback::seed(const AssetCatalog& assets,const std::string
     seed_sequence_=seed_completion_delivered_=false;
     seed_clip_=clip;seed_rate_=rate;seed_blend_=blend;seed_move_=move;error.clear();return true;
 }
+bool RetainedSequencePlayback::prebind_clip(const AssetCatalog& assets,const std::string& clip,const std::string& path,std::string& error){
+    if(!animation_){error="Prebind requires a prepared retained sequence";return false;}
+    const auto existing=event_paths_.find(clip);
+    if(existing!=event_paths_.end()){
+        if(existing->second!=path){error="Prebind source path conflicts with bound clip";return false;}
+        error.clear();return true;
+    }
+    try{const auto bytes=assets.read(path);if(!animation_->bind_events(clip,bytes.data(),bytes.size(),error))return false;event_paths_.emplace(clip,path);}
+    catch(const std::exception& failure){error=failure.what();return false;}
+    error.clear();return true;
+}
 bool RetainedSequencePlayback::seed_sequence(const AssetCatalog& assets,const std::string& clip,const std::string& path,
     float rate,std::int32_t blend,bool move,std::int32_t repeats,RetainedAnimationFrame& output,std::string& error){
     if(repeats< -1){error="Source seed repeat policy must be -1 or nonnegative";return false;}

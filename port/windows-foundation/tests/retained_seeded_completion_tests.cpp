@@ -271,6 +271,30 @@ int main(int argc, char** argv) {
         check(rawClosed == 0 && !raw.animation()->pose().current_ended(),
               "Raw timeline loop incorrectly emitted a finite seeded completion");
 
+        // B153: a scripted clip can be bound ahead of its cue. Prebind is idempotent, refuses a different source path for the same
+        // clip name, and the later seed of the same clip and path still succeeds.
+        {
+            auto preboundConfig = plan.config;
+            preboundConfig.motion_node_id = "auto";
+            preboundConfig.consume_root_motion = true;
+            preboundConfig.clips.clear();
+            preboundConfig.clips.emplace_back(walk->clipName, walk->resolvedPath);
+            CharacterVisual preboundVisual;
+            check(preboundVisual.load(assets, preboundConfig, error), error);
+            RetainedSequencePlayback prebound(preboundVisual, complete_pose_root_sampler(preboundVisual));
+            RetainedSequenceServices preboundServices;
+            preboundServices.frame = [](std::size_t, const RetainedAnimationFrame&, std::string&) { return true; };
+            check(prebound.prepare_seeded(assets, plan, *walk, std::move(preboundServices), error), error);
+            check(prebound.prebind_clip(assets, walk->clipName, walk->resolvedPath, error), "prebind refused: " + error);
+            check(prebound.prebind_clip(assets, walk->clipName, walk->resolvedPath, error), "prebind is not idempotent: " + error);
+            check(!prebound.prebind_clip(assets, walk->clipName, injury->resolvedPath, error),
+                  "prebind accepted a different source path for a bound clip");
+            RetainedAnimationFrame preboundFrame;
+            check(prebound.seed_sequence(assets, walk->clipName, walk->resolvedPath, static_cast<float>(walk->speed),
+                  static_cast<std::int32_t>(walk->blendOut), walk->moveGO != 0, 0, preboundFrame, error),
+                  "seed after prebind: " + error);
+            check(prebound.seeded(), "seed after prebind did not start the seeded playback");
+        }
         std::cout << "PASS finite seed completion, finite repeats, infinite repeat and raw-loop suppression\n";
         return 0;
     } catch (const std::exception& failure) {

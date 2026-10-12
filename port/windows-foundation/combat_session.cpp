@@ -2308,6 +2308,13 @@ bool CombatSession::play_actor_clip(ActorId id,const std::string& clip,const std
     receipt.stage=CombatRuntimeTransitionStage::after_change;
     return s.actor_transition(id,receipt,error);
 }
+bool CombatSession::prebind_actor_clip(ActorId id,const std::string& clip,const std::string& path,std::string& error){
+    error.clear();
+    if(!impl_||impl_->detached||!impl_->entries.count(id)){error="Actor clip actor is unavailable";return false;}
+    auto& entry=impl_->entries.at(id);
+    if(!entry.retained){error="Actor clip requires retained actor playback";return false;}
+    return entry.retained->prebind_clip(*impl_->assets,clip,path,error);
+}
 bool CombatSession::actor_clip_duration_ms(ActorId id,const std::string& clip,std::int32_t& duration_ms,std::string& error)const{
     error.clear();
     const auto* visual=retained_actor_visual_borrow(id);
