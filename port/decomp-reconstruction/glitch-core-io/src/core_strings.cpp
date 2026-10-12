@@ -1,6 +1,7 @@
 #include "glitch-core-io/core/strings.hpp"
 
 #include <cmath>
+#include <cstdint>
 #include <cstdio>
 #include <cstring>
 #include <cwchar>
@@ -125,6 +126,15 @@ std::string stringw2stringc(const wchar_t* text) {
     return out;
 }
 
+// 0x6e5c98 _ZN6glitch4core13float2stringcEf
+// The original formats into a temporary from the process buffer heap (0x21 bytes); the
+// temporary is not observable, so a local buffer is used.
+std::string float2stringc(float value) {
+    char text[0x20];
+    std::snprintf(text, sizeof text, "%f", static_cast<double>(value));
+    return std::string(text);
+}
+
 // 0x542390 _ZN6glitch4core7wcsicmpEPKwS2_
 int wcsicmp(const wchar_t* a, const wchar_t* b) {
     const std::size_t lenA = std::wcslen(a);
@@ -182,6 +192,27 @@ int iterateUTF8String(const char*& position) {
         position += 1;
     }
     return getUTF8charValue(buffer);
+}
+
+// 0x58bad8 _ZN6glitch4core12randomStringEi
+// lrand48 is not taken from the C library: the drand48 step (x = a*x + c mod 2^48, a = 0x5DEECE66D,
+// c = 0xB) is run from the default state of the C library (0x1234ABCD330E), and lrand48 returns the
+// top 31 bits. A seed set by the game through srand48 is therefore not reflected.
+namespace {
+std::uint32_t lrand48Emulated() {
+    static std::uint64_t state = 0x1234ABCD330Eull;
+    state = (0x5DEECE66Dull * state + 0xBull) & ((1ull << 48) - 1);
+    return static_cast<std::uint32_t>(state >> 17);
+}
+}  // namespace
+
+std::string randomString(int length) {
+    static const char alphabet[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    std::string out;
+    for (int i = 0; i < length; ++i) {
+        out.push_back(alphabet[lrand48Emulated() % 62]);
+    }
+    return out;
 }
 
 }  // namespace glitch::core

@@ -261,6 +261,25 @@ public:
     void addStringAsMatrix(const char* name, const wchar_t* value, bool flag);       // 0x56a638
     void addStringAsTexture(const char* name, const wchar_t* value, bool flag);      // 0x5682c0
     void addString(const char* name, const wchar_t* value, bool flag);               // 0x56a798
+    // 0x56a818: PARTIAL, the narrow value is not kept (see the narrow CStringAttribute constructor).
+    void addString(const char* name, const char* value, bool flag);
+    // 0x568384: PARTIAL, the texture is not kept by CTextureAttribute's constructor (see that class).
+    void addTexture(const char* name, boost::intrusive_ptr<glitch::video::ITexture> value, bool flag);
+    // 0x560d58: an enumeration with the empty value, then the index set on the new attribute.
+    void addEnum(const char* name, int value, const char* const* choices, bool flag);
+    // 0x568580: PARTIAL, the enumeration's literal table is not recovered (see CEnumAttribute).
+    void addEnum(const char* name, const char* value, const char* const* choices, bool flag);
+    // 0x56a8b4: PARTIAL. The array is passed to CStringWArrayAttribute, whose constructor does
+    // not keep it (see that class).
+    void addArray(const char* name, const std::vector<std::wstring>& value, bool flag);
+    // 0x5632ac: sets the array of the attribute at index (slot +0x98); out-of-range indices are ignored.
+    void setAttribute(int index, const std::vector<std::wstring>& value);
+    // 0x5641ac / 0x564148: PARTIAL. The enumeration's literal list (the enum attribute's +0x3c
+    // vector) is not in this layout, so the output is left unchanged.
+    void getAttributeEnumerationLiteralsOfEnumeration(const char* name, std::vector<std::string>& literals) const;
+    void getAttributeEnumerationLiteralsOfEnumeration(int index, std::vector<std::string>& literals) const;
+    // 0x568238: PARTIAL, the light is not stored by the attribute constructor (see CLightAttribute).
+    void addLight(const char* name, boost::intrusive_ptr<glitch::video::CLight> value, bool flag);
     void addMatrix(const char* name, const glitch::core::CMatrix4<float>& value, bool flag);         // 0x56a70c
 
     // By name: set the existing attribute, or append a new one with flag false.
@@ -269,6 +288,16 @@ public:
     void setAttribute(const char* name, bool value);                          // 0x56b1bc
     void setAttribute(const char* name, void* value);                         // 0x56ad30
     void setAttribute(const char* name, glitch::core::rect<std::int32_t> value);  // 0x56b878
+    // 0x56ba54: the existing box is set through setBBox, else a new box attribute is added.
+    void setAttribute(const char* name, const glitch::core::aabbox3d<float>& value);
+    // 0x56b400: PARTIAL, see attributes_add.cpp (the new enumeration uses the partial constructor).
+    void setAttribute(const char* name, const char* value, const char* const* choices);
+    // 0x566db0: PARTIAL, see attributes_add.cpp.
+    void setAttribute(const char* name, boost::intrusive_ptr<glitch::video::CLight> value);
+    // 0x56b35c: PARTIAL, sets the existing texture attribute, else adds one (see addTexture).
+    void setAttribute(const char* name, boost::intrusive_ptr<glitch::video::ITexture> value);
+    // 0x56afa8: PARTIAL, sets the existing array attribute, else adds one (see addArray).
+    void setAttribute(const char* name, const std::vector<std::wstring>& value);
     void setAttribute(const char* name, const glitch::core::vector2d<float>& value);       // 0x5659b4
     void setAttribute(const char* name, const glitch::core::vector2d<std::int32_t>& value);  // 0x567a9c
     void setAttribute(const char* name, const glitch::core::vector3d<float>& value);       // 0x56b7b8

@@ -160,4 +160,11 @@ void CAttributes::addString(const char* name, const wchar_t* value, bool flag) {
     currentAttributes().push_back(new CStringAttribute(name, value, flag));
 }
 
+// 0x56a818 _ZN6glitch2io11CAttributes9addStringEPKcS3_b
+// PARTIAL: a null value is replaced by the empty string, as the original does, and the
+// narrow constructor then drops it (see CStringAttribute).
+void CAttributes::addString(const char* name, const char* value, bool flag) {
+    currentAttributes().push_back(new CStringAttribute(name, value != nullptr ? value : "", flag));
+}
+
 }  // namespace glitch::io

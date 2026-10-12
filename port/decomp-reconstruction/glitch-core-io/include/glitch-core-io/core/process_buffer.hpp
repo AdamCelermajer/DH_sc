@@ -24,6 +24,24 @@ void dumpProcessBufferAllocations(glitch::os::ILogger* logger, glitch::os::ELOG_
 // wired here): true at startup sets a 0x40000 byte heap; false at exit frees it, logging
 // any blocks still in use.
 void processBufferHeapInit(bool atStartup);
+// A reference counted block from the process buffer heap. The count is the word before the
+// data word that data points at; the block is released when the count reaches zero.
+struct SSharedProcessBuffer {
+    int* data = nullptr;  // +0x00: first data word (null when empty)
+    // 0x5d8ac4: drops the current block and, for a positive size, takes a block of size + 4
+    // bytes with a count of one. PARTIAL: when the heap cannot give the block, the buffer is left
+    // empty (the original would write through the null block).
+    void reset(int size);
+};
+
+// 0x5d93c8: records whether excess was enabled and enables it. PARTIAL: the decompile enables
+// excess whatever the argument is, so the argument is not used here. The matching restore is
+// not in this queue.
+struct SScopedEnableProcessBufferHeapExcess {
+    explicit SScopedEnableProcessBufferHeapExcess(bool enable);
+    bool previous = false;  // +0x00
+};
+
 // 0x5345f4: a block of the given bytes from the heap, or from malloc when the heap is full
 // and excess is enabled; null otherwise.
 int* allocProcessBuffer(int size);

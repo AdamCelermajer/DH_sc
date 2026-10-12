@@ -24,6 +24,8 @@ public:
         std::string value;  // +0x2c (its c_str is returned)
     };
 
+    // 0x573eb0 (D1): PARTIAL. As the wide reader: the defaulted destructor releases the std members
+    // in place of the original buffer frees (layout differs).
     ~CXMLReaderImpl() override = default;
 
     // Parser step (vtable +0x0c). Provided by the concrete reader.

@@ -22,6 +22,9 @@ const char* fast_atof_move(const char* text, float& result);
 // A null pointer gives the empty string.
 std::wstring stringc2stringw(const char* text);
 
+// 0x6e5c98 _ZN6glitch4core13float2stringcEf: text of the value in "%f" form (six decimals).
+std::string float2stringc(float value);
+
 // 0x542390 _ZN6glitch4core7wcsicmpEPKwS2_: length difference when the lengths differ;
 // otherwise the number of positions where the characters differ. A pair counts as equal
 // when one is the other minus 0x41 (as the listing compares), so this is not a full case
@@ -36,6 +39,10 @@ int getUTF8charValue(const char* text);
 // moves the position past it (one byte for an invalid lead byte). Returns the code point.
 // The pseudocode shows void; the listing returns getUTF8charValue's result in r0.
 int iterateUTF8String(const char*& position);
+
+// 0x58bad8 _ZN6glitch4core12randomStringEi: a string of the given length (none when <= 0)
+// drawn from "0-9A-Za-z". Each character is lrand48() % 62 (see core_strings.cpp).
+std::string randomString(int length);
 
 // 0x326c58 _ZN6glitch4core15stringw2stringcEPKw: wide to narrow. A null pointer gives
 // the empty string.

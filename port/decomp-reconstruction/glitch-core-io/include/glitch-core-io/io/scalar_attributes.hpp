@@ -63,7 +63,11 @@ class CEnumAttribute : public CIntAttribute {
 public:
     // 0x56532c (D1): PARTIAL. The original also releases the literal vector at +0x3c, which
     // this layout does not hold; the base and members are released as usual.
+    CEnumAttribute() = default;
     ~CEnumAttribute() override = default;
+    // 0x56706c: PARTIAL. Keeps the name and flag; the value and the choices (the literal
+    // table at +0x3c..+0x40) are not recovered, so the index starts at 0.
+    CEnumAttribute(const char* attrName, const char* value, const char* const* choices, bool f);
     int enumValue = 0;  // +0x38
 
     float getFloat() const override;      // 0x5605a4

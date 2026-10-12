@@ -251,6 +251,16 @@ CStringAttribute::CStringAttribute(const char* attrName, const wchar_t* value, b
     }
 }
 
+// 0x567d60 _ZN6glitch2io16CStringAttributeC1EPKcS3_b
+// PARTIAL: the decompile copies the name and the flag, clears isWide and leaves both strings
+// empty; the value argument is never read, so it is not stored here.
+CStringAttribute::CStringAttribute(const char* attrName, const char* value, bool f) {
+    (void)value;
+    name = attrName != nullptr ? attrName : "";
+    flag = f;
+    isWide = false;
+}
+
 // 0x3266a8 (D1): the members are released by their own destructors.
 
 // 0x3260d0 _ZN6glitch2io16CStringAttribute9getStringEv
@@ -421,6 +431,17 @@ void CLightAttribute::setLight(boost::intrusive_ptr<glitch::video::CLight> value
 // The driver reference is dropped first; the light member is released after this body.
 CLightAttribute::~CLightAttribute() {
     if (driver != nullptr) driver->drop();
+}
+
+// 0x566c90 _ZN6glitch2io15CLightAttributeC1EPKcRKN5boost13intrusive_ptrINS_5video6CLightEEEPNS6_12IVideoDriverEb
+// PARTIAL: the light argument is dropped, as in the decompile (light stays null).
+CLightAttribute::CLightAttribute(const char* attrName, const boost::intrusive_ptr<glitch::video::CLight>& value,
+                                 glitch::video::IVideoDriver* drv, bool f) {
+    (void)value;
+    name = attrName;
+    flag = f;
+    driver = drv;
+    if (driver != nullptr) ++driver->referenceCounter;
 }
 
 // 0x56377c _ZNK6glitch2io15CLightAttribute10getStringWEv

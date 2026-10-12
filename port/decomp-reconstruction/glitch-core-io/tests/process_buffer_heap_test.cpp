@@ -77,6 +77,25 @@ int main() {
     setProcessBufferHeapExcessEnabled(false);
     CHECK(getProcessBufferHeapAvailableMemory() == 56);
 
+    // Shared blocks: a count of one at the word before the data, released on reset.
+    setProcessBufferHeapSize(64);
+    SSharedProcessBuffer shared;
+    shared.reset(8);
+    CHECK(shared.data != nullptr && shared.data[-1] == 1);
+    shared.reset(16);
+    CHECK(shared.data != nullptr && shared.data[-1] == 1);
+    shared.reset(0);
+    CHECK(shared.data == nullptr);
+
+    // The scoped enable records the previous state and turns excess on.
+    setProcessBufferHeapExcessEnabled(false);
+    {
+        SScopedEnableProcessBufferHeapExcess scope(false);
+        CHECK(!scope.previous);
+        CHECK(isProcessBufferHeapExcessEnabled());
+    }
+    setProcessBufferHeapExcessEnabled(false);
+
     setProcessBufferHeapSize(0);
     CHECK(getProcessBufferHeapSize() == 0);
     if (failures == 0) std::printf("process buffer heap: all checks passed\n");

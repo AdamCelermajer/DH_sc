@@ -252,4 +252,108 @@ void CAttributes::setAttribute(const char* name, glitch::video::SColorf value) {
     addColorf(name, value, false);
 }
 
+// 0x560d58 _ZN6glitch2io11CAttributes7addEnumEPKciPKS3_b
+// Adds the enumeration with an empty value, then sets the index on the attribute just added.
+void CAttributes::addEnum(const char* name, int value, const char* const* choices, bool flag) {
+    addEnum(name, "", choices, flag);
+    currentAttributes().back()->setInt(value);
+}
+
+// 0x568580 _ZN6glitch2io11CAttributes7addEnumEPKcS3_PKS3_b
+// PARTIAL: the constructor keeps only the name and flag (see CEnumAttribute).
+void CAttributes::addEnum(const char* name, const char* value, const char* const* choices, bool flag) {
+    currentAttributes().push_back(new CEnumAttribute(name, value, choices, flag));
+}
+
+// 0x56b400 _ZN6glitch2io11CAttributes12setAttributeEPKcS3_PKS3_
+// PARTIAL: an existing attribute takes the value through setEnum (slot +0xf8); a new one is
+// created with the partial enumeration constructor and the flag clear.
+void CAttributes::setAttribute(const char* name, const char* value, const char* const* choices) {
+    if (IAttribute* a = getAttributeP(name)) {
+        a->setEnum(value, choices);
+        return;
+    }
+    currentAttributes().push_back(new CEnumAttribute(name, value, choices, false));
+}
+
+// 0x56ba54 _ZN6glitch2io11CAttributes12setAttributeEPKcNS_4core8aabbox3dIfEE
+// PARTIAL: the existing branch calls the setter at slot +0xec; here it is setBBox, by name.
+void CAttributes::setAttribute(const char* name, const glitch::core::aabbox3d<float>& value) {
+    if (IAttribute* a = getAttributeP(name)) {
+        a->setBBox(value);
+        return;
+    }
+    currentAttributes().push_back(new CBBoxAttribute(name, value, false));
+}
+
+// 0x566db0 _ZN6glitch2io11CAttributes12setAttributeEPKcN5boost13intrusive_ptrINS_5video6CLightEEE
+// PARTIAL: a new light attribute is created with the partial constructor (its light stays null).
+void CAttributes::setAttribute(const char* name, boost::intrusive_ptr<glitch::video::CLight> value) {
+    if (IAttribute* a = getAttributeP(name)) {
+        a->setLight(value);
+        return;
+    }
+    currentAttributes().push_back(new CLightAttribute(name, value, driver, false));
+}
+
+// 0x568238 _ZN6glitch2io11CAttributes8addLightEPKcN5boost13intrusive_ptrINS_5video6CLightEEEb
+// PARTIAL: the light attribute's constructor does not store the light (see CLightAttribute).
+void CAttributes::addLight(const char* name, boost::intrusive_ptr<glitch::video::CLight> value, bool flag) {
+    currentAttributes().push_back(new CLightAttribute(name, value, driver, flag));
+}
+
+// 0x568384 _ZN6glitch2io11CAttributes10addTextureEPKcN5boost13intrusive_ptrINS_5video8ITextureEEEb
+// PARTIAL: the texture attribute uses the partial CTextureAttribute constructor (the texture is
+// not kept); the container's driver is passed as the attribute's driver.
+void CAttributes::addTexture(const char* name, boost::intrusive_ptr<glitch::video::ITexture> value, bool flag) {
+    currentAttributes().push_back(new CTextureAttribute(name, value, driver, flag));
+}
+
+// 0x56b35c _ZN6glitch2io11CAttributes12setAttributeEPKcN5boost13intrusive_ptrINS_5video8ITextureEEE
+// PARTIAL: a new attribute is added with flag clear, through the partial texture constructor.
+void CAttributes::setAttribute(const char* name, boost::intrusive_ptr<glitch::video::ITexture> value) {
+    if (IAttribute* a = getAttributeP(name)) {
+        a->setTexture(value);
+        return;
+    }
+    currentAttributes().push_back(new CTextureAttribute(name, value, driver, false));
+}
+
+// 0x56afa8 _ZN6glitch2io11CAttributes12setAttributeEPKcSt6vectorISbIwSt11char_traitsIwENS_4core10SAllocatorIwLNS_6memory13E_MEMORY_HINTE0EEEENS8_ISC_LSA_0EEEE
+// PARTIAL: a new array attribute is added with flag clear, through the partial
+// CStringWArrayAttribute constructor (the array is not kept there).
+void CAttributes::setAttribute(const char* name, const std::vector<std::wstring>& value) {
+    if (IAttribute* a = getAttributeP(name)) {
+        a->setArray(value);
+        return;
+    }
+    currentAttributes().push_back(new CStringWArrayAttribute(name, value, false));
+}
+
+// 0x56a8b4 _ZN6glitch2io11CAttributes8addArrayEPKcSt6vectorISbIwSt11char_traitsIwENS_4core10SAllocatorIwLNS_6memory13E_MEMORY_HINTE0EEEENS8_ISC_LSA_0EEEEb
+// PARTIAL: the new attribute is built with the partial CStringWArrayAttribute constructor.
+void CAttributes::addArray(const char* name, const std::vector<std::wstring>& value, bool flag) {
+    currentAttributes().push_back(new CStringWArrayAttribute(name, value, flag));
+}
+
+// 0x5632ac _ZN6glitch2io11CAttributes12setAttributeEiSt6vectorISbIwSt11char_traitsIwENS_4core10SAllocatorIwLNS_6memory13E_MEMORY_HINTE0EEEENS6_ISA_LS8_0EEEE
+void CAttributes::setAttribute(int index, const std::vector<std::wstring>& value) {
+    if (index < 0 || static_cast<std::size_t>(index) >= currentAttributes().size()) return;
+    currentAttributes()[static_cast<std::size_t>(index)]->setArray(value);
+}
+
+// 0x5641ac _ZN6glitch2io11CAttributes44getAttributeEnumerationLiteralsOfEnumerationEPKcRSt6vectorISbIcSt11char_traitsIcENS_4core10SAllocatorIcLNS_6memory13E_MEMORY_HINTE0EEEENS8_ISC_LSA_0EEEE
+// PARTIAL: the literal list of an enumeration (type code 4) is not in the port's layout.
+void CAttributes::getAttributeEnumerationLiteralsOfEnumeration(const char* name, std::vector<std::string>& literals) const {
+    (void)name;
+    (void)literals;
+}
+
+// 0x564148 _ZN6glitch2io11CAttributes44getAttributeEnumerationLiteralsOfEnumerationEiRSt6vectorISbIcSt11char_traitsIcENS_4core10SAllocatorIcLNS_6memory13E_MEMORY_HINTE0EEEENS6_ISA_LS8_0EEEE
+// PARTIAL: as the name form (see above).
+void CAttributes::getAttributeEnumerationLiteralsOfEnumeration(int index, std::vector<std::string>& literals) const {
+    (void)index;
+    (void)literals;
+}
+
 }  // namespace glitch::io

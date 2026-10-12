@@ -199,3 +199,16 @@ std::wstring CBoolAttribute::getStringW() const { return value ? L"true" : L"fal
 std::wstring CIntAttribute::getStringW() const { return std::to_wstring(value); }
 
 }  // namespace glitch::io
+
+namespace glitch::io {
+
+// 0x56706c _ZN6glitch2io14CEnumAttributeC1EPKcS3_PKS3_b
+// PARTIAL: the decompiled constructor builds the literal table and the value string, which are
+// not in this layout; only the base (name and flag) is set here.
+CEnumAttribute::CEnumAttribute(const char* attrName, const char* value, const char* const* choices, bool f)
+    : CIntAttribute(attrName, 0, f) {
+    (void)value;
+    (void)choices;
+}
+
+}  // namespace glitch::io

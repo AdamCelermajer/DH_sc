@@ -33,6 +33,10 @@ struct SZipFileEntry {
     std::int16_t f68 = 0;   // +0x68
 };
 
+// 0x5775a4 / 0x5777ac / 0x5783c4 use operator< on entries. PARTIAL: the name is compared, as for
+// SPakFileEntry; the decompiled comparator field is not confirmed.
+bool operator<(const SZipFileEntry& a, const SZipFileEntry& b);
+
 class CZipReader : public glitch::IReferenceCounted {
 public:
     CZipReader() = default;  // used by the tests; the original always has a file or a name

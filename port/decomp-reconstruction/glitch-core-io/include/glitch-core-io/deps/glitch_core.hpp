@@ -125,8 +125,22 @@ struct plane3d {
 };
 template <typename T>
 struct CMatrix4 {
+    enum eConstructor { EM4CONST_NOTHING, EM4CONST_COPY, EM4CONST_IDENTITY };
+
+    CMatrix4() = default;
+    // 0x631c14 (clone), 0x6c0ce4: the identity matrix, with the flag set. The decompile ignores
+    // the argument and always builds the identity.
+    explicit CMatrix4(eConstructor) : M{}, flag(false) {
+        M[0] = M[5] = M[10] = M[15] = static_cast<T>(1);
+        flag = true;
+    }
+
+    // 0x5ba19c: PARTIAL. Only the flag is read here; the original's element check (taken when the
+    // flag is clear) is not recovered, so a clear flag gives false.
+    bool isIdentity() const { return flag; }
+
     T M[16];  // row-major, as in the original
-    bool flag = false;  // +0x40: byte after the 16 values; its meaning is not recovered
+    bool flag = false;  // +0x40: byte after the 16 values; set by the identity constructor
 
     // 0x31f790 getTransposed: out[i] = this[(i % 4) * 4 + i / 4]; the flag is copied.
     void getTransposed(CMatrix4& out) const {

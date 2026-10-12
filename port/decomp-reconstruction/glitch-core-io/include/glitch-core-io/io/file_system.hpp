@@ -17,7 +17,9 @@ namespace glitch::io {
 
 class CFileSystem : public IFileSystem {
 public:
-    CFileSystem() = default;  // the original constructor (0x56c058, 0x56c0a8) is not reconstructed
+    // 0x56c058, 0x56c0a8: PARTIAL. The original clears its archive lists and the obfuscation
+    // map; the port has no such lists, so the default state is the same as far as it goes.
+    CFileSystem() = default;
     // 0x56cc44 (D1), 0x56ccc4 (D2): PARTIAL, releases the archive lists through clear().
     ~CFileSystem();
 

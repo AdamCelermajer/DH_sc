@@ -111,4 +111,7 @@ void CZipReader::deletePathFromFilename(std::string& fileName) {
     }
 }
 
+// 0x5775a4 / 0x5777ac / 0x5783c4: see the declaration in zip_reader.hpp.
+bool operator<(const SZipFileEntry& a, const SZipFileEntry& b) { return a.name < b.name; }
+
 }  // namespace glitch::io

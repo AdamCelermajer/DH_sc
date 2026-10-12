@@ -150,6 +150,28 @@ int* allocProcessBuffer(int size) {
     return static_cast<int*>(std::malloc(static_cast<std::size_t>(size)));
 }
 
+// 0x5d8ac4 _ZN6glitch4core20SSharedProcessBuffer5resetEi
+void SSharedProcessBuffer::reset(int size) {
+    if (data != nullptr) {
+        if (--data[-1] == 0) releaseProcessBuffer(data - 1);
+        data = nullptr;
+    }
+    if (size > 0) {
+        int* block = allocProcessBuffer(size + 4);
+        if (block != nullptr) {
+            block[0] = 1;
+            data = block + 1;
+        }
+    }
+}
+
+// 0x5d93c8 _ZN6glitch4core36SScopedEnableProcessBufferHeapExcessC1Eb.clone.1
+SScopedEnableProcessBufferHeapExcess::SScopedEnableProcessBufferHeapExcess(bool enable) {
+    (void)enable;
+    previous = isProcessBufferHeapExcessEnabled();
+    setProcessBufferHeapExcessEnabled(true);
+}
+
 // 0x534688 _ZN6glitch4core20releaseProcessBufferEPv
 // The original takes the pointer as an unsigned 32-bit value; it is a void* here.
 void releaseProcessBuffer(void* block) {

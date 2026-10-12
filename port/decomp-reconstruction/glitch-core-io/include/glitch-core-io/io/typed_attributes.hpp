@@ -205,6 +205,9 @@ class CStringAttribute : public IAttribute {
 public:
     CStringAttribute() = default;
     CStringAttribute(const char* attrName, const wchar_t* value, bool f);  // 0x565c00
+    // 0x567d60: PARTIAL. The value argument is not stored (the decompile never reads it); the
+    // strings start empty and isWide is cleared.
+    CStringAttribute(const char* attrName, const char* value, bool f);
     ~CStringAttribute() override = default;                                  // 0x3266a8
 
     std::string narrow;   // +0x24
@@ -226,12 +229,16 @@ public:
 
 class CLightAttribute : public IAttribute {
 public:
+    CLightAttribute() = default;
     // 0x56514c (D1): drops the driver (+0x28); the light is released after this body.
     ~CLightAttribute() override;
     boost::intrusive_ptr<glitch::video::CLight> light;  // +0x24
-    // Reference counted driver (+0x28). The constructor (0x566c90) is not reconstructed, so
-    // it is only set by hand here.
+    // Reference counted driver (+0x28).
     glitch::video::IVideoDriver* driver = nullptr;
+    // 0x566c90: PARTIAL. The light argument is not stored (the decompile clears the light); the
+    // driver is kept with a reference.
+    CLightAttribute(const char* attrName, const boost::intrusive_ptr<glitch::video::CLight>& value,
+                    glitch::video::IVideoDriver* drv, bool f);
     // 0x56377c: "light" when a light is set, else the empty string.
     std::wstring getStringW() const override;
     bool getBool() const override;  // 0x5606c4
