@@ -409,3 +409,54 @@ Remaining (not reconstructed, with the reason):
   not in the port, and the pseudocode is garbled.
 - `IAttributes::getEnum<E>` / `addEnum<E>` and the `SIsValidSetMaterialParamaterOverload` enable_if
   templates belong to glitch::video material code outside this category's files.
+
+## Wave 7 (240 new ledger rows: 119 reconstructed, 121 partial)
+
+Scope: the `glitch::video::detail::IMaterialParameters` instances (enable_if
+`SIsValidSetMaterialParamaterOverload`), which were the largest group of simple bodies (270 of
+the 581 simple remaining). The earlier note that they belong to material code is overruled here:
+the queue assigns them to this category and the brief asks for one template per family. Header:
+`include/glitch-core-io/video/material_parameters.hpp`; tests: `tests/material_parameters_test.cpp`.
+
+Owners and layouts (the three owners keep their tables differently, so the template takes a storage
+policy; offsets are the original's, kept as comments):
+- `CGlobalMaterialParameterManager`: SIDedCollection of 20-byte entries (vector at +0x18), value
+  buffer pointer at +0x2c. An entry is set when its shared-string reference (+0x00) is non-null.
+- `CMaterial`: block pointer at +0x04; block count (uint16) at +0x0e and 16-byte entries at +0x20 of
+  the block; values inline at +0x20 of the material. Dirty-range markers at +0x0c and +0x10: every
+  array setter sets them to -1, and an indexed setter does so only when the value changes.
+- `CMaterialRenderer`: count (uint16) at +0x0e, entry table pointer at +0x20, value buffer pointer
+  at +0x24. Entries are 16 bytes (SShaderParameterDef: type byte +0x06, count +0x08, offset +0x0c).
+- Type codes (char at entry+6): int 1, vec2i 2, vec3i 3, vec4i 4, float 5, vec2f 6, vec3f 7,
+  vec4f 8, SColor 16, SColorf 17. Element sizes 4, 8, 12, 16, 4, 8, 12, 16, 4, 16.
+
+Decisions:
+- Array forms: stride 0 or the element size means contiguous. The port uses a byte-step copy loop in
+  place of the original's memcpy fast path (same bytes copied).
+- The decompiler's `WARNING: Subroutine does not return` on memcpy is wrong: the ARM shows
+  `bl memcpy` followed by a return. The ARM of the CGM array getter and setter (0x5c26dc, 0x5c0480)
+  confirms the contiguous path returns 1.
+- Return values of the memcpy path of some CMaterial and CMaterialRenderer array forms are a
+  register (the entry count or the value-buffer pointer), not 1. Read as bool they are true; those
+  rows say so in the notes.
+- `CMaterial::setParameter(id, index, T const&)` writes only when the stored value differs (the
+  original branches on the compare and returns 0 when equal). `ParamEquals<T>` does the compare:
+  bitwise for integers, `==` per component for floats (fcmpeq), so NaN always writes.
+- The Cvt family is partial: `SShaderParameterTypeInspection::Convertions` (19 words at ELF
+  0x8e2c58, 76 bytes) is not in the container, so the conversion gate cannot be applied. Only the
+  same-type path is implemented.
+
+Not ledgered (blocked; the queue still lists them):
+- `setParameterElement` (9 instances, 0x5beb84, 0x5becc4, 0x5c0aa8 and the CMat/CMR forms): gated on
+  `SShaderParameterTypeInspection::ValueTypeBaseType` and `ValueTypeArraySize`, which are not in the
+  container. The type-11 (matrix) branch allocates a CMatrix4 and is not recovered.
+- `CMaterial::setParameterAt<SColorf>` (0x5cac8c, 48 bytes): the decompiled body is only
+  `__aeabi_i2f` and `__aeabi_fmul` with a constant 0x3b808081 (1/255). Needs the ARM for the store.
+- `intrusive_ptr<CLight>` and `intrusive_ptr<ITexture>` instances (48): they need the intrusive_ptr
+  release and copy calls in the body and the type code of ITexture (the pseudocode does not test a
+  char constant for it, so the code is unknown).
+
+Open questions:
+- The indexed `SColorf` setter on CMaterial calls `SColorf::equals` with a tolerance (value not
+  recovered); the port compares exactly (partial row).
+- The `PTR` getters' null check and the shared-count release are not checked against the ARM yet.
