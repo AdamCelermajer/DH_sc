@@ -63,9 +63,13 @@ public:
     const std::vector<IGUIElement*>& getChildren() const;
     // 0x5350a4 _ZNK6glitch3gui11IGUIElement11getTypeNameEv (partial: the name table is not mapped)
     const char* getTypeName() const;
+    // 0x534e48 _ZNK6glitch3gui11IGUIElement13isPointInsideERKNS_4core10position2dIiEE
+    // True when the point lies inside the absolute rectangle (both edges included).
+    bool isPointInside(const core::position2d<int>& point) const;
 
     std::vector<IGUIElement*> children;  // +0x04, the child list (core::list in the original)
     const char* name = nullptr;          // +0x20, data pointer returned by getName
+    core::rect<int> absoluteRect;        // +0x48 (upper-left x, y) .. +0x54 (lower-right x, y)
     std::uint8_t subElement = 0;         // +0x9a
     std::uint8_t visible = 0;            // +0x98
     std::uint8_t enabled = 0;            // +0x99

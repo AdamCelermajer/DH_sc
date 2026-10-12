@@ -127,6 +127,17 @@ public:
     glitch::scene::ISceneNode* attachedNode = nullptr;  // +0x14
 };
 
+// Software skin technique. Only the attach hook is mapped; its constructor (C1 and C2)
+// also stores the skin and cache references, which are not reconstructed here.
+class CColladaSoftwareSkinTechnique {
+public:
+    // 0x66f6c8 _ZN6glitch7collada6detail29CColladaSoftwareSkinTechnique6attachEPNS_5scene10ISceneNodeE
+    void attach(glitch::scene::ISceneNode* node);
+
+    std::uint8_t pad_0000[0x14] = {};                   // +0x00..+0x13 (not mapped)
+    glitch::scene::ISceneNode* attachedNode = nullptr;  // +0x14
+};
+
 }  // namespace detail
 
 // The streaming manager is a singleton: its constructor publishes itself through the

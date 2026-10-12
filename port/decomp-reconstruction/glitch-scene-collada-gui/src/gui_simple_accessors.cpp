@@ -441,4 +441,14 @@ std::int32_t CGUISpriteBank::getTextureCount() const {
     return static_cast<std::int32_t>(textures.size());
 }
 
+// 0x54f8b0 _ZN6glitch3gui14CGUISpriteBank12getPositionsEv
+std::vector<void*>* CGUISpriteBank::getPositions() {
+    return &positions;
+}
+
+// 0x54f8b8 _ZN6glitch3gui14CGUISpriteBank10getSpritesEv
+std::vector<void*>* CGUISpriteBank::getSprites() {
+    return &sprites;
+}
+
 }  // namespace glitch::gui

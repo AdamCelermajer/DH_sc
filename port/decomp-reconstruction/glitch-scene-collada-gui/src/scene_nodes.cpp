@@ -148,6 +148,10 @@ std::uint32_t CBatchSceneNode::getType() const {
 // 0x50cd38 _ZN6glitch5scene15CBatchSceneNode20preRegisterSceneNodeEv
 void CBatchSceneNode::preRegisterSceneNode() {}
 
+// 0x57e5b0 _ZN6glitch5scene15CBatchSceneNode7setMeshERKN5boost13intrusive_ptrINS0_5IMeshEEE
+// Original body is empty: the mesh handle is not stored.
+void CBatchSceneNode::setMesh(const boost::intrusive_ptr<IMesh>& /*mesh*/) {}
+
 // 0x50cd3c _ZN6glitch5scene15CBatchSceneNode16isSegmentVisibleERKNS0_10CBatchMesh8SSegmentE
 bool CBatchSceneNode::isSegmentVisible(const CBatchMesh::SSegment& segment) {
     return segment.visible != 0;

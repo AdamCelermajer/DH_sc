@@ -4,6 +4,20 @@
 
 namespace glitch::ps {
 
+// 0x69ace4 _ZN6glitch2ps7PDPointC2ERKNS_4core8vector3dIfEE
+// 0x69ad38 _ZN6glitch2ps7PDPointC1ERKNS_4core8vector3dIfEE
+PDPoint::PDPoint(const core::vector3d<float>& value) : point(value) {}
+
+// 0x69ad8c _ZNK6glitch2ps7PDPoint6withinERKNS_4core8vector3dIfEE
+bool PDPoint::within(const core::vector3d<float>& value) const {
+    return point.X == value.X && point.Y == value.Y && point.Z == value.Z;
+}
+
+// 0x69ade8 _ZNK6glitch2ps7PDPoint8generateERNS0_8PSRandomE
+core::vector3d<float> PDPoint::generate(PSRandom& /*random*/) const {
+    return point;
+}
+
 // 0x69ac94 _ZNK6glitch2ps7PDPoint7getTypeEv
 std::uint32_t PDPoint::getType() const {
     return 3;

@@ -205,12 +205,16 @@ public:
     std::uint32_t getType() const;
     // 0x50cd38 _ZN6glitch5scene15CBatchSceneNode20preRegisterSceneNodeEv (empty)
     void preRegisterSceneNode();
+    // 0x57e5b0 _ZN6glitch5scene15CBatchSceneNode7setMeshERKN5boost13intrusive_ptrINS0_5IMeshEEE (empty)
+    void setMesh(const boost::intrusive_ptr<IMesh>& mesh);
     // 0x50cd3c _ZN6glitch5scene15CBatchSceneNode16isSegmentVisibleERKNS0_10CBatchMesh8SSegmentE
     bool isSegmentVisible(const CBatchMesh::SSegment& segment);
 };
 
 class IMesh {
 public:
+    // 0x596c68 _ZN6glitch5scene5IMeshD1Ev (empty)
+    ~IMesh() = default;
     // 0x596c6c _ZNK6glitch5scene5IMesh15getUserPropertyEv (returns null)
     const void* getUserProperty() const;
 };

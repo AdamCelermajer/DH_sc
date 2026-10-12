@@ -79,6 +79,11 @@ void CColladaHardwareTextureSkinTechnique::attach(glitch::scene::ISceneNode* nod
     attachedNode = node;
 }
 
+// 0x66f6c8 _ZN6glitch7collada6detail29CColladaSoftwareSkinTechnique6attachEPNS_5scene10ISceneNodeE
+void CColladaSoftwareSkinTechnique::attach(glitch::scene::ISceneNode* node) {
+    attachedNode = node;
+}
+
 }  // namespace detail
 
 CAnimationStreamingManager* CAnimationStreamingManager::Instance = nullptr;

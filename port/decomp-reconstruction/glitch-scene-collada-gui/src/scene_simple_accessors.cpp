@@ -175,6 +175,13 @@ void CParticleSystemSceneNode::setParticlesAreGlobal(bool global) { particlesAre
 // 0x6c0f08 _ZN6glitch5scene24CParticleSystemSceneNode17reallocateBuffersEv
 void CParticleSystemSceneNode::reallocateBuffers() {}
 
+// 0x6bba70 _ZN6glitch5scene5CMeshC2Ev
+// 0x6bbad4 _ZN6glitch5scene5CMeshC1Ev
+CMesh::CMesh() {
+    boundingBox.MinEdge = {-1.0f, -1.0f, -1.0f};
+    boundingBox.MaxEdge = {1.0f, 1.0f, 1.0f};
+}
+
 // 0x6bbc68 _ZNK6glitch5scene5CMesh14getBoundingBoxEv
 const core::aabbox3d<float>& CMesh::getBoundingBox() const { return boundingBox; }
 
@@ -496,3 +503,13 @@ bool CColladaBinaryFileLoader::isALoadableFileExtension(const char* filename) co
 }
 
 }  // namespace glitch::scene
+
+namespace glitch {
+
+// 0x5a20bc _ZN6glitcheqERKSt4pairIjNS_4core8aabbox3dIfEEES6_
+bool operator==(const std::pair<std::uint32_t, core::aabbox3d<float>>& lhs,
+                const std::pair<std::uint32_t, core::aabbox3d<float>>& rhs) {
+    return lhs.first == rhs.first;
+}
+
+}  // namespace glitch

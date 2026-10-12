@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+#include "glitch-scene-collada-gui/deps/core_stand_ins.hpp"
+
 namespace glitch::core {
 template <typename T>
 class CMatrix4;  // only named by parameter types here; the layout is not mapped
@@ -11,16 +13,33 @@ class CMatrix4;  // only named by parameter types here; the layout is not mapped
 
 namespace glitch::ps {
 
+// Random source of the shape generators (its layout is not mapped here).
+class PSRandom;
+
 // Emitter distribution shapes; the type tag is the shape index. The shapes are
 // stand-ins without the PDomain base, so each destructor is its own empty body.
 class PDPoint {
 public:
+    PDPoint() = default;
+    // 0x69ace4 _ZN6glitch2ps7PDPointC2ERKNS_4core8vector3dIfEE
+    // 0x69ad38 _ZN6glitch2ps7PDPointC1ERKNS_4core8vector3dIfEE
+    // Copies the point (the vtable store of the original has no stand-in here).
+    explicit PDPoint(const core::vector3d<float>& value);
+
     // 0x69ac90 _ZN6glitch2ps7PDPointD1Ev (empty)
     ~PDPoint() = default;
     // 0x69ac94 _ZNK6glitch2ps7PDPoint7getTypeEv (returns 3)
     std::uint32_t getType() const;
     // 0x69ae4c _ZNK6glitch2ps7PDPoint4sizeEv (returns 1.0f)
     float size() const;
+    // 0x69ad8c _ZNK6glitch2ps7PDPoint6withinERKNS_4core8vector3dIfEE
+    // True only when the point equals the given vector on all three components.
+    bool within(const core::vector3d<float>& value) const;
+    // 0x69ade8 _ZNK6glitch2ps7PDPoint8generateERNS0_8PSRandomE
+    // The point is its own sample: the random source is not used.
+    core::vector3d<float> generate(PSRandom& random) const;
+
+    core::vector3d<float> point;  // +0x04
 };
 
 class PDLine {

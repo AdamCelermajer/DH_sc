@@ -58,6 +58,12 @@ const char* IGUIElement::getName() const {
     return name;
 }
 
+// 0x534e48 _ZNK6glitch3gui11IGUIElement13isPointInsideERKNS_4core10position2dIiEE
+bool IGUIElement::isPointInside(const core::position2d<int>& point) const {
+    return absoluteRect.UpperLeftCorner.X <= point.X && absoluteRect.UpperLeftCorner.Y <= point.Y &&
+           point.X <= absoluteRect.LowerRightCorner.X && point.Y <= absoluteRect.LowerRightCorner.Y;
+}
+
 // 0x535014 _ZNK6glitch3gui11IGUIElement11getChildrenEv
 // Name table indexed by guiType. The original reads it from a static table
 // (glitch::gui::GUIElementTypeNames) that is not mapped yet, so it stays null

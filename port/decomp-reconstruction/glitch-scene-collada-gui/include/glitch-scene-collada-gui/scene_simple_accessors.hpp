@@ -5,6 +5,7 @@
 #pragma once
 
 #include <cstdint>
+#include <utility>
 #include <vector>
 
 #include "glitch-scene-collada-gui/deps/core_stand_ins.hpp"
@@ -17,6 +18,15 @@ class IVideoDriver;
 namespace glitch::io {
 class IReadFile;
 }
+
+namespace glitch {
+
+// 0x5a20bc _ZN6glitcheqERKSt4pairIjNS_4core8aabbox3dIfEEES6_
+// Pairs of a buffer index and a box compare by their index only.
+bool operator==(const std::pair<std::uint32_t, core::aabbox3d<float>>& lhs,
+                const std::pair<std::uint32_t, core::aabbox3d<float>>& rhs);
+
+}  // namespace glitch
 
 namespace glitch::scene {
 
@@ -334,6 +344,11 @@ public:
 
 class CMesh {
 public:
+    // 0x6bba70 _ZN6glitch5scene5CMeshC2Ev
+    // 0x6bbad4 _ZN6glitch5scene5CMeshC1Ev
+    // The box starts as (-1, -1, -1) to (1, 1, 1) and the buffer list is empty.
+    CMesh();
+
     // 0x6bbc68 _ZNK6glitch5scene5CMesh14getBoundingBoxEv
     const core::aabbox3d<float>& getBoundingBox() const;
     // 0x6bbc70 _ZN6glitch5scene5CMesh14setBoundingBoxERKNS_4core8aabbox3dIfEE

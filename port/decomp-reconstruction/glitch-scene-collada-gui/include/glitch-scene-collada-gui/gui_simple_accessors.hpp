@@ -591,7 +591,16 @@ public:
     // 0x54f8c0 _ZNK6glitch3gui14CGUISpriteBank15getTextureCountEv
     std::int32_t getTextureCount() const;
 
-    std::uint8_t pad_0000[0x20] = {};  // +0x00..+0x1f (sprite and position lists, not mapped)
+    // 0x54f8b0 _ZN6glitch3gui14CGUISpriteBank12getPositionsEv
+    // Returns the address of the position list. Its element type is not mapped (void* stand-in).
+    std::vector<void*>* getPositions();
+    // 0x54f8b8 _ZN6glitch3gui14CGUISpriteBank10getSpritesEv
+    // Returns the address of the sprite list. Its element type is not mapped (void* stand-in).
+    std::vector<void*>* getSprites();
+
+    std::uint8_t pad_0000[0x08] = {};  // +0x00..+0x07 (not mapped)
+    std::vector<void*> sprites;        // +0x08 (begin) .. +0x10 (end), sprite records
+    std::vector<void*> positions;      // +0x14 (begin) .. +0x1c (end), position records
     std::vector<void*> textures;       // +0x20 (begin) .. +0x24 (end), one entry per texture
 };
 
