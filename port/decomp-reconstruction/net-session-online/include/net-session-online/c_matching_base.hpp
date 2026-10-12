@@ -92,13 +92,48 @@ public:
     // Non-virtual in the original. The port keeps it virtual so tests can override.
     virtual bool IsServer() const = 0;
 
-    // CMatching::ProcessLostPacket(int,int) 0x7fed84 is declared here; the body is not ported.
-    // The room attributes receive the call through the NetStruct base (stand-in: no-op).
-    void ProcessLostPacketRoom(int a1, int a2) {
-        if (CRoomAttributes* room = GetRoomAttributes()) room->ProcessLostPacket(a1, a2);
-        // Each element's NetStruct slot +0x44 is then called for members 0..memberCount-1. The
-        // element type is not ported yet, so this step is not reproduced here.
+    // Seams for CConnectionManager (net-transport, GetConnectionMgr() in the original).
+    // Not virtual slots of CMatching: the derived class forwards them to the manager.
+    virtual std::vector<int> ConnectionMemberIdList() const = 0;  // GetConnMemberIdList(false)
+    virtual bool IsConnectedMember(int memberId) const = 0;       // CConnectionManager::IsConnected
+
+    // 0x7fe59c CMatching::GetMemberIndex (glx_320e98.cpp has the ledgered copy on CMatching).
+    // Lowest set bit of MemberBit(memberId); -1 when the mask is empty.
+    std::int32_t GetMemberIndex(int memberId) const {
+        std::uint32_t mask = MemberBit(memberId);
+        if (mask == 0) return -1;
+        std::int32_t index = 0;
+        while ((mask & 1u) == 0) {
+            mask >>= 1;
+            ++index;
+        }
+        return index;
     }
+    // 0x7fe544 CMatching::IsMemberServer: memberId >= 0 and equal to ServerMemberId().
+    bool IsMemberServer(int memberId) const { return memberId >= 0 && memberId == ServerMemberId(); }
+
+    // 0x7fed84 CMatching::ProcessLostPacket(int,int). Partial: the room attributes receive the call;
+    // the per-member NetStruct slot +0x44 is not ported.
+    void ProcessLostPacket(int a2, int a3);
+    // 0x7ff008 CMatching::SetRoomMemberAttibute(int,void const*,int). Partial: the value is copied;
+    // the NetStruct change notification (buffer slot +0x1c) is not ported.
+    void SetRoomMemberAttibute(int memberId, const void* data, int size);
+    // 0x7ff054 CMatching::GetRoomMemberAttibute(int,void*,int). The fourth argument is unused by
+    // the body: the stored size is copied and returned.
+    int GetRoomMemberAttibute(int memberId, void* out, int outSize);
+    // 0x8000dc CMatching::GetRoomMask(). Non-virtual. Cache is a function-local static, as decompiled.
+    std::uint32_t GetRoomMask();
+    // 0x8001d4 CMatching::TestRoomMask(unsigned int): true when every bit of the room mask is in bits.
+    bool TestRoomMask(std::uint32_t bits);
+    // 0x8002bc CMatching::UpdateMemberIdList(). Partial: the NetStruct change notifications
+    // (NetStructMember::SetChanged and the member Set slots) are not ported; the stored values and
+    // the queued events are.
+    void UpdateMemberIdList();
+    // 0x800808 CMatching::GetMemberIdList(): ids of the members whose id is >= 0, in slot order.
+    std::vector<int> GetMemberIdList() const;
+    // 0x8008ac CMatching::SetTeamId(int,unsigned char). Partial: the stored value is set; the NetStruct
+    // change notification is not ported.
+    void SetTeamId(int memberId, std::uint8_t teamId);
 
 protected:
     bool roomMaskDirty_ = false;                 // +0x10

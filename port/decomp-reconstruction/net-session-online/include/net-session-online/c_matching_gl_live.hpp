@@ -12,8 +12,11 @@
 #pragma once
 
 #include <cstdint>
+#include <map>
 
 #include "net-session-online/c_event_queue_base.hpp"
+#include "net-session-online/c_room_attributes.hpp"
+#include "net-session-online/c_room_search_filter.hpp"
 
 class CNetworkId;
 class NetBitStream;
@@ -24,6 +27,7 @@ class GLXPlayerComponent;
 class GLXPlayerLeaderboard;
 class GLXPlayerMPLobby;
 class GameCenterInfo;
+class GLXPlayerLogin;
 
 class CMatchingGLLive {
 public:
@@ -122,6 +126,13 @@ public:
     // lobby on first use (socket URL from the login observer, a copy of the lobby observer,
     // a 0x94-byte allocation). That path is not reconstructed; this returns s_GLXPlayerMPLobby.
     GLXPlayerMPLobby* GetGLXPlayerMPLobby();
+    // 0x81c5e8 _ZN15CMatchingGLLive17GetGLXPlayerLoginEv. Declared only: the body belongs to its own slice.
+    GLXPlayerLogin* GetGLXPlayerLogin();
+    // 0x820508 _ZN15CMatchingGLLive17GetRoomAttributesEv: &roomAttributes_[roomKey_] (creates the entry).
+    // The original uses std::map<unsigned long long, CRoomAttributes>; the key is the int at +0x680c.
+    CRoomAttributes* GetRoomAttributes();
+    // 0x81fadc _ZN15CMatchingGLLive18SearchRoomInternalER17CRoomSearchFilterbh. Partial, see the cpp.
+    std::int32_t SearchRoomInternal(CRoomSearchFilter& filter, bool flag, std::uint8_t mode);
     // 0x81f128 _ZN15CMatchingGLLive9StartGameEv
     void StartGame();
     // 0x81f178 _ZN15CMatchingGLLive10SetGCStateEi. Partial: the CSignIn event (state 1) and the
@@ -153,6 +164,8 @@ public:
     std::int32_t RoomOpForTest() const { return roomOp_; }
     std::int32_t GcStateForTest() const { return gcState_; }
     void SetGameCenterActiveForTest(bool value) { gameCenterActive_ = value; }
+    void SetRoomKeyForTest(std::int32_t key) { roomKey_ = key; }
+    const CRoomSearchFilter& SearchFilterForTest() const { return searchFilter_; }
 
 private:
     std::uint8_t roomHidden_ = 0;          // +0x0d
@@ -172,4 +185,7 @@ private:
     bool gameCenterActive_ = false;        // +0x67e8 (Game Center mode, gates SetGCState)
     std::int32_t roomOp_ = 0;              // +0x6834 (room operation state: 5 after LeaveRoom)
     std::int32_t gcState_ = 0;             // +0x6838 (Game Center state, see SetGCState)
+    std::map<std::uint64_t, CRoomAttributes> roomAttributes_;  // +0x6720 (room id -> room settings)
+    CRoomSearchFilter searchFilter_;       // +0x6738 (copied by SearchRoomInternal)
+    std::int32_t roomKey_ = 0;             // +0x680c (room id used by GetRoomAttributes)
 };
