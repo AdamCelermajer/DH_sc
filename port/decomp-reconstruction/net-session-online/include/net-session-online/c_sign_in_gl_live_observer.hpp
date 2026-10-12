@@ -53,9 +53,10 @@ public:
     // 0x824b84 _ZN21CSignInGLLiveObserver14OnNetworkErrorEv: error -2, cancels, posts 7.
     void OnNetworkError();
     // 0x824bbc _ZN21CSignInGLLiveObserver16OnRequestSuccessEiPci
-    // Partial. The code-1 branch calls GLXPlayerSereverConfig::GetXPlayerURL (0x82ef8c,
-    // queued); its result is discarded in the original and it is not called here. Code
-    // 0x6b copies the server address, and the alpha server when the matching flag is set.
+    // The code-1 branch in the original also calls GLXPlayerSereverConfig::GetXPlayerURL
+    // (0x82ef8c) and discards the result. That is a read-only getter, so it is not called
+    // here. Code 0x6b copies the server address, and the alpha server when the matching
+    // flag is set.
     void OnRequestSuccess(std::int32_t code, char* data, std::int32_t length);
 
     // Accessors. Not in the original.
