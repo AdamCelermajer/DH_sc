@@ -106,7 +106,19 @@ int run(const std::string& rule_path, const std::string& cache_root,
   }
   check(generated.seed == seed && generated.final_rng_state != seed,
         "explicit seed is retained and shared source RNG advances");
-  check(generated.generation_result.row_rollbacks > 0,
+  // Failed-row cleanup and retry must still be exercised by the real fixture
+  // for some seed (Path OneStep recursion and AddExit gating decide which).
+  bool saw_rollback = generated.generation_result.row_rollbacks > 0;
+  bool all_sweep_succeeded = true;
+  for (std::uint32_t sweep = 1; sweep <= 64; ++sweep) {
+    const auto probe = generate_crypt_level_v1(*parsed.document, catalogue,
+                                               sweep * 2654435761U);
+    all_sweep_succeeded &= probe.status == CryptLevelGeneratorStatusV1::success;
+    saw_rollback |= probe.generation_result.row_rollbacks > 0;
+  }
+  check(all_sweep_succeeded,
+        "real Crypt fixture generates for 64 spread seeds");
+  check(saw_rollback,
         "real Crypt fixture exercises failed-row cleanup and retry");
   check(!generated.modules.empty() &&
             generated.modules.front().block_name == "cemetery_entrance" &&

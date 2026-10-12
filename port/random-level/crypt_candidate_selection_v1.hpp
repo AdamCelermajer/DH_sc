@@ -79,6 +79,45 @@ bool filter_and_shuffle_rule_impl_exits_v1(
     std::vector<SourceRuleExitCandidateV1>& candidates,
     RandomGeneratorV1& random);
 
+// IDA: Rule::Impl::Impl @ 0x48bebc. A child rule with a non-empty `exit`
+// attribute compares it (std::string::compare, case-sensitive) with "north",
+// "east", "south", "west" and stores &Direction::sDirections[0..3] in
+// Impl+60; any other text leaves it null. sDirections ids are 0..3 in that
+// order (bytes at 0x956ae4: id words 0,1,2,3, sentinel 4 at 0x956b24).
+std::optional<std::uint32_t> source_rule_exit_direction_v1(
+    std::string_view exit_attribute);
+
+// IDA: Rule::Impl::Step @ 0x48f954, mismatch branch (0x48fbd4..0x48fc50). A
+// child whose Impl+60 direction differs from the open exit's direction id is
+// not stepped; the exit is appended again to the work vector while
+// (n*n + n)/2 > current size (n = open exits at entry), else the row fails.
+bool source_step_can_requeue_exit_v1(std::size_t entry_exit_count,
+                                     std::size_t current_queue_size);
+
+// IDA: Path::Impl::AddExit @ 0x48f05c. Gate applied by Path::Impl::FilterExits
+// (0x48f25c) to each name-matched (Exit*, ListElem) pair, using the destination
+// block: it must be 1x1 (Block+84/+88). Dead-end (Path::Impl::IsDeadEnd
+// 0x48bd0c: step+1 == length && rule has no children) accepts exactly one
+// exit (Block+92); otherwise exactly two exits, and when Rule+141 is set the
+// block must also be straight (Block::IsStraight 0x489988). Rule+141 is only
+// written by the Path constructor (0), so straight_only is false in practice.
+struct SourcePathAddExitInputV1 {
+  std::int32_t block_width = 0;
+  std::int32_t block_height = 0;
+  std::size_t exit_count = 0;
+  bool dead_end = false;
+  bool straight_only = false;
+  bool block_is_straight = false;
+};
+bool source_path_add_exit_allows_v1(const SourcePathAddExitInputV1& input);
+
+// IDA: Rule::Impl::FilterExits input gate of ForceBlock::Impl::FilterExits
+// (0x48f47c) compares Rule+136 with 4; Rule+136 is written only by the
+// ForceBlock/Path constructors (4), so this is true for every candidate.
+bool source_force_block_direction_gate_allows_v1(
+    std::uint32_t rule_direction_136, std::uint32_t exit_direction,
+    std::uint32_t rule_value_140, std::uint32_t exit_value_24);
+
 enum class SourceRuleStepCandidateStatusV1 {
   ready,
   bypass_success,       // Rule::Impl::Step returns success if either count is 0.

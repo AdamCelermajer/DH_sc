@@ -36,16 +36,20 @@ Status callback_status(CryptRuleCallbackStatusV1 status) {
 
 Result execute_one_step(const CryptRuleExecutionFrameV1& child_rule,
                         const CryptRuleExecutionFrameV1& parent,
-                        const SourceRuleAssignmentV1& assignment,
+                        std::size_t anchor_exit_index,
                         const CryptRuleGenerationCallbacksV1& callbacks,
                         RandomGeneratorV1& random) {
+  // EndPath::Impl::OneStep (0x48bd38) is `return 1`: no candidate enumeration,
+  // no RNG, no tile. The exit simply stays open.
+  if (child_rule.end_path) return make_result(Status::success);
+
   if (child_rule.path_runtime &&
       child_rule.path_runtime->length_reached()) {
     if (!callbacks.path_length_reached_step) {
       return make_result(Status::unsupported);
     }
     auto terminal = callbacks.path_length_reached_step(
-        callbacks.context, child_rule, assignment.source_exit_index, random);
+        callbacks.context, child_rule, anchor_exit_index, random);
     ++terminal.recursive_steps;
     return terminal;
   }
@@ -57,7 +61,7 @@ Result execute_one_step(const CryptRuleExecutionFrameV1& child_rule,
       return make_result(Status::unsupported);
     }
     const auto direction_status = callbacks.opposite_anchor_direction(
-        callbacks.context, child_rule, assignment.source_exit_index,
+        callbacks.context, child_rule, anchor_exit_index,
         opposite_direction);
     if (direction_status != CryptRuleCallbackStatusV1::ready) {
       return make_result(callback_status(direction_status));
@@ -67,7 +71,7 @@ Result execute_one_step(const CryptRuleExecutionFrameV1& child_rule,
 
   std::vector<SourceRuleExitCandidateV1> candidates;
   const auto candidates_status = callbacks.candidate_exits(
-      callbacks.context, child_rule, assignment.source_exit_index, candidates);
+      callbacks.context, child_rule, anchor_exit_index, candidates);
   if (candidates_status != CryptRuleCallbackStatusV1::ready) {
     return make_result(callback_status(candidates_status));
   }
@@ -76,6 +80,13 @@ Result execute_one_step(const CryptRuleExecutionFrameV1& child_rule,
   // destinations, then consume the same shared RNG to shuffle the vector.
   if (!filter_and_shuffle_rule_impl_exits_v1(candidates, random)) {
     return make_result(Status::rng_failure);
+  }
+  if (callbacks.trailing_candidate_exits) {
+    const auto trailing_status = callbacks.trailing_candidate_exits(
+        callbacks.context, child_rule, anchor_exit_index, candidates);
+    if (trailing_status != CryptRuleCallbackStatusV1::ready) {
+      return make_result(callback_status(trailing_status));
+    }
   }
   if (candidates.empty()) return make_result(Status::failed);
 
@@ -120,7 +131,7 @@ Result execute_one_step(const CryptRuleExecutionFrameV1& child_rule,
 
     CryptRuleSpawnedTileV1 spawned;
     switch (callbacks.try_spawn(callbacks.context, parent,
-                                assignment.source_exit_index, block,
+                                anchor_exit_index, block,
                                 candidate, spawned)) {
       case CryptRuleSpawnStatusV1::rejected:
         continue;
@@ -136,21 +147,37 @@ Result execute_one_step(const CryptRuleExecutionFrameV1& child_rule,
     }
     ++result.spawned_tiles;
 
-    if (child_rule.path_runtime) {
-      const auto attempt = child_rule.path_runtime->begin_child_attempt(
-          module_directions.size());
-      if (attempt == CryptPathChildAttemptV1::terminal_one_exit) {
-        result.status = Status::success;
-        return result;
-      }
-    }
-
     CryptRuleExecutionFrameV1 spawned_frame = child_rule;
     spawned_frame.tile = spawned.tile;
     spawned_frame.incoming_exit_index = candidate.source_exit_index;
     ++result.recursive_steps;
-    auto nested = callbacks.recurse_child(callbacks.context, spawned_frame,
-                                          random);
+    CryptRuleGenerationResultV1 nested;
+    if (child_rule.path_runtime) {
+      // Path::Impl::OneStep (0x48fd64) after a successful TrySpawn: a one-exit
+      // block ends the path (`return 1`, step counter untouched). Otherwise it
+      // increments the counter and calls its own OneStep (vtable+12) on the
+      // new tile with the exit that is not the one just connected (the
+      // `exits == 2` selection at 0x4901c4); AddExit gating guarantees 1 or 2.
+      if (module_directions.size() != 1 && module_directions.size() != 2) {
+        (void)callbacks.unspawn(callbacks.context, spawned);
+        return make_result(Status::unsupported);
+      }
+      const auto attempt = child_rule.path_runtime->begin_child_attempt(
+          module_directions.size());
+      if (attempt == CryptPathChildAttemptV1::terminal_one_exit) {
+        --result.recursive_steps;
+        result.status = Status::success;
+        return result;
+      }
+      const std::size_t next_anchor =
+          candidate.source_exit_index == 0 ? 1 : 0;
+      nested = execute_one_step(spawned_frame, spawned_frame, next_anchor,
+                                callbacks, random);
+    } else {
+      // Rule::Impl::OneStep (0x490304) calls vtable+16 = Rule::Impl::Step.
+      nested = callbacks.recurse_child(callbacks.context, spawned_frame,
+                                       random);
+    }
     add_counts(result, nested);
     if (nested.status == Status::success) {
       result.status = Status::success;
@@ -240,6 +267,7 @@ CryptRuleGenerationResultV1 execute_crypt_rule_step_v1(
   }
 
   Result result = make_result(Status::failed);
+  const std::size_t entry_exit_count = prepared.shuffled_exits.size();
   for (const auto& row : prepared.rows) {
     ++result.rows_tried;
     std::vector<CryptRuleExecutionFrameV1> row_children;
@@ -247,11 +275,30 @@ CryptRuleGenerationResultV1 execute_crypt_rule_step_v1(
     Status row_failure = Status::failed;
     bool row_succeeded = true;
 
-    for (const auto& assignment : row.assignments) {
+    // Rule::Impl::Step (0x48f954) copies the shuffled exit vector for each row
+    // and walks it with an index that keeps running while exits are appended
+    // back (directional mismatch), reading the row bytes with the raw pointer.
+    std::vector<SourceRuleAssignmentV1> queue;
+    queue.reserve(row.assignments.size());
+    for (const auto& exit : prepared.shuffled_exits) {
+      queue.push_back({exit.source_exit_index, 0, SourceListElemV1{}});
+      queue.back().elem = exit.elem;
+    }
+
+    for (std::size_t position = 0; position < queue.size(); ++position) {
+      const auto table_byte = source_rule_distribution_byte_v1(
+          catalog, row.source_record_index, position);
+      if (table_byte > 0x7f || table_byte >= frame.child_rule_count) {
+        // Native reads *(rule + 4*(signed byte + 4)); a 0xff terminator byte
+        // would dereference Rule+12 (the child count) as an object.
+        row_succeeded = false;
+        row_failure = Status::malformed_record;
+        break;
+      }
+      const auto assignment = queue[position];
       CryptRuleExecutionFrameV1 child;
-      switch (callbacks.create_child_rule(callbacks.context, frame,
-                                          assignment.child_rule_index, random,
-                                          child)) {
+      switch (callbacks.create_child_rule(callbacks.context, frame, table_byte,
+                                          random, child)) {
         case CryptRuleChildCreateStatusV1::missing:
           row_succeeded = false;
           row_failure = Status::failed;
@@ -284,8 +331,38 @@ CryptRuleGenerationResultV1 execute_crypt_rule_step_v1(
       }
       if (!row_succeeded) break;
 
-      auto child_result = execute_one_step(child, frame, assignment, callbacks,
-                                           random);
+      if (child.required_exit_direction) {
+        if (!callbacks.exit_direction) {
+          row_succeeded = false;
+          row_failure = Status::unsupported;
+          break;
+        }
+        CryptDirectionKeyV1 open_direction = kCryptNoDirectionV1;
+        const auto direction_status = callbacks.exit_direction(
+            callbacks.context, frame, assignment.source_exit_index,
+            open_direction);
+        if (direction_status != CryptRuleCallbackStatusV1::ready) {
+          row_succeeded = false;
+          row_failure = callback_status(direction_status);
+          break;
+        }
+        if (open_direction != *child.required_exit_direction) {
+          // The created impl stays registered in the parent (destroyed with
+          // the row); the exit is queued again while the work vector is
+          // smaller than (n*n+n)/2, otherwise the whole row fails.
+          if (!source_step_can_requeue_exit_v1(entry_exit_count,
+                                               queue.size())) {
+            row_succeeded = false;
+            row_failure = Status::failed;
+            break;
+          }
+          queue.push_back({assignment.source_exit_index, 0, SourceListElemV1{}});
+          continue;
+        }
+      }
+
+      auto child_result = execute_one_step(
+          child, frame, assignment.source_exit_index, callbacks, random);
       add_counts(result, child_result);
       if (child_result.status != Status::success) {
         row_succeeded = false;

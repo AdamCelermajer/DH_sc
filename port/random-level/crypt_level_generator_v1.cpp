@@ -152,17 +152,10 @@ bool validate_rule_tree(const GenerationContextV1& context,
       error = "unsupported Crypt child rule kind";
       return false;
     }
-    if (node.exit) {
-      // Rule::Impl::FilterExits (0x48e690) and the ForceBlock/Path overrides
-      // narrow candidate exits by this value. That filter is not ported yet.
-      error = "Crypt rule exit filtering is not modeled";
-      return false;
-    }
     if (node.kind == RuleKindV1::end_path) {
-      // EndPath::Impl::OneStep (0x48bd38) returns 1 without spawning a tile.
-      // Its step-kernel branch is not ported yet, so it is refused explicitly.
-      error = "Crypt EndPath generation is not modeled";
-      return false;
+      // EndPath::Impl::OneStep (0x48bd38) returns 1 and never reads the
+      // selector or the children (Rule::Impl::Step only counts them).
+      return true;
     }
     if (!node.selector.is_list) {
       error = "only list-backed ForceBlock/Path selectors are modeled";
@@ -332,6 +325,17 @@ CryptRuleChildCreateStatusV1 create_child_rule(
   child_frame = {};
   child_frame.rule = child_pointer;
   child_frame.child_rule_count = source.children.size();
+  if (source.exit) {
+    // Rule::Impl::Impl (0x48bebc): north/east/south/west select the child's
+    // required exit direction; anything else leaves it null.
+    if (const auto direction = source_rule_exit_direction_v1(*source.exit)) {
+      child_frame.required_exit_direction = *direction;
+    }
+  }
+  if (source.kind == RuleKindV1::end_path) {
+    child_frame.end_path = true;
+    child_frame.child_rule_count = 0;
+  }
   if (child_pointer->has_path) child_frame.path_runtime = &child_pointer->path;
   (void)context;
   return CryptRuleChildCreateStatusV1::created;
@@ -352,6 +356,22 @@ CryptRuleBlockLookupStatusV1 resolve_block(
   return CryptRuleBlockLookupStatusV1::found;
 }
 
+// Entries the child's ListRule exposes right now (live vector for
+// replacement=false lists, or the single fixed-index element).
+bool live_entries(GenerationContextV1& context, const RuleNodeV1& rule,
+                  std::vector<const CryptListEntryV1*>& entries) {
+  if (!selected_entries(context, rule, entries)) return false;
+  const auto* list = selected_list(context, rule);
+  if (list && !list->replacement && !rule.selector.list_index) {
+    // The live vector after earlier consumes and rollbacks, in its own order.
+    entries.clear();
+    for (const auto index : remaining_order(context, *list)) {
+      entries.push_back(&list->entries[index]);
+    }
+  }
+  return true;
+}
+
 CryptRuleCallbackStatusV1 candidate_exits(
     void* opaque, const CryptRuleExecutionFrameV1& child,
     std::size_t anchor_exit_index,
@@ -367,24 +387,37 @@ CryptRuleCallbackStatusV1 candidate_exits(
   if (!anchor.has_cell_position) return CryptRuleCallbackStatusV1::unsupported;
 
   std::vector<const CryptListEntryV1*> entries;
-  if (!selected_entries(context, *rule->source, entries)) {
+  if (!live_entries(context, *rule->source, entries)) {
     return CryptRuleCallbackStatusV1::unsupported;
   }
   const auto* list = selected_list(context, *rule->source);
-  if (list && !list->replacement && !rule->source->selector.list_index) {
-    // The live vector after earlier consumes and rollbacks, in its own order.
-    entries.clear();
-    for (const auto index : remaining_order(context, *list)) {
-      entries.push_back(&list->entries[index]);
-    }
-  }
   // The owner token identifies the source list for try_spawn's consume step.
   const auto owner_token = static_cast<std::uint64_t>(
       reinterpret_cast<std::uintptr_t>(list));
+  const bool is_path = rule->source->kind == RuleKindV1::path;
+  // Path::Impl::OneStep (0x48fd64): without a fixed list index, linked exits
+  // whose block has the current tile's name are left out of the pre-filter
+  // vector (they come back as trailing candidates).
+  const bool exclude_same_name =
+      is_path && !rule->source->selector.list_index;
+  const bool dead_end =
+      is_path && rule->has_path &&
+      rule->path.is_dead_end(
+          static_cast<std::int32_t>(rule->source->children.size()));
   for (const auto* entry : entries) {
     const auto* asset = find_asset(context, entry->name, entry->gameplay,
                                    entry->visual);
     if (!asset) return CryptRuleCallbackStatusV1::error;
+    if (exclude_same_name && asset->key.name == tile->asset->key.name) continue;
+    if (is_path) {
+      // Path::Impl::AddExit (0x48f05c) gate on the destination block.
+      SourcePathAddExitInputV1 gate;
+      gate.block_width = asset->mgx.block_width;
+      gate.block_height = asset->mgx.block_height;
+      gate.exit_count = asset->mgx.exits.size();
+      gate.dead_end = dead_end;
+      if (!source_path_add_exit_allows_v1(gate)) continue;
+    }
     for (std::size_t index = 0; index < asset->mgx.exits.size(); ++index) {
       const auto& target_exit = asset->mgx.exits[index];
       if (!crypt_exits_compatible_v1(anchor, target_exit)) continue;
@@ -398,6 +431,70 @@ CryptRuleCallbackStatusV1 candidate_exits(
       exits.push_back(std::move(candidate));
     }
   }
+  return CryptRuleCallbackStatusV1::ready;
+}
+
+CryptRuleCallbackStatusV1 trailing_candidate_exits(
+    void* opaque, const CryptRuleExecutionFrameV1& child,
+    std::size_t anchor_exit_index,
+    std::vector<SourceRuleExitCandidateV1>& exits) {
+  auto& context = *static_cast<GenerationContextV1*>(opaque);
+  const auto* rule = static_cast<const RuntimeRuleV1*>(child.rule);
+  const auto* tile = static_cast<const RuntimeTileV1*>(child.tile);
+  if (!rule || !rule->source || !tile || !tile->asset || !tile->active ||
+      anchor_exit_index >= tile->asset->mgx.exits.size()) {
+    return CryptRuleCallbackStatusV1::error;
+  }
+  if (rule->source->kind != RuleKindV1::path ||
+      rule->source->selector.list_index) {
+    return CryptRuleCallbackStatusV1::ready;
+  }
+  // The last linked exit that belongs to the tile's own block (v56 in the
+  // decompile of 0x48fd64), in the block's exit order.
+  const auto& anchor = tile->asset->mgx.exits[anchor_exit_index];
+  if (!anchor.has_cell_position) return CryptRuleCallbackStatusV1::unsupported;
+  std::optional<std::size_t> last_same_exit;
+  for (std::size_t index = 0; index < tile->asset->mgx.exits.size(); ++index) {
+    if (crypt_exits_compatible_v1(anchor, tile->asset->mgx.exits[index])) {
+      last_same_exit = index;
+    }
+  }
+  if (!last_same_exit) return CryptRuleCallbackStatusV1::ready;
+  if (!tile->asset->mgx.exits[*last_same_exit].has_cell_position) {
+    return CryptRuleCallbackStatusV1::unsupported;
+  }
+  std::vector<const CryptListEntryV1*> entries;
+  if (!live_entries(context, *rule->source, entries)) {
+    return CryptRuleCallbackStatusV1::unsupported;
+  }
+  const auto* list = selected_list(context, *rule->source);
+  const auto owner_token = static_cast<std::uint64_t>(
+      reinterpret_cast<std::uintptr_t>(list));
+  // Every ListElem of the rule's list whose name equals the block name is
+  // paired with that exit, without AddExit gating or shuffling.
+  for (const auto* entry : entries) {
+    if (entry->name != tile->asset->key.name) continue;
+    SourceRuleExitCandidateV1 candidate;
+    candidate.source_exit_index = *last_same_exit;
+    candidate.destination_block_name = tile->asset->key.name;
+    candidate.elem = make_source_list_elem_v1(*entry, owner_token);
+    exits.push_back(std::move(candidate));
+  }
+  return CryptRuleCallbackStatusV1::ready;
+}
+
+CryptRuleCallbackStatusV1 step_exit_direction(
+    void*, const CryptRuleExecutionFrameV1& parent,
+    std::size_t source_exit_index, CryptDirectionKeyV1& direction) {
+  const auto* tile = static_cast<const RuntimeTileV1*>(parent.tile);
+  if (!tile || !tile->asset ||
+      source_exit_index >= tile->asset->mgx.exits.size()) {
+    return CryptRuleCallbackStatusV1::error;
+  }
+  const auto value = static_cast<std::uint32_t>(
+      tile->asset->mgx.exits[source_exit_index].direction);
+  if (value >= 4) return CryptRuleCallbackStatusV1::unsupported;
+  direction = value;
   return CryptRuleCallbackStatusV1::ready;
 }
 
@@ -591,6 +688,8 @@ CryptRuleGenerationCallbacksV1 callbacks_for(GenerationContextV1& context) {
   callbacks.create_child_rule = &create_child_rule;
   callbacks.resolve_block = &resolve_block;
   callbacks.candidate_exits = &candidate_exits;
+  callbacks.trailing_candidate_exits = &trailing_candidate_exits;
+  callbacks.exit_direction = &step_exit_direction;
   callbacks.opposite_anchor_direction = &opposite_anchor_direction;
   callbacks.module_exit_directions = &module_exit_directions;
   callbacks.try_spawn = &try_spawn;
@@ -675,6 +774,20 @@ RootPlacementStepStatusV1 place_root_and_step(
     return RootPlacementStepStatusV1::error;
   }
   tile->active = false;
+  // PlaceRootTile (0x48c374) calls Tile::Unspawn (0x4918a8) on failure, which
+  // runs ListRule::Replace (0x48ec74) for the root's ListElem even though
+  // NewRoot never erased it: a replacement=false list gains a copy.
+  if (const auto* list = selected_list(context, context.document->root);
+      list && !list->replacement) {
+    for (std::size_t index = 0; index < list->entries.size(); ++index) {
+      const auto& entry = list->entries[index];
+      if (entry.name == candidate.name && entry.gameplay == candidate.gameplay &&
+          entry.visual == candidate.visual) {
+        remaining_order(context, *list).push_back(index);
+        break;
+      }
+    }
+  }
   return RootPlacementStepStatusV1::candidate_failed;
 }
 
@@ -711,10 +824,9 @@ bool build_root_candidates(const CryptRuleDocumentV1& document,
     error = "RootRule references a missing candidate list";
     return false;
   }
-  if (!list->replacement) {
-    error = "consuming RootRule list behavior is not modeled";
-    return false;
-  }
+  // RootRule::Impl::Generate (0x48e8ac) places the root through
+  // Tile::NewRoot (0x49196c), which never consumes: replacement=false only
+  // matters for descendants (Tile::Spawn) and for the Unspawn below.
   if (selector.list_index && *selector.list_index < -1) {
     error = "RootRule index below -1 is unsupported";
     return false;
