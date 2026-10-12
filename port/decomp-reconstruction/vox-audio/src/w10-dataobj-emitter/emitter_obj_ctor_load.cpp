@@ -36,6 +36,8 @@ void InitCommonFields(EmitterObj& e, std::int64_t id, int priority, int bank) {
     e.resume_fade_.target = 1.0f;    // +0x60
     e.resume_fade_.flag = true;      // +0x6c
     e.pitch_ = 1.0f;                 // +0x74
+    e.source_gain_ = 1.0f;           // +0x38
+    e.source_pitch_ = 1.0f;          // +0x70
     e.pitch_fade_ = VoxGainFade{};   // +0x78..+0x88
     e.pitch_fade_.target = 1.0f;     // +0x7c
     e.pitch_fade_.flag = true;       // +0x88
@@ -151,6 +153,7 @@ EmitterObj::EmitterObj(std::int64_t id, int priority, int bank, DriverSourceInte
     SetRateAndLengthFromData(*this, data);
     SetDefaultParameters();
     decoder_type_ = DecoderTypeOf(data);  // +0x140
+    flag_145_ = 1;                   // +0x145
 }
 
 // 0x86c5ec _ZN3vox10EmitterObjC1ExiiiPNS_21DriverSourceInterfaceEPNS_22DecoderCursorInterfaceEPNS_7DataObjE
@@ -175,6 +178,7 @@ EmitterObj::EmitterObj(std::int64_t id, int priority, int bank, int chunk_bytes,
         SetDefaultParameters();
     }
     decoder_type_ = DecoderTypeOf(data);  // +0x140
+    flag_145_ = 1;                   // +0x145
 }
 
 // 0x86d238 _ZN3vox10EmitterObj9LoadAsyncEv

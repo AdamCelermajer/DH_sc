@@ -181,6 +181,10 @@ public:
     int buffer_chunk_bytes_ = 0;            // +0x108, bytes requested per DecodeRef
     int buffer_fill_ = 0;                   // +0x10c, reset to 0 by ProcessNativeData
     int decoder_type_ = 0;                  // +0x140, the decoder GetType (0 when the data is not ready)
+    // Read back from the source by Update (+0x38 gain, +0x70 pitch). The constructors set both to 1.0.
+    float source_gain_ = 1.0f;              // +0x38
+    float source_pitch_ = 1.0f;             // +0x70
+    std::uint8_t flag_145_ = 0;             // +0x145: set by the constructors and by Update; role not identified
 };
 
 }  // namespace vox
