@@ -1,6 +1,7 @@
 // B069: AI_IsInInteractionRange rule and the world-to-camera movement conversion.
 #include "interaction_approach_v1.hpp"
 #include "interaction_facing_v1.hpp"
+#include "../../../level-world/character_path_commands.hpp"
 
 #include <cmath>
 #include <cstdio>
@@ -30,12 +31,36 @@ int main() {
         float yaw=.7f;
         check(!interaction_facing_v1({0,0,0},{0,-100,0},false,false,yaw)&&yaw==.7f,"look-at not requested preserves yaw");
         check(!interaction_facing_v1({0,0,0},{0,-100,0},true,true,yaw)&&yaw==.7f,"sitting actor preserves yaw");
-        check(!interaction_facing_v1({0,0,0},{0,0,100},true,false,yaw)&&yaw==.7f,"same XY preserves yaw (height is not heading)");
-        check(interaction_facing_v1({0,0,0},{0,0,100},true,false,yaw,false)&&yaw==0.f,"B085 destructible keeps its existing coincident atan2 heading policy");
-        check(interaction_facing_v1({-2198.67f,1035.187f,255},{-2198.67f,935.187f,250},true,false,yaw)&&std::fabs(yaw+1.5707963f)<1e-6f,"side-facing chest requests target heading");
-        for(const auto target: {std::array<float,3>{1,1,0},{-1,1,0},{-1,-1,0},{1,-1,0}}) {
-            check(interaction_facing_v1({0,0,0},target,true,false,yaw)&&std::cos(yaw)*target[0]+std::sin(yaw)*target[1]>1.4f,"heading faces target in each quadrant");
+        check(!interaction_facing_v1({0,0,0},{0,0,100},true,false,yaw)&&yaw==.7f,"same XY preserves yaw (source LookTowards, height is not heading)");
+        check(!interaction_facing_v1({0,0,0},{std::nanf(""),0,0},true,false,yaw)&&yaw==.7f,"non-finite target preserves yaw");
+        // B151: source GameObject::LookTowards 0x393b1c constants: +X -> 0x3fc90fdb (pi/2), -X -> 0x4096cbe4 (3pi/2),
+        // otherwise atan(x/-y) (+/-pi when y>0). Yaw 0 faces -Y. The old atan2(dy,dx) form was a quarter turn off.
+        check(interaction_facing_v1({0,0,0},{100,0,0},true,false,yaw)&&std::fabs(yaw-1.5707964f)<1e-6f,"+X target -> source pi/2");
+        check(interaction_facing_v1({0,0,0},{-100,0,0},true,false,yaw)&&std::fabs(yaw-4.7123890f)<1e-6f,"-X target -> source 3pi/2");
+        check(interaction_facing_v1({0,0,0},{0,-100,0},true,false,yaw)&&std::fabs(yaw)<1e-7f,"-Y target -> source 0");
+        check(interaction_facing_v1({0,0,0},{0,100,0},true,false,yaw)&&std::fabs(std::fabs(yaw)-3.1415927f)<1e-6f,"+Y target -> source pi");
+        check(interaction_facing_v1({-2198.67f,1035.187f,255},{-2198.67f,935.187f,250},true,false,yaw)&&std::fabs(yaw)<1e-6f,"side-facing chest (target at -Y) -> yaw 0");
+        // Rendered forward: sourceActorWorld (main.cpp) maps local X to (cos,sin) and local Y to (-sin,cos);
+        // the character mesh faces local -Y, i.e. world (sin yaw, -cos yaw). It must point at the target in every quadrant.
+        int quadrant=0;
+        for(const auto target: {std::array<float,3>{1,1,0},{-1,1,0},{-1,-1,0},{1,-1,0},{3,-0.5f,0},{-0.2f,7,0}}) {
+            const float len=std::hypot(target[0],target[1]);
+            const bool ok=interaction_facing_v1({0,0,0},target,true,false,yaw)&&
+                (std::sin(yaw)*target[0]-std::cos(yaw)*target[1])>0.9999f*len;
+            check(ok,quadrant++<4?"rendered forward faces the target in each quadrant":"rendered forward faces an off-axis target");
         }
+        // Same arithmetic as the source LookAt main already uses for the hero (Injured Blur dh2_character_look_at_point).
+        for(const auto target: {std::array<float,3>{-1229.64f,-1224.21f,250},{-7142.83f,-1597.75f,250},{900,-212,258}}) {
+            const std::array<float,3> owner{-903.664f,-1235.1f,255};
+            dh2::character::LookAtState16 look{{owner[0],owner[1],owner[2]},.25f};
+            float facing=.25f;
+            check(dh2_character_look_at_point(&look,target.data())==0&&interaction_facing_v1(owner,target,true,false,facing)&&facing==look.heading_angle,
+                  "interaction facing equals the source LookAt heading");
+        }
+        // R6 runtime fixture (v21.6 B151): the source movement kernel walked toward the vase with yaw -1.60421; the arrival
+        // turn must keep that heading (the old atan2 form jumped to 3.10818, a quarter turn to the right of the vase).
+        check(interaction_facing_v1({-903.664f,-1235.1f,255},{-1229.64f,-1224.21f,250},true,false,yaw)&&
+              std::fabs(std::remainder(yaw-(-1.60421f),6.2831853f))<2e-3f,"approach arrival keeps the walk kernel's heading toward the vase");
     }
     // limit = InteractRadius (100); v = d - melee - radius = d - 80.
     check(interaction_in_range_v1(chest(180.0f)), "chest exactly at the limit is in range (v == limit)");
