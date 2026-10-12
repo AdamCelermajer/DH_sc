@@ -66,8 +66,32 @@ CATEGORY_RULES = [
 ]
 
 
+FUN_NAME = re.compile(r"^(?:thunk_)?FUN_([0-9a-fA-F]+)$")
+
+
+def fix_fun_addresses(rows: list[dict]) -> list[dict]:
+    """Move Ghidra FUN_ entries to the address in their name.
+
+    Ghidra's elf_address for these is 0x10000 below the address in the name, and IDA has the
+    function at the name's address (checked against the Hex-Rays export). Named entries are
+    already right. An entry whose address also holds a named entry is dropped, so the same
+    function is not queued twice. Owners are not changed here, so neighbouring queues stay put.
+    """
+    named = {int(r["elf_address"], 16) for r in rows if r["library"] == "libDungeonHunter2.so" and not FUN_NAME.match(r["name"])}
+    kept = []
+    for r in rows:
+        m = FUN_NAME.match(r["name"]) if r["library"] == "libDungeonHunter2.so" else None
+        if m:
+            a = int(m.group(1), 16)
+            if a in named:
+                continue
+            r = dict(r, elf_address=f"{a:x}")
+        kept.append(r)
+    return kept
+
+
 def main() -> int:
-    rows = list(csv.DictReader((REPORT / "inventory.csv").open(encoding="utf-8")))
+    rows = fix_fun_addresses(list(csv.DictReader((REPORT / "inventory.csv").open(encoding="utf-8"))))
     owner_claimed = Counter(r["owner"] for r in rows if r["claimed"] == "1" and r["bucket"] == "game")
     cats = defaultdict(list)
     for r in rows:

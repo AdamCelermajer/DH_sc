@@ -1160,40 +1160,25 @@ elf_address,body_bytes,owner,name,demangled
 89a7d8,64,lib-online-glx,_ZN13ALicenseCheck16createUniqueCodeEv,ALicenseCheck::createUniqueCode()
 89a820,72,lib-online-glx,_ZN13ALicenseCheck3XOREPKcS1_Pc,"ALicenseCheck::XOR(char const*, char const*, char*)"
 89a8e0,52,lib-online-glx,_ZN13ALicenseCheck15CallJNIFuncCharEP7_jclassP10_jmethodIDPciS4_,"ALicenseCheck::CallJNIFuncChar(_jclass*, _jmethodID*, char*, int, char*)"
-89a914,144,lib-online-glx,FUN_008aa914,FUN_008aa914
 89a9a4,148,lib-online-glx,_ZN13ALicenseCheck15CallJNIFuncCharEP7_jclassP10_jmethodIDPci,"ALicenseCheck::CallJNIFuncChar(_jclass*, _jmethodID*, char*, int)"
 89aa38,96,lib-online-glx,_ZN13ALicenseCheck10LoadConfigEv,ALicenseCheck::LoadConfig()
-89aa98,84,lib-online-glx,FUN_008aaa98,FUN_008aaa98
-89ab04,1,lib-online-glx,FUN_008aab04,FUN_008aab04
 89ab08,100,lib-online-glx,_ZN13ALicenseCheck4InitEP7_JNIEnvP7_jclass,"ALicenseCheck::Init(_JNIEnv*, _jclass*)"
-89ab6c,272,lib-online-glx,FUN_008aab6c,FUN_008aab6c
 89acc4,4,lib-online-glx,ALicenseCheck_InitLicense,ALicenseCheck_InitLicense
 89acfc,12,lib-online-glx,_ZN13ALicenseCheck7getIMEIEPci,"ALicenseCheck::getIMEI(char*, int)"
-89ad08,352,lib-online-glx,FUN_008aad08,FUN_008aad08
 89aed4,32,lib-online-glx,_ZN13ALicenseCheck15CallJNIFuncVoidEP7_jclassP10_jmethodID,"ALicenseCheck::CallJNIFuncVoid(_jclass*, _jmethodID*)"
 89aef4,44,lib-online-glx,_ZN13ALicenseCheck7DestroyEv,ALicenseCheck::Destroy()
-89af20,40,lib-online-glx,FUN_008aaf20,FUN_008aaf20
 89af5c,120,lib-online-glx,_ZN13ALicenseCheck13getPhpAddressEPc,ALicenseCheck::getPhpAddress(char*)
 89b044,112,lib-online-glx,_ZN13ALicenseCheck7getHostEPc,ALicenseCheck::getHost(char*)
-89b0b4,44,lib-online-glx,FUN_008ab0b4,FUN_008ab0b4
 89b16c,56,lib-online-glx,_ZN13ALicenseCheck11initXPlayerEv,ALicenseCheck::initXPlayer()
 89b200,12,lib-online-glx,_ZN13ALicenseCheck11SetRMS_PATHEPKc,ALicenseCheck::SetRMS_PATH(char const*)
-89b250,4,lib-online-glx,FUN_008ab250,FUN_008ab250
 89b258,4,lib-online-glx,ALicenseCheck_SetRMS_PATH,ALicenseCheck_SetRMS_PATH
 89b25c,252,lib-online-glx,_ZN13ALicenseCheck7LoadRMSEv,ALicenseCheck::LoadRMS()
 89b65c,20,lib-online-glx,_ZN13ALicenseCheck7SaveRMSEb,ALicenseCheck::SaveRMS(bool)
-89b670,436,lib-online-glx,FUN_008ab670,FUN_008ab670
 89bacc,208,lib-online-glx,_ZN13ALicenseCheck16validateResponseEPc,ALicenseCheck::validateResponse(char*)
-89bb9c,128,lib-online-glx,FUN_008abb9c,FUN_008abb9c
 89bc38,164,lib-online-glx,_ZN13ALicenseCheck16sendRequestByGetEv,ALicenseCheck::sendRequestByGet()
-89bcd4,180,lib-online-glx,FUN_008abcd4,FUN_008abcd4
-89bd60,4,lib-online-glx,FUN_008abd60,FUN_008abd60
 89bdc0,24,lib-online-glx,_ZN13ALicenseCheck14ValidateServerEb,ALicenseCheck::ValidateServer(bool)
-89bdd8,204,lib-online-glx,FUN_008abdd8,FUN_008abdd8
-89beac,1,lib-online-glx,FUN_008abeac,FUN_008abeac
 89becc,4,lib-online-glx,ALicenseCheck_ValidateLicense,ALicenseCheck_ValidateLicense
 89cf04,292,lib-online-glx,LC_API_IP_STR2INT,LC_API_IP_STR2INT
-89d0a0,192,lib-online-glx,FUN_008ad0a0,FUN_008ad0a0
 89d1d0,148,lib-online-glx,LC_API_PARSE_DATA_NEW,LC_API_PARSE_DATA_NEW
 89d31c,12,lib-online-glx,LC_API_STRNEW,LC_API_STRNEW
 89d360,4,lib-online-glx,LC_API_FREE,LC_API_FREE
@@ -1217,13 +1202,9 @@ elf_address,body_bytes,owner,name,demangled
 89d9f8,160,lib-online-glx,_ZN13LCXPlayerHttpC2EPcS0_S0_,"LCXPlayerHttp::LCXPlayerHttp(char*, char*, char*)"
 89daa0,184,lib-online-glx,_ZN13LCXPlayerHttp15sendVideoByPostEPcS0_S0_RiS0_,"LCXPlayerHttp::sendVideoByPost(char*, char*, char*, int&, char*)"
 89dd70,380,lib-online-glx,_ZN13LCXPlayerHttp12downloadFileEPcS0_S0_S0_ll,"LCXPlayerHttp::downloadFile(char*, char*, char*, char*, long, long)"
-89deec,276,lib-online-glx,FUN_008adeec,FUN_008adeec
 89e048,252,lib-online-glx,_ZN13LCXPlayerHttp10sendByPostEPcS0_,"LCXPlayerHttp::sendByPost(char*, char*)"
 89e2e8,248,lib-online-glx,_ZN13LCXPlayerHttp9sendByGetEPcS0_,"LCXPlayerHttp::sendByGet(char*, char*)"
 89e57c,24,lib-online-glx,_ZN22LCXPlayerSocketFactory9GetSocketEPciP23LCXPlayerSocketObserver,"LCXPlayerSocketFactory::GetSocket(char*, int, LCXPlayerSocketObserver*)"
-89e718,24,lib-online-glx,FUN_008ae718,FUN_008ae718
-8a0158,32,lib-online-glx,FUN_008b0158,FUN_008b0158
-8a0180,4,lib-online-glx,FUN_008b0180,FUN_008b0180
 8a0184,8,lib-online-glx,_ZN15LCXPlayerSocket11GetAcceptIPEv,LCXPlayerSocket::GetAcceptIP()
 8a018c,8,lib-online-glx,_ZN15LCXPlayerSocket13GetAcceptPortEv,LCXPlayerSocket::GetAcceptPort()
 8a0194,8,lib-online-glx,_ZN15LCXPlayerSocket13SetAcceptPortEi,LCXPlayerSocket::SetAcceptPort(int)
@@ -1240,26 +1221,12 @@ elf_address,body_bytes,owner,name,demangled
 8a0464,140,lib-online-glx,_ZN15LCXPlayerSocketD1Ev,LCXPlayerSocket::~LCXPlayerSocket()
 8a0500,20,lib-online-glx,_ZN15LCXPlayerSocketD0Ev,LCXPlayerSocket::~LCXPlayerSocket()
 8a051c,44,lib-online-glx,_ZN15LCXPlayerSocketD2Ev,LCXPlayerSocket::~LCXPlayerSocket()
-8a0548,48,lib-online-glx,FUN_008b0548,FUN_008b0548
-8a0578,48,lib-online-glx,FUN_008b0578,FUN_008b0578
 8a05b8,48,lib-online-glx,_ZN15LCXPlayerSocket15ParseHttpHeaderEPc,LCXPlayerSocket::ParseHttpHeader(char*)
 8a090c,268,lib-online-glx,_ZN15LCXPlayerSocket16RemoveHttpHeaderEv,LCXPlayerSocket::RemoveHttpHeader()
 8a0af0,80,lib-online-glx,_ZN15LCXPlayerSocket19ParseChunkedContentEv,LCXPlayerSocket::ParseChunkedContent()
-8a0f2c,88,lib-online-glx,FUN_008b0f2c,FUN_008b0f2c
-8a0f80,172,lib-online-glx,FUN_008b0f80,FUN_008b0f80
-8a1240,72,lib-online-glx,FUN_008b1240,FUN_008b1240
-8a1270,496,lib-online-glx,FUN_008b1270,FUN_008b1270
 8a1534,144,lib-online-glx,_ZN15LCXPlayerSocket20CalculateTotalLengthEv,LCXPlayerSocket::CalculateTotalLength()
-8a15e8,60,lib-online-glx,FUN_008b15e8,FUN_008b15e8
-8a1610,88,lib-online-glx,FUN_008b1610,FUN_008b1610
-8a1704,120,lib-online-glx,FUN_008b1704,FUN_008b1704
-8a1830,40,lib-online-glx,FUN_008b1830,FUN_008b1830
-8a1858,24,lib-online-glx,FUN_008b1858,FUN_008b1858
-8a19e4,32,lib-online-glx,FUN_008b19e4,FUN_008b19e4
 8a1c1c,1076,lib-online-glx,_ZN15LCXPlayerSocket3RunEv,LCXPlayerSocket::Run()
-8a1dd4,40,lib-online-glx,FUN_008b1dd4,FUN_008b1dd4
-8a1dfc,116,lib-online-glx,FUN_008b1dfc,FUN_008b1dfc
-8a1e70,80,lib-online-glx,FUN_008b1e70,FUN_008b1e70
+8b1704,120,lib-online-glx,FUN_008b1704,FUN_008b1704
 81ce18,48,tFriendInfo,_ZN11tFriendInfoD1Ev,tFriendInfo::~tFriendInfo()
 81e024,76,tFriendInfo,_ZN11tFriendInfoC1ERKS_,tFriendInfo::tFriendInfo(tFriendInfo const&)
 81ebc8,32,tFriendInfo,_ZN11tFriendInfoC1Ev,tFriendInfo::tFriendInfo()
