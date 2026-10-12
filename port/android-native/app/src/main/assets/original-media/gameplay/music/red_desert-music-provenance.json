@@ -1,0 +1,69 @@
+{
+  "schema": "dh2-level-music-source-export-v1",
+  "uid": 488,
+  "sounds_member": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sounds.xml",
+  "sounds_sha256": "4bc1de654d65470d49e48cee354d5d5cdd45006c18d65420ddc07acf5b400a6e",
+  "sounds_row": {
+    "bank": "1",
+    "filename": "m_level_red_desert_sfx_red_desert.vxn",
+    "format": "vxn",
+    "group": "2",
+    "label": "RedDesertHubAmbientMusic",
+    "loadingflags": "none",
+    "loop": "yes",
+    "priority": "1",
+    "uid": "488"
+  },
+  "source_member": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_red_desert_sfx_red_desert.vxn",
+  "source_kind": "vxn",
+  "source_bytes": 8946176,
+  "source_crc32": "39035462",
+  "source_sha256": "76916ba242d32969211ef7db2912fdaf77046a623f659d6a4bd5dbe99a7ee3c2",
+  "vxn": {
+    "file_bytes": 8946176,
+    "audio_base": 512,
+    "codec": "VoxNativeSubDecoderIMAADPCM",
+    "channels": 2,
+    "sample_rate_hz": 32000,
+    "block_bytes": 1024,
+    "frames_per_block": 1017,
+    "states": [
+      "ambient",
+      "combat"
+    ],
+    "segments": [
+      {
+        "state": "ambient",
+        "source_offset": 0,
+        "source_bytes": 4472832,
+        "sample_frames": 4441600
+      },
+      {
+        "state": "combat",
+        "source_offset": 4472832,
+        "source_bytes": 4472832,
+        "sample_frames": 4441600
+      }
+    ]
+  },
+  "outputs": [
+    {
+      "asset": "red_desert_ambient_music.wav",
+      "bytes": 4472892,
+      "sha256": "952363c86d1ce562fc53e8a9e0143815c8388274d1209d363c423d29258a5401",
+      "source_segment_offset": 0,
+      "source_segment_bytes": 4472832,
+      "sample_frames": 4441600,
+      "state": "ambient"
+    },
+    {
+      "asset": "red_desert_combat_music.wav",
+      "bytes": 4472892,
+      "sha256": "edaafe20e968ce15fdaea56f73e8f49727d71ea1c616ff77176b5a8bda4a2eac",
+      "source_segment_offset": 4472832,
+      "source_segment_bytes": 4472832,
+      "sample_frames": 4441600,
+      "state": "combat"
+    }
+  ]
+}

@@ -122,6 +122,8 @@ public:
     bool menu_text_input_active() const noexcept;
     bool menu_key_event(std::uint32_t key_code,bool down,std::string&);
     bool camera_pan_allowed() const noexcept;
+    // The live gameplay movie that owns StringManager text and AS callbacks.
+    bool gameplay_text_ready() const noexcept;
     // Android system Back uses the same live gameplay menu owner as the
     // authored NativeBackToHud callback; it never reloads the selected level.
     bool back_to_hud(std::string&);

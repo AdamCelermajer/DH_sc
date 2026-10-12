@@ -1,0 +1,38 @@
+{
+  "schema": "dh2-level-music-source-export-v1",
+  "uid": 506,
+  "sounds_member": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sounds.xml",
+  "sounds_sha256": "4bc1de654d65470d49e48cee354d5d5cdd45006c18d65420ddc07acf5b400a6e",
+  "sounds_row": {
+    "bank": "1",
+    "filename": "m_safe_zone_01_sfx_red_desert.wav",
+    "format": "adpcm",
+    "group": "2",
+    "label": "BloodSandsMusic",
+    "loadingflags": "none",
+    "loop": "yes",
+    "priority": "1",
+    "uid": "506"
+  },
+  "source_member": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_safe_zone_01_sfx_red_desert.wav",
+  "source_kind": "adpcm_wav",
+  "source_bytes": 3591228,
+  "source_crc32": "b18cd7a5",
+  "source_sha256": "e37503f6320af6a275039ab028a1ae40255f5bf73e03f0d21c6de7b3ddf7098e",
+  "vxn": null,
+  "outputs": [
+    {
+      "asset": "blood_sands_music.wav",
+      "bytes": 3591228,
+      "sha256": "e37503f6320af6a275039ab028a1ae40255f5bf73e03f0d21c6de7b3ddf7098e",
+      "state": null,
+      "codec": "WAVE_FORMAT_IMA_ADPCM",
+      "channels": 2,
+      "sample_rate_hz": 32000,
+      "block_bytes": 1024,
+      "frames_per_block": 1017,
+      "sample_frames": 3565714,
+      "payload_bytes": 3591168
+    }
+  ]
+}

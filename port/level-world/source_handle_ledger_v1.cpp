@@ -133,21 +133,17 @@ Status build(const std::uint8_t* level_xml, std::size_t level_size,
         candidate.next_handle_after = first_source_handle;
         std::map<std::string, std::size_t, std::less<>> handle_by_name;
 
-        // _LoadFromXML sends root records to ObjectManager before InitPost
-        // loads Module contents. The generated SourceLevel supports one
-        // LevelConfig followed by ordered Module records; other root types are
-        // rejected by world-data rather than silently skipped here.
-        if (imported.value.config.source_begin >=
-            imported.value.modules[0].record.source_begin) {
-            set_error(error, "Generated LevelConfig must precede Module roots");
-            return Status::invalid_level;
-        }
-        auto registration = register_object(imported.value, imported.value.config,
-                                            candidate, handle_by_name, error);
-        if (registration != RegisterStatus::ok) {
-            return registration == RegisterStatus::handle_overflow
-                ? Status::handle_overflow : Status::invalid_level;
-        }
+        // _LoadFromXML sends root records to ObjectManager in file order
+        // before InitPost loads Module contents. The generated SourceLevel has
+        // one LevelConfig and ordered Module records; the LevelConfig may sit
+        // anywhere among them (UNDERWORLD_HUB/ABBEY place it after Modules).
+        bool config_registered = false;
+        RegisterStatus registration = RegisterStatus::ok;
+        const auto register_config = [&]() {
+            config_registered = true;
+            return register_object(imported.value, imported.value.config,
+                                   candidate, handle_by_name, error);
+        };
         for (std::uint32_t index = 0; index < imported.value.module_count; ++index) {
             const auto& module = imported.value.modules[index].record;
             if (index > 0 && module.source_begin <=
@@ -155,8 +151,19 @@ Status build(const std::uint8_t* level_xml, std::size_t level_size,
                 set_error(error, "Module root records are not in source load order");
                 return Status::invalid_level;
             }
-            registration = register_object(imported.value, module, candidate,
-                                           handle_by_name, error);
+            if (!config_registered &&
+                imported.value.config.source_begin < module.source_begin)
+                registration = register_config();
+            if (registration == RegisterStatus::ok)
+                registration = register_object(imported.value, module, candidate,
+                                               handle_by_name, error);
+            if (registration != RegisterStatus::ok) {
+                return registration == RegisterStatus::handle_overflow
+                    ? Status::handle_overflow : Status::invalid_level;
+            }
+        }
+        if (!config_registered) {
+            registration = register_config();
             if (registration != RegisterStatus::ok) {
                 return registration == RegisterStatus::handle_overflow
                     ? Status::handle_overflow : Status::invalid_level;

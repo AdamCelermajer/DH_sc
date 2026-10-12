@@ -1,0 +1,38 @@
+{
+  "schema": "dh2-level-music-source-export-v1",
+  "uid": 507,
+  "sounds_member": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sounds.xml",
+  "sounds_sha256": "4bc1de654d65470d49e48cee354d5d5cdd45006c18d65420ddc07acf5b400a6e",
+  "sounds_row": {
+    "bank": "1",
+    "filename": "m_safe_zone_01_sfx_dark_temple.wav",
+    "format": "adpcm",
+    "group": "2",
+    "label": "KingsGraveMusic",
+    "loadingflags": "none",
+    "loop": "yes",
+    "priority": "1",
+    "uid": "507"
+  },
+  "source_member": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_safe_zone_01_sfx_dark_temple.wav",
+  "source_kind": "adpcm_wav",
+  "source_bytes": 3591228,
+  "source_crc32": "3dfd51dc",
+  "source_sha256": "87ded0b7638e34dd94b2e2d27ece24c48dc9ab8c8e426eeb2f62888285d38a17",
+  "vxn": null,
+  "outputs": [
+    {
+      "asset": "kings_grave_music.wav",
+      "bytes": 3591228,
+      "sha256": "87ded0b7638e34dd94b2e2d27ece24c48dc9ab8c8e426eeb2f62888285d38a17",
+      "state": null,
+      "codec": "WAVE_FORMAT_IMA_ADPCM",
+      "channels": 2,
+      "sample_rate_hz": 32000,
+      "block_bytes": 1024,
+      "frames_per_block": 1017,
+      "sample_frames": 3565716,
+      "payload_bytes": 3591168
+    }
+  ]
+}

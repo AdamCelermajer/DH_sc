@@ -1,0 +1,330 @@
+{
+  "source_layout": "data/scene/005_infectedvillage.mlx",
+  "selected_characters": 3,
+  "source_character_records": 26,
+  "selection": "direct Monster; no activation/deactivation condition; auto_spawn != 0; initial ai_state absent or Idle",
+  "actors": [
+    {
+      "kind": 1,
+      "room": 0,
+      "name": "_prim_Monster",
+      "character": "InfectedNun",
+      "model": "inf_nun.bdae",
+      "model_path": "data/3d/characters/infected/inf_nun.bdae",
+      "animation_table": 29,
+      "position": [
+        2590.9799999999996,
+        -2398.09,
+        1474.3
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        51.0038
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/infectedvillage/mgp/infected01.mgp",
+      "source_record": 15
+    },
+    {
+      "kind": 1,
+      "room": 0,
+      "name": "_prim_Monster01_001",
+      "character": "InfectedNun",
+      "model": "inf_nun.bdae",
+      "model_path": "data/3d/characters/infected/inf_nun.bdae",
+      "animation_table": 29,
+      "position": [
+        3031.29,
+        -1912.5,
+        1474.3
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        23.0587
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/infectedvillage/mgp/infected01.mgp",
+      "source_record": 16
+    },
+    {
+      "kind": 1,
+      "room": 0,
+      "name": "_prim_Monster_001",
+      "character": "Infected_Werewolf_Midboss",
+      "model": "werewolf.bdae",
+      "model_path": "data/3d/characters/lizardman/werewolf.bdae",
+      "animation_table": 34,
+      "position": [
+        1408.6899999999996,
+        -1031.6,
+        1349.22
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        -98.823
+      ],
+      "scale": [
+        1.7,
+        1.7,
+        1.7
+      ],
+      "source_mgp": "data/3d/modules/infectedvillage/mgp/infected01.mgp",
+      "source_record": 34
+    }
+  ],
+  "animation_states": [
+    {
+      "table": 29,
+      "character": "Infected",
+      "state": "Idle",
+      "sequence": 321
+    },
+    {
+      "table": 29,
+      "character": "Infected",
+      "state": "Walk",
+      "sequence": 328
+    },
+    {
+      "table": 29,
+      "character": "Infected",
+      "state": "Attack",
+      "sequence": 315
+    },
+    {
+      "table": 29,
+      "character": "Infected",
+      "state": "Died",
+      "sequence": 319
+    },
+    {
+      "table": 34,
+      "character": "LizardMan",
+      "state": "Idle",
+      "sequence": 376
+    },
+    {
+      "table": 34,
+      "character": "LizardMan",
+      "state": "Walk",
+      "sequence": 383
+    },
+    {
+      "table": 34,
+      "character": "LizardMan",
+      "state": "Attack",
+      "sequence": 370
+    },
+    {
+      "table": 34,
+      "character": "LizardMan",
+      "state": "Died",
+      "sequence": 374
+    }
+  ],
+  "clip_ids": [
+    756,
+    757,
+    758,
+    759,
+    761,
+    762,
+    769,
+    770,
+    772,
+    773,
+    780,
+    806,
+    811,
+    817,
+    818,
+    822,
+    832
+  ],
+  "dact": {
+    "bytes": 784,
+    "sha256": "f9f675c02bd2b53b75d9772821f36875cfbc333c99a615795b0125adcedbe010"
+  },
+  "assets": [
+    {
+      "asset": "actors/inf_nun.bdae",
+      "bytes": 55828,
+      "sha256": "6c18b7b16787d2ddd574fa10a93308d5956c6647a926288f32b9372c14bf6e09",
+      "source": "data/3d/characters/infected/inf_nun.bdae",
+      "source_file": "inf_nun.bdae"
+    },
+    {
+      "asset": "actors/infected_attack_01.bdae",
+      "bytes": 7072,
+      "sha256": "a62d6a0c8381961d68da808a7ee63985c8a4248b8add09c690401dbe10e577a2",
+      "source": "data/3d/characters/infected/animations/infected_attack_01.bdae",
+      "source_file": "infected_attack_01.bdae"
+    },
+    {
+      "asset": "actors/infected_attack_01_to_idle.bdae",
+      "bytes": 9192,
+      "sha256": "ffb63f3efaeda0500274cecf8beff4e2e60c84982357a0a212714dbdbbb4fa29",
+      "source": "data/3d/characters/infected/animations/infected_attack_01_to_idle.bdae",
+      "source_file": "infected_attack_01_to_idle.bdae"
+    },
+    {
+      "asset": "actors/infected_attack_02.bdae",
+      "bytes": 7424,
+      "sha256": "289777b8cb942f86fae31539832c2add1cd453174461740969c2bc76e6b56b71",
+      "source": "data/3d/characters/infected/animations/infected_attack_02.bdae",
+      "source_file": "infected_attack_02.bdae"
+    },
+    {
+      "asset": "actors/infected_attack_02_to_idle.bdae",
+      "bytes": 9096,
+      "sha256": "a7952fb1cae5b72f6f310fe6aba070feb4f013bce464b2c44f7067a9b6d9ac09",
+      "source": "data/3d/characters/infected/animations/infected_attack_02_to_idle.bdae",
+      "source_file": "infected_attack_02_to_idle.bdae"
+    },
+    {
+      "asset": "actors/infected_dying.bdae",
+      "bytes": 11160,
+      "sha256": "ccbafcfe5ddc5d8b7a137ccac6d8f469f889cf13fe482175639cca6e1a5eb3a9",
+      "source": "data/3d/characters/infected/animations/infected_dying.bdae",
+      "source_file": "infected_dying.bdae"
+    },
+    {
+      "asset": "actors/infected_dying_02.bdae",
+      "bytes": 12108,
+      "sha256": "ad3e1138c130e8d6ed7705ed927805877ef2dd7b078c1e37a36de6716ca64270",
+      "source": "data/3d/characters/infected/animations/infected_dying_02.bdae",
+      "source_file": "infected_dying_02.bdae"
+    },
+    {
+      "asset": "actors/infected_idle.bdae",
+      "bytes": 16100,
+      "sha256": "9ccedc273d12c596aad4f126ce256501376bb2ba29165b73d8cb0e8ed8b7e092",
+      "source": "data/3d/characters/infected/animations/infected_idle.bdae",
+      "source_file": "infected_idle.bdae"
+    },
+    {
+      "asset": "actors/infected_idle_02.bdae",
+      "bytes": 19408,
+      "sha256": "8271bb591d70fea467c5bc40172e0e5c730381737cb2b861f57adecaaa0d9e74",
+      "source": "data/3d/characters/infected/animations/infected_idle_02.bdae",
+      "source_file": "infected_idle_02.bdae"
+    },
+    {
+      "asset": "actors/infected_pre_attack_01.bdae",
+      "bytes": 8772,
+      "sha256": "9d6efebc075debc8b1cef5b4ca3a11ec57f20d9946b58777106a16bcacefd916",
+      "source": "data/3d/characters/infected/animations/infected_pre_attack_01.bdae",
+      "source_file": "infected_pre_attack_01.bdae"
+    },
+    {
+      "asset": "actors/infected_pre_attack_02.bdae",
+      "bytes": 8376,
+      "sha256": "a074dec9e365b72b2f8ada471e9582b3464960f757928fa598feace97d43b8ab",
+      "source": "data/3d/characters/infected/animations/infected_pre_attack_02.bdae",
+      "source_file": "infected_pre_attack_02.bdae"
+    },
+    {
+      "asset": "actors/infected_walk.bdae",
+      "bytes": 9860,
+      "sha256": "f35fc7fe84fa1b992142a5b4b29073037769ae0ca9a1dab767d317a522b013d9",
+      "source": "data/3d/characters/infected/animations/infected_walk.bdae",
+      "source_file": "infected_walk.bdae"
+    },
+    {
+      "asset": "actors/lizardman_attack_01.bdae",
+      "bytes": 11520,
+      "sha256": "6013cf3fc40bedebd08bf1315ecdd78a0899acb04ea85af3157f6b7a27c23993",
+      "source": "data/3d/characters/lizardman/animations/lizardman_attack_01.bdae",
+      "source_file": "lizardman_attack_01.bdae"
+    },
+    {
+      "asset": "actors/lizardman_dying_01.bdae",
+      "bytes": 12292,
+      "sha256": "d71cde5d2ce5e18bde7c3d5542c63016ccc2c9900d22f48e6ce048ffd06ea8a8",
+      "source": "data/3d/characters/lizardman/animations/lizardman_dying_01.bdae",
+      "source_file": "lizardman_dying_01.bdae"
+    },
+    {
+      "asset": "actors/lizardman_idle_01.bdae",
+      "bytes": 35556,
+      "sha256": "c9c64c805495459da201947f19eb4dbae598e1f8843d0054f8c09dbec5b407f6",
+      "source": "data/3d/characters/lizardman/animations/lizardman_idle_01.bdae",
+      "source_file": "lizardman_idle_01.bdae"
+    },
+    {
+      "asset": "actors/lizardman_post_attack_01.bdae",
+      "bytes": 8076,
+      "sha256": "7842a020af319c8d678153b1241322c652c1feb97be4c546bd61629a89f6a863",
+      "source": "data/3d/characters/lizardman/animations/lizardman_post_attack_01.bdae",
+      "source_file": "lizardman_post_attack_01.bdae"
+    },
+    {
+      "asset": "actors/lizardman_pre_attack_01.bdae",
+      "bytes": 6696,
+      "sha256": "25b0cd37c2156298affcd337036ed987a60737b0de5b6a2e5cde1b3d0e9e61b1",
+      "source": "data/3d/characters/lizardman/animations/lizardman_pre_attack_01.bdae",
+      "source_file": "lizardman_pre_attack_01.bdae"
+    },
+    {
+      "asset": "actors/lizardman_walk_01.bdae",
+      "bytes": 13536,
+      "sha256": "8d687c16a9424285f495aba63ee623af2d37b1c0d8629e9cc7cd22373528b896",
+      "source": "data/3d/characters/lizardman/animations/lizardman_walk_01.bdae",
+      "source_file": "lizardman_walk_01.bdae"
+    },
+    {
+      "asset": "actors/werewolf.bdae",
+      "bytes": 54152,
+      "sha256": "485fd13bdbaa20a2b253ef5550b0ae9c284ab52073d22cab0c59809db175c21f",
+      "source": "data/3d/characters/lizardman/werewolf.bdae",
+      "source_file": "werewolf.bdae"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001.tga",
+      "bytes": 524348,
+      "sha256": "12b326ab884126622721864edb49ab7e30bafb21a269d11db4f185515e4eca7c",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001.tga",
+      "source_file": "atlas_dh2_game_objects_001.tga"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001_alpha.tga",
+      "bytes": 524348,
+      "sha256": "4989829958943daff0d0b977ae98c52def30bb0c966dba21d19e949f9321fc79",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001_alpha.tga",
+      "source_file": "atlas_dh2_game_objects_001_alpha.tga"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001_specular.tga",
+      "bytes": 131132,
+      "sha256": "49c66c6eab5b957acadcf1f8216eb4720ed69b60f86a2b8776505bf54a5d7398",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001_specular.tga",
+      "source_file": "atlas_dh2_game_objects_001_specular.tga"
+    },
+    {
+      "asset": "textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+      "bytes": 524348,
+      "sha256": "b481139257068aca633269161be908e66f839f241f7b42b035337c705e121e83",
+      "source": "data/3d/textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+      "source_file": "atlas_skinned_characters_animdecor_gameobjects_001.tga"
+    },
+    {
+      "asset": "textures/atlas_skinned_characters_animdecor_gameobjects_002.tga",
+      "bytes": 524348,
+      "sha256": "80bb4294c81a677bca7b2725ca170c4bbd663ccfc6d05c7c57399413f0a44309",
+      "source": "data/3d/textures/atlas_skinned_characters_animdecor_gameobjects_002.tga",
+      "source_file": "atlas_skinned_characters_animdecor_gameobjects_002.tga"
+    }
+  ],
+  "runtime_gaps": "Module rotation/scale, conditional/template/NPC/container factories, source AI activation and LevelSavegame are not implied."
+}

@@ -1,0 +1,38 @@
+{
+  "schema": "dh2-level-music-source-export-v1",
+  "uid": 508,
+  "sounds_member": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sounds.xml",
+  "sounds_sha256": "4bc1de654d65470d49e48cee354d5d5cdd45006c18d65420ddc07acf5b400a6e",
+  "sounds_row": {
+    "bank": "1",
+    "filename": "m_safe_zone_02_sfx_darkwood.wav",
+    "format": "adpcm",
+    "group": "2",
+    "label": "GatedCastleVillageMusic",
+    "loadingflags": "none",
+    "loop": "yes",
+    "priority": "1",
+    "uid": "508"
+  },
+  "source_member": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_safe_zone_02_sfx_darkwood.wav",
+  "source_kind": "adpcm_wav",
+  "source_bytes": 3697724,
+  "source_crc32": "0a08c107",
+  "source_sha256": "6aca58d20e77f6625cf6917b397be65e4ba39211f1c0742f05b30345319ecb65",
+  "vxn": null,
+  "outputs": [
+    {
+      "asset": "gated_castle_village_music.wav",
+      "bytes": 3697724,
+      "sha256": "6aca58d20e77f6625cf6917b397be65e4ba39211f1c0742f05b30345319ecb65",
+      "state": null,
+      "codec": "WAVE_FORMAT_IMA_ADPCM",
+      "channels": 2,
+      "sample_rate_hz": 32000,
+      "block_bytes": 1024,
+      "frames_per_block": 1017,
+      "sample_frames": 3671470,
+      "payload_bytes": 3697664
+    }
+  ]
+}

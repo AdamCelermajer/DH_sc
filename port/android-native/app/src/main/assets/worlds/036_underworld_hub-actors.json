@@ -1,0 +1,374 @@
+{
+  "source_layout": "data/scene/036_underworld_hub.mlx",
+  "selected_characters": 5,
+  "source_character_records": 51,
+  "selection": "direct Monster; no activation/deactivation condition; auto_spawn != 0; initial ai_state absent or Idle",
+  "actors": [
+    {
+      "kind": 1,
+      "room": 4,
+      "name": "_prim_Monster01_001",
+      "character": "UW_Treething",
+      "model": "treething.bdae",
+      "model_path": "data/3d/characters/asassin_demon/treething.bdae",
+      "animation_table": 72,
+      "position": [
+        -16113.54,
+        2701.903,
+        202.21000000000004
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        95.0368
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/underworldhub/mgp/underworld_05.mgp",
+      "source_record": 13
+    },
+    {
+      "kind": 1,
+      "room": 4,
+      "name": "_prim_Monster02",
+      "character": "UW_Treething",
+      "model": "treething.bdae",
+      "model_path": "data/3d/characters/asassin_demon/treething.bdae",
+      "animation_table": 72,
+      "position": [
+        -16113.54,
+        5675.04,
+        202.21000000000004
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        95.0368
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/underworldhub/mgp/underworld_05.mgp",
+      "source_record": 14
+    },
+    {
+      "kind": 1,
+      "room": 4,
+      "name": "_prim_Monster",
+      "character": "UW_Treething",
+      "model": "treething.bdae",
+      "model_path": "data/3d/characters/asassin_demon/treething.bdae",
+      "animation_table": 72,
+      "position": [
+        -13660.889500000001,
+        2701.903,
+        202.21000000000004
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        95.0368
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/underworldhub/mgp/underworld_05.mgp",
+      "source_record": 15
+    },
+    {
+      "kind": 1,
+      "room": 6,
+      "name": "_prim_crown_statue_002",
+      "character": "UW_Cherub",
+      "model": "child.bdae",
+      "model_path": "data/3d/characters/statue/child.bdae",
+      "animation_table": 8,
+      "position": [
+        -22783.329999999998,
+        -3054.819,
+        1174.6799999999998
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        -179.059
+      ],
+      "scale": [
+        1.5,
+        1.5,
+        1.5
+      ],
+      "source_mgp": "data/3d/modules/underworldhub/mgp/underworld_07.mgp",
+      "source_record": 3
+    },
+    {
+      "kind": 1,
+      "room": 6,
+      "name": "_prim_crown_statue_03",
+      "character": "UW_Cherub",
+      "model": "child.bdae",
+      "model_path": "data/3d/characters/statue/child.bdae",
+      "animation_table": 8,
+      "position": [
+        -22783.329999999998,
+        296.5899999999997,
+        1174.6799999999998
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.658557
+      ],
+      "scale": [
+        1.5,
+        1.5,
+        1.5
+      ],
+      "source_mgp": "data/3d/modules/underworldhub/mgp/underworld_07.mgp",
+      "source_record": 7
+    }
+  ],
+  "animation_states": [
+    {
+      "table": 8,
+      "character": "ChildStatue",
+      "state": "Idle",
+      "sequence": 105
+    },
+    {
+      "table": 8,
+      "character": "ChildStatue",
+      "state": "Walk",
+      "sequence": 112
+    },
+    {
+      "table": 8,
+      "character": "ChildStatue",
+      "state": "Attack",
+      "sequence": 99
+    },
+    {
+      "table": 8,
+      "character": "ChildStatue",
+      "state": "Died",
+      "sequence": 103
+    },
+    {
+      "table": 72,
+      "character": "Treething",
+      "state": "Idle",
+      "sequence": 34
+    },
+    {
+      "table": 72,
+      "character": "Treething",
+      "state": "Walk",
+      "sequence": 41
+    },
+    {
+      "table": 72,
+      "character": "Treething",
+      "state": "Attack",
+      "sequence": 697
+    },
+    {
+      "table": 72,
+      "character": "Treething",
+      "state": "Died",
+      "sequence": 699
+    }
+  ],
+  "clip_ids": [
+    3,
+    9,
+    10,
+    22,
+    58,
+    59,
+    61,
+    67,
+    68,
+    69,
+    71,
+    72,
+    81,
+    1354,
+    1355,
+    1356
+  ],
+  "dact": {
+    "bytes": 1296,
+    "sha256": "68eaba72c7eee1190cfd81843cc0895adb60b7da4f9f988e7950c2549f132e61"
+  },
+  "assets": [
+    {
+      "asset": "actors/assassindemon_dying.bdae",
+      "bytes": 11764,
+      "sha256": "f6cf40232c11f6295e4db1255c8b46141ccaf9005ece8048dd3d41b7e23ac793",
+      "source": "data/3d/characters/asassin_demon/animations/assassindemon_dying.bdae",
+      "source_file": "assassindemon_dying.bdae"
+    },
+    {
+      "asset": "actors/assassindemon_idle_01.bdae",
+      "bytes": 24456,
+      "sha256": "c5c10615b3a5155e4aebaf23e8c3fc8d0c40ccf11cfaf2d6a431e3a96d87df14",
+      "source": "data/3d/characters/asassin_demon/animations/assassindemon_idle_01.bdae",
+      "source_file": "assassindemon_idle_01.bdae"
+    },
+    {
+      "asset": "actors/assassindemon_idle_02.bdae",
+      "bytes": 21372,
+      "sha256": "e5a803b196770507c8c853154f6f81499b72941e3ad788f1d622695ee1788175",
+      "source": "data/3d/characters/asassin_demon/animations/assassindemon_idle_02.bdae",
+      "source_file": "assassindemon_idle_02.bdae"
+    },
+    {
+      "asset": "actors/assassindemon_walk.bdae",
+      "bytes": 12292,
+      "sha256": "6d2bdc0b5a8818bbcb8646eac8a8622e443602bca998f85b285e746f6f0bfa97",
+      "source": "data/3d/characters/asassin_demon/animations/assassindemon_walk.bdae",
+      "source_file": "assassindemon_walk.bdae"
+    },
+    {
+      "asset": "actors/child.bdae",
+      "bytes": 44016,
+      "sha256": "be747f5529160861bf0a3336e452367975c8d88bfcd3c83448713a3ab23751c8",
+      "source": "data/3d/characters/statue/child.bdae",
+      "source_file": "child.bdae"
+    },
+    {
+      "asset": "actors/child_attack_01.bdae",
+      "bytes": 7524,
+      "sha256": "8a1145636858dcb32114154c2e7ecbb8b2ae76206b0d2eb01138710ff930f6bb",
+      "source": "data/3d/characters/statue/animations/child_attack_01.bdae",
+      "source_file": "child_attack_01.bdae"
+    },
+    {
+      "asset": "actors/child_attack_02.bdae",
+      "bytes": 7300,
+      "sha256": "254e582ea0745dad93f5c9ec9cba82137d50cd2a2226c844450419205c4750a0",
+      "source": "data/3d/characters/statue/animations/child_attack_02.bdae",
+      "source_file": "child_attack_02.bdae"
+    },
+    {
+      "asset": "actors/child_dying.bdae",
+      "bytes": 8368,
+      "sha256": "79d570e5237b76ffb282089a817463cbd9466f5281db8b7786740cd630473492",
+      "source": "data/3d/characters/statue/animations/child_dying.bdae",
+      "source_file": "child_dying.bdae"
+    },
+    {
+      "asset": "actors/child_idle_01.bdae",
+      "bytes": 11364,
+      "sha256": "fb9f3003b22f977bfd53e5845194e28c3dfcbb852cffec71226974619bb305c5",
+      "source": "data/3d/characters/statue/animations/child_idle_01.bdae",
+      "source_file": "child_idle_01.bdae"
+    },
+    {
+      "asset": "actors/child_post_attack_01.bdae",
+      "bytes": 8000,
+      "sha256": "81c6a3dd11a6d8f799b5a94d5917e6816349b129ea30887c6deb6a46229da879",
+      "source": "data/3d/characters/statue/animations/child_post_attack_01.bdae",
+      "source_file": "child_post_attack_01.bdae"
+    },
+    {
+      "asset": "actors/child_post_attack_02.bdae",
+      "bytes": 7508,
+      "sha256": "cad27eaaa702dec7e97c11b214df82986889aed33980c1962923c3dd2ba9d8a0",
+      "source": "data/3d/characters/statue/animations/child_post_attack_02.bdae",
+      "source_file": "child_post_attack_02.bdae"
+    },
+    {
+      "asset": "actors/child_pre_attack_01.bdae",
+      "bytes": 6440,
+      "sha256": "9858b1bd43dabe447e057f8dbce150d7d142e839042f0bda9fb881c9eecd7c03",
+      "source": "data/3d/characters/statue/animations/child_pre_attack_01.bdae",
+      "source_file": "child_pre_attack_01.bdae"
+    },
+    {
+      "asset": "actors/child_pre_attack_02.bdae",
+      "bytes": 6228,
+      "sha256": "b8c97f1ca73429e446cbca2afffbd4e4ac752ca3a52274cff94eb2f20d38356a",
+      "source": "data/3d/characters/statue/animations/child_pre_attack_02.bdae",
+      "source_file": "child_pre_attack_02.bdae"
+    },
+    {
+      "asset": "actors/child_walk_01.bdae",
+      "bytes": 8324,
+      "sha256": "b5d01b9fa05a73784c6e8b87c7dc6dd31cb050cb0fcfcbe3df12a50ddcf5e33c",
+      "source": "data/3d/characters/statue/animations/child_walk_01.bdae",
+      "source_file": "child_walk_01.bdae"
+    },
+    {
+      "asset": "actors/treething.bdae",
+      "bytes": 60840,
+      "sha256": "d565b159dcba66a8f47ed2813151ec6b2b3fd5a88f905688990e417dd7317f70",
+      "source": "data/3d/characters/asassin_demon/treething.bdae",
+      "source_file": "treething.bdae"
+    },
+    {
+      "asset": "actors/treething_attack_01.bdae",
+      "bytes": 23368,
+      "sha256": "25e2e2a5d8ffac8d38b6e80f1aaa6da40123190bd87467b70cb0f52ab8e13304",
+      "source": "data/3d/characters/asassin_demon/animations/treething_attack_01.bdae",
+      "source_file": "treething_attack_01.bdae"
+    },
+    {
+      "asset": "actors/treething_attack_02.bdae",
+      "bytes": 10772,
+      "sha256": "44a8aa8fd7046ce26eb1e6491e750045a35afce09bd47061071d16814705ff57",
+      "source": "data/3d/characters/asassin_demon/animations/treething_attack_02.bdae",
+      "source_file": "treething_attack_02.bdae"
+    },
+    {
+      "asset": "actors/treething_attack_03.bdae",
+      "bytes": 23616,
+      "sha256": "351b4489a7448e01a5af3fc26d9fd0475ef1ba4139dbe1e78dd97f7ad91edc71",
+      "source": "data/3d/characters/asassin_demon/animations/treething_attack_03.bdae",
+      "source_file": "treething_attack_03.bdae"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001.tga",
+      "bytes": 524348,
+      "sha256": "12b326ab884126622721864edb49ab7e30bafb21a269d11db4f185515e4eca7c",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001.tga",
+      "source_file": "atlas_dh2_game_objects_001.tga"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001_alpha.tga",
+      "bytes": 524348,
+      "sha256": "4989829958943daff0d0b977ae98c52def30bb0c966dba21d19e949f9321fc79",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001_alpha.tga",
+      "source_file": "atlas_dh2_game_objects_001_alpha.tga"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001_specular.tga",
+      "bytes": 131132,
+      "sha256": "49c66c6eab5b957acadcf1f8216eb4720ed69b60f86a2b8776505bf54a5d7398",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001_specular.tga",
+      "source_file": "atlas_dh2_game_objects_001_specular.tga"
+    },
+    {
+      "asset": "textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+      "bytes": 524348,
+      "sha256": "b481139257068aca633269161be908e66f839f241f7b42b035337c705e121e83",
+      "source": "data/3d/textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+      "source_file": "atlas_skinned_characters_animdecor_gameobjects_001.tga"
+    },
+    {
+      "asset": "textures/atlas_skinned_characters_animdecor_gameobjects_002.tga",
+      "bytes": 524348,
+      "sha256": "80bb4294c81a677bca7b2725ca170c4bbd663ccfc6d05c7c57399413f0a44309",
+      "source": "data/3d/textures/atlas_skinned_characters_animdecor_gameobjects_002.tga",
+      "source_file": "atlas_skinned_characters_animdecor_gameobjects_002.tga"
+    }
+  ],
+  "runtime_gaps": "Module rotation/scale, conditional/template/NPC/container factories, source AI activation and LevelSavegame are not implied."
+}

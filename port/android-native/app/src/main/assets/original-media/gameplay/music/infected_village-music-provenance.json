@@ -1,0 +1,69 @@
+{
+  "schema": "dh2-level-music-source-export-v1",
+  "uid": 475,
+  "sounds_member": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sounds.xml",
+  "sounds_sha256": "4bc1de654d65470d49e48cee354d5d5cdd45006c18d65420ddc07acf5b400a6e",
+  "sounds_row": {
+    "bank": "1",
+    "filename": "m_level_darkwood_sfx_infected.vxn",
+    "format": "vxn",
+    "group": "2",
+    "label": "InfectedVillageAmbientMusic",
+    "loadingflags": "none",
+    "loop": "yes",
+    "priority": "1",
+    "uid": "475"
+  },
+  "source_member": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_darkwood_sfx_infected.vxn",
+  "source_kind": "vxn",
+  "source_bytes": 11692544,
+  "source_crc32": "0e7b801e",
+  "source_sha256": "7622729d3ee831b3be4c221c29ee76e22fea1e9bb977737d30e1d43cb74ac1ee",
+  "vxn": {
+    "file_bytes": 11692544,
+    "audio_base": 512,
+    "codec": "VoxNativeSubDecoderIMAADPCM",
+    "channels": 2,
+    "sample_rate_hz": 32000,
+    "block_bytes": 1024,
+    "frames_per_block": 1017,
+    "states": [
+      "ambient",
+      "combat"
+    ],
+    "segments": [
+      {
+        "state": "ambient",
+        "source_offset": 0,
+        "source_bytes": 5846016,
+        "sample_frames": 5805166
+      },
+      {
+        "state": "combat",
+        "source_offset": 5846016,
+        "source_bytes": 5846016,
+        "sample_frames": 5805166
+      }
+    ]
+  },
+  "outputs": [
+    {
+      "asset": "infected_village_ambient_music.wav",
+      "bytes": 5846076,
+      "sha256": "bbc335ae4cac8e0d926408f08fd4ac310f5e1f07f82e48c96b99e5c9dd2fd6ba",
+      "source_segment_offset": 0,
+      "source_segment_bytes": 5846016,
+      "sample_frames": 5805166,
+      "state": "ambient"
+    },
+    {
+      "asset": "infected_village_combat_music.wav",
+      "bytes": 5846076,
+      "sha256": "87db765ab3b2ad427be92c95c97625e9ae53fb5c15ff9e3e6e8a2a34c1f59c98",
+      "source_segment_offset": 5846016,
+      "source_segment_bytes": 5846016,
+      "sample_frames": 5805166,
+      "state": "combat"
+    }
+  ]
+}

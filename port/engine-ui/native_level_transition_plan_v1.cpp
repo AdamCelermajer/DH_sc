@@ -75,6 +75,16 @@ bool build_native_level_transition_plan_v1(
         {41, "SWAMP", "001_swamp.mlx", "001_swamp", "data/3d/modules/swamp/swamp.bdae"},
         {4, "DARKWOOD", "003_darkwood.mlx", "003_darkwood",
          "data/3d/modules/darkwood/darkwood2.bdae"},
+        {38, "RED_DESERT_HUB", "015_red_desert_hub.mlx", "015_red_desert_hub",
+         "data/3d/modules/red_desert/red_desert.bdae"},
+        {45, "UNDERWORLD_HUB", "036_underworld_hub.mlx", "036_underworld_hub",
+         "data/3d/modules/underworldhub/underworldhub.bdae"},
+        {29, "INFECTED_VILLAGE_01", "005_infectedvillage.mlx", "005_infectedvillage",
+         "data/3d/modules/infectedvillage/infectedvillage.bdae"},
+        {1, "ABBEY_RUINS_01", "009a_abbey.mlx", "009a_abbey",
+         "data/3d/modules/crypt/crypt.bdae"},
+        {20, "FIRE_TEMPLE_01", "031_firetemple.mlx", "031_firetemple",
+         "data/3d/modules/firetemple/firetemple.bdae"},
     };
     const StaticLevel* static_level = nullptr;
     for (const auto& level : static_levels)

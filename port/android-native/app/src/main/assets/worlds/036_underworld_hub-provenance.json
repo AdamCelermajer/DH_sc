@@ -1,0 +1,568 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "compiler": "compile_static_level.py",
+  "entrypoint_zero": {
+    "activate_condition": null,
+    "deactivate_condition": null,
+    "entrypoint_id": 0,
+    "local_position": [
+      2131.53,
+      -940.81,
+      2583.95
+    ],
+    "local_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "local_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "module_index": 0,
+    "name": "_prim_EntryPoint",
+    "source_path": "data/3d/modules/underworldhub/mgp/underworld_01.mgp",
+    "source_record": 0,
+    "world_position": [
+      494.34000000000015,
+      -20.366999999999962,
+      138.15999999999985
+    ],
+    "world_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "world_scale": [
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "entrypoint_zero_candidates": 1,
+  "entrypoint_zero_policy": "unconditional_unique",
+  "entrypoint_zero_spread": 0.0,
+  "format": "dh2-static-level-bundle-v1",
+  "generated": {
+    "036_underworld_hub.dwld": {
+      "bytes": 1176,
+      "sha256": "83864e633ed9f975fac12afdeba6b3c76e8c068b115b6b0ed2388c8123adcddd"
+    },
+    "036_underworld_hub.spwn": {
+      "bytes": 448,
+      "sha256": "e485b4158d58a479f95dc04199e684180289b5148a4ef2bf49fc375a258b0b4a"
+    }
+  },
+  "level_list": {
+    "level_file": "036_underworld_hub.mlx",
+    "name": "UNDERWORLD_HUB",
+    "row": 45
+  },
+  "level_list_inputs": {
+    "data/pydata/levels_pyarray.bin": {
+      "bytes": 5574,
+      "sha256": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c"
+    },
+    "data/pydata/levels_pyarraynames.bin": {
+      "bytes": 1943,
+      "sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432"
+    }
+  },
+  "module_count": 9,
+  "modules": [
+    {
+      "dae": "data/3d/modules/underworldhub/underworldhub.bdae",
+      "mgp": "data/3d/modules/underworldhub/mgp/underworld_01.mgp",
+      "mgp_records": 13,
+      "module_index": 0,
+      "mvp": "data/3d/modules/underworldhub/mvp/underworld_01.mvp",
+      "mvp_records": 0,
+      "name": "_module_under_02_001",
+      "node_id": "_module_under_02-node",
+      "position": [
+        -1637.19,
+        920.443,
+        -2445.79
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 0
+    },
+    {
+      "dae": "data/3d/modules/underworldhub/underworldhub.bdae",
+      "mgp": "data/3d/modules/underworldhub/mgp/underworld_02.mgp",
+      "mgp_records": 1,
+      "module_index": 1,
+      "mvp": "data/3d/modules/underworldhub/mvp/underworld_02.mvp",
+      "mvp_records": 0,
+      "name": "_module_under_03_001",
+      "node_id": "_module_under_03-node",
+      "position": [
+        -7637.19,
+        920.443,
+        -2445.79
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 2
+    },
+    {
+      "dae": "data/3d/modules/underworldhub/underworldhub.bdae",
+      "mgp": "data/3d/modules/underworldhub/mgp/underworld_03.mgp",
+      "mgp_records": 9,
+      "module_index": 2,
+      "mvp": "data/3d/modules/underworldhub/mvp/underworld_03.mvp",
+      "mvp_records": 0,
+      "name": "_module_under_04_001",
+      "node_id": "_module_under_04-node",
+      "position": [
+        -5568.48,
+        6920.44,
+        -2445.79
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 3
+    },
+    {
+      "dae": "data/3d/modules/underworldhub/underworldhub.bdae",
+      "mgp": "data/3d/modules/underworldhub/mgp/underworld_04.mgp",
+      "mgp_records": 19,
+      "module_index": 3,
+      "mvp": "data/3d/modules/underworldhub/mvp/underworld_04.mvp",
+      "mvp_records": 0,
+      "name": "_module_under_05_001",
+      "node_id": "_module_under_05-node",
+      "position": [
+        -2233.44,
+        12942.7,
+        -3548.5
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 4
+    },
+    {
+      "dae": "data/3d/modules/underworldhub/underworldhub.bdae",
+      "mgp": "data/3d/modules/underworldhub/mgp/underworld_05.mgp",
+      "mgp_records": 16,
+      "module_index": 4,
+      "mvp": "data/3d/modules/underworldhub/mvp/underworld_05.mvp",
+      "mvp_records": 0,
+      "name": "_module_under_06_001",
+      "node_id": "_module_under_06-node",
+      "position": [
+        -13637.2,
+        3118.16,
+        -2445.79
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 5
+    },
+    {
+      "dae": "data/3d/modules/underworldhub/underworldhub.bdae",
+      "mgp": "data/3d/modules/underworldhub/mgp/underworld_06.mgp",
+      "mgp_records": 4,
+      "module_index": 5,
+      "mvp": "data/3d/modules/underworldhub/mvp/underworld_06.mvp",
+      "mvp_records": 0,
+      "name": "_module_under_07_001",
+      "node_id": "_module_under_07-node",
+      "position": [
+        -19637.2,
+        3118.16,
+        -2445.79
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 6
+    },
+    {
+      "dae": "data/3d/modules/underworldhub/underworldhub.bdae",
+      "mgp": "data/3d/modules/underworldhub/mgp/underworld_07.mgp",
+      "mgp_records": 14,
+      "module_index": 6,
+      "mvp": "data/3d/modules/underworldhub/mvp/underworld_07.mvp",
+      "mvp_records": 0,
+      "name": "_module_under_08_001",
+      "node_id": "_module_under_08-node",
+      "position": [
+        -21068.6,
+        -2881.84,
+        -2445.79
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 7
+    },
+    {
+      "dae": "data/3d/modules/underworldhub/underworldhub.bdae",
+      "mgp": "data/3d/modules/underworldhub/mgp/underworld_08.mgp",
+      "mgp_records": 13,
+      "module_index": 7,
+      "mvp": "data/3d/modules/underworldhub/mvp/underworld_08.mvp",
+      "mvp_records": 0,
+      "name": "_module_under_09_001",
+      "node_id": "_module_under_09-node",
+      "position": [
+        -17937.4,
+        9118.16,
+        -2445.79
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 8
+    },
+    {
+      "dae": "data/3d/modules/underworldhub/underworldhub.bdae",
+      "mgp": "data/3d/modules/underworldhub/mgp/underworld_00.mgp",
+      "mgp_records": 11,
+      "module_index": 8,
+      "mvp": "data/3d/modules/underworldhub/mvp/underworld_00.mvp",
+      "mvp_records": 0,
+      "name": "_module_under_01_001",
+      "node_id": "_module_under_01-node",
+      "position": [
+        -1637.19,
+        -5079.56,
+        -2445.79
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 9
+    }
+  ],
+  "scope": "authored static module transforms and unique unconditional spawn selectors; no gameplay activation",
+  "selectable_entrypoints": [
+    0,
+    2,
+    4
+  ],
+  "source_assets": [
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/underworldhub/mgp/underworld_00.mgp",
+      "bytes": 5237,
+      "path": "data/3d/modules/underworldhub/mgp/underworld_00.mgp",
+      "sha256": "246e657a796a0b4513f7db276992ac76c539b9ed1b43593f4cb6d3a7ff5d4448"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/underworldhub/mgp/underworld_01.mgp",
+      "bytes": 3817,
+      "path": "data/3d/modules/underworldhub/mgp/underworld_01.mgp",
+      "sha256": "2d82e85d05a80ce334ce1e3406e9d36c5ce1e747c21464fd1e1ab5132ccdbb80"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/underworldhub/mgp/underworld_02.mgp",
+      "bytes": 553,
+      "path": "data/3d/modules/underworldhub/mgp/underworld_02.mgp",
+      "sha256": "be4d474bbbf507f284e6950e98f0506385cc12917b0a0504465075396939e27b"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/underworldhub/mgp/underworld_03.mgp",
+      "bytes": 4939,
+      "path": "data/3d/modules/underworldhub/mgp/underworld_03.mgp",
+      "sha256": "f3617d852fda2d66de4eec7f56743f012ef3675a4dce39ff937d6c9b1e48c326"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/underworldhub/mgp/underworld_04.mgp",
+      "bytes": 8361,
+      "path": "data/3d/modules/underworldhub/mgp/underworld_04.mgp",
+      "sha256": "ae4803f78637bedadab55040c4cd3d19fdc1bb82ff252de44a62a1214b7517fd"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/underworldhub/mgp/underworld_05.mgp",
+      "bytes": 7460,
+      "path": "data/3d/modules/underworldhub/mgp/underworld_05.mgp",
+      "sha256": "4146e93865ac7abea884e540a5f0348b569b54dbfd760d6c67913e8fec4783d3"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/underworldhub/mgp/underworld_06.mgp",
+      "bytes": 2282,
+      "path": "data/3d/modules/underworldhub/mgp/underworld_06.mgp",
+      "sha256": "181588c6efa3eddb73fff8cd12b393d55bdcd38c2d90c1e680de2a01a37da7bb"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/underworldhub/mgp/underworld_07.mgp",
+      "bytes": 5980,
+      "path": "data/3d/modules/underworldhub/mgp/underworld_07.mgp",
+      "sha256": "0c0c01e8234712e5175ad11fea0ef3d0b85a8167c329dd265b7c6ab5051060ef"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/underworldhub/mgp/underworld_08.mgp",
+      "bytes": 5478,
+      "path": "data/3d/modules/underworldhub/mgp/underworld_08.mgp",
+      "sha256": "39ce7d6a80e474555e37a7f6b58ff769fb35eb7952af4ab2118e661a1ca1ceb0"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/underworldhub/mvp/underworld_00.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/underworldhub/mvp/underworld_00.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/underworldhub/mvp/underworld_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/underworldhub/mvp/underworld_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/underworldhub/mvp/underworld_02.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/underworldhub/mvp/underworld_02.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/underworldhub/mvp/underworld_03.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/underworldhub/mvp/underworld_03.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/underworldhub/mvp/underworld_04.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/underworldhub/mvp/underworld_04.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/underworldhub/mvp/underworld_05.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/underworldhub/mvp/underworld_05.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/underworldhub/mvp/underworld_06.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/underworldhub/mvp/underworld_06.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/underworldhub/mvp/underworld_07.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/underworldhub/mvp/underworld_07.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/underworldhub/mvp/underworld_08.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/underworldhub/mvp/underworld_08.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/underworldhub/underworldhub.bdae",
+      "bytes": 4309992,
+      "path": "data/3d/modules/underworldhub/underworldhub.bdae",
+      "sha256": "bdbb503ef74340adc451a47c9a48ac8fde95e3864d1776e60f4fb9305be0e8e4"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/skybox/skybox_under.bdae",
+      "bytes": 6152,
+      "path": "data/3d/skybox/skybox_under.bdae",
+      "sha256": "aded4eba28b990a8a73a918a6f8bf448c903eb586c9ec9441acd0d3e501ae501"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/scene/036_underworld_hub.mlx",
+      "bytes": 6034,
+      "path": "data/scene/036_underworld_hub.mlx",
+      "sha256": "ed18a13a050adec6789bd4aa425bff20f644587cb6244b3d06f17b45bfa0967e"
+    }
+  ],
+  "source_layout": "data/scene/036_underworld_hub.mlx",
+  "spawn_point_count": 5,
+  "texture_hints": {
+    "data/3d/modules/underworldhub/underworldhub.bdae": {
+      "found_in_cache_not_copied": [
+        "data/3d/textures/env_under_lightingmap.tga",
+        "data/3d/textures/env_underworldhub.tga",
+        "data/3d/textures/env_underworldhub_spec.tga",
+        "data/3d/textures/env_underworldhub_trans.tga",
+        "data/3d/textures/env_underworldhub_trans_spec.tga",
+        "data/3d/textures/pvr2_env_underworld_alpha.tga"
+      ],
+      "missing_from_cache": []
+    }
+  },
+  "unsupported_entrypoints": [
+    {
+      "activate_condition": null,
+      "deactivate_condition": null,
+      "entrypoint_id": 1,
+      "local_position": [
+        -6287.05,
+        640.791,
+        2003.15
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 0,
+      "name": "_prim_EntryPoint_from_Fasttravel",
+      "source_path": "data/3d/modules/underworldhub/mgp/underworld_01.mgp",
+      "source_record": 3,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id"
+      ],
+      "world_position": [
+        -7924.24,
+        1561.234,
+        -442.6399999999999
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": null,
+      "deactivate_condition": null,
+      "entrypoint_id": 1,
+      "local_position": [
+        -1891.04,
+        565.566,
+        2291.36
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 0,
+      "name": "_prim_EntryPoint_fromFT",
+      "source_path": "data/3d/modules/underworldhub/mgp/underworld_01.mgp",
+      "source_record": 4,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id"
+      ],
+      "world_position": [
+        -3528.23,
+        1486.009,
+        -154.42999999999984
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  ],
+  "unsupported_spawn_id_groups": [
+    {
+      "entrypoint_id": 1,
+      "reason": "duplicate IDs and/or conditions cannot be represented by SPWN v1",
+      "source_rows": [
+        {
+          "activate_condition": null,
+          "deactivate_condition": null,
+          "module_index": 0,
+          "name": "_prim_EntryPoint_from_Fasttravel",
+          "source_path": "data/3d/modules/underworldhub/mgp/underworld_01.mgp",
+          "source_record": 3
+        },
+        {
+          "activate_condition": null,
+          "deactivate_condition": null,
+          "module_index": 0,
+          "name": "_prim_EntryPoint_fromFT",
+          "source_path": "data/3d/modules/underworldhub/mgp/underworld_01.mgp",
+          "source_record": 4
+        }
+      ]
+    }
+  ]
+}

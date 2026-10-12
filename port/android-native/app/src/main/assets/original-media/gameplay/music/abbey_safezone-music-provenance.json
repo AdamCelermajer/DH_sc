@@ -1,0 +1,69 @@
+{
+  "schema": "dh2-level-music-source-export-v1",
+  "uid": 484,
+  "sounds_member": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sounds.xml",
+  "sounds_sha256": "4bc1de654d65470d49e48cee354d5d5cdd45006c18d65420ddc07acf5b400a6e",
+  "sounds_row": {
+    "bank": "1",
+    "filename": "m_level_cathedral_sfx_catacomb.vxn",
+    "format": "vxn",
+    "group": "2",
+    "label": "AbbeyRuinsOneAmbientMusic",
+    "loadingflags": "none",
+    "loop": "yes",
+    "priority": "1",
+    "uid": "484"
+  },
+  "source_member": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_cathedral_sfx_catacomb.vxn",
+  "source_kind": "vxn",
+  "source_bytes": 10281472,
+  "source_crc32": "a8abdb0c",
+  "source_sha256": "6c0236d19b66011d986a7fd31a332257d8f689ceea69e049abf90376d33ed909",
+  "vxn": {
+    "file_bytes": 10281472,
+    "audio_base": 512,
+    "codec": "VoxNativeSubDecoderIMAADPCM",
+    "channels": 2,
+    "sample_rate_hz": 32000,
+    "block_bytes": 1024,
+    "frames_per_block": 1017,
+    "states": [
+      "ambient",
+      "combat"
+    ],
+    "segments": [
+      {
+        "state": "ambient",
+        "source_offset": 0,
+        "source_bytes": 5140480,
+        "sample_frames": 5105117
+      },
+      {
+        "state": "combat",
+        "source_offset": 5140480,
+        "source_bytes": 5140480,
+        "sample_frames": 5105117
+      }
+    ]
+  },
+  "outputs": [
+    {
+      "asset": "abbey_safezone_ambient_music.wav",
+      "bytes": 5140540,
+      "sha256": "6058cc4ab86855e8f6b506b6a55cee2256cdc74af0a17a5c5ec4542900186126",
+      "source_segment_offset": 0,
+      "source_segment_bytes": 5140480,
+      "sample_frames": 5105117,
+      "state": "ambient"
+    },
+    {
+      "asset": "abbey_safezone_combat_music.wav",
+      "bytes": 5140540,
+      "sha256": "f592250c169e63fa7630fc4104890fd74c20a8b15c86a7c1727a47ecbc09126f",
+      "source_segment_offset": 5140480,
+      "source_segment_bytes": 5140480,
+      "sample_frames": 5105117,
+      "state": "combat"
+    }
+  ]
+}

@@ -1,0 +1,195 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "compiler": "compile_static_level.py",
+  "entrypoint_zero": {
+    "activate_condition": null,
+    "deactivate_condition": null,
+    "entrypoint_id": 0,
+    "local_position": [
+      900.85,
+      -4148.52,
+      1348.88
+    ],
+    "local_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "local_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "module_index": 0,
+    "name": "_prim_EntryPoint",
+    "source_path": "data/3d/modules/infectedvillage/mgp/infected01.mgp",
+    "source_record": 1,
+    "world_position": [
+      -2547.65,
+      -1148.5200000000004,
+      1348.88
+    ],
+    "world_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "world_scale": [
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "entrypoint_zero_candidates": 1,
+  "entrypoint_zero_policy": "unconditional_unique",
+  "entrypoint_zero_spread": 0.0,
+  "format": "dh2-static-level-bundle-v1",
+  "generated": {
+    "005_infectedvillage.dwld": {
+      "bytes": 280,
+      "sha256": "9bb7a9653594ccec19c63fbff1a6733da1d60356aa56f21880c97411fff494a2"
+    },
+    "005_infectedvillage.spwn": {
+      "bytes": 160,
+      "sha256": "e7587218c8a4f28298d1bbc805c1156fdd9f484a4001a14aea32263201152d8e"
+    }
+  },
+  "level_list": {
+    "level_file": "005_infectedvillage.mlx",
+    "name": "INFECTED_VILLAGE_01",
+    "row": 29
+  },
+  "level_list_inputs": {
+    "data/pydata/levels_pyarray.bin": {
+      "bytes": 5574,
+      "sha256": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c"
+    },
+    "data/pydata/levels_pyarraynames.bin": {
+      "bytes": 1943,
+      "sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432"
+    }
+  },
+  "module_count": 2,
+  "modules": [
+    {
+      "dae": "data/3d/modules/infectedvillage/infectedvillage.bdae",
+      "mgp": "data/3d/modules/infectedvillage/mgp/infected01.mgp",
+      "mgp_records": 39,
+      "module_index": 0,
+      "mvp": "data/3d/modules/infectedvillage/mvp/infected01.mvp",
+      "mvp_records": 4,
+      "name": "_module_infectedvillage_01_001",
+      "node_id": "_module_infectedvillage_01-node",
+      "position": [
+        -3448.5,
+        3000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 1
+    },
+    {
+      "dae": "data/3d/modules/infectedvillage/infectedvillage.bdae",
+      "mgp": "data/3d/modules/infectedvillage/mgp/infected02.mgp",
+      "mgp_records": 2,
+      "module_index": 1,
+      "mvp": "data/3d/modules/infectedvillage/mvp/infected02.mvp",
+      "mvp_records": 5,
+      "name": "_module_infectedvillage_02_001",
+      "node_id": "_module_infectedvillage_02-node",
+      "position": [
+        2551.5,
+        3000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 2
+    }
+  ],
+  "scope": "authored static module transforms and unique unconditional spawn selectors; no gameplay activation",
+  "selectable_entrypoints": [
+    0
+  ],
+  "source_assets": [
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/fog/fog_infected_village.bdae",
+      "bytes": 14704,
+      "path": "data/3d/animateddecors/fog/fog_infected_village.bdae",
+      "sha256": "4339169b5f83947dfda30dfd94809ceed34b888cb400dbae1095e3b4a9860104"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "bytes": 18208,
+      "path": "data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "sha256": "631dfe779d9933cf5c1ef7a45992cc71f646287c153103df7dee398ecbd129d1"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/infectedvillage/infectedvillage.bdae",
+      "bytes": 629032,
+      "path": "data/3d/modules/infectedvillage/infectedvillage.bdae",
+      "sha256": "78277fc02ecb006f23e281560eda789d616415aa2801c00a370d73f67605c07a"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/infectedvillage/mgp/infected01.mgp",
+      "bytes": 17862,
+      "path": "data/3d/modules/infectedvillage/mgp/infected01.mgp",
+      "sha256": "c3fbe80d3228592cd117012baf2f2151e4ab46c452213911ca5c4d3195e4bbc3"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/infectedvillage/mgp/infected02.mgp",
+      "bytes": 991,
+      "path": "data/3d/modules/infectedvillage/mgp/infected02.mgp",
+      "sha256": "a128c22031b9ba64fde81c7951e215cc2999e8ffb95a3a5cf30560cc712e8c5b"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/infectedvillage/mvp/infected01.mvp",
+      "bytes": 2162,
+      "path": "data/3d/modules/infectedvillage/mvp/infected01.mvp",
+      "sha256": "02d255cc6214a3c3d28b2f7e921626344a67e2edded1579da8ad7256e72a9df8"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/infectedvillage/mvp/infected02.mvp",
+      "bytes": 2461,
+      "path": "data/3d/modules/infectedvillage/mvp/infected02.mvp",
+      "sha256": "8af1f65e45c67d07c11482988d7381fc1dfb15d36a5a9321b48efbe67e6fbf7a"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/scene/005_infectedvillage.mlx",
+      "bytes": 2079,
+      "path": "data/scene/005_infectedvillage.mlx",
+      "sha256": "4cd2007c7de65d38065f8a5f57faaa57dc56cc332db35cdb50d7d42d5af73ed8"
+    }
+  ],
+  "source_layout": "data/scene/005_infectedvillage.mlx",
+  "spawn_point_count": 1,
+  "texture_hints": {
+    "data/3d/modules/infectedvillage/infectedvillage.bdae": {
+      "found_in_cache_not_copied": [
+        "data/3d/textures/env_infectedvillage.tga",
+        "data/3d/textures/env_infectedvillage_spec.tga",
+        "data/3d/textures/pvr2_env_infectedvillage_alpha.tga"
+      ],
+      "missing_from_cache": []
+    }
+  },
+  "unsupported_entrypoints": [],
+  "unsupported_spawn_id_groups": []
+}

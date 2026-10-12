@@ -4161,6 +4161,10 @@ bool OriginalUiSession::source_combat_text_constant(const char* group,const char
     if(!Impl::constant(&self,group,name,raw,error))return false;
     std::memcpy(&value,&raw,sizeof(value));return true;
 }
+bool OriginalUiSession::gameplay_text_ready() const noexcept{
+    const auto& self=*impl_;
+    return self.selected&&self.live_player&&self.loaded;
+}
 bool OriginalUiSession::source_combat_text_string(std::int32_t string_id,
     std::string& value,std::string& error){
     auto& self=*impl_;

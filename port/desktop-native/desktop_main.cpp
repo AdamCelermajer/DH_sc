@@ -68,8 +68,8 @@ Options parse(int argc, char** argv) {
                 number > std::numeric_limits<std::int32_t>::max())
                 throw std::runtime_error("--level-row must be a nonnegative 32-bit integer");
             options.level_row = static_cast<std::int32_t>(number);
-            if (options.level_row != 4 && options.level_row != 23 && options.level_row != 41)
-                throw std::runtime_error("--level-row currently supports direct Crypt 23 or fresh-save SWAMP 41");
+            if (options.level_row != 23 && !model_renderer::static_level_name_for_row(options.level_row))
+                throw std::runtime_error("--level-row supports Crypt 23 and the authored static MLX rows");
         }
         else if (arg == "--transition-to") {
             // Development check: queue NativeGoToZone/ChangeLevel to LEVEL[:entry].
@@ -487,9 +487,7 @@ bool start_from_authored_menu(const dh2::android_ui::NativeStartGameIntentV1& re
     ui.deactivate();
     const auto startup = model_renderer::start_menu_game(request.slot, assets, -1,
         request.has_numeric_difficulty, request.requested_difficulty);
-    const bool world_loaded = startup.rfind("Crypt |", 0) == 0 ||
-                              startup.rfind("SWAMP |", 0) == 0 ||
-                              startup.rfind("DARKWOOD |", 0) == 0;
+    const bool world_loaded = model_renderer::gameplay_startup_loaded(startup);
     std::string attach_error;
     const bool hud_attached = world_loaded && ui.attach_player(runtime.string(), attach_error);
     model_renderer::bind_gameplay_ui_session(hud_attached ? &ui : nullptr);
@@ -663,8 +661,8 @@ int main(int argc, char** argv) {
             const auto debug_level_row = options.level_row == 41 ? -1 : options.level_row;
             const auto loaded = model_renderer::start_menu_game(
                 slot, assets.get(), debug_level_row, false, 0);
-            const auto expected_prefix = options.level_row == 23 ? "Crypt |" :
-                                         options.level_row == 4 ? "DARKWOOD |" : "SWAMP |";
+            const std::string expected_prefix = options.level_row == 23 ? std::string("Crypt |") :
+                std::string(model_renderer::static_level_name_for_row(options.level_row)) + " |";
             if (loaded.rfind(expected_prefix, 0) != 0)
                 throw std::runtime_error("Canonical source-menu row " + std::to_string(options.level_row) +
                                          " resolved a different level: " + loaded);

@@ -1,0 +1,511 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "compiler": "compile_static_level.py",
+  "entrypoint_zero": {
+    "activate_condition": null,
+    "deactivate_condition": null,
+    "entrypoint_id": 0,
+    "local_position": [
+      361.374,
+      -910.51,
+      1400.46
+    ],
+    "local_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "local_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "module_index": 0,
+    "name": "_prim_EntryPoint_fromDarkwood",
+    "source_path": "data/3d/modules/red_desert/mgp/rd01.mgp",
+    "source_record": 0,
+    "world_position": [
+      -227.73299999999995,
+      270.9000000000001,
+      15.720000000000027
+    ],
+    "world_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "world_scale": [
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "entrypoint_zero_candidates": 1,
+  "entrypoint_zero_policy": "unconditional_unique",
+  "entrypoint_zero_spread": 0.0,
+  "format": "dh2-static-level-bundle-v1",
+  "generated": {
+    "015_red_desert_hub.dwld": {
+      "bytes": 792,
+      "sha256": "05bf92ca03b0098e470957bc69e75c4eef22273daf2e9edbc94e968f91b4b5c0"
+    },
+    "015_red_desert_hub.spwn": {
+      "bytes": 736,
+      "sha256": "e71121c9452c4eae87f41883d376836dd59c278469a7d1f09f28ee9fe95d8bec"
+    }
+  },
+  "level_list": {
+    "level_file": "015_red_desert_hub.mlx",
+    "name": "RED_DESERT_HUB",
+    "row": 38
+  },
+  "level_list_inputs": {
+    "data/pydata/levels_pyarray.bin": {
+      "bytes": 5574,
+      "sha256": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c"
+    },
+    "data/pydata/levels_pyarraynames.bin": {
+      "bytes": 1943,
+      "sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432"
+    }
+  },
+  "module_count": 6,
+  "modules": [
+    {
+      "dae": "data/3d/modules/red_desert/red_desert.bdae",
+      "mgp": "data/3d/modules/red_desert/mgp/rd01.mgp",
+      "mgp_records": 8,
+      "module_index": 0,
+      "mvp": "data/3d/modules/red_desert/mvp/rd01.mvp",
+      "mvp_records": 8,
+      "name": "_module_01_001",
+      "node_id": "_module_01-node",
+      "position": [
+        -589.107,
+        1181.41,
+        -1384.74
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 1
+    },
+    {
+      "dae": "data/3d/modules/red_desert/red_desert.bdae",
+      "mgp": "data/3d/modules/red_desert/mgp/rd02.mgp",
+      "mgp_records": 14,
+      "module_index": 1,
+      "mvp": "data/3d/modules/red_desert/mvp/rd02.mvp",
+      "mvp_records": 8,
+      "name": "_module_02_001",
+      "node_id": "_module_02-node",
+      "position": [
+        -6589.11,
+        1181.41,
+        -1384.74
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 2
+    },
+    {
+      "dae": "data/3d/modules/red_desert/red_desert.bdae",
+      "mgp": "data/3d/modules/red_desert/mgp/rd03.mgp",
+      "mgp_records": 29,
+      "module_index": 2,
+      "mvp": "data/3d/modules/red_desert/mvp/rd03.mvp",
+      "mvp_records": 11,
+      "name": "_module_03_001",
+      "node_id": "_module_03-node",
+      "position": [
+        -589.107,
+        7181.41,
+        -1384.74
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 3
+    },
+    {
+      "dae": "data/3d/modules/red_desert/red_desert.bdae",
+      "mgp": "data/3d/modules/red_desert/mgp/rd05.mgp",
+      "mgp_records": 6,
+      "module_index": 3,
+      "mvp": "data/3d/modules/red_desert/mvp/rd05.mvp",
+      "mvp_records": 3,
+      "name": "_module_05_001",
+      "node_id": "_module_05-node",
+      "position": [
+        -589.107,
+        13181.4,
+        -1384.74
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 4
+    },
+    {
+      "dae": "data/3d/modules/red_desert/red_desert.bdae",
+      "mgp": "data/3d/modules/red_desert/mgp/rd04.mgp",
+      "mgp_records": 7,
+      "module_index": 4,
+      "mvp": "data/3d/modules/red_desert/mvp/rd04.mvp",
+      "mvp_records": 9,
+      "name": "_module_04_001",
+      "node_id": "_module_04-node",
+      "position": [
+        -6589.11,
+        7181.41,
+        -1384.74
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 5
+    },
+    {
+      "dae": "data/3d/modules/red_desert/red_desert.bdae",
+      "mgp": "data/3d/modules/red_desert/mgp/debug_06_01.mgp",
+      "mgp_records": 3,
+      "module_index": 5,
+      "mvp": "data/3d/modules/red_desert/mvp/debug_06_01.mvp",
+      "mvp_records": 0,
+      "name": "_module_06_001",
+      "node_id": "_module_06-node",
+      "position": [
+        -6589.11,
+        13181.4,
+        -1384.74
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 6
+    }
+  ],
+  "scope": "authored static module transforms and unique unconditional spawn selectors; no gameplay activation",
+  "selectable_entrypoints": [
+    0,
+    3,
+    4,
+    2,
+    5
+  ],
+  "source_assets": [
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/fog/fog_desertr.bdae",
+      "bytes": 11820,
+      "path": "data/3d/animateddecors/fog/fog_desertr.bdae",
+      "sha256": "adda35984d440f57fe44c13ae69487d3faed69f5b4cca9b5a32dc067214ac171"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/fog/fog_desertr2.bdae",
+      "bytes": 11700,
+      "path": "data/3d/animateddecors/fog/fog_desertr2.bdae",
+      "sha256": "d2958947c246d18cfecb62a70f45c0685930c026d6a6d4ae037ab9c0f94cd7c0"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/fog/sable_desert.bdae",
+      "bytes": 12656,
+      "path": "data/3d/animateddecors/fog/sable_desert.bdae",
+      "sha256": "ba1d17a32284ce6d604a5f92f9efc05936984582c77d8fd3d385b4e94b5a764c"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "bytes": 18208,
+      "path": "data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "sha256": "631dfe779d9933cf5c1ef7a45992cc71f646287c153103df7dee398ecbd129d1"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/red_desert/mgp/debug_06_01.mgp",
+      "bytes": 1908,
+      "path": "data/3d/modules/red_desert/mgp/debug_06_01.mgp",
+      "sha256": "91ec95cb859149cf8c864ebca04212f7ebfa662896e3245f60234e6cebfb8207"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/red_desert/mgp/rd01.mgp",
+      "bytes": 3435,
+      "path": "data/3d/modules/red_desert/mgp/rd01.mgp",
+      "sha256": "6231e2f5e75dc41ddb1c1426b270678ceedf35185405c1961092c4b69ca3f605"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/red_desert/mgp/rd02.mgp",
+      "bytes": 7104,
+      "path": "data/3d/modules/red_desert/mgp/rd02.mgp",
+      "sha256": "6c4d92ff0bf5a93bf4d48496df3a79e035206901ccefc7b9a4bee426597ffcdd"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/red_desert/mgp/rd03.mgp",
+      "bytes": 10071,
+      "path": "data/3d/modules/red_desert/mgp/rd03.mgp",
+      "sha256": "7a26c5177d88277d485cce096545e48d7899678242e6aecc0fcc247fe2aa9a62"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/red_desert/mgp/rd04.mgp",
+      "bytes": 3694,
+      "path": "data/3d/modules/red_desert/mgp/rd04.mgp",
+      "sha256": "25b427de2033414e9896b97bdfbcbf74f5a881b817905622b9dc732d2bf13ce6"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/red_desert/mgp/rd05.mgp",
+      "bytes": 2908,
+      "path": "data/3d/modules/red_desert/mgp/rd05.mgp",
+      "sha256": "93f162da4ccad23b492dd27589fb24dd4b879e1de4662164bf7fd489d856f032"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/red_desert/mvp/debug_06_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/red_desert/mvp/debug_06_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/red_desert/mvp/rd01.mvp",
+      "bytes": 4223,
+      "path": "data/3d/modules/red_desert/mvp/rd01.mvp",
+      "sha256": "149a5aedee0e0bd42996b45fc4ae81aff3e93964993aa279732ba825501a9ad2"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/red_desert/mvp/rd02.mvp",
+      "bytes": 4269,
+      "path": "data/3d/modules/red_desert/mvp/rd02.mvp",
+      "sha256": "fea748aa0b89813cafef3d85ad716b9c9a943d8c9fe26d9e33008d7bd66bad80"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/red_desert/mvp/rd03.mvp",
+      "bytes": 5593,
+      "path": "data/3d/modules/red_desert/mvp/rd03.mvp",
+      "sha256": "b7cf622bbee81ce947595affc80d6b23b89171730559d066198ced2207732168"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/red_desert/mvp/rd04.mvp",
+      "bytes": 4724,
+      "path": "data/3d/modules/red_desert/mvp/rd04.mvp",
+      "sha256": "d4b7f7975bb67a8c2825e077aab0b1ca4d6b7e9e9c6edacc5d5cd7d051c88b6c"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/red_desert/mvp/rd05.mvp",
+      "bytes": 1780,
+      "path": "data/3d/modules/red_desert/mvp/rd05.mvp",
+      "sha256": "3d774e8d6fa34ac7a92dcb108d151a4d1ab6ddd02d5c14c9b5626334943d8238"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/red_desert/red_desert.bdae",
+      "bytes": 2147040,
+      "path": "data/3d/modules/red_desert/red_desert.bdae",
+      "sha256": "f8054f1d0f20c82cc3849119f95e6aa96e1bca71012ad803e2339bd95f344c88"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/skybox/skybox_blood.bdae",
+      "bytes": 6148,
+      "path": "data/3d/skybox/skybox_blood.bdae",
+      "sha256": "cd6d289eb3570a1c659445f3a8b4cd68f2e272f00ec4e02b4b5112f85aed7564"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_blood_desert.tga",
+      "bytes": 524348,
+      "path": "data/3d/textures/env_blood_desert.tga",
+      "sha256": "f001c319d49b0b98a0a7e4117020e9aa3f8a086b5d7b652e1b733847174c4d76"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_blood_desert_spec.tga",
+      "bytes": 131132,
+      "path": "data/3d/textures/env_blood_desert_spec.tga",
+      "sha256": "bfe3f76a7596ce551ace3d977e02d7d60948422837c2439ad638cac18a4a6cce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_blooddesert_lightmap.tga",
+      "bytes": 524348,
+      "path": "data/3d/textures/env_blooddesert_lightmap.tga",
+      "sha256": "e84578c66fde2e34baf1ce027fce0c398eab23817a66bd28b4e85b47019bc5f8"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_blooddesert_alpha.tga",
+      "bytes": 262204,
+      "path": "data/3d/textures/pvr2_env_blooddesert_alpha.tga",
+      "sha256": "1a6cdefb68d591b66ba6261dc01b9f9f139338781be4c5329cba20a468cad71b"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/skybox_blood.tga",
+      "bytes": 131132,
+      "path": "data/3d/textures/skybox_blood.tga",
+      "sha256": "2b4473c8003f793706b4aaafcc2ffa82c7d27f00760b510f19ae5ca44b438cc7"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/gfx/effects/gl_diffuse_l1_vc_iphone.bdae",
+      "bytes": 18792,
+      "path": "data/gfx/effects/gl_diffuse_l1_vc_iphone.bdae",
+      "sha256": "10c64054906caf1683f3669becf415fe20196491ac5f182881cb69705d080bdc"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/scene/015_red_desert_hub.mlx",
+      "bytes": 3853,
+      "path": "data/scene/015_red_desert_hub.mlx",
+      "sha256": "2d90435dabc1cc2eebcfaf77a3cdb58ce87db06b14d6f6a294fa88441fc7c69a"
+    }
+  ],
+  "source_layout": "data/scene/015_red_desert_hub.mlx",
+  "spawn_point_count": 7,
+  "texture_hints": {
+    "data/3d/modules/red_desert/red_desert.bdae": {
+      "found_in_cache_not_copied": [],
+      "missing_from_cache": [
+        "data/3d/textures/alpha__pvr2_env_blooddesert_alpha.tga"
+      ]
+    }
+  },
+  "unsupported_entrypoints": [
+    {
+      "activate_condition": null,
+      "deactivate_condition": null,
+      "entrypoint_id": 1,
+      "local_position": [
+        -1262.41,
+        -101.422,
+        2185.07
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 1,
+      "name": "_prim_EntryPoint",
+      "source_path": "data/3d/modules/red_desert/mgp/rd02.mgp",
+      "source_record": 0,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id"
+      ],
+      "world_position": [
+        -7851.5199999999995,
+        1079.988,
+        800.3300000000002
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": null,
+      "deactivate_condition": null,
+      "entrypoint_id": 1,
+      "local_position": [
+        -1262.41,
+        -101.422,
+        2185.07
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 1,
+      "name": "_prim_EntryPoint01_fromFire",
+      "source_path": "data/3d/modules/red_desert/mgp/rd02.mgp",
+      "source_record": 2,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id"
+      ],
+      "world_position": [
+        -7851.5199999999995,
+        1079.988,
+        800.3300000000002
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  ],
+  "unsupported_spawn_id_groups": [
+    {
+      "entrypoint_id": 1,
+      "reason": "duplicate IDs and/or conditions cannot be represented by SPWN v1",
+      "source_rows": [
+        {
+          "activate_condition": null,
+          "deactivate_condition": null,
+          "module_index": 1,
+          "name": "_prim_EntryPoint",
+          "source_path": "data/3d/modules/red_desert/mgp/rd02.mgp",
+          "source_record": 0
+        },
+        {
+          "activate_condition": null,
+          "deactivate_condition": null,
+          "module_index": 1,
+          "name": "_prim_EntryPoint01_fromFire",
+          "source_path": "data/3d/modules/red_desert/mgp/rd02.mgp",
+          "source_record": 2
+        }
+      ]
+    }
+  ]
+}

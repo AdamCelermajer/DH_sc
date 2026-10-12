@@ -717,7 +717,7 @@ public final class MainActivity extends Activity {
         super.onNewIntent(intent);setIntent(intent);
         if(intent.hasExtra("debug_level_row")&&(getApplicationInfo().flags&ApplicationInfo.FLAG_DEBUGGABLE)!=0){
             int requestedRow=intent.getIntExtra("debug_level_row",-1);
-            if(requestedRow==-1||requestedRow==23||requestedRow==4){debugLevelRow=requestedRow;if(requestedRow!=-1)Log.i("DH2Native","Debug LevelList row override armed | row "+requestedRow+" | profile save unchanged");}
+            if(requestedRow>=-1){debugLevelRow=requestedRow;if(requestedRow!=-1)Log.i("DH2Native","Debug LevelList row override armed | row "+requestedRow+" | profile save unchanged");}
             else Log.w("DH2Native","Ignoring unsupported debug LevelList row "+requestedRow);
         }
         if(intent.hasExtra("enemy_ai"))enemyAi=intent.getBooleanExtra("enemy_ai",true);
@@ -827,7 +827,7 @@ public final class MainActivity extends Activity {
         runOnUiThread(()->{frontMenuReady=false;titleMusicStarted=false;frontAudio.stop();movement.setVisibility(inspectionMode?View.VISIBLE:View.GONE);attack.setVisibility(inspectionMode?View.VISIBLE:View.GONE);vitals.setVisibility(inspectionMode?View.VISIBLE:View.GONE);status.setVisibility(inspectionMode?View.VISIBLE:View.GONE);});
     }
     private static boolean isPlayableStart(String report){
-        return report!=null&&(report.startsWith("Crypt |")||report.startsWith("SWAMP |"));
+        return report!=null&&report.matches("(?s)(Crypt|[A-Z][A-Z0-9_]*) \\|.*");
     }
     private void handleBack(){
         if(!inspectionMode&&ready&&loadedAsset!=null&&loadedAsset.startsWith("worlds/")){

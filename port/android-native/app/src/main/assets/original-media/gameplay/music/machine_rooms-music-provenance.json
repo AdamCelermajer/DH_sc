@@ -1,0 +1,69 @@
+{
+  "schema": "dh2-level-music-source-export-v1",
+  "uid": 503,
+  "sounds_member": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sounds.xml",
+  "sounds_sha256": "4bc1de654d65470d49e48cee354d5d5cdd45006c18d65420ddc07acf5b400a6e",
+  "sounds_row": {
+    "bank": "1",
+    "filename": "m_level_hell_sfx_dark.vxn",
+    "format": "vxn",
+    "group": "2",
+    "label": "MachineRoomsAmbientMusic",
+    "loadingflags": "none",
+    "loop": "yes",
+    "priority": "1",
+    "uid": "503"
+  },
+  "source_member": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_hell_sfx_dark.vxn",
+  "source_kind": "vxn",
+  "source_bytes": 8397312,
+  "source_crc32": "d6526c4f",
+  "source_sha256": "7f6a40dfd6dbcd9b0f2e6f1e970744bef99272259275605070db0ec8f800bf6c",
+  "vxn": {
+    "file_bytes": 8397312,
+    "audio_base": 512,
+    "codec": "VoxNativeSubDecoderIMAADPCM",
+    "channels": 2,
+    "sample_rate_hz": 32000,
+    "block_bytes": 1024,
+    "frames_per_block": 1017,
+    "states": [
+      "ambient",
+      "combat"
+    ],
+    "segments": [
+      {
+        "state": "ambient",
+        "source_offset": 0,
+        "source_bytes": 4198400,
+        "sample_frames": 4169150
+      },
+      {
+        "state": "combat",
+        "source_offset": 4198400,
+        "source_bytes": 4198400,
+        "sample_frames": 4169150
+      }
+    ]
+  },
+  "outputs": [
+    {
+      "asset": "machine_rooms_ambient_music.wav",
+      "bytes": 4198460,
+      "sha256": "9d5b5380df6618187b0adb56e1e984112f120c83e2ddd301b76fee76b5b5f847",
+      "source_segment_offset": 0,
+      "source_segment_bytes": 4198400,
+      "sample_frames": 4169150,
+      "state": "ambient"
+    },
+    {
+      "asset": "machine_rooms_combat_music.wav",
+      "bytes": 4198460,
+      "sha256": "4d9b13b0c85fcd7acfcb444f84095cea0a170ac478e4cfdbce5710d9c4c8402c",
+      "source_segment_offset": 4198400,
+      "source_segment_bytes": 4198400,
+      "sample_frames": 4169150,
+      "state": "combat"
+    }
+  ]
+}

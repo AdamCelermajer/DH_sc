@@ -1334,7 +1334,24 @@ struct StaticMlxLevelV1 {
 constexpr StaticMlxLevelV1 static_mlx_levels[]{
  {41,"SWAMP","001_swamp.mlx","001_swamp","data/3d/modules/swamp/swamp.bdae",10,467,505},
  {4,"DARKWOOD","003_darkwood.mlx","003_darkwood","data/3d/modules/darkwood/darkwood2.bdae",25,471,0},
+ {38,"RED_DESERT_HUB","015_red_desert_hub.mlx","015_red_desert_hub","data/3d/modules/red_desert/red_desert.bdae",7,488,506},
+ {45,"UNDERWORLD_HUB","036_underworld_hub.mlx","036_underworld_hub","data/3d/modules/underworldhub/underworldhub.bdae",10,502,507},
+ {29,"INFECTED_VILLAGE_01","005_infectedvillage.mlx","005_infectedvillage","data/3d/modules/infectedvillage/infectedvillage.bdae",3,475,0},
+ {1,"ABBEY_RUINS_01","009a_abbey.mlx","009a_abbey","data/3d/modules/crypt/crypt.bdae",2,508,484},
+ {20,"FIRE_TEMPLE_01","031_firetemple.mlx","031_firetemple","data/3d/modules/firetemple/firetemple.bdae",13,493,0},
 };
+}
+const char* static_level_name_for_row(std::int32_t row){
+ for(const auto& level:static_mlx_levels)if(level.row==row)return level.name;
+ return nullptr;
+}
+bool gameplay_startup_loaded(const std::string& startup){
+ if(startup.rfind("Crypt |",0)==0)return true;
+ for(const auto& level:static_mlx_levels)
+  if(startup.rfind(std::string(level.name)+" |",0)==0)return true;
+ return false;
+}
+namespace {
 const StaticMlxLevelV1* static_mlx_level(const std::string& name,const std::string& level_file){
  for(const auto& level:static_mlx_levels)
   if(name==level.name&&level_file==level.level_file)return &level;
@@ -5949,6 +5966,11 @@ bool NativeCryptRoomRuntime::exit_localized_level_name(void*,
  }
  const auto string_id=actor_level_tables.levels[
      static_cast<std::size_t>(level_row)].level_name_id;
+ if(string_id<0){
+  __android_log_print(ANDROID_LOG_WARN,"DH2Native","TriggerZoneExitLevel LevelList row %d has no name string (%d) | %s",
+      level_row,string_id,actor_level_tables.levels[static_cast<std::size_t>(level_row)].name.c_str());
+  result.clear();error.clear();return true;
+ }
  return native_gameplay_ui->source_combat_text_string(string_id,result,error);
 }
 
@@ -5967,6 +5989,9 @@ bool NativeCryptRoomRuntime::update_source_exit_level_zones(
         std::string& error) {
  error.clear();
  if(source_exit_level_zones.empty())return true;
+ // The fast-travel popup is an AS callback on the live HUD movie; zones
+ // keep their state until that movie is attached (hub spawns stand inside).
+ if(!native_gameplay_ui||!native_gameplay_ui->gameplay_text_ready())return true;
  const auto active=source_level_owner.snapshot();
  if(active.phase!=dh2::source_level_owner_v1::Phase::active||
     !active.source_level||active.object_manager_identity!=
@@ -21276,8 +21301,8 @@ bool prepare_native_menu_start(std::int32_t slot,bool has_numeric_difficulty,
   if(context.debug_level_row!=-1){
    // Crypt row 23 and the authored static MLX levels other than the
    // campaign's first (SWAMP) are available as debug launch overrides.
-   if(context.debug_level_row!=23&&context.debug_level_row!=4){
-    failure="Only source Crypt row 23 and DARKWOOD row 4 are available as debug launch overrides";return false;
+   if(context.debug_level_row!=23&&!static_level_name_for_row(context.debug_level_row)){
+    failure="Only source Crypt row 23 and the authored static MLX rows are available as debug launch overrides";return false;
    }
    for(auto& row:view.level_rows)row=context.debug_level_row;
   }
@@ -39452,7 +39477,10 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
       __android_log_print(ANDROID_LOG_INFO,"DH2Native",
        "Source SWAMP direct Character rows retained | exact MGP ledger identity | activation conditions retained for post-construction reconciliation | templates and Faery use their canonical source Character owners");
      }
-     if(legacy_crypt_source_layout){
+     // Legacy Crypt and the non-SWAMP static levels' offline DACT actors keep
+     // their exact source MGP module/name ObjectManager key.
+     if(legacy_crypt_source_layout||(source_static_level&&
+        std::string(static_level_source->name)!="SWAMP"&&!object_records.empty())){
       const auto* handle_ledger=level_assets.source_level_handle_ledger.get();
       if(!handle_ledger||handle_ledger->entries.empty())
        throw std::runtime_error("Legacy Crypt DACT source-key ledger is unavailable");
