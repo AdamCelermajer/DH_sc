@@ -54,9 +54,10 @@ void EmitterObj::Update3D() {
 }
 
 // 0x8654f8 _ZN3vox10EmitterObj13GetPlayCursorEv
-// partial: the original returns with the mutex still locked when play_length_ is 0. The port
-// unlocks on that path as well, because a second call would otherwise block forever. Like the
-// original, it divides the source byte offset (source +0x1c) by play_rate_ after the modulo.
+// partial, two paths. (1) The original returns with the mutex still locked when play_length_ is
+// 0; the port unlocks on that path, because a second call would otherwise block forever. (2) The
+// original calls the source's GetByteOffset (+0x1c) through dsp_source_ (+0x110) with no null
+// check; the port returns 0 for a null source. Both are deliberate divergences.
 float EmitterObj::GetPlayCursor() {
     mutex.Lock();
     float position = 0.0f;

@@ -9,10 +9,10 @@
 namespace vox {
 
 // 0x866acc _ZN3vox10EmitterObj15SetDSPParameterEiPv
-// partial: the original returns the unlock result (see SetGain). Only parameter 0 is handled and
-// its value is a string. A non-empty string replaces the pending copy; the previous pending copy
-// is freed first. The original calls strlen on any value, so a null value is not guarded there;
-// the port treats null as an empty string.
+// partial: the listing returns the Mutex::Unlock int, which the void signature drops. Parameter 0
+// is the only one handled. A non-empty string replaces the pending copy after the old one is
+// freed. A null value is the open path: the original calls strlen on it (a crash), and the port
+// treats it as an empty string.
 void EmitterObj::SetDSPParameter(int param, void* value) {
     mutex.Lock();
     if (param == 0) {

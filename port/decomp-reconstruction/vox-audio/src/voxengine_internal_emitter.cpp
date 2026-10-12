@@ -11,26 +11,36 @@
 
 namespace vox {
 
-// 0x8674cc _ZN3vox17VoxEngineInternal16GetEmitterObjectERNS_13EmitterHandleE
-// partial: the original compares the handle's stamp against a slot table at +0x550
-// and, on a mismatch or a null object, searches emitters_ (+0x78) and then
-// emitter_pending_ (+0x98, under +0xd0) by id. The port takes the object pointer
-// straight from a handle that has one, and keeps the id search. The slot table and
-// the stamp rewrite (SetTimeStamp, second word unconfirmed) are not reconstructed.
+// 0x8674cc _ZN3vox17VoxEngineInternal16GetEmitterObjectERNS_13EmitterHandleE (reconstructed)
+// The handle's first stamp word is compared with the slot table entry (+0x550, data_stamps_)
+// at the handle's second word. When they match and the handle has an object, that object is
+// the answer. Otherwise the emitter is searched by id in emitters_ (+0x78), then in
+// emitter_pending_ (+0x98, under the read access +0xd0). A found emitter rewrites the handle's
+// stamp from its slot (stamp_index_, +0x14), as the listing does. The slot index is checked
+// against the 16-entry table, which the listing does not do: an out-of-range index takes the
+// search path.
 EmitterObj* VoxEngineInternal::GetEmitterObject(EmitterHandle& emitter) {
-    if (emitter.GetObjectPointer() != nullptr) {
-        return static_cast<EmitterObj*>(emitter.GetObjectPointer());
+    std::uint32_t stamp = 0;
+    std::uint32_t slot = 0;
+    emitter.GetTimeStamp(stamp, slot);
+    if (slot < 16 && data_stamps_[slot] == stamp) {
+        if (void* object = emitter.GetObjectPointer()) {
+            return static_cast<EmitterObj*>(object);
+        }
     }
     Handlable* found = emitters_.Find(emitter.GetId());
     if (found == nullptr) {
         emitter_pending_access_.GetReadAccess();
         found = emitter_pending_.Find(emitter.GetId());
         emitter_pending_access_.ReleaseReadAccess();
-        if (found == nullptr) {
-            return nullptr;
-        }
     }
-    return static_cast<EmitterObj*>(found);
+    if (found == nullptr) {
+        return nullptr;
+    }
+    EmitterObj* object = static_cast<EmitterObj*>(found);
+    const auto object_slot = static_cast<std::uint32_t>(object->stamp_index_);
+    emitter.SetTimeStamp(data_stamps_[object_slot], object_slot);
+    return object;
 }
 
 // 0x867724 _ZN3vox17VoxEngineInternal22Get3DEmitterParameteriERNS_13EmitterHandleEiRi

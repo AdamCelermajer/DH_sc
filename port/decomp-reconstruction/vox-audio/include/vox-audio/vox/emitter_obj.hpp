@@ -25,16 +25,15 @@ struct EmitterHandleUserData {
 };
 
 // One emitter as EmitterObj::GetDebugInfo reports it (0x74 bytes in the original). The
-// offsets are the original's chunk offsets. Fields +0x20 and +0x28 are not named by the port
-// (see the GetDebugInfo notes in the .cpp), so they are written as zero.
+// offsets are the original's chunk offsets.
 struct DebugChunk_emitter {
     std::int64_t emitter_id = 0;     // +0x00 (EmitterObj id)
     std::int64_t data_id = 0;        // +0x08 (DataObj id, 0 without a data object)
     VoxVector3f position;            // +0x10..+0x18 (parameter 8)
     std::int32_t state = 0;          // +0x1c (state_set_)
-    std::int32_t unnamed_20 = 0;     // +0x20 (EmitterObj +0x38, owner not identified)
+    float source_gain = 1.0f;        // +0x20 (EmitterObj source_gain_, +0x38)
     float gain = 0.0f;               // +0x24 (gain modifier * resume fade target * gain fade target)
-    std::int32_t unnamed_28 = 0;     // +0x28 (EmitterObj +0x70, not named in the port)
+    float source_pitch = 1.0f;       // +0x28 (EmitterObj source_pitch_, +0x70)
     float pitch = 0.0f;              // +0x2c (pitch_)
     std::int32_t loop = 0;           // +0x30 (loop_read_)
     std::int32_t ref_count = 0;      // +0x34 (Handlable ref_count)
@@ -49,11 +48,11 @@ class EmitterObj : public Handlable {
 public:
     EmitterObj() = default;
     // 0x866380 (C1) and 0x8665cc (C2, same body): an emitter with no decoder cursor yet.
-    // The data object supplies the play rate and length. Partial: the words at +0x38, +0x70,
-    // +0x120..+0x12c, +0x130 and +0x145 that the constructors write are not stored.
+    // The data object supplies the play rate and length. Partial: a null or not-ready data object
+    // makes the original call GetType through a null pointer (the port stores 0 instead).
     EmitterObj(std::int64_t id, int priority, int bank, DriverSourceInterface* source, DataObj* data);
     // 0x86c5ec (C1) and 0x86ce1c (C2, same body): an emitter fed by a decoder cursor. Builds the
-    // buffer ring (see BuildBufferRing). Partial, see the .cpp.
+    // buffer ring (see BuildBufferRing). Partial: the same null GetType path as C1, see the .cpp.
     EmitterObj(std::int64_t id, int priority, int bank, int chunk_bytes, DriverSourceInterface* source,
                DecoderCursorInterface* cursor, DataObj* data);
     ~EmitterObj() override;  // D1 0x8699c0 and D2 0x869a38 (same body); D0 0x869a1c is the deleting variant
@@ -185,6 +184,13 @@ public:
     float source_gain_ = 1.0f;              // +0x38
     float source_pitch_ = 1.0f;             // +0x70
     std::uint8_t flag_145_ = 0;             // +0x145: set by the constructors and by Update; role not identified
+    // Words the constructors write. No reader was found in the EmitterObj listings (a scan of the
+    // pseudocode for these offsets found writes only), so they are kept as named placeholders.
+    std::uint32_t word_120_ = 0;            // +0x120, constructors store 0
+    float word_124_ = 1.0f;                 // +0x124, constructors store 1.0
+    std::uint32_t word_128_ = 0;            // +0x128, constructors store 0
+    std::uint32_t word_12c_ = 0;            // +0x12c, constructors store 0
+    std::uint8_t byte_130_ = 0;             // +0x130, constructors store 1
 };
 
 }  // namespace vox

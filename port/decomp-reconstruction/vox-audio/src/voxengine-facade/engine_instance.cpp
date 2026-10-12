@@ -29,14 +29,18 @@ constexpr std::size_t kVoxThreadObjectBytes = 0x68;
 using StreamFactory = StreamInterface* (*)(void*);
 using DecoderFactory = DecoderInterface* (*)(void*);
 
-// Stand-in for _GetTime: seconds from a monotonic clock. The listing does not name the
-// clock function, so the source is an inference.
+// Stand-in for _GetTime (0x862bf4, gettimeofday seconds in the original). The port reads a
+// monotonic clock instead: only differences between two stamps are used, so the epoch does
+// not matter.
 double EngineGetTime() {
     return std::chrono::duration<double>(std::chrono::steady_clock::now().time_since_epoch()).count();
 }
 
-// Stand-in for GetTimeDT(previous, now): elapsed seconds, inferred from its use.
-double EngineGetTimeDelta(double previous, double now) { return now - previous; }
+// GetTimeDT(previous, now) (0x8616ac): now - previous, clamped to 0 when negative.
+double EngineGetTimeDelta(double previous, double now) {
+    const double delta = now - previous;
+    return delta < 0.0 ? 0.0 : delta;
+}
 
 }  // namespace
 
@@ -51,7 +55,9 @@ VoxEngine::VoxEngine() {
     m_internal = VoxEngineInternal::GetVoxEngineInternal();
 }
 
-// 0x862990 _ZN3vox9VoxEngineD1Ev and 0x862a34 _ZN3vox9VoxEngineD2Ev (partial: Shutdown)
+// 0x862990 _ZN3vox9VoxEngineD1Ev and 0x862a34 _ZN3vox9VoxEngineD2Ev (partial: the
+// VoxEngineInternal destructor, 0x86be68, does not yet reproduce FileSystemInterface::DestroyInstance
+// and the +0x598 buffer release)
 // The listing calls the engine's virtual destructor (slot 0) and frees it with VoxFree,
 // then destroys and frees the mutex.
 VoxEngine::~VoxEngine() {
@@ -80,7 +86,7 @@ VoxEngine* VoxEngine::GetVoxEngine() {
     return s_voxEngine;
 }
 
-// 0x8628f8 _ZN3vox9VoxEngine16DestroyVoxEngineEv (partial: destructor, see above)
+// 0x8628f8 _ZN3vox9VoxEngine16DestroyVoxEngineEv (partial: the destructor it calls is partial, see above)
 void VoxEngine::DestroyVoxEngine() {
     if (s_voxEngine != nullptr) {
         s_voxEngine->~VoxEngine();
@@ -89,7 +95,7 @@ void VoxEngine::DestroyVoxEngine() {
     }
 }
 
-// 0x862944 _ZN3vox9VoxEngine8ShutdownEv (partial: VoxThread destructor not defined)
+// 0x862944 _ZN3vox9VoxEngine8ShutdownEv (reconstructed: VoxThread destructor is in drivers-threads)
 // Destroys the emitter thread (+0x04) and then the source thread (+0x08).
 void VoxEngine::Shutdown() {
     if (emitter_thread_ != nullptr) {
@@ -104,8 +110,9 @@ void VoxEngine::Shutdown() {
     }
 }
 
-// 0x862d10 _ZN3vox9VoxEngine10InitializeEv (partial: VoxThread constructor and the
-// MSWav, MPC8 and Native decoder factories are not defined)
+// 0x862d10 _ZN3vox9VoxEngine10InitializeEv (partial: the MPC8 decoder factory (0x8704dc) is skipped in
+// the ledger, and the VoxThread constructor (0x893784) does not apply the priority adjustment;
+// the listing also returns the low word of the start time, which the port does not carry)
 // Initializes the engine object, registers the stream and decoder factories in the
 // order the listing uses, starts the two update threads and records the start time.
 void VoxEngine::Initialize() {
@@ -135,9 +142,11 @@ void VoxEngine::Initialize() {
     last_update_time_ = EngineGetTime();
 }
 
-// 0x862c4c _ZN3vox9VoxEngine22UpdateEmittersThreadedEv (partial: VoxEngineInternal::UpdateEmitters
-// is not defined). The elapsed time uses the previous stamp, the stamp never moves backwards,
-// and the engine receives the delta as a float, as the listing does.
+// 0x862c4c _ZN3vox9VoxEngine22UpdateEmittersThreadedEv (partial: the listing returns an int, the
+// word left in r0 (this when the engine is absent, else the result of the UpdateEmitters call);
+// the port's signature is void, and the thread callback never reads it).
+// The elapsed time uses the previous stamp, the stamp never moves backwards, and the engine
+// receives the delta as a float, as the listing does.
 void VoxEngine::UpdateEmittersThreaded() {
     if (m_internal == nullptr) {
         return;
@@ -158,9 +167,9 @@ void VoxEngine::UpdateEmittersThreaded(void* engine, void* unused) {
     static_cast<VoxEngine*>(engine)->UpdateEmittersThreaded();
 }
 
-// 0x862cf0 _ZN3vox9VoxEngine14UpdateThreadedEv
-// The listing calls the sources update and then the emitters update; the value it
-// returns is the emitters update's return word, which the port does not carry.
+// 0x862cf0 _ZN3vox9VoxEngine14UpdateThreadedEv (partial: returns the emitters update's int word,
+// which the port's void signature does not carry)
+// The listing calls the sources update and then the emitters update.
 void VoxEngine::UpdateThreaded() {
     UpdateSourcesThreaded();
     UpdateEmittersThreaded();

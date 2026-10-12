@@ -94,9 +94,10 @@ bool PriorityBankManager::RemoveEmitter(int bank, void* emitter) {
 }
 
 // 0x8661bc _ZN3vox19PriorityBankManager15SetPriorityBankEiiiNS_20PriorityBankBehaviorE
-// Partial: the asm sets the bank's min, max and behaviour when the index is in
-// range, then calls a helper on the entry vector (0x8660fc) that is not
-// reconstructed. The port sets the three fields only.
+// The index is checked against the bank count word, the three fields are set under the lock,
+// and the function returns 1 (0 when the index is out of range). The listing then calls
+// std::vector<PriorityBankElement>::reserve(max_count) on the bank's entries (asm BL reserve(uint)).
+// The port does not call reserve: it changes capacity only, and the bank logic reads the size.
 bool PriorityBankManager::SetPriorityBank(int bank, int min_priority, int max_count, int behaviour) {
     mutex_.Lock();
     bool ok = bank >= 0 && bank < bank_count_;

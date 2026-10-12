@@ -38,8 +38,9 @@ EmitterObj* VoxEngineInternal::DetachEmitterObject(std::int64_t id) {
 }
 
 // 0x867608 _ZN3vox17VoxEngineInternal11SetUserDataERNS_13EmitterHandleERNS_21EmitterHandleUserDataE
-// Partial: the record is taken as one word (EmitterHandleUserData::word), which is what
-// EmitterObj::SetUserData stores. The record's full size is not confirmed.
+// Partial: the listing returns the int from AccessController::ReleaseReadAccess; the port's void
+// signature drops it. The record is read as one word: the listing passes the record to
+// EmitterObj::SetUserData (0x8653c0), which loads only its first word (asm checked).
 void VoxEngineInternal::SetUserData(EmitterHandle& emitter, EmitterHandleUserData& user_data) {
     emitter_access_.GetReadAccess();
     if (EmitterObj* obj = GetEmitterObject(emitter)) {

@@ -74,6 +74,11 @@ void InitCommonFields(EmitterObj& e, std::int64_t id, int priority, int bank) {
     e.need_to_die_ = false;          // +0x11c
     e.auto_kill_ = false;            // +0x11d
     e.user_data_ = ~std::uintptr_t{0};  // +0x134: the original stores -1 here
+    e.word_120_ = 0;                    // +0x120
+    e.word_124_ = 1.0f;                 // +0x124
+    e.word_128_ = 0;                    // +0x128
+    e.word_12c_ = 0;                    // +0x12c
+    e.byte_130_ = 1;                    // +0x130
     e.interactive_state_set_ = false;   // +0x144
     e.interactive_state_.clear();       // +0x146
 }
@@ -143,6 +148,9 @@ int BuildBufferRing(EmitterObj& e, DriverSourceInterface* source, DecoderCursorI
 
 // 0x866380 _ZN3vox10EmitterObjC1ExiiPNS_21DriverSourceInterfaceEPNS_7DataObjE
 // 0x8665cc _ZN3vox10EmitterObjC2ExiiPNS_21DriverSourceInterfaceEPNS_7DataObjE (same body)
+// Partial: the listing reads data->decoder_->GetType() after checking the data state. With a null
+// data object, a state other than 0, or no decoder, the listing calls GetType through a null
+// pointer (a crash). The port stores 0 for those cases instead (DecoderTypeOf).
 EmitterObj::EmitterObj(std::int64_t id, int priority, int bank, DriverSourceInterface* source, DataObj* data) {
     InitCommonFields(*this, id, priority, bank);
     ready_flag_ = 1;                 // +0x1c: the data is not loaded yet (IsReady is false)

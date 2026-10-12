@@ -49,7 +49,7 @@ public:
     bool RemoveEmitter(int bank, void* emitter);   // 0x86e078
     bool AddEmitter(int bank, void* emitter);      // 0x86ea54 (partial: Stop not ported; priority_bank_emitters.cpp)
     void Update();                                 // 0x86a3c8 (drops entries whose emitter stopped playing)
-    bool SetPriorityBank(int bank, int min_priority, int max_count, int behaviour);  // 0x8661bc (partial)
+    bool SetPriorityBank(int bank, int min_priority, int max_count, int behaviour);  // 0x8661bc
     int AddPriorityBank(int min_priority, int max_count, int behaviour);            // 0x8696d0: new index, or -1
     // Fills one record per bank (0x864a80). Partial: the original returns the value of the
     // unlock call, and the port's Mutex::Unlock is void, so nothing is returned.

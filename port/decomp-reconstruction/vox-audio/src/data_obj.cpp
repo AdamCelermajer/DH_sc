@@ -322,6 +322,11 @@ bool UpdateDecodedToMemory(DataObj& obj) {
 // path: 0 reads one cursor, 1 buffers the whole stream, 2 decodes it into memory. Any other
 // flag value marks the object ready (state 0). A failed step sets state -1. The Hex-Rays
 // body is the switch above; the ARM listing matches the same branches.
+// Partial: in the listing's case 1 the four track words are copied from the cursor that the
+// decoder's CreateNewCursor returns (cursor +0x04..+0x10, TrackParams), and that cursor is then
+// destroyed. The port reads the decoder's GetParam block (+0x1c) instead, because
+// DecoderCursorInterface has no TrackParams block. The two agree only if GetParam returns the
+// same words. The other switch cases were not re-walked in wave 11.
 void DataObj::Update() {
     if (state_ == 0) {
         return;

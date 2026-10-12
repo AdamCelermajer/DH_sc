@@ -285,7 +285,8 @@ void EmitterObj::Resume(float time) {
 // 0x866abc _ZN3vox10EmitterObj30SetInteractiveMusicStateChangeEPKc
 // partial: the original takes no lock. It sets the byte at +0x144 and strcpy()s the state name
 // to +0x146. That buffer has no bound in the original, so the port keeps the name in a std::string.
-// A null name stores an empty string here; the original would crash on it.
+// The one open path is a null name: the original crashes in strcpy, and the port stores an empty
+// string instead.
 void EmitterObj::SetInteractiveMusicStateChange(const char* state) {
     interactive_state_set_ = true;
     interactive_state_ = state != nullptr ? state : std::string();
@@ -300,9 +301,10 @@ bool EmitterObj::ShouldDie() {
 }
 
 // 0x8657f4 _ZN3vox10EmitterObj7IsAliveEv
-// partial: the original takes the mutex here and then calls ShouldDie, which takes
-// it again. With a non-recursive mutex that deadlocks, so the port calls the
-// unlocked body instead. The result (not ShouldDie) is what IsAlive returns.
+// partial: the original takes the mutex here and then calls ShouldDie (0x865784), which locks the
+// same mutex again. pthread_mutex_init is called with a null attribute, so the mutex is a normal
+// (non-recursive) one and the original blocks on its own lock. The port calls the unlocked body
+// instead, which avoids the hang and returns the same value.
 bool EmitterObj::IsAlive() {
     mutex.Lock();
     const bool alive = !ShouldDieUnlocked();

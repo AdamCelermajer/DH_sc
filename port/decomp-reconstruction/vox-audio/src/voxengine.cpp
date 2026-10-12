@@ -42,14 +42,16 @@ void VoxEngine::UpdateEmitters(float dt) {
     (void)dt;
 }
 
-// 0x8617c0 _ZN3vox9VoxEngine13SetMasterGainEff (partial: the target returns the unlock result (the listing returns it), the void facade drops it)
+// 0x8617c0 _ZN3vox9VoxEngine13SetMasterGainEff (partial: the listing returns int* (the address of m_internal
+// when the engine is absent, else the vtable +0x28 result); the void signature drops it)
 void VoxEngine::SetMasterGain(float gain, float time) {
     if (m_internal != nullptr) {
         m_internal->SetMasterGain(gain, time);
     }
 }
 
-// 0x8617fc _ZN3vox9VoxEngine12SetGroupGainEjff (partial: the target returns the unlock result (the listing returns it), the void facade drops it)
+// 0x8617fc _ZN3vox9VoxEngine12SetGroupGainEjff (partial: the listing returns int* (a fixed address on
+// the null path, else the vtable +0x24 result); the void signature drops it)
 void VoxEngine::SetGroupGain(unsigned int group, float gain, float time) {
     if (m_internal != nullptr) {
         m_internal->SetGroupGain(group, gain, time);
@@ -114,7 +116,8 @@ VoxOutputMode VoxEngine::GetOutputMode() {
     return static_cast<VoxOutputMode>(-1);
 }
 
-// 0x861928 _ZN3vox9VoxEngine24SetInteractiveMusicStateERNS_13EmitterHandleEPKc (partial: target VoxEngineInternal::SetInteractiveMusicState is skipped in the ledger)
+// 0x861928 _ZN3vox9VoxEngine24SetInteractiveMusicStateERNS_13EmitterHandleEPKc (partial: the target
+// VoxEngineInternal::SetInteractiveMusicState (0x86764c) is still skipped in the ledger, and the int result is dropped)
 void VoxEngine::SetInteractiveMusicState(EmitterHandle& emitter, const char* state) {
     if (m_internal != nullptr) {
         m_internal->SetInteractiveMusicState(emitter, state);
