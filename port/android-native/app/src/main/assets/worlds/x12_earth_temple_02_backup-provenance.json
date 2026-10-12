@@ -1,0 +1,409 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "compiler": "compile_static_level.py",
+  "entrypoint_zero": {
+    "activate_condition": null,
+    "deactivate_condition": null,
+    "entrypoint_id": 0,
+    "local_position": [
+      987.847,
+      996.335,
+      326.453
+    ],
+    "local_rotation": [
+      0.0,
+      0.0,
+      -19.3242
+    ],
+    "local_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "module_index": 0,
+    "name": "_prim_EntryPoint",
+    "source_path": "data/3d/modules/earth_temple/mgp/et02_deadend_toet01_s__01.mgp",
+    "source_record": 1,
+    "world_position": [
+      987.847,
+      996.335,
+      326.453
+    ],
+    "world_rotation": [
+      0.0,
+      0.0,
+      -19.3242
+    ],
+    "world_scale": [
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "entrypoint_zero_candidates": 1,
+  "entrypoint_zero_policy": "unconditional_unique",
+  "entrypoint_zero_spread": 0.0,
+  "format": "dh2-static-level-bundle-v1",
+  "generated": {
+    "x12_earth_temple_02_backup.dae": {
+      "bytes": 329,
+      "sha256": "4bf8a895561108c4159d238ac66242cd34e67b674ab7952ac017352711ea202d"
+    },
+    "x12_earth_temple_02_backup.dwld": {
+      "bytes": 920,
+      "sha256": "59f88c38218d71b8078b9f23839032774b4c4286b733eb1d4d2723695c444ab9"
+    },
+    "x12_earth_temple_02_backup.spwn": {
+      "bytes": 304,
+      "sha256": "4b492af6f673ed575a8a74ed7e3aa20764fe5a01726b526cb6062d1efcb0d4b6"
+    }
+  },
+  "level_list": {
+    "level_file": "012_earth_temple_02.rule.xml",
+    "name": "EARTH_TEMPLE_02",
+    "row": 13
+  },
+  "level_list_inputs": {
+    "data/pydata/levels_pyarray.bin": {
+      "bytes": 5574,
+      "sha256": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c"
+    },
+    "data/pydata/levels_pyarraynames.bin": {
+      "bytes": 1943,
+      "sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432"
+    }
+  },
+  "module_count": 7,
+  "modules": [
+    {
+      "dae": "data/3d/modules/earth_temple/earth_temple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/earth_temple/mgp/et02_deadend_toet01_s__01.mgp",
+      "mgp_records": 12,
+      "module_index": 0,
+      "mvp": "data/3d/modules/earth_temple/mvp/et02_deadend_toet01_s__01.mvp",
+      "mvp_records": 2,
+      "name": "deadend_earthtemp_s__0",
+      "node_id": "_module_deadend_earthtemp_s_-node",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 1
+    },
+    {
+      "dae": "data/3d/modules/earth_temple/earth_temple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp",
+      "mgp_records": 16,
+      "module_index": 1,
+      "mvp": "data/3d/modules/earth_temple/mvp/et01_corner_earthtemp_nw__01.mvp",
+      "mvp_records": 12,
+      "name": "corner_earthtemp_nw__1",
+      "node_id": "_module_corner_earthtemp_nw_-node",
+      "position": [
+        0.0,
+        -6000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 2
+    },
+    {
+      "dae": "data/3d/modules/earth_temple/earth_temple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_se__01.mgp",
+      "mgp_records": 12,
+      "module_index": 2,
+      "mvp": "data/3d/modules/earth_temple/mvp/et01_corner_earthtemp_se__01.mvp",
+      "mvp_records": 14,
+      "name": "corner_earthtemp_se__2",
+      "node_id": "_module_corner_earthtemp_se_-node",
+      "position": [
+        -6000.0,
+        -6000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 3
+    },
+    {
+      "dae": "data/3d/modules/earth_temple/earth_temple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/earth_temple/mgp/et02_t_objspittrap_nsw__01.mgp",
+      "mgp_records": 10,
+      "module_index": 3,
+      "mvp": "data/3d/modules/earth_temple/mvp/et02_t_objspittrap_nsw__01.mvp",
+      "mvp_records": 0,
+      "name": "t_earthtemp_nsw__3",
+      "node_id": "_module_t_earthtemp_nsw_-node",
+      "position": [
+        -6000.0,
+        -12000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 4
+    },
+    {
+      "dae": "data/3d/modules/earth_temple/earth_temple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_e__01.mgp",
+      "mgp_records": 10,
+      "module_index": 4,
+      "mvp": "data/3d/modules/earth_temple/mvp/et01_deadend_earthtemp_e__01.mvp",
+      "mvp_records": 14,
+      "name": "deadend_earthtemp_e__4",
+      "node_id": "_module_deadend_earthtemp_e_-node",
+      "position": [
+        -12000.0,
+        -12000.0,
+        44.164
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 5
+    },
+    {
+      "dae": "data/3d/modules/earth_temple/earth_temple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/earth_temple/mgp/et02_midboss_earthtemp_ns__01.mgp",
+      "mgp_records": 6,
+      "module_index": 5,
+      "mvp": "data/3d/modules/earth_temple/mvp/et02_midboss_earthtemp_ns__01.mvp",
+      "mvp_records": 0,
+      "name": "midboss_earthtemp_ns__5",
+      "node_id": "_module_midboss_earthtemp_ns_-node",
+      "position": [
+        -6000.0,
+        -18000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 6
+    },
+    {
+      "dae": "data/3d/modules/earth_temple/earth_temple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/earth_temple/mgp/et02_deadend_toet03_n__01.mgp",
+      "mgp_records": 4,
+      "module_index": 6,
+      "mvp": "data/3d/modules/earth_temple/mvp/et02_deadend_toet03_n__01.mvp",
+      "mvp_records": 2,
+      "name": "deadend_earthtemp_n__6",
+      "node_id": "_module_deadend_earthtemp_n_-node",
+      "position": [
+        -6000.0,
+        -24000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 7
+    }
+  ],
+  "scope": "authored static module transforms and unique unconditional spawn selectors; no gameplay activation",
+  "selectable_entrypoints": [
+    0,
+    1
+  ],
+  "source_assets": [
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/candle_flame.bdae",
+      "bytes": 16856,
+      "path": "data/3d/animateddecors/candle_flame.bdae",
+      "sha256": "7ece047e6cb253036d50260018fd7299ad9835e743ca0fcd4e2d3004ea0269a6"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "bytes": 18208,
+      "path": "data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "sha256": "631dfe779d9933cf5c1ef7a45992cc71f646287c153103df7dee398ecbd129d1"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/earth_temple/earth_temple.bdae",
+      "bytes": 5149080,
+      "path": "data/3d/modules/earth_temple/earth_temple.bdae",
+      "sha256": "3d8c608ad7cca382c3b753aca75a7c21ac22f41d89508b4c022f49be73839cbe"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_e__01.mgp",
+      "bytes": 5097,
+      "path": "data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_e__01.mgp",
+      "sha256": "1644f7b760d8d36ae5ae85dc910a31555a5c22d745290cada5f42628ed4577b1"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp",
+      "bytes": 5910,
+      "path": "data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp",
+      "sha256": "e72476989994214b30ca9d123fc24cda1eea388f76e14f5661d5ad2c6fc4aa34"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_se__01.mgp",
+      "bytes": 6656,
+      "path": "data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_se__01.mgp",
+      "sha256": "38e5d7197bb7ce8c6964566191dea18408531daa5c27f953bff54a9bf5e293cb"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_s__01.mgp",
+      "bytes": 4964,
+      "path": "data/3d/modules/earth_temple/mgp/et02_deadend_toet01_s__01.mgp",
+      "sha256": "26ef7f98f20b6c842f0b2e6d388b0293c6ded95befa1430c66dfa66884ddd5f6"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/earth_temple/mgp/et02_deadend_toet03_n__01.mgp",
+      "bytes": 1720,
+      "path": "data/3d/modules/earth_temple/mgp/et02_deadend_toet03_n__01.mgp",
+      "sha256": "7de9c032350f50f04c4e3a3c009c22e18ff145ad7ad5a7244c860e8c861fe80f"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/earth_temple/mgp/et02_midboss_earthtemp_ns__01.mgp",
+      "bytes": 2383,
+      "path": "data/3d/modules/earth_temple/mgp/et02_midboss_earthtemp_ns__01.mgp",
+      "sha256": "0adebed5b6da9d4a1268fca5a84e354022a1eb6ace1483085f180b4d21e3739a"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/earth_temple/mgp/et02_t_objspittrap_nsw__01.mgp",
+      "bytes": 5383,
+      "path": "data/3d/modules/earth_temple/mgp/et02_t_objspittrap_nsw__01.mgp",
+      "sha256": "93d7d29398632e5592c6d19aeb41eee7a403b81f8aa8939d1728299127e1cfb0"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/earth_temple/mvp/et01_corner_earthtemp_nw__01.mvp",
+      "bytes": 5242,
+      "path": "data/3d/modules/earth_temple/mvp/et01_corner_earthtemp_nw__01.mvp",
+      "sha256": "758c8a9ae329e7099158af05a74d28bd2874791f08f51c3aae2b4702a5d287fd"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/earth_temple/mvp/et01_corner_earthtemp_se__01.mvp",
+      "bytes": 6069,
+      "path": "data/3d/modules/earth_temple/mvp/et01_corner_earthtemp_se__01.mvp",
+      "sha256": "c82a8ac1ac5b5d61e1dcab1c80441c201a3d116a994c93d86400c5026cc7ca26"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/earth_temple/mvp/et01_deadend_earthtemp_e__01.mvp",
+      "bytes": 6118,
+      "path": "data/3d/modules/earth_temple/mvp/et01_deadend_earthtemp_e__01.mvp",
+      "sha256": "c62694839c2f6b93c8d20b9ae325776677b0d3ec1475029d158eff72c309c6b9"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/earth_temple/mvp/et02_deadend_toet01_s__01.mvp",
+      "bytes": 1263,
+      "path": "data/3d/modules/earth_temple/mvp/et02_deadend_toet01_s__01.mvp",
+      "sha256": "01b1651db7e935cdbfac90c0434c424fb6feb03cf398f135d9515c7c58193b00"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/earth_temple/mvp/et02_deadend_toet03_n__01.mvp",
+      "bytes": 1268,
+      "path": "data/3d/modules/earth_temple/mvp/et02_deadend_toet03_n__01.mvp",
+      "sha256": "938e8489f29a54e15136bfbaa567fb6f2ddd25a0abdfc2b9fde42bd50c199fa7"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/earth_temple/mvp/et02_midboss_earthtemp_ns__01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/earth_temple/mvp/et02_midboss_earthtemp_ns__01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/earth_temple/mvp/et02_t_objspittrap_nsw__01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/earth_temple/mvp/et02_t_objspittrap_nsw__01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/props/earth_temple/earth_temple_deadend.bdae",
+      "bytes": 22244,
+      "path": "data/3d/props/earth_temple/earth_temple_deadend.bdae",
+      "sha256": "1cb5d726aa24a88fb8a53609ffaa978fc861aed48656f124b92a1e070dcb2ffb"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/props/earth_temple/earth_temple_exit.bdae",
+      "bytes": 37112,
+      "path": "data/3d/props/earth_temple/earth_temple_exit.bdae",
+      "sha256": "c3487f0d9f64f770740ef4e00c0fb05b4660b62de95edb40f162063d25cff0d4"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/scene/x12_earth_temple_02_backup.mlx",
+      "bytes": 7829,
+      "path": "data/scene/x12_earth_temple_02_backup.mlx",
+      "sha256": "c004918b9bb191ac87d5de19f7b349d350dfa288733137aaf30ab5cb335ed719"
+    }
+  ],
+  "source_layout": "data/scene/x12_earth_temple_02_backup.mlx",
+  "spawn_point_count": 2,
+  "texture_hints": {
+    "data/3d/modules/earth_temple/earth_temple.bdae": {
+      "found_in_cache_not_copied": [
+        "data/3d/textures/env_earth_temple.tga",
+        "data/3d/textures/env_earth_temple_spec.tga",
+        "data/3d/textures/pvr2_env_earth_temple_alpha.tga"
+      ],
+      "missing_from_cache": []
+    }
+  },
+  "unsupported_entrypoints": [],
+  "unsupported_spawn_id_groups": []
+}

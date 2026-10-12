@@ -109,6 +109,7 @@ bool compile_generated_crypt_dact_v1(
   }
 
   for (std::uint32_t i = 0; i < source.value.module_count; ++i) {
+    if (!source.value.modules[i].cache_mgp) continue;  // no gameplay file named
     if (!mgps[i].source_path || !mgps[i].data || !mgps[i].size) {
       error = "Generated Crypt MGP input is incomplete";
       return false;
@@ -222,11 +223,14 @@ bool compile_generated_crypt_dact_v1(
       const auto* all_move_out =
           dh2_world_field(&object, "script_all_player_move_out");
       const auto* one_player = dh2_world_field(&object, "effect_one_player");
-      std::int32_t activation_limit = 0, configured_delay_ms = 0;
+      // Trigger::Trigger (0x398fd4) initializes triggercount (+0x3a8) to 1 and
+      // triggerdelay (+0x3ac) to 0; a TriggerZone that omits either property
+      // (bossroom_witch_.mgp _prim_TriggerZone_11/12) keeps those constructor values.
+      std::int32_t activation_limit = 1, configured_delay_ms = 0;
       if (!template_name || std::strcmp(template_name, "TriggerZone") != 0 ||
-          !script || !count || !parse_i32(count, &activation_limit) ||
+          !script || (count && !parse_i32(count, &activation_limit)) ||
           (activation_limit != -1 && activation_limit < 0) ||
-          !delay || !parse_i32(delay, &configured_delay_ms) ||
+          (delay && !parse_i32(delay, &configured_delay_ms)) ||
           configured_delay_ms < 0 ||
           dh2_world_field(&object, "dimensions") ||
           (dh2_world_field(&object, "door") &&

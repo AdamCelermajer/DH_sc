@@ -873,8 +873,11 @@ bool build_layout(GenerationContextV1& context,
   for (const auto* tile : tiles) {
     const auto& asset = *tile->asset;
     GeneratedRecordStorageV1 item;
-    item.gameplay_path = folder + "/mgp/" + asset.key.gameplay;
-    item.visual_path = folder + "/mvp/" + asset.key.visual;
+    // An empty or non-existent gameplay/visual file loads nothing (Module::
+    // LoadModule 0x38a88c skips an empty name; Level::LoadFile 0x3f3b40 returns
+    // success without loading when no candidate path opens).
+    if (asset.gameplay_present) item.gameplay_path = folder + "/mgp/" + asset.key.gameplay;
+    if (asset.visual_present) item.visual_path = folder + "/mvp/" + asset.key.visual;
     item.record.block_name = asset.key.name;
     item.record.catalogue_xrefobject = asset.xrefobject;
     item.record.bres_path = asset.dae;

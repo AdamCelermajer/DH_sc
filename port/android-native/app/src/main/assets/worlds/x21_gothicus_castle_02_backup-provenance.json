@@ -1,0 +1,409 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "compiler": "compile_static_level.py",
+  "entrypoint_zero": {
+    "activate_condition": null,
+    "deactivate_condition": null,
+    "entrypoint_id": 0,
+    "local_position": [
+      -6.19434,
+      2428.0,
+      25.6274
+    ],
+    "local_rotation": [
+      0.0,
+      0.0,
+      -0.696611
+    ],
+    "local_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "module_index": 6,
+    "name": "_prim_EntryPoint_fromDarkwood",
+    "source_path": "data/3d/modules/castle/mgp/gc02_deadend_n_01.mgp",
+    "source_record": 1,
+    "world_position": [
+      -12006.19434,
+      -21572.0,
+      25.627613623000002
+    ],
+    "world_rotation": [
+      0.0,
+      0.0,
+      -0.696611
+    ],
+    "world_scale": [
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "entrypoint_zero_candidates": 1,
+  "entrypoint_zero_policy": "unconditional_unique",
+  "entrypoint_zero_spread": 0.0,
+  "format": "dh2-static-level-bundle-v1",
+  "generated": {
+    "x21_gothicus_castle_02_backup.dae": {
+      "bytes": 245,
+      "sha256": "08611ff24484a83025686eba477ee9baaa04f56e43bedd68df99fa342a4dd753"
+    },
+    "x21_gothicus_castle_02_backup.dwld": {
+      "bytes": 1088,
+      "sha256": "1dfdc5f14d9612c921a6090c68041396340e157fe1f71f13c061ed8f5017a7e0"
+    },
+    "x21_gothicus_castle_02_backup.spwn": {
+      "bytes": 304,
+      "sha256": "7276cebb1cf33c7f130b625245a0666935ba9df7113e59b985866b5e20531719"
+    }
+  },
+  "level_list": {
+    "level_file": "021_gothicus_castle_02.rule.xml",
+    "name": "GOTHICUS_CASTLE_02",
+    "row": 22
+  },
+  "level_list_inputs": {
+    "data/pydata/levels_pyarray.bin": {
+      "bytes": 5574,
+      "sha256": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c"
+    },
+    "data/pydata/levels_pyarraynames.bin": {
+      "bytes": 1943,
+      "sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432"
+    }
+  },
+  "module_count": 7,
+  "modules": [
+    {
+      "dae": "data/3d/modules/castle/castle.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/castle/mgp/gc02_kingroom_s_01.mgp",
+      "mgp_records": 15,
+      "module_index": 0,
+      "mvp": "data/3d/modules/castle/mvp/gc02_kingroom_s_01.mvp",
+      "mvp_records": 1,
+      "name": "kingroom_s_0",
+      "node_id": "_module_kingroom_s-node",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 1
+    },
+    {
+      "dae": "data/3d/modules/castle/castle.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/castle/mgp/gc02_corner_wn_01.mgp",
+      "mgp_records": 11,
+      "module_index": 1,
+      "mvp": "data/3d/modules/castle/mvp/gc02_corner_wn_01.mvp",
+      "mvp_records": 8,
+      "name": "corner_wn_1",
+      "node_id": "_module_corner_wn-node",
+      "position": [
+        0.0,
+        -6000.0,
+        -3.05176e-05
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 2
+    },
+    {
+      "dae": "data/3d/modules/castle/castle.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/castle/mgp/gc02_straightb_ew_01.mgp",
+      "mgp_records": 15,
+      "module_index": 2,
+      "mvp": "data/3d/modules/castle/mvp/gc02_straightb_ew_01.mvp",
+      "mvp_records": 4,
+      "name": "straightb_ew_2",
+      "node_id": "_module_straightb_ew-node",
+      "position": [
+        -6000.0,
+        -6000.0,
+        -3.05176e-05
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 3
+    },
+    {
+      "dae": "data/3d/modules/castle/castle.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/castle/mgp/gc02_corner_se_01.mgp",
+      "mgp_records": 13,
+      "module_index": 3,
+      "mvp": "data/3d/modules/castle/mvp/gc02_corner_se_01.mvp",
+      "mvp_records": 5,
+      "name": "corner_se_3",
+      "node_id": "_module_corner_se-node",
+      "position": [
+        -12000.0,
+        -6000.0,
+        0.000183105
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 4
+    },
+    {
+      "dae": "data/3d/modules/castle/castle.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/castle/mgp/gc02_entrance_ns_01.mgp",
+      "mgp_records": 4,
+      "module_index": 4,
+      "mvp": "data/3d/modules/castle/mvp/gc02_entrance_ns_01.mvp",
+      "mvp_records": 0,
+      "name": "entrance_ns_4",
+      "node_id": "_module_entrance_ns-node",
+      "position": [
+        -12000.0,
+        -12000.0,
+        0.000183105
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 5
+    },
+    {
+      "dae": "data/3d/modules/castle/castle.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/castle/mgp/gc02_straighta_ns_01.mgp",
+      "mgp_records": 9,
+      "module_index": 5,
+      "mvp": "data/3d/modules/castle/mvp/gc02_straighta_ns_01.mvp",
+      "mvp_records": 7,
+      "name": "straighta_ns_5",
+      "node_id": "_module_straighta_ns-node",
+      "position": [
+        -12000.0,
+        -18000.0,
+        2.45361
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 6
+    },
+    {
+      "dae": "data/3d/modules/castle/castle.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/castle/mgp/gc02_deadend_n_01.mgp",
+      "mgp_records": 14,
+      "module_index": 6,
+      "mvp": "data/3d/modules/castle/mvp/gc02_deadend_n_01.mvp",
+      "mvp_records": 5,
+      "name": "deadend_n_6",
+      "node_id": "_module_deadend_n-node",
+      "position": [
+        -12000.0,
+        -24000.0,
+        0.000213623
+      ],
+      "rotation": [
+        1.72454e-05,
+        0.0,
+        -1.73028e-05
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 7
+    }
+  ],
+  "scope": "authored static module transforms and unique unconditional spawn selectors; no gameplay activation",
+  "selectable_entrypoints": [
+    2,
+    0
+  ],
+  "source_assets": [
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/castle/chandelier_castle.bdae",
+      "bytes": 31252,
+      "path": "data/3d/animateddecors/castle/chandelier_castle.bdae",
+      "sha256": "84098bbb6d5daac56fcd84c4a0e1248924a068da29bc436ac1f859d73997c9e8"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/castle/lustre_castle.bdae",
+      "bytes": 55416,
+      "path": "data/3d/animateddecors/castle/lustre_castle.bdae",
+      "sha256": "7eba53074deca5a20ecec6ceeeb62c280884864908fba9df9af37ddddd3e768b"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "bytes": 18208,
+      "path": "data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "sha256": "631dfe779d9933cf5c1ef7a45992cc71f646287c153103df7dee398ecbd129d1"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/castle.bdae",
+      "bytes": 5090680,
+      "path": "data/3d/modules/castle/castle.bdae",
+      "sha256": "4161190c1a4531767050be2c20af154e5ce436dac96ed9aadaaadeba7caaf287"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mgp/gc02_corner_se_01.mgp",
+      "bytes": 6252,
+      "path": "data/3d/modules/castle/mgp/gc02_corner_se_01.mgp",
+      "sha256": "0e0683b7c033898ea4355790d7e577c4258f390d46c944c4c045a6c8c1ce285a"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mgp/gc02_corner_wn_01.mgp",
+      "bytes": 5191,
+      "path": "data/3d/modules/castle/mgp/gc02_corner_wn_01.mgp",
+      "sha256": "49be45935a91492144108b97f331775bfda0e8496dc8d245f015509a010956cf"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mgp/gc02_deadend_n_01.mgp",
+      "bytes": 4084,
+      "path": "data/3d/modules/castle/mgp/gc02_deadend_n_01.mgp",
+      "sha256": "ae60598f525493da829d8e221334eeeb46c7d1fa030732d2678d7779756d29fa"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mgp/gc02_entrance_ns_01.mgp",
+      "bytes": 2438,
+      "path": "data/3d/modules/castle/mgp/gc02_entrance_ns_01.mgp",
+      "sha256": "e9f2df6440bb1c0dbad0e68be03e7e78741231b1906ea3d59b534461f0bc4f86"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mgp/gc02_kingroom_s_01.mgp",
+      "bytes": 4264,
+      "path": "data/3d/modules/castle/mgp/gc02_kingroom_s_01.mgp",
+      "sha256": "1234e2559ad9ca9394f43d60a7e659d8d9d574add0276981e35beb5167908f18"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mgp/gc02_straighta_ns_01.mgp",
+      "bytes": 4025,
+      "path": "data/3d/modules/castle/mgp/gc02_straighta_ns_01.mgp",
+      "sha256": "59056ed76fe13f66b9428876b7021c6fdfc0b39da8ac9a8f590eaf0199670350"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mgp/gc02_straightb_ew_01.mgp",
+      "bytes": 5781,
+      "path": "data/3d/modules/castle/mgp/gc02_straightb_ew_01.mgp",
+      "sha256": "8c986477c22512825a4f039fbfa440ff02c631fcfa88ae3e36e893c92cb5352c"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mvp/gc02_corner_se_01.mvp",
+      "bytes": 2490,
+      "path": "data/3d/modules/castle/mvp/gc02_corner_se_01.mvp",
+      "sha256": "9be80245dbf14b4881f5a1239885b869105613c2664a50050a30d8be1ebb990a"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mvp/gc02_corner_wn_01.mvp",
+      "bytes": 3792,
+      "path": "data/3d/modules/castle/mvp/gc02_corner_wn_01.mvp",
+      "sha256": "ab70a84b53b5ac4a7a37e53820b09b50cfee812710632eafb22629749301cd06"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mvp/gc02_deadend_n_01.mvp",
+      "bytes": 2663,
+      "path": "data/3d/modules/castle/mvp/gc02_deadend_n_01.mvp",
+      "sha256": "2a5e5e5a18bab6ac7bd4c97d108dacfe036ad623a353f7441257940a9d7e69aa"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mvp/gc02_entrance_ns_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/castle/mvp/gc02_entrance_ns_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mvp/gc02_kingroom_s_01.mvp",
+      "bytes": 791,
+      "path": "data/3d/modules/castle/mvp/gc02_kingroom_s_01.mvp",
+      "sha256": "a1ed3457c137a58d443217aab9242394c4bf37b5f7921bf11bb8877c5662419f"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mvp/gc02_straighta_ns_01.mvp",
+      "bytes": 3208,
+      "path": "data/3d/modules/castle/mvp/gc02_straighta_ns_01.mvp",
+      "sha256": "d901c8b683cedfc74da2d55e9ddeeaf7ffbf58a53eef5d59489ee0a932a15201"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mvp/gc02_straightb_ew_01.mvp",
+      "bytes": 2122,
+      "path": "data/3d/modules/castle/mvp/gc02_straightb_ew_01.mvp",
+      "sha256": "b05902f038ab576069a68710a711b930c32b523ff36f5d3b4aa81702beae205a"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/props/common/prop_barrel.bdae",
+      "bytes": 25236,
+      "path": "data/3d/props/common/prop_barrel.bdae",
+      "sha256": "aa08ced343e27cd30b3a3ecaf551d460ac437ff9623dfb525a3ca947540bfa68"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/scene/x21_gothicus_castle_02_backup.mlx",
+      "bytes": 7414,
+      "path": "data/scene/x21_gothicus_castle_02_backup.mlx",
+      "sha256": "4c3cb32510b7415777b02e57b5725a613627c463cf508fcaec4698fcad84a36a"
+    }
+  ],
+  "source_layout": "data/scene/x21_gothicus_castle_02_backup.mlx",
+  "spawn_point_count": 2,
+  "texture_hints": {
+    "data/3d/modules/castle/castle.bdae": {
+      "found_in_cache_not_copied": [
+        "data/3d/textures/env_castle.tga",
+        "data/3d/textures/env_castle_spec.tga",
+        "data/3d/textures/pvr2_env_castle_alpha.tga"
+      ],
+      "missing_from_cache": []
+    }
+  },
+  "unsupported_entrypoints": [],
+  "unsupported_spawn_id_groups": []
+}

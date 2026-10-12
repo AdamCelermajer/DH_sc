@@ -1,0 +1,340 @@
+{
+  "source_layout": "data/scene/x16_red_desert_cave_01_backup.mlx",
+  "selected_characters": 7,
+  "source_character_records": 73,
+  "selection": "direct Monster; no activation/deactivation condition; auto_spawn != 0; initial ai_state absent or Idle",
+  "actors": [
+    {
+      "kind": 1,
+      "room": 9,
+      "name": "_prim_Monster03_03",
+      "character": "Desert_Spider_Midboss",
+      "model": "spider_black.bdae",
+      "model_path": "data/3d/characters/spider/spider_black.bdae",
+      "animation_table": 67,
+      "position": [
+        31671.33,
+        -24623.025,
+        20.7748
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        2.5,
+        2.5,
+        2.5
+      ],
+      "source_mgp": "data/3d/modules/desert_cave/mgp/rdc01_obj05_dsrtcave_n_00_01.mgp",
+      "source_record": 9
+    },
+    {
+      "kind": 1,
+      "room": 9,
+      "name": "_prim_Monster03_04",
+      "character": "Desert_Spider2",
+      "model": "spider_black.bdae",
+      "model_path": "data/3d/characters/spider/spider_black.bdae",
+      "animation_table": 67,
+      "position": [
+        29113.281,
+        -26145.34,
+        20.7748
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/desert_cave/mgp/rdc01_obj05_dsrtcave_n_00_01.mgp",
+      "source_record": 10
+    },
+    {
+      "kind": 1,
+      "room": 9,
+      "name": "_prim_Monster03_05",
+      "character": "Desert_Spider2",
+      "model": "spider_black.bdae",
+      "model_path": "data/3d/characters/spider/spider_black.bdae",
+      "animation_table": 67,
+      "position": [
+        28633.8,
+        -26145.34,
+        20.7748
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/desert_cave/mgp/rdc01_obj05_dsrtcave_n_00_01.mgp",
+      "source_record": 11
+    },
+    {
+      "kind": 1,
+      "room": 9,
+      "name": "_prim_Monster03_06",
+      "character": "Desert_Spider2",
+      "model": "spider_black.bdae",
+      "model_path": "data/3d/characters/spider/spider_black.bdae",
+      "animation_table": 67,
+      "position": [
+        31265.19,
+        -25245.28,
+        20.7748
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/desert_cave/mgp/rdc01_obj05_dsrtcave_n_00_01.mgp",
+      "source_record": 12
+    },
+    {
+      "kind": 1,
+      "room": 9,
+      "name": "_prim_Monster03_07",
+      "character": "Desert_Spider2",
+      "model": "spider_black.bdae",
+      "model_path": "data/3d/characters/spider/spider_black.bdae",
+      "animation_table": 67,
+      "position": [
+        31965.94,
+        -25245.28,
+        20.7748
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/desert_cave/mgp/rdc01_obj05_dsrtcave_n_00_01.mgp",
+      "source_record": 13
+    },
+    {
+      "kind": 1,
+      "room": 9,
+      "name": "_prim_Monster03_08",
+      "character": "Desert_Spider1_XL",
+      "model": "spider_black.bdae",
+      "model_path": "data/3d/characters/spider/spider_black.bdae",
+      "animation_table": 67,
+      "position": [
+        28633.8,
+        -24334.607,
+        20.7748
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.15,
+        1.15,
+        1.15
+      ],
+      "source_mgp": "data/3d/modules/desert_cave/mgp/rdc01_obj05_dsrtcave_n_00_01.mgp",
+      "source_record": 14
+    },
+    {
+      "kind": 1,
+      "room": 9,
+      "name": "_prim_Monster03_09",
+      "character": "Desert_Spider2",
+      "model": "spider_black.bdae",
+      "model_path": "data/3d/characters/spider/spider_black.bdae",
+      "animation_table": 67,
+      "position": [
+        28633.8,
+        -23876.016,
+        20.7748
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/desert_cave/mgp/rdc01_obj05_dsrtcave_n_00_01.mgp",
+      "source_record": 15
+    }
+  ],
+  "animation_states": [
+    {
+      "table": 67,
+      "character": "Spider",
+      "state": "Idle",
+      "sequence": 643
+    },
+    {
+      "table": 67,
+      "character": "Spider",
+      "state": "Walk",
+      "sequence": 650
+    },
+    {
+      "table": 67,
+      "character": "Spider",
+      "state": "Attack",
+      "sequence": 637
+    },
+    {
+      "table": 67,
+      "character": "Spider",
+      "state": "Died",
+      "sequence": 641
+    }
+  ],
+  "clip_ids": [
+    1282,
+    1283,
+    1284,
+    1285,
+    1287,
+    1294,
+    1295,
+    1297,
+    1298,
+    1303
+  ],
+  "dact": {
+    "bytes": 1808,
+    "sha256": "e5958470a75476843e2ff6c56e6a13bbf0f2173dc0e5f4fa4a78259c35f0e8a6"
+  },
+  "assets": [
+    {
+      "asset": "actors/spider_attack_01.bdae",
+      "bytes": 16568,
+      "sha256": "5b3cba54095d72ba35bea1be8e332217f0d544cecffece041d0772b048860049",
+      "source": "data/3d/characters/spider/animations/spider_attack_01.bdae",
+      "source_file": "spider_attack_01.bdae"
+    },
+    {
+      "asset": "actors/spider_attack_01_to_idle.bdae",
+      "bytes": 19304,
+      "sha256": "a8c94cdb15b145a98d74536d8c06eefe4feb94bce417dcb1c3e9d55dbf87c789",
+      "source": "data/3d/characters/spider/animations/spider_attack_01_to_idle.bdae",
+      "source_file": "spider_attack_01_to_idle.bdae"
+    },
+    {
+      "asset": "actors/spider_attack_02.bdae",
+      "bytes": 17124,
+      "sha256": "0336868e284feab3f082807e6789093cab194085a3a81be32a814f005a114c02",
+      "source": "data/3d/characters/spider/animations/spider_attack_02.bdae",
+      "source_file": "spider_attack_02.bdae"
+    },
+    {
+      "asset": "actors/spider_attack_02_to_idle.bdae",
+      "bytes": 19408,
+      "sha256": "b31eeacc5283becf495c466cd7fe5e22756525f5cff5ab6d84c38cd8b4dbaf26",
+      "source": "data/3d/characters/spider/animations/spider_attack_02_to_idle.bdae",
+      "source_file": "spider_attack_02_to_idle.bdae"
+    },
+    {
+      "asset": "actors/spider_black.bdae",
+      "bytes": 65148,
+      "sha256": "62cc9e4dab03d51539ec432df1080b888084e35cb236080a62ea9db37e41d8d7",
+      "source": "data/3d/characters/spider/spider_black.bdae",
+      "source_file": "spider_black.bdae"
+    },
+    {
+      "asset": "actors/spider_dying.bdae",
+      "bytes": 30004,
+      "sha256": "ff809027143df8d6a4d50f457700bbf9f89d88c1dee03b4f26b27e1ccef5554e",
+      "source": "data/3d/characters/spider/animations/spider_dying.bdae",
+      "source_file": "spider_dying.bdae"
+    },
+    {
+      "asset": "actors/spider_idle.bdae",
+      "bytes": 20308,
+      "sha256": "eecb55a4e75c9aaab6a261440b1d66e740fbaa89ed3ec1154e6b5067165060e4",
+      "source": "data/3d/characters/spider/animations/spider_idle.bdae",
+      "source_file": "spider_idle.bdae"
+    },
+    {
+      "asset": "actors/spider_idle_02.bdae",
+      "bytes": 23896,
+      "sha256": "51033f79e2f25a4381c3bb18f10a7c68ab3c54cf906b3660b89d9c3f852470b1",
+      "source": "data/3d/characters/spider/animations/spider_idle_02.bdae",
+      "source_file": "spider_idle_02.bdae"
+    },
+    {
+      "asset": "actors/spider_pre_attack_01.bdae",
+      "bytes": 19004,
+      "sha256": "546dbc2ed5b9b610699aeac1d5b10f633c27bd681ce17b4f49626c44758792e1",
+      "source": "data/3d/characters/spider/animations/spider_pre_attack_01.bdae",
+      "source_file": "spider_pre_attack_01.bdae"
+    },
+    {
+      "asset": "actors/spider_pre_attack_02.bdae",
+      "bytes": 18404,
+      "sha256": "edaab2688f5181101292a25d2b837e5237e8f743d1e2de942e78555fc50441c7",
+      "source": "data/3d/characters/spider/animations/spider_pre_attack_02.bdae",
+      "source_file": "spider_pre_attack_02.bdae"
+    },
+    {
+      "asset": "actors/spider_walk.bdae",
+      "bytes": 20960,
+      "sha256": "2b9942326f436b99b30c8d9e8ebc8cc90b56c4cd2e52292db4dead16bc9eaa1f",
+      "source": "data/3d/characters/spider/animations/spider_walk.bdae",
+      "source_file": "spider_walk.bdae"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001.tga",
+      "bytes": 524348,
+      "sha256": "12b326ab884126622721864edb49ab7e30bafb21a269d11db4f185515e4eca7c",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001.tga",
+      "source_file": "atlas_dh2_game_objects_001.tga"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001_alpha.tga",
+      "bytes": 524348,
+      "sha256": "4989829958943daff0d0b977ae98c52def30bb0c966dba21d19e949f9321fc79",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001_alpha.tga",
+      "source_file": "atlas_dh2_game_objects_001_alpha.tga"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001_specular.tga",
+      "bytes": 131132,
+      "sha256": "49c66c6eab5b957acadcf1f8216eb4720ed69b60f86a2b8776505bf54a5d7398",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001_specular.tga",
+      "source_file": "atlas_dh2_game_objects_001_specular.tga"
+    },
+    {
+      "asset": "textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+      "bytes": 524348,
+      "sha256": "b481139257068aca633269161be908e66f839f241f7b42b035337c705e121e83",
+      "source": "data/3d/textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+      "source_file": "atlas_skinned_characters_animdecor_gameobjects_001.tga"
+    }
+  ],
+  "runtime_gaps": "Module rotation/scale, conditional/template/NPC/container factories, source AI activation and LevelSavegame are not implied."
+}

@@ -1,0 +1,561 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "compiler": "compile_static_level.py",
+  "entrypoint_zero": {
+    "activate_condition": null,
+    "deactivate_condition": null,
+    "entrypoint_id": 0,
+    "local_position": [
+      53.4443,
+      708.693,
+      332.232
+    ],
+    "local_rotation": [
+      0.0,
+      0.0,
+      90.0
+    ],
+    "local_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "module_index": 0,
+    "name": "_prim_EntryPoint_FromSwamp",
+    "source_path": "data/3d/modules/swamp/mgp/swamp2_corner_ruin_wn_00.mgp",
+    "source_record": 2,
+    "world_position": [
+      53.4443,
+      708.693,
+      332.232
+    ],
+    "world_rotation": [
+      0.0,
+      0.0,
+      90.0
+    ],
+    "world_scale": [
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "entrypoint_zero_candidates": 1,
+  "entrypoint_zero_policy": "unconditional_unique",
+  "entrypoint_zero_spread": 0.0,
+  "format": "dh2-static-level-bundle-v1",
+  "generated": {
+    "x22_swamp2_backup.dae": {
+      "bytes": 363,
+      "sha256": "79fbbaaabed551682008bef72aa3a5dc67762e8430b7df2aad0f673b08a6d1f3"
+    },
+    "x22_swamp2_backup.dwld": {
+      "bytes": 1432,
+      "sha256": "db3eb5c12debf3501ecacd67839d54aadcd8d3a547022891224cb9b2d989870c"
+    },
+    "x22_swamp2_backup.spwn": {
+      "bytes": 448,
+      "sha256": "8331cd3c58a8c68382ca2736e523a622fbca909dc1aead763e95574163abd827"
+    }
+  },
+  "level_list": {
+    "level_file": "022_swamp2.rule.xml",
+    "name": "SWAMP_02",
+    "row": 42
+  },
+  "level_list_inputs": {
+    "data/pydata/levels_pyarray.bin": {
+      "bytes": 5574,
+      "sha256": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c"
+    },
+    "data/pydata/levels_pyarraynames.bin": {
+      "bytes": 1943,
+      "sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432"
+    }
+  },
+  "module_count": 11,
+  "modules": [
+    {
+      "dae": "data/3d/modules/swamp/swamp.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/swamp/mgp/swamp2_corner_ruin_wn_00.mgp",
+      "mgp_records": 15,
+      "module_index": 0,
+      "mvp": "data/3d/modules/swamp/mvp/swamp2_corner_ruin_wn_00.mvp",
+      "mvp_records": 3,
+      "name": "corner_ruin_wn_00_0",
+      "node_id": "_module_corner_ruin_wn_00-node",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 1
+    },
+    {
+      "dae": "data/3d/modules/swamp/swamp.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/swamp/mgp/swamp2_straight_brdwalk_we_00.mgp",
+      "mgp_records": 8,
+      "module_index": 1,
+      "mvp": "data/3d/modules/swamp/mvp/swamp2_straight_brdwalk_we_00.mvp",
+      "mvp_records": 8,
+      "name": "straight_brdwalk_we_00_1",
+      "node_id": "_module_straight_brdwalk_we_00-node",
+      "position": [
+        -6000.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 2
+    },
+    {
+      "dae": "data/3d/modules/swamp/swamp.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/swamp/mgp/swamp2_corner_brdwalk_ne_00.mgp",
+      "mgp_records": 8,
+      "module_index": 2,
+      "mvp": "data/3d/modules/swamp/mvp/swamp2_corner_brdwalk_ne_00.mvp",
+      "mvp_records": 3,
+      "name": "corner_brdwalk_ne_00_2",
+      "node_id": "_module_corner_brdwalk_ne_00-node",
+      "position": [
+        -12000.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 3
+    },
+    {
+      "dae": "data/3d/modules/swamp/swamp.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/swamp/mgp/swamp2_straight_brdwalk_ns_00.mgp",
+      "mgp_records": 5,
+      "module_index": 3,
+      "mvp": "data/3d/modules/swamp/mvp/swamp2_straight_brdwalk_ns_00.mvp",
+      "mvp_records": 3,
+      "name": "straight_brdwalk_ns_00_3",
+      "node_id": "_module_straight_brdwalk_ns_00-node",
+      "position": [
+        -12000.0,
+        6000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 4
+    },
+    {
+      "dae": "data/3d/modules/swamp/swamp.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/swamp/mgp/swamp2_obj_1of4_brdwalk_nse_00.mgp",
+      "mgp_records": 8,
+      "module_index": 4,
+      "mvp": "data/3d/modules/swamp/mvp/swamp2_obj1of4_brdwalk_nse_00.mvp",
+      "mvp_records": 8,
+      "name": "obj_1of4_brdwalk_nse_00_4",
+      "node_id": "_module_obj_1of4_brdwalk_nse_00-node",
+      "position": [
+        -12000.0,
+        12000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 5
+    },
+    {
+      "dae": "data/3d/modules/swamp/swamp.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/swamp/mgp/swamp2_straight_brdwalk_ns_00.mgp",
+      "mgp_records": 5,
+      "module_index": 5,
+      "mvp": "data/3d/modules/swamp/mvp/swamp2_straight_brdwalk_ns_00.mvp",
+      "mvp_records": 3,
+      "name": "straight_brdwalk_ns_00_5",
+      "node_id": "_module_straight_brdwalk_ns_00-node",
+      "position": [
+        -12000.0,
+        18000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 6
+    },
+    {
+      "dae": "data/3d/modules/swamp/swamp.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/swamp/mgp/swamp2_obj2of4_brdwalk_sw_00.mgp",
+      "mgp_records": 3,
+      "module_index": 6,
+      "mvp": "data/3d/modules/swamp/mvp/swamp2_obj2of4_brdwalk_sw_00.mvp",
+      "mvp_records": 9,
+      "name": "obj_2of4_brdwalk_sw_00_6",
+      "node_id": "_module_obj_2of4_brdwalk_sw_00-node",
+      "position": [
+        -12000.0,
+        24000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 7
+    },
+    {
+      "dae": "data/3d/modules/swamp/swamp.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/swamp/mgp/swamp2_straight_brdwalk_we_00.mgp",
+      "mgp_records": 8,
+      "module_index": 7,
+      "mvp": "data/3d/modules/swamp/mvp/swamp2_straight_brdwalk_we_00.mvp",
+      "mvp_records": 8,
+      "name": "straight_brdwalk_we_00_7",
+      "node_id": "_module_straight_brdwalk_we_00-node",
+      "position": [
+        -18000.0,
+        24000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 8
+    },
+    {
+      "dae": "data/3d/modules/swamp/swamp.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/swamp/mgp/swamp2_corner_ruin_se_00.mgp",
+      "mgp_records": 12,
+      "module_index": 8,
+      "mvp": "data/3d/modules/swamp/mvp/swamp2_corner_ruin_se_00.mvp",
+      "mvp_records": 4,
+      "name": "corner_ruin_se_00_8",
+      "node_id": "_module_corner_ruin_se_00-node",
+      "position": [
+        -24000.0,
+        24000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 9
+    },
+    {
+      "dae": "data/3d/modules/swamp/swamp.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/swamp/mgp/swamp2_straight_brdwalk_ns_01.mgp",
+      "mgp_records": 11,
+      "module_index": 9,
+      "mvp": "data/3d/modules/swamp/mvp/swamp2_straight_brdwalk_ns_01.mvp",
+      "mvp_records": 4,
+      "name": "straight_brdwalk_ns_00_9",
+      "node_id": "_module_straight_brdwalk_ns_00-node",
+      "position": [
+        -24000.0,
+        18000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 10
+    },
+    {
+      "dae": "data/3d/modules/swamp/swamp.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/swamp/mgp/swamp2_deadend_brdwalk_w_00.mgp",
+      "mgp_records": 4,
+      "module_index": 10,
+      "mvp": "data/3d/modules/swamp/mvp/swamp2_deadend_brdwalk_w_00.mvp",
+      "mvp_records": 11,
+      "name": "deadend_brdwalk_w_00_10",
+      "node_id": "_module_deadend_brdwalk_w_00-node",
+      "position": [
+        -6000.0,
+        12000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 11
+    }
+  ],
+  "scope": "authored static module transforms and unique unconditional spawn selectors; no gameplay activation",
+  "selectable_entrypoints": [
+    0,
+    1,
+    4
+  ],
+  "source_assets": [
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_cave_entrance_troll.bdae",
+      "bytes": 57120,
+      "path": "data/3d/animateddecors/swamp_cave_entrance_troll.bdae",
+      "sha256": "937ed6fcc95182aef204791e90ffe2a3cdb35db884a997b02e0427a8e994b70c"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "bytes": 18208,
+      "path": "data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "sha256": "631dfe779d9933cf5c1ef7a45992cc71f646287c153103df7dee398ecbd129d1"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_rayolight_dust.bdae",
+      "bytes": 6344,
+      "path": "data/3d/animateddecors/swamp_rayolight_dust.bdae",
+      "sha256": "ee72883252f8254758b3f4a6b8b7b593090972b1ebfcff73bdd0e6b2a12edc9c"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_tikitorches.bdae",
+      "bytes": 42904,
+      "path": "data/3d/animateddecors/swamp_tikitorches.bdae",
+      "sha256": "155bfb824e8185b938e23df6be31bcafd997a9bd87d7b77bee539407ed61b3c6"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_waterbulbulle.bdae",
+      "bytes": 7456,
+      "path": "data/3d/animateddecors/swamp_waterbulbulle.bdae",
+      "sha256": "d5ca03a5867039a5031f1f0a03ead679eba0fbaded31a7d5411839729422623e"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_watercaustics.bdae",
+      "bytes": 408420,
+      "path": "data/3d/animateddecors/swamp_watercaustics.bdae",
+      "sha256": "3b630684a440775fa601e8f9000fbb87930c33f4b89624889530571725e1d415"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/swamp2_corner_brdwalk_ne_00.mgp",
+      "bytes": 4383,
+      "path": "data/3d/modules/swamp/mgp/swamp2_corner_brdwalk_ne_00.mgp",
+      "sha256": "e58eac33ee09cce6ef31b5e22769f489d7615e5035cbd9573d8f6b1e923e58fa"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/swamp2_corner_ruin_se_00.mgp",
+      "bytes": 6597,
+      "path": "data/3d/modules/swamp/mgp/swamp2_corner_ruin_se_00.mgp",
+      "sha256": "06f76767c4f34ad8f85e46be081a5b8826cc6f5d6eb63d7ea6d81f921f7691ed"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/swamp2_corner_ruin_wn_00.mgp",
+      "bytes": 5009,
+      "path": "data/3d/modules/swamp/mgp/swamp2_corner_ruin_wn_00.mgp",
+      "sha256": "822d58eb144962e0e727f52a77322a00902941f347a0d5d9947aaa2bde20461d"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/swamp2_deadend_brdwalk_w_00.mgp",
+      "bytes": 1849,
+      "path": "data/3d/modules/swamp/mgp/swamp2_deadend_brdwalk_w_00.mgp",
+      "sha256": "bcd82f8b6f4977ee19b4873647c186dd4bc5235a366e6897ac9545d53212da8b"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/swamp2_obj2of4_brdwalk_sw_00.mgp",
+      "bytes": 1454,
+      "path": "data/3d/modules/swamp/mgp/swamp2_obj2of4_brdwalk_sw_00.mgp",
+      "sha256": "744d5f5e8722eb99cd0d9ddc41fa1f3fb46175d6bcf80873a668e103e0f32e86"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/swamp2_obj_1of4_brdwalk_nse_00.mgp",
+      "bytes": 3976,
+      "path": "data/3d/modules/swamp/mgp/swamp2_obj_1of4_brdwalk_nse_00.mgp",
+      "sha256": "2a656af1ad0c8b4f265ca55e7d40e4583fc07b6fda27844b4942e657d9fd3b5f"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/swamp2_straight_brdwalk_ns_00.mgp",
+      "bytes": 2638,
+      "path": "data/3d/modules/swamp/mgp/swamp2_straight_brdwalk_ns_00.mgp",
+      "sha256": "4833ec7792ae8ce6c36122cd0e8b052a1c6b106d8fb339c3b6d0de7add559a8d"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/swamp2_straight_brdwalk_ns_01.mgp",
+      "bytes": 4386,
+      "path": "data/3d/modules/swamp/mgp/swamp2_straight_brdwalk_ns_01.mgp",
+      "sha256": "7d13a724e7f1f0e512a0892648219899eb47a8369c6a36ece8af8c41bec9974d"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/swamp2_straight_brdwalk_we_00.mgp",
+      "bytes": 4616,
+      "path": "data/3d/modules/swamp/mgp/swamp2_straight_brdwalk_we_00.mgp",
+      "sha256": "5e23e83e684c8573d83952ae557fae14b8a717956ea48c375d12f8a6b154aeb4"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/swamp2_corner_brdwalk_ne_00.mvp",
+      "bytes": 1510,
+      "path": "data/3d/modules/swamp/mvp/swamp2_corner_brdwalk_ne_00.mvp",
+      "sha256": "2ddead18e57e06f484bf1f459673a67bdc0c9ff4dccc5018a9ddc314adff0173"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/swamp2_corner_ruin_se_00.mvp",
+      "bytes": 1926,
+      "path": "data/3d/modules/swamp/mvp/swamp2_corner_ruin_se_00.mvp",
+      "sha256": "4b49a7395b10109b0909de5f02af81ab9d17f3c1fe4b5cca6da3c5561b096964"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/swamp2_corner_ruin_wn_00.mvp",
+      "bytes": 1635,
+      "path": "data/3d/modules/swamp/mvp/swamp2_corner_ruin_wn_00.mvp",
+      "sha256": "8c8c2f9d7143ae250cc018dbeedfdf67ca64198c3661f445fb7f48d0727e8e19"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/swamp2_deadend_brdwalk_w_00.mvp",
+      "bytes": 5293,
+      "path": "data/3d/modules/swamp/mvp/swamp2_deadend_brdwalk_w_00.mvp",
+      "sha256": "12b78ce7759f44730161990566696b422cf34c3a2bcd866f0f2a69f3e8ffe38f"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/swamp2_obj1of4_brdwalk_nse_00.mvp",
+      "bytes": 3783,
+      "path": "data/3d/modules/swamp/mvp/swamp2_obj1of4_brdwalk_nse_00.mvp",
+      "sha256": "f83804f0a57cc7bc65b7ba33b32549b3e3a4123a2ddd97ee3e1bb145cea65f29"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/swamp2_obj2of4_brdwalk_sw_00.mvp",
+      "bytes": 4211,
+      "path": "data/3d/modules/swamp/mvp/swamp2_obj2of4_brdwalk_sw_00.mvp",
+      "sha256": "ad98eab791df8042d32ea75f0b44968e98d3d237bbcb02073c015685433bca97"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/swamp2_straight_brdwalk_ns_00.mvp",
+      "bytes": 1521,
+      "path": "data/3d/modules/swamp/mvp/swamp2_straight_brdwalk_ns_00.mvp",
+      "sha256": "549503b4eecd588daf0653787d76538628d380866b3a88e45594b3862875fb36"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/swamp2_straight_brdwalk_ns_01.mvp",
+      "bytes": 2046,
+      "path": "data/3d/modules/swamp/mvp/swamp2_straight_brdwalk_ns_01.mvp",
+      "sha256": "afea4f84ed7d3582463f1b85086ca2ccc9900f74b8b1ad9b8ba175cdc35ea8f5"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/swamp2_straight_brdwalk_we_00.mvp",
+      "bytes": 3833,
+      "path": "data/3d/modules/swamp/mvp/swamp2_straight_brdwalk_we_00.mvp",
+      "sha256": "bcfa1711b77c7b7100f005a9f8ad9f58865746fa648461c0cd13ab6626b214a2"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/swamp.bdae",
+      "bytes": 5585024,
+      "path": "data/3d/modules/swamp/swamp.bdae",
+      "sha256": "89da80c60a7ebecd0e8a27a9d46f2625e3a5ec112933e5aa7cab251412b8364d"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/props/swamp/prop_swamp_corpses.bdae",
+      "bytes": 162552,
+      "path": "data/3d/props/swamp/prop_swamp_corpses.bdae",
+      "sha256": "50b681e96d5e5f2647adee92e7344be815afd821e0a2586e61a61dd60e1b9e01"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/scene/x22_swamp2_backup.mlx",
+      "bytes": 11283,
+      "path": "data/scene/x22_swamp2_backup.mlx",
+      "sha256": "c794799b33af587d2e237b4c750bea3fe56b7ed2b48c1e3f9e1b0a32cf000b0b"
+    }
+  ],
+  "source_layout": "data/scene/x22_swamp2_backup.mlx",
+  "spawn_point_count": 3,
+  "texture_hints": {
+    "data/3d/modules/swamp/swamp.bdae": {
+      "found_in_cache_not_copied": [
+        "data/3d/textures/env_swamp.tga",
+        "data/3d/textures/env_swamp_spec.tga",
+        "data/3d/textures/fx_black_eclipse.tga",
+        "data/3d/textures/pvr2_env_swamp_alpha.tga"
+      ],
+      "missing_from_cache": []
+    }
+  },
+  "unsupported_entrypoints": [],
+  "unsupported_spawn_id_groups": []
+}

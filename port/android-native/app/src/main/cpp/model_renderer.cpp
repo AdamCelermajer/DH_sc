@@ -1366,6 +1366,9 @@ struct StaticMlxLevelV1 {
  // Level::SetLevelConfig 0x3f150c: LevelConfig music / safezone_music names
  // resolved through Arrays::Sounds (0 = not set).
  std::uint16_t music_uid;std::uint16_t safezone_music_uid;
+ // Level script table stem when it differs from the prefix (a _BACKUP MLX
+ // names the same scriptFile as its generated rule).
+ const char* script_stem=nullptr;
 };
 constexpr StaticMlxLevelV1 static_mlx_levels[]{
  {41,"SWAMP","001_swamp.mlx","001_swamp","data/3d/modules/swamp/swamp.bdae",10,467,505},
@@ -1421,6 +1424,91 @@ constexpr GeneratedRuleLevelV1 generated_rule_levels[]{
  {49,"WATER_TEMPLE_01","023_watertemple.rule.xml"},
  {50,"WIND_TEMPLE_01","029_wind_temple.rule.xml"},
 };
+// Level::_LoadProcess (0x3f6990) case 7: when Level::GenerateRandomLevel (0x3f07f8)
+// fails, the first byte of the LevelList file name becomes 'x', the name is cut
+// at its first '.', "_BACKUP.mlx" (0x8c6b38) is appended and Level::LoadFile
+// (0x3f3b40) loads that authored MLX instead. The binary appends upper case
+// "_BACKUP.mlx"; the cache (and so the APK) holds the files in lower case, which
+// is how every cache path is canonicalized, so the packaged name is lower case.
+// Each row below is the precompiled static form (worlds/<prefix>.*) of that MLX;
+// `level.level_file` is the derived backup file name.
+struct GeneratedBackupLevelV1 {StaticMlxLevelV1 level;const char* rule_level_file;};
+constexpr GeneratedBackupLevelV1 generated_backup_levels[]{
+ {{0,"ABBEY_ENTRANCE_01","x09_abbey_backup.mlx","x09_abbey_backup",
+   "data/3d/modules/crypt/crypt.bdae",12,484,0,"009_abbey"},
+  "009_abbey.rule.xml"},
+ {{9,"DESERT_CAVE_01","x16_red_desert_cave_01_backup.mlx","x16_red_desert_cave_01_backup",
+   "data/3d/modules/desert_cave/room_cave.bdae",11,489,0,"016_red_desert_cave_01"},
+  "016_red_desert_cave_01.rule.xml"},
+ {{10,"DESERT_CAVE_02","x17_red_desert_cave_02_backup.mlx","x17_red_desert_cave_02_backup",
+   "data/3d/modules/desert_cave/room_cave.bdae",11,490,0,"017_red_desert_cave_02"},
+  "017_red_desert_cave_02.rule.xml"},
+ {{11,"DESERT_CAVE_03","x18_red_desert_cave_03_backup.mlx","x18_red_desert_cave_03_backup",
+   "data/3d/modules/desert_cave/room_cave.bdae",12,491,0,"018_red_desert_cave_03"},
+  "018_red_desert_cave_03.rule.xml"},
+ {{12,"EARTH_TEMPLE_01","x11_earth_temple_01_backup.mlx","x11_earth_temple_01_backup",
+   "data/3d/modules/earth_temple/earth_temple.bdae",7,474,0,"011_earth_temple_01"},
+  "011_earth_temple_01.rule.xml"},
+ {{13,"EARTH_TEMPLE_02","x12_earth_temple_02_backup.mlx","x12_earth_temple_02_backup",
+   "data/3d/modules/earth_temple/earth_temple.bdae",8,474,0,"012_earth_temple_02"},
+  "012_earth_temple_02.rule.xml"},
+ {{14,"EARTH_TEMPLE_03","x13_earth_temple_03_backup.mlx","x13_earth_temple_03_backup",
+   "data/3d/modules/earth_temple/earth_temple.bdae",6,474,0,"013_earth_temple_03"},
+  "013_earth_temple_03.rule.xml"},
+ {{15,"ELEMENTAL_AIR","x30_el_air_backup.mlx","x30_el_air_backup",
+   "data/3d/modules/castle/castle.bdae",8,481,0,"030_elemental_air_room"},
+  "030_el_air.rule.xml"},
+ {{17,"ELEMENTAL_FIRE","x32_el_fire_backup.mlx","x32_el_fire_backup",
+   "data/3d/modules/castle/castle.bdae",9,478,0,"032_elemental_fire_room"},
+  "032_el_fire.rule.xml"},
+ {{18,"ELEMENTAL_LIGHT","x10_el_lightning_backup.mlx","x10_el_lightning_backup",
+   "data/3d/modules/castle/castle.bdae",8,482,0,"010_elemental_lightning_room"},
+  "010_el_lightning.rule.xml"},
+ {{19,"ELEMENTAL_WATER","x24_el_water_backup.mlx","x24_el_water_backup",
+   "data/3d/modules/castle/castle.bdae",9,480,0,"024_elemental_water_room"},
+  "024_el_water.rule.xml"},
+ {{21,"GOTHICUS_CASTLE_01","x08_gothicus_castle_01_backup.mlx","x08_gothicus_castle_01_backup",
+   "data/3d/modules/castle/castle.bdae",8,0,0,"008_gothicus_castle_01"},
+  "008_gothicus_castle_01.rule.xml"},
+ {{22,"GOTHICUS_CASTLE_02","x21_gothicus_castle_02_backup.mlx","x21_gothicus_castle_02_backup",
+   "data/3d/modules/castle/castle.bdae",8,477,0,"021_gothicus_castle_02"},
+  "021_gothicus_castle_02.rule.xml"},
+ {{26,"ICY_CAVERN_02","x27_icy_cavern_02_backup.mlx","x27_icy_cavern_02_backup",
+   "data/3d/modules/icy_cavern/icy_cavern.bdae",14,496,0,"027_icy_caverns_02"},
+  "027_icy_cavern_02.rule.xml"},
+ {{32,"LIGHT_HOUSE_03","x19_light_house_03_backup.mlx","x19_light_house_03_backup",
+   "data/3d/modules/lighthousse/lighthouse.bdae",2,492,0,"019_light_house_01"},
+  "019_light_house_03.rule.xml"},
+ {{40,"SECRET_BASEMENT_01","x06_basement_backup.mlx","x06_basement_backup",
+   "data/3d/modules/root_den/root_den_rooms.bdae",9,476,0,"006_driedwell"},
+  "006_basement.rule.xml"},
+ {{42,"SWAMP_02","x22_swamp2_backup.mlx","x22_swamp2_backup",
+   "data/3d/modules/swamp/swamp.bdae",12,467,0,"022_swamp2"},
+  "022_swamp2.rule.xml"},
+ {{44,"SWAMP_CAVE_WITCH_A","x02_swamp_witchcave_backup.mlx","x02_swamp_witchcave_backup",
+   "data/3d/modules/swamp/swamp_cave.bdae",8,468,0,"002_swamp_cave_witch"},
+  "002_swamp_witchcave.rule.xml"},
+};
+// Name derivation of the original failure path (lower-cased like cache paths).
+std::string generated_backup_mlx_name(const std::string& level_file){
+ std::string name=level_file;
+ if(!name.empty())name[0]='x';
+ const auto dot=name.find('.');
+ if(dot!=std::string::npos)name.resize(dot);
+ name+="_BACKUP.mlx";
+ for(auto& ch:name)ch=static_cast<char>(std::tolower(static_cast<unsigned char>(ch)));
+ return name;
+}
+// Row whose generated level failed during the load now in progress. Reset when
+// each NativeStartGame plan is resolved.
+std::int32_t active_generated_backup_row=-1;
+const GeneratedBackupLevelV1* generated_backup_level(std::int32_t row,const std::string& name,
+                                                     const std::string& level_file){
+ for(const auto& backup:generated_backup_levels)
+  if(backup.level.row==row&&name==backup.level.name&&level_file==backup.rule_level_file&&
+     generated_backup_mlx_name(level_file)==backup.level.level_file)return &backup;
+ return nullptr;
+}
 // Rule <rules music="..."> label resolved to the Sounds.xml UID. CatacombsMusic
 // (void maze) has no sounds.xml row, so its UID is absent and no cue is queued.
 struct GeneratedRuleMusicV1 {const char* label;std::uint16_t uid;};
@@ -1446,11 +1534,16 @@ constexpr GeneratedRuleBdaeV1 generated_rule_bdae[]{
 };
 const GeneratedRuleLevelV1* generated_rule_level(std::int32_t row,const std::string& name,
                                                  const std::string& level_file){
+ if(row==active_generated_backup_row)return nullptr;  // the _BACKUP MLX replaced it
  for(const auto& level:generated_rule_levels)
   if(level.row==row&&name==level.name&&level_file==level.level_file)return &level;
  return nullptr;
 }
 bool generated_rule_level_name(const std::string& name,const std::string& level_file){
+ if(active_generated_backup_row>=0)
+  for(const auto& backup:generated_backup_levels)
+   if(backup.level.row==active_generated_backup_row&&name==backup.level.name&&
+      level_file==backup.rule_level_file)return false;
  for(const auto& level:generated_rule_levels)
   if(name==level.name&&level_file==level.level_file)return true;
  return false;
@@ -1523,6 +1616,10 @@ namespace {
 const StaticMlxLevelV1* static_mlx_level(const std::string& name,const std::string& level_file){
  for(const auto& level:static_mlx_levels)
   if(name==level.name&&level_file==level.level_file)return &level;
+ if(active_generated_backup_row>=0)
+  for(const auto& backup:generated_backup_levels)
+   if(backup.level.row==active_generated_backup_row&&name==backup.level.name&&
+      level_file==backup.rule_level_file)return &backup.level;
  return nullptr;
 }
 const StaticMlxLevelV1* static_mlx_level_for_row(std::int32_t row,const std::string& name,
@@ -1533,6 +1630,9 @@ const StaticMlxLevelV1* static_mlx_level_for_row(std::int32_t row,const std::str
 bool static_mlx_level_active(){
  return !active_level_assets.development_layout&&
      static_mlx_level(active_level_assets.name,active_level_assets.level_file);
+}
+const char* static_script_stem(const StaticMlxLevelV1& level){
+ return level.script_stem?level.script_stem:level.prefix;
 }
 std::string static_mlx_scene_path(const StaticMlxLevelV1& level){
  return std::string("data/scene/")+level.level_file;
@@ -6590,7 +6690,11 @@ bool NativeCryptRoomRuntime::initialize_source_doors(std::string& error) {
   };
   for(const auto& source:sources) {
    if(source.gametype!="Door")continue;
-   if(source.duplicate_name||source.source_handle<0||
+   // Generated Levels place one tile MGP in several Modules. ObjectManager::Add
+   // keeps the first object per name and destroys later same-name candidates;
+   // those never reach InitPost (source handle ledger duplicate_name).
+   if(source.duplicate_name)continue;
+   if(source.source_handle<0||
       source.source_record==std::numeric_limits<std::uint32_t>::max()||
       source.source_module_id<0||
       std::find(source_handles.begin(),source_handles.end(),source.source_handle)!=source_handles.end()) {
@@ -17014,8 +17118,10 @@ void build_search_world() {
  if(registered_player&&player_character_listed&&player_character_count!=1)
   throw std::runtime_error("Crypt player roster transaction has duplicate Character-list entries");
  if(!player_roster_committed)native_characters.clear();
- if(!level.rooms||level.rooms>512||world_objects.empty())
+ if(!level.rooms||level.rooms>512)
   throw std::runtime_error("Character search room projection unavailable");
+ // A generated level whose Modules name no Character-bearing gameplay files
+ // (VOID_MAZE_02/03) has no world objects; the search lists are then empty.
  search_world.rooms.resize(level.rooms);
  search_world.object_heads.resize(level.rooms);
  search_world.object_entries.resize(world_objects.size()+1);
@@ -21295,34 +21401,48 @@ bool load_crypt_rule_assets(AAssetManager* assets,const std::string& rule_file,
   }
   for(const auto& list:parsed.document->lists){
    for(const auto& entry:list.entries){
-    if(!crypt_safe_asset_basename(entry.name+".mgx",".mgx")||
-       !crypt_safe_asset_basename(entry.gameplay,".mgp")||
-       !crypt_safe_asset_basename(entry.visual,".mvp")){
-     error="Crypt rule contains an unsafe gameplay or visual filename";return false;
+    if(!crypt_safe_asset_basename(entry.name+".mgx",".mgx")){
+     error="Crypt rule contains an unsafe module filename";return false;
     }
     module_names.insert(entry.name);
-    gameplay_names.insert(entry.gameplay);
-    visual_names.insert(entry.visual);
+    // Tile::SaveAsModuleXML (0x491d90) writes the mgp / mvp attribute only for
+    // a non-empty gameplay / visual, Module::LoadModule (0x38a88c) loads only
+    // named files, and Level::LoadFile (0x3f3b40) returns success without
+    // loading when no candidate path exists. So an empty name, a name without
+    // the .mgp / .mvp extension that names no file (034 voidmaze_02), or a file
+    // the cache lacks (033 / 035 "vm011_" typo) simply loads nothing.
+    if(crypt_safe_asset_basename(entry.gameplay,".mgp"))gameplay_names.insert(entry.gameplay);
+    if(crypt_safe_asset_basename(entry.visual,".mvp"))visual_names.insert(entry.visual);
    }
   }
   const auto read_module_files=[&](const std::set<std::string>& names,
       const char* directory,const char* extension,
-      std::map<std::string,std::string>& output)->bool{
+      std::map<std::string,std::string>& output,bool optional)->bool{
    for(const auto& name:names){
     const std::string suffix(extension);
     const bool has_suffix=name.size()>=suffix.size()&&
         name.compare(name.size()-suffix.size(),suffix.size(),suffix)==0;
     const auto filename=has_suffix?name:name+suffix;
     std::string contents;
-    if(!read_source(module_root+directory+"/"+filename,contents))return false;
+    if(optional){
+     try{
+      const auto value=read(assets,module_root+directory+"/"+filename,"original-cache");
+      if(value.empty())continue;
+      contents.assign(reinterpret_cast<const char*>(value.data()),value.size());
+     }catch(const std::exception&){
+      __android_log_print(ANDROID_LOG_INFO,"DH2Native","Crypt %s file absent, loads nothing | %s",
+          directory,filename.c_str());
+      continue;
+     }
+    }else if(!read_source(module_root+directory+"/"+filename,contents))return false;
     output.emplace(filename,std::move(contents));
    }
    return true;
   };
-  if(!read_module_files(module_names,"mgx",".mgx",bytes->mgx)||
-     !read_module_files(module_names,"mvx",".mvx",bytes->mvx)||
-     !read_module_files(gameplay_names,"mgp",".mgp",bytes->mgp)||
-     !read_module_files(visual_names,"mvp",".mvp",bytes->mvp))return false;
+  if(!read_module_files(module_names,"mgx",".mgx",bytes->mgx,false)||
+     !read_module_files(module_names,"mvx",".mvx",bytes->mvx,false)||
+     !read_module_files(gameplay_names,"mgp",".mgp",bytes->mgp,true)||
+     !read_module_files(visual_names,"mvp",".mvp",bytes->mvp,true))return false;
 
   auto checked=std::make_shared<CryptModuleCatalogueV1>(
       build_crypt_module_catalogue_from_bytes_v1(*parsed.document,*bytes));
@@ -21357,7 +21477,10 @@ bool build_generated_crypt_mgp_views(
   for(const auto& module:runtime.generated_crypt_modules){
    const auto found=runtime.crypt_asset_bytes->mgp.find(module.gameplay);
    if(found==runtime.crypt_asset_bytes->mgp.end()||found->second.empty()){
-    error="Generated Crypt MGP is missing: "+module.gameplay;return false;
+    // No gameplay file named or present: the Module loads no MGP objects.
+    source_paths.emplace_back();
+    views.push_back({nullptr,nullptr,0});
+    continue;
    }
    source_paths.push_back(runtime.crypt_rules->folder+"/mgp/"+module.gameplay);
    const auto& bytes=found->second;
@@ -21385,7 +21508,10 @@ bool build_generated_crypt_mvp_views(
   for(const auto& module:runtime.generated_crypt_modules){
    const auto found=runtime.crypt_asset_bytes->mvp.find(module.visual);
    if(found==runtime.crypt_asset_bytes->mvp.end()||found->second.empty()){
-    error="Generated Crypt MVP is missing: "+module.visual;return false;
+    // No visual file named or present: the Module loads no MVP objects.
+    source_paths.emplace_back();
+    views.push_back({nullptr,nullptr,0});
+    continue;
    }
    source_paths.push_back(runtime.crypt_rules->folder+"/mvp/"+module.visual);
    const auto& bytes=found->second;
@@ -21421,16 +21547,15 @@ bool build_generated_crypt_handle_ledger(
    const auto& module=runtime.generated_crypt_modules[index];
    const auto mgp=runtime.crypt_asset_bytes->mgp.find(module.gameplay);
    const auto mvp=runtime.crypt_asset_bytes->mvp.find(module.visual);
-   if(mgp==runtime.crypt_asset_bytes->mgp.end()||mgp->second.empty()||
-      mvp==runtime.crypt_asset_bytes->mvp.end()||mvp->second.empty()){
-    error="Generated Crypt ObjectManager file is missing: "+module.gameplay+
-          " / "+module.visual;return false;
-   }
    const auto module_index=static_cast<std::uint32_t>(index);
-   paths.push_back(runtime.crypt_rules->folder+"/mgp/"+module.gameplay);
-   refs.push_back({module_index,ModuleFileKind::mgp,&mgp->second});
-   paths.push_back(runtime.crypt_rules->folder+"/mvp/"+module.visual);
-   refs.push_back({module_index,ModuleFileKind::mvp,&mvp->second});
+   if(mgp!=runtime.crypt_asset_bytes->mgp.end()&&!mgp->second.empty()){
+    paths.push_back(runtime.crypt_rules->folder+"/mgp/"+module.gameplay);
+    refs.push_back({module_index,ModuleFileKind::mgp,&mgp->second});
+   }
+   if(mvp!=runtime.crypt_asset_bytes->mvp.end()&&!mvp->second.empty()){
+    paths.push_back(runtime.crypt_rules->folder+"/mvp/"+module.visual);
+    refs.push_back({module_index,ModuleFileKind::mvp,&mvp->second});
+   }
   }
   std::vector<OrderedModuleFile> files;
   files.reserve(refs.size());
@@ -21532,6 +21657,9 @@ bool prepare_native_transition_runtime_v1(
    error="Source SWAMP transition DWLD asset is unavailable";return false;
   }
  }else if(plan.runtime_kind==dh2::ui::NativeDestinationRuntimeKindV1::crypt_generated){
+  // A repeated entry into a level whose last generation fell back to its
+  // _BACKUP MLX generates afresh; the flag is set again below if it fails.
+  if(active_generated_backup_row==plan.level_row)active_generated_backup_row=-1;
   if(!generated_rule_level(plan.level_row,plan.level_name,plan.load.file)){
    error="Generated Crypt transition adapter does not match its source LevelList row";return false;
   }
@@ -21547,8 +21675,25 @@ bool prepare_native_transition_runtime_v1(
   const auto generated=dh2::random_level::generate_crypt_level_v1(
       *runtime.crypt_rules,*runtime.crypt_catalogue,runtime.source_load_seed);
   if(generated.status!=dh2::random_level::CryptLevelGeneratorStatusV1::success){
-   error="Source Crypt transition generation failed: "+generated.message;return false;
-  }
+   // Level::_LoadProcess (0x3f6990) case 7: load the "_BACKUP.mlx" layout.
+   const auto* backup=generated_backup_level(plan.level_row,plan.level_name,plan.load.file);
+   if(!backup){
+    error="Source Crypt transition generation failed: "+generated.message;return false;
+   }
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+     "Generated level failed (%s) | loading %s | row %d | seed %u",generated.message.c_str(),
+     backup->level.level_file,plan.level_row,runtime.source_load_seed);
+   runtime=RuntimeLevelAssets{};runtime.row=plan.level_row;runtime.name=plan.level_name;
+   runtime.level_file=plan.load.file;runtime.source_load_seed=plan.load.seed;
+   runtime.source_load_synchronized_seed=plan.load.synchronized_seed;
+   active_generated_backup_row=plan.level_row;
+   const std::string prefix=backup->level.prefix;
+   runtime.descriptor=prefix+".dwld";runtime.bres=backup->level.bres;
+   runtime.spawns=prefix+".spwn";runtime.objects=prefix+".dact";runtime.development_layout=false;
+   payload.dwld_v1=read(transition.assets,runtime.descriptor,"worlds");
+   if(!static_level_entrypoint_fallback(transition.assets,runtime.spawns,
+        transition.plan.load.entry_point,error))return false;
+  }else{
   runtime.generated_crypt_layout=true;runtime.development_layout=false;
   runtime.generated_crypt_source_xml=generated.layout.source_level_xml;
   runtime.generated_crypt_modules=generated.modules;
@@ -21559,6 +21704,7 @@ bool prepare_native_transition_runtime_v1(
   if(!compile_generated_crypt_spawnpoint(runtime,plan.load.entry_point,
        payload.spwn_v1,error)){
    error="Generated Crypt transition SpawnPoint compile failed: "+error;return false;
+  }
   }
  }else{
   error="Destination is present in LevelList but has no native runtime adapter";return false;
@@ -21706,16 +21852,20 @@ bool prepare_native_menu_start(std::int32_t slot,bool has_numeric_difficulty,
     slot,plan.saved_spawn_flag_row_to_clear,unsigned(plan.load_spawn_flag),
     std::size_t(save_transaction.save_identity));
  }
+ active_generated_backup_row=-1;
  runtime={};runtime.row=plan.level_row;runtime.name=plan.level_name;runtime.level_file=plan.level_file;
  runtime.source_load_seed=application_seed.ordinary_seed;
  runtime.source_load_synchronized_seed=application_seed.synchronized_seed;
- if(const auto* static_level=static_mlx_level_for_row(plan.level_row,plan.level_name,plan.level_file)){
+ const auto configure_static_level=[&](const StaticMlxLevelV1* static_level)->bool{
   const std::string prefix=static_level->prefix;
   runtime.descriptor=prefix+".dwld";runtime.bres=static_level->bres;
   runtime.spawns=prefix+".spwn";runtime.objects=prefix+".dact";runtime.development_layout=false;
   payload.dwld_v1=read(assets,runtime.descriptor,"worlds");
-  if(std::string(static_level->name)!="SWAMP"&&
-     !static_level_entrypoint_fallback(assets,runtime.spawns,plan.entry_point,error))return false;
+  return std::string(static_level->name)=="SWAMP"||
+      static_level_entrypoint_fallback(assets,runtime.spawns,plan.entry_point,error);
+ };
+ if(const auto* static_level=static_mlx_level_for_row(plan.level_row,plan.level_name,plan.level_file)){
+  if(!configure_static_level(static_level))return false;
  }else if(generated_rule_level(plan.level_row,plan.level_name,plan.level_file)){
   const auto stem=generated_rule_stem(plan.level_file);
   runtime.descriptor="generated-"+stem+".dwld";
@@ -21730,7 +21880,21 @@ bool prepare_native_menu_start(std::int32_t slot,bool has_numeric_difficulty,
   auto generated=dh2::random_level::generate_crypt_level_v1(
       *runtime.crypt_rules,*runtime.crypt_catalogue,runtime.source_load_seed);
   if(generated.status!=dh2::random_level::CryptLevelGeneratorStatusV1::success){
-   error="Source Crypt generation failed: "+generated.message;return false;
+   // Level::_LoadProcess (0x3f6990) case 7: a failed GenerateRandomLevel loads
+   // the "_BACKUP.mlx" authored layout (generated_backup_levels) instead.
+   const auto* backup=generated_backup_level(plan.level_row,plan.level_name,plan.level_file);
+   if(!backup){
+    error="Source Crypt generation failed: "+generated.message;return false;
+   }
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+     "Generated level failed (%s) | loading %s | row %d | seed %u",generated.message.c_str(),
+     backup->level.level_file,plan.level_row,runtime.source_load_seed);
+   const auto seed=runtime.source_load_seed;const auto synchronized_seed=runtime.source_load_synchronized_seed;
+   runtime={};runtime.row=plan.level_row;runtime.name=plan.level_name;runtime.level_file=plan.level_file;
+   runtime.source_load_seed=seed;runtime.source_load_synchronized_seed=synchronized_seed;
+   active_generated_backup_row=plan.level_row;
+   if(!configure_static_level(&backup->level))return false;
+   error.clear();return true;
   }
   runtime.generated_crypt_layout=true;runtime.development_layout=false;
   runtime.generated_crypt_source_xml=std::move(generated.layout.source_level_xml);
@@ -24544,10 +24708,10 @@ void initialize_swamp_level_script_session(AAssetManager* assets,bool restore) {
  if(!native_level_script_session.load_level(
       read(assets,"scripts_pyscriptnames.bin","scripts"),
       read(assets,"scripts_pyscripts.bin","scripts"),
-      read(assets,(std::string(static_mlx_level(active_level_assets.name,
-           active_level_assets.level_file)->prefix)+"_pyscriptnames.bin").c_str(),"scripts"),
-      read(assets,(std::string(static_mlx_level(active_level_assets.name,
-           active_level_assets.level_file)->prefix)+"_pyscripts.bin").c_str(),"scripts"),
+      read(assets,(std::string(static_script_stem(*static_mlx_level(active_level_assets.name,
+           active_level_assets.level_file)))+"_pyscriptnames.bin").c_str(),"scripts"),
+      read(assets,(std::string(static_script_stem(*static_mlx_level(active_level_assets.name,
+           active_level_assets.level_file)))+"_pyscripts.bin").c_str(),"scripts"),
       seeds.data(),static_cast<std::uint32_t>(seeds.size()),dispatch,error))
   throw std::runtime_error("SWAMP Level ScriptManager table bind failed: "+error);
  native_level_script_generation=source_level.generation;
@@ -39774,6 +39938,37 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
     dh2::world::Level candidate;
     const bool validate_descriptor_spawn=!level_assets.generated_crypt_layout||source_spawn_bytes.empty();
     std::vector<dh2::resources::BresView> world_views{view};std::vector<std::vector<std::uint8_t>> world_bytes;std::vector<std::uint32_t> world_room_sources;std::vector<std::string> world_names{level_assets.bres};if(static_level_source){std::vector<std::uint8_t> sidecar;try{sidecar=read(assets,std::string(static_level_source->prefix)+".dae","worlds");}catch(const std::exception&){sidecar.clear();}for(std::size_t p=0;p<sidecar.size();){auto e=std::find(sidecar.begin()+p,sidecar.end(),std::uint8_t('\n'));std::string dae(sidecar.begin()+p,e);p=(e==sidecar.end())?sidecar.size():std::size_t(e-sidecar.begin())+1;if(dae.empty())throw std::runtime_error("World room BDAE sidecar rejected");auto known=std::find(world_names.begin(),world_names.end(),dae);if(known==world_names.end()){world_bytes.push_back(read(assets,dae,"original-cache"));dh2::resources::BresView module_view{};if(dh2_bres_open(&module_view,world_bytes.back().data(),world_bytes.back().size())!=dh2::resources::BresError::ok)throw std::runtime_error("Module BRES rejected: "+dae);world_views.push_back(module_view);world_names.push_back(dae);known=world_names.end()-1;}world_room_sources.push_back(std::uint32_t(known-world_names.begin()));}}
+    else if(level_assets.generated_crypt_layout){
+     // Each generated Module reads its own dae (Module::LoadModule 0x38a88c): the
+     // swamp cave Modules use swamp_cave.bdae while the rule folder's default is
+     // swamp.bdae. Open the distinct daes in Module order like the static sidecar.
+     const auto& dae_xml=level_assets.generated_crypt_source_xml;
+     std::vector<std::string> module_daes;std::string dae_error;
+     if(!dh2::world::generated_crypt_module_daes_v1(
+         reinterpret_cast<const std::uint8_t*>(dae_xml.data()),dae_xml.size(),
+         level_assets.name.c_str(),generated_rule_scene_path(level_assets.level_file).c_str(),
+         module_daes,dae_error))
+      throw std::runtime_error("Generated Module dae import failed: "+dae_error);
+     const auto dae_basename=[](std::string value){
+      const auto slash=value.find_last_of('/');
+      if(slash!=std::string::npos)value.erase(0,slash+1);
+      for(auto& ch:value)ch=static_cast<char>(std::tolower(static_cast<unsigned char>(ch)));
+      return value;
+     };
+     bool all_primary=true;
+     for(const auto& dae:module_daes)all_primary=all_primary&&dae_basename(dae)==dae_basename(level_assets.bres);
+     if(!all_primary)for(const auto& dae:module_daes){
+      if(dae.empty())throw std::runtime_error("Generated Module dae is missing");
+      auto known=std::find(world_names.begin(),world_names.end(),dae);
+      if(known==world_names.end()){
+       world_bytes.push_back(read(assets,dae,"original-cache"));
+       dh2::resources::BresView module_view{};
+       if(dh2_bres_open(&module_view,world_bytes.back().data(),world_bytes.back().size())!=dh2::resources::BresError::ok)throw std::runtime_error("Module BRES rejected: "+dae);
+       world_views.push_back(module_view);world_names.push_back(dae);known=world_names.end()-1;
+      }
+      world_room_sources.push_back(std::uint32_t(known-world_names.begin()));
+     }
+    }
     if(!dh2::world::load(world_views,world_room_sources,selected_descriptor,selected_descriptor_size,candidate,error,validate_descriptor_spawn))throw std::runtime_error(error);
     if(source_static_level||
        (generated_rule_level_name(level_assets.name,level_assets.level_file)&&
@@ -39789,7 +39984,7 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
        level_assets.generated_crypt_layout?"data/scene/generated_crypt.mlx":
        "data/scene/x07_crypt_backup.mlx";
      dh2::crypt_module_bounds_registry_v1::Result bounds_result{};
-     std::vector<dh2::crypt_module_bounds_registry_v1::CatalogueBytes> bounds_catalogues;for(std::size_t c=0;c<world_views.size();++c)bounds_catalogues.push_back({static_level_source?world_names[c]:std::string(),world_views[c].bytes,world_views[c].size});
+     std::vector<dh2::crypt_module_bounds_registry_v1::CatalogueBytes> bounds_catalogues;for(std::size_t c=0;c<world_views.size();++c)bounds_catalogues.push_back({(static_level_source||world_views.size()>1)?world_names[c]:std::string(),world_views[c].bytes,world_views[c].size});
      const auto bounds_status=dh2::crypt_module_bounds_registry_v1::build_from_catalogues(
        level_assets.name.c_str(),source_path,
        source_mlx->data(),source_mlx->size(),bounds_catalogues,

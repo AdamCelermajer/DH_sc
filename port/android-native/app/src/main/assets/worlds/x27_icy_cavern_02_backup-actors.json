@@ -1,0 +1,15 @@
+{
+  "source_layout": "data/scene/x27_icy_cavern_02_backup.mlx",
+  "selected_characters": 0,
+  "source_character_records": 83,
+  "selection": "direct Monster; no activation/deactivation condition; auto_spawn != 0; initial ai_state absent or Idle",
+  "actors": [],
+  "animation_states": [],
+  "clip_ids": [],
+  "dact": {
+    "bytes": 16,
+    "sha256": "9746aca6a1b3e26937299a0b18a6af5de33ff98c6adb0ed0196c3809dfc9ac26"
+  },
+  "assets": [],
+  "runtime_gaps": "Module rotation/scale, conditional/template/NPC/container factories, source AI activation and LevelSavegame are not implied."
+}

@@ -201,7 +201,7 @@ CryptGeneratedDactStatusV1 crypt_compile_generated_dact_v1(
                   "Generated source level has no usable module/entity table");
   }
   for (std::uint32_t i = 0; i < source.module_count; ++i) {
-    if (!source.modules[i].mgp_loaded || !source.modules[i].cache_mgp ||
+    if ((source.modules[i].cache_mgp && !source.modules[i].mgp_loaded) ||
         !identity_module_transform(source.modules[i].record)) {
       return reject(diagnostic, Status::incomplete_module_gameplay,
                     "Every generated module needs loaded MGP data and translation-only placement",

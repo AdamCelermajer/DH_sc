@@ -1,0 +1,477 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "compiler": "compile_static_level.py",
+  "entrypoint_zero": {
+    "activate_condition": null,
+    "deactivate_condition": null,
+    "entrypoint_id": 0,
+    "local_position": [
+      -15.8576,
+      -593.23,
+      19.416
+    ],
+    "local_rotation": [
+      0.0,
+      0.0,
+      90.0
+    ],
+    "local_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "module_index": 0,
+    "name": "_prim_EntryPoint",
+    "source_path": "data/3d/modules/desert_cave/mgp/rdc02_objentrance_dsrtcave_n_00_01.mgp",
+    "source_record": 3,
+    "world_position": [
+      -15.8576,
+      -593.23,
+      19.416
+    ],
+    "world_rotation": [
+      0.0,
+      0.0,
+      90.0
+    ],
+    "world_scale": [
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "entrypoint_zero_candidates": 1,
+  "entrypoint_zero_policy": "unconditional_unique",
+  "entrypoint_zero_spread": 0.0,
+  "format": "dh2-static-level-bundle-v1",
+  "generated": {
+    "x17_red_desert_cave_02_backup.dae": {
+      "bytes": 430,
+      "sha256": "65139cbe742c98ba6e9a2b47991923890960a8396ca4e5d42b30137b8c772a3d"
+    },
+    "x17_red_desert_cave_02_backup.dwld": {
+      "bytes": 1304,
+      "sha256": "1e89c69e589197882999fd4d40d48f7473fa8c2514ac7603d2417cd263e13333"
+    },
+    "x17_red_desert_cave_02_backup.spwn": {
+      "bytes": 160,
+      "sha256": "1b7ec659e255ba91e6889cc0bebce9a9b976ca14ae064dc89a0de5077fcf6d86"
+    }
+  },
+  "level_list": {
+    "level_file": "017_red_desert_cave_02.rule.xml",
+    "name": "DESERT_CAVE_02",
+    "row": 10
+  },
+  "level_list_inputs": {
+    "data/pydata/levels_pyarray.bin": {
+      "bytes": 5574,
+      "sha256": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c"
+    },
+    "data/pydata/levels_pyarraynames.bin": {
+      "bytes": 1943,
+      "sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432"
+    }
+  },
+  "module_count": 10,
+  "modules": [
+    {
+      "dae": "data/3d/modules/desert_cave/room_cave.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/desert_cave/mgp/rdc02_objentrance_dsrtcave_n_00_01.mgp",
+      "mgp_records": 9,
+      "module_index": 0,
+      "mvp": "data/3d/modules/desert_cave/mvp/rdc02_objentrance_dsrtcave_n_00_01.mvp",
+      "mvp_records": 2,
+      "name": "deadend_dsrtcave_n_00_0",
+      "node_id": "_module_deadend_dsrtcave_n_00-node",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 1
+    },
+    {
+      "dae": "data/3d/modules/desert_cave/room_cave.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/desert_cave/mgp/rdc02_t_dsrtcave_nse_00_01.mgp",
+      "mgp_records": 11,
+      "module_index": 1,
+      "mvp": "data/3d/modules/desert_cave/mvp/rdc02_t_dsrtcave_nse_00_01.mvp",
+      "mvp_records": 0,
+      "name": "t_dsrtcave_nse_00_1",
+      "node_id": "_module_t_dsrtcave_nse_00-node",
+      "position": [
+        0.0,
+        6000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 2
+    },
+    {
+      "dae": "data/3d/modules/desert_cave/room_cave.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/desert_cave/mgp/rdc02_corner_dsrtcave_ws_00_01.mgp",
+      "mgp_records": 9,
+      "module_index": 2,
+      "mvp": "data/3d/modules/desert_cave/mvp/rdc02_corner_dsrtcave_ws_00_01.mvp",
+      "mvp_records": 0,
+      "name": "corner_dsrtcave_ws_00_2",
+      "node_id": "_module_corner_dsrtcave_ws_00-node",
+      "position": [
+        6000.0,
+        6000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 3
+    },
+    {
+      "dae": "data/3d/modules/desert_cave/room_cave.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/desert_cave/mgp/rdc02_corner_dsrtcave_ne_00_01.mgp",
+      "mgp_records": 8,
+      "module_index": 3,
+      "mvp": "data/3d/modules/desert_cave/mvp/rdc02_corner_dsrtcave_ne_00_01.mvp",
+      "mvp_records": 0,
+      "name": "corner_dsrtcave_ne_00_3",
+      "node_id": "_module_corner_dsrtcave_ne_00-node",
+      "position": [
+        6000.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 4
+    },
+    {
+      "dae": "data/3d/modules/desert_cave/room_cave.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/desert_cave/mgp/rdc02_straight_dsrtcave_we_00_01.mgp",
+      "mgp_records": 15,
+      "module_index": 4,
+      "mvp": "data/3d/modules/desert_cave/mvp/rdc02_straight_dsrtcave_we_00_01.mvp",
+      "mvp_records": 0,
+      "name": "straight_dsrtcave_we_00_4",
+      "node_id": "_module_straight_dsrtcave_we_00-node",
+      "position": [
+        12000.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 5
+    },
+    {
+      "dae": "data/3d/modules/desert_cave/room_cave.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/desert_cave/mgp/rdc02_corner_dsrtcave_ws_00_01.mgp",
+      "mgp_records": 9,
+      "module_index": 5,
+      "mvp": "data/3d/modules/desert_cave/mvp/rdc02_corner_dsrtcave_ws_00_01.mvp",
+      "mvp_records": 0,
+      "name": "corner_dsrtcave_ws_00_5",
+      "node_id": "_module_corner_dsrtcave_ws_00-node",
+      "position": [
+        18000.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 6
+    },
+    {
+      "dae": "data/3d/modules/desert_cave/room_cave.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/desert_cave/mgp/rdc02_corner_dsrtcave_ne_00_01.mgp",
+      "mgp_records": 8,
+      "module_index": 6,
+      "mvp": "data/3d/modules/desert_cave/mvp/rdc02_corner_dsrtcave_ne_00_01.mvp",
+      "mvp_records": 0,
+      "name": "corner_dsrtcave_ne_00_6",
+      "node_id": "_module_corner_dsrtcave_ne_00-node",
+      "position": [
+        18000.0,
+        -6000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 7
+    },
+    {
+      "dae": "data/3d/modules/desert_cave/room_cave.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/desert_cave/mgp/rdc02_corner_dsrtcave_ws_00_01.mgp",
+      "mgp_records": 9,
+      "module_index": 7,
+      "mvp": "data/3d/modules/desert_cave/mvp/rdc02_corner_dsrtcave_ws_00_01.mvp",
+      "mvp_records": 0,
+      "name": "corner_dsrtcave_ws_00_7",
+      "node_id": "_module_corner_dsrtcave_ws_00-node",
+      "position": [
+        24000.0,
+        -6000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 8
+    },
+    {
+      "dae": "data/3d/modules/desert_cave/room_cave.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/desert_cave/mgp/rdc02_obj05_dsrtcave_n_00_01.mgp",
+      "mgp_records": 16,
+      "module_index": 8,
+      "mvp": "data/3d/modules/desert_cave/mvp/rdc02_obj05_dsrtcave_n_00_01.mvp",
+      "mvp_records": 1,
+      "name": "obj05_dsrtcave_n_00_8",
+      "node_id": "_module_obj05_dsrtcave_n_00-node",
+      "position": [
+        24000.0,
+        -12000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 9
+    },
+    {
+      "dae": "data/3d/modules/desert_cave/room_cave.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/desert_cave/mgp/rdc02_deadend_dsrtcave_s_00_01.mgp",
+      "mgp_records": 5,
+      "module_index": 9,
+      "mvp": "data/3d/modules/desert_cave/mvp/rdc02_deadend_dsrtcave_s_00_01.mvp",
+      "mvp_records": 0,
+      "name": "deadend_dsrtcave_s_00_9",
+      "node_id": "_module_deadend_dsrtcave_s_00-node",
+      "position": [
+        0.0,
+        12000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 10
+    }
+  ],
+  "scope": "authored static module transforms and unique unconditional spawn selectors; no gameplay activation",
+  "selectable_entrypoints": [
+    0
+  ],
+  "source_assets": [
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "bytes": 18208,
+      "path": "data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "sha256": "631dfe779d9933cf5c1ef7a45992cc71f646287c153103df7dee398ecbd129d1"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/desert_cave/mgp/rdc02_corner_dsrtcave_ne_00_01.mgp",
+      "bytes": 4490,
+      "path": "data/3d/modules/desert_cave/mgp/rdc02_corner_dsrtcave_ne_00_01.mgp",
+      "sha256": "720482e617949f22ab4ecabada7628cfb498b970ca919d9c0f0bb89e9a082a43"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/desert_cave/mgp/rdc02_corner_dsrtcave_ws_00_01.mgp",
+      "bytes": 4578,
+      "path": "data/3d/modules/desert_cave/mgp/rdc02_corner_dsrtcave_ws_00_01.mgp",
+      "sha256": "3a3f1f3148c4d7eff7b8849289c8c7db3ad873baf9381ed9cb0560de4fbe88f0"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/desert_cave/mgp/rdc02_deadend_dsrtcave_s_00_01.mgp",
+      "bytes": 2556,
+      "path": "data/3d/modules/desert_cave/mgp/rdc02_deadend_dsrtcave_s_00_01.mgp",
+      "sha256": "628a1a858066db2c7ba6e85c558f69c44bcb621297938948bc69c0fdbe6f740a"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/desert_cave/mgp/rdc02_obj05_dsrtcave_n_00_01.mgp",
+      "bytes": 6032,
+      "path": "data/3d/modules/desert_cave/mgp/rdc02_obj05_dsrtcave_n_00_01.mgp",
+      "sha256": "0e77a34cf0ba8114b3bb5fd63f941082c55fb0d504dbdeaad3272f7398f2cdee"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/desert_cave/mgp/rdc02_objentrance_dsrtcave_n_00_01.mgp",
+      "bytes": 3716,
+      "path": "data/3d/modules/desert_cave/mgp/rdc02_objentrance_dsrtcave_n_00_01.mgp",
+      "sha256": "9d9c6ee7fc5df7b171e1c3d7a6f8f7f0fb699523d611efde78b99d321606bc5b"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/desert_cave/mgp/rdc02_straight_dsrtcave_we_00_01.mgp",
+      "bytes": 5199,
+      "path": "data/3d/modules/desert_cave/mgp/rdc02_straight_dsrtcave_we_00_01.mgp",
+      "sha256": "7e634a7969e8f4be4496732c98d7d546669579930c856061b1f361256738eca2"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/desert_cave/mgp/rdc02_t_dsrtcave_nse_00_01.mgp",
+      "bytes": 3498,
+      "path": "data/3d/modules/desert_cave/mgp/rdc02_t_dsrtcave_nse_00_01.mgp",
+      "sha256": "951dac9862d43c59368f9d0f22c5dddb4ca9ca801ecef76ea7bd849b5c209a56"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/desert_cave/mvp/rdc02_corner_dsrtcave_ne_00_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/desert_cave/mvp/rdc02_corner_dsrtcave_ne_00_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/desert_cave/mvp/rdc02_corner_dsrtcave_ws_00_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/desert_cave/mvp/rdc02_corner_dsrtcave_ws_00_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/desert_cave/mvp/rdc02_deadend_dsrtcave_s_00_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/desert_cave/mvp/rdc02_deadend_dsrtcave_s_00_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/desert_cave/mvp/rdc02_obj05_dsrtcave_n_00_01.mvp",
+      "bytes": 776,
+      "path": "data/3d/modules/desert_cave/mvp/rdc02_obj05_dsrtcave_n_00_01.mvp",
+      "sha256": "7eaaae3d3764dd5c05a02aad8b6f26a2465c744d97ef3e6ae5a145689bfea933"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/desert_cave/mvp/rdc02_objentrance_dsrtcave_n_00_01.mvp",
+      "bytes": 1161,
+      "path": "data/3d/modules/desert_cave/mvp/rdc02_objentrance_dsrtcave_n_00_01.mvp",
+      "sha256": "38cf6a08f1752441c3ce161e91090dccd8f46788b7b593cfbbb0e7aaac579584"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/desert_cave/mvp/rdc02_straight_dsrtcave_we_00_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/desert_cave/mvp/rdc02_straight_dsrtcave_we_00_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/desert_cave/mvp/rdc02_t_dsrtcave_nse_00_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/desert_cave/mvp/rdc02_t_dsrtcave_nse_00_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/desert_cave/room_cave.bdae",
+      "bytes": 3444452,
+      "path": "data/3d/modules/desert_cave/room_cave.bdae",
+      "sha256": "a19eb233d413447a7569745857552331243e3f706abaf61462ff0ad9d7f8b834"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/props/swamp/prop_swamp_corpses.bdae",
+      "bytes": 162552,
+      "path": "data/3d/props/swamp/prop_swamp_corpses.bdae",
+      "sha256": "50b681e96d5e5f2647adee92e7344be815afd821e0a2586e61a61dd60e1b9e01"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/scene/x17_red_desert_cave_02_backup.mlx",
+      "bytes": 10553,
+      "path": "data/scene/x17_red_desert_cave_02_backup.mlx",
+      "sha256": "8330a76fbf1d45122845f7e29ef14b09485da8ca360a4bd51762be1a57f68f78"
+    }
+  ],
+  "source_layout": "data/scene/x17_red_desert_cave_02_backup.mlx",
+  "spawn_point_count": 1,
+  "texture_hints": {
+    "data/3d/modules/desert_cave/room_cave.bdae": {
+      "found_in_cache_not_copied": [
+        "data/3d/textures/env_desert_cave.tga",
+        "data/3d/textures/env_desert_cave_spec.tga",
+        "data/3d/textures/pvr2_env_desert_cave_alpha.tga"
+      ],
+      "missing_from_cache": []
+    }
+  },
+  "unsupported_entrypoints": [],
+  "unsupported_spawn_id_groups": []
+}

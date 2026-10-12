@@ -1,0 +1,417 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "compiler": "compile_static_level.py",
+  "entrypoint_zero": {
+    "activate_condition": null,
+    "deactivate_condition": null,
+    "entrypoint_id": 0,
+    "local_position": [
+      -1473.72,
+      1131.59,
+      11.7341
+    ],
+    "local_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "local_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "module_index": 0,
+    "name": "_prim_EntryPoint_fromVillage",
+    "source_path": "data/3d/modules/root_den/mgp/basement_deadend_s_01.mgp",
+    "source_record": 0,
+    "world_position": [
+      -1473.72,
+      1131.59,
+      11.7341
+    ],
+    "world_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "world_scale": [
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "entrypoint_zero_candidates": 1,
+  "entrypoint_zero_policy": "unconditional_unique",
+  "entrypoint_zero_spread": 0.0,
+  "format": "dh2-static-level-bundle-v1",
+  "generated": {
+    "x06_basement_backup.dae": {
+      "bytes": 360,
+      "sha256": "a412cd15f6e0b8442f74a2c5b3a905f04ac6d661a3f77b0e2b68d1002fa022b3"
+    },
+    "x06_basement_backup.dwld": {
+      "bytes": 1048,
+      "sha256": "c2ab12c9ab0e072f42597118d61ff0897bd1c862e6991e2ef85237c8f4e42242"
+    },
+    "x06_basement_backup.spwn": {
+      "bytes": 160,
+      "sha256": "241d22029b5fa2cb6d4093f7afbdac6891236addc806ad2a6d956fac6ae6587e"
+    }
+  },
+  "level_list": {
+    "level_file": "006_basement.rule.xml",
+    "name": "SECRET_BASEMENT_01",
+    "row": 40
+  },
+  "level_list_inputs": {
+    "data/pydata/levels_pyarray.bin": {
+      "bytes": 5574,
+      "sha256": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c"
+    },
+    "data/pydata/levels_pyarraynames.bin": {
+      "bytes": 1943,
+      "sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432"
+    }
+  },
+  "module_count": 8,
+  "modules": [
+    {
+      "dae": "data/3d/modules/root_den/root_den_rooms.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/root_den/mgp/basement_deadend_s_01.mgp",
+      "mgp_records": 9,
+      "module_index": 0,
+      "mvp": "data/3d/modules/root_den/mvp/basement_deadend_s_01.mvp",
+      "mvp_records": 1,
+      "name": "deadend_rootden_s__0",
+      "node_id": "_module_deadend_rootden_s_-node",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 1
+    },
+    {
+      "dae": "data/3d/modules/root_den/root_den_rooms.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/root_den/mgp/basement_straight_ns_01.mgp",
+      "mgp_records": 9,
+      "module_index": 1,
+      "mvp": "data/3d/modules/root_den/mvp/basement_straight_ns_01.mvp",
+      "mvp_records": 0,
+      "name": "straight_rootden_ns__1",
+      "node_id": "_module_straight_rootden_ns_-node",
+      "position": [
+        0.0,
+        -6000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 2
+    },
+    {
+      "dae": "data/3d/modules/root_den/root_den_rooms.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/root_den/mgp/basement_corner_ne_01.mgp",
+      "mgp_records": 6,
+      "module_index": 2,
+      "mvp": "data/3d/modules/root_den/mvp/basement_corner_ne_01.mvp",
+      "mvp_records": 0,
+      "name": "corner_rootden_ne__2",
+      "node_id": "_module_corner_rootden_ne_-node",
+      "position": [
+        0.0,
+        -12000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 3
+    },
+    {
+      "dae": "data/3d/modules/root_den/root_den_rooms.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/root_den/mgp/basement_t_sew_01.mgp",
+      "mgp_records": 5,
+      "module_index": 3,
+      "mvp": "data/3d/modules/root_den/mvp/basement_t_sew_01.mvp",
+      "mvp_records": 0,
+      "name": "t_rootden_esw__3",
+      "node_id": "_module_t_rootden_esw_-node",
+      "position": [
+        6000.0,
+        -12000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 4
+    },
+    {
+      "dae": "data/3d/modules/root_den/root_den_rooms.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/root_den/mgp/basement_obj_n_01.mgp",
+      "mgp_records": 7,
+      "module_index": 4,
+      "mvp": "data/3d/modules/root_den/mvp/basement_deadend_n_01.mvp",
+      "mvp_records": 0,
+      "name": "deadend_rootden_n__4",
+      "node_id": "_module_deadend_rootden_n_-node",
+      "position": [
+        6000.0,
+        -18000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 5
+    },
+    {
+      "dae": "data/3d/modules/root_den/root_den_rooms.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/root_den/mgp/basement_corner_sw_01.mgp",
+      "mgp_records": 8,
+      "module_index": 5,
+      "mvp": "data/3d/modules/root_den/mvp/basement_corner_sw_01.mvp",
+      "mvp_records": 0,
+      "name": "corner_rootden_sw__5",
+      "node_id": "_module_corner_rootden_sw_-node",
+      "position": [
+        12000.0,
+        -12000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 6
+    },
+    {
+      "dae": "data/3d/modules/root_den/root_den_rooms.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/root_den/mgp/basement_corner_ne_01.mgp",
+      "mgp_records": 6,
+      "module_index": 6,
+      "mvp": "data/3d/modules/root_den/mvp/basement_corner_ne_01.mvp",
+      "mvp_records": 0,
+      "name": "corner_rootden_ne__6",
+      "node_id": "_module_corner_rootden_ne_-node",
+      "position": [
+        12000.0,
+        -18000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 7
+    },
+    {
+      "dae": "data/3d/modules/root_den/root_den_rooms.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/root_den/mgp/basement_deadend_w_01.mgp",
+      "mgp_records": 1,
+      "module_index": 7,
+      "mvp": "data/3d/modules/root_den/mvp/basement_deadend_w_01.mvp",
+      "mvp_records": 1,
+      "name": "deadend_rootden_w__7",
+      "node_id": "_module_deadend_rootden_w_-node",
+      "position": [
+        18000.0,
+        -18000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 8
+    }
+  ],
+  "scope": "authored static module transforms and unique unconditional spawn selectors; no gameplay activation",
+  "selectable_entrypoints": [
+    0
+  ],
+  "source_assets": [
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "bytes": 18208,
+      "path": "data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "sha256": "631dfe779d9933cf5c1ef7a45992cc71f646287c153103df7dee398ecbd129d1"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/root_den/mgp/basement_corner_ne_01.mgp",
+      "bytes": 3549,
+      "path": "data/3d/modules/root_den/mgp/basement_corner_ne_01.mgp",
+      "sha256": "01ad5b9774631151617aec84db227efade8784ba8c71cd6648462a58005e8a3a"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/root_den/mgp/basement_corner_sw_01.mgp",
+      "bytes": 4645,
+      "path": "data/3d/modules/root_den/mgp/basement_corner_sw_01.mgp",
+      "sha256": "51e780754cbaf3069efb5a4500d6e4e6c1b7a731451e774c6a689cd398383890"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/root_den/mgp/basement_deadend_s_01.mgp",
+      "bytes": 3965,
+      "path": "data/3d/modules/root_den/mgp/basement_deadend_s_01.mgp",
+      "sha256": "f0c280cfe5e1f1a9e15a59bb77c49e9a7494d3b226e0ebf45bb3e1e712dce76a"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/root_den/mgp/basement_deadend_w_01.mgp",
+      "bytes": 661,
+      "path": "data/3d/modules/root_den/mgp/basement_deadend_w_01.mgp",
+      "sha256": "7b8fd790208a966d1bc0e47e73b737ccbbb67e5c75d32fbd1daab79675f49e05"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/root_den/mgp/basement_obj_n_01.mgp",
+      "bytes": 2958,
+      "path": "data/3d/modules/root_den/mgp/basement_obj_n_01.mgp",
+      "sha256": "04bade8e6a3725f2db79a35d06fa29719fc819fd681c1af291ccc7393ab88c00"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/root_den/mgp/basement_straight_ns_01.mgp",
+      "bytes": 5192,
+      "path": "data/3d/modules/root_den/mgp/basement_straight_ns_01.mgp",
+      "sha256": "beade9ba47723b88fae4340a831d08703dd436cfca1c9426fadc26194d4d2be3"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/root_den/mgp/basement_t_sew_01.mgp",
+      "bytes": 2802,
+      "path": "data/3d/modules/root_den/mgp/basement_t_sew_01.mgp",
+      "sha256": "d96ef8e2b507d771c34190b667798b97365060367bea63deaabcf371e9cf7b47"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/root_den/mvp/basement_corner_ne_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/root_den/mvp/basement_corner_ne_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/root_den/mvp/basement_corner_sw_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/root_den/mvp/basement_corner_sw_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/root_den/mvp/basement_deadend_n_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/root_den/mvp/basement_deadend_n_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/root_den/mvp/basement_deadend_s_01.mvp",
+      "bytes": 784,
+      "path": "data/3d/modules/root_den/mvp/basement_deadend_s_01.mvp",
+      "sha256": "d193f427849696a951bb875d95fb01bf56aba77921f9b85920f5dbb33b04dbbf"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/root_den/mvp/basement_deadend_w_01.mvp",
+      "bytes": 779,
+      "path": "data/3d/modules/root_den/mvp/basement_deadend_w_01.mvp",
+      "sha256": "27d52d3646439bfd4f0f4f11ae7571a143d899b98df2fe651593194ef1c08d2d"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/root_den/mvp/basement_straight_ns_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/root_den/mvp/basement_straight_ns_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/root_den/mvp/basement_t_sew_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/root_den/mvp/basement_t_sew_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/root_den/root_den_rooms.bdae",
+      "bytes": 3388468,
+      "path": "data/3d/modules/root_den/root_den_rooms.bdae",
+      "sha256": "8e241755c75d714873bde272edd2d2cfb1ffddc00ee141a178b77469272d87eb"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/scene/x06_basement_backup.mlx",
+      "bytes": 8501,
+      "path": "data/scene/x06_basement_backup.mlx",
+      "sha256": "7403c53e7403387f34e426613ebd1ebbc586f4caf0a25622e41c535673618431"
+    }
+  ],
+  "source_layout": "data/scene/x06_basement_backup.mlx",
+  "spawn_point_count": 1,
+  "texture_hints": {
+    "data/3d/modules/root_den/root_den_rooms.bdae": {
+      "found_in_cache_not_copied": [
+        "data/3d/textures/env_root_den.tga",
+        "data/3d/textures/env_root_den_spec.tga",
+        "data/3d/textures/pvr2_env_root_den_alpha.tga"
+      ],
+      "missing_from_cache": []
+    }
+  },
+  "unsupported_entrypoints": [],
+  "unsupported_spawn_id_groups": []
+}

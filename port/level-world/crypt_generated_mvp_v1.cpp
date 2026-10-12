@@ -91,6 +91,34 @@ bool valid_transform(const GeneratedCryptAnimatedDecorV1& row) {
 
 }  // namespace
 
+bool generated_crypt_module_daes_v1(
+    const std::uint8_t* level_xml, std::size_t level_size,
+    const char* level_name, const char* level_source_path,
+    std::vector<std::string>& output, std::string& error) {
+  output.clear();
+  error.clear();
+  SourceOwner source;
+  Diagnostic diagnostic{};
+  if (!level_xml || !level_size || !level_name || !*level_name ||
+      !level_source_path ||
+      dh2_world_import_level(&source.value, level_name, level_source_path,
+          level_xml, level_size, &diagnostic) != Error::ok) {
+    error = diagnostic.message[0] ? diagnostic.message
+                                  : "Generated Level XML import failed";
+    return false;
+  }
+  for (std::uint32_t module = 0; module < source.value.module_count; ++module) {
+    const char* dae = source.value.modules[module].cache_dae;
+    if (!dae || !*dae) {
+      error = "Generated Module dae is missing";
+      output.clear();
+      return false;
+    }
+    output.emplace_back(dae);
+  }
+  return true;
+}
+
 bool compile_generated_crypt_animated_decor_v1(
     const std::uint8_t* level_xml, std::size_t level_size,
     const char* level_name, const char* level_source_path,
@@ -121,7 +149,9 @@ bool compile_generated_crypt_animated_decor_v1(
   }
 
   for (std::uint32_t module = 0; module < source.value.module_count; ++module) {
-    if (!mvps[module].source_path || !mvps[module].data || !mvps[module].size) {
+    // A Module whose rule names no (or a non-existent) visual file loads none.
+    if (!mvps[module].data || !mvps[module].size) continue;
+    if (!mvps[module].source_path) {
       error = "Generated Crypt MVP input is incomplete";
       return false;
     }

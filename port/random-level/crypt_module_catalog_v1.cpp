@@ -461,8 +461,8 @@ CryptModuleAssetV1 audit_asset(
   CryptModuleAssetV1 asset;
   asset.key = key;
 
-  if (key.name.empty() || key.gameplay.empty() || key.visual.empty()) {
-    add_issue(asset, "rule candidate has an empty name/gameplay/visual field");
+  if (key.name.empty()) {
+    add_issue(asset, "rule candidate has an empty name field");
     return asset;
   }
 
@@ -495,17 +495,36 @@ CryptModuleAssetV1 audit_asset(
     }
   }
 
+  // Empty or non-existent gameplay/visual files are not an error: the original
+  // loads nothing for them (see CryptModuleAssetV1::gameplay_present).
+  const auto optional_file_exists = [](const ExactDirectory& directory,
+                                       std::string_view filename) {
+    if (filename.empty()) return false;
+    const std::string key(filename);
+    return directory.files.find(key) != directory.files.end() ||
+           directory.memory_files.find(key) != directory.memory_files.end();
+  };
   std::string file_issue;
-  asset.gameplay_file_valid = validate_binary_asset(
-      mgp_directory, paths.mgp_directory, key.gameplay, ".mgp",
-      asset.gameplay_size, file_issue);
-  if (!asset.gameplay_file_valid) add_issue(asset, "gameplay: " + file_issue);
+  asset.gameplay_present = optional_file_exists(mgp_directory, key.gameplay);
+  if (asset.gameplay_present) {
+    asset.gameplay_file_valid = validate_binary_asset(
+        mgp_directory, paths.mgp_directory, key.gameplay, ".mgp",
+        asset.gameplay_size, file_issue);
+    if (!asset.gameplay_file_valid) add_issue(asset, "gameplay: " + file_issue);
+  } else {
+    asset.gameplay_file_valid = true;
+  }
 
   file_issue.clear();
-  asset.visual_file_valid = validate_binary_asset(
-      mvp_directory, paths.mvp_directory, key.visual, ".mvp",
-      asset.visual_size, file_issue);
-  if (!asset.visual_file_valid) add_issue(asset, "visual: " + file_issue);
+  asset.visual_present = optional_file_exists(mvp_directory, key.visual);
+  if (asset.visual_present) {
+    asset.visual_file_valid = validate_binary_asset(
+        mvp_directory, paths.mvp_directory, key.visual, ".mvp",
+        asset.visual_size, file_issue);
+    if (!asset.visual_file_valid) add_issue(asset, "visual: " + file_issue);
+  } else {
+    asset.visual_file_valid = true;
+  }
 
   const std::string mvx_filename = key.name + ".mvx";
   if (!safe_ascii_basename(mvx_filename, ".mvx")) {

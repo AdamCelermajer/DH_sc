@@ -1,0 +1,881 @@
+{
+  "source_layout": "data/scene/x12_earth_temple_02_backup.mlx",
+  "selected_characters": 14,
+  "source_character_records": 47,
+  "selection": "direct Monster; no activation/deactivation condition; auto_spawn != 0; initial ai_state absent or Idle",
+  "actors": [
+    {
+      "kind": 1,
+      "room": 0,
+      "name": "_prim_Monster",
+      "character": "EarthTemple_SmallPlant",
+      "model": "small_plant.bdae",
+      "model_path": "data/3d/characters/plants/small_plant.bdae",
+      "animation_table": 66,
+      "position": [
+        343.024,
+        838.587,
+        325.611
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        30.5875
+      ],
+      "scale": [
+        0.6,
+        0.6,
+        0.6
+      ],
+      "source_mgp": "data/3d/modules/earth_temple/mgp/et02_deadend_toet01_s__01.mgp",
+      "source_record": 6
+    },
+    {
+      "kind": 1,
+      "room": 0,
+      "name": "_prim_Monster01_001",
+      "character": "EarthTemple_SmallPlant",
+      "model": "small_plant.bdae",
+      "model_path": "data/3d/characters/plants/small_plant.bdae",
+      "animation_table": 66,
+      "position": [
+        940.227,
+        201.126,
+        325.611
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        30.5875
+      ],
+      "scale": [
+        0.6,
+        0.6,
+        0.6
+      ],
+      "source_mgp": "data/3d/modules/earth_temple/mgp/et02_deadend_toet01_s__01.mgp",
+      "source_record": 9
+    },
+    {
+      "kind": 1,
+      "room": 0,
+      "name": "_prim_Monster02",
+      "character": "EarthTemple_SmallPlant",
+      "model": "small_plant.bdae",
+      "model_path": "data/3d/characters/plants/small_plant.bdae",
+      "animation_table": 66,
+      "position": [
+        -149.695,
+        651.556,
+        325.611
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        30.5875
+      ],
+      "scale": [
+        0.6,
+        0.6,
+        0.6
+      ],
+      "source_mgp": "data/3d/modules/earth_temple/mgp/et02_deadend_toet01_s__01.mgp",
+      "source_record": 10
+    },
+    {
+      "kind": 1,
+      "room": 1,
+      "name": "_prim_Monster01",
+      "character": "EarthTemple_Spider_helper",
+      "model": "spider_green.bdae",
+      "model_path": "data/3d/characters/spider/spider_green.bdae",
+      "animation_table": 67,
+      "position": [
+        1544.76,
+        -7450.5,
+        -423.726
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        0.75,
+        0.75,
+        0.75
+      ],
+      "source_mgp": "data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp",
+      "source_record": 7
+    },
+    {
+      "kind": 1,
+      "room": 1,
+      "name": "_prim_Monster03",
+      "character": "EarthTemple_Spider_helper",
+      "model": "spider_green.bdae",
+      "model_path": "data/3d/characters/spider/spider_green.bdae",
+      "animation_table": 67,
+      "position": [
+        375.321,
+        -8069.8,
+        -301.865
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        0.75,
+        0.75,
+        0.75
+      ],
+      "source_mgp": "data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp",
+      "source_record": 9
+    },
+    {
+      "kind": 1,
+      "room": 1,
+      "name": "_prim_Monster04",
+      "character": "EarthTemple_Spider_helper",
+      "model": "spider_green.bdae",
+      "model_path": "data/3d/characters/spider/spider_green.bdae",
+      "animation_table": 67,
+      "position": [
+        1632.14,
+        -6481.49,
+        -306.565
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        0.75,
+        0.75,
+        0.75
+      ],
+      "source_mgp": "data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp",
+      "source_record": 10
+    },
+    {
+      "kind": 1,
+      "room": 1,
+      "name": "_prim_Monster05",
+      "character": "EarthTemple_Goblin_Shaman_BOSS",
+      "model": "shaman.bdae",
+      "model_path": "data/3d/characters/goblin/shaman.bdae",
+      "animation_table": 27,
+      "position": [
+        -315.486,
+        -5647.355,
+        22.1448
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.3,
+        1.3,
+        1.3
+      ],
+      "source_mgp": "data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp",
+      "source_record": 11
+    },
+    {
+      "kind": 1,
+      "room": 1,
+      "name": "_prim_Monster06",
+      "character": "EarthTemple_Goblin_Rogue_HELPER",
+      "model": "goblin_warrior.bdae",
+      "model_path": "data/3d/characters/goblin/goblin_warrior.bdae",
+      "animation_table": 25,
+      "position": [
+        -838.274,
+        -5721.352,
+        22.1448
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp",
+      "source_record": 12
+    },
+    {
+      "kind": 1,
+      "room": 1,
+      "name": "_prim_Monster07",
+      "character": "EarthTemple_Goblin_Rogue_HELPER",
+      "model": "goblin_warrior.bdae",
+      "model_path": "data/3d/characters/goblin/goblin_warrior.bdae",
+      "animation_table": 25,
+      "position": [
+        -411.895,
+        -5189.023,
+        22.1448
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp",
+      "source_record": 13
+    },
+    {
+      "kind": 1,
+      "room": 1,
+      "name": "_prim_Monster08",
+      "character": "EarthTemple_Goblin_Rogue_HELPER",
+      "model": "goblin_warrior.bdae",
+      "model_path": "data/3d/characters/goblin/goblin_warrior.bdae",
+      "animation_table": 25,
+      "position": [
+        -411.895,
+        -4661.49,
+        22.1448
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp",
+      "source_record": 14
+    },
+    {
+      "kind": 1,
+      "room": 1,
+      "name": "_prim_Monster09",
+      "character": "EarthTemple_Goblin_Rogue_HELPER",
+      "model": "goblin_warrior.bdae",
+      "model_path": "data/3d/characters/goblin/goblin_warrior.bdae",
+      "animation_table": 25,
+      "position": [
+        -1363.46,
+        -5721.352,
+        22.1448
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp",
+      "source_record": 15
+    },
+    {
+      "kind": 1,
+      "room": 5,
+      "name": "_prim_EL_midboss",
+      "character": "ET_Treething",
+      "model": "treething.bdae",
+      "model_path": "data/3d/characters/asassin_demon/treething.bdae",
+      "animation_table": 72,
+      "position": [
+        -6000.0,
+        -18265.76,
+        48.6206
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        180.0
+      ],
+      "scale": [
+        0.85,
+        0.85,
+        0.85
+      ],
+      "source_mgp": "data/3d/modules/earth_temple/mgp/et02_midboss_earthtemp_ns__01.mgp",
+      "source_record": 0
+    },
+    {
+      "kind": 1,
+      "room": 5,
+      "name": "_prim_Monster10_001",
+      "character": "EarthTemple_SmallPlantMinion",
+      "model": "small_plant.bdae",
+      "model_path": "data/3d/characters/plants/small_plant.bdae",
+      "animation_table": 65,
+      "position": [
+        -7074.15,
+        -17985.5703,
+        17.4679
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        89.0142
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/earth_temple/mgp/et02_midboss_earthtemp_ns__01.mgp",
+      "source_record": 4
+    },
+    {
+      "kind": 1,
+      "room": 5,
+      "name": "_prim_Monster10_002",
+      "character": "EarthTemple_SmallPlantMinion",
+      "model": "small_plant.bdae",
+      "model_path": "data/3d/characters/plants/small_plant.bdae",
+      "animation_table": 65,
+      "position": [
+        -6003.91992,
+        -18596.52,
+        17.4679
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        178.944
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/earth_temple/mgp/et02_midboss_earthtemp_ns__01.mgp",
+      "source_record": 5
+    }
+  ],
+  "animation_states": [
+    {
+      "table": 25,
+      "character": "GoblinMelee",
+      "state": "Idle",
+      "sequence": 231
+    },
+    {
+      "table": 25,
+      "character": "GoblinMelee",
+      "state": "Walk",
+      "sequence": 242
+    },
+    {
+      "table": 25,
+      "character": "GoblinMelee",
+      "state": "Attack",
+      "sequence": 237
+    },
+    {
+      "table": 25,
+      "character": "GoblinMelee",
+      "state": "Died",
+      "sequence": 238
+    },
+    {
+      "table": 27,
+      "character": "GoblinShaman",
+      "state": "Idle",
+      "sequence": 231
+    },
+    {
+      "table": 27,
+      "character": "GoblinShaman",
+      "state": "Walk",
+      "sequence": 242
+    },
+    {
+      "table": 27,
+      "character": "GoblinShaman",
+      "state": "Attack",
+      "sequence": 235
+    },
+    {
+      "table": 27,
+      "character": "GoblinShaman",
+      "state": "Died",
+      "sequence": 236
+    },
+    {
+      "table": 65,
+      "character": "SmallMinionPlant",
+      "state": "Idle",
+      "sequence": 625
+    },
+    {
+      "table": 65,
+      "character": "SmallMinionPlant",
+      "state": "Walk",
+      "sequence": 629
+    },
+    {
+      "table": 65,
+      "character": "SmallMinionPlant",
+      "state": "Attack",
+      "sequence": -1
+    },
+    {
+      "table": 65,
+      "character": "SmallMinionPlant",
+      "state": "Died",
+      "sequence": 624
+    },
+    {
+      "table": 66,
+      "character": "SmallPlant",
+      "state": "Idle",
+      "sequence": 625
+    },
+    {
+      "table": 66,
+      "character": "SmallPlant",
+      "state": "Walk",
+      "sequence": 629
+    },
+    {
+      "table": 66,
+      "character": "SmallPlant",
+      "state": "Attack",
+      "sequence": -1
+    },
+    {
+      "table": 66,
+      "character": "SmallPlant",
+      "state": "Died",
+      "sequence": 624
+    },
+    {
+      "table": 67,
+      "character": "Spider",
+      "state": "Idle",
+      "sequence": 643
+    },
+    {
+      "table": 67,
+      "character": "Spider",
+      "state": "Walk",
+      "sequence": 650
+    },
+    {
+      "table": 67,
+      "character": "Spider",
+      "state": "Attack",
+      "sequence": 637
+    },
+    {
+      "table": 67,
+      "character": "Spider",
+      "state": "Died",
+      "sequence": 641
+    },
+    {
+      "table": 72,
+      "character": "Treething",
+      "state": "Idle",
+      "sequence": 34
+    },
+    {
+      "table": 72,
+      "character": "Treething",
+      "state": "Walk",
+      "sequence": 41
+    },
+    {
+      "table": 72,
+      "character": "Treething",
+      "state": "Attack",
+      "sequence": 697
+    },
+    {
+      "table": 72,
+      "character": "Treething",
+      "state": "Died",
+      "sequence": 699
+    }
+  ],
+  "clip_ids": [
+    3,
+    9,
+    10,
+    22,
+    718,
+    719,
+    720,
+    724,
+    733,
+    734,
+    739,
+    740,
+    741,
+    744,
+    745,
+    746,
+    753,
+    1271,
+    1273,
+    1282,
+    1283,
+    1284,
+    1285,
+    1287,
+    1294,
+    1295,
+    1297,
+    1298,
+    1303,
+    1354,
+    1355,
+    1356
+  ],
+  "dact": {
+    "bytes": 3600,
+    "sha256": "466914a25a7f1bed85ab322baed6accc5b6df36cf3002ec5437aa08450e5fbf2"
+  },
+  "assets": [
+    {
+      "asset": "actors/assassindemon_dying.bdae",
+      "bytes": 11764,
+      "sha256": "f6cf40232c11f6295e4db1255c8b46141ccaf9005ece8048dd3d41b7e23ac793",
+      "source": "data/3d/characters/asassin_demon/animations/assassindemon_dying.bdae",
+      "source_file": "assassindemon_dying.bdae"
+    },
+    {
+      "asset": "actors/assassindemon_idle_01.bdae",
+      "bytes": 24456,
+      "sha256": "c5c10615b3a5155e4aebaf23e8c3fc8d0c40ccf11cfaf2d6a431e3a96d87df14",
+      "source": "data/3d/characters/asassin_demon/animations/assassindemon_idle_01.bdae",
+      "source_file": "assassindemon_idle_01.bdae"
+    },
+    {
+      "asset": "actors/assassindemon_idle_02.bdae",
+      "bytes": 21372,
+      "sha256": "e5a803b196770507c8c853154f6f81499b72941e3ad788f1d622695ee1788175",
+      "source": "data/3d/characters/asassin_demon/animations/assassindemon_idle_02.bdae",
+      "source_file": "assassindemon_idle_02.bdae"
+    },
+    {
+      "asset": "actors/assassindemon_walk.bdae",
+      "bytes": 12292,
+      "sha256": "6d2bdc0b5a8818bbcb8646eac8a8622e443602bca998f85b285e746f6f0bfa97",
+      "source": "data/3d/characters/asassin_demon/animations/assassindemon_walk.bdae",
+      "source_file": "assassindemon_walk.bdae"
+    },
+    {
+      "asset": "actors/goblin_attack_01.bdae",
+      "bytes": 7316,
+      "sha256": "c8e81183fe0e549a631144f9c17bf5e93b719057ae055fbbf54fc0c04070927f",
+      "source": "data/3d/characters/goblin/animations/goblin_attack_01.bdae",
+      "source_file": "goblin_attack_01.bdae"
+    },
+    {
+      "asset": "actors/goblin_attack_02.bdae",
+      "bytes": 7628,
+      "sha256": "faa0b4b297b4b1422e497188828372576f61fa535a66a82dad8636b9705092f1",
+      "source": "data/3d/characters/goblin/animations/goblin_attack_02.bdae",
+      "source_file": "goblin_attack_02.bdae"
+    },
+    {
+      "asset": "actors/goblin_attack_03.bdae",
+      "bytes": 7336,
+      "sha256": "7963992231cdf30bc425436d23d0445cea1ce122c3591e689ebcdfdfbfd915a6",
+      "source": "data/3d/characters/goblin/animations/goblin_attack_03.bdae",
+      "source_file": "goblin_attack_03.bdae"
+    },
+    {
+      "asset": "actors/goblin_dying_01.bdae",
+      "bytes": 16488,
+      "sha256": "c2f3705e26f3734190e98e651568615464aef90e28dca5058d90dfc173576adb",
+      "source": "data/3d/characters/goblin/animations/goblin_dying_01.bdae",
+      "source_file": "goblin_dying_01.bdae"
+    },
+    {
+      "asset": "actors/goblin_idle_01.bdae",
+      "bytes": 10152,
+      "sha256": "31c29a1f957191541d3c16c42ff0b4734aa97d7c57333925cbded7309e0c2c3c",
+      "source": "data/3d/characters/goblin/animations/goblin_idle_01.bdae",
+      "source_file": "goblin_idle_01.bdae"
+    },
+    {
+      "asset": "actors/goblin_idle_02.bdae",
+      "bytes": 10616,
+      "sha256": "9cfac6409b2a91eaa0144f959f4ea2c3820f7b80c24214d3ed1d9dcbb60584e3",
+      "source": "data/3d/characters/goblin/animations/goblin_idle_02.bdae",
+      "source_file": "goblin_idle_02.bdae"
+    },
+    {
+      "asset": "actors/goblin_post_attack_01.bdae",
+      "bytes": 7900,
+      "sha256": "6311cc20c135a4a46158e0be614966391e2f10775d15b2d9cd52d4ca2c6c2197",
+      "source": "data/3d/characters/goblin/animations/goblin_post_attack_01.bdae",
+      "source_file": "goblin_post_attack_01.bdae"
+    },
+    {
+      "asset": "actors/goblin_post_attack_02.bdae",
+      "bytes": 8028,
+      "sha256": "5759290fe6e6829c62144af153d846d16d9628513cdb48ebca4c48a5938be8d3",
+      "source": "data/3d/characters/goblin/animations/goblin_post_attack_02.bdae",
+      "source_file": "goblin_post_attack_02.bdae"
+    },
+    {
+      "asset": "actors/goblin_post_attack_03.bdae",
+      "bytes": 7808,
+      "sha256": "fd2545dd47b590d5f4c887012df24dd232c58343919001a136d241ffa009dfc4",
+      "source": "data/3d/characters/goblin/animations/goblin_post_attack_03.bdae",
+      "source_file": "goblin_post_attack_03.bdae"
+    },
+    {
+      "asset": "actors/goblin_pre_attack_01.bdae",
+      "bytes": 9540,
+      "sha256": "f44f937ca1a1a3a74a5d4646c2339e232cf8080b0663b8fab49d90fe4b7db476",
+      "source": "data/3d/characters/goblin/animations/goblin_pre_attack_01.bdae",
+      "source_file": "goblin_pre_attack_01.bdae"
+    },
+    {
+      "asset": "actors/goblin_pre_attack_02.bdae",
+      "bytes": 6668,
+      "sha256": "b04c8a6d08b3a5ea9e86ac655226eae3ddf1e2293a7627d9cc0651cea8fb81e2",
+      "source": "data/3d/characters/goblin/animations/goblin_pre_attack_02.bdae",
+      "source_file": "goblin_pre_attack_02.bdae"
+    },
+    {
+      "asset": "actors/goblin_pre_attack_03.bdae",
+      "bytes": 6092,
+      "sha256": "105550043ff73c22c69a788bb9c021b105b92ccf2da9d0b8cb3e769311306a62",
+      "source": "data/3d/characters/goblin/animations/goblin_pre_attack_03.bdae",
+      "source_file": "goblin_pre_attack_03.bdae"
+    },
+    {
+      "asset": "actors/goblin_walk_01.bdae",
+      "bytes": 10808,
+      "sha256": "d841d5ef20cfdc1098b8c072b78b8f305337cf2f784c63b47b601ae1125fdf19",
+      "source": "data/3d/characters/goblin/animations/goblin_walk_01.bdae",
+      "source_file": "goblin_walk_01.bdae"
+    },
+    {
+      "asset": "actors/goblin_warrior.bdae",
+      "bytes": 60816,
+      "sha256": "544effd413eba888d4a3dbff9020832474807a90f93ad9d6b042fdfddf3d67af",
+      "source": "data/3d/characters/goblin/goblin_warrior.bdae",
+      "source_file": "goblin_warrior.bdae"
+    },
+    {
+      "asset": "actors/shaman.bdae",
+      "bytes": 60404,
+      "sha256": "abbc1583d9c37491af27fb2a809d564899ca0bc9dd425a1326d28c08ab05bd83",
+      "source": "data/3d/characters/goblin/shaman.bdae",
+      "source_file": "shaman.bdae"
+    },
+    {
+      "asset": "actors/small_plant.bdae",
+      "bytes": 35480,
+      "sha256": "f3901f72f0f45fb46ce497a0030635f6fd61b039a5ed48cc35f950a14baff4d4",
+      "source": "data/3d/characters/plants/small_plant.bdae",
+      "source_file": "small_plant.bdae"
+    },
+    {
+      "asset": "actors/small_plant_dying.bdae",
+      "bytes": 8444,
+      "sha256": "06e0ef0bdd375c581e724512f72508adb1294ca8ac1e39af1bebe4c351ef0aba",
+      "source": "data/3d/characters/plants/animations/small_plant_dying.bdae",
+      "source_file": "small_plant_dying.bdae"
+    },
+    {
+      "asset": "actors/small_plant_idle.bdae",
+      "bytes": 7840,
+      "sha256": "da582fa3d354e72762d5915efa805c0728e6eba0bb424e2b35fb583d063ef44c",
+      "source": "data/3d/characters/plants/animations/small_plant_idle.bdae",
+      "source_file": "small_plant_idle.bdae"
+    },
+    {
+      "asset": "actors/spider_attack_01.bdae",
+      "bytes": 16568,
+      "sha256": "5b3cba54095d72ba35bea1be8e332217f0d544cecffece041d0772b048860049",
+      "source": "data/3d/characters/spider/animations/spider_attack_01.bdae",
+      "source_file": "spider_attack_01.bdae"
+    },
+    {
+      "asset": "actors/spider_attack_01_to_idle.bdae",
+      "bytes": 19304,
+      "sha256": "a8c94cdb15b145a98d74536d8c06eefe4feb94bce417dcb1c3e9d55dbf87c789",
+      "source": "data/3d/characters/spider/animations/spider_attack_01_to_idle.bdae",
+      "source_file": "spider_attack_01_to_idle.bdae"
+    },
+    {
+      "asset": "actors/spider_attack_02.bdae",
+      "bytes": 17124,
+      "sha256": "0336868e284feab3f082807e6789093cab194085a3a81be32a814f005a114c02",
+      "source": "data/3d/characters/spider/animations/spider_attack_02.bdae",
+      "source_file": "spider_attack_02.bdae"
+    },
+    {
+      "asset": "actors/spider_attack_02_to_idle.bdae",
+      "bytes": 19408,
+      "sha256": "b31eeacc5283becf495c466cd7fe5e22756525f5cff5ab6d84c38cd8b4dbaf26",
+      "source": "data/3d/characters/spider/animations/spider_attack_02_to_idle.bdae",
+      "source_file": "spider_attack_02_to_idle.bdae"
+    },
+    {
+      "asset": "actors/spider_dying.bdae",
+      "bytes": 30004,
+      "sha256": "ff809027143df8d6a4d50f457700bbf9f89d88c1dee03b4f26b27e1ccef5554e",
+      "source": "data/3d/characters/spider/animations/spider_dying.bdae",
+      "source_file": "spider_dying.bdae"
+    },
+    {
+      "asset": "actors/spider_green.bdae",
+      "bytes": 65012,
+      "sha256": "90e02c03928ad4a58ac2d692e947e2711bcce0b1a6346e7fcbcf7950a8860b53",
+      "source": "data/3d/characters/spider/spider_green.bdae",
+      "source_file": "spider_green.bdae"
+    },
+    {
+      "asset": "actors/spider_idle.bdae",
+      "bytes": 20308,
+      "sha256": "eecb55a4e75c9aaab6a261440b1d66e740fbaa89ed3ec1154e6b5067165060e4",
+      "source": "data/3d/characters/spider/animations/spider_idle.bdae",
+      "source_file": "spider_idle.bdae"
+    },
+    {
+      "asset": "actors/spider_idle_02.bdae",
+      "bytes": 23896,
+      "sha256": "51033f79e2f25a4381c3bb18f10a7c68ab3c54cf906b3660b89d9c3f852470b1",
+      "source": "data/3d/characters/spider/animations/spider_idle_02.bdae",
+      "source_file": "spider_idle_02.bdae"
+    },
+    {
+      "asset": "actors/spider_pre_attack_01.bdae",
+      "bytes": 19004,
+      "sha256": "546dbc2ed5b9b610699aeac1d5b10f633c27bd681ce17b4f49626c44758792e1",
+      "source": "data/3d/characters/spider/animations/spider_pre_attack_01.bdae",
+      "source_file": "spider_pre_attack_01.bdae"
+    },
+    {
+      "asset": "actors/spider_pre_attack_02.bdae",
+      "bytes": 18404,
+      "sha256": "edaab2688f5181101292a25d2b837e5237e8f743d1e2de942e78555fc50441c7",
+      "source": "data/3d/characters/spider/animations/spider_pre_attack_02.bdae",
+      "source_file": "spider_pre_attack_02.bdae"
+    },
+    {
+      "asset": "actors/spider_walk.bdae",
+      "bytes": 20960,
+      "sha256": "2b9942326f436b99b30c8d9e8ebc8cc90b56c4cd2e52292db4dead16bc9eaa1f",
+      "source": "data/3d/characters/spider/animations/spider_walk.bdae",
+      "source_file": "spider_walk.bdae"
+    },
+    {
+      "asset": "actors/treething.bdae",
+      "bytes": 60840,
+      "sha256": "d565b159dcba66a8f47ed2813151ec6b2b3fd5a88f905688990e417dd7317f70",
+      "source": "data/3d/characters/asassin_demon/treething.bdae",
+      "source_file": "treething.bdae"
+    },
+    {
+      "asset": "actors/treething_attack_01.bdae",
+      "bytes": 23368,
+      "sha256": "25e2e2a5d8ffac8d38b6e80f1aaa6da40123190bd87467b70cb0f52ab8e13304",
+      "source": "data/3d/characters/asassin_demon/animations/treething_attack_01.bdae",
+      "source_file": "treething_attack_01.bdae"
+    },
+    {
+      "asset": "actors/treething_attack_02.bdae",
+      "bytes": 10772,
+      "sha256": "44a8aa8fd7046ce26eb1e6491e750045a35afce09bd47061071d16814705ff57",
+      "source": "data/3d/characters/asassin_demon/animations/treething_attack_02.bdae",
+      "source_file": "treething_attack_02.bdae"
+    },
+    {
+      "asset": "actors/treething_attack_03.bdae",
+      "bytes": 23616,
+      "sha256": "351b4489a7448e01a5af3fc26d9fd0475ef1ba4139dbe1e78dd97f7ad91edc71",
+      "source": "data/3d/characters/asassin_demon/animations/treething_attack_03.bdae",
+      "source_file": "treething_attack_03.bdae"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001.tga",
+      "bytes": 524348,
+      "sha256": "12b326ab884126622721864edb49ab7e30bafb21a269d11db4f185515e4eca7c",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001.tga",
+      "source_file": "atlas_dh2_game_objects_001.tga"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001_alpha.tga",
+      "bytes": 524348,
+      "sha256": "4989829958943daff0d0b977ae98c52def30bb0c966dba21d19e949f9321fc79",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001_alpha.tga",
+      "source_file": "atlas_dh2_game_objects_001_alpha.tga"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001_specular.tga",
+      "bytes": 131132,
+      "sha256": "49c66c6eab5b957acadcf1f8216eb4720ed69b60f86a2b8776505bf54a5d7398",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001_specular.tga",
+      "source_file": "atlas_dh2_game_objects_001_specular.tga"
+    },
+    {
+      "asset": "textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+      "bytes": 524348,
+      "sha256": "b481139257068aca633269161be908e66f839f241f7b42b035337c705e121e83",
+      "source": "data/3d/textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+      "source_file": "atlas_skinned_characters_animdecor_gameobjects_001.tga"
+    },
+    {
+      "asset": "textures/atlas_skinned_characters_animdecor_gameobjects_002.tga",
+      "bytes": 524348,
+      "sha256": "80bb4294c81a677bca7b2725ca170c4bbd663ccfc6d05c7c57399413f0a44309",
+      "source": "data/3d/textures/atlas_skinned_characters_animdecor_gameobjects_002.tga",
+      "source_file": "atlas_skinned_characters_animdecor_gameobjects_002.tga"
+    },
+    {
+      "asset": "textures/env_earth_temple.tga",
+      "bytes": 524348,
+      "sha256": "2853699d71695bdab8315640346a403e31b66ca6af6031913af85eb1d213b17c",
+      "source": "data/3d/textures/env_earth_temple.tga",
+      "source_file": "env_earth_temple.tga"
+    },
+    {
+      "asset": "textures/env_earth_temple_alpha.tga",
+      "bytes": 262204,
+      "sha256": "d1ef48eeb7dc850a6b8efe346af16fe1fbe12bc13e8cb90e998b14f2a5dd2495",
+      "source": "data/3d/textures/pvr2_env_earth_temple_alpha.tga",
+      "source_file": "pvr2_env_earth_temple_alpha.tga"
+    },
+    {
+      "asset": "textures/env_earth_temple_spec.tga",
+      "bytes": 131132,
+      "sha256": "0bc3b02490bb0814dc821eef69a7b91b0ce482a2a3b498ff2d6409e2e009e634",
+      "source": "data/3d/textures/env_earth_temple_spec.tga",
+      "source_file": "env_earth_temple_spec.tga"
+    },
+    {
+      "asset": "textures/prince-warrior.tga",
+      "bytes": 32828,
+      "sha256": "af5bfaae3745098b6d86627caa9f45ef3f28fccddd8cad06dda1fd1025f8d3eb",
+      "source": "data/3d/textures/prince-warrior.tga",
+      "source_file": "prince-warrior.tga"
+    }
+  ],
+  "runtime_gaps": "Module rotation/scale, conditional/template/NPC/container factories, source AI activation and LevelSavegame are not implied."
+}

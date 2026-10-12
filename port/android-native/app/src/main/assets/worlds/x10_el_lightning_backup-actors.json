@@ -1,0 +1,176 @@
+{
+  "source_layout": "data/scene/x10_el_lightning_backup.mlx",
+  "selected_characters": 1,
+  "source_character_records": 48,
+  "selection": "direct Monster; no activation/deactivation condition; auto_spawn != 0; initial ai_state absent or Idle",
+  "actors": [
+    {
+      "kind": 1,
+      "room": 6,
+      "name": "_prim_Monster_lightningboss",
+      "character": "El_Lightning",
+      "model": "witch.bdae",
+      "model_path": "data/3d/characters/witch/witch.bdae",
+      "animation_table": 76,
+      "position": [
+        12000.0,
+        18921.547,
+        382.13579999999996
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.25,
+        1.25,
+        1.25
+      ],
+      "source_mgp": "data/3d/modules/castle/mgp/boss_lightning.mgp",
+      "source_record": 3
+    }
+  ],
+  "animation_states": [
+    {
+      "table": 76,
+      "character": "Witch",
+      "state": "Idle",
+      "sequence": 762
+    },
+    {
+      "table": 76,
+      "character": "Witch",
+      "state": "Walk",
+      "sequence": 769
+    },
+    {
+      "table": 76,
+      "character": "Witch",
+      "state": "Attack",
+      "sequence": 756
+    },
+    {
+      "table": 76,
+      "character": "Witch",
+      "state": "Died",
+      "sequence": 760
+    }
+  ],
+  "clip_ids": [
+    1406,
+    1407,
+    1409,
+    1415,
+    1416,
+    1417,
+    1419,
+    1420,
+    1426
+  ],
+  "dact": {
+    "bytes": 272,
+    "sha256": "60b5c5c5938d18b6952dbfbd352ef042182a3123295c7ef1e2494e1792cc8647"
+  },
+  "assets": [
+    {
+      "asset": "actors/witch.bdae",
+      "bytes": 81980,
+      "sha256": "dc8b27e421e96b18d89962367459511f30cd01c8f3d6593cf6c0df3a1c462501",
+      "source": "data/3d/characters/witch/witch.bdae",
+      "source_file": "witch.bdae"
+    },
+    {
+      "asset": "actors/witch_attack_01.bdae",
+      "bytes": 11924,
+      "sha256": "c3a953e4ca0c4252ddc991975085e93eae98419b859ce5eaf9df7e3792d08ba1",
+      "source": "data/3d/characters/witch/animations/witch_attack_01.bdae",
+      "source_file": "witch_attack_01.bdae"
+    },
+    {
+      "asset": "actors/witch_attack_02.bdae",
+      "bytes": 13556,
+      "sha256": "c203f01c6811c170eb292c7a58f9f3845c3f69e5b7a25adcfc93159aed3e8ae6",
+      "source": "data/3d/characters/witch/animations/witch_attack_02.bdae",
+      "source_file": "witch_attack_02.bdae"
+    },
+    {
+      "asset": "actors/witch_dying.bdae",
+      "bytes": 11124,
+      "sha256": "35946d4e6c5351990ee07008f4d7f720708e3178cb9010f406bbe1fe1482d0df",
+      "source": "data/3d/characters/witch/animations/witch_dying.bdae",
+      "source_file": "witch_dying.bdae"
+    },
+    {
+      "asset": "actors/witch_idle.bdae",
+      "bytes": 28272,
+      "sha256": "e87ec8ef131b784472c73d7238226cba419cbcda0040224b9a0a2f1cf734af27",
+      "source": "data/3d/characters/witch/animations/witch_idle.bdae",
+      "source_file": "witch_idle.bdae"
+    },
+    {
+      "asset": "actors/witch_post_attack_01.bdae",
+      "bytes": 13484,
+      "sha256": "bbd10e5477b0fc7a3f793f8130180a3b1ab0d3d1bb6102779bd779285ec1ccd6",
+      "source": "data/3d/characters/witch/animations/witch_post_attack_01.bdae",
+      "source_file": "witch_post_attack_01.bdae"
+    },
+    {
+      "asset": "actors/witch_post_attack_02.bdae",
+      "bytes": 12076,
+      "sha256": "23d89a4859462a9e0b9300adb3b7cff32d096423a747dfa64c67e8911909c976",
+      "source": "data/3d/characters/witch/animations/witch_post_attack_02.bdae",
+      "source_file": "witch_post_attack_02.bdae"
+    },
+    {
+      "asset": "actors/witch_pre_attack_01.bdae",
+      "bytes": 10940,
+      "sha256": "c9fa4d208f150d14eb11e58cbcb45624afb2101cfd6e420237eb31b4cabedac9",
+      "source": "data/3d/characters/witch/animations/witch_pre_attack_01.bdae",
+      "source_file": "witch_pre_attack_01.bdae"
+    },
+    {
+      "asset": "actors/witch_pre_attack_02.bdae",
+      "bytes": 11004,
+      "sha256": "868cf4d6f780dec6e432c9b31cb327d031d6fcf5aca32dce98f4c0be9e064348",
+      "source": "data/3d/characters/witch/animations/witch_pre_attack_02.bdae",
+      "source_file": "witch_pre_attack_02.bdae"
+    },
+    {
+      "asset": "actors/witch_walk.bdae",
+      "bytes": 16584,
+      "sha256": "143e38543ad95a5450380f868578c1aa8a8b8db796f0af028bdd59ec96aa1abe",
+      "source": "data/3d/characters/witch/animations/witch_walk.bdae",
+      "source_file": "witch_walk.bdae"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001.tga",
+      "bytes": 524348,
+      "sha256": "12b326ab884126622721864edb49ab7e30bafb21a269d11db4f185515e4eca7c",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001.tga",
+      "source_file": "atlas_dh2_game_objects_001.tga"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001_alpha.tga",
+      "bytes": 524348,
+      "sha256": "4989829958943daff0d0b977ae98c52def30bb0c966dba21d19e949f9321fc79",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001_alpha.tga",
+      "source_file": "atlas_dh2_game_objects_001_alpha.tga"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001_specular.tga",
+      "bytes": 131132,
+      "sha256": "49c66c6eab5b957acadcf1f8216eb4720ed69b60f86a2b8776505bf54a5d7398",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001_specular.tga",
+      "source_file": "atlas_dh2_game_objects_001_specular.tga"
+    },
+    {
+      "asset": "textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+      "bytes": 524348,
+      "sha256": "b481139257068aca633269161be908e66f839f241f7b42b035337c705e121e83",
+      "source": "data/3d/textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+      "source_file": "atlas_skinned_characters_animdecor_gameobjects_001.tga"
+    }
+  ],
+  "runtime_gaps": "Module rotation/scale, conditional/template/NPC/container factories, source AI activation and LevelSavegame are not implied."
+}

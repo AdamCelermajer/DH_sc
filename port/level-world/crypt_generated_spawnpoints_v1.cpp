@@ -134,7 +134,7 @@ bool append_identity_level(const SourceLevel& original, std::string& xml) {
         const auto* mgp = dh2_world_field(&module, "mgp");
         const auto* mvp = dh2_world_field(&module, "mvp");
         const auto* xref = dh2_world_field(&module, "xrefobject");
-        if (!module.name || !type || !dae || !mgp || !mvp || !xref) return false;
+        if (!module.name || !type || !dae || !xref) return false;
         xml += "<GameObject";
         if (!append_xml_attribute(xml, "type", type) ||
             !append_xml_attribute(xml, "name", module.name) ||
@@ -143,8 +143,8 @@ bool append_identity_level(const SourceLevel& original, std::string& xml) {
             !append_xml_attribute(xml, "rotation", "0,0,0") ||
             !append_xml_attribute(xml, "scale", "1,1,1") ||
             !append_xml_attribute(xml, "dae", dae) ||
-            !append_xml_attribute(xml, "mgp", mgp) ||
-            !append_xml_attribute(xml, "mvp", mvp) ||
+            (mgp && !append_xml_attribute(xml, "mgp", mgp)) ||
+            (mvp && !append_xml_attribute(xml, "mvp", mvp)) ||
             !append_xml_attribute(xml, "xrefobject", xref)) return false;
         xml += "/>";
     }
@@ -294,6 +294,7 @@ static bool compile_generated_spawnpoints_impl_v1(
     }
 
     for (std::uint32_t i = 0; i < placements.value.module_count; ++i) {
+        if (!objects.value.modules[i].cache_mgp) continue;  // no gameplay file named
         if (!mgps[i].source_path || !mgps[i].data || !mgps[i].size) {
             set_error(error, "Generated MGP input is incomplete");
             return false;

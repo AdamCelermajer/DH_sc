@@ -376,16 +376,15 @@ extern "C" Error dh2_world_import_level(SourceLevel* output, const char* name, c
                 if (!dae || !*dae) result = fail(d, Error::missing_field, "Module asset reference missing");
                 else result = normalized_owned(module.cache_dae, dae, d);
             }
-            // MGP and MVP are optional as a pair (visual-only Modules have neither).
+            // MGP and MVP are each optional. Tile::SaveAsModuleXML (0x491d90) writes the
+            // "mgp"/"mvp" attribute only for a non-empty ListElem gameplay/visual, and
+            // Module::LoadModule (0x38a88c) loads only the files that are named, so a
+            // Module may have either file, both, or neither (visual-only Modules).
             const auto* mgp = dh2_world_field(&module.record, "mgp");
             const auto* mvp = dh2_world_field(&module.record, "mvp");
             const bool has_mgp = mgp && *mgp, has_mvp = mvp && *mvp;
-            if (result == Error::ok && has_mgp != has_mvp)
-                result = fail(d, Error::missing_field, "Module MGP and MVP must be both present or both absent");
-            if (result == Error::ok && has_mgp) {
-                result = normalized_owned(module.cache_mgp, mgp, d);
-                if (result == Error::ok) result = normalized_owned(module.cache_mvp, mvp, d);
-            }
+            if (result == Error::ok && has_mgp) result = normalized_owned(module.cache_mgp, mgp, d);
+            if (result == Error::ok && has_mvp) result = normalized_owned(module.cache_mvp, mvp, d);
             if (result != Error::ok) break;
             const auto* xref = dh2_world_field(&module.record, "xrefobject");
             if (!xref || !*xref || std::strlen(xref) > 240) {

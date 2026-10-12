@@ -65,6 +65,18 @@ class CompileError(ValueError):
     """An input did not satisfy the supported static-level source subset."""
 
 
+def backup_mlx_name(level_file: str) -> str:
+    """Level::_LoadProcess (0x3f6990) case 7 failure path for a generated level.
+
+    The first byte of the LevelList file name becomes 'x', the name is cut at its
+    first '.', and "_BACKUP.mlx" (0x8c6b38) is appended. The cache stores these
+    files in lower case, so the result is lower-cased like every cache path.
+    """
+    stem = "x" + level_file[1:]
+    stem = stem.split(".", 1)[0]
+    return (stem + "_BACKUP.mlx").lower()
+
+
 def sha256(raw: bytes) -> str:
     return hashlib.sha256(raw).hexdigest()
 
@@ -226,6 +238,7 @@ def _texture_hints(raw: bytes, index: dict[str, list[zipfile.ZipInfo]],
 def compile_level(cache_path: Path, output: Path, *, row: int, level_name: str,
                   mlx_name: str, out_prefix: str, render_assets: tuple[str, ...],
                   allow_conditional_entry_zero: bool = False,
+                  backup: bool = False,
                   expected_cache_sha256: str = EXPECTED_CACHE_SHA256) -> dict[str, object]:
     cache_hash = file_sha256(cache_path)
     if cache_hash != expected_cache_sha256:
@@ -253,12 +266,14 @@ def compile_level(cache_path: Path, output: Path, *, row: int, level_name: str,
             if len(catalogue.levels) <= row:
                 raise CompileError(f"LevelList has no row {row}")
             declaration = catalogue.levels[row]
-            if declaration.name != level_name or declaration.level_file.lower() != mlx_name.lower():
+            # --backup: the MLX is the _BACKUP fallback of a generated (.rule.xml) row.
+            expected_file = backup_mlx_name(declaration.level_file) if backup else declaration.level_file
+            if declaration.name != level_name or expected_file.lower() != mlx_name.lower():
                 raise CompileError(
                     f"LevelList row {row} is {declaration.name!r}/{declaration.level_file!r}; "
                     f"expected {level_name!r}/{mlx_name!r}")
 
-            level_path = canonical_cache_path(f"data/scene/{declaration.level_file}")
+            level_path = canonical_cache_path(f"data/scene/{expected_file}")
             level_raw, level_member = _read_source(
                 archive, source_index, level_path, limit=MAX_XML_BYTES)
             level_root = parse_xml(level_raw, "Level", level_path)
@@ -332,12 +347,12 @@ def compile_level(cache_path: Path, output: Path, *, row: int, level_name: str,
                     mvp = parse_xml(mvp_raw, "Module", paths["mvp"])
                     children = [("mgp", mgp, paths["mgp"]), ("mvp", mvp, paths["mvp"])]
 
-                # A repeated node id is legal only for visual-only placements (each
-                # placement is a separate room instance, e.g. MACHINE_ROOMS_01).
-                if any(existing["node_id"] == module_id and
-                       (existing["has_children"] or has_children)
-                       for existing in module_rows):
-                    raise CompileError(f"duplicate module node id {module_id!r}")
+                # A repeated node id is a separate room instance of the same template
+                # (visual-only placements, and the repeated tiles of a generated
+                # level's _BACKUP layout). Only a repeated Module instance name is
+                # ambiguous.
+                if any(existing["name"] == name for existing in module_rows):
+                    raise CompileError(f"duplicate module instance name {name!r}")
 
                 record_counts: dict[str, int] = {"mgp": 0, "mvp": 0}
                 for kind, module_xml, source_path in children:
@@ -591,6 +606,9 @@ def main() -> None:
     parser.add_argument("--out-prefix", help="output stem; default is the MLX basename without extension")
     parser.add_argument("--render-asset", action="append", default=[], metavar="CACHE_PATH",
         help="extra cache path to preserve in full (repeatable)")
+    parser.add_argument("--backup", action="store_true",
+        help="--mlx is the x<NN>_..._backup.mlx fallback that Level::_LoadProcess loads "
+             "when the row's generated level fails; validated against the row's LevelFile")
     parser.add_argument("--allow-conditional-entry-zero", action="store_true",
         help="if every ID-0 spawn is conditional, use the first source-order row as the "
              "DWLD start position (recorded as entrypoint_zero_policy in the manifest)")
@@ -611,7 +629,8 @@ def main() -> None:
     try:
         manifest = compile_level(args.cache, args.output, row=row, level_name=level_name,
             mlx_name=mlx_name, out_prefix=out_prefix, render_assets=render_assets,
-            allow_conditional_entry_zero=args.allow_conditional_entry_zero)
+            allow_conditional_entry_zero=args.allow_conditional_entry_zero,
+            backup=args.backup)
     except (CompileError, OSError, zipfile.BadZipFile, ValueError) as exc:
         parser.error(str(exc))
     print(json.dumps({"validation": "PASS", "output": str(args.output.resolve()),

@@ -1,0 +1,429 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "compiler": "compile_static_level.py",
+  "entrypoint_zero": {
+    "activate_condition": null,
+    "deactivate_condition": null,
+    "entrypoint_id": 0,
+    "local_position": [
+      -1553.14,
+      -1315.92,
+      306.415
+    ],
+    "local_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "local_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "module_index": 0,
+    "name": "_prim_EntryPoint",
+    "source_path": "data/3d/modules/castle/mgp/el_water_deadend_n_01.mgp",
+    "source_record": 1,
+    "world_position": [
+      -1553.14,
+      -1315.92,
+      306.415
+    ],
+    "world_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "world_scale": [
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "entrypoint_zero_candidates": 1,
+  "entrypoint_zero_policy": "unconditional_unique",
+  "entrypoint_zero_spread": 0.0,
+  "format": "dh2-static-level-bundle-v1",
+  "generated": {
+    "x24_el_water_backup.dae": {
+      "bytes": 280,
+      "sha256": "a0800f2ead12be041e5ce3e4510c1c024b00a62bec5089fc994ee17b80904e3a"
+    },
+    "x24_el_water_backup.dwld": {
+      "bytes": 1240,
+      "sha256": "a9c1ba967925d4ad8f9d7c68e0a66966e867cd4f95a03a68d0f8c80a4bbc3767"
+    },
+    "x24_el_water_backup.spwn": {
+      "bytes": 160,
+      "sha256": "e331c4ebac01af3a9044317e034adc556e14afcc5ed374a8ec17ab591052cf3a"
+    }
+  },
+  "level_list": {
+    "level_file": "024_el_water.rule.xml",
+    "name": "ELEMENTAL_WATER",
+    "row": 19
+  },
+  "level_list_inputs": {
+    "data/pydata/levels_pyarray.bin": {
+      "bytes": 5574,
+      "sha256": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c"
+    },
+    "data/pydata/levels_pyarraynames.bin": {
+      "bytes": 1943,
+      "sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432"
+    }
+  },
+  "module_count": 8,
+  "modules": [
+    {
+      "dae": "data/3d/modules/castle/castle.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/castle/mgp/el_water_deadend_n_01.mgp",
+      "mgp_records": 10,
+      "module_index": 0,
+      "mvp": "data/3d/modules/castle/mvp/elemental_deadend_startroom.mvp",
+      "mvp_records": 2,
+      "name": "deadend_n_0",
+      "node_id": "_module_deadend_n-node",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        -1.73028e-05
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 1
+    },
+    {
+      "dae": "data/3d/modules/castle/castle.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/castle/mgp/el_water_corner_se_01.mgp",
+      "mgp_records": 15,
+      "module_index": 1,
+      "mvp": "data/3d/modules/castle/mvp/elemental_corner_se_01.mvp",
+      "mvp_records": 4,
+      "name": "corner_se_1",
+      "node_id": "_module_corner_se-node",
+      "position": [
+        0.0,
+        6000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 2
+    },
+    {
+      "dae": "data/3d/modules/castle/castle.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/castle/mgp/el_water_straightb_ew_01.mgp",
+      "mgp_records": 12,
+      "module_index": 2,
+      "mvp": "data/3d/modules/castle/mvp/elemental_straightb_ew_01.mvp",
+      "mvp_records": 4,
+      "name": "straightb_ew_2",
+      "node_id": "_module_straightb_ew-node",
+      "position": [
+        6000.0,
+        6000.0,
+        -0.000213623
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 3
+    },
+    {
+      "dae": "data/3d/modules/castle/castle.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/castle/mgp/el_water_t_new_01.mgp",
+      "mgp_records": 22,
+      "module_index": 3,
+      "mvp": "data/3d/modules/castle/mvp/elemental_t_new_01.mvp",
+      "mvp_records": 6,
+      "name": "t_new_3",
+      "node_id": "_module_t_new-node",
+      "position": [
+        12000.0,
+        6000.0,
+        -0.940888
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 4
+    },
+    {
+      "dae": "data/3d/modules/castle/castle.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/castle/mgp/el_water_straighta_ns_01.mgp",
+      "mgp_records": 13,
+      "module_index": 4,
+      "mvp": "data/3d/modules/castle/mvp/elemental_straighta_ns_01.mvp",
+      "mvp_records": 4,
+      "name": "straighta_ns_4",
+      "node_id": "_module_straighta_ns-node",
+      "position": [
+        12000.0,
+        12000.0,
+        363.789
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 5
+    },
+    {
+      "dae": "data/3d/modules/castle/castle.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/castle/mgp/el_water_straighta_ns_01.mgp",
+      "mgp_records": 13,
+      "module_index": 5,
+      "mvp": "data/3d/modules/castle/mvp/elemental_straighta_ns_01.mvp",
+      "mvp_records": 4,
+      "name": "straighta_ns_5",
+      "node_id": "_module_straighta_ns-node",
+      "position": [
+        12000.0,
+        18000.0,
+        363.789
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 6
+    },
+    {
+      "dae": "data/3d/modules/castle/castle.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/castle/mgp/boss_water.mgp",
+      "mgp_records": 5,
+      "module_index": 6,
+      "mvp": "data/3d/modules/castle/mvp/elemental_objectiveroom_s_01.mvp",
+      "mvp_records": 3,
+      "name": "objectiveroom_s_6",
+      "node_id": "_module_objectiveroom_s-node",
+      "position": [
+        12000.0,
+        24000.0,
+        361.335
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 7
+    },
+    {
+      "dae": "data/3d/modules/castle/castle.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/castle/mgp/el_water_deadend_w_01.mgp",
+      "mgp_records": 10,
+      "module_index": 7,
+      "mvp": "data/3d/modules/castle/mvp/elemental_deadend_w_01.mvp",
+      "mvp_records": 4,
+      "name": "deadend_w_7",
+      "node_id": "_module_deadend_w-node",
+      "position": [
+        18000.0,
+        6000.0,
+        -660.911
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 8
+    }
+  ],
+  "scope": "authored static module transforms and unique unconditional spawn selectors; no gameplay activation",
+  "selectable_entrypoints": [
+    0
+  ],
+  "source_assets": [
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/castle/chandelier_castle.bdae",
+      "bytes": 31252,
+      "path": "data/3d/animateddecors/castle/chandelier_castle.bdae",
+      "sha256": "84098bbb6d5daac56fcd84c4a0e1248924a068da29bc436ac1f859d73997c9e8"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/castle/lustre_castle.bdae",
+      "bytes": 55416,
+      "path": "data/3d/animateddecors/castle/lustre_castle.bdae",
+      "sha256": "7eba53074deca5a20ecec6ceeeb62c280884864908fba9df9af37ddddd3e768b"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "bytes": 18208,
+      "path": "data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "sha256": "631dfe779d9933cf5c1ef7a45992cc71f646287c153103df7dee398ecbd129d1"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/castle.bdae",
+      "bytes": 5090680,
+      "path": "data/3d/modules/castle/castle.bdae",
+      "sha256": "4161190c1a4531767050be2c20af154e5ce436dac96ed9aadaaadeba7caaf287"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mgp/boss_water.mgp",
+      "bytes": 2006,
+      "path": "data/3d/modules/castle/mgp/boss_water.mgp",
+      "sha256": "040d82440949c1989c0c0388ebe4b87d20b35fa17bd39db1ca0842003bcb3a87"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mgp/el_water_corner_se_01.mgp",
+      "bytes": 6811,
+      "path": "data/3d/modules/castle/mgp/el_water_corner_se_01.mgp",
+      "sha256": "80610e49d7b73aeedb75f0f09d9d1f2cbe67492dfce1a16ed4ed766fe1be449f"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mgp/el_water_deadend_n_01.mgp",
+      "bytes": 4025,
+      "path": "data/3d/modules/castle/mgp/el_water_deadend_n_01.mgp",
+      "sha256": "bfa1eb22e43f2f4fdb07a08dffd4e312d210222c24fa8e2afa2daf6841480246"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mgp/el_water_deadend_w_01.mgp",
+      "bytes": 4834,
+      "path": "data/3d/modules/castle/mgp/el_water_deadend_w_01.mgp",
+      "sha256": "9eb0511a6395b3e0d2ace400b5ef2d11897aa47dfd51c3e70e74fd1676f87406"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mgp/el_water_straighta_ns_01.mgp",
+      "bytes": 5794,
+      "path": "data/3d/modules/castle/mgp/el_water_straighta_ns_01.mgp",
+      "sha256": "60f4a1fe86d8c1edbc335f6b938038701e2dec8b6349b550b6f4a60fe4bcb456"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mgp/el_water_straightb_ew_01.mgp",
+      "bytes": 5675,
+      "path": "data/3d/modules/castle/mgp/el_water_straightb_ew_01.mgp",
+      "sha256": "1e220d979b7c3a4a772b09c93f503717c068819f6694ddd9e35c6a9d462cf922"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mgp/el_water_t_new_01.mgp",
+      "bytes": 9789,
+      "path": "data/3d/modules/castle/mgp/el_water_t_new_01.mgp",
+      "sha256": "e1cfbd769cb3c80a7c7e0e997a1fe838428f7c729ba9fbe4f6b3567eab9dd084"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mvp/elemental_corner_se_01.mvp",
+      "bytes": 2127,
+      "path": "data/3d/modules/castle/mvp/elemental_corner_se_01.mvp",
+      "sha256": "af388b80d8783fba103f35070e7c902e9c0495940eea1cfd5988d3fa01e7455d"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mvp/elemental_deadend_startroom.mvp",
+      "bytes": 1203,
+      "path": "data/3d/modules/castle/mvp/elemental_deadend_startroom.mvp",
+      "sha256": "33433451c0a4949755a2c00316392d48769b59d62913145c56bfe99aaf9f37d4"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mvp/elemental_deadend_w_01.mvp",
+      "bytes": 2131,
+      "path": "data/3d/modules/castle/mvp/elemental_deadend_w_01.mvp",
+      "sha256": "89b451f7ef309495b5f0f347c700d35d4adecbdf129f23bd22aeabbfd44449ab"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mvp/elemental_objectiveroom_s_01.mvp",
+      "bytes": 1656,
+      "path": "data/3d/modules/castle/mvp/elemental_objectiveroom_s_01.mvp",
+      "sha256": "f83254208b74f2aa5c2255f492c1cc155c8523c951db131ad57304edd2cd4c4b"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mvp/elemental_straighta_ns_01.mvp",
+      "bytes": 2132,
+      "path": "data/3d/modules/castle/mvp/elemental_straighta_ns_01.mvp",
+      "sha256": "d1f56d4bf06842ce39c418aa40b2c47689c789d2532f69b6bca7690e5c4350de"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mvp/elemental_straightb_ew_01.mvp",
+      "bytes": 2122,
+      "path": "data/3d/modules/castle/mvp/elemental_straightb_ew_01.mvp",
+      "sha256": "b05902f038ab576069a68710a711b930c32b523ff36f5d3b4aa81702beae205a"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mvp/elemental_t_new_01.mvp",
+      "bytes": 3085,
+      "path": "data/3d/modules/castle/mvp/elemental_t_new_01.mvp",
+      "sha256": "53ba7be0a3d8ae69a0d6d50915049e25acdd041a0f7ff40befa4da19fdec7b3b"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/scene/x24_el_water_backup.mlx",
+      "bytes": 8289,
+      "path": "data/scene/x24_el_water_backup.mlx",
+      "sha256": "cfec6e278a85fdc4964b97a9d574a1c044a4389c244fb4f0df71790777a7aaa2"
+    }
+  ],
+  "source_layout": "data/scene/x24_el_water_backup.mlx",
+  "spawn_point_count": 1,
+  "texture_hints": {
+    "data/3d/modules/castle/castle.bdae": {
+      "found_in_cache_not_copied": [
+        "data/3d/textures/env_castle.tga",
+        "data/3d/textures/env_castle_spec.tga",
+        "data/3d/textures/pvr2_env_castle_alpha.tga"
+      ],
+      "missing_from_cache": []
+    }
+  },
+  "unsupported_entrypoints": [],
+  "unsupported_spawn_id_groups": []
+}
