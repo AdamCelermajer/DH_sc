@@ -47,7 +47,8 @@ public:
 
     bool CanAddEmitter(int bank, int priority);    // 0x864b1c
     bool RemoveEmitter(int bank, void* emitter);   // 0x86e078
-    bool AddEmitter(int bank, void* emitter);      // 0x86ea54 (declared only, body not reconstructed)
+    bool AddEmitter(int bank, void* emitter);      // 0x86ea54 (partial: Stop not ported; priority_bank_emitters.cpp)
+    void Update();                                 // 0x86a3c8 (drops entries whose emitter stopped playing)
     bool SetPriorityBank(int bank, int min_priority, int max_count, int behaviour);  // 0x8661bc (partial)
     bool AddPriorityBank(int min_priority, int max_count, int behaviour);            // 0x8696d0 (partial)
     // Fills one record per bank (0x864a80). Partial: the original returns the value of the

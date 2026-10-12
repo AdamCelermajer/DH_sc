@@ -10,6 +10,10 @@ class VoxThread {
 public:
     static void Sleep(unsigned int milliseconds);  // 0x893604: usleep(ms * 1000) in the original
     static std::uintptr_t GetCurThreadId();        // 0x893600: pthread_self() in the original
+
+    // Declared for the VoxEngine update threads (VoxEngine::Initialize and Shutdown). Not defined yet.
+    VoxThread(void (*callback)(void*, void*), void* arg, void* arg2, const char* name);
+    ~VoxThread();
 };
 
 }  // namespace vox
