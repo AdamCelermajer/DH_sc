@@ -2525,13 +2525,21 @@ int main(int argc,char** argv) {
                     }
                     if(sourcePhysicalFrameEnabled) {
                         const auto context=nativeBodyContexts.find(entry.first);
-                        if(context==nativeBodyContexts.end()||context->second->attackTimerMs||context->second->skillPinTimerMs) {
+                        const auto* props=combatSession->world()->combat_properties(entry.first);
+                        const auto* traits=combatSession->world()->traits(entry.first);
+                        // Character::Serialize (0x3a65c4) saves actual dead5193,
+                        // not CharTimers. Rebind consumes non-player saved-dead
+                        // as a silent terminal receipt and despawn retires it
+                        // into Limbus; its old timers have no restored consumer.
+                        // Player revival, unknown contexts/traits, and live
+                        // actors retain the existing timer requirement.
+                        const bool savedDeadRetirement=actor->is_dead()&&traits&&!traits->is_player;
+                        if(context==nativeBodyContexts.end()||(!savedDeadRetirement&&
+                           (context->second->attackTimerMs||context->second->skillPinTimerMs))) {
                             e="Body checkpoint requires quiescent source physical timers actor="+std::to_string(entry.first)+
                               " attackRemainingMs="+std::to_string(context==nativeBodyContexts.end()?0:context->second->attackTimerMs.value_or(0))+
                               " skillPinRemainingMs="+std::to_string(context==nativeBodyContexts.end()?0:context->second->skillPinTimerMs.value_or(0));return false;
                         }
-                        const auto* props=combatSession->world()->combat_properties(entry.first);
-                        const auto* traits=combatSession->world()->traits(entry.first);
                         std::optional<std::uint32_t> expected;
                         if(props&&traits)switch(props->facts.original_state) {
                         case 3:expected=0x2380u;break;
