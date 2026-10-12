@@ -16,6 +16,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <map>
+#include <memory>
 
 #include "glitch-video/deps/glitch_core.hpp"
 #include "glitch-video/material_parameters_typed.hpp"
@@ -50,6 +51,12 @@ struct SParameterBlockHeader {
 // .cpp for the identity and pool rules).
 void getMatrixParameter(const core::CMatrix4<float>* slot, core::CMatrix4<float>& out);
 void setMatrixParameter(core::CMatrix4<float>*& slot, const core::CMatrix4<float>& src);
+
+// Defined in material_parameters_part_1c.hpp (which includes this header).
+namespace part1c {
+struct SParameterTable;
+struct SPointerSlots;
+}  // namespace part1c
 
 template <typename Owner, bool kTrackDirty>
 class IMaterialParameters : public IMaterialParametersTyped<IMaterialParameters<Owner, kTrackDirty>> {
@@ -104,6 +111,15 @@ public:
     void setValueBuffer(uint8_t* values) { m_values = values; }
     std::map<uint32_t, core::CMatrix4<float>*>& matrixSlots() { return m_matrixSlots; }
 
+    // Views for the typed bindings of CMaterial (material_parameters_bind_m.cpp; explicit specializations
+    // below). table() is the part 1c view: block header, value area, dirty words and pointer slots.
+    part1c::SParameterTable table();
+    part1c::SParameterTable table() const;
+    // Part 1c rows that are not mixin members (defined in material_parameters_bind_m.cpp).
+    template <typename T>
+    int setParameterElement(uint16_t id, uint32_t index, uint8_t component, T value);
+    void setParameterAt(SColorf* dst, const SColor& src);
+
 private:
     uint32_t m_dirty0 = 0;  // +0x0c, set to 0xffffffff by setDirty (tracking owners)
     uint32_t m_dirty1 = 0;  // +0x10
@@ -118,7 +134,19 @@ private:
     // Matrix slots by original byte offset (CMaterial: inline values at +0x20,
     // CMaterialRenderer: value buffer at +0x24). Null means identity.
     std::map<uint32_t, core::CMatrix4<float>*> m_matrixSlots;
+
+    // CMaterial: pointer slots of the part 1c rows, created by table(). A shared pointer keeps the
+    // destructor independent of the complete type of SPointerSlots.
+    mutable std::shared_ptr<part1c::SPointerSlots> m_pointers;
 };
+
+// CMaterial typed views and the two non-mixin rows (defined in material_parameters_bind_m.cpp).
+template <>
+part1c::SParameterTable IMaterialParameters<CMaterial, true>::table();
+template <>
+part1c::SParameterTable IMaterialParameters<CMaterial, true>::table() const;
+template <>
+void IMaterialParameters<CMaterial, true>::setParameterAt(SColorf* dst, const SColor& src);
 
 // Explicit specializations of the matrix accessors (defined in src/material_parameters.cpp).
 template <>
