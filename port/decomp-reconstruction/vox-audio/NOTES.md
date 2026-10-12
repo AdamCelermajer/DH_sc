@@ -1057,6 +1057,7 @@ Tests:
 - `tests/native_subdecoder_base_test.cpp`: the SetState(int) check now sets field_38 to 0 and a state list, because UpdateSegmentsStates reads the playlist manager (the fixture has none).
 Host build passes all 65 tests. No MinGW or Wine run in this slice.
 
+
 ## Wave 13 (w13-d1): stream owner word and the cursor parameter block
 
 - `vox::StreamCursorInterface` now keeps the owner word at +0x04 (`owner_stream_`, read through
@@ -1090,3 +1091,35 @@ finds only the VoxEngineInternal constructors and destructors as writers and rea
   (see the ledger note).
 - VoxEngine D1 (0x862990) and DestroyVoxEngine (0x8628f8) are reconstructed now that the VoxEngineInternal
   destructor is complete. The D0 wrapper of VoxEngine (0x862a18) and D2 (0x862a34) are not in this slice.
+
+## Wave 13 (w13-b): cursor parameter block, VoxN header block, ParseFile header words
+
+Ledger part: `ledger.parts/w13-b.csv` (12 rows: 4 reconstructed, 6 partial, 2 skipped; the FUN_ row stays skipped).
+
+Layouts (decoder-relative offsets, as the listings write them):
+- Cursor parameter block: DecoderCursorInterface now holds `params_` (TrackParams) at +0x04..+0x13, the
+  block the listings read as channels +0x04, unknown_08 +0x08 (the sample rate: SetPlayCursor and the
+  native capacity use it), bits +0x0c and length +0x10. DecoderRawCursor and DecoderNativeCursor inherit it
+  (their own copies were removed). `DecoderCursorInterface::GetTrackParams()` is the public read.
+- VoxN header block: `NativeHeaderWords` covers decoder +0x04 (magic), +0x08 (body size), +0x0c..+0x17
+  (body words 0..2, `name_words`), +0x18 (`base_offset`, body word 3), +0x1c (`afmt_id`, "Afmt"), +0x20
+  (`afmt_size`), +0x24 (`format_word`), +0x28 (`field_0c`), +0x2c (`sample_word`; ParseFile sets the
+  halfword at +0x2e to 16), and `fmt_tail` for the fmt bytes from +0x30 on (fmt body bytes past 12).
+  The listings write the block at cursor +0x20 = decoder +0x04.
+- Source slot names used by SetPlayCursor are the wave 9 names (Reset +0x14, SetByteOffset +0x20), and the
+  decoder cursor's Seek is +0x28. The data object is EmitterObj::data_ (+0x118).
+
+Decisions:
+- DataObj::Update copies the track words from the decoder cursor in all paths (the listing does this
+  in case 0, case 1 and case 2). The GetParam read is gone, so the wave 11 partial note no longer applies.
+- EmitterObj::SetPlayCursor returns the Mutex::Unlock int, as the listing does. Its caller
+  (VoxEngineInternal::SetPlayCursor) ignores it, so no caller changed.
+- ApplyTransitionRule returns void. Its listing returns an int, but the only caller
+  (UpdateSegmentsStates, 0x885740) does not read the return value.
+- ParseFile keeps state_count = 0 when no Stat chunk precedes Trsn. The listing reads an uninitialised stack
+  word there; that is the one item left in the ParseFile row.
+
+Tests: `tests/decoder_native_header_w13_test.cpp` builds a VoxN file with an Afmt chunk of 24 bytes and checks
+the header block (magic, body size, name words, base offset, Afmt id and size, format, field_0c, sample word
+and the 12 fmt tail bytes). Host build passes 67 of 67. No MinGW or Wine run in this slice.
+

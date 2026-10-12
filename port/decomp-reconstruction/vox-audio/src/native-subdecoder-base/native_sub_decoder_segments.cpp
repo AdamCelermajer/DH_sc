@@ -320,17 +320,26 @@ void VoxNativeSubDecoder::SwapOldAndCurrentSegments() {
     segments_[1].play_mode = 2;
 }
 
-// 0x8855e8 _ZN3vox19VoxNativeSubDecoder19ApplyTransitionRuleEPNS_14TransitionRuleE (partial)
-// Reproduced: the kind-1 branch with the next-dying test, the swap, and the frame count
-// check that clears the old records. Not reproduced: the playlist lookups
-// (GetPlaylistElement, TransposePlaylistParameters, SetPlaylistToPreviousState,
-// ResetPlaylist) and the copy of the found element into the current element record.
+// 0x8855e8 _ZN3vox19VoxNativeSubDecoder19ApplyTransitionRuleEPNS_14TransitionRuleE
+// The playlist lookups are the manager calls of the listing: field_44_ and field_40_ pick the
+// playlist to move (field_40_ is first reset to its previous state when they are equal), and
+// field_48_ is the playlist the element comes from. The element copy takes the five words of
+// the found element and then the rule's kind (+0x04) and field_08 (+0x08). Without an element
+// the current element index is -1. The listing returns an int that its only caller does not
+// read (UpdateSegmentsStates ignores it), so this returns void.
 void VoxNativeSubDecoder::ApplyTransitionRule(TransitionRule* rule) {
-    const int next_dying = GetNextDyingSegmentLifeState();
+    PlaylistElement* element = nullptr;
     if (rule->kind_ == 1) {
-        if (next_dying != 2) {
+        if (GetNextDyingSegmentLifeState() == 2) {
+            playlists_->TransposePlaylistParameters(field_44_, field_48_);
+        } else {
+            if (field_44_ == field_40_) {
+                playlists_->SetPlaylistToPreviousState(field_40_);
+            }
+            playlists_->TransposePlaylistParameters(field_40_, field_48_);
             SwapOldAndCurrentSegments();
         }
+        element = playlists_->GetPlaylistElement(field_48_, 1, -1);
         const int frames = static_cast<int>(static_cast<float>(field_0c_) * rule->length_);
         if (frames <= 0) {
             if (segments_[1].state > 2) {
@@ -342,8 +351,21 @@ void VoxNativeSubDecoder::ApplyTransitionRule(TransitionRule* rule) {
                 --active_segments_;
             }
         }
+    } else {
+        if (reset_pending_ != 0) {
+            playlists_->ResetPlaylist(field_48_);
+            reset_pending_ = 0;
+        }
+        element = playlists_->GetPlaylistElement(field_48_, 0, -1);
     }
-    current_element_.field_00_ = -1;
+
+    if (element != nullptr) {
+        current_element_ = *element;
+        current_element_.field_04_ = rule->kind_;
+        current_element_.field_08_ = rule->field_08_;
+    } else {
+        current_element_.field_00_ = -1;
+    }
 }
 
 // 0x885740 _ZN3vox19VoxNativeSubDecoder20UpdateSegmentsStatesEv (partial)

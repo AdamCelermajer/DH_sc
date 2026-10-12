@@ -101,8 +101,8 @@ private:
     // original tests the same halfword (decoder +0x24) before each state copy and reset.
     bool IsImaAdpcm() const;
 
-    TrackParams params_;                                   // +0x04..+0x13
-    // decoder_ (+0x14), stream_ (+0x18) and loop_ (+0x1c) are inherited.
+    // params_ (+0x04..+0x13) is inherited from DecoderCursorInterface, as are decoder_ (+0x14),
+    // stream_ (+0x18) and loop_ (+0x1c).
     const std::map<std::string, int>* state_names_ = nullptr;  // +0x38 (word 14)
     NativePlaylistsManager* playlists_ = nullptr;          // +0x3c (word 15)
     // Pending state indices. The original is a ring whose sentinel is at +0x40 (next) and

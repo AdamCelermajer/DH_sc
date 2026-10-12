@@ -51,16 +51,22 @@ using States = std::vector<std::int32_t>;
 // vox::TransitionRules: the transition rules, 36-byte records.
 using TransitionRules = std::vector<TransitionRule>;
 
-// The VoxN header words that the sub-decoder constructors read (the decoder's header block,
-// the words at decoder +0x18, +0x24, +0x28 and +0x2c). The format word holds the format tag
-// in its low half (17 selects IMA ADPCM, 1 PCM) and the channel count in its high half. The
-// sample word holds the bytes per sample in its low half and the bits per sample in its high
-// half.
+// The VoxN header block (the decoder's words at +0x04..+0x2f, with +0x04 the magic). The header
+// words that the sub-decoder constructors read are format_word (+0x24), field_0c (+0x28) and
+// sample_word (+0x2c). The format tag is the low half of format_word: 17 selects IMA ADPCM, 1
+// PCM. The sample word holds the bytes per sample in its low half and the bits per sample in
+// its high half. The other words are filled by ParseFile from the same block.
 struct NativeHeaderWords {
-    std::int32_t base_offset = 0;   // decoder +0x18: base_offset_
-    std::int32_t format_word = 0;   // decoder +0x24: format tag (low), channels (high)
-    std::int32_t field_0c = 0;      // decoder +0x28: field_0c_
-    std::int32_t sample_word = 0;   // decoder +0x2c: bytes per sample (low), bits (high)
+    std::int32_t magic = 0;          // +0x04: "VoxN" (0x4E786F56)
+    std::int32_t body_size = 0;      // +0x08: size of the header body
+    std::int32_t name_words[3] = {}; // +0x0c, +0x10, +0x14: body words 0..2
+    std::int32_t base_offset = 0;    // +0x18: body word 3 (total file length)
+    std::int32_t afmt_id = 0;        // +0x1c: chunk id of the fmt chunk ("Afmt")
+    std::int32_t afmt_size = 0;      // +0x20: size of the fmt chunk body
+    std::int32_t format_word = 0;    // +0x24: format tag (low), channels (high)
+    std::int32_t field_0c = 0;       // +0x28: fmt body word 1
+    std::int32_t sample_word = 0;    // +0x2c: bytes per sample (low), bits (high); ParseFile sets +0x2e to 16
+    std::vector<std::uint8_t> fmt_tail;  // +0x30 on: fmt body bytes past the first 12
 };
 
 }  // namespace vox

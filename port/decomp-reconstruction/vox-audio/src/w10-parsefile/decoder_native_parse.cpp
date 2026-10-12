@@ -120,8 +120,15 @@ bool DecoderNativeCursor::ParseFile() {
     stream_->Read(body.data(), static_cast<int>(body_size));
 
     auto* native = static_cast<DecoderNative*>(decoder_);
-    native->header_words_.base_offset = ReadI32(body.data() + 12);
-    const std::int64_t data_size = static_cast<std::int64_t>(native->header_words_.base_offset) - 16 -
+    NativeHeaderWords& block = native->header_words_;
+    block.magic = static_cast<std::int32_t>(kNativeMagic);
+    block.body_size = static_cast<std::int32_t>(body_size);
+    // Body words 0..2 are kept as name words (+0x0c..+0x17); word 3 is the base offset.
+    for (std::size_t i = 0; i < 3; ++i) {
+        block.name_words[i] = ReadI32(body.data() + 4 * i);
+    }
+    block.base_offset = ReadI32(body.data() + 12);
+    const std::int64_t data_size = static_cast<std::int64_t>(block.base_offset) - 16 -
                                    static_cast<std::int64_t>(body_size);
     if (data_size < 0) {
         return false;
@@ -159,14 +166,21 @@ bool DecoderNativeCursor::ParseFile() {
         const std::uint8_t* body_ptr = chunk + 8;
 
         if (id == kChunkAfmt) {
-            // The original copies the fmt body to the header block at +0x24. The header words
-            // keep the first 12 bytes (format word, field_0c, sample word); the rest of the
-            // body is not kept.
-            CopyRecord(&native->header_words_.format_word, body_ptr, static_cast<std::int64_t>(size), 12);
+            // The original writes the chunk id and size at +0x1c and +0x20, then copies the fmt
+            // body to +0x24. The first 12 bytes fill format word, field_0c and sample word; the
+            // bytes past them are kept in fmt_tail (+0x30 on).
+            block.afmt_id = static_cast<std::int32_t>(kChunkAfmt);
+            block.afmt_size = static_cast<std::int32_t>(size);
+            CopyRecord(&block.format_word, body_ptr, static_cast<std::int64_t>(size), 12);
+            if (size > 12) {
+                block.fmt_tail.assign(body_ptr + 12, body_ptr + size);
+            } else {
+                block.fmt_tail.clear();
+            }
             // The original then writes the halfword 16 at +0x2e: the bits-per-sample half of the
             // sample word.
-            const auto sample = static_cast<std::uint32_t>(native->header_words_.sample_word);
-            native->header_words_.sample_word = static_cast<std::int32_t>((sample & 0xFFFFu) | (16u << 16));
+            const auto sample = static_cast<std::uint32_t>(block.sample_word);
+            block.sample_word = static_cast<std::int32_t>((sample & 0xFFFFu) | (16u << 16));
             pos += 8 + static_cast<std::int64_t>(size);
             continue;
         }

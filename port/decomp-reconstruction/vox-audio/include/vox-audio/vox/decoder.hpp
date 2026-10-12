@@ -26,6 +26,8 @@ struct TrackParams {
 class DecoderCursorInterface {
 public:
     virtual ~DecoderCursorInterface() = default;                 // 0x86fb38 (D1), 0x86fdec (D0)
+    // The track parameter block of the cursor (+0x04..+0x10 in the original).
+    const TrackParams& GetTrackParams() const { return params_; }
     virtual void Init() {}                                       // +0x08, 0x86fb3c
     virtual void Shutdown() {}                                   // +0x0c, 0x86fb40
     virtual int Decode(void* dst, int count) = 0;                // +0x10
@@ -40,6 +42,10 @@ public:
     virtual bool AllowBufferReference() { return false; }        // +0x34, 0x86fb90
 
 protected:
+    // Track parameters of the cursor (channels, unknown_08, bits, length), +0x04..+0x13 in the
+    // original. Every cursor type keeps them at this slot; the emitter and the data object read
+    // them from the cursor the decoder returns.
+    TrackParams params_;
     // Fields the base accessors read; the original keeps them in the same slots
     // for every cursor type (+0x14 decoder, +0x18 stream, +0x1c loop flag).
     DecoderInterface* decoder_ = nullptr;      // +0x14

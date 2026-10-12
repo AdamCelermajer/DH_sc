@@ -114,7 +114,7 @@ public:
     int SetPitch(float pitch, float time);  // 0x86bc40
     void Update(float dt);                  // 0x86d5b8
     int LoadAsync();                        // 0x86d238 (partial, see the .cpp)
-    void SetPlayCursor(float position);     // 0x8653ec (partial, see the .cpp notes)
+    int SetPlayCursor(float position);      // 0x8653ec (partial: the null-decoder path, see the .cpp)
     float GetPlayCursor();                  // 0x8654f8
     int SetDSPParameter(int param, void* value);   // 0x866acc (partial: null value path, see the .cpp)
     void CleanUp();                         // 0x863954 (partial: DSP buffers only, see the .cpp)

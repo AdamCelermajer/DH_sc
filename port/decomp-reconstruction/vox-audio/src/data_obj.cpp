@@ -156,20 +156,13 @@ void DataObj::RegisterEmitter(std::int64_t emitter_id) {
 
 namespace {
 
-// Track parameters of the decoder. The original copies the four words at cursor +4..+0x10
-// (channels, sample rate, bits, length) into the object at +0x28..+0x34. The port reads them
-// from the decoder's GetParam block, as LoadDataSource does. A decoder that returns null
-// leaves the parameters as they are.
-bool CopyTrackParams(DataObj& obj) {
-    const std::int32_t* track = obj.decoder_->GetParam();
-    if (track == nullptr) {
-        return false;
-    }
-    obj.channels_ = track[0];
-    obj.sample_rate_ = track[1];
-    obj.bits_per_sample_ = track[2];
-    obj.length_ = track[3];
-    return true;
+// Copies the track parameter block of a decoder cursor (cursor +0x04..+0x10: channels, sample
+// rate, bits, length) into the object at +0x28..+0x34.
+void CopyTrackParams(DataObj& obj, const TrackParams& track) {
+    obj.channels_ = track.channels;
+    obj.sample_rate_ = track.unknown_08;
+    obj.bits_per_sample_ = track.bits_per_sample;
+    obj.length_ = track.length_frames;
 }
 
 // Replaces the object's stream and destroys the old one (Destruct, then VoxFree).
@@ -204,7 +197,7 @@ bool UpdateFromStreamCursor(DataObj& obj) {
     StreamCursorInterface* cursor = obj.stream_->CreateNewCursor();
     if (cursor != nullptr) {
         if (DecoderCursorInterface* decoder_cursor = obj.decoder_->CreateNewCursor(cursor)) {
-            CopyTrackParams(obj);
+            CopyTrackParams(obj, decoder_cursor->GetTrackParams());
             obj.decoder_->DestroyCursor(decoder_cursor);
         }
         obj.stream_->DestroyCursor(cursor);
@@ -249,7 +242,7 @@ bool UpdateBufferedStream(DataObj& obj) {
         return false;
     }
     if (DecoderCursorInterface* decoder_cursor = obj.decoder_->CreateNewCursor(memory_cursor)) {
-        CopyTrackParams(obj);
+        CopyTrackParams(obj, decoder_cursor->GetTrackParams());
         obj.decoder_->DestroyCursor(decoder_cursor);
         obj.stream_->DestroyCursor(memory_cursor);
         return true;
@@ -273,11 +266,7 @@ bool UpdateDecodedToMemory(DataObj& obj) {
         obj.stream_->DestroyCursor(stream_cursor);
         return false;
     }
-    if (!CopyTrackParams(obj)) {
-        obj.stream_->DestroyCursor(stream_cursor);
-        obj.decoder_->DestroyCursor(decoder_cursor);
-        return false;
-    }
+    CopyTrackParams(obj, decoder_cursor->GetTrackParams());
     // Bytes = channels * frames * (bits >> 3), as the original computes them.
     const int frame_bytes = obj.bits_per_sample_ >> 3;
     const int size = obj.channels_ * (obj.length_ * frame_bytes);
@@ -320,13 +309,10 @@ bool UpdateDecodedToMemory(DataObj& obj) {
 // 0x866dec _ZN3vox7DataObj6UpdateEv
 // Runs the load step while the object is in state 3 (loading). The source flags pick the
 // path: 0 reads one cursor, 1 buffers the whole stream, 2 decodes it into memory. Any other
-// flag value marks the object ready (state 0). A failed step sets state -1. The Hex-Rays
-// body is the switch above; the ARM listing matches the same branches.
-// Partial: in the listing's case 1 the four track words are copied from the cursor that the
-// decoder's CreateNewCursor returns (cursor +0x04..+0x10, TrackParams), and that cursor is then
-// destroyed. The port reads the decoder's GetParam block (+0x1c) instead, because
-// DecoderCursorInterface has no TrackParams block. The two agree only if GetParam returns the
-// same words. The other switch cases were not re-walked in wave 11.
+// flag value marks the object ready (state 0). A failed step sets state -1. The track words
+// are copied from the decoder cursor's parameter block (cursor +0x04..+0x10) in every path,
+// as the listing does. A null stream or decoder is treated as a failed step (the listing
+// would dereference null there).
 void DataObj::Update() {
     if (state_ == 0) {
         return;
