@@ -1,5 +1,6 @@
 // Accessor checks for the glitch::gui element and widget fields.
 #include "glitch-scene-collada-gui/gui_elements.hpp"
+#include "glitch-scene-collada-gui/gui_simple_accessors.hpp"
 
 #include <cstdio>
 
@@ -7,6 +8,12 @@ using namespace glitch::gui;
 
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
+
+// CGUIListBox has a pure virtual addItem (the list box proper implements it);
+// this stand-in supplies it so the accessors can be tested.
+struct ListBoxForTest : CGUIListBox {
+    std::uint32_t addItem(const wchar_t*, int) override { return 0; }
+};
 
 int main() {
     IGUIElement element;
@@ -99,6 +106,57 @@ int main() {
     CHECK(fonts.getBuiltInFont() == &font);
     fonts.builtInFontBegin = &fontSentinel;
     CHECK(fonts.getBuiltInFont() == nullptr);
+
+    // List box: item text, icon, and the four override-colour records.
+    ListBoxForTest list;
+    CHECK(list.getItemCount() == 0);
+    CHECK(list.getIcon(0) == -1);
+    static const wchar_t kItem[] = L"item";
+    SListItem item;
+    item.text = kItem;
+    item.icon = 3;
+    item.overrides[2].enabled = true;
+    item.overrides[2].color = glitch::video::SColor{0x90807060u};
+    list.items.push_back(item);
+    CHECK(list.getItemCount() == 1);
+    CHECK(list.getListItem(0) == kItem);
+    CHECK(list.getListItem(1) == nullptr);
+    CHECK(list.getIcon(0) == 3);
+    CHECK(list.getIcon(1) == -1);
+    CHECK(list.hasItemOverrideColor(0, 2));
+    CHECK(!list.hasItemOverrideColor(0, 1));
+    CHECK(!list.hasItemOverrideColor(0, 4));
+    CHECK(list.getItemOverrideColor(0, 2).color == 0x90807060u);
+    CHECK(list.getItemOverrideColor(0, 4).color == 0);
+    list.clearItemOverrideColor(0, 2);
+    CHECK(!list.hasItemOverrideColor(0, 2));
+    list.items[0].overrides[0].enabled = true;
+    list.clearItemOverrideColor(0);
+    CHECK(!list.hasItemOverrideColor(0, 0));
+    list.clearItemOverrideColor(5);
+
+    // Image and fader colour, tab colours.
+    CGUIImage imageEl;
+    imageEl.setColor(glitch::video::SColor{0xCAFEBABEu});
+    CHECK(imageEl.color.color == 0xCAFEBABEu);
+    CGUIInOutFader fader;
+    fader.color = glitch::video::SColor{0x13579BDFu};
+    CHECK(fader.getColor().color == 0x13579BDFu);
+    CGUITab tabEl;
+    tabEl.setBackgroundColor(glitch::video::SColor{0x0A0B0C0Du});
+    tabEl.setTextColor(glitch::video::SColor{0x1A1B1C1Du});
+    CHECK(tabEl.backgroundColor.color == 0x0A0B0C0Du);
+    CHECK(tabEl.textColor.color == 0x1A1B1C1Du);
+
+    // Tab control: count and bounds-checked lookup.
+    CGUITabControl tabStrip;
+    CHECK(tabStrip.getTabCount() == 0);
+    CHECK(tabStrip.getTab(0) == nullptr);
+    CGUITab firstTab;
+    tabStrip.tabs.push_back(&firstTab);
+    CHECK(tabStrip.getTabCount() == 1);
+    CHECK(tabStrip.getTab(0) == &firstTab);
+    CHECK(tabStrip.getTab(1) == nullptr);
 
     std::printf("%s\n", failures ? "gui_elements: FAILED" : "gui_elements: ok");
     return failures != 0;

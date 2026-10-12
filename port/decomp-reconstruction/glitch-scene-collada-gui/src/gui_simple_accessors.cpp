@@ -169,4 +169,227 @@ std::int32_t CGUIEditBox::getMax() const { return maxChars; }
 // 0x6a5cc8 _ZNK6glitch3gui25CDefaultGUIElementFactory31getCreatableGUIElementTypeCountEv
 std::uint32_t CDefaultGUIElementFactory::getCreatableGUIElementTypeCount() const { return 0x16; }
 
+// 0x54aa24 _ZNK6glitch3gui8CGUISkin8getColorENS0_18EGUI_DEFAULT_COLORE
+// Out of range (>= 0x15) the original returns whatever the caller left in its
+// registers; zero is returned here (partial).
+video::SColor CGUISkin::getColor(std::uint32_t which) const {
+    return which < 0x15 ? colors[which] : video::SColor{};
+}
+
+// 0x54aaa0 _ZNK6glitch3gui8CGUISkin7getSizeENS0_17EGUI_DEFAULT_SIZEE
+std::int32_t CGUISkin::getSize(std::uint32_t which) const {
+    return which < 10 ? sizes[which] : 0;
+}
+
+// 0x54aab4 _ZN6glitch3gui8CGUISkin7setSizeENS0_17EGUI_DEFAULT_SIZEEi
+void CGUISkin::setSize(std::uint32_t which, std::int32_t size) {
+    if (which < 10) {
+        sizes[which] = size;
+    }
+}
+
+// 0x54ab74 _ZNK6glitch3gui8CGUISkin7getIconENS0_17EGUI_DEFAULT_ICONE
+std::uint32_t CGUISkin::getIcon(std::uint32_t which) const {
+    return which < 0x17 ? icons[which] : 0;
+}
+
+// 0x54ab88 _ZN6glitch3gui8CGUISkin7setIconENS0_17EGUI_DEFAULT_ICONEj
+void CGUISkin::setIcon(std::uint32_t which, std::uint32_t icon) {
+    if (which < 0x17) {
+        icons[which] = icon;
+    }
+}
+
+// 0x54ab98 _ZNK6glitch3gui8CGUISkin14getDefaultTextENS0_17EGUI_DEFAULT_TEXTE
+const wchar_t* CGUISkin::getDefaultText(std::uint32_t which) const {
+    return which < 8 ? defaultTexts[which].text : defaultTexts[0].text;
+}
+
+// 0x54ff1c _ZN6glitch3gui14CGUIStaticText16setOverrideColorENS_5video6SColorE
+void CGUIStaticText::setOverrideColor(video::SColor color) {
+    overrideColorEnabled = true;
+    overrideColor = color;
+}
+
+// 0x54ff54 _ZN6glitch3gui14CGUIStaticText18setBackgroundColorENS_5video6SColorE
+void CGUIStaticText::setBackgroundColor(video::SColor color) {
+    drawBackground = true;
+    backgroundColor = color;
+}
+
+// 0x54ff9c _ZN6glitch3gui14CGUIStaticText16setTextAlignmentENS0_14EGUI_ALIGNMENTES2_
+void CGUIStaticText::setTextAlignment(std::uint32_t horizontal, std::uint32_t vertical) {
+    horizontalAlign = horizontal;
+    verticalAlign = vertical;
+}
+
+// 0x54ffa8 _ZNK6glitch3gui14CGUIStaticText16getOverrideColorEv
+const video::SColor& CGUIStaticText::getOverrideColor() const {
+    return overrideColor;
+}
+
+// 0x552214 _ZNK6glitch3gui14CGUITabControl11getTabCountEv
+std::int32_t CGUITabControl::getTabCount() const {
+    return static_cast<std::int32_t>(tabs.size());
+}
+
+// 0x552228 _ZNK6glitch3gui14CGUITabControl6getTabEi
+CGUITab* CGUITabControl::getTab(std::uint32_t index) const {
+    return index < tabs.size() ? tabs[index] : nullptr;
+}
+
+// 0x554f60 _ZNK6glitch3gui9CGUITable14getColumnCountEv
+std::int32_t CGUITable::getColumnCount() const {
+    return static_cast<std::int32_t>(columns.size());
+}
+
+// 0x554f80 _ZNK6glitch3gui9CGUITable11getRowCountEv
+std::int32_t CGUITable::getRowCount() const {
+    return static_cast<std::int32_t>(rows.size());
+}
+
+// 0x555120 _ZN6glitch3gui9CGUITable12setCellColorEjjNS_5video6SColorE
+void CGUITable::setCellColor(std::uint32_t row, std::uint32_t column, video::SColor color) {
+    if (row < rows.size() && column < columns.size()) {
+        rows[row].cells[column].color = color;
+    }
+}
+
+// 0x5551bc _ZN6glitch3gui9CGUITable11setCellDataEjjPv
+void CGUITable::setCellData(std::uint32_t row, std::uint32_t column, void* data) {
+    if (row < rows.size() && column < columns.size()) {
+        rows[row].cells[column].data = data;
+    }
+}
+
+// 0x555230 _ZNK6glitch3gui9CGUITable11getCellTextEjj
+const wchar_t* CGUITable::getCellText(std::uint32_t row, std::uint32_t column) const {
+    if (row < rows.size() && column < columns.size()) {
+        return rows[row].cells[column].text;
+    }
+    return nullptr;
+}
+
+// 0x5552ac _ZNK6glitch3gui9CGUITable11getCellDataEjj
+void* CGUITable::getCellData(std::uint32_t row, std::uint32_t column) const {
+    if (row < rows.size() && column < columns.size()) {
+        return rows[row].cells[column].data;
+    }
+    return nullptr;
+}
+
+// 0x555914 _ZN6glitch3gui9CGUITable17setColumnOrderingEjNS0_20EGUI_COLUMN_ORDERINGE
+void CGUITable::setColumnOrdering(std::uint32_t column, std::int32_t ordering) {
+    if (column < columns.size()) {
+        columns[column].ordering = ordering;
+    }
+}
+
+// 0x6aaa88 _ZNK6glitch3gui12CGUIComboBox12getItemCountEv
+std::int32_t CGUIComboBox::getItemCount() const {
+    return static_cast<std::int32_t>(items.size());
+}
+
+// 0x6aaab8 _ZNK6glitch3gui12CGUIComboBox7getItemEj
+const wchar_t* CGUIComboBox::getItem(std::uint32_t index) const {
+    return index < items.size() ? items[index].text : nullptr;
+}
+
+// 0x6acdac _ZNK6glitch3gui15CGUIContextMenu12getItemCountEv
+std::int32_t CGUIContextMenu::getItemCount() const {
+    return static_cast<std::int32_t>(items.size());
+}
+
+// 0x6acf08 _ZNK6glitch3gui15CGUIContextMenu11getItemTextEj
+const wchar_t* CGUIContextMenu::getItemText(std::uint32_t index) const {
+    return index < items.size() ? items[index].text : nullptr;
+}
+
+// 0x6acf44 _ZNK6glitch3gui15CGUIContextMenu13isItemEnabledEj
+bool CGUIContextMenu::isItemEnabled(std::uint32_t index) const {
+    return index < items.size() && items[index].enabled;
+}
+
+// 0x6acf80 _ZNK6glitch3gui15CGUIContextMenu13isItemCheckedEj
+bool CGUIContextMenu::isItemChecked(std::uint32_t index) const {
+    return index < items.size() && items[index].checked;
+}
+
+// 0x6acfbc _ZN6glitch3gui15CGUIContextMenu14setItemEnabledEjb
+void CGUIContextMenu::setItemEnabled(std::uint32_t index, bool enabled) {
+    if (index < items.size()) {
+        items[index].enabled = enabled;
+    }
+}
+
+// 0x6acff4 _ZN6glitch3gui15CGUIContextMenu14setItemCheckedEjb
+void CGUIContextMenu::setItemChecked(std::uint32_t index, bool checked) {
+    if (index < items.size()) {
+        items[index].checked = checked;
+    }
+}
+
+// 0x6ad1d0 _ZNK6glitch3gui15CGUIContextMenu8getHRectERKNS1_5SItemERKNS_4core4rectIiEE
+// Keeps the rectangle's left and right edges; the top edge moves by the item
+// offset and the bottom edge is the top plus the item height.
+core::rect<std::int32_t> CGUIContextMenu::getHRect(const SItem& item,
+                                                   const core::rect<std::int32_t>& rect) const {
+    core::rect<std::int32_t> out = rect;
+    out.UpperLeftCorner.Y = rect.UpperLeftCorner.Y + item.offset;
+    out.LowerRightCorner.Y = out.UpperLeftCorner.Y + item.height;
+    return out;
+}
+
+// 0x6ad214 _ZNK6glitch3gui15CGUIContextMenu7getRectERKNS1_5SItemERKNS_4core4rectIiEE
+// Like getHRect, with the left edge indented by 20 units and the right edge kept.
+core::rect<std::int32_t> CGUIContextMenu::getRect(const SItem& item,
+                                                  const core::rect<std::int32_t>& rect) const {
+    core::rect<std::int32_t> out;
+    out.UpperLeftCorner.X = rect.UpperLeftCorner.X + 0x14;
+    out.UpperLeftCorner.Y = rect.UpperLeftCorner.Y + item.offset;
+    out.LowerRightCorner.X = rect.LowerRightCorner.X;
+    out.LowerRightCorner.Y = out.UpperLeftCorner.Y + item.height;
+    return out;
+}
+
+// 0x6ad4dc _ZNK6glitch3gui15CGUIContextMenu10getSubMenuEj
+CGUIContextMenu* CGUIContextMenu::getSubMenu(std::uint32_t index) const {
+    return index < items.size() ? items[index].subMenu : nullptr;
+}
+
+// 0x6ad518 _ZNK6glitch3gui15CGUIContextMenu16getItemCommandIdEj
+std::int32_t CGUIContextMenu::getItemCommandId(std::uint32_t index) const {
+    return index < items.size() ? items[index].commandId : -1;
+}
+
+// 0x6ad554 _ZN6glitch3gui15CGUIContextMenu16setItemCommandIdEji
+void CGUIContextMenu::setItemCommandId(std::uint32_t index, std::int32_t commandId) {
+    if (index < items.size()) {
+        items[index].commandId = commandId;
+    }
+}
+
+// 0x545818 _ZNK6glitch3gui8CGUIMenu8getHRectERKNS0_15CGUIContextMenu5SItemERKNS_4core4rectIiEE
+// Keeps the top and bottom edges; the left edge moves by the item offset and the
+// right edge is the left plus the item width.
+core::rect<std::int32_t> CGUIMenu::getHRect(const CGUIContextMenu::SItem& item,
+                                            const core::rect<std::int32_t>& rect) const {
+    core::rect<std::int32_t> out = rect;
+    out.UpperLeftCorner.X = rect.UpperLeftCorner.X + item.offset;
+    out.LowerRightCorner.X = out.UpperLeftCorner.X + item.width;
+    return out;
+}
+
+// 0x6afa70 _ZN6glitch3gui11CGUIEditBox16setOverrideColorENS_5video6SColorE
+void CGUIEditBox::setOverrideColor(video::SColor color) {
+    overrideColorEnabled = true;
+    overrideColor = color;
+}
+
+// 0x6afad8 _ZN6glitch3gui11CGUIEditBox16setTextAlignmentENS0_14EGUI_ALIGNMENTES2_
+void CGUIEditBox::setTextAlignment(std::uint32_t horizontal, std::uint32_t vertical) {
+    horizontalAlign = horizontal;
+    verticalAlign = vertical;
+}
+
 }  // namespace glitch::gui

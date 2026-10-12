@@ -179,4 +179,74 @@ float ITimelineController::getScale() const {
     return 1.0f;
 }
 
+
+// 0x5891ac _ZN6glitch5scene13CSceneManager14setShadowColorENS_5video6SColorE
+void CSceneManager::setShadowColor(video::SColor color) {
+    for (video::SColor& slot : shadowColors) {
+        slot = color;
+    }
+}
+
+// 0x589354 _ZN6glitch5scene13CSceneManager22setSceneNodeRenderPassENS0_24E_SCENE_NODE_RENDER_PASSE
+std::uint32_t CSceneManager::setSceneNodeRenderPass(std::uint32_t pass) {
+    std::uint32_t previous = renderPass;
+    renderPass = pass;
+    return previous;
+}
+
+// 0x589508 _ZN6glitch5scene13CSceneManager15setAmbientLightERKNS_5video7SColorfE
+void CSceneManager::setAmbientLight(const video::SColorf& color) {
+    ambientLight = color;
+}
+
+// 0x589518 _ZNK6glitch5scene13CSceneManager22getCurrentRenderedNodeEPPvPi
+std::uint32_t CSceneManager::getCurrentRenderedNode(void** node, std::int32_t* second) const {
+    if (node != nullptr) {
+        *node = currentRenderedNode;
+    }
+    if (second != nullptr) {
+        *second = currentRenderedSecond;
+    }
+    return currentRenderedWord;
+}
+
+// 0x589538 _ZNK6glitch5scene13CSceneManager19getNextRenderedNodeEPPvPi
+std::uint32_t CSceneManager::getNextRenderedNode(void** node, std::int32_t* second) const {
+    if (node != nullptr) {
+        *node = nextRenderedNode;
+    }
+    if (second != nullptr) {
+        *second = nextRenderedSecond;
+    }
+    return nextRenderedWord;
+}
+
+// 0x578c1c _ZNK6glitch5scene10CBatchMesh5cloneEv
+boost::intrusive_ptr<IMesh> CBatchMesh::clone() const {
+    return boost::intrusive_ptr<IMesh>{};
+}
+
+// 0x578c28 _ZNK6glitch5scene10CBatchMesh18getMeshBufferCountEv
+std::int32_t CBatchMesh::getMeshBufferCount() const {
+    return static_cast<std::int32_t>(batches.size());
+}
+
+// 0x57aa8c _ZNK6glitch5scene10CBatchMesh14getBoundingBoxEv
+// partial: the refresh call taken when the dirty flag is set or the source and
+// stamp differ is not reconstructed; the stored box is returned.
+const core::aabbox3d<float>& CBatchMesh::getBoundingBox() const {
+    return boundingBox;
+}
+
+// 0x578c78 _ZN6glitch5scene10CBatchMesh14setBoundingBoxERKNS_4core8aabbox3dIfEE
+// partial: the original also stores a global word at +0x6c that is not identified,
+// so boundingBoxStamp is left unchanged.
+void CBatchMesh::setBoundingBox(const core::aabbox3d<float>& box) {
+    boundingBox = box;
+}
+
+// 0x578d5c _ZN6glitch5scene10CBatchMesh6SBatchC2Et
+// 0x578d7c _ZN6glitch5scene10CBatchMesh6SBatchC1Et
+CBatchMesh::SBatch::SBatch(std::uint16_t value) : field0C(value), field0E(value), field10(0) {}
+
 }  // namespace glitch::scene

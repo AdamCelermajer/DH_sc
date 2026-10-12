@@ -160,6 +160,12 @@ int main() {
         CHECK(out == 0.0f);
     }
 
+    // Mesh bounding box setter.
+    CMesh colladaMesh;
+    glitch::core::aabbox3d<float> colladaBox{{0.0f, 0.0f, 0.0f}, {2.0f, 2.0f, 2.0f}};
+    colladaMesh.setBoundingBox(colladaBox);
+    CHECK(colladaMesh.getBoundingBox().MaxEdge.X == 2.0f);
+
     std::printf("%s\n", failures ? "collada_scene_accessors: FAILED" : "collada_scene_accessors: ok");
     return failures != 0;
 }

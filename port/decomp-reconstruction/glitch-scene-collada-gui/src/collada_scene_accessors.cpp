@@ -120,4 +120,10 @@ void CWeightEx::getIdentityValue(void* out) const {
 
 }  // namespace animation_track
 
+
+// 0x644b88 _ZN6glitch7collada5CMesh14setBoundingBoxERKNS_4core8aabbox3dIfEE
+void CMesh::setBoundingBox(const core::aabbox3d<float>& box) {
+    boundingBox = box;
+}
+
 }  // namespace glitch::collada

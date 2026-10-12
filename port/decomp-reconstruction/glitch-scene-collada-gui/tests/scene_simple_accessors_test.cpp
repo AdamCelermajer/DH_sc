@@ -101,6 +101,93 @@ int main() {
     CHECK(mesh.getMeshType() == 7);
     CHECK(IAnimatedMesh().getMeshType() == 0);
 
+    // Text, camera and particle accessors.
+    CTextSceneNode textNode;
+    textNode.setTextColor(glitch::video::SColor{0x11u});
+    CHECK(textNode.textColor.color == 0x11u);
+    CBillboardTextSceneNode billboardText;
+    billboardText.setTextColor(glitch::video::SColor{0x22u});
+    CHECK(billboardText.textColor.color == 0x22u);
+
+    CSceneNodeAnimatorCameraFPS fpsAnim;
+    fpsAnim.keyDown[2] = true;
+    fpsAnim.allKeysUp();
+    CHECK(!fpsAnim.keyDown[2]);
+    fpsAnim.setVerticalMovement(true);
+    CHECK(!fpsAnim.noVerticalMovement);
+    fpsAnim.setVerticalMovement(false);
+    CHECK(fpsAnim.noVerticalMovement);
+
+    CSceneNodeAnimatorCameraMaya mayaAnim;
+    mayaAnim.mouseKeyDown[1] = true;
+    CHECK(mayaAnim.isMouseKeyDown(1));
+    CHECK(!mayaAnim.isMouseKeyDown(0));
+    mayaAnim.allKeysUp();
+    CHECK(!mayaAnim.isMouseKeyDown(1));
+
+    CParticleSystemSceneNode particleNode;
+    particleNode.particles.resize(5);
+    CHECK(particleNode.getNumberOfParticles() == 5);
+    glitch::core::dimension2d<float> psSize{2.0f, 3.0f};
+    particleNode.setParticleSize(psSize);
+    CHECK(particleNode.particleSize.Width == 2.0f && particleNode.particleSize.Height == 3.0f);
+    particleNode.setBillboardType(2);
+    CHECK(particleNode.billboardType == 2);
+
+    // Terrain patches are a row-major grid of patchesPerSide squared entries.
+    CTerrainSceneNode terrainNode;
+    terrainNode.patchesPerSide = 2;
+    terrainNode.patches.resize(4);
+    terrainNode.setLODOfPatch(1, 0, 7);
+    CHECK(terrainNode.patches[2].lod == 7);
+    CHECK(&terrainNode.getBoundingBox(1, 0) == &terrainNode.patches[2].boundingBox);
+    terrainNode.setCurrentLODOfPatches(3);
+    CHECK(terrainNode.patches[0].lod == 3 && terrainNode.patches[3].lod == 3);
+    terrainNode.rotationPivotFlag = 1;
+    terrainNode.setRotationPivot(glitch::core::vector3d<float>{1.0f, 2.0f, 3.0f});
+    CHECK(terrainNode.rotationPivotFlag == 0);
+    CHECK(terrainNode.rotationPivot.Y == 2.0f);
+
+    // Collision response vectors and particle affector flag.
+    CSceneNodeAnimatorCollisionResponse collision;
+    collision.setEllipsoidRadius(glitch::core::vector3d<float>{4.0f, 5.0f, 6.0f});
+    CHECK(collision.getEllipsoidRadius().Z == 6.0f);
+    collision.setGravity(glitch::core::vector3d<float>{0.0f, -9.0f, 0.0f});
+    CHECK(collision.getGravity().Y == -9.0f);
+    collision.setEllipsoidTranslation(glitch::core::vector3d<float>{7.0f, 8.0f, 9.0f});
+    CHECK(collision.getEllipsoidTranslation().X == 7.0f);
+    IParticleAffector affector;
+    affector.setEnabled(true);
+    CHECK(affector.getEnabled());
+    affector.setEnabled(false);
+    CHECK(!affector.getEnabled());
+
+    // Animated mesh frames and bounding box; mesh cache lookups by pointer and index.
+    SAnimatedMesh animated;
+    animated.meshes.resize(3);
+    CHECK(animated.getFrameCount() == 3);
+    glitch::core::aabbox3d<float> animBox{{0.0f, 0.0f, 0.0f}, {1.0f, 2.0f, 3.0f}};
+    animated.setBoundingBox(animBox);
+    CHECK(animated.getBoundingBox().MaxEdge.Z == 3.0f);
+
+    CMeshCache cache;
+    CHECK(cache.getMeshCount() == 0);
+    CHECK(cache.getMeshFilename(0) == nullptr);
+    IAnimatedMesh meshA;
+    IAnimatedMesh meshB;
+    cache.entries.resize(2);
+    cache.entries[0].filename = "a.x";
+    cache.entries[0].mesh = &meshA;
+    cache.entries[1].filename = "b.x";
+    cache.entries[1].mesh = &meshB;
+    CHECK(cache.getMeshCount() == 2);
+    CHECK(std::strcmp(cache.getMeshFilename(1), "b.x") == 0);
+    CHECK(cache.getMeshFilename(2) == nullptr);
+    boost::intrusive_ptr<const IAnimatedMesh> keyB(&meshB);
+    CHECK(std::strcmp(cache.getMeshFilename(keyB), "b.x") == 0);
+    boost::intrusive_ptr<const IAnimatedMesh> keyNone;
+    CHECK(cache.getMeshFilename(keyNone) == nullptr);
+
     std::printf("%s\n", failures ? "scene_simple_accessors: FAILED" : "scene_simple_accessors: ok");
     return failures != 0;
 }

@@ -46,4 +46,12 @@ struct SColor {
     std::uint32_t color = 0;
 };
 
+// Four float channels (r, g, b, a) as the original passes them by reference.
+struct SColorf {
+    float r = 0.0f;
+    float g = 0.0f;
+    float b = 0.0f;
+    float a = 0.0f;
+};
+
 }  // namespace glitch::video

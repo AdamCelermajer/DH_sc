@@ -5,13 +5,16 @@
 #pragma once
 
 #include <cstdint>
+#include <vector>
 
 #include "glitch-scene-collada-gui/deps/core_stand_ins.hpp"
+#include "glitch-scene-collada-gui/deps/intrusive_ptr.hpp"
 
 namespace glitch::scene {
 
 class ITriangleSelector;
 class IParticleEmitter;
+class IAnimatedMesh;
 
 // ---- Particle interfaces: type tag per interface and an empty destructor. ----
 
@@ -35,6 +38,12 @@ class IParticleAffector {
 public:
     // 0x6f8414 _ZN6glitch5scene17IParticleAffectorD1Ev (empty)
     ~IParticleAffector() = default;
+    // 0x6f836c _ZN6glitch5scene17IParticleAffector10setEnabledEb
+    void setEnabled(bool value);
+    // 0x6f8374 _ZNK6glitch5scene17IParticleAffector10getEnabledEv
+    bool getEnabled() const;
+
+    std::uint8_t enabled = 0;  // +0x04
 };
 
 class IParticleAttractionAffector {
@@ -139,8 +148,11 @@ public:
     std::uint32_t getType() const;
     // 0x6d586c _ZNK6glitch5scene14CTextSceneNode14getBoundingBoxEv
     const core::aabbox3d<float>& getBoundingBox() const;
+    // 0x6d5874 _ZN6glitch5scene14CTextSceneNode12setTextColorENS_5video6SColorE
+    void setTextColor(video::SColor color);
 
     core::aabbox3d<float> boundingBox;  // +0x188
+    video::SColor textColor;            // +0x17c (bytes +0x17c..+0x17f)
 };
 
 class CBillboardTextSceneNode {
@@ -159,9 +171,12 @@ public:
     void setColor(const glitch::video::SColor& color);
     // 0x6d5a08 _ZN6glitch5scene23CBillboardTextSceneNode8setColorERKNS_5video6SColorES5_ (empty)
     void setColor(const glitch::video::SColor& top, const glitch::video::SColor& bottom);
+    // 0x6d59cc _ZN6glitch5scene23CBillboardTextSceneNode12setTextColorENS_5video6SColorE
+    void setTextColor(video::SColor color);
 
     core::dimension2d<float> size;      // +0x188
     core::aabbox3d<float> boundingBox;  // +0x190
+    video::SColor textColor;            // +0x180 (bytes +0x180..+0x183)
 };
 
 class CDummyTransformationSceneNode {
@@ -188,6 +203,13 @@ public:
     core::aabbox3d<float> boundingBox;  // +0x130
 };
 
+// One terrain patch record, stride 0x38. The LOD word is the first field and the
+// bounding box follows it; the rest of the record is not mapped.
+struct STerrainPatch {
+    std::int32_t lod = 0;                    // +0x00
+    core::aabbox3d<float> boundingBox;       // +0x04
+};
+
 class CTerrainSceneNode {
 public:
     // 0x6d00b4 _ZNK6glitch5scene17CTerrainSceneNode8getScaleEv
@@ -204,7 +226,21 @@ public:
     core::vector3d<float> position;     // +0x134
     core::vector3d<float> rotation;     // +0x140
     core::vector3d<float> scale;        // +0x15c
+    // The patch grid is row-major: index = row * patchesPerSide + column.
+    // 0x6d01c4 _ZN6glitch5scene17CTerrainSceneNode16setRotationPivotERKNS_4core8vector3dIfEE
+    void setRotationPivot(const core::vector3d<float>& pivot);
+    // 0x6d0200 _ZNK6glitch5scene17CTerrainSceneNode14getBoundingBoxEii
+    const core::aabbox3d<float>& getBoundingBox(std::int32_t row, std::int32_t column) const;
+    // 0x6d021c _ZN6glitch5scene17CTerrainSceneNode13setLODOfPatchEiii
+    void setLODOfPatch(std::int32_t row, std::int32_t column, std::int32_t lod);
+    // 0x6d03f0 _ZN6glitch5scene17CTerrainSceneNode22setCurrentLODOfPatchesEi
+    void setCurrentLODOfPatches(std::int32_t lod);
+
     core::aabbox3d<float> boundingBox;  // +0x184
+    core::vector3d<float> rotationPivot;  // +0x150
+    std::uint8_t rotationPivotFlag = 0;   // +0x1be (cleared by setRotationPivot)
+    std::int32_t patchesPerSide = 0;      // +0x17c
+    std::vector<STerrainPatch> patches;   // +0x1a8, patchesPerSide squared entries
 };
 
 class CShadowVolumeSceneNode {
@@ -265,9 +301,24 @@ public:
     // 0x6c0f08 _ZN6glitch5scene24CParticleSystemSceneNode17reallocateBuffersEv (empty)
     void reallocateBuffers();
 
+    // 0x6c0dd0 _ZNK6glitch5scene24CParticleSystemSceneNode20getNumberOfParticlesEv
+    std::int32_t getNumberOfParticles() const;
+    // 0x6c0ef4 _ZN6glitch5scene24CParticleSystemSceneNode15setParticleSizeERKNS_4core11dimension2dIfEE
+    void setParticleSize(const core::dimension2d<float>& size);
+    // 0x6c0f0c _ZN6glitch5scene24CParticleSystemSceneNode16setBillboardTypeENS0_25E_PARTICLE_BILLBOARD_TYPEE
+    void setBillboardType(std::uint32_t type);
+
+    // One particle record, 0x44 bytes in the original. The fields are not mapped.
+    struct SParticleRecord {
+        std::uint8_t bytes[0x44] = {};
+    };
+
+    std::vector<SParticleRecord> particles;   // +0x13c (begin) .. +0x140 (end)
     IParticleEmitter* emitter = nullptr;      // +0x138
     float transparency = 0.0f;                // +0x184
     core::aabbox3d<float> boundingBox;        // +0x158
+    core::dimension2d<float> particleSize;    // +0x148
+    std::uint32_t billboardType = 0;          // +0x17c
     bool particlesAreGlobal = false;          // +0x180
 };
 
@@ -275,6 +326,8 @@ class CMesh {
 public:
     // 0x6bbc68 _ZNK6glitch5scene5CMesh14getBoundingBoxEv
     const core::aabbox3d<float>& getBoundingBox() const;
+    // 0x6bbc70 _ZN6glitch5scene5CMesh14setBoundingBoxERKNS_4core8aabbox3dIfEE
+    void setBoundingBox(const core::aabbox3d<float>& box);
 
     core::aabbox3d<float> boundingBox;  // +0x14
 };
@@ -295,8 +348,16 @@ public:
     // 0x6c7960 _ZNK6glitch5scene27CSceneNodeAnimatorCameraFPS12getMoveSpeedEv
     float getMoveSpeed() const;
 
+    // 0x6c7928 _ZN6glitch5scene27CSceneNodeAnimatorCameraFPS9allKeysUpEv
+    void allKeysUp();
+    // 0x6c7968 _ZN6glitch5scene27CSceneNodeAnimatorCameraFPS19setVerticalMovementEb
+    // Stores the inverse of the argument, as the original does.
+    void setVerticalMovement(bool allowed);
+
     float moveSpeed = 0.0f;    // +0x14
     float rotateSpeed = 0.0f;  // +0x18
+    bool keyDown[6] = {};      // +0x4c..+0x51 (cleared by allKeysUp)
+    bool noVerticalMovement = false;  // +0x53
 };
 
 class CSceneNodeAnimatorCameraMaya {
@@ -318,9 +379,15 @@ public:
     // 0x6c9614 _ZNK6glitch5scene28CSceneNodeAnimatorCameraMaya12getZoomSpeedEv
     float getZoomSpeed() const;
 
+    // 0x6c95cc _ZN6glitch5scene28CSceneNodeAnimatorCameraMaya14isMouseKeyDownEi
+    bool isMouseKeyDown(int key) const;
+    // 0x6c95d8 _ZN6glitch5scene28CSceneNodeAnimatorCameraMaya9allKeysUpEv
+    void allKeysUp();
+
     float zoomSpeed = 0.0f;    // +0x24
     float rotateSpeed = 0.0f;  // +0x28
     float moveSpeed = 0.0f;    // +0x2c
+    bool mouseKeyDown[3] = {};  // +0x0c..+0x0e (cleared by allKeysUp)
 };
 
 class CSceneNodeAnimatorCollisionResponse {
@@ -336,6 +403,22 @@ public:
     // 0x6ca75c _ZNK6glitch5scene35CSceneNodeAnimatorCollisionResponse8getWorldEv
     ITriangleSelector* getWorld() const;
 
+    // 0x6ca6a4 _ZN6glitch5scene35CSceneNodeAnimatorCollisionResponse18setEllipsoidRadiusERKNS_4core8vector3dIfEE
+    void setEllipsoidRadius(const core::vector3d<float>& radius);
+    // 0x6ca6c0 _ZNK6glitch5scene35CSceneNodeAnimatorCollisionResponse18getEllipsoidRadiusEv
+    core::vector3d<float> getEllipsoidRadius() const;
+    // 0x6ca6dc _ZN6glitch5scene35CSceneNodeAnimatorCollisionResponse10setGravityERKNS_4core8vector3dIfEE
+    void setGravity(const core::vector3d<float>& gravity);
+    // 0x6ca6f8 _ZNK6glitch5scene35CSceneNodeAnimatorCollisionResponse10getGravityEv
+    core::vector3d<float> getGravity() const;
+    // 0x6ca714 _ZN6glitch5scene35CSceneNodeAnimatorCollisionResponse23setEllipsoidTranslationERKNS_4core8vector3dIfEE
+    void setEllipsoidTranslation(const core::vector3d<float>& translation);
+    // 0x6ca730 _ZNK6glitch5scene35CSceneNodeAnimatorCollisionResponse23getEllipsoidTranslationEv
+    core::vector3d<float> getEllipsoidTranslation() const;
+
+    core::vector3d<float> ellipsoidRadius;       // +0x18
+    core::vector3d<float> gravity;               // +0x24
+    core::vector3d<float> ellipsoidTranslation;  // +0x30
     ITriangleSelector* world = nullptr;  // +0x3c
     bool falling = false;                // +0x54
     float slidingSpeed = 0.0f;           // +0x50
@@ -420,6 +503,26 @@ public:
     ~IMeshCache() = default;
 };
 
+// Mesh cache. Each entry is 0x1c bytes: the file name at +0x14 and the mesh at +0x18.
+class CMeshCache {
+public:
+    struct SMeshEntry {
+        std::uint8_t reserved[0x14] = {};  // +0x00..+0x13 (not mapped)
+        const char* filename = nullptr;    // +0x14
+        const IAnimatedMesh* mesh = nullptr;  // +0x18
+    };
+
+    // 0x6be504 _ZNK6glitch5scene10CMeshCache12getMeshCountEv
+    std::int32_t getMeshCount() const;
+    // 0x6be60c _ZNK6glitch5scene10CMeshCache15getMeshFilenameEj (null when out of range)
+    const char* getMeshFilename(std::uint32_t index) const;
+    // 0x6be64c _ZNK6glitch5scene10CMeshCache15getMeshFilenameERKN5boost13intrusive_ptrIKNS0_13IAnimatedMeshEEE
+    // The first entry whose mesh matches is used; null when none matches.
+    const char* getMeshFilename(const boost::intrusive_ptr<const IAnimatedMesh>& mesh) const;
+
+    std::vector<SMeshEntry> entries;  // +0x08 (begin) .. +0x0c (end)
+};
+
 class IBillboard {
 public:
     // 0x580a20 _ZN6glitch5scene10IBillboardD1Ev (empty)
@@ -456,8 +559,16 @@ class SAnimatedMesh {
 public:
     // 0x599f88 _ZNK6glitch5scene13SAnimatedMesh11getMeshTypeEv
     std::uint32_t getMeshType() const;
+    // 0x599f04 _ZNK6glitch5scene13SAnimatedMesh13getFrameCountEv
+    std::int32_t getFrameCount() const;
+    // 0x599f4c _ZNK6glitch5scene13SAnimatedMesh14getBoundingBoxEv
+    const core::aabbox3d<float>& getBoundingBox() const;
+    // 0x599f54 _ZN6glitch5scene13SAnimatedMesh14setBoundingBoxERKNS_4core8aabbox3dIfEE
+    void setBoundingBox(const core::aabbox3d<float>& box);
 
-    std::uint32_t meshType = 0;  // +0x2c
+    core::aabbox3d<float> boundingBox;  // +0x08
+    std::vector<void*> meshes;          // +0x20 (begin) .. +0x24 (end), one entry per frame
+    std::uint32_t meshType = 0;         // +0x2c
 };
 
 }  // namespace glitch::scene

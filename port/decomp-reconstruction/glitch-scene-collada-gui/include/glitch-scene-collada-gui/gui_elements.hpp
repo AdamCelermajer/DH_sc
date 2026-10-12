@@ -164,14 +164,57 @@ public:
     // 0x540524 _ZNK6glitch3gui9CGUIImage13isImageScaledEv
     bool isImageScaled() const;
 
+    // 0x5404ec _ZN6glitch3gui9CGUIImage8setColorENS_5video6SColorE
+    void setColor(video::SColor color);
+
+    video::SColor color;           // +0x158
     bool useAlphaChannel = false;  // +0x160
     bool scaleImage = false;       // +0x161
+};
+
+// Fader element. Its colour is the value the fade code writes; getColor returns it
+// unchanged (the original repacks the four bytes into the same order).
+class CGUIInOutFader {
+public:
+    // 0x5411d8 _ZNK6glitch3gui14CGUIInOutFader8getColorEv
+    video::SColor getColor() const;
+
+    video::SColor color;  // +0x168
+};
+
+// One list item, stride 0x60 in the original. The text storage before +0x44 is not
+// mapped; the text pointer and icon are read by the accessors.
+struct SListItem {
+    // Override colours: four records of 5 bytes at +0x4c (flag byte at +0x4c + 5i,
+    // the packed colour at +0x4d + 5i). Index i is the EGUI_LISTBOX_COLOR value.
+    struct SOverride {
+        bool enabled = false;      // flag byte
+        video::SColor color;       // colour bytes (unaligned in the original)
+    };
+    const wchar_t* text = nullptr;  // +0x44
+    std::int32_t icon = -1;         // +0x48
+    SOverride overrides[4];         // +0x4c..+0x6b (20 bytes packed in the original)
 };
 
 class CGUIListBox {
 public:
     // 0x541dc4 _ZNK6glitch3gui11CGUIListBox11getSelectedEv
     int getSelected() const;
+    // 0x541bcc _ZNK6glitch3gui11CGUIListBox12getItemCountEv
+    std::int32_t getItemCount() const;
+    // 0x541bf4 _ZNK6glitch3gui11CGUIListBox11getListItemEj (null when out of range)
+    const wchar_t* getListItem(std::uint32_t index) const;
+    // 0x541c30 _ZNK6glitch3gui11CGUIListBox7getIconEj (-1 when out of range)
+    std::int32_t getIcon(std::uint32_t index) const;
+    // 0x5420d4 _ZN6glitch3gui11CGUIListBox22clearItemOverrideColorEj
+    void clearItemOverrideColor(std::uint32_t index);
+    // 0x542114 _ZN6glitch3gui11CGUIListBox22clearItemOverrideColorEjNS0_18EGUI_LISTBOX_COLORE
+    // Colours above 3 are ignored, as the original checks.
+    void clearItemOverrideColor(std::uint32_t index, std::uint32_t which);
+    // 0x542168 _ZNK6glitch3gui11CGUIListBox20hasItemOverrideColorEjNS0_18EGUI_LISTBOX_COLORE (false when out of range)
+    bool hasItemOverrideColor(std::uint32_t index, std::uint32_t which) const;
+    // 0x5421c8 _ZNK6glitch3gui11CGUIListBox20getItemOverrideColorEjNS0_18EGUI_LISTBOX_COLORE (0 when out of range)
+    video::SColor getItemOverrideColor(std::uint32_t index, std::uint32_t which) const;
     // 0x541ee4 _ZN6glitch3gui11CGUIListBox20setAutoScrollEnabledEb
     void setAutoScrollEnabled(bool enabled);
     // 0x541eec _ZNK6glitch3gui11CGUIListBox19isAutoScrollEnabledEv
@@ -182,6 +225,7 @@ public:
     // Vtable slot 0x88 in the original; implemented by the list box proper.
     virtual std::uint32_t addItem(const wchar_t* text, int icon) = 0;
 
+    std::vector<SListItem> items;  // +0x158 (begin) .. +0x15c (end)
     int selected = -1;         // +0x164
     bool autoScroll = false;   // +0x188
 };
@@ -238,9 +282,15 @@ public:
     void setDrawBackground(bool draw);
     // 0x5520f0 _ZNK6glitch3gui7CGUITab19isDrawingBackgroundEv
     bool isDrawingBackground() const;
+    // 0x552058 _ZN6glitch3gui7CGUITab18setBackgroundColorENS_5video6SColorE
+    void setBackgroundColor(video::SColor color);
+    // 0x552080 _ZN6glitch3gui7CGUITab12setTextColorENS_5video6SColorE
+    void setTextColor(video::SColor color);
 
     int number = 0;               // +0x158
     bool drawBackground = false;  // +0x15c
+    video::SColor backgroundColor;  // +0x15d (unaligned in the original)
+    video::SColor textColor;        // +0x161 (unaligned in the original)
 };
 
 class CGUIButton {

@@ -6,6 +6,7 @@
 #include <cstdint>
 
 #include "glitch-scene-collada-gui/deps/core_stand_ins.hpp"
+#include "glitch-scene-collada-gui/deps/intrusive_ptr.hpp"
 #include "glitch-scene-collada-gui/scene_node.hpp"
 
 namespace glitch {
@@ -105,6 +106,29 @@ public:
     // Returns null in the original.
     IMeshWriter* createMeshWriter(std::uint32_t writerType);
 
+    // 0x5891ac _ZN6glitch5scene13CSceneManager14setShadowColorENS_5video6SColorE
+    // Writes the colour into all four shadow colour slots.
+    void setShadowColor(video::SColor color);
+    // 0x589354 _ZN6glitch5scene13CSceneManager22setSceneNodeRenderPassENS0_24E_SCENE_NODE_RENDER_PASSE
+    // Returns the previous render pass.
+    std::uint32_t setSceneNodeRenderPass(std::uint32_t pass);
+    // 0x589508 _ZN6glitch5scene13CSceneManager15setAmbientLightERKNS_5video7SColorfE
+    void setAmbientLight(const video::SColorf& color);
+    // 0x589518 _ZNK6glitch5scene13CSceneManager22getCurrentRenderedNodeEPPvPi
+    // The node and the second word are stored through the pointers when they are not null.
+    std::uint32_t getCurrentRenderedNode(void** node, std::int32_t* second) const;
+    // 0x589538 _ZNK6glitch5scene13CSceneManager19getNextRenderedNodeEPPvPi
+    std::uint32_t getNextRenderedNode(void** node, std::int32_t* second) const;
+
+    video::SColor shadowColors[4];         // +0xf4..+0x103 (four colour words)
+    video::SColorf ambientLight;           // +0x104..+0x113
+    void* currentRenderedNode = nullptr;   // +0xa0 (written by getCurrentRenderedNode)
+    std::int32_t currentRenderedSecond = 0;  // +0xa4
+    std::uint32_t currentRenderedWord = 0;   // +0x9c (returned)
+    void* nextRenderedNode = nullptr;      // +0xac (written by getNextRenderedNode)
+    std::int32_t nextRenderedSecond = 0;   // +0xb0
+    std::uint32_t nextRenderedWord = 0;    // +0xa8 (returned)
+    std::uint32_t renderPass = 0;          // +0x174
     bool hierarchyChanged = false;   // +0x288
     bool visibilityChanged = false;  // +0x289
 };
@@ -124,8 +148,41 @@ public:
     core::aabbox3d<float> boundingBox;       // +0x13c
 };
 
+class IMesh;
+
 class CBatchMesh {
 public:
+    // One batch record, 0x14 bytes in the original. Only the first three words (the
+    // object pointers) and the three 16-bit fields that the constructors zero are
+    // named; their meaning is not mapped.
+    struct SBatch {
+        void* meshBuffer = nullptr;          // +0x00
+        void* material = nullptr;            // +0x04
+        void* vertexAttributeMap = nullptr;  // +0x08
+        std::uint16_t field0C = 0;           // +0x0c
+        std::uint16_t field0E = 0;           // +0x0e
+        std::uint16_t field10 = 0;           // +0x10
+        // 0x578d1c _ZN6glitch5scene10CBatchMesh6SBatchC2Ev (zeroes every field)
+        SBatch() = default;
+        // 0x578d3c _ZN6glitch5scene10CBatchMesh6SBatchC1Ev
+        // 0x578d5c _ZN6glitch5scene10CBatchMesh6SBatchC2Et
+        explicit SBatch(std::uint16_t value);
+    };
+
+    // 0x578c1c _ZNK6glitch5scene10CBatchMesh5cloneEv (null)
+    boost::intrusive_ptr<IMesh> clone() const;
+    // 0x578c28 _ZNK6glitch5scene10CBatchMesh18getMeshBufferCountEv
+    std::int32_t getMeshBufferCount() const;
+    // 0x57aa8c _ZNK6glitch5scene10CBatchMesh14getBoundingBoxEv (partial: refresh call not reconstructed)
+    const core::aabbox3d<float>& getBoundingBox() const;
+    // 0x578c78 _ZN6glitch5scene10CBatchMesh14setBoundingBoxERKNS_4core8aabbox3dIfEE (partial: stores a global word at +0x6c)
+    void setBoundingBox(const core::aabbox3d<float>& box);
+
+    std::vector<SBatch> batches;           // +0x20 (begin) .. +0x24 (end)
+    core::aabbox3d<float> boundingBox;     // +0x50..+0x67
+    void* boundingBoxSource = nullptr;     // +0x68 (checked by getBoundingBox)
+    std::uint32_t boundingBoxStamp = 0;    // +0x6c (set by setBoundingBox)
+    bool boundingBoxDirty = false;         // +0x74
     // One batch segment. The index pair is copied out by getIndexRange; the
     // visible flag is the byte at +0x20 read by CBatchSceneNode::isSegmentVisible.
     struct SSegment {

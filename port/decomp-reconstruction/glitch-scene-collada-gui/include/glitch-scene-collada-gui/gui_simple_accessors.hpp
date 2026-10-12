@@ -5,12 +5,17 @@
 #pragma once
 
 #include <cstdint>
+#include <vector>
+
+#include "glitch-scene-collada-gui/deps/core_stand_ins.hpp"
 
 namespace glitch::gui {
 
 class IGUIFont;
 class IGUISpriteBank;
 class IGUIButton;
+class CGUITab;
+class CGUIContextMenu;
 
 // ---- Font, skin and sprite-bank interfaces ----
 
@@ -38,13 +43,38 @@ public:
     ~IGUISkin() = default;
 };
 
+// One default-text entry of the skin. Only the text pointer (first word) is
+// mapped; the entries are 0x48 bytes apart in the original.
+struct SSkinDefaultText {
+    const wchar_t* text = nullptr;  // +0x00 of each entry (stride 0x48)
+};
+
 class CGUISkin {
 public:
     // 0x54ab38 _ZNK6glitch3gui8CGUISkin13getSpriteBankEv
     IGUISpriteBank* getSpriteBank() const;
     // 0x54ac2c _ZNK6glitch3gui8CGUISkin7getTypeEv
     std::int32_t getType() const;
+    // 0x54aa24 _ZNK6glitch3gui8CGUISkin8getColorENS0_18EGUI_DEFAULT_COLORE
+    // Out-of-range indices (>= 21) return the colour the original leaves in its
+    // registers; that value is not recoverable, so zero is returned (partial).
+    video::SColor getColor(std::uint32_t which) const;
+    // 0x54aaa0 _ZNK6glitch3gui8CGUISkin7getSizeENS0_17EGUI_DEFAULT_SIZEE (0 when out of range)
+    std::int32_t getSize(std::uint32_t which) const;
+    // 0x54aab4 _ZN6glitch3gui8CGUISkin7setSizeENS0_17EGUI_DEFAULT_SIZEEi
+    void setSize(std::uint32_t which, std::int32_t size);
+    // 0x54ab74 _ZNK6glitch3gui8CGUISkin7getIconENS0_17EGUI_DEFAULT_ICONE (0 when out of range)
+    std::uint32_t getIcon(std::uint32_t which) const;
+    // 0x54ab88 _ZN6glitch3gui8CGUISkin7setIconENS0_17EGUI_DEFAULT_ICONEj
+    void setIcon(std::uint32_t which, std::uint32_t icon);
+    // 0x54ab98 _ZNK6glitch3gui8CGUISkin14getDefaultTextENS0_17EGUI_DEFAULT_TEXTE
+    // Out-of-range indices fall back to entry 0.
+    const wchar_t* getDefaultText(std::uint32_t which) const;
 
+    video::SColor colors[0x15];          // +0x04..+0x57, 21 entries
+    std::int32_t sizes[10] = {};         // +0x58..+0x7f
+    std::uint32_t icons[0x17] = {};      // +0x80..+0xdb, 23 entries
+    SSkinDefaultText defaultTexts[8];    // +0x138..+0x1b7, stride 0x48
     IGUISpriteBank* spriteBank = nullptr;  // +0xf0
     std::int32_t skinType = 0;             // +0x33c
 };
@@ -71,11 +101,25 @@ public:
     bool isOverrideColorEnabled() const;
     // 0x54ffc4 _ZNK6glitch3gui14CGUIStaticText17isWordWrapEnabledEv
     bool isWordWrapEnabled() const;
+    // 0x54ff1c _ZN6glitch3gui14CGUIStaticText16setOverrideColorENS_5video6SColorE
+    // Also sets the override-colour enable flag, as the original does.
+    void setOverrideColor(video::SColor color);
+    // 0x54ff54 _ZN6glitch3gui14CGUIStaticText18setBackgroundColorENS_5video6SColorE
+    // Also sets the draw-background flag.
+    void setBackgroundColor(video::SColor color);
+    // 0x54ff9c _ZN6glitch3gui14CGUIStaticText16setTextAlignmentENS0_14EGUI_ALIGNMENTES2_
+    void setTextAlignment(std::uint32_t horizontal, std::uint32_t vertical);
+    // 0x54ffa8 _ZNK6glitch3gui14CGUIStaticText16getOverrideColorEv
+    const video::SColor& getOverrideColor() const;
 
     bool overrideColorEnabled = false;  // +0x170
     bool drawBorder = false;            // +0x164
     bool drawBackground = false;        // +0x172
     bool wordWrap = false;              // +0x171
+    video::SColor overrideColor;        // +0x173 (unaligned in the original)
+    video::SColor backgroundColor;      // +0x177 (unaligned in the original)
+    std::uint32_t horizontalAlign = 0;  // +0x168
+    std::uint32_t verticalAlign = 0;    // +0x16c
     IGUIFont* overrideFont = nullptr;   // +0x17c
 };
 
@@ -91,7 +135,12 @@ public:
     std::int32_t getTabVerticalAlignment() const;
     // 0x552808 _ZNK6glitch3gui14CGUITabControl12getActiveTabEv
     std::int32_t getActiveTab() const;
+    // 0x552214 _ZNK6glitch3gui14CGUITabControl11getTabCountEv
+    std::int32_t getTabCount() const;
+    // 0x552228 _ZNK6glitch3gui14CGUITabControl6getTabEi (null when out of range)
+    CGUITab* getTab(std::uint32_t index) const;
 
+    std::vector<CGUITab*> tabs;               // +0x158 (begin) .. +0x15c (end)
     std::int32_t activeTab = -1;              // +0x164
     std::int32_t tabHeight = 0;               // +0x16c
     std::int32_t tabVerticalAlignment = 0;    // +0x170
@@ -122,6 +171,40 @@ public:
     void setDrawFlags(std::int32_t flags);
     // 0x555de0 _ZNK6glitch3gui9CGUITable12getDrawFlagsEv
     std::int32_t getDrawFlags() const;
+    // 0x554f60 _ZNK6glitch3gui9CGUITable14getColumnCountEv
+    std::int32_t getColumnCount() const;
+    // 0x554f80 _ZNK6glitch3gui9CGUITable11getRowCountEv
+    std::int32_t getRowCount() const;
+    // 0x555120 _ZN6glitch3gui9CGUITable12setCellColorEjjNS_5video6SColorE (ignored when out of range)
+    void setCellColor(std::uint32_t row, std::uint32_t column, video::SColor color);
+    // 0x5551bc _ZN6glitch3gui9CGUITable11setCellDataEjjPv (ignored when out of range)
+    void setCellData(std::uint32_t row, std::uint32_t column, void* data);
+    // 0x555230 _ZNK6glitch3gui9CGUITable11getCellTextEjj (null when out of range)
+    const wchar_t* getCellText(std::uint32_t row, std::uint32_t column) const;
+    // 0x5552ac _ZNK6glitch3gui9CGUITable11getCellDataEjj (null when out of range)
+    void* getCellData(std::uint32_t row, std::uint32_t column) const;
+    // 0x555914 _ZN6glitch3gui9CGUITable17setColumnOrderingEjNS0_20EGUI_COLUMN_ORDERINGE (ignored when out of range)
+    void setColumnOrdering(std::uint32_t column, std::int32_t ordering);
+
+    // One table cell. The original record is 0x98 bytes; the mapped fields are the
+    // text pointer, the colour and the user data.
+    struct SCell {
+        const wchar_t* text = nullptr;  // +0x44
+        video::SColor color;            // +0x90 (bytes +0x90..+0x93)
+        void* data = nullptr;           // +0x94
+    };
+    // One row record: the cell array (stride 0x98) is its first word; the row
+    // record itself is 0x0c bytes.
+    struct SRow {
+        std::vector<SCell> cells;  // +0x00
+    };
+    // One column record: stride 0x54. Only the ordering field (+0x50) is mapped.
+    struct SColumn {
+        std::int32_t ordering = 0;  // +0x50
+    };
+
+    std::vector<SColumn> columns;  // +0x158 (begin) .. +0x15c (end)
+    std::vector<SRow> rows;        // +0x164 (begin) .. +0x168 (end)
 
     bool resizableColumns = false;         // +0x188
     bool selectableColumn = false;         // +0x189
@@ -195,16 +278,70 @@ class CGUIComboBox {
 public:
     // 0x6aab14 _ZNK6glitch3gui12CGUIComboBox11getSelectedEv
     std::int32_t getSelected() const;
+    // 0x6aaa88 _ZNK6glitch3gui12CGUIComboBox12getItemCountEv
+    std::int32_t getItemCount() const;
+    // 0x6aaab8 _ZNK6glitch3gui12CGUIComboBox7getItemEj (null when out of range)
+    const wchar_t* getItem(std::uint32_t index) const;
 
+    // One combo item record, stride 0x48; the text pointer is at +0x44.
+    struct SItem {
+        const wchar_t* text = nullptr;  // +0x44
+    };
+
+    std::vector<SItem> items;  // +0x164 (begin) .. +0x168 (end)
     std::int32_t selected = -1;  // +0x170
 };
 
 class CGUIContextMenu {
 public:
+    // One menu item record, stride 0x60. Field names follow the uses in the
+    // accessors; the layout of the other fields is not mapped.
+    struct SItem {
+        const wchar_t* text = nullptr;   // +0x44
+        bool enabled = false;            // +0x49
+        bool checked = false;            // +0x4a
+        std::int32_t width = 0;          // +0x4c (menu bar: horizontal extent)
+        std::int32_t height = 0;         // +0x50 (context menu: vertical extent)
+        std::int32_t offset = 0;         // +0x54 (menu bar: x offset, context menu: y offset)
+        CGUIContextMenu* subMenu = nullptr;  // +0x58
+        std::int32_t commandId = 0;      // +0x5c
+    };
+
     // 0x6ad4d4 _ZNK6glitch3gui15CGUIContextMenu15getSelectedItemEv
     std::int32_t getSelectedItem() const;
+    // 0x6acdac _ZNK6glitch3gui15CGUIContextMenu12getItemCountEv
+    std::int32_t getItemCount() const;
+    // 0x6acf08 _ZNK6glitch3gui15CGUIContextMenu11getItemTextEj (null when out of range)
+    const wchar_t* getItemText(std::uint32_t index) const;
+    // 0x6acf44 _ZNK6glitch3gui15CGUIContextMenu13isItemEnabledEj (false when out of range)
+    bool isItemEnabled(std::uint32_t index) const;
+    // 0x6acf80 _ZNK6glitch3gui15CGUIContextMenu13isItemCheckedEj (false when out of range)
+    bool isItemChecked(std::uint32_t index) const;
+    // 0x6acfbc _ZN6glitch3gui15CGUIContextMenu14setItemEnabledEjb (ignored when out of range)
+    void setItemEnabled(std::uint32_t index, bool enabled);
+    // 0x6acff4 _ZN6glitch3gui15CGUIContextMenu14setItemCheckedEjb (ignored when out of range)
+    void setItemChecked(std::uint32_t index, bool checked);
+    // 0x6ad1d0 _ZNK6glitch3gui15CGUIContextMenu8getHRectERKNS1_5SItemERKNS_4core4rectIiEE
+    core::rect<std::int32_t> getHRect(const SItem& item, const core::rect<std::int32_t>& rect) const;
+    // 0x6ad214 _ZNK6glitch3gui15CGUIContextMenu7getRectERKNS1_5SItemERKNS_4core4rectIiEE
+    core::rect<std::int32_t> getRect(const SItem& item, const core::rect<std::int32_t>& rect) const;
+    // 0x6ad4dc _ZNK6glitch3gui15CGUIContextMenu10getSubMenuEj (null when out of range)
+    CGUIContextMenu* getSubMenu(std::uint32_t index) const;
+    // 0x6ad518 _ZNK6glitch3gui15CGUIContextMenu16getItemCommandIdEj (-1 when out of range)
+    std::int32_t getItemCommandId(std::uint32_t index) const;
+    // 0x6ad554 _ZN6glitch3gui15CGUIContextMenu16setItemCommandIdEji (ignored when out of range)
+    void setItemCommandId(std::uint32_t index, std::int32_t commandId);
 
     std::int32_t selectedItem = -1;  // +0x158
+    std::vector<SItem> items;        // +0x15c (begin) .. +0x160 (end)
+};
+
+// Menu bar. Its highlight rectangle uses the same item record as the context menu.
+class CGUIMenu {
+public:
+    // 0x545818 _ZNK6glitch3gui8CGUIMenu8getHRectERKNS0_15CGUIContextMenu5SItemERKNS_4core4rectIiEE
+    core::rect<std::int32_t> getHRect(const CGUIContextMenu::SItem& item,
+                                      const core::rect<std::int32_t>& rect) const;
 };
 
 class CGUICheckBox {
@@ -233,6 +370,11 @@ public:
     bool isMultiLineEnabled() const;
     // 0x6afad0 _ZNK6glitch3gui11CGUIEditBox13isPasswordBoxEv
     bool isPasswordBox() const;
+    // 0x6afa70 _ZN6glitch3gui11CGUIEditBox16setOverrideColorENS_5video6SColorE
+    // Also sets the override-colour enable flag, as the original does.
+    void setOverrideColor(video::SColor color);
+    // 0x6afad8 _ZN6glitch3gui11CGUIEditBox16setTextAlignmentENS0_14EGUI_ALIGNMENTES2_
+    void setTextAlignment(std::uint32_t horizontal, std::uint32_t vertical);
     // 0x6afae4 _ZN6glitch3gui11CGUIEditBox13setAutoScrollEb
     void setAutoScroll(bool enable);
     // 0x6afaec _ZNK6glitch3gui11CGUIEditBox19isAutoScrollEnabledEv
@@ -247,6 +389,9 @@ public:
     bool passwordBox = false;         // +0x18b
     bool wordWrap = false;            // +0x188
     std::int32_t maxChars = 0;        // +0x184
+    video::SColor overrideColor;      // +0x164
+    std::uint32_t horizontalAlign = 0;  // +0x190
+    std::uint32_t verticalAlign = 0;    // +0x194
 };
 
 // ---- Factory and environment interfaces (empty destructors) ----

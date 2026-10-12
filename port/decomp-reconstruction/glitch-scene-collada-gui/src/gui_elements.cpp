@@ -332,4 +332,74 @@ CGUIFont* CGUIEnvironment::getBuiltInFont() const {
     return builtInFontBegin->font;
 }
 
+// 0x5404ec _ZN6glitch3gui9CGUIImage8setColorENS_5video6SColorE
+void CGUIImage::setColor(video::SColor value) {
+    color = value;
+}
+
+// 0x5411d8 _ZNK6glitch3gui14CGUIInOutFader8getColorEv
+// The original rebuilds the word from the same four bytes in the same order.
+video::SColor CGUIInOutFader::getColor() const {
+    return color;
+}
+
+// 0x552058 _ZN6glitch3gui7CGUITab18setBackgroundColorENS_5video6SColorE
+void CGUITab::setBackgroundColor(video::SColor value) {
+    backgroundColor = value;
+}
+
+// 0x552080 _ZN6glitch3gui7CGUITab12setTextColorENS_5video6SColorE
+void CGUITab::setTextColor(video::SColor value) {
+    textColor = value;
+}
+
+// 0x541bcc _ZNK6glitch3gui11CGUIListBox12getItemCountEv
+std::int32_t CGUIListBox::getItemCount() const {
+    return static_cast<std::int32_t>(items.size());
+}
+
+// 0x541bf4 _ZNK6glitch3gui11CGUIListBox11getListItemEj
+const wchar_t* CGUIListBox::getListItem(std::uint32_t index) const {
+    return index < items.size() ? items[index].text : nullptr;
+}
+
+// 0x541c30 _ZNK6glitch3gui11CGUIListBox7getIconEj
+std::int32_t CGUIListBox::getIcon(std::uint32_t index) const {
+    return index < items.size() ? items[index].icon : -1;
+}
+
+// 0x5420d4 _ZN6glitch3gui11CGUIListBox22clearItemOverrideColorEj
+void CGUIListBox::clearItemOverrideColor(std::uint32_t index) {
+    if (index >= items.size()) {
+        return;
+    }
+    for (SListItem::SOverride& override : items[index].overrides) {
+        override.enabled = false;
+    }
+}
+
+// 0x542114 _ZN6glitch3gui11CGUIListBox22clearItemOverrideColorEjNS0_18EGUI_LISTBOX_COLORE
+void CGUIListBox::clearItemOverrideColor(std::uint32_t index, std::uint32_t which) {
+    if (index >= items.size() || which > 3) {
+        return;
+    }
+    items[index].overrides[which].enabled = false;
+}
+
+// 0x542168 _ZNK6glitch3gui11CGUIListBox20hasItemOverrideColorEjNS0_18EGUI_LISTBOX_COLORE
+bool CGUIListBox::hasItemOverrideColor(std::uint32_t index, std::uint32_t which) const {
+    if (index >= items.size() || which > 3) {
+        return false;
+    }
+    return items[index].overrides[which].enabled;
+}
+
+// 0x5421c8 _ZNK6glitch3gui11CGUIListBox20getItemOverrideColorEjNS0_18EGUI_LISTBOX_COLORE
+video::SColor CGUIListBox::getItemOverrideColor(std::uint32_t index, std::uint32_t which) const {
+    if (index >= items.size() || which > 3) {
+        return video::SColor{};
+    }
+    return items[index].overrides[which].color;
+}
+
 }  // namespace glitch::gui

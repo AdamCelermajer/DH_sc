@@ -1,5 +1,7 @@
 #include "glitch-scene-collada-gui/modular_skinned_mesh.hpp"
 
+#include <cstring>
+
 namespace glitch::collada {
 
 // 0x646a94 _ZNK6glitch7collada19CModularSkinnedMesh7getTypeEv
@@ -55,6 +57,65 @@ void CModularSkinnedMesh::getMaterialVertexAttributeMap(SCountedRef*& out, std::
     SCountedRef* map = buffers[index].vertexAttributeMap;
     out = map;
     if (map) ++map->count;
+}
+
+
+// 0x6469cc _ZNK6glitch7collada19CModularSkinnedMesh15getCategoryNameEi
+const char* CModularSkinnedMesh::getCategoryName(std::int32_t category) const {
+    if (category >= 0 && static_cast<std::uint32_t>(category) < categories->count) {
+        return categories->entries[category].name;
+    }
+    return nullptr;
+}
+
+// 0x6469e8 _ZNK6glitch7collada19CModularSkinnedMesh13getModuleNameEii
+const char* CModularSkinnedMesh::getModuleName(std::int32_t category, std::int32_t module) const {
+    if (category < 0 || static_cast<std::uint32_t>(category) >= categories->count) {
+        return nullptr;
+    }
+    const SCategoryEntry& entry = categories->entries[category];
+    if (module < 0 || static_cast<std::uint32_t>(module) >= entry.moduleCount) {
+        return nullptr;
+    }
+    return entry.modules[module].holder->name;
+}
+
+// 0x646a54 _ZNK6glitch7collada19CModularSkinnedMesh20getCurrentModuleNameEi
+const char* CModularSkinnedMesh::getCurrentModuleName(std::int32_t category) const {
+    const std::int32_t moduleId = getCurrentModuleId(category);
+    if (moduleId == -1) {
+        return nullptr;
+    }
+    return categories->entries[category].modules[moduleId].holder->name;
+}
+
+// 0x647538 _ZNK6glitch7collada19CModularSkinnedMesh13getCategoryIdEPKc
+std::int32_t CModularSkinnedMesh::getCategoryId(const char* name) const {
+    for (std::uint32_t i = 0; i < categories->count; ++i) {
+        if (std::strcmp(categories->entries[i].name, name) == 0) {
+            return static_cast<std::int32_t>(i);
+        }
+    }
+    return -1;
+}
+
+// 0x6474b8 _ZNK6glitch7collada19CModularSkinnedMesh11getModuleIdEPKc
+std::int32_t CModularSkinnedMesh::getModuleId(const char* name) const {
+    for (std::uint32_t category = 0; category < categories->count; ++category) {
+        const SCategoryEntry& entry = categories->entries[category];
+        for (std::uint32_t module = 0; module < entry.moduleCount; ++module) {
+            if (std::strcmp(entry.modules[module].holder->name, name) == 0) {
+                return static_cast<std::int32_t>(module);
+            }
+        }
+    }
+    return -1;
+}
+
+// 0x646cdc _ZNK6glitch7collada19CModularSkinnedMesh14getBoundingBoxEv
+// partial: the refresh call taken when the dirty flag is set is not reconstructed.
+const core::aabbox3d<float>& CModularSkinnedMesh::getBoundingBox() const {
+    return boundingBox;
 }
 
 }  // namespace glitch::collada

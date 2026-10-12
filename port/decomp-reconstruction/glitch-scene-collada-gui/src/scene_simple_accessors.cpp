@@ -263,4 +263,148 @@ std::uint32_t IAnimatedMesh::getMeshType() const { return 0; }
 // 0x599f88 _ZNK6glitch5scene13SAnimatedMesh11getMeshTypeEv
 std::uint32_t SAnimatedMesh::getMeshType() const { return meshType; }
 
+
+// 0x6d5874 _ZN6glitch5scene14CTextSceneNode12setTextColorENS_5video6SColorE
+void CTextSceneNode::setTextColor(video::SColor color) { textColor = color; }
+
+// 0x6d59cc _ZN6glitch5scene23CBillboardTextSceneNode12setTextColorENS_5video6SColorE
+void CBillboardTextSceneNode::setTextColor(video::SColor color) { textColor = color; }
+
+// 0x6c7928 _ZN6glitch5scene27CSceneNodeAnimatorCameraFPS9allKeysUpEv
+void CSceneNodeAnimatorCameraFPS::allKeysUp() {
+    for (bool& key : keyDown) {
+        key = false;
+    }
+}
+
+// 0x6c7968 _ZN6glitch5scene27CSceneNodeAnimatorCameraFPS19setVerticalMovementEb
+void CSceneNodeAnimatorCameraFPS::setVerticalMovement(bool allowed) {
+    noVerticalMovement = !allowed;
+}
+
+// 0x6c95cc _ZN6glitch5scene28CSceneNodeAnimatorCameraMaya14isMouseKeyDownEi
+bool CSceneNodeAnimatorCameraMaya::isMouseKeyDown(int key) const {
+    return mouseKeyDown[key];
+}
+
+// 0x6c95d8 _ZN6glitch5scene28CSceneNodeAnimatorCameraMaya9allKeysUpEv
+void CSceneNodeAnimatorCameraMaya::allKeysUp() {
+    for (bool& key : mouseKeyDown) {
+        key = false;
+    }
+}
+
+// 0x6c0dd0 _ZNK6glitch5scene24CParticleSystemSceneNode20getNumberOfParticlesEv
+std::int32_t CParticleSystemSceneNode::getNumberOfParticles() const {
+    return static_cast<std::int32_t>(particles.size());
+}
+
+// 0x6c0ef4 _ZN6glitch5scene24CParticleSystemSceneNode15setParticleSizeERKNS_4core11dimension2dIfEE
+void CParticleSystemSceneNode::setParticleSize(const core::dimension2d<float>& size) {
+    particleSize = size;
+}
+
+// 0x6c0f0c _ZN6glitch5scene24CParticleSystemSceneNode16setBillboardTypeENS0_25E_PARTICLE_BILLBOARD_TYPEE
+void CParticleSystemSceneNode::setBillboardType(std::uint32_t type) {
+    billboardType = type;
+}
+
+// 0x6d01c4 _ZN6glitch5scene17CTerrainSceneNode16setRotationPivotERKNS_4core8vector3dIfEE
+void CTerrainSceneNode::setRotationPivot(const core::vector3d<float>& pivot) {
+    rotationPivotFlag = 0;
+    rotationPivot = pivot;
+}
+
+// 0x6d0200 _ZNK6glitch5scene17CTerrainSceneNode14getBoundingBoxEii
+const core::aabbox3d<float>& CTerrainSceneNode::getBoundingBox(std::int32_t row, std::int32_t column) const {
+    return patches[static_cast<std::size_t>(patchesPerSide * row + column)].boundingBox;
+}
+
+// 0x6d021c _ZN6glitch5scene17CTerrainSceneNode13setLODOfPatchEiii
+void CTerrainSceneNode::setLODOfPatch(std::int32_t row, std::int32_t column, std::int32_t lod) {
+    patches[static_cast<std::size_t>(patchesPerSide * row + column)].lod = lod;
+}
+
+// 0x6d03f0 _ZN6glitch5scene17CTerrainSceneNode22setCurrentLODOfPatchesEi
+// The original loops patchesPerSide squared times; the patch vector holds that many entries.
+void CTerrainSceneNode::setCurrentLODOfPatches(std::int32_t lod) {
+    for (STerrainPatch& patch : patches) {
+        patch.lod = lod;
+    }
+}
+
+// 0x6ca6a4 _ZN6glitch5scene35CSceneNodeAnimatorCollisionResponse18setEllipsoidRadiusERKNS_4core8vector3dIfEE
+void CSceneNodeAnimatorCollisionResponse::setEllipsoidRadius(const core::vector3d<float>& radius) {
+    ellipsoidRadius = radius;
+}
+
+// 0x6ca6c0 _ZNK6glitch5scene35CSceneNodeAnimatorCollisionResponse18getEllipsoidRadiusEv
+core::vector3d<float> CSceneNodeAnimatorCollisionResponse::getEllipsoidRadius() const {
+    return ellipsoidRadius;
+}
+
+// 0x6ca6dc _ZN6glitch5scene35CSceneNodeAnimatorCollisionResponse10setGravityERKNS_4core8vector3dIfEE
+void CSceneNodeAnimatorCollisionResponse::setGravity(const core::vector3d<float>& value) {
+    gravity = value;
+}
+
+// 0x6ca6f8 _ZNK6glitch5scene35CSceneNodeAnimatorCollisionResponse10getGravityEv
+core::vector3d<float> CSceneNodeAnimatorCollisionResponse::getGravity() const {
+    return gravity;
+}
+
+// 0x6ca714 _ZN6glitch5scene35CSceneNodeAnimatorCollisionResponse23setEllipsoidTranslationERKNS_4core8vector3dIfEE
+void CSceneNodeAnimatorCollisionResponse::setEllipsoidTranslation(const core::vector3d<float>& translation) {
+    ellipsoidTranslation = translation;
+}
+
+// 0x6ca730 _ZNK6glitch5scene35CSceneNodeAnimatorCollisionResponse23getEllipsoidTranslationEv
+core::vector3d<float> CSceneNodeAnimatorCollisionResponse::getEllipsoidTranslation() const {
+    return ellipsoidTranslation;
+}
+
+// 0x6f836c _ZN6glitch5scene17IParticleAffector10setEnabledEb
+void IParticleAffector::setEnabled(bool value) {
+    enabled = value ? 1 : 0;
+}
+
+// 0x6f8374 _ZNK6glitch5scene17IParticleAffector10getEnabledEv
+bool IParticleAffector::getEnabled() const {
+    return enabled != 0;
+}
+
+// 0x599f04 _ZNK6glitch5scene13SAnimatedMesh13getFrameCountEv
+std::int32_t SAnimatedMesh::getFrameCount() const {
+    return static_cast<std::int32_t>(meshes.size());
+}
+
+// 0x599f4c _ZNK6glitch5scene13SAnimatedMesh14getBoundingBoxEv
+const core::aabbox3d<float>& SAnimatedMesh::getBoundingBox() const {
+    return boundingBox;
+}
+
+// 0x599f54 _ZN6glitch5scene13SAnimatedMesh14setBoundingBoxERKNS_4core8aabbox3dIfEE
+void SAnimatedMesh::setBoundingBox(const core::aabbox3d<float>& box) {
+    boundingBox = box;
+}
+
+// 0x6be504 _ZNK6glitch5scene10CMeshCache12getMeshCountEv
+std::int32_t CMeshCache::getMeshCount() const {
+    return static_cast<std::int32_t>(entries.size());
+}
+
+// 0x6be60c _ZNK6glitch5scene10CMeshCache15getMeshFilenameEj
+const char* CMeshCache::getMeshFilename(std::uint32_t index) const {
+    return index < entries.size() ? entries[index].filename : nullptr;
+}
+
+// 0x6be64c _ZNK6glitch5scene10CMeshCache15getMeshFilenameERKN5boost13intrusive_ptrIKNS0_13IAnimatedMeshEEE
+const char* CMeshCache::getMeshFilename(const boost::intrusive_ptr<const IAnimatedMesh>& mesh) const {
+    for (const SMeshEntry& entry : entries) {
+        if (entry.mesh == mesh.get()) {
+            return entry.filename;
+        }
+    }
+    return nullptr;
+}
 }  // namespace glitch::scene
