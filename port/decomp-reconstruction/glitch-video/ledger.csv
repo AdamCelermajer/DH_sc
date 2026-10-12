@@ -366,3 +366,15 @@ elf_address,symbol,status,source_file,notes
 0x6061b4,_ZNK6glitch5video15CImageLoaderPVR24isALoadableFileExtensionEPKc,reconstructed,glitch-video/src/texture_loaders.cpp,PVR extension
 0x604b0c,_ZNK6glitch5video15CImageLoaderJPG21isALoadableFileFormatEPNS_2io9IReadFileE,reconstructed,glitch-video/src/texture_loaders.cpp,JPG format probe; JFIF magic at offset 6
 0x604f6c,_ZNK6glitch5video15CImageLoaderJPG24isALoadableFileExtensionEPKc,reconstructed,glitch-video/src/texture_loaders.cpp,JPG extension
+0x5a90b0,_ZN6glitch5video12IVideoDriver9setOptionEjb,partial,glitch-video/src/video_driver.cpp,option bits; the vtable hook for bit 0x100 is not modelled
+0x5a8b74,_ZN6glitch5video12IVideoDriver10beginSceneEv,reconstructed,glitch-video/src/video_driver.cpp,beginScene clears the four frame counters, returns true
+0x5aab20,_ZN6glitch5video12IVideoDriver8endSceneEv,partial,glitch-video/src/video_driver.cpp,takes the timer value as a parameter (os::Timer::getRealTime in the original)
+0x5aaaf0,_ZNK6glitch5video12IVideoDriver22getPrimitiveCountDrawnEj,reconstructed,glitch-video/src/video_driver.cpp,
+0x5a8ba4,_ZN6glitch5video12IVideoDriver19onMaterialDestroyedEPNS0_9CMaterialE,reconstructed,glitch-video/src/video_driver.cpp,clears cached material pointers and their flag bytes
+0x5b1338,_ZN6glitch5video12IVideoDriver22unregisterRenderBufferEPNS0_13IRenderBufferE,reconstructed,glitch-video/src/video_driver.cpp,std::vector erase of the first matching render buffer
+0x5c5d7c,_ZN6glitch5video9CMaterial23getRenderStateBlockSizeERKNS0_17CMaterialRendererE,reconstructed,glitch-video/src/material.cpp,returns 0 as in the original
+0x5c5d84,_ZN6glitch5video9CMaterial22setRenderStateInternalEhhRKNS0_6detail8material12SRenderStateE,reconstructed,glitch-video/src/material.cpp,no body
+0x5e8260,_ZN6glitch5video15CTextureManager16clearPlaceHolderENS0_14E_TEXTURE_TYPEEPNS0_8ITextureE,reconstructed,glitch-video/src/texture_manager.cpp,placeholders at index type and type + 4
+0x5e828c,_ZN6glitch5video15CTextureManager17clearPlaceHoldersEv,reconstructed,glitch-video/src/texture_manager.cpp,clears placeholders whose texture refcount is 1
+0x5e90e0,_ZN6glitch5video15CTextureManager22addExternalImageLoaderERKN5boost13intrusive_ptrINS0_12IImageLoaderEEE,partial,glitch-video/src/texture_manager.cpp,appends the loader; the loader reference count bump is not modelled
+0x5eaa20,_ZN6glitch5video15CTextureManager22addExternalImageWriterEPNS0_12IImageWriterE,reconstructed,glitch-video/src/texture_manager.cpp,bumps the writer reference count and appends it

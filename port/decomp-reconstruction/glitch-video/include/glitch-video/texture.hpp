@@ -23,6 +23,7 @@ public:
     // 0x6ce46c: the wrap-to-clamp specialisation of setWrap (constant 2).
     void setWrapClamp();
 
+    uint32_t m_refCount = 0;         // +0x04, reference count used by the texture manager
     uint32_t m_width = 0;            // +0x20, mip 0 width
     const int32_t* m_levelSizes = nullptr;  // +0x30, per-mip sizes (or a two-entry range)
     uint32_t m_flags38 = 0;          // +0x38, format, cube and wrap bit fields
