@@ -23,19 +23,6 @@ public:
 void DeletingDestructor(v2QuestAutomatic* self);
 
 
-class v2Quest {
-public:
-    virtual ~v2Quest();
-    void* m_w6 = nullptr;  // +0x18, element array (stride 16)
-    void* m_w8 = nullptr;  // +0x20, element array (stride 44)
-    void* m_w10 = nullptr;  // +0x28, element array (stride 16)
-    void* m_w12 = nullptr;  // +0x30, element array (stride 16)
-    void* m_w14 = nullptr;  // +0x38, element array (stride 16)
-    v2QuestObjectiveStub m_sub60;  // +0x3c, subobject destroyed after the body (listing call)
-    v2QuestObjectiveStub m_sub104;  // +0x68, subobject destroyed after the body (listing call)
-    v2QuestScripts m_sub160;  // +0xa0, subobject destroyed after the body (listing call)
-};
-void DeletingDestructor(v2Quest* self);
 
 
 class v2CondAnd {

@@ -12,55 +12,14 @@
 namespace Structs {
 
 // ItemBase family: destructors free their stored pointers (m_w20 is the freed word at +0x50).
-class ArmorRef : public ItemBase {
-public:
-    ~ArmorRef() override;
-    void* m_w20 = nullptr;  // +0x50
-};
 
-class BeltRef : public ArmorRef {
-public:
-    ~BeltRef() override;
-};
 
-class HelmRef : public ArmorRef {
-public:
-    ~HelmRef() override;
-};
 
-class GloveRef : public ArmorRef {
-public:
-    ~GloveRef() override;
-};
 
-class BootsRef : public ArmorRef {
-public:
-    ~BootsRef() override;
-};
 
-class Valuable : public ItemBase {
-public:
-    ~Valuable() override;
-    void* m_w20 = nullptr;  // +0x50
-};
 
-class Potion : public ItemBase {
-public:
-    ~Potion() override;
-    void* m_w20 = nullptr;  // +0x50
-};
 
-class GoldItem : public ItemBase {
-public:
-    ~GoldItem() override;
-    void* m_w20 = nullptr;  // +0x50
-};
 
-class Item : public ItemBase {
-public:
-    ~Item() override;
-    void* m_w20 = nullptr;  // +0x50
-};
 
 class ItemAudioVisual {
 public:

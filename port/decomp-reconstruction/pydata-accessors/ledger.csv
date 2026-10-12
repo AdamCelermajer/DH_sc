@@ -1916,3 +1916,249 @@ elf_address,symbol,status,source_file,notes
 0x4db6bc,_ZN7Structs10AIFactionsD1Ev,reconstructed,pydata-accessors/src/w7_structs_5.cpp,"destructor body (D2/D1 share one C++ destructor; root class, no base dtor call)"
 0x4db73c,_ZN7Structs10AIFactionsD0Ev,reconstructed,pydata-accessors/src/w7_structs_5.cpp,deleting destructor: calls the non-virtual destructor then CustomFree(self)
 0x4db758,_ZN7Structs10AIFactionsD2Ev,reconstructed,pydata-accessors/src/w7_structs_5.cpp,"destructor body (D2/D1 share one C++ destructor; root class, no base dtor call)"
+0x4d0054,_ZN7Structs16v2QuestAutomatic8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"finalize: frees m_w5 and m_w7 (zeroing m_w4 and m_w6), then base finalize"
+0x504a90,_ZN7Structs16v2QuestAutomatic4readEP11IStreamBase,skipped,pydata-accessors/src/w7_structs_2.cpp,"thunk forwards to v2QuestObjectiveStub::read, which the port does not declare"
+0x4d016c,_ZN7Structs16v2QuestAutomaticD1Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"base-object destructor, same body as the D2 destructor; the base destructor frees m_w5 and m_w7 again (listing)"
+0x4d01c4,_ZN7Structs16v2QuestAutomaticD0Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,deleting destructor: D2 then CustomFree
+0x4d01e0,_ZN7Structs16v2QuestAutomaticD2Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,record destructor (C++ ~v2QuestAutomatic): frees m_w5 and m_w7; base destructor frees them again (listing)
+0x4d04dc,_ZN7Structs7v2QuestD1Ev,reconstructed,pydata-accessors/src/w7_structs_1.cpp,"base-object destructor: five element arrays (strides 16, 44, 16, 16, 16); subobjects at +0x3c, +0x68, +0xa0 are members (choice, not decidable from the listing)"
+0x4d06a4,_ZN7Structs7v2QuestD0Ev,reconstructed,pydata-accessors/src/w7_structs_1.cpp,deleting destructor: D2 then CustomFree
+0x4d06c0,_ZN7Structs7v2QuestD2Ev,reconstructed,pydata-accessors/src/w7_structs_1.cpp,"record destructor: same body as D1; subobjects at +0x3c, +0x68, +0xa0 as members"
+0x4d09b4,_ZN7Structs9v2CondAnd8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"finalize: destroys v2ConditionStub elements (stride 16) via slot 0, zeroes m_w1 and m_w2"
+0x505970,_ZN7Structs9v2CondAnd4readEP11IStreamBase,skipped,pydata-accessors/src/w7_structs_2.cpp,read needs the element read slot (+0xc) of v2ConditionStub; structs_records.hpp declares no read there
+0x4d0a18,_ZN7Structs9v2CondAndD1Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,base-object destructor: destroys elements (stride 16)
+0x4d0a94,_ZN7Structs9v2CondAndD0Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,deleting destructor: D1 then CustomFree
+0x4d0ab0,_ZN7Structs9v2CondAndD2Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,record destructor: destroys elements (stride 16)
+0x4d0b2c,_ZN7Structs10SpawnGroup8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"finalize: destroys SpawnInfo elements (stride 16), zeroes m_w3 and m_w4"
+0x4eb244,_ZN7Structs10SpawnGroup4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"read: bool at +0x4, int at +0x8, uint count at +0xc, SpawnInfo elements (stride 16) each read via slot +0xc"
+0x4d0b90,_ZN7Structs10SpawnGroupD1Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,base-object destructor: destroys SpawnInfo elements
+0x4d0c0c,_ZN7Structs10SpawnGroupD0Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,deleting destructor: D1 then CustomFree
+0x4d0c28,_ZN7Structs10SpawnGroupD2Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,record destructor: destroys SpawnInfo elements
+0x4d0ca4,_ZN7Structs10CharSounds8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"finalize: frees four int32 arrays (m_w2, m_w4, m_w6, m_w8), zeroing each count and pointer"
+0x4eade4,_ZN7Structs10CharSounds4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"read: four uint counts with int32 arrays, then bools at +0x24 and +0x25 (m_off37)"
+0x4d0d20,_ZN7Structs10CharSoundsD1Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,base-object destructor: frees four int32 arrays
+0x4d0d90,_ZN7Structs10CharSoundsD0Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,deleting destructor: D1 then CustomFree
+0x4d0dac,_ZN7Structs10CharSoundsD2Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,record destructor: frees four int32 arrays
+0x4d0e1c,_ZN7Structs5Sound8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"finalize: frees the string at +0x10, zeroes m_w3 and m_w4"
+0x4eb89c,_ZN7Structs5Sound4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"read: ints at +0x4, +0x8, uint length at +0xc, string (len + 1) at +0x10, ints at +0x14 to +0x28"
+0x4d0e44,_ZN7Structs5SoundD1Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,base-object destructor: frees the string at +0x10
+0x4d0e84,_ZN7Structs5SoundD0Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,deleting destructor: D1 then CustomFree
+0x4d0ea0,_ZN7Structs5SoundD2Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,record destructor: frees the string at +0x10
+0x4d0ee0,_ZN7Structs10SoundGroup8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"finalize: frees the string at +0x8, zeroes m_w1 and m_w2"
+0x4eb784,_ZN7Structs10SoundGroup4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"read: uint length at +0x4, string at +0x8, int at +0xc"
+0x4d0f08,_ZN7Structs10SoundGroupD1Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,base-object destructor: frees the string at +0x8
+0x4d0f48,_ZN7Structs10SoundGroupD0Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,deleting destructor: D1 then CustomFree
+0x4d0f64,_ZN7Structs10SoundGroupD2Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,record destructor: frees the string at +0x8
+0x4d30ec,_ZN7Structs7HideHUD8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"finalize: frees the HideFlash string at +0x10 (zeroes m_w3, m_w4), then HideFlash::finalize"
+0x5021b4,_ZN7Structs7HideHUD4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"thunk, b 0x50208c: forwards to HideFlash::read"
+0x4d31c8,_ZN7Structs7HideHUDD1Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"base-object destructor: frees the HideFlash string at +0x10, base destructor frees it again (listing)"
+0x4d3210,_ZN7Structs7HideHUDD0Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,deleting destructor: D1 then CustomFree
+0x4d322c,_ZN7Structs7HideHUDD2Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"record destructor: frees the HideFlash string at +0x10, base destructor frees it again (listing)"
+0x4d32a4,_ZN7Structs7ShowHUD8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"finalize: frees the ShowFlash string at +0x10 (zeroes m_w3, m_w4), then ShowFlash::finalize"
+0x5022e0,_ZN7Structs7ShowHUD4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"thunk, b 0x5021b8: forwards to ShowFlash::read"
+0x4d3380,_ZN7Structs7ShowHUDD1Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"base-object destructor: frees the ShowFlash string at +0x10, base destructor frees it again (listing)"
+0x4d33c8,_ZN7Structs7ShowHUDD0Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,deleting destructor: D1 then CustomFree
+0x4d33e4,_ZN7Structs7ShowHUDD2Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"record destructor: frees the ShowFlash string at +0x10, base destructor frees it again (listing)"
+0x4d342c,_ZN7Structs10PlayEffect8finalizeEv,skipped,pydata-accessors/src/w7_structs_2.cpp,Structs::PlayEffect is declared in script_cmd.hpp without these methods; not redefined here
+0x5022e4,_ZN7Structs10PlayEffect4readEP11IStreamBase,skipped,pydata-accessors/src/w7_structs_2.cpp,Structs::PlayEffect is declared in script_cmd.hpp without these methods; not redefined here
+0x4d345c,_ZN7Structs10PlayEffectD1Ev,skipped,pydata-accessors/src/w7_structs_2.cpp,Structs::PlayEffect is declared in script_cmd.hpp without these methods; not redefined here
+0x4d34ac,_ZN7Structs10PlayEffectD0Ev,skipped,pydata-accessors/src/w7_structs_2.cpp,Structs::PlayEffect is declared in script_cmd.hpp without these methods; not redefined here
+0x4d34c8,_ZN7Structs10PlayEffectD2Ev,skipped,pydata-accessors/src/w7_structs_2.cpp,Structs::PlayEffect is declared in script_cmd.hpp without these methods; not redefined here
+0x4d39dc,_ZN7Structs10ExecScript8finalizeEv,skipped,pydata-accessors/src/w7_structs_2.cpp,Structs::ExecScript is declared in script_cmd.hpp without these methods; not redefined here
+0x4ffc24,_ZN7Structs10ExecScript4readEP11IStreamBase,skipped,pydata-accessors/src/w7_structs_2.cpp,Structs::ExecScript is declared in script_cmd.hpp without these methods; not redefined here
+0x4d3a0c,_ZN7Structs10ExecScriptD1Ev,skipped,pydata-accessors/src/w7_structs_2.cpp,Structs::ExecScript is declared in script_cmd.hpp without these methods; not redefined here
+0x4d3a54,_ZN7Structs10ExecScriptD0Ev,skipped,pydata-accessors/src/w7_structs_2.cpp,Structs::ExecScript is declared in script_cmd.hpp without these methods; not redefined here
+0x4d3a70,_ZN7Structs10ExecScriptD2Ev,skipped,pydata-accessors/src/w7_structs_2.cpp,Structs::ExecScript is declared in script_cmd.hpp without these methods; not redefined here
+0x4d3ab8,_ZN7Structs9SceneFile8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"finalize: frees the string at +0x8, zeroes m_w1 and m_w2"
+0x4dd4ec,_ZN7Structs9SceneFile4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"read: uint length at +0x4, string at +0x8; listing returns the readStringEx result, not kept"
+0x4d3ae0,_ZN7Structs9SceneFileD1Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,base-object destructor: frees the string at +0x8
+0x4d3b20,_ZN7Structs9SceneFileD0Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,deleting destructor: D1 then CustomFree
+0x4d3b3c,_ZN7Structs9SceneFileD2Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,record destructor: frees the string at +0x8
+0x4d3b7c,_ZN7Structs16ItemTypeListList8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"finalize: frees the byte array at +0x8, zeroes m_w1 and m_w2"
+0x4dd2c4,_ZN7Structs16ItemTypeListList4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"read: uint byte count at +0x4, then one int8 per byte into a new array at +0x8"
+0x4d3ba4,_ZN7Structs16ItemTypeListListD1Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,base-object destructor: frees the byte array
+0x4d3be4,_ZN7Structs16ItemTypeListListD0Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,deleting destructor: D1 then CustomFree
+0x4d3c00,_ZN7Structs16ItemTypeListListD2Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,record destructor: frees the byte array
+0x4d3c40,_ZN7Structs8Merchant8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"finalize: destroys MerchandiseListEntry elements (stride 12), zeroes m_w3 and m_w4"
+0x4ff604,_ZN7Structs8Merchant4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"read: ints at +0x4 and +0x8, uint count at +0xc, MerchandiseListEntry elements (stride 12) read via slot +0xc"
+0x4d3ca8,_ZN7Structs8MerchantD1Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,base-object destructor: destroys MerchandiseListEntry elements
+0x4d3d28,_ZN7Structs8MerchantD0Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,deleting destructor: D1 then CustomFree
+0x4d3d44,_ZN7Structs8MerchantD2Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,record destructor: destroys MerchandiseListEntry elements
+0x4d3dc4,_ZN7Structs14TileOffsetList8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"finalize: destroys TileOffset elements (stride 8), zeroes m_w1 and m_w2"
+0x4dc4e0,_ZN7Structs14TileOffsetList4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"read: uint count at +0x4, TileOffset elements (stride 8) read via slot +0xc"
+0x4d3e28,_ZN7Structs14TileOffsetListD1Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,base-object destructor: destroys TileOffset elements
+0x4d3ea4,_ZN7Structs14TileOffsetListD0Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,deleting destructor: D1 then CustomFree
+0x4d3ec0,_ZN7Structs14TileOffsetListD2Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,record destructor: destroys TileOffset elements
+0x4d3f3c,_ZN7Structs11NumProbList8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"finalize: destroys NumProb elements (stride 8), zeroes m_w1 and m_w2"
+0x4dc638,_ZN7Structs11NumProbList4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"read: uint count at +0x4, NumProb elements (stride 8) read via slot +0xc"
+0x4d3fa0,_ZN7Structs11NumProbListD1Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,base-object destructor: destroys NumProb elements
+0x4d401c,_ZN7Structs11NumProbListD0Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,deleting destructor: D1 then CustomFree
+0x4d4038,_ZN7Structs11NumProbListD2Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,record destructor: destroys NumProb elements
+0x4d40b4,_ZN7Structs17ItemListEntryList8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"finalize: destroys ItemListEntry elements (stride 12), zeroes m_w1 and m_w2"
+0x4d411c,_ZN7Structs17ItemListEntryListD1Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,base-object destructor: destroys ItemListEntry elements
+0x4d419c,_ZN7Structs17ItemListEntryListD0Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,deleting destructor: D1 then CustomFree
+0x4d41b8,_ZN7Structs17ItemListEntryListD2Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,record destructor: destroys ItemListEntry elements
+0x4d4238,_ZN7Structs4Loot8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"finalize: destroys stride-36 arrays at +0x10 and +0x18, frees +0x20, zeroes counts and pointers"
+0x4d4318,_ZN7Structs4LootD1Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"base-object destructor: destroys stride-36 arrays, frees +0x20"
+0x4d43f8,_ZN7Structs4LootD0Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,deleting destructor: D1 then CustomFree
+0x4d4414,_ZN7Structs4LootD2Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"record destructor: destroys stride-36 arrays, frees +0x20"
+0x4d451c,_ZN7Structs9WeaponRef8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"finalize: frees m_w2 (ItemBase) and the string at +0x50, then ItemBase::finalize"
+0x4f7b18,_ZN7Structs9WeaponRef4readEP11IStreamBase,partial,pydata-accessors/src/w7_structs_2.cpp,"partial: ItemBase::read (0x4ec47c) is not in the port, so its call is omitted; words 17 to 40 and the string at +0x50 are read"
+0x4d4568,_ZN7Structs15RangedWeaponRef8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"finalize: frees m_w2 (ItemBase) and the string at +0x50, then ItemBase::finalize"
+0x4f83c0,_ZN7Structs15RangedWeaponRef4readEP11IStreamBase,partial,pydata-accessors/src/w7_structs_2.cpp,"partial: ItemBase::read (0x4ec47c) is not in the port, so its call is omitted; words 17 to 40 and the string at +0x50 are read"
+0x4d45b4,_ZN7Structs9ShieldRef8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"finalize: frees m_w2 (ItemBase) and the string at +0x50, then ItemBase::finalize"
+0x4f8c68,_ZN7Structs9ShieldRef4readEP11IStreamBase,partial,pydata-accessors/src/w7_structs_2.cpp,"partial: ItemBase::read (0x4ec47c) is not in the port, so its call is omitted; words 17 to 40 and the string at +0x50 are read"
+0x4d4600,_ZN7Structs10JewelryRef8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"finalize: frees m_w2 (ItemBase) and the string at +0x50, then ItemBase::finalize"
+0x4f9510,_ZN7Structs10JewelryRef4readEP11IStreamBase,partial,pydata-accessors/src/w7_structs_2.cpp,"partial: ItemBase::read (0x4ec47c) is not in the port, so its call is omitted; words 17 to 40 and the string at +0x50 are read"
+0x4d464c,_ZN7Structs8ArmorRef8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"finalize: frees m_w2 (ItemBase) and the string at +0x50, then ItemBase::finalize"
+0x4f9db8,_ZN7Structs8ArmorRef4readEP11IStreamBase,partial,pydata-accessors/src/w7_structs_2.cpp,"partial: ItemBase::read (0x4ec47c) is not in the port, so its call is omitted; words 17 to 40 and the string at +0x50 are read"
+0x4d4698,_ZN7Structs7BeltRef8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_2.cpp,finalize: calls ArmorRef::finalize (BeltRef has no own fields here)
+0x4fa660,_ZN7Structs7BeltRef4readEP11IStreamBase,partial,pydata-accessors/src/w7_structs_2.cpp,"partial: thunk, b 0x4f9db8: forwards to ArmorRef::read (0x4f9db8), which is partial (ItemBase::read omitted)"
+0x4d46e4,_ZN7Structs7HelmRef8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_2.cpp,finalize: calls ArmorRef::finalize (HelmRef has no own fields here)
+0x4fa664,_ZN7Structs7HelmRef4readEP11IStreamBase,partial,pydata-accessors/src/w7_structs_2.cpp,"partial: thunk, b 0x4f9db8: forwards to ArmorRef::read (0x4f9db8), which is partial (ItemBase::read omitted)"
+0x4d4730,_ZN7Structs8GloveRef8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_2.cpp,finalize: calls ArmorRef::finalize (GloveRef has no own fields here)
+0x4fa668,_ZN7Structs8GloveRef4readEP11IStreamBase,partial,pydata-accessors/src/w7_structs_2.cpp,"partial: thunk, b 0x4f9db8: forwards to ArmorRef::read (0x4f9db8), which is partial (ItemBase::read omitted)"
+0x4d477c,_ZN7Structs8BootsRef8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_2.cpp,finalize: calls ArmorRef::finalize (BootsRef has no own fields here)
+0x4fa66c,_ZN7Structs8BootsRef4readEP11IStreamBase,partial,pydata-accessors/src/w7_structs_2.cpp,"partial: thunk, b 0x4f9db8: forwards to ArmorRef::read (0x4f9db8), which is partial (ItemBase::read omitted)"
+0x4d47c8,_ZN7Structs8Valuable8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"finalize: frees m_w2 (ItemBase) and the string at +0x50, then ItemBase::finalize"
+0x4fa670,_ZN7Structs8Valuable4readEP11IStreamBase,partial,pydata-accessors/src/w7_structs_2.cpp,"partial: ItemBase::read (0x4ec47c) is not in the port, so its call is omitted; words 17 to 40 and the string at +0x50 are read"
+0x4d4814,_ZN7Structs6Potion8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"finalize: frees m_w2 (ItemBase) and the string at +0x50, then ItemBase::finalize"
+0x4faf18,_ZN7Structs6Potion4readEP11IStreamBase,partial,pydata-accessors/src/w7_structs_2.cpp,"partial: ItemBase::read (0x4ec47c) is not in the port, so its call is omitted; words 17 to 40 and the string at +0x50 are read"
+0x4d4860,_ZN7Structs8GoldItem8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"finalize: frees m_w2 (ItemBase) and the string at +0x50, then ItemBase::finalize"
+0x4fb7c0,_ZN7Structs8GoldItem4readEP11IStreamBase,partial,pydata-accessors/src/w7_structs_2.cpp,"partial: ItemBase::read (0x4ec47c) is not in the port, so its call is omitted; words 17 to 40 and the string at +0x50 are read"
+0x4d48ac,_ZN7Structs4Item8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_2.cpp,"finalize: frees m_w2 (ItemBase) and the string at +0x50, then ItemBase::finalize; Item destructor not in this slice (implicit, does not free +0x50)"
+0x4d4994,_ZN7Structs9WeaponRefD1Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,base-object destructor: frees m_w2 and the string at +0x50; base destructor frees m_w2 again (listing)
+0x4d49ec,_ZN7Structs9WeaponRefD0Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,deleting destructor: D1 then CustomFree
+0x4d4a08,_ZN7Structs9WeaponRefD2Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,record destructor: frees m_w2 and the string at +0x50; base destructor frees m_w2 again (listing)
+0x4d4a60,_ZN7Structs15RangedWeaponRefD1Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,base-object destructor: frees m_w2 and the string at +0x50; base destructor frees m_w2 again (listing)
+0x4d4ab8,_ZN7Structs15RangedWeaponRefD0Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,deleting destructor: D1 then CustomFree
+0x4d4ad4,_ZN7Structs15RangedWeaponRefD2Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,record destructor: frees m_w2 and the string at +0x50; base destructor frees m_w2 again (listing)
+0x4d4b2c,_ZN7Structs9ShieldRefD1Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,base-object destructor: frees m_w2 and the string at +0x50; base destructor frees m_w2 again (listing)
+0x4d4b84,_ZN7Structs9ShieldRefD0Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,deleting destructor: D1 then CustomFree
+0x4d4ba0,_ZN7Structs9ShieldRefD2Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,record destructor: frees m_w2 and the string at +0x50; base destructor frees m_w2 again (listing)
+0x4d4bf8,_ZN7Structs10JewelryRefD1Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,base-object destructor: frees m_w2 and the string at +0x50; base destructor frees m_w2 again (listing)
+0x4d4c50,_ZN7Structs10JewelryRefD0Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,deleting destructor: D1 then CustomFree
+0x4d4c6c,_ZN7Structs10JewelryRefD2Ev,reconstructed,pydata-accessors/src/w7_structs_2.cpp,record destructor: frees m_w2 and the string at +0x50; base destructor frees m_w2 again (listing)
+0x4d4cc4,_ZN7Structs8ArmorRefD1Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"D1 (base-object destructor), same body as D2 at 0x4d4d38; frees m_w2 and m_w20, then ItemBase dtor frees m_w2 again (listing: double free on this path)"
+0x4d4d1c,_ZN7Structs8ArmorRefD0Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,D0 deleting destructor: DeletingDestructor(ArmorRef*) calls ~ArmorRef then CustomFree
+0x4d4d38,_ZN7Structs8ArmorRefD2Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"D2 (complete-object destructor), same body as D1 at 0x4d4cc4; frees m_w2 and m_w20, then ItemBase dtor frees m_w2 again (listing: double free on this path)"
+0x4d4d90,_ZN7Structs7BeltRefD1Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"D1 (base-object destructor), same body as D2 at 0x4d4e04; frees m_w2 and m_w20, then ArmorRef dtor frees both again (listing: double free on this path)"
+0x4d4de8,_ZN7Structs7BeltRefD0Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,D0 deleting destructor: DeletingDestructor(BeltRef*) calls ~BeltRef then CustomFree
+0x4d4e04,_ZN7Structs7BeltRefD2Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"D2 (complete-object destructor), same body as D1 at 0x4d4d90; frees m_w2 and m_w20, then ArmorRef dtor frees both again (listing: double free on this path)"
+0x4d4e5c,_ZN7Structs7HelmRefD1Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"D1 (base-object destructor), same body as D2 at 0x4d4ed0; frees m_w2 and m_w20, then ArmorRef dtor frees both again (listing: double free on this path)"
+0x4d4eb4,_ZN7Structs7HelmRefD0Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,D0 deleting destructor: DeletingDestructor(HelmRef*) calls ~HelmRef then CustomFree
+0x4d4ed0,_ZN7Structs7HelmRefD2Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"D2 (complete-object destructor), same body as D1 at 0x4d4e5c; frees m_w2 and m_w20, then ArmorRef dtor frees both again (listing: double free on this path)"
+0x4d4f28,_ZN7Structs8GloveRefD1Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"D1 (base-object destructor), same body as D2 at 0x4d4f9c; frees m_w2 and m_w20, then ArmorRef dtor frees both again (listing: double free on this path)"
+0x4d4f80,_ZN7Structs8GloveRefD0Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,D0 deleting destructor: DeletingDestructor(GloveRef*) calls ~GloveRef then CustomFree
+0x4d4f9c,_ZN7Structs8GloveRefD2Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"D2 (complete-object destructor), same body as D1 at 0x4d4f28; frees m_w2 and m_w20, then ArmorRef dtor frees both again (listing: double free on this path)"
+0x4d4ff4,_ZN7Structs8BootsRefD1Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"D1 (base-object destructor), same body as D2 at 0x4d5068; frees m_w2 and m_w20, then ArmorRef dtor frees both again (listing: double free on this path)"
+0x4d504c,_ZN7Structs8BootsRefD0Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,D0 deleting destructor: DeletingDestructor(BootsRef*) calls ~BootsRef then CustomFree
+0x4d5068,_ZN7Structs8BootsRefD2Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"D2 (complete-object destructor), same body as D1 at 0x4d4ff4; frees m_w2 and m_w20, then ArmorRef dtor frees both again (listing: double free on this path)"
+0x4d50c0,_ZN7Structs8ValuableD1Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"D1 (base-object destructor), same body as D2 at 0x4d5134; frees m_w2 and m_w20, then ItemBase dtor frees m_w2 again (listing: double free on this path)"
+0x4d5118,_ZN7Structs8ValuableD0Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,D0 deleting destructor: DeletingDestructor(Valuable*) calls ~Valuable then CustomFree
+0x4d5134,_ZN7Structs8ValuableD2Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"D2 (complete-object destructor), same body as D1 at 0x4d50c0; frees m_w2 and m_w20, then ItemBase dtor frees m_w2 again (listing: double free on this path)"
+0x4d518c,_ZN7Structs6PotionD1Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"D1 (base-object destructor), same body as D2 at 0x4d5200; frees m_w2 and m_w20, then ItemBase dtor frees m_w2 again (listing: double free on this path)"
+0x4d51e4,_ZN7Structs6PotionD0Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,D0 deleting destructor: DeletingDestructor(Potion*) calls ~Potion then CustomFree
+0x4d5200,_ZN7Structs6PotionD2Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"D2 (complete-object destructor), same body as D1 at 0x4d518c; frees m_w2 and m_w20, then ItemBase dtor frees m_w2 again (listing: double free on this path)"
+0x4d5258,_ZN7Structs8GoldItemD1Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"D1 (base-object destructor), same body as D2 at 0x4d52cc; frees m_w2 and m_w20, then ItemBase dtor frees m_w2 again (listing: double free on this path)"
+0x4d52b0,_ZN7Structs8GoldItemD0Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,D0 deleting destructor: DeletingDestructor(GoldItem*) calls ~GoldItem then CustomFree
+0x4d52cc,_ZN7Structs8GoldItemD2Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"D2 (complete-object destructor), same body as D1 at 0x4d5258; frees m_w2 and m_w20, then ItemBase dtor frees m_w2 again (listing: double free on this path)"
+0x4d5324,_ZN7Structs4ItemD1Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"D1 (base-object destructor), same body as D2 at 0x4d5398; frees m_w2 and m_w20, then ItemBase dtor frees m_w2 again (listing: double free on this path)"
+0x4d537c,_ZN7Structs4ItemD0Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,D0 deleting destructor: DeletingDestructor(Item*) calls ~Item then CustomFree
+0x4d5398,_ZN7Structs4ItemD2Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"D2 (complete-object destructor), same body as D1 at 0x4d5324; frees m_w2 and m_w20, then ItemBase dtor frees m_w2 again (listing: double free on this path)"
+0x4d53f0,_ZN7Structs15ItemAudioVisual8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: frees string buffer m_w4, clears m_w3 and m_w4"
+0x4fc910,_ZN7Structs15ItemAudioVisual4readEP11IStreamBase,partial,pydata-accessors/src/w7_structs_3.cpp,"partial: 5th 64-bit argument of readStringEx (high word 1, low word undefined in listing) not passed; stand-in readStringEx takes four arguments"
+0x4d5418,_ZN7Structs15ItemAudioVisualD1Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"D1 (base-object destructor), same body as D2 at 0x4d5474"
+0x4d5458,_ZN7Structs15ItemAudioVisualD0Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,D0 deleting destructor: DeletingDestructor(ItemAudioVisual*) calls ~ItemAudioVisual then CustomFree
+0x4d5474,_ZN7Structs15ItemAudioVisualD2Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"D2 (complete-object destructor), same body as D1 at 0x4d5418"
+0x4d5678,_ZN7Structs17ItemBonusAttrList8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: frees int array m_w2, clears m_w1 and m_w2"
+0x4ea954,_ZN7Structs17ItemBonusAttrList4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"read: count at +0x4, reallocates int array of count words, reads each word in order"
+0x4d56a0,_ZN7Structs17ItemBonusAttrListD1Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"D1 (base-object destructor), same body as D2 at 0x4d56fc"
+0x4d56e0,_ZN7Structs17ItemBonusAttrListD0Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,D0 deleting destructor: DeletingDestructor(ItemBonusAttrList*) calls ~ItemBonusAttrList then CustomFree
+0x4d56fc,_ZN7Structs17ItemBonusAttrListD2Ev,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"D2 (complete-object destructor), same body as D1 at 0x4d56a0"
+0x4d573c,_ZN7Structs12ItemPowerRef8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: element table released (last to first through vtable slot 0), table block freed, count and table cleared"
+0x4ecdc8,_ZN7Structs12ItemPowerRef4readEP11IStreamBase,partial,pydata-accessors/src/w7_structs_3.cpp,partial: fixed fields m_w1..m_w9 and table header reconstructed; element vptr store (off_96B368) and per-element read via vtable +0xc not reconstructed (element class not identified)
+0x4d57a0,_ZN7Structs24ItemPowerWandDamageBonus8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed158,_ZN7Structs24ItemPowerWandDamageBonus4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d580c,_ZN7Structs25ItemPowerStaffDamageBonus8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed15c,_ZN7Structs25ItemPowerStaffDamageBonus4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d5878,_ZN7Structs25ItemPowerRangeDamageBonus8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed160,_ZN7Structs25ItemPowerRangeDamageBonus4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d58e4,_ZN7Structs26ItemPowerDaggerDamageBonus8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed164,_ZN7Structs26ItemPowerDaggerDamageBonus4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d5950,_ZN7Structs24ItemPowerMaceDamageBonus8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed168,_ZN7Structs24ItemPowerMaceDamageBonus4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d59bc,_ZN7Structs23ItemPowerAxeDamageBonus8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed16c,_ZN7Structs23ItemPowerAxeDamageBonus4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d5a28,_ZN7Structs25ItemPowerSwordDamageBonus8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed170,_ZN7Structs25ItemPowerSwordDamageBonus4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d5a94,_ZN7Structs19ItemPowerSpellToHit8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed174,_ZN7Structs19ItemPowerSpellToHit4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d5b00,_ZN7Structs22ItemPowerSpellCritical8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed178,_ZN7Structs22ItemPowerSpellCritical4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d5b6c,_ZN7Structs18ItemPowerManaLeech8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed17c,_ZN7Structs18ItemPowerManaLeech4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d5bd8,_ZN7Structs18ItemPowerLifeLeech8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed180,_ZN7Structs18ItemPowerLifeLeech4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d5c44,_ZN7Structs18ItemPowerResistAll8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed184,_ZN7Structs18ItemPowerResistAll4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d5cb0,_ZN7Structs25ItemPowerResistElectrical8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed188,_ZN7Structs25ItemPowerResistElectrical4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d5d1c,_ZN7Structs18ItemPowerResistAir8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed18c,_ZN7Structs18ItemPowerResistAir4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d5d88,_ZN7Structs20ItemPowerResistWater8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed190,_ZN7Structs20ItemPowerResistWater4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d5df4,_ZN7Structs20ItemPowerResistEarth8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed194,_ZN7Structs20ItemPowerResistEarth4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d5e60,_ZN7Structs19ItemPowerResistFire8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed198,_ZN7Structs19ItemPowerResistFire4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d5ecc,_ZN7Structs11ItemPowerDR8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed19c,_ZN7Structs11ItemPowerDR4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d5f38,_ZN7Structs11ItemPowerAR8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed1a0,_ZN7Structs11ItemPowerAR4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d5fa4,_ZN7Structs14ItemPowerToHit8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed1a4,_ZN7Structs14ItemPowerToHit4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d6010,_ZN7Structs15ItemPowerDamage8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed1a8,_ZN7Structs15ItemPowerDamage4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d607c,_ZN7Structs14ItemPowerArmor8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed1ac,_ZN7Structs14ItemPowerArmor4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d60e8,_ZN7Structs14ItemPowerBlock8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed1b0,_ZN7Structs14ItemPowerBlock4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d6154,_ZN7Structs14ItemPowerDodge8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed1b4,_ZN7Structs14ItemPowerDodge4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d61c0,_ZN7Structs17ItemPowerCritical8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed1b8,_ZN7Structs17ItemPowerCritical4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d622c,_ZN7Structs16ItemPowerMPRegen8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed1bc,_ZN7Structs16ItemPowerMPRegen4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d6298,_ZN7Structs16ItemPowerHPRegen8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed1c0,_ZN7Structs16ItemPowerHPRegen4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d6304,_ZN7Structs11ItemPowerMP8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed1c4,_ZN7Structs11ItemPowerMP4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d6370,_ZN7Structs11ItemPowerHP8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed1c8,_ZN7Structs11ItemPowerHP4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d63dc,_ZN7Structs22ItemPowerFireDotDamage8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed1cc,_ZN7Structs22ItemPowerFireDotDamage4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d6448,_ZN7Structs23ItemPowerWaterDotDamage8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed1d0,_ZN7Structs23ItemPowerWaterDotDamage4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d64b4,_ZN7Structs23ItemPowerEarthDotDamage8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed1d4,_ZN7Structs23ItemPowerEarthDotDamage4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d6520,_ZN7Structs25ItemPowerElectricalDamage8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed1d8,_ZN7Structs25ItemPowerElectricalDamage4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d658c,_ZN7Structs18ItemPowerAirDamage8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed1dc,_ZN7Structs18ItemPowerAirDamage4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d65f8,_ZN7Structs20ItemPowerWaterDamage8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed1e0,_ZN7Structs20ItemPowerWaterDamage4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d6664,_ZN7Structs20ItemPowerEarthDamage8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed1e4,_ZN7Structs20ItemPowerEarthDamage4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d66d0,_ZN7Structs19ItemPowerFireDamage8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed1e8,_ZN7Structs19ItemPowerFireDamage4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d673c,_ZN7Structs15ItemPowerEnergy8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed1ec,_ZN7Structs15ItemPowerEnergy4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d67a8,_ZN7Structs18ItemPowerEndurance8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed1f0,_ZN7Structs18ItemPowerEndurance4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d6814,_ZN7Structs18ItemPowerDexterity8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed1f4,_ZN7Structs18ItemPowerDexterity4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d6880,_ZN7Structs17ItemPowerStrength8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed1f8,_ZN7Structs17ItemPowerStrength4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"
+0x4d68ec,_ZN7Structs17ItemPowerAllStats8finalizeEv,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"finalize: releases element table as ItemPowerRef, then ItemPowerRef::finalize"
+0x4ed1fc,_ZN7Structs17ItemPowerAllStats4readEP11IStreamBase,reconstructed,pydata-accessors/src/w7_structs_3.cpp,"thunk, b 0x4ecdc8: forwards to ItemPowerRef::read"

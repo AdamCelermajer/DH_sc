@@ -193,19 +193,7 @@ void DeletingDestructor(v2QuestAutomatic* self) {
 // 0x4d04dc _ZN7Structs7v2QuestD1Ev
 // The listing calls the three subobject destructors (+0xa0, +0x68, +0x3c) after the array frees. The port
 // declares them as members in that order, so the compiler destroys them in the same order after this body.
-v2Quest::~v2Quest() {
-    DestroyElements(m_w6);   // +0x18, stride 16
-    DestroyElements(m_w8);   // +0x20, stride 44
-    DestroyElements(m_w10);  // +0x28, stride 16
-    DestroyElements(m_w12);  // +0x30, stride 16
-    DestroyElements(m_w14);  // +0x38, stride 16
-}
 
-// 0x4d06a4 _ZN7Structs7v2QuestD0Ev
-void DeletingDestructor(v2Quest* self) {
-    self->v2Quest::~v2Quest();
-    CustomFree(self);
-}
 
 // ---------------------------------------------------------------- v2CondAnd (no base)
 

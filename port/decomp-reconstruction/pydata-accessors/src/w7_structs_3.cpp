@@ -1,5 +1,6 @@
 // Structs records, slice structs_3 (see include/pydata-accessors/w7_structs_3.hpp).
 #include "pydata-accessors/w7_structs_3.hpp"
+#include "pydata-accessors/w7_structs_2.hpp"  // Item family (superset layout)
 #include "pydata-accessors/array_element.hpp"
 
 namespace {
@@ -25,131 +26,14 @@ void ReleaseElementTable(void* members) {
 namespace Structs {
 
 // 0x4d4d38 _ZN7Structs8ArmorRefD2Ev
-// 0x4d4cc4 _ZN7Structs8ArmorRefD1Ev
-ArmorRef::~ArmorRef() {
-    if (m_w2 != nullptr) CustomFree(m_w2);  // +0x8 (ItemBase word)
-    if (m_w20 != nullptr) CustomFree(m_w20);  // +0x50
-    // ItemBase::~ItemBase runs here (as listed) and frees m_w2 again.
-}
-
-// 0x4d4d1c _ZN7Structs8ArmorRefD0Ev
-void DeletingDestructor(ArmorRef* self) {
-    self->ArmorRef::~ArmorRef();
-    CustomFree(self);
-}
-
 // 0x4d4e04 _ZN7Structs7BeltRefD2Ev
-// 0x4d4d90 _ZN7Structs7BeltRefD1Ev
-BeltRef::~BeltRef() {
-    if (m_w2 != nullptr) CustomFree(m_w2);  // +0x8 (ItemBase word)
-    if (m_w20 != nullptr) CustomFree(m_w20);  // +0x50
-    // ArmorRef::~ArmorRef runs here (as listed) and frees m_w2 and m_w20 again.
-}
-
-// 0x4d4de8 _ZN7Structs7BeltRefD0Ev
-void DeletingDestructor(BeltRef* self) {
-    self->BeltRef::~BeltRef();
-    CustomFree(self);
-}
-
 // 0x4d4ed0 _ZN7Structs7HelmRefD2Ev
-// 0x4d4e5c _ZN7Structs7HelmRefD1Ev
-HelmRef::~HelmRef() {
-    if (m_w2 != nullptr) CustomFree(m_w2);  // +0x8 (ItemBase word)
-    if (m_w20 != nullptr) CustomFree(m_w20);  // +0x50
-    // ArmorRef::~ArmorRef runs here (as listed) and frees m_w2 and m_w20 again.
-}
-
-// 0x4d4eb4 _ZN7Structs7HelmRefD0Ev
-void DeletingDestructor(HelmRef* self) {
-    self->HelmRef::~HelmRef();
-    CustomFree(self);
-}
-
 // 0x4d4f9c _ZN7Structs8GloveRefD2Ev
-// 0x4d4f28 _ZN7Structs8GloveRefD1Ev
-GloveRef::~GloveRef() {
-    if (m_w2 != nullptr) CustomFree(m_w2);  // +0x8 (ItemBase word)
-    if (m_w20 != nullptr) CustomFree(m_w20);  // +0x50
-    // ArmorRef::~ArmorRef runs here (as listed) and frees m_w2 and m_w20 again.
-}
-
-// 0x4d4f80 _ZN7Structs8GloveRefD0Ev
-void DeletingDestructor(GloveRef* self) {
-    self->GloveRef::~GloveRef();
-    CustomFree(self);
-}
-
 // 0x4d5068 _ZN7Structs8BootsRefD2Ev
-// 0x4d4ff4 _ZN7Structs8BootsRefD1Ev
-BootsRef::~BootsRef() {
-    if (m_w2 != nullptr) CustomFree(m_w2);  // +0x8 (ItemBase word)
-    if (m_w20 != nullptr) CustomFree(m_w20);  // +0x50
-    // ArmorRef::~ArmorRef runs here (as listed) and frees m_w2 and m_w20 again.
-}
-
-// 0x4d504c _ZN7Structs8BootsRefD0Ev
-void DeletingDestructor(BootsRef* self) {
-    self->BootsRef::~BootsRef();
-    CustomFree(self);
-}
-
 // 0x4d5134 _ZN7Structs8ValuableD2Ev
-// 0x4d50c0 _ZN7Structs8ValuableD1Ev
-Valuable::~Valuable() {
-    if (m_w2 != nullptr) CustomFree(m_w2);  // +0x8 (ItemBase word)
-    if (m_w20 != nullptr) CustomFree(m_w20);  // +0x50
-    // ItemBase::~ItemBase runs here (as listed) and frees m_w2 again.
-}
-
-// 0x4d5118 _ZN7Structs8ValuableD0Ev
-void DeletingDestructor(Valuable* self) {
-    self->Valuable::~Valuable();
-    CustomFree(self);
-}
-
 // 0x4d5200 _ZN7Structs6PotionD2Ev
-// 0x4d518c _ZN7Structs6PotionD1Ev
-Potion::~Potion() {
-    if (m_w2 != nullptr) CustomFree(m_w2);  // +0x8 (ItemBase word)
-    if (m_w20 != nullptr) CustomFree(m_w20);  // +0x50
-    // ItemBase::~ItemBase runs here (as listed) and frees m_w2 again.
-}
-
-// 0x4d51e4 _ZN7Structs6PotionD0Ev
-void DeletingDestructor(Potion* self) {
-    self->Potion::~Potion();
-    CustomFree(self);
-}
-
 // 0x4d52cc _ZN7Structs8GoldItemD2Ev
-// 0x4d5258 _ZN7Structs8GoldItemD1Ev
-GoldItem::~GoldItem() {
-    if (m_w2 != nullptr) CustomFree(m_w2);  // +0x8 (ItemBase word)
-    if (m_w20 != nullptr) CustomFree(m_w20);  // +0x50
-    // ItemBase::~ItemBase runs here (as listed) and frees m_w2 again.
-}
-
-// 0x4d52b0 _ZN7Structs8GoldItemD0Ev
-void DeletingDestructor(GoldItem* self) {
-    self->GoldItem::~GoldItem();
-    CustomFree(self);
-}
-
 // 0x4d5398 _ZN7Structs4ItemD2Ev
-// 0x4d5324 _ZN7Structs4ItemD1Ev
-Item::~Item() {
-    if (m_w2 != nullptr) CustomFree(m_w2);  // +0x8 (ItemBase word)
-    if (m_w20 != nullptr) CustomFree(m_w20);  // +0x50
-    // ItemBase::~ItemBase runs here (as listed) and frees m_w2 again.
-}
-
-// 0x4d537c _ZN7Structs4ItemD0Ev
-void DeletingDestructor(Item* self) {
-    self->Item::~Item();
-    CustomFree(self);
-}
-
 // 0x4d5474 _ZN7Structs15ItemAudioVisualD2Ev
 // 0x4d5418 _ZN7Structs15ItemAudioVisualD1Ev
 ItemAudioVisual::~ItemAudioVisual() {

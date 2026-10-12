@@ -745,4 +745,12 @@ void v2Quest::finalize() {
     }
 }
 
+v2Quest::~v2Quest() {
+    DestroyElements(m_w6, 16);   // +0x18, stride 16
+    DestroyElements(m_w8, 44);   // +0x20, stride 44
+    DestroyElements(m_w10, 16);  // +0x28, stride 16
+    DestroyElements(m_w12, 16);  // +0x30, stride 16
+    DestroyElements(m_w14, 16);  // +0x38, stride 16
+}
+
 }  // namespace Structs

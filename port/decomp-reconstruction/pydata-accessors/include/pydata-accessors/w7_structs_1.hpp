@@ -304,6 +304,7 @@ void DeletingDestructor(v2Event* self);
 // 16, 44, 16, 16, 16; the element classes are not in any header.
 class v2Quest {
 public:
+    virtual ~v2Quest();
     virtual void finalize();
     std::uint32_t m_w5 = 0;     // +0x14 size of table 1
     std::uint8_t* m_w6 = nullptr;  // +0x18 members of table 1 (stride 16)
@@ -315,6 +316,10 @@ public:
     std::uint8_t* m_w12 = nullptr; // +0x30 members of table 4 (stride 16)
     std::uint32_t m_w13 = 0;    // +0x34 size of table 5
     std::uint8_t* m_w14 = nullptr; // +0x38 members of table 5 (stride 16)
+
+    v2QuestObjectiveStub m_sub60;  // +0x3c, subobject destroyed after the body (listing call)
+    v2QuestObjectiveStub m_sub104;  // +0x68, subobject destroyed after the body (listing call)
+    v2QuestScripts m_sub160;  // +0xa0, subobject destroyed after the body (listing call)
 };
 
 }  // namespace Structs
