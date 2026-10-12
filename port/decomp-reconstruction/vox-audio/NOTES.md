@@ -419,3 +419,23 @@ By class, as the queue names them (recounted at the end of wave 7):
   mpc_get_encoder_string, mpc_set_replay_level) plus streaminfo_gain,
   streaminfo_encoder_info, streaminfo_read_header_sv7/sv8, huff_init_lut,
   huff_fill_lut and can_fill_lut.
+
+## Wave 8 (parallel slices, Windows verified)
+
+Fourteen workers each took one class slice (see ledger.parts/ for the per-slice ledgers, now
+merged into ledger.csv). The Musepack rows were already upstream on the integrator branch, so
+the duplicate rows from the musepack slice were dropped. The 237 FUN_ rows were re-queued by the
+integrator (280fd865). Three FUN_ rows (0x8a0364, 0x8a2330, 0x8a7e90) are still unassigned.
+
+Build: `tools/decomp_build.sh windows vox-audio` (MinGW-w64 under Wine) passes 45 of 45 tests.
+MinGW and Wine were installed with apt on the integrator container.
+
+Blocked groups, each needing a structural decision rather than another row:
+- Driver source and decoder vtable slots (EmitterObj ctors, LoadAsync, Update, Update3D, the
+  play-cursor getters): the port does not name these slots yet.
+- PlaylistElement table at +0x30: the original is a PlaylistElement* vector, the port an int32
+  table. Blocks AddPlaylistElement, the NativePlaylist dtor and copy ctor.
+- Game glue for VoxSoundManager: 49 of 52 rows depend on JAVA_SOUNDS, the Arrays tables, menus and
+  the native sound bridge.
+- Native decoder cursor Seek, Decode and Rewind: need the sub-decoder Seek and Decode slots.
+- VoxMSWav/MPC8 demux calls: libmusepack demux functions are declared but not in the port.
