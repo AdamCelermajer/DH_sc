@@ -712,3 +712,481 @@ Ledger part: `ledger.parts/w10-debuginfo.csv` (4 rows: 2 reconstructed, 2 partia
   the cursor's first params word (TrackParams::channels at cursor +0x04) is not reachable from the base
   cursor class. The VoxEngineInternal path has no test because the engine vtable links undefined methods.
 - PriorityBankManager::GetDebugInfo stays partial (the unlock result is not returned).
+
+## Wave 10: containers (w10-containers)
+
+Ledger part: `ledger.parts/w10-containers.csv` (11 rows: 9 reconstructed, 2 partial; the
+cursor rows C1 and C2 are partial and the playlist container is partial).
+
+Containers (`include/vox-audio/vox/native_containers.hpp`, new):
+- `NativeChunks` and `AudioSegments` are the same vector of 24-byte `NativeChunk` records
+  (`std::vector<NativeChunk>`). The segment code reads it as the chunk table (`(*chunks_)[i]`).
+- `States` is `std::vector<std::int32_t>` (the state ids).
+- `TransitionRules` is `std::vector<TransitionRule>` (36-byte records; TransitionRule moved
+  here from native_sub_decoder.hpp).
+- `TransitionParams` is a 36-byte record of nine words (fields not named).
+- The decoder holds `states_`, `segments_` and `rules_` as these vectors. The count words
+  (+0x30, +0x48, +0x50) are the vector sizes now, and the Create*Container functions assign the
+  vectors. The extra_bytes argument is not kept (the original's trailing bytes).
+
+Layouts:
+- `NativeHeaderWords` (the VoxN header words the sub-decoder constructors read, decoder
+  offsets): base_offset +0x18, format_word +0x24 (low half the format tag, high half the
+  channels), field_0c +0x28, sample_word +0x2c (low half the bytes per sample, high half the
+  bits). Stored as `DecoderNative::header_words_`. ParseFile does not fill it yet.
+- The sub-decoder constructor argument order follows the mangled name and the cursor call:
+  stream, header words, States*, AudioSegments*, the loop lists, TransitionRules*, the
+  transition parameter lists, the state-name map and the playlist manager. The header block
+  is not the NativeChunks vector; the mangled name used the wrong type for that argument.
+- Base constructor slots: +0x04 stream, +0x18 chunks (segments), +0x1c rules, +0x20 states,
+  +0x24 transitions, +0x28 names, +0x2c loop lists, +0x30 playlists.
+- The three segment records are written as in the pseudocode: play mode 3, 2 and 1 for
+  A (+0x98), B (+0xdc) and C (+0x120); state 2, one loop entry with one left, decoding slot -1.
+  has_data_ is set (byte +0x16c).
+
+Decisions and differences:
+- Format tags: the pseudocode selects PCM on tag 1 and IMA ADPCM on tag 17, and no sub-decoder
+  for any other tag. The old comment said "anything else PCM"; the cursor now follows the
+  pseudocode.
+- Cursor C1 and C2: sub-decoder creation, the playlist copy, the states and the track parameters
+  are ported. The cursor is partial only because header_words_ comes from ParseFile.
+- NativeSubDecoderState C1 and C2 (0x8860dc, 0x88621c): the scalar defaults match SetStopped,
+  so these rows are reconstructed. A null manager gets a default manager.
+- The IMA constructor's extra allocations (decode buffers, pending block) are reproduced with
+  VoxAlloc. Failures zero the track words, as the LABEL_12 path does.
+- CreatePlaylistsContainer (0x872ac8) stays partial: the binary returns the pointer that
+  NativePlaylistsManager::Init allocates (void* in the binary, void in the port).
+
+Open:
+- ParseFile must fill `DecoderNative::header_words_` (from the fmt chunk and the header block) for
+  the cursor and the sub-decoder constructors to get real values. Until then the constructors
+  run on zero words and the track parameters come out zero.
+
+Tests: `tests/native_subdecoder_ctor_containers_test.cpp` (PCM and IMA constructors: header
+words, the segment records, the IMA buffers and frames per block, and the nine-channel limit).
+Host build passes all tests. No MinGW or Wine run in this slice.
+
+## Wave 10: xml slice (w10-xml)
+
+Rows: 9 (ledger.parts/w10-xml.csv). Reconstructed 8, partial 1 (LoadXML, 88d344). Host build
+passes 55 of 55 tests (new: w10_xml_load_test, w10_xml_record_copy_test). No MinGW or Wine run.
+
+TinyXML source. The category in this checkout (port/decomp-reconstruction/tinyxml-and-c-libs,
+tixml_dh.hpp/.cpp) has only the TiXmlPrinterDH overlay. TiXmlDocument, TiXmlHandle and the parser
+are not in the checkout, and the upstream TinyXML 2.5.x sources are not vendored. Decision: a
+minimal subset under vox-audio/vendor (include/vox-audio/vendor/tixml_dh.hpp,
+src/vendor/tixml_dh/tixml_dh.cpp, namespace vox::tixml) that implements only the calls LoadXML
+makes: Parse, Error, FirstChild, ToElement, Attribute, QueryIntAttribute, QueryDoubleAttribute and
+NextSiblingElement (any sibling name, as in TinyXML). Text content is skipped. Nothing is linked
+across categories.
+
+Loader records (the classes that LoadXML fills, all owned strings, so copies are deep):
+- `vox::SoundXMLDef` (68 bytes): uid +0x00, priority +0x04, label +0x08 (string), data file name
+  +0x0c (string), loading flags +0x10, format +0x14 (byte, -1 until read), bank +0x15, group +0x16,
+  loop +0x17, nine floats +0x18..+0x38 (refdistance, maxdistance, rolloff, basegain, mingainmod,
+  maxgainmod, basepitch, minpitchmod, maxpitchmod), custom count +0x3c, custom strings +0x40.
+- `vox::EventXMLDef` (44 bytes): uid +0x00, name +0x04, used list (sentinel +0x08), sound uid
+  vector +0x10..+0x18, mode +0x1c (0 random, 1 playlist), most-used count +0x1e (min of the first
+  params token and the uid count), percent no-sound +0x20 (clamped to 100), sound count +0x22,
+  custom count +0x24, custom strings +0x28.
+- `vox::GroupXMLDef` (existing): uid +0x00, bus +0x04 (name_), name +0x1c (label_), type +0x34
+  (pos3d: y 1, r 2, other 0).
+- `vox::BankXMLDef` (40 bytes): uid +0x00, behaviour +0x04, max playbacks +0x08, threshold +0x0c,
+  name +0x10.
+- `vox::XmlLoadedTables`: the four loader vectors and the custom pointer arrays. The pack keeps it
+  in `loaded_` (a shared pointer), because the record tables and the uid map point into its strings.
+
+Changes to existing records: SoundRecordXML::emitter_values_ and EmitterInfoXML::values_ are
+float[9] (the loader writes floats). LoadXML returns int (1 when the file was read, 0 otherwise).
+VoxSoundPackXML has a declared destructor (88c2cc, 88c36c) and the `loaded_` member.
+
+Decisions:
+- A uid that is missing or out of range skips the element. The binary keeps the uid of the
+  previous element in a stale variable, and writes out of range without a check.
+- A sound with no format leaves the data name empty; with a format and no file name, the data
+  name is label + extension (wav 1, ogg 2, mpc 3, vxn 4).
+- Groups and banks get size + 1 records (as the binary), events get size records.
+- Group masks are added to the existing map and not cleared at the start (the binary does not
+  clear the +0x48 map in LoadXML; only the destructor empties it).
+- A file that fails to parse returns 1 with the tables cleared (the binary does the same).
+- A file size below zero counts as a failed read (the binary would read with a negative size).
+
+Open questions:
+- The loader writes the sound priority at +0x04, but the accessors read +0x04 as the emitter uid
+  (GetEmitterInfo). The port stores the priority in the record's emitter_uid word, so both readings
+  give the same value, but the binary may use the word for something else. Confirm against the
+  accessor listing.
+- The label at +0x08 of the sound record is an int in the accessor layout (field_08). The label is
+  only kept in the loader record and in the uid map, so GetEmitterInfo reports field_08 as 0.
+- The loader's default format (-1) and default record uid are read from the conditional checks in
+  the pseudocode, not from the default constructor (not in the queue).
+- The stale-uid behaviour above is the one place the partial status comes from. Check the
+  ARM listing for the uid register before changing it.
+
+## Wave 10 (w10-parsefile): native decoder ParseFile
+
+Source: `ParseFile` 0x8738bc (Hex-Rays, 14 KB; the Trsn call and the Grps block checked against the
+ARM listing), `SetImplicitSegmentCues` 0x872cf0 (branch structure checked against the ARM listing),
+`CreatePlaylistsContainer` 0x872ac8 (tail call to NativePlaylistsManager::Init). ParseFile and
+SetImplicitSegmentCues moved out of decoder_native_cursor.cpp into src/w10-parsefile/.
+
+Layouts (VoxN file, 32-bit offsets):
+- Header: magic "VoxN" (0x4E786F56), body size, then the body. Body word 3 (+0x0c) is the decoder's
+  base offset (+0x18, `header_words_.base_offset`) and the total file length, so the data after the
+  body is total - 16 - body size bytes.
+- Chunk ids (little-endian words): Afmt 0x746D6641, Segm 0x6D676553, Cues 0x73657543, Grpe
+  0x65707247, Rule 0x656C7552, Plst 0x74736C50, Stat 0x74617453, Trsn 0x6E737254 (bytes 54 72 73 6E),
+  Grps 0x73707247. Each chunk is id, size, body. Count-bearing chunks have a count word, then count
+  records of (size - 4) / count bytes.
+- Chunk advance: a count-bearing chunk ends at start + 12 + record size * count, not at its size.
+  Afmt and unknown chunks end at start + 8 + size. A Plst whose manager is invalid advances by 12 only.
+- Afmt: the fmt body fills header_words_ format word (+0x24), field_0c (+0x28) and sample word
+  (+0x2c); the original then writes 16 at +0x2e, the bits half of the sample word.
+- Segment info (NativeChunk, 24 bytes): frame_count at +0x08 is the implicit cue source.
+- Cue record: word 1 is the segment index, word 2 (when the record is 12+ bytes) the cue value.
+- Trsn record: word 0 is the list index, word 2 (default -1) and byte 12 (default 0) form a
+  TransitionParams. The element is 8 bytes (the Trsn loop and the vector growth step by 8), so
+  native_containers.hpp's TransitionParams is now {int32 value_, uint8 flag_} (it was 36 bytes).
+- Stat record: word 0 is the state id; the NUL-terminated name after it is the map key.
+- Plst record: PlaylistInfos (word 0, word 1; word 1 defaults to 1 when the record is shorter).
+- Grpe record: PlaylistElementInfos (8 words; word 0 selects the playlist). Grps record: GroupInfos
+  (24 bytes; unknown_00 selects the playlist).
+
+Decisions:
+- Trsn: the original passes a stack slot to CreateTransitionsContainer that only the Stat case
+  writes (the last Stat count). The port passes the last Stat count (0 when there was none).
+- NativePlaylistsManager::Init returns the array pointer (src/native_playlist.cpp and the header),
+  so CreatePlaylistsContainer can return the allocation result.
+- Malformed input returns false where the original would read or write out of range: chunk past the
+  data, record too short for the word it needs, index outside its table, null manager, negative count.
+  Well-formed files do not reach these.
+- Not kept (ParseFile stays partial): header body words at +0x0c..+0x17 other than the base offset,
+  the Afmt id and size words (+0x1c, +0x20), and fmt bytes past +0x2f. No ported code reads them yet.
+
+Tests: decoder_native_parse_w10_test builds a VoxN file in memory (Afmt, Segm, Cues, Stat, Rule, Trsn,
+Plst, and an unknown chunk) and checks the header words, the cue lists after SetImplicitSegmentCues,
+the state table and name map, the transition lists and the playlist count. Host build passes 56 of 56.
+No MinGW or Wine run in this slice.
+
+## Wave 10 (w10-dataobj-emitter): DataObj, EmitterObj constructors, emitter creation
+
+Ledger part: `ledger.parts/w10-dataobj-emitter.csv` (21 rows: 12 reconstructed, 9 partial).
+New sources: `src/w10-dataobj-emitter/` (emitter_obj_ctor_load.cpp, emitter_obj_update.cpp,
+voxengine_create_emitter.cpp). Edited in place: `src/data_obj.cpp`, `src/driver.cpp`,
+`src/driver_android.cpp`. Test: `tests/emitter_obj_ctor_test.cpp`.
+
+- DataObj words (see data_obj.hpp): +0x28 channels, +0x2c sample rate, +0x30 bits per sample,
+  +0x34 length (frames). The four form a TrackParams block in that order. Duration is
+  length / sample rate (float bits, GetDuration). Stream at +0x38, decoder at +0x3c, the emitter
+  id list at +0x40 (a list of ids: the original nodes are 16 bytes, two links and the id).
+- GetDebugInfo writes DebugChunk_dataSource: id +0x00, stream type +0x08 (stream vptr+0x1c),
+  decoder type +0x0c (decoder vptr+0x18), bank +0x10, rate +0x14, channels +0x18, bits +0x1c,
+  duration bits +0x20, group +0x24, refcount +0x28. The brief named DebugChunk_emitter for this
+  row; the signature takes DebugChunk_dataSource&, so that name is used. The emitter's own
+  debug chunk is in the w10-debuginfo part.
+- EmitterObj words named this wave: source_gain_ +0x38 and source_pitch_ +0x70 (the values
+  Update reads back from the source; the constructors set both to 1.0), decoder_type_ +0x140
+  (the decoder GetType stored by the constructors), flag_145_ +0x145, and the buffer ring as
+  std::vector<void*> at +0xf4 (begin), +0xf8 (end), +0xfc (capacity).
+- Vtable slots used here (vptr-relative): StreamInterface Size +0x10, CreateNewCursor +0x14,
+  DestroyCursor +0x18, GetType +0x1c (from the Update and GetDebugInfo listings). The port's
+  StreamInterface declares them in another order; the calls go through the names.
+  DriverInterface CreateDriverSource +0x44 (params, user, flags) and DestroyDriverSource +0x48
+  are now virtual in the base (null and empty). DriverAndroid overrides them as stubs, so the
+  creation paths return the null handle on Android until its source is ported.
+- One stamp table at VoxEngineInternal +0x550. GetDataObject, CreateEmitter and the emitter
+  constructors index the same words (340 + slot in the pseudocode). The earlier separate
+  emitter_stamps_ array at the same offset is removed; its users now use data_stamps_.
+- Track words: the original reads four words from the cursor (LoadAsync, CreateEmitter,
+  Update) or from the decoder cursor's params block (DataObj::Update). The port cursors have
+  no params block, so these use the data object's words (same values the cursor was built
+  from) or the decoder's GetParam block (as LoadDataSource does). A decoder whose GetParam
+  returns null (MSWav, MPC8) leaves the DataObj words unset, so DataObj::Update fails there.
+- Deviations: decoder_type_ is 0 when the data is not ready (the original calls GetType on
+  null); ShouldDie does not walk the emitter list (the walk has no effect); PrintDebug prints
+  nothing, as the binary does.
+- Unnamed words still not stored by the constructors: +0x120, +0x124 (1.0), +0x128, +0x12c,
+  +0x130 (set to 1 in the 4-argument and 7-argument constructors). Their rows are partial.
+- Not tested: the engine creation paths. VoxEngineInternal does not link in a test while
+  EmitterObj::SetPlayCursor is declared but undefined in the port.
+
+
+## Wave 11 (w11-loadxml): LoadXML priority word and the sound uid slot
+
+Source: `VoxSoundPackXML::LoadXML` 0x88d344 (Hex-Rays, IDA listing via decomp_asm.py), accessors
+`GetEmitterInfo(int, int&, ...)` 0x889894 and `GetEmitterInfo(int, EmitterInfoXML&)` 0x88993c.
+
+Priority word decision (the Open question above is closed):
+- Loader writes: the sound loop calls QueryIntAttribute("priority") and stores the value at
+  record +0x04 (asm 0x88d77c to 0x88d7b0, record stride 0x44). The attribute list the loader
+  reads has no separate emitter-uid attribute, so +0x04 holds the XML priority.
+- Accessors read: both GetEmitterInfo overloads load record +0x04 and report it as their
+  emitter uid output (STR to the out parameter). The struct overload copies +0x04 to
+  EmitterInfoXML::emitter_uid, the index overload to `int& emitter_uid`.
+- The binary is consistent with itself: one word, written as priority and read as emitter uid.
+  The port keeps that single word (SoundRecordXML::emitter_uid, written from the priority). The
+  side that was misnamed is the record comment, which now says +0x04 is the priority.
+  The existing test (w10_xml_load_test) expects emitter_uid == priority, which matches.
+- Consequence: the label at +0x08 and the other fields keep their current layout.
+
+Stale uid (sound loop), now ported:
+- The sound loop reads uid into one stack slot (var_13C). Only the uid query writes that slot.
+  A missing or non-integer uid attribute leaves it unchanged, so the element writes its fields
+  into the record of the last uid read (the uid query loop starts at 0x88d6e8 and the store that follows uses the slot as index).
+- Port: an element without a uid reuses the last uid read. A leading run of elements without a
+  uid is skipped, because the slot is not initialised before the first read (the one value the
+  binary takes from the caller's stack). Out-of-range uids are still skipped (the binary writes
+  past the array).
+- The uid map key is now a copy owned by the loaded tables (XmlLoadedTables::labels). The old
+  key pointed into the label string, which a stale element rewrites.
+- Test: tests/w11_xml_stale_uid_test.cpp.
+
+Still partial, one missing item: the uid stack slots of the group, bank and event loops. The
+group loop reads its uid into var_118 (asm 0x88df04), a slot the sound loop also uses for its
+int attributes, so the value before its first element is not established. The bank and event
+loops' uid query was not traced (the "uid" string is loaded at 0x88e298 for one of them). Until
+they are traced, a group, bank or event without a uid is still skipped.
+
+## Wave 11 (w11-partial-2): partial-row sweep
+
+Re-decided from Hex-Rays and the asm listings (decomp_asm.py). Rows are in ledger.parts/w11-partial-2.csv.
+
+- Reconstructed now (asm checked): EmitterHandle D1/D2/D0, DataHandle copy C1/C2, operator=, D1/D2/D0,
+  GetUserData, CreateEmitterAsync, Initialize, AddPriorityBank, GetVoxEngineInternal.
+- Decisions:
+  - VoxEngineInternal::Initialize (virtual +0x08) returns FileSystemInterface* (the GetInstance result, tail call in the binary).
+    CreateDriver is declared at the top of voxengine_internal_lifecycle.cpp; it is defined in files-xml-zip-stream/create_driver.cpp.
+  - PriorityBankManager::AddPriorityBank returns the new index, or -1 when the count does not equal the bank count (asm end compare).
+    The bank keeps its default values in the -1 case. tests/priority_bank_test.cpp checks index 2.
+  - HandlableContainer::SetFirstHandleId (handlable.hpp, one inline setter). The VoxEngineInternal constructor sets 1 on the four containers
+    (next-id words at container +0x18: data objects +0x20, pending data +0x40, emitters +0x90, pending emitters +0xb0).
+  - The destructor calls FileSystemInterface::DestroyInstance after the driver and before s_voxEngineInternal is cleared.
+  - GetData: the binary releases emitter_access_ twice on the null-data path. Kept partial, not reproduced.
+  - Mutex::Unlock returns void in the port. SetGroupGain, SetMasterGain, EmitterObj SetGain, SetPitch and Resume return the unlock int in the
+    binary. Kept partial until the mutex wrapper returns a result.
+- Named open items:
+  - Decoder cursor parameter block: the words at +4..+0x10 of the object returned by decoder vtable +0x10 (channels, rate, bits, length).
+    Rows 0x86b144, 0x86b694, 0x86c5ec, 0x86ca08 read them; the port cursor has no such block.
+  - VoxEngineInternal intrusive list sentinel at +0x43c/+0x440 and words at +0x598 and +0x59c: no owner in the port (rows 0x869a94, 0x869d8c, 0x86be68, 0x86c010, 0x86c02c).
+  - Default PriorityBankManager constructor: the binary leaves the bank count at +0 unwritten (rows 0x869858, 0x8698a0).
+- Slot names used: driver CreateDriverSource +0x44 and DestroyDriverSource +0x48; source AllowBufferReference +0x48 and GetBufferCount +0x54;
+  cursor AllowBufferReference +0x34 (decoder.hpp).
+## Wave 11 (w11-partial-4): partial-row sweep
+- StreamInterface: the size word of the original base (+0x04) is now a protected `size_` in the
+  port's StreamInterface, and Size() is a virtual accessor (0x8886e4). StreamMemoryBuffer and
+  StreamCFile use the shared word. Test: tests/w11_stream_size_test.cpp.
+- VoxNativeSubDecoderIMAADPCM::DecodeBlock (0x887068) is ported from the Hex-Rays body, with
+  the nibble step written out (the same tables as ima_adpcm.cpp). Seek (0x887464) and
+  SetDecodingBufferToSegmentPosition (0x887544) are reconstructed on top of it. Test:
+  tests/w11_ima_decode_block_test.cpp (checked against ImaAdpcmDecodeBlock on a stereo block).
+- Native sub-decoder state constructors and destructors (PCM and IMA ADPCM, 0x886f7c..0x888670)
+  are reconstructed now that the base constructor and destructors are ported.
+- VoxSetJavaVMC (0x88ee1c): the asm shows the argument passes through unchanged, so the
+  pseudocode gap is closed.
+- Still partial, with the one missing item named in the ledger: UpdateSegmentsStates and the
+  element lookup it needs (0x885740), which blocks DecodeSegment and DecodeCurrentSegmentWithOffset;
+  StreamCFile file-name word (owner+0x1c); the DriverAndroid JNI bodies (no JNIEnv type or
+  m_updateStartTime/m_dataDuration statics in the port); VoxAlloc_c (needs the 4-argument VoxAlloc).
+
+
+## Wave 12 (w12-rem-2): int returns from Mutex::Unlock
+- Functions that the binary ends with a tail call to Mutex::Unlock (or to AccessController::ReleaseReadAccess, which tail-calls Mutex::Unlock) now return that int. Changed: AccessController::ReleaseReadAccess; EmitterObj::SetGain, SetPitch, Resume, Play, Pause, Stop; VoxEngineInternal::SetGroupGain and SetMasterGain (virtual slots +0x24 and +0x28); VoxEngineInternal::SetUserData(EmitterHandle), SetGain(EmitterHandle), Resume(EmitterHandle), Resume, Pause and Stop (EmitterObj*). The null-emitter path of the EmitterObj* wrappers returns 0, as the binary's SUBS leaves 0 in the result register.
+- Callers left void (not changed in this slice): VoxEngine::SetGroupGain, SetMasterGain, SetInteractiveMusicState and the other facade wrappers in src/voxengine.cpp, and the VoxEngineInternal handle wrappers Play, Stop, Pause and SetPitch (EmitterHandle). Their asm was not checked for the tail call in this wave, so their int results are dropped at those points.
+- VoxEngineInternal::GetData reproduces the second ReleaseReadAccess on the null-data path (asm 0x869028 and 0x869030). The read count drops once more on that path, as in the binary.
+- VoxEngineInternal::SetInteractiveMusicState (0x86764c) is in src/w12-rem-2/voxengine_interactive_music.cpp. Partial: a non-zero data state word makes the binary call a null decoder; the port skips the call.
+- Test: tests/w12_rem2_unlock_result_test.cpp checks the int results and the transport state.
+## Wave 12 (w12-rem-3): VoxUtils loaders, MPC and native remainders
+
+- VoxEngine::LoadDataSource and LoadDataSourceAsync take (stream_type, stream_arg,
+  decoder_type, decoder_arg, group), as VoxEngineInternal does. The listing (asm
+  0x86f558, 0x86f3b4, 0x86f5fc) passes a path load as (1, path, format, 0, user) and a RAM
+  load as (0, block, format, 0, user). The port's VoxUtils had these arguments shifted;
+  voxutils.cpp now uses the listing order. The static facade drops the engine instance.
+- ConvertToRawSource (asm 0x86f5a0): the engine is the instance pointer and the loaded
+  handle is the argument. The earlier Hex-Rays reading (engine as the argument) was wrong.
+- get_stb_vorbis_struct_size (0x876298) returns 0x5a8. Reconstructed as a size query in
+  src/w12-rem-3/; the stb_vorbis library itself stays unported (see Decisions).
+- Rows still partial name one missing item each in the ledger notes: the owner word of
+  StreamCursorInterface (mpc_getsize), the MPC seek register and zero-sample decode
+  (DecoderMPC8Cursor::Decode), the ParseFile header words, the ADPCM step table bytes
+  (not in the checkout), and the native and group slots listed in the ledger.
+
+
+## Wave 12 (w12-rem-1): remaining rows (VoxAlloc, VoxEngine facade and threads, EmitterObj, PriorityBank)
+- Return values changed to the Mutex::Unlock int (Mutex::Unlock returns 0 in the port, as the binary does):
+  VoxEngineInternal::SetMasterGain and SetGroupGain (vtable +0x28, +0x24) now return int; VoxEngineInternal::SetInteractiveMusicState
+  (declared int, body still missing at 0x86764c); PriorityBankManager::GetDebugInfo; EmitterObj::SetDSPParameter and
+  EmitterObj::GetDebugInfo. VoxEngine::SetInteractiveMusicState returns 0 without an engine (the listing returns m_internal).
+- Kept void on purpose: VoxEngine::SetMasterGain, SetGroupGain, UpdateEmittersThreaded, UpdateThreaded, Initialize. Their listings
+  return an int* or a double's low word left in r0 (a register leftover). The thread callbacks are void(*)(void*, void*), as the
+  VoxThread cast in Initialize shows.
+- Found: VoxEngineInternal::UpdateEmitters (0x86db40) returns the AccessController release int on both tails (ReleaseReadAccess and
+  ReleaseWriteAccess now return int upstream). The port's UpdateEmitters is still void, so the int is dropped there and in
+  VoxEngine::UpdateEmittersThreaded. That is the one item left in those rows.
+- Found: CustomMemalign (0x3105b4) ignores its alignment argument and returns CustomAlloc(size). So VoxAlloc with a hint > 0 is the same
+  allocation as the hint-less path. The remaining gap in the VoxAlloc rows is the gAssertLevel branches (CustomAlloc 0x310454).
+- VoxThread destructor and VoxEngine::Shutdown are now present, so the Shutdown blocker is gone. D1/D2/D0 and DestroyVoxEngine stay
+  partial only for VoxEngineInternal::~VoxEngineInternal (0x86be68).
+## Wave 12 (w12-rem-4): segment code, driver ring and thread rows
+
+Ledger part: `ledger.parts/w12-rem-4.csv` (24 rows: 1 reconstructed, 19 partial, 4 skipped).
+
+Layouts confirmed from the segment pseudocode (VoxNativeSubDecoder, offsets as in the wave 9 notes):
+- this[72] (+0x120) is segments_[2].chunk_index; this[75] (+0x12c) is segments_[2].sample_position;
+  this[79] (+0x13c) is segments_[2].entries_left; the byte at +0x160 is segments_[2].reset_pending.
+- this[33] (+0x84) is current_element_.field_0c_; this[89] (+0x164) is next_event_.
+- Loop lists: the 12-byte records behind loop_lists_ are vector<int> objects. Word [2] and word
+  [1] of the list are read on the peek path (next_event_).
+- The state list (*states_)[field_3c_] is the playlist index; states[index] is also written to
+  segments_[2].chunk_index by SetState.
+
+Decisions:
+- Division by a zero divisor returns 0 (the existing __aeabi_idiv decision). GetNbAvailableSamples
+  is reconstructed on that basis; its zero buffer_bytes_ case is tested.
+- UpdateSegmentsStates, InterpretTransitionRule and SetState are now ported with their
+  playlist lookups. UpdateSegmentsStates returns the current element index as an int.
+- Void port functions that drop an int or float from the binary (InterpretTransitionRule, the
+  Init and FreeDisposableData Unlock results, _FillBuffer's float) stay partial. The base virtual
+  slots +0x4c and +0x58 are void, so the derived return types cannot change without a base
+  change, which needs a decision by the integrator.
+- VoxThread priority and GetCurThreadId follow pthread on POSIX builds. Windows keeps the
+  thread-id hash and skips the priority step (no equivalent in std::thread).
+
+Tests:
+- `tests/w12_get_nb_available_zero_bytes_test.cpp` (new): zero buffer_bytes_ gives -1 for a free ring and 0 for a ready buffer.
+- `tests/native_subdecoder_base_test.cpp`: the SetState(int) check now sets field_38 to 0 and a state list, because UpdateSegmentsStates reads the playlist manager (the fixture has none).
+Host build passes all 65 tests. No MinGW or Wine run in this slice.
+
+
+## Wave 13 (w13-d1): stream owner word and the cursor parameter block
+
+- `vox::StreamCursorInterface` now keeps the owner word at +0x04 (`owner_stream_`, read through
+  `OwnerStream()`). The memory-buffer and file-backed cursors set it in their constructors.
+  `mpc_getsize` reads it and returns the owner's Size (slot +0x10), so the row is reconstructed.
+- The cursor parameter block (+0x04..+0x10 of the cursor) is still not in the port's
+  DecoderCursorInterface. LoadDataSource, ConvertToRawSource, CreateEmitter, the EmitterObj
+  cursor overloads and GetDebugInfo name it as the missing item. LoadDataSource no longer
+  dereferences a null GetParam result.
+- KillEmitter: the driver call at +0x48 takes the driver as its only argument, so it is not the
+  port's DestroyDriverSource (which takes a source). Left partial with the three named items.
+## Wave 13 (w13-c): layout gaps in VoxEngineInternal, PriorityBankManager and RandomGroup
+
+Rows are in ledger.parts/w13-c.csv. Offsets come from the Hex-Rays writes and reads. A scan of every
+Hex-Rays body for the member indices 271, 272, 339, 356 to 359 (+0x43c, +0x440, +0x54c, +0x590 to +0x598)
+finds only the VoxEngineInternal constructors and destructors as writers and readers of +0x43c, +0x440,
++0x598 and +0x59c. Other members used by the engine: +0x590 (next data slot) and +0x594 (suspend count).
+- VoxEngineInternal intrusive list sentinel: list_head_ at +0x43c and list_tail_ at +0x440 (VoxListNode,
+  next word at node +0x00). The original keeps the sentinel's own address in both words when empty; the
+  port uses nullptr for the empty list. No code in the binary links a node in.
+- VoxEngineInternal +0x598: side_buffer_, freed with VoxFree in the destructor when non-null (between
+  FileSystemInterface::DestroyInstance and the s_voxEngineInternal clear). +0x59c: side_word_, zeroed by the
+  constructor, never read.
+- PriorityBankManager bank count word at +0 (bank_count_): the default constructor (0x869858) does not write
+  it (asm). The member has no initializer now; the int constructor sets it.
+- RandomGroup: element count +0x38, current +0x44, cycle remaining +0x4c, prior index +0x50 and prior cycle
+  remaining +0x54 have no initializer in the header. The two-argument constructor (0x881ad0) does not write
+  them, and NativePlaylist::AddGroup (0x883c04) hands it VoxAlloc storage. The default constructor and the
+  copy constructor set all of them.
+- Open item kept partial: RandomGroup::SetToPreviousState (0x883404), reinsert with an empty removed list
+  (see the ledger note).
+- VoxEngine D1 (0x862990) and DestroyVoxEngine (0x8628f8) are reconstructed now that the VoxEngineInternal
+  destructor is complete. The D0 wrapper of VoxEngine (0x862a18) and D2 (0x862a34) are not in this slice.
+
+## Wave 13 (w13-b): cursor parameter block, VoxN header block, ParseFile header words
+
+Ledger part: `ledger.parts/w13-b.csv` (12 rows: 4 reconstructed, 6 partial, 2 skipped; the FUN_ row stays skipped).
+
+Layouts (decoder-relative offsets, as the listings write them):
+- Cursor parameter block: DecoderCursorInterface now holds `params_` (TrackParams) at +0x04..+0x13, the
+  block the listings read as channels +0x04, unknown_08 +0x08 (the sample rate: SetPlayCursor and the
+  native capacity use it), bits +0x0c and length +0x10. DecoderRawCursor and DecoderNativeCursor inherit it
+  (their own copies were removed). `DecoderCursorInterface::GetTrackParams()` is the public read.
+- VoxN header block: `NativeHeaderWords` covers decoder +0x04 (magic), +0x08 (body size), +0x0c..+0x17
+  (body words 0..2, `name_words`), +0x18 (`base_offset`, body word 3), +0x1c (`afmt_id`, "Afmt"), +0x20
+  (`afmt_size`), +0x24 (`format_word`), +0x28 (`field_0c`), +0x2c (`sample_word`; ParseFile sets the
+  halfword at +0x2e to 16), and `fmt_tail` for the fmt bytes from +0x30 on (fmt body bytes past 12).
+  The listings write the block at cursor +0x20 = decoder +0x04.
+- Source slot names used by SetPlayCursor are the wave 9 names (Reset +0x14, SetByteOffset +0x20), and the
+  decoder cursor's Seek is +0x28. The data object is EmitterObj::data_ (+0x118).
+
+Decisions:
+- DataObj::Update copies the track words from the decoder cursor in all paths (the listing does this
+  in case 0, case 1 and case 2). The GetParam read is gone, so the wave 11 partial note no longer applies.
+- EmitterObj::SetPlayCursor returns the Mutex::Unlock int, as the listing does. Its caller
+  (VoxEngineInternal::SetPlayCursor) ignores it, so no caller changed.
+- ApplyTransitionRule returns void. Its listing returns an int, but the only caller
+  (UpdateSegmentsStates, 0x885740) does not read the return value.
+- ParseFile keeps state_count = 0 when no Stat chunk precedes Trsn. The listing reads an uninitialised stack
+  word there; that is the one item left in the ParseFile row.
+
+Tests: `tests/decoder_native_header_w13_test.cpp` builds a VoxN file with an Afmt chunk of 24 bytes and checks
+the header block (magic, body size, name words, base offset, Afmt id and size, format, field_0c, sample word
+and the 12 fmt tail bytes). Host build passes 67 of 67. No MinGW or Wine run in this slice.
+
+
+## Wave 13 (w13-d2): file close, stream name word, Set3D case
+
+Ledger part: `ledger.parts/w13-d2.csv` (22 rows: 4 reconstructed, 14 partial, 4 skipped).
+
+Decisions from the binary:
+- FileInterface vtable (listing, `vtable for vox::FileInterface`, 36 bytes): +0x00 D1, +0x04 D0,
+  +0x08 Read, +0x0c Seek, +0x10 Tell, +0x14 Write, +0x18 GetFilePtr. GetFilePtr is virtual in the
+  port now. CloseFile (0x893ff0) calls it through slot +0x18 and passes a nonzero result to the
+  close function (off_A33EC0, g_file_close). CloseFile returns int (-1 for null, else 0).
+- StreamCFile string words: the path string is the STLport layout at owner+0x08. +0x18 is _M_finish
+  and +0x1c is the data start (the C string). _M_assign (0x888b70) writes the characters at +0x1c and
+  moves +0x18. StreamCFile::Init (0x888a60) and StreamCFileCursor::Init (0x888728) pass +0x1c to
+  OpenFile with mode 6, on fs at +0x20 (asm checks). The port's path_.c_str() is that pointer. The
+  "open question" about +0x1c is closed; the port's std::string stays at +0x08 in the comment.
+- 0x890364 (FUN_008a0364) is not a standalone function. It is jump-table case 3 of
+  DriverCallbackInterface::_Set3DParameter (IDA loc_890364). The port's switch case 3 (listener
+  position) is the same copy.
+- RandomGroup C1 (0x881b40) writes the vptr, +0x24..+0x2c, the sentinel (+0x30, +0x34), +0x3c,
+  +0x40, +0x48 and +0x58 only. +0x38, +0x44, +0x50 and +0x54 keep no binary value.
+- RandomGroup::SetState(RandomGroup&) (0x8834f0): an empty removed list makes the original read the
+  sentinel's +0x08 word (this+0x38) as an element pointer. Still partial for that reason.
+
+Still partial, one named item each: DecodeBlock (IMA tables at .rodata 0x911a24 and 0x911a14, not
+labelled in the listing), UpdateCurrentSegmentState (element branch), DecodeSegment and
+DecodeCurrentSegmentWithOffset (UpdateSegmentsStates 0x885740), LoadXML (group, bank and event uid
+slots), the four FillBuffer mixers (ramp hand-off at a buffer boundary, not checked against asm),
+GetCurThreadId and the VoxThread constructors (Windows value and Windows priority step).
+
+Tests: `tests/w13_close_file_test.cpp` (null gives -1, handle goes to the close function, no handle
+does not call it). Host build: 67 tests, all pass.
+
+## Wave 13 (w13-a): base virtuals and facade setters that drop an int
+Ledger part: `ledger.parts/w13-a.csv` (13 rows: 7 reconstructed, 6 partial).
+
+Decisions:
+- Driver source base slots. `DriverSourceInterface` +0x4c (FreeDisposableData, 0x88fcd8) is `BX LR` in the
+  binary, with no result set. The port's base now returns int 0 so that the override
+  `DriverCallbackSourceInterface::FreeDisposableData` keeps the Mutex::Unlock int. `DriverSourceInterface` +0x58
+  (Init) has no base body in the binary; the base returns int 0 for the same reason. The derived Init
+  (0x893108) and FreeDisposableData (0x89071c) return `mutex_.Unlock()`. `DriverAndroidSource`'s constructor
+  calls Init and discards the result, as the constructor (0x88fbac) does.
+- Facade setters. `VoxEngine::SetMasterGain`, `SetGroupGain`, `SetDSPEmitterParameter` and `UpdateEmittersThreaded`
+  (instance) return the int of their vtable or engine call; without an engine they return 0. The listing's
+  null-path value is an address or the this pointer (register leftovers) and has no int form.
+  `VoxEngineInternal::SetDSPEmitterParameter` returns the ReleaseReadAccess int (the EmitterObj int is dropped
+  by a plain BL in the listing, 0x8676d8).
+- Release and update chain. `AccessController::ReleaseWriteAccess` (0x893480) tail-calls Mutex::Unlock and
+  returns its int. `VoxEngineInternal::UpdateEmitters` (0x86db40) returns the release int of the last
+  lock it took; `UpdateThreaded` (0x862cf0) returns the emitters update int.
+- Thread entry points stay void: the static `VoxEngine::UpdateEmittersThreaded(void*, void*)` (the 0x862d0c
+  thunk) drops the int; it is the `void(*)(void*,void*)` the thread takes.
+- `RandomGroup::AddElement` (0x8836b0) copies the element into a group-owned block (the caller passes a stack
+  record, asm 0x8838c4). The element count, the exclusion window (when the raw window is -1) and the total
+  weight go up by the listing's rules. The random group test sets the exclusion window to 0 after its adds,
+  because its scenario was written for that value.
+- `_FillBuffer` (0x890548) stays void. Its float result is a register leftover that FillBuffer (0x8906a0)
+  never reads.
+
+Still partial in this slice (one named item each): Init (uninitialised template word), EmitterObj::SetDSPParameter
+(null value path), UpdateSegmentsStates (loop-list length), InterpretTransitionRule (pointer-valued return),
+SetState(int) (transition-table lookup), UpdateEmittersThreaded (stand-in clock), Initialize (start-time int).
+
+Callers outside this slice that ignore the new int results: VoxSoundManager (gameplay), and the facade wrappers in
+voxengine.cpp. Rows elsewhere whose notes say a result is dropped (ReleaseWriteAccess, UpdateEmitters,
+VoxEngineInternal::SetDSPEmitterParameter, VoxEngine::SetDSPEmitterParameter) now return the int; their
+ledger rows belong to other slices and were not re-ledgered here.

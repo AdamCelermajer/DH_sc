@@ -117,7 +117,7 @@ struct RandomGroupState {
 class RandomGroup : public SegmentGroup {
 public:
     RandomGroup();
-    // C2 0x881ad0, C1 0x881b40 (+0x44 and +0x50..+0x54 are not written by the original).
+    // C2 0x881ad0, C1 0x881b40. The original leaves +0x38, +0x44, +0x50 and +0x54 to the caller's storage.
     RandomGroup(const GroupInfos* info, int reset_flag);
     // C2 0x8832c0, C1 0x88317c: the element records are copied, the removed list is not.
     RandomGroup(const RandomGroup& other);
@@ -137,14 +137,14 @@ private:
     friend struct RandomGroupTestAccess;
     std::vector<RandomGroupElement*> elements_;  // +0x24..+0x2c
     RandomGroupNode removed_;                    // +0x30 (sentinel), +0x34
-    std::int32_t element_count_ = 0;             // +0x38
+    std::int32_t element_count_;                 // +0x38 (not written by the two-argument constructor)
     std::int32_t exclusion_window_ = 0;          // +0x3c
     std::int32_t raw_window_ = 0;                // +0x40
-    std::int32_t current_ = -1;                  // +0x44
+    std::int32_t current_;                       // +0x44 (not written by the two-argument constructor)
     std::int32_t total_weight_ = 0;              // +0x48
-    std::int32_t cycle_remaining_ = 0;           // +0x4c
-    std::int32_t prev_index_ = 0;                // +0x50
-    std::int32_t prev_cycle_remaining_ = 0;      // +0x54
+    std::int32_t cycle_remaining_;               // +0x4c
+    std::int32_t prev_index_;                    // +0x50 (not written by the two-argument constructor)
+    std::int32_t prev_cycle_remaining_;          // +0x54 (not written by the two-argument constructor)
     bool reinsert_flag_ = false;                 // +0x58
 };
 

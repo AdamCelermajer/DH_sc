@@ -1,7 +1,7 @@
 // vox::VoxNativeSubDecoderIMAADPCM: the IMA ADPCM native sub-decoder. Its ADPCM block
 // decoder is ImaAdpcmDecodeBlock (ima_adpcm.hpp); the class-level buffering and segment
-// logic is declared here. VoxNativeSubDecoderIMAADPCM::DecodeBlock (0x887068) is declared
-// but not defined in this slice, so the methods that call it are partial.
+// logic is declared here. VoxNativeSubDecoderIMAADPCM::DecodeBlock (0x887068) is ported in
+// src/w9-native-subdecoder/ima_decode_block.cpp.
 #pragma once
 
 #include <cstdint>
@@ -20,6 +20,15 @@ struct DecodeBuffers {
 
 class VoxNativeSubDecoderIMAADPCM : public VoxNativeSubDecoder {
 public:
+    VoxNativeSubDecoderIMAADPCM() = default;
+    // C1 0x886bfc and C2 0x886dbc: the base constructor, then the decode buffers, the pending
+    // block and the ADPCM states (see the .cpp).
+    VoxNativeSubDecoderIMAADPCM(StreamCursorInterface* stream, const NativeHeaderWords& header,
+                                States* states, AudioSegments* segments,
+                                std::vector<std::vector<int>>* loop_lists, TransitionRules* rules,
+                                std::vector<std::vector<TransitionParams>>* transitions,
+                                std::map<std::string, int>* names,
+                                NativePlaylistsManager* playlists);
     ~VoxNativeSubDecoderIMAADPCM() override;  // D1 0x886a20 (D2 0x886b1c, D0 0x886b00)
 
     int Seek(unsigned int sample_offset);                       // 0x88635c: returns 0
@@ -39,7 +48,7 @@ public:
     int DecodeSegment(void* dst, int bytes, SegmentState* segment);  // 0x8875b8 (partial)
     int DecodeCurrentSegmentWithOffset(void* dst, int bytes);   // 0x887860 (partial)
 
-    // 0x887068 (not defined in this slice): decodes one block of the segment into buffer.
+    // 0x887068: decodes one block of the segment into buffer (src/w9-native-subdecoder).
     int DecodeBlock(void* buffer, SegmentState* segment);
 
 protected:

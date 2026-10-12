@@ -29,9 +29,9 @@ struct DecoderNativeTestAccess {
     static bool NeedsParse(const DecoderNative& d) { return d.needs_parse_; }
     static std::size_t SegmentCues(const DecoderNative& d) { return d.segment_cues_.size(); }
     static std::size_t Transitions(const DecoderNative& d) { return d.transitions_.size(); }
-    static int SegmentsCount(const DecoderNative& d) { return d.segments_count_; }
-    static int RulesCount(const DecoderNative& d) { return d.rules_count_; }
-    static int StatesCount(const DecoderNative& d) { return d.states_count_; }
+    static int SegmentsCount(const DecoderNative& d) { return static_cast<int>(d.segments_.size()); }
+    static int RulesCount(const DecoderNative& d) { return static_cast<int>(d.rules_.size()); }
+    static int StatesCount(const DecoderNative& d) { return static_cast<int>(d.states_.size()); }
 };
 
 struct DecoderNativeCursorTestAccess {

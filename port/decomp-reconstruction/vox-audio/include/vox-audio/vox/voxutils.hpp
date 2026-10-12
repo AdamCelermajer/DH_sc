@@ -1,7 +1,7 @@
 // vox::VoxUtils: the file loaders the game calls with a path. Each one returns a
 // DataHandle. The format argument is the decoder type code the listing passes:
 // 1 wav, 2 ogg, 3 mpc, 4 vxn (the listing writes them as the addresses 1 to 4).
-// Partial: the port's engine load calls take a different argument list (see voxutils.cpp).
+// Argument order of the engine calls: see voxutils.cpp.
 #pragma once
 
 #include "vox-audio/vox/engine_handles.hpp"

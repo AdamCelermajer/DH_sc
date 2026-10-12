@@ -55,7 +55,7 @@ int main() {
     chunk.byte_offset = 100;
     chunk.byte_size = 500;
     chunk.frame_count = 50;
-    chunks.chunks.push_back(chunk);
+    chunks.push_back(chunk);
 
     TestPcm pcm;
     pcm.Setup(&stream, &chunks, 2, 1000);

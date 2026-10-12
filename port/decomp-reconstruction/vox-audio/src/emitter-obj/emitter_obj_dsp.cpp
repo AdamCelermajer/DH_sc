@@ -9,11 +9,10 @@
 namespace vox {
 
 // 0x866acc _ZN3vox10EmitterObj15SetDSPParameterEiPv
-// partial: the original returns the unlock result (see SetGain). Only parameter 0 is handled and
-// its value is a string. A non-empty string replaces the pending copy; the previous pending copy
-// is freed first. The original calls strlen on any value, so a null value is not guarded there;
-// the port treats null as an empty string.
-void EmitterObj::SetDSPParameter(int param, void* value) {
+// partial: a null value is the open path: the original calls strlen on it (a crash), and the port
+// treats it as an empty string. Parameter 0 is the only one handled. A non-empty string replaces
+// the pending copy after the old one is freed. Returns the int of the unlock call.
+int EmitterObj::SetDSPParameter(int param, void* value) {
     mutex.Lock();
     if (param == 0) {
         const char* name = static_cast<const char*>(value);
@@ -26,7 +25,7 @@ void EmitterObj::SetDSPParameter(int param, void* value) {
             }
         }
     }
-    mutex.Unlock();
+    return mutex.Unlock();
 }
 
 // 0x863954 _ZN3vox10EmitterObj7CleanUpEv
@@ -35,7 +34,7 @@ void EmitterObj::SetDSPParameter(int param, void* value) {
 // freed entry and both DSP name pointers; the original leaves them set, so a second CleanUp would
 // free them again. The ring array itself is not freed here (the destructor does that).
 void EmitterObj::CleanUp() {
-    if (decoder_cursor_ != nullptr && buffer_ring_ != nullptr &&
+    if (decoder_cursor_ != nullptr && !buffer_ring_.empty() &&
         !decoder_cursor_->AllowBufferReference()) {
         for (int i = 0; i < buffer_count_; ++i) {
             if (buffer_ring_[i] != nullptr) {

@@ -15,23 +15,7 @@ DecoderNative::DecoderNative() = default;
 // NativePlaylistsManager's destructor. The arrays are freed here and the members are
 // destroyed after this body, in the same order. The manager's destructor is the playlists
 // slice's (partial there, in its NativePlaylist element destructor).
-DecoderNative::~DecoderNative() {
-    if (segments_info_ != nullptr) {
-        VoxFree(segments_info_);
-        segments_info_ = nullptr;
-        segments_count_ = 0;
-    }
-    if (rules_ != nullptr) {
-        VoxFree(rules_);
-        rules_ = nullptr;
-        rules_count_ = 0;
-    }
-    if (states_ != nullptr) {
-        VoxFree(states_);
-        states_ = nullptr;
-        states_count_ = 0;
-    }
-}
+DecoderNative::~DecoderNative() = default;  // the vectors release the arrays, as the original frees them
 
 // 0x872b78 _ZN3vox20DecoderNativeFactoryEPv. VoxAlloc a DecoderNative and construct it.
 // The original size is 0x8c in the 32-bit layout; sizeof is used for the 64-bit object.

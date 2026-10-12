@@ -11,7 +11,10 @@ DecoderMSWav::DecoderMSWav() = default;
 
 // 0x870ffc _ZN3vox12DecoderMSWavD1Ev (D2 0x870f7c has the same body; the deleting variant
 // 0x87107c is emitted by the compiler from this destructor).
-// The original calls DataNode::DropNodes (0x870e38) on the list head and then frees the head.
+// The original calls DataNode::DropNodes (0x870e38) on the node after the list head, frees
+// that node, then frees the head. DropNodes frees every node after its receiver, so the set of
+// blocks freed is the same as calling it on the head and freeing the head; the free order
+// differs and is not observable.
 DecoderMSWav::~DecoderMSWav() {
     parse_pending_ = true;
     if (wave_chunk_.data_list != nullptr) {

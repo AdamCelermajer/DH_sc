@@ -1,6 +1,8 @@
-// IMA ADPCM sub-decoder: seek and decode into a caller buffer. All four functions are partial:
-// they call VoxNativeSubDecoderIMAADPCM::DecodeBlock (0x887068), which is declared in the
-// header but not defined in this slice. UpdateSegmentsStates is the base class method.
+// IMA ADPCM sub-decoder: seek and decode into a caller buffer. DecodeBlock (0x887068) is
+// ported in src/w9-native-subdecoder/ima_decode_block.cpp. Seek (0x887464) and
+// SetDecodingBufferToSegmentPosition (0x887544) are reconstructed on top of it. DecodeSegment
+// and DecodeCurrentSegmentWithOffset stay partial because they call the base UpdateSegmentsStates
+// (0x885740, partial).
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
@@ -18,12 +20,12 @@ std::uint32_t UDivOrZero(std::uint32_t a, std::uint32_t b) { return b == 0 ? 0 :
 
 }  // namespace
 
-// 0x887464 _ZN3vox27VoxNativeSubDecoderIMAADPCM4SeekEiPNS_12SegmentStateE (partial)
+// 0x887464 _ZN3vox27VoxNativeSubDecoderIMAADPCM4SeekEiPNS_12SegmentStateE
 // Seeks to a frame of the segment's chunk and decodes the block that holds it into the
 // block's decoding slot. A negative offset means the loop start.
 int VoxNativeSubDecoderIMAADPCM::Seek(int sample_offset, SegmentState* segment) {
     const int frame = sample_offset < 0 ? segment->loop_start : sample_offset;
-    const NativeChunk& chunk = chunks_->chunks[static_cast<std::size_t>(segment->chunk_index)];
+    const NativeChunk& chunk = (*chunks_)[static_cast<std::size_t>(segment->chunk_index)];
     if (frame > chunk.frame_count) {
         return -1;
     }
@@ -44,7 +46,7 @@ int VoxNativeSubDecoderIMAADPCM::Seek(int sample_offset, SegmentState* segment) 
     return 0;
 }
 
-// 0x887544 _ZN3vox27VoxNativeSubDecoderIMAADPCM34SetDecodingBufferToSegmentPositionEPNS_12SegmentStateE (partial)
+// 0x887544 _ZN3vox27VoxNativeSubDecoderIMAADPCM34SetDecodingBufferToSegmentPositionEPNS_12SegmentStateE
 void VoxNativeSubDecoderIMAADPCM::SetDecodingBufferToSegmentPosition(SegmentState* segment) {
     const int frame = segment->sample_position;
     const int slot = segment->decoding_slot;
@@ -61,7 +63,9 @@ void VoxNativeSubDecoderIMAADPCM::SetDecodingBufferToSegmentPosition(SegmentStat
     segment->sample_position = frame;
 }
 
-// 0x8875b8 _ZN3vox27VoxNativeSubDecoderIMAADPCM13DecodeSegmentEPviPNS_12SegmentStateE (partial)
+// 0x8875b8 _ZN3vox27VoxNativeSubDecoderIMAADPCM13DecodeSegmentEPviPNS_12SegmentStateE (partial:
+// the UpdateSegmentsStates call (0x885740, partial: next_event_ loop-list length) runs at the
+// end of the segment loop)
 // Returns the number of bytes written to dst (frames times channels times two).
 int VoxNativeSubDecoderIMAADPCM::DecodeSegment(void* dst, int bytes, SegmentState* segment) {
     auto* out = static_cast<std::int16_t*>(dst);
@@ -140,7 +144,8 @@ int VoxNativeSubDecoderIMAADPCM::DecodeSegment(void* dst, int bytes, SegmentStat
     return (total_frames - remaining) * channels * bytes_per_channel_sample;
 }
 
-// 0x887860 _ZN3vox27VoxNativeSubDecoderIMAADPCM30DecodeCurrentSegmentWithOffsetEPvi (partial)
+// 0x887860 _ZN3vox27VoxNativeSubDecoderIMAADPCM30DecodeCurrentSegmentWithOffsetEPvi (partial:
+// the UpdateSegmentsStates call (0x885740, partial: next_event_ loop-list length) runs in the loop)
 // The current segment (segments_[2]) after a pending seek. The pending frames are zeroed
 // first. Returns the number of bytes written (pending frames included).
 int VoxNativeSubDecoderIMAADPCM::DecodeCurrentSegmentWithOffset(void* dst, int bytes) {

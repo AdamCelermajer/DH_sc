@@ -72,12 +72,13 @@ bool NativePlaylistsManager::IsValid() const {
 }
 
 // 0x882548 _ZN3vox22NativePlaylistsManager4InitEi
-void NativePlaylistsManager::Init(int count) {
+NativePlaylist** NativePlaylistsManager::Init(int count) {
     playlists_ = static_cast<NativePlaylist**>(
         VoxAlloc(static_cast<std::size_t>(count) * sizeof(NativePlaylist*), kVoxMemHintDefault));
     if (playlists_ == nullptr) {
         valid_ = false;
     }
+    return playlists_;
 }
 
 }  // namespace vox

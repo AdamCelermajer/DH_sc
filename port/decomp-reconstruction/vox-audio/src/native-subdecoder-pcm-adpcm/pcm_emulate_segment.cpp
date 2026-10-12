@@ -18,7 +18,7 @@ std::uint32_t UDivOrZero(std::uint32_t a, std::uint32_t b) { return b == 0 ? 0 :
 // whence 0 to the segment start and 1 for relative moves. UpdateSegmentsStates is the base
 // class method (ledgered by the base worker).
 int VoxNativeSubDecoderPCM::EmulateDecodeSegment(int sample_bytes, SegmentState* segment) {
-    const NativeChunk& chunk = chunks_->chunks[static_cast<std::size_t>(segment->chunk_index)];
+    const NativeChunk& chunk = (*chunks_)[static_cast<std::size_t>(segment->chunk_index)];
     const int frame_bytes = bytes_per_sample_;
     const int stream_pos = segment->byte_offset + chunk.byte_offset + base_offset_;
     if (stream_pos != stream_->Tell()) {
@@ -97,7 +97,7 @@ int VoxNativeSubDecoderPCM::EmulateDecodeSegment(int sample_bytes, SegmentState*
 // pending seek (+0x168) is consumed first and counts as already emulated bytes.
 int VoxNativeSubDecoderPCM::EmulateDecodeCurrentSegmentWithOffset(int sample_bytes) {
     SegmentState& cur = segments_[2];
-    const NativeChunk& chunk = chunks_->chunks[static_cast<std::size_t>(cur.chunk_index)];
+    const NativeChunk& chunk = (*chunks_)[static_cast<std::size_t>(cur.chunk_index)];
     const int frame_bytes = bytes_per_sample_;
     const int pending = pending_seek_;
     if (pending > 0) {

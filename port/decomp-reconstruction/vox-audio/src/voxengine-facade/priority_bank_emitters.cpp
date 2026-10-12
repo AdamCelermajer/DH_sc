@@ -35,7 +35,9 @@ void EvictEntry(std::vector<PriorityBankEntry>& entries, std::size_t index) {
 
 }  // namespace
 
-// 0x86ea54 _ZN3vox19PriorityBankManager10AddEmitterEiPNS_10EmitterObjE (partial: Stop not ported)
+// 0x86ea54 _ZN3vox19PriorityBankManager10AddEmitterEiPNS_10EmitterObjE
+// Checked path by path against the listing: the behaviour 1 and 2 scans, the behaviour 0 eviction and
+// the append for behaviour 3 or room all match. EmitterObj::Stop is ported (transport .cpp).
 // Refuses a null emitter, an index outside the banks, an emitter already in a bank, and a
 // request the bank gate refuses. Otherwise, by behaviour:
 //   3, or room under the maximum: append.

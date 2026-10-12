@@ -9,6 +9,8 @@
 
 namespace vox {
 
+class StreamInterface;
+
 // Abstract read cursor over a stream. Vtable slots (original ABI):
 //   +0x08 Init, +0x0c Shutdown, +0x10 Seek, +0x14 IsSeekable,
 //   +0x18 Tell, +0x1c Read, +0x20 ReadRef, +0x24 EndOfStream, +0x28 AllowBufferReference.
@@ -26,18 +28,30 @@ public:
     virtual int ReadRef(std::uint8_t*& ref, int size) { return Read(ref, size); }
     virtual bool IsSeekable() const = 0;
     virtual bool AllowBufferReference() const { return false; }
+
+    // The owner word (+0x04) the cursor was made from.
+    StreamInterface* OwnerStream() const { return owner_stream_; }
+
+protected:
+    // +0x04: the owner word every stream cursor keeps, the stream it reads. The derived
+    // cursors set it in their constructors. mpc_getsize reads it (see mpc_reader.cpp).
+    StreamInterface* owner_stream_ = nullptr;
 };
 
-// Stream source (vox::StreamInterface). Vtable slot +0x10 is Size().
+// Stream source (vox::StreamInterface). Vtable slot +0x10 is Size(), a non-pure
+// accessor for the size word at +0x04 (the derived streams fill it in).
 class StreamInterface {
 public:
     virtual ~StreamInterface() = default;  // 0x8886d8 (D1), 0x8887bc (D0)
     virtual void Init() {}                 // 0x8886dc
     virtual void Shutdown() {}             // 0x8886e0
     virtual int GetType() const = 0;
-    virtual int Size() const = 0;
+    virtual int Size() const { return size_; }  // 0x8886e4: returns the word at +0x04
     virtual StreamCursorInterface* CreateNewCursor() = 0;
     virtual void DestroyCursor(StreamCursorInterface* cursor) = 0;
+
+protected:
+    int size_ = 0;  // +0x04, shared by the derived streams
 };
 
 class StreamMemoryBuffer;
@@ -54,7 +68,7 @@ struct StreamMemoryBufferParams {
 // Cursor over a StreamMemoryBuffer. Layout: +0x00 vtable, +0x04 owner, +0x08 position.
 class StreamMemoryBufferCursor final : public StreamCursorInterface {
 public:
-    explicit StreamMemoryBufferCursor(StreamMemoryBuffer* owner) : owner_(owner) {}
+    explicit StreamMemoryBufferCursor(StreamMemoryBuffer* owner);  // defined in stream_memory_buffer.cpp
     ~StreamMemoryBufferCursor() override = default;
 
     int Seek(int offset, int whence) override;
@@ -84,13 +98,12 @@ public:
     const std::uint8_t* Data() const { return data_; }
 
 private:
-    int size_ = 0;                        // +0x04
     std::uint8_t* data_ = nullptr;        // +0x08
     bool owns_ = true;                    // +0x0c
 };
 
 // File-backed stream (vox::StreamCFile). Layout: +0x00 vtable, +0x04 size,
-// +0x18 path string (original vox string), +0x20 file system.
+// +0x08 path string (STLport layout: +0x18 finish, +0x1c data start, the C string), +0x20 file system.
 class StreamCFile final : public StreamInterface {
 public:
     explicit StreamCFile(const char* path);
@@ -105,8 +118,7 @@ public:
 
 private:
     friend class StreamCFileCursor;
-    int size_ = 0;                         // +0x04
-    std::string path_;                     // +0x18
+    std::string path_;                     // +0x08 (the original's string words are +0x18 and +0x1c)
     FileSystemInterface* fs_ = nullptr;    // +0x20
 };
 

@@ -11,7 +11,7 @@ DriverAndroidSource::DriverAndroidSource(const std::int32_t* format,
                                          const std::int32_t* buffer_count,
                                          std::uint32_t flags)
     : DriverCallbackSourceInterface(format, buffer_count, flags) {
-    Init();
+    (void)Init();  // the constructor does not use the Init result (0x88fbac)
 }
 
 // 0x88ee58 _ZN3vox19DriverAndroidSource10PrintDebugEv

@@ -24,7 +24,7 @@ int VoxNativeSubDecoderIMAADPCM::Seek(unsigned int sample_offset) {
 // Frames the next block part of the segment would give, without decoding it. Advances the
 // byte position by at most one frame's worth of bytes, and returns the number of frames.
 int VoxNativeSubDecoderIMAADPCM::EmulateDecodeBlock(SegmentState* segment) {
-    const NativeChunk& chunk = chunks_->chunks[static_cast<std::size_t>(segment->chunk_index)];
+    const NativeChunk& chunk = (*chunks_)[static_cast<std::size_t>(segment->chunk_index)];
     const int channels = channels_;
     const int frame_bytes = bytes_per_sample_;
     const int position = segment->byte_offset;

@@ -20,9 +20,9 @@ void SetSilentFade(VoxGainFade& fade, float target) {
 }  // namespace
 
 // 0x86e304 _ZN3vox10EmitterObj4PlayEf
-// partial: the original returns the unlock result (see SetGain in emitter_obj.cpp). A fade that was
-// pausing (sub-state 2) starts from where it has reached. Otherwise it starts from 0.
-void EmitterObj::Play(float fade) {
+// Returns the Mutex::Unlock result. A fade that was pausing (sub-state 2) starts from where it has
+// reached. Otherwise it starts from 0.
+int EmitterObj::Play(float fade) {
     mutex.Lock();
     if (state_set_ == 2) {
         RestartFadeWithDuration(resume_fade_, 1.0f, fade);
@@ -34,14 +34,14 @@ void EmitterObj::Play(float fade) {
         resume_fade_.flag = false;
     }
     state_set_ = 1;
-    mutex.Unlock();
+    return mutex.Unlock();
 }
 
 // 0x86e428 _ZN3vox10EmitterObj5PauseEf
-// partial: the unlock result is dropped (see SetGain). A pause during a play or stop fade (sub-state
-// 2 or 3) only takes effect when it is shorter than the time left on the fade. From sub-state 1 it
-// starts a fade toward 0 when the state word is 1, otherwise a silent fade to 1 with the flag set.
-void EmitterObj::Pause(float fade) {
+// A pause during a play or stop fade (sub-state 2 or 3) only takes effect when it is shorter than
+// the time left on the fade. From sub-state 1 it starts a fade toward 0 when the state word is 1,
+// otherwise a silent fade to 1 with the flag set. Returns the Mutex::Unlock result.
+int EmitterObj::Pause(float fade) {
     mutex.Lock();
     const int sub_state = state_set_;
     if (sub_state == 2 || sub_state == 3) {
@@ -57,14 +57,14 @@ void EmitterObj::Pause(float fade) {
             SetSilentFade(resume_fade_, 1.0f);
         }
     }
-    mutex.Unlock();
+    return mutex.Unlock();
 }
 
 // 0x86e868 _ZN3vox10EmitterObj4StopEf
-// partial: the unlock result is dropped (see SetGain). While playing (state word 1) a stop from
-// sub-state 3 only takes effect when it is shorter than the time left. Otherwise the sub-state
-// becomes 3 and a fade toward 0 starts; with the state word not 1, the fade is silent.
-void EmitterObj::Stop(float fade) {
+// While playing (state word 1) a stop from sub-state 3 only takes effect when it is shorter than
+// the time left. Otherwise the sub-state becomes 3 and a fade toward 0 starts; with the state word
+// not 1, the fade is silent. Returns the Mutex::Unlock result.
+int EmitterObj::Stop(float fade) {
     mutex.Lock();
     if (state_ == 1) {
         if (state_set_ == 3) {
@@ -80,7 +80,7 @@ void EmitterObj::Stop(float fade) {
         state_set_ = 3;
         SetSilentFade(resume_fade_, 1.0f);
     }
-    mutex.Unlock();
+    return mutex.Unlock();
 }
 
 }  // namespace vox

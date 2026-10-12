@@ -22,9 +22,9 @@ public:
     static VoxEngine* GetVoxEngine();               // 0x862b30
     static void DestroyVoxEngine();                 // 0x8628f8
     void Shutdown();                                // 0x862944 (partial: VoxThread dtor not ported)
-    void Initialize();                              // 0x862d10 (partial: thread ctor, MSWav/MPC8/Native factories)
-    void UpdateEmittersThreaded();                  // 0x862c4c (partial: VoxEngineInternal::UpdateEmitters)
-    void UpdateThreaded();                          // 0x862cf0
+    void Initialize();                              // 0x862d10 (partial: the listing returns the low word of the start time)
+    int UpdateEmittersThreaded();                   // 0x862c4c (VoxEngineInternal::UpdateEmitters result)
+    int UpdateThreaded();                           // 0x862cf0 (the emitters update result)
     // Thread callback for the emitter thread (the 0x862d0c thunk forwards to 0x862c4c).
     static void UpdateEmittersThreaded(void* engine, void* unused);
 
@@ -34,8 +34,8 @@ public:
     static void Update(float dt);                   // 0x8617b4 (empty)
     static void UpdateSources();                    // 0x8617b8 (empty)
     static void UpdateEmitters(float dt);           // 0x8617bc (empty)
-    static void SetMasterGain(float gain, float time);                     // 0x8617c0
-    static void SetGroupGain(unsigned int group, float gain, float time);  // 0x8617fc
+    static int SetMasterGain(float gain, float time);                      // 0x8617c0 (vtable +0x28 result)
+    static int SetGroupGain(unsigned int group, float gain, float time);   // 0x8617fc (vtable +0x24 result)
     static void RegisterForEmitterStateChangeNotification(EmitterHandle& emitter,
                                                           void (*callback)(EmitterHandle&, void*, EmitterExternState),
                                                           void* user_data);  // 0x861838 (empty)
@@ -47,8 +47,8 @@ public:
     static void PrintDebug();                       // 0x8618a8
     static int SetOutputMode(VoxOutputMode mode);   // 0x8618d0 (0 without an engine)
     static VoxOutputMode GetOutputMode();           // 0x8618f8 (-1 without an engine)
-    static void SetInteractiveMusicState(EmitterHandle& emitter, const char* state);  // 0x861928
-    static void SetDSPEmitterParameter(EmitterHandle& emitter, int param, void* value);  // 0x861950
+    static int SetInteractiveMusicState(EmitterHandle& emitter, const char* state);  // 0x861928 (0 without an engine)
+    static int SetDSPEmitterParameter(EmitterHandle& emitter, int param, void* value);   // 0x861950 (0 without an engine)
     static void SetSFXPresetActive(int preset, bool active, float level);  // 0x861978
     static void SetRoutingVolume(char* from, char* to, VoxDSPGeneralParameter::BusRoutingType type,
                                  float volume, float fade_in, float fade_out);  // 0x8619a0

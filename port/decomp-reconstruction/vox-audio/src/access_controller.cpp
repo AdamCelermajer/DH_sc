@@ -24,10 +24,11 @@ void AccessController::GetReadAccess() {
 }
 
 // 0x89351c _ZN3vox16AccessController17ReleaseReadAccessEv
-void AccessController::ReleaseReadAccess() {
+// The binary tail-calls Mutex::Unlock, so the int result is returned.
+int AccessController::ReleaseReadAccess() {
     mutex_.Lock();
     --read_count_;
-    mutex_.Unlock();
+    return mutex_.Unlock();
 }
 
 // 0x8934ac _ZN3vox16AccessController14GetWriteAccessEv
@@ -44,10 +45,10 @@ void AccessController::GetWriteAccess() {
 }
 
 // 0x893480 _ZN3vox16AccessController18ReleaseWriteAccessEv
-void AccessController::ReleaseWriteAccess() {
+int AccessController::ReleaseWriteAccess() {
     mutex_.Lock();
     --write_flag_;
-    mutex_.Unlock();
+    return mutex_.Unlock();
 }
 
 }  // namespace vox

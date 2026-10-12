@@ -9,11 +9,9 @@ namespace vox {
 
 // 0x869a38 _ZN3vox10EmitterObjD2Ev (same body as D1 0x8699c0)
 // 0x8699c0 _ZN3vox10EmitterObjD1Ev
-// Releases the buffer at +0xf4 when one is set; the Handlable base and its mutex follow.
+// The ring array at +0xf4 is released by the vector; the Handlable base and its mutex follow.
 EmitterObj::~EmitterObj() {
-    if (buffer_ring_ != nullptr) {
-        VoxFree(buffer_ring_);
-    }
+    // buffer_ring_ (std::vector) frees its own storage, as the original frees the ring array.
 }
 
 // 0x869a1c _ZN3vox10EmitterObjD0Ev

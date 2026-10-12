@@ -19,4 +19,7 @@ void SetOutOfMemoryHook(OutOfMemoryHook hook);
 
 void* VoxAlloc(std::size_t size);
 void* VoxAlloc(std::size_t size, vox::VoxMemHint hint);
+// Debug variants (0x31068c and 0x310664): file, function and line are accepted and not used.
+void* VoxAlloc(std::size_t size, const char* file, const char* function, int line);
+void* VoxAlloc(std::size_t size, vox::VoxMemHint hint, const char* file, const char* function, int line);
 void VoxFree(void* ptr);

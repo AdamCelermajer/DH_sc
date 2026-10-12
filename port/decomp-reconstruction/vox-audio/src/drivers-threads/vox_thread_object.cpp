@@ -5,6 +5,12 @@
 
 #include <thread>
 
+#if defined(__unix__) || defined(__APPLE__)
+#include <pthread.h>
+#include <sched.h>
+#define VOX_THREAD_HAS_PTHREAD_PRIORITY 1
+#endif
+
 #include "vox-audio/vox/mutex.hpp"
 #include "vox-audio/vox/vox_thread.hpp"
 
@@ -43,8 +49,12 @@ int SaturateToInt(double value) {
 
 }  // namespace
 
-// 0x893784 _ZN3vox9VoxThreadC1EPFvPvS1_ES1_S1_Pc (partial: thread priority is not set)
+// 0x893784 _ZN3vox9VoxThreadC1EPFvPvS1_ES1_S1_Pc (partial: the priority step is not run on Windows)
 // 0x8938b4 _ZN3vox9VoxThreadC2EPFvPvS1_ES1_S1_Pc (same body)
+// The priority step: the new thread's policy and its minimum and maximum priority are read;
+// a maximum above 30 becomes max(min, 31) and the thread is given that priority. The step
+// is ported on POSIX builds. Missing on Windows (one item): pthread_setschedparam has no
+// std::thread or Win32 equivalent here, so the priority is left at the default.
 VoxThread::VoxThread(Callback callback, void* first, void* second, const char* name)
     : callback_(callback), first_(first), second_(second), state_(new State()) {
     if (callback_ == nullptr) {
@@ -58,9 +68,21 @@ VoxThread::VoxThread(Callback callback, void* first, void* second, const char* n
     } else {
         std::strcpy(state_->name, "VoxThread");
     }
-    // The original raises the thread priority to the maximum of the policy (at least 31)
-    // with pthread_setschedparam. std::thread has no portable equivalent, so it is skipped.
     state_->thread = std::thread([this] { Update(nullptr); });
+#if defined(VOX_THREAD_HAS_PTHREAD_PRIORITY)
+    pthread_t handle = state_->thread.native_handle();
+    int policy = 0;
+    sched_param param{};
+    pthread_getschedparam(handle, &policy, &param);
+    const int priority_min = sched_get_priority_min(policy);
+    int priority_max = sched_get_priority_max(policy);
+    if (priority_max > 30) {
+        priority_max = priority_min < 31 ? 31 : priority_min;
+    }
+    sched_param set{};
+    set.sched_priority = priority_max;
+    pthread_setschedparam(handle, policy, &set);
+#endif
 }
 
 // D1 0x89374c _ZN3vox9VoxThreadD1Ev and D2 0x893768 _ZN3vox9VoxThreadD2Ev

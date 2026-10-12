@@ -38,14 +38,17 @@ extern FileCloseFn g_file_close;  // off_A33EC0
 
 // File handle returned by FileSystemInterface::OpenFile: vtable, handle at +0x04,
 // flag at +0x08 (0 for a whole file, 1 for a FileLimited window).
-// Vtable slots: +0x08 Read, +0x0c Seek, +0x10 Tell, +0x14 Write.
+// Vtable slots: +0x00 D1, +0x04 D0, +0x08 Read, +0x0c Seek, +0x10 Tell, +0x14 Write,
+// +0x18 GetFilePtr.
 class FileInterface {
 public:
     FileInterface() = default;
     explicit FileInterface(void* file) : file_handle_(file) {}
     virtual ~FileInterface() = default;  // 0x8939e4 (D1), 0x893e60 (D0)
 
-    void* GetFilePtr() const { return file_handle_; }  // 0x8939e8: word at +0x4
+    // 0x8939e8. Vtable slot +0x18 (the last entry of vtable for vox::FileInterface). The word at
+    // +0x4 is the handle.
+    virtual void* GetFilePtr() const { return file_handle_; }
 
     virtual int Read(void* dst, std::size_t size, std::size_t count);         // 0x8939fc
     virtual int Write(const void* src, std::size_t size, std::size_t count);  // 0x893adc
@@ -68,7 +71,7 @@ public:
     virtual ~FileSystemInterface();  // 0x89405c (D1), 0x8940dc (D2); D0 is compiler-generated
 
     virtual FileInterface* OpenFile(const char* name, VoxFileAccessMode mode);  // 0x894330
-    virtual void CloseFile(FileInterface* file);                                // 0x893ff0
+    virtual int CloseFile(FileInterface* file);                                 // 0x893ff0
 
     // Output buffer, its size and the path (the original's static member; Hex-Rays
     // shows the buffer as `this`).

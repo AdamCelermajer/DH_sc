@@ -17,7 +17,11 @@ public:
 
     void Lock() { mutex_.lock(); }
     bool TryLock() { return mutex_.try_lock(); }
-    void Unlock() { mutex_.unlock(); }
+    // pthread_mutex_unlock returns 0 on success; the binary returns that int.
+    int Unlock() {
+        mutex_.unlock();
+        return 0;
+    }
 
 private:
     std::mutex mutex_;

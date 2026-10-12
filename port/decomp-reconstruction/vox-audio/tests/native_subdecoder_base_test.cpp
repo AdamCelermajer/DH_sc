@@ -53,6 +53,7 @@ public:
     void SetMode(std::uint16_t value) { mode_ = value; }
     vox::SegmentState& Seg(int i) { return segments_[i]; }
     void SetField38(int value) { field_38_ = value; }
+    void SetStates(vox::States* states) { states_ = states; }
     int Field3c() const { return field_3c_; }
     bool HasData() const { return has_data_; }
     int Field34() const { return field_34_; }
@@ -168,11 +169,16 @@ int main() {
     idle.EmulateDecode(64);
     CHECK(idle.Seg(0).reset_pending);
 
-    // SetState(int) stores the index; with no element it leaves the next dying state alone.
+    // SetState(int) stores the index. field_38 is set to 0 so that neither the lookup branch
+    // (field_38 == -1) nor the rule branch runs: UpdateSegmentsStates now reads the playlist
+    // manager, which this fixture does not have.
     TestSub indexed;
-    indexed.SetField38(-1);
+    vox::States states = {10, 11, 12, 13, 14};
+    indexed.SetStates(&states);
+    indexed.SetField38(0);
     indexed.SetState(4);
     CHECK(indexed.Field3c() == 4);
+    CHECK(indexed.Seg(2).chunk_index == 14);
 
     // NativeSubDecoderState: the constructor builds the defaults and the copies carry the
     // words across.

@@ -1,7 +1,7 @@
-// vox::VoxUtils: file loaders. Partial. The listing's engine load calls pass the engine
-// singleton and a sixth argument that the port's VoxEngine::LoadDataSource* signatures do
-// not carry. The port's facade is static, so the engine argument is 0 and the sixth
-// argument is dropped. The extension dispatch and the RAM read are reconstructed.
+// vox::VoxUtils: file loaders. The engine load calls use the listing's argument order:
+// VoxEngine::LoadDataSource(stream_type, stream_arg, decoder_type, decoder_arg, group).
+// A path load is (1, path, format, 0, user); a RAM load is (0, block, format, 0, user).
+// The facade is static, so the engine instance pointer of the listing is not passed.
 #include <cstdint>
 #include <cstring>
 #include <string>
@@ -28,8 +28,9 @@ struct RamSourceBlock {
 };
 
 // Decoder type code for the extension after the last dot: wav 1, ogg 2, mpc 3, vxn 4, or 0
-// when there is no dot or the extension is unknown. The listing lowercases the extension
-// before comparing; this port lowercases A to Z only, which gives the same four matches.
+// when there is no dot or the extension is unknown. The listing rewrites every byte of the
+// extension that is at most 0x60 by adding 0x20 (signed compare), then compares the result
+// with the four names. Only the upper-case letters A to Z can produce one of those names.
 int DecoderFormatForPath(const char* path) {
     if (path == nullptr) {
         return 0;
@@ -40,8 +41,8 @@ int DecoderFormatForPath(const char* path) {
     }
     std::string ext(dot + 1);
     for (char& c : ext) {
-        if (c >= 'A' && c <= 'Z') {
-            c = static_cast<char>(c - 'A' + 'a');
+        if (static_cast<signed char>(c) <= 0x60) {
+            c = static_cast<char>(static_cast<std::uint8_t>(c) + 0x20);
         }
     }
     if (ext == "wav") {
@@ -61,15 +62,13 @@ int DecoderFormatForPath(const char* path) {
 
 }  // namespace
 
-// 0x86f3b4 _ZN3vox8VoxUtils27LoadDataSourceFromFileToRAMEPKcii (partial)
-// Opens the file in read mode, reads its size (seek to end, tell, seek to start), reads it
-// into a VoxAlloc buffer, closes the file and hands the buffer to the engine as a memory
-// source. Any failure before the hand-off returns the empty handle.
-// The listing's read call passes (destination, 1) with no count; the port passes the
-// remaining byte count as the count argument. Its read loop has no end check, so the port
-// stops once the buffer is full.
+// 0x86f3b4 _ZN3vox8VoxUtils27LoadDataSourceFromFileToRAMEPKcii
+// Opens the file in read mode (mode 6), seeks to the end for the size, seeks back, reads the
+// whole file into a VoxAlloc buffer in reads of at most 0x10000 bytes, closes the file and
+// hands the buffer to the engine as a RAM block: (0, block, format, 0, unused). Any failure
+// before the hand-off returns the empty handle. The read loop stops when a read returns no
+// bytes, as the listing does.
 DataHandle VoxUtils::LoadDataSourceFromFileToRAM(const char* path, int format, int unused) {
-    (void)unused;
     VoxEngine::GetVoxEngine();
 
     FileSystemInterface* fs = FileSystemInterface::GetInstance();
@@ -94,8 +93,11 @@ DataHandle VoxUtils::LoadDataSourceFromFileToRAM(const char* path, int format, i
     }
 
     int done = 0;
-    while (done < size) {
-        int got = file->Read(buffer + done, 1, static_cast<std::size_t>(size - done));
+    for (;;) {
+        int remaining = size - done;
+        std::size_t count = remaining <= 0xFFFF ? static_cast<std::size_t>(remaining)
+                                                : static_cast<std::size_t>(0x10000);
+        int got = file->Read(buffer + done, 1, count);
         if (got <= 0) {
             break;
         }
@@ -106,38 +108,37 @@ DataHandle VoxUtils::LoadDataSourceFromFileToRAM(const char* path, int format, i
     RamSourceBlock block;
     block.data = buffer;
     block.size = size;
-    return VoxEngine::LoadDataSource(0, nullptr, 0, &block, format);
+    return VoxEngine::LoadDataSource(0, &block, format, nullptr, unused);
 }
 
-// 0x86f558 _ZN3vox8VoxUtils22LoadDataSourceFromFileEPKcii (partial)
-// The listing calls the engine's path loader (kind 1) with the format; its sixth argument
-// is 0 and is dropped.
+// 0x86f558 _ZN3vox8VoxUtils22LoadDataSourceFromFileEPKcii
+// Engine path load: (1, path, format, 0, unused).
 DataHandle VoxUtils::LoadDataSourceFromFile(const char* path, int format, int unused) {
-    (void)unused;
     VoxEngine::GetVoxEngine();
-    return VoxEngine::LoadDataSource(0, nullptr, 1, const_cast<char*>(path), format);
+    return VoxEngine::LoadDataSource(1, const_cast<char*>(path), format, nullptr, unused);
 }
 
-// 0x86f5a0 _ZN3vox8VoxUtils27LoadDataSourceFromFileAsRAWEPKcii (partial)
-// The listing loads through LoadDataSourceFromFile and passes the result to
-// ConvertToRawSource. In the listing the second argument to that call is the engine
-// singleton, not the loaded handle; the port converts the loaded handle, which is the
-// evident intent. Unconfirmed.
+// 0x86f5a0 _ZN3vox8VoxUtils27LoadDataSourceFromFileAsRAWEPKcii
+// Loads through LoadDataSourceFromFile, then passes the loaded handle to ConvertToRawSource.
+// The listing calls ConvertToRawSource with the engine as its instance pointer and the
+// loaded handle as its argument, so the port converts the loaded handle.
 DataHandle VoxUtils::LoadDataSourceFromFileAsRAW(const char* path, int format, int unused) {
     VoxEngine::GetVoxEngine();
     DataHandle loaded = LoadDataSourceFromFile(path, format, unused);
     return VoxEngine::ConvertToRawSource(loaded);
 }
 
-// 0x86f5fc _ZN3vox8VoxUtils24LoadDataSourceFromFileExEPKciNS_21VoxSourceLoadingFlagsEi (partial)
-// Routes by load flags: bit 0x10000 loads asynchronously; bit 0 loads to RAM; the value 2
-// loads as RAW; anything else loads from the file. The listing's async call also passes
-// a sixth argument (0) and the user value; the port drops both.
-DataHandle VoxUtils::LoadDataSourceFromFileEx(const char* path, int format, int load_flags, int user) {
+// 0x86f5fc _ZN3vox8VoxUtils24LoadDataSourceFromFileExEPKciNS_21VoxSourceLoadingFlagsEi
+// Routes by load flags: bit 0x10000 loads asynchronously as (1, path, format, 0, user, flags
+// truncated to 16 bits); bit 0 loads to RAM; the value 2 loads as RAW; anything else loads
+// from the file.
+DataHandle VoxUtils::LoadDataSourceFromFileEx(const char* path, int format, int load_flags,
+                                              int user) {
     VoxEngine::GetVoxEngine();
     if ((load_flags & 0x10000) != 0) {
-        return VoxEngine::LoadDataSourceAsync(0, nullptr, 1, const_cast<char*>(path), format,
-                                              static_cast<VoxSourceLoadingFlags>(load_flags));
+        auto flags = static_cast<std::uint16_t>(load_flags);
+        return VoxEngine::LoadDataSourceAsync(1, const_cast<char*>(path), format, nullptr, user,
+                                              static_cast<VoxSourceLoadingFlags>(flags));
     }
     if ((load_flags & 1) != 0) {
         return LoadDataSourceFromFileToRAM(path, format, user);
@@ -148,7 +149,7 @@ DataHandle VoxUtils::LoadDataSourceFromFileEx(const char* path, int format, int 
     return LoadDataSourceFromFile(path, format, user);
 }
 
-// 0x86f6b0 _ZN3vox8VoxUtils39LoadDataSourceFromFileAutoDetectDecoderEPKci (partial)
+// 0x86f6b0 _ZN3vox8VoxUtils39LoadDataSourceFromFileAutoDetectDecoderEPKci
 // Picks the decoder from the extension, then loads from the file. An unknown or missing
 // extension gives the empty handle.
 DataHandle VoxUtils::LoadDataSourceFromFileAutoDetectDecoder(const char* path, int unused) {
@@ -160,8 +161,11 @@ DataHandle VoxUtils::LoadDataSourceFromFileAutoDetectDecoder(const char* path, i
 }
 
 // 0x86f8e0 _ZN3vox8VoxUtils41LoadDataSourceFromFileAutoDetectDecoderExEPKciNS_21VoxSourceLoadingFlagsEPNS_18DataHandleUserDataE
-// As the plain form, but through LoadDataSourceFromFileEx with the load flags and the user value.
-DataHandle VoxUtils::LoadDataSourceFromFileAutoDetectDecoderEx(const char* path, int user, int load_flags) {
+// As the plain form, but through LoadDataSourceFromFileEx with the load flags and the int
+// argument as the user value. The mangled name has a fourth argument, a DataHandleUserData
+// pointer on the stack; the listing never reads it, so the port does not take it.
+DataHandle VoxUtils::LoadDataSourceFromFileAutoDetectDecoderEx(const char* path, int user,
+                                                               int load_flags) {
     int format = DecoderFormatForPath(path);
     if (format == 0) {
         return EmptySourceHandle();

@@ -49,7 +49,7 @@ int main() {
         CHECK(chunk.param0 == 7);
         CHECK(chunk.params[0] == 0.25f);
         CHECK(chunk.params[6] == 0.0f);
-        CHECK(chunk.unnamed_20 == 0 && chunk.unnamed_28 == 0);
+        CHECK(chunk.source_gain == 1.0f && chunk.source_pitch == 1.0f);
     }
 
     // DebugInfo defaults: the end marker is -1. VoxEngineInternal::GetDebugInfo is not linked

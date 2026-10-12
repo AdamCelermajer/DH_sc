@@ -51,8 +51,8 @@ void DriverAndroid::Suspend() {
     _SuspendOSL();
 }
 
-// 0x88f644 _ZN3vox13DriverAndroid8ShutdownEv (partial: _ShutdownAT is reconstructed, the
-// other two AT bodies are not)
+// 0x88f644 _ZN3vox13DriverAndroid8ShutdownEv: mode 1 runs the audio-thread shutdown, mode 2
+// the OSL shutdown, anything else does nothing.
 void DriverAndroid::Shutdown() {
     if (mode_ == 1) {
         _ShutdownAT();
@@ -73,12 +73,13 @@ void DriverAndroid::Init(void* context) {
 }
 
 // 0x88fbe8 _ZN3vox13DriverAndroid18CreateDriverSourceEPvS1_i (partial)
-void DriverAndroid::CreateDriverSource(void* a, void* b, int c) {
-    (void)a;
-    (void)b;
-    (void)c;
+DriverSourceInterface* DriverAndroid::CreateDriverSource(const std::int32_t* params, void* user, int flags) {
+    (void)params;
+    (void)user;
+    (void)flags;
     mutex_.Lock();
     mutex_.Unlock();
+    return nullptr;
 }
 
 // 0x88f59c _ZN3vox13DriverAndroid19DestroyDriverSourceEPNS_21DriverSourceInterfaceE (partial)
@@ -136,8 +137,9 @@ void VoxSetJavaVM(_JavaVM* java_vm) {
     vox::DriverAndroid::s_javaVM = java_vm;
 }
 
-// 0x88ee1c VoxSetJavaVMC. The argument is passed straight through to VoxSetJavaVM in the
-// original (the pseudocode loses the register), then the threshold is set to 1.0.
+// 0x88ee1c VoxSetJavaVMC. The asm passes the argument straight through to VoxSetJavaVM
+// (R0 is not changed), then tail-branches to VoxSetDataThreshold with 1.0 in R0:R1
+// (0x3ff00000 high word, zero low word).
 void VoxSetJavaVMC(_JavaVM* java_vm) {
     VoxSetJavaVM(java_vm);
     VoxSetDataThreshold(1.0);

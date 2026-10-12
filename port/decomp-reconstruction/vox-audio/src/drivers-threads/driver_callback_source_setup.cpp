@@ -55,7 +55,7 @@ DriverCallbackSourceInterface::~DriverCallbackSourceInterface() {
 // 0x893108 _ZN3vox29DriverCallbackSourceInterface4InitEv (partial in one respect: the
 // element's first word, the data pointer, is not set by the original's initializer
 // (Hex-Rays lost the value), so it is null here until UploadData sets it.)
-void DriverCallbackSourceInterface::Init() {
+int DriverCallbackSourceInterface::Init() {
     mutex_.Lock();
     field_28_ = 0x4000;
     field_34_ = 0x4000;
@@ -123,7 +123,7 @@ void DriverCallbackSourceInterface::Init() {
         }
     }
     byte_offset_ = 0;
-    mutex_.Unlock();
+    return mutex_.Unlock();
 }
 
 // 0x8909e8 _ZN3vox29DriverCallbackSourceInterface14Set3DParameterEiPv

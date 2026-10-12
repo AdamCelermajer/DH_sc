@@ -10,7 +10,7 @@ namespace vox {
 // past the end of the chunk, otherwise the result of the stream seek.
 int VoxNativeSubDecoderPCM::Seek(int sample_offset, SegmentState* segment) {
     const int frame = sample_offset < 0 ? segment->loop_start : sample_offset;
-    const NativeChunk& chunk = chunks_->chunks[static_cast<std::size_t>(segment->chunk_index)];
+    const NativeChunk& chunk = (*chunks_)[static_cast<std::size_t>(segment->chunk_index)];
     if (frame > chunk.frame_count) {
         return -1;
     }

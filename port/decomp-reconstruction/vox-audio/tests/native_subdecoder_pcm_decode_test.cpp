@@ -72,7 +72,7 @@ int main() {
     chunk.byte_offset = 0;
     chunk.byte_size = 40;
     chunk.frame_count = 20;
-    chunks.chunks.push_back(chunk);
+    chunks.push_back(chunk);
     std::vector<std::vector<std::int32_t>> lists(1);
     lists[0] = {0, 0};
 

@@ -1,8 +1,8 @@
 // Saved sub-decoder states of the native segment decoder (vox::NativeSubDecoderState and
 // its PCM and IMA ADPCM variants). The base holds the words that VoxNativeSubDecoder::SetState
 // and GetState copy: the playlist manager pointer, the counters, the three playlist elements
-// and the three segment records. The PCM and IMA ADPCM variants are not reconstructed in
-// this slice; their constructors call the base constructor declared here.
+// and the three segment records. The PCM and IMA ADPCM variants only add constructors and
+// destructors, which call the base constructor and destructor declared here.
 #pragma once
 
 #include <cstdint>
@@ -14,8 +14,7 @@ namespace vox {
 
 class NativeSubDecoderState {
 public:
-    // C1 0x8860dc, C2 0x88621c (partial: the manager is copied from the argument; the
-    // original's non-zero scalar defaults are not reproduced, see the .cpp).
+    // C1 0x8860dc, C2 0x88621c (reconstructed in native_subdecoder_state_base.cpp).
     explicit NativeSubDecoderState(NativePlaylistsManager* manager);
     // D1 0x88547c and D2 0x8854e8 (the same body): destroys the manager and frees it.
     // D0 0x8854cc is the deleting variant.
@@ -41,7 +40,7 @@ public:
     bool has_data_ = false;                        // +0x140 (copied to +0x16c)
 };
 
-// PCM variant. Only the constructors and destructors are reconstructed here.
+// PCM variant: constructors and destructors (0x888670 family, 0x8885ec family).
 class NativeSubDecoderPCMState : public NativeSubDecoderState {
 public:
     // C1 0x888670, C2 0x8886a4: base constructor then the PCM vtable.

@@ -8,9 +8,10 @@ void DecoderCursorInterface::Reset() {
     (void)Seek(0);
 }
 
-// 0x86fb44 _ZN3vox22DecoderCursorInterface9DecodeRefERPvi (partial)
-// The original calls virtual slot +0x10 with the count only. The forwarding
-// to Decode(dst, count) here is an inferred equivalent; see NOTES.md.
+// 0x86fb44 _ZN3vox22DecoderCursorInterface9DecodeRefERPvi
+// The asm (decomp_asm.py) loads the pointer from the reference, then calls the vtable slot
+// at +0x10 (Decode) with that pointer and the count. Decode(dst, count) makes the same virtual
+// call, so the body is the same.
 int DecoderCursorInterface::DecodeRef(void*& dst, int count) {
     return Decode(dst, count);
 }

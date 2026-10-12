@@ -129,8 +129,8 @@ PlaylistElement* NativePlaylist::PeekAtNextElement() {
 // Builds a PlaylistElement from words 3 to 6 (words 0 and 1 are not stored in it), appends it
 // to the element vector, then adds the element to the group at words_[2]: a RandomGroup
 // element (value words_[1], weight words_[7]) for a nonzero select mode, otherwise the
-// sequential value words_[1]. A failed allocation clears valid and adds nothing. The random
-// record is a heap copy owned by the group, as the original's copy in AddElement is.
+// sequential value words_[1]. A failed allocation of the element clears valid and adds nothing.
+// The random record is a stack value: the original passes its address and AddElement copies it.
 void NativePlaylist::AddPlaylistElement(const PlaylistElementInfos* info) {
     void* memory = VoxAlloc(sizeof(PlaylistElement), kVoxMemHintDefault);
     if (memory == nullptr) {
@@ -146,15 +146,10 @@ void NativePlaylist::AddPlaylistElement(const PlaylistElementInfos* info) {
 
     SegmentGroup* group = groups_[static_cast<std::size_t>(info->words_[2])];
     if (group->GetSelectMode() != 0) {
-        void* record_memory = VoxAlloc(sizeof(RandomGroupElement), kVoxMemHintDefault);
-        if (record_memory == nullptr) {
-            valid_ = false;
-            return;
-        }
-        RandomGroupElement* record = new (record_memory) RandomGroupElement();
-        record->value_ = info->words_[1];
-        record->weight_ = info->words_[7];
-        static_cast<RandomGroup*>(group)->AddElement(record);
+        RandomGroupElement record;
+        record.value_ = info->words_[1];
+        record.weight_ = info->words_[7];
+        static_cast<RandomGroup*>(group)->AddElement(&record);
     } else {
         static_cast<SequentialGroup*>(group)->AddElement(info->words_[1]);
     }
