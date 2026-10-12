@@ -1,0 +1,153 @@
+elf_address,symbol,status,source_file,notes
+0x3106e4,_ZN6CMutexC2Ev,reconstructed,net-transport/src/sync.cpp,empty ctor
+0x3106e8,_ZN6CMutexC1Ev,reconstructed,net-transport/src/sync.cpp,empty ctor
+0x3106ec,_ZN6CMutexD2Ev,reconstructed,net-transport/src/sync.cpp,empty dtor
+0x3106f0,_ZN6CMutexD1Ev,reconstructed,net-transport/src/sync.cpp,empty dtor
+0x3106f4,_ZN6CMutex4LockEv,reconstructed,net-transport/src/sync.cpp,
+0x310704,_ZN6CMutex6UnlockEv,reconstructed,net-transport/src/sync.cpp,
+0x310720,_ZN6CMutex8IsLockedEv,reconstructed,net-transport/src/sync.cpp,returns 1 only when count is 0 (as original)
+0x316568,_ZNK6Buffer4readEjPvj,partial,net-transport/src/buffer.cpp,debug ASSERT logging dropped; copy skipped when block is null instead of dereferencing
+0x31692c,_ZN6Buffer5clearEv,reconstructed,net-transport/src/buffer.cpp,
+0x316988,_ZN6BufferD1Ev,reconstructed,net-transport/src/buffer.cpp,
+0x316d98,_ZN6Buffer12ensureBufferEjj,reconstructed,net-transport/src/buffer.cpp,std::vector grow with trailing nullptr sentinel; see NOTES.md
+0x316f0c,_ZN6Buffer5writeEjPKvj,reconstructed,net-transport/src/buffer.cpp,
+0x317014,_ZN6Buffer7setSizeEj,partial,net-transport/src/buffer.cpp,debug ASSERT logging dropped
+0x317e10,_ZN6ThreadD1Ev,partial,net-transport/src/sync.cpp,original empty; ours joins a still-running worker (std::thread requirement)
+0x317fe8,_ZN6ThreadD0Ev,skipped,net-transport/src/sync.cpp,deleting-destructor thunk; C++ delete covers it
+0x36d250,_ZN13NetStructUIntILj8EED1Ev,reconstructed,net-transport/src/net_struct.cpp,
+0x36d27c,_ZN13NetStructBoolD1Ev,reconstructed,net-transport/src/net_struct.cpp,
+0x36d404,_ZN13NetStructUIntILj8EE9TestValueERKj,reconstructed,net-transport/src/net_struct.cpp,
+0x36d5bc,_ZN13NetStructUIntILj8EED0Ev,skipped,net-transport/src/net_struct.cpp,deleting-destructor thunk; C++ delete covers it
+0x36d624,_ZN13NetStructBoolD0Ev,skipped,net-transport/src/net_struct.cpp,deleting-destructor thunk; C++ delete covers it
+0x36da38,_ZN13NetStructUIntILj8EE4ReadER12NetBitStream,reconstructed,net-transport/src/net_struct.cpp,
+0x36dbf0,_ZN13NetStructUIntILj8EE5WriteER12NetBitStream,reconstructed,net-transport/src/net_struct.cpp,
+0x36f028,_ZN13NetStructBool4ReadER12NetBitStream,reconstructed,net-transport/src/net_struct.cpp,
+0x36f064,_ZN13NetStructBool5WriteER12NetBitStream,reconstructed,net-transport/src/net_struct.cpp,
+0x39f320,_ZN13NetStructUIntILj32EED1Ev,reconstructed,net-transport/src/net_struct.cpp,
+0x39f3c8,_ZN13NetStructUIntILj1EED1Ev,reconstructed,net-transport/src/net_struct.cpp,
+0x39f518,_ZN13NetStructUIntILj1EE9TestValueERKj,reconstructed,net-transport/src/net_struct.cpp,
+0x39f52c,_ZN13NetStructUIntILj32EE9TestValueERKj,reconstructed,net-transport/src/net_struct.cpp,always true as original
+0x39f538,_ZN13NetStructUIntILj1EED0Ev,skipped,net-transport/src/net_struct.cpp,deleting-destructor thunk; C++ delete covers it
+0x39f56c,_ZN13NetStructUIntILj32EED0Ev,skipped,net-transport/src/net_struct.cpp,deleting-destructor thunk; C++ delete covers it
+0x39f5a0,_ZN13NetStructUIntILj1EE4ReadER12NetBitStream,reconstructed,net-transport/src/net_struct.cpp,
+0x39f5d8,_ZN13NetStructUIntILj32EE4ReadER12NetBitStream,reconstructed,net-transport/src/net_struct.cpp,
+0x39f610,_ZN13NetStructUIntILj1EE5WriteER12NetBitStream,reconstructed,net-transport/src/net_struct.cpp,
+0x39f624,_ZN13NetStructUIntILj32EE5WriteER12NetBitStream,reconstructed,net-transport/src/net_struct.cpp,
+0x3a2f18,_ZN20NetStructRangedFloatILj18ELin200000ELi200000EED1Ev,reconstructed,net-transport/src/net_struct.cpp,
+0x3a2f28,_ZN20NetStructRangedFloatILj16ELin50000ELi50000EED1Ev,reconstructed,net-transport/src/net_struct.cpp,
+0x3a2f38,_ZN20NetStructRangedFloatILj16ELin1ELi1EED1Ev,reconstructed,net-transport/src/net_struct.cpp,
+0x3a360c,_ZN20NetStructRangedFloatILj16ELin1ELi1EE9TestValueERKf,reconstructed,net-transport/src/net_struct.cpp,
+0x3a3654,_ZN20NetStructRangedFloatILj16ELin50000ELi50000EE9TestValueERKf,reconstructed,net-transport/src/net_struct.cpp,
+0x3a3698,_ZN20NetStructRangedFloatILj18ELin200000ELi200000EE9TestValueERKf,reconstructed,net-transport/src/net_struct.cpp,
+0x3a3764,_ZN20NetStructRangedFloatILj18ELin200000ELi200000EED0Ev,skipped,net-transport/src/net_struct.cpp,deleting-destructor thunk; C++ delete covers it
+0x3a3850,_ZN20NetStructRangedFloatILj16ELin50000ELi50000EED0Ev,skipped,net-transport/src/net_struct.cpp,deleting-destructor thunk; C++ delete covers it
+0x3a38d4,_ZN20NetStructRangedFloatILj16ELin1ELi1EED0Ev,skipped,net-transport/src/net_struct.cpp,deleting-destructor thunk; C++ delete covers it
+0x3a3c64,_ZN20NetStructRangedFloatILj18ELin200000ELi200000EE4ReadER12NetBitStream,partial,net-transport/src/net_struct.cpp,fraction scaling to [Min,Max] inferred; decompile shows only the division
+0x3a3cc4,_ZN20NetStructRangedFloatILj16ELin50000ELi50000EE4ReadER12NetBitStream,partial,net-transport/src/net_struct.cpp,fraction scaling to [Min,Max] inferred; decompile shows only the division
+0x3a3d24,_ZN20NetStructRangedFloatILj16ELin1ELi1EE4ReadER12NetBitStream,partial,net-transport/src/net_struct.cpp,fraction scaling to [Min,Max] inferred; decompile shows only the division
+0x3a3d7c,_ZN20NetStructRangedFloatILj18ELin200000ELi200000EE5WriteER12NetBitStream,partial,net-transport/src/net_struct.cpp,fixed-point scaling inferred; decompile shows only the offset add
+0x3a3dc4,_ZN20NetStructRangedFloatILj16ELin50000ELi50000EE5WriteER12NetBitStream,partial,net-transport/src/net_struct.cpp,fixed-point scaling inferred; decompile shows only the offset add
+0x3a3e0c,_ZN20NetStructRangedFloatILj16ELin1ELi1EE5WriteER12NetBitStream,partial,net-transport/src/net_struct.cpp,fixed-point scaling inferred; decompile shows only the offset add
+0x7fb93c,_ZNK10CNetworkId7IsEqualERS_,reconstructed,net-transport/src/net_network_id.cpp,48-bit address model; sum of present fields compared in two passes
+0x7fc384,_ZN10CNetworkId5ResetEv,reconstructed,net-transport/src/net_network_id.cpp,
+0x801b04,_ZN18NetStructNetworkIdD1Ev,reconstructed,net-transport/src/net_struct.cpp,
+0x801bc8,_ZN18NetStructNetworkIdD0Ev,skipped,net-transport/src/net_struct.cpp,deleting-destructor thunk; C++ delete covers it
+0x801cf0,_ZN10CNetworkId4LoadER12NetBitStream,reconstructed,net-transport/src/net_network_id.cpp,
+0x801de0,_ZN18NetStructNetworkId4ReadER12NetBitStream,reconstructed,net-transport/src/net_struct.cpp,
+0x801e24,_ZN10CNetworkId9SerializeER12NetBitStream,reconstructed,net-transport/src/net_network_id.cpp,
+0x801f14,_ZN18NetStructNetworkId5WriteER12NetBitStream,reconstructed,net-transport/src/net_struct.cpp,
+0x80e2cc,_ZN10CSemaphoreC2Ei,reconstructed,net-transport/src/sync.cpp,
+0x80e2d4,_ZN10CSemaphoreC1Ei,reconstructed,net-transport/src/sync.cpp,
+0x80e2dc,_ZN10CSemaphoreD2Ev,reconstructed,net-transport/src/sync.cpp,empty dtor
+0x80e2e0,_ZN10CSemaphoreD1Ev,reconstructed,net-transport/src/sync.cpp,empty dtor
+0x80e2e4,_ZN10CSemaphore4WaitEv,partial,net-transport/src/sync.cpp,original body is empty; no blocking
+0x80e2e8,_ZN10CSemaphore7ReleaseEi,partial,net-transport/src/sync.cpp,original body is empty; count not changed
+0x80e2ec,_ZN14CReadWriteLockC2Ev,reconstructed,net-transport/src/sync.cpp,vtable pointer only
+0x80e310,_ZN14CReadWriteLockC1Ev,reconstructed,net-transport/src/sync.cpp,vtable pointer only
+0x80e334,_ZN14CReadWriteLockD2Ev,reconstructed,net-transport/src/sync.cpp,empty dtor
+0x80e338,_ZN14CReadWriteLockD1Ev,reconstructed,net-transport/src/sync.cpp,empty dtor
+0x80e33c,_ZN14CReadWriteLock9LockWriteEv,partial,net-transport/src/sync.cpp,original body is empty; not a real lock
+0x80e340,_ZN14CReadWriteLock11UnlockWriteEv,partial,net-transport/src/sync.cpp,original body is empty; not a real lock
+0x80e344,_ZN14CReadWriteLock8LockReadEv,partial,net-transport/src/sync.cpp,original body is empty; not a real lock
+0x80e348,_ZN14CReadWriteLock10UnlockReadEv,partial,net-transport/src/sync.cpp,original body is empty; not a real lock
+0x80e34c,_ZN14CReadWriteLockD0Ev,skipped,net-transport/src/sync.cpp,deleting-destructor thunk; C++ delete covers it
+0x80e368,_ZN9CNetMutex6UnlockEv,reconstructed,net-transport/src/sync.cpp,pthread_mutex_unlock mapped to std::recursive_mutex
+0x80e36c,_ZN9CNetMutex4LockEv,reconstructed,net-transport/src/sync.cpp,pthread_mutex_lock mapped to std::recursive_mutex
+0x80e370,_ZN9CNetMutexD1Ev,reconstructed,net-transport/src/sync.cpp,pthread_mutex_destroy implicit in member dtor
+0x80e384,_ZN9CNetMutexD2Ev,reconstructed,net-transport/src/sync.cpp,pthread_mutex_destroy implicit in member dtor
+0x80e398,_ZN9CNetMutexC1Ev,reconstructed,net-transport/src/sync.cpp,recursive type; pthread attr replaced by std::recursive_mutex
+0x80e3d4,_ZN9CNetMutexC2Ev,reconstructed,net-transport/src/sync.cpp,recursive type; pthread attr replaced by std::recursive_mutex
+0x80e410,_ZN12NetBitStream14SetRevertPointEv,reconstructed,net-transport/src/net_bit_stream.cpp,
+0x80e42c,_ZN12NetBitStream8WriteBitEj,reconstructed,net-transport/src/net_bit_stream.cpp,overflow test uses write_pos < size*8 instead of != (same for valid use)
+0x80e498,_ZN12NetBitStream7ReadBitEv,reconstructed,net-transport/src/net_bit_stream.cpp,bounds test uses (pos>>3) < size (original allows pos==size*8)
+0x80e4e8,_ZN12NetBitStream9WriteByteEhj,reconstructed,net-transport/src/net_bit_stream.cpp,keeps original avail > 8 condition; see NOTES.md
+0x80e564,_ZN12NetBitStream8ReadByteEj,reconstructed,net-transport/src/net_bit_stream.cpp,overflow checked against write position as original
+0x80e5dc,_ZN12NetBitStream8WriteU32Ejj,partial,net-transport/src/net_bit_stream.cpp,decompile drops the bit-count argument of WriteByte; inferred as min(remaining 8) to mirror ReadU32
+0x80e630,_ZN12NetBitStream7ReadU32Ej,reconstructed,net-transport/src/net_bit_stream.cpp,
+0x80e69c,_ZN17NetBitStreamArray9GetStreamEi,reconstructed,net-transport/src/net_bit_stream_array.cpp,
+0x80e6a8,_ZN17NetBitStreamArrayD1Ev,reconstructed,net-transport/src/net_bit_stream_array.cpp,streams freed by unique_ptr
+0x80e71c,_ZN17NetBitStreamArrayD2Ev,reconstructed,net-transport/src/net_bit_stream_array.cpp,streams freed by unique_ptr
+0x80e790,_ZN12NetBitStreamD1Ev,reconstructed,net-transport/src/net_bit_stream.cpp,
+0x80e7d8,_ZN12NetBitStreamD0Ev,skipped,net-transport/src/net_bit_stream.cpp,deleting-destructor thunk; C++ delete covers it
+0x80e7f4,_ZN12NetBitStreamD2Ev,reconstructed,net-transport/src/net_bit_stream.cpp,
+0x80e83c,_ZN12NetBitStream6RevertEv,reconstructed,net-transport/src/net_bit_stream.cpp,
+0x80e89c,_ZN12NetBitStream5ResetEv,reconstructed,net-transport/src/net_bit_stream.cpp,
+0x80e8d0,_ZN17NetBitStreamArray15ClearAllStreamsEv,reconstructed,net-transport/src/net_bit_stream_array.cpp,
+0x80e908,_ZN12NetBitStreamC1Ej,reconstructed,net-transport/src/net_bit_stream.cpp,
+0x80e980,_ZN17NetBitStreamArrayC1Eii,reconstructed,net-transport/src/net_bit_stream_array.cpp,
+0x80e9e8,_ZN17NetBitStreamArrayC2Eii,reconstructed,net-transport/src/net_bit_stream_array.cpp,
+0x80ea50,_ZN12NetBitStreamC2Ej,reconstructed,net-transport/src/net_bit_stream.cpp,
+0x80eac8,_ZN12NetBitStream12ShiftMemCopyEPvjPKvji,partial,net-transport/src/net_bit_stream.cpp,call arguments lost in decompile; split into CopyBitsIn/CopyBitsOut with bounds guards; read tail bits cleared
+0x80ebc8,_ZN12NetBitStream21ReadByteArray_BitSizeEPvj,reconstructed,net-transport/src/net_bit_stream.cpp,
+0x80ec28,_ZN12NetBitStream13ReadByteArrayEPvj,reconstructed,net-transport/src/net_bit_stream.cpp,
+0x80ec30,_ZN12NetBitStream10ReadStringEv,reconstructed,net-transport/src/net_bit_stream.cpp,returns std::string of the read bytes
+0x80ece8,_ZN12NetBitStream22WriteByteArray_BitSizeEPKvj,reconstructed,net-transport/src/net_bit_stream.cpp,
+0x80ed54,_ZN12NetBitStream11WriteStreamERS_,reconstructed,net-transport/src/net_bit_stream.cpp,
+0x80ed60,_ZN17NetBitStreamArray14CopyAllStreamsER12NetBitStream,reconstructed,net-transport/src/net_bit_stream_array.cpp,
+0x80eda8,_ZN12NetBitStream14WriteByteArrayEPKvj,reconstructed,net-transport/src/net_bit_stream.cpp,
+0x80edb0,_ZN12NetBitStream11WriteStringESsj,partial,net-transport/src/net_bit_stream.cpp,argument layout inferred (string begin/end at +0x14/+0x10 in original); max_len 0 means unlimited
+0x80ee0c,_ZN12NetBitStream9GetBufferEPcj,reconstructed,net-transport/src/net_bit_stream.cpp,second argument unused by original
+0x80ee3c,_ZN12NetBitStream9SetBufferEPKcj,reconstructed,net-transport/src/net_bit_stream.cpp,copy length clamped to buffer size
+0x80ee5c,_ZN12NetBitStreamaSERKS_,partial,net-transport/src/net_bit_stream.cpp,original does not update size after reallocating; reproduced (see NOTES.md)
+0x80eef4,_ZN12NetBitStreamC1ERKS_,partial,net-transport/src/net_bit_stream.cpp,original never stores size; copy reports size 0; reproduced (see NOTES.md)
+0x80ef8c,_ZN12NetBitStreamC2ERKS_,partial,net-transport/src/net_bit_stream.cpp,original never stores size; copy reports size 0; reproduced (see NOTES.md)
+0x80f024,_ZN12NetBitStreameqERKS_,partial,net-transport/src/net_bit_stream.cpp,original returns raw memcmp result (inverted); intended equality implemented
+0x80f074,_ZN7CNetLogD1Ev,reconstructed,net-transport/src/net_log.cpp,
+0x80f078,_ZN7CNetLog6UpdateEv,partial,net-transport/src/net_log.cpp,original body is empty
+0x80f07c,_ZN7CNetLog11GetInstanceEv,reconstructed,net-transport/src/net_log.cpp,
+0x80f0f0,_ZN7CNetLogD0Ev,skipped,net-transport/src/net_log.cpp,deleting-destructor thunk; C++ delete covers it
+0x817d74,_ZN13NetStructUIntILj5EED1Ev,reconstructed,net-transport/src/net_struct.cpp,
+0x817e28,_ZN13NetStructUIntILj5EE9TestValueERKj,reconstructed,net-transport/src/net_struct.cpp,
+0x817f00,_ZN13NetStructUIntILj5EED0Ev,skipped,net-transport/src/net_struct.cpp,deleting-destructor thunk; C++ delete covers it
+0x817f34,_ZN13NetStructUIntILj5EE4ReadER12NetBitStream,reconstructed,net-transport/src/net_struct.cpp,
+0x817f6c,_ZN13NetStructUIntILj5EE5WriteER12NetBitStream,reconstructed,net-transport/src/net_struct.cpp,
+0x81af10,_ZN10CNetworkId5ResetE15tTRANSPORT_TYPE,reconstructed,net-transport/src/net_network_id.cpp,tTRANSPORT_TYPE kept numeric (1..4)
+0x81b970,_ZN10CNetworkId20GetTransportTypeListEv,reconstructed,net-transport/src/net_network_id.cpp,
+0x8264d8,_ZN10CNetworkId3SetES_,reconstructed,net-transport/src/net_network_id.cpp,copies whole 8-byte address record including padding
+0x826a84,_ZN17CNetworkEmulation11GetInstanceEv,reconstructed,net-transport/src/net_network_emulation.cpp,
+0x826aa8,_ZN17CNetworkEmulation13IsInitializedEv,reconstructed,net-transport/src/net_network_emulation.cpp,
+0x826ad0,_ZN17CNetworkEmulation9TerminateEv,reconstructed,net-transport/src/net_network_emulation.cpp,
+0x826b14,_ZN17CNetworkEmulation14SetPacketDelayE18tNET_EMULATION_SETii,reconstructed,net-transport/src/net_network_emulation.cpp,
+0x826b28,_ZN17CNetworkEmulation13SetPacketLossE18tNET_EMULATION_SETff,reconstructed,net-transport/src/net_network_emulation.cpp,
+0x826b3c,_ZN17CNetworkEmulation20SetPacketDuplicationE18tNET_EMULATION_SETf,reconstructed,net-transport/src/net_network_emulation.cpp,
+0x826b4c,_ZN17CNetworkEmulation19SetPacketReorderingE18tNET_EMULATION_SETffii,reconstructed,net-transport/src/net_network_emulation.cpp,
+0x826b70,_ZN17CNetworkEmulation11SetPeakInfoEiii,reconstructed,net-transport/src/net_network_emulation.cpp,
+0x826b8c,_ZN17CNetworkEmulation21SetNetConditionPresetE18tNET_EMULATION_SET21tNET_CONDITION_PRESET,partial,net-transport/src/net_network_emulation.cpp,SetPacketDelay arguments lost in decompile for the default preset; zeros assumed
+0x826d20,_ZN17CNetworkEmulation5ClearEv,reconstructed,net-transport/src/net_network_emulation.cpp,
+0x826d54,_ZN17CNetworkEmulationC1Ev,reconstructed,net-transport/src/net_network_emulation.cpp,initial peak defaults overwritten by SetPeakInfo, so omitted
+0x826df8,_ZN17CNetworkEmulationC2Ev,reconstructed,net-transport/src/net_network_emulation.cpp,initial peak defaults overwritten by SetPeakInfo, so omitted
+0x826e9c,_ZN17CNetworkEmulationD1Ev,reconstructed,net-transport/src/net_network_emulation.cpp,
+0x826ee0,_ZN17CNetworkEmulationD2Ev,reconstructed,net-transport/src/net_network_emulation.cpp,
+0x826f24,_ZN17CNetworkEmulation14CalcPercentageEfff,reconstructed,net-transport/src/net_network_emulation.cpp,arguments unused by original; lrand48 emulated
+0x826fbc,_ZN17CNetworkEmulation9CalcDelayEii,reconstructed,net-transport/src/net_network_emulation.cpp,
+0x826fec,_ZN17CNetworkEmulation22GetCurrentConditionSetEv,partial,net-transport/src/net_network_emulation.cpp,GetOnline() time source replaced by steady_clock; preset reset args as in SetNetConditionPreset
+0x827084,_ZN17CNetworkEmulation15GetReorderDelayEv,partial,net-transport/src/net_network_emulation.cpp,return value inferred from final float compare
+0x8270e0,_ZN17CNetworkEmulation18IsPacketDuplicatedEv,reconstructed,net-transport/src/net_network_emulation.cpp,
+0x827120,_ZN17CNetworkEmulation14GetPacketDelayEv,reconstructed,net-transport/src/net_network_emulation.cpp,
+0x827140,_ZN17CNetworkEmulation12IsPacketLostEv,reconstructed,net-transport/src/net_network_emulation.cpp,
+0x827190,_ZN17CNetworkEmulation10InitializeEv,reconstructed,net-transport/src/net_network_emulation.cpp,
+0x8271e8,_ZN17CNetworkEmulationD0Ev,skipped,net-transport/src/net_network_emulation.cpp,deleting-destructor thunk; C++ delete covers it
+0x84559c,_ZN6Thread22IsCurrectThreadRunningEv,partial,net-transport/src/sync.cpp,pthread_kill probe replaced by joinable()
+0x8455c0,_ZN6Thread3RunEv,partial,net-transport/src/sync.cpp,XP_DEBUG_OUT thread-id log dropped
+0x84560c,_ZN6Thread4StopEv,reconstructed,net-transport/src/sync.cpp,
+0x845688,_ZN6Thread5StartEv,reconstructed,net-transport/src/sync.cpp,pthread_create mapped to std::thread
