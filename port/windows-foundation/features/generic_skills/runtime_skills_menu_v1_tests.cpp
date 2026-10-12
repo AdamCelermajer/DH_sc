@@ -335,6 +335,50 @@ int main(int argc, char** argv) {
         }));
         CHECK(state->skills[0].rank == rank_before_probe && state->source_skill_points == points_before_probe);
         allow_selected_training = true;
+        {
+            // B140 (user-requested adaptation): a selected rank-0 row whose
+            // source admission accepts training reads "Learn Skill"; the
+            // learned row above keeps the source "Upgrade Skill"; a rejected
+            // rank-0 row (admission false) shows no label at all.
+            const auto learned_rank = state->skills[0].rank;
+            const auto add_label_count = [&](const character_menu::Frame& f, const char* value) {
+                return std::count_if(f.text.begin(), f.text.end(), [&](const auto& item) {
+                    return item.field.path == "menu_SkillTreeSheetNew/btn_add/AddText/text" &&
+                           item.value == value;
+                });
+            };
+            CHECK(add_label_count(selected_frame, "Upgrade Skill") == 1 &&
+                  add_label_count(selected_frame, "Learn Skill") == 0);
+            state->skills[0].rank = 0;
+            character_menu::Frame learn_frame;
+            learn_frame.art.batches = source_art.batches;
+            learn_frame.solids = source_art.solids;
+            learn_frame.text.push_back({*add_label_field, "stale base Add Skill label"});
+            CHECK(provider.append(learn_frame, error));
+            CHECK(add_label_count(learn_frame, "Learn Skill") == 1 &&
+                  add_label_count(learn_frame, "Upgrade Skill") == 0);
+            CHECK(std::count_if(learn_frame.text.begin(), learn_frame.text.end(), [](const auto& item) {
+                return item.field.path == "menu_SkillTreeSheetNew/btn_add/AddText/text";
+            }) == 1);
+            CHECK(std::any_of(learn_frame.art.batches.begin(), learn_frame.art.batches.end(),
+                [&](const auto& batch) { return batch.role.compare(0, add_button_prefix.size(), add_button_prefix) == 0; }));
+            allow_selected_training = false;
+            character_menu::Frame hidden_learn_frame;
+            hidden_learn_frame.art.batches = source_art.batches;
+            hidden_learn_frame.solids = source_art.solids;
+            hidden_learn_frame.text.push_back({*add_label_field, "stale base Add Skill label"});
+            CHECK(provider.append(hidden_learn_frame, error));
+            CHECK(add_label_count(hidden_learn_frame, "Learn Skill") == 0 &&
+                  add_label_count(hidden_learn_frame, "Upgrade Skill") == 0);
+            allow_selected_training = true;
+            state->skills[0].rank = learned_rank;
+            character_menu::Frame relearned_frame;
+            relearned_frame.art.batches = source_art.batches;
+            relearned_frame.solids = source_art.solids;
+            CHECK(provider.append(relearned_frame, error));
+            CHECK(add_label_count(relearned_frame, "Upgrade Skill") == 1 &&
+                  add_label_count(relearned_frame, "Learn Skill") == 0);
+        }
         auto stale_frame = selected_frame;
         stale_skill_details = true;
         CHECK(!provider.append(stale_frame, error) &&

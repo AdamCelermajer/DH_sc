@@ -306,3 +306,14 @@ User confirms all eight screenshots are v21.1; loot, potions and Equipment stopp
 B122 parallel implementation subscopes: merchant tab/back/arrow callers `/root/b122_audio_research`; character page-tab/back `/root/b122_page_cues`; equipment Equip/Unequip/AutoEquip `/root/b122_equipment_retry` (Sol medium; replaced stalled Luna worker); skill/Faery actions `/root/b122_skill_faery_retry` (Sol medium; replaced stopped audit-only Luna worker). Their source auditor `/root/b122_character_ui_audio` completed the evidence matrix. Sole main/core/build writer remains `/root/batch_integration`; each worker proposes private patches and retains normal frozen verification ownership.
 
 User requires unresolved stopped bug sessions to restart with GPT-6.1 Sol medium. Retry owners above replace audit-only/non-reproducing stopped owners; original evidence remains available. Finalization also includes committing/pushing all changes to the user's fork, preserving accepted packages/saves and recoverable worktree changes, then removing extra worktrees. Read-only cleanup inventory owner: `/root/cleanup_inventory`; root accepts and executes cleanup after release verification.
+
+### v21.3 user re-report — 2026-10-12 (after level transition to Bogwitch Cavern)
+
+User states B119–B136 symptoms are NOT fixed in practice: they appear after the real level transition (E, "Travel to: Bogwitch Cavern"), a path v21.3 never tested (Codex reproduced only swamp Continue). Fresh Sonnet owners per bug; reviewer to be named when each reports. Evidence: `coordination/v21.4/`.
+
+| ID | Report | State | Implementation owner | Reviewer |
+|---|---|---|---|---|
+| B137 | After TP/transition to Bogwitch Cavern: item loot pickup stops (gold still works), potion click plays sound but is not used, Equipment tab dead, death leaves hero lying (no revive/control). Suspected shared post-transition session binding fault. | OPEN, investigating | B137 session (worktree, owns main.cpp) | pending |
+| B138 | Opened chest shows item label "Imbued Belt" with a chest-like presentation; verify original item label/icon/pickup rules. | OPEN, original-behaviour study (read-only) feeds B137 | B138 session | pending |
+| B140 | Skills page: rank-0 skill button "Learn Skill" (user-requested adaptation) — DONE, patch applied after independent review (coordination/v21.4/B140-review.md, ACCEPT WITH CAVEATS). Click-does-nothing after level transition folded into B137 (user: skill levelling works normally; breaks only after the session change). | label done; click in B137 | B140 session (done) | independent reviewer (done) |
+| B141 | v21.3, character with NO level change: a scripted animation/ambush started, then broke off without the green mob being dealt with; camera stuck on the brown beast + green lizard (hero off-screen). Separate from B137 (user corrected 2026-10-12). | OPEN, investigating | B141 session (worktree, patch to root) | pending |

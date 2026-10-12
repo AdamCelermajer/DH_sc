@@ -17,6 +17,7 @@ try {
         (Join-Path $repoRoot 'port\windows-foundation\features\character_menu\menu_text_layout_v1.cpp') `
         (Join-Path $repoRoot 'port\windows-foundation\features\character_menu\skill_page_text_projection_v1.cpp') `
         (Join-Path $repoRoot 'port\windows-foundation\features\character_menu\menu_stats.cpp') `
+        (Join-Path $repoRoot 'port\windows-foundation\features\character_menu\stat_pages_art.cpp') `
         (Join-Path $repoRoot 'port\game-data\combat.cpp') `
         (Join-Path $repoRoot 'port\windows-foundation\features\skill_ui\skill_ui.cpp') `
         (Join-Path $repoRoot 'port\windows-foundation\features\skill_ui\original_skill_art.cpp') `

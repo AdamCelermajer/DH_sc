@@ -40,6 +40,23 @@ bool skill_detail_field(const std::string& path) {
            path.find("/next_skill_description/") != std::string::npos;
 }
 
+constexpr const char* add_label_path = "menu_SkillTreeSheetNew/btn_add/AddText/text";
+
+// B140 (user-requested PC adaptation, not original behavior): the original SWF
+// (sprite496 onShow 0x21a3b) always writes GAMEPLAYMENUS_ADD_SKILL ("Upgrade
+// Skill") to btn_add, including for a rank-0 skill (video ~398 s, Battle
+// Hardened, rank 0, 1 point: "Upgrade Skill"). The user asked for an unlearned
+// (saved rank 0) skill to read "Learn Skill". The shipped string table has no
+// such symbol, so a future localized GAMEPLAYMENUS_LEARN_SKILL is preferred
+// and the English text below is the fallback. Rank >= 1 keeps the source label.
+std::string learn_skill_label(const RuntimeSkillsSymbolTextV1& symbol_text) {
+    if (symbol_text) {
+        std::string text, ignored;
+        if (symbol_text("GAMEPLAYMENUS_LEARN_SKILL", text, ignored) && !text.empty()) return text;
+    }
+    return "Learn Skill";
+}
+
 bool skills_value_field(const std::string& path) {
     return path.find("cp_Skill_Points/") != std::string::npos ||
            path == "menu_SkillTreeSheetNew/btn_add/AddText/text" ||
@@ -266,6 +283,16 @@ bool RuntimeSkillsMenuV1::append(character_menu::Frame& frame, std::string& erro
             }
         }
     }
+    // B140: the visible action trains a selected row whose saved rank is 0
+    // (the first point learns the skill) or raises a learned row (rank >= 1).
+    bool learn_label = false;
+    if (show_train_button && page_.selected_position()) {
+        const auto selected = *page_.selected_position();
+        if (selected >= 0 && static_cast<std::size_t>(selected) < view.rows.size()) {
+            const auto& rank = view.rows[static_cast<std::size_t>(selected)].saved_rank;
+            learn_label = rank && *rank == 0;
+        }
+    }
     if (!show_train_button)
         next.art.batches.erase(std::remove_if(next.art.batches.begin(), next.art.batches.end(),
             [](const auto& batch) {
@@ -296,7 +323,9 @@ bool RuntimeSkillsMenuV1::append(character_menu::Frame& frame, std::string& erro
             if (!source_field) return fail(error, "Original Skills text projection references an absent source field");
             auto field = *source_field;
             if (!apply_source_style(field)) return false;
-            next.text.push_back({std::move(field), binding.text});
+            next.text.push_back({std::move(field),
+                learn_label && binding.field_path == add_label_path
+                    ? learn_skill_label(symbol_text_) : binding.text});
         }
     } else {
         for (const auto& field : authored.text_fields) {
@@ -311,6 +340,11 @@ bool RuntimeSkillsMenuV1::append(character_menu::Frame& frame, std::string& erro
             }
             if (value && !value->empty()) next.text.push_back({field, std::move(*value)});
         }
+        // Without a symbol provider the shared base frame's localized label is
+        // retained above; apply the same B140 rank-0 label to it.
+        if (learn_label)
+            for (auto& item : next.text)
+                if (item.field.path == add_label_path) item.value = learn_skill_label({});
     }
     if (page_.selected_position()) {
         const auto selected = *page_.selected_position();
