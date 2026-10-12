@@ -184,7 +184,7 @@ public:
     int visibleIndexCacheCount = 0;                            // +0x154 (word 85)
     int indexCacheTarget = -1;                                 // +0x15c (word 87)
     bool hasVisibleIndexCache = false;                         // +0x150 (byte 336)
-    int sceneManagerRef = 0;                                   // +0x110 (word 68, ctor argument)
+    CSceneManager* sceneManager = nullptr;                     // +0x110 (word 68, ctor argument)
 };
 
 // CBatchSceneNode::setVisibleIndexCache is defined with the batch node code.
