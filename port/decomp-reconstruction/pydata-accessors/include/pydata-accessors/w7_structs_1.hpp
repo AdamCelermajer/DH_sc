@@ -306,6 +306,11 @@ class v2Quest {
 public:
     virtual ~v2Quest();
     virtual void finalize();
+    virtual void read(IStreamBase* stream);
+    std::int32_t m_w1 = 0;      // +0x4
+    std::int32_t m_w2 = 0;      // +0x8
+    std::int32_t m_w3 = 0;      // +0xc
+    std::int32_t m_w4 = 0;      // +0x10
     std::uint32_t m_w5 = 0;     // +0x14 size of table 1
     std::uint8_t* m_w6 = nullptr;  // +0x18 members of table 1 (stride 16)
     std::uint32_t m_w7 = 0;     // +0x1c size of table 2
@@ -319,7 +324,12 @@ public:
 
     v2QuestObjectiveStub m_sub60;  // +0x3c, subobject destroyed after the body (listing call)
     v2QuestObjectiveStub m_sub104;  // +0x68, subobject destroyed after the body (listing call)
+    std::int32_t m_w37 = 0;     // +0x94
+    bool m_w38 = false;         // +0x98
+    std::int32_t m_w39 = 0;     // +0x9c
     v2QuestScripts m_sub160;  // +0xa0, subobject destroyed after the body (listing call)
+    std::int32_t m_w69 = 0;     // +0x114
+    std::int32_t m_w70 = 0;     // +0x118
 };
 
 }  // namespace Structs

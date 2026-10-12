@@ -7,6 +7,8 @@
 #include <cstddef>
 #include <cstdint>
 
+class IStreamBase;  // the stream type of the element read slots (deps/stream_reader.hpp)
+
 namespace Arrays {
 
 struct Sounds {
@@ -108,11 +110,13 @@ struct SkillTable {
     static std::uint8_t* members;
     static std::uint32_t size;
     static void finalize();
+    static void read(IStreamBase* stream);  // 0x4b9810
 };
 struct SkillListTable {
     static std::uint8_t* members;
     static std::uint32_t size;
     static void finalize();
+    static void read(IStreamBase* stream);  // 0x4b9964
 };
 struct ProjectileTable {
     static std::uint8_t* members;
@@ -123,6 +127,7 @@ struct NumProbArray {
     static std::uint8_t* members;
     static std::uint32_t size;
     static void finalize();
+    static void read(IStreamBase* stream);  // 0x4b9bf4
 };
 struct MerchantTable {
     static std::uint8_t* members;
@@ -148,6 +153,7 @@ struct InventoryTable {
     static std::uint8_t* members;
     static std::uint32_t size;
     static void finalize();
+    static void read(IStreamBase* stream);  // 0x4ba3c8
 };
 struct DropTilePriorityTable {
     static std::uint8_t* members;
@@ -173,6 +179,7 @@ struct ItemBonusAttrMonopoly {
     static std::uint8_t* members;
     static std::uint32_t size;
     static void finalize();
+    static void read(IStreamBase* stream);  // 0x4baa30
 };
 
 }  // namespace Arrays

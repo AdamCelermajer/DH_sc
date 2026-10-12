@@ -218,7 +218,7 @@ int SAnimationAccessor::getValue(int index, void* out, int& outValue, bool flag)
 // written to outIndex. The result is true when the channel interpolation type is non-zero and the
 // time is strictly inside the vector. The vector layout is not mapped (see the seam above).
 template <typename T, int N>
-bool SAnimationAccessor::findKeyFrameNoEx(int index, const glitch::res::vector<T>& keys, int time,
+bool SAnimationAccessor::findKeyFrameNoEx(int index, const glitch::res::vector<int>& keys, int time,
                                           int& outIndex) const {
     const float timeValue = static_cast<float>(time);
     const int count = vectorCount(keys);

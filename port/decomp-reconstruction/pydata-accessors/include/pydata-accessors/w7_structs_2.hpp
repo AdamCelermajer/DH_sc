@@ -189,12 +189,15 @@ class Loot {
 public:
     virtual ~Loot();
     virtual void finalize();
+    virtual void read(IStreamBase* stream);
+    std::int32_t m_w1 = 0;  // +0x4
+    std::int32_t m_w2 = 0;  // +0x8
     std::uint32_t m_w3 = 0;  // +0xc, element count of m_w4
-    void* m_w4 = nullptr;  // +0x10, element array (stride 36)
+    void* m_w4 = nullptr;  // +0x10, element array (LootEntry, stride 36)
     std::uint32_t m_w5 = 0;  // +0x14, element count of m_w6
-    void* m_w6 = nullptr;  // +0x18, element array (stride 36)
-    std::int32_t m_w7 = 0;  // +0x1c, zeroed by finalize, not read in this slice
-    void* m_w8 = nullptr;  // +0x20, freed pointer
+    void* m_w6 = nullptr;  // +0x18, element array (LootEntry, stride 36)
+    std::uint32_t m_w7 = 0;  // +0x1c, element count of m_w8 (int32 elements)
+    void* m_w8 = nullptr;  // +0x20, int32 array
 };
 void DeletingDestructor(Loot* self);
 
@@ -472,6 +475,26 @@ public:
     std::int32_t m_w18 = 0;  // +0x48
     std::uint32_t m_w19 = 0;  // +0x4c, string length
     void* m_w20 = nullptr;  // +0x50, string buffer
+    std::int32_t m_w21 = 0;  // +0x54
+    std::int32_t m_w22 = 0;  // +0x58
+    std::int32_t m_w23 = 0;  // +0x5c
+    std::int32_t m_w24 = 0;  // +0x60
+    std::int32_t m_w25 = 0;  // +0x64
+    std::int32_t m_w26 = 0;  // +0x68
+    std::int32_t m_w27 = 0;  // +0x6c
+    std::int32_t m_w28 = 0;  // +0x70
+    std::int32_t m_w29 = 0;  // +0x74
+    std::int32_t m_w30 = 0;  // +0x78
+    std::int32_t m_w31 = 0;  // +0x7c
+    std::int32_t m_w32 = 0;  // +0x80
+    std::int32_t m_w33 = 0;  // +0x84
+    std::int32_t m_w34 = 0;  // +0x88
+    std::int32_t m_w35 = 0;  // +0x8c
+    std::int32_t m_w36 = 0;  // +0x90
+    std::int32_t m_w37 = 0;  // +0x94
+    std::int32_t m_w38 = 0;  // +0x98
+    std::int32_t m_w39 = 0;  // +0x9c
+    std::int32_t m_w40 = 0;  // +0xa0
 };
 
 

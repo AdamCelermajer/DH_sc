@@ -16,3 +16,8 @@ public:
     void Write(NetBitStream& stream) const override;                    // NetStructInt<N>::Write(NetBitStream&)
     bool TestValue(const std::int32_t& value) const override;           // NetStructInt<N>::TestValue(int const&)
 };
+
+// NetStructInt<6>: explicit specializations (bodies in src/e2-net-transport-pack0-e3f33b-0.cpp).
+template <> void NetStructInt<6u>::Read(NetBitStream& stream);                      // 0x81090c
+template <> void NetStructInt<6u>::Write(NetBitStream& stream) const;               // 0x81096c
+template <> bool NetStructInt<6u>::TestValue(const std::int32_t& value) const;      // 0x8103b8

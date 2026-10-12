@@ -31,6 +31,11 @@
 
 class CNetPlayerInfo {
 public:
+    CNetPlayerInfo();                        // 0x80fc28, partial (NetStruct base and member blocks missing)
+    virtual ~CNetPlayerInfo() = default;     // destructor: vtable +0x00 (D1), deleting form at +0x04 (used by Delete)
+    static CNetPlayerInfo* Create();         // 0x8103d4, partial (allocates sizeof(CNetPlayerInfo), not 0x288)
+    static void Delete(CNetPlayerInfo* p);   // 0x81009c, partial (second argument and return value not kept)
+
     // Declared for the callers in the batch. Their bodies are not in this batch
     // (see the ledger notes): SetState, IsHost, IsInRoom, the constructors, operator= and the
     // destructors.

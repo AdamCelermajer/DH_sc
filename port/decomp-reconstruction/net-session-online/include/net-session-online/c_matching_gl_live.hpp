@@ -243,6 +243,31 @@ public:
     // 0x81ec5c _ZN15CMatchingGLLive14GetFriendsListEb. Partial, see the cpp.
     std::vector<tFriendInfo> GetFriendsList(bool notInState3);
 
+    // Batch e2-net-session-online-CMatchingGLLive-07f9f6-0 (declarations only; bodies in
+    // src/e2-net-session-online-CMatchingGLLive-07f9f6-0.cpp).
+    // 0x81f264 _ZN15CMatchingGLLive10InitializeEi. Partial, see the cpp.
+    std::int32_t Initialize(std::int32_t a2);
+    // 0x81f488 _ZN15CMatchingGLLive16JoinRoomInternalEy. Partial, see the cpp.
+    std::int32_t JoinRoomInternal(std::uint64_t roomId);
+    // 0x81f53c _ZN15CMatchingGLLive15WritePacketDataEiiR12NetBitStream. Partial, see the cpp.
+    std::int32_t WritePacketData(std::int32_t a2, std::int32_t a3, NetBitStream& stream);
+    // 0x81f648 _ZN15CMatchingGLLive18SendGameParametersEv. Partial, see the cpp.
+    void SendGameParameters();
+    // 0x81f6f8 _ZN15CMatchingGLLive10KickMemberEi. Partial, see the cpp.
+    std::int32_t KickMember(std::int32_t memberId);
+    // 0x81f948 _ZN15CMatchingGLLive20CreateJoinRoomInternalEbR15CRoomAttributes. Partial, see the cpp.
+    std::int32_t CreateJoinRoomInternal(bool flag, CRoomAttributes& attributes);
+    // 0x82078c _ZN15CMatchingGLLive10UpdateRoomEv. Partial, see the cpp.
+    std::int32_t UpdateRoom();
+    // 0x820a6c _ZN15CMatchingGLLive6UpdateEv. Partial, see the cpp.
+    std::int32_t Update();
+    // 0x820e7c _ZN15CMatchingGLLive9AddServerEiR10CNetworkIdiR15CRoomAttributes. Partial, see the cpp.
+    void AddServer(std::int32_t a2, CNetworkId& serverId, std::int32_t a4, CRoomAttributes& attributes);
+    // 0x821110 _ZN15CMatchingGLLive20ProcessServerMessageER10CNetworkIdR12NetBitStream. Partial, see the cpp.
+    void ProcessServerMessage(CNetworkId& from, NetBitStream& stream);
+    // 0x821218 _ZN15CMatchingGLLive30sBroadcastPacketReceiverCallbackER10CNetworkIdPci. Partial, see the cpp.
+    static void sBroadcastPacketReceiverCallback(CNetworkId& from, char* data, int size);
+
     // Not in the original: test seams for the room flags.
     void SetRoomFlagsForTest(bool closed, bool hidden) {
         roomClosed_ = closed ? 1 : 0;

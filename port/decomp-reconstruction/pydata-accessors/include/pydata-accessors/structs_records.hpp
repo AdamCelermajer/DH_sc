@@ -23,7 +23,23 @@ class AIProps {
 public:
     virtual ~AIProps();
     virtual void finalize();
+    virtual void read(IStreamBase* stream);
+    std::int32_t m_w1 = 0;  // +0x4
+    std::int32_t m_w2 = 0;  // +0x8
+    std::int32_t m_w3 = 0;  // +0xc
+    bool m_w4 = false;  // +0x10, one byte (readAs<bool>)
+    std::int32_t m_w5 = 0;  // +0x14
+    float m_w6 = 0.0f;  // +0x18
+    float m_w7 = 0.0f;  // +0x1c
+    float m_w8 = 0.0f;  // +0x20
+    std::int32_t m_w9 = 0;  // +0x24
+    std::uint32_t m_w10 = 0;  // +0x28, length of m_w11
     void* m_w11 = nullptr;  // +0x2c
+    std::int32_t m_w12 = 0;  // +0x30
+    std::int32_t m_w13 = 0;  // +0x34
+    std::int32_t m_w14 = 0;  // +0x38
+    float m_w15 = 0.0f;  // +0x3c
+    float m_w16 = 0.0f;  // +0x40
 };
 
 class SimpleAnim {
@@ -663,7 +679,15 @@ class Faery {
 public:
     virtual ~Faery();
     virtual void finalize();
+    virtual void read(IStreamBase* stream);
+    std::int32_t m_w1 = 0;  // +0x4
+    std::int32_t m_w2 = 0;  // +0x8
+    std::int32_t m_w3 = 0;  // +0xc
+    std::int32_t m_w4 = 0;  // +0x10
+    std::uint32_t m_w5 = 0;  // +0x14, length of m_w6
     void* m_w6 = nullptr;  // +0x18
+    std::int32_t m_w7 = 0;  // +0x1c
+    std::int32_t m_w8 = 0;  // +0x20
 };
 
 class FaeryList {
@@ -679,7 +703,13 @@ class FastTravelDestination {
 public:
     virtual ~FastTravelDestination();
     virtual void finalize();
+    virtual void read(IStreamBase* stream);
+    std::int32_t m_w1 = 0;  // +0x4
+    std::int32_t m_w2 = 0;  // +0x8
+    std::uint32_t m_w3 = 0;  // +0xc, length of m_w4
     void* m_w4 = nullptr;  // +0x10
+    std::int32_t m_w5 = 0;  // +0x14
+    std::int32_t m_w6 = 0;  // +0x18
 };
 
 class FollowerProperties : public CharacterProperties {
@@ -961,6 +991,15 @@ class LootEntry {
 public:
     virtual ~LootEntry();
     virtual void finalize();
+    virtual void read(IStreamBase* stream);
+    std::int32_t m_w1 = 0;  // +0x4
+    std::int32_t m_w2 = 0;  // +0x8
+    std::int32_t m_w3 = 0;  // +0xc
+    std::int32_t m_w4 = 0;  // +0x10
+    std::int32_t m_w5 = 0;  // +0x14
+    std::int32_t m_w6 = 0;  // +0x18
+    std::int32_t m_w7 = 0;  // +0x1c
+    std::int32_t m_w8 = 0;  // +0x20
 };
 
 class MadrukEnergySpawnerProperties : public CharacterProperties {
@@ -1347,38 +1386,58 @@ class v2Condition {
 public:
     virtual ~v2Condition();
     virtual void finalize();
+    virtual void read(IStreamBase* stream);
+    std::int32_t m_w1 = 0;  // +0x4
 };
 
 class v2ConditionStub : public v2Condition {
 public:
     ~v2ConditionStub() override;
     void finalize() override;
+    void read(IStreamBase* stream) override;
+    std::int32_t m_w2 = 0;  // +0x8
+    std::int32_t m_w3 = 0;  // +0xc
 };
 
 class v2QuestObjective {
 public:
     virtual ~v2QuestObjective();
     virtual void finalize();
+    virtual void read(IStreamBase* stream);
+    std::int32_t m_w1 = 0;  // +0x4
+    std::int32_t m_w2 = 0;  // +0x8
+    std::int32_t m_w3 = 0;  // +0xc
 };
 
 class v2QuestObjectiveStub : public v2QuestObjective {
 public:
     ~v2QuestObjectiveStub() override;
     void finalize() override;
+    void read(IStreamBase* stream) override;
+    std::uint32_t m_w4 = 0;  // +0x10, length of m_w5
     void* m_w5 = nullptr;  // +0x14
+    std::uint32_t m_w6 = 0;  // +0x18, length of m_w7
     void* m_w7 = nullptr;  // +0x1c
+    std::int32_t m_w8 = 0;  // +0x20
+    std::int32_t m_w9 = 0;  // +0x24
+    std::int32_t m_w10 = 0;  // +0x28
 };
 
 class v2QuestReward {
 public:
     virtual ~v2QuestReward();
     virtual void finalize();
+    virtual void read(IStreamBase* stream);
+    std::int32_t m_w1 = 0;  // +0x4
 };
 
 class v2QuestRewardStub : public v2QuestReward {
 public:
     ~v2QuestRewardStub() override;
     void finalize() override;
+    void read(IStreamBase* stream) override;
+    std::int32_t m_w2 = 0;  // +0x8
+    std::int32_t m_w3 = 0;  // +0xc
 };
 
 class v2QuestScripts {

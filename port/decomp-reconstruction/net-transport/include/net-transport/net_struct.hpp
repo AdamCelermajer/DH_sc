@@ -4,6 +4,7 @@
 #pragma once
 
 #include <cstdint>
+#include <map>
 #include <string>
 
 #include "net-transport/deps/byte_array.hpp"
@@ -45,12 +46,28 @@ public:
     std::uint32_t GetChangedBitMap();                                                        // 0x8137ec
     bool IsChanged();                                                                        // 0x81383c
 
+    // Packet history (the std::map at +0x10c): per member id, the packets that carried its changes.
+    // The 32-bit node holds an unread int at +0x14, then changeStamp at +0x18 and changeMask at +0x20.
+    struct tPacketHistory {
+        std::uint64_t changeStamp = 0;  // node +0x18: NetStruct::s_changeCounter when the packet was written
+        std::uint64_t changeMask = 0;   // node +0x20: bit i set when member i was sent in this packet
+    };
+    virtual int Serialize(NetBitStream& stream, int memberId, int packetId);                 // 0x814d00, vt +0x08
+    virtual int ConditionalSerialize(bool conditional, NetBitStream& stream, int memberId, int packetId); // 0x814cd4, vt +0x0c
+    virtual int SerializeDisabled(NetBitStream& stream);                                     // 0x814cd8, vt +0x10
+    int SerializeInternal(bool conditional, NetBitStream& stream, int memberId, int packetId); // 0x814b0c (body not written)
+    int AddPacketHistory(int memberId, int packetId, int stream_flags, std::uint64_t changeMask); // 0x8149d4
+    virtual void ProcessAcknowledgedPacket(int memberId, int packetId);                      // 0x814d28, vt +0x40 (partial)
+    virtual void ProcessLostPacket(int memberId, int packetId);                              // 0x814774, vt +0x44 (partial)
+
 protected:
     NetStructMember* members_[kMaxMembers] = {};    // +0x04
     int member_count_ = 0;                          // +0x104
     bool enabled_ = false;                          // +0x124
     bool post_load_pending_ = false;                // +0x125
     std::uint32_t post_load_arg_ = 0;               // +0x128
+    // +0x10c: packet history, member id -> (packet id -> tPacketHistory). Header is 0x14 bytes in 32-bit (size at +0x11c).
+    std::map<int, std::map<int, tPacketHistory>> packetHistory_;
 };
 
 class NetStructMember {
@@ -87,6 +104,10 @@ protected:
 template <typename T>
 class NetStructMemberType : public NetStructMember {
 public:
+    NetStructMemberType() = default;
+    // Constructor (0x8060d0 for CNetworkId, batch e2-net-transport-NetStructMemberType-b42f13-1). Only the
+    // CNetworkId instantiation is defined; the explicit specialization is declared below.
+    NetStructMemberType(const T& value, std::uint32_t unused);
     virtual void SetValue(const T& value) { value_ = value; }   // vtable +0x1c
     virtual const T& GetValue() const { return value_; }        // vtable +0x24 (returns a reference: this+0x20)
     virtual bool TestValue(const T& value) const = 0;           // vtable +0x20
@@ -115,6 +136,22 @@ template <> const std::string& NetStructMemberType<std::string>::GetValue() cons
 template <> bool NetStructMemberType<std::string>::TestValue(const std::string& value) const;   // 0x36d46c
 template <> const ByteArray& NetStructMemberType<ByteArray>::GetValue() const;                 // 0x36d390
 template <> bool NetStructMemberType<ByteArray>::TestValue(const ByteArray& value) const;       // 0x36d388
+// Batch e2-net-transport-NetStructMemberType-b42f13-0. Erase for ByteArray and std::string is not
+// declared here: the original returns void and the template's Erase returns int.
+template <> void NetStructMemberType<ByteArray>::SetValue(const ByteArray& value);             // 0x36f264
+template <> void NetStructMemberType<std::string>::SetValue(const std::string& value);         // 0x36fc4c
+template <> int NetStructMemberType<std::uint32_t>::Erase(NetBitStream& stream);               // 0x36dd7c
+template <> int NetStructMemberType<bool>::Erase(NetBitStream& stream);                        // 0x36dd94
+template <> void NetStructMemberType<float>::SetValue(const float& value);                     // 0x3a3c30
+template <> int NetStructMemberType<float>::Erase(NetBitStream& stream);                       // 0x3a3e4c
+template <> const float& NetStructMemberType<float>::GetValue() const;                         // 0x3a364c
+template <> bool NetStructMemberType<float>::TestValue(const float& value) const;              // 0x3a36dc
+template <> const CNetworkId& NetStructMemberType<CNetworkId>::GetValue() const;               // 0x801b84
+template <> bool NetStructMemberType<CNetworkId>::TestValue(const CNetworkId& value) const;    // 0x801b8c
+// Batch e2-net-transport-NetStructMemberType-b42f13-1 (CNetworkId): constructor, SetValue and Erase.
+template <> NetStructMemberType<CNetworkId>::NetStructMemberType(const CNetworkId& value, std::uint32_t unused);  // 0x8060d0
+template <> void NetStructMemberType<CNetworkId>::SetValue(const CNetworkId& value);           // 0x8020b8
+template <> int NetStructMemberType<CNetworkId>::Erase(NetBitStream& stream);                  // 0x801bfc
 
 // Unsigned integer member of Bits bits on the wire.
 template <unsigned Bits>

@@ -34,6 +34,8 @@ struct SAnimationAccessor {
     std::uint32_t track;            // +0x00 guest pointer to SAnimationAccessorTrack (dereferenced by every accessor helper)
     std::uint32_t outputs;          // +0x04 (guest 32-bit pointer) base of the output table. getOutput(i) returns outputs + 8 * keyframes[i].outputIndex + 4 (0x669e24)
 
+    std::uint32_t cache;            // +0x08 (guest 32-bit pointer) key-search cache record: float fraction +0x00, key id +0x04, index +0x08, found byte +0x0c, enabled byte +0x0d (src 0x66ad8c, used by findKeyFrameNo 0x66b65c). Same offset as the evidence view in layouts/animation_evidence.hpp
+
     // Accessor methods. Bodies are in src/tb_scene-collada-gui-glitch_collada_SAnimationAccessor-0.cpp.
     // Guest words are read through the guest memory seam there, so every body is partial.
     // Guest addresses are std::uint32_t; plain values are int, following the Hex-Rays return types.
@@ -57,7 +59,20 @@ struct SAnimationAccessor {
     std::uint32_t getAnimator() const;                                  // 0x66a004
     int getValue(int index, void* out, int& outValue, bool flag) const; // 0x66a1a8
     template <typename T, int N>
-    bool findKeyFrameNoEx(int index, const glitch::res::vector<T>& keys, int time, int& outIndex) const;  // 0x66a1f0
+    bool findKeyFrameNoEx(int index, const glitch::res::vector<int>& keys, int time, int& outIndex) const;  // 0x66a1f0 (int); uchar 0x66a788, ushort 0x66ac78
+    // Key-search family. The key vector is glitch::res::vector<int> in every symbol, whatever the
+    // element width (the width is T). Bodies are in the accessor source (explicit specializations
+    // there, and explicit instantiation for <int,1000> of the 4-arg findKeyFrameNoEx in its sibling file).
+    template <typename T, int N>
+    bool findKeyFrameNo(const glitch::res::vector<int>& keys, int time, int& outIndex) const;                       // 0x66a6d0 (uchar), 0x66abb8 (ushort)
+    template <typename T, int N>
+    bool findKeyFrameNo(const glitch::res::vector<int>& keys, int time, int& outIndex, int hint) const;            // 0x66a368 (int), 0x66a894 (uchar), 0x66b130 (ushort)
+    template <typename T, int N>
+    bool findKeyFrameNoEx(int index, const glitch::res::vector<int>& keys, int time, int& outIndex, float& fraction) const;          // 0x66a2ac (int), 0x66a7c4 (uchar), 0x66acb4 (ushort)
+    template <typename T, int N>
+    bool findKeyFrameNoEx(int index, const glitch::res::vector<int>& keys, int time, int& outIndex, float& fraction, int hint) const; // 0x66a5e0 (int), 0x66aab4 (uchar), 0x66b550 (ushort)
+    bool findKeyFrameNo(int index, int time, int& outIndex, float& fraction, int hint) const;                     // 0x66b814
+    bool findKeyFrameNo(int index, const glitch::res::vector<int>& keys, int time, int& outIndex, float& fraction, int hint) const; // 0x66b65c (dispatcher on the cache at +0x08)
 };
 
 namespace animation_track {
@@ -98,6 +113,7 @@ public:
 // Layout checks against the offsets above. They fail the build if the members drift.
 static_assert(offsetof(SAnimationAccessor, track) == 0x00, "SAnimationAccessor::track");
 static_assert(offsetof(SAnimationAccessor, outputs) == 0x04, "SAnimationAccessor::outputs");
+static_assert(offsetof(SAnimationAccessor, cache) == 0x08, "SAnimationAccessor::cache");
 static_assert(offsetof(SAnimationAccessorTrack, keyframes) == 0x08, "track keyframes");
 static_assert(offsetof(SAnimationAccessorTrack, channels) == 0x10, "track channels");
 static_assert(offsetof(SAnimationAccessorTrack, animator) == 0x14, "track animator");

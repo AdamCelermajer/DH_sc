@@ -36,6 +36,9 @@ public:
     std::vector<tTRANSPORT_TYPE> GetTransportTypeList() const;
 
     std::uint32_t Flags() const { return flags_; }
+    // Field words at +0x10 and +0x14 (read by NetStructMemberType<CNetworkId>::SetValue, batch e2-...-b42f13-1).
+    std::uint32_t Field2() const { return field2_; }
+    std::uint32_t Field3() const { return field3_; }
 
     // Address accessors for the transports (not in the original, which reads the fields directly).
     // Address0 is presence bit 1 (flags 0x2); Address1 is presence bit 0 (flags 0x1).

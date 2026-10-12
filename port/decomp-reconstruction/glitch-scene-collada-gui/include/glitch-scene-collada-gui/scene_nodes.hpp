@@ -92,6 +92,10 @@ public:
 
 class CCameraSceneNode {
 public:
+    // 0x583734 CCameraSceneNode(int, vector3d const&, vector3d const&, bool) (e2, PARTIAL: the
+    // ICameraSceneNode/ISceneNode base constructor is not reconstructed, so id and position are not forwarded)
+    CCameraSceneNode(int id, const core::vector3d<float>& position, const core::vector3d<float>& target,
+                     bool farToInfinityValue);
     // 0x581f34 _ZNK6glitch5scene16CCameraSceneNode7getTypeEv (tag "cam_")
     std::uint32_t getType() const;
     // 0x581f40 _ZN6glitch5scene16CCameraSceneNode23setInputReceiverEnabledEb
@@ -153,6 +157,10 @@ public:
     bool farToInfinity = false;                 // +0x164
     bool inputReceiverEnabled = false;          // +0x165
     // SViewFrustum at +0x168 is not mapped (type and size unknown).
+    // LAYOUT REQUEST (e2, integrator): tb/glitch_scene_SViewFrustum.hpp is 0x21c bytes, so it spans
+    // +0x168..+0x384. Its box (+0x6c = +0x1d4), matrix84 (+0x84 = +0x1ec) and matrix10c (+0x10c = +0x274)
+    // are the boundingBox, viewMatrix and projectionMatrix members below. recalculateViewArea also reads a
+    // third CMatrix4 at +0x2b8 (not declared). Make the frustum the owner of those members.
     core::aabbox3d<float> boundingBox;          // +0x1d4
     core::CMatrix4<float> viewMatrix;           // +0x1ec
     core::CMatrix4<float> projectionMatrix;     // +0x274

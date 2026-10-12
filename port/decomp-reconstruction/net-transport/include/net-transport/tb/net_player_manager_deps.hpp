@@ -16,6 +16,12 @@ class NetStructStandIn {
 public:
     void SetEnabled(bool enabled) { (void)enabled; }  // NetStruct::SetEnabled (0x81366c)
     int Resend() { return 0; }                        // NetStruct::Resend() (0x81347c)
+    int Load(NetBitStream& stream, int member_id, std::uint32_t a4) {  // NetStruct::Load (vt +0x14)
+        (void)stream;
+        (void)member_id;
+        (void)a4;
+        return 0;
+    }
 };
 
 // GetOnline() and COnline::IsServer(). COnline is owned by net-session-online; this device is
@@ -88,6 +94,24 @@ inline void PlayerSlot44(CNetPlayerInfo* player, int a2, int a3) {
     (void)player;
     (void)a2;
     (void)a3;
+}
+
+// NetStruct::SetEnabled(player, flag) on a CNetPlayerInfo (the player is a NetStruct in the
+// original). Inert until NetStruct is merged into CNetPlayerInfo.
+inline void PlayerSetEnabled(CNetPlayerInfo* player, bool enabled) {
+    (void)player;
+    (void)enabled;
+}
+
+// CNetPlayerInfo virtual slot +0x18 (NetStruct vtable), called by ReadPacketData with
+// (player, flag, stream, a2, 0). Result not used by the caller.
+inline int PlayerSlot18(CNetPlayerInfo* player, bool flag, NetBitStream* stream, int a2, int a3) {
+    (void)player;
+    (void)flag;
+    (void)stream;
+    (void)a2;
+    (void)a3;
+    return 0;
 }
 
 // CNetPlayerInfo::Create() (0x8103d4) and CNetPlayerInfo::Delete(CNetPlayerInfo*) (0x81009c).

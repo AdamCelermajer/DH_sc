@@ -9,3 +9,10 @@ inline CEventQueueBase& MatchingInternalEventQueue() {
     static CEventQueueBase queue;
     return queue;
 }
+
+// Stand-in for CMatching::m_eventQueue, the outgoing queue that CMatching::ProcessEvents posts to
+// (codes 0x400000 and up). Same convention as MatchingInternalEventQueue.
+inline CEventQueueBase& MatchingOutputEventQueue() {
+    static CEventQueueBase queue;
+    return queue;
+}

@@ -35,7 +35,12 @@ class IMesh;
 
 // Stand-in entry types. `name` is the first word of each original entry,
 // except SController where the name is at +0x04.
-struct SAnimation { const char* name; /* stride 0x20 in the original */ };
+struct SChannel;
+struct SNode;
+struct SAnimation {
+    const char* name;             // +0x00, stride 0x20 in the original
+    SChannel* channel = nullptr;  // +0x10, channel record matched by getAnimation(char const*, SChannel::Type, unsigned char)
+};
 struct SAnimationClip { const char* name; /* stride 0x0c */ };
 struct SImage { const char* name; /* stride 0x14 */ };
 struct SEffect { const char* name; /* stride 0x74 */ };
@@ -47,9 +52,17 @@ struct SGeometry {
     std::uint32_t reserved0c;         // +0x0c
 };
 struct SController { std::uint32_t reserved; const char* name; /* +0x04, stride 0x0c */ };
-struct SLight { const char* name; /* stride 0x18 */ };
+struct SLight {
+    const char* name;             // +0x00, stride 0x18
+    std::uint8_t unk_0c[12];      // +0x0c..+0x17, light block whose address getDefaultValue returns (case 16)
+};
 struct SCamera { const char* name; /* stride 0x1c */ };
-struct SVisualScene { const char* name; /* stride 0x10 */ };
+struct SVisualScene {
+    const char* name;             // +0x00, stride 0x10
+    std::uint32_t reserved04 = 0; // +0x04
+    std::uint32_t nodeCount = 0;  // +0x08, count of top-level SNode records
+    SNode* nodes = nullptr;       // +0x0c, base of the SNode array (stride 0x50)
+};
 struct SForce {
     const char* name;            // +0x00, stride 0x10
     std::uint32_t reserved04;    // +0x04
@@ -67,6 +80,33 @@ struct SInstanceForce {
     const char* url;             // +0x04, "#<name>"
 };
 struct SInstanceModularSkin { std::uint32_t reserved[1]; };  // opaque here
+
+// Channel record: the SAnimation +0x10 record and the argument of the channel-based getters.
+// +0x00 is not mapped. The values of Type are not named yet.
+struct SChannel {
+    enum Type : std::uint32_t {};
+    std::uint32_t unk_00 = 0;     // +0x00, not mapped
+    const char* name = nullptr;   // +0x04
+    std::uint32_t type = 0;       // +0x08, a SChannel::Type value
+    std::uint8_t flag = 0;        // +0x0c, compared with the flag argument
+};
+
+// COLLADA scene-node record (stride 0x50). Word offsets are the original 32-bit offsets.
+struct SNode {
+    const char* name = nullptr;                 // +0x00, compared with the lookup name
+    std::uint32_t unk_04 = 0;                   // +0x04, not mapped
+    std::uint32_t unk_08 = 0;                   // +0x08, not mapped
+    std::uint32_t translation[3] = {};          // +0x0c..+0x14
+    std::uint32_t rotation[4] = {};             // +0x18..+0x24
+    std::uint32_t scale[3] = {};                // +0x28..+0x30
+    std::uint32_t unk_34 = 0;                   // +0x34, bool word
+    std::uint32_t childCount = 0;               // +0x38
+    SNode* children = nullptr;                  // +0x3c, child array (stride 0x50)
+    std::uint32_t instanceCount = 0;            // +0x40
+    void* instances = nullptr;                  // +0x44, instance array (stride 8), entries not mapped
+    std::uint32_t unk_48 = 0;                   // +0x48, passed to the factory node builders
+    std::uint32_t billboard = 0;                // +0x4c, bool: selects the billboard builder
+};
 
 // Segment entry: 0x18 bytes, range [begin, end). Used by getAnimationSegment.
 struct SAnimationSegment {
@@ -184,6 +224,9 @@ struct SColladaFileData {
 // Member functions below are the ones reconstructed so far; each comment gives
 // the original address. Overloads taking an index use the unchecked
 // base + index * stride reads of the original.
+struct SInstanceController;
+struct SInstanceGeometry;
+
 class CColladaDatabase {
 public:
     SColladaRecord* record = nullptr;   // +0x00
@@ -256,6 +299,37 @@ public:
     void* constructLight(int index, CRootSceneNode* root) const;
     // 0x61b24c constructLight(char const*, CRootSceneNode*) const
     void constructLight(const char* name, CRootSceneNode* root) const;
+
+    // 0x61ace8 constructController(IVideoDriver*, SInstanceController*, CRootSceneNode*, bool) const
+    // Writes the controller into the out slot and returns it. Partial: see the .cpp.
+    glitch::IReferenceCounted** constructController(glitch::IReferenceCounted** out, video::IVideoDriver* driver,
+                                                    SInstanceController* instance, CRootSceneNode* root,
+                                                    bool flag) const;
+    // 0x61aeb8 constructGeometry(IVideoDriver*, SInstanceGeometry*, CRootSceneNode*) const
+    // Writes the geometry into the out slot and returns it. Partial: see the .cpp.
+    glitch::IReferenceCounted** constructGeometry(glitch::IReferenceCounted** out, video::IVideoDriver* driver,
+                                                  SInstanceGeometry* instance, CRootSceneNode* root) const;
+    // 0x61b2f4 constructNode(IVideoDriver*, SNode*, CRootSceneNode*) const
+    // Returns the scene node built for `node` (an owned reference, as the factory returns it). Partial.
+    void* constructNode(video::IVideoDriver* driver, SNode* node, CRootSceneNode* root) const;
+    // 0x61b9e8 constructScene(IVideoDriver*) const
+    // Returns the root scene node of the file. Partial.
+    CRootSceneNode* constructScene(video::IVideoDriver* driver) const;
+
+    // 0x61c0c8 getAnimation(char const*, SChannel::Type, unsigned char) const
+    SAnimation* getAnimation(const char* name, SChannel::Type type, std::uint8_t flag) const;
+    // 0x61c1e0 getBlendableAnimation(SChannel const*) const
+    SAnimation* getBlendableAnimation(const SChannel* channel) const;
+    // 0x61c214 getNode(char const*, SNode&) const
+    // Returns `node` when its name matches, else the first match among its descendants.
+    SNode* getNode(const char* name, SNode& node) const;
+    // 0x61c290 getNode(char const*) const
+    SNode* getNode(const char* name) const;
+    // 0x61c2f8 getDefaultValue(char const*, SChannel::Type, void**, void*) const
+    // The original returns a char that is 1 on success; here it is bool. Partial: see the .cpp.
+    bool getDefaultValue(const char* name, SChannel::Type type, void** out, void* flag) const;
+    // 0x61c6bc getDefaultValue(SChannel const*, void**) const
+    bool getDefaultValue(const SChannel* channel, void** out) const;
 };
 
 // Index getters of the original (0x60e390..0x60e450 family): base + index * stride.

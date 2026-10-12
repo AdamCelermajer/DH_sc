@@ -1,0 +1,217 @@
+// Batch e2-net-transport-CNetPlayerManager-0e46d6-0: the first 20 functions of the second CNetPlayerManager
+// group in libDungeonHunter2.so (player list maintenance, id-list cache, packet reads).
+// Class: include/net-transport/tb/c_net_player_manager.hpp.
+// Shims for calls into other owners: include/net-transport/tb/net_player_manager_deps.hpp.
+// Status per function is in ledger.d/e2-net-transport-CNetPlayerManager-0e46d6-0.csv.
+//
+// Not defined here (skipped, see the ledger): ProcessEvents, the nested NetStructPlayerManager
+// constructor and destructors, the two GetPlayerName overloads, AddPlayer(int,int),
+// AddPlayer(NetBitStream&,int,int) and ~CNetPlayerManager.
+
+#include "net-transport/tb/c_net_player_manager.hpp"
+
+#include <cstdint>
+
+#include "net-transport/tb/net_player_manager_deps.hpp"
+
+// 0x8108c0 CNetPlayerManager::DisconnectPlayer(int)
+// The original calls CNetPlayerInfo::Disconnect on the lookup result without a null check; this
+// keeps that order. Disconnect itself is partial (SetChanged calls not ported).
+int CNetPlayerManager::DisconnectPlayer(int a2) {
+    CNetPlayerInfo* player = GetPlayer(a2, false);
+    player->Disconnect();
+    return 0;
+}
+
+// 0x810b7c CNetPlayerManager::SetPlayerGamepadId(int,int)
+// Partial: the field written is unk_1c8 (+0x1c8). Its name is not recovered; the method name
+// suggests a gamepad id, but that is not confirmed. The SetChanged call on the block at +0x1a8 is
+// not ported.
+int CNetPlayerManager::SetPlayerGamepadId(int a2, int a3) {
+    if (a2 < 0) {
+        return 0;
+    }
+    if (a2 >= player_slot_count_) {  // +0x194
+        return 0;
+    }
+    if (static_cast<std::size_t>(a2) >= players_.size()) {  // +0x198, +0x19c
+        return 0;
+    }
+    CNetPlayerInfo* player = players_[static_cast<std::size_t>(a2)];
+    if (a3 != player->unk_1c8) {  // +0x1c8
+        player->unk_1c8 = a3;
+        // NetStructMember::SetChanged(block at +0x1a8) not ported.
+    }
+    return 1;
+}
+
+// 0x810bd4 CNetPlayerManager::ReassignPlayer(int,int,int)
+// Partial. The SetChanged calls on the three fields (+0x180, +0x1a8, +0x1d0) are not ported.
+// The original returns the return value of NetStruct::SetEnabled when the member id changes;
+// that value is not recovered (the shim is void), so this returns 0 in that branch.
+int CNetPlayerManager::ReassignPlayer(int a2, int a3, int a4) {
+    const bool is_server = CMatching::Get()->IsServer();
+    int result = is_server ? 1 : 0;
+    if (is_server) {
+        CNetPlayerInfo* player = GetPlayer(a2, true);
+        if (a3 != player->conn_index_) {  // +0x1a0
+            player->conn_index_ = a3;
+            // SetChanged(block at +0x180) not ported.
+        }
+        if (a4 != player->unk_1c8) {  // +0x1c8
+            player->unk_1c8 = a4;
+            // SetChanged(block at +0x1a8) not ported.
+        }
+        if (player->state_ != 1) {  // +0x1f0
+            player->state_ = 1;
+            // SetChanged(block at +0x1d0) not ported.
+        }
+        result = CMatching::Get()->LocalMemberId();  // vtable +0x6c
+        if (a3 != result) {
+            np_deps::PlayerSetEnabled(players_[static_cast<std::size_t>(a2)], true);
+            return 0;  // SetEnabled's return value is not recovered.
+        }
+    }
+    return result;
+}
+
+// 0x810c88 CNetPlayerManager::ClearPlayers()
+// Partial. The original returns the leftover r0 of the last DeleteNetPlayerInfo call; that value
+// is not kept here (the function is void).
+void CNetPlayerManager::ClearPlayers() {
+    for (CNetPlayerInfo*& slot : players_) {
+        if (slot != nullptr) {
+            DeleteNetPlayerInfo(slot);
+        }
+        slot = nullptr;
+    }
+    players_.clear();
+
+    for (CNetPlayerInfo*& slot : secondary_players_) {
+        if (slot != nullptr) {
+            DeleteNetPlayerInfo(slot);
+        }
+        slot = nullptr;
+    }
+    secondary_players_.clear();
+
+    if (fallback_player_ != nullptr) {  // +0x17c
+        DeleteNetPlayerInfo(fallback_player_);
+        fallback_player_ = nullptr;
+    }
+}
+
+// 0x8111ec CNetPlayerManager::InitPlayers()
+// Partial. The SetChanged calls on the member id (+0x158 block) are not ported. The original
+// returns the leftover r0 of the last NetStruct::SetEnabled call; that value is not kept (void).
+void CNetPlayerManager::InitPlayers() {
+    CNetPlayerInfo* fallback = CreateNetPlayerInfo();
+    fallback_player_ = fallback;  // +0x17c
+    if (fallback->member_id_ != -64) {  // +0x178
+        fallback->member_id_ = -64;
+        // SetChanged(member id block at +0x158) not ported.
+    }
+    fallback->Reset();  // vtable +0x4c
+
+    for (int i = 0; i < player_slot_count_; ++i) {  // +0x194
+        CNetPlayerInfo* player = CreateNetPlayerInfo();
+        players_.push_back(player);  // +0x198, +0x19c
+        CNetPlayerInfo* last = players_.back();
+        if (i != last->member_id_) {  // +0x178
+            last->member_id_ = i;
+            // SetChanged(member id block at +0x158) not ported.
+        }
+        last->Reset();  // vtable +0x4c
+        np_deps::PlayerSetEnabled(last, false);
+    }
+}
+
+// 0x811308 CNetPlayerManager::ResetPlayers()
+// Partial: the original returns the leftover r0 of InitPlayers (void here).
+void CNetPlayerManager::ResetPlayers() {
+    player_id_list_.clear();  // +0x1b8 (end = begin)
+    ClearPlayers();
+    InitPlayers();
+    unk_1b0_ = -1;  // +0x1b0
+}
+
+// 0x8113fc CNetPlayerManager::GetPlayerIdList()
+// Returns the cached list of the active players' member ids. The cache is rebuilt only when
+// id_list_dirty_ is set. The dirty flag is cleared before the scan and set again when a player is
+// added. An empty list with the dirty flag clear is returned as is.
+std::vector<int>& CNetPlayerManager::GetPlayerIdList() {
+    if (!player_id_list_.empty()) {
+        return player_id_list_;
+    }
+    if (!id_list_dirty_) {
+        return player_id_list_;
+    }
+    id_list_dirty_ = false;
+    if (players_.empty()) {
+        return player_id_list_;
+    }
+    for (std::size_t i = 0; i < players_.size(); ++i) {
+        CNetPlayerInfo* player = players_[i];
+        if (player != nullptr && player->IsActive()) {  // vtable +0x5c
+            player_id_list_.push_back(player->member_id_);  // +0x178
+            id_list_dirty_ = true;
+        }
+    }
+    return player_id_list_;
+}
+
+// 0x8114ec CNetPlayerManager::GetPlayerCount()
+int CNetPlayerManager::GetPlayerCount() {
+    return static_cast<int>(GetPlayerIdList().size());
+}
+
+// 0x811d74 CNetPlayerManager::ReadPacketData(int,int,NetBitStream&)
+// Partial. NetStruct::Load and the player's virtual slot +0x18 are shims (np_deps). The
+// AddPlayer(NetBitStream&) call is not reconstructed (skipped in this batch), so this body
+// calls an undefined member.
+NetBitStream* CNetPlayerManager::ReadPacketData(int a2, int a3, NetBitStream& stream) {
+    net_struct_.Load(stream, a2, 0);
+    for (std::size_t i = 0; i < players_.size(); ++i) {
+        int flag = 0;
+        CNetPlayerInfo* player = players_[i];
+        const std::uint32_t state = static_cast<std::uint32_t>(player->state_);  // +0x1f0
+        if (state <= 6) {
+            const std::uint32_t bit = 1u << state;
+            if ((bit & 0x71u) != 0) {
+                flag = CMatching::Get()->IsServer() ? 0 : 1;
+            } else if ((bit & 0x0cu) != 0) {
+                flag = 1;
+            } else if ((bit & 0x02u) != 0) {
+                flag = CMatching::Get()->IsServer() ? 1 : 0;
+            }
+        }
+        np_deps::PlayerSlot18(player, flag != 0, &stream, a2, 0);
+    }
+    while (true) {
+        if (stream.ReadByte(1) == 0) {
+            break;
+        }
+        const int byte = static_cast<int>(stream.ReadByte(8));
+        AddPlayer(stream, a2, byte);
+    }
+    return &stream;
+}
+
+// 0x811e94 CNetPlayerManager::sReadPacketData(int,int,NetBitStream&)
+// Thunk to the singleton. The fourth Hex-Rays argument is unused.
+NetBitStream* CNetPlayerManager::sReadPacketData(int a2, int a3, NetBitStream& stream) {
+    return s_playerManager->ReadPacketData(a2, a3, stream);
+}
+
+// 0x812608 CNetPlayerManager::ClearPlayerListCaches(int)
+// a2 < 0 clears every per-key list; otherwise the list for key a2 is cleared (created if absent).
+void CNetPlayerManager::ClearPlayerListCaches(int a2) {
+    player_id_list_.clear();  // +0x1b8 (end = begin)
+    id_list_dirty_ = true;    // +0x1b4
+    if (a2 < 0) {
+        player_list_caches_.clear();
+    } else {
+        std::vector<int>& list = player_list_caches_[a2];
+        list.clear();
+    }
+}

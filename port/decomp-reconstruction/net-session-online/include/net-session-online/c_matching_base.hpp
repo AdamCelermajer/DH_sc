@@ -98,6 +98,9 @@ public:
     // Not virtual slots of CMatching: the derived class forwards them to the manager.
     virtual std::vector<int> ConnectionMemberIdList() const = 0;  // GetConnMemberIdList(false)
     virtual bool IsConnectedMember(int memberId) const = 0;       // CConnectionManager::IsConnected
+    // CConnectionManager::Disconnect(id, false). Not pure: a derived class that does not forward it keeps
+    // the no-op. Added for CMatching::ProcessEvents (e2 batch); CMatchingLocal and the others do not forward it yet.
+    virtual void DisconnectMember(int /*memberId*/) {}
 
     // 0x7fe59c CMatching::GetMemberIndex (glx_320e98.cpp has the ledgered copy on CMatching).
     // Lowest set bit of MemberBit(memberId); -1 when the mask is empty.
@@ -143,6 +146,13 @@ public:
     // 0x8008ac CMatching::SetTeamId(int,unsigned char). Partial: the stored value is set; the NetStruct
     // change notification is not ported.
     void SetTeamId(int memberId, std::uint8_t teamId);
+
+    // 0x801120 CMatching::ProcessEvents(). Partial, see src/e2-net-session-online-pack0-9acceb-0.cpp.
+    // The original returns the last callee's pointer; the port returns void.
+    void ProcessEvents();
+    // 0x8018fc CMatching::Update(). Partial: the initialized branch is not ported. Declared non-virtual
+    // here; CMatchingLocal::Update hides it. The original's dispatch is not verified.
+    int Update();
 
 protected:
     bool initialized_ = false;                   // +0x0c (IsServer requires it; same field as CMatchingLocal::initialized_)

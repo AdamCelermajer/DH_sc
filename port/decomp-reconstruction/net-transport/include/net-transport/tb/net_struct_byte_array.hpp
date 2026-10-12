@@ -1,5 +1,7 @@
 // NetStructByteArray<N>: a replicated byte array of at most N bytes. Reconstructed from
 // libDungeonHunter2.so pseudocode. The three instantiations in this batch are N = 3, 30, 36.
+// N = 256 (batch e2-...-9de6f9-1) is defined as explicit member specializations in
+// src/e2-net-transport-NetStructByteArray-9de6f9-1.cpp.
 //
 // Original layout (32-bit offsets, kept as comments):
 //   +0x00 vptr (the shared NetStructMemberType<ByteArray> vtable, off_963868)
@@ -19,7 +21,21 @@
 template <unsigned N>
 class NetStructByteArray : public NetStructMemberType<ByteArray> {
 public:
+    // Constructor from a ByteArray: 0x370550 (36u), 0x370608 (3u), 0x3706c0 (30u), 0x7feeb8 (64u).
+    // Sets the bit size to N * 8 (288, 24, 240, 512).
+    NetStructByteArray(const ByteArray& initial);
+
     ~NetStructByteArray() override;
+
+    // Reads a 16-bit size, then that many bytes. 0x3702f8 (36u), 0x3703b0 (3u), 0x370430 (30u),
+    // 0x7fee00 (64u). Partial (see the .cpp).
+    void Read(NetBitStream& stream) override;
+
+    // Vtable +0x20 of every NetStructByteArray<N> is NetStructMemberType<ByteArray>::TestValue
+    // (0x36d388, always true), inherited unchanged. Declared here only so the class is not abstract.
+    bool TestValue(const ByteArray& value) const override {
+        return NetStructMemberType<ByteArray>::TestValue(value);
+    }
 
     // 0x36d398 / 0x36d3b0 / 0x36d3c8: data pointer (a 32-bit address in the original, host pointer here).
     const void* GetBufferPtr() const;
