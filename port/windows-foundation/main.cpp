@@ -2199,6 +2199,15 @@ int main(int argc,char** argv) {
                 if(!actor||source_state<0){e="Source checkpoint actor state/death fact is unavailable";return false;}
                 cs_state=static_cast<std::uint32_t>(source_state);dead=actor->is_dead();e.clear();return true;
             };
+            services.capture_services.actor_population_admission=[](void* raw,f::ActorId id,std::optional<bool>& admission,std::string& e) {
+                auto& c=*static_cast<Context*>(raw);admission.reset();
+                for(const auto& actor:c.population->actors())if(actor.definition.stableId==id) {
+                    admission=actor.enabled;e.clear();return true;
+                }
+                // Controlled player/non-population Character has no PopulationActor projection.
+                // Preserve unknown rather than infer it from HP, Character family or action.
+                e.clear();return true;
+            };
             services.capture_services.object_checkpoint_facts=[](void* raw,f::ObjectId id,
                  SourceCheckpointObjectFamilyV1& family,bool& skip,std::string& e) {
                 auto& c=*static_cast<Context*>(raw);const f::ActorDefinition* definition=nullptr;
@@ -5848,6 +5857,12 @@ int main(int argc,char** argv) {
                 if(!present) {e="Character::Deserialize InitPhysicalObject returned without an attached native body actor="+std::to_string(id);return false;}
                 actor->source_physical_present=true;
                 std::cout<<"Source restore InitPhysicalObject actor="<<id<<" trigger=ordinary-saved-alive present=1 frame="<<drawn<<'\n';
+            }
+            if(restored)for(const auto& [id,admitted]:receipt.population_admission) {
+                if(!population.set_enabled(id,admitted,e)) {
+                    e="Checkpoint captured population admission: "+e;return false;
+                }
+                std::cout<<"Source restore population admission actor="<<id<<" enabled="<<admitted<<" receipt=captured-v2 frame="<<drawn<<'\n';
             }
             initializeSourceNavigation();
             initializeSourceTargetNodes();

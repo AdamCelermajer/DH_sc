@@ -116,7 +116,7 @@ bool same_player_protected_fields(const ActorState& a,const ActorState& b) {
 bool validate_death_checkpoint_snapshot_v1(const DeathCheckpointSnapshotV1& s,
                                            std::string& error) {
     auto fail=[&](const char* why){error=why;return false;};
-    if(s.version!=1)return fail("Unsupported death checkpoint snapshot version");
+    if(s.version!=1&&s.version!=2)return fail("Unsupported death checkpoint snapshot version");
     if(!valid_text(s.level_uri)||!valid_text(s.checkpoint_name))return fail("Death checkpoint level/name is invalid");
     if(s.controlled_actor_id==invalid_actor_id)return fail("Death checkpoint controlled actor ID is invalid");
     if(!finite_position(s.checkpoint_key_position)||!finite_position(s.revive_position))return fail("Death checkpoint position is nonfinite");
@@ -125,6 +125,7 @@ bool validate_death_checkpoint_snapshot_v1(const DeathCheckpointSnapshotV1& s,
     std::set<ActorId> actor_ids;
     for(const auto& a:s.actors){
         if(!a.id||!valid_text(a.definition_id)||!actor_ids.insert(a.id).second)return fail("Death checkpoint actor identity is invalid or duplicated");
+        if(s.version==1&&a.population_admission)return fail("Version1 cannot carry population admission");
         if(!finite_transform(a.transform))return fail("Death checkpoint actor transform is nonfinite");
         if(a.npc_vitals_present && (a.player || !std::isfinite(a.health)||!std::isfinite(a.max_health)||!std::isfinite(a.resource)||!std::isfinite(a.max_resource)))
             return fail("Death checkpoint NPC vitals are invalid");
@@ -157,6 +158,7 @@ bool capture_death_checkpoint_snapshot_v1(
     if(!services.actor_checkpoint_facts||!services.actor_source_state||!services.object_checkpoint_facts)
         return (error="Source checkpoint eligibility and Character-state providers are required",false);
     DeathCheckpointSnapshotV1 next;
+    if(services.actor_population_admission)next.version=2;
     next.level_uri=level_uri;next.checkpoint_name=checkpoint_name;
     next.controlled_actor_id=game.controlled_actor_id;
     next.checkpoint_key_position=checkpoint_key_position;next.revive_position=revive_position;
@@ -176,6 +178,7 @@ bool capture_death_checkpoint_snapshot_v1(
             if(!services.actor_source_state(services.context,a.id,a.source_cs_state,a.source_dead,error)){
                 if(error.empty())error="Source Character serialized CS-state provider failed";return false;
             }
+            if(services.actor_population_admission&&!services.actor_population_admission(services.context,a.id,a.population_admission,error))return false;
             if(!a.player){a.npc_vitals_present=true;a.health=p.actor.health;a.max_health=p.actor.max_health;
                 a.resource=p.actor.resource;a.max_resource=p.actor.max_resource;}
             next.actors.push_back(std::move(a));
@@ -209,6 +212,7 @@ bool encode_death_checkpoint_snapshot_v1(const DeathCheckpointSnapshotV1& s,
         w.u64(a.id);w.text(a.definition_id);w.u8(a.player?1:0);write_transform(w,a.transform);
         w.u32(a.source_cs_state);w.u8(a.source_dead?1:0);
         w.u8(a.npc_vitals_present?1:0);if(a.npc_vitals_present){w.f32(a.health);w.f32(a.max_health);w.f32(a.resource);w.f32(a.max_resource);}
+        if(s.version>=2){w.u8(a.population_admission.has_value()?1:0);if(a.population_admission)w.u8(*a.population_admission?1:0);}
     }
     w.u32(static_cast<std::uint32_t>(s.objects.size()));
     for(const auto& o:s.objects){
@@ -251,6 +255,10 @@ bool decode_death_checkpoint_snapshot_v1(const std::vector<std::uint8_t>& input,
         a.npc_vitals_present=hasVitals!=0;
         if(a.npc_vitals_present&&(!r.f32(a.health)||!r.f32(a.max_health)||!r.f32(a.resource)||!r.f32(a.max_resource)))
             return (error="Death checkpoint actor vitals are truncated",false);
+        if(next.version>=2){std::uint8_t known=0,value=0;
+            if(!r.u8(known)||known>1)return (error="Population admission presence is invalid",false);
+            if(known){if(!r.u8(value)||value>1)return (error="Population admission value is invalid",false);a.population_admission=value!=0;}
+        }
         next.actors.push_back(std::move(a));
     }
     if(!r.u32(count)||count>max_records)return (error="Death checkpoint object count is invalid",false);
@@ -283,6 +291,7 @@ bool restore_death_checkpoint_snapshot_v1(
     if(snapshot.level_uri!=expected_level_uri)return (error="Death checkpoint belongs to a different active level",false);
     std::map<ActorId,const DeathCheckpointActorV1*> records;
     for(const auto& a:snapshot.actors)records.emplace(a.id,&a);
+    std::map<ActorId,bool> stagedAdmission;
     std::vector<PersistedPlayableActor> stagedActors;
     stagedActors.reserve(world.actors().size());
     try {
@@ -330,6 +339,8 @@ bool restore_death_checkpoint_snapshot_v1(
                     "/"+std::to_string(candidate.max_health)+": "+actorValidation;
                 return false;
             }
+            if(saved.population_admission)stagedAdmission.emplace(id,
+                (candidate.is_dead()||candidate.source_limbus)?false:*saved.population_admission);
             p.actor=std::move(candidate);
             stagedActors.push_back(std::move(p));
             ++receipt.actors_restored;
@@ -370,6 +381,7 @@ bool restore_death_checkpoint_snapshot_v1(
     if(!validation.ok())return (error=validation.errors.front(),false);
     if(!world.replace_state(stagedActors,std::move(stagedObjects),world.random_state(),error))return false;
     character=std::move(stagedCharacter);receipt.qest_restored=true;
+    receipt.population_admission=std::move(stagedAdmission);
     receipt.complete=true;error.clear();return true;
 }
 
