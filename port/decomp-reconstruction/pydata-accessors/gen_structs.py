@@ -24,6 +24,15 @@ class or ScriptCmd (hand-written in script_cmd.hpp), and every base call has a
 matching base method. Field names come from the offsets: `m_wN` for word N
 (offset 4*N), `m_offN` otherwise. Fields that are freed are `void*`.
 
+Thunks: a function that the decompiler index marks `is_thunk` is a forwarder. Its
+ARM listing is one `b #target` (a single pseudocode call of another Structs member
+is accepted too, if it names the same target). Ghidra prints the target's body for
+a thunk, so that body is never read: the thunk becomes `Base::read(stream)` or
+`Base::finalize()` with no statements of its own, and the target (for example
+CharacterProperties::read at 0x4f2750, which is owned by the gameplay session and not
+queued here) is added so that the base class has the body. A thunk whose target is
+not a read or finalize of an ancestor leaves its class out.
+
 Output (whole files, regenerated from the input each run):
   include/pydata-accessors/structs_records.hpp
   src/structs_records.cpp
@@ -40,6 +49,7 @@ Run from the repository root:
 import argparse
 import collections
 import csv
+import json
 import os
 import re
 import subprocess
@@ -54,6 +64,8 @@ SCRIPT_CMD_HDR = os.path.join(CAT, 'include', 'pydata-accessors', 'script_cmd.hp
 HDR = os.path.join(CAT, 'include', 'pydata-accessors', 'structs_records.hpp')
 SRC = os.path.join(CAT, 'src', 'structs_records.cpp')
 SRC_REL = 'pydata-accessors/src/structs_records.cpp'
+INDEX = os.path.join(ROOT, 'recovered', 'native', 'decompiled', 'libDungeonHunter2.so', 'function-index.jsonl')
+ASM_DIR = os.path.join(ROOT, 'recovered', 'native', 'assembly', 'libDungeonHunter2.so')
 
 # readAs<T> mangled letter -> (C++ type, initializer)
 TYPES = {
@@ -76,6 +88,7 @@ VT = re.compile(r'^\*param_1 = (0x[0-9a-f]+|&DAT_[0-9a-f]+)$')
 IF_IDX = re.compile(r'^if \(param_1\[(\w+)\] != 0\) \{$')
 IF_PTR = re.compile(r'^if \(\*\(int \*\)\(param_1 \+ (\w+)\) != 0\) \{$')
 FREE = re.compile(r'^_Z10CustomFreePv\(\)$')
+BRANCH = re.compile(r'^([0-9a-f]{8})  (?:[0-9a-f]{2} ){3}[0-9a-f]{2}\s+b #0x([0-9a-f]+)\s*$')
 STORE = re.compile(
     r'^_ZN12StreamReader6readAsI(\w)EEvP11IStreamBasePT_\(param_2,\s*param_1(?: \+ (\w+))?\)$')
 
@@ -269,8 +282,75 @@ def script_cmd_classes():
     return set(re.findall(r'^struct (\w+) : ScriptCmd \{', txt, flags=re.M)) | {'ScriptCmd'}
 
 
+def load_index():
+    """({address: row}, {mangled name: address}) from the decompiler's function index."""
+    by_addr, by_name = {}, {}
+    with open(INDEX, encoding='utf-8') as f:
+        for line in f:
+            r = json.loads(line)
+            a = int(r['elf_address'], 16)
+            by_addr[a] = r
+            by_name.setdefault(r['name'], a)
+    return by_addr, by_name
+
+
+def branch_targets(addrs):
+    """{address: target} for the single `b #target` at each address, from the ARM listing."""
+    want = {'%08x' % a for a in addrs}
+    res = {}
+    for name in sorted(os.listdir(ASM_DIR)):
+        if not name.endswith('.asm'):
+            continue
+        with open(os.path.join(ASM_DIR, name), encoding='utf-8', errors='replace') as f:
+            for line in f:
+                if ' b #0x' not in line:
+                    continue
+                m = BRANCH.match(line)
+                if m and m.group(1) in want:
+                    res[int(m.group(1), 16)] = int(m.group(2), 16)
+    return res
+
+
+def thunk_target(addr, lines, branch, by_addr, by_name):
+    """(target address, (class, kind)) that the thunk at addr forwards to, or None.
+
+    The listing is authoritative. A pseudocode body that is one call of a Structs member is
+    accepted too, and must name the same target when both exist. The thunk's own body is never
+    used: Ghidra prints the target's body there.
+    """
+    found = set()
+    if addr in branch:
+        found.add(branch[addr])
+    stmts = [s for s in (lines or []) if not s.startswith('return')]
+    if len(stmts) == 1:
+        call = parse_call(stmts[0])
+        if call and call[0] in by_name:
+            found.add(by_name[call[0]])
+    if len(found) != 1:
+        return None
+    t = found.pop()
+    name = by_addr.get(t, {}).get('name')
+    return t, (split_sym(name) if name else None)
+
+
+def forward_ops(cls, kind, res):
+    """[('base', T)] for a read or finalize thunk that forwards to T's read or finalize, else None."""
+    if res is None or res[1] is None or kind not in ('read', 'fin'):
+        return None
+    tcls, tkind = res[1]
+    if tkind != kind or tcls == cls:
+        return None
+    return [('base', tcls)]
+
+
 def collect():
-    """Parse every queued Structs destructor, finalize and read body."""
+    """Queued Structs destructor, finalize and read functions, their pseudocode and thunk targets.
+
+    Returns (funcs, text, fwd, cands). cands holds the read and finalize targets of thunks that are
+    not queued (CharacterProperties::read at 0x4f2750 is one: it is owned by the gameplay session).
+    resolve() decides which of them are generated.
+    """
+    by_addr, by_name = load_index()
     funcs = {}  # (cls, kind) -> (addr, mangled)
     for r in csv.DictReader(open(QUEUE, encoding='utf-8')):
         if r['owner'] != 'Structs':
@@ -278,12 +358,47 @@ def collect():
         sym = split_sym(r['name'])
         if sym:
             funcs[sym] = (int(r['elf_address'], 16), r['name'])
-    text = fetch_pseudo([a for a, _ in funcs.values()])
-    return funcs, text
+    queued = {a for a, _ in funcs.values()}
+    thunks = sorted(a for a in queued if by_addr.get(a, {}).get('is_thunk'))
+    text = fetch_pseudo(sorted(queued))
+    branch = branch_targets(thunks)
+    fwd = {a: thunk_target(a, body_lines(text.get(a, '')), branch, by_addr, by_name) for a in thunks}
+    cands = {}
+    for a in thunks:
+        res = fwd[a]
+        if res is None or res[1] is None or res[1][1] not in ('read', 'fin'):
+            continue
+        key = res[1]
+        if key in funcs or key in cands or by_addr[res[0]].get('is_thunk'):
+            continue
+        cands[key] = (res[0], by_addr[res[0]]['name'])
+    if cands:
+        text.update(fetch_pseudo(sorted(a for a, _ in cands.values())))
+    return funcs, text, fwd, cands
 
 
-def analyse(funcs, text, own_classes):
-    """Return classes {name: info} and reasons for classes left out."""
+def resolve(funcs, text, own, fwd, cands):
+    """Add each candidate target only when it keeps every emitted class and an emitted forwarder
+    needs it. A target whose body does not parse (or whose class then drops out) is not added, so
+    no class that was emitted without it is lost. Returns (funcs, info, reasons)."""
+    info, reasons = analyse(funcs, text, own, fwd)
+    alive, _, _ = check_classes(info, own)
+    for key in sorted(cands):
+        trial = dict(funcs)
+        trial[key] = cands[key]
+        t_info, t_reasons = analyse(trial, text, own, fwd)
+        t_alive, _, _ = check_classes(t_info, own)
+        needed = any(('base', key[0]) in (t_info[c].get(key[1]) or []) for c in t_alive)
+        if needed and key[0] in t_alive and alive <= t_alive:
+            funcs, info, reasons, alive = trial, t_info, t_reasons, t_alive
+    return funcs, info, reasons
+
+
+def analyse(funcs, text, own_classes, fwd):
+    """Return classes {name: info} and reasons for classes left out.
+
+    fwd maps each thunk address to its resolved target (see thunk_target), or None when unknown.
+    """
     reasons = collections.Counter()
     info = {}
     names = sorted({c for c, _ in funcs})
@@ -294,13 +409,22 @@ def analyse(funcs, text, own_classes):
         if (cls, 'D2') not in funcs and (cls, 'D1') not in funcs:
             reasons['no destructor'] += 1
             continue
-        c = {'name': cls, 'addr': {}, 'parsed': {}, 'why': []}
+        c = {'name': cls, 'addr': {}, 'parsed': {}, 'why': [], 'thunk': {}}
         ok = True
         for kind in ('D2', 'D1', 'D0', 'fin', 'read'):
             if (cls, kind) not in funcs:
                 continue
             addr, mangled = funcs[(cls, kind)]
             c['addr'][kind] = (addr, mangled)
+            if addr in fwd:
+                ops = forward_ops(cls, kind, fwd[addr])
+                if ops is None:
+                    c['why'].append('thunk ' + kind)
+                    ok = False
+                    continue
+                c['thunk'][kind] = (fwd[addr][0], fwd[addr][1][0])
+                c['parsed'][kind] = ops
+                continue
             lines = body_lines(text.get(addr, ''))
             if lines is None:
                 c['why'].append('no body ' + kind)
@@ -456,6 +580,15 @@ def cpp_type(letter):
     return TYPES[letter][0] if letter else 'void*'
 
 
+def thunk_comment(target, method):
+    """Comment line for a forwarder: the original `b` target and the class it forwards to.
+
+    target is (address, class) as stored in info[cls]['thunk'][kind].
+    """
+    addr, tcls = target
+    return '// thunk: b 0x%x, forwards to %s::%s' % (addr, tcls, method)
+
+
 def emit(info, fields, chosen, own_classes):
     order = []
     seen = set()
@@ -551,6 +684,8 @@ def emit(info, fields, chosen, own_classes):
         if c.get('fin') is not None:
             a, mangled = c['addr']['fin']
             s.append('// 0x%x %s' % (a, mangled))
+            if 'fin' in c['thunk']:
+                s.append(thunk_comment(c['thunk']['fin'], 'finalize'))
             s.append('void %s::finalize() {' % cls)
             for o in c['fin']:
                 if o[0] == 'base':
@@ -562,6 +697,8 @@ def emit(info, fields, chosen, own_classes):
         if c.get('read') is not None:
             a, mangled = c['addr']['read']
             s.append('// 0x%x %s' % (a, mangled))
+            if 'read' in c['thunk']:
+                s.append(thunk_comment(c['thunk']['read'], 'read'))
             s.append('void %s::read(IStreamBase* stream) {' % cls)
             for o in c['read']:
                 if o[0] == 'base':
@@ -612,6 +749,10 @@ def ledger_rows(info, fields, chosen):
                 if uncertain:
                     status = 'partial'
                     note += '; a bool or int8 field is stored, its type is inferred'
+            if kind in c['thunk']:
+                taddr, tcls = c['thunk'][kind]
+                note = 'thunk, b 0x%x: forwards to %s::%s' % (
+                    taddr, tcls, 'finalize' if kind == 'fin' else 'read')
             rows.append((addr, mangled, status, note))
     return rows
 
@@ -648,8 +789,8 @@ def main():
     a = ap.parse_args()
 
     own = script_cmd_classes()
-    funcs, text = collect()
-    info, reasons = analyse(funcs, text, own)
+    funcs, text, fwd, cands = collect()
+    funcs, info, reasons = resolve(funcs, text, own, fwd, cands)
     alive, fields, more = check_classes(info, own)
     reasons.update(more)
     chosen, total = select(info, alive, a.through)

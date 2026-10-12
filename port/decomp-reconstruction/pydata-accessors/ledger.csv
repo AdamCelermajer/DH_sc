@@ -397,7 +397,7 @@ elf_address,symbol,status,source_file,notes
 0x4c699c,_ZN7Structs4AnimD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~Anim): frees 0 field(s), base SimpleAnim"
 0x4c69d0,_ZN7Structs4AnimD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of Anim"
 0x4ce454,_ZN7Structs4AnimD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c6a04,_ZN7Structs4Anim8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
+0x4c6a04,_ZN7Structs4Anim8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c6998: forwards to SimpleAnim::finalize"
 0x4dbe3c,_ZN7Structs4Anim4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: calls SimpleAnim::read, 2 readAs store(s) at fixed offsets"
 0x4db614,_ZN7Structs8AnimStepD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~AnimStep): frees 1 field(s), base none"
 0x4db5b8,_ZN7Structs8AnimStepD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of AnimStep"
@@ -406,13 +406,13 @@ elf_address,symbol,status,source_file,notes
 0x4c645c,_ZN7Structs18AssassinPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~AssassinProperties): frees 0 field(s), base CharacterProperties"
 0x4c6490,_ZN7Structs18AssassinPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of AssassinProperties"
 0x4ce614,_ZN7Structs18AssassinPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c64c4,_ZN7Structs18AssassinProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7a98,_ZN7Structs18AssassinProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c64c4,_ZN7Structs18AssassinProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7a98,_ZN7Structs18AssassinProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c6828,_ZN7Structs27AttackingFollowerPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~AttackingFollowerProperties): frees 0 field(s), base CharacterProperties"
 0x4c685c,_ZN7Structs27AttackingFollowerPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of AttackingFollowerProperties"
 0x4ce518,_ZN7Structs27AttackingFollowerPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c6890,_ZN7Structs27AttackingFollowerProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7a74,_ZN7Structs27AttackingFollowerProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c6890,_ZN7Structs27AttackingFollowerProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7a74,_ZN7Structs27AttackingFollowerProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c6bf4,_ZN7Structs14AttrBonusEntryD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~AttrBonusEntry): frees 0 field(s), base none"
 0x4c6bf8,_ZN7Structs14AttrBonusEntryD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of AttrBonusEntry"
 0x4ce240,_ZN7Structs14AttrBonusEntryD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
@@ -421,18 +421,18 @@ elf_address,symbol,status,source_file,notes
 0x4c5e74,_ZN7Structs16BanditPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~BanditProperties): frees 0 field(s), base CharacterProperties"
 0x4c5ea8,_ZN7Structs16BanditPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of BanditProperties"
 0x4ce79c,_ZN7Structs16BanditPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c5edc,_ZN7Structs16BanditProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7ad0,_ZN7Structs16BanditProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c5edc,_ZN7Structs16BanditProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7ad0,_ZN7Structs16BanditProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c58f8,_ZN7Structs22BigLizardManPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~BigLizardManProperties): frees 0 field(s), base CharacterProperties"
 0x4c592c,_ZN7Structs22BigLizardManPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of BigLizardManProperties"
 0x4ce908,_ZN7Structs22BigLizardManPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c5960,_ZN7Structs22BigLizardManProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7b04,_ZN7Structs22BigLizardManProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c5960,_ZN7Structs22BigLizardManProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7b04,_ZN7Structs22BigLizardManProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c5f4c,_ZN7Structs19BigSpiderPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~BigSpiderProperties): frees 0 field(s), base CharacterProperties"
 0x4c5f80,_ZN7Structs19BigSpiderPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of BigSpiderProperties"
 0x4ce764,_ZN7Structs19BigSpiderPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c5fb4,_ZN7Structs19BigSpiderProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7ac8,_ZN7Structs19BigSpiderProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c5fb4,_ZN7Structs19BigSpiderProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7ac8,_ZN7Structs19BigSpiderProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4db3cc,_ZN7Structs10CamAnimSetD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~CamAnimSet): frees 1 field(s), base none"
 0x4db370,_ZN7Structs10CamAnimSetD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of CamAnimSet"
 0x4db3b0,_ZN7Structs10CamAnimSetD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
@@ -454,6 +454,7 @@ elf_address,symbol,status,source_file,notes
 0x4c5740,_ZN7Structs19CharacterPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of CharacterProperties"
 0x4ce4c4,_ZN7Structs19CharacterPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
 0x4c5744,_ZN7Structs19CharacterProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
+0x4f2750,_ZN7Structs19CharacterProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
 0x4c56ac,_ZN7Structs9ClassFuncD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~ClassFunc): frees 0 field(s), base none"
 0x4c56b0,_ZN7Structs9ClassFuncD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of ClassFunc"
 0x4ceac8,_ZN7Structs9ClassFuncD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
@@ -516,18 +517,18 @@ elf_address,symbol,status,source_file,notes
 0x4c5d9c,_ZN7Structs10Coward_DogD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~Coward_Dog): frees 0 field(s), base CharacterProperties"
 0x4c5dd0,_ZN7Structs10Coward_DogD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of Coward_Dog"
 0x4ce7d4,_ZN7Structs10Coward_DogD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c5e04,_ZN7Structs10Coward_Dog8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7ad8,_ZN7Structs10Coward_Dog4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c5e04,_ZN7Structs10Coward_Dog8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7ad8,_ZN7Structs10Coward_Dog4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c6384,_ZN7Structs17CultistPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~CultistProperties): frees 0 field(s), base CharacterProperties"
 0x4c63b8,_ZN7Structs17CultistPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of CultistProperties"
 0x4ce64c,_ZN7Structs17CultistPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c63ec,_ZN7Structs17CultistProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7aa0,_ZN7Structs17CultistProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c63ec,_ZN7Structs17CultistProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7aa0,_ZN7Structs17CultistProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c5fb8,_ZN7Structs12DKPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~DKProperties): frees 0 field(s), base CharacterProperties"
 0x4c5fec,_ZN7Structs12DKPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of DKProperties"
 0x4ce748,_ZN7Structs12DKPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c6020,_ZN7Structs12DKProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7ac4,_ZN7Structs12DKProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c6020,_ZN7Structs12DKProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7ac4,_ZN7Structs12DKProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c6a14,_ZN7Structs14DesignSettingsD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~DesignSettings): frees 0 field(s), base none"
 0x4c6a18,_ZN7Structs14DesignSettingsD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of DesignSettings"
 0x4ce400,_ZN7Structs14DesignSettingsD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
@@ -541,13 +542,13 @@ elf_address,symbol,status,source_file,notes
 0x4c64c8,_ZN7Structs16DragonPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~DragonProperties): frees 0 field(s), base CharacterProperties"
 0x4c64fc,_ZN7Structs16DragonPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of DragonProperties"
 0x4ce5f8,_ZN7Structs16DragonPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c6530,_ZN7Structs16DragonProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7a94,_ZN7Structs16DragonProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c6530,_ZN7Structs16DragonProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7a94,_ZN7Structs16DragonProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c6894,_ZN7Structs23EquippedFaeryPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~EquippedFaeryProperties): frees 0 field(s), base CharacterProperties"
 0x4c68c8,_ZN7Structs23EquippedFaeryPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of EquippedFaeryProperties"
 0x4ce4fc,_ZN7Structs23EquippedFaeryPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c68fc,_ZN7Structs23EquippedFaeryProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7a70,_ZN7Structs23EquippedFaeryProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c68fc,_ZN7Structs23EquippedFaeryProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7a70,_ZN7Structs23EquippedFaeryProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4da404,_ZN7Structs5FaeryD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~Faery): frees 1 field(s), base none"
 0x4da3a8,_ZN7Structs5FaeryD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of Faery"
 0x4da3e8,_ZN7Structs5FaeryD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
@@ -563,8 +564,8 @@ elf_address,symbol,status,source_file,notes
 0x4c67bc,_ZN7Structs18FollowerPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~FollowerProperties): frees 0 field(s), base CharacterProperties"
 0x4c67f0,_ZN7Structs18FollowerPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of FollowerProperties"
 0x4ce534,_ZN7Structs18FollowerPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c6824,_ZN7Structs18FollowerProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7a78,_ZN7Structs18FollowerProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c6824,_ZN7Structs18FollowerProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7a78,_ZN7Structs18FollowerProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c6b94,_ZN7Structs12FontColorDefD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~FontColorDef): frees 0 field(s), base none"
 0x4c6b98,_ZN7Structs12FontColorDefD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of FontColorDef"
 0x4ce320,_ZN7Structs12FontColorDefD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
@@ -573,8 +574,8 @@ elf_address,symbol,status,source_file,notes
 0x4c6900,_ZN7Structs21FriendlyNPCPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~FriendlyNPCProperties): frees 0 field(s), base CharacterProperties"
 0x4c6934,_ZN7Structs21FriendlyNPCPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of FriendlyNPCProperties"
 0x4ce4e0,_ZN7Structs21FriendlyNPCPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c6968,_ZN7Structs21FriendlyNPCProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7a6c,_ZN7Structs21FriendlyNPCProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c6968,_ZN7Structs21FriendlyNPCProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7a6c,_ZN7Structs21FriendlyNPCProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c6a20,_ZN7Structs14GameDifficultyD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~GameDifficulty): frees 0 field(s), base none"
 0x4c6a24,_ZN7Structs14GameDifficultyD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of GameDifficulty"
 0x4ce3e4,_ZN7Structs14GameDifficultyD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
@@ -595,31 +596,46 @@ elf_address,symbol,status,source_file,notes
 0x4ce374,_ZN7Structs10GameOptionD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
 0x4c6a34,_ZN7Structs10GameOption8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
 0x4f213c,_ZN7Structs10GameOption4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 7 readAs store(s) at fixed offsets"
+0x4c6a38,_ZN7Structs16GameOptionSelectD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~GameOptionSelect): frees 0 field(s), base GameOption"
+0x4c6a6c,_ZN7Structs16GameOptionSelectD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of GameOptionSelect"
+0x4ce3c8,_ZN7Structs16GameOptionSelectD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
+0x4c6aa0,_ZN7Structs16GameOptionSelect8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c6a34: forwards to GameOption::finalize"
+0x4f23e0,_ZN7Structs16GameOptionSelect4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f213c: forwards to GameOption::read"
+0x4c6aa4,_ZN7Structs16GameOptionSliderD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~GameOptionSlider): frees 0 field(s), base GameOption"
+0x4c6ad8,_ZN7Structs16GameOptionSliderD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of GameOptionSlider"
+0x4ce3ac,_ZN7Structs16GameOptionSliderD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
+0x4c6b0c,_ZN7Structs16GameOptionSlider8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c6a34: forwards to GameOption::finalize"
+0x4f23dc,_ZN7Structs16GameOptionSlider4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f213c: forwards to GameOption::read"
+0x4c6b10,_ZN7Structs16GameOptionToggleD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~GameOptionToggle): frees 0 field(s), base GameOption"
+0x4c6b44,_ZN7Structs16GameOptionToggleD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of GameOptionToggle"
+0x4ce390,_ZN7Structs16GameOptionToggleD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
+0x4c6b78,_ZN7Structs16GameOptionToggle8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c6a34: forwards to GameOption::finalize"
+0x4f23d8,_ZN7Structs16GameOptionToggle4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f213c: forwards to GameOption::read"
 0x4c5e08,_ZN7Structs15GhostPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~GhostProperties): frees 0 field(s), base CharacterProperties"
 0x4c5e3c,_ZN7Structs15GhostPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of GhostProperties"
 0x4ce7b8,_ZN7Structs15GhostPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c5e70,_ZN7Structs15GhostProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7ad4,_ZN7Structs15GhostProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c5e70,_ZN7Structs15GhostProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7ad4,_ZN7Structs15GhostProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c60fc,_ZN7Structs21GoblinRoguePropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~GoblinRogueProperties): frees 0 field(s), base CharacterProperties"
 0x4c6130,_ZN7Structs21GoblinRoguePropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of GoblinRogueProperties"
 0x4ce6f4,_ZN7Structs21GoblinRoguePropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c6164,_ZN7Structs21GoblinRogueProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7ab8,_ZN7Structs21GoblinRogueProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c6164,_ZN7Structs21GoblinRogueProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7ab8,_ZN7Structs21GoblinRogueProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c61d4,_ZN7Structs22GoblinShamanPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~GoblinShamanProperties): frees 0 field(s), base CharacterProperties"
 0x4c6208,_ZN7Structs22GoblinShamanPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of GoblinShamanProperties"
 0x4ce6bc,_ZN7Structs22GoblinShamanPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c623c,_ZN7Structs22GoblinShamanProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7ab0,_ZN7Structs22GoblinShamanProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c623c,_ZN7Structs22GoblinShamanProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7ab0,_ZN7Structs22GoblinShamanProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c6168,_ZN7Structs23GoblinSlingerPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~GoblinSlingerProperties): frees 0 field(s), base CharacterProperties"
 0x4c619c,_ZN7Structs23GoblinSlingerPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of GoblinSlingerProperties"
 0x4ce6d8,_ZN7Structs23GoblinSlingerPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c61d0,_ZN7Structs23GoblinSlingerProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7ab4,_ZN7Structs23GoblinSlingerProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c61d0,_ZN7Structs23GoblinSlingerProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7ab4,_ZN7Structs23GoblinSlingerProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c6318,_ZN7Structs15GuardPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~GuardProperties): frees 0 field(s), base CharacterProperties"
 0x4c634c,_ZN7Structs15GuardPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of GuardProperties"
 0x4ce668,_ZN7Structs15GuardPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c6380,_ZN7Structs15GuardProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7aa4,_ZN7Structs15GuardProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c6380,_ZN7Structs15GuardProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7aa4,_ZN7Structs15GuardProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c6bd0,_ZN7Structs8HelpPageD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~HelpPage): frees 0 field(s), base none"
 0x4c6bd4,_ZN7Structs8HelpPageD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of HelpPage"
 0x4ce294,_ZN7Structs8HelpPageD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
@@ -633,8 +649,8 @@ elf_address,symbol,status,source_file,notes
 0x4c5820,_ZN7Structs18InfectedPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~InfectedProperties): frees 0 field(s), base CharacterProperties"
 0x4c5854,_ZN7Structs18InfectedPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of InfectedProperties"
 0x4ce940,_ZN7Structs18InfectedPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c5888,_ZN7Structs18InfectedProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7b0c,_ZN7Structs18InfectedProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c5888,_ZN7Structs18InfectedProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7b0c,_ZN7Structs18InfectedProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c6c3c,_ZN7Structs9InventoryD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~Inventory): frees 0 field(s), base none"
 0x4c6c40,_ZN7Structs9InventoryD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of Inventory"
 0x4ce198,_ZN7Structs9InventoryD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
@@ -655,8 +671,8 @@ elf_address,symbol,status,source_file,notes
 0x4c62ac,_ZN7Structs20LargePlantPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~LargePlantProperties): frees 0 field(s), base CharacterProperties"
 0x4c62e0,_ZN7Structs20LargePlantPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of LargePlantProperties"
 0x4ce684,_ZN7Structs20LargePlantPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c6314,_ZN7Structs20LargePlantProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7aa8,_ZN7Structs20LargePlantProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c6314,_ZN7Structs20LargePlantProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7aa8,_ZN7Structs20LargePlantProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4d5564,_ZN7Structs16LevelDeclarationD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~LevelDeclaration): frees 2 field(s), base none"
 0x4d54f8,_ZN7Structs16LevelDeclarationD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of LevelDeclaration"
 0x4d5548,_ZN7Structs16LevelDeclarationD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
@@ -679,8 +695,8 @@ elf_address,symbol,status,source_file,notes
 0x4c588c,_ZN7Structs19LizardManPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~LizardManProperties): frees 0 field(s), base CharacterProperties"
 0x4c58c0,_ZN7Structs19LizardManPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of LizardManProperties"
 0x4ce924,_ZN7Structs19LizardManPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c58f4,_ZN7Structs19LizardManProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7b08,_ZN7Structs19LizardManProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c58f4,_ZN7Structs19LizardManProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7b08,_ZN7Structs19LizardManProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c6c00,_ZN7Structs9LootEntryD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~LootEntry): frees 0 field(s), base none"
 0x4c6c04,_ZN7Structs9LootEntryD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of LootEntry"
 0x4ce224,_ZN7Structs9LootEntryD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
@@ -688,23 +704,23 @@ elf_address,symbol,status,source_file,notes
 0x4c66e4,_ZN7Structs29MadrukEnergySpawnerPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~MadrukEnergySpawnerProperties): frees 0 field(s), base CharacterProperties"
 0x4c6718,_ZN7Structs29MadrukEnergySpawnerPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of MadrukEnergySpawnerProperties"
 0x4ce56c,_ZN7Structs29MadrukEnergySpawnerPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c674c,_ZN7Structs29MadrukEnergySpawnerProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7a80,_ZN7Structs29MadrukEnergySpawnerProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c674c,_ZN7Structs29MadrukEnergySpawnerProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7a80,_ZN7Structs29MadrukEnergySpawnerProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c6678,_ZN7Structs22MadrukMinionPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~MadrukMinionProperties): frees 0 field(s), base CharacterProperties"
 0x4c66ac,_ZN7Structs22MadrukMinionPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of MadrukMinionProperties"
 0x4ce588,_ZN7Structs22MadrukMinionPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c66e0,_ZN7Structs22MadrukMinionProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7a84,_ZN7Structs22MadrukMinionProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c66e0,_ZN7Structs22MadrukMinionProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7a84,_ZN7Structs22MadrukMinionProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c65a0,_ZN7Structs16MadrukPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~MadrukProperties): frees 0 field(s), base CharacterProperties"
 0x4c65d4,_ZN7Structs16MadrukPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of MadrukProperties"
 0x4ce5c0,_ZN7Structs16MadrukPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c6608,_ZN7Structs16MadrukProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7a8c,_ZN7Structs16MadrukProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c6608,_ZN7Structs16MadrukProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7a8c,_ZN7Structs16MadrukProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c660c,_ZN7Structs21MadrukTorsoPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~MadrukTorsoProperties): frees 0 field(s), base CharacterProperties"
 0x4c6640,_ZN7Structs21MadrukTorsoPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of MadrukTorsoProperties"
 0x4ce5a4,_ZN7Structs21MadrukTorsoPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c6674,_ZN7Structs21MadrukTorsoProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7a88,_ZN7Structs21MadrukTorsoProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c6674,_ZN7Structs21MadrukTorsoProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7a88,_ZN7Structs21MadrukTorsoProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c6c30,_ZN7Structs20MerchandiseListEntryD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~MerchandiseListEntry): frees 0 field(s), base none"
 0x4c6c34,_ZN7Structs20MerchandiseListEntryD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of MerchandiseListEntry"
 0x4ce1b4,_ZN7Structs20MerchandiseListEntryD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
@@ -713,18 +729,18 @@ elf_address,symbol,status,source_file,notes
 0x4c6750,_ZN7Structs18MerchantPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~MerchantProperties): frees 0 field(s), base CharacterProperties"
 0x4c6784,_ZN7Structs18MerchantPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of MerchantProperties"
 0x4ce550,_ZN7Structs18MerchantPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c67b8,_ZN7Structs18MerchantProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7a7c,_ZN7Structs18MerchantProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c67b8,_ZN7Structs18MerchantProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7a7c,_ZN7Structs18MerchantProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c59d0,_ZN7Structs20MothCocoonPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~MothCocoonProperties): frees 0 field(s), base CharacterProperties"
 0x4c5a04,_ZN7Structs20MothCocoonPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of MothCocoonProperties"
 0x4ce8d0,_ZN7Structs20MothCocoonPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c5a38,_ZN7Structs20MothCocoonProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7afc,_ZN7Structs20MothCocoonProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c5a38,_ZN7Structs20MothCocoonProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7afc,_ZN7Structs20MothCocoonProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c5964,_ZN7Structs14MothPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~MothProperties): frees 0 field(s), base CharacterProperties"
 0x4c5998,_ZN7Structs14MothPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of MothProperties"
 0x4ce8ec,_ZN7Structs14MothPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c59cc,_ZN7Structs14MothProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7b00,_ZN7Structs14MothProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c59cc,_ZN7Structs14MothProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7b00,_ZN7Structs14MothProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c6c18,_ZN7Structs7NumProbD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~NumProb): frees 0 field(s), base none"
 0x4c6c1c,_ZN7Structs7NumProbD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of NumProb"
 0x4ce1ec,_ZN7Structs7NumProbD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
@@ -733,8 +749,8 @@ elf_address,symbol,status,source_file,notes
 0x4c5748,_ZN7Structs16PlayerPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~PlayerProperties): frees 0 field(s), base CharacterProperties"
 0x4c577c,_ZN7Structs16PlayerPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of PlayerProperties"
 0x4ce978,_ZN7Structs16PlayerPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c57b0,_ZN7Structs16PlayerProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7b14,_ZN7Structs16PlayerProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c57b0,_ZN7Structs16PlayerProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7b14,_ZN7Structs16PlayerProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c6c54,_ZN7Structs5Pos3DD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~Pos3D): frees 0 field(s), base none"
 0x4c6c58,_ZN7Structs5Pos3DD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of Pos3D"
 0x4ce160,_ZN7Structs5Pos3DD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
@@ -758,18 +774,18 @@ elf_address,symbol,status,source_file,notes
 0x4c6534,_ZN7Structs25ResurrectingGodPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~ResurrectingGodProperties): frees 0 field(s), base CharacterProperties"
 0x4c6568,_ZN7Structs25ResurrectingGodPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of ResurrectingGodProperties"
 0x4ce5dc,_ZN7Structs25ResurrectingGodPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c659c,_ZN7Structs25ResurrectingGodProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7a90,_ZN7Structs25ResurrectingGodProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c659c,_ZN7Structs25ResurrectingGodProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7a90,_ZN7Structs25ResurrectingGodProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c63f0,_ZN7Structs19RootTrollPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~RootTrollProperties): frees 0 field(s), base CharacterProperties"
 0x4c6424,_ZN7Structs19RootTrollPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of RootTrollProperties"
 0x4ce630,_ZN7Structs19RootTrollPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c6458,_ZN7Structs19RootTrollProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7a9c,_ZN7Structs19RootTrollProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c6458,_ZN7Structs19RootTrollProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7a9c,_ZN7Structs19RootTrollProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c5aa8,_ZN7Structs18SandWormPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~SandWormProperties): frees 0 field(s), base CharacterProperties"
 0x4c5adc,_ZN7Structs18SandWormPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of SandWormProperties"
 0x4ce898,_ZN7Structs18SandWormPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c5b10,_ZN7Structs18SandWormProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7af4,_ZN7Structs18SandWormProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c5b10,_ZN7Structs18SandWormProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7af4,_ZN7Structs18SandWormProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c6990,_ZN7Structs10SimpleAnimD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~SimpleAnim): frees 0 field(s), base none"
 0x4c6994,_ZN7Structs10SimpleAnimD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of SimpleAnim"
 0x4ce438,_ZN7Structs10SimpleAnimD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
@@ -778,8 +794,8 @@ elf_address,symbol,status,source_file,notes
 0x4c57b4,_ZN7Structs18SkeletonPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~SkeletonProperties): frees 0 field(s), base CharacterProperties"
 0x4c57e8,_ZN7Structs18SkeletonPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of SkeletonProperties"
 0x4ce95c,_ZN7Structs18SkeletonPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c581c,_ZN7Structs18SkeletonProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7b10,_ZN7Structs18SkeletonProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c581c,_ZN7Structs18SkeletonProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7b10,_ZN7Structs18SkeletonProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4d1080,_ZN7Structs5SkillD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~Skill): frees 3 field(s), base none"
 0x4d1004,_ZN7Structs5SkillD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of Skill"
 0x4d1064,_ZN7Structs5SkillD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
@@ -791,18 +807,18 @@ elf_address,symbol,status,source_file,notes
 0x4c5c58,_ZN7Structs15SlimePropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~SlimeProperties): frees 0 field(s), base CharacterProperties"
 0x4c5c8c,_ZN7Structs15SlimePropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of SlimeProperties"
 0x4ce828,_ZN7Structs15SlimePropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c5cc0,_ZN7Structs15SlimeProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7ae4,_ZN7Structs15SlimeProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c5cc0,_ZN7Structs15SlimeProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7ae4,_ZN7Structs15SlimeProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c6240,_ZN7Structs20SmallPlantPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~SmallPlantProperties): frees 0 field(s), base CharacterProperties"
 0x4c6274,_ZN7Structs20SmallPlantPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of SmallPlantProperties"
 0x4ce6a0,_ZN7Structs20SmallPlantPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c62a8,_ZN7Structs20SmallPlantProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7aac,_ZN7Structs20SmallPlantProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c62a8,_ZN7Structs20SmallPlantProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7aac,_ZN7Structs20SmallPlantProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c6090,_ZN7Structs18SnowWolfPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~SnowWolfProperties): frees 0 field(s), base CharacterProperties"
 0x4c60c4,_ZN7Structs18SnowWolfPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of SnowWolfProperties"
 0x4ce710,_ZN7Structs18SnowWolfPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c60f8,_ZN7Structs18SnowWolfProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7abc,_ZN7Structs18SnowWolfProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c60f8,_ZN7Structs18SnowWolfProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7abc,_ZN7Structs18SnowWolfProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c7c14,_ZN7Structs12SoundAutoGenD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~SoundAutoGen): frees 0 field(s), base none"
 0x4c7c18,_ZN7Structs12SoundAutoGenD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of SoundAutoGen"
 0x4cdce4,_ZN7Structs12SoundAutoGenD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
@@ -813,6 +829,11 @@ elf_address,symbol,status,source_file,notes
 0x4cdd1c,_ZN7Structs9SoundBankD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
 0x4c7c10,_ZN7Structs9SoundBank8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
 0x502bc8,_ZN7Structs9SoundBank4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 2 readAs store(s) at fixed offsets"
+0x4c7c20,_ZN7Structs17SoundEventAutoGenD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~SoundEventAutoGen): frees 0 field(s), base SoundAutoGen"
+0x4c7c54,_ZN7Structs17SoundEventAutoGenD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of SoundEventAutoGen"
+0x4cdd00,_ZN7Structs17SoundEventAutoGenD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
+0x4c7c88,_ZN7Structs17SoundEventAutoGen8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c7c1c: forwards to SoundAutoGen::finalize"
+0x502bc4,_ZN7Structs17SoundEventAutoGen4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x502af4: forwards to SoundAutoGen::read"
 0x4c7ca4,_ZN7Structs9SpawnInfoD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~SpawnInfo): frees 0 field(s), base none"
 0x4c7ca8,_ZN7Structs9SpawnInfoD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of SpawnInfo"
 0x4cdc90,_ZN7Structs9SpawnInfoD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
@@ -821,8 +842,8 @@ elf_address,symbol,status,source_file,notes
 0x4c5ee0,_ZN7Structs16SpiderPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~SpiderProperties): frees 0 field(s), base CharacterProperties"
 0x4c5f14,_ZN7Structs16SpiderPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of SpiderProperties"
 0x4ce780,_ZN7Structs16SpiderPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c5f48,_ZN7Structs16SpiderProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7acc,_ZN7Structs16SpiderProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c5f48,_ZN7Structs16SpiderProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7acc,_ZN7Structs16SpiderProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c696c,_ZN7Structs20StatAutoAssignTargetD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~StatAutoAssignTarget): frees 0 field(s), base none"
 0x4c6970,_ZN7Structs20StatAutoAssignTargetD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of StatAutoAssignTarget"
 0x4ce4a8,_ZN7Structs20StatAutoAssignTargetD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
@@ -831,8 +852,8 @@ elf_address,symbol,status,source_file,notes
 0x4c5a3c,_ZN7Structs19SwampKingPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~SwampKingProperties): frees 0 field(s), base CharacterProperties"
 0x4c5a70,_ZN7Structs19SwampKingPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of SwampKingProperties"
 0x4ce8b4,_ZN7Structs19SwampKingPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c5aa4,_ZN7Structs19SwampKingProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7af8,_ZN7Structs19SwampKingProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c5aa4,_ZN7Structs19SwampKingProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7af8,_ZN7Structs19SwampKingProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c6c24,_ZN7Structs10TileOffsetD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~TileOffset): frees 0 field(s), base none"
 0x4c6c28,_ZN7Structs10TileOffsetD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of TileOffset"
 0x4ce1d0,_ZN7Structs10TileOffsetD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
@@ -846,13 +867,13 @@ elf_address,symbol,status,source_file,notes
 0x4c5b80,_ZN7Structs19TrollKingPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~TrollKingProperties): frees 0 field(s), base CharacterProperties"
 0x4c5bb4,_ZN7Structs19TrollKingPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of TrollKingProperties"
 0x4ce860,_ZN7Structs19TrollKingPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c5be8,_ZN7Structs19TrollKingProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7aec,_ZN7Structs19TrollKingProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c5be8,_ZN7Structs19TrollKingProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7aec,_ZN7Structs19TrollKingProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c5b14,_ZN7Structs15TrollPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~TrollProperties): frees 0 field(s), base CharacterProperties"
 0x4c5b48,_ZN7Structs15TrollPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of TrollProperties"
 0x4ce87c,_ZN7Structs15TrollPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c5b7c,_ZN7Structs15TrollProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7af0,_ZN7Structs15TrollProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c5b7c,_ZN7Structs15TrollProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7af0,_ZN7Structs15TrollProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c7cb0,_ZN7Structs6TrophyD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~Trophy): frees 0 field(s), base none"
 0x4c7cb4,_ZN7Structs6TrophyD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of Trophy"
 0x4cdc74,_ZN7Structs6TrophyD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
@@ -861,18 +882,18 @@ elf_address,symbol,status,source_file,notes
 0x4c5cc4,_ZN7Structs18Ugly_DogPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~Ugly_DogProperties): frees 0 field(s), base CharacterProperties"
 0x4c5cf8,_ZN7Structs18Ugly_DogPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of Ugly_DogProperties"
 0x4ce80c,_ZN7Structs18Ugly_DogPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c5d2c,_ZN7Structs18Ugly_DogProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7ae0,_ZN7Structs18Ugly_DogProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c5d2c,_ZN7Structs18Ugly_DogProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7ae0,_ZN7Structs18Ugly_DogProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c5d30,_ZN7Structs22Ugly_Dog_BigPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~Ugly_Dog_BigProperties): frees 0 field(s), base CharacterProperties"
 0x4c5d64,_ZN7Structs22Ugly_Dog_BigPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of Ugly_Dog_BigProperties"
 0x4ce7f0,_ZN7Structs22Ugly_Dog_BigPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c5d98,_ZN7Structs22Ugly_Dog_BigProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7adc,_ZN7Structs22Ugly_Dog_BigProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c5d98,_ZN7Structs22Ugly_Dog_BigProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7adc,_ZN7Structs22Ugly_Dog_BigProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c5bec,_ZN7Structs15WitchPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~WitchProperties): frees 0 field(s), base CharacterProperties"
 0x4c5c20,_ZN7Structs15WitchPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of WitchProperties"
 0x4ce844,_ZN7Structs15WitchPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c5c54,_ZN7Structs15WitchProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7ae8,_ZN7Structs15WitchProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c5c54,_ZN7Structs15WitchProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7ae8,_ZN7Structs15WitchProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4cee08,_ZN7Structs14WldMapLocationD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~WldMapLocation): frees 1 field(s), base none"
 0x4cedac,_ZN7Structs14WldMapLocationD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of WldMapLocation"
 0x4cedec,_ZN7Structs14WldMapLocationD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
@@ -884,8 +905,8 @@ elf_address,symbol,status,source_file,notes
 0x4c6024,_ZN7Structs14YetiPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~YetiProperties): frees 0 field(s), base CharacterProperties"
 0x4c6058,_ZN7Structs14YetiPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of YetiProperties"
 0x4ce72c,_ZN7Structs14YetiPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c608c,_ZN7Structs14YetiProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4f7ac0,_ZN7Structs14YetiProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"read: no base call, 224 readAs store(s) at fixed offsets"
+0x4c608c,_ZN7Structs14YetiProperties8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c5744: forwards to CharacterProperties::finalize"
+0x4f7ac0,_ZN7Structs14YetiProperties4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4f2750: forwards to CharacterProperties::read"
 0x4c7cbc,_ZN7Structs11v2ConditionD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~v2Condition): frees 0 field(s), base none"
 0x4c7cc0,_ZN7Structs11v2ConditionD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of v2Condition"
 0x4cd980,_ZN7Structs11v2ConditionD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
@@ -893,7 +914,7 @@ elf_address,symbol,status,source_file,notes
 0x4c7cc8,_ZN7Structs15v2ConditionStubD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~v2ConditionStub): frees 0 field(s), base v2Condition"
 0x4c7cfc,_ZN7Structs15v2ConditionStubD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of v2ConditionStub"
 0x4cdc58,_ZN7Structs15v2ConditionStubD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c7d30,_ZN7Structs15v2ConditionStub8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
+0x4c7d30,_ZN7Structs15v2ConditionStub8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c7cc4: forwards to v2Condition::finalize"
 0x4c8838,_ZN7Structs16v2QuestObjectiveD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~v2QuestObjective): frees 0 field(s), base none"
 0x4c883c,_ZN7Structs16v2QuestObjectiveD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of v2QuestObjective"
 0x4cd84c,_ZN7Structs16v2QuestObjectiveD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
@@ -909,7 +930,7 @@ elf_address,symbol,status,source_file,notes
 0x4c87cc,_ZN7Structs17v2QuestRewardStubD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~v2QuestRewardStub): frees 0 field(s), base v2QuestReward"
 0x4c8800,_ZN7Structs17v2QuestRewardStubD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of v2QuestRewardStub"
 0x4cd964,_ZN7Structs17v2QuestRewardStubD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
-0x4c8834,_ZN7Structs17v2QuestRewardStub8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
+0x4c8834,_ZN7Structs17v2QuestRewardStub8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"thunk, b 0x4c87c8: forwards to v2QuestReward::finalize"
 0x4d08a4,_ZN7Structs14v2QuestScriptsD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~v2QuestScripts): frees 14 field(s), base none"
 0x4d03cc,_ZN7Structs14v2QuestScriptsD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of v2QuestScripts"
 0x4d0888,_ZN7Structs14v2QuestScriptsD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
