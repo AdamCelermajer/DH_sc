@@ -551,3 +551,14 @@ headers in a later wave.
 - Float constants in layouts.hpp corrected: -1082130432 is 0xBF800000, which is -1.0f.
 - Open: the IGUIComboBox destructor writes vtable words at +0x158/+0x15c, which conflicts with those
   slots being element pointers.
+
+## Rerun wave (partial rows, waves 00 to 14)
+- The 1487 partial rows were rerun against the layout headers. Result: 1347 reconstructed, 1189 partial,
+  811 skipped across the whole ledger (3347 rows).
+- Downgraded two wave 07 rows, getVertexBufferConfig and getIndexBufferConfig: they return a placeholder
+  config struct, not the original sret layout, so they are partial.
+- Layout-header findings for the integrator: ISceneNode +0xf4/+0xfc/+0x104 are list sentinels per the
+  decompile, but scene.hpp describes them as container words. The animation getters read getOutput()+4,
+  one past the slot getOutput returns. Both are unresolved.
+- The shared math header (port/decomp-reconstruction/shared/) is still absent, so the wave code uses
+  core_stand_ins.hpp.
