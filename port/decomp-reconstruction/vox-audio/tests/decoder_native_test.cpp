@@ -50,6 +50,11 @@ struct DecoderNativeCursorTestAccess {
         c.sub_decoder_ = sub;
     }
     static int StateIndex(DecoderNativeCursor& c) { return c.GetStateIndex(); }
+    static int Before(const DecoderNativeCursor& c) { return c.frames_before_; }
+    static int Current(const DecoderNativeCursor& c) { return c.frames_current_; }
+    static int Mark(const DecoderNativeCursor& c) { return c.frames_mark_; }
+    static int DecodeCalls(const DecoderNativeCursor& c) { return c.decode_calls_; }
+    static void SetDecodeCalls(DecoderNativeCursor& c, int n) { c.decode_calls_ = n; }
 };
 
 }  // namespace vox
@@ -174,6 +179,68 @@ int main() {
         vox::DecoderCursorInterface* cursor = d.CreateNewCursor(nullptr);
         CHECK(cursor != nullptr);
         d.DestroyCursor(cursor);
+    }
+
+    // Seek: -1 with no sub-decoder, the sub-decoder's result (PCM Seek is 0) with one.
+    {
+        DecoderNative d;
+        DecoderNativeCursor c(&d, nullptr);
+        CHECK(c.Seek(3) == -1);
+        void* mem = VoxAlloc(sizeof(TestSubDecoder));
+        auto* sub = new (mem) TestSubDecoder();
+        DecoderNativeCursorTestAccess::SetSubDecoder(c, sub);
+        CHECK(c.Seek(3) == 0);
+        DecoderNativeCursorTestAccess::SetSubDecoder(c, nullptr);
+        sub->~TestSubDecoder();
+        VoxFree(mem);
+    }
+
+    // Decode with no sub-decoder returns 0 and does not count the call.
+    {
+        DecoderNative d;
+        DecoderNativeCursor c(&d, nullptr);
+        CHECK(c.Decode(nullptr, 16) == 0);
+        CHECK(DecoderNativeCursorTestAccess::DecodeCalls(c) == 0);
+    }
+
+    // Reset with a sub-decoder clears the counters and the pending list.
+    {
+        DecoderNative d;
+        DecoderNativeCursor c(&d, nullptr);
+        void* mem = VoxAlloc(sizeof(TestSubDecoder));
+        auto* sub = new (mem) TestSubDecoder();
+        DecoderNativeCursorTestAccess::SetSubDecoder(c, sub);
+        DecoderNativeCursorTestAccess::SetFrames(c, 4, 6, 8);
+        DecoderNativeCursorTestAccess::SetDecodeCalls(c, 3);
+        DecoderNativeCursorTestAccess::PushIndex(c, 5);
+        c.Reset();
+        CHECK(DecoderNativeCursorTestAccess::Before(c) == 0);
+        CHECK(DecoderNativeCursorTestAccess::Current(c) == 0);
+        CHECK(DecoderNativeCursorTestAccess::Mark(c) == 0);
+        CHECK(DecoderNativeCursorTestAccess::DecodeCalls(c) == 0);
+        CHECK(DecoderNativeCursorTestAccess::StateIndex(c) == -1);
+        DecoderNativeCursorTestAccess::SetSubDecoder(c, nullptr);
+        sub->~TestSubDecoder();
+        VoxFree(mem);
+    }
+
+    // Rewind past the earlier frames does nothing; rewinding exactly to the current
+    // position restores the saved state without emulating anything.
+    {
+        DecoderNative d;
+        DecoderNativeCursor c(&d, nullptr);
+        void* mem = VoxAlloc(sizeof(TestSubDecoder));
+        auto* sub = new (mem) TestSubDecoder();
+        DecoderNativeCursorTestAccess::SetSubDecoder(c, sub);
+        DecoderNativeCursorTestAccess::SetFrames(c, 3, 5, 0);
+        c.Rewind(7);
+        CHECK(DecoderNativeCursorTestAccess::Before(c) == 3);
+        CHECK(DecoderNativeCursorTestAccess::Current(c) == 5);
+        c.Rewind(5);
+        CHECK(DecoderNativeCursorTestAccess::Current(c) == 5);
+        DecoderNativeCursorTestAccess::SetSubDecoder(c, nullptr);
+        sub->~TestSubDecoder();
+        VoxFree(mem);
     }
 
     std::printf("decoder_native_test: %s\n", g_failures == 0 ? "ok" : "FAILED");

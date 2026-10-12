@@ -10,11 +10,11 @@ namespace vox {
 // constructs the playlist manager; the member initialisers here give the same state.
 DecoderNative::DecoderNative() = default;
 
-// 0x872550 (D1) and 0x872638 (D2), partial. The original frees the segment, rule and
-// state arrays, erases the state-name table, releases the two vectors and then runs
+// 0x872550 (D1) and 0x872638 (D2). The original frees the segment, rule and state arrays,
+// erases the state-name table, releases the two vectors and then runs
 // NativePlaylistsManager's destructor. The arrays are freed here and the members are
-// destroyed after this body. The manager's pointer array is not freed because its
-// destructor is not ported.
+// destroyed after this body, in the same order. The manager's destructor is the playlists
+// slice's (partial there, in its NativePlaylist element destructor).
 DecoderNative::~DecoderNative() {
     if (segments_info_ != nullptr) {
         VoxFree(segments_info_);

@@ -454,3 +454,45 @@ Hex-Rays and the asm listing (decomp_asm.py) were checked against the port. Chan
   DecoderCursorInterface slots already in the port. Slot offsets were not re-measured here.
 - New test decoder_mpc8_cursor_demux_test drives the cursor through a fake demuxer.
 - streaminfo_gain and streaminfo_encoder_info stay skipped (Musepack rule, name not confirmed).
+
+## Wave 9: native decoder slice (w9-native-decoder)
+
+Layouts (vptr-relative slot offsets, the same convention as the wave 1 to 4 entries above):
+- `vox::DecoderNativeCursor` vtable: +0x00/+0x04 D1/D0, +0x08 Init, +0x0c Shutdown, +0x10
+  Decode, +0x14 DecodeRef, +0x18 HasData, +0x1c Reset, +0x20 GetRewindLimit, +0x24 Rewind,
+  +0x28 Seek, +0x2c SetLoop, +0x30 GetStreamCursor, +0x34 AllowBufferReference.
+- `vox::DecoderNative` vtable: +0x00/+0x04 D1/D0, +0x08 Init, +0x0c Shutdown, +0x10
+  CreateNewCursor, +0x14 DestroyCursor, +0x18 GetType, +0x1c GetParam.
+- Sub-decoder slots the cursor calls (vptr-relative, VoxNativeSubDecoder and its PCM and IMA
+  classes): +0x08 HasData, +0x0c Seek(unsigned), +0x10 Reset. The cursor reaches them through
+  the concrete class picked by the format tag (decoder +0x24, 17 selects IMA ADPCM, else PCM),
+  which is the class the original vptr would select. Decode, SetState(int) and
+  EmulateDecode are direct (non-virtual) calls on VoxNativeSubDecoder.
+- `vox::DecoderNative` format tag: halfword at +0x24, the first word of the 'fmt ' chunk body.
+  Added as `format_tag_`. The original cursor reaches the header block through its own +0x20
+  pointer (decoder +0x04); the port reads `decoder_` directly.
+- Frame counters of the cursor (names as in the port): frames_before_ +0x58, frames_current_
+  +0x5c, frames_capacity_ +0x60 (the cursor's frame limit, from 600 * channels * the second track
+  word / 500 in the constructor), frames_mark_ +0x64, decode_calls_ +0x4c.
+
+Decisions:
+- Seek, Reset, Rewind and Decode are reconstructed with the sub-decoder class chosen by the
+  format tag, not by a new virtual in VoxNativeSubDecoder (that header belongs to the
+  native sub-decoder slice). If that slice adds the virtuals, these calls can switch to them.
+- A rewind or a decode that uses the IMA state copies depends on IMA SetState and GetState,
+  which are partial in their own slice. The cursor bodies are complete.
+- The cursor and decoder destructors are reconstructed. The playlist manager destructor is
+  partial in the playlists slice, so its body is what is still open.
+- CreateTransitionRulesContainer and CreateSegmentsInfoContainers match the pseudocode line for
+  line and are reconstructed. The 36-byte and 24-byte records are still stand-ins, as before.
+
+Still partial (this slice):
+- ParseFile: the chunk loop (Afmt at 0x746D6641, Segm at 0x6D676553, Cues at 0x73657543, then
+  Grpe, Rule, Plst, Stat and end) is about 14 KB of pseudocode. Only the VoxN header is checked.
+- The cursor C1 and C2: after parsing, the original creates the sub-decoder (PCM object 0x170
+  bytes with states of 0x144 bytes, or IMA object 0x1c0 bytes with states of 0x150 bytes) and
+  the playlist manager copy, then sets the track parameters and the frame capacity.
+- SetImplicitSegmentCues: the decompiled structure pushes one value twice on the size-1 path
+  (LABEL_7 then LABEL_3). Left empty until the assembly settles it.
+- CreatePlaylistsContainer: the original returns NativePlaylistsManager::Init's result, which
+  the port does not return.
