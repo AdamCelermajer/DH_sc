@@ -24102,8 +24102,9 @@ bool native_start_level_script_by_name(const char* name,bool check_running,bool&
  if(!native_level_script_session.start_script(id,-1,check_running,false,error))return false;
  started=true;
  const auto count=++native_tutorial_script_starts[name];
- __android_log_print(ANDROID_LOG_INFO,"DH2Native","Tutorial script started | %s | script id %d | start %u | Level %s",
-     name,id,count,active_level_assets.name.c_str());
+ __android_log_print(ANDROID_LOG_INFO,"DH2Native","%s started | %s | script id %d | start %u | Level %s",
+     std::strncmp(name,"cinematic_Tuto_",15)?"Level script":"Tutorial script",name,id,count,
+     active_level_assets.name.c_str());
  return true;
 }
 // Shared body of the SetFaeryState/HitFor/LevelUp callers (their StartScript
@@ -24244,7 +24245,10 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
    return native_script_set_visible(record.identity,show,show)?1:-1;
   }
   case 39: {
-   // Script_StopActor 0x114287: v2Controller::Cmd_Stop on one or "All".
+   // Script_StopActor 0x45eec0: for one Character or every Character, controller
+   // byte +9 (forced) is raised around v2Controller::Cmd_Stop, so the stop runs even
+   // while LockCharacter("All") holds the controllers (BeginScriptedCutScene locks
+   // first and stops second).
    int lookup=1;
    const bool ok=native_script_for_characters(native_script_string(c,0),
        [](std::uintptr_t identity){
@@ -24258,8 +24262,7 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
         const CharacterControlServices16 services{&owner,SpawnOwner::controller_service};
         const ControllerCommandState32 controller{
             reinterpret_cast<std::uintptr_t>(&owner.character.state),actor->identity,
-            controller_global_blocked,owner.character.state.controller_locked,
-            owner.controller_forced,0};
+            controller_global_blocked,owner.character.state.controller_locked,1,0};
         return dh2_character_controller_character(&controller,controller_stop,0,&services)>=0;
        },lookup);
    if(!ok)return -1;
@@ -31221,6 +31224,9 @@ std::uint32_t tutorial_script_start_count(const char* script_name) noexcept{
   return found==native_tutorial_script_starts.end()?0u:found->second;
  }catch(...){return 0;}
 }
+// Development probe: v2Controller::s_blocked, raised by LockCharacter("All") and
+// lowered by UnlockCharacter("All").
+bool script_controllers_blocked() noexcept{return controller_global_blocked!=0;}
 // Development probe for the same scenario: whether that script's task is still active.
 bool tutorial_script_running(const char* script_name) noexcept{
  if(!script_name)return false;
@@ -32844,8 +32850,37 @@ bool ui_player_apply_level_up_state(std::uintptr_t identity,std::string& error){
   if(error.empty())error="Character::SG_Save failed after SG_SetPlayerLevel";
   return false;
  }
- // Character::LevelUp 0x3beb88, Player branch: after its PlayerLevelUp script and
- // FX 135 (neither is reconstructed here) reaching level 2 offline on Normal
+ // Character::LevelUp 0x3beb88, Player branch, in source order: the localized
+ // StrID.MENU_LEVEL_UP StatusMsg is queued (the HUD's onStatusMessage starts when
+ // it is the only queued message), the common PlayerLevelUp script starts
+ // (GetIDFromName + StartScript(id,-1,false); one PlaySound), and
+ // VisualFXManager::PlayAnimFXSet(135, Player) plays at the Player. The port's
+ // FX owner places a set at a position, as for the script PlayEffect and the
+ // Faery markers, so the effect does not follow the Player afterwards.
+ {
+  std::string status_error;
+  if(!native_gameplay_ui||
+     !native_gameplay_ui->enqueue_source_status_constant("StrID","MENU_LEVEL_UP",status_error))
+   __android_log_print(ANDROID_LOG_WARN,"DH2Native","Character::LevelUp could not queue its MENU_LEVEL_UP StatusMsg | %s",
+       status_error.c_str());
+  bool script_started=false;std::string script_error;
+  if(!native_start_level_script_by_name("PlayerLevelUp",false,script_started,script_error)&&
+     native_tutorial_start_refusals.insert("PlayerLevelUp").second)
+   __android_log_print(ANDROID_LOG_WARN,"DH2Native","Character::LevelUp could not start PlayerLevelUp | %s",
+       script_error.c_str());
+  float fx_point[3]{};
+  if(native_fx_owner&&native_level_script_position_for_target(identity,fx_point)){
+   bool matched=false,launched=false;std::string fx_error;
+   const auto fx_status=native_fx_owner->PlayAnimFXSet(135,{fx_point[0],fx_point[1],fx_point[2]},
+       nullptr,matched,launched,fx_error);
+   if(fx_status!=dh2::native_visual_fx_manager_v1::Status::ok)
+    __android_log_print(ANDROID_LOG_WARN,"DH2Native","Character::LevelUp FX 135 failed | %s",fx_error.c_str());
+   else
+    __android_log_print(ANDROID_LOG_INFO,"DH2Native","Character::LevelUp FX 135 | matched %u | launched %u | at %.6g %.6g %.6g",
+        unsigned(matched),unsigned(launched),fx_point[0],fx_point[1],fx_point[2]);
+  }
+ }
+ // Reaching level 2 offline on Normal then
  // starts cinematic_Tuto_levelUp (settings byte 5, cleared by the caller) and
  // then cinematic_Tuto_menuCharacterSheet (byte 0, left for the menu to clear;
  // no shipped level carries it). cinematic_Tuto_menuSkillSheet only starts when
