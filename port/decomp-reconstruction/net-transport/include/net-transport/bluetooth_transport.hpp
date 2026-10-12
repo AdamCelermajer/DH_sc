@@ -11,6 +11,7 @@
 #pragma once
 
 #include <cstdint>
+#include <string>
 
 #include "net-transport/bluetooth_socket.hpp"
 #include "net-transport/net_network_id.hpp"
@@ -77,8 +78,12 @@ public:
     static int TerminateTransport();                 // 0x829780 _ZN20CBluetoothUnreliable18TerminateTransportEv
 
 private:
+    int AcceptConnections();                         // 0x8297a8 _ZN20CBluetoothUnreliable17AcceptConnectionsEv (partial)
+
     CBluetoothSocket socket_;                        // +0x08
+    bool accept_enabled_ = false;                    // +0x30 byte (set by no recovered code)
     std::uint32_t flags_ = 0;                        // +0x2c
     bool initialized_ = false;                       // +0x68
+    CNetworkId peer_;                                // +0x6c (CNetworkId, 0x1c bytes; Connect stores the peer)
     static bool s_initialized_;                      // _ZN20CBluetoothUnreliable13s_initializedE
 };

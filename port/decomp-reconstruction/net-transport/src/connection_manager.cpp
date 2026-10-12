@@ -165,7 +165,7 @@ int CConnectionManager::SendToAll(tPACKET_TYPE type, void* data, int size) {
     return 0;
 }
 
-// 0x7fbf5c _ZN18CConnectionManager18RegisterPacketTypeE12tPACKET_TYPE14tPROTOCOL_TYPEPFviPcE
+// 0x7fbf5c _ZN18CConnectionManager18RegisterPacketTypeE12tPACKET_TYPE14tPROTOCOL_TYPEPFviPciE
 int CConnectionManager::RegisterPacketType(tPACKET_TYPE type, tPROTOCOL_TYPE protocol, MemberCallback cb) {
     RecvCallbacks& entry = s_recvCBMap[type];
     entry.protocol = protocol;
@@ -187,7 +187,7 @@ bool CConnectionManager::IsPacketTypeRegistered(tPACKET_TYPE type) {
     return entry.by_network_id != nullptr || entry.by_member != nullptr;
 }
 
-// 0x7fc014 _ZN18CConnectionManager21GetPacketTransportTypeE12tPACKET_TYPE
+// 0x7fc014 _ZN18CConnectionManager22GetPacketTransportTypeE12tPACKET_TYPE
 std::intptr_t CConnectionManager::GetPacketTransportType(tPACKET_TYPE type) {
     if (!IsPacketTypeRegistered(type)) {
         return 0;
@@ -310,7 +310,7 @@ int CConnectionManager::SendBroadcast(tPACKET_TYPE type, void* data, int size) {
     return transport_manager_calls::Send(GetTransportMgr(), transport, type, data, size);
 }
 
-// 0x7fc438 _ZN18CConnectionManager21GetConnectionByMemberIdEi
+// 0x7fc438 _ZN18CConnectionManager23GetConnectionByMemberIdEi
 CConnection* CConnectionManager::GetConnectionByMemberId(int member_id) {
     const int index = CMatching::Get()->GetMemberIndex(member_id);
     if (index < 0 || index >= kConnectionSlots) {
@@ -319,7 +319,7 @@ CConnection* CConnectionManager::GetConnectionByMemberId(int member_id) {
     return connections_[index];
 }
 
-// 0x7fc464 _ZN18CConnectionManager21PingReceiverCallbackER10CNetworkIdPci
+// 0x7fc464 _ZN18CConnectionManager20PingReceiverCallbackER10CNetworkIdPci
 // partial: the ping packet layout is inferred (flag byte at +0x0c, member id at +0x04) and
 // CConnection::ProcessPing is a stand-in whose result is not used.
 void CConnectionManager::PingReceiverCallback(CNetworkId& from, char* data, int size) {
@@ -336,12 +336,12 @@ void CConnectionManager::PingReceiverCallback(CNetworkId& from, char* data, int 
     }
 }
 
-// 0x7fc4e0 _ZN18CConnectionManager22sPingReceiverCallbackER10CNetworkIdPci
+// 0x7fc4e0 _ZN18CConnectionManager21sPingReceiverCallbackER10CNetworkIdPci
 void CConnectionManager::sPingReceiverCallback(CNetworkId& from, char* data, int size) {
     GetInstance()->PingReceiverCallback(from, data, size);
 }
 
-// 0x7fc508 _ZN18CConnectionManager23ProcessConnectionFinalizeER10CNetworkIdR12NetBitStream
+// 0x7fc508 _ZN18CConnectionManager25ProcessConnectionFinalizeER10CNetworkIdR12NetBitStream
 // partial: the 16-byte key is compared by its first word to the member id (as the pseudocode
 // does); the layout of the rest of the key is not understood. The original return value is
 // the member id and is not used by the caller, so this returns void.
@@ -393,7 +393,7 @@ int CConnectionManager::SendToServer(tPACKET_TYPE type, void* data, int size) {
     return SendTo(type, server, data, size);
 }
 
-// 0x7fc680 _ZN18CConnectionManager12DisconnectPeerEi
+// 0x7fc680 _ZN18CConnectionManager14DisconnectPeerEi
 int CConnectionManager::DisconnectPeer(int member_id) {
     CConnection* conn = GetConnectionByMemberId(member_id);
     if (!conn) {
@@ -402,7 +402,7 @@ int CConnectionManager::DisconnectPeer(int member_id) {
     return conn->Disconnect();
 }
 
-// 0x7fc6a8 _ZN18CConnectionManager16GetMemberNetworkIdEi
+// 0x7fc6a8 _ZN18CConnectionManager18GetMemberNetworkIdEi
 CNetworkId CConnectionManager::GetMemberNetworkId(int member_id) {
     CNetworkId out;
     if (CConnection* conn = GetConnectionByMemberId(member_id)) {
