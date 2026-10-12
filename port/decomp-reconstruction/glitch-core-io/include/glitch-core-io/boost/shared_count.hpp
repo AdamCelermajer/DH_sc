@@ -71,7 +71,7 @@ public:
 
 // Spin backoff used by the original's lock pool (0x56ee34). The port does not spin
 // on the pool, but the helper keeps the same backoff for callers that do.
-void yield(unsigned count);  // 0x56ee34
+unsigned int yield(unsigned count);  // 0x56ee34
 
 // Overload used as a no-op hook (0x56eb68).
 void sp_enable_shared_from_this(...);

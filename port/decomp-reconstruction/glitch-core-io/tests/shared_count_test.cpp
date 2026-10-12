@@ -52,7 +52,8 @@ int main() {
     q = r;
     CHECK(q.px == r.px && p.pn.pi->useCount.load() == 1);
 
-    yield(1);
+    CHECK(yield(1) == 1 && yield(3) == 3);  // counts up to 3 are returned at once
+    CHECK(yield(4) == 0 && yield(0x21) == 0);  // yield and sleep paths report 0
     sp_enable_shared_from_this(0);
 
     std::printf("%s\n", failures ? "shared_count: FAILED" : "shared_count: ok");

@@ -26,8 +26,9 @@ public:
     const std::uint8_t* getBuffer() const { return buffer.data(); }  // 0x6b4c8c
     std::int32_t getBufferSize() const { return static_cast<std::int32_t>(buffer.size()); }  // 0x6b4c94
 
-    bool seek(std::int32_t offset, bool relative);     // 0x6b4dac (partial)
-    bool write(const void* data, std::uint32_t size);  // 0x6b4e44 (partial)
+    bool seek(std::int32_t offset, bool relative);     // 0x6b4dac
+    // 0x6b4e44: writes at the position, advances it by the count and returns the count.
+    std::size_t write(const void* data, std::uint32_t size);
 };
 
 }  // namespace glitch::io

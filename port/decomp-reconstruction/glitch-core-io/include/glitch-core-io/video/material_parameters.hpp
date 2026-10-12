@@ -10,7 +10,9 @@
 //   getParameter(id, T*, stride)     array read of all count elements
 //   setParameter(id, index, T const&) indexed write
 //   setParameter(id, T const*, stride) array write of all count elements
-//   getParameterCvt / setParameterCvt   the same four shapes behind the Convertions gate (partial)
+//   getParameterCvt / setParameterCvt   the same four shapes behind the Convertions gate. A stored
+//                                       value of another type is converted when the gate table allows
+//                                       it (int <-> float, packed colour <-> float colour, and so on).
 //
 // Original 32-bit offsets (kept as comments, never used for pointer arithmetic):
 //   GlobalParameterStorage (CGlobalMaterialParameterManager): SIDedCollection of SShaderParameterDef
@@ -18,12 +20,23 @@
 //   MaterialParameterStorage (CMaterial): block pointer at +0x04, dirty-range markers at +0x0c and
 //     +0x10 (set to -1 by the array setters, and by an indexed setter that changes the value), block
 //     header with count (uint16) at +0x0e and the 16-byte entries at +0x20, values stored inline at
-//     +0x20 of the material. Indexed setters on CMaterial compare with the stored value first.
+//     +0x20 of the material.
 //   RendererParameterStorage (CMaterialRenderer): count (uint16) at +0x0e, entry table at +0x20,
 //     value buffer pointer at +0x24.
 //
 // Stride rule of the array forms: a stride of 0 or the element size copies the elements contiguously
-// (the original's memcpy path); any other stride steps the caller's side by that many bytes.
+// (the original's memcpy path); any other stride steps the caller's side by that many bytes. A stride
+// of 0 with a stored type other than the accessor's own type does nothing and reports success.
+//
+// Convertions gate (SShaderParameterTypeInspection::Convertions, 19 words at ELF 0x8e2c58, read from
+// recovered/native/ida-asm/asm_chunk_018.asm): the stored type code must index the table and carry the
+// accessor's bit. Accessor bits: int 0x2, float 0x20, vector2d<int> 0x4, vector3d<int> 0x8,
+// vector4d<int> 0x10, vector2d<float> 0x40, vector3d<float> 0x80, vector4d<float> 0x100, SColor 0x10000,
+// SColorf 0x20000. Only the accessor's own type and the conversions listed in CvtCodec are accepted.
+//
+// Original quirks kept as they are in the listing: the indexed Cvt forms check index < count and then
+// read or write the entry's first element (the index is not added to the offset); the CMaterial setters
+// report success after the gate even when the value is unchanged.
 //
 // Address map: each queued body of this template, with its instance in parentheses.
 //   getParameter(id, index, T&)
@@ -58,8 +71,9 @@
 //     CGM: int 0x5bfe68, v2i 0x5bfd44, v3i 0x5bfc18, v4i 0x5c38b0, f 0x5c3764, v2f 0x5c3640, v3f 0x5c3514, v4f 0x5c3308, SColor 0x5c30b0, SColorf 0x5c2e9c
 //     CMat: int 0x5c9a88, v2i 0x5c9988, v3i 0x5c9880, v4i 0x5c9778, f 0x5c964c, v2f 0x5c954c, v3f 0x5c9444, v4f 0x5c9258, SColor 0x5c9020, SColorf 0x5c8e2c
 //     CMR: int 0x5d2744, v2i 0x5d265c, v3i 0x5d256c, v4i 0x5d247c, f 0x5d2368, v2f 0x5d2280, v3f 0x5d2190, v4f 0x5d1fbc, SColor 0x5d1d9c, SColorf 0x5d1bc0
-//   Not ledgered (blocked, see NOTES.md): setParameterElement (9), setParameterAt<SColorf> (1), and the
-//   intrusive_ptr instances of CLight and ITexture (48).
+//   Not ledgered: setParameterElement (9), the intrusive_ptr instances of CLight and ITexture (48),
+//   and setParameterAt<SColorf> (0x5cac8c, queued but not yet ledgered). The CMaterial SColor Cvt body
+//   (0x5cad38) performs that helper's compare and write inline (CvtCodec<SColor>::same and store).
 #pragma once
 
 #include <cstddef>
@@ -147,7 +161,6 @@ struct ParamType<glitch::video::SColorf> {
 
 // Storage of IMaterialParameters<CGlobalMaterialParameterManager, SEmptyBase>.
 struct GlobalParameterStorage {
-    static constexpr bool kSkipsUnchanged = false;  // indexed setters always write
     using Collection = glitch::core::detail::SIDedCollection<SShaderParameterDef, std::uint16_t, false,
                                                              glitch::core::detail::sidedcollection::SEmptyProperties,
                                                              SShaderParamTraits>;
@@ -163,7 +176,9 @@ struct GlobalParameterStorage {
     }
     const std::uint8_t* data(std::uint32_t off) const { return values.data() + off; }  // +0x2c
     std::uint8_t* data(std::uint32_t off) { return values.data() + off; }
-    void noteWrite() {}
+    // The global manager keeps no dirty range.
+    void noteIndexed(bool) {}
+    void noteArray() {}
 
     Collection defs;                   // +0x00..+0x26
     std::vector<std::uint8_t> values;  // +0x2c: value buffer
@@ -177,7 +192,6 @@ struct SParameterBlock {
 
 // Storage of IMaterialParameters<CMaterial, ISharedMemoryBlockHeader<CMaterial>>.
 struct MaterialParameterStorage {
-    static constexpr bool kSkipsUnchanged = true;  // indexed setters skip an equal value (return false)
     const SShaderParameterDef* definition(std::uint16_t id) const {
         if (!block || id >= block->count || id >= block->entries.size()) return nullptr;
         return &block->entries[id];
@@ -188,8 +202,13 @@ struct MaterialParameterStorage {
     }
     const std::uint8_t* data(std::uint32_t off) const { return inlineValues.data() + off; }  // +0x20 + off
     std::uint8_t* data(std::uint32_t off) { return inlineValues.data() + off; }
-    // Every setter resets the dirty-range markers (the ARM stores -1 to +0x0c and +0x10).
-    void noteWrite() {
+    // An indexed setter marks the range only when the stored value changes (the ARM compares first).
+    void noteIndexed(bool changed) {
+        if (changed) markDirty();
+    }
+    // The array setters always mark the range (the ARM stores -1 to +0x0c and +0x10 after the gate).
+    void noteArray() { markDirty(); }
+    void markDirty() {
         dirtyFirst = -1;
         dirtyLast = -1;
     }
@@ -202,7 +221,6 @@ struct MaterialParameterStorage {
 
 // Storage of IMaterialParameters<CMaterialRenderer, ISharedMemoryBlockHeader<CMaterialRenderer>>.
 struct RendererParameterStorage {
-    static constexpr bool kSkipsUnchanged = false;  // indexed setters always write
     const SShaderParameterDef* definition(std::uint16_t id) const {
         if (id >= count || id >= entries.size()) return nullptr;
         return &entries[id];
@@ -213,12 +231,60 @@ struct RendererParameterStorage {
     }
     const std::uint8_t* data(std::uint32_t off) const { return values.data() + off; }  // +0x24
     std::uint8_t* data(std::uint32_t off) { return values.data() + off; }
-    void noteWrite() {}
+    // The renderer keeps no dirty range.
+    void noteIndexed(bool) {}
+    void noteArray() {}
 
     std::uint16_t count = 0;                   // +0x0e
     std::vector<SShaderParameterDef> entries;  // +0x20: entry table
     std::vector<std::uint8_t> values;          // +0x24: value buffer
 };
+
+// Float helpers of the original, as the listing uses them.
+inline float bitsToFloat(std::uint32_t bits) {
+    float f;
+    std::memcpy(&f, &bits, sizeof f);
+    return f;
+}
+
+// Byte to float: the byte is converted to float and multiplied by 1/255 (constant 0x3B808081).
+inline float byteToFloat(std::uint8_t b) { return static_cast<float>(b) * bitsToFloat(0x3B808081u); }
+
+// Float to byte: the value is multiplied by 255.0 (0x437F0000) and converted with __aeabi_f2uiz, which
+// saturates (NaN and negative values give 0, values of 2^32 and above give UINT32_MAX); the byte is the
+// low 8 bits of that.
+inline std::uint32_t f2uiz(float v) {
+    if (!(v > 0.0f)) return 0;
+    if (v >= 4294967296.0f) return 0xFFFFFFFFu;
+    return static_cast<std::uint32_t>(v);
+}
+inline std::uint8_t floatToByte(float v) {
+    return static_cast<std::uint8_t>(f2uiz(v * bitsToFloat(0x437F0000u)));
+}
+
+// Float to int32 with __aeabi_f2iz saturation (truncation toward zero; NaN gives 0).
+inline std::int32_t f2iz(float v) {
+    if (!(v == v)) return 0;
+    if (v >= 2147483648.0f) return 0x7FFFFFFF;
+    if (v <= -2147483648.0f) return static_cast<std::int32_t>(0x80000000u);
+    return static_cast<std::int32_t>(v);
+}
+
+// SShaderParameterTypeInspection::Convertions (19 words, ELF 0x8e2c58): the gate bits per stored type code.
+inline constexpr std::uint32_t kConvertions[19] = {
+    0x1,    0x22,    0x4,    0x8,    0x10,   0x22,   0x40,    0x80,    0x30100, 0x200,
+    0x400,  0x800,   0x1000, 0x2000, 0x4000, 0x8000, 0x30100, 0x30100, 0x40000};
+
+// SShaderParameterTypeInspection::ValueTypeSize (20 bytes): the element size of each stored type code.
+inline constexpr std::uint8_t kValueTypeSize[20] = {1, 4, 8, 12, 16, 4, 8, 12, 16, 16,
+                                                    36, 4, 4, 4, 4, 4, 4, 16, 4, 0};
+
+// True when the stored type code passes the Convertions gate of the accessor (Codec::kGate). A code
+// above the table reads past it in the original; the port refuses it (see NOTES.md).
+template <class Codec>
+bool convertible(std::uint8_t code) {
+    return code < 19 && (kConvertions[code] & Codec::kGate) != 0;
+}
 
 // Value equality used by the indexed setters of CMaterial (see MaterialParameterStorage). Integers
 // compare bitwise (the same as ==); floats compare with == (fcmpeq), so NaN never matches.
@@ -248,29 +314,277 @@ struct ParamEquals<glitch::core::vector4d<float>> {
         return a.X == b.X && a.Y == b.Y && a.Z == b.Z && a.W == b.W;
     }
 };
-// Partial: SColorf::equals takes a tolerance in the original; the tolerance constant is not recovered,
-// so the components are compared exactly.
+
+// SColorf::equals (ELF 0x5caa98): one component matches when the new value lies within 1e-6 (0x358637BD)
+// of the stored one, on both sides. Called as equals(stored, value).
+inline bool withinTolerance(float stored, float value) {
+    const float tol = bitsToFloat(0x358637BDu);
+    return value <= stored + tol && value >= stored - tol;
+}
 template <>
 struct ParamEquals<glitch::video::SColorf> {
     static bool equal(const glitch::video::SColorf& a, const glitch::video::SColorf& b) {
-        return a.r == b.r && a.g == b.g && a.b == b.b && a.a == b.a;
+        return withinTolerance(a.r, b.r) && withinTolerance(a.g, b.g) && withinTolerance(a.b, b.b) &&
+               withinTolerance(a.a, b.a);
     }
 };
 
-// Copies count elements of bytes each. dstStep and srcStep are byte steps between elements, so a
-// step equal to bytes is the contiguous copy of the original's memcpy path.
-inline void copyElements(std::uint8_t* dst, std::ptrdiff_t dstStep, const std::uint8_t* src,
-                         std::ptrdiff_t srcStep, std::uint32_t count, std::size_t bytes) {
-    for (std::uint32_t i = 0; i < count; ++i) {
-        std::memcpy(dst + static_cast<std::ptrdiff_t>(i) * dstStep,
-                    src + static_cast<std::ptrdiff_t>(i) * srcStep, bytes);
-    }
-}
+// Conversions of one value type T with the stored representation (type code c, element size
+// kValueTypeSize[c]). Each codec mirrors the branch chain of the matching Hex-Rays body: the gate bit,
+// the stored types it converts, and the rule for a stored type it does not name (nothing is written).
+// `same` reports whether a stored element already holds the value, which is the CMaterial compare
+// that decides whether the dirty range is marked.
+template <class T>
+struct CvtCodec;
 
-// The element step of an array argument: stride 0 means the elements are contiguous.
-inline std::ptrdiff_t arrayStep(int stride, std::size_t bytes) {
-    return stride == 0 ? static_cast<std::ptrdiff_t>(bytes) : static_cast<std::ptrdiff_t>(stride);
-}
+// int (gate 0x2): int stored as is, float stored converted with f2iz. The array read copies ints only.
+template <>
+struct CvtCodec<int> {
+    static constexpr std::uint32_t kGate = 0x2;
+    static constexpr std::uint8_t kSame = 1;
+    static bool arrayLoads(std::uint8_t c) { return c == kSame; }
+    static void load(const std::uint8_t* p, std::uint8_t c, int& out) {
+        if (c == kSame) {
+            std::memcpy(&out, p, sizeof out);
+        } else if (c == 5) {
+            float f;
+            std::memcpy(&f, p, sizeof f);
+            out = f2iz(f);
+        }
+    }
+    static void store(std::uint8_t* p, std::uint8_t c, int v) {
+        if (c == kSame) {
+            std::memcpy(p, &v, sizeof v);
+        } else if (c == 5) {
+            const float f = static_cast<float>(v);
+            std::memcpy(p, &f, sizeof f);
+        }
+    }
+    static bool same(const std::uint8_t* p, std::uint8_t c, int v) {
+        if (c == kSame) {
+            int s;
+            std::memcpy(&s, p, sizeof s);
+            return s == v;
+        }
+        if (c == 5) {
+            float s;
+            std::memcpy(&s, p, sizeof s);
+            return s == static_cast<float>(v);
+        }
+        return true;
+    }
+};
+
+// float (gate 0x20): int stored converted to float; float stored as is. A float stored into an int slot
+// goes through f2iz.
+template <>
+struct CvtCodec<float> {
+    static constexpr std::uint32_t kGate = 0x20;
+    static constexpr std::uint8_t kSame = 5;
+    static bool arrayLoads(std::uint8_t) { return true; }
+    static void load(const std::uint8_t* p, std::uint8_t c, float& out) {
+        if (c == 1) {
+            std::int32_t i;
+            std::memcpy(&i, p, sizeof i);
+            out = static_cast<float>(i);
+        } else if (c == kSame) {
+            std::memcpy(&out, p, sizeof out);
+        }
+    }
+    static void store(std::uint8_t* p, std::uint8_t c, float v) {
+        if (c == 1) {
+            const std::int32_t i = f2iz(v);
+            std::memcpy(p, &i, sizeof i);
+        } else if (c == kSame) {
+            std::memcpy(p, &v, sizeof v);
+        }
+    }
+    static bool same(const std::uint8_t* p, std::uint8_t c, float v) {
+        if (c == 1) {
+            std::int32_t s;
+            std::memcpy(&s, p, sizeof s);
+            return s == f2iz(v);
+        }
+        if (c == kSame) {
+            float s;
+            std::memcpy(&s, p, sizeof s);
+            return s == v;
+        }
+        return true;
+    }
+};
+
+// Vector types that convert nothing: the stored type must be the accessor's own type.
+template <class T, std::uint32_t Gate>
+struct CvtSameCodec {
+    static constexpr std::uint32_t kGate = Gate;
+    static constexpr std::uint8_t kSame = ParamType<T>::code;
+    static bool arrayLoads(std::uint8_t) { return true; }
+    static void load(const std::uint8_t* p, std::uint8_t c, T& out) {
+        if (c == kSame) std::memcpy(&out, p, sizeof(T));
+    }
+    static void store(std::uint8_t* p, std::uint8_t c, const T& v) {
+        if (c == kSame) std::memcpy(p, &v, sizeof(T));
+    }
+    static bool same(const std::uint8_t* p, std::uint8_t c, const T& v) {
+        if (c != kSame) return true;
+        T s;
+        std::memcpy(&s, p, sizeof(T));
+        return ParamEquals<T>::equal(s, v);
+    }
+};
+template <>
+struct CvtCodec<glitch::core::vector2d<int>> : CvtSameCodec<glitch::core::vector2d<int>, 0x4> {};
+template <>
+struct CvtCodec<glitch::core::vector3d<int>> : CvtSameCodec<glitch::core::vector3d<int>, 0x8> {};
+template <>
+struct CvtCodec<glitch::core::vector4d<int>> : CvtSameCodec<glitch::core::vector4d<int>, 0x10> {};
+template <>
+struct CvtCodec<glitch::core::vector2d<float>> : CvtSameCodec<glitch::core::vector2d<float>, 0x40> {};
+template <>
+struct CvtCodec<glitch::core::vector3d<float>> : CvtSameCodec<glitch::core::vector3d<float>, 0x80> {};
+
+// vector4d<float> (gate 0x100): packed colour (16) as bytes, float4 (8) and SColorf (17) as floats.
+template <>
+struct CvtCodec<glitch::core::vector4d<float>> {
+    static constexpr std::uint32_t kGate = 0x100;
+    static constexpr std::uint8_t kSame = 8;
+    static bool arrayLoads(std::uint8_t) { return true; }
+    static void load(const std::uint8_t* p, std::uint8_t c, glitch::core::vector4d<float>& out) {
+        if (c == 16) {
+            out.X = byteToFloat(p[0]);
+            out.Y = byteToFloat(p[1]);
+            out.Z = byteToFloat(p[2]);
+            out.W = byteToFloat(p[3]);
+        } else if (c == kSame || c == 17) {
+            std::memcpy(&out, p, sizeof out);
+        }
+    }
+    static void store(std::uint8_t* p, std::uint8_t c, const glitch::core::vector4d<float>& v) {
+        if (c == 16) {
+            p[0] = floatToByte(v.X);
+            p[1] = floatToByte(v.Y);
+            p[2] = floatToByte(v.Z);
+            p[3] = floatToByte(v.W);
+        } else if (c == kSame || c == 17) {
+            std::memcpy(p, &v, sizeof v);
+        }
+    }
+    static bool same(const std::uint8_t* p, std::uint8_t c, const glitch::core::vector4d<float>& v) {
+        glitch::core::vector4d<float> s;
+        if (c == 16) {
+            return p[0] == floatToByte(v.X) && p[1] == floatToByte(v.Y) && p[2] == floatToByte(v.Z) &&
+                   p[3] == floatToByte(v.W);
+        }
+        if (c == 17) {
+            std::memcpy(&s, p, sizeof s);
+            return withinTolerance(s.X, v.X) && withinTolerance(s.Y, v.Y) && withinTolerance(s.Z, v.Z) &&
+                   withinTolerance(s.W, v.W);
+        }
+        if (c == kSame) {
+            std::memcpy(&s, p, sizeof s);
+            return ParamEquals<glitch::core::vector4d<float>>::equal(s, v);
+        }
+        return true;
+    }
+};
+
+// SColor (gate 0x10000): the packed bytes as stored (16); float colours (8, 17) converted to bytes.
+// The bytes of an SColor are its memory image, so the conversions work on the bytes.
+template <>
+struct CvtCodec<glitch::video::SColor> {
+    static constexpr std::uint32_t kGate = 0x10000;
+    static constexpr std::uint8_t kSame = 16;
+    static bool arrayLoads(std::uint8_t) { return true; }
+    static float floatAt(const std::uint8_t* p, int i) {
+        float f;
+        std::memcpy(&f, p + 4 * i, sizeof f);
+        return f;
+    }
+    static void load(const std::uint8_t* p, std::uint8_t c, glitch::video::SColor& out) {
+        if (c == kSame) {
+            std::memcpy(&out, p, sizeof out);
+        } else if (c == 8 || c == 17) {
+            std::uint8_t b[4];
+            for (int i = 0; i < 4; ++i) b[i] = floatToByte(floatAt(p, i));
+            std::memcpy(&out, b, sizeof out);
+        }
+    }
+    static void store(std::uint8_t* p, std::uint8_t c, const glitch::video::SColor& v) {
+        if (c == kSame) {
+            std::memcpy(p, &v, sizeof v);
+        } else if (c == 8 || c == 17) {
+            std::uint8_t b[4];
+            std::memcpy(b, &v, sizeof b);
+            for (int i = 0; i < 4; ++i) {
+                const float f = byteToFloat(b[i]);
+                std::memcpy(p + 4 * i, &f, sizeof f);
+            }
+        }
+    }
+    static bool same(const std::uint8_t* p, std::uint8_t c, const glitch::video::SColor& v) {
+        std::uint8_t b[4];
+        std::memcpy(b, &v, sizeof b);
+        if (c == kSame) return std::memcmp(p, &v, sizeof v) == 0;
+        if (c == 17) {
+            for (int i = 0; i < 4; ++i) {
+                if (!withinTolerance(floatAt(p, i), byteToFloat(b[i]))) return false;
+            }
+            return true;
+        }
+        if (c == 8) {
+            for (int i = 0; i < 4; ++i) {
+                if (floatAt(p, i) != byteToFloat(b[i])) return false;
+            }
+            return true;
+        }
+        return true;
+    }
+};
+
+// SColorf (gate 0x20000): packed colour (16) converted to floats; float colours (8, 17) as stored.
+template <>
+struct CvtCodec<glitch::video::SColorf> {
+    static constexpr std::uint32_t kGate = 0x20000;
+    static constexpr std::uint8_t kSame = 17;
+    static bool arrayLoads(std::uint8_t) { return true; }
+    static void load(const std::uint8_t* p, std::uint8_t c, glitch::video::SColorf& out) {
+        if (c == 16) {
+            out.r = byteToFloat(p[0]);
+            out.g = byteToFloat(p[1]);
+            out.b = byteToFloat(p[2]);
+            out.a = byteToFloat(p[3]);
+        } else if (c == kSame || c == 8) {
+            std::memcpy(&out, p, sizeof out);
+        }
+    }
+    static void store(std::uint8_t* p, std::uint8_t c, const glitch::video::SColorf& v) {
+        if (c == 16) {
+            p[0] = floatToByte(v.r);
+            p[1] = floatToByte(v.g);
+            p[2] = floatToByte(v.b);
+            p[3] = floatToByte(v.a);
+        } else if (c == kSame || c == 8) {
+            std::memcpy(p, &v, sizeof v);
+        }
+    }
+    static bool same(const std::uint8_t* p, std::uint8_t c, const glitch::video::SColorf& v) {
+        glitch::video::SColorf s;
+        if (c == 16) {
+            return p[0] == floatToByte(v.r) && p[1] == floatToByte(v.g) && p[2] == floatToByte(v.b) &&
+                   p[3] == floatToByte(v.a);
+        }
+        if (c == kSame) {
+            std::memcpy(&s, p, sizeof s);
+            return ParamEquals<glitch::video::SColorf>::equal(s, v);
+        }
+        if (c == 8) {
+            std::memcpy(&s, p, sizeof s);
+            return s.r == v.r && s.g == v.g && s.b == v.b && s.a == v.a;
+        }
+        return true;
+    }
+};
 
 template <class Storage>
 class IMaterialParameters {
@@ -298,19 +612,16 @@ public:
         return true;
     }
 
-    // setParameter(id, index, T const&) : indexed write. On CMaterial an equal value is not written
-    // and the call returns false (the original branches on the compare and returns 0 in that case).
+    // setParameter(id, index, T const&) : indexed write. The value is always written; on CMaterial the
+    // dirty range is marked only when the stored value differs.
     template <class T>
     bool setParameter(std::uint16_t id, std::uint32_t index, const T& value) {
         const SShaderParameterDef* def = storage.definition(id);
         if (!def || def->type != ParamType<T>::code || index >= def->count) return false;
         std::uint8_t* dst = storage.data(def->offset + index * static_cast<std::uint32_t>(ParamType<T>::bytes));
-        if (Storage::kSkipsUnchanged) {
-            T current{};
-            std::memcpy(&current, dst, sizeof(T));
-            if (ParamEquals<T>::equal(current, value)) return false;
-        }
-        storage.noteWrite();
+        T current{};
+        std::memcpy(&current, dst, sizeof(T));
+        storage.noteIndexed(!ParamEquals<T>::equal(current, value));
         std::memcpy(dst, &value, sizeof(T));
         return true;
     }
@@ -320,31 +631,95 @@ public:
     bool setParameter(std::uint16_t id, const T* src, int stride) {
         const SShaderParameterDef* def = storage.definition(id);
         if (!def || def->type != ParamType<T>::code) return false;
-        storage.noteWrite();
+        storage.noteArray();
         copyElements(storage.data(def->offset), static_cast<std::ptrdiff_t>(ParamType<T>::bytes),
                      reinterpret_cast<const std::uint8_t*>(src), arrayStep(stride, ParamType<T>::bytes),
                      def->count, ParamType<T>::bytes);
         return true;
     }
 
-    // Partial: the original gates conversions on the SShaderParameterTypeInspection::Convertions table,
-    // which is not in the container. Only reads and writes of the parameter's own type are implemented;
-    // a value of another type is refused.
+    // getParameterCvt(id, index, T&). Checks index < count, then reads the entry's first element: the
+    // original does not add the index to the offset (the ARM listing reuses the index register).
     template <class T>
     bool getParameterCvt(std::uint16_t id, std::uint32_t index, T& out) const {
-        return getParameter(id, index, out);
+        using C = CvtCodec<T>;
+        const SShaderParameterDef* def = storage.definition(id);
+        if (!def || !convertible<C>(def->type) || index >= def->count) return false;
+        C::load(storage.data(def->offset), def->type, out);
+        return true;
     }
+
+    // getParameterCvt(id, T*, stride). A stored type that is not converted by this accessor copies
+    // nothing for an int array read; a zero stride copies only the accessor's own type.
     template <class T>
     bool getParameterCvt(std::uint16_t id, T* out, int stride) const {
-        return getParameter(id, out, stride);
+        using C = CvtCodec<T>;
+        const SShaderParameterDef* def = storage.definition(id);
+        if (!def || !convertible<C>(def->type)) return false;
+        const std::uint8_t c = def->type;
+        if (!C::arrayLoads(c)) return true;
+        if (stride == 0 && c != C::kSame) return true;
+        const std::ptrdiff_t step = arrayStep(stride, sizeof(T));
+        const std::uint8_t* src = storage.data(def->offset);
+        const std::size_t srcStep = kValueTypeSize[c];
+        auto* dst = reinterpret_cast<std::uint8_t*>(out);
+        for (std::uint32_t i = 0; i < def->count; ++i) {
+            T v{};
+            C::load(src + i * srcStep, c, v);
+            std::memcpy(dst + static_cast<std::ptrdiff_t>(i) * step, &v, sizeof(T));
+        }
+        return true;
     }
+
+    // setParameterCvt(id, index, T const&). Checks index < count, then writes the entry's first element.
+    // The dirty range is marked when the stored value differs (CMaterial), before the write.
     template <class T>
     bool setParameterCvt(std::uint16_t id, std::uint32_t index, const T& value) {
-        return setParameter(id, index, value);
+        using C = CvtCodec<T>;
+        const SShaderParameterDef* def = storage.definition(id);
+        if (!def || !convertible<C>(def->type) || index >= def->count) return false;
+        std::uint8_t* dst = storage.data(def->offset);
+        storage.noteIndexed(!C::same(dst, def->type, value));
+        C::store(dst, def->type, value);
+        return true;
     }
+
+    // setParameterCvt(id, T const*, stride). The dirty range is marked before the stride rules, as the
+    // ARM does after the gate. A zero stride copies only the accessor's own type.
     template <class T>
     bool setParameterCvt(std::uint16_t id, const T* src, int stride) {
-        return setParameter(id, src, stride);
+        using C = CvtCodec<T>;
+        const SShaderParameterDef* def = storage.definition(id);
+        if (!def || !convertible<C>(def->type)) return false;
+        const std::uint8_t c = def->type;
+        storage.noteArray();
+        if (stride == 0 && c != C::kSame) return true;
+        const std::ptrdiff_t step = arrayStep(stride, sizeof(T));
+        const auto* in = reinterpret_cast<const std::uint8_t*>(src);
+        std::uint8_t* dst = storage.data(def->offset);
+        const std::size_t dstStep = kValueTypeSize[c];
+        for (std::uint32_t i = 0; i < def->count; ++i) {
+            T v{};
+            std::memcpy(&v, in + static_cast<std::ptrdiff_t>(i) * step, sizeof(T));
+            C::store(dst + i * dstStep, c, v);
+        }
+        return true;
+    }
+
+private:
+    // Copies count elements of bytes each. dstStep and srcStep are byte steps between elements, so a
+    // step equal to bytes is the contiguous copy of the original's memcpy path.
+    static void copyElements(std::uint8_t* dst, std::ptrdiff_t dstStep, const std::uint8_t* src,
+                             std::ptrdiff_t srcStep, std::uint32_t count, std::size_t bytes) {
+        for (std::uint32_t i = 0; i < count; ++i) {
+            std::memcpy(dst + static_cast<std::ptrdiff_t>(i) * dstStep,
+                        src + static_cast<std::ptrdiff_t>(i) * srcStep, bytes);
+        }
+    }
+
+    // The element step of an array argument: stride 0 means the elements are contiguous.
+    static std::ptrdiff_t arrayStep(int stride, std::size_t bytes) {
+        return stride == 0 ? static_cast<std::ptrdiff_t>(bytes) : static_cast<std::ptrdiff_t>(stride);
     }
 };
 

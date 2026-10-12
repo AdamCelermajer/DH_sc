@@ -1,6 +1,7 @@
 // glitch::video::detail::IMaterialParameters: indexed and array reads and writes for the three
 // owner layouts (global manager, CMaterial, CMaterialRenderer), the stride rule, type codes, the
-// dirty-range markers of CMaterial, and the same-type-only conversion path.
+// dirty-range markers of CMaterial, and the Convertions-gated conversion forms.
+#include <cmath>
 #include <cstdio>
 
 #include "glitch-core-io/video/material_parameters.hpp"
@@ -89,12 +90,94 @@ void testGlobal() {
     CHECK(params.setParameter<glitch::video::SColorf>(colourf, kIdx0, cf));
     glitch::video::SColorf cfb{};
     CHECK(params.getParameter<glitch::video::SColorf>(colourf, kIdx0, cfb) && cfb.b == 0.75f);
+}
 
-    // Conversion forms: same-type only, the rest is partial (see the header).
-    CHECK(params.getParameterCvt<int>(ints, kIdx1, v) && v == 2);
-    CHECK(!params.getParameterCvt<float>(ints, kIdx1, p.X));
+// The conversion forms of the global manager. The indexed forms touch the entry's first element.
+void testGlobalConversions() {
+    GlobalMaterialParameters params;
+    params.storage.values.assign(128, 0);
+    const std::uint16_t ints = params.storage.defs.add("ints", makeDef(1, 3, 0));        // int[3] at 0
+    const std::uint16_t floats = params.storage.defs.add("floats", makeDef(5, 2, 16));   // float[2] at 16
+    const std::uint16_t vec = params.storage.defs.add("vec", makeDef(7, 1, 32));         // vec3f at 32
+    const std::uint16_t colour = params.storage.defs.add("colour", makeDef(16, 1, 48));  // SColor at 48
+    const std::uint16_t colourf = params.storage.defs.add("colourf", makeDef(17, 1, 64)); // SColorf at 64
+    const int iv[3] = {1, 2, 3};
+    std::memcpy(params.storage.values.data() + 0, iv, sizeof iv);
+    const float fv[2] = {1.5f, -2.5f};
+    std::memcpy(params.storage.values.data() + 16, fv, sizeof fv);
+    const float v3f[3] = {1.f, 2.f, 3.f};
+    std::memcpy(params.storage.values.data() + 32, v3f, sizeof v3f);
+
+    // Indexed reads: the index is range-checked, the first element is read.
+    int v = 0;
+    CHECK(params.getParameterCvt<int>(ints, kIdx2, v) && v == 1);
+    CHECK(!params.getParameterCvt<int>(ints, 3u, v));
+    float f = 0.f;
+    CHECK(params.getParameterCvt<float>(ints, kIdx1, f) && f == 1.f);   // int stored, read as float
+    CHECK(params.getParameterCvt<int>(floats, kIdx0, v) && v == 1);     // float stored, truncated to int
+    CHECK(params.getParameterCvt<float>(floats, kIdx1, f) && f == 1.5f);
+    vector3d<float> vec3{};
+    CHECK(!params.getParameterCvt<vector3d<float>>(ints, kIdx0, vec3));  // gate 0x80 is closed for type 1
+    CHECK(params.getParameterCvt<vector3d<float>>(vec, kIdx0, vec3) && vec3.Z == 3.f);
+    CHECK(!params.getParameterCvt<int>(vec, kIdx0, v));                  // gate 0x2 is closed for type 7
+
+    // Colour reads: packed colour to float colour, and float colour to packed colour.
+    glitch::video::SColor packed{0x11223344u};
+    CHECK(params.setParameter<glitch::video::SColor>(colour, kIdx0, packed));
+    glitch::video::SColorf cf{};
+    CHECK(params.getParameterCvt<glitch::video::SColorf>(colour, kIdx0, cf));
+    CHECK(std::fabs(cf.r - 68.f / 255.f) < 1e-6f && std::fabs(cf.a - 17.f / 255.f) < 1e-6f);
+    const glitch::video::SColorf cfIn{1.f, 0.f, 0.5f, 1.f};
+    CHECK(params.setParameter<glitch::video::SColorf>(colourf, kIdx0, cfIn));
+    glitch::video::SColor back{};
+    CHECK(params.getParameterCvt<glitch::video::SColor>(colourf, kIdx0, back));
+    CHECK(back.color == 0xFF7F00FFu);  // r 255, g 0, b floor(127.5) = 127, a 255 (bytes in memory order)
+
+    // Indexed writes: int and float convert each way (float to int truncates, saturating).
+    CHECK(params.setParameterCvt<float>(ints, kIdx0, 2.9f));
+    CHECK(params.getParameter<int>(ints, kIdx0, v) && v == 2);
+    CHECK(params.setParameterCvt<float>(ints, kIdx0, 1e30f));
+    CHECK(params.getParameter<int>(ints, kIdx0, v) && v == 0x7FFFFFFF);
+    CHECK(params.setParameterCvt<int>(floats, kIdx0, 4));
+    CHECK(params.getParameter<float>(floats, kIdx0, f) && f == 4.f);
     CHECK(params.setParameterCvt<int>(ints, kIdx0, 5));
     CHECK(params.getParameter<int>(ints, kIdx0, v) && v == 5);
+    CHECK(!params.setParameterCvt<float>(vec, kIdx0, 1.f));              // type 7 takes no float
+    const vector3d<float> vset{1.f, 2.f, 3.f};
+    CHECK(!params.setParameterCvt<vector3d<float>>(ints, kIdx0, vset));
+
+    // Array writes: ints from floats with stride 4 (contiguous); a stride of 0 does nothing for ints.
+    const float srcF[3] = {7.9f, -1.2f, 2.0f};
+    CHECK(params.setParameterCvt<float>(ints, srcF, 0));                  // stride 0, other type: no-op
+    CHECK(params.getParameter<int>(ints, kIdx0, v) && v == 5);
+    CHECK(params.setParameterCvt<float>(ints, srcF, 4));
+    CHECK(params.getParameter<int>(ints, kIdx0, v) && v == 7);
+    CHECK(params.getParameter<int>(ints, kIdx1, v) && v == -1);
+    CHECK(params.getParameter<int>(ints, kIdx2, v) && v == 2);
+    glitch::video::SColorf srcC[1] = {{0.f, 1.f, 0.f, 1.f}};
+    CHECK(params.setParameterCvt<glitch::video::SColorf>(colour, srcC, 16));
+    glitch::video::SColor outSC{};
+    CHECK(params.getParameter<glitch::video::SColor>(colour, kIdx0, outSC) && outSC.color == 0xFF00FF00u);
+
+    // Array reads: an int array read copies int-stored values only; a float array read converts ints.
+    int outI[3] = {0, 0, 0};
+    CHECK(params.getParameterCvt<int>(ints, outI, 0));
+    CHECK(outI[0] == 7 && outI[1] == -1 && outI[2] == 2);
+    float outF[4] = {-9.f, -9.f, -9.f, -9.f};
+    CHECK(params.getParameterCvt<float>(ints, outF, 0));                  // stride 0, other type: no-op
+    CHECK(outF[0] == -9.f);
+    CHECK(params.getParameterCvt<float>(ints, outF, 4));
+    CHECK(outF[0] == 7.f && outF[1] == -1.f && outF[2] == 2.f && outF[3] == -9.f);
+    CHECK(params.getParameterCvt<float>(floats, outF, 8));                // float stored, stride 8
+    CHECK(outF[0] == 4.f && outF[2] == -2.5f && outF[1] == -1.f);  // floats[0] was set to 4 above
+    int outH[2] = {-7, -7};
+    CHECK(params.getParameterCvt<int>(floats, outH, 0));                  // int array read skips floats
+    CHECK(outH[0] == -7 && outH[1] == -7);
+    glitch::video::SColorf outC[1] = {{9.f, 9.f, 9.f, 9.f}};
+    CHECK(params.getParameterCvt<glitch::video::SColorf>(colour, outC, 0)); // packed, stride 0: no-op
+    CHECK(outC[0].r == 9.f);
+    CHECK(params.getParameterCvt<glitch::video::SColorf>(colour, outC, 16));
+    CHECK(std::fabs(outC[0].g - 1.f) < 1e-6f && outC[0].r == byteToFloat(0x00) && outC[0].a == byteToFloat(0xFF));
 }
 
 void testMaterial() {
@@ -114,10 +197,11 @@ void testMaterial() {
 
     int v = 0;
     CHECK(mat.getParameter<int>(1, kIdx0, v) && v == 11);
-    // An equal value is not written: the call returns false and the markers keep their values.
+    // An equal value is written again and reports success, but the markers keep their values.
     mat.storage.dirtyFirst = 4;
-    CHECK(!mat.setParameter<int>(1, kIdx0, 11));
+    CHECK(mat.setParameter<int>(1, kIdx0, 11));
     CHECK(mat.storage.dirtyFirst == 4);
+    CHECK(mat.getParameter<int>(1, kIdx0, v) && v == 11);
     const float fl[2] = {1.5f, 2.5f};
     CHECK(mat.setParameter<float>(0, fl, 0));
     float out[2] = {};
@@ -127,6 +211,67 @@ void testMaterial() {
     CHECK(!mat.setParameter<float>(7, fl, 0));
     block.count = 1;                                 // the block count bounds the ids
     CHECK(!mat.getParameter<int>(1, kIdx0, v));
+}
+
+// CMaterial conversion forms: the dirty range follows the compare of each indexed write, an array write
+// always marks it, and SColorf values compare within the 1e-6 tolerance of SColorf::equals.
+void testMaterialConversions() {
+    SParameterBlock block;
+    block.count = 4;
+    block.entries.push_back(makeDef(5, 2, 0));    // float[2] at inline offset 0
+    block.entries.push_back(makeDef(1, 1, 8));    // int at inline offset 8
+    block.entries.push_back(makeDef(16, 1, 12));  // packed colour at inline offset 12
+    block.entries.push_back(makeDef(17, 1, 16));  // float colour at inline offset 16
+    MaterialParameters mat;
+    mat.storage.block = &block;
+    mat.storage.inlineValues.assign(64, 0);
+
+    // Indexed float write from an int: the stored 1.5 changes, so the range is marked.
+    const float fl[2] = {1.5f, 2.5f};
+    CHECK(mat.setParameter<float>(0, fl, 0));
+    mat.storage.dirtyFirst = 4;
+    CHECK(mat.setParameterCvt<int>(0, kIdx1, 3));
+    CHECK(mat.storage.dirtyFirst == -1);
+    float f = 0.f;
+    CHECK(mat.getParameter<float>(0, kIdx0, f) && f == 3.f);  // the first element is written
+    CHECK(mat.getParameter<float>(0, kIdx1, f) && f == 2.5f); // the index is not used by the write
+    // The same value again: written, not marked.
+    mat.storage.dirtyFirst = 4;
+    CHECK(mat.setParameterCvt<int>(0, kIdx0, 3));
+    CHECK(mat.storage.dirtyFirst == 4);
+
+    // Int entry written from a float: truncation, and a change marks the range.
+    CHECK(mat.setParameterCvt<float>(1, kIdx0, 2.5f));
+    int v = 0;
+    CHECK(mat.getParameter<int>(1, kIdx0, v) && v == 2);
+    CHECK(mat.setParameterCvt<float>(1, kIdx0, -0.5f));  // truncates toward zero
+    CHECK(mat.getParameter<int>(1, kIdx0, v) && v == 0);
+
+    // Float colour: a write within 1e-6 of the stored value is not a change.
+    const glitch::video::SColorf cf{0.5f, 0.5f, 0.5f, 0.5f};
+    CHECK(mat.setParameter<glitch::video::SColorf>(3, kIdx0, cf));
+    mat.storage.dirtyFirst = 4;
+    const glitch::video::SColorf nearCf{0.5000005f, 0.5f, 0.5f, 0.5f};
+    CHECK(mat.setParameterCvt<glitch::video::SColorf>(3, kIdx0, nearCf));
+    CHECK(mat.storage.dirtyFirst == 4);
+    const glitch::video::SColorf farCf{0.6f, 0.5f, 0.5f, 0.5f};
+    CHECK(mat.setParameterCvt<glitch::video::SColorf>(3, kIdx0, farCf));
+    CHECK(mat.storage.dirtyFirst == -1);
+
+    // Packed colour entry written from a float colour: bytes 0, 255, 127, 255 in memory order.
+    const glitch::video::SColorf cfIn{0.f, 1.f, 0.5f, 1.f};
+    CHECK(mat.setParameterCvt<glitch::video::SColorf>(2, kIdx0, cfIn));
+    glitch::video::SColor sc{};
+    CHECK(mat.getParameter<glitch::video::SColor>(2, kIdx0, sc) && sc.color == 0xFF7FFF00u);
+
+    // An array write of packed colours into the float colour entry converts each element, always marks.
+    const glitch::video::SColor src4[1] = {glitch::video::SColor{0x00FF0000u}};
+    mat.storage.dirtyFirst = 4;
+    CHECK(mat.setParameterCvt<glitch::video::SColor>(3, src4, 4));
+    CHECK(mat.storage.dirtyFirst == -1);
+    glitch::video::SColorf got{};
+    CHECK(mat.getParameter<glitch::video::SColorf>(3, kIdx0, got));
+    CHECK(got.r == 0.f && got.g == 0.f && std::fabs(got.b - 1.f) < 1e-6f && got.a == 0.f);
 }
 
 void testRenderer() {
@@ -150,13 +295,23 @@ void testRenderer() {
     vector2d<float> two{};
     CHECK(!rend.getParameter<vector2d<float>>(1, kIdx0, two));  // type 8 is not vec2
     CHECK(!rend.setParameter<int>(2, kIdx0, 1));  // id >= count
+
+    // Conversion forms: a float4 read as SColorf (both gate 0x20000 and type 8), an int entry refused.
+    glitch::video::SColorf asColour{};
+    CHECK(rend.getParameterCvt<glitch::video::SColorf>(1, kIdx0, asColour));
+    CHECK(asColour.r == 1.f && asColour.g == 2.f && asColour.b == 3.f && asColour.a == 4.f);
+    CHECK(!rend.getParameterCvt<vector4d<float>>(0, kIdx0, q2));  // int entry: gate 0x100 is closed
+    CHECK(rend.setParameterCvt<vector4d<float>>(1, kIdx0, vector4d<float>{5.f, 6.f, 7.f, 8.f}));
+    CHECK(rend.getParameter<vector4d<float>>(1, kIdx0, q2) && q2.Z == 7.f);
 }
 
 }  // namespace
 
 int main() {
     testGlobal();
+    testGlobalConversions();
     testMaterial();
+    testMaterialConversions();
     testRenderer();
     if (failures == 0) std::printf("material_parameters_test: all checks passed\n");
     return failures == 0 ? 0 : 1;

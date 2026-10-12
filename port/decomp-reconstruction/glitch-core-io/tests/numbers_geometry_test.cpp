@@ -96,6 +96,33 @@ int main() {
     mat.setMatrix(m);
     CHECK(mat.intValues[0] == 0 && mat.intValues[5] == 5 && mat.intValues[15] == 15);
 
+    // isIdentity: a set flag answers at once; otherwise diagonals are 1 +- 1e-6 and off-diagonals
+    // are within 1e-6 in magnitude. A match caches the flag.
+    auto makeMatrix = [](float diag, float off) {
+        core::CMatrix4<float> r{};
+        for (int i = 0; i < 4; ++i)
+            for (int j = 0; j < 4; ++j) r.M[i * 4 + j] = (i == j) ? diag : off;
+        return r;
+    };
+    core::CMatrix4<float> identity(core::CMatrix4<float>::EM4CONST_IDENTITY);
+    CHECK(identity.isIdentity());
+    core::CMatrix4<float> flagged{};
+    flagged.flag = true;
+    CHECK(flagged.isIdentity());
+    core::CMatrix4<float> zero{};
+    CHECK(!zero.isIdentity() && !zero.flag);
+    core::CMatrix4<float> nearIdentity = makeMatrix(1.0f, 5e-7f);
+    CHECK(nearIdentity.isIdentity() && nearIdentity.flag);
+    CHECK(!makeMatrix(1.0f, 2e-6f).isIdentity());
+    CHECK(!makeMatrix(1.0f, -2e-6f).isIdentity());
+    CHECK(!makeMatrix(1.0f, 0.5f).isIdentity());
+    CHECK(!makeMatrix(1.0f - 2e-6f, 0.0f).isIdentity());
+    CHECK(!makeMatrix(1.0f + 2e-6f, 0.0f).isIdentity());
+    core::CMatrix4<float> scaled = makeMatrix(2.0f, 0.0f);
+    CHECK(!scaled.isIdentity() && !scaled.flag);
+    const core::CMatrix4<float> constIdentity = makeMatrix(1.0f, 0.0f);
+    CHECK(constIdentity.isIdentity() && constIdentity.flag);
+
     if (failures == 0) std::printf("numbers_geometry_test: all checks passed\n");
     return failures == 0 ? 0 : 1;
 }

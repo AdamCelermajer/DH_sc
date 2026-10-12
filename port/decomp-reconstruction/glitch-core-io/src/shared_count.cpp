@@ -73,13 +73,18 @@ void shared_ptr_char::reset(char* p) {
 }
 
 // 0x56ee34 _ZN5boost6detail5yieldEj
-void yield(unsigned count) {
-    if (count <= 3) return;
+// Counts up to 3 return at once. Above that, odd counts and counts below 0x20 call sched_yield
+// (std::this_thread::yield here), and larger even counts sleep for 1000 ns (nanosleep in the
+// original). The original returns the call's result (0 on success); the portable calls report
+// no error, so 0 is returned here.
+unsigned int yield(unsigned count) {
+    if (count <= 3) return count;
     if (count < 0x20 || (count & 1)) {
         std::this_thread::yield();
     } else {
         std::this_thread::sleep_for(std::chrono::microseconds(1));
     }
+    return 0;
 }
 
 // 0x56eb68 _ZN5boost6detail26sp_enable_shared_from_thisEz

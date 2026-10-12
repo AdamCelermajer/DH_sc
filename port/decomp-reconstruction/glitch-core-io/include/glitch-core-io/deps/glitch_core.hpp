@@ -2,6 +2,7 @@
 // attribute code. Layout matches the original: plain members, no vtable.
 #pragma once
 
+#include <cmath>
 #include <cstdint>
 
 namespace glitch {
@@ -141,12 +142,32 @@ struct CMatrix4 {
         flag = true;
     }
 
-    // 0x5ba19c: PARTIAL. Only the flag is read here; the original's element check (taken when the
-    // flag is clear) is not recovered, so a clear flag gives false.
-    bool isIdentity() const { return flag; }
+    // 0x5ba19c: the flag at +0x40 caches the answer. When it is clear, each diagonal element must
+    // be 1 within 1e-6 (float arithmetic, as the ARM code does: x + tol >= 1 and x - tol <= 1) and
+    // every off-diagonal element must satisfy |x| <= 1e-6. A full match sets the flag. The flag is
+    // written by this const method, so it is mutable.
+    bool isIdentity() const {
+        if (flag) return true;
+        constexpr float kTolerance = 1e-6f;  // 0x358637BD
+        for (int row = 0; row < 4; ++row) {
+            for (int col = 0; col < 4; ++col) {
+                const float x = static_cast<float>(M[row * 4 + col]);
+                if (row == col) {
+                    if (!(static_cast<float>(x + kTolerance) >= 1.0f &&
+                          static_cast<float>(x - kTolerance) <= 1.0f)) {
+                        return false;
+                    }
+                } else if (!(std::fabs(x) <= kTolerance)) {
+                    return false;
+                }
+            }
+        }
+        flag = true;
+        return true;
+    }
 
     T M[16];  // row-major, as in the original
-    bool flag = false;  // +0x40: byte after the 16 values; set by the identity constructor
+    mutable bool flag = false;  // +0x40: byte after the 16 values; set by the identity constructor and by isIdentity
 
     // 0x31f790 getTransposed: out[i] = this[(i % 4) * 4 + i / 4]; the flag is copied.
     void getTransposed(CMatrix4& out) const {

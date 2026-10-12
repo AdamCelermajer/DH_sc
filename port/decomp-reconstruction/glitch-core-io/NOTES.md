@@ -512,3 +512,74 @@ Partial, with the reason in the ledger notes:
 - CFileSystem, CFile, CPakReader, CZipReader and the archive containers are not in the port yet.
 - Box setter: setAttribute(name, aabbox) keeps its new-object branch partial until the class behind vtable
   off_972D78 is matched to a port class.
+
+### Continuation (second pass over the partial rows)
+
+Against the committed ledger (HEAD, 269 partial rows): 134 rows changed partial to reconstructed,
+0 changed to skipped, 135 stay partial. Host build and tests pass (43/43).
+
+Changed to reconstructed in this pass:
+- IMaterialParameters Cvt family (120 rows, index and array forms): the conversion gate table at ELF
+  0x8e2c58 (19 words, one per type code) and ValueTypeSize (20 bytes) are ported. Codes 0..18 are the
+  valid range. DEVIATION: codes 19 and up are refused by convertible<Codec>(), while the original reads
+  past the 19-entry table for them (undefined). If strict treatment is wanted, these 120 rows revert to
+  partial.
+- CMaterial indexed setters return 1 on every write (the earlier note that an equal value returns
+  false was wrong; Hex-Rays and the listing at 0x5c64d4, 0x5c623c, 0x5c6564, 0x5c67b4 agree). The
+  dirty-range markers reset to -1 on a changed indexed write and on every array write.
+- SColorf::equals (0x5cabf8): tolerance 1e-6f (0x358637BD) on each channel.
+- computeBoundingBox (7 instances): one aabbox3d<T> per component type, element 0 copied and the rest
+  widened with strict compares.
+- CMatrix4<float>::isIdentity (0x5ba19c): the flag at +0x40 is cached (now mutable, since the method
+  is const). When clear, each diagonal must satisfy x + 1e-6 >= 1 and x - 1e-6 <= 1 (float arithmetic,
+  as the listing's __aeabi_fadd/fsub show), and each off-diagonal |x| <= 1e-6. A full match sets the flag.
+- CMemoryWriteFile::seek (0x6b4dac): only the relative branch moves; the listing branches straight to
+  return 1 when the flag is clear, so an absolute seek is a no-op.
+- CMemoryWriteFile::write (0x6b4e44): advances the position by the count and returns the count (the
+  port returned true and did not advance).
+- os::byteswap<float>(aabbox3d) (0x578e80): MinEdge then MaxEdge through the vector3d overload.
+- CIrrXMLFileReadCallBack::getSize (0x572578): the wrapped IReadFile's getSize (slot +0x20). The return
+  type is long, the IReadFile base type, 32 bits on the target platforms where the pseudocode says int.
+- boost::detail::yield (0x56ee34): returns unsigned. Counts up to 3 are returned as they are; below 0x20
+  or odd, sched_yield (std::this_thread::yield); larger even counts sleep 1000 ns. The original returns the
+  syscall result (0 on success); the portable calls report no error, so 0 is returned.
+
+Corrections to earlier notes:
+- CReadFile::getPos and CWriteFile::getPos: the pseudocode does return ftell(...); the old "result
+  dropped" note was wrong. The rows stay partial for the handle indirection (FILE* at handle+4, through
+  +0x0c and +0x20) and the null case, which the port answers with 0.
+- SIdValue (SIDedCollection): no string block is written. The constructor writes int 1 at +0 and the u16
+  id at +4, so the record comes first.
+- CMemoryWriteFile::write: see above (the position is advanced).
+
+Still partial (135), with the main reason:
+- SIDedCollection (36 rows, every instance): the port's entries and SIdValue do not match the original.
+  The original's mapped value is the record (int 1 at +0, u16 id at +4), and getProperties returns that
+  record at node+0x18. SShaderParameterDef entries are 20 bytes: a shared-string data pointer at +0 (count
+  at its start), u16 at +4, bytes at +6 and +7, ints at +8, +12 and +16; the default entry is 0, 255,
+  0xff, 0xff, -1, -1, 0. The other managers' entries are 8 bytes (value at +0, node at +4). Recovering
+  these needs the SSharedStringHeapEntry::SData type, which the port does not have. Changing the layout
+  also changes the instances already ledgered as reconstructed (size, get, idBegin and the rest use
+  entries and ids), so it was not done in this pass.
+- boost::intrusive_ptr releases (13 rows): the original counts at +0 for CMaterial, CMaterialRenderer,
+  CVertexStreams and CLight (no IReferenceCounted base) and frees with CustomFree or LC_API_FREE_0. The
+  CLight release also returns the matrix at +0x50 to glitch::memory::Matrix4Pool when the byte at +0x54
+  is clear.
+- Archives and file system (about 60 rows: CPakReader, CZipReader, CUnZipReader, CZipWriter destructors,
+  CFileSystem, CFile, the file readers and writers): many classes are not in the port, and the zip
+  destructors depend on close() and the central directory. The heapsink, heapsort and binary_search
+  instances (6 pak and zip, 2 CFileList) need the name compare confirmed against operator<: the listing
+  compares bytes as unsigned (char is unsigned on ARM), then the lengths. Not verified in this pass.
+- CAttributes (10) and other attribute rows (7): the enum choice table and CAttributes slot typing. The 38
+  rows Hex-Rays notes are not re-checked here.
+- CLimitReadFile (init, both five-argument constructors, clone): the original keeps the names as char*
+  at +0x20 and +0x38 and passes them on; the port keeps std::string names and passes null.
+- IDevice::setEventReceiver: the logger call and the object at +0x18 are not modelled.
+- Printer::logf (2 rows): the Logger's slot +0x24 is called with the level, the format and a pointer to
+  the variadic area. The slot's signature is not recovered.
+- CXMLReaderImpl destructors and getAttributeValueAsFloat (5 rows): not re-read in this pass.
+- SSharedProcessBuffer::reset (null allocation is written through, undefined) and the scoped
+  excess clone (its setter argument is uninitialised in the pseudocode).
+
+Not ledgered: 0x5cac8c (setParameterAt<SColorf>) is in queue.csv but has no ledger row. Its logic is the
+CvtCodec<SColor> path in video/material_parameters.hpp.

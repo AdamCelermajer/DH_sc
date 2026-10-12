@@ -1,4 +1,4 @@
-// computeBoundingBox over strided float and integer components.
+// computeBoundingBox over strided float and integer components (each keeps its own box type).
 #include "glitch-core-io/core/bounding_box.hpp"
 
 #include <cstdio>
@@ -23,10 +23,21 @@ int main() {
     CHECK(box.MinEdge.X == 1.f && box.MinEdge.Y == -2.f && box.MinEdge.Z == 0.f);
     CHECK(box.MaxEdge.X == 3.f && box.MaxEdge.Y == 5.f && box.MaxEdge.Z == 0.f);
 
-    // Integer components are widened to float; dims above three reads three.
-    const signed char bytes[] = {-4, 6, 2, 9};
-    computeBoundingBox(bytes, 3, 1, 4, box);
-    CHECK(box.MinEdge.X == -4.f && box.MaxEdge.X == 9.f);
+    // Integer components keep their own type: the box is aabbox3d<signed char>, compared as signed.
+    // dims above three reads three.
+    // Four elements at a 1-byte stride read bytes 0..5 (three components each).
+    const signed char bytes[] = {-4, 6, 2, 9, 1, 0};
+    aabbox3d<signed char> sbox{};
+    computeBoundingBox(bytes, 3, 1, 4, sbox);
+    CHECK(sbox.MinEdge.X == -4 && sbox.MaxEdge.X == 9);
+    CHECK(sbox.MinEdge.Z == 0 && sbox.MaxEdge.Z == 9);
+
+    // int components: the box is aabbox3d<int> and the compare is on the integers.
+    const int ints[] = {7, -3, 100, 5, 2, 0};
+    aabbox3d<int> ibox{};
+    computeBoundingBox(ints, 2, 12, 2, ibox);
+    CHECK(ibox.MinEdge.X == 5 && ibox.MinEdge.Y == -3 && ibox.MinEdge.Z == 0);
+    CHECK(ibox.MaxEdge.X == 7 && ibox.MaxEdge.Y == 2 && ibox.MaxEdge.Z == 0);
 
     // Zero elements gives a zero box.
     computeBoundingBox(floats, 3, 12, 0, box);

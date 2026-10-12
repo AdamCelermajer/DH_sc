@@ -10,8 +10,8 @@ CMemoryWriteFile::CMemoryWriteFile(std::uint32_t reserve) {
 }
 
 // 0x6b4dac _ZN6glitch2io16CMemoryWriteFile4seekElb
-// PARTIAL: the pseudocode only has the relative branch. The absolute case
-// (relative == false) does nothing here and is not confirmed.
+// Only the relative case moves: the listing branches straight to the return when the flag is
+// clear (CMP R2,#0; BEQ), so an absolute seek changes nothing and returns true.
 // Moving before the start clamps to 0. Moving past the end grows the buffer
 // to pos + 1 bytes, reserving (pos + 1) * 2 first when capacity is short.
 bool CMemoryWriteFile::seek(std::int32_t offset, bool relative) {
@@ -33,10 +33,9 @@ bool CMemoryWriteFile::seek(std::int32_t offset, bool relative) {
 }
 
 // 0x6b4e44 _ZN6glitch2io16CMemoryWriteFile5writeEPKvj
-// PARTIAL: the pseudocode copies the data at the current position but never
-// advances position afterwards. Kept as shown; to be confirmed against the
-// binary.
-bool CMemoryWriteFile::write(const void* data, std::uint32_t size) {
+// Grows the buffer to position + size when needed (reserving twice that when capacity is short),
+// copies the data at the position, advances the position by the count and returns the count.
+std::size_t CMemoryWriteFile::write(const void* data, std::uint32_t size) {
     std::size_t needed = static_cast<std::size_t>(position) + size;
     if (buffer.size() < needed) {
         if (buffer.capacity() < needed) {
@@ -46,7 +45,8 @@ bool CMemoryWriteFile::write(const void* data, std::uint32_t size) {
         buffer.resize(needed);
     }
     std::memcpy(buffer.data() + position, data, size);
-    return true;
+    position += static_cast<std::int32_t>(size);
+    return size;
 }
 
 }  // namespace glitch::io
