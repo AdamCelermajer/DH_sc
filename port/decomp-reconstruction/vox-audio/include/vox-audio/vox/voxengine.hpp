@@ -45,7 +45,7 @@ public:
 
     static void GetDebugInfo(DebugInfo& info);      // 0x861880
     static void PrintDebug();                       // 0x8618a8
-    static void SetOutputMode(VoxOutputMode mode);  // 0x8618d0
+    static int SetOutputMode(VoxOutputMode mode);   // 0x8618d0 (0 without an engine)
     static VoxOutputMode GetOutputMode();           // 0x8618f8 (-1 without an engine)
     static void SetInteractiveMusicState(EmitterHandle& emitter, const char* state);  // 0x861928
     static void SetDSPEmitterParameter(EmitterHandle& emitter, int param, void* value);  // 0x861950
@@ -97,7 +97,7 @@ public:
     static void PauseAllEmitters(unsigned int group, float fade);   // 0x8620a8
     static void StopAllEmitters(unsigned int group, float fade);    // 0x8620d0
     static void PlayAllEmitters(unsigned int group, float fade);    // 0x8620f8
-    static void GetAllEmitters(EmitterHandle* out, int max_count); // 0x862120
+    static int GetAllEmitters(EmitterHandle* out, int max_count);  // 0x862120 (0 without an engine)
     static void Resume(EmitterHandle& emitter, float fade);         // 0x862148
     static void Pause(EmitterHandle& emitter, float fade);          // 0x862170
     static void Stop(EmitterHandle& emitter, float fade);           // 0x862198

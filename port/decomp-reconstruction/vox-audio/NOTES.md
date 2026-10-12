@@ -566,3 +566,26 @@ overrides and from the emitter call sites.
 - Call-site arguments in the Hex-Rays output are not reliable: the decompiler prints a
   leftover register as an argument (for example Reset is called with a float). Use the
   vtable names above, not the printed argument lists.
+
+## Wave 9: engine-internal-a (VoxEngine facade, Suspend to SetAutoKillAfterDone)
+
+Queue: 67 facade rows from Suspend/Resume through SetAutoKillAfterDone (the brief said 68; the
+queue file holds 67 data rows). Every row is a tail call (B) to a VoxEngineInternal method, or a
+null-guarded forward whose no-engine result is 0, -1 or 1 (IsEngineSuspended, IsDone, GetOutputMode).
+The arguments pass through unchanged, including the stack arguments of SetRoutingVolume.
+
+Vtable slots used by the facade (VoxEngineInternal, named in voxengine_internal.hpp):
++0x0c Suspend, +0x10 Resume, +0x14 IsSuspended, +0x18 UpdateSources, +0x24 SetGroupGain,
++0x28 SetMasterGain. The facade reads m_internal and calls through the vtable for these six.
+All other targets are direct calls.
+
+Decisions:
+- SetOutputMode and GetAllEmitters now return the target's int (the original returns it); the
+  facade declarations in voxengine.hpp changed from void to int, returning 0 without an engine.
+- Partial (5 rows): SetMasterGain and SetGroupGain (the target returns the Mutex unlock result,
+  which the void facade drops, as in wave 7); UpdateSourcesThreaded (target UpdateSources is
+  skipped); GetDebugInfo (target skipped, DebugChunk layout unknown); SetInteractiveMusicState
+  (target skipped).
+- No test links the facade yet. voxengine.o references the three skipped targets and EmitterObj
+  GetPlayCursor, SetPlayCursor, PrintDebug and Update, so any test that pulls it fails to link.
+  Add a null-default test once those land.
