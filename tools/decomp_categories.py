@@ -106,7 +106,7 @@ CATEGORY_RULES = [
 GAME_RULES = [
     ("game-anim", lambda o, d: re.match(r"^(Anim|Animator|BlendedAnim|v2[A-Z]|AnimationSet|AnimSet|CharAnim)", o)),
     ("game-character", lambda o, d: re.match(r"^(Character|Char[A-Z]|CS[A-Z]|AIS|AI[A-Z_]|Player(Info|Light)?$|PlayerManager|Monster|NPC|Faery|Spawn)", o)),
-    ("game-ui", lambda o, d: re.match(r"^(Menu|MultiMenu|HUD|InfoHUD|GameSWF|SWF|Flash|FSCommand|Dialog|CharMenu|AchievementMsg|SlideEvent|"
+    ("game-ui", lambda o, d: re.match(r"^(RenderFX|Menu|MultiMenu|HUD|InfoHUD|GameSWF|SWF|Flash|FSCommand|Dialog|CharMenu|AchievementMsg|SlideEvent|"
                                       r"OnScreenKeyboard|Drag|Drop|Anchor|Sort|AbstractTableModel|CharPropTextField|StringManager|Font)", o)),
     ("game-items-save", lambda o, d: re.match(r"^(Item|Quest|QE_|Objective|Reward|Condition|Savegame|SavegameManager|LevelSavegame|"
                                               r"PlayerSavegame|QuestSavegame|Property|PropertyInstance|PropertyMap|SimpleTypeProperty|"
@@ -119,6 +119,12 @@ GAME_RULES = [
                                          r"LevelConfig|LevelMap|SoundEmitter|Vector3DFList|Point[23]D|PolyStat)", o)),
     ("game-app", lambda o, d: True),
 ]
+
+
+# Upstream libraries linked into the game (see reports/decomp-reconstruction/vendored-libraries.md):
+# Lua 5.1.4 (float lua_Number), Box2D 2.0.1 (DH2 b2Settings), gameswf r1714 plus Gameloft changes.
+# They are queued like any category; rows that match upstream are ledgered `upstream`, the rest rebuilt.
+VENDOR_CATEGORIES = {"vendor-lua", "vendor-box2d", "vendor-gameswf"}
 
 
 FUN_NAME = re.compile(r"^(?:thunk_)?FUN_([0-9a-fA-F]+)$")
@@ -156,8 +162,14 @@ def main() -> int:
                                        and not re.match(r"^(Structs|Arrays|PyData)", o))
         if b in ("thunk", "wrapper-stormgloft", "runtime-stl"):
             cats["skip-" + b].append(r)
+        elif b == "lib-gameswf" and re.match(r"^(?:\S+ )?RenderFX", strip_return_type(d)):
+            cats["game-ui"].append(r)          # RenderFX is DH2 game glue, not gameswf (vendored-libraries.md)
+        elif b == "lib-gameswf" and re.match(r"^(?:\S+ )?glitch::", head(d)):
+            cats[next(name for name, rule in CATEGORY_RULES if rule(o, d, "engine-glitch"))].append(r)
+        elif b == "lib-lua" and re.search(r"sfc::script::lua|LuaAllocator", d):
+            cats["game-app"].append(r)         # Gameloft's C++ wrapper over Lua, not Lua itself
         elif b in ("lib-gameswf", "lib-lua", "lib-box2d"):
-            cats["upstream-vendored-" + b.removeprefix("lib-")].append(r)
+            cats["vendor-" + b.removeprefix("lib-")].append(r)
         elif held and b == "game" and not any(rule(o, d, b) for name, rule in CATEGORY_RULES
                                               if name in ("pydata-accessors", "net-transport", "net-session-online")):
             cats[next(name for name, rule in GAME_RULES if rule(o, d))].append(r)
@@ -172,7 +184,7 @@ def main() -> int:
     for name, items in sorted(cats.items()):
         summary[name] = {"functions": len(items), "bytes": sum(int(i["body_bytes"]) for i in items),
                          "top_owners": Counter(i["owner"] for i in items).most_common(12)}
-        if name in {n for n, _ in CATEGORY_RULES} | {n for n, _ in GAME_RULES}:
+        if name in {n for n, _ in CATEGORY_RULES} | {n for n, _ in GAME_RULES} | VENDOR_CATEGORIES:
             out = PORT / name
             out.mkdir(parents=True, exist_ok=True)
             items.sort(key=lambda i: (i["owner"], int(i["elf_address"], 16)))

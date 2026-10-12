@@ -108,8 +108,8 @@
   ]
  },
  "game-app": {
-  "functions": 1303,
-  "bytes": 199776,
+  "functions": 1409,
+  "bytes": 212376,
   "top_owners": [
    [
     "<global>",
@@ -118,6 +118,10 @@
    [
     "rnd",
     156
+   ],
+   [
+    "lib-lua",
+    106
    ],
    [
     "Application",
@@ -153,10 +157,6 @@
    ],
    [
     "InputManager",
-    14
-   ],
-   [
-    "GameEventManager",
     14
    ]
   ]
@@ -270,9 +270,13 @@
   ]
  },
  "game-ui": {
-  "functions": 704,
-  "bytes": 125992,
+  "functions": 808,
+  "bytes": 140820,
   "top_owners": [
+   [
+    "lib-gameswf",
+    104
+   ],
    [
     "MenuBase",
     96
@@ -316,10 +320,6 @@
    [
     "MenuWorldMap",
     19
-   ],
-   [
-    "GameSWFUtils",
-    18
    ]
   ]
  },
@@ -621,7 +621,7 @@
    ]
   ]
  },
- "upstream-vendored-box2d": {
+ "vendor-box2d": {
   "functions": 318,
   "bytes": 29816,
   "top_owners": [
@@ -631,23 +631,23 @@
    ]
   ]
  },
- "upstream-vendored-gameswf": {
-  "functions": 2474,
-  "bytes": 439512,
+ "vendor-gameswf": {
+  "functions": 2370,
+  "bytes": 424684,
   "top_owners": [
    [
     "lib-gameswf",
-    2474
+    2370
    ]
   ]
  },
- "upstream-vendored-lua": {
-  "functions": 577,
-  "bytes": 100188,
+ "vendor-lua": {
+  "functions": 471,
+  "bytes": 87588,
   "top_owners": [
    [
     "lib-lua",
-    577
+    471
    ]
   ]
  },

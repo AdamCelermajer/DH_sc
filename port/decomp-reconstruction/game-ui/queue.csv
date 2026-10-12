@@ -703,3 +703,107 @@ elf_address,body_bytes,owner,name,demangled
 508ef4,2020,StringManager,_ZN13StringManager5parseERSsPKcz,"StringManager::parse(std::basic_string<char, std::char_traits<char>, std::allocator<char> >&, char const*, ...)"
 509a08,204,StringManager,_ZN13StringManager11preloadPackEj,StringManager::preloadPack(unsigned int)
 509aec,1684,StringManager,_ZN13StringManager7parseExERSsPKcRK7VarArgs,"StringManager::parseEx(std::basic_string<char, std::char_traits<char>, std::allocator<char> >&, char const*, VarArgs const&)"
+421e48,284,lib-gameswf,_ZN8RenderFX5Event16GetCharacterPathEv,RenderFX::Event::GetCharacterPath()
+42ca80,8,lib-gameswf,_ZN8RenderFX13EventListener14CanHandleEventERNS_5EventE,RenderFX::EventListener::CanHandleEvent(RenderFX::Event&)
+7a7c34,48,lib-gameswf,_ZN8RenderFX12SetWireFrameEb,RenderFX::SetWireFrame(bool)
+7a7c6c,8,lib-gameswf,_ZN8RenderFX16SetEventListenerEPNS_13EventListenerE,RenderFX::SetEventListener(RenderFX::EventListener*)
+7a7c74,20,lib-gameswf,_ZN8RenderFX13GetControllerEi,RenderFX::GetController(int)
+7a7c88,16,lib-gameswf,_ZN8RenderFX20SetControllerEnabledEib,"RenderFX::SetControllerEnabled(int, bool)"
+7a7c98,8,lib-gameswf,_ZN8RenderFX16SetInputBehaviorEi,RenderFX::SetInputBehavior(int)
+7a7ca0,12,lib-gameswf,_ZNK8RenderFX12GetFlashRootEv,RenderFX::GetFlashRoot() const
+7a7cac,8,lib-gameswf,_ZNK8RenderFX7GetRootEv,RenderFX::GetRoot() const
+7a7cb4,12,lib-gameswf,_ZN8RenderFX23SetTextBufferingEnabledEb,RenderFX::SetTextBufferingEnabled(bool)
+7a7cc0,12,lib-gameswf,_ZN8RenderFX24SetAutoLoadGlyphsEnabledEb,RenderFX::SetAutoLoadGlyphsEnabled(bool)
+7a7ccc,12,lib-gameswf,_ZN8RenderFX23SetRenderCachingEnabledEb,RenderFX::SetRenderCachingEnabled(bool)
+7a7cd8,20,lib-gameswf,_ZNK8RenderFX8GetAlphaEPN7gameswf9characterE,RenderFX::GetAlpha(gameswf::character*) const
+7a7cec,72,lib-gameswf,_ZN8RenderFX7GetTextEPN7gameswf9characterE,RenderFX::GetText(gameswf::character*)
+7a7d34,92,lib-gameswf,_ZN8RenderFX9GotoFrameEPN7gameswf9characterEib,"RenderFX::GotoFrame(gameswf::character*, int, bool)"
+7a7d90,68,lib-gameswf,_ZN8RenderFX13GetFrameCountEPN7gameswf9characterE,RenderFX::GetFrameCount(gameswf::character*)
+7a7dd4,136,lib-gameswf,_ZN8RenderFX10IsAnimOverEPN7gameswf9characterE,RenderFX::IsAnimOver(gameswf::character*)
+7a7e5c,36,lib-gameswf,_ZN8RenderFX9FSCommandEPKcS1_,"RenderFX::FSCommand(char const*, char const*)"
+7a7e80,52,lib-gameswf,_ZN8RenderFX23RegisterDisplayCallbackEPN7gameswf9characterEPFvRNS0_12render_stateEPvES5_,"RenderFX::RegisterDisplayCallback(gameswf::character*, void (*)(gameswf::render_state&, void*), void*)"
+7a7eb4,44,lib-gameswf,_ZN8RenderFX14SetOrientationEN7gameswf16orientation_modeE,RenderFX::SetOrientation(gameswf::orientation_mode)
+7a7ee8,8,lib-gameswf,_ZN8RenderFX10SetContextEPN7gameswf9characterE,RenderFX::SetContext(gameswf::character*)
+7a7ef0,8,lib-gameswf,_ZN8RenderFX10GetContextEv,RenderFX::GetContext()
+7a7fe4,12,lib-gameswf,_ZN8RenderFX14DestroyContextEPN7gameswf14player_contextE,RenderFX::DestroyContext(gameswf::player_context*)
+7a8098,248,lib-gameswf,_ZN8RenderFX15DepthSearchData4InitEPN7gameswf9characterEPKc,"RenderFX::DepthSearchData::Init(gameswf::character*, char const*)"
+7a8190,172,lib-gameswf,_ZN8RenderFX15DepthSearchDataD1Ev,RenderFX::DepthSearchData::~DepthSearchData()
+7a84c4,72,lib-gameswf,_ZN8RenderFX10Controller5ResetEv,RenderFX::Controller::Reset()
+7a850c,228,lib-gameswf,_ZN8RenderFXC1Ev,RenderFX::RenderFX()
+7a85f8,228,lib-gameswf,_ZN8RenderFXC2Ev,RenderFX::RenderFX()
+7a87fc,632,lib-gameswf,_ZN8RenderFX11DepthSearchEi,RenderFX::DepthSearch(int)
+7a8a84,72,lib-gameswf,_ZN8RenderFX4FindEPKcPN7gameswf9characterE,"RenderFX::Find(char const*, gameswf::character*)"
+7a8acc,316,lib-gameswf,_ZN8RenderFX17CollectCharactersEPN7gameswf9characterEPKci,"RenderFX::CollectCharacters(gameswf::character*, char const*, int)"
+7a8c08,100,lib-gameswf,_ZN8RenderFX14FindCharactersEPN7gameswf9characterEPKci,"RenderFX::FindCharacters(gameswf::character*, char const*, int)"
+7a8cdc,144,lib-gameswf,_ZN8RenderFX14UnloadTexturesEPN7gameswf14player_contextE,RenderFX::UnloadTextures(gameswf::player_context*)
+7a8d74,12,lib-gameswf,_ZN8RenderFX27InitializeGlyphTextureCacheEii,"RenderFX::InitializeGlyphTextureCache(int, int)"
+7a8d84,580,lib-gameswf,_ZN8RenderFX14TraceHierarchyEPN7gameswf9characterEii,"RenderFX::TraceHierarchy(gameswf::character*, int, int)"
+7a9008,172,lib-gameswf,_ZN8RenderFX27DBG_TraceContextInformationEPN7gameswf9characterE,RenderFX::DBG_TraceContextInformation(gameswf::character*)
+7a90bc,156,lib-gameswf,_ZN8RenderFX6UnloadEv,RenderFX::Unload()
+7a9160,120,lib-gameswf,_ZN8RenderFX4FindEPKc,RenderFX::Find(char const*)
+7a91d8,44,lib-gameswf,_ZN8RenderFX23RegisterDisplayCallbackEPKcPFvRN7gameswf12render_stateEPvES5_,"RenderFX::RegisterDisplayCallback(char const*, void (*)(gameswf::render_state&, void*), void*)"
+7a9204,36,lib-gameswf,_ZN8RenderFX10IsAnimOverEPKc,RenderFX::IsAnimOver(char const*)
+7a9228,36,lib-gameswf,_ZN8RenderFX13GetFrameCountEPKc,RenderFX::GetFrameCount(char const*)
+7a924c,52,lib-gameswf,_ZN8RenderFX9GotoFrameEPKcib,"RenderFX::GotoFrame(char const*, int, bool)"
+7a9280,28,lib-gameswf,_ZN8RenderFX7GetTextEPKc,RenderFX::GetText(char const*)
+7a929c,24,lib-gameswf,_ZN8RenderFX10SetVisibleEPKcb,"RenderFX::SetVisible(char const*, bool)"
+7a92b4,44,lib-gameswf,_ZN8RenderFX9SetCursorEPKci,"RenderFX::SetCursor(char const*, int)"
+7a92e0,164,lib-gameswf,_ZN8RenderFX7SetTextEPN7gameswf9characterEPKcb,"RenderFX::SetText(gameswf::character*, char const*, bool)"
+7a9390,44,lib-gameswf,_ZN8RenderFX7SetTextEPKcS1_b,"RenderFX::SetText(char const*, char const*, bool)"
+7a93bc,92,lib-gameswf,_ZN8RenderFX10FormatHTMLEPKcS1_z,"RenderFX::FormatHTML(char const*, char const*, ...)"
+7a941c,92,lib-gameswf,_ZN8RenderFX10FormatTextEPKcS1_z,"RenderFX::FormatText(char const*, char const*, ...)"
+7a947c,92,lib-gameswf,_ZN8RenderFX10FormatHTMLEPN7gameswf9characterEPKcz,"RenderFX::FormatHTML(gameswf::character*, char const*, ...)"
+7a94dc,92,lib-gameswf,_ZN8RenderFX10FormatTextEPN7gameswf9characterEPKcz,"RenderFX::FormatText(gameswf::character*, char const*, ...)"
+7a953c,100,lib-gameswf,_ZN8RenderFX23ClearGlyphTextureCachesEPN7gameswf14player_contextE,RenderFX::ClearGlyphTextureCaches(gameswf::player_context*)
+7a95a8,140,lib-gameswf,_ZN8RenderFX13PreloadGlyphsEPN7gameswf9characterE,RenderFX::PreloadGlyphs(gameswf::character*)
+7a9708,156,lib-gameswf,_ZN8RenderFX13CreateContextERNS_24InitializationParametersE,RenderFX::CreateContext(RenderFX::InitializationParameters&)
+7a97ac,92,lib-gameswf,_ZN8RenderFX8FinalizeEv,RenderFX::Finalize()
+7a9814,200,lib-gameswf,_ZN8RenderFX10InitializeERNS_24InitializationParametersE,RenderFX::Initialize(RenderFX::InitializationParameters&)
+7a98f8,88,lib-gameswf,_ZN8RenderFX10InitializeEPN6glitch5video12IVideoDriverE,RenderFX::Initialize(glitch::video::IVideoDriver*)
+7a9a34,96,lib-gameswf,_ZN8RenderFX10ControllerD1Ev,RenderFX::Controller::~Controller()
+7a9a94,52,lib-gameswf,_ZN8RenderFX6RenderEv,RenderFX::Render()
+7a9ac8,52,lib-gameswf,_ZN8RenderFX10EndDisplayEv,RenderFX::EndDisplay()
+7a9afc,52,lib-gameswf,_ZN8RenderFX12BeginDisplayEv,RenderFX::BeginDisplay()
+7a9b30,124,lib-gameswf,_ZN8RenderFX9SetBoundsEiiiiN7gameswf10scale_modeE,"RenderFX::SetBounds(int, int, int, int, gameswf::scale_mode)"
+7a9bac,112,lib-gameswf,_ZN8RenderFX11SetViewportEiiii,"RenderFX::SetViewport(int, int, int, int)"
+7a9c1c,92,lib-gameswf,_ZN8RenderFX9PreRenderEv,RenderFX::PreRender()
+7a9c80,292,lib-gameswf,_ZN8RenderFX14SetColorFilterEPN7gameswf9characterEij,"RenderFX::SetColorFilter(gameswf::character*, int, unsigned int)"
+7a9da4,44,lib-gameswf,_ZN8RenderFX14SetColorFilterEPKcij,"RenderFX::SetColorFilter(char const*, int, unsigned int)"
+7a9dd0,52,lib-gameswf,_ZN8RenderFX17SetColorTransformEPN7gameswf9characterEjj,"RenderFX::SetColorTransform(gameswf::character*, unsigned int, unsigned int)"
+7aa02c,44,lib-gameswf,_ZN8RenderFX17SetColorTransformEPKcjj,"RenderFX::SetColorTransform(char const*, unsigned int, unsigned int)"
+7aa058,140,lib-gameswf,_ZN8RenderFX8SetAlphaEPKcf,"RenderFX::SetAlpha(char const*, float)"
+7aa0ec,488,lib-gameswf,_ZN8RenderFX19ForceTexturesToVRAMEbPN7gameswf14player_contextE,"RenderFX::ForceTexturesToVRAM(bool, gameswf::player_context*)"
+7aa3f0,88,lib-gameswf,_ZN8RenderFX11SetPositionEPN7gameswf9characterEii,"RenderFX::SetPosition(gameswf::character*, int, int)"
+7aa5e0,44,lib-gameswf,_ZN8RenderFX11SetPositionEPKcii,"RenderFX::SetPosition(char const*, int, int)"
+7aa6ac,228,lib-gameswf,_ZN8RenderFX11SearchIndex5ClearEv,RenderFX::SearchIndex::Clear()
+7aac54,404,lib-gameswf,_ZN8RenderFX10ClearFontsEPN7gameswf14player_contextE,RenderFX::ClearFonts(gameswf::player_context*)
+7aadf8,52,lib-gameswf,_ZN8RenderFX11SearchIndex4FindEPKc,RenderFX::SearchIndex::Find(char const*)
+7aafac,256,lib-gameswf,_ZN8RenderFX13PreloadGlyphsEPtiPKcibbPKN7gameswf6filterE,"RenderFX::PreloadGlyphs(unsigned short*, int, char const*, int, bool, bool, gameswf::filter const*)"
+7ab0b8,276,lib-gameswf,_ZN8RenderFX13PreloadGlyphsEPKcS1_ibbPKN7gameswf6filterE,"RenderFX::PreloadGlyphs(char const*, char const*, int, bool, bool, gameswf::filter const*)"
+7ab1cc,236,lib-gameswf,_ZN8RenderFXD1Ev,RenderFX::~RenderFX()
+7ab2c4,20,lib-gameswf,_ZN8RenderFXD0Ev,RenderFX::~RenderFX()
+7ab2e0,236,lib-gameswf,_ZN8RenderFXD2Ev,RenderFX::~RenderFX()
+7ab3d8,232,lib-gameswf,_ZN8RenderFX16SetLocalVariableEPKcS1_RN7gameswf8as_valueE,"RenderFX::SetLocalVariable(char const*, char const*, gameswf::as_value&)"
+7ab4cc,252,lib-gameswf,_ZN8RenderFX14ReplaceTextureEPKcPN6glitch5video8ITextureE,"RenderFX::ReplaceTexture(char const*, glitch::video::ITexture*)"
+7ab5d4,228,lib-gameswf,_ZN8RenderFX9SetMemberEPKcS1_RN7gameswf8as_valueE,"RenderFX::SetMember(char const*, char const*, gameswf::as_value&)"
+7ab6c8,104,lib-gameswf,_ZN8RenderFX9SetMemberEPKcS1_i,"RenderFX::SetMember(char const*, char const*, int)"
+7ab730,84,lib-gameswf,_ZN8RenderFX9SetMemberEPKcS1_S1_,"RenderFX::SetMember(char const*, char const*, char const*)"
+7ab784,144,lib-gameswf,_ZN8RenderFX4LoadEPKcPN7gameswf14player_contextE,"RenderFX::Load(char const*, gameswf::player_context*)"
+7ab924,212,lib-gameswf,_ZN8RenderFX9GotoFrameEPN7gameswf9characterEPKcb,"RenderFX::GotoFrame(gameswf::character*, char const*, bool)"
+7aba04,8,lib-gameswf,_ZN8RenderFX8PlayAnimEPN7gameswf9characterEPKci,"RenderFX::PlayAnim(gameswf::character*, char const*, int)"
+7aba0c,176,lib-gameswf,_ZN8RenderFX10SetEnabledEPN7gameswf9characterEb,"RenderFX::SetEnabled(gameswf::character*, bool)"
+7abac8,36,lib-gameswf,_ZN8RenderFX10SetEnabledEPKcb,"RenderFX::SetEnabled(char const*, bool)"
+7abaec,44,lib-gameswf,_ZN8RenderFX9GotoFrameEPKcS1_b,"RenderFX::GotoFrame(char const*, char const*, bool)"
+7abb18,8,lib-gameswf,_ZN8RenderFX8PlayAnimEPKcS1_i,"RenderFX::PlayAnim(char const*, char const*, int)"
+7abe0c,284,lib-gameswf,_ZN8RenderFX16InvokeASCallbackEPN7gameswf9characterEPKcPKNS0_8as_valueEi,"RenderFX::InvokeASCallback(gameswf::character*, char const*, gameswf::as_value const*, int)"
+7abf34,688,lib-gameswf,_ZN8RenderFX9SendEventERNS_5EventE,RenderFX::SendEvent(RenderFX::Event&)
+7ac228,472,lib-gameswf,_ZN8RenderFX8SetFocusEPN7gameswf9characterEi,"RenderFX::SetFocus(gameswf::character*, int)"
+7ac410,52,lib-gameswf,_ZN8RenderFX10ResetFocusEi,RenderFX::ResetFocus(int)
+7ac498,36,lib-gameswf,_ZN8RenderFX8SetFocusEPKci,"RenderFX::SetFocus(char const*, int)"
+7ac4bc,732,lib-gameswf,_ZN8RenderFX11UpdateInputEii,"RenderFX::UpdateInput(int, int)"
+7ac924,580,lib-gameswf,_ZN8RenderFX12UpdateCursorERNS_6CursorEi,"RenderFX::UpdateCursor(RenderFX::Cursor&, int)"
+7ad68c,84,lib-gameswf,_ZN8RenderFX6UpdateEib,"RenderFX::Update(int, bool)"
+7ad7e8,52,lib-gameswf,_ZN8RenderFX16InvokeASCallbackEPKcS1_PKN7gameswf8as_valueEi,"RenderFX::InvokeASCallback(char const*, char const*, gameswf::as_value const*, int)"
+7adb14,600,lib-gameswf,_ZN8RenderFX11SearchIndex4InitERS_,RenderFX::SearchIndex::Init(RenderFX&)
+7add94,28,lib-gameswf,_ZN8RenderFX14GetSearchIndexEv,RenderFX::GetSearchIndex()
+7ae6ac,348,lib-gameswf,_ZN8RenderFX10SetTextureEPKcPN6glitch5video8ITextureEb,"RenderFX::SetTexture(char const*, glitch::video::ITexture*, bool)"

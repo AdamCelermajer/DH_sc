@@ -1108,6 +1108,112 @@ elf_address,body_bytes,owner,name,demangled
 383100,136,ZoomHandler,_ZN11ZoomHandlerD1Ev,ZoomHandler::~ZoomHandler()
 38319c,20,ZoomHandler,_ZN11ZoomHandlerD0Ev,ZoomHandler::~ZoomHandler()
 3831b8,136,ZoomHandler,_ZN11ZoomHandlerD2Ev,ZoomHandler::~ZoomHandler()
+310500,92,lib-lua,_Z12LuaAllocatorPvS_jj,"LuaAllocator(void*, void*, unsigned int, unsigned int)"
+319228,48,lib-lua,_ZN3sfc6script3lua9ArgumentsD1Ev,sfc::script::lua::Arguments::~Arguments()
+319260,20,lib-lua,_ZN3sfc6script3lua9ArgumentsD0Ev,sfc::script::lua::Arguments::~Arguments()
+31927c,48,lib-lua,_ZN3sfc6script3lua9ArgumentsD2Ev,sfc::script::lua::Arguments::~Arguments()
+3192b4,48,lib-lua,_ZN3sfc6script3lua9ArgumentsC1Ev,sfc::script::lua::Arguments::Arguments()
+3192ec,48,lib-lua,_ZN3sfc6script3lua9ArgumentsC2Ev,sfc::script::lua::Arguments::Arguments()
+3193e8,92,lib-lua,_ZN3sfc6script3lua5ValueD1Ev,sfc::script::lua::Value::~Value()
+319454,20,lib-lua,_ZN3sfc6script3lua5ValueD0Ev,sfc::script::lua::Value::~Value()
+3194e0,80,lib-lua,_ZN3sfc6script3lua5ValueC1Ev,sfc::script::lua::Value::Value()
+3196ec,480,lib-lua,_ZN3sfc6script3lua9ArgumentsC1EP9lua_Statei,"sfc::script::lua::Arguments::Arguments(lua_State*, int)"
+3198e0,480,lib-lua,_ZN3sfc6script3lua9ArgumentsC2EP9lua_Statei,"sfc::script::lua::Arguments::Arguments(lua_State*, int)"
+319af4,296,lib-lua,_ZN3sfc6script3lua6Binder10bindMethodEPKcPFvRKNS1_9ArgumentsERNS1_12ReturnValuesEPvE,"sfc::script::lua::Binder::bindMethod(char const*, void (*)(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*))"
+319c44,92,lib-lua,_ZN3sfc6script3lua6Binder11_bindMethodEPKcPvS5_,"sfc::script::lua::Binder::_bindMethod(char const*, void*, void*)"
+319ca8,744,lib-lua,_ZN3sfc6script3lua6Binder16__methodCallbackEP9lua_State,sfc::script::lua::Binder::__methodCallback(lua_State*)
+319fd0,580,lib-lua,_ZN3sfc6script3lua6Binder17__smethodCallbackEP9lua_State,sfc::script::lua::Binder::__smethodCallback(lua_State*)
+31a250,416,lib-lua,_ZN3sfc6script3lua6Binder18__functionCallbackEP9lua_State,sfc::script::lua::Binder::__functionCallback(lua_State*)
+31a414,80,lib-lua,_ZN3sfc6script3lua5ValueC1EPv,sfc::script::lua::Value::Value(void*)
+31a46c,96,lib-lua,_ZN3sfc6script3lua9Arguments11pushPointerEPv,sfc::script::lua::Arguments::pushPointer(void*)
+31a4d4,304,lib-lua,_ZN3sfc6script3lua6Binder12bindFunctionEPKcPFvRKNS1_9ArgumentsERNS1_12ReturnValuesEPvESA_,"sfc::script::lua::Binder::bindFunction(char const*, void (*)(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*), void*)"
+31a68c,36,lib-lua,_ZN3sfc6script3lua5ErrorD1Ev,sfc::script::lua::Error::~Error()
+31a6c0,36,lib-lua,_ZN3sfc6script3lua5ErrorD2Ev,sfc::script::lua::Error::~Error()
+31a6f4,20,lib-lua,_ZN3sfc6script3lua5ErrorD0Ev,sfc::script::lua::Error::~Error()
+31a714,112,lib-lua,_ZN3sfc6script3lua5ErrorC1ERKS2_,sfc::script::lua::Error::Error(sfc::script::lua::Error const&)
+31a78c,112,lib-lua,_ZN3sfc6script3lua5ErrorC2ERKS2_,sfc::script::lua::Error::Error(sfc::script::lua::Error const&)
+31a804,76,lib-lua,_ZN3sfc6script3lua5ErrorC1Ev,sfc::script::lua::Error::Error()
+31a858,76,lib-lua,_ZN3sfc6script3lua5ErrorC2Ev,sfc::script::lua::Error::Error()
+31a8ac,72,lib-lua,_ZN3sfc6script3lua5Error8setErrorEP9lua_Statei,"sfc::script::lua::Error::setError(lua_State*, int)"
+31a918,96,lib-lua,_ZN3sfc6script3lua5ErrorC1EP9lua_Statei,"sfc::script::lua::Error::Error(lua_State*, int)"
+31a980,96,lib-lua,_ZN3sfc6script3lua5ErrorC2EP9lua_Statei,"sfc::script::lua::Error::Error(lua_State*, int)"
+31a9e8,8,lib-lua,_ZN3sfc6script3luaL5panicEP9lua_State,sfc::script::lua::panic(lua_State*)
+31a9f0,40,lib-lua,_ZN3sfc6script3lua8InstanceC2EP9lua_State,sfc::script::lua::Instance::Instance(lua_State*)
+31aa20,40,lib-lua,_ZN3sfc6script3lua8InstanceC1EP9lua_State,sfc::script::lua::Instance::Instance(lua_State*)
+31aa50,4,lib-lua,_ZN3sfc6script3lua8Instance9includeIOEv,sfc::script::lua::Instance::includeIO()
+31aa54,4,lib-lua,_ZN3sfc6script3lua8Instance14includePackageEv,sfc::script::lua::Instance::includePackage()
+31aa78,156,lib-lua,_ZN3sfc6script3lua8Instance6pCall_EjRNS1_12ReturnValuesE,"sfc::script::lua::Instance::pCall_(unsigned int, sfc::script::lua::ReturnValues&)"
+31ab14,56,lib-lua,_ZN3sfc6script3lua8Instance5pCallEPKcRNS1_12ReturnValuesE,"sfc::script::lua::Instance::pCall(char const*, sfc::script::lua::ReturnValues&)"
+31ab4c,156,lib-lua,_ZN3sfc6script3lua8Instance5pCallERKNS1_9ArgumentsERNS1_12ReturnValuesE,"sfc::script::lua::Instance::pCall(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&)"
+31abe8,60,lib-lua,_ZN3sfc6script3lua8Instance5pCallEPKcRKNS1_9ArgumentsERNS1_12ReturnValuesE,"sfc::script::lua::Instance::pCall(char const*, sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&)"
+31ac24,192,lib-lua,_ZN3sfc6script3lua8Instance8execFileER11IFileStreamRNS1_12ReturnValuesE,"sfc::script::lua::Instance::execFile(IFileStream&, sfc::script::lua::ReturnValues&)"
+31acf4,228,lib-lua,_ZN3sfc6script3lua8Instance8loadFileER12StreamBuffer,sfc::script::lua::Instance::loadFile(StreamBuffer&)
+31ade8,224,lib-lua,_ZN3sfc6script3lua8Instance8loadFileER11IFileStream,sfc::script::lua::Instance::loadFile(IFileStream&)
+31aed8,48,lib-lua,_ZN3sfc6script3lua8Instance9setGlobalEPKcRKNS1_5ValueE,"sfc::script::lua::Instance::setGlobal(char const*, sfc::script::lua::Value const&)"
+31af08,180,lib-lua,_ZN3sfc6script3lua8Instance16registerFunctionEPKcPFiP9lua_StateERKNS1_9ArgumentsE,"sfc::script::lua::Instance::registerFunction(char const*, int (*)(lua_State*), sfc::script::lua::Arguments const&)"
+31afbc,52,lib-lua,_ZN3sfc6script3lua8Instance16registerFunctionEPKcPFiP9lua_StateE,"sfc::script::lua::Instance::registerFunction(char const*, int (*)(lua_State*))"
+31aff0,8,lib-lua,_ZN3sfc6script3lua8Instance12includeDebugEv,sfc::script::lua::Instance::includeDebug()
+31aff8,8,lib-lua,_ZN3sfc6script3lua8Instance12includeTableEv,sfc::script::lua::Instance::includeTable()
+31b000,8,lib-lua,_ZN3sfc6script3lua8Instance11includeMathEv,sfc::script::lua::Instance::includeMath()
+31b008,8,lib-lua,_ZN3sfc6script3lua8Instance13includeStringEv,sfc::script::lua::Instance::includeString()
+31b010,8,lib-lua,_ZN3sfc6script3lua8Instance11includeBaseEv,sfc::script::lua::Instance::includeBase()
+31b018,336,lib-lua,_ZN3sfc6script3lua8Instance12_chunkReaderEP9lua_StatePvPj,"sfc::script::lua::Instance::_chunkReader(lua_State*, void*, unsigned int*)"
+31b180,60,lib-lua,_ZN3sfc6script3lua8InstanceD1Ev,sfc::script::lua::Instance::~Instance()
+31b1c4,20,lib-lua,_ZN3sfc6script3lua8InstanceD0Ev,sfc::script::lua::Instance::~Instance()
+31b1e0,60,lib-lua,_ZN3sfc6script3lua8InstanceD2Ev,sfc::script::lua::Instance::~Instance()
+31b224,56,lib-lua,_ZN3sfc6script3luaL8newstateEv,sfc::script::lua::newstate()
+31b268,56,lib-lua,_ZN3sfc6script3lua8InstanceC1Ev,sfc::script::lua::Instance::Instance()
+31b2a8,56,lib-lua,_ZN3sfc6script3lua8InstanceC2Ev,sfc::script::lua::Instance::Instance()
+31b308,144,lib-lua,_ZN3sfc6script3lua12ReturnValues9_doReturnEP9lua_State,sfc::script::lua::ReturnValues::_doReturn(lua_State*)
+31b398,56,lib-lua,_ZN3sfc6script3lua12ReturnValuesD1Ev,sfc::script::lua::ReturnValues::~ReturnValues()
+31b3d8,20,lib-lua,_ZN3sfc6script3lua12ReturnValuesD0Ev,sfc::script::lua::ReturnValues::~ReturnValues()
+31b3f4,56,lib-lua,_ZN3sfc6script3lua12ReturnValuesD2Ev,sfc::script::lua::ReturnValues::~ReturnValues()
+31b434,52,lib-lua,_ZN3sfc6script3lua12ReturnValuesC1Ev,sfc::script::lua::ReturnValues::ReturnValues()
+31b470,52,lib-lua,_ZN3sfc6script3lua12ReturnValuesC2Ev,sfc::script::lua::ReturnValues::ReturnValues()
+31b4ac,196,lib-lua,_ZN3sfc6script3lua12ReturnValues13_addFromStackEP9lua_Statei,"sfc::script::lua::ReturnValues::_addFromStack(lua_State*, int)"
+31b57c,4,lib-lua,_ZN3sfc6script3lua6BinderD1Ev,sfc::script::lua::Binder::~Binder()
+31b580,32,lib-lua,_ZNK3sfc6script3lua5Value10getPointerEv,sfc::script::lua::Value::getPointer() const
+31b5a0,32,lib-lua,_ZNK3sfc6script3lua5Value11getUserDataEv,sfc::script::lua::Value::getUserData() const
+31b5c0,12,lib-lua,_ZN3sfc6script3lua5Value6setNilEv,sfc::script::lua::Value::setNil()
+31b5cc,28,lib-lua,_ZN3sfc6script3lua5Value7setBoolEb,sfc::script::lua::Value::setBool(bool)
+31b5e8,16,lib-lua,_ZN3sfc6script3lua5Value9setNumberEf,sfc::script::lua::Value::setNumber(float)
+31b5f8,16,lib-lua,_ZN3sfc6script3lua5Value10setPointerEPv,sfc::script::lua::Value::setPointer(void*)
+31b608,16,lib-lua,_ZN3sfc6script3lua5Value11setUserDataEPNS1_8UserDataE,sfc::script::lua::Value::setUserData(sfc::script::lua::UserData*)
+31bb54,36,lib-lua,_ZN3sfc6script3lua6BinderD0Ev,sfc::script::lua::Binder::~Binder()
+31bbf0,144,lib-lua,_ZNK3sfc6script3lua5Value9getNumberEv,sfc::script::lua::Value::getNumber() const
+31bc80,172,lib-lua,_ZNK3sfc6script3lua5Value7getBoolEv,sfc::script::lua::Value::getBool() const
+31c368,100,lib-lua,_ZN3sfc6script3lua5ValueaSERKS2_,sfc::script::lua::Value::operator=(sfc::script::lua::Value const&)
+31c46c,28,lib-lua,_ZN3sfc6script3lua5Value9setStringEPKc,sfc::script::lua::Value::setString(char const*)
+31c49c,336,lib-lua,_ZNK3sfc6script3lua5Value9getStringEv,sfc::script::lua::Value::getString() const
+31c634,60,lib-lua,_ZN3sfc6script3lua5ValueC1ERKS2_,sfc::script::lua::Value::Value(sfc::script::lua::Value const&)
+31c89c,60,lib-lua,_ZN3sfc6script3lua5ValueC2ERKS2_,sfc::script::lua::Value::Value(sfc::script::lua::Value const&)
+31c9c8,228,lib-lua,_ZN3sfc6script3lua5Value13_setFromStackEP9lua_Statei,"sfc::script::lua::Value::_setFromStack(lua_State*, int)"
+31cac4,304,lib-lua,_ZNK3sfc6script3lua5Value12_pushOnStackEP9lua_State,sfc::script::lua::Value::_pushOnStack(lua_State*) const
+31ce84,748,lib-lua,_ZN3sfc6script3lua5Value14allocValueListEv,sfc::script::lua::Value::allocValueList()
+31d194,960,lib-lua,_ZN3sfc6script3lua5Value13freeValueListEPSt6vectorIS2_SaIS2_EE,"sfc::script::lua::Value::freeValueList(std::vector<sfc::script::lua::Value, std::allocator<sfc::script::lua::Value> >*)"
+33dcb0,4,lib-lua,_ZN3sfc6script3lua8UserDataD1Ev,sfc::script::lua::UserData::~UserData()
+33dcb4,12,lib-lua,_ZNK3sfc6script3lua8UserData13getUDTypeNameEv,sfc::script::lua::UserData::getUDTypeName() const
+33dcc4,4,lib-lua,_ZN3sfc6script3lua8UserData14createBindingsERNS1_6BinderE,sfc::script::lua::UserData::createBindings(sfc::script::lua::Binder&)
+33e2f0,36,lib-lua,_ZN3sfc6script3lua8UserDataD0Ev,sfc::script::lua::UserData::~UserData()
+37baf8,84,lib-lua,_ZNK3sfc6script3lua9ArgumentsixEj,sfc::script::lua::Arguments::operator[](unsigned int) const
+37c764,60,lib-lua,_ZN3sfc6script3lua5ValueC1Eb,sfc::script::lua::Value::Value(bool)
+37c7e4,96,lib-lua,_ZN3sfc6script3lua12ReturnValues11pushBooleanEb,sfc::script::lua::ReturnValues::pushBoolean(bool)
+37c84c,60,lib-lua,_ZN3sfc6script3lua5ValueC1EPKc,sfc::script::lua::Value::Value(char const*)
+37c8cc,96,lib-lua,_ZN3sfc6script3lua12ReturnValues10pushStringEPKc,sfc::script::lua::ReturnValues::pushString(char const*)
+37c978,60,lib-lua,_ZN3sfc6script3lua5ValueC1EPNS1_8UserDataE,sfc::script::lua::Value::Value(sfc::script::lua::UserData*)
+37c9f8,96,lib-lua,_ZN3sfc6script3lua12ReturnValues12pushUserDataEPNS1_8UserDataE,sfc::script::lua::ReturnValues::pushUserData(sfc::script::lua::UserData*)
+37ca9c,60,lib-lua,_ZN3sfc6script3lua5ValueC1Ei,sfc::script::lua::Value::Value(int)
+37cb24,96,lib-lua,_ZN3sfc6script3lua12ReturnValues11pushIntegerEi,sfc::script::lua::ReturnValues::pushInteger(int)
+37cc3c,60,lib-lua,_ZN3sfc6script3lua5ValueC1Ef,sfc::script::lua::Value::Value(float)
+37ccbc,96,lib-lua,_ZN3sfc6script3lua12ReturnValues10pushNumberEf,sfc::script::lua::ReturnValues::pushNumber(float)
+386c20,196,lib-lua,_ZN3sfc6script3lua6Binder10bindMethodI6TestUDEEvPKcMT_FvRKNS1_9ArgumentsERNS1_12ReturnValuesEE.clone.1,"void sfc::script::lua::Binder::bindMethod<TestUD>(char const*, void (TestUD::*)(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&))"
+386f28,96,lib-lua,_ZN3sfc6script3lua9Arguments12pushUserDataEPNS1_8UserDataE,sfc::script::lua::Arguments::pushUserData(sfc::script::lua::UserData*)
+38d798,16,lib-lua,_ZNK3sfc6script3lua5Value11getUIntegerEv,sfc::script::lua::Value::getUInteger() const
+38eb00,96,lib-lua,_ZN3sfc6script3lua12ReturnValues11pushPointerEPv,sfc::script::lua::ReturnValues::pushPointer(void*)
+39eba8,96,lib-lua,_ZN3sfc6script3lua9Arguments7pushNilEv,sfc::script::lua::Arguments::pushNil()
+39ec10,96,lib-lua,_ZN3sfc6script3lua9Arguments10pushStringEPKc,sfc::script::lua::Arguments::pushString(char const*)
+3cdd78,164,lib-lua,_ZN3sfc6script3lua9Arguments11pushIntegerEi,sfc::script::lua::Arguments::pushInteger(int)
+3da43c,84,lib-lua,_ZNK3sfc6script3lua12ReturnValuesixEj,sfc::script::lua::ReturnValues::operator[](unsigned int) const
 3179ec,24,lstr,_ZNK4lstrclEPKcS1_,"lstr::operator()(char const*, char const*) const"
 483a94,40,rnd,_ZN3rnd15RandomGenerator7NextIntEv,rnd::RandomGenerator::NextInt()
 483ac8,48,rnd,_ZN3rnd15RandomGenerator6GetIntEii,"rnd::RandomGenerator::GetInt(int, int)"
