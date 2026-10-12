@@ -12,6 +12,8 @@ namespace vox {
 class PlaylistElement {
 public:
     PlaylistElement();  // C1 0x881834, C2 0x881810: the body is the same as Reset
+    // C1 0x881884, C2 0x881858: memberwise copy of the five words.
+    PlaylistElement(const PlaylistElement& other);
     void Reset();       // 0x8818b0: field_00 = -1, field_04 = 0, field_08 = 0, field_0c = 0, field_10 = 1
 
 private:
@@ -31,6 +33,9 @@ public:
     int GetCurrentElement() const;  // 0x881eec: elements_[current_]
     int GetCurrentPosition() const; // 0x881efc: current_
     bool IsValid() const;           // 0x88219c: the flag byte at +0x00
+    // 0x881f40: the element id at index when the int flag at +0x14 is set and the index is
+    // inside the table (+0x30 to +0x34); otherwise 0.
+    int GetPlaylistElement(int index) const;
 
     void Reset();                   // not ported (declared for the manager calls)
     void PeekAtNextElement();       // not ported
@@ -39,8 +44,10 @@ public:
 private:
     friend struct NativePlaylistTestAccess;
     bool valid_ = false;            // +0x00
+    int field_14_ = 0;              // +0x14: int flag read by GetPlaylistElement (not identified)
     int current_ = 0;               // +0x10
-    std::int32_t* elements_ = nullptr;  // +0x30
+    std::int32_t* elements_ = nullptr;      // +0x30
+    std::int32_t* elements_end_ = nullptr;  // +0x34
 };
 
 // Manager for the playlists of one decoder. The original keeps the flag at +0x00,

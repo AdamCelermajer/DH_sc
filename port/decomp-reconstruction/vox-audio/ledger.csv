@@ -575,5 +575,58 @@ elf_address,symbol,status,source_file,notes
 0x890b28,_ZN3vox29DriverCallbackSourceInterface13SetByteOffsetEi,reconstructed,vox-audio/src/driver_callback.cpp,SetByteOffset stores +0x58 under the lock
 0x890b50,_ZN3vox29DriverCallbackSourceInterface13GetByteOffsetEv,reconstructed,vox-audio/src/driver_callback.cpp,GetByteOffset reads +0x58 under the lock
 0x890af8,_ZN3vox29DriverCallbackSourceInterface7CleanupEv,reconstructed,vox-audio/src/driver_callback.cpp,Cleanup: buffer list end set to the begin pointer
-0x890b78,_ZN3vox29DriverCallbackSourceInterface8GetPitchEv,partial,vox-audio/src/driver_callback.cpp,"GetPitch: word at +0x34 times 2^-15 via helpers 0x30e964 and 0x30ed6c, not identified by name"
-0x890bb0,_ZN3vox29DriverCallbackSourceInterface7GetGainEv,partial,vox-audio/src/driver_callback.cpp,GetGain: word at +0x28 times 2^-15 via the same helpers as GetPitch
+0x890b78,_ZN3vox29DriverCallbackSourceInterface8GetPitchEv,partial,vox-audio/src/driver_callback.cpp,"GetPitch: word at +0x34 times 2^-14 (ARM constant 0x38800000) via helpers 0x30e964 and 0x30ed6c, not identified by name"
+0x890bb0,_ZN3vox29DriverCallbackSourceInterface7GetGainEv,partial,vox-audio/src/driver_callback.cpp,GetGain: word at +0x28 times 2^-14 (ARM constant 0x38800000) via the same helpers as GetPitch
+0x881884,_ZN3vox15PlaylistElementC1ERS0_,reconstructed,vox-audio/src/native_playlist.cpp,PlaylistElement C1 copy constructor: memberwise copy of the five words
+0x881858,_ZN3vox15PlaylistElementC2ERS0_,reconstructed,vox-audio/src/native_playlist.cpp,PlaylistElement C2 copy constructor: same body as C1
+0x881f40,_ZN3vox14NativePlaylist18GetPlaylistElementEi,reconstructed,vox-audio/src/native_playlist.cpp,"NativePlaylist::GetPlaylistElement: int flag at +0x14, index inside the table from +0x30 to +0x34, else 0"
+0x88ed8c,_Z12VoxSetJavaVMP7_JavaVM,reconstructed,vox-audio/src/driver_android.cpp,VoxSetJavaVM stores the JavaVM pointer in DriverAndroid::s_javaVM
+0x88ee1c,VoxSetJavaVMC,partial,vox-audio/src/driver_android.cpp,"VoxSetJavaVMC: argument passed through to VoxSetJavaVM (the pseudocode lost the register), then VoxSetDataThreshold(1.0)"
+0x88edac,VoxSetDataThreshold,reconstructed,vox-audio/src/driver_android.cpp,"VoxSetDataThreshold: ratio below 0 gives 0, above 1 gives 1, stored as a double"
+0x88ee38,_Z21VoxSetAndroidAPILeveli,reconstructed,vox-audio/src/driver_android.cpp,VoxSetAndroidAPILevel stores the API level
+0x88ee5c,_ZN3vox13DriverAndroid8_InitOSLEPv,reconstructed,vox-audio/src/driver_android.cpp,DriverAndroid::_InitOSL: empty in the original
+0x88ee60,_ZN3vox13DriverAndroid12_ShutdownOSLEv,reconstructed,vox-audio/src/driver_android.cpp,DriverAndroid::_ShutdownOSL: empty in the original
+0x88ee64,_ZN3vox13DriverAndroid11_SuspendOSLEv,reconstructed,vox-audio/src/driver_android.cpp,DriverAndroid::_SuspendOSL: empty in the original
+0x88ee68,_ZN3vox13DriverAndroid10_ResumeOSLEv,reconstructed,vox-audio/src/driver_android.cpp,DriverAndroid::_ResumeOSL: empty in the original
+0x88ee6c,_ZN3vox13DriverAndroid10PrintDebugEv,reconstructed,vox-audio/src/driver_android.cpp,DriverAndroid::PrintDebug: empty in the original
+0x88ee70,_ZN3vox13DriverAndroid9_UpdateATEf,reconstructed,vox-audio/src/driver_android.cpp,DriverAndroid::_UpdateAT: empty in the original
+0x88ee74,_ZN3vox13DriverAndroid10_UpdateOSLEf,reconstructed,vox-audio/src/driver_android.cpp,DriverAndroid::_UpdateOSL: empty in the original
+0x88ee78,_ZN3vox13DriverAndroid6UpdateEf,reconstructed,vox-audio/src/driver_android.cpp,"DriverAndroid::Update: mode 1 calls _UpdateAT, mode 2 calls _UpdateOSL, others return"
+0x88f028,_ZN3vox13DriverAndroid6ResumeEv,partial,vox-audio/src/driver_android.cpp,DriverAndroid::Resume: mode dispatch; _ResumeAT is a stub (JNI audio device not ported)
+0x88f130,_ZN3vox13DriverAndroid7SuspendEv,partial,vox-audio/src/driver_android.cpp,DriverAndroid::Suspend: mode dispatch; _SuspendAT is a stub (JNI audio device not ported)
+0x88f644,_ZN3vox13DriverAndroid8ShutdownEv,partial,vox-audio/src/driver_android.cpp,DriverAndroid::Shutdown: mode dispatch; the AT path joins the thread through _ShutdownAT
+0x88f618,_ZN3vox13DriverAndroid11_ShutdownATEv,reconstructed,vox-audio/src/driver_android.cpp,"DriverAndroid::_ShutdownAT: running flag cleared, then pthread_join replaced by std::thread::join"
+0x88f044,_ZN3vox13DriverAndroid10_SuspendATEv,partial,vox-audio/src/driver_android.cpp,"DriverAndroid::_SuspendAT: not ported (lock, JNI state change and unlock in the original); empty stub here"
+0x88ef6c,_ZN3vox13DriverAndroid9_ResumeATEv,partial,vox-audio/src/driver_android.cpp,"DriverAndroid::_ResumeAT: not ported (lock, JNI state change and unlock in the original); empty stub here"
+0x88f9a0,_ZN3vox13DriverAndroid4InitEPv,partial,vox-audio/src/driver_android.cpp,DriverAndroid::Init: takes and releases the lock; the JNI setup is not ported
+0x88f59c,_ZN3vox13DriverAndroid19DestroyDriverSourceEPNS_21DriverSourceInterfaceE,partial,vox-audio/src/driver_android.cpp,DriverAndroid::DestroyDriverSource: lock and unlock only; the source release is not ported
+0x88fbe8,_ZN3vox13DriverAndroid18CreateDriverSourceEPvS1_i,partial,vox-audio/src/driver_android.cpp,DriverAndroid::CreateDriverSource: lock and unlock only; the source creation is not ported
+0x88fae4,_ZN3vox13DriverAndroidC2Ev,partial,vox-audio/src/driver_android.cpp,DriverAndroid constructor (C2): mode 0 and Init; the original's DriverCallbackInterface base constructor is not ported
+0x888670,_ZN3vox24NativeSubDecoderPCMStateC1EPNS_22NativePlaylistsManagerE,partial,vox-audio/src/native_sub_decoder_state.cpp,NativeSubDecoderPCMState C1 constructor: calls the base constructor (not ported) then sets the PCM vtable
+0x8886a4,_ZN3vox24NativeSubDecoderPCMStateC2EPNS_22NativePlaylistsManagerE,partial,vox-audio/src/native_sub_decoder_state.cpp,NativeSubDecoderPCMState C2 constructor: same as C1; base constructor not ported
+0x8885ec,_ZN3vox24NativeSubDecoderPCMStateD1Ev,partial,vox-audio/src/native_sub_decoder_state.cpp,NativeSubDecoderPCMState D1 destructor: PCM vtable then base destructor (not ported)
+0x88863c,_ZN3vox24NativeSubDecoderPCMStateD2Ev,partial,vox-audio/src/native_sub_decoder_state.cpp,NativeSubDecoderPCMState D2 destructor: same as D1; base destructor not ported
+0x888620,_ZN3vox24NativeSubDecoderPCMStateD0Ev,partial,vox-audio/src/native_sub_decoder_state.cpp,NativeSubDecoderPCMState deleting destructor: calls D1 (base not ported) then frees
+0x887000,_ZN3vox29NativeSubDecoderIMAADPCMStateC1EPNS_22NativePlaylistsManagerE,partial,vox-audio/src/native_sub_decoder_state.cpp,NativeSubDecoderIMAADPCMState C1 constructor: base constructor (not ported) then the IMA ADPCM vtable
+0x887034,_ZN3vox29NativeSubDecoderIMAADPCMStateC2EPNS_22NativePlaylistsManagerE,partial,vox-audio/src/native_sub_decoder_state.cpp,NativeSubDecoderIMAADPCMState C2 constructor: same as C1; base constructor not ported
+0x886f7c,_ZN3vox29NativeSubDecoderIMAADPCMStateD1Ev,partial,vox-audio/src/native_sub_decoder_state.cpp,NativeSubDecoderIMAADPCMState D1 destructor: IMA ADPCM vtable then base destructor (not ported)
+0x886fcc,_ZN3vox29NativeSubDecoderIMAADPCMStateD2Ev,partial,vox-audio/src/native_sub_decoder_state.cpp,NativeSubDecoderIMAADPCMState D2 destructor: same as D1; base destructor not ported
+0x886fb0,_ZN3vox29NativeSubDecoderIMAADPCMStateD0Ev,partial,vox-audio/src/native_sub_decoder_state.cpp,NativeSubDecoderIMAADPCMState deleting destructor: calls D1 (base not ported) then frees
+0x884438,_ZN3vox19VoxNativeSubDecoder14GetTrackParamsEv,reconstructed,vox-audio/src/native_sub_decoder.cpp,"GetTrackParams returns {channels (short +0x0a), word +0x0c, bits (short +0x12), 0}; sret struct return in the ARM"
+0x884f04,_ZN3vox19VoxNativeSubDecoder5CleanEv,reconstructed,vox-audio/src/native_sub_decoder.cpp,Clean frees the shared mixing buffer when set; the original leaves the pointer set and so does the port
+0x885258,_ZN3vox19VoxNativeSubDecoder19MixMultipleSegmentsEPsi,partial,vox-audio/src/native_sub_decoder.cpp,"MixMultipleSegments: only the tail division (bytes / (channels * bytes per sample)) is reproduced; mixing body not ported; pseudocode void, ARM returns the quotient"
+0x8841fc,_ZN3vox19VoxNativeSubDecoder25EmulateMixSegmentInBufferEiPNS_12SegmentStateE,partial,vox-audio/src/native_sub_decoder.cpp,EmulateMixSegmentInBuffer: only the frame-count division tail is reproduced; segment mixing not ported
+0x8847e8,_ZN3vox19VoxNativeSubDecoder21UpdateOldSegmentStateEPNS_14TransitionRuleE,partial,vox-audio/src/native_sub_decoder.cpp,UpdateOldSegmentState: the 0x41-byte copy from +0x120 to +0xdc is not reproduced (segment arrays not laid out)
+0x884ab4,_ZN3vox19VoxNativeSubDecoder23UpdateDyingSegmentStateEPNS_14TransitionRuleE,partial,vox-audio/src/native_sub_decoder.cpp,UpdateDyingSegmentState: the 0x41-byte copy from +0xdc to +0x98 is not reproduced (segment arrays not laid out)
+0x8754dc,_ZN3vox26VoxMSWavSubDecoderIMAADPCMD1Ev,reconstructed,vox-audio/src/mswav_sub_decoder_imaadpcm.cpp,VoxMSWavSubDecoderIMAADPCM D1 destructor: frees the block at +0x4c
+0x875554,_ZN3vox26VoxMSWavSubDecoderIMAADPCMD2Ev,reconstructed,vox-audio/src/mswav_sub_decoder_imaadpcm.cpp,VoxMSWavSubDecoderIMAADPCM D2 destructor: same body as D1
+0x875538,_ZN3vox26VoxMSWavSubDecoderIMAADPCMD0Ev,reconstructed,vox-audio/src/mswav_sub_decoder_imaadpcm.cpp,VoxMSWavSubDecoderIMAADPCM deleting destructor: emitted by the compiler from D1 plus operator delete
+0x8818d4,_ZN3vox12SegmentGroupC2EPNS_10GroupInfosEi,reconstructed,vox-audio/src/groups.cpp,"vox::SegmentGroup::SegmentGroup(vox::GroupInfos*, int) C2; reset flag selects first state word"
+0x881938,_ZN3vox12SegmentGroupC1EPNS_10GroupInfosEi,reconstructed,vox-audio/src/groups.cpp,"vox::SegmentGroup::SegmentGroup(vox::GroupInfos*, int) C1; same body as C2"
+0x881c28,_ZN3vox15SequentialGroupC2EPNS_10GroupInfosEi,reconstructed,vox-audio/src/groups.cpp,"vox::SequentialGroup::SequentialGroup(vox::GroupInfos*, int) C2; SegmentGroup base then vector and indices cleared"
+0x881c74,_ZN3vox15SequentialGroupC1EPNS_10GroupInfosEi,reconstructed,vox-audio/src/groups.cpp,"vox::SequentialGroup::SequentialGroup(vox::GroupInfos*, int) C1; same body as C2"
+0x887bb8,_ZN3vox22VoxNativeSubDecoderPCM5ResetEv,reconstructed,vox-audio/src/native_sub_decoder.cpp,VoxNativeSubDecoderPCM::Reset: empty body (ARM is a bare return)
+0x887bbc,_ZN3vox22VoxNativeSubDecoderPCM8SetStateEPNS_24NativeSubDecoderPCMStateE,reconstructed,vox-audio/src/native_sub_decoder.cpp,VoxNativeSubDecoderPCM::SetState(NativeSubDecoderPCMState*): empty body
+0x887bc0,_ZN3vox22VoxNativeSubDecoderPCM8GetStateEPNS_24NativeSubDecoderPCMStateE,reconstructed,vox-audio/src/native_sub_decoder.cpp,VoxNativeSubDecoderPCM::GetState(NativeSubDecoderPCMState*): empty body
+0x88fd14,_ZN3vox29DriverCallbackSourceInterface21GetNbAvailableSamplesEi,partial,vox-audio/src/driver_callback.cpp,"GetNbAvailableSamples: ring walk from the write index, transcribed from the ARM loop; return values for the wrap and ready-stop cases inferred from the branch structure; a zero buffer_bytes_ yields 0 (original divides without a guard)"
+0x890ccc,_ZN3vox29DriverCallbackSourceInterface7SetGainEf,partial,vox-audio/src/driver_callback.cpp,"SetGain: Q14 word at +0x28; 1.0f and 0 special cases use two float compare helpers (0x30e2f8, 0x30e70c) not identified by name; other values store (int)(x*16384)"

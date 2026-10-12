@@ -1,20 +1,28 @@
 # vox-audio notes
 
-Status after wave 5. The ledger has 539 data rows: 338 reconstructed, 136 partial,
-65 skipped. Wave 5 added 200 rows (171 reconstructed, 28 partial, 1 skipped), taking
-the ledger from 339 rows at wave start. The queue has 1374 functions: 539 ledgered,
-835 remain.
+Status after wave 6. The ledger has 631 data rows: 395 reconstructed, 171 partial,
+65 skipped. Wave 6 added 92 rows (from 539 at the end of wave 5). The queue has 1374
+functions: 631 ledgered, 743 remain.
 
-Builds: `tools/decomp_build.sh host vox-audio` (18 tests) and
-`tools/decomp_build.sh windows vox-audio` (MinGW cross build, tests under Wine).
-Each category is one static library (port/decomp-reconstruction/CMakeLists.txt), so a
-source that calls a declared-but-undefined function only fails in a test that links
+Builds: `tools/decomp_build.sh host vox-audio` (23 tests, all pass) and
+`tools/decomp_build.sh windows vox-audio` (MinGW cross build, tests under Wine, 23 of 23
+pass). Each category is one static library (port/decomp-reconstruction/CMakeLists.txt),
+so a source that calls a declared-but-undefined function only fails in a test that links
 it. No test links the VoxEngineInternal or VoxEngine sources yet.
 
-Tests (18): access_controller, data_obj, decoder_cursor_base, decoder_mswav_cursor,
-decoder_raw, driver, emitter_obj, groups, handlable, handle, ima_adpcm,
-native_sub_decoder, priority_bank, state_mutex, stream_base, stream, string_compare,
-vox_thread.
+Tests (23): access_controller, data_obj, decoder_cursor_base, decoder_mswav_cursor,
+decoder_raw, driver, driver_android, driver_callback, emitter_obj, file_stdio,
+group_ctor, groups, handlable, handle, ima_adpcm, native_playlist, native_sub_decoder,
+priority_bank, state_mutex, stream_base, stream, string_compare, vox_thread.
+
+Wave 6 added: file_stdio (vox:: stdio helpers, a new header and source), native_playlist
+and native_playlist_calls (PlaylistElement, NativePlaylist, NativePlaylistsManager
+partial), driver_callback (DriverCallbackSourceInterface state machine and ring),
+driver_android (DriverAndroid mode dispatch and VoxSet* exports), native_sub_decoder_state
+(derived state ctors and dtors, partial), mswav_sub_decoder_imaadpcm (dtor), the
+SegmentGroup and SequentialGroup constructors (groups.cpp, with GroupInfos), and the
+DecoderRaw factory (decoder_raw.cpp). Also corrected: GetPitch and GetGain use 2^-14,
+not 2^-15 (the ARM constant is 0x38800000).
 
 ## Class coverage
 
@@ -50,11 +58,11 @@ In progress:
   of 10, RandomGroup 2 of 16 (its position cycle needs lrand48, see Open questions).
 - PriorityBankManager 10 of 13, FileLimited 4 of 10, VoxThread 2 of 9.
 
-Not started: VoxSoundManager (52), DriverCallbackSourceInterface (40), VoxSoundPackXML
-(39), DriverAndroid (25) and DriverAndroidSource (6), NativePlaylist (19),
-NativePlaylistsManager (18), DecoderNativeCursor (16), CZipReader (10),
-DecoderMPC8Cursor (10), DecoderStbVorbisCursor (8), DriverCallbackInterface (12),
-FileSystemInterface (11), FileSystemStdio (5), plus the Musepack helpers.
+Not started: VoxSoundManager (52), VoxSoundPackXML (39), DriverAndroid (7) and
+DriverAndroidSource (6), CZipReader (10) and SZipFileEntry (4), DecoderNativeCursor
+(16), DecoderMPC8Cursor (10), DecoderStbVorbisCursor (8), DriverCallbackInterface
+(12), FileSystemInterface (11), FileSystemStdio (5), plus the Musepack helpers.
+NativePlaylist (15) and NativePlaylistsManager (10) are blocked, see Remaining work.
 
 ## Layouts inferred (32-bit offsets from the pseudocode, kept as comments)
 
@@ -254,43 +262,49 @@ Wave 5 additions:
 - Android JNI setters (VoxSetJavaVM, VoxSetDataThreshold, VoxSetAndroidAPILevel) are
   queued but not started. They belong with DriverAndroid.
 
-## Remaining work (835 unledgered of 1374 queued)
+## Remaining work (743 unledgered of 1374 queued)
 
-By class, as the queue names them (remaining bodies):
+By class, as the queue names them (remaining bodies, recounted at the end of wave 6):
 
 - FUN_ entries (no symbol, decompiler-named): 237. Mostly in the 0x88xxxx-0x89xxxx
   range. Owners need identifying before these can be named.
-- VoxSoundManager 52, VoxSoundPackXML 39, DriverAndroid 25, DriverAndroidSource 6
-  (game glue and the Android driver). Not started.
-- DriverCallbackSourceInterface 40, DriverCallbackInterface 12, FileSystemInterface 11,
-  FileSystemStdio 5, FileInterface 4, VoxCallbackManager 4, VoxUtils 6.
-- VoxEngineInternal 44 (debug output, GetDataObject, DetachEmitterObject, update
-  loops, SetInteractiveMusicStateChange).
-- VoxEngine 13: constructors and destructors, Initialize, Shutdown, DestroyVoxEngine,
-  GetVoxEngine, UpdateThreaded and UpdateEmittersThreaded (instance methods, see
-  Decisions), and the two thunks.
-- vox namespace 14: the five decoder factories (MPC8, MSWav, Native, Raw, StbVorbis),
-  CreateDriver, funcUpdate, VoxNewFileSystem and the stdio shims (open, close, read,
-  write, seek, tell). These are the vox-side wrappers, not the fgetc/fseek shims in
-  stdio_shim.cpp.
-- EmitterObj 22 (fade state machine: Play, Pause, Stop, Resume, SetGain, SetPitch,
+- VoxSoundManager 52 (game glue: JNI, iPod playlist, glitch-side calls). Not started.
+  The glitch:: entries belong in that category.
+- VoxEngineInternal 44 (debug output, GetDataObject, DetachEmitterObject, update loops,
+  SetInteractiveMusicStateChange) and VoxEngine 13 (instance methods, see Decisions).
+- VoxSoundPackXML 39, DriverAndroid 7, DriverAndroidSource 6. Not started.
+- EmitterObj 22: the fade state machine (Play, Pause, Stop, Resume, SetGain, SetPitch,
   Update, 3D debug helpers).
-- Native playlists and archives: NativePlaylist 19, NativePlaylistsManager 18,
-  PlaylistElement 5, CZipReader 10, SZipFileEntry 4, DataNode 1, EventXMLDef 3,
-  GroupXMLDef 3, SoundXMLDef 1, VoxSoundPackXML above.
-- Native and WAV sub-decoders: VoxNativeSubDecoder 24, VoxNativeSubDecoderPCM 11,
-  VoxNativeSubDecoderIMAADPCM 20, NativeSubDecoderState 5, NativeSubDecoderPCMState 5,
-  NativeSubDecoderIMAADPCMState 5, VoxMSWavSubDecoder 1, VoxMSWavSubDecoderPCM 6,
-  VoxMSWavSubDecoderIMAADPCM 9. The native segment code is not ported.
-- Decoders and cursors: DecoderNative 11, DecoderNativeCursor 16, DecoderMSWav 6,
-  DecoderStbVorbis 5, DecoderStbVorbisCursor 8, DecoderMPC8 2, DecoderMPC8Cursor 10,
-  DecoderMSWavCursor 3.
-- Groups and random: RandomGroup 14, SegmentGroup 4, SequentialGroup 4.
-- Other: PriorityBankManager 3, FileLimited 6, VoxThread 7, StreamInterface 1.
-- Musepack (not started): 40 mpc_* helpers (mpc_bits_*, mpc_demux_*, mpc_decoder_*,
+- DriverCallbackSourceInterface 22: GetWorkData, FillBufferStereo16, FillBufferMono16(NoInter),
+  FillBuffer, UploadData, SetPitch, SetGain (partial, done), GetDopplerPitch, GetDistanceGain,
+  GetDirectionalGain, GetStereoPanning, Set3DParameter(s), the constructors and dtors.
+  Most float bodies call helpers that are not named (see Open questions).
+- DriverCallbackInterface 12: its base class is not in the port yet, so its constructors
+  and dtors wait for that header.
+- Native sub-decoders: VoxNativeSubDecoderIMAADPCM 20, VoxNativeSubDecoder 18,
+  VoxNativeSubDecoderPCM 8 (Seek-like and state methods still missing), VoxMSWavSubDecoderIMAADPCM 6.
+  The native segment code (SegmentState, TransitionRule) is not ported.
+- DecoderNativeCursor 16 and DecoderNative 11: the native cursor class is not in the port;
+  DecoderNative has no CreateNewCursor, so it stays abstract.
+- NativePlaylist 15 and NativePlaylistsManager 10: blocked. The original NativePlaylist
+  is larger than the port layout (a vector of element pointers at +0x24..+0x2c, and
+  AddGroup allocates 0x5c-byte group objects). Reset, SetState, SetToPreviousState and
+  the manager copies call element virtuals (slots 0x10, 0x14, 0x18, 0x1c, 0x24) that
+  are not ported.
+- RandomGroup 14: needs lrand48 (see Open questions) and the list sentinel layout.
+- SegmentGroup 2 and SequentialGroup 2: the copy constructors (0x88199c, 0x881a08,
+  0x8839fc, 0x883ab8) need the GroupInfos-based copy, not yet traced.
+- FileSystemInterface 11, FileSystemStdio 5, FileInterface 4, FileLimited 6: Read and Seek
+  go through unidentified global pointers (see Open questions).
+- CZipReader 10 and SZipFileEntry 4: the SAllocator string layout (+0x10, +0x18, +0x30)
+  is not reproduced, and there is no zip reader in the port.
+- DecoderMPC8Cursor 10, DecoderMPC8 2, DecoderStbVorbisCursor 8, DecoderStbVorbis 5:
+  the cursors are not in the port. stb_vorbis is upstream (see Decisions).
+- VoxUtils 6, VoxThread 7, vox 7 (the decoder factories and stdio shims),
+  VoxCallbackManager 4, PriorityBankManager 3, EventXMLDef 3, GroupXMLDef 3, DataNode 1,
+  StreamInterface 1.
+- Musepack (not started): the mpc_* helpers (mpc_bits_*, mpc_demux_*, mpc_decoder_*,
   mpc_synthese_filter_float_internal, mpc_random_int, mpc_streaminfo_get_length*,
   mpc_get_encoder_string, mpc_set_replay_level) plus streaminfo_gain,
   streaminfo_encoder_info, streaminfo_read_header_sv7/sv8, huff_init_lut,
   huff_fill_lut and can_fill_lut.
-- glitch:: entries (for example VoxSoundManager::ConvertVisual3DToSound3D) live in
-  the glitch category, so they may belong there.

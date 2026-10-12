@@ -24,7 +24,13 @@ struct NativePlaylistTestAccess {
         p.valid_ = valid;
         p.current_ = current;
         p.elements_ = elements;
+        p.elements_end_ = elements + 3;
     }
+    static void SetTable(NativePlaylist& p, std::int32_t* begin, std::int32_t* end) {
+        p.elements_ = begin;
+        p.elements_end_ = end;
+    }
+    static void SetFlag(NativePlaylist& p, int flag) { p.field_14_ = flag; }
 };
 struct NativePlaylistsManagerTestAccess {
     static NativePlaylist** Playlists(NativePlaylistsManager& m) { return m.playlists_; }
@@ -63,6 +69,15 @@ int main() {
     vox::NativePlaylistTestAccess::Set(playlist, false, 0, ids);
     CHECK(!playlist.IsValid());
     CHECK(playlist.GetCurrentElement() == 7);
+
+    // GetPlaylistElement needs the int flag at +0x14 and an index inside [0, count).
+    vox::NativePlaylistTestAccess::SetTable(playlist, ids, ids + 3);
+    vox::NativePlaylistTestAccess::SetFlag(playlist, 0);
+    CHECK(playlist.GetPlaylistElement(1) == 0);
+    vox::NativePlaylistTestAccess::SetFlag(playlist, 1);
+    CHECK(playlist.GetPlaylistElement(1) == 8);
+    CHECK(playlist.GetPlaylistElement(3) == 0);
+    CHECK(playlist.GetPlaylistElement(-1) == 0);
 
     // Manager: starts valid with no playlists; Init allocates the pointer array and
     // leaves the count alone.

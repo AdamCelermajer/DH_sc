@@ -12,13 +12,15 @@
 
 namespace vox {
 
-// One ring entry, 0x18 bytes in the original. Only the ready byte at +0x14 is read by
-// the reconstructed bodies. +0x04 holds the buffer size used by GetNbAvailableSamples.
+// One ring entry, 0x18 bytes in the original. +0x04 holds the buffer size and +0x10 a
+// count subtracted from the block count, both used by GetNbAvailableSamples. The ready
+// byte at +0x14 is nonzero when the buffer is ready to be read.
 struct DriverBuffer {
-    std::uint32_t unknown_00_ = 0;  // +0x00 (not identified)
-    std::int32_t size_ = 0;         // +0x04
-    std::uint32_t unknown_08_[3] = {};  // +0x08..+0x13 (not identified)
-    std::uint8_t ready_ = 0;        // +0x14, nonzero when the buffer is ready to be read
+    std::uint32_t unknown_00_ = 0;      // +0x00 (not identified)
+    std::int32_t size_ = 0;             // +0x04
+    std::uint32_t unknown_08_[2] = {};  // +0x08, +0x0c (not identified)
+    std::int32_t field_10_ = 0;         // +0x10
+    std::uint8_t ready_ = 0;            // +0x14
     std::uint8_t pad_[3] = {};
 };
 
@@ -44,6 +46,10 @@ public:
     int GetState();
     // 0x890e0c: ready flag of the read buffer, or 0 when there is no buffer or state -1.
     int NeedData();
+    // 0x88fd14 (partial): samples available from the write buffer onward (see the .cpp).
+    int GetNbAvailableSamples(int samples);
+    // 0x890ccc (partial): stores the gain word at +0x28 in Q14 fixed point.
+    void SetGain(float gain);
     // 0x890b28: stores the byte offset (+0x58) under the lock.
     void SetByteOffset(int offset);
     // 0x890b50: reads the byte offset under the lock.

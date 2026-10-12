@@ -12,6 +12,14 @@ PlaylistElement::PlaylistElement() {
     Reset();
 }
 
+// 0x881884 _ZN3vox15PlaylistElementC1ERS0_ (C2 0x881858 is the same body)
+PlaylistElement::PlaylistElement(const PlaylistElement& other)
+    : field_00_(other.field_00_),
+      field_04_(other.field_04_),
+      field_08_(other.field_08_),
+      field_0c_(other.field_0c_),
+      field_10_(other.field_10_) {}
+
 // 0x8818b0 _ZN3vox15PlaylistElement5ResetEv
 void PlaylistElement::Reset() {
     field_10_ = 1;
@@ -34,6 +42,15 @@ int NativePlaylist::GetCurrentPosition() const {
 // 0x88219c _ZN3vox14NativePlaylist7IsValidEv
 bool NativePlaylist::IsValid() const {
     return valid_;
+}
+
+// 0x881f40 _ZN3vox14NativePlaylist18GetPlaylistElementEi
+int NativePlaylist::GetPlaylistElement(int index) const {
+    const int count = static_cast<int>(elements_end_ - elements_);
+    if (field_14_ != 0 && index >= 0 && index < count) {
+        return elements_[index];
+    }
+    return 0;
 }
 
 // 0x882448 _ZN3vox22NativePlaylistsManagerC2Ev (C1 0x882464 has the same body)

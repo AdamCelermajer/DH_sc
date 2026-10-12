@@ -127,3 +127,27 @@ int SequentialGroup::GetGroupElementPosition() {
 }
 
 }  // namespace vox
+
+namespace vox {
+
+// 0x8818d4 _ZN3vox12SegmentGroupC2EPNS_10GroupInfosEi (C1 0x881938 has the same body)
+SegmentGroup::SegmentGroup(const GroupInfos* info, int reset_flag) {
+    valid_ = true;
+    select_mode_ = info->select_mode_;
+    const std::uint32_t first = reset_flag == 0 ? static_cast<std::uint32_t>(info->reset_value_) : 1u;
+    const std::uint32_t reset = static_cast<std::uint32_t>(info->field_14_);
+    words_[0] = first;
+    words_[1] = reset;
+    words_[2] = first;
+    words_[3] = reset;
+    words_[4] = first;
+    words_[5] = reset;
+}
+
+// 0x881c28 _ZN3vox15SequentialGroupC2EPNS_10GroupInfosEi (C1 0x881c74 has the same body)
+SequentialGroup::SequentialGroup(const GroupInfos* info, int reset_flag) : SegmentGroup(info, reset_flag) {
+    index_ = 0;
+    prev_index_ = 0;
+}
+
+}  // namespace vox

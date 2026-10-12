@@ -9,6 +9,17 @@
 
 namespace vox {
 
+// Group definition record the group constructors read (vox::GroupInfos). Only the
+// words the constructors use are named; the rest of the record is not reconstructed.
+struct GroupInfos {
+    std::int32_t unknown_00_ = 0;     // +0x00 (not read by the constructors)
+    std::int32_t unknown_04_ = 0;     // +0x04 (not read by the constructors)
+    std::int32_t select_mode_ = 0;    // +0x08
+    std::int32_t field_0c_ = 0;       // +0x0c (RandomGroup: -1 means no initial value)
+    std::int32_t reset_value_ = 0;    // +0x10 (used when the reset flag is 0)
+    std::int32_t field_14_ = 0;       // +0x14
+};
+
 enum class GroupPeekMode : int {
     kNormal = 0,  // original: mode 0 checks the state words for an empty group
     kOther = 1,
@@ -18,6 +29,9 @@ enum class GroupPeekMode : int {
 class SegmentGroup {
 public:
     SegmentGroup() = default;
+    // C2 0x8818d4, C1 0x881938: the reset flag selects the first state word (0 takes
+    // reset_value_, otherwise 1); the state words are then filled from the record.
+    SegmentGroup(const GroupInfos* info, int reset_flag);
     virtual ~SegmentGroup();  // 0x881a74 D2, 0x881a78 D1
 
     int GetSelectMode() const { return select_mode_; }  // 0x881a7c
@@ -25,6 +39,7 @@ public:
     void SetState(const SegmentGroup& other);           // 0x881a8c
 
 protected:
+    friend struct SegmentGroupTestAccess;
     bool valid_ = false;                  // +0x04
     int select_mode_ = 0;                 // +0x08
     std::uint32_t words_[6] = {};         // +0x0c, +0x10, +0x14, +0x18, +0x1c, +0x20
@@ -35,6 +50,9 @@ protected:
 // and words_[3] (+0x18) the current state, words_[4] and words_[5] the saved state.
 class SequentialGroup : public SegmentGroup {
 public:
+    // C2 0x881c28, C1 0x881c74: the SegmentGroup constructor, then the vector and both
+    // indices cleared.
+    SequentialGroup(const GroupInfos* info, int reset_flag);
     // Six-word state record, in the order GetState writes it.
     struct State {
         std::int32_t v[6];  // [0] +0x14, [1] +0x18, [2] +0x30, [3] +0x1c, [4] +0x20, [5] +0x34

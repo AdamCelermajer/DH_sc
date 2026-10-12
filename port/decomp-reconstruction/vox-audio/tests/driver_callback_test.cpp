@@ -24,6 +24,8 @@ struct DriverCallbackSourceInterfaceTestAccess {
     }
     static int ByteOffset(const DriverCallbackSourceInterface& d) { return d.byte_offset_; }
     static void SetByteOffsetRaw(DriverCallbackSourceInterface& d, int value) { d.byte_offset_ = value; }
+    static void SetBufferBytes(DriverCallbackSourceInterface& d, int bytes) { d.buffer_bytes_ = bytes; }
+    static int GainWord(const DriverCallbackSourceInterface& d) { return d.field_28_; }
 };
 }  // namespace vox
 
@@ -107,10 +109,45 @@ int main() {
     CHECK(source.GetBufferCount() == 3);
     CHECK(source.NeedData() == 0);  // no buffers left in the list, so no ready flag
 
-    // Fixed-point accessors: 16384 is 0.5 after the 2^-15 scale, 32768 is 1.0.
-    DriverCallbackSourceInterfaceTestAccess::SetWords(source, 32768, 16384);
+    // Fixed-point accessors: the words are Q14, so 16384 is 1.0 and 8192 is 0.5.
+    DriverCallbackSourceInterfaceTestAccess::SetWords(source, 16384, 8192);
     CHECK(source.GetGain() == 1.0f);
     CHECK(source.GetPitch() == 0.5f);
+
+    // SetGain stores the Q14 word: 1.0 -> 16384, 0.5 -> 8192, 0 -> 0.
+    source.SetGain(1.0f);
+    CHECK(DriverCallbackSourceInterfaceTestAccess::GainWord(source) == 16384);
+    source.SetGain(0.5f);
+    CHECK(DriverCallbackSourceInterfaceTestAccess::GainWord(source) == 8192);
+    CHECK(source.GetGain() == 0.5f);
+    source.SetGain(0.0f);
+    CHECK(DriverCallbackSourceInterfaceTestAccess::GainWord(source) == 0);
+
+    // GetNbAvailableSamples on three empty buffers of 4 blocks each (size 400, 100 bytes).
+    {
+        DriverCallbackSourceInterface ring;
+        DriverBuffer ringBuffers[3];
+        for (DriverBuffer& b : ringBuffers) {
+            b.size_ = 400;
+            b.ready_ = 0;
+        }
+        DriverCallbackSourceInterfaceTestAccess::SetBuffers(ring, ringBuffers, 3);
+        DriverCallbackSourceInterfaceTestAccess::SetBufferBytes(ring, 100);
+        DriverCallbackSourceInterfaceTestAccess::SetIndices(ring, 0, 0);
+        CHECK(ring.GetNbAvailableSamples(3) == 3);      // first buffer alone has 4
+        CHECK(ring.GetNbAvailableSamples(6) == 6);      // 4 + 4 reaches 6 in the next buffer
+        CHECK(ring.GetNbAvailableSamples(10) == 10);    // 4 + 4 + 4 reaches 10
+        CHECK(ring.GetNbAvailableSamples(20) == -1);    // the ring wraps short of 20
+        ringBuffers[1].ready_ = 1;                      // a ready buffer stops the walk
+        CHECK(ring.GetNbAvailableSamples(6) == 4);
+        ringBuffers[1].ready_ = 0;
+        ringBuffers[0].ready_ = 1;                      // the write buffer ready means 0
+        CHECK(ring.GetNbAvailableSamples(3) == 0);
+        ringBuffers[0].ready_ = 0;
+        ringBuffers[0].field_10_ = 1;                   // the count at +0x10 is subtracted
+        CHECK(ring.GetNbAvailableSamples(3) == 3);      // 3 free in the first buffer
+        CHECK(ring.GetNbAvailableSamples(4) == 4);      // 3 + 4 reaches 4 in the next buffer
+    }
 
     std::printf("driver_callback_test: %s\n", g_failures == 0 ? "ok" : "FAILED");
     return g_failures == 0 ? 0 : 1;
