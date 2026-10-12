@@ -59,6 +59,11 @@ struct SpawnDispatch {
     // retained DialogMsg queue used by StartDialog and WaitDialog.
     int (*start_dialog_id)(void*,
         const dh2_script_runtime::SpawnServices::DialogIdRequest*) = nullptr;
+    // Generic host commands (see SpawnServices::host_command). host_supports
+    // answers the pre-activation provider check for one decoded command.
+    bool (*host_supports)(void*, const dh2_script_command*) = nullptr;
+    int (*host_command)(void*, const dh2_script_command*, std::uintptr_t*) = nullptr;
+    int (*host_command_blocking)(void*, std::uintptr_t, std::uint32_t) = nullptr;
 };
 
 enum class TriggerScriptKind : std::uint8_t {
@@ -126,6 +131,8 @@ public:
     bool running() const;
     const dh2_script_runtime::Runtime* runtime() const;
     std::uint32_t dispatch_count() const;
+    // Diagnostic: level-table programs whose every command has a bound provider.
+    void supported_level_scripts(std::uint32_t& supported, std::uint32_t& total) const;
     void clear();
 };
 

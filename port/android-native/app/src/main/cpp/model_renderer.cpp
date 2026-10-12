@@ -23316,6 +23316,160 @@ void initialize_crypt_script(AAssetManager* assets,bool restore,
  native_level_script_level_name=active_level_assets.name;
  __android_log_print(ANDROID_LOG_INFO,"DH2Native","Crypt script ready | common %u | level %u | script %d | room %u | trigger %.6g %.6g %.6g | source AABB contact | other scripts pending",native_level_script_session.runtime()->common_table->script_count,native_level_script_session.runtime()->level_table->script_count,native_level_script_session.runtime()->trigger_script_id,crypt_trigger_room,position.x,position.y,position.z);
 }
+// Generic level-script host commands. Each case follows the original
+// Script_<Command>::Execute recovered from IDA; commands whose canonical owner
+// is not reconstructed yet are reported as unsupported (-2), so their scripts
+// stay rejected before activation instead of running with invented effects.
+namespace {
+std::string native_script_string(const dh2_script_command& command,unsigned index){
+ if(index>=command.field_count||command.fields[index].kind!=DH2_SCRIPT_VALUE_STRING)return {};
+ const auto& value=command.fields[index].value.string;
+ return std::string(reinterpret_cast<const char*>(value.data),value.size);
+}
+bool native_script_name_field(const dh2_script_command& command,unsigned index){
+ return index<command.field_count&&command.fields[index].kind==DH2_SCRIPT_VALUE_STRING&&
+     command.fields[index].value.string.size>0&&
+     command.fields[index].value.string.size<dh2_script_runtime::MAX_NAME_BYTES;
+}
+bool native_script_all(const std::string& name){
+ if(name.size()!=3)return false;
+ return std::tolower(static_cast<unsigned char>(name[0]))=='a'&&
+     std::tolower(static_cast<unsigned char>(name[1]))=='l'&&
+     std::tolower(static_cast<unsigned char>(name[2]))=='l';
+}
+template<class Visit>
+bool native_script_for_characters(const std::string& name,Visit visit,int& lookup){
+ lookup=1;
+ if(native_script_all(name)){
+  if(!visit(prince_character.identity()))return false;
+  for(auto& group:object_groups)for(auto& actor:group.instances)
+   if(actor.kind==1&&actor.identity&&!visit(actor.identity))return false;
+  return true;
+ }
+ dh2_script_runtime::ObjectRecord record{};
+ const int status=native_level_script_object_lookup(nullptr,name.c_str(),&record);
+ if(status==0){lookup=0;return true;}
+ if(status!=1||!record.identity)return false;
+ return visit(record.identity);
+}
+// GameObject::SetVisible on the canonical ObjectManager row and, for a
+// Character, the same retained visibility fields Character::Enabled updates.
+bool native_script_set_visible(std::uintptr_t identity,bool visible,bool disable_zoning){
+ auto& manager=source_level_owner.object_manager();
+ if(manager.set_visible(identity,visible?1:0)!=
+      dh2::object_manager_runtime_owner_v1::Status::ok)return false;
+ if(identity==prince_character.identity()){
+  prince_character.set_visible(visible?1u:0u);return true;
+ }
+ auto* actor=native_char_ai_actor(identity);
+ if(!actor)return true;  // Non-Character GameObject: the row owns +0x80.
+ if(disable_zoning)actor->zoning_enabled_2ee=0;  // GameObject::DisableZoning 0x38c600
+ actor->visible_80=std::uint8_t(visible);
+ if(actor->spawn_owner)actor->spawn_owner->source_visible=visible;
+ const bool zonable=native_actor_zonability(*actor)!=0;
+ actor->renderer_visible=visible&&
+     !(zonable&&actor->zoning_enabled_2ee&&actor->in_zone_2f0==0);
+ return true;
+}
+}
+bool native_level_script_host_supports(void*,const dh2_script_command* command){
+ if(!command)return false;
+ const auto& c=*command;
+ switch(c.command_id){
+ case 3:  // CONSOLE(S)
+  return c.field_count==1&&c.fields[0].kind==DH2_SCRIPT_VALUE_STRING;
+ case 15: // PlayLevelMusic(I)
+  return c.field_count==1&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32;
+ case 31: case 39: case 42: case 43: // PutCharacterInIdle/StopActor/ShowActor/HideActor(S)
+  return c.field_count==1&&native_script_name_field(c,0);
+ default:return false;
+ }
+}
+int native_level_script_host_command(void*,const dh2_script_command* command,
+                                     std::uintptr_t* handle){
+ try {
+  if(!command||!handle)return -1;
+  *handle=0;
+  if(!native_level_script_host_supports(nullptr,command))return -2;
+  const auto source=source_level_owner.snapshot();
+  if(!source.source_level||source.phase!=dh2::source_level_owner_v1::Phase::active||
+     source.source_level_state!=38||source.generation!=native_level_script_generation||
+     native_level_script_level_name!=active_level_assets.name)return -1;
+  const auto& c=*command;
+  switch(c.command_id){
+  case 3:
+   // Script_CONSOLE::Execute 0x1146af only shows a DialogMsg when the
+   // DisplayScriptConsoleAsDialog debug switch is on; release is a no-op.
+   return 1;
+  case 15: {
+   // Script_PlayLevelMusic::Execute 0x45fd20 plays the current Level's
+   // music (Level+284) and selects the ambient state.
+   const auto uid=source_level_vxn_music_uid();
+   if(!uid)return 1;
+   return dh2::player_gameplay_audio::enqueue_source_vxn_music_state(uid,"ambient")?1:-1;
+  }
+  case 42: case 43: {
+   // Script_ShowActor 0x114245: DisableZoning then SetVisible(true).
+   // Script_HideActor 0x114126: SetVisible(false).
+   const bool show=c.command_id==42;
+   dh2_script_runtime::ObjectRecord record{};
+   const auto name=native_script_string(c,0);
+   const int status=native_level_script_object_lookup(nullptr,name.c_str(),&record);
+   if(status==0)return 0;
+   if(status!=1||!record.identity)return -1;
+   return native_script_set_visible(record.identity,show,show)?1:-1;
+  }
+  case 39: {
+   // Script_StopActor 0x114287: v2Controller::Cmd_Stop on one or "All".
+   int lookup=1;
+   const bool ok=native_script_for_characters(native_script_string(c,0),
+       [](std::uintptr_t identity){
+        if(identity==prince_character.identity()){stop_movement();return true;}
+        auto* actor=native_char_ai_actor(identity);
+        if(!actor||actor->kind!=1||!actor->spawn_owner||
+           actor->spawn_owner->actor!=actor||
+           actor->spawn_owner->character.owner()!=actor->identity)return true;
+        auto& owner=*actor->spawn_owner;
+        using namespace dh2::character;
+        const CharacterControlServices16 services{&owner,SpawnOwner::controller_service};
+        const ControllerCommandState32 controller{
+            reinterpret_cast<std::uintptr_t>(&owner.character.state),actor->identity,
+            controller_global_blocked,owner.character.state.controller_locked,
+            owner.controller_forced,0};
+        return dh2_character_controller_character(&controller,controller_stop,0,&services)>=0;
+       },lookup);
+   if(!ok)return -1;
+   return lookup;
+  }
+  case 31: {
+   // Script_PutCharacterInIdle 0x113fba: per Character (or "All"), skip dead,
+   // Limbus and awaiting-spawn states, else SM_SetIdleState.
+   int lookup=1;
+   const bool ok=native_script_for_characters(native_script_string(c,0),
+       [](std::uintptr_t identity){
+        if(identity==prince_character.identity()){
+         if(prince_combat.life.dead)return true;
+         return prince_character.set_idle_state(false)>=0;
+        }
+        auto* actor=native_char_ai_actor(identity);
+        if(!actor||actor->kind!=1||actor->combat_state.dead||!actor->spawn_owner||
+           actor->spawn_owner->actor!=actor||
+           actor->spawn_owner->character.owner()!=actor->identity)return true;
+        const auto state=actor->spawn_owner->character.state.current;
+        if(state==0||state==17||state==12)return true;
+        return actor->spawn_owner->character.set_idle_state(false)>=0;
+       },lookup);
+   if(!ok)return -1;
+   return lookup;
+  }
+  default:return -2;
+  }
+ }catch(...){return -1;}
+}
+int native_level_script_host_command_blocking(void*,std::uintptr_t,std::uint32_t){
+ // None of the implemented host commands block (their IsBlocking returns 0).
+ return 0;
+}
 void initialize_swamp_level_script_session(AAssetManager* assets,bool restore) {
  const auto source_level=source_level_owner.snapshot();
  if(!source_level.source_level||
@@ -23423,7 +23577,9 @@ void initialize_swamp_level_script_session(AAssetManager* assets,bool restore) {
      native_level_script_actor_animation_active,
      enqueue_char_menu_tutorial,skip_char_menu_tutorial,
      &native_level_dialog_dispatch_context,native_level_script_door_command,
-     native_level_script_door_is_blocking,start_dialog_id};
+     native_level_script_door_is_blocking,start_dialog_id,
+     native_level_script_host_supports,native_level_script_host_command,
+     native_level_script_host_command_blocking};
  std::string error;
  if(!native_level_script_session.load_level(
       read(assets,"scripts_pyscriptnames.bin","scripts"),
@@ -23441,6 +23597,10 @@ void initialize_swamp_level_script_session(AAssetManager* assets,bool restore) {
      "SWAMP ScriptManager bound | source Level generation %u | common %u | level %u | canonical Character seeds %zu | command services remain strict",
      source_level.generation,runtime->common_table->script_count,
      runtime->level_table->script_count,seeds.size());
+ {std::uint32_t supported=0,total=0;
+  native_level_script_session.supported_level_scripts(supported,total);
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native","%s level scripts with bound command providers | %u of %u",
+      active_level_assets.name.c_str(),supported,total);}
 }
 void update_crypt_contact() {
  // The GhostAmbush01 spawn trigger belongs to the Crypt ScriptManager only.

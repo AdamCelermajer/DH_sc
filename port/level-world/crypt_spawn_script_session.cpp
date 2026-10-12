@@ -105,6 +105,8 @@ bool spawn_program(const dh2_script& script,const SpawnDispatch& dispatch) {
                    dh2_script_runtime::MAX_NAME_BYTES)return false;
             continue;
         }
+        if(dispatch.host_supports&&dispatch.host_command&&
+           dispatch.host_supports(dispatch.context,&command))continue;
         if ((command.command_id != 26 && command.command_id != 30) ||
             command.field_count != 1 ||
             command.fields[0].kind != (command.command_id == 26 ?
@@ -344,6 +346,32 @@ bool SpawnSession::load(const std::vector<std::uint8_t>& common_names,
                 int result;
                 try { result=owner.dispatch.door_command(
                     owner.dispatch.context,request,identity); }
+                catch(...) { owner.failed=true; throw; }
+                if(result<0)owner.failed=true;
+                return result;
+            };
+    }
+    if(dispatch.host_command) {
+        candidate->scheduler.spawn_services.host_command =
+            [](void* raw,const dh2_script_command* command,uintptr_t* handle) {
+                auto& owner=*static_cast<Impl*>(raw);
+                if(!command||!handle||!owner.dispatch.host_command)return -1;
+                int result;
+                try { result=owner.dispatch.host_command(
+                    owner.dispatch.context,command,handle); }
+                catch(...) { owner.failed=true; throw; }
+                if(result==-1)owner.failed=true;
+                return result;
+            };
+    }
+    if(dispatch.host_command_blocking) {
+        candidate->scheduler.spawn_services.host_command_blocking =
+            [](void* raw,uintptr_t handle,uint32_t command_id) {
+                auto& owner=*static_cast<Impl*>(raw);
+                if(!owner.dispatch.host_command_blocking)return -1;
+                int result;
+                try { result=owner.dispatch.host_command_blocking(
+                    owner.dispatch.context,handle,command_id); }
                 catch(...) { owner.failed=true; throw; }
                 if(result<0)owner.failed=true;
                 return result;
@@ -594,6 +622,15 @@ bool SpawnSession::running() const {
 }
 const dh2_script_runtime::Runtime* SpawnSession::runtime() const {
     return impl_ ? &impl_->scheduler : nullptr;
+}
+void SpawnSession::supported_level_scripts(std::uint32_t& supported, std::uint32_t& total) const {
+    supported = total = 0;
+    if (!impl_ || !impl_->scheduler.level_table) return;
+    const auto& table = *impl_->scheduler.level_table;
+    for (std::uint32_t i = 0; i < table.script_count; ++i) {
+        ++total;
+        if (spawn_program(table.scripts[i], impl_->dispatch)) ++supported;
+    }
 }
 std::uint32_t SpawnSession::dispatch_count() const { return impl_ ? impl_->dispatched : 0; }
 void SpawnSession::clear() {

@@ -847,9 +847,21 @@ int main(int argc, char** argv) {
             // normal player_attack() route until its source HP reaches zero.
             if (options.movement_kill_scenario && scenario_started &&
                 rendered_frames && rendered_frames % 15 == 0) {
+                [&] {  // returns early while the Player is dead
                 model_renderer::GameplayPoseSnapshotV1 pose;
-                if (!model_renderer::gameplay_pose_snapshot(pose, ui_error))
-                    throw std::runtime_error("Shared attack pose snapshot failed: " + ui_error);
+                if (!model_renderer::gameplay_pose_snapshot(pose, ui_error)) {
+                    // Monsters fight back: on death the Continue taps below
+                    // revive the Player and the kill loop resumes.
+                    if (!scenario_player_died)
+                        std::cout << "Scenario move-kill | Player died | " << ui_error << '\n';
+                    scenario_player_died = true;
+                    scenario_revived = false;
+                    return;
+                }
+                if (scenario_player_died && !scenario_revived) {
+                    scenario_revived = true;
+                    std::cout << "Scenario move-kill | Player revived | HP " << pose.player_hp << '\n';
+                }
                 if (scenario_target_index >= 0) {
                     model_renderer::GameplayEnemyStateSnapshotV1 target;
                     if (model_renderer::gameplay_enemy_state_snapshot(scenario_target_index, target, ui_error) &&
@@ -887,6 +899,7 @@ int main(int argc, char** argv) {
                 } else if (pose.enemy_index >= 0) {
                     steer_toward_nearest_enemy();
                 }
+                }();
             }
             // move-defend: approach the nearest enemy without attacking and verify that
             // its source melee attack lowers the Player's HP.
@@ -913,7 +926,8 @@ int main(int argc, char** argv) {
             }
             // After death, tap the authored death screen's btn_Continue (full-screen
             // hit area) so its timeline reaches NativeReviveAllPlayers.
-            if (options.movement_defend_scenario && scenario_player_died && !scenario_revived &&
+            if ((options.movement_defend_scenario || options.movement_kill_scenario) &&
+                scenario_player_died && !scenario_revived &&
                 (rendered_frames % 120 == 60 || rendered_frames % 120 == 66)) {
                 // Press and release on separate frames so GameSWF sees the edge.
                 int window_width = 1, window_height = 1;

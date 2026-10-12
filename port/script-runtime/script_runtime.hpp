@@ -34,7 +34,8 @@ enum Error {
     ERROR_ACTOR_ANIMATION_SERVICE,
     ERROR_UNSUPPORTED_ONLINE,
     ERROR_CHAR_MENU_TUTORIAL_SERVICE,
-    ERROR_DOOR_SERVICE
+    ERROR_DOOR_SERVICE,
+    ERROR_HOST_COMMAND_SERVICE
 };
 
 enum EventType {
@@ -170,6 +171,14 @@ struct SpawnServices {
     // identity is retained on the script task for the source IsBlocking poll.
     int (*door_command)(void*, const DoorCommandRequest*, uintptr_t*);
     int (*door_is_blocking)(void*, uintptr_t, uint32_t command_id);
+    // Generic host boundary for decoded commands without a typed service above
+    // (actor visibility, FX, sound, Flash, Faery, level flow, ...). The host
+    // implements each against its canonical owners. Returns 1 executed,
+    // 2 executed and blocking (handle polled by host_command_blocking),
+    // 0 source lookup miss, -1 provider failure, -2 not implemented.
+    int (*host_command)(void*, const dh2_script_command*, uintptr_t* handle);
+    // 1 while the command still blocks the task, 0 when done, <0 failure.
+    int (*host_command_blocking)(void*, uintptr_t handle, uint32_t command_id);
 };
 
 struct Task {
@@ -195,6 +204,9 @@ struct Task {
     uint8_t waiting_for_door;
     uintptr_t door_identity;
     uint32_t door_command_id;
+    uint8_t waiting_for_host;
+    uintptr_t host_handle;
+    uint32_t host_command_id;
 };
 
 struct Runtime {
