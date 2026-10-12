@@ -2,6 +2,16 @@
 
 Updated: 2026-10-12. Branch: `feature/desktop-gameplay-loop` (off `development`).
 
+Combat-loop and second-level round (2026-10-12, later):
+- [x] Monsters attack and damage the Player: AI_IsInMeleeRange(0) evaluates the CharAI current target, unequipped AITable melee radius, LookAt no longer applies CSDead's label/lock outside death. Desktop `--scenario move-defend` verifies damage.
+- [x] Player death and revive: OnDeath aggro cleanup through the canonical relation owner, offline `_HandleLocalDeaths` pushes `menu_FadeToBlackScreen`, its btn_Continue reaches `NativeReviveAllPlayers`, `Character::Revive` rebuilds the body, LoadCheckpoint tolerates absent checkpoints. Verified: HP 0 → death screen → Continue → full HP.
+- [x] LevelSavegame publishes (read_object_facts convention was inverted, so no level save had ever succeeded); `_AddCharacter` entry QuickSave runs on SWAMP (Crypt entry save still rejects one generated row).
+- [x] Dropped loot is collectible: walking onto a drop runs OnCollisionBegins → Interact into the V4 inventory (gold + items verified on SWAMP). Player auto-target requires AI_IsEnemy (no more attacking friendly NPCs).
+- [x] Level-script decoder has the full original command table (IDs 0–79 from 0x968d40); all 42 original script tables decode.
+- [x] DARKWOOD (row 4) loads and plays on desktop through a static-MLX level table: 24 modules, 88 Characters (57 template), level scripts, transitions accept it as a destination. All 2,234 original character BDAEs are staged.
+- [ ] DARKWOOD combat: the scripted player stalls ~330 units from its target and no monster aggro was observed; Decor allowlist, QuestMoveInZone owners and conditional entrypoint 0 are deferred there.
+- [ ] Android emulator run of this round's combat/death loop (previous APK reached SWAMP gameplay with no crash).
+
 Desktop gameplay-loop round (2026-10-12):
 - [x] Restore the Windows desktop build (stray brace closed `model_renderer` early) and clear ~40 world-load/runtime gates; SWAMP and Crypt load and run on desktop.
 - [x] Main menu renders the selected character model; player spawns visible at full HP (offline PlayerInfo unpack and +0x144 visibility fixed per IDA `_ManageCharacters`).

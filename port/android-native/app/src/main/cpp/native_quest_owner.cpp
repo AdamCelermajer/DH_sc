@@ -935,7 +935,10 @@ bool Owner::gameplay_log_states_supported(std::uint32_t log,
   auto* quest=impl_->resolve(ref);
   if(!quest){error="QuestSavegame::UpdateQuests state audit found a foreign Quest";return false;}
   const auto state=quest->record().state_0;
-  if(state!=6&&state!=12){
+  // State 0 (Locked) only runs Quest::UpdateLocked 0x4817b4: ConditionList::Eval
+  // then SetState(PostLocked). Neither SG_Update path evaluates those unlock
+  // conditions yet, so a Locked quest stays unchanged here as it does per frame.
+  if(state!=0&&state!=6&&state!=12){
    error="Character::SG_Update(true) reached an unowned Quest::Update state "+
          std::to_string(state);
    return false;

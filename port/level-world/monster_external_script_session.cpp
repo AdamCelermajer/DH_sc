@@ -57,15 +57,42 @@ bool valid_source(Source source) {
 }
 
 // Authored identity transport. Source-value binding projects _this as type7,
-// as it does for original object tables. Object tables share a method table;
+// as it does for original object tables. Object tables share a method table.
 // GetID is the original binding's pointer token (gameplay-object-callbacks
-// row 1). Other GameObject methods are not yet bound and still raise.
+// row 1). The other methods forward to the __dh2_obj_* globals, which need
+// ObjectServices providers and raise a Lua error when a provider is missing.
 constexpr char identity_transport[] = R"lua(
 local __dh2_object_methods = {}
 function __dh2_object_methods:GetID() return self._this end
 local __dh2_object_mt = {__index = __dh2_object_methods}
 local function __dh2_object(identity)
     return setmetatable({_this = identity}, __dh2_object_mt)
+end
+local function __dh2_flag(identity, query)
+    return __dh2_obj_query(identity, query) == 1
+end
+function __dh2_object_methods:GetName() return __dh2_obj_name(self._this) end
+function __dh2_object_methods:IsPlayer() return __dh2_flag(self._this, 0) end
+function __dh2_object_methods:IsDead() return __dh2_flag(self._this, 1) end
+function __dh2_object_methods:IsCharacter() return __dh2_flag(self._this, 2) end
+function __dh2_object_methods:GetState() return __dh2_obj_query(self._this, 3) end
+function __dh2_object_methods:GetHP() return __dh2_obj_query(self._this, 4) end
+function __dh2_object_methods:GetPropHP()
+    local identity = self._this
+    return __dh2_obj_query(identity, 5), __dh2_obj_query(identity, 6),
+        __dh2_obj_query(identity, 7)
+end
+function __dh2_object_methods:HasMaster() return __dh2_flag(self._this, 8) end
+function __dh2_object_methods:GetMaster()
+    local master = __dh2_obj_master(self._this)
+    if master == nil then return nil end
+    return __dh2_object(master)
+end
+function __dh2_object_methods:LOCK() __dh2_obj_command(self._this, 0) end
+function __dh2_object_methods:UNLOCK() __dh2_obj_command(self._this, 1) end
+function __dh2_object_methods:Kill() __dh2_obj_command(self._this, 2) end
+function __dh2_object_methods:SetTarget(target)
+    __dh2_obj_set_target(self._this, target and target._this)
 end
 local native_GetTarget = GetTarget
 function GetTarget()
@@ -95,10 +122,16 @@ struct Session::Impl {
                      spawn_skill_projectile, set_projectile_target,
                      create_buff, remove_buff, apply_buff, set_skill_cooldown,
                      set_spell_cooldown, start_timer, stop_timer, self_id,
+                     obj_name, obj_query, obj_master, obj_set_target, obj_command,
                      unsupported };
     struct Binding { Impl* session; Operation operation; const char* name; };
-    static constexpr std::size_t max_bindings = 64;
+    // 35 AIS + 33 Character/object globals; keep headroom for the next bridge.
+    static constexpr std::size_t max_bindings = 96;
     Services services;
+    ObjectServices object_services;
+    bool object_bound = false;
+    // Returned string storage must outlive invoke; one object name at a time.
+    char object_name_text[256]{};
     dh2_script_game_bindings timer_bindings{};
     dh2_script_vm* vm = nullptr;
     dh2_script_aliases* aliases = nullptr;
@@ -174,6 +207,75 @@ struct Session::Impl {
         return true;
     }
 
+    static bool small_enum(const dh2_script_value& value, std::uint32_t last,
+                           std::uint32_t* out) noexcept {
+        if (value.type != DH2_SCRIPT_NUMBER || !std::isfinite(value.number) ||
+            value.number < 0.0f || std::floor(value.number) != value.number ||
+            value.number > static_cast<float>(last)) return false;
+        *out = static_cast<std::uint32_t>(value.number);
+        return true;
+    }
+
+    static int invoke_object(const Binding& binding, const dh2_script_value* arguments,
+                             std::uint32_t count, dh2_script_value* output,
+                             std::uint32_t capacity, std::uint32_t* returned,
+                             char* error, std::size_t error_capacity) {
+        auto& session = *binding.session;
+        const auto& object = session.object_services;
+        if (!session.object_bound)
+            return reject(error, error_capacity, "monster GameObject services unbound");
+        if (count < 1 || !identity(arguments[0]) || arguments[0].identity == 0)
+            return reject(error, error_capacity, "monster GameObject identity missing");
+        const auto self = arguments[0].identity;
+        if (binding.operation == obj_name) {
+            if (count != 1 || !output || capacity < 1 || !object.object_name ||
+                object.object_name(object.context, self, session.object_name_text,
+                    sizeof(session.object_name_text) - 1) != 0)
+                return reject(error, error_capacity, "monster GameObject GetName failed or unsupported");
+            session.object_name_text[sizeof(session.object_name_text) - 1] = '\0';
+            output[0] = {};
+            output[0].type = DH2_SCRIPT_STRING;
+            output[0].text = session.object_name_text;
+            output[0].text_bytes = std::strlen(session.object_name_text);
+            *returned = 1;
+        } else if (binding.operation == obj_query) {
+            std::uint32_t query = 0;
+            std::int32_t value = 0;
+            if (count != 2 || !output || capacity < 1 ||
+                !small_enum(arguments[1], static_cast<std::uint32_t>(ObjectQuery::has_master), &query) ||
+                !object.object_query ||
+                object.object_query(object.context, self, static_cast<ObjectQuery>(query), &value) != 0)
+                return reject(error, error_capacity, "monster GameObject query failed or unsupported");
+            number(output[0], static_cast<float>(value));
+            *returned = 1;
+        } else if (binding.operation == obj_master) {
+            std::uintptr_t master = 0;
+            if (count != 1 || !output || capacity < 1 || !object.object_master ||
+                object.object_master(object.context, self, &master) != 0)
+                return reject(error, error_capacity, "monster GameObject GetMaster failed or unsupported");
+            output[0] = {};
+            if (master) {
+                output[0].type = DH2_SCRIPT_IDENTITY;
+                output[0].identity = master;
+            }
+            *returned = 1;
+        } else if (binding.operation == obj_set_target) {
+            if (count != 2 || !identity(arguments[1]) || arguments[1].identity == 0 ||
+                !object.object_set_target ||
+                object.object_set_target(object.context, self, arguments[1].identity) != 0)
+                return reject(error, error_capacity, "monster GameObject SetTarget failed or unsupported");
+        } else {
+            std::uint32_t command = 0;
+            if (count != 2 ||
+                !small_enum(arguments[1], static_cast<std::uint32_t>(ObjectCommand::kill), &command) ||
+                !object.object_command ||
+                object.object_command(object.context, session.services.owner, self,
+                    static_cast<ObjectCommand>(command)) != 0)
+                return reject(error, error_capacity, "monster GameObject command failed or unsupported");
+        }
+        return 0;
+    }
+
     static int invoke(void* opaque, const dh2_script_value* arguments,
                       std::uint32_t count, dh2_script_value* output,
                       std::uint32_t capacity, std::uint32_t* returned,
@@ -190,6 +292,11 @@ struct Session::Impl {
                               binding.name ? binding.name : "unknown");
                 return reject(error, error_capacity, message);
             }
+            if (binding.operation == obj_name || binding.operation == obj_query ||
+                binding.operation == obj_master || binding.operation == obj_set_target ||
+                binding.operation == obj_command)
+                return invoke_object(binding, arguments, count, output, capacity,
+                                     returned, error, error_capacity);
             if (binding.operation == alias_add || binding.operation == alias_push ||
                 binding.operation == alias_pop) {
                 int status = 0;
@@ -616,6 +723,11 @@ struct Session::Impl {
             bind_extra("SetSpellCooldownTimerId__", set_spell_cooldown) &&
             bind_extra("StartTimer", start_timer) &&
             bind_extra("StopTimer", stop_timer) &&
+            bind_extra("__dh2_obj_name", obj_name) &&
+            bind_extra("__dh2_obj_query", obj_query) &&
+            bind_extra("__dh2_obj_master", obj_master) &&
+            bind_extra("__dh2_obj_set_target", obj_set_target) &&
+            bind_extra("__dh2_obj_command", obj_command) &&
             bind_extra("GetID", self_id);
     }
 
@@ -788,6 +900,19 @@ Status Session::bind_character_functions(std::string& error) {
         error = "Character registration failed"; return Status::script_error;
     }
     impl_->stage = Stage::functions_bound; error.clear(); return Status::complete;
+}
+
+Status Session::bind_object_services(const ObjectServices& services, std::string& error) {
+    if (busy_) { error = "monster session busy"; return Status::busy; }
+    if (!impl_ || impl_->faulted) {
+        error = "monster GameObject services require a live session";
+        return Status::not_ready;
+    }
+    BusyScope scope(busy_);
+    impl_->object_services = services;
+    impl_->object_bound = true;
+    error.clear();
+    return Status::complete;
 }
 
 Status Session::load_common(Source commons, std::string& error) {

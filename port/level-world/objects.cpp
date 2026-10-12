@@ -24,7 +24,8 @@ bool load_records(const std::uint8_t* input,std::size_t size,unsigned rooms,cons
  out.clear();error.clear();try{
   if(!input||size<16||std::memcmp(input,"DACT",4)||(word(input+4)!=1&&word(input+4)!=2)||word(input+12)||!rooms||rooms>512)throw std::runtime_error("Object descriptor rejected");
   const auto version=word(input+4);
-  unsigned count=word(input+8);if(!count||count>10000||size!=16+std::uint64_t(count)*256)throw std::runtime_error("Object record count rejected");
+  // A level whose Characters are all template/conditional rows has no direct records.
+  unsigned count=word(input+8);if(count>10000||size!=16+std::uint64_t(count)*256)throw std::runtime_error("Object record count rejected");
   std::vector<Record> candidate;std::set<std::pair<unsigned,std::string>> names;
   for(unsigned i=0;i<count;++i){const auto* p=input+16+i*256;Record r;r.kind=word(p);r.room=word(p+4);r.name=text(p+8);r.character=text(p+72,true);r.model=text(p+136);
    if((r.kind!=1&&r.kind!=2)||r.room>=rooms||basename(r.model)!=r.model||r.model.find("..")!=std::string::npos||!names.insert({r.room,r.name}).second)throw std::runtime_error("Object type, room or resource rejected");

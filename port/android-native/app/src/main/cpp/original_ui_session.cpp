@@ -2661,7 +2661,8 @@ struct OriginalUiSession::Impl {
         if(!graph.set_member(menu,"_visible",ui::SwfAsValue::boolean(true),accepted,error)||
            !change.self->menu_movie(change.name)->menu_input_context(("_root."+change.name).c_str(),error))return false;
         if(change.name=="menu_EnterName"||change.name=="menu_SelectClass"||
-           change.name=="menu_confirm2"){
+           change.name=="menu_confirm2"||change.name=="menu_FadeToBlackScreen"||
+           change.name=="menu_FadeFromBlackScreen"){
             // Original MultiMenuManager::PushMenu 0x438488 invokes onPush,
             // then 0x4385f0..0x43860c plays the authored "show" animation
             // for the ordinary (non-0x40) renderer before MenuBase::Show.
@@ -3525,9 +3526,12 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
     struct TouchOwnerReset {Impl* self;int action;~TouchOwnerReset(){if(action==1||action==3)self->gameplay_ui_touch_owned=false;}} owner_reset{impl_.get(),action};
     if(gameplay&&action==0)impl_->gameplay_ui_touch_owned=gameplay_menu;
     if(cursor_index!=0&&(!gameplay_menu||!impl_->gameplay_multitouch_enabled)){error.clear();return true;}
-    const auto rectangle=(front||gameplay_menu)?impl_->front_rectangle():impl_->viewport_rectangle();
     auto* selected=front?impl_->active_menu_movie():
         gameplay_menu?impl_->menu_movie(impl_->game_menu_stack.back()):impl_->movie.get();
+    // HUD-hosted gameplay menus (fade/death screens) share the HUD movie and its
+    // viewport mapping; character-menu movies use the front rectangle.
+    const auto rectangle=(front||(gameplay_menu&&selected!=impl_->movie.get()))?
+        impl_->front_rectangle():impl_->viewport_rectangle();
     if(!selected){error="Native UI renderer unavailable for touch";return false;}
     if(!selected->input_rectangle(rectangle.data(),error))return false;
     // Cancellation must clear a held touch without producing onRelease.
@@ -3753,6 +3757,21 @@ bool OriginalUiSession::push_source_loading_menu(std::string& error){
     if(!self.character_menu_movie->clip("_root.menu_Loading",state,error))return false;
     if(!state.id){error="Original dqshared menu_Loading state is absent from dqcharmenu";return false;}
     return Impl::push_game_menu(&self,"menu_Loading",error);
+}
+bool OriginalUiSession::push_source_death_fade_menu(bool& pushed,std::string& error){
+    pushed=false;
+    auto& self=*impl_;
+    if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()||
+       !self.character_menu_movie){
+        error="Source menu_FadeToBlackScreen requires the retained live gameplay UI session";
+        return false;
+    }
+    // MenuBase::IsVisible gate from PlayerManager::_HandleLocalDeaths 0x375fe8:
+    // the fade menu is visible exactly while it is on the gameplay MenuManager stack.
+    if(std::find(self.game_menu_stack.begin(),self.game_menu_stack.end(),
+                 "menu_FadeToBlackScreen")!=self.game_menu_stack.end()){error.clear();return true;}
+    if(!Impl::push_game_menu(&self,"menu_FadeToBlackScreen",error))return false;
+    pushed=true;error.clear();return true;
 }
 bool OriginalUiSession::pop_source_loading_menu(std::string& error){
     auto& self=*impl_;
@@ -4662,6 +4681,10 @@ bool OriginalUiSession::render_player(int width,int height,const std::int32_t* s
                 frames[0],frames[1],frames[2],frames[3],frames[4],self.status->dirty_nodes(),static_cast<void*>(self.movie.get()));
             self.reported_frames=frames;self.report_frame=false;
         }
+        // The death fade timeline calls NativeReviveAllPlayers at its frame 88
+        // during this advance; flush it once the SWF dispatch has unwound.
+        if(self.gameplay_native_revive_pending&&
+           !Impl::flush_deferred_native_revive(self,error))return false;
         if(!Impl::flush_deferred_back_to_hud(self,error))return false;
         return true;
     }catch(const std::exception& ex){

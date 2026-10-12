@@ -245,7 +245,7 @@ Status load_player(const std::uint8_t* image, std::size_t image_size,
         const auto* record = characters.find(live->source_handle);
         save::Object object{};
         object.identity = live->identity;
-        if (!facts->read_object_facts(facts->context, *live, record, &object, error)) {
+        if (facts->read_object_facts(facts->context, *live, record, &object, error)) {
             if (error.empty()) error = "ObjectManager name/type facts are unavailable";
             return Status::provider_failed;
         }
@@ -441,7 +441,7 @@ Status restore_factory_character_rows(
         const auto* record = characters.find(live->source_handle);
         save::Object object{};
         object.identity = live->identity;
-        if (!facts->read_object_facts(facts->context, *live, record,
+        if (facts->read_object_facts(facts->context, *live, record,
                                       &object, error)) {
             if (error.empty()) error = "ObjectManager lifecycle facts are unavailable";
             return Status::provider_failed;
@@ -562,7 +562,7 @@ Status restore_source_noncharacter_rows(
         const auto* record = characters.find(live->source_handle);
         save::Object object{};
         object.identity = live->identity;
-        if (!facts->read_object_facts(facts->context, *live, record,
+        if (facts->read_object_facts(facts->context, *live, record,
                                       &object, error)) {
             if (error.empty()) error = "ObjectManager source Deserialize facts are unavailable";
             return Status::provider_failed;

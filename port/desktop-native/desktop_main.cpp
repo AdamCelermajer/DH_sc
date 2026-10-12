@@ -37,6 +37,7 @@ struct Options {
     std::int32_t level_row = -1;
     bool movement_attack_scenario = false;
     bool movement_kill_scenario = false;
+    bool movement_defend_scenario = false;
     bool fixed_cultist_scenario = false;
     bool fixed_cultist_kill_scenario = false;
 };
@@ -65,7 +66,7 @@ Options parse(int argc, char** argv) {
                 number > std::numeric_limits<std::int32_t>::max())
                 throw std::runtime_error("--level-row must be a nonnegative 32-bit integer");
             options.level_row = static_cast<std::int32_t>(number);
-            if (options.level_row != 23 && options.level_row != 41)
+            if (options.level_row != 4 && options.level_row != 23 && options.level_row != 41)
                 throw std::runtime_error("--level-row currently supports direct Crypt 23 or fresh-save SWAMP 41");
         }
         else if (arg == "--capture") options.capture = value("--capture");
@@ -75,6 +76,7 @@ Options parse(int argc, char** argv) {
             if (scenario == "move-attack") options.movement_attack_scenario = true;
             else if (scenario == "move-kill")
                 options.movement_attack_scenario = options.movement_kill_scenario = true;
+            else if (scenario == "move-defend") options.movement_defend_scenario = true;
             else if (scenario == "fixed-cultist07") options.fixed_cultist_scenario = true;
             else if (scenario == "fixed-cultist07-kill") options.fixed_cultist_kill_scenario = true;
             else throw std::runtime_error("Unknown scenario: " + scenario);
@@ -91,11 +93,13 @@ Options parse(int argc, char** argv) {
             std::cout << "DH2 desktop runtime\n"
                          "  --assets DIR       Android app asset tree\n"
                          "  --runtime-dir DIR  save/config output (default per-user AppData)\n"
-                         "  --level-row N      skip the menu and start source row 23 or 41 directly\n"
+                         "  --level-row N      skip the menu and start source row 4 (DARKWOOD), 23 (Crypt) or 41 (SWAMP)\n"
                          "  --frames N         exit after N rendered UI/gameplay frames\n"
                          "  --capture FILE.ppm save the last framebuffer as a PPM image\n"
                          "  --capture-initial FILE.ppm save the initial frame (for gameplay scenarios)\n"
                          "  --scenario move-attack steer with normal movement toward a source enemy, then attack\n"
+                         "  --scenario move-kill   steer to enemies, attack until kills, then walk onto dropped loot\n"
+                         "  --scenario move-defend approach enemies without attacking; verify damage, death and Continue revive\n"
                          "  --scenario fixed-cultist07 route to Crypt enemy 4; attack when nearest and in melee range\n"
                          "  --scenario fixed-cultist07-kill route to Crypt enemy 4; repeat normal attacks until death or frame bound\n"
                          "Controls: click/touch authored menus; type for character names; WASD move, Space attack, mouse drag orbit, wheel zoom, Esc quit.\n";
@@ -384,6 +388,9 @@ void bind_desktop_front_runtime(dh2::android_ui::OriginalUiSession& ui,
     services.save_game = [](void*, std::uintptr_t character, std::string& error) {
         return model_renderer::ui_player_save_game(character, error);
     };
+    services.revive_local_players = [](void*, std::string& error) {
+        return model_renderer::ui_revive_local_players(error);
+    };
     services.camera_zoom_lock = [](void*, bool locked) {
         model_renderer::camera_zoom_lock(locked);
     };
@@ -472,7 +479,8 @@ bool start_from_authored_menu(const dh2::android_ui::NativeStartGameIntentV1& re
     const auto startup = model_renderer::start_menu_game(request.slot, assets, -1,
         request.has_numeric_difficulty, request.requested_difficulty);
     const bool world_loaded = startup.rfind("Crypt |", 0) == 0 ||
-                              startup.rfind("SWAMP |", 0) == 0;
+                              startup.rfind("SWAMP |", 0) == 0 ||
+                              startup.rfind("DARKWOOD |", 0) == 0;
     std::string attach_error;
     const bool hud_attached = world_loaded && ui.attach_player(runtime.string(), attach_error);
     model_renderer::bind_gameplay_ui_session(hud_attached ? &ui : nullptr);
@@ -643,10 +651,11 @@ int main(int argc, char** argv) {
             if (!original_ui.render(initial_width, initial_height, ui_error))
                 throw std::runtime_error("Shared loading UI frame failed: " + ui_error);
             const auto slot = select_or_create_source_profile(assets.get(), options.runtime, original_ui);
-            const auto debug_level_row = options.level_row == 23 ? 23 : -1;
+            const auto debug_level_row = options.level_row == 41 ? -1 : options.level_row;
             const auto loaded = model_renderer::start_menu_game(
                 slot, assets.get(), debug_level_row, false, 0);
-            const auto expected_prefix = options.level_row == 23 ? "Crypt |" : "SWAMP |";
+            const auto expected_prefix = options.level_row == 23 ? "Crypt |" :
+                                         options.level_row == 4 ? "DARKWOOD |" : "SWAMP |";
             if (loaded.rfind(expected_prefix, 0) != 0)
                 throw std::runtime_error("Canonical source-menu row " + std::to_string(options.level_row) +
                                          " resolved a different level: " + loaded);
@@ -684,6 +693,12 @@ int main(int argc, char** argv) {
         std::string scenario_attack_result;
         bool scenario_started = false, scenario_attack_sent = false;
         unsigned scenario_kills = 0;
+        unsigned scenario_pickups = 0, scenario_loot_frames = 0;
+        std::int32_t scenario_last_item_count = -1;
+        bool scenario_damage_verified = false;
+        bool scenario_player_died = false, scenario_revived = false;
+        unsigned scenario_death_taps = 0;
+        std::int32_t scenario_last_hp = 0;
         std::uint64_t fixed_attack_frame = 0;
         std::uint64_t fixed_next_attack_frame = 0;
         std::uint64_t fixed_target_dead_frame = 0;
@@ -844,7 +859,26 @@ int main(int argc, char** argv) {
                         ++scenario_kills;scenario_target_index = -1;
                     }
                 }
-                if (pose.enemy_index >= 0 && pose.enemy_hp > 0 && pose.enemy_in_melee_range) {
+                // After a kill, walk onto the nearest dropped item and verify
+                // the normal pickup removes it from the world.
+                model_renderer::GameplayWorldItemSnapshotV1 items;
+                const bool have_items = scenario_kills > 0 && scenario_pickups < 3 &&
+                    model_renderer::gameplay_world_item_snapshot(items, ui_error) && items.count > 0;
+                if (have_items && scenario_last_item_count >= 0 && items.count < scenario_last_item_count) {
+                    ++scenario_pickups;
+                    std::cout << "Scenario pickup verified | world items " << scenario_last_item_count
+                              << " -> " << items.count << '\n';
+                }
+                if (have_items) scenario_last_item_count = items.count;
+                if (have_items && items.distance > 20.0f && scenario_loot_frames < 600) {
+                    scenario_loot_frames += 15;
+                    const float dx = items.nearest[0] - pose.player_position[0];
+                    const float dy = items.nearest[1] - pose.player_position[1];
+                    const float distance = std::hypot(dx, dy);
+                    constexpr float inverse_sqrt_two = 0.7071067811865475f;
+                    model_renderer::move_axis((dx + dy) * inverse_sqrt_two / distance,
+                                              (dy - dx) * inverse_sqrt_two / distance);
+                } else if (pose.enemy_index >= 0 && pose.enemy_hp > 0 && pose.enemy_in_melee_range) {
                     keys.fill(false);update_movement(keys);model_renderer::stop_movement();
                     scenario_target_index = pose.enemy_index;
                     const auto attack = model_renderer::player_attack();
@@ -852,6 +886,47 @@ int main(int argc, char** argv) {
                               << '/' << pose.enemy_max_hp << " | " << attack << '\n';
                 } else if (pose.enemy_index >= 0) {
                     steer_toward_nearest_enemy();
+                }
+            }
+            // move-defend: approach the nearest enemy without attacking and verify that
+            // its source melee attack lowers the Player's HP.
+            if (options.movement_defend_scenario && scenario_started &&
+                rendered_frames && rendered_frames % 15 == 0 && !scenario_player_died) {
+                model_renderer::GameplayPoseSnapshotV1 pose;
+                if (!model_renderer::gameplay_pose_snapshot(pose, ui_error)) {
+                    if (!scenario_player_died)
+                        std::cout << "Scenario defend | Player died | " << ui_error << '\n';
+                    scenario_damage_verified = scenario_player_died = true;
+                } else {
+                    if (!scenario_damage_verified && scenario_last_hp > 0 && pose.player_hp < scenario_last_hp) {
+                        std::cout << "Scenario damage verified | Player HP " << scenario_last_hp << " -> "
+                                  << pose.player_hp << '/' << pose.player_max_hp << '\n';
+                        scenario_damage_verified = true;
+                    }
+                    scenario_last_hp = pose.player_hp;
+                    if (pose.enemy_index >= 0 && pose.enemy_in_melee_range) {
+                        keys.fill(false);update_movement(keys);model_renderer::stop_movement();
+                    } else if (pose.enemy_index >= 0) {
+                        steer_toward_nearest_enemy();
+                    }
+                }
+            }
+            // After death, tap the authored death screen's btn_Continue (full-screen
+            // hit area) so its timeline reaches NativeReviveAllPlayers.
+            if (options.movement_defend_scenario && scenario_player_died && !scenario_revived &&
+                (rendered_frames % 120 == 60 || rendered_frames % 120 == 66)) {
+                // Press and release on separate frames so GameSWF sees the edge.
+                int window_width = 1, window_height = 1;
+                SDL_GetWindowSize(window, &window_width, &window_height);
+                const int phase = rendered_frames % 120 == 60 ? 0 : 1;
+                if (!dispatch_touch(original_ui, window, window_width / 2, window_height / 2, phase, ui_error))
+                    throw std::runtime_error("Death screen Continue tap failed: " + ui_error);
+                if (phase == 1) ++scenario_death_taps;
+                model_renderer::GameplayPoseSnapshotV1 pose;
+                if (model_renderer::gameplay_pose_snapshot(pose, ui_error) && pose.player_hp > 0) {
+                    std::cout << "Scenario revive verified | Player HP " << pose.player_hp << '/'
+                              << pose.player_max_hp << " | taps " << scenario_death_taps << '\n';
+                    scenario_revived = true;
                 }
             }
             if (options.movement_attack_scenario && !options.movement_kill_scenario &&
@@ -1063,7 +1138,7 @@ int main(int argc, char** argv) {
                         fixed_target_dead_frame = rendered_frames + 1;
                 }
             }
-            if (gameplay && (options.movement_attack_scenario || options.fixed_cultist_scenario ||
+            if (gameplay && (options.movement_attack_scenario || options.movement_defend_scenario || options.fixed_cultist_scenario ||
                              options.fixed_cultist_kill_scenario) && !scenario_started) {
                 scenario_initial_vitals = model_renderer::player_vitals();
                 print_vitals_snapshot("Scenario initial", scenario_initial_vitals);
@@ -1158,10 +1233,17 @@ int main(int argc, char** argv) {
             if (fixed_attack_count == 0 || !fixed_target_identity)
                 throw std::runtime_error("fixed-cultist07-kill completed without a verified normal attack");
         }
+        if (options.movement_defend_scenario && gameplay) {
+            if (!scenario_damage_verified)
+                throw std::runtime_error("move-defend reached its frame bound without verified Player damage");
+            if (scenario_player_died && !scenario_revived)
+                throw std::runtime_error("move-defend Player died but the death screen never revived the Player");
+            std::cout << "Scenario move-defend complete\n";
+        }
         if (options.movement_kill_scenario && gameplay) {
             if (!scenario_kills)
                 throw std::runtime_error("move-kill reached its frame bound without a verified enemy death");
-            std::cout << "Scenario move-kill complete | verified kills " << scenario_kills << '\n';
+            std::cout << "Scenario move-kill complete | verified kills " << scenario_kills << " | verified pickups " << scenario_pickups << '\n';
         } else if ((options.movement_attack_scenario || options.fixed_cultist_scenario) && gameplay) {
             if (!scenario_attack_sent) {
                 if (options.fixed_cultist_scenario) {

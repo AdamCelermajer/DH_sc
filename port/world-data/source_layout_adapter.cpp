@@ -120,16 +120,13 @@ bool copy_source_text(char* output, std::size_t capacity, const char* value) {
 
 bool parse_source_global(const char* value, std::uint8_t& output) {
     // ObjectBase::DeclareProperties supplies the source default of zero when
-    // the MGP omits isGlobal. Preserve an explicit source value and reject
-    // spellings outside the authored numeric boolean representation.
+    // the MGP omits isGlobal. Explicit values go through StrToObj(bool)
+    // 0x30f020, which is atoi(value) != 0; DARKWOOD's authored
+    // "1charpropsname = WanderingEddie" typo therefore reads as true.
     output = 0;
     if (!value) return true;
-    while (*value && std::isspace(static_cast<unsigned char>(*value))) ++value;
-    const char* end = value + std::strlen(value);
-    while (end != value && std::isspace(static_cast<unsigned char>(end[-1]))) --end;
-    if (end - value == 1 && value[0] == '0') return true;
-    if (end - value == 1 && value[0] == '1') { output = 1; return true; }
-    return false;
+    output = std::atoi(value) != 0 ? 1 : 0;
+    return true;
 }
 
 struct ExpectedDirectActor {

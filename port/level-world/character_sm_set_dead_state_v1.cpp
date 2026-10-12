@@ -1,3 +1,4 @@
+#include <string>
 #include "character_sm_set_dead_state_v1.hpp"
 
 #include <cstring>
@@ -107,7 +108,8 @@ Status execute(const Bindings& bindings, const Request& request, Result* output,
         &selected_request, &selected);
     if (selection_status != character_dead_animation_selection_v1::Status::complete)
         return invalid(Status::invalid_source_fact,
-                       "Death animation selection failed", error);
+                       ("Death animation selection failed at check " +
+                        std::to_string(selected.failure_point)).c_str(), error);
     output->death_animation = selected.animation;
     output->death_mask_queries = selected.mask_queries;
     output->death_stance_queries = selected.stance_queries;

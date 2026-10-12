@@ -66,7 +66,8 @@ typedef enum dh2_script_value_kind {
     DH2_SCRIPT_VALUE_I32 = 1,
     DH2_SCRIPT_VALUE_BOOL = 2,
     DH2_SCRIPT_VALUE_STRING = 3,
-    DH2_SCRIPT_VALUE_I32_ARRAY = 4
+    DH2_SCRIPT_VALUE_I32_ARRAY = 4,
+    DH2_SCRIPT_VALUE_F32 = 5
 } dh2_script_value_kind;
 
 /* Data decoder values are distinct from the Lua runtime's dh2_script_value. */
@@ -74,6 +75,7 @@ typedef struct dh2_pydata_script_value {
     dh2_script_value_kind kind;
     union {
         int32_t i32;
+        float f32;
         uint8_t boolean;
         dh2_script_string string;
         dh2_script_i32_array i32_array;
