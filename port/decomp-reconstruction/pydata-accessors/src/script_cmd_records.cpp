@@ -449,14 +449,11 @@ void CloseDoor::finalize() {
 void CloseDoor::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
     m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
-    if (m_w3 == nullptr) {  // +0xc
-        m_w3 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w2) + 1));  // +0xc, length +0x8
-        StreamReader::readStringEx(stream, m_w3, m_w2, 0);
-        m_w3[m_w2] = '\0';
-        m_w4 = StreamReader::readAs<bool>(stream);  // +0x10
-        return;
-    }
-    CustomFree(m_w3);
+    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
+    m_w3 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w2) + 1, 1));  // +0xc, length +0x8
+    StreamReader::readStringEx(stream, m_w3, m_w2, 0);
+    m_w3[m_w2] = '\0';
+    m_w4 = StreamReader::readAs<bool>(stream);  // +0x10
 }
 
 // 0x4d179c _ZN7Structs24DeactivateProjectileTrapD2Ev
@@ -823,14 +820,11 @@ void HideFlash::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
     m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
     m_w3 = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
-    if (m_w4 == nullptr) {  // +0x10
-        m_w4 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w3) + 1));  // +0x10, length +0xc
-        StreamReader::readStringEx(stream, m_w4, m_w3, 0);
-        m_w4[m_w3] = '\0';
-        m_w5 = StreamReader::readAs<bool>(stream);  // +0x14
-        return;
-    }
-    CustomFree(m_w4);
+    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
+    m_w4 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w3) + 1, 1));  // +0x10, length +0xc
+    StreamReader::readStringEx(stream, m_w4, m_w3, 0);
+    m_w4[m_w3] = '\0';
+    m_w5 = StreamReader::readAs<bool>(stream);  // +0x14
 }
 
 // 0x4c7398 _ZN7Structs13IncFaeryLevelD2Ev
@@ -1025,13 +1019,10 @@ void MarkCharacterAsScripted::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
     m_w2 = StreamReader::readAs<bool>(stream);  // +0x8
     m_w3 = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
-    if (m_w4 == nullptr) {  // +0x10
-        m_w4 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w3) + 1));  // +0x10, length +0xc
-        StreamReader::readStringEx(stream, m_w4, m_w3, 0);
-        m_w4[m_w3] = '\0';
-        return;
-    }
-    CustomFree(m_w4);
+    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
+    m_w4 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w3) + 1, 1));  // +0x10, length +0xc
+    StreamReader::readStringEx(stream, m_w4, m_w3, 0);
+    m_w4[m_w3] = '\0';
 }
 
 // 0x4d2754 _ZN7Structs9MoveActorD2Ev
@@ -1059,19 +1050,16 @@ void MoveActor::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
     m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
     if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    m_w3 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w2) + 1));  // +0xc, length +0x8
+    m_w3 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w2) + 1, 1));  // +0xc, length +0x8
     StreamReader::readStringEx(stream, m_w3, m_w2, 0);
     m_w3[m_w2] = '\0';
     m_w4 = StreamReader::readAs<bool>(stream);  // +0x10
     m_w5 = StreamReader::readAs<std::uint32_t>(stream);  // +0x14
-    if (m_w6 == nullptr) {  // +0x18
-        m_w6 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w5) + 1));  // +0x18, length +0x14
-        StreamReader::readStringEx(stream, m_w6, m_w5, 0);
-        m_w6[m_w5] = '\0';
-        m_w7 = StreamReader::readAs<bool>(stream);  // +0x1c
-        return;
-    }
-    CustomFree(m_w6);
+    if (m_w6 != nullptr) CustomFree(m_w6);  // +0x18
+    m_w6 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w5) + 1, 1));  // +0x18, length +0x14
+    StreamReader::readStringEx(stream, m_w6, m_w5, 0);
+    m_w6[m_w5] = '\0';
+    m_w7 = StreamReader::readAs<bool>(stream);  // +0x1c
 }
 
 // 0x4c6e88 _ZN7Structs6NilCmdD2Ev
@@ -1119,14 +1107,11 @@ void OpenDoor::finalize() {
 void OpenDoor::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
     m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
-    if (m_w3 == nullptr) {  // +0xc
-        m_w3 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w2) + 1));  // +0xc, length +0x8
-        StreamReader::readStringEx(stream, m_w3, m_w2, 0);
-        m_w3[m_w2] = '\0';
-        m_w4 = StreamReader::readAs<bool>(stream);  // +0x10
-        return;
-    }
-    CustomFree(m_w3);
+    if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
+    m_w3 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w2) + 1, 1));  // +0xc, length +0x8
+    StreamReader::readStringEx(stream, m_w3, m_w2, 0);
+    m_w3[m_w2] = '\0';
+    m_w4 = StreamReader::readAs<bool>(stream);  // +0x10
 }
 
 // 0x4d22a0 _ZN7Structs13PlayActorAnimD2Ev
@@ -1154,14 +1139,11 @@ void PlayActorAnim::read(IStreamBase* stream) {
     m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
     m_w4 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
     m_w5 = StreamReader::readAs<std::uint32_t>(stream);  // +0x14
-    if (m_w6 == nullptr) {  // +0x18
-        m_w6 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w5) + 1));  // +0x18, length +0x14
-        StreamReader::readStringEx(stream, m_w6, m_w5, 0);
-        m_w6[m_w5] = '\0';
-        m_w7 = StreamReader::readAs<bool>(stream);  // +0x1c
-        return;
-    }
-    CustomFree(m_w6);
+    if (m_w6 != nullptr) CustomFree(m_w6);  // +0x18
+    m_w6 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w5) + 1, 1));  // +0x18, length +0x14
+    StreamReader::readStringEx(stream, m_w6, m_w5, 0);
+    m_w6[m_w5] = '\0';
+    m_w7 = StreamReader::readAs<bool>(stream);  // +0x1c
 }
 
 // 0x4d36c4 _ZN7Structs12PlayAnimByIdD2Ev
@@ -1188,14 +1170,11 @@ void PlayAnimById::read(IStreamBase* stream) {
     m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
     m_w3 = StreamReader::readAs<bool>(stream);  // +0xc
     m_w4 = StreamReader::readAs<std::uint32_t>(stream);  // +0x10
-    if (m_w5 == nullptr) {  // +0x14
-        m_w5 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w4) + 1));  // +0x14, length +0x10
-        StreamReader::readStringEx(stream, m_w5, m_w4, 0);
-        m_w5[m_w4] = '\0';
-        m_w6 = StreamReader::readAs<bool>(stream);  // +0x18
-        return;
-    }
-    CustomFree(m_w5);
+    if (m_w5 != nullptr) CustomFree(m_w5);  // +0x14
+    m_w5 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w4) + 1, 1));  // +0x14, length +0x10
+    StreamReader::readStringEx(stream, m_w5, m_w4, 0);
+    m_w5[m_w4] = '\0';
+    m_w6 = StreamReader::readAs<bool>(stream);  // +0x18
 }
 
 // 0x4d35d8 _ZN7Structs14PlayAnimByNameD2Ev
@@ -1223,19 +1202,16 @@ void PlayAnimByName::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
     m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
     if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    m_w3 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w2) + 1));  // +0xc, length +0x8
+    m_w3 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w2) + 1, 1));  // +0xc, length +0x8
     StreamReader::readStringEx(stream, m_w3, m_w2, 0);
     m_w3[m_w2] = '\0';
     m_w4 = StreamReader::readAs<bool>(stream);  // +0x10
     m_w5 = StreamReader::readAs<std::uint32_t>(stream);  // +0x14
-    if (m_w6 == nullptr) {  // +0x18
-        m_w6 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w5) + 1));  // +0x18, length +0x14
-        StreamReader::readStringEx(stream, m_w6, m_w5, 0);
-        m_w6[m_w5] = '\0';
-        m_w7 = StreamReader::readAs<bool>(stream);  // +0x1c
-        return;
-    }
-    CustomFree(m_w6);
+    if (m_w6 != nullptr) CustomFree(m_w6);  // +0x18
+    m_w6 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w5) + 1, 1));  // +0x18, length +0x14
+    StreamReader::readStringEx(stream, m_w6, m_w5, 0);
+    m_w6[m_w5] = '\0';
+    m_w7 = StreamReader::readAs<bool>(stream);  // +0x1c
 }
 
 // 0x4c6d44 _ZN7Structs10PlayCameraD2Ev
@@ -1365,13 +1341,10 @@ void PutCharacterInLimbus::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
     m_w2 = StreamReader::readAs<bool>(stream);  // +0x8
     m_w3 = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
-    if (m_w4 == nullptr) {  // +0x10
-        m_w4 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w3) + 1));  // +0x10, length +0xc
-        StreamReader::readStringEx(stream, m_w4, m_w3, 0);
-        m_w4[m_w3] = '\0';
-        return;
-    }
-    CustomFree(m_w4);
+    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
+    m_w4 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w3) + 1, 1));  // +0x10, length +0xc
+    StreamReader::readStringEx(stream, m_w4, m_w3, 0);
+    m_w4[m_w3] = '\0';
 }
 
 // 0x4d1be8 _ZN7Structs12ReEquipHandsD2Ev
@@ -1477,18 +1450,15 @@ void SetActorMaster::read(IStreamBase* stream) {
     m_w2 = StreamReader::readAs<bool>(stream);  // +0x8
     m_w3 = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
     if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
-    m_w4 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w3) + 1));  // +0x10, length +0xc
+    m_w4 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w3) + 1, 1));  // +0x10, length +0xc
     StreamReader::readStringEx(stream, m_w4, m_w3, 0);
     m_w4[m_w3] = '\0';
     m_w5 = StreamReader::readAs<bool>(stream);  // +0x14
     m_w6 = StreamReader::readAs<std::uint32_t>(stream);  // +0x18
-    if (m_w7 == nullptr) {  // +0x1c
-        m_w7 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w6) + 1));  // +0x1c, length +0x18
-        StreamReader::readStringEx(stream, m_w7, m_w6, 0);
-        m_w7[m_w6] = '\0';
-        return;
-    }
-    CustomFree(m_w7);
+    if (m_w7 != nullptr) CustomFree(m_w7);  // +0x1c
+    m_w7 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w6) + 1, 1));  // +0x1c, length +0x18
+    StreamReader::readStringEx(stream, m_w7, m_w6, 0);
+    m_w7[m_w6] = '\0';
 }
 
 // 0x4d21b4 _ZN7Structs16SetActorPositionD2Ev
@@ -1554,19 +1524,16 @@ void SetCamera::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
     m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
     if (m_w3 != nullptr) CustomFree(m_w3);  // +0xc
-    m_w3 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w2) + 1));  // +0xc, length +0x8
+    m_w3 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w2) + 1, 1));  // +0xc, length +0x8
     StreamReader::readStringEx(stream, m_w3, m_w2, 0);
     m_w3[m_w2] = '\0';
     m_w4 = StreamReader::readAs<std::uint32_t>(stream);  // +0x10
-    if (m_w5 == nullptr) {  // +0x14
-        m_w5 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w4) + 1));  // +0x14, length +0x10
-        StreamReader::readStringEx(stream, m_w5, m_w4, 0);
-        m_w5[m_w4] = '\0';
-        m_w6 = StreamReader::readAs<std::int32_t>(stream);  // +0x18
-        m_w7 = StreamReader::readAs<bool>(stream);  // +0x1c
-        return;
-    }
-    CustomFree(m_w5);
+    if (m_w5 != nullptr) CustomFree(m_w5);  // +0x14
+    m_w5 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w4) + 1, 1));  // +0x14, length +0x10
+    StreamReader::readStringEx(stream, m_w5, m_w4, 0);
+    m_w5[m_w4] = '\0';
+    m_w6 = StreamReader::readAs<std::int32_t>(stream);  // +0x18
+    m_w7 = StreamReader::readAs<bool>(stream);  // +0x1c
 }
 
 // 0x4c6db0 _ZN7Structs13SetCameraClipD2Ev
@@ -1616,14 +1583,11 @@ void SetCameraTarget::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
     m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
     m_w3 = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
-    if (m_w4 == nullptr) {  // +0x10
-        m_w4 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w3) + 1));  // +0x10, length +0xc
-        StreamReader::readStringEx(stream, m_w4, m_w3, 0);
-        m_w4[m_w3] = '\0';
-        m_w5 = StreamReader::readAs<bool>(stream);  // +0x14
-        return;
-    }
-    CustomFree(m_w4);
+    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
+    m_w4 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w3) + 1, 1));  // +0x10, length +0xc
+    StreamReader::readStringEx(stream, m_w4, m_w3, 0);
+    m_w4[m_w3] = '\0';
+    m_w5 = StreamReader::readAs<bool>(stream);  // +0x14
 }
 
 // 0x4c732c _ZN7Structs13SetFaeryStateD2Ev
@@ -1697,13 +1661,10 @@ void SetStatic::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
     m_w2 = StreamReader::readAs<bool>(stream);  // +0x8
     m_w3 = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
-    if (m_w4 == nullptr) {  // +0x10
-        m_w4 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w3) + 1));  // +0x10, length +0xc
-        StreamReader::readStringEx(stream, m_w4, m_w3, 0);
-        m_w4[m_w3] = '\0';
-        return;
-    }
-    CustomFree(m_w4);
+    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
+    m_w4 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w3) + 1, 1));  // +0x10, length +0xc
+    StreamReader::readStringEx(stream, m_w4, m_w3, 0);
+    m_w4[m_w3] = '\0';
 }
 
 // 0x4c75b4 _ZN7Structs24SetWorldMapLocationStateD2Ev
@@ -1784,14 +1745,11 @@ void ShowFlash::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
     m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
     m_w3 = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
-    if (m_w4 == nullptr) {  // +0x10
-        m_w4 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w3) + 1));  // +0x10, length +0xc
-        StreamReader::readStringEx(stream, m_w4, m_w3, 0);
-        m_w4[m_w3] = '\0';
-        m_w5 = StreamReader::readAs<bool>(stream);  // +0x14
-        return;
-    }
-    CustomFree(m_w4);
+    if (m_w4 != nullptr) CustomFree(m_w4);  // +0x10
+    m_w4 = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w3) + 1, 1));  // +0x10, length +0xc
+    StreamReader::readStringEx(stream, m_w4, m_w3, 0);
+    m_w4[m_w3] = '\0';
+    m_w5 = StreamReader::readAs<bool>(stream);  // +0x14
 }
 
 // 0x4c77d0 _ZN7Structs12ShowTrophiesD2Ev
