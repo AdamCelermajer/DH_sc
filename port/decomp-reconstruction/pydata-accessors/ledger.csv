@@ -134,177 +134,177 @@ elf_address,symbol,status,source_file,notes
 0x4af420,_ZN7Structs19GetMemberIDByStringINS_7AnimTplEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 3 m_dataNames entries (loop form)
 0x4af4ec,_ZN7Structs19GetMemberIDByStringINS_10AIFactionsEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 1 m_dataNames entries (fixed form)
 0x4af590,_ZN7Structs19GetMemberIDByStringINS_7AIPropsEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 15 m_dataNames entries (loop form)
-0x4a3808,_ZN6Arrays6Sounds13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a3988,_ZN6Arrays15StrID_Languages13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a3b08,_ZN6Arrays14GameObjectDict13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a3c88,_ZN6Arrays14ProjectileDict13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a3e08,_ZN6Arrays10EffectDict13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a3f88,_ZN6Arrays8AnimDict13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a4108,_ZN6Arrays9ModelDict13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a4288,_ZN6Arrays15WorldMapLockers13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a4408,_ZN6Arrays8WorldMap13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a4588,_ZN6Arrays8v2Quests13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a4708,_ZN6Arrays8v2Events13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a4888,_ZN6Arrays12v2Conditions13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a49fc,_ZN6Arrays11TrophyTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a4b70,_ZN6Arrays11SpawnGroups13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a4cf0,_ZN6Arrays10Sounds_bak13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a4e70,_ZN6Arrays18SoundGroupsRouting13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a4fe4,_ZN6Arrays17SoundBankPlayback13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a5164,_ZN6Arrays9Listeners13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a52e4,_ZN6Arrays15CharSoundsTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a5464,_ZN6Arrays10SkillTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a55e4,_ZN6Arrays14SkillListTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a5764,_ZN6Arrays15ProjectileTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a58e4,_ZN6Arrays12NumProbArray13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a5a64,_ZN6Arrays13MerchantTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a5be4,_ZN6Arrays9LootTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a5d64,_ZN6Arrays12ItemTypeList13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a6064,_ZN6Arrays8ItemList13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a61e4,_ZN6Arrays14InventoryTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a6358,_ZN6Arrays21DropTilePriorityTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a64d8,_ZN6Arrays20ItemAudioVisualTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a6658,_ZN6Arrays9LevelList13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a67d8,_ZN6Arrays14FastTravelList13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a6958,_ZN6Arrays21ItemBonusAttrMonopoly13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a6ad8,_ZN6Arrays14ItemPowerTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a6c58,_ZN6Arrays13ItemPowerList13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a6dd8,_ZN6Arrays9HintPages13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a6f58,_ZN6Arrays9HelpPages13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a70d8,_ZN6Arrays12TriggerTraps13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a7258,_ZN6Arrays13TriggerPlates13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a73cc,_ZN6Arrays14TriggerObjects13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a754c,_ZN6Arrays10TimerTraps13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a76c0,_ZN6Arrays15ProjectileTraps13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a7840,_ZN6Arrays18OpenableContainers13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a79c0,_ZN6Arrays15LiftableObjects13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a7b34,_ZN6Arrays17GameObjectDamager13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a7cb4,_ZN6Arrays14ExplosiveTraps13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a7e34,_ZN6Arrays5Doors13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a7fb4,_ZN6Arrays22DestructibleContainers13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a8134,_ZN6Arrays11FontPalette13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a82b4,_ZN6Arrays10FaeryTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a8434,_ZN6Arrays14FaeryListTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a85b4,_ZN6Arrays19FootstepEffectTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a8728,_ZN6Arrays15CharEffectTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a88a8,_ZN6Arrays19AnimatedEffectTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a8a28,_ZN6Arrays7Dialogs13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a8ba8,_ZN6Arrays12DialogActors13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a8d28,_ZN6Arrays15GameOptionTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a8e9c,_ZN6Arrays16GameDifficulties13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a901c,_ZN6Arrays19DesignSettingsTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a919c,_ZN6Arrays9RectTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a931c,_ZN6Arrays18Charater_Templates13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a949c,_ZN6Arrays13StatListTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a961c,_ZN6Arrays25StatAutoAssignSchemeTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a979c,_ZN6Arrays14CharacterTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a991c,_ZN6Arrays10ClassTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a9a9c,_ZN6Arrays13CharAnimTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a9c1c,_ZN6Arrays15CamAnimSetTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a9d9c,_ZN6Arrays9AnimTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4a9f1c,_ZN6Arrays14AIFactionTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4aa09c,_ZN6Arrays7AITable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
-0x4aff90,_ZN6Arrays12ItemTypeList9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b012c,_ZN6Arrays12NumProbArray9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b02c8,_ZN6Arrays13MerchantTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b0464,_ZN6Arrays14SkillListTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b0600,_ZN6Arrays15ProjectileTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b079c,_ZN6Arrays15CharSoundsTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b0938,_ZN6Arrays10SkillTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b0ad0,_ZN6Arrays17SoundBankPlayback9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b0c68,_ZN6Arrays9Listeners9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b0e00,_ZN6Arrays10Sounds_bak9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b0f98,_ZN6Arrays18SoundGroupsRouting9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b1130,_ZN6Arrays11TrophyTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b12c8,_ZN6Arrays11SpawnGroups9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b1460,_ZN6Arrays8v2Events9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b15f8,_ZN6Arrays12v2Conditions9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b1790,_ZN6Arrays8WorldMap9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b1c5c,_ZN6Arrays15WorldMapLockers9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b1df8,_ZN6Arrays10EffectDict9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b1f94,_ZN6Arrays8AnimDict9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b2130,_ZN6Arrays14GameObjectDict9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b22cc,_ZN6Arrays14ProjectileDict9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b2468,_ZN6Arrays10FaeryTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b2604,_ZN6Arrays14FaeryListTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b27a0,_ZN6Arrays22DestructibleContainers9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b2938,_ZN6Arrays11FontPalette9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b2ad4,_ZN6Arrays19AnimatedEffectTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b2c6c,_ZN6Arrays7Dialogs9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b2e08,_ZN6Arrays19FootstepEffectTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b2fa0,_ZN6Arrays15CharEffectTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b313c,_ZN6Arrays6Sounds9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b32d4,_ZN6Arrays15StrID_Languages9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b3470,_ZN6Arrays12DialogActors9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b360c,_ZN6Arrays15GameOptionTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b48bc,_ZN6Arrays8ItemList9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b4a58,_ZN6Arrays15CamAnimSetTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b4bf0,_ZN6Arrays9AnimTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b4d8c,_ZN6Arrays20ItemAudioVisualTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b4f28,_ZN6Arrays9LevelList9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b50c0,_ZN6Arrays14InventoryTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b525c,_ZN6Arrays21DropTilePriorityTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b57d4,_ZN6Arrays16GameDifficulties9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b596c,_ZN6Arrays15ProjectileTraps9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b5b04,_ZN6Arrays18OpenableContainers9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b5c9c,_ZN6Arrays14TriggerObjects9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b5e34,_ZN6Arrays10TimerTraps9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b5fcc,_ZN6Arrays14ExplosiveTraps9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b6164,_ZN6Arrays5Doors9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b62fc,_ZN6Arrays15LiftableObjects9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b6494,_ZN6Arrays17GameObjectDamager9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b6630,_ZN6Arrays14ItemPowerTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b67c8,_ZN6Arrays13ItemPowerList9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b6964,_ZN6Arrays14FastTravelList9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b6afc,_ZN6Arrays21ItemBonusAttrMonopoly9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b6c98,_ZN6Arrays12TriggerTraps9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b6e30,_ZN6Arrays13TriggerPlates9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b6fc8,_ZN6Arrays9HintPages9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b7164,_ZN6Arrays9HelpPages9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b7300,_ZN6Arrays14AIFactionTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b749c,_ZN6Arrays7AITable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b7638,_ZN6Arrays19DesignSettingsTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b77d4,_ZN6Arrays9RectTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b7970,_ZN6Arrays18Charater_Templates9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b7b08,_ZN6Arrays13StatListTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b7ca4,_ZN6Arrays25StatAutoAssignSchemeTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b7e40,_ZN6Arrays14CharacterTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b7fd8,_ZN6Arrays10ClassTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b8174,_ZN6Arrays13CharAnimTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4aff8c,_ZN6Arrays9LootTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b0128,_ZN6Arrays12ItemTypeList9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b02c4,_ZN6Arrays12NumProbArray9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b0460,_ZN6Arrays13MerchantTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b05fc,_ZN6Arrays14SkillListTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b0798,_ZN6Arrays15ProjectileTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b0934,_ZN6Arrays15CharSoundsTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b1c58,_ZN6Arrays9ModelDict9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b1df4,_ZN6Arrays15WorldMapLockers9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b1f90,_ZN6Arrays10EffectDict9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b212c,_ZN6Arrays8AnimDict9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b22c8,_ZN6Arrays14GameObjectDict9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b2464,_ZN6Arrays14ProjectileDict9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b2600,_ZN6Arrays10FaeryTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b279c,_ZN6Arrays14FaeryListTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b2ad0,_ZN6Arrays11FontPalette9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b2e04,_ZN6Arrays7Dialogs9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b3138,_ZN6Arrays15CharEffectTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b346c,_ZN6Arrays15StrID_Languages9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b3608,_ZN6Arrays12DialogActors9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b4d88,_ZN6Arrays9AnimTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b4f24,_ZN6Arrays20ItemAudioVisualTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b662c,_ZN6Arrays17GameObjectDamager9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b6960,_ZN6Arrays13ItemPowerList9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b6c94,_ZN6Arrays21ItemBonusAttrMonopoly9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b7160,_ZN6Arrays9HintPages9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b72fc,_ZN6Arrays9HelpPages9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b7498,_ZN6Arrays14AIFactionTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b7634,_ZN6Arrays7AITable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b77d0,_ZN6Arrays19DesignSettingsTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b796c,_ZN6Arrays9RectTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b7ca0,_ZN6Arrays13StatListTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b7e3c,_ZN6Arrays25StatAutoAssignSchemeTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
-0x4b8170,_ZN6Arrays10ClassTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4a3808,_ZN6Arrays6Sounds13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a3988,_ZN6Arrays15StrID_Languages13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a3b08,_ZN6Arrays14GameObjectDict13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a3c88,_ZN6Arrays14ProjectileDict13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a3e08,_ZN6Arrays10EffectDict13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a3f88,_ZN6Arrays8AnimDict13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a4108,_ZN6Arrays9ModelDict13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a4288,_ZN6Arrays15WorldMapLockers13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a4408,_ZN6Arrays8WorldMap13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a4588,_ZN6Arrays8v2Quests13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a4708,_ZN6Arrays8v2Events13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a4888,_ZN6Arrays12v2Conditions13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a49fc,_ZN6Arrays11TrophyTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a4b70,_ZN6Arrays11SpawnGroups13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a4cf0,_ZN6Arrays10Sounds_bak13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a4e70,_ZN6Arrays18SoundGroupsRouting13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a4fe4,_ZN6Arrays17SoundBankPlayback13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a5164,_ZN6Arrays9Listeners13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a52e4,_ZN6Arrays15CharSoundsTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a5464,_ZN6Arrays10SkillTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a55e4,_ZN6Arrays14SkillListTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a5764,_ZN6Arrays15ProjectileTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a58e4,_ZN6Arrays12NumProbArray13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a5a64,_ZN6Arrays13MerchantTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a5be4,_ZN6Arrays9LootTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a5d64,_ZN6Arrays12ItemTypeList13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a6064,_ZN6Arrays8ItemList13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a61e4,_ZN6Arrays14InventoryTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a6358,_ZN6Arrays21DropTilePriorityTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a64d8,_ZN6Arrays20ItemAudioVisualTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a6658,_ZN6Arrays9LevelList13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a67d8,_ZN6Arrays14FastTravelList13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a6958,_ZN6Arrays21ItemBonusAttrMonopoly13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a6ad8,_ZN6Arrays14ItemPowerTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a6c58,_ZN6Arrays13ItemPowerList13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a6dd8,_ZN6Arrays9HintPages13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a6f58,_ZN6Arrays9HelpPages13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a70d8,_ZN6Arrays12TriggerTraps13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a7258,_ZN6Arrays13TriggerPlates13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a73cc,_ZN6Arrays14TriggerObjects13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a754c,_ZN6Arrays10TimerTraps13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a76c0,_ZN6Arrays15ProjectileTraps13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a7840,_ZN6Arrays18OpenableContainers13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a79c0,_ZN6Arrays15LiftableObjects13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a7b34,_ZN6Arrays17GameObjectDamager13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a7cb4,_ZN6Arrays14ExplosiveTraps13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a7e34,_ZN6Arrays5Doors13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a7fb4,_ZN6Arrays22DestructibleContainers13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a8134,_ZN6Arrays11FontPalette13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a82b4,_ZN6Arrays10FaeryTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a8434,_ZN6Arrays14FaeryListTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a85b4,_ZN6Arrays19FootstepEffectTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a8728,_ZN6Arrays15CharEffectTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a88a8,_ZN6Arrays19AnimatedEffectTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a8a28,_ZN6Arrays7Dialogs13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a8ba8,_ZN6Arrays12DialogActors13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a8d28,_ZN6Arrays15GameOptionTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a8e9c,_ZN6Arrays16GameDifficulties13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a901c,_ZN6Arrays19DesignSettingsTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a919c,_ZN6Arrays9RectTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a931c,_ZN6Arrays18Charater_Templates13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a949c,_ZN6Arrays13StatListTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a961c,_ZN6Arrays25StatAutoAssignSchemeTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a979c,_ZN6Arrays14CharacterTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a991c,_ZN6Arrays10ClassTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a9a9c,_ZN6Arrays13CharAnimTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a9c1c,_ZN6Arrays15CamAnimSetTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a9d9c,_ZN6Arrays9AnimTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4a9f1c,_ZN6Arrays14AIFactionTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4aa09c,_ZN6Arrays7AITable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation"
+0x4aff90,_ZN6Arrays12ItemTypeList9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b012c,_ZN6Arrays12NumProbArray9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b02c8,_ZN6Arrays13MerchantTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b0464,_ZN6Arrays14SkillListTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b0600,_ZN6Arrays15ProjectileTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b079c,_ZN6Arrays15CharSoundsTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b0938,_ZN6Arrays10SkillTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b0ad0,_ZN6Arrays17SoundBankPlayback9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b0c68,_ZN6Arrays9Listeners9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b0e00,_ZN6Arrays10Sounds_bak9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b0f98,_ZN6Arrays18SoundGroupsRouting9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b1130,_ZN6Arrays11TrophyTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b12c8,_ZN6Arrays11SpawnGroups9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b1460,_ZN6Arrays8v2Events9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b15f8,_ZN6Arrays12v2Conditions9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b1790,_ZN6Arrays8WorldMap9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b1c5c,_ZN6Arrays15WorldMapLockers9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b1df8,_ZN6Arrays10EffectDict9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b1f94,_ZN6Arrays8AnimDict9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b2130,_ZN6Arrays14GameObjectDict9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b22cc,_ZN6Arrays14ProjectileDict9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b2468,_ZN6Arrays10FaeryTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b2604,_ZN6Arrays14FaeryListTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b27a0,_ZN6Arrays22DestructibleContainers9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b2938,_ZN6Arrays11FontPalette9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b2ad4,_ZN6Arrays19AnimatedEffectTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b2c6c,_ZN6Arrays7Dialogs9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b2e08,_ZN6Arrays19FootstepEffectTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b2fa0,_ZN6Arrays15CharEffectTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b313c,_ZN6Arrays6Sounds9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b32d4,_ZN6Arrays15StrID_Languages9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b3470,_ZN6Arrays12DialogActors9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b360c,_ZN6Arrays15GameOptionTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b48bc,_ZN6Arrays8ItemList9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b4a58,_ZN6Arrays15CamAnimSetTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b4bf0,_ZN6Arrays9AnimTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b4d8c,_ZN6Arrays20ItemAudioVisualTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b4f28,_ZN6Arrays9LevelList9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b50c0,_ZN6Arrays14InventoryTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b525c,_ZN6Arrays21DropTilePriorityTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b57d4,_ZN6Arrays16GameDifficulties9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b596c,_ZN6Arrays15ProjectileTraps9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b5b04,_ZN6Arrays18OpenableContainers9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b5c9c,_ZN6Arrays14TriggerObjects9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b5e34,_ZN6Arrays10TimerTraps9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b5fcc,_ZN6Arrays14ExplosiveTraps9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b6164,_ZN6Arrays5Doors9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b62fc,_ZN6Arrays15LiftableObjects9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b6494,_ZN6Arrays17GameObjectDamager9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b6630,_ZN6Arrays14ItemPowerTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b67c8,_ZN6Arrays13ItemPowerList9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b6964,_ZN6Arrays14FastTravelList9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b6afc,_ZN6Arrays21ItemBonusAttrMonopoly9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b6c98,_ZN6Arrays12TriggerTraps9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b6e30,_ZN6Arrays13TriggerPlates9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b6fc8,_ZN6Arrays9HintPages9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b7164,_ZN6Arrays9HelpPages9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b7300,_ZN6Arrays14AIFactionTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b749c,_ZN6Arrays7AITable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b7638,_ZN6Arrays19DesignSettingsTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b77d4,_ZN6Arrays9RectTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b7970,_ZN6Arrays18Charater_Templates9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b7b08,_ZN6Arrays13StatListTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b7ca4,_ZN6Arrays25StatAutoAssignSchemeTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b7e40,_ZN6Arrays14CharacterTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b7fd8,_ZN6Arrays10ClassTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b8174,_ZN6Arrays13CharAnimTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4aff8c,_ZN6Arrays9LootTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b0128,_ZN6Arrays12ItemTypeList9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b02c4,_ZN6Arrays12NumProbArray9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b0460,_ZN6Arrays13MerchantTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b05fc,_ZN6Arrays14SkillListTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b0798,_ZN6Arrays15ProjectileTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b0934,_ZN6Arrays15CharSoundsTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b1c58,_ZN6Arrays9ModelDict9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b1df4,_ZN6Arrays15WorldMapLockers9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b1f90,_ZN6Arrays10EffectDict9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b212c,_ZN6Arrays8AnimDict9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b22c8,_ZN6Arrays14GameObjectDict9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b2464,_ZN6Arrays14ProjectileDict9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b2600,_ZN6Arrays10FaeryTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b279c,_ZN6Arrays14FaeryListTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b2ad0,_ZN6Arrays11FontPalette9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b2e04,_ZN6Arrays7Dialogs9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b3138,_ZN6Arrays15CharEffectTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b346c,_ZN6Arrays15StrID_Languages9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b3608,_ZN6Arrays12DialogActors9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b4d88,_ZN6Arrays9AnimTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b4f24,_ZN6Arrays20ItemAudioVisualTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b662c,_ZN6Arrays17GameObjectDamager9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b6960,_ZN6Arrays13ItemPowerList9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b6c94,_ZN6Arrays21ItemBonusAttrMonopoly9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b7160,_ZN6Arrays9HintPages9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b72fc,_ZN6Arrays9HelpPages9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b7498,_ZN6Arrays14AIFactionTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b7634,_ZN6Arrays7AITable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b77d0,_ZN6Arrays19DesignSettingsTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b796c,_ZN6Arrays9RectTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b7ca0,_ZN6Arrays13StatListTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b7e3c,_ZN6Arrays25StatAutoAssignSchemeTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
+0x4b8170,_ZN6Arrays10ClassTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,"shared name-table body (pydata::ReadNameTable), matches reference after normalisation"
 0x456394,_Z27GetNewScriptCmdDataInstanceIN7Structs13FlushMessagesEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
 0x4563d0,_Z27GetNewScriptCmdDataInstanceIN7Structs10DoTutorialEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
 0x45640c,_Z27GetNewScriptCmdDataInstanceIN7Structs12LockTutorialEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
@@ -935,3 +935,398 @@ elf_address,symbol,status,source_file,notes
 0x4d03cc,_ZN7Structs14v2QuestScriptsD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of v2QuestScripts"
 0x4d0888,_ZN7Structs14v2QuestScriptsD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
 0x4d0238,_ZN7Structs14v2QuestScripts8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 14 field(s)"
+0x4c6c60,_ZN7Structs9ScriptCmdD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~ScriptCmd): frees 0 field(s), base ScriptCmd"
+0x4c6c64,_ZN7Structs9ScriptCmdD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of ScriptCmd"
+0x4cdd38,_ZN7Structs9ScriptCmdD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c6c68,_ZN7Structs9ScriptCmd8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: no base call, frees 0 field(s)"
+0x4ff828,_ZN7Structs9ScriptCmd4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 1 readAs store(s)"
+0x4d2a60,_ZN7Structs14AIChangeScriptD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~AIChangeScript): frees 2 field(s), base ScriptCmd"
+0x4d29ec,_ZN7Structs14AIChangeScriptD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of AIChangeScript"
+0x4d2a44,_ZN7Structs14AIChangeScriptD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d29a0,_ZN7Structs14AIChangeScript8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 2 field(s)"
+0x501974,_ZN7Structs14AIChangeScript4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 2 readAs store(s), 2 string buffer(s) read with NUL"
+0x4d2b4c,_ZN7Structs9AIDoSkillD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~AIDoSkill): frees 1 field(s), base ScriptCmd"
+0x4d2ae8,_ZN7Structs9AIDoSkillD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of AIDoSkill"
+0x4d2b30,_ZN7Structs9AIDoSkillD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d2ab8,_ZN7Structs9AIDoSkill8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
+0x501ad8,_ZN7Structs9AIDoSkill4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 2 readAs store(s), 1 string buffer(s) read with NUL"
+0x4c7404,_ZN7Structs13AIEnableTimerD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~AIEnableTimer): frees 0 field(s), base ScriptCmd"
+0x4c7438,_ZN7Structs13AIEnableTimerD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of AIEnableTimer"
+0x4cdf4c,_ZN7Structs13AIEnableTimerD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c746c,_ZN7Structs13AIEnableTimer8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x4ff9b4,_ZN7Structs13AIEnableTimer4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 1 readAs store(s); a bool or int8 field is stored, its type is inferred"
+0x4c7470,_ZN7Structs12AIResetTimerD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~AIResetTimer): frees 0 field(s), base ScriptCmd"
+0x4c74a4,_ZN7Structs12AIResetTimerD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of AIResetTimer"
+0x4cdf30,_ZN7Structs12AIResetTimerD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c74d8,_ZN7Structs12AIResetTimer8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x4ff8c4,_ZN7Structs12AIResetTimer4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4ff828: forwards to ScriptCmd::read"
+0x4c74dc,_ZN7Structs7AISetHPD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~AISetHP): frees 0 field(s), base ScriptCmd"
+0x4c7510,_ZN7Structs7AISetHPD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of AISetHP"
+0x4cdf14,_ZN7Structs7AISetHPD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c7544,_ZN7Structs7AISetHP8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x5030b8,_ZN7Structs7AISetHP4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 1 readAs store(s)"
+0x4d2948,_ZN7Structs8AISetIntD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~AISetInt): frees 2 field(s), base ScriptCmd"
+0x4d28d4,_ZN7Structs8AISetIntD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of AISetInt"
+0x4d292c,_ZN7Structs8AISetIntD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d2888,_ZN7Structs8AISetInt8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 2 field(s)"
+0x5017b4,_ZN7Structs8AISetInt4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 3 readAs store(s), 2 string buffer(s) read with NUL"
+0x4d1878,_ZN7Structs22ActivateProjectileTrapD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~ActivateProjectileTrap): frees 1 field(s), base ScriptCmd"
+0x4d1814,_ZN7Structs22ActivateProjectileTrapD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of ActivateProjectileTrap"
+0x4d185c,_ZN7Structs22ActivateProjectileTrapD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d17e4,_ZN7Structs22ActivateProjectileTrap8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
+0x500530,_ZN7Structs22ActivateProjectileTrap4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 1 readAs store(s), 1 string buffer(s) read with NUL"
+0x4d16c0,_ZN7Structs20ActivateTriggerPlateD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~ActivateTriggerPlate): frees 1 field(s), base ScriptCmd"
+0x4d165c,_ZN7Structs20ActivateTriggerPlateD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of ActivateTriggerPlate"
+0x4d16a4,_ZN7Structs20ActivateTriggerPlateD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d162c,_ZN7Structs20ActivateTriggerPlate8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
+0x5003b0,_ZN7Structs20ActivateTriggerPlate4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 1 readAs store(s), 1 string buffer(s) read with NUL"
+0x4d1e7c,_ZN7Structs9AutoEquipD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~AutoEquip): frees 1 field(s), base ScriptCmd"
+0x4d1e18,_ZN7Structs9AutoEquipD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of AutoEquip"
+0x4d1e60,_ZN7Structs9AutoEquipD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d1de8,_ZN7Structs9AutoEquip8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
+0x500af0,_ZN7Structs9AutoEquip4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 1 readAs store(s), 1 string buffer(s) read with NUL"
+0x4c7764,_ZN7Structs20AwardEndGameTrophiesD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~AwardEndGameTrophies): frees 0 field(s), base ScriptCmd"
+0x4c7798,_ZN7Structs20AwardEndGameTrophiesD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of AwardEndGameTrophies"
+0x4cde6c,_ZN7Structs20AwardEndGameTrophiesD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c77cc,_ZN7Structs20AwardEndGameTrophies8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x4ff8b8,_ZN7Structs20AwardEndGameTrophies4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4ff828: forwards to ScriptCmd::read"
+0x4c76f8,_ZN7Structs11AwardTrophyD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~AwardTrophy): frees 0 field(s), base ScriptCmd"
+0x4c772c,_ZN7Structs11AwardTrophyD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of AwardTrophy"
+0x4cde88,_ZN7Structs11AwardTrophyD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c7760,_ZN7Structs11AwardTrophy8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x502e98,_ZN7Structs11AwardTrophy4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 1 readAs store(s)"
+0x4c78a8,_ZN7Structs13BlockSaveGameD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~BlockSaveGame): frees 0 field(s), base ScriptCmd"
+0x4c78dc,_ZN7Structs13BlockSaveGameD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of BlockSaveGame"
+0x4cde18,_ZN7Structs13BlockSaveGameD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c7910,_ZN7Structs13BlockSaveGame8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x4ff8ac,_ZN7Structs13BlockSaveGame4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4ff828: forwards to ScriptCmd::read"
+0x4d3994,_ZN7Structs7CONSOLED2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~CONSOLE): frees 1 field(s), base ScriptCmd"
+0x4d3930,_ZN7Structs7CONSOLED1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of CONSOLE"
+0x4d3978,_ZN7Structs7CONSOLED0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d3900,_ZN7Structs7CONSOLE8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
+0x5029bc,_ZN7Structs7CONSOLE4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 1 readAs store(s), 1 string buffer(s) read with NUL"
+0x4d142c,_ZN7Structs11ChangeLevelD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~ChangeLevel): frees 1 field(s), base ScriptCmd"
+0x4d13c8,_ZN7Structs11ChangeLevelD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of ChangeLevel"
+0x4d1410,_ZN7Structs11ChangeLevelD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d1398,_ZN7Structs11ChangeLevel8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
+0x500114,_ZN7Structs11ChangeLevel4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 2 readAs store(s), 1 string buffer(s) read with NUL"
+0x4d1954,_ZN7Structs9CloseDoorD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~CloseDoor): frees 1 field(s), base ScriptCmd"
+0x4d18f0,_ZN7Structs9CloseDoorD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of CloseDoor"
+0x4d1938,_ZN7Structs9CloseDoorD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d18c0,_ZN7Structs9CloseDoor8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
+0x5005f0,_ZN7Structs9CloseDoor4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 2 readAs store(s), 1 string buffer(s) read with NUL; a bool or int8 field is stored, its type is inferred"
+0x4d179c,_ZN7Structs24DeactivateProjectileTrapD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~DeactivateProjectileTrap): frees 1 field(s), base ScriptCmd"
+0x4d1738,_ZN7Structs24DeactivateProjectileTrapD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of DeactivateProjectileTrap"
+0x4d1780,_ZN7Structs24DeactivateProjectileTrapD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d1708,_ZN7Structs24DeactivateProjectileTrap8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
+0x500470,_ZN7Structs24DeactivateProjectileTrap4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 1 readAs store(s), 1 string buffer(s) read with NUL"
+0x4d15e4,_ZN7Structs22DeactivateTriggerPlateD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~DeactivateTriggerPlate): frees 1 field(s), base ScriptCmd"
+0x4d1580,_ZN7Structs22DeactivateTriggerPlateD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of DeactivateTriggerPlate"
+0x4d15c8,_ZN7Structs22DeactivateTriggerPlateD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d1550,_ZN7Structs22DeactivateTriggerPlate8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
+0x5002f0,_ZN7Structs22DeactivateTriggerPlate4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 1 readAs store(s), 1 string buffer(s) read with NUL"
+0x4d1238,_ZN7Structs10DoTutorialD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~DoTutorial): frees 1 field(s), base ScriptCmd"
+0x4d11d4,_ZN7Structs10DoTutorialD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of DoTutorial"
+0x4d121c,_ZN7Structs10DoTutorialD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d11a4,_ZN7Structs10DoTutorial8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
+0x4ffe38,_ZN7Structs10DoTutorial4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 2 readAs store(s), 1 string buffer(s) read with NUL"
+0x4d1f84,_ZN7Structs8DropLootD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~DropLoot): frees 2 field(s), base ScriptCmd"
+0x4d1f10,_ZN7Structs8DropLootD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of DropLoot"
+0x4d1f68,_ZN7Structs8DropLootD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d1ec4,_ZN7Structs8DropLoot8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 2 field(s)"
+0x500bb0,_ZN7Structs8DropLoot4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 2 readAs store(s), 2 string buffer(s) read with NUL"
+0x4c768c,_ZN7Structs7EndGameD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~EndGame): frees 0 field(s), base ScriptCmd"
+0x4c76c0,_ZN7Structs7EndGameD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of EndGame"
+0x4cdea4,_ZN7Structs7EndGameD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c76f4,_ZN7Structs7EndGame8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x4ff8bc,_ZN7Structs7EndGame4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4ff828: forwards to ScriptCmd::read"
+0x4d1340,_ZN7Structs30EnqueueCharMenuTutorialMessageD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~EnqueueCharMenuTutorialMessage): frees 2 field(s), base ScriptCmd"
+0x4d12cc,_ZN7Structs30EnqueueCharMenuTutorialMessageD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of EnqueueCharMenuTutorialMessage"
+0x4d1324,_ZN7Structs30EnqueueCharMenuTutorialMessageD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d1280,_ZN7Structs30EnqueueCharMenuTutorialMessage8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 2 field(s)"
+0x4fff54,_ZN7Structs30EnqueueCharMenuTutorialMessage4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 3 readAs store(s), 2 string buffer(s) read with NUL"
+0x4c7914,_ZN7Structs22EnqueueTutorialMessageD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~EnqueueTutorialMessage): frees 0 field(s), base ScriptCmd"
+0x4c7948,_ZN7Structs22EnqueueTutorialMessageD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of EnqueueTutorialMessage"
+0x4cddfc,_ZN7Structs22EnqueueTutorialMessageD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c797c,_ZN7Structs22EnqueueTutorialMessage8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x502dc4,_ZN7Structs22EnqueueTutorialMessage4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 2 readAs store(s)"
+0x4c6c6c,_ZN7Structs17EnterCutSceneModeD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~EnterCutSceneMode): frees 0 field(s), base ScriptCmd"
+0x4c6ca0,_ZN7Structs17EnterCutSceneModeD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of EnterCutSceneMode"
+0x4ce144,_ZN7Structs17EnterCutSceneModeD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c6cd4,_ZN7Structs17EnterCutSceneMode8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x4ff9b0,_ZN7Structs17EnterCutSceneMode4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4ff828: forwards to ScriptCmd::read"
+0x4c717c,_ZN7Structs13EnterSafeZoneD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~EnterSafeZone): frees 0 field(s), base ScriptCmd"
+0x4c71b0,_ZN7Structs13EnterSafeZoneD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of EnterSafeZone"
+0x4cdff4,_ZN7Structs13EnterSafeZoneD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c71e4,_ZN7Structs13EnterSafeZone8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x4ff8cc,_ZN7Structs13EnterSafeZone4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4ff828: forwards to ScriptCmd::read"
+0x4c6cd8,_ZN7Structs16ExitCutSceneModeD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~ExitCutSceneMode): frees 0 field(s), base ScriptCmd"
+0x4c6d0c,_ZN7Structs16ExitCutSceneModeD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of ExitCutSceneMode"
+0x4ce128,_ZN7Structs16ExitCutSceneModeD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c6d40,_ZN7Structs16ExitCutSceneMode8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x4ff9ac,_ZN7Structs16ExitCutSceneMode4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4ff828: forwards to ScriptCmd::read"
+0x4c7b9c,_ZN7Structs13FlushMessagesD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~FlushMessages): frees 0 field(s), base ScriptCmd"
+0x4c7bd0,_ZN7Structs13FlushMessagesD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of FlushMessages"
+0x4cdd54,_ZN7Structs13FlushMessagesD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c7c04,_ZN7Structs13FlushMessages8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x4ff898,_ZN7Structs13FlushMessages4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4ff828: forwards to ScriptCmd::read"
+0x4d2458,_ZN7Structs9HideActorD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~HideActor): frees 1 field(s), base ScriptCmd"
+0x4d23f4,_ZN7Structs9HideActorD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of HideActor"
+0x4d243c,_ZN7Structs9HideActorD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d23c4,_ZN7Structs9HideActor8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
+0x501294,_ZN7Structs9HideActor4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 1 readAs store(s), 1 string buffer(s) read with NUL"
+0x4d3180,_ZN7Structs9HideFlashD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~HideFlash): frees 1 field(s), base ScriptCmd"
+0x4d311c,_ZN7Structs9HideFlashD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of HideFlash"
+0x4d3164,_ZN7Structs9HideFlashD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d30bc,_ZN7Structs9HideFlash8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
+0x50208c,_ZN7Structs9HideFlash4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 3 readAs store(s), 1 string buffer(s) read with NUL; a bool or int8 field is stored, its type is inferred"
+0x4c7398,_ZN7Structs13IncFaeryLevelD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~IncFaeryLevel): frees 0 field(s), base ScriptCmd"
+0x4c73cc,_ZN7Structs13IncFaeryLevelD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of IncFaeryLevel"
+0x4cdf68,_ZN7Structs13IncFaeryLevelD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c7400,_ZN7Structs13IncFaeryLevel8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x503130,_ZN7Structs13IncFaeryLevel4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 1 readAs store(s)"
+0x4d237c,_ZN7Structs9KillActorD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~KillActor): frees 1 field(s), base ScriptCmd"
+0x4d2318,_ZN7Structs9KillActorD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of KillActor"
+0x4d2360,_ZN7Structs9KillActorD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d22e8,_ZN7Structs9KillActor8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
+0x5011d4,_ZN7Structs9KillActor4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 1 readAs store(s), 1 string buffer(s) read with NUL"
+0x4c71e8,_ZN7Structs13LeaveSafeZoneD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~LeaveSafeZone): frees 0 field(s), base ScriptCmd"
+0x4c721c,_ZN7Structs13LeaveSafeZoneD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of LeaveSafeZone"
+0x4cdfd8,_ZN7Structs13LeaveSafeZoneD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c7250,_ZN7Structs13LeaveSafeZone8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x4ff8c8,_ZN7Structs13LeaveSafeZone4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4ff828: forwards to ScriptCmd::read"
+0x4d3074,_ZN7Structs13LockCharacterD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~LockCharacter): frees 1 field(s), base ScriptCmd"
+0x4d3010,_ZN7Structs13LockCharacterD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of LockCharacter"
+0x4d3058,_ZN7Structs13LockCharacterD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d2fe0,_ZN7Structs13LockCharacter8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
+0x501fcc,_ZN7Structs13LockCharacter4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 1 readAs store(s), 1 string buffer(s) read with NUL"
+0x4c7b30,_ZN7Structs12LockTutorialD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~LockTutorial): frees 0 field(s), base ScriptCmd"
+0x4c7b64,_ZN7Structs12LockTutorialD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of LockTutorial"
+0x4cdd70,_ZN7Structs12LockTutorialD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c7b98,_ZN7Structs12LockTutorial8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x502a7c,_ZN7Structs12LockTutorial4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 1 readAs store(s)"
+0x4d263c,_ZN7Structs9LookActorD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~LookActor): frees 2 field(s), base ScriptCmd"
+0x4d25c8,_ZN7Structs9LookActorD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of LookActor"
+0x4d2620,_ZN7Structs9LookActorD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d257c,_ZN7Structs9LookActor8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 2 field(s)"
+0x501414,_ZN7Structs9LookActor4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 2 readAs store(s), 2 string buffer(s) read with NUL"
+0x4d2c28,_ZN7Structs23MarkCharacterAsScriptedD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~MarkCharacterAsScripted): frees 1 field(s), base ScriptCmd"
+0x4d2bc4,_ZN7Structs23MarkCharacterAsScriptedD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of MarkCharacterAsScripted"
+0x4d2c0c,_ZN7Structs23MarkCharacterAsScriptedD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d2b94,_ZN7Structs23MarkCharacterAsScripted8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
+0x501bf4,_ZN7Structs23MarkCharacterAsScripted4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 2 readAs store(s), 1 string buffer(s) read with NUL; a bool or int8 field is stored, its type is inferred"
+0x4d2754,_ZN7Structs9MoveActorD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~MoveActor): frees 2 field(s), base ScriptCmd"
+0x4d26e0,_ZN7Structs9MoveActorD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of MoveActor"
+0x4d2738,_ZN7Structs9MoveActorD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d2694,_ZN7Structs9MoveActor8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 2 field(s)"
+0x501578,_ZN7Structs9MoveActor4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 4 readAs store(s), 2 string buffer(s) read with NUL; a bool or int8 field is stored, its type is inferred"
+0x4c6e88,_ZN7Structs6NilCmdD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~NilCmd): frees 0 field(s), base ScriptCmd"
+0x4c6ebc,_ZN7Structs6NilCmdD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of NilCmd"
+0x4ce0b8,_ZN7Structs6NilCmdD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c6ef0,_ZN7Structs6NilCmd8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x4ff8d4,_ZN7Structs6NilCmd4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4ff828: forwards to ScriptCmd::read"
+0x4d1a30,_ZN7Structs8OpenDoorD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~OpenDoor): frees 1 field(s), base ScriptCmd"
+0x4d19cc,_ZN7Structs8OpenDoorD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of OpenDoor"
+0x4d1a14,_ZN7Structs8OpenDoorD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d199c,_ZN7Structs8OpenDoor8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
+0x5006bc,_ZN7Structs8OpenDoor4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 2 readAs store(s), 1 string buffer(s) read with NUL; a bool or int8 field is stored, its type is inferred"
+0x4d22a0,_ZN7Structs13PlayActorAnimD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~PlayActorAnim): frees 1 field(s), base ScriptCmd"
+0x4d223c,_ZN7Structs13PlayActorAnimD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of PlayActorAnim"
+0x4d2284,_ZN7Structs13PlayActorAnimD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d220c,_ZN7Structs13PlayActorAnim8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
+0x500ff4,_ZN7Structs13PlayActorAnim4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 5 readAs store(s), 1 string buffer(s) read with NUL; a bool or int8 field is stored, its type is inferred"
+0x4d36c4,_ZN7Structs12PlayAnimByIdD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~PlayAnimById): frees 1 field(s), base ScriptCmd"
+0x4d3660,_ZN7Structs12PlayAnimByIdD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of PlayAnimById"
+0x4d36a8,_ZN7Structs12PlayAnimByIdD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d3630,_ZN7Structs12PlayAnimById8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
+0x502594,_ZN7Structs12PlayAnimById4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 4 readAs store(s), 1 string buffer(s) read with NUL; a bool or int8 field is stored, its type is inferred"
+0x4d35d8,_ZN7Structs14PlayAnimByNameD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~PlayAnimByName): frees 2 field(s), base ScriptCmd"
+0x4d3564,_ZN7Structs14PlayAnimByNameD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of PlayAnimByName"
+0x4d35bc,_ZN7Structs14PlayAnimByNameD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d3518,_ZN7Structs14PlayAnimByName8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 2 field(s)"
+0x502418,_ZN7Structs14PlayAnimByName4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 4 readAs store(s), 2 string buffer(s) read with NUL; a bool or int8 field is stored, its type is inferred"
+0x4c6d44,_ZN7Structs10PlayCameraD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~PlayCamera): frees 0 field(s), base ScriptCmd"
+0x4c6d78,_ZN7Structs10PlayCameraD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of PlayCamera"
+0x4ce10c,_ZN7Structs10PlayCameraD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c6dac,_ZN7Structs10PlayCamera8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x4ffba0,_ZN7Structs10PlayCamera4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 2 readAs store(s); a bool or int8 field is stored, its type is inferred"
+0x4c7110,_ZN7Structs14PlayLevelMusicD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~PlayLevelMusic): frees 0 field(s), base ScriptCmd"
+0x4c7144,_ZN7Structs14PlayLevelMusicD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of PlayLevelMusic"
+0x4ce010,_ZN7Structs14PlayLevelMusicD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c7178,_ZN7Structs14PlayLevelMusic8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x50336c,_ZN7Structs14PlayLevelMusic4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 1 readAs store(s)"
+0x4c7038,_ZN7Structs9PlaySoundD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~PlaySound): frees 0 field(s), base ScriptCmd"
+0x4c706c,_ZN7Structs9PlaySoundD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of PlaySound"
+0x4ce048,_ZN7Structs9PlaySoundD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c70a0,_ZN7Structs9PlaySound8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x4ffab4,_ZN7Structs9PlaySound4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 4 readAs store(s); a bool or int8 field is stored, its type is inferred"
+0x4d2d04,_ZN7Structs18PutCharacterInIdleD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~PutCharacterInIdle): frees 1 field(s), base ScriptCmd"
+0x4d2ca0,_ZN7Structs18PutCharacterInIdleD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of PutCharacterInIdle"
+0x4d2ce8,_ZN7Structs18PutCharacterInIdleD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d2c70,_ZN7Structs18PutCharacterInIdle8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
+0x501cc0,_ZN7Structs18PutCharacterInIdle4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 1 readAs store(s), 1 string buffer(s) read with NUL"
+0x4d2ebc,_ZN7Structs20PutCharacterInLimbusD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~PutCharacterInLimbus): frees 1 field(s), base ScriptCmd"
+0x4d2e58,_ZN7Structs20PutCharacterInLimbusD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of PutCharacterInLimbus"
+0x4d2ea0,_ZN7Structs20PutCharacterInLimbusD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d2e28,_ZN7Structs20PutCharacterInLimbus8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
+0x501e40,_ZN7Structs20PutCharacterInLimbus4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 2 readAs store(s), 1 string buffer(s) read with NUL; a bool or int8 field is stored, its type is inferred"
+0x4d1be8,_ZN7Structs12ReEquipHandsD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~ReEquipHands): frees 1 field(s), base ScriptCmd"
+0x4d1b84,_ZN7Structs12ReEquipHandsD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of ReEquipHands"
+0x4d1bcc,_ZN7Structs12ReEquipHandsD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d1b54,_ZN7Structs12ReEquipHands8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
+0x500854,_ZN7Structs12ReEquipHands4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 1 readAs store(s), 1 string buffer(s) read with NUL"
+0x4c7620,_ZN7Structs12RestartLevelD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~RestartLevel): frees 0 field(s), base ScriptCmd"
+0x4c7654,_ZN7Structs12RestartLevelD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of RestartLevel"
+0x4cdec0,_ZN7Structs12RestartLevelD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c7688,_ZN7Structs12RestartLevel8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x4ff8c0,_ZN7Structs12RestartLevel4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4ff828: forwards to ScriptCmd::read"
+0x4c783c,_ZN7Structs8SaveGameD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~SaveGame): frees 0 field(s), base ScriptCmd"
+0x4c7870,_ZN7Structs8SaveGameD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of SaveGame"
+0x4cde34,_ZN7Structs8SaveGameD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c78a4,_ZN7Structs8SaveGame8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x4ff8b0,_ZN7Structs8SaveGame4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4ff828: forwards to ScriptCmd::read"
+0x4d209c,_ZN7Structs14SetActorMasterD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~SetActorMaster): frees 2 field(s), base ScriptCmd"
+0x4d2028,_ZN7Structs14SetActorMasterD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of SetActorMaster"
+0x4d2080,_ZN7Structs14SetActorMasterD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d1fdc,_ZN7Structs14SetActorMaster8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 2 field(s)"
+0x500d14,_ZN7Structs14SetActorMaster4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 4 readAs store(s), 2 string buffer(s) read with NUL; a bool or int8 field is stored, its type is inferred"
+0x4d21b4,_ZN7Structs16SetActorPositionD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~SetActorPosition): frees 2 field(s), base ScriptCmd"
+0x4d2140,_ZN7Structs16SetActorPositionD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of SetActorPosition"
+0x4d2198,_ZN7Structs16SetActorPositionD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d20f4,_ZN7Structs16SetActorPosition8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 2 field(s)"
+0x500e90,_ZN7Structs16SetActorPosition4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 2 readAs store(s), 2 string buffer(s) read with NUL"
+0x4d38a8,_ZN7Structs9SetCameraD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~SetCamera): frees 2 field(s), base ScriptCmd"
+0x4d3834,_ZN7Structs9SetCameraD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of SetCamera"
+0x4d388c,_ZN7Structs9SetCameraD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d37e8,_ZN7Structs9SetCamera8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 2 field(s)"
+0x5027f0,_ZN7Structs9SetCamera4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 4 readAs store(s), 2 string buffer(s) read with NUL; a bool or int8 field is stored, its type is inferred"
+0x4c6db0,_ZN7Structs13SetCameraClipD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~SetCameraClip): frees 0 field(s), base ScriptCmd"
+0x4c6de4,_ZN7Structs13SetCameraClipD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of SetCameraClip"
+0x4ce0f0,_ZN7Structs13SetCameraClipD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c6e18,_ZN7Structs13SetCameraClip8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x4ff8d8,_ZN7Structs13SetCameraClip4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 2 readAs store(s)"
+0x4d37a0,_ZN7Structs15SetCameraTargetD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~SetCameraTarget): frees 1 field(s), base ScriptCmd"
+0x4d373c,_ZN7Structs15SetCameraTargetD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of SetCameraTarget"
+0x4d3784,_ZN7Structs15SetCameraTargetD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d370c,_ZN7Structs15SetCameraTarget8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
+0x5026c8,_ZN7Structs15SetCameraTarget4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 3 readAs store(s), 1 string buffer(s) read with NUL; a bool or int8 field is stored, its type is inferred"
+0x4c732c,_ZN7Structs13SetFaeryStateD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~SetFaeryState): frees 0 field(s), base ScriptCmd"
+0x4c7360,_ZN7Structs13SetFaeryStateD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of SetFaeryState"
+0x4cdf84,_ZN7Structs13SetFaeryStateD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c7394,_ZN7Structs13SetFaeryState8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x5031a8,_ZN7Structs13SetFaeryState4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 2 readAs store(s)"
+0x4c7548,_ZN7Structs13SetLevelStateD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~SetLevelState): frees 0 field(s), base ScriptCmd"
+0x4c757c,_ZN7Structs13SetLevelStateD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of SetLevelState"
+0x4cdef8,_ZN7Structs13SetLevelStateD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c75b0,_ZN7Structs13SetLevelState8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x502fe4,_ZN7Structs13SetLevelState4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 2 readAs store(s)"
+0x4d1b0c,_ZN7Structs9SetStaticD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~SetStatic): frees 1 field(s), base ScriptCmd"
+0x4d1aa8,_ZN7Structs9SetStaticD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of SetStatic"
+0x4d1af0,_ZN7Structs9SetStaticD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d1a78,_ZN7Structs9SetStatic8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
+0x500788,_ZN7Structs9SetStatic4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 2 readAs store(s), 1 string buffer(s) read with NUL; a bool or int8 field is stored, its type is inferred"
+0x4c75b4,_ZN7Structs24SetWorldMapLocationStateD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~SetWorldMapLocationState): frees 0 field(s), base ScriptCmd"
+0x4c75e8,_ZN7Structs24SetWorldMapLocationStateD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of SetWorldMapLocationState"
+0x4cdedc,_ZN7Structs24SetWorldMapLocationStateD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c761c,_ZN7Structs24SetWorldMapLocationState8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x502f10,_ZN7Structs24SetWorldMapLocationState4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 2 readAs store(s)"
+0x4d2534,_ZN7Structs9ShowActorD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~ShowActor): frees 1 field(s), base ScriptCmd"
+0x4d24d0,_ZN7Structs9ShowActorD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of ShowActor"
+0x4d2518,_ZN7Structs9ShowActorD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d24a0,_ZN7Structs9ShowActor8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
+0x501354,_ZN7Structs9ShowActor4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 1 readAs store(s), 1 string buffer(s) read with NUL"
+0x4d3338,_ZN7Structs9ShowFlashD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~ShowFlash): frees 1 field(s), base ScriptCmd"
+0x4d32d4,_ZN7Structs9ShowFlashD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of ShowFlash"
+0x4d331c,_ZN7Structs9ShowFlashD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d3274,_ZN7Structs9ShowFlash8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
+0x5021b8,_ZN7Structs9ShowFlash4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 3 readAs store(s), 1 string buffer(s) read with NUL; a bool or int8 field is stored, its type is inferred"
+0x4c77d0,_ZN7Structs12ShowTrophiesD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~ShowTrophies): frees 0 field(s), base ScriptCmd"
+0x4c7804,_ZN7Structs12ShowTrophiesD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of ShowTrophies"
+0x4cde50,_ZN7Structs12ShowTrophiesD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c7838,_ZN7Structs12ShowTrophies8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x4ff8b4,_ZN7Structs12ShowTrophies4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4ff828: forwards to ScriptCmd::read"
+0x4c7ac4,_ZN7Structs31SkipAllCharMenuTutorialMessagesD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~SkipAllCharMenuTutorialMessages): frees 0 field(s), base ScriptCmd"
+0x4c7af8,_ZN7Structs31SkipAllCharMenuTutorialMessagesD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of SkipAllCharMenuTutorialMessages"
+0x4cdd8c,_ZN7Structs31SkipAllCharMenuTutorialMessagesD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c7b2c,_ZN7Structs31SkipAllCharMenuTutorialMessages8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x4ff89c,_ZN7Structs31SkipAllCharMenuTutorialMessages4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4ff828: forwards to ScriptCmd::read"
+0x4c79ec,_ZN7Structs23SkipAllTutorialMessagesD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~SkipAllTutorialMessages): frees 0 field(s), base ScriptCmd"
+0x4c7a20,_ZN7Structs23SkipAllTutorialMessagesD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of SkipAllTutorialMessages"
+0x4cddc4,_ZN7Structs23SkipAllTutorialMessagesD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c7a54,_ZN7Structs23SkipAllTutorialMessages8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x4ff8a4,_ZN7Structs23SkipAllTutorialMessages4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4ff828: forwards to ScriptCmd::read"
+0x4c7a58,_ZN7Structs27SkipCharMenuTutorialMessageD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~SkipCharMenuTutorialMessage): frees 0 field(s), base ScriptCmd"
+0x4c7a8c,_ZN7Structs27SkipCharMenuTutorialMessageD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of SkipCharMenuTutorialMessage"
+0x4cdda8,_ZN7Structs27SkipCharMenuTutorialMessageD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c7ac0,_ZN7Structs27SkipCharMenuTutorialMessage8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x4ff8a0,_ZN7Structs27SkipCharMenuTutorialMessage4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4ff828: forwards to ScriptCmd::read"
+0x4c7980,_ZN7Structs19SkipTutorialMessageD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~SkipTutorialMessage): frees 0 field(s), base ScriptCmd"
+0x4c79b4,_ZN7Structs19SkipTutorialMessageD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of SkipTutorialMessage"
+0x4cdde0,_ZN7Structs19SkipTutorialMessageD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c79e8,_ZN7Structs19SkipTutorialMessage8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x4ff8a8,_ZN7Structs19SkipTutorialMessage4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4ff828: forwards to ScriptCmd::read"
+0x4d2de0,_ZN7Structs14SpawnCharacterD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~SpawnCharacter): frees 1 field(s), base ScriptCmd"
+0x4d2d7c,_ZN7Structs14SpawnCharacterD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of SpawnCharacter"
+0x4d2dc4,_ZN7Structs14SpawnCharacterD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d2d4c,_ZN7Structs14SpawnCharacter8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
+0x501d80,_ZN7Structs14SpawnCharacter4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 1 readAs store(s), 1 string buffer(s) read with NUL"
+0x4d1508,_ZN7Structs14SpawnContainerD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~SpawnContainer): frees 1 field(s), base ScriptCmd"
+0x4d14a4,_ZN7Structs14SpawnContainerD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of SpawnContainer"
+0x4d14ec,_ZN7Structs14SpawnContainerD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d1474,_ZN7Structs14SpawnContainer8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
+0x500230,_ZN7Structs14SpawnContainer4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 1 readAs store(s), 1 string buffer(s) read with NUL"
+0x4c6ef4,_ZN7Structs11StartDialogD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~StartDialog): frees 0 field(s), base ScriptCmd"
+0x4c6f28,_ZN7Structs11StartDialogD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of StartDialog"
+0x4ce09c,_ZN7Structs11StartDialogD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c6f5c,_ZN7Structs11StartDialog8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x50345c,_ZN7Structs11StartDialog4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 3 readAs store(s)"
+0x4c6f60,_ZN7Structs13StartDialogIDD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~StartDialogID): frees 0 field(s), base ScriptCmd"
+0x4c6f94,_ZN7Structs13StartDialogIDD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of StartDialogID"
+0x4ce080,_ZN7Structs13StartDialogIDD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c6fc8,_ZN7Structs13StartDialogID8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x5033e4,_ZN7Structs13StartDialogID4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 1 readAs store(s)"
+0x4d2840,_ZN7Structs9StopActorD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~StopActor): frees 1 field(s), base ScriptCmd"
+0x4d27dc,_ZN7Structs9StopActorD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of StopActor"
+0x4d2824,_ZN7Structs9StopActorD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d27ac,_ZN7Structs9StopActor8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
+0x5016f4,_ZN7Structs9StopActor4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 1 readAs store(s), 1 string buffer(s) read with NUL"
+0x4c7254,_ZN7Structs10StopEffectD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~StopEffect): frees 0 field(s), base ScriptCmd"
+0x4c7288,_ZN7Structs10StopEffectD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of StopEffect"
+0x4cdfbc,_ZN7Structs10StopEffectD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c72bc,_ZN7Structs10StopEffect8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x5032f4,_ZN7Structs10StopEffect4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 1 readAs store(s)"
+0x4c70a4,_ZN7Structs9StopSoundD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~StopSound): frees 0 field(s), base ScriptCmd"
+0x4c70d8,_ZN7Structs9StopSoundD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of StopSound"
+0x4ce02c,_ZN7Structs9StopSoundD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c710c,_ZN7Structs9StopSound8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x4ff9d4,_ZN7Structs9StopSound4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 3 readAs store(s); a bool or int8 field is stored, its type is inferred"
+0x4d1cc4,_ZN7Structs12UnEquipHandsD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~UnEquipHands): frees 1 field(s), base ScriptCmd"
+0x4d1c60,_ZN7Structs12UnEquipHandsD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of UnEquipHands"
+0x4d1ca8,_ZN7Structs12UnEquipHandsD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d1c30,_ZN7Structs12UnEquipHands8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
+0x500914,_ZN7Structs12UnEquipHands4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 1 readAs store(s), 1 string buffer(s) read with NUL"
+0x4d1da0,_ZN7Structs19UnEquipItemFromSlotD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~UnEquipItemFromSlot): frees 1 field(s), base ScriptCmd"
+0x4d1d3c,_ZN7Structs19UnEquipItemFromSlotD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of UnEquipItemFromSlot"
+0x4d1d84,_ZN7Structs19UnEquipItemFromSlotD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d1d0c,_ZN7Structs19UnEquipItemFromSlot8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
+0x5009d4,_ZN7Structs19UnEquipItemFromSlot4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 2 readAs store(s), 1 string buffer(s) read with NUL"
+0x4d2f98,_ZN7Structs15UnlockCharacterD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~UnlockCharacter): frees 1 field(s), base ScriptCmd"
+0x4d2f34,_ZN7Structs15UnlockCharacterD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of UnlockCharacter"
+0x4d2f7c,_ZN7Structs15UnlockCharacterD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4d2f04,_ZN7Structs15UnlockCharacter8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
+0x501f0c,_ZN7Structs15UnlockCharacter4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 1 readAs store(s), 1 string buffer(s) read with NUL"
+0x4c72c0,_ZN7Structs4WaitD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~Wait): frees 0 field(s), base ScriptCmd"
+0x4c72f4,_ZN7Structs4WaitD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of Wait"
+0x4cdfa0,_ZN7Structs4WaitD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c7328,_ZN7Structs4Wait8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x50327c,_ZN7Structs4Wait4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 1 readAs store(s)"
+0x4c6e1c,_ZN7Structs10WaitCameraD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~WaitCamera): frees 0 field(s), base ScriptCmd"
+0x4c6e50,_ZN7Structs10WaitCameraD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of WaitCamera"
+0x4ce0d4,_ZN7Structs10WaitCameraD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c6e84,_ZN7Structs10WaitCamera8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x4ffdc0,_ZN7Structs10WaitCamera4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 1 readAs store(s)"
+0x4c6fcc,_ZN7Structs10WaitDialogD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~WaitDialog): frees 0 field(s), base ScriptCmd"
+0x4c7000,_ZN7Structs10WaitDialogD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of WaitDialog"
+0x4ce064,_ZN7Structs10WaitDialogD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
+0x4c7034,_ZN7Structs10WaitDialog8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
+0x4ff8d0,_ZN7Structs10WaitDialog4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4ff828: forwards to ScriptCmd::read"

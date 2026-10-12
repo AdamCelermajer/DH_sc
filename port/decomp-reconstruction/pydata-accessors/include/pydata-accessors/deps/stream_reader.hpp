@@ -31,8 +31,9 @@ public:
     }
 };
 
-// Original MemoryHintState(size, hint): allocation (new[] in the original).
-inline void* MemoryHintState(std::size_t size, int) {
+// Original MemoryHintState(size, hint): allocation (new[] in the original). Some pseudocode calls
+// pass only the size; the hint then defaults to 0 here (the original's value is not in the listing).
+inline void* MemoryHintState(std::size_t size, int = 0) {
     return std::malloc(size ? size : 1);
 }
 // Original CustomFree(p).
