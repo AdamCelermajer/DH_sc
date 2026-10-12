@@ -1303,6 +1303,25 @@ int main(int argc,char** argv) {
             std::string transitionLoadError;
             if(!fs::exists(options.save)||!f::load_character(options.save,state,transitionLoadError))throw std::runtime_error("Transition load: "+transitionLoadError);
             std::cout<<"Transition character loaded path="<<options.save.generic_string()<<" visited_records="<<state.visited_modules.size()<<" level="<<options.level.generic_string()<<'\n';
+            // B137: the arriving hero IS the saved profile (original: SG_SaveAllPlayer then LoadLevel restores the same Character).
+            // Everything below that distinguishes a profile-bound session (selected-profile property projection, state-owned
+            // equipment instances/slots, level/HP/XP/points from the profile) must therefore apply on arrival exactly as it does
+            // for the menu route and Continue. Without it the arrival ran the diagnostic direct bootstrap, which regenerated the
+            // starter items under new instance ids (two bindings for one source slot, so the whole equipment/validation path
+            // refused: Equipment tab dead, item pickup rejected) and reset level/stats from the class table.
+            frontendStarted=true;options.freshPlayer=true; // same session configuration the frontend route installs (options.freshPlayer=true before the profile is projected)
+            // The frontend route loads the creation/loot/skill source owner and starts the session's startup RNG stream before the
+            // level loads (lines near "Frontend source tables"); the selected-profile equipment projection and item metadata
+            // refresh below need it from the first Session frame. The owner is per-session, so an arrival owns its own copy.
+            if(!menuSourceOwner.valid()) {
+                creationRandom={options.combat.diagnosticRngSeed.value_or(0),0};
+                if(!options.combat.diagnosticRngSeed)creationRandom.seed=GetTickCount();
+                std::string arrivalSourceError;
+                if(!f::frontend::creation::load_runtime_creation_source_v1(assets,creationRandom,menuSourceOwner,arrivalSourceError))
+                    throw std::runtime_error("Transition source tables: "+arrivalSourceError);
+                frontendRandomState=dh2::data::CombatRandom{creationRandom.seed,creationRandom.calls};
+                options.combat.initialRandomState=frontendRandomState;options.combat.diagnosticRngSeed.reset();
+            }
         }
         if(!options.actorRow.empty()) {
             if(!f::load_original_property_tables(assets,"original-cache/data/pydata",properties,error))throw std::runtime_error("Property tables: "+error);
@@ -6967,7 +6986,8 @@ int main(int argc,char** argv) {
                     else if(motor) {
                         const auto c=exitZones.zones()[zoneIndex].box.centre;
                         f::Vec3 target{c[0],c[1],c[2]};
-                        motor->setPosition(target,0.0f);
+                        {std::string teleportError; // B137 test aid: the profile-bound (frontend/arrival) hero is owned by the Session body, so use the SetActorPosition owner
+                         if(!hostServices.actor_verbs.teleport||!hostServices.actor_verbs.teleport(combatSession->player_id(),{c[0],c[1],c[2]},teleportError))motor->setPosition(target,0.0f);}
                         std::cout<<"Player-to zone="<<aid.first<<" position="<<c[0]<<','<<c[1]<<','<<c[2]<<" frame="<<drawn<<" (test aid)\n";
                     }
                 }
