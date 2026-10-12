@@ -14,6 +14,8 @@ public:
     // C1 0x870548, C2 0x870514: the vtable, a set flag byte at +0x40 and a null
     // data-node pointer at +0x3c.
     DecoderMSWav();
+    // D1 0x870ffc, D2 0x870f7c (partial: see decoder_mswav.cpp).
+    ~DecoderMSWav() override;
 
     int GetType() const override;                       // 0x870504: returns 1
     std::int32_t* GetParam() override;                  // 0x87050c: returns null

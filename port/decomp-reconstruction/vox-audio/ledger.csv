@@ -630,3 +630,48 @@ elf_address,symbol,status,source_file,notes
 0x887bc0,_ZN3vox22VoxNativeSubDecoderPCM8GetStateEPNS_24NativeSubDecoderPCMStateE,reconstructed,vox-audio/src/native_sub_decoder.cpp,VoxNativeSubDecoderPCM::GetState(NativeSubDecoderPCMState*): empty body
 0x88fd14,_ZN3vox29DriverCallbackSourceInterface21GetNbAvailableSamplesEi,partial,vox-audio/src/driver_callback.cpp,"GetNbAvailableSamples: ring walk from the write index, transcribed from the ARM loop; return values for the wrap and ready-stop cases inferred from the branch structure; a zero buffer_bytes_ yields 0 (original divides without a guard)"
 0x890ccc,_ZN3vox29DriverCallbackSourceInterface7SetGainEf,partial,vox-audio/src/driver_callback.cpp,"SetGain: Q14 word at +0x28; 1.0f and 0 special cases use two float compare helpers (0x30e2f8, 0x30e70c) not identified by name; other values store (int)(x*16384)"
+0x875160,_ZN3vox16DecoderStbVorbisD1Ev,reconstructed,vox-audio/src/decoder_stb_vorbis.cpp,"DecoderStbVorbis D1: closes the stb handle at +0x04 when set (stb_vorbis_close is upstream, declared in stb_vorbis_api.hpp)"
+0x8751bc,_ZN3vox16DecoderStbVorbisD2Ev,reconstructed,vox-audio/src/decoder_stb_vorbis.cpp,DecoderStbVorbis D2: same body as D1
+0x8751a0,_ZN3vox16DecoderStbVorbisD0Ev,reconstructed,vox-audio/src/decoder_stb_vorbis.cpp,DecoderStbVorbis deleting destructor: compiler-emitted from D1 plus operator delete
+0x87537c,_ZN3vox16DecoderStbVorbis13DestroyCursorEPNS_22DecoderCursorInterfaceE,reconstructed,vox-audio/src/decoder_stb_vorbis.cpp,DestroyCursor: virtual destructor then VoxFree
+0x8753a8,_ZN3vox16DecoderStbVorbis15CreateNewCursorEPNS_21StreamCursorInterfaceE,reconstructed,vox-audio/src/decoder_stb_vorbis.cpp,CreateNewCursor: VoxAlloc(0x28 in the 32-bit layout) then the cursor constructor; null on allocation failure (the original would fault)
+0x8753d8,_ZN3vox23DecoderStbVorbisFactoryEPv,reconstructed,vox-audio/src/decoder_stb_vorbis.cpp,Factory: VoxAlloc then a DecoderStbVorbis with the handle cleared (inline constructor in the original); parameter unused
+0x874f2c,_ZN3vox22DecoderStbVorbisCursor7HasDataEv,reconstructed,vox-audio/src/decoder_stb_vorbis.cpp,HasData: false without a stream; a looping cursor at the end seeks to 0 first
+0x874f9c,_ZN3vox22DecoderStbVorbisCursor4SeekEj,reconstructed,vox-audio/src/decoder_stb_vorbis.cpp,Seek: only frame 0 is accepted (stb_vorbis_seek_start); -1 otherwise or without a handle
+0x874fec,_ZN3vox22DecoderStbVorbisCursor6DecodeEPvi,reconstructed,vox-audio/src/decoder_stb_vorbis.cpp,"Decode: float interleaved when bits == 0x20, else short; byte count from frames * channels * (bits >> 3); loop rewinds at the end"
+0x8750c4,_ZN3vox22DecoderStbVorbisCursorD1Ev,reconstructed,vox-audio/src/decoder_stb_vorbis.cpp,Cursor D1: closes the stb handle at +0x20 when set
+0x875120,_ZN3vox22DecoderStbVorbisCursorD2Ev,reconstructed,vox-audio/src/decoder_stb_vorbis.cpp,Cursor D2: same body as D1
+0x875104,_ZN3vox22DecoderStbVorbisCursorD0Ev,reconstructed,vox-audio/src/decoder_stb_vorbis.cpp,Cursor deleting destructor: compiler-emitted
+0x8751fc,_ZN3vox22DecoderStbVorbisCursorC1EPNS_16DecoderInterfaceEPNS_21StreamCursorInterfaceE,reconstructed,vox-audio/src/decoder_stb_vorbis.cpp,"Cursor C1: opens the stream with stb_vorbis_open_file; channels +0x04, rate +0x08, 16 bits +0x0c, length +0x10 on success, all zero on failure"
+0x8752bc,_ZN3vox22DecoderStbVorbisCursorC2EPNS_16DecoderInterfaceEPNS_21StreamCursorInterfaceE,reconstructed,vox-audio/src/decoder_stb_vorbis.cpp,Cursor C2: same body as C1
+0x870f7c,_ZN3vox12DecoderMSWavD2Ev,partial,vox-audio/src/decoder_mswav.cpp,"DecoderMSWav D2: the DataNode tree is not ported, so DataNode::DropNodes on the child at +0x08 (0x870e38) is skipped; the +0x3c block is freed"
+0x870ffc,_ZN3vox12DecoderMSWavD1Ev,partial,vox-audio/src/decoder_mswav.cpp,DecoderMSWav D1: same partial body as D2 (DropNodes skipped)
+0x87107c,_ZN3vox12DecoderMSWavD0Ev,partial,vox-audio/src/decoder_mswav.cpp,DecoderMSWav deleting destructor around the partial D1
+0x889498,_ZNK3vox15VoxSoundPackXML11GetBankInfoEiRiS1_RNS_20PriorityBankBehaviorE,reconstructed,vox-audio/src/sound_pack_xml.cpp,"GetBankInfo by index: bank record's own uid must equal the index; outputs +0x0c, +0x08, +0x04"
+0x88952c,_ZNK3vox15VoxSoundPackXML11GetBankInfoEiRNS_11BankInfoXMLE,reconstructed,vox-audio/src/sound_pack_xml.cpp,"GetBankInfo by index into BankInfoXML (uid, +0x04, +0x08, +0x0c, +0x24)"
+0x8895d4,_ZNK3vox15VoxSoundPackXML12GetGroupInfoEiRPKcRNS_14Vox3DSoundTypeE,reconstructed,vox-audio/src/sound_pack_xml.cpp,GetGroupInfo by index: name pointer at +0x18 and type at +0x34
+0x889658,_ZNK3vox15VoxSoundPackXML12GetGroupInfoEiRNS_12GroupInfoXMLE,reconstructed,vox-audio/src/sound_pack_xml.cpp,"GetGroupInfo by index into GroupInfoXML (uid, name, +0x30, type)"
+0x8896f4,_ZNK3vox15VoxSoundPackXML17GetDataSourceInfoEiRPKcRNS_11FormatTypesERiS6_RNS_21VoxSourceLoadingFlagsE,reconstructed,vox-audio/src/sound_pack_xml.cpp,"GetDataSourceInfo by index (sound record): name +0x0c, format +0x14, bytes +0x16 and +0x15, flags word +0x10"
+0x8897ac,_ZNK3vox15VoxSoundPackXML17GetDataSourceInfoEiRNS_17DataSourceInfoXMLE,reconstructed,vox-audio/src/sound_pack_xml.cpp,"GetDataSourceInfo by index into DataSourceInfoXML (nine fields, custom parameters at +0x3c and +0x40)"
+0x889894,_ZNK3vox15VoxSoundPackXML14GetEmitterInfoEiRiS1_RbRNS_14Vox3DSoundTypeERPKc,reconstructed,vox-audio/src/sound_pack_xml.cpp,GetEmitterInfo by index: group index (+0x16) is stored before the group lookup; emitter uid and flag only on success
+0x88993c,_ZNK3vox15VoxSoundPackXML14GetEmitterInfoEiRNS_14EmitterInfoXMLE,reconstructed,vox-audio/src/sound_pack_xml.cpp,"GetEmitterInfo by index into EmitterInfoXML; the original copies eighteen words, the port keeps the custom array as a pointer (layout deviation noted in the header)"
+0x889ac8,_ZN3vox15VoxSoundPackXML19GetSoundCustomParamEiiRPKc,reconstructed,vox-audio/src/sound_pack_xml.cpp,GetSoundCustomParam by index: returns param < count and stores the array entry or null; no store on a bad index
+0x889b34,_ZNK3vox15VoxSoundPackXML12GetEventInfoEiRNS_12EventInfoXMLE,reconstructed,vox-audio/src/sound_pack_xml.cpp,"GetEventInfo by index into EventInfoXML (name, sound uid vector address, three 16-bit fields, custom array)"
+0x889c04,_ZN3vox15VoxSoundPackXML12GetEventSizeEi,reconstructed,vox-audio/src/sound_pack_xml.cpp,"GetEventSize by index: count of sound uids, or -1 when out of range"
+0x889c54,_ZN3vox15VoxSoundPackXML19GetEventCustomParamEiiRPKc,reconstructed,vox-audio/src/sound_pack_xml.cpp,"GetEventCustomParam by index: count at +0x24, array at +0x28"
+0x88a3f4,_ZNK3vox15VoxSoundPackXML11GetEventUidEPKc,reconstructed,vox-audio/src/sound_pack_xml.cpp,"GetEventUid: first event whose name matches case-insensitively (strcasecmp semantics), -1 when none"
+0x88a464,_ZN3vox15VoxSoundPackXML19GetEventCustomParamEPKciRS2_,reconstructed,vox-audio/src/sound_pack_xml.cpp,tail call: GetEventUid then the index accessor
+0x88a490,_ZN3vox15VoxSoundPackXML12GetEventSizeEPKc,reconstructed,vox-audio/src/sound_pack_xml.cpp,"tail call: GetEventUid then GetEventSize(int); the decompiler showed void, the ARM tail-calls and returns int"
+0x88a4ac,_ZNK3vox15VoxSoundPackXML12GetEventInfoEPKcRNS_12EventInfoXMLE,reconstructed,vox-audio/src/sound_pack_xml.cpp,tail call: GetEventUid then GetEventInfo(int)
+0x88a55c,_ZNK3vox15VoxSoundPackXML11GetSoundUidEPKc,reconstructed,vox-audio/src/sound_pack_xml.cpp,"map lookup of the sound name (c8stringcomp order, std::map at +0x30), -1 when absent"
+0x88a590,_ZN3vox15VoxSoundPackXML19GetSoundCustomParamEPKciRS2_,reconstructed,vox-audio/src/sound_pack_xml.cpp,tail call: GetSoundUid then GetSoundCustomParam(int)
+0x88a5bc,_ZNK3vox15VoxSoundPackXML14GetEmitterInfoEPKcRNS_14EmitterInfoXMLE,reconstructed,vox-audio/src/sound_pack_xml.cpp,"tail call: GetSoundUid then GetEmitterInfo(int, EmitterInfoXML&)"
+0x88a5e0,_ZNK3vox15VoxSoundPackXML14GetEmitterInfoEPKcRiS3_S3_RbRNS_14Vox3DSoundTypeERS2_,reconstructed,vox-audio/src/sound_pack_xml.cpp,"tail call: writes the sound uid, then GetEmitterInfo(int, ...)"
+0x88a62c,_ZNK3vox15VoxSoundPackXML17GetDataSourceInfoEPKcRNS_17DataSourceInfoXMLE,reconstructed,vox-audio/src/sound_pack_xml.cpp,"tail call: GetSoundUid then GetDataSourceInfo(int, DataSourceInfoXML&)"
+0x88a650,_ZNK3vox15VoxSoundPackXML17GetDataSourceInfoEPKcRiRS2_RNS_11FormatTypesES3_S3_RNS_21VoxSourceLoadingFlagsE,reconstructed,vox-audio/src/sound_pack_xml.cpp,"tail call: writes the sound uid, then GetDataSourceInfo(int, ...)"
+0x88b8b8,_ZNK3vox15VoxSoundPackXML11GetGroupUidEPKc,reconstructed,vox-audio/src/sound_pack_xml.cpp,"GetGroupUid: first group whose name string equals the argument, -1 when none"
+0x88b960,_ZNK3vox15VoxSoundPackXML12GetGroupInfoEPKcRNS_12GroupInfoXMLE,reconstructed,vox-audio/src/sound_pack_xml.cpp,"tail call: GetGroupUid then GetGroupInfo(int, GroupInfoXML&)"
+0x88b984,_ZNK3vox15VoxSoundPackXML12GetGroupInfoEPKcRiRS2_RNS_14Vox3DSoundTypeE,reconstructed,vox-audio/src/sound_pack_xml.cpp,"tail call: writes the group uid, then GetGroupInfo(int, ...)"
+0x88b9b8,_ZNK3vox15VoxSoundPackXML10GetBankUidEPKc,reconstructed,vox-audio/src/sound_pack_xml.cpp,"GetBankUid: first bank whose name string equals the argument, -1 when none"
+0x88ba5c,_ZNK3vox15VoxSoundPackXML11GetBankInfoEPKcRNS_11BankInfoXMLE,reconstructed,vox-audio/src/sound_pack_xml.cpp,"tail call: GetBankUid then GetBankInfo(int, BankInfoXML&)"
+0x88ba80,_ZNK3vox15VoxSoundPackXML11GetBankInfoEPKcRiS3_S3_RNS_20PriorityBankBehaviorE,reconstructed,vox-audio/src/sound_pack_xml.cpp,"tail call: writes the bank uid, then GetBankInfo(int, ...)"
