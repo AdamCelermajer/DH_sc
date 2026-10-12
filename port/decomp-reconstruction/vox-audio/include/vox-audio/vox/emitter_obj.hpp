@@ -69,16 +69,17 @@ public:
 
     // Declared for the VoxEngineInternal forwarders. Bodies not reconstructed yet, except
     // SetGain and SetPitch, which restart the gain and pitch fades (partial, see the .cpp).
-    void Play(float fade);                  // 0x86e304 (fade state machine, not reconstructed)
-    void Pause(float fade);                 // 0x86e428
-    void Stop(float fade);                  // 0x86e868
+    void Play(float fade);                  // 0x86e304 (partial: resume fade, see transport .cpp)
+    void Pause(float fade);                 // 0x86e428 (partial)
+    void Stop(float fade);                  // 0x86e868 (partial)
     void Resume(float time);                // 0x86c1d4 (partial, see the .cpp)
     void SetGain(float gain, float time);   // 0x86bb24
     void SetPitch(float pitch, float time); // 0x86bc40
     void Update(float dt);                  // 0x86d5b8
     void SetPlayCursor(float position);     // 0x8653ec (partial, see the .cpp notes)
     float GetPlayCursor();                  // 0x8654f8
-    void SetDSPParameter(int param, void* value);  // 0x866acc
+    void SetDSPParameter(int param, void* value);  // 0x866acc (partial: copies the name to +0xf0)
+    void CleanUp();                         // 0x863954 (partial: DSP buffers only, see the .cpp)
     void SetInteractiveMusicStateChange(const char* state);  // 0x866abc
     void PrintDebug();                      // 0x864e28
 
@@ -113,8 +114,8 @@ public:
     std::uint8_t dirty_[11] = {};           // +0xe0..+0xea, one byte per parameter id
     std::uint8_t reset_flag_ = 0;           // +0x99, set by Reset
     void* owned_buffer_ = nullptr;          // +0xf4, freed by the destructor (owner not identified)
-    void* dsp_buffer_ = nullptr;            // +0xec, freed by UpdateDSP when dsp_buffer_size_ is set
-    std::uint32_t dsp_buffer_size_ = 0;     // +0xf0
+    void* dsp_buffer_ = nullptr;            // +0xec, the DSP name in use; UpdateDSP frees it when dsp_pending_ is set
+    void* dsp_pending_ = nullptr;           // +0xf0, DSP name copied by SetDSPParameter until UpdateDSP applies it
     EmitterStateCallback state_callback_ = nullptr;  // +0x138
     void* state_callback_user_ = nullptr;   // +0x13c
     DriverSourceInterface* dsp_source_ = nullptr;    // +0x110, the playing source (vtable +0x44 is Update)
