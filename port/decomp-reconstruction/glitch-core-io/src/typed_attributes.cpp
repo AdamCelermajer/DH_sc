@@ -93,7 +93,7 @@ int CLine3dAttribute::getType() const { return 0x15; }
 // 0x5606f0 _ZNK6glitch2io22CStringWArrayAttribute7getTypeEv
 int CStringWArrayAttribute::getType() const { return 0x16; }
 // 0x5606f8 _ZNK6glitch2io22CStringWArrayAttribute13getTypeStringEv
-// Partial: the wide literal is not resolved in strings.csv; the name is inferred from the class.
+// The wide literal is read from the IDA listing (UTF-32LE, cross-referenced only from this function).
 const wchar_t* CStringWArrayAttribute::getTypeString() const { return L"stringwarray"; }
 
 // 0x31f30c _ZNK6glitch2io16CStringAttribute7getTypeEv
@@ -104,7 +104,7 @@ const wchar_t* CStringAttribute::getTypeString() const { return L"string"; }
 // 0x5606d8 _ZNK6glitch2io15CLightAttribute7getTypeEv
 int CLightAttribute::getType() const { return 0x1b; }
 // 0x5606e0 _ZNK6glitch2io15CLightAttribute13getTypeStringEv
-// Partial: the wide literal is not resolved in strings.csv; the name is inferred from the class.
+// The wide literal is read from the IDA listing (UTF-32LE, cross-referenced only from this function).
 const wchar_t* CLightAttribute::getTypeString() const { return L"light"; }
 // 0x5606c4 _ZN6glitch2io15CLightAttribute7getBoolEv
 bool CLightAttribute::getBool() const { return light.get() != nullptr; }
@@ -267,13 +267,13 @@ CStringAttribute::CStringAttribute(const char* attrName, const wchar_t* value, b
 }
 
 // 0x567d60 _ZN6glitch2io16CStringAttributeC1EPKcS3_b
-// PARTIAL: the decompile copies the name and the flag, clears isWide and leaves both strings
-// empty; the value argument is never read, so it is not stored here.
+// Copies the name and the flag, clears isWide, then sets the value through setString(char) (a direct call
+// in the original). A null value is taken as empty, as setString does.
 CStringAttribute::CStringAttribute(const char* attrName, const char* value, bool f) {
-    (void)value;
     name = attrName != nullptr ? attrName : "";
     flag = f;
     isWide = false;
+    setString(value);
 }
 
 // 0x3266a8 (D1): the members are released by their own destructors.
@@ -374,16 +374,16 @@ int CBinaryAttribute::getType() const { return 0x19; }
 const wchar_t* CBinaryAttribute::getTypeString() const { return L"binary"; }
 
 // 0x566ea0 _ZN6glitch2io17CTextureAttributeC1EPKcRKN5boost13intrusive_ptrINS_5video8ITextureEEEPNS6_12IVideoDriverEb
-// Partial: as decompiled, the texture argument is not stored (the texture starts null);
-// the driver is kept and a reference is taken on it (+0x28).
+// The texture is retained (the original bumps its count at +0x04 and drops the old null), and the
+// driver is kept with a reference (+0x28).
 CTextureAttribute::CTextureAttribute(const char* attrName,
                                      const boost::intrusive_ptr<glitch::video::ITexture>& value,
                                      glitch::video::IVideoDriver* drv, bool f) {
-    (void)value;
     name = attrName != nullptr ? attrName : "";
     flag = f;
     driver = drv;
     if (driver != nullptr) ++driver->referenceCounter;
+    texture = value;
 }
 
 // 0x5653c8 _ZN6glitch2io17CTextureAttributeD1Ev
@@ -393,12 +393,12 @@ CTextureAttribute::~CTextureAttribute() {
 }
 
 // 0x5657b0 _ZN6glitch2io22CStringWArrayAttributeC1EPKcSt6vectorIS...
-// Partial: as decompiled, the array argument is not stored; the array starts empty.
+// The array argument is copied into the attribute (vector assignment at +0x24, as the decompile shows).
 CStringWArrayAttribute::CStringWArrayAttribute(const char* attrName,
                                                const std::vector<std::wstring>& value, bool f) {
-    (void)value;
     name = attrName != nullptr ? attrName : "";
     flag = f;
+    array = value;
 }
 
 // 0x326f90 _ZN6glitch2io18CVector2DAttribute9getMatrixEv

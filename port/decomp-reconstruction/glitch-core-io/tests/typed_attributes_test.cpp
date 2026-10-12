@@ -88,10 +88,9 @@ int main() {
     CHECK(dst.M[1] == 4.f && dst.M[4] == 1.f && dst.M[14] == 11.f && dst.M[3] == 12.f);
     CHECK(dst.flag);
 
-    // CStringWArrayAttribute keeps its name and flag; the decompiled constructor does not
-    // copy the array argument.
+    // CStringWArrayAttribute keeps its name, its flag and a copy of the array argument.
     CStringWArrayAttribute strings("arr", std::vector<std::wstring>{L"a"}, true);
-    CHECK(strings.name == "arr" && strings.flag && strings.array.empty());
+    CHECK(strings.name == "arr" && strings.flag && strings.array.size() == 1 && strings.array[0] == L"a");
 
     // CVector3DAttribute::getMatrix is a translation: the components at M[12..14].
     CVector3DAttribute moved("t", glitch::core::vector3d<float>{1.f, 2.f, 3.f}, false);

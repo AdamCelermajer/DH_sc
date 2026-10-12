@@ -228,10 +228,12 @@ void CAttributes::addColor(const char* name, glitch::video::SColor value, bool f
 }
 
 // 0x56a3ec _ZN6glitch2io11CAttributes16addStringAsColorEPKcPKwb
-// The listing builds the colour from four zero bytes and never reads the string argument.
+// Appends a colour built from four zero floats, then sets the wide value through the attribute's
+// setString(wchar_t) virtual (vtable +0x94), which parses the hex text.
 void CAttributes::addStringAsColor(const char* name, const wchar_t* value, bool flag) {
-    (void)value;
-    addColor(name, glitch::video::SColor{0u}, flag);
+    IAttribute* attr = new CColorAttribute(name, glitch::video::SColorf{0.f, 0.f, 0.f, 0.f}, flag);
+    currentAttributes().push_back(attr);
+    attr->setString(value);
 }
 
 // 0x56abe8 _ZN6glitch2io11CAttributes12setAttributeEPKcNS_5video6SColorE
@@ -303,14 +305,13 @@ void CAttributes::addLight(const char* name, boost::intrusive_ptr<glitch::video:
 }
 
 // 0x568384 _ZN6glitch2io11CAttributes10addTextureEPKcN5boost13intrusive_ptrINS_5video8ITextureEEEb
-// PARTIAL: the texture attribute uses the partial CTextureAttribute constructor (the texture is
-// not kept); the container's driver is passed as the attribute's driver.
+// Appends a texture attribute holding the texture, with the container's driver as its driver.
 void CAttributes::addTexture(const char* name, boost::intrusive_ptr<glitch::video::ITexture> value, bool flag) {
     currentAttributes().push_back(new CTextureAttribute(name, value, driver, flag));
 }
 
 // 0x56b35c _ZN6glitch2io11CAttributes12setAttributeEPKcN5boost13intrusive_ptrINS_5video8ITextureEEE
-// PARTIAL: a new attribute is added with flag clear, through the partial texture constructor.
+// A new texture attribute is added with flag clear; the constructor keeps the texture.
 void CAttributes::setAttribute(const char* name, boost::intrusive_ptr<glitch::video::ITexture> value) {
     if (IAttribute* a = getAttributeP(name)) {
         a->setTexture(value);
@@ -320,8 +321,7 @@ void CAttributes::setAttribute(const char* name, boost::intrusive_ptr<glitch::vi
 }
 
 // 0x56afa8 _ZN6glitch2io11CAttributes12setAttributeEPKcSt6vectorISbIwSt11char_traitsIwENS_4core10SAllocatorIwLNS_6memory13E_MEMORY_HINTE0EEEENS8_ISC_LSA_0EEEE
-// PARTIAL: a new array attribute is added with flag clear, through the partial
-// CStringWArrayAttribute constructor (the array is not kept there).
+// A new array attribute is added with flag clear; the CStringWArrayAttribute constructor keeps the array.
 void CAttributes::setAttribute(const char* name, const std::vector<std::wstring>& value) {
     if (IAttribute* a = getAttributeP(name)) {
         a->setArray(value);
@@ -331,7 +331,7 @@ void CAttributes::setAttribute(const char* name, const std::vector<std::wstring>
 }
 
 // 0x56a8b4 _ZN6glitch2io11CAttributes8addArrayEPKcSt6vectorISbIwSt11char_traitsIwENS_4core10SAllocatorIwLNS_6memory13E_MEMORY_HINTE0EEEENS8_ISC_LSA_0EEEEb
-// PARTIAL: the new attribute is built with the partial CStringWArrayAttribute constructor.
+// The new attribute is built with the CStringWArrayAttribute constructor, which keeps the array.
 void CAttributes::addArray(const char* name, const std::vector<std::wstring>& value, bool flag) {
     currentAttributes().push_back(new CStringWArrayAttribute(name, value, flag));
 }

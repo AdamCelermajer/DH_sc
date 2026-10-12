@@ -193,7 +193,7 @@ public:
 class CStringWArrayAttribute : public IAttribute {
 public:
     CStringWArrayAttribute() = default;
-    // 0x5657b0. As decompiled, the array argument is not stored; the array starts empty.
+    // 0x5657b0. The array argument is copied into the attribute (+0x24).
     // Partial.
     CStringWArrayAttribute(const char* attrName, const std::vector<std::wstring>& value, bool f);
     ~CStringWArrayAttribute() override = default;  // 0x5649bc (D1)
@@ -202,7 +202,7 @@ public:
     std::vector<std::wstring> getArray() const override;  // 0x562f10
     void setArray(const std::vector<std::wstring>& value) override;  // 0x5632a4
     int getType() const override;  // 0x5606f0
-    const wchar_t* getTypeString() const override;  // 0x5606f8 (partial: literal not resolved)
+    const wchar_t* getTypeString() const override;  // 0x5606f8: literal "stringwarray" from the IDA listing
 };
 
 // The value is held twice, as in the original: a narrow string at +0x24 and a wide
@@ -212,8 +212,7 @@ class CStringAttribute : public IAttribute {
 public:
     CStringAttribute() = default;
     CStringAttribute(const char* attrName, const wchar_t* value, bool f);  // 0x565c00
-    // 0x567d60: PARTIAL. The value argument is not stored (the decompile never reads it); the
-    // strings start empty and isWide is cleared.
+    // 0x567d60: the name and flag are set, isWide is cleared, and the value goes through setString.
     CStringAttribute(const char* attrName, const char* value, bool f);
     ~CStringAttribute() override = default;                                  // 0x3266a8
 
@@ -251,7 +250,7 @@ public:
     bool getBool() const override;  // 0x5606c4
     void setString(const char*) override;  // 0x5606d4 (no-op)
     int getType() const override;  // 0x5606d8
-    const wchar_t* getTypeString() const override;  // 0x5606e0 (partial: literal not resolved)
+    const wchar_t* getTypeString() const override;  // 0x5606e0: literal "light" from the IDA listing
     // Returns a new reference to the light (0x5606a8; count bumped at +0x00 of the light).
     boost::intrusive_ptr<glitch::video::CLight> getLight() const override;
     // Partial: the decompiled setter keeps the new reference and drops the old one, as
@@ -265,8 +264,7 @@ public:
 class CTextureAttribute : public IAttribute {
 public:
     CTextureAttribute() = default;
-    // 0x566ea0. As decompiled, the texture argument is not stored (texture stays null);
-    // the driver is kept with a reference (+0x28). Partial.
+    // 0x566ea0. The texture is retained (+0x24) and the driver is kept with a reference (+0x28).
     CTextureAttribute(const char* attrName, const boost::intrusive_ptr<glitch::video::ITexture>& value,
                       glitch::video::IVideoDriver* drv, bool f);
     ~CTextureAttribute() override;  // 0x5653c8: drops the driver, then the texture

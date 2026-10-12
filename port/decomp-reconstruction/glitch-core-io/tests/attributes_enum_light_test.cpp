@@ -57,19 +57,20 @@ int main() {
     CHECK(attrs.getAttributeCount() == 9);
     CHECK(!attrs.getAttributeP("tex2")->flag);
 
-    // A missing array is added with the array not kept (partial); a second call sets it.
+    // A missing array is added with its array kept; a second call replaces it.
     attrs.setAttribute("arr", std::vector<std::wstring>{L"a"});
     CHECK(attrs.getAttributeCount() == 10);
     CHECK(!attrs.getAttributeP("arr")->flag);
-    CHECK(attrs.getArray("arr").empty());
+    CHECK(attrs.getArray("arr").size() == 1);
     attrs.setAttribute("arr", std::vector<std::wstring>{L"a", L"b"});
     CHECK(attrs.getAttributeCount() == 10);
     CHECK(attrs.getArray("arr").size() == 2);
 
-    // The narrow string constructor clears isWide; the value is not kept (partial).
+    // The narrow string constructor clears isWide and keeps the value.
     io::CStringAttribute narrow("narrow", "text", true);
     CHECK(narrow.flag);
     CHECK(!narrow.isWide);
+    CHECK(narrow.getString() == "text");
 
     // Enumeration text: setString stores it and getString copies it; the type string is "enum".
     io::CEnumAttribute choice("mode", "", choices, false);

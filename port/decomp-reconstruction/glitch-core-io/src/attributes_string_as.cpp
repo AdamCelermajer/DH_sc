@@ -21,19 +21,19 @@ void appendAndSetString(std::vector<IAttribute*>& group, IAttribute* attr, const
 }  // namespace
 
 // 0x567f24 _ZN6glitch2io11CAttributes22addStringAsUserPointerEPKcPKwb
-// Partial: the original never writes the pointer field of the new object; it is null here.
+// The new object's pointer field is written as null by the original (the store at +0x24), as here.
 void CAttributes::addStringAsUserPointer(const char* name, const wchar_t* value, bool flag) {
     appendAndSetString(currentAttributes(), new CUserPointerAttribute(name, nullptr, flag), value);
 }
 
 // 0x568608 _ZN6glitch2io11CAttributes15addStringAsBoolEPKcPKwb
-// Partial: the original leaves the bool value unwritten; it starts false here.
+// The original writes the bool value (+0x21) as 0 when it builds the object, as here.
 void CAttributes::addStringAsBool(const char* name, const wchar_t* value, bool flag) {
     appendAndSetString(currentAttributes(), new CBoolAttribute(name, false, flag), value);
 }
 
 // 0x568808 _ZN6glitch2io11CAttributes16addStringAsFloatEPKcPKwb
-// Partial: the original leaves the float value unwritten; it starts at 0 here.
+// The original writes the float value (+0x24) as 0 when it builds the object, as here.
 void CAttributes::addStringAsFloat(const char* name, const wchar_t* value, bool flag) {
     appendAndSetString(currentAttributes(), new CFloatAttribute(name, 0.f, flag), value);
 }
@@ -169,8 +169,7 @@ void CAttributes::addString(const char* name, const wchar_t* value, bool flag) {
 }
 
 // 0x56a818 _ZN6glitch2io11CAttributes9addStringEPKcS3_b
-// PARTIAL: a null value is replaced by the empty string, as the original does, and the
-// narrow constructor then drops it (see CStringAttribute).
+// A null value is replaced by the empty string, as the original does; the narrow constructor keeps it.
 void CAttributes::addString(const char* name, const char* value, bool flag) {
     currentAttributes().push_back(new CStringAttribute(name, value != nullptr ? value : "", flag));
 }

@@ -265,9 +265,9 @@ public:
     // 0x568124: PARTIAL. The light is null here, as in the original (see CLightAttribute).
     void addStringAsLight(const char* name, const wchar_t* value, bool flag);
     void addString(const char* name, const wchar_t* value, bool flag);               // 0x56a798
-    // 0x56a818: PARTIAL, the narrow value is not kept (see the narrow CStringAttribute constructor).
+    // 0x56a818: the narrow value is kept (see the narrow CStringAttribute constructor).
     void addString(const char* name, const char* value, bool flag);
-    // 0x568384: PARTIAL, the texture is not kept by CTextureAttribute's constructor (see that class).
+    // 0x568384: appends a CTextureAttribute that retains the texture.
     void addTexture(const char* name, boost::intrusive_ptr<glitch::video::ITexture> value, bool flag);
     // 0x560d58: an enumeration with the empty value, then the index set on the new attribute.
     void addEnum(const char* name, int value, const char* const* choices, bool flag);
