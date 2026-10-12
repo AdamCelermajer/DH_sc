@@ -53,3 +53,25 @@ most of `<global>` (the Java/JNI helpers, gameswf and Box2D code, FUN_* stubs).
 - `IStreamBase`, `CFileSystem` and the Savegame lookups are not declared
   locally. `FileSystemBase` existence, path and savefile checks, and the
   constructors/destructors that chain into the glitch base are skipped.
+
+## FileSystemWin32 (added in the second pass)
+
+- Member layout: root `+0x2c`, copy of RES_PATH `+0x130`, resources `+0x234`,
+  data `+0x338`, savefiles `+0x43c`. Each buffer is 0x104 bytes (the original's
+  paths are `char[260]`). The earlier header assumed 0x208 and was corrected.
+- Files are opened with stdio, not glitch::io::CFileSystem. Open modes are
+  inferred: read-only is "rb", a write handle is "wb", and readwrite is "r+b".
+- `_FileHandle` read/peek decode the first four bytes when the obfuscated flag
+  (`+0x24` of the original file object) is set, using FileSystemBase's decoder.
+- `RES_PATH` is a stand-in global (`"./"`) defined in filesystem_win32.cpp.
+  The platform layer should own it at integration time.
+- Not reconstructed: the wide-char `makeFullPath` overload, the uncompiled-data
+  path in `openFile`, the trace-switch logging in delete/backup, and the Savegame
+  flush in `openSavefile`. `getFiles` uses `<filesystem>` instead of the Win32
+  finder.
+
+## Still open (core-platform)
+
+- slim XML parse/write (`parse`, `parseLabel`, `writeNode`, `findChild` and friends).
+- PerfCounters (9), Array2d<rnd::Tile*> (4), ADevice (17, JNI-bound), Console (43).
+- Remaining FileSystemBase members (`doesFileExists` and related, `createAndOpenFile`).

@@ -55,21 +55,25 @@ int main() {
     acc.update(0.0);
     acc.clear();
 
-    // FileSystemWin32 handle: size, seek, tell.
-    std::FILE* f = std::tmpfile();
-    CHECK(f != nullptr);
-    if (f) {
-        std::fputs("0123456789", f);
-        FileSystemWin32::_FileHandle h;
-        h.file_ = f;
-        h.canRead_ = true;
+    // FileSystemWin32 handle: write a file, reopen read-only, size, seek, tell.
+    {
+        std::FILE* f = std::fopen("dh2_fs_handle_test.bin", "wb");
+        CHECK(f != nullptr);
+        if (f) {
+            std::fputs("0123456789", f);
+            std::fclose(f);
+        }
+        FileSystemWin32::_FileHandle h("", "dh2_fs_handle_test.bin", false, false);
+        CHECK(h.file_ != nullptr);
         CHECK(h.canRead() && !h.canWrite());
         CHECK(h.size() == 10);
         h.seek(4);
         CHECK(h.tell() == 4);
+        char buf[4] = {};
+        CHECK(h.read(buf, 3) == 3 && std::memcmp(buf, "456", 3) == 0);
         CHECK(h.size() == 10);
-        std::fclose(f);
     }
+    std::remove("dh2_fs_handle_test.bin");
     std::printf("%s\n", failures ? "win32_slim: FAILED" : "win32_slim: ok");
     return failures != 0;
 }

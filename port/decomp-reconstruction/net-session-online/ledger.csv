@@ -151,3 +151,6 @@ elf_address,symbol,status,source_file,notes
 0x320114,_ZN13CMsgStartGameD1Ev,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,implicit virtual destructor; base CMessage dtor
 0x324258,_ZN13CMsgStartGameD0Ev,skipped,net-session-online/include/net-session-online/c_msg_fixed.hpp,compiler-generated deleting destructor; implicit virtual destructor covers it
 0x327aa0,_ZN13CMsgStartGame13SetPropertiesEv,partial,net-session-online/include/net-session-online/c_msg_fixed.hpp,sets the sendMode/flag fields; type-name string at +0x14 not modelled
+0x80a710,_ZN10CMessaging13IsInitializedEv,reconstructed,net-session-online/src/c_messaging.cpp,
+0x80a738,_ZN10CMessaging9TerminateEv,reconstructed,net-session-online/src/c_messaging.cpp,
+0x80a77c,_ZN10CMessaging6UpdateEv,reconstructed,net-session-online/src/c_messaging.cpp,

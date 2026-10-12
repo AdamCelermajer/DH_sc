@@ -129,13 +129,33 @@ elf_address,symbol,status,source_file,notes
 0x34edf0,_ZNK15FileSystemWin3211_FileHandle4tellEv,reconstructed,core-platform/src/filesystem_win32.cpp,
 0x34ee10,_ZN15FileSystemWin3211_FileHandle4seekEy,reconstructed,core-platform/src/filesystem_win32.cpp,
 0x34ee20,_ZNK15FileSystemWin3211_FileHandle4sizeEv,reconstructed,core-platform/src/filesystem_win32.cpp,
+0x34ee74,_ZN15FileSystemWin3211_FileHandle5writeEPKvy,reconstructed,core-platform/src/filesystem_win32.cpp,
+0x34eec8,_ZN15FileSystemWin3211_FileHandle4readEPvy,partial,core-platform/src/filesystem_win32.cpp,stdio stand-in for glitch CFileSystem; open modes/ordering inferred; see NOTES.md
+0x34ef58,_ZNK15FileSystemWin3211_FileHandle4peekEPvy,partial,core-platform/src/filesystem_win32.cpp,stdio stand-in for glitch CFileSystem; open modes/ordering inferred; see NOTES.md
 0x34f004,_ZN11IFileStreamD0Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
+0x34f068,_ZN15FileSystemWin329_getPathsEv,reconstructed,core-platform/src/filesystem_win32.cpp,
+0x34f10c,_ZNK15FileSystemWin3214backupSavefileEPKcS1_,partial,core-platform/src/filesystem_win32.cpp,stdio stand-in for glitch CFileSystem; open modes/ordering inferred; see NOTES.md
+0x34f274,_ZNK15FileSystemWin3214deleteSavefileEPKc,partial,core-platform/src/filesystem_win32.cpp,stdio stand-in for glitch CFileSystem; open modes/ordering inferred; see NOTES.md
+0x34f34c,_ZN15FileSystemWin3212makeFullPathEPKcS1_Pci,reconstructed,core-platform/src/filesystem_win32.cpp,
+0x34f35c,_ZN15FileSystemWin3212makeFullPathEPKwS1_Pwi,skipped,core-platform/src/filesystem_win32.cpp,wide-char makeFullPath overload not reconstructed
 0x34f670,_ZN15FileSystemWin32D1Ev,skipped,core-platform/src/filesystem_win32.cpp,compiler-generated destructor
 0x34f6a4,_ZN15FileSystemWin32D0Ev,skipped,core-platform/src/filesystem_win32.cpp,compiler-generated destructor
 0x34f6c0,_ZN15FileSystemWin32D2Ev,skipped,core-platform/src/filesystem_win32.cpp,compiler-generated destructor
-0x34fb7c,_ZN15FileSystemWin3211_FileHandleD1Ev,skipped,core-platform/src/filesystem_win32.cpp,compiler-generated destructor
-0x34fbbc,_ZN15FileSystemWin3211_FileHandleD0Ev,skipped,core-platform/src/filesystem_win32.cpp,compiler-generated destructor
-0x34fbd8,_ZN15FileSystemWin3211_FileHandleD2Ev,skipped,core-platform/src/filesystem_win32.cpp,compiler-generated destructor
+0x34f6f4,_ZN15FileSystemWin32C1Ev,partial,core-platform/src/filesystem_win32.cpp,stdio stand-in for glitch CFileSystem; open modes/ordering inferred; see NOTES.md
+0x34f788,_ZN15FileSystemWin32C2Ev,partial,core-platform/src/filesystem_win32.cpp,stdio stand-in for glitch CFileSystem; open modes/ordering inferred; see NOTES.md
+0x34f8a4,_ZNK15FileSystemWin3214formatFilePathERKSbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS2_6memory13E_MEMORY_HINTE0EEEE,partial,core-platform/src/filesystem_win32.cpp,stdio stand-in for glitch CFileSystem; open modes/ordering inferred; see NOTES.md
+0x34fb7c,_ZN15FileSystemWin3211_FileHandleD1Ev,partial,core-platform/src/filesystem_win32.cpp,closes the FILE handle; original releases the shared CFile object
+0x34fbbc,_ZN15FileSystemWin3211_FileHandleD0Ev,partial,core-platform/src/filesystem_win32.cpp,closes the FILE handle; original releases the shared CFile object
+0x34fbd8,_ZN15FileSystemWin3211_FileHandleD2Ev,partial,core-platform/src/filesystem_win32.cpp,closes the FILE handle; original releases the shared CFile object
+0x34fc18,_ZN15FileSystemWin3211_FileHandleC1EPKcS2_bb,partial,core-platform/src/filesystem_win32.cpp,stdio stand-in for glitch CFileSystem; open modes/ordering inferred; see NOTES.md
+0x34fe50,_ZN15FileSystemWin3213_createHandleEPKcS1_bb,partial,core-platform/src/filesystem_win32.cpp,stdio stand-in for glitch CFileSystem; open modes/ordering inferred; see NOTES.md
+0x34fee4,_ZN15FileSystemWin3212openSavefileEPKcb,partial,core-platform/src/filesystem_win32.cpp,stdio stand-in for glitch CFileSystem; open modes/ordering inferred; see NOTES.md
+0x34ff28,_ZN15FileSystemWin3212openResourceEPKc,reconstructed,core-platform/src/filesystem_win32.cpp,
+0x34ff84,_ZN15FileSystemWin3213openTraceFileEPKc,partial,core-platform/src/filesystem_win32.cpp,trace-file mode inferred from the write/readwrite flags
+0x34ffb0,_ZN15FileSystemWin328openFileEPKcbb,partial,core-platform/src/filesystem_win32.cpp,stdio stand-in for glitch CFileSystem; open modes/ordering inferred; see NOTES.md
+0x35003c,_ZN15FileSystemWin3211_FileHandleC2EPKcS2_bb,partial,core-platform/src/filesystem_win32.cpp,stdio stand-in for glitch CFileSystem; open modes/ordering inferred; see NOTES.md
+0x35041c,_ZNK15FileSystemWin3216getFilesMatchingEPKcS1_RSt6vectorISsSaISsEE,partial,core-platform/src/filesystem_win32.cpp,stdio stand-in for glitch CFileSystem; open modes/ordering inferred; see NOTES.md
+0x3505a0,_ZNK15FileSystemWin328getFilesEPKcRSt6vectorISsSaISsEE,partial,core-platform/src/filesystem_win32.cpp,stdio stand-in for glitch CFileSystem; open modes/ordering inferred; see NOTES.md
 0x381668,_ZN6Device15IsFixedPipelineEv,reconstructed,core-platform/src/device.cpp,reads DeviceFeatureFlags() stand-in for the device vtable slot +0x5c
 0x3816a8,_ZN6Device22IsProgrammablePipelineEv,partial,core-platform/src/device.cpp,feature mask 0x78 kept as in original; meaning unnamed; globals are stand-ins
 0x38173c,_ZN6Device8GetModelEv,reconstructed,core-platform/src/device.cpp,
