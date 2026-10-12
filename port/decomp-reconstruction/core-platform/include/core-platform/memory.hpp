@@ -30,6 +30,14 @@ void* GlitchAlloc(unsigned size, glitch::memory::E_MEMORY_HINT hint, int, const 
 void* GlitchAlloc(unsigned size, glitch::memory::E_MEMORY_HINT hint, int, const char* file, int line,
                   const char* func);
 void* CustomAlloc(unsigned size, const char* file, unsigned line, const char* func);
+void* CustomAlloc(unsigned size);                                // 0x310454
+void CustomFree(void* p);                                        // 0x310440 (not in queue)
+void* CustomRealloc(void* p, unsigned size);                     // 0x310574
+void* CustomMemalign(unsigned alignment, unsigned size);         // 0x3105b4
+void* internal_malloc_aligned(unsigned alignment, unsigned size, const char* file, unsigned line,
+                              const char* func);                 // 0x317c00
+void* AllocateMem(unsigned size, unsigned alignment, const char* file, unsigned line,
+                  const char* func);                             // 0x317c98
 
 void* internal_malloc(unsigned size, const char* file, unsigned line, const char* func);
 void internal_free(void* p);

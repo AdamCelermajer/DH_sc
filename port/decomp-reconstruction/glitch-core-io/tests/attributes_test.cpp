@@ -34,10 +34,12 @@ struct Recorder : io::IAttribute {
 };
 
 int main() {
-    Recorder a, b;
+    // Owned by the container (reference count 1), so allocate on the heap.
+    Recorder& a = *new Recorder;
+    Recorder& b = *new Recorder;
     a.name = "alpha";
-    io::CAttributes attrs;
-    attrs.attributes = {&a, &b};
+    io::CAttributes attrs(nullptr);
+    attrs.currentAttributes() = {&a, &b};
 
     // Vector setters (batch 0).
     attrs.setAttribute(1, glitch::core::vector2d<float>{3.f, 4.f});

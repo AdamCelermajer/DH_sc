@@ -25,6 +25,9 @@ public:
     void setSize(std::uint32_t size);
 
     std::uint32_t size() const { return size_; }
+    // Accessors for the owning StreamBuffer (not in the original; the original reads the fields directly).
+    std::uint32_t block_size() const { return block_size_; }
+    std::uint8_t* FirstBlock() const { return blocks_.empty() ? nullptr : blocks_.front(); }
 
 private:
     // 0x316d98 _ZN6Buffer12ensureBufferEjj

@@ -23,7 +23,21 @@ template <typename T>
 struct rect {
     T X1, Y1, X2, Y2;
 };
+
+// Width at +0x0 and Height at +0x4, the order ObjToStr writes them in.
+template <typename T>
+struct dimension2d {
+    T Width, Height;
+};
 }  // namespace glitch::core
+
+namespace glitch::video {
+// Four colour bytes. The stream operators store the channels in this order
+// (channel 3 is set to zero when a colour is read from text).
+struct SColor {
+    unsigned char R, G, B, A;
+};
+}  // namespace glitch::video
 
 namespace glitch {
 // Input event. Only the fields read by TouchScreenWin32::onEvent are named:

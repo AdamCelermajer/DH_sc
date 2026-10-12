@@ -2,6 +2,7 @@
 
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <mutex>
 
 int gAssertLevel = 0;
@@ -151,4 +152,110 @@ void* operator new(std::size_t size, swf::MemHint hint, const char* file, int li
 // 0x752b44 _ZnajN3swf7MemHintEPKci (same caveat as 0x752b48)
 void* operator new[](std::size_t size, swf::MemHint hint, const char* file, int line) {
     return SwfAlloc(static_cast<unsigned>(size), hint, file, line);
+}
+
+namespace {
+// Source paths and the assert format of the original, as printed to stderr.
+constexpr const char kMemoryCppPath[] = "..\\..\\project_vs2005\\Game/..\\..\\sources\\Utils\\memory.cpp";
+constexpr const char kUnitHeapCppPath[] = "..\\..\\project_vs2005\\Game/..\\..\\sources\\Utils\\UnitHeap.cpp";
+
+// The original prints "ASSERT(%s) FAILED: %s:%d" when gAssertLevel is 1.
+void ReportAssert(const char* condition, const char* file, int line) {
+    std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", condition, file, line);
+}
+
+// File-scope heap statistics that AllocateMem initialises (never read back).
+bool s_heapsInitialized = false;
+unsigned s_totalAllocated = 0;
+unsigned s_heapTotalAllocated = 0;
+}  // namespace
+
+// 0x310440 CustomFree(void*): a tail call to free. Not in this category's queue.
+void CustomFree(void* p) { std::free(p); }
+
+// 0x310454 _Z11CustomAllocj
+// Note: the original's condition text for this assert (DAT_008ce400) is not
+// recovered; "allocation" stands in for it.
+void* CustomAlloc(unsigned size) {
+    void* p = std::malloc(size);
+    if (p == nullptr) {
+        ShowMemoryStats("Out of memory:");
+        if (gAssertLevel == 2) {
+            // The original writes to address 0 here to force a crash.
+            std::abort();
+        } else if (gAssertLevel == 1) {
+            ReportAssert("allocation", kMemoryCppPath, 0x3a);
+        }
+    }
+    return p;
+}
+
+// 0x310574 _Z13CustomReallocPvj
+// Allocates the new block, copies `size` bytes from the old block when both are
+// non-null (the original copies the full new size, which can read past a smaller
+// old block; kept as is), frees the old block, and returns the new block.
+void* CustomRealloc(void* p, unsigned size) {
+    void* dest = CustomAlloc(size);
+    if (dest != nullptr && p != nullptr) {
+        std::memcpy(dest, p, size);
+    }
+    CustomFree(p);
+    return dest;
+}
+
+// 0x3105b4 _Z14CustomMemalignjj
+// The alignment is ignored: the original reports the assert and returns
+// CustomAlloc(size) (a tail call).
+void* CustomMemalign(unsigned, unsigned size) {
+    if (gAssertLevel == 2) {
+        std::abort();
+    } else if (gAssertLevel == 1) {
+        ReportAssert("0", kMemoryCppPath, 0x50);
+    }
+    return CustomAlloc(size);
+}
+
+// 0x317c00 _Z23internal_malloc_alignedjjPKcjS0_
+// The alignment is not used: the original's aligned path is a tail call to
+// malloc(size) after the assert report.
+void* internal_malloc_aligned(unsigned, unsigned size, const char*, unsigned, const char*) {
+    if (gAssertLevel == 2) {
+        std::abort();
+    } else if (gAssertLevel == 1) {
+        ReportAssert("0", kUnitHeapCppPath, 0x51);
+    }
+    return std::malloc(size);
+}
+
+// 0x317c98 _Z11AllocateMemjjPKcjS0_
+// Takes the heap mutex, tries the aligned path when an alignment is given, then
+// falls back to the plain internal heap. Reports out-of-memory on a null result.
+// The decompiled fallback call shows one argument; file, line and function are
+// forwarded from this call's arguments.
+void* AllocateMem(unsigned size, unsigned alignment, const char* file, unsigned line, const char* func) {
+    LockMemoryMutex();
+    if (!s_heapsInitialized) {
+        s_totalAllocated = 0;
+        s_heapsInitialized = true;
+        s_heapTotalAllocated = 0;
+    }
+    void* p = nullptr;
+    bool needPlain = true;
+    if (alignment != 0) {
+        p = internal_malloc_aligned(alignment, size, file, line, func);
+        needPlain = (p == nullptr);
+    }
+    if (needPlain) {
+        p = internal_malloc(size, file, line, func);
+    }
+    if (p == nullptr) {
+        ShowMemoryStats("Out of memory.");
+        if (gAssertLevel == 2) {
+            std::abort();
+        } else if (gAssertLevel == 1) {
+            ReportAssert("0", kUnitHeapCppPath, 0x1cd);
+        }
+    }
+    UnlockMemoryMutex();
+    return p;
 }

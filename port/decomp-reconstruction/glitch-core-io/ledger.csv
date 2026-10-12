@@ -243,3 +243,64 @@ elf_address,symbol,status,source_file,notes
 0x570b08,_ZN6glitch2io10CWriteFileD2Ev,reconstructed,glitch-core-io/src/write_file.cpp,complete-object destructor variant
 0x570b68,_ZN6glitch2io10CWriteFileC1EPKcb,partial,glitch-core-io/src/write_file.cpp,copies the name only; bool unused and file not opened (tail call to a noreturn helper)
 0x570c40,_ZN6glitch2io10CWriteFileC2EPKcb,partial,glitch-core-io/src/write_file.cpp,same as C1 constructor; bool unused
+0x562b10,_ZN6glitch2io11CAttributes8SContextC1EPKc,reconstructed,glitch-core-io/src/attributes_context.cpp,"SContext(name) (C1); group name stored, children and parent empty"
+0x562c80,_ZN6glitch2io11CAttributes8SContextC2EPKc,reconstructed,glitch-core-io/src/attributes_context.cpp,SContext(name) (C2); same body as C1
+0x562b78,_ZN6glitch2io11CAttributesC1EPNS_5video12IVideoDriverE,reconstructed,glitch-core-io/src/attributes_context.cpp,CAttributes(driver) (C1); root group is embedded; driver reference count incremented
+0x562bfc,_ZN6glitch2io11CAttributesC2EPNS_5video12IVideoDriverE,reconstructed,glitch-core-io/src/attributes_context.cpp,CAttributes(driver) (C2); same body as C1
+0x562964,_ZN6glitch2io11CAttributes8SContext10hasContextEPKc,reconstructed,glitch-core-io/src/attributes_context.cpp,"SContext::hasContext returns the direct child with the name, or null"
+0x563690,_ZN6glitch2io11CAttributes8SContext10getContextEPKcb,reconstructed,glitch-core-io/src/attributes_context.cpp,"SContext::getContext: finds the child, or creates it when asked; sets parent"
+0x563a54,_ZN6glitch2io11CAttributes8SContext5clearEv,reconstructed,glitch-core-io/src/attributes_context.cpp,"SContext::clear drops child groups and attributes, then empties both vectors"
+0x5643a8,_ZN6glitch2io11CAttributes8SContextD1Ev,reconstructed,glitch-core-io/src/attributes_context.cpp,"SContext destructor (D1): clear, then the member storage is released"
+0x5644f8,_ZN6glitch2io11CAttributes8SContextD2Ev,reconstructed,glitch-core-io/src/attributes_context.cpp,SContext destructor (D2): same body as D1
+0x5644dc,_ZN6glitch2io11CAttributes8SContextD0Ev,skipped,glitch-core-io/src/attributes_context.cpp,compiler-generated deleting destructor (D0): calls D1 then operator delete
+0x564418,_ZN6glitch2io11CAttributesD1Ev,reconstructed,glitch-core-io/src/attributes_context.cpp,"CAttributes destructor (D1): clear, drop driver, root group destroyed as a member"
+0x564488,_ZN6glitch2io11CAttributesD2Ev,reconstructed,glitch-core-io/src/attributes_context.cpp,CAttributes destructor (D2): same body as D1
+0x56446c,_ZN6glitch2io11CAttributesD0Ev,skipped,glitch-core-io/src/attributes_context.cpp,compiler-generated deleting destructor (D0): calls D1 then operator delete
+0x563b30,_ZN6glitch2io11CAttributes5clearEv,reconstructed,glitch-core-io/src/attributes_context.cpp,CAttributes::clear clears the root group and makes it current
+0x564314,_ZN6glitch2io11CAttributes4pushEPKc,reconstructed,glitch-core-io/src/attributes_context.cpp,"push(name): enters the child group with this name, creating it"
+0x564568,_ZN6glitch2io11CAttributes4pushEi,reconstructed,glitch-core-io/src/attributes_context.cpp,"push(index): enters the child group named group<index> (decimal), creating it"
+0x564644,_ZN6glitch2io11CAttributes4pushEPKci,reconstructed,glitch-core-io/src/attributes_context.cpp,"push(name, index): enters the child group named name<index>, creating it"
+0x5618d8,_ZN6glitch2io11CAttributes3popEv,partial,glitch-core-io/src/attributes_context.cpp,pop: original loads the null parent of the root; reconstruction keeps the root current instead
+0x561908,_ZN6glitch2io11CAttributes8setGroupEj,partial,glitch-core-io/src/attributes_context.cpp,setGroup: out-of-range child index is ignored here; original reads past the child vector
+0x561924,_ZN6glitch2io11CAttributes12getGroupNameEv,reconstructed,glitch-core-io/src/attributes_context.cpp,getGroupName returns the name of the current group
+0x5618f0,_ZN6glitch2io11CAttributes14getGroupsCountEv,reconstructed,glitch-core-io/src/attributes_context.cpp,getGroupsCount returns the number of child groups of the current group
+0x5628f4,_ZN6glitch2io11CAttributes13findAttributeEPKc,reconstructed,glitch-core-io/src/attributes_named.cpp,"findAttribute: index of the first attribute in the current group with this name, else 0xffffffff"
+0x561fa0,_ZN6glitch2io11CAttributes13getAttributePEPKc,reconstructed,glitch-core-io/src/attributes_named.cpp,"getAttributeP: attribute with this name in the current group, or null"
+0x562374,_ZN6glitch2io11CAttributes15existsAttributeEPKc,reconstructed,glitch-core-io/src/attributes_named.cpp,existsAttribute: true when getAttributeP finds the name
+0x5623b8,_ZN6glitch2io11CAttributes16getAttributeTypeEPKc,reconstructed,glitch-core-io/src/attributes_named.cpp,"getAttributeType(name): type code of the attribute, 0x1e when missing"
+0x562860,_ZN6glitch2io11CAttributes6getIntEPKc,reconstructed,glitch-core-io/src/attributes_named.cpp,getInt(name): value or 0
+0x562838,_ZN6glitch2io11CAttributes8getFloatEPKc,reconstructed,glitch-core-io/src/attributes_named.cpp,getFloat(name): value or 0
+0x562888,_ZN6glitch2io11CAttributes7getBoolEPKc,reconstructed,glitch-core-io/src/attributes_named.cpp,getBool(name): value or false
+0x5624c4,_ZN6glitch2io11CAttributes7getEnumEPKc,reconstructed,glitch-core-io/src/attributes_named.cpp,getEnum(name): enum index or 0
+0x5624ec,_ZN6glitch2io11CAttributes13getBinaryDataEPKcPvi,reconstructed,glitch-core-io/src/attributes_named.cpp,"getBinaryData(name, data, size): forwards to the attribute when present"
+0x56251c,_ZN6glitch2io11CAttributes12getVector4diEPKc,reconstructed,glitch-core-io/src/attributes_named.cpp,getVector4di(name): value or zero vector
+0x56256c,_ZN6glitch2io11CAttributes12getVector3diEPKc,reconstructed,glitch-core-io/src/attributes_named.cpp,getVector3di(name): value or zero vector
+0x5625b0,_ZN6glitch2io11CAttributes12getVector2diEPKc,reconstructed,glitch-core-io/src/attributes_named.cpp,getVector2di(name): value or zero vector
+0x5625f0,_ZN6glitch2io11CAttributes11getVector4dEPKc,reconstructed,glitch-core-io/src/attributes_named.cpp,getVector4d(name): value or zero vector
+0x562644,_ZN6glitch2io11CAttributes11getVector3dEPKc,reconstructed,glitch-core-io/src/attributes_named.cpp,getVector3d(name): value or zero vector
+0x562694,_ZN6glitch2io11CAttributes11getVector2dEPKc,reconstructed,glitch-core-io/src/attributes_named.cpp,getVector2d(name): value or zero vector
+0x5626d8,_ZN6glitch2io11CAttributes7getRectEPKc,reconstructed,glitch-core-io/src/attributes_named.cpp,getRect(name): value or zero rect
+0x562728,_ZN6glitch2io11CAttributes13getPosition2dEPKc,reconstructed,glitch-core-io/src/attributes_named.cpp,getPosition2d(name): value or zero position
+0x562768,_ZN6glitch2io11CAttributes9getColorfEPKc,reconstructed,glitch-core-io/src/attributes_named.cpp,"getColorf(name): value or opaque black (0,0,0,1)"
+0x5627c0,_ZN6glitch2io11CAttributes8getColorEPKc,reconstructed,glitch-core-io/src/attributes_named.cpp,getColor(name): value or 0; the original byte shuffle is an identity
+0x5622fc,_ZN6glitch2io11CAttributes13getQuaternionEPKc,reconstructed,glitch-core-io/src/attributes_named.cpp,"getQuaternion(name): value or (X,Y,Z,W) = (0,1,0,0)"
+0x562270,_ZN6glitch2io11CAttributes8getBox3dEPKc,reconstructed,glitch-core-io/src/attributes_named.cpp,getBox3d(name): value or zero box
+0x5621f4,_ZN6glitch2io11CAttributes10getPlane3dEPKc,reconstructed,glitch-core-io/src/attributes_named.cpp,"getPlane3d(name): value or normal (0,1,0) with D = -0.0f"
+0x562144,_ZN6glitch2io11CAttributes13getTriangle3dEPKc,reconstructed,glitch-core-io/src/attributes_named.cpp,getTriangle3d(name): value or zero triangle
+0x5620d0,_ZN6glitch2io11CAttributes9getLine2dEPKc,reconstructed,glitch-core-io/src/attributes_named.cpp,getLine2d(name): value or zero line
+0x562044,_ZN6glitch2io11CAttributes9getLine3dEPKc,reconstructed,glitch-core-io/src/attributes_named.cpp,getLine3d(name): value or zero line
+0x56201c,_ZN6glitch2io11CAttributes14getUserPointerEPKc,reconstructed,glitch-core-io/src/attributes_named.cpp,getUserPointer(name): pointer or null
+0x5628b0,_ZN6glitch2io11CAttributes8getArrayEPKc,reconstructed,glitch-core-io/src/attributes_named.cpp,getArray(name): array or empty
+0x563308,_ZN6glitch2io11CAttributes8getArrayEi,reconstructed,glitch-core-io/src/attributes.cpp,"getArray(index): array of the attribute at index, empty when out of range"
+0x565464,_ZN6glitch2io11CAttributes9getMatrixEi,reconstructed,glitch-core-io/src/attributes.cpp,"getMatrix(index): matrix, identity when out of range"
+0x567e48,_ZN6glitch2io11CAttributes9getMatrixEPKc,reconstructed,glitch-core-io/src/attributes_named.cpp,"getMatrix(name): matrix, identity when missing"
+0x326588,_ZN6glitch2io10IAttribute9getMatrixEv,reconstructed,glitch-core-io/src/attributes.cpp,IAttribute::getMatrix base: identity matrix
+0x32097c,_ZN6glitch2io10IAttribute10getStringWEv,reconstructed,glitch-core-io/src/attributes.cpp,IAttribute::getStringW base: empty wide string
+0x326268,_ZN6glitch2io10IAttribute9getStringEv,partial,glitch-core-io/src/attributes.cpp,"IAttribute::getString base: converts getStringW; the conversion helper is not resolved, characters are truncated to char"
+0x31d884,_ZN6glitch2io10IAttribute9setMatrixENS_4core8CMatrix4IfEE,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,IAttribute::setMatrix base: no-op
+0x561950,_ZN6glitch2io11CAttributes10getStringWEi,reconstructed,glitch-core-io/src/attributes.cpp,"getStringW(index): wide string, empty when out of range"
+0x564240,_ZN6glitch2io11CAttributes9getStringEi,reconstructed,glitch-core-io/src/attributes.cpp,"getString(index): narrow string, empty when out of range"
+0x564768,_ZN6glitch2io11CAttributes9getStringEPKc,reconstructed,glitch-core-io/src/attributes_named.cpp,getString(name): narrow string or empty
+0x564924,_ZN6glitch2io11CAttributes9getStringEPKcPc,reconstructed,glitch-core-io/src/attributes_named.cpp,"getString(name, out): copies the string, or writes an empty string"
+0x5637c0,_ZN6glitch2io11CAttributes10getStringWEPKc,reconstructed,glitch-core-io/src/attributes_named.cpp,getStringW(name): wide string or empty
+0x563858,_ZN6glitch2io11CAttributes10getStringWEPKcPw,reconstructed,glitch-core-io/src/attributes_named.cpp,"getStringW(name, out): copies the wide string, or writes an empty string"

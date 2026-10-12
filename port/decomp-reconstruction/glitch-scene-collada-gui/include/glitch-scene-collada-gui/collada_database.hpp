@@ -12,10 +12,18 @@
 #include <cstdint>
 #include <vector>
 
+#include "glitch-scene-collada-gui/deps/video_stand_ins.hpp"
+
 namespace glitch::collada {
 
-struct CColladaDatabase;
-struct CColladaFactory;
+class CColladaFactory;
+class CRootSceneNode;
+class CSkinnedMesh;
+class CMorphingMesh;
+class CModularSkinnedMesh;
+class CCameraSceneNode;
+class CLightSceneNode;
+class IMesh;
 
 // Stand-in entry types. `name` is the first word of each original entry,
 // except SController where the name is at +0x04.
@@ -24,15 +32,33 @@ struct SAnimationClip { const char* name; /* stride 0x0c */ };
 struct SImage { const char* name; /* stride 0x14 */ };
 struct SEffect { const char* name; /* stride 0x74 */ };
 struct SMaterial { const char* name; /* stride 0x24 */ };
-struct SGeometry { const char* name; /* stride 0x10 */ };
+struct SGeometry {
+    const char* name;                 // +0x00, stride 0x10
+    std::uint32_t reserved04;         // +0x04
+    std::uint32_t notInstantiated;    // +0x08, non-zero makes constructGeometry return null
+    std::uint32_t reserved0c;         // +0x0c
+};
 struct SController { std::uint32_t reserved; const char* name; /* +0x04, stride 0x0c */ };
 struct SLight { const char* name; /* stride 0x18 */ };
 struct SCamera { const char* name; /* stride 0x1c */ };
 struct SVisualScene { const char* name; /* stride 0x10 */ };
-struct SForce { const char* name; /* stride 0x10 */ };
+struct SForce {
+    const char* name;            // +0x00, stride 0x10
+    std::uint32_t reserved04;    // +0x04
+    std::uint32_t kind;          // +0x08: 0 gravity, 1 wind, 2 deflector
+    std::uint32_t reserved0c;    // +0x0c
+};
 struct SCoronas { const char* name; /* stride 0x24 */ };
 struct SGNPSEmitter { const char* name; /* stride 0xe8 */ };
 struct SEmitter { const char* name; /* stride 0x90 */ };
+
+// Instance records name their target. The instance URL is "#<id>"; the
+// original skips the leading '#' before looking the target up.
+struct SInstanceForce {
+    std::uint32_t reserved00;    // +0x00
+    const char* url;             // +0x04, "#<name>"
+};
+struct SInstanceModularSkin { std::uint32_t reserved[1]; };  // opaque here
 
 // Segment entry: 0x18 bytes, range [begin, end). Used by getAnimationSegment.
 struct SAnimationSegment {
@@ -121,4 +147,97 @@ const SAnimationSegment* getAnimationSegment(const SDatabaseTables& tables, int 
 // 0x60e28c _ZNK6glitch7collada16CColladaDatabase20linkInstanceMaterialEPNS0_17SInstanceMaterialE
 void linkInstanceMaterial(SDatabaseTables& tables, SInstanceMaterial* instance);
 
+
+// The loaded COLLADA file that a CColladaDatabase holds (+0x00, intrusive count
+// at +0x04). Only the fields the lookups and constructors read are mapped.
+struct SColladaFileData;
+struct SColladaRecord {
+    std::uint32_t reserved00[8];       // +0x00..+0x1c (refcount is +0x04)
+    const char* fileName = nullptr;    // +0x20
+    SColladaFileData* data = nullptr;  // +0x24
+};
+
+// Per-file data block reached through SColladaRecord::data.
+struct SColladaFileData {
+    std::uint32_t reserved00[8];       // +0x00..+0x1c
+    SDatabaseTables* tables = nullptr; // +0x20, the table holder
+};
+
+// glitch::collada::CColladaDatabase. The original's two pointer words are
+// mapped as `record` (+0x00) and `factory` (+0x04); the table holder is reached
+// as record->data->tables (original *(*this + 0x24) + 0x20).
+//
+// Member functions below are the ones reconstructed so far; each comment gives
+// the original address. Overloads taking an index use the unchecked
+// base + index * stride reads of the original.
+class CColladaDatabase {
+public:
+    SColladaRecord* record = nullptr;   // +0x00
+    CColladaFactory* factory = nullptr; // +0x04
+
+    const SDatabaseTables& tables() const { return *record->data->tables; }
+    const char* fileName() const { return record ? record->fileName : nullptr; }
+
+    // 0x60e4bc getExternalLightSceneNode(intrusive_ptr<CMaterial const> const&, unsigned short, unsigned int, char const*) const
+    void getExternalLightSceneNode(const boost::intrusive_ptr<video::CMaterial const>& material, std::uint16_t a,
+                                   std::uint32_t b, const char* name) const;
+    // 0x60e504 getExternalLightSceneNode(intrusive_ptr<CMaterialRenderer const> const&, unsigned short, unsigned int, char const*) const
+    void getExternalLightSceneNode(const boost::intrusive_ptr<video::CMaterialRenderer const>& renderer,
+                                   std::uint16_t a, std::uint32_t b, const char* name) const;
+
+    // 0x60e570 constructEffect(IVideoDriver*, SEffect*, CRootSceneNode*) const
+    video::CMaterialRenderer* constructEffect(video::IVideoDriver* driver, SEffect* effect,
+                                              CRootSceneNode* root) const;
+    // 0x60e5e4 constructEffect(IVideoDriver*, int, CRootSceneNode*) const
+    video::CMaterialRenderer* constructEffect(video::IVideoDriver* driver, int index, CRootSceneNode* root) const;
+    // 0x61b10c constructEffect(IVideoDriver*, char const*, CRootSceneNode*) const
+    video::CMaterialRenderer* constructEffect(video::IVideoDriver* driver, const char* name,
+                                              CRootSceneNode* root) const;
+
+    // 0x60e634 constructGeometry(IVideoDriver*, SGeometry*) const
+    IMesh* constructGeometry(video::IVideoDriver* driver, SGeometry* geometry) const;
+    // 0x60e6b8 constructGeometry(IVideoDriver*, int) const
+    IMesh* constructGeometry(video::IVideoDriver* driver, int index) const;
+    // 0x61aaa8 constructGeometry(IVideoDriver*, char const*) const
+    IMesh* constructGeometry(video::IVideoDriver* driver, const char* name) const;
+
+    // 0x60e6f0 constructModularSkin(SInstanceModularSkin*, CRootSceneNode*) const
+    CModularSkinnedMesh* constructModularSkin(SInstanceModularSkin* instance, CRootSceneNode* root) const;
+
+    // 0x60e88c constructForce(SForce*, CRootSceneNode*) const
+    void* constructForce(SForce* force, CRootSceneNode* root) const;
+    // 0x60e910 constructForce(int, CRootSceneNode*) const
+    void* constructForce(int index, CRootSceneNode* root) const;
+    // 0x61a970 constructForce(char const*, CRootSceneNode*) const
+    void constructForce(const char* name, CRootSceneNode* root) const;
+    // 0x61a994 constructForce(SInstanceForce*, CRootSceneNode*) const
+    void constructForce(SInstanceForce* instance, CRootSceneNode* root) const;
+
+    // 0x60f9a4 constructMorph(IVideoDriver*, SController*, CRootSceneNode*) const
+    CMorphingMesh* constructMorph(video::IVideoDriver* driver, SController* controller, CRootSceneNode* root) const;
+
+    // 0x619398 constructCamera(SCamera*, CRootSceneNode*) const
+    CCameraSceneNode* constructCamera(SCamera* camera, CRootSceneNode* root) const;
+    // 0x6193e0 constructCamera(int, CRootSceneNode*) const
+    CCameraSceneNode* constructCamera(int index, CRootSceneNode* root) const;
+    // 0x61b2d0 constructCamera(char const*, CRootSceneNode*) const
+    void constructCamera(const char* name, CRootSceneNode* root) const;
+
+    // 0x619404 constructLight(SLight*, CRootSceneNode*) const
+    void* constructLight(SLight* light, CRootSceneNode* root) const;
+    // 0x619450 constructLight(int, CRootSceneNode*) const
+    void* constructLight(int index, CRootSceneNode* root) const;
+    // 0x61b24c constructLight(char const*, CRootSceneNode*) const
+    void constructLight(const char* name, CRootSceneNode* root) const;
+};
+
+// Index getters of the original (0x60e390..0x60e450 family): base + index * stride.
+// They are unchecked, as in the original.
+SEffect* effectAt(const SDatabaseTables& tables, int index);
+SGeometry* geometryAt(const SDatabaseTables& tables, int index);
+SForce* forceAt(const SDatabaseTables& tables, int index);
+SLight* lightAt(const SDatabaseTables& tables, int index);
+SCamera* cameraAt(const SDatabaseTables& tables, int index);
+
 }  // namespace glitch::collada
+

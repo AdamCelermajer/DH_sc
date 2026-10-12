@@ -35,7 +35,7 @@ elf_address,symbol,status,source_file,notes
 0x809d70,_ZN8CMessage18SetDestinationMaskEj,reconstructed,net-session-online/src/c_message.cpp,
 0x809e44,_ZN8CMessage16IsAcknowledgedByEi,reconstructed,net-session-online/src/c_message.cpp,
 0x809e74,_ZN8CMessage17AcknowledgeMemberEi,reconstructed,net-session-online/src/c_message.cpp,
-0x809ea4,_ZN8CMessage10InitializeEv,partial,net-session-online/src/c_message.cpp,calls unnamed vtable slot +0x04 (PreInitialize, body not recovered)
+0x809ea4,_ZN8CMessage10InitializeEv,partial,net-session-online/src/c_message.cpp,calls unnamed vtable slot +0x04 (PreInitialize
 0x809efc,_ZN8CMessage13CreateMessageEib,reconstructed,net-session-online/src/c_message.cpp,deviation: returns nullptr for an out-of-range or unregistered type instead of calling through it
 0x809f34,_ZN8CMessage11UnserializeER12NetBitStream,reconstructed,net-session-online/src/c_message.cpp,wire type read as signed char as in original
 0x809f78,_ZN8CMessage9DuplicateEv,reconstructed,net-session-online/src/c_message.cpp,
@@ -185,11 +185,11 @@ elf_address,symbol,status,source_file,notes
 0x8381a8,_ZN16GLXPlayerMPLobby22mpSendSetGameParameterEPciP23CLobbyParameterAndQuery,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,kind 8
 0x838468,_ZN16GLXPlayerMPLobby18mpSendGetLobbyListEiihP23CLobbyParameterAndQueryh,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,kind 0xb
 0x8386f0,_ZN16GLXPlayerMPLobby15mpSendJoinLobbyEihPci,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,kind 0xe; result set to -1 after the send (original order)
-0x838528,_ZN16GLXPlayerMPLobby25mpSendJoinPredefinedLobbyEPciS0_iiRSt3mapIiSsSt4lessIiESaISt4pairIKiSsEEE,partial,net-session-online/src/glx_player_mp_lobby.cpp,only refusal branch kept; the state>1 call (operator new 0x40, non-returning) is not identified; signature not reproduced
+0x838528,_ZN16GLXPlayerMPLobby25mpSendJoinPredefinedLobbyEPciS0_iiRSt3mapIiSsSt4lessIiESaISt4pairIKiSsEEE,partial,net-session-online/src/glx_player_mp_lobby.cpp,only refusal branch kept; the state>1 call (operator new 0x40
 0x838890,_ZN16GLXPlayerMPLobby30mpSendLobbyLoginWithGameCenterElPcihhS0_S0_,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,no state check; kind 1
 0x838928,_ZN16GLXPlayerMPLobby16mpSendLobbyLoginElPcih,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,no state check; kind 1
-0x8389a8,_ZN16GLXPlayerMPLobby16mpSendDisconnectEv,partial,net-session-online/src/glx_player_mp_lobby.cpp,connected branch recovered; observer and vtable calls (slots 3, 6 and ConnectionLobby slot 0x14) not identified and omitted
-0x838bf0,_ZN16GLXPlayerMPLobby12mpDisconnectEv,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,stops worker, disconnects, frees aux object; state 0
+0x8389a8,_ZN16GLXPlayerMPLobby16mpSendDisconnectEv,partial,net-session-online/src/glx_player_mp_lobby.cpp,connected branch recovered; observer and vtable calls (slots 3
+0x838bf0,_ZN16GLXPlayerMPLobby12mpDisconnectEv,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,stops worker
 0x839e7c,_ZN16GLXPlayerMPLobby25mpSendEstablishConnectionEv,partial,net-session-online/src/glx_player_mp_lobby.cpp,teardown and result -1 recovered; 0x2058-byte ConnectionLobby allocation and observer call not recovered
 0x839f4c,_ZN16GLXPlayerMPLobby10LoadConfigEv,partial,net-session-online/src/glx_player_mp_lobby.cpp,oconf.bar load not recovered; only the not-found trace is printed
 0x83a4a4,_ZN16GLXPlayerMPLobby4InitEv,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,LoadConfig call is partial; no closing trace
@@ -208,7 +208,7 @@ elf_address,symbol,status,source_file,notes
 0x82bb28,_ZN19GLXPlayerUserFriend8GetStateEi,reconstructed,net-session-online/src/glx_player_user_friend.cpp,default -1
 0x82bb58,_ZN19GLXPlayerUserFriend14GetCurrentGameEi,reconstructed,net-session-online/src/glx_player_user_friend.cpp,default 0
 0x82bb88,_ZN19GLXPlayerUserFriend9GetTrophyEi,reconstructed,net-session-online/src/glx_player_user_friend.cpp,default -1
-0x82bbb8,_ZN19GLXPlayerUserFriend18GetTotalTrophyScoreEi,reconstructed,net-session-online/src/glx_player_user_friend.cpp,default -1 (name from symbol, not in the queue listing text)
+0x82bbb8,_ZN19GLXPlayerUserFriend19GetTotalTrophyScoreEi,reconstructed,net-session-online/src/glx_player_user_friend.cpp,default -1 (name from symbol
 0x82bbe8,_ZN19GLXPlayerUserFriend11GetLanguageEi,reconstructed,net-session-online/src/glx_player_user_friend.cpp,default 0
 0x82bc18,_ZN19GLXPlayerUserFriend19GetAvatarLastUpdateEi,reconstructed,net-session-online/src/glx_player_user_friend.cpp,default 0
 0x82bc48,_ZN19GLXPlayerUserFriend12GetAvatarKeyEi,reconstructed,net-session-online/src/glx_player_user_friend.cpp,default 0
@@ -221,25 +221,94 @@ elf_address,symbol,status,source_file,notes
 0x84aea8,_ZN15GLXPlayerMPBaseD1Ev,reconstructed,net-session-online/src/glx_player_mp_base.cpp,frees aux object and error message
 0x84af14,_ZN15GLXPlayerMPBaseD0Ev,skipped,net-session-online/src/glx_player_mp_base.cpp,compiler-generated deleting destructor thunk
 0x84af30,_ZN15GLXPlayerMPBaseD2Ev,reconstructed,net-session-online/src/glx_player_mp_base.cpp,same body as D1
-0x83760c,_ZN16GLXPlayerMPBase14mpPrepareGameDataEv,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty virtual default in the original
-0x837614,_ZN16GLXPlayerMPBase18mpSendKickOutPlayerEPc,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty virtual default
-0x837618,_ZN16GLXPlayerMPBase18mpSendKickOutPlayerEPt,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty virtual default (unsigned short overload)
-0x83761c,_ZN16GLXPlayerMPBase14mpSendLeaveGameEv,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty virtual default
-0x837620,_ZN16GLXPlayerMPBase13mpSendStartGameEv,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty virtual default
-0x837624,_ZN16GLXPlayerMPBase14mpSendFinishGameEv,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty virtual default
-0x837628,_ZN16GLXPlayerMPBase19mpSendUPnPPortMappingEv,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty virtual default
-0x83762c,_ZN16GLXPlayerMPBase18mpProcessPushMessagesEv,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty virtual default
-0x81bbb0,_ZN23GLXPlayerMPBaseObserver22OnMPFinishGameSuccessEv,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (vtable slot 0)
-0x81bbb4,_ZN23GLXPlayerMPBaseObserver18OnMPuPnPTestSuccessEv,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (slot 1)
+0x83760c,_ZN15GLXPlayerMPBase17mpPrepareGameDataEv,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty virtual default in the original
+0x837614,_ZN15GLXPlayerMPBase19mpSendKickOutPlayerEPc,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty virtual default
+0x837618,_ZN15GLXPlayerMPBase19mpSendKickOutPlayerEPt,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty virtual default (unsigned short overload)
+0x83761c,_ZN15GLXPlayerMPBase15mpSendLeaveGameEv,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty virtual default
+0x837620,_ZN15GLXPlayerMPBase15mpSendStartGameEv,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty virtual default
+0x837624,_ZN15GLXPlayerMPBase16mpSendFinishGameEv,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty virtual default
+0x837628,_ZN15GLXPlayerMPBase21mpSendUPnPPortMappingEv,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty virtual default
+0x83762c,_ZN15GLXPlayerMPBase21mpProcessPushMessagesEv,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty virtual default
+0x81bbb0,_ZN23GLXPlayerMPBaseObserver21OnMPFinishGameSuccessEv,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (vtable slot 0)
+0x81bbb4,_ZN23GLXPlayerMPBaseObserver19OnMPuPnPTestSuccessEv,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (slot 1)
 0x81bbb8,_ZN23GLXPlayerMPBaseObserver20OnMPLeaveGameSuccessEv,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (slot 2)
 0x81bbbc,_ZN23GLXPlayerMPBaseObserver19OnMPSetParamSuccessEi,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (slot 3)
 0x81bbc0,_ZN23GLXPlayerMPBaseObserver23OnMPProcessPushMessagesEP10DataPacketi,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (slot 4)
 0x81bbc4,_ZN23GLXPlayerMPBaseObserver22OnMPRejoinLobbySuccessEP10DataPacketb,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (slot 5)
-0x81bbc8,_ZN23GLXPlayerMPBaseObserver17OnMPGetLobbyInfoEP10DataPacket,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (slot 6)
+0x81bbc8,_ZN23GLXPlayerMPBaseObserver16OnMPGetLobbyInfoEP10DataPacket,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (slot 6)
 0x81bbcc,_ZN23GLXPlayerMPBaseObserver19OnMPStartGameFailedEi,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (slot 7)
 0x81bbd0,_ZN23GLXPlayerMPBaseObserver19OnMPGetLobbyForNameEP10DataPacket,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (slot 8)
 0x81bbd4,_ZN23GLXPlayerMPBaseObserver21OnMPGetLobbyForFriendEP10DataPacket,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (slot 9)
-0x81bbd8,_ZN23GLXPlayerMPBaseObserver23OnMPAutoMatchRequesetEi,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (slot 10; name spelling as in the binary)
-0x81bbdc,_ZN23GLXPlayerMPBaseObserver29OnMPAutoMatchRequesetCancelEv,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (slot 11)
+0x81bbd8,_ZN23GLXPlayerMPBaseObserver21OnMPAutoMatchRequesetEi,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (slot 10; name spelling as in the binary)
+0x81bbdc,_ZN23GLXPlayerMPBaseObserver27OnMPAutoMatchRequesetCancelEv,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (slot 11)
 0x81bbe0,_ZN23GLXPlayerMPBaseObserver27OnMPGetPlayerCounterSuccessEP10DataPacket,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (slot 12)
 0x81bbe4,_ZN23GLXPlayerMPBaseObserver36OnMPJoinPreDefinedRoomSessionSuccessEP10DataPacket,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (slot 13)
+0x52df0c,_ZN17GLXPlayerObserver15OnDownloadErrorEi,reconstructed,port/decomp-reconstruction/net-session-online/include/net-session-online/glx_player_observer.hpp,empty virtual in the original; slot 0 of the observer vtable
+0x82cc90,_ZN18GLXPlayerComponentC2Ev,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_component.cpp,
+0x82ccc4,_ZN18GLXPlayerComponentC1Ev,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_component.cpp,
+0x82ccf8,_ZN18GLXPlayerComponent16RegisterObserverEP17GLXPlayerObserver,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_component.cpp,
+0x82cd00,_ZN18GLXPlayerComponent6SetGGIEm,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_component.cpp,GGI is unsigned long
+0x82cd08,_ZN18GLXPlayerComponent6GetGGIEv,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_component.cpp,
+0x82cd10,_ZN18GLXPlayerComponent6GetUIDEv,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_component.cpp,
+0x82cd18,_ZN18GLXPlayerComponentD1Ev,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_component.cpp,user id freed by unique_ptr
+0x82cd64,_ZN18GLXPlayerComponentD0Ev,skipped,port/decomp-reconstruction/net-session-online/src/glx_player_component.cpp,compiler-generated deleting destructor; virtual dtor covers it
+0x82cd80,_ZN18GLXPlayerComponentD2Ev,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_component.cpp,
+0x82cdcc,_ZN18GLXPlayerComponent6SetUIDEPc,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_component.cpp,null id clears the string
+0x83155c,_ZN21GLXPlayerWebComponent19StartResponseParserEPci,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_web_component.cpp,
+0x831568,_ZN21GLXPlayerWebComponent13GetFunctionIDEci,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_web_component.cpp,"f gives id, g gives id+500, else -1"
+0x831588,_ZN21GLXPlayerWebComponent15OnUpdateSuccessEi,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_web_component.cpp,observer slot 2 call taken from the ARM listing; slot name inferred
+0x8315c4,_ZN21GLXPlayerWebComponent10LoadConfigEv,partial,port/decomp-reconstruction/net-session-online/src/glx_player_web_component.cpp,server URL lookup (GLXPlayerSereverConfig::GetXPlayerURL) and parse not reconstructed
+0x831744,_ZN21GLXPlayerWebComponent20GetNextResponseTokenEPc,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_web_component.cpp,'|' separated; null cursor treated as empty
+0x8317dc,_ZN21GLXPlayerWebComponent22IsNextResponseIntTokenEi,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_web_component.cpp,pseudocode tail is a bad stack-check; ARM shows bool result
+0x83186c,_ZN21GLXPlayerWebComponent25IsNextResponseStringTokenEPKc,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_web_component.cpp,
+0x8318fc,_ZN21GLXPlayerWebComponent23GetNextResponseIntTokenEv,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_web_component.cpp,
+0x83197c,_ZN21GLXPlayerWebComponent15OnUpdateFailureEi,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_web_component.cpp,observer slot 3 call; slot name inferred; observer null guarded
+0x8319b0,_ZN21GLXPlayerWebComponent13OnUpdateParseEv,partial,port/decomp-reconstruction/net-session-online/src/glx_player_web_component.cpp,520-byte response parser not reconstructed; empty body
+0x831bd4,_ZN21GLXPlayerWebComponent10SendByPostEPc,partial,port/decomp-reconstruction/net-session-online/src/glx_player_web_component.cpp,SSEncDec_String2Blob and request client not reconstructed; sets enabled only
+0x831c88,_ZN21GLXPlayerWebComponent6CancelEv,partial,port/decomp-reconstruction/net-session-online/src/glx_player_web_component.cpp,request client abort slot not identified and not called
+0x831cd4,_ZN21GLXPlayerWebComponent9SendByGetEPc,partial,port/decomp-reconstruction/net-session-online/src/glx_player_web_component.cpp,request id (getValue) and client call not reconstructed; sets enabled and time
+0x831dfc,_ZN21GLXPlayerWebComponent6UpdateEv,partial,port/decomp-reconstruction/net-session-online/src/glx_player_web_component.cpp,client poll and 18000 ms timeout branch need the request client slots; empty body
+0x831f14,_ZN21GLXPlayerWebComponentD1Ev,partial,port/decomp-reconstruction/net-session-online/src/glx_player_web_component.cpp,request client not released (type not identified)
+0x831fe4,_ZN21GLXPlayerWebComponentD0Ev,skipped,port/decomp-reconstruction/net-session-online/src/glx_player_web_component.cpp,compiler-generated deleting destructor
+0x832000,_ZN21GLXPlayerWebComponentD2Ev,partial,port/decomp-reconstruction/net-session-online/src/glx_player_web_component.cpp,request client not released (type not identified)
+0x8320d0,_ZN21GLXPlayerWebComponentC1Ev,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_web_component.cpp,
+0x832134,_ZN21GLXPlayerWebComponentC2Ev,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_web_component.cpp,
+0x83f8a4,_ZN13GLXPlayerUserC2Ev,partial,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,"request client allocation (0x428 bytes, ctor 0x82deac) into +0x20 not reconstructed; member defaults match"
+0x83f754,_ZN13GLXPlayerUserC1Ev,partial,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,"request client allocation (0x428 bytes, ctor 0x82deac) into +0x20 not reconstructed"
+0x83fb24,_ZN13GLXPlayerUserD1Ev,partial,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,vector<channel> at +0xe8/+0xf8 and _LiveFeed array at +0x12c not modelled
+0x83fd84,_ZN13GLXPlayerUserD0Ev,skipped,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,compiler-generated deleting destructor
+0x83fda0,_ZN13GLXPlayerUserD2Ev,partial,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,same gap as D1: channel vectors and _LiveFeed array not modelled
+0x83a880,_ZN13GLXPlayerUser11getUserNameEv,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,
+0x83a888,_ZN13GLXPlayerUser11getPasswordEv,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,
+0x83a890,_ZN13GLXPlayerUser8getEmailEv,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,
+0x83a898,_ZN13GLXPlayerUser12getEmailFlagEv,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,
+0x83a8a0,_ZN13GLXPlayerUser10getCountryEv,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,
+0x83a8a8,_ZN13GLXPlayerUser12getFirstNameEv,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,
+0x83a8b0,_ZN13GLXPlayerUser11getLastNameEv,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,
+0x83a8b8,_ZN13GLXPlayerUser6getSexEv,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,
+0x83a8c0,_ZN13GLXPlayerUser11getBirthdayEv,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,
+0x83a8c8,_ZN13GLXPlayerUser13getOnlineTimeEv,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,
+0x83a8d0,_ZN13GLXPlayerUser14getTotalTrophyEv,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,
+0x83a8d8,_ZN13GLXPlayerUser21getNumberUserGameListEv,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,
+0x83a8e0,_ZN13GLXPlayerUser14getUserGamePIDEi,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,port returns null outside the stored list (original has no count check)
+0x83a908,_ZN13GLXPlayerUser15getUserGameNameEi,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,port returns null outside the stored list (original has no count check)
+0x83a930,_ZN13GLXPlayerUser17getUserGameTrophyEi,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,default -1; port also checks the stored size
+0x83a954,_ZN13GLXPlayerUser19getCurrentUserStateEv,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,
+0x83a95c,_ZN13GLXPlayerUser17getUserReputationEv,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,double at +0x90
+0x83a964,_ZN13GLXPlayerUser25getUserBadReputationCountEv,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,
+0x83a96c,_ZN13GLXPlayerUser26getUserGoodReputationCountEv,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,
+0x83a974,_ZN13GLXPlayerUser13getUserTrophyEv,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,
+0x83a97c,_ZN13GLXPlayerUser16getUserBestScoreEv,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,
+0x83a984,_ZN13GLXPlayerUser16getUserAvatarKeyEv,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,
+0x83a98c,_ZN13GLXPlayerUser23getUserAvatarLastUpdateEv,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,
+0x83a994,_ZN13GLXPlayerUser17getUserAvatarDataEv,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,+0xb8 object type not identified; returned as opaque pointer
+0x83a99c,_ZN13GLXPlayerUser11getUserDataEv,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,
+0x83a9a4,_ZN13GLXPlayerUser16getOtherUserNameEv,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,
+0x83a9ac,_ZN13GLXPlayerUser12getAvatarKeyEi,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,
+0x83a9dc,_ZN13GLXPlayerUser19getAvatarLastUpdateEi,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,
+0x83aa0c,_ZN13GLXPlayerUser15getAvatarStatusEi,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,
+0x83aa38,_ZN13GLXPlayerUser19processUploadAvatarEPc,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,empty in the original
+0x83aa3c,_ZN13GLXPlayerUser20clearUserInformationEv,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,
+0x83aba4,_ZN13GLXPlayerUser15clearAvatarListEv,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,
+0x83ac98,_ZN13GLXPlayerUser14clearUserStateEv,partial,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,frees unknown object at +0x88 (not modelled)
+0x83ace0,_ZN13GLXPlayerUser17clearUserGameListEv,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,

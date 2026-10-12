@@ -1,5 +1,6 @@
 // glitch::io::IAttribute (interface subset) and glitch::io::CAttributes
-// (indexed attribute container). Reconstructed from libDungeonHunter2.so.
+// (group tree of attributes, with name lookup and indexed access).
+// Reconstructed from libDungeonHunter2.so.
 #pragma once
 
 #include <cstdint>
@@ -10,14 +11,23 @@
 
 namespace glitch::io {
 
+namespace detail {
+// Zeroed 16 values with the diagonal set to 1, as the original fills it.
+inline glitch::core::CMatrix4<float> identityMatrix() {
+    glitch::core::CMatrix4<float> m{};
+    m.M[0] = m.M[5] = m.M[10] = m.M[15] = 1.f;
+    return m;
+}
+}  // namespace detail
+
 // Interface subset. Virtual slot numbers from the vtable are noted; the base
 // implementations of the setters reconstructed so far are empty.
-class IAttribute {
+class IAttribute : public glitch::IReferenceCounted {
 public:
-    // +0x1c: attribute name (glitch stores it as a C string pointer).
-    const char* name = nullptr;
+    // +0x1c (c_str of the glitch string at +0x08): attribute name.
+    std::string name;
 
-    virtual ~IAttribute() = default;
+    ~IAttribute() override = default;
 
     virtual int getInt() const { return 0; }                              // +0x0c
     virtual glitch::video::SColorf getColorf() const { return {1.f, 1.f, 1.f, 1.f}; }  // +0x14
@@ -35,6 +45,9 @@ public:
     virtual void getBinary(void*, int) const {}                           // +0x2c
     virtual int getEnum() const { return 0; }                             // +0x80
     virtual void* getUserPointer() const { return nullptr; }             // 0x31d81c
+    virtual std::string getString() const;                                // +0x1c (0x326268)
+    virtual std::wstring getStringW() const;                              // +0x20 (0x32097c)
+    virtual glitch::core::CMatrix4<float> getMatrix() const;              // +0x44 (0x326588)
     virtual void setInt(int) {}                                           // +0x88
     virtual void setFloat(float) {}                                       // +0x8c
     virtual void setString(const char*) {}                                // +0x90
@@ -75,12 +88,46 @@ public:
     virtual void setPlane(glitch::core::plane3d<float>) {}                                  // 0x31d8b8
     virtual void setString(const wchar_t*) {}                                               // +0x94
     virtual void setRect(glitch::core::rect<std::int32_t>) {}                               // 0x31d86c
+    virtual void setMatrix(const glitch::core::CMatrix4<float>&) {}                         // 0x31d884
 };
 
-class CAttributes {
+class CAttributes : public glitch::IReferenceCounted {
 public:
-    // +0x48: the attribute list (begin/end pointers in the original).
-    std::vector<IAttribute*> attributes;
+    // glitch::io::CAttributes::SContext: an attribute group. 0x3c bytes in the original:
+    // +0x00 vptr, +0x04 refcount, +0x08 name (glitch string), +0x20 attribute
+    // vector (begin/end/capacity), +0x2c child group vector, +0x38 parent group.
+    class SContext : public glitch::IReferenceCounted {
+    public:
+        explicit SContext(const std::string& groupName);      // 0x562b10 (C1), 0x562c80 (C2)
+        ~SContext() override;                                  // 0x5643a8 (D1), 0x5644f8 (D2)
+
+        // Returns the direct child with this name, or nullptr. 0x562964
+        SContext* hasContext(const char* groupName) const;
+        // Returns the child with this name, creating it when create is set. 0x563690
+        SContext* getContext(const char* groupName, bool create);
+        // Drops every child group and attribute and empties both vectors. 0x563a54
+        void clear();
+
+        std::string name;                       // +0x08
+        std::vector<IAttribute*> attributes;    // +0x20
+        std::vector<SContext*> children;        // +0x2c
+        SContext* parent = nullptr;             // +0x38
+    };
+
+    // +0x58: driver the container was created for (reference counted).
+    explicit CAttributes(glitch::video::IVideoDriver* driver);   // 0x562b78 (C1), 0x562bfc (C2)
+    ~CAttributes() override;                                      // 0x564418 (D1), 0x564488 (D2)
+
+    // +0x08: the root group, embedded as in the original. Its attribute vector is at +0x28.
+    SContext root{""};
+    // +0x44: current group. The original also keeps +0x48 = &group->attributes; that
+    // pointer is not stored here, the accessor below returns the same vector.
+    SContext* group = &root;
+    // +0x4c..+0x54 are three words the constructor zeroes; their role is not recovered.
+    glitch::video::IVideoDriver* driver = nullptr;               // +0x58
+
+    std::vector<IAttribute*>& currentAttributes() { return group->attributes; }
+    const std::vector<IAttribute*>& currentAttributes() const { return group->attributes; }
 
     int getAttributeCount() const;                    // 0x5607e4
     const char* getAttributeName(int index) const;    // 0x5607fc
@@ -133,6 +180,55 @@ public:
     glitch::core::line2d<float> getLine2d(int index) const;                    // 0x561660
     glitch::core::line3d<float> getLine3d(int index) const;                    // 0x561748
     void* getUserPointer(int index) const;                                     // 0x561858
+    std::vector<std::wstring> getArray(int index) const;                       // 0x563308
+    glitch::core::CMatrix4<float> getMatrix(int index) const;                  // 0x565464
+    std::string getString(int index) const;                                    // 0x564240
+    std::wstring getStringW(int index) const;                                  // 0x561950
+
+    // Group handling (0x564314 .. 0x5618f0).
+    void clear();                                     // 0x563b30
+    void push(const char* groupName);                 // 0x564314
+    void push(int groupIndex);                        // 0x564568: group named "group<index>"
+    void push(const char* groupName, int groupIndex); // 0x564644
+    void pop();                                       // 0x5618d8
+    void setGroup(unsigned int index);                // 0x561908
+    const std::string& getGroupName() const;          // 0x561924
+    int getGroupsCount() const;                       // 0x5618f0
+
+    // Name lookup in the current group (0x5628f4 .. 0x562374).
+    unsigned int findAttribute(const char* name) const;   // 0x5628f4: index, or 0xffffffff
+    IAttribute* getAttributeP(const char* name) const;     // 0x561fa0
+    bool existsAttribute(const char* name) const;          // 0x562374
+    int getAttributeType(const char* name) const;          // 0x5623b8: 0x1e when missing
+
+    bool getBool(const char* name) const;                  // 0x562888
+    int getInt(const char* name) const;                    // 0x562860
+    float getFloat(const char* name) const;                // 0x562838
+    int getEnum(const char* name) const;                   // 0x5624c4
+    void getBinaryData(const char* name, void* data, int size) const;  // 0x5624ec
+    glitch::video::SColorf getColorf(const char* name) const;     // 0x562768
+    glitch::video::SColor getColor(const char* name) const;       // 0x5627c0
+    glitch::core::vector2d<float> getVector2d(const char* name) const;   // 0x562694
+    glitch::core::vector3d<float> getVector3d(const char* name) const;   // 0x562644
+    glitch::core::vector4d<float> getVector4d(const char* name) const;   // 0x5625f0
+    glitch::core::vector2d<std::int32_t> getVector2di(const char* name) const;  // 0x5625b0
+    glitch::core::vector3d<std::int32_t> getVector3di(const char* name) const;  // 0x56256c
+    glitch::core::vector4d<std::int32_t> getVector4di(const char* name) const;  // 0x56251c
+    glitch::core::position2d<std::int32_t> getPosition2d(const char* name) const;  // 0x562728
+    glitch::core::rect<std::int32_t> getRect(const char* name) const;     // 0x5626d8
+    glitch::core::quaternion getQuaternion(const char* name) const;       // 0x5622fc
+    glitch::core::aabbox3d<float> getBox3d(const char* name) const;       // 0x562270
+    glitch::core::plane3d<float> getPlane3d(const char* name) const;      // 0x5621f4
+    glitch::core::triangle3d<float> getTriangle3d(const char* name) const; // 0x562144
+    glitch::core::line2d<float> getLine2d(const char* name) const;        // 0x5620d0
+    glitch::core::line3d<float> getLine3d(const char* name) const;        // 0x562044
+    void* getUserPointer(const char* name) const;                         // 0x56201c
+    std::vector<std::wstring> getArray(const char* name) const;           // 0x5628b0
+    glitch::core::CMatrix4<float> getMatrix(const char* name) const;      // 0x567e48
+    std::string getString(const char* name) const;                        // 0x564768
+    void getString(const char* name, char* out) const;                    // 0x564924
+    std::wstring getStringW(const char* name) const;                      // 0x5637c0
+    void getStringW(const char* name, wchar_t* out) const;                // 0x563858
 };
 
 }  // namespace glitch::io

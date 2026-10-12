@@ -26,3 +26,22 @@ bool util_number_is_power_2(unsigned value) {
     }
     return ((value - 1) | value) == ((value - 1) ^ value);
 }
+
+// Shared loop of 0x34e024 and 0x34e090. A character in 'A'..'Z' gains 0x20.
+// The original reads the characters as signed bytes, so bytes >= 0x80 are left alone.
+void LowerCaseRange(char* data, int size, int from, int to) {
+    if (to == -1 || size <= to) {
+        to = size - 1;
+    }
+    for (int i = from; i <= to; ++i) {
+        char c = data[i];
+        if ('@' < c && c < '[') {
+            data[i] = static_cast<char>(c + ' ');
+        }
+    }
+}
+
+// 0x34e024 _Z11ToLowerCaseRSsii
+void ToLowerCase(std::string& s, int from, int to) {
+    LowerCaseRange(&s[0], static_cast<int>(s.size()), from, to);
+}

@@ -38,7 +38,7 @@ int main() {
     CHECK(base.getPlane().Normal.Y == 1.f && std::signbit(base.getPlane().D));
 
     // CAttributes indexed getters fall back to their own defaults.
-    io::CAttributes empty;
+    io::CAttributes empty(nullptr);
     CHECK(empty.getQuaternion(0).Y == 1.f && empty.getQuaternion(0).W == 0.f);
     CHECK(empty.getColor(0).color == 0);
     CHECK(empty.getUserPointer(0) == nullptr);

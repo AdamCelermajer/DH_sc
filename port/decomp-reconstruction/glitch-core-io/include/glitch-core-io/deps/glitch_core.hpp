@@ -76,6 +76,8 @@ struct CMatrix4 {
 }  // namespace glitch::core
 
 namespace glitch::video {
+// Stand-in for the driver interface; only its reference counting is used here.
+class IVideoDriver : public glitch::IReferenceCounted {};
 struct SColor {
     std::uint32_t color;
 };

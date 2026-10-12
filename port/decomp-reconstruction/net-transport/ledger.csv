@@ -187,3 +187,63 @@ elf_address,symbol,status,source_file,notes
 0x84232c,_ZN14CAndroidSocketC1EPciP23GLXPlayerSocketObserver,partial,net-transport/src/android_socket.cpp,GLXPlayerSocket base ctor not reconstructed; only port stored
 0x842360,_ZN14CAndroidSocket6AcceptEv,partial,net-transport/src/android_socket.cpp,returns accepted fd; new 0xcf4-byte socket object construction not reconstructed
 0x842430,_ZN14CAndroidSocketC2EPciP23GLXPlayerSocketObserver,partial,net-transport/src/android_socket.cpp,GLXPlayerSocket base ctor not reconstructed; only port stored
+0x316430,_ZNK12StreamBuffer4sizeEv,reconstructed,net-transport/src/stream_buffer.cpp,StreamBuffer::size()
+0x31643c,_ZNK12StreamBuffer4sizeEi,reconstructed,net-transport/src/stream_buffer.cpp,"StreamBuffer::size(int): block bytes, capped at one block"
+0x316458,_ZNK12StreamBuffer7canReadEv,reconstructed,net-transport/src/stream_buffer.cpp,canRead always true
+0x316460,_ZNK12StreamBuffer8canWriteEv,reconstructed,net-transport/src/stream_buffer.cpp,canWrite always false
+0x316468,_ZN12StreamBuffer4skipEy,reconstructed,net-transport/src/stream_buffer.cpp,skip = seek(tell + n) through the virtual slot
+0x316488,_ZNK12StreamBuffer9tellWriteEv,reconstructed,net-transport/src/stream_buffer.cpp,tellWrite
+0x316494,_ZN12StreamBuffer4readEPvy,reconstructed,net-transport/src/stream_buffer.cpp,"read = peek through the virtual slot, then advance"
+0x3164cc,_ZNK12StreamBuffer4tellEv,reconstructed,net-transport/src/stream_buffer.cpp,tell
+0x3164d8,_ZN12StreamBuffer4seekEy,reconstructed,net-transport/src/stream_buffer.cpp,seek clamps to size
+0x316510,_ZN12StreamBuffer9seekWriteEy,reconstructed,net-transport/src/stream_buffer.cpp,seekWrite clamps to size
+0x3166bc,_ZNK12StreamBuffer4peekEPvy,reconstructed,net-transport/src/stream_buffer.cpp,"peek clips to size - read position (64-bit, wraps as original)"
+0x3169c4,_ZN12StreamBufferD1Ev,reconstructed,net-transport/src/stream_buffer.cpp,virtual dtor D1
+0x3169f8,_ZN12StreamBufferD0Ev,skipped,net-transport/src/stream_buffer.cpp,deleting destructor D0 is compiler-generated from the virtual dtor
+0x316a14,_ZN12StreamBufferD2Ev,reconstructed,net-transport/src/stream_buffer.cpp,virtual dtor D2
+0x316a48,_ZN12StreamBuffer5clearEv,reconstructed,net-transport/src/stream_buffer.cpp,clear buffer and both positions
+0x316d3c,_ZN12StreamBufferC1Ev,reconstructed,net-transport/src/stream_buffer.cpp,default ctor (C1); block size 0x800 from Buffer default
+0x316fd4,_ZN12StreamBuffer5writeEPKvy,reconstructed,net-transport/src/stream_buffer.cpp,"write at write position, advance it"
+0x317180,_ZN12StreamBuffer6expandEy,reconstructed,net-transport/src/stream_buffer.cpp,"expand: clear, one block of given size, reset positions"
+0x3171b8,_ZN12StreamBufferC2EP11IStreamBase,partial,net-transport/src/stream_buffer.cpp,ctor from IStreamBase (C2): debug ASSERT on sized flag dropped
+0x3172d8,_ZN12StreamBufferC1EP11IStreamBase,partial,net-transport/src/stream_buffer.cpp,ctor from IStreamBase (C1): debug ASSERT on sized flag dropped
+0x3173f8,_ZN12StreamBufferC2Ev,reconstructed,net-transport/src/stream_buffer.cpp,default ctor (C2)
+0x42b1e4,_ZN14BufferedStream10FillBufferEP11IStreamBase,partial,net-transport/src/buffered_stream.cpp,FillBuffer; loop stops on a zero-byte read instead of spinning
+0x8491cc,_ZN10DataPacketD1Ev,reconstructed,net-transport/src/data_packet.cpp,DataPacket virtual dtor D1
+0x8491d0,_ZN10DataPacket7addBlobEPcs,reconstructed,net-transport/src/data_packet.cpp,addBlob: no-op returning 0
+0x8491d8,_ZN10DataPacket7getBlobERPcRs,reconstructed,net-transport/src/data_packet.cpp,getBlob: no-op returning 0
+0x8491e0,_ZN10DataPacket11InitMessageEi,reconstructed,net-transport/src/data_packet.cpp,InitMessage: no-op
+0x8491e4,_ZN10DataPacket14GetMessageTypeEv,reconstructed,net-transport/src/data_packet.cpp,GetMessageType returns -1
+0x8491ec,_ZN10DataPacket14InitMMOMessageEs,reconstructed,net-transport/src/data_packet.cpp,InitMMOMessage: no-op
+0x8491f0,_ZN10DataPacket17GetMMOMessageTypeEv,reconstructed,net-transport/src/data_packet.cpp,GetMMOMessageType returns -1
+0x8496a0,_ZN10DataPacketD0Ev,skipped,net-transport/src/data_packet.cpp,deleting destructor D0 is compiler-generated (operator delete)
+0x8274e8,_ZN10CTransportD1Ev,reconstructed,net-transport/src/transport.cpp,CTransport virtual dtor D1
+0x8274ec,_ZN10CTransport7ConnectER10CNetworkId,reconstructed,net-transport/src/transport.cpp,CTransport::Connect returns 0
+0x8274f4,_ZN10CTransport10DisconnectEv,reconstructed,net-transport/src/transport.cpp,CTransport::Disconnect returns 0
+0x8274fc,_ZN10CTransport14StartBroadcastEv,reconstructed,net-transport/src/transport.cpp,StartBroadcast: no-op
+0x827500,_ZN10CTransport13StopBroadcastEv,reconstructed,net-transport/src/transport.cpp,StopBroadcast: no-op
+0x8277d0,_ZN10CTransportD0Ev,skipped,net-transport/src/transport.cpp,deleting destructor D0 is compiler-generated
+0x827b18,_ZN15CSocketAbstractD1Ev,reconstructed,net-transport/src/socket_abstract.cpp,CSocketAbstract virtual dtor D1
+0x827b1c,_ZN15CSocketAbstract6AssignEij,reconstructed,net-transport/src/socket_abstract.cpp,Assign: slot 0 and +0x14 inferred from the CSocket vtable
+0x828b30,_ZN15CSocketAbstractD0Ev,skipped,net-transport/src/socket_abstract.cpp,deleting destructor D0 is compiler-generated
+0x827b5c,_ZN7CSocketC2Ev,reconstructed,net-transport/src/csocket.cpp,"ctor C2: handle -1, flags cleared"
+0x827bb0,_ZN7CSocketC1Ev,reconstructed,net-transport/src/csocket.cpp,ctor C1
+0x827c04,_ZN7CSocket11IsConnectedEv,reconstructed,net-transport/src/csocket.cpp,"IsConnected: select with zero timeout, writable means connected (POSIX and Winsock via fd_set macros)"
+0x827cdc,_ZN7CSocket13DataAvailableEi,reconstructed,net-transport/src/csocket.cpp,DataAvailable: select on the read set with the given timeout
+0x827ee0,_ZN7CSocket5CloseEv,reconstructed,net-transport/src/csocket.cpp,"Close: clears flags, closes the handle, reports close errors"
+0x827f3c,_ZN7CSocketD1Ev,reconstructed,net-transport/src/csocket.cpp,dtor D1 calls Close
+0x827f70,_ZN7CSocketD2Ev,reconstructed,net-transport/src/csocket.cpp,dtor D2 calls Close
+0x827fa4,_ZN7CSocket12GetLocalPortEv,reconstructed,net-transport/src/csocket.cpp,"GetLocalPort via getsockname, host order, 0 on failure"
+0x828038,_ZN7CSocket10WouldBlockEv,reconstructed,net-transport/src/csocket.cpp,WouldBlock: errno or WSAEWOULDBLOCK comparison
+0x828054,_ZN7CSocket14GetSocketErrorEv,reconstructed,net-transport/src/csocket.cpp,GetSocketError returns the last socket error
+0x828064,_ZN7CSocket14GetPeerAddressEv,partial,net-transport/src/csocket.cpp,GetPeerAddress via getpeername; failure returns the address recorded by Accept; error log dropped
+0x82810c,_ZN7CSocket11GetPeerPortEv,reconstructed,net-transport/src/csocket.cpp,GetPeerPort via getpeername; failure returns the port recorded by Accept
+0x8281a8,_ZN7CSocket11ReceiveFromER7in_addrRtPci,reconstructed,net-transport/src/csocket.cpp,"ReceiveFrom via recvfrom; -1 when closed, 0 on would-block"
+0x8282ac,_ZN7CSocket7ReceiveEPci,partial,net-transport/src/csocket.cpp,Receive via recv; static debug print counter (_ZL7printed) dropped
+0x828380,_ZN7CSocket6SendToERK7in_addrtPvi,partial,net-transport/src/csocket.cpp,"SendTo via sendto; decompile shows no return value, sendto result returned"
+0x82844c,_ZN7CSocket4SendEPvi,reconstructed,net-transport/src/csocket.cpp,Send via send; sets the connected flag as the original does
+0x8284c8,_ZN7CSocket16SetSocketOptionsEj,partial,net-transport/src/csocket.cpp,"SetSocketOptions: SO_REUSEADDR (bit 1), SO_BROADCAST (bit 0), TCP_NODELAY (bit 2); error log dropped"
+0x8285ec,_ZN7CSocket6AcceptER7in_addrRt,partial,net-transport/src/csocket.cpp,"Accept: O_NONBLOCK set on the listening handle, peer recorded; accepted handle returned (original does not store it)"
+0x8286e4,_ZN7CSocket6ListenEv,reconstructed,net-transport/src/csocket.cpp,"Listen with backlog 10, sets the listening flag"
+0x828738,_ZN7CSocket7ConnectERK7in_addrt,partial,net-transport/src/csocket.cpp,Connect: EISCONN and EINPROGRESS handled as in the original; error log dropped
+0x828b14,_ZN7CSocketD0Ev,skipped,net-transport/src/csocket.cpp,deleting destructor D0 is compiler-generated

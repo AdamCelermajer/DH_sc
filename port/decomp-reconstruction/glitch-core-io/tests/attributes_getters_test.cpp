@@ -32,9 +32,10 @@ struct Holder : io::IAttribute {
 };
 
 int main() {
-    Holder h;
-    io::CAttributes attrs;
-    attrs.attributes = {&h};
+    // Owned by the container (reference count 1), so allocate on the heap.
+    Holder& h = *new Holder;
+    io::CAttributes attrs(nullptr);
+    attrs.currentAttributes() = {&h};
 
     CHECK(attrs.getColorf(0).b == 0.3f);
     CHECK(attrs.getVector2d(0).Y == 2.f);

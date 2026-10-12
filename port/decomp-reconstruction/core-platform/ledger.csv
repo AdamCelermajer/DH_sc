@@ -223,3 +223,33 @@ elf_address,symbol,status,source_file,notes
 0x33d4b4,_ZN16TouchScreenWin327onEventERKN6glitch6SEventE,partial,core-platform/src/touch_screen_win32.cpp,begin passes id 0 (original passes no id); Point2D split by decompiler; isDown is a function static
 0x33d68c,_ZN16TouchScreenWin32C1Ess,reconstructed,core-platform/src/touch_screen_win32.cpp,base constructor; secondary interface vtable at +0x1b4 not recovered
 0x33d6d0,_ZN16TouchScreenWin32C2Ess,reconstructed,core-platform/src/touch_screen_win32.cpp,same as C1
+0x30eea0,_Z8ObjToStrPcRi,reconstructed,core-platform/src/obj_str.cpp,
+0x30efb0,_Z8ObjToStrPcR7Point3DIfE,reconstructed,core-platform/src/obj_str.cpp,
+0x30eefc,_Z8ObjToStrPcRN6glitch4core11dimension2dIfEE,reconstructed,core-platform/src/obj_str.cpp,
+0x30f03c,_Z8StrToObjPKcRi,reconstructed,core-platform/src/obj_str.cpp,
+0x30f050,_Z8StrToObjPKcR7Point2DIiE,reconstructed,core-platform/src/obj_str.cpp,strtok on comma; whole string copied (original copies into a 256-byte buffer)
+0x30f0c8,_Z8StrToObjPKcRN6glitch4core11dimension2dIiEE,partial,core-platform/src/obj_str.cpp,decompiled stores and second parameter missing; Width/Height assumed
+0x30f140,_Z8StrToObjPKcR7Point3DIiE,reconstructed,core-platform/src/obj_str.cpp,"first component via strtod, truncated toward zero"
+0x30f1dc,_Z8StrToObjPKcR7Point3DIfE,reconstructed,core-platform/src/obj_str.cpp,
+0x30f2a4,_Z8StrToObjPKcRN6glitch4core11dimension2dIfEE,partial,core-platform/src/obj_str.cpp,decompiled stores missing; Width/Height assumed
+0x30f334,_Z8StrToObjPKcRN6glitch4core8vector3dIfEE,reconstructed,core-platform/src/obj_str.cpp,
+0x30fdd0,_ZlsRSoRKN6glitch4core8vector3dIfEE,partial,core-platform/src/stream_ops.cpp,"separator written as ',' (one-character literal not recoverable)"
+0x30ff48,_ZlsRSoRKN6glitch4core8vector3dIiEE,partial,core-platform/src/stream_ops.cpp,"separator written as ',' (literal not recoverable)"
+0x310178,_ZlsRSoRKN6glitch5video6SColorE,partial,core-platform/src/stream_ops.cpp,"channels written as raw bytes; separator writes carry no visible literal, none written"
+0x3133e0,_ZlsRSoRKSt6vectorI7Point3DIfESaIS2_EE,partial,core-platform/src/stream_ops.cpp,"element separator literal not recoverable; ', ' used"
+0x31026c,_ZrsRSiRN6glitch4core11dimension2dIiEE,reconstructed,core-platform/src/stream_ops.cpp,one separator character skipped between values
+0x3102b4,_ZrsRSiRN6glitch5video6SColorE,reconstructed,core-platform/src/stream_ops.cpp,"three ints, low byte stored, alpha set to 0"
+0x31032c,_ZrsRSiRN6glitch4core8vector3dIiEE,reconstructed,core-platform/src/stream_ops.cpp,X at +0 confirmed from the listing
+0x310380,_ZrsRSiRN6glitch4core8vector3dIfEE,reconstructed,core-platform/src/stream_ops.cpp,X at +0 confirmed from the listing
+0x310454,_Z11CustomAllocj,partial,core-platform/src/memory.cpp,"assert condition text (DAT_008ce400) not recovered; ""allocation"" used"
+0x310574,_Z13CustomReallocPvj,reconstructed,core-platform/src/memory.cpp,returns the new block (confirmed from listing); copies the full new size as the original does
+0x3105b4,_Z14CustomMemalignjj,reconstructed,core-platform/src/memory.cpp,"alignment ignored, returns CustomAlloc(size) as in the listing"
+0x317c00,_Z23internal_malloc_alignedjjPKcjS0_,reconstructed,core-platform/src/memory.cpp,alignment ignored; returns malloc(size) as in the listing
+0x317c98,_Z11AllocateMemjjPKcjS0_,partial,core-platform/src/memory.cpp,"decompiled internal_malloc call shows one argument; file, line and function forwarded"
+0x320550,_Z7TimeNowv,reconstructed,core-platform/src/time_util.cpp,returns 32-bit milliseconds (confirmed from listing)
+0x862bf4,_Z8_GetTimev,reconstructed,core-platform/src/time_util.cpp,
+0x89d368,_Z10OS_GetTimev,reconstructed,core-platform/src/time_util.cpp,
+0x324114,_Z10_DEBUG_OUTPKcz,reconstructed,core-platform/src/debug_out.cpp,vsnprintf into the 1 KiB buffer
+0x533560,appDebugLog,partial,core-platform/src/debug_out.cpp,Android logcat write replaced by stderr
+0x34e024,_Z11ToLowerCaseRSsii,reconstructed,core-platform/src/util.cpp,
+0x34e090,_Z11ToLowerCaseRSbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS1_6memory13E_MEMORY_HINTE0EEEEii,partial,core-platform/src/util.cpp,template over the glitch string type; only data()/size() interface assumed
