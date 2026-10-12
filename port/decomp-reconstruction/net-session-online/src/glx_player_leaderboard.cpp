@@ -1,5 +1,7 @@
 #include "net-session-online/glx_player_leaderboard.hpp"
 
+#include <cstdio>
+
 namespace {
 // The original's default score for a missing entry (0xfff5d3d6 as an unsigned word).
 constexpr std::int32_t kMissingScore = static_cast<std::int32_t>(0xfff5d3d6u);
@@ -81,4 +83,24 @@ void GLXPlayerLeaderboard::SetCurrentForTest(std::int32_t position, std::int32_t
     currentCountry_ = country;
     currentScore_ = score;
     currentScoreData_ = scoreData;
+}
+
+// 0x832c2c _ZN20GLXPlayerLeaderboard13addScoreEntryEPciiiPii
+std::int32_t GLXPlayerLeaderboard::addScoreEntry(std::string& buffer, std::int32_t score,
+                                                 std::int32_t level, std::int32_t time,
+                                                 const std::int32_t* scores,
+                                                 std::int32_t count) const {
+    char segment[128];
+    std::int32_t written = std::snprintf(segment, sizeof(segment), "l|%d|t|%d|sl|0|s|%d|",
+                                         level, time, score);
+    buffer += segment;
+    if (count > 0) {
+        for (std::int32_t i = 0; i != count;) {
+            const std::int32_t value = scores[i++];
+            written = std::snprintf(segment, sizeof(segment), "l|%d|t|%d|sl|%d|s|%d|",
+                                    level, time, i, value);
+            buffer += segment;
+        }
+    }
+    return written;
 }

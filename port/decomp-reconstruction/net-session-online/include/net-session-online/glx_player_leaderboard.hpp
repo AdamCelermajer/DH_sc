@@ -45,6 +45,13 @@ public:
     // 0x8322e0 _ZN20GLXPlayerLeaderboard34getLeaderboardEntryPlayerScoreDataEi: default 0.
     std::int32_t getLeaderboardEntryPlayerScoreData(std::int32_t index) const;
 
+    // 0x832c2c _ZN20GLXPlayerLeaderboard13addScoreEntryEPciiiPii: appends the score segment,
+    // then one segment per entry of scores, to buffer. Returns the length written by the last
+    // segment, as sprintf does. The original writes into a caller's char array; the port appends
+    // to a std::string.
+    std::int32_t addScoreEntry(std::string& buffer, std::int32_t score, std::int32_t level,
+                               std::int32_t time, const std::int32_t* scores, std::int32_t count) const;
+
     // Request senders: "f|kind|i|GGI|u|UID|..." requests handed to SendByGet.
     // 0x832cc4 _ZN20GLXPlayerLeaderboard23sendRankGetAroundPlayerEiii (kind 0x70). Partial: the
     // optional field taken when the first argument is not negative is not identified.

@@ -1,6 +1,7 @@
 #include "net-session-online/glx_player_leaderboard.hpp"
 
 #include <cstdio>
+#include <string>
 
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
@@ -32,6 +33,18 @@ int main() {
     CHECK(lb.getCurrentPlayerLeaderboardCountry() == 61);
     CHECK(lb.getCurrentPlayerLeaderboardScore() == 1234);
     CHECK(lb.getCurrentPlayerLeaderboardScoreData() == 9);
+
+    // addScoreEntry (0x832c2c): the score segment, then one segment per entry.
+    {
+        std::string text;
+        const std::int32_t values[2] = {10, 20};
+        const std::int32_t written = lb.addScoreEntry(text, 500, 3, 60, values, 2);
+        CHECK(text == "l|3|t|60|sl|0|s|500|l|3|t|60|sl|1|s|10|l|3|t|60|sl|2|s|20|");
+        CHECK(written == 19);                       // length of the last segment
+        std::string bare;
+        CHECK(lb.addScoreEntry(bare, 7, 1, 2, nullptr, 0) == 17);   // only the score segment
+        CHECK(bare == "l|1|t|2|sl|0|s|7|");
+    }
 
     std::printf("%s\n", failures ? "glx_player_leaderboard: FAILED" : "glx_player_leaderboard: ok");
     return failures != 0;

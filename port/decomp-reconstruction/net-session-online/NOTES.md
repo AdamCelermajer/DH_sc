@@ -1,8 +1,7 @@
 # net-session-online notes
 
-Status: 1268 functions queued. Ledger has 396 rows (CEvent, CMessage, CEventQueueBase,
-the CEventQueue<T,N> instances, the fixed-size CMsg* types, and the GLX player,
-MultiplayerStateMachine and IEvent classes from wave 3).
+Status: 1268 functions queued. Ledger has 722 rows (554 reconstructed, 99 partial, 69 skipped).
+Wave 7 added 124 rows (598 at its start). 546 queued functions remain (see "Wave 7" below).
 
 ## Layouts (original 32-bit offsets, kept as comments)
 
@@ -275,3 +274,104 @@ Queue rows left, by owner and class (670 in total):
   XP_API_IP_STR2INT, XP_API_FTOA, XP_API_GET_RANDOM, XP_API_GET_TIME, XP_API_PARSE_DATA,
   XP_API_STRCHRFIND, the XP_API_FILE_* family, and the XP_DEBUG_*_LOG functions.
 - No Json:: functions are queued for this category, so no upstream rows are needed.
+
+## Wave 7: Hex-Rays source, sockets and HTTP, ping, CXPlayerManager (this session)
+
+Source: IDA Hex-Rays is now the default for `tools/decomp_extract.py` (export in
+`recovered/native/hexrays-all/`, commit 9476235b). Ghidra is only a fallback (`--source ghidra`).
+Where the decompile garbled a tail call, the ARM listing (`recovered/native/assembly/...`) was
+checked; the notes name each case.
+
+### Rows added (124 this wave)
+
+- GLXPlayerSocket (13): Start, Cancel, IsInProgress, both destructors, both constructor aliases,
+  RemoveHttpHeader, CalculateTotalLength (reconstructed); ParseHttpHeader, ParseChunkedContent
+  (partial); GLXPlayerSocketFactory::GetSocket (partial). D0 is skipped.
+- GLXPlayerHttp (12): GetResponseLen, Start, UpdateRequest, IsInProgress, IsErrorOccurred, Cancel,
+  SetResponseData (reconstructed); destructors D1 and D2 and both constructor aliases (partial);
+  D0 skipped.
+- GLXPlayerPing (9): Init, Prepare, both destructors, SendEchoRequest (reconstructed);
+  WaitForEchoReply and both constructor aliases (partial); D0 skipped.
+- GLXPlayerLeaderboard addScoreEntry (1, reconstructed). Deleting destructors of the leaderboard
+  and OnlineGameState are skipped (2).
+- Earlier in the wave (87): CXPlayerManager, GLXPlayerSereverConfig, the GLXPlayerLogin, Message,
+  Leaderboard and UserFriend senders, and the XP_API wave-7 set.
+
+### Layouts (checked against the ARM ctor and the Hex-Rays accessors)
+
+GLXPlayerSocket (`glx_player_socket.hpp`): +0x04 state (0 idle, 1 started, 6 finished, 7 error,
+8 cancelled), +0x08 handle (-1), +0x10 port, +0x14 host (owned copy), +0x18 observer,
++0x1c receive buffer (0x800 bytes, zeroed by Start), +0x81c receive length, +0x820 socket type,
++0x824 accept address (owned), +0x828 accept port, +0x82c received content (std::string),
++0x850 send percentage. Seven more words (+0x84c..+0x868) are zeroed by the ctor and not decoded.
+The earlier header had no ctor arguments; the ctor was not stored.
+
+GLXPlayerHttp (`glx_player_http.hpp`): +0x04 socket (owned), +0x08 request buffer (0x400),
++0x408 response (owned), +0x40c response length, +0x410 server address (owned copy of ctor
+argument 1), +0x414 and +0x418 owned copies of ctor arguments 2 and 3, +0x41c post body (owned),
++0x420 post length, +0x424 send-by-post flag. The ctor creates the socket on port 0x50 with the
+HTTP object as observer, so GLXPlayerHttp derives from GLXPlayerSocketObserver.
+
+GLXPlayerPing (`glx_player_ping.hpp`): +0x08 flag (1), +0x0c host, +0x10 address (null),
++0x14 port, +0x18 socket, +0x1c result (-1), +0x24 state (1, then 2 after Prepare), +0x28 and
++0x2c timeouts (0, 5000 us; operator new in the original, held by value here), +0x30 echo id (123).
+
+GLXPlayerSocket virtual hooks added: Start (+0x0c), Run (+0x10), Cancel (+0x14), IsInProgress
+(+0x18), IsErrorOccurred (+0x1c), OnCancelled (+0x3c), SendTo (+0x58), Connect (+0x74). The base
+defaults are no-ops; SendTo returns -1 and Connect returns 0, so a port without a transport
+reports failure.
+
+### Decisions and deviations
+
+- Owned buffers. GLXPlayerHttp and GLXPlayerSocket own their strings and buffers through
+  unique_ptr. The test seams now copy the post body and the response.
+- Cancel clears the response and post pointers after freeing them. The original leaves them dangling.
+- D1 and D2 of GLXPlayerHttp free the response and post with different allocators (operator delete in
+  D1, free in D2). The port cannot reproduce that mix, so both are partial.
+- std::string::substr past the end throws in the original. The port returns an empty string. This
+  matters only for the chunked decode.
+- ParseChunkedContent is kept as decompiled. The size line is cut at the absolute CRLF position and
+  the next offset is CRLF+2+CRLF. Multi-chunk bodies may not decode the way the server meant.
+- ParseHttpHeader with no CRLF CRLF terminator returns npos. The original copies npos bytes there,
+  which is undefined.
+- XP_API_GET_TIME is the glx_stand_ins.hpp stub (0), so the ping timestamp is 0.
+- The ping checksum is a stand-in for the BSD in_cksum, which is not in the queue. A test checks that
+  a packet with its checksum sums to all ones. Fields are in host byte order, as the original writes them.
+- The socket factory builds the base class. The original builds CAndroidSocket (0xcf4 bytes). The
+  ctors, and the factory, are partial for this reason.
+- WaitForEchoReply does not call select(). It reports no data (0).
+
+### Layout mismatches found in older headers (not fixed here)
+
+- GLXPlayerLeaderboard: +0x50 is an array of per-entry int* arrays (score data), but the header models
+  it as a flat vector. getLeaderboardEntry (0x8321cc) and clearLeaderboard (0x832a48) need the
+  per-entry model. The leaderboard ctors (0x833244, 0x8332dc) store the request client at the
+  GLXPlayerWebComponent requestClient_ (void*), which is not typed as GLXPlayerHttp yet.
+- GLXPlayerMessage: +0x50 is a char* array (the des-user name lists), but the header says receiver
+  ids. processMsgCount (0x834ffc) is clean and is the next candidate; the other parsers depend on
+  the corrected layout.
+- GameCenter: the full layout needs +0x74 (the list sentinel) and GCSingleton<GameCenter>. The
+  header models only the simplified state, so the ctor and dtors are not started.
+- OnlineGameState: the ctor (0x49ffe0, 0x4a0040) sets members from +0x04 to +0x138 that the header
+  does not model.
+- LCXPlayerSocket and LCXPlayerHttp mirror the GLX classes, but their receive buffer and state
+  members are not in the header yet.
+
+### What remains (546 queued functions; 76 short of the 200-row target for this wave)
+
+Blocked on classes or stand-ins the port does not have:
+- COnline and COnlineImpl (about 27): need CConnectionManager (GetConnectionMgr, RegisterPacketType,
+  GetServerPing) and CPacketManager (SendPackets). Those belong in deps/ as stand-ins.
+- CMatching, CMatchingLocal, CMatchingGLLive and the observers (about 200): need the CMatching base
+  with tMatchingPeer and the CNetworkId and CRoomAttributes types.
+- CMessaging (about 40): needs the CMessage queues with std::list and std::set, NetBitStream and
+  CNetMutex.
+- GameCenter (about 15) and CSignInGLLive (about 14): need the full GameCenter layout and GCSingleton.
+- ALicenseCheck (21): FUN_ names, not yet identified.
+- MultiplayerCallback (22): large message handlers.
+- channel and item copy constructors: need slim::XmlNode and the item fields.
+
+Not blocked, but large or layout-dependent: GLXPlayerLeaderboard and GLXPlayerMessage parsers
+(see the mismatches above), GLXPlayerSereverConfig SaveServerConfig and LoadConfig (std::map node
+walks), GLXPlayerMPBase and GLXPlayerMPLobby senders, LCXPlayerSocket and LCXPlayerHttp (receive
+buffer and state members), and the LC_API_FREE and LC_API_MALLOC thunks.

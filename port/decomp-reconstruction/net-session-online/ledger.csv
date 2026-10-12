@@ -709,3 +709,15 @@ elf_address,symbol,status,source_file,notes
 0x83067c,_ZN15GLXPlayerSocket19ParseChunkedContentEv,partial,src/glx_player_socket.cpp,"chunked decode kept as decompiled; the size line is cut at the absolute CRLF position and the next offset is CRLF+2+CRLF, which may not decode multi-chunk bodies correctly; out-of-range substr returns empty"
 0x830cb0,_ZN15GLXPlayerSocket20CalculateTotalLengthEv,reconstructed,src/glx_player_socket.cpp,Content-Length (case variants) from the header block; 0 when absent; -1 when the header is incomplete or the value line is unterminated
 0x831528,_ZN22GLXPlayerSocketFactory9GetSocketEPciP23GLXPlayerSocketObserver,partial,src/glx_player_socket.cpp,GetSocket returns the base GLXPlayerSocket; the original allocates and constructs CAndroidSocket (0xcf4 bytes)
+0x84008c,_ZN13GLXPlayerPing4InitEv,reconstructed,src/glx_player_ping.cpp,"connects the socket through the socket hook (vtable +0x74, a no-op returning 0 in the port) when the host and port are set"
+0x8400c8,_ZN13GLXPlayerPing7PrepareEv,reconstructed,src/glx_player_ping.cpp,Init returning non-zero gives state 2 and 0; otherwise -1
+0x8400fc,_ZN13GLXPlayerPingD1Ev,reconstructed,src/glx_player_ping.cpp,"members free host, address, timeouts and socket; timeouts are held by value in the port"
+0x8401cc,_ZN13GLXPlayerPingD2Ev,reconstructed,src/glx_player_ping.cpp,same body as D1
+0x8401b0,_ZN13GLXPlayerPingD0Ev,skipped,src/glx_player_ping.cpp,deleting destructor (D0): the port uses delete
+0x840280,_ZN13GLXPlayerPing16WaitForEchoReplyEi,partial,src/glx_player_ping.cpp,select() with zero timeout on the socket handle is not reproduced; the port reports no data (0)
+0x840454,_ZN13GLXPlayerPing15SendEchoRequestEv,reconstructed,src/glx_player_ping.cpp,"builds the 48-byte ICMP echo request (type 8, id 123 from the first probe, sequence, timestamp, 0x20..0x3f payload, in_cksum stand-in) and sends it through the socket hook (default -1)"
+0x840564,_ZN13GLXPlayerPingC1EPKci,partial,src/glx_player_ping.cpp,"host copy and port are kept; the socket comes from the factory, which builds the base socket class (original builds CAndroidSocket)"
+0x840600,_ZN13GLXPlayerPingC2EPKci,partial,src/glx_player_ping.cpp,same as C1 (second constructor alias)
+0x832c2c,_ZN20GLXPlayerLeaderboard13addScoreEntryEPciiiPii,reconstructed,src/glx_player_leaderboard.cpp,formats the score segment then one segment per entry into a std::string; returns the last segment length as sprintf does
+0x8331ec,_ZN20GLXPlayerLeaderboardD0Ev,skipped,src/glx_player_leaderboard.cpp,deleting destructor (D0): the port uses delete
+0x43fad8,_ZN15OnlineGameStateD0Ev,skipped,net-session-online/src/online_game_state.cpp,deleting destructor of OnlineGameState (D0): the port uses delete
