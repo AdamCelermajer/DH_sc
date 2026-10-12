@@ -43277,8 +43277,7 @@ void draw(int width,int height){
   glEnableVertexAttribArray(position);glEnableVertexAttribArray(texcoord);glEnableVertexAttribArray(color);
   // CSceneManager::drawInit (0x589e7c): Allow_ZWrite_On_Transparent is unset,
   // so alpha-mapped environment materials draw after opaque geometry without
-  // depth writes (STransparentNodeEntry queue; back-to-front sort not yet
-  // reconstructed).
+  // depth writes (STransparentNodeEntry queue, sorted back-to-front below).
   const auto transparent_environment=[](const Draw& b){
     return b.environment&&!b.material.additive&&!b.material.alpha_map.empty();
   };
@@ -43316,9 +43315,21 @@ void draw(int width,int height){
           int(prince_combat.life.dead));
     }
   }
+  // STransparentNodeEntry ordering (ctor 0xc9f17, operator< 0xc9812, heapsort 0xca57f):
+  // transparent draws go back-to-front. Depth is the clip-space w of the placement
+  // origin (view depth under this perspective), so larger w is drawn first.
+  static std::vector<Draw*> transparent_queue;
+  transparent_queue.clear();
+  for(auto& b:draws)if(transparent_environment(b))transparent_queue.push_back(&b);
+  const auto transparent_depth=[&projection](const Draw& b){
+    return projection[3]*b.placement[12]+projection[7]*b.placement[13]+projection[11]*b.placement[14]+projection[15];
+  };
+  std::stable_sort(transparent_queue.begin(),transparent_queue.end(),
+      [&](const Draw* a,const Draw* c){return transparent_depth(*a)>transparent_depth(*c);});
   for(unsigned transparent_pass=0;transparent_pass<2;++transparent_pass)
-  for(auto& b:draws){
-    if(transparent_environment(b)!=(transparent_pass==1))continue;
+  for(std::size_t draw_index=0,draw_count=transparent_pass?transparent_queue.size():draws.size();draw_index<draw_count;++draw_index){
+    Draw& b=transparent_pass?*transparent_queue[draw_index]:draws[draw_index];
+    if(!transparent_pass&&transparent_environment(b))continue;
     if(world_mode&&!prince_character.render_batch_visible(b.environment))continue;
     if(world_mode&&player_equipment_native&&!equipment_draws.empty()&&!b.environment)continue;
     if(!b.skin.nodes.empty()){
