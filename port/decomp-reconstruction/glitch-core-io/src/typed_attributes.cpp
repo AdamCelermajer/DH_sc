@@ -417,4 +417,13 @@ glitch::core::CMatrix4<float> CVector3DAttribute::getMatrix() const {
 // 0x5633ec _ZN6glitch2io15CLightAttribute8setLightERKN5boost13intrusive_ptrINS_5video6CLightEEE
 void CLightAttribute::setLight(boost::intrusive_ptr<glitch::video::CLight> value) { light = value; }
 
+// 0x56514c _ZN6glitch2io15CLightAttributeD1Ev
+// The driver reference is dropped first; the light member is released after this body.
+CLightAttribute::~CLightAttribute() {
+    if (driver != nullptr) driver->drop();
+}
+
+// 0x56377c _ZNK6glitch2io15CLightAttribute10getStringWEv
+std::wstring CLightAttribute::getStringW() const { return light ? L"light" : L""; }
+
 }  // namespace glitch::io

@@ -35,7 +35,13 @@ struct SZipFileEntry {
 
 class CZipReader : public glitch::IReferenceCounted {
 public:
-    CZipReader() = default;
+    CZipReader() = default;  // used by the tests; the original always has a file or a name
+    // 0x577fa4 (C1), 0x578050 (C2): reads the directory from an open file (referenced).
+    // PARTIAL: the directory scan (scanLocalHeader) and the final sort are not reconstructed.
+    CZipReader(IReadFile* file, bool flagA, bool flagB);
+    // 0x57826c (C1), 0x578318 (C2): opens the file by name, then as above.
+    CZipReader(const char* fileName, bool flagA, bool flagB);
+    ~CZipReader() override;  // 0x577488 (D1), 0x5774ec (D2): drops the file
 
     int getFileCount();                                     // 0x576cf0: entries / 0x6c
     const SZipFileEntry* getFileInfo(int index) const;      // 0x576d1c: no bounds check, as the original
@@ -51,6 +57,15 @@ public:
     // is inferred from the tail call to strlen in the pseudocode.
     void deletePathFromFilename(std::string& fileName);
 
+    // 0x577db4: reads the next local header. PARTIAL: the header's name and the rest of the
+    // entry are not recovered, so the scan reports no entry (false) and the loop stops.
+    bool scanLocalHeader();
+
+    // +0x08: the archive file (referenced by the reader, released in the destructor)
+    IReadFile* readFile = nullptr;
+    // +0x0c, +0x0d: flags from the constructor (their uses are not recovered)
+    bool flagA = false;
+    bool flagB = false;
     // +0x14 .. +0x18: entry vector
     std::vector<SZipFileEntry> entries;
 };

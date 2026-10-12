@@ -2,6 +2,9 @@
 // destructor). Reconstructed from libDungeonHunter2.so.
 #include "glitch-core-io/io/pak_reader.hpp"
 
+#include "glitch-core-io/io/limit_read_file.hpp"
+#include "glitch-core-io/core/sort.hpp"
+
 #include <cstddef>
 
 namespace glitch::io {
@@ -67,5 +70,60 @@ void CPakReader::deletePathFromFilename(std::string& name) {
         }
     } while (i != 0);
 }
+
+
+// 0x57002c _ZN6glitch2io10CPakReaderC1EPNS0_9IReadFileEbb (C2 at 0x5700c4 is the same body)
+// PARTIAL: the scan runs once (scanLocalHeader) and the sort of the entries is not applied.
+CPakReader::CPakReader(IReadFile* file, bool a, bool b) : readFile(file), flagA(a), flagB(b) {
+    if (readFile) {
+        ++readFile->referenceCounter;
+        scanLocalHeader();
+    }
+}
+
+// 0x56f784 _ZN6glitch2io10CPakReader8openFileEi
+IReadFile* CPakReader::openFile(int index) {
+    const SPakFileEntry& entry = entries[static_cast<std::size_t>(index)];
+    readFile->seek(entry.offset, false);
+    return createLimitReadFile(entry.name.c_str(), readFile, entry.size);
+}
+
+// 0x56fcec _ZN6glitch2io10CPakReader15extractFilenameEPNS0_13SPakFileEntryE
+// PARTIAL: lower-cases the path (ASCII 'A'..'Z') when flagA is set. The original's separator
+// handling afterwards is not recovered.
+void CPakReader::extractFilename(SPakFileEntry* entry) {
+    if (!flagA) return;
+    for (char& c : entry->path) {
+        if (c >= 'A' && c <= 'Z') c = static_cast<char>(c + ' ');
+    }
+}
+
+// 0x5703b8 _ZN6glitch2io10CPakReader8openFileEPKc
+IReadFile* CPakReader::openFile(const char* name) {
+    const int index = findFile(name);
+    if (index != -1) return openFile(index);
+    return nullptr;
+}
+
+// 0x5702b4 _ZN6glitch2io10CPakReader8findFileEPKc
+// PARTIAL: the key is built from the name (the path is left empty) and lower-cased when
+// flagA is set, as the decompile shows. The search is the shared binary search over the
+// entries, which relies on the same name ordering as the sort.
+int CPakReader::findFile(const char* name) {
+    SPakFileEntry key;
+    key.name = name;
+    if (flagA) {
+        for (char& c : key.name) {
+            if (c >= 'A' && c <= 'Z') c = static_cast<char>(c + ' ');
+        }
+    }
+    return glitch::core::binary_search(entries, key);
+}
+
+// 0x56fa04 / 0x56fc0c: see the declaration in pak_reader.hpp for the comparison used.
+bool operator<(const SPakFileEntry& a, const SPakFileEntry& b) { return a.name < b.name; }
+
+// 0x56fe44 _ZN6glitch2io10CPakReader15scanLocalHeaderEv: PARTIAL stub, records no entries.
+void CPakReader::scanLocalHeader() {}
 
 }  // namespace glitch::io

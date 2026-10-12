@@ -32,6 +32,10 @@ public:
     ~CFileList() override = default;                   // 0x6b3fe0, 0x6b4030
 
     int getFileCount() const;                          // 0x6b3e78
+    // 0x6b40a0: the full name of an entry (path, a slash when the path is longer than 3 characters,
+    // then the name), or null when out of range. PARTIAL: the original caches the result and only
+    // rebuilds it under a capacity condition, which is not modelled; it is rebuilt on each call.
+    const char* getFullFileName(std::uint32_t index);
     const char* getFileName(std::uint32_t index) const;  // 0x6b3ea4; nullptr when out of range
     bool isDirectory(std::uint32_t index) const;       // 0x6b3ee4; false when out of range
 

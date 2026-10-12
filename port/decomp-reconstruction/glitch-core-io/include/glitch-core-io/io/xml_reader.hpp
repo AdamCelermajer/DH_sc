@@ -68,6 +68,8 @@ public:
         std::wstring value;  // +0x8c (its c_str is returned)
     };
 
+    // 0x573928 (D1): PARTIAL. The original frees its text and attribute buffers in member
+    // order; the defaulted destructor releases the std members the same way (layout differs).
     ~CXMLReaderImpl() override = default;
 
     virtual bool read() = 0;  // vtable +0x0c

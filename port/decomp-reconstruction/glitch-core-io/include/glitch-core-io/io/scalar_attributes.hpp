@@ -61,6 +61,9 @@ public:
 // calls in the original, which go through getInt/setInt).
 class CEnumAttribute : public CIntAttribute {
 public:
+    // 0x56532c (D1): PARTIAL. The original also releases the literal vector at +0x3c, which
+    // this layout does not hold; the base and members are released as usual.
+    ~CEnumAttribute() override = default;
     int enumValue = 0;  // +0x38
 
     float getFloat() const override;      // 0x5605a4

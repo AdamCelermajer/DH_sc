@@ -18,6 +18,17 @@ namespace glitch::io {
 class CFileSystem : public IFileSystem {
 public:
     CFileSystem() = default;  // the original constructor (0x56c058, 0x56c0a8) is not reconstructed
+    // 0x56cc44 (D1), 0x56ccc4 (D2): PARTIAL, releases the archive lists through clear().
+    ~CFileSystem();
+
+    // 0x56cb78: PARTIAL, drops the archives. The port keeps no archive lists (zip, pak and
+    // unzip), so there is nothing to drop.
+    void clear();
+    // 0x56df38: PARTIAL, 1 when a file of the name can be opened for reading. The archive
+    // lists are not searched.
+    int existFile(const char* name) const;
+    // 0x34df7c: forwards to the name overload.
+    int existFile(const std::string& name) const;
 
     // 0x56c214: the working directory as last set by changeWorkingDirectoryTo.
     static const char* getWorkingDirectory();
@@ -39,6 +50,12 @@ public:
     CAttributes* createEmptyAttributes(glitch::video::IVideoDriver* driver);
     // 0x56c348: returns a copy of the name (the original does no path resolution here).
     std::string getAbsolutePath(const std::string& path) const;
+    // 0x56c6b4: the part before the last '/' or '\\', or "." when there is none.
+    std::string getFileDir(const std::string& path) const;
+    // 0x56c740: the file name after the last separator; without keepExtension the text from the
+    // last '.' is dropped too. PARTIAL: a dot before the separator is not handled as the original
+    // (its length is computed unsigned and can wrap).
+    std::string getFileBasename(const std::string& path, bool keepExtension) const;
 
     // The working directory is a process-wide static in the original.
     static std::string WorkingDirectory;  // _ZN6glitch2io11CFileSystem16WorkingDirectoryE

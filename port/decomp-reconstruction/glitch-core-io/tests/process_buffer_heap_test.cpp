@@ -1,0 +1,84 @@
+// Process buffer heap: sizes, block carving, merging on release, the dump, the excess
+// fallback and the rule that the heap cannot be resized while blocks are in use.
+#include "glitch-core-io/core/process_buffer.hpp"
+
+#include <cstdio>
+#include <string>
+#include <vector>
+
+#define CHECK(c)                                                       \
+    do {                                                               \
+        if (!(c)) {                                                    \
+            std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c);   \
+            ++failures;                                                \
+        }                                                              \
+    } while (0)
+
+namespace {
+
+class RecordingLogger : public glitch::os::ILogger {
+public:
+    glitch::os::ELOG_LEVEL getLogLevel() const override { return glitch::os::ELL_DEBUG; }
+    void setLogLevel(glitch::os::ELOG_LEVEL) override {}
+    void log(const char* text, glitch::os::ELOG_LEVEL) override { lines.push_back(text); }
+    void log(const char* text, const char*, glitch::os::ELOG_LEVEL) override { lines.push_back(text); }
+    void log(const wchar_t*, glitch::os::ELOG_LEVEL) override {}
+    std::vector<std::string> lines;
+};
+
+}  // namespace
+
+int main() {
+    using namespace glitch::core;
+    int failures = 0;
+
+    CHECK(getProcessBufferHeapSize() == 0);
+    setProcessBufferHeapSize(64);
+    CHECK(getProcessBufferHeapSize() == 64);
+    CHECK(getProcessBufferHeapAvailableMemory() == 56);
+
+    // Three blocks of 4 bytes take 3 words each (header, one data word, footer).
+    int* a = allocProcessBuffer(4);
+    int* b = allocProcessBuffer(4);
+    int* c = allocProcessBuffer(4);
+    CHECK(a && b && c);
+    CHECK(b == a + 3 && c == b + 3);
+    CHECK(getProcessBufferHeapAvailableMemory() == 56 - 36);
+
+    // The heap cannot be resized while blocks are in use.
+    setProcessBufferHeapSize(128);
+    CHECK(getProcessBufferHeapSize() == 64);
+
+    RecordingLogger logger;
+    dumpProcessBufferAllocations(&logger, glitch::os::ELL_DEBUG);
+    CHECK(logger.lines.size() == 3);
+    if (logger.lines.size() == 3) {
+        CHECK(logger.lines[0].find(":        4") != std::string::npos);
+    }
+
+    // Releasing the middle block leaves a free block between two allocated ones.
+    releaseProcessBuffer(b);
+    // Releasing the first block merges it with the free middle block.
+    releaseProcessBuffer(a);
+    // Releasing the last block gives the whole range back to the top.
+    releaseProcessBuffer(c);
+    CHECK(getProcessBufferHeapAvailableMemory() == 56);
+
+    logger.lines.clear();
+    dumpProcessBufferAllocations(&logger, glitch::os::ELL_DEBUG);
+    CHECK(logger.lines.empty());
+
+    // A request larger than the heap fails unless excess is enabled.
+    CHECK(allocProcessBuffer(1000) == nullptr);
+    setProcessBufferHeapExcessEnabled(true);
+    int* big = allocProcessBuffer(1000);
+    CHECK(big != nullptr);
+    releaseProcessBuffer(big);  // freed with free(), not returned to the heap
+    setProcessBufferHeapExcessEnabled(false);
+    CHECK(getProcessBufferHeapAvailableMemory() == 56);
+
+    setProcessBufferHeapSize(0);
+    CHECK(getProcessBufferHeapSize() == 0);
+    if (failures == 0) std::printf("process buffer heap: all checks passed\n");
+    return failures == 0 ? 0 : 1;
+}

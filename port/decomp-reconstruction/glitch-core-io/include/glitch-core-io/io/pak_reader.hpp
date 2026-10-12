@@ -27,13 +27,36 @@ struct SPakFileEntry {
     std::int32_t size = 0;    // +0x4c: size of the file data (limit of the reader)
 };
 
+// 0x56fa04 / 0x56fc0c use operator< on entries. PARTIAL: the decompiled comparator reads a
+// string field at +0x28..+0x2c; the port compares the name (+0x18), the field that findFile
+// keys on. Order of equal-prefix names follows std::string, not the original's signed char
+// compare.
+bool operator<(const SPakFileEntry& a, const SPakFileEntry& b);
+
 class CPakReader : public glitch::IReferenceCounted {
 public:
     // The original constructor (0x57002c, 0x5700c4) reads the directory through
     // scanLocalHeader and sorts it; neither is reconstructed. This default constructor
     // gives an empty directory (used by the tests).
     CPakReader() = default;
+    // 0x57002c (C1), 0x5700c4 (C2): references the file and scans its directory once.
+    // PARTIAL: the scan (scanLocalHeader) and the entry sort are not reconstructed.
+    CPakReader(IReadFile* file, bool flagA, bool flagB);
     ~CPakReader() override;  // 0x56f6f4 (D1), 0x56f73c (D2): drops the read file
+
+    // 0x56f784: seeks the archive file to the entry's offset and returns a limit reader over the
+    // entry's size, named after the entry.
+    IReadFile* openFile(int index);
+    // 0x5703b8: the reader for the named entry; null when there is no such entry.
+    IReadFile* openFile(const char* name);
+    // 0x5702b4: PARTIAL. Index of the entry whose name matches (the key's name is lower-cased
+    // when flagA is set), or -1. The lookup is a binary search over the sorted entries.
+    int findFile(const char* name);
+    // 0x56fcec: PARTIAL. Lower-cases the path when flagA is set; the separator trimming that
+    // follows in the original is not recovered (the pseudocode indexes a fixed offset).
+    void extractFilename(SPakFileEntry* entry);
+    // Directory scan, not reconstructed: records nothing.
+    void scanLocalHeader();
 
     CPakReader(const CPakReader&) = delete;
     CPakReader& operator=(const CPakReader&) = delete;

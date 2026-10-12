@@ -226,7 +226,14 @@ public:
 
 class CLightAttribute : public IAttribute {
 public:
+    // 0x56514c (D1): drops the driver (+0x28); the light is released after this body.
+    ~CLightAttribute() override;
     boost::intrusive_ptr<glitch::video::CLight> light;  // +0x24
+    // Reference counted driver (+0x28). The constructor (0x566c90) is not reconstructed, so
+    // it is only set by hand here.
+    glitch::video::IVideoDriver* driver = nullptr;
+    // 0x56377c: "light" when a light is set, else the empty string.
+    std::wstring getStringW() const override;
     bool getBool() const override;  // 0x5606c4
     void setString(const char*) override;  // 0x5606d4 (no-op)
     int getType() const override;  // 0x5606d8

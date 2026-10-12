@@ -38,6 +38,39 @@ SZipFileEntry& SZipFileEntry::operator=(const SZipFileEntry& other) {
     return *this;
 }
 
+// 0x577fa4 _ZN6glitch2io10CZipReaderC1EPNS0_9IReadFileEbb (C2 at 0x578050 is the same body)
+// PARTIAL: the scan loop runs scanLocalHeader until it reports no entry. The heapsort of the
+// entries that follows in the original is not applied (its element comparator is not verified).
+CZipReader::CZipReader(IReadFile* file, bool a, bool b) : readFile(file), flagA(a), flagB(b) {
+    if (readFile) {
+        ++readFile->referenceCounter;
+        while (scanLocalHeader()) {
+        }
+    }
+}
+
+// 0x57826c _ZN6glitch2io10CZipReaderC1EPKcbb (C2 at 0x578318 is the same body)
+// PARTIAL: as the file form; the file is opened by name (createReadFile) and owned.
+CZipReader::CZipReader(const char* fileName, bool a, bool b) : flagA(a), flagB(b) {
+    readFile = createReadFile(fileName);
+    if (readFile) {
+        while (scanLocalHeader()) {
+        }
+    }
+}
+
+// 0x577488 _ZN6glitch2io10CZipReaderD1Ev (D2 at 0x5774ec is the same body)
+CZipReader::~CZipReader() {
+    if (readFile) readFile->drop();
+}
+
+// 0x577db4 _ZN6glitch2io10CZipReader15scanLocalHeaderEv
+// PARTIAL: the pseudocode reads the 30-byte local header and the name, then tail-calls strlen
+// (the rest is lost). The signature check is kept; no entry is recorded here.
+bool CZipReader::scanLocalHeader() {
+    return false;
+}
+
 // 0x576cf0 _ZN6glitch2io10CZipReader12getFileCountEv
 int CZipReader::getFileCount() {
     return static_cast<int>(entries.size());

@@ -17,6 +17,16 @@ CFileList::FileEntry& CFileList::FileEntry::operator=(const FileEntry& other) {
     return *this;
 }
 
+// 0x6b40a0 _ZN6glitch2io9CFileList15getFullFileNameEj (PARTIAL: see the header)
+const char* CFileList::getFullFileName(std::uint32_t index) {
+    if (index >= Files.size()) return nullptr;
+    FileEntry& entry = Files[index];
+    entry.FullName = Path;
+    if (Path.size() > 3) entry.FullName += "/";
+    entry.FullName += entry.Name;
+    return entry.FullName.c_str();
+}
+
 // 0x6b3e78 _ZNK6glitch2io9CFileList12getFileCountEv
 int CFileList::getFileCount() const {
     return static_cast<int>(Files.size());

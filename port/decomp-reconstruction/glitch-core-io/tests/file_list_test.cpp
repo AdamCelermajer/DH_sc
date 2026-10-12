@@ -43,6 +43,17 @@ int main() {
     CHECK(list.isDirectory(0) && !list.isDirectory(1));
     CHECK(!list.isDirectory(2));
 
+    // full names: path, slash when the path is longer than 3 characters, then the name
+    CFileList listed;
+    listed.Path = "data/dir";
+    CFileList::FileEntry item;
+    item.Name = "a.dat";
+    listed.Files.push_back(item);
+    CHECK(std::strcmp(listed.getFullFileName(0), "data/dir/a.dat") == 0);
+    CHECK(listed.getFullFileName(1) == nullptr);
+    listed.Path = "d";
+    CHECK(std::strcmp(listed.getFullFileName(0), "da.dat") == 0);
+
     if (failures == 0) std::printf("file_list_test: all checks passed\n");
     return failures == 0 ? 0 : 1;
 }
