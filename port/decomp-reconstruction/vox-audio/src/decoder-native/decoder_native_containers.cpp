@@ -37,11 +37,11 @@ void DecoderNative::CreateTransitionsContainer(unsigned int count) {
     transitions_ = std::vector<std::vector<TransitionParams>>(count);
 }
 
-// 0x872ac8 (partial). The original returns the result of NativePlaylistsManager::Init,
-// which the port does not return; IsValid() stands in for it.
+// 0x872ac8. Tail-calls NativePlaylistsManager::Init on the manager at +0x38 and returns its
+// result. The original returns the array pointer through an int; here 1 means the array was
+// allocated and 0 means it was not.
 int DecoderNative::CreatePlaylistsContainer(int count) {
-    playlists_.Init(count);
-    return playlists_.IsValid() ? 1 : 0;
+    return playlists_.Init(count) != nullptr ? 1 : 0;
 }
 
 }  // namespace vox

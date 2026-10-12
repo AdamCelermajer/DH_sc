@@ -251,12 +251,6 @@ void DecoderNativeCursor::SetLoop(bool on) {
     (void)on;
 }
 
-// 0x872cf0 (partial, not reproduced). The segment cue loop depends on the 24-byte
-// record layout and on a goto ordering that the decompiler output does not make clear
-// (the same value is pushed twice on one path). Left empty until that is traced.
-void DecoderNativeCursor::SetImplicitSegmentCues() {
-}
-
 // 0x873144. Looks up the state name and appends its index to the pending list.
 void DecoderNativeCursor::SetInteractiveMusicState(const char* name) {
     mutex_.Lock();
@@ -267,29 +261,6 @@ void DecoderNativeCursor::SetInteractiveMusicState(const char* name) {
         }
     }
     mutex_.Unlock();
-}
-
-// 0x8738bc (partial). Reads the 8-byte header through the stream, rewinding it first when
-// it is not at offset 0, and checks the "VoxN" magic. The chunk loop that follows
-// ('Afmt', 'Segm', 'Cues', 'Grpe', 'Rule', 'Plst', 'Stat' and the end chunk) is not
-// ported, so a file that passes the magic check still returns false here.
-bool DecoderNativeCursor::ParseFile() {
-    if (stream_ == nullptr) {
-        return false;
-    }
-    if (stream_->Tell() != 0) {
-        stream_->Seek(0, 0);
-    }
-    std::uint8_t header[8];
-    if (stream_->Read(header, static_cast<int>(sizeof(header))) != static_cast<int>(sizeof(header))) {
-        return false;
-    }
-    std::uint32_t magic = 0;
-    std::memcpy(&magic, header, sizeof(magic));
-    if (magic != kNativeMagic) {
-        return false;
-    }
-    return false;
 }
 
 // 0x871954. Pops the newest pending state index, or returns -1 when the list is empty.

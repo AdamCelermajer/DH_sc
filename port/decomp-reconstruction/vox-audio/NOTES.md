@@ -822,3 +822,48 @@ Open questions:
   the pseudocode, not from the default constructor (not in the queue).
 - The stale-uid behaviour above is the one place the partial status comes from. Check the
   ARM listing for the uid register before changing it.
+
+## Wave 10 (w10-parsefile): native decoder ParseFile
+
+Source: `ParseFile` 0x8738bc (Hex-Rays, 14 KB; the Trsn call and the Grps block checked against the
+ARM listing), `SetImplicitSegmentCues` 0x872cf0 (branch structure checked against the ARM listing),
+`CreatePlaylistsContainer` 0x872ac8 (tail call to NativePlaylistsManager::Init). ParseFile and
+SetImplicitSegmentCues moved out of decoder_native_cursor.cpp into src/w10-parsefile/.
+
+Layouts (VoxN file, 32-bit offsets):
+- Header: magic "VoxN" (0x4E786F56), body size, then the body. Body word 3 (+0x0c) is the decoder's
+  base offset (+0x18, `header_words_.base_offset`) and the total file length, so the data after the
+  body is total - 16 - body size bytes.
+- Chunk ids (little-endian words): Afmt 0x746D6641, Segm 0x6D676553, Cues 0x73657543, Grpe
+  0x65707247, Rule 0x656C7552, Plst 0x74736C50, Stat 0x74617453, Trsn 0x6E737254 (bytes 54 72 73 6E),
+  Grps 0x73707247. Each chunk is id, size, body. Count-bearing chunks have a count word, then count
+  records of (size - 4) / count bytes.
+- Chunk advance: a count-bearing chunk ends at start + 12 + record size * count, not at its size.
+  Afmt and unknown chunks end at start + 8 + size. A Plst whose manager is invalid advances by 12 only.
+- Afmt: the fmt body fills header_words_ format word (+0x24), field_0c (+0x28) and sample word
+  (+0x2c); the original then writes 16 at +0x2e, the bits half of the sample word.
+- Segment info (NativeChunk, 24 bytes): frame_count at +0x08 is the implicit cue source.
+- Cue record: word 1 is the segment index, word 2 (when the record is 12+ bytes) the cue value.
+- Trsn record: word 0 is the list index, word 2 (default -1) and byte 12 (default 0) form a
+  TransitionParams. The element is 8 bytes (the Trsn loop and the vector growth step by 8), so
+  native_containers.hpp's TransitionParams is now {int32 value_, uint8 flag_} (it was 36 bytes).
+- Stat record: word 0 is the state id; the NUL-terminated name after it is the map key.
+- Plst record: PlaylistInfos (word 0, word 1; word 1 defaults to 1 when the record is shorter).
+- Grpe record: PlaylistElementInfos (8 words; word 0 selects the playlist). Grps record: GroupInfos
+  (24 bytes; unknown_00 selects the playlist).
+
+Decisions:
+- Trsn: the original passes a stack slot to CreateTransitionsContainer that only the Stat case
+  writes (the last Stat count). The port passes the last Stat count (0 when there was none).
+- NativePlaylistsManager::Init returns the array pointer (src/native_playlist.cpp and the header),
+  so CreatePlaylistsContainer can return the allocation result.
+- Malformed input returns false where the original would read or write out of range: chunk past the
+  data, record too short for the word it needs, index outside its table, null manager, negative count.
+  Well-formed files do not reach these.
+- Not kept (ParseFile stays partial): header body words at +0x0c..+0x17 other than the base offset,
+  the Afmt id and size words (+0x1c, +0x20), and fmt bytes past +0x2f. No ported code reads them yet.
+
+Tests: decoder_native_parse_w10_test builds a VoxN file in memory (Afmt, Segm, Cues, Stat, Rule, Trsn,
+Plst, and an unknown chunk) and checks the header words, the cue lists after SetImplicitSegmentCues,
+the state table and name map, the transition lists and the playlist count. Host build passes 56 of 56.
+No MinGW or Wine run in this slice.

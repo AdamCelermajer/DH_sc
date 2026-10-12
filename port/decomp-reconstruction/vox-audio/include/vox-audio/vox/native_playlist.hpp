@@ -165,9 +165,9 @@ public:
     void AddGroup(const GroupInfos* info);
     // 0x882c0c: copies the state of playlist from into playlist to.
     void TransposePlaylistParameters(int from, int to);
-    // 0x882548: allocates count * 4 bytes for the pointer array; a failed allocation
-    // clears the flag. The count at +0x08 is not written here.
-    void Init(int count);
+    // 0x882548: allocates count * 4 bytes for the pointer array and returns it (null when
+    // the allocation fails, which also clears the flag). The count at +0x08 is not written.
+    NativePlaylist** Init(int count);
 
 private:
     friend struct NativePlaylistsManagerTestAccess;

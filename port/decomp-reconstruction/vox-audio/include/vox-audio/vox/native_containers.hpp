@@ -30,10 +30,12 @@ struct TransitionRule {
     std::int32_t field_20_ = 0;  // +0x20
 };
 
-// One transition parameter record, 36 bytes in the original. Its fields are not named yet;
-// the words are kept so the record has the original size.
+// One transition parameter entry, 8 bytes in the original: an int and a byte, pushed by the
+// Trsn loop of ParseFile (the vector growth steps by 8 bytes). The int is record word 2 (-1
+// when the record is short) and the byte is record byte 12 (0 when short).
 struct TransitionParams {
-    std::int32_t words_[9] = {};  // +0x00..+0x1f
+    std::int32_t value_ = -1;  // +0x00
+    std::uint8_t flag_ = 0;    // +0x04
 };
 
 // vox::NativeChunks: the chunk table, a vector of 24-byte records.
