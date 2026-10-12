@@ -13,6 +13,12 @@ Ownership rules, applied in order:
    (any claimed function in the class, or a RESERVED name pattern) stay with
    that session; their remaining functions are listed but not queued here.
 4. Everything else gets exactly one category from CATEGORY_RULES.
+
+Track B (branch track-b/development) reconstructs the whole game, so rules 1 and 3
+no longer hold functions back. Claimed and reserved functions are routed like any
+other: game-bucket rows that the net and pydata rules do not take go to the game-*
+categories in GAME_RULES; other buckets go through CATEGORY_RULES. Rows that rules 1
+and 3 used to hold back only ever add to a queue, so earlier queues keep their rows.
 """
 from __future__ import annotations
 
@@ -95,6 +101,26 @@ CATEGORY_RULES = [
 ]
 
 
+# Track B gameplay categories, for the game-bucket functions the live-gameplay session
+# used to own. Applied in order; game-app is the catch-all.
+GAME_RULES = [
+    ("game-anim", lambda o, d: re.match(r"^(Anim|Animator|BlendedAnim|v2[A-Z]|AnimationSet|AnimSet|CharAnim)", o)),
+    ("game-character", lambda o, d: re.match(r"^(Character|Char[A-Z]|CS[A-Z]|AIS|AI[A-Z_]|Player(Info|Light)?$|PlayerManager|Monster|NPC|Faery|Spawn)", o)),
+    ("game-ui", lambda o, d: re.match(r"^(Menu|MultiMenu|HUD|InfoHUD|GameSWF|SWF|Flash|FSCommand|Dialog|CharMenu|AchievementMsg|SlideEvent|"
+                                      r"OnScreenKeyboard|Drag|Drop|Anchor|Sort|AbstractTableModel|CharPropTextField|StringManager|Font)", o)),
+    ("game-items-save", lambda o, d: re.match(r"^(Item|Quest|QE_|Objective|Reward|Condition|Savegame|SavegameManager|LevelSavegame|"
+                                              r"PlayerSavegame|QuestSavegame|Property|PropertyInstance|PropertyMap|SimpleTypeProperty|"
+                                              r"Trophy|PlayerStat|UserProperties|Loot|Gold|Potion|Inventory)", o)),
+    ("game-world", lambda o, d: re.match(r"^(GameObject|ObjectManager|ObjectSearcher|ObjectHandle|ObjectBase|Level|GSLevel|Room|CRoom|Zone|"
+                                         r"CheckpointZone|Trigger|Door|Container|OpenableContainer|DestructibleContainer|SlotContainer|"
+                                         r"Projectile|LaserType|.*Trap$|PF|Physical|Liftable|Decor|AnimatedDecor|Dummy|Floor|ColBox|"
+                                         r"VisualObject|VisualFX|AnimatedFX|Light|Camera|SceneManager|RootSceneNode|.*SceneNode$|"
+                                         r"AssetManager|IrrFactory|ColladaFactory|BufferedRenderer|Billboard|batch|MaterialData|Module|"
+                                         r"LevelConfig|LevelMap|SoundEmitter|Vector3DFList|Point[23]D|PolyStat)", o)),
+    ("game-app", lambda o, d: True),
+]
+
+
 FUN_NAME = re.compile(r"^(?:thunk_)?FUN_([0-9a-fA-F]+)$")
 
 
@@ -125,14 +151,16 @@ def main() -> int:
     cats = defaultdict(list)
     for r in rows:
         b, o, d = r["bucket"], r["owner"], r["demangled"]
-        if r["claimed"] == "1":
-            cats["done-claimed"].append(r)
-        elif b in ("thunk", "wrapper-stormgloft", "runtime-stl"):
+        held = r["claimed"] == "1" or (b == "game" and ((o != "<global>" and owner_claimed[o]) or RESERVED.match(o)
+                                                     or (o == "<global>" and GLOBAL_RESERVED.match(d)))
+                                       and not re.match(r"^(Structs|Arrays|PyData)", o))
+        if b in ("thunk", "wrapper-stormgloft", "runtime-stl"):
             cats["skip-" + b].append(r)
         elif b in ("lib-gameswf", "lib-lua", "lib-box2d"):
             cats["upstream-vendored-" + b.removeprefix("lib-")].append(r)
-        elif b == "game" and ((o != "<global>" and owner_claimed[o]) or RESERVED.match(o) or (o == "<global>" and GLOBAL_RESERVED.match(d))) and not re.match(r"^(Structs|Arrays|PyData)", o):
-            cats["other-session-gameplay"].append(r)
+        elif held and b == "game" and not any(rule(o, d, b) for name, rule in CATEGORY_RULES
+                                              if name in ("pydata-accessors", "net-transport", "net-session-online")):
+            cats[next(name for name, rule in GAME_RULES if rule(o, d))].append(r)
         else:
             for name, rule in CATEGORY_RULES:
                 if rule(o, d, b):
@@ -144,7 +172,7 @@ def main() -> int:
     for name, items in sorted(cats.items()):
         summary[name] = {"functions": len(items), "bytes": sum(int(i["body_bytes"]) for i in items),
                          "top_owners": Counter(i["owner"] for i in items).most_common(12)}
-        if name in {n for n, _ in CATEGORY_RULES}:
+        if name in {n for n, _ in CATEGORY_RULES} | {n for n, _ in GAME_RULES}:
             out = PORT / name
             out.mkdir(parents=True, exist_ok=True)
             items.sort(key=lambda i: (i["owner"], int(i["elf_address"], 16)))

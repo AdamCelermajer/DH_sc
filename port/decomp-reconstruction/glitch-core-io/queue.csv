@@ -1,5 +1,6 @@
 elf_address,body_bytes,owner,name,demangled
 310be8,64,engine-glitch,_ZN5boost13intrusive_ptrIN6glitch5video9CMaterialEED1Ev,boost::intrusive_ptr<glitch::video::CMaterial>::~intrusive_ptr()
+312bf8,32,engine-glitch,_ZNK6glitch4core8CMatrix4IfE21multiplyWith1x4MatrixEPf,glitch::core::CMatrix4<float>::multiplyWith1x4Matrix(float*) const
 31d580,4,engine-glitch,_ZN6glitch17IReferenceCountedD1Ev,glitch::IReferenceCounted::~IReferenceCounted()
 31d584,72,engine-glitch,_ZNK6glitch17IReferenceCounted4dropEv,glitch::IReferenceCounted::drop() const
 31d5cc,4,engine-glitch,_ZN6glitch17IReferenceCounted8onDeleteEv,glitch::IReferenceCounted::onDelete()
@@ -138,6 +139,7 @@ elf_address,body_bytes,owner,name,demangled
 322d98,40,engine-glitch,_ZN6glitch2io15CFloatAttribute9setStringEPKc,glitch::io::CFloatAttribute::setString(char const*)
 323220,40,engine-glitch,_ZN6glitch2io14CBoolAttribute9setStringEPKc,glitch::io::CBoolAttribute::setString(char const*)
 32324c,112,engine-glitch,_ZN6glitch2io15CColorAttribute9setStringEPKc,glitch::io::CColorAttribute::setString(char const*)
+3232c0,76,engine-glitch,_ZNK6glitch4core8CMatrix4IfE10getInverseERS2_,glitch::core::CMatrix4<float>::getInverse(glitch::core::CMatrix4<float>&) const
 324564,248,engine-glitch,_ZN6glitch2io17CNumbersAttribute11setIntArrayERSt6vectorIiNS_4core10SAllocatorIiLNS_6memory13E_MEMORY_HINTE0EEEE,"glitch::io::CNumbersAttribute::setIntArray(std::vector<int, glitch::core::SAllocator<int, (glitch::memory::E_MEMORY_HINT)0> >&)"
 32465c,348,engine-glitch,_ZN6glitch2io17CNumbersAttribute13setQuaternionENS_4core10quaternionE,glitch::io::CNumbersAttribute::setQuaternion(glitch::core::quaternion)
 3247b8,340,engine-glitch,_ZN6glitch2io17CNumbersAttribute7setRectENS_4core4rectIiEE,glitch::io::CNumbersAttribute::setRect(glitch::core::rect<int>)
@@ -209,6 +211,9 @@ elf_address,body_bytes,owner,name,demangled
 32d3d4,296,engine-glitch,_ZN6glitch2io16CStringAttribute8setFloatEf,glitch::io::CStringAttribute::setFloat(float)
 32d52c,428,engine-glitch,_ZN6glitch2io17CNumbersAttribute10getStringWEv,glitch::io::CNumbersAttribute::getStringW()
 32d6fc,112,engine-glitch,_ZN6glitch2io15CFloatAttribute10getStringWEv,glitch::io::CFloatAttribute::getStringW()
+34033c,56,engine-glitch,_ZNK6glitch4core7plane3dIfE23getIntersectionWithLineERKNS0_8vector3dIfEES6_RS4_,"glitch::core::plane3d<float>::getIntersectionWithLine(glitch::core::vector3d<float> const&, glitch::core::vector3d<float> const&, glitch::core::vector3d<float>&) const"
+341260,36,engine-glitch,_ZNK6glitch4core7plane3dIfE24getIntersectionWithPlaneERKS2_RNS0_8vector3dIfEES7_,"glitch::core::plane3d<float>::getIntersectionWithPlane(glitch::core::plane3d<float> const&, glitch::core::vector3d<float>&, glitch::core::vector3d<float>&) const"
+3415d8,100,engine-glitch,_ZNK6glitch4core7plane3dIfE25getIntersectionWithPlanesERKS2_S4_RNS0_8vector3dIfEE,"glitch::core::plane3d<float>::getIntersectionWithPlanes(glitch::core::plane3d<float> const&, glitch::core::plane3d<float> const&, glitch::core::vector3d<float>&) const"
 34df7c,24,engine-glitch,_ZNK6glitch2io11CFileSystem9existFileERKSbIcSt11char_traitsIcENS_4core10SAllocatorIcLNS_6memory13E_MEMORY_HINTE0EEEE,"glitch::io::CFileSystem::existFile(std::basic_string<char, std::char_traits<char>, glitch::core::SAllocator<char, (glitch::memory::E_MEMORY_HINT)0> > const&) const"
 350c7c,4,engine-glitch,_ZNK6glitch2io26IAttributeExchangingObject19serializeAttributesEPNS0_11IAttributesEPNS0_26SAttributeReadWriteOptionsE,"glitch::io::IAttributeExchangingObject::serializeAttributes(glitch::io::IAttributes*, glitch::io::SAttributeReadWriteOptions*) const"
 350c80,4,engine-glitch,_ZN6glitch2io26IAttributeExchangingObject21deserializeAttributesEPNS0_11IAttributesEPNS0_26SAttributeReadWriteOptionsE,"glitch::io::IAttributeExchangingObject::deserializeAttributes(glitch::io::IAttributes*, glitch::io::SAttributeReadWriteOptions*)"
@@ -224,19 +229,34 @@ elf_address,body_bytes,owner,name,demangled
 356f08,340,engine-glitch,_ZN6glitch4core8heapsortINS_5scene13CSceneManager21STransparentNodeEntryEEEvPT_i,"void glitch::core::heapsort<glitch::scene::CSceneManager::STransparentNodeEntry>(glitch::scene::CSceneManager::STransparentNodeEntry*, int)"
 357144,360,engine-glitch,_ZN6glitch4core8heapsinkINS_5scene13CSceneManager17SDefaultNodeEntryEEEvPT_ii,"void glitch::core::heapsink<glitch::scene::CSceneManager::SDefaultNodeEntry>(glitch::scene::CSceneManager::SDefaultNodeEntry*, int, int)"
 3572ac,312,engine-glitch,_ZN6glitch4core8heapsortINS_5scene13CSceneManager17SDefaultNodeEntryEEEvPT_i,"void glitch::core::heapsort<glitch::scene::CSceneManager::SDefaultNodeEntry>(glitch::scene::CSceneManager::SDefaultNodeEntry*, int)"
+35bc90,60,engine-glitch,_ZNK6glitch4core10quaternionmlERKNS0_8vector3dIfEE,glitch::core::quaternion::operator*(glitch::core::vector3d<float> const&) const
 35c150,28,engine-glitch,_ZN6glitch4core8aabbox3dIfE14addInternalBoxERKS2_,glitch::core::aabbox3d<float>::addInternalBox(glitch::core::aabbox3d<float> const&)
+35c8f0,28,engine-glitch,_ZN6glitch4core10quaternion9normalizeEv,glitch::core::quaternion::normalize()
+35c9d8,564,engine-glitch,_ZN6glitch4core10quaternion3setEfff,"glitch::core::quaternion::set(float, float, float)"
 35dd08,40,engine-glitch,_ZNK6glitch4core8CMatrix4IfE14transformPlaneERNS0_7plane3dIfEE,glitch::core::CMatrix4<float>::transformPlane(glitch::core::plane3d<float>&) const
 35e118,304,engine-glitch,_ZNK6glitch4core6detail12CMatrix4BaseIfE4multERKS3_,glitch::core::detail::CMatrix4Base<float>::mult(glitch::core::detail::CMatrix4Base<float> const&) const
+35e8e0,28,engine-glitch,_ZN6glitch4core8vector3dIfE9normalizeEv,glitch::core::vector3d<float>::normalize()
 35e998,88,engine-glitch,_ZNK6glitch4core8CMatrix4IfEmlERKS2_,glitch::core::CMatrix4<float>::operator*(glitch::core::CMatrix4<float> const&) const
+35eb90,64,engine-glitch,_ZN5boost13intrusive_ptrIKN6glitch5video14CVertexStreamsEED1Ev,boost::intrusive_ptr<glitch::video::CVertexStreams const>::~intrusive_ptr()
 35f188,44,engine-glitch,_ZN6glitch4core17buildShadowMatrixIfEENS0_8CMatrix4IT_EERKNS0_8vector3dIS3_EENS0_7plane3dIS3_EES3_.clone.2,"glitch::core::CMatrix4<float> glitch::core::buildShadowMatrix<float>(glitch::core::vector3d<float> const&, glitch::core::plane3d<float>, float)"
 37b564,4,engine-glitch,_ZN5boost4hashISsED1Ev,"boost::hash<std::basic_string<char, std::char_traits<char>, std::allocator<char> > >::~hash()"
+37c164,132,engine-glitch,_ZN6glitch4core10hashStringEPKc,glitch::core::hashString(char const*)
 384df8,56,engine-glitch,_ZN5boost13intrusive_ptrIN6glitch5video8ITextureEEaSERKS4_,boost::intrusive_ptr<glitch::video::ITexture>::operator=(boost::intrusive_ptr<glitch::video::ITexture> const&)
 404bbc,404,engine-glitch,_ZN6glitch2io17CNumbersAttributeC2EPKcRKNS_5video7SColorfEb.clone.2,"glitch::io::CNumbersAttribute::CNumbersAttribute(char const*, glitch::video::SColorf const&, bool)"
 40e574,404,engine-glitch,_ZN6glitch2io17CNumbersAttributeC2EPKcRKNS_5video7SColorfEb.clone.2,"glitch::io::CNumbersAttribute::CNumbersAttribute(char const*, glitch::video::SColorf const&, bool)"
+40ea54,28,engine-glitch,_ZN6glitch4core6detail12CMatrix4BaseIfE20setbyproduct_nocheckERKS3_S5_,"glitch::core::detail::CMatrix4Base<float>::setbyproduct_nocheck(glitch::core::detail::CMatrix4Base<float> const&, glitch::core::detail::CMatrix4Base<float> const&)"
 40f0b4,36,engine-glitch,_ZNK6glitch4core7plane3dIfE30getIntersectionWithLimitedLineERKNS0_8vector3dIfEES6_RS4_,"glitch::core::plane3d<float>::getIntersectionWithLimitedLine(glitch::core::vector3d<float> const&, glitch::core::vector3d<float> const&, glitch::core::vector3d<float>&) const"
+410e48,40,engine-glitch,_ZN6glitch4core10quaternion13fromAngleAxisEfRKNS0_8vector3dIfEE.clone.1,"glitch::core::quaternion::fromAngleAxis(float, glitch::core::vector3d<float> const&)"
 41742c,32,engine-glitch,_ZN5boost13intrusive_ptrIN6glitch5video8ITextureEED1Ev,boost::intrusive_ptr<glitch::video::ITexture>::~intrusive_ptr()
 417974,68,engine-glitch,_ZN5boost13intrusive_ptrIN6glitch5video8ITextureEEaSERKS4_.clone.1,boost::intrusive_ptr<glitch::video::ITexture>::operator=(boost::intrusive_ptr<glitch::video::ITexture> const&)
 420060,92,engine-glitch,_ZNK6glitch4core8vector2dIfE8getAngleEv,glitch::core::vector2d<float>::getAngle() const
+432984,32,engine-glitch,_ZNK6glitch4core10quaternion9getMatrixERNS0_8CMatrix4IfEE,glitch::core::quaternion::getMatrix(glitch::core::CMatrix4<float>&) const
+432bbc,668,engine-glitch,_ZNK6glitch4core8CMatrix4IfE18getRotationDegreesEv,glitch::core::CMatrix4<float>::getRotationDegrees() const
+432e58,144,engine-glitch,_ZNK6glitch4core10quaternion13toEulerDegreeERNS0_8vector3dIfEE,glitch::core::quaternion::toEulerDegree(glitch::core::vector3d<float>&) const
+50eeb4,36,engine-glitch,_ZN6glitch4core10quaternionaSERKNS0_8CMatrix4IfEE,glitch::core::quaternion::operator=(glitch::core::CMatrix4<float> const&)
+50f6d8,80,engine-glitch,_ZN6glitch4core6detail12CMatrix4BaseIfE6multEqERKS3_,glitch::core::detail::CMatrix4Base<float>::multEq(glitch::core::detail::CMatrix4Base<float> const&)
+50fbb0,24,engine-glitch,_ZN6glitch4core8CMatrix4IfEC1ERKS2_NS2_12eConstructorE.clone.4,"glitch::core::CMatrix4<float>::CMatrix4(glitch::core::CMatrix4<float> const&, glitch::core::CMatrix4<float>::eConstructor)"
+525310,36,engine-glitch,_ZNK6glitch4core6line2dIfE13intersectWithERKS2_RNS0_8vector2dIfEE,"glitch::core::line2d<float>::intersectWith(glitch::core::line2d<float> const&, glitch::core::vector2d<float>&) const"
 534218,24,engine-glitch,_ZN6glitch4core24getProcessBufferHeapSizeEv,glitch::core::getProcessBufferHeapSize()
 534234,28,engine-glitch,_ZN6glitch4core35getProcessBufferHeapAvailableMemoryEv,glitch::core::getProcessBufferHeapAvailableMemory()
 534254,16,engine-glitch,_ZN6glitch4core32isProcessBufferHeapExcessEnabledEv,glitch::core::isProcessBufferHeapExcessEnabled()
@@ -257,6 +277,7 @@ elf_address,body_bytes,owner,name,demangled
 542390,112,engine-glitch,_ZN6glitch4core7wcsicmpEPKwS2_,"glitch::core::wcsicmp(wchar_t const*, wchar_t const*)"
 55bd58,12,engine-glitch,_ZN6glitch4core16getUTF8charValueEPKc,glitch::core::getUTF8charValue(char const*)
 55be04,212,engine-glitch,_ZN6glitch4core17iterateUTF8StringERPKc,glitch::core::iterateUTF8String(char const*&)
+5602d0,32,engine-glitch,_ZNK6glitch4core10quaternion20getMatrix_transposedERNS0_8CMatrix4IfEE,glitch::core::quaternion::getMatrix_transposed(glitch::core::CMatrix4<float>&) const
 560484,8,engine-glitch,_ZNK6glitch2io19CVector2DIAttribute7getTypeEv,glitch::io::CVector2DIAttribute::getType() const
 56048c,12,engine-glitch,_ZNK6glitch2io19CVector2DIAttribute13getTypeStringEv,glitch::io::CVector2DIAttribute::getTypeString() const
 56049c,8,engine-glitch,_ZNK6glitch2io19CVector3DIAttribute7getTypeEv,glitch::io::CVector3DIAttribute::getType() const
@@ -429,6 +450,7 @@ elf_address,body_bytes,owner,name,demangled
 563858,96,engine-glitch,_ZN6glitch2io11CAttributes10getStringWEPKcPw,"glitch::io::CAttributes::getStringW(char const*, wchar_t*)"
 563a54,220,engine-glitch,_ZN6glitch2io11CAttributes8SContext5clearEv,glitch::io::CAttributes::SContext::clear()
 563b30,36,engine-glitch,_ZN6glitch2io11CAttributes5clearEv,glitch::io::CAttributes::clear()
+563b54,24,engine-glitch,_ZN6glitch4core8CMatrix4IfEC1ERKS2_NS2_12eConstructorE.clone.1,"glitch::core::CMatrix4<float>::CMatrix4(glitch::core::CMatrix4<float> const&, glitch::core::CMatrix4<float>::eConstructor)"
 563b74,80,engine-glitch,_ZN6glitch2io11CAttributes12setAttributeEiRKNS_4core8CMatrix4IfEE,"glitch::io::CAttributes::setAttribute(int, glitch::core::CMatrix4<float> const&)"
 563bc4,64,engine-glitch,_ZN6glitch2io20CQuaternionAttribute9getMatrixEv,glitch::io::CQuaternionAttribute::getMatrix()
 563c04,60,engine-glitch,_ZN6glitch2io19CVector4DIAttribute9getMatrixEv,glitch::io::CVector4DIAttribute::getMatrix()
@@ -644,9 +666,20 @@ elf_address,body_bytes,owner,name,demangled
 56eb48,4,engine-glitch,_ZN5boost6detail15sp_counted_baseD1Ev,boost::detail::sp_counted_base::~sp_counted_base()
 56eb4c,28,engine-glitch,_ZN5boost6detail15sp_counted_base7destroyEv,boost::detail::sp_counted_base::destroy()
 56eb68,4,engine-glitch,_ZN5boost6detail26sp_enable_shared_from_thisEz,boost::detail::sp_enable_shared_from_this(...)
+56eb6c,20,engine-glitch,_ZN6glitch2io15CMemoryReadFile9getBufferEPl,glitch::io::CMemoryReadFile::getBuffer(long*)
+56eb80,8,engine-glitch,_ZNK6glitch2io15CMemoryReadFile13isAllInMemoryEv,glitch::io::CMemoryReadFile::isAllInMemory() const
 56eb88,4,engine-glitch,_ZN6glitch2io9IReadFileD1Ev,glitch::io::IReadFile::~IReadFile()
+56eb8c,32,engine-glitch,_ZNK6glitch2io15CMemoryReadFile7isValidEv,glitch::io::CMemoryReadFile::isValid() const
+56ebac,52,engine-glitch,_ZN6glitch2io15CMemoryReadFile9readAsyncEPvjPFviiPNS0_9IReadFileES2_ES2_,"glitch::io::CMemoryReadFile::readAsync(void*, unsigned int, void (*)(int, int, glitch::io::IReadFile*, void*), void*)"
+56ebe0,92,engine-glitch,_ZN6glitch2io15CMemoryReadFile9readAsyncEPvjlPFviiPNS0_9IReadFileES2_ES2_,"glitch::io::CMemoryReadFile::readAsync(void*, unsigned int, long, void (*)(int, int, glitch::io::IReadFile*, void*), void*)"
+56ec3c,60,engine-glitch,_ZN6glitch2io15CMemoryReadFile4seekElb,"glitch::io::CMemoryReadFile::seek(long, bool)"
+56ec78,8,engine-glitch,_ZNK6glitch2io15CMemoryReadFile7getSizeEv,glitch::io::CMemoryReadFile::getSize() const
+56ec80,8,engine-glitch,_ZNK6glitch2io15CMemoryReadFile6getPosEv,glitch::io::CMemoryReadFile::getPos() const
+56ec88,8,engine-glitch,_ZNK6glitch2io15CMemoryReadFile11getFileNameEv,glitch::io::CMemoryReadFile::getFileName() const
+56ec90,8,engine-glitch,_ZNK6glitch2io15CMemoryReadFile11getFullPathEv,glitch::io::CMemoryReadFile::getFullPath() const
 56ec98,4,engine-glitch,_ZN5boost6detail17sp_counted_impl_pIcED1Ev,boost::detail::sp_counted_impl_p<char>::~sp_counted_impl_p()
 56ec9c,8,engine-glitch,_ZN5boost6detail17sp_counted_impl_pIcE11get_deleterERKPv,boost::detail::sp_counted_impl_p<char>::get_deleter(void* const&)
+56ecc4,76,engine-glitch,_ZN6glitch2io15CMemoryReadFile4readEPvj,"glitch::io::CMemoryReadFile::read(void*, unsigned int)"
 56ed1c,100,engine-glitch,_ZN6glitch2io15CMemoryReadFileC1Ev,glitch::io::CMemoryReadFile::CMemoryReadFile()
 56ed8c,100,engine-glitch,_ZN6glitch2io15CMemoryReadFileC2Ev,glitch::io::CMemoryReadFile::CMemoryReadFile()
 56edfc,36,engine-glitch,_ZN6glitch2io15CMemoryReadFile3setEPvlPKc,"glitch::io::CMemoryReadFile::set(void*, long, char const*)"
@@ -871,14 +904,32 @@ elf_address,body_bytes,owner,name,demangled
 57a26c,64,engine-glitch,_ZN5boost13intrusive_ptrIN6glitch5video27CMaterialVertexAttributeMapEED1Ev,boost::intrusive_ptr<glitch::video::CMaterialVertexAttributeMap>::~intrusive_ptr()
 57b36c,100,engine-glitch,_ZN5boost11object_poolIN6glitch4core8aabbox3dIfEENS2_10SAllocatorIS4_LNS1_6memory13E_MEMORY_HINTE0EEEE9constructEv.clone.3,"boost::object_pool<glitch::core::aabbox3d<float>, glitch::core::SAllocator<glitch::core::aabbox3d<float>, (glitch::memory::E_MEMORY_HINT)0> >::construct()"
 5822c8,48,engine-glitch,_ZN6glitch4core6detail12CMatrix4BaseIfE12setbyproductERKS3_S5_,"glitch::core::detail::CMatrix4Base<float>::setbyproduct(glitch::core::detail::CMatrix4Base<float> const&, glitch::core::detail::CMatrix4Base<float> const&)"
+5822f8,76,engine-glitch,_ZN6glitch4core8CMatrix4IfE11makeInverseEv,glitch::core::CMatrix4<float>::makeInverse()
+582c88,180,engine-glitch,_ZN6glitch4core35buildProjectionMatrixPerspectiveFovIfEENS0_8CMatrix4IT_EES3_S3_S3_S3_,"glitch::core::CMatrix4<float> glitch::core::buildProjectionMatrixPerspectiveFov<float>(float, float, float, float)"
+582d90,212,engine-glitch,_ZN6glitch4core43buildProjectionMatrixPerspectiveFovInfinityIfEENS0_8CMatrix4IT_EES3_S3_S3_,"glitch::core::CMatrix4<float> glitch::core::buildProjectionMatrixPerspectiveFovInfinity<float>(float, float, float)"
+582e64,36,engine-glitch,_ZN6glitch4core23buildCameraLookAtMatrixIfEENS0_8CMatrix4IT_EERKNS0_8vector3dIS3_EES8_S8_,"glitch::core::CMatrix4<float> glitch::core::buildCameraLookAtMatrix<float>(glitch::core::vector3d<float> const&, glitch::core::vector3d<float> const&, glitch::core::vector3d<float> const&)"
+58359c,24,engine-glitch,_ZN6glitch4core26buildProjectionMatrixOrthoIfEENS0_8CMatrix4IT_EES3_S3_S3_S3_,"glitch::core::CMatrix4<float> glitch::core::buildProjectionMatrixOrtho<float>(float, float, float, float)"
+585638,32,engine-glitch,_ZNK6glitch4core8aabbox3dIfE8getEdgesEPNS0_8vector3dIfEE,glitch::core::aabbox3d<float>::getEdges(glitch::core::vector3d<float>*) const
+5857ac,452,engine-glitch,_ZNK6glitch4core10triangle3dIfE16isTotalInsideBoxERKNS0_8aabbox3dIfEE,glitch::core::triangle3d<float>::isTotalInsideBox(glitch::core::aabbox3d<float> const&) const
 585970,32,engine-glitch,_ZNK6glitch4core8aabbox3dIfE26intersectsWithLine_impl_1dEffffRfS3_,"glitch::core::aabbox3d<float>::intersectsWithLine_impl_1d(float, float, float, float, float&, float&) const"
 585b08,176,engine-glitch,_ZNK6glitch4core8aabbox3dIfE21intersectsWithSegmentERKNS0_6line3dIfEERfS7_,"glitch::core::aabbox3d<float>::intersectsWithSegment(glitch::core::line3d<float> const&, float&, float&) const"
+585bb8,40,engine-glitch,_ZNK6glitch4core10triangle3dIfE12isOnSameSideERKNS0_8vector3dIfEES6_S6_S6_,"glitch::core::triangle3d<float>::isOnSameSide(glitch::core::vector3d<float> const&, glitch::core::vector3d<float> const&, glitch::core::vector3d<float> const&, glitch::core::vector3d<float> const&) const"
+585de8,120,engine-glitch,_ZNK6glitch4core10triangle3dIfE13isPointInsideERKNS0_8vector3dIfEE,glitch::core::triangle3d<float>::isPointInside(glitch::core::vector3d<float> const&) const
+585e80,40,engine-glitch,_ZNK6glitch4core10triangle3dIfE30getIntersectionOfPlaneWithLineERKNS0_8vector3dIfEES6_RS4_,"glitch::core::triangle3d<float>::getIntersectionOfPlaneWithLine(glitch::core::vector3d<float> const&, glitch::core::vector3d<float> const&, glitch::core::vector3d<float>&) const"
+58615c,44,engine-glitch,_ZNK6glitch4core10triangle3dIfE23getIntersectionWithLineERKNS0_8vector3dIfEES6_RS4_,"glitch::core::triangle3d<float>::getIntersectionWithLine(glitch::core::vector3d<float> const&, glitch::core::vector3d<float> const&, glitch::core::vector3d<float>&) const"
 586188,44,engine-glitch,_ZNK6glitch4core10triangle3dIfE30getIntersectionWithLineSegmentERKNS0_6line3dIfEEfRKNS0_8vector3dIfEERKNS0_8aabbox3dIfEERS8_,"glitch::core::triangle3d<float>::getIntersectionWithLineSegment(glitch::core::line3d<float> const&, float, glitch::core::vector3d<float> const&, glitch::core::aabbox3d<float> const&, glitch::core::vector3d<float>&) const"
+586a14,24,engine-glitch,_ZN6glitch4core8CMatrix4IfEC1ERKS2_NS2_12eConstructorE.clone.0,"glitch::core::CMatrix4<float>::CMatrix4(glitch::core::CMatrix4<float> const&, glitch::core::CMatrix4<float>::eConstructor)"
+587398,48,engine-glitch,_ZNK6glitch4core8CMatrix4IfE12transformBoxERNS0_8aabbox3dIfEE,glitch::core::CMatrix4<float>::transformBox(glitch::core::aabbox3d<float>&) const
 58bad8,224,engine-glitch,_ZN6glitch4core12randomStringEi,glitch::core::randomString(int)
+591444,24,engine-glitch,_ZN6glitch4core8CMatrix4IfEC1ERKS2_NS2_12eConstructorE.clone.1,"glitch::core::CMatrix4<float>::CMatrix4(glitch::core::CMatrix4<float> const&, glitch::core::CMatrix4<float>::eConstructor)"
+597548,188,engine-glitch,_ZNK6glitch4core8CMatrix4IfE14transformBoxExERNS0_8aabbox3dIfEE,glitch::core::CMatrix4<float>::transformBoxEx(glitch::core::aabbox3d<float>&) const
+597788,80,engine-glitch,_ZN6glitch4core8CMatrix4IfE9postScaleERKNS0_8vector3dIfEE,glitch::core::CMatrix4<float>::postScale(glitch::core::vector3d<float> const&)
 597884,68,engine-glitch,_ZNK6glitch4core6detail12CMatrix4BaseIfE6mult34ERKS3_RS3_,"glitch::core::detail::CMatrix4Base<float>::mult34(glitch::core::detail::CMatrix4Base<float> const&, glitch::core::detail::CMatrix4Base<float>&) const"
 598ee4,48,engine-glitch,_ZNK6glitch4core8CMatrix4IfE8getScaleEv,glitch::core::CMatrix4<float>::getScale() const
+59a294,28,engine-glitch,_ZNK6glitch4core8vector3dIfEdvERKS2_,glitch::core::vector3d<float>::operator/(glitch::core::vector3d<float> const&) const
 5a03cc,48,engine-glitch,_ZN6glitch2io11IAttributes7getEnumINS_5video12E_INDEX_TYPEEEET_i,glitch::video::E_INDEX_TYPE glitch::io::IAttributes::getEnum<glitch::video::E_INDEX_TYPE>(int)
 5a10fc,64,engine-glitch,_ZN5boost13intrusive_ptrIN6glitch5video14CVertexStreamsEED1Ev,boost::intrusive_ptr<glitch::video::CVertexStreams>::~intrusive_ptr()
+5a24b4,24,engine-glitch,_ZN6glitch4core8vector3dIfEdVERKS2_,glitch::core::vector3d<float>::operator/=(glitch::core::vector3d<float> const&)
 5a24f8,156,engine-glitch,_ZNK6glitch4core7CKdTreeISt4pairIjNS0_8aabbox3dIfEEEE24findFarthestElemInternalERPKS5_RfPKNS6_7SKdNodeE,"glitch::core::CKdTree<std::pair<unsigned int, glitch::core::aabbox3d<float> > >::findFarthestElemInternal(std::pair<unsigned int, glitch::core::aabbox3d<float> > const*&, float&, glitch::core::CKdTree<std::pair<unsigned int, glitch::core::aabbox3d<float> > >::SKdNode const*) const"
 5a2c2c,416,engine-glitch,_ZN5boost4poolINS_33default_user_allocator_new_deleteEE26ordered_malloc_need_resizeEv,boost::pool<boost::default_user_allocator_new_delete>::ordered_malloc_need_resize()
 5a2dd4,76,engine-glitch,_ZN5boost11object_poolIN6glitch4core7CKdTreeISt4pairIjNS2_8aabbox3dIfEEEE7SKdNodeENS_33default_user_allocator_new_deleteEE9constructEv,"boost::object_pool<glitch::core::CKdTree<std::pair<unsigned int, glitch::core::aabbox3d<float> > >::SKdNode, boost::default_user_allocator_new_delete>::construct()"
@@ -888,6 +939,7 @@ elf_address,body_bytes,owner,name,demangled
 5a4e24,348,engine-glitch,_ZNK6glitch4core7CKdTreeISt4pairIjNS0_8aabbox3dIfEEEE25findKNearestElemsInternalERjRKS5_RSt14priority_queueINS6_11SKdDistanceESt6vectorISB_SaISB_EESt4lessISB_EEPKNS6_7SKdNodeERf,"glitch::core::CKdTree<std::pair<unsigned int, glitch::core::aabbox3d<float> > >::findKNearestElemsInternal(unsigned int&, std::pair<unsigned int, glitch::core::aabbox3d<float> > const&, std::priority_queue<glitch::core::CKdTree<std::pair<unsigned int, glitch::core::aabbox3d<float> > >::SKdDistance, std::vector<glitch::core::CKdTree<std::pair<unsigned int, glitch::core::aabbox3d<float> > >::SKdDistance, std::allocator<glitch::core::CKdTree<std::pair<unsigned int, glitch::core::aabbox3d<float> > >::SKdDistance> >, std::less<glitch::core::CKdTree<std::pair<unsigned int, glitch::core::aabbox3d<float> > >::SKdDistance> >&, glitch::core::CKdTree<std::pair<unsigned int, glitch::core::aabbox3d<float> > >::SKdNode const*, float&) const"
 5a5030,248,engine-glitch,_ZNK6glitch4core7CKdTreeISt4pairIjNS0_8aabbox3dIfEEEE12findKNearestEjRKS5_RSt6vectorIS5_NS0_10SAllocatorIS5_LNS_6memory13E_MEMORY_HINTE0EEEE,"glitch::core::CKdTree<std::pair<unsigned int, glitch::core::aabbox3d<float> > >::findKNearest(unsigned int, std::pair<unsigned int, glitch::core::aabbox3d<float> > const&, std::vector<std::pair<unsigned int, glitch::core::aabbox3d<float> >, glitch::core::SAllocator<std::pair<unsigned int, glitch::core::aabbox3d<float> >, (glitch::memory::E_MEMORY_HINT)0> >&) const"
 5aa3c8,104,engine-glitch,_ZN5boost13intrusive_ptrIN6glitch5video6CLightEED1Ev,boost::intrusive_ptr<glitch::video::CLight>::~intrusive_ptr()
+5aaef8,24,engine-glitch,_ZN6glitch4core8CMatrix4IfEC1ERKS2_NS2_12eConstructorE.clone.6,"glitch::core::CMatrix4<float>::CMatrix4(glitch::core::CMatrix4<float> const&, glitch::core::CMatrix4<float>::eConstructor)"
 5b9118,104,engine-glitch,_ZN5boost13intrusive_ptrIKN6glitch5video6CLightEED1Ev,boost::intrusive_ptr<glitch::video::CLight const>::~intrusive_ptr()
 5b9d6c,32,engine-glitch,_ZN5boost13intrusive_ptrIN6glitch5video7IShaderEED1Ev,boost::intrusive_ptr<glitch::video::IShader>::~intrusive_ptr()
 5b9d8c,8,engine-glitch,_ZNK6glitch4core6detail15SIDedCollectionINS_5video19SShaderParameterDefEtLb0ENS3_6detail30globalmaterialparametermanager10SPropetiesENS6_12SValueTraitsEE4sizeEv,"glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::size() const"
@@ -916,6 +968,7 @@ elf_address,body_bytes,owner,name,demangled
 5ba7b0,24,engine-glitch,_ZNK6glitch4core6detail15SIDedCollectionINS_5video19SShaderParameterDefEtLb0ENS3_6detail30globalmaterialparametermanager10SPropetiesENS6_12SValueTraitsEE5SNameltERKSA_,"glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SName::operator<(glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SName const&) const"
 5ba7c8,44,engine-glitch,_ZN6glitch4core6detail15SIDedCollectionINS_5video19SShaderParameterDefEtLb0ENS3_6detail30globalmaterialparametermanager10SPropetiesENS6_12SValueTraitsEE5SNameD1Ev,"glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SName::~SName()"
 5ba7f4,44,engine-glitch,_ZN6glitch4core6detail15SIDedCollectionINS_5video19SShaderParameterDefEtLb0ENS3_6detail30globalmaterialparametermanager10SPropetiesENS6_12SValueTraitsEE5SNameD2Ev,"glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SName::~SName()"
+5baa94,24,engine-glitch,_ZN6glitch4core8CMatrix4IfEC1ERKS2_NS2_12eConstructorE.clone.1,"glitch::core::CMatrix4<float>::CMatrix4(glitch::core::CMatrix4<float> const&, glitch::core::CMatrix4<float>::eConstructor)"
 5baab4,72,engine-glitch,_ZN6glitch2io11IAttributes7addEnumINS_5video23E_SHADER_PARAMETER_TYPEEEEN5boost10disable_ifINS5_11is_integralIT_EEvE4typeEPKcS8_b.clone.2,"boost::disable_if<boost::is_integral<glitch::video::E_SHADER_PARAMETER_TYPE>, void>::type glitch::io::IAttributes::addEnum<glitch::video::E_SHADER_PARAMETER_TYPE>(char const*, glitch::video::E_SHADER_PARAMETER_TYPE, bool)"
 5bac80,304,engine-glitch,_ZN5boost4poolIN6glitch4core14SAlignedMallocILh4EEEE18malloc_need_resizeEv.clone.8,boost::pool<glitch::core::SAlignedMalloc<(unsigned char)4> >::malloc_need_resize()
 5bb378,84,engine-glitch,_ZNK6glitch4core6detail15SIDedCollectionINS_5video19SShaderParameterDefEtLb0ENS3_6detail30globalmaterialparametermanager10SPropetiesENS6_12SValueTraitsEE5getIdEPKc,"glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::getId(char const*) const"
@@ -930,7 +983,9 @@ elf_address,body_bytes,owner,name,demangled
 5c11cc,8,engine-glitch,_ZN6glitch4core6detail15SIDedCollectionINS_5video19SShaderParameterDefEtLb0ENS3_6detail30globalmaterialparametermanager10SPropetiesENS6_12SValueTraitsEE9removeAllEv,"glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::removeAll()"
 5c11d4,8,engine-glitch,_ZN6glitch4core6detail15SIDedCollectionINS_5video19SShaderParameterDefEtLb0ENS3_6detail30globalmaterialparametermanager10SPropetiesENS6_12SValueTraitsEE12removeUnusedEv,"glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::removeUnused()"
 5c1264,8,engine-glitch,_ZN6glitch4core6detail15SIDedCollectionINS_5video19SShaderParameterDefEtLb0ENS3_6detail30globalmaterialparametermanager10SPropetiesENS6_12SValueTraitsEE6removeEt,"glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::remove(unsigned short)"
+5caf48,24,engine-glitch,_ZN6glitch4core8CMatrix4IfEC1ERKS2_NS2_12eConstructorE.clone.3,"glitch::core::CMatrix4<float>::CMatrix4(glitch::core::CMatrix4<float> const&, glitch::core::CMatrix4<float>::eConstructor)"
 5cb304,304,engine-glitch,_ZN5boost4poolIN6glitch4core14SAlignedMallocILh4EEEE18malloc_need_resizeEv.clone.7,boost::pool<glitch::core::SAlignedMalloc<(unsigned char)4> >::malloc_need_resize()
+5d402c,24,engine-glitch,_ZN6glitch4core8CMatrix4IfEC1ERKS2_NS2_12eConstructorE.clone.1,"glitch::core::CMatrix4<float>::CMatrix4(glitch::core::CMatrix4<float> const&, glitch::core::CMatrix4<float>::eConstructor)"
 5d4350,304,engine-glitch,_ZN5boost4poolIN6glitch4core14SAlignedMallocILh4EEEE18malloc_need_resizeEv.clone.5,boost::pool<glitch::core::SAlignedMalloc<(unsigned char)4> >::malloc_need_resize()
 5d7d34,8,engine-glitch,_ZNK6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS_5video17CMaterialRendererEEEtLb0ENS5_6detail23materialrenderermanager11SPropertiesENS1_15sidedcollection12SValueTraitsEE7idBeginEv,"glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::CMaterialRenderer>, unsigned short, false, glitch::video::detail::materialrenderermanager::SProperties, glitch::core::detail::sidedcollection::SValueTraits>::idBegin() const"
 5d7d3c,4,engine-glitch,_ZNK6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS_5video17CMaterialRendererEEEtLb0ENS5_6detail23materialrenderermanager11SPropertiesENS1_15sidedcollection12SValueTraitsEE5idEndEv,"glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::CMaterialRenderer>, unsigned short, false, glitch::video::detail::materialrenderermanager::SProperties, glitch::core::detail::sidedcollection::SValueTraits>::idEnd() const"
@@ -1065,6 +1120,7 @@ elf_address,body_bytes,owner,name,demangled
 609530,212,engine-glitch,_ZN6glitch4core13copyComponentINS0_8vector3dIfEENS2_IsEENS0_25STransformNormalComponentEEEPT_S7_jPKT0_jtRKT1_,"glitch::core::vector3d<float>* glitch::core::copyComponent<glitch::core::vector3d<float>, glitch::core::vector3d<short>, glitch::core::STransformNormalComponent>(glitch::core::vector3d<float>*, unsigned int, glitch::core::vector3d<short> const*, unsigned int, unsigned short, glitch::core::STransformNormalComponent const&)"
 609778,160,engine-glitch,_ZN6glitch4core13copyComponentINS0_8vector3dIfEENS0_25STransformNormalComponentEEEPT_S6_jPKS5_jtRKT0_,"glitch::core::vector3d<float>* glitch::core::copyComponent<glitch::core::vector3d<float>, glitch::core::STransformNormalComponent>(glitch::core::vector3d<float>*, unsigned int, glitch::core::vector3d<float> const*, unsigned int, unsigned short, glitch::core::STransformNormalComponent const&)"
 609910,212,engine-glitch,_ZN6glitch4core16copyComponentBSFINS0_8vector3dIfEENS0_25STransformNormalComponentEEEPT_S6_jPKhjNS_5video29E_VERTEX_ATTRIBUTE_VALUE_TYPEEtRT0_,"glitch::core::vector3d<float>* glitch::core::copyComponentBSF<glitch::core::vector3d<float>, glitch::core::STransformNormalComponent>(glitch::core::vector3d<float>*, unsigned int, unsigned char const*, unsigned int, glitch::video::E_VERTEX_ATTRIBUTE_VALUE_TYPE, unsigned short, glitch::core::STransformNormalComponent&)"
+60a2cc,24,engine-glitch,_ZN6glitch4core8CMatrix4IfEC1ERKS2_NS2_12eConstructorE.clone.3,"glitch::core::CMatrix4<float>::CMatrix4(glitch::core::CMatrix4<float> const&, glitch::core::CMatrix4<float>::eConstructor)"
 60a384,1884,engine-glitch,_ZN6glitch4core21overrideVertexStreamsILb1ELb0ELb1EEEvPKhRKN5boost13intrusive_ptrIKNS_5video14CVertexStreamsEEEttS3_RKNS5_IS7_EEPKNS6_9CMaterialEhPKNS6_12IVideoDriverEtj,"void glitch::core::overrideVertexStreams<true, false, true>(unsigned char const*, boost::intrusive_ptr<glitch::video::CVertexStreams const> const&, unsigned short, unsigned short, unsigned char const*, boost::intrusive_ptr<glitch::video::CVertexStreams> const&, glitch::video::CMaterial const*, unsigned char, glitch::video::IVideoDriver const*, unsigned short, unsigned int)"
 60aca0,64,engine-glitch,_ZN6glitch2os7Printer3logEPKcNS_10ELOG_LEVELE,"glitch::os::Printer::log(char const*, glitch::ELOG_LEVEL)"
 60ace8,72,engine-glitch,_ZN6glitch2os7Printer3logEPKcS3_NS_10ELOG_LEVELE,"glitch::os::Printer::log(char const*, char const*, glitch::ELOG_LEVEL)"
@@ -1080,6 +1136,7 @@ elf_address,body_bytes,owner,name,demangled
 60afd4,88,engine-glitch,_ZN6glitch2os7Printer4logfEPKcz,"glitch::os::Printer::logf(char const*, ...)"
 60b034,88,engine-glitch,_ZN6glitch2os7Printer4logfENS_10ELOG_LEVELEPKcz,"glitch::os::Printer::logf(glitch::ELOG_LEVEL, char const*, ...)"
 60b094,56,engine-glitch,_ZN6glitch2os5Timer15getMicroSecondsEv,glitch::os::Timer::getMicroSeconds()
+60b0cc,64,engine-glitch,_ZN6glitch2os5Timer11getRealTimeEv,glitch::os::Timer::getRealTime()
 60b10c,44,engine-glitch,_ZN6glitch2os5Timer16initVirtualTimerEv,glitch::os::Timer::initVirtualTimer()
 60b144,4,engine-glitch,_ZN6glitch2os5Timer9initTimerEv,glitch::os::Timer::initTimer()
 60b148,60,engine-glitch,_ZN6glitch2os5Timer7setTimeEj,glitch::os::Timer::setTime(unsigned int)
@@ -1088,13 +1145,26 @@ elf_address,body_bytes,owner,name,demangled
 60b22c,52,engine-glitch,_ZN6glitch2os5Timer4tickEv,glitch::os::Timer::tick()
 60b26c,20,engine-glitch,_ZN6glitch2os7Printer6vprintEPKcSt9__va_list,"glitch::os::Printer::vprint(char const*, std::__va_list)"
 60b280,48,engine-glitch,_ZN6glitch2os7Printer5printEPKcz,"glitch::os::Printer::print(char const*, ...)"
+60cdbc,24,engine-glitch,_ZN6glitch4core10quaternion13fromAngleAxisEfRKNS0_8vector3dIfEE,"glitch::core::quaternion::fromAngleAxis(float, glitch::core::vector3d<float> const&)"
+60ce24,24,engine-glitch,_ZN6glitch4core8CMatrix4IfEC1ERKS2_NS2_12eConstructorE.clone.0,"glitch::core::CMatrix4<float>::CMatrix4(glitch::core::CMatrix4<float> const&, glitch::core::CMatrix4<float>::eConstructor)"
+60dd34,52,engine-glitch,_ZNK6glitch4core10quaternionmlERKS1_,glitch::core::quaternion::operator*(glitch::core::quaternion const&) const
+612d00,52,engine-glitch,_ZN6glitch4core10quaternion5slerpES1_S1_f,"glitch::core::quaternion::slerp(glitch::core::quaternion, glitch::core::quaternion, float)"
+630bfc,92,engine-glitch,_ZN6glitch4core8vector3dIfE10rotateXYByEdRKS2_,"glitch::core::vector3d<float>::rotateXYBy(double, glitch::core::vector3d<float> const&)"
+630cf8,92,engine-glitch,_ZN6glitch4core8vector3dIfE10rotateYZByEdRKS2_,"glitch::core::vector3d<float>::rotateYZBy(double, glitch::core::vector3d<float> const&)"
+630de8,92,engine-glitch,_ZN6glitch4core8vector3dIfE10rotateXZByEdRKS2_,"glitch::core::vector3d<float>::rotateXZBy(double, glitch::core::vector3d<float> const&)"
 631c14,60,engine-glitch,_ZN6glitch4core8CMatrix4IfEC1ENS2_12eConstructorE.clone.0,glitch::core::CMatrix4<float>::CMatrix4(glitch::core::CMatrix4<float>::eConstructor)
 637b8c,32,engine-glitch,_ZN5boost13intrusive_ptrIN6glitch5video7IBufferEED1Ev,boost::intrusive_ptr<glitch::video::IBuffer>::~intrusive_ptr()
 637bac,32,engine-glitch,_ZN5boost13intrusive_ptrIN6glitch5scene11CMeshBufferEED1Ev,boost::intrusive_ptr<glitch::scene::CMeshBuffer>::~intrusive_ptr()
+63ccc8,24,engine-glitch,_ZN6glitch4core8CMatrix4IfEC1ERKS2_NS2_12eConstructorE.clone.5,"glitch::core::CMatrix4<float>::CMatrix4(glitch::core::CMatrix4<float> const&, glitch::core::CMatrix4<float>::eConstructor)"
 65afc0,64,engine-glitch,_ZN5boost13intrusive_ptrIKN6glitch5video17CMaterialRendererEED1Ev,boost::intrusive_ptr<glitch::video::CMaterialRenderer const>::~intrusive_ptr()
+663ce8,88,engine-glitch,_ZNK6glitch4core8CMatrix4IfE10getInverseERS2_.clone.5,glitch::core::CMatrix4<float>::getInverse(glitch::core::CMatrix4<float>&) const
+6651a0,84,engine-glitch,_ZN6glitch4coremlIfNS_7collada7SMatrixEEENS0_8CMatrix4IT_EERKS6_RKT0_,"glitch::core::CMatrix4<float> glitch::core::operator*<float, glitch::collada::SMatrix>(glitch::core::CMatrix4<float> const&, glitch::collada::SMatrix const&)"
+669d4c,24,engine-glitch,_ZN6glitch4core8CMatrix4IfEC1ERKS2_NS2_12eConstructorE.clone.0,"glitch::core::CMatrix4<float>::CMatrix4(glitch::core::CMatrix4<float> const&, glitch::core::CMatrix4<float>::eConstructor)"
+66bf24,24,engine-glitch,_ZN6glitch4core8CMatrix4IfEC1ERKS2_NS2_12eConstructorE.clone.2,"glitch::core::CMatrix4<float>::CMatrix4(glitch::core::CMatrix4<float> const&, glitch::core::CMatrix4<float>::eConstructor)"
 66ce48,56,engine-glitch,_ZN6glitch4core15dual_quaternion16fromQuatAndTransERKNS0_10quaternionERKNS0_8vector3dIfEE,"glitch::core::dual_quaternion::fromQuatAndTrans(glitch::core::quaternion const&, glitch::core::vector3d<float> const&)"
 66d0b8,36,engine-glitch,_ZN6glitch4coreL18rowMatrixProduct34INS0_8CMatrix4IfEES3_A16_fEEvRT_RKT0_RKT1_,"void glitch::core::rowMatrixProduct34<glitch::core::CMatrix4<float>, glitch::core::CMatrix4<float>, float [16]>(glitch::core::CMatrix4<float>&, glitch::core::CMatrix4<float> const&, float const (&) [16])"
 66d85c,76,engine-glitch,_ZN6glitch4core15dual_quaternionaSERKNS0_8CMatrix4IfEE,glitch::core::dual_quaternion::operator=(glitch::core::CMatrix4<float> const&)
+66fb64,24,engine-glitch,_ZN6glitch4core8CMatrix4IfEC1ERKS2_NS2_12eConstructorE.clone.3,"glitch::core::CMatrix4<float>::CMatrix4(glitch::core::CMatrix4<float> const&, glitch::core::CMatrix4<float>::eConstructor)"
 671428,4,engine-glitch,_ZN6glitch6ITimerD1Ev,glitch::ITimer::~ITimer()
 67142c,8,engine-glitch,_ZN6glitch7IDevice15isExitRequestedEv,glitch::IDevice::isExitRequested()
 671438,4,engine-glitch,_ZN6glitch7IDevice16setScreenCaptureEb,glitch::IDevice::setScreenCapture(bool)
@@ -1166,6 +1236,14 @@ elf_address,body_bytes,owner,name,demangled
 6b4338,216,engine-glitch,_ZN6glitch4core8heapsortINS_2io9CFileList9FileEntryEEEvPT_i,"void glitch::core::heapsort<glitch::io::CFileList::FileEntry>(glitch::io::CFileList::FileEntry*, int)"
 6b4418,96,engine-glitch,_ZN6glitch2io9CFileListC1Ev,glitch::io::CFileList::CFileList()
 6b4480,96,engine-glitch,_ZN6glitch2io9CFileListC2Ev,glitch::io::CFileList::CFileList()
+6b44e8,152,engine-glitch,_ZN6glitch2io14CLimitReadFile4readEPvj,"glitch::io::CLimitReadFile::read(void*, unsigned int)"
+6b4580,80,engine-glitch,_ZN6glitch2io14CLimitReadFile9readAsyncEPvjPFviiPNS0_9IReadFileES2_ES2_,"glitch::io::CLimitReadFile::readAsync(void*, unsigned int, void (*)(int, int, glitch::io::IReadFile*, void*), void*)"
+6b45d0,116,engine-glitch,_ZN6glitch2io14CLimitReadFile9readAsyncEPvjlPFviiPNS0_9IReadFileES2_ES2_,"glitch::io::CLimitReadFile::readAsync(void*, unsigned int, long, void (*)(int, int, glitch::io::IReadFile*, void*), void*)"
+6b4644,140,engine-glitch,_ZN6glitch2io14CLimitReadFile4seekElb,"glitch::io::CLimitReadFile::seek(long, bool)"
+6b46d0,8,engine-glitch,_ZNK6glitch2io14CLimitReadFile7getSizeEv,glitch::io::CLimitReadFile::getSize() const
+6b46d8,16,engine-glitch,_ZNK6glitch2io14CLimitReadFile6getPosEv,glitch::io::CLimitReadFile::getPos() const
+6b46e8,8,engine-glitch,_ZNK6glitch2io14CLimitReadFile11getFileNameEv,glitch::io::CLimitReadFile::getFileName() const
+6b46f0,8,engine-glitch,_ZNK6glitch2io14CLimitReadFile11getFullPathEv,glitch::io::CLimitReadFile::getFullPath() const
 6b4740,184,engine-glitch,_ZN6glitch2io14CLimitReadFile4initEPKc,glitch::io::CLimitReadFile::init(char const*)
 6b4810,164,engine-glitch,_ZN6glitch2io14CLimitReadFileC1EPNS0_9IReadFileElPKcS5_,"glitch::io::CLimitReadFile::CLimitReadFile(glitch::io::IReadFile*, long, char const*, char const*)"
 6b48bc,92,engine-glitch,_ZNK6glitch2io14CLimitReadFile5cloneEv,glitch::io::CLimitReadFile::clone() const
@@ -1213,7 +1291,9 @@ elf_address,body_bytes,owner,name,demangled
 6bfa64,348,engine-glitch,_ZN6glitch4core13binary_searchINS_5scene10CMeshCache9MeshEntryENS0_10SAllocatorIS4_LNS_6memory13E_MEMORY_HINTE0EEEEEiRKSt6vectorIT_T0_ERKSA_,"int glitch::core::binary_search<glitch::scene::CMeshCache::MeshEntry, glitch::core::SAllocator<glitch::scene::CMeshCache::MeshEntry, (glitch::memory::E_MEMORY_HINT)0> >(std::vector<glitch::scene::CMeshCache::MeshEntry, glitch::core::SAllocator<glitch::scene::CMeshCache::MeshEntry, (glitch::memory::E_MEMORY_HINT)0> > const&, glitch::scene::CMeshCache::MeshEntry const&)"
 6c0ce4,60,engine-glitch,_ZN6glitch4core8CMatrix4IfEC1ENS2_12eConstructorE.clone.1,glitch::core::CMatrix4<float>::CMatrix4(glitch::core::CMatrix4<float>::eConstructor)
 6c3da0,32,engine-glitch,_ZNK6glitch4core10triangle3dIfE17isPointInsideFastERKNS0_8vector3dIfEE,glitch::core::triangle3d<float>::isPointInsideFast(glitch::core::vector3d<float> const&) const
+6c7b6c,84,engine-glitch,_ZNK6glitch4core8vector3dIfE18getHorizontalAngleEv,glitch::core::vector3d<float>::getHorizontalAngle() const
 6c7cf0,556,engine-glitch,_ZN6glitch4core8CMatrix4IfE18setRotationRadiansERKNS0_8vector3dIfEE,glitch::core::CMatrix4<float>::setRotationRadians(glitch::core::vector3d<float> const&)
+6d162c,36,engine-glitch,_ZNK6glitch4core10quaternion9getMatrixEv,glitch::core::quaternion::getMatrix() const
 6dac5c,304,engine-glitch,_ZN6glitch4core8heapsinkINS_5video14CVideoModeList10SVideoModeEEEvPT_ii,"void glitch::core::heapsink<glitch::video::CVideoModeList::SVideoMode>(glitch::video::CVideoModeList::SVideoMode*, int, int)"
 6dad8c,164,engine-glitch,_ZN6glitch4core8heapsortINS_5video14CVideoModeList10SVideoModeEEEvPT_i,"void glitch::core::heapsort<glitch::video::CVideoModeList::SVideoMode>(glitch::video::CVideoModeList::SVideoMode*, int)"
 6dbb08,72,engine-glitch,_ZN5boost13assign_detail12generic_listISt4pairIPKcN6glitch5video18E_VERTEX_ATTRIBUTEEEE9push_backES8_,"boost::assign_detail::generic_list<std::pair<char const*, glitch::video::E_VERTEX_ATTRIBUTE> >::push_back(std::pair<char const*, glitch::video::E_VERTEX_ATTRIBUTE>)"
@@ -1254,3 +1334,4 @@ elf_address,body_bytes,owner,name,demangled
 6e2054,8,engine-glitch,_ZN6glitch4core6detail15SIDedCollectionIN5boost13intrusive_ptrINS_5video11IShaderCodeEEEtLb0ENS1_15sidedcollection16SEmptyPropertiesENS8_12SValueTraitsEE6removeEt,"glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShaderCode>, unsigned short, false, glitch::core::detail::sidedcollection::SEmptyProperties, glitch::core::detail::sidedcollection::SValueTraits>::remove(unsigned short)"
 6e377c,68,engine-glitch,_ZN6glitch4core21buildTextureTransformIfEENS0_8CMatrix4IT_EES3_RKNS0_8vector2dIS3_EES8_S8_,"glitch::core::CMatrix4<float> glitch::core::buildTextureTransform<float>(float, glitch::core::vector2d<float> const&, glitch::core::vector2d<float> const&, glitch::core::vector2d<float> const&)"
 6e5c98,76,engine-glitch,_ZN6glitch4core13float2stringcEf,glitch::core::float2stringc(float)
+6f6f68,24,engine-glitch,_ZN6glitch4core8CMatrix4IfEC1ERKS2_NS2_12eConstructorE.clone.1,"glitch::core::CMatrix4<float>::CMatrix4(glitch::core::CMatrix4<float> const&, glitch::core::CMatrix4<float>::eConstructor)"

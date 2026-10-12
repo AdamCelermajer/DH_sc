@@ -53,97 +53,367 @@
    ]
   ]
  },
- "done-claimed": {
-  "functions": 2500,
-  "bytes": 528164,
+ "game-anim": {
+  "functions": 365,
+  "bytes": 39060,
   "top_owners": [
    [
-    "engine-glitch",
-    477
+    "CharAnimator",
+    41
    ],
    [
-    "lib-box2d",
-    266
+    "v2Controllable",
+    31
    ],
    [
-    "Character",
-    229
+    "v2MixedController",
+    31
    ],
    [
-    "runtime-stl",
-    123
+    "v2Controller",
+    28
    ],
    [
-    "CharAI",
-    120
+    "AnimatedFX",
+    23
    ],
    [
-    "GameObject",
-    92
+    "AnimationSet",
+    22
    ],
    [
-    "lib-lua",
-    63
+    "AnimatorBlender",
+    21
    ],
+   [
+    "AnimController",
+    21
+   ],
+   [
+    "AnimatorSynchronizedBlender",
+    20
+   ],
+   [
+    "AnimatorSet",
+    17
+   ],
+   [
+    "AnimSetManager",
+    15
+   ],
+   [
+    "BlendedAnimSetController",
+    14
+   ]
+  ]
+ },
+ "game-app": {
+  "functions": 1303,
+  "bytes": 199776,
+  "top_owners": [
    [
     "<global>",
-    57
+    432
+   ],
+   [
+    "rnd",
+    156
+   ],
+   [
+    "Application",
+    66
    ],
    [
     "LuaScript",
-    47
+    51
+   ],
+   [
+    "sfc",
+    35
+   ],
+   [
+    "IStreamBase",
+    28
+   ],
+   [
+    "StreamReader",
+    21
+   ],
+   [
+    "StateMachine",
+    21
+   ],
+   [
+    "ScriptManager",
+    21
+   ],
+   [
+    "DebugSwitches",
+    14
+   ],
+   [
+    "InputManager",
+    14
+   ],
+   [
+    "GameEventManager",
+    14
+   ]
+  ]
+ },
+ "game-character": {
+  "functions": 1143,
+  "bytes": 203836,
+  "top_owners": [
+   [
+    "Character",
+    391
+   ],
+   [
+    "CharAI",
+    180
    ],
    [
     "CharProperties",
-    47
+    80
+   ],
+   [
+    "PlayerManager",
+    61
+   ],
+   [
+    "CharStateMachine",
+    54
+   ],
+   [
+    "AISDefault",
+    52
+   ],
+   [
+    "AISExternal",
+    33
+   ],
+   [
+    "PlayerInfo",
+    24
+   ],
+   [
+    "CharAIScript",
+    17
+   ],
+   [
+    "CharAISkillScript",
+    16
+   ],
+   [
+    "CharTimers",
+    16
+   ],
+   [
+    "SpawnSpot",
+    13
+   ]
+  ]
+ },
+ "game-items-save": {
+  "functions": 831,
+  "bytes": 108416,
+  "top_owners": [
+   [
+    "PlayerSavegame",
+    104
    ],
    [
     "ItemInventory",
-    44
+    84
    ],
    [
-    "PlayerSavegame",
+    "SimpleTypeProperty",
+    57
+   ],
+   [
+    "Quest",
+    45
+   ],
+   [
+    "ItemObject",
+    36
+   ],
+   [
+    "ObjectiveTemplate_InteractWith",
+    36
+   ],
+   [
+    "ItemInstance",
+    32
+   ],
+   [
+    "SavegameManager",
+    31
+   ],
+   [
+    "QuestSavegame",
+    27
+   ],
+   [
+    "PropertyMap",
+    26
+   ],
+   [
+    "ObjectiveList",
+    24
+   ],
+   [
+    "ObjectiveTemplate_KillCharacter",
+    24
+   ]
+  ]
+ },
+ "game-ui": {
+  "functions": 704,
+  "bytes": 125992,
+  "top_owners": [
+   [
+    "MenuBase",
+    96
+   ],
+   [
+    "MenuManager",
+    50
+   ],
+   [
+    "MenuFX",
     38
+   ],
+   [
+    "MenuMessageManager",
+    35
+   ],
+   [
+    "HUDMinimap",
+    31
+   ],
+   [
+    "StringManager",
+    31
+   ],
+   [
+    "MenuCharMenu_Map",
+    28
+   ],
+   [
+    "MenuMainMenu",
+    20
+   ],
+   [
+    "FlashAnimManager",
+    19
+   ],
+   [
+    "HUDControls",
+    19
+   ],
+   [
+    "MenuWorldMap",
+    19
+   ],
+   [
+    "GameSWFUtils",
+    18
+   ]
+  ]
+ },
+ "game-world": {
+  "functions": 1527,
+  "bytes": 259396,
+  "top_owners": [
+   [
+    "GameObject",
+    141
+   ],
+   [
+    "Level",
+    71
+   ],
+   [
+    "ObjectManager",
+    63
+   ],
+   [
+    "VisualObject",
+    61
+   ],
+   [
+    "SceneManager",
+    60
+   ],
+   [
+    "ObjectSearcher",
+    58
+   ],
+   [
+    "PFWorld",
+    50
+   ],
+   [
+    "VisualFXManager",
+    37
+   ],
+   [
+    "Container",
+    36
+   ],
+   [
+    "CRoomAttributes",
+    35
+   ],
+   [
+    "TriggerTrap",
+    33
+   ],
+   [
+    "Door",
+    32
    ]
   ]
  },
  "glitch-core-io": {
-  "functions": 1255,
-  "bytes": 155328,
+  "functions": 1336,
+  "bytes": 161244,
   "top_owners": [
    [
     "engine-glitch",
-    1255
+    1336
    ]
   ]
  },
  "glitch-scene-collada-gui": {
-  "functions": 4354,
-  "bytes": 603288,
+  "functions": 4735,
+  "bytes": 697916,
   "top_owners": [
    [
     "engine-glitch",
-    4354
+    4735
    ]
   ]
  },
  "glitch-video": {
-  "functions": 1686,
-  "bytes": 356760,
+  "functions": 1701,
+  "bytes": 361552,
   "top_owners": [
    [
     "engine-glitch",
-    1686
+    1701
    ]
   ]
  },
  "net-session-online": {
-  "functions": 1235,
-  "bytes": 161268,
+  "functions": 1244,
+  "bytes": 163064,
   "top_owners": [
    [
     "lib-online-glx",
-    872
+    881
    ],
    [
     "CMessage",
@@ -192,12 +462,20 @@
   ]
  },
  "net-transport": {
-  "functions": 794,
-  "bytes": 66240,
+  "functions": 1048,
+  "bytes": 92060,
   "top_owners": [
    [
     "CConnectionManager",
     56
+   ],
+   [
+    "CNetPlayerManager",
+    51
+   ],
+   [
+    "NetStructByteArray",
+    50
    ],
    [
     "DataPacketLobby",
@@ -206,6 +484,10 @@
    [
     "ConnectionLobby",
     48
+   ],
+   [
+    "NetStructMemberType",
+    43
    ],
    [
     "DefaultDataPacket",
@@ -230,114 +512,48 @@
    [
     "CPacketManager",
     33
-   ],
-   [
-    "CBluetoothReliable",
-    30
-   ],
-   [
-    "CBluetoothUnreliable",
-    30
-   ],
-   [
-    "NetBitStream",
-    28
-   ]
-  ]
- },
- "other-session-gameplay": {
-  "functions": 4652,
-  "bytes": 673196,
-  "top_owners": [
-   [
-    "<global>",
-    375
-   ],
-   [
-    "Character",
-    162
-   ],
-   [
-    "rnd",
-    156
-   ],
-   [
-    "MenuBase",
-    94
-   ],
-   [
-    "PlayerSavegame",
-    66
-   ],
-   [
-    "CharAI",
-    60
-   ],
-   [
-    "Level",
-    60
-   ],
-   [
-    "SimpleTypeProperty",
-    57
-   ],
-   [
-    "SceneManager",
-    56
-   ],
-   [
-    "Application",
-    54
-   ],
-   [
-    "ObjectManager",
-    53
-   ],
-   [
-    "MenuManager",
-    50
    ]
   ]
  },
  "pydata-accessors": {
-  "functions": 2201,
-  "bytes": 240648,
+  "functions": 2273,
+  "bytes": 308008,
   "top_owners": [
    [
     "Structs",
-    1829
+    1862
    ],
    [
     "Arrays",
-    360
+    392
    ],
    [
     "PyDataArrays",
-    6
+    10
    ],
    [
     "PyDataConstants",
-    6
+    9
    ]
   ]
  },
  "skip-runtime-stl": {
-  "functions": 5683,
-  "bytes": 682926,
+  "functions": 5806,
+  "bytes": 705522,
   "top_owners": [
    [
     "runtime-stl",
-    5683
+    5806
    ]
   ]
  },
  "skip-thunk": {
-  "functions": 397,
-  "bytes": 4696,
+  "functions": 398,
+  "bytes": 4708,
   "top_owners": [
    [
     "thunk",
-    397
+    398
    ]
   ]
  },
@@ -406,32 +622,32 @@
   ]
  },
  "upstream-vendored-box2d": {
-  "functions": 52,
-  "bytes": 4520,
+  "functions": 318,
+  "bytes": 29816,
   "top_owners": [
    [
     "lib-box2d",
-    52
+    318
    ]
   ]
  },
  "upstream-vendored-gameswf": {
-  "functions": 2460,
-  "bytes": 435532,
+  "functions": 2474,
+  "bytes": 439512,
   "top_owners": [
    [
     "lib-gameswf",
-    2460
+    2474
    ]
   ]
  },
  "upstream-vendored-lua": {
-  "functions": 514,
-  "bytes": 87500,
+  "functions": 577,
+  "bytes": 100188,
   "top_owners": [
    [
     "lib-lua",
-    514
+    577
    ]
   ]
  },

@@ -400,6 +400,7 @@ elf_address,body_bytes,owner,name,demangled
 7fd66c,88,lib-online-glx,_ZN7COnline7DestroyEv,COnline::Destroy()
 7fd6d0,36,lib-online-glx,_ZN7COnline9TerminateEv,COnline::Terminate()
 7fd6f4,72,lib-online-glx,_ZN7COnline10InitializeEv,COnline::Initialize()
+7fd744,72,lib-online-glx,_ZN7COnline11GetInstanceEv,COnline::GetInstance()
 7fd798,144,lib-online-glx,_ZN7COnlineC1Ev,COnline::COnline()
 7fd838,144,lib-online-glx,_ZN7COnlineC2Ev,COnline::COnline()
 7fd914,96,lib-online-glx,_ZN7COnline14ReceivePacketsEv,COnline::ReceivePackets()
@@ -415,6 +416,7 @@ elf_address,body_bytes,owner,name,demangled
 7fe4ac,12,lib-online-glx,_ZN9CMatching9GetRoomIdEv,CMatching::GetRoomId()
 7fe4b8,8,lib-online-glx,_ZN9CMatching14LimitRoomSlotsEj,CMatching::LimitRoomSlots(unsigned int)
 7fe4c0,24,lib-online-glx,_ZN9CMatching19SetMatchingProviderENS_18MATCHING_PROVIDERSE,CMatching::SetMatchingProvider(CMatching::MATCHING_PROVIDERS)
+7fe4e0,100,lib-online-glx,_ZN9CMatching8IsServerEv,CMatching::IsServer()
 7fe544,48,lib-online-glx,_ZN9CMatching14IsMemberServerEi,CMatching::IsMemberServer(int)
 7fe574,40,lib-online-glx,_ZN9CMatching8LockRoomEb,CMatching::LockRoom(bool)
 7fe59c,68,lib-online-glx,_ZN9CMatching14GetMemberIndexEi,CMatching::GetMemberIndex(int)
@@ -440,6 +442,7 @@ elf_address,body_bytes,owner,name,demangled
 7ffce8,20,lib-online-glx,_ZN9CMatching19MemberInfoNetStructD0Ev,CMatching::MemberInfoNetStruct::~MemberInfoNetStruct()
 7ffd04,632,lib-online-glx,_ZN9CMatching19MemberInfoNetStructC1Ev,CMatching::MemberInfoNetStruct::MemberInfoNetStruct()
 7fff9c,148,lib-online-glx,_ZN9CMatchingC1Ev,CMatching::CMatching()
+80003c,148,lib-online-glx,_ZN9CMatchingC2Ev,CMatching::CMatching()
 8000dc,240,lib-online-glx,_ZN9CMatching11GetRoomMaskEv,CMatching::GetRoomMask()
 8001d4,32,lib-online-glx,_ZN9CMatching12TestRoomMaskEj,CMatching::TestRoomMask(unsigned int)
 8002bc,1328,lib-online-glx,_ZN9CMatching18UpdateMemberIdListEv,CMatching::UpdateMemberIdList()
@@ -449,12 +452,15 @@ elf_address,body_bytes,owner,name,demangled
 800b00,136,lib-online-glx,_ZN9CMatchingD1Ev,CMatching::~CMatching()
 800b98,20,lib-online-glx,_ZN9CMatchingD0Ev,CMatching::~CMatching()
 800ed8,112,lib-online-glx,_ZN18CMatchingBluetoothC1Ev,CMatchingBluetooth::CMatchingBluetooth()
+800f8c,268,lib-online-glx,_ZN9CMatching3GetEv,CMatching::Get()
 8010a4,124,lib-online-glx,_ZN9CMatching15WritePacketDataEiiR12NetBitStream,"CMatching::WritePacketData(int, int, NetBitStream&)"
 801120,2000,lib-online-glx,_ZN9CMatching13ProcessEventsEv,CMatching::ProcessEvents()
 8018fc,116,lib-online-glx,_ZN9CMatching6UpdateEv,CMatching::Update()
 801b08,12,lib-online-glx,_ZN14CMatchingLocal12IsRoomClosedEv,CMatchingLocal::IsRoomClosed()
 801b14,28,lib-online-glx,_ZN14CMatchingLocal12IsRoomHiddenEv,CMatchingLocal::IsRoomHidden()
+801b30,12,lib-online-glx,_ZNK14CMatchingLocal11GetMemberIdEv,CMatchingLocal::GetMemberId() const
 801b3c,12,lib-online-glx,_ZN14CMatchingLocal11SetMemberIdEi,CMatchingLocal::SetMemberId(int)
+801b48,12,lib-online-glx,_ZNK14CMatchingLocal17GetServerMemberIdEv,CMatchingLocal::GetServerMemberId() const
 801b54,12,lib-online-glx,_ZN14CMatchingLocal17GetRoomAttributesEv,CMatchingLocal::GetRoomAttributes()
 801b60,28,lib-online-glx,_ZN18CMatchingBluetooth16GetTransportTypeE14tPROTOCOL_TYPE,CMatchingBluetooth::GetTransportType(tPROTOCOL_TYPE)
 801c58,60,lib-online-glx,_ZN18CMatchingBluetooth18SetServerBroadcastEv,CMatchingBluetooth::SetServerBroadcast()
@@ -486,6 +492,7 @@ elf_address,body_bytes,owner,name,demangled
 805b14,240,lib-online-glx,_ZN14CMatchingLocal14ReadPacketDataEiiR12NetBitStream,"CMatchingLocal::ReadPacketData(int, int, NetBitStream&)"
 805c04,24,lib-online-glx,_ZNK14CMatchingLocal14GetMemberCountEv,CMatchingLocal::GetMemberCount() const
 805c1c,172,lib-online-glx,_ZN14CMatchingLocal8IsInRoomEi,CMatchingLocal::IsInRoom(int)
+805cc8,112,lib-online-glx,_ZN14CMatchingLocal8IsInRoomEv,CMatchingLocal::IsInRoom()
 805d38,32,lib-online-glx,_ZN14CMatchingLocal10KickMemberEi,CMatchingLocal::KickMember(int)
 805d58,136,lib-online-glx,_ZN14CMatchingLocal23SendChangeServerMessageEv,CMatchingLocal::SendChangeServerMessage()
 805de0,256,lib-online-glx,_ZN14CMatchingLocal18SendServerResponseEb,CMatchingLocal::SendServerResponse(bool)
@@ -514,10 +521,12 @@ elf_address,body_bytes,owner,name,demangled
 807240,72,lib-online-glx,_ZN13tMatchingPeerD1Ev,tMatchingPeer::~tMatchingPeer()
 8072d8,32,lib-online-glx,_ZN14CMatchingLocal12RemoveServerER10CNetworkId,CMatchingLocal::RemoveServer(CNetworkId&)
 8073c4,28,lib-online-glx,_ZN14CMatchingLocal12PurgeServersEv,CMatchingLocal::PurgeServers()
+8074a4,768,lib-online-glx,_ZN14CMatchingLocal5ResetEv,CMatchingLocal::Reset()
 80795c,112,lib-online-glx,_ZN14CMatchingLocal9LeaveRoomEv,CMatchingLocal::LeaveRoom()
 8079d4,512,lib-online-glx,_ZN14CMatchingLocal22CreateJoinRoomInternalEbR15CRoomAttributes,"CMatchingLocal::CreateJoinRoomInternal(bool, CRoomAttributes&)"
 807bec,124,lib-online-glx,_ZN14CMatchingLocal18SearchRoomInternalER17CRoomSearchFilterbh,"CMatchingLocal::SearchRoomInternal(CRoomSearchFilter&, bool, unsigned char)"
 807c70,136,lib-online-glx,_ZN14CMatchingLocal10InitializeEi,CMatchingLocal::Initialize(int)
+807d08,304,lib-online-glx,_ZN14CMatchingLocalC1Ev,CMatchingLocal::CMatchingLocal()
 807e44,304,lib-online-glx,_ZN14CMatchingLocalC2Ev,CMatchingLocal::CMatchingLocal()
 807f80,264,lib-online-glx,_ZN14CMatchingLocalD1Ev,CMatchingLocal::~CMatchingLocal()
 808094,20,lib-online-glx,_ZN14CMatchingLocalD0Ev,CMatchingLocal::~CMatchingLocal()

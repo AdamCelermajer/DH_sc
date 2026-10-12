@@ -239,6 +239,80 @@ elf_address,body_bytes,owner,name,demangled
 80e384,20,CNetMutex,_ZN9CNetMutexD2Ev,CNetMutex::~CNetMutex()
 80e398,48,CNetMutex,_ZN9CNetMutexC1Ev,CNetMutex::CNetMutex()
 80e3d4,48,CNetMutex,_ZN9CNetMutexC2Ev,CNetMutex::CNetMutex()
+36d208,72,CNetPlayerInfo,_ZN14CNetPlayerInfo12IsActivatingEv,CNetPlayerInfo::IsActivating()
+36f40c,156,CNetPlayerInfo,_ZN14CNetPlayerInfo8SetStateEc,CNetPlayerInfo::SetState(char)
+377448,52,CNetPlayerInfo,_ZN14CNetPlayerInfoC2ERKS_,CNetPlayerInfo::CNetPlayerInfo(CNetPlayerInfo const&)
+378708,28,CNetPlayerInfo,_ZN14CNetPlayerInfoaSERKS_,CNetPlayerInfo::operator=(CNetPlayerInfo const&)
+4417d8,52,CNetPlayerInfo,_ZN14CNetPlayerInfoC1ERKS_,CNetPlayerInfo::CNetPlayerInfo(CNetPlayerInfo const&)
+80f124,64,CNetPlayerInfo,_ZN14CNetPlayerInfo8IsActiveEv,CNetPlayerInfo::IsActive()
+80f164,28,CNetPlayerInfo,_ZN14CNetPlayerInfo8IsRemoteEv,CNetPlayerInfo::IsRemote()
+80f180,32,CNetPlayerInfo,_ZN14CNetPlayerInfo8IsInRoomEv,CNetPlayerInfo::IsInRoom()
+80f1a0,76,CNetPlayerInfo,_ZN14CNetPlayerInfo9IsLocalToEi,CNetPlayerInfo::IsLocalTo(int)
+80f1ec,80,CNetPlayerInfo,_ZN14CNetPlayerInfo7IsLocalEv,CNetPlayerInfo::IsLocal()
+80f23c,36,CNetPlayerInfo,_ZN14CNetPlayerInfo6IsHostEv,CNetPlayerInfo::IsHost()
+80f260,28,CNetPlayerInfo,_ZN14CNetPlayerInfo3AddEv,CNetPlayerInfo::Add()
+80f27c,100,CNetPlayerInfo,_ZN14CNetPlayerInfo5ResetEv,CNetPlayerInfo::Reset()
+80f2e0,148,CNetPlayerInfo,_ZN14CNetPlayerInfo6RemoveEv,CNetPlayerInfo::Remove()
+80f374,92,CNetPlayerInfo,_ZN14CNetPlayerInfo10DisconnectEv,CNetPlayerInfo::Disconnect()
+80f3d0,584,CNetPlayerInfo,_ZN14CNetPlayerInfo6UpdateEv,CNetPlayerInfo::Update()
+80f618,172,CNetPlayerInfo,_ZN14CNetPlayerInfoD1Ev,CNetPlayerInfo::~CNetPlayerInfo()
+80f6d8,20,CNetPlayerInfo,_ZN14CNetPlayerInfoD0Ev,CNetPlayerInfo::~CNetPlayerInfo()
+80f6f4,172,CNetPlayerInfo,_ZN14CNetPlayerInfoD2Ev,CNetPlayerInfo::~CNetPlayerInfo()
+80f7b4,1096,CNetPlayerInfo,_ZN14CNetPlayerInfoC1Ev,CNetPlayerInfo::CNetPlayerInfo()
+80fc28,1096,CNetPlayerInfo,_ZN14CNetPlayerInfoC2Ev,CNetPlayerInfo::CNetPlayerInfo()
+81009c,28,CNetPlayerInfo,_ZN14CNetPlayerInfo6DeleteEPS_,CNetPlayerInfo::Delete(CNetPlayerInfo*)
+8103d4,32,CNetPlayerInfo,_ZN14CNetPlayerInfo6CreateEv,CNetPlayerInfo::Create()
+8100bc,24,CNetPlayerManager,_ZN17CNetPlayerManager11GetInstanceEv,CNetPlayerManager::GetInstance()
+8100e0,32,CNetPlayerManager,_ZN17CNetPlayerManager13IsInitializedEv,CNetPlayerManager::IsInitialized()
+810108,60,CNetPlayerManager,_ZN17CNetPlayerManager9TerminateEv,CNetPlayerManager::Terminate()
+81014c,52,CNetPlayerManager,_ZN17CNetPlayerManager17GetPlayerInternalEi,CNetPlayerManager::GetPlayerInternal(int)
+810180,96,CNetPlayerManager,_ZN17CNetPlayerManager17GetPlayerInternalEii,"CNetPlayerManager::GetPlayerInternal(int, int)"
+8101e0,72,CNetPlayerManager,_ZN17CNetPlayerManager9GetPlayerEib,"CNetPlayerManager::GetPlayer(int, bool)"
+810228,72,CNetPlayerManager,_ZN17CNetPlayerManager19GetPlayerByMemberIdEiib,"CNetPlayerManager::GetPlayerByMemberId(int, int, bool)"
+810270,80,CNetPlayerManager,_ZN17CNetPlayerManager15GetFreePlayerIdEv,CNetPlayerManager::GetFreePlayerId()
+8102c0,36,CNetPlayerManager,_ZN17CNetPlayerManager27RegisterPlayerInfoFunctionsEPFP14CNetPlayerInfovEPFvS1_E,"CNetPlayerManager::RegisterPlayerInfoFunctions(CNetPlayerInfo* (*)(), void (*)(CNetPlayerInfo*))"
+8102f0,52,CNetPlayerManager,_ZN17CNetPlayerManager29UnregisterPlayerInfoFunctionsEv,CNetPlayerManager::UnregisterPlayerInfoFunctions()
+810338,128,CNetPlayerManager,_ZN17CNetPlayerManager25AreAllPlayersAcknowledgedEv,CNetPlayerManager::AreAllPlayersAcknowledged()
+8103f4,8,CNetPlayerManager,_ZN17CNetPlayerManager17ResendManagerInfoEv,CNetPlayerManager::ResendManagerInfo()
+8103fc,196,CNetPlayerManager,_ZN17CNetPlayerManager17ProcessLostPacketEii,"CNetPlayerManager::ProcessLostPacket(int, int)"
+8104c0,36,CNetPlayerManager,_ZN17CNetPlayerManager18sProcessLostPacketEii,"CNetPlayerManager::sProcessLostPacket(int, int)"
+8104ec,196,CNetPlayerManager,_ZN17CNetPlayerManager25ProcessAcknowledgedPacketEii,"CNetPlayerManager::ProcessAcknowledgedPacket(int, int)"
+8105b0,36,CNetPlayerManager,_ZN17CNetPlayerManager26sProcessAcknowledgedPacketEii,"CNetPlayerManager::sProcessAcknowledgedPacket(int, int)"
+8105dc,52,CNetPlayerManager,_ZN17CNetPlayerManager14GetLocalPlayerEi,CNetPlayerManager::GetLocalPlayer(int)
+810610,604,CNetPlayerManager,_ZN17CNetPlayerManager15WritePacketDataEiiR12NetBitStream,"CNetPlayerManager::WritePacketData(int, int, NetBitStream&)"
+81086c,52,CNetPlayerManager,_ZN17CNetPlayerManager16sWritePacketDataEiiR12NetBitStream,"CNetPlayerManager::sWritePacketData(int, int, NetBitStream&)"
+8108a8,24,CNetPlayerManager,_ZN17CNetPlayerManager12RemovePlayerEi,CNetPlayerManager::RemovePlayer(int)
+8108c0,24,CNetPlayerManager,_ZN17CNetPlayerManager16DisconnectPlayerEi,CNetPlayerManager::DisconnectPlayer(int)
+8109a0,468,CNetPlayerManager,_ZN17CNetPlayerManager13ProcessEventsEv,CNetPlayerManager::ProcessEvents()
+810b7c,88,CNetPlayerManager,_ZN17CNetPlayerManager18SetPlayerGamepadIdEii,"CNetPlayerManager::SetPlayerGamepadId(int, int)"
+810bd4,180,CNetPlayerManager,_ZN17CNetPlayerManager14ReassignPlayerEiii,"CNetPlayerManager::ReassignPlayer(int, int, int)"
+810c88,256,CNetPlayerManager,_ZN17CNetPlayerManager12ClearPlayersEv,CNetPlayerManager::ClearPlayers()
+810d90,296,CNetPlayerManager,_ZN17CNetPlayerManager22NetStructPlayerManagerC1Ev,CNetPlayerManager::NetStructPlayerManager::NetStructPlayerManager()
+810ec8,104,CNetPlayerManager,_ZN17CNetPlayerManager22NetStructPlayerManagerD1Ev,CNetPlayerManager::NetStructPlayerManager::~NetStructPlayerManager()
+810f3c,104,CNetPlayerManager,_ZN17CNetPlayerManager22NetStructPlayerManagerD0Ev,CNetPlayerManager::NetStructPlayerManager::~NetStructPlayerManager()
+8111ec,276,CNetPlayerManager,_ZN17CNetPlayerManager11InitPlayersEv,CNetPlayerManager::InitPlayers()
+811308,48,CNetPlayerManager,_ZN17CNetPlayerManager12ResetPlayersEv,CNetPlayerManager::ResetPlayers()
+8113fc,240,CNetPlayerManager,_ZN17CNetPlayerManager15GetPlayerIdListEv,CNetPlayerManager::GetPlayerIdList()
+8114ec,28,CNetPlayerManager,_ZN17CNetPlayerManager14GetPlayerCountEv,CNetPlayerManager::GetPlayerCount()
+811588,508,CNetPlayerManager,_ZN17CNetPlayerManager13GetPlayerNameESsi,"CNetPlayerManager::GetPlayerName(std::basic_string<char, std::char_traits<char>, std::allocator<char> >, int)"
+81181c,176,CNetPlayerManager,_ZN17CNetPlayerManager13GetPlayerNameEi,CNetPlayerManager::GetPlayerName(int)
+8118d8,684,CNetPlayerManager,_ZN17CNetPlayerManager9AddPlayerEii,"CNetPlayerManager::AddPlayer(int, int)"
+811be8,376,CNetPlayerManager,_ZN17CNetPlayerManager9AddPlayerER12NetBitStreamii,"CNetPlayerManager::AddPlayer(NetBitStream&, int, int)"
+811d74,288,CNetPlayerManager,_ZN17CNetPlayerManager14ReadPacketDataEiiR12NetBitStream,"CNetPlayerManager::ReadPacketData(int, int, NetBitStream&)"
+811e94,52,CNetPlayerManager,_ZN17CNetPlayerManager15sReadPacketDataEiiR12NetBitStream,"CNetPlayerManager::sReadPacketData(int, int, NetBitStream&)"
+812608,140,CNetPlayerManager,_ZN17CNetPlayerManager21ClearPlayerListCachesEi,CNetPlayerManager::ClearPlayerListCaches(int)
+812694,416,CNetPlayerManager,_ZN17CNetPlayerManagerD1Ev,CNetPlayerManager::~CNetPlayerManager()
+812854,20,CNetPlayerManager,_ZN17CNetPlayerManagerD0Ev,CNetPlayerManager::~CNetPlayerManager()
+812870,416,CNetPlayerManager,_ZN17CNetPlayerManagerD2Ev,CNetPlayerManager::~CNetPlayerManager()
+812a30,316,CNetPlayerManager,_ZN17CNetPlayerManagerC1Ei,CNetPlayerManager::CNetPlayerManager(int)
+812b90,88,CNetPlayerManager,_ZN17CNetPlayerManager10InitializeEi,CNetPlayerManager::Initialize(int)
+812bf0,316,CNetPlayerManager,_ZN17CNetPlayerManagerC2Ei,CNetPlayerManager::CNetPlayerManager(int)
+812d50,292,CNetPlayerManager,_ZN17CNetPlayerManager25GetPlayerIdListByMemberIdEi,CNetPlayerManager::GetPlayerIdListByMemberId(int)
+812e74,28,CNetPlayerManager,_ZN17CNetPlayerManager20GetMemberPlayerCountEi,CNetPlayerManager::GetMemberPlayerCount(int)
+812e90,24,CNetPlayerManager,_ZN17CNetPlayerManager22MemberHasActivePlayersEi,CNetPlayerManager::MemberHasActivePlayers(int)
+812ea8,40,CNetPlayerManager,_ZN17CNetPlayerManager20GetLocalPlayerIdListEv,CNetPlayerManager::GetLocalPlayerIdList()
+812ed0,28,CNetPlayerManager,_ZN17CNetPlayerManager19GetLocalPlayerCountEv,CNetPlayerManager::GetLocalPlayerCount()
+812eec,840,CNetPlayerManager,_ZN17CNetPlayerManager6UpdateEi,CNetPlayerManager::Update(int)
 826a84,24,CNetworkEmulation,_ZN17CNetworkEmulation11GetInstanceEv,CNetworkEmulation::GetInstance()
 826aa8,32,CNetworkEmulation,_ZN17CNetworkEmulation13IsInitializedEv,CNetworkEmulation::IsInitialized()
 826ad0,60,CNetworkEmulation,_ZN17CNetworkEmulation9TerminateEv,CNetworkEmulation::Terminate()
@@ -687,6 +761,34 @@ elf_address,body_bytes,owner,name,demangled
 80e980,104,NetBitStreamArray,_ZN17NetBitStreamArrayC1Eii,"NetBitStreamArray::NetBitStreamArray(int, int)"
 80e9e8,104,NetBitStreamArray,_ZN17NetBitStreamArrayC2Eii,"NetBitStreamArray::NetBitStreamArray(int, int)"
 80ed60,72,NetBitStreamArray,_ZN17NetBitStreamArray14CopyAllStreamsER12NetBitStream,NetBitStreamArray::CopyAllStreams(NetBitStream&)
+81324c,24,NetStruct,_ZN9NetStruct13DeclareMemberEP15NetStructMember,NetStruct::DeclareMember(NetStructMember*)
+813264,56,NetStruct,_ZN9NetStruct15ConditionalLoadEbR12NetBitStreamij,"NetStruct::ConditionalLoad(bool, NetBitStream&, int, unsigned int)"
+81329c,84,NetStruct,_ZN9NetStruct11GetSizeBitsEv,NetStruct::GetSizeBits()
+8132f0,32,NetStruct,_ZN9NetStruct12GetSizeBytesEv,NetStruct::GetSizeBytes()
+81334c,116,NetStruct,_ZN9NetStruct24AreChangesAcknowledgedByEi,NetStruct::AreChangesAcknowledgedBy(int)
+8133c0,132,NetStruct,_ZN9NetStruct14ResendInternalEj,NetStruct::ResendInternal(unsigned int)
+81344c,48,NetStruct,_ZN9NetStruct6ResendEi,NetStruct::Resend(int)
+81347c,32,NetStruct,_ZN9NetStruct6ResendEv,NetStruct::Resend()
+81349c,88,NetStruct,_ZN9NetStruct10SetAckedByEi,NetStruct::SetAckedBy(int)
+8134f4,240,NetStruct,_ZN9NetStruct12LoadInternalEbR12NetBitStreami,"NetStruct::LoadInternal(bool, NetBitStream&, int)"
+8135e4,16,NetStruct,_ZN9NetStruct5EraseER12NetBitStream,NetStruct::Erase(NetBitStream&)
+8135f4,120,NetStruct,_ZN9NetStruct4LoadER12NetBitStreamij,"NetStruct::Load(NetBitStream&, int, unsigned int)"
+81366c,152,NetStruct,_ZN9NetStruct10SetEnabledEb,NetStruct::SetEnabled(bool)
+813704,88,NetStruct,_ZN9NetStruct22AreChangesAcknowledgedEv,NetStruct::AreChangesAcknowledged()
+81375c,144,NetStruct,_ZN9NetStruct13HasDataToSendEi,NetStruct::HasDataToSend(int)
+8137ec,80,NetStruct,_ZN9NetStruct16GetChangedBitMapEv,NetStruct::GetChangedBitMap()
+81383c,80,NetStruct,_ZN9NetStruct9IsChangedEv,NetStruct::IsChanged()
+81388c,96,NetStruct,_ZN9NetStructC1Ev,NetStruct::NetStruct()
+8138f4,96,NetStruct,_ZN9NetStructC2Ev,NetStruct::NetStruct()
+81395c,88,NetStruct,_ZN9NetStructD1Ev,NetStruct::~NetStruct()
+8139bc,88,NetStruct,_ZN9NetStructD0Ev,NetStruct::~NetStruct()
+814774,608,NetStruct,_ZN9NetStruct17ProcessLostPacketEii,"NetStruct::ProcessLostPacket(int, int)"
+8149d4,304,NetStruct,_ZN9NetStruct16AddPacketHistoryEiiy,"NetStruct::AddPacketHistory(int, int, unsigned long long)"
+814b0c,456,NetStruct,_ZN9NetStruct17SerializeInternalEbR12NetBitStreamii,"NetStruct::SerializeInternal(bool, NetBitStream&, int, int)"
+814cd4,4,NetStruct,_ZN9NetStruct20ConditionalSerializeEbR12NetBitStreamii,"NetStruct::ConditionalSerialize(bool, NetBitStream&, int, int)"
+814cd8,40,NetStruct,_ZN9NetStruct17SerializeDisabledER12NetBitStream,NetStruct::SerializeDisabled(NetBitStream&)
+814d00,40,NetStruct,_ZN9NetStruct9SerializeER12NetBitStreamii,"NetStruct::Serialize(NetBitStream&, int, int)"
+814d28,584,NetStruct,_ZN9NetStruct25ProcessAcknowledgedPacketEii,"NetStruct::ProcessAcknowledgedPacket(int, int)"
 7fe728,96,NetStructArray,_ZN14NetStructArrayIN9CMatching19MemberInfoNetStructELj32EE25ProcessAcknowledgedPacketEii,"NetStructArray<CMatching::MemberInfoNetStruct, 32u>::ProcessAcknowledgedPacket(int, int)"
 7fe788,96,NetStructArray,_ZN14NetStructArrayIN9CMatching19MemberInfoNetStructELj32EE17ProcessLostPacketEii,"NetStructArray<CMatching::MemberInfoNetStruct, 32u>::ProcessLostPacket(int, int)"
 7fe7e8,112,NetStructArray,_ZN14NetStructArrayIN9CMatching19MemberInfoNetStructELj32EE13HasDataToSendEi,"NetStructArray<CMatching::MemberInfoNetStruct, 32u>::HasDataToSend(int)"
@@ -703,6 +805,81 @@ elf_address,body_bytes,owner,name,demangled
 36d624,36,NetStructBool,_ZN13NetStructBoolD0Ev,NetStructBool::~NetStructBool()
 36f028,60,NetStructBool,_ZN13NetStructBool4ReadER12NetBitStream,NetStructBool::Read(NetBitStream&)
 36f064,16,NetStructBool,_ZN13NetStructBool5WriteER12NetBitStream,NetStructBool::Write(NetBitStream&)
+36d398,8,NetStructByteArray,_ZN18NetStructByteArrayILj30EE12GetBufferPtrEv,NetStructByteArray<30u>::GetBufferPtr()
+36d3a0,8,NetStructByteArray,_ZN18NetStructByteArrayILj30EE13GetBufferSizeEv,NetStructByteArray<30u>::GetBufferSize()
+36d3a8,8,NetStructByteArray,_ZN18NetStructByteArrayILj30EE16GetMaxBufferSizeEv,NetStructByteArray<30u>::GetMaxBufferSize()
+36d3b0,8,NetStructByteArray,_ZN18NetStructByteArrayILj3EE12GetBufferPtrEv,NetStructByteArray<3u>::GetBufferPtr()
+36d3b8,8,NetStructByteArray,_ZN18NetStructByteArrayILj3EE13GetBufferSizeEv,NetStructByteArray<3u>::GetBufferSize()
+36d3c0,8,NetStructByteArray,_ZN18NetStructByteArrayILj3EE16GetMaxBufferSizeEv,NetStructByteArray<3u>::GetMaxBufferSize()
+36d3c8,8,NetStructByteArray,_ZN18NetStructByteArrayILj36EE12GetBufferPtrEv,NetStructByteArray<36u>::GetBufferPtr()
+36d3d0,8,NetStructByteArray,_ZN18NetStructByteArrayILj36EE13GetBufferSizeEv,NetStructByteArray<36u>::GetBufferSize()
+36d3d8,8,NetStructByteArray,_ZN18NetStructByteArrayILj36EE16GetMaxBufferSizeEv,NetStructByteArray<36u>::GetMaxBufferSize()
+36d6f4,52,NetStructByteArray,_ZN18NetStructByteArrayILj36EE9GetBufferEPvi,"NetStructByteArray<36u>::GetBuffer(void*, int)"
+36d730,52,NetStructByteArray,_ZN18NetStructByteArrayILj3EE9GetBufferEPvi,"NetStructByteArray<3u>::GetBuffer(void*, int)"
+36d76c,52,NetStructByteArray,_ZN18NetStructByteArrayILj30EE9GetBufferEPvi,"NetStructByteArray<30u>::GetBuffer(void*, int)"
+36dc04,48,NetStructByteArray,_ZN18NetStructByteArrayILj36EE5WriteER12NetBitStream,NetStructByteArray<36u>::Write(NetBitStream&)
+36dc34,48,NetStructByteArray,_ZN18NetStructByteArrayILj3EE5WriteER12NetBitStream,NetStructByteArray<3u>::Write(NetBitStream&)
+36dc64,48,NetStructByteArray,_ZN18NetStructByteArrayILj30EE5WriteER12NetBitStream,NetStructByteArray<30u>::Write(NetBitStream&)
+36feb0,56,NetStructByteArray,_ZN18NetStructByteArrayILj36EED1Ev,NetStructByteArray<36u>::~NetStructByteArray()
+36fef8,56,NetStructByteArray,_ZN18NetStructByteArrayILj3EED1Ev,NetStructByteArray<3u>::~NetStructByteArray()
+36ff40,56,NetStructByteArray,_ZN18NetStructByteArrayILj30EED1Ev,NetStructByteArray<30u>::~NetStructByteArray()
+36ffd0,80,NetStructByteArray,_ZN18NetStructByteArrayILj36EE9SetBufferEPKvi,"NetStructByteArray<36u>::SetBuffer(void const*, int)"
+370258,80,NetStructByteArray,_ZN18NetStructByteArrayILj3EE9SetBufferEPKvi,"NetStructByteArray<3u>::SetBuffer(void const*, int)"
+3702a8,80,NetStructByteArray,_ZN18NetStructByteArrayILj30EE9SetBufferEPKvi,"NetStructByteArray<30u>::SetBuffer(void const*, int)"
+3702f8,176,NetStructByteArray,_ZN18NetStructByteArrayILj36EE4ReadER12NetBitStream,NetStructByteArray<36u>::Read(NetBitStream&)
+3703b0,128,NetStructByteArray,_ZN18NetStructByteArrayILj3EE4ReadER12NetBitStream,NetStructByteArray<3u>::Read(NetBitStream&)
+370430,176,NetStructByteArray,_ZN18NetStructByteArrayILj30EE4ReadER12NetBitStream,NetStructByteArray<30u>::Read(NetBitStream&)
+370550,172,NetStructByteArray,_ZN18NetStructByteArrayILj36EEC1E9ByteArray,NetStructByteArray<36u>::NetStructByteArray(ByteArray)
+370608,172,NetStructByteArray,_ZN18NetStructByteArrayILj3EEC1E9ByteArray,NetStructByteArray<3u>::NetStructByteArray(ByteArray)
+3706c0,172,NetStructByteArray,_ZN18NetStructByteArrayILj30EEC1E9ByteArray,NetStructByteArray<30u>::NetStructByteArray(ByteArray)
+3707dc,72,NetStructByteArray,_ZN18NetStructByteArrayILj36EED0Ev,NetStructByteArray<36u>::~NetStructByteArray()
+370840,72,NetStructByteArray,_ZN18NetStructByteArrayILj30EED0Ev,NetStructByteArray<30u>::~NetStructByteArray()
+3708a4,72,NetStructByteArray,_ZN18NetStructByteArrayILj3EED0Ev,NetStructByteArray<3u>::~NetStructByteArray()
+7fe874,8,NetStructByteArray,_ZN18NetStructByteArrayILj64EE12GetBufferPtrEv,NetStructByteArray<64u>::GetBufferPtr()
+7fe87c,8,NetStructByteArray,_ZN18NetStructByteArrayILj64EE13GetBufferSizeEv,NetStructByteArray<64u>::GetBufferSize()
+7fe884,8,NetStructByteArray,_ZN18NetStructByteArrayILj64EE16GetMaxBufferSizeEv,NetStructByteArray<64u>::GetMaxBufferSize()
+7feb04,52,NetStructByteArray,_ZN18NetStructByteArrayILj64EE9GetBufferEPvi,"NetStructByteArray<64u>::GetBuffer(void*, int)"
+7febfc,48,NetStructByteArray,_ZN18NetStructByteArrayILj64EE5WriteER12NetBitStream,NetStructByteArray<64u>::Write(NetBitStream&)
+7fee00,176,NetStructByteArray,_ZN18NetStructByteArrayILj64EE4ReadER12NetBitStream,NetStructByteArray<64u>::Read(NetBitStream&)
+7feeb8,172,NetStructByteArray,_ZN18NetStructByteArrayILj64EEC1E9ByteArray,NetStructByteArray<64u>::NetStructByteArray(ByteArray)
+7fef70,56,NetStructByteArray,_ZN18NetStructByteArrayILj64EED1Ev,NetStructByteArray<64u>::~NetStructByteArray()
+7fefb8,80,NetStructByteArray,_ZN18NetStructByteArrayILj64EE9SetBufferEPKvi,"NetStructByteArray<64u>::SetBuffer(void const*, int)"
+7ff0bc,72,NetStructByteArray,_ZN18NetStructByteArrayILj64EED0Ev,NetStructByteArray<64u>::~NetStructByteArray()
+817e20,8,NetStructByteArray,_ZN18NetStructByteArrayILj256EE13GetBufferSizeEv,NetStructByteArray<256u>::GetBufferSize()
+817e3c,8,NetStructByteArray,_ZN18NetStructByteArrayILj256EE12GetBufferPtrEv,NetStructByteArray<256u>::GetBufferPtr()
+817e44,8,NetStructByteArray,_ZN18NetStructByteArrayILj256EE16GetMaxBufferSizeEv,NetStructByteArray<256u>::GetMaxBufferSize()
+817f80,52,NetStructByteArray,_ZN18NetStructByteArrayILj256EE9GetBufferEPvi,"NetStructByteArray<256u>::GetBuffer(void*, int)"
+817fbc,48,NetStructByteArray,_ZN18NetStructByteArrayILj256EE5WriteER12NetBitStream,NetStructByteArray<256u>::Write(NetBitStream&)
+818090,72,NetStructByteArray,_ZN18NetStructByteArrayILj256EED0Ev,NetStructByteArray<256u>::~NetStructByteArray()
+8181d8,172,NetStructByteArray,_ZN18NetStructByteArrayILj256EEC1E9ByteArray,NetStructByteArray<256u>::NetStructByteArray(ByteArray)
+818290,80,NetStructByteArray,_ZN18NetStructByteArrayILj256EE9SetBufferEPKvi,"NetStructByteArray<256u>::SetBuffer(void const*, int)"
+8182e0,176,NetStructByteArray,_ZN18NetStructByteArrayILj256EE4ReadER12NetBitStream,NetStructByteArray<256u>::Read(NetBitStream&)
+818398,56,NetStructByteArray,_ZN18NetStructByteArrayILj256EED1Ev,NetStructByteArray<256u>::~NetStructByteArray()
+36d254,4,NetStructInt,_ZN12NetStructIntILj32EED1Ev,NetStructInt<32u>::~NetStructInt()
+36d274,4,NetStructInt,_ZN12NetStructIntILj8EED1Ev,NetStructInt<8u>::~NetStructInt()
+36d278,4,NetStructInt,_ZN12NetStructIntILj16EED1Ev,NetStructInt<16u>::~NetStructInt()
+36d310,4,NetStructInt,_ZN12NetStructIntILj17EED1Ev,NetStructInt<17u>::~NetStructInt()
+36d3e0,8,NetStructInt,_ZN12NetStructIntILj32EE9TestValueERKi,NetStructInt<32u>::TestValue(int const&)
+36d418,28,NetStructInt,_ZN12NetStructIntILj16EE9TestValueERKi,NetStructInt<16u>::TestValue(int const&)
+36d434,28,NetStructInt,_ZN12NetStructIntILj8EE9TestValueERKi,NetStructInt<8u>::TestValue(int const&)
+36d450,28,NetStructInt,_ZN12NetStructIntILj17EE9TestValueERKi,NetStructInt<17u>::TestValue(int const&)
+36d554,36,NetStructInt,_ZN12NetStructIntILj32EED0Ev,NetStructInt<32u>::~NetStructInt()
+36d658,36,NetStructInt,_ZN12NetStructIntILj16EED0Ev,NetStructInt<16u>::~NetStructInt()
+36d68c,36,NetStructInt,_ZN12NetStructIntILj17EED0Ev,NetStructInt<17u>::~NetStructInt()
+36d6c0,36,NetStructInt,_ZN12NetStructIntILj8EED0Ev,NetStructInt<8u>::~NetStructInt()
+36da70,96,NetStructInt,_ZN12NetStructIntILj32EE4ReadER12NetBitStream,NetStructInt<32u>::Read(NetBitStream&)
+36dad0,96,NetStructInt,_ZN12NetStructIntILj16EE4ReadER12NetBitStream,NetStructInt<16u>::Read(NetBitStream&)
+36db30,96,NetStructInt,_ZN12NetStructIntILj17EE4ReadER12NetBitStream,NetStructInt<17u>::Read(NetBitStream&)
+36db90,96,NetStructInt,_ZN12NetStructIntILj8EE4ReadER12NetBitStream,NetStructInt<8u>::Read(NetBitStream&)
+36dc94,52,NetStructInt,_ZN12NetStructIntILj32EE5WriteER12NetBitStream,NetStructInt<32u>::Write(NetBitStream&)
+36dcc8,52,NetStructInt,_ZN12NetStructIntILj16EE5WriteER12NetBitStream,NetStructInt<16u>::Write(NetBitStream&)
+36dcfc,52,NetStructInt,_ZN12NetStructIntILj17EE5WriteER12NetBitStream,NetStructInt<17u>::Write(NetBitStream&)
+36dd30,52,NetStructInt,_ZN12NetStructIntILj8EE5WriteER12NetBitStream,NetStructInt<8u>::Write(NetBitStream&)
+8100b8,4,NetStructInt,_ZN12NetStructIntILj6EED1Ev,NetStructInt<6u>::~NetStructInt()
+8103b8,28,NetStructInt,_ZN12NetStructIntILj6EE9TestValueERKi,NetStructInt<6u>::TestValue(int const&)
+8108d8,36,NetStructInt,_ZN12NetStructIntILj6EED0Ev,NetStructInt<6u>::~NetStructInt()
+81090c,96,NetStructInt,_ZN12NetStructIntILj6EE4ReadER12NetBitStream,NetStructInt<6u>::Read(NetBitStream&)
+81096c,52,NetStructInt,_ZN12NetStructIntILj6EE5WriteER12NetBitStream,NetStructInt<6u>::Write(NetBitStream&)
 3a2f24,4,NetStructInterpolatedRangedFloat,_ZN32NetStructInterpolatedRangedFloatILj18ELin200000ELi200000EED1Ev,"NetStructInterpolatedRangedFloat<18u, -200000, 200000>::~NetStructInterpolatedRangedFloat()"
 3a2f34,4,NetStructInterpolatedRangedFloat,_ZN32NetStructInterpolatedRangedFloatILj16ELin50000ELi50000EED1Ev,"NetStructInterpolatedRangedFloat<16u, -50000, 50000>::~NetStructInterpolatedRangedFloat()"
 3a3808,52,NetStructInterpolatedRangedFloat,_ZN32NetStructInterpolatedRangedFloatILj18ELin200000ELi200000EED0Ev,"NetStructInterpolatedRangedFloat<18u, -200000, 200000>::~NetStructInterpolatedRangedFloat()"
@@ -714,6 +891,65 @@ elf_address,body_bytes,owner,name,demangled
 3a3578,4,NetStructInterpolation,_ZN22NetStructInterpolationIfED1Ev,NetStructInterpolation<float>::~NetStructInterpolation()
 3a37cc,36,NetStructInterpolation,_ZN22NetStructInterpolationIfED0Ev,NetStructInterpolation<float>::~NetStructInterpolation()
 3a3e64,88,NetStructInterpolation,_ZN22NetStructInterpolationIfE8AddValueEfj,"NetStructInterpolation<float>::AddValue(float, unsigned int)"
+36d1f8,4,NetStructMember,_ZN15NetStructMember8PostLoadEj,NetStructMember::PostLoad(unsigned int)
+36d1fc,8,NetStructMember,_ZN15NetStructMember11GetSizeBitsEv,NetStructMember::GetSizeBits()
+36d204,4,NetStructMember,_ZN15NetStructMemberD1Ev,NetStructMember::~NetStructMember()
+36d520,36,NetStructMember,_ZN15NetStructMemberD0Ev,NetStructMember::~NetStructMember()
+814f70,20,NetStructMember,_ZN15NetStructMember9IsChangedEv,NetStructMember::IsChanged()
+814f84,76,NetStructMember,_ZN15NetStructMember10SetChangedEv,NetStructMember::SetChanged()
+814fd8,16,NetStructMember,_ZN15NetStructMember8SetAckedEv,NetStructMember::SetAcked()
+814fe8,28,NetStructMember,_ZN15NetStructMember8SetAckedEj,NetStructMember::SetAcked(unsigned int)
+815004,36,NetStructMember,_ZN15NetStructMember17AcknowledgeChangeEjy,"NetStructMember::AcknowledgeChange(unsigned int, unsigned long long)"
+815028,20,NetStructMember,_ZN15NetStructMember24AreChangesAcknowledgedByEj,NetStructMember::AreChangesAcknowledgedBy(unsigned int)
+81503c,60,NetStructMember,_ZN15NetStructMember11SetSentFlagEjby,"NetStructMember::SetSentFlag(unsigned int, bool, unsigned long long)"
+815078,40,NetStructMember,_ZN15NetStructMember13HasDataToSendEjj,"NetStructMember::HasDataToSend(unsigned int, unsigned int)"
+8150a0,16,NetStructMember,_ZN15NetStructMember12GetFrameTimeEv,NetStructMember::GetFrameTime()
+8150b0,92,NetStructMember,_ZN15NetStructMember22AreChangesAcknowledgedEv,NetStructMember::AreChangesAcknowledged()
+81510c,92,NetStructMember,_ZN15NetStructMember4LoadER12NetBitStream,NetStructMember::Load(NetBitStream&)
+815168,96,NetStructMember,_ZN15NetStructMember9SerializeER12NetBitStreamj,"NetStructMember::Serialize(NetBitStream&, unsigned int)"
+36d2e4,4,NetStructMemberType,_ZN19NetStructMemberTypeIbED1Ev,NetStructMemberType<bool>::~NetStructMemberType()
+36d2e8,8,NetStructMemberType,_ZN19NetStructMemberTypeIjE8GetValueEv,NetStructMemberType<unsigned int>::GetValue()
+36d2f0,8,NetStructMemberType,_ZN19NetStructMemberTypeIiE8GetValueEv,NetStructMemberType<int>::GetValue()
+36d2f8,8,NetStructMemberType,_ZN19NetStructMemberTypeISsE8GetValueEv,"NetStructMemberType<std::basic_string<char, std::char_traits<char>, std::allocator<char> > >::GetValue()"
+36d300,4,NetStructMemberType,_ZN19NetStructMemberTypeIjED1Ev,NetStructMemberType<unsigned int>::~NetStructMemberType()
+36d304,4,NetStructMemberType,_ZN19NetStructMemberTypeIiED1Ev,NetStructMemberType<int>::~NetStructMemberType()
+36d308,8,NetStructMemberType,_ZN19NetStructMemberTypeIbE8GetValueEv,NetStructMemberType<bool>::GetValue()
+36d388,8,NetStructMemberType,_ZN19NetStructMemberTypeI9ByteArrayE9TestValueERKS0_,NetStructMemberType<ByteArray>::TestValue(ByteArray const&)
+36d390,8,NetStructMemberType,_ZN19NetStructMemberTypeI9ByteArrayE8GetValueEv,NetStructMemberType<ByteArray>::GetValue()
+36d46c,8,NetStructMemberType,_ZN19NetStructMemberTypeISsE9TestValueERKSs,"NetStructMemberType<std::basic_string<char, std::char_traits<char>, std::allocator<char> > >::TestValue(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)"
+36d474,8,NetStructMemberType,_ZN19NetStructMemberTypeIiE9TestValueERKi,NetStructMemberType<int>::TestValue(int const&)
+36d47c,8,NetStructMemberType,_ZN19NetStructMemberTypeIjE9TestValueERKj,NetStructMemberType<unsigned int>::TestValue(unsigned int const&)
+36d484,8,NetStructMemberType,_ZN19NetStructMemberTypeIbE9TestValueERKb,NetStructMemberType<bool>::TestValue(bool const&)
+36d4ec,36,NetStructMemberType,_ZN19NetStructMemberTypeIiED0Ev,NetStructMemberType<int>::~NetStructMemberType()
+36d588,36,NetStructMemberType,_ZN19NetStructMemberTypeIjED0Ev,NetStructMemberType<unsigned int>::~NetStructMemberType()
+36d5f0,36,NetStructMemberType,_ZN19NetStructMemberTypeIbED0Ev,NetStructMemberType<bool>::~NetStructMemberType()
+36d9f0,24,NetStructMemberType,_ZN19NetStructMemberTypeIiE8SetValueERKi,NetStructMemberType<int>::SetValue(int const&)
+36da08,24,NetStructMemberType,_ZN19NetStructMemberTypeIjE8SetValueERKj,NetStructMemberType<unsigned int>::SetValue(unsigned int const&)
+36da20,24,NetStructMemberType,_ZN19NetStructMemberTypeIbE8SetValueERKb,NetStructMemberType<bool>::SetValue(bool const&)
+36dd64,24,NetStructMemberType,_ZN19NetStructMemberTypeIiE5EraseER12NetBitStream,NetStructMemberType<int>::Erase(NetBitStream&)
+36dd7c,24,NetStructMemberType,_ZN19NetStructMemberTypeIjE5EraseER12NetBitStream,NetStructMemberType<unsigned int>::Erase(NetBitStream&)
+36dd94,24,NetStructMemberType,_ZN19NetStructMemberTypeIbE5EraseER12NetBitStream,NetStructMemberType<bool>::Erase(NetBitStream&)
+36f264,76,NetStructMemberType,_ZN19NetStructMemberTypeI9ByteArrayE8SetValueERKS0_,NetStructMemberType<ByteArray>::SetValue(ByteArray const&)
+36fc4c,88,NetStructMemberType,_ZN19NetStructMemberTypeISsE8SetValueERKSs,"NetStructMemberType<std::basic_string<char, std::char_traits<char>, std::allocator<char> > >::SetValue(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)"
+36ff88,56,NetStructMemberType,_ZN19NetStructMemberTypeI9ByteArrayED1Ev,NetStructMemberType<ByteArray>::~NetStructMemberType()
+3704e8,104,NetStructMemberType,_ZN19NetStructMemberTypeI9ByteArrayE5EraseER12NetBitStream,NetStructMemberType<ByteArray>::Erase(NetBitStream&)
+370778,72,NetStructMemberType,_ZN19NetStructMemberTypeI9ByteArrayED0Ev,NetStructMemberType<ByteArray>::~NetStructMemberType()
+37111c,44,NetStructMemberType,_ZN19NetStructMemberTypeISsED1Ev,"NetStructMemberType<std::basic_string<char, std::char_traits<char>, std::allocator<char> > >::~NetStructMemberType()"
+3711f4,60,NetStructMemberType,_ZN19NetStructMemberTypeISsED0Ev,"NetStructMemberType<std::basic_string<char, std::char_traits<char>, std::allocator<char> > >::~NetStructMemberType()"
+371ae8,136,NetStructMemberType,_ZN19NetStructMemberTypeISsE5EraseER12NetBitStream,"NetStructMemberType<std::basic_string<char, std::char_traits<char>, std::allocator<char> > >::Erase(NetBitStream&)"
+3a3574,4,NetStructMemberType,_ZN19NetStructMemberTypeIfED1Ev,NetStructMemberType<float>::~NetStructMemberType()
+3a364c,8,NetStructMemberType,_ZN19NetStructMemberTypeIfE8GetValueEv,NetStructMemberType<float>::GetValue()
+3a36dc,8,NetStructMemberType,_ZN19NetStructMemberTypeIfE9TestValueERKf,NetStructMemberType<float>::TestValue(float const&)
+3a3798,36,NetStructMemberType,_ZN19NetStructMemberTypeIfED0Ev,NetStructMemberType<float>::~NetStructMemberType()
+3a3c30,52,NetStructMemberType,_ZN19NetStructMemberTypeIfE8SetValueERKf,NetStructMemberType<float>::SetValue(float const&)
+3a3e4c,24,NetStructMemberType,_ZN19NetStructMemberTypeIfE5EraseER12NetBitStream,NetStructMemberType<float>::Erase(NetBitStream&)
+801b80,4,NetStructMemberType,_ZN19NetStructMemberTypeI10CNetworkIdED1Ev,NetStructMemberType<CNetworkId>::~NetStructMemberType()
+801b84,8,NetStructMemberType,_ZN19NetStructMemberTypeI10CNetworkIdE8GetValueEv,NetStructMemberType<CNetworkId>::GetValue()
+801b8c,8,NetStructMemberType,_ZN19NetStructMemberTypeI10CNetworkIdE9TestValueERKS0_,NetStructMemberType<CNetworkId>::TestValue(CNetworkId const&)
+801b94,36,NetStructMemberType,_ZN19NetStructMemberTypeI10CNetworkIdED0Ev,NetStructMemberType<CNetworkId>::~NetStructMemberType()
+801bfc,92,NetStructMemberType,_ZN19NetStructMemberTypeI10CNetworkIdE5EraseER12NetBitStream,NetStructMemberType<CNetworkId>::Erase(NetBitStream&)
+8020b8,528,NetStructMemberType,_ZN19NetStructMemberTypeI10CNetworkIdE8SetValueERKS0_,NetStructMemberType<CNetworkId>::SetValue(CNetworkId const&)
+8060d0,104,NetStructMemberType,_ZN19NetStructMemberTypeI10CNetworkIdEC2ES0_j.clone.2,"NetStructMemberType<CNetworkId>::NetStructMemberType(CNetworkId, unsigned int)"
 801b04,4,NetStructNetworkId,_ZN18NetStructNetworkIdD1Ev,NetStructNetworkId::~NetStructNetworkId()
 801bc8,36,NetStructNetworkId,_ZN18NetStructNetworkIdD0Ev,NetStructNetworkId::~NetStructNetworkId()
 801de0,68,NetStructNetworkId,_ZN18NetStructNetworkId4ReadER12NetBitStream,NetStructNetworkId::Read(NetBitStream&)
@@ -733,6 +969,24 @@ elf_address,body_bytes,owner,name,demangled
 3a3d7c,24,NetStructRangedFloat,_ZN20NetStructRangedFloatILj18ELin200000ELi200000EE5WriteER12NetBitStream,"NetStructRangedFloat<18u, -200000, 200000>::Write(NetBitStream&)"
 3a3dc4,24,NetStructRangedFloat,_ZN20NetStructRangedFloatILj16ELin50000ELi50000EE5WriteER12NetBitStream,"NetStructRangedFloat<16u, -50000, 50000>::Write(NetBitStream&)"
 3a3e0c,20,NetStructRangedFloat,_ZN20NetStructRangedFloatILj16ELin1ELi1EE5WriteER12NetBitStream,"NetStructRangedFloat<16u, -1, 1>::Write(NetBitStream&)"
+36d3e8,28,NetStructString,_ZN15NetStructStringILj32EE9TestValueERKSs,"NetStructString<32u>::TestValue(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)"
+371150,44,NetStructString,_ZN15NetStructStringILj32EED1Ev,NetStructString<32u>::~NetStructString()
+371184,104,NetStructString,_ZN15NetStructStringILj32EE4ReadER12NetBitStream,NetStructString<32u>::Read(NetBitStream&)
+371244,60,NetStructString,_ZN15NetStructStringILj32EED0Ev,NetStructString<32u>::~NetStructString()
+371b78,108,NetStructString,_ZN15NetStructStringILj32EE5WriteER12NetBitStream,NetStructString<32u>::Write(NetBitStream&)
+371bec,132,NetStructString,_ZN15NetStructStringILj32EEC1ESs,"NetStructString<32u>::NetStructString(std::basic_string<char, std::char_traits<char>, std::allocator<char> >)"
+7fe858,28,NetStructString,_ZN15NetStructStringILj256EE9TestValueERKSs,"NetStructString<256u>::TestValue(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)"
+800980,104,NetStructString,_ZN15NetStructStringILj256EED0Ev,NetStructString<256u>::~NetStructString()
+800a00,88,NetStructString,_ZN15NetStructStringILj256EED1Ev,NetStructString<256u>::~NetStructString()
+800bb4,160,NetStructString,_ZN15NetStructStringILj256EE5WriteER12NetBitStream,NetStructString<256u>::Write(NetBitStream&)
+800c60,148,NetStructString,_ZN15NetStructStringILj256EEC1ESs,"NetStructString<256u>::NetStructString(std::basic_string<char, std::char_traits<char>, std::allocator<char> >)"
+801970,144,NetStructString,_ZN15NetStructStringILj256EE4ReadER12NetBitStream,NetStructString<256u>::Read(NetBitStream&)
+81bcb4,28,NetStructString,_ZN15NetStructStringILj16EE9TestValueERKSs,"NetStructString<16u>::TestValue(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)"
+81d078,44,NetStructString,_ZN15NetStructStringILj16EED1Ev,NetStructString<16u>::~NetStructString()
+81d134,104,NetStructString,_ZN15NetStructStringILj16EE4ReadER12NetBitStream,NetStructString<16u>::Read(NetBitStream&)
+81d1a4,60,NetStructString,_ZN15NetStructStringILj16EED0Ev,NetStructString<16u>::~NetStructString()
+81e1e8,108,NetStructString,_ZN15NetStructStringILj16EE5WriteER12NetBitStream,NetStructString<16u>::Write(NetBitStream&)
+81e5a0,132,NetStructString,_ZN15NetStructStringILj16EEC1ESs,"NetStructString<16u>::NetStructString(std::basic_string<char, std::char_traits<char>, std::allocator<char> >)"
 36d250,4,NetStructUInt,_ZN13NetStructUIntILj8EED1Ev,NetStructUInt<8u>::~NetStructUInt()
 36d404,20,NetStructUInt,_ZN13NetStructUIntILj8EE9TestValueERKj,NetStructUInt<8u>::TestValue(unsigned int const&)
 36d5bc,36,NetStructUInt,_ZN13NetStructUIntILj8EED0Ev,NetStructUInt<8u>::~NetStructUInt()

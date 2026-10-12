@@ -92,3 +92,5 @@ tools/rea-local/
 compatibility-work-test*.zip
 reports/decomp-reconstruction/inventory.csv
 build/
+build.log
+build-cfg.log
