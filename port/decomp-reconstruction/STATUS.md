@@ -1,19 +1,20 @@
 # Decompiled-function reconstruction: status
 
-Updated 2026-10-12 by the integrator, after merging core-video wave 4 (`db85055f`) and vox-audio (`7283788d`,
-merge `63c0f0b2`). Totals come from `python3 tools/decomp_progress.py`, which counts each ledger row once
-against its category's queue. 1,341 queued functions have no ledger row yet. They are still to do; 13 of
-them are video's C2DDriver functions.
+Updated 2026-10-12 by the integrator, after merging core-video wave 4 (`db85055f`), vox-audio (`7283788d`,
+merge `63c0f0b2`), and core-video's material-parameter bindings for owners G, M and R (`3f65fb50`). Totals come
+from `python3 tools/decomp_progress.py`, which counts each ledger row once against its category's queue. 1,328
+queued functions have no ledger row yet. They are still to do: scene 1,007, net-session 253, tinyxml 53,
+net-transport 15. Video's 13 C2DDriver functions are ledgered now (skipped).
 
 ## Totals
 
 | | functions |
 |---|---|
 | queued | 15,164 |
-| reconstructed | 7,305 |
+| reconstructed | 7,263 |
 | upstream (unmodified library code) | 1,796 |
-| partial | 2,519 |
-| skipped (deliberately not rebuilt) | 2,203 |
+| partial | 2,566 |
+| skipped (deliberately not rebuilt) | 2,211 |
 
 Hex-Rays is the primary pseudocode source (`recovered/native/hexrays-all/`). The IDA assembly
 listing is in `recovered/native/ida-asm/` for checks (`tools/decomp_asm.py`). Ghidra is the fallback
@@ -26,7 +27,7 @@ listing is in `recovered/native/ida-asm/` for checks (`tools/decomp_asm.py`). Gh
 | core-platform | 653 | 284 | 0 | 82 | 287 |
 | glitch-core-io | 1,255 | 848 | 17 | 165 | 225 |
 | glitch-scene-collada-gui | 4,354 | 1,279 | 0 | 1,487 | 581 |
-| glitch-video | 1,686 | 672 | 0 | 271 | 730 |
+| glitch-video | 1,686 | 630 | 0 | 318 | 738 |
 | net-session-online | 1,235 | 704 | 0 | 163 | 115 |
 | net-transport | 794 | 528 | 0 | 185 | 66 |
 | pydata-accessors | 2,201 | 2,082 | 0 | 99 | 20 |
@@ -81,14 +82,15 @@ listing is in `recovered/native/ida-asm/` for checks (`tools/decomp_asm.py`). Gh
     - Owner G: part 1a `SParamEntry` is 20 bytes, with type at +0x06, count at +0x08 and offset at +0x0c,
       and it has a static_assert. Canonical.
     - Owners M and R: `SParameterEntry` in `material_parameters.hpp` is 16 bytes, with type at +0x06, count
-      at +0x08 and valueOffset at +0x0c. Canonical. It has no static_assert yet; add one.
+      at +0x08 and valueOffset at +0x0c. Canonical. It has no static_assert yet (open; add one).
     - Part 1b's `ParamEntry` is 12 bytes, with type at +0x01, count at +0x04 and offset at +0x08. It matches
       neither record, despite its comment. Its rows read struct fields, so they are consistent with
       themselves, but they cannot read the binary's table memory: a real table would be read at the wrong
       bytes. Part 1b's `MaterialParameterBlock` holds that record too.
     - Decision: unify on the two canonical records and retire `ParamEntry`. Its `set` flag becomes `ref != 0`
-      for G. The core-video thread keeps both copies in step until its M and R bindings land, then migrates
-      the 1b rows to the canonical records.
+      for G. Not done. G's rows still read `ParamEntry` through `GlobalParameterStore`. M builds a `ParamEntry`
+      shadow of its 16-byte table on each call and writes the values back (`material_parameters_bind_m.cpp`),
+      so it is a conversion, not a second store. The core-video thread owns the retirement.
   - Pointer storage: owners M and R keep pointer slots as `boost::intrusive_ptr` in part 1c's
     `SPointerSlots`, keyed by the original byte offset. The listings do the reference-count add before the
     store and the release after it, and only an intrusive pointer reproduces that. Part 1b's raw-pointer
@@ -97,8 +99,10 @@ listing is in `recovered/native/ida-asm/` for checks (`tools/decomp_asm.py`). Gh
     The typed header names it `count`. Its declarations should be corrected to `stride`.
   - Pointer slot width: a stored pointer takes `sizeof(void*)` bytes on the host. The original stores 4.
     The owners size their value buffers to match. This is a port deviation and stays documented.
-  - Not done yet: the member templates and the owner table accessors are not written. The binding is the
-    next step for glitch-video, with the 271-row set above as the acceptance test.
+  - Done, merged from `feature/decomp-glitch-core-video` at `3f65fb50`. The bodies are in
+    `material_parameters_typed_impl.hpp`, which only the three owner files include. The owner backends are
+    `material_parameters_bind_g.cpp`, `_m.cpp` and `_r.cpp`, each with a test. The 16 M pointer rows carry
+    their binding and the missing reference counting in their ledger notes.
 - Musepack `mpc_*` queue rows are ledgered as `upstream`, matched by name. The bodies were not
   compared with upstream source. The vox thread later marked four of them (`0x87f28c`, `0x8803d4`,
   `0x8964ec`, `0x8965b4`) `skipped`, since it could not confirm the library function.
@@ -125,10 +129,12 @@ listing is in `recovered/native/ida-asm/` for checks (`tools/decomp_asm.py`). Gh
   the shared header.
 - glitch-video: the 311 moved rows are in its ledger, but the code is still under `glitch-core-io/include/
   glitch-core-io/video/`. Video should reconstruct them there, then remove the core-io copy.
-- glitch-video: 13 queued functions have no ledger row yet, all video's C2DDriver family (`0x59f0b0` to
-  `0x59fbd4`, `0x5fea04`, `0x5fed6c`).
-- glitch-video: the material-parameter binding above is decided. The core-video thread has pushed owner G
-  (88 rows) at `622dc3fe` on its branch. Owners M and R are still in progress there. Merge when they land.
+- glitch-video: part 1b's `ParamEntry` is still in use (G's rows, and M's shadow copy). Retiring it is open
+  for the core-video thread. See the record decision above.
+- glitch-video: the dispatcher declarations in `material_parameters_typed.hpp` (lines 108-119) still name the
+  4th argument `count`. For codes 12-15 and 18 it is a byte stride. The pointer forms below them already say
+  stride. The impl passes the value through unchanged, so this is a naming fix only.
+- glitch-video: `SParameterEntry` (`material_parameters.hpp`) has no static_assert. Add one (16 bytes).
 - glitch-video: four hooks are declared in `material_parameters_part_1b.hpp` (lines 124-127) and defined
   nowhere in the library. Any executable that links the binding must supply them:
   - `destroyLight(CLight*)`: the last-reference release of a CLight (Matrix4Pool push, LC_API_FREE).
@@ -167,7 +173,10 @@ listing is in `recovered/native/ida-asm/` for checks (`tools/decomp_asm.py`). Gh
 
 Closed since the last update: the core-video shared copies (now one definition each, see Decisions); the
 core-video stub bundle (kept out of the shared folder); the video material-parameter rows (routed to
-glitch-video with the code location noted above).
+glitch-video with the code location noted above); the owner G, M and R bindings (merged at `3f65fb50`);
+the 13 C2DDriver ledger rows (now skipped, with their notes). The same merge changed 40 video rows from
+reconstructed to partial, 2 from reconstructed to skipped and 8 from skipped to partial. Those are the owner's
+ledger changes, merged as they are.
 
 ## Process
 
