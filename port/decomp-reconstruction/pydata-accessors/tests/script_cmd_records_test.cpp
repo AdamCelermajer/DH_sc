@@ -81,6 +81,52 @@ int main() {
         delete d;
     }
 
+    // CloseDoor read twice on one object (Hex-Rays free-then-read): the second read frees the first
+    // buffer, reads the new length, string and bool, and consumes the stream in order.
+    {
+        std::vector<unsigned char> b;
+        putWord(b, 0);            // ScriptCmd word, first read
+        putWord(b, 3);            // length
+        putText(b, "abc");
+        b.push_back(1);           // bool at +0x10
+        putWord(b, 0);            // ScriptCmd word, second read
+        putWord(b, 2);            // length
+        putText(b, "xy");
+        b.push_back(0);
+        ByteStream s(b);
+        Structs::CloseDoor* c = new Structs::CloseDoor();
+        c->read(&s);
+        CHECK(c->m_w3 != nullptr && std::strcmp(c->m_w3, "abc") == 0);
+        CHECK(c->m_w4 == true);
+        c->read(&s);
+        CHECK(c->m_w2 == 2);
+        CHECK(c->m_w3 != nullptr && std::strcmp(c->m_w3, "xy") == 0);
+        CHECK(c->m_w4 == false);
+        delete c;  // frees "xy"
+    }
+
+    // MoveActor: length 2 "hi", bool, length 3 "xyz", bool. Both buffers are read unconditionally.
+    {
+        std::vector<unsigned char> b;
+        putWord(b, 0);            // ScriptCmd word
+        putWord(b, 2);            // length at +0x8
+        putText(b, "hi");
+        b.push_back(1);           // bool at +0x10
+        putWord(b, 3);            // length at +0x14
+        putText(b, "xyz");
+        b.push_back(0);           // bool at +0x1c
+        ByteStream s(b);
+        Structs::MoveActor* m = new Structs::MoveActor();
+        m->read(&s);
+        CHECK(m->m_w2 == 2);
+        CHECK(m->m_w3 != nullptr && std::strcmp(m->m_w3, "hi") == 0);
+        CHECK(m->m_w4 == true);
+        CHECK(m->m_w5 == 3);
+        CHECK(m->m_w6 != nullptr && std::strcmp(m->m_w6, "xyz") == 0);
+        CHECK(m->m_w7 == false);
+        delete m;  // frees both buffers
+    }
+
     // A short stream stops the read: ScriptCmd::read leaves the word at zero when no bytes arrive.
     {
         ByteStream s(std::vector<unsigned char>{1, 2});

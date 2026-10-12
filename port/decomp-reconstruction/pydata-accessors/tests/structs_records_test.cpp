@@ -69,6 +69,31 @@ int main() {
         Structs::DeletingDestructor(faction);
     }
 
+    // ItemPowerEntry::read (Hex-Rays): int32 at +0x4, then one signed byte at +0x8 (readAs<signed char>).
+    {
+        const unsigned char ipe[] = {0x07, 0x00, 0x00, 0x00, 0xFF};
+        Structs::ItemPowerEntry entry;
+        ByteStream in(ipe, sizeof ipe);
+        entry.read(&in);
+        CHECK(entry.m_w1 == 7);
+        CHECK(entry.m_w2 == -1);
+    }
+
+    // RepeatableSprite::read (Hex-Rays): int16 at +0x4, bool at +0x6, int16 at +0x8, bool at +0xa, and so on.
+    {
+        // int16 -2 | bool 1 | int16 0x1234 | bool 0 | int16 5 | int16 0 | bool 0 | int16 0 | bool 1 | int16 0
+        const unsigned char rs[] = {0xFE, 0xFF, 0x01, 0x34, 0x12, 0x00, 0x05, 0x00, 0x00, 0x00,
+                                    0x00, 0x00, 0x00, 0x01, 0x00, 0x00};
+        Structs::RepeatableSprite sprite;
+        ByteStream in(rs, sizeof rs);
+        sprite.read(&in);
+        CHECK(sprite.m_w1 == -2);
+        CHECK(sprite.m_off6 == true);
+        CHECK(sprite.m_w2 == 0x1234);
+        CHECK(sprite.m_off10 == false);
+        CHECK(sprite.m_w3 == 5);
+    }
+
     std::printf("%s\n", failures ? "structs_records: FAILED" : "structs_records: ok");
     return failures != 0;
 }

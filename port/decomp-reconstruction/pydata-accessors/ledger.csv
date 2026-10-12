@@ -364,7 +364,7 @@ elf_address,symbol,status,source_file,notes
 0x45710c,_Z27GetNewScriptCmdDataInstanceIN7Structs9HideFlashEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
 0x457148,_Z27GetNewScriptCmdDataInstanceIN7Structs9ShowFlashEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
 0x457184,_Z27GetNewScriptCmdDataInstanceIN7Structs10StopEffectEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
-0x4571c4,_Z27GetNewScriptCmdDataInstanceIN7Structs10PlayEffectEEPNS0_9ScriptCmdEv,partial,pydata-accessors/src/script_cmd.cpp,a word is stored as a link-time address; left null (partial)
+0x4571c4,_Z27GetNewScriptCmdDataInstanceIN7Structs10PlayEffectEEPNS0_9ScriptCmdEv,partial,pydata-accessors/src/script_cmd.cpp,"factory still partial. Hex-Rays re-run: the word at +0xc is the vptr of the embedded Structs::Pos3D (_ZTVN7Structs5Pos3DE + 8, IDA listing STR R2,[R0,#0xC]). PlayEffect has no Pos3D member in the port, so that word stays null. +0x20 is zeroed as before."
 0x457214,_Z27GetNewScriptCmdDataInstanceIN7Structs14PlayAnimByNameEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
 0x457254,_Z27GetNewScriptCmdDataInstanceIN7Structs12PlayAnimByIdEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
 0x457290,_Z27GetNewScriptCmdDataInstanceIN7Structs13LeaveSafeZoneEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
@@ -445,7 +445,7 @@ elf_address,symbol,status,source_file,notes
 0x4c6b8c,_ZN7Structs10CharEffectD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of CharEffect"
 0x4ce33c,_ZN7Structs10CharEffectD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
 0x4c6b90,_ZN7Structs10CharEffect8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4ed5a8,_ZN7Structs10CharEffect4readEP11IStreamBase,partial,pydata-accessors/src/structs_records.cpp,"read: no base call, 5 readAs store(s) at fixed offsets; a bool or int8 field is stored, its type is inferred"
+0x4ed5a8,_ZN7Structs10CharEffect4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"Hex-Rays re-run: no base call; int32 at +0x4..+0x10, bool at +0x14. Types from the Hex-Rays readAs<T> template arguments."
 0x4c6978,_ZN7Structs12CharInfoNameD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~CharInfoName): frees 0 field(s), base none"
 0x4c697c,_ZN7Structs12CharInfoNameD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of CharInfoName"
 0x4ce48c,_ZN7Structs12CharInfoNameD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
@@ -667,7 +667,7 @@ elf_address,symbol,status,source_file,notes
 0x4c6bec,_ZN7Structs14ItemPowerEntryD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of ItemPowerEntry"
 0x4ce25c,_ZN7Structs14ItemPowerEntryD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
 0x4c6bf0,_ZN7Structs14ItemPowerEntry8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4ed200,_ZN7Structs14ItemPowerEntry4readEP11IStreamBase,partial,pydata-accessors/src/structs_records.cpp,"read: no base call, 2 readAs store(s) at fixed offsets; a bool or int8 field is stored, its type is inferred"
+0x4ed200,_ZN7Structs14ItemPowerEntry4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"Hex-Rays re-run: no base call; int32 at +0x4, readAs<signed char> (int8) at +0x8. Types from the Hex-Rays readAs<T> template arguments."
 0x4c62ac,_ZN7Structs20LargePlantPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~LargePlantProperties): frees 0 field(s), base CharacterProperties"
 0x4c62e0,_ZN7Structs20LargePlantPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of LargePlantProperties"
 0x4ce684,_ZN7Structs20LargePlantPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
@@ -760,7 +760,7 @@ elf_address,symbol,status,source_file,notes
 0x4c6c4c,_ZN7Structs10ProjectileD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of Projectile"
 0x4ce17c,_ZN7Structs10ProjectileD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
 0x4c6c50,_ZN7Structs10Projectile8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4edbb8,_ZN7Structs10Projectile4readEP11IStreamBase,partial,pydata-accessors/src/structs_records.cpp,"read: no base call, 20 readAs store(s) at fixed offsets; a bool or int8 field is stored, its type is inferred"
+0x4edbb8,_ZN7Structs10Projectile4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"Hex-Rays re-run: no base call; 20 readAs stores at +0x4..+0x44 (bool, int32, float; types explicit). Types from the Hex-Rays readAs<T> template arguments."
 0x4c6a08,_ZN7Structs4RectD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~Rect): frees 0 field(s), base none"
 0x4c6a0c,_ZN7Structs4RectD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of Rect"
 0x4ce41c,_ZN7Structs4RectD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
@@ -770,7 +770,7 @@ elf_address,symbol,status,source_file,notes
 0x4c6988,_ZN7Structs16RepeatableSpriteD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of RepeatableSprite"
 0x4ce470,_ZN7Structs16RepeatableSpriteD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
 0x4c698c,_ZN7Structs16RepeatableSprite8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4dbf10,_ZN7Structs16RepeatableSprite4readEP11IStreamBase,partial,pydata-accessors/src/structs_records.cpp,"read: no base call, 10 readAs store(s) at fixed offsets; a bool or int8 field is stored, its type is inferred"
+0x4dbf10,_ZN7Structs16RepeatableSprite4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"Hex-Rays re-run: no base call; int16 and bool stores at +0x4..+0x16 (readAs<short>, readAs<bool>). Types from the Hex-Rays readAs<T> template arguments."
 0x4c6534,_ZN7Structs25ResurrectingGodPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~ResurrectingGodProperties): frees 0 field(s), base CharacterProperties"
 0x4c6568,_ZN7Structs25ResurrectingGodPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of ResurrectingGodProperties"
 0x4ce5dc,_ZN7Structs25ResurrectingGodPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
@@ -863,7 +863,7 @@ elf_address,symbol,status,source_file,notes
 0x4c6bc8,_ZN7Structs12TriggerPlateD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of TriggerPlate"
 0x4ce2b0,_ZN7Structs12TriggerPlateD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
 0x4c6bcc,_ZN7Structs12TriggerPlate8finalizeEv,reconstructed,pydata-accessors/src/structs_records.cpp,"finalize: no base call, frees 0 field(s)"
-0x4ed35c,_ZN7Structs12TriggerPlate4readEP11IStreamBase,partial,pydata-accessors/src/structs_records.cpp,"read: no base call, 7 readAs store(s) at fixed offsets; a bool or int8 field is stored, its type is inferred"
+0x4ed35c,_ZN7Structs12TriggerPlate4readEP11IStreamBase,reconstructed,pydata-accessors/src/structs_records.cpp,"Hex-Rays re-run: no base call; int32 at +0x4, bool at +0x8, int32 at +0xc..+0x1c. Types from the Hex-Rays readAs<T> template arguments."
 0x4c5b80,_ZN7Structs19TrollKingPropertiesD2Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"record destructor (C++ ~TrollKingProperties): frees 0 field(s), base CharacterProperties"
 0x4c5bb4,_ZN7Structs19TrollKingPropertiesD1Ev,reconstructed,pydata-accessors/src/structs_records.cpp,"base-object destructor, same body as the D2 destructor of TrollKingProperties"
 0x4ce860,_ZN7Structs19TrollKingPropertiesD0Ev,reconstructed,pydata-accessors/src/structs_records.cpp,deleting destructor: D1 then CustomFree
@@ -954,7 +954,7 @@ elf_address,symbol,status,source_file,notes
 0x4c7438,_ZN7Structs13AIEnableTimerD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of AIEnableTimer"
 0x4cdf4c,_ZN7Structs13AIEnableTimerD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
 0x4c746c,_ZN7Structs13AIEnableTimer8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
-0x4ff9b4,_ZN7Structs13AIEnableTimer4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 1 readAs store(s); a bool or int8 field is stored, its type is inferred"
+0x4ff9b4,_ZN7Structs13AIEnableTimer4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,Hex-Rays re-run: calls ScriptCmd::read; bool at +0x8. Types from the Hex-Rays readAs<T> template arguments.
 0x4c7470,_ZN7Structs12AIResetTimerD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~AIResetTimer): frees 0 field(s), base ScriptCmd"
 0x4c74a4,_ZN7Structs12AIResetTimerD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of AIResetTimer"
 0x4cdf30,_ZN7Structs12AIResetTimerD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
@@ -1014,7 +1014,7 @@ elf_address,symbol,status,source_file,notes
 0x4d18f0,_ZN7Structs9CloseDoorD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of CloseDoor"
 0x4d1938,_ZN7Structs9CloseDoorD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
 0x4d18c0,_ZN7Structs9CloseDoor8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
-0x5005f0,_ZN7Structs9CloseDoor4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 2 readAs store(s), 1 string buffer(s) read with NUL; a bool or int8 field is stored, its type is inferred"
+0x5005f0,_ZN7Structs9CloseDoor4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"Hex-Rays re-run: calls ScriptCmd::read; uint32 at +0x8; string buffer at +0xc (length +0x8); bool at +0x10. Each buffer is freed if set, then read; the Ghidra guard form (read only when the field was null) was a misreading. Allocation hint 1, readStringEx hint 0."
 0x4d179c,_ZN7Structs24DeactivateProjectileTrapD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~DeactivateProjectileTrap): frees 1 field(s), base ScriptCmd"
 0x4d1738,_ZN7Structs24DeactivateProjectileTrapD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of DeactivateProjectileTrap"
 0x4d1780,_ZN7Structs24DeactivateProjectileTrapD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
@@ -1079,7 +1079,7 @@ elf_address,symbol,status,source_file,notes
 0x4d311c,_ZN7Structs9HideFlashD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of HideFlash"
 0x4d3164,_ZN7Structs9HideFlashD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
 0x4d30bc,_ZN7Structs9HideFlash8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
-0x50208c,_ZN7Structs9HideFlash4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 3 readAs store(s), 1 string buffer(s) read with NUL; a bool or int8 field is stored, its type is inferred"
+0x50208c,_ZN7Structs9HideFlash4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"Hex-Rays re-run: calls ScriptCmd::read; int32 at +0x8; uint32 at +0xc; string buffer at +0x10 (length +0xc); bool at +0x14. Each buffer is freed if set, then read; the Ghidra guard form (read only when the field was null) was a misreading. Allocation hint 1, readStringEx hint 0."
 0x4c7398,_ZN7Structs13IncFaeryLevelD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~IncFaeryLevel): frees 0 field(s), base ScriptCmd"
 0x4c73cc,_ZN7Structs13IncFaeryLevelD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of IncFaeryLevel"
 0x4cdf68,_ZN7Structs13IncFaeryLevelD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
@@ -1114,12 +1114,12 @@ elf_address,symbol,status,source_file,notes
 0x4d2bc4,_ZN7Structs23MarkCharacterAsScriptedD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of MarkCharacterAsScripted"
 0x4d2c0c,_ZN7Structs23MarkCharacterAsScriptedD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
 0x4d2b94,_ZN7Structs23MarkCharacterAsScripted8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
-0x501bf4,_ZN7Structs23MarkCharacterAsScripted4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 2 readAs store(s), 1 string buffer(s) read with NUL; a bool or int8 field is stored, its type is inferred"
+0x501bf4,_ZN7Structs23MarkCharacterAsScripted4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"Hex-Rays re-run: calls ScriptCmd::read; bool at +0x8; uint32 at +0xc; string buffer at +0x10 (length +0xc). Each buffer is freed if set, then read; the Ghidra guard form (read only when the field was null) was a misreading. Allocation hint 1, readStringEx hint 0."
 0x4d2754,_ZN7Structs9MoveActorD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~MoveActor): frees 2 field(s), base ScriptCmd"
 0x4d26e0,_ZN7Structs9MoveActorD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of MoveActor"
 0x4d2738,_ZN7Structs9MoveActorD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
 0x4d2694,_ZN7Structs9MoveActor8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 2 field(s)"
-0x501578,_ZN7Structs9MoveActor4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 4 readAs store(s), 2 string buffer(s) read with NUL; a bool or int8 field is stored, its type is inferred"
+0x501578,_ZN7Structs9MoveActor4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"Hex-Rays re-run: calls ScriptCmd::read; uint32 at +0x8; string buffer at +0xc (length +0x8); bool at +0x10; uint32 at +0x14; string buffer at +0x18 (length +0x14); bool at +0x1c. Each buffer is freed if set, then read; the Ghidra guard form (read only when the field was null) was a misreading. Allocation hint 1, readStringEx hint 0."
 0x4c6e88,_ZN7Structs6NilCmdD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~NilCmd): frees 0 field(s), base ScriptCmd"
 0x4c6ebc,_ZN7Structs6NilCmdD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of NilCmd"
 0x4ce0b8,_ZN7Structs6NilCmdD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
@@ -1129,27 +1129,27 @@ elf_address,symbol,status,source_file,notes
 0x4d19cc,_ZN7Structs8OpenDoorD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of OpenDoor"
 0x4d1a14,_ZN7Structs8OpenDoorD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
 0x4d199c,_ZN7Structs8OpenDoor8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
-0x5006bc,_ZN7Structs8OpenDoor4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 2 readAs store(s), 1 string buffer(s) read with NUL; a bool or int8 field is stored, its type is inferred"
+0x5006bc,_ZN7Structs8OpenDoor4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"Hex-Rays re-run: calls ScriptCmd::read; uint32 at +0x8; string buffer at +0xc (length +0x8); bool at +0x10. Each buffer is freed if set, then read; the Ghidra guard form (read only when the field was null) was a misreading. Allocation hint 1, readStringEx hint 0."
 0x4d22a0,_ZN7Structs13PlayActorAnimD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~PlayActorAnim): frees 1 field(s), base ScriptCmd"
 0x4d223c,_ZN7Structs13PlayActorAnimD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of PlayActorAnim"
 0x4d2284,_ZN7Structs13PlayActorAnimD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
 0x4d220c,_ZN7Structs13PlayActorAnim8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
-0x500ff4,_ZN7Structs13PlayActorAnim4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 5 readAs store(s), 1 string buffer(s) read with NUL; a bool or int8 field is stored, its type is inferred"
+0x500ff4,_ZN7Structs13PlayActorAnim4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"Hex-Rays re-run: calls ScriptCmd::read; int32 at +0x8; int32 at +0xc; int32 at +0x10; uint32 at +0x14; string buffer at +0x18 (length +0x14); bool at +0x1c. Each buffer is freed if set, then read; the Ghidra guard form (read only when the field was null) was a misreading. Allocation hint 1, readStringEx hint 0."
 0x4d36c4,_ZN7Structs12PlayAnimByIdD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~PlayAnimById): frees 1 field(s), base ScriptCmd"
 0x4d3660,_ZN7Structs12PlayAnimByIdD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of PlayAnimById"
 0x4d36a8,_ZN7Structs12PlayAnimByIdD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
 0x4d3630,_ZN7Structs12PlayAnimById8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
-0x502594,_ZN7Structs12PlayAnimById4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 4 readAs store(s), 1 string buffer(s) read with NUL; a bool or int8 field is stored, its type is inferred"
+0x502594,_ZN7Structs12PlayAnimById4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"Hex-Rays re-run: calls ScriptCmd::read; int32 at +0x8; bool at +0xc; uint32 at +0x10; string buffer at +0x14 (length +0x10); bool at +0x18. Each buffer is freed if set, then read; the Ghidra guard form (read only when the field was null) was a misreading. Allocation hint 1, readStringEx hint 0."
 0x4d35d8,_ZN7Structs14PlayAnimByNameD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~PlayAnimByName): frees 2 field(s), base ScriptCmd"
 0x4d3564,_ZN7Structs14PlayAnimByNameD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of PlayAnimByName"
 0x4d35bc,_ZN7Structs14PlayAnimByNameD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
 0x4d3518,_ZN7Structs14PlayAnimByName8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 2 field(s)"
-0x502418,_ZN7Structs14PlayAnimByName4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 4 readAs store(s), 2 string buffer(s) read with NUL; a bool or int8 field is stored, its type is inferred"
+0x502418,_ZN7Structs14PlayAnimByName4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"Hex-Rays re-run: calls ScriptCmd::read; uint32 at +0x8; string buffer at +0xc (length +0x8); bool at +0x10; uint32 at +0x14; string buffer at +0x18 (length +0x14); bool at +0x1c. Each buffer is freed if set, then read; the Ghidra guard form (read only when the field was null) was a misreading. Allocation hint 1, readStringEx hint 0."
 0x4c6d44,_ZN7Structs10PlayCameraD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~PlayCamera): frees 0 field(s), base ScriptCmd"
 0x4c6d78,_ZN7Structs10PlayCameraD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of PlayCamera"
 0x4ce10c,_ZN7Structs10PlayCameraD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
 0x4c6dac,_ZN7Structs10PlayCamera8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
-0x4ffba0,_ZN7Structs10PlayCamera4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 2 readAs store(s); a bool or int8 field is stored, its type is inferred"
+0x4ffba0,_ZN7Structs10PlayCamera4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"Hex-Rays re-run: calls ScriptCmd::read; int32 at +0x8, bool at +0xc. Types from the Hex-Rays readAs<T> template arguments."
 0x4c7110,_ZN7Structs14PlayLevelMusicD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~PlayLevelMusic): frees 0 field(s), base ScriptCmd"
 0x4c7144,_ZN7Structs14PlayLevelMusicD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of PlayLevelMusic"
 0x4ce010,_ZN7Structs14PlayLevelMusicD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
@@ -1159,7 +1159,7 @@ elf_address,symbol,status,source_file,notes
 0x4c706c,_ZN7Structs9PlaySoundD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of PlaySound"
 0x4ce048,_ZN7Structs9PlaySoundD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
 0x4c70a0,_ZN7Structs9PlaySound8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
-0x4ffab4,_ZN7Structs9PlaySound4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 4 readAs store(s); a bool or int8 field is stored, its type is inferred"
+0x4ffab4,_ZN7Structs9PlaySound4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"Hex-Rays re-run: calls ScriptCmd::read; int32 at +0x8, bool at +0xc, bool at +0xd, int32 at +0x10. Types from the Hex-Rays readAs<T> template arguments."
 0x4d2d04,_ZN7Structs18PutCharacterInIdleD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~PutCharacterInIdle): frees 1 field(s), base ScriptCmd"
 0x4d2ca0,_ZN7Structs18PutCharacterInIdleD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of PutCharacterInIdle"
 0x4d2ce8,_ZN7Structs18PutCharacterInIdleD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
@@ -1169,7 +1169,7 @@ elf_address,symbol,status,source_file,notes
 0x4d2e58,_ZN7Structs20PutCharacterInLimbusD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of PutCharacterInLimbus"
 0x4d2ea0,_ZN7Structs20PutCharacterInLimbusD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
 0x4d2e28,_ZN7Structs20PutCharacterInLimbus8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
-0x501e40,_ZN7Structs20PutCharacterInLimbus4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 2 readAs store(s), 1 string buffer(s) read with NUL; a bool or int8 field is stored, its type is inferred"
+0x501e40,_ZN7Structs20PutCharacterInLimbus4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"Hex-Rays re-run: calls ScriptCmd::read; bool at +0x8; uint32 at +0xc; string buffer at +0x10 (length +0xc). Each buffer is freed if set, then read; the Ghidra guard form (read only when the field was null) was a misreading. Allocation hint 1, readStringEx hint 0."
 0x4d1be8,_ZN7Structs12ReEquipHandsD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~ReEquipHands): frees 1 field(s), base ScriptCmd"
 0x4d1b84,_ZN7Structs12ReEquipHandsD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of ReEquipHands"
 0x4d1bcc,_ZN7Structs12ReEquipHandsD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
@@ -1189,7 +1189,7 @@ elf_address,symbol,status,source_file,notes
 0x4d2028,_ZN7Structs14SetActorMasterD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of SetActorMaster"
 0x4d2080,_ZN7Structs14SetActorMasterD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
 0x4d1fdc,_ZN7Structs14SetActorMaster8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 2 field(s)"
-0x500d14,_ZN7Structs14SetActorMaster4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 4 readAs store(s), 2 string buffer(s) read with NUL; a bool or int8 field is stored, its type is inferred"
+0x500d14,_ZN7Structs14SetActorMaster4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"Hex-Rays re-run: calls ScriptCmd::read; bool at +0x8; uint32 at +0xc; string buffer at +0x10 (length +0xc); bool at +0x14; uint32 at +0x18; string buffer at +0x1c (length +0x18). Each buffer is freed if set, then read; the Ghidra guard form (read only when the field was null) was a misreading. Allocation hint 1, readStringEx hint 0."
 0x4d21b4,_ZN7Structs16SetActorPositionD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~SetActorPosition): frees 2 field(s), base ScriptCmd"
 0x4d2140,_ZN7Structs16SetActorPositionD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of SetActorPosition"
 0x4d2198,_ZN7Structs16SetActorPositionD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
@@ -1199,7 +1199,7 @@ elf_address,symbol,status,source_file,notes
 0x4d3834,_ZN7Structs9SetCameraD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of SetCamera"
 0x4d388c,_ZN7Structs9SetCameraD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
 0x4d37e8,_ZN7Structs9SetCamera8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 2 field(s)"
-0x5027f0,_ZN7Structs9SetCamera4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 4 readAs store(s), 2 string buffer(s) read with NUL; a bool or int8 field is stored, its type is inferred"
+0x5027f0,_ZN7Structs9SetCamera4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"Hex-Rays re-run: calls ScriptCmd::read; uint32 at +0x8; string buffer at +0xc (length +0x8); uint32 at +0x10; string buffer at +0x14 (length +0x10); int32 at +0x18; bool at +0x1c. Each buffer is freed if set, then read; the Ghidra guard form (read only when the field was null) was a misreading. Allocation hint 1, readStringEx hint 0."
 0x4c6db0,_ZN7Structs13SetCameraClipD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~SetCameraClip): frees 0 field(s), base ScriptCmd"
 0x4c6de4,_ZN7Structs13SetCameraClipD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of SetCameraClip"
 0x4ce0f0,_ZN7Structs13SetCameraClipD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
@@ -1209,7 +1209,7 @@ elf_address,symbol,status,source_file,notes
 0x4d373c,_ZN7Structs15SetCameraTargetD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of SetCameraTarget"
 0x4d3784,_ZN7Structs15SetCameraTargetD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
 0x4d370c,_ZN7Structs15SetCameraTarget8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
-0x5026c8,_ZN7Structs15SetCameraTarget4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 3 readAs store(s), 1 string buffer(s) read with NUL; a bool or int8 field is stored, its type is inferred"
+0x5026c8,_ZN7Structs15SetCameraTarget4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"Hex-Rays re-run: calls ScriptCmd::read; int32 at +0x8; uint32 at +0xc; string buffer at +0x10 (length +0xc); bool at +0x14. Each buffer is freed if set, then read; the Ghidra guard form (read only when the field was null) was a misreading. Allocation hint 1, readStringEx hint 0."
 0x4c732c,_ZN7Structs13SetFaeryStateD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~SetFaeryState): frees 0 field(s), base ScriptCmd"
 0x4c7360,_ZN7Structs13SetFaeryStateD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of SetFaeryState"
 0x4cdf84,_ZN7Structs13SetFaeryStateD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
@@ -1224,7 +1224,7 @@ elf_address,symbol,status,source_file,notes
 0x4d1aa8,_ZN7Structs9SetStaticD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of SetStatic"
 0x4d1af0,_ZN7Structs9SetStaticD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
 0x4d1a78,_ZN7Structs9SetStatic8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
-0x500788,_ZN7Structs9SetStatic4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 2 readAs store(s), 1 string buffer(s) read with NUL; a bool or int8 field is stored, its type is inferred"
+0x500788,_ZN7Structs9SetStatic4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"Hex-Rays re-run: calls ScriptCmd::read; bool at +0x8; uint32 at +0xc; string buffer at +0x10 (length +0xc). Each buffer is freed if set, then read; the Ghidra guard form (read only when the field was null) was a misreading. Allocation hint 1, readStringEx hint 0."
 0x4c75b4,_ZN7Structs24SetWorldMapLocationStateD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~SetWorldMapLocationState): frees 0 field(s), base ScriptCmd"
 0x4c75e8,_ZN7Structs24SetWorldMapLocationStateD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of SetWorldMapLocationState"
 0x4cdedc,_ZN7Structs24SetWorldMapLocationStateD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
@@ -1239,7 +1239,7 @@ elf_address,symbol,status,source_file,notes
 0x4d32d4,_ZN7Structs9ShowFlashD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of ShowFlash"
 0x4d331c,_ZN7Structs9ShowFlashD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
 0x4d3274,_ZN7Structs9ShowFlash8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"finalize: calls ScriptCmd::finalize, frees 1 field(s)"
-0x5021b8,_ZN7Structs9ShowFlash4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 3 readAs store(s), 1 string buffer(s) read with NUL; a bool or int8 field is stored, its type is inferred"
+0x5021b8,_ZN7Structs9ShowFlash4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"Hex-Rays re-run: calls ScriptCmd::read; int32 at +0x8; uint32 at +0xc; string buffer at +0x10 (length +0xc); bool at +0x14. Each buffer is freed if set, then read; the Ghidra guard form (read only when the field was null) was a misreading. Allocation hint 1, readStringEx hint 0."
 0x4c77d0,_ZN7Structs12ShowTrophiesD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~ShowTrophies): frees 0 field(s), base ScriptCmd"
 0x4c7804,_ZN7Structs12ShowTrophiesD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of ShowTrophies"
 0x4cde50,_ZN7Structs12ShowTrophiesD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
@@ -1299,7 +1299,7 @@ elf_address,symbol,status,source_file,notes
 0x4c70d8,_ZN7Structs9StopSoundD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of StopSound"
 0x4ce02c,_ZN7Structs9StopSoundD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
 0x4c710c,_ZN7Structs9StopSound8finalizeEv,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"thunk, b 0x4c6c68: forwards to ScriptCmd::finalize"
-0x4ff9d4,_ZN7Structs9StopSound4readEP11IStreamBase,partial,pydata-accessors/src/script_cmd_records.cpp,"read: calls ScriptCmd::read, 3 readAs store(s); a bool or int8 field is stored, its type is inferred"
+0x4ff9d4,_ZN7Structs9StopSound4readEP11IStreamBase,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"Hex-Rays re-run: calls ScriptCmd::read; int32 at +0x8, bool at +0xc, int32 at +0x10. Types from the Hex-Rays readAs<T> template arguments."
 0x4d1cc4,_ZN7Structs12UnEquipHandsD2Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"record destructor (C++ ~UnEquipHands): frees 1 field(s), base ScriptCmd"
 0x4d1c60,_ZN7Structs12UnEquipHandsD1Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,"base-object destructor, same body as the D2 destructor of UnEquipHands"
 0x4d1ca8,_ZN7Structs12UnEquipHandsD0Ev,reconstructed,pydata-accessors/src/script_cmd_records.cpp,deleting destructor: D1 then CustomFree
