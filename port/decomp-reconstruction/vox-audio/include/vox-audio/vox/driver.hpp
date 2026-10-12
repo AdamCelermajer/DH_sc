@@ -1,9 +1,11 @@
 // Platform output driver interfaces (vox::DriverInterface, vox::DriverSourceInterface).
 // The base classes carry the virtual surface the engine calls on every driver.
-// Vtable slots for DriverInterface: +0x00/+0x04 destructors, +0x18 RampOut, +0x1c
-// RampIn, +0x20 Update, +0x28 SetDSPParameter, +0x2c SetStaticBusRouting, +0x30
-// SetDynamicBusRouting, +0x34 SetSFXPresetActive, +0x38 SetOutputMode, +0x3c
-// GetOutputMode. Slots +0x08..+0x14, +0x24 and +0x40..+0x48 have no symbol.
+// Vtable slots for DriverInterface: +0x00/+0x04 destructors, +0x10 and +0x14 (no
+// symbol; null in the base, so pure here and named after the VoxEngineInternal calls
+// that use them), +0x18 RampOut, +0x1c RampIn, +0x20 Update, +0x28 SetDSPParameter,
+// +0x2c SetStaticBusRouting, +0x30 SetDynamicBusRouting, +0x34 SetSFXPresetActive,
+// +0x38 SetOutputMode, +0x3c GetOutputMode. Slots +0x08, +0x0c, +0x24 and +0x40..+0x48
+// have no symbol.
 // DriverSourceInterface: +0x00/+0x04 destructors, +0x40 SetDSPParameter, +0x44 Update,
 // +0x48 AllowBufferReference, +0x4c FreeDisposableData.
 #pragma once
@@ -17,6 +19,8 @@ namespace vox {
 class DriverInterface {
 public:
     virtual ~DriverInterface();                                        // D1 0x88fcdc, D0 0x891000
+    virtual void Suspend() = 0;                                        // +0x10, called when the engine suspends
+    virtual void Resume() = 0;                                         // +0x14, called when the engine resumes
     virtual void RampOut();                                            // 0x88ed40 (empty)
     virtual void RampIn();                                             // 0x88ed44 (empty)
     virtual void Update(float dt);                                     // 0x88fce0 (empty)

@@ -434,3 +434,29 @@ elf_address,symbol,status,source_file,notes
 0x8675c0,_ZN3vox17VoxEngineInternal11GetUserDataERNS_13EmitterHandleE,reconstructed,vox-audio/src/voxengine_internal_emitter.cpp,GetUserData: all ones without an emitter (original returns -1); return type widened to uintptr_t
 0x868054,_ZN3vox17VoxEngineInternal29IncreaseEmitterObjectRefCountERNS_13EmitterHandleE,reconstructed,vox-audio/src/voxengine_internal_emitter.cpp,IncreaseEmitterObjectRefCount: Retain on the object under emitter access
 0x8682e0,_ZN3vox17VoxEngineInternal29DecreaseEmitterObjectRefCountERNS_13EmitterHandleE,reconstructed,vox-audio/src/voxengine_internal_emitter.cpp,DecreaseEmitterObjectRefCount: Release on the object under emitter access
+0x865d2c,_ZN3vox17VoxEngineInternal22Get3DGeneralParameteriEiRi,reconstructed,vox-audio/src/voxengine_internal_listener.cpp,
+0x865d60,_ZN3vox17VoxEngineInternal22Get3DGeneralParameterfEiRf,reconstructed,vox-audio/src/voxengine_internal_listener.cpp,
+0x865da8,_ZN3vox17VoxEngineInternal21Get3DGeneralParameterERNS_22Vox3DGeneralParametersE,reconstructed,vox-audio/src/voxengine_internal_listener.cpp,
+0x865de8,_ZN3vox17VoxEngineInternal24Get3DListenerOrientationERfS1_S1_S1_S1_S1_,reconstructed,vox-audio/src/voxengine_internal_listener.cpp,
+0x865e58,_ZN3vox17VoxEngineInternal21Get3DListenerVelocityERfS1_S1_,reconstructed,vox-audio/src/voxengine_internal_listener.cpp,
+0x865e9c,_ZN3vox17VoxEngineInternal21Get3DListenerPositionERfS1_S1_,reconstructed,vox-audio/src/voxengine_internal_listener.cpp,
+0x865ee0,_ZN3vox17VoxEngineInternal22Set3DGeneralParameteriEii,reconstructed,vox-audio/src/voxengine_internal_listener.cpp,
+0x865f18,_ZN3vox17VoxEngineInternal22Set3DGeneralParameterfEif,reconstructed,vox-audio/src/voxengine_internal_listener.cpp,
+0x865f68,_ZN3vox17VoxEngineInternal21Set3DGeneralParameterERKNS_22Vox3DGeneralParametersE,reconstructed,vox-audio/src/voxengine_internal_listener.cpp,
+0x865fb8,_ZN3vox17VoxEngineInternal24Set3DListenerOrientationEffffff,reconstructed,vox-audio/src/voxengine_internal_listener.cpp,
+0x866018,_ZN3vox17VoxEngineInternal21Set3DListenerVelocityEfff,reconstructed,vox-audio/src/voxengine_internal_listener.cpp,
+0x866058,_ZN3vox17VoxEngineInternal21Set3DListenerPositionEfff,reconstructed,vox-audio/src/voxengine_internal_listener.cpp,
+0x865c50,_ZN3vox17VoxEngineInternal18SetSFXPresetActiveEibf,reconstructed,vox-audio/src/voxengine_internal_driver.cpp,forwards to DriverInterface vtable +0x34 under the mutex
+0x865ca4,_ZN3vox17VoxEngineInternal20SetDynamicBusRoutingEPc,reconstructed,vox-audio/src/voxengine_internal_driver.cpp,forwards to DriverInterface vtable +0x30 under the mutex
+0x865ce8,_ZN3vox17VoxEngineInternal19SetStaticBusRoutingEPc,reconstructed,vox-audio/src/voxengine_internal_driver.cpp,forwards to DriverInterface vtable +0x2c under the mutex
+0x8630b0,_ZN3vox17VoxEngineInternal23_SetDefault3DParametersEv,reconstructed,vox-audio/src/voxengine_internal_driver.cpp,empty in the original (bare return)
+0x8630b4,_ZN3vox17VoxEngineInternal16SetRoutingVolumeEPcS1_NS_22VoxDSPGeneralParameter14BusRoutingTypeEfff,reconstructed,vox-audio/src/voxengine_internal_driver.cpp,empty in the original (bare return); arguments unused
+0x86308c,_ZN3vox17VoxEngineInternal9UpdateDSPEf,reconstructed,vox-audio/src/voxengine_internal_driver.cpp,forwards to DriverInterface vtable +0x20 (Update) without the mutex
+0x8630b8,_ZN3vox17VoxEngineInternal13GetOutputModeEv,reconstructed,vox-audio/src/voxengine_internal_driver.cpp,driver vtable +0x3c; returns -1 without a driver
+0x8630e4,_ZN3vox17VoxEngineInternal13SetOutputModeENS_13VoxOutputModeE,reconstructed,vox-audio/src/voxengine_internal_driver.cpp,driver vtable +0x38; returns 0 without a driver; return type int per pseudocode
+0x8660d4,_ZN3vox17VoxEngineInternal13GetMasterGainEv,reconstructed,vox-audio/src/voxengine_internal_driver.cpp,master gain at +0xe4; the writer SetMasterGain is not reconstructed yet
+0x866098,_ZN3vox17VoxEngineInternal12GetGroupGainEi,reconstructed,vox-audio/src/voxengine_internal_driver.cpp,"groups 0..31 at +0xf8, stride 20; other indices read 0; gain writer SetGroupGain not reconstructed yet"
+0x864dc4,_ZN3vox17VoxEngineInternal7SuspendEv,reconstructed,vox-audio/src/voxengine_internal_driver.cpp,nested suspend count at +0x594; driver vtable +0x10 (no symbol) on the first call
+0x864d44,_ZN3vox17VoxEngineInternal6ResumeEv,reconstructed,vox-audio/src/voxengine_internal_driver.cpp,driver vtable +0x14 (no symbol) when the count falls from 1 to 0
+0x864d10,_ZN3vox17VoxEngineInternal11IsSuspendedEv,reconstructed,vox-audio/src/voxengine_internal_driver.cpp,
+0x866258,_ZN3vox17VoxEngineInternal15SetPriorityBankEiiiNS_20PriorityBankBehaviorE,reconstructed,vox-audio/src/voxengine_internal_driver.cpp,tail-calls PriorityBankManager::SetPriorityBank (partial) when the manager exists

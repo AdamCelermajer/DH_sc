@@ -51,4 +51,13 @@ struct Vox3DEmitterParameters {
     float params[7] = {};      // +0x04..+0x1c, parameters 1..7
 };
 
+// General 3D parameters as Get3DGeneralParameter and Set3DGeneralParameter copy them:
+// parameter 0 (float), parameter 1 (float), parameter 2 (int), three words in all.
+// Inside VoxEngineInternal they sit at +0x428, +0x42c and +0x430.
+struct Vox3DGeneralParameters {
+    float param0 = 0.0f;       // +0x00
+    float param1 = 0.0f;       // +0x04
+    std::int32_t param2 = 0;   // +0x08
+};
+
 }  // namespace vox

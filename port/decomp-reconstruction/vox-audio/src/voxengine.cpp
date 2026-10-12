@@ -107,7 +107,7 @@ void VoxEngine::SetOutputMode(VoxOutputMode mode) {
 // 0x8618f8 _ZN3vox9VoxEngine13GetOutputModeEv (partial: target VoxEngineInternal::GetOutputMode)
 VoxOutputMode VoxEngine::GetOutputMode() {
     if (m_internal != nullptr) {
-        return m_internal->GetOutputMode();
+        return static_cast<VoxOutputMode>(m_internal->GetOutputMode());
     }
     return static_cast<VoxOutputMode>(-1);
 }

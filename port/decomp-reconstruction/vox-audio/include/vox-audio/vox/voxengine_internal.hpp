@@ -1,6 +1,7 @@
 // vox::VoxEngineInternal: the engine object behind the static vox::VoxEngine facade.
-// Only its declarations are reconstructed here; no method body is in the port yet,
-// so the facade forwarders that call into it are partial.
+// The emitter forwarders, the listener and general 3D accessors, and the driver,
+// suspend and gain forwarders have bodies. The constructor, destructor and the
+// virtual update and gain methods are declared only.
 //
 // Vtable (52 bytes, 13 slots): +0x00/+0x04 destructor, +0x08 Initialize, +0x0c Suspend,
 // +0x10 Resume, +0x14 IsSuspended, +0x18 UpdateSources, +0x1c UpdateEmitters,
@@ -18,6 +19,14 @@
 namespace vox {
 
 class DriverInterface;
+class PriorityBankManager;
+
+// One of the 32 group slots at +0xf8 (stride 20 bytes). Only the gain word is used
+// by the accessors reconstructed so far.
+struct VoxGroupSlot {
+    float gain = 0.0f;                  // +0x00 within the slot
+    std::uint32_t unknown[4] = {};      // +0x04..+0x13, not used yet
+};
 
 class VoxEngineInternal {
 public:
@@ -35,13 +44,15 @@ public:
     // Non-virtual entry points that the facade calls directly (no vtable slot).
     void GetDebugInfo(DebugInfo& info);
     void PrintDebug();
-    void SetOutputMode(VoxOutputMode mode);
-    VoxOutputMode GetOutputMode();
+    int SetOutputMode(VoxOutputMode mode);  // 0x8630e4: driver result, 0 without a driver
+    int GetOutputMode();                    // 0x8630b8: driver result, -1 without a driver
+    void UpdateDSP(float dt);               // 0x86308c: forwards to the driver's Update
+    void _SetDefault3DParameters();         // 0x8630b0 (empty in the binary)
     void SetInteractiveMusicState(EmitterHandle& emitter, const char* state);
     void SetDSPEmitterParameter(EmitterHandle& emitter, int param, void* value);
     void SetSFXPresetActive(int preset, bool active, float level);
     void SetRoutingVolume(char* from, char* to, VoxDSPGeneralParameter::BusRoutingType type,
-                          float volume, float fade_in, float fade_out);
+                          float volume, float fade_in, float fade_out);  // 0x8630b4 (empty)
     void SetDynamicBusRouting(char* name);
     void SetStaticBusRouting(char* name);
 
@@ -130,6 +141,20 @@ public:
     EmitterObj* GetEmitterObject(EmitterHandle& emitter);  // 0x8674cc (partial, see the .cpp)
 
 private:
+    // Listener state (+0x3f8..+0x43a). Each Set marks its block dirty (the bytes the
+    // driver update reads); the values are copied as the original stores them.
+    float listener_position_[3] = {};          // +0x3f8, x y z
+    float listener_velocity_[3] = {};          // +0x404, x y z
+    float listener_orientation_[6] = {};       // +0x410, front x y z then up x y z
+    Vox3DGeneralParameters general_3d_;        // +0x428 (param 0), +0x42c (param 1), +0x430 (param 2)
+    bool general_dirty_[3] = {};               // +0x434, +0x435, +0x436 (params 0, 1, 2)
+    bool listener_dirty_[3] = {};              // +0x437 position, +0x438 velocity, +0x439 orientation
+
+    float master_gain_ = 0.0f;                 // +0xe4 (read by GetMasterGain)
+    PriorityBankManager* priority_bank_ = nullptr;  // +0xdc
+    VoxGroupSlot group_slots_[32];             // +0xf8, 32 slots of 20 bytes
+    int suspend_count_ = 0;                    // +0x594 (nested Suspend/Resume depth)
+
     AccessController data_access_;             // +0x60 (guards data_pending_)
     HandlableContainer data_objects_;          // +0x08 (lookup by id)
     HandlableContainer data_pending_;          // +0x28
