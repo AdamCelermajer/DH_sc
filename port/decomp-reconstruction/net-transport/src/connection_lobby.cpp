@@ -19,7 +19,7 @@ constexpr int kMaxMessageBytes = 4096;               // largest accepted body le
 // 0x849164 _ZN15ConnectionLobbyC1EPci (C2 0x849198 is the same body; skipped in the ledger)
 ConnectionLobby::ConnectionLobby(char* host, int port) : Connection(host, port) {}
 
-// 0x8490e0 _ZN15ConnectionLobbyD2Ev (D1 0x849130 is the same body; D0 0x849114 is the deleting variant)
+// 0x8490e0 _ZN15ConnectionLobbyD1Ev (D1 0x849130 is the same body; D0 0x849114 is the deleting variant)
 ConnectionLobby::~ConnectionLobby() = default;
 
 // 0x846eb4 _ZN15ConnectionLobby13sendRetryDataEv
@@ -35,7 +35,7 @@ void ConnectionLobby::sendRetryData() {
     last_request_time_ = platform_calls::GetTime();
 }
 
-// 0x846f3c _ZN15ConnectionLobby18keepConnectionAliveEv
+// 0x846f3c _ZN15ConnectionLobby19keepConnectionAliveEv
 bool ConnectionLobby::keepConnectionAlive() {
     if (platform_calls::GetTime() - last_send_time_ <= 10000) {
         return false;
@@ -70,7 +70,7 @@ int ConnectionLobby::sendGetPlayerCounter() {
     return QueueMessage(packet);
 }
 
-// 0x847080 _ZN15ConnectionLobby30sendGetLobbyForFriendWithGameParamEi...
+// 0x847080 _ZN15ConnectionLobby34sendGetLobbyForFriendWithGameParamEihhPciP23CLobbyParameterAndQuery...
 int ConnectionLobby::sendGetLobbyForFriendWithGameParam(int a2, unsigned char a3, unsigned char a4, char* a5,
                                                         int a6, CLobbyParameterAndQuery* a7) {
     auto* packet = new DataPacketLobby();
@@ -107,7 +107,7 @@ int ConnectionLobby::sendGetLobbyListPackageWithGameParam(int a2, int a3, int a4
     return SendLobbyListMessage(96, a3, a4, a5, a6, a7);
 }
 
-// 0x8473b0 _ZN15ConnectionLobby14sendKickOutPackageEPc
+// 0x8473b0 _ZN15ConnectionLobby18sendKickOutPackageEPc
 int ConnectionLobby::sendKickOutPackage(char* name) {
     auto* packet = new DataPacketLobby();
     packet->InitMessage(24);
@@ -115,7 +115,7 @@ int ConnectionLobby::sendKickOutPackage(char* name) {
     return QueueMessage(packet);
 }
 
-// 0x84742c _ZN15ConnectionLobby24sendCancelAutoMatchPackageEv
+// 0x84742c _ZN15ConnectionLobby26sendCancelAutoMatchPackageEv
 int ConnectionLobby::sendCancelAutoMatchPackage() {
     auto* packet = new DataPacketLobby();
     packet->InitMessage(74);
@@ -133,7 +133,7 @@ int ConnectionLobby::sendAutoMatchPackage(char* a2, int a3, char* a4, int a5, sh
     return QueueMessage(packet);
 }
 
-// 0x847554 _ZN15ConnectionLobby17sendGetLobbyForFriendEihhPci
+// 0x847554 _ZN15ConnectionLobby21sendGetLobbyForFriendEihhPci
 int ConnectionLobby::sendGetLobbyForFriend(int a2, unsigned char a3, unsigned char a4, char* a5, int a6) {
     auto* packet = new DataPacketLobby();
     packet->InitMessage(54);
@@ -146,7 +146,7 @@ int ConnectionLobby::sendGetLobbyForFriend(int a2, unsigned char a3, unsigned ch
     return QueueMessage(packet);
 }
 
-// 0x84763c _ZN15ConnectionLobby17sendGetLobbyForNameEPc
+// 0x84763c _ZN15ConnectionLobby19sendGetLobbyForNameEPc
 int ConnectionLobby::sendGetLobbyForName(char* name) {
     auto* packet = new DataPacketLobby();
     packet->InitMessage(52);
@@ -184,7 +184,7 @@ int ConnectionLobby::sendSetGameParameter(char* name, short value, CLobbyParamet
     return QueueMessage(packet);
 }
 
-// 0x8478ac _ZN15ConnectionLobby20sendRejoinLobbyPackageEi
+// 0x8478ac _ZN15ConnectionLobby22sendRejoinLobbyPackageEi
 int ConnectionLobby::sendRejoinLobbyPackage(int lobby_id) {
     auto* packet = new DataPacketLobby();
     packet->InitMessage(45);
@@ -200,7 +200,7 @@ int ConnectionLobby::sendSetPlayerStatusPackage(unsigned char status) {
     return QueueMessage(packet);
 }
 
-// 0x84798c _ZN15ConnectionLobby24sendLunchLobbyGamePackageEv
+// 0x84798c _ZN15ConnectionLobby25sendLunchLobbyGamePackageEv
 int ConnectionLobby::sendLunchLobbyGamePackage() {
     auto* packet = new DataPacketLobby();
     packet->InitMessage(42);
@@ -247,7 +247,7 @@ int ConnectionLobby::sendJoinPredefinedLobbyPackage(char* a2, int a3, char* a4, 
     return QueueMessage(packet);
 }
 
-// 0x847ce8 _ZN15ConnectionLobby19sendJoinLobbyPackageEihPci
+// 0x847ce8 _ZN15ConnectionLobby20sendJoinLobbyPackageEihPci
 int ConnectionLobby::sendJoinLobbyPackage(int lobby_id, unsigned char a3, char* a4, int a5) {
     auto* packet = new DataPacketLobby();
     packet->InitMessage(15);
@@ -285,7 +285,7 @@ int ConnectionLobby::sendCreateLobbyPackageWithGameCenter(int a2, char* name, un
     return 16556;
 }
 
-// 0x847fe0 _ZN15ConnectionLobby18sendCreateLobbyPackageEiPchhiS0_iS0_iP23CLobbyParameterAndQuery
+// 0x847fe0 _ZN15ConnectionLobby22sendCreateLobbyPackageEiPchhiS0_iS0_iP23CLobbyParameterAndQuery
 int ConnectionLobby::sendCreateLobbyPackage(int a2, char* name, unsigned char a4, unsigned char a5, int a6,
                                             char* a7, int a8, char* a9, int a10, CLobbyParameterAndQuery* a11) {
     (void)a2;  // not read by the original body
@@ -319,7 +319,7 @@ int ConnectionLobby::sendLobbyLoginPackageWithGameCenter(long user_id, char* a3,
     return QueueMessage(packet);
 }
 
-// 0x848258 _ZN15ConnectionLobby20sendLobbyLoginPackageElPcsh
+// 0x848258 _ZN15ConnectionLobby21sendLobbyLoginPackageElPcsh
 int ConnectionLobby::sendLobbyLoginPackage(long user_id, char* name, short a4, unsigned char a5) {
     auto* packet = new DataPacketLobby();
     packet->InitMessage(5);
@@ -329,7 +329,7 @@ int ConnectionLobby::sendLobbyLoginPackage(long user_id, char* name, short a4, u
     return QueueMessage(packet);
 }
 
-// 0x848300 _ZN15ConnectionLobby23sendKickOutPlayerPackageEPc
+// 0x848300 _ZN15ConnectionLobby24sendKickOutPlayerPackageEPc
 // Partial: with a null name the original returns the object pointer (Hex-Rays "return this");
 // that value is not reproduced and the port returns 0. Nothing is queued in that case, as in the original.
 int ConnectionLobby::sendKickOutPlayerPackage(char* name) {
@@ -344,7 +344,7 @@ int ConnectionLobby::sendKickOutPlayerPackage(char* name) {
     return QueueMessage(packet);
 }
 
-// 0x8483ac _ZN15ConnectionLobby23sendUpdateSessionPackageEi
+// 0x8483ac _ZN15ConnectionLobby24sendUpdateSessionPackageEi
 int ConnectionLobby::sendUpdateSessionPackage(int flag) {
     auto* packet = new DataPacketLobby();
     packet->addByte(kCommandG);
@@ -372,7 +372,7 @@ int ConnectionLobby::sendStartGamePackage() {
     return QueueMessage(packet);
 }
 
-// 0x848544 _ZN15ConnectionLobby26sendListSessionsByDataPackageEhiPci
+// 0x848544 _ZN15ConnectionLobby29sendListSessionsByDataPackageEhiPci
 int ConnectionLobby::sendListSessionsByDataPackage(unsigned char a2, int a3, char* a4, int a5) {
     auto* packet = new DataPacketLobby();
     packet->addByte(kCommandG);
@@ -385,7 +385,7 @@ int ConnectionLobby::sendListSessionsByDataPackage(unsigned char a2, int a3, cha
     return QueueMessage(packet);
 }
 
-// 0x848628 _ZN15ConnectionLobby25sendListSessionsByNamePackageEhiPc
+// 0x848628 _ZN15ConnectionLobby29sendListSessionsByNamePackageEhiPc
 int ConnectionLobby::sendListSessionsByNamePackage(unsigned char a2, int a3, char* a4) {
     auto* packet = new DataPacketLobby();
     packet->addByte(kCommandG);
@@ -430,7 +430,7 @@ int ConnectionLobby::sendLeaveSessionPackage() {
     return QueueMessage(packet);
 }
 
-// 0x848904 _ZN15ConnectionLobby20sendJoinSessionPackageEPc
+// 0x848904 _ZN15ConnectionLobby22sendJoinSessionPackageEPc
 int ConnectionLobby::sendJoinSessionPackage(char* name) {
     auto* packet = new DataPacketLobby();
     packet->addByte(kCommandG);
@@ -449,7 +449,7 @@ int ConnectionLobby::sendQuickGamePackage() {
     return QueueMessage(packet);
 }
 
-// 0x848a28 _ZN15ConnectionLobby23sendCreateSessionPackageEPcS0_i
+// 0x848a28 _ZN15ConnectionLobby24sendCreateSessionPackageEPcS0_i
 // A null a3 is sent as a single space, as in the original.
 int ConnectionLobby::sendCreateSessionPackage(char* name, char* a3, int a4) {
     auto* packet = new DataPacketLobby();
@@ -464,7 +464,7 @@ int ConnectionLobby::sendCreateSessionPackage(char* name, char* a3, int a4) {
     return QueueMessage(packet);
 }
 
-// 0x848b04 _ZN15ConnectionLobby14sendLoginPackageEPc
+// 0x848b04 _ZN15ConnectionLobby16sendLoginPackageEPc
 // Partial: the original's debug trace ("sendLoginPackage() user=[%s]") is dropped.
 int ConnectionLobby::sendLoginPackage(char* user) {
     auto* packet = new DataPacketLobby();
@@ -619,7 +619,7 @@ void ConnectionLobby::sendData() {
 }
 
 // 0x84? 
-// Packs the message, keeps a copy for resend and queues it. Every send* except the connection
+// Helper (not an original function): packs the message, keeps a copy for resend and queues it. Every send* except the connection
 // handshake messages ends this way.
 int ConnectionLobby::QueueMessage(DataPacketLobby* packet) {
     packet->packMessage();
@@ -627,7 +627,7 @@ int ConnectionLobby::QueueMessage(DataPacketLobby* packet) {
     return addOutgoingPacket(packet);
 }
 
-// Packs a query parameter block into the message, then frees the packed copy.
+// Helper (not an original function): packs a query parameter block into the message, then frees the copy.
 void ConnectionLobby::AddPackedQuery(DataPacketLobby* packet, CLobbyParameterAndQuery* query) {
     int length = 0;
     void* buffer = lobby_query::Pack(query, &length);
@@ -637,7 +637,7 @@ void ConnectionLobby::AddPackedQuery(DataPacketLobby* packet, CLobbyParameterAnd
     }
 }
 
-// Shared body of the two lobby-list requests.
+// Helper (not an original function): shared body of the two lobby-list requests.
 int ConnectionLobby::SendLobbyListMessage(int message_type, int a3, int a4, unsigned char a5,
                                           CLobbyParameterAndQuery* a6, unsigned char a7) {
     auto* packet = new DataPacketLobby();

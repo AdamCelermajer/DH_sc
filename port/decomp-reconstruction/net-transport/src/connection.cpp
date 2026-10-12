@@ -84,7 +84,7 @@ int CConnection::Ping() {
     return online_calls::Now();
 }
 
-// 0x8255f4 _ZN11CConnection8CheckForLagEj
+// 0x8255f4 _ZN11CConnection11CheckForLagEj
 void CConnection::CheckForLag(std::uint32_t now) {
     if (state_ != 4) {
         return;
@@ -122,7 +122,7 @@ void CConnection::SendKeepAlive(std::uint32_t now) {
     }
 }
 
-// Shared body of the connect messages: a type byte, then the payload, sent on transport 5
+// Helper (not an original function): shared body of the connect messages: a type byte, then the payload, sent on transport 5
 // to the peer. The byte count is the write position rounded up to whole bytes.
 void CConnection::SendPacket(std::uint8_t type, const void* payload, std::size_t bytes) {
     NetBitStream stream(0x800);
@@ -137,7 +137,7 @@ void CConnection::SendPacket(std::uint8_t type, const void* payload, std::size_t
     transport_calls::SendToAllTransport(kMessageTransport, &peer_id_, buffer.data(), static_cast<int>(length));
 }
 
-// 0x8256e4 _ZN11CConnection18SendConnectFinalizeEv
+// 0x8256e4 _ZN11CConnection19SendConnectFinalizeEv
 void CConnection::SendConnectFinalize() {
     const HandshakePayload payload{matching_calls::LocalId(), matching_key_, key_};
     SendPacket(2, &payload, kHandshakeBytes);

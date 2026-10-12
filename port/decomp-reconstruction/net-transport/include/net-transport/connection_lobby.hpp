@@ -34,7 +34,7 @@ class DataPacketLobby;
 class ConnectionLobby : public Connection {
 public:
     ConnectionLobby(char* host, int port);             // 0x849164 _ZN15ConnectionLobbyC1EPci (C2 0x849198, same body)
-    ~ConnectionLobby() override;                       // 0x8490e0 _ZN15ConnectionLobbyD2Ev (D1 0x849130, D0 0x849114)
+    ~ConnectionLobby() override;                       // 0x8490e0 _ZN15ConnectionLobbyD1Ev (D1 0x849130, D0 0x849114)
     ConnectionLobby(const ConnectionLobby&) = delete;
     ConnectionLobby& operator=(const ConnectionLobby&) = delete;
 
@@ -45,7 +45,7 @@ public:
     int sendFinishConnectionPackage() override;        // 0x848bbc _ZN15ConnectionLobby27sendFinishConnectionPackageEv
 
     void sendRetryData();                              // 0x846eb4 _ZN15ConnectionLobby13sendRetryDataEv
-    bool keepConnectionAlive();                        // 0x846f3c _ZN15ConnectionLobby18keepConnectionAliveEv
+    bool keepConnectionAlive();                        // 0x846f3c _ZN15ConnectionLobby19keepConnectionAliveEv
     void saveRetryData(DataPacket* packet);            // 0x846fb0 _ZN15ConnectionLobby13saveRetryDataEP10DataPacket
     int sendGetPlayerCounter();                        // 0x847028 _ZN15ConnectionLobby20sendGetPlayerCounterEv
     int sendGetLobbyForFriendWithGameParam(int a2, unsigned char a3, unsigned char a4, char* a5, int a6,
@@ -78,7 +78,7 @@ public:
     int sendLobbyLoginPackageWithGameCenter(long user_id, char* a3, short a4, unsigned char a5,
                                             unsigned char a6, char* a7, char* a8);  // 0x848140
     int sendLobbyLoginPackage(long user_id, char* name, short a4, unsigned char a5);  // 0x848258
-    int sendKickOutPlayerPackage(char* name);          // 0x848300 _ZN15ConnectionLobby23sendKickOutPlayerPackageEPc
+    int sendKickOutPlayerPackage(char* name);          // 0x848300 _ZN15ConnectionLobby24sendKickOutPlayerPackageEPc
     int sendUpdateSessionPackage(int flag);            // 0x8483ac
     int sendFinishGamePackage();                       // 0x848444
     int sendStartGamePackage();                        // 0x8484c4

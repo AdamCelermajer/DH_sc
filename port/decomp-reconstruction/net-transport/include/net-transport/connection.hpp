@@ -50,9 +50,9 @@ public:
     bool IsToServer() const;                                 // 0x825338 _ZN11CConnection10IsToServerEv
     bool PrintStatistics() const;                            // 0x825360 _ZN11CConnection15PrintStatisticsEv
     int Ping();                                              // 0x8255c4 _ZN11CConnection4PingEv
-    void CheckForLag(std::uint32_t now);                     // 0x8255f4 _ZN11CConnection8CheckForLagEj
+    void CheckForLag(std::uint32_t now);                     // 0x8255f4 _ZN11CConnection11CheckForLagEj
     void SendKeepAlive(std::uint32_t now);                   // 0x825688 _ZN11CConnection13SendKeepAliveEj
-    void SendConnectFinalize();                              // 0x8256e4 _ZN11CConnection18SendConnectFinalizeEv
+    void SendConnectFinalize();                              // 0x8256e4 _ZN11CConnection19SendConnectFinalizeEv
     void SendConnectResponse();                              // 0x825788 _ZN11CConnection19SendConnectResponseEv
     void SendConnectRequest();                               // 0x82605c _ZN11CConnection18SendConnectRequestEv
     int Timeout();                                           // 0x82596c _ZN11CConnection7TimeoutEv

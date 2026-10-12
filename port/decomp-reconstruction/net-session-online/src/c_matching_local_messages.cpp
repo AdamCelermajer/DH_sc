@@ -42,8 +42,9 @@ std::int32_t CMatchingLocal::SendClientRequest() {
     return GetConnectionMgr().SendBroadcast(2, stream);
 }
 
-// Vtable slot +0x58 of ProcessClientMessage is not named in the vtable dump, and its body is
-// not in this port. Until it is, the request is treated as not accepted.
+// Stand-in (not an original function): the call through vtable slot +0x58 of ProcessClientMessage.
+// The slot is not named in the vtable dump and its body is not in this port, so the request is
+// treated as not accepted.
 bool CMatchingLocal::ClientRequestAccepted(const CNetworkId& /*from*/) const {
     return false;
 }
