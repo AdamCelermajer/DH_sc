@@ -1,7 +1,7 @@
 // vox::VoxSoundPackXML: the parsed sound-pack tables and their accessors. Four vectors hold
 // the records (sounds, groups, banks, events) and a case-insensitive map at +0x30 maps a sound
-// name to its uid. LoadXML is a partial stub (the TinyXML loader is not ported),
-// so a pack starts empty and the tests fill the tables directly.
+// name to its uid. LoadXML (w10-xml/sound_pack_xml_load.cpp) fills the tables from the
+// sound-pack XML through the vendored TinyXML subset (vox-audio/vendor/tixml_dh.hpp).
 //
 // Layout (32-bit offsets, kept as comments): sounds_ +0x00 (68-byte records), groups_ +0x0c
 // (56-byte records), banks_ +0x18 (40-byte records), events_ +0x24 (44-byte records) and
@@ -13,6 +13,7 @@
 #include <cstdint>
 #include <list>
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -76,7 +77,7 @@ struct SoundRecordXML {
     std::int8_t field_15 = 0;                      // +0x15
     std::int8_t field_16 = 0;                      // +0x16
     std::int8_t emitter_flag = 0;                  // +0x17
-    std::int32_t emitter_values_[9] = {};          // +0x18..+0x38
+    float emitter_values_[9] = {};                 // +0x18..+0x38 (floats in the loader)
     std::int32_t custom_count = 0;                 // +0x3c
     const char* const* custom_values = nullptr;    // +0x40
 };
@@ -122,7 +123,7 @@ struct EmitterInfoXML {
     bool flag = false;                       // the byte at +0x10
     std::int32_t type = 0;                   // Vox3DSoundType, from the group
     const char* name = nullptr;              // from the group
-    std::int32_t values_[9] = {};            // the sound record's +0x18..+0x38
+    float values_[9] = {};                   // the sound record's +0x18..+0x38
     std::int32_t custom_count = 0;           // the sound record's +0x3c
     const char* const* custom_values = nullptr;  // the sound record's +0x40
 };
@@ -155,13 +156,86 @@ public:
     std::int32_t type_ = 0;    // +0x34
 };
 
+// Sound loader record (vox::SoundXMLDef). The layout is the binary's (32-bit offsets): uid
+// +0x00, priority +0x04, label +0x08, data file name +0x0c, loading flags +0x10, format +0x14
+// (-1 until the attribute is read), bank +0x15, group +0x16, loop +0x17, nine floats
+// +0x18..+0x38, custom parameter count +0x3c and the custom strings +0x40. The strings and the
+// custom array are owned by the record, so copies are deep.
+class SoundXMLDef {
+public:
+    SoundXMLDef() = default;
+    SoundXMLDef(const SoundXMLDef& other) = default;
+    SoundXMLDef& operator=(const SoundXMLDef& other) = default;
+    ~SoundXMLDef();  // 0x889e98 (D1)
+
+    std::int32_t uid_ = 0;                 // +0x00
+    std::int32_t priority_ = 0;            // +0x04
+    std::string label_;                    // +0x08
+    std::string data_name_;                // +0x0c
+    std::int32_t loading_flags_ = 0;       // +0x10
+    std::int8_t format_ = -1;              // +0x14
+    std::int8_t bank_ = 0;                 // +0x15
+    std::int8_t group_ = 0;                // +0x16
+    std::int8_t loop_ = 0;                 // +0x17
+    float values_[9] = {};                 // +0x18..+0x38
+    std::int32_t custom_count_ = 0;        // +0x3c
+    std::vector<std::string> custom_;      // +0x40
+};
+
+// Event loader record (vox::EventXMLDef, 44 bytes): uid +0x00, name +0x04, the used list
+// (sentinel at +0x08), the sound uid vector +0x10..+0x18, mode +0x1c, most-used count +0x1e,
+// percent no-sound +0x20, sound count +0x22, custom count +0x24 and the custom strings +0x28.
+// The binary copies the +0x28 pointer shallowly, which frees the block twice when a copy
+// is destroyed. Here the copy is deep (see the copy operations in event_xml_def.cpp).
+class EventXMLDef {
+public:
+    EventXMLDef() = default;
+    EventXMLDef(const EventXMLDef& other);             // 0x88b1fc (C1)
+    EventXMLDef& operator=(const EventXMLDef& other);  // 0x88b104
+    ~EventXMLDef();                                    // 0x88a090 (D1)
+
+    std::int32_t uid_ = 0;                          // +0x00
+    std::string name_;                              // +0x04
+    std::list<std::int32_t> used_;                  // +0x08
+    std::vector<std::int32_t> sound_uids_;          // +0x10..+0x18
+    std::int16_t mode_ = 0;                         // +0x1c
+    std::int16_t max_used_ = 0;                     // +0x1e
+    std::int16_t no_sound_percent_ = 0;             // +0x20
+    std::int16_t sequence_count_ = 0;               // +0x22
+    std::int32_t custom_count_ = 0;                 // +0x24
+    std::vector<std::string> custom_;               // +0x28
+};
+
+// Bank loader record (vox::BankXMLDef, 40 bytes): uid +0x00, behaviour +0x04, max playbacks
+// +0x08, threshold +0x0c and the name string +0x10.
+class BankXMLDef {
+public:
+    std::int32_t uid_ = 0;             // +0x00
+    std::int32_t behavior_ = 0;        // +0x04
+    std::int32_t max_playbacks_ = 0;   // +0x08
+    std::int32_t threshold_ = 0;       // +0x0c
+    std::string name_;                 // +0x10
+};
+
+// Everything one LoadXML call parses. The record tables point into these strings and arrays,
+// so the pack keeps this object alive through a shared pointer (copies of the pack share it).
+struct XmlLoadedTables {
+    std::vector<SoundXMLDef> sounds;
+    std::vector<GroupXMLDef> groups;
+    std::vector<BankXMLDef> banks;
+    std::vector<EventXMLDef> events;
+    std::list<std::vector<const char*>> custom_pointers;  // stable custom arrays for the records
+};
+
 class VoxSoundPackXML {
 public:
     VoxSoundPackXML() = default;
-    // 0x88ec4c and 0x88ecc4 (partial): the state is the member defaults, then LoadXML runs.
+    ~VoxSoundPackXML();  // 0x88c2cc (D1) and 0x88c36c (D2)
+    // 0x88ec4c and 0x88ecc4: the state is the member defaults, then LoadXML runs.
     explicit VoxSoundPackXML(const char* path);
-    // 0x88d344 (partial): the TinyXML loader is not ported; this loads no records.
-    void LoadXML(const char* path);
+    // 0x88d344: clears the tables, reads the file and parses it (see xml_loader.cpp). Returns
+    // 1 when the file was read, 0 when it could not be opened or read.
+    int LoadXML(const char* path);
 
     // Index accessors.
     int GetBankInfo(int index, int& field_0c, int& field_08, PriorityBankBehavior& behavior) const;  // 0x889498
@@ -220,6 +294,7 @@ private:
     std::vector<EventRecordXML> events_;                            // +0x24
     std::map<const char*, std::int32_t, c8stringcomp> sound_uids_;  // +0x30
     std::map<std::string, std::int32_t, StringComp> group_masks_;   // +0x48
+    std::shared_ptr<const XmlLoadedTables> loaded_;                 // port: keeps the loader strings alive
 };
 
 }  // namespace vox

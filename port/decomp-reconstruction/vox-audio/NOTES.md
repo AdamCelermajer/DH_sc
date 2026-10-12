@@ -765,3 +765,60 @@ Open:
 Tests: `tests/native_subdecoder_ctor_containers_test.cpp` (PCM and IMA constructors: header
 words, the segment records, the IMA buffers and frames per block, and the nine-channel limit).
 Host build passes all tests. No MinGW or Wine run in this slice.
+
+## Wave 10: xml slice (w10-xml)
+
+Rows: 9 (ledger.parts/w10-xml.csv). Reconstructed 8, partial 1 (LoadXML, 88d344). Host build
+passes 55 of 55 tests (new: w10_xml_load_test, w10_xml_record_copy_test). No MinGW or Wine run.
+
+TinyXML source. The category in this checkout (port/decomp-reconstruction/tinyxml-and-c-libs,
+tixml_dh.hpp/.cpp) has only the TiXmlPrinterDH overlay. TiXmlDocument, TiXmlHandle and the parser
+are not in the checkout, and the upstream TinyXML 2.5.x sources are not vendored. Decision: a
+minimal subset under vox-audio/vendor (include/vox-audio/vendor/tixml_dh.hpp,
+src/vendor/tixml_dh/tixml_dh.cpp, namespace vox::tixml) that implements only the calls LoadXML
+makes: Parse, Error, FirstChild, ToElement, Attribute, QueryIntAttribute, QueryDoubleAttribute and
+NextSiblingElement (any sibling name, as in TinyXML). Text content is skipped. Nothing is linked
+across categories.
+
+Loader records (the classes that LoadXML fills, all owned strings, so copies are deep):
+- `vox::SoundXMLDef` (68 bytes): uid +0x00, priority +0x04, label +0x08 (string), data file name
+  +0x0c (string), loading flags +0x10, format +0x14 (byte, -1 until read), bank +0x15, group +0x16,
+  loop +0x17, nine floats +0x18..+0x38 (refdistance, maxdistance, rolloff, basegain, mingainmod,
+  maxgainmod, basepitch, minpitchmod, maxpitchmod), custom count +0x3c, custom strings +0x40.
+- `vox::EventXMLDef` (44 bytes): uid +0x00, name +0x04, used list (sentinel +0x08), sound uid
+  vector +0x10..+0x18, mode +0x1c (0 random, 1 playlist), most-used count +0x1e (min of the first
+  params token and the uid count), percent no-sound +0x20 (clamped to 100), sound count +0x22,
+  custom count +0x24, custom strings +0x28.
+- `vox::GroupXMLDef` (existing): uid +0x00, bus +0x04 (name_), name +0x1c (label_), type +0x34
+  (pos3d: y 1, r 2, other 0).
+- `vox::BankXMLDef` (40 bytes): uid +0x00, behaviour +0x04, max playbacks +0x08, threshold +0x0c,
+  name +0x10.
+- `vox::XmlLoadedTables`: the four loader vectors and the custom pointer arrays. The pack keeps it
+  in `loaded_` (a shared pointer), because the record tables and the uid map point into its strings.
+
+Changes to existing records: SoundRecordXML::emitter_values_ and EmitterInfoXML::values_ are
+float[9] (the loader writes floats). LoadXML returns int (1 when the file was read, 0 otherwise).
+VoxSoundPackXML has a declared destructor (88c2cc, 88c36c) and the `loaded_` member.
+
+Decisions:
+- A uid that is missing or out of range skips the element. The binary keeps the uid of the
+  previous element in a stale variable, and writes out of range without a check.
+- A sound with no format leaves the data name empty; with a format and no file name, the data
+  name is label + extension (wav 1, ogg 2, mpc 3, vxn 4).
+- Groups and banks get size + 1 records (as the binary), events get size records.
+- Group masks are added to the existing map and not cleared at the start (the binary does not
+  clear the +0x48 map in LoadXML; only the destructor empties it).
+- A file that fails to parse returns 1 with the tables cleared (the binary does the same).
+- A file size below zero counts as a failed read (the binary would read with a negative size).
+
+Open questions:
+- The loader writes the sound priority at +0x04, but the accessors read +0x04 as the emitter uid
+  (GetEmitterInfo). The port stores the priority in the record's emitter_uid word, so both readings
+  give the same value, but the binary may use the word for something else. Confirm against the
+  accessor listing.
+- The label at +0x08 of the sound record is an int in the accessor layout (field_08). The label is
+  only kept in the loader record and in the uid map, so GetEmitterInfo reports field_08 as 0.
+- The loader's default format (-1) and default record uid are read from the conditional checks in
+  the pseudocode, not from the default constructor (not in the queue).
+- The stale-uid behaviour above is the one place the partial status comes from. Check the
+  ARM listing for the uid register before changing it.

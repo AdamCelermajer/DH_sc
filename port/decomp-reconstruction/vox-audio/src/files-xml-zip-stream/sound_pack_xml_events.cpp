@@ -1,21 +1,13 @@
 // vox::VoxSoundPackXML event selection and reset, the sound-or-event emitter lookup, the
-// group mask and the (partial) constructor and loader. The event state is the one the
-// binary keeps in each event record: the used list at +0x08, the counters at +0x1c..+0x20
-// and the mode 1 index at +0x22.
+// group mask. The constructor and LoadXML are in w10-xml/sound_pack_xml_load.cpp. The event
+// state is the one the binary keeps in each event record: the used list at +0x08, the
+// counters at +0x1c..+0x20 and the mode 1 index at +0x22.
 #include <cstddef>
 
 #include "vox-audio/vox/random48.hpp"
 #include "vox-audio/vox/sound_pack_xml.hpp"
 
 namespace vox {
-
-// 0x88ec4c and 0x88ecc4 (partial): the original initialises the state and then calls
-// LoadXML. The state here is the member defaults.
-VoxSoundPackXML::VoxSoundPackXML(const char* path) { LoadXML(path); }
-
-// 0x88d344 (partial): the TinyXML loader (about 31 KB in the binary) is not ported, so
-// this body loads no records.
-void VoxSoundPackXML::LoadXML(const char* /*path*/) {}
 
 // 0x88bb6c _ZN3vox15VoxSoundPackXML16GetEventSoundUidEiRi
 int VoxSoundPackXML::GetEventSoundUid(int index, int& sound_uid) {
