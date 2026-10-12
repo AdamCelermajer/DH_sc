@@ -1,5 +1,30 @@
 #include "net-transport/packet_manager.hpp"
 
+#include <chrono>
+#include <iterator>
+
+#include "net-transport/connection_manager.hpp"
+#include "net-transport/deps/connection_deps.hpp"
+
+namespace {
+
+// Original time source: GetOnline() vtable slot 0, a 32-bit millisecond clock. Here steady_clock
+// in ms, truncated to 32 bits (as in connection_manager.cpp).
+std::uint32_t PacketNowMs() {
+    const auto now = std::chrono::steady_clock::now().time_since_epoch();
+    return static_cast<std::uint32_t>(std::chrono::duration_cast<std::chrono::milliseconds>(now).count());
+}
+
+// Static `validFlag` of SendPackets (mark-and-sweep generation of member_info_ entries).
+std::uint8_t send_packets_valid_flag = 0;
+
+// Key of a sent packet: (member << 16) + sequence. The member id is kept to 16 bits, as the original.
+std::uint32_t SentKey(std::uint32_t member, std::uint32_t sequence) {
+    return sequence + (static_cast<std::uint32_t>(static_cast<std::uint16_t>(member)) << 16);
+}
+
+}  // namespace
+
 CPacketManager* CPacketManager::s_packetManager = nullptr;
 tPacketSlot CPacketManager::s_PacketSlots[CPacketManager::kPacketSlotCount];
 std::uint8_t CPacketManager::s_packetSlotBitMap = 0;

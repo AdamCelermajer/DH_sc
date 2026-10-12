@@ -17,9 +17,9 @@ int CTransportFactory::TerminateTransport() {
 }
 
 // 0x827220 _ZN17CTransportFactory19InitializeTransportE15tTRANSPORT_TYPE
-// Partial: type 1 (UDP) and type 2 (TCP) are initialised as in the original. Types 3 and 4
-// (Bluetooth) call CBluetoothUnreliable::InitializeTransport and CBluetoothReliable::InitializeTransport,
-// which are not reconstructed yet, so those cases only return 0.
+// Dispatch on type - 1: 0 UDP, 1 TCP, 2 Bluetooth unreliable (type 3), 3 Bluetooth reliable
+// (type 4). Other values do nothing. The Bluetooth InitializeTransport bodies are stubs in the
+// port (see bluetooth_transport.cpp), so those cases return without creating a session.
 int CTransportFactory::InitializeTransport(tTRANSPORT_TYPE type) {
     switch (type - 1) {
         case 0:
@@ -27,6 +27,12 @@ int CTransportFactory::InitializeTransport(tTRANSPORT_TYPE type) {
             break;
         case 1:
             CTcp::InitializeTransport();
+            break;
+        case 2:
+            CBluetoothUnreliable::InitializeTransport();
+            break;
+        case 3:
+            CBluetoothReliable::InitializeTransport();
             break;
         default:
             break;

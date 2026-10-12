@@ -78,18 +78,18 @@ public:
     // 0x49a03c _ZN10GameCenter21GCAddToJoinPlayerListEPKc. Partial: a null ID is taken as ""
     // (the original would construct a string from a null pointer).
     void GCAddToJoinPlayerList(const char* id);
-    // 0x499440 _ZNK10GameCenter22GCStartGameTimeoutExpiredEv. Partial: the original reads the
+    // 0x499440 _ZN10GameCenter25GCStartGameTimeoutExpiredEv. Partial: the original reads the
     // OnlineSingleton<OnlineGameState> instance, which is not ported. timevaldiff is called on a
     // default OnlineGameState here. That is the same only because timevaldiff reads its two
     // arguments and no member state (inferred from its signature; to be checked in the binary).
     bool GCStartGameTimeoutExpired() const;
-    // 0x499f24 _ZN10GameCenter19GCStartMultiplayerGameEv. Partial: the OnlineGameState flag (+0x28
+    // 0x499f24 _ZN10GameCenter22GCStartMultiplayerGameEv. Partial: the OnlineGameState flag (+0x28
     // of the singleton), OnlineGameState::Init(4), and the MenuManager "GoToVerificationScreen"
     // callback are not ported (missing types). The coin-toss result is not stored: the original
     // writes the int into the host UID pointer slot (+0x30), which is a decompile type clash.
     // The original's return value is not reproduced (void here).
     void GCStartMultiplayerGame();
-    // 0x499fc8 _ZN10GameCenter19GCStartMultiplayerGameEb. The bool argument is unused in the
+    // 0x499fc8 _ZN10GameCenter22GCStartMultiplayerGameEb. The bool argument is unused in the
     // original. It clears the start gate (+0x15) and then calls the no-argument overload.
     void GCStartMultiplayerGame(bool /*unused*/);
     // 0x499fe8 _ZN10GameCenter17GetJoinPlayerListEv. The original returns the list by value

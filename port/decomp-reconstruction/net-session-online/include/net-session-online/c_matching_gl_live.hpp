@@ -13,10 +13,13 @@
 
 #include <cstdint>
 #include <map>
+#include <string>
+#include <vector>
 
 #include "net-session-online/c_event_queue_base.hpp"
 #include "net-session-online/c_room_attributes.hpp"
 #include "net-session-online/c_room_search_filter.hpp"
+#include "net-session-online/t_friend_info.hpp"
 
 class CNetworkId;
 class NetBitStream;
@@ -29,12 +32,25 @@ class GLXPlayerMPLobby;
 class GameCenterInfo;
 class GLXPlayerLogin;
 class GLXPlayerUserFriend;
+class GLXPlayerUser;
+class GLXPlayerMessage;
 
 class CMatchingGLLive {
 public:
+    // Constructors and destructor (C1/C2 and D1/D2 pairs share one definition each).
+    CMatchingGLLive() = default;
+    // 0x81e7f0 _ZN15CMatchingGLLiveC1Eb. Partial, see the cpp.
+    explicit CMatchingGLLive(bool gameCenterActive);
+    // 0x81d2b4 _ZN15CMatchingGLLiveD1Ev. Partial, see the cpp.
+    ~CMatchingGLLive();
+
     // Statics of the original (s_IsGameStarting, the GLLive event queue and the
     // observer singletons). Defined in src/c_matching_gl_live_glx04.cpp.
     static bool s_IsGameStarting;
+    // 0x81c37c: GLXPlayerUserFriend singleton (defined in src/c_matching_gl_live_lifecycle.cpp).
+    static GLXPlayerUserFriend* s_GLXPlayerUserFriend;
+    // 0x81c5e8: GLXPlayerLogin singleton (defined in src/c_matching_gl_live_lifecycle.cpp).
+    static GLXPlayerLogin* s_GLXPlayerLogin;
     static CEventQueueBase s_eventQueueGLLiveInternal;             // global queue
     static CMatchingGLLiveFriendObserver* s_GLXPlayerUserFriendObserver;
     static CMatchingGLLiveLobbyObserver* s_GLXPlayerMPLobbyObserver;
@@ -140,8 +156,42 @@ public:
     // lobby on first use (socket URL from the login observer, a copy of the lobby observer,
     // a 0x94-byte allocation). That path is not reconstructed; this returns s_GLXPlayerMPLobby.
     GLXPlayerMPLobby* GetGLXPlayerMPLobby();
-    // 0x81c5e8 _ZN15CMatchingGLLive17GetGLXPlayerLoginEv. Declared only: the body belongs to its own slice.
+    // 0x81c5e8 _ZN15CMatchingGLLive17GetGLXPlayerLoginEv. Partial: creates the singleton on first use;
+    // the observer copy and the RegisterObserver call are not reproduced (see the cpp).
     GLXPlayerLogin* GetGLXPlayerLogin();
+
+    // 0x81c37c _ZN15CMatchingGLLive19GetGLXPlayerUserFriendEv. Partial, see the cpp.
+    GLXPlayerUserFriend* GetGLXPlayerUserFriend();
+    // 0x81c138 _ZN15CMatchingGLLive15GetGLFriendsNumberEi
+    std::int32_t GetGLFriendsNumber(std::int32_t index) const;
+    // 0x81c174 _ZN15CMatchingGLLive19SendRequestLostPasswordEPc
+    std::int32_t SendRequestLostPassword(char* name);
+    // 0x81c748 _ZN15CMatchingGLLive16InitializeFriendEv
+    std::int32_t InitializeFriend();
+    // 0x81c78c _ZN15CMatchingGLLive20SendGLFriendsGameInviteEPc. Partial, see the cpp.
+    std::int32_t SendGLFriendsGameInvite(char* name);
+    // 0x81cec0 _ZN15CMatchingGLLive12IsFriendWithEPKcb. Partial, see the cpp.
+    bool IsFriendWith(const char* name, bool includeAll) const;
+    // 0x81cf30 _ZN15CMatchingGLLive14SendInvitationEPKcS1_b. Partial, see the cpp.
+    std::int32_t SendInvitation(const char* title, const char* text, bool flag);
+    // 0x81ec5c _ZN15CMatchingGLLive15GetFriendsListEb. Partial, see the cpp.
+    std::vector<tFriendInfo> GetFriendsList(bool skipState3);
+    // 0x81c200 _ZN15CMatchingGLLive20ProcessMemberJoinMessageEiR12NetBitStream. Partial, see the cpp.
+    std::int32_t ProcessMemberJoinMessage(int from, NetBitStream& stream);
+    // 0x81c2c4 _ZN15CMatchingGLLive17SendClientRequestEv. Partial, see the cpp.
+    std::int32_t SendClientRequest();
+    // 0x81dea0 _ZNK15CMatchingGLLive11GetMemberIdEv
+    std::int32_t GetMemberId() const;
+    // 0x81dd04 _ZNK15CMatchingGLLive17GetGLLiveMemberIdEv. Partial: the name lookup is not reproduced.
+    std::int32_t GetGLLiveMemberId() const;
+    // 0x81dba0 _ZN15CMatchingGLLive21GetGLLiveMemberIdListEv. Partial: returns an empty list.
+    std::vector<std::int32_t> GetGLLiveMemberIdList() const;
+    // 0x81f04c _ZN15CMatchingGLLive14SetPlayerParamENSt..basic_string..Eb. Partial, see the cpp.
+    void SetPlayerParam(std::string value, bool sendToLobby);
+    // 0x81f858 _ZN15CMatchingGLLive9TerminateEv. Partial, see the cpp.
+    std::int32_t Terminate();
+    // 0x81e25c _ZN15CMatchingGLLive12SyncMemberIdEv. Partial: only the guard is reproduced.
+    void SyncMemberId();
     // 0x820508 _ZN15CMatchingGLLive17GetRoomAttributesEv: &roomAttributes_[roomKey_] (creates the entry).
     // The original uses std::map<unsigned long long, CRoomAttributes>; the key is the int at +0x680c.
     CRoomAttributes* GetRoomAttributes();

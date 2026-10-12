@@ -5,13 +5,13 @@
 // Partial: the registry creator is not recovered (see the header).
 CMsgRaisedEvent::CMsgRaisedEvent(bool withSerial) : CMessage("CMsgRaisedEvent", withSerial) {}
 
-// 0x47ac58 _ZN16CMsgRaisedEvent6CreateEP10QuestEvent
+// 0x47ac58 _ZN15CMsgRaisedEvent6CreateEP10QuestEvent
 // Partial: the payload fill from the QuestEvent is not ported (see the header).
 CMessage* CMsgRaisedEvent::Create(QuestEvent* /*event*/) {
     return CMessage::CreateMessage("CMsgRaisedEvent", true);
 }
 
-// 0x49a238 _ZN16CMsgRaisedEvent17RaiseEventFromNetworkEPS_
+// 0x49a238 _ZN15CMsgRaisedEvent21RaiseEventFromNetworkEPS_
 // Partial: see the header. The original returns the EventManager it raised into; not reproduced.
 void CMsgRaisedEvent::RaiseEventFromNetwork(CMsgRaisedEvent* message) {
     if (message == nullptr) {

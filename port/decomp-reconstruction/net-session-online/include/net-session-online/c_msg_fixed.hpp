@@ -1,8 +1,8 @@
 // Fixed-size CMsg* message types. Each one is a CMessage whose wire payload is
 // a fixed number of bytes at original offset +0x50. The payload field layout is
 // not recovered, so it is kept as opaque bytes; see NOTES.md.
-// SetProperties and the constructors that take a bool call CMessage(const char*, bool),
-// which is partial (the type-name string is not modelled), so they stay partial.
+// SetProperties and the constructors that take a bool assign the class name to typeName_
+// (the CMessage string at +0x14), as the original does.
 #pragma once
 
 #include <cstdint>
@@ -13,8 +13,9 @@ class CMsgIsHost : public CMessage {
 public:
     void* GetDataPtr() override { return payload_; }
     std::uint32_t GetDataSize() const override { return 4; }
-    // Original also assigns the type name string at +0x14 (not modelled).
+    // 0x3278d4 _ZN10CMsgIsHost13SetPropertiesEv
     void SetProperties() {
+        typeName_ = "CMsgIsHost";
         flag32_ = true;
         sendMode_ = 0;
     }
@@ -28,8 +29,8 @@ public:
     void* GetDataPtr() override { return payload_; }
     std::uint32_t GetDataSize() const override { return 8; }
     // 0x3279e0 _ZN13CMsgMenuReady13SetPropertiesEv
-    // Partial: the original also assigns the type name string at +0x14 (not modelled).
     void SetProperties() {
+        typeName_ = "CMsgMenuReady";
         sendMode_ = 1;
     }
 
@@ -42,8 +43,8 @@ public:
     void* GetDataPtr() override { return payload_; }
     std::uint32_t GetDataSize() const override { return 1; }
     // 0x327ad8 _ZN23CMsgAskResendAttributes13SetPropertiesEv
-    // Partial: the original also assigns the type name string at +0x14 (not modelled).
     void SetProperties() {
+        typeName_ = "CMsgAskResendAttributes";
         flag32_ = true;
         sendMode_ = 0;
     }
@@ -57,8 +58,8 @@ public:
     void* GetDataPtr() override { return payload_; }
     std::uint32_t GetDataSize() const override { return 12; }
     // 0x3279a8 _ZN13CMsgScriptCmd13SetPropertiesEv
-    // Partial: the original also assigns the type name string at +0x14 (not modelled).
     void SetProperties() {
+        typeName_ = "CMsgScriptCmd";
         sendMode_ = 1;
         includeLocalMember_ = true;
         flag32_ = true;
@@ -74,8 +75,8 @@ public:
     void* GetDataPtr() override { return payload_; }
     std::uint32_t GetDataSize() const override { return 28; }
     // 0x327aa0 _ZN13CMsgStartGame13SetPropertiesEv
-    // Partial: the original also assigns the type name string at +0x14 (not modelled).
     void SetProperties() {
+        typeName_ = "CMsgStartGame";
         includeLocalMember_ = false;
         flag32_ = true;
         sendMode_ = 1;
@@ -88,16 +89,16 @@ private:
 class CMsgInitialSetup : public CMessage {
 public:
     // 0x328be4 _ZN16CMsgInitialSetupC1Eb
-    // Partial: calls CMessage(const char*, bool); the type-name string is not modelled.
     explicit CMsgInitialSetup(bool withSerial) : CMessage("CMsgInitialSetup", withSerial) {
+        typeName_ = "CMsgInitialSetup";
         includeLocalMember_ = false;
         sendMode_ = 1;
     }
     void* GetDataPtr() override { return payload_; }
     std::uint32_t GetDataSize() const override { return 12; }
     // 0x327974 _ZN16CMsgInitialSetup13SetPropertiesEv
-    // Partial: the original also assigns the type name string at +0x14 (not modelled).
     void SetProperties() {
+        typeName_ = "CMsgInitialSetup";
         includeLocalMember_ = false;
         sendMode_ = 1;
     }
