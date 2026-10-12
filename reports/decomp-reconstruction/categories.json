@@ -1,11 +1,11 @@
 {
  "core-platform": {
-  "functions": 679,
-  "bytes": 82635,
+  "functions": 653,
+  "bytes": 79855,
   "top_owners": [
    [
     "<global>",
-    355
+    329
    ],
    [
     "Console",
@@ -138,12 +138,12 @@
   ]
  },
  "net-session-online": {
-  "functions": 1268,
-  "bytes": 165094,
+  "functions": 1235,
+  "bytes": 161268,
   "top_owners": [
    [
     "lib-online-glx",
-    905
+    872
    ],
    [
     "CMessage",
@@ -322,12 +322,12 @@
   ]
  },
  "skip-runtime-stl": {
-  "functions": 5794,
-  "bytes": 690498,
+  "functions": 5683,
+  "bytes": 682926,
   "top_owners": [
    [
     "runtime-stl",
-    5794
+    5683
    ]
   ]
  },
@@ -436,12 +436,12 @@
   ]
  },
  "vox-audio": {
-  "functions": 1374,
-  "bytes": 127416,
+  "functions": 1140,
+  "bytes": 114012,
   "top_owners": [
    [
     "lib-vox-audio",
-    1314
+    1080
    ],
    [
     "<global>",

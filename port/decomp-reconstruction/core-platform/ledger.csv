@@ -253,14 +253,12 @@ elf_address,symbol,status,source_file,notes
 0x533560,appDebugLog,partial,core-platform/src/debug_out.cpp,"Hex-Rays re-run: _android_log_write(ANDROID_LOG_INFO, tag, text) replaced by stderr"
 0x34e024,_Z11ToLowerCaseRSsii,reconstructed,core-platform/src/util.cpp,
 0x34e090,_Z11ToLowerCaseRSbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS1_6memory13E_MEMORY_HINTE0EEEEii,reconstructed,core-platform/src/util.cpp,Hex-Rays re-run: lowercase of A-Z within the clamped range; string layout accessed through data()/size()
-0x89c2f4,FUN_008ac2f4,reconstructed,core-platform/src/lc_api.cpp,bare return in the binary
 0x89c2f8,LC_API_STRCHR,reconstructed,core-platform/src/lc_api.cpp,bare return in the binary
 0x89c2fc,LC_DEBUG_INIT,reconstructed,core-platform/src/lc_api.cpp,bare return in the binary
 0x89c300,LC_DEBUG_FINALIZE,reconstructed,core-platform/src/lc_api.cpp,bare return in the binary
 0x89c304,LC_DEBUG_OUT,reconstructed,core-platform/src/lc_api.cpp,bare return in the binary (varargs stub)
 0x89c310,LC_API_FTOA,reconstructed,core-platform/src/lc_api.cpp,bare return in the binary
 0x89c29c,LC_API_STRCHRFIND,reconstructed,core-platform/src/lc_api.cpp,counted search: pointer past the n-th match; n of 0 returns the string
-0x89c2cc,FUN_008ac2cc,partial,core-platform/src/lc_api.cpp,"Hex-Rays re-run: no Hex-Rays body and no IDA block at this address; Ghidra loop kept as a search, unverified"
 0x89c314,LC_API_ITOA,reconstructed,core-platform/src/lc_api.cpp,Hex-Rays re-run: full radix conversion with sign and reversal (earlier single-digit note was wrong)
 0x89c42c,_Z22ConvertUnicodeToUTF8LCPcPKti,reconstructed,core-platform/src/utf_text.cpp,shared with the glitch ConvertUnicodeToUTF8; standard UTF-8 encoding
 0x89c514,_Z22ConvertUTF8ToUnicodeLCPtPKci,reconstructed,core-platform/src/utf_text.cpp,shared with the glitch ConvertUTF8ToUnicode
