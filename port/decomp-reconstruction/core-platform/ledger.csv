@@ -67,8 +67,8 @@ elf_address,symbol,status,source_file,notes
 0x33a99c,_ZN18EvTouchScreenPressD1Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
 0x33a9a0,_ZN17EvTouchScreenMoveD1Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
 0x33a9a4,_ZNK15TouchScreenBase13_IsQueueEmptyEv,reconstructed,core-platform/src/touch_screen_base.cpp,
-0x33b1a4,_ZN15TouchScreenBase13getTouchPointEl,partial,core-platform/src/touch_screen_base.cpp,"returns current point (+0xc, shorts); null path as recovered in the earlier pass, not re-verified"
-0x33b1e0,_ZN15TouchScreenBase18getFirstTouchPointEl,partial,core-platform/src/touch_screen_base.cpp,"returns current point (+0xc, shorts); null path as recovered in the earlier pass, not re-verified"
+0x33b1a4,_ZN15TouchScreenBase13getTouchPointEl,reconstructed,core-platform/src/touch_screen_base.cpp,"Hex-Rays re-run: current point (+0xc) when touched (+0x28) and valid (+0x20), else nullptr"
+0x33b1e0,_ZN15TouchScreenBase18getFirstTouchPointEl,reconstructed,core-platform/src/touch_screen_base.cpp,"Hex-Rays re-run: returns the begin point (+0x8), not the current point; earlier note was wrong"
 0x33b2bc,_ZNK15TouchScreenBase17getSwipeDirectionEl,reconstructed,core-platform/src/touch_screen_base.cpp,
 0x33b2ec,_ZN15TouchScreenBase8hasTouchEv,reconstructed,core-platform/src/touch_screen_base.cpp,
 0x33b3dc,_ZN15TouchScreenBase5getIDEl,reconstructed,core-platform/src/touch_screen_base.cpp,
@@ -76,7 +76,7 @@ elf_address,symbol,status,source_file,notes
 0x33b43c,_ZN17EvTouchScreenMoveD0Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
 0x33b470,_ZN18EvTouchScreenPressD0Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
 0x33b4a4,_ZN3RctIsED0Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
-0x33b4d8,_ZN15TouchScreenBase5clearEv,partial,core-platform/src/touch_screen_base.cpp,original debug line omitted
+0x33b4d8,_ZN15TouchScreenBase5clearEv,reconstructed,core-platform/src/touch_screen_base.cpp,"Hex-Rays re-run: _DEBUG_OUT banner, then clears the touched flag of eight records"
 0x33be08,_ZN15TouchScreenBaseD1Ev,skipped,core-platform/src/touch_screen_base.cpp,compiler-generated destructor
 0x33be48,_ZN15TouchScreenBaseD0Ev,skipped,core-platform/src/touch_screen_base.cpp,compiler-generated destructor
 0x33be64,_ZN15TouchScreenBaseD2Ev,skipped,core-platform/src/touch_screen_base.cpp,compiler-generated destructor
@@ -93,10 +93,10 @@ elf_address,symbol,status,source_file,notes
 0x33d744,_ZN17AccelerometerBase6updateEd,reconstructed,core-platform/src/accelerometer.cpp,
 0x33d748,_ZN14EvAccelerationD0Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
 0x33d77c,_ZN17AccelerometerBaseD0Ev,skipped,core-platform/src/accelerometer.cpp,compiler-generated destructor
-0x33d798,_ZN17AccelerometerBase11_calcAnglesEv,partial,core-platform/src/accelerometer.cpp,decompiler tail-calls an unrecovered float comparison; layout of copies inferred
-0x33d8dc,_ZN17AccelerometerBase5movedEfff,partial,core-platform/src/accelerometer.cpp,decompiler tail-calls an unrecovered float comparison; layout of copies inferred
-0x33da0c,_ZN17AccelerometerBaseC1Ev,partial,core-platform/src/accelerometer.cpp,decompiler tail-calls an unrecovered float comparison; layout of copies inferred
-0x33da64,_ZN17AccelerometerBaseC2Ev,partial,core-platform/src/accelerometer.cpp,decompiler tail-calls an unrecovered float comparison; layout of copies inferred
+0x33d798,_ZN17AccelerometerBase11_calcAnglesEv,reconstructed,core-platform/src/accelerometer.cpp,Hex-Rays re-run: three angle updates (atan2 or +-pi/2 by reference sign) transcribed; layout from the listing
+0x33d8dc,_ZN17AccelerometerBase5movedEfff,partial,core-platform/src/accelerometer.cpp,"Hex-Rays re-run: min/max tracking and angle update transcribed; EventManager::Raise of event type 6 (x, y, z) not reproduced"
+0x33da0c,_ZN17AccelerometerBaseC1Ev,reconstructed,core-platform/src/accelerometer.cpp,"Hex-Rays re-run: zeroed members, _calcAngles and clear, as listed"
+0x33da64,_ZN17AccelerometerBaseC2Ev,reconstructed,core-platform/src/accelerometer.cpp,Hex-Rays re-run: same body as the C1 constructor
 0x33db64,_ZN19AccelerometerIPhone5movedEfff,reconstructed,core-platform/src/accelerometer.cpp,
 0x33db74,_ZN19AccelerometerIPhoneD1Ev,skipped,core-platform/src/accelerometer.cpp,compiler-generated destructor
 0x33dba8,_ZN19AccelerometerIPhoneD0Ev,skipped,core-platform/src/accelerometer.cpp,compiler-generated destructor
@@ -109,7 +109,7 @@ elf_address,symbol,status,source_file,notes
 0x33dcac,_ZN13ISerializable11DeserializeEP11IStreamBase,reconstructed,core-platform/src/serializable.cpp,
 0x33e2bc,_ZN13ISerializableD0Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
 0x33e324,_ZN11NonCopyableD0Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
-0x34e0fc,_ZN14FileSystemBase20decodeObfuscatedDataEiPviS0_,partial,core-platform/src/filesystem_base.cpp,decompiled signature has 3 visible args; 4th mangled param not visible
+0x34e0fc,_ZN14FileSystemBase20decodeObfuscatedDataEiPviS0_,reconstructed,core-platform/src/filesystem_base.cpp,"Hex-Rays re-run: static, four parameters (fourth unused); unsigned clamp to 4 - index, key from ~index decrementing per byte"
 0x34e1d4,_ZN14FileSystemBase24changeWorkingDirectoryToEPKc,reconstructed,core-platform/src/filesystem_base.cpp,
 0x34e480,_ZN14FileSystemBaseD1Ev,skipped,core-platform/src,"destructor chains into glitch CFileSystem base, not in this category"
 0x34e4b4,_ZN14FileSystemBaseD0Ev,skipped,core-platform/src,"destructor chains into glitch CFileSystem base, not in this category"
@@ -120,47 +120,47 @@ elf_address,symbol,status,source_file,notes
 0x34eb60,_ZN11IFileStream4skipEy,skipped,core-platform/src,calls virtual slots of IStreamBase not recovered
 0x34eb94,_ZNK15FileSystemWin3211_FileHandle7canReadEv,reconstructed,core-platform/src/filesystem_win32.cpp,
 0x34eb9c,_ZNK15FileSystemWin3211_FileHandle8canWriteEv,reconstructed,core-platform/src/filesystem_win32.cpp,
-0x34eba4,_ZNK15FileSystemWin3211getRootPathEv,partial,core-platform/src/filesystem_win32.cpp,returns the buffer address; original returns the path string object address
-0x34ebac,_ZNK15FileSystemWin3216getResourcesPathEv,partial,core-platform/src/filesystem_win32.cpp,returns the buffer address; original returns the path string object address
-0x34ebb4,_ZNK15FileSystemWin3216getSavefilesPathEv,partial,core-platform/src/filesystem_win32.cpp,returns the buffer address; original returns the path string object address
+0x34eba4,_ZNK15FileSystemWin3211getRootPathEv,reconstructed,core-platform/src/filesystem_win32.cpp,"Hex-Rays re-run: returns this + 0x2c (the path buffer), as the listing does"
+0x34ebac,_ZNK15FileSystemWin3216getResourcesPathEv,reconstructed,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: returns this + 0x234 (the resources buffer)
+0x34ebb4,_ZNK15FileSystemWin3216getSavefilesPathEv,reconstructed,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: returns this + 0x43c (the savefiles buffer)
 0x34ebc0,_ZN15FileSystemWin3212copySavefileEPKc,reconstructed,core-platform/src/filesystem_win32.cpp,
 0x34ebc4,_ZNK15FileSystemWin3212_getFileInfoEPKcS1_Pv,reconstructed,core-platform/src/filesystem_win32.cpp,
-0x34ec00,_ZNK15FileSystemWin3215isFileNewerThanEPKcS1_,partial,core-platform/src/filesystem_win32.cpp,"original is a no-op; declared bool here, returns false"
+0x34ec00,_ZNK15FileSystemWin3215isFileNewerThanEPKcS1_,reconstructed,core-platform/src/filesystem_win32.cpp,"Hex-Rays re-run: empty body, returns nothing (declared void)"
 0x34edf0,_ZNK15FileSystemWin3211_FileHandle4tellEv,reconstructed,core-platform/src/filesystem_win32.cpp,
 0x34ee10,_ZN15FileSystemWin3211_FileHandle4seekEy,reconstructed,core-platform/src/filesystem_win32.cpp,
 0x34ee20,_ZNK15FileSystemWin3211_FileHandle4sizeEv,reconstructed,core-platform/src/filesystem_win32.cpp,
 0x34ee74,_ZN15FileSystemWin3211_FileHandle5writeEPKvy,reconstructed,core-platform/src/filesystem_win32.cpp,
-0x34eec8,_ZN15FileSystemWin3211_FileHandle4readEPvy,partial,core-platform/src/filesystem_win32.cpp,stdio stand-in for glitch CFileSystem; open modes/ordering inferred; see NOTES.md
-0x34ef58,_ZNK15FileSystemWin3211_FileHandle4peekEPvy,partial,core-platform/src/filesystem_win32.cpp,stdio stand-in for glitch CFileSystem; open modes/ordering inferred; see NOTES.md
+0x34eec8,_ZN15FileSystemWin3211_FileHandle4readEPvy,partial,core-platform/src/filesystem_win32.cpp,"Hex-Rays re-run: vtable open test, ftell, fread, then decodeObfuscatedData when the flag behind +8 is set and pos <= 3; flag and CFile stand in"
+0x34ef58,_ZNK15FileSystemWin3211_FileHandle4peekEPvy,partial,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: glitch CFile peek; stdio stand-in
 0x34f004,_ZN11IFileStreamD0Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
 0x34f068,_ZN15FileSystemWin329_getPathsEv,reconstructed,core-platform/src/filesystem_win32.cpp,
-0x34f10c,_ZNK15FileSystemWin3214backupSavefileEPKcS1_,partial,core-platform/src/filesystem_win32.cpp,stdio stand-in for glitch CFileSystem; open modes/ordering inferred; see NOTES.md
-0x34f274,_ZNK15FileSystemWin3214deleteSavefileEPKc,partial,core-platform/src/filesystem_win32.cpp,stdio stand-in for glitch CFileSystem; open modes/ordering inferred; see NOTES.md
+0x34f10c,_ZNK15FileSystemWin3214backupSavefileEPKcS1_,partial,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: backup via glitch file objects; stdio stand-in
+0x34f274,_ZNK15FileSystemWin3214deleteSavefileEPKc,partial,core-platform/src/filesystem_win32.cpp,"Hex-Rays re-run: delete via glitch file system; stdio stand-in, trace logging omitted"
 0x34f34c,_ZN15FileSystemWin3212makeFullPathEPKcS1_Pci,reconstructed,core-platform/src/filesystem_win32.cpp,
 0x34f35c,_ZN15FileSystemWin3212makeFullPathEPKwS1_Pwi,skipped,core-platform/src/filesystem_win32.cpp,wide-char makeFullPath overload not reconstructed
 0x34f670,_ZN15FileSystemWin32D1Ev,skipped,core-platform/src/filesystem_win32.cpp,compiler-generated destructor
 0x34f6a4,_ZN15FileSystemWin32D0Ev,skipped,core-platform/src/filesystem_win32.cpp,compiler-generated destructor
 0x34f6c0,_ZN15FileSystemWin32D2Ev,skipped,core-platform/src/filesystem_win32.cpp,compiler-generated destructor
-0x34f6f4,_ZN15FileSystemWin32C1Ev,partial,core-platform/src/filesystem_win32.cpp,stdio stand-in for glitch CFileSystem; open modes/ordering inferred; see NOTES.md
-0x34f788,_ZN15FileSystemWin32C2Ev,partial,core-platform/src/filesystem_win32.cpp,stdio stand-in for glitch CFileSystem; open modes/ordering inferred; see NOTES.md
-0x34f8a4,_ZNK15FileSystemWin3214formatFilePathERKSbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS2_6memory13E_MEMORY_HINTE0EEEE,partial,core-platform/src/filesystem_win32.cpp,stdio stand-in for glitch CFileSystem; open modes/ordering inferred; see NOTES.md
-0x34fb7c,_ZN15FileSystemWin3211_FileHandleD1Ev,partial,core-platform/src/filesystem_win32.cpp,closes the FILE handle; original releases the shared CFile object
-0x34fbbc,_ZN15FileSystemWin3211_FileHandleD0Ev,partial,core-platform/src/filesystem_win32.cpp,closes the FILE handle; original releases the shared CFile object
-0x34fbd8,_ZN15FileSystemWin3211_FileHandleD2Ev,partial,core-platform/src/filesystem_win32.cpp,closes the FILE handle; original releases the shared CFile object
-0x34fc18,_ZN15FileSystemWin3211_FileHandleC1EPKcS2_bb,partial,core-platform/src/filesystem_win32.cpp,stdio stand-in for glitch CFileSystem; open modes/ordering inferred; see NOTES.md
-0x34fe50,_ZN15FileSystemWin3213_createHandleEPKcS1_bb,partial,core-platform/src/filesystem_win32.cpp,stdio stand-in for glitch CFileSystem; open modes/ordering inferred; see NOTES.md
-0x34fee4,_ZN15FileSystemWin3212openSavefileEPKcb,partial,core-platform/src/filesystem_win32.cpp,stdio stand-in for glitch CFileSystem; open modes/ordering inferred; see NOTES.md
+0x34f6f4,_ZN15FileSystemWin32C1Ev,reconstructed,core-platform/src/filesystem_win32.cpp,"Hex-Rays re-run: five 0x104-byte path buffers zeroed, then _getPaths (confirmed by the listing)"
+0x34f788,_ZN15FileSystemWin32C2Ev,reconstructed,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: same body as the C1 constructor
+0x34f8a4,_ZNK15FileSystemWin3214formatFilePathERKSbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS2_6memory13E_MEMORY_HINTE0EEEE,partial,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: glitch path normalisation (676-byte listing) not reproduced; stdio stand-in
+0x34fb7c,_ZN15FileSystemWin3211_FileHandleD1Ev,partial,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: releases the glitch CFile (ISharedObject drop) and sets the vtable; FILE close stands in
+0x34fbbc,_ZN15FileSystemWin3211_FileHandleD0Ev,partial,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: deleting destructor (D1 then CustomFree); FILE close stands in for the CFile release
+0x34fbd8,_ZN15FileSystemWin3211_FileHandleD2Ev,partial,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: same body as D1; FILE close stands in for the CFile release
+0x34fc18,_ZN15FileSystemWin3211_FileHandleC1EPKcS2_bb,partial,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: glitch CFile open with the open modes inferred; stdio stand-in
+0x34fe50,_ZN15FileSystemWin3213_createHandleEPKcS1_bb,reconstructed,core-platform/src/filesystem_win32.cpp,"Hex-Rays re-run: ""./"" or "".\"" prefix stripped from the directory argument; handle released when its file is null"
+0x34fee4,_ZN15FileSystemWin3212openSavefileEPKcb,partial,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: Savegame::FlushJobs before opening is not reproduced
 0x34ff28,_ZN15FileSystemWin3212openResourceEPKc,reconstructed,core-platform/src/filesystem_win32.cpp,
-0x34ff84,_ZN15FileSystemWin3213openTraceFileEPKc,partial,core-platform/src/filesystem_win32.cpp,trace-file mode inferred from the write/readwrite flags
-0x34ffb0,_ZN15FileSystemWin328openFileEPKcbb,partial,core-platform/src/filesystem_win32.cpp,stdio stand-in for glitch CFileSystem; open modes/ordering inferred; see NOTES.md
-0x35003c,_ZN15FileSystemWin3211_FileHandleC2EPKcS2_bb,partial,core-platform/src/filesystem_win32.cpp,stdio stand-in for glitch CFileSystem; open modes/ordering inferred; see NOTES.md
-0x35041c,_ZNK15FileSystemWin3216getFilesMatchingEPKcS1_RSt6vectorISsSaISsEE,partial,core-platform/src/filesystem_win32.cpp,stdio stand-in for glitch CFileSystem; open modes/ordering inferred; see NOTES.md
-0x3505a0,_ZNK15FileSystemWin328getFilesEPKcRSt6vectorISsSaISsEE,partial,core-platform/src/filesystem_win32.cpp,stdio stand-in for glitch CFileSystem; open modes/ordering inferred; see NOTES.md
+0x34ff84,_ZN15FileSystemWin3213openTraceFileEPKc,reconstructed,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: opens the trace file in the savefiles directory with writable and readwrite set
+0x34ffb0,_ZN15FileSystemWin328openFileEPKcbb,partial,core-platform/src/filesystem_win32.cpp,"Hex-Rays re-run: the uncompiled-data branch (Application::IsUsingUncompiledData, ""Q:\"" fallback) is not reproduced; root path always used"
+0x35003c,_ZN15FileSystemWin3211_FileHandleC2EPKcS2_bb,partial,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: same listing as the C1 constructor; glitch CFile stand-in
+0x35041c,_ZNK15FileSystemWin3216getFilesMatchingEPKcS1_RSt6vectorISsSaISsEE,partial,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: glitch directory listing not reproduced; <filesystem> used
+0x3505a0,_ZNK15FileSystemWin328getFilesEPKcRSt6vectorISsSaISsEE,partial,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: glitch directory listing not reproduced; <filesystem> used
 0x381668,_ZN6Device15IsFixedPipelineEv,reconstructed,core-platform/src/device.cpp,reads DeviceFeatureFlags() stand-in for the device vtable slot +0x5c
-0x3816a8,_ZN6Device22IsProgrammablePipelineEv,partial,core-platform/src/device.cpp,feature mask 0x78 kept as in original; meaning unnamed; globals are stand-ins
+0x3816a8,_ZN6Device22IsProgrammablePipelineEv,partial,core-platform/src/device.cpp,Hex-Rays re-run: the listing calls virtual slot +0x5c of the feature object; DeviceFeatureFlags stands in for it; mask 0x78 kept
 0x38173c,_ZN6Device8GetModelEv,reconstructed,core-platform/src/device.cpp,
 0x381744,_ZN6Device21IsiOSVersionSupportedEPKc,reconstructed,core-platform/src/device.cpp,
-0x38174c,_ZN6Device17IsHighPerformanceEv,partial,core-platform/src/device.cpp,same body as IsProgrammablePipeline; feature mask stand-in
+0x38174c,_ZN6Device17IsHighPerformanceEv,reconstructed,core-platform/src/device.cpp,"Hex-Rays re-run: thunk, returns IsProgrammablePipeline"
 0x381750,_ZN6Device15IsIphoneHighRezEv,reconstructed,core-platform/src/device.cpp,
 0x381758,_ZN6Device19GetScreenResolutionEv,reconstructed,core-platform/src/device.cpp,
 0x38176c,_ZN6Device20IsMultitaskSupportedEv,reconstructed,core-platform/src/device.cpp,
@@ -193,7 +193,7 @@ elf_address,symbol,status,source_file,notes
 0x844180,_ZN4slim11XmlDocument14loadFromStreamERSi,reconstructed,core-platform/src/slim_text.cpp,
 0x844188,_ZNK4slim11XmlDocument4saveEPKcNS_6EncodeE,reconstructed,core-platform/src/slim_text.cpp,
 0x844190,_ZN4slim11utf8toutf16EPKcjPwj,reconstructed,core-platform/src/slim_text.cpp,code points held in uint32 (original wchar_t is 32-bit); 2-byte decode keeps original <<5 shift
-0x844270,_ZN4slim11utf16toutf8EPKwjPcj,partial,core-platform/src/slim_text.cpp,exact byte stores of the decompiled pseudocode not reproduced; emits standard UTF-8
+0x844270,_ZN4slim11utf16toutf8EPKwjPcj,partial,core-platform/src/slim_text.cpp,Hex-Rays re-run: exact byte stores not reproduced; standard UTF-8 emitted
 0x844368,_ZN4slim10detectUtf8EPKcj,reconstructed,core-platform/src/slim_text.cpp,
 0x89bed0,_ZN10ConfigFileC2Ev,reconstructed,core-platform/src/config_file.cpp,
 0x89bed4,_ZN10ConfigFileC1Ev,reconstructed,core-platform/src/config_file.cpp,
@@ -209,7 +209,7 @@ elf_address,symbol,status,source_file,notes
 0x33ac24,_ZN15TouchScreenBase10touchBeganERK7Point2DIsEl,reconstructed,core-platform/src/touch_screen_base.cpp,
 0x33ad28,_ZN15TouchScreenBase10touchMovedERK7Point2DIsEl,reconstructed,core-platform/src/touch_screen_base.cpp,"swipe classification: |dx|>11, |dy|<5, sets 2 (right) or 1 (left)"
 0x33ae3c,_ZN15TouchScreenBase14touchCancelledERK7Point2DIsEl,reconstructed,core-platform/src/touch_screen_base.cpp,same body as touchEnded; queue type 2
-0x33aeb8,_ZN15TouchScreenBase10touchEndedERK7Point2DIsEl,partial,core-platform/src/touch_screen_base.cpp,"ELF symbol is 4 bytes; body written from the decompiled text, identical to touchCancelled"
+0x33aeb8,_ZN15TouchScreenBase10touchEndedERK7Point2DIsEl,reconstructed,core-platform/src/touch_screen_base.cpp,"Hex-Rays re-run: thunk, forwards to touchCancelled"
 0x33b02c,_ZNK15TouchScreenBase27getTouchIDInitiatedInRegionERKN6glitch4core4rectIfEE,reconstructed,core-platform/src/touch_screen_base.cpp,tests begin point against the region
 0x33b0e8,_ZNK15TouchScreenBase18getTouchIDInRegionERKN6glitch4core4rectIfEE,reconstructed,core-platform/src/touch_screen_base.cpp,tests current point against the region
 0x33b21c,_ZNK15TouchScreenBase20getTouchDisplacementEl,reconstructed,core-platform/src/touch_screen_base.cpp,current minus previous point; zero when unchanged from begin
@@ -219,8 +219,8 @@ elf_address,symbol,status,source_file,notes
 0x33bd2c,_ZNK15TouchScreenBase14getTouchIDListEv,reconstructed,core-platform/src/touch_screen_base.cpp,"std::list<long> of touched slot indices, sorted"
 0x33c298,_ZN15TouchScreenBaseC2Ess,reconstructed,core-platform/src/touch_screen_base.cpp,member initialisers replace the explicit zeroing loops
 0x33c3d8,_ZN15TouchScreenBaseC1Ess,reconstructed,core-platform/src/touch_screen_base.cpp,same as C2
-0x33c568,_ZN15TouchScreenBase13ProcessEventsEv,partial,core-platform/src/touch_screen_base.cpp,return value is a tail call to float multiply; empty queue returns 0 here (original leaves a register)
-0x33d4b4,_ZN16TouchScreenWin327onEventERKN6glitch6SEventE,partial,core-platform/src/touch_screen_win32.cpp,begin passes id 0 (original passes no id); Point2D split by decompiler; isDown is a function static
+0x33c568,_ZN15TouchScreenBase13ProcessEventsEv,partial,core-platform/src/touch_screen_base.cpp,Hex-Rays re-run: drains the queue into EventManager with debug-switch checks; not reproduced
+0x33d4b4,_ZN16TouchScreenWin327onEventERKN6glitch6SEventE,partial,core-platform/src/touch_screen_win32.cpp,"Hex-Rays re-run: codes 3, 6 and 0 map to end, move and begin (ids 0); the began call has only two arguments in the listing"
 0x33d68c,_ZN16TouchScreenWin32C1Ess,reconstructed,core-platform/src/touch_screen_win32.cpp,base constructor; secondary interface vtable at +0x1b4 not recovered
 0x33d6d0,_ZN16TouchScreenWin32C2Ess,reconstructed,core-platform/src/touch_screen_win32.cpp,same as C1
 0x30eea0,_Z8ObjToStrPcRi,reconstructed,core-platform/src/obj_str.cpp,
@@ -313,10 +313,10 @@ elf_address,symbol,status,source_file,notes
 0x33cd00,_ZN17TouchScreenIPhoneD2Ev,skipped,core-platform/src/touch_screen_iphone.cpp,"compiler-generated destructor, nothing to rebuild"
 0x33cd34,_ZN17TouchScreenIPhoneC1Efffff,reconstructed,core-platform/src/touch_screen_iphone.cpp,"constructor: bounds from left/top and width/height, scale stored at +0x1b0"
 0x33cdcc,_ZN17TouchScreenIPhoneC2Efffff,reconstructed,core-platform/src/touch_screen_iphone.cpp,constructor (C2 copy of C1)
-0x33ceb4,_ZN17TouchScreenIPhone10touchEndedEffdiffl,partial,core-platform/src/touch_screen_iphone.cpp,id lookup visible; forwarding to TouchScreenBase::touchEnded assumed
-0x33cf84,_ZN17TouchScreenIPhone14touchCancelledEffdiffl,partial,core-platform/src/touch_screen_iphone.cpp,id lookup visible; forwarding to TouchScreenBase::touchCancelled assumed
-0x33d054,_ZN17TouchScreenIPhone10touchBeganEffdiffl,partial,core-platform/src/touch_screen_iphone.cpp,id lookup visible; forwarding to TouchScreenBase::touchBegan assumed
-0x33d124,_ZN17TouchScreenIPhone10touchMovedEffdiffl,partial,core-platform/src/touch_screen_iphone.cpp,id lookup visible; forwarding to TouchScreenBase::touchMoved assumed
+0x33ceb4,_ZN17TouchScreenIPhone10touchEndedEffdiffl,reconstructed,core-platform/src/touch_screen_iphone.cpp,Hex-Rays re-run: getID on the touch identifier (7th argument) gives the slot forwarded to the base handler
+0x33cf84,_ZN17TouchScreenIPhone14touchCancelledEffdiffl,reconstructed,core-platform/src/touch_screen_iphone.cpp,"Hex-Rays re-run: as touchEnded (getID on the touch identifier, forwarded to the base handler)"
+0x33d054,_ZN17TouchScreenIPhone10touchBeganEffdiffl,reconstructed,core-platform/src/touch_screen_iphone.cpp,Hex-Rays re-run: as touchEnded; the base handler is TouchScreenBase::touchBegan
+0x33d124,_ZN17TouchScreenIPhone10touchMovedEffdiffl,reconstructed,core-platform/src/touch_screen_iphone.cpp,Hex-Rays re-run: as touchEnded; the base handler is TouchScreenBase::touchMoved
 0x33d1f4,_ZNK14TouchScreenPS312getLeftBoundEv,reconstructed,core-platform/src/touch_screen_ps3.cpp,returns 0
 0x33d1fc,_ZNK14TouchScreenPS313getRightBoundEv,reconstructed,core-platform/src/touch_screen_ps3.cpp,returns 0
 0x33d204,_ZNK14TouchScreenPS311getTopBoundEv,reconstructed,core-platform/src/touch_screen_ps3.cpp,returns 0
@@ -325,8 +325,8 @@ elf_address,symbol,status,source_file,notes
 0x33d340,_ZN14TouchScreenPS3D1Ev,skipped,core-platform/src/touch_screen_ps3.cpp,"compiler-generated destructor, nothing to rebuild"
 0x33d390,_ZN14TouchScreenPS3D0Ev,skipped,core-platform/src/touch_screen_ps3.cpp,"compiler-generated destructor, nothing to rebuild"
 0x33d3ac,_ZN14TouchScreenPS3D2Ev,skipped,core-platform/src/touch_screen_ps3.cpp,"compiler-generated destructor, nothing to rebuild"
-0x33d3f4,_ZN14TouchScreenPS3C1Ev,partial,core-platform/src/touch_screen_ps3.cpp,data address stored at +0x1b4 not recovered; nullptr used
-0x33d440,_ZN14TouchScreenPS3C2Ev,partial,core-platform/src/touch_screen_ps3.cpp,data address stored at +0x1b4 not recovered; nullptr used
+0x33d3f4,_ZN14TouchScreenPS3C1Ev,partial,core-platform/src/touch_screen_ps3.cpp,Hex-Rays re-run: +0x1b4 receives the address off_95C4F0 (a table not recovered); nullptr stands in
+0x33d440,_ZN14TouchScreenPS3C2Ev,partial,core-platform/src/touch_screen_ps3.cpp,Hex-Rays re-run: same as the C1 constructor; +0x1b4 table address not recovered
 0x876364,_ZL11bit_reversej,reconstructed,core-platform/src/vorbis_util.cpp,
 0x8763e0,_ZL4ilogi,reconstructed,core-platform/src/vorbis_util.cpp,"bit-length table assumed to be 0,1,2,2,3,3,3,3,4..4 (the table is not readable here)"
 0x8764d8,_ZL14uint32_comparePKvS0_,reconstructed,core-platform/src/vorbis_util.cpp,
@@ -365,45 +365,45 @@ elf_address,symbol,status,source_file,notes
 0x844b44,_ZN4slim7XmlNodeD1Ev,reconstructed,core-platform/src/slim_xml.cpp,
 0x844bd8,_ZN4slim7XmlNode10clearChildEv,reconstructed,core-platform/src/slim_xml.cpp,
 0x844c8c,_ZN4slim7XmlNodeD2Ev,reconstructed,core-platform/src/slim_xml.cpp,same body as the D1 destructor
-0x844d20,_ZN4slim7XmlNode12addAttributeEPKcS2_,partial,core-platform/src/slim_xml.cpp,listing shows only the 0x30-byte allocation; list insertion and name/value stores inferred
-0x844db8,_ZN4slim11XmlDocument10parseLabelEPNS_7XmlNodeEPKcj,partial,core-platform/src/slim_xml.cpp,attribute value read as the range between its two quotes; malformed attributes stop the scan
+0x844d20,_ZN4slim7XmlNode12addAttributeEPKcS2_,partial,core-platform/src/slim_xml.cpp,Hex-Rays re-run: 0x30-byte attribute object and list insertion at the sentinel (+0x34); member offsets of the attribute inferred
+0x844db8,_ZN4slim11XmlDocument10parseLabelEPNS_7XmlNodeEPKcj,partial,core-platform/src/slim_xml.cpp,Hex-Rays re-run: name and attribute scan visible; the attribute loop (= and quote handling) is only approximated; not fully transcribed
 0x844f44,_ZN4slim7XmlNode8addChildEPKcNS_8NodeTypeE,reconstructed,core-platform/src/slim_xml.cpp,other node types return null as in the original
-0x844fdc,_ZN4slim11XmlDocument5parseEPKcj,partial,core-platform/src/slim_xml.cpp,closing tag names are not compared; text rule and open-depth check taken from the listing
+0x844fdc,_ZN4slim11XmlDocument5parseEPKcj,reconstructed,core-platform/src/slim_xml.cpp,"Hex-Rays re-run: walk, closing-tag text rule (element with no children), comment and self-closing checks match the listing; closing names not compared"
 0x8451dc,_ZN4slim11XmlDocument14loadFromMemoryEPKcj,reconstructed,core-platform/src/slim_xml.cpp,"clears children, rejects UTF-16 and UTF-8 byte-order marks, length 2 or less"
-0x845268,_ZNK4slim7XmlNode9writeNodeERSsi,partial,core-platform/src/slim_xml.cpp,string punctuation not all recoverable; only the first attribute is visible in the listing
+0x845268,_ZNK4slim7XmlNode9writeNodeERSsi,partial,core-platform/src/slim_xml.cpp,"Hex-Rays re-run: tab indent per depth, ""<"" name, attributes as "" name=\""value\"""", comments as ""<!--body-->"" then CRLF; attribute loop and element tail not fully transcribed"
 0x845518,_ZNK4slim7XmlNode15writeChildNodesERSsi,reconstructed,core-platform/src/slim_xml.cpp,
 0x311730,_ZN12PerfCounters12CounterEntryC1ERKS0_,reconstructed,core-platform/src/perf_counters.cpp,"copy of name, the three values and the history"
-0x3110c4,_ZN12PerfCountersC2Ev,partial,core-platform/src/perf_counters.cpp,node block (0x3e84 bytes) taken with CustomAlloc; no vector reserve; std::list allocates nodes
-0x311118,_ZN12PerfCountersC1Ev,partial,core-platform/src/perf_counters.cpp,"same body as the C2 constructor; node block modelled, not the node allocator"
-0x3115c4,_ZN12PerfCountersD1Ev,partial,core-platform/src/perf_counters.cpp,frees the node block; entries and history released by member destructors
-0x311620,_ZN12PerfCountersD2Ev,partial,core-platform/src/perf_counters.cpp,same body as the D1 destructor
-0x312584,_ZN12PerfCounters8GetEntryERKSs,partial,core-platform/src/perf_counters.cpp,missing name returns nullptr; the original's search runs past the end
-0x312734,_ZN12PerfCounters15SetCounterValueERKSsfff,partial,core-platform/src/perf_counters.cpp,"missing counter ignored; the three values stored at +0x18, +0x1c, +0x20"
-0x31177c,_ZN12PerfCounters6UpdateEf,partial,core-platform/src/perf_counters.cpp,sampling layout inferred; time advances by dt after each sample
-0x311914,_ZN12PerfCounters4DrawEv,partial,core-platform/src/perf_counters.cpp,"glitch rendering (material, bars) not reconstructed; checks kept"
+0x3110c4,_ZN12PerfCountersC2Ev,partial,core-platform/src/perf_counters.cpp,"Hex-Rays re-run: node block of 0x3e84 bytes via operator new[], list head at +0x14; std containers differ"
+0x311118,_ZN12PerfCountersC1Ev,partial,core-platform/src/perf_counters.cpp,Hex-Rays re-run: same as the C2 constructor
+0x3115c4,_ZN12PerfCountersD1Ev,partial,core-platform/src/perf_counters.cpp,Hex-Rays re-run: frees the node block and clears the list; node allocator differs
+0x311620,_ZN12PerfCountersD2Ev,partial,core-platform/src/perf_counters.cpp,Hex-Rays re-run: same as the D1 destructor
+0x312584,_ZN12PerfCounters8GetEntryERKSs,partial,core-platform/src/perf_counters.cpp,"Hex-Rays re-run: a missing name is created (appended to the list, history sized to count + 1) and returned; the reconstruction returns nullptr"
+0x312734,_ZN12PerfCounters15SetCounterValueERKSsfff,partial,core-platform/src/perf_counters.cpp,"Hex-Rays re-run: gated by the EnablePerfCounters switch (DebugSwitches), which the reconstruction does not check; values stored at +0x18, +0x1c, +0x20"
+0x31177c,_ZN12PerfCounters6UpdateEf,partial,core-platform/src/perf_counters.cpp,Hex-Rays re-run: sampling layout inferred; time advances by dt
+0x311914,_ZN12PerfCounters4DrawEv,partial,core-platform/src/perf_counters.cpp,Hex-Rays re-run: glitch rendering not reproduced; checks kept
 0x34ebcc,_ZN15FileSystemWin329closeFileERP11IFileStream,reconstructed,core-platform/src/filesystem_win32.cpp,deletes the stream (vtable slot +0x4 is the deleting destructor) and clears the pointer
 0x34ebfc,_ZNK15FileSystemWin3210getFoldersEPKcRSt6vectorISsSaISsEE,reconstructed,core-platform/src/filesystem_win32.cpp,empty in the original
 0x34e1ac,_ZNK14FileSystemBase14formatFilePathERKSbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS2_6memory13E_MEMORY_HINTE0EEEE,reconstructed,core-platform/src/filesystem_base.cpp,returns a copy of the path; the Win32 override does the separator rewrite
-0x34df94,_ZN14FileSystemBase14doesFileExistsEPKc,partial,core-platform/src/filesystem_base.cpp,stdio existence check stands in for the derived class's virtual test
-0x34dfe0,_ZN14FileSystemBase18doesResourceExistsEPKc,partial,core-platform/src/filesystem_base.cpp,stdio existence check; resource-directory lookup in the derived class not reconstructed
-0x34e150,_ZN14FileSystemBase18doesSavefileExistsEPKc,partial,core-platform/src/filesystem_base.cpp,Savegame job flush not reconstructed; stdio existence check
-0x34e96c,_ZNK14FileSystemBase18ApplyFilenameHacksEPKc,partial,core-platform/src/filesystem_base.cpp,name substitutions not visible in the pseudocode; name returned unchanged
-0x34e5f4,_ZNK14FileSystemBase15getAbsolutePathERKSbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS2_6memory13E_MEMORY_HINTE0EEEE,partial,core-platform/src/filesystem_base.cpp,derived normalisation and CFileSystem::getAbsolutePath not reconstructed; path unchanged
-0x34e688,_ZN14FileSystemBase17createAndOpenFileEPKc,partial,core-platform/src/filesystem_base.cpp,RES_PATH prefix rule kept; normalisation (vtable +0xb8) missing; file created with stdio
+0x34df94,_ZN14FileSystemBase14doesFileExistsEPKc,partial,core-platform/src/filesystem_base.cpp,Hex-Rays re-run: opens through virtual slot +0x88 and closes through +0x78 of the derived system; stdio existence check stands in
+0x34dfe0,_ZN14FileSystemBase18doesResourceExistsEPKc,partial,core-platform/src/filesystem_base.cpp,Hex-Rays re-run: resource lookup is virtual slot +0x90; stdio existence check stands in
+0x34e150,_ZN14FileSystemBase18doesSavefileExistsEPKc,partial,core-platform/src/filesystem_base.cpp,Hex-Rays re-run: Savegame::FlushJobs then virtual slot +0x94; flush and virtual lookup not reproduced
+0x34e96c,_ZNK14FileSystemBase18ApplyFilenameHacksEPKc,partial,core-platform/src/filesystem_base.cpp,"Hex-Rays re-run: builds a glitch string, applies a "".tga"" substitution with CFileSystem::getFileBasename; not reproduced"
+0x34e5f4,_ZNK14FileSystemBase15getAbsolutePathERKSbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS2_6memory13E_MEMORY_HINTE0EEEE,partial,core-platform/src/filesystem_base.cpp,Hex-Rays re-run: calls virtual slot +0xb8 for the normalised path and CFileSystem::getAbsolutePath; not reproduced
+0x34e688,_ZN14FileSystemBase17createAndOpenFileEPKc,partial,core-platform/src/filesystem_base.cpp,"Hex-Rays re-run: glitch string and uncompiled-data branch (Q:\ fallback, virtual slots +0x2c/+0x30) not reproduced; stdio create stands in"
 0x31f78c,_ZN11GCSingletonI10GameCenterED1Ev,reconstructed,core-platform/include/core-platform/gc_singleton.hpp,empty destructor body
 0x31fbec,_ZN11GCSingletonI10GameCenterED0Ev,skipped,core-platform/include/core-platform/gc_singleton.hpp,compiler-generated deleting destructor; the original frees through CustomFree
-0x32bd08,_ZN11GCSingletonI10GameCenterE11GetInstanceEv,partial,core-platform/include/core-platform/gc_singleton.hpp,constructs in a CustomAlloc block of sizeof(T); constructor skipped when allocation fails (the original calls it on null)
+0x32bd08,_ZN11GCSingletonI10GameCenterE11GetInstanceEv,partial,core-platform/include/core-platform/gc_singleton.hpp,"Hex-Rays re-run: allocates CustomAlloc(0x7C) and runs the constructor before the null check; sizeof(T) used; assert text ""m_instance != 0"" at GameCenter.h:27 not reproduced"
 0x48b7fc,_ZN7Array2dIPN3rnd4TileEEclEii,reconstructed,core-platform/include/core-platform/array2d.hpp,rows_[y - minY_][x - minX_] after growing to include the cell
-0x487dd8,_ZN7Array2dIPN3rnd4TileEEC1Ev,partial,core-platform/include/core-platform/array2d.hpp,starts empty; the original's deque map allocation is not modelled
-0x487bb0,_ZN7Array2dIPN3rnd4TileEE5ClearEv,partial,core-platform/include/core-platform/array2d.hpp,resets each cell to T() and keeps the shape; the original refills the deque map in place
-0x48b578,_ZN7Array2dIPN3rnd4TileEE14EnsurePositionEii,partial,core-platform/include/core-platform/array2d.hpp,growth rules from the branches; the empty-grid start point is inferred
+0x487dd8,_ZN7Array2dIPN3rnd4TileEEC1Ev,partial,core-platform/include/core-platform/array2d.hpp,"Hex-Rays re-run: body builds an 8-slot deque map with one node at the middle; the STL map is not modelled, the grid starts empty"
+0x487bb0,_ZN7Array2dIPN3rnd4TileEE5ClearEv,partial,core-platform/include/core-platform/array2d.hpp,"Hex-Rays re-run: body is libstdc++ deque internals (_M_fill_insert, erase, map re-init); observable shape kept, map layout not reproduced"
+0x48b578,_ZN7Array2dIPN3rnd4TileEE14EnsurePositionEii,partial,core-platform/include/core-platform/array2d.hpp,"Hex-Rays re-run: body is libstdc++ deque growth (map reallocation, node allocation); growth rules kept, map layout not reproduced"
 0x33d71c,_ZN17AccelerometerBaseD1Ev,reconstructed,core-platform/include/core-platform/accelerometer.hpp,"empty destructor, compiler-generated in the header"
 0x33aebc,_ZNK15TouchScreenBase15isRegionPressedERKN6glitch4core4rectIfEE,skipped,core-platform/src/touch_screen_base.cpp,return value is a float product whose operands are only partly visible; no body reconstructed
 0x897b64,switchD_008a7b5c::caseD_ffffffef,skipped,core-platform/src,"Ghidra switch-case label inside a jump table, not a function body"
 0x897bbc,switchD_008a7b5c::caseD_5,skipped,core-platform/src,"Ghidra switch-case label inside a jump table, not a function body"
 0x8902fc,switchD_008a02e8::caseD_3,skipped,core-platform/src,"Ghidra switch-case label inside a jump table, not a function body"
 0x842464,_ZNK3rss5writeEPN4slim7XmlNodeE,reconstructed,core-platform/src/rss.cpp,empty in the original
-0x844050,_ZN3rss4readEPKN4slim7XmlNodeE,partial,core-platform/src/rss.cpp,"one channel per ""channel"" child; channel::read is a stand-in no-op in this category"
+0x844050,_ZN3rss4readEPKN4slim7XmlNodeE,partial,core-platform/src/rss.cpp,Hex-Rays re-run: one channel per child; channel::read is a stand-in in this category
 0x88ef38,_ZN7_JNIEnv19CallStaticIntMethodEP7_jclassP10_jmethodIDz,skipped,core-platform/src,Android JNI function-table wrapper (vararg env call); not a Windows target
 0x88ed78,_ZN7_JNIEnv11GetMethodIDEP7_jclassPKcS3_,skipped,core-platform/src,Android JNI function-table wrapper; not a Windows target
 0x52ea74,_ZN7_JNIEnv23CallStaticBooleanMethodEP7_jclassP10_jmethodIDz,skipped,core-platform/src,Android JNI function-table wrapper; not a Windows target

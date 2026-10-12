@@ -48,30 +48,31 @@ Point2D<short> ToPoint(float x, float y) {
 }  // namespace
 
 // 0x33d054 TouchScreenIPhone::touchBegan(float, float, double, int, float, float, long)
-// Partial: the listing shows the id lookup and a DebugSwitches trace read. The
-// forwarding call is not visible; it is taken to be the base touchBegan.
-void TouchScreenIPhone::touchBegan(float x, float y, double, int id, float, float, long slot) {
-    static_cast<void>(getID(id));
+// The last argument is the touch identifier: getID maps it to a slot, and the slot is
+// passed to TouchScreenBase::touchBegan (Hex-Rays). The DebugSwitches trace read has
+// no effect on the result and is not reproduced.
+void TouchScreenIPhone::touchBegan(float x, float y, double, int, float, float, long touchId) {
+    const int slot = getID(touchId);
     TouchScreenBase::touchBegan(ToPoint(x, y), slot);
 }
 
 // 0x33d124 TouchScreenIPhone::touchMoved(float, float, double, int, float, float, long)
-// Partial: same shape as touchBegan.
-void TouchScreenIPhone::touchMoved(float x, float y, double, int id, float, float, long slot) {
-    static_cast<void>(getID(id));
+// Same shape as touchBegan.
+void TouchScreenIPhone::touchMoved(float x, float y, double, int, float, float, long touchId) {
+    const int slot = getID(touchId);
     TouchScreenBase::touchMoved(ToPoint(x, y), slot);
 }
 
 // 0x33ceb4 TouchScreenIPhone::touchEnded(float, float, double, int, float, float, long)
-// Partial: same shape as touchBegan.
-void TouchScreenIPhone::touchEnded(float x, float y, double, int id, float, float, long slot) {
-    static_cast<void>(getID(id));
+// Same shape as touchBegan.
+void TouchScreenIPhone::touchEnded(float x, float y, double, int, float, float, long touchId) {
+    const int slot = getID(touchId);
     TouchScreenBase::touchEnded(ToPoint(x, y), slot);
 }
 
 // 0x33cf84 TouchScreenIPhone::touchCancelled(float, float, double, int, float, float, long)
-// Partial: same shape as touchBegan.
-void TouchScreenIPhone::touchCancelled(float x, float y, double, int id, float, float, long slot) {
-    static_cast<void>(getID(id));
+// Same shape as touchBegan.
+void TouchScreenIPhone::touchCancelled(float x, float y, double, int, float, float, long touchId) {
+    const int slot = getID(touchId);
     TouchScreenBase::touchCancelled(ToPoint(x, y), slot);
 }

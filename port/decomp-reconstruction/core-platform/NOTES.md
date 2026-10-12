@@ -169,3 +169,63 @@ GCSingleton, Array2d, rss, and the ADevice and _JNIEnv rows (skipped as Android 
   complete and identical to `touchCancelled`. Marked partial.
 - Tests live in `tests/touch_screen_test.cpp` (queue order, coalescing, swipe,
   displacement, region queries, timeout release, id list).
+
+## Hex-Rays re-run (partial rows)
+
+The 102 partial rows were re-read from the Hex-Rays export; the IDA listing
+(`tools/decomp_asm.py`) was used where Hex-Rays was ambiguous. 47 rows became
+`reconstructed`; 55 stay `partial` (ledger notes give the reason per address). No
+rows were skipped. Host and Windows (MinGW under Wine) builds pass with 24 of 24 tests.
+
+Corrections found on the way (the earlier bodies were wrong, not just partial):
+
+- `AccelerometerBase`: `clear` seeds the min/max fields from z; `_calcAngles` and
+  `moved` are the atan2 and min/max logic; the field offsets are in the header.
+- `TouchScreenBase::getFirstTouchPoint` returns the begin point (+0x8).
+- `TouchScreenIPhone` handlers map the trailing `long` touch id through `getID`
+  and pass that slot on (the earlier code used the wrong argument).
+- `CustomAlloc` (the 4-argument form) is a thunk to the one-argument form.
+- `Color255To01` divides all three components and returns Z.
+- `strrstr` is the backward scan (last occurrence).
+- `FileSystemWin32::_createHandle` strips "./" from the directory, not the name.
+- `FileSystemWin32` ctor zeroes the five 0x104-byte path buffers.
+- `FileSystemBase::decodeObfuscatedData` is static with four parameters (the fourth
+  is unused); the byte count is clamped as an unsigned compare.
+- `LC_API_ITOA` returns `char*` and writes every digit, then reverses.
+- `LC_API_GET_RANDOM` returns `int`; it reproduces POSIX srand48/lrand48 (checked
+  against glibc) seeded by time, plus the signed-byte sum of the name.
+- `ADevice::currentTime` returns the 32-bit millisecond count as `int`.
+- `isFileNewerThan` is empty and returns nothing.
+- `UTF8ToUnicode_Old` / `_OldLC` had no definition in the tree; they are now a
+  transliteration of the listing (shared helper in `utf_text.cpp`).
+- `vector<Point3D<float>>` output separates elements with ';' (the literal is at
+  0x8be4a0 in the library image).
+
+Still partial, by reason:
+
+- Separators the listing passes in a clobbered register (`vector3d<float>`,
+  `vector3d<int>`, `SColor`, and the element separators of `Point3D<float>`): the
+  text is not recoverable.
+- Glitch file I/O (CFile, CFileSystem, directory listing, savefile jobs) and the
+  virtual-slot calls of the derived file system: `FileSystemBase` existence checks,
+  `getAbsolutePath`, `createAndOpenFile`, `ApplyFilenameHacks`, the `_FileHandle`
+  read/peek/ctors/dtors, `backupSavefile`, `deleteSavefile`, `formatFilePath`,
+  `openSavefile` (no FlushJobs), `openFile` (no uncompiled-data branch),
+  `getFiles`, `getFilesMatching`.
+- Std-container internals: `Array2d` (three rows; deque map), `PerfCounters`
+  (node block, `GetEntry` creates missing entries in the listing and the
+  reconstruction returns nullptr, `SetCounterValue` is gated by the
+  EnablePerfCounters switch in the listing), `GCSingleton` (CustomAlloc(0x7C)
+  before the null check).
+- Platform or other-category calls: `appDebugLog` (logcat), `sys::printNoFormat`
+  and the `print` family (`%s` instead of the original format string), the
+  `operator new[]/new` thunks to `gameswf::malloc_internal`, `Accelerometer::moved`
+  (EventManager event not raised), `TouchScreenBase::ProcessEvents` (queue drain),
+  the PS3 constructor (table address at +0x1b4), `TouchScreenWin32::onEvent`
+  (the began call passes two arguments), `rss::read` (channel::read), `utf16toutf8`.
+- Listing anomalies: `dct_iv_slow` ends with `VoxFree` on the stack copy, which is
+  not reproduced; `FUN_008ac2cc` (0x89c2cc) has neither a Hex-Rays body nor an IDA
+  block at that address; `IsProgrammablePipeline` calls a virtual slot of the
+  feature object (`DeviceFeatureFlags()` stands in).
+- Not covered by a test: the accelerometer (its state is private; a getter would be
+  needed for a check), the `slim` attribute and writer paths.

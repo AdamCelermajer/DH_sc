@@ -19,12 +19,12 @@ public:
     // Returns the index of the first active, touched slot whose point lies in r, or -1.
     int getTouchIDInRegion(const glitch::core::rect<float>& r) const override;  // 0x33cca8
 
-    // UIKit entry points. The original passes the touch id through getID before
-    // its debug trace; partial, see the source.
-    void touchBegan(float x, float y, double time, int id, float radiusX, float radiusY, long slot);  // 0x33d054
-    void touchMoved(float x, float y, double time, int id, float radiusX, float radiusY, long slot);  // 0x33d124
-    void touchEnded(float x, float y, double time, int id, float radiusX, float radiusY, long slot);  // 0x33ceb4
-    void touchCancelled(float x, float y, double time, int id, float radiusX, float radiusY, long slot);  // 0x33cf84
+    // UIKit entry points. The last argument is the touch identifier; getID maps it to
+    // the slot that is forwarded to the TouchScreenBase handler.
+    void touchBegan(float x, float y, double time, int, float radiusX, float radiusY, long touchId);      // 0x33d054
+    void touchMoved(float x, float y, double time, int, float radiusX, float radiusY, long touchId);      // 0x33d124
+    void touchEnded(float x, float y, double time, int, float radiusX, float radiusY, long touchId);      // 0x33ceb4
+    void touchCancelled(float x, float y, double time, int, float radiusX, float radiusY, long touchId);  // 0x33cf84
 
 private:
     short left_ = 0;    // +0x1b4
