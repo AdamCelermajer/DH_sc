@@ -6979,8 +6979,8 @@ int main(int argc,char** argv) {
                 // NativeUsePotion plays the generated PotionDrink only after its
                 // caller gates pass and Cmd_UsePotion has been dispatched.
                 if(receipt.consumed&&runtimeAudio) {
-                    std::string soundError;const bool submitted=runtimeAudio->play_named_plain("PotionDrink",soundError);
-                    std::cout<<"Potion sound name=PotionDrink ordinal=160 uid=147 submitted="<<submitted<<" frame="<<drawn;
+                    std::string soundError;const bool callOk=runtimeAudio->play_named_plain("PotionDrink",soundError);
+                    std::cout<<"Potion sound name=PotionDrink ordinal=160 uid=147 sourceCallOk="<<callOk<<" frame="<<drawn;
                     if(!soundError.empty())std::cout<<" detail="<<soundError;std::cout<<'\n';
                 }
             } else if(uiInput.potion.pressed) {
