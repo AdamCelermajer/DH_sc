@@ -107,5 +107,21 @@ int main(int argc,char** argv){try{
               "Same-world GameSave projection/RNG restore differed");
         std::cout<<row<<" source/profile startup, partial vitals, points/XP, fraction, disk, repeat, equipment, same-world checkpoint and rejection PASS\n";
     }
+    // B157: a restored level-2 profile must keep the CharacterDesign row level in base and the gained level in saved,
+    // which is the layout the source LevelUp (base reload from the row + one saved increment) relies on.
+    {
+        OriginalActorProperties fresh;check(resolve_original_fresh_player(db,"KnightPlayerBase",fresh,error),error);
+        auto c=profile("KnightPlayerBase",fresh);c.stats.level=2;c.experience=8;
+        OriginalCombatProperties prepared2,restored;
+        check(build_original_combat_properties(db,"KnightPlayerBase",{512,false},{},{},prepared2,error),error);
+        check(project_player_profile_properties(db,c,prepared2,restored,error),error);
+        check(restored.sheets.resolved[19]==512,"Restored level 2 does not resolve to level 2");
+        check(restored.sheets.base[19]==fresh.sheets.base[19],"Restored level was stored in base, not as a saved LevelUp delta");
+        check(restored.sheets.saved[19]==256,"Restored level-2 delta is not one saved level");
+        check(restored.sheets.resolved[33]==8*256,"Restored level-2 XP changed");
+        OriginalCombatProperties again;check(project_player_profile_properties(db,c,restored,again,error),error);
+        check(again.sheets.resolved==restored.sheets.resolved&&again.sheets.saved==restored.sheets.saved,"Restored level-2 projection accumulated on repeat");
+        std::cout<<"KnightPlayerBase restored level-2 base/saved delta PASS\n";
+    }
     return 0;
 }catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}}

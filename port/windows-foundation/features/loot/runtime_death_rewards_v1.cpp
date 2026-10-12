@@ -140,6 +140,9 @@ bool level_up(::dh::foundation::PlayableActorWorld& world, ActorState& actor,
     auto view = dh2::data::property_view(rules, props);
     const auto before_level = asr8(props.resolved[19]);
     if (before_level >= max_level) return true;
+    // Carry is the XP above the threshold that triggered this LevelUp (progression_give_xp computes it before
+    // LevelUp). It must be read before the prefix below sets XP to 0; read afterwards it is always negative and lost.
+    const auto carry = asr8(wrap(std::uint32_t(props.resolved[33]) - std::uint32_t(props.resolved[34])));
     if (actor.definition_id.empty())
         return fail(error, "Source LevelUp requires the actual CharacterTable row name");
     const auto found = std::find(database.characters.names.begin(), database.characters.names.end(),
@@ -164,8 +167,6 @@ bool level_up(::dh::foundation::PlayableActorWorld& world, ActorState& actor,
         if (delta > 0 && dh2_property_add(&view, current, delta))
             return fail(error, "Source LevelUp full-vital property mutation failed");
     }
-    const auto carry = asr8(wrap(std::uint32_t(props.resolved[33]) -
-                                 std::uint32_t(props.resolved[34])));
     auto bounded_carry = carry;
     if (bounded_carry > asr8(props.resolved[34])) bounded_carry = asr8(props.resolved[34]) - 1;
     if (bounded_carry > 0 && dh2_property_add(&view, 33,
