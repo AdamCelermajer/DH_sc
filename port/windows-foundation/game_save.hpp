@@ -23,6 +23,10 @@ bool validate_game_save(const GameSave&,std::string& error,bool checkpointUnboun
 bool capture_game_save(const std::string& level_uri,ActorId controlled,
                        const CharacterState&,const PlayableActorWorld&,GameSave&,std::string& error,bool checkpointCapture=false);
 bool save_game(const std::filesystem::path&,const GameSave&,std::string& error,bool checkpointWrite=false);
+// B153: make the directory that will hold `file` exist. A bare relative file name (the direct-launch default
+// "character.save") has an empty parent, which is the current directory and needs no creation; calling
+// create_directories("") fails, which made every level-start checkpoint retry fail once per frame.
+bool ensure_parent_directory(const std::filesystem::path& file,std::string& error);
 bool load_game(const std::filesystem::path&,GameSave&,std::string& error);
 // Version1 checkpoint policy requires matching level, ID/definition roster,
 // authorized action groups, original profile/class/faction/role and equipped

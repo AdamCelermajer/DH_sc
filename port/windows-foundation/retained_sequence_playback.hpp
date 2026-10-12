@@ -54,6 +54,9 @@ public:
     bool seed(const AssetCatalog&,const std::string& clip,const std::string& event_asset,
               bool loop,float rate,std::int32_t blend_out_ms,bool move_go,
               RetainedAnimationFrame& output,std::string& error);
+    // B153: bind a clip's source events from its file before its cue. This is the first step of seed(), so a later seed of
+    // the same clip and path does not parse the BDAE in the frame that plays it. Idempotent; a different path is refused.
+    bool prebind_clip(const AssetCatalog&,const std::string& clip,const std::string& event_asset,std::string& error);
     // Source single-leaf sequence Loop policy, distinct from raw timeline loop.
     // -1 repeats forever; positive values count additional selections; zero
     // completes once. Every actual completion selects NewAnim at this frame,

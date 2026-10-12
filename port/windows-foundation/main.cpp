@@ -2174,6 +2174,17 @@ int main(int argc,char** argv) {
                 if(!next->bind_player_locomotion(binding.first,binding.second,rate,true,error))throw std::runtime_error("Source locomotion binding: "+error);
             }
             combatSession=std::move(next);
+            // B153: scripted clips bind before their cue. The first PlayActorAnim parsed the BDAE inside the cutscene frame (7-15 ms per clip,
+            // several clips in one frame stalled 60-100 ms); prebinding moves that cost to session setup.
+            for(const auto& placed:population.actors()) {
+                const auto clips=scriptClipsByProfile.find(placed.profileId);
+                if(clips==scriptClipsByProfile.end()||!combatSession->actor(placed.definition.stableId))continue;
+                for(const auto& clip:clips->second) {
+                    std::string prebindError;
+                    if(!combatSession->prebind_actor_clip(placed.definition.stableId,clip.first,clip.second,prebindError))
+                        std::cout<<"[campaign] script clip prebind skipped "<<clip.first<<": "<<prebindError<<'\n';
+                }
+            }
             // P16 CONTAINERS2 (T5): authored containers become neutral objects of this session, so GameSave persists their OBJS state.
             {std::vector<std::string> containerObjectNotices;std::string containerObjectError;
              if(!f::containers::bind_container_world_objects_v1(*combatSession->world(),containerRuntime,containerObjectNotices,containerObjectError))throw std::runtime_error("Container objects: "+containerObjectError);
@@ -2451,7 +2462,7 @@ int main(int argc,char** argv) {
                 if(!f::save_game(c.level_world_path,save,e,true))return false; // I024: checkpoint world write (unbound-vital rule, see game_save.cpp)
                 std::vector<std::uint8_t> bytes;
                 if(!encode_death_checkpoint_snapshot_v1(snapshot,bytes,e))return false;
-                fs::create_directories(c.checkpoint_path.parent_path());
+                if(!f::ensure_parent_directory(c.checkpoint_path,e))return false; // B153: a relative save name has no directory to create
                 auto temporary=c.checkpoint_path;temporary += ".tmp";
                 {std::ofstream output(temporary,std::ios::binary|std::ios::trunc);
                  if(!output){e="Cannot create source checkpoint snapshot temporary";return false;}

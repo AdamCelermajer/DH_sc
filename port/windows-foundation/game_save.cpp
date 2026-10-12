@@ -379,6 +379,14 @@ bool adopt_live_character_for_world_restore(GameSave& snapshot,const GameSave& l
     snapshot.character=live.character;
     error.clear();return true;
 }
+bool ensure_parent_directory(const std::filesystem::path& file,std::string& error){
+    const auto parent=file.parent_path();
+    if(parent.empty()){error.clear();return true;} // bare relative name: the current directory already exists
+    std::error_code code;
+    std::filesystem::create_directories(parent,code);
+    if(code&&!std::filesystem::is_directory(parent,code)){error="Cannot create directory "+parent.string()+": "+code.message();return false;}
+    error.clear();return true;
+}
 bool save_game(const std::filesystem::path& path,const GameSave& g,std::string& error,bool checkpointWrite){
     std::filesystem::path temporary;bool created=false;
     try{
