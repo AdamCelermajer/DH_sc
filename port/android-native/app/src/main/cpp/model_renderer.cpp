@@ -9036,6 +9036,8 @@ float player_camera_rig_default_target_distance=0.0f;
 float player_camera_input_yaw=dh2::native::crypt_camera_frame_v1::kInputYawRadians;
 float player_camera_input_pitch=dh2::native::crypt_camera_frame_v1::input_pitch_radians();
 dh2::character::crypt_scripts::SpawnSession native_level_script_session;
+// SpawnPoint script name selected for this load (SPWN v2); started once after a fresh bind.
+std::string native_spawn_script_name;
 std::uint32_t native_level_script_generation=0;
 std::string native_level_script_level_name;
 SourceDialogServicesV1 native_source_dialog_services{};
@@ -23659,6 +23661,13 @@ int crypt_script_camera(void*,std::uint8_t use_crit,std::int32_t clip_id) {
   return -1;
  }
 }
+dh2::character::crypt_scripts::SpawnDispatch native_level_script_dispatch();
+void log_native_level_script_providers(const std::string& level_name){
+ std::uint32_t supported=0,total=0;std::string blockers;
+ native_level_script_session.supported_level_scripts(supported,total,&blockers);
+ __android_log_print(ANDROID_LOG_INFO,"DH2Native","%s level scripts with bound command providers | %u of %u | first blockers (id x count) %s",
+     level_name.c_str(),supported,total,blockers.c_str());
+}
 void initialize_crypt_script(AAssetManager* assets,bool restore,
     const dh2::world::GeneratedCryptTriggerZoneSourceV1* generated_trigger=nullptr) {
  const auto source_level=source_level_owner.snapshot();
@@ -23705,12 +23714,13 @@ void initialize_crypt_script(AAssetManager* assets,bool restore,
  const std::string script_stem=active_level_assets.generated_script_stem.empty()?
      std::string("007_crypt_01"):active_level_assets.generated_script_stem;
  std::string error;
- if(!native_level_script_session.load(read(assets,"scripts_pyscriptnames.bin","scripts"),read(assets,"scripts_pyscripts.bin","scripts"),read(assets,script_stem+"_pyscriptnames.bin","scripts"),read(assets,script_stem+"_pyscripts.bin","scripts"),seeds.data(),seeds.size(),source.trigger_name,source.script_name,source.activation_limit,{nullptr,crypt_script_spawn,crypt_script_camera,native_level_script_object_lookup,native_level_script_actor_command},error))throw std::runtime_error(error);
+ if(!native_level_script_session.load(read(assets,"scripts_pyscriptnames.bin","scripts"),read(assets,"scripts_pyscripts.bin","scripts"),read(assets,script_stem+"_pyscriptnames.bin","scripts"),read(assets,script_stem+"_pyscripts.bin","scripts"),seeds.data(),seeds.size(),source.trigger_name,source.script_name,source.activation_limit,native_level_script_dispatch(),error))throw std::runtime_error(error);
  crypt_trigger_position=position;crypt_trigger_scale=scale;crypt_trigger_room=trigger_room;
  dh2_crypt_spawn_trigger::init_state(&crypt_trigger_state);
  native_level_script_generation=source_level.generation;
  native_level_script_level_name=active_level_assets.name;
- __android_log_print(ANDROID_LOG_INFO,"DH2Native","Crypt script ready | common %u | level %u | script %d | room %u | trigger %.6g %.6g %.6g | source AABB contact | other scripts pending",native_level_script_session.runtime()->common_table->script_count,native_level_script_session.runtime()->level_table->script_count,native_level_script_session.runtime()->trigger_script_id,crypt_trigger_room,position.x,position.y,position.z);
+ __android_log_print(ANDROID_LOG_INFO,"DH2Native","Crypt script ready | common %u | level %u | script %d | room %u | trigger %.6g %.6g %.6g | source AABB contact | full command providers bound",native_level_script_session.runtime()->common_table->script_count,native_level_script_session.runtime()->level_table->script_count,native_level_script_session.runtime()->trigger_script_id,crypt_trigger_room,position.x,position.y,position.z);
+ log_native_level_script_providers(active_level_assets.name);
 }
 // Generic level-script host commands. Each case follows the original
 // Script_<Command>::Execute recovered from IDA; commands whose canonical owner
@@ -24344,29 +24354,8 @@ int native_level_script_host_command_blocking(void*,std::uintptr_t handle,std::u
   move.active=false;return 0;
  }catch(...){return -1;}
 }
-void initialize_swamp_level_script_session(AAssetManager* assets,bool restore) {
- if(!restore){native_script_camera_target=0;native_script_camera_target_dirty=false;native_script_moves.clear();}
+dh2::character::crypt_scripts::SpawnDispatch native_level_script_dispatch(){
  const auto source_level=source_level_owner.snapshot();
- if(!source_level.source_level||
-    source_level.phase!=dh2::source_level_owner_v1::Phase::active||
-    !static_mlx_level_active())
-  throw std::runtime_error("Static Level ScriptManager binding requires its active source Level");
- if(restore&&native_level_script_session.ready()&&
-    native_level_script_generation==source_level.generation&&
-    native_level_script_level_name==active_level_assets.name)return;
- native_level_script_session.clear();
- crypt_trigger_state={};
- std::vector<dh2_script_runtime::ObjectSeed> seeds;
- for(const auto& group:object_groups)for(const auto& actor:group.instances)if(actor.spawn_owner){
-  dh2_script_runtime::ObjectSeed seed{};
-  if(actor.name.size()>=sizeof(seed.name)||actor.state.size()>=sizeof(seed.ai_state))
-   throw std::runtime_error("SWAMP source Character seed exceeds ScriptManager bounds");
-  std::strcpy(seed.name,actor.name.c_str());
-  std::strcpy(seed.gametype,"Character");
-  std::strcpy(seed.ai_state,actor.state.c_str());
-  seed.auto_spawn=actor.gated_spawn?0:1;
-  seeds.push_back(seed);
- }
  native_level_dialog_dispatch_context={source_level.source_level,
                                        source_level.generation};
  const auto start_dialog=[](void* raw,
@@ -24455,6 +24444,70 @@ void initialize_swamp_level_script_session(AAssetManager* assets,bool restore) {
      native_level_script_door_is_blocking,start_dialog_id,
      native_level_script_host_supports,native_level_script_host_command,
      native_level_script_host_command_blocking};
+ return dispatch;
+}
+// Generated and static level scripts bind the same command providers.
+void initialize_generated_level_script_session(AAssetManager* assets,bool restore) {
+ const auto source_level=source_level_owner.snapshot();
+ if(!source_level.source_level||source_level.phase!=dh2::source_level_owner_v1::Phase::active)
+  throw std::runtime_error("Generated Level ScriptManager binding requires its active source Level");
+ if(restore&&native_level_script_session.ready()&&
+    native_level_script_generation==source_level.generation&&
+    native_level_script_level_name==active_level_assets.name)return;
+ native_level_script_session.clear();
+ crypt_trigger_state={};
+ std::vector<dh2_script_runtime::ObjectSeed> seeds;
+ for(const auto& group:object_groups)for(const auto& actor:group.instances)if(actor.spawn_owner){
+  dh2_script_runtime::ObjectSeed seed{};
+  if(actor.name.size()>=sizeof(seed.name)||actor.state.size()>=sizeof(seed.ai_state))
+   throw std::runtime_error("Generated Level Character seed exceeds ScriptManager bounds");
+  std::strcpy(seed.name,actor.name.c_str());
+  std::strcpy(seed.gametype,"Character");
+  std::strcpy(seed.ai_state,actor.state.c_str());
+  seed.auto_spawn=actor.gated_spawn?0:1;
+  seeds.push_back(seed);
+ }
+ const auto dispatch=native_level_script_dispatch();
+ const std::string script_stem=active_level_assets.generated_script_stem.empty()?
+     std::string("007_crypt_01"):active_level_assets.generated_script_stem;
+ std::string error;
+ if(!native_level_script_session.load_level(read(assets,"scripts_pyscriptnames.bin","scripts"),
+      read(assets,"scripts_pyscripts.bin","scripts"),
+      read(assets,script_stem+"_pyscriptnames.bin","scripts"),
+      read(assets,script_stem+"_pyscripts.bin","scripts"),
+      seeds.data(),static_cast<std::uint32_t>(seeds.size()),dispatch,error))
+  throw std::runtime_error("Generated Level ScriptManager table bind failed: "+error);
+ native_level_script_generation=source_level.generation;
+ native_level_script_level_name=active_level_assets.name;
+ const auto* runtime=native_level_script_session.runtime();
+ __android_log_print(ANDROID_LOG_INFO,"DH2Native","Generated Level ScriptManager bound | source Level generation %u | common %u | level %u | canonical Character seeds %zu | no GhostAmbush01 trigger",
+     source_level.generation,runtime->common_table->script_count,runtime->level_table->script_count,seeds.size());
+ log_native_level_script_providers(active_level_assets.name);
+}
+void initialize_swamp_level_script_session(AAssetManager* assets,bool restore) {
+ if(!restore){native_script_camera_target=0;native_script_camera_target_dirty=false;native_script_moves.clear();}
+ const auto source_level=source_level_owner.snapshot();
+ if(!source_level.source_level||
+    source_level.phase!=dh2::source_level_owner_v1::Phase::active||
+    !static_mlx_level_active())
+  throw std::runtime_error("Static Level ScriptManager binding requires its active source Level");
+ if(restore&&native_level_script_session.ready()&&
+    native_level_script_generation==source_level.generation&&
+    native_level_script_level_name==active_level_assets.name)return;
+ native_level_script_session.clear();
+ crypt_trigger_state={};
+ std::vector<dh2_script_runtime::ObjectSeed> seeds;
+ for(const auto& group:object_groups)for(const auto& actor:group.instances)if(actor.spawn_owner){
+  dh2_script_runtime::ObjectSeed seed{};
+  if(actor.name.size()>=sizeof(seed.name)||actor.state.size()>=sizeof(seed.ai_state))
+   throw std::runtime_error("SWAMP source Character seed exceeds ScriptManager bounds");
+  std::strcpy(seed.name,actor.name.c_str());
+  std::strcpy(seed.gametype,"Character");
+  std::strcpy(seed.ai_state,actor.state.c_str());
+  seed.auto_spawn=actor.gated_spawn?0:1;
+  seeds.push_back(seed);
+ }
+ const auto dispatch=native_level_script_dispatch();
  std::string error;
  if(!native_level_script_session.load_level(
       read(assets,"scripts_pyscriptnames.bin","scripts"),
@@ -24479,7 +24532,9 @@ void initialize_swamp_level_script_session(AAssetManager* assets,bool restore) {
 }
 void update_crypt_contact() {
  // The GhostAmbush01 spawn trigger belongs to the Crypt ScriptManager only.
- if(!native_level_script_session.ready()||static_mlx_level_active())return;
+ // Generated levels without that trigger bind the full table with no trigger (id -1).
+ if(!native_level_script_session.ready()||static_mlx_level_active()||
+    native_level_script_session.runtime()->trigger_script_id<0)return;
  const auto* box=prince_runtime.subobjects.absolute_bounds;
  const dh2_crypt_spawn_trigger::PlayerAabb player{{box[0],box[1],box[2],box[3],box[4],box[5]},1};
  // The selected original program never marks/locks a player and this local
@@ -39537,7 +39592,7 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
     std::size_t generated_crypt_deferred_mvp_count=0;
     if(generated_spawnpoints||generated_spawnpoints_size){
       if(!generated_spawnpoints||!generated_spawnpoints_size||
-         generated_spawnpoints_size>16+512*144)
+         generated_spawnpoints_size>16+512*240)
         throw std::runtime_error("Generated SPWN payload is incomplete or exceeds the runtime limit");
       source_spawn_bytes.assign(generated_spawnpoints,
                                 generated_spawnpoints+generated_spawnpoints_size);
@@ -39713,6 +39768,7 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
        module.bounds.maximum[0],module.bounds.maximum[1],module.bounds.maximum[2]);
     }
     if(!restore){
+      native_spawn_script_name.clear();
       if(source_spawn_bytes.empty())source_spawn_bytes=read(assets,level_assets.spawns,"worlds");
       const auto& spawn_bytes=source_spawn_bytes;
       if(spawn_bytes.size()<16+144){
@@ -39726,6 +39782,7 @@ std::vector<dh2::world::EntryPoint> entrypoints;
       if(!dh2::world::select_entrypoint(candidate,entrypoints,entrypoint,start,error))throw std::runtime_error(error);
       candidate.spawn=start.position;
       source_spawn_heading=start.rotation_degrees[2]*0.01745329251994329577f;
+      native_spawn_script_name=start.source.script;
       __android_log_print(ANDROID_LOG_INFO,"DH2Native","Source SpawnPoint selected | ID %d | %s | room %u | floor snapped %u | source xyz %.4f %.4f %.4f | start xyz %.4f %.4f %.4f | source rotation z %.4f deg",
         start.source.id,start.source.name.c_str(),start.source.room,unsigned(start.floor_snapped),start.source.world.position[0],start.source.world.position[1],start.source.world.position[2],start.position[0],start.position[1],start.position[2],start.rotation_degrees[2]);
       }
@@ -41509,16 +41566,22 @@ std::vector<dh2::world::EntryPoint> entrypoints;
           });
        if(trigger!=level_assets.generated_crypt_triggers.end())
         initialize_crypt_script(assets,restore,&*trigger);
-       else{
-        native_level_script_session.clear();crypt_trigger_state={};
-        __android_log_print(ANDROID_LOG_INFO,"DH2Native","Generated Crypt has no authored GhostAmbush01 TriggerZone in this selected module set");
-       }
+       else initialize_generated_level_script_session(assets,restore);
       }else initialize_crypt_script(assets,restore);
     }else if(static_mlx_level(level_assets.name,level_assets.level_file)){
       initialize_swamp_level_script_session(assets,restore);
     }else{
       native_level_script_session.clear();native_level_script_generation=0;
       native_level_script_level_name.clear();crypt_trigger_state={};
+    }
+    if(!restore&&!native_spawn_script_name.empty()){
+      // SpawnPoint::PlaceObject -> ScriptManager::StartScript(id, this+100, 0) runs
+      // when Level::_LoadPlayer places the Player; the offline runtime keeps the
+      // argument on the task record and no reconstructed command reads it.
+      std::string script_error;
+      if(!native_level_script_session.start_script(native_spawn_script_name,0,false,false,script_error))
+        throw std::runtime_error("SpawnPoint script "+native_spawn_script_name+" start failed: "+script_error);
+      __android_log_print(ANDROID_LOG_INFO,"DH2Native","SpawnPoint script started | %s | check-running 0 | offline | runs in the level script update",native_spawn_script_name.c_str());
     }
     build_search_world();
     const char* display_level=level_assets.name=="GOTHICUS_CRYPT_01"?"Crypt":level_assets.name.c_str();

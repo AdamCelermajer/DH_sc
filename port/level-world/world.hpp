@@ -12,7 +12,7 @@ using Point=std::array<float,3>;
 struct Triangle{Point a,b,c;unsigned room;};
 struct Level{scene::Scene scene;std::vector<Triangle> floor;Point spawn{};unsigned rooms=0;std::unique_ptr<floors::World> native_floor;};
 struct Transform{Point position{};Point rotation_degrees{};Point scale{1,1,1};};
-struct EntryPoint{std::int32_t id=-1;unsigned room=0;std::string name;Transform local;Transform world;};
+struct EntryPoint{std::int32_t id=-1;unsigned room=0;std::string name;Transform local;Transform world;std::string script;};
 struct SourceMgpView{const char* source_path=nullptr;const std::uint8_t* data=nullptr;std::size_t size=0;};
 struct SourceMvpView{const char* source_path=nullptr;const std::uint8_t* data=nullptr;std::size_t size=0;};
 struct SourceMvpDecor{
