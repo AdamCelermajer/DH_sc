@@ -346,3 +346,18 @@ internal to the port, not binary-compatible with the original.
 - Queue after this wave: pydata-accessors has 285 rows remaining: 246 in the pending slices, 27 in arrays_03,
   and 12 PyData constant and registry rows. core-platform has none left.
 
+
+## Wave 7c: PyData records and the Arrays stride blocker
+
+- PyDataArrays and PyDataConstants (12 rows, `src/w7_pydata12.cpp`): 9 reconstructed, 3 partial.
+  Decisions: the registry and the constant table use std::map as set out above. PyDataArrays::Load covers
+  all 70 file states, with a stand-in loader open and release. The C2 constructor sets the members, but
+  not the 142 addFuncsForFile/registerClassByName pairs. PyDataConstants::reloadData omits the DebugSwitches lookup.
+- Arrays slice 27 (`src/w7_arrays27.cpp`, 27 rows): all 27 are partial. The tables use the 32-bit stride
+  from the listing, as in w7_arrays_00 and w7_arrays_02. On a 64-bit host, sizeof(element) is larger than
+  the stride for 25 of them (Structs::Projectile is 80 bytes where the listing stride is 72, and
+  DestructibleContainer is 80 where the listing is 68), so a read writes past its slot. LevelList and
+  FastTravelList have element classes with no read slot.
+  - Decision needed before these reads are used: either widen each table stride to the host sizeof, or
+    build the Arrays code for a 32-bit pointer layout. Until then, do not call the Arrays reads on a 64-bit host.
+  - The same overrun applies to the existing w7_arrays_02 tables and to structs_5's element tables.
