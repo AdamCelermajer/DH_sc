@@ -291,3 +291,20 @@ Evidence: Hex-Rays and the ARM listing of `Arrays::Sounds::finalize` (0x4a38a4) 
   (D1 and D0), `+0x8` is `reloadData(IStreamBase*, char const*)`. Decision: the port keeps that slot order.
   The PyDataArrays and PyDataConstants `_Rb_tree` (std::map) stand-in is still undecided, so those 12
   functions stay queued.
+
+## std::map stand-in (decided, wave 7)
+
+The Hex-Rays bodies use libstdc++-era `std::map` only through `operator[]` and `_M_find`. The port stores
+these maps in the same shape with the standard library, so no stand-in type is needed. The layout is
+internal to the port, not binary-compatible with the original.
+
+- `PyDataArrays::registerClassByName(name, factory)` (0x4bdccc) stores into `std::map<std::string,
+  int (*)(const char*)>`, at `this + 28`. A null factory triggers the gAssertLevel assert (line 70) and is
+  still stored, as in the listing.
+- `PyDataConstants` (0x4c4b08 getConstantName) is `std::map<std::string, std::map<std::string, int>>`:
+  the outer key is the class name, the inner key is the constant name. `getConstantName(name, value)`
+  returns the first inner key, in key order, whose int equals `value`, or "" if the class is absent or no
+  entry matches. The in-order walk of the listing is key order, so iterating a `std::map` gives the same
+  result.
+- Both are used in the port's own destructors and reload paths; no ABI is kept.
+
