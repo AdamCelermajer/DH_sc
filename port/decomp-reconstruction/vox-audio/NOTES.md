@@ -909,3 +909,39 @@ voxengine_create_emitter.cpp). Edited in place: `src/data_obj.cpp`, `src/driver.
   +0x130 (set to 1 in the 4-argument and 7-argument constructors). Their rows are partial.
 - Not tested: the engine creation paths. VoxEngineInternal does not link in a test while
   EmitterObj::SetPlayCursor is declared but undefined in the port.
+
+## Wave 11 (w11-loadxml): LoadXML priority word and the sound uid slot
+
+Source: `VoxSoundPackXML::LoadXML` 0x88d344 (Hex-Rays, IDA listing via decomp_asm.py), accessors
+`GetEmitterInfo(int, int&, ...)` 0x889894 and `GetEmitterInfo(int, EmitterInfoXML&)` 0x88993c.
+
+Priority word decision (the Open question above is closed):
+- Loader writes: the sound loop calls QueryIntAttribute("priority") and stores the value at
+  record +0x04 (asm 0x88d77c to 0x88d7b0, record stride 0x44). The attribute list the loader
+  reads has no separate emitter-uid attribute, so +0x04 holds the XML priority.
+- Accessors read: both GetEmitterInfo overloads load record +0x04 and report it as their
+  emitter uid output (STR to the out parameter). The struct overload copies +0x04 to
+  EmitterInfoXML::emitter_uid, the index overload to `int& emitter_uid`.
+- The binary is consistent with itself: one word, written as priority and read as emitter uid.
+  The port keeps that single word (SoundRecordXML::emitter_uid, written from the priority). The
+  side that was misnamed is the record comment, which now says +0x04 is the priority.
+  The existing test (w10_xml_load_test) expects emitter_uid == priority, which matches.
+- Consequence: the label at +0x08 and the other fields keep their current layout.
+
+Stale uid (sound loop), now ported:
+- The sound loop reads uid into one stack slot (var_13C). Only the uid query writes that slot.
+  A missing or non-integer uid attribute leaves it unchanged, so the element writes its fields
+  into the record of the last uid read (the uid query loop starts at 0x88d6e8 and the store that follows uses the slot as index).
+- Port: an element without a uid reuses the last uid read. A leading run of elements without a
+  uid is skipped, because the slot is not initialised before the first read (the one value the
+  binary takes from the caller's stack). Out-of-range uids are still skipped (the binary writes
+  past the array).
+- The uid map key is now a copy owned by the loaded tables (XmlLoadedTables::labels). The old
+  key pointed into the label string, which a stale element rewrites.
+- Test: tests/w11_xml_stale_uid_test.cpp.
+
+Still partial, one missing item: the uid stack slots of the group, bank and event loops. The
+group loop reads its uid into var_118 (asm 0x88df04), a slot the sound loop also uses for its
+int attributes, so the value before its first element is not established. The bank and event
+loops' uid query was not traced (the "uid" string is loaded at 0x88e298 for one of them). Until
+they are traced, a group, bank or event without a uid is still skipped.

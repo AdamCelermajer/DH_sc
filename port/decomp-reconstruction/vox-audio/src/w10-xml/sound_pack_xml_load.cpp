@@ -4,8 +4,11 @@
 // layout, and their string pointers refer to the loader records (kept alive by loaded_).
 //
 // Deviations from the binary, all in the loader only:
-//  - an element without a uid (or with one out of range) is skipped. The binary reuses the
-//    uid of the previous element, which is a stale variable.
+//  - sounds: an element without a uid reuses the last uid read (the binary's stack slot, see
+//    the loop). Only a leading run of elements without any uid is skipped, because the slot
+//    is not initialised before the first read. An out-of-range uid is skipped (the binary
+//    writes past the array). Groups, banks and events still skip an element without a uid:
+//    their uid slots are not traced yet (NOTES.md, wave 11).
 //  - a custom parameter count that is not positive gives no strings, where the binary
 //    allocates and writes past the array.
 //  - the sound label is not stored in the record (its +0x08 word is an int in the accessor
@@ -201,16 +204,25 @@ int VoxSoundPackXML::LoadXML(const char* path) {
     // Sounds (records of 0x44 bytes in the binary). uid map: label -> uid, in document order.
     tables->sounds.resize(static_cast<std::size_t>(SizeAttr(
         TiXmlHandle(&doc).FirstChild("soundpack").FirstChild("sounds").ToElement())));
+    // The binary reads the uid into one stack slot (var_13C). A missing uid attribute leaves the
+    // slot alone, so the element writes into the record of the last uid read. Only the very
+    // first element without a uid is undetermined (the slot is not initialised) and is skipped.
+    int sound_uid_slot = 0;
+    bool sound_uid_known = false;
     for (const TiXmlElement* e = TiXmlHandle(&doc)
                                      .FirstChild("soundpack")
                                      .FirstChild("sounds")
                                      .FirstChild("sound")
                                      .ToElement();
          e != nullptr; e = e->NextSiblingElement()) {
-        std::size_t index = 0;
-        if (!ReadIndex(e, tables->sounds.size(), index)) {
+        if (QueryInt(e, "uid", sound_uid_slot)) {
+            sound_uid_known = true;
+        }
+        if (!sound_uid_known || sound_uid_slot < 0 ||
+            static_cast<std::size_t>(sound_uid_slot) >= tables->sounds.size()) {
             continue;
         }
+        const std::size_t index = static_cast<std::size_t>(sound_uid_slot);
         SoundXMLDef& s = tables->sounds[index];
         s.uid_ = static_cast<std::int32_t>(index);
         int v = 0;
@@ -240,7 +252,10 @@ int VoxSoundPackXML::LoadXML(const char* path) {
                 s.custom_ = SplitCustom(Attr(e, "customparam"), s.custom_count_);
             }
         }
-        sound_uids_[s.label_.c_str()] = static_cast<std::int32_t>(index);
+        // The key is a copy owned by the loaded tables, so a later element that rewrites this
+        // record's label cannot invalidate it.
+        tables->labels.push_back(s.label_);
+        sound_uids_[tables->labels.back().c_str()] = static_cast<std::int32_t>(index);
     }
 
     // Groups: size + 1 records, the attributes name the bus (+0x04) and the name (+0x1c).

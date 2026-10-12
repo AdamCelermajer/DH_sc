@@ -63,7 +63,9 @@ struct EventRecordXML {
     const char* const* custom_values = nullptr;    // +0x28
 };
 
-// Sound record, 0x44 bytes: +0x00 uid, +0x04 emitter uid, +0x08, +0x0c data name, +0x10, +0x14
+// Sound record, 0x44 bytes: +0x00 uid, +0x04 priority (the XML "priority" attribute; both
+// GetEmitterInfo overloads report this same word as their emitter uid output, see NOTES.md
+// wave 11), +0x08, +0x0c data name, +0x10, +0x14
 // format (byte), +0x15 and +0x16 bytes, +0x17 emitter flag (byte), +0x18..+0x38 nine words,
 // +0x3c custom parameter count, +0x40 custom parameter array. The +0x16 byte is the group index
 // when the emitter is read and a flag when the data source is read.
@@ -225,6 +227,7 @@ struct XmlLoadedTables {
     std::vector<BankXMLDef> banks;
     std::vector<EventXMLDef> events;
     std::list<std::vector<const char*>> custom_pointers;  // stable custom arrays for the records
+    std::list<std::string> labels;  // stable keys for the sound uid map (a stale uid can rewrite a record's label)
 };
 
 class VoxSoundPackXML {
