@@ -495,3 +495,20 @@ Partial rows at the start of the re-run: 152. Now: 83 reconstructed, 69 partial.
 - Ledger format: the file was rewritten with the csv module and LF line endings. The 111
   rows added in wave 7 had CRLF endings, and 7 legacy rows had unquoted commas in notes. Those
   notes are quoted now, with the text unchanged.
+
+## Integration pass: slices 00 to 19 (glitch-scene-collada-gui)
+Files: src/recon/slice_NN.cpp, include/glitch-scene-collada-gui/recon/slice_NN.hpp,
+tests/recon_slice_NN_test.cpp, ledger_parts/slice_NN.csv (merged into ledger.csv, one row per address).
+Layout notes that are confirmed by the pseudocode: include/glitch-scene-collada-gui/layouts.hpp
+(CBatchMesh and IGUIElement only; the rest is still unmapped).
+
+- Decision: slices 20 to 30 are held. Their rows are the same unmapped-layout family as the
+  partial rows above, so they would add stubs without runnable bodies. Start them after the
+  layout header covers the classes they touch.
+- Fix: slice 10's keyed interpreter wrote uint32 words into float buffers and read them back as
+  float (strict-aliasing violation). Optimised builds then returned stale values, which is why
+  the Release build failed the quaternion assertion while the -O0 test passed. storeKeyedValue
+  now writes its words with memcpy. Verified at -O0, -O2 and -O3.
+- Slice 13's test needed definitions for the externs its partial rows call. Test doubles were
+  added to the test file, not to src. The test never calls them.
+- Ledger: 3131 rows, one per address. Status counts: 1277 reconstructed, 1299 partial, 555 skipped.
