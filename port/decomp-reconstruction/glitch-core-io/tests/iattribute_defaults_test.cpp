@@ -1,5 +1,6 @@
 #include "glitch-core-io/io/attributes.hpp"
 
+#include <cmath>
 #include <cstdio>
 
 static int failures = 0;
@@ -29,6 +30,18 @@ int main() {
     base.setFloat(2.f);
     base.setBool(true);
     CHECK(base.getInt() == 0 && base.getFloat() == 0.f && base.getBool() == false);
+
+    // Geometry defaults from the original bodies.
+    CHECK(base.getQuaternion().W == 1.f && base.getQuaternion().X == 0.f);
+    CHECK(base.getBBox().MinEdge.X == -1.f && base.getBBox().MaxEdge.Z == 1.f);
+    CHECK(base.getLine3d().end.Y == 1.f && base.getLine3d().start.Y == 0.f);
+    CHECK(base.getPlane().Normal.Y == 1.f && std::signbit(base.getPlane().D));
+
+    // CAttributes indexed getters fall back to their own defaults.
+    io::CAttributes empty;
+    CHECK(empty.getQuaternion(0).Y == 1.f && empty.getQuaternion(0).W == 0.f);
+    CHECK(empty.getColor(0).color == 0);
+    CHECK(empty.getUserPointer(0) == nullptr);
 
     if (failures) return 1;
     std::printf("iattribute_defaults_test ok\n");

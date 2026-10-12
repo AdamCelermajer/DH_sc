@@ -28,7 +28,8 @@ int main() {
     CHECK(!lobby.PendingForTest());
 
     // Allowed in state 2: result -1, kind 3 (leave), pending set.
-    lobby.SetStateForTest(2);
+    lobby.AttachConnectionForTest();
+    lobby.SetStateForTest(3);
     CHECK(lobby.mpIsInSession());
     CHECK(!lobby.mpIsInGame());
     lobby.mpSendLeaveLobby();

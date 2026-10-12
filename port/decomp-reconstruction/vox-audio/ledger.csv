@@ -129,3 +129,10 @@ elf_address,symbol,status,source_file,notes
 0x86e078,_ZN3vox19PriorityBankManager13RemoveEmitterEiPNS_10EmitterObjE,reconstructed,vox-audio/src/priority_bank.cpp,RemoveEmitter: erases the first entry whose emitter matches; false when out of range or not found (asm)
 0x8661bc,_ZN3vox19PriorityBankManager15SetPriorityBankEiiiNS_20PriorityBankBehaviorE,partial,vox-audio/src/priority_bank.cpp,"SetPriorityBank: sets min, max and behaviour when index valid; helper 0x8660fc on the entry vector not reconstructed"
 0x8696d0,_ZN3vox19PriorityBankManager15AddPriorityBankEiiNS_20PriorityBankBehaviorE,partial,vox-audio/src/priority_bank.cpp,"AddPriorityBank: appends a bank and bumps the count; asm return value (index or -1 by count compare) not reproduced, port returns true"
+0x893548,_ZN3vox16AccessController13GetReadAccessEv,reconstructed,vox-audio/src/access_controller.cpp,"GetReadAccess: waits while a writer holds the flag, then increments read count (asm)"
+0x89351c,_ZN3vox16AccessController17ReleaseReadAccessEv,reconstructed,vox-audio/src/access_controller.cpp,ReleaseReadAccess: decrement under the mutex (asm)
+0x8934ac,_ZN3vox16AccessController14GetWriteAccessEv,reconstructed,vox-audio/src/access_controller.cpp,"GetWriteAccess: waits while writer or readers present, then sets write flag (asm; 1000 ms wait via 0x30e880)"
+0x893480,_ZN3vox16AccessController18ReleaseWriteAccessEv,reconstructed,vox-audio/src/access_controller.cpp,ReleaseWriteAccess: decrement under the mutex (asm)
+0x893e20,_ZN3vox11FileLimited4TellEv,reconstructed,vox-audio/include/vox-audio/vox/file_limited.hpp,Tell: returns +0x14 (inline)
+0x8939f0,_ZN3vox11FileLimitedD1Ev,reconstructed,vox-audio/include/vox-audio/vox/file_limited.hpp,Destructor: empty body (asm bx lr)
+0x893e74,_ZN3vox11FileLimitedD0Ev,reconstructed,vox-audio/include/vox-audio/vox/file_limited.hpp,Deleting destructor variant; storage released by the caller

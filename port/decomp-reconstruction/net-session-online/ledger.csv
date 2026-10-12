@@ -162,3 +162,39 @@ elf_address,symbol,status,source_file,notes
 0x836dac,_ZN23CLobbyParameterAndQueryD2Ev,reconstructed,net-session-online/src/c_lobby_parameter_and_query.cpp,same body as D1
 0x836e3c,_ZN23CLobbyParameterAndQueryC1Ev,partial,net-session-online/src/c_lobby_parameter_and_query.cpp,file oconf.bar load not recovered; only not-found debug trace kept
 0x837224,_ZN23CLobbyParameterAndQueryC2Ev,partial,net-session-online/src/c_lobby_parameter_and_query.cpp,same body as C1; file load not recovered
+0x837630,_ZN16GLXPlayerMPLobby13mpIsInSessionEv,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,state > 2
+0x837644,_ZN16GLXPlayerMPLobby10mpIsInRoomEv,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,state > 2 (same test as mpIsInSession)
+0x837658,_ZN16GLXPlayerMPLobby10mpIsInGameEv,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,state > 4
+0x83766c,_ZN16GLXPlayerMPLobby10mpIsMasterEv,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,returns byte at +0x81
+0x837674,_ZN16GLXPlayerMPLobby22mpSendGetPlayerCounterEv,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,ConnectionLobby stand-in; kind 2
+0x8376fc,_ZN16GLXPlayerMPLobby36mpSendGetLobbyForFriendWithGameParamEihiPciP23CLobbyParameterAndQuery,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,kind 0x14; arg types follow mangled name (Ghidra types differ)
+0x83787c,_ZN16GLXPlayerMPLobby36mpSendGetLobbyForFriendWithGameParamEihP19GLXPlayerUserFriendP23CLobbyParameterAndQuery,partial,net-session-online/src/glx_player_mp_lobby.cpp,count capped at 30 then forwards; the per-name 128-byte copy loop is omitted (its result is never read; original tail call not identified)
+0x8377c0,_ZN16GLXPlayerMPLobby23mpSendGetLobbyForFriendEihiPci,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,kind 0xc
+0x837cc8,_ZN16GLXPlayerMPLobby34mpSendGetLobbyForNameWithGameParamEPc,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,kind 0x12
+0x837d58,_ZN16GLXPlayerMPLobby31mpSendGetLobbyListWithGameParamEiihP23CLobbyParameterAndQueryh,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,kind 0x13; clamps second int to >= 0; 0 for third arg becomes 1
+0x837e18,_ZN16GLXPlayerMPLobby13mpSendKickOutEPc,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,kind 6
+0x837ea8,_ZN16GLXPlayerMPLobby28mpSendCancelAutoMatchRequestEv,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,clears auto-match flag and sets state to 2; kind 0x11
+0x837f40,_ZN16GLXPlayerMPLobby22mpSendAutoMatchRequestEPciS0_iss,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,sets auto-match flag; no timestamp or kind set
+0x837ff0,_ZN16GLXPlayerMPLobby21mpSendGetLobbyForNameEPc,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,kind 10
+0x838080,_ZN16GLXPlayerMPLobby18mpSendGetLobbyInfoEi,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,kind 0xd
+0x838110,_ZN16GLXPlayerMPLobby22mpSendSetUserParameterEPci,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,kind 7; value truncated to short when forwarded
+0x838248,_ZN16GLXPlayerMPLobby17mpSendRejoinLobbyEi,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,kind 0xf; no closing trace (as original)
+0x8382c8,_ZN16GLXPlayerMPLobby21mpSendSetPlayerStatusEh,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,kind 4
+0x838358,_ZN16GLXPlayerMPLobby21mpSendLaunchLobbyGameEv,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,kind 9
+0x8383e0,_ZN16GLXPlayerMPLobby16mpSendLeaveLobbyEv,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,kind 3
+0x8381a8,_ZN16GLXPlayerMPLobby22mpSendSetGameParameterEPciP23CLobbyParameterAndQuery,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,kind 8
+0x838468,_ZN16GLXPlayerMPLobby18mpSendGetLobbyListEiihP23CLobbyParameterAndQueryh,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,kind 0xb
+0x8386f0,_ZN16GLXPlayerMPLobby15mpSendJoinLobbyEihPci,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,kind 0xe; result set to -1 after the send (original order)
+0x838528,_ZN16GLXPlayerMPLobby25mpSendJoinPredefinedLobbyEPciS0_iiRSt3mapIiSsSt4lessIiESaISt4pairIKiSsEEE,partial,net-session-online/src/glx_player_mp_lobby.cpp,only refusal branch kept; the state>1 call (operator new 0x40, non-returning) is not identified; signature not reproduced
+0x838890,_ZN16GLXPlayerMPLobby30mpSendLobbyLoginWithGameCenterElPcihhS0_S0_,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,no state check; kind 1
+0x838928,_ZN16GLXPlayerMPLobby16mpSendLobbyLoginElPcih,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,no state check; kind 1
+0x8389a8,_ZN16GLXPlayerMPLobby16mpSendDisconnectEv,partial,net-session-online/src/glx_player_mp_lobby.cpp,connected branch recovered; observer and vtable calls (slots 3, 6 and ConnectionLobby slot 0x14) not identified and omitted
+0x838bf0,_ZN16GLXPlayerMPLobby12mpDisconnectEv,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,stops worker, disconnects, frees aux object; state 0
+0x839e7c,_ZN16GLXPlayerMPLobby25mpSendEstablishConnectionEv,partial,net-session-online/src/glx_player_mp_lobby.cpp,teardown and result -1 recovered; 0x2058-byte ConnectionLobby allocation and observer call not recovered
+0x839f4c,_ZN16GLXPlayerMPLobby10LoadConfigEv,partial,net-session-online/src/glx_player_mp_lobby.cpp,oconf.bar load not recovered; only the not-found trace is printed
+0x83a4a4,_ZN16GLXPlayerMPLobby4InitEv,reconstructed,net-session-online/src/glx_player_mp_lobby.cpp,LoadConfig call is partial; no closing trace
+0x83a4f0,_ZN16GLXPlayerMPLobbyD1Ev,partial,net-session-online/src/glx_player_mp_lobby.cpp,disconnects and frees connection; owned objects at +0x58 and +0x7c not recovered
+0x83a590,_ZN16GLXPlayerMPLobbyD0Ev,skipped,net-session-online/src/glx_player_mp_lobby.cpp,compiler-generated deleting destructor thunk
+0x83a5ac,_ZN16GLXPlayerMPLobbyD2Ev,partial,net-session-online/src/glx_player_mp_lobby.cpp,same body as D1; +0x58 and +0x7c not recovered
+0x83a64c,_ZN16GLXPlayerMPLobbyC1EP23GLXPlayerMPBaseObserverPc,partial,net-session-online/src/glx_player_mp_lobby.cpp,base ctor and Init recovered; config string path not recovered
+0x83a6c8,_ZN16GLXPlayerMPLobbyC2EP23GLXPlayerMPBaseObserverPc,partial,net-session-online/src/glx_player_mp_lobby.cpp,same body as C1

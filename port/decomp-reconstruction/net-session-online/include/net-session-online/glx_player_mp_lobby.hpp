@@ -108,6 +108,7 @@ public:
 
     // Not in the original: test seams that set state and read back the request kind.
     void SetStateForTest(std::uint8_t state) { state_ = state; }
+    void AttachConnectionForTest() { connection_ = std::make_unique<ConnectionLobby>(); }
     std::int32_t LastResultForTest() const { return lastResult_; }
     std::int32_t PendingKindForTest() const { return pendingKind_; }
     bool PendingForTest() const { return pendingActive_; }

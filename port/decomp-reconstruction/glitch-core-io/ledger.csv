@@ -217,3 +217,29 @@ elf_address,symbol,status,source_file,notes
 0x5615d4,_ZN6glitch2io11CAttributes12setAttributeEiNS_4core10triangle3dIfEE,reconstructed,glitch-core-io/src/attributes.cpp,calls virtual setTriangle (+0xc8)
 0x5616e4,_ZN6glitch2io11CAttributes12setAttributeEiNS_4core6line2dIfEE,reconstructed,glitch-core-io/src/attributes.cpp,calls virtual setLine2d (+0xd8)
 0x5617e4,_ZN6glitch2io11CAttributes12setAttributeEiNS_4core6line3dIfEE,reconstructed,glitch-core-io/src/attributes.cpp,calls virtual setLine3d (+0xe0)
+0x5703e4,_ZNK6glitch2io9CReadFile6isOpenEv,reconstructed,glitch-core-io/include/glitch-core-io/io/read_file.hpp,isOpen: file handle is non-null
+0x57044c,_ZNK6glitch2io9CReadFile7getSizeEv,reconstructed,glitch-core-io/include/glitch-core-io/io/read_file.hpp,returns the size measured at open
+0x570454,_ZNK6glitch2io9CReadFile11getFileNameEv,reconstructed,glitch-core-io/src/read_file.cpp,returns the stored name
+0x57045c,_ZNK6glitch2io9CReadFile11getFullPathEv,reconstructed,glitch-core-io/src/read_file.cpp,no CFileSystem: full path is the name as given
+0x570488,_ZN6glitch2io9CReadFile4seekElb,reconstructed,glitch-core-io/src/read_file.cpp,fseek; relative flag is SEEK_CUR as in the original
+0x5704cc,_ZN6glitch2io9CReadFile8openFileEv,partial,glitch-core-io/src/read_file.cpp,"open is a direct fopen; the original takes a shared CFile and its obfuscation flag (+0x24), not reconstructed"
+0x5705a8,_ZNK6glitch2io9CReadFile6getPosEv,partial,glitch-core-io/src/read_file.cpp,pseudocode drops the ftell result (void); returns ftell here
+0x5705b4,_ZN6glitch2io9CReadFile4readEPvj,reconstructed,glitch-core-io/src/read_file.cpp,obfuscated first 4 bytes adjusted by (~pos - i)
+0x570660,_ZN6glitch2io9CReadFileD1Ev,reconstructed,glitch-core-io/src/read_file.cpp,closes the owned FILE* instead of dropping a shared CFile
+0x5706bc,_ZN6glitch2io9CReadFileD0Ev,skipped,glitch-core-io/src/read_file.cpp,compiler-generated deleting destructor thunk
+0x5706d8,_ZN6glitch2io9CReadFileD2Ev,reconstructed,glitch-core-io/src/read_file.cpp,complete-object destructor variant
+0x570734,_ZN6glitch2io9CReadFileC1EPKcb,reconstructed,glitch-core-io/src/read_file.cpp,"copies name, opens, clears obfuscation for files under 4 bytes"
+0x570874,_ZN6glitch2io9CReadFileC2EPKcb,reconstructed,glitch-core-io/src/read_file.cpp,same body as the C1 constructor
+0x570808,_ZNK6glitch2io9CReadFile5cloneEv,reconstructed,glitch-core-io/src/read_file.cpp,"new reader with the same name, flag copied, position restored"
+0x5708f8,_ZNK6glitch2io10CWriteFile11getFileNameEv,reconstructed,glitch-core-io/src/write_file.cpp,returns the stored name
+0x570900,_ZNK6glitch2io10CWriteFile11getFullPathEv,reconstructed,glitch-core-io/src/write_file.cpp,no CFileSystem: full path is the name as given
+0x57092c,_ZN6glitch2io10CWriteFile4seekElb,reconstructed,glitch-core-io/src/write_file.cpp,fseek with the same origin convention as CReadFile
+0x570950,_ZNK6glitch2io10CWriteFile6getPosEv,partial,glitch-core-io/src/write_file.cpp,pseudocode drops the ftell result (void); returns ftell here
+0x57095c,_ZN6glitch2io10CWriteFile8openFileEb,partial,glitch-core-io/src/write_file.cpp,mode inferred from bool (wb or ab); original opens via CFileSystem::open
+0x570a58,_ZN6glitch2io10CWriteFile5flushEv,reconstructed,glitch-core-io/src/write_file.cpp,fflush when open
+0x570a6c,_ZN6glitch2io10CWriteFile5writeEPKvj,reconstructed,glitch-core-io/src/write_file.cpp,fwrite; returns count written
+0x570a90,_ZN6glitch2io10CWriteFileD1Ev,reconstructed,glitch-core-io/src/write_file.cpp,closes the owned FILE*
+0x570aec,_ZN6glitch2io10CWriteFileD0Ev,skipped,glitch-core-io/src/write_file.cpp,compiler-generated deleting destructor thunk
+0x570b08,_ZN6glitch2io10CWriteFileD2Ev,reconstructed,glitch-core-io/src/write_file.cpp,complete-object destructor variant
+0x570b68,_ZN6glitch2io10CWriteFileC1EPKcb,partial,glitch-core-io/src/write_file.cpp,copies the name only; bool unused and file not opened (tail call to a noreturn helper)
+0x570c40,_ZN6glitch2io10CWriteFileC2EPKcb,partial,glitch-core-io/src/write_file.cpp,same as C1 constructor; bool unused

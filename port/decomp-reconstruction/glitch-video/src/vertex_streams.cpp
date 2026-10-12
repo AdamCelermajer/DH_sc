@@ -62,7 +62,7 @@ bool CVertexStreams::isHomogeneous(uint32_t mask) const {
             } else if (common != buf) {
                 return false;
             }
-            first = found + 1;
+            if (found != end) first = found + 1;  // original advances past the sentinel; clamped here
             mask &= ~b;
         }
     }

@@ -8,5 +8,9 @@
 // XP_DEBUG_OUT(fmt, ...): debug trace. Prints to stderr in host builds.
 template <typename... Args>
 inline void XP_DEBUG_OUT(const char* fmt, Args... args) {
-    std::fprintf(stderr, fmt, args...);
+    if constexpr (sizeof...(Args) == 0) {
+        std::fputs(fmt, stderr);
+    } else {
+        std::fprintf(stderr, fmt, args...);
+    }
 }

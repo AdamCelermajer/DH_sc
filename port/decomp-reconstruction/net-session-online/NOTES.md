@@ -53,3 +53,19 @@ Layout (`include/net-session-online/c_lobby_parameter_and_query.hpp`), vtable `_
 
 - GLXPlayerMPLobby::mpSend* (0x8376fc..0x83a744) need ConnectionLobby and GLXPlayerUserFriend stand-ins and the GLXPlayerMPLobby layout (+0x4, +0x48, +0x50, +0x60, +0x74, +0x80, +0x84). Not started.
 - The rest of the queue (about 1100 functions) is unchanged.
+
+## GLXPlayerMPLobby (session 2)
+
+Layout is in `include/net-session-online/glx_player_mp_lobby.hpp`. Key offsets:
+- +0x04 observer (GLXPlayerMPBase), +0x50 last result (-1 pending, 0x32 refused), +0x60 state.
+- +0x74 ConnectionLobby (heap, 0x2058 bytes, time at +0x2050), +0x84 pending request kind, +0x80 pending flag, +0x81 master.
+- Every mpSend* request checks state > 1 (0 and 1 are refused); a refusal sets 0x32 and calls observer vtable slot 0 (`OnInvalidState`).
+- Request kinds at +0x84 are taken from the store instructions in each body; see the constants in the cpp.
+
+Deviations and open questions:
+- The closing `XP_DEBUG_OUT(&DAT_0091d6b0)` trace of each body is not reproduced (the string is not recovered).
+- Argument types on the mpSend* wrappers follow the mangled symbol. Ghidra's own parameter types differ on some (for example the third argument of mpSendGetLobbyForFriend). Forwarding casts to the ConnectionLobby stand-ins follow the mangled names of the ConnectionLobby methods. Verify against the binary before relying on the exact widths.
+- ConnectionLobby and GLXPlayerUserFriend are inline stand-ins in deps/ (no-op sends, friend count 0). They are not functional.
+- The ConnectionLobby stand-in is not polymorphic (the original deletes it through a vtable slot).
+
+Not done in this group: mpSendGetLobbyForFriend (friend-list overload, 0x837a88, 420 bytes), CreateLobby (0x8387a4), CreateLobbyWithGameCenter (0x83a744), Update (0x838a34), ProcessIncomingMessages (0x838c6c, 4492 bytes, skip), SendGetLobbyForFriend with GLXPlayerUserFriend, and the GLXPlayerMPLobby class members listed in the queue.

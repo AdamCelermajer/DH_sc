@@ -345,3 +345,15 @@ elf_address,symbol,status,source_file,notes
 0x5b9bb4,_ZN6glitch5video18CNullShaderManager17createEmptyShaderEPKc,reconstructed,glitch-video/src/null_shader_manager.cpp,createEmptyShader; name argument unused, as in the original
 0x5b9bf4,_ZN6glitch5video18CNullShaderManager12createShaderEPKc,partial,glitch-video/src/null_shader_manager.cpp,lookup and creation approximated; IShaderManager::addShader not modelled
 0x5b9cec,_ZN6glitch5video18CNullShaderManager19removeUnusedShadersEv,partial,glitch-video/src/null_shader_manager.cpp,clears the local table; SIDedCollection::removeAll not modelled
+0x5e4940,_ZNK6glitch5video7IShader26getVertexAttributeDefIndexENS0_18E_VERTEX_ATTRIBUTEE,reconstructed,glitch-video/src/shader_attributes.cpp,
+0x5e80e8,_ZNK6glitch5video8ITexture14getSizeInBytesEv,reconstructed,glitch-video/src/texture.cpp,
+0x5fdc84,_ZN6glitch5video8ITexture6unlockEv,partial,glitch-video/src/texture.cpp,unlock callback (vtable +0x18) not modelled; counter and flag clearing reconstructed
+0x7d3bb4,_ZN6glitch5video8ITexture7setWrapENS0_15E_TEXTURE_CLAMPE,reconstructed,glitch-video/src/texture.cpp,setWrap(E_TEXTURE_CLAMP); S bits 18..20, T bits 21..23, flags 0x10/0x20
+0x6ce46c,_ZN6glitch5video8ITexture7setWrapENS0_15E_TEXTURE_CLAMPE.clone.1,reconstructed,glitch-video/src/texture.cpp,setWrap clone with clamp constant 2 (setWrapClamp)
+0x5a1c1c,_ZN6glitch5video7IBuffer4copyEv,partial,glitch-video/src/buffer.cpp,copy; a null source is skipped where the original memcpy would read null
+0x637a68,_ZNK6glitch5video7IBuffer5unmapEv,partial,glitch-video/src/buffer.cpp,unmap; unmap callback (vtable +0x18) not modelled
+0x5a0a58,_ZNK6glitch5video14CVertexStreams22getActiveAttributeMaskEv,reconstructed,glitch-video/src/vertex_streams.cpp,
+0x5a0aac,_ZNK6glitch5video14CVertexStreams9getStreamENS0_18E_VERTEX_ATTRIBUTEEPKNS0_13SVertexStreamES5_,reconstructed,glitch-video/src/vertex_streams.cpp,const getStream, lower-bound on attribute, end pointer on miss
+0x5a0af0,_ZN6glitch5video14CVertexStreams9getStreamENS0_18E_VERTEX_ATTRIBUTEEPNS0_13SVertexStreamES4_,reconstructed,glitch-video/src/vertex_streams.cpp,non-const getStream
+0x5a0b34,_ZN6glitch5video14CVertexStreams9addOffsetEi,reconstructed,glitch-video/src/vertex_streams.cpp,
+0x5a0b74,_ZNK6glitch5video14CVertexStreams13isHomogeneousEj,partial,glitch-video/src/vertex_streams.cpp,a missed lookup reads the array sentinel in the original; here it is a null buffer
