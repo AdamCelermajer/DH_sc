@@ -113,7 +113,7 @@ int main() {
 
     // Database destructor with no record is a no-op and leaves the record null.
     {
-        CColladaDatabase db;
+        glitch::collada::CColladaDatabase db;
         CColladaDatabase_D1(&db);
         CHECK(db.record == nullptr);
     }

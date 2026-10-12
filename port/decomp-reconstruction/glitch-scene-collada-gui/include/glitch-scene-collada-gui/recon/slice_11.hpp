@@ -207,65 +207,65 @@ void CImage_D1(CImageStandIn* self);
 // 0x619784 _ZN6glitch7collada16CColladaDatabaseD2Ev
 void CColladaDatabase_D2(CColladaDatabase* self);
 // 0x619978 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi3EhEEhLi4ENS1_17SUseDefaultValuesILi3EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiifPv
-unsigned int CInterpreter_u4_m3_getKeyBasedValueEx_interp2(const SAnimationAccessorStandIn& acc, int a2, int a3, int a4, float t, U8* out);
+unsigned int CInterpreter_u4_m3_getKeyBasedValueEx_interp2(const SAnimationAccessorStandIn& acc, int a2, int a3, int a4, float t, std::uint8_t* out);
 // 0x619a64 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi3EhEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiifPv
-unsigned int CVirtualEx_u4_m3_getKeyBasedValue_interp2(int self, const SAnimationAccessorStandIn& acc, int a3, int a4, int a5, float a6, U8* a7);
+unsigned int CVirtualEx_u4_m3_getKeyBasedValue_interp2(int self, const SAnimationAccessorStandIn& acc, int a3, int a4, int a5, float a6, std::uint8_t* a7);
 // 0x619a88 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi0EhEEhLi4ENS1_17SUseDefaultValuesILi0EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiPv
-const U8* CInterpreter_u4_m0_getKeyBasedValueEx_direct(const SAnimationAccessorStandIn& acc, int a2, U8* out);
+const std::uint8_t* CInterpreter_u4_m0_getKeyBasedValueEx_direct(const SAnimationAccessorStandIn& acc, int a2, std::uint8_t* out);
 // 0x619b00 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi0EhEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiPv
-const U8* CVirtualEx_u4_m0_getKeyBasedValue_direct(int self, const SAnimationAccessorStandIn& acc, int a3, U8* a4);
+const std::uint8_t* CVirtualEx_u4_m0_getKeyBasedValue_direct(int self, const SAnimationAccessorStandIn& acc, int a3, std::uint8_t* a4);
 // 0x619b10 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi0EhEEhLi4ENS1_17SUseDefaultValuesILi0EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiifPv
-unsigned int CInterpreter_u4_m0_getKeyBasedValueEx_interp1(const SAnimationAccessorStandIn& acc, int a2, int a3, float t, U8* out);
+unsigned int CInterpreter_u4_m0_getKeyBasedValueEx_interp1(const SAnimationAccessorStandIn& acc, int a2, int a3, float t, std::uint8_t* out);
 // 0x619be4 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi0EhEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiifPv
-unsigned int CVirtualEx_u4_m0_getKeyBasedValue_interp1(int self, const SAnimationAccessorStandIn& acc, int a3, int a4, float a5, U8* a6);
+unsigned int CVirtualEx_u4_m0_getKeyBasedValue_interp1(int self, const SAnimationAccessorStandIn& acc, int a3, int a4, float a5, std::uint8_t* a6);
 // 0x619c00 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi0EhEEhLi4ENS1_17SUseDefaultValuesILi0EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiPv
-const U8* CInterpreter_u4_m0_getKeyBasedValueEx_diff(const SAnimationAccessorStandIn& acc, int a2, int a3, U8* out);
+const std::uint8_t* CInterpreter_u4_m0_getKeyBasedValueEx_diff(const SAnimationAccessorStandIn& acc, int a2, int a3, std::uint8_t* out);
 // 0x619c74 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi0EhEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiPv
-const U8* CVirtualEx_u4_m0_getKeyBasedValue_diff(int self, const SAnimationAccessorStandIn& acc, int a3, int a4, U8* a5);
+const std::uint8_t* CVirtualEx_u4_m0_getKeyBasedValue_diff(int self, const SAnimationAccessorStandIn& acc, int a3, int a4, std::uint8_t* a5);
 // 0x619c88 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi0EhEEhLi4ENS1_17SUseDefaultValuesILi0EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiifPv
-unsigned int CInterpreter_u4_m0_getKeyBasedValueEx_interp2(const SAnimationAccessorStandIn& acc, int a2, int a3, int a4, float t, U8* out);
+unsigned int CInterpreter_u4_m0_getKeyBasedValueEx_interp2(const SAnimationAccessorStandIn& acc, int a2, int a3, int a4, float t, std::uint8_t* out);
 // 0x619d74 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi0EhEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiifPv
-unsigned int CVirtualEx_u4_m0_getKeyBasedValue_interp2(int self, const SAnimationAccessorStandIn& acc, int a3, int a4, int a5, float a6, U8* a7);
+unsigned int CVirtualEx_u4_m0_getKeyBasedValue_interp2(int self, const SAnimationAccessorStandIn& acc, int a3, int a4, int a5, float a6, std::uint8_t* a7);
 // 0x619d98 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi1EhEEhLi4ENS1_17SUseDefaultValuesILi1EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiPv
-const U8* CInterpreter_u4_m1_getKeyBasedValueEx_direct(const SAnimationAccessorStandIn& acc, int a2, U8* out);
+const std::uint8_t* CInterpreter_u4_m1_getKeyBasedValueEx_direct(const SAnimationAccessorStandIn& acc, int a2, std::uint8_t* out);
 // 0x619e10 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi1EhEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiPv
-const U8* CVirtualEx_u4_m1_getKeyBasedValue_direct(int self, const SAnimationAccessorStandIn& acc, int a3, U8* a4);
+const std::uint8_t* CVirtualEx_u4_m1_getKeyBasedValue_direct(int self, const SAnimationAccessorStandIn& acc, int a3, std::uint8_t* a4);
 // 0x619e20 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi1EhEEhLi4ENS1_17SUseDefaultValuesILi1EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiifPv
-unsigned int CInterpreter_u4_m1_getKeyBasedValueEx_interp1(const SAnimationAccessorStandIn& acc, int a2, int a3, float t, U8* out);
+unsigned int CInterpreter_u4_m1_getKeyBasedValueEx_interp1(const SAnimationAccessorStandIn& acc, int a2, int a3, float t, std::uint8_t* out);
 // 0x619f1c _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi1EhEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiifPv
-unsigned int CVirtualEx_u4_m1_getKeyBasedValue_interp1(int self, const SAnimationAccessorStandIn& acc, int a3, int a4, float a5, U8* a6);
+unsigned int CVirtualEx_u4_m1_getKeyBasedValue_interp1(int self, const SAnimationAccessorStandIn& acc, int a3, int a4, float a5, std::uint8_t* a6);
 // 0x619f38 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi1EhEEhLi4ENS1_17SUseDefaultValuesILi1EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiPv
-const U8* CInterpreter_u4_m1_getKeyBasedValueEx_diff(const SAnimationAccessorStandIn& acc, int a2, int a3, U8* out);
+const std::uint8_t* CInterpreter_u4_m1_getKeyBasedValueEx_diff(const SAnimationAccessorStandIn& acc, int a2, int a3, std::uint8_t* out);
 // 0x619fac _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi1EhEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiPv
-const U8* CVirtualEx_u4_m1_getKeyBasedValue_diff(int self, const SAnimationAccessorStandIn& acc, int a3, int a4, U8* a5);
+const std::uint8_t* CVirtualEx_u4_m1_getKeyBasedValue_diff(int self, const SAnimationAccessorStandIn& acc, int a3, int a4, std::uint8_t* a5);
 // 0x619fc0 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi1EhEEhLi4ENS1_17SUseDefaultValuesILi1EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiifPv
-unsigned int CInterpreter_u4_m1_getKeyBasedValueEx_interp2(const SAnimationAccessorStandIn& acc, int a2, int a3, int a4, float t, U8* out);
+unsigned int CInterpreter_u4_m1_getKeyBasedValueEx_interp2(const SAnimationAccessorStandIn& acc, int a2, int a3, int a4, float t, std::uint8_t* out);
 // 0x61a0ac _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi1EhEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiifPv
-unsigned int CVirtualEx_u4_m1_getKeyBasedValue_interp2(int self, const SAnimationAccessorStandIn& acc, int a3, int a4, int a5, float a6, U8* a7);
+unsigned int CVirtualEx_u4_m1_getKeyBasedValue_interp2(int self, const SAnimationAccessorStandIn& acc, int a3, int a4, int a5, float a6, std::uint8_t* a7);
 // 0x61a0d0 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi2EhEEhLi4ENS1_17SUseDefaultValuesILi2EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiPv
-const U8* CInterpreter_u4_m2_getKeyBasedValueEx_direct(const SAnimationAccessorStandIn& acc, int a2, U8* out);
+const std::uint8_t* CInterpreter_u4_m2_getKeyBasedValueEx_direct(const SAnimationAccessorStandIn& acc, int a2, std::uint8_t* out);
 // 0x61a148 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi2EhEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiPv
-const U8* CVirtualEx_u4_m2_getKeyBasedValue_direct(int self, const SAnimationAccessorStandIn& acc, int a3, U8* a4);
+const std::uint8_t* CVirtualEx_u4_m2_getKeyBasedValue_direct(int self, const SAnimationAccessorStandIn& acc, int a3, std::uint8_t* a4);
 // 0x61a158 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi2EhEEhLi4ENS1_17SUseDefaultValuesILi2EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiifPv
-unsigned int CInterpreter_u4_m2_getKeyBasedValueEx_interp1(const SAnimationAccessorStandIn& acc, int a2, int a3, float t, U8* out);
+unsigned int CInterpreter_u4_m2_getKeyBasedValueEx_interp1(const SAnimationAccessorStandIn& acc, int a2, int a3, float t, std::uint8_t* out);
 // 0x61a244 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi2EhEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiifPv
-unsigned int CVirtualEx_u4_m2_getKeyBasedValue_interp1(int self, const SAnimationAccessorStandIn& acc, int a3, int a4, float a5, U8* a6);
+unsigned int CVirtualEx_u4_m2_getKeyBasedValue_interp1(int self, const SAnimationAccessorStandIn& acc, int a3, int a4, float a5, std::uint8_t* a6);
 // 0x61a260 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi2EhEEhLi4ENS1_17SUseDefaultValuesILi2EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiPv
-const U8* CInterpreter_u4_m2_getKeyBasedValueEx_diff(const SAnimationAccessorStandIn& acc, int a2, int a3, U8* out);
+const std::uint8_t* CInterpreter_u4_m2_getKeyBasedValueEx_diff(const SAnimationAccessorStandIn& acc, int a2, int a3, std::uint8_t* out);
 // 0x61a2d4 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi2EhEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiPv
-const U8* CVirtualEx_u4_m2_getKeyBasedValue_diff(int self, const SAnimationAccessorStandIn& acc, int a3, int a4, U8* a5);
+const std::uint8_t* CVirtualEx_u4_m2_getKeyBasedValue_diff(int self, const SAnimationAccessorStandIn& acc, int a3, int a4, std::uint8_t* a5);
 // 0x61a2e8 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi2EhEEhLi4ENS1_17SUseDefaultValuesILi2EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiifPv
-unsigned int CInterpreter_u4_m2_getKeyBasedValueEx_interp2(const SAnimationAccessorStandIn& acc, int a2, int a3, int a4, float t, U8* out);
+unsigned int CInterpreter_u4_m2_getKeyBasedValueEx_interp2(const SAnimationAccessorStandIn& acc, int a2, int a3, int a4, float t, std::uint8_t* out);
 // 0x61a3d8 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi2EhEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiifPv
-unsigned int CVirtualEx_u4_m2_getKeyBasedValue_interp2(int self, const SAnimationAccessorStandIn& acc, int a3, int a4, int a5, float a6, U8* a7);
+unsigned int CVirtualEx_u4_m2_getKeyBasedValue_interp2(int self, const SAnimationAccessorStandIn& acc, int a3, int a4, int a5, float a6, std::uint8_t* a7);
 // 0x61a3fc _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi3EhEEhLi4ENS1_17SUseDefaultValuesILi3EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiPv
-const U8* CInterpreter_u4_m3_getKeyBasedValueEx_direct(const SAnimationAccessorStandIn& acc, int a2, U8* out);
+const std::uint8_t* CInterpreter_u4_m3_getKeyBasedValueEx_direct(const SAnimationAccessorStandIn& acc, int a2, std::uint8_t* out);
 // 0x61a474 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi3EhEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiPv
-const U8* CVirtualEx_u4_m3_getKeyBasedValue_direct(int self, const SAnimationAccessorStandIn& acc, int a3, U8* a4);
+const std::uint8_t* CVirtualEx_u4_m3_getKeyBasedValue_direct(int self, const SAnimationAccessorStandIn& acc, int a3, std::uint8_t* a4);
 // 0x61a484 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi3EhEEhLi4ENS1_17SUseDefaultValuesILi3EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiifPv
-unsigned int CInterpreter_u4_m3_getKeyBasedValueEx_interp1(const SAnimationAccessorStandIn& acc, int a2, int a3, float t, U8* out);
+unsigned int CInterpreter_u4_m3_getKeyBasedValueEx_interp1(const SAnimationAccessorStandIn& acc, int a2, int a3, float t, std::uint8_t* out);
 // 0x61a558 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi3EhEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiifPv
-unsigned int CVirtualEx_u4_m3_getKeyBasedValue_interp1(int self, const SAnimationAccessorStandIn& acc, int a3, int a4, float a5, U8* a6);
+unsigned int CVirtualEx_u4_m3_getKeyBasedValue_interp1(int self, const SAnimationAccessorStandIn& acc, int a3, int a4, float a5, std::uint8_t* a6);
 // 0x61a5d4 _ZNK6glitch7collada16CColladaDatabase20constructGNPSEmitterEPKcPNS_5video12IVideoDriverEPNS_3res6vectorINS7_6StringEEEPNS0_14CRootSceneNodeE
 int CColladaDatabase_constructGNPSEmitter(const CColladaDatabase& self, const char* name, video::IVideoDriver* driver, void* strings, CRootSceneNode* root);
 // 0x61a750 _ZNK6glitch7collada16CColladaDatabase16constructCoronasEPKcPNS_5video12IVideoDriverEPNS0_14CRootSceneNodeE
@@ -319,7 +319,7 @@ const std::uint32_t* CVirtualEx_quatMixC_retrieveValue(int self, ISceneNodeStand
 // 0x61cc6c _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core10quaternionENS1_25CSceneNodeQuaternionMixinIsEEEEE13retrieveValueEPvSA_
 const std::uint32_t* CVirtualEx_quatMixS_retrieveValue(int self, ISceneNodeStandIn* node, std::uint32_t* out);
 // 0x61caa8 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA3_hNS1_6CMixinIhLi3ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELin1EhEEEEE10applyValueEPvSF_PNS1_15CApplicatorInfoE
-int CVirtualEx_u3_mixm1_applyValue(int self, const U8* value, MaterialParamsStandIn* params);
+int CVirtualEx_u3_mixm1_applyValue(int self, const std::uint8_t* value, MaterialParamsStandIn* params);
 // 0x61caf0 _ZN6glitch7collada15animation_track13CApplyValueExIA3_hNS1_6CMixinIhLi3ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS3_NS_5video6SColorEEEEELin1EhEEE20applyKeyBasedValueExERKNS0_18SAnimationAccessorEiPvPNS1_15CApplicatorInfoE
 int CApplyValueEx_u3_mixm1_applyKeyBasedValueEx(const SAnimationAccessorStandIn& acc, int key, MaterialParamsStandIn* params, ApplicatorInfoStandIn* info);
 // 0x61cb68 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA3_hNS1_6CMixinIhLi3ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELin1EhEEEEE18applyKeyBasedValueERKNS0_18SAnimationAccessorEiPvPNS1_15CApplicatorInfoE
