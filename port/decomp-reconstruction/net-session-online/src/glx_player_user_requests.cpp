@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <cstdio>
 #include <cstring>
+#include <string>
+#include <vector>
 
 #include "net-session-online/deps/xp_api.hpp"
 #include "net-session-online/glx_player_observer.hpp"
@@ -31,15 +33,20 @@ void GLXPlayerUser::sendGetLiveFeeds(std::int32_t kind) {
 }
 
 // 0x83cea0 _ZN13GLXPlayerUser15sendSetUserMindEPc
-// Partial: the original accepts a mind text of 1 to 255 characters (strlen - 1 <= 0xfe),
-// allocates a buffer and formats the request with the "mind" key (binary format string).
-// Only the length check is kept here; no request is built.
+// Accepts a mind text of 1 to 255 characters. The length is compared unsigned, so an
+// empty text (strlen - 1 wraps) is refused too, as in the original.
 void GLXPlayerUser::sendSetUserMind(char* mind) {
     if (mind == nullptr) {
         return;
     }
-    const std::size_t length = std::strlen(mind);
-    (void)length;  // 1..255 is accepted by the original; the request is not built here
+    if (std::strlen(mind) - 1 > 0xFE) {
+        return;
+    }
+    char buf[kRequestBytes] = {};
+    std::snprintf(buf, sizeof buf, "f|%d|i|%d|u|%s|mind|%s|", 110, static_cast<int>(GetGGI()),
+                  UidText(GetUID()), mind);
+    XP_DEBUG_OUT("GLXPlayerUser::sendSetUserMind -> buffer = %s\n", buf);
+    SendByGet(buf);
 }
 
 // 0x83cf88 _ZN13GLXPlayerUser16sendSetUserStateEi
@@ -147,13 +154,91 @@ void GLXPlayerUser::sendDelUserAvatar(char* avatarKey) {
 }
 
 // 0x83d77c _ZN13GLXPlayerUser20sendUploadUserAvatarEPc
-// Partial: the original formats the request into a heap buffer of strlen + 0x80 bytes
-// and sends it by POST. The format string is not identified, so only the null case
-// (observer slot 3 with 0x47) is reproduced.
+// Formats the upload request and sends it by POST. A null path is reported to the
+// observer (slot 3 with 0x47) and nothing is sent. The original returns the POST result;
+// the base SendByPost returns nothing, so this returns nothing too.
 void GLXPlayerUser::sendUploadUserAvatar(char* path) {
-    if (path == nullptr && observer_ != nullptr) {
-        observer_->OnResponseError(0x47, kInvalidArgument);
+    if (path == nullptr) {
+        if (observer_ != nullptr) {
+            observer_->OnResponseError(0x47, kInvalidArgument);
+        }
+        return;
     }
+    std::vector<char> buf(std::strlen(path) + 128, '\0');
+    std::snprintf(buf.data(), buf.size(), "f|%d|i|%d|u|%s|d|%s|", 71, static_cast<int>(GetGGI()),
+                  UidText(GetUID()), path);
+    XP_DEBUG_OUT("GLXPlayerUser::sendUploadUserAvatar before String2Blob -> buffer length = %d\n",
+                 static_cast<int>(std::strlen(buf.data())));
+    SendByPost(buf.data());
+}
+
+// 0x83e918 _ZN13GLXPlayerUser15sendAwardTrophyEPii
+// The list is the ids joined with commas. As in the original, a count of 1 leaves the list
+// empty (its loop is skipped for that count).
+void GLXPlayerUser::sendAwardTrophy(std::int32_t* ids, std::int32_t count) {
+    if (ids == nullptr || count <= 0) {
+        if (observer_ != nullptr) {
+            observer_->OnResponseError(85, kInvalidArgument);
+        }
+        return;
+    }
+    std::string list;
+    if (count != 1) {
+        for (std::int32_t i = 0; i < count; ++i) {
+            if (i > 0) {
+                list += ',';
+            }
+            list += std::to_string(ids[i]);
+        }
+    }
+    char buf[kRequestBytes] = {};
+    std::snprintf(buf, sizeof buf, "f|%d|i|%d|u|%s|t|%s|", 85, static_cast<int>(GetGGI()),
+                  UidText(GetUID()), list.c_str());
+    XP_DEBUG_OUT("GLXPlayerUser::sendAwardTrophy before String2Blob -> buffer = %s\n", buf);
+    SendByGet(buf);
+}
+
+// 0x83eb14 _ZN13GLXPlayerUser18sendUpdateUserInfoEPciS0_S0_S0_iS0_
+// Refused (observer slot 3 with 82) only when every field is unset. Otherwise each set
+// field is appended as "|key|value". The request is built in a std::string, so a long
+// value is not cut at the 0x80-byte field buffer of the original.
+void GLXPlayerUser::sendUpdateUserInfo(char* email, std::int32_t emailFlag, char* country, char* firstName,
+                                       char* lastName, std::int32_t sex, char* birthday) {
+    const bool nothingToSend = email == nullptr && emailFlag == -1 && country == nullptr &&
+                               firstName == nullptr && lastName == nullptr && sex == -1 &&
+                               birthday == nullptr;
+    if (nothingToSend) {
+        if (observer_ != nullptr) {
+            observer_->OnResponseError(82, kInvalidArgument);
+        }
+        return;
+    }
+    std::string req = "f|82|i|" + std::to_string(static_cast<int>(GetGGI())) + "|u|" + UidText(GetUID());
+    if (email != nullptr) {
+        req += std::string("|email|") + email;
+    }
+    if (emailFlag != -1) {
+        req += "|email_flag|" + std::to_string(emailFlag);
+    }
+    if (country != nullptr) {
+        req += std::string("|country|") + country;
+    }
+    if (firstName != nullptr) {
+        req += std::string("|firstname|") + firstName;
+    }
+    if (lastName != nullptr) {
+        req += std::string("|lastname|") + lastName;
+    }
+    if (sex != -1) {
+        req += "|sex|" + std::to_string(sex);
+    }
+    if (birthday != nullptr) {
+        req += std::string("|birthday|") + birthday + "|";
+    }
+    std::vector<char> buf(req.begin(), req.end());
+    buf.push_back('\0');
+    XP_DEBUG_OUT("GLXPlayerUser::sendUpdateUserInfo before String2Blob -> buffer = %s\n", buf.data());
+    SendByGet(buf.data());
 }
 
 // 0x83d84c _ZN13GLXPlayerUser22sendDownloadUserAvatarEPc

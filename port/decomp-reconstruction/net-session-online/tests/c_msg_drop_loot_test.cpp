@@ -6,7 +6,21 @@
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
+#include "net-session-online/deps/matching.hpp"
+
+// Matching stand-in: the message constructors read the local member id from it.
+class FakeMatching : public CMatching {
+public:
+    std::uint32_t MemberBit(int memberId) const override { return 1u << memberId; }
+    int LocalMemberId() const override { return 2; }
+    int ServerMemberId() const override { return 1; }
+    bool IsServer() const override { return false; }
+    std::uint32_t GetRoomMask() const override { return 0x7; }
+};
+
 int main() {
+    FakeMatching matching;
+    CMatching::Set(&matching);
     // A wire message: a 24-byte header whose last word is the block length (3), then 3 bytes.
     unsigned char header[0x18];
     for (int i = 0; i < 0x18; ++i) header[i] = static_cast<unsigned char>(i + 1);

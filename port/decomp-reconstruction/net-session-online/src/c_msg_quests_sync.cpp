@@ -8,8 +8,8 @@ constexpr std::size_t kHeaderBytes = 8;
 }  // namespace
 
 // 0x3291f8 _ZN14CMsgQuestsSyncC1Eb
-CMsgQuestsSync::CMsgQuestsSync(bool reliable) {
-    (void)reliable;
+// Partial: the type-name string at +0x14 is not modelled.
+CMsgQuestsSync::CMsgQuestsSync(bool withSerial) : CMessage("CMsgQuestsSync", withSerial) {
     reliable_ = true;
     includeLocalMember_ = false;
     sendMode_ = 1;

@@ -26,7 +26,14 @@ public:
     static_assert(sizeof(Header) == 16, "wire header is 16 bytes");
 
     CMessage() = default;
+    // 0x80a61c _ZN8CMessageC1EPKcb (C2 0x80a540 is the same body, skipped).
+    // Partial: the type-name string at +0x14 is not modelled. The bool gates the serial
+    // number at +0x04 (it is passed through from the derived constructors).
+    CMessage(const char* typeName, bool withSerial);
     virtual ~CMessage();                                    // D1 / D2 / D0
+
+    // 0x80a6f8 _ZN8CMessage22CompareMsgSendPriorityEPS_S0_: orders by the +0x38 word.
+    static bool CompareMsgSendPriority(const CMessage* a, const CMessage* b);
 
     // Vtable slots (names not all recovered, see NOTES.md).
     virtual void* GetDataPtr();                             // +0x00
@@ -83,12 +90,21 @@ protected:
     bool includeLocalMember_ = false;     // +0x33
     std::uint32_t timestamp_ = 0;         // +0x34
     bool flag32_ = false;                 // +0x32 (set by the CMsg* SetProperties)
-    bool trackSent_ = false;              // +0x38 (int in the original)
+    // +0x38: an int in the original. SetDefaultProperties stores 100 and the
+    // SetSentFlag check tests it as a flag. The name is inferred; CompareMsgSendPriority
+    // orders messages by it, so it is also a priority.
+    std::int32_t trackSent_ = 0;          // +0x38
     std::uint32_t ackMask_ = 0;           // +0x40
     std::uint32_t sentMask_ = 0;          // +0x48
     std::uint32_t lifetime_ = 0;          // +0x4c
 
 private:
+    // 0x80a33c _ZN8CMessage20SetDefaultPropertiesEv. Partial: the type-name string at +0x14
+    // (the "TYPE STRING NOT DEFINED" fill) is not modelled. The flags and words are set.
+    void SetDefaultProperties();
+
+    // The serial counter (CMessage::m_messageSerial in the original).
+    static inline std::uint32_t messageSerial_ = 0;
     static inline char messageTypeArray_[kMaxTypes][kTypeNameLen] = {};
     static inline CreatorFn messageCreationArray_[kMaxTypes] = {};
     static inline bool registrationInitialized_ = false;

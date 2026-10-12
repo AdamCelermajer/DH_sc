@@ -34,6 +34,7 @@ public:
 };
 
 class ThreadHandle;
+class ConnectionTransport;
 
 class GLXPlayerMPBase {
 public:
@@ -50,7 +51,14 @@ public:
     // 0x84ab9c _ZN15GLXPlayerMPBase9setErrMsgEPc
     void setErrMsg(const char* message);
 
+    // Not in the original: test seams for the transport pointer (+0x54) and the state (+0x50).
+    void SetTransportForTest(ConnectionTransport* transport) { transport_ = transport; }
+    std::int32_t Field50ForTest() const { return field50_; }
+    std::uint8_t Field71ForTest() const { return field71_; }
+
     // Empty virtual defaults in the original (4-byte bodies).
+    // 0x84ae28 _ZN15GLXPlayerMPBase16mpSendDisconnectEv, vtable +0x14. Partial, see the cpp.
+    virtual void mpSendDisconnect();
     virtual void mpPrepareGameData() {}                 // 0x83760c
     virtual void mpSendKickOutPlayer(char*) {}          // 0x837614
     virtual void mpSendKickOutPlayer(unsigned short*) {}  // 0x837618
@@ -64,6 +72,8 @@ protected:
     GLXPlayerMPBaseObserver* observer_ = nullptr;       // +0x04
     std::unique_ptr<char[]> errMsg_;                    // +0x4c
     std::int32_t field58_ = 0;                          // +0x58
+    std::int32_t field50_ = 0;                          // +0x50 (set by mpSendDisconnect)
+    ConnectionTransport* transport_ = nullptr;          // +0x54 (not owned)
     std::unique_ptr<ThreadHandle> aux68_;               // +0x68
     std::int32_t field6c_ = 0;                          // +0x6c
     std::uint8_t field70_ = 0;                          // +0x70

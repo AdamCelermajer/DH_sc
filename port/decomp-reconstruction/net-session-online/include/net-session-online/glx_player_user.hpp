@@ -34,6 +34,7 @@
 
 #include <cstdint>
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "net-session-online/glx_player_web_component.hpp"
@@ -77,6 +78,12 @@ public:
     const char* getAvatarLastUpdate(std::int32_t index) const;       // 0x83a9dc
     std::int32_t getAvatarStatus(std::int32_t index) const;          // 0x83aa0c
 
+    // 0x83c894 _ZN13GLXPlayerUser15OnUpdateSuccessEi
+    // Routes the response by code to the process* handler for it, then calls the base.
+    // Partial: codes 58 (+0x3c, not modelled) and 98 (+0x11c and +0x120, not modelled)
+    // read their tokens but store nothing.
+    void OnUpdateSuccess(std::int32_t code) override;
+
     // 0x83aa38 _ZN13GLXPlayerUser19processUploadAvatarEPc: empty in the original.
     void processUploadAvatar(char* data);
 
@@ -86,25 +93,25 @@ public:
     void processUserChatWarning(char* text);                         // 0x83afb8
     void processPromoAttachment(char* text);                         // 0x83b028
     void processRssAttachment(char* text);                           // 0x83b074
-    void processUserTrophyIcon(char* text);                          // 0x83b0c0 (partial)
+    void processUserTrophyIcon(char* text);                          // 0x83b0c0
     void processGetPromo_RSS(char* response);                        // 0x83b1e0 (partial)
     void processGetADV_RSS(char* response);                          // 0x83b280 (partial)
     void processUserGameIcon(char* text);                            // 0x83b320 (partial)
-    void processUserAvatarList(char* text);                          // 0x83b424 (partial)
-    void processUserData(char* text);                                // 0x83b620 (partial)
+    void processUserAvatarList(char* text);                          // 0x83b424
+    void processUserData(char* text);                                // 0x83b620
     void processDownloadAvatar(char* text);                          // 0x83b724 (partial)
     void processUserAvatar(char* text);                              // 0x83b82c (partial)
-    void processUserBestScore(char* text);                           // 0x83bae4 (partial)
-    void processUserInformation(char* text);                         // 0x83bbf0 (partial)
-    void processUserTrophy(char* text);                              // 0x83c040 (partial)
+    void processUserBestScore(char* text);                           // 0x83bae4
+    void processUserInformation(char* text);                         // 0x83bbf0
+    void processUserTrophy(char* text);                              // 0x83c040
     void processUserState(char* text);                               // 0x83c14c (partial)
-    void processUserGameList(char* text);                            // 0x83c484 (partial)
-    void processUserReputation(char* text);                          // 0x83c6f8 (partial)
+    void processUserGameList(char* text);                            // 0x83c484
+    void processUserReputation(char* text);                          // 0x83c6f8
 
     // Request builders (src/glx_player_user_requests.cpp). Each one sends a request
     // through SendByGet or SendByPost, or reports a rejected argument to the observer.
     void sendGetLiveFeeds(std::int32_t kind);                        // 0x83cdc8
-    void sendSetUserMind(char* mind);                                // 0x83cea0 (partial)
+    void sendSetUserMind(char* mind);                                // 0x83cea0
     void sendSetUserState(std::int32_t state);                       // 0x83cf88
     void sendGetChatWarning();                                       // 0x83d080
     void sendGetAdvAttachment(std::int32_t id);                      // 0x83d13c
@@ -114,7 +121,13 @@ public:
     void sendDelUserStoreData(char* key);                            // 0x83d4d0
     void sendGetUserAvatarList();                                    // 0x83d5c0
     void sendDelUserAvatar(char* avatarKey);                         // 0x83d67c
-    void sendUploadUserAvatar(char* path);                           // 0x83d77c (partial)
+    void sendUploadUserAvatar(char* path);                           // 0x83d77c
+    // 0x83e918 _ZN13GLXPlayerUser15sendAwardTrophyEPii: ids and count; a count of 1 sends an
+    // empty list, as the original does.
+    void sendAwardTrophy(std::int32_t* ids, std::int32_t count);
+    // 0x83eb14 _ZN13GLXPlayerUser18sendUpdateUserInfoEPciS0_S0_S0_iS0_: -1 and null mean "not set".
+    void sendUpdateUserInfo(char* email, std::int32_t emailFlag, char* country, char* firstName,
+                            char* lastName, std::int32_t sex, char* birthday);
     void sendDownloadUserAvatar(char* avatarKey);                    // 0x83d84c
     void sendGetUserUID(char* name, bool byUserName);                // 0x83d910
     void sendPointUserReputation(char* name, std::int32_t points, bool byUserName);  // 0x83da24

@@ -27,6 +27,8 @@ public:
     CNetworkId GetLocalNetworkId();                  // 0x827568 _ZN4CUdp17GetLocalNetworkIdEv
     std::int64_t Send(CNetworkId& peer, const void* data, int len);  // 0x82770c _ZN4CUdp4SendER10CNetworkIdPvi
     int CloseSocket();                               // 0x827764 _ZN4CUdp11CloseSocketEv
+    // Reads datagrams until none is left and passes each one to the transport manager. Returns the last count.
+    int Receive();                                   // 0x8275b0 _ZN4CUdp7ReceiveEv
     // Opens the socket on port; broadcast selects SO_BROADCAST as well as SO_REUSEADDR.
     int OpenSocket(std::uint16_t port, bool broadcast);  // 0x827780 _ZN4CUdp10OpenSocketEtb
 

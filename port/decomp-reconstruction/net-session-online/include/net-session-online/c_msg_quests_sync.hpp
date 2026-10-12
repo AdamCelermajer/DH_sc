@@ -16,9 +16,9 @@
 class CMsgQuestsSync : public CMessage {
 public:
     // 0x3291f8 _ZN14CMsgQuestsSyncC1Eb
-    // Partial: the CMessage(const char*, bool) base constructor is not recovered. The
-    // flags set here (reliable, send mode 1, no local member) are kept.
-    explicit CMsgQuestsSync(bool reliable);
+    // Partial: calls CMessage(const char*, bool); the type-name string is not modelled.
+    // The flags set here (reliable, send mode 1, no local member) are kept.
+    explicit CMsgQuestsSync(bool withSerial);
     ~CMsgQuestsSync() override;  // 0x325d28 D1 (the deleting destructor 0x325d80 is skipped)
 
     // 0x31f4a8 _ZNK14CMsgQuestsSync11GetDataSizeEv

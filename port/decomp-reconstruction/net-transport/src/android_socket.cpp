@@ -68,10 +68,11 @@ void ClearHostCache() {
     g_host_count = 0;
 }
 
-// Copies the first address of a system hostent into the cache.
-HostCacheEntry* StoreHostCopy(const hostent* src) {
+// Copies the first address of a system hostent into the cache under the requested name
+// (the original stores its argument with STRNEW, not the canonical h_name).
+HostCacheEntry* StoreHostCopy(const char* name, const hostent* src) {
     auto entry = std::make_unique<HostCacheEntry>();
-    entry->name = src->h_name ? src->h_name : "";
+    entry->name = name;
     if (src->h_addr_list[0] != nullptr) {
         std::memcpy(&entry->addr, src->h_addr_list[0],
                     std::min<std::size_t>(sizeof(entry->addr), static_cast<std::size_t>(src->h_length)));
@@ -631,13 +632,14 @@ hostent* CAndroidSocket::GetHostByName(const char* name) {
     if (g_host_count > static_cast<int>(kHostCacheSize) - 1) {
         return &g_host_cache[g_host_count - 1]->view;
     }
-    return &StoreHostCopy(found)->view;
+    return &StoreHostCopy(name, found)->view;
 }
 
 // 0x841e4c _ZN14CAndroidSocket9GetHostIPEPc
-// Partial: the tail of the original is truncated in the pseudocode. This version does
-// the same cache search, then gethostbyname(), and caches the result when there is room.
-// It returns the system hostent, as the original does.
+// Partial: the "GetHostByName() Existed/Add" debug lines are dropped. The original's cache hit
+// returns the cache entry itself (not the system hostent); the port returns the hostent view of
+// that entry. The stored address is the first one only (h_length bytes in the original).
+// The full pseudocode body is now used (the earlier "truncated tail" note was wrong).
 hostent* CAndroidSocket::GetHostIP(const char* name) {
     for (int i = 0; i < g_host_count; ++i) {
         HostCacheEntry* entry = g_host_cache[i].get();
@@ -647,7 +649,7 @@ hostent* CAndroidSocket::GetHostIP(const char* name) {
     }
     hostent* found = ::gethostbyname(name);
     if (found != nullptr && g_host_count < static_cast<int>(kHostCacheSize)) {
-        StoreHostCopy(found);
+        StoreHostCopy(name, found);
     }
     return found;
 }

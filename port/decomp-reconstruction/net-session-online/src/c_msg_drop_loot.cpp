@@ -8,8 +8,8 @@ constexpr std::size_t kLengthOffset = 0x14;  // +0x64 relative to +0x50
 }  // namespace
 
 // 0x328c84 _ZN12CMsgDropLootC1Eb
-CMsgDropLoot::CMsgDropLoot(bool reliable) {
-    (void)reliable;
+// Partial: the type-name string at +0x14 is not modelled.
+CMsgDropLoot::CMsgDropLoot(bool withSerial) : CMessage("CMsgDropLoot", withSerial) {
     sendMode_ = 1;
     includeLocalMember_ = false;
 }

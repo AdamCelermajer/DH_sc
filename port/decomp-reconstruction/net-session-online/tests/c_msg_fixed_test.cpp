@@ -21,6 +21,8 @@ int main() {
 
     CMsgGlobalDeath death;
     CHECK(death.GetDataSize() == 0);
+    death.SetProperties();
+    CHECK(death.IsReliable());
 
     std::printf("%s\n", failures ? "c_msg_fixed: FAILED" : "c_msg_fixed: ok");
     return failures != 0;
