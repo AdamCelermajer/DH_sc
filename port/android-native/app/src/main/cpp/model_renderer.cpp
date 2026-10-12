@@ -21093,6 +21093,28 @@ bool compile_generated_crypt_spawnpoint(
      views.data(),views.size(),entrypoint,output,error);
 }
 
+// Conditional SpawnPoints are not in an offline SPWN table. When the requested
+// entrypoint is one of them (DARKWOOD's ID 0), the load uses the first
+// compiled unconditional entrypoint for every later consumer.
+bool static_level_entrypoint_fallback(AAssetManager* assets,const std::string& spawns,
+                                      std::int32_t& entry_point,std::string& error){
+ const auto spawn=read(assets,spawns,"worlds");
+ std::uint32_t count=0;
+ if(spawn.size()>=16)std::memcpy(&count,spawn.data()+8,sizeof(count));
+ count=std::min<std::uint32_t>(count,std::uint32_t(spawn.size()<16?0:(spawn.size()-16)/144));
+ bool present=false;std::int32_t first=-1;
+ for(std::uint32_t i=0;i<count;++i){
+  std::int32_t id=0;std::memcpy(&id,spawn.data()+16+i*144,sizeof(id));
+  if(i==0)first=id;
+  if(id==entry_point)present=true;
+ }
+ if(present){error.clear();return true;}
+ if(first<0){error="Static Level SPWN table has no compiled entrypoint";return false;}
+ __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+     "Static Level entrypoint %d is conditional/uncompiled | using compiled entrypoint %d",
+     entry_point,first);
+ entry_point=first;error.clear();return true;
+}
 bool prepare_native_transition_runtime_v1(
     NativeLevelTransitionRenderContextV1& transition,std::string& error){
  const auto& plan=transition.plan;
@@ -21103,10 +21125,12 @@ bool prepare_native_transition_runtime_v1(
  runtime.source_load_synchronized_seed=plan.load.synchronized_seed;
  GeneratedWorldPayload payload;
  if(plan.runtime_kind==dh2::ui::NativeDestinationRuntimeKindV1::swamp_static){
-  if(plan.level_row!=41||plan.level_name!="SWAMP"||
-     plan.load.file!="001_swamp.mlx"){
-   error="SWAMP transition adapter does not match its source LevelList row";return false;
+  const auto* static_level=static_mlx_level_for_row(plan.level_row,plan.level_name,plan.load.file);
+  if(!static_level){
+   error="Static Level transition adapter does not match its source LevelList row";return false;
   }
+  // Transitions arrive through compiled source entrypoints; a conditional one
+  // is rejected by the SpawnPoint selector rather than silently substituted.
   runtime.descriptor=plan.descriptor;runtime.bres=plan.bres;
   runtime.spawns=plan.spawns;runtime.objects=plan.objects;
   runtime.development_layout=false;
@@ -21293,28 +21317,8 @@ bool prepare_native_menu_start(std::int32_t slot,bool has_numeric_difficulty,
   runtime.descriptor=prefix+".dwld";runtime.bres=static_level->bres;
   runtime.spawns=prefix+".spwn";runtime.objects=prefix+".dact";runtime.development_layout=false;
   payload.dwld_v1=read(assets,runtime.descriptor,"worlds");
-  if(std::string(static_level->name)!="SWAMP"){
-   // Conditional SpawnPoints are not in the offline SPWN table. When the
-   // requested entrypoint is one of them (DARKWOOD's ID 0), this launch uses
-   // the first compiled unconditional entrypoint for every later consumer.
-   const auto spawn=read(assets,runtime.spawns,"worlds");
-   std::uint32_t count=0;
-   if(spawn.size()>=16)std::memcpy(&count,spawn.data()+8,sizeof(count));
-   count=std::min<std::uint32_t>(count,std::uint32_t(spawn.size()<16?0:(spawn.size()-16)/144));
-   bool present=false;std::int32_t first=-1;
-   for(std::uint32_t i=0;i<count;++i){
-    std::int32_t id=0;std::memcpy(&id,spawn.data()+16+i*144,sizeof(id));
-    if(i==0)first=id;
-    if(id==plan.entry_point)present=true;
-   }
-   if(!present){
-    if(first<0){error="Static Level SPWN table has no compiled entrypoint";return false;}
-    __android_log_print(ANDROID_LOG_WARN,"DH2Native",
-        "Static Level entrypoint %d is conditional/uncompiled | using compiled entrypoint %d",
-        plan.entry_point,first);
-    plan.entry_point=first;
-   }
-  }
+  if(std::string(static_level->name)!="SWAMP"&&
+     !static_level_entrypoint_fallback(assets,runtime.spawns,plan.entry_point,error))return false;
  }else if(plan.level_row==23&&plan.level_name=="GOTHICUS_CRYPT_01"&&
           plan.level_file=="007_crypt_01.rule.xml"){
   runtime.descriptor="generated-crypt.dwld";runtime.bres="crypt.bdae";

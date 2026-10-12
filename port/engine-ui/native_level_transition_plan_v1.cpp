@@ -61,13 +61,25 @@ bool build_native_level_transition_plan_v1(
     candidate.load.difficulty = difficulty;
     candidate.load.remote_trigger = false;
 
-    if (selected_row == 41 && selected->name == "SWAMP" &&
-        selected->level_file == "001_swamp.mlx") {
+    // Authored static MLX levels with offline world/spawn/actor tables.
+    struct StaticLevel { std::int32_t row; const char* name; const char* file;
+                         const char* prefix; const char* bres; };
+    static constexpr StaticLevel static_levels[]{
+        {41, "SWAMP", "001_swamp.mlx", "001_swamp", "data/3d/modules/swamp/swamp.bdae"},
+        {4, "DARKWOOD", "003_darkwood.mlx", "003_darkwood",
+         "data/3d/modules/darkwood/darkwood2.bdae"},
+    };
+    const StaticLevel* static_level = nullptr;
+    for (const auto& level : static_levels)
+        if (selected_row == level.row && selected->name == level.name &&
+            selected->level_file == level.file) static_level = &level;
+    if (static_level) {
+        const std::string prefix = static_level->prefix;
         candidate.runtime_kind = NativeDestinationRuntimeKindV1::swamp_static;
-        candidate.descriptor = "001_swamp.dwld";
-        candidate.bres = "data/3d/modules/swamp/swamp.bdae";
-        candidate.spawns = "001_swamp.spwn";
-        candidate.objects = "001_swamp.dact";
+        candidate.descriptor = prefix + ".dwld";
+        candidate.bres = static_level->bres;
+        candidate.spawns = prefix + ".spwn";
+        candidate.objects = prefix + ".dact";
     } else if (selected_row == 23 && selected->name == "GOTHICUS_CRYPT_01" &&
                selected->level_file == "007_crypt_01.rule.xml") {
         candidate.runtime_kind = NativeDestinationRuntimeKindV1::crypt_generated;
