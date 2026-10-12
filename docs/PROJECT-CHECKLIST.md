@@ -2,7 +2,28 @@
 
 Updated: 2026-10-12. Branch: `feature/desktop-gameplay-loop` (off `development`).
 
-Static-level and level-transition round (2026-10-12, latest):
+All LevelList rows round (2026-10-12, latest):
+- [x] Pre-release `native-static-levels-2026-10-12` published from merge `b1c76d0c` (PR #13/#14).
+- [x] Desktop HUD: enemy bar follows its target; arc skill layout is the default; empty fixed skill buttons are hidden (`ecda88bf`, `4418b884`).
+- [x] Cutscene mode drives the HUD StartCutscene/StopCutscene path (`379ecd44`, `0cfdcf0d`).
+- [x] AnimatedDecor loads in all static levels (`379ecd44`).
+- [x] Level scripts bind completely on all static levels (`12c6db61`, `2e15ecad`, `d9f552af`, `379ecd44`).
+- [x] Static rows 7 and 8 and multi-BDAE modules: each Module resolves its own room template (`70d1fa62`, `f1cff81f`, `47cb8421`).
+- [x] Generated-rule levels are data-driven, with a TinyXML-faithful rule parser, directional exits, EndPath, Path AddExit and general DACT actor import (`9bdda837`, `f9864405`, `cd368485`, `17490e98`, `a75d0c27`, `42b474c8`).
+- [x] SpawnPoint scripts start on bind; dialogs, SaveGame (command 69) and IncFaeryLevel run (`d16339b0`, `e7d145ee`, `8753c36b`).
+- [x] `_BACKUP` fallback on generation failure (Level::_LoadProcess case 7, verified in IDA) and optional tile files (`996d6939`).
+- [x] Level music tables map every exported sounds UID on desktop and Android (`8af7078b`).
+- [x] Headless desktop test runs (`--frames` hidden window, dummy audio) (`e16e96f7`).
+- [x] Android emulator at `996d6939`: all 43 tested LevelList rows (0, 1, 4, 7-33, 38-50) start a playable level. Row 41 move-kill and move-defend verified; row 26 runs its `_BACKUP` level (verified note, not from a commit message).
+- [ ] MACHINE_ROOMS_01 renders sparsely on Android.
+- [ ] VOID_MAZE 01-03 are nearly empty: rules reference `vm011_*` files absent from the cache.
+- [ ] PORTAL_ROOM (row 35) does not load.
+- [ ] No `_BACKUP` level for rows 16, 23, 24, 39, 46-48.
+- [ ] Knockback not observed in play.
+- [ ] Save migration for profiles written before `4562ac61`.
+- [ ] Tutorial cinematics.
+
+Static-level and level-transition round (2026-10-12):
 - [x] Level transition SWAMP → DARKWOOD completes: the PROP save writer now writes the saved-delta sheet, so the PlayerManager activation accepts the new Level (`4562ac61`).
 - [x] Static MLX levels load on desktop: SWAMP, DARKWOOD, RED_DESERT_HUB, ABBEY_RUINS_01, UNDERWORLD_HUB, INFECTED_VILLAGE_01, FIRE_TEMPLE_01 (plus Crypt).
 - [x] Transparent environment pass draws alpha-mapped materials after opaque geometry without depth writes; rotated floor clones take the node's absolute rotation and scale (`f80e3688`).
