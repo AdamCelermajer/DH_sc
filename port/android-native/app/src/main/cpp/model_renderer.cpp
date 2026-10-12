@@ -30767,7 +30767,10 @@ bool native_host_sync_playerinfo_character(std::string& error){
  const auto* level=record->at(0x310);
  if(!level||!level->constructed||level->header.value<0){error="PlayerManager offline sync level member unavailable";return false;}
  prince_combat.savegame->set_player_level(level->header.value);
- if(dh2_property_set_int(&view,19,level->header.value)){
+ // PlayerManager::_ManageCharacters 0x37280c: PROPS_SetInt(19,
+ // ((level<<8)-CharacterTable base)>>8), so the resolved Level equals the Save.
+ if(dh2_property_set_int(&view,19,
+      std::int32_t((std::int64_t(level->header.value)*256-prince_combat.properties.base[19])>>8))){
   error="PlayerManager offline sync level property write failed";return false;
  }
 
@@ -31048,7 +31051,7 @@ bool native_host_run_player_manager_activation(std::string& error){
    if(pm.local_death_count_6c4!=1)f+=" 6c4="+std::to_string(pm.local_death_count_6c4);
    if(pm.counted_player_character!=prince_character.identity())f+=" counted";
    if(!native_host_player_manager_owners_ready())f+=" owners";
-   if(!level_member||!level_member->constructed||level_member->header.value!=prince_combat.savegame->level())f+=" level "+std::to_string(level_member?level_member->header.value:-99)+"/"+std::to_string(prince_combat.savegame->level())+" constructed "+std::to_string(level_member?int(level_member->constructed):-1)+" meta "+std::to_string(native_host.metadata_record!=nullptr)+" rec==meta "+std::to_string(record==native_host.metadata_record);
+   if(!level_member||!level_member->constructed||level_member->header.value!=prince_combat.savegame->level())f+=" level "+std::to_string(level_member?level_member->header.value:-99)+"/"+std::to_string(prince_combat.savegame->level())+" constructed "+std::to_string(level_member?int(level_member->constructed):-1)+" meta "+std::to_string(native_host.metadata_record!=nullptr)+" rec==meta "+std::to_string(record==native_host.metadata_record)+" p19 "+std::to_string(prince_combat.properties.base[19])+"/"+std::to_string(prince_combat.properties.saved[19])+"/"+std::to_string(prince_combat.properties.gear[19])+"/"+std::to_string(prince_combat.properties.resolved[19]);
    if(source.phase!=dh2::source_level_owner_v1::Phase::active)f+=" phase";
    if(source.source_level_state!=38)f+=" state="+std::to_string(source.source_level_state);
    if(source.transition_flag_144)f+=" t144";
