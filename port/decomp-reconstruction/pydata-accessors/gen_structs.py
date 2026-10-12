@@ -56,6 +56,8 @@ import subprocess
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+import slot_decls  # noqa: E402  (virtual finalize/read declarations)
 ROOT = os.path.abspath(os.path.join(HERE, '..', '..', '..'))
 CAT = os.path.join(ROOT, 'port', 'decomp-reconstruction', 'pydata-accessors')
 QUEUE = os.path.join(CAT, 'queue.csv')
@@ -589,6 +591,18 @@ def thunk_comment(target, method):
     return '// thunk: b 0x%x, forwards to %s::%s' % (addr, tcls, method)
 
 
+def ancestor_declares(info, chosen, cls, key):
+    """True when an emitted ancestor of cls (or ScriptCmd) already declares the slot virtual."""
+    b = info[cls]['base']
+    while b is not None:
+        if b == 'ScriptCmd':
+            return True
+        if b in chosen and info[b].get(key) is not None:
+            return True
+        b = info[b]['base'] if b in info else None
+    return False
+
+
 def emit(info, fields, chosen, own_classes):
     order = []
     seen = set()
@@ -629,9 +643,9 @@ def emit(info, fields, chosen, own_classes):
         else:
             h.append('    virtual ~%s();' % cls)
         if c.get('fin') is not None:
-            h.append('    void finalize();')
+            h.append(slot_decls.declare_line('finalize', ancestor_declares(info, chosen, cls, 'fin')))
         if c.get('read') is not None:
-            h.append('    void read(IStreamBase* stream);')
+            h.append(slot_decls.declare_line('read', ancestor_declares(info, chosen, cls, 'read')))
         stores, frees = fields[cls]
         for off in sorted(set(stores) | frees):
             if off in stores:

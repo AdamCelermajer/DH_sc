@@ -13,15 +13,15 @@ namespace Structs {
 class ScriptCmd {
 public:
     virtual ~ScriptCmd();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
 };
 
 struct AIChangeScript : ScriptCmd {
     ~AIChangeScript() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::uint32_t m_w2 = 0;  // +0x8
     char* m_w3 = nullptr;  // +0xc
     std::uint32_t m_w4 = 0;  // +0x10
@@ -30,8 +30,8 @@ struct AIChangeScript : ScriptCmd {
 
 struct AIDoSkill : ScriptCmd {
     ~AIDoSkill() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::int32_t m_w2 = 0;  // +0x8
     std::uint32_t m_w3 = 0;  // +0xc
     char* m_w4 = nullptr;  // +0x10
@@ -39,28 +39,28 @@ struct AIDoSkill : ScriptCmd {
 
 struct AIEnableTimer : ScriptCmd {
     ~AIEnableTimer() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     bool m_w2 = false;  // +0x8
 };
 
 struct AIResetTimer : ScriptCmd {
     ~AIResetTimer() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 struct AISetHP : ScriptCmd {
     ~AISetHP() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::int32_t m_w2 = 0;  // +0x8
 };
 
 struct AISetInt : ScriptCmd {
     ~AISetInt() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::uint32_t m_w2 = 0;  // +0x8
     char* m_w3 = nullptr;  // +0xc
     std::uint32_t m_w4 = 0;  // +0x10
@@ -70,59 +70,59 @@ struct AISetInt : ScriptCmd {
 
 struct ActivateProjectileTrap : ScriptCmd {
     ~ActivateProjectileTrap() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::uint32_t m_w2 = 0;  // +0x8
     char* m_w3 = nullptr;  // +0xc
 };
 
 struct ActivateTriggerPlate : ScriptCmd {
     ~ActivateTriggerPlate() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::uint32_t m_w2 = 0;  // +0x8
     char* m_w3 = nullptr;  // +0xc
 };
 
 struct AutoEquip : ScriptCmd {
     ~AutoEquip() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::uint32_t m_w2 = 0;  // +0x8
     char* m_w3 = nullptr;  // +0xc
 };
 
 struct AwardEndGameTrophies : ScriptCmd {
     ~AwardEndGameTrophies() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 struct AwardTrophy : ScriptCmd {
     ~AwardTrophy() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::int32_t m_w2 = 0;  // +0x8
 };
 
 struct BlockSaveGame : ScriptCmd {
     ~BlockSaveGame() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 struct CONSOLE : ScriptCmd {
     ~CONSOLE() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::uint32_t m_w2 = 0;  // +0x8
     char* m_w3 = nullptr;  // +0xc
 };
 
 struct ChangeLevel : ScriptCmd {
     ~ChangeLevel() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::int32_t m_w2 = 0;  // +0x8
     std::uint32_t m_w3 = 0;  // +0xc
     char* m_w4 = nullptr;  // +0x10
@@ -130,8 +130,8 @@ struct ChangeLevel : ScriptCmd {
 
 struct CloseDoor : ScriptCmd {
     ~CloseDoor() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::uint32_t m_w2 = 0;  // +0x8
     char* m_w3 = nullptr;  // +0xc
     bool m_w4 = false;  // +0x10
@@ -139,24 +139,24 @@ struct CloseDoor : ScriptCmd {
 
 struct DeactivateProjectileTrap : ScriptCmd {
     ~DeactivateProjectileTrap() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::uint32_t m_w2 = 0;  // +0x8
     char* m_w3 = nullptr;  // +0xc
 };
 
 struct DeactivateTriggerPlate : ScriptCmd {
     ~DeactivateTriggerPlate() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::uint32_t m_w2 = 0;  // +0x8
     char* m_w3 = nullptr;  // +0xc
 };
 
 struct DoTutorial : ScriptCmd {
     ~DoTutorial() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::uint32_t m_w2 = 0;  // +0x8
     char* m_w3 = nullptr;  // +0xc
     std::int32_t m_w4 = 0;  // +0x10
@@ -164,8 +164,8 @@ struct DoTutorial : ScriptCmd {
 
 struct DropLoot : ScriptCmd {
     ~DropLoot() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::uint32_t m_w2 = 0;  // +0x8
     char* m_w3 = nullptr;  // +0xc
     std::uint32_t m_w4 = 0;  // +0x10
@@ -174,14 +174,14 @@ struct DropLoot : ScriptCmd {
 
 struct EndGame : ScriptCmd {
     ~EndGame() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 struct EnqueueCharMenuTutorialMessage : ScriptCmd {
     ~EnqueueCharMenuTutorialMessage() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::uint32_t m_w2 = 0;  // +0x8
     char* m_w3 = nullptr;  // +0xc
     std::uint32_t m_w4 = 0;  // +0x10
@@ -191,22 +191,22 @@ struct EnqueueCharMenuTutorialMessage : ScriptCmd {
 
 struct EnqueueTutorialMessage : ScriptCmd {
     ~EnqueueTutorialMessage() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::int32_t m_w2 = 0;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
 };
 
 struct EnterCutSceneMode : ScriptCmd {
     ~EnterCutSceneMode() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 struct EnterSafeZone : ScriptCmd {
     ~EnterSafeZone() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 struct ExecScript : ScriptCmd {
@@ -215,28 +215,28 @@ struct ExecScript : ScriptCmd {
 
 struct ExitCutSceneMode : ScriptCmd {
     ~ExitCutSceneMode() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 struct FlushMessages : ScriptCmd {
     ~FlushMessages() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 struct HideActor : ScriptCmd {
     ~HideActor() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::uint32_t m_w2 = 0;  // +0x8
     char* m_w3 = nullptr;  // +0xc
 };
 
 struct HideFlash : ScriptCmd {
     ~HideFlash() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::int32_t m_w2 = 0;  // +0x8
     std::uint32_t m_w3 = 0;  // +0xc
     char* m_w4 = nullptr;  // +0x10
@@ -245,44 +245,44 @@ struct HideFlash : ScriptCmd {
 
 struct IncFaeryLevel : ScriptCmd {
     ~IncFaeryLevel() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::int32_t m_w2 = 0;  // +0x8
 };
 
 struct KillActor : ScriptCmd {
     ~KillActor() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::uint32_t m_w2 = 0;  // +0x8
     char* m_w3 = nullptr;  // +0xc
 };
 
 struct LeaveSafeZone : ScriptCmd {
     ~LeaveSafeZone() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 struct LockCharacter : ScriptCmd {
     ~LockCharacter() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::uint32_t m_w2 = 0;  // +0x8
     char* m_w3 = nullptr;  // +0xc
 };
 
 struct LockTutorial : ScriptCmd {
     ~LockTutorial() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::int32_t m_w2 = 0;  // +0x8
 };
 
 struct LookActor : ScriptCmd {
     ~LookActor() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::uint32_t m_w2 = 0;  // +0x8
     char* m_w3 = nullptr;  // +0xc
     std::uint32_t m_w4 = 0;  // +0x10
@@ -291,8 +291,8 @@ struct LookActor : ScriptCmd {
 
 struct MarkCharacterAsScripted : ScriptCmd {
     ~MarkCharacterAsScripted() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     bool m_w2 = false;  // +0x8
     std::uint32_t m_w3 = 0;  // +0xc
     char* m_w4 = nullptr;  // +0x10
@@ -300,8 +300,8 @@ struct MarkCharacterAsScripted : ScriptCmd {
 
 struct MoveActor : ScriptCmd {
     ~MoveActor() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::uint32_t m_w2 = 0;  // +0x8
     char* m_w3 = nullptr;  // +0xc
     bool m_w4 = false;  // +0x10
@@ -312,14 +312,14 @@ struct MoveActor : ScriptCmd {
 
 struct NilCmd : ScriptCmd {
     ~NilCmd() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 struct OpenDoor : ScriptCmd {
     ~OpenDoor() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::uint32_t m_w2 = 0;  // +0x8
     char* m_w3 = nullptr;  // +0xc
     bool m_w4 = false;  // +0x10
@@ -327,8 +327,8 @@ struct OpenDoor : ScriptCmd {
 
 struct PlayActorAnim : ScriptCmd {
     ~PlayActorAnim() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::int32_t m_w2 = 0;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
     std::int32_t m_w4 = 0;  // +0x10
@@ -339,8 +339,8 @@ struct PlayActorAnim : ScriptCmd {
 
 struct PlayAnimById : ScriptCmd {
     ~PlayAnimById() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::int32_t m_w2 = 0;  // +0x8
     bool m_w3 = false;  // +0xc
     std::uint32_t m_w4 = 0;  // +0x10
@@ -350,8 +350,8 @@ struct PlayAnimById : ScriptCmd {
 
 struct PlayAnimByName : ScriptCmd {
     ~PlayAnimByName() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::uint32_t m_w2 = 0;  // +0x8
     char* m_w3 = nullptr;  // +0xc
     bool m_w4 = false;  // +0x10
@@ -362,8 +362,8 @@ struct PlayAnimByName : ScriptCmd {
 
 struct PlayCamera : ScriptCmd {
     ~PlayCamera() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::int32_t m_w2 = 0;  // +0x8
     bool m_w3 = false;  // +0xc
 };
@@ -375,15 +375,15 @@ struct PlayEffect : ScriptCmd {
 
 struct PlayLevelMusic : ScriptCmd {
     ~PlayLevelMusic() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::int32_t m_w2 = 0;  // +0x8
 };
 
 struct PlaySound : ScriptCmd {
     ~PlaySound() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::int32_t m_w2 = 0;  // +0x8
     bool m_w3 = false;  // +0xc
     bool m_off13 = false;  // +0xd
@@ -392,16 +392,16 @@ struct PlaySound : ScriptCmd {
 
 struct PutCharacterInIdle : ScriptCmd {
     ~PutCharacterInIdle() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::uint32_t m_w2 = 0;  // +0x8
     char* m_w3 = nullptr;  // +0xc
 };
 
 struct PutCharacterInLimbus : ScriptCmd {
     ~PutCharacterInLimbus() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     bool m_w2 = false;  // +0x8
     std::uint32_t m_w3 = 0;  // +0xc
     char* m_w4 = nullptr;  // +0x10
@@ -409,28 +409,28 @@ struct PutCharacterInLimbus : ScriptCmd {
 
 struct ReEquipHands : ScriptCmd {
     ~ReEquipHands() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::uint32_t m_w2 = 0;  // +0x8
     char* m_w3 = nullptr;  // +0xc
 };
 
 struct RestartLevel : ScriptCmd {
     ~RestartLevel() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 struct SaveGame : ScriptCmd {
     ~SaveGame() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 struct SetActorMaster : ScriptCmd {
     ~SetActorMaster() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     bool m_w2 = false;  // +0x8
     std::uint32_t m_w3 = 0;  // +0xc
     char* m_w4 = nullptr;  // +0x10
@@ -441,8 +441,8 @@ struct SetActorMaster : ScriptCmd {
 
 struct SetActorPosition : ScriptCmd {
     ~SetActorPosition() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::uint32_t m_w2 = 0;  // +0x8
     char* m_w3 = nullptr;  // +0xc
     std::uint32_t m_w4 = 0;  // +0x10
@@ -451,8 +451,8 @@ struct SetActorPosition : ScriptCmd {
 
 struct SetCamera : ScriptCmd {
     ~SetCamera() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::uint32_t m_w2 = 0;  // +0x8
     char* m_w3 = nullptr;  // +0xc
     std::uint32_t m_w4 = 0;  // +0x10
@@ -463,16 +463,16 @@ struct SetCamera : ScriptCmd {
 
 struct SetCameraClip : ScriptCmd {
     ~SetCameraClip() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::int32_t m_w2 = 0;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
 };
 
 struct SetCameraTarget : ScriptCmd {
     ~SetCameraTarget() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::int32_t m_w2 = 0;  // +0x8
     std::uint32_t m_w3 = 0;  // +0xc
     char* m_w4 = nullptr;  // +0x10
@@ -481,24 +481,24 @@ struct SetCameraTarget : ScriptCmd {
 
 struct SetFaeryState : ScriptCmd {
     ~SetFaeryState() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::int32_t m_w2 = 0;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
 };
 
 struct SetLevelState : ScriptCmd {
     ~SetLevelState() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::int32_t m_w2 = 0;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
 };
 
 struct SetStatic : ScriptCmd {
     ~SetStatic() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     bool m_w2 = false;  // +0x8
     std::uint32_t m_w3 = 0;  // +0xc
     char* m_w4 = nullptr;  // +0x10
@@ -506,24 +506,24 @@ struct SetStatic : ScriptCmd {
 
 struct SetWorldMapLocationState : ScriptCmd {
     ~SetWorldMapLocationState() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::int32_t m_w2 = 0;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
 };
 
 struct ShowActor : ScriptCmd {
     ~ShowActor() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::uint32_t m_w2 = 0;  // +0x8
     char* m_w3 = nullptr;  // +0xc
 };
 
 struct ShowFlash : ScriptCmd {
     ~ShowFlash() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::int32_t m_w2 = 0;  // +0x8
     std::uint32_t m_w3 = 0;  // +0xc
     char* m_w4 = nullptr;  // +0x10
@@ -532,54 +532,54 @@ struct ShowFlash : ScriptCmd {
 
 struct ShowTrophies : ScriptCmd {
     ~ShowTrophies() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 struct SkipAllCharMenuTutorialMessages : ScriptCmd {
     ~SkipAllCharMenuTutorialMessages() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 struct SkipAllTutorialMessages : ScriptCmd {
     ~SkipAllTutorialMessages() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 struct SkipCharMenuTutorialMessage : ScriptCmd {
     ~SkipCharMenuTutorialMessage() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 struct SkipTutorialMessage : ScriptCmd {
     ~SkipTutorialMessage() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 struct SpawnCharacter : ScriptCmd {
     ~SpawnCharacter() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::uint32_t m_w2 = 0;  // +0x8
     char* m_w3 = nullptr;  // +0xc
 };
 
 struct SpawnContainer : ScriptCmd {
     ~SpawnContainer() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::uint32_t m_w2 = 0;  // +0x8
     char* m_w3 = nullptr;  // +0xc
 };
 
 struct StartDialog : ScriptCmd {
     ~StartDialog() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::int32_t m_w2 = 0;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
     std::int32_t m_w4 = 0;  // +0x10
@@ -587,30 +587,30 @@ struct StartDialog : ScriptCmd {
 
 struct StartDialogID : ScriptCmd {
     ~StartDialogID() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::int32_t m_w2 = 0;  // +0x8
 };
 
 struct StopActor : ScriptCmd {
     ~StopActor() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::uint32_t m_w2 = 0;  // +0x8
     char* m_w3 = nullptr;  // +0xc
 };
 
 struct StopEffect : ScriptCmd {
     ~StopEffect() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::int32_t m_w2 = 0;  // +0x8
 };
 
 struct StopSound : ScriptCmd {
     ~StopSound() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::int32_t m_w2 = 0;  // +0x8
     bool m_w3 = false;  // +0xc
     std::int32_t m_w4 = 0;  // +0x10
@@ -618,16 +618,16 @@ struct StopSound : ScriptCmd {
 
 struct UnEquipHands : ScriptCmd {
     ~UnEquipHands() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::uint32_t m_w2 = 0;  // +0x8
     char* m_w3 = nullptr;  // +0xc
 };
 
 struct UnEquipItemFromSlot : ScriptCmd {
     ~UnEquipItemFromSlot() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::int32_t m_w2 = 0;  // +0x8
     std::uint32_t m_w3 = 0;  // +0xc
     char* m_w4 = nullptr;  // +0x10
@@ -635,30 +635,30 @@ struct UnEquipItemFromSlot : ScriptCmd {
 
 struct UnlockCharacter : ScriptCmd {
     ~UnlockCharacter() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::uint32_t m_w2 = 0;  // +0x8
     char* m_w3 = nullptr;  // +0xc
 };
 
 struct Wait : ScriptCmd {
     ~Wait() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::int32_t m_w2 = 0;  // +0x8
 };
 
 struct WaitCamera : ScriptCmd {
     ~WaitCamera() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     float m_w2 = 0.0f;  // +0x8
 };
 
 struct WaitDialog : ScriptCmd {
     ~WaitDialog() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 template <class T>

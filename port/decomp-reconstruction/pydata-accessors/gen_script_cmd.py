@@ -281,8 +281,8 @@ def emit(info, layouts, base_ops):
     h.append('class ScriptCmd {')
     h.append('public:')
     h.append('    virtual ~ScriptCmd();')
-    h.append('    void finalize();')
-    h.append('    void read(IStreamBase* stream);')
+    h.append('    virtual void finalize();')
+    h.append('    virtual void read(IStreamBase* stream);')
     h.append('    std::int32_t m_w1 = 0;  // +0x4')
     h.append('};')
     h.append('')
@@ -293,9 +293,9 @@ def emit(info, layouts, base_ops):
         if 'D2' in c['addr'] or 'D1' in c['addr']:
             methods.append('    ~%s() override;' % cls)
         if 'fin' in c['addr']:
-            methods.append('    void finalize();')
+            methods.append('    void finalize() override;')
         if 'read' in c['addr']:
-            methods.append('    void read(IStreamBase* stream);')
+            methods.append('    void read(IStreamBase* stream) override;')
         h.append('struct %s : ScriptCmd {' % cls)
         h += methods
         for off in sorted(set(stores) | set(ptrs) | ctor_only):
