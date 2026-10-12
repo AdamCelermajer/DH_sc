@@ -388,6 +388,14 @@ bool RuntimeSessionAudioV1::play_named_plain(const char* name,std::string& error
     return false;
 }
 
+bool RuntimeSessionAudioV1::play_named_music(const char* name,int fade_ms,std::string& error) {
+    if(!host_) {error="Audio host is unavailable";return false;}
+    const auto ordinal=name?host_->source_ordinal(name):-1;
+    if(ordinal<0) {error.clear();return true;}
+    log_<<"Named music requested name="<<name<<" ordinal="<<ordinal<<" fadeMs="<<fade_ms<<'\n';
+    return script_play_music(ordinal,true,fade_ms,error);
+}
+
 NamedUiCueResultV1 RuntimeSessionAudioV1::play_named_plain_result(const char* name,std::string& error) {
     error.clear();if(!host_)return {};
     return host_->submit_named_plain_sound(name,error);

@@ -938,6 +938,16 @@ add_library(foundation_runtime_spawn STATIC features/spawn/spawn_character_v1.cp
   features/spawn/actor_profile_derivation_v1.cpp)
 target_link_libraries(foundation_runtime_spawn PUBLIC foundation_data foundation_runtime_enemy)
 target_link_libraries(dh-foundation PRIVATE foundation_runtime_spawn)
+# B154: ranged-skill monsters (Bogwitch): authored AI/skill script facts, ProjectileTable, incoming-only policy,
+# CharAI range events, DoSkill source sequence, skill projectile and SkillCombatRoll through the shared Session.
+add_library(foundation_runtime_ranged_skill STATIC features/enemy_ai/runtime_ranged_skill_monster_v1.cpp)
+target_link_libraries(foundation_runtime_ranged_skill PUBLIC foundation_runtime_spawn foundation_runtime_skill_cast foundation_data)
+target_link_libraries(dh-foundation PRIVATE foundation_runtime_ranged_skill)
+add_executable(runtime_ranged_skill_monster_v1_tests features/enemy_ai/runtime_ranged_skill_monster_v1_tests.cpp)
+target_link_libraries(runtime_ranged_skill_monster_v1_tests PRIVATE foundation_runtime_ranged_skill)
+add_test(NAME runtime_ranged_skill_monster_v1 COMMAND runtime_ranged_skill_monster_v1_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v21.6/assets"
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/assets-extra/android")
 add_executable(spawn_character_v1_tests features/spawn/spawn_character_v1_tests.cpp)
 target_link_libraries(spawn_character_v1_tests PRIVATE foundation_runtime_spawn)
 add_test(NAME spawn_character_v1 COMMAND spawn_character_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../..")

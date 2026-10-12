@@ -28,10 +28,14 @@ struct SceneObjectClipRequest {
 };
 std::vector<SceneObjectClipRequest> collect_scene_object_clip_requests(const OriginalCampaignRuntime& runtime);
 
-// B080: actors that scripts bring into play with Script_SpawnCharacter (kind 30, name @12) and never retire with
-// Script_PutCharacterInLimbus (kind 29, name @16). A script-spawned actor that no script removes is a gameplay actor
-// (it ends in the Idle state the script puts it in and the monster AI takes over); one that is retired again is a
-// cutscene prop. Names come from the authored scripts only.
+// B080/B154: actors that scripts bring into play with Script_SpawnCharacter (kind 30, name @12). A script-spawned
+// actor is a gameplay actor (combat policy; the AI takes over once a script puts it in Idle) unless a script retires
+// it with Script_PutCharacterInLimbus (kind 29, name @16) and no script names it in a gameplay lifecycle step: a
+// by-name Script_PutCharacterInIdle (kind 31, @12) or Script_KillActor (kind 44, @12). A spawned-then-retired actor
+// with no such step is a cutscene prop (the opening troll, spawned and retired by Swamp_Intro; the Darkwood lost
+// merchant). The Bogwitch is spawned by Intro_Witch and retired only by the skip-recovery zone script
+// SkipCutscene_Bugfix, but WitchTeleport puts her in Idle by name and Return_Cinematic kills her by name, so she stays
+// a gameplay actor. Names come from the authored scripts only.
 std::set<std::string> collect_script_gameplay_actors(const OriginalCampaignRuntime& runtime);
 
 // The visual clip name of a dictionary clip (the same name everywhere: profile bank, player bank, the session).

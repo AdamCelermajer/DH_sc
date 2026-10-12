@@ -125,6 +125,7 @@
 #include "features/combat_text/combat_text_live.hpp"
 #include "features/enemy_ai/runtime_enemy_navigation_v1.hpp"
 #include "features/enemy_ai/runtime_enemy_contact_binding_v1.hpp"
+#include "features/enemy_ai/runtime_ranged_skill_monster_v1.hpp" // B154
 #include "features/companions/runtime_follower_controller_v1.hpp" // B077 FOLLOW: script-driven companions (follower/attacking_follower/rene)
 #include "features/physics/runtime_session_contact_v1.hpp"
 #include "features/physics/session_actor_transition_v1.hpp"
@@ -1478,6 +1479,47 @@ int main(int argc,char** argv) {
         // P16 PROFILES: tables for profiles derived from CharacterTable/AnimTable rows, and the derived IDs to publish
         // into the melee bindings once they load.
         f::spawn::ProfileDerivationTablesV1 derivedTables;bool derivedTablesLoaded=false;std::vector<std::string> derivedProfileIds;
+        // B154: ranged-skill monsters (CanRangeAttack Monster rows whose AI script is not the native melee "monster" owner,
+        // e.g. the Bogwitch's witch.luac). Their session profile is incoming-only; the outgoing DoSkill/projectile owner
+        // (features/enemy_ai/runtime_ranged_skill_monster_v1) attaches when the authored scripts/ProjectileTable exist.
+        std::map<std::string,std::optional<f::enemy_ai::RangedSkillMonsterDefinitionV1>> rangedSkillDefinitionsByProfile;
+        std::vector<f::enemy_ai::SourceProjectileRowV1> rangedSkillProjectiles;dh2::data::SkillTables rangedSkillTables;
+        bool rangedSkillSourcesLoaded=false;std::string rangedSkillSourcesProblem;
+        const auto rangedSkillMonsterRow=[&](const std::string& id){
+            const auto& characters=derivedTables.properties.characters;
+            const auto row=std::find(characters.names.begin(),characters.names.end(),id);
+            if(row==characters.names.end())return false;
+            const auto value=[&](const char* name){
+                const auto column=std::find(characters.fields.begin(),characters.fields.end(),std::string(name));
+                return column==characters.fields.end()?-1:characters.rows[std::size_t(row-characters.names.begin())][std::size_t(column-characters.fields.begin())];
+            };
+            const auto* ai=dh2::data::ai_props(derivedTables.ai,value("AI"));
+            return value("RangeProjectileID")>=0&&ai&&ai->type==4&&ai->script!="monster";
+        };
+        const auto rangedSkillMonsterDefinition=[&](const std::string& id){
+            if(rangedSkillDefinitionsByProfile.count(id))return;
+            if(!rangedSkillSourcesLoaded) {
+                rangedSkillSourcesLoaded=true;
+                try {
+                    const auto read=[&](const char* file){return f::read_content(assets,std::string("data/pydata/")+file);};
+                    const auto bytes=[](const auto& data){return dh2::data::Bytes{data.data(),data.size()};};
+                    const auto skills=read("skills_pyarray.bin"),skillNames=read("skills_pyarraynames.bin"),skillSchema=read("skills_pystructnames.bin");
+                    if(!rangedSkillTables.load(bytes(skills),bytes(skillNames),bytes(skillSchema),rangedSkillSourcesProblem))throw std::runtime_error(rangedSkillSourcesProblem);
+                    const auto records=read("projectiles_pyarray.bin"),names=read("projectiles_pyarraynames.bin"),schema=read("projectiles_pystructnames.bin"),dictionary=read("projectiles_dictionary_pyarray.bin");
+                    if(!f::enemy_ai::load_source_projectile_table_v1(bytes(records),bytes(names),bytes(schema),bytes(dictionary),rangedSkillProjectiles,rangedSkillSourcesProblem))throw std::runtime_error(rangedSkillSourcesProblem);
+                } catch(const std::exception& problem){rangedSkillSourcesProblem=problem.what();}
+            }
+            f::enemy_ai::RangedSkillMonsterSourcesV1 sources{&assets,&derivedTables,rangedSkillTables.borrow(),&rangedSkillProjectiles,&properties.classes};
+            f::enemy_ai::RangedSkillMonsterDefinitionV1 definition;bool supported=false;std::string reason;
+            f::enemy_ai::derive_ranged_skill_monster_v1(sources,id,supported,definition,reason);
+            if(!supported&&!rangedSkillSourcesProblem.empty())reason+=" (sources: "+rangedSkillSourcesProblem+")";
+            std::cout<<"[ranged-skill] profile="<<id<<" incoming-only session profile; outgoing skill owner "<<(supported?"bound":"unavailable");
+            if(supported)std::cout<<" ai="<<definition.ai_script<<" skill="<<definition.skill_name<<" anim="<<definition.animation_sequence_id
+                <<" range="<<definition.range_min<<".."<<definition.range_max<<" projectile="<<definition.projectile.name<<" class="<<definition.skill.class_token
+                <<" teleport="<<definition.ai.teleport.present<<'\n';
+            else std::cout<<": "<<reason<<'\n';
+            rangedSkillDefinitionsByProfile[id]=supported?std::optional<f::enemy_ai::RangedSkillMonsterDefinitionV1>(std::move(definition)):std::nullopt;
+        };
         auto loadContent=[&](f::OriginalScene& scene,f::CharacterVisual& visual) {
         if(sourcePlayerStanceEnabled) {
             const auto* profile=profiles.find(options.combat.playerProfileId);
@@ -2109,8 +2151,12 @@ int main(int argc,char** argv) {
                 }
                 if(options.combat.profiles.find(id)==options.combat.profiles.end()) {
                     f::CombatSessionProfile derivedPolicy;
+                    if(rangedSkillMonsterRow(id)) { // B154: CanRangeAttack monster driven by its own AI script (Bogwitch)
+                        if(!f::enemy_ai::derive_ranged_skill_monster_policy_v1(derivedTables,id,derivedPolicy,error))throw std::runtime_error("Ranged skill monster policy: "+error);
+                        rangedSkillMonsterDefinition(id);
+                    } else
                     if(!f::spawn::derive_enemy_combat_policy_v1(derivedTables,id,derivedPolicy,error))throw std::runtime_error("Derived combat policy: "+error);
-                    derivedPolicy.diagnosticAIEnabled=options.diagnosticAI&&id!=options.combat.playerProfileId;
+                    if(!derivedPolicy.animationOnly)derivedPolicy.diagnosticAIEnabled=options.diagnosticAI&&id!=options.combat.playerProfileId;
                     options.combat.profiles.emplace(id,std::move(derivedPolicy));
                     if(ordinarySourceMonster&&std::find(newlyOrdinarySourceMonsterProfiles.begin(),newlyOrdinarySourceMonsterProfiles.end(),id)==newlyOrdinarySourceMonsterProfiles.end())
                         newlyOrdinarySourceMonsterProfiles.push_back(id);
@@ -3334,6 +3380,9 @@ int main(int argc,char** argv) {
         f::effects::RuntimeEffectsRendererV1 sourceEffectsRenderer(renderer);
         f::effects::EmbeddedSceneFxV1 embeddedSceneFx; // P17 FIREWALL: scene-owned authored FX (doors)
         f::effects::EmbeddedSceneFxV1 embeddedActorFx; // B105: separate actor identity domain, particles only
+        f::effects::EmbeddedSceneFxV1 rangedProjectileFx; // B154: in-flight skill projectiles (ProjectileDict model), own ID domain
+        std::map<std::string,std::shared_ptr<const std::vector<std::uint8_t>>> rangedProjectileModels;std::set<std::string> rangedProjectileRefused;
+        std::set<std::uint64_t> rangedProjectileFxLive;
         const void* embeddedSceneFxOwner=nullptr;
         std::map<std::uint64_t,std::string> embeddedActorTried; // B105: current model offered for each actor
         dh2::data::EffectsTables sourceEffectsTables;
@@ -3374,7 +3423,7 @@ int main(int argc,char** argv) {
             if(!sourceEffectsRenderer.finish_and_drain(e))throw std::runtime_error("FX queue drain: "+e);
             celestEffects.reset();
             if(sourceEffectsFactory)sourceEffectsFactory->clear_original_textures();
-            embeddedSceneFx.clear();embeddedActorFx.clear();embeddedSceneFxOwner=nullptr;embeddedActorTried.clear(); // P17 FIREWALL: resources die with their factory
+            embeddedSceneFx.clear();embeddedActorFx.clear();rangedProjectileFx.clear();embeddedSceneFxOwner=nullptr;embeddedActorTried.clear(); // P17 FIREWALL: resources die with their factory
             sourceEffectsFactory.reset();
         };
         const auto bindSourceEffects=[&]() {
@@ -5454,6 +5503,8 @@ int main(int argc,char** argv) {
         semanticInput.replace_session_surface(std::move(uiSurface));
         std::shared_ptr<f::enemy_ai::RuntimeEnemyNavigationV1> enemyNavigation;
         std::shared_ptr<f::enemy_ai::RuntimeEnemyControllerV1> enemyController;
+        std::shared_ptr<f::enemy_ai::RuntimeRangedSkillMonsterV1> rangedSkillMonsters; // B154
+        std::shared_ptr<dh2::data::PropertyRules> rangedSkillRulesOwner;
         std::shared_ptr<f::companions::RuntimeFollowerControllerV1> followerController; // B077 FOLLOW
         std::shared_ptr<f::SourceNavigationWorldStorage> enemyNavigationWorld;
         auto bindEnemyAI=[&](){
@@ -5547,10 +5598,75 @@ int main(int argc,char** argv) {
                 }
                 return true;
             };
-            combatSession->set_actor_decision_provider([controller=enemyController,followers,updateScriptRoutes,&globalControllerBlocked](auto& session,double dt,std::string& error){
+            // B154: ranged-skill monsters of this population (see rangedSkillMonsterDefinition) share the navigation owner.
+            std::shared_ptr<f::enemy_ai::RuntimeRangedSkillMonsterV1> rangedSkill;
+            {
+                std::map<f::ActorId,f::enemy_ai::RangedSkillMonsterDefinitionV1> bound;
+                for(const auto& placed:population.actors()) {
+                    const auto found=rangedSkillDefinitionsByProfile.find(placed.profileId);
+                    if(found!=rangedSkillDefinitionsByProfile.end()&&found->second&&combatSession->actor(placed.definition.stableId))
+                        bound.emplace(placed.definition.stableId,*found->second);
+                }
+                if(!bound.empty()) {
+                    auto rules=std::make_shared<dh2::data::PropertyRules>();std::string rulesError;
+                    if(!dh2::data::load_property_rules(properties.characters,*rules,rulesError))throw std::runtime_error("Ranged skill property rules: "+rulesError);
+                    const auto navigation=f::enemy_ai::make_runtime_enemy_navigation_services_v1(enemyNavigation);
+                    f::enemy_ai::RangedSkillMonsterServicesV1 services;
+                    services.can_see=[navigation](f::CombatSession& session,const f::ActorState& owner,const f::ActorState& target,bool& visible,std::string& e){
+                        const auto* a=session.world()->combat_properties(owner.id);const auto* b=session.world()->combat_properties(target.id);
+                        const auto* ai=a?dh2::data::ai_props(*session.original_ai_tables(),a->sheets.resolved[1]):nullptr;
+                        if(!a||!b||!ai){e="Ranged skill sight query lacks source properties";return false;}
+                        return navigation.can_see(session,owner,target,*a,*b,*ai,visible,e);
+                    };
+                    services.approach=[navigation](f::CombatSession& session,f::ActorState& owner,f::ActorState& target,std::string& e){
+                        const auto* a=session.world()->combat_properties(owner.id);
+                        const auto* ai=a?dh2::data::ai_props(*session.original_ai_tables(),a->sheets.resolved[1]):nullptr;
+                        if(!ai){e="Ranged skill approach lacks its AI row";return false;}
+                        return navigation.approach(session,owner,target,*ai,e);
+                    };
+                    services.stop=[navigation](f::CombatSession& session,f::ActorState& owner,std::string& e){return navigation.stop(session,owner,e);};
+                    services.path_exists=[nav=enemyNavigation](f::CombatSession& session,f::ActorState& owner,const std::array<float,3>& goal,bool& found,std::string& e){
+                        return nav->path_exists(session,owner,goal,found,e);
+                    };
+                    services.warp=[&](f::CombatSession&,f::ActorState& owner,const std::array<float,3>& goal,std::string& e){
+                        return hostServices.actor_verbs.teleport&&hostServices.actor_verbs.teleport(owner.id,goal,e);
+                    };
+                    services.body_radius=[&](f::ActorId id){const auto* pf=nativeBodies.navigation(id);return pf?pf->radius:0.0f;};
+                    services.fx_id=[&](const std::string& name)->std::int32_t{
+                        const auto tables=sourceEffectsTables.borrow();if(!tables)return -1;
+                        const auto& names=tables.set_names();const auto found=std::find(names.begin(),names.end(),name);
+                        return found==names.end()?-1:std::int32_t(found-names.begin());
+                    };
+                    services.play_fx=[&](std::int32_t set,const std::array<float,3>& at,std::string& e){
+                        if(!sourceEffectsFactory){e="no source effects factory";return false;}
+                        std::uintptr_t created=0;const float point[3]={at[0],at[1],at[2]};
+                        return sourceEffectsFactory->manager().play_set(set,point,nullptr,0,&created,e);
+                    };
+                    services.play_sound=[&](const std::string& name,std::string& e){return !runtimeAudio||runtimeAudio->play_named_plain(name.c_str(),e);};
+                    services.play_sound_id=[&](std::int32_t row,std::string& e){return !runtimeAudio||runtimeAudio->script_play_plain(row,0,e);};
+                    services.play_music=[&](const std::string& name,std::int32_t fade,std::string& e){return !runtimeAudio||runtimeAudio->play_named_music(name.c_str(),fade,e);};
+                    services.search_population=[&](std::vector<f::ActorId>& order,std::vector<std::pair<f::ActorId,bool>>& facts,std::string& e){
+                        order.clear();facts.clear();
+                        const auto add=[&](f::ActorId id){const auto* t=combatSession->world()->traits(id);order.push_back(id);facts.push_back({id,t&&t->targetable});};
+                        add(combatSession->player_id());
+                        for(const auto& placed:population.actors())if(placed.enabled&&combatSession->actor(placed.definition.stableId))add(placed.definition.stableId);
+                        e.clear();return true;
+                    };
+                    services.characters=&properties.characters;services.classes=&properties.classes;services.property_rules=rules.get();
+                    const auto boundCount=bound.size();
+                    rangedSkill=std::make_shared<f::enemy_ai::RuntimeRangedSkillMonsterV1>(std::move(services),std::move(bound));
+                    rangedSkillRulesOwner=rules;
+                    std::cout<<"[ranged-skill] decision owner bound actors="<<boundCount<<'\n';
+                }
+            }
+            rangedSkillMonsters=rangedSkill;
+            combatSession->set_actor_decision_provider([controller=enemyController,followers,updateScriptRoutes,rangedSkill,&globalControllerBlocked](auto& session,double dt,std::string& error){
                 // B068 (3): original CharAI::Update (pseudocode line 149489) returns before any target/aggro/generic decision while
                 // the controller is blocked (v2Controller::s_blocked, set by LockCharacter All). ScriptMoveActor remains an
                 // explicit source verb and keeps its route during the cutscene controller block.
+                // B154: projectiles already in flight keep moving (ProjectileManager is not a CharAI owner).
+                if(rangedSkill&&!rangedSkill->update(session,dt,!globalControllerBlocked,error))return false;
+                if(rangedSkill)for(const auto& line:rangedSkill->take_log())std::cout<<"[ranged-skill] "<<line<<'\n';
                 if(globalControllerBlocked)return updateScriptRoutes(session,error);
                 if(!controller->update(session,dt,error))return false;
                 if(!followers->update(session,dt,error))return false;
@@ -5671,6 +5787,12 @@ int main(int argc,char** argv) {
                 e.clear();return true;
             };
             config.source.skill_focus_moving_byte=[&](const auto& event,bool& moving,std::string& e) {
+                std::int32_t monsterSkill=-1; // B154: a ranged-skill monster's own DoSkill cast (same SkillTable rows)
+                if(rangedSkillMonsters&&rangedSkillMonsters->active_cast(event.actor,event.generation,monsterSkill)) {
+                    const auto monsterRows=rangedSkillTables.borrow();
+                    if(monsterSkill<0||!monsterRows||std::size_t(monsterSkill)>=monsterRows.skills().size()){e="Physical Skill Focus requires the monster skill row";return false;}
+                    moving=(monsterRows.skills()[std::size_t(monsterSkill)].scalar.words[2]&0xff)!=0;e.clear();return true;
+                }
                 const auto* receipt=skillCastCoordinator?skillCastCoordinator->receipt(event.actor):nullptr;
                 const auto rows=menuSourceOwner.skill_owner->borrow();
                 if(!receipt||receipt->generation!=event.generation||receipt->skill_table_id<0||std::size_t(receipt->skill_table_id)>=rows.skills().size()) {
@@ -8356,7 +8478,7 @@ int main(int argc,char** argv) {
                     for(const auto& view:leverRuntime.views())if(view.instance)addEmbeddedVisual(view.instance->stableId,view.instance->name,view.instance->visual_file,view.visual,view.instance->transform);
                     for(const auto& view:decorRuntime.views())if(view.instance)addEmbeddedVisual(view.instance->stableId,view.instance->name,view.instance->dae,view.visual,view.instance->transform);
                     if(embeddedSceneFxOwner!=sourceEffectsFactory.get()) {
-                        embeddedSceneFx.clear();embeddedActorFx.clear();embeddedActorTried.clear();embeddedSceneFxOwner=sourceEffectsFactory.get();
+                        embeddedSceneFx.clear();embeddedActorFx.clear();rangedProjectileFx.clear();embeddedActorTried.clear();embeddedSceneFxOwner=sourceEffectsFactory.get();
                         for(const auto& item:embeddedVisuals) {
                             if(item.model->empty())continue;
                             std::vector<std::uint8_t> raw;
@@ -8413,9 +8535,38 @@ int main(int argc,char** argv) {
                             std::cerr<<"Embedded FX actor "<<actor.definition.name<<" update: "<<embeddedError<<'\n';prepared=false;effectError=embeddedError;
                         }
                     }
+                    // B154: Projectile::SetInfo gives each skill projectile its ProjectileDict model; draw its authored FX
+                    // resource at the projectile's current position and owner heading for as long as it flies.
+                    rangedProjectileFx.begin_frame();
+                    if(rangedSkillMonsters) {
+                        std::set<std::uint64_t> liveProjectiles;
+                        for(const auto& projectile:rangedSkillMonsters->projectiles()) {
+                            if(projectile.model_uri.empty()||rangedProjectileRefused.count(projectile.model_uri))continue;
+                            const auto key=(std::uint64_t(0xB154)<<48)|projectile.id;liveProjectiles.insert(key);
+                            if(!rangedProjectileFx.attached(key)) {
+                                auto& bytes=rangedProjectileModels[projectile.model_uri];
+                                if(!bytes){try{bytes=std::make_shared<const std::vector<std::uint8_t>>(f::read_content(assets,projectile.model_uri));}catch(const std::exception& problem){
+                                    std::cout<<"[ranged-skill] projectile model unavailable "<<projectile.model_uri<<": "<<problem.what()<<'\n';rangedProjectileRefused.insert(projectile.model_uri);continue;}}
+                                std::string reason;
+                                if(!rangedProjectileFx.attach(key,projectile.model_uri,bytes,*sourceEffectsFactory,reason)){
+                                    std::cout<<"[ranged-skill] projectile model FX not attached "<<projectile.model_uri<<": "<<reason<<'\n';rangedProjectileRefused.insert(projectile.model_uri);continue;}
+                            }
+                            const float yaw=std::atan2(projectile.forward[1],projectile.forward[0]);
+                            std::array<float,16> world=f::identity();
+                            world[0]=std::cos(yaw);world[1]=std::sin(yaw);world[4]=-std::sin(yaw);world[5]=std::cos(yaw);
+                            world[12]=projectile.position[0];world[13]=projectile.position[1];world[14]=projectile.position[2];
+                            std::string projectileError;
+                            if(!rangedProjectileFx.update(key,std::int32_t(projectile.age_ms),sourceEffectsMs,gameplayPaused?0:std::int32_t(gameplayDt*1000),world,projectileError))
+                                std::cerr<<"[ranged-skill] projectile FX update: "<<projectileError<<'\n';
+                        }
+                        rangedProjectileFxLive.swap(liveProjectiles); // liveProjectiles now holds the previous frame's set
+                        for(const auto key:liveProjectiles)if(!rangedProjectileFxLive.count(key))rangedProjectileFx.detach(key);
+                    }
                     auto embeddedSources=embeddedSceneFx.sources();
                     const auto actorSources=embeddedActorFx.sources();
                     embeddedSources.insert(embeddedSources.end(),actorSources.begin(),actorSources.end());
+                    const auto projectileSources=rangedProjectileFx.sources();
+                    embeddedSources.insert(embeddedSources.end(),projectileSources.begin(),projectileSources.end());
                     sourceEffectsFactory->set_embedded_sources(std::move(embeddedSources));
                     if(embeddedPerf){embeddedMs+=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-embeddedT0).count();
                         if(++embeddedFrames==120){std::cout<<"DH_PERF embedded_fx_ms_avg="<<embeddedMs/embeddedFrames<<" attached="<<embeddedSceneFx.size()<<" frames="<<embeddedFrames<<'\n';embeddedMs=0;embeddedFrames=0;}}

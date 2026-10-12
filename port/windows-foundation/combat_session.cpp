@@ -1734,6 +1734,15 @@ bool CombatSession::is_animation_only(ActorId actor) const {
     const auto found=impl_->entries.find(actor);
     return found!=impl_->entries.end()&&found->second.animationOnly;
 }
+// B154: read-only borrow of the source plan/policies this session already prepared for an actor.
+const OriginalCombatVisualPlan* CombatSession::actor_source_plan(ActorId actor) const noexcept {
+    if(!impl_||impl_->detached)return nullptr;
+    const auto found=impl_->entries.find(actor);
+    return found==impl_->entries.end()||!found->second.sequencePlan?nullptr:&*found->second.sequencePlan;
+}
+const OriginalSequencePolicies* CombatSession::source_sequence_policies() const noexcept {
+    return impl_&&!impl_->detached?&impl_->sequencePolicies:nullptr;
+}
 bool CombatSession::request_actor_attack(ActorId actor,ActorId target,double dt,std::string& error){
     error.clear();
     if(!impl_||impl_->detached||!impl_->entries.count(actor)){
