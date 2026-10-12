@@ -1317,7 +1317,8 @@ int main(int argc,char** argv) {
                 creationRandom={options.combat.diagnosticRngSeed.value_or(0),0};
                 if(!options.combat.diagnosticRngSeed)creationRandom.seed=GetTickCount();
                 std::string arrivalSourceError;
-                if(!f::frontend::creation::load_runtime_creation_source_v1(assets,creationRandom,menuSourceOwner,arrivalSourceError))
+                const f::AssetCatalog arrivalSource(options.menuAssets.empty()?assets.root():options.menuAssets); // same source root the frontend route uses
+                if(!f::frontend::creation::load_runtime_creation_source_v1(arrivalSource,creationRandom,menuSourceOwner,arrivalSourceError))
                     throw std::runtime_error("Transition source tables: "+arrivalSourceError);
                 frontendRandomState=dh2::data::CombatRandom{creationRandom.seed,creationRandom.calls};
                 options.combat.initialRandomState=frontendRandomState;options.combat.diagnosticRngSeed.reset();
