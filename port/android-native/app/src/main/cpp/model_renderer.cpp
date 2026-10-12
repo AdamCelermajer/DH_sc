@@ -23532,6 +23532,8 @@ bool native_level_script_host_supports(void*,const dh2_script_command* command){
   return c.field_count==1&&native_script_name_field(c,0);
  case 31: case 39: case 42: case 43: // PutCharacterInIdle/StopActor/ShowActor/HideActor(S)
   return c.field_count==1&&native_script_name_field(c,0);
+ case 29: // PutCharacterInLimbus(B limbus, S)
+  return c.field_count==2&&c.fields[0].kind==DH2_SCRIPT_VALUE_BOOL&&native_script_name_field(c,1);
  case 40: // MoveActor(target S, disable-collisions B, mover S, revive B)
   return c.field_count==4&&native_script_name_field(c,0)&&
       c.fields[1].kind==DH2_SCRIPT_VALUE_BOOL&&native_script_name_field(c,2)&&
@@ -23750,6 +23752,24 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
    if(!actor||!actor->spawn_owner)return 1;  // Not a Character: GetObjectByName cast fails.
    actor->spawn_owner->character.state.controller_locked=locked;
    return 1;
+  }
+  case 29: {
+   // Script_PutCharacterInLimbus::Execute 0x11430f -> SM_SetLimbusState
+   // (0x3c1a74): stores the machine's +52 limbus byte, clears the revive timer
+   // when awaiting revive, then _SetState(0,-1,0). The Coordinator state has no
+   // +52 field, so only the _SetState(0) transition is reconstructed here.
+   // The retained Player is not a Coordinator-backed Character: refuse it.
+   dh2_script_runtime::ObjectRecord record{};
+   const auto name=native_script_string(c,1);
+   const int status=native_level_script_object_lookup(nullptr,name.c_str(),&record);
+   if(status==0)return 0;
+   if(status!=1||!record.identity)return -1;
+   if(record.identity==prince_character.identity())return -1;
+   auto* actor=native_char_ai_actor(record.identity);
+   if(!actor)return 1;  // Not a Character: GetObjectByName cast fails.
+   if(!actor->spawn_owner||actor->spawn_owner->actor!=actor||
+      actor->spawn_owner->character.owner()!=actor->identity)return -1;
+   return actor->spawn_owner->character.transition(0,-1,0)>=0?1:-1;
   }
   case 40: {
    // Script_MoveActor::Execute 0x1142a8: v2Controller::Cmd_MoveTo(target) on the
