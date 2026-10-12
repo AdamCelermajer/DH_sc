@@ -1,19 +1,23 @@
 # vox-audio notes
 
-Status after wave 6. The ledger has 631 data rows: 395 reconstructed, 171 partial,
-65 skipped. Wave 6 added 92 rows (from 539 at the end of wave 5). The queue has 1374
-functions: 631 ledgered, 743 remain.
+Status after wave 7. The ledger has 699 data rows: 452 reconstructed, 182 partial,
+65 skipped. Wave 7 added 68 rows (from 631 at the start of the wave). The queue has 1374
+functions: 699 ledgered, 675 remain. Of the 675, 237 are queue entries that are not
+vox-audio code (see Wave 7), so the vox-audio pool is 438 (386 named bodies and 52
+Musepack entries).
 
-Builds: `tools/decomp_build.sh host vox-audio` (23 tests, all pass) and
-`tools/decomp_build.sh windows vox-audio` (MinGW cross build, tests under Wine, 23 of 23
-pass). Each category is one static library (port/decomp-reconstruction/CMakeLists.txt),
+Builds: `tools/decomp_build.sh host vox-audio` (30 tests, all pass) and
+`tools/decomp_build.sh windows vox-audio` (MinGW cross build, tests under Wine; 30 of 30
+pass, no compile errors or warnings). Each category is one static library (port/decomp-reconstruction/CMakeLists.txt),
 so a source that calls a declared-but-undefined function only fails in a test that links
 it. No test links the VoxEngineInternal or VoxEngine sources yet.
 
-Tests (23): access_controller, data_obj, decoder_cursor_base, decoder_mswav_cursor,
-decoder_raw, driver, driver_android, driver_callback, emitter_obj, file_stdio,
-group_ctor, groups, handlable, handle, ima_adpcm, native_playlist, native_sub_decoder,
-priority_bank, state_mutex, stream_base, stream, string_compare, vox_thread.
+Tests (30): access_controller, data_obj, decoder_cursor_base, decoder_mpc8,
+decoder_mswav_cursor, decoder_raw, decoder_stb_vorbis, driver, driver_android,
+driver_callback, emitter_obj, file_stdio, gain_fade, group_ctor, groups, handlable,
+handle, ima_adpcm, mswav_sub_decoder_pcm, native_playlist, native_sub_decoder,
+priority_bank, random48, sound_pack_xml, state_mutex, stream_base, stream,
+string_compare, vox_thread, voxcallback_manager.
 
 Wave 6 added: file_stdio (vox:: stdio helpers, a new header and source), native_playlist
 and native_playlist_calls (PlaylistElement, NativePlaylist, NativePlaylistsManager
@@ -227,6 +231,92 @@ Wave 5 additions:
   ARM, bare return), ledgered reconstructed. GetNbAvailableSamples returns 0 for a zero
   buffer_bytes_, where the original divides without a guard.
 
+## Wave 7 (Hex-Rays as the primary source)
+
+Source: `tools/decomp_extract.py --category vox-audio` defaults to Hex-Rays
+(recovered/native/hexrays-all, commit 9476235b). ARM listings were used to confirm stores,
+float helper calls and declared sizes. A Hex-Rays `int` return on a method the port
+declares void is the Mutex::Unlock tail call: the original returns the unlock result and
+the port drops it. Those bodies are marked partial (SetGroupGain, SetMasterGain, SetGain,
+SetPitch, Resume).
+
+Queue byte counts are not reliable. The ARM declared_size is the real size
+(VoxMSWavSubDecoder::GoToNextDataChunk is 140 bytes, not 4).
+
+Queue defect: all 237 FUN_ entries in queue.csv have elf_address exactly 0x10000 below the
+address in their names (FUN_0089ece4 is listed at 88ece4). Resolved by name they are
+libstdc++ (197, std::exception and locale), LCAndroidSocket (17), LCXPlayerSocket (17) and a
+few runtime helpers. None is vox-audio code, so none is ledgered. They need re-queueing in
+the owning category.
+
+Layouts (offsets from the pseudocode):
+- VoxGainFade (gain_fade.hpp): current +0x00, target +0x04, elapsed +0x08, duration +0x0c,
+  flag +0x10; 20 bytes. Used for the master fade (VoxEngineInternal +0xe0), the group fades
+  (from +0xf4, 20-byte stride) and three EmitterObj records.
+- EmitterObj: raw gain +0x40 (requested_gain_); gain fade +0x48..+0x58 (target +0x4c);
+  gain_ +0x3c is what GetGain returns (SetGain does not write it); pitch raw +0x74 (pitch_);
+  pitch fade +0x78..+0x88 (target +0x7c, which also takes the raw pitch); resume fade
+  +0x5c..+0x6c (target 1.0). The flag at +0x6c is what GetStatus tests in state 1, so
+  flag_6c_ is now resume_fade_.flag. Interactive state: flag +0x144, name +0x146
+  (port: std::string).
+- VoxEngineInternal: master fade +0xe0 (target +0xe4); group fades +0xf4 + 20*i (target
+  +0xf8 + 20*i); emitter access +0xc4; data objects access +0x54; data access +0x60;
+  emitter pending access +0xd0.
+- VoxMSWavSubDecoder base: stream +0x04, chunk +0x08, node +0x0c, channels +0x10, sample rate
+  +0x14, bits +0x18, total frames +0x1c, node position +0x20, frame position +0x24, loop +0x28.
+- DataNode {offset +0x00, size +0x04, next +0x08}; WaveChunk {channels +0x16, sample_rate
+  +0x18, block_align +0x20, bits_per_sample +0x22, current_data_size +0x28, data_list +0x38}.
+  Stand-ins until DecoderMSWavCursor::ParseFile is ported.
+- VoxCallback: vtable +0x00 dtor, +0x08 Invoke. Ring node VoxCallbackNode {next +0x00,
+  prev +0x04, callback +0x08}; the sentinel head is the manager.
+
+Decisions:
+- Fade durations. SetMasterGain and SetGroupGain store time + 0.001 (constant 0x3a83126f).
+  EmitterObj SetGain, SetPitch and Resume store the time as given. RestartFadeWithDuration
+  (gain_fade.hpp) is the exact form; RestartFade adds 0.001.
+- Clamping. Master and group gains clamp to [0, 1]. EmitterObj::SetGain stores the raw value
+  (a test keeps 3.0).
+- Float helpers, from use and constants: 0x30e70c __aeabi_fcmplt (a < b), 0x30e2f8
+  __aeabi_fcmpgt (a > b), 0x30ed6c __aeabi_fmul, 0x30ec94 __aeabi_fdiv, 0x30e3ac
+  __aeabi_fsub, 0x30eba4 __aeabi_fadd (0x3a83126f is 0.001f), 0x30e904 __aeabi_idivmod,
+  0x30e2a4 __aeabi_idiv. Division by zero returns 0 (the ARM default handler), as DivOrZero
+  does in mswav_sub_decoder_pcm.cpp.
+- lrand48 is ported (random48.cpp): X = (0x5DEECE66D * X + 0xB) mod 2^48, output X >> 17,
+  srand48 sets (seed << 16) | 0x330E. Seeded sequences match host glibc (seed 1: 89400484,
+  976015093). The unseeded state follows POSIX (0x1234ABCD330E). glibc starts from zero, so
+  the unseeded values are not checked against the host.
+- GetFreeEmitterObjectId and GetFreeDataObjectId return int64 (Hex-Rays shows the
+  GetFreeHandleId type).
+- Deleting destructors (D0) are compiler-generated. They are ledgered as reconstructed when the
+  D1 they wrap is ported (VoxNativeSubDecoderPCM D0 0x8884f8).
+- Musepack (mpc_*) is not ledgered; see the policy question below.
+
+Why the remaining bodies are not reconstructed in this wave:
+- Classes not in the port: VoxSoundManager (game glue at 0x36xxxx), CZipReader and
+  SZipFileEntry, DecoderNativeCursor, VoxNativeSubDecoderIMAADPCM, DriverCallbackInterface,
+  GroupXMLDef and EventXMLDef.
+- Members the port lacks: NativePlaylist Reset, PeekAtNextElement, SetToPreviousState and
+  GetState; NativePlaylistsManager AddPlaylistElement, AddGroup and TransposePlaylistParameters
+  (they call element virtuals that are not ported); VoxSoundPackXML ResetEvent(int) and
+  GetEventSoundUid(int, int&) (the int overloads); the VoxEngine singleton (GetVoxEngine,
+  DestroyVoxEngine); the VoxThread object (ctor, Stop, Update, dtors); the
+  DriverCallbackSourceInterface ctor, dtor and SetDriverCallbackPeriod (the static is not
+  ported); EmitterHandleUserData (forward-declared only, so the emitter SetUserData overloads
+  cannot take it).
+- Unnamed DSP virtuals: EmitterObj::GetPlayCursor (source vtable +0x1c) and PrintDebug
+  (+0x50), and SetPlayCursor (1382 bytes). The driver source vtable slots are not modelled.
+- Large state machines: EmitterObj Play, Pause, Stop and Update; VoxEngineInternal
+  UpdateEmitters, CreateEmitter, LoadDataSource, GetDataObject, DetachEmitterObject;
+  PriorityBankManager::Update (2395 bytes) and AddEmitter (4839 bytes).
+- IMA ADPCM family (ctor 0x8755b0, Decode 0x875cc8, Seek 0x875c34, HasData 0x875418): large,
+  and the decoder class is not ported.
+
+Policy question: the 52 mpc_* queue entries are Musepack (upstream libmpcdec) code. They are
+not ledgered as skipped or upstream. Decide whether vox-audio records them as upstream rows.
+
+Windows build (MinGW cross build, tests under Wine), final code: no compile errors or
+warnings; `100% tests passed, 0 tests failed out of 30`.
+
 ## Open questions
 
 - StreamCFile::Init and StreamCFileCursor::Init test the owner's +0x1c value and
@@ -248,14 +338,15 @@ Wave 5 additions:
   DataHandle copy and destructor rows stay partial.
 - GetDataObject (0x8686bc) and DetachEmitterObject (0x86a5d0) are not reconstructed.
   The data forwarders and KillEmitter(EmitterHandle&) call them. Both are declared only.
-- GetFreeEmitterObjectId and GetFreeDataObjectId: the pseudocode types the return as
-  undefined4, while GetFreeHandleId returns int64. Not written.
-- RandomGroup::GetActiveElementIndex uses lrand48 (POSIX, absent on MinGW). Not written
-  until a portable replacement is chosen.
+- GetFreeEmitterObjectId and GetFreeDataObjectId: resolved in wave 7 (int64, from
+  Hex-Rays). Both are reconstructed.
+- RandomGroup::GetActiveElementIndex uses lrand48. lrand48 is portable now (random48.cpp,
+  wave 7). RandomGroup::GetActiveElementIndex itself is not ported.
 - FileInterface and FileLimited read and seek go through unidentified global pointers
   (DAT_00a43eb4, DAT_00a43eb8) and FileSystemInterface::m_IOFunc. The owner of those
   globals is not identified.
-- EmitterObj +0x6c flag meaning and the owner of the buffer at +0xf4 are not identified.
+- EmitterObj +0x6c is the flag of the resume fade record (+0x5c, wave 7). The owner of the
+  buffer at +0xf4 is not identified.
 - EmitterObj::UpdateDSP frees dsp_buffer_ without clearing it when +0xf0 is set. The
   original does the same, so a second call frees it again. Kept as is.
 - SequentialGroup::GetGroupElementPosition returns -1 for an empty element vector; the
@@ -272,20 +363,22 @@ Wave 5 additions:
   SetDriverCallbackPeriod and SetGain fixes the meaning. 0x30e2a4 is __aeabi_idiv (Ghidra
   names it in GetNbAvailableSamples); 0x30e904 is taken as the remainder helper (inferred). 0x30e4cc
   (float to int) and 0x30e964 (int to float) are inferred from the Q14 scale. The two
-  compare helpers (0x30e2f8, 0x30e70c) are not confirmed as eq or le. SetPitch, SetGain
-  and the mix bodies stay partial until they are.
+  compare helpers (0x30e2f8, 0x30e70c) are not confirmed as eq or le. Wave 7 confirmed
+  both from use (see Wave 7, Decisions). SetGain and SetPitch are partial only for the
+  unlock result.
 - GetPitch and GetGain: wave 5 used 2^-15. The ARM constant 0x38800000 is 2^-14, so wave
   6 corrected both (driver_callback.cpp and their ledger rows).
 - DriverBuffer +0x10 is named field_10_ (the count GetNbAvailableSamples subtracts);
   +0x08 and +0x0c stay unidentified.
 
 
-## Remaining work (743 unledgered of 1374 queued)
+## Remaining work (675 unledgered of 1374 queued)
 
-By class, as the queue names them (remaining bodies, recounted at the end of wave 6):
+By class, as the queue names them (recounted at the end of wave 7):
 
-- FUN_ entries (no symbol, decompiler-named): 237. Mostly in the 0x88xxxx-0x89xxxx
-  range. Owners need identifying before these can be named.
+- FUN_ entries: 237. Their queue addresses are 0x10000 low, and their real bodies are
+  libstdc++ and socket code (see Wave 7). They are not vox-audio code. Re-queue them in
+  the owning category; do not ledger them here.
 - VoxSoundManager 52 (game glue: JNI, iPod playlist, glitch-side calls). Not started.
   The glitch:: entries belong in that category.
 - VoxEngineInternal 44 (debug output, GetDataObject, DetachEmitterObject, update loops,

@@ -268,6 +268,29 @@ void EmitterObj::SetPitch(float pitch, float time) {
     mutex.Unlock();
 }
 
+// 0x86c1d4 _ZN3vox10EmitterObj6ResumeEf
+// partial: the original returns the unlock result (see SetGain). The logic is exact: an emitter
+// whose sub-state is 2, or whose state is 2 and whose sub-state is not 3, becomes playing (sub-state
+// 1) and starts a fade toward 1.0 over the time given, with no +0.001. The fade record is at
+// +0x5c; the name resume_fade_ is ours, the original does not name it.
+void EmitterObj::Resume(float time) {
+    mutex.Lock();
+    if (state_set_ == 2 || (state_ == 2 && state_set_ != 3)) {
+        state_set_ = 1;
+        RestartFadeWithDuration(resume_fade_, 1.0f, time);
+    }
+    mutex.Unlock();
+}
+
+// 0x866abc _ZN3vox10EmitterObj30SetInteractiveMusicStateChangeEPKc
+// partial: the original takes no lock. It sets the byte at +0x144 and strcpy()s the state name
+// to +0x146. That buffer has no bound in the original, so the port keeps the name in a std::string.
+// A null name stores an empty string here; the original would crash on it.
+void EmitterObj::SetInteractiveMusicStateChange(const char* state) {
+    interactive_state_set_ = true;
+    interactive_state_ = state != nullptr ? state : std::string();
+}
+
 // 0x865784 _ZN3vox10EmitterObj9ShouldDieEv
 bool EmitterObj::ShouldDie() {
     mutex.Lock();

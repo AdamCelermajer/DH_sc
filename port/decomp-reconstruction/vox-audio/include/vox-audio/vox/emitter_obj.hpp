@@ -5,6 +5,7 @@
 #pragma once
 
 #include <cstdint>
+#include <string>
 
 #include "vox-audio/vox/gain_fade.hpp"
 #include "vox-audio/vox/handlable.hpp"
@@ -71,7 +72,7 @@ public:
     void Play(float fade);                  // 0x86e304 (fade state machine, not reconstructed)
     void Pause(float fade);                 // 0x86e428
     void Stop(float fade);                  // 0x86e868
-    void Resume(float fade);                // 0x86c1d4
+    void Resume(float time);                // 0x86c1d4 (partial, see the .cpp)
     void SetGain(float gain, float time);   // 0x86bb24
     void SetPitch(float pitch, float time); // 0x86bc40
     void Update(float dt);                  // 0x86d5b8
@@ -98,7 +99,10 @@ public:
     std::uint8_t loop_read_ = 0;            // +0x8c, read by GetLoop
     std::uint8_t loop_ = 0;                 // +0x8d, written by SetLoop
     bool callback_pending_ = false;         // +0x98, set when a state change needs a callback
-    std::uint8_t flag_6c_ = 0;              // +0x6c, tested by GetStatus while the state is 1
+    VoxGainFade resume_fade_;               // +0x5c..+0x6c: fade toward 1.0 restarted by Resume; its flag
+                                            // (+0x6c) is tested by GetStatus while the state is 1
+    bool interactive_state_set_ = false;    // +0x144, set by SetInteractiveMusicStateChange
+    std::string interactive_state_;         // +0x146 in the original (a strcpy into an unbounded buffer)
     int state_ = 0;                         // +0x90, read by GetState
     int state_set_ = 0;                     // +0x94, written by SetState
     VoxVector3f position_;                  // +0x9c (parameter 8)

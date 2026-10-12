@@ -78,7 +78,7 @@ int EmitterObj::GetStatus() {
     int status = 0;
     switch (state_) {
         case 1:
-            if (flag_6c_ != 0) {
+            if (resume_fade_.flag) {
                 status = 2;
             } else {
                 status = (state_set_ == 1) ? 0x11 : 0x21;

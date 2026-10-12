@@ -133,6 +133,30 @@ int main() {
     CHECK(pf.pitch_fade_.target == 2.0f && pf.pitch_fade_.duration == 1.5f);
     CHECK(pf.pitch_fade_.current == 0.0f);
 
+    // Resume (0x86c1d4): a paused emitter (sub-state 2) plays again and fades to 1.0.
+    vox::EmitterObj r;
+    r.state_set_ = 2;
+    r.Resume(0.5f);
+    CHECK(r.state_set_ == 1);
+    CHECK(r.resume_fade_.target == 1.0f && r.resume_fade_.duration == 0.5f);
+    CHECK(!r.resume_fade_.flag);
+    vox::EmitterObj r_busy;                  // sub-state 3 with state 2 is not resumed
+    r_busy.state_ = 2;
+    r_busy.state_set_ = 3;
+    r_busy.Resume(0.5f);
+    CHECK(r_busy.state_set_ == 3 && r_busy.resume_fade_.duration == 0.0f);
+    // GetStatus reads the resume flag while the state is 1: flag set reports 2.
+    r.state_ = 1;
+    r.resume_fade_.flag = true;
+    CHECK(r.GetStatus() == 2);
+    r.resume_fade_.flag = false;
+    CHECK(r.GetStatus() == 0x11);            // sub-state 1 while playing
+
+    // Interactive music state name (0x866abc): the flag is set and the name kept.
+    vox::EmitterObj im;
+    im.SetInteractiveMusicStateChange("combat");
+    CHECK(im.interactive_state_set_ && im.interactive_state_ == "combat");
+
     std::printf("emitter_obj_test: %s\n", g_failures == 0 ? "ok" : "FAILED");
     return g_failures == 0 ? 0 : 1;
 }
