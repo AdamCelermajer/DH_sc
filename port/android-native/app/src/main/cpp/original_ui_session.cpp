@@ -598,7 +598,11 @@ struct OriginalUiSession::Impl {
         auto* file=std::fopen(temporary.c_str(),"wb");if(!file){error="Unable to open private settings output";return false;}
         const bool written=std::fwrite(bytes.data(),1,bytes.size(),file)==bytes.size();const bool closed=std::fclose(file)==0;
         if(!written||!closed){std::remove(temporary.c_str());error="Unable to write private settings output";return false;}
-        if(std::rename(temporary.c_str(),path.c_str())){std::remove(temporary.c_str());error="Unable to publish private settings output";return false;}
+        // std::filesystem::rename replaces an existing target on Windows, where the C
+        // rename fails once dh2_settings.savegame exists (every later settings save).
+        std::error_code publish_error;
+        std::filesystem::rename(temporary,path,publish_error);
+        if(publish_error){std::remove(temporary.c_str());error="Unable to publish private settings output";return false;}
         __android_log_print(ANDROID_LOG_INFO,tag,"Front settings saved | bytes %zu | music %d | fx %d | language %d",bytes.size(),self.settings->option("VolumeMusic"),self.settings->option("VolumeFX"),self.settings->language());return true;
     }
     static bool option_string(void* context,std::int32_t id,std::string& text,std::string& error){auto& self=*static_cast<Impl*>(context);return self.localization.string_id(std::uint32_t(id),self.text_services(),text,error);}
@@ -4416,7 +4420,8 @@ bool OriginalUiSession::lock_source_tutorial(std::int32_t id,std::string& error)
 }
 bool OriginalUiSession::show_script_flash(const std::string& name,std::string& error){
     // Script_ShowFlash::Execute tests strstr(name,"HUD"). That branch runs
-    // DisplayRightHud/FillActionIcon/DisplayOfCurrentHud; no level script uses it.
+    // DisplayRightHud/FillActionIcon/DisplayOfCurrentHud (set_source_hud_shown);
+    // the script host routes HUD-named flashes there, never to this menu path.
     if(name.find("HUD")!=std::string::npos){
         error="ShowFlash HUD-named branch is not reconstructed";return false;
     }
@@ -4480,6 +4485,15 @@ bool OriginalUiSession::hide_script_flash(const std::string& name,std::string& e
             if(!accepted){nested_error="Authored flash visibility write rejected";return false;}
             return graph.invoke(menu,menu,"onPop",{},result,callable,nested_error);
         },error);
+}
+bool OriginalUiSession::set_source_hud_shown(bool show,std::string& error){
+    error.clear();
+    if(!impl_){error="HUD flash requires the UI session";return false;}
+    auto& self=*impl_;
+    if(!self.loaded||!self.movie||!self.gameplay_hud||!self.gameplay_hud_bound)return true;
+    if(show&&(!self.gameplay_hud->activate(error)||!self.gameplay_hud->refresh_action_icon(error)))
+        return false;
+    return self.gameplay_hud->display_of_current_hud(show,error);
 }
 bool OriginalUiSession::source_tutorial_active(std::int32_t id,bool& active,std::string& error)const{
     active=false;

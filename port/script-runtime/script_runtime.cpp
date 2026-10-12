@@ -695,8 +695,19 @@ static Error execute_command(Runtime *runtime, Task *task,
             }
             return ERROR_OK;
         }
-        case 78:
+        case 78: {
+            if (runtime->spawn_services.host_command != NULL) {
+                // Script_DoTutorial 0x460950: the host owns the Settings tutorial
+                // byte, the local-Player/difficulty/online gate and the by-name
+                // ScriptManager start. -2 keeps the options-gated fallback below.
+                uintptr_t handle = 0;
+                const int accepted = runtime->spawn_services.host_command(
+                    runtime->spawn_services.context, command, &handle);
+                if (accepted == 1) return ERROR_OK;
+                if (accepted != -2) return ERROR_HOST_COMMAND_SERVICE;
+            }
             return execute_tutorial(runtime, task, command);
+        }
         default: {
             if (runtime->spawn_services.host_command == NULL)
                 return unsupported(runtime, task, command, NULL)

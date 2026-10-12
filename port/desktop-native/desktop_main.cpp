@@ -30,7 +30,12 @@
 #include <cstdint>
 
 // Defined in model_renderer.cpp; declared here to keep the scenario change within desktop_main.cpp.
-namespace model_renderer { std::int32_t gameplay_player_state() noexcept; }
+namespace model_renderer {
+std::int32_t gameplay_player_state() noexcept;
+std::uint32_t tutorial_script_start_count(const char* script_name) noexcept;
+bool tutorial_script_running(const char* script_name) noexcept;
+bool script_controllers_blocked() noexcept;
+}
 
 namespace {
 struct Options {
@@ -70,6 +75,7 @@ struct Options {
     bool probe_scenario() const {
         return faery_follow_scenario || faery_skill_scenario || skill_matrix_scenario;
     }
+    bool tutorial_potion_scenario = false;
 };
 
 Options parse(int argc, char** argv) {
@@ -125,6 +131,8 @@ Options parse(int argc, char** argv) {
             else if (scenario == "move-kill")
                 options.movement_attack_scenario = options.movement_kill_scenario = true;
             else if (scenario == "move-defend") options.movement_defend_scenario = true;
+            else if (scenario == "tutorial-potion")
+                options.movement_defend_scenario = options.tutorial_potion_scenario = true;
             else if (scenario == "skill-kill")
                 options.movement_attack_scenario = options.movement_kill_scenario = options.skill_kill_scenario = true;
             else if (scenario == "faery-follow") options.faery_follow_scenario = true;
@@ -155,6 +163,7 @@ Options parse(int argc, char** argv) {
                          "  --scenario move-attack steer with normal movement toward a source enemy, then attack\n"
                          "  --scenario move-kill   steer to enemies, attack until kills, then walk onto dropped loot\n"
                          "  --scenario move-defend approach enemies without attacking; verify damage, death and Continue revive\n"
+                         "  --scenario tutorial-potion move-defend on SWAMP; verify HP <= half starts cinematic_Tuto_potionUse once\n"
                          "  --scenario skill-kill  move-kill, but in melee range uses the HUD skill slot 0 instead of basic attacks\n"
                          "  --scenario faery-follow march the Player along far selected-floor routes; log Player/faery state every 60 frames\n"
                          "  --scenario faery-skill  near enemies, trigger the HUD faery ability (NativeHUDSpell) repeatedly and log its effects\n"
@@ -168,6 +177,10 @@ Options parse(int argc, char** argv) {
                          "Controls: click/touch authored menus; type for character names; WASD move, Space attack, mouse drag orbit, wheel zoom, Esc quit.\n";
             std::exit(0);
         } else throw std::runtime_error("Unknown argument: " + arg);
+    }
+    if (options.tutorial_potion_scenario) {
+        if (options.level_row < 0) options.level_row = 41;
+        if (!frames_supplied) options.frames = 3000;
     }
     const auto scenario_count = unsigned(options.movement_attack_scenario) +
         unsigned(options.fixed_cultist_scenario) + unsigned(options.fixed_cultist_kill_scenario) +
@@ -1747,6 +1760,12 @@ int main(int argc, char** argv) {
         std::int32_t scenario_skill_state = -1;
         unsigned scenario_skill_uses = 0;
         ProbeRunner probe_runner(options, scenario_player_died, scenario_revived);
+        std::uint64_t tutorial_verified_frame = 0, tutorial_finished_frame = 0;
+        std::int32_t tutorial_hp_start = 0, tutorial_hp_end = 0, tutorial_hp_last = 0, tutorial_hp_lowest = 0;
+        std::uint64_t tutorial_lock_frame = 0, tutorial_unlock_frame = 0;
+        unsigned tutorial_hp_drops = 0;
+        std::array<float, 3> tutorial_position{};
+        float tutorial_moved = 0.0f;
         std::uint64_t fixed_attack_frame = 0;
         std::uint64_t fixed_next_attack_frame = 0;
         std::uint64_t fixed_target_dead_frame = 0;
@@ -2023,6 +2042,78 @@ int main(int argc, char** argv) {
                     }
                 }
             }
+            // tutorial-potion (move-defend driver): once the Player's HP is at or below
+            // half of Max_HP, Character::HitFor 0x3a8bc4 must have started the SWAMP
+            // script cinematic_Tuto_potionUse through the Level ScriptManager session,
+            // exactly once (settings tutorial byte 4 is then cleared and saved). While
+            // LockCharacter("All") holds every controller the Player must neither lose
+            // HP nor move: the dialogs are held for 240 frames to prove it, then flushed
+            // (Script_FlushMessages stands in for the player's taps) until the whole
+            // script, including EndScriptedCutScene, has finished. Animation events of a
+            // swing already under way are not lock-gated (CharAI::RaiseAIEvent case 40),
+            // so a drop in the first 60 locked frames is that swing finishing and only
+            // logged; later drops fail the scenario.
+            if (options.tutorial_potion_scenario && scenario_started && !tutorial_finished_frame) {
+                model_renderer::GameplayPoseSnapshotV1 pose;
+                if (!tutorial_verified_frame) {
+                    const auto started = model_renderer::tutorial_script_start_count("cinematic_Tuto_potionUse");
+                    if (started) {
+                        tutorial_verified_frame = rendered_frames + 1;
+                        if (model_renderer::gameplay_pose_snapshot(pose, ui_error)) {
+                            tutorial_hp_start = pose.player_hp;
+                            std::cout << "Scenario tutorial verified | cinematic_Tuto_potionUse started "
+                                      << started << " time(s) | Player HP " << pose.player_hp << '/'
+                                      << pose.player_max_hp << " (half " << pose.player_max_hp / 2 << ")" << std::endl;
+                        } else {
+                            std::cout << "Scenario tutorial verified | cinematic_Tuto_potionUse started "
+                                      << started << " time(s) | Player died on the same hit" << std::endl;
+                        }
+                    }
+                } else {
+                    const bool alive = model_renderer::gameplay_pose_snapshot(pose, ui_error);
+                    const bool blocked = model_renderer::script_controllers_blocked();
+                    if (alive) tutorial_hp_end = pose.player_hp;
+                    if (alive && blocked && !tutorial_lock_frame) {
+                        tutorial_lock_frame = rendered_frames;
+                        tutorial_hp_last = tutorial_hp_lowest = pose.player_hp;
+                        tutorial_position = pose.player_position;
+                        std::cout << "Scenario tutorial locked | frame +" << rendered_frames - tutorial_verified_frame
+                                  << " | Player HP " << pose.player_hp << std::endl;
+                    } else if (alive && tutorial_lock_frame && !tutorial_unlock_frame) {
+                        if (pose.player_hp < tutorial_hp_last) {
+                            const bool in_flight = rendered_frames < tutorial_lock_frame + 60;
+                            if (!in_flight) ++tutorial_hp_drops;
+                            std::cout << "Scenario tutorial HP drop while locked | frame +"
+                                      << rendered_frames - tutorial_verified_frame << " | "
+                                      << tutorial_hp_last << " -> " << pose.player_hp
+                                      << (in_flight ? " | swing already under way" : "") << std::endl;
+                        }
+                        tutorial_hp_last = pose.player_hp;
+                        tutorial_hp_lowest = std::min(tutorial_hp_lowest, pose.player_hp);
+                        tutorial_moved = std::max(tutorial_moved, std::hypot(
+                            pose.player_position[0] - tutorial_position[0],
+                            pose.player_position[1] - tutorial_position[1]));
+                    }
+                    if (tutorial_lock_frame && !tutorial_unlock_frame && !blocked) {
+                        tutorial_unlock_frame = rendered_frames;
+                        std::cout << "Scenario tutorial unlocked | locked for " << rendered_frames - tutorial_lock_frame
+                                  << " frames | Player HP " << tutorial_hp_last << " lowest " << tutorial_hp_lowest
+                                  << " | HP drops " << tutorial_hp_drops << " | Player moved " << tutorial_moved << std::endl;
+                    }
+                    if (rendered_frames >= tutorial_verified_frame + 240) {
+                        if (!model_renderer::tutorial_script_running("cinematic_Tuto_potionUse")) {
+                            std::cout << "Scenario tutorial completed | cinematic_Tuto_potionUse finished after "
+                                      << rendered_frames - tutorial_verified_frame << " frames | Player HP start "
+                                      << tutorial_hp_start << " end " << tutorial_hp_end << std::endl;
+                            tutorial_finished_frame = rendered_frames;
+                        } else if (rendered_frames % 20 == 0 && !original_ui.flush_source_messages(ui_error)) {
+                            throw std::runtime_error("Tutorial dialog flush failed: " + ui_error);
+                        }
+                    }
+                }
+            }
+            if (options.tutorial_potion_scenario && tutorial_finished_frame &&
+                rendered_frames >= tutorial_finished_frame + 60) running = false;
             // After death, tap the authored death screen's btn_Continue (full-screen
             // hit area) so its timeline reaches NativeReviveAllPlayers.
             if ((options.movement_defend_scenario || options.movement_kill_scenario ||
@@ -2384,6 +2475,18 @@ int main(int argc, char** argv) {
                 throw std::runtime_error("fixed-cultist07-kill reached its frame bound before verified death");
             if (fixed_attack_count == 0 || !fixed_target_identity)
                 throw std::runtime_error("fixed-cultist07-kill completed without a verified normal attack");
+        }
+        if (options.tutorial_potion_scenario && gameplay) {
+            if (!tutorial_verified_frame)
+                throw std::runtime_error("tutorial-potion reached its frame bound without cinematic_Tuto_potionUse starting");
+            if (!tutorial_finished_frame)
+                throw std::runtime_error("tutorial-potion started cinematic_Tuto_potionUse but it never finished");
+            if (!tutorial_lock_frame || !tutorial_unlock_frame)
+                throw std::runtime_error("tutorial-potion never saw LockCharacter(All) held and released");
+            if (tutorial_hp_drops || tutorial_moved > 1.0f)
+                throw std::runtime_error("tutorial-potion Player lost HP or moved while LockCharacter(All) was held");
+            if (model_renderer::tutorial_script_start_count("cinematic_Tuto_potionUse") != 1)
+                throw std::runtime_error("tutorial-potion expected cinematic_Tuto_potionUse to start exactly once");
         }
         if (options.movement_defend_scenario && gameplay) {
             if (!scenario_damage_verified)

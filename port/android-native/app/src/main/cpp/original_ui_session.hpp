@@ -155,9 +155,14 @@ public:
     bool lock_source_tutorial(std::int32_t id,std::string& error);
     // Script_ShowFlash 0x45f8c8 / Script_HideFlash 0x45f78c for menu_* names:
     // MenuBase::Show/Hide (0x425450/0x424af4) on the named clip of the retained
-    // HUD movie. No MenuManager stack push. HUD-named flashes are not reconstructed.
+    // HUD movie. No MenuManager stack push. HUD-named flashes use set_source_hud_shown.
     bool show_script_flash(const std::string& name,std::string& error);
     bool hide_script_flash(const std::string& name,std::string& error);
+    // The same two commands for a "HUD"-named flash (strstr branch): Show runs the
+    // HUD root's DisplayRightHud, FillActionIcon and DisplayOfCurrentHud(true);
+    // Hide runs DisplayOfCurrentHud(false). Used by BeginScriptedCutScene and
+    // EndScriptedCutScene. Without a loaded gameplay HUD movie there is nothing to drive.
+    bool set_source_hud_shown(bool show,std::string& error);
     // Character::SetFaeryState 0x3ae7d4 reads settings tutorial byte id (settings+41+id)
     // before its offline Normal cinematic. Clearing reuses lock_source_tutorial.
     bool source_tutorial_active(std::int32_t id,bool& active,std::string& error) const;
