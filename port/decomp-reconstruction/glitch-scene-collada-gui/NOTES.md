@@ -1,16 +1,9 @@
 # glitch-scene-collada-gui notes
 
-Queue: 4138 functions (all owner engine-glitch). Ledger: 591 rows
-(461 reconstructed, 126 partial, 4 skipped). Wave 3 added 157 rows: 84 from the
-CColladaFactory, collada database creators and GUI accessors, then 73 from the
-scene, timeline, PS and collada-misc batch (two of them GUI partials). Wave 4
-added 219 rows (180 reconstructed, 39 partial), all in glitch::scene particle
-emitters and affectors (see "Wave 4" below). The `decomp_extract --remaining`
-count is 3547 unledgered.
-Wave 5 added 228 rows (222 reconstructed, 6 partial; see "Wave 5" below).
-Wave 6 added 201 rows (183 reconstructed, 18 partial; see "Wave 6" below). The current
-ledger is 1020 rows (866 reconstructed, 150 partial, 4 skipped) and the
-`decomp_extract --remaining` count is 3118 unledgered.
+Queue: 4138 functions (all owner engine-glitch). Ledger: 1131 rows
+(975 reconstructed, 152 partial, 4 skipped). The `decomp_extract --remaining` count
+is 3007 unledgered. Waves 3 to 6 are described in the sections below; wave 7 is
+at the end of this file.
 
 ## Classes and inferred layouts
 - CVisibilityEx: visible flag is a 32-bit word at +0x11c, bit 0 = visible. Base
@@ -398,3 +391,61 @@ Ledger: 201 rows this wave (183 reconstructed, 18 partial). Host and Windows bui
 - CColladaHardware and CColladaSoftware skin technique constructors, skin, init and prepareCache.
 - CSceneManager compile and CBatchSceneNode accessors that dispatch through segment objects.
 - PD within(), generate() and copy() bodies, and the PSRandom dependency.
+
+## Wave 7: small bodies, the CVirtualEx family and the irr layer
+Files: new include/glitch-scene-collada-gui/irr_factory.hpp, irr_alloc.hpp, animation_track_virtual_ex.hpp;
+new src/irr_factory.cpp, irr_alloc.cpp; new tests/irr_factory_test.cpp, animation_track_virtual_ex_test.cpp,
+wave7_accessors_test.cpp. Changed: scene_nodes.hpp/.cpp (IMesh D1, CBatchSceneNode::setMesh),
+gui_simple_accessors.hpp/.cpp (CGUISpriteBank getSprites/getPositions), gui_elements.hpp/.cpp
+(IGUIElement absoluteRect and isPointInside), ps_types.hpp/.cpp (PDPoint vector constructor, within, generate, PSRandom
+forward declaration), collada_misc.hpp/.cpp (CColladaSoftwareSkinTechnique::attach), scene_simple_accessors.hpp/.cpp
+(CMesh default ctor, glitch::operator== for pair<unsigned, aabbox3d>).
+Ledger: 111 rows this wave (109 reconstructed, 2 partial). Host and Windows builds: 27 ctest tests pass.
+
+- Layouts: IGUIElement absolute rectangle is core::rect<int> at +0x48 (upper-left x, y) and +0x50 (lower-right
+  x, y). CGUISpriteBank: sprite list at +0x08, position list at +0x14, texture list at +0x20. PDPoint: point at
+  +0x04. CMesh (scene): default box (-1,-1,-1) to (1,1,1) at +0x14. CColladaSoftwareSkinTechnique: attached node
+  at +0x14, as in the hardware techniques.
+- CVirtualEx family (animation_track_virtual_ex.hpp): the 48 empty D1 destructors are one defaulted template
+  destructor. The 43 getIdentityValue bodies are CIdentityValueWriter<Words, UnitW>: zero Words 32-bit words,
+  and for quaternion instantiations word 3 is 1.0f. Word counts and unit flags were taken from the pseudocode
+  stores: 26 instantiations write 12 words, 6 quaternions write 4 words with unit w, 6 write 4 words, 3 write
+  8 words and 2 write 3 words.
+  The instantiation for each address is in the header comments. The rows are reconstructed because the
+  bodies are fully determined by their stores; they do not depend on the applicator layouts.
+- irr_malloc and irr_free (C wrappers) are partial: GlitchAlloc (hint 0) and GlitchFree are replaced by
+  malloc and free, as in PS_NEW.
+- CIrrFactory: the constructor publishes s_instance and getInstance uses a function-local static. Not done:
+  createGUIEnvironment (0x533f28, needs the CGUIEnvironment constructor) and createFileSystem (0x533fb0, needs
+  CFileSystem and the intrusive count).
+- Refcount out-parameter getters were not written. The intrusive_ptr stand-in does not count references, so
+  getters such as CMeshSceneNode::getMesh, CBatchMesh::getMeshBuffer, CMorphingMesh::getMaterial,
+  CGUIMeshViewer::getMesh/getMaterial and CMeshCache::getMeshByIndex stay unledgered until a count model exists
+  (the CModularSkinnedMesh rows show the pattern: SCountedRef with the count at +0x00).
+- Destructors: D0 (deleting) rows remain unledgered, as in earlier waves. D1 and D2 bodies that are empty are
+  reconstructed; those that release members are not.
+
+## Remaining after wave 7
+- Virtual-slot dispatch (not modelled, so the rows stay unledgered): CModularSkinnedMesh::onAnimate, updateTechnique
+  and setIsSkinningEnabled (slots 0x34, 0x48, 0x54 on the module ISkinnedMesh objects), CSkinnedMesh getters
+  (slots 0x10, 0x30, 0x34), CSkinnedMeshSceneNode::setIsSkinningEnabled (slot 0x54 on the mesh), CMeshSceneNode
+  onAnimate and getMaterial (slots 0x34, 0x18), CMorphingMesh getMeshBufferCount and getBoundingBox (slots 0x10,
+  0x24), and the synchronized-blender getters.
+- Refcount out-parameter getters and setters (see the decision above). These need a reference-count model in
+  boost::intrusive_ptr: the count word is at +0x00 for materials and +0x04 for meshes and buffers.
+- Layouts not mapped: CMatrix4 (PDPoint/PDSphere/PDBlob/PDCylinder/PDLine/PDBox transform, CDummyTransformation
+  matrix accessors), PSRandom (PD generate bodies other than PDPoint), SAnimationAccessor and CApplicatorInfo
+  (the CVirtualEx key-based and value-blend bodies, about 610 rows still queued in the family).
+- CColladaFactory create* bodies: each is a `new` of a node class (CRootSceneNode, CLightSceneNode, CCameraSceneNode,
+  particle-system forces) whose constructor is not ported. createScene, createLight, createAnimator, createCameraNode
+  and the force creators stay open until those constructors exist. getVertexBufferConfig and getIndexBufferConfig
+  return an sret struct and need the signature confirmed.
+- CColladaDatabase lookups that forward to SChannel (getBlendableAnimation, getDefaultValue, getMaterial by name
+  with a temporary database): the forwarding targets are not ported, so the thunk rule needs them first.
+- CSceneManager::STransparentNodeEntry and SDefaultNodeEntry operator<, SViewFrustum::intersects (tail calls
+  into __aeabi_fmul are noreturn in the pseudocode; read the ARM listing before writing it).
+- CTweakable (13 queued): in the queue, but the debugger accessors need the IWriteFile and CAttributes stand-ins.
+- CGUI bodies that need string, refresh or event layout that is not mapped: CGUITable selection and column drag,
+  CGUIListBox, CGUIContextMenu, CGUIComboBox, CGUIButton::setSprite (the sprite table at +0x168 is only partly
+  known), CGUIEditBox, CGUIFileOpenDialog getFileName (word at +0x1a4) and sendSelectedEvent (needs SEvent).
+
