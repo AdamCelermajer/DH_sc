@@ -51,6 +51,11 @@ public:
     // 0x84ab9c _ZN15GLXPlayerMPBase9setErrMsgEPc
     void setErrMsg(const char* message);
 
+    // Not in the original: test seams for the transport pointer (+0x54) and the state (+0x50).
+    void SetTransportForTest(ConnectionTransport* transport) { transport_ = transport; }
+    std::int32_t Field50ForTest() const { return field50_; }
+    std::uint8_t Field71ForTest() const { return field71_; }
+
     // Empty virtual defaults in the original (4-byte bodies).
     // 0x84ae28 _ZN15GLXPlayerMPBase16mpSendDisconnectEv, vtable +0x14. Partial, see the cpp.
     virtual void mpSendDisconnect();
