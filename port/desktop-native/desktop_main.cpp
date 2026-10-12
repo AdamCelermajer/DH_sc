@@ -37,6 +37,7 @@ struct Options {
     std::filesystem::path capture;
     std::filesystem::path initial_capture;
     std::uint64_t frames = 0;
+    bool show_window = false;
     std::int32_t level_row = -1;
     bool movement_attack_scenario = false;
     bool movement_kill_scenario = false;
@@ -73,7 +74,7 @@ Options parse(int argc, char** argv) {
                 throw std::runtime_error("--level-row must be a nonnegative 32-bit integer");
             options.level_row = static_cast<std::int32_t>(number);
             if (options.level_row != 23 && !model_renderer::static_level_name_for_row(options.level_row))
-                throw std::runtime_error("--level-row supports Crypt 23 and the authored static MLX rows");
+                throw std::runtime_error("--level-row supports the authored static MLX rows and generated rule rows");
         }
         else if (arg == "--transition-to") {
             // Development check: queue NativeGoToZone/ChangeLevel to LEVEL[:entry].
@@ -96,6 +97,7 @@ Options parse(int argc, char** argv) {
             else if (scenario == "fixed-cultist07-kill") options.fixed_cultist_kill_scenario = true;
             else throw std::runtime_error("Unknown scenario: " + scenario);
         }
+        else if (arg == "--show") options.show_window = true;
         else if (arg == "--frames") {
             const auto count = value("--frames");
             std::size_t parsed = 0;
@@ -108,8 +110,9 @@ Options parse(int argc, char** argv) {
             std::cout << "DH2 desktop runtime\n"
                          "  --assets DIR       Android app asset tree\n"
                          "  --runtime-dir DIR  save/config output (default per-user AppData)\n"
-                         "  --level-row N      skip the menu and start source row 4 (DARKWOOD), 23 (Crypt) or 41 (SWAMP)\n"
-                         "  --frames N         exit after N rendered UI/gameplay frames\n"
+                         "  --level-row N      skip the menu and start source row 4 (DARKWOOD), 23 (Crypt), 41 (SWAMP) or any generated rule row\n"
+                         "  --frames N         exit after N rendered UI/gameplay frames (hidden window, no audio)\n"
+                         "  --show             show the window and play audio for --frames runs\n"
                          "  --capture FILE.ppm save the last framebuffer as a PPM image\n"
                          "  --capture-initial FILE.ppm save the initial frame (for gameplay scenarios)\n"
                          "  --scenario move-attack steer with normal movement toward a source enemy, then attack\n"
@@ -585,6 +588,10 @@ int main(int argc, char** argv) {
         const bool any_fixed_cultist_scenario =
             options.fixed_cultist_scenario || options.fixed_cultist_kill_scenario;
         SDL_SetMainReady();
+        // Bounded (--frames) runs are automated tests: render into a hidden
+        // window and use SDL's dummy audio driver unless --show is given.
+        const bool headless = options.frames > 0 && !options.show_window;
+        if (headless) SDL_setenv("SDL_AUDIODRIVER", "dummy", 1);
         if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0)
             throw std::runtime_error(std::string("SDL_Init: ") + SDL_GetError());
         if (options.runtime.empty()) {
@@ -597,7 +604,8 @@ int main(int argc, char** argv) {
         std::filesystem::create_directories(options.runtime);
         SDL_Window* window = SDL_CreateWindow("Dungeon Hunter II | shared native runtime",
             SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720,
-            SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
+            SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI |
+            (headless ? SDL_WINDOW_HIDDEN : 0));
         if (!window) throw std::runtime_error(std::string("SDL_CreateWindow: ") + SDL_GetError());
         SDL_SysWMinfo window_info{};
         SDL_VERSION(&window_info.version);
