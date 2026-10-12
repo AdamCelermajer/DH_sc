@@ -1,5 +1,6 @@
-// Reads through ScriptCmd::read, AIChangeScript::read (two string buffers) and AIDoSkill::read
-// (one string buffer behind a null guard), plus the destructors that free them.
+// Reads through ScriptCmd::read, AIChangeScript::read (two string buffers), AIDoSkill::read
+// (one string buffer, freed then read; read twice on one object), CloseDoor and MoveActor, plus
+// the destructors that free them.
 #include "pydata-accessors/script_cmd.hpp"
 
 #include <cstdio>
@@ -62,7 +63,7 @@ int main() {
         delete c;  // frees both buffers
     }
 
-    // AIDoSkill: int32 (+0x8), length 2 (+0xc) and "hi" behind a null guard at +0x10.
+    // AIDoSkill: int32 (+0x8), length 2 (+0xc) and "hi" at +0x10 (the buffer is freed if set, then read).
     {
         std::vector<unsigned char> b;
         putWord(b, 9);            // ScriptCmd word at +0x4
@@ -79,6 +80,32 @@ int main() {
         d->finalize();  // frees the buffer at +0x10
         d->m_w4 = nullptr;
         delete d;
+    }
+
+    // AIDoSkill read twice on one object (Hex-Rays free-then-read): the second read frees "hi",
+    // reads the new int32, length and string, and consumes the stream to its end.
+    {
+        std::vector<unsigned char> b;
+        putWord(b, 1);            // ScriptCmd word, first read
+        putWord(b, 0xfffffffdu);  // -3 at +0x8
+        putWord(b, 2);            // length at +0xc
+        putText(b, "hi");
+        putWord(b, 4);            // ScriptCmd word, second read
+        putWord(b, 7);            // +0x8
+        putWord(b, 3);            // length at +0xc
+        putText(b, "xyz");
+        ByteStream s(b);
+        Structs::AIDoSkill* d = new Structs::AIDoSkill();
+        d->read(&s);
+        CHECK(d->m_w4 != nullptr && std::strcmp(d->m_w4, "hi") == 0);
+        d->read(&s);
+        CHECK(d->m_w1 == 4);
+        CHECK(d->m_w2 == 7);
+        CHECK(d->m_w3 == 3);
+        CHECK(d->m_w4 != nullptr && std::strcmp(d->m_w4, "xyz") == 0);
+        unsigned char extra = 0;
+        CHECK(!s.ReadBytes(&extra, 1));  // every byte was consumed
+        delete d;  // frees "xyz"
     }
 
     // CloseDoor read twice on one object (Hex-Rays free-then-read): the second read frees the first
