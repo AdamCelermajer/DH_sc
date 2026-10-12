@@ -7,6 +7,7 @@
 #include <cctype>
 #include <cerrno>
 #include <cmath>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <limits>
@@ -407,6 +408,19 @@ bool compile_generated_crypt_dact_v1(
       }
       if (found->duplicate_name) continue;
 
+      // Character::SafeGetCharPropsId (0x3b3d38) caches -1 for an unknown
+      // char_template; InitPost then has no model, so the port skips the
+      // modelless Character with a warning exactly like static Levels do.
+      if (template_catalog &&
+          std::none_of(template_catalog->templates.begin(),
+              template_catalog->templates.end(), [&](const auto& entry) {
+                return entry.name == runtime_template;
+              })) {
+        std::fprintf(stderr,
+            "Generated Crypt template Character skipped | %s | unknown char_template %s | SafeGetCharPropsId -1\n",
+            object.name ? object.name : "", runtime_template);
+        continue;
+      }
       GeneratedCryptTemplateCharacterSourceV1 retained;
       std::string projection_error;
       const auto projection_status = template_catalog

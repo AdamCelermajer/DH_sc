@@ -660,6 +660,28 @@ int main(int argc, char** argv) {
                 return static_cast<dh2::android_ui::OriginalUiSession*>(context)
                     ->item_text_services(items, characters);
             });
+        model_renderer::bind_source_dialog_services({&original_ui,
+            [](void* context, std::int32_t actor, std::int32_t style, std::int32_t text) {
+                std::string error;
+                const bool ok = static_cast<dh2::android_ui::OriginalUiSession*>(context)
+                    ->enqueue_source_dialog(actor, style, text, error);
+                if (!ok) SDL_Log("Source StartDialog dispatch failed: %s", error.c_str());
+                return ok ? 1 : -1;
+            },
+            [](void* context) {
+                bool active = false; std::string error;
+                const bool ok = static_cast<dh2::android_ui::OriginalUiSession*>(context)
+                    ->source_dialog_active(active, error);
+                if (!ok) SDL_Log("Source WaitDialog predicate failed: %s", error.c_str());
+                return ok ? (active ? 1 : 0) : -1;
+            },
+            [](void* context, std::int32_t dialog_id) {
+                std::string error;
+                const bool ok = static_cast<dh2::android_ui::OriginalUiSession*>(context)
+                    ->enqueue_source_dialog_id(dialog_id, error);
+                if (!ok) SDL_Log("Source StartDialogID dispatch failed: %s", error.c_str());
+                return ok ? 1 : -1;
+            }});
         FrontRuntimeContext front_runtime{assets.get(), &original_ui};
         bind_desktop_front_runtime(original_ui, front_runtime);
         int initial_width = 1, initial_height = 1;

@@ -5894,7 +5894,11 @@ bool NativeCryptRoomRuntime::initialize_source_exit_level_zones(
   source_handles.reserve(source_handles.size()+static_cast<std::size_t>(count));
   for(const auto& source:sources) {
    if(source.gametype!="TriggerZoneExitLevel")continue;
-   if(source.duplicate_name||source.source_handle<0||source.name.empty()||
+   // Generated Levels place one tile MGP in several Modules. ObjectManager::Add
+   // keeps the first object per name and destroys later same-name candidates
+   // (source handle ledger duplicate_name); those never reach InitPost.
+   if(source.duplicate_name)continue;
+   if(source.source_handle<0||source.name.empty()||
       source.source_record==std::numeric_limits<std::uint32_t>::max()||
       source.source_module_id<0||
       source.module_index>=ledger->initial_top_level_handle_offset-1) {
@@ -23894,6 +23898,8 @@ bool native_level_script_host_supports(void*,const dh2_script_command* command){
       native_script_name_field(c,1)&&c.fields[2].kind==DH2_SCRIPT_VALUE_BOOL;
  case 1: case 2: // EnterCutSceneMode()/ExitCutSceneMode()
   return true;
+ case 69: // SaveGame()
+  return c.field_count==0;
  case 66: // AwardTrophy(I id)
   return c.field_count==1&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32;
  case 28: // IncFaeryLevel(I index)
@@ -23915,6 +23921,7 @@ bool native_level_script_host_supports(void*,const dh2_script_command* command){
  }
 }
 bool native_player_inc_faery_level(std::uint32_t index,std::string& error);
+bool native_level_script_save_game(std::string& error);
 int native_level_script_host_command(void*,const dh2_script_command* command,
                                      std::uintptr_t* handle){
  try {
@@ -24111,6 +24118,13 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
    if(!native_gameplay_ui)return 1;
    std::string error;
    return native_gameplay_ui->lock_source_tutorial(c.fields[0].value.i32,error)?1:-1;
+  }
+  case 69: {
+   // Script_SaveGame::Execute 0x45c994: DebugSwitches trace query, then (for
+   // the current Level) Level::SG_BlockLevel(false) + Level::QuickSave(false),
+   // then the local Player's Character::SG_Block(false) + Character::SG_Save.
+   std::string error;
+   return native_level_script_save_game(error)?1:-1;
   }
   case 79: {
    // Script_FlushMessages::Execute 0x460a58.
@@ -33365,6 +33379,18 @@ bool apply_player_faery_change(std::uint32_t id,std::string& error) {
 }
 
 // Character::IncFaeryLevel 0x3ae61c. SG_GetFaerieCount is the Save row count (5).
+bool native_level_script_save_game(std::string& error) {
+ const auto active=source_level_owner.snapshot();
+ if(!active.source_level||!source_level_owner.sg_block_level(active.source_level,0)){
+  error="Script_SaveGame Level::SG_BlockLevel requires the active source Level";return false;
+ }
+ if(!native_level_quick_save_v1(false,error))return false;
+ const auto player=prince_character.identity();
+ if(!player||!prince_character.sg_block(player,0)){
+  error="Script_SaveGame Character::SG_Block requires the local Player";return false;
+ }
+ return ui_player_save_game(player,error);
+}
 bool native_player_inc_faery_level(std::uint32_t index,std::string& error) {
  constexpr std::uint32_t faery_count=5;
  if(native_save_difficulty<0||native_save_difficulty>2||!prince_combat.savegame){
@@ -41149,8 +41175,18 @@ std::vector<dh2::world::EntryPoint> entrypoints;
           :record.model;
         const auto model=read(assets,resource_name,
             mvp.packaged_actor_asset?"actors":"original-cache");
-        if(!dh2::objects::load_resource(model.data(),model.size(),nullptr,0,found->resource,error))
+        if(!dh2::objects::load_resource(model.data(),model.size(),nullptr,0,found->resource,error)){
+          if(error.find("no visible geometry")!=std::string::npos){
+            // Particle-only AnimatedDecor BDAE (dust motes, fog): emitters, not
+            // meshes; emitter playback is not bound, so the prop is deferred
+            // exactly like the static-Level AnimatedDecor path.
+            candidate_groups.pop_back();
+            __android_log_print(ANDROID_LOG_WARN,"DH2Native","Source MVP %s (%s) skipped | particle-only BDAE: %s",
+                record.name.c_str(),record.model.c_str(),error.c_str());
+            error.clear();continue;
+          }
           throw std::runtime_error("Source MVP BDAE rejected: "+error);
+        }
         for(const auto& primitive:found->resource.primitives){
           Draw draw;draw.node=primitive.node;draw.material=found->resource.scene.materials.at(primitive.material);
           draw.skin=primitive.skin;draw.cpu_vertices=primitive.vertices;draw.rest_positions=primitive.rest_positions;
@@ -41165,16 +41201,42 @@ std::vector<dh2::world::EntryPoint> entrypoints;
         }
       }
 
-      const auto root_id=mvp.xrefobject+"-node";
-      const auto root_matches=std::count_if(found->resource.scene.graph.begin(),found->resource.scene.graph.end(),
+      // AnimatedDecor xrefobject selects a subtree by node id ("<name>-node")
+      // or, for shared BDAEs, by node name (same selector as static Levels).
+      auto root_id=mvp.xrefobject+"-node";
+      auto root_matches=std::count_if(found->resource.scene.graph.begin(),found->resource.scene.graph.end(),
         [&](const auto& node){return node.id==root_id;});
-      if(root_matches!=1)throw std::runtime_error("Source MVP xrefobject root is absent or ambiguous: "+root_id);
+      if(root_matches==0){
+        root_matches=std::count_if(found->resource.scene.graph.begin(),found->resource.scene.graph.end(),
+          [&](const auto& node){return node.name==mvp.xrefobject;});
+        if(root_matches==1){
+          root_id=std::find_if(found->resource.scene.graph.begin(),found->resource.scene.graph.end(),
+            [&](const auto& node){return node.name==mvp.xrefobject;})->id;
+          root_matches=std::count_if(found->resource.scene.graph.begin(),found->resource.scene.graph.end(),
+            [&](const auto& node){return node.id==root_id;});
+        }
+      }
+      if(root_matches!=1){
+        if(mvp.packaged_actor_asset){
+          __android_log_print(ANDROID_LOG_WARN,"DH2Native","Source MVP %s skipped | xrefobject %s is absent or ambiguous in %s",
+              record.name.c_str(),mvp.xrefobject.c_str(),record.model.c_str());
+          if(found->instances.empty()&&found->draws.empty())candidate_groups.erase(found);
+          continue;
+        }
+        throw std::runtime_error("Source MVP xrefobject root is absent or ambiguous: "+root_id);
+      }
       const auto root=std::find_if(found->resource.scene.graph.begin(),found->resource.scene.graph.end(),
         [&](const auto& node){return node.id==root_id;});
       const auto root_index=static_cast<unsigned>(root-found->resource.scene.graph.begin());
       if(std::none_of(found->resource.primitives.begin(),found->resource.primitives.end(),
-          [&](const auto& primitive){return item_node_below(found->resource,primitive.node,root_index);}))
+          [&](const auto& primitive){return item_node_below(found->resource,primitive.node,root_index);})){
+        if(mvp.packaged_actor_asset){
+          __android_log_print(ANDROID_LOG_WARN,"DH2Native","Source MVP %s skipped | xrefobject %s has no renderable primitive",
+              record.name.c_str(),root_id.c_str());
+          continue;
+        }
         throw std::runtime_error("Source MVP xrefobject root has no renderable primitive: "+root_id);
+      }
       ObjectActor instance(record);instance.identity=0;instance.source_root_node_id=root_id;
       instance.source_module_index=mvp.module_index;instance.source_record=mvp.source_record;
       instance.source_handle=mvp.source_handle;instance.source_visual_path=mvp.dae_path;

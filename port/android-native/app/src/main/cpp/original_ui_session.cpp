@@ -4315,6 +4315,10 @@ bool OriginalUiSession::enqueue_source_status_constant(
 bool OriginalUiSession::enqueue_source_dialog(std::int32_t actor_id,std::int32_t style_id,
     std::int32_t text_string_id,std::string& error){
     auto& self=*impl_;
+    // The gameplay HUD SWF loads lazily on the first rendered player frame, but
+    // level scripts (Script_StartDialog) can run in the first update, before it.
+    if(self.selected&&!self.loaded&&self.live_player&&self.front_screen.empty()&&
+       !self.load(error))return false;
     if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()||!self.movie){
         error="Source dialog enqueue requires the retained gameplay HUD session";return false;
     }
@@ -4354,6 +4358,8 @@ bool OriginalUiSession::enqueue_source_dialog(std::int32_t actor_id,std::int32_t
 bool OriginalUiSession::enqueue_source_dialog_id(std::int32_t dialog_id,
     std::string& error){
     auto& self=*impl_;
+    if(self.selected&&!self.loaded&&self.live_player&&self.front_screen.empty()&&
+       !self.load(error))return false;
     if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()||
        !self.movie){
         error="Source dialog ID enqueue requires the retained gameplay HUD session";return false;
@@ -4505,6 +4511,10 @@ bool OriginalUiSession::flush_source_messages(std::string& error){
 }
 bool OriginalUiSession::source_dialog_active(bool& active,std::string& error)const{
     const auto& self=*impl_;
+    if(self.selected&&!self.loaded&&self.live_player&&self.front_screen.empty()){
+        // Nothing can have been queued before the HUD exists.
+        active=false;error.clear();return true;
+    }
     if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()){
         error="Source dialog activity requires the retained gameplay HUD session";return false;
     }
