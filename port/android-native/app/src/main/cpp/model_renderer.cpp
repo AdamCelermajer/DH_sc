@@ -5169,7 +5169,8 @@ bool NativeCryptRoomRuntime::initialize(
        manager.find_by_source_handle(actor->source_handle))
      source_handles.push_back(actor->source_handle);
     else actors.erase(actor_entry.first);
-    error="Source ObjectManager/Character-list actor transaction failed";
+    error="Source ObjectManager/Character-list actor transaction failed | "+actor->name+
+        " | handle "+std::to_string(actor->source_handle)+" | status "+std::to_string(int(add_status));
     clear();return false;
    }
    source_handles.push_back(actor->source_handle);
@@ -39286,6 +39287,33 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
       __android_log_print(ANDROID_LOG_INFO,"DH2Native","Source MGP direct actors imported | DACT bytes %zu | retained actor handles %zu | supported records 5 | scripted/conditional actors deferred",source_object_bytes.size(),source_static_actor_handles.size());
      }else source_object_bytes=read(assets,level_assets.objects,"worlds");
      if(!dh2::objects::load_records(source_object_bytes.data(),source_object_bytes.size(),candidate.rooms,character_table,model_table,object_records,error))throw std::runtime_error(error);
+     // Non-SWAMP static levels' offline DACT actors keep their exact source
+     // MGP module/name ObjectManager key (the legacy Crypt rule below).
+     if(source_static_level&&std::string(static_level_source->name)!="SWAMP"){
+      const auto* handle_ledger=level_assets.source_level_handle_ledger.get();
+      source_static_actor_handles.assign(object_records.size(),{});
+      for(std::size_t dact_record=0;dact_record<object_records.size();++dact_record){
+       const auto& record=object_records[dact_record];
+       auto& source=source_static_actor_handles[dact_record];
+       source.dact_record=static_cast<std::uint32_t>(dact_record);
+       if(record.kind!=1)continue;
+       const dh2::world::source_handle_ledger_v1::Occurrence* selected=nullptr;
+       if(handle_ledger)for(const auto& occurrence:handle_ledger->occurrences){
+        const auto& origin=occurrence.source;
+        if(origin.kind!=dh2::world::RecordKind::mgp||
+           origin.module_index!=record.room||origin.name!=record.name||
+           origin.gametype!="Character")continue;
+        if(selected)throw std::runtime_error("Static Level DACT Character matches multiple source MGP occurrences: "+record.name);
+        selected=&occurrence;
+       }
+       if(!selected||selected->duplicate_name||selected->handle<0)
+        throw std::runtime_error("Static Level DACT Character has no unique retained source ObjectManager key: "+record.name);
+       source.module_index=selected->source.module_index;
+       source.source_record=selected->source.record_index;
+       source.source_handle=selected->handle;
+       source.name=record.name;source.character=record.character;
+      }
+     }
      if(level_assets.generated_crypt_layout){
       const auto* handle_ledger=level_assets.generated_crypt_handle_ledger.get();
       std::vector<dh2::world::SourceMgpView> census_mgps;
@@ -39355,6 +39383,9 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
       for(const auto& source:source_character_census){
        if(source.duplicate_name||source.source_handle<0||
           source.supported_direct_dact_v1)continue;
+       // Offline DACT actors (non-SWAMP static levels) already own this key.
+       if(std::any_of(source_static_actor_handles.begin(),source_static_actor_handles.end(),
+            [&](const auto& retained){return retained.source_handle==source.source_handle;}))continue;
        const bool swamp_escape_monster=source.module_index==7&&
           source.template_name=="Monster"&&
           source.activate_condition=="IsBefore_Swamp_Escape";
@@ -39477,10 +39508,7 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
       __android_log_print(ANDROID_LOG_INFO,"DH2Native",
        "Source SWAMP direct Character rows retained | exact MGP ledger identity | activation conditions retained for post-construction reconciliation | templates and Faery use their canonical source Character owners");
      }
-     // Legacy Crypt and the non-SWAMP static levels' offline DACT actors keep
-     // their exact source MGP module/name ObjectManager key.
-     if(legacy_crypt_source_layout||(source_static_level&&
-        std::string(static_level_source->name)!="SWAMP"&&!object_records.empty())){
+     if(legacy_crypt_source_layout){
       const auto* handle_ledger=level_assets.source_level_handle_ledger.get();
       if(!handle_ledger||handle_ledger->entries.empty())
        throw std::runtime_error("Legacy Crypt DACT source-key ledger is unavailable");
@@ -39871,7 +39899,7 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
     std::vector<std::unique_ptr<ObjectActor>> source_template_staged_actors(
         object_records.size());
     if(source_static_level){
-     std::size_t selected_source_templates=0;
+     std::size_t selected_source_templates=0,missing_source_templates=0;
      const auto expected_source_templates=static_cast<std::size_t>(
          std::count_if(source_character_census.begin(),source_character_census.end(),
           [](const auto& row){
@@ -39880,6 +39908,35 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
           }));
      if(source_static_actor_handles.size()!=object_records.size())
       throw std::runtime_error("SWAMP source Character records do not have a one-to-one retained MGP handle vector");
+     // Character::SafeGetCharPropsId (0x3b3d38) caches -1 for an unknown
+     // char_template and InitPost then loads LoadBaseProperties(-1) defaults
+     // with no model (UNDERWORLD_HUB's "UW_CommonType3"). Such a modelless
+     // Character is not staged; the authoring error is reported instead.
+     for(std::size_t object_record=object_records.size();object_record-->0;){
+      const auto& retained=source_static_actor_handles[object_record];
+      if(retained.dact_record!=object_record||retained.source_handle<0)continue;
+      const auto census=std::find_if(source_character_census.begin(),
+          source_character_census.end(),[&](const auto& row){
+           return row.module_index==retained.module_index&&
+                  row.source_record==retained.source_record&&
+                  row.source_handle==retained.source_handle&&
+                  row.name==retained.name;
+          });
+      if(census==source_character_census.end()||census->char_template.empty()||
+         std::any_of(generated_crypt_template_catalog.templates.begin(),
+           generated_crypt_template_catalog.templates.end(),
+           [&](const auto& entry){return entry.name==census->char_template;}))continue;
+      __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+          "Static Level template Character skipped | %s | unknown char_template %s | SafeGetCharPropsId -1",
+          census->name.c_str(),census->char_template.c_str());
+      if(!census->duplicate_name)++missing_source_templates;
+      object_records.erase(object_records.begin()+std::ptrdiff_t(object_record));
+      source_static_actor_handles.erase(source_static_actor_handles.begin()+std::ptrdiff_t(object_record));
+      source_template_staged_actors.erase(source_template_staged_actors.begin()+std::ptrdiff_t(object_record));
+      for(std::size_t later=object_record;later<source_static_actor_handles.size();++later)
+       if(source_static_actor_handles[later].dact_record==later+1)
+        source_static_actor_handles[later].dact_record=static_cast<std::uint32_t>(later);
+     }
      for(std::size_t object_record=0;object_record<object_records.size();++object_record){
       const auto& retained=source_static_actor_handles[object_record];
       if(retained.dact_record!=object_record||retained.source_handle<0)continue;
@@ -40006,7 +40063,7 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
        census->char_template.c_str(),model_name.c_str(),*animation_id,
        safeget.random_draws);
      }
-     if(selected_source_templates!=expected_source_templates)
+     if(selected_source_templates+missing_source_templates!=expected_source_templates)
       throw std::runtime_error("SWAMP source Character importer did not materialize every unique authored MonsterCommonType row");
     }
     if(restore&&prince_combat.character_class!=fresh_player.character_class)throw std::runtime_error("Retained gameplay class differs from its saved profile");
@@ -43102,10 +43159,17 @@ void draw(int width,int height){
   glUniform1i(glGetUniformLocation(program,"diffuse"),0);glUniform1i(glGetUniformLocation(program,"alpha_map"),1);
   glEnable(GL_DEPTH_TEST);glDepthFunc(GL_LEQUAL);glEnable(GL_BLEND);
   glEnableVertexAttribArray(position);glEnableVertexAttribArray(texcoord);glEnableVertexAttribArray(color);
+  // CSceneManager::drawInit (0x589e7c): Allow_ZWrite_On_Transparent is unset,
+  // so alpha-mapped environment materials draw after opaque geometry without
+  // depth writes (STransparentNodeEntry queue; back-to-front sort not yet
+  // reconstructed).
+  const auto transparent_environment=[](const Draw& b){
+    return b.environment&&!b.material.additive&&!b.material.alpha_map.empty();
+  };
   auto submit=[&](const Draw& b,const Matrix& transform){
     glUniformMatrix4fv(mvp,1,GL_FALSE,transform.data());
     b.material.backface?glEnable(GL_CULL_FACE):glDisable(GL_CULL_FACE);glCullFace(GL_BACK);glFrontFace(GL_CCW);
-    glBlendFunc(GL_SRC_ALPHA,b.material.additive?GL_ONE:GL_ONE_MINUS_SRC_ALPHA);glDepthMask(b.material.additive?GL_FALSE:GL_TRUE);
+    glBlendFunc(GL_SRC_ALPHA,b.material.additive?GL_ONE:GL_ONE_MINUS_SRC_ALPHA);glDepthMask(b.material.additive||transparent_environment(b)?GL_FALSE:GL_TRUE);
     glUniformMatrix4fv(texture_matrix,1,GL_FALSE,b.material.texture_matrix);glUniform4fv(material_color,1,b.material.color);
     glUniform1f(has_alpha,b.material.alpha_map.empty()?0:1);glUniform1f(alpha_ref,b.material.alpha_ref);
     const bool blue=b.material.effect_file=="GL_Diffuse_L1_VC_iPhone.bdae"&&
@@ -43136,7 +43200,9 @@ void draw(int width,int height){
           int(prince_combat.life.dead));
     }
   }
+  for(unsigned transparent_pass=0;transparent_pass<2;++transparent_pass)
   for(auto& b:draws){
+    if(transparent_environment(b)!=(transparent_pass==1))continue;
     if(world_mode&&!prince_character.render_batch_visible(b.environment))continue;
     if(world_mode&&player_equipment_native&&!equipment_draws.empty()&&!b.environment)continue;
     if(!b.skin.nodes.empty()){
