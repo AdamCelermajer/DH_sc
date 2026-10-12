@@ -268,6 +268,7 @@ target_sources(dh2_level_world PRIVATE destructible_container_source_owner_v1.cp
  destructible_container_external_script_v1.cpp)
 target_sources(dh2_level_world PRIVATE trigger_interaction_table_v1.cpp)
 target_sources(dh2_level_world PRIVATE trigger_zone_exit_level_update_v1.cpp)
+target_sources(dh2_level_world PRIVATE source_animated_decor_v1.cpp)
 target_sources(dh2_level_world PRIVATE door_source_runtime_v1.cpp)
 target_sources(dh2_level_world PRIVATE door_source_table_v1.cpp)
 target_sources(dh2_level_world PRIVATE game_object_position_owner_v1.cpp

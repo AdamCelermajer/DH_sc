@@ -927,6 +927,14 @@ int main(int argc, char** argv) {
                                       << '/' << pose.enemy_max_hp << " | slot 0 skill " << slots[0]
                                       << " | state " << model_renderer::gameplay_player_state()
                                       << " | use " << (used ? "ok" : "error: " + ui_error) << '\n';
+                            // A skill refused for mana/cooldown leaves the Player in its prior
+                            // state; after repeated refusals fall back to a basic attack.
+                            static unsigned refused = 0;
+                            refused = model_renderer::gameplay_player_state() == 6 ? 0 : refused + 1;
+                            if (refused > 6) {
+                                const auto attack = model_renderer::player_attack();
+                                std::cout << "Scenario skill fallback attack | " << attack << '\n';
+                            }
                         }
                     } else {
                         const auto attack = model_renderer::player_attack();

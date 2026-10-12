@@ -50,6 +50,7 @@
 #include "../../../../../../port/level-world/source_character_safeget_v1.hpp"
 #include "../../../../../../port/level-world/character_template_runtime_v1.hpp"
 #include "../../../../../../port/level-world/crypt_generated_mvp_v1.hpp"
+#include "../../../../../../port/level-world/source_animated_decor_v1.hpp"
 #include "../../../../../../port/level-world/character_oid_cache_v1.hpp"
 #include "../../../../../../port/level-world/source_level_owner_v1.hpp"
 #include "../../../../../level-world/player_skill_progression_v1.hpp"
@@ -679,6 +680,21 @@ std::uint64_t snapshot_checksum(const dh2::data::PropertySheet& sheet){
  std::uint64_t result=14695981039346656037ull;for(auto value:sheet)for(unsigned i=0;i<4;++i){result^=(std::uint32_t(value)>>(8*i))&255;result*=1099511628211ull;}return result;
 }
 std::vector<ObjectGroup> object_groups;
+// SWAMP MVP AnimatedDecor VisualObjects named by level scripts. The owner keeps
+// the BDAE clip timeline and Animator pose; draws mirror the container
+// VisualObject path. Duplicate names stay in module order and PlayAnimByName
+// plays the first name match, as ObjectManager's name lookup does.
+struct SourceAnimatedDecor {
+ std::string name,dae_path,start_animation;
+ std::unique_ptr<dh2::destructible_container_visual_owner_v1::Owner> visual;
+ std::vector<Draw> visual_draws;std::vector<GLuint> visual_images;
+ Matrix placement{};
+};
+std::vector<SourceAnimatedDecor> source_animated_decors;
+void release_source_animated_decors(std::vector<SourceAnimatedDecor>& decors,bool gl_context) noexcept {
+ for(auto& decor:decors)release_source_container_visual_gpu(decor.visual_draws,decor.visual_images,gl_context);
+ decors.clear();
+}
 // Non-owning renderer view of an exact Player -> Faery Character+0x420 link.
 // The factory remains the only Record owner; both retire paths must unregister.
 struct FaeryVisualBinding {
@@ -21677,7 +21693,7 @@ if(!retain){
 }
  native_actor_ready=false;clear_actor_world(retain);search_world.clear();prince_search_projection={};prince_body={};
  clear_player_equipment_native(false);
- resume_world=retain;world_mode=false;move_x=move_y=0;android_movement_stop_pending=false;draws.clear();images.clear();object_groups.clear();world_objects.clear();
+ resume_world=retain;world_mode=false;move_x=move_y=0;android_movement_stop_pending=false;source_animated_decors.clear();draws.clear();images.clear();object_groups.clear();world_objects.clear();
  if(!retain){
   prince_retained_pose.clear();prince_locomotion=dh2::actor::BlendedPlayback{};
   prince_visual={};prince_attack_clips.clear();prince_animation_bank={};native_level_frame.scene={};
@@ -21819,7 +21835,7 @@ void deactivate(bool defer_source_level_finish){
  native_world_items.clear();native_item_manager_pool={};clear_native_world_item_resources();
  active_crypt_module_bounds={};
  native_level_script_session.clear();native_level_script_generation=0;native_level_script_level_name.clear();crypt_trigger_state={};saved_actors.clear();
- release_objects(object_groups);release(draws,images);world_objects.clear();
+ release_source_animated_decors(source_animated_decors,true);release_objects(object_groups);release(draws,images);world_objects.clear();
  active_generated_crypt_faery_sources.clear();active_generated_crypt_template_sources.clear();
  actor_skill_catalogue.reset();level={};current_scene={};
  prince_retained_pose.clear();prince_locomotion=dh2::actor::BlendedPlayback{};
@@ -22074,7 +22090,7 @@ static std::string load_scene(const std::uint8_t* bytes,std::size_t size,AAssetM
     if(preserve_level_session)clear_actor_world(true);else deactivate();
     release_class_previews();release_menu_preview_actor_v1(true);
     menu_background=false;class_scene=false;
-    release_objects(object_groups);world_objects.clear();inspected_object=-1;release(draws,images);draws=std::move(candidate);images=std::move(textures);radius=next_radius;
+    release_source_animated_decors(source_animated_decors,true);release_objects(object_groups);world_objects.clear();inspected_object=-1;release(draws,images);draws=std::move(candidate);images=std::move(textures);radius=next_radius;
     if(!preserve_level_session){
       __android_log_print(ANDROID_LOG_INFO,"DH2Native","Native Player preview owners retired | bank %zu | retained pose %u | skill owner %u | AI owner %u",
        prince_attack_clips.size(),unsigned(!prince_retained_pose.empty()),unsigned(bool(prince_skills)),unsigned(bool(prince_source_ai)));
@@ -23644,11 +23660,16 @@ bool native_level_script_host_supports(void*,const dh2_script_command* command){
   return c.field_count==1&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32;
  case 24: case 25: // LockCharacter/UnlockCharacter(S)
   return c.field_count==1&&native_script_name_field(c,0);
+ case 19: // PlayAnimByName(S clip, B loop, S target, B blocking flag)
+  return c.field_count==4&&native_script_name_field(c,0)&&c.fields[1].kind==DH2_SCRIPT_VALUE_BOOL&&
+      native_script_name_field(c,2)&&c.fields[3].kind==DH2_SCRIPT_VALUE_BOOL;
  case 51: case 52: // UnEquipHands(S)/ReEquipHands(S): one target name
   return c.field_count==1&&native_script_name_field(c,0);
  case 22: case 23: // ShowFlash/HideFlash(I, name S, B)
   return c.field_count==3&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32&&
       native_script_name_field(c,1)&&c.fields[2].kind==DH2_SCRIPT_VALUE_BOOL;
+ case 66: // AwardTrophy(I id)
+  return c.field_count==1&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32;
  case 27: // SetFaeryState(I index, I state)
   return c.field_count==2&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32&&
       c.fields[1].kind==DH2_SCRIPT_VALUE_I32;
@@ -23979,6 +24000,24 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
    return prince_combat.savegame->set_faery_state(std::uint32_t(index),state,
        std::uint32_t(native_save_difficulty),error)?1:-1;
   }
+  case 66: {
+   // Script_AwardTrophy::Execute 0x4593c4 -> TrophyManager::UnlockTrophy
+   // (0x3813b8); IsBlocking 0x455920 returns 0.
+   auto* manager=app_trophy_runtime.manager();
+   const auto id=c.fields[0].value.i32;
+   if(!manager||id<0||std::size_t(id)>=manager->size())return -1;
+   const auto status=manager->unlock(id);
+   if(status==dh2::data::TrophyUnlockStatusV1::completed){
+    std::string save_error;
+    if(!app_trophy_runtime.save_savegame(runtime_root,save_error))
+     __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+      "Could not persist source achievements.savegame after Script_AwardTrophy: %s",save_error.c_str());
+    __android_log_print(ANDROID_LOG_INFO,"DH2Native","Source trophy unlocked | id %d | Script_AwardTrophy",id);
+    return 1;
+   }
+   return status==dh2::data::TrophyUnlockStatusV1::already_unlocked||
+          status==dh2::data::TrophyUnlockStatusV1::already_unlocking?1:-1;
+  }
   case 22: case 23: {
    // Script_ShowFlash::Execute 0x45f8c8 / Script_HideFlash::Execute 0x45f78c:
    // non-HUD names resolve MenuManager::GetMenuByName and call MenuBase::Show
@@ -23993,6 +24032,31 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
    if(!ok)__android_log_print(ANDROID_LOG_ERROR,"DH2Native","Script %s %s failed | %s",
        c.command_id==22?"ShowFlash":"HideFlash",name.c_str(),error.c_str());
    return ok?1:-1;
+  }
+  case 19: {
+   // Script_PlayAnimByName::Execute 0x45e124: GetObjectByName(target), then the
+   // object's VisualObject controller (slot 8: clip, bool, 0, 0). IsBlocking
+   // 0x4556a4 returns 0, so the command completes immediately. A clip the BDAE
+   // does not carry is ignored by the controller.
+   const auto clip=native_script_string(c,0);
+   const auto target=native_script_string(c,2);
+   const bool loop=c.fields[1].value.boolean!=0;
+   for(auto& decor:source_animated_decors){
+    if(decor.name!=target)continue;
+    if(!decor.visual->has_clip(clip.c_str()))return 1;
+    std::string error;
+    if(!decor.visual->play_named(clip.c_str(),loop,nullptr,nullptr,nullptr,error)){
+     __android_log_print(ANDROID_LOG_ERROR,"DH2Native","Script PlayAnimByName %s on %s failed | %s",
+         clip.c_str(),target.c_str(),error.c_str());
+     return -1;
+    }
+    return 1;
+   }
+   // Other PlayAnimByName targets (Characters) are not bound to an owner yet.
+   dh2_script_runtime::ObjectRecord record{};
+   const int status=native_level_script_object_lookup(nullptr,target.c_str(),&record);
+   if(status==0)return 0;
+   return -2;
   }
   case 51: case 52: {
    // Script_UnEquipHands 0x45ded0 / Script_ReEquipHands 0x45d95c: resolve the
@@ -39129,6 +39193,7 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
   std::map<std::string,unsigned> candidate_itemdrop_roots;
   std::map<unsigned,float> candidate_itemdrop_sensor_radii,candidate_itemdrop_interaction_radii;
   std::vector<ObjectGroup> candidate_groups;
+  std::vector<SourceAnimatedDecor> candidate_animated_decors;
   dh2::crypt_module_bounds_registry_v1::Owner candidate_crypt_module_bounds;
   const bool restore=world_mode||resume_world;const auto previous=actor_position;
   const auto previous_heading=heading;float source_spawn_heading=0;
@@ -39978,6 +40043,46 @@ std::vector<dh2::world::EntryPoint> entrypoints;
       mvp_render_instances.push_back(std::move(instance));
      }
     }
+    if(source_static_level&&std::string(static_level_source->name)=="SWAMP"){
+     // Script PlayAnimByName targets from SWAMP's MVP AnimatedDecor census.
+     // Other SWAMP AnimatedDecor rows (torches, water, motes, bubbles) remain
+     // deferred until their own owners are reviewed.
+     static const char* const script_targets[]{"_anim_cage_001","_anim_destructible_wall_001"};
+     std::vector<dh2::world::GeneratedCryptMvpFileV1> animated_mvps;
+     animated_mvps.reserve(source_mvps.size());
+     for(const auto& mvp:source_mvps)animated_mvps.push_back({mvp.source_path,mvp.data,mvp.size});
+     std::vector<dh2::world::SourceAnimatedDecorV1> animated_rows;
+     std::size_t animated_deferred=0;
+     if(!dh2::world::compile_source_animated_decor_v1(source_mlx_bytes.data(),source_mlx_bytes.size(),
+          "SWAMP","data/scene/001_swamp.mlx",animated_mvps.data(),animated_mvps.size(),animated_rows,animated_deferred,error))
+      throw std::runtime_error("SWAMP source MVP AnimatedDecor import rejected: "+error);
+     for(const auto& row:animated_rows){
+      if(std::find_if(std::begin(script_targets),std::end(script_targets),
+           [&](const char* name){return row.name==name;})==std::end(script_targets))continue;
+      SourceAnimatedDecor decor;
+      decor.name=row.name;decor.dae_path=row.dae_path;decor.start_animation=row.start_animation;
+      decor.visual=std::make_unique<dh2::destructible_container_visual_owner_v1::Owner>();
+      const auto bytes=read(assets,row.dae_path,"original-cache");
+      if(!decor.visual->load(bytes.data(),bytes.size(),error))
+       throw std::runtime_error("SWAMP AnimatedDecor BDAE rejected for "+row.name+": "+error);
+      const float half=3.14159265358979323846f/360.f;
+      const float x=row.world_transform[3]*half,y=row.world_transform[4]*half,z=row.world_transform[5]*half;
+      const float sx=std::sin(x),cx=std::cos(x),sy=std::sin(y),cy=std::cos(y),sz=std::sin(z),cz=std::cos(z);
+      const float quaternion[]{sx*cy*cz-cx*sy*sz,cx*sy*cz+sx*cy*sz,cx*cy*sz-sx*sy*cz,cx*cy*cz+sx*sy*sz};
+      const float position[]{row.world_transform[0],row.world_transform[1],row.world_transform[2]};
+      const float scale[]{row.world_transform[6],row.world_transform[7],row.world_transform[8]};
+      dh2_node_matrix(decor.placement.data(),position,quaternion,scale);
+      if(decor.visual->has_clip(decor.start_animation.c_str())&&
+         !decor.visual->play_named(decor.start_animation.c_str(),true,nullptr,nullptr,nullptr,error))
+       throw std::runtime_error("SWAMP AnimatedDecor start clip rejected for "+row.name+": "+error);
+      if(!prepare_source_container_visual_gpu(assets,*decor.visual,decor.visual_draws,decor.visual_images,error))
+       throw std::runtime_error("SWAMP AnimatedDecor GPU preparation failed for "+row.name+": "+error);
+      candidate_animated_decors.push_back(std::move(decor));
+     }
+     __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+       "SWAMP MVP AnimatedDecor owners | retained %zu | script targets _anim_cage_001 and _anim_destructible_wall_001 | activate_cond not evaluated (IsBefore_Swamp_Escape assumed true) | unsupported AnimatedDecor rows skipped %zu | other AnimatedDecor not bound",
+       candidate_animated_decors.size(),animated_deferred);
+    }
     if(level_assets.generated_crypt_layout){
      if(!level_assets.generated_crypt_handle_ledger)
       throw std::runtime_error("Generated Crypt source handle ledger is unavailable");
@@ -40747,7 +40852,7 @@ std::vector<dh2::world::EntryPoint> entrypoints;
     // Renderer registrations borrow factory Records from the retiring Level.
     // Drop those views before replacing either their owner set or draw banks.
     faery_visual_records.clear();
-    object_groups=std::move(candidate_groups);world_objects=std::move(object_records);
+    object_groups=std::move(candidate_groups);source_animated_decors=std::move(candidate_animated_decors);world_objects=std::move(object_records);
     active_generated_crypt_faery_sources=
         std::move(generated_crypt_faery_sources);
     active_generated_crypt_template_sources=
@@ -41207,7 +41312,7 @@ std::vector<dh2::world::EntryPoint> entrypoints;
         throw std::runtime_error("PlayerManager AddCharacter receipt lacks the fully initialized canonical PlayerInfo/Character");
     }
     __android_log_print(ANDROID_LOG_INFO,"DH2Native","World ready | rooms %u | visual draws %zu | navigation triangles %zu | idle tracks %u | walk tracks %u | position %.4f %.4f %.4f",level.rooms,draws.size(),level.floor.size(),player.track_count(),walk_player.track_count(),actor_position[0],actor_position[1],actor_position[2]);return std::string(report)+(combat_resumed?"\nNative combat resumed":"");
-  }catch(const std::exception& e){{std::vector<GLuint> no_textures;release(candidate_itemdrop_draws,no_textures);}deactivate();release_objects(candidate_groups);release(environment,textures);__android_log_print(ANDROID_LOG_ERROR,"DH2Native","World load failed: %s",e.what());return std::string("World load failed: ")+e.what();}
+  }catch(const std::exception& e){{std::vector<GLuint> no_textures;release(candidate_itemdrop_draws,no_textures);}deactivate();release_source_animated_decors(candidate_animated_decors,true);release_objects(candidate_groups);release(environment,textures);__android_log_print(ANDROID_LOG_ERROR,"DH2Native","World load failed: %s",e.what());return std::string("World load failed: ")+e.what();}
 }
 
 void advance_source_map_camera(std::uint32_t dt_ms);
@@ -43607,6 +43712,33 @@ void draw(int width,int height){
         render_actor(actor,nullptr);
       }
     }
+  }
+  if(world_mode&&!source_map_render_pass)for(auto& decor:source_animated_decors){
+   if(!decor.visual||!decor.visual->controller_present()||decor.visual_draws.empty())continue;
+   const auto scene_time_value=native_scene_clock_ms();
+   if(!std::isfinite(scene_time_value)||scene_time_value<0.f||scene_time_value>4294967040.f)
+    throw std::runtime_error("SWAMP AnimatedDecor lost the shared scene timestamp");
+   std::string visual_error;
+   if(!frozen&&decor.visual->clip_active()&&
+      !decor.visual->update(static_cast<std::uint32_t>(scene_time_value),visual_error))
+    throw std::runtime_error("SWAMP AnimatedDecor Animator update failed: "+visual_error);
+   auto& resource=decor.visual->resource();
+   for(std::size_t i=0;i<decor.visual_draws.size();++i){
+    if(i>=resource.primitives.size())
+     throw std::runtime_error("SWAMP AnimatedDecor draw/resource banks diverged");
+    const auto& primitive=resource.primitives[i];
+    const auto& batch=decor.visual_draws[i];
+    if(primitive.node>=resource.scene.graph.size())
+     throw std::runtime_error("SWAMP AnimatedDecor primitive node is invalid");
+    if(!primitive.skin.nodes.empty()){
+     glBindBuffer(GL_ARRAY_BUFFER,batch.vertices);
+     glBufferSubData(GL_ARRAY_BUFFER,0,primitive.vertices.size()*sizeof(Vertex),primitive.vertices.data());
+    }
+    auto transform=dh2::scene::multiply(projection,decor.placement);
+    if(primitive.skin.nodes.empty())
+     transform=dh2::scene::multiply(transform,resource.scene.graph[primitive.node].world);
+    submit(batch,transform);
+   }
   }
   if(world_mode&&!source_map_render_pass&&active_crypt_room_runtime){
     auto& containers=active_crypt_room_runtime->source_destructible_containers;
