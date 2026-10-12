@@ -384,3 +384,8 @@ buffer and state members), and the LC_API_FREE and LC_API_MALLOC thunks.
 - glx_player_user_responses_test expectations were aligned with the ledger: processUserInformation("ignored") gives an
   empty name (not null), and processUserGameList("ignored") gives one record. Later replaced by the integrator's version.
 - Host 61/61 and MinGW/Wine 91/91 pass for net-transport and net-session-online together.
+
+- Decision (2026-10-12): LCXPlayerSocket::ParseChunkedContent (0x8a0af0) stays faithful to the binary. The
+  Hex-Rays body and IDA listing use the absolute CR index as the next-data offset, so a second chunk reads from the
+  wrong place. The data-end constant (v58 = end + 4 in the pseudocode, +2 in the listing) is unresolved. Left partial
+  until the wire format is checked against a real capture. Do not "fix" it to standard chunked semantics without that.
