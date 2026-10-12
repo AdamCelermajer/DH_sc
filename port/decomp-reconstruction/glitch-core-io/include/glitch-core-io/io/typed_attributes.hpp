@@ -26,6 +26,8 @@ public:
     float getFloat() const override;      // 0x31f18c
     void setInt(int value) override;      // 0x31f1f0
     void setFloat(float value) override;  // 0x31f284
+    // 0x32324c: PARTIAL. Reads "%02x%02x%02x%02x" and passes the packed colour to setColor (+0xa0).
+    void setString(const char* text) override;
 };
 
 class CColorfAttribute : public CNumbersAttribute {
@@ -65,6 +67,7 @@ public:
 
 class CVector4DAttribute : public CNumbersAttribute {
 public:
+    glitch::core::CMatrix4<float> getMatrix() const override;  // 0x3276f8: PARTIAL, see typed_attributes.cpp
     CVector4DAttribute() = default;
     CVector4DAttribute(const char* attrName, const glitch::core::vector4d<float>& value, bool f)
         : CNumbersAttribute(attrName, value, f) {}
@@ -117,6 +120,7 @@ public:
 // CNumbersAttribute slots; addRect builds a CNumbersAttribute and sets this vtable).
 class CRectAttribute : public CNumbersAttribute {
 public:
+    const wchar_t* getTypeString() const override;  // 0x5604ec: PARTIAL, literal not resolved
     CRectAttribute() = default;
     CRectAttribute(const char* attrName, const glitch::core::rect<std::int32_t>& value, bool f)
         : CNumbersAttribute(attrName, value, f) {}
@@ -143,6 +147,7 @@ public:
 
 class CBBoxAttribute : public CNumbersAttribute {
 public:
+    const wchar_t* getTypeString() const override;  // 0x560534: PARTIAL, literal not resolved
     CBBoxAttribute() = default;
     CBBoxAttribute(const char* attrName, const glitch::core::aabbox3d<float>& value, bool f)
         : CNumbersAttribute(attrName, value, f) {}
@@ -169,6 +174,7 @@ public:
 
 class CLine2dAttribute : public CNumbersAttribute {
 public:
+    const wchar_t* getTypeString() const override;  // 0x56057c: PARTIAL, literal not resolved
     CLine2dAttribute() = default;
     CLine2dAttribute(const char* attrName, const glitch::core::line2d<float>& value, bool f)
         : CNumbersAttribute(attrName, value, f) {}
@@ -177,6 +183,7 @@ public:
 
 class CLine3dAttribute : public CNumbersAttribute {
 public:
+    const wchar_t* getTypeString() const override;  // 0x560594: PARTIAL, literal not resolved
     CLine3dAttribute() = default;
     CLine3dAttribute(const char* attrName, const glitch::core::line3d<float>& value, bool f)
         : CNumbersAttribute(attrName, value, f) {}

@@ -8,6 +8,7 @@ namespace glitch::io {
 
 class CBoolAttribute : public IAttribute {
 public:
+    const wchar_t* getTypeString() const override;  // 0x31d968: PARTIAL, literal not resolved
     CBoolAttribute() = default;
     CBoolAttribute(const char* attrName, bool v, bool f);  // 0x56716c
     bool value = false;  // +0x21
@@ -25,6 +26,7 @@ public:
 
 class CIntAttribute : public IAttribute {
 public:
+    const wchar_t* getTypeString() const override;  // 0x31d9c8: PARTIAL, literal not resolved
     CIntAttribute() = default;
     CIntAttribute(const char* attrName, int v, bool f);  // 0x5672a4
     int value = 0;  // +0x24
@@ -61,6 +63,7 @@ public:
 // calls in the original, which go through getInt/setInt).
 class CEnumAttribute : public CIntAttribute {
 public:
+    const wchar_t* getTypeString() const override;  // 0x560610: PARTIAL, literal not resolved
     // 0x56532c (D1): PARTIAL. The original also releases the literal vector at +0x3c, which
     // this layout does not hold; the base and members are released as usual.
     CEnumAttribute() = default;
@@ -69,6 +72,11 @@ public:
     // table at +0x3c..+0x40) are not recovered, so the index starts at 0.
     CEnumAttribute(const char* attrName, const char* value, const char* const* choices, bool f);
     int enumValue = 0;  // +0x38
+    // +0x24: the narrow text. setString stores it and getString copies it. The choice table
+    // (+0x3c) is not in this layout, so the index is not tied to the text.
+    std::string text;
+    std::string getString() const override;       // 0x562d0c
+    void setString(const char* value) override;   // 0x567144: a null value is taken as empty
 
     float getFloat() const override;      // 0x5605a4
     bool getBool() const override;        // 0x5605bc

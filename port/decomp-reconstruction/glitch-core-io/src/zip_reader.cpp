@@ -2,6 +2,8 @@
 
 #include <cstring>
 
+#include "glitch-core-io/core/sort.hpp"
+
 namespace glitch::io {
 
 // 0x576e78 _ZN6glitch2io13SZipFileEntryC1ERKS1_
@@ -113,5 +115,19 @@ void CZipReader::deletePathFromFilename(std::string& fileName) {
 
 // 0x5775a4 / 0x5777ac / 0x5783c4: see the declaration in zip_reader.hpp.
 bool operator<(const SZipFileEntry& a, const SZipFileEntry& b) { return a.name < b.name; }
+
+// 0x578520 _ZN6glitch2io10CZipReader8findFileEPKc
+// PARTIAL: the ordering of the entries relies on the name comparison of operator< (partial).
+int CZipReader::findFile(const char* name) {
+    SZipFileEntry key;
+    key.name = name != nullptr ? name : "";
+    if (flagA) {
+        for (char& c : key.name) {
+            if (c >= 'A' && c <= 'Z') c = static_cast<char>(c + ' ');
+        }
+    }
+    if (flagB) deletePathFromFilename(key.name);
+    return glitch::core::binary_search(entries, key);
+}
 
 }  // namespace glitch::io

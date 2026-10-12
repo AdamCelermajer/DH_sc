@@ -147,6 +147,8 @@ public:
     int getInt(int index) const;                      // 0x5608dc
     float getFloat(int index) const;                  // 0x560918
     int getEnum(int index) const;                     // 0x560d1c
+    // 0x561f04: PARTIAL. The index of the first choice equal to the attribute's text, or -1.
+    int getEnum(int index, const char* const* choices) const;
     void getBinaryData(int index, void* data, int size) const;  // 0x560ce4
 
     glitch::video::SColorf getColorf(int index) const;                         // 0x5609e8
@@ -260,6 +262,8 @@ public:
     void addStringAsColorf(const char* name, const wchar_t* value, bool flag);       // 0x56a240
     void addStringAsMatrix(const char* name, const wchar_t* value, bool flag);       // 0x56a638
     void addStringAsTexture(const char* name, const wchar_t* value, bool flag);      // 0x5682c0
+    // 0x568124: PARTIAL. The light is null here, as in the original (see CLightAttribute).
+    void addStringAsLight(const char* name, const wchar_t* value, bool flag);
     void addString(const char* name, const wchar_t* value, bool flag);               // 0x56a798
     // 0x56a818: PARTIAL, the narrow value is not kept (see the narrow CStringAttribute constructor).
     void addString(const char* name, const char* value, bool flag);
@@ -322,6 +326,9 @@ public:
     int getInt(const char* name) const;                    // 0x562860
     float getFloat(const char* name) const;                // 0x562838
     int getEnum(const char* name) const;                   // 0x5624c4
+    // 0x562458: PARTIAL. The original compares the text returned by the attribute's +0x80 slot; the
+    // port labels that slot getEnum, so the attribute's getString is compared instead.
+    int getEnum(const char* name, const char* const* choices) const;
     void getBinaryData(const char* name, void* data, int size) const;  // 0x5624ec
     glitch::video::SColorf getColorf(const char* name) const;     // 0x562768
     glitch::video::SColor getColor(const char* name) const;       // 0x5627c0

@@ -154,6 +154,14 @@ void CAttributes::addStringAsTexture(const char* name, const wchar_t* value, boo
     appendAndSetString(currentAttributes(), new CTextureAttribute(name, none, driver, flag), value);
 }
 
+// 0x568124 _ZN6glitch2io11CAttributes16addStringAsLightEPKcPKwb
+// PARTIAL: the light is null here, as in the original; the light attribute's constructor is
+// partial (see CLightAttribute), which only leaves the light unset.
+void CAttributes::addStringAsLight(const char* name, const wchar_t* value, bool flag) {
+    boost::intrusive_ptr<glitch::video::CLight> none;
+    appendAndSetString(currentAttributes(), new CLightAttribute(name, none, driver, flag), value);
+}
+
 // 0x56a798 _ZN6glitch2io11CAttributes9addStringEPKcPKwb
 // Appends a string attribute built from the wide value (no separate setString call).
 void CAttributes::addString(const char* name, const wchar_t* value, bool flag) {

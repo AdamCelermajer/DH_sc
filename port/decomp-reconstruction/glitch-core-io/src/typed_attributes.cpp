@@ -1,6 +1,8 @@
 #include "glitch-core-io/io/typed_attributes.hpp"
 
 #include <cctype>
+#include <cstddef>
+#include <cstdio>
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
@@ -190,6 +192,19 @@ void CColorAttribute::setInt(int value) { storeColorBytes(floatValues, value); }
 
 // 0x31f284 _ZN6glitch2io15CColorAttribute8setFloatEf
 void CColorAttribute::setFloat(float value) { setInt(static_cast<int>(value)); }
+
+// 0x32324c _ZN6glitch2io15CColorAttribute9setStringEPKc
+// PARTIAL: the four two-digit hex fields are read as in the original. The original leaves a field
+// unset when the text is short (its value is then undefined); the fields start at zero here.
+// The packed colour is (first << 24) | (fourth << 16) | (third << 8) | second, the layout of the
+// decompile and the listing, and it is passed to the colour setter (vtable +0xa0).
+void CColorAttribute::setString(const char* text) {
+    unsigned int first = 0, second = 0, third = 0, fourth = 0;
+    if (text != nullptr) std::sscanf(text, "%02x%02x%02x%02x", &first, &second, &third, &fourth);
+    const std::uint32_t packed = ((first & 0xffu) << 24) | ((fourth & 0xffu) << 16) |
+                                 ((third & 0xffu) << 8) | (second & 0xffu);
+    setColor(glitch::video::SColor{packed});
+}
 
 // 0x31ef94 _ZN6glitch2io16CColorfAttribute6getIntEv
 int CColorfAttribute::getInt() const { return colorInt(*this); }
@@ -446,5 +461,36 @@ CLightAttribute::CLightAttribute(const char* attrName, const boost::intrusive_pt
 
 // 0x56377c _ZNK6glitch2io15CLightAttribute10getStringWEv
 std::wstring CLightAttribute::getStringW() const { return light ? L"light" : L""; }
+
+// 0x5604ec _ZNK6glitch2io14CRectAttribute13getTypeStringEv
+// PARTIAL: the wide literal is not resolved in strings.csv; the name is inferred from the class.
+const wchar_t* CRectAttribute::getTypeString() const { return L"rect"; }
+
+// 0x560534 _ZNK6glitch2io15CBBoxAttribute13getTypeStringEv
+// PARTIAL: the wide literal is not resolved in strings.csv; the name is inferred from the class.
+const wchar_t* CBBoxAttribute::getTypeString() const { return L"bbox"; }
+
+// 0x56057c _ZNK6glitch2io17CLine2dAttribute13getTypeStringEv
+// PARTIAL: the wide literal is not resolved in strings.csv; the name is inferred from the class.
+const wchar_t* CLine2dAttribute::getTypeString() const { return L"line2d"; }
+
+// 0x560594 _ZNK6glitch2io17CLine3dAttribute13getTypeStringEv
+// PARTIAL: the wide literal is not resolved in strings.csv; the name is inferred from the class.
+const wchar_t* CLine3dAttribute::getTypeString() const { return L"line3d"; }
+
+// 0x3276f8 _ZNK6glitch2io18CVector4DAttribute9getMatrixEv
+// PARTIAL: the original reads the first four floats of the float storage (+0x30) without checking
+// the list kind or its length; missing entries read as zero here. The matrix is the identity with
+// the vector in elements 12..15 (row-major) and its flag is clear.
+glitch::core::CMatrix4<float> CVector4DAttribute::getMatrix() const {
+    glitch::core::CMatrix4<float> m{};
+    m.M[0] = m.M[5] = m.M[10] = 1.f;
+    const auto component = [this](std::size_t i) { return i < floatValues.size() ? floatValues[i] : 0.f; };
+    m.M[12] = component(0);
+    m.M[13] = component(1);
+    m.M[14] = component(2);
+    m.M[15] = component(3);
+    return m;
+}
 
 }  // namespace glitch::io

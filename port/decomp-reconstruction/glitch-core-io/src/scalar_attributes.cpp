@@ -211,4 +211,25 @@ CEnumAttribute::CEnumAttribute(const char* attrName, const char* value, const ch
     (void)choices;
 }
 
+// 0x31d968 _ZNK6glitch2io14CBoolAttribute13getTypeStringEv
+// PARTIAL: the wide literal is not resolved in strings.csv; the name is inferred from the class.
+const wchar_t* CBoolAttribute::getTypeString() const { return L"bool"; }
+
+// 0x31d9c8 _ZNK6glitch2io13CIntAttribute13getTypeStringEv
+// PARTIAL: the wide literal is not resolved in strings.csv; the name is inferred from the class.
+const wchar_t* CIntAttribute::getTypeString() const { return L"int"; }
+
+// 0x560610 _ZNK6glitch2io14CEnumAttribute13getTypeStringEv
+// PARTIAL: the wide literal is not resolved in strings.csv; the name is inferred from the class.
+const wchar_t* CEnumAttribute::getTypeString() const { return L"enum"; }
+
+// 0x562d0c _ZNK6glitch2io14CEnumAttribute9getStringEv
+// Copies the narrow text at +0x24 (see the header).
+std::string CEnumAttribute::getString() const { return text; }
+
+// 0x567144 _ZN6glitch2io14CEnumAttribute9setStringEPKc
+// The original takes the length of the value and assigns the text, so it has no null case;
+// a null value is taken as the empty string here.
+void CEnumAttribute::setString(const char* value) { text = value != nullptr ? value : ""; }
+
 }  // namespace glitch::io

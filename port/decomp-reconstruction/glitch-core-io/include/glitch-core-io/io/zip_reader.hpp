@@ -48,6 +48,9 @@ public:
     ~CZipReader() override;  // 0x577488 (D1), 0x5774ec (D2): drops the file
 
     int getFileCount();                                     // 0x576cf0: entries / 0x6c
+    // 0x578520: PARTIAL. The key's name is the argument, lower-cased when flagA is set and with its
+    // path removed when flagB is set; the search is the shared binary search over the entries.
+    int findFile(const char* name);
     const SZipFileEntry* getFileInfo(int index) const;      // 0x576d1c: no bounds check, as the original
 
     // 0x576d2c: true when the file starts with the local file header signature 0x04034b50.

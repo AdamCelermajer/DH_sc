@@ -85,10 +85,10 @@ public:
     virtual const wchar_t* getAttributeValueSafe(const wchar_t* name) const;  // 0x573a94 (+0x28)
     virtual int getAttributeValueAsInt(const wchar_t* name) const;       // 0x57287c (+0x2c)
     virtual int getAttributeValueAsInt(int index) const;                 // 0x572894 (+0x30)
-    // Float accessors (0x574488 and 0x5743f0) need stringw2stringc, which is not
-    // reconstructed yet, so they stay pure here.
-    virtual float getAttributeValueAsFloat(const wchar_t* name) const = 0;  // 0x574488 (+0x34)
-    virtual float getAttributeValueAsFloat(int index) const = 0;            // 0x5743f0 (+0x38)
+    // Float accessors (0x574488 and 0x5743f0): PARTIAL, defined in xml_reader.cpp. The text is
+    // narrowed through stringw2stringc, which is itself partial.
+    virtual float getAttributeValueAsFloat(const wchar_t* name) const;  // 0x574488 (+0x34)
+    virtual float getAttributeValueAsFloat(int index) const;            // 0x5743f0 (+0x38)
     virtual const wchar_t* getNodeName() const;                          // 0x5728ac (+0x3c)
     virtual const wchar_t* getNodeData() const;                          // 0x5728b4 (+0x40)
     virtual bool isEmptyElement() const;                                 // 0x5728bc (+0x44)

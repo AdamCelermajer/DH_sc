@@ -154,6 +154,28 @@ int WideReader::getAttributeValueAsInt(int index) const {
     return static_cast<int>(getAttributeValueAsFloat(index));
 }
 
+// 0x574488 _ZNK6glitch2io14CXMLReaderImplIwNS_17IReferenceCountedEE24getAttributeValueAsFloatEPKw
+// PARTIAL: the value is narrowed with stringw2stringc (partial) and read with strtod, as the
+// decompile does. A missing attribute gives zero.
+float WideReader::getAttributeValueAsFloat(const wchar_t* name) const {
+    const SAttribute* attribute = getAttributeByName(name);
+    if (!attribute) return 0.f;
+    const std::string narrow = glitch::core::stringw2stringc(attribute->value.c_str());
+    return static_cast<float>(std::strtod(narrow.c_str(), nullptr));
+}
+
+// 0x5743f0 _ZNK6glitch2io14CXMLReaderImplIwNS_17IReferenceCountedEE24getAttributeValueAsFloatEi
+// PARTIAL: as the name form. The original parses the narrowed text with fast_atof_move, which is
+// partial in the port (see the narrow reader).
+float WideReader::getAttributeValueAsFloat(int index) const {
+    const wchar_t* text = getAttributeValue(index);
+    if (!text) return 0.f;
+    const std::string narrow = glitch::core::stringw2stringc(text);
+    float result = 0.f;
+    glitch::core::fast_atof_move(narrow.c_str(), result);
+    return result;
+}
+
 // 0x5728ac _ZNK6glitch2io14CXMLReaderImplIwNS_17IReferenceCountedEE11getNodeNameEv
 const wchar_t* WideReader::getNodeName() const { return nodeName.c_str(); }
 

@@ -16,11 +16,11 @@ int main() {
     using namespace glitch::core;
     int failures = 0;
 
-    CHECK(wcsicmp(L"", L"") == 0);
-    CHECK(wcsicmp(L"abc", L"abc") == 0);
-    CHECK(wcsicmp(L"abc", L"abcd") == -1);
-    CHECK(wcsicmp(L"abc", L"xyz") == 3);
-    CHECK(wcsicmp(L"ABC", L"ABD") == 1);
+    CHECK(glitch::core::wcsicmp(L"", L"") == 0);
+    CHECK(glitch::core::wcsicmp(L"abc", L"abc") == 0);
+    CHECK(glitch::core::wcsicmp(L"abc", L"abcd") == -1);
+    CHECK(glitch::core::wcsicmp(L"abc", L"xyz") == 3);
+    CHECK(glitch::core::wcsicmp(L"ABC", L"ABD") == 1);
 
     CHECK(getUTF8charValue("A") == 0x41);
     CHECK(getUTF8charValue("\xC3\xA9") == 0xE9);
@@ -39,6 +39,18 @@ int main() {
     const char* bad = "\x80Z";
     CHECK(iterateUTF8String(bad) == 0);
     CHECK(*bad == 'Z');
+
+    // randomString: the length is honoured and every character is from the 62-character alphabet.
+    CHECK(randomString(0).empty());
+    CHECK(randomString(-3).empty());
+    const std::string sample = randomString(64);
+    CHECK(sample.size() == 64);
+    bool alphabetOnly = true;
+    for (char c : sample) {
+        const bool ok = (c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
+        if (!ok) alphabetOnly = false;
+    }
+    CHECK(alphabetOnly);
 
     if (failures == 0) std::printf("core_text_test: all checks passed\n");
     return failures == 0 ? 0 : 1;

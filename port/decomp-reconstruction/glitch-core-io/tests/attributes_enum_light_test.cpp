@@ -71,6 +71,34 @@ int main() {
     CHECK(narrow.flag);
     CHECK(!narrow.isWide);
 
+    // Enumeration text: setString stores it and getString copies it; the type string is "enum".
+    io::CEnumAttribute choice("mode", "", choices, false);
+    choice.setString("high");
+    CHECK(choice.getString() == "high");
+    CHECK(std::wstring(choice.getTypeString()) == L"enum");
+
+    // getEnum by name and by index: the position of the text in the choices, or -1.
+    attrs.getAttributeP("mode")->setString("high");
+    CHECK(attrs.getEnum("mode", choices) == 1);
+    CHECK(attrs.getEnum("nope", choices) == -1);
+    CHECK(attrs.getEnum(3, choices) == 1);
+    CHECK(attrs.getEnum(99, choices) == -1);
+
+    // The light added with a wide string keeps its flag; the bool, int and box type strings.
+    attrs.addStringAsLight("lit", L"light", true);
+    CHECK(attrs.getAttributeP("lit")->flag);
+    CHECK(std::wstring(attrs.getAttributeP("lit")->getTypeString()) == L"light");
+    CHECK(std::wstring(io::CIntAttribute("i", 1, false).getTypeString()) == L"int");
+    CHECK(std::wstring(io::CBoolAttribute("b", true, false).getTypeString()) == L"bool");
+
+    // The vector4 matrix is the identity with the vector in the last column, and the flag clear.
+    glitch::core::vector4d<float> four{2.f, 3.f, 4.f, 5.f};
+    io::CVector4DAttribute vec("v", four, false);
+    const glitch::core::CMatrix4<float> matrix = vec.getMatrix();
+    CHECK(matrix.M[0] == 1.f && matrix.M[5] == 1.f && matrix.M[10] == 1.f);
+    CHECK(matrix.M[12] == 2.f && matrix.M[13] == 3.f && matrix.M[14] == 4.f && matrix.M[15] == 5.f);
+    CHECK(!matrix.flag);
+
     if (failures == 0) std::printf("attributes_enum_light_test: all checks passed\n");
     return failures == 0 ? 0 : 1;
 }

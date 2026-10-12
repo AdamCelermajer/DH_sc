@@ -110,6 +110,21 @@ int main() {
     testDirectory();
     testDeletePath();
     testValidSignature();
+    // findFile: the key is the name; with flagA it is lower-cased, and with flagB its path is removed.
+    {
+        CZipReader indexed;
+        SZipFileEntry first;
+        first.name = "a.txt";
+        SZipFileEntry second;
+        second.name = "b.txt";
+        indexed.entries = {first, second};
+        CHECK(indexed.findFile("b.txt") == 1);
+        CHECK(indexed.findFile("zz.txt") == -1);
+        indexed.flagA = true;
+        CHECK(indexed.findFile("B.TXT") == 1);
+        indexed.flagB = true;
+        CHECK(indexed.findFile("dir/a.txt") == 0);
+    }
     testIrrXmlCallback();
     if (failures == 0) std::printf("zip_reader_test: all checks passed\n");
     return failures == 0 ? 0 : 1;

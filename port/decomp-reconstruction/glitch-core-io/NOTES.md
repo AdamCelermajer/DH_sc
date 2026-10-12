@@ -312,3 +312,100 @@ Checked and not reconstructed this wave (reasons):
   text/parse helpers, `CLimitReadFile`, `CFile`, the process buffer heap, `Printer::logf` and
   `Randomizer`: queued, but not started in this wave. `Printer::logf` forwards a variadic call to
   a logger virtual (vtable +0x24) that the port's ILogger does not declare.
+
+## Wave 6 (200 new ledger rows: 83 reconstructed, 93 partial, 24 skipped)
+
+Count: 1047 ledger rows; 847 in the wave-5 snapshot (52bbcf12), so 200 are new this wave.
+Build: host `42 of 42` and Windows `42 of 42` (ctest 100%).
+
+Class layouts (offsets from the original; std members stand in for glitch strings and vectors):
+- `CLimitReadFile` (`io/limit_read_file.hpp`): +0x0c name, +0x24 full name, +0x3c size, +0x40 start,
+  +0x44 end, +0x48 wrapped file (cloned in the constructor, dropped in the destructor), +0x4c position.
+- `CReadFile` (`io/read_file.hpp`, the port's stand-in for CFile + CReadFile): +0x0c FILE*, +0x10 size,
+  +0x14 name, +0x2c obfuscation flag (the first four bytes are adjusted by ~pos - i).
+- `CZipReader` (`io/zip_reader.hpp`): +0x08 archive file, +0x0c flagA, +0x0d flagB (both from the
+  constructor; the ARM of findFile tests them), +0x14 entry vector. `SZipFileEntry` is 0x6c bytes:
+  path +0x00, name +0x18, extra +0x30; the ARM of extractFilename also reads a short at +0x66.
+- `CPakReader` (`io/pak_reader.hpp`): +0x08 archive file, +0x18 entry vector, +0x24/+0x25 flags.
+  `SPakFileEntry` is 0x50 bytes: path +0x00, name +0x18, extra +0x30, offset +0x48, size +0x4c.
+- `CZipWriter` (`io/zip_writer.hpp`): +0x08 write file, +0x0c flag, +0x24 names vector. The CRC-32
+  table is `boost/crc_table.hpp` (polynomial 0xEDB88320, built by init_table at 0x6b50ec).
+- `CXMLWriter` (`io/xml_writer.hpp`): +0x08 write file, +0x0c indent depth, +0x10 flag.
+  `CXMLAttributesReader` / `CXMLAttributesWriter` (`io/xml_attributes.hpp`): +0x04 reader or writer,
+  +0x08 flag, +0x0c element name (wide).
+- `CFileSystem` (`io/file_system.hpp`): archive containers from +0x08 are not modelled (see blockers).
+- `CUnZipReader` (`io/unzip_reader.hpp`): derives from CZipReader; the file system at +0x20 and the
+  folder name (inline buffer at +0x24, pointers at +0x34/+0x38) are not referenced by the port.
+- `IDevice` (`os/device.hpp`): the event queue from the ARM of run: begin pointer +0xb4, storage +0xb8,
+  storage end +0xbc, end +0xc4; events are 0x18 bytes (six words). Not implemented (see blockers).
+- `CProcessBufferHeap` (`core/process_buffer.hpp`): +0x00 start, +0x04 end, +0x08 top, +0x0c default
+  size, +0x10 excess flag. Blocks are boundary tags of 32-bit words (positive allocated, negative free).
+- `glitch::os::Randomizer` (`os/randomizer.hpp`): one static seed; reset gives 0x0f0f0f0f; the step is
+  Schrage's method for multiplier 40692 modulo 0x7fffff07.
+- `CMatrix4<float>` stand-in (`deps/glitch_core.hpp`): M[16] row-major at +0x00, flag at +0x40.
+
+Decisions:
+- `CStringAttribute` narrow constructor (0x567d60) keeps the name and flag and clears isWide; the
+  value argument is never read by the decompile, so it is dropped (partial). `addString(name,
+  const char*)` (0x56a818) therefore also drops its value.
+- Null inputs where the original faults: `CEnumAttribute::setString` and `addString` take a null
+  value as empty; `getEnum` with a null choice list gives -1.
+- `glitch::core::wcsicmp` is qualified in the tests (`glitch::core::wcsicmp`): the CRT declares a
+  global `wcsicmp` on Windows, so an unqualified call is ambiguous there.
+- `randomString` (0x58bad8) draws `lrand48() % 62`. lrand48 is emulated with the drand48 step from
+  the C library's default state, so the port does not depend on the platform's lrand48, and a seed the
+  game sets with srand48 is not reflected.
+- `CVector4DAttribute::getMatrix` (0x3276f8) reads the first four floats of the float storage as the
+  original does, without the list-kind or size check (missing entries read as zero).
+- `CAttributes::getEnum(name|index, choices)` compares the attribute's getString(): the original calls
+  vtable +0x80 for the text, but the port labels +0x80 as getEnum (an int), so the slot is not
+  reused.
+- Colour packing in `CColorAttribute::setString` (0x32324c) follows the ARM: the first hex field is
+  the top byte, then the fourth, third and second; the result goes through setColor (vtable +0xa0).
+
+New partial rows and their causes (the ledger notes say the same per row):
+- Literal names (wide strings not in strings.csv, and the literal pool address cannot be read: the
+  ELF is not in the container; recovered/native/debug holds DWARF JSON only): getTypeString of
+  CBoolAttribute, CIntAttribute, CEnumAttribute, CRectAttribute, CBBoxAttribute, CLine2dAttribute,
+  CLine3dAttribute. The names bool/int/enum/rect/bbox/line2d/line3d are inferred from the class.
+- Missing layouts: CEnumAttribute choice table (+0x3c, 24-byte entries), CLightAttribute and
+  CTextureAttribute held references (the constructors keep the driver only, the light and texture
+  arguments are not stored by the decompile), CStringWArrayAttribute constructor (array not kept).
+- Dependencies still partial: stringw2stringc (keeps the low byte of each character) and
+  fast_atof_move (used by the wide float getters), CZipReader::scanLocalHeader (no entries),
+  deletePathFromFilename (inferred from the tail call), operator< on pak and zip entries (names only).
+- Tests: `WideReader` has no read() in the port, so the wide XML float getters compile but are not
+  exercised by a test.
+
+Remaining (not reconstructed, with the reason):
+- `CFileSystem::createXMLReader` / `createXMLReaderUTF8` / `createIXMLReader` (0x56c230..0x576270):
+  need the IIrrXMLReader interface, which the port does not have.
+- `CFileSystem` archive functions (addPakFileArchive, addFolderFileArchive, addZipFileArchive,
+  createAndOpenFileFromArchives) and getObfuscatedFileName (0x56e064): need the archive containers and
+  the ARM's several branches (not recovered).
+- `CZipReader::openFile(int)` (0x576f18, 632 bytes) and `CUnzipReadFile` (ctor, dtor, getFileName):
+  the unzip read-file class is not modelled. openFile(name) tail-calls openFile(int).
+- `CZipWriter::close` (0x6b4fec) and `addNewFile` (0x6b581c): writer internals.
+- `IDevice::run`, `postEventFromUser`, `postMouseEventFromUser`, `checkVersion` (0x671b24, 0x671a00,
+  0x671aec, 0x671e84): the event queue above is not in the port's device.hpp.
+- `CXMLAttributesWriter::write` (0x5723f8): needs writeGroup and the writeElement overloads (IXMLWriter
+  +0x10 and +0x14 are not modelled). `CXMLReaderImpl` parse/read/convertTextData: the text buffer
+  (+0x08 buffer, +0x10 begin, +0x14 count) is not modelled.
+- `CMatrix4` mult, operator*, setbyproduct (needs setbyproduct_nocheck), mult34, transformPlane,
+  getScale, buildShadowMatrix: the pseudocode tail-calls with garbled arguments; the ARM listing for
+  getScale runs past its declared size. `CMatrixAttribute::getQuaternion` and
+  `CQuaternionAttribute::getMatrix` need the quaternion conversions, which the port does not have.
+- Texture string conversions (`CTextureAttribute::getString`, `getStringW`, `getString(char*)`,
+  `setString`): toString and the driver texture lookup need the video driver interface.
+- Binary attributes (`CStringAttribute::getBinary/setBinary`, `CAttributes::addBinary`,
+  `addStringAsBinary`, `setAttribute(name, void*, int)`, the CStringAttribute(void*) constructor): the
+  CBinaryAttribute data layout is not recovered.
+- `CEnumAttribute::getInt`, `setInt`, `setEnum`, `getStringW`: they need the choice table, which is not
+  in the layout (getStringW reads +0x34 and +0x38, which do not match the narrow text at +0x24).
+- `CXMLWriter::writeElement` (0x576758, 0x576988), `CXMLAttributesReader::read` (0x571920): large,
+  and they depend on the unmodelled writer and reader internals above.
+- Shared-string heap (`SSharedString::operator=`, `SSharedStringHeapEntry::commit`,
+  `registerSharedStringHeapInit`) and the glitch::core copyComponent / quantizeScaleOffset templates:
+  not in the port, and the pseudocode is garbled.
+- `IAttributes::getEnum<E>` / `addEnum<E>` and the `SIsValidSetMaterialParamaterOverload` enable_if
+  templates belong to glitch::video material code outside this category's files.
