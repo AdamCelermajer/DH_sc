@@ -137,8 +137,9 @@ void VoxSetJavaVM(_JavaVM* java_vm) {
     vox::DriverAndroid::s_javaVM = java_vm;
 }
 
-// 0x88ee1c VoxSetJavaVMC. The argument is passed straight through to VoxSetJavaVM in the
-// original (the pseudocode loses the register), then the threshold is set to 1.0.
+// 0x88ee1c VoxSetJavaVMC. The asm passes the argument straight through to VoxSetJavaVM
+// (R0 is not changed), then tail-branches to VoxSetDataThreshold with 1.0 in R0:R1
+// (0x3ff00000 high word, zero low word).
 void VoxSetJavaVMC(_JavaVM* java_vm) {
     VoxSetJavaVM(java_vm);
     VoxSetDataThreshold(1.0);

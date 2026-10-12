@@ -28,16 +28,20 @@ public:
     virtual bool AllowBufferReference() const { return false; }
 };
 
-// Stream source (vox::StreamInterface). Vtable slot +0x10 is Size().
+// Stream source (vox::StreamInterface). Vtable slot +0x10 is Size(), a non-pure
+// accessor for the size word at +0x04 (the derived streams fill it in).
 class StreamInterface {
 public:
     virtual ~StreamInterface() = default;  // 0x8886d8 (D1), 0x8887bc (D0)
     virtual void Init() {}                 // 0x8886dc
     virtual void Shutdown() {}             // 0x8886e0
     virtual int GetType() const = 0;
-    virtual int Size() const = 0;
+    virtual int Size() const { return size_; }  // 0x8886e4: returns the word at +0x04
     virtual StreamCursorInterface* CreateNewCursor() = 0;
     virtual void DestroyCursor(StreamCursorInterface* cursor) = 0;
+
+protected:
+    int size_ = 0;  // +0x04, shared by the derived streams
 };
 
 class StreamMemoryBuffer;
@@ -84,7 +88,6 @@ public:
     const std::uint8_t* Data() const { return data_; }
 
 private:
-    int size_ = 0;                        // +0x04
     std::uint8_t* data_ = nullptr;        // +0x08
     bool owns_ = true;                    // +0x0c
 };
@@ -105,7 +108,6 @@ public:
 
 private:
     friend class StreamCFileCursor;
-    int size_ = 0;                         // +0x04
     std::string path_;                     // +0x18
     FileSystemInterface* fs_ = nullptr;    // +0x20
 };

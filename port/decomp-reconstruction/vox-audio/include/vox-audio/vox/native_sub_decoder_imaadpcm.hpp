@@ -1,7 +1,7 @@
 // vox::VoxNativeSubDecoderIMAADPCM: the IMA ADPCM native sub-decoder. Its ADPCM block
 // decoder is ImaAdpcmDecodeBlock (ima_adpcm.hpp); the class-level buffering and segment
-// logic is declared here. VoxNativeSubDecoderIMAADPCM::DecodeBlock (0x887068) is declared
-// but not defined in this slice, so the methods that call it are partial.
+// logic is declared here. VoxNativeSubDecoderIMAADPCM::DecodeBlock (0x887068) is ported in
+// src/w9-native-subdecoder/ima_decode_block.cpp.
 #pragma once
 
 #include <cstdint>
@@ -48,7 +48,7 @@ public:
     int DecodeSegment(void* dst, int bytes, SegmentState* segment);  // 0x8875b8 (partial)
     int DecodeCurrentSegmentWithOffset(void* dst, int bytes);   // 0x887860 (partial)
 
-    // 0x887068 (not defined in this slice): decodes one block of the segment into buffer.
+    // 0x887068: decodes one block of the segment into buffer (src/w9-native-subdecoder).
     int DecodeBlock(void* buffer, SegmentState* segment);
 
 protected:

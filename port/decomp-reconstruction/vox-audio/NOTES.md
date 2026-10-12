@@ -910,6 +910,7 @@ voxengine_create_emitter.cpp). Edited in place: `src/data_obj.cpp`, `src/driver.
 - Not tested: the engine creation paths. VoxEngineInternal does not link in a test while
   EmitterObj::SetPlayCursor is declared but undefined in the port.
 
+
 ## Wave 11 (w11-loadxml): LoadXML priority word and the sound uid slot
 
 Source: `VoxSoundPackXML::LoadXML` 0x88d344 (Hex-Rays, IDA listing via decomp_asm.py), accessors
@@ -970,3 +971,20 @@ Re-decided from Hex-Rays and the asm listings (decomp_asm.py). Rows are in ledge
   - Default PriorityBankManager constructor: the binary leaves the bank count at +0 unwritten (rows 0x869858, 0x8698a0).
 - Slot names used: driver CreateDriverSource +0x44 and DestroyDriverSource +0x48; source AllowBufferReference +0x48 and GetBufferCount +0x54;
   cursor AllowBufferReference +0x34 (decoder.hpp).
+## Wave 11 (w11-partial-4): partial-row sweep
+- StreamInterface: the size word of the original base (+0x04) is now a protected `size_` in the
+  port's StreamInterface, and Size() is a virtual accessor (0x8886e4). StreamMemoryBuffer and
+  StreamCFile use the shared word. Test: tests/w11_stream_size_test.cpp.
+- VoxNativeSubDecoderIMAADPCM::DecodeBlock (0x887068) is ported from the Hex-Rays body, with
+  the nibble step written out (the same tables as ima_adpcm.cpp). Seek (0x887464) and
+  SetDecodingBufferToSegmentPosition (0x887544) are reconstructed on top of it. Test:
+  tests/w11_ima_decode_block_test.cpp (checked against ImaAdpcmDecodeBlock on a stereo block).
+- Native sub-decoder state constructors and destructors (PCM and IMA ADPCM, 0x886f7c..0x888670)
+  are reconstructed now that the base constructor and destructors are ported.
+- VoxSetJavaVMC (0x88ee1c): the asm shows the argument passes through unchanged, so the
+  pseudocode gap is closed.
+- Still partial, with the one missing item named in the ledger: UpdateSegmentsStates and the
+  element lookup it needs (0x885740), which blocks DecodeSegment and DecodeCurrentSegmentWithOffset;
+  StreamCFile file-name word (owner+0x1c); the DriverAndroid JNI bodies (no JNIEnv type or
+  m_updateStartTime/m_dataDuration statics in the port); VoxAlloc_c (needs the 4-argument VoxAlloc).
+
