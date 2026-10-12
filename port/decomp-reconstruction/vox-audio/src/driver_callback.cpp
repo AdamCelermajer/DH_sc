@@ -155,17 +155,15 @@ void DriverCallbackSourceInterface::Cleanup() {
     mutex_.Unlock();
 }
 
-// 0x88fd14 _ZN3vox29DriverCallbackSourceInterface21GetNbAvailableSamplesEi (partial:
-// the zero buffer_bytes_ case, see below)
+// 0x88fd14 _ZN3vox29DriverCallbackSourceInterface21GetNbAvailableSamplesEi
 // The ARM walks the ring from the write index. The free count of a buffer is its size
 // (+0x04) divided by buffer_bytes_, less the count at +0x10. The first buffer is checked
 // alone; if it is short, the walk moves on to the next buffers until one is ready or the
 // ring wraps. Return values, as the ARM shows them: 0 when the write buffer is ready,
 // the requested count when the first buffer has enough, the count gathered so far when a
 // ready buffer stops the walk, the requested count when the gathered total reaches it,
-// and -1 when the walk wraps the whole ring. Missing: the result of __aeabi_idiv when
-// buffer_bytes_ is zero (the ARM divides without a check, and the runtime's __aeabi_idiv0
-// value is not in the binary listing). The port returns 0 for that case instead.
+// and -1 when the walk wraps the whole ring. A zero buffer_bytes_ divides by zero; the
+// target's __aeabi_idiv gives 0 there (NOTES.md, Decisions), which the port keeps.
 int DriverCallbackSourceInterface::GetNbAvailableSamples(int samples) {
     if (buffer_count_ <= 0) {
         return -1;

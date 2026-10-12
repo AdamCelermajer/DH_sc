@@ -120,14 +120,15 @@ public:
     // 0x8855e8 (partial): element lookup through NativePlaylistsManager is not called here;
     // the current element is cleared.
     void ApplyTransitionRule(TransitionRule* rule);
-    // 0x885740 (partial): the history shift and the no-element branch run; the playlist
-    // element lookup and the transition rule branch are not called (see ApplyTransitionRule).
-    void UpdateSegmentsStates();
-    // 0x885984 (partial): the transition interpretation needs the TransitionRules table
-    // and the playlist peek, neither ported.
+    // 0x885740 (partial): the element lookup, rule branch, segment updates and history
+    // shift are ported; next_event_ reads loop-list words 1 and 2 without a length check.
+    // Returns the current element index (the ARM result).
+    int UpdateSegmentsStates();
+    // 0x885984 (partial): the rule flag, the playlist peek and next_event_ are ported; the
+    // original's return value (see the source comment) is not.
     void InterpretTransitionRule(int index);
-    // 0x885a3c (partial): stores the index and dispatches on the stored element; the list
-    // lookups that fill the element and the state word are not ported.
+    // 0x885a3c (partial): stores the index, the current chunk from the state list, and
+    // dispatches on the stored element; the transition-table lookup (field_38 >= 0) is not.
     void SetState(int index);
     // 0x885ac0 (partial): the stop, mode 17 and counter logic is reproduced; the decode
     // call through slot 0x34 is not.

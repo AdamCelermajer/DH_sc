@@ -64,8 +64,8 @@ void VoxNativeSubDecoderIMAADPCM::SetDecodingBufferToSegmentPosition(SegmentStat
 }
 
 // 0x8875b8 _ZN3vox27VoxNativeSubDecoderIMAADPCM13DecodeSegmentEPviPNS_12SegmentStateE (partial:
-// the UpdateSegmentsStates call at the end of the segment loop needs the element lookup in
-// 0x885740)
+// the UpdateSegmentsStates call (0x885740, partial: next_event_ loop-list length) runs at the
+// end of the segment loop)
 // Returns the number of bytes written to dst (frames times channels times two).
 int VoxNativeSubDecoderIMAADPCM::DecodeSegment(void* dst, int bytes, SegmentState* segment) {
     auto* out = static_cast<std::int16_t*>(dst);
@@ -145,7 +145,7 @@ int VoxNativeSubDecoderIMAADPCM::DecodeSegment(void* dst, int bytes, SegmentStat
 }
 
 // 0x887860 _ZN3vox27VoxNativeSubDecoderIMAADPCM30DecodeCurrentSegmentWithOffsetEPvi (partial:
-// the UpdateSegmentsStates calls need the element lookup in 0x885740)
+// the UpdateSegmentsStates call (0x885740, partial: next_event_ loop-list length) runs in the loop)
 // The current segment (segments_[2]) after a pending seek. The pending frames are zeroed
 // first. Returns the number of bytes written (pending frames included).
 int VoxNativeSubDecoderIMAADPCM::DecodeCurrentSegmentWithOffset(void* dst, int bytes) {

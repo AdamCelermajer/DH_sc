@@ -1027,3 +1027,32 @@ Re-decided from Hex-Rays and the asm listings (decomp_asm.py). Rows are in ledge
   allocation as the hint-less path. The remaining gap in the VoxAlloc rows is the gAssertLevel branches (CustomAlloc 0x310454).
 - VoxThread destructor and VoxEngine::Shutdown are now present, so the Shutdown blocker is gone. D1/D2/D0 and DestroyVoxEngine stay
   partial only for VoxEngineInternal::~VoxEngineInternal (0x86be68).
+## Wave 12 (w12-rem-4): segment code, driver ring and thread rows
+
+Ledger part: `ledger.parts/w12-rem-4.csv` (24 rows: 1 reconstructed, 19 partial, 4 skipped).
+
+Layouts confirmed from the segment pseudocode (VoxNativeSubDecoder, offsets as in the wave 9 notes):
+- this[72] (+0x120) is segments_[2].chunk_index; this[75] (+0x12c) is segments_[2].sample_position;
+  this[79] (+0x13c) is segments_[2].entries_left; the byte at +0x160 is segments_[2].reset_pending.
+- this[33] (+0x84) is current_element_.field_0c_; this[89] (+0x164) is next_event_.
+- Loop lists: the 12-byte records behind loop_lists_ are vector<int> objects. Word [2] and word
+  [1] of the list are read on the peek path (next_event_).
+- The state list (*states_)[field_3c_] is the playlist index; states[index] is also written to
+  segments_[2].chunk_index by SetState.
+
+Decisions:
+- Division by a zero divisor returns 0 (the existing __aeabi_idiv decision). GetNbAvailableSamples
+  is reconstructed on that basis; its zero buffer_bytes_ case is tested.
+- UpdateSegmentsStates, InterpretTransitionRule and SetState are now ported with their
+  playlist lookups. UpdateSegmentsStates returns the current element index as an int.
+- Void port functions that drop an int or float from the binary (InterpretTransitionRule, the
+  Init and FreeDisposableData Unlock results, _FillBuffer's float) stay partial. The base virtual
+  slots +0x4c and +0x58 are void, so the derived return types cannot change without a base
+  change, which needs a decision by the integrator.
+- VoxThread priority and GetCurThreadId follow pthread on POSIX builds. Windows keeps the
+  thread-id hash and skips the priority step (no equivalent in std::thread).
+
+Tests:
+- `tests/w12_get_nb_available_zero_bytes_test.cpp` (new): zero buffer_bytes_ gives -1 for a free ring and 0 for a ready buffer.
+- `tests/native_subdecoder_base_test.cpp`: the SetState(int) check now sets field_38 to 0 and a state list, because UpdateSegmentsStates reads the playlist manager (the fixture has none).
+Host build passes all 65 tests. No MinGW or Wine run in this slice.
