@@ -1,0 +1,101 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "registration_original": "0x58b88c",
+  "mesh_render_gate_original": "0x35a9a8",
+  "registration_cases": [
+    {
+      "flags": 0,
+      "culled": 0,
+      "registered_calls": 0
+    },
+    {
+      "flags": 0,
+      "culled": 1,
+      "registered_calls": 0
+    },
+    {
+      "flags": 1,
+      "culled": 0,
+      "registered_calls": 1
+    },
+    {
+      "flags": 1,
+      "culled": 1,
+      "registered_calls": 0
+    },
+    {
+      "flags": 2,
+      "culled": 0,
+      "registered_calls": 0
+    },
+    {
+      "flags": 2,
+      "culled": 1,
+      "registered_calls": 0
+    },
+    {
+      "flags": 3,
+      "culled": 0,
+      "registered_calls": 1
+    },
+    {
+      "flags": 3,
+      "culled": 1,
+      "registered_calls": 0
+    },
+    {
+      "flags": 1551,
+      "culled": 0,
+      "registered_calls": 1
+    },
+    {
+      "flags": 1551,
+      "culled": 1,
+      "registered_calls": 0
+    },
+    {
+      "flags": 4294967294,
+      "culled": 0,
+      "registered_calls": 0
+    },
+    {
+      "flags": 4294967294,
+      "culled": 1,
+      "registered_calls": 0
+    },
+    {
+      "flags": 4294967295,
+      "culled": 0,
+      "registered_calls": 1
+    },
+    {
+      "flags": 4294967295,
+      "culled": 1,
+      "registered_calls": 0
+    }
+  ],
+  "render_cases": [
+    {
+      "enabled138": 0,
+      "render_calls": 0
+    },
+    {
+      "enabled138": 1,
+      "render_calls": 1
+    },
+    {
+      "enabled138": 2,
+      "render_calls": 1
+    },
+    {
+      "enabled138": 127,
+      "render_calls": 1
+    },
+    {
+      "enabled138": 255,
+      "render_calls": 1
+    }
+  ],
+  "scope": "Original single-leaf visibility/culling registration gate and whole custom rigid-mesh byte138 render gate. Camera isCulled, node.onRegister and downstream mesh rendering are explicit fixture services. No genuine render-pass registration/material/GL execution claim."
+}

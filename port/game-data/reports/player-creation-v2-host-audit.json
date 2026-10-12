@@ -1,0 +1,89 @@
+{
+  "validation": "PASS",
+  "host_audits": {
+    "loot": {
+      "validation": "PASS",
+      "original_Loot_records": 339,
+      "synthetic_records": 128,
+      "original_random_operations": 512,
+      "actual_ItemTable_rows": 1322,
+      "actual_ItemLists": 186,
+      "starter_authored_items": 5,
+      "guards": 470,
+      "checks": 7341,
+      "mismatches": 0
+    },
+    "fresh": {
+      "validation": "PASS",
+      "original_fresh_loot_cases": 60,
+      "source_services": 3962,
+      "guards": 344,
+      "checks": 2544,
+      "mismatches": 0
+    },
+    "grants": {
+      "validation": "PASS",
+      "original_initial_grant_cases": 768,
+      "original_increment_cases": 768,
+      "ordered_requests": 8125,
+      "actual_cache_owned_skill_slot_compositions": 3,
+      "skill_effect_providers": "explicit fixtures",
+      "guards": 14,
+      "checks": 35164,
+      "mismatches": 0
+    }
+  },
+  "source_sha256": {
+    "port/game-data/loot_tables_v2.hpp": "b7618dda29339019e738362265bde13702326f4352f0c53ca64857e7a31ef931",
+    "port/game-data/loot_tables_v2.cpp": "ba72e90ac1003fe2e931024b3a21a99231048e8788d449794d80fffbc609892a",
+    "port/game-data/fresh_inventory_v2.hpp": "7c292dcbdf51f00f0cb80c6ad1ae188c24c663c240b3683c6964e7f771266748",
+    "port/game-data/fresh_inventory_v2.cpp": "769466d0f3aeb33d0a2d7cb6bc4f5b539f45cf5fc4117ae1620ff697c3581a49",
+    "port/level-world/player_initial_grants_v2.hpp": "bf6395009a9c11c59dae623313191dc203bfea7bd74f0c1619ee1c491a34e87d",
+    "port/level-world/player_initial_grants_v2.cpp": "fe57a885c2a6fed340caec32f6d22015f1ed1eadac5159c992c5928fecd6f9d0",
+    "port/game-data/items.hpp": "7657720fcb66d6d5c26a02f6288214278f2124e0c766c963301cbd1f3944b98f",
+    "port/game-data/items.cpp": "094bf9c52b35f65ba2829dbeee25cae68040271074c9a92a6d4478cfa4b53cfb",
+    "port/game-data/player_savegame_v1.hpp": "3addcdbb3a286f15b7ebd479e0a1e54395a030aa1117be0ba35f3193bfa66e8c",
+    "port/game-data/player_savegame_v1.cpp": "5affc8e4c046ab84156fb2a9b12dac3fffca5af827f1431367c2aa73dea78e92",
+    "port/game-data/skill_tables.hpp": "fe01ceadd86c43a2a6f92bcf8edd76466643c521db01b7176bab25fad311abab",
+    "port/game-data/skill_tables.cpp": "85695e3a274dae96bb92abcfdd12bdfb24b4d9f910f0026a777a39ce6c5534dd",
+    "port/game-data/tests/loot_tables_v2.cpp": "ef6bce7067c0a6345a62aaab4b77d39e35a34448f90797cd3a27e500a6771568",
+    "port/game-data/tests/fresh_inventory_v2.cpp": "09cd66fb9e2a0ac3a0080b8d17bf5949e8dc6d36b03f9ed6b283bb3e3b8e38ae",
+    "port/level-world/tests/player_initial_grants_v2.cpp": "36000c270faebc2cfb32e9b918884b31afeeeb29c50aff12170ec4feadcc1ba7"
+  },
+  "executable_sha256": {
+    ".local-inputs/player-creation-v2/loot-host-audit": "6d05b6c06286bff8a9ca7806159b0f5d643095fcbbee2b365ed0c316fa4eff80",
+    ".local-inputs/player-creation-v2/fresh-host-audit": "1e5de679e4bc056a4dc640f57bf06a5bddb6c36064ebe9aae0e14d714b70ff29",
+    ".local-inputs/player-creation-v2/grants-host-audit": "1f7a786eec515fce9ed5dbaa82e82c13c5b023bbca2827c38d96565b3fe30b37"
+  },
+  "gold_sha256": {
+    "port/game-data/reference/player-creation-v2/fixtures.bin": "97b3004304b478ebd51f4d3c65593318f48a9e5bf4e0064ccb62cfb11145d0f6",
+    "port/game-data/reference/player-creation-v2/fresh-fixtures.bin": "950fe6bfc71ceb7716f55020318aaa6560ef426517621aae33e66d0b377c4f7c",
+    "port/level-world/reference/player-initial-grants-v2/fixtures.bin": "864ced7690b5e9784f79c12df02db6afa81b93a78568e53966faecd58a438a1a",
+    "port/level-world/reference/player-initial-grants-v2/skill-fixtures.bin": "7839953e897498b10efd3ae831e613870e8094a55dffb65a8ebb716052973c64"
+  },
+  "cache_input_sha256": {
+    ".local-inputs/items-discovery/loot_table_pyarray.bin": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+    ".local-inputs/items-discovery/loot_table_pyarraynames.bin": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba",
+    ".local-inputs/items-discovery/loot_table_pystructnames.bin": "ed6721327d6779e47e4def679ddeb796cf5da7ba0348d10996172e64d58bd323",
+    ".local-inputs/skill-tables/skills_pyarray.bin": "e336986d5aee78fd1aed7fe7ec43cc8d58fa03d4fd27216779c0e96e47acc2d6",
+    ".local-inputs/skill-tables/skills_pyarraynames.bin": "31642dc0d8bf11f1ebd13698bbefda4fda0aefa2c727fb4ae9449f2df073fb9f",
+    ".local-inputs/skill-tables/skills_pystructnames.bin": "fd882501b0b7af0191272e6802558d1e1ac4031f6237cf5e2c767ebae946f4b9"
+  },
+  "script_sha256": "0556fe79a09f4e6879749cc48493a259fd141d09376d88e6344f066a51230bc0",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "sanitizers": [
+    "address",
+    "undefined",
+    "leak"
+  ],
+  "sanitizer_findings": 0,
+  "commands": [
+    "cd /mnt/c/Users/adamc/Desktop/workspace/DH_sc && g++ -std=c++17 -O1 -g -Wall -Wextra -Werror -Wno-misleading-indentation -fno-fast-math -ffp-contract=off -fsanitize=address,undefined -fno-omit-frame-pointer port/game-data/loot_tables_v2.cpp port/game-data/items.cpp port/game-data/tests/loot_tables_v2.cpp -o .local-inputs/player-creation-v2/loot-host-audit",
+    "cd /mnt/c/Users/adamc/Desktop/workspace/DH_sc && ASAN_OPTIONS=detect_leaks=1:halt_on_error=1 UBSAN_OPTIONS=halt_on_error=1 .local-inputs/player-creation-v2/loot-host-audit port/game-data/reference/player-creation-v2/fixtures.bin .local-inputs/items-discovery",
+    "cd /mnt/c/Users/adamc/Desktop/workspace/DH_sc && g++ -std=c++17 -O1 -g -Wall -Wextra -Werror -Wno-misleading-indentation -fno-fast-math -ffp-contract=off -fsanitize=address,undefined -fno-omit-frame-pointer port/game-data/fresh_inventory_v2.cpp port/game-data/loot_tables_v2.cpp port/game-data/items.cpp port/game-data/tests/fresh_inventory_v2.cpp -o .local-inputs/player-creation-v2/fresh-host-audit",
+    "cd /mnt/c/Users/adamc/Desktop/workspace/DH_sc && ASAN_OPTIONS=detect_leaks=1:halt_on_error=1 UBSAN_OPTIONS=halt_on_error=1 .local-inputs/player-creation-v2/fresh-host-audit port/game-data/reference/player-creation-v2/fresh-fixtures.bin .local-inputs/items-discovery",
+    "cd /mnt/c/Users/adamc/Desktop/workspace/DH_sc && g++ -std=c++17 -O1 -g -Wall -Wextra -Werror -Wno-misleading-indentation -fno-fast-math -ffp-contract=off -fsanitize=address,undefined -fno-omit-frame-pointer port/level-world/player_initial_grants_v2.cpp port/game-data/player_savegame_v1.cpp port/game-data/skill_tables.cpp port/level-world/tests/player_initial_grants_v2.cpp -o .local-inputs/player-creation-v2/grants-host-audit",
+    "cd /mnt/c/Users/adamc/Desktop/workspace/DH_sc && ASAN_OPTIONS=detect_leaks=1:halt_on_error=1 UBSAN_OPTIONS=halt_on_error=1 .local-inputs/player-creation-v2/grants-host-audit port/level-world/reference/player-initial-grants-v2/fixtures.bin port/level-world/reference/player-initial-grants-v2/skill-fixtures.bin .local-inputs/skill-tables"
+  ],
+  "scope": "Isolated source-built owners/kernels. Native effect/availability/update services are explicit fixture or required-provider boundaries; no full campaign readiness, real auto-equip effects, or APK execution claim."
+}

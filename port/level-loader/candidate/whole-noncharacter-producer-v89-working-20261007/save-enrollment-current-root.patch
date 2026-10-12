@@ -1,0 +1,47 @@
+--- a/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.hpp
++++ b/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.hpp
+@@ -30,6 +30,7 @@
+ namespace dh2::loader {class GameEventRuntimeV75;}
+ namespace dh2::loader {struct Stage33RestoreServicesV1;struct Stage34ServicesV1;}
+ namespace dh2::loader {class SourceReleaseJournalV69;}
++namespace dh2::loader {struct NonCharacterRestoreServicesV89;}
+ namespace model_renderer {
+ class SourceCampaignFxRuntimeV77;
+ class SourceCampaignSaveObjectsV86;
+@@ -99,6 +100,8 @@
+   RendererCampaignNonCharacterInputsV69&,std::string&)> noncharacter_inputs_v81;
+  std::shared_ptr<void> noncharacter_producer_v89;
+  std::shared_ptr<dh2::loader::SourceReleaseJournalV69> noncharacter_release_journal_v89;
++ // Main lends genuine derived restore effects at their reached source branch.
++ std::function<bool(std::uintptr_t,dh2::loader::NonCharacterRestoreServicesV89&,std::string&)> noncharacter_restore_lender_v89;
+  std::function<bool(dh2::world::CanonicalZonePhysicalServicesV82&,std::string&)> physical_services_v90;
+  std::shared_ptr<dh2::world::CanonicalGameObjectGraphV68> gameobject_graph_v68;
+  std::shared_ptr<dh2::navigation::CampaignFrameScratchV76> frame_scratch_v76;
+--- a/port/android-native/app/src/main/cpp/renderer_character_campaign_v62.inc
++++ b/port/android-native/app/src/main/cpp/renderer_character_campaign_v62.inc
+@@ -260,6 +260,9 @@
+  if(!source_world->noncharacter_inputs_v81(actual,inputs,e))return false;
+  RendererCampaignNonCharacterCompositionV69 noncharacters;
+  if(!compose_campaign_noncharacter_v69(assets,actual,std::move(inputs),noncharacters,e))return false;
++ if(!source_world->noncharacter_release_journal_v89||
++    !bind_campaign_noncharacter_saved_objects_v89(actual,noncharacters,source_world->noncharacter_release_journal_v89,
++      source_world->noncharacter_restore_lender_v89,e))return false;
+  services.conditions=noncharacters.services->native.conditions;
+  if(!RendererCharacterCandidateV60::connect(actual,std::move(services),std::move(noncharacters.factory),transport,e))return false;
+  *transport_slot=transport;
+--- a/port/android-native/app/src/main/cpp/model_renderer.cpp
++++ b/port/android-native/app/src/main/cpp/model_renderer.cpp
+@@ -1,3 +1,5 @@
++#include "source_campaign_save_objects_v86.hpp"
++#include <noncharacter_save_connection_v89.hpp>
+ #include "character_kill_live_v21.hpp"
+ #include "character_ais_death_vm_v56.hpp"
+ #include "player_missing_death_fields_v56.hpp"
+@@ -2683,6 +2685,7 @@
+  std::copy_n(view.view.values,16,view16);std::copy_n(view.eye.data(),3,position3);e.clear();return true;
+ }
+ #include "renderer_campaign_noncharacter_v69.inc"
++#include "renderer_campaign_noncharacter_save_v89.inc"
+ #include "renderer_campaign_environment_v89.inc"
+ #include "renderer_campaign_no_room_v89.inc"
+ #include "renderer_campaign_native_lenders_v89.inc"

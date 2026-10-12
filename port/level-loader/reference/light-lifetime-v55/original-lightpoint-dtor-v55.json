@@ -1,0 +1,111 @@
+{
+  "validation": "PASS",
+  "actual_original_C1_and_full_Dtor_bodies": true,
+  "actual_original_IReferenceCounted_drop": true,
+  "node_fixture": "source-layout node refcount2; independent root owner retains1; no final renderer deletion asserted",
+  "automatic_list_fixture": "borrowed raw actor pointer in original embedded manager vector; no source destructor method touches it",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "rows": [
+    {
+      "node_present": false,
+      "events": [
+        {
+          "op": "actual CString deallocation body",
+          "receiver_offset": "0x180"
+        },
+        {
+          "op": "actual CString deallocation body",
+          "receiver_offset": "0x168"
+        },
+        {
+          "op": "actual ObjectBase destructor body"
+        },
+        {
+          "op": "actual CString deallocation body",
+          "receiver_offset": "0xd4"
+        },
+        {
+          "op": "actual CString deallocation body",
+          "receiver_offset": "0xb4"
+        },
+        {
+          "op": "actual CString deallocation body",
+          "receiver_offset": "0x90"
+        },
+        {
+          "op": "actual CString deallocation body",
+          "receiver_offset": "0x68"
+        },
+        {
+          "op": "actual CString deallocation body",
+          "receiver_offset": "0x48"
+        },
+        {
+          "op": "actual CString deallocation body",
+          "receiver_offset": "0x30"
+        },
+        {
+          "op": "actual CString deallocation body",
+          "receiver_offset": "0x8"
+        }
+      ],
+      "actor120_after": 0,
+      "node_reference_count_after": 2,
+      "automatic_list_bytes_unchanged": true,
+      "automatic_list_still_borrows_old_actor": true
+    },
+    {
+      "node_present": true,
+      "events": [
+        {
+          "op": "actual CString deallocation body",
+          "receiver_offset": "0x180"
+        },
+        {
+          "op": "actual node IReferenceCounted.drop",
+          "node": "0x2061000",
+          "refcount_before": 2
+        },
+        {
+          "op": "actual CString deallocation body",
+          "receiver_offset": "0x168"
+        },
+        {
+          "op": "actual ObjectBase destructor body"
+        },
+        {
+          "op": "actual CString deallocation body",
+          "receiver_offset": "0xd4"
+        },
+        {
+          "op": "actual CString deallocation body",
+          "receiver_offset": "0xb4"
+        },
+        {
+          "op": "actual CString deallocation body",
+          "receiver_offset": "0x90"
+        },
+        {
+          "op": "actual CString deallocation body",
+          "receiver_offset": "0x68"
+        },
+        {
+          "op": "actual CString deallocation body",
+          "receiver_offset": "0x48"
+        },
+        {
+          "op": "actual CString deallocation body",
+          "receiver_offset": "0x30"
+        },
+        {
+          "op": "actual CString deallocation body",
+          "receiver_offset": "0x8"
+        }
+      ],
+      "actor120_after": 0,
+      "node_reference_count_after": 1,
+      "automatic_list_bytes_unchanged": true,
+      "automatic_list_still_borrows_old_actor": true
+    }
+  ]
+}

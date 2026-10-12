@@ -1,0 +1,50 @@
+[
+  {
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/uncadis.ttf",
+    "bytes": 56260,
+    "sha256": "edc0d4d451b92d17062af875a365095fccfa6d00765a28eac956b31c19b37db0",
+    "head": "00010000000e0080000300604f532f3200000000000000ec0000004e636d6170f69e089a0000013c"
+  },
+  {
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/nanumgothic.ttf",
+    "bytes": 2346444,
+    "sha256": "8ee4e9fab0b4c65ecd2aa04a205a4b4b7770ed154b7290be027cec826c40f591",
+    "head": "00010000000f0080000300704f532f3260fe178d0000017800000060636d61700d2f5e900000e730"
+  },
+  {
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/wqy-zenhei.ttf",
+    "bytes": 10773492,
+    "sha256": "734b412c7aea22930d740a8edd9162f36f99aa343ca9271411ab501279fc7dd3",
+    "head": "0001000000150100000400504244462007c0b0c10077adb4000008bd454244548aab1fe60077b674"
+  },
+  {
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/japanese.ttf",
+    "bytes": 2733604,
+    "sha256": "792f186108fb8b082247928a8328f6a9b1554b0cd7114163c12cb7fa0d7c1d9e",
+    "head": "0001000000120100000400204646544d8c16cc2c0028b1e00000001c47444546002740ff0028b1fc"
+  },
+  {
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/arkham_reg.ttf",
+    "bytes": 38912,
+    "sha256": "86146a3d9a59cf55d3eb79288f99129182ad30f8031b12d8f6572c6bb9aab828",
+    "head": "00010000000f0030000300c04f532f3283473fc5000097340000004e636d617068bf63f6000064a8"
+  },
+  {
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/arkham_bold.ttf",
+    "bytes": 39276,
+    "sha256": "864b81bc3014986063289eb67be492b19c4bc57da1d46035b4fe9c55ce346df1",
+    "head": "00010000000f0030000300c04f532f3283743ffe000098a00000004e636d617068bf63f6000067d4"
+  },
+  {
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/Fontin SmallCaps.ttf",
+    "bytes": 79836,
+    "sha256": "e0aa9854059f79a24dd9ced942c1add193d1ff83c3ff44685c6d5d8ff3ce53c4",
+    "head": "0001000000120100000400204453494700000001000137d4000000084744454605d206fc0000012c"
+  },
+  {
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/sct_font_3.fnt",
+    "bytes": 120568,
+    "sha256": "45a426d731ec69996de61a2c47290afa0a59f6a64079440e298339cdfa15656d",
+    "head": "47464e54000000000000000000002103000000100000001300000011000000130000000000000020"
+  }
+]

@@ -1,0 +1,39 @@
+{
+  "validation": "PASS",
+  "original_trace_sha256": "134337ba0eceabf0926441e0007d18e3fa05b1396bb5cb6723f5604e0508e017",
+  "original_trace_fixtures": 16,
+  "original_calls": 182,
+  "original_events": 269,
+  "matched": [
+    "calls",
+    "events",
+    "room_list",
+    "transient_lists",
+    "module_list"
+  ],
+  "actual_manager_stdout": "PASS actual_manager_projection_checks=8 source_map1c=3 published_count50=0 actual_init_phase7c=3",
+  "trace_command": [
+    "wsl.exe",
+    "-d",
+    "Ubuntu",
+    "--",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/stage-loader-v38/dh2_stage_v38_trace"
+  ],
+  "manager_command": [
+    "wsl.exe",
+    "-d",
+    "Ubuntu",
+    "--",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/stage-loader-v38/dh2_stage_v38_manager"
+  ],
+  "sanitizers": [
+    "ASAN",
+    "UBSAN"
+  ],
+  "scope": "New typed scheduler borrows one primary manager-shape fixture map/phase/module list; class/handle/module/condition/list effects are explicit fixture observers, compared exactly against actual original ARM traces. Separate actual CanonicalObjectManagerV1 prototype verifies true map1c including null entries, signed ordered iteration and same7c field; real class behavior not executed.",
+  "whole_level_init_verified": false,
+  "original_stage7_cases": 40,
+  "original_stage7_receipt_sha256": "2c28c31a20a6d3e364c9943c87d0863d9cc9107faf25af8b88f4c464af3800f0",
+  "native_stage7_stdout_sha256": "ffd210c84602cf6fcc577d0671ac30fd9b25a2ac070495a83261baedf2d12f1a",
+  "native_stage7_matches_original_filename_and_event_order": true
+}

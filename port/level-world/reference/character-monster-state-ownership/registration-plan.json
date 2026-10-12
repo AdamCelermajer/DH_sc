@@ -1,0 +1,1049 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "states": [
+    {
+      "id": 0,
+      "type": "8CSLimbus",
+      "factory": 3933268,
+      "singleton": 10103440,
+      "vtable": 9855872,
+      "on_init": 3964096,
+      "on_focus": 3944024,
+      "on_blur": 3943396,
+      "on_update": 3932132,
+      "on_event": 3932136,
+      "events": [
+        {
+          "state": 0,
+          "event": 47,
+          "target": 1,
+          "predicate": 3855076,
+          "adjustment": 0
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "type": "7CSSpawn",
+      "factory": 3933296,
+      "singleton": 10103448,
+      "vtable": 9855952,
+      "on_init": 3964172,
+      "on_focus": 3945964,
+      "on_blur": 3944316,
+      "on_update": 3932144,
+      "on_event": 3934980,
+      "events": [
+        {
+          "state": 1,
+          "event": 34,
+          "target": 3,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 1,
+          "event": 50008,
+          "target": 12,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 1,
+          "event": 50010,
+          "target": 11,
+          "predicate": 3854908,
+          "adjustment": 0
+        },
+        {
+          "state": 1,
+          "event": 50011,
+          "target": 10,
+          "predicate": 3854916,
+          "adjustment": 0
+        },
+        {
+          "state": 1,
+          "event": 50012,
+          "target": 9,
+          "predicate": 3854916,
+          "adjustment": 0
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "type": "9CSDespawn",
+      "factory": 3933324,
+      "singleton": 10103456,
+      "vtable": 9855992,
+      "on_init": 3964412,
+      "on_focus": 3945212,
+      "on_blur": 3946388,
+      "on_update": 3932152,
+      "on_event": 3932156,
+      "events": [
+        {
+          "state": 2,
+          "event": 64,
+          "target": 0,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 2,
+          "event": 34,
+          "target": 0,
+          "predicate": 0,
+          "adjustment": 0
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "type": "6CSIdle",
+      "factory": 3933352,
+      "singleton": 10103464,
+      "vtable": 9856032,
+      "on_init": 3964512,
+      "on_focus": 3944480,
+      "on_blur": 3943740,
+      "on_update": 3935872,
+      "on_event": 3932164,
+      "events": [
+        {
+          "state": 3,
+          "event": 35,
+          "target": 3,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 3,
+          "event": 34,
+          "target": 3,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 3,
+          "event": 50008,
+          "target": 12,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 3,
+          "event": 50010,
+          "target": 11,
+          "predicate": 3854908,
+          "adjustment": 0
+        },
+        {
+          "state": 3,
+          "event": 50011,
+          "target": 10,
+          "predicate": 3854916,
+          "adjustment": 0
+        },
+        {
+          "state": 3,
+          "event": 50012,
+          "target": 9,
+          "predicate": 3854916,
+          "adjustment": 0
+        },
+        {
+          "state": 3,
+          "event": 50013,
+          "target": 8,
+          "predicate": 3854916,
+          "adjustment": 0
+        },
+        {
+          "state": 3,
+          "event": 50006,
+          "target": 7,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 3,
+          "event": 50005,
+          "target": 6,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 3,
+          "event": 50004,
+          "target": 5,
+          "predicate": 3854892,
+          "adjustment": 0
+        },
+        {
+          "state": 3,
+          "event": 50001,
+          "target": 4,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 3,
+          "event": 50002,
+          "target": 3,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 3,
+          "event": 50003,
+          "target": 13,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 3,
+          "event": 50007,
+          "target": 15,
+          "predicate": 0,
+          "adjustment": 0
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "type": "6CSMove",
+      "factory": 3933380,
+      "singleton": 10103472,
+      "vtable": 9856072,
+      "on_init": 3965100,
+      "on_focus": 3947512,
+      "on_blur": 3947172,
+      "on_update": 3936644,
+      "on_event": 3932172,
+      "events": [
+        {
+          "state": 4,
+          "event": 63,
+          "target": 3,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 4,
+          "event": 50008,
+          "target": 12,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 4,
+          "event": 50010,
+          "target": 11,
+          "predicate": 3854908,
+          "adjustment": 0
+        },
+        {
+          "state": 4,
+          "event": 50011,
+          "target": 10,
+          "predicate": 3854916,
+          "adjustment": 0
+        },
+        {
+          "state": 4,
+          "event": 50012,
+          "target": 9,
+          "predicate": 3854916,
+          "adjustment": 0
+        },
+        {
+          "state": 4,
+          "event": 50013,
+          "target": 8,
+          "predicate": 3854916,
+          "adjustment": 0
+        },
+        {
+          "state": 4,
+          "event": 50006,
+          "target": 7,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 4,
+          "event": 50005,
+          "target": 6,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 4,
+          "event": 50004,
+          "target": 5,
+          "predicate": 3854892,
+          "adjustment": 0
+        },
+        {
+          "state": 4,
+          "event": 50003,
+          "target": 13,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 4,
+          "event": 50007,
+          "target": 15,
+          "predicate": 0,
+          "adjustment": 0
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "type": "8CSAttack",
+      "factory": 3933408,
+      "singleton": 10103480,
+      "vtable": 9856112,
+      "on_init": 3965572,
+      "on_focus": 3948620,
+      "on_blur": 3948404,
+      "on_update": 3937528,
+      "on_event": 3936904,
+      "events": [
+        {
+          "state": 5,
+          "event": 34,
+          "target": 3,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 5,
+          "event": 50008,
+          "target": 12,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 5,
+          "event": 50005,
+          "target": 6,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 5,
+          "event": 50006,
+          "target": 7,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 5,
+          "event": 50010,
+          "target": 11,
+          "predicate": 3854908,
+          "adjustment": 0
+        },
+        {
+          "state": 5,
+          "event": 50011,
+          "target": 10,
+          "predicate": 3854916,
+          "adjustment": 0
+        },
+        {
+          "state": 5,
+          "event": 50012,
+          "target": 9,
+          "predicate": 3854916,
+          "adjustment": 0
+        },
+        {
+          "state": 5,
+          "event": 50013,
+          "target": 8,
+          "predicate": 3854916,
+          "adjustment": 0
+        },
+        {
+          "state": 5,
+          "event": 50001,
+          "target": 4,
+          "predicate": 3854976,
+          "adjustment": 0
+        },
+        {
+          "state": 5,
+          "event": 50007,
+          "target": 15,
+          "predicate": 0,
+          "adjustment": 0
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "type": "7CSSkill",
+      "factory": 3933436,
+      "singleton": 10103488,
+      "vtable": 9856152,
+      "on_init": 3966008,
+      "on_focus": 3949696,
+      "on_blur": 3949388,
+      "on_update": 3932184,
+      "on_event": 3934920,
+      "events": [
+        {
+          "state": 6,
+          "event": 34,
+          "target": 3,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 6,
+          "event": 50008,
+          "target": 12,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 6,
+          "event": 50001,
+          "target": 4,
+          "predicate": 3854992,
+          "adjustment": 0
+        },
+        {
+          "state": 6,
+          "event": 50004,
+          "target": 5,
+          "predicate": 3854992,
+          "adjustment": 0
+        },
+        {
+          "state": 6,
+          "event": 50005,
+          "target": 6,
+          "predicate": 3854992,
+          "adjustment": 0
+        },
+        {
+          "state": 6,
+          "event": 50010,
+          "target": 11,
+          "predicate": 3854916,
+          "adjustment": 0
+        },
+        {
+          "state": 6,
+          "event": 50012,
+          "target": 9,
+          "predicate": 3854916,
+          "adjustment": 0
+        },
+        {
+          "state": 6,
+          "event": 50013,
+          "target": 8,
+          "predicate": 3854916,
+          "adjustment": 0
+        },
+        {
+          "state": 6,
+          "event": 50011,
+          "target": 10,
+          "predicate": 3854916,
+          "adjustment": 0
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "type": "6CSCast",
+      "factory": 3933464,
+      "singleton": 10103496,
+      "vtable": 9856192,
+      "on_init": 3966392,
+      "on_focus": 3946960,
+      "on_blur": 3946804,
+      "on_update": 3932192,
+      "on_event": 3932196,
+      "events": [
+        {
+          "state": 7,
+          "event": 34,
+          "target": 3,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 7,
+          "event": 50008,
+          "target": 12,
+          "predicate": 0,
+          "adjustment": 0
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "type": "8CSScared",
+      "factory": 3933492,
+      "singleton": 10103504,
+      "vtable": 9856232,
+      "on_init": 3966492,
+      "on_focus": 3950020,
+      "on_blur": 3950644,
+      "on_update": 3950472,
+      "on_event": 3943208,
+      "events": [
+        {
+          "state": 8,
+          "event": 44,
+          "target": 3,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 8,
+          "event": 34,
+          "target": 3,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 8,
+          "event": 50008,
+          "target": 12,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 8,
+          "event": 50010,
+          "target": 11,
+          "predicate": 3854908,
+          "adjustment": 0
+        },
+        {
+          "state": 8,
+          "event": 50011,
+          "target": 10,
+          "predicate": 3854916,
+          "adjustment": 0
+        },
+        {
+          "state": 8,
+          "event": 50012,
+          "target": 9,
+          "predicate": 3854916,
+          "adjustment": 0
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "type": "9CSStunned",
+      "factory": 3933520,
+      "singleton": 10103512,
+      "vtable": 9856272,
+      "on_init": 3966768,
+      "on_focus": 3947712,
+      "on_blur": 3947340,
+      "on_update": 3953820,
+      "on_event": 3932208,
+      "events": [
+        {
+          "state": 9,
+          "event": 50008,
+          "target": 12,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 9,
+          "event": 50010,
+          "target": 11,
+          "predicate": 3854908,
+          "adjustment": 0
+        },
+        {
+          "state": 9,
+          "event": 50011,
+          "target": 10,
+          "predicate": 3854916,
+          "adjustment": 0
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "type": "13CSKnockedBack",
+      "factory": 3933548,
+      "singleton": 10103520,
+      "vtable": 9856312,
+      "on_init": 3966936,
+      "on_focus": 3951176,
+      "on_blur": 3950816,
+      "on_update": 3932216,
+      "on_event": 3955376,
+      "events": [
+        {
+          "state": 10,
+          "event": 34,
+          "target": 3,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 10,
+          "event": 50008,
+          "target": 12,
+          "predicate": 3854916,
+          "adjustment": 0
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "type": "9CSInjured",
+      "factory": 3933576,
+      "singleton": 10103528,
+      "vtable": 9856352,
+      "on_init": 3967056,
+      "on_focus": 3945448,
+      "on_blur": 3951524,
+      "on_update": 3932224,
+      "on_event": 3932228,
+      "events": [
+        {
+          "state": 11,
+          "event": 34,
+          "target": 3,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 11,
+          "event": 50008,
+          "target": 12,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 11,
+          "event": 50010,
+          "target": 11,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 11,
+          "event": 50011,
+          "target": 10,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 11,
+          "event": 50005,
+          "target": 6,
+          "predicate": 0,
+          "adjustment": 0
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "type": "6CSDead",
+      "factory": 3933604,
+      "singleton": 10103536,
+      "vtable": 9856392,
+      "on_init": 3967264,
+      "on_focus": 3951952,
+      "on_blur": 3951004,
+      "on_update": 3932236,
+      "on_event": 3951676,
+      "events": [
+        {
+          "state": 12,
+          "event": 46,
+          "target": 2,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 12,
+          "event": 50009,
+          "target": 16,
+          "predicate": 0,
+          "adjustment": 0
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "type": "10CSInteract",
+      "factory": 3933632,
+      "singleton": 10103544,
+      "vtable": 9856432,
+      "on_init": 3967364,
+      "on_focus": 3953992,
+      "on_blur": 3952524,
+      "on_update": 3932288,
+      "on_event": 3937624,
+      "events": [
+        {
+          "state": 13,
+          "event": 34,
+          "target": 3,
+          "predicate": 3855048,
+          "adjustment": 0
+        },
+        {
+          "state": 13,
+          "event": 50008,
+          "target": 12,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 13,
+          "event": 50010,
+          "target": 11,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 13,
+          "event": 50011,
+          "target": 10,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 13,
+          "event": 50012,
+          "target": 9,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 13,
+          "event": 50013,
+          "target": 8,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 13,
+          "event": 50005,
+          "target": 6,
+          "predicate": 3855004,
+          "adjustment": 0
+        },
+        {
+          "state": 13,
+          "event": 50001,
+          "target": 4,
+          "predicate": 3855004,
+          "adjustment": 0
+        },
+        {
+          "state": 13,
+          "event": 50002,
+          "target": 3,
+          "predicate": 3855004,
+          "adjustment": 0
+        },
+        {
+          "state": 13,
+          "event": 50007,
+          "target": 15,
+          "predicate": 3855004,
+          "adjustment": 0
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "type": "6CSAnim",
+      "factory": 3933660,
+      "singleton": 10103552,
+      "vtable": 9856472,
+      "on_init": 3967784,
+      "on_focus": 3945036,
+      "on_blur": 3943888,
+      "on_update": 3938876,
+      "on_event": 3938836,
+      "events": [
+        {
+          "state": 14,
+          "event": 50001,
+          "target": 4,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 14,
+          "event": 50005,
+          "target": 6,
+          "predicate": 0,
+          "adjustment": 0
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "type": "10CSReviving",
+      "factory": 3933688,
+      "singleton": 10103560,
+      "vtable": 9856512,
+      "on_init": 3967884,
+      "on_focus": 3953300,
+      "on_blur": 3958564,
+      "on_update": 3932248,
+      "on_event": 3932252,
+      "events": [
+        {
+          "state": 15,
+          "event": 34,
+          "target": 3,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 15,
+          "event": 50008,
+          "target": 12,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 15,
+          "event": 50005,
+          "target": 6,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 15,
+          "event": 50010,
+          "target": 11,
+          "predicate": 3854908,
+          "adjustment": 0
+        },
+        {
+          "state": 15,
+          "event": 50011,
+          "target": 10,
+          "predicate": 3854916,
+          "adjustment": 0
+        },
+        {
+          "state": 15,
+          "event": 50012,
+          "target": 9,
+          "predicate": 3854916,
+          "adjustment": 0
+        },
+        {
+          "state": 15,
+          "event": 50013,
+          "target": 8,
+          "predicate": 3854916,
+          "adjustment": 0
+        },
+        {
+          "state": 15,
+          "event": 50001,
+          "target": 4,
+          "predicate": 0,
+          "adjustment": 0
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "type": "9CSRevived",
+      "factory": 3933716,
+      "singleton": 10103568,
+      "vtable": 9856552,
+      "on_init": 3968236,
+      "on_focus": 3945676,
+      "on_blur": 3953644,
+      "on_update": 3932260,
+      "on_event": 3932264,
+      "events": [
+        {
+          "state": 16,
+          "event": 34,
+          "target": 3,
+          "predicate": 0,
+          "adjustment": 0
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "type": "10CSPreSpawn",
+      "factory": 3933744,
+      "singleton": 10103576,
+      "vtable": 9856592,
+      "on_init": 3968292,
+      "on_focus": 3958924,
+      "on_blur": 3958740,
+      "on_update": 3932272,
+      "on_event": 3942416,
+      "events": [
+        {
+          "state": 17,
+          "event": 45,
+          "target": 1,
+          "predicate": 0,
+          "adjustment": 0
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "type": "13CSLiftingIdle",
+      "factory": 3933772,
+      "singleton": 10103584,
+      "vtable": 9856632,
+      "on_init": 3968348,
+      "on_focus": 3944768,
+      "on_blur": 3952820,
+      "on_update": 3935888,
+      "on_event": 3958280,
+      "events": [
+        {
+          "state": 18,
+          "event": 35,
+          "target": 18,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 18,
+          "event": 34,
+          "target": 18,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 18,
+          "event": 50008,
+          "target": 12,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 18,
+          "event": 50010,
+          "target": 11,
+          "predicate": 3854908,
+          "adjustment": 0
+        },
+        {
+          "state": 18,
+          "event": 50011,
+          "target": 10,
+          "predicate": 3854916,
+          "adjustment": 0
+        },
+        {
+          "state": 18,
+          "event": 50012,
+          "target": 9,
+          "predicate": 3854916,
+          "adjustment": 0
+        },
+        {
+          "state": 18,
+          "event": 50013,
+          "target": 8,
+          "predicate": 3854916,
+          "adjustment": 0
+        },
+        {
+          "state": 18,
+          "event": 50001,
+          "target": 19,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 18,
+          "event": 50002,
+          "target": 18,
+          "predicate": 0,
+          "adjustment": 0
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "type": "13CSLiftingMove",
+      "factory": 3933800,
+      "singleton": 10103592,
+      "vtable": 9856672,
+      "on_init": 3968736,
+      "on_focus": 3948096,
+      "on_blur": 3953048,
+      "on_update": 3935904,
+      "on_event": 3958332,
+      "events": [
+        {
+          "state": 19,
+          "event": 63,
+          "target": 18,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 19,
+          "event": 50008,
+          "target": 12,
+          "predicate": 0,
+          "adjustment": 0
+        },
+        {
+          "state": 19,
+          "event": 50010,
+          "target": 11,
+          "predicate": 3854908,
+          "adjustment": 0
+        },
+        {
+          "state": 19,
+          "event": 50011,
+          "target": 10,
+          "predicate": 3854916,
+          "adjustment": 0
+        },
+        {
+          "state": 19,
+          "event": 50012,
+          "target": 9,
+          "predicate": 3854916,
+          "adjustment": 0
+        },
+        {
+          "state": 19,
+          "event": 50013,
+          "target": 8,
+          "predicate": 3854916,
+          "adjustment": 0
+        }
+      ]
+    }
+  ],
+  "scope": "Original singleton factories and all 20 OnInit instructions execute; SM_RegisterEvent is an explicit captured service here."
+}

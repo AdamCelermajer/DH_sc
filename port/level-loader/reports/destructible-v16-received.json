@@ -1,0 +1,38 @@
+{
+  "validation": "PASS",
+  "packets": [
+    {
+      "archive": "canonical-swamp-families-v15-handoff-ced536727bad8a44.zip",
+      "sha256": "feec85e69625c744c4db509bdacf2ce590486dd7e014984e585244451da4b9df",
+      "payload_entries_verified": 24
+    },
+    {
+      "archive": "canonical-destructible-v16-handoff-dedf111fa2da1a0c.zip",
+      "sha256": "95643d98d4dde8d92d4f603c2b6446df2e41b6589fd302e67ceb9f35585e76b2",
+      "payload_entries_verified": 30
+    }
+  ],
+  "selected_sources": [
+    "port/level-world/canonical_spawn_point_v15.hpp",
+    "port/level-world/canonical_spawn_point_v15.cpp",
+    "port/level-world/canonical_decor_v15.hpp",
+    "port/level-world/canonical_decor_v15.cpp",
+    "port/level-world/canonical_family_fields_v15.hpp",
+    "port/level-world/canonical_swamp_family_declarations_v15.inc",
+    "port/level-world/canonical_property_map_v1.cpp",
+    "port/level-world/tests/canonical_swamp_family_v15.cpp",
+    "port/level-world/tests/canonical_swamp_family_declarations_v15.inc",
+    "port/level-world/canonical_destructible_container_v16.hpp",
+    "port/level-world/canonical_destructible_container_v16.cpp",
+    "port/level-world/destructible_container_data_v16.hpp",
+    "port/level-world/destructible_container_data_v16.cpp",
+    "port/level-world/destructible_container_data_connection_v16.hpp",
+    "port/level-world/canonical_destructible_declarations_v16.inc",
+    "port/level-world/tests/canonical_destructible_container_v16.cpp",
+    "port/level-world/tests/destructible_data_fixture_v16.inc",
+    "port/level-world/tests/destructible_dictionary_fixture_v16.inc",
+    "port/level-world/tests/destructible_declarations_v16.inc"
+  ],
+  "callback_delivery_verified": false,
+  "full_loader_verified": false
+}

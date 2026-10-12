@@ -1,0 +1,19 @@
+--- a/port/android-native/app/src/main/cpp/renderer_campaign_environment_v89.inc
++++ b/port/android-native/app/src/main/cpp/renderer_campaign_environment_v89.inc
+@@ -73,6 +73,7 @@
+  const auto light_names=actual.roots->source_light_names_v89();
+  if(inputs.light_names&&(inputs.light_names.get()!=light_names.get()||inputs.light_names.owner_before(light_names)||light_names.owner_before(inputs.light_names))){e="Competing source LightSet name owner";return false;}
+  inputs.light_names=light_names;
++ if(!prepare_campaign_light_resources_v92(actual,weak,inputs,e))return false;
+  if(inputs.source.lights){
+  auto lights=std::make_shared<LightEnvironmentLeavesV67>(*inputs.source.lights);
+  if(!lights->owner)lights->owner=inputs.source.auxiliary.owner;
+@@ -91,7 +92,7 @@
+   if(status!=1){e="Actual LightPoint Debug.GetSwitch failed";return false;}value=original!=0;return true;
+  };
+  inputs.source.lights=std::move(lights); // journal hooks are appended NEXT.
+- } // A missing genuine LightPoint node/provider packet stays NULL.
++ } // Concrete V92 node/CLight packet; native D0/barrier remain genuine incoming.
+  if(!inputs.failed_spawn_mark)inputs.failed_spawn_mark=[weak](world::CanonicalGameObjectBaseOwnerV1& base,std::string& e){
+   std::shared_ptr<SourceWorldBorrowV61> w;if(!current_campaign_environment_v89(weak,w,e)||!w->canonical_world)return false;
+   return w->canonical_world->manager.source_mark_for_deletion_v89(base.identity(),e);

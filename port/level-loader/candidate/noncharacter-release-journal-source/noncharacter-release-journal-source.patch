@@ -1,0 +1,36 @@
+--- a/port/level-loader/source_release_journal_v69.hpp
++++ b/port/level-loader/source_release_journal_v69.hpp
+@@ -185,6 +185,13 @@
+    if(!retire_failed_constructor_prefix(record,e))return false;
+   }e.clear();return true;
+  }
++ bool save_header(std::uintptr_t id,level::LevelSaveObjectBorrowV2& out,std::string& e){
++  if(!validate_serialization_identity(id,e))return false;auto* entry=find(id);if(entry->auxiliary){if(!entry->auxiliary->borrow_save_header){e="Required actual auxiliary OBJS header getter";return false;}return entry->auxiliary->borrow_save_header(out,e);}
++  out={};out.identity=reinterpret_cast<const void*>(id);
++  if(entry->light){auto& actual=*entry->light->owner;auto pin=std::shared_ptr<void>(entry->light,entry->light->owner.get());auto canonical=actual.canonical(pin);out.checkpoint28=actual.byte(0x28);out.gametype48=actual.string(0x48);out.map_name=actual.string(0x30);out.room64=canonical.room64;out.disabled81=actual.byte(0x81);out.receiver_lease_v86=std::move(pin);}
++  else {world::CanonicalGameObjectBaseOwnerV1* base{};if(entry->openable){base=&entry->openable->receiver().base();out.receiver_lease_v86=entry->openable;}else {base=&entry->destructible->base();out.receiver_lease_v86=entry->destructible;}out.checkpoint28=base->byte(0x28);out.gametype48=base->string(0x48);out.map_name=base->string(0x30);out.room64=&base->room64();out.disabled81=base->byte(0x81);}
++  e.clear();return true;
++ }
+  bool save_connection(std::uintptr_t id,NonCharacterRestoreServicesV89 leaves,std::shared_ptr<NonCharacterSaveConnectionV89>& out,std::string& e){
+   if(!validate_serialization_identity(id,e))return false;auto* entry=find(id);if(entry->save_connection){out=entry->save_connection;e.clear();return true;}
+   bool result=false;
+--- a/port/level-loader/catalog_auxiliary_v67.hpp
++++ b/port/level-loader/catalog_auxiliary_v67.hpp
+@@ -35,6 +35,7 @@
+  std::function<std::uintptr_t()> identity; //0 before that real C1 completes
+  std::function<bool(std::string&)> destroy_source;
+  // Typed SAME-record OBJS projection; no caller type-erasure cast or lookup.
++ std::function<bool(level::LevelSaveObjectBorrowV2&,std::string&)> borrow_save_header;
+  std::function<bool(NonCharacterRestoreServicesV89,std::shared_ptr<NonCharacterSaveConnectionV89>&,std::string&)> make_save_connection;
+ };
+ struct CatalogAuxiliaryServicesV67 {
+--- a/port/level-loader/catalog_auxiliary_v67.cpp
++++ b/port/level-loader/catalog_auxiliary_v67.cpp
+@@ -132,6 +132,7 @@
+   // Existing class owns original Dtor prefix/failed-source stickiness; no replay
+   // or successful passive drop is manufactured by the catalog.
+   if(!actual->owner->destroy(error))return false;return state->leaves->validate_current(delivery,error);};
++ record->borrow_save_header=[weak](level::LevelSaveObjectBorrowV2& out,std::string& e){auto actual=weak.lock();if(!actual||!actual->owner||actual->constructor_state!=CanonicalConstructorStateV89::completed){e="Required SAME actual auxiliary C1 save header";return false;}auto& base=actual->owner->base();out={};out.identity=reinterpret_cast<const void*>(base.identity());out.checkpoint28=base.byte(0x28);out.gametype48=base.string(0x48);out.map_name=base.string(0x30);out.room64=&base.room64();out.disabled81=base.byte(0x81);out.receiver_lease_v86=std::shared_ptr<void>(actual,actual->owner.get());e.clear();return true;};
+  record->make_save_connection=[weak](NonCharacterRestoreServicesV89 leaves,std::shared_ptr<NonCharacterSaveConnectionV89>& out,std::string& e){
+   auto actual=weak.lock();if(!actual){e="Required SAME actual auxiliary C1 save record";return false;}
+   auto project=[](auto& receiver,NonCharacterSaveFieldsV89& fields,std::string& e){using R=std::decay_t<decltype(receiver)>;

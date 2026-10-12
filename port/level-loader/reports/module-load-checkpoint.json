@@ -1,0 +1,53 @@
+{
+  "validation": "PASS",
+  "scope": "Verify module caller ordering and native cleanup, not whole-level object loading.",
+  "source_and_receipt_sha256": {
+    "CMakeLists.txt": "a4e361e25f1192621ca06092b77bb47b44a0c06faa2c1286c8c9dfb987f82fee",
+    "module_load_v1.hpp": "00069ca5d4f9c850fd09ead14f3829c1256f30a68803123dd43574c4b05afc99",
+    "module_load_v1.cpp": "f6cd8b26fb380767c8378bbc5fa5f9700626e28485cde58ce5cf69c51947e97d",
+    "object_entry_v1.hpp": "0934a05b557b7797e9a1ddea64fd808d4fc98b7fd8a7ce7d7117398f12270893",
+    "object_entry_v1.cpp": "b84d1dc4b2349d8062b45f22cf69399dfd2d69b25b8036deb83f48bfcf760a31",
+    "xml_document_v1.hpp": "bac16414b6fd623d4c0ffd0004814f8a2fb3cfafb0fb048a10e73105028b614b",
+    "xml_document_v1.cpp": "19ef9043068be2b0e976fa149da0bb1ff542544d099a0b2069632708e0714955",
+    "tests/module_load_original.py": "eea1c58cc0774f98a10fd1cb881ee7bfc8deb4245e22d0d76a3bba60fe6b8aff",
+    "tests/xml_original_probe.py": "d856a3d96331f1f65e6225e7889efbd3cc5633215bd043acd880a19681a39209",
+    "tests/module_load_probe.cpp": "5da5eec8ad3c09ed9e5e09435c749db6c3881ed7cfe5c394be9ad5c863b71b8d",
+    "tests/module_load_host.py": "1a37a2fc0377eebfe5f6c8ac81707ece9a7160c1bf65484c73202ece51bd8d48",
+    "MODULE-LOAD-HANDOFF.md": "79fdecbc065442eb29b8d0926b8596c5afd51234d4f46c63c3fa8340c545607f",
+    "INTERFACE-PROPOSAL.md": "c5756259527007124a0f9fd597bc07b43ca506c82519bf77fce567e5077b9fa0",
+    "tools/capture_module_load_checkpoint.py": "288afe03d491c0393848a84e8c014eebab7897ab5161b0340ef1486045cbec3b",
+    "reports/module-load-original.json": "9de60f14ad3ef10b779df7efa960fc70329ff8bfc646c65371ca7a43f428fa51",
+    "reports/module-load-host.json": "7936b99349b88a06e0b764959a8aebb30d30665bfc89c4959fc06ff8f58f0290",
+    "reports/module-load-sanitizers.json": "383c45f93f84ca983e5d594f3a30f233820c053c8abf08aa968792d3d41d4acb"
+  },
+  "built_artifact_sha256": {
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\build\\host-xml\\dh2_loader_module_load_probe": "7225d900f27fd6070b2a145d35f650d774b3355d20031a7291e2e4cace9c9110",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\build\\host-sanitizers\\dh2_loader_module_load_probe": "bcae26967eb27a77f64ef237bf3f9975ff30aee05595df30395b83402a3118fb",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\build\\android-arm64\\libdh2_level_loader.a": "c9eec778279fd7de128ac6903e45bee70b2871c48c33015932593438e2c8c37c",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\build\\android-x86_64\\libdh2_level_loader.a": "ab00662ab5b501d32a7781e2efc6a85ed614b3bbd974e89515e4ceacdd400eaf"
+  },
+  "android_member_sha256": {
+    "android-arm64:module_load_v1.cpp.o": "b40f4e8c3d4fc0f1d1166f8479f06c2dc6845410075bc7efabffa6aaec9b526e",
+    "android-arm64:level_file_walk_v1.cpp.o": "d0e10a128af5fe548095736fb01e8b94ff178d021db5965fda03ca4af2b338c4",
+    "android-arm64:object_entry_v1.cpp.o": "05f54a6bc8f0eb96a044fac534ec81f204658de0e8393bd9782b3666800798b8",
+    "android-arm64:xml_document_v1.cpp.o": "114b71a5e517af0d30bef05b14bf65679a360cb793d9726ddf7e7784466ddcea",
+    "android-x86_64:module_load_v1.cpp.o": "18f6bb2d1530243dfc68b37b350d38e6a47810ae8d9027d04cb5d6dabfb9add9",
+    "android-x86_64:level_file_walk_v1.cpp.o": "ade0ddf806fbcfb69bd9c6a37b3cab164a71be5dda1a356cd509c0faf403d73e",
+    "android-x86_64:object_entry_v1.cpp.o": "0ff4df1e28360994f10bd3bc164c23bcb0a4e7f762dcfd8f21e37600fb466787",
+    "android-x86_64:xml_document_v1.cpp.o": "1b1a47dc7226ea5a03f9b1bc88b304ed9d3fe5adfd04c70960c3109d97739de8"
+  },
+  "original_cases_compared": 9,
+  "file_service_polls_compared_per_build": 39,
+  "adapter_checks_per_build": 12,
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "host_and_sanitizer_matches": true,
+  "original_module_caller_order_verified": true,
+  "original_selection_verified": false,
+  "original_file_loading_verified_by_this_comparison": false,
+  "combined_live_module_loading_verified": false,
+  "runtime_factory_contract_agreed": false,
+  "runtime_objects_verified": false,
+  "mob_and_chest_rendering_verified": false,
+  "new_apk_installed": false,
+  "full_loader_verified": false
+}

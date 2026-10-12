@@ -1,0 +1,16 @@
+{
+  "schema": "dh2-model-route-source-coherence-v45",
+  "native_preflight_rejected_root_save_drift": true,
+  "exact_frozen_header_equals_v5": true,
+  "genuine_save_source_origin": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\publication\\checkpoint\\port\\game-data",
+  "sources": {
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-model-route-v45\\genuine-save-snapshot\\player_savegame_v1.cpp": "ca713e12bd25307bca7b24c95714cec45bda1e198fdbe70e952315659ef91d43",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-model-route-v45\\genuine-save-snapshot\\player_savegame_v1.hpp": "014acd3b821b4ab99b7fbd2072a8df4132465d783917e3b9592e58e8aeda0f6f"
+  },
+  "root_cpp_modified": false,
+  "selected_graph_modified": false,
+  "pinned_table_setup_source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\character_swamp_model_v40_probe.cpp",
+  "pinned_table_setup_source_sha256": "4d80c8b012daa77de633a1d22a2f8b319b0c6ba80ce538746b15abb0f1a74b43",
+  "local_setup_sha256": "d20277f6b11f23183bd702e2b1cbbc3d5236c80e76439946dfc6217198e6cc20",
+  "reproducer_external_temp_dependency": false
+}

@@ -1,0 +1,54 @@
+{
+  "apk_sha256": "32c2d027b585a42547311cd95da6a3975fdb3174e663e513d42a7f49d1a4c200",
+  "entries": [
+    {
+      "entry": "lib/armeabi-v7a/libDungeonHunter2.so",
+      "sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+      "size": 15938284,
+      "hits": [
+        {
+          "offset": 1761251,
+          "text": "_ZN6glitch5video15CImageLoaderPVR23hasTextureLoadInterfaceEv"
+        },
+        {
+          "offset": 1761746,
+          "text": "_ZNK6glitch5video15CImageLoaderPVR21isALoadableFileFormatEPNS_2io9IReadFileE"
+        },
+        {
+          "offset": 1762113,
+          "text": "_ZNK6glitch5video15CImageLoaderPVR24isALoadableFileExtensionEPKc"
+        },
+        {
+          "offset": 14504068,
+          "text": "_ZN6glitch5video15CImageLoaderPVR23hasTextureLoadInterfaceEv"
+        },
+        {
+          "offset": 14980190,
+          "text": "_ZNK6glitch5video15CImageLoaderPVR24isALoadableFileExtensionEPKc"
+        },
+        {
+          "offset": 15014316,
+          "text": "_ZNK6glitch5video15CImageLoaderPVR21isALoadableFileFormatEPNS_2io9IReadFileE"
+        }
+      ]
+    },
+    {
+      "entry": "lib/armeabi-v7a/libStormGLOFT.so",
+      "sha256": "be6beaab782944e5ce39cca8e850fd03de654e4236c9329621043adcbee291e1",
+      "size": 907744,
+      "hits": []
+    },
+    {
+      "entry": "lib/armeabi-v7a/libnativeinterface.so",
+      "sha256": "180b582cbb7e7004c94fe771f8c8013dad4c74a9317ee4baff08c542da4ff0da",
+      "size": 11320,
+      "hits": []
+    },
+    {
+      "entry": "lib/armeabi/libnativeinterface.so",
+      "sha256": "180b582cbb7e7004c94fe771f8c8013dad4c74a9317ee4baff08c542da4ff0da",
+      "size": 11320,
+      "hits": []
+    }
+  ]
+}

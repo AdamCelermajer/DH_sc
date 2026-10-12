@@ -1,0 +1,94 @@
+{
+  "schema": "dh2-character-name-predicate-v48-verified",
+  "validation": "PASS selected coherent749 actual factory/kernel",
+  "original_name30_buffer44": true,
+  "archetype48_buffer5c_excluded": true,
+  "native_actual_factory_cases": 20,
+  "native_live_name_changes": 20,
+  "native_spawn_records": 8,
+  "native_model_regression": true,
+  "executions": {
+    "character_name": {
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/dh2_loader_character_name_v48",
+        "/mnt/c/Users/adamc/Downloads/dungeonhunter2/Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/tests/native-ctor-v4/design.bin"
+      ],
+      "stdout": "PASS actual_factory_name_vs_gametype=20 live_Name30_changes=20 same_NAME30_buffer44_borrow=1 actual_AI_rows_resolved_fixture=1 missing_type0_name_preserves_output=1 nonzero_type_skips_name=1 no_model_template_preselection=1 rng0_calls=0 rng1_calls=0 whole_InitPost_success=0\n",
+      "stderr": "",
+      "returncode": 0,
+      "binary_sha256": "51a19e115e9fb556e1d13e155771c88f667129168a2848e2455d3b16fbc89616"
+    },
+    "character_spawn": {
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/dh2_loader_character_spawn_name_v48",
+        "/mnt/c/Users/adamc/Downloads/dungeonhunter2/Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/tests/native-ctor-v4/design.bin"
+      ],
+      "stdout": "PASS real_factory_records=8 actual_actor270=1 same_probability_backing=1 property_guard_foreign_alias_adoption=1 shared_application_positive_zero_cached=1 actual_live_type_name=1 lifecycle_order_failures=3 record_alias_lifetime=1 no_model_template_selection=1 rng0_calls=5 rng1_calls=0\n",
+      "stderr": "",
+      "returncode": 0,
+      "binary_sha256": "3403c03deb54152d914531ebbee0513e71ddc0d8110d7678275e290db3e9632b"
+    },
+    "character_model": {
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/dh2_loader_character_model_v47",
+        "/mnt/c/Users/adamc/Downloads/dungeonhunter2/Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/tests/native-ctor-v4/design.bin"
+      ],
+      "stdout": "PASS actual_ordered_LoadBase_Recalc=1 actual_model_property_backing=1 actual_family_model_route=1 NPC_Faery_NULL=1 owned_Faery_real_save_getter_original_table_callbacks=1 missing_order_dictionary_type_backing_saved=5 failed_model_not_replayed=1 NULL_model_preserves_authored_CString=1 source_scale_before_missing_parent=1 whole_InitPost_success=0 app_rng0_calls=8 saved_model=33\n",
+      "stderr": "",
+      "returncode": 0,
+      "binary_sha256": "afaa9aa19cd539ab0f9e56ca92f9e137af38b982fb64662510362fc21642344a"
+    }
+  },
+  "parent_receipt_sha256": "04eb7e0d27d1a0307af326aff20ddbd8bbcda1e593ade680743acb1c939b1025",
+  "coherent_manifest_sha256": "bda9ece02c0cbc3e23800c28fcad46b912e4dedc2a1f10905040ed672cfd7da3",
+  "semantic_source_sha256": {
+    "retained_character_actor_v1.cpp": "c383a6f77b9f6527ea396ca2b9beb0831b479349d8a775df2a84452d1c94c586",
+    "character_is_player_v41.hpp": "28fe79e681193d6cfbdd9f3845839ebee35acd5566d1e15800a7fe836446ca5c",
+    "character_is_player_v41.cpp": "7f329d367d4410d0381ba64557cbf4bc8d5397f976f95891621daf8d88241bc7"
+  },
+  "line_ending_normalization_pin": {
+    "retained_character_actor_v1.cpp": {
+      "candidate_before_pin_sha256": "05d8e5c053c942571eaa9f91bdddb916a6fdae66781484785cb30716ef8fd7a3",
+      "selected_sha256": "c383a6f77b9f6527ea396ca2b9beb0831b479349d8a775df2a84452d1c94c586",
+      "text_equal": true
+    },
+    "character_is_player_v41.hpp": {
+      "candidate_before_pin_sha256": "4cdc9cfc7697750659063ef2083b865c0622152eca5885332abab9542c910084",
+      "selected_sha256": "28fe79e681193d6cfbdd9f3845839ebee35acd5566d1e15800a7fe836446ca5c",
+      "text_equal": true
+    },
+    "character_is_player_v41.cpp": {
+      "candidate_before_pin_sha256": "9ad5c2bee6fda0f0452658c6e7aee0777a888ccd3993b192c9c8ca238508a1ef",
+      "selected_sha256": "7f329d367d4410d0381ba64557cbf4bc8d5397f976f95891621daf8d88241bc7",
+      "text_equal": true
+    }
+  },
+  "native_test_sha256": {
+    "character_name_predicate_v48_test.cpp": "39867efbc2ddcd55e89ed44a2b62c840d8fb8f97c9eda2b8c4c49ddc7881b234",
+    "character_spawn_name_v48_regression.cpp": "30b4d63a009783cddcc10008157027bc59a4485b881d2f8844fcfe452b25ce16",
+    "character_model_name_v48_regression.cpp": "b8cb8cb76be196841eb016022cd3762b4322c8d33606b62de82ba78f868a77f1"
+  },
+  "validation_provenance": "Parent-confirmed coherent selected source was read back and native binary/test/source hashes checked. Candidate text matched exactly; CRLF copies pinned to the selected LF bytes. No redundant candidate rebuild.",
+  "retraction": "Historical V41/V42 original predicate bit results over artificial44 buffers remain source control evidence; archetype label and actual actor archetype binding superseded.",
+  "remaining_fixtures": "actual AI row choice in predicate resolved-sheet field; spawn offline/lifecycle observers; model Debug/difficulty1/DEFAULT/master-save association. No whole engine/player equipment/activation claim.",
+  "missing_parent_cell_changes_bundled": false,
+  "whole_InitPost_success": false,
+  "rendered": false,
+  "playable": false,
+  "emulator_launched": false
+}

@@ -1,0 +1,38 @@
+{
+  "validation": "PASS",
+  "comparisons": 2746,
+  "by_operation": [
+    850,
+    914,
+    982
+  ],
+  "ordered_logical_lookup_cast_services": 3861,
+  "mutating_resolver_cases": 624,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "b53dc91ec7640101a62eb80ae4b3c41fae40e99856970b7e33d2bc37181c14d3",
+  "gold_json_sha256": "e49335434e5365359c308d341ba43e3c069ca078ffa9b35c263b38f825045e61",
+  "gold_binary_sha256": "b4d945f4f15ea36cf668b286f183d6b1acdddc2cbe1638d9bf30cebd269f4f83",
+  "source_sha256": {
+    "port/level-world/character_spatial_bindings.hpp": "72bc0754adb341676c03b220c03cad59804231e2403cb2e5d5be23ec3f821f6b",
+    "port/level-world/character_spatial_bindings.cpp": "b347cf19c1888f9ac1046891bd3b3b1f4b3879f32882e1557bf46f6ae94c681f",
+    "port/level-world/tests/character_spatial_bindings_differential.py": "69dae3cd2bbd3e3631bccfd058a7c45e364c82207142333a22ae77b690cce0ea",
+    "port/level-world/reference/character-spatial-bindings/original-functions.json": "87186fc07d91732782c7358f4822e1ad6197a96bdc1d28cf4c39b16656728827",
+    "port/level-world/reference/character-spatial-bindings/value-helpers/original-functions.json": "58023f54d4e2d3adebfa2f6acdaf1f41c775f9533474b65a109df0e40cf03ddf",
+    "port/script-runtime/script_runtime.h": "6609f8b0a1ad716104824e5ed1653cc9b2be68396ae5b5766b38166af3561303"
+  },
+  "source_wrappers_and_value_helpers_executed": true,
+  "optimized_ARM64": true,
+  "native64_identity_fixture": "0xfedcba9800001000",
+  "NaN_policy": "Copied GetPosition words exact including NaN payload; arithmetic NaN class only; all other words exact.",
+  "explicit_services": [
+    "Original ObjectManager name lookup plus GameObject conversion, normalized against one combined genuine caller service.",
+    "Original native ReturnValues vector pushNumber, preserving exact float32 input words.",
+    "Original imported AEABI floating subtraction/multiply/add pure arithmetic contract.",
+    "Native64 userdata\u2192position resolver models original direct GameObject pointer reads."
+  ],
+  "full_manager_or_world_proof": false,
+  "whole_VM_differential": false,
+  "packaged_APK": false,
+  "scope": "Original spatial wrappers/helpers versus optimized native64 instructions.\n\nNamed lookup/cast and return-vector append are explicit services. Original Args,\nValue.getString/getUserData and wrapper arithmetic execute. Borrowed coordinate\nmutations occur during lookup; all finite outputs are exact, copied NaNs exact,\narithmetic NaNs class-equivalent only. No complete manager/Scene/backend proof.\n"
+}

@@ -1,0 +1,1358 @@
+{
+  "schema": "all-map-image-dependency-matrix-v44",
+  "validation": "PASS_SOURCE_AUDIT",
+  "scope": "51 design identities; fixed authored declarations and procedural source potentials only, exact native selected Module subtree where selector provided; actor visual selector/activation/pass/technique sampler use unresolved",
+  "claims": {
+    "whole_level_init": false,
+    "actual_actor_rendering": false,
+    "gpu_texture_readiness": false,
+    "selected_seed_or_activate_conditions_evaluated": false,
+    "resource_admission_accounting": false,
+    "original_mount_route_recovered": false,
+    "no_global_basename_fallback": true
+  },
+  "summary": {
+    "levels": 51,
+    "unique_bres": 84,
+    "native_asset_selector_queries": 305,
+    "dependencies": 2369,
+    "image_rows": 92005,
+    "image_statuses": {
+      "compatibility_canonical_resolved": 57232,
+      "source_no_image": 34385,
+      "archive_entry_absent_for_compatibility_canonical_uri": 388
+    },
+    "per_instance_sampler_rows_including_inspections": 92158,
+    "exact_compatibility_absent_unique_uris": 5,
+    "unresolved_lexical_uri_route_unique": 0,
+    "original_format_route_required_unique": 5,
+    "model_provider_required": 4750,
+    "native_raw_sampler_comparisons": 2779,
+    "malformed_bres_count": 0,
+    "nongeometry_nonvisual_queries": 7,
+    "missing_module_selector_queries": 1
+  },
+  "levels": [
+    {
+      "identity": "ABBEY_ENTRANCE_01",
+      "design_index": 0,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 149,
+        "image_rows": 1500,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 971,
+          "source_no_image": 486,
+          "archive_entry_absent_for_compatibility_canonical_uri": 43
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 149
+        },
+        "actual_model_provider_required": 125
+      }
+    },
+    {
+      "identity": "ABBEY_RUINS_01",
+      "design_index": 1,
+      "form": "fixed",
+      "counts": {
+        "dependencies": 8,
+        "image_rows": 207,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 121,
+          "source_no_image": 86
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 8
+        },
+        "actual_model_provider_required": 17
+      }
+    },
+    {
+      "identity": "APPLETEMPLE",
+      "design_index": 2,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 6,
+        "image_rows": 924,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 551,
+          "source_no_image": 373
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 6
+        },
+        "actual_model_provider_required": 37
+      }
+    },
+    {
+      "identity": "APPLETEMPLEBACKUP",
+      "design_index": 3,
+      "form": "fixed",
+      "counts": {
+        "dependencies": 6,
+        "image_rows": 924,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 551,
+          "source_no_image": 373
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 6
+        },
+        "actual_model_provider_required": 37
+      }
+    },
+    {
+      "identity": "DARKWOOD",
+      "design_index": 4,
+      "form": "fixed",
+      "counts": {
+        "dependencies": 37,
+        "image_rows": 3582,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 1643,
+          "source_no_image": 1939
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 35,
+          "nongeometry_or_nonvisual_source": 2
+        },
+        "actual_model_provider_required": 125
+      }
+    },
+    {
+      "identity": "DARKWOOD_V2",
+      "design_index": 5,
+      "form": "fixed",
+      "counts": {
+        "dependencies": 37,
+        "image_rows": 3582,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 1643,
+          "source_no_image": 1939
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 35,
+          "nongeometry_or_nonvisual_source": 2
+        },
+        "actual_model_provider_required": 125
+      }
+    },
+    {
+      "identity": "DARKWOOD_V3",
+      "design_index": 6,
+      "form": "fixed",
+      "counts": {
+        "dependencies": 37,
+        "image_rows": 3582,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 1643,
+          "source_no_image": 1939
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 35,
+          "nongeometry_or_nonvisual_source": 2
+        },
+        "actual_model_provider_required": 125
+      }
+    },
+    {
+      "identity": "DARK_DUNGEON_TEMPLE_01",
+      "design_index": 7,
+      "form": "fixed",
+      "counts": {
+        "dependencies": 100,
+        "image_rows": 507,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 263,
+          "source_no_image": 209,
+          "archive_entry_absent_for_compatibility_canonical_uri": 35
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 100
+        },
+        "actual_model_provider_required": 73
+      }
+    },
+    {
+      "identity": "DARK_DUNGEON_TEMPLE_BOSSROOM",
+      "design_index": 8,
+      "form": "fixed",
+      "counts": {
+        "dependencies": 12,
+        "image_rows": 42,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 29,
+          "source_no_image": 13
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 12
+        },
+        "actual_model_provider_required": 20
+      }
+    },
+    {
+      "identity": "DESERT_CAVE_01",
+      "design_index": 9,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 47,
+        "image_rows": 1821,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 1179,
+          "source_no_image": 642
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 47
+        },
+        "actual_model_provider_required": 156
+      }
+    },
+    {
+      "identity": "DESERT_CAVE_02",
+      "design_index": 10,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 15,
+        "image_rows": 1360,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 862,
+          "source_no_image": 498
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 15
+        },
+        "actual_model_provider_required": 66
+      }
+    },
+    {
+      "identity": "DESERT_CAVE_03",
+      "design_index": 11,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 16,
+        "image_rows": 1382,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 871,
+          "source_no_image": 511
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 16
+        },
+        "actual_model_provider_required": 105
+      }
+    },
+    {
+      "identity": "EARTH_TEMPLE_01",
+      "design_index": 12,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 157,
+        "image_rows": 3034,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 1921,
+          "source_no_image": 1109,
+          "archive_entry_absent_for_compatibility_canonical_uri": 4
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 157
+        },
+        "actual_model_provider_required": 216
+      }
+    },
+    {
+      "identity": "EARTH_TEMPLE_02",
+      "design_index": 13,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 137,
+        "image_rows": 3537,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 2207,
+          "source_no_image": 1326,
+          "archive_entry_absent_for_compatibility_canonical_uri": 4
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 137
+        },
+        "actual_model_provider_required": 217
+      }
+    },
+    {
+      "identity": "EARTH_TEMPLE_03",
+      "design_index": 14,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 129,
+        "image_rows": 3545,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 2212,
+          "source_no_image": 1333
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 129
+        },
+        "actual_model_provider_required": 165
+      }
+    },
+    {
+      "identity": "ELEMENTAL_AIR",
+      "design_index": 15,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 54,
+        "image_rows": 1640,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 906,
+          "source_no_image": 700,
+          "archive_entry_absent_for_compatibility_canonical_uri": 34
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 54
+        },
+        "actual_model_provider_required": 125
+      }
+    },
+    {
+      "identity": "ELEMENTAL_EARTH",
+      "design_index": 16,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 54,
+        "image_rows": 1640,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 906,
+          "source_no_image": 700,
+          "archive_entry_absent_for_compatibility_canonical_uri": 34
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 54
+        },
+        "actual_model_provider_required": 116
+      }
+    },
+    {
+      "identity": "ELEMENTAL_FIRE",
+      "design_index": 17,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 54,
+        "image_rows": 1640,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 906,
+          "source_no_image": 700,
+          "archive_entry_absent_for_compatibility_canonical_uri": 34
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 54
+        },
+        "actual_model_provider_required": 114
+      }
+    },
+    {
+      "identity": "ELEMENTAL_LIGHT",
+      "design_index": 18,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 54,
+        "image_rows": 1640,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 906,
+          "source_no_image": 700,
+          "archive_entry_absent_for_compatibility_canonical_uri": 34
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 54
+        },
+        "actual_model_provider_required": 124
+      }
+    },
+    {
+      "identity": "ELEMENTAL_WATER",
+      "design_index": 19,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 54,
+        "image_rows": 1640,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 906,
+          "source_no_image": 700,
+          "archive_entry_absent_for_compatibility_canonical_uri": 34
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 54
+        },
+        "actual_model_provider_required": 114
+      }
+    },
+    {
+      "identity": "FIRE_TEMPLE_01",
+      "design_index": 20,
+      "form": "fixed",
+      "counts": {
+        "dependencies": 61,
+        "image_rows": 1543,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 821,
+          "source_no_image": 722
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 41,
+          "nongeometry_or_nonvisual_source": 20
+        },
+        "actual_model_provider_required": 79
+      }
+    },
+    {
+      "identity": "GOTHICUS_CASTLE_01",
+      "design_index": 21,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 30,
+        "image_rows": 1391,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 767,
+          "source_no_image": 610,
+          "archive_entry_absent_for_compatibility_canonical_uri": 14
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 30
+        },
+        "actual_model_provider_required": 38
+      }
+    },
+    {
+      "identity": "GOTHICUS_CASTLE_02",
+      "design_index": 22,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 38,
+        "image_rows": 1142,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 639,
+          "source_no_image": 486,
+          "archive_entry_absent_for_compatibility_canonical_uri": 17
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 38
+        },
+        "actual_model_provider_required": 56
+      }
+    },
+    {
+      "identity": "GOTHICUS_CRYPT_01",
+      "design_index": 23,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 152,
+        "image_rows": 2129,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 1312,
+          "source_no_image": 782,
+          "archive_entry_absent_for_compatibility_canonical_uri": 35
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 151,
+          "source_module_selector_not_found": 1
+        },
+        "actual_model_provider_required": 174
+      }
+    },
+    {
+      "identity": "GOTHICUS_CRYPT_02",
+      "design_index": 24,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 140,
+        "image_rows": 1408,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 912,
+          "source_no_image": 454,
+          "archive_entry_absent_for_compatibility_canonical_uri": 42
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 140
+        },
+        "actual_model_provider_required": 121
+      }
+    },
+    {
+      "identity": "ICY_CAVERN_01",
+      "design_index": 25,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 15,
+        "image_rows": 939,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 603,
+          "source_no_image": 336
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 15
+        },
+        "actual_model_provider_required": 70
+      }
+    },
+    {
+      "identity": "ICY_CAVERN_02",
+      "design_index": 26,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 33,
+        "image_rows": 931,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 605,
+          "source_no_image": 326
+        },
+        "dependency_statuses": {
+          "nongeometry_or_nonvisual_source": 19,
+          "decoded_authored_asset_scene": 14
+        },
+        "actual_model_provider_required": 90
+      }
+    },
+    {
+      "identity": "ICY_CAVERN_03",
+      "design_index": 27,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 11,
+        "image_rows": 649,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 412,
+          "source_no_image": 237
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 11
+        },
+        "actual_model_provider_required": 71
+      }
+    },
+    {
+      "identity": "ICY_HUB",
+      "design_index": 28,
+      "form": "fixed",
+      "counts": {
+        "dependencies": 47,
+        "image_rows": 1186,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 638,
+          "source_no_image": 548
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 11,
+          "nongeometry_or_nonvisual_source": 36
+        },
+        "actual_model_provider_required": 78
+      }
+    },
+    {
+      "identity": "INFECTED_VILLAGE_01",
+      "design_index": 29,
+      "form": "fixed",
+      "counts": {
+        "dependencies": 11,
+        "image_rows": 61,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 42,
+          "source_no_image": 19
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 11
+        },
+        "actual_model_provider_required": 34
+      }
+    },
+    {
+      "identity": "LIGHT_HOUSE_01",
+      "design_index": 30,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 27,
+        "image_rows": 3162,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 1868,
+          "source_no_image": 1294
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 27
+        },
+        "actual_model_provider_required": 196
+      }
+    },
+    {
+      "identity": "LIGHT_HOUSE_02",
+      "design_index": 31,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 24,
+        "image_rows": 2940,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 1723,
+          "source_no_image": 1217
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 24
+        },
+        "actual_model_provider_required": 158
+      }
+    },
+    {
+      "identity": "LIGHT_HOUSE_03",
+      "design_index": 32,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 63,
+        "image_rows": 7013,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 4131,
+          "source_no_image": 2882
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 63
+        },
+        "actual_model_provider_required": 358
+      }
+    },
+    {
+      "identity": "MACHINE_ROOMS_01",
+      "design_index": 33,
+      "form": "fixed",
+      "counts": {
+        "dependencies": 14,
+        "image_rows": 53,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 27,
+          "source_no_image": 26
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 14
+        },
+        "actual_model_provider_required": 58
+      }
+    },
+    {
+      "identity": "MULTIPLAYER_TEST",
+      "design_index": 34,
+      "form": "fixed",
+      "counts": {
+        "dependencies": 1,
+        "image_rows": 4,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 2,
+          "source_no_image": 2
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 1
+        },
+        "actual_model_provider_required": 6
+      }
+    },
+    {
+      "identity": "PORTAL_ROOM",
+      "design_index": 35,
+      "form": "fixed",
+      "counts": {
+        "dependencies": 37,
+        "image_rows": 3582,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 1643,
+          "source_no_image": 1939
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 35,
+          "nongeometry_or_nonvisual_source": 2
+        },
+        "actual_model_provider_required": 125
+      }
+    },
+    {
+      "identity": "QUESTTEST",
+      "design_index": 36,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 7,
+        "image_rows": 122,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 76,
+          "source_no_image": 46
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 7
+        },
+        "actual_model_provider_required": 13
+      }
+    },
+    {
+      "identity": "RANDOMFORALEX",
+      "design_index": 37,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 39,
+        "image_rows": 1226,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 683,
+          "source_no_image": 521,
+          "archive_entry_absent_for_compatibility_canonical_uri": 22
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 39
+        },
+        "actual_model_provider_required": 11
+      }
+    },
+    {
+      "identity": "RED_DESERT_HUB",
+      "design_index": 38,
+      "form": "fixed",
+      "counts": {
+        "dependencies": 46,
+        "image_rows": 1067,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 703,
+          "source_no_image": 364
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 46
+        },
+        "actual_model_provider_required": 41
+      }
+    },
+    {
+      "identity": "ROOT_DEN_01",
+      "design_index": 39,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 18,
+        "image_rows": 1058,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 669,
+          "source_no_image": 389
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 18
+        },
+        "actual_model_provider_required": 85
+      }
+    },
+    {
+      "identity": "SECRET_BASEMENT_01",
+      "design_index": 40,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 16,
+        "image_rows": 360,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 239,
+          "source_no_image": 121
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 16
+        },
+        "actual_model_provider_required": 69
+      }
+    },
+    {
+      "identity": "SWAMP",
+      "design_index": 41,
+      "form": "fixed",
+      "counts": {
+        "dependencies": 57,
+        "image_rows": 3690,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 2855,
+          "source_no_image": 835
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 54,
+          "nongeometry_or_nonvisual_source": 3
+        },
+        "actual_model_provider_required": 68
+      }
+    },
+    {
+      "identity": "SWAMP_02",
+      "design_index": 42,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 66,
+        "image_rows": 3932,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 3087,
+          "source_no_image": 845
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 65,
+          "nongeometry_or_nonvisual_source": 1
+        },
+        "actual_model_provider_required": 67
+      }
+    },
+    {
+      "identity": "SWAMP_CAVE_TROLL_A",
+      "design_index": 43,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 34,
+        "image_rows": 870,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 675,
+          "source_no_image": 195
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 34
+        },
+        "actual_model_provider_required": 74
+      }
+    },
+    {
+      "identity": "SWAMP_CAVE_WITCH_A",
+      "design_index": 44,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 28,
+        "image_rows": 788,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 574,
+          "source_no_image": 214
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 28
+        },
+        "actual_model_provider_required": 47
+      }
+    },
+    {
+      "identity": "UNDERWORLD_HUB",
+      "design_index": 45,
+      "form": "fixed",
+      "counts": {
+        "dependencies": 10,
+        "image_rows": 1393,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 1045,
+          "source_no_image": 348
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 10
+        },
+        "actual_model_provider_required": 73
+      }
+    },
+    {
+      "identity": "VOID_MAZE_01",
+      "design_index": 46,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 39,
+        "image_rows": 2081,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 2081
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 39
+        },
+        "actual_model_provider_required": 5
+      }
+    },
+    {
+      "identity": "VOID_MAZE_02",
+      "design_index": 47,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 35,
+        "image_rows": 1838,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 1838
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 35
+        },
+        "actual_model_provider_required": 5
+      }
+    },
+    {
+      "identity": "VOID_MAZE_03",
+      "design_index": 48,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 33,
+        "image_rows": 1834,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 1834
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 33
+        },
+        "actual_model_provider_required": 1
+      }
+    },
+    {
+      "identity": "WATER_TEMPLE_01",
+      "design_index": 49,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 54,
+        "image_rows": 3227,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 2056,
+          "source_no_image": 1171
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 54
+        },
+        "actual_model_provider_required": 213
+      }
+    },
+    {
+      "identity": "WIND_TEMPLE_01",
+      "design_index": 50,
+      "form": "procedural",
+      "counts": {
+        "dependencies": 20,
+        "image_rows": 2657,
+        "image_statuses": {
+          "compatibility_canonical_resolved": 1475,
+          "source_no_image": 1180,
+          "archive_entry_absent_for_compatibility_canonical_uri": 2
+        },
+        "dependency_statuses": {
+          "decoded_authored_asset_scene": 20
+        },
+        "actual_model_provider_required": 64
+      }
+    }
+  ],
+  "exact_archive_absences": [
+    {
+      "instance_index": 2,
+      "node": "_mesh_candlestand-node",
+      "node_name": "_mesh_candlestand",
+      "material_slot": 0,
+      "material_catalog": 2,
+      "material_id": "Material__36",
+      "parameter_name": "AlphaMap",
+      "parameter_record": 25588,
+      "parameter_order": 3,
+      "image_catalog": 2,
+      "image_record": 18016,
+      "image_id": "Map__759__env_crypt_alpha.tga_",
+      "authored_uri": "q:/data/iphone/3d/textures/env_crypt_alpha.tga",
+      "canonical_compatibility_uri": "data/3d/textures/env_crypt_alpha.tga",
+      "status": "archive_entry_absent_for_compatibility_canonical_uri",
+      "actual_archive_image_bytes": 0,
+      "canonical_policy": "explicit_supplied_cache_v43_compatibility_only",
+      "archive_entry_present": false,
+      "original_mount_format_route_verified": false,
+      "possible_same_directory_format_variants": [
+        "data/3d/textures/pvr2_env_crypt_alpha.tga"
+      ],
+      "variants_are_diagnostic_not_resolved_fallback": true,
+      "route_class": "original_format_route_required"
+    },
+    {
+      "instance_index": 1,
+      "node": "_mesh_block_darktemple-node",
+      "node_name": "_mesh_block_darktemple",
+      "material_slot": 1,
+      "material_catalog": 3,
+      "material_id": "Material__36",
+      "parameter_name": "AlphaMap",
+      "parameter_record": 67864,
+      "parameter_order": 3,
+      "image_catalog": 1,
+      "image_record": 62012,
+      "image_id": "Map__25__env_darktemple_alpha.tga_",
+      "authored_uri": "q:/data/iphone/3d/textures/env_darktemple_alpha.tga",
+      "canonical_compatibility_uri": "data/3d/textures/env_darktemple_alpha.tga",
+      "status": "archive_entry_absent_for_compatibility_canonical_uri",
+      "actual_archive_image_bytes": 0,
+      "canonical_policy": "explicit_supplied_cache_v43_compatibility_only",
+      "archive_entry_present": false,
+      "original_mount_format_route_verified": false,
+      "possible_same_directory_format_variants": [
+        "data/3d/textures/pvr2_env_darktemple_alpha.tga"
+      ],
+      "variants_are_diagnostic_not_resolved_fallback": true,
+      "route_class": "original_format_route_required"
+    },
+    {
+      "instance_index": 1,
+      "node": "_mesh_earth_temple_cover_sortie-node",
+      "node_name": "_mesh_earth_temple_cover_sortie",
+      "material_slot": 1,
+      "material_catalog": 2,
+      "material_id": "Material__5023",
+      "parameter_name": "AlphaMap",
+      "parameter_record": 12812,
+      "parameter_order": 3,
+      "image_catalog": 0,
+      "image_record": 7468,
+      "image_id": "Map__394__env_earth_temple_alpha.tga_",
+      "authored_uri": "q:/data/iphone/3d/textures/env_earth_temple_alpha.tga",
+      "canonical_compatibility_uri": "data/3d/textures/env_earth_temple_alpha.tga",
+      "status": "archive_entry_absent_for_compatibility_canonical_uri",
+      "actual_archive_image_bytes": 0,
+      "canonical_policy": "explicit_supplied_cache_v43_compatibility_only",
+      "archive_entry_present": false,
+      "original_mount_format_route_verified": false,
+      "possible_same_directory_format_variants": [
+        "data/3d/textures/pvr2_env_earth_temple_alpha.tga"
+      ],
+      "variants_are_diagnostic_not_resolved_fallback": true,
+      "route_class": "original_format_route_required"
+    },
+    {
+      "instance_index": 0,
+      "node": "_mesh_chandelier-node_PIVOT",
+      "node_name": "_mesh_chandelier_PIVOT",
+      "material_slot": 1,
+      "material_catalog": 2,
+      "material_id": "Material__14",
+      "parameter_name": "AlphaMap",
+      "parameter_record": 18660,
+      "parameter_order": 3,
+      "image_catalog": 2,
+      "image_record": 12380,
+      "image_id": "Map__435__env_castle_alpha.tga_",
+      "authored_uri": "q:/data/iphone/3d/textures/env_castle_alpha.tga",
+      "canonical_compatibility_uri": "data/3d/textures/env_castle_alpha.tga",
+      "status": "archive_entry_absent_for_compatibility_canonical_uri",
+      "actual_archive_image_bytes": 0,
+      "canonical_policy": "explicit_supplied_cache_v43_compatibility_only",
+      "archive_entry_present": false,
+      "original_mount_format_route_verified": false,
+      "possible_same_directory_format_variants": [
+        "data/3d/textures/pvr2_env_castle_alpha.tga"
+      ],
+      "variants_are_diagnostic_not_resolved_fallback": true,
+      "route_class": "original_format_route_required"
+    },
+    {
+      "instance_index": 5,
+      "node": "_mesh_al_33-node",
+      "node_name": "_mesh_al_33",
+      "material_slot": 0,
+      "material_catalog": 0,
+      "material_id": "Alpha",
+      "parameter_name": "transparent-sampler",
+      "parameter_record": 497516,
+      "parameter_order": 1,
+      "image_catalog": 0,
+      "image_record": 477140,
+      "image_id": "Map__17__env_windtemple_alpha.tga_",
+      "authored_uri": "q:/data/iphone/3d/textures/env_windtemple_alpha.tga",
+      "canonical_compatibility_uri": "data/3d/textures/env_windtemple_alpha.tga",
+      "status": "archive_entry_absent_for_compatibility_canonical_uri",
+      "actual_archive_image_bytes": 0,
+      "canonical_policy": "explicit_supplied_cache_v43_compatibility_only",
+      "archive_entry_present": false,
+      "original_mount_format_route_verified": false,
+      "possible_same_directory_format_variants": [
+        "data/3d/textures/pvr2_env_windtemple_alpha.tga"
+      ],
+      "variants_are_diagnostic_not_resolved_fallback": true,
+      "route_class": "original_format_route_required"
+    }
+  ],
+  "source_domain_queries": [
+    {
+      "uri": "data/3d/animateddecors/darkwood/smog_hellgate.bdae",
+      "module_selector": "",
+      "bres_bytes": 14152,
+      "status": "nongeometry_or_nonvisual_source",
+      "error": "Scene has no visible geometry",
+      "material_evidence": "independent_bounded_original_bres_catalog_only",
+      "runtime_scene_or_pass_claim": false,
+      "instance_scope": "authored_asset_scene_actor_selector_not_applied",
+      "materials": [
+        {
+          "catalog": 0,
+          "id": "_8_-_Default",
+          "status": "decoded_raw_original_bres_catalog_only",
+          "samplers": [
+            {
+              "parameter_name": "diffuse-sampler",
+              "parameter_record": 11512,
+              "parameter_order": 17,
+              "image_catalog": 0,
+              "image_record": 8192,
+              "image_id": "Map__2__env_hellgate.tga_",
+              "authored_uri": "q:/data/iphone/3d/textures/env_hellgate.tga",
+              "status": "compatibility_canonical_resolved",
+              "canonical_compatibility_uri": "data/3d/textures/env_hellgate.tga",
+              "canonical_policy": "explicit_supplied_cache_v43_compatibility_only",
+              "archive_entry_present": true
+            },
+            {
+              "parameter_name": "diffuse-sampler",
+              "parameter_record": 11536,
+              "parameter_order": 18,
+              "image_catalog": 0,
+              "image_record": 8192,
+              "image_id": "Map__2__env_hellgate.tga_",
+              "authored_uri": "q:/data/iphone/3d/textures/env_hellgate.tga",
+              "status": "compatibility_canonical_resolved",
+              "canonical_compatibility_uri": "data/3d/textures/env_hellgate.tga",
+              "canonical_policy": "explicit_supplied_cache_v43_compatibility_only",
+              "archive_entry_present": true
+            }
+          ]
+        }
+      ],
+      "instances": [],
+      "geometry_catalog_count": 0,
+      "emitter_invisible_or_renderer_services_required": true
+    },
+    {
+      "uri": "data/3d/animateddecors/firetemple/cloud.bdae",
+      "module_selector": "",
+      "bres_bytes": 7940,
+      "status": "nongeometry_or_nonvisual_source",
+      "error": "Scene has no visible geometry",
+      "material_evidence": "independent_bounded_original_bres_catalog_only",
+      "runtime_scene_or_pass_claim": false,
+      "instance_scope": "authored_asset_scene_actor_selector_not_applied",
+      "materials": [
+        {
+          "catalog": 0,
+          "id": "Standard_8",
+          "status": "decoded_raw_original_bres_catalog_only",
+          "samplers": [
+            {
+              "parameter_name": "diffuse-sampler",
+              "parameter_record": 7052,
+              "parameter_order": 17,
+              "image_catalog": 0,
+              "image_record": 4092,
+              "image_id": "fx_cloud_02.tga",
+              "authored_uri": "q:/data/iphone/3d/textures/fx_cloud_02.tga",
+              "status": "compatibility_canonical_resolved",
+              "canonical_compatibility_uri": "data/3d/textures/fx_cloud_02.tga",
+              "canonical_policy": "explicit_supplied_cache_v43_compatibility_only",
+              "archive_entry_present": true
+            }
+          ]
+        }
+      ],
+      "instances": [],
+      "geometry_catalog_count": 0,
+      "emitter_invisible_or_renderer_services_required": true
+    },
+    {
+      "uri": "data/3d/animateddecors/icycavern_rayolight.bdae",
+      "module_selector": "",
+      "bres_bytes": 7176,
+      "status": "nongeometry_or_nonvisual_source",
+      "error": "Scene has no visible geometry",
+      "material_evidence": "independent_bounded_original_bres_catalog_only",
+      "runtime_scene_or_pass_claim": false,
+      "instance_scope": "authored_asset_scene_actor_selector_not_applied",
+      "materials": [
+        {
+          "catalog": 0,
+          "id": "fx_particles_additive_000",
+          "status": "decoded_raw_original_bres_catalog_only",
+          "samplers": [
+            {
+              "parameter_name": "diffuse-sampler",
+              "parameter_record": 6444,
+              "parameter_order": 2,
+              "image_catalog": 0,
+              "image_record": 3484,
+              "image_id": "Map__388__atlas_fx_particles_000.tga_",
+              "authored_uri": "q:/data/iphone/3d/textures/atlas_fx_particles_000.tga",
+              "status": "compatibility_canonical_resolved",
+              "canonical_compatibility_uri": "data/3d/textures/atlas_fx_particles_000.tga",
+              "canonical_policy": "explicit_supplied_cache_v43_compatibility_only",
+              "archive_entry_present": true
+            },
+            {
+              "parameter_name": "transparent-sampler",
+              "parameter_record": 6468,
+              "parameter_order": 3,
+              "image_catalog": 0,
+              "image_record": 3484,
+              "image_id": "Map__388__atlas_fx_particles_000.tga_",
+              "authored_uri": "q:/data/iphone/3d/textures/atlas_fx_particles_000.tga",
+              "status": "compatibility_canonical_resolved",
+              "canonical_compatibility_uri": "data/3d/textures/atlas_fx_particles_000.tga",
+              "canonical_policy": "explicit_supplied_cache_v43_compatibility_only",
+              "archive_entry_present": true
+            }
+          ]
+        }
+      ],
+      "instances": [],
+      "geometry_catalog_count": 0,
+      "emitter_invisible_or_renderer_services_required": true
+    },
+    {
+      "uri": "data/3d/animateddecors/icyhub/icyhub_rayolight.bdae",
+      "module_selector": "",
+      "bres_bytes": 7164,
+      "status": "nongeometry_or_nonvisual_source",
+      "error": "Scene has no visible geometry",
+      "material_evidence": "independent_bounded_original_bres_catalog_only",
+      "runtime_scene_or_pass_claim": false,
+      "instance_scope": "authored_asset_scene_actor_selector_not_applied",
+      "materials": [
+        {
+          "catalog": 0,
+          "id": "fx_particles_additive_000",
+          "status": "decoded_raw_original_bres_catalog_only",
+          "samplers": [
+            {
+              "parameter_name": "diffuse-sampler",
+              "parameter_record": 6432,
+              "parameter_order": 2,
+              "image_catalog": 0,
+              "image_record": 3472,
+              "image_id": "Map__388__atlas_fx_particles_000.tga_",
+              "authored_uri": "q:/data/iphone/3d/textures/atlas_fx_particles_000.tga",
+              "status": "compatibility_canonical_resolved",
+              "canonical_compatibility_uri": "data/3d/textures/atlas_fx_particles_000.tga",
+              "canonical_policy": "explicit_supplied_cache_v43_compatibility_only",
+              "archive_entry_present": true
+            },
+            {
+              "parameter_name": "transparent-sampler",
+              "parameter_record": 6456,
+              "parameter_order": 3,
+              "image_catalog": 0,
+              "image_record": 3472,
+              "image_id": "Map__388__atlas_fx_particles_000.tga_",
+              "authored_uri": "q:/data/iphone/3d/textures/atlas_fx_particles_000.tga",
+              "status": "compatibility_canonical_resolved",
+              "canonical_compatibility_uri": "data/3d/textures/atlas_fx_particles_000.tga",
+              "canonical_policy": "explicit_supplied_cache_v43_compatibility_only",
+              "archive_entry_present": true
+            }
+          ]
+        }
+      ],
+      "instances": [],
+      "geometry_catalog_count": 0,
+      "emitter_invisible_or_renderer_services_required": true
+    },
+    {
+      "uri": "data/3d/animateddecors/icyhub/wood.bdae",
+      "module_selector": "",
+      "bres_bytes": 6688,
+      "status": "nongeometry_or_nonvisual_source",
+      "error": "Scene has no visible geometry",
+      "material_evidence": "independent_bounded_original_bres_catalog_only",
+      "runtime_scene_or_pass_claim": false,
+      "instance_scope": "authored_asset_scene_actor_selector_not_applied",
+      "materials": [
+        {
+          "catalog": 0,
+          "id": "_1_-_Default",
+          "status": "decoded_raw_original_bres_catalog_only",
+          "samplers": [
+            {
+              "parameter_name": "diffuse-sampler",
+              "parameter_record": 5984,
+              "parameter_order": 0,
+              "image_catalog": 0,
+              "image_record": 3048,
+              "image_id": "Map__0__atlas_fx_particles_002.tga_",
+              "authored_uri": "q:/data/iphone/3d/textures/atlas_fx_particles_002.tga",
+              "status": "compatibility_canonical_resolved",
+              "canonical_compatibility_uri": "data/3d/textures/atlas_fx_particles_002.tga",
+              "canonical_policy": "explicit_supplied_cache_v43_compatibility_only",
+              "archive_entry_present": true
+            },
+            {
+              "parameter_name": "transparent-sampler",
+              "parameter_record": 6008,
+              "parameter_order": 1,
+              "image_catalog": 0,
+              "image_record": 3048,
+              "image_id": "Map__0__atlas_fx_particles_002.tga_",
+              "authored_uri": "q:/data/iphone/3d/textures/atlas_fx_particles_002.tga",
+              "status": "compatibility_canonical_resolved",
+              "canonical_compatibility_uri": "data/3d/textures/atlas_fx_particles_002.tga",
+              "canonical_policy": "explicit_supplied_cache_v43_compatibility_only",
+              "archive_entry_present": true
+            }
+          ]
+        }
+      ],
+      "instances": [],
+      "geometry_catalog_count": 0,
+      "emitter_invisible_or_renderer_services_required": true
+    },
+    {
+      "uri": "data/3d/animateddecors/swamp_rayolight_dust.bdae",
+      "module_selector": "",
+      "bres_bytes": 6344,
+      "status": "nongeometry_or_nonvisual_source",
+      "error": "Scene has no visible geometry",
+      "material_evidence": "independent_bounded_original_bres_catalog_only",
+      "runtime_scene_or_pass_claim": false,
+      "instance_scope": "authored_asset_scene_actor_selector_not_applied",
+      "materials": [
+        {
+          "catalog": 0,
+          "id": "fx_particles_additive_000",
+          "status": "decoded_raw_original_bres_catalog_only",
+          "samplers": [
+            {
+              "parameter_name": "diffuse-sampler",
+              "parameter_record": 5744,
+              "parameter_order": 2,
+              "image_catalog": 0,
+              "image_record": 2784,
+              "image_id": "Map__388__atlas_fx_particles_000.tga_",
+              "authored_uri": "q:/data/iphone/3d/textures/atlas_fx_particles_000.tga",
+              "status": "compatibility_canonical_resolved",
+              "canonical_compatibility_uri": "data/3d/textures/atlas_fx_particles_000.tga",
+              "canonical_policy": "explicit_supplied_cache_v43_compatibility_only",
+              "archive_entry_present": true
+            },
+            {
+              "parameter_name": "transparent-sampler",
+              "parameter_record": 5768,
+              "parameter_order": 3,
+              "image_catalog": 0,
+              "image_record": 2784,
+              "image_id": "Map__388__atlas_fx_particles_000.tga_",
+              "authored_uri": "q:/data/iphone/3d/textures/atlas_fx_particles_000.tga",
+              "status": "compatibility_canonical_resolved",
+              "canonical_compatibility_uri": "data/3d/textures/atlas_fx_particles_000.tga",
+              "canonical_policy": "explicit_supplied_cache_v43_compatibility_only",
+              "archive_entry_present": true
+            }
+          ]
+        }
+      ],
+      "instances": [],
+      "geometry_catalog_count": 0,
+      "emitter_invisible_or_renderer_services_required": true
+    },
+    {
+      "uri": "data/3d/characters/invisible_man/invisible_man.bdae",
+      "module_selector": "",
+      "bres_bytes": 960,
+      "status": "nongeometry_or_nonvisual_source",
+      "error": "Scene has no visible geometry",
+      "material_evidence": "independent_bounded_original_bres_catalog_only",
+      "runtime_scene_or_pass_claim": false,
+      "instance_scope": "authored_asset_scene_actor_selector_not_applied",
+      "materials": [],
+      "instances": [],
+      "geometry_catalog_count": 0,
+      "emitter_invisible_or_renderer_services_required": true
+    },
+    {
+      "uri": "data/3d/modules/crypt/crypt.bdae",
+      "module_selector": "_module_entrance_s",
+      "bres_bytes": 3922816,
+      "status": "source_module_selector_not_found",
+      "material_evidence": "actual_native_scene_bres_pair",
+      "runtime_scene_or_pass_claim": false,
+      "instance_scope": "authored_selected_module_subtree"
+    }
+  ]
+}

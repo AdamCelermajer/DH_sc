@@ -1,0 +1,17 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN12CharAnimator15IncAnimSetUsersEv",
+      "elf_address": "0x3c9168",
+      "size": 96,
+      "sha256": "03af40846d7c8e0c6f19cd303db49773250361cb2e74d8f0b881bad326d52373"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator15DecAnimSetUsersEv",
+      "elf_address": "0x3c91c8",
+      "size": 96,
+      "sha256": "6b0d8813d3f22ba18932bd61787fb314af9c25a463e790bf216a2459444ec138"
+    }
+  ]
+}

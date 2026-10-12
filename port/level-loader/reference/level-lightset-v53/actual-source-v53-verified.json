@@ -1,0 +1,42 @@
+{
+  "validation": "PASS",
+  "current755_selected_archives": [
+    {
+      "path": "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/loader/libdh2_loader_canonical_receiver_transport.a",
+      "sha256": "60f15f0beba1116583f8d7cfa872d83b48730044d7e5bc36f73f81cdeaaacb46"
+    },
+    {
+      "path": "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/loader/libdh2_loader_canonical_adapter.a",
+      "sha256": "118b70f893b8ca95ed3ff4c3c97b362498b00d56d5bb5f554eab709984236713"
+    },
+    {
+      "path": "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/loader/libdh2_level_loader.a",
+      "sha256": "fd69e6635dd0bc4072aaea031bf591012fcb559476c109682a86331cbfa99b28"
+    },
+    {
+      "path": "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/loader/libdh2_loader_xml_reference.a",
+      "sha256": "70536b97aae367651ef3f821611d061ecc5330e18157c35eda382fa62b292439"
+    },
+    {
+      "path": "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/loader/libdh2_loader_cache.a",
+      "sha256": "4ac483c174f43463578982670f8113860d2906c1b2a2936a2e6704de2670e7b8"
+    },
+    {
+      "path": "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/loader/libdh2_loader_floors.a",
+      "sha256": "7f4903654858f4431da0c73dc0766e110562d22a4cd9fc64d91a9b7a3832f23d"
+    },
+    {
+      "path": "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/loader/libdh2_loader_scene.a",
+      "sha256": "0c1d42d2d64673eb0c02f5af21428825e70e3e0ca86ac2b3a63df7a802be19b6"
+    },
+    {
+      "path": "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/libdh2_loader_transport_source_owners.a",
+      "sha256": "4c8be1de08a15b5c356d44387fef34f9230b914442594ff334f8139b66f70c39"
+    }
+  ],
+  "actual_supplied_archive_Module_XML": true,
+  "canonical_registered_GO19": 1,
+  "deferred_InitPost_boundary": "Required actual LightPoint CLightSceneNode(true)",
+  "main_renderer_provider_bound": false,
+  "production_activation": false
+}

@@ -1,0 +1,71 @@
+diff --git "a/C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\c1-admission-service-pointer-v66\\selected_c1_admission_v59_test_v63_frozen.cpp" "b/C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\c1-admission-service-pointer-v66\\selected_c1_admission_v59_test_service_pointer_v66.cpp"
+index f3e9495..0279a09 100644
+--- "a/C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\c1-admission-service-pointer-v66\\selected_c1_admission_v59_test_v63_frozen.cpp"
++++ "b/C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\c1-admission-service-pointer-v66\\selected_c1_admission_v59_test_service_pointer_v66.cpp"
+@@ -2,6 +2,10 @@
+ #include <selected_c1_admission_v59.hpp>
+ #include <stdexcept>
+ #include <iostream>
++#include <array>
++#include <vector>
++#include <cstdint>
++#include <utility>
+ using namespace dh2::loader;
+ static void check(bool ok,const std::string& e){if(!ok)throw std::runtime_error(e);}
+ // Explicit fixture callbacks for admission/control checks only. This source
+@@ -31,6 +35,27 @@ static void rejected(const std::shared_ptr<CanonicalLevelContextV1>& level,const
+  level->source_word150()=0xabc;check(!level->construct_source_v3(a,services(app),e),"invalid admission succeeded");
+  check(!e.empty()&&level->constructor_owner_v3()==owner&&app->callbacks==callbacks&&level->identity()==identity&&level->source_word150()==0xabc&&level->constructor_fields_v3().script44==script&&level->constructor_fields_v3().save_ec==save,"rejection mutated constructor/fields/output/callbacks");
+ }
++struct C1AdmissionSnapshotV66 {
++ const void* events{};std::shared_ptr<void> script,save;const LevelConstructorV3* constructor{};
++ std::uintptr_t identity{};std::string name,request_identity,request_definition;
++ std::vector<std::uint64_t> words;std::array<float,3> offset{};
++};
++static C1AdmissionSnapshotV66 snapshot_c1_v66(const std::shared_ptr<CanonicalLevelContextV1>& level){
++ const auto b=level->constructor_borrow_v3();const auto& f=*b.fields;const auto& q=level->source_request();
++ return {f.events.get(),f.script44,f.save_ec,level->constructor_owner_v3(),level->identity(),f.name_f8,q.identity,q.definition,
++  {f.phase30,f.party_dc,f.word_e0,f.phase_e4,std::uint64_t(f.row3c),std::uint64_t(f.difficulty40),
++   f.byte_e8,f.byte_f0,f.byte_f1,f.byte_f2,f.byte_f3,f.byte_f4,f.byte_f5,
++   std::uint64_t(f.level110),std::uint64_t(f.mode118),f.seed114,f.field128,f.field12c,f.field130,f.field134,
++   f.field138,f.field13c,f.field140,f.byte144,f.byte145,std::uint64_t(f.field148),f.field14c,
++   f.field154,f.field158,f.field15c,f.field194,f.field19c,f.field1a0,f.field1a4,f.byte16c,f.byte198,f.byte1a8,
++   *b.config38,std::uint64_t(*b.music11c),std::uint64_t(*b.safezone120),std::uint64_t(*b.ambient124),
++   *b.gate150,std::uint64_t(*b.module_id18c),std::uint64_t(q.kind),q.seed,q.repair_known_references,q.allow_original_backup},
++  {b.module_offset160[0],b.module_offset160[1],b.module_offset160[2]}};
++}
++static bool same_c1_v66(const C1AdmissionSnapshotV66& a,const C1AdmissionSnapshotV66& b){
++ return a.events==b.events&&a.script==b.script&&a.save==b.save&&a.constructor==b.constructor&&a.identity==b.identity&&
++  a.name==b.name&&a.request_identity==b.request_identity&&a.request_definition==b.request_definition&&a.words==b.words&&a.offset==b.offset;
++}
+ int main(){
+  auto app=std::make_shared<Fixture>();std::string e;auto swamp=create(app,"SWAMP",7);auto swamp2=create(app,"SWAMP_02",7,LevelSourceKindV1::procedural);
+  check(swamp->identity()!=swamp2->identity()&&swamp->source_request().identity!=swamp2->source_request().identity&&*app->shared_swamp_asset=="data/3D/Modules/Swamp/swamp.bdae","shared assets collapsed selected identities");
+@@ -42,5 +67,24 @@ int main(){
+  auto zero=create(app,"SWAMP_02",0,LevelSourceKindV1::procedural);rejected(zero,app,input("022_swamp2.rule.xml",7));check(zero->construct_source_v3(input("022_swamp2.rule.xml",0),services(app),e)&&zero->source_request().seed==0&&zero->constructor_fields_v3().seed114==0&&app->saves.back().seed==0,"zero source seed rewritten/resolved by guard");
+  auto precedence_app=std::make_shared<Fixture>();precedence_app->levels.level_names[0]="FIRST_SWAMP_ALIAS";precedence_app->levels.levels[0].file="swamp";auto later=create(precedence_app,"SWAMP",7);rejected(later,precedence_app,input("001_swamp.mlx",7));
+  auto first=create(precedence_app,"FIRST_SWAMP_ALIAS",7);check(first->construct_source_v3(input("001_swamp.mlx",7),services(precedence_app),e)&&first->constructor_fields_v3().row3c==0,"original first-substring precedence changed");
+- std::cout<<"PASS synthetic_optional_admission fixed41_procedural42=1 same_asset_distinct_IDs=1 null_name_identity_seed_before_C1=1 zero_forwarded=1 first_substring=1 completed_C1_out_preserved=1 real_Lua_Save_restore_proof=0\n";
+-}
+\ No newline at end of file
++ // Missing actual LevelList pointer must stop before the source C1 owner or helper prefix.
++ auto pointer_app=std::make_shared<Fixture>();auto pointer_level=create(pointer_app,"SWAMP",7);pointer_level->source_word150()=0xabc;
++ auto pointer_before=snapshot_c1_v66(pointer_level);auto missing_table=services(pointer_app);missing_table.levels=nullptr;auto pointer_output=pointer_level;
++ check(!pointer_level->construct_source_v3(input("001_swamp.mlx",7),std::move(missing_table),e)&&
++  e=="Required selected Level request and SAME complete Arrays::LevelList"&&same_c1_v66(pointer_before,snapshot_c1_v66(pointer_level))&&
++  !pointer_level->constructor_owner_v3()&&pointer_output==pointer_level&&pointer_app->callbacks==0&&pointer_app->debug==0&&pointer_app->module_id==99&&pointer_app->saves.empty(),
++  "missing LevelList pointer entered/mutated source C1 or helper prefix");
++ check(pointer_level->construct_source_v3(input("001_swamp.mlx",7),services(pointer_app),e)&&
++  pointer_level->constructor_owner_v3()&&pointer_level->constructor_owner_v3()->phase()==LevelConstructorPhaseV3::complete&&
++  pointer_level->constructor_fields_v3().row3c==41&&pointer_level->constructor_fields_v3().seed114==7&&
++  pointer_app->callbacks==7&&pointer_app->debug==1&&pointer_app->module_id==0&&pointer_app->saves.size()==1&&pointer_app->saves[0].row==41&&pointer_app->saves[0].seed==7,
++  "missing-table preflight poisoned subsequent valid C1 retry");
++ // Existing owner rejection must precede even the missing-table admission guard.
++ auto completed_before=snapshot_c1_v66(pointer_level);auto completed_callbacks=pointer_app->callbacks;
++ auto completed_missing_table=services(pointer_app);completed_missing_table.levels=nullptr;e.clear();
++ check(!pointer_level->construct_source_v3(input("001_swamp.mlx",7),std::move(completed_missing_table),e)&&
++  e=="Same Level constructor continuation already attempted"&&same_c1_v66(completed_before,snapshot_c1_v66(pointer_level))&&
++  pointer_output==pointer_level&&pointer_app->callbacks==completed_callbacks&&pointer_app->debug==1&&pointer_app->module_id==0&&pointer_app->saves.size()==1,
++  "completed owner retry reached missing-table guard or replaced source fields/owners");
++ std::cout<<"PASS synthetic_optional_admission fixed41_procedural42=1 same_asset_distinct_IDs=1 null_name_identity_seed_before_C1=1 zero_forwarded=1 first_substring=1 completed_C1_out_preserved=1 missing_table_atomic_retry=1 completed_null_table_owner_first=1 real_Lua_Save_restore_proof=0\n";
++}

@@ -1,0 +1,45 @@
+{
+  "functions": {
+    "0x34e1d4": "FileSystemBase::changeWorkingDirectoryTo(char const*)",
+    "0x34f6f4": "FileSystemWin32::FileSystemWin32()",
+    "0x34f788": "FileSystemWin32::FileSystemWin32()",
+    "0x350aec": "IrrFactory::createFileSystem()",
+    "0x56c058": "glitch::io::CFileSystem::CFileSystem()",
+    "0x56c0a8": "glitch::io::CFileSystem::CFileSystem()",
+    "0x56c214": "glitch::io::CFileSystem::getWorkingDirectory()",
+    "0x56c528": "glitch::io::CFileSystem::changeWorkingDirectoryTo(char const*)",
+    "0x56c5cc": "_GLOBAL__I_.._source_glitch_io_CFileSystem.cpp"
+  },
+  "calls": [
+    {
+      "va": "0x34e510",
+      "target": "0x56c058",
+      "caller_va": "0x34e504",
+      "caller": "FileSystemBase::FileSystemBase()"
+    },
+    {
+      "va": "0x34e544",
+      "target": "0x56c058",
+      "caller_va": "0x34e538",
+      "caller": "FileSystemBase::FileSystemBase()"
+    },
+    {
+      "va": "0x350b04",
+      "target": "0x34f6f4",
+      "caller_va": "0x350aec",
+      "caller": "IrrFactory::createFileSystem()"
+    },
+    {
+      "va": "0x533fc8",
+      "target": "0x56c0a8",
+      "caller_va": "0x533fb0",
+      "caller": "glitch::CIrrFactory::createFileSystem()"
+    },
+    {
+      "va": "0x56c2ec",
+      "target": "0x56c0a8",
+      "caller_va": "0x56c2d8",
+      "caller": "glitch::io::createFileSystem()"
+    }
+  ]
+}

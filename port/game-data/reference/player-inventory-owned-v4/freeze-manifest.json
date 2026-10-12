@@ -1,0 +1,82 @@
+{
+  "validation": "PASS",
+  "version": 4,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_sha256": {
+    "port/game-data/fresh_inventory_owned_v4.hpp": "4ed2a867b1c02d9994ce78f018c1d6f36f918840ff761889f8ba6e55de9a9f86",
+    "port/game-data/fresh_inventory_owned_v4.cpp": "25fdaf86072992f801b673a6c033fdef5d5a3973b59ca9f85dd64054b7daa0a2"
+  },
+  "source_dependency_sha256": {
+    "port/game-data/loot_tables_v2.hpp": "b7618dda29339019e738362265bde13702326f4352f0c53ca64857e7a31ef931",
+    "port/game-data/loot_tables_v2.cpp": "ba72e90ac1003fe2e931024b3a21a99231048e8788d449794d80fffbc609892a",
+    "port/game-data/item_inventory_v1.hpp": "e5f67b4cf43a9c726c79eb1a0dc5455738a7fc1b1a0f6ce0a4b7aa987186a847",
+    "port/game-data/item_inventory_v1.cpp": "8659c2db2da2e361e6ab4353f85a3cd9859f452890426b8bf5fa07f8d98ecdd6",
+    "port/game-data/player_savegame_v1.hpp": "3addcdbb3a286f15b7ebd479e0a1e54395a030aa1117be0ba35f3193bfa66e8c",
+    "port/game-data/player_savegame_v1.cpp": "5affc8e4c046ab84156fb2a9b12dac3fffca5af827f1431367c2aa73dea78e92",
+    "port/game-data/skill_tables.hpp": "fe01ceadd86c43a2a6f92bcf8edd76466643c521db01b7176bab25fad311abab",
+    "port/game-data/skill_tables.cpp": "85695e3a274dae96bb92abcfdd12bdfb24b4d9f910f0026a777a39ce6c5534dd",
+    "port/game-data/items.hpp": "7657720fcb66d6d5c26a02f6288214278f2124e0c766c963301cbd1f3944b98f",
+    "port/game-data/items.cpp": "094bf9c52b35f65ba2829dbeee25cae68040271074c9a92a6d4478cfa4b53cfb",
+    "port/game-data/tests/fresh_inventory_owned_v4.cpp": "88e00015b51568696a71074e50824f83510d66ce02aff63d44e59f0e1d07e0aa",
+    "port/game-data/tests/fresh_inventory_owned_v4_arm64_fixture.cpp": "b21f9c238a3032494d096499e3e16a228ab3e373a042af23f200d6cbb6d56fc6"
+  },
+  "proof_sha256": {
+    "port/game-data/reports/player-inventory-owned-v4-arm64-differential.json": "79999f12ff805fb99f67ec225294a4e0d4ae99ee7c0c01fe56c048d57e091497",
+    "port/game-data/reports/player-inventory-owned-v4-host-audit.json": "08029e5e022daae523c0b08c150d022997acddc0141f770dfd3a8779a0000430"
+  },
+  "reference_sha256": {
+    "port/game-data/reference/player-inventory-owned-v4/actual-metadata.json": "62cb6a4d908152cb4d81f1274c641f595d805179626f5d82fd0a6b263f9285c4",
+    "port/game-data/reference/player-inventory-owned-v4/fixtures.bin": "74b8bd789aabb7d7301b811c20261b98d5ec6c9e10f233c2a94d080e9b2d250d",
+    "port/game-data/reference/player-inventory-owned-v4/NOTES.md": "924027a9f6f5a71a5b00d819e92c0f90f7498fac1fc1b52528552c64160efea8",
+    "port/game-data/reference/player-inventory-owned-v4/original-gold.json": "845e8d5acc998718008b08f5d22aad7c4b1b26223f6982a48d8a0ddb5b8e656f",
+    "port/game-data/reference/player-inventory-owned-v4/original/dependencies/original-functions.json": "1cfaaa8c6bb38f224137d2d091f58e7a14cb78d2de3a9a8ef5b26f1d0fff9557",
+    "port/game-data/reference/player-inventory-owned-v4/original/equipment-choice/original-functions.json": "3a3bde9cf234107986679793feb5077bd4523a3f17ae7e7944e72e650ccf72ec",
+    "port/game-data/reference/player-inventory-owned-v4/original/equipment-effects/original-functions.json": "bf4f27efe8bd589641e0c38eea90d840826728940b568dc8d81dbd3c15ee5df4",
+    "port/game-data/reference/player-inventory-owned-v4/original/gold-destruction/original-functions.json": "5283aa66d05c5159928ff784c558cbc783111c865f4209679d3aa04679473b94",
+    "port/game-data/reference/player-inventory-owned-v4/original/item-destructor/original-functions.json": "8a876a945bea7ab549eb38ff0d409461b3786b31ff9d1e54e046004f67e08a53",
+    "port/game-data/reference/player-inventory-owned-v4/original/item-presentation/original-functions.json": "cf0f51188b353a8018359414297da8a516a40e457017594734bfc1cc32e9966e",
+    "port/game-data/reference/player-inventory-owned-v4/original/ownership/original-functions.json": "9e4cb83260a269ad07523c1a9218e91c0aa0284807324b2cd77ee3285c564b99",
+    "port/game-data/reference/player-inventory-owned-v4/original/dependencies/reference/original-functions.asm": "b836d432fb9fc538b0244377b61b75569a8f107ce88a05db0c2a7419697b1f04",
+    "port/game-data/reference/player-inventory-owned-v4/original/equipment-choice/reference/original-functions.asm": "8912ac20fb47f5d96a71c791732a36f85ea1aa55d2e74a73ef77d325c082dce1",
+    "port/game-data/reference/player-inventory-owned-v4/original/equipment-effects/reference/original-functions.asm": "005ab1c73fa7c3846e2f2aa331c0627f20125b03336e0e25f81987ed52da2a49",
+    "port/game-data/reference/player-inventory-owned-v4/original/gold-destruction/reference/original-functions.asm": "5ec2adeed00c2c394d844f8ecbdc716fb9af4edd15a34bd3e05706be30de2e41",
+    "port/game-data/reference/player-inventory-owned-v4/original/item-destructor/reference/original-functions.asm": "4cfa1fcfb593ab3e098e1c30aae1feeb457ef0d6620bd1293b158541df44c40f",
+    "port/game-data/reference/player-inventory-owned-v4/original/item-presentation/reference/original-functions.asm": "e73cbc5b5046ec676bf41c12ccaa9f97f06216fe408392fa4326adc9601bda2b",
+    "port/game-data/reference/player-inventory-owned-v4/original/ownership/reference/original-functions.asm": "8e1e1ac200ded477e0a7fd7f3e27ee1818fde4651e213b3f3126530853df8501"
+  },
+  "test_and_tool_sha256": {
+    "port/game-data/tests/fresh_inventory_owned_v4.cpp": "88e00015b51568696a71074e50824f83510d66ce02aff63d44e59f0e1d07e0aa",
+    "port/game-data/tests/fresh_inventory_owned_v4_original.py": "46237659f91c2cda7e44838b813e10062c8bf0dca429db79af7f1659f8e74430",
+    "port/game-data/tests/fresh_inventory_owned_v4_arm64_fixture.cpp": "b21f9c238a3032494d096499e3e16a228ab3e373a042af23f200d6cbb6d56fc6",
+    "port/game-data/tests/fresh_inventory_owned_v4_arm64.py": "d077fc7af99bfb18433a69e7f139dd48685c56cd4a18743898d6d6b8ddd7c012",
+    "port/game-data/tools/run_fresh_inventory_owned_v4_host.py": "93abc11b5a1d047d5e95eb885610cc6599ed40c9ac4daa442450dfaf3d36bb56",
+    "port/game-data/tools/freeze_fresh_inventory_owned_v4.py": "6b198556c625e0144bd8f0ce295a00e1073489b4bbf25450c67039297f828452"
+  },
+  "frozen_predecessors_verified": {
+    "port/game-data/reference/player-creation-v2/freeze-manifest.json": {
+      "manifest_sha256": "f85e80b19701722fffbd237810b863ad1658853ce23a2ef07242cae398b24b56",
+      "unchanged_source_sha256": {
+        "port/game-data/loot_tables_v2.hpp": "b7618dda29339019e738362265bde13702326f4352f0c53ca64857e7a31ef931",
+        "port/game-data/loot_tables_v2.cpp": "ba72e90ac1003fe2e931024b3a21a99231048e8788d449794d80fffbc609892a",
+        "port/game-data/fresh_inventory_v2.hpp": "7c292dcbdf51f00f0cb80c6ad1ae188c24c663c240b3683c6964e7f771266748",
+        "port/game-data/fresh_inventory_v2.cpp": "769466d0f3aeb33d0a2d7cb6bc4f5b539f45cf5fc4117ae1620ff697c3581a49",
+        "port/level-world/player_initial_grants_v2.hpp": "bf6395009a9c11c59dae623313191dc203bfea7bd74f0c1619ee1c491a34e87d",
+        "port/level-world/player_initial_grants_v2.cpp": "fe57a885c2a6fed340caec32f6d22015f1ed1eadac5159c992c5928fecd6f9d0"
+      }
+    },
+    "port/game-data/reference/player-equipment-v3/freeze-manifest.json": {
+      "manifest_sha256": "ddd4105092c4579b53a5d04d15522a0af3cf6c47443f116393213a73d40b07cb",
+      "unchanged_source_sha256": {
+        "port/game-data/player_equipment_v3.hpp": "0a9dfa53dbc7ed85005856dafb43c638ede082c870115fcea1824afd8cabf2d4",
+        "port/game-data/player_equipment_v3.cpp": "f75ff7a3541420aa4ed546cdda2d2e5b65b2a721255a582c458008b3ea00b2a7"
+      }
+    }
+  },
+  "standalone_arm64": {
+    ".local-inputs/player-inventory-owned-v4/libfresh_inventory_owned_v4_arm64.so": "98ae16465993403b214bc2a7e6dec51ca68bf4bdaa70c4e44012ba3d997d83b2"
+  },
+  "standalone_sanitized_executable": {
+    ".local-inputs/player-inventory-owned-v4/host-audit": "1afe6b26aa36a847fcac7906ad873c7903ee4632b331bdfa97da301aef23dfed"
+  },
+  "scope": "Authoritative owned inventory/equipment graph and source caller bodies. Mandatory item formatting/power and Character effect providers remain explicit; no completed campaign/menu Player or APK claim."
+}

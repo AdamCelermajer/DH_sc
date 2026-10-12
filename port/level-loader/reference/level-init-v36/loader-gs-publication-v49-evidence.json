@@ -1,0 +1,15 @@
+{
+  "original_engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "GS_Ctor_entry": "386190",
+  "GS_Dtor_entry": "3860bc",
+  "original_CurrentLevel_entry": "31f594",
+  "actual_native_C1_aliases": [
+    "phase30",
+    "field130",
+    "field134",
+    "field138",
+    "field13c",
+    "byte144"
+  ],
+  "no_original_LoadProcess_or_gameplay_body_claim": true
+}

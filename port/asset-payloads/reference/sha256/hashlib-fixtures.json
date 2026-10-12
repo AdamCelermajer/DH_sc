@@ -1,0 +1,52 @@
+{
+  "format": "SHV1",
+  "comparisons": 1104,
+  "standard_vectors": 4,
+  "padding_lengths": 273,
+  "padding_patterns": 4,
+  "actual_payloads": [
+    {
+      "path": "port/android-native/app/src/main/assets/worlds/crypt01.dact",
+      "bytes": 24336,
+      "sha256": "be44bd6d160973bf70a0cab61399a14d8bea6a7eade41790594cf6b781a04cca"
+    },
+    {
+      "path": "port/level-world/reference/actor-initialization/crypt01-actor-initialization.bin",
+      "bytes": 2357,
+      "sha256": "20ae8c16a179c7e626b9d25356779031f71a2f46e304ae62e7f22b2ff1310efe"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/data/prince-animation-bank.bin",
+      "bytes": 31839,
+      "sha256": "c0cf8bfbb804256050e0d1ac326b8388b472c9b3034c8366c992f2056f477b0b"
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+      "bytes": 10841,
+      "sha256": "f827a7627268dbb807c538940cdf66e1b1b72aeecb34c1fd558b62cb03cb84c9"
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_corner_ne_02.mgp",
+      "bytes": 3523,
+      "sha256": "095665bc7250b6700837f359d620adcdaed52647a0e61b83db499b64eb6efdfa"
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+      "bytes": 10307,
+      "sha256": "c88e2e8028fe8bdf18bb703f2f0db69c9a6df7b8060f282d4d5f20fb455f04a2"
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_template_anim.bdae",
+      "bytes": 19908,
+      "sha256": "23054c4f06f75cdb677541ca728f5f689f8e018b3f05f25008297172ff49a102"
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_properties_pyarray.bin",
+      "bytes": 401608,
+      "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784"
+    }
+  ],
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "binary_sha256": "e9db2832acb5ed8c9a7daf32b51200cae0f4c9c0597bf01a3ccfcd69213f85f7",
+  "producer_sha256": "de4c560d3aa3ac691577eb80bf857daf4c2f55fdb8c50b068831d3e46477156d"
+}

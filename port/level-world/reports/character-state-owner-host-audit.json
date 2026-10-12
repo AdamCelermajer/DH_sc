@@ -1,0 +1,105 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "validation": "PASS",
+    "gold_cases": 1152,
+    "ordered_callbacks": 3703,
+    "predicate_gold_cases": 2016,
+    "owned_registry_states": 20,
+    "independent_owner_and_guard_checks": 31,
+    "nested_transition_checks": 1,
+    "mismatches": 0
+  },
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "diagnostics": 0,
+    "leak_detection": true
+  },
+  "source_sha256": {
+    "port/level-world/character_state_owner.cpp": "c26077ba5a5c1383c81a32f72d60f0e0611204d237d6541bf7845abba72a2820",
+    "port/level-world/character_state_owner.hpp": "0d755e64ed5301e93e623d7825eeab5e87ea0a4f32f6eddbfb61c8f65f99cebd",
+    "port/level-world/character_state_owner_data.inc": "d9cae0c70b8a59db8d66afb3559c5aceeb8241b67528fcc3b4eade57940da634",
+    "port/level-world/tests/character_state_owner.cpp": "4256c5c26e71f8bc8f0e086656a509d7174243f6a20cbd6434f3713c68a0092e",
+    "port/level-world/tests/character_state_owner_host.py": "8db3e6c5de2e3f292a82034a89aab409a1ecb43d4df98a67836122b2f81ac814",
+    "port/level-world/character_native_fsm.hpp": "525e057929c23b8ed8b45b71a3912b100457ca844b98b575ba11eacc310bdf1b",
+    "port/level-world/character_state.hpp": "9aaab47e7ff2cf762fca6d699b25178f69b206d6c6debe161a479ea12dc20f83",
+    "port/script-runtime/script_runtime.h": "6da3b8ae002da1eb75cd64d03120d37668ebec198ce3d3b5827096c43d08de14"
+  },
+  "executable_sha256": "978dbd13194708fc579fde84c9b9512187491e1ad56de40dc1260b8808eeca3a",
+  "reference_sha256": {
+    "port/level-world/reference/character-monster-state-ownership/state-owner-fixtures.bin": "2e16661d3d076def0df853425b128b5fee19f594acf50826a7a69719ef81cbb9",
+    "port/level-world/reference/character-monster-state-ownership/predicate-fixtures.bin": "7856b4091114c658a982b1e877890b0356c8e9a197bab40a57ec0e902473bf7e"
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_arm64_proofs": {
+    "character-state-owner-arm64-differential.json": {
+      "sha256": "856ec39953ebefb490c332deffd6608f7fff3d968f57dc036922c57d6fc167c5",
+      "report": {
+        "validation": "PASS",
+        "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+        "arm64_library_sha256": "e6b8509e9bf994ec2d46e3aec7c0161bba1f0a615b9dd4af8e88e24682bdf847",
+        "source_sha256": {
+          "port/level-world/character_state_owner.hpp": "0d755e64ed5301e93e623d7825eeab5e87ea0a4f32f6eddbfb61c8f65f99cebd",
+          "port/level-world/character_state_owner.cpp": "c26077ba5a5c1383c81a32f72d60f0e0611204d237d6541bf7845abba72a2820",
+          "port/level-world/character_state_owner_data.inc": "d9cae0c70b8a59db8d66afb3559c5aceeb8241b67528fcc3b4eade57940da634",
+          "port/level-world/tests/character_state_owner_differential.py": "b8399acbb1e6d909d7f6ad9ca390950fb4b887d4dbbdeea3bb60cb1c6ac5db88"
+        },
+        "reference_sha256": "6b1b8ceb60a2e97b384d3db2590826cce981ca920cd7ab57d86ab13ad7659a68",
+        "binary_reference_sha256": "2e16661d3d076def0df853425b128b5fee19f594acf50826a7a69719ef81cbb9",
+        "registration_plan_sha256": "9da95b34ff38af98629a136bb6c306f34eeedd5b1c8a539c2a1b2500203d0f4f",
+        "comparisons": 1152,
+        "ordered_callbacks": 3703,
+        "on_init_registrations_compared": 109,
+        "original_instructions_executed": true,
+        "optimized_arm64_instructions_executed": true,
+        "mismatches": 0,
+        "scope": "Actual ARM32 state selection/event walks vs O2 ARM64 owned-registry kernel.\nStateInfo storage is a supplied std::map allocation fixture; source tree walks,\nblur/focus/event/predicate dispatch and current/owner reloads really execute.\nAll behavior bodies, predicates and logger construction are explicit services.\n",
+        "allocation_boundary": "Supplied stable StateInfo/std::map node storage, original map walks execute; original factories/OnInit separately execute in plan_probe.py; original singleton vtable initialized from actual ELF vtable metadata.",
+        "behavior_bodies_reconstructed": false,
+        "full_AI": false
+      }
+    },
+    "character-state-owner-predicates-arm64-differential.json": {
+      "sha256": "ac008b037aecda52880d25835b95b0b4a2ab5822849e54e787abf5e67397e94b",
+      "report": {
+        "validation": "PASS",
+        "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+        "arm64_library_sha256": "e6b8509e9bf994ec2d46e3aec7c0161bba1f0a615b9dd4af8e88e24682bdf847",
+        "source_sha256": {
+          "port/level-world/character_state_owner.hpp": "0d755e64ed5301e93e623d7825eeab5e87ea0a4f32f6eddbfb61c8f65f99cebd",
+          "port/level-world/character_state_owner.cpp": "c26077ba5a5c1383c81a32f72d60f0e0611204d237d6541bf7845abba72a2820",
+          "port/level-world/tests/character_state_owner_predicates_differential.py": "14e2c25f13ec077bfa0eb8c76f5daafa6e236682db2cdf5b666fb66c3cdf6b0a"
+        },
+        "reference_sha256": "7856b4091114c658a982b1e877890b0356c8e9a197bab40a57ec0e902473bf7e",
+        "comparisons": 2016,
+        "mismatches": 0,
+        "source_predicates": 7,
+        "spawn_backend": false,
+        "original_instructions_executed": true,
+        "optimized_arm64_instructions_executed": true
+      }
+    }
+  },
+  "compiler_command": [
+    "g++",
+    "-std=c++17",
+    "-O2",
+    "-g",
+    "-fno-omit-frame-pointer",
+    "-fsanitize=address,undefined",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/character_state_owner.cpp",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/tests/character_state_owner.cpp",
+    "-o",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-monster-state-ownership/state_owner_audit_final"
+  ],
+  "scope": "Isolated native owned-state replay; no central DSO or Android/device claim.",
+  "full_AI": false,
+  "behavior_virtuals": "Required explicit callback backends; fixture deliveries are not reconstructed20-state behaviors",
+  "shared_central_DSO_used": false
+}

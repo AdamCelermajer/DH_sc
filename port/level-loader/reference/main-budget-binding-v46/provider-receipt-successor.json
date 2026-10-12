@@ -1,0 +1,49 @@
+{
+  "validation": "PASS_OUTSIDE_GRAPH_PROPOSAL",
+  "scope": "actual snapshotted main ledger/CpuAdmission and supplied ZIP before_payload callback; renderer weak owner is explicit fixture; no Android OriginalCache binding/current actor/GPU/decoded integration proof",
+  "native_evidence": "PASS actual_MAIN_ledger=1 exact_actor_encoded_bytes=524348 metadata_probes=3 payload_attempts=2 before_payload_reserve_commit=1 cancel_reentry_replay_changed_metadata_missing_noimage_dead_renderer_rejected=1 GPU_or_decoded_phase_claim=0",
+  "compile_command": [
+    "wsl.exe",
+    "-d",
+    "Ubuntu",
+    "--",
+    "g++",
+    "-std=c++17",
+    "-O1",
+    "-g",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/main-budget-binding-v46",
+    "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader",
+    "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/main-budget-binding-v46/main-source-successor/port/engine-resources",
+    "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/main-budget-binding-v46/main-source-successor/port/asset-payloads",
+    "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/main-budget-binding-v46/main-source-successor/port/android-native/app/src/main/cpp",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/main-budget-binding-v46/main_encoded_image_budget_provider_v46.cpp",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/main-budget-binding-v46/main_encoded_image_budget_provider_v46_test.cpp",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/main-budget-binding-v46/main-source-successor/port/engine-resources/admitted_cpu_bytes_v40.cpp",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/main-budget-binding-v46/main-source-successor/port/engine-resources/resource_budget_v37.cpp",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/main-budget-binding-v46/main-source-successor/port/asset-payloads/zip_asset_pack_v1.cpp",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/main-budget-binding-v46/main-source-successor/port/android-native/app/src/main/cpp/native_resource_budget_v38.cpp",
+    "-pthread",
+    "-lz",
+    "-o",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/main-budget-provider-v46-successor/probe"
+  ],
+  "run_command": [
+    "wsl.exe",
+    "-d",
+    "Ubuntu",
+    "--",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/main-budget-provider-v46-successor/probe",
+    "/mnt/c/Users/adamc/Downloads/dungeonhunter2/Dungeon-Hunter-2-HD-v1-0-2-cache.zip"
+  ],
+  "source_sha256": {
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\main-budget-binding-v46\\main_encoded_image_budget_provider_v46.cpp": "664b71897e52129debadafcf46396040723d4eced96d4e6a567394bded8f12bc",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\main-budget-binding-v46\\main_encoded_image_budget_provider_v46_test.cpp": "a17be91b98bc4ee4b1ab231132319e1835809e37837d9a8d31b80ab80e5fb3e4",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\main-budget-binding-v46\\main-source-successor\\port\\engine-resources\\admitted_cpu_bytes_v40.cpp": "2f2b8d32e5971bbebde2763d043f422c5cd9c90a3f8499647f5e0edd8ece9be5",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\main-budget-binding-v46\\main-source-successor\\port\\engine-resources\\resource_budget_v37.cpp": "7d645543087042a76d08a3d49dfc977be0d467a3551979374e5629b2f04ac23d",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\main-budget-binding-v46\\main-source-successor\\port\\asset-payloads\\zip_asset_pack_v1.cpp": "04f0900b5272680b60c64434d769ae7e6b6bee6b7e162bd47dc911ae6608b7f4",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\main-budget-binding-v46\\main-source-successor\\port\\android-native\\app\\src\\main\\cpp\\native_resource_budget_v38.cpp": "aa5f507b73528ee0577e9ce4e94d02d50b2d7b9aafb46a52f656819aad033927"
+  },
+  "probe_sha256": "e27a0d9d23de0d2d8c00f294bd36286a7d5b74724edf4c41a23f68c50df9cbd0"
+}

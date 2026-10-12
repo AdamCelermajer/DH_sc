@@ -1,0 +1,195 @@
+{
+  "validation": "PASS",
+  "scope": "Exercise visible in-process map/seed switching and failed-candidate retention.\n\nThis uses only the private inspection activity on the loader-owned emulator.\n",
+  "serial": "emulator-5590",
+  "app_id": "local.dh2.loader",
+  "pid": 3154,
+  "apk_sha256": "c90521525b105e55d835d62cb5c348e5940a4c097b16343b908e6724dadabe75",
+  "script_sha256": "6462294344dc3c1bd14d4753f54df685a25db6c3a4e17b6ce51cf2d1e982ed3a",
+  "logs_sha256": "241c97d3335b582caadb44e774b4923e21c9f09d42abaacad6075e713fae21d4",
+  "checks": [
+    {
+      "check": "swamp-return-seed0",
+      "status": "SWAMP_02 seed 0 | 11 modules | 497 mesh instances | 518 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 16",
+      "screenshot": "generated-picker-swamp-return-seed0.png",
+      "screenshot_sha256": "f53242679f1b62dfc93279eaafb5ce562e0b0c59044f2de1816908cdce33afb6",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 31685,
+      "same_surface_as": null,
+      "previous_map_retained": false
+    },
+    {
+      "check": "swamp-return-reload",
+      "status": "SWAMP_02 seed 0 | 11 modules | 497 mesh instances | 518 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 16",
+      "screenshot": "generated-picker-swamp-return-reload.png",
+      "screenshot_sha256": "f53242679f1b62dfc93279eaafb5ce562e0b0c59044f2de1816908cdce33afb6",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 31685,
+      "same_surface_as": "generated-picker-swamp-return-seed0.png",
+      "previous_map_retained": false
+    },
+    {
+      "check": "swamp-return-seed1",
+      "status": "SWAMP_02 seed 1 | 12 modules | 523 mesh instances | 546 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 8",
+      "screenshot": "generated-picker-swamp-return-seed1.png",
+      "screenshot_sha256": "3a401dadce1ac5e797709dcad7ad91f0b76522dcefe68683229d761db9fd0cb5",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 29711,
+      "same_surface_as": null,
+      "previous_map_retained": false
+    },
+    {
+      "check": "missing-file-retains-seed1",
+      "status": "Preparation failed; previous map retained: Missing authored XML: missing-loader-test.mlx",
+      "screenshot": "generated-picker-missing-file-retains-seed1.png",
+      "screenshot_sha256": "5cdba30da826be192fbabc7c154e84631d228c3fa02e0cc609e8728c065aadbe",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 29711,
+      "same_surface_as": "generated-picker-swamp-return-seed1.png",
+      "previous_map_retained": true
+    },
+    {
+      "check": "no-layout-retains-seed1",
+      "status": "Preparation failed; previous map retained: Original generator produced no layout for ICY_CAVERN_02 seed 0",
+      "screenshot": "generated-picker-no-layout-retains-seed1.png",
+      "screenshot_sha256": "7704595b6e2ffc85a866de5bacea332581126369418e50e78788b9916752de6b",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 29711,
+      "same_surface_as": "generated-picker-swamp-return-seed1.png",
+      "previous_map_retained": true
+    },
+    {
+      "check": "reload-keeps-active-seed1",
+      "status": "SWAMP_02 seed 1 | 12 modules | 523 mesh instances | 546 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 8",
+      "screenshot": "generated-picker-reload-keeps-active-seed1.png",
+      "screenshot_sha256": "04be5552342b36647b87773d046d44169b3716900c8cbb9ec1b11b1fa2af0bbd",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 29711,
+      "same_surface_as": "generated-picker-swamp-return-seed1.png",
+      "previous_map_retained": false
+    },
+    {
+      "check": "troll-cave",
+      "status": "SWAMP_CAVE_TROLL_A seed 0 | 9 modules | 18 mesh instances | 25 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+      "screenshot": "generated-picker-troll-cave.png",
+      "screenshot_sha256": "2f2ccfabb27bb709455a17b8f102b8a68ead81b72fd3474d1730d590c32936a5",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 19886,
+      "same_surface_as": null,
+      "previous_map_retained": false
+    },
+    {
+      "check": "crypt",
+      "status": "GOTHICUS_CRYPT_01 seed 0 | 8 modules | 97 mesh instances | 97 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+      "screenshot": "generated-picker-crypt.png",
+      "screenshot_sha256": "820b8d4cfb5bb4ed55f662cda469f3399af88031049f4cde41759fece4e41433",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 21636,
+      "same_surface_as": null,
+      "previous_map_retained": false
+    },
+    {
+      "check": "swamp-fixed",
+      "status": "SWAMP | 9 modules | 369 mesh instances | 384 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 8",
+      "screenshot": "generated-picker-swamp-fixed.png",
+      "screenshot_sha256": "291391ad6fd8a20e1cb2188718748b68f091c5488f7deb29ecc4d7a5f2ec1281",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 41346,
+      "same_surface_as": null,
+      "previous_map_retained": false
+    },
+    {
+      "check": "module-focus",
+      "status": "Module 0 | obj_4of4_brdwalk_sw_00_0 | mobs/chests pending",
+      "screenshot": "generated-picker-module-focus.png",
+      "screenshot_sha256": "2a281907dfd0cd6cb83d7dd63b1126fe8a0a0548ea4f1b477d303c2d54668af3",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 183517,
+      "same_surface_as": null,
+      "previous_map_retained": false
+    },
+    {
+      "check": "module-zoom",
+      "status": "Module 0 | obj_4of4_brdwalk_sw_00_0 | mobs/chests pending",
+      "screenshot": "generated-picker-module-zoom.png",
+      "screenshot_sha256": "da014894383ec140d618c349321158cb0aca15ea89843725c5bbdc7146a5d9fe",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 239482,
+      "same_surface_as": null,
+      "previous_map_retained": false
+    },
+    {
+      "check": "swamp-ready",
+      "status": "Whole map | SWAMP | mobs/chests pending",
+      "screenshot": "generated-picker-swamp-ready.png",
+      "screenshot_sha256": "3f249150abc23b119dcc0e4f75e5df11c4012c3642e868e10d9726b9157053ab",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 41346,
+      "same_surface_as": "generated-picker-swamp-fixed.png",
+      "previous_map_retained": false
+    }
+  ],
+  "runtime_objects_verified": false,
+  "campaign_transitions_verified": false,
+  "full_loader_verified": false
+}

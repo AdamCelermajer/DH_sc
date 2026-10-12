@@ -1,0 +1,15 @@
+# Source-positive chest graph loader successor V21
+
+The Swamp class dispatcher now selects CanonicalOpenableGraphV21 through the additive preferred openable_v21_services_with_receiver hook. Its matching spawn_v21_services borrows the same actual application RNG. containers_v21 exposes these retained same-receiver graphs. Existing V4 inputs/accessor remain for constructor-client compatibility; they do not prove event delivery. The raw Swamp test uses only V21 and never routes a new chest through the historical no-op callback graph.
+
+Root V21 implements actual retained generic animator callbacks and correct clear,set scene flags. The loader selects its exact five new production TUs and coherently recompiles the retained visual source/header and Destructible header successor. No source visual layout fields are invented. Prior root and loader archives remain immutable.
+
+The positive native regression uses all three original Swamp chest BDAEs and the real root/scene/controller/marker/body owners. It verifies opened/end delivery, activate state3 CLEAR400, completion state4 SET400, six drop callback attempts (three fixture successes and three required-backend failures), failure replay rejection, assigned-body movement and root/body teardown. Its PF/condition/device/sound/script/update/loot endpoints are explicitly declared external fixtures. These results establish the callback mechanism; they do not establish a live loot recipient, quest execution or full rendered Swamp.
+
+The raw source Swamp probe still completes the whole native Level C1 on the same context, nine map roots/386 meshes and fourteen original authored object factories. Its first MGP still stops at TriggerZone340ec4. Its first chest InitPost still stops at required MeetCondition, before callback binding is reached. Accordingly source_container_graph_v21_selected=true while positive_animation_callbacks_verified=false in that map result. Full Level Init/current GSLevel publication and visible APK updates remain false.
+
+Validation: fifteen probes pass on host, C+C++ ASan/UBSan and loader5590, with current ARM64/x86_64 builds. The runner records the actual shared runtime library hash per case and ARM64, verifies all704 coherent source files and original three-asset hashes, targets only DH2_Loader_API37/emulator-5590, and supplies the one script runtime through LD_LIBRARY_PATH.
+
+Layer after swamp-native-constructor-successor-v24-447e7b6202f2402b.zip SHA256 60809b4266d4d7696aeef0a19068836ca618aded4a8cf8b9aafff5a03a4f7c94. Incoming root dependency is generic-container-animation-v21-handoff-18f895d8b679f04c.zip SHA256 23b6a86dbd8fbac38dfb6aaa3dafe1f7d9c1af1a126ca73196e71e8133bf4ece; all30 payload hashes were independently verified and its immutable snapshot is retained.
+
+Build and run the existing tools/build_module_graph_source.py and tools/run_retained_graph_checks.py with host, sanitizers, x86_64 and the ARM64 build. Full acceptance still requires all authored classes/services and a later visible app with the complete map, mobs and chests.

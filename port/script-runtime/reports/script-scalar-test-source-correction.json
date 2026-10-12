@@ -1,0 +1,25 @@
+{
+  "action": "Preserve actual40-check source and recover the preceding37-check test exactly.",
+  "previous_main_report": {
+    "path": "port/script-runtime/reports/script-scalar-main-linked-host-audit.json",
+    "sha256": "70e3a82792677b19cf5dc99e06daeb2efb6f8479cd6434d537bd5454c526a2bb",
+    "executed_checks": 37,
+    "recorded_source_sha256": "18eaf57fb40915f888de6ffc5a515dca0bcd4cde2484a17891168f0bd33a818e"
+  },
+  "historical_mismatch": "Prior main report executed37-check binary while recording40-check source SHA; no old report is rewritten.",
+  "preserved40_source": {
+    "path": "port/script-runtime/tests/script_scalar_source.cpp",
+    "sha256": "18eaf57fb40915f888de6ffc5a515dca0bcd4cde2484a17891168f0bd33a818e"
+  },
+  "recovered37_source": {
+    "path": "port/script-runtime/tests/script_scalar.cpp",
+    "sha256": "63955e42ddc20d996dcb253400981b8bf72a67e8885b1f61872c631afa3b29cc"
+  },
+  "removed_lines": [
+    "  load(vm,\"sixteen=BitOr(unpack({1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}))\");assert(global(vm,\"sixteen\").number==31);++vm_checks;",
+    "  state.identity=0xfedcba98;state.calls.clear();dh2_script_value id_arg={},id_out[2]={};id_arg.type=2;id_arg.identity=UINT64_C(0xfedcba9876543210);uint32_t id_count=0;",
+    "  assert(dh2_script_vm_call(vm,\"FromFixed\",&id_arg,1,id_out,2,&id_count)==0&&id_count==2&&id_out[0].number==8388607&&id_out[1].number==8388608);assert(state.calls==std::vector<Event>({{0,state.identity},{0,state.identity}}));vm_checks+=2;"
+  ],
+  "production_scalar_source_changed": false,
+  "gold_changed": false
+}

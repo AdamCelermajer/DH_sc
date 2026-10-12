@@ -1,0 +1,1655 @@
+{
+  "schema": "dh2-script-generic-coverage-v60",
+  "status": "SOURCE_ARTIFACT_REVIEW_ONLY_UNCOMPILED",
+  "summary": {
+    "levels": 51,
+    "levels_with_local_pairs": 50,
+    "unique_local_pairs": 38,
+    "unsampled_local_pairs": 37,
+    "unique_local_declared_scripts": 724,
+    "known_observed_command_kinds": 46,
+    "static_unimplemented_slots": 34,
+    "confirmed_additional_reached_kinds_outside_common_swamp": null,
+    "original_common_records": 81,
+    "original_swamp_records": 789,
+    "V59_compiled": false,
+    "new_command_decode_runs": 0
+  },
+  "provenance_sha256": {
+    "reports/chapter-coverage-v36.json": "c7dec51b48c11ff7ce9268d6e88eb86cabdc44866ccc2004a1f1b258476b905a",
+    "reference/stage8-v51/actual-script-assets.json": "9fd59542d1b2adc54e65dc9a8b3fab426e524f3cb708a265fb065b34a327e04e",
+    "reference/scriptmanager-v52/factory-table.json": "23368cb0dcd7309e2c18d5822c13f57b18330cd575bf61a8f5a3540b41aceb11",
+    "reference/scriptmanager-v52/data-schemas-v52.json": "a88cb8551b815cd89ca1df5e4dc9bd9d40181c668f43347d1a67cc66aaf995a3",
+    "reference/scriptmanager-v52/original-v52.json": "3de42b1e0093d221625588905f2eda0eccdbc5e0297f1e1431760e7efbc6225f",
+    "reference/command-c1-v58/original-command-C1-v58.json": "8d7860603654822958449e64091dad4e17e9fd11bb03da86fa44fb6ad6d43925",
+    "candidate/command-c1-v59/script_command_receivers_v59.cpp": "cc18c31a6c307e992c0628cb8aa01b52fecc99482098560788f7cdb2c2bad213"
+  },
+  "scope_limit": "Chapter audit decoded names and file header counts, explicitly not opcodes. No additional reached command kind outside common/SWAMP is established by these artifacts. Static possible slots are not authored reach evidence.",
+  "known_observed_kinds": [
+    0,
+    1,
+    2,
+    3,
+    5,
+    6,
+    8,
+    10,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    29,
+    30,
+    31,
+    32,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    51,
+    52,
+    54,
+    55,
+    63,
+    68,
+    69,
+    70,
+    77,
+    78,
+    79
+  ],
+  "existing_command_receipts": {
+    "scripts_pyscripts.bin": {
+      "records": 81,
+      "kinds": [
+        0,
+        1,
+        2,
+        3,
+        10,
+        12,
+        13,
+        22,
+        23,
+        24,
+        25,
+        26,
+        31,
+        32,
+        39,
+        63,
+        68,
+        69,
+        70,
+        79
+      ]
+    },
+    "001_swamp_pyscripts.bin": {
+      "records": 789,
+      "kinds": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        10,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        19,
+        20,
+        21,
+        24,
+        25,
+        26,
+        27,
+        29,
+        30,
+        31,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        51,
+        52,
+        54,
+        55,
+        77,
+        78,
+        79
+      ]
+    }
+  },
+  "local_pairs": [
+    {
+      "command_uri": "data/pydata/scripts/001_swamp_pyscripts.bin",
+      "command_sha256": "144447bc17c9b5ac530e308cce86490c04191779b66f4b88914f2a6c8adde836",
+      "command_bytes": 18117,
+      "name_uri": "data/pydata/scripts/001_swamp_pyscriptnames.bin",
+      "name_sha256": "7946d599ea1ca9c30081fe0b32f2ff6b70be6bbf93af2b88aa7f852e51a18045",
+      "name_bytes": 1155,
+      "script_count": 55,
+      "name_count": 55,
+      "level_identities": [
+        "SWAMP"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": true,
+      "reached_kinds": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        10,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        19,
+        20,
+        21,
+        24,
+        25,
+        26,
+        27,
+        29,
+        30,
+        31,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        51,
+        52,
+        54,
+        55,
+        77,
+        78,
+        79
+      ],
+      "status": "V52_ORIGINAL_DATA_LOADING_PROVEN_V59_UNCOMPILED_MAIN_EFFECTS_REQUIRED"
+    },
+    {
+      "command_uri": "data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin",
+      "command_sha256": "1f88969cd809eafea6bcf163866e84b918f5785045480d8c9ec0162610ce63f7",
+      "command_bytes": 4638,
+      "name_uri": "data/pydata/scripts/002_swamp_cave_witch_pyscriptnames.bin",
+      "name_sha256": "921796a4b994b6d61c9fcbd5a8479a1aecc39ac6073166c508ff0bb18beb37a4",
+      "name_bytes": 465,
+      "script_count": 24,
+      "name_count": 24,
+      "level_identities": [
+        "SWAMP_CAVE_WITCH_A"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/003_darkwood_pyscripts.bin",
+      "command_sha256": "5aa16d1358daec477327524acfd4e2068bf081cea6435b3094b060168541a041",
+      "command_bytes": 19505,
+      "name_uri": "data/pydata/scripts/003_darkwood_pyscriptnames.bin",
+      "name_sha256": "9004eb6774a44b1c2f189f268dbfd86a67f44415c6e058851b1bea3e4faa675b",
+      "name_bytes": 2251,
+      "script_count": 105,
+      "name_count": 105,
+      "level_identities": [
+        "DARKWOOD",
+        "DARKWOOD_V2",
+        "DARKWOOD_V3",
+        "PORTAL_ROOM"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/004_root_den_pyscripts.bin",
+      "command_sha256": "faa9cc6306fb7ba341bdeaa257143014e4f0e57ba45b0916247c50aea32b6a3a",
+      "command_bytes": 811,
+      "name_uri": "data/pydata/scripts/004_root_den_pyscriptnames.bin",
+      "name_sha256": "2bf99c4bdb4e84e504d5f268064ba8922c20c433aaef62a922671fc0210e1967",
+      "name_bytes": 202,
+      "script_count": 9,
+      "name_count": 9,
+      "level_identities": [
+        "ROOT_DEN_01"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/005_infectedvillage_pyscripts.bin",
+      "command_sha256": "12c9e8f3f68f2b813edd24ccda1f894b3d470c83b13f66d2fe23b1cc7e0477d8",
+      "command_bytes": 612,
+      "name_uri": "data/pydata/scripts/005_infectedvillage_pyscriptnames.bin",
+      "name_sha256": "2652216d7e6b722fb3c6c52c5cc89eedf3bd608766bc29dac8c429edaebefb2f",
+      "name_bytes": 106,
+      "script_count": 6,
+      "name_count": 6,
+      "level_identities": [
+        "INFECTED_VILLAGE_01"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/006_driedwell_pyscripts.bin",
+      "command_sha256": "a3b724334ed34adc646427658b3b7bef29058e369800384ba1f47c9865b35c00",
+      "command_bytes": 802,
+      "name_uri": "data/pydata/scripts/006_driedwell_pyscriptnames.bin",
+      "name_sha256": "7bf7846e96cc2a62f2104fcc332b8675045968ea7f7d0db948fe9ff82725c6b4",
+      "name_bytes": 143,
+      "script_count": 8,
+      "name_count": 8,
+      "level_identities": [
+        "SECRET_BASEMENT_01"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/007_crypt_01_pyscripts.bin",
+      "command_sha256": "78666c2e163441f806f9fae017030b475613d849f74b833fa6ed58000c5ec3cc",
+      "command_bytes": 2129,
+      "name_uri": "data/pydata/scripts/007_crypt_01_pyscriptnames.bin",
+      "name_sha256": "0270ad4f4fb2d2fe9ed0b6cefe208f5431b38504937aff0ea1aafabffd6f8b13",
+      "name_bytes": 507,
+      "script_count": 25,
+      "name_count": 25,
+      "level_identities": [
+        "GOTHICUS_CRYPT_01",
+        "GOTHICUS_CRYPT_02",
+        "QUESTTEST"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin",
+      "command_sha256": "30f1330673eceb34c94e2c53543eee910e2e70e94a0781f899783b71bc8da2aa",
+      "command_bytes": 7738,
+      "name_uri": "data/pydata/scripts/008_gothicus_castle_01_pyscriptnames.bin",
+      "name_sha256": "c1fce9942127d518347d346612ff816a157d6accc7035ec64357d82714227198",
+      "name_bytes": 181,
+      "script_count": 10,
+      "name_count": 10,
+      "level_identities": [
+        "GOTHICUS_CASTLE_01"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/009_abbey_pyscripts.bin",
+      "command_sha256": "46f6bcc8cc0098ccbb794027a40fa559c56e3d464c9e57000cd9cda710ca5dca",
+      "command_bytes": 8388,
+      "name_uri": "data/pydata/scripts/009_abbey_pyscriptnames.bin",
+      "name_sha256": "bff954fdd62dd2641dea91a1d96f5190fe01c1d00930b41ef7fde23bbef30b06",
+      "name_bytes": 696,
+      "script_count": 37,
+      "name_count": 37,
+      "level_identities": [
+        "ABBEY_ENTRANCE_01",
+        "ABBEY_RUINS_01"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/010_elemental_lightning_room_pyscripts.bin",
+      "command_sha256": "d4b0f830873005ec0165f7fe7bc4df2a88636fddfab5afc2fa166dcccd633f2e",
+      "command_bytes": 438,
+      "name_uri": "data/pydata/scripts/010_elemental_lightning_room_pyscriptnames.bin",
+      "name_sha256": "e63c598313ad9290a9583c1ff9dbf154669b71bf52e5408cb88671f79a252dc5",
+      "name_bytes": 138,
+      "script_count": 6,
+      "name_count": 6,
+      "level_identities": [
+        "ELEMENTAL_LIGHT",
+        "RANDOMFORALEX"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/011_earth_temple_01_pyscripts.bin",
+      "command_sha256": "489da7209387bd7ba223f45d2686224702c7c60cad154ca5e1cc1e4053df272c",
+      "command_bytes": 465,
+      "name_uri": "data/pydata/scripts/011_earth_temple_01_pyscriptnames.bin",
+      "name_sha256": "915ed1ca8e84d706b98772b1e10a04cb1b9d386d5ed0d904751467b2eafaf521",
+      "name_bytes": 105,
+      "script_count": 5,
+      "name_count": 5,
+      "level_identities": [
+        "EARTH_TEMPLE_01"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/011_earth_temple_demo_pyscripts.bin",
+      "command_sha256": "a5d99f06436383879728699ac829d42b6023ca258da9776191a630e42b6c2b05",
+      "command_bytes": 1171,
+      "name_uri": "data/pydata/scripts/011_earth_temple_demo_pyscriptnames.bin",
+      "name_sha256": "3f0acd081d0f639f4844e51e2799111c34fd2c5bb0f35a2ef0776e6ec9f8c504",
+      "name_bytes": 170,
+      "script_count": 10,
+      "name_count": 10,
+      "level_identities": [
+        "APPLETEMPLE",
+        "APPLETEMPLEBACKUP"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/012_earth_temple_02_pyscripts.bin",
+      "command_sha256": "1ea2c66e5586eaac0319b19c7ed3eda52ed3a2f20db15a789a2bc38bfddc9045",
+      "command_bytes": 1077,
+      "name_uri": "data/pydata/scripts/012_earth_temple_02_pyscriptnames.bin",
+      "name_sha256": "1add4bc91e65a3c23e43abd69b8bf8c32ef5c54d8c3a8c4653876cf48cead91c",
+      "name_bytes": 194,
+      "script_count": 8,
+      "name_count": 8,
+      "level_identities": [
+        "EARTH_TEMPLE_02"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/013_earth_temple_03_pyscripts.bin",
+      "command_sha256": "c8b058ebb31dfe1d36be92586a5841d61b5e56b66a836acbd19532513783ad73",
+      "command_bytes": 6547,
+      "name_uri": "data/pydata/scripts/013_earth_temple_03_pyscriptnames.bin",
+      "name_sha256": "3af1cdb672e088f021fe2d7cc448ef6afa3c322d6c7f616d601207b3db54e5e2",
+      "name_bytes": 307,
+      "script_count": 15,
+      "name_count": 15,
+      "level_identities": [
+        "EARTH_TEMPLE_03"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/014_elemental_earth_room_pyscripts.bin",
+      "command_sha256": "cd98da35c8f5e53bf909bba223a28576ae75a2759a1ddb13308c38d0ac165790",
+      "command_bytes": 438,
+      "name_uri": "data/pydata/scripts/014_elemental_earth_room_pyscriptnames.bin",
+      "name_sha256": "decff3da6613f3a944138d5091f6ef35ecf9184ddfe5b6bc3a76b8ca5eb7804a",
+      "name_bytes": 130,
+      "script_count": 6,
+      "name_count": 6,
+      "level_identities": [
+        "ELEMENTAL_EARTH"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/015_red_desert_hub_pyscripts.bin",
+      "command_sha256": "d1af3a66fdcba1342d1849d63f4e06ef7cb076985943afc53aa6e4c897cabc9c",
+      "command_bytes": 2687,
+      "name_uri": "data/pydata/scripts/015_red_desert_hub_pyscriptnames.bin",
+      "name_sha256": "8865bb742e3b0ddb1e22be51c43259380131c854fbafcc08224575a423ca79f7",
+      "name_bytes": 481,
+      "script_count": 23,
+      "name_count": 23,
+      "level_identities": [
+        "RED_DESERT_HUB"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/016_red_desert_cave_01_pyscripts.bin",
+      "command_sha256": "cfb24e06e2a99910e69d99ca145d83d403f4e0dbba795e66a64e53f13d23af39",
+      "command_bytes": 226,
+      "name_uri": "data/pydata/scripts/016_red_desert_cave_01_pyscriptnames.bin",
+      "name_sha256": "53c45f849916dcc895de7d8b4831ed6b287ca03cb9c69f0ca835474cd66e7b81",
+      "name_bytes": 125,
+      "script_count": 5,
+      "name_count": 5,
+      "level_identities": [
+        "DESERT_CAVE_01"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/017_red_desert_cave_02_pyscripts.bin",
+      "command_sha256": "bfb262386887f593b7246137c6b937fced380114180e0f18dab0e92e38b7ff60",
+      "command_bytes": 514,
+      "name_uri": "data/pydata/scripts/017_red_desert_cave_02_pyscriptnames.bin",
+      "name_sha256": "d8ad7ee198a522af494dc478b42343c1119cec4de88670161add7fad7cbcf37b",
+      "name_bytes": 152,
+      "script_count": 7,
+      "name_count": 7,
+      "level_identities": [
+        "DESERT_CAVE_02"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/018_red_desert_cave_03_pyscripts.bin",
+      "command_sha256": "926c74138f49f7bb5785cbfe8ff530d748fe3a438b28069cc1e99f16c02526c7",
+      "command_bytes": 226,
+      "name_uri": "data/pydata/scripts/018_red_desert_cave_03_pyscriptnames.bin",
+      "name_sha256": "53c45f849916dcc895de7d8b4831ed6b287ca03cb9c69f0ca835474cd66e7b81",
+      "name_bytes": 125,
+      "script_count": 5,
+      "name_count": 5,
+      "level_identities": [
+        "DESERT_CAVE_03"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/019_light_house_01_pyscripts.bin",
+      "command_sha256": "814621f3a9bb2b46c09dd4a6de5fe928e7db32b08698ed27261cb4012648df32",
+      "command_bytes": 16203,
+      "name_uri": "data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+      "name_sha256": "3a68b0379b15b2e89166b6b711268486970e2e73ad1c6eeccdbb704df2461b4f",
+      "name_bytes": 1421,
+      "script_count": 55,
+      "name_count": 55,
+      "level_identities": [
+        "LIGHT_HOUSE_01",
+        "LIGHT_HOUSE_02",
+        "LIGHT_HOUSE_03"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/021_gothicus_castle_02_pyscripts.bin",
+      "command_sha256": "962fd0abb677575ecf7be9f28ef64977172b9848d7e04450f806a10299ee71a7",
+      "command_bytes": 4448,
+      "name_uri": "data/pydata/scripts/021_gothicus_castle_02_pyscriptnames.bin",
+      "name_sha256": "e1d9975b7092480ce11401e98d7a51d7b891bec94acc4a2933127071b774ccb3",
+      "name_bytes": 427,
+      "script_count": 22,
+      "name_count": 22,
+      "level_identities": [
+        "GOTHICUS_CASTLE_02"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/022_swamp2_pyscripts.bin",
+      "command_sha256": "27d2c52a4714d9e10726946b4db1f1eadcc53f6f05761ba4651b478e6026a6c9",
+      "command_bytes": 831,
+      "name_uri": "data/pydata/scripts/022_swamp2_pyscriptnames.bin",
+      "name_sha256": "8945f5aa859a505033c594875c93fd14b11cbc1e52b19d6d5568b8eb725bc705",
+      "name_bytes": 114,
+      "script_count": 6,
+      "name_count": 6,
+      "level_identities": [
+        "SWAMP_02"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/022_swamp2_troll_cave_pyscripts.bin",
+      "command_sha256": "8b0e651c8d99f5d2d14360b61b8fa639a6ccee46042190f23f90d4e0a1bd6991",
+      "command_bytes": 703,
+      "name_uri": "data/pydata/scripts/022_swamp2_troll_cave_pyscriptnames.bin",
+      "name_sha256": "f770117880c249598023202f36968e6d8e532df7ed6662f9e384d8e56ec65288",
+      "name_bytes": 162,
+      "script_count": 8,
+      "name_count": 8,
+      "level_identities": [
+        "SWAMP_CAVE_TROLL_A"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/023_watertemple_01_pyscripts.bin",
+      "command_sha256": "52b05808b803015516384e41294bcbfb0341a2812972f4d99d9a1de60bfed6cb",
+      "command_bytes": 6062,
+      "name_uri": "data/pydata/scripts/023_watertemple_01_pyscriptnames.bin",
+      "name_sha256": "a827daff84da57878418dd662cd32c8ec6fad4f76596c7953a3476135b0743ec",
+      "name_bytes": 403,
+      "script_count": 18,
+      "name_count": 18,
+      "level_identities": [
+        "WATER_TEMPLE_01"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/024_elemental_water_room_pyscripts.bin",
+      "command_sha256": "64c95e4e7870bdfdc4209f17db9e2fef9d4447c749a32dd6bba4ac5645893c42",
+      "command_bytes": 438,
+      "name_uri": "data/pydata/scripts/024_elemental_water_room_pyscriptnames.bin",
+      "name_sha256": "191bedd917a58c93269fe84e829ce7fb83aab1bae6bcd9e203ac72072e525916",
+      "name_bytes": 130,
+      "script_count": 6,
+      "name_count": 6,
+      "level_identities": [
+        "ELEMENTAL_WATER"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/025_icy_hub_pyscripts.bin",
+      "command_sha256": "2cd370a8b39617d3046b72e12ad419bc96dd2db049772b961311fcc6a10311b8",
+      "command_bytes": 2761,
+      "name_uri": "data/pydata/scripts/025_icy_hub_pyscriptnames.bin",
+      "name_sha256": "3aa202b13f352f21492b605ab1fb829ab2af198d74995aa965de71a3e9def3f0",
+      "name_bytes": 510,
+      "script_count": 25,
+      "name_count": 25,
+      "level_identities": [
+        "ICY_HUB"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/026_icy_caverns_01_pyscripts.bin",
+      "command_sha256": "5911f7beee65df8fb814d2ef98b11ff2ba2a9cc37a1bd2e6bd8a2d533bbd6f62",
+      "command_bytes": 617,
+      "name_uri": "data/pydata/scripts/026_icy_caverns_01_pyscriptnames.bin",
+      "name_sha256": "2fc0add7b124c0d08db605ca9faf94f32a079f6622b1e394e709861cc1824a00",
+      "name_bytes": 143,
+      "script_count": 7,
+      "name_count": 7,
+      "level_identities": [
+        "ICY_CAVERN_01"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/027_icy_caverns_02_pyscripts.bin",
+      "command_sha256": "37b83d3a86778dc27151cdce86bb1bb3998c3e086e88c7b5728fdd48886bf6b4",
+      "command_bytes": 1051,
+      "name_uri": "data/pydata/scripts/027_icy_caverns_02_pyscriptnames.bin",
+      "name_sha256": "8c76bc9952d3e2170185a087a599e70a547dfd0aeb93753fac267483d8ea5481",
+      "name_bytes": 195,
+      "script_count": 10,
+      "name_count": 10,
+      "level_identities": [
+        "ICY_CAVERN_02"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/028_icy_caverns_03_pyscripts.bin",
+      "command_sha256": "bc3eda08f60069f36551a9434eb027c5881a8e98cce7ceeb0e88d2092d93a57a",
+      "command_bytes": 85,
+      "name_uri": "data/pydata/scripts/028_icy_caverns_03_pyscriptnames.bin",
+      "name_sha256": "895e387b135674bf329f1970063bae1d8e2513a74d66a8d696526627de26c348",
+      "name_bytes": 95,
+      "script_count": 4,
+      "name_count": 4,
+      "level_identities": [
+        "ICY_CAVERN_03"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/029_wind_temple_pyscripts.bin",
+      "command_sha256": "fec968aa58d42c3905b8bf586ef6d947ec6b3723ade6200c961bf9634d0beea1",
+      "command_bytes": 3638,
+      "name_uri": "data/pydata/scripts/029_wind_temple_pyscriptnames.bin",
+      "name_sha256": "35be5757a2af696aeaf3bb4b551a8c95c336ac2c58c130803ca2e13ba421df5c",
+      "name_bytes": 329,
+      "script_count": 17,
+      "name_count": 17,
+      "level_identities": [
+        "WIND_TEMPLE_01"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/030_elemental_air_room_pyscripts.bin",
+      "command_sha256": "6ec749a4a7e2431b6437e6bfbb1ec7cc55dcdc2fdc311e4b6ce442bd19074006",
+      "command_bytes": 438,
+      "name_uri": "data/pydata/scripts/030_elemental_air_room_pyscriptnames.bin",
+      "name_sha256": "b885ff8dd1aae874b929432346235dfa375b90a41be2fea164626a6bfb3c0b5c",
+      "name_bytes": 124,
+      "script_count": 6,
+      "name_count": 6,
+      "level_identities": [
+        "ELEMENTAL_AIR"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/031_firetemple_pyscripts.bin",
+      "command_sha256": "e4320c64d863be3888e711597e307d48c427c2084e5109bf41aa46a2749c0580",
+      "command_bytes": 7107,
+      "name_uri": "data/pydata/scripts/031_firetemple_pyscriptnames.bin",
+      "name_sha256": "6249b0643c0f03165224918c932eb707b6edbb5a5a65ec5e69a6b1600c9acbd7",
+      "name_bytes": 389,
+      "script_count": 20,
+      "name_count": 20,
+      "level_identities": [
+        "FIRE_TEMPLE_01"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/032_elemental_fire_room_pyscripts.bin",
+      "command_sha256": "e583c4c5020722249fede26426f7a94b790b582b6ef3d18e3244a95acc7b7533",
+      "command_bytes": 438,
+      "name_uri": "data/pydata/scripts/032_elemental_fire_room_pyscriptnames.bin",
+      "name_sha256": "83d9db3361adffe2dfe94dbd5ca11e3570821e49c7f2c13dfdca9d726cdc6dda",
+      "name_bytes": 126,
+      "script_count": 6,
+      "name_count": 6,
+      "level_identities": [
+        "ELEMENTAL_FIRE"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/033_voidmaze_pyscripts.bin",
+      "command_sha256": "c20b6810ca43806995dcda7190cd56e1141019b9a2225ec2b54779a6746f3ef8",
+      "command_bytes": 2801,
+      "name_uri": "data/pydata/scripts/033_voidmaze_pyscriptnames.bin",
+      "name_sha256": "5d9ee038079d07e6f13e6148f215bf5548f446220ce1d5e80c6303e41d8bed09",
+      "name_bytes": 482,
+      "script_count": 25,
+      "name_count": 25,
+      "level_identities": [
+        "VOID_MAZE_01",
+        "VOID_MAZE_02",
+        "VOID_MAZE_03"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/036_underworld_hub_pyscripts.bin",
+      "command_sha256": "26d232a868e9bea9c5b74e6ac9188405af5c895b1f4c386d4379c254dd5280de",
+      "command_bytes": 4495,
+      "name_uri": "data/pydata/scripts/036_underworld_hub_pyscriptnames.bin",
+      "name_sha256": "80de4216a4c871c56fc4cdedfebcaa4cb6d553092c92c4a4e536e8022f9996b1",
+      "name_bytes": 634,
+      "script_count": 27,
+      "name_count": 27,
+      "level_identities": [
+        "UNDERWORLD_HUB"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/037_machine_rooms_01_pyscripts.bin",
+      "command_sha256": "9474e4183c963c597f96f713addc8525070eff2185f373b0f2a79095ec8eb223",
+      "command_bytes": 3534,
+      "name_uri": "data/pydata/scripts/037_machine_rooms_01_pyscriptnames.bin",
+      "name_sha256": "6848dee6b735074cc0320c0d21d5f7a1427fed88de91823773eb268a3c40d11b",
+      "name_bytes": 1050,
+      "script_count": 67,
+      "name_count": 67,
+      "level_identities": [
+        "MACHINE_ROOMS_01"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/039_darktemple_pyscripts.bin",
+      "command_sha256": "2dba4638dabcd3c6278f2e80f31bf060f5e4edc48f8db21201b58879b7ac88b6",
+      "command_bytes": 2574,
+      "name_uri": "data/pydata/scripts/039_darktemple_pyscriptnames.bin",
+      "name_sha256": "a89689d78b400c9aff156bbe1a669c657ef0616a02b103de99c19ee4f4e4add2",
+      "name_bytes": 288,
+      "script_count": 13,
+      "name_count": 13,
+      "level_identities": [
+        "DARK_DUNGEON_TEMPLE_01"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "command_uri": "data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin",
+      "command_sha256": "ca50f34dae4caf2bf78c220eea5002d8ce4cee1a57cf1389b1d8d3eec53cccc4",
+      "command_bytes": 5790,
+      "name_uri": "data/pydata/scripts/040_darktemple_bossroom_pyscriptnames.bin",
+      "name_sha256": "11085a101e0cb2b166cc680f6c82bdc99e3321eff7560e8b74ce43234ed610f0",
+      "name_bytes": 284,
+      "script_count": 13,
+      "name_count": 13,
+      "level_identities": [
+        "DARK_DUNGEON_TEMPLE_BOSSROOM"
+      ],
+      "chapter_opcodes_decoded": false,
+      "existing_original_command_receipt": false,
+      "reached_kinds": null,
+      "status": "PAIR_NAMES_HEADER_AVAILABLE_COMMAND_KINDS_UNKNOWN"
+    }
+  ],
+  "levels": [
+    {
+      "identity": "ABBEY_ENTRANCE_01",
+      "command_pairs": [
+        "data/pydata/scripts/009_abbey_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "ABBEY_RUINS_01",
+      "command_pairs": [
+        "data/pydata/scripts/009_abbey_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "APPLETEMPLE",
+      "command_pairs": [
+        "data/pydata/scripts/011_earth_temple_demo_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "APPLETEMPLEBACKUP",
+      "command_pairs": [
+        "data/pydata/scripts/011_earth_temple_demo_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "DARKWOOD",
+      "command_pairs": [
+        "data/pydata/scripts/003_darkwood_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "DARKWOOD_V2",
+      "command_pairs": [
+        "data/pydata/scripts/003_darkwood_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "DARKWOOD_V3",
+      "command_pairs": [
+        "data/pydata/scripts/003_darkwood_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "DARK_DUNGEON_TEMPLE_01",
+      "command_pairs": [
+        "data/pydata/scripts/039_darktemple_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "DARK_DUNGEON_TEMPLE_BOSSROOM",
+      "command_pairs": [
+        "data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "DESERT_CAVE_01",
+      "command_pairs": [
+        "data/pydata/scripts/016_red_desert_cave_01_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "DESERT_CAVE_02",
+      "command_pairs": [
+        "data/pydata/scripts/017_red_desert_cave_02_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "DESERT_CAVE_03",
+      "command_pairs": [
+        "data/pydata/scripts/018_red_desert_cave_03_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "EARTH_TEMPLE_01",
+      "command_pairs": [
+        "data/pydata/scripts/011_earth_temple_01_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "EARTH_TEMPLE_02",
+      "command_pairs": [
+        "data/pydata/scripts/012_earth_temple_02_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "EARTH_TEMPLE_03",
+      "command_pairs": [
+        "data/pydata/scripts/013_earth_temple_03_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "ELEMENTAL_AIR",
+      "command_pairs": [
+        "data/pydata/scripts/030_elemental_air_room_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "ELEMENTAL_EARTH",
+      "command_pairs": [
+        "data/pydata/scripts/014_elemental_earth_room_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "ELEMENTAL_FIRE",
+      "command_pairs": [
+        "data/pydata/scripts/032_elemental_fire_room_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "ELEMENTAL_LIGHT",
+      "command_pairs": [
+        "data/pydata/scripts/010_elemental_lightning_room_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "ELEMENTAL_WATER",
+      "command_pairs": [
+        "data/pydata/scripts/024_elemental_water_room_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "FIRE_TEMPLE_01",
+      "command_pairs": [
+        "data/pydata/scripts/031_firetemple_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "GOTHICUS_CASTLE_01",
+      "command_pairs": [
+        "data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "GOTHICUS_CASTLE_02",
+      "command_pairs": [
+        "data/pydata/scripts/021_gothicus_castle_02_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "GOTHICUS_CRYPT_01",
+      "command_pairs": [
+        "data/pydata/scripts/007_crypt_01_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "GOTHICUS_CRYPT_02",
+      "command_pairs": [
+        "data/pydata/scripts/007_crypt_01_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "ICY_CAVERN_01",
+      "command_pairs": [
+        "data/pydata/scripts/026_icy_caverns_01_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "ICY_CAVERN_02",
+      "command_pairs": [
+        "data/pydata/scripts/027_icy_caverns_02_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "ICY_CAVERN_03",
+      "command_pairs": [
+        "data/pydata/scripts/028_icy_caverns_03_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "ICY_HUB",
+      "command_pairs": [
+        "data/pydata/scripts/025_icy_hub_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "INFECTED_VILLAGE_01",
+      "command_pairs": [
+        "data/pydata/scripts/005_infectedvillage_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "LIGHT_HOUSE_01",
+      "command_pairs": [
+        "data/pydata/scripts/019_light_house_01_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "LIGHT_HOUSE_02",
+      "command_pairs": [
+        "data/pydata/scripts/019_light_house_01_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "LIGHT_HOUSE_03",
+      "command_pairs": [
+        "data/pydata/scripts/019_light_house_01_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "MACHINE_ROOMS_01",
+      "command_pairs": [
+        "data/pydata/scripts/037_machine_rooms_01_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "MULTIPLAYER_TEST",
+      "command_pairs": [],
+      "status": "NO_AUTHORED_LOCAL_SCRIPTFILE_IN_AUDIT"
+    },
+    {
+      "identity": "PORTAL_ROOM",
+      "command_pairs": [
+        "data/pydata/scripts/003_darkwood_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "QUESTTEST",
+      "command_pairs": [
+        "data/pydata/scripts/007_crypt_01_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "RANDOMFORALEX",
+      "command_pairs": [
+        "data/pydata/scripts/010_elemental_lightning_room_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "RED_DESERT_HUB",
+      "command_pairs": [
+        "data/pydata/scripts/015_red_desert_hub_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "ROOT_DEN_01",
+      "command_pairs": [
+        "data/pydata/scripts/004_root_den_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "SECRET_BASEMENT_01",
+      "command_pairs": [
+        "data/pydata/scripts/006_driedwell_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "SWAMP",
+      "command_pairs": [
+        "data/pydata/scripts/001_swamp_pyscripts.bin"
+      ],
+      "status": "V52_ORIGINAL_LOCAL_DATA_RECEIPT"
+    },
+    {
+      "identity": "SWAMP_02",
+      "command_pairs": [
+        "data/pydata/scripts/022_swamp2_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "SWAMP_CAVE_TROLL_A",
+      "command_pairs": [
+        "data/pydata/scripts/022_swamp2_troll_cave_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "SWAMP_CAVE_WITCH_A",
+      "command_pairs": [
+        "data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "UNDERWORLD_HUB",
+      "command_pairs": [
+        "data/pydata/scripts/036_underworld_hub_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "VOID_MAZE_01",
+      "command_pairs": [
+        "data/pydata/scripts/033_voidmaze_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "VOID_MAZE_02",
+      "command_pairs": [
+        "data/pydata/scripts/033_voidmaze_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "VOID_MAZE_03",
+      "command_pairs": [
+        "data/pydata/scripts/033_voidmaze_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "WATER_TEMPLE_01",
+      "command_pairs": [
+        "data/pydata/scripts/023_watertemple_01_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    },
+    {
+      "identity": "WIND_TEMPLE_01",
+      "command_pairs": [
+        "data/pydata/scripts/029_wind_temple_pyscripts.bin"
+      ],
+      "status": "LOCAL_COMMAND_KINDS_UNKNOWN"
+    }
+  ],
+  "possible_unimplemented_factory_slots": [
+    {
+      "kind": 4,
+      "command_factory": "0x458c20",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SetCamera>()",
+      "data_factory": "0x4575e4",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SetCamera>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 7,
+      "command_factory": "0x458b48",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_WaitCamera>()",
+      "data_factory": "0x457518",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::WaitCamera>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 9,
+      "command_factory": "0x458ab8",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_EmptyImpl>()",
+      "data_factory": "0x4574a0",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::NilCmd>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 11,
+      "command_factory": "0x458a28",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_StartDialogID>()",
+      "data_factory": "0x457418",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::StartDialogID>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 18,
+      "command_factory": "0x458830",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_PlayAnimById>()",
+      "data_factory": "0x457254",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::PlayAnimById>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 28,
+      "command_factory": "0x458550",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_IncFaeryLevel>()",
+      "data_factory": "0x456fd0",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::IncFaeryLevel>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 33,
+      "command_factory": "0x4583e8",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_AIEnableTimer>()",
+      "data_factory": "0x456ea0",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::AIEnableTimer>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 34,
+      "command_factory": "0x4583a0",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_AIResetTimer>()",
+      "data_factory": "0x456e64",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::AIResetTimer>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 35,
+      "command_factory": "0x458358",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_AIDoSkill>()",
+      "data_factory": "0x456e28",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::AIDoSkill>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 36,
+      "command_factory": "0x458310",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_AISetHP>()",
+      "data_factory": "0x456de8",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::AISetHP>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 37,
+      "command_factory": "0x4582c8",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_AIChangeScript>()",
+      "data_factory": "0x456da8",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::AIChangeScript>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 38,
+      "command_factory": "0x458280",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_AISetInt>()",
+      "data_factory": "0x456d68",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::AISetInt>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 47,
+      "command_factory": "0x458034",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SetActorMaster>()",
+      "data_factory": "0x456b3c",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SetActorMaster>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 48,
+      "command_factory": "0x457fec",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_DropLoot>()",
+      "data_factory": "0x456afc",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::DropLoot>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 49,
+      "command_factory": "0x457fa4",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_AutoEquip>()",
+      "data_factory": "0x456ac0",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::AutoEquip>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 50,
+      "command_factory": "0x457f5c",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_UnEquipItemFromSlot>()",
+      "data_factory": "0x456a84",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::UnEquipItemFromSlot>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 53,
+      "command_factory": "0x457e84",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SetStatic>()",
+      "data_factory": "0x4569d0",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SetStatic>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 56,
+      "command_factory": "0x457d98",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ActivateProjectileTrap>()",
+      "data_factory": "0x45691c",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::ActivateProjectileTrap>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 57,
+      "command_factory": "0x457d4c",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_DeactivateProjectileTrap>()",
+      "data_factory": "0x4568e0",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::DeactivateProjectileTrap>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 58,
+      "command_factory": "0x457d00",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ActivateTriggerPlate>()",
+      "data_factory": "0x4568a4",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::ActivateTriggerPlate>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 59,
+      "command_factory": "0x457cb4",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_DeactivateTriggerPlate>()",
+      "data_factory": "0x456868",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::DeactivateTriggerPlate>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 60,
+      "command_factory": "0x457c6c",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SpawnContainer>()",
+      "data_factory": "0x45682c",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SpawnContainer>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 61,
+      "command_factory": "0x457c24",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SetLevelState>()",
+      "data_factory": "0x4567e8",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SetLevelState>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 62,
+      "command_factory": "0x457bdc",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SetWorldMapLocationState>()",
+      "data_factory": "0x4567a4",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SetWorldMapLocationState>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 64,
+      "command_factory": "0x457b4c",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ChangeLevel>()",
+      "data_factory": "0x45672c",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::ChangeLevel>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 65,
+      "command_factory": "0x457b04",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_EndGame>()",
+      "data_factory": "0x4566f0",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::EndGame>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 66,
+      "command_factory": "0x457abc",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_AwardTrophy>()",
+      "data_factory": "0x4566b0",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::AwardTrophy>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 67,
+      "command_factory": "0x457a74",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_AwardEndGameTrophies>()",
+      "data_factory": "0x456674",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::AwardEndGameTrophies>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 71,
+      "command_factory": "0x457954",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_EnqueueTutorialMessage>()",
+      "data_factory": "0x45657c",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::EnqueueTutorialMessage>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 72,
+      "command_factory": "0x45790c",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SkipTutorialMessage>()",
+      "data_factory": "0x456540",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SkipTutorialMessage>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 73,
+      "command_factory": "0x4578c4",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SkipAllTutorialMessages>()",
+      "data_factory": "0x456504",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SkipAllTutorialMessages>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 74,
+      "command_factory": "0x45787c",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_EnqueueCharMenuTutorialMessage>()",
+      "data_factory": "0x4564c4",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::EnqueueCharMenuTutorialMessage>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 75,
+      "command_factory": "0x457834",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SkipCharMenuTutorialMessage>()",
+      "data_factory": "0x456488",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SkipCharMenuTutorialMessage>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    },
+    {
+      "kind": 76,
+      "command_factory": "0x4577ec",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SkipAllCharMenuTutorialMessages>()",
+      "data_factory": "0x45644c",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SkipAllCharMenuTutorialMessages>()",
+      "reached_in_common_swamp": false,
+      "reached_outside_common_swamp": null,
+      "command_C1_layout_stores_Init": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "data_C1_layout_reader_actions": "NOT_PROVEN_IN_REVIEWED_ARTIFACTS",
+      "V52_data_schema": false,
+      "V59_native_factory": false
+    }
+  ],
+  "extra_unmapped_pair_metadata": [
+    {
+      "uri": "data/pydata/scripts/102_swamp_cave_troll_pyscripts.bin",
+      "bytes": 1404,
+      "sha256": "a2d823d52989f0f86e6ed71b179df6d308d24d6949cee6426ea83ede097910b0",
+      "declared_script_count": 9,
+      "referenced_by_51_level_scriptfile_metadata": false,
+      "reached_kinds": null
+    }
+  ],
+  "factory_table_original_note": "0x140 stride strongly suggests80 entries; confirm command kind count enum/domain before production"
+}

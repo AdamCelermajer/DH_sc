@@ -1,0 +1,149 @@
+--- a/port/level-world/canonical_object_manager_v1.hpp
++++ b/port/level-world/canonical_object_manager_v1.hpp
+@@ -1,6 +1,7 @@
+ #pragma once
+ #include "character_target_providers.hpp"
+ #include <map>
++#include <list>
+ #include <memory>
+ #include <string>
+ #include <vector>
+@@ -20,6 +21,8 @@
+  bool(*as_character)(void*,std::uintptr_t&,std::string&){};
+  const char** class_name20{}; // SAME GetNewObject source catalog-name field
+  bool(*read_across_rooms87)(void*,std::uint8_t&,std::string&){};
++ // SAME GameObject source cells; absent for ObjectBase-only/adoption domains.
++ const std::uintptr_t* source_room2f4_v89{};std::uint8_t* source_no_room2f8_v89{};
+ };
+ struct CanonicalObjectManagerServicesV1 {
+  void* context{};
+@@ -38,6 +41,8 @@
+  struct Entry {std::string name;CanonicalObjectBorrowV1 actor;};
+  std::map<std::int32_t,Entry> entries_;
+  std::vector<std::uintptr_t> characters_,modules_;
++ std::vector<std::uintptr_t> marked_for_deletion3c_v89_; // SAME source3c list.
++ std::list<std::uintptr_t> no_room88_v89_; // SAME source88 native linked list.
+  std::vector<std::uintptr_t> pending_; // Original ctor-empty ObjectManager+34 list.
+  std::uint32_t next_key_{},count_{},frame_{},init_phase7c_{}; // explicit ctor stores +4c/+50/+78
+  CanonicalObjectManagerServicesV1 services_;
+@@ -105,6 +110,11 @@
+  const std::vector<std::uintptr_t>& modules()const noexcept{return modules_;}
+  // Source Spawn accepted virtual38 appends the SAME published receiver.
+  // Ordered duplicates are source-valid; this does not enable/update it.
++ bool source_mark_for_deletion_v89(std::uintptr_t,std::string&);
++ const std::vector<std::uintptr_t>& source_marked_for_deletion_v89()const noexcept{return marked_for_deletion3c_v89_;}
++ bool source_add_no_room_object_v89(const CanonicalObjectBorrowV1&,std::string&);
++ bool source_handle_no_room_objects_v89(const std::function<bool(const CanonicalObjectBorrowV1&,bool&,std::string&)>&,std::string&);
++ const std::list<std::uintptr_t>& source_no_room_objects_v89()const noexcept{return no_room88_v89_;}
+  bool append_pending(const CanonicalObjectBorrowV1&,std::string&);
+  const std::vector<std::uintptr_t>& pending()const noexcept{return pending_;}
+ };
+--- a/port/level-world/canonical_object_manager_v1.cpp
++++ b/port/level-world/canonical_object_manager_v1.cpp
+@@ -1,7 +1,47 @@
+ #include "canonical_object_manager_v1.hpp"
++#include <exception>
+ #include <cstring>
+ #include <limits>
+ namespace dh2::world {
++bool CanonicalObjectManagerV1::source_mark_for_deletion_v89(std::uintptr_t identity,std::string& e){
++ for(const auto same:marked_for_deletion3c_v89_)if(same==identity){e.clear();return true;}
++ try{marked_for_deletion3c_v89_.push_back(identity);}catch(const std::exception& failure){e=failure.what();return false;}
++ e.clear();return true; //3432f8 neither modifies82/81 nor runs D0.
++}
++
++
++bool CanonicalObjectManagerV1::source_add_no_room_object_v89(const CanonicalObjectBorrowV1& actor,std::string& e){
++ if(!actor.identity||!actor.lease||!actor.source_no_room2f8_v89){e="Required actual GameObject2f8 AddNoRoomObject fields";return false;}
++ // Whole344184: original existing byte skip; source88 append allocation
++ // precedes its native2f8=1 store. Do not reset this flag when list is cleared.
++ if(*actor.source_no_room2f8_v89){e.clear();return true;}
++ try{no_room88_v89_.push_back(actor.identity);}catch(const std::exception& failure){e=failure.what();return false;}
++ *actor.source_no_room2f8_v89=1;e.clear();return true;
++}
++bool CanonicalObjectManagerV1::source_handle_no_room_objects_v89(
++ const std::function<bool(const CanonicalObjectBorrowV1&,bool&,std::string&)>& is_game_object,std::string& e){
++ // Whole345954: clear SAME88 list FIRST, without touching per-object2f8.
++ no_room88_v89_.clear();
++ for(auto entry=entries_.begin();entry!=entries_.end();){
++  const auto key=entry->first;auto actor=entry->second.actor;
++  if(actor.identity){
++   if(!actor.lease||!is_game_object){e="Required SAME receiver virtual20 IsGameObject";return false;}
++   bool game_object{};if(!is_game_object(actor,game_object,e))return false;
++   if(game_object){
++    if(!actor.source_room2f4_v89){e="Required actual GameObject2f4 field after virtual20";return false;}
++    if(!*actor.source_room2f4_v89){
++     bool present=false;for(const auto identity:no_room88_v89_)if(identity==actor.identity){present=true;break;}
++     if(!present&&!source_add_no_room_object_v89(actor,e))return false;
++    }
++   }
++  }
++  // Source signed map successor. The pure source virtual20 receiver is lent
++  // from retained transport; no class/type guessing or alternate registry.
++  entry=entries_.upper_bound(key);
++ }
++ e.clear();return true;
++}
++
+ bool CanonicalObjectManagerV1::required(bool available,const char* name,std::string& e){if(!available){e=std::string("required source ObjectManager provider: ")+name;return false;}return true;}
+ const CanonicalObjectBorrowV1* CanonicalObjectManagerV1::object(std::int32_t key)const noexcept{auto i=entries_.find(key);return i==entries_.end()||!i->second.actor.identity?nullptr:&i->second.actor;}
+ bool CanonicalObjectManagerV1::published_name_conflict_v4(const char* name,std::int32_t room,bool& out,std::string& e)const{
+--- a/port/level-world/canonical_gameobject_base_owner_v1.cpp
++++ b/port/level-world/canonical_gameobject_base_owner_v1.cpp
+@@ -48,6 +48,6 @@
+ bool CanonicalGameObjectBaseOwnerV1::write_string(void* p,std::uint32_t o,const std::string& v,std::string& e){auto* at=static_cast<CanonicalGameObjectBaseOwnerV1*>(p)->string(o);if(!at){e="required recovered CString source field";return false;}*at=v;return true;}
+ bool CanonicalGameObjectBaseOwnerV1::write_vector3(void* p,std::uint32_t o,const std::array<float,3>& v,std::string& e){auto& s=*static_cast<CanonicalGameObjectBaseOwnerV1*>(p);auto* at=s.vector3(o);if(!at){e="required recovered vector source field";return false;}std::memcpy(at,v.data(),12);if(o==0x16c)s.runtime_.subobjects.rotation=v[2];return true;}
+ bool CanonicalGameObjectBaseOwnerV1::write_point2(void*,std::uint32_t,const std::array<std::int32_t,2>&,std::string& e){e="GameObject has no registered Point2Di field";return false;}
+-CanonicalObjectBorrowV1 CanonicalGameObjectBaseOwnerV1::canonical(std::shared_ptr<void> lease){return {identity_,std::move(lease),&handle_,&type_f4_,byte(0x87),&room64_,this,set_name,set_archetype,as_character,&class_name20_,read_across_rooms};}
++CanonicalObjectBorrowV1 CanonicalGameObjectBaseOwnerV1::canonical(std::shared_ptr<void> lease){return {identity_,std::move(lease),&handle_,&type_f4_,byte(0x87),&room64_,this,set_name,set_archetype,as_character,&class_name20_,read_across_rooms,pointer(0x2f4),byte(0x2f8)};}
+ CanonicalPropertyActorV1 CanonicalGameObjectBaseOwnerV1::properties()noexcept{return {class_name20_,&template_name8_,{this,read_bool,write_bool,write_int,write_float,write_string,write_vector3,write_point2}};}
+ }
+--- a/port/level-world/retained_character_actor_v1.cpp
++++ b/port/level-world/retained_character_actor_v1.cpp
+@@ -1,5 +1,4 @@
+ #include "retained_character_actor_v1.hpp"
+-#include "character_script_source_virtuals_v101.hpp"
+ #include "character_scene.hpp"
+ #include <algorithm>
+ #include <stdexcept>
+@@ -14,6 +13,9 @@
+  // CharacterC1 3a9594 stores r6=-1 (3a93d8) into signed source byte14a8.
+  animation_ai.owner_byte14a8=-1;
+  if(construction==RetainedCharacterConstructionV7::fresh_canonical){
++  // Inherited GameObjectC2 38c554/558 (C1 38c2ec/f0): SAME room/no-room
++  // source stores. Adopted actors need their genuine observed producer.
++  source_pointers_v62_[0x2f4]=0;source_bools_[0x2f8]=0;
+   source_aggro_v84_=std::make_unique<SourceCharacterAggroV84>(true);
+   //CharAI C1 3cee44..58 explicitly zeroes b4/b8/bc and c0/c4/c8.
+   source_ctor_skill_vector_counts_v84_.fill(0);source_ctor_skill_vectors_v84_=true;
+@@ -56,7 +58,8 @@
+ bool RetainedCharacterActorV1::set_archetype(void* p,const char* name,std::string& e){auto& a=*static_cast<RetainedCharacterActorV1*>(p);if(!name||a.script_attempted_){e="archetype requires pre-session canonical receiver";return false;}a.source_archetype_=name;return true;}
+ bool RetainedCharacterActorV1::as_character(void* p,std::uintptr_t& out,std::string&){out=static_cast<RetainedCharacterActorV1*>(p)->identity_;return true;}
+ world::CanonicalObjectBorrowV1 RetainedCharacterActorV1::canonical(std::shared_ptr<void> lease){
+- return {identity_,std::move(lease),&handle_,&type_f4_,across_rooms_written_?&across_rooms87_:nullptr,&room64_,this,set_name,set_archetype,as_character,&class_name20_,read_across_rooms};
++ auto room=source_pointers_v62_.find(0x2f4);auto no_room=source_bools_.find(0x2f8);
++ return {identity_,std::move(lease),&handle_,&type_f4_,across_rooms_written_?&across_rooms87_:nullptr,&room64_,this,set_name,set_archetype,as_character,&class_name20_,read_across_rooms,room==source_pointers_v62_.end()?nullptr:&room->second,no_room==source_bools_.end()?nullptr:&no_room->second};
+ }
+ bool RetainedCharacterActorV1::adoption_name_v2(void* p,const char* name,std::string& e){auto& a=*static_cast<RetainedCharacterActorV1*>(p);if(!name||a.source_name_!=name||!a.object||a.object->name!=name){e="Canonical adoption must preserve actual retained Character name";return false;}a.source_name_=name;return true;}
+ bool RetainedCharacterActorV1::adoption_archetype_v2(void* p,const char* name,std::string& e){auto& a=*static_cast<RetainedCharacterActorV1*>(p);if(!name||a.source_archetype_!=name){e="Canonical adoption must preserve actual Character archetype";return false;}a.source_archetype_=name;return true;}
+@@ -96,10 +99,7 @@
+  f.integer=[this](std::uint32_t o)->std::int32_t*{if(o==0x274)return spawn_probability_written_?&spawn_probability_:nullptr;auto at=source_integers_v62_.find(o);return at==source_integers_v62_.end()?nullptr:&at->second;};
+  f.pointer=[this](std::uint32_t o)->std::uintptr_t*{switch(o){case 0x2dc:return &source_position_fields_v7_.physical2dc;case 0x2d8:return &visual2d8_;default:{auto at=source_pointers_v62_.find(o);return at==source_pointers_v62_.end()?nullptr:&at->second;}}};
+  f.string=[this](std::uint32_t o)->std::string*{if(o==0x48)return &source_archetype_;auto at=source_strings_.find(o);return at==source_strings_.end()?nullptr:&at->second;};
+- f.vector3=[this](std::uint32_t o)->float*{switch(o){case 0x120:return source_scale_.data();case 0x160:return object->position.data();case 0x16c:return runtime.rotation.rotation;
+-  //SAME cached184 field already written at actual actor-runtime target phase
+-  //from its real target_absolute_position. No root/node resample or pose copy.
+-  case 0x184:return runtime.target_position;default:return nullptr;}};
++ f.vector3=[this](std::uint32_t o)->float*{switch(o){case 0x120:return source_scale_.data();case 0x160:return object->position.data();case 0x16c:return runtime.rotation.rotation;default:return nullptr;}};
+  f.scalar=[this](std::uint32_t o)->float*{return o==0x178?&runtime.rotation.heading_angle:nullptr;};
+  f.relative_aabb144=[this]{return runtime.subobjects.local_bounds;};
+  f.update_absolute_aabb=[this]{for(unsigned i=0;i<6;++i)runtime.subobjects.absolute_bounds[i]=runtime.subobjects.local_bounds[i]+object->position[i%3];};
+@@ -145,7 +145,7 @@
+  script_load_attempted_=true;
+  if(session->start()!=0||!session->error().empty()||session->owner().last_source_load_status()!=0){error_=session->error();return false;}
+  ScriptSessionView active{};if(!session->owner().active(active)){error_="required actual started MonsterSession active owner";return false;}
+- ai_events.active=active.identity;ai_events.ais_virtuals=character_script_source_virtuals_v101(active.kind);return ai_events.ais_virtuals!=nullptr;
++ ai_events.active=active.identity;return true;
+ }
+ bool RetainedCharacterActorV1::visual_fields_v5(std::shared_ptr<void> lease,const std::function<bool(std::string&)>& update_pf,world::GameObjectVisualFieldBorrowV5& out,std::string& e){
+  if(!lease||!object||!object->properties||!source_scale_written_||!source_rotation_written_){e="Required SAME initialized Character visual fields";return false;}

@@ -1,0 +1,6 @@
+{
+  "selected_build": "Current selected headers during766 rebuild; syntax only, no dirty or old archives linked",
+  "typed_Main_binding_syntax": "PASS -Wall -Wextra -Werror",
+  "main_source_changes_during_readonly_audit": [],
+  "packet_V53_sha256": "ccfe3cceee83fd704e81d82987c39e362ec9ce48dd45cc13b6bdb7616b34f580"
+}

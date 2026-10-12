@@ -1,0 +1,73 @@
+{
+  "scope": "additive same-root static Module/controller lifecycle; no whole GSLevel acceptance",
+  "files": [
+    {
+      "path": "port/level-world/visual_anim_controller_owner_v4.hpp",
+      "sha256": "a3aa8cbfc8c53c7d42b32b7528645849dc35f6688ba92182267c7df77bd43925"
+    },
+    {
+      "path": "port/level-world/visual_anim_controller_owner_v4.cpp",
+      "sha256": "11059fdf45afecdf15808ea324df4a622c0636fc9ff210ee2564f03823fa0486"
+    },
+    {
+      "path": "port/level-world/module_static_scene_v2.hpp",
+      "sha256": "182fb0deb7791dfba775eafa8317b19fd51cc8318c48cca31f8f771f87eebd25"
+    },
+    {
+      "path": "port/level-world/retained_module_visual_v3.hpp",
+      "sha256": "db704557a7c73cbccdf39e64c1b790fce6759af92ae01c6d5669595f654977a3"
+    },
+    {
+      "path": "port/level-world/retained_module_visual_v3.cpp",
+      "sha256": "40f5b3e0f1790f076d68286b597e1dc8d8da4628340af4e5a881eead434c35c6"
+    },
+    {
+      "path": "port/level-world/canonical_object_manager_v1.hpp",
+      "sha256": "d66a38c1b01b2d37d9481dec0935e2e0a11d65532696b320e9fe84ce37ff75a8"
+    },
+    {
+      "path": "port/level-world/canonical_object_manager_v1.cpp",
+      "sha256": "efb621894c1e008cf13da2f650a65a9e24e6f40e54a2d1378f7a27ce7e58e549"
+    },
+    {
+      "path": "port/level-world/tests/visual_anim_controller_owner_v4.cpp",
+      "sha256": "a31a52a18f998fe33517d73031daf6e64a291ecd02f905e5f2cd88995445494b"
+    },
+    {
+      "path": "port/level-world/tests/canonical_module_graph_v3.cpp",
+      "sha256": "372a87cbc8707edaeff7d69afd1462996ae62c9bc6e2f7903fdfae98fb3b31b5"
+    },
+    {
+      "path": "port/level-world/tools/original_visual_anim_controller_v4.py",
+      "sha256": "0c9ccbaec90c9008b06b0cb730840bcaa15d7686fd228bff4fdc9c51f9218d0d"
+    },
+    {
+      "path": "port/level-world/reports/canonical-module-controller-v4-handoff.md",
+      "sha256": "8709b1d204461db3c4ef4bf83b12396f7617309e6dbe03f93188094c242dd188"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/visual-anim-controller-v4/receipt.json",
+      "sha256": "0949bfa0078b238af6b11fc737916111d0086e91dfcd96712202bccde1d9aedb"
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/canonical-module-root-lifecycle-v4/receipt.json",
+      "sha256": "45a1a8c2d115d8e32cfab301188ee8a6f91251abc913b32914cad1f49e6591af"
+    },
+    {
+      "path": "port/level-world/reference/module-root-lifecycle-v4/original.asm",
+      "sha256": "62394b0cef0d0ef2d6d21803c111716f31111f73351da90fc4b8591c3ad08c26"
+    },
+    {
+      "path": "port/level-world/reference/module-root-lifecycle-v4/symbols.json",
+      "sha256": "68384676bb7fdd50f0fffee1919970875ccfdc0638786aa33f663c7d2d5ea90a"
+    },
+    {
+      "path": "port/level-world/reference/module-root-lifecycle-v4/controller-original.json",
+      "sha256": "a777f574f609f675a84ce9a277afa423f8b58eb15c7613ac75d5dcb170014046"
+    },
+    {
+      "path": "port/level-world/reference/module-zone-v3/anim-controller-device-original-v4.json",
+      "sha256": "2c397fa2e8f29f520153003ad0a169c407e3f524f6b722654feb8db2427858ad"
+    }
+  ]
+}

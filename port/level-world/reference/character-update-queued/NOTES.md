@@ -1,0 +1,44 @@
+# Complete queued Character startup prefix
+
+`character_update_queued.hpp/.cpp` is a new additive entry, `dh2_character_update_queued`. It reconstructs Character.Update from its actual entry through the pre-controller boundary, completing the formerly unavailable shared-queue branches. It **never calls or replays** the frozen `dh2_character_update_startup` entry. The frozen startup and queue files/gold are unchanged.
+
+## Source boundary and exact ordering
+
+The original supplied ELF SHA256 remains `36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80`. Complete Character.Update `0x3abe98` and relevant helpers are captured with byte hashes in the existing immutable startup and queue manifests. The new oracle executes Character.Update continuously from its entry to `0x3abfc0` (controller-ready) or the genuine ineligible branch `0x3ac204`. The partial Character stack is intentionally preserved at the stop; no full Character epilogue or subsequent Update body is claimed.
+
+Ordering is the actual source ordering: Debug `KillPlayerOne`, Debug `Give50Potions`, genuine CanUpdate, repeated live state getters, current-0/12/2/interaction/active gates, current-Level query, one queue eviction if over the exact cutoff, synchronous `LoadNInitScriptProcess(true)`, source Monster/MiniBoss/Boss/online/delayed checks, manager `getRealTime` raw word, signed-key queue assignment, one wrapping Application stats increment, then controller-ready. A source ineligible branch does not advance stats. Registration happens only after a true newly loaded result and the reached source policy gates.
+
+The source queue proof uses the actual static constructor, insert/balance/erase/free/destructor helpers. Existing time keys overwrite mapped ownership without changing node identity. Eviction captures the smallest node, invokes the genuine Cmd_Kill wrapper with `(NULL,true)`, reloads the mapped Character from that same node, erases/decrements first, then calls AI unload. The complete-prefix corpus compares a combined ordered stream of diagnostic/startup calls, actual CanUpdate services, and queue callbacks, plus every callback-visible snapshot and final signed-key order. Current-Level and manager clock bodies, debug legacy string representation, inventory/property/deferred bodies, final controllable Kill, and full AI unload remain explicit provider boundaries in this instruction corpus.
+
+The corpus covers all 1,212 pre-controller records from the immutable partial-prefix corpus, plus complete queue count/threshold, signed/overwriting clock, online/delayed/type, and source-valid synchronous reentry cases. It also compares active/interaction/state mutations at the original reload points. The original routine is not reconstructed by joining two stopped source probes. Native safety/provider failures are tested separately; deleting the source captured RB node during Kill is undefined original behavior and is not given invented original expected results.
+
+## API and caller ownership
+
+`UpdateQueuedBinding24` borrows one shared `CharacterDeferredQueue`, a stable current `DeferredQueueOwner16`, and required queue services. The actor identity must equal the eligibility Character identity. `UpdateStartupOwner64::queue` is a legacy projection and is ignored; no fake count/first view is supplied to bypass the source branch. Actors, controllers, all service contexts and the queue must remain pinned throughout the entire synchronous prefix, including callbacks/reentry. The queue's ownership/generation constraints are documented in the frozen queue notes.
+
+The caller keeps live field projections coherent after callbacks: active AI publication, property HP writes, controller replacement, interaction/deferred flags and state getters must represent the same retained Character. The fixture adapter refreshes active and resolved HP after genuine deferred Init. Diagnostic literals have scoped native string lifetimes across ordered construct/query/destroy services; this is a typed semantic port, not the original ARM32 heap-string binary ABI. Unknown nonempty providers fail explicitly.
+
+Results retain the existing prefix semantics: 0 complete with ineligible or controller-ready stage, 1 malformed, 2 required provider unavailable, 3 native delivery/allocation failure. Stage remains unchanged on failure and prior delivered effects remain. Kill failure leaves the node; AI-unload failure retains the prior erase; later load/type/clock failure retains the earlier queue effects. There is no whole-prefix rollback.
+
+The clock word is bit-preserved into int32. It is a manager timestamp used for ordering and is **not** elapsed dt. This prefix advances neither FSM elapsed nor animation time. After-controller isABot, timers, AI, animator, GameObject, FX and the suffix remain separately required. Controller Update has not executed when this entry returns controller-ready.
+
+## Actual retained Crypt composition
+
+`tests/character_update_queued_session.cpp` executes all eleven actual cache-authored Crypt descriptors, their four genuine animation banks, retained CPU scenes and the same NativeFSM used by Lua GetState. It selects genuine initial source Idle with active AIS still null, then uses the new complete prefix to invoke `CharacterDeferredScript::load_and_init(true)`. The real owned constants/tables/properties, actual commons+monster bytes, private VM Init/publication, genuine vitals and DebugSwitches are used. AI type and MiniBoss/Boss checks read freshly resolved AI identity and actual decoded AI row `type`/`flags`; source `0x3a3144`/`0x3a3158` extract flags bit1/bit2 at row+0x14. No invented Sneak/level/type defaults are supplied.
+
+The test borrows a stable array of eleven current-Character queue projections and destroys the queue before releasing retained actors. It runs 22 complete prefix calls: first calls load/register, second calls observe the same active publication and skip repeated load/clock/registration. It observes 22 stats increments, 66 getters on the same NativeFSM, eleven raw manager-clock fixture calls, nine retained queue entries, and two Kill/unload fixture pairs. CPU/FSM/session identities remain the same across delayed Init; 22 CPU phase pairs execute with no FSM elapsed advance by this prefix.
+
+Required configure/update skills remain explicit fixtures. Final Kill and full AI-unload effects are explicit fixtures too: their callbacks validate retained owner/controller identity and ordered erasure, but do not claim actual death or script destruction. Therefore later surviving active-session observations do **not** establish original eviction effects. Upstream Application/network/clock/CanUpdate gate producers and initial InitPost/body/zone projections are also declared fixtures. The real native CanUpdate kernel still executes; its providers are not presented as reconstructed Application ownership. There is no full InitPost/Character.Update/frame, AI timer, navigation, physics or live Android authority claim.
+
+## Proof and build integration
+
+Original/O2 ARM64: **2,028** cases, **26,059** ordered prefix services, **4,248** actual CanUpdate services, **804** queue callbacks, **29,033** ordered queue entries, zero mismatches. Sanitized gold replay additionally checks **80** reentry records and **19** malformed/provider/failure contracts. Real retained composition: **11** delayed monsters, **22** prefix calls, **5,721** checks, zero sanitizer findings.
+
+`tests/character_update_queued_host.py` builds the isolated gold replay and the new composition entry/test. It copies transitive native DSOs only after exact pre/post hash equality, runs only the private copies, captures current compiler inputs and hashes, and makes no central-stage or existing-DSO compiler-provenance claim. Current central sources may subsequently change without altering that snapshot. `--reuse-snapshot` replays the bound private copies. Full composition does not have a single original mega-oracle; the complete-prefix gold and underlying subsystem instruction proofs are distinct from the real native session integration audit.
+
+Add `character_update_queued.cpp` to the world target only. Suggested targets:
+
+- `character_update_queued_audit`: `tests/character_update_queued.cpp`, linked world. One argument: `reference/character-update-queued/queued-prefix-fixtures.bin`.
+- `character_update_queued_session_audit`: `tests/character_update_queued_session.cpp`, linked world/game-data/script-runtime/engine-animation/scene-materials and dl. Six arguments: GDO1 real-cache inputs, commons source, monster source, Crypt DACT, actual monster-bank asset root, animation data directory.
+
+Production/header and proof hashes, exact private dependency hashes, and reproduction commands are in the handoff/reports. No shared CMake, renderer, runtime or frozen source file is modified by this stage.

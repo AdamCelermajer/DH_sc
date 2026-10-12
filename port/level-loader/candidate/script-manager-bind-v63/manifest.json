@@ -1,0 +1,18 @@
+{
+  "status": "SOURCE_ONLY_UNCOMPILED",
+  "manager_allocations_by_binder": 0,
+  "engine_leaf_calls_at_binding": 0,
+  "tests_or_jobs": 0,
+  "files": {
+    "HANDOFF.md": "0aa60cd2ebba931b67e9af92ef1739f696c53ca44df59171c21ea0d6a841ae72",
+    "script_manager_bind_v63.hpp": "49b57f3e0ae8aad92197fad2e60e4250c7dceca73d4e90417b5151263a85cb85"
+  },
+  "dependencies": {
+    "script_manager_owner_v52.hpp": "4ae31338d57f24efca512f258f1c3590fc69e835fe008d625845151465c49a10",
+    "script_manager_owner_v52.cpp": "258d88afcc747e8e60ca98dbb9eba92c84d01fddf723d44ca4d6743f97c9e8ee",
+    "candidate/command-c1-v59/script_command_receivers_v59.hpp": "d555cac844347387dcd1c0ad46c404b718b3ff03a61803832f97fa3e250dc55d",
+    "candidate/command-c1-v59/script_command_receivers_v59.cpp": "cc18c31a6c307e992c0628cb8aa01b52fecc99482098560788f7cdb2c2bad213",
+    "candidate/command-init-v62/script_command_init_v62.hpp": "f60f5356e0143c20aec1a89a147aac2079fbf9505c36f35b5436e0167ea8854e",
+    "candidate/command-init-v62/FROZEN.json": "2a726c75230d65751fc7ac5711dac098eafdfff8123b5749acc1501ed77e597a"
+  }
+}

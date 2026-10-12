@@ -1,0 +1,29 @@
+--- a/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp
++++ b/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp
+@@ -1,2 +1,3 @@
+ #include "source_campaign_retirement_v88.hpp"
+ #include "source_campaign_runtime_v61.hpp"
++#include <level_batching_source_v96.hpp>
+@@ -434,3 +435,4 @@
+ #include "source_campaign_camera_v67.inc"
+ #include "renderer_source_stage34_v80.inc"
++#include "renderer_source_batching_v96.inc"
+ 
+@@ -531,7 +531,8 @@
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native","Original loading step | %u",phase);e.clear();return true;
+  };
+  out.early_debug={current_world->debug,out.prefix.debug_instance_get_switch};
+- if(!bind_source_stage18_stage32_v95(current_world,state.candidate,actual,out.early_debug,out.source,error))return false;
++ if(!bind_source_stage18_stage32_v95(current_world,state.candidate,actual,out.early_debug,out.source,error)||
++    !bind_source_batching_stages_v96(current_world,state.candidate,actual,out.early_debug,out.source,error))return false;
+  if(!bind_source_stage33_stage34_v80(current_world,state.candidate,actual,out.early_debug,out.source.external,error))return false;
+  if(!out.source.external.stage_body[29]){
+   out.source.external.stage_body[29]=[weak,level=std::weak_ptr<CanonicalLevelContextV1>(actual)](std::string& e){
+--- a/port/level-loader/native_loading_sources_v65.cmake
++++ b/port/level-loader/native_loading_sources_v65.cmake
+@@ -63,3 +63,3 @@
+   original_filesystem_fields_v50.cpp script_command_receivers_v59.cpp
+-  assigned_loadfile_kernel_v65.cpp xml_document_v1.cpp level_lightset_stage9_v53.cpp)
++  assigned_loadfile_kernel_v65.cpp xml_document_v1.cpp level_lightset_stage9_v53.cpp level_batching_source_v96.cpp)
+  _dh2_loader_append_owned_sources_v65("${target}" "${ARG_WORLD_DIR}"
+

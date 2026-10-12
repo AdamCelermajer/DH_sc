@@ -1,0 +1,20 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "fixture_sha256": "83c3b36f773004a9c0ad0b7155db8a7152ae3c869eb75d619f211135078a66a0",
+  "script_sha256": "71706d9064ed15bd37826e1af8141bb8409667d16de1c3622705f18be94c6609",
+  "original_function_manifest_sha256": "36352b4c73cc9670c88f4c4e0a26e5090fc2ada765b54460007286efb579fc5e",
+  "original_skin_provider_cases": 5,
+  "original_skin_technique_observations": 20,
+  "original_mesh_box_cases": 11,
+  "original_owner_bounds_cases": 11,
+  "original_AI_type_player_observations": 33,
+  "original_body_config_cases": 11,
+  "original_body_creation_service_requests": 77,
+  "mismatches": 0,
+  "scope": "Original instructions versus actual-model host composition outputs.\n\nCached Scene joint/root matrices, STL collection, AI storage and creation\nservices are explicit fixtures. No whole factory or historical libm claim.\n",
+  "cached_outer_root_matrix_service": true,
+  "host_composition_output_compared": true,
+  "new_helper_ARM64_execution": false,
+  "full_original_AssetManager_factory": false
+}

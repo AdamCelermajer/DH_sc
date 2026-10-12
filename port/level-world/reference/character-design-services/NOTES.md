@@ -1,0 +1,37 @@
+# Design ticks and owned DebugSwitches service
+
+Original ELF SHA256: `36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80`. This module reconstructs the original singleton's empty/missing-file switch domain with genuine native owned storage. Application/filesystem ownership is supplied explicitly; it does not reconstruct the existing-file parser or console setters/save operations.
+
+## CharAI timer keys
+
+Actual `CharAI::OnInit` at `0x3d12b0` tests the owner dead virtual, stops old timer IDs when they are not -1, and queries `getConstant` at `0x4c4bdc`. The group is `CharacterDesign` (`0x8c1758`). Timer event 0x33 uses `AI_Tick` (`0x8c5480`); event 0x34 uses `DoT_Tick` (`0x8c5488`). Each owner is retained before its lookup. Start receives the returned signed word bits as duration, repeat -1, the corresponding event, and reference 0; its ID is stored. These are distinct queries, in that order. The new helper uses the genuine borrowed CharacterGameDesign lookup; it does not create another constants store. Exact supplied cache constants produce 3000 and 1000 milliseconds.
+
+## Source switch order
+
+`DebugSwitches::load` (`0x337888`) reads global loaded byte `0x9a1d48`, sets it to 1 BEFORE attempting to open `DebugSwitches.savegame` (`0x8bfe40`), and uses the singleton at `0x9a1d18`. Original filesystem production is Application+0x10 → core+0x34, virtual+0x94 openRead, and virtual+0x78 close. The native provider must really attempt the corresponding application file. Successful delivery with zero handle represents genuine notfound; a missing provider does not.
+
+After a missing file, source recursively calls load (already loaded), forces false for `IsDeactivatingFlashMenus`, `IsDeactivatingFlashMenusUpdate`, and `IsDeactivatingFlashMenusRender`, then queries `ConnectToAlphaServer` and `ConnectToBetaServer`. `SetSwitch` (`0x337ddc`) missing insertion and `GetSwitch` (`0x337a88`) missing insertion query `isTracingDebugSwitches` (`0x8bfd88`) recursively. GetSwitch inserts the requested false value BEFORE load, and rereads it after those effects. The fresh loaded map therefore contains six entries; querying `isTracingChar_Stats` gives seven. Names compare as source C strings, including NUL termination, and values retain raw byte semantics. This domain has no source-origin true values, and does not pretend to handle a changed true value/save path.
+
+The constructor (`0x335f94`) empty map and loaded flag are projected into the opaque owned DebugSwitches. Native std::map allocation/search/balancing/insertion/destruction execute in the optimized ARM64 and host proofs. Original STL map/string operations are explicit storage services in the instruction oracle: this is not an original-versus-native tree-layout proof. Provider callbacks must remain alive and cannot throw or reenter this owner.
+
+## Level adapter and actual monster Init
+
+Original HP/MP regen calls load and then GetSwitch(`isTracingChar_Stats`, `0x8c4898`) immediately before its retained positive PropertyAdd. The switch return is ignored. Calls occur only when the retained delta is positive, and HP precedes MP. `DebugLevelBinding16` is the direct LevelServices16 context; the new callback performs genuine owned load/query and validates the proved property/name/delta domain. Failure is explicit rather than accepted as a no-op.
+
+The actual supplied `_commons.luac` has a genuinely empty OnInit. `monster.luac` calls it, reads genuine properties/metadata, captures position, obtains host level/difficulty/current level range, and calls SetLevel. Its own LevelMax only enables dynamic-level selection; a valid decoded level range takes priority over authored own min/max. Actual Crypt range words are normal 8..10, hard 45..47, nightmare 74..76. The host test uses Crypt_Skeleton and Crypt_Ghost, cached host level17, all three explicit difficulty receiver facts, and the decoded Crypt row. No world/Application selection producer is claimed by these fixtures.
+
+Six real monster Init calls execute through the private float32 Lua runtime, genuine alias and metadata/constant bindings, native property/class/SetLevel producers, and owned switch adapter. The source load/query order is exactly HP load→HP query→MP load→MP query, with one filesystem attempt per owner. All 896 mutable sheet words match a separate direct call to the already original-proved Level kernel. Full-refill equality is deliberately not assumed: the real -1 default sentinel in PropertyAdd can leave HP/MP one raw fixed-point unit below Max. This is exact source property behavior, not a float tolerance. Position, cached host player, difficulty and selected row are explicit borrowed fixtures. Other monster event/state services are not accepted or fabricated.
+
+## Existing files and failure boundary
+
+The source parser is captured (`_loadSwitches` 0x3374e4 and helpers), but remains outside this staged implementation. Source magic is 0x44425357; version thresholds 10000 and 20000 select switch/module data. Bad magic may query `isTracingDebugSwitchesFile` then seek back four bytes. Strings use a fixed 255-byte buffer with a 254-byte payload cap; truncation/short reads and live-map save iteration require additional original proof. No invented generic serialization is used here.
+
+A nonzero real handle is closed and returns -3 unsupported parser. An open/close/provider/allocation failure returns -2. Loaded remains set as in the source prefix, and the incomplete native owner is quarantined until destruction so it cannot subsequently publish fabricated false values from that file. That quarantine is an explicit native incomplete-domain policy, not an original parser behavior claim. Malformed caller -1 rejects before effects/output writes. In the missing-file success domain load's once behavior is the actual source loaded flag.
+
+## Reproduction and integration
+
+`tests/character_design_services_differential.py` uses the captured actual load/GetSwitch/SetSwitch and CharAI.OnInit instructions. PASS: 126 debug operations, nine fresh owners, sixteen OnInit key/timer cases, 32 native key lookups, zero mismatches. The four native tick guards supplement that corpus. Fixtures/probe/manifest/optimized binary hashes are bound in `reports/character-design-services-arm64-differential.json`.
+
+`tests/character_design_services_host.py` builds an isolated sanitized DSO and links the actual stable main world, runtime and game-data DSOs. PASS: 7431 checks, 126 original-derived operations, three explicit failure prefixes, seven malformed guards, actual workspace fopen missing/existing checks, two real timer reinitializations, six real monster Init calls, twelve Lua refill queries plus twelve direct-control queries, zero ASan/UBSan findings. It records actual dladdr identities, library/executable hashes and before/after source/dependency hashes in `reports/character-design-services-host-audit.json`.
+
+Parent integration: add `character_design_services.cpp` to world DSO. Audit target is `tests/character_design_services.cpp`, linked world/runtime/game-data/dl and sanitizers. Run `tests/character_design_services_host.py --main-linked` after central rebuild; it writes a distinct main-linked report. Audit argc is six: executable, debug-services-fixtures.bin, real-cache-inputs.bin, workspace scratch files directory, exact _commons.luac, exact monster.luac. The Python runner supplies those paths. No APK, renderer or CMake changes were made by this worker.

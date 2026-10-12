@@ -1,0 +1,271 @@
+--- /dev/null
++++ b/port/level-loader/noncharacter_save_connection_v89.hpp
+@@ -0,0 +1,155 @@
++#pragma once
++#include <object_save_restore_v3.hpp>
++#include <level_savegame_objects_v2.hpp>
++#include <canonical_trigger_zone_v22.hpp>
++#include <canonical_trigger_object_v28.hpp>
++#include <canonical_door_v27.hpp>
++#include <canonical_openable_container_v1.hpp>
++#include <canonical_destructible_container_v16.hpp>
++#include <canonical_light_point_v53.hpp>
++#include <canonical_constructor_prefix_v89.hpp>
++#include <functional>
++#include <memory>
++#include <cstring>
++#include <exception>
++#include <type_traits>
++#include <canonical_gameobject_graph_v68.hpp>
++namespace dh2::loader {
++enum class NonCharacterSaveKindV89 {object_base,gameobject,trigger,door,trigger_object,container};
++struct NonCharacterSaveFieldsV89 {
++ NonCharacterSaveKindV89 kind{NonCharacterSaveKindV89::gameobject};world::ObjectSaveRestoreBorrowV3 base;
++ std::int32_t *timer3b8{},*activated3b4{},*door_state3a8{};
++ std::uint8_t *reset3b0{},*interactive784{};
++ std::function<bool(std::int32_t&,std::string&)> container_state394;
++ std::function<bool(bool&,std::string&)> death_reset390;
++};
++struct NonCharacterLevelFlagsV89 {std::shared_ptr<void> owner;std::uint8_t *bytef3{},*bytef4{};};
++struct NonCharacterRestoreServicesV89 {
++ std::shared_ptr<void> owner; // independent authority; no strong actor/World/Level
++ world::ObjectSaveRestoreServicesV3 gameobject; // existing assertion/visual kernel
++ std::shared_ptr<void> gameobject_context_owner; // pins actual callback context only
++ std::function<bool(std::uintptr_t,std::string&)> validate_current;
++ // Actual App.GetCurrentLevel, borrowed at reached source points.
++ std::function<bool(NonCharacterLevelFlagsV89&,std::string&)> level_flags;
++ // Genuine same-Door Opened(false)/Closed(false), not startup approximations.
++ std::function<bool(bool,std::string&)> door_opened,door_closed;
++ // Same Container::SetState39f3cc and actual derived KeepPhysics virtualdc.
++ std::function<bool(std::uint8_t,std::string&)> container_set_state;
++ std::function<bool(bool&,std::string&)> container_keep_physics;
++ std::function<bool(std::string&)> set_physical_null_false;
++ // Same TriggerObject::TestInteractiveCond3993bc / Trigger::CanActivate3987ac.
++ std::function<bool(std::string&)> test_interactive_condition;
++ std::function<bool(bool&,std::string&)> can_activate;
++ // Actual visual2d8->Animator38 virtual20. Integers preserve exact source
++ // argument positions; nullable result controls ONLY reached fallback branch.
++ std::function<bool(std::uintptr_t,const char*,unsigned,unsigned,unsigned,bool&,std::string&)> play_animation;
++};
++inline bool gameobject_save_fields_v89(world::CanonicalGameObjectBaseOwnerV1& actual,NonCharacterSaveFieldsV89& out,std::string& e){out={};out.kind=NonCharacterSaveKindV89::gameobject;out.base={actual.identity(),&actual.lifecycle().visible80,actual.byte(0x8a),actual.byte(0xac),actual.byte(0xd0),actual.integer(0x270),actual.pointer(0x2d8),&actual.lifecycle().visible_written};e.clear();return out.base.identity!=0;}
++template<class Trigger>bool trigger_save_fields_v89(Trigger& actual,NonCharacterSaveFieldsV89& out,std::string& e){
++ if(!gameobject_save_fields_v89(actual.base(),out,e))return false;out.kind=NonCharacterSaveKindV89::trigger;out.timer3b8=actual.source_integer(0x3b8);out.activated3b4=actual.source_integer(0x3b4);out.reset3b0=actual.source_byte(0x3b0);
++ if(!out.timer3b8||!out.activated3b4||!out.reset3b0){e="Required SAME Trigger timer/activation/reset cells";return false;}return true;
++}
++inline bool door_save_fields_v89(world::CanonicalDoorV27& actual,NonCharacterSaveFieldsV89& out,std::string& e){if(!gameobject_save_fields_v89(actual.base(),out,e))return false;out.kind=NonCharacterSaveKindV89::door;out.door_state3a8=&actual.source_state3a8();return true;}
++inline bool trigger_object_save_fields_v89(world::CanonicalTriggerObjectV28& actual,NonCharacterSaveFieldsV89& out,std::string& e){if(!trigger_save_fields_v89(actual,out,e))return false;out.kind=NonCharacterSaveKindV89::trigger_object;out.interactive784=actual.source_byte(0x784);if(!out.interactive784){e="Required SAME TriggerObject interactive784 cell";return false;}return true;}
++inline bool container_save_fields_v89(world::CanonicalOpenableContainerV1& actual,NonCharacterSaveFieldsV89& out,std::string& e){
++ if(!gameobject_save_fields_v89(actual.base(),out,e))return false;out.kind=NonCharacterSaveKindV89::container;
++ out.container_state394=[&actual](auto& value,std::string& e){value=actual.fields().state394;e.clear();return true;};out.death_reset390=[&actual](bool& value,std::string& e){value=actual.fields().death_reset;e.clear();return true;};return true;
++}
++inline bool container_save_fields_v89(world::CanonicalDestructibleContainerV16& actual,NonCharacterSaveFieldsV89& out,std::string& e){
++ if(!gameobject_save_fields_v89(actual.base(),out,e))return false;out.kind=NonCharacterSaveKindV89::container;
++ out.container_state394=[&actual](auto& value,std::string& e){value=actual.state();e.clear();return true;};out.death_reset390=[&actual](bool& value,std::string& e){std::uint8_t raw{};if(!actual.read_bool(0x390,raw,e))return false;value=raw!=0;return true;};return true;
++}
++inline bool light_save_fields_v89(world::CanonicalLightPointV53& actual,NonCharacterSaveFieldsV89& out,std::string& e){
++ out={};out.kind=NonCharacterSaveKindV89::object_base;out.base.identity=actual.identity();out.base.visible80=actual.source_save_byte_v89(0x80,e);out.base.enabled8a=actual.source_save_byte_v89(0x8a,e);out.base.tested_ac=actual.source_save_byte_v89(0xac,e);out.base.tested_d0=actual.source_save_byte_v89(0xd0,e);
++ // Source byte80 is genuinely unproduced until real visibility property/write;
++ // never manufacture C1/condition flags to make a checkpoint payload succeed.
++ e.clear();return out.base.identity!=0; // kernels require only cells actually reached
++}
++inline bool noncharacter_serialize_v89(level::SavegameStreamV2& s,const NonCharacterSaveFieldsV89& f,std::string& e){
++ if(f.kind==NonCharacterSaveKindV89::object_base)return world::object_base_serialize_v3(s,f.base,e);
++ if(!world::gameobject_serialize_v3(s,f.base,e))return false;
++ if(f.kind==NonCharacterSaveKindV89::trigger||f.kind==NonCharacterSaveKindV89::trigger_object){if(!f.timer3b8||!f.activated3b4){e="Required actual Trigger serialization fields";return false;}return s.write_u32(static_cast<std::uint32_t>(*f.timer3b8),e)&&s.write_u32(static_cast<std::uint32_t>(*f.activated3b4),e);}
++ if(f.kind==NonCharacterSaveKindV89::door){if(!f.door_state3a8){e="Required actual Door state3a8";return false;}return s.write_u32(static_cast<std::uint32_t>(*f.door_state3a8),e);}
++ if(f.kind==NonCharacterSaveKindV89::container){std::int32_t state{};if(!f.container_state394||!f.container_state394(state,e))return false;const auto byte=static_cast<std::uint8_t>(state);return s.write({&byte,1},e);}return true;
++}
++inline bool noncharacter_deserialize_v89(level::SavegameStreamV2& s,const NonCharacterSaveFieldsV89& f,const NonCharacterRestoreServicesV89& leaves,std::string& e){
++ auto flags=[&](NonCharacterLevelFlagsV89& level){if(!leaves.level_flags||!leaves.level_flags(level,e)||!level.owner||!level.bytef3||!level.bytef4){if(e.empty())e="Required actual current Levelf3/f4 source flags";return false;}return true;};
++ auto read_int=[&](std::int32_t* actual){if(!actual){e="Required actual deserialize integer cell";return false;}std::uint32_t value;if(!s.read_u32(value,e))return false;std::memcpy(actual,&value,4);return true;};
++ auto play=[&](std::uintptr_t visual,const char* name,unsigned arg2,bool& result){if(!visual||!leaves.play_animation){e="Required SAME positive visual/Animator38 native play leaf";return false;}return leaves.play_animation(visual,name,arg2,0,0,result,e);};
++ if(f.kind==NonCharacterSaveKindV89::object_base)return world::object_base_deserialize_v3(s,f.base,e);
++ if(f.kind==NonCharacterSaveKindV89::container){
++  // Original Container reads current Level BEFORE reset390 and before base.
++  NonCharacterLevelFlagsV89 level;if(!flags(level))return false;bool reset{};if(!f.death_reset390||!f.death_reset390(reset,e))return false;
++  if(!reset&&(*level.bytef3||*level.bytef4))return true; // actual no-read branch
++ }
++ if(!world::gameobject_deserialize_v3(s,f.base,leaves.gameobject,e))return false;
++ if(f.kind==NonCharacterSaveKindV89::trigger||f.kind==NonCharacterSaveKindV89::trigger_object){
++  // Fresh App current Level AFTER GameObject base/SyncVisibility callback.
++  NonCharacterLevelFlagsV89 level;if(!flags(level))return false;if(!f.reset3b0){e="Required actual Trigger reset3b0";return false;}
++  if(!(*level.bytef3&&*f.reset3b0)){if(!read_int(f.timer3b8)||!read_int(f.activated3b4))return false;}
++  if(f.kind==NonCharacterSaveKindV89::trigger)return true;
++  if(!leaves.test_interactive_condition||!leaves.test_interactive_condition(e)){if(e.empty())e="Required actual TriggerObject TestInteractiveCond";return false;}
++  if(!f.base.visual2d8){e="Required SAME TriggerObject visual2d8 cell";return false;}if(!*f.base.visual2d8)return true;
++  bool can{};if(!leaves.can_activate||!leaves.can_activate(can,e)){if(e.empty())e="Required genuine Trigger CanActivate";return false;}bool result{};
++  if(can){if(!f.interactive784){e="Required SAME TriggerObject interactive784";return false;}return play(*f.base.visual2d8,*f.interactive784?"idle":"idlelocked",1,result);}
++  if(!play(*f.base.visual2d8,"idleactive",1,result))return false;if(result)return true;return play(*f.base.visual2d8,"activate",0,result);
++ }
++ if(f.kind==NonCharacterSaveKindV89::door){if(!read_int(f.door_state3a8))return false;const bool opened=*f.door_state3a8==1||*f.door_state3a8==3;const auto& leaf=opened?leaves.door_opened:leaves.door_closed;if(!leaf){e="Required actual Door Opened(false)/Closed(false) restore body";return false;}return leaf(false,e);}
++ if(f.kind==NonCharacterSaveKindV89::container){
++  std::uint8_t state{};if(!s.read(&state,1,e))return false;if(!f.base.visual2d8){e="Required SAME Container visual2d8 slot";return false;}if(!*f.base.visual2d8)return true;
++  if(!leaves.container_set_state||!leaves.container_set_state(state,e)){if(e.empty())e="Required actual Container SetState source body";return false;}
++  std::int32_t current{};if(!f.container_state394||!f.container_state394(current,e))return false;const auto cached_visual=*f.base.visual2d8;
++  if(current==2){if(!cached_visual)return true;bool result{};return play(cached_visual,"idle",0,result);}
++  if(current!=4)return true;bool keep{};if(!leaves.container_keep_physics||!leaves.container_keep_physics(keep,e)){if(e.empty())e="Required actual derived Container KeepPhysics virtualdc";return false;}
++  if(!keep&&(!leaves.set_physical_null_false||!leaves.set_physical_null_false(e))){if(e.empty())e="Required actual SetPhysicalObject(NULL,false)";return false;}
++  // Original cached visual is loaded BEFORE KeepPhysics; preserve that read.
++  if(!cached_visual)return true;bool result{};return play(cached_visual,"idleactive",0,result);
++ }return true;
++}
++class NonCharacterSaveConnectionV89 final {
++ std::function<bool(std::shared_ptr<void>&,NonCharacterSaveFieldsV89&,std::string&)> borrow_;
++ std::function<bool(std::shared_ptr<void>&,std::uintptr_t&,std::string&)> identity_borrow_;
++ NonCharacterRestoreServicesV89 leaves_;std::uintptr_t identity_{};bool busy_{},failed_{};
++ void* query_context_{};bool(*is_character_)(void*,bool&,std::string&){};bool(*is_player_)(void*,bool&,std::string&){};
++ bool operation(level::SavegameStreamV2& stream,bool load,std::string& e){
++  if(busy_||failed_){e="Sameclass non-Character save/restore cannot replay failed mutation prefix";return false;}busy_=true;struct Guard{bool& busy;~Guard(){busy=false;}}guard{busy_};bool result=false;
++  try{std::shared_ptr<void> pin;NonCharacterSaveFieldsV89 f;if(!borrow_||!borrow_(pin,f,e)||!pin||!identity_||f.base.identity!=identity_||!leaves_.validate_current||!leaves_.validate_current(identity_,e)){if(e.empty())e="Required SAME live typed non-Character save fields";failed_=true;return false;}
++   result=load?noncharacter_deserialize_v89(stream,f,leaves_,e):noncharacter_serialize_v89(stream,f,e);if(result)result=leaves_.validate_current(identity_,e);
++  }catch(const std::exception& ex){e=ex.what();}catch(...){e="Actual non-Character restore leaf threw; source mutation prefix retained";}if(!result)failed_=true;return result;
++ }
++public:
++ NonCharacterSaveConnectionV89(std::function<bool(std::shared_ptr<void>&,NonCharacterSaveFieldsV89&,std::string&)> borrow,
++  std::function<bool(std::shared_ptr<void>&,std::uintptr_t&,std::string&)> identity_borrow,NonCharacterRestoreServicesV89 leaves):borrow_(std::move(borrow)),identity_borrow_(std::move(identity_borrow)),leaves_(std::move(leaves)){}
++ bool bind_methods(level::LevelSaveObjectBorrowV2& actual,std::string& e){
++  if(!actual.identity||!actual.is_character||!actual.is_player||!leaves_.owner||!leaves_.validate_current){e="Required actual OBJS receiver projection and genuine scoped save authority";return false;}const auto id=reinterpret_cast<std::uintptr_t>(actual.identity);
++  if(identity_&&identity_!=id){e="Save connection cannot bind another source receiver";return false;}if(actual.context==this)return true;std::shared_ptr<void> pin;std::uintptr_t actual_id{};if(!identity_borrow_||!identity_borrow_(pin,actual_id,e)||!pin||actual_id!=id||!leaves_.validate_current(id,e))return false;
++  identity_=id;query_context_=actual.context;is_character_=actual.is_character;is_player_=actual.is_player;actual.context=this;
++  actual.is_character=[](void* p,bool& v,std::string& e){auto& self=*static_cast<NonCharacterSaveConnectionV89*>(p);std::shared_ptr<void> pin;std::uintptr_t id{};if(self.failed_||!self.identity_borrow_||!self.identity_borrow_(pin,id,e)||!pin||id!=self.identity_||!self.leaves_.validate_current(id,e))return false;return self.is_character_(self.query_context_,v,e);};
++  actual.is_player=[](void* p,bool& v,std::string& e){auto& self=*static_cast<NonCharacterSaveConnectionV89*>(p);std::shared_ptr<void> pin;std::uintptr_t id{};if(self.failed_||!self.identity_borrow_||!self.identity_borrow_(pin,id,e)||!pin||id!=self.identity_||!self.leaves_.validate_current(id,e))return false;return self.is_player_(self.query_context_,v,e);};
++  actual.save=[](void* p,level::SavegameStreamV2& stream,std::string& e){return static_cast<NonCharacterSaveConnectionV89*>(p)->operation(stream,false,e);};actual.load=[](void* p,level::SavegameStreamV2& stream,std::string& e){return static_cast<NonCharacterSaveConnectionV89*>(p)->operation(stream,true,e);};e.clear();return true;
++ }
++ bool failed()const noexcept{return failed_;}
++};
++// Field projection is a typed SAME-receiver accessor above (or Main's exact
++// generic base borrower), not serialization/gameplay callback. Record/runtime
++// are pinned only during an operation; no strong containing World/Level cycle.
++template<class Record,class Projection>
++bool make_noncharacter_record_save_v89(const std::shared_ptr<Record>& actual,Projection project,NonCharacterRestoreServicesV89 leaves,std::shared_ptr<NonCharacterSaveConnectionV89>& out,std::string& e){
++ if(out||!actual||!leaves.owner||!leaves.validate_current||(!leaves.owner.owner_before(actual)&&!actual.owner_before(leaves.owner))){e="Required independent non-Character save authority and SAME actual record";return false;}std::weak_ptr<Record> weak=actual;
++ auto identity=[weak](std::shared_ptr<void>& pin,std::uintptr_t& id,std::string& e){auto same=weak.lock();if(!same||same->constructor_state!=CanonicalConstructorStateV89::completed||!same->owner){e="Required SAME completed actual C1 record for OBJS identity";return false;}pin=std::shared_ptr<void>(same,same->owner.get());using Receiver=typename decltype(same->owner)::element_type;if constexpr(std::is_same_v<Receiver,world::CanonicalLightPointV53>)id=same->owner->identity();else id=same->owner->base().identity();return id!=0;};
++ out=std::make_shared<NonCharacterSaveConnectionV89>([weak,project](std::shared_ptr<void>& pin,NonCharacterSaveFieldsV89& fields,std::string& e){auto same=weak.lock();if(!same||same->constructor_state!=CanonicalConstructorStateV89::completed||!same->owner){e="Required SAME completed actual C1 record for OBJS projection";return false;}pin=std::shared_ptr<void>(same,same->owner.get());return project(*same->owner,fields,e);},std::move(identity),std::move(leaves));e.clear();return true;
++}
++template<class Receiver,class Projection>
++bool make_noncharacter_receiver_save_v89(const std::shared_ptr<Receiver>& actual,Projection project,NonCharacterRestoreServicesV89 leaves,std::shared_ptr<NonCharacterSaveConnectionV89>& out,std::string& e){
++ if(out||!actual||!leaves.owner||!leaves.validate_current||(!leaves.owner.owner_before(actual)&&!actual.owner_before(leaves.owner))){e="Required independent save authority/SAME actual post-C1 receiver";return false;}std::weak_ptr<Receiver> weak=actual;
++ auto identity=[weak](std::shared_ptr<void>& pin,std::uintptr_t& id,std::string& e){auto same=weak.lock();if(!same){e="Required SAME live receiver save identity";return false;}pin=same;if constexpr(std::is_same_v<Receiver,world::CanonicalLightPointV53>)id=same->identity();else id=same->base().identity();return id!=0;};
++ out=std::make_shared<NonCharacterSaveConnectionV89>([weak,project](std::shared_ptr<void>& pin,NonCharacterSaveFieldsV89& f,std::string& e){auto same=weak.lock();if(!same){e="Required SAME live non-Character receiver projection";return false;}pin=same;return project(*same,f,e);},std::move(identity),std::move(leaves));e.clear();return true;
++}
++// Existing SAME generic/scenery graph base borrower for RoomZone/ColBox/Floor
++// and other proven GameObject inherited serializers; no new generic receiver.
++inline bool make_noncharacter_base_save_v89(world::CanonicalBaseBorrowV68 borrow,NonCharacterRestoreServicesV89 leaves,std::shared_ptr<NonCharacterSaveConnectionV89>& out,std::string& e){
++ if(out||!borrow||!leaves.owner||!leaves.validate_current){e="Required existing actual base borrower and genuine save authority";return false;}
++ auto identity=[borrow](std::shared_ptr<void>& pin,std::uintptr_t& id,std::string& e){world::CanonicalGameObjectBaseOwnerV1* base{};if(!borrow(pin,base,e)||!pin||!base)return false;id=base->identity();return id!=0;};
++ out=std::make_shared<NonCharacterSaveConnectionV89>([borrow](std::shared_ptr<void>& pin,NonCharacterSaveFieldsV89& f,std::string& e){world::CanonicalGameObjectBaseOwnerV1* base{};if(!borrow(pin,base,e)||!pin||!base)return false;return gameobject_save_fields_v89(*base,f,e);},std::move(identity),std::move(leaves));e.clear();return true;
++}
++}
+--- a/port/level-loader/canonical_light_point_v53.hpp
++++ b/port/level-loader/canonical_light_point_v53.hpp
+@@ -122,6 +122,8 @@
+  const std::array<float,3>* vector(std::uint32_t)const noexcept;
+  const float* floating(std::uint32_t)const noexcept;
+  const std::uint8_t* byte(std::uint32_t)const noexcept;
++ // SAME produced cell only; never inserts a missing visibility/condition flag.
++ std::uint8_t* source_save_byte_v89(std::uint32_t,std::string&);
+  std::uintptr_t identity()const noexcept{return identity_;}
+  const LightNodeBorrowV53& actual_node()const noexcept{return node_;}
+  bool init_complete()const noexcept{return complete_;}
+--- a/port/level-loader/canonical_light_point_v53.cpp
++++ b/port/level-loader/canonical_light_point_v53.cpp
+@@ -35,6 +35,7 @@
+ const std::array<float,3>* CanonicalLightPointV53::vector(std::uint32_t o)const noexcept{return at(vectors_,o);}
+ const float* CanonicalLightPointV53::floating(std::uint32_t o)const noexcept{return at(floats_,o);}
+ const std::uint8_t* CanonicalLightPointV53::byte(std::uint32_t o)const noexcept{return at(bytes_,o);}
++std::uint8_t* CanonicalLightPointV53::source_save_byte_v89(std::uint32_t offset,std::string& e){if(!writable(e))return nullptr;auto* value=at(bytes_,offset);if(!value)e="Required produced SAME LightPoint ObjectBase save cell";return value;}
+ bool CanonicalLightPointV53::fail(const std::string& n,std::string& e){if(error_.empty())error_=n.empty()?"Actual LightPoint service failed":n;e=error_;return false;}
+ bool CanonicalLightPointV53::init_post(std::string& e){if(!writable(e))return false;
+  if(complete_){e.clear();return true;}if(attempted_)return fail("LightPoint source prefix already attempted; release candidate",e);
+--- a/port/level-world/object_save_restore_v3.hpp
++++ b/port/level-world/object_save_restore_v3.hpp
+@@ -8,6 +8,8 @@
+  std::uint8_t* visible80{};std::uint8_t* enabled8a{};
+  std::uint8_t* tested_ac{};std::uint8_t* tested_d0{};
+  const std::int32_t* archetype270{};const std::uintptr_t* visual2d8{};
++ // Host observation of SAME native visible80 write, no extra stream bytes.
++ bool* visible_produced{};
+ };
+ struct ObjectSaveRestoreRequestV3 {
+  std::uint32_t entry{},argument0{},argument1{};
+--- a/port/level-world/object_save_restore_v3.cpp
++++ b/port/level-world/object_save_restore_v3.cpp
+@@ -8,11 +8,13 @@
+ }
+ bool object_base_serialize_v3(SavegameStreamV2& s,const ObjectSaveRestoreBorrowV3& f,std::string& e){
+  if(!f.identity||!f.visible80||!f.enabled8a)return fail(e,"Required same ObjectBase visible80/enabled8a");
++ if(f.visible_produced&&!*f.visible_produced)return fail(e,"Required source visible80 producer before serialization read");
+  return s.write({f.visible80,1},e)&&s.write({f.enabled8a,1},e);
+ }
+ bool object_base_deserialize_v3(SavegameStreamV2& s,const ObjectSaveRestoreBorrowV3& f,std::string& e){
+  if(!f.identity||!f.visible80||!f.enabled8a)return fail(e,"Required same ObjectBase visible80/enabled8a");
+- if(!s.read(f.visible80,1,e)||!s.read(f.enabled8a,1,e))return false;
++ if(!s.read(f.visible80,1,e))return false;if(f.visible_produced)*f.visible_produced=true;
++ if(!s.read(f.enabled8a,1,e))return false;
+  if(!f.tested_ac)return fail(e,"Required actual ConditionData8c tested+20");*f.tested_ac=0;
+  if(!f.tested_d0)return fail(e,"Required actual ConditionDatab0 tested+20");*f.tested_d0=0;return true;
+ }
+--- /dev/null
++++ b/port/android-native/app/src/main/cpp/renderer_campaign_noncharacter_save_v89.inc
+@@ -0,0 +1,61 @@
++// Include INSIDE model_renderer namespace AFTER renderer_campaign_noncharacter_v69.inc.
++// Outside namespace include source_campaign_save_objects_v86.hpp,
++// source_campaign_fx_v77.hpp and noncharacter_save_connection_v89.hpp.
++using SourceNonCharacterRestoreLenderV89=std::function<bool(std::uintptr_t,dh2::loader::NonCharacterRestoreServicesV89&,std::string&)>;
++struct NonCharacterGameObjectRestoreContextV89 {std::weak_ptr<RendererCampaignNonCharacterV69> renderer;std::uintptr_t identity{};};
++struct NonCharacterSaveDispatchV89 {
++ std::weak_ptr<RendererCampaignNonCharacterV69> renderer;
++ std::weak_ptr<dh2::loader::SourceReleaseJournalV69> journal;
++ std::weak_ptr<void> world;dh2::world::CanonicalObjectBorrowV1 actual;
++ SourceNonCharacterRestoreLenderV89 native;
++ std::shared_ptr<dh2::loader::NonCharacterSaveConnectionV89> generic; // this SAME per-call context only
++ bool connection(std::shared_ptr<dh2::loader::NonCharacterSaveConnectionV89>& out,std::string& e){
++  auto self=renderer.lock();auto release=journal.lock();auto actual_world=world.lock();
++  if(!self||!release||!actual_world||!self->current(e)){if(e.empty())e="Required SAME non-Character save composition lifetime";return false;}
++  dh2::loader::NonCharacterRestoreServicesV89 services;if(native&&!native(actual.identity,services,e))return false;
++  if(!services.owner)services.owner=self->files;
++  auto independent=[&](const auto& containing){return !containing||services.owner.owner_before(containing)||containing.owner_before(services.owner);};
++  if(!independent(actual_world)||!independent(self->scope.level.lock())||!independent(self->scope.objects.lock())){e="Restore service authority must not retain containing World/Level/manager";return false;}const auto identity=actual.identity;auto weak_renderer=renderer;auto weak_journal=journal;
++  auto prior_current=services.validate_current;services.validate_current=[weak_renderer,weak_journal,prior_current](std::uintptr_t id,std::string& e){auto self=weak_renderer.lock();auto journal=weak_journal.lock();if(!self||!journal||!self->current(e))return false;if(journal->handles_identity(id)&&!journal->validate_serialization_identity(id,e))return false;return !prior_current||prior_current(id,e);};
++  if(!services.level_flags)services.level_flags=[weak_renderer](auto& out,std::string& e){auto self=weak_renderer.lock();auto level=self?self->scope.level.lock():nullptr;if(!self||!level||!self->current(e)){if(e.empty())e="Required actual current Level flags for non-Character restore";return false;}auto fields=level->constructor_borrow_v3();if(!fields.owner||fields.identity!=level->identity()||!fields.fields){e="Required SAME Level constructor flags";return false;}out.owner=fields.owner;out.bytef3=&fields.fields->byte_f3;out.bytef4=&fields.fields->byte_f4;return true;};
++  if(!services.gameobject.invoke){auto context=std::make_shared<NonCharacterGameObjectRestoreContextV89>();context->renderer=renderer;context->identity=identity;services.gameobject_context_owner=context;services.gameobject.context=context.get();services.gameobject.invoke=[](void* raw,const auto& request,std::string& e){auto& dispatch=*static_cast<NonCharacterGameObjectRestoreContextV89*>(raw);auto self=dispatch.renderer.lock();std::shared_ptr<void> pin;dh2::world::CanonicalGameObjectBaseOwnerV1* base{};
++    if(request.entry!=0x4713d0){e="Required genuine Main saved-archetype mismatch assertion";return false;}
++    if(!self||!self->current(e)||request.payload!=dispatch.identity||!self->borrow(dispatch.identity,pin,base,e)||!base||!base->pointer(0x2d8)||*base->pointer(0x2d8)!=request.subject){if(e.empty())e="Required SAME actual restored visual2d8";return false;}return self->source_visibility(*base,e);};}
++  if(!services.play_animation)services.play_animation=[weak_renderer](std::uintptr_t visual,const char* name,unsigned arg2,unsigned arg3,unsigned arg4,bool& result,std::string& e){auto self=weak_renderer.lock();std::shared_ptr<dh2::world::RetainedGameObjectVisualV1> actual;if(arg3||arg4){e="Unrecovered nonzero native restore animator arguments";return false;}return self&&self->actual_visual(visual,actual,e)&&actual->play(name,arg2!=0,result,e);};
++  if(release->handles_identity(identity))return release->save_connection(identity,std::move(services),out,e);
++  // Existing Root-owned Module/Block/Config or optional generic family. Only
++  // proven GameObject inherited payloads are supplied; unknown stays required
++  // at actual Save/Load, never skipped from metadata/checkpoint filtering.
++  if(generic){out=generic;return true;}
++  dh2::world::CanonicalBaseBorrowV68 borrow=[weak_renderer,identity](auto& pin,auto*& base,std::string& e){auto self=weak_renderer.lock();return self&&self->current(e)&&self->borrow(identity,pin,base,e);};
++  std::shared_ptr<void> pin;dh2::world::CanonicalGameObjectBaseOwnerV1* base{};if(!borrow(pin,base,e)||!base||!base->class_name20()){if(e.empty())e="Required actual generic sameclass serialization producer";return false;}
++  const std::string name=base->class_name20();if(name!="RoomZone"&&name!="ColBox"&&name!="Floor"&&name!="GameObject"&&name!="TriggerTrap"){e="Required native serializer for actual nonjournal class "+name;return false;}
++  if(!dh2::loader::make_noncharacter_base_save_v89(std::move(borrow),std::move(services),generic,e))return false;out=generic;return true;
++ }
++ bool deliver(bool load,dh2::level::SavegameStreamV2& stream,std::string& e){
++  std::shared_ptr<dh2::loader::NonCharacterSaveConnectionV89> body;if(!connection(body,e))return false;
++  dh2::level::LevelSaveObjectBorrowV2 object;object.identity=reinterpret_cast<const void*>(actual.identity);object.context=this;
++  object.is_character=[](void* raw,bool& value,std::string& e){auto& same=*static_cast<NonCharacterSaveDispatchV89*>(raw);std::uintptr_t result{};if(!same.actual.as_character||!same.actual.as_character(same.actual.context,result,e))return false;value=result!=0;return true;};
++  object.is_player=[](void*,bool&,std::string& e){e="Native non-Character IsPlayer branch is not reached";return false;};
++  if(!body->bind_methods(object,e))return false;return load?object.load(object.context,stream,e):object.save(object.context,stream,e);
++ }
++};
++bool bind_campaign_noncharacter_saved_objects_v89(const SourceCampaignCandidateBorrowV55& actual,
++ const RendererCampaignNonCharacterCompositionV69& composition,const std::shared_ptr<dh2::loader::SourceReleaseJournalV69>& journal,
++ SourceNonCharacterRestoreLenderV89 native,std::string& e){
++ if(!actual.actual_world||!composition.services||!journal){e="Required actual V69 composition/journal before OBJS enrollment";return false;}
++ std::weak_ptr<void> world=actual.actual_world;std::weak_ptr<RendererCampaignNonCharacterV69> renderer=composition.services;std::weak_ptr<dh2::loader::SourceReleaseJournalV69> weak_journal=journal;
++ return bind_source_campaign_noncharacter_saved_objects_v86(actual.actual_world,journal,[world,renderer,weak_journal,native=std::move(native)](std::uintptr_t id,auto& out,std::string& e){
++  auto actual_world=world.lock();auto self=renderer.lock();auto journal=weak_journal.lock();SourceCampaignCandidateBorrowV55 current;
++  if(!actual_world||!self||!journal||!self->current(e)||!borrow_source_campaign_candidate_runtime_v61(current,e)||current.actual_world!=actual_world||!current.objects)return false;
++  const dh2::world::CanonicalObjectBorrowV1* found{};std::int32_t key{};const dh2::world::CanonicalObjectBorrowV1* object{};bool more=current.objects->source_ordered_begin_v38(key,object);
++  while(more){if(object&&object->identity==id){found=object;break;}more=current.objects->source_ordered_next_v38(key,key,object);}if(!found||!found->lease){e="Required SAME actual canonical non-Character map receiver";return false;}
++  auto dispatch=std::make_shared<NonCharacterSaveDispatchV89>();dispatch->renderer=renderer;dispatch->journal=weak_journal;dispatch->world=world;dispatch->actual=*found;dispatch->native=native;
++  if(journal->handles_identity(id)){if(!journal->save_header(id,out,e))return false;}
++  else {std::shared_ptr<void> pin;dh2::world::CanonicalGameObjectBaseOwnerV1* base{};if(!borrow_source_campaign_object_base_v77(current,id,pin,base,e)||!base)return false;out={};out.identity=reinterpret_cast<const void*>(id);out.checkpoint28=base->byte(0x28);out.gametype48=base->string(0x48);out.map_name=base->string(0x30);out.room64=found->room64;out.disabled81=base->byte(0x81);}
++  out.context=dispatch.get();out.receiver_lease_v86=dispatch;
++  out.is_character=[](void* raw,bool& value,std::string& e){auto& same=*static_cast<NonCharacterSaveDispatchV89*>(raw);std::uintptr_t result{};if(!same.actual.as_character||!same.actual.as_character(same.actual.context,result,e))return false;value=result!=0;return true;};
++  out.is_player=[](void*,bool&,std::string& e){e="Native non-Character IsPlayer branch is not reached";return false;};
++  out.save=[](void* raw,auto& stream,std::string& e){return static_cast<NonCharacterSaveDispatchV89*>(raw)->deliver(false,stream,e);};out.load=[](void* raw,auto& stream,std::string& e){return static_cast<NonCharacterSaveDispatchV89*>(raw)->deliver(true,stream,e);};e.clear();return true;
++ },e);
++}

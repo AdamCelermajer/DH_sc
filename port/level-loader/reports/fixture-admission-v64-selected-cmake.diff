@@ -1,0 +1,114 @@
+--- a/tests/cmake-receiver-transport/CMakeLists.txt
++++ b/tests/cmake-receiver-transport/CMakeLists.txt
+@@ -171,7 +171,7 @@
+ target_compile_options(dh2_loader_retained_module_graph PRIVATE -Wall -Wextra -Werror -Wno-misleading-indentation)
+ target_include_directories(dh2_loader_retained_module_graph PUBLIC "${graph_snapshot}/port/level-loader" "${loader}")
+ target_link_libraries(dh2_loader_retained_module_graph PUBLIC dh2_loader_module_draw_frame dh2_loader_coherent_level_context dh2_loader_canonical_module_files)
+-add_executable(dh2_loader_module_graph_source_probe "${loader}/tests/canonical_module_graph_source_probe.cpp")
++add_executable(dh2_loader_module_graph_source_probe "${loader}/candidate/fixture-admission-repair-v64/successors/canonical_module_graph_source_probe_admission_v64.cpp")
+ target_compile_options(dh2_loader_module_graph_source_probe PRIVATE -Wall -Wextra -Werror -Wno-misleading-indentation -UNDEBUG)
+ target_link_libraries(dh2_loader_module_graph_source_probe PRIVATE dh2_loader_openable_graph_owners dh2_loader_retained_module_graph)
+ target_link_options(dh2_loader_module_graph_source_probe PRIVATE -Wl,--gc-sections -Wl,--no-undefined)
+@@ -286,7 +286,7 @@
+ target_link_libraries(dh2_loader_dummy_source_probe PRIVATE dh2_loader_character_rng_owners)
+ target_link_options(dh2_loader_dummy_source_probe PRIVATE -Wl,--gc-sections -Wl,--no-undefined)
+ 
+-add_executable(dh2_loader_same_level_ctor_probe "${graph_snapshot}/port/level-loader/tests/canonical_level_constructor_v3.cpp")
++add_executable(dh2_loader_same_level_ctor_probe "${loader}/candidate/fixture-admission-repair-v64/successors/canonical_level_constructor_v3_admission_v64.cpp")
+ target_compile_options(dh2_loader_same_level_ctor_probe PRIVATE -Wall -Wextra -Werror -Wno-misleading-indentation -UNDEBUG)
+ target_link_libraries(dh2_loader_same_level_ctor_probe PRIVATE dh2_loader_coherent_level_context)
+ target_link_options(dh2_loader_same_level_ctor_probe PRIVATE -Wl,--gc-sections -Wl,--no-undefined)
+@@ -323,7 +323,7 @@
+ target_include_directories(dh2_loader_native_ctor_bindings PUBLIC "${graph_snapshot}/port/level-loader" "${graph_snapshot}/port/level-world")
+ target_compile_options(dh2_loader_native_ctor_bindings PRIVATE -Wall -Wextra -Werror -Wno-misleading-indentation -ffunction-sections -fdata-sections)
+ target_link_libraries(dh2_loader_native_ctor_bindings PUBLIC dh2_loader_coherent_level_context dh2_loader_character_rng_owners dh2_script_runtime)
+-add_executable(dh2_loader_native_ctor_bindings_probe "${graph_snapshot}/port/level-loader/tests/level_constructor_bindings_v4.cpp")
++add_executable(dh2_loader_native_ctor_bindings_probe "${loader}/candidate/fixture-admission-repair-v64/successors/level_constructor_bindings_v4_admission_v64.cpp")
+ target_compile_options(dh2_loader_native_ctor_bindings_probe PRIVATE -Wall -Wextra -Werror -Wno-misleading-indentation -UNDEBUG)
+ target_link_libraries(dh2_loader_native_ctor_bindings_probe PRIVATE dh2_loader_native_ctor_bindings)
+ target_link_options(dh2_loader_native_ctor_bindings_probe PRIVATE -Wl,--gc-sections -Wl,--no-undefined)
+@@ -366,7 +366,7 @@
+ 
+ target_sources(dh2_loader_character_rng_owners PRIVATE "${graph_snapshot}/port/level-world/canonical_exit_zone_v29.cpp")
+ 
+-add_executable(dh2_loader_preview_entity_export_v30 ../canonical_preview_entity_export_v30.cpp)
++add_executable(dh2_loader_preview_entity_export_v30 "${loader}/candidate/fixture-admission-repair-v64/successors/canonical_preview_entity_export_v30_admission_v64.cpp")
+ target_link_libraries(dh2_loader_preview_entity_export_v30 PRIVATE dh2_loader_openable_graph_owners dh2_loader_retained_module_graph)
+ 
+ target_include_directories(dh2_loader_preview_entity_export_v30 BEFORE PRIVATE "$<TARGET_PROPERTY:dh2_loader_module_graph_source_probe,INCLUDE_DIRECTORIES>")
+@@ -401,7 +401,7 @@
+  target_include_directories(dh2_loader_generic_renderer_input_v37 BEFORE PUBLIC "${graph_snapshot}/port/level-loader" "${graph_snapshot}/port/level-world" "${graph_snapshot}/port/scene-materials" "${loader}")
+  target_compile_options(dh2_loader_generic_renderer_input_v37 PRIVATE -Wall -Wextra -Werror -Wno-misleading-indentation)
+  target_link_libraries(dh2_loader_generic_renderer_input_v37 PUBLIC ${source_probe_links})
+- add_executable(dh2_loader_integrated_loading_v37_probe "${loader}/tests/canonical_loading_context_source_probe_v37.cpp")
++ add_executable(dh2_loader_integrated_loading_v37_probe "${loader}/candidate/fixture-admission-repair-v64/successors/canonical_loading_context_source_probe_v37_admission_v64.cpp")
+  target_compile_features(dh2_loader_integrated_loading_v37_probe PRIVATE cxx_std_17)
+  target_compile_options(dh2_loader_integrated_loading_v37_probe PRIVATE -Wall -Wextra -Werror -Wno-misleading-indentation -UNDEBUG)
+  target_link_libraries(dh2_loader_integrated_loading_v37_probe PRIVATE ${source_probe_links} dh2_loader_lifecycle_v36 dh2_loader_generic_renderer_input_v37)
+@@ -422,7 +422,7 @@
+   "${loader}/generic_actor_draw_submission_v38.cpp"
+   "${loader}/scene_material_slot_v39.cpp"
+   "${loader}/render_eligibility_v40.cpp")
+- add_executable(dh2_loader_source_visual_helper_v41_probe "${loader}/tests/source_visual_helper_v41_probe.cpp")
++ add_executable(dh2_loader_source_visual_helper_v41_probe "${loader}/candidate/fixture-admission-repair-v64/successors/source_visual_helper_v41_probe_admission_v64.cpp")
+  target_compile_features(dh2_loader_source_visual_helper_v41_probe PRIVATE cxx_std_17)
+  target_compile_options(dh2_loader_source_visual_helper_v41_probe PRIVATE -Wall -Wextra -Werror -Wno-misleading-indentation -UNDEBUG)
+  target_link_libraries(dh2_loader_source_visual_helper_v41_probe PRIVATE ${source_probe_links} dh2_loader_generic_renderer_input_v37)
+@@ -431,7 +431,7 @@
+ 
+ if(EXISTS "${graph_snapshot}/port/level-world/character_model_name_v38.cpp")
+ # Parent adds after verifying/rebuilding coherent V5 selected owners.
+-add_executable(dh2_loader_character_swamp_model_v40_probe "${loader}/tests/character_swamp_model_v40_probe.cpp")
++add_executable(dh2_loader_character_swamp_model_v40_probe "${loader}/candidate/fixture-admission-repair-v64/successors/character_swamp_model_v40_probe_admission_v64.cpp")
+ target_compile_features(dh2_loader_character_swamp_model_v40_probe PRIVATE cxx_std_17)
+ target_compile_options(dh2_loader_character_swamp_model_v40_probe PRIVATE -Wall -Wextra -Werror -Wno-misleading-indentation -UNDEBUG)
+ target_link_libraries(dh2_loader_character_swamp_model_v40_probe PRIVATE ${source_probe_links} dh2_loader_lifecycle_v36 dh2_loader_generic_renderer_input_v37)
+@@ -449,7 +449,7 @@
+  target_compile_options(dh2_loader_source_loading_v43 PRIVATE -Wall -Wextra -Werror -Wno-misleading-indentation)
+  target_link_libraries(dh2_loader_source_loading_v43 PUBLIC ${source_probe_links} dh2_loader_lifecycle_v36)
+  if(EXISTS "${loader}/tests/source_stage_swamp_v40.cpp")
+-  add_executable(dh2_loader_source_stage_swamp_v40 "${loader}/tests/source_stage_swamp_v40.cpp")
++  add_executable(dh2_loader_source_stage_swamp_v40 "${loader}/candidate/fixture-admission-repair-v64/successors/source_stage_swamp_v40_admission_v64.cpp")
+   target_compile_features(dh2_loader_source_stage_swamp_v40 PRIVATE cxx_std_17)
+   target_compile_options(dh2_loader_source_stage_swamp_v40 PRIVATE -Wall -Wextra -Werror -Wno-misleading-indentation -UNDEBUG)
+   target_link_libraries(dh2_loader_source_stage_swamp_v40 PRIVATE dh2_loader_source_loading_v43)
+@@ -462,7 +462,7 @@
+ target_compile_options(dh2_loader_cancel_reentry_v43 PRIVATE -Wall -Wextra -Werror -UNDEBUG)
+ target_link_libraries(dh2_loader_cancel_reentry_v43 PRIVATE dh2_loader_lifecycle_v36)
+ 
+-add_executable(dh2_loader_dynamic_module_v44 "${loader}/tests/dynamic_module_source_v44.cpp")
++add_executable(dh2_loader_dynamic_module_v44 "${loader}/candidate/fixture-admission-repair-v64/successors/dynamic_module_source_v44_admission_v64.cpp")
+ target_compile_features(dh2_loader_dynamic_module_v44 PRIVATE cxx_std_17)
+ target_compile_options(dh2_loader_dynamic_module_v44 PRIVATE -Wall -Wextra -Werror -Wno-misleading-indentation -UNDEBUG)
+ target_link_libraries(dh2_loader_dynamic_module_v44 PRIVATE dh2_loader_source_loading_v43)
+@@ -496,18 +496,18 @@
+ target_include_directories(dh2_loader_actor_image_v45 BEFORE PUBLIC "${graph_snapshot}/port/level-loader" "${graph_snapshot}/port/level-world" "${graph_snapshot}/port/scene-materials" "${graph_snapshot}/port/asset-payloads" "${graph_snapshot}/port/engine-resources" "${loader}")
+ target_compile_options(dh2_loader_actor_image_v45 PRIVATE -Wall -Wextra -Werror -Wno-misleading-indentation)
+ target_link_libraries(dh2_loader_actor_image_v45 PUBLIC dh2_loader_generic_renderer_input_v37)
+-add_executable(dh2_loader_actor_image_v45_probe "${loader}/tests/generic_actor_image_binding_v45_probe.cpp")
++add_executable(dh2_loader_actor_image_v45_probe "${loader}/candidate/fixture-admission-repair-v64/successors/generic_actor_image_binding_v45_probe_admission_v64.cpp")
+ target_compile_features(dh2_loader_actor_image_v45_probe PRIVATE cxx_std_17)
+ target_compile_options(dh2_loader_actor_image_v45_probe PRIVATE -Wall -Wextra -Werror -Wno-misleading-indentation -UNDEBUG)
+ target_link_libraries(dh2_loader_actor_image_v45_probe PRIVATE dh2_loader_actor_image_v45 dh2_loader_lifecycle_v36)
+ target_link_options(dh2_loader_actor_image_v45_probe PRIVATE -Wl,--gc-sections -Wl,--no-undefined)
+ 
+-add_executable(dh2_loader_source_stage_swamp_v47 "${loader}/tests/source_stage_swamp_v47.cpp")
++add_executable(dh2_loader_source_stage_swamp_v47 "${loader}/candidate/fixture-admission-repair-v64/successors/source_stage_swamp_v47_admission_v64.cpp")
+ target_compile_features(dh2_loader_source_stage_swamp_v47 PRIVATE cxx_std_17)
+ target_compile_options(dh2_loader_source_stage_swamp_v47 PRIVATE -Wall -Wextra -Werror -Wno-misleading-indentation -UNDEBUG)
+ target_link_libraries(dh2_loader_source_stage_swamp_v47 PRIVATE dh2_loader_source_loading_v43)
+ target_link_options(dh2_loader_source_stage_swamp_v47 PRIVATE -Wl,--gc-sections -Wl,--no-undefined)
+-add_executable(dh2_loader_integrated_loading_v47_probe "${loader}/tests/canonical_loading_context_source_probe_v47.cpp")
++add_executable(dh2_loader_integrated_loading_v47_probe "${loader}/candidate/fixture-admission-repair-v64/successors/canonical_loading_context_source_probe_v47_admission_v64.cpp")
+ target_compile_features(dh2_loader_integrated_loading_v47_probe PRIVATE cxx_std_17)
+ target_compile_options(dh2_loader_integrated_loading_v47_probe PRIVATE -Wall -Wextra -Werror -Wno-misleading-indentation -UNDEBUG)
+ target_link_libraries(dh2_loader_integrated_loading_v47_probe PRIVATE ${source_probe_links} dh2_loader_lifecycle_v36 dh2_loader_generic_renderer_input_v37)
+@@ -533,7 +533,7 @@
+ target_compile_options(dh2_loader_character_spawn_name_v48 PRIVATE -Wall -Wextra -Werror -Wno-misleading-indentation -UNDEBUG)
+ target_link_libraries(dh2_loader_character_spawn_name_v48 PRIVATE ${source_probe_links})
+ target_link_options(dh2_loader_character_spawn_name_v48 PRIVATE -Wl,--gc-sections -Wl,--no-undefined)
+-add_executable(dh2_loader_actor_image_lifetime_v48_probe "${loader}/tests/generic_actor_image_lifetime_v48_probe.cpp" "${loader}/reference/main-budget-binding-v46/byte_free_observer_v46.cpp")
++add_executable(dh2_loader_actor_image_lifetime_v48_probe "${loader}/candidate/fixture-admission-repair-v64/successors/generic_actor_image_lifetime_v48_probe_admission_v64.cpp" "${loader}/reference/main-budget-binding-v46/byte_free_observer_v46.cpp")
+ target_compile_features(dh2_loader_actor_image_lifetime_v48_probe PRIVATE cxx_std_17)
+ target_compile_options(dh2_loader_actor_image_lifetime_v48_probe PRIVATE -Wall -Wextra -Werror -Wno-misleading-indentation -UNDEBUG)
+ target_link_libraries(dh2_loader_actor_image_lifetime_v48_probe PRIVATE dh2_loader_actor_image_v45 dh2_loader_lifecycle_v36)

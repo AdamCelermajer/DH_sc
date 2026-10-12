@@ -1,0 +1,595 @@
+{
+  "validation": "PASS",
+  "scope": "Execute original Level::LoadFile from an already-ready raw-buffer state.\n\nOriginal LoadFromBuffer normalization/parser, top-level IterateChildren,\nroot-name comparisons, element-only child traversal and document destruction\nexecute. Initial path/open/async stream handling is outside this domain.\nPer-element Level::_LoadFromXML and load-state destructor are service boundaries;\nno gameplay factory, condition evaluator, activation or persistent state runs.\n",
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cache_sha256": null,
+  "script_sha256": "0324f8757d033fa3dcc7d711d03fb4254a2106a3336db1064f4800d8ff8f3e15",
+  "parser_helper_sha256": "d856a3d96331f1f65e6225e7889efbd3cc5633215bd043acd880a19681a39209",
+  "capture_sha256": {
+    "reference/loader-functions/003f3b40.asm": "d106e8d49ea8a8390d0fbb25ebe7c4ce2ac52768942494b1358f8d1cc51e43e8",
+    "reference/loader-functions/005164a8.asm": "3492035229284bcddd8ae42619894a5d0fffef8612525fc0190229ed298869a2"
+  },
+  "fixtures": [
+    {
+      "label": "single",
+      "requested": "Module",
+      "raw_sha256": "6198e5219f2e3ad0cc540c42ab5739c048d44252e3bd4f3d25347d05af5fd7a4",
+      "raw_length": 56,
+      "parse_success": true,
+      "original_xml_error": 0,
+      "calls": [
+        {
+          "returned": false,
+          "event_count": 1,
+          "load_state_present": true
+        },
+        {
+          "returned": false,
+          "event_count": 1,
+          "load_state_present": true
+        },
+        {
+          "returned": false,
+          "event_count": 0,
+          "load_state_present": true
+        },
+        {
+          "returned": true,
+          "event_count": 1,
+          "load_state_present": false
+        }
+      ],
+      "events": [
+        {
+          "call": 0,
+          "kind": "parse_result",
+          "success": true,
+          "error": 0
+        },
+        {
+          "call": 1,
+          "kind": "load_element",
+          "element": {
+            "tag": "GameObject",
+            "attributes": {
+              "gametype": "Decor",
+              "name": "a"
+            },
+            "children": []
+          }
+        },
+        {
+          "call": 3,
+          "kind": "release_load_state"
+        }
+      ],
+      "unsafe": null
+    },
+    {
+      "label": "comments",
+      "requested": "Module",
+      "raw_sha256": "9d7d87ee543a0f4d4459e34c2a3cb1aa102b718a518f72eb98bf113e5126df79",
+      "raw_length": 136,
+      "parse_success": true,
+      "original_xml_error": 0,
+      "calls": [
+        {
+          "returned": false,
+          "event_count": 1,
+          "load_state_present": true
+        },
+        {
+          "returned": false,
+          "event_count": 0,
+          "load_state_present": true
+        },
+        {
+          "returned": false,
+          "event_count": 1,
+          "load_state_present": true
+        },
+        {
+          "returned": false,
+          "event_count": 1,
+          "load_state_present": true
+        },
+        {
+          "returned": false,
+          "event_count": 0,
+          "load_state_present": true
+        },
+        {
+          "returned": true,
+          "event_count": 1,
+          "load_state_present": false
+        }
+      ],
+      "events": [
+        {
+          "call": 0,
+          "kind": "parse_result",
+          "success": true,
+          "error": 0
+        },
+        {
+          "call": 2,
+          "kind": "load_element",
+          "element": {
+            "tag": "GameObject",
+            "attributes": {
+              "name": "a",
+              "gametype": "Decor"
+            },
+            "children": []
+          }
+        },
+        {
+          "call": 3,
+          "kind": "load_element",
+          "element": {
+            "tag": "GameObject",
+            "attributes": {
+              "name": "b",
+              "gametype": "Decor"
+            },
+            "children": []
+          }
+        },
+        {
+          "call": 5,
+          "kind": "release_load_state"
+        }
+      ],
+      "unsafe": null
+    },
+    {
+      "label": "multiple_roots",
+      "requested": "Module",
+      "raw_sha256": "4f3e0c4eb97c7c3a1b6927781b255ca4170cbd646cc7c60d1a665954cb74b0ca",
+      "raw_length": 120,
+      "parse_success": true,
+      "original_xml_error": 0,
+      "calls": [
+        {
+          "returned": false,
+          "event_count": 1,
+          "load_state_present": true
+        },
+        {
+          "returned": false,
+          "event_count": 0,
+          "load_state_present": true
+        },
+        {
+          "returned": false,
+          "event_count": 1,
+          "load_state_present": true
+        },
+        {
+          "returned": false,
+          "event_count": 0,
+          "load_state_present": true
+        },
+        {
+          "returned": false,
+          "event_count": 1,
+          "load_state_present": true
+        },
+        {
+          "returned": false,
+          "event_count": 0,
+          "load_state_present": true
+        },
+        {
+          "returned": true,
+          "event_count": 1,
+          "load_state_present": false
+        }
+      ],
+      "events": [
+        {
+          "call": 0,
+          "kind": "parse_result",
+          "success": true,
+          "error": 0
+        },
+        {
+          "call": 2,
+          "kind": "load_element",
+          "element": {
+            "tag": "GameObject",
+            "attributes": {
+              "name": "a",
+              "gametype": "Decor"
+            },
+            "children": []
+          }
+        },
+        {
+          "call": 4,
+          "kind": "load_element",
+          "element": {
+            "tag": "GameObject",
+            "attributes": {
+              "name": "b",
+              "gametype": "Decor"
+            },
+            "children": []
+          }
+        },
+        {
+          "call": 6,
+          "kind": "release_load_state"
+        }
+      ],
+      "unsafe": null
+    },
+    {
+      "label": "no_matching_root",
+      "requested": "Level",
+      "raw_sha256": "f43e14763350419bf88b090de4df92add0a4ba9355d9e0325901b16943b63146",
+      "raw_length": 56,
+      "parse_success": false,
+      "original_xml_error": 4,
+      "calls": [
+        {
+          "returned": true,
+          "event_count": 1,
+          "load_state_present": true
+        }
+      ],
+      "events": [
+        {
+          "call": 0,
+          "kind": "parse_result",
+          "success": false,
+          "error": 4
+        }
+      ],
+      "unsafe": null,
+      "failure_cleanup_poll": {
+        "returned": true,
+        "events": [
+          {
+            "call": 1,
+            "kind": "release_load_state"
+          }
+        ],
+        "load_state_present": false
+      }
+    },
+    {
+      "label": "empty_matching_root",
+      "requested": "Module",
+      "raw_sha256": "c22454b9ae18e52720a6adb9e684722175e4987739e2d83c0aaa9f1b9397daa2",
+      "raw_length": 9,
+      "parse_success": true,
+      "original_xml_error": 0,
+      "calls": [
+        {
+          "returned": false,
+          "event_count": 1,
+          "load_state_present": true
+        },
+        {
+          "returned": false,
+          "event_count": 0,
+          "load_state_present": true
+        },
+        {
+          "returned": true,
+          "event_count": 1,
+          "load_state_present": false
+        }
+      ],
+      "events": [
+        {
+          "call": 0,
+          "kind": "parse_result",
+          "success": true,
+          "error": 0
+        },
+        {
+          "call": 2,
+          "kind": "release_load_state"
+        }
+      ],
+      "unsafe": null
+    },
+    {
+      "label": "root_case",
+      "requested": "module",
+      "raw_sha256": "f43e14763350419bf88b090de4df92add0a4ba9355d9e0325901b16943b63146",
+      "raw_length": 56,
+      "parse_success": false,
+      "original_xml_error": 4,
+      "calls": [
+        {
+          "returned": true,
+          "event_count": 1,
+          "load_state_present": true
+        }
+      ],
+      "events": [
+        {
+          "call": 0,
+          "kind": "parse_result",
+          "success": false,
+          "error": 4
+        }
+      ],
+      "unsafe": null,
+      "failure_cleanup_poll": {
+        "returned": true,
+        "events": [
+          {
+            "call": 1,
+            "kind": "release_load_state"
+          }
+        ],
+        "load_state_present": false
+      }
+    },
+    {
+      "label": "empty_input",
+      "requested": "Module",
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_length": 0,
+      "parse_success": false,
+      "original_xml_error": 13,
+      "calls": [
+        {
+          "returned": true,
+          "event_count": 1,
+          "load_state_present": true
+        }
+      ],
+      "events": [
+        {
+          "call": 0,
+          "kind": "parse_result",
+          "success": false,
+          "error": 13
+        }
+      ],
+      "unsafe": null,
+      "failure_cleanup_poll": {
+        "returned": true,
+        "events": [
+          {
+            "call": 1,
+            "kind": "release_load_state"
+          }
+        ],
+        "load_state_present": false
+      }
+    },
+    {
+      "label": "bad_close",
+      "requested": "Module",
+      "raw_sha256": "efd5b43de8b532bb8dd7a26ace5dac8eff3cd1e0adfa51aadb2f304c69041ac5",
+      "raw_length": 55,
+      "parse_success": false,
+      "original_xml_error": 9,
+      "calls": [
+        {
+          "returned": true,
+          "event_count": 1,
+          "load_state_present": true
+        }
+      ],
+      "events": [
+        {
+          "call": 0,
+          "kind": "parse_result",
+          "success": false,
+          "error": 9
+        }
+      ],
+      "unsafe": null,
+      "failure_cleanup_poll": {
+        "returned": true,
+        "events": [
+          {
+            "call": 1,
+            "kind": "release_load_state"
+          }
+        ],
+        "load_state_present": false
+      }
+    },
+    {
+      "label": "newline_attributes",
+      "requested": "Module",
+      "raw_sha256": "ce707b5b737c671675da571bdab74bec32e9bda6185e280ab6278efa941adfdf",
+      "raw_length": 66,
+      "parse_success": true,
+      "original_xml_error": 0,
+      "calls": [
+        {
+          "returned": false,
+          "event_count": 1,
+          "load_state_present": true
+        },
+        {
+          "returned": false,
+          "event_count": 1,
+          "load_state_present": true
+        },
+        {
+          "returned": false,
+          "event_count": 0,
+          "load_state_present": true
+        },
+        {
+          "returned": true,
+          "event_count": 1,
+          "load_state_present": false
+        }
+      ],
+      "events": [
+        {
+          "call": 0,
+          "kind": "parse_result",
+          "success": true,
+          "error": 0
+        },
+        {
+          "call": 1,
+          "kind": "load_element",
+          "element": {
+            "tag": "GameObject",
+            "attributes": {
+              "name": "a\nb\nc\nd",
+              "gametype": "Decor"
+            },
+            "children": []
+          }
+        },
+        {
+          "call": 3,
+          "kind": "release_load_state"
+        }
+      ],
+      "unsafe": null
+    },
+    {
+      "label": "declaration",
+      "requested": "Module",
+      "raw_sha256": "96286662d02b92512dbb303d0cafb063212e489c0a0f696830c07296eb529784",
+      "raw_length": 77,
+      "parse_success": true,
+      "original_xml_error": 0,
+      "calls": [
+        {
+          "returned": false,
+          "event_count": 1,
+          "load_state_present": true
+        },
+        {
+          "returned": false,
+          "event_count": 0,
+          "load_state_present": true
+        },
+        {
+          "returned": false,
+          "event_count": 1,
+          "load_state_present": true
+        },
+        {
+          "returned": false,
+          "event_count": 0,
+          "load_state_present": true
+        },
+        {
+          "returned": true,
+          "event_count": 1,
+          "load_state_present": false
+        }
+      ],
+      "events": [
+        {
+          "call": 0,
+          "kind": "parse_result",
+          "success": true,
+          "error": 0
+        },
+        {
+          "call": 2,
+          "kind": "load_element",
+          "element": {
+            "tag": "GameObject",
+            "attributes": {
+              "name": "a",
+              "gametype": "Decor"
+            },
+            "children": []
+          }
+        },
+        {
+          "call": 4,
+          "kind": "release_load_state"
+        }
+      ],
+      "unsafe": null
+    },
+    {
+      "label": "declaration_only",
+      "requested": "Module",
+      "raw_sha256": "6e4d52d03353c231eb0f8506b412a9bce6d3f991fd26b132425e92ebe4221d31",
+      "raw_length": 21,
+      "parse_success": true,
+      "original_xml_error": 0,
+      "calls": [
+        {
+          "returned": false,
+          "event_count": 1,
+          "load_state_present": true
+        },
+        {
+          "returned": false,
+          "event_count": 0,
+          "load_state_present": true
+        },
+        {
+          "returned": true,
+          "event_count": 1,
+          "load_state_present": false
+        }
+      ],
+      "events": [
+        {
+          "call": 0,
+          "kind": "parse_result",
+          "success": true,
+          "error": 0
+        },
+        {
+          "call": 2,
+          "kind": "release_load_state"
+        }
+      ],
+      "unsafe": null
+    },
+    {
+      "label": "comment_matches_root",
+      "requested": "Module",
+      "raw_sha256": "db9f123df54810faac14170f7d48d938c091c8c4792c121ff30441e75d6af563",
+      "raw_length": 22,
+      "parse_success": true,
+      "original_xml_error": 0,
+      "calls": [],
+      "events": [
+        {
+          "call": 0,
+          "kind": "parse_result",
+          "success": true,
+          "error": 0
+        },
+        {
+          "call": 0,
+          "kind": "unsafe_null_first_child_element"
+        }
+      ],
+      "unsafe": "Top-level non-element value matched requested root"
+    }
+  ],
+  "cache_files": [],
+  "fixture_source": {
+    "single": "<Module><GameObject gametype=\"Decor\" name=\"a\"/></Module>",
+    "comments": "<!--metadata--><Module><!--before--><GameObject name=\"a\" gametype=\"Decor\"/><!--middle--><GameObject name=\"b\" gametype=\"Decor\"/></Module>",
+    "multiple_roots": "<Other/><Module><GameObject name=\"a\" gametype=\"Decor\"/></Module><Module><GameObject name=\"b\" gametype=\"Decor\"/></Module>",
+    "no_matching_root": "<Module><GameObject name=\"a\" gametype=\"Decor\"/></Module>",
+    "empty_matching_root": "<Module/>",
+    "root_case": "<Module><GameObject name=\"a\" gametype=\"Decor\"/></Module>",
+    "empty_input": "",
+    "bad_close": "<Module><GameObject name=\"a\" gametype=\"Decor\"/></Other>",
+    "newline_attributes": "<Module>\r\n<GameObject name=\"a\rb\r\nc\nd\" gametype=\"Decor\"/>\r</Module>",
+    "declaration": "<?xml version=\"1.0\"?><Module><GameObject name=\"a\" gametype=\"Decor\"/></Module>",
+    "declaration_only": "<?xml version=\"1.0\"?>",
+    "comment_matches_root": "<!--Module--><Module/>"
+  },
+  "initial_open_async_state_verified": false,
+  "runtime_objects_verified": false,
+  "full_loader_verified": false
+}

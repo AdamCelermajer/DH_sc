@@ -1,0 +1,67 @@
+{
+  "validation": "PASS",
+  "original_cases": 2106,
+  "ordered_services": 27287,
+  "parts": {
+    "manager": {
+      "validation": "PASS",
+      "cases": 650,
+      "ordered_services": 22584,
+      "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+      "library_sha256": "867c6a9d8964fdfb435b0613d2289a1fb9a4f4eb0a3e1d023a5d2a086ea74941",
+      "gold_sha256": "ec2db07d099909cdadc8599e08977b6f8212ab1ed170ccddcb63cc649920f41e",
+      "scope": "Complete original InfoHUDManager methods vs O2 native services coordinator.\nWorld/player/AS/cache/script/camera services are explicit projections; all captured\nmanager instructions, arithmetic, field gates and traversal execute. Original\nRenderFX GotoFrame body executes genuine virtual order. No full backend claim.\n"
+    },
+    "backends": {
+      "validation": "PASS",
+      "comparisons": 1408,
+      "ordered_services": 808,
+      "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+      "library_sha256": "867c6a9d8964fdfb435b0613d2289a1fb9a4f4eb0a3e1d023a5d2a086ea74941",
+      "gold_sha256": "8422631388935111c252d6f0e895862d8bd4605515deb72d0efb7afe88d21a26",
+      "scope": "Actual saved-slot/level, potion, cooldown and AI HUD getter instructions.\nScript VCB and selected-spell calls are required borrowed services, not fabricated\nscript producers. Successful indexed domains only; native malformed guards are\ncovered separately. Timer arithmetic executes actual TMR_TimeLeft instructions.\n"
+    },
+    "reentry": {
+      "validation": "PASS",
+      "cases": 48,
+      "nested_same_manager_calls": 48,
+      "ordered_services": 3895,
+      "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+      "library_sha256": "867c6a9d8964fdfb435b0613d2289a1fb9a4f4eb0a3e1d023a5d2a086ea74941",
+      "gold_sha256": "bdb4f2af3f14fd9227964875112a4cf93183734b1512bc89d40e73932e3569a5",
+      "scope": "Actual original manager synchronous service reentry vs O2 native.\nAn explicit provider invokes SlowUpdate on the SAME live manager during a\nreached elapsed/cache/text/ally callback. ARM register context and independent\nnested stack are saved by the desktop service harness, not by production.\n"
+    }
+  },
+  "compiler_provenance": {
+    "validation": "PASS",
+    "library_sha256": "867c6a9d8964fdfb435b0613d2289a1fb9a4f4eb0a3e1d023a5d2a086ea74941",
+    "compiler_sha256": "3da8eb6f49b741ab885854665f10d3793822232f133f8c0233a8a4cb32c97dc0",
+    "compiler_arguments": [
+      "--target=aarch64-linux-android24",
+      "-shared",
+      "-fPIC",
+      "-O2",
+      "-std=c++17",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_manager.cpp",
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_manager_backends.cpp",
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_player_values.cpp",
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_timers.cpp",
+      "-o",
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\hud-manager-oracle.so"
+    ],
+    "source_sha256": {
+      "port/engine-ui/hud_manager.cpp": "bdc185d96622870d6debaffdb2f33ed34aa2935e3a7cc93e21c76a9fa20df8fb",
+      "port/engine-ui/hud_manager_backends.cpp": "66c440d5d1cb0f2c36df735b0014950fb12c3a4729d062edc2401a6b96222fd5",
+      "port/level-world/character_timers.cpp": "8a7ea63fb09debcf850731c59ff7530fd5cc10d9b6753d3dfb6c97ae413c71f4",
+      "port/engine-ui/hud_player_values.cpp": "93c72ba1150b5b9ab37f178fd59bdf63bd5ab1fd3b4d6d1dd3af74e51bc1a26e"
+    }
+  },
+  "limits": {
+    "whole_original_application": false,
+    "skill_script_VCB_is_required_service": true,
+    "manager_AS_cache_world_camera_services_are_explicit": true
+  }
+}

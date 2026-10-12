@@ -1,0 +1,45 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "file_sha256": {
+    "port/level-world/character_dot_attack.hpp": "0ac60776bf112edf56a7576dbb239f8fdac06c74e31e5a14bad64c306d179681",
+    "port/level-world/character_dot_attack.cpp": "021e95bda79e4d9e961724b632dd0c1af5bca70ab59fb482a97e702d23a5dfa1",
+    "port/level-world/tests/character_dot_attack.cpp": "6bb1aa2afe4fd92d49bdde2d1a607e162dff4be4823c6c1d15e58702b68bdd71",
+    "port/level-world/tests/character_dot_attack_differential.py": "745574a4834c5821f692180e5fa160475c869b102e1d6b55ea0a264058b29de7",
+    "port/level-world/tests/character_dot_attack_host.py": "3ff05977eaed8441b908a6105c5d50bf8f07204792f13c1382d8a835e3ffc2fd",
+    "port/level-world/tools/build_character_dot_attack_oracle.ps1": "dfa3a488c25a1d63d94a30e56866e205657077dbae8dbb7e9a9d7499257287ee",
+    "port/level-world/reports/character-dot-attack-arm64-differential.json": "ed098a267145f15b866c50004dbd23a7defb8c06a59e4c4e81733825bd35b310",
+    "port/level-world/reports/character-dot-attack-host-audit.json": "51373ac539a5d68a865ef7a5bee4535b0bdc660cc4780491357b26e828eee22c",
+    "port/level-world/reference/character-dot-attack/NOTES.md": "5e97dd66bbb0f0d43a05a39f6a149769a01cd849d525e7cdda0e258de3ce0720",
+    "port/level-world/reference/character-dot-attack/original-functions.json": "0e39ed29e5d02cf5a31f19ab132ea613964b92ea12cdf2677554f0c19e517b20",
+    "port/level-world/reference/character-dot-attack/original-functions.asm": "36400a4983be0f9dca7ea6e217f6df3df470b011566775d9b31b92f7c7fcaf86",
+    "port/level-world/reference/character-dot-attack/dot-fixtures.json": "364a8daa31bb5080eac3b9401fac7842b0d4b7025b8086148a09550a453c9c68"
+  },
+  "original_comparisons": 1800,
+  "ordered_requests": 34228,
+  "native_atomic_guards": 8,
+  "original_prefix_only_cases": 175,
+  "host_audit": {
+    "validation": "PASS",
+    "original_gold_cases": 1800,
+    "checks": 361946,
+    "atomic_guards": 8,
+    "service_failure_prefixes": 689,
+    "genuine_health_prefixes": 3,
+    "genuine_timer_compositions": 1,
+    "module_library": "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-dot-attack-discovery/libcharacter_dot_attack_audit.so",
+    "world_library": "/home/adampalace/dh2-world-build/libdh2_level_world.so",
+    "data_library": "/home/adampalace/dh2-world-build/game-data/libdh2_game_data.so"
+  },
+  "binary_sha256": {
+    "/home/adampalace/dh2-world-build/libdh2_level_world.so": "1dcfbc792f9986a798f47917c569d92fbfdc1ee54ff054e0009ba04a7faeb169",
+    "/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so": "509d1c0eeff5012b9772c426a6e6f765d456e0797edabba3b73aef539a333c14",
+    "/home/adampalace/dh2-world-build/game-data/libdh2_game_data.so": "777e58075cab4a266df8c8dafbff4273e5dff7c1268dbbdab84ef5b512fe60fb",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-dot-attack-discovery/libcharacter_dot_attack_audit.so": "91473bbeda3db1a7522cc45ea138d8cbdb857a286ddad0518a80adea28cbb411",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-dot-attack-discovery/host": "c18a2ad32c0186be5f0d138115c4196bc2c383c09996bdf5bb109f88f7d909c5"
+  },
+  "source_scope": "Self/self raw DoT calculation and bounded offline/nonplayer ApplyResult coordinator. Required genuine services; missing HitFor/kill/FX/AI continuation fails explicitly.",
+  "no_packaged_apk": true,
+  "no_full_HitFor_or_FX_backend": true,
+  "central_invocation": "python port/level-world/tests/character_dot_attack_host.py --main-linked"
+}

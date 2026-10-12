@@ -1,5 +1,9 @@
 # Controller-facing candidate and native game source work
 
+This document records an earlier stage. The latest verified checkpoint is
+`dh2-native-ai-timers-alias-b4493ed5.apk`; current engine/game scope and all four
+passing emulator suites are recorded in `ai-timers-alias-source-status.md`.
+
 The native reconstruction goal remains active. The last fully verified saved
 checkpoint is `../build/checkpoints/dh2-native-prince-bank-4f5b7d11.apk`.
 Its four emulator suites passed, as recorded by

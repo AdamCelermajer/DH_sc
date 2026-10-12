@@ -1,0 +1,35 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK9Character7HasManaEi",
+      "elf_address": "0x3bd40c",
+      "size": 236,
+      "sha256": "68a2317b75a673fa81939aa1990d6a7d8a9ba7f3d761a8246fe6888281e5c0ab"
+    },
+    {
+      "original_symbol": "_ZN9Character7UseManaEi",
+      "elf_address": "0x3bdef4",
+      "size": 476,
+      "sha256": "ed3125787dc0818e10c73ac7748201618bfaf23b0df8d9daea23c15bee806e68"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault13OnScriptTimerEj",
+      "elf_address": "0x3dcc80",
+      "size": 80,
+      "sha256": "6d2591dc4edf41c812770f36a951dfe38ac03ed7cbf5a67bbdce73bf459bcbb6"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine16SM_SetSkillStateEjbPvb",
+      "elf_address": "0x3c6670",
+      "size": 180,
+      "sha256": "b11c1907a16535e572092626218432dbff1c90379821aa5091b2cf4bf1c678f9"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault11OnAnimEventEPKc",
+      "elf_address": "0x3dca50",
+      "size": 560,
+      "sha256": "cd3b1256304d8161cbe4cb6fbd71fd42c06af54e618405102db06fc67a80e2f8"
+    }
+  ]
+}

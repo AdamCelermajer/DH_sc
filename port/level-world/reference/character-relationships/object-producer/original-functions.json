@@ -1,0 +1,17 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN10GameObjectC1EN10ObjectBase6GO_IDSE",
+      "elf_address": "0x38c130",
+      "size": 616,
+      "sha256": "a87e66980322f425ead92f941ba031ae4a716a7ad53b252bbb70633a31a6aaa4"
+    },
+    {
+      "original_symbol": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "elf_address": "0x3aa1b4",
+      "size": 1448,
+      "sha256": "85471dbc43082bce2a8f0fd429f0764fb55948ce47c3396dfca28933d701e6e6"
+    }
+  ]
+}

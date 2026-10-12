@@ -1,0 +1,18 @@
+{
+  "validation": "PASS",
+  "comparisons": 2013,
+  "ordered_services": 11534,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_sha256": "47b4cfbfb96e9827428ece740f28ddc5b6107e4bde5e269aeaa6613e1d6a7343",
+  "manifest_sha256": "01996c952b683936ec49cc11c1e5ddfafcec8c0578037d16ff6f9c20ef906e5b",
+  "corpus_sha256": "c10972d9b56a6f72c749065367db1a4cfbb23fbfd8a9a5ac85a7ec9946852317",
+  "ai_rows": 76,
+  "ai_table_sha256": "bfe56f4a07dbe49bb55543137ae343334082b6a340ca156f367ee51e3b2771bc",
+  "source_sha256": {
+    "port\\level-world\\character_target_events.hpp": "36ecab0282c65c34b782a09aececdf0249f0374afbdda34c5125a651a1df30cc",
+    "port\\level-world\\character_target_events.cpp": "ce3d46cae0cd40e5de2cbd1312a4cb9d3ecadbefedff30fd3fabeeb7ebec07a5",
+    "port\\level-world\\tests\\character_target_events_differential.py": "05aba3b2c387621b4771fb18a9bee76801a29f380445d14d0f07701ab5617fad"
+  },
+  "scope": "Complete original CharAI target handler prefixes vs O2 ARM64.\n\nDebug/string, target-character/aggro, position and active virtual services are\nexplicit synchronous boundaries. Sound words are decoded by actual original\nAIProps stream instructions from the bundled cache table, never invented IDs.\n"
+}

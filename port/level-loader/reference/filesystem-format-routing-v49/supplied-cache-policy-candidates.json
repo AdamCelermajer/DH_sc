@@ -1,0 +1,86 @@
+{
+  "textual_matches": [
+    {
+      "name": "com.gameloft.android.GAND.GloftD2SS/files/d_o_w_n_l_o_a_d_e_d.txt",
+      "size": 369553,
+      "matches": [
+        {
+          "needle": "pvr2",
+          "contexts": [
+            "kwave.tga\n.\\\\data\\3d\\texturesfx_wave.tga\n.\\\\data\\3d\\texturespvr2_env_water_temple_alpha.tga\n.\\\\data\\3d\\texturesfx_weapon_ground_trail.tga\n.\\\\data\\3d\\texturesfx_"
+          ]
+        }
+      ]
+    }
+  ],
+  "potential_config_entries": [
+    [
+      "com.gameloft.android.GAND.GloftD2SS/files/dh2_settings.savegame",
+      294
+    ],
+    [
+      "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/.nomedia",
+      0
+    ],
+    [
+      "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/assassin3_settings.luac",
+      1983
+    ],
+    [
+      "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/roottroll_settings.luac",
+      1957
+    ],
+    [
+      "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/dw_statue_settings.luac",
+      1935
+    ],
+    [
+      "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/flaminite_settings.luac",
+      1959
+    ],
+    [
+      "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/darkqueen2_settings.luac",
+      1975
+    ],
+    [
+      "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/mybossname_settings.luac",
+      1911
+    ],
+    [
+      "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/emissary_settings.luac",
+      1983
+    ],
+    [
+      "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/winddragon_settings.luac",
+      1970
+    ],
+    [
+      "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/edwardboss_settings.luac",
+      2006
+    ],
+    [
+      "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/assassindemon_settings.luac",
+      1964
+    ],
+    [
+      "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/darkqueen1_settings.luac",
+      1982
+    ],
+    [
+      "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/assassin1_settings.luac",
+      1990
+    ],
+    [
+      "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/flaminiteed_settings.luac",
+      1932
+    ],
+    [
+      "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/balrog_settings.luac",
+      1977
+    ],
+    [
+      "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/assassin2_settings.luac",
+      1989
+    ]
+  ]
+}

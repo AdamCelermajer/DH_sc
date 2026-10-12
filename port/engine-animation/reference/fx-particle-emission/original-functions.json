@@ -1,0 +1,119 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6glitch2ps16PGenerationModelINS0_9SParticleEE19initGenerationModelEv",
+      "elf_address": "0x64fc50",
+      "size": 92,
+      "sha256": "1d1d27117d9770fdadb09751d4c2e17680db8f87299a0f8ae992cf599b29e14d"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor8getValueEiPvRib",
+      "elf_address": "0x66a1a8",
+      "size": 72,
+      "sha256": "f3809736bf1d39a7647c79811f7aa941375b23ceb970e4f1e045d597cb219afb"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track8CFloatEx16getKeyBasedValueERKNS0_18SAnimationAccessorEiPv",
+      "elf_address": "0x6e32cc",
+      "size": 40,
+      "sha256": "d1c4ea586f5c1046e769481ed3526e830fc92ba16419db92a3587fd3af5d9b54"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada24CParticleSystemSceneNode4initEv",
+      "elf_address": "0x64fd60",
+      "size": 1140,
+      "sha256": "d33d4d77a2856411ddda8f1d212ad80d048fd86889781e2fb2f27ed14cf11c79"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track8CFloatEx18getKeyBasedValueExERKNS0_18SAnimationAccessorEiifPv",
+      "elf_address": "0x6e3374",
+      "size": 80,
+      "sha256": "925d922f3c35dc14373899fe4ce080022663d668e29f9a595419985d8d927404"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor9getOutputEi",
+      "elf_address": "0x669e24",
+      "size": 32,
+      "sha256": "ebbae3803b8841315855c8aeb748d80121405fb42b1082a214e3feffb0dc5fe7"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor14findKeyFrameNoEiiRiRfi",
+      "elf_address": "0x66b814",
+      "size": 76,
+      "sha256": "5ca8adca6b00589a75b211ec0f268d3a449f2df0d30516bd594eb463e5cedc40"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada24IParticleSystemSceneNodeD2Ev",
+      "elf_address": "0x6678b8",
+      "size": 116,
+      "sha256": "d28d935bf8595c86026118ca89cbed2536014560f5a683e0a33f40c8adfd122e"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada21intrusive_ptr_releaseEPNS0_15CAnimationBlockE",
+      "elf_address": "0x60bbd4",
+      "size": 4,
+      "sha256": "d4bb05262d3e09ac708fbe86d40051ee7cd29bc3977cad8f7d389f0a9443279e"
+    },
+    {
+      "original_symbol": "_ZN6glitch2ps16IParticleContextINS0_9SParticleEED2Ev",
+      "elf_address": "0x64d298",
+      "size": 116,
+      "sha256": "6750f5e62424b84d3fec00c9a213826fe552f660cb2b9a3355df05cafa0bd140"
+    },
+    {
+      "original_symbol": "_ZNSt6vectorIN6glitch2ps9SParticleENS0_4core10SAllocatorIS2_LNS0_6memory13E_MEMORY_HINTE0EEEE6resizeEjRKS2_",
+      "elf_address": "0x65311c",
+      "size": 96,
+      "sha256": "9a6e16e5d671dd16a295b4f14923d90a2602b359e1b349590fb96dece678a69b"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada16CColladaDatabaseD1Ev",
+      "elf_address": "0x619474",
+      "size": 156,
+      "sha256": "904f118210ad7546534e55e2616334274f6c7ce667820e4c03cf277bc93cc5a9"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada17CAnimationTrackEx8getValueERKNS0_18SAnimationAccessorEiPvRib",
+      "elf_address": "0x6e2c40",
+      "size": 168,
+      "sha256": "ebfefcc043a11dee30efc79c9a05f97b496e3e38bb93ae5fa2147d9d09e9d292"
+    },
+    {
+      "original_symbol": "_ZNSt6vectorIN6glitch2ps9SParticleENS0_4core10SAllocatorIS2_LNS0_6memory13E_MEMORY_HINTE0EEEE7reserveEj",
+      "elf_address": "0x64fb44",
+      "size": 268,
+      "sha256": "f858359a21a9a09dd7e450f4a3abbbb8a2049180b6c8c6ab65f7df40b07a23db"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor11getAnimatorEv",
+      "elf_address": "0x66a004",
+      "size": 12,
+      "sha256": "720aee2d02bc76f44bf680961bf055107aaf6c1936ba4cbd5b0168e17f1877db"
+    },
+    {
+      "original_symbol": "_ZNSt6vectorIN6glitch2ps9SParticleENS0_4core10SAllocatorIS2_LNS0_6memory13E_MEMORY_HINTE0EEEE8_M_eraseEPS2_S9_RKSt12__false_type",
+      "elf_address": "0x64f900",
+      "size": 292,
+      "sha256": "9c086ed24caf4217868c2d8e17aa13970d6c66d6753072ba5e50310af1b78711"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada24IParticleSystemSceneNodeC2ERKNS0_16CColladaDatabaseEPNS_3res6vectorINS5_6StringEEEPNS0_14CRootSceneNodeE",
+      "elf_address": "0x667a98",
+      "size": 316,
+      "sha256": "234c263ec64e32878d4a588a1f68b5b90bdf2638b5031d9890fca0681ec55aaa"
+    },
+    {
+      "original_symbol": "_ZN6glitch2ps16PGenerationModelINS0_9SParticleEE17generateParticlesEv",
+      "elf_address": "0x65317c",
+      "size": 320,
+      "sha256": "c8d187010119822747af1a2d893444637b7f9de1b0d900abeaa3c974fa554140"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada26CAnimationStreamingManager17getAnimationBlockERNS0_24SAnimationBlockSearchKeyERN5boost13intrusive_ptrINS0_15CAnimationBlockEEE",
+      "elf_address": "0x60c59c",
+      "size": 116,
+      "sha256": "8b9fdf2ba859aa75111aa88491caadd797df7a6fc77d36a66dd00df259a8d322"
+    }
+  ]
+}

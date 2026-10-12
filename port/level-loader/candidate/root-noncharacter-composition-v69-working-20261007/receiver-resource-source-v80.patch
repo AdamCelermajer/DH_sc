@@ -1,0 +1,82 @@
+--- a/port/level-world/retained_gameobject_visual_v1.hpp
++++ b/port/level-world/retained_gameobject_visual_v1.hpp
+@@ -115,6 +115,8 @@
+  std::int32_t light_set()const noexcept{return light_set40_;}
+  bool node_from_name(const char*,std::uintptr_t&,std::string&)const;
+  bool node_position(std::uintptr_t,float* out3,std::string&)const;
++ // Live cached XYZ alias, borrowed only while this actual node remains live.
++ bool borrow_node_position_v80(std::uintptr_t,const float*&,std::string&)const;
+  // SAME stable graph indices, including authored hidden children. Detach never erases/reindexes.
+  bool source_mesh_pose_v76(unsigned,std::array<float,4>&,std::array<float,3>&,std::string&)const;
+  bool mesh_attached_v76(unsigned)const noexcept;
+--- a/port/level-world/retained_gameobject_visual_v1.cpp
++++ b/port/level-world/retained_gameobject_visual_v1.cpp
+@@ -335,6 +335,13 @@
+  for(auto& node:node_handles_)if(reinterpret_cast<std::uintptr_t>(node.get())==handle){auto& matrix=scene_.graph[node->index].world;for(unsigned i=0;i<3;++i)out[i]=matrix[12+i];return true;}
+  return missing("SAME retained scene node identity",e);
+ }
++bool RetainedGameObjectVisualV1::borrow_node_position_v80(std::uintptr_t handle,const float*& out,std::string& e)const{
++ if(!root_present_||!ready_)return missing("live SAME retained target scene",e);
++ for(const auto& node:node_handles_)if(reinterpret_cast<std::uintptr_t>(node.get())==handle){
++  if(node->index>=scene_.graph.size())return missing("SAME retained target node index",e);
++  out=scene_.graph[node->index].world.data()+12;e.clear();return true;
++ }return missing("SAME live target node handle",e);
++}
+ void RetainedGameObjectVisualV1::propagate_node_visibility(std::size_t parent){
+  for(std::size_t m=0;m<scene_.instances.size();++m)if(scene_.instances[m].node_index==parent)update_mesh_visibility_v76(m,(node_flags_[parent]&1u)!=0);
+  for(std::size_t i=0;i<scene_.graph.size();++i)if(scene_.graph[i].parent==static_cast<std::int32_t>(parent))notify_node_visibility(i,(node_flags_[parent]&1u)!=0);
+--- a/port/level-world/actor_runtime.hpp
++++ b/port/level-world/actor_runtime.hpp
+@@ -70,6 +70,8 @@
+  bool(*update_world)(void*,std::string&){};
+  bool(*set_rotation)(void*,const float*,std::string&){};
+ };
++// Read the actual live target cache only at the reached target phase.
++struct GenericTargetPositionServicesV80 {void* context{};int(*borrow)(void*,const float**){};};
+ struct GenericRuntimeRequestV4 {
+  RuntimeRequest actor;
+  move::Policy actual_virtual_policy{};
+@@ -77,6 +79,7 @@
+  GenericVisualBorrowV4 visual;
+  const navigation::ControllerSourceServicesV69* source_path{};
+  const subobjects::AuxiliaryBranchServicesV69* source_auxiliary{};
++ const GenericTargetPositionServicesV80* source_target{};
+ };
+ int update_gameobject_v4(RuntimeResult&,const GenericRuntimeRequestV4&,std::string& error);
+ }
+--- a/port/level-world/actor_runtime.cpp
++++ b/port/level-world/actor_runtime.cpp
+@@ -131,7 +131,9 @@
+  s.rotation.rotation[2]=s.subobjects.rotation;
+  if(bridge.failed){out=result;return 3;}
+  result.phase=target_phase;
+- if(r.target_absolute_position)std::memcpy(s.target_position,r.target_absolute_position,12);
++ const float* target=r.target_absolute_position;
++ if(generic&&generic->source_target&&(!generic->source_target->borrow||generic->source_target->borrow(generic->source_target->context,&target)||(target&&!finite(target,3)))){out=result;error="Required live SAME generic target node cache";return 3;}
++ if(target)std::memcpy(s.target_position,target,12);
+  result.phase=completed;out=result;return 0;
+ }
+ } // Shared source phases; old Character entry keeps its original decoder.
+--- a/port/android-native/app/src/main/cpp/source_campaign_anchor_v75.hpp
++++ b/port/android-native/app/src/main/cpp/source_campaign_anchor_v75.hpp
+@@ -5,6 +5,10 @@
+ namespace model_renderer {
+ struct SourceWorldBorrowV61;
+ struct SourceCampaignAnchorDirectoryV75;
++}
++namespace dh2::camera {class CameraAnchorOwnerV75;}
++namespace model_renderer {
++bool borrow_source_campaign_anchor_v80(const std::shared_ptr<void>& actual_world,std::uintptr_t anchor,std::shared_ptr<dh2::camera::CameraAnchorOwnerV75>&,std::string&);
+ //Source AddCharacter InitCam3b4bc4, separate from Level._LoadCamera20.
+ bool source_campaign_character_init_camera_v75(const std::shared_ptr<void>& actual_world,std::uintptr_t character,std::string&);
+ bool source_campaign_anchor_position_v75(const std::shared_ptr<void>& actual_world,std::uintptr_t anchor,const float*&,std::string&);
+--- a/port/android-native/app/src/main/cpp/source_campaign_anchor_v75.cpp
++++ b/port/android-native/app/src/main/cpp/source_campaign_anchor_v75.cpp
+@@ -107,6 +107,7 @@
+  if(!dh2::camera::source_set_camera_anchor_v6(target,fresh->identity(),e))return false;
+  directory->failed_constructors.pop_back();e.clear();return true;
+ }
++bool borrow_source_campaign_anchor_v80(const std::shared_ptr<void>& world,std::uintptr_t id,std::shared_ptr<dh2::camera::CameraAnchorOwnerV75>& out,std::string& e){return anchor(world,id,out,e);}
+ bool source_campaign_anchor_position_v75(const std::shared_ptr<void>& world,std::uintptr_t id,const float*& out,std::string& e){
+  std::shared_ptr<dh2::camera::CameraAnchorOwnerV75> actual;if(!anchor(world,id,actual,e))return false;
+  out=actual->fields().position_c.data();e.clear();return true;

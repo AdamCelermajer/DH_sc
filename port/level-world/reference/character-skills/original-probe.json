@@ -1,0 +1,7136 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "script_sha256": "0c15ba7a93df5679bcfb09892c17aee1445b9d1161d55dd93f74623c2647f3ed",
+  "capture_sha256": "cd7c661d48c4b55c6e8438914755115dad832c9bfba790c9f1648c50fd9e12b0",
+  "comparisons": 62,
+  "ordered_requests": 898,
+  "cases": [
+    {
+      "params": {
+        "counts": [
+          0,
+          0
+        ],
+        "mutation": 0,
+        "empty_mask": 0,
+        "fail_mask": 36,
+        "existing": [
+          0,
+          0
+        ]
+      },
+      "update": false,
+      "trace": [
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "capture_path",
+          "original/path/0/"
+        ],
+        [
+          "path",
+          0,
+          "data/scripts/skills/"
+        ],
+        [
+          "list",
+          0
+        ],
+        [
+          "reserve",
+          0,
+          0
+        ],
+        [
+          "list",
+          1
+        ],
+        [
+          "reserve",
+          1,
+          0
+        ],
+        [
+          "path",
+          0,
+          "original/path/0/"
+        ],
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "init_vcb",
+          0
+        ]
+      ],
+      "slots": [
+        [],
+        []
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          0,
+          0
+        ],
+        "mutation": 1,
+        "empty_mask": 18,
+        "fail_mask": 0,
+        "existing": [
+          0,
+          0
+        ]
+      },
+      "update": false,
+      "trace": [
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "capture_path",
+          "original/path/0/"
+        ],
+        [
+          "path",
+          0,
+          "data/scripts/skills/"
+        ],
+        [
+          "list",
+          0
+        ],
+        [
+          "reserve",
+          0,
+          0
+        ],
+        [
+          "list",
+          1
+        ],
+        [
+          "reserve",
+          1,
+          0
+        ],
+        [
+          "path",
+          0,
+          "original/path/0/"
+        ],
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "init_vcb",
+          0
+        ]
+      ],
+      "slots": [
+        [],
+        []
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          0,
+          0
+        ],
+        "mutation": 2,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          0,
+          0
+        ]
+      },
+      "update": false,
+      "trace": [
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "capture_path",
+          "original/path/0/"
+        ],
+        [
+          "path",
+          0,
+          "data/scripts/skills/"
+        ],
+        [
+          "list",
+          0
+        ],
+        [
+          "reserve",
+          0,
+          0
+        ],
+        [
+          "list",
+          1
+        ],
+        [
+          "reserve",
+          1,
+          0
+        ],
+        [
+          "path",
+          0,
+          "original/path/0/"
+        ],
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "init_vcb",
+          0
+        ]
+      ],
+      "slots": [
+        [],
+        []
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          0,
+          0
+        ],
+        "mutation": 3,
+        "empty_mask": 18,
+        "fail_mask": 36,
+        "existing": [
+          0,
+          0
+        ]
+      },
+      "update": false,
+      "trace": [
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "capture_path",
+          "original/path/0/"
+        ],
+        [
+          "path",
+          0,
+          "data/scripts/skills/"
+        ],
+        [
+          "list",
+          0
+        ],
+        [
+          "reserve",
+          0,
+          0
+        ],
+        [
+          "list",
+          1
+        ],
+        [
+          "reserve",
+          1,
+          0
+        ],
+        [
+          "path",
+          0,
+          "original/path/0/"
+        ],
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "init_vcb",
+          0
+        ]
+      ],
+      "slots": [
+        [],
+        []
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          0,
+          0
+        ],
+        "mutation": 4,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          0,
+          0
+        ]
+      },
+      "update": false,
+      "trace": [
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "capture_path",
+          "original/path/0/"
+        ],
+        [
+          "path",
+          0,
+          "data/scripts/skills/"
+        ],
+        [
+          "list",
+          0
+        ],
+        [
+          "reserve",
+          0,
+          0
+        ],
+        [
+          "list",
+          1
+        ],
+        [
+          "reserve",
+          1,
+          0
+        ],
+        [
+          "path",
+          0,
+          "original/path/0/"
+        ],
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "init_vcb",
+          0
+        ]
+      ],
+      "slots": [
+        [],
+        []
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          0,
+          0
+        ],
+        "mutation": 5,
+        "empty_mask": 18,
+        "fail_mask": 0,
+        "existing": [
+          1,
+          1
+        ]
+      },
+      "update": false,
+      "trace": [
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "capture_path",
+          "original/path/0/"
+        ],
+        [
+          "path",
+          0,
+          "data/scripts/skills/"
+        ],
+        [
+          "path",
+          0,
+          "original/path/0/"
+        ],
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "init_vcb",
+          0
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          0,
+          0
+        ],
+        "mutation": 6,
+        "empty_mask": 0,
+        "fail_mask": 36,
+        "existing": [
+          0,
+          0
+        ]
+      },
+      "update": false,
+      "trace": [
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "capture_path",
+          "original/path/0/"
+        ],
+        [
+          "path",
+          0,
+          "data/scripts/skills/"
+        ],
+        [
+          "list",
+          0
+        ],
+        [
+          "reserve",
+          0,
+          0
+        ],
+        [
+          "list",
+          1
+        ],
+        [
+          "reserve",
+          1,
+          0
+        ],
+        [
+          "path",
+          0,
+          "original/path/0/"
+        ],
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "init_vcb",
+          0
+        ]
+      ],
+      "slots": [
+        [],
+        []
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          0,
+          0
+        ],
+        "mutation": 7,
+        "empty_mask": 18,
+        "fail_mask": 0,
+        "existing": [
+          0,
+          0
+        ]
+      },
+      "update": false,
+      "trace": [
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "capture_path",
+          "original/path/1/"
+        ],
+        [
+          "path",
+          1,
+          "data/scripts/skills/"
+        ],
+        [
+          "list",
+          0
+        ],
+        [
+          "reserve",
+          0,
+          0
+        ],
+        [
+          "list",
+          1
+        ],
+        [
+          "reserve",
+          1,
+          0
+        ],
+        [
+          "path",
+          1,
+          "original/path/1/"
+        ],
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "init_vcb",
+          1
+        ]
+      ],
+      "slots": [
+        [],
+        []
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 1
+    },
+    {
+      "params": {
+        "counts": [
+          1,
+          1
+        ],
+        "mutation": 0,
+        "empty_mask": 0,
+        "fail_mask": 36,
+        "existing": [
+          0,
+          0
+        ]
+      },
+      "update": false,
+      "trace": [
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "capture_path",
+          "original/path/0/"
+        ],
+        [
+          "path",
+          0,
+          "data/scripts/skills/"
+        ],
+        [
+          "list",
+          0
+        ],
+        [
+          "reserve",
+          0,
+          1
+        ],
+        [
+          "row",
+          0,
+          0
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill0",
+          0.0
+        ],
+        [
+          "load",
+          0,
+          "skill0",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "list",
+          1
+        ],
+        [
+          "reserve",
+          1,
+          1
+        ],
+        [
+          "row",
+          1,
+          0
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "spell0",
+          -1.0
+        ],
+        [
+          "load",
+          0,
+          "spell0",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "path",
+          0,
+          "original/path/0/"
+        ],
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "init_vcb",
+          0
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "skill0",
+            0
+          ]
+        ],
+        [
+          [
+            "spell0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          1,
+          1
+        ],
+        "mutation": 1,
+        "empty_mask": 18,
+        "fail_mask": 0,
+        "existing": [
+          0,
+          0
+        ]
+      },
+      "update": false,
+      "trace": [
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "capture_path",
+          "original/path/0/"
+        ],
+        [
+          "path",
+          0,
+          "data/scripts/skills/"
+        ],
+        [
+          "list",
+          0
+        ],
+        [
+          "reserve",
+          0,
+          1
+        ],
+        [
+          "row",
+          0,
+          0
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          1,
+          "DeclareSkill",
+          "skill0",
+          0.0
+        ],
+        [
+          "load",
+          1,
+          "skill0",
+          "original/path/1/"
+        ],
+        [
+          "reset",
+          1,
+          "DeclareSkill"
+        ],
+        [
+          "list",
+          1
+        ],
+        [
+          "reserve",
+          1,
+          1
+        ],
+        [
+          "row",
+          1,
+          0
+        ],
+        [
+          "path",
+          1,
+          "original/path/0/"
+        ],
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "init_vcb",
+          1
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "skill0",
+            0
+          ]
+        ],
+        [
+          null
+        ]
+      ],
+      "paths": [
+        "data/scripts/skills/",
+        "original/path/0/"
+      ],
+      "active": 1
+    },
+    {
+      "params": {
+        "counts": [
+          1,
+          1
+        ],
+        "mutation": 2,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          0,
+          0
+        ]
+      },
+      "update": false,
+      "trace": [
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "capture_path",
+          "original/path/0/"
+        ],
+        [
+          "path",
+          0,
+          "data/scripts/skills/"
+        ],
+        [
+          "list",
+          0
+        ],
+        [
+          "reserve",
+          0,
+          1
+        ],
+        [
+          "row",
+          0,
+          0
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill0",
+          0.0
+        ],
+        [
+          "load",
+          0,
+          "skill0",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "list",
+          1
+        ],
+        [
+          "reserve",
+          1,
+          1
+        ],
+        [
+          "row",
+          1,
+          0
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "spell0",
+          -1.0
+        ],
+        [
+          "load",
+          0,
+          "spell0",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "path",
+          0,
+          "original/path/0/"
+        ],
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "init_vcb",
+          0
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "skill0",
+            0
+          ]
+        ],
+        [
+          [
+            "spell0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          1,
+          1
+        ],
+        "mutation": 3,
+        "empty_mask": 18,
+        "fail_mask": 36,
+        "existing": [
+          0,
+          0
+        ]
+      },
+      "update": false,
+      "trace": [
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "capture_path",
+          "original/path/0/"
+        ],
+        [
+          "path",
+          0,
+          "data/scripts/skills/"
+        ],
+        [
+          "list",
+          0
+        ],
+        [
+          "reserve",
+          0,
+          1
+        ],
+        [
+          "row",
+          0,
+          0
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill0",
+          0.0
+        ],
+        [
+          "load",
+          0,
+          "skill0",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          0,
+          1
+        ],
+        [
+          "row",
+          0,
+          2
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill2",
+          2.0
+        ],
+        [
+          "load",
+          0,
+          "skill2",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "list",
+          1
+        ],
+        [
+          "reserve",
+          1,
+          1
+        ],
+        [
+          "row",
+          1,
+          0
+        ],
+        [
+          "path",
+          0,
+          "original/path/0/"
+        ],
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "init_vcb",
+          0
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "skill0",
+            0
+          ],
+          null,
+          null
+        ],
+        [
+          null
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          1,
+          1
+        ],
+        "mutation": 4,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          0,
+          0
+        ]
+      },
+      "update": false,
+      "trace": [
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "capture_path",
+          "original/path/0/"
+        ],
+        [
+          "path",
+          0,
+          "data/scripts/skills/"
+        ],
+        [
+          "list",
+          0
+        ],
+        [
+          "reserve",
+          0,
+          1
+        ],
+        [
+          "row",
+          0,
+          0
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill0",
+          0.0
+        ],
+        [
+          "load",
+          0,
+          "skill0",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "path",
+          0,
+          "original/path/0/"
+        ],
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "init_vcb",
+          0
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "skill0",
+            0
+          ]
+        ],
+        [
+          [
+            "reentered",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          1,
+          1
+        ],
+        "mutation": 5,
+        "empty_mask": 18,
+        "fail_mask": 0,
+        "existing": [
+          1,
+          1
+        ]
+      },
+      "update": false,
+      "trace": [
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "capture_path",
+          "original/path/0/"
+        ],
+        [
+          "path",
+          0,
+          "data/scripts/skills/"
+        ],
+        [
+          "path",
+          0,
+          "original/path/0/"
+        ],
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "init_vcb",
+          0
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          1,
+          1
+        ],
+        "mutation": 6,
+        "empty_mask": 0,
+        "fail_mask": 36,
+        "existing": [
+          0,
+          0
+        ]
+      },
+      "update": false,
+      "trace": [
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "capture_path",
+          "original/path/0/"
+        ],
+        [
+          "path",
+          0,
+          "data/scripts/skills/"
+        ],
+        [
+          "list",
+          0
+        ],
+        [
+          "reserve",
+          0,
+          1
+        ],
+        [
+          "row",
+          0,
+          0
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill0",
+          0.0
+        ],
+        [
+          "load",
+          0,
+          "skill0",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "list",
+          1
+        ],
+        [
+          "reserve",
+          1,
+          1
+        ],
+        [
+          "row",
+          1,
+          0
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "spell0",
+          -1.0
+        ],
+        [
+          "load",
+          0,
+          "spell0",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "path",
+          0,
+          "original/path/0/"
+        ],
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "init_vcb",
+          0
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "skill0",
+            0
+          ]
+        ],
+        [
+          [
+            "spell0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          1,
+          1
+        ],
+        "mutation": 7,
+        "empty_mask": 18,
+        "fail_mask": 0,
+        "existing": [
+          0,
+          0
+        ]
+      },
+      "update": false,
+      "trace": [
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "capture_path",
+          "original/path/1/"
+        ],
+        [
+          "path",
+          1,
+          "data/scripts/skills/"
+        ],
+        [
+          "list",
+          0
+        ],
+        [
+          "reserve",
+          0,
+          1
+        ],
+        [
+          "row",
+          0,
+          0
+        ],
+        [
+          "load",
+          1,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          1,
+          "DeclareSkill",
+          "skill0",
+          0.0
+        ],
+        [
+          "load",
+          1,
+          "skill0",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          1,
+          "DeclareSkill"
+        ],
+        [
+          "list",
+          1
+        ],
+        [
+          "reserve",
+          1,
+          1
+        ],
+        [
+          "row",
+          1,
+          0
+        ],
+        [
+          "path",
+          1,
+          "original/path/1/"
+        ],
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "init_vcb",
+          1
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "skill0",
+            0
+          ]
+        ],
+        [
+          null
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 1
+    },
+    {
+      "params": {
+        "counts": [
+          3,
+          2
+        ],
+        "mutation": 0,
+        "empty_mask": 0,
+        "fail_mask": 36,
+        "existing": [
+          0,
+          0
+        ]
+      },
+      "update": false,
+      "trace": [
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "capture_path",
+          "original/path/0/"
+        ],
+        [
+          "path",
+          0,
+          "data/scripts/skills/"
+        ],
+        [
+          "list",
+          0
+        ],
+        [
+          "reserve",
+          0,
+          3
+        ],
+        [
+          "row",
+          0,
+          0
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill0",
+          0.0
+        ],
+        [
+          "load",
+          0,
+          "skill0",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          0,
+          1
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill1",
+          1.0
+        ],
+        [
+          "load",
+          0,
+          "skill1",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          0,
+          2
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill2",
+          2.0
+        ],
+        [
+          "load",
+          0,
+          "skill2",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "list",
+          1
+        ],
+        [
+          "reserve",
+          1,
+          2
+        ],
+        [
+          "row",
+          1,
+          0
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "spell0",
+          -1.0
+        ],
+        [
+          "load",
+          0,
+          "spell0",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          1,
+          1
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "spell1",
+          -1.0
+        ],
+        [
+          "load",
+          0,
+          "spell1",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "path",
+          0,
+          "original/path/0/"
+        ],
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "init_vcb",
+          0
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "skill0",
+            0
+          ],
+          [
+            "skill1",
+            1
+          ],
+          null
+        ],
+        [
+          [
+            "spell0",
+            4294967295
+          ],
+          null
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          3,
+          2
+        ],
+        "mutation": 1,
+        "empty_mask": 18,
+        "fail_mask": 0,
+        "existing": [
+          0,
+          0
+        ]
+      },
+      "update": false,
+      "trace": [
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "capture_path",
+          "original/path/0/"
+        ],
+        [
+          "path",
+          0,
+          "data/scripts/skills/"
+        ],
+        [
+          "list",
+          0
+        ],
+        [
+          "reserve",
+          0,
+          3
+        ],
+        [
+          "row",
+          0,
+          0
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          1,
+          "DeclareSkill",
+          "skill0",
+          0.0
+        ],
+        [
+          "load",
+          1,
+          "skill0",
+          "original/path/1/"
+        ],
+        [
+          "reset",
+          1,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          0,
+          1
+        ],
+        [
+          "row",
+          0,
+          2
+        ],
+        [
+          "load",
+          1,
+          "_commons",
+          "original/path/1/"
+        ],
+        [
+          "declare",
+          1,
+          "DeclareSkill",
+          "skill2",
+          2.0
+        ],
+        [
+          "load",
+          1,
+          "skill2",
+          "original/path/1/"
+        ],
+        [
+          "reset",
+          1,
+          "DeclareSkill"
+        ],
+        [
+          "list",
+          1
+        ],
+        [
+          "reserve",
+          1,
+          2
+        ],
+        [
+          "row",
+          1,
+          0
+        ],
+        [
+          "row",
+          1,
+          1
+        ],
+        [
+          "load",
+          1,
+          "_commons",
+          "original/path/1/"
+        ],
+        [
+          "declare",
+          1,
+          "DeclareSkill",
+          "spell1",
+          -1.0
+        ],
+        [
+          "load",
+          1,
+          "spell1",
+          "original/path/1/"
+        ],
+        [
+          "reset",
+          1,
+          "DeclareSkill"
+        ],
+        [
+          "path",
+          1,
+          "original/path/0/"
+        ],
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "init_vcb",
+          1
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "skill0",
+            0
+          ],
+          null,
+          [
+            "skill2",
+            2
+          ]
+        ],
+        [
+          null,
+          [
+            "spell1",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "data/scripts/skills/",
+        "original/path/0/"
+      ],
+      "active": 1
+    },
+    {
+      "params": {
+        "counts": [
+          3,
+          2
+        ],
+        "mutation": 2,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          0,
+          0
+        ]
+      },
+      "update": false,
+      "trace": [
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "capture_path",
+          "original/path/0/"
+        ],
+        [
+          "path",
+          0,
+          "data/scripts/skills/"
+        ],
+        [
+          "list",
+          0
+        ],
+        [
+          "reserve",
+          0,
+          3
+        ],
+        [
+          "row",
+          0,
+          0
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill0",
+          0.0
+        ],
+        [
+          "load",
+          0,
+          "skill0",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "list",
+          1
+        ],
+        [
+          "reserve",
+          1,
+          2
+        ],
+        [
+          "row",
+          1,
+          0
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "spell0",
+          -1.0
+        ],
+        [
+          "load",
+          0,
+          "spell0",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          1,
+          1
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "spell1",
+          -1.0
+        ],
+        [
+          "load",
+          0,
+          "spell1",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "path",
+          0,
+          "original/path/0/"
+        ],
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "init_vcb",
+          0
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "skill0",
+            0
+          ]
+        ],
+        [
+          [
+            "spell0",
+            4294967295
+          ],
+          [
+            "spell1",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          3,
+          2
+        ],
+        "mutation": 3,
+        "empty_mask": 18,
+        "fail_mask": 36,
+        "existing": [
+          0,
+          0
+        ]
+      },
+      "update": false,
+      "trace": [
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "capture_path",
+          "original/path/0/"
+        ],
+        [
+          "path",
+          0,
+          "data/scripts/skills/"
+        ],
+        [
+          "list",
+          0
+        ],
+        [
+          "reserve",
+          0,
+          3
+        ],
+        [
+          "row",
+          0,
+          0
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill0",
+          0.0
+        ],
+        [
+          "load",
+          0,
+          "skill0",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          0,
+          1
+        ],
+        [
+          "row",
+          0,
+          2
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill2",
+          2.0
+        ],
+        [
+          "load",
+          0,
+          "skill2",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "list",
+          1
+        ],
+        [
+          "reserve",
+          1,
+          2
+        ],
+        [
+          "row",
+          1,
+          0
+        ],
+        [
+          "row",
+          1,
+          1
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "spell1",
+          -1.0
+        ],
+        [
+          "load",
+          0,
+          "spell1",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "path",
+          0,
+          "original/path/0/"
+        ],
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "init_vcb",
+          0
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "skill0",
+            0
+          ],
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          3,
+          2
+        ],
+        "mutation": 4,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          0,
+          0
+        ]
+      },
+      "update": false,
+      "trace": [
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "capture_path",
+          "original/path/0/"
+        ],
+        [
+          "path",
+          0,
+          "data/scripts/skills/"
+        ],
+        [
+          "list",
+          0
+        ],
+        [
+          "reserve",
+          0,
+          3
+        ],
+        [
+          "row",
+          0,
+          0
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill0",
+          0.0
+        ],
+        [
+          "load",
+          0,
+          "skill0",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          0,
+          1
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill1",
+          1.0
+        ],
+        [
+          "load",
+          0,
+          "skill1",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          0,
+          2
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill2",
+          2.0
+        ],
+        [
+          "load",
+          0,
+          "skill2",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "path",
+          0,
+          "original/path/0/"
+        ],
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "init_vcb",
+          0
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "skill0",
+            0
+          ],
+          [
+            "skill1",
+            1
+          ],
+          [
+            "skill2",
+            2
+          ]
+        ],
+        [
+          [
+            "reentered",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          3,
+          2
+        ],
+        "mutation": 5,
+        "empty_mask": 18,
+        "fail_mask": 0,
+        "existing": [
+          1,
+          1
+        ]
+      },
+      "update": false,
+      "trace": [
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "capture_path",
+          "original/path/0/"
+        ],
+        [
+          "path",
+          0,
+          "data/scripts/skills/"
+        ],
+        [
+          "path",
+          0,
+          "original/path/0/"
+        ],
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "init_vcb",
+          0
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          3,
+          2
+        ],
+        "mutation": 6,
+        "empty_mask": 0,
+        "fail_mask": 36,
+        "existing": [
+          0,
+          0
+        ]
+      },
+      "update": false,
+      "trace": [
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "capture_path",
+          "original/path/0/"
+        ],
+        [
+          "path",
+          0,
+          "data/scripts/skills/"
+        ],
+        [
+          "list",
+          0
+        ],
+        [
+          "reserve",
+          0,
+          3
+        ],
+        [
+          "row",
+          0,
+          0
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill0",
+          0.0
+        ],
+        [
+          "load",
+          0,
+          "skill0",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          0,
+          1
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill1",
+          1.0
+        ],
+        [
+          "load",
+          0,
+          "skill1",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          0,
+          2
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill2",
+          2.0
+        ],
+        [
+          "load",
+          0,
+          "skill2",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "list",
+          1
+        ],
+        [
+          "reserve",
+          1,
+          2
+        ],
+        [
+          "row",
+          1,
+          0
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "spell0",
+          -1.0
+        ],
+        [
+          "load",
+          0,
+          "spell0",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          1,
+          1
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "spell1",
+          -1.0
+        ],
+        [
+          "load",
+          0,
+          "spell1",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "path",
+          0,
+          "original/path/0/"
+        ],
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "init_vcb",
+          0
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "skill0",
+            0
+          ],
+          [
+            "skill1",
+            1
+          ],
+          null
+        ],
+        [
+          [
+            "spell0",
+            4294967295
+          ],
+          null
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          3,
+          2
+        ],
+        "mutation": 7,
+        "empty_mask": 18,
+        "fail_mask": 0,
+        "existing": [
+          0,
+          0
+        ]
+      },
+      "update": false,
+      "trace": [
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "capture_path",
+          "original/path/1/"
+        ],
+        [
+          "path",
+          1,
+          "data/scripts/skills/"
+        ],
+        [
+          "list",
+          0
+        ],
+        [
+          "reserve",
+          0,
+          3
+        ],
+        [
+          "row",
+          0,
+          0
+        ],
+        [
+          "load",
+          1,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          1,
+          "DeclareSkill",
+          "skill0",
+          0.0
+        ],
+        [
+          "load",
+          1,
+          "skill0",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          1,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          0,
+          1
+        ],
+        [
+          "row",
+          0,
+          2
+        ],
+        [
+          "load",
+          1,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          1,
+          "DeclareSkill",
+          "skill2",
+          2.0
+        ],
+        [
+          "load",
+          1,
+          "skill2",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          1,
+          "DeclareSkill"
+        ],
+        [
+          "list",
+          1
+        ],
+        [
+          "reserve",
+          1,
+          2
+        ],
+        [
+          "row",
+          1,
+          0
+        ],
+        [
+          "row",
+          1,
+          1
+        ],
+        [
+          "load",
+          1,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          1,
+          "DeclareSkill",
+          "spell1",
+          -1.0
+        ],
+        [
+          "load",
+          1,
+          "spell1",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          1,
+          "DeclareSkill"
+        ],
+        [
+          "path",
+          1,
+          "original/path/1/"
+        ],
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "init_vcb",
+          1
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "skill0",
+            0
+          ],
+          null,
+          [
+            "skill2",
+            2
+          ]
+        ],
+        [
+          null,
+          [
+            "spell1",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 1
+    },
+    {
+      "params": {
+        "counts": [
+          4,
+          4
+        ],
+        "mutation": 0,
+        "empty_mask": 0,
+        "fail_mask": 36,
+        "existing": [
+          0,
+          0
+        ]
+      },
+      "update": false,
+      "trace": [
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "capture_path",
+          "original/path/0/"
+        ],
+        [
+          "path",
+          0,
+          "data/scripts/skills/"
+        ],
+        [
+          "list",
+          0
+        ],
+        [
+          "reserve",
+          0,
+          4
+        ],
+        [
+          "row",
+          0,
+          0
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill0",
+          0.0
+        ],
+        [
+          "load",
+          0,
+          "skill0",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          0,
+          1
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill1",
+          1.0
+        ],
+        [
+          "load",
+          0,
+          "skill1",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          0,
+          2
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill2",
+          2.0
+        ],
+        [
+          "load",
+          0,
+          "skill2",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          0,
+          3
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill3",
+          3.0
+        ],
+        [
+          "load",
+          0,
+          "skill3",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "list",
+          1
+        ],
+        [
+          "reserve",
+          1,
+          4
+        ],
+        [
+          "row",
+          1,
+          0
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "spell0",
+          -1.0
+        ],
+        [
+          "load",
+          0,
+          "spell0",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          1,
+          1
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "spell1",
+          -1.0
+        ],
+        [
+          "load",
+          0,
+          "spell1",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          1,
+          2
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "spell2",
+          -1.0
+        ],
+        [
+          "load",
+          0,
+          "spell2",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          1,
+          3
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "spell3",
+          -1.0
+        ],
+        [
+          "load",
+          0,
+          "spell3",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "path",
+          0,
+          "original/path/0/"
+        ],
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "init_vcb",
+          0
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "skill0",
+            0
+          ],
+          [
+            "skill1",
+            1
+          ],
+          null,
+          [
+            "skill3",
+            3
+          ]
+        ],
+        [
+          [
+            "spell0",
+            4294967295
+          ],
+          null,
+          [
+            "spell2",
+            4294967295
+          ],
+          [
+            "spell3",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          4,
+          4
+        ],
+        "mutation": 1,
+        "empty_mask": 18,
+        "fail_mask": 0,
+        "existing": [
+          0,
+          0
+        ]
+      },
+      "update": false,
+      "trace": [
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "capture_path",
+          "original/path/0/"
+        ],
+        [
+          "path",
+          0,
+          "data/scripts/skills/"
+        ],
+        [
+          "list",
+          0
+        ],
+        [
+          "reserve",
+          0,
+          4
+        ],
+        [
+          "row",
+          0,
+          0
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          1,
+          "DeclareSkill",
+          "skill0",
+          0.0
+        ],
+        [
+          "load",
+          1,
+          "skill0",
+          "original/path/1/"
+        ],
+        [
+          "reset",
+          1,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          0,
+          1
+        ],
+        [
+          "row",
+          0,
+          2
+        ],
+        [
+          "load",
+          1,
+          "_commons",
+          "original/path/1/"
+        ],
+        [
+          "declare",
+          1,
+          "DeclareSkill",
+          "skill2",
+          2.0
+        ],
+        [
+          "load",
+          1,
+          "skill2",
+          "original/path/1/"
+        ],
+        [
+          "reset",
+          1,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          0,
+          3
+        ],
+        [
+          "load",
+          1,
+          "_commons",
+          "original/path/1/"
+        ],
+        [
+          "declare",
+          1,
+          "DeclareSkill",
+          "skill3",
+          3.0
+        ],
+        [
+          "load",
+          1,
+          "skill3",
+          "original/path/1/"
+        ],
+        [
+          "reset",
+          1,
+          "DeclareSkill"
+        ],
+        [
+          "list",
+          1
+        ],
+        [
+          "reserve",
+          1,
+          4
+        ],
+        [
+          "row",
+          1,
+          0
+        ],
+        [
+          "row",
+          1,
+          1
+        ],
+        [
+          "load",
+          1,
+          "_commons",
+          "original/path/1/"
+        ],
+        [
+          "declare",
+          1,
+          "DeclareSkill",
+          "spell1",
+          -1.0
+        ],
+        [
+          "load",
+          1,
+          "spell1",
+          "original/path/1/"
+        ],
+        [
+          "reset",
+          1,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          1,
+          2
+        ],
+        [
+          "load",
+          1,
+          "_commons",
+          "original/path/1/"
+        ],
+        [
+          "declare",
+          1,
+          "DeclareSkill",
+          "spell2",
+          -1.0
+        ],
+        [
+          "load",
+          1,
+          "spell2",
+          "original/path/1/"
+        ],
+        [
+          "reset",
+          1,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          1,
+          3
+        ],
+        [
+          "load",
+          1,
+          "_commons",
+          "original/path/1/"
+        ],
+        [
+          "declare",
+          1,
+          "DeclareSkill",
+          "spell3",
+          -1.0
+        ],
+        [
+          "load",
+          1,
+          "spell3",
+          "original/path/1/"
+        ],
+        [
+          "reset",
+          1,
+          "DeclareSkill"
+        ],
+        [
+          "path",
+          1,
+          "original/path/0/"
+        ],
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "init_vcb",
+          1
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "skill0",
+            0
+          ],
+          null,
+          [
+            "skill2",
+            2
+          ],
+          [
+            "skill3",
+            3
+          ]
+        ],
+        [
+          null,
+          [
+            "spell1",
+            4294967295
+          ],
+          [
+            "spell2",
+            4294967295
+          ],
+          [
+            "spell3",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "data/scripts/skills/",
+        "original/path/0/"
+      ],
+      "active": 1
+    },
+    {
+      "params": {
+        "counts": [
+          4,
+          4
+        ],
+        "mutation": 2,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          0,
+          0
+        ]
+      },
+      "update": false,
+      "trace": [
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "capture_path",
+          "original/path/0/"
+        ],
+        [
+          "path",
+          0,
+          "data/scripts/skills/"
+        ],
+        [
+          "list",
+          0
+        ],
+        [
+          "reserve",
+          0,
+          4
+        ],
+        [
+          "row",
+          0,
+          0
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill0",
+          0.0
+        ],
+        [
+          "load",
+          0,
+          "skill0",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "list",
+          1
+        ],
+        [
+          "reserve",
+          1,
+          4
+        ],
+        [
+          "row",
+          1,
+          0
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "spell0",
+          -1.0
+        ],
+        [
+          "load",
+          0,
+          "spell0",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          1,
+          1
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "spell1",
+          -1.0
+        ],
+        [
+          "load",
+          0,
+          "spell1",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          1,
+          2
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "spell2",
+          -1.0
+        ],
+        [
+          "load",
+          0,
+          "spell2",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          1,
+          3
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "spell3",
+          -1.0
+        ],
+        [
+          "load",
+          0,
+          "spell3",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "path",
+          0,
+          "original/path/0/"
+        ],
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "init_vcb",
+          0
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "skill0",
+            0
+          ]
+        ],
+        [
+          [
+            "spell0",
+            4294967295
+          ],
+          [
+            "spell1",
+            4294967295
+          ],
+          [
+            "spell2",
+            4294967295
+          ],
+          [
+            "spell3",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          4,
+          4
+        ],
+        "mutation": 3,
+        "empty_mask": 18,
+        "fail_mask": 36,
+        "existing": [
+          0,
+          0
+        ]
+      },
+      "update": false,
+      "trace": [
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "capture_path",
+          "original/path/0/"
+        ],
+        [
+          "path",
+          0,
+          "data/scripts/skills/"
+        ],
+        [
+          "list",
+          0
+        ],
+        [
+          "reserve",
+          0,
+          4
+        ],
+        [
+          "row",
+          0,
+          0
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill0",
+          0.0
+        ],
+        [
+          "load",
+          0,
+          "skill0",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          0,
+          1
+        ],
+        [
+          "row",
+          0,
+          2
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill2",
+          2.0
+        ],
+        [
+          "load",
+          0,
+          "skill2",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "list",
+          1
+        ],
+        [
+          "reserve",
+          1,
+          4
+        ],
+        [
+          "row",
+          1,
+          0
+        ],
+        [
+          "row",
+          1,
+          1
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "spell1",
+          -1.0
+        ],
+        [
+          "load",
+          0,
+          "spell1",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          1,
+          2
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "spell2",
+          -1.0
+        ],
+        [
+          "load",
+          0,
+          "spell2",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          1,
+          3
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "spell3",
+          -1.0
+        ],
+        [
+          "load",
+          0,
+          "spell3",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "path",
+          0,
+          "original/path/0/"
+        ],
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "init_vcb",
+          0
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "skill0",
+            0
+          ],
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          [
+            "spell2",
+            4294967295
+          ],
+          [
+            "spell3",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          4,
+          4
+        ],
+        "mutation": 4,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          0,
+          0
+        ]
+      },
+      "update": false,
+      "trace": [
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "capture_path",
+          "original/path/0/"
+        ],
+        [
+          "path",
+          0,
+          "data/scripts/skills/"
+        ],
+        [
+          "list",
+          0
+        ],
+        [
+          "reserve",
+          0,
+          4
+        ],
+        [
+          "row",
+          0,
+          0
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill0",
+          0.0
+        ],
+        [
+          "load",
+          0,
+          "skill0",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          0,
+          1
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill1",
+          1.0
+        ],
+        [
+          "load",
+          0,
+          "skill1",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          0,
+          2
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill2",
+          2.0
+        ],
+        [
+          "load",
+          0,
+          "skill2",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          0,
+          3
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill3",
+          3.0
+        ],
+        [
+          "load",
+          0,
+          "skill3",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "path",
+          0,
+          "original/path/0/"
+        ],
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "init_vcb",
+          0
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "skill0",
+            0
+          ],
+          [
+            "skill1",
+            1
+          ],
+          [
+            "skill2",
+            2
+          ],
+          [
+            "skill3",
+            3
+          ]
+        ],
+        [
+          [
+            "reentered",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          4,
+          4
+        ],
+        "mutation": 5,
+        "empty_mask": 18,
+        "fail_mask": 0,
+        "existing": [
+          1,
+          1
+        ]
+      },
+      "update": false,
+      "trace": [
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "capture_path",
+          "original/path/0/"
+        ],
+        [
+          "path",
+          0,
+          "data/scripts/skills/"
+        ],
+        [
+          "path",
+          0,
+          "original/path/0/"
+        ],
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "init_vcb",
+          0
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          4,
+          4
+        ],
+        "mutation": 6,
+        "empty_mask": 0,
+        "fail_mask": 36,
+        "existing": [
+          0,
+          0
+        ]
+      },
+      "update": false,
+      "trace": [
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "capture_path",
+          "original/path/0/"
+        ],
+        [
+          "path",
+          0,
+          "data/scripts/skills/"
+        ],
+        [
+          "list",
+          0
+        ],
+        [
+          "reserve",
+          0,
+          4
+        ],
+        [
+          "row",
+          0,
+          0
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill0",
+          0.0
+        ],
+        [
+          "load",
+          0,
+          "skill0",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          0,
+          1
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill1",
+          1.0
+        ],
+        [
+          "load",
+          0,
+          "skill1",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          0,
+          2
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill2",
+          2.0
+        ],
+        [
+          "load",
+          0,
+          "skill2",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          0,
+          3
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "skill3",
+          3.0
+        ],
+        [
+          "load",
+          0,
+          "skill3",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "list",
+          1
+        ],
+        [
+          "reserve",
+          1,
+          4
+        ],
+        [
+          "row",
+          1,
+          0
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "spell0",
+          -1.0
+        ],
+        [
+          "load",
+          0,
+          "spell0",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          1,
+          1
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "spell1",
+          -1.0
+        ],
+        [
+          "load",
+          0,
+          "spell1",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          1,
+          2
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "spell2",
+          -1.0
+        ],
+        [
+          "load",
+          0,
+          "spell2",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          1,
+          3
+        ],
+        [
+          "load",
+          0,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          0,
+          "DeclareSkill",
+          "spell3",
+          -1.0
+        ],
+        [
+          "load",
+          0,
+          "spell3",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          0,
+          "DeclareSkill"
+        ],
+        [
+          "path",
+          0,
+          "original/path/0/"
+        ],
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "init_vcb",
+          0
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "skill0",
+            0
+          ],
+          [
+            "skill1",
+            1
+          ],
+          null,
+          [
+            "skill3",
+            3
+          ]
+        ],
+        [
+          [
+            "spell0",
+            4294967295
+          ],
+          null,
+          [
+            "spell2",
+            4294967295
+          ],
+          [
+            "spell3",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          4,
+          4
+        ],
+        "mutation": 7,
+        "empty_mask": 18,
+        "fail_mask": 0,
+        "existing": [
+          0,
+          0
+        ]
+      },
+      "update": false,
+      "trace": [
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "capture_path",
+          "original/path/1/"
+        ],
+        [
+          "path",
+          1,
+          "data/scripts/skills/"
+        ],
+        [
+          "list",
+          0
+        ],
+        [
+          "reserve",
+          0,
+          4
+        ],
+        [
+          "row",
+          0,
+          0
+        ],
+        [
+          "load",
+          1,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          1,
+          "DeclareSkill",
+          "skill0",
+          0.0
+        ],
+        [
+          "load",
+          1,
+          "skill0",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          1,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          0,
+          1
+        ],
+        [
+          "row",
+          0,
+          2
+        ],
+        [
+          "load",
+          1,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          1,
+          "DeclareSkill",
+          "skill2",
+          2.0
+        ],
+        [
+          "load",
+          1,
+          "skill2",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          1,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          0,
+          3
+        ],
+        [
+          "load",
+          1,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          1,
+          "DeclareSkill",
+          "skill3",
+          3.0
+        ],
+        [
+          "load",
+          1,
+          "skill3",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          1,
+          "DeclareSkill"
+        ],
+        [
+          "list",
+          1
+        ],
+        [
+          "reserve",
+          1,
+          4
+        ],
+        [
+          "row",
+          1,
+          0
+        ],
+        [
+          "row",
+          1,
+          1
+        ],
+        [
+          "load",
+          1,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          1,
+          "DeclareSkill",
+          "spell1",
+          -1.0
+        ],
+        [
+          "load",
+          1,
+          "spell1",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          1,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          1,
+          2
+        ],
+        [
+          "load",
+          1,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          1,
+          "DeclareSkill",
+          "spell2",
+          -1.0
+        ],
+        [
+          "load",
+          1,
+          "spell2",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          1,
+          "DeclareSkill"
+        ],
+        [
+          "row",
+          1,
+          3
+        ],
+        [
+          "load",
+          1,
+          "_commons",
+          "data/scripts/skills/"
+        ],
+        [
+          "declare",
+          1,
+          "DeclareSkill",
+          "spell3",
+          -1.0
+        ],
+        [
+          "load",
+          1,
+          "spell3",
+          "data/scripts/skills/"
+        ],
+        [
+          "reset",
+          1,
+          "DeclareSkill"
+        ],
+        [
+          "path",
+          1,
+          "original/path/1/"
+        ],
+        [
+          "debug_load"
+        ],
+        [
+          "debug_switch",
+          "Lua_LoadMemUsage"
+        ],
+        [
+          "init_vcb",
+          1
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "skill0",
+            0
+          ],
+          null,
+          [
+            "skill2",
+            2
+          ],
+          [
+            "skill3",
+            3
+          ]
+        ],
+        [
+          null,
+          [
+            "spell1",
+            4294967295
+          ],
+          [
+            "spell2",
+            4294967295
+          ],
+          [
+            "spell3",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 1
+    },
+    {
+      "params": {
+        "counts": [
+          2,
+          2
+        ],
+        "mutation": 0,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          2,
+          1
+        ],
+        "state": 3,
+        "status": 0,
+        "returned": 2
+      },
+      "update": true,
+      "trace": [
+        [
+          "predicate",
+          6,
+          3
+        ],
+        [
+          "predicate",
+          7,
+          3
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "existing0",
+          0.0
+        ],
+        [
+          "erase_results",
+          2
+        ],
+        [
+          "update_skill",
+          0,
+          "OnSkillUpdate"
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "existing1",
+          1.0
+        ],
+        [
+          "erase_results",
+          2
+        ],
+        [
+          "update_skill",
+          0,
+          "OnSkillUpdate"
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "existing0",
+          -1.0
+        ],
+        [
+          "erase_results",
+          2
+        ],
+        [
+          "update_skill",
+          0,
+          "OnSkillUpdate"
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ],
+          [
+            "existing1",
+            1
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          2,
+          2
+        ],
+        "mutation": 0,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          2,
+          1
+        ],
+        "state": 3,
+        "status": 1,
+        "returned": 2
+      },
+      "update": true,
+      "trace": [
+        [
+          "predicate",
+          6,
+          3
+        ],
+        [
+          "predicate",
+          7,
+          3
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "existing0",
+          0.0
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "existing1",
+          1.0
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "existing0",
+          -1.0
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ],
+          [
+            "existing1",
+            1
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          2,
+          2
+        ],
+        "mutation": 8,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          2,
+          1
+        ],
+        "state": 3,
+        "status": 0,
+        "returned": 2
+      },
+      "update": true,
+      "trace": [
+        [
+          "predicate",
+          6,
+          3
+        ],
+        [
+          "predicate",
+          7,
+          3
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "existing0",
+          0.0
+        ],
+        [
+          "erase_results",
+          2
+        ],
+        [
+          "update_skill",
+          1,
+          "OnSkillUpdate"
+        ],
+        [
+          "set_skill",
+          1,
+          "SetSkill",
+          "existing1",
+          1.0
+        ],
+        [
+          "erase_results",
+          2
+        ],
+        [
+          "update_skill",
+          1,
+          "OnSkillUpdate"
+        ],
+        [
+          "set_skill",
+          1,
+          "SetSkill",
+          "existing0",
+          -1.0
+        ],
+        [
+          "erase_results",
+          2
+        ],
+        [
+          "update_skill",
+          1,
+          "OnSkillUpdate"
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ],
+          [
+            "existing1",
+            1
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          2,
+          2
+        ],
+        "mutation": 8,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          2,
+          1
+        ],
+        "state": 3,
+        "status": 1,
+        "returned": 2
+      },
+      "update": true,
+      "trace": [
+        [
+          "predicate",
+          6,
+          3
+        ],
+        [
+          "predicate",
+          7,
+          3
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "existing0",
+          0.0
+        ],
+        [
+          "set_skill",
+          1,
+          "SetSkill",
+          "existing1",
+          1.0
+        ],
+        [
+          "set_skill",
+          1,
+          "SetSkill",
+          "existing0",
+          -1.0
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ],
+          [
+            "existing1",
+            1
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          2,
+          2
+        ],
+        "mutation": 9,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          2,
+          1
+        ],
+        "state": 3,
+        "status": 0,
+        "returned": 2
+      },
+      "update": true,
+      "trace": [
+        [
+          "predicate",
+          6,
+          3
+        ],
+        [
+          "predicate",
+          7,
+          3
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "existing0",
+          0.0
+        ],
+        [
+          "erase_results",
+          2
+        ],
+        [
+          "update_skill",
+          0,
+          "OnSkillUpdate"
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "existing1",
+          1.0
+        ],
+        [
+          "erase_results",
+          2
+        ],
+        [
+          "update_skill",
+          0,
+          "OnSkillUpdate"
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "existing0",
+          -1.0
+        ],
+        [
+          "erase_results",
+          2
+        ],
+        [
+          "update_skill",
+          0,
+          "OnSkillUpdate"
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ],
+          [
+            "existing1",
+            1
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          2,
+          2
+        ],
+        "mutation": 9,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          2,
+          1
+        ],
+        "state": 3,
+        "status": 1,
+        "returned": 2
+      },
+      "update": true,
+      "trace": [
+        [
+          "predicate",
+          6,
+          3
+        ],
+        [
+          "predicate",
+          7,
+          3
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "existing0",
+          0.0
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "existing1",
+          1.0
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "existing0",
+          -1.0
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ],
+          [
+            "existing1",
+            1
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          2,
+          2
+        ],
+        "mutation": 10,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          2,
+          1
+        ],
+        "state": 3,
+        "status": 0,
+        "returned": 2
+      },
+      "update": true,
+      "trace": [
+        [
+          "predicate",
+          6,
+          3
+        ],
+        [
+          "predicate",
+          7,
+          3
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "existing0",
+          0.0
+        ],
+        [
+          "erase_results",
+          2
+        ],
+        [
+          "update_skill",
+          0,
+          "OnSkillUpdate"
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "existing1",
+          1.0
+        ],
+        [
+          "erase_results",
+          2
+        ],
+        [
+          "update_skill",
+          0,
+          "OnSkillUpdate"
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "existing0",
+          -1.0
+        ],
+        [
+          "erase_results",
+          2
+        ],
+        [
+          "update_skill",
+          0,
+          "OnSkillUpdate"
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "added_spell",
+          -1.0
+        ],
+        [
+          "erase_results",
+          2
+        ],
+        [
+          "update_skill",
+          0,
+          "OnSkillUpdate"
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ],
+          [
+            "existing1",
+            1
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ],
+          [
+            "added_spell",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          2,
+          2
+        ],
+        "mutation": 10,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          2,
+          1
+        ],
+        "state": 3,
+        "status": 1,
+        "returned": 2
+      },
+      "update": true,
+      "trace": [
+        [
+          "predicate",
+          6,
+          3
+        ],
+        [
+          "predicate",
+          7,
+          3
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "existing0",
+          0.0
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "existing1",
+          1.0
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "existing0",
+          -1.0
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "added_spell",
+          -1.0
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ],
+          [
+            "existing1",
+            1
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ],
+          [
+            "added_spell",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          2,
+          2
+        ],
+        "mutation": 11,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          2,
+          1
+        ],
+        "state": 3,
+        "status": 0,
+        "returned": 2
+      },
+      "update": true,
+      "trace": [
+        [
+          "predicate",
+          6,
+          3
+        ],
+        [
+          "predicate",
+          7,
+          3
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "existing0",
+          0.0
+        ],
+        [
+          "predicate",
+          6,
+          3
+        ],
+        [
+          "predicate",
+          7,
+          3
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "existing0",
+          0.0
+        ],
+        [
+          "erase_results",
+          2
+        ],
+        [
+          "update_skill",
+          0,
+          "OnSkillUpdate"
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "existing1",
+          1.0
+        ],
+        [
+          "erase_results",
+          2
+        ],
+        [
+          "update_skill",
+          0,
+          "OnSkillUpdate"
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "existing0",
+          -1.0
+        ],
+        [
+          "erase_results",
+          2
+        ],
+        [
+          "update_skill",
+          0,
+          "OnSkillUpdate"
+        ],
+        [
+          "erase_results",
+          2
+        ],
+        [
+          "update_skill",
+          0,
+          "OnSkillUpdate"
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "existing1",
+          1.0
+        ],
+        [
+          "erase_results",
+          2
+        ],
+        [
+          "update_skill",
+          0,
+          "OnSkillUpdate"
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "existing0",
+          -1.0
+        ],
+        [
+          "erase_results",
+          2
+        ],
+        [
+          "update_skill",
+          0,
+          "OnSkillUpdate"
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ],
+          [
+            "existing1",
+            1
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          2,
+          2
+        ],
+        "mutation": 11,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          2,
+          1
+        ],
+        "state": 3,
+        "status": 1,
+        "returned": 2
+      },
+      "update": true,
+      "trace": [
+        [
+          "predicate",
+          6,
+          3
+        ],
+        [
+          "predicate",
+          7,
+          3
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "existing0",
+          0.0
+        ],
+        [
+          "predicate",
+          6,
+          3
+        ],
+        [
+          "predicate",
+          7,
+          3
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "existing0",
+          0.0
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "existing1",
+          1.0
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "existing0",
+          -1.0
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "existing1",
+          1.0
+        ],
+        [
+          "set_skill",
+          0,
+          "SetSkill",
+          "existing0",
+          -1.0
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ],
+          [
+            "existing1",
+            1
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          2,
+          2
+        ],
+        "mutation": 0,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          2,
+          1
+        ],
+        "state": 6,
+        "status": 0,
+        "returned": 2
+      },
+      "update": true,
+      "trace": [
+        [
+          "predicate",
+          6,
+          6
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ],
+          [
+            "existing1",
+            1
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          2,
+          2
+        ],
+        "mutation": 0,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          2,
+          1
+        ],
+        "state": 6,
+        "status": 1,
+        "returned": 2
+      },
+      "update": true,
+      "trace": [
+        [
+          "predicate",
+          6,
+          6
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ],
+          [
+            "existing1",
+            1
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          2,
+          2
+        ],
+        "mutation": 8,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          2,
+          1
+        ],
+        "state": 6,
+        "status": 0,
+        "returned": 2
+      },
+      "update": true,
+      "trace": [
+        [
+          "predicate",
+          6,
+          6
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ],
+          [
+            "existing1",
+            1
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          2,
+          2
+        ],
+        "mutation": 8,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          2,
+          1
+        ],
+        "state": 6,
+        "status": 1,
+        "returned": 2
+      },
+      "update": true,
+      "trace": [
+        [
+          "predicate",
+          6,
+          6
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ],
+          [
+            "existing1",
+            1
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          2,
+          2
+        ],
+        "mutation": 9,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          2,
+          1
+        ],
+        "state": 6,
+        "status": 0,
+        "returned": 2
+      },
+      "update": true,
+      "trace": [
+        [
+          "predicate",
+          6,
+          6
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ],
+          [
+            "existing1",
+            1
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          2,
+          2
+        ],
+        "mutation": 9,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          2,
+          1
+        ],
+        "state": 6,
+        "status": 1,
+        "returned": 2
+      },
+      "update": true,
+      "trace": [
+        [
+          "predicate",
+          6,
+          6
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ],
+          [
+            "existing1",
+            1
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          2,
+          2
+        ],
+        "mutation": 10,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          2,
+          1
+        ],
+        "state": 6,
+        "status": 0,
+        "returned": 2
+      },
+      "update": true,
+      "trace": [
+        [
+          "predicate",
+          6,
+          6
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ],
+          [
+            "existing1",
+            1
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          2,
+          2
+        ],
+        "mutation": 10,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          2,
+          1
+        ],
+        "state": 6,
+        "status": 1,
+        "returned": 2
+      },
+      "update": true,
+      "trace": [
+        [
+          "predicate",
+          6,
+          6
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ],
+          [
+            "existing1",
+            1
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          2,
+          2
+        ],
+        "mutation": 11,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          2,
+          1
+        ],
+        "state": 6,
+        "status": 0,
+        "returned": 2
+      },
+      "update": true,
+      "trace": [
+        [
+          "predicate",
+          6,
+          6
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ],
+          [
+            "existing1",
+            1
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          2,
+          2
+        ],
+        "mutation": 11,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          2,
+          1
+        ],
+        "state": 6,
+        "status": 1,
+        "returned": 2
+      },
+      "update": true,
+      "trace": [
+        [
+          "predicate",
+          6,
+          6
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ],
+          [
+            "existing1",
+            1
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          2,
+          2
+        ],
+        "mutation": 0,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          2,
+          1
+        ],
+        "state": 7,
+        "status": 0,
+        "returned": 2
+      },
+      "update": true,
+      "trace": [
+        [
+          "predicate",
+          6,
+          7
+        ],
+        [
+          "predicate",
+          7,
+          7
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ],
+          [
+            "existing1",
+            1
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          2,
+          2
+        ],
+        "mutation": 0,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          2,
+          1
+        ],
+        "state": 7,
+        "status": 1,
+        "returned": 2
+      },
+      "update": true,
+      "trace": [
+        [
+          "predicate",
+          6,
+          7
+        ],
+        [
+          "predicate",
+          7,
+          7
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ],
+          [
+            "existing1",
+            1
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          2,
+          2
+        ],
+        "mutation": 8,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          2,
+          1
+        ],
+        "state": 7,
+        "status": 0,
+        "returned": 2
+      },
+      "update": true,
+      "trace": [
+        [
+          "predicate",
+          6,
+          7
+        ],
+        [
+          "predicate",
+          7,
+          7
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ],
+          [
+            "existing1",
+            1
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          2,
+          2
+        ],
+        "mutation": 8,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          2,
+          1
+        ],
+        "state": 7,
+        "status": 1,
+        "returned": 2
+      },
+      "update": true,
+      "trace": [
+        [
+          "predicate",
+          6,
+          7
+        ],
+        [
+          "predicate",
+          7,
+          7
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ],
+          [
+            "existing1",
+            1
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          2,
+          2
+        ],
+        "mutation": 9,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          2,
+          1
+        ],
+        "state": 7,
+        "status": 0,
+        "returned": 2
+      },
+      "update": true,
+      "trace": [
+        [
+          "predicate",
+          6,
+          7
+        ],
+        [
+          "predicate",
+          7,
+          7
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ],
+          [
+            "existing1",
+            1
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          2,
+          2
+        ],
+        "mutation": 9,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          2,
+          1
+        ],
+        "state": 7,
+        "status": 1,
+        "returned": 2
+      },
+      "update": true,
+      "trace": [
+        [
+          "predicate",
+          6,
+          7
+        ],
+        [
+          "predicate",
+          7,
+          7
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ],
+          [
+            "existing1",
+            1
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          2,
+          2
+        ],
+        "mutation": 10,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          2,
+          1
+        ],
+        "state": 7,
+        "status": 0,
+        "returned": 2
+      },
+      "update": true,
+      "trace": [
+        [
+          "predicate",
+          6,
+          7
+        ],
+        [
+          "predicate",
+          7,
+          7
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ],
+          [
+            "existing1",
+            1
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          2,
+          2
+        ],
+        "mutation": 10,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          2,
+          1
+        ],
+        "state": 7,
+        "status": 1,
+        "returned": 2
+      },
+      "update": true,
+      "trace": [
+        [
+          "predicate",
+          6,
+          7
+        ],
+        [
+          "predicate",
+          7,
+          7
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ],
+          [
+            "existing1",
+            1
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          2,
+          2
+        ],
+        "mutation": 11,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          2,
+          1
+        ],
+        "state": 7,
+        "status": 0,
+        "returned": 2
+      },
+      "update": true,
+      "trace": [
+        [
+          "predicate",
+          6,
+          7
+        ],
+        [
+          "predicate",
+          7,
+          7
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ],
+          [
+            "existing1",
+            1
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    },
+    {
+      "params": {
+        "counts": [
+          2,
+          2
+        ],
+        "mutation": 11,
+        "empty_mask": 0,
+        "fail_mask": 0,
+        "existing": [
+          2,
+          1
+        ],
+        "state": 7,
+        "status": 1,
+        "returned": 2
+      },
+      "update": true,
+      "trace": [
+        [
+          "predicate",
+          6,
+          7
+        ],
+        [
+          "predicate",
+          7,
+          7
+        ]
+      ],
+      "slots": [
+        [
+          [
+            "existing0",
+            0
+          ],
+          [
+            "existing1",
+            1
+          ]
+        ],
+        [
+          [
+            "existing0",
+            4294967295
+          ]
+        ]
+      ],
+      "paths": [
+        "original/path/0/",
+        "original/path/1/"
+      ],
+      "active": 0
+    }
+  ],
+  "scope": "Executed original setup and update bodies plus actual skill constructor/update wrapper. Lua load/call/Get, debug, STL/string/Arguments/ReturnValues/allocation and table resolution are explicit controlled synchronous services. No native implementation or actual authored skill execution claim."
+}

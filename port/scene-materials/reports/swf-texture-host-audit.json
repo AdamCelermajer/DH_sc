@@ -1,0 +1,38 @@
+{
+  "validation": "PASS",
+  "comparisons": 2879,
+  "atomic_guards": 11,
+  "mismatches": 0,
+  "source_sha256": {
+    "port/scene-materials/swf_texture.cpp": "5e5fb0a1c31c7a79d212db678a4df71be84f40bdb1e3ecde192a009599801b85",
+    "port/scene-materials/swf_texture.hpp": "6013cd34295b1986d1af8327279051a242bfd20eb3f5add8e8580c46000402f7",
+    "port/scene-materials/tests/swf_texture.cpp": "3efbf778e5aaa5743e3d79712524357453bacafffc201b8efa8caa3fd7d67189",
+    "port/scene-materials/tests/swf_texture_host.py": "bfbe917ea75e8e4bcb5ae47767106a28f211d3048ff3a34c604f840d50e6229c"
+  },
+  "library_sha256": "dcce2c110a79a0ae1e4ed7aa9e38cdb86980bad4efeed9be7239e2a0404fee76",
+  "executable_sha256": "16f4fc0488946cc89aabbb2cd64f873e1af94b04d180d363296d6c45fe1a35b2",
+  "reference_sha256": "39074fb2e7379cf0eb2a987739e4cb4414c71e2b2fb98043b8ba56aaa0bc4f4a",
+  "original_instruction_report_sha256": "c5e0f71db486d3c34155847118184caddda996b8248ea786634bc2b6443d4305",
+  "isolated_swf_texture_library_executed": true,
+  "main_scene_library_executed": false,
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer"
+  ],
+  "sanitizer_findings": 0,
+  "compiler": "g++ (Ubuntu 15.2.0-16ubuntu1) 15.2.0\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+  "flags": [
+    "-std=c++17",
+    "-O1",
+    "-g",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation"
+  ],
+  "scope": "Original-derived filename/archive query/wrap/diffuse/renderpass/table gold and atomic malformed port contracts. Actual GPU/cache/resource lifetime and SWF draw coordinator remain separate providers."
+}

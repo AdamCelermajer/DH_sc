@@ -1,0 +1,145 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "host_audit": {
+    "validation": "PASS",
+    "gold_cases": 1165,
+    "ordered_services": 5773,
+    "atomic_guards": 13,
+    "required_failure_prefixes": 5,
+    "mismatches": 0
+  },
+  "session_VM_composition": {
+    "validation": "PASS",
+    "actual_Crypt_monster_load_then_init": 11,
+    "active_Post_calls": 14,
+    "active_Final_calls": 13,
+    "nested_active_guard_calls": 29,
+    "required_failure_prefixes": 1,
+    "source_Lua_Post_error_delivered": 1,
+    "positive_source_Lua_load_error_delivered": 1,
+    "final_false_cases": 1,
+    "DebugSwitches_missing_file_fixture_deliveries": 1,
+    "host_fixture_projection_reads": 70,
+    "checks": 914,
+    "VM_checks": 84,
+    "mismatches": 0
+  },
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "diagnostics": 0,
+    "leak_detection": true
+  },
+  "source_sha256": {
+    "port/level-world/character_deferred_script.hpp": "329325647b9703e89fc0a9023018722db0f72339d3d98bec08aab435ed3a883a",
+    "port/level-world/character_deferred_script.cpp": "59b83b69c25d76eb8efb7a8551b606248acb0eda60d384fff2f820abac948745",
+    "port/level-world/character_deferred_script_session.cpp": "9f75853e80fc36b1411e8d9c38e471c079c47ea05b896f51dff4d12007060c92",
+    "port/level-world/tests/character_deferred_script.cpp": "5c5f7ab8b1be570ef33d9193fb5a8b0a70626d3d11d62867653b0e1a45421576",
+    "port/level-world/tests/character_deferred_script_session.cpp": "c86b9347eeffcd4b71409b87eefd0fddc4b763c272267fd3cc8adb14f2048f52",
+    "port/level-world/tests/character_script_lifecycle.cpp": "2dd7accbcc5564633f6c0405248acd572e1cbfb6ac8f45888d033b29a570d3db",
+    "port/level-world/tests/character_script_session.cpp": "b7b35c03b057dd09eacf162f8af01795a2ce41db4904c4c500b4e8173940e734",
+    "port/level-world/character_script_lifecycle.cpp": "7161ac627879454dfb6166d1db46108ef238bb171e64eb85b5a0d50248c4a6df",
+    "port/level-world/character_script_lifecycle.hpp": "bf7916e299901b3e46fbb1b1a388165f1f2a90895f55c808792c52e0f59ef9c7",
+    ".local-inputs/character-deferred-script/host.py": "8e2c6cde9a52f8340509c90b1b79c15e1c56dc50c035f7c2aaa1fd518de08ade"
+  },
+  "input_sha256": {
+    "port/level-world/reference/character-game-design/real-cache-inputs.bin": "6e7d4390521ef857295c59ce3457cde8690a82ee9d14b5208588779b24acbd70",
+    ".local-inputs/character-script-owner-discovery/ai-commons-source.luac": "20d34968e9983e14c24223085ab40d55d47f9387dfdbbf3ff7e6b39aea91252c",
+    ".local-inputs/character-script-owner-extension/monster.luac": "84f07caaeb2c04f2024cc3e27d41f33806b2c53d6e8861bb3d8b371118fd0e1d",
+    "port/android-native/app/src/main/assets/worlds/crypt01.dact": "be44bd6d160973bf70a0cab61399a14d8bea6a7eade41790594cf6b781a04cca"
+  },
+  "gold_sha256": "418ca85843cd0e8835bf1b3b3e63334997aa634d989f454394111b4271e76394",
+  "arm64_report_sha256": "d969ead7feb41df90daac8767b5c89630201f28db0b19a6d9856875c6872f7dd",
+  "executable_sha256": {
+    "deferred-audit": "fb9e9352513bba2402739a0d124b1ccfa5d9f7688c8b65e660f64411a136b3ea",
+    "deferred-session-audit": "1ddc27ef9bb0a52befae003b88aaa387b4639dbef1c68c322b591d1ca21927fa"
+  },
+  "shared_dependency_snapshot_sha256": {
+    "libdh2_engine_animation.so": "a56f42d1d09fb1bbd46eeef4d7b2464a9dea9f007e348d0790ec74c39033b3ae",
+    "libdh2_engine_skinning.so": "5c40960c2deec5bf2752f5b9972cdc4cb7e254c833815df97c948538b230be4b",
+    "libdh2_game_data.so": "5f1a506662d6a45e0d79f1ea2b09269eb15e1a7f7c05cf74cfafc72533c7dbe5",
+    "libdh2_level_world.so": "b12fe69d4317ecc631b3f79eb26443eea33b13aae5ba8cf6081b888592173f21",
+    "libdh2_scene_materials.so": "08b26f5c9f913919fd76e054e1f2aa2dc5ff4d0ac073cd7171ef08f96c975411",
+    "libdh2_script_runtime.so": "3f1886b22c2230e6ddda5c75fae248d0a710b75034eac3144489f9992b7f9945"
+  },
+  "compiler_sha256": "e6718f7e0c7d057c3ff77b550c603da9bc4030e3ede3c053705acce1293dbe4d",
+  "commands": [
+    {
+      "arguments": [
+        "g++",
+        "-std=c++17",
+        "-O2",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "port/level-world/tests/character_deferred_script.cpp",
+        "port/level-world/character_deferred_script.cpp",
+        "port/level-world/character_script_lifecycle.cpp",
+        "-o",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-deferred-script/deferred-audit"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "g++",
+        "-std=c++17",
+        "-O2",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "port/level-world/tests/character_deferred_script_session.cpp",
+        "port/level-world/character_deferred_script.cpp",
+        "port/level-world/character_deferred_script_session.cpp",
+        "-L/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-deferred-script/dependencies",
+        "-ldh2_level_world",
+        "-ldh2_game_data",
+        "-ldh2_script_runtime",
+        "-ldl",
+        "-Wl,-rpath,/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-deferred-script/dependencies",
+        "-o",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-deferred-script/deferred-session-audit"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-deferred-script/deferred-audit",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/reference/character-deferred-script/deferred-fixtures.bin"
+      ],
+      "returncode": 0,
+      "stdout": "{\"validation\":\"PASS\",\"gold_cases\":1165,\"ordered_services\":5773,\"atomic_guards\":13,\"required_failure_prefixes\":5,\"mismatches\":0}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-deferred-script/deferred-session-audit",
+        "port/level-world/reference/character-game-design/real-cache-inputs.bin",
+        ".local-inputs/character-script-owner-discovery/ai-commons-source.luac",
+        ".local-inputs/character-script-owner-extension/monster.luac",
+        "port/android-native/app/src/main/assets/worlds/crypt01.dact"
+      ],
+      "returncode": 0,
+      "stdout": "{\"validation\":\"PASS\",\"actual_Crypt_monster_load_then_init\":11,\"active_Post_calls\":14,\"active_Final_calls\":13,\"nested_active_guard_calls\":29,\"required_failure_prefixes\":1,\"source_Lua_Post_error_delivered\":1,\"positive_source_Lua_load_error_delivered\":1,\"final_false_cases\":1,\"DebugSwitches_missing_file_fixture_deliveries\":1,\"host_fixture_projection_reads\":70,\"checks\":914,\"VM_checks\":84,\"mismatches\":0}\n",
+      "stderr": ""
+    }
+  ],
+  "scope": "Original instruction fixture replay plus NEW phase adapter using genuine source-derived CharacterScriptSession/private Lua VM. Vitals/configure/update and Host/cache-selection/missing-debug-file providers are explicit fixture boundaries; real original commons/monster initialization executes. Existing dependency binaries are snapshotted independently, not claimed rebuilt from this stage. No full Character.Update/initial Idle/live/package proof."
+}

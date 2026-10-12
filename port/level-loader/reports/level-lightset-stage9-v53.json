@@ -1,0 +1,85 @@
+{
+  "version": 53,
+  "source_original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_status": "new isolated adoption candidate; selected/shared source untouched",
+  "files": [
+    "canonical_light_point_v53.hpp",
+    "canonical_light_point_v53.cpp",
+    "canonical_light_point_factory_v53.hpp",
+    "canonical_light_point_factory_v53.cpp",
+    "level_lightset_stage9_v53.hpp",
+    "level_lightset_stage9_v53.cpp",
+    "canonical_lightset_file_v53.hpp",
+    "canonical_lightset_file_v53.cpp"
+  ],
+  "actual_source_behavior": {
+    "stage9": "Device.IsFixedPipeline chooses exactly fixed_light_set2d0 OR light_set2b8, no sequential/fallback route; empty chosen filename skips; tagModule",
+    "original_outer_poll_proof": 8,
+    "original_GO19_C1_and_declarations": true,
+    "light_specific_descriptors": 10,
+    "original_normalization_bit_exact_cases": 4,
+    "original_SyncData_field_radius_cases": 7,
+    "LoadScene_reference_literal": "",
+    "SyncData_debug_switch": "TestMultiPlayerLight",
+    "native_Swamp_ingestion": "actual supplied Module XML/native canonical parser+factory+PropertyMap+manager,oneGO19",
+    "registered_name": "_prim_PlayerLight_S (existing actual source factory special rule)",
+    "GO19_inherits": "ObjectBase, not GameObject",
+    "deferred_InitPost": "required actual CLightSceneNode(true); no fake renderer success"
+  },
+  "bindings": {
+    "source_filename": "reuse V52 authentic resolver; no fixed worlds/data aliases",
+    "file_parser_storage": "reuse same actual CanonicalCachedFileV1/manager/candidate/class dispatch, pins original XML and exact factory prefix",
+    "config": "borrow same published Level38 and actual CanonicalLevelConfigV1 strings",
+    "names": "borrow existing LightSetNameOwnerV3 only in main full light manager facet; no copied names tree",
+    "node_storage": "Main real retained native node/CLight identity; typed owner/pointers/validation; scalar writes recovered",
+    "assigned_Level140_stream": "resource-open adapter explicitly rejects; real assigned-stream continuation still required",
+    "network": "missing AssignObjectNetworkId proved; positive source proof uses explicit host network endpoint fixture",
+    "activation": false,
+    "GPU": false,
+    "functional_attachment": false
+  },
+  "tests": {
+    "standalone": "ASAN/UBSAN original8branch/poll+4normalization+7SyncData; current actual PropertyMap with isolated schema proposal; stage9 stale config/prefix replay checks",
+    "actual_graph": "READY755 read-only source cache/registry proof; initial missing-network guard; actual source light InitPost stops at native-node provider",
+    "schema_modification": "test-only independent CPP copy; selected actual PropertyMap not edited",
+    "canonical_file_adapter": "syntax-only coherent selected header graph",
+    "no_device_or_shared_mutation": true
+  },
+  "source_receipt": [
+    {
+      "path": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\canonical_property_map_v1.cpp",
+      "sha256": "adc9bbe8597161d69cc3741cdaba5c411aecf91a2b0687feb49a1d211f60166e"
+    },
+    {
+      "path": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\canonical_object_factory_v1.cpp",
+      "sha256": "84eb8a2eb9aa8909f8d3f9918ec0fde83d92e434d69a4ce64978a8259bb08463"
+    },
+    {
+      "path": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\light_set_name_owner_v3.hpp",
+      "sha256": "e7afc43e2b671f75832f0061821c6a045e5a76dd68aed2e840e9dad432775b4a"
+    },
+    {
+      "path": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\light_set_name_owner_v3.cpp",
+      "sha256": "b23974c16157058ec0130e7cd43f478c2ffee3660d771f7c98b5e4776e13b877"
+    },
+    {
+      "path": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\canonical_level_config_module_v1.hpp",
+      "sha256": "41a70c9cf44f669f18316ac784cc4b27b114ce5045518c627f08eceffd270ddb"
+    },
+    {
+      "path": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader\\canonical_level_context_v1.hpp",
+      "sha256": "2d20917216f318aab910f89952198e8af785a8b3e44d0fb9b1cef10c72bd3cdd"
+    },
+    {
+      "path": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader\\level_constructor_v3.hpp",
+      "sha256": "dfe08c0300629ca7c01289891e02bbd266a29efc966d26a1c715f4782d2781b1"
+    }
+  ],
+  "remaining": [
+    "Parent adoption/common CMake/manifest and integrated source lifecycle stage9 check",
+    "Authentic Main Device.IsFixedPipeline/current scope binding",
+    "Main actual CLightSceneNode/SceneManager root+automatic list+CLight type storage/current owner",
+    "Main functional LightPoint.RefreshAttachment and full light-set material/filter/driver services",
+    "Assigned stream140 producer if reached; no fabricated file count/progress or runtime ready"
+  ]
+}

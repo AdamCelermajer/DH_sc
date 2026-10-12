@@ -1,0 +1,3984 @@
+{
+  "status": "SOURCE_DATA_INSPECTION_ONLY_NOT_NATIVE_PARSER_OR_RUNTIME_VALIDATION",
+  "cache_path": "C:\\Users\\adamc\\Downloads\\dungeonhunter2\\Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+  "cache_provenance": "Existing Chapter V36 canonical cache provenance reused; no new hash computed",
+  "association_source": "candidate/script-generic-coverage-v60/coverage-v60.json",
+  "schema_source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\script_data_schemas_v52.inc",
+  "summary": {
+    "level_identities": 51,
+    "levels_with_authored_local_pairs": 50,
+    "mapped_unique_local_pairs": 38,
+    "source_decoded_mapped_pairs": 38,
+    "missing_or_unresolved_pairs": [],
+    "common_scripts": 15,
+    "common_records": 81,
+    "mapped_local_scripts": 724,
+    "mapped_local_records": 7113,
+    "mapped_local_command_bytes": 140543,
+    "mapped_local_name_bytes": 14939,
+    "reached_kinds_all_selected_pairs": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6,
+      8,
+      10,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      51,
+      52,
+      54,
+      55,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      74,
+      77,
+      78,
+      79
+    ],
+    "reached_kinds_mapped_local_pairs": [
+      0,
+      3,
+      5,
+      6,
+      8,
+      10,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      51,
+      52,
+      54,
+      55,
+      64,
+      65,
+      66,
+      67,
+      69,
+      74,
+      77,
+      78,
+      79
+    ],
+    "additional_authored_kinds_over_retained_common_swamp": [
+      28,
+      64,
+      65,
+      66,
+      67,
+      74
+    ],
+    "static_table_slots_not_reached_in_selected_authored_pairs": [
+      4,
+      7,
+      9,
+      11,
+      18,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      47,
+      48,
+      49,
+      50,
+      53,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      71,
+      72,
+      73,
+      75,
+      76
+    ],
+    "source_schema_count": 80,
+    "native_or_engine_execution": false,
+    "tests_or_compiler_jobs_run": 0,
+    "hashes_computed": false,
+    "distinct_kinds_common_plus_mapped_local": 52,
+    "distinct_kinds_mapped_local": 46,
+    "all_selected_pair_records": 7253,
+    "unmapped_extra_pair_records": 59,
+    "source_only_all_37_previously_unknown_mapped_pairs_consumed": true
+  },
+  "pairs": [
+    {
+      "pair_id": "C00",
+      "owner_scope": "common_application",
+      "command_uri": "data/pydata/scripts_pyscripts.bin",
+      "name_uri": "data/pydata/scripts_pyscriptnames.bin",
+      "level_identities": [],
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts_pyscripts.bin",
+          "source_length": 1277,
+          "stored_zip_length": 315,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts_pyscriptnames.bin",
+          "source_length": 321,
+          "stored_zip_length": 146,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        1,
+        2,
+        3,
+        10,
+        12,
+        13,
+        22,
+        23,
+        24,
+        25,
+        26,
+        31,
+        32,
+        39,
+        63,
+        68,
+        69,
+        70,
+        79
+      ]
+    },
+    {
+      "pair_id": "L01",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/001_swamp_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/001_swamp_pyscriptnames.bin",
+      "level_identities": [
+        "SWAMP"
+      ],
+      "prior_metadata_command_bytes": 18117,
+      "prior_metadata_name_bytes": 1155,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/001_swamp_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/001_swamp_pyscripts.bin",
+          "source_length": 18117,
+          "stored_zip_length": 3408,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/001_swamp_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/001_swamp_pyscriptnames.bin",
+          "source_length": 1155,
+          "stored_zip_length": 485,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        10,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        19,
+        20,
+        21,
+        24,
+        25,
+        26,
+        27,
+        29,
+        30,
+        31,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        51,
+        52,
+        54,
+        55,
+        77,
+        78,
+        79
+      ]
+    },
+    {
+      "pair_id": "L02",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/002_swamp_cave_witch_pyscriptnames.bin",
+      "level_identities": [
+        "SWAMP_CAVE_WITCH_A"
+      ],
+      "prior_metadata_command_bytes": 4638,
+      "prior_metadata_name_bytes": 465,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin",
+          "source_length": 4638,
+          "stored_zip_length": 1064,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/002_swamp_cave_witch_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/002_swamp_cave_witch_pyscriptnames.bin",
+          "source_length": 465,
+          "stored_zip_length": 239,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        10,
+        12,
+        13,
+        15,
+        20,
+        21,
+        24,
+        25,
+        26,
+        29,
+        30,
+        31,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        54,
+        55,
+        79
+      ]
+    },
+    {
+      "pair_id": "L03",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/003_darkwood_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/003_darkwood_pyscriptnames.bin",
+      "level_identities": [
+        "DARKWOOD",
+        "DARKWOOD_V2",
+        "DARKWOOD_V3",
+        "PORTAL_ROOM"
+      ],
+      "prior_metadata_command_bytes": 19505,
+      "prior_metadata_name_bytes": 2251,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/003_darkwood_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/003_darkwood_pyscripts.bin",
+          "source_length": 19505,
+          "stored_zip_length": 3269,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/003_darkwood_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/003_darkwood_pyscriptnames.bin",
+          "source_length": 2251,
+          "stored_zip_length": 775,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        10,
+        12,
+        13,
+        14,
+        15,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        29,
+        30,
+        31,
+        39,
+        40,
+        41,
+        42,
+        43,
+        45,
+        46,
+        54,
+        55,
+        64,
+        74,
+        77,
+        78,
+        79
+      ]
+    },
+    {
+      "pair_id": "L04",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/004_root_den_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/004_root_den_pyscriptnames.bin",
+      "level_identities": [
+        "ROOT_DEN_01"
+      ],
+      "prior_metadata_command_bytes": 811,
+      "prior_metadata_name_bytes": 202,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/004_root_den_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/004_root_den_pyscripts.bin",
+          "source_length": 811,
+          "stored_zip_length": 338,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/004_root_den_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/004_root_den_pyscriptnames.bin",
+          "source_length": 202,
+          "stored_zip_length": 129,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        3,
+        5,
+        8,
+        10,
+        12,
+        15,
+        24,
+        25,
+        26,
+        27,
+        41,
+        46,
+        79
+      ]
+    },
+    {
+      "pair_id": "L05",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/005_infectedvillage_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/005_infectedvillage_pyscriptnames.bin",
+      "level_identities": [
+        "INFECTED_VILLAGE_01"
+      ],
+      "prior_metadata_command_bytes": 612,
+      "prior_metadata_name_bytes": 106,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/005_infectedvillage_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/005_infectedvillage_pyscripts.bin",
+          "source_length": 612,
+          "stored_zip_length": 214,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/005_infectedvillage_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/005_infectedvillage_pyscriptnames.bin",
+          "source_length": 106,
+          "stored_zip_length": 90,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        5,
+        8,
+        10,
+        12,
+        15,
+        24,
+        25,
+        26,
+        30
+      ]
+    },
+    {
+      "pair_id": "L06",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/006_driedwell_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/006_driedwell_pyscriptnames.bin",
+      "level_identities": [
+        "SECRET_BASEMENT_01"
+      ],
+      "prior_metadata_command_bytes": 802,
+      "prior_metadata_name_bytes": 143,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/006_driedwell_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/006_driedwell_pyscripts.bin",
+          "source_length": 802,
+          "stored_zip_length": 263,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/006_driedwell_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/006_driedwell_pyscriptnames.bin",
+          "source_length": 143,
+          "stored_zip_length": 114,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        3,
+        8,
+        10,
+        12,
+        15,
+        24,
+        25,
+        26,
+        30,
+        41,
+        43,
+        45
+      ]
+    },
+    {
+      "pair_id": "L07",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/007_crypt_01_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/007_crypt_01_pyscriptnames.bin",
+      "level_identities": [
+        "GOTHICUS_CRYPT_01",
+        "GOTHICUS_CRYPT_02",
+        "QUESTTEST"
+      ],
+      "prior_metadata_command_bytes": 2129,
+      "prior_metadata_name_bytes": 507,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/007_crypt_01_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/007_crypt_01_pyscripts.bin",
+          "source_length": 2129,
+          "stored_zip_length": 627,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/007_crypt_01_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/007_crypt_01_pyscriptnames.bin",
+          "source_length": 507,
+          "stored_zip_length": 252,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        3,
+        8,
+        10,
+        12,
+        15,
+        24,
+        25,
+        26,
+        30,
+        41,
+        54,
+        55,
+        77,
+        78
+      ]
+    },
+    {
+      "pair_id": "L08",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/008_gothicus_castle_01_pyscriptnames.bin",
+      "level_identities": [
+        "GOTHICUS_CASTLE_01"
+      ],
+      "prior_metadata_command_bytes": 7738,
+      "prior_metadata_name_bytes": 181,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin",
+          "source_length": 7738,
+          "stored_zip_length": 1422,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/008_gothicus_castle_01_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/008_gothicus_castle_01_pyscriptnames.bin",
+          "source_length": 181,
+          "stored_zip_length": 143,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        10,
+        12,
+        13,
+        14,
+        15,
+        19,
+        20,
+        24,
+        25,
+        26,
+        30,
+        31,
+        40,
+        41,
+        43,
+        44,
+        45,
+        46,
+        51,
+        52,
+        55,
+        64
+      ]
+    },
+    {
+      "pair_id": "L09",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/009_abbey_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/009_abbey_pyscriptnames.bin",
+      "level_identities": [
+        "ABBEY_ENTRANCE_01",
+        "ABBEY_RUINS_01"
+      ],
+      "prior_metadata_command_bytes": 8388,
+      "prior_metadata_name_bytes": 696,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/009_abbey_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/009_abbey_pyscripts.bin",
+          "source_length": 8388,
+          "stored_zip_length": 1587,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/009_abbey_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/009_abbey_pyscriptnames.bin",
+          "source_length": 696,
+          "stored_zip_length": 319,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        3,
+        5,
+        8,
+        10,
+        12,
+        13,
+        15,
+        16,
+        20,
+        24,
+        25,
+        26,
+        27,
+        30,
+        39,
+        40,
+        41,
+        42,
+        43,
+        45,
+        46,
+        54,
+        55,
+        78,
+        79
+      ]
+    },
+    {
+      "pair_id": "L10",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/010_elemental_lightning_room_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/010_elemental_lightning_room_pyscriptnames.bin",
+      "level_identities": [
+        "ELEMENTAL_LIGHT",
+        "RANDOMFORALEX"
+      ],
+      "prior_metadata_command_bytes": 438,
+      "prior_metadata_name_bytes": 138,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/010_elemental_lightning_room_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/010_elemental_lightning_room_pyscripts.bin",
+          "source_length": 438,
+          "stored_zip_length": 125,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/010_elemental_lightning_room_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/010_elemental_lightning_room_pyscriptnames.bin",
+          "source_length": 138,
+          "stored_zip_length": 96,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        10,
+        12,
+        15,
+        24,
+        25,
+        27,
+        28
+      ]
+    },
+    {
+      "pair_id": "L11",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/011_earth_temple_01_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/011_earth_temple_01_pyscriptnames.bin",
+      "level_identities": [
+        "EARTH_TEMPLE_01"
+      ],
+      "prior_metadata_command_bytes": 465,
+      "prior_metadata_name_bytes": 105,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/011_earth_temple_01_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/011_earth_temple_01_pyscripts.bin",
+          "source_length": 465,
+          "stored_zip_length": 196,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/011_earth_temple_01_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/011_earth_temple_01_pyscriptnames.bin",
+          "source_length": 105,
+          "stored_zip_length": 90,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        8,
+        10,
+        12,
+        15,
+        24,
+        25,
+        26,
+        27,
+        41,
+        46,
+        54,
+        69
+      ]
+    },
+    {
+      "pair_id": "L12",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/011_earth_temple_demo_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/011_earth_temple_demo_pyscriptnames.bin",
+      "level_identities": [
+        "APPLETEMPLE",
+        "APPLETEMPLEBACKUP"
+      ],
+      "prior_metadata_command_bytes": 1171,
+      "prior_metadata_name_bytes": 170,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/011_earth_temple_demo_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/011_earth_temple_demo_pyscripts.bin",
+          "source_length": 1171,
+          "stored_zip_length": 382,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/011_earth_temple_demo_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/011_earth_temple_demo_pyscriptnames.bin",
+          "source_length": 170,
+          "stored_zip_length": 125,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        5,
+        8,
+        10,
+        13,
+        15,
+        19,
+        20,
+        22,
+        23,
+        24,
+        25,
+        26,
+        30,
+        54,
+        55,
+        69
+      ]
+    },
+    {
+      "pair_id": "L13",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/012_earth_temple_02_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/012_earth_temple_02_pyscriptnames.bin",
+      "level_identities": [
+        "EARTH_TEMPLE_02"
+      ],
+      "prior_metadata_command_bytes": 1077,
+      "prior_metadata_name_bytes": 194,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/012_earth_temple_02_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/012_earth_temple_02_pyscripts.bin",
+          "source_length": 1077,
+          "stored_zip_length": 321,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/012_earth_temple_02_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/012_earth_temple_02_pyscriptnames.bin",
+          "source_length": 194,
+          "stored_zip_length": 133,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        5,
+        8,
+        10,
+        12,
+        15,
+        20,
+        24,
+        25,
+        26,
+        27,
+        30,
+        41,
+        42,
+        54,
+        55
+      ]
+    },
+    {
+      "pair_id": "L14",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/013_earth_temple_03_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/013_earth_temple_03_pyscriptnames.bin",
+      "level_identities": [
+        "EARTH_TEMPLE_03"
+      ],
+      "prior_metadata_command_bytes": 6547,
+      "prior_metadata_name_bytes": 307,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/013_earth_temple_03_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/013_earth_temple_03_pyscripts.bin",
+          "source_length": 6547,
+          "stored_zip_length": 1332,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/013_earth_temple_03_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/013_earth_temple_03_pyscriptnames.bin",
+          "source_length": 307,
+          "stored_zip_length": 193,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        10,
+        12,
+        13,
+        14,
+        15,
+        20,
+        21,
+        24,
+        25,
+        26,
+        27,
+        29,
+        30,
+        31,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        54,
+        55,
+        66,
+        69,
+        77,
+        78
+      ]
+    },
+    {
+      "pair_id": "L15",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/014_elemental_earth_room_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/014_elemental_earth_room_pyscriptnames.bin",
+      "level_identities": [
+        "ELEMENTAL_EARTH"
+      ],
+      "prior_metadata_command_bytes": 438,
+      "prior_metadata_name_bytes": 130,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/014_elemental_earth_room_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/014_elemental_earth_room_pyscripts.bin",
+          "source_length": 438,
+          "stored_zip_length": 124,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/014_elemental_earth_room_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/014_elemental_earth_room_pyscriptnames.bin",
+          "source_length": 130,
+          "stored_zip_length": 89,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        10,
+        12,
+        15,
+        24,
+        25,
+        27,
+        28
+      ]
+    },
+    {
+      "pair_id": "L16",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/015_red_desert_hub_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/015_red_desert_hub_pyscriptnames.bin",
+      "level_identities": [
+        "RED_DESERT_HUB"
+      ],
+      "prior_metadata_command_bytes": 2687,
+      "prior_metadata_name_bytes": 481,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/015_red_desert_hub_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/015_red_desert_hub_pyscripts.bin",
+          "source_length": 2687,
+          "stored_zip_length": 576,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/015_red_desert_hub_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/015_red_desert_hub_pyscriptnames.bin",
+          "source_length": 481,
+          "stored_zip_length": 210,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        3,
+        8,
+        10,
+        12,
+        15,
+        16,
+        17,
+        24,
+        25,
+        26,
+        39,
+        40,
+        41,
+        43,
+        45,
+        79
+      ]
+    },
+    {
+      "pair_id": "L17",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/016_red_desert_cave_01_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/016_red_desert_cave_01_pyscriptnames.bin",
+      "level_identities": [
+        "DESERT_CAVE_01"
+      ],
+      "prior_metadata_command_bytes": 226,
+      "prior_metadata_name_bytes": 125,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/016_red_desert_cave_01_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/016_red_desert_cave_01_pyscripts.bin",
+          "source_length": 226,
+          "stored_zip_length": 149,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/016_red_desert_cave_01_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/016_red_desert_cave_01_pyscriptnames.bin",
+          "source_length": 125,
+          "stored_zip_length": 89,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        3,
+        10,
+        15,
+        24,
+        25,
+        27,
+        79
+      ]
+    },
+    {
+      "pair_id": "L18",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/017_red_desert_cave_02_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/017_red_desert_cave_02_pyscriptnames.bin",
+      "level_identities": [
+        "DESERT_CAVE_02"
+      ],
+      "prior_metadata_command_bytes": 514,
+      "prior_metadata_name_bytes": 152,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/017_red_desert_cave_02_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/017_red_desert_cave_02_pyscripts.bin",
+          "source_length": 514,
+          "stored_zip_length": 238,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/017_red_desert_cave_02_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/017_red_desert_cave_02_pyscriptnames.bin",
+          "source_length": 152,
+          "stored_zip_length": 112,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        3,
+        5,
+        8,
+        10,
+        12,
+        15,
+        24,
+        25,
+        26,
+        27,
+        41,
+        79
+      ]
+    },
+    {
+      "pair_id": "L19",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/018_red_desert_cave_03_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/018_red_desert_cave_03_pyscriptnames.bin",
+      "level_identities": [
+        "DESERT_CAVE_03"
+      ],
+      "prior_metadata_command_bytes": 226,
+      "prior_metadata_name_bytes": 125,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/018_red_desert_cave_03_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/018_red_desert_cave_03_pyscripts.bin",
+          "source_length": 226,
+          "stored_zip_length": 149,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/018_red_desert_cave_03_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/018_red_desert_cave_03_pyscriptnames.bin",
+          "source_length": 125,
+          "stored_zip_length": 89,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        3,
+        10,
+        15,
+        24,
+        25,
+        27,
+        79
+      ]
+    },
+    {
+      "pair_id": "L20",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/019_light_house_01_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+      "level_identities": [
+        "LIGHT_HOUSE_01",
+        "LIGHT_HOUSE_02",
+        "LIGHT_HOUSE_03"
+      ],
+      "prior_metadata_command_bytes": 16203,
+      "prior_metadata_name_bytes": 1421,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_length": 16203,
+          "stored_zip_length": 1682,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "source_length": 1421,
+          "stored_zip_length": 294,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        3,
+        5,
+        8,
+        10,
+        12,
+        13,
+        14,
+        15,
+        20,
+        22,
+        23,
+        24,
+        25,
+        26,
+        29,
+        30,
+        40,
+        41,
+        42,
+        43,
+        45,
+        46,
+        54,
+        55,
+        79
+      ]
+    },
+    {
+      "pair_id": "L21",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/021_gothicus_castle_02_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/021_gothicus_castle_02_pyscriptnames.bin",
+      "level_identities": [
+        "GOTHICUS_CASTLE_02"
+      ],
+      "prior_metadata_command_bytes": 4448,
+      "prior_metadata_name_bytes": 427,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/021_gothicus_castle_02_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/021_gothicus_castle_02_pyscripts.bin",
+          "source_length": 4448,
+          "stored_zip_length": 883,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/021_gothicus_castle_02_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/021_gothicus_castle_02_pyscriptnames.bin",
+          "source_length": 427,
+          "stored_zip_length": 180,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        3,
+        8,
+        10,
+        12,
+        13,
+        15,
+        20,
+        21,
+        24,
+        25,
+        26,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        54,
+        55,
+        69
+      ]
+    },
+    {
+      "pair_id": "L22",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/022_swamp2_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/022_swamp2_pyscriptnames.bin",
+      "level_identities": [
+        "SWAMP_02"
+      ],
+      "prior_metadata_command_bytes": 831,
+      "prior_metadata_name_bytes": 114,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/022_swamp2_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/022_swamp2_pyscripts.bin",
+          "source_length": 831,
+          "stored_zip_length": 303,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/022_swamp2_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/022_swamp2_pyscriptnames.bin",
+          "source_length": 114,
+          "stored_zip_length": 97,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        3,
+        8,
+        10,
+        12,
+        15,
+        20,
+        24,
+        25,
+        26,
+        27,
+        41,
+        42,
+        43,
+        46,
+        54,
+        55
+      ]
+    },
+    {
+      "pair_id": "L23",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/022_swamp2_troll_cave_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/022_swamp2_troll_cave_pyscriptnames.bin",
+      "level_identities": [
+        "SWAMP_CAVE_TROLL_A"
+      ],
+      "prior_metadata_command_bytes": 703,
+      "prior_metadata_name_bytes": 162,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/022_swamp2_troll_cave_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/022_swamp2_troll_cave_pyscripts.bin",
+          "source_length": 703,
+          "stored_zip_length": 236,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/022_swamp2_troll_cave_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/022_swamp2_troll_cave_pyscriptnames.bin",
+          "source_length": 162,
+          "stored_zip_length": 121,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        3,
+        8,
+        10,
+        12,
+        15,
+        24,
+        25,
+        27,
+        41,
+        54,
+        55
+      ]
+    },
+    {
+      "pair_id": "L24",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/023_watertemple_01_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/023_watertemple_01_pyscriptnames.bin",
+      "level_identities": [
+        "WATER_TEMPLE_01"
+      ],
+      "prior_metadata_command_bytes": 6062,
+      "prior_metadata_name_bytes": 403,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/023_watertemple_01_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/023_watertemple_01_pyscripts.bin",
+          "source_length": 6062,
+          "stored_zip_length": 1123,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/023_watertemple_01_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/023_watertemple_01_pyscriptnames.bin",
+          "source_length": 403,
+          "stored_zip_length": 212,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        5,
+        8,
+        10,
+        12,
+        13,
+        15,
+        20,
+        24,
+        25,
+        26,
+        27,
+        30,
+        31,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        54,
+        55,
+        66
+      ]
+    },
+    {
+      "pair_id": "L25",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/024_elemental_water_room_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/024_elemental_water_room_pyscriptnames.bin",
+      "level_identities": [
+        "ELEMENTAL_WATER"
+      ],
+      "prior_metadata_command_bytes": 438,
+      "prior_metadata_name_bytes": 130,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/024_elemental_water_room_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/024_elemental_water_room_pyscripts.bin",
+          "source_length": 438,
+          "stored_zip_length": 126,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/024_elemental_water_room_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/024_elemental_water_room_pyscriptnames.bin",
+          "source_length": 130,
+          "stored_zip_length": 90,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        10,
+        12,
+        15,
+        24,
+        25,
+        27,
+        28
+      ]
+    },
+    {
+      "pair_id": "L26",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/025_icy_hub_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/025_icy_hub_pyscriptnames.bin",
+      "level_identities": [
+        "ICY_HUB"
+      ],
+      "prior_metadata_command_bytes": 2761,
+      "prior_metadata_name_bytes": 510,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/025_icy_hub_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/025_icy_hub_pyscripts.bin",
+          "source_length": 2761,
+          "stored_zip_length": 519,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/025_icy_hub_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/025_icy_hub_pyscriptnames.bin",
+          "source_length": 510,
+          "stored_zip_length": 246,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        5,
+        8,
+        10,
+        12,
+        15,
+        16,
+        17,
+        24,
+        25,
+        26,
+        27,
+        41,
+        54,
+        79
+      ]
+    },
+    {
+      "pair_id": "L27",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/026_icy_caverns_01_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/026_icy_caverns_01_pyscriptnames.bin",
+      "level_identities": [
+        "ICY_CAVERN_01"
+      ],
+      "prior_metadata_command_bytes": 617,
+      "prior_metadata_name_bytes": 143,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/026_icy_caverns_01_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/026_icy_caverns_01_pyscripts.bin",
+          "source_length": 617,
+          "stored_zip_length": 268,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/026_icy_caverns_01_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/026_icy_caverns_01_pyscriptnames.bin",
+          "source_length": 143,
+          "stored_zip_length": 107,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        3,
+        8,
+        10,
+        12,
+        15,
+        24,
+        25,
+        41,
+        79
+      ]
+    },
+    {
+      "pair_id": "L28",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/027_icy_caverns_02_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/027_icy_caverns_02_pyscriptnames.bin",
+      "level_identities": [
+        "ICY_CAVERN_02"
+      ],
+      "prior_metadata_command_bytes": 1051,
+      "prior_metadata_name_bytes": 195,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/027_icy_caverns_02_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/027_icy_caverns_02_pyscripts.bin",
+          "source_length": 1051,
+          "stored_zip_length": 368,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/027_icy_caverns_02_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/027_icy_caverns_02_pyscriptnames.bin",
+          "source_length": 195,
+          "stored_zip_length": 133,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        3,
+        5,
+        8,
+        10,
+        12,
+        13,
+        15,
+        24,
+        25,
+        26,
+        31,
+        45,
+        79
+      ]
+    },
+    {
+      "pair_id": "L29",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/028_icy_caverns_03_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/028_icy_caverns_03_pyscriptnames.bin",
+      "level_identities": [
+        "ICY_CAVERN_03"
+      ],
+      "prior_metadata_command_bytes": 85,
+      "prior_metadata_name_bytes": 95,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/028_icy_caverns_03_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/028_icy_caverns_03_pyscripts.bin",
+          "source_length": 85,
+          "stored_zip_length": 55,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/028_icy_caverns_03_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/028_icy_caverns_03_pyscriptnames.bin",
+          "source_length": 95,
+          "stored_zip_length": 68,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        3,
+        10,
+        15
+      ]
+    },
+    {
+      "pair_id": "L30",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/029_wind_temple_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/029_wind_temple_pyscriptnames.bin",
+      "level_identities": [
+        "WIND_TEMPLE_01"
+      ],
+      "prior_metadata_command_bytes": 3638,
+      "prior_metadata_name_bytes": 329,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/029_wind_temple_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/029_wind_temple_pyscripts.bin",
+          "source_length": 3638,
+          "stored_zip_length": 755,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/029_wind_temple_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/029_wind_temple_pyscriptnames.bin",
+          "source_length": 329,
+          "stored_zip_length": 170,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        3,
+        5,
+        8,
+        10,
+        12,
+        13,
+        15,
+        20,
+        24,
+        25,
+        26,
+        27,
+        30,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        54,
+        66
+      ]
+    },
+    {
+      "pair_id": "L31",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/030_elemental_air_room_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/030_elemental_air_room_pyscriptnames.bin",
+      "level_identities": [
+        "ELEMENTAL_AIR"
+      ],
+      "prior_metadata_command_bytes": 438,
+      "prior_metadata_name_bytes": 124,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/030_elemental_air_room_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/030_elemental_air_room_pyscripts.bin",
+          "source_length": 438,
+          "stored_zip_length": 124,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/030_elemental_air_room_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/030_elemental_air_room_pyscriptnames.bin",
+          "source_length": 124,
+          "stored_zip_length": 91,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        10,
+        12,
+        15,
+        24,
+        25,
+        27,
+        28
+      ]
+    },
+    {
+      "pair_id": "L32",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/031_firetemple_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/031_firetemple_pyscriptnames.bin",
+      "level_identities": [
+        "FIRE_TEMPLE_01"
+      ],
+      "prior_metadata_command_bytes": 7107,
+      "prior_metadata_name_bytes": 389,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/031_firetemple_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/031_firetemple_pyscripts.bin",
+          "source_length": 7107,
+          "stored_zip_length": 1462,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/031_firetemple_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/031_firetemple_pyscriptnames.bin",
+          "source_length": 389,
+          "stored_zip_length": 211,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        3,
+        5,
+        8,
+        10,
+        12,
+        13,
+        14,
+        15,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        30,
+        31,
+        39,
+        40,
+        41,
+        42,
+        43,
+        45,
+        46,
+        54,
+        55,
+        66
+      ]
+    },
+    {
+      "pair_id": "L33",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/032_elemental_fire_room_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/032_elemental_fire_room_pyscriptnames.bin",
+      "level_identities": [
+        "ELEMENTAL_FIRE"
+      ],
+      "prior_metadata_command_bytes": 438,
+      "prior_metadata_name_bytes": 126,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/032_elemental_fire_room_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/032_elemental_fire_room_pyscripts.bin",
+          "source_length": 438,
+          "stored_zip_length": 123,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/032_elemental_fire_room_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/032_elemental_fire_room_pyscriptnames.bin",
+          "source_length": 126,
+          "stored_zip_length": 91,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        10,
+        12,
+        15,
+        24,
+        25,
+        27,
+        28
+      ]
+    },
+    {
+      "pair_id": "L34",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/033_voidmaze_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/033_voidmaze_pyscriptnames.bin",
+      "level_identities": [
+        "VOID_MAZE_01",
+        "VOID_MAZE_02",
+        "VOID_MAZE_03"
+      ],
+      "prior_metadata_command_bytes": 2801,
+      "prior_metadata_name_bytes": 482,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/033_voidmaze_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/033_voidmaze_pyscripts.bin",
+          "source_length": 2801,
+          "stored_zip_length": 480,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/033_voidmaze_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/033_voidmaze_pyscriptnames.bin",
+          "source_length": 482,
+          "stored_zip_length": 231,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        8,
+        10,
+        12,
+        15,
+        22,
+        23,
+        24,
+        25,
+        26,
+        39,
+        41,
+        46,
+        54,
+        64
+      ]
+    },
+    {
+      "pair_id": "L35",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/036_underworld_hub_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/036_underworld_hub_pyscriptnames.bin",
+      "level_identities": [
+        "UNDERWORLD_HUB"
+      ],
+      "prior_metadata_command_bytes": 4495,
+      "prior_metadata_name_bytes": 634,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/036_underworld_hub_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/036_underworld_hub_pyscripts.bin",
+          "source_length": 4495,
+          "stored_zip_length": 1127,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/036_underworld_hub_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/036_underworld_hub_pyscriptnames.bin",
+          "source_length": 634,
+          "stored_zip_length": 303,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        3,
+        5,
+        8,
+        10,
+        12,
+        13,
+        15,
+        16,
+        17,
+        20,
+        22,
+        23,
+        24,
+        25,
+        26,
+        30,
+        31,
+        40,
+        41,
+        42,
+        43,
+        45,
+        46,
+        54,
+        64,
+        79
+      ]
+    },
+    {
+      "pair_id": "L36",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/037_machine_rooms_01_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/037_machine_rooms_01_pyscriptnames.bin",
+      "level_identities": [
+        "MACHINE_ROOMS_01"
+      ],
+      "prior_metadata_command_bytes": 3534,
+      "prior_metadata_name_bytes": 1050,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/037_machine_rooms_01_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/037_machine_rooms_01_pyscripts.bin",
+          "source_length": 3534,
+          "stored_zip_length": 750,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/037_machine_rooms_01_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/037_machine_rooms_01_pyscriptnames.bin",
+          "source_length": 1050,
+          "stored_zip_length": 296,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        3,
+        8,
+        10,
+        12,
+        13,
+        15,
+        20,
+        23,
+        24,
+        25,
+        26,
+        27,
+        30,
+        42,
+        43,
+        44,
+        46,
+        64
+      ]
+    },
+    {
+      "pair_id": "L37",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/039_darktemple_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/039_darktemple_pyscriptnames.bin",
+      "level_identities": [
+        "DARK_DUNGEON_TEMPLE_01"
+      ],
+      "prior_metadata_command_bytes": 2574,
+      "prior_metadata_name_bytes": 288,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/039_darktemple_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/039_darktemple_pyscripts.bin",
+          "source_length": 2574,
+          "stored_zip_length": 745,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/039_darktemple_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/039_darktemple_pyscriptnames.bin",
+          "source_length": 288,
+          "stored_zip_length": 152,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        3,
+        8,
+        10,
+        12,
+        13,
+        15,
+        20,
+        22,
+        24,
+        25,
+        26,
+        30,
+        31,
+        40,
+        41,
+        42,
+        43,
+        44,
+        46,
+        54,
+        55
+      ]
+    },
+    {
+      "pair_id": "L38",
+      "owner_scope": "local_level",
+      "command_uri": "data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/040_darktemple_bossroom_pyscriptnames.bin",
+      "level_identities": [
+        "DARK_DUNGEON_TEMPLE_BOSSROOM"
+      ],
+      "prior_metadata_command_bytes": 5790,
+      "prior_metadata_name_bytes": 284,
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin",
+          "source_length": 5790,
+          "stored_zip_length": 1307,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/040_darktemple_bossroom_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/040_darktemple_bossroom_pyscriptnames.bin",
+          "source_length": 284,
+          "stored_zip_length": 154,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        10,
+        12,
+        13,
+        14,
+        15,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        30,
+        31,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        51,
+        52,
+        65,
+        67,
+        79
+      ]
+    },
+    {
+      "pair_id": "U01",
+      "owner_scope": "unmapped_authored_pair",
+      "command_uri": "data/pydata/scripts/102_swamp_cave_troll_pyscripts.bin",
+      "name_uri": "data/pydata/scripts/102_swamp_cave_troll_pyscriptnames.bin",
+      "level_identities": [],
+      "resources": {
+        "command": {
+          "requested_uri": "data/pydata/scripts/102_swamp_cave_troll_pyscripts.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/102_swamp_cave_troll_pyscripts.bin",
+          "source_length": 1404,
+          "stored_zip_length": 358,
+          "status": "SOURCE_RESOURCE_READ"
+        },
+        "name": {
+          "requested_uri": "data/pydata/scripts/102_swamp_cave_troll_pyscriptnames.bin",
+          "found": true,
+          "candidate_count": 1,
+          "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/102_swamp_cave_troll_pyscriptnames.bin",
+          "source_length": 177,
+          "stored_zip_length": 80,
+          "status": "SOURCE_RESOURCE_READ"
+        }
+      },
+      "status": "SOURCE_PAIR_DECODED",
+      "declared_counts_match": true,
+      "reached_kinds": [
+        0,
+        8,
+        24,
+        25,
+        26,
+        30,
+        31,
+        40,
+        41,
+        43,
+        45,
+        46
+      ]
+    }
+  ],
+  "levels": [
+    {
+      "identity": "ABBEY_ENTRANCE_01",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L09"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/009_abbey_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        5,
+        8,
+        10,
+        12,
+        13,
+        15,
+        16,
+        20,
+        24,
+        25,
+        26,
+        27,
+        30,
+        39,
+        40,
+        41,
+        42,
+        43,
+        45,
+        46,
+        54,
+        55,
+        78,
+        79
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "ABBEY_RUINS_01",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L09"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/009_abbey_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        5,
+        8,
+        10,
+        12,
+        13,
+        15,
+        16,
+        20,
+        24,
+        25,
+        26,
+        27,
+        30,
+        39,
+        40,
+        41,
+        42,
+        43,
+        45,
+        46,
+        54,
+        55,
+        78,
+        79
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "APPLETEMPLE",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L12"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/011_earth_temple_demo_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        5,
+        8,
+        10,
+        13,
+        15,
+        19,
+        20,
+        22,
+        23,
+        24,
+        25,
+        26,
+        30,
+        54,
+        55,
+        69
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "APPLETEMPLEBACKUP",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L12"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/011_earth_temple_demo_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        5,
+        8,
+        10,
+        13,
+        15,
+        19,
+        20,
+        22,
+        23,
+        24,
+        25,
+        26,
+        30,
+        54,
+        55,
+        69
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "DARKWOOD",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L03"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/003_darkwood_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        10,
+        12,
+        13,
+        14,
+        15,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        29,
+        30,
+        31,
+        39,
+        40,
+        41,
+        42,
+        43,
+        45,
+        46,
+        54,
+        55,
+        64,
+        74,
+        77,
+        78,
+        79
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "DARKWOOD_V2",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L03"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/003_darkwood_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        10,
+        12,
+        13,
+        14,
+        15,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        29,
+        30,
+        31,
+        39,
+        40,
+        41,
+        42,
+        43,
+        45,
+        46,
+        54,
+        55,
+        64,
+        74,
+        77,
+        78,
+        79
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "DARKWOOD_V3",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L03"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/003_darkwood_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        10,
+        12,
+        13,
+        14,
+        15,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        29,
+        30,
+        31,
+        39,
+        40,
+        41,
+        42,
+        43,
+        45,
+        46,
+        54,
+        55,
+        64,
+        74,
+        77,
+        78,
+        79
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "DARK_DUNGEON_TEMPLE_01",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L37"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/039_darktemple_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        8,
+        10,
+        12,
+        13,
+        15,
+        20,
+        22,
+        24,
+        25,
+        26,
+        30,
+        31,
+        40,
+        41,
+        42,
+        43,
+        44,
+        46,
+        54,
+        55
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "DARK_DUNGEON_TEMPLE_BOSSROOM",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L38"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        10,
+        12,
+        13,
+        14,
+        15,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        30,
+        31,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        51,
+        52,
+        65,
+        67,
+        79
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "DESERT_CAVE_01",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L17"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/016_red_desert_cave_01_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        10,
+        15,
+        24,
+        25,
+        27,
+        79
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "DESERT_CAVE_02",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L18"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/017_red_desert_cave_02_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        5,
+        8,
+        10,
+        12,
+        15,
+        24,
+        25,
+        26,
+        27,
+        41,
+        79
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "DESERT_CAVE_03",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L19"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/018_red_desert_cave_03_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        10,
+        15,
+        24,
+        25,
+        27,
+        79
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "EARTH_TEMPLE_01",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L11"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/011_earth_temple_01_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        8,
+        10,
+        12,
+        15,
+        24,
+        25,
+        26,
+        27,
+        41,
+        46,
+        54,
+        69
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "EARTH_TEMPLE_02",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L13"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/012_earth_temple_02_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        5,
+        8,
+        10,
+        12,
+        15,
+        20,
+        24,
+        25,
+        26,
+        27,
+        30,
+        41,
+        42,
+        54,
+        55
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "EARTH_TEMPLE_03",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L14"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/013_earth_temple_03_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        10,
+        12,
+        13,
+        14,
+        15,
+        20,
+        21,
+        24,
+        25,
+        26,
+        27,
+        29,
+        30,
+        31,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        54,
+        55,
+        66,
+        69,
+        77,
+        78
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "ELEMENTAL_AIR",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L31"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/030_elemental_air_room_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        10,
+        12,
+        15,
+        24,
+        25,
+        27,
+        28
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "ELEMENTAL_EARTH",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L15"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/014_elemental_earth_room_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        10,
+        12,
+        15,
+        24,
+        25,
+        27,
+        28
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "ELEMENTAL_FIRE",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L33"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/032_elemental_fire_room_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        10,
+        12,
+        15,
+        24,
+        25,
+        27,
+        28
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "ELEMENTAL_LIGHT",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L10"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/010_elemental_lightning_room_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        10,
+        12,
+        15,
+        24,
+        25,
+        27,
+        28
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "ELEMENTAL_WATER",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L25"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/024_elemental_water_room_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        10,
+        12,
+        15,
+        24,
+        25,
+        27,
+        28
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "FIRE_TEMPLE_01",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L32"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/031_firetemple_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        5,
+        8,
+        10,
+        12,
+        13,
+        14,
+        15,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        30,
+        31,
+        39,
+        40,
+        41,
+        42,
+        43,
+        45,
+        46,
+        54,
+        55,
+        66
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "GOTHICUS_CASTLE_01",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L08"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        10,
+        12,
+        13,
+        14,
+        15,
+        19,
+        20,
+        24,
+        25,
+        26,
+        30,
+        31,
+        40,
+        41,
+        43,
+        44,
+        45,
+        46,
+        51,
+        52,
+        55,
+        64
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "GOTHICUS_CASTLE_02",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L21"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/021_gothicus_castle_02_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        8,
+        10,
+        12,
+        13,
+        15,
+        20,
+        21,
+        24,
+        25,
+        26,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        54,
+        55,
+        69
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "GOTHICUS_CRYPT_01",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L07"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/007_crypt_01_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        8,
+        10,
+        12,
+        15,
+        24,
+        25,
+        26,
+        30,
+        41,
+        54,
+        55,
+        77,
+        78
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "GOTHICUS_CRYPT_02",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L07"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/007_crypt_01_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        8,
+        10,
+        12,
+        15,
+        24,
+        25,
+        26,
+        30,
+        41,
+        54,
+        55,
+        77,
+        78
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "ICY_CAVERN_01",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L27"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/026_icy_caverns_01_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        8,
+        10,
+        12,
+        15,
+        24,
+        25,
+        41,
+        79
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "ICY_CAVERN_02",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L28"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/027_icy_caverns_02_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        5,
+        8,
+        10,
+        12,
+        13,
+        15,
+        24,
+        25,
+        26,
+        31,
+        45,
+        79
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "ICY_CAVERN_03",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L29"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/028_icy_caverns_03_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        3,
+        10,
+        15
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "ICY_HUB",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L26"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/025_icy_hub_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        5,
+        8,
+        10,
+        12,
+        15,
+        16,
+        17,
+        24,
+        25,
+        26,
+        27,
+        41,
+        54,
+        79
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "INFECTED_VILLAGE_01",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L05"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/005_infectedvillage_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        5,
+        8,
+        10,
+        12,
+        15,
+        24,
+        25,
+        26,
+        30
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "LIGHT_HOUSE_01",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L20"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/019_light_house_01_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        5,
+        8,
+        10,
+        12,
+        13,
+        14,
+        15,
+        20,
+        22,
+        23,
+        24,
+        25,
+        26,
+        29,
+        30,
+        40,
+        41,
+        42,
+        43,
+        45,
+        46,
+        54,
+        55,
+        79
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "LIGHT_HOUSE_02",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L20"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/019_light_house_01_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        5,
+        8,
+        10,
+        12,
+        13,
+        14,
+        15,
+        20,
+        22,
+        23,
+        24,
+        25,
+        26,
+        29,
+        30,
+        40,
+        41,
+        42,
+        43,
+        45,
+        46,
+        54,
+        55,
+        79
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "LIGHT_HOUSE_03",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L20"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/019_light_house_01_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        5,
+        8,
+        10,
+        12,
+        13,
+        14,
+        15,
+        20,
+        22,
+        23,
+        24,
+        25,
+        26,
+        29,
+        30,
+        40,
+        41,
+        42,
+        43,
+        45,
+        46,
+        54,
+        55,
+        79
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "MACHINE_ROOMS_01",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L36"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/037_machine_rooms_01_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        8,
+        10,
+        12,
+        13,
+        15,
+        20,
+        23,
+        24,
+        25,
+        26,
+        27,
+        30,
+        42,
+        43,
+        44,
+        46,
+        64
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "MULTIPLAYER_TEST",
+      "common_pair_id": "C00",
+      "local_pair_ids": [],
+      "local_command_uris": [],
+      "status": "NO_AUTHORED_LOCAL_SCRIPTFILE_IN_RETAINED_METADATA",
+      "local_reached_kinds": [],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "PORTAL_ROOM",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L03"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/003_darkwood_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        10,
+        12,
+        13,
+        14,
+        15,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        29,
+        30,
+        31,
+        39,
+        40,
+        41,
+        42,
+        43,
+        45,
+        46,
+        54,
+        55,
+        64,
+        74,
+        77,
+        78,
+        79
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "QUESTTEST",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L07"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/007_crypt_01_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        8,
+        10,
+        12,
+        15,
+        24,
+        25,
+        26,
+        30,
+        41,
+        54,
+        55,
+        77,
+        78
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "RANDOMFORALEX",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L10"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/010_elemental_lightning_room_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        10,
+        12,
+        15,
+        24,
+        25,
+        27,
+        28
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "RED_DESERT_HUB",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L16"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/015_red_desert_hub_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        8,
+        10,
+        12,
+        15,
+        16,
+        17,
+        24,
+        25,
+        26,
+        39,
+        40,
+        41,
+        43,
+        45,
+        79
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "ROOT_DEN_01",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L04"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/004_root_den_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        5,
+        8,
+        10,
+        12,
+        15,
+        24,
+        25,
+        26,
+        27,
+        41,
+        46,
+        79
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "SECRET_BASEMENT_01",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L06"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/006_driedwell_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        8,
+        10,
+        12,
+        15,
+        24,
+        25,
+        26,
+        30,
+        41,
+        43,
+        45
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "SWAMP",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L01"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/001_swamp_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        10,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        19,
+        20,
+        21,
+        24,
+        25,
+        26,
+        27,
+        29,
+        30,
+        31,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        51,
+        52,
+        54,
+        55,
+        77,
+        78,
+        79
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "SWAMP_02",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L22"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/022_swamp2_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        8,
+        10,
+        12,
+        15,
+        20,
+        24,
+        25,
+        26,
+        27,
+        41,
+        42,
+        43,
+        46,
+        54,
+        55
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "SWAMP_CAVE_TROLL_A",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L23"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/022_swamp2_troll_cave_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        8,
+        10,
+        12,
+        15,
+        24,
+        25,
+        27,
+        41,
+        54,
+        55
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "SWAMP_CAVE_WITCH_A",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L02"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        10,
+        12,
+        13,
+        15,
+        20,
+        21,
+        24,
+        25,
+        26,
+        29,
+        30,
+        31,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        54,
+        55,
+        79
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "UNDERWORLD_HUB",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L35"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/036_underworld_hub_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        5,
+        8,
+        10,
+        12,
+        13,
+        15,
+        16,
+        17,
+        20,
+        22,
+        23,
+        24,
+        25,
+        26,
+        30,
+        31,
+        40,
+        41,
+        42,
+        43,
+        45,
+        46,
+        54,
+        64,
+        79
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "VOID_MAZE_01",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L34"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/033_voidmaze_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        8,
+        10,
+        12,
+        15,
+        22,
+        23,
+        24,
+        25,
+        26,
+        39,
+        41,
+        46,
+        54,
+        64
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "VOID_MAZE_02",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L34"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/033_voidmaze_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        8,
+        10,
+        12,
+        15,
+        22,
+        23,
+        24,
+        25,
+        26,
+        39,
+        41,
+        46,
+        54,
+        64
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "VOID_MAZE_03",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L34"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/033_voidmaze_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        8,
+        10,
+        12,
+        15,
+        22,
+        23,
+        24,
+        25,
+        26,
+        39,
+        41,
+        46,
+        54,
+        64
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "WATER_TEMPLE_01",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L24"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/023_watertemple_01_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        5,
+        8,
+        10,
+        12,
+        13,
+        15,
+        20,
+        24,
+        25,
+        26,
+        27,
+        30,
+        31,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        54,
+        55,
+        66
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    },
+    {
+      "identity": "WIND_TEMPLE_01",
+      "common_pair_id": "C00",
+      "local_pair_ids": [
+        "L30"
+      ],
+      "local_command_uris": [
+        "data/pydata/scripts/029_wind_temple_pyscripts.bin"
+      ],
+      "status": "SOURCE_LOCAL_PAIRS_DECODED",
+      "local_reached_kinds": [
+        0,
+        3,
+        5,
+        8,
+        10,
+        12,
+        13,
+        15,
+        20,
+        24,
+        25,
+        26,
+        27,
+        30,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        54,
+        66
+      ],
+      "raw_operand_interpretation": "none",
+      "runtime_validated": false
+    }
+  ]
+}

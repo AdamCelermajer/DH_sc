@@ -1,0 +1,67 @@
+#pragma once
+#include <generic_actor_image_binding_v45.hpp>
+#include <cstddef>
+namespace dh2::loader {
+// DECLARATIONS/CONTRACT ONLY. No Main filesystem selector, sampler selection,
+// decode/upload implementation or source-name alias is supplied here.
+struct MainCurrentCResImageBorrowV59 {
+ std::shared_ptr<void> actual_scene_resource_owner;
+ std::shared_ptr<void> actual_cres_directory_owner;
+ const std::string* actual_cres_directory{};
+ std::uintptr_t actual_scene_identity{},actual_cres_identity{};
+ std::uint64_t generation{};
+ // Copies of this pin retain actual Scene/resource, NOT detached invented maps.
+};
+struct MainFullSImageResolverV59 {
+ std::shared_ptr<void> actual_filesystem_owner;
+ // Called inside V45 borrow_resources/SAME Visual scope. The full identity
+ // includes source_resource_uri, material/parameter/image records and full URI.
+ std::function<bool(const ActorVisualReadV37&,MainCurrentCResImageBorrowV59&,std::string&)> borrow_actual_cres;
+ std::function<bool(const MainCurrentCResImageBorrowV59&,std::string&)> require_current_owning_thread;
+ // Must use actual WorkingDirectory/mount and reached original CResFactory
+ // directory+'/'+FULL SImage.path then FULL SImage.path order. Any format/map
+ // change needs authenticated reached caller + initialized selector provenance.
+ // No basename substitution, q:/iphone compatibility claim, pvr2 alias or guessed
+ // GPU/config enum. Return canonical FULL cache URI or explicit missing provider.
+ std::function<bool(const MainCurrentCResImageBorrowV59&,
+   const MaterialImageIdentityV43&,std::string& canonical_full_uri,std::string&)> resolve_reached_original_uri;
+};
+// Additive callback factory; keep MaterialImageServicesV43 and legacy APIs.
+// Called in existing GenericActorImageServicesV45.borrow_resources, never after
+// retaining a detached ActorVisualReadV37 beyond its guarded consume callback.
+// Return ONLY the exact existing V43 canonical callback type; never overwrite
+// MaterialImageServicesV43.owner/read installed by Main V46. Main passes this
+// callback into V46.image_services, keeping {self,resolver,[self]read} together.
+// Main still binds V45.admit_before_read through actual V46 encoded
+// admission. No output callback is allowed to retain an entire renderer forever.
+using MainCanonicalImageResolverV59=decltype(MaterialImageServicesV43::canonical_uri);
+bool make_main_full_simage_canonical_uri_v59(const ActorVisualReadV37&,
+ const MainFullSImageResolverV59&,MainCanonicalImageResolverV59& out_resolver,std::string&);
+
+struct MainSelectedSamplerBindingV59 {
+ std::size_t ordered_binding_index{};
+ std::uint32_t parameter_record{},parameter_order{};
+ std::string exact_parameter_name;
+ std::uintptr_t actual_technique_identity{},actual_sampler_identity{};
+ // Selected source identities; do not infer driver slot from AlphaMap or rename
+ // wind transparent-sampler. Driver sampler slot/unit stays Main's real producer.
+};
+struct MainMultiSamplerImageConsumerV59 {
+ std::shared_ptr<void> actual_renderer_resource_owner;
+ std::function<bool(const ActorPrimitiveImagesReadV45&,std::vector<MainSelectedSamplerBindingV59>&,std::string&)> select_actual_technique_samplers;
+ // Input binding already owns full V43 identity, canonical URI, admitted bytes
+ // and resource pin. Do NOT call legacy upload(name) or reread by basename.
+ // No-image is the source sentinel; bypass filename/read/admission services.
+ // Main owns decoded/GPU admission, upload, context generation and actual sampler
+ // binding/pass registration. This interface does not supply those providers.
+ std::function<bool(const ActorPrimitiveImagesReadV45&,const MainSelectedSamplerBindingV59&,
+   const ActorMaterialImageBindingV45&,std::string&)> consume_actual_resolved_image;
+};
+// Additive synchronous consumer for existing submit_generic_actor_images_v45.
+// It validates selected index + exact parameter_record/order/name match before
+// calling Main's real backend. Scene/draw/material references expire on return;
+// backend may copy binding.image/cpu_admission_pin for retained byte ownership.
+bool consume_main_multi_sampler_images_v59(const ActorPrimitiveImagesReadV45&,
+ const MainMultiSamplerImageConsumerV59&,std::string&);
+}
+

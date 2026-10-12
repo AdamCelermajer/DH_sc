@@ -1,0 +1,112 @@
+--- a/port/engine-ui/vendor/gameswf1714/gameswf/gameswf_root.h
++++ b/port/engine-ui/vendor/gameswf1714/gameswf/gameswf_root.h
+@@ -89,6 +89,17 @@
+ 
+ 		weak_ptr<player> m_player;
+ 
++        //Original root+85/+86/+98, owned by this SAME native movie root.
++        //Only this queue controls deferred text; no separate player/renderer.
++        bool m_source_text_buffering85_v98{false};
++        bool m_source_text_flushing86_v98{false};
++        array<gc_ptr<character> > m_source_buffered_text98_v98;
++        void source_set_text_buffering_v98(bool enabled) { m_source_text_buffering85_v98=enabled; }
++        bool source_text_buffering_v98() const { return m_source_text_buffering85_v98; }
++        bool source_text_flushing_v98() const { return m_source_text_flushing86_v98; }
++        void source_queue_text_v98(character& actual) { m_source_buffered_text98_v98.push_back(gc_ptr<character>(&actual)); }
++        void source_flush_buffered_text_v98();
++
+ 		root(player* player, movie_def_impl* def);
+ 		~root();
+ 
+--- a/port/engine-ui/overlays/frame-v1/gameswf_root.cpp
++++ b/port/engine-ui/overlays/frame-v1/gameswf_root.cpp
+@@ -69,6 +69,8 @@
+ 
+ 		assert(m_def != NULL);
+ 		m_def = NULL;
++        //Qualified root D1 releases the original retained text array last.
++        m_source_buffered_text98_v98.resize(0);
+ 	}
+ 
+ 	void root::set_active_entity(character* ch)
+@@ -582,6 +584,18 @@
+ 
+ 	bool	root::has_looped() const { return m_movie->has_looped(); }
+ 
++    void root::source_flush_buffered_text_v98()
++    {
++        //Original7748b8: empty array leaves86 untouched; live count is reread
++        //after each actual character virtual display, then86 clears before refs.
++        if(m_source_buffered_text98_v98.size()<=0)return;
++        m_source_text_flushing86_v98=true;
++        for(int i=0;i<m_source_buffered_text98_v98.size();++i)
++            m_source_buffered_text98_v98[i]->display();
++        m_source_text_flushing86_v98=false;
++        m_source_buffered_text98_v98.resize(0);
++    }
++
+ 	void	root::display()
+ 	{
+ 		if (m_movie->get_visible() == false)
+@@ -598,6 +612,8 @@
+ 			m_def->m_frame_size.m_y_min, m_def->m_frame_size.m_y_max);
+ 
+ 		m_movie->display();
++        //Original7755bc: SAME queued text draws inside this display pass.
++        source_flush_buffered_text_v98();
+ 
+ 		gameswf::render::end_display();
+ 	}
+--- a/port/engine-ui/swf_edit_text_connection_v1.cpp
++++ b/port/engine-ui/swf_edit_text_connection_v1.cpp
+@@ -3,6 +3,7 @@
+ #include "edit_text_event_v1.hpp"
+ #include "gameswf/gameswf_text.h"
+ #include "gameswf/gameswf_player.h"
++#include "gameswf/gameswf_root.h"
+ #include "gameswf/gameswf_environment.h"
+ #include <map>
+ #include <stdexcept>
+@@ -153,7 +154,9 @@
+   while(character){auto& next=owners[character];if(!next)next=std::make_shared<edit_text_display_v1::Owner>();next->effect=character->m_source_effect_v1;next->parent.reset();if(previous)previous->parent=next;else state.owner=next;parents.push_back(next);previous=next;character=character->get_parent();}
+  }
+  edit_text_display_v1::Services services(){using Command=edit_text_display_v1::Command;edit_text_display_v1::Services s;
+-  s.policy=[this](auto&out,auto&){refresh();auto&p=impl.platform->policy();out={p.buffering,p.flushing,p.render_cache,p.filter_engine,impl.platform->provider_scale()};return true;};
++  s.policy=[this](auto&out,auto& e){refresh();auto* player=impl.field.get_player();auto* root=player?player->get_root():nullptr;
++   if(!root){e="Source text display requires SAME actual player/root";return false;}
++   auto&p=impl.platform->policy();out={root->source_text_buffering_v98(),root->source_text_flushing_v98(),p.render_cache,p.filter_engine,impl.platform->provider_scale()};return true;};
+   s.renderer_present=[this](bool&out,auto&){out=impl.platform->services().draw!=nullptr;return true;};
+   s.world_matrix=[this](auto&out,auto&){out=matrix(impl.field.get_world_matrix());return true;};
+   s.renderer=[this](const Command&c,std::string&e){auto service=impl.platform->services();
+@@ -164,7 +167,10 @@
+    draw.kind=c.kind==Command::mesh?SwfDraw::triangle_strip:SwfDraw::line_strip;draw.xy=c.xy;
+    if(!service.draw){e="source text draw sink unavailable";return false;}const bool ok=service.draw(service.context,draw,e);refresh();return ok;
+   };
+-  s.enqueue=[this](auto&e){return impl.platform->enqueue(impl.field.m_source_text_v1,e);};
++  s.enqueue=[this](auto& e){auto* player=impl.field.get_player();auto* root=player?player->get_root():nullptr;
++   if(!root){e="Source text enqueue requires SAME actual player/root";return false;}
++   //Original792e10 retains the actual native character, not a sidecar snapshot.
++   root->source_queue_text_v98(impl.field);return true;};
+   s.cache_validate=[this](bool&out,std::string&e){auto&cache=impl.platform->policy().cache_validate;if(!cache){e="source text render-cache validator unavailable";return false;}const bool ok=cache(out,e);refresh();return ok;};
+   s.records=[this](const auto&ctx,bool supplied,std::string&){receiver.display_records(ctx,supplied);refresh();return true;};
+   s.cosine=[](float f,float&out,auto&){out=std::cos(f);return true;};s.sine=[](float f,float&out,auto&){out=std::sin(f);return true;};
+--- a/port/engine-ui/swf_movie.cpp
++++ b/port/engine-ui/swf_movie.cpp
+@@ -223,11 +223,14 @@
+ SwfMovie::SwfMovie(SwfMovie&&)noexcept=default;SwfMovie&SwfMovie::operator=(SwfMovie&&)noexcept=default;
+ bool SwfMovie::load(const std::vector<std::string>&shared,const std::string&movie,const SwfServices&s,std::string&e){return load_resource_v98(shared,movie,s,false,e);}
+ bool SwfMovie::source_set_text_buffering_v98(bool enabled,std::string& e){
+- auto p=impl_;if(!p||!p->player||!p->root||!p->service.source_text_buffering_v98){e="Required SAME native root text-buffering byte85 setter";return false;}
++ auto p=impl_;if(!p||!p->player||!p->root){e="Required SAME native root text-buffering byte85 setter";return false;}
+  Impl::Scope scope(p.get(),true);if(!scope.entered){e="SWF core busy";return false;}
+  const auto& s=p->service;if(s.source_continue_v98&&!s.source_continue_v98(e))return false;
+- const bool ok=s.source_text_buffering_v98({p,p->player.get_ptr(),p->root.get_ptr()},enabled,e);
+- if(s.source_continue_v98&&!s.source_continue_v98(e))return false;return ok;
++ //Preserve a real incoming native observer if supplied, but the reached
++ //setter itself writes the SAME root read by actual edit_text/display flush.
++ if(s.source_text_buffering_v98&&!s.source_text_buffering_v98({p,p->player.get_ptr(),p->root.get_ptr()},enabled,e))return false;
++ if(s.source_continue_v98&&!s.source_continue_v98(e))return false;
++ p->root->source_set_text_buffering_v98(enabled);return true;
+ }
+ bool SwfMovie::load_source_resource_v98(const char* uri,const SwfServices& s,std::string& e){
+  if(!uri||!*uri){e="Required original primary1 resource URI";return false;}

@@ -1,0 +1,37 @@
+--- a/port/level-loader/production_noncharacter_composition_v67.hpp
++++ b/port/level-loader/production_noncharacter_composition_v67.hpp
+@@ -13,6 +13,8 @@
+  std::shared_ptr<CatalogGenericV70> generic;
+  std::shared_ptr<CatalogColBoxV71> colbox;
+  std::shared_ptr<CatalogFloorV72> floor;
++ // Actual extra canonical child owners, retired with this existing owner bag.
++ std::vector<std::shared_ptr<void>> additional_catalog_owners_v101;
+ };
+ struct ProductionNonCharacterServicesV67 {
+  CatalogContainerServicesV67 containers;
+@@ -23,6 +25,10 @@
+  std::shared_ptr<const CatalogGenericServicesV70> generic;
+  std::shared_ptr<const CatalogColBoxServicesV71> colbox;
+  std::shared_ptr<const CatalogFloorServicesV72> floor;
++ // Original factory parts, composed once into the same remaining catalog.
++ // Existing create() validates independent ownership, original names/addresses,
++ // reserved types and duplicate constructor authorities. No second registry.
++ std::vector<PartV67> additional_parts_v101;
+ };
+ // Actual constructor composition for SourceFactory.remaining. Main's Character
+ // bridge chains this callback for other types; bind the final combined callback
+--- a/port/level-loader/production_noncharacter_composition_v67.cpp
++++ b/port/level-loader/production_noncharacter_composition_v67.cpp
+@@ -32,6 +32,12 @@
+    if(!make_floor_catalog_part_v72(scope,*services.floor,part,e,&owners.floor))return false;
+    parts.push_back(std::move(part));
+   }
++  // Extra families join the same immutable constructor route before XML.
++  // The existing catalog validates each original entry and owner in one place.
++  for(auto& part:services.additional_parts_v101){
++   owners.additional_catalog_owners_v101.push_back(part.owner);
++   parts.push_back(std::move(part));
++  }
+   std::shared_ptr<ProductionNonCharacterCatalogV67> actual;
+   if(!ProductionNonCharacterCatalogV67::create(std::move(scope),std::move(parts),actual,e)||
+      !actual->require_entries(required,e))return false;

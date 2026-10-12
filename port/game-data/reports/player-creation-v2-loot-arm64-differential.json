@@ -1,0 +1,49 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "e87c6d159713f4d56f264ccd16e90e5434fd736148ccc6427a1bc78e39ee2d15",
+  "source_sha256": {
+    "port/game-data/loot_tables_v2.hpp": "b7618dda29339019e738362265bde13702326f4352f0c53ca64857e7a31ef931",
+    "port/game-data/loot_tables_v2.cpp": "ba72e90ac1003fe2e931024b3a21a99231048e8788d449794d80fffbc609892a"
+  },
+  "script_sha256": "70aa91787af036e7c9bd8e03dc4d5332d3696725da19d933f286d67d687f5793",
+  "gold_sha256": "97b3004304b478ebd51f4d3c65593318f48a9e5bf4e0064ccb62cfb11145d0f6",
+  "comparisons": 979,
+  "actual_original_Loot_records": 339,
+  "synthetic_original_records": 128,
+  "original_random_operations": 512,
+  "reader_offsets": [
+    {
+      "reader": "0x4ba4fc",
+      "start": 0,
+      "end": 44
+    },
+    {
+      "reader": "0x4ba3c8",
+      "start": 44,
+      "end": 54
+    },
+    {
+      "reader": "0x4ba27c",
+      "start": 54,
+      "end": 6486
+    },
+    {
+      "reader": "0x4ba12c",
+      "start": 6486,
+      "end": 229006
+    },
+    {
+      "reader": "0x4b9fe0",
+      "start": 229006,
+      "end": 229060
+    },
+    {
+      "reader": "0x4b9e8c",
+      "start": 229060,
+      "end": 282872
+    }
+  ],
+  "mismatches": 0,
+  "scope": "Original typed Loot readers and Random clone versus optimized native ARM64.\nStorage/stream services are explicit; original pointers/vtable headers alone\nare normalized. The genuine first six cache readers select every actual row.\n"
+}

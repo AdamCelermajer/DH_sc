@@ -1,0 +1,48 @@
+{
+  "validation": "PASS",
+  "source_sha256": {
+    "port/level-world/character_npc_body.hpp": "cc0eecb8675c25e08ac051c994959bd401d98f3b71954950985cb6fa45f1b049",
+    "port/level-world/character_npc_body.cpp": "e820dfb05b66b0ae567654a4489991b281bfd28b498795df6a81141bbbb0d303",
+    "port/level-world/tests/character_npc_body.cpp": "3be923c82a3d4f9951f32048ff6d8eab257fb746c11de38e505faf07fdf009c4",
+    "port/level-world/tests/character_npc_body_host.py": "86af73fff9796f5468c56373614d743a337992069c452e6da51c0186ec30ade2",
+    "port/level-world/tests/character_npc_body_original.py": "722bfac16cbe6ad48e238a5023bc1390b8c5f5cc1fe6d03652bf1f2c678c2846",
+    "port/level-world/reference/character-npc-body/NOTES.md": "d04b1e3a1521eaa9b981654e9b425a0a8873b11e7b43cc3a51c8a82569732544"
+  },
+  "reports_sha256": {
+    "port/level-world/reports/character-npc-body-source-host-audit.json": "0a0fb197ed478c7999af5b61f15c9f15014df4bf77123fbe121b7e3ca596088f",
+    "port/level-world/reports/character-npc-body-source-original-composition.json": "1ca809e9512de01a6da10ac27c94a8446f0818568679500eb9a2b0ad43d0d3f4"
+  },
+  "historical_dependency_proof": {
+    "path": "port\\level-world\\reports\\character-owned-monster-animation-initialization-main-linked-host-audit.json",
+    "sha256": "7133d6756b489cd68216b59ed83b5dc4432991ea6e493ccd147c9d4d080135cc",
+    "fresh_recompile_of_old_mesh_math_kernels": false
+  },
+  "current_kernel_source_sha256": {
+    "port/level-world/character_scene.hpp": "73f428a7f369a9f924bda424be7215b1d4e522e3edcd3b928f1d679c76d69534",
+    "port/level-world/character_scene.cpp": "3659d37e59559781fe7ab9f61e3383e1042187577df0cbba0a65bd7c3b8294f0",
+    "port/level-world/decor_scene.hpp": "a6af7f3f8f8dc5e54bec46eb2f82572af27b3d9f128d712c59365638c638cb73",
+    "port/level-world/decor_scene.cpp": "fb9e12a72dc1ccde580ba3973b11e9c40737954d4e58a76579949a3252c55a4a",
+    "port/level-world/character_body_config.hpp": "c2c921fdd67013db9ff9d000bf10852fb5bb3ba358c3822d993d3cd0ff64a28d",
+    "port/level-world/character_body_config.cpp": "acef13c8923143a1ad22aa8d57bbdc7c949d24183b6104bc15095db10442f58c",
+    "port/level-world/physical_world.hpp": "6041e04d6ffe0f95319eb2b66c614c013bc0f35f0205a89428f4ad9ceb7ce3c6",
+    "port/level-world/physical_world.cpp": "be5bf1faa4256553033b260b993ed32347766b9a029196616c5c4fb07eb99b15"
+  },
+  "scope": "Additive owned NPC source-kernel composition; standalone host and actual original-instruction fixture comparison. No new-helper ARM64 or full factory claim.",
+  "reference_sha256": {
+    "port/level-world/reference/character-npc-body/capture.py": "6485c0d52082eccb35d30785464649cc7fda2ea5a2eebc1c972bb0b9de3d3dec",
+    "port/level-world/reference/character-npc-body/capture_initialization_order.py": "32b011d11aa4c07598c246e38fdb5a80f86a30e667d5247d9ff3ac80e5f9bb3d",
+    "port/level-world/reference/character-npc-body/initialization-order.asm": "ae8b03974c46ab3b8ee5f64228ca9eb9ec04ce8872c48eafb73647594011f8eb",
+    "port/level-world/reference/character-npc-body/initialization-order.json": "d98eba1626ceb64a895953b98846c53bed5eba16831c154c664ff287a6f0c50e",
+    "port/level-world/reference/character-npc-body/NOTES.md": "d04b1e3a1521eaa9b981654e9b425a0a8873b11e7b43cc3a51c8a82569732544",
+    "port/level-world/reference/character-npc-body/original-functions.asm": "cf3da8164ba649f84e339697970553f681ec569e40f2c90e4ee4075e47becdae",
+    "port/level-world/reference/character-npc-body/original-functions.json": "36352b4c73cc9670c88f4c4e0a26e5090fc2ada765b54460007286efb579fc5e",
+    "port/level-world/reference/character-npc-body/source-fixtures.bin": "f986214126a18d58c79e058122ddaa7e8c54a00477757a26e067d0417b8a9b69",
+    "port/level-world/reference/character-npc-body/source-inputs.json": "56b5dbcc7be9b06e3181fbbddbb63912acb9fcb5977feb9c061a6e8e89449918",
+    "port/level-world/reference/character-npc-body/source-model-projections.json": "698a46b5f1ac0f6cd6062535fe64ea1f7909aac88880b6b95934d004dce4a16f"
+  },
+  "provisional_reports_excluded": [
+    "character-npc-body-host-audit.json",
+    "character-npc-body-original-composition.json"
+  ],
+  "pose_input": "Factory cached Scene before start/scene_phase; default compilation alone does not sample Scene."
+}

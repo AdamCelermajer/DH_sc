@@ -1,0 +1,521 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "function": "0x41d728",
+      "symbol": "_ZN14InfoHUDManager18applyOneTimeValuesEv",
+      "strings": [
+        {
+          "load": "0x41d740",
+          "add": "0x41d750",
+          "literal": "0x41d87c",
+          "address": "0x8bec48",
+          "text": "DPad"
+        }
+      ],
+      "cache_initializations": []
+    },
+    {
+      "function": "0x41d880",
+      "symbol": "_ZN14InfoHUDManager15initCachedCharsEv",
+      "strings": [
+        {
+          "load": "0x41d8b4",
+          "add": "0x41d8c0",
+          "literal": "0x41dc8c",
+          "address": "0x8c1600",
+          "text": "HUDStyle"
+        },
+        {
+          "load": "0x41d8c8",
+          "add": "0x41d8d4",
+          "literal": "0x41dc90",
+          "address": "0x8c1058",
+          "text": "_root.menu_HUD_%d"
+        },
+        {
+          "load": "0x41d8ec",
+          "add": "0x41d8fc",
+          "literal": "0x41dc94",
+          "address": "0x8c8908",
+          "text": "HUDelements.HealthBars.player.bar_hp"
+        },
+        {
+          "load": "0x41d908",
+          "add": "0x41d914",
+          "literal": "0x41dc98",
+          "address": "0x8c8930",
+          "text": "HUDelements.HealthBars.btn_potion.DistressGlow"
+        },
+        {
+          "load": "0x41d920",
+          "add": "0x41d92c",
+          "literal": "0x41dc9c",
+          "address": "0x8c8960",
+          "text": "_root.HurtCorners"
+        },
+        {
+          "load": "0x41d938",
+          "add": "0x41d944",
+          "literal": "0x41dca0",
+          "address": "0x8c8978",
+          "text": "HUDelements.HealthBars.player.bar_mp"
+        },
+        {
+          "load": "0x41d950",
+          "add": "0x41d95c",
+          "literal": "0x41dca4",
+          "address": "0x8c89a0",
+          "text": "HUDelements.HealthBars.player.bar_xp"
+        },
+        {
+          "load": "0x41d968",
+          "add": "0x41d974",
+          "literal": "0x41dca8",
+          "address": "0x8c89c8",
+          "text": "HUDelements.HealthBars.btn_potion.cnt.value"
+        },
+        {
+          "load": "0x41d980",
+          "add": "0x41d98c",
+          "literal": "0x41dcac",
+          "address": "0x8c89f8",
+          "text": "HUDelements.controls.controls.btn_spell.CoolDown"
+        },
+        {
+          "load": "0x41d998",
+          "add": "0x41d9a4",
+          "literal": "0x41dcb0",
+          "address": "0x8c8a30",
+          "text": "HUDelements.controls.controls.btn_spell.Grey"
+        },
+        {
+          "load": "0x41d9b8",
+          "add": "0x41d9c4",
+          "literal": "0x41dcb4",
+          "address": "0x8c8ac8",
+          "text": "HUDelements.controls.controls.list.btn_0"
+        },
+        {
+          "load": "0x41d9d0",
+          "add": "0x41d9dc",
+          "literal": "0x41dcb8",
+          "address": "0x8c8af8",
+          "text": "HUDelements.controls.controls.list.btn_0.CoolDown"
+        },
+        {
+          "load": "0x41d9e8",
+          "add": "0x41d9f4",
+          "literal": "0x41dcbc",
+          "address": "0x8c8b30",
+          "text": "HUDelements.controls.controls.list.btn_0.Grey"
+        },
+        {
+          "load": "0x41da00",
+          "add": "0x41da0c",
+          "literal": "0x41dcc0",
+          "address": "0x8c8b60",
+          "text": "HUDelements.controls.controls.list.btn_pre0"
+        },
+        {
+          "load": "0x41da18",
+          "add": "0x41da24",
+          "literal": "0x41dcc4",
+          "address": "0x8c8b90",
+          "text": "HUDelements.controls.controls.list.btn_pre0.CoolDown"
+        },
+        {
+          "load": "0x41da30",
+          "add": "0x41da3c",
+          "literal": "0x41dcc8",
+          "address": "0x8c8bc8",
+          "text": "HUDelements.controls.controls.list.btn_pre0.Grey"
+        },
+        {
+          "load": "0x41da48",
+          "add": "0x41da54",
+          "literal": "0x41dccc",
+          "address": "0x8c8c00",
+          "text": "HUDelements.controls.controls.list.btn_post0"
+        },
+        {
+          "load": "0x41da60",
+          "add": "0x41da6c",
+          "literal": "0x41dcd0",
+          "address": "0x8c8c30",
+          "text": "HUDelements.controls.controls.list.btn_post0.CoolDown"
+        },
+        {
+          "load": "0x41da78",
+          "add": "0x41da84",
+          "literal": "0x41dcd4",
+          "address": "0x8c8c68",
+          "text": "HUDelements.controls.controls.list.btn_post0.Grey"
+        },
+        {
+          "load": "0x41da90",
+          "add": "0x41da9c",
+          "literal": "0x41dcd8",
+          "address": "0x8c8ca0",
+          "text": "HUDelements.btn_charactermenu.anim_levelup"
+        },
+        {
+          "load": "0x41daa8",
+          "add": "0x41dab4",
+          "literal": "0x41dcdc",
+          "address": "0x8c84d0",
+          "text": "HUDelements.controls.controls.Joystick"
+        },
+        {
+          "load": "0x41dac0",
+          "add": "0x41dacc",
+          "literal": "0x41dce0",
+          "address": "0x8c8cd0",
+          "text": "HUDelements.HealthBars.enemy"
+        },
+        {
+          "load": "0x41dad8",
+          "add": "0x41dae4",
+          "literal": "0x41dce4",
+          "address": "0x8c8cf0",
+          "text": "HUDelements.HealthBars.enemy.enemy_name.text"
+        },
+        {
+          "load": "0x41daf0",
+          "add": "0x41dafc",
+          "literal": "0x41dce8",
+          "address": "0x8c8d20",
+          "text": "HUDelements.HealthBars.enemy.enemy_level.value"
+        },
+        {
+          "load": "0x41db08",
+          "add": "0x41db14",
+          "literal": "0x41dcec",
+          "address": "0x8c8d50",
+          "text": "HUDelements.HealthBars.enemy.HpBar.bar_hp"
+        },
+        {
+          "load": "0x41db24",
+          "add": "0x41db30",
+          "literal": "0x41dcf0",
+          "address": "0x8c8d80",
+          "text": "HUDelements.HealthBars.Ally0"
+        },
+        {
+          "load": "0x41db40",
+          "add": "0x41db4c",
+          "literal": "0x41dcf4",
+          "address": "0x8c8da0",
+          "text": "HUDelements.HealthBars.Ally1"
+        },
+        {
+          "load": "0x41db5c",
+          "add": "0x41db68",
+          "literal": "0x41dcf8",
+          "address": "0x8c8dc0",
+          "text": "HUDelements.HealthBars.Ally2"
+        },
+        {
+          "load": "0x41db78",
+          "add": "0x41db84",
+          "literal": "0x41dcfc",
+          "address": "0x8c8de0",
+          "text": "HUDelements.btn_charactermenu.btimg.HudChar"
+        },
+        {
+          "load": "0x41db94",
+          "add": "0x41dba0",
+          "literal": "0x41dd00",
+          "address": "0x8c8e10",
+          "text": "_root.DeathTimer"
+        },
+        {
+          "load": "0x41dbb0",
+          "add": "0x41dbc0",
+          "literal": "0x41dd04",
+          "address": "0x8c8e28",
+          "text": "_root.DeathTimer.DeathNumberTimeMc.TimerNumber_txt"
+        },
+        {
+          "load": "0x41dbf0",
+          "add": "0x41dbfc",
+          "literal": "0x41dd08",
+          "address": "0x8c8a98",
+          "text": "HUDelements.controls.controls.btn_skill%d.Grey"
+        },
+        {
+          "load": "0x41dbf4",
+          "add": "0x41dc00",
+          "literal": "0x41dd0c",
+          "address": "0x8c8a60",
+          "text": "HUDelements.controls.controls.btn_skill%d.CoolDown"
+        }
+      ],
+      "cache_initializations": [
+        {
+          "call": "0x41d904",
+          "manager_offset": "0xc",
+          "path": "HUDelements.HealthBars.player.bar_hp"
+        },
+        {
+          "call": "0x41d91c",
+          "manager_offset": "0x3c",
+          "path": "HUDelements.HealthBars.btn_potion.DistressGlow"
+        },
+        {
+          "call": "0x41d934",
+          "manager_offset": "0x6c",
+          "path": "_root.HurtCorners"
+        },
+        {
+          "call": "0x41d94c",
+          "manager_offset": "0x9c",
+          "path": "HUDelements.HealthBars.player.bar_mp"
+        },
+        {
+          "call": "0x41d964",
+          "manager_offset": "0xcc",
+          "path": "HUDelements.HealthBars.player.bar_xp"
+        },
+        {
+          "call": "0x41d97c",
+          "manager_offset": "0xfc",
+          "path": "HUDelements.HealthBars.btn_potion.cnt.value"
+        },
+        {
+          "call": "0x41d994",
+          "manager_offset": "0x12c",
+          "path": "HUDelements.controls.controls.btn_spell.CoolDown"
+        },
+        {
+          "call": "0x41d9ac",
+          "manager_offset": "0x15c",
+          "path": "HUDelements.controls.controls.btn_spell.Grey"
+        },
+        {
+          "call": "0x41d9cc",
+          "manager_offset": "0x18c",
+          "path": "HUDelements.controls.controls.list.btn_0"
+        },
+        {
+          "call": "0x41d9e4",
+          "manager_offset": "0x21c",
+          "path": "HUDelements.controls.controls.list.btn_0.CoolDown"
+        },
+        {
+          "call": "0x41d9fc",
+          "manager_offset": "0x2ac",
+          "path": "HUDelements.controls.controls.list.btn_0.Grey"
+        },
+        {
+          "call": "0x41da14",
+          "manager_offset": "0x1bc",
+          "path": "HUDelements.controls.controls.list.btn_pre0"
+        },
+        {
+          "call": "0x41da2c",
+          "manager_offset": "0x24c",
+          "path": "HUDelements.controls.controls.list.btn_pre0.CoolDown"
+        },
+        {
+          "call": "0x41da44",
+          "manager_offset": "0x2dc",
+          "path": "HUDelements.controls.controls.list.btn_pre0.Grey"
+        },
+        {
+          "call": "0x41da5c",
+          "manager_offset": "0x1ec",
+          "path": "HUDelements.controls.controls.list.btn_post0"
+        },
+        {
+          "call": "0x41da74",
+          "manager_offset": "0x27c",
+          "path": "HUDelements.controls.controls.list.btn_post0.CoolDown"
+        },
+        {
+          "call": "0x41da8c",
+          "manager_offset": "0x30c",
+          "path": "HUDelements.controls.controls.list.btn_post0.Grey"
+        },
+        {
+          "call": "0x41daa4",
+          "manager_offset": "0x33c",
+          "path": "HUDelements.btn_charactermenu.anim_levelup"
+        },
+        {
+          "call": "0x41dabc",
+          "manager_offset": "0x36c",
+          "path": "HUDelements.controls.controls.Joystick"
+        },
+        {
+          "call": "0x41dad4",
+          "manager_offset": "0x39c",
+          "path": "HUDelements.HealthBars.enemy"
+        },
+        {
+          "call": "0x41daec",
+          "manager_offset": "0x3cc",
+          "path": "HUDelements.HealthBars.enemy.enemy_name.text"
+        },
+        {
+          "call": "0x41db04",
+          "manager_offset": "0x3fc",
+          "path": "HUDelements.HealthBars.enemy.enemy_level.value"
+        },
+        {
+          "call": "0x41db20",
+          "manager_offset": "0x42c",
+          "path": "HUDelements.HealthBars.enemy.HpBar.bar_hp"
+        },
+        {
+          "call": "0x41db3c",
+          "manager_offset": "0x4ec",
+          "path": "HUDelements.HealthBars.Ally0"
+        },
+        {
+          "call": "0x41db58",
+          "manager_offset": "0x51c",
+          "path": "HUDelements.HealthBars.Ally1"
+        },
+        {
+          "call": "0x41db74",
+          "manager_offset": "0x54c",
+          "path": "HUDelements.HealthBars.Ally2"
+        },
+        {
+          "call": "0x41db90",
+          "manager_offset": "0x45c",
+          "path": "HUDelements.btn_charactermenu.btimg.HudChar"
+        },
+        {
+          "call": "0x41dbac",
+          "manager_offset": "0x48c",
+          "path": "_root.DeathTimer"
+        },
+        {
+          "call": "0x41dbc8",
+          "manager_offset": "0x4bc",
+          "path": "_root.DeathTimer.DeathNumberTimeMc.TimerNumber_txt"
+        },
+        {
+          "call": "0x41dc40",
+          "manager_offset": null,
+          "path": "HUDelements.controls.controls.btn_skill%d.CoolDown",
+          "manager_offset_expression": "0x21c+0x30*i (i=0..2)",
+          "format_argument": "i+1"
+        },
+        {
+          "call": "0x41dc68",
+          "manager_offset": null,
+          "path": "HUDelements.controls.controls.btn_skill%d.Grey",
+          "manager_offset_expression": "0x2ac+0x30*i (i=0..2)",
+          "format_argument": "i+1"
+        }
+      ]
+    },
+    {
+      "function": "0x41ddec",
+      "symbol": "_ZN7gameswf9tu_stringC1EPKc.clone.1",
+      "strings": [
+        {
+          "load": "0x41de10",
+          "add": "0x41de24",
+          "literal": "0x41de50",
+          "address": "0x8c8e60",
+          "text": "SlotId"
+        }
+      ],
+      "cache_initializations": []
+    },
+    {
+      "function": "0x41de54",
+      "symbol": "_ZN14InfoHUDManager10SlowUpdateEv",
+      "strings": [
+        {
+          "load": "0x41def8",
+          "add": "0x41df04",
+          "literal": "0x41e060",
+          "address": "0x8c1600",
+          "text": "HUDStyle"
+        }
+      ],
+      "cache_initializations": []
+    },
+    {
+      "function": "0x41ec00",
+      "symbol": "_ZN14InfoHUDManager6UpdateEv",
+      "strings": [],
+      "cache_initializations": []
+    },
+    {
+      "function": "0x41e064",
+      "symbol": "_ZN14InfoHUDManager10FastUpdateEv",
+      "strings": [
+        {
+          "load": "0x41e0bc",
+          "add": "0x41e0c8",
+          "literal": "0x41ebd8",
+          "address": "0x8c1eb8",
+          "text": "%d"
+        },
+        {
+          "load": "0x41e284",
+          "add": "0x41e28c",
+          "literal": "0x41ebdc",
+          "address": "0x8c1600",
+          "text": "HUDStyle"
+        },
+        {
+          "load": "0x41e4b0",
+          "add": "0x41e4bc",
+          "literal": "0x41ebe0",
+          "address": "0x8c8900",
+          "text": "Show"
+        },
+        {
+          "load": "0x41e4dc",
+          "add": "0x41e4e8",
+          "literal": "0x41ebe8",
+          "address": "0x8c8e80",
+          "text": "ShowMonstersNamesAndNetID"
+        },
+        {
+          "load": "0x41e518",
+          "add": "0x41e524",
+          "literal": "0x41ebec",
+          "address": "0x8c1eb8",
+          "text": "%d"
+        },
+        {
+          "load": "0x41e6a4",
+          "add": "0x41e6b4",
+          "literal": "0x41ebf0",
+          "address": "0x8c1eb8",
+          "text": "%d"
+        },
+        {
+          "load": "0x41e710",
+          "add": "0x41e71c",
+          "literal": "0x41ebf4",
+          "address": "0x8c8e68",
+          "text": "AlliesBarDisplay"
+        },
+        {
+          "load": "0x41eb40",
+          "add": "0x41eb4c",
+          "literal": "0x41ebf8",
+          "address": "0x8c1eb8",
+          "text": "%d"
+        },
+        {
+          "load": "0x41ebac",
+          "add": "0x41ebbc",
+          "literal": "0x41ebfc",
+          "address": "0x8c88f8",
+          "text": "Hide"
+        }
+      ],
+      "cache_initializations": []
+    }
+  ]
+}

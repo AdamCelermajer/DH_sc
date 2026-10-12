@@ -1,0 +1,165 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "validation": "PASS",
+    "original_gold_cases": 2746,
+    "ordered_logical_lookup_cast_services": 3861,
+    "actual_VM_checks": 25,
+    "native_atomic_and_unsupported_guards": 16,
+    "mismatches": 0,
+    "kernel_library": "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-spatial-bindings/libcharacter_spatial_bindings.so",
+    "runtime_library": "/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so"
+  },
+  "source_sha256": {
+    "port/level-world/character_spatial_bindings.hpp": "72bc0754adb341676c03b220c03cad59804231e2403cb2e5d5be23ec3f821f6b",
+    "port/level-world/character_spatial_bindings.cpp": "b347cf19c1888f9ac1046891bd3b3b1f4b3879f32882e1557bf46f6ae94c681f",
+    "port/level-world/tests/character_spatial_bindings.cpp": "8204f16faebd6484d571ad27e03c12dbed31977106e3e3acc2a82ff34e6ce31d",
+    "port/level-world/tests/character_spatial_bindings_host.py": "fafdba3ec85d7604dd608e61ded930a5f37536b4e48b43648bf444bfc9951a69",
+    "port/level-world/tests/character_spatial_bindings_differential.py": "69dae3cd2bbd3e3631bccfd058a7c45e364c82207142333a22ae77b690cce0ea",
+    "port/level-world/reference/character-spatial-bindings/spatial-original-gold.bin": "b4d945f4f15ea36cf668b286f183d6b1acdddc2cbe1638d9bf30cebd269f4f83",
+    "port/level-world/reference/character-spatial-bindings/spatial-original-gold.json": "e49335434e5365359c308d341ba43e3c069ca078ffa9b35c263b38f825045e61",
+    "port/level-world/reference/character-spatial-bindings/original-functions.json": "87186fc07d91732782c7358f4822e1ad6197a96bdc1d28cf4c39b16656728827",
+    "port/level-world/reference/character-spatial-bindings/reference/original-functions.asm": "323d23edbb3701f4c7b3aa5e3aa9983ba95ffb7852c9418dc4cef395b5f0b5de",
+    "port/level-world/reference/character-spatial-bindings/value-helpers/original-functions.json": "58023f54d4e2d3adebfa2f6acdaf1f41c775f9533474b65a109df0e40cf03ddf",
+    "port/level-world/reference/character-spatial-bindings/value-helpers/reference/original-functions.asm": "3945c13530740854edf8ff6cc0a368051474e42b1553101952f71b1e678b9be3",
+    "port/level-world/reports/character-spatial-bindings-arm64-differential.json": "8178e15a4719d6403c70bfbc43c90be5be938fdd67d5d23fe4f11b6c12a28e6a",
+    "port/script-runtime/script_runtime.h": "6609f8b0a1ad716104824e5ed1653cc9b2be68396ae5b5766b38166af3561303",
+    "port/script-runtime/script_runtime.c": "cfb4aaa0585188731c76d3ed86e346bd2d48d6a2024c1f453c4bd038e8e835d1"
+  },
+  "binary_sha256": {
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-spatial-bindings/libcharacter_spatial_bindings.so": "1e0085fbf35643a1a7367014f5cb71219b2ae7f7d957efff6dddc6102cb7ad2a",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-spatial-bindings/spatial_audit": "4dff8a8d82342763af4c591378f1b7a57952a3ff7ba03cfa3ad9aa03836278eb",
+    "/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so": "55feeec0e85cd336b716aee555636ec12cc299a01e624f907bb51f8d3851756c"
+  },
+  "linked_dependencies": "linux-vdso.so.1 (0x00007e96cd145000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x00007e96cc800000)\n\tlibcharacter_spatial_bindings.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-spatial-bindings/libcharacter_spatial_bindings.so (0x00007e96cd0ee000)\n\tlibdh2_script_runtime.so => /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so (0x00007e96cc200000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007e96cbe00000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x00007e96ccfc8000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x00007e96cb600000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007e96ccf98000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x00007e96cb200000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007e96cd147000)",
+  "commands": [
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so"
+      ],
+      "returncode": 0,
+      "stdout": "55feeec0e85cd336b716aee555636ec12cc299a01e624f907bb51f8d3851756c  /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "g++",
+        "-shared",
+        "-fPIC",
+        "-O1",
+        "-g",
+        "-std=c++17",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/character_spatial_bindings.cpp",
+        "-L/home/adampalace/dh2-world-build/script-runtime",
+        "-ldh2_script_runtime",
+        "-Wl,-rpath,/home/adampalace/dh2-world-build/script-runtime",
+        "-o",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-spatial-bindings/libcharacter_spatial_bindings.so"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "g++",
+        "-O1",
+        "-g",
+        "-std=c++17",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/tests/character_spatial_bindings.cpp",
+        "-L/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-spatial-bindings",
+        "-lcharacter_spatial_bindings",
+        "-Wl,-rpath,/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-spatial-bindings",
+        "-L/home/adampalace/dh2-world-build/script-runtime",
+        "-ldh2_script_runtime",
+        "-Wl,-rpath,/home/adampalace/dh2-world-build/script-runtime",
+        "-ldl",
+        "-o",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-spatial-bindings/spatial_audit"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:abort_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-spatial-bindings/spatial_audit",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/reference/character-spatial-bindings/spatial-original-gold.bin"
+      ],
+      "returncode": 0,
+      "stdout": "{\"validation\":\"PASS\",\"original_gold_cases\":2746,\"ordered_logical_lookup_cast_services\":3861,\"actual_VM_checks\":25,\"native_atomic_and_unsupported_guards\":16,\"mismatches\":0,\"kernel_library\":\"/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-spatial-bindings/libcharacter_spatial_bindings.so\",\"runtime_library\":\"/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so\"}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "ldd",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-spatial-bindings/spatial_audit"
+      ],
+      "returncode": 0,
+      "stdout": "\tlinux-vdso.so.1 (0x00007e96cd145000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x00007e96cc800000)\n\tlibcharacter_spatial_bindings.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-spatial-bindings/libcharacter_spatial_bindings.so (0x00007e96cd0ee000)\n\tlibdh2_script_runtime.so => /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so (0x00007e96cc200000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007e96cbe00000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x00007e96ccfc8000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x00007e96cb600000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007e96ccf98000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x00007e96cb200000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007e96cd147000)\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-spatial-bindings/libcharacter_spatial_bindings.so"
+      ],
+      "returncode": 0,
+      "stdout": "1e0085fbf35643a1a7367014f5cb71219b2ae7f7d957efff6dddc6102cb7ad2a  /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-spatial-bindings/libcharacter_spatial_bindings.so\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-spatial-bindings/spatial_audit"
+      ],
+      "returncode": 0,
+      "stdout": "4dff8a8d82342763af4c591378f1b7a57952a3ff7ba03cfa3ad9aa03836278eb  /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-spatial-bindings/spatial_audit\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so"
+      ],
+      "returncode": 0,
+      "stdout": "55feeec0e85cd336b716aee555636ec12cc299a01e624f907bb51f8d3851756c  /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so\n",
+      "stderr": ""
+    }
+  ],
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer",
+    "LeakSanitizer"
+  ],
+  "sanitizer_findings": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "scope": "Isolated spatial DSO replay against the genuine, frozen central Lua runtime.\n\nNo CMake or central DSO rebuild. Object-manager/cast and userdata identities are\nexplicit caller services, rather than a reconstructed complete world backend.\n",
+  "actual_central_VM_DSO": true,
+  "isolated_spatial_DSO": true,
+  "source_wrapper_original_instruction_proof": "port/level-world/reports/character-spatial-bindings-arm64-differential.json",
+  "whole_VM_differential": false,
+  "full_object_manager_or_world": false,
+  "source_SetPosition": false,
+  "packaged_APK": false,
+  "NaN_policy": "Copied coordinates exact; arithmetic NaNs class-equivalent; finite/infinity/signed-zero words exact."
+}

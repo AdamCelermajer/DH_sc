@@ -1,0 +1,38 @@
+// REVIEW-ONLY proposal. Do not compile as a substitute Character/engine owner.
+// Add ONLY if main confirms no newer actual inherited cache authority exists.
+// In SAME RetainedCharacterActorV1 private storage:
+// std::int32_t source_cached_spawn270_{-1}; // GameObject C2 str38c4a8
+// Borrow guard reuses existing loader_fields_produced_v38_ fresh-C1 authority,
+// actual alias .get()==this, and spawn_probability_written_. It returns pointers
+// to this cache and existing spawn_probability_, never a copied pair/base.
+// Existing/adopted actor borrows remain unavailable without real transfer.
+//
+// Main remaining_init request38bd64:
+//  1. Resolve request.subject through SAME registry/Handle/AsChar.
+//  2. Borrow actual actor inherited fields, same shared app Random0/Random1,
+//     online byte/network108/ownerfc and true lifecycle providers.
+//  3. Run existing game_object_check_spawn_probability_v1(actual_borrow,...).
+//  4. Publish returned signed roll into response.value only on real completion.
+//  Never return synthetic -2, reuse another family's base, or bypass debug.
+//
+// Main remaining_init request3b3d38 for nonempty source template:
+//  Bind CharacterTemplateFrameV39(record alias, actual app,
+//    record.services.loot_random, actual template snapshot, actual IsPlayer).
+//  Execute at this request only. Its cached prefix precedes IsPlayer/RNG.
+//  Player=true requires existing whole player Save/class service, not this lane.
+//
+// Existing invoke3df2a4/3e0810 stays on same record.properties/view. No reset or
+// extra constructor-phase preselection. Live buff state must use existing
+// dh2_class_recalc_base with actual PropertyView/groups/class row views.
+//
+// Main model request3a54d4:
+//  auto alias=shared_ptr<RetainedCharacterActorV1>(record,record->actor.get());
+//  actor.model_name_fields_v38(alias, fields, error);
+//  Use pinned original dictionary + actual live GetCharType/IsPlayer.
+//  character_is_player_v41({alias,identity,&actor.source_archetype()},
+//                         {actual_get_type}, player,error);
+//  character_model_name_v38(fields,dict,main_model_services,result,error);
+//  response.text=result.file?result.file->c_str():nullptr;
+//  Model dictionary must remain pinned through the owner's SAME model290 copy.
+//  Real master/Faery save/device/local-player branches remain required.
+//  Then let SAME NPC owner continue source scale and whole GameObject.InitPost.

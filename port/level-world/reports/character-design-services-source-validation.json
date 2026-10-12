@@ -1,0 +1,24 @@
+{
+  "validation": "PASS",
+  "source_sha256": {
+    "port\\level-world\\character_design_services.hpp": "e2997bdd47e1ebe442797a55f7802ecde8d3105a80b5eb1e6b11f7b269a33064",
+    "port\\level-world\\character_design_services.cpp": "bf12eb613228d963cdb78e3ff44d1cb23da87a186e0bae73b01029379808b62d",
+    "port\\level-world\\tests\\character_design_services.cpp": "de7fc55d15d5113c3bc9c4755566f1b4c1b9290464e720e7e70e84f6b5eac4ca",
+    "port\\level-world\\tests\\character_design_services_host.py": "276b4b12705076148bcda80d5c8adf09c0ddb8c82e975600926790321495dc35",
+    "port\\level-world\\tests\\character_design_services_differential.py": "9c48e5b3e438845f4eada03461babd2dcddb1e4e76e6ff4e302f38d6d6c25f86",
+    "port\\level-world\\tools\\build_character_design_services_oracle.ps1": "f7481575a628b9695652c18ac0e50f4e2cc6f432d138b2311931a7cea7270b07",
+    "port\\level-world\\reference\\character-design-services\\NOTES.md": "28689288600a71737b35ca97bed370b1c690843cf20347780e7cfc24c3f648f8"
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_debug_operations": 126,
+  "original_OnInit_cases": 16,
+  "host_checks": 7431,
+  "actual_monster_Init_cases": 6,
+  "sanitizer_findings": 0,
+  "source_file_parser_supported": false,
+  "packaged_APK": false,
+  "reports_sha256": {
+    "port\\level-world\\reports\\character-design-services-arm64-differential.json": "2d5016886cb1039ecbcf7213dcf1c53983a1370040f2fda1540ee186415be577",
+    "port\\level-world\\reports\\character-design-services-host-audit.json": "56fe90872dd62519b0a5e201eacf02be1699c125c337ff338742f60b1b4135b6"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "a79ea38f5d235078ea78aebf18e317484b72662e7acdc082c67fab8148a3307a",
+  "corpus_sha256": "418ca85843cd0e8835bf1b3b3e63334997aa634d989f454394111b4271e76394",
+  "comparisons": 1165,
+  "ordered_service_requests": 5773,
+  "nested_LoadNInit_active_guard_cases": 2,
+  "mismatches": 0,
+  "source_sha256": {
+    "port/level-world/character_deferred_script.hpp": "329325647b9703e89fc0a9023018722db0f72339d3d98bec08aab435ed3a883a",
+    "port/level-world/character_deferred_script.cpp": "59b83b69c25d76eb8efb7a8551b606248acb0eda60d384fff2f820abac948745",
+    "port/level-world/character_script_lifecycle.hpp": "bf7916e299901b3e46fbb1b1a388165f1f2a90895f55c808792c52e0f59ef9c7",
+    "port/level-world/character_script_lifecycle.cpp": "7161ac627879454dfb6166d1db46108ef238bb171e64eb85b5a0d50248c4a6df",
+    "port/level-world/tests/character_deferred_script_differential.py": "42fb72250bab4cbf630bd8394e7992848f54673743c79e1c0d224f8162c729ae"
+  },
+  "original_capture_sha256": "69e36a972a8b65dead4d20235f1f7d83125bca761b406354282dea3d88795eb7",
+  "scope": "Actual LoadProcess/LoadNInit/InitProcess/OnInitPost/Final instructions, pending OnInit before publication, active Post/Final after; explicit allocation/Lua/vitals/skills/timer services. Session VM composition is a separate host proof; no full Character.Update or package claim."
+}

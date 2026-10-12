@@ -1,0 +1,16 @@
+--- a/port/level-loader/canonical_level_context_v1.cpp
++++ b/port/level-loader/canonical_level_context_v1.cpp
+@@ -1,4 +1,5 @@
+ #include "canonical_level_context_v1.hpp"
++#include "selected_c1_admission_v59.hpp"
+ namespace dh2::loader {
+ CanonicalLevelContextV1::CanonicalLevelContextV1(LevelSourceRequestV1 request,
+     std::shared_ptr<void> services):request_(std::move(request)),services_(std::move(services)){
+@@ -50,6 +51,7 @@
+ bool CanonicalLevelContextV1::construct_source_v3(LevelConstructorArgumentsV3 arguments,
+     LevelConstructorServicesV3 services,std::string& error){
+     if(constructor_v3_){error="Same Level constructor continuation already attempted";return false;}
++    if(!validate_selected_c1_admission_v59(request_,arguments,services,error))return false;
+     auto borrow=constructor_borrow_v3();
+     // The once-only owner is embedded in this Level. Retaining its Level lease
+     // inside it would cycle; synchronous caller/shared_from_this pins the call.

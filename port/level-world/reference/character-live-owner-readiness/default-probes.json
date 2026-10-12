@@ -1,0 +1,110 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "capture_script_sha256": "da174604220291eb495db7a37182f66cf1c6a2d98929e899de914df9ae0413fc",
+  "original_manifest_sha256": "dbff29cffe8c865eed384a0907722dee9ecf6dd272096ebcbab3cbee544cc2e7",
+  "authored_fixture_sha256": "d92e6b9972a832246331b50b5ecc47eb8e715ce7d2eb4ff229a5abaf42c0c5df",
+  "original_instruction_probes": 13,
+  "probes": [
+    {
+      "operation": "LoadTemplate",
+      "assertion_policy": 0,
+      "receiver_unchanged": true,
+      "services": []
+    },
+    {
+      "operation": "LoadTemplate",
+      "assertion_policy": 1,
+      "receiver_unchanged": true,
+      "services": [
+        "assertion_log"
+      ]
+    },
+    {
+      "operation": "LoadTemplate",
+      "assertion_policy": 3,
+      "receiver_unchanged": true,
+      "services": []
+    },
+    {
+      "operation": "missing_ai_state_reset_then_GetPreSetAIState",
+      "name": "_prim_tmp_cultist01",
+      "state": 3,
+      "services": [
+        "property_lookup_fixture",
+        "empty_STL_assignment_fixture"
+      ]
+    },
+    {
+      "operation": "missing_ai_state_reset_then_GetPreSetAIState",
+      "name": "_prim_tmp_cultist03",
+      "state": 3,
+      "services": [
+        "property_lookup_fixture",
+        "empty_STL_assignment_fixture"
+      ]
+    },
+    {
+      "operation": "missing_ai_state_reset_then_GetPreSetAIState",
+      "name": "_prim_tmp_cultist05",
+      "state": 3,
+      "services": [
+        "property_lookup_fixture",
+        "empty_STL_assignment_fixture"
+      ]
+    },
+    {
+      "operation": "missing_ai_state_reset_then_GetPreSetAIState",
+      "name": "_prim_tmp_cultist06",
+      "state": 3,
+      "services": [
+        "property_lookup_fixture",
+        "empty_STL_assignment_fixture"
+      ]
+    },
+    {
+      "operation": "missing_ai_state_reset_then_GetPreSetAIState",
+      "name": "_prim_tmp_cultist07",
+      "state": 3,
+      "services": [
+        "property_lookup_fixture",
+        "empty_STL_assignment_fixture"
+      ]
+    },
+    {
+      "operation": "missing_ai_state_reset_then_GetPreSetAIState",
+      "name": "_prim_tmp_cultist08",
+      "state": 3,
+      "services": [
+        "property_lookup_fixture",
+        "empty_STL_assignment_fixture"
+      ]
+    },
+    {
+      "operation": "bool_descriptor_reset",
+      "offset": "0x13e4",
+      "result": 1
+    },
+    {
+      "operation": "bool_descriptor_reset",
+      "offset": "0x1430",
+      "result": 1
+    },
+    {
+      "operation": "delay_descriptor_reset",
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "operation": "view_radius_descriptor_reset",
+      "word": 0
+    }
+  ],
+  "full_ObjectManager_factory_executed": false,
+  "full_template_STL_map_executed": false,
+  "optimized_native_differential": false,
+  "packaged_or_live_proof": false,
+  "scope": "Read-only source capture and bounded original default-reset probes.\n\nSTL lookup/empty assignment and assertion logger are explicit fixture services.\nThis is not a full ObjectManager XML/factory execution or a native differential.\n"
+}

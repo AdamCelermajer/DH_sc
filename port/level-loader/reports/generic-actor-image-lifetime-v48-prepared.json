@@ -1,0 +1,19 @@
+{
+  "stage": "source_prepared_not_graph_run",
+  "source_hashes": {
+    "tests\\generic_actor_image_binding_v45_probe.cpp": "2cd3c95917da0748dd6134b7a0151210b65a989127da74315ea9097c2e479c3d",
+    "tests\\generic_actor_image_binding_v45_capture.inc": "fff9e221e3cba2d1e206dc3251f3aa89f0174895674afcf33cb7424eb6bc2124",
+    "reference\\main-budget-binding-v46\\actor_image_destruction_v46_capture.inc": "3629cf1b6c27a97b0f1c38e5e8bc36a461ddc1d8ec341c699895e49373bcb329",
+    "reference\\main-budget-binding-v46\\byte_free_observer_v46.hpp": "48839dd852b9023f90ffae6cb50221186108a039c5ab16f4ac19f74f09c890c5",
+    "reference\\main-budget-binding-v46\\byte_free_observer_v46.cpp": "6c08eac4247fd5a35f91b0e6aeff2a161b02d3193c0c6bce0833fdaa05909d10",
+    "generic_actor_image_binding_v45.cpp": "4d248e9a0f645fa4d5a8eb9166228122c959fed6664921c0ef92971ff0353a37",
+    "vendor\\character-rng-integration-v5-loading\\port\\level-world\\canonical_openable_graph_v21.cpp": "bb61cd6ea189660fec9933d40fa32f5cac2d4c412d3d70e0b5baea97510ff4ea"
+  },
+  "outputs": {
+    "tests\\generic_actor_image_lifetime_v48_probe.cpp": "a81d5da52e4debe736ecabf26f8f6505b3bf1418b81158371f2e25cc640b8b58",
+    "tests\\generic_actor_image_lifetime_v48_capture.inc": "c676ec498206ec6250e9c84ff4048de3c1126457c3dcd9a54f7ebe08df2f1c63"
+  },
+  "unchanged_inputs_verified": true,
+  "expected_empty_condition_boundary_source_derived": "OpenableContainer required source service: SoundManager pointer",
+  "whole_init_runtime_gpu_verified": false
+}

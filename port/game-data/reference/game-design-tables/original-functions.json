@@ -1,0 +1,65 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7Structs19GetMemberIDByStringINS_7AIPropsEEEiPKc",
+      "elf_address": "0x4af590",
+      "size": 88,
+      "sha256": "af7dea61411980fd85399f288bdaea93051187219bdc2f987510abc0d569b081"
+    },
+    {
+      "original_symbol": "_ZN7Structs19GetMemberIDByStringINS_13ClassFuncListEEEiPKc",
+      "elf_address": "0x4af1e0",
+      "size": 48,
+      "sha256": "7a744d8449ab3d45574851e0265b64317a231016fd7508152ed23e678add169f"
+    },
+    {
+      "original_symbol": "_ZN12PyDataArrays19registerClassByNameEPKcPFiS1_E",
+      "elf_address": "0x4bdccc",
+      "size": 164,
+      "sha256": "738dbd9fe4b1bbb3580118ef0e1fb4c5cdd3e48142465487616e0a485528520d"
+    },
+    {
+      "original_symbol": "_ZNSt3mapISsPFiPKcESt4lessISsESaISt4pairIKSsS3_EEEixIS1_EERS3_RKT_",
+      "elf_address": "0x4bdb8c",
+      "size": 320,
+      "sha256": "6f6790e00ec514ef87eac2768b9f1943b128c52438223287280cf64875526c9c"
+    },
+    {
+      "original_symbol": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsPFiPKcEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE7_M_findIS6_EEPNS_18_Rb_tree_node_baseERKT_",
+      "elf_address": "0x4bd4d0",
+      "size": 368,
+      "sha256": "2b3464bb040f9a9afb47b1b416f8c98c75f8bf29320a5139c8012564cf2015de"
+    },
+    {
+      "original_symbol": "_ZN6Arrays19GetMemberIDByStringINS_10ClassTableEEEiPKc",
+      "elf_address": "0x4af16c",
+      "size": 116,
+      "sha256": "e2fca02d36716045dae5eaa45613ab2cda1b410fcec6dd9a02143c7099ecf160"
+    },
+    {
+      "original_symbol": "_ZN12PyDataArrays6GetOIDEPKcS1_",
+      "elf_address": "0x4bd640",
+      "size": 72,
+      "sha256": "131022f01a40214f11496f8b9caa5ef181ef675dd8705756eb0c8c82f044646f"
+    },
+    {
+      "original_symbol": "_ZN7Structs19GetMemberIDByStringINS_19CharacterPropertiesEEEiPKc",
+      "elf_address": "0x4af110",
+      "size": 92,
+      "sha256": "5714e1f84c72bb4ceb3addb1d1524e128f6db9f5c660bebf31fd264e26b9bfb5"
+    },
+    {
+      "original_symbol": "_ZN6Arrays19GetMemberIDByStringINS_14CharacterTableEEEiPKc",
+      "elf_address": "0x3fa188",
+      "size": 116,
+      "sha256": "4b9140fa8ddcf4434045b900176873863daab0d60442f7578c7baca80637ccf4"
+    },
+    {
+      "original_symbol": "_ZN6Arrays19GetMemberIDByStringINS_7AITableEEEiPKc",
+      "elf_address": "0x4af51c",
+      "size": 116,
+      "sha256": "1d5bb4a0cbf979a067e638e0625ddd0ec4a82595190e8866a375e05707c79cb6"
+    }
+  ]
+}

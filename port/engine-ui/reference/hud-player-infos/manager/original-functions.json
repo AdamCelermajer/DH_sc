@@ -1,0 +1,59 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7gameswf9tu_stringC1EPKc.clone.1",
+      "elf_address": "0x41ddec",
+      "size": 104,
+      "sha256": "ab4028baa225f663942f8e374c73944dba12fbfd2a124441e683b405e1eb172a"
+    },
+    {
+      "original_symbol": "_ZN14InfoHUDManager18applyOneTimeValuesEv",
+      "elf_address": "0x41d728",
+      "size": 344,
+      "sha256": "619ac953266d6e6fa89b9c162c3298e3037fe54fe701ae4f1230b9a5578c0236"
+    },
+    {
+      "original_symbol": "_ZN14InfoHUDManager15initCachedCharsEv",
+      "elf_address": "0x41d880",
+      "size": 1168,
+      "sha256": "03b8fbca873aba6d56d15339fb87b675fb511a31da8d6f2395d7a678603e7955"
+    },
+    {
+      "original_symbol": "_ZN14InfoHUDManager10SlowUpdateEv",
+      "elf_address": "0x41de54",
+      "size": 528,
+      "sha256": "c3e30e66be118f7e32a44848c906f525e47a902c132fe8982432be66721ccb60"
+    },
+    {
+      "original_symbol": "_ZN8RenderFX16InvokeASCallbackEPN7gameswf9characterEPKcPKNS0_8as_valueEi",
+      "elf_address": "0x7abe0c",
+      "size": 296,
+      "sha256": "e115704c1d068cb6885f0fa122d1af505b2246b72ebfdfb425909fc8794defe9"
+    },
+    {
+      "original_symbol": "_ZN14InfoHUDManager6UpdateEv",
+      "elf_address": "0x41ec00",
+      "size": 176,
+      "sha256": "59cf28566d2fd50ba8046a40ffed2db77eac78c6d14245b1ec38e088ae471b46"
+    },
+    {
+      "original_symbol": "_ZN8RenderFX7SetTextEPN7gameswf9characterEPKcb",
+      "elf_address": "0x7a92e0",
+      "size": 176,
+      "sha256": "9b1f0c2aa665c483971ba408e302fa456620ba99b1b00049ef1e378fe51ce233"
+    },
+    {
+      "original_symbol": "_ZN8RenderFX11SetPositionEPN7gameswf9characterEii",
+      "elf_address": "0x7aa3f0",
+      "size": 496,
+      "sha256": "c05bd83c0e1277f0fbaa9a6b1e2160d8f0714b03c880db5de56b70dda6435eb3"
+    },
+    {
+      "original_symbol": "_ZN14InfoHUDManager10FastUpdateEv",
+      "elf_address": "0x41e064",
+      "size": 2972,
+      "sha256": "e23f70897ec4bb6f3409cfd8e16868b1639ca5e29472dbf4e689b8c10dd8059d"
+    }
+  ]
+}

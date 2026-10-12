@@ -1,0 +1,18 @@
+{
+  "5093532": {
+    "type": "bool",
+    "width": 1
+  },
+  "5093708": {
+    "type": "float",
+    "width": 4
+  },
+  "5094060": {
+    "type": "short",
+    "width": 2
+  },
+  "5273016": {
+    "type": "unsigned short",
+    "width": 2
+  }
+}

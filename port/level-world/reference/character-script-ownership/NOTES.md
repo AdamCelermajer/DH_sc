@@ -10,7 +10,7 @@ All manifests bind original ELF SHA256
 `36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80`.
 `ownership-probe.json` contains47 focused original-instruction cases.
 `vm-core-probe.json` additionally executes the actual original Lua constructor,
-four library cores, and close:756 heap allocations and756 frees. Its allocator,
+four library cores, and close:846 heap allocations and846 frees. Its allocator,
 libc and successful setjmp continuation are explicit desktop services. These
 are ownership/source probes, not an original-versus-native whole-AI proof.
 
@@ -106,7 +106,9 @@ services; active remains null during common and pending OnInit.
 LuaScript.BindFunction `0x37b5a0` opens **Base -> Math -> Table -> String**
 through Instance methods `0x31b010`, `0x31b000`, `0x31aff8`, `0x31b008`.
 Those tail-call original library cores directly. Actual VM probes show a fresh
-stack0, then tops2,3,4,5 (return counts2,1,1,1). Library results remain on the
+stack0, then tops2,3,4,5 (return counts2,1,1,1). A repeated sequence reaches
+tops7,8,9,10. Actual fresh `_G`, math, table and string lookups return nil before
+opening. Library results remain on the
 caller stack. The registration services in this probe leave them untouched;
 captured Instance.registerFunction `0x31af08` pushes upvalues, forms its closure
 and sets the global, without an enclosing stack reset. An eager wrapper that

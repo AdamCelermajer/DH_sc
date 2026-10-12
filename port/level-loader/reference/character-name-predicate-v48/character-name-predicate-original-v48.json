@@ -1,0 +1,229 @@
+{
+  "schema": "dh2-character-name-predicate-original-v48",
+  "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "validation": "PASS whole original source name identity",
+  "ctor_scope": "Whole original ObjectBase C1/C2 and ConditionData C1 execute; only CString allocation and operator-new allocation leaves supplied. Whole original IsPlayer body executes with explicit type-domain provider and exact strstr leaf semantics. GameObject idle370 proof is exact unconditional prefix with documented original register authority, not whole GameObject/Character constructor.",
+  "constructor_name_identity": [
+    {
+      "constructor": "0x33f15c",
+      "GO_id": 0,
+      "poison": 0,
+      "name_CString30_begin44": 33882128,
+      "archetype_CString48_begin5c": 33882144
+    },
+    {
+      "constructor": "0x33f15c",
+      "GO_id": 0,
+      "poison": 165,
+      "name_CString30_begin44": 33882256,
+      "archetype_CString48_begin5c": 33882272
+    },
+    {
+      "constructor": "0x33f15c",
+      "GO_id": 0,
+      "poison": 127,
+      "name_CString30_begin44": 33882384,
+      "archetype_CString48_begin5c": 33882400
+    },
+    {
+      "constructor": "0x33f310",
+      "GO_id": 0,
+      "poison": 0,
+      "name_CString30_begin44": 33882512,
+      "archetype_CString48_begin5c": 33882528
+    },
+    {
+      "constructor": "0x33f310",
+      "GO_id": 0,
+      "poison": 165,
+      "name_CString30_begin44": 33882640,
+      "archetype_CString48_begin5c": 33882656
+    },
+    {
+      "constructor": "0x33f310",
+      "GO_id": 0,
+      "poison": 127,
+      "name_CString30_begin44": 33882768,
+      "archetype_CString48_begin5c": 33882784
+    }
+  ],
+  "cases": [
+    {
+      "type": 0,
+      "name30": "PlayerCharacterKnight",
+      "archetype48": "NPC",
+      "result": true,
+      "read_field44": [
+        {
+          "pc": "0x3a4a14",
+          "source_offset": "0x44",
+          "name_begin": "0x2050300",
+          "archetype_begin": "0x2050320"
+        }
+      ]
+    },
+    {
+      "type": 0,
+      "name30": "NPC",
+      "archetype48": "PlayerCharacterKnight",
+      "result": false,
+      "read_field44": [
+        {
+          "pc": "0x3a4a14",
+          "source_offset": "0x44",
+          "name_begin": "0x2050330",
+          "archetype_begin": "0x2050340"
+        }
+      ]
+    },
+    {
+      "type": 0,
+      "name30": "xPlayerCharacter",
+      "archetype48": "PlayerCharacter",
+      "result": false,
+      "read_field44": [
+        {
+          "pc": "0x3a4a14",
+          "source_offset": "0x44",
+          "name_begin": "0x2050360",
+          "archetype_begin": "0x2050380"
+        }
+      ]
+    },
+    {
+      "type": 0,
+      "name30": "PlayerCharacter",
+      "archetype48": "",
+      "result": true,
+      "read_field44": [
+        {
+          "pc": "0x3a4a14",
+          "source_offset": "0x44",
+          "name_begin": "0x2050390",
+          "archetype_begin": "0x20503a0"
+        }
+      ]
+    },
+    {
+      "type": 0,
+      "name30": "",
+      "archetype48": "PlayerCharacter",
+      "result": false,
+      "read_field44": [
+        {
+          "pc": "0x3a4a14",
+          "source_offset": "0x44",
+          "name_begin": "0x20503b0",
+          "archetype_begin": "0x20503c0"
+        }
+      ]
+    },
+    {
+      "type": 1,
+      "name30": "PlayerCharacterKnight",
+      "archetype48": "NPC",
+      "result": true,
+      "read_field44": []
+    },
+    {
+      "type": 1,
+      "name30": "NPC",
+      "archetype48": "PlayerCharacterKnight",
+      "result": true,
+      "read_field44": []
+    },
+    {
+      "type": 1,
+      "name30": "xPlayerCharacter",
+      "archetype48": "PlayerCharacter",
+      "result": true,
+      "read_field44": []
+    },
+    {
+      "type": 1,
+      "name30": "PlayerCharacter",
+      "archetype48": "",
+      "result": true,
+      "read_field44": []
+    },
+    {
+      "type": 1,
+      "name30": "",
+      "archetype48": "PlayerCharacter",
+      "result": true,
+      "read_field44": []
+    },
+    {
+      "type": 2,
+      "name30": "PlayerCharacterKnight",
+      "archetype48": "NPC",
+      "result": false,
+      "read_field44": []
+    },
+    {
+      "type": 2,
+      "name30": "NPC",
+      "archetype48": "PlayerCharacterKnight",
+      "result": false,
+      "read_field44": []
+    },
+    {
+      "type": 2,
+      "name30": "xPlayerCharacter",
+      "archetype48": "PlayerCharacter",
+      "result": false,
+      "read_field44": []
+    },
+    {
+      "type": 2,
+      "name30": "PlayerCharacter",
+      "archetype48": "",
+      "result": false,
+      "read_field44": []
+    },
+    {
+      "type": 2,
+      "name30": "",
+      "archetype48": "PlayerCharacter",
+      "result": false,
+      "read_field44": []
+    },
+    {
+      "type": 3,
+      "name30": "PlayerCharacterKnight",
+      "archetype48": "NPC",
+      "result": false,
+      "read_field44": []
+    },
+    {
+      "type": 3,
+      "name30": "NPC",
+      "archetype48": "PlayerCharacterKnight",
+      "result": false,
+      "read_field44": []
+    },
+    {
+      "type": 3,
+      "name30": "xPlayerCharacter",
+      "archetype48": "PlayerCharacter",
+      "result": false,
+      "read_field44": []
+    },
+    {
+      "type": 3,
+      "name30": "PlayerCharacter",
+      "archetype48": "",
+      "result": false,
+      "read_field44": []
+    },
+    {
+      "type": 3,
+      "name30": "",
+      "archetype48": "PlayerCharacter",
+      "result": false,
+      "read_field44": []
+    }
+  ],
+  "correction": "Original IsPlayer type0 uses name CString30 buffer44, not archetype CString48 buffer5c. V41 labels and V42 actual field borrow were wrong; nonzero-type branch unaffected.",
+  "earlier_receipts": "V41 original bitwise predicate results remain valid for artificial buffer44 inputs; archetype classification and V42 actor actual field binding are retracted. Nonzero-type branch unchanged. V45 tested positive types/names follow the same branch, but rerun with corrected actual borrow is required."
+}

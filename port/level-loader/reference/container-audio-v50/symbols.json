@@ -1,0 +1,17 @@
+[
+  {
+    "address": "0x3a1b64",
+    "bytes": 136,
+    "symbol": "_ZN17OpenableContainer8InitPostEv"
+  },
+  {
+    "address": "0x3a17c4",
+    "bytes": 64,
+    "symbol": "_ZNK17OpenableContainer8GetSoundEv"
+  },
+  {
+    "address": "0x3699fc",
+    "bytes": 316,
+    "symbol": "_ZN15VoxSoundManager9LoadSoundEi"
+  }
+]

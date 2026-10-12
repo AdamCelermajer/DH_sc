@@ -1,0 +1,38 @@
+{
+  "validation": "PASS",
+  "original_gold_cases": 7899,
+  "atomic_guards": 13,
+  "mismatches": 0,
+  "source_sha256": {
+    "port/engine-animation/material_color.hpp": "c8c0f1572a0706c448a28e0112ca50d4497562e7e21ced2da33c0c1b2da59083",
+    "port/engine-animation/material_color.cpp": "240bab4957913bbd41082d7b8ab5d13d804e09c8bbaa0e98a7bd7c511e92ef51",
+    "port/engine-animation/tests/material_color.cpp": "9b168728558d98efa06b891d9b74691f73ac823f12f9e393a7ab02f3df58066b",
+    "port/engine-animation/tests/material_color_host.py": "80a040e032208299a806124821522f1228072bc843cd5e1a3af648aa6ca61c61"
+  },
+  "library_sha256": "6920b4d3c5440eceda4028bd3b9677de269ad83384a074b15187ac3594bf2a3f",
+  "executable_sha256": "189b07d65d200850d496dc1da2de46a2de3b27a0269c154b3730bda35a0c579c",
+  "reference_sha256": "446f4ba53f7a389127b4212f98e3224ba3ef8965f04e4f66f8555635e805e6b4",
+  "original_instruction_report_sha256": "3773cb2310895fada21ae34ab647ca359ce802e34099676468763ff5a6c26d27",
+  "isolated_material_color_dso_executed": true,
+  "main_world_library_executed": false,
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer"
+  ],
+  "sanitizer_findings": 0,
+  "compiler": "g++ (Ubuntu 15.2.0-16ubuntu1) 15.2.0\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+  "flags": [
+    "-std=c++17",
+    "-O1",
+    "-g",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation"
+  ],
+  "scope": "Original-derived byte-color/color-setter gold replay through genuine isolated material-color DSO. No generic factory/directory, Scene/GPU/particle or complete FX playback claim."
+}

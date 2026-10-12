@@ -1,0 +1,136 @@
+--- a/port/level-world/navigation_controller.hpp
++++ b/port/level-world/navigation_controller.hpp
+@@ -12,6 +12,8 @@
+  AvoidanceActor* actors;std::uint32_t actor_capacity,reserved1;
+  std::uint32_t* floors;std::uint32_t floor_capacity,reserved2;
+ };
++// Additive source Debug delivery only at the reached boundary branch.
++struct ControllerSourceServicesV69 {void* context{};int(*skip_boundary)(void*,std::uint32_t*){};};
+ struct ControllerRequest {
+  PathController* controller;PathObject* path;NavigationObject* object;
+  const CollisionWorld* geometry;const Graph* graph;const AvoidanceScene* scene;
+@@ -33,4 +35,5 @@
+ // Stop's physical backend is an explicit request; applying velocity/body
+ // resets and UpdateSubObjects/root motion are separate, pending work.
+ int dh2_nav_update_path(dh2::navigation::ControllerResult*,const dh2::navigation::ControllerRequest*);
++int dh2_nav_update_path_source_v69(dh2::navigation::ControllerResult*,const dh2::navigation::ControllerRequest*,const dh2::navigation::ControllerSourceServicesV69*);
+ }
+--- a/port/level-world/navigation_controller.cpp
++++ b/port/level-world/navigation_controller.cpp
+@@ -12,7 +12,7 @@
+ bool reached(const PathController& c,const PathObject& p){const auto* end=p.count?p.target:c.destination;const float x=sub(end[0],c.position[0]),y=sub(end[1],c.position[1]);return add(mul(x,x),mul(y,y))<6400.f;}
+ }
+ extern "C" int dh2_nav_is_at_destination(const PathController* c,const PathObject* p){if(!controller_valid(c)||!path_valid(p)||!finite3(p->target))return -1;return reached(*c,*p);}
+-extern "C" int dh2_nav_update_path(ControllerResult* out,const ControllerRequest* r){
++extern "C" int dh2_nav_update_path_source_v69(ControllerResult* out,const ControllerRequest* r,const ControllerSourceServicesV69* source){
+  if(!out||out->reserved||!r||!controller_valid(r->controller)||!path_valid(r->path)||!r->object||r->object->reserved||!r->policy||!r->workspace)return 1;
+  const auto& policy=*r->policy;auto& scratch=*r->workspace;
+  if(policy.update_path>1||policy.avoid_obstacles>1||policy.debug_skip_boundary>1||policy.update_physics>1||scratch.reserved0||scratch.reserved1||scratch.reserved2||!finite3(r->path->target))return 1;
+@@ -57,10 +57,14 @@
+  }
+  if(state.heading.active){
+   object.motion.object_flags|=2;
+-  if(state.validate_boundary&&!policy.debug_skip_boundary){
++  if(state.validate_boundary){
++   std::uint32_t skip=policy.debug_skip_boundary;
++   if(source&&(!source->skip_boundary||source->skip_boundary(source->context,&skip)||skip>1))return 3;
++   if(!skip){
+    DirectionRequest direction{r->geometry,object.motion.position,object.radius,object.motion.flags,0};
+    if(dh2_nav_validate_direction(&result.direction_valid,state.heading.direction,&direction))return 1;
+    result.boundary_checked=1;set_heading_unchecked(state.heading,state.heading.direction,1);
++   }
+   }
+  }else object.motion.object_flags&=~2u;
+  if(registry_used){auto& original=*r->scene->registry;if(registry.floor_count>original.floor_capacity)return 2;if(registry.floor_count)std::memcpy(original.floors,registry.floors,registry.floor_count*4);original.floor_count=registry.floor_count;}
+@@ -68,3 +72,5 @@
+  path.segments=r->path->segments;path.capacity=r->path->capacity;
+  *r->path=path;*r->controller=state;*r->object=object;*out=result;return 0;
+ }
++
++extern "C" int dh2_nav_update_path(ControllerResult* out,const ControllerRequest* request){return dh2_nav_update_path_source_v69(out,request,nullptr);}
+--- a/port/level-world/subobjects_update.hpp
++++ b/port/level-world/subobjects_update.hpp
+@@ -30,6 +30,10 @@
+ // Setter/visual events observe payloads; remaining callbacks receive nullptr.
+ using Service=std::uint32_t (*)(void*,std::uint32_t,float*);
+ struct Services {void* context;Service invoke;};
++// Borrow fresh actual2e0 cells AFTER its real Update virtual0c. The pointer
++// remains pinned by the caller through camera/root deliveries.
++struct AuxiliaryBranchV69 {std::uint32_t type{},mode{};const float* position_c{};};
++struct AuxiliaryBranchServicesV69 {void* context{};int(*borrow)(void*,AuxiliaryBranchV69*){};};
+ struct Request {State* state;physical::BodyState* body;physical::TransformRequest* transform;const Policy* policy;const Services* services;};
+ struct Result {std::uint32_t at_destination,accepted_physics_position;};
+ static_assert(sizeof(State)==128&&sizeof(Policy)==52&&sizeof(Services)==16&&sizeof(Request)==40&&sizeof(Result)==8);
+@@ -38,4 +42,5 @@
+ // 0 completed; 1 malformed pointer/overlap/reserved/flag, rejected before any
+ // callback or mutation. IEEE values intentionally follow original comparisons.
+ int dh2_subobjects_update(dh2::subobjects::Result*,const dh2::subobjects::Request*);
++int dh2_subobjects_update_source_v69(dh2::subobjects::Result*,const dh2::subobjects::Request*,const dh2::subobjects::AuxiliaryBranchServicesV69*);
+ }
+--- a/port/level-world/subobjects_update.cpp
++++ b/port/level-world/subobjects_update.cpp
+@@ -5,7 +5,7 @@
+ bool overlap(const void* a,std::size_t an,const void* b,std::size_t bn){auto x=reinterpret_cast<std::uintptr_t>(a),y=reinterpret_cast<std::uintptr_t>(b);return a&&b&&(x<=y?y-x<an:x-y<bn);}
+ float squared(const float* p){float a=p[0]*p[0],b=p[1]*p[1];return (a+b)+p[2]*p[2];}
+ }
+-extern "C" int dh2_subobjects_update(dh2::subobjects::Result* out,const dh2::subobjects::Request* r){
++extern "C" int dh2_subobjects_update_source_v69(dh2::subobjects::Result* out,const dh2::subobjects::Request* r,const dh2::subobjects::AuxiliaryBranchServicesV69* source){
+  using namespace dh2::subobjects;
+  if(!out||!r||!r->state||!r->policy||!r->services||!r->services->invoke||(r->body&&!r->transform)||r->policy->reserved||(r->body&&r->body->flags>65535))return 1;
+  const void* ptr[]={out,r,r->state,r->body,r->transform,r->policy,r->services};const std::size_t len[]={8,40,128,48,16,52,16};
+@@ -54,15 +54,19 @@
+  if(arrived)for(int i=0;i<3;++i)s.destination[i]=s.position[i];
+  for(int i=0;i<6;++i)s.absolute_bounds[i]=s.local_bounds[i]+s.position[i%3];
+  if(p.has_auxiliary){
+-  call(auxiliary_update);
+-  if(p.auxiliary_type==2){
++  const auto delivery=call(auxiliary_update);
++  AuxiliaryBranchV69 branch{p.auxiliary_type,p.auxiliary_mode,s.auxiliary_position};
++  if(source&&(delivery==UINT32_MAX||!source->borrow||source->borrow(source->context,&branch)||(branch.type==2&&!branch.position_c)))return 2;
++  if(branch.type==2){
+    float camera[3]={};
+-   if(p.auxiliary_mode==3){call(camera_get,camera);float free=1.f;call(camera_set_free,&free);}
+-   else if(p.auxiliary_mode==1||p.auxiliary_mode==4){
++   if(branch.mode==3){call(camera_get,camera);float free=1.f;call(camera_set_free,&free);}
++   else if(branch.mode==1||branch.mode==4){
+     call(camera_get,camera);
+-    if(camera[0]!=0.f){call(camera_position,camera);float delta[]={s.auxiliary_position[0]-camera[0],s.auxiliary_position[1]-camera[1],s.auxiliary_position[2]-camera[2]};if(squared(delta)<=3.f){float free=0.f;call(camera_set_free,&free);}}
++    if(camera[0]!=0.f){call(camera_position,camera);float delta[]={branch.position_c[0]-camera[0],branch.position_c[1]-camera[1],branch.position_c[2]-camera[2]};if(squared(delta)<=3.f){float free=0.f;call(camera_set_free,&free);}}
+    }
+   }
+  }
+  *out={std::uint32_t(arrived),std::uint32_t(accepted)};return 0;
+ }
++
++extern "C" int dh2_subobjects_update(dh2::subobjects::Result* out,const dh2::subobjects::Request* request){return dh2_subobjects_update_source_v69(out,request,nullptr);}
+--- a/port/level-world/actor_runtime.hpp
++++ b/port/level-world/actor_runtime.hpp
+@@ -75,6 +75,8 @@
+  move::Policy actual_virtual_policy{};
+  float actual_rotation_speed{};
+  GenericVisualBorrowV4 visual;
++ const navigation::ControllerSourceServicesV69* source_path{};
++ const subobjects::AuxiliaryBranchServicesV69* source_auxiliary{};
+ };
+ int update_gameobject_v4(RuntimeResult&,const GenericRuntimeRequestV4&,std::string& error);
+ }
+--- a/port/level-world/actor_runtime.cpp
++++ b/port/level-world/actor_runtime.cpp
+@@ -107,7 +107,7 @@
+  const navigation::AvoidanceScene fallback_scene{r.registry,&self,&self_key,1,0};
+  const auto* avoidance=r.avoidance?r.avoidance:&fallback_scene;
+  const navigation::ControllerRequest path_request{&s.controller,&s.path,&s.object,r.geometry,r.graph,avoidance,&path_policy,r.workspace,r.key};
+- const int path_status=dh2_nav_update_path(&result.path,&path_request);
++ const int path_status=generic&&generic->source_path?dh2_nav_update_path_source_v69(&result.path,&path_request,generic->source_path):dh2_nav_update_path(&result.path,&path_request);
+  if(path_status){out=result;error="Actor path update failed";return path_status;}
+  std::memcpy(s.subobjects.destination,s.controller.destination,12);std::memcpy(s.subobjects.heading,s.controller.heading.direction,12);
+  s.subobjects.path_count=s.path.count;std::memcpy(s.subobjects.path_target,s.path.target,12);
+@@ -127,7 +127,7 @@
+  result.phase=subobjects_phase;
+  const subobjects::Policy sub_policy{decoded.position_from_visual,decoded.position_from_physics,decoded.rotation_from_visual,decoded.rotation_from_physics,decoded.visual_with_rotation,decoded.validate_floor,policy.validating_camera,std::uint32_t(visual_present),policy.has_auxiliary,policy.auxiliary_type,policy.auxiliary_mode,0,policy.virtual_speed};
+  const subobjects::Request sub_request{&s.subobjects,r.native_body?&s.body:nullptr,r.native_body?&s.transform:nullptr,&sub_policy,&bridge.services};
+- if(dh2_subobjects_update(&result.subobjects,&sub_request)){out=result;error="Actor subobject request failed";return 3;}
++ if(generic&&generic->source_auxiliary?dh2_subobjects_update_source_v69(&result.subobjects,&sub_request,generic->source_auxiliary):dh2_subobjects_update(&result.subobjects,&sub_request)){out=result;error="Actor subobject request failed";return 3;}
+  s.rotation.rotation[2]=s.subobjects.rotation;
+  if(bridge.failed){out=result;return 3;}
+  result.phase=target_phase;

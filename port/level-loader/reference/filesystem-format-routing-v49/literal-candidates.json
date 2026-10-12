@@ -1,0 +1,149 @@
+{
+  "elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "strings": [
+    {
+      "needle": ".tga",
+      "va": "0x8c08a0",
+      "offset": 9177248,
+      "text": ".tga"
+    },
+    {
+      "needle": ".tga",
+      "va": "0x8c08ac",
+      "offset": 9177260,
+      "text": ".tga"
+    },
+    {
+      "needle": ".tga",
+      "va": "0x8c08bf",
+      "offset": 9177279,
+      "text": ".tga"
+    },
+    {
+      "needle": ".tga",
+      "va": "0x8c0bd5",
+      "offset": 9178069,
+      "text": ".tga"
+    },
+    {
+      "needle": ".tga",
+      "va": "0x8c0c7a",
+      "offset": 9178234,
+      "text": ".tga"
+    },
+    {
+      "needle": ".tga",
+      "va": "0x8c1e25",
+      "offset": 9182757,
+      "text": ".tga"
+    },
+    {
+      "needle": ".tga",
+      "va": "0x8c1e51",
+      "offset": 9182801,
+      "text": ".tga"
+    },
+    {
+      "needle": ".tga",
+      "va": "0x8c1ee0",
+      "offset": 9182944,
+      "text": ".tga"
+    },
+    {
+      "needle": ".tga",
+      "va": "0x8c1f0b",
+      "offset": 9182987,
+      "text": ".tga"
+    },
+    {
+      "needle": ".tga",
+      "va": "0x8c1f33",
+      "offset": 9183027,
+      "text": ".tga"
+    },
+    {
+      "needle": ".tga",
+      "va": "0x8c69de",
+      "offset": 9202142,
+      "text": ".tga"
+    },
+    {
+      "needle": ".tga",
+      "va": "0x8c8122",
+      "offset": 9208098,
+      "text": ".tga"
+    },
+    {
+      "needle": ".tga",
+      "va": "0x8c8140",
+      "offset": 9208128,
+      "text": ".tga"
+    },
+    {
+      "needle": ".tga",
+      "va": "0x8c816b",
+      "offset": 9208171,
+      "text": ".tga"
+    },
+    {
+      "needle": ".tga",
+      "va": "0x8c8188",
+      "offset": 9208200,
+      "text": ".tga"
+    },
+    {
+      "needle": ".tga",
+      "va": "0x8c81a0",
+      "offset": 9208224,
+      "text": ".tga"
+    },
+    {
+      "needle": ".tga",
+      "va": "0x8c81c6",
+      "offset": 9208262,
+      "text": ".tga"
+    },
+    {
+      "needle": ".tga",
+      "va": "0x8c81ee",
+      "offset": 9208302,
+      "text": ".tga"
+    },
+    {
+      "needle": ".tga",
+      "va": "0x8c8216",
+      "offset": 9208342,
+      "text": ".tga"
+    },
+    {
+      "needle": ".tga",
+      "va": "0x8c823e",
+      "offset": 9208382,
+      "text": ".tga"
+    },
+    {
+      "needle": ".tga",
+      "va": "0x8c8266",
+      "offset": 9208422,
+      "text": ".tga"
+    },
+    {
+      "needle": ".tga",
+      "va": "0x8c828b",
+      "offset": 9208459,
+      "text": ".tga"
+    },
+    {
+      "needle": ".tga",
+      "va": "0x8c82ae",
+      "offset": 9208494,
+      "text": ".tga"
+    },
+    {
+      "needle": ".tga",
+      "va": "0x8cd6fb",
+      "offset": 9230075,
+      "text": ".tga"
+    }
+  ]
+}

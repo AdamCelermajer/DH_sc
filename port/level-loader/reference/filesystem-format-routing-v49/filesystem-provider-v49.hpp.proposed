@@ -1,0 +1,19 @@
+// Proposal only: main must bind the actual retained filesystem owner/thread.
+// Existing OriginalCacheAssets ZIP case/slash lookup does not by itself produce
+// FileSystemBase WorkingDirectory, CFS ObfuscationMap, or a texture-format policy.
+struct RequiredOriginalFilesystemImagePolicyV49 {
+ std::shared_ptr<void> actual_filesystem_owner;
+ // Actual virtual CFileSystem::getWorkingDirectory (+0x2c from address point).
+ std::function<bool(std::string&,std::string&)> working_directory;
+ // Optional exact CFS ObfuscationMap service56e064, SAME actual initialized map:
+ // path slash conversion/removal follows its original map key rules. Empty map
+ // preserves original input. No pvr2_ entries may be synthesized here.
+ std::function<bool(const std::string&,std::string&,std::string&)> obfuscated_name;
+ // Original CResFactory resource-directory+/+SImage.path then SImage.path.
+ // Open returns real canonical identity and a metadata/resource handle, BEFORE
+ // V45 reserves/reads payload. It must consume actual filename-policy result.
+ std::function<bool(const std::string&,bool&,std::string&,std::string&)> lookup_actual_mount;
+};
+// Texture-format selection is intentionally NOT an enum/guess in this proposal:
+// no original producer selecting pvr2_ from GPU/config fields has been established.
+// Main must supply such a source-proven service before resolving that domain.

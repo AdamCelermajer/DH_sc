@@ -1,0 +1,36 @@
+{
+  "validation": "PASS",
+  "standalone_host_only": true,
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "original_ARM_comparisons": 231,
+  "actual_live_mount_renderer_GPU_binding": false,
+  "build_command": [
+    "wsl",
+    "--",
+    "/usr/bin/g++",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-O1",
+    "-g",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/original_filename_policy_v49.cpp",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/tests/original_filename_policy_v49.cpp",
+    "-o",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/filesystem-format-routing-v49/original-filename-policy-v49-test"
+  ],
+  "output": "PASS original_ARM_native_cases=231 live_working_directory_guard=1 exact_case_substring_basename_and_prefix_preserved=1 undefined_domain_rejected=1 GPU_format_mount_policy=0\n",
+  "hashes": {
+    "original_filename_policy_v49.hpp": "f42a7fbddba8f75b8a1fbb4a8696c2cb6b0f10dec6e0d194bc36e7757fc36a7b",
+    "original_filename_policy_v49.cpp": "9b96ef2bd3b7f470a00505b4eb8272999db6c6ce5c2594ce28c0ca0522cc457a",
+    "tests/original_filename_policy_v49.cpp": "d67c99de3c78bbec204e091c8f81b6aeb1136869742bec464f51fcdc40c4b457",
+    "reference/filesystem-format-routing-v49/filename-policy-cases-v49.tsv": "4529f40a4187f9db4a8c376369444d98473cdc287fe8b3dcd8d3e4cbff6ab87f",
+    "reference/filesystem-format-routing-v49/filename-source-oracle-v49.json": "16704c336d7abe3cbe145e7c709e909ac17436649954e29019e849004edb10b1",
+    "reference/filesystem-format-routing-v49/original-filename-policy-v49-test": "ee2339790fdfca1ecf5ecc169205e4d130e093e888538f6226d2155b1e332e4e"
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "validation": "PASS",
+  "version": 2,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_sha256": {
+    "port/engine-ui/text_display_v2.hpp": "9f9f4137856b5826eeb27c3735ae8ae0fd940f9184bfcc65a32ba5338133d20f",
+    "port/engine-ui/text_display_v2.cpp": "6b2d1c5693d3985b4724b2ca4f67d8e420262dd925be44482c0774b4214ebaa1",
+    "port/engine-ui/text_render_owner_v2.hpp": "9b8b8da4c412c9ac87d735203ef3ac5a4c28cc5f3f4c307712a99b6c33915b5f",
+    "port/engine-ui/text_render_owner_v2.cpp": "9912b4c218bbfe01bd2430ced3bb92c35abe2e84d371e905513d39b226106a29",
+    "port/engine-ui/hud_freetype_font_v2.hpp": "5d09057407c723ba72fd93392fbdc13b8fbca52dae96e3187898e3de46b34651",
+    "port/engine-ui/hud_freetype_font_v2.cpp": "d16accfab2c1b96ca5fbf8f3cb04dfff5737937dec02f21d05463a729f64fd3d"
+  },
+  "source_and_evidence_sha256": {
+    "port/engine-ui/text_display_v2.hpp": "9f9f4137856b5826eeb27c3735ae8ae0fd940f9184bfcc65a32ba5338133d20f",
+    "port/engine-ui/text_display_v2.cpp": "6b2d1c5693d3985b4724b2ca4f67d8e420262dd925be44482c0774b4214ebaa1",
+    "port/engine-ui/text_render_owner_v2.hpp": "9b8b8da4c412c9ac87d735203ef3ac5a4c28cc5f3f4c307712a99b6c33915b5f",
+    "port/engine-ui/text_render_owner_v2.cpp": "9912b4c218bbfe01bd2430ced3bb92c35abe2e84d371e905513d39b226106a29",
+    "port/engine-ui/hud_freetype_font_v2.hpp": "5d09057407c723ba72fd93392fbdc13b8fbca52dae96e3187898e3de46b34651",
+    "port/engine-ui/hud_freetype_font_v2.cpp": "d16accfab2c1b96ca5fbf8f3cb04dfff5737937dec02f21d05463a729f64fd3d",
+    "port/engine-ui/reference/text-display-v2/capture.py": "eac9e9652fd56a409e878d86e06229a1c48eae3a2e909384d943233cd3a0cefe",
+    "port/engine-ui/reference/text-display-v2/original-functions.json": "e1166d8e2d34a12e28add2472fcc28caab3d86d2ff641121cfc4ee94dfd75d4a",
+    "port/engine-ui/reference/text-display-v2/reference/original-functions.asm": "a3a8822d0c9584cc775aa3329455d6139e5296e47a99b1603990c398beaff3f5",
+    "port/engine-ui/reference/text-display-v2/whole-gold-v3.bin": "df792d2bb9940c463561b87c4245b7436778830746399c68af07a6e44ee189ce",
+    "port/engine-ui/reference/text-display-v2/NOTES.md": "287b1d003c83bf4d050b4ece8c56560af3df1b837f971b5af65318cbd93c3de7",
+    "port/engine-ui/tests/text_display_v2.cpp": "149ac1a5294f4b7f11e71c3355398b8dcb2ce0868b3356a340630678bf98087f",
+    "port/engine-ui/tests/text_display_v2_original.py": "db07b8ff698131e2a6fdb9fda9d581661fdabd537e5353c97ed23b4dfec08bac",
+    "port/engine-ui/tests/text_render_owner_v2.cpp": "fd3b2a5022fde950f959c1878fa629f4d4848efa32637ed3252b489ba46352fa",
+    "port/engine-ui/tools/freeze_text_display_v2.py": "f38d16507fc1c8f27a618957c08fcbd5f15bbf7b3fd7b4888e5641efd7f6684a"
+  },
+  "dependency_sha256": {
+    "port/engine-ui/hud_freetype_font.hpp": "137741dc606aa65d2532d8443cd7165a6b71e7b25208aa92894275780465b2a6",
+    "port/engine-ui/hud_freetype_font.cpp": "9a3df0edace00b7c1c997ce08c7a0876e2827b6037777f606036a329f0c55a3b",
+    "port/engine-ui/freetype_glyph_kernel.hpp": "64c3283bb58c325295370b00f2d796c3d970766ee4868b1cad04d0d46ffe6aee",
+    "port/engine-ui/freetype_glyph_kernel.cpp": "e4453c580e13a1a3cd0e977dcc77dd5dd68357239442f45821c6ba6aab4de3ec",
+    "port/engine-ui/freetype_bitmap_alpha.hpp": "ebbd595524064c795d7ae87326dbcafbc32a88322f75eb5087ee8a5fc001ab06",
+    "port/engine-ui/freetype_bitmap_alpha.cpp": "d5a20f44edc326f646b10d9ae4134c2384bb5c04b674d5256507101131b4037e",
+    "port/engine-ui/swf_movie.hpp": "e609bcf6218b3eec91a78de35546a9e649fbc6ab31feb0f58e5015b8fa996bd9",
+    "port/engine-ui/text_layout_v1.hpp": "73e9cbb6892cfd99b8d5cd9a03955ef6e6c41f251c5aa5bb02eab9f57ed4c6da",
+    "port/engine-ui/text_layout_v1.cpp": "5f4aaeb895f6529a7681ccebe7a0df86ef05e9d9e18527ac3d347c48e72b8316"
+  },
+  "actual_font_input_sha256": {
+    ".local-inputs/font-text-discovery/Fontin SmallCaps.ttf": "e0aa9854059f79a24dd9ced942c1add193d1ff83c3ff44685c6d5d8ff3ce53c4",
+    ".local-inputs/font-text-discovery/wqy-zenhei.ttf": "734b412c7aea22930d740a8edd9162f36f99aa343ca9271411ab501279fc7dd3"
+  },
+  "proof_sha256": {
+    "port/level-world/reports/native-text-render-fresh-player-main-linked-host-audit-v4.json": "d16e6674d9157d8ae1388c66e4e1489d641c0ed246418a8ed5b3b2de10d97a49"
+  },
+  "results": {
+    "main_DSO_suites": 125,
+    "original_whole_display_cases": 768,
+    "display_guards": 6,
+    "font_owner": {
+      "validation": "PASS",
+      "actual_font_metrics": 4,
+      "actual_raster_owner_cases": 42,
+      "whole_layout_display_compositions": 4,
+      "native_draw_commands": 25,
+      "ownership_and_source_guards": 9
+    },
+    "sanitizer_findings": 0
+  },
+  "limits": {
+    "whole_glyph_display_native": true,
+    "real_matching_FT_face_and_draw_command_ownership": true,
+    "caller_bitmap_font_and_atlas_producers_required": true,
+    "retained_edit_text_class_migrated": false,
+    "private_font_copy_metadata_outside_layout_projection": true,
+    "draw_upload_sinks_in_host_are_fixtures": true,
+    "Android_GPU_execution": false,
+    "APK_promoted": false,
+    "physical_device_verified": false
+  }
+}

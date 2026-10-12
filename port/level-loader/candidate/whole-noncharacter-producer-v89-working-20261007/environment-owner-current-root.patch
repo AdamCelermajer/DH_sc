@@ -1,0 +1,63 @@
+--- a/port/level-world/gameobject_scene_root_registry_v1.hpp
++++ b/port/level-world/gameobject_scene_root_registry_v1.hpp
+@@ -1,6 +1,7 @@
+ #pragma once
+ #include "retained_gameobject_visual_v1.hpp"
+ #include "scene_manager_frame_fields_v67.hpp"
++#include "light_set_name_owner_v3.hpp"
+ #include <vector>
+ namespace dh2::world {
+ class ScenePreloadCollectionV81;
+@@ -58,6 +59,7 @@
+  std::uintptr_t identity_;std::uint32_t root_flags_{0x60f};
+  GameObjectSceneManagerFieldsV1 fields_;
+  SceneManagerFrameFieldsV67 frame_v67_;
++ std::shared_ptr<LightSetNameOwnerV3> source_light_names_v89_; // adopted by SAME full LightSet manager
+  std::vector<Entry> children_;
+  GameObjectSceneCameraBorrowV13 active_camera_e4_;
+  bool ambient_set_v67_{};
+@@ -98,6 +100,10 @@
+   frame_v67_.fog_color={source_fog_color_byte_v68(color[0]),source_fog_color_byte_v68(color[1]),source_fog_color_byte_v68(color[2]),0};
+   ++frame_v67_.parameter_revision;
+  }
++ const std::shared_ptr<LightSetNameOwnerV3>& source_light_names_v89(){
++  if(!source_light_names_v89_)source_light_names_v89_=std::make_shared<LightSetNameOwnerV3>();
++  return source_light_names_v89_;
++ }
+  std::vector<std::uintptr_t> roots()const;
+  std::uintptr_t identity()const noexcept{return identity_;}
+  std::uintptr_t scene_manager_identity_v16()const noexcept{return reinterpret_cast<std::uintptr_t>(this);}
+--- a/port/level-world/canonical_object_manager_v1.hpp
++++ b/port/level-world/canonical_object_manager_v1.hpp
+@@ -38,6 +38,7 @@
+  struct Entry {std::string name;CanonicalObjectBorrowV1 actor;};
+  std::map<std::int32_t,Entry> entries_;
+  std::vector<std::uintptr_t> characters_,modules_;
++ std::vector<std::uintptr_t> marked_for_deletion3c_v89_;
+  std::vector<std::uintptr_t> pending_; // Original ctor-empty ObjectManager+34 list.
+  std::uint32_t next_key_{},count_{},frame_{},init_phase7c_{}; // explicit ctor stores +4c/+50/+78
+  CanonicalObjectManagerServicesV1 services_;
+@@ -105,6 +106,8 @@
+  const std::vector<std::uintptr_t>& modules()const noexcept{return modules_;}
+  // Source Spawn accepted virtual38 appends the SAME published receiver.
+  // Ordered duplicates are source-valid; this does not enable/update it.
++ bool source_mark_for_deletion_v89(std::uintptr_t,std::string&);
++ const std::vector<std::uintptr_t>& source_marked_for_deletion_v89()const noexcept{return marked_for_deletion3c_v89_;}
+  bool append_pending(const CanonicalObjectBorrowV1&,std::string&);
+  const std::vector<std::uintptr_t>& pending()const noexcept{return pending_;}
+ };
+--- a/port/level-world/canonical_object_manager_v1.cpp
++++ b/port/level-world/canonical_object_manager_v1.cpp
+@@ -2,6 +2,12 @@
+ #include <cstring>
+ #include <limits>
+ namespace dh2::world {
++bool CanonicalObjectManagerV1::source_mark_for_deletion_v89(std::uintptr_t identity,std::string& e){
++ // Native3432f8 unique source3c list, no deletion or82/81 mutation.
++ for(const auto same:marked_for_deletion3c_v89_)if(same==identity){e.clear();return true;}
++ marked_for_deletion3c_v89_.push_back(identity);e.clear();return true;
++}
++
+ bool CanonicalObjectManagerV1::required(bool available,const char* name,std::string& e){if(!available){e=std::string("required source ObjectManager provider: ")+name;return false;}return true;}
+ const CanonicalObjectBorrowV1* CanonicalObjectManagerV1::object(std::int32_t key)const noexcept{auto i=entries_.find(key);return i==entries_.end()||!i->second.actor.identity?nullptr:&i->second.actor;}
+ bool CanonicalObjectManagerV1::published_name_conflict_v4(const char* name,std::int32_t room,bool& out,std::string& e)const{

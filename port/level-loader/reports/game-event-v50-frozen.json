@@ -1,0 +1,16 @@
+{
+  "packet": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\game-event-v50-9d856a5753063d5e.zip",
+  "sha256": "82661a654ec635b594f0ec213c69a3bbaf9490bccb3bab2467d5fed4039b0b2c",
+  "payloads": 40,
+  "manifest_verified": true,
+  "context_base_sha256": "01d64bdb27cbbad5af1d6cb01a7e089f976cd09822eb58b36cc384cea009005e",
+  "proposed_header_sha256": "2d20917216f318aab910f89952198e8af785a8b3e44d0fb9b1cef10c72bd3cdd",
+  "production_sources": {
+    "game_event_manager_v50.hpp": "19a1d1551be900fed345734abb403f94c9cd5dc7e2f7a50cf9247d7bdefe36b3",
+    "game_event_manager_v50.cpp": "76104d7cb6751c651bc922502beb2b9bb210c689f9383d6aea24583a01566df7",
+    "game_event_level_fields_v50.hpp": "bffea2a1021033ada71b22f839150f8124c7f9f0bb37623736729c0d8ade461d",
+    "stage_loader_v50_game_events.hpp": "e681d2a19b1cb68bf2c3254b7467a41753b561a2d58e28309b876ae456af1272",
+    "tests/game_event_manager_v50.cpp": "3996d231b055b4b8506c78a791564d0f691a6bdb5722fc29868206b014be4547",
+    "tests/stage_game_event_v50.cpp": "48da0c7c76d571aaeb190afa70e103ac9a06e23ec8fa8d8887744585fe347d2b"
+  }
+}

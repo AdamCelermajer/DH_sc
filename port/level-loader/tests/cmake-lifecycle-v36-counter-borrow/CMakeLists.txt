@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.22)
+project(dh2_loader_lifecycle_v36_counter_borrow LANGUAGES CXX)
+add_executable(dh2_loader_lifecycle_v36_counter_borrow ../lifecycle_v36_counter_borrow_test.cpp)
+target_include_directories(dh2_loader_lifecycle_v36_counter_borrow PRIVATE ../..)
+target_compile_features(dh2_loader_lifecycle_v36_counter_borrow PRIVATE cxx_std_17)
+target_compile_options(dh2_loader_lifecycle_v36_counter_borrow PRIVATE -Wall -Wextra -Werror -fsanitize=address,undefined -fno-omit-frame-pointer)
+target_link_options(dh2_loader_lifecycle_v36_counter_borrow PRIVATE -fsanitize=address,undefined)

@@ -1,0 +1,1165 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "manifest_sha256": "5e13a9454fbb5ba5262683bf03cd385cfed9f7d64105eb8c4c97dfb6c1813177",
+  "script_sha256": "ddefdcc1a3dfb864505d1978cb3036a11617b21fe1e98b05ff221c0ffce2b13c",
+  "character": "Crypt_Ghost",
+  "authored_skill_list": -1,
+  "character_row": 35,
+  "animation_table": 24,
+  "skill_list": 3,
+  "skill_sequences": [],
+  "animation_set_id": 6147,
+  "constant_queries": [
+    {
+      "group": "AnimStancedAnim",
+      "key": "SL__LIST_IPHONE",
+      "value": 210
+    }
+  ],
+  "model_property": {
+    "dictionary_id": 44,
+    "path": "data/3D/characters/ghost/ghost.bdae",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/ghost.bdae",
+    "bytes": 67104,
+    "sha256": "bbd26136f6141d0d319d090e20b99f12d29cce18efad134724bcd5bb008a2183",
+    "scene_nodes": 45
+  },
+  "native_character_table_fields": {
+    "0x4": "Attack",
+    "0x8": "AttackStatic",
+    "0xc": "Blocking",
+    "0x10": "DeadlyGreatKB",
+    "0x14": "Despawn",
+    "0x18": "DespawnGreatKB",
+    "0x1c": "Died",
+    "0x20": "Dodging",
+    "0x24": "GreatKnockedBack",
+    "0x28": "Idle",
+    "0x2c": "IdleFromOOC",
+    "0x30": "IdleOOC",
+    "0x34": "IdleSneak",
+    "0x38": "IdleToOOC",
+    "0x3c": "Injured",
+    "0x40": "Interact",
+    "0x48": "KnockedBack",
+    "0x4c": "LiftDrop",
+    "0x50": "LiftIdle",
+    "0x54": "LiftMove",
+    "0x58": "Limbus",
+    "0x5c": "MenuIdle",
+    "0x60": "MenuOnSelect",
+    "0x64": "PreSpawn",
+    "0x68": "Revived",
+    "0x6c": "Reviving",
+    "0x70": "Run",
+    "0x74": "Run180",
+    "0x78": "RunSneak",
+    "0x7c": "Scared",
+    "0x80": "Spawn",
+    "0x84": "Spells",
+    "0x8c": "Stunned",
+    "0x90": "Template",
+    "0x94": "Walk",
+    "0x98": "Walk180",
+    "0x9c": "WalkSneak"
+  },
+  "template": {
+    "clip_id": 716,
+    "path": "data/3D/characters/ghost/animations/ghost_template_anim.bdae",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_template_anim.bdae",
+    "bytes": 28556,
+    "sha256": "a5db032f75f68a2be336eb2eb770734191f762bb07d1f4587af47d14f5eb568b",
+    "tracks": 69,
+    "start": 4294967163,
+    "end": 1333,
+    "scene_nodes": 24,
+    "channel_type_counts": {
+      "5": 23,
+      "10": 23,
+      "1": 23
+    },
+    "unsupported_domain_tracks": []
+  },
+  "registration_calls": [
+    {
+      "kind": "template",
+      "set_id": 6147,
+      "clip_id": 716,
+      "path": "data/3D/characters/ghost/animations/ghost_template_anim.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 6147,
+      "clip_id": 714,
+      "path": "data/3D/characters/ghost/animations/ghost_spawn.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 6147,
+      "clip_id": 706,
+      "path": "data/3D/characters/ghost/animations/ghost_idle_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 6147,
+      "clip_id": 717,
+      "path": "data/3D/characters/ghost/animations/ghost_walk_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 6147,
+      "clip_id": 710,
+      "path": "data/3D/characters/ghost/animations/ghost_pre_attack_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 6147,
+      "clip_id": 697,
+      "path": "data/3D/characters/ghost/animations/ghost_attack_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 6147,
+      "clip_id": 707,
+      "path": "data/3D/characters/ghost/animations/ghost_post_attack_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 6147,
+      "clip_id": 710,
+      "path": "data/3D/characters/ghost/animations/ghost_pre_attack_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 6147,
+      "clip_id": 697,
+      "path": "data/3D/characters/ghost/animations/ghost_attack_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 6147,
+      "clip_id": 707,
+      "path": "data/3D/characters/ghost/animations/ghost_post_attack_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 6147,
+      "clip_id": 710,
+      "path": "data/3D/characters/ghost/animations/ghost_pre_attack_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 6147,
+      "clip_id": 697,
+      "path": "data/3D/characters/ghost/animations/ghost_attack_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 6147,
+      "clip_id": 707,
+      "path": "data/3D/characters/ghost/animations/ghost_post_attack_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 6147,
+      "clip_id": 717,
+      "path": "data/3D/characters/ghost/animations/ghost_walk_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 6147,
+      "clip_id": 712,
+      "path": "data/3D/characters/ghost/animations/ghost_pre_stunned.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 6147,
+      "clip_id": 715,
+      "path": "data/3D/characters/ghost/animations/ghost_stunned.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 6147,
+      "clip_id": 709,
+      "path": "data/3D/characters/ghost/animations/ghost_post_stunned.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 6147,
+      "clip_id": 713,
+      "path": "data/3D/characters/ghost/animations/ghost_pushback.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 6147,
+      "clip_id": 701,
+      "path": "data/3D/characters/ghost/animations/ghost_great_pushback.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 6147,
+      "clip_id": 704,
+      "path": "data/3D/characters/ghost/animations/ghost_great_pushback_standup.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 6147,
+      "clip_id": 705,
+      "path": "data/3D/characters/ghost/animations/ghost_hurt_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 6147,
+      "clip_id": 705,
+      "path": "data/3D/characters/ghost/animations/ghost_hurt_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 6147,
+      "clip_id": 705,
+      "path": "data/3D/characters/ghost/animations/ghost_hurt_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 6147,
+      "clip_id": 700,
+      "path": "data/3D/characters/ghost/animations/ghost_dying_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 6147,
+      "clip_id": 699,
+      "path": "data/3D/characters/ghost/animations/ghost_despawn_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 6147,
+      "clip_id": 701,
+      "path": "data/3D/characters/ghost/animations/ghost_great_pushback.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 6147,
+      "clip_id": 703,
+      "path": "data/3D/characters/ghost/animations/ghost_great_pushback_dying.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 6147,
+      "clip_id": 702,
+      "path": "data/3D/characters/ghost/animations/ghost_great_pushback_despawn.bdae"
+    }
+  ],
+  "registration_calls_count": 28,
+  "unique_clip_count": 18,
+  "first_unique_order": [
+    716,
+    714,
+    706,
+    717,
+    710,
+    697,
+    707,
+    712,
+    715,
+    709,
+    713,
+    701,
+    704,
+    705,
+    700,
+    699,
+    703,
+    702
+  ],
+  "table_calls": [
+    {
+      "template": true,
+      "sequence": 215,
+      "stance": 0
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 213,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 210,
+      "stance": 0,
+      "flags": 2,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 216,
+      "stance": 0,
+      "flags": 16,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 32,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 204,
+      "stance": 0,
+      "flags": 64,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 201,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 201,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 201,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 128,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 216,
+      "stance": 0,
+      "flags": 256,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 214,
+      "stance": 0,
+      "flags": 512,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 212,
+      "stance": 0,
+      "flags": 1024,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 209,
+      "stance": 0,
+      "flags": 2048,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 211,
+      "stance": 0,
+      "flags": 4096,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 211,
+      "stance": 0,
+      "flags": 8192,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 211,
+      "stance": 0,
+      "flags": 16384,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 208,
+      "stance": 0,
+      "flags": 32768,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 206,
+      "stance": 0,
+      "flags": 65536,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 205,
+      "stance": 0,
+      "flags": 131072,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 207,
+      "stance": 0,
+      "flags": 262144,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 1048576,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 524288,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 4,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 8,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 8,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 16777216,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 16777216,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 8388608,
+      "mask": 210
+    }
+  ],
+  "preload_requests": [],
+  "existing_set_registration_calls": 0,
+  "prototype_projection": [],
+  "prototype_projection_count": 0,
+  "resources": [
+    {
+      "clip_id": 716,
+      "path": "data/3D/characters/ghost/animations/ghost_template_anim.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_template_anim.bdae",
+      "bytes": 28556,
+      "sha256": "a5db032f75f68a2be336eb2eb770734191f762bb07d1f4587af47d14f5eb568b",
+      "tracks": 69,
+      "start": 4294967163,
+      "end": 1333,
+      "scene_nodes": 24,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 23,
+        "1": 23
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 714,
+      "path": "data/3D/characters/ghost/animations/ghost_spawn.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_spawn.bdae",
+      "bytes": 12276,
+      "sha256": "b3a7aad646be75a1ba90d5ff4c8bd88bd9071bd392739c76676a94d8651fb763",
+      "tracks": 27,
+      "start": 0,
+      "end": 1700,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 2,
+        "1": 3
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 706,
+      "path": "data/3D/characters/ghost/animations/ghost_idle_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_idle_01.bdae",
+      "bytes": 24052,
+      "sha256": "b21af05cfa1c767726b10d4f5b5a674ea2546d8fc7590215be132865afd75895",
+      "tracks": 24,
+      "start": 0,
+      "end": 6000,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 20,
+        "10": 2,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 717,
+      "path": "data/3D/characters/ghost/animations/ghost_walk_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_walk_01.bdae",
+      "bytes": 39896,
+      "sha256": "bd381b8bdcd2e948620fcd90ca8bf5f4e54c156285584e4e130cd369933c3ddc",
+      "tracks": 26,
+      "start": 0,
+      "end": 1333,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 20,
+        "10": 2,
+        "1": 4
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 710,
+      "path": "data/3D/characters/ghost/animations/ghost_pre_attack_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_pre_attack_01.bdae",
+      "bytes": 7476,
+      "sha256": "e9b9a4cb395672ad451b60b37cb4959812c5bf6ed9bcf1bd3e04f6418b9856c0",
+      "tracks": 26,
+      "start": 0,
+      "end": 366,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 21,
+        "10": 2,
+        "1": 3
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 697,
+      "path": "data/3D/characters/ghost/animations/ghost_attack_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_attack_01.bdae",
+      "bytes": 8980,
+      "sha256": "3715fe78633e0c04a57e41a1b1d80943a35d1663aa82a13801713c938577436a",
+      "tracks": 26,
+      "start": 366,
+      "end": 1033,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 21,
+        "10": 2,
+        "1": 3
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 707,
+      "path": "data/3D/characters/ghost/animations/ghost_post_attack_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_post_attack_01.bdae",
+      "bytes": 8036,
+      "sha256": "7c0639fcfa028b2fc2595da67c2dfaaeecbbcbb3993ec3916d3586010f59c994",
+      "tracks": 26,
+      "start": 1033,
+      "end": 1466,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 21,
+        "10": 2,
+        "1": 3
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 712,
+      "path": "data/3D/characters/ghost/animations/ghost_pre_stunned.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_pre_stunned.bdae",
+      "bytes": 6448,
+      "sha256": "7721ecd1124b7ff4cba3aaf51d4326b16566ed9e67039da538376103b29a04cc",
+      "tracks": 24,
+      "start": 0,
+      "end": 200,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 20,
+        "10": 2,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 715,
+      "path": "data/3D/characters/ghost/animations/ghost_stunned.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_stunned.bdae",
+      "bytes": 8772,
+      "sha256": "caaf0e999ac67160cebafd6aa82b9aae4002dd42413e32bae428838f563f0694",
+      "tracks": 24,
+      "start": 233,
+      "end": 1666,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 20,
+        "10": 2,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 709,
+      "path": "data/3D/characters/ghost/animations/ghost_post_stunned.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_post_stunned.bdae",
+      "bytes": 8624,
+      "sha256": "0036227b37d662cb0a4ed4f9b3482716e6a483934fdf563100f3357b391864fa",
+      "tracks": 24,
+      "start": 1700,
+      "end": 2500,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 20,
+        "10": 2,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 713,
+      "path": "data/3D/characters/ghost/animations/ghost_pushback.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_pushback.bdae",
+      "bytes": 10448,
+      "sha256": "f69ba9e9b210be19bf798745605df25506e2c7c7c3dab15f78d17d65666afbea",
+      "tracks": 28,
+      "start": 0,
+      "end": 899,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 2,
+        "1": 4
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 701,
+      "path": "data/3D/characters/ghost/animations/ghost_great_pushback.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_great_pushback.bdae",
+      "bytes": 7244,
+      "sha256": "88fcbb858599e81324fa78cac15838318f1522275e79796dc13ea9de524b2852",
+      "tracks": 28,
+      "start": 0,
+      "end": 166,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 2,
+        "1": 4
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 704,
+      "path": "data/3D/characters/ghost/animations/ghost_great_pushback_standup.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_great_pushback_standup.bdae",
+      "bytes": 16068,
+      "sha256": "e54d34401611a744e215871c4decbda3c9493c8d6813a6f3661de44b30a7e0ee",
+      "tracks": 28,
+      "start": 166,
+      "end": 1899,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 2,
+        "1": 4
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 705,
+      "path": "data/3D/characters/ghost/animations/ghost_hurt_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_hurt_01.bdae",
+      "bytes": 9044,
+      "sha256": "e386f71e51283330b0ee6aeeed17fbd1b7635c5d44760e3bfd37e0537d7c66ad",
+      "tracks": 24,
+      "start": 0,
+      "end": 2500,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 20,
+        "10": 2,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 700,
+      "path": "data/3D/characters/ghost/animations/ghost_dying_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_dying_01.bdae",
+      "bytes": 11416,
+      "sha256": "10d0454f550b1aa90de4f22a2ffba2af585feb84b23d90fd62040c292e917327",
+      "tracks": 28,
+      "start": 0,
+      "end": 1033,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 2,
+        "1": 4
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 699,
+      "path": "data/3D/characters/ghost/animations/ghost_despawn_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_despawn_01.bdae",
+      "bytes": 6328,
+      "sha256": "6830bcc022e9fdcd0ead89b8f507a734e6549649aa54c8430c544a839f8b2317",
+      "tracks": 25,
+      "start": 0,
+      "end": 2000,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 20,
+        "10": 2,
+        "1": 3
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 703,
+      "path": "data/3D/characters/ghost/animations/ghost_great_pushback_dying.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_great_pushback_dying.bdae",
+      "bytes": 12544,
+      "sha256": "17570b08a65fe00f2421df031736552bd593483924e65cf47483f60eb29745e4",
+      "tracks": 28,
+      "start": 166,
+      "end": 1433,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 2,
+        "1": 4
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 702,
+      "path": "data/3D/characters/ghost/animations/ghost_great_pushback_despawn.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_great_pushback_despawn.bdae",
+      "bytes": 6512,
+      "sha256": "aa2c00ffca8771c982a4ed8d1414af59fab439eff826935ef0129aebe102e921",
+      "tracks": 26,
+      "start": 0,
+      "end": 2000,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 21,
+        "10": 2,
+        "1": 3
+      },
+      "unsupported_domain_tracks": []
+    }
+  ],
+  "inputs": [
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_properties_pyarraynames.bin",
+      "bytes": 8993,
+      "sha256": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_properties_pystructnames.bin",
+      "bytes": 5032,
+      "sha256": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_properties_pyarray.bin",
+      "bytes": 401608,
+      "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_pyarray.bin",
+      "bytes": 72812,
+      "sha256": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_pystructnames.bin",
+      "bytes": 648,
+      "sha256": "d4e19b0e688c51b2d7bcdc2a80b8553b99789e94c825e1e1bacf052590e86134"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_dictionary_pyarray.bin",
+      "bytes": 104357,
+      "sha256": "faee362a0cbf3fdcf3b09e2b957482c87f90ce25bc68048d1dfc7c742838fca7"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_pycst.bin",
+      "bytes": 1089,
+      "sha256": "dfac957b74e79c293f99651d2089489f855397f1de7256a9e555af681c1b990f"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_models_dictionary_pyarray.bin",
+      "bytes": 5366,
+      "sha256": "682f7ee5935fea873a3c1e09a3590df2a8250f110966f4efce654f2d20367c51"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/ghost.bdae",
+      "bytes": 67104,
+      "sha256": "bbd26136f6141d0d319d090e20b99f12d29cce18efad134724bcd5bb008a2183"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/skills_pyarray.bin",
+      "bytes": 11862,
+      "sha256": "e336986d5aee78fd1aed7fe7ec43cc8d58fa03d4fd27216779c0e96e47acc2d6"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_template_anim.bdae",
+      "bytes": 28556,
+      "sha256": "a5db032f75f68a2be336eb2eb770734191f762bb07d1f4587af47d14f5eb568b"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_spawn.bdae",
+      "bytes": 12276,
+      "sha256": "b3a7aad646be75a1ba90d5ff4c8bd88bd9071bd392739c76676a94d8651fb763"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_idle_01.bdae",
+      "bytes": 24052,
+      "sha256": "b21af05cfa1c767726b10d4f5b5a674ea2546d8fc7590215be132865afd75895"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_walk_01.bdae",
+      "bytes": 39896,
+      "sha256": "bd381b8bdcd2e948620fcd90ca8bf5f4e54c156285584e4e130cd369933c3ddc"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_pre_attack_01.bdae",
+      "bytes": 7476,
+      "sha256": "e9b9a4cb395672ad451b60b37cb4959812c5bf6ed9bcf1bd3e04f6418b9856c0"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_attack_01.bdae",
+      "bytes": 8980,
+      "sha256": "3715fe78633e0c04a57e41a1b1d80943a35d1663aa82a13801713c938577436a"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_post_attack_01.bdae",
+      "bytes": 8036,
+      "sha256": "7c0639fcfa028b2fc2595da67c2dfaaeecbbcbb3993ec3916d3586010f59c994"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_pre_stunned.bdae",
+      "bytes": 6448,
+      "sha256": "7721ecd1124b7ff4cba3aaf51d4326b16566ed9e67039da538376103b29a04cc"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_stunned.bdae",
+      "bytes": 8772,
+      "sha256": "caaf0e999ac67160cebafd6aa82b9aae4002dd42413e32bae428838f563f0694"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_post_stunned.bdae",
+      "bytes": 8624,
+      "sha256": "0036227b37d662cb0a4ed4f9b3482716e6a483934fdf563100f3357b391864fa"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_pushback.bdae",
+      "bytes": 10448,
+      "sha256": "f69ba9e9b210be19bf798745605df25506e2c7c7c3dab15f78d17d65666afbea"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_great_pushback.bdae",
+      "bytes": 7244,
+      "sha256": "88fcbb858599e81324fa78cac15838318f1522275e79796dc13ea9de524b2852"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_great_pushback_standup.bdae",
+      "bytes": 16068,
+      "sha256": "e54d34401611a744e215871c4decbda3c9493c8d6813a6f3661de44b30a7e0ee"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_hurt_01.bdae",
+      "bytes": 9044,
+      "sha256": "e386f71e51283330b0ee6aeeed17fbd1b7635c5d44760e3bfd37e0537d7c66ad"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_dying_01.bdae",
+      "bytes": 11416,
+      "sha256": "10d0454f550b1aa90de4f22a2ffba2af585feb84b23d90fd62040c292e917327"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_despawn_01.bdae",
+      "bytes": 6328,
+      "sha256": "6830bcc022e9fdcd0ead89b8f507a734e6549649aa54c8430c544a839f8b2317"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_great_pushback_dying.bdae",
+      "bytes": 12544,
+      "sha256": "17570b08a65fe00f2421df031736552bd593483924e65cf47483f60eb29745e4"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_great_pushback_despawn.bdae",
+      "bytes": 6512,
+      "sha256": "aa2c00ffca8771c982a4ed8d1414af59fab439eff826935ef0129aebe102e921"
+    }
+  ],
+  "row160_projection": {
+    "words": [
+      0,
+      204,
+      4294967295,
+      211,
+      205,
+      206,
+      207,
+      208,
+      211,
+      209,
+      210,
+      4294967295,
+      4294967295,
+      4294967295,
+      4294967295,
+      211,
+      9,
+      0,
+      212,
+      4294967295,
+      4294967295,
+      4294967295,
+      4294967295,
+      4294967295,
+      4294967295,
+      4294967295,
+      4294967295,
+      4294967295,
+      4294967295,
+      4294967295,
+      4294967295,
+      216,
+      213,
+      0,
+      0,
+      214,
+      215,
+      216,
+      4294967295,
+      4294967295
+    ],
+    "pointer_words_zeroed": [
+      17,
+      34
+    ],
+    "interact": [
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1
+    ],
+    "spells": []
+  },
+  "idle_focus_probes": [
+    {
+      "suppressed": 0,
+      "flags": 9088,
+      "calls": [
+        {
+          "animator_is_embedded": true,
+          "sequence": 210,
+          "flags": 9088
+        }
+      ],
+      "constant_queries": [
+        {
+          "group": "AnimStancedAnim",
+          "key": "SL__LIST_IPHONE",
+          "value": 210
+        },
+        {
+          "group": "AnimStances",
+          "key": "COUNT_IPHONE",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "suppressed": 1,
+      "flags": 85,
+      "calls": [],
+      "constant_queries": []
+    },
+    {
+      "suppressed": 255,
+      "flags": 85,
+      "calls": [],
+      "constant_queries": []
+    }
+  ],
+  "source_idle_sequence": 210,
+  "first_dictionary_engine_index": {
+    "716": 0,
+    "714": 1,
+    "706": 2,
+    "717": 3,
+    "710": 4,
+    "697": 5,
+    "707": 6,
+    "712": 14,
+    "715": 15,
+    "709": 16,
+    "713": 17,
+    "701": 18,
+    "704": 19,
+    "705": 20,
+    "700": 23,
+    "699": 24,
+    "703": 26,
+    "702": 27
+  },
+  "scope": "Actual SetAnimationSet, recursive table registration and Character table/skill/model-ID getters execute on cache-backed structs with actual non-player branch. Character IsPlayer, constant lookup, manager/resource-loading, script/FX/audio services are fixtures. Clip registrations are call requests; load-probe separately proves duplicate append. GetCharModelName equipment/game-state override branches are not executed here. No live equipment/property inheritance or full cache lifecycle claim."
+}

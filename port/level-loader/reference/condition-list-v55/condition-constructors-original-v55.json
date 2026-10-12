@@ -1,0 +1,456 @@
+{
+  "status": "PASS",
+  "source_factory_cases": [
+    {
+      "op": 0,
+      "factory": "0x478b5c",
+      "allocation_bytes": 12,
+      "poison": 0,
+      "source_vtable": "0x969240",
+      "source_stub4": 0,
+      "comparator8": 0,
+      "extra_word_not_owned_for_8byte_classes": false,
+      "Eval_entry": "0x478fe8",
+      "deleting_destructor": "0x479320",
+      "original_D0_free": {
+        "receiver": 33619968,
+        "vtable_before_free": "0x969200",
+        "stub_before_free": 0
+      }
+    },
+    {
+      "op": 0,
+      "factory": "0x478b5c",
+      "allocation_bytes": 12,
+      "poison": 165,
+      "source_vtable": "0x969240",
+      "source_stub4": 0,
+      "comparator8": 0,
+      "extra_word_not_owned_for_8byte_classes": false,
+      "Eval_entry": "0x478fe8",
+      "deleting_destructor": "0x479320",
+      "original_D0_free": {
+        "receiver": 33620000,
+        "vtable_before_free": "0x969200",
+        "stub_before_free": 0
+      }
+    },
+    {
+      "op": 0,
+      "factory": "0x478b5c",
+      "allocation_bytes": 12,
+      "poison": 127,
+      "source_vtable": "0x969240",
+      "source_stub4": 0,
+      "comparator8": 0,
+      "extra_word_not_owned_for_8byte_classes": false,
+      "Eval_entry": "0x478fe8",
+      "deleting_destructor": "0x479320",
+      "original_D0_free": {
+        "receiver": 33620032,
+        "vtable_before_free": "0x969200",
+        "stub_before_free": 0
+      }
+    },
+    {
+      "op": 1,
+      "factory": "0x478b14",
+      "allocation_bytes": 12,
+      "poison": 0,
+      "source_vtable": "0x969220",
+      "source_stub4": 0,
+      "comparator8": 1,
+      "extra_word_not_owned_for_8byte_classes": false,
+      "Eval_entry": "0x478fe8",
+      "deleting_destructor": "0x4792e4",
+      "original_D0_free": {
+        "receiver": 33620064,
+        "vtable_before_free": "0x969200",
+        "stub_before_free": 0
+      }
+    },
+    {
+      "op": 1,
+      "factory": "0x478b14",
+      "allocation_bytes": 12,
+      "poison": 165,
+      "source_vtable": "0x969220",
+      "source_stub4": 0,
+      "comparator8": 1,
+      "extra_word_not_owned_for_8byte_classes": false,
+      "Eval_entry": "0x478fe8",
+      "deleting_destructor": "0x4792e4",
+      "original_D0_free": {
+        "receiver": 33620096,
+        "vtable_before_free": "0x969200",
+        "stub_before_free": 0
+      }
+    },
+    {
+      "op": 1,
+      "factory": "0x478b14",
+      "allocation_bytes": 12,
+      "poison": 127,
+      "source_vtable": "0x969220",
+      "source_stub4": 0,
+      "comparator8": 1,
+      "extra_word_not_owned_for_8byte_classes": false,
+      "Eval_entry": "0x478fe8",
+      "deleting_destructor": "0x4792e4",
+      "original_D0_free": {
+        "receiver": 33620128,
+        "vtable_before_free": "0x969200",
+        "stub_before_free": 0
+      }
+    },
+    {
+      "op": 2,
+      "factory": "0x478acc",
+      "allocation_bytes": 12,
+      "poison": 0,
+      "source_vtable": "0x9691e0",
+      "source_stub4": 0,
+      "comparator8": 2,
+      "extra_word_not_owned_for_8byte_classes": false,
+      "Eval_entry": "0x478fe8",
+      "deleting_destructor": "0x4792a8",
+      "original_D0_free": {
+        "receiver": 33620160,
+        "vtable_before_free": "0x969200",
+        "stub_before_free": 0
+      }
+    },
+    {
+      "op": 2,
+      "factory": "0x478acc",
+      "allocation_bytes": 12,
+      "poison": 165,
+      "source_vtable": "0x9691e0",
+      "source_stub4": 0,
+      "comparator8": 2,
+      "extra_word_not_owned_for_8byte_classes": false,
+      "Eval_entry": "0x478fe8",
+      "deleting_destructor": "0x4792a8",
+      "original_D0_free": {
+        "receiver": 33620192,
+        "vtable_before_free": "0x969200",
+        "stub_before_free": 0
+      }
+    },
+    {
+      "op": 2,
+      "factory": "0x478acc",
+      "allocation_bytes": 12,
+      "poison": 127,
+      "source_vtable": "0x9691e0",
+      "source_stub4": 0,
+      "comparator8": 2,
+      "extra_word_not_owned_for_8byte_classes": false,
+      "Eval_entry": "0x478fe8",
+      "deleting_destructor": "0x4792a8",
+      "original_D0_free": {
+        "receiver": 33620224,
+        "vtable_before_free": "0x969200",
+        "stub_before_free": 0
+      }
+    },
+    {
+      "op": 3,
+      "factory": "0x478a80",
+      "allocation_bytes": 8,
+      "poison": 0,
+      "source_vtable": "0x9691c0",
+      "source_stub4": 0,
+      "comparator8": null,
+      "extra_word_not_owned_for_8byte_classes": true,
+      "Eval_entry": "0x478d78",
+      "deleting_destructor": "0x479230",
+      "original_D0_free": {
+        "receiver": 33620256,
+        "vtable_before_free": "0x9691c0",
+        "stub_before_free": 0
+      }
+    },
+    {
+      "op": 3,
+      "factory": "0x478a80",
+      "allocation_bytes": 8,
+      "poison": 165,
+      "source_vtable": "0x9691c0",
+      "source_stub4": 0,
+      "comparator8": null,
+      "extra_word_not_owned_for_8byte_classes": true,
+      "Eval_entry": "0x478d78",
+      "deleting_destructor": "0x479230",
+      "original_D0_free": {
+        "receiver": 33620288,
+        "vtable_before_free": "0x9691c0",
+        "stub_before_free": 0
+      }
+    },
+    {
+      "op": 3,
+      "factory": "0x478a80",
+      "allocation_bytes": 8,
+      "poison": 127,
+      "source_vtable": "0x9691c0",
+      "source_stub4": 0,
+      "comparator8": null,
+      "extra_word_not_owned_for_8byte_classes": true,
+      "Eval_entry": "0x478d78",
+      "deleting_destructor": "0x479230",
+      "original_D0_free": {
+        "receiver": 33620320,
+        "vtable_before_free": "0x9691c0",
+        "stub_before_free": 0
+      }
+    },
+    {
+      "op": 4,
+      "factory": "0x478a34",
+      "allocation_bytes": 8,
+      "poison": 0,
+      "source_vtable": "0x9691a0",
+      "source_stub4": 0,
+      "comparator8": null,
+      "extra_word_not_owned_for_8byte_classes": true,
+      "Eval_entry": "0x478638",
+      "deleting_destructor": "0x47917c",
+      "original_D0_free": {
+        "receiver": 33620352,
+        "vtable_before_free": "0x9691a0",
+        "stub_before_free": 0
+      }
+    },
+    {
+      "op": 4,
+      "factory": "0x478a34",
+      "allocation_bytes": 8,
+      "poison": 165,
+      "source_vtable": "0x9691a0",
+      "source_stub4": 0,
+      "comparator8": null,
+      "extra_word_not_owned_for_8byte_classes": true,
+      "Eval_entry": "0x478638",
+      "deleting_destructor": "0x47917c",
+      "original_D0_free": {
+        "receiver": 33620384,
+        "vtable_before_free": "0x9691a0",
+        "stub_before_free": 0
+      }
+    },
+    {
+      "op": 4,
+      "factory": "0x478a34",
+      "allocation_bytes": 8,
+      "poison": 127,
+      "source_vtable": "0x9691a0",
+      "source_stub4": 0,
+      "comparator8": null,
+      "extra_word_not_owned_for_8byte_classes": true,
+      "Eval_entry": "0x478638",
+      "deleting_destructor": "0x47917c",
+      "original_D0_free": {
+        "receiver": 33620416,
+        "vtable_before_free": "0x9691a0",
+        "stub_before_free": 0
+      }
+    },
+    {
+      "op": 5,
+      "factory": "0x4789e8",
+      "allocation_bytes": 8,
+      "poison": 0,
+      "source_vtable": "0x969180",
+      "source_stub4": 0,
+      "comparator8": null,
+      "extra_word_not_owned_for_8byte_classes": true,
+      "Eval_entry": "0x478640",
+      "deleting_destructor": "0x47926c",
+      "original_D0_free": {
+        "receiver": 33620448,
+        "vtable_before_free": "0x969180",
+        "stub_before_free": 0
+      }
+    },
+    {
+      "op": 5,
+      "factory": "0x4789e8",
+      "allocation_bytes": 8,
+      "poison": 165,
+      "source_vtable": "0x969180",
+      "source_stub4": 0,
+      "comparator8": null,
+      "extra_word_not_owned_for_8byte_classes": true,
+      "Eval_entry": "0x478640",
+      "deleting_destructor": "0x47926c",
+      "original_D0_free": {
+        "receiver": 33620480,
+        "vtable_before_free": "0x969180",
+        "stub_before_free": 0
+      }
+    },
+    {
+      "op": 5,
+      "factory": "0x4789e8",
+      "allocation_bytes": 8,
+      "poison": 127,
+      "source_vtable": "0x969180",
+      "source_stub4": 0,
+      "comparator8": null,
+      "extra_word_not_owned_for_8byte_classes": true,
+      "Eval_entry": "0x478640",
+      "deleting_destructor": "0x47926c",
+      "original_D0_free": {
+        "receiver": 33620512,
+        "vtable_before_free": "0x969180",
+        "stub_before_free": 0
+      }
+    },
+    {
+      "op": 6,
+      "factory": "0x47899c",
+      "allocation_bytes": 8,
+      "poison": 0,
+      "source_vtable": "0x969160",
+      "source_stub4": 0,
+      "comparator8": null,
+      "extra_word_not_owned_for_8byte_classes": true,
+      "Eval_entry": "0x478db4",
+      "deleting_destructor": "0x4791f4",
+      "original_D0_free": {
+        "receiver": 33620544,
+        "vtable_before_free": "0x969160",
+        "stub_before_free": 0
+      }
+    },
+    {
+      "op": 6,
+      "factory": "0x47899c",
+      "allocation_bytes": 8,
+      "poison": 165,
+      "source_vtable": "0x969160",
+      "source_stub4": 0,
+      "comparator8": null,
+      "extra_word_not_owned_for_8byte_classes": true,
+      "Eval_entry": "0x478db4",
+      "deleting_destructor": "0x4791f4",
+      "original_D0_free": {
+        "receiver": 33620576,
+        "vtable_before_free": "0x969160",
+        "stub_before_free": 0
+      }
+    },
+    {
+      "op": 6,
+      "factory": "0x47899c",
+      "allocation_bytes": 8,
+      "poison": 127,
+      "source_vtable": "0x969160",
+      "source_stub4": 0,
+      "comparator8": null,
+      "extra_word_not_owned_for_8byte_classes": true,
+      "Eval_entry": "0x478db4",
+      "deleting_destructor": "0x4791f4",
+      "original_D0_free": {
+        "receiver": 33620608,
+        "vtable_before_free": "0x969160",
+        "stub_before_free": 0
+      }
+    }
+  ],
+  "profiles": [
+    {
+      "op": 0,
+      "factory": "0x478b5c",
+      "allocation_bytes": 12,
+      "source_vtable": "0x969240",
+      "comparator8": 0,
+      "extra_word_not_owned_for_8byte_classes": false,
+      "Eval_entry": "0x478fe8",
+      "deleting_destructor": "0x479320",
+      "class_name": "Condition* GetConditionImplInstance<Condition_IsQuestInState>()",
+      "Eval_name": "Condition_IsQuestInStateGeneric::Eval()",
+      "D0_name": "Condition_IsQuestInState::~Condition_IsQuestInState()"
+    },
+    {
+      "op": 1,
+      "factory": "0x478b14",
+      "allocation_bytes": 12,
+      "source_vtable": "0x969220",
+      "comparator8": 1,
+      "extra_word_not_owned_for_8byte_classes": false,
+      "Eval_entry": "0x478fe8",
+      "deleting_destructor": "0x4792e4",
+      "class_name": "Condition* GetConditionImplInstance<Condition_IsQuestStateLower>()",
+      "Eval_name": "Condition_IsQuestInStateGeneric::Eval()",
+      "D0_name": "Condition_IsQuestStateLower::~Condition_IsQuestStateLower()"
+    },
+    {
+      "op": 2,
+      "factory": "0x478acc",
+      "allocation_bytes": 12,
+      "source_vtable": "0x9691e0",
+      "comparator8": 2,
+      "extra_word_not_owned_for_8byte_classes": false,
+      "Eval_entry": "0x478fe8",
+      "deleting_destructor": "0x4792a8",
+      "class_name": "Condition* GetConditionImplInstance<Condition_IsQuestStateHigher>()",
+      "Eval_name": "Condition_IsQuestInStateGeneric::Eval()",
+      "D0_name": "Condition_IsQuestStateHigher::~Condition_IsQuestStateHigher()"
+    },
+    {
+      "op": 3,
+      "factory": "0x478a80",
+      "allocation_bytes": 8,
+      "source_vtable": "0x9691c0",
+      "comparator8": null,
+      "extra_word_not_owned_for_8byte_classes": true,
+      "Eval_entry": "0x478d78",
+      "deleting_destructor": "0x479230",
+      "class_name": "Condition* GetConditionImplInstance<Condition_IsPlayerInLevel>()",
+      "Eval_name": "Condition_IsPlayerInLevel::Eval()",
+      "D0_name": "Condition_IsPlayerInLevel::~Condition_IsPlayerInLevel()"
+    },
+    {
+      "op": 4,
+      "factory": "0x478a34",
+      "allocation_bytes": 8,
+      "source_vtable": "0x9691a0",
+      "comparator8": null,
+      "extra_word_not_owned_for_8byte_classes": true,
+      "Eval_entry": "0x478638",
+      "deleting_destructor": "0x47917c",
+      "class_name": "Condition* GetConditionImplInstance<Condition_IsLevelInState>()",
+      "Eval_name": "Condition_IsLevelInState::Eval()",
+      "D0_name": "Condition_IsLevelInState::~Condition_IsLevelInState()"
+    },
+    {
+      "op": 5,
+      "factory": "0x4789e8",
+      "allocation_bytes": 8,
+      "source_vtable": "0x969180",
+      "comparator8": null,
+      "extra_word_not_owned_for_8byte_classes": true,
+      "Eval_entry": "0x478640",
+      "deleting_destructor": "0x47926c",
+      "class_name": "Condition* GetConditionImplInstance<Condition_IsPlayerAtLevel>()",
+      "Eval_name": "Condition_IsPlayerAtLevel::Eval()",
+      "D0_name": "Condition_IsPlayerAtLevel::~Condition_IsPlayerAtLevel()"
+    },
+    {
+      "op": 6,
+      "factory": "0x47899c",
+      "allocation_bytes": 8,
+      "source_vtable": "0x969160",
+      "comparator8": null,
+      "extra_word_not_owned_for_8byte_classes": true,
+      "Eval_entry": "0x478db4",
+      "deleting_destructor": "0x4791f4",
+      "class_name": "Condition* GetConditionImplInstance<Condition_IsEventInState>()",
+      "Eval_name": "Condition_IsEventInState::Eval()",
+      "D0_name": "Condition_IsEventInState::~Condition_IsEventInState()"
+    }
+  ],
+  "scope": "Whole actual original seven factory C1/base C1 and actual D0 bodies execute unchanged; only allocation/free leaves supplied. No Eval invoked. Types0..2 comparator8 exists; types3..6 actual allocation8 owns NO field8."
+}

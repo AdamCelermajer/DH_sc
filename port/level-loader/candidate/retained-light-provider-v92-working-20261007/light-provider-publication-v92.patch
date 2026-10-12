@@ -1,0 +1,17 @@
+--- a/port/android-native/app/src/main/cpp/renderer_campaign_light_provider_v92.inc
++++ b/port/android-native/app/src/main/cpp/renderer_campaign_light_provider_v92.inc
+@@ -52,6 +52,14 @@
+ static bool prepare_campaign_light_resources_v92(const SourceCampaignCandidateBorrowV55& actual,
+  const std::weak_ptr<SourceWorldBorrowV61>& weak,RendererCampaignNonCharacterInputsV69& inputs,std::string& e){
+  using namespace dh2;using namespace dh2::loader;
++ // Publishing this packet admits the complete LightPoint factory before XML.
++ // Resource construction alone cannot supply the genuine ObjectBase D0 tail.
++ // Leave the optional class unavailable until Main supplies that continuation;
++ // non-LightPoint levels must still compose, and reached LightPoint fails via
++ // the normal unsupported original-factory path rather than a fake callback.
++ if(!inputs.source.lights||!inputs.source.lights->bind_objectbase_dtor){
++  inputs.source.lights.reset();e.clear();return true;
++ }
+  auto world=weak.lock();if(!world||!actual.roots||!world->read||!inputs.source.auxiliary.owner){e="Required actual light resource producer/Scene/file reader";return false;}
+  auto provider=std::make_shared<CampaignLightProviderV92>();provider->world=weak;provider->resources=actual.roots->source_light_resources_v92();
+  auto lights=inputs.source.lights?std::make_shared<LightEnvironmentLeavesV67>(*inputs.source.lights):std::make_shared<LightEnvironmentLeavesV67>();

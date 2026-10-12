@@ -1,0 +1,4370 @@
+{
+  "validation": "PASS",
+  "scope": "Source-bind rule roots and file-listed MGX graphs for all level rows.\n\nIndependent XML reads compare complete selected element trees. For malformed\nrule files, the original ARM parser supplies the retained first root; parser\nerrors stay explicit. This does not execute typed rule/layout generation,\nselect gameplay/visual placement variants, or instantiate runtime objects.\n",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "inventory_sha256": "632bb0f42ccff5c60aae377efe0aba9b2d5d1bc40583472f0a69f33f5f82b611",
+  "original_lists_sha256": "2ced1af1a948f0333bd3021c3a1c8bf5f9f7a0c1851a97f0613e1a928b79d7c6",
+  "original_parser_script_sha256": "d856a3d96331f1f65e6225e7889efbd3cc5633215bd043acd880a19681a39209",
+  "sources_sha256": {
+    "procedural_sources_v1.cpp": "9f36a524a963296e663e826183f18b93dcccadf22674e43262a040678de80de0",
+    "procedural_sources_v1.hpp": "ccd7f4c63e5cf4901a4b3fe908024c6de9e7741f9abf2a0429f2a3cb0402ddb9",
+    "procedural_file_list_v1.cpp": "0fdc833d223966a75d606cf153a0334561d650580c67161bd8c0f23064d9347f",
+    "procedural_file_list_v1.hpp": "b9bd71faffe10df3c87115238c9d0eabafd9cb5d2d63b434a28c41b10ee9bf31",
+    "tests\\procedural_sources_probe.cpp": "b74dc9c13b8d574acb72a5b9e1a0105cb9c09d1158a683b17974885123e8eb51",
+    "CMakeLists.txt": "d888736376cce4adcac39f88899c3999507be67b0a9e1aa03b196d0ae57364d0",
+    "tests\\procedural_sources_host.py": "016a70269b7b1ed3b2cf75fb5d71e7210744aa39d9fdefecf1f7511e4c651adc"
+  },
+  "probe_sha256": "bf93eadf6210bdf180e3c132a4457e0c7ca525868cc1059892a77b1af757cfaf",
+  "authored_sources_sha256": {
+    "data/scene/009_abbey.rule.xml": "2288dfff36ec82bd27be33e369e0cd85569171aedee8c68e9d15da57af062b6c",
+    "data/3d/modules/crypt/mgx/mgxlist.txt": "d0d6bfd61283fbcdd032b6c9ce184c23e92b4ae86811557312b94a009db98951",
+    "data/3d/modules/crypt/mgx/boss_room.mgx": "81a55cba0bc15dff6590330303b9a5a1f4894cc210577b0369247f69485babe8",
+    "data/3d/modules/crypt/mgx/cemetery_entrance.mgx": "292ecf77f7304953bfb59228dd83cf2ab8cc61d3dd1b2e479b07a352ff30641d",
+    "data/3d/modules/crypt/mgx/corner_ne.mgx": "5c6a61e6353e43808fdf753efaef618e4846fd1f67717ab0ca6c659985867a30",
+    "data/3d/modules/crypt/mgx/corner_nw.mgx": "bc1cf5cb63ca37075fa6e95a0f224abec57280e885bff50b660b304fe8461477",
+    "data/3d/modules/crypt/mgx/corner_se.mgx": "a7d1ccb07e18a0b233d16741c543c2c26da512245aa24b87580ea5b9c8e29641",
+    "data/3d/modules/crypt/mgx/corner_sw.mgx": "7113839563819b82382c1f23d4eaa6f83de64bca073b74e47cdd9efd3ba8bc1b",
+    "data/3d/modules/crypt/mgx/deadend_e.mgx": "c9b2da7ef2d08b4098b5e020759d64af371b5a512f2920c823c35583fd322e55",
+    "data/3d/modules/crypt/mgx/deadend_n.mgx": "1c80d68dccc4a3e57403634443806057ee7f1fdb1f635e61ccbb0e647473dac7",
+    "data/3d/modules/crypt/mgx/deadend_w.mgx": "bf6d2f79d3a50a180ddd7a8355876dc353d8419b1e897c4153c14d782b3ba608",
+    "data/3d/modules/crypt/mgx/entrance_n.mgx": "8100add4d21fc69f952739673626e6a83167b9862c4cc46a19ca3b12943a6b99",
+    "data/3d/modules/crypt/mgx/entrance_s.mgx": "60a5592f46842344861afdc5840d4e6e26508a396384ce9d3e568cc235a166f6",
+    "data/3d/modules/crypt/mgx/kings_chamber_s.mgx": "bfb15142c89ab2fff88de74379edddb3590e14518d1991ff45d0ef8b6015631e",
+    "data/3d/modules/crypt/mgx/straight_a_ew.mgx": "8bf6d07ac9cf038b98f909b72171b595564ee57519008a18f4fd38b67e48bbc0",
+    "data/3d/modules/crypt/mgx/straight_b_ew.mgx": "e97130628c40d3e7af490b7b81baa2cd322556742c3a3f45e403def8465c1b9e",
+    "data/3d/modules/crypt/mgx/straight_b_ns.mgx": "6d3f412b1fb80ff687f95e424535c8ec8bdf41ff919a53debd8ad1f5c079f355",
+    "data/3d/modules/crypt/mgx/straight_c_ew.mgx": "bd49f057e98819146d405847d46086b3171e4ac3af3114773de3caa9d4a982ee",
+    "data/3d/modules/crypt/mgx/straight_c_ns.mgx": "6d2ae87547bf892f24fea62866e771af06be2ef1107f9cfdc8dac11b8d96a784",
+    "data/3d/modules/crypt/mgx/straight_d_ew.mgx": "637de81a4f2fcfeeb858875d417f7b140ed1dfba32673a7fc3f205367b58f7af",
+    "data/3d/modules/crypt/mgx/straight_ns.mgx": "e8587a625c167f019243a4875004dbc828892acd8f6650bf68268bae1c87497b",
+    "data/3d/modules/crypt/mgx/t_nse.mgx": "dcc6ab6dcefbe1649ee1e4f45e40022c88a49f0f00927c57bbfd6060833dc88e",
+    "data/3d/modules/crypt/mgx/t_sew.mgx": "d399c91d4e20ffe31ac05116a8bd4f9bb2e7427eadb9580b530516b5d19f0546",
+    "data/scene/050_earth_temple_demo.rule.xml": "9b23a78396f11e22c58fb37b0d7df389da3307146019512bcf0b650de67cf9b6",
+    "data/3d/modules/earth_temple/mgx/mgxlist.txt": "49cbaf0af1c953a2ab3ad0d821222134675e3ceab3b473e2cd3c9093b6062afc",
+    "data/3d/modules/earth_temple/mgx/corner_earthtemp_ne_.mgx": "2412f6ceb30d87940f904d925a2f518df0f2c9aecff95cfa071d34e9d0e998ad",
+    "data/3d/modules/earth_temple/mgx/corner_earthtemp_nw_.mgx": "4ead3546c7054edd76a7d8025a4841ae9e94da769a1a9ffa81ef3d908fa76a6c",
+    "data/3d/modules/earth_temple/mgx/corner_earthtemp_se_.mgx": "3b2bb510bdd50218695927abab5e30b32501ab622412ad15d42e09e8e207eb1d",
+    "data/3d/modules/earth_temple/mgx/corner_earthtemp_sw_.mgx": "ef89841375fae96c0f19c33f95a57ee1cff69f923b811c2869dd478471b78042",
+    "data/3d/modules/earth_temple/mgx/deadend_earthtemp_e_.mgx": "ecdf9c90513bf48817ece09f988c8e61d8ec4dca2456dd3cd0cd99397de7ab56",
+    "data/3d/modules/earth_temple/mgx/deadend_earthtemp_n_.mgx": "a4a9182cc1be5d88624b328c5a2705d8c72b1a3bf4a8e6df750f3fefdda12b0d",
+    "data/3d/modules/earth_temple/mgx/deadend_earthtemp_s_.mgx": "b344eb5247084ded14d75ee6f743643776ba0e320d464d59c56784d8bfa505c1",
+    "data/3d/modules/earth_temple/mgx/deadend_earthtemp_w_.mgx": "b59e6be79ae123e13877584763288b99ba9178b461f36fc96ffb1ca4ea6b55d8",
+    "data/3d/modules/earth_temple/mgx/entry_earthtemp_w_.mgx": "155ca2c031d7232cb78bcff6dcbbf587777a2c185caec743f5c40fbc74b78443",
+    "data/3d/modules/earth_temple/mgx/midboss_earthtemp_ns_.mgx": "73be4091e67485cd4ae6d5f32779d742b5358f9f3b4a1fa044710f8785e32bd3",
+    "data/3d/modules/earth_temple/mgx/objboss_earthtemp_s_.mgx": "7417038cc20aa6ef33d3880b9e7cf9b8d7aa7a7178b251a05b6e5b50198d91ae",
+    "data/3d/modules/earth_temple/mgx/straight_earthtemp_ew_.mgx": "bab257a17287caffd5c77d1a0b7b30833cf34a55b04675c5f6b860ef265723a2",
+    "data/3d/modules/earth_temple/mgx/straight_earthtemp_ns_.mgx": "b63205c37a2b837927d43596b12e748014f78658e0cfb2693539581b7df89631",
+    "data/3d/modules/earth_temple/mgx/t_earthtemp_new_.mgx": "31252327e44484bb20fe105621dc8dd9d87a1bd7d87790e2ce08ec5d2a1d9ef3",
+    "data/3d/modules/earth_temple/mgx/t_earthtemp_nsw_.mgx": "af6f8bf00eb469e770cbccfc12cc7c296f17077cc0680afd9f6c09db6e028bec",
+    "data/scene/016_red_desert_cave_01.rule.xml": "9371484b82ca908ee58c20e6f8249a84ee0a2d8dace65bf9c579972728265e3d",
+    "data/3d/modules/desert_cave/mgx/mgxlist.txt": "568dafcd774f41a59afaa7318be71cb99373c8a2c459ed7da6bb03bb12308500",
+    "data/3d/modules/desert_cave/mgx/corner_dsrtcave_ne_00.mgx": "a6bc66febce6c86dc0fe39ab37439f0a1d133448cb4b29a67430680db867ab00",
+    "data/3d/modules/desert_cave/mgx/corner_dsrtcave_se_00.mgx": "7e9d3ad695784624c2487377872a6d26558227338a20400f0572e78792f6e6b9",
+    "data/3d/modules/desert_cave/mgx/corner_dsrtcave_wn_00.mgx": "ea18fd0d4f5a96c5fe01fb98ea7efefa1e97fb9a1b8c45cebcbad6cc6d2c7fff",
+    "data/3d/modules/desert_cave/mgx/corner_dsrtcave_ws_00.mgx": "ba8496274e253e85029fe301919178a96ab0fc8cfc8e77f8f64f4e37862dc75a",
+    "data/3d/modules/desert_cave/mgx/deadend_dsrtcave_e_00.mgx": "222a1b8ec5039f41d2c9a1b34f9cd9dbee984de77849fe7664f1fd701d28c691",
+    "data/3d/modules/desert_cave/mgx/deadend_dsrtcave_n_00.mgx": "9ec46186ff2a4de93817df3af5ad5922ea383166a9af41865faab6e0fbd02cf9",
+    "data/3d/modules/desert_cave/mgx/deadend_dsrtcave_s_00.mgx": "e4ce5a23895398e983853aaf9df3297be4d426967065150819e3cdacc80aaec9",
+    "data/3d/modules/desert_cave/mgx/deadend_dsrtcave_w_00.mgx": "c082fd2e4ef7736917763f2b098d56fb77ad61644e8947b6d25f8069c6741355",
+    "data/3d/modules/desert_cave/mgx/obj01_dsrtcave_e_00.mgx": "e462ae7cf4f10f5b06e9f751faf1929dd4c10e2587e08f32dbf6f52f58d00d15",
+    "data/3d/modules/desert_cave/mgx/obj02_dsrtcave_ws_00.mgx": "058b29a13e51635187ce3c6235173831d098294bfa6c573bfbeb270b321af892",
+    "data/3d/modules/desert_cave/mgx/obj03_dsrtcave_ns_00.mgx": "e7cf2fd5339cb769e0b28dc60af6682d977b02c686d2a1eec1e198d14e593e8c",
+    "data/3d/modules/desert_cave/mgx/obj04_dsrtcave_ns_00.mgx": "e09032ee64a71307d967e2541ceabaca7b000e4c1df9673942785aedb441355a",
+    "data/3d/modules/desert_cave/mgx/obj05_dsrtcave_n_00.mgx": "73d5d84d59b621e92e8e269f0ae34d91819e0573d9186f1686cc17970d76d52e",
+    "data/3d/modules/desert_cave/mgx/straight_dsrtcave_ns_00.mgx": "dc54a3ae64f10c5b8811f875c5e386786d16f19ab429c1dc404dfaf3f79e1c3c",
+    "data/3d/modules/desert_cave/mgx/straight_dsrtcave_we_00.mgx": "78f41faf2ac7588fa59dce7b8640280aa8c4b52b03e1c9c7767146b5f9100f7f",
+    "data/3d/modules/desert_cave/mgx/t_dsrtcave_nse_00.mgx": "4279db85829fe3c0af86d339721eccb2a2e6442d763896e754b04c7b55831448",
+    "data/3d/modules/desert_cave/mgx/t_dsrtcave_nsw_00.mgx": "4eca492429d09bf544d4423c2bce9937aac373f364f94a439068b4308e20a123",
+    "data/scene/017_red_desert_cave_02.rule.xml": "fe42a3b5dbb631f1800d9a523658712419a41f8a699f8085672463764babec26",
+    "data/scene/018_red_desert_cave_03.rule.xml": "5dfb290da308042f13624dbb8de4b348a5891a8b77ff6090f232d5106ed99ef0",
+    "data/scene/011_earth_temple_01.rule.xml": "f7fbdd2ed170340b1846431640691f76309fc288097b9b28639c478b02625b1e",
+    "data/scene/012_earth_temple_02.rule.xml": "dbcb4d1309dd22312ecdeed7ea2ae70f9c1992c5125e2513c0b312a16d990935",
+    "data/scene/013_earth_temple_03.rule.xml": "2f5f9bec154929426b7638f6efe602e13314f2b72a2b65bcee8d5e55a4523f9a",
+    "data/scene/030_el_air.rule.xml": "f297048898d10578fd11b2a24122e6936ba91c540760c7c2b6b308268b02a1b1",
+    "data/3d/modules/castle/mgx/mgxlist.txt": "a18ecf59097e003509650d2198d9f1e1e2c12dd486bd198d89bdf6f130e76a90",
+    "data/3d/modules/castle/mgx/corner_ne.mgx": "d7e303be5f27c91a8ebb3724cdb044ba5e518e06f81ba8381774dcc7ceaadf0b",
+    "data/3d/modules/castle/mgx/corner_se.mgx": "c2a79a50e83149d5fb2b5d4a389e6da055ac26758661d46ed9ccd3e6c3e06227",
+    "data/3d/modules/castle/mgx/corner_wn.mgx": "e61a6ea7b3a24699e9fab766249b99ae9eba1602fa3c7f86bc76c0f5becb0b23",
+    "data/3d/modules/castle/mgx/corner_ws.mgx": "8605629c945acfc83ce33a5157f495777972058910cf66ce8e6be22f346fd07e",
+    "data/3d/modules/castle/mgx/deadend_e.mgx": "491bf84b32cca6ab37b6e2acd2052f72be0008a2fce0f2505173b91e9e4d5e32",
+    "data/3d/modules/castle/mgx/deadend_n.mgx": "3b9f078a6c9a73dc365bd7f3b6b859658fc54e0aba5f29260fb3bf5c070d5bd2",
+    "data/3d/modules/castle/mgx/deadend_s.mgx": "fa1529bc89f34ed66d9ef2e157f5507a0f126bf02bbb4d886461d1ecc554b63c",
+    "data/3d/modules/castle/mgx/deadend_w.mgx": "5669542dc58e492a3e0e796f93beab7d5a84ec75db324b36abaada1f951b9b13",
+    "data/3d/modules/castle/mgx/entrance_ns.mgx": "968137fa1488a83a077305420fdb14376a2246836ccb8d152b52c6fa1eb1750f",
+    "data/3d/modules/castle/mgx/kingroom_s.mgx": "f424ddba6e02f716678e1e000ff68f0dabac57c119a94742b902cb58847b2e1b",
+    "data/3d/modules/castle/mgx/objectiveroom_s.mgx": "fe9c2877913e7524c4b9b0127da5653c067d20bd7997b242d96c4dd729c793f4",
+    "data/3d/modules/castle/mgx/straighta_ns.mgx": "f14632d45909ee3d21ac2036d0b58f69733ff2047f2ac2a9635473974c818d5f",
+    "data/3d/modules/castle/mgx/straightb_ew.mgx": "b2a1f755ed2c8baacc33645964317fc4726eea85a88dc83551b38ac556ba7833",
+    "data/3d/modules/castle/mgx/t_new.mgx": "d2d650566e961a3e173a28a7933922b25fa8b8e3a55cb7f661e023b89278a9f3",
+    "data/scene/014_el_earth.rule.xml": "4acf26fea2729d9de401161ad5852799ce92830a4b3f66a2c4bc373ed679540b",
+    "data/scene/032_el_fire.rule.xml": "386de260a14b239d9428682a5b371b7d84b19edb1aa78c41151e037122ad5446",
+    "data/scene/010_el_lightning.rule.xml": "65a2b2e406c2057d4ee89fc47252b44b4863bde1c0364c0fcb202c1db6dd8728",
+    "data/scene/024_el_water.rule.xml": "58219a0289c0367688881c708d9e45466be366fd4b56d217d495d28617485d70",
+    "data/scene/008_gothicus_castle_01.rule.xml": "26b370027d4c6de17de6e6c1e34a3640d68d7ed7a1534f99a5268f3c2cc75ca0",
+    "data/scene/021_gothicus_castle_02.rule.xml": "c617c34ceb349499a9642a7f5037fee9ca13818bd892c65c916dcd03701a4965",
+    "data/scene/007_crypt_01.rule.xml": "2970183f1be3b6a01470d45f0db124afb3bf6582e4ed166780e431ccdaff8b07",
+    "data/scene/020_crypt_02.rule.xml": "e00e765d8d61e539685a3c1ccc883bf6029867ffb822530d30fe9345317d2166",
+    "data/scene/026_icy_cavern_01.rule.xml": "ef2b2cd6d91999a936725082dfb38917f1ed107c852fe05034b65c37bb5b78f9",
+    "data/3d/modules/icy_cavern/mgx/mgxlist.txt": "8f5d03a86ac610e9aaa7d1dc9cd30676e1a20425cfd19f06343f2e0b2d1fc034",
+    "data/3d/modules/icy_cavern/mgx/bossroom_icycavern_w_00.mgx": "42157397b1621fdbe131d6d391978944918561df7131f8abf94eff681ff3e232",
+    "data/3d/modules/icy_cavern/mgx/corner_icycavern_ne_00.mgx": "fd9f0f077ae424e0628a9341704c9ed96817097f0ff42ca7bdbe0d6f1be83d11",
+    "data/3d/modules/icy_cavern/mgx/corner_icycavern_nw_00.mgx": "fe981bacc5bef25e0bf1bb17e264aec8eecd29126800e7d8e6e1b75fad0e6a2d",
+    "data/3d/modules/icy_cavern/mgx/corner_icycavern_se_00.mgx": "48e737790716f024eb5f6c615682e25aeb4aa696261fc4799d121802bc422b25",
+    "data/3d/modules/icy_cavern/mgx/corner_icycavern_sw_00.mgx": "85f4460e458a98be102680521a82c3c707c02b37159c69736f21e418b366e186",
+    "data/3d/modules/icy_cavern/mgx/deadend_icycavern_w_00.mgx": "0392b2f67f05201e320d71e529db12fb6fd82c09391f81a48c075e96916d0b17",
+    "data/3d/modules/icy_cavern/mgx/entrance_icycavern_e_00.mgx": "d67a2beeb20dd6dabe436fa2fa682a8ba6bcb29e80bee34c5347fe0b49378689",
+    "data/3d/modules/icy_cavern/mgx/monument_icycavern_we.mgx": "5e4c7d95ef47b28eac6b9cef33742f633634e7fa93f377ec9870adea383ad434",
+    "data/3d/modules/icy_cavern/mgx/snakey_icycavern_we_00.mgx": "1fbdb6cec90332fdbfe614d2ed0d1a5c8a997f9184a8f9c5f6d7b54a77991d86",
+    "data/3d/modules/icy_cavern/mgx/straight_icycavern_ns_00.mgx": "1b1daa656758235feda2a0bad22681070fa681159d4d2f7b1a6b3c9ee78c9085",
+    "data/3d/modules/icy_cavern/mgx/straight_icycavern_we_00.mgx": "c1c5a704f60d93f0dd2eb8a575f708bebd053eedc8c061161627d54c1f62d37e",
+    "data/3d/modules/icy_cavern/mgx/t_icycavern_nse_00.mgx": "3a1823485c05eeea932ebf064813575f2859ae1472fc92d66ce736e01e13fa40",
+    "data/3d/modules/icy_cavern/mgx/t_icycavern_nsw_00.mgx": "d807d0d159248cdcb0b02c3d606aa892cfbb90c530af1c4568e0cbd4966a349e",
+    "data/scene/027_icy_cavern_02.rule.xml": "806d079ee6d47269b6f21c258b837e838af9bd7f0baf2cb59274da8f8488997c",
+    "data/scene/028_icy_cavern_03.rule.xml": "c6f241302d3137d8d1dc1be904d2c9bc88aa1fe432c9916f711cc7e48d357d50",
+    "data/scene/019_light_house_01.rule.xml": "c94fce4e7a837ee3927ac7c7eef6e2fc7b853ad1e17762edbbb8d4abc79dd084",
+    "data/3d/modules/lighthousse/mgx/mgxlist.txt": "2e07153cfc22b6a60a00a0c0519bf5a4cd0d0068e81af3d065e294682089e90a",
+    "data/3d/modules/lighthousse/mgx/bossroom.mgx": "7f446fd35186d8c8936b85f8a9dbbd01740ef8319b85278438709e424e222248",
+    "data/3d/modules/lighthousse/mgx/close_01.mgx": "e8bdc93fdbf8721c99c3d353ea952465a04dc28eb20664cdda8dcfbec630f989",
+    "data/3d/modules/lighthousse/mgx/close_02.mgx": "e2a2f4f4bbe04beb7cc9b4b38cb5086f7d0d8410ddad2494e6daeb4fdb5dc2cf",
+    "data/3d/modules/lighthousse/mgx/close_03.mgx": "2858283f13cccb282187cfd56036b82fede7f39d46ee65887c77ad14b627a605",
+    "data/3d/modules/lighthousse/mgx/open_01.mgx": "91125a75bfcbd0738fb98e7aa22d7ffe82644d96b38b072ded40652c1971f846",
+    "data/3d/modules/lighthousse/mgx/open_02.mgx": "3053cf0da19c8727b6733134852d71ac260797a79ceec8a8fce660799137f89e",
+    "data/3d/modules/lighthousse/mgx/open_03.mgx": "b7de9a0d2d6685e03b69f7d5272be6305e8e83b371a2306cfdc7b9cf25949aa6",
+    "data/3d/modules/lighthousse/mgx/startroom.mgx": "de52a3315452aee22ab323bf8d23e6f19e3ba034e651d0fedd56d174055587c5",
+    "data/scene/019_light_house_02.rule.xml": "2b1ced274a149575708e56a2e51f053ce9494d8fbb5e0ce50060c98539370e9d",
+    "data/scene/019_light_house_03.rule.xml": "dc1be9360deb12cffccd290c0bc8338a6c61708725967cf4978c2e46ddb4aaab",
+    "data/scene/102_debug_questtest.rule.xml": "407f741090c4852ac7acdd5dedba0144540659a2574e5b225794d0a21f98797f",
+    "data/scene/125_randomforalexb.rule.xml": "ffc0e4015d141b0bb04d8f2a0554b3b44e3361b896b514c21ec08fba949eafdb",
+    "data/scene/004_root_den.rule.xml": "ce5580665acbe7bab673ef7cee375a3d2adc5a5fd10a3ec62009dfa6e1b65990",
+    "data/3d/modules/root_den/mgx/mgxlist.txt": "899684560cea9624c9847e35ef52ffea0dce1669917ccd6006c63698e6bd6c67",
+    "data/3d/modules/root_den/mgx/corner_rootden_ne_.mgx": "5cdd7e5ffa79ff79bd2b3a03047fbd937e5088bbee3ace646e689e4419fcc135",
+    "data/3d/modules/root_den/mgx/corner_rootden_nw_.mgx": "379dc2227dea9a6a4d517bd0f4080e57822575210b6d6c77c826b9fac2156a39",
+    "data/3d/modules/root_den/mgx/corner_rootden_se_.mgx": "b644500e68b2b79a20f389705b3d5679f1154889484094e0a698cdad8ad8a59a",
+    "data/3d/modules/root_den/mgx/corner_rootden_sw_.mgx": "7018e8c026c89d89a4533036c0be326862c4d3f623e625ff045a5ceedb341340",
+    "data/3d/modules/root_den/mgx/deadend_rootden_e_.mgx": "c3c61d5685d6ba89916f2902102b12d6d1d5026f28a3b3da7c6c714455a9832a",
+    "data/3d/modules/root_den/mgx/deadend_rootden_n_.mgx": "e350493dad0f8fad21020e1717ffd4696f2570ebd965b672801013258adecb40",
+    "data/3d/modules/root_den/mgx/deadend_rootden_s_.mgx": "dd14c756986d9176e09b96f29deef9f7bb0a4516f72e1cde0bb44d327669f1c0",
+    "data/3d/modules/root_den/mgx/deadend_rootden_w_.mgx": "e89691b31015fe6846969e151b8a9d397570fc62e4a4b19aa529d4c6fd32a369",
+    "data/3d/modules/root_den/mgx/objboss_rootden_w_.mgx": "6241c8594c7eb56b6125e8e54eafd6403eb376127dc2caa355e884f8edd2997e",
+    "data/3d/modules/root_den/mgx/objcross_rootden_nesw_.mgx": "943f8c407a0f440cca499f77c32a71b872826112edf08d3d17d350ced8705245",
+    "data/3d/modules/root_den/mgx/objentry_rootden_e_.mgx": "4a8b896324c30867e0541730c0ee9a216139c456811e9f0f733fc0c056c1d0e9",
+    "data/3d/modules/root_den/mgx/straight_rootden_ew_.mgx": "cfcf05d078456eb75db566035f2ecc697cc24cbede1ae151d24adddce6920709",
+    "data/3d/modules/root_den/mgx/straight_rootden_ns_.mgx": "f99f9faafdbe91780f9b800be4dd85272343ea441b1db467a530db66a2c4db73",
+    "data/3d/modules/root_den/mgx/t_rootden_esw_.mgx": "3c9b7e65d1722dc4fccfd6b73d3f2a1aef8251e5ad34e619f05a9e4ee829e02f",
+    "data/3d/modules/root_den/mgx/t_rootden_wne_.mgx": "75500a9af5d958dab732851dfa775c64a158ef9a00159d486c33c1b7ce07bdbf",
+    "data/scene/006_basement.rule.xml": "901083cfd78be9a3e0883ab7ac737b474779ac89999e1e177c99f19e619dee52",
+    "data/scene/022_swamp2.rule.xml": "a16dbdabf12282a78f571a85eb456c52e88fc46f19f9d35e374eb68fef140323",
+    "data/3d/modules/swamp/mgx/mgxlist.txt": "91c0d6a9bcc222e0bdccc10fd3f8f27d031277fd7034eb3d0806384f34e50e9d",
+    "data/3d/modules/swamp/mgx/bossroomb_swpcave_w_01.mgx": "f72d3d6621a7086ecda1dea88703bed4d7d30f74f4bebc16cfe8ae635267cea0",
+    "data/3d/modules/swamp/mgx/bossroom_ruins_ns_.mgx": "305f4e6084af6eb6b33ea4f6e399c6af6fe7a04c439ae6e53f2cc458528b7ed4",
+    "data/3d/modules/swamp/mgx/bossroom_swpcave_w_00.mgx": "6445a47bc149c5789630441220fc81b1a8d3adb21bbf2c49d381118865feb300",
+    "data/3d/modules/swamp/mgx/corner_brdwalk_ne_00.mgx": "378298a51ad698b8840c89cc13be14ace82fca8f788bf295eb9ee0e7b46d824d",
+    "data/3d/modules/swamp/mgx/corner_brdwalk_se_00.mgx": "20a167de6f0658c6250310ffb0c6ad1571594d1428d9fe2e87640ebfaad707dd",
+    "data/3d/modules/swamp/mgx/corner_brdwalk_sw_00.mgx": "298db6afadeb174d486271bca5359399e579a8fd844506a2a0051d462eb05955",
+    "data/3d/modules/swamp/mgx/corner_ruin_ne_00.mgx": "3a3245eea0ec04de5b69318cacfb5b5a8d18b714a390f9c6e4d9dc66ca15445c",
+    "data/3d/modules/swamp/mgx/corner_ruin_nw_00.mgx": "db07c36888de2c0eb55d12e296c0441c38f980eed3191ed55d52403a8e284345",
+    "data/3d/modules/swamp/mgx/corner_ruin_se_00.mgx": "75a1830393b52d2cdb5aebe0598f75b00f629744f9be9a67a83d5a895d6f535d",
+    "data/3d/modules/swamp/mgx/corner_ruin_wn_00.mgx": "58d2d65c4f36ab7092d37870770d6482d08b8dd44d338cf7d70b39b21a034887",
+    "data/3d/modules/swamp/mgx/corner_ruin_ws_00.mgx": "70d0b4e56c76380e7765240b68b43b93b5a749106581968a3fc30f15d8730ab0",
+    "data/3d/modules/swamp/mgx/corner_swpcave_ne_00.mgx": "6b7e5e9cec2e50b007d95a17ef6cb8bd5685d3663ff7015cb1d612febf6e234a",
+    "data/3d/modules/swamp/mgx/corner_swpcave_nw_00.mgx": "0d4b98e25044672c6854bcaa36925ea3aad79fa4caed2c9992e73259b80937b9",
+    "data/3d/modules/swamp/mgx/corner_swpcave_se_00.mgx": "922ebca08402c66f83e92ae0d105d380568d73ae7af6feca067175fa683f936f",
+    "data/3d/modules/swamp/mgx/corner_swpcave_sw_00.mgx": "f1e8a3d4046a30e2ac4a67a3879aae3d5a69dd16712aff10c630a5d07d5ddae6",
+    "data/3d/modules/swamp/mgx/deadendb_swpcave_n_01.mgx": "ee356f2ccfbf68801f4d8f84aad207367f972e69518a2baf5564543a5f0c3bdd",
+    "data/3d/modules/swamp/mgx/deadend_brdwalk_e_00.mgx": "5e36576a0f3414c88819ca366c00c0f250637015662ebc61ba4d6a9d6211eed6",
+    "data/3d/modules/swamp/mgx/deadend_brdwalk_se_00.mgx": "369b2a7e913ff9da2c13ae18ea28a3f0aa090cb5ebb05feb8f3bd896e25ad504",
+    "data/3d/modules/swamp/mgx/deadend_brdwalk_s_00.mgx": "d7fa8b229f1ea17a45ba04c272eff70f23b69e556bd06d45c9d161613186159b",
+    "data/3d/modules/swamp/mgx/deadend_brdwalk_we_00.mgx": "208ecd98920a2c9b18f4e405067d601b63bea971202bc8aa314792bf03191380",
+    "data/3d/modules/swamp/mgx/deadend_brdwalk_w_00.mgx": "23c9b98157a28d8968202333a79fe0e3ef826d7dbc35e79934d626cec5602c9b",
+    "data/3d/modules/swamp/mgx/deadend_ruin_w_00.mgx": "800a4adfb0ed26fb88582be0196db996104490ffe431852d75bc497adce6f9b6",
+    "data/3d/modules/swamp/mgx/deadend_swpcave_e_00.mgx": "2e37bc554cf7e2004c223ba47fc3f51b7065f8e7775db28bb4c9e3a22cc18484",
+    "data/3d/modules/swamp/mgx/deadend_swpcave_n_00.mgx": "15010b82c921a29c1082c84c34d72e7610c0dcc9057086fb799bdbf9458b0b7a",
+    "data/3d/modules/swamp/mgx/deadend_swpcave_s_00.mgx": "947e99465f5824b0212f1bc30d2203fe4c0026bbea62af60f85eb97be88ea95d",
+    "data/3d/modules/swamp/mgx/deadend_swpcave_w_00.mgx": "8a366a240c22d110773a1fc76402a5fffd4028afb8609797de23e3cce5944a48",
+    "data/3d/modules/swamp/mgx/merchantcamp_ruins_swe_00.mgx": "7c2be6b2bf4f26b7dbaee648009dcdd0841b1ea3bb46dcc296e4075ce7883f1a",
+    "data/3d/modules/swamp/mgx/obj_1of4_brdwalk_nse_00.mgx": "5908355ce003474d09cfbf08ac9114971e347109c4dafd06fc74a379d52b728c",
+    "data/3d/modules/swamp/mgx/obj_2of4_brdwalk_sw_00.mgx": "d123733c22cf5d6008a93730005a4315e66b59d1efce2ae5b99ca5f01e5a8f27",
+    "data/3d/modules/swamp/mgx/obj_3of4_brdwalk_sw_00.mgx": "3810b7022aec910d41d8b036a322ba56ba1959a3439eb166b1469c78a1f3913c",
+    "data/3d/modules/swamp/mgx/obj_4of4_brdwalk_sw_00.mgx": "614f8c4b609f10522f244af512f2454cf8df06c2e813418b5758dc14430de8c5",
+    "data/3d/modules/swamp/mgx/straight_brdwalk_ns_00.mgx": "24af4c7717ee2c4b48458392d9435da5c25915864318712acd326f49be1d4d86",
+    "data/3d/modules/swamp/mgx/straight_brdwalk_we_00.mgx": "3a925c3669938410bf69b91d25fd632a9995881c8d425477863aaddbfd3c696b",
+    "data/3d/modules/swamp/mgx/straight_ruin_ns_00.mgx": "3ebe2d0c6c2d3a645c25c7418961610f291d1d4d98ae61159a7d04abf44c0bb6",
+    "data/3d/modules/swamp/mgx/straight_ruin_we_00.mgx": "6d0d23585e3eb62a84fa9e77ff26dfe028bea257434b421c546458b7a6ebf266",
+    "data/3d/modules/swamp/mgx/straight_swpcave_ns_00.mgx": "d3512e7b1c9d48e47b18294cf17657fcb7d0fd80b18c1ebc0bd56ca06081e9cf",
+    "data/3d/modules/swamp/mgx/straight_swpcave_we_00.mgx": "a44c48e7300c6a5722b85b6c6f4f1eb9f9b590ed71999d377ad086109ea90f9e",
+    "data/3d/modules/swamp/mgx/t_ruin_nse_00.mgx": "4b7073c0aef27926ae71113cb57f1d03a2d2c2ed1d5257a024f30777eb6d2fe0",
+    "data/3d/modules/swamp/mgx/t_ruin_nsw_00.mgx": "034b8de449075abdcbe411f143cdd3598639432806f100348e23e2212d4c2f87",
+    "data/3d/modules/swamp/mgx/t_swpcave_nse_00.mgx": "8ac7de6301972def9531bb87d543d23136eda7b6353a360689527c6078566f3b",
+    "data/3d/modules/swamp/mgx/t_swpcave_nsw_00.mgx": "406756844dd9de26cd3128721118a55c249aea3504138de5fd7ffca7b816f08b",
+    "data/scene/022_swamp2_trollcave.rule.xml": "43e8bccaca1076568067e8fa44136eb24fb55b2c4c6d9d62ae7311a8f629816d",
+    "data/scene/002_swamp_witchcave.rule.xml": "31c3f5d9539bf919cb684217e99a05f0621c7e8c5ec225f55faecc48b4afa73e",
+    "data/scene/033_voidmaze_01.rule.xml": "a301032ff82f1ec5c6930f8ebb4d77b0f030b686c5c129d3ebb1f3edf35b563e",
+    "data/3d/modules/void_maze/mgx/mgxlist.txt": "5d746dadffc469e7732743303175b475db24e5f4a7ee72f3f2b5725e9b63a944",
+    "data/3d/modules/void_maze/mgx/assassin_voidmaze_s_00.mgx": "62ee2deabf967db56c63e6f3e4494a9a7793c5a48c8b974365dbdd9cc137967a",
+    "data/3d/modules/void_maze/mgx/corner_voidmaze_ne_00.mgx": "1fc1d48ead198215928820e5a58c00cabb211f52c65e8588c3dbdcf83360f704",
+    "data/3d/modules/void_maze/mgx/corner_voidmaze_nw_00.mgx": "19769b4d620d4c5709ca8742efacbfdf2e2a04e49fc7861b585d5430894e4f30",
+    "data/3d/modules/void_maze/mgx/corner_voidmaze_se_00.mgx": "fde214b07cb319d959931c1cbc6ece00bc134bd33cf2fec118ea1d9b4ec68a49",
+    "data/3d/modules/void_maze/mgx/corner_voidmaze_sw_00.mgx": "2795ebf7e3a9e4f78f84523a1c0f5e3c42f92d8ec0446a37677ad4141893ccc3",
+    "data/3d/modules/void_maze/mgx/deadend_voidmaze_e_00.mgx": "c12c2d99f778e8735fab3b245affcf213f9fcd392125ed30faa38022f9777903",
+    "data/3d/modules/void_maze/mgx/deadend_voidmaze_n_00.mgx": "98268fe4d513b0829509fff19c67ebdf530cd198ff9e9bc5a8d6421a9cbb60e3",
+    "data/3d/modules/void_maze/mgx/deadend_voidmaze_n_01.mgx": "e430176e6017be3a08db6ad62a76a688a5677e5ade553b448833877ccafe7e75",
+    "data/3d/modules/void_maze/mgx/deadend_voidmaze_s_00.mgx": "21785d1f4dfb845824025bb56559b4a09f5c6e29f83c39db021f7592b227134a",
+    "data/3d/modules/void_maze/mgx/deadend_voidmaze_w_00.mgx": "0b53450f6353aca26672f41743948bf6df7c3d3553c6e0824f589dd6ba669f28",
+    "data/3d/modules/void_maze/mgx/island_voidmaze_00.mgx": "f83c86e9fc5d356ae2c4a215f3d67a3dbebdffcb5df97954e846f2ef37c977bd",
+    "data/3d/modules/void_maze/mgx/straight_voidmaze_ns_00.mgx": "0ef7030010f8beb7891d8ed2557f01a440e829124f74c5256ddf75e3e630a192",
+    "data/3d/modules/void_maze/mgx/straight_voidmaze_we_00.mgx": "821187a7931ddf76571171fc77434efd723a2c1a270bee8e454f2c8aaeb33442",
+    "data/3d/modules/void_maze/mgx/t_voidmaze_nse_00.mgx": "c24579c2d0a79cc12721c1c876fb6d12116a9fa169cd0cffe548e82220ea5ac0",
+    "data/3d/modules/void_maze/mgx/t_voidmaze_nsw_00.mgx": "a247ee2da8a90b020354fec0a32805ad562472076a5a75579bde3975f1dfaf02",
+    "data/3d/modules/void_maze/mgx/x_voidmaze_nswe_00.mgx": "7ce753fec29b909668e76508c608c3be0f74c13ba73f03141870a551efdd8723",
+    "data/scene/034_voidmaze_02.rule.xml": "4e34f6ab80e47385a9824b9b847652939a4f5bcef238c15a318af619d82a5f46",
+    "data/scene/035_voidmaze_03.rule.xml": "d77fa1b4a002be68c94a614c650f4cb3438e1768ac7d2b33ad555ae45716265e",
+    "data/scene/023_watertemple.rule.xml": "d86f8b7232ded27d40e3c36cd7ded698511c3c3fbbd6d6a07268fb57459e77a5",
+    "data/3d/modules/water_temple/mgx/mgxlist.txt": "258f8ac23e507398fd5091543c76abe007a807cf2dc42a1f58a57943468f5d8a",
+    "data/3d/modules/water_temple/mgx/corner_watertemp_ne_00.mgx": "b6343eb3fdef6816cf1d695492d28039360938f16c6db396091f94e1747a5ae3",
+    "data/3d/modules/water_temple/mgx/corner_watertemp_se_00.mgx": "0b6518f13020ec5a84bceb85bb42d802e234f478c4958f571a92a61d7a0a5396",
+    "data/3d/modules/water_temple/mgx/corner_watertemp_sw_00.mgx": "f441635649846efcf3f2eb6ff8a205501f0f82d76f3f6ed937806d6794d78189",
+    "data/3d/modules/water_temple/mgx/corner_watertemp_wn_00.mgx": "e195e0ed7bea087bc1c809b343973703d1f6e37cda8e0b7568e8b4820237d882",
+    "data/3d/modules/water_temple/mgx/deadend_watertemp_e_00.mgx": "0d2a9950d76ab93a6eabcd4adf3a907d4e355fd1530ecbd434cb43341c50b10f",
+    "data/3d/modules/water_temple/mgx/deadend_watertemp_n_00.mgx": "1a267ed072d475f53e45f8aa6f4c5923c70562fe40837fa34fea9bbaa3e74e94",
+    "data/3d/modules/water_temple/mgx/deadend_watertemp_s_00.mgx": "6b192fe98315d44735c6cf412f6a5cde484f50c5eb19e61840e61fdc3bee606f",
+    "data/3d/modules/water_temple/mgx/deadend_watertemp_w_00.mgx": "e07be6fea796dc99b1229d82d5e0380bf6e89ae1e5f2e5cfaa98cf8c4848f184",
+    "data/3d/modules/water_temple/mgx/objend_watertemp_s_00.mgx": "1ac3a498828049b1473820242762c2fe51cb32d6ef7f4acbb2a4cd668494bdab",
+    "data/3d/modules/water_temple/mgx/objmid_watertemp_ns_00.mgx": "f81ecb60d43e652b6dd0e1491ff0084b457acff3af943a84f91aeddfcc02f70b",
+    "data/3d/modules/water_temple/mgx/objstart_watertemp_s_.mgx": "7521af0f33f0f6b325c282516da1b1104b1a0e00e23f90fea7e7a88449cfc659",
+    "data/3d/modules/water_temple/mgx/objstart_watertemp_s_00.mgx": "3ac9bb615083a1204128ba551894fc420df3a228b4d7ab61d58fb7ef89f58e8a",
+    "data/3d/modules/water_temple/mgx/objstart_watertemp_w_00.mgx": "11d1268ae28d288a746e8b4778f4aff731cb919200bf1b8615a6754894f8c63e",
+    "data/3d/modules/water_temple/mgx/straight_watertemp_ew_00.mgx": "06ffca9e7aaa66dec66714408860aebc4d77ed639324626d6d50df396a55a743",
+    "data/3d/modules/water_temple/mgx/straight_watertemp_ns_00.mgx": "04802c0e12bb204c897b73c2fbc8ae378902b37bcb368a286529991a786a42c3",
+    "data/3d/modules/water_temple/mgx/t_watertemp_nsw_00.mgx": "fabac93b2338dc7c2e981a661ba67dda440dbeca9b85e52db50dfcd5b226f0c4",
+    "data/3d/modules/water_temple/mgx/t_watertemp_wse_00.mgx": "d33405b9def48990c7b75da7bf130d73b9777ec526b5af6cc24375dffff910be",
+    "data/scene/029_wind_temple.rule.xml": "0eee99db223278fce1742100b8bb718f78028c6f0076ec9ccc821ee989cecd74",
+    "data/3d/modules/wind_temple/mgx/mgxlist.txt": "ced96cee98a9dcceefdca0a5a00211a49b86c9ae1163dec43f85417306200810",
+    "data/3d/modules/wind_temple/mgx/corner_windtemp_ne_.mgx": "550a3b0a4e9ce03257dfc89d134a3aa891fd847a35e97b5e317eb185154135cc",
+    "data/3d/modules/wind_temple/mgx/corner_windtemp_nw_.mgx": "95d3ddac02a1091060ad73ea8893f8e63cbb8a01786b9badc328e73087091b80",
+    "data/3d/modules/wind_temple/mgx/corner_windtemp_se_.mgx": "13345cf4fb145ce3ba740a22d0740073fbdc5adfd77d1b4bfc265e86f2df6e5a",
+    "data/3d/modules/wind_temple/mgx/corner_windtemp_sw_.mgx": "bd12d92afb6e4bbb7530fb38010218e267304893fe64ca7a24d9505606b966f4",
+    "data/3d/modules/wind_temple/mgx/deadend_windtemp_e_.mgx": "5dbd08bfcd8c75b88ee2a1d9cddc1bcc3f9c6367000520dfc880c594c9efff58",
+    "data/3d/modules/wind_temple/mgx/deadend_windtemp_n_.mgx": "1ce860ec6b637f837c2b1cc1f8af780e88f4fbd459c605aaba87cd8a8c7ad2e4",
+    "data/3d/modules/wind_temple/mgx/deadend_windtemp_s_.mgx": "cfa727177fb94e3859ff4be246818c35a23721a0cb4d6a1740b94760e8014571",
+    "data/3d/modules/wind_temple/mgx/deadend_windtemp_w_.mgx": "b5ad43270d70a1d55ca54aa6b99d8257143e5210882d7561cd43de7950ce5840",
+    "data/3d/modules/wind_temple/mgx/entry_windtemp_n_.mgx": "3066a49a6ece3a2b23b095f4f7d53e8f4c776a02acb4743cdf75f6d3e1472dde",
+    "data/3d/modules/wind_temple/mgx/midboss_windtemp_ws_.mgx": "59c5bb561535ae9217037a5c477db9ad792f1603d2187c2f0e9bd981822db478",
+    "data/3d/modules/wind_temple/mgx/objboss_windtemp_e_.mgx": "8f6fec63ccf8e0c07b8ffe1ac1e6597d7181caa206e89b01ccaad0a4267c071a",
+    "data/3d/modules/wind_temple/mgx/straight_windtemp_ew_.mgx": "3bb7df3b306a7445be5c35c184b58d7b618c232baf004e451af1e20c4e80dbf2",
+    "data/3d/modules/wind_temple/mgx/straight_windtemp_ns_.mgx": "0c467e95dbee26741dc4d317c40c42a904759c9f32f9e36e58ee059b85ea4484",
+    "data/3d/modules/wind_temple/mgx/t_windtemp_esw_.mgx": "6ca498c6086a3c89dd5d7b9de8adc4a8a572cbe7d97af5558e95baba5aff60fe",
+    "data/3d/modules/wind_temple/mgx/t_windtemp_wne_.mgx": "96b04612c2a09bf49db43f333b74c3e43356134ec39c95dc959c004c0d15f8ef"
+  },
+  "levels": [
+    {
+      "name": "ABBEY_ENTRANCE_01",
+      "file": "009_abbey.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 21,
+      "documents": 22,
+      "rule_parsed": true,
+      "rule_diagnostic": ""
+    },
+    {
+      "name": "ABBEY_RUINS_01",
+      "file": "009a_abbey.mlx",
+      "random": 0,
+      "procedural_sources": "fixed_definition"
+    },
+    {
+      "name": "APPLETEMPLE",
+      "file": "050_earth_temple_demo.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 15,
+      "documents": 16,
+      "rule_parsed": true,
+      "rule_diagnostic": ""
+    },
+    {
+      "name": "APPLETEMPLEBACKUP",
+      "file": "x50_earth_temple_demo_BACKUP.mlx",
+      "random": 0,
+      "procedural_sources": "fixed_definition"
+    },
+    {
+      "name": "DARKWOOD",
+      "file": "003_darkwood.mlx",
+      "random": 0,
+      "procedural_sources": "fixed_definition"
+    },
+    {
+      "name": "DARKWOOD_V2",
+      "file": "003_darkwood.mlx",
+      "random": 0,
+      "procedural_sources": "fixed_definition"
+    },
+    {
+      "name": "DARKWOOD_V3",
+      "file": "003_darkwood.mlx",
+      "random": 0,
+      "procedural_sources": "fixed_definition"
+    },
+    {
+      "name": "DARK_DUNGEON_TEMPLE_01",
+      "file": "038_dark_temple.mlx",
+      "random": 0,
+      "procedural_sources": "fixed_definition"
+    },
+    {
+      "name": "DARK_DUNGEON_TEMPLE_BOSSROOM",
+      "file": "039_dark_temple_bossroom_01.mlx",
+      "random": 0,
+      "procedural_sources": "fixed_definition"
+    },
+    {
+      "name": "DESERT_CAVE_01",
+      "file": "016_red_desert_cave_01.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 17,
+      "documents": 18,
+      "rule_parsed": true,
+      "rule_diagnostic": ""
+    },
+    {
+      "name": "DESERT_CAVE_02",
+      "file": "017_red_desert_cave_02.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 17,
+      "documents": 18,
+      "rule_parsed": true,
+      "rule_diagnostic": ""
+    },
+    {
+      "name": "DESERT_CAVE_03",
+      "file": "018_red_desert_cave_03.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 17,
+      "documents": 18,
+      "rule_parsed": true,
+      "rule_diagnostic": ""
+    },
+    {
+      "name": "EARTH_TEMPLE_01",
+      "file": "011_earth_temple_01.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 15,
+      "documents": 16,
+      "rule_parsed": true,
+      "rule_diagnostic": ""
+    },
+    {
+      "name": "EARTH_TEMPLE_02",
+      "file": "012_earth_temple_02.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 15,
+      "documents": 16,
+      "rule_parsed": true,
+      "rule_diagnostic": ""
+    },
+    {
+      "name": "EARTH_TEMPLE_03",
+      "file": "013_earth_temple_03.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 15,
+      "documents": 16,
+      "rule_parsed": true,
+      "rule_diagnostic": ""
+    },
+    {
+      "name": "ELEMENTAL_AIR",
+      "file": "030_el_air.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 14,
+      "documents": 15,
+      "rule_parsed": true,
+      "rule_diagnostic": ""
+    },
+    {
+      "name": "ELEMENTAL_EARTH",
+      "file": "014_el_earth.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 14,
+      "documents": 15,
+      "rule_parsed": true,
+      "rule_diagnostic": ""
+    },
+    {
+      "name": "ELEMENTAL_FIRE",
+      "file": "032_el_fire.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 14,
+      "documents": 15,
+      "rule_parsed": true,
+      "rule_diagnostic": ""
+    },
+    {
+      "name": "ELEMENTAL_LIGHT",
+      "file": "010_el_lightning.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 14,
+      "documents": 15,
+      "rule_parsed": true,
+      "rule_diagnostic": ""
+    },
+    {
+      "name": "ELEMENTAL_WATER",
+      "file": "024_el_water.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 14,
+      "documents": 15,
+      "rule_parsed": true,
+      "rule_diagnostic": ""
+    },
+    {
+      "name": "FIRE_TEMPLE_01",
+      "file": "031_firetemple.mlx",
+      "random": 0,
+      "procedural_sources": "fixed_definition"
+    },
+    {
+      "name": "GOTHICUS_CASTLE_01",
+      "file": "008_gothicus_castle_01.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 14,
+      "documents": 15,
+      "rule_parsed": true,
+      "rule_diagnostic": ""
+    },
+    {
+      "name": "GOTHICUS_CASTLE_02",
+      "file": "021_gothicus_castle_02.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 14,
+      "documents": 15,
+      "rule_parsed": true,
+      "rule_diagnostic": ""
+    },
+    {
+      "name": "GOTHICUS_CRYPT_01",
+      "file": "007_crypt_01.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 21,
+      "documents": 22,
+      "rule_parsed": true,
+      "rule_diagnostic": ""
+    },
+    {
+      "name": "GOTHICUS_CRYPT_02",
+      "file": "020_crypt_02.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 21,
+      "documents": 22,
+      "rule_parsed": false,
+      "rule_diagnostic": "Error reading end tag."
+    },
+    {
+      "name": "ICY_CAVERN_01",
+      "file": "026_icy_cavern_01.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 13,
+      "documents": 14,
+      "rule_parsed": true,
+      "rule_diagnostic": ""
+    },
+    {
+      "name": "ICY_CAVERN_02",
+      "file": "027_icy_cavern_02.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 13,
+      "documents": 14,
+      "rule_parsed": true,
+      "rule_diagnostic": ""
+    },
+    {
+      "name": "ICY_CAVERN_03",
+      "file": "028_icy_cavern_03.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 13,
+      "documents": 14,
+      "rule_parsed": true,
+      "rule_diagnostic": ""
+    },
+    {
+      "name": "ICY_HUB",
+      "file": "025_icy_hub.mlx",
+      "random": 0,
+      "procedural_sources": "fixed_definition"
+    },
+    {
+      "name": "INFECTED_VILLAGE_01",
+      "file": "005_infectedvillage.mlx",
+      "random": 0,
+      "procedural_sources": "fixed_definition"
+    },
+    {
+      "name": "LIGHT_HOUSE_01",
+      "file": "019_light_house_01.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 8,
+      "documents": 9,
+      "rule_parsed": true,
+      "rule_diagnostic": ""
+    },
+    {
+      "name": "LIGHT_HOUSE_02",
+      "file": "019_light_house_02.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 8,
+      "documents": 9,
+      "rule_parsed": true,
+      "rule_diagnostic": ""
+    },
+    {
+      "name": "LIGHT_HOUSE_03",
+      "file": "019_light_house_03.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 8,
+      "documents": 9,
+      "rule_parsed": true,
+      "rule_diagnostic": ""
+    },
+    {
+      "name": "MACHINE_ROOMS_01",
+      "file": "037_machine_rooms_01.mlx",
+      "random": 0,
+      "procedural_sources": "fixed_definition"
+    },
+    {
+      "name": "MULTIPLAYER_TEST",
+      "file": "101_debug_MachineRoomTestMultiPlayer.mlx",
+      "random": 0,
+      "procedural_sources": "fixed_definition"
+    },
+    {
+      "name": "PORTAL_ROOM",
+      "file": "003_darkwood.mlx",
+      "random": 0,
+      "procedural_sources": "fixed_definition"
+    },
+    {
+      "name": "QUESTTEST",
+      "file": "102_debug_QUESTTEST.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 21,
+      "documents": 22,
+      "rule_parsed": false,
+      "rule_diagnostic": "Error reading end tag."
+    },
+    {
+      "name": "RANDOMFORALEX",
+      "file": "125_RandomForAlexB.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 14,
+      "documents": 15,
+      "rule_parsed": true,
+      "rule_diagnostic": ""
+    },
+    {
+      "name": "RED_DESERT_HUB",
+      "file": "015_red_desert_hub.mlx",
+      "random": 0,
+      "procedural_sources": "fixed_definition"
+    },
+    {
+      "name": "ROOT_DEN_01",
+      "file": "004_root_den.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 15,
+      "documents": 16,
+      "rule_parsed": false,
+      "rule_diagnostic": "Error reading end tag."
+    },
+    {
+      "name": "SECRET_BASEMENT_01",
+      "file": "006_basement.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 15,
+      "documents": 16,
+      "rule_parsed": false,
+      "rule_diagnostic": "Error reading end tag."
+    },
+    {
+      "name": "SWAMP",
+      "file": "001_swamp.mlx",
+      "random": 0,
+      "procedural_sources": "fixed_definition"
+    },
+    {
+      "name": "SWAMP_02",
+      "file": "022_swamp2.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 41,
+      "documents": 42,
+      "rule_parsed": true,
+      "rule_diagnostic": ""
+    },
+    {
+      "name": "SWAMP_CAVE_TROLL_A",
+      "file": "022_swamp2_trollcave.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 41,
+      "documents": 42,
+      "rule_parsed": true,
+      "rule_diagnostic": ""
+    },
+    {
+      "name": "SWAMP_CAVE_WITCH_A",
+      "file": "002_swamp_witchcave.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 41,
+      "documents": 42,
+      "rule_parsed": true,
+      "rule_diagnostic": ""
+    },
+    {
+      "name": "UNDERWORLD_HUB",
+      "file": "036_underworld_hub.mlx",
+      "random": 0,
+      "procedural_sources": "fixed_definition"
+    },
+    {
+      "name": "VOID_MAZE_01",
+      "file": "033_voidmaze_01.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 16,
+      "documents": 17,
+      "rule_parsed": false,
+      "rule_diagnostic": "Error reading end tag."
+    },
+    {
+      "name": "VOID_MAZE_02",
+      "file": "034_voidmaze_02.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 16,
+      "documents": 17,
+      "rule_parsed": false,
+      "rule_diagnostic": "Error reading end tag."
+    },
+    {
+      "name": "VOID_MAZE_03",
+      "file": "035_voidmaze_03.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 16,
+      "documents": 17,
+      "rule_parsed": true,
+      "rule_diagnostic": ""
+    },
+    {
+      "name": "WATER_TEMPLE_01",
+      "file": "023_watertemple.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 17,
+      "documents": 18,
+      "rule_parsed": true,
+      "rule_diagnostic": ""
+    },
+    {
+      "name": "WIND_TEMPLE_01",
+      "file": "029_wind_temple.rule.xml",
+      "random": 1,
+      "procedural_sources": "source_compared",
+      "blocks": 15,
+      "documents": 16,
+      "rule_parsed": true,
+      "rule_diagnostic": ""
+    }
+  ],
+  "summary": {
+    "source_compared": 35,
+    "fixed_definition": 16
+  },
+  "block_occurrences_compared": 603,
+  "original_partial_xml_calls": 15,
+  "partial_xml_sources": {
+    "data/scene/030_el_air.rule.xml": {
+      "tree": {
+        "tag": "rules",
+        "attributes": {
+          "target": "iphone",
+          "folder": "data/3d/modules/castle",
+          "ambientColor": "0.5,0.5,0.5",
+          "scriptFile": "data\\pydata\\scripts\\030_elemental_air_room.pyscript",
+          "camera_znear": "900",
+          "camera_zfar": "5000",
+          "music": "AirTowerAmbientMusic",
+          "fog_start": "4000",
+          "fog_end": "5800",
+          "fog_color": "1.14,0.36,0.49",
+          "light_set": "data/3D/Light/castle.lightset_xml",
+          "fixed_light_set": "data/3D/Light/castle_es1_1.lightset_xml",
+          "prog_vertex_buffer_size": "658512",
+          "prog_index_buffer_size": "141924",
+          "fix_vertex_buffer_size": "1983132",
+          "fix_index_buffer_size": "132948"
+        },
+        "children": [
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "deadends",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_n",
+                  "gameplay": "el_air_deadend_n_01.mgp",
+                  "visual": "elemental_deadend_n_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_w",
+                  "gameplay": "el_air_deadend_w_01.mgp",
+                  "visual": "elemental_deadend_w_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "tmodules",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "t_new",
+                  "gameplay": "el_air_t_new_01.mgp",
+                  "visual": "elemental_t_new_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "objective_rooms",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "objectiveroom_s",
+                  "gameplay": "boss_air.mgp",
+                  "visual": "elemental_objectiveroom_s_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "path",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_ne",
+                  "gameplay": "el_air_corner_ne_01.mgp",
+                  "visual": "elemental_corner_ne_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_wn",
+                  "gameplay": "el_air_corner_wn_01.mgp",
+                  "visual": "elemental_corner_wn_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_ws",
+                  "gameplay": "el_air_corner_ws_01.mgp",
+                  "visual": "elemental_corner_ws_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_se",
+                  "gameplay": "el_air_corner_se_01.mgp",
+                  "visual": "elemental_corner_se_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straighta_ns",
+                  "gameplay": "el_air_straighta_ns_01.mgp",
+                  "visual": "elemental_straighta_ns_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straightb_ew",
+                  "gameplay": "el_air_straightb_ew_01.mgp",
+                  "visual": "elemental_straightb_ew_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "RootRule",
+            "attributes": {
+              "name": "#deadends[0]"
+            },
+            "children": [
+              {
+                "tag": "Path",
+                "attributes": {
+                  "name": "#path",
+                  "length": "3,5",
+                  "dontgoback": "true"
+                },
+                "children": [
+                  {
+                    "tag": "ForceBlock",
+                    "attributes": {
+                      "name": "#tmodules"
+                    },
+                    "children": [
+                      {
+                        "tag": "ForceBlock",
+                        "attributes": {
+                          "name": "#objective_rooms[0]"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "ForceBlock",
+                        "attributes": {
+                          "name": "#deadends[1]"
+                        },
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "original_xml_error": 0,
+      "original_error_description": ""
+    },
+    "data/scene/014_el_earth.rule.xml": {
+      "tree": {
+        "tag": "rules",
+        "attributes": {
+          "target": "iphone",
+          "folder": "data/3d/modules/castle",
+          "ambientColor": "0.5,0.5,0.5",
+          "scriptFile": "data\\pydata\\scripts\\014_elemental_earth_room.pyscript",
+          "camera_znear": "900",
+          "camera_zfar": "5000",
+          "music": "EartheTowerAmbientMusic",
+          "fog_start": "4000",
+          "fog_end": "5800",
+          "fog_color": "1.14,0.36,0.49",
+          "light_set": "data/3D/Light/castle.lightset_xml",
+          "fixed_light_set": "data/3D/Light/castle_es1_1.lightset_xml",
+          "prog_vertex_buffer_size": "374784",
+          "prog_index_buffer_size": "70128",
+          "fix_vertex_buffer_size": "1719468",
+          "fix_index_buffer_size": "100158"
+        },
+        "children": [
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "deadends",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_n",
+                  "gameplay": "el_earth_deadend_n_01.mgp",
+                  "visual": "elemental_deadend_n_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_w",
+                  "gameplay": "el_earth_deadend_w_01.mgp",
+                  "visual": "elemental_deadend_w_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "tmodules",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "t_new",
+                  "gameplay": "el_earth_t_new_01.mgp",
+                  "visual": "elemental_t_new_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "objective_rooms",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "objectiveroom_s",
+                  "gameplay": "boss_earth.mgp",
+                  "visual": "elemental_objectiveroom_s_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "path",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_ne",
+                  "gameplay": "el_earth_corner_ne_01.mgp",
+                  "visual": "elemental_corner_ne_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_wn",
+                  "gameplay": "el_earth_corner_wn_01.mgp",
+                  "visual": "elemental_corner_wn_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_ws",
+                  "gameplay": "el_earth_corner_ws_01.mgp",
+                  "visual": "elemental_corner_ws_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_se",
+                  "gameplay": "el_earth_corner_se_01.mgp",
+                  "visual": "elemental_corner_se_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straighta_ns",
+                  "gameplay": "el_earth_straighta_ns_01.mgp",
+                  "visual": "elemental_straighta_ns_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straightb_ew",
+                  "gameplay": "el_earth_straighta_ew_01.mgp",
+                  "visual": "elemental_straightb_ew_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "RootRule",
+            "attributes": {
+              "name": "#deadends[0]"
+            },
+            "children": [
+              {
+                "tag": "Path",
+                "attributes": {
+                  "name": "#path",
+                  "length": "3,4",
+                  "dontgoback": "true"
+                },
+                "children": [
+                  {
+                    "tag": "ForceBlock",
+                    "attributes": {
+                      "name": "#tmodules"
+                    },
+                    "children": [
+                      {
+                        "tag": "ForceBlock",
+                        "attributes": {
+                          "name": "#objective_rooms[0]"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "ForceBlock",
+                        "attributes": {
+                          "name": "#deadends[1]"
+                        },
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "original_xml_error": 0,
+      "original_error_description": ""
+    },
+    "data/scene/032_el_fire.rule.xml": {
+      "tree": {
+        "tag": "rules",
+        "attributes": {
+          "target": "iphone",
+          "folder": "data/3d/modules/castle",
+          "ambientColor": "0.5,0.5,0.5",
+          "scriptFile": "data\\pydata\\scripts\\032_elemental_fire_room.pyscript",
+          "camera_znear": "900",
+          "camera_zfar": "5000",
+          "music": "FireTowerAmbientMusic",
+          "fog_start": "4000",
+          "fog_end": "5800",
+          "fog_color": "1.14,0.36,0.49",
+          "light_set": "data/3D/Light/castle.lightset_xml",
+          "fixed_light_set": "data/3D/Light/castle_es1_1.lightset_xml",
+          "prog_vertex_buffer_size": "62964",
+          "prog_index_buffer_size": "23382",
+          "fix_vertex_buffer_size": "2062504",
+          "fix_index_buffer_size": "164180"
+        },
+        "children": [
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "deadends",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_n",
+                  "gameplay": "el_fire_deadend_n.mgp",
+                  "visual": "elemental_deadend_n_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_w",
+                  "gameplay": "el_fire_deadend_w_01.mgp",
+                  "visual": "elemental_deadend_w_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "tmodules",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "t_new",
+                  "gameplay": "el_fire_t_new_01.mgp",
+                  "visual": "elemental_t_new_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "objective_rooms",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "objectiveroom_s",
+                  "gameplay": "boss_fire.mgp",
+                  "visual": "elemental_objectiveroom_s_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "path",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_ne",
+                  "gameplay": "el_fire_corner_ne_01.mgp",
+                  "visual": "elemental_corner_ne_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_wn",
+                  "gameplay": "el_fire_corner_nw_01.mgp",
+                  "visual": "elemental_corner_wn_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_ws",
+                  "gameplay": "el_fire_corner_ws_01.mgp",
+                  "visual": "elemental_corner_ws_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_se",
+                  "gameplay": "el_fire_corner_se_01.mgp",
+                  "visual": "elemental_corner_se_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straighta_ns",
+                  "gameplay": "el_fire_straighta_ns_01.mgp",
+                  "visual": "elemental_straighta_ns_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straightb_ew",
+                  "gameplay": "el_fire_straightb_ew_01.mgp",
+                  "visual": "elemental_straightb_ew_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "RootRule",
+            "attributes": {
+              "name": "#deadends[0]"
+            },
+            "children": [
+              {
+                "tag": "Path",
+                "attributes": {
+                  "name": "#path",
+                  "length": "4,5",
+                  "dontgoback": "true"
+                },
+                "children": [
+                  {
+                    "tag": "ForceBlock",
+                    "attributes": {
+                      "name": "#tmodules"
+                    },
+                    "children": [
+                      {
+                        "tag": "ForceBlock",
+                        "attributes": {
+                          "name": "#objective_rooms[0]"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "ForceBlock",
+                        "attributes": {
+                          "name": "#deadends[1]"
+                        },
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "original_xml_error": 0,
+      "original_error_description": ""
+    },
+    "data/scene/010_el_lightning.rule.xml": {
+      "tree": {
+        "tag": "rules",
+        "attributes": {
+          "target": "iphone",
+          "folder": "data/3d/modules/castle",
+          "ambientColor": "0.5,0.5,0.5",
+          "scriptFile": "data\\pydata\\scripts\\010_elemental_lightning_room.pyscript",
+          "camera_znear": "900",
+          "camera_zfar": "5000",
+          "music": "LightTowerAmbientMusic",
+          "fog_start": "4000",
+          "fog_end": "5800",
+          "fog_color": "1.14,0.36,0.49",
+          "light_set": "data/3D/Light/castle.lightset_xml",
+          "fixed_light_set": "data/3D/Light/castle_es1_1.lightset_xml",
+          "prog_vertex_buffer_size": "301104",
+          "prog_index_buffer_size": "58056",
+          "fix_vertex_buffer_size": "1719468",
+          "fix_index_buffer_size": "100158"
+        },
+        "children": [
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "deadends",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_n",
+                  "gameplay": "el_lightning_deadend_n_01.mgp",
+                  "visual": "elemental_deadend_n_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_w",
+                  "gameplay": "el_lightning_deadend_w_01.mgp",
+                  "visual": "elemental_deadend_w_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "tmodules",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "t_new",
+                  "gameplay": "el_lightning_t_new_01.mgp",
+                  "visual": "elemental_t_new_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "objective_rooms",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "objectiveroom_s",
+                  "gameplay": "boss_lightning.mgp",
+                  "visual": "elemental_objectiveroom_s_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "path",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_ne",
+                  "gameplay": "el_lightning_corner_ne_01.mgp",
+                  "visual": "elemental_corner_ne_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_wn",
+                  "gameplay": "el_lightning_corner_wn_01.mgp",
+                  "visual": "elemental_corner_wn_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_ws",
+                  "gameplay": "el_lightning_corner_ws_01.mgp",
+                  "visual": "elemental_corner_ws_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_se",
+                  "gameplay": "el_lightning_corner_se_01.mgp",
+                  "visual": "elemental_corner_se_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straighta_ns",
+                  "gameplay": "el_lightning_straighta_ns_01.mgp",
+                  "visual": "elemental_straighta_ns_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straightb_ew",
+                  "gameplay": "el_lightning_straightb_ew_01.mgp",
+                  "visual": "elemental_straightb_ew_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "RootRule",
+            "attributes": {
+              "name": "#deadends[0]"
+            },
+            "children": [
+              {
+                "tag": "Path",
+                "attributes": {
+                  "name": "#path",
+                  "length": "3,4",
+                  "dontgoback": "true"
+                },
+                "children": [
+                  {
+                    "tag": "ForceBlock",
+                    "attributes": {
+                      "name": "#tmodules"
+                    },
+                    "children": [
+                      {
+                        "tag": "ForceBlock",
+                        "attributes": {
+                          "name": "#objective_rooms[0]"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "ForceBlock",
+                        "attributes": {
+                          "name": "#deadends[1]"
+                        },
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "original_xml_error": 0,
+      "original_error_description": ""
+    },
+    "data/scene/024_el_water.rule.xml": {
+      "tree": {
+        "tag": "rules",
+        "attributes": {
+          "target": "iphone",
+          "folder": "data/3d/modules/castle",
+          "ambientColor": "0.5,0.5,0.5",
+          "scriptFile": "data\\pydata\\scripts\\024_elemental_water_room.pyscript",
+          "camera_znear": "900",
+          "camera_zfar": "5000",
+          "music": "WaterTowerAmbientMusic",
+          "fog_start": "4000",
+          "fog_end": "5800",
+          "fog_color": "1.14,0.36,0.49",
+          "light_set": "data/3D/Light/castle.lightset_xml",
+          "fixed_light_set": "data/3D/Light/castle_es1_1.lightset_xml",
+          "prog_vertex_buffer_size": "259704",
+          "prog_index_buffer_size": "67500",
+          "fix_vertex_buffer_size": "1994400",
+          "fix_index_buffer_size": "116304"
+        },
+        "children": [
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "deadends",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_n",
+                  "gameplay": "el_water_deadend_n_01.mgp",
+                  "visual": "elemental_deadend_n_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_w",
+                  "gameplay": "el_water_deadend_w_01.mgp",
+                  "visual": "elemental_deadend_w_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "tmodules",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "t_new",
+                  "gameplay": "el_water_t_new_01.mgp",
+                  "visual": "elemental_t_new_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "objective_rooms",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "objectiveroom_s",
+                  "gameplay": "boss_water.mgp",
+                  "visual": "elemental_objectiveroom_s_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "path",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_ne",
+                  "gameplay": "el_water_corner_ne_01.mgp",
+                  "visual": "elemental_corner_ne_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_wn",
+                  "gameplay": "el_water_corner_wn_01.mgp",
+                  "visual": "elemental_corner_wn_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_ws",
+                  "gameplay": "el_water_corner_ws_01.mgp",
+                  "visual": "elemental_corner_ws_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_se",
+                  "gameplay": "el_water_corner_se_01.mgp",
+                  "visual": "elemental_corner_se_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straighta_ns",
+                  "gameplay": "el_water_straighta_ns_01.mgp",
+                  "visual": "elemental_straighta_ns_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straightb_ew",
+                  "gameplay": "el_water_straightb_ew_01.mgp",
+                  "visual": "elemental_straightb_ew_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "RootRule",
+            "attributes": {
+              "name": "#deadends[0]"
+            },
+            "children": [
+              {
+                "tag": "Path",
+                "attributes": {
+                  "name": "#path",
+                  "length": "2,3",
+                  "dontgoback": "true"
+                },
+                "children": [
+                  {
+                    "tag": "ForceBlock",
+                    "attributes": {
+                      "name": "#tmodules"
+                    },
+                    "children": [
+                      {
+                        "tag": "Path",
+                        "attributes": {
+                          "name": "#path",
+                          "length": "2,3",
+                          "dontgoback": "true"
+                        },
+                        "children": [
+                          {
+                            "tag": "ForceBlock",
+                            "attributes": {
+                              "name": "#objective_rooms[0]"
+                            },
+                            "children": []
+                          }
+                        ]
+                      },
+                      {
+                        "tag": "ForceBlock",
+                        "attributes": {
+                          "name": "#deadends[1]"
+                        },
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "original_xml_error": 0,
+      "original_error_description": ""
+    },
+    "data/scene/007_crypt_01.rule.xml": {
+      "tree": {
+        "tag": "rules",
+        "attributes": {
+          "target": "iphone",
+          "folder": "data/3d/modules/crypt",
+          "ambientColor": "0.5,0.5,0.5",
+          "scriptFile": "data\\pydata\\scripts\\007_crypt_01.pyscript",
+          "camera_znear": "900",
+          "camera_zfar": "5000",
+          "music": "CryptOneAmbientMusic",
+          "ambiant_music": "sfx_catacomb_ambiance",
+          "fog_start": "4000",
+          "fog_end": "5800",
+          "fog_color": "1.14,0.36,0.49",
+          "light_set": "data/3D/Light/crypt.lightset_xml",
+          "fixed_light_set": "data/3D/Light/crypt_es1_1.lightset_xml",
+          "prog_vertex_buffer_size": "235920",
+          "prog_index_buffer_size": "60600",
+          "fix_vertex_buffer_size": "1100268",
+          "fix_index_buffer_size": "88020"
+        },
+        "children": [
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "deadends",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_e",
+                  "gameplay": "crypt_deadend_e_01.mgp",
+                  "visual": "crypt_deadend_e_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_w",
+                  "gameplay": "crypt_deadend_w_01.mgp",
+                  "visual": "crypt_deadend_w_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_n",
+                  "gameplay": "crypt_deadend_n_01.mgp",
+                  "visual": "crypt_deadend_n_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "tmodules",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "t_sew",
+                  "gameplay": "crypt_t_sew_01.mgp",
+                  "visual": "crypt_t_sew_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "objective_rooms",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "kings_chamber_s",
+                  "gameplay": "crypt_kings_chamber_s_01.mgp",
+                  "visual": "crypt_kings_chamber_s_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "entrance_s",
+                  "gameplay": "crypt_entrance_s_01.mgp",
+                  "visual": "crypt_entrance_s_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straight_c_ns",
+                  "gameplay": "crypt_straight_c_ns_01.mgp",
+                  "visual": "crypt_straight_c_ns_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "cemetery_entrance",
+                  "gameplay": "crypt_cemetery_entrance_01.mgp",
+                  "visual": "crypt_cemetery_entrance_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "finalroom",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straight_c_ns",
+                  "gameplay": "crypt_straight_c_ns_01.mgp",
+                  "visual": "crypt_straight_c_ns_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straight_c_ns",
+                  "gameplay": "crypt_straight_c_ns_02.mgp",
+                  "visual": "crypt_straight_c_ns_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straight_c_ns",
+                  "gameplay": "crypt_straight_c_ns_03.mgp",
+                  "visual": "crypt_straight_c_ns_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "path",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_se",
+                  "gameplay": "crypt_corner_se_01.mgp",
+                  "visual": "crypt_corner_se_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_se",
+                  "gameplay": "crypt_corner_se_02.mgp",
+                  "visual": "crypt_corner_se_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_se",
+                  "gameplay": "crypt_corner_se_03.mgp",
+                  "visual": "crypt_corner_se_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_ne",
+                  "gameplay": "crypt_corner_ne_01.mgp",
+                  "visual": "crypt_corner_ne_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_ne",
+                  "gameplay": "crypt_corner_ne_02.mgp",
+                  "visual": "crypt_corner_ne_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_ne",
+                  "gameplay": "crypt_corner_ne_03.mgp",
+                  "visual": "crypt_corner_ne_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_nw",
+                  "gameplay": "crypt_corner_nw_01.mgp",
+                  "visual": "crypt_corner_nw_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_nw",
+                  "gameplay": "crypt_corner_nw_02.mgp",
+                  "visual": "crypt_corner_nw_02.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_sw",
+                  "gameplay": "crypt_corner_sw_01.mgp",
+                  "visual": "crypt_corner_sw_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_sw",
+                  "gameplay": "crypt_corner_sw_02.mgp",
+                  "visual": "crypt_corner_sw_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "hallway",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straight_ns",
+                  "gameplay": "crypt_straight_ns_01.mgp",
+                  "visual": "crypt2_straight_ns_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "RootRule",
+            "attributes": {
+              "name": "#objective_rooms[3]"
+            },
+            "children": [
+              {
+                "tag": "ForceBlock",
+                "attributes": {
+                  "name": "#hallway"
+                },
+                "children": [
+                  {
+                    "tag": "Path",
+                    "attributes": {
+                      "name": "#path",
+                      "length": "2,3",
+                      "dontgoback": "false"
+                    },
+                    "children": [
+                      {
+                        "tag": "ForceBlock",
+                        "attributes": {
+                          "name": "#tmodules[0]"
+                        },
+                        "children": [
+                          {
+                            "tag": "Path",
+                            "attributes": {
+                              "name": "#path",
+                              "length": "1,2",
+                              "dontgoback": "false"
+                            },
+                            "children": [
+                              {
+                                "tag": "ForceBlock",
+                                "attributes": {
+                                  "name": "#finalroom"
+                                },
+                                "children": []
+                              }
+                            ]
+                          },
+                          {
+                            "tag": "ForceBlock",
+                            "attributes": {
+                              "name": "#deadends"
+                            },
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "original_xml_error": 0,
+      "original_error_description": ""
+    },
+    "data/scene/020_crypt_02.rule.xml": {
+      "tree": {
+        "tag": "rules",
+        "attributes": {
+          "target": "iphone",
+          "folder": "data/3d/modules/crypt",
+          "ambientColor": "0.5,0.5,0.5",
+          "scriptFile": "data\\pydata\\scripts\\007_crypt_01.pyscript",
+          "camera_znear": "900",
+          "camera_zfar": "100000",
+          "music": "SecretCryptAmbientMusic",
+          "ambiant_music": "sfx_catacomb_ambiance",
+          "fog_start": "4000",
+          "fog_end": "5800",
+          "fog_color": "1.14,0.36,0.49",
+          "light_set": "data/3D/Light/crypt.lightset_xml",
+          "fixed_light_set": "data/3D/Light/crypt_es1_1.lightset_xml",
+          "prog_vertex_buffer_size": "266160",
+          "prog_index_buffer_size": "88848",
+          "fix_vertex_buffer_size": "1161396",
+          "fix_index_buffer_size": "97512"
+        },
+        "children": [
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "deadends",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_e",
+                  "gameplay": "crypt2_deadend_e_01.mgp",
+                  "visual": "crypt2_deadend_e_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_n",
+                  "gameplay": "crypt2_deadend_n_01.mgp",
+                  "visual": "crypt2_deadend_n_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_n",
+                  "gameplay": "crypt2_deadend_n_02.mgp",
+                  "visual": "crypt2_deadend_n_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "tmodules",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "t_sew",
+                  "gameplay": "crypt2_t_sew_01.mgp",
+                  "visual": "crypt2_t_sew_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "t_nse",
+                  "gameplay": "crypt2_t_nse_01.mgp",
+                  "visual": "crypt2_t_nse_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "objective_rooms",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "kings_chamber_s",
+                  "gameplay": "crypt2_kingsroom_s_01.mgp",
+                  "visual": "crypt_kings_chamber_s_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_w",
+                  "gameplay": "crypt2_deadend_w_01.mgp",
+                  "visual": "crypt2_deadend_w_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "path",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_se",
+                  "gameplay": "crypt2_corner_se_04.mgp",
+                  "visual": "crypt2_corner_se_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_ne",
+                  "gameplay": "crypt2_corner_ne_01.mgp",
+                  "visual": "crypt2_corner_ne_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_nw",
+                  "gameplay": "crypt2_corner_nw_01.mgp",
+                  "visual": "crypt2_corner_nw_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_sw",
+                  "gameplay": "crypt2_corner_sw_01.mgp",
+                  "visual": "crypt2_corner_sw_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straight_ns",
+                  "gameplay": "crypt2_straight_ns_01.mgp",
+                  "visual": "crypt2_straight_ns_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straight_a_ew",
+                  "gameplay": "crypt2_straight_a_ew_01.mgp",
+                  "visual": "crypt2_straight_a_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straight_b_ew",
+                  "gameplay": "crypt2_straight_b_ew_01.mgp",
+                  "visual": "crypt2_straight_b_ew_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straight_c_ew",
+                  "gameplay": "crypt2_straight_c_ew_01.mgp",
+                  "visual": "crypt2_straight_c_ew_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straight_d_ew",
+                  "gameplay": "crypt2_straight_d_ew_01.mgp",
+                  "visual": "crypt2_straight_d_ew_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "RootRule",
+            "attributes": {
+              "name": "#objective_rooms[1]"
+            },
+            "children": [
+              {
+                "tag": "Path",
+                "attributes": {
+                  "name": "#path",
+                  "length": "4",
+                  "dontgoback": "true"
+                },
+                "children": [
+                  {
+                    "tag": "Forceblock",
+                    "attributes": {
+                      "name": "#tmodules"
+                    },
+                    "children": [
+                      {
+                        "tag": "ForceBlock",
+                        "attributes": {
+                          "name": "#deadends"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "Path",
+                        "attributes": {
+                          "name": "#path",
+                          "length": "3",
+                          "dontgoback": "true"
+                        },
+                        "children": [
+                          {
+                            "tag": "ForceBlock",
+                            "attributes": {
+                              "name": "#objective_rooms[0]"
+                            },
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "original_xml_error": 9,
+      "original_error_description": "Error reading end tag."
+    },
+    "data/scene/019_light_house_02.rule.xml": {
+      "tree": {
+        "tag": "rules",
+        "attributes": {
+          "target": "iphone",
+          "folder": "data/3d/modules/lighthousse",
+          "ambientColor": "0.5,0.5,0.5",
+          "scriptFile": "data\\pydata\\scripts\\019_light_house_01.pyscript",
+          "camera_znear": "900",
+          "camera_zfar": "1000000",
+          "music": "LighthouseTempleAmbientMusic",
+          "fog_start": "4000",
+          "fog_end": "5800",
+          "fog_color": "1.14,0.36,0.49",
+          "light_set": "data/3D/Light/lighthousse.lightset_xml",
+          "fixed_light_set": "data/3D/Light/lighthousse_es1_1.lightset_xml",
+          "prog_vertex_buffer_size": "220320",
+          "prog_index_buffer_size": "42480",
+          "fix_vertex_buffer_size": "2312316",
+          "fix_index_buffer_size": "158436"
+        },
+        "children": [
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "level2",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "close_01",
+                  "gameplay": "lh01_lv02_close_01_01.mgp",
+                  "visual": "lh01_lv02_close_01_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "level7",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "open_02",
+                  "gameplay": "lh01_lv07_open_02_01.mgp",
+                  "visual": "lh01_lv07_open_02_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "level8",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "close_03",
+                  "gameplay": "lh01_lv08_close_03_01.mgp",
+                  "visual": "lh01_lv08_close_03_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "level9",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "open_01",
+                  "gameplay": "lh01_lv09_open_01_01.mgp",
+                  "visual": "lh01_lv09_open_01_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "close_01",
+                  "gameplay": "lh01_lv09_close_01_01.mgp",
+                  "visual": "lh01_lv09_close_01_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "open_03",
+                  "gameplay": "lh01_lv09_open_03_01.mgp",
+                  "visual": "lh01_lv09_open_03_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "level10",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "open_02",
+                  "gameplay": "lh01_lv10_open_02_01.mgp",
+                  "visual": "lh01_lv10_open_02_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "close_03",
+                  "gameplay": "lh01_lv10_close_03_01.mgp",
+                  "visual": "lh01_lv10_close_03_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "RootRule",
+            "attributes": {
+              "name": "#level7"
+            },
+            "children": [
+              {
+                "tag": "Forceblock",
+                "attributes": {
+                  "name": "#level8"
+                },
+                "children": [
+                  {
+                    "tag": "Forceblock",
+                    "attributes": {
+                      "name": "#level9"
+                    },
+                    "children": [
+                      {
+                        "tag": "Forceblock",
+                        "attributes": {
+                          "name": "#level10"
+                        },
+                        "children": [
+                          {
+                            "tag": "Forceblock",
+                            "attributes": {
+                              "name": "#level2"
+                            },
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "EndPath",
+                "attributes": {
+                  "exit": "west"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      "original_xml_error": 0,
+      "original_error_description": ""
+    },
+    "data/scene/102_debug_questtest.rule.xml": {
+      "tree": {
+        "tag": "rules",
+        "attributes": {
+          "target": "iphone",
+          "folder": "data/3d/modules/crypt",
+          "ambientColor": "0.5,0.5,0.5",
+          "scriptFile": "data\\PyData\\scripts\\007_CRYPT_01.pyscript",
+          "camera_znear": "900",
+          "camera_zfar": "5000",
+          "music": "CatacombsMusic",
+          "fog_start": "4000",
+          "fog_end": "5800",
+          "fog_color": "1.14,0.36,0.49"
+        },
+        "children": [
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "deadends",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_e",
+                  "gameplay": "questtest_deadend_e.mgp",
+                  "visual": ""
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_w",
+                  "gameplay": "questtest_deadend_w.mgp",
+                  "visual": ""
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_n",
+                  "gameplay": "questtest_deadend_n.mgp",
+                  "visual": ""
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_n",
+                  "gameplay": "questtest_deadend_n2.mgp",
+                  "visual": ""
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "tmodules",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "t_sew",
+                  "gameplay": "questtest_t_sew.mgp",
+                  "visual": ""
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "t_sew",
+                  "gameplay": "questtest_t_sew2.mgp",
+                  "visual": ""
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "path",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straight_a_ew",
+                  "gameplay": "questtest_straight_a_ew.mgp",
+                  "visual": ""
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "RootRule",
+            "attributes": {
+              "name": "#deadends[0]"
+            },
+            "children": [
+              {
+                "tag": "Forceblock",
+                "attributes": {
+                  "name": "#tmodules[0]"
+                },
+                "children": [
+                  {
+                    "tag": "ForceBlock",
+                    "attributes": {
+                      "name": "#deadends[2]"
+                    },
+                    "children": []
+                  },
+                  {
+                    "tag": "ForceBlock",
+                    "attributes": {
+                      "name": "#path[0]"
+                    },
+                    "children": [
+                      {
+                        "tag": "ForceBlock",
+                        "attributes": {
+                          "name": "#tmodules[1]"
+                        },
+                        "children": [
+                          {
+                            "tag": "ForceBlock",
+                            "attributes": {
+                              "name": "#deadends[3]"
+                            },
+                            "children": []
+                          },
+                          {
+                            "tag": "ForceBlock",
+                            "attributes": {
+                              "name": "#deadends[1]"
+                            },
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "original_xml_error": 9,
+      "original_error_description": "Error reading end tag."
+    },
+    "data/scene/125_randomforalexb.rule.xml": {
+      "tree": {
+        "tag": "rules",
+        "attributes": {
+          "target": "iphone",
+          "folder": "data/3d/modules/castle",
+          "ambientColor": "0.5,0.5,0.5",
+          "scriptFile": "data\\pydata\\scripts\\010_elemental_lightning_room.pyscript",
+          "camera_znear": "900",
+          "camera_zfar": "5000",
+          "music": "LightTowerAmbientMusic",
+          "combat_music": "LightTowerCombatMusic",
+          "fog_start": "4000",
+          "fog_end": "5800",
+          "fog_color": "1.14,0.36,0.49",
+          "light_set": "data/3D/Light/castle.lightset_xml"
+        },
+        "children": [
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "deadends",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_n",
+                  "gameplay": "el_lightning_deadend_n_01.mgp",
+                  "visual": "elemental_deadend_startroom.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "objective_rooms",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "objectiveroom_s",
+                  "gameplay": "boss_lightning.mgp",
+                  "visual": "elemental_objectiveroom_s_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "path",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_ne",
+                  "gameplay": "",
+                  "visual": "elemental_corner_ne_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_wn",
+                  "gameplay": "",
+                  "visual": "elemental_corner_wn_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_ws",
+                  "gameplay": "",
+                  "visual": "elemental_corner_ws_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_se",
+                  "gameplay": "",
+                  "visual": "elemental_corner_se_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straighta_ns",
+                  "gameplay": "",
+                  "visual": "elemental_straighta_ns_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straightb_ew",
+                  "gameplay": "",
+                  "visual": "elemental_straightb_ew_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "RootRule",
+            "attributes": {
+              "name": "#deadends[0]"
+            },
+            "children": [
+              {
+                "tag": "Path",
+                "attributes": {
+                  "name": "#path",
+                  "length": "3,4",
+                  "dontgoback": "true"
+                },
+                "children": [
+                  {
+                    "tag": "ForceBlock",
+                    "attributes": {
+                      "name": "#objective_rooms"
+                    },
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "original_xml_error": 0,
+      "original_error_description": ""
+    },
+    "data/scene/004_root_den.rule.xml": {
+      "tree": {
+        "tag": "rules",
+        "attributes": {
+          "target": "iphone",
+          "folder": "data/3d/modules/root_den",
+          "ambientColor": "0.5,0.5,0.5",
+          "scriptFile": "data\\pydata\\scripts\\004_root_den.pyscript",
+          "camera_znear": "900",
+          "camera_zfar": "10000",
+          "music": "RootDenOneAmbientMusic",
+          "fog_start": "4000",
+          "fog_end": "5800",
+          "fog_color": "1.14,0.36,0.49",
+          "light_set": "data/3D/Light/rootden.lightset_xml",
+          "fixed_light_set": "data/3D/Light/rootden_es1_1.lightset_xml",
+          "prog_vertex_buffer_size": "227376",
+          "prog_index_buffer_size": "56610",
+          "fix_vertex_buffer_size": "1012428",
+          "fix_index_buffer_size": "103170"
+        },
+        "children": [
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "deadends",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_rootden_e_",
+                  "gameplay": "deadend_rootden_e__01.mgp",
+                  "visual": "deadend_rootden_e__01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_rootden_n_",
+                  "gameplay": "",
+                  "visual": "deadend_rootden_n__01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_rootden_s_",
+                  "gameplay": "",
+                  "visual": "deadend_rootden_s__01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_rootden_w_",
+                  "gameplay": "deadend_rootden_w__01.mgp",
+                  "visual": "deadend_rootden_w__01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "tmodules",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "t_rootden_esw_",
+                  "gameplay": "",
+                  "visual": "t_rootden_esw__01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "t_rootden_wne_",
+                  "gameplay": "",
+                  "visual": "t_rootden_wne__01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "objectives",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "objboss_rootden_w_",
+                  "gameplay": "objboss_rootden_w__01.mgp",
+                  "visual": "objboss_rootden_w__01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "objcross_rootden_nesw_",
+                  "gameplay": "objcross_rootden_nesw__01.mgp",
+                  "visual": "objcross_rootden_nesw__01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "objentry_rootden_e_",
+                  "gameplay": "objentry_rootden_e__01.mgp",
+                  "visual": "objentry_rootden_e__01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "path_cave",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_rootden_ne_",
+                  "gameplay": "",
+                  "visual": "corner_rootden_ne__01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_rootden_nw_",
+                  "gameplay": "corner_rootden_nw__01.mgp",
+                  "visual": "corner_rootden_nw__01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_rootden_se_",
+                  "gameplay": "corner_rootden_se__01.mgp",
+                  "visual": "corner_rootden_se__01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_rootden_sw_",
+                  "gameplay": "",
+                  "visual": "corner_rootden_sw__01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straight_rootden_ew_",
+                  "gameplay": "",
+                  "visual": "straight_rootden_ew__01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straight_rootden_ns_",
+                  "gameplay": "straight_rootden_ns__01.mgp",
+                  "visual": "straight_rootden_ns__01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "RootRule",
+            "attributes": {
+              "name": "#objectives[2]"
+            },
+            "children": [
+              {
+                "tag": "ForceBlock",
+                "attributes": {
+                  "name": "#path_cave[1]"
+                },
+                "children": [
+                  {
+                    "tag": "ForceBlock",
+                    "attributes": {
+                      "name": "#path_cave[5]"
+                    },
+                    "children": [
+                      {
+                        "tag": "ForceBlock",
+                        "attributes": {
+                          "name": "#objectives[1]"
+                        },
+                        "children": [
+                          {
+                            "tag": "ForceBlock",
+                            "attributes": {
+                              "name": "#deadends[0]"
+                            },
+                            "children": []
+                          },
+                          {
+                            "tag": "ForceBlock",
+                            "attributes": {
+                              "name": "#deadends[3]"
+                            },
+                            "children": []
+                          },
+                          {
+                            "tag": "ForceBlock",
+                            "attributes": {
+                              "name": "#path_cave[2]"
+                            },
+                            "children": [
+                              {
+                                "tag": "ForceBlock",
+                                "attributes": {
+                                  "name": "#objectives[0]"
+                                },
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "original_xml_error": 9,
+      "original_error_description": "Error reading end tag."
+    },
+    "data/scene/006_basement.rule.xml": {
+      "tree": {
+        "tag": "rules",
+        "attributes": {
+          "target": "iphone",
+          "folder": "data/3d/modules/root_den",
+          "ambientColor": "0.5,0.5,0.5",
+          "scriptFile": "data\\pydata\\scripts\\006_DRIEDWELL.pyscript",
+          "camera_znear": "900",
+          "camera_zfar": "5000",
+          "music": "SecretBasementAmbientMusic",
+          "fog_start": "4000",
+          "fog_end": "5800",
+          "fog_color": "1.14,0.36,0.49",
+          "light_set": "data/3D/Light/rootden.lightset_xml",
+          "fixed_light_set": "data/3D/Light/rootden_es1_1.lightset_xml",
+          "prog_vertex_buffer_size": "234672",
+          "prog_index_buffer_size": "77796",
+          "fix_vertex_buffer_size": "837324",
+          "fix_index_buffer_size": "86142"
+        },
+        "children": [
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "deadends",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_rootden_e_",
+                  "gameplay": "basement_deadend_e_01.mgp",
+                  "visual": "basement_deadend_e_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_rootden_n_",
+                  "gameplay": "basement_deadend_n_01.mgp",
+                  "visual": "basement_deadend_n_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_rootden_s_",
+                  "gameplay": "basement_deadend_s_01.mgp",
+                  "visual": "basement_deadend_s_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_rootden_w_",
+                  "gameplay": "basement_deadend_w_01.mgp",
+                  "visual": "basement_deadend_w_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "objective",
+              "random": "false"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_rootden_n_",
+                  "gameplay": "basement_obj_n_01.mgp",
+                  "visual": "basement_deadend_n_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "tmodules",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "t_rootden_esw_",
+                  "gameplay": "basement_t_merchant_sew_01.mgp",
+                  "visual": "basement_t_sew_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "t_rootden_esw_",
+                  "gameplay": "basement_t_sew_01.mgp",
+                  "visual": "basement_t_sew_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "t_rootden_esw_",
+                  "gameplay": "basement_t_sew_01.mgp",
+                  "visual": "basement_t_sew_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "path",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_rootden_ne_",
+                  "gameplay": "basement_corner_ne_01.mgp",
+                  "visual": "basement_corner_ne_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_rootden_nw_",
+                  "gameplay": "basement_corner_nw_01.mgp",
+                  "visual": "basement_corner_nw_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_rootden_se_",
+                  "gameplay": "basement_corner_se_01.mgp",
+                  "visual": "basement_corner_se_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_rootden_sw_",
+                  "gameplay": "basement_corner_sw_01.mgp",
+                  "visual": "basement_corner_sw_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straight_rootden_ew_",
+                  "gameplay": "basement_straight_ew_01.mgp",
+                  "visual": "basement_straight_ew_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straight_rootden_ns_",
+                  "gameplay": "basement_straight_ns_01.mgp",
+                  "visual": "basement_straight_ns_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "RootRule",
+            "attributes": {
+              "name": "#deadends[2]"
+            },
+            "children": [
+              {
+                "tag": "Path",
+                "attributes": {
+                  "name": "#path",
+                  "length": "2",
+                  "dontgoback": "true"
+                },
+                "children": [
+                  {
+                    "tag": "Forceblock",
+                    "attributes": {
+                      "name": "#tmodules"
+                    },
+                    "children": [
+                      {
+                        "tag": "ForceBlock",
+                        "attributes": {
+                          "name": "#objective[0]"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "Path",
+                        "attributes": {
+                          "name": "#path",
+                          "length": "2",
+                          "dontgoback": "true"
+                        },
+                        "children": [
+                          {
+                            "tag": "ForceBlock",
+                            "attributes": {
+                              "name": "#deadends[3]"
+                            },
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "original_xml_error": 9,
+      "original_error_description": "Error reading end tag."
+    },
+    "data/scene/033_voidmaze_01.rule.xml": {
+      "tree": {
+        "tag": "rules",
+        "attributes": {
+          "target": "iphone",
+          "folder": "data/3d/modules/void_maze",
+          "ambientColor": "0.5,0.5,0.5",
+          "scriptFile": "data\\pydata\\scripts\\033_voidmaze.pyscript",
+          "camera_znear": "900",
+          "camera_zfar": "5000",
+          "music": "CatacombsMusic",
+          "fog_start": "4000",
+          "fog_end": "5800",
+          "fog_color": "1.14,0.36,0.49"
+        },
+        "children": [
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "deadends",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_voidmaze_e_00",
+                  "gameplay": "vm01_deadend_voidmaze_e_00_01.mgp",
+                  "visual": "vm01_deadend_voidmaze_e_00_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_voidmaze_n_00",
+                  "gameplay": "vm01_deadend_voidmaze_n_00_01.mgp",
+                  "visual": "vm01_deadend_voidmaze_n_00_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_voidmaze_s_00",
+                  "gameplay": "vm01_deadend_voidmaze_s_00_01.mgp",
+                  "visual": "vm01_deadend_voidmaze_s_00_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_voidmaze_w_00",
+                  "gameplay": "vm01_deadend_voidmaze_w_00_01.mgp",
+                  "visual": "vm01_deadend_voidmaze_w_00_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_voidmaze_n_00",
+                  "gameplay": "vm01_deadend_voidmaze_n_00_02.mgp",
+                  "visual": "vm01_deadend_voidmaze_n_00_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_voidmaze_e_00",
+                  "gameplay": "vm01_deadend_voidmaze_e_00_02.mgp",
+                  "visual": "vm01_deadend_voidmaze_e_00_02.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_voidmaze_w_00",
+                  "gameplay": "vm01_deadend_voidmaze_w_00_03.mgp",
+                  "visual": "vm01_deadend_voidmaze_w_00_03.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "tmodules",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "t_voidmaze_nse_00",
+                  "gameplay": "vm01_t_voidmaze_nse_00_01.mgp",
+                  "visual": "vm01_t_voidmaze_nse_00_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "t_voidmaze_nsw_00",
+                  "gameplay": "vm01_t_voidmaze_nsw_00_01.mgp",
+                  "visual": "vm01_t_voidmaze_nsw_00_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "objective_rooms",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "assassin_voidmaze_s_00",
+                  "gameplay": "vm01_assassin_voidmaze_s_00_01.mgp",
+                  "visual": "vm01_assassin_voidmaze_s_00_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "island_voidmaze_00",
+                  "gameplay": "vm01_island_voidmaze_00_01.mgp",
+                  "visual": "vm01_island_voidmaze_00_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "x_voidmaze_nswe_00",
+                  "gameplay": "vm01_x_voidmaze_nswe_00.mgp",
+                  "visual": "vm01_x_voidmaze_nswe_00.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "island_voidmaze_00",
+                  "gameplay": "vm01_island_voidmaze_00_02.mgp",
+                  "visual": "vm01_island_voidmaze_00_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "path",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_voidmaze_ne_00",
+                  "gameplay": "vm011_corner_voidmaze_ne_00_01.mgp",
+                  "visual": "vm01_corner_voidmaze_ne_00_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_voidmaze_se_00",
+                  "gameplay": "vm01_corner_voidmaze_se_00_01.mgp",
+                  "visual": "vm01_corner_voidmaze_se_00_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_voidmaze_nw_00",
+                  "gameplay": "vm01_corner_voidmaze_nw_00_01.mgp",
+                  "visual": "vm01_corner_voidmaze_nw_00_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_voidmaze_sw_00",
+                  "gameplay": "vm01_corner_voidmaze_sw_00_01.mgp",
+                  "visual": "vm01_corner_voidmaze_sw_00_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straight_voidmaze_ns_00",
+                  "gameplay": "vm01_straight_voidmaze_ns_00_01.mgp",
+                  "visual": "vm01_straight_voidmaze_ns_00_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straight_voidmaze_we_00",
+                  "gameplay": "vm01_straight_voidmaze_we_00_01.mgp",
+                  "visual": "vm01_straight_voidmaze_we_00_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "RootRule",
+            "attributes": {
+              "name": "#deadends[2]"
+            },
+            "children": [
+              {
+                "tag": "ForceBlock",
+                "attributes": {
+                  "name": "#objective_rooms[2]"
+                },
+                "children": [
+                  {
+                    "tag": "ForceBlock",
+                    "attributes": {
+                      "name": "#deadends[5]"
+                    },
+                    "children": []
+                  },
+                  {
+                    "tag": "ForceBlock",
+                    "attributes": {
+                      "name": "#deadends[6]"
+                    },
+                    "children": []
+                  },
+                  {
+                    "tag": "ForceBlock",
+                    "attributes": {
+                      "name": "#deadends[1]"
+                    },
+                    "children": [
+                      {
+                        "tag": "ForceBlock",
+                        "attributes": {
+                          "name": "#objective_rooms[1]"
+                        },
+                        "children": [
+                          {
+                            "tag": "ForceBlock",
+                            "attributes": {
+                              "name": "#objective_rooms[3]"
+                            },
+                            "children": [
+                              {
+                                "tag": "ForceBlock",
+                                "attributes": {
+                                  "name": "#objective_rooms[0]"
+                                },
+                                "children": [
+                                  {
+                                    "tag": "ForceBlock",
+                                    "attributes": {
+                                      "name": "#deadends[4]"
+                                    },
+                                    "children": [
+                                      {
+                                        "tag": "EndPath",
+                                        "attributes": {
+                                          "exit": "south"
+                                        },
+                                        "children": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "original_xml_error": 9,
+      "original_error_description": "Error reading end tag."
+    },
+    "data/scene/034_voidmaze_02.rule.xml": {
+      "tree": {
+        "tag": "rules",
+        "attributes": {
+          "target": "iphone",
+          "folder": "data/3d/modules/void_maze",
+          "ambientColor": "0.5,0.5,0.5",
+          "scriptFile": "data\\pydata\\scripts\\033_voidmaze.pyscript",
+          "camera_znear": "900",
+          "camera_zfar": "5000",
+          "music": "CatacombsMusic",
+          "fog_start": "4000",
+          "fog_end": "5800",
+          "fog_color": "1.14,0.36,0.49"
+        },
+        "children": [
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "deadends",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_voidmaze_e_00",
+                  "gameplay": "vm01_deadend_voidmaze_e_00_01.mgp",
+                  "visual": "vm01_deadend_voidmaze_e_00_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_voidmaze_n_01",
+                  "gameplay": "vm01_deadend_voidmaze_n_00_01.mgp",
+                  "visual": "vm01_deadend_voidmaze_n_00_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_voidmaze_s_00",
+                  "gameplay": "vm01_deadend_voidmaze_s_00_01.mgp",
+                  "visual": "vm01_deadend_voidmaze_s_00_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_voidmaze_w_00",
+                  "gameplay": "vm01_deadend_voidmaze_w_00_01.mgp",
+                  "visual": "vm01_deadend_voidmaze_w_00_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_voidmaze_s_00",
+                  "gameplay": "vm01_deadend_voidmaze_s_00_02.mgp",
+                  "visual": "vm01_deadend_voidmaze_s_00_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_voidmaze_n_01",
+                  "gameplay": "vm01_deadend_voidmaze_n_00_03.mgp",
+                  "visual": "vm01_deadend_voidmaze_n_00_03.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "tmodules",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "t_voidmaze_nse_00",
+                  "gameplay": "vm01_t_voidmaze_nse_00_01.mgp",
+                  "visual": "vm01_t_voidmaze_nse_00_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "t_voidmaze_nsw_00",
+                  "gameplay": "vm01_t_voidmaze_nsw_00_01.mgp",
+                  "visual": "vm01_t_voidmaze_nsw_00_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_voidmaze_n_00",
+                  "gameplay": "vm01_deadend_voidmaze_n_00_01.mgp",
+                  "visual": "vm01_deadend_voidmaze_n_00_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "objective_rooms",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "assassin_voidmaze_s_00",
+                  "gameplay": "vm01_assassin_voidmaze_s_00_01.mgp",
+                  "visual": "vm01_assassin_voidmaze_s_00_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "island_voidmaze_00",
+                  "gameplay": "vm01_island_voidmaze_00_01.mgp",
+                  "visual": "vm01_island_voidmaze_00_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "x_voidmaze_nswe_00",
+                  "gameplay": "vm01_x_voidmaze_nswe_00.mgp",
+                  "visual": "vm01_x_voidmaze_nswe_00"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "path",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_voidmaze_ne_00",
+                  "gameplay": "vm011_corner_voidmaze_ne_00_01.mgp",
+                  "visual": "vm01_corner_voidmaze_ne_00_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_voidmaze_se_00",
+                  "gameplay": "vm01_corner_voidmaze_se_00_01.mgp",
+                  "visual": "vm01_corner_voidmaze_se_00_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_voidmaze_nw_00",
+                  "gameplay": "vm01_corner_voidmaze_nw_00_01.mgp",
+                  "visual": "vm01_corner_voidmaze_nw_00_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_voidmaze_sw_00",
+                  "gameplay": "vm01_corner_voidmaze_sw_00_01.mgp",
+                  "visual": "vm01_corner_voidmaze_sw_00_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straight_voidmaze_ns_00",
+                  "gameplay": "vm01_straight_voidmaze_ns_00_01.mgp",
+                  "visual": "vm01_straight_voidmaze_ns_00_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straight_voidmaze_we_00",
+                  "gameplay": "vm01_straight_voidmaze_we_00_01.mgp",
+                  "visual": "vm01_straight_voidmaze_we_00_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "RootRule",
+            "attributes": {
+              "name": "#deadends[4]"
+            },
+            "children": [
+              {
+                "tag": "ForceBlock",
+                "attributes": {
+                  "name": "#tmodules[0]"
+                },
+                "children": [
+                  {
+                    "tag": "ForceBlock",
+                    "attributes": {
+                      "name": "#deadends[3]"
+                    },
+                    "children": []
+                  },
+                  {
+                    "tag": "Path",
+                    "attributes": {
+                      "name": "#path",
+                      "length": "1",
+                      "dontgoback": "true"
+                    },
+                    "children": [
+                      {
+                        "tag": "ForceBlock",
+                        "attributes": {
+                          "name": "#tmodules[1]"
+                        },
+                        "children": [
+                          {
+                            "tag": "ForceBlock",
+                            "attributes": {
+                              "name": "#deadends[0]"
+                            },
+                            "children": []
+                          },
+                          {
+                            "tag": "Path",
+                            "attributes": {
+                              "name": "#path",
+                              "length": "1",
+                              "dontgoback": "true"
+                            },
+                            "children": [
+                              {
+                                "tag": "ForceBlock",
+                                "attributes": {
+                                  "name": "#path[4]"
+                                },
+                                "children": [
+                                  {
+                                    "tag": "ForceBlock",
+                                    "attributes": {
+                                      "name": "#tmodules[0]"
+                                    },
+                                    "children": [
+                                      {
+                                        "tag": "ForceBlock",
+                                        "attributes": {
+                                          "name": "#deadends[3]"
+                                        },
+                                        "children": []
+                                      },
+                                      {
+                                        "tag": "ForceBlock",
+                                        "attributes": {
+                                          "name": "#deadends[5]"
+                                        },
+                                        "children": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "original_xml_error": 9,
+      "original_error_description": "Error reading end tag."
+    },
+    "data/scene/023_watertemple.rule.xml": {
+      "tree": {
+        "tag": "rules",
+        "attributes": {
+          "target": "iphone",
+          "folder": "data/3d/modules/water_temple",
+          "ambientColor": "0.5,0.5,0.5",
+          "scriptFile": "data\\pydata\\scripts\\023_watertemple_01.pyscript",
+          "camera_znear": "900",
+          "camera_zfar": "5000",
+          "music": "WaterTempleCaveAmbientMusic",
+          "ambiant_music": "sfx_water_temple_ambiance",
+          "fog_start": "4000",
+          "fog_end": "5800",
+          "fog_color": "1.14,0.36,0.49",
+          "light_set": "data/3D/Light/watertemple.lightset_xml",
+          "fixed_light_set": "data/3D/Light/watertemple_es1_1.lightset_xml",
+          "prog_vertex_buffer_size": "280800",
+          "prog_index_buffer_size": "35100",
+          "fix_vertex_buffer_size": "1669068",
+          "fix_index_buffer_size": "149814"
+        },
+        "children": [
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "deadends",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_watertemp_e_00",
+                  "gameplay": "watertemple_deadend_e_01.mgp",
+                  "visual": "watertemple_deadend_e_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_watertemp_w_00",
+                  "gameplay": "watertemple_deadend_w_01.mgp",
+                  "visual": "watertemple_deadend_w_00.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_watertemp_w_00",
+                  "gameplay": "watertemple_deadend_w_02.mgp",
+                  "visual": "watertemple_deadend_w_00.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_watertemp_n_00",
+                  "gameplay": "watertemple_deadend_n_01.mgp",
+                  "visual": "watertemple_deadend_n_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_watertemp_n_00",
+                  "gameplay": "watertemple_deadend_n_02.mgp",
+                  "visual": "watertemple_deadend_n_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "deadend_watertemp_s_00",
+                  "gameplay": "watertemple_deadend_s_01.mgp",
+                  "visual": "watertemple_deadend_s_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "tmodules",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "t_watertemp_wse_00",
+                  "gameplay": "watertemple_t_wse_01.mgp",
+                  "visual": "watertemple_t_wse_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "t_watertemp_nsw_00",
+                  "gameplay": "watertemple_t_nsw_01.mgp",
+                  "visual": "watertemple_t_nsw_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "t_watertemp_nsw_00",
+                  "gameplay": "watertemple_t_nsw_02.mgp",
+                  "visual": "watertemple_t_nsw_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "end",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "objend_watertemp_s_00",
+                  "gameplay": "watertemple_deadend_objend_s_01.mgp",
+                  "visual": "watertemple_deadend_objend_s_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "objective_rooms",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "objmid_watertemp_ns_00",
+                  "gameplay": "watertemple_straight_objmid_ns_01.mgp",
+                  "visual": "watertemple_straight_objmid_ns_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "t_watertemp_wse_00",
+                  "gameplay": "watertemple_t_wse_02.mgp",
+                  "visual": "watertemple_t_wse_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "start",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "objstart_watertemp_s_00",
+                  "gameplay": "watertemple_deadend_objstart_w_01.mgp",
+                  "visual": "watertemple_deadend_objstart_w_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "path",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_watertemp_se_00",
+                  "gameplay": "watertemple_corner_se_01.mgp",
+                  "visual": "corner_watertemp_se_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_watertemp_ne_00",
+                  "gameplay": "watertemple_corner_ne_01.mgp",
+                  "visual": "watertemple_corner_ne_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_watertemp_wn_00",
+                  "gameplay": "watertemple_corner_wn_03.mgp",
+                  "visual": "watertemple_corner_wn_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_watertemp_sw_00",
+                  "gameplay": "watertemple_corner_sw_03.mgp",
+                  "visual": "watertemple_corner_sw_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straight_watertemp_ew_00",
+                  "gameplay": "watertemple_straight_ew_01.mgp",
+                  "visual": "watertemple_straight_ew_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "list",
+            "attributes": {
+              "name": "randpath",
+              "random": "true"
+            },
+            "children": [
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_watertemp_ne_00",
+                  "gameplay": "watertemple_corner_ne_02.mgp",
+                  "visual": "watertemple_corner_ne_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_watertemp_ne_00",
+                  "gameplay": "watertemple_corner_ne_03.mgp",
+                  "visual": "watertemple_corner_ne_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_watertemp_ne_00",
+                  "gameplay": "watertemple_corner_ne_04.mgp",
+                  "visual": "watertemple_corner_ne_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_watertemp_wn_00",
+                  "gameplay": "watertemple_corner_wn_01.mgp",
+                  "visual": "watertemple_corner_wn_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_watertemp_wn_00",
+                  "gameplay": "watertemple_corner_wn_02.mgp",
+                  "visual": "watertemple_corner_wn_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_watertemp_sw_00",
+                  "gameplay": "watertemple_corner_sw_01.mgp",
+                  "visual": "watertemple_corner_sw_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_watertemp_sw_00",
+                  "gameplay": "watertemple_corner_sw_02.mgp",
+                  "visual": "watertemple_corner_sw_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straight_watertemp_ew_00",
+                  "gameplay": "watertemple_straight_ew_01.mgp",
+                  "visual": "watertemple_straight_ew_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straight_watertemp_ew_00",
+                  "gameplay": "watertemple_straight_ew_02.mgp",
+                  "visual": "watertemple_straight_ew_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straight_watertemp_ns_00",
+                  "gameplay": "watertemple_straight_ns_01.mgp",
+                  "visual": "watertemple_straight_ns_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straight_watertemp_ns_00",
+                  "gameplay": "watertemple_straight_ns_02.mgp",
+                  "visual": "watertemple_straight_ns_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straight_watertemp_ns_00",
+                  "gameplay": "watertemple_straight_ns_03.mgp",
+                  "visual": "watertemple_straight_ns_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straight_watertemp_ns_00",
+                  "gameplay": "watertemple_straight_ns_04.mgp",
+                  "visual": "watertemple_straight_ns_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "straight_watertemp_ns_00",
+                  "gameplay": "watertemple_straight_ns_05.mgp",
+                  "visual": "watertemple_straight_ns_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_watertemp_ne_00",
+                  "gameplay": "watertemple_corner_ne_02.mgp",
+                  "visual": "watertemple_corner_ne_01.mvp"
+                },
+                "children": []
+              },
+              {
+                "tag": "elem",
+                "attributes": {
+                  "name": "corner_watertemp_ne_00",
+                  "gameplay": "watertemple_corner_ne_03.mgp",
+                  "visual": "watertemple_corner_ne_01.mvp"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "RootRule",
+            "attributes": {
+              "name": "#start"
+            },
+            "children": [
+              {
+                "tag": "Path",
+                "attributes": {
+                  "name": "#randpath",
+                  "length": "3",
+                  "dontgoback": "true"
+                },
+                "children": [
+                  {
+                    "tag": "ForceBlock",
+                    "attributes": {
+                      "name": "#tmodules"
+                    },
+                    "children": [
+                      {
+                        "tag": "ForceBlock",
+                        "attributes": {
+                          "name": "#objective_rooms[0]"
+                        },
+                        "children": [
+                          {
+                            "tag": "ForceBlock",
+                            "attributes": {
+                              "name": "#objective_rooms[1]"
+                            },
+                            "children": [
+                              {
+                                "tag": "Path",
+                                "attributes": {
+                                  "name": "#randpath",
+                                  "length": "3",
+                                  "dontgoback": "true"
+                                },
+                                "children": [
+                                  {
+                                    "tag": "ForceBlock",
+                                    "attributes": {
+                                      "name": "#end"
+                                    },
+                                    "children": []
+                                  }
+                                ]
+                              },
+                              {
+                                "tag": "ForceBlock",
+                                "attributes": {
+                                  "name": "#deadends"
+                                },
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "tag": "ForceBlock",
+                        "attributes": {
+                          "name": "#deadends"
+                        },
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "original_xml_error": 0,
+      "original_error_description": ""
+    }
+  },
+  "sanitizers": true,
+  "layout_generation_verified": false,
+  "full_loader_verified": false
+}

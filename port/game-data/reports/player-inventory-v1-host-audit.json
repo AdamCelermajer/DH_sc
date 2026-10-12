@@ -1,0 +1,153 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_sha256": {
+    "port/game-data/data.hpp": "ecc6a73c30c67685af8a3c9d5e70c5ddb9e74143da47abcd355592f791dd2901",
+    "port/game-data/item_inventory_v1.cpp": "8659c2db2da2e361e6ab4353f85a3cd9859f452890426b8bf5fa07f8d98ecdd6",
+    "port/game-data/item_inventory_v1.hpp": "e5f67b4cf43a9c726c79eb1a0dc5455738a7fc1b1a0f6ce0a4b7aa987186a847",
+    "port/game-data/items.cpp": "094bf9c52b35f65ba2829dbeee25cae68040271074c9a92a6d4478cfa4b53cfb",
+    "port/game-data/items.hpp": "7657720fcb66d6d5c26a02f6288214278f2124e0c766c963301cbd1f3944b98f",
+    "port/game-data/player_profile_index_v1.cpp": "6755573808a8869fe562cf476a7e581dbba8fa6ece0d6a226d8818c403cac04a",
+    "port/game-data/player_profile_index_v1.hpp": "b6f461352da1bbfc898f50636a77930b44ab98f358e813d3d599267aa8f7f4ca",
+    "port/game-data/player_savegame_v1.cpp": "5affc8e4c046ab84156fb2a9b12dac3fffca5af827f1431367c2aa73dea78e92",
+    "port/game-data/player_savegame_v1.hpp": "3addcdbb3a286f15b7ebd479e0a1e54395a030aa1117be0ba35f3193bfa66e8c",
+    "port/game-data/skill_tables.cpp": "85695e3a274dae96bb92abcfdd12bdfb24b4d9f910f0026a777a39ce6c5534dd",
+    "port/game-data/skill_tables.hpp": "fe01ceadd86c43a2a6f92bcf8edd76466643c521db01b7176bab25fad311abab",
+    "port/game-data/tests/inventory_potions_v1.cpp": "e1d9e57fc367fef4c8bb3e2f304c4f9ca5cc8d141e5dc5ab558872d773a5bb89",
+    "port/game-data/tests/inventory_potions_v1_original.py": "44e4161b6b0928052f6f23c823f677e86d1143824873d93dab8d5f331b479e65",
+    "port/game-data/tests/item_inventory_v1.cpp": "26b15a7d7cebf298a9fab807de8c04b54db97ea3135d4d7c38873a075e1874fa",
+    "port/game-data/tests/item_inventory_v1_original.py": "ad586044ca5861b18aa45ed4c11cf8a5c6543433027d732316f74b909d79787e",
+    "port/game-data/tests/player_faeries_v1.cpp": "7912f6b7625b1d2724afc734c4483f4ee45bb01fe6d76b582dcd97147ecfad1d",
+    "port/game-data/tests/player_faeries_v1_original.py": "196c3b86c47e249a36ddce57e8d069f9f1a36a88a29939e2bf69e682954e609f",
+    "port/game-data/tests/player_load_order_v1_original.py": "fa82bd53afde22e83080372a97c626e93c61efcffb03367aa1435f01899b0ffa",
+    "port/game-data/tests/player_metadata_v1.cpp": "8c8992dd1c126d1c21d7a635f22c08542df347a4ca17dcf43c49d38f9ff58e2a",
+    "port/game-data/tests/player_metadata_v1_original.py": "27a0607ee25ad84351fc9bb0ddc290a10c485a75ad745dde32a5b4d5e3b7d90a",
+    "port/game-data/tests/player_profile_index_v1.cpp": "4baf02bb6360ac4ff2810370aeefcb32ab121f2255f5897eb0477519f6a08a7b",
+    "port/game-data/tests/player_profile_index_v1_differential.py": "8038676fbedbc3114e7c0453dc29e6a39f40ac8133511684b9236b0e73a80bb4",
+    "port/game-data/tests/player_profile_index_v1_original.py": "1dc3dcf7246e9fbe55d12fc4368d4be462150d05c37021414c790f704dc6978f",
+    "port/game-data/tests/player_savegame_v1.cpp": "9730efad7b4960fe8b7904885592d6328bc7e7f600b9ff0b576ab75e2272dcf3",
+    "port/game-data/tests/player_savegame_v1_differential.py": "4eb9d3f8cbeca976ac35078559ca4d90bcad46474e95c7a13bbae21ecd064d15",
+    "port/game-data/tests/player_savegame_v1_original.py": "9ee8850a604f5b786cc937893745c5097ad6f839bd72a47f4072e210bdfe4c25"
+  },
+  "asset_sha256": {
+    ".local-inputs/combat-data/character_classes_pyarraynames.bin": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe",
+    ".local-inputs/items-discovery/loot_table_pyarray.bin": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+    ".local-inputs/items-discovery/loot_table_pyarraynames.bin": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba",
+    ".local-inputs/items-discovery/loot_table_pystructnames.bin": "ed6721327d6779e47e4def679ddeb796cf5da7ba0348d10996172e64d58bd323",
+    ".local-inputs/skill-tables/skills_pyarray.bin": "e336986d5aee78fd1aed7fe7ec43cc8d58fa03d4fd27216779c0e96e47acc2d6",
+    ".local-inputs/skill-tables/skills_pyarraynames.bin": "31642dc0d8bf11f1ebd13698bbefda4fda0aefa2c727fb4ae9449f2df073fb9f",
+    ".local-inputs/skill-tables/skills_pystructnames.bin": "fd882501b0b7af0191272e6802558d1e1ac4031f6237cf5e2c767ebae946f4b9"
+  },
+  "host_audits": {
+    "player-owner-audit": {
+      "path": ".local-inputs/player-inventory-v1/host/player-owner-audit",
+      "executable_sha256": "354cd682c449d1e96fed5e6e1c55d3dacc9824c08358b4928b569ec72432033e",
+      "arguments": [
+        "port/game-data/reference/player-savegame-v1/fixtures.bin",
+        ".local-inputs/skill-tables"
+      ],
+      "audit": {
+        "validation": "PASS",
+        "cases": 64,
+        "comparisons": 1536,
+        "query_checks": 58824,
+        "guards": 8,
+        "mismatches": 0
+      }
+    },
+    "inventory-owner-audit": {
+      "path": ".local-inputs/player-inventory-v1/host/inventory-owner-audit",
+      "executable_sha256": "e0b203a168de0f2bf341037883d969fbf43bb7fe1d1d26b2a2a3ff2a053f87d2",
+      "arguments": [
+        "port/game-data/reference/item-inventory-v1/fixtures.bin",
+        ".local-inputs/items-discovery"
+      ],
+      "audit": {
+        "validation": "PASS",
+        "original_load_cases": 72,
+        "ordered_required_service_deliveries": 1583,
+        "guards": 15,
+        "source_item_rows": 1322,
+        "mismatches": 0,
+        "deeper_game_services": "controlled fixtures"
+      }
+    },
+    "faery-save-audit": {
+      "path": ".local-inputs/player-inventory-v1/host/faery-save-audit",
+      "executable_sha256": "8ad59f3b90399635d874d5f5006cf3bccf9139bba4440f350707722d2cbb36d9",
+      "arguments": [
+        "port/game-data/reference/player-savegame-v1/faery-fixtures.bin"
+      ],
+      "audit": {
+        "validation": "PASS",
+        "comparisons": 864,
+        "source_count_mismatch_stops": 18,
+        "level_queries": 12960,
+        "guards": 4,
+        "mismatches": 0
+      }
+    },
+    "potion-owner-audit": {
+      "path": ".local-inputs/player-inventory-v1/host/potion-owner-audit",
+      "executable_sha256": "509bac5e40a1a1ee9b4df746d1f9caff36b9605c23930ab7098f371b491359f2",
+      "arguments": [
+        "port/game-data/reference/item-inventory-v1/potion-fixtures.bin",
+        ".local-inputs/items-discovery"
+      ],
+      "audit": {
+        "validation": "PASS",
+        "comparisons": 768,
+        "ordered_required_services": 1396,
+        "guards": 3,
+        "mismatches": 0
+      }
+    },
+    "profile-index-audit": {
+      "path": ".local-inputs/player-inventory-v1/host/profile-index-audit",
+      "executable_sha256": "3502191296ed30847dba36a84356c12a623154522a411189c1c999d1ced5f168",
+      "arguments": [
+        "port/game-data/reference/player-profile-index-v1/fixtures.bin"
+      ],
+      "audit": {
+        "validation": "PASS",
+        "original_cases": 96,
+        "section_checks": 344,
+        "guards": 142,
+        "mismatches": 0
+      }
+    },
+    "metadata-audit": {
+      "path": ".local-inputs/player-inventory-v1/host/metadata-audit",
+      "executable_sha256": "ae744da5367eca180f8f5695dbf398b35bb8c92f6b59adbc4523c92cb5313f51",
+      "arguments": [
+        "port/game-data/reference/player-savegame-v1/metadata-fixtures.bin",
+        ".local-inputs/combat-data/character_classes_pyarraynames.bin"
+      ],
+      "audit": {
+        "validation": "PASS",
+        "original_cases": 128,
+        "reader_comparisons": 384,
+        "mismatches": 0
+      }
+    }
+  },
+  "original_derived_owner_comparisons": 3720,
+  "ordered_required_inventory_services": 2979,
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "leak": true,
+    "findings": 0
+  },
+  "compiler": "WSL GCC 15.2 -O1 -g -fno-fast-math -ffp-contract=off -fsanitize=address,undefined -fno-omit-frame-pointer",
+  "scope": {
+    "whole_owned_skill_and_faery_state": true,
+    "owned_inventory_item_slot_and_potion_lifetime": true,
+    "original_metadata_and_campaign_index_readers": true,
+    "deeper_item_effects": "required controlled services in corpus, not reconstructed",
+    "campaign_fresh_player_creation": false,
+    "campaign_file_open_backup_save": false,
+    "packaged_or_live_game": false,
+    "physical_arm64_device": false
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK9Character10IsMerchantEv",
+      "elf_address": "0x3a30c4",
+      "size": 24,
+      "sha256": "cd67635d1bb9fc3c66dd5f4389a88dc243ed18421674eaf1a93d636ad390f84b"
+    },
+    {
+      "original_symbol": "_ZNK13ScriptManager17IsCutSceneRunningEv",
+      "elf_address": "0x455c54",
+      "size": 108,
+      "sha256": "0182db29f3f1a37b0dc50ec5255119aea8435385d8a1e8b4ef4d9813ca797510"
+    },
+    {
+      "original_symbol": "_ZNK9Character10CanRespawnEv",
+      "elf_address": "0x3a5248",
+      "size": 92,
+      "sha256": "27df1bd744d4a5811a3f66dbaa480d14a6ec6fd6b6cf6c2c0fc8f2fbf8355e28"
+    },
+    {
+      "original_symbol": "_ZN10ObjectBase23TestCullingBeforeUpdateERK4aabbIfE",
+      "elf_address": "0x33de90",
+      "size": 432,
+      "sha256": "b9aee9f9480608db35d0e617cdd58d28f20e829d076b683afa3aef1edfecc7ec"
+    },
+    {
+      "original_symbol": "_ZN9Character13UpdateStateFXEv",
+      "elf_address": "0x3a4470",
+      "size": 556,
+      "sha256": "b4882cc05af9b52b5003b9fdc4faa2c9f6168aee0d8b47c1bd1914d4ac143b84"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScript19CallStateConditionsEv",
+      "elf_address": "0x3d8ea0",
+      "size": 20,
+      "sha256": "dc6f8887142c6d1db5d90d035740a2342645d48af746b5c8c4511e7f0bbcbb4f"
+    },
+    {
+      "original_symbol": "_Z17IsMultiplayerGamev",
+      "elf_address": "0x3a42f4",
+      "size": 80,
+      "sha256": "ffa1930eb582b6931f67543a85c58835989087efd014d3a2ca1d043fbc10f25e"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScript15CallStateUpdateEv",
+      "elf_address": "0x3d8eb4",
+      "size": 20,
+      "sha256": "a220137eb4be41b001f29b24a8f1bf809e4b8f3aeacd89dad90cd92497fb2369"
+    },
+    {
+      "original_symbol": "_ZN10GameObject20UpdateTargetPositionEv",
+      "elf_address": "0x393d74",
+      "size": 64,
+      "sha256": "9bc7c5b9c2bb0c4d56cabe44e41bad06739e84e8b846fd33fb50644dd0bba8ac"
+    }
+  ]
+}

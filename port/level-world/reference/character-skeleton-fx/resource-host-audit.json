@@ -1,0 +1,166 @@
+{
+  "validation": "PASS",
+  "resource": {
+    "dictionary_id": 283,
+    "name": "zombie_spawn_fx",
+    "path": "data/3D/interface/zombie_spawn_fx.bdae",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/zombie_spawn_fx.bdae",
+    "bytes": 17288,
+    "sha256": "b54e3b05ba684eca654c8a58b8ebd5e84f7cad25929e0b5a60405f66dfdc772e",
+    "header": "42524553feff00003c000000884300007f020000000000003c000000380a0000a816000068170000"
+  },
+  "textures": {
+    "atlas_fx_particles_001": {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_fx_particles_001.tga",
+      "bytes": 131132,
+      "sha256": "2256f485a94b00e8a8e5cbf93f0ff2038eff8d289ad73386683459ce01767b1b"
+    },
+    "atlas_fx_particles_002": {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_fx_particles_002.tga",
+      "bytes": 524348,
+      "sha256": "8a64e888f2d57f72143b07644ee29d91d5e4a1a46db26d4e482b5f2f7bfabe18"
+    }
+  },
+  "native_reader": {
+    "validation": "PASS",
+    "bytes": 17288,
+    "nodes": 5,
+    "instances": 1,
+    "ignored_instances": 4,
+    "animation_tracks": 0,
+    "skipped_tracks": 3,
+    "unbound_tracks": 0,
+    "start": 0,
+    "end": 0,
+    "materials": [
+      {
+        "id": "Standard_13",
+        "diffuse": "atlas_fx_particles_001.tga",
+        "alpha_map": "",
+        "additive": false
+      },
+      {
+        "id": "fx_particles_alpha_001",
+        "diffuse": "atlas_fx_particles_001.tga",
+        "alpha_map": "",
+        "additive": false
+      },
+      {
+        "id": "fx_particles_alpha_002",
+        "diffuse": "atlas_fx_particles_002.tga",
+        "alpha_map": "",
+        "additive": false
+      }
+    ],
+    "raw_animations": [
+      {
+        "target": "Standard_13",
+        "channels": 1,
+        "samplers": 1,
+        "start": 0,
+        "end": 1833,
+        "types": [
+          86
+        ]
+      },
+      {
+        "target": "gl_pcloud_debris-emitter",
+        "channels": 1,
+        "samplers": 1,
+        "start": 0,
+        "end": 1833,
+        "types": [
+          28
+        ]
+      },
+      {
+        "target": "gl_pcloud_dust-emitter",
+        "channels": 1,
+        "samplers": 1,
+        "start": 0,
+        "end": 1833,
+        "types": [
+          28
+        ]
+      }
+    ],
+    "source_factory_executed": false,
+    "GPU_executed": false
+  },
+  "private_snapshot": {
+    "libdh2_level_world.so": {
+      "original_path": "/home/adampalace/dh2-world-build/libdh2_level_world.so",
+      "sha256": "ae66686e6aaff69c03c966351ee64401af31c82bc7629b78977ca9abbdd0bafc"
+    },
+    "libdh2_engine_skinning.so": {
+      "original_path": "/home/adampalace/dh2-world-build/engine-skinning/libdh2_engine_skinning.so",
+      "sha256": "5c40960c2deec5bf2752f5b9972cdc4cb7e254c833815df97c948538b230be4b"
+    },
+    "libdh2_game_data.so": {
+      "original_path": "/home/adampalace/dh2-world-build/game-data/libdh2_game_data.so",
+      "sha256": "ac2e2f7c4b568db0d4bfee2ae6101aa38fef376fd6f8105739b2db76b65b056d"
+    },
+    "libdh2_script_runtime.so": {
+      "original_path": "/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so",
+      "sha256": "3f1886b22c2230e6ddda5c75fae248d0a710b75034eac3144489f9992b7f9945"
+    },
+    "libdh2_engine_animation.so": {
+      "original_path": "/home/adampalace/dh2-world-build/engine-skinning/engine-animation/libdh2_engine_animation.so",
+      "sha256": "05e35956a29b774459206298e54efb5c02afc3bdda0c1ed1a12ccd95877ae856"
+    },
+    "libdh2_scene_materials.so": {
+      "original_path": "/home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.so",
+      "sha256": "08b26f5c9f913919fd76e054e1f2aa2dc5ff4d0ac073cd7171ef08f96c975411"
+    }
+  },
+  "source_sha256": {
+    "port\\level-world\\reference\\character-skeleton-fx\\resource-probe.cpp": "fb28b591e38fac4574f13b6885907ddd3dddf3566af3c752eef8eae12c7f81bc",
+    "port\\level-world\\reference\\character-skeleton-fx\\resource-host.py": "3d8ead72f14e31bd0674017b0540801242f33d48128e77d919ebb2e45fed6638"
+  },
+  "executable_sha256": "576904c01b1e0dddd540b0b7940ea0c81a08315abff0d52f353ab4181891e9e1",
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer"
+  ],
+  "sanitizer_findings": 0,
+  "scope": "Read exact FX283 scene/material/animation payload with existing native DSOs.\nNo original scene factory, shader/GPU or FX event loop parity is asserted.\n",
+  "commands": [
+    {
+      "arguments": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/reference/character-skeleton-fx/resource-probe.cpp",
+        "-L/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/dependencies",
+        "-ldh2_engine_animation",
+        "-ldh2_scene_materials",
+        "-Wl,-rpath,/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/dependencies",
+        "-o",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/resource-probe"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "env",
+        "LD_LIBRARY_PATH=/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/dependencies",
+        "ASAN_OPTIONS=detect_leaks=1:abort_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-discovery/resource-probe",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skeleton-fx-assets/zombie_spawn_fx.bdae"
+      ],
+      "returncode": 0,
+      "stdout": "{\"validation\":\"PASS\",\"bytes\":17288,\"nodes\":5,\"instances\":1,\"ignored_instances\":4,\"animation_tracks\":0,\"skipped_tracks\":3,\"unbound_tracks\":0,\"start\":0,\"end\":0,\"materials\":[{\"id\":\"Standard_13\",\"diffuse\":\"atlas_fx_particles_001.tga\",\"alpha_map\":\"\",\"additive\":false},{\"id\":\"fx_particles_alpha_001\",\"diffuse\":\"atlas_fx_particles_001.tga\",\"alpha_map\":\"\",\"additive\":false},{\"id\":\"fx_particles_alpha_002\",\"diffuse\":\"atlas_fx_particles_002.tga\",\"alpha_map\":\"\",\"additive\":false}],\"raw_animations\":[{\"target\":\"Standard_13\",\"channels\":1,\"samplers\":1,\"start\":0,\"end\":1833,\"types\":[86]},{\"target\":\"gl_pcloud_debris-emitter\",\"channels\":1,\"samplers\":1,\"start\":0,\"end\":1833,\"types\":[28]},{\"target\":\"gl_pcloud_dust-emitter\",\"channels\":1,\"samplers\":1,\"start\":0,\"end\":1833,\"types\":[28]}],\"source_factory_executed\":false,\"GPU_executed\":false}\n",
+      "stderr": ""
+    }
+  ]
+}

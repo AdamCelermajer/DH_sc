@@ -1,0 +1,92 @@
+[
+  {
+    "candidate": "assigned_root_source_v64.hpp",
+    "baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\assigned_root_source_v64.hpp",
+    "target": "port/level-loader/assigned_root_source_v64.hpp"
+  },
+  {
+    "candidate": "cached_level_file_v1.hpp",
+    "baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\cached_level_file_v1.hpp",
+    "target": "port/level-loader/cached_level_file_v1.hpp"
+  },
+  {
+    "candidate": "cached_level_file_v1.cpp",
+    "baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\cached_level_file_v1.cpp",
+    "target": "port/level-loader/cached_level_file_v1.cpp"
+  },
+  {
+    "candidate": "canonical_cached_file_v1.hpp",
+    "baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\canonical_cached_file_v1.hpp",
+    "target": "port/level-loader/canonical_cached_file_v1.hpp"
+  },
+  {
+    "candidate": "canonical_cached_file_v1.cpp",
+    "baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\canonical_cached_file_v1.cpp",
+    "target": "port/level-loader/canonical_cached_file_v1.cpp"
+  },
+  {
+    "candidate": "retained_level_module_graph_v1.hpp",
+    "baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\retained_level_module_graph_v1.hpp",
+    "target": "port/level-loader/retained_level_module_graph_v1.hpp"
+  },
+  {
+    "candidate": "retained_level_module_graph_v1.cpp",
+    "baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\retained_level_module_graph_v1.cpp",
+    "target": "port/level-loader/retained_level_module_graph_v1.cpp"
+  },
+  {
+    "candidate": "level_source_loading_v43.hpp",
+    "baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\level_source_loading_v43.hpp",
+    "target": "port/level-loader/level_source_loading_v43.hpp"
+  },
+  {
+    "candidate": "level_source_loading_v43.cpp",
+    "baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\level_source_loading_v43.cpp",
+    "target": "port/level-loader/level_source_loading_v43.cpp"
+  },
+  {
+    "candidate": "xml_document_v1.hpp",
+    "baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\xml_document_v1.hpp",
+    "target": "port/level-loader/xml_document_v1.hpp"
+  },
+  {
+    "candidate": "xml_document_v1.cpp",
+    "baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\xml_document_v1.cpp",
+    "target": "port/level-loader/xml_document_v1.cpp"
+  },
+  {
+    "candidate": "stage_loader_v38_root_file.hpp",
+    "baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\stage_loader_v38_root_file.hpp",
+    "target": "port/level-loader/stage_loader_v38_root_file.hpp"
+  },
+  {
+    "candidate": "assigned_loadfile_kernel_v65.hpp",
+    "baseline": null,
+    "target": "port/level-loader/assigned_loadfile_kernel_v65.hpp"
+  },
+  {
+    "candidate": "assigned_loadfile_kernel_v65.cpp",
+    "baseline": null,
+    "target": "port/level-loader/assigned_loadfile_kernel_v65.cpp"
+  },
+  {
+    "candidate": "filename_root_source_v65.hpp",
+    "baseline": null,
+    "target": "port/level-loader/filename_root_source_v65.hpp"
+  },
+  {
+    "candidate": "stage7_cancel_cleanup.hpp",
+    "baseline": null,
+    "target": "port/level-loader/stage7_cancel_cleanup.hpp"
+  },
+  {
+    "candidate": "canonical_level_context_v1.hpp",
+    "baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader\\canonical_level_context_v1.hpp",
+    "target": "port/level-loader/vendor/character-rng-integration-v5-loading/port/level-loader/canonical_level_context_v1.hpp"
+  },
+  {
+    "candidate": "savegame_stream_v2.hpp",
+    "baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\savegame_stream_v2.hpp",
+    "target": "port/level-loader/vendor/character-rng-integration-v5-loading/port/level-world/savegame_stream_v2.hpp"
+  }
+]

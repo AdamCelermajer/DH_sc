@@ -1,0 +1,214 @@
+--- port/level-world/canonical_room_zone_factory_v3.hpp
++++ port/level-world/canonical_room_zone_factory_v3.hpp
+@@ -5,9 +5,13 @@
+ struct CanonicalRoomZoneRecordV3 {
+  actor::RuntimeState runtime;
+  std::unique_ptr<CanonicalRoomZoneV3> receiver;
++ bool constructor_started_v91{},constructor_completed_v91{},constructor_failed_v91{};
+ };
+ struct CanonicalRoomZoneConstructionV3 {
+  std::shared_ptr<void> world;
++ // Actual release journal retains SAME record before C1; failure is retained.
++ std::function<bool(const std::shared_ptr<CanonicalRoomZoneRecordV3>&,const CanonicalFactoryEntryV1&,std::string&)> admit_before_c1_v91;
++ std::function<bool(const std::shared_ptr<CanonicalRoomZoneRecordV3>&,const CanonicalClassReceiverV1&,std::string&)> admit_after_c1_v91;
+  // Services capture weak record, then borrow its receiver after construction.
+  std::function<bool(const std::shared_ptr<CanonicalRoomZoneRecordV3>&,RoomZoneServicesV3&,std::string&)> services;
+ };
+@@ -20,6 +24,7 @@
+  explicit CanonicalRoomZoneFactoryV3(CanonicalRoomZoneConstructionV3 c):construction_(std::move(c)){}
+  bool construct(const CanonicalFactoryEntryV1&,CanonicalClassReceiverV1&,std::string&);
+  CanonicalRoomZoneV3* find(std::uintptr_t)noexcept;
++ std::shared_ptr<CanonicalRoomZoneRecordV3> record_v91(std::uintptr_t id)const {auto p=records_.find(id);return p==records_.end()?nullptr:p->second;}
+  // Call only after SAME manager/pending/Room membership unpublication.
+  void erased(std::uintptr_t id){records_.erase(id);}
+ };
+--- port/level-world/canonical_room_zone_factory_v3.cpp
++++ port/level-world/canonical_room_zone_factory_v3.cpp
+@@ -7,7 +7,12 @@
+  if(!construction_.world||!construction_.services){error="Required SAME World RoomZone construction services";return false;}
+  auto record=std::make_shared<CanonicalRoomZoneRecordV3>();RoomZoneServicesV3 services;
+  if(!construction_.services(record,services,error))return false;
+- record->receiver=std::make_unique<CanonicalRoomZoneV3>(construction_.world,record->runtime,services);
++ if(!construction_.admit_before_c1_v91||!construction_.admit_after_c1_v91){error="Required actual generated RoomZone release/transport admission";return false;}
++ if(!construction_.admit_before_c1_v91(record,entry,error))return false;
++ record->constructor_started_v91=true;
++ try{record->receiver=std::make_unique<CanonicalRoomZoneV3>(construction_.world,record->runtime,services);}
++ catch(...){record->constructor_failed_v91=true;error="Actual RoomZone C1 threw; qualified prefix retained";return false;}
++ record->constructor_completed_v91=true;
+  auto& receiver=*record->receiver;receiver.base().class_name20()=entry.name;
+  CanonicalClassReceiverV1 result;result.object=receiver.canonical(record);
+  result.properties=[record]{return record->receiver->properties();};
+@@ -15,7 +20,7 @@
+  result.is_game_object=[](bool& value,std::string& e){e.clear();value=true;return true;};
+  result.position=[record](std::array<float,3>& value,std::string& e){e.clear();std::copy_n(record->runtime.subobjects.position,3,value.begin());return true;};
+  result.set_position=[record,position=services.position](const std::array<float,3>& value,bool destination,std::string& e){return game_object_set_position_v2(record->receiver->base(),value.data(),destination,position,e);};
+- records_.emplace(result.object.identity,record);out=std::move(result);return true;
++ records_.emplace(result.object.identity,record);out=std::move(result);return construction_.admit_after_c1_v91(record,out,error);
+ }
+ CanonicalRoomZoneV3* CanonicalRoomZoneFactoryV3::find(std::uintptr_t id)noexcept{auto i=records_.find(id);return i==records_.end()?nullptr:i->second->receiver.get();}
+ }
+--- port/level-world/module_room_zone_spawn_v3.hpp
++++ port/level-world/module_room_zone_spawn_v3.hpp
+@@ -18,6 +18,7 @@
+ public:
+  ModuleRoomZoneSpawnV3(CanonicalObjectManagerV1& m,CanonicalPropertyMapV1& p,
+   CanonicalRoomZoneFactoryV3& f,CanonicalSpawnServicesV1 s):manager_(m),properties_(p),factory_(f),source_(s){}
++ void erased_after_source_release_v91(std::uintptr_t);
+  bool spawn(const std::string&,target_providers::Handle16&,std::uint32_t&,std::string&);
+  bool init(target_providers::Handle16&,const std::array<float,6>&,std::uintptr_t,std::string&);
+ };
+--- port/level-world/module_room_zone_spawn_v3.cpp
++++ port/level-world/module_room_zone_spawn_v3.cpp
+@@ -1,8 +1,14 @@
+ #include "module_room_zone_spawn_v3.hpp"
++#include <algorithm>
+ namespace dh2::world {
++void ModuleRoomZoneSpawnV3::erased_after_source_release_v91(std::uintptr_t id){
++ receivers_.erase(id);
++ attempts_.erase(std::remove_if(attempts_.begin(),attempts_.end(),[id](const auto& attempt){return attempt->constructed_receiver().object.identity==id||attempt->handle().cached==id;}),attempts_.end());
++}
++
+ bool ModuleRoomZoneSpawnV3::construct(void* c,const CanonicalFactoryEntryV1& f,CanonicalClassReceiverV1& r,std::string& e){
+- auto& s=*static_cast<ModuleRoomZoneSpawnV3*>(c);if(!s.factory_.construct(f,r,e))return false;
+- s.receivers_[r.object.identity]=r;return true;
++ auto& s=*static_cast<ModuleRoomZoneSpawnV3*>(c);const bool ok=s.factory_.construct(f,r,e);
++ if(r.object.identity&&r.object.lease)s.receivers_[r.object.identity]=r;return ok;
+ }
+ bool ModuleRoomZoneSpawnV3::resolve(void* c,target_providers::Handle16& h,bool refresh,const CanonicalObjectBorrowV1*& o,std::string& e){
+  auto& s=*static_cast<ModuleRoomZoneSpawnV3*>(c);if(!s.source_.resolve){e="Required SAME RoomZone Handle source resolver";return false;}
+--- port/level-world/canonical_level_config_module_v1.hpp
++++ port/level-world/canonical_level_config_module_v1.hpp
+@@ -71,6 +71,7 @@
+  CanonicalPropertyFieldServicesV1 inherited_;ModuleRuntimeGlobalsV1& globals_;
+  ModuleInitServicesV1 services_;ModuleXmlFieldsV1 xml_;
+  std::array<float,3> fog_{-1,-1,-1};std::uint8_t floor375_{1},solid376_{1};
++ std::uint8_t visited3fc_{0}; // genuine ModuleC1 38a0b0
+  target_providers::Handle16 zone_{0,UINT32_MAX,0};std::int32_t id_{};
+  static bool read_bool(void*,std::uint32_t,std::uint8_t&,std::string&);
+  static bool write_bool(void*,std::uint32_t,std::uint8_t,std::string&);
+@@ -91,6 +92,8 @@
+  const ModuleXmlFieldsV1& xml()const noexcept{return xml_;}
+  const std::array<float,3>& fog_color()const noexcept{return fog_;}
+  std::array<float,3>& source_fog_color_v67()noexcept{return fog_;}
++ std::uint8_t& source_visited3fc_v91()noexcept{return visited3fc_;}
++ target_providers::Handle16& source_zone400_v91()noexcept{return zone_;}
+  std::int32_t module_id()const noexcept{return id_;}
+  std::uint8_t load_floor_pending()const noexcept{return floor375_;}
+ };
+--- port/level-world/canonical_module_graph_v3.hpp
++++ port/level-world/canonical_module_graph_v3.hpp
+@@ -34,6 +34,11 @@
+ public:
+  explicit CanonicalModuleGraphV3(CanonicalModuleGraphServicesV3 s):services_(std::move(s)){}
+  // Bind the campaign's genuine arena before any authored Module is created.
++ bool bind_generated_room_services_v91(
++  decltype(CanonicalModuleGraphServicesV3::spawn_zone),
++  decltype(CanonicalModuleGraphServicesV3::zone_init),std::string&);
++ bool module_receiver_v91(std::uintptr_t,std::shared_ptr<void>&,CanonicalModuleV1*&,std::string&);
++ bool module_visited_cell_v91(std::uintptr_t,std::shared_ptr<void>&,std::uint8_t*&,std::string&);
+  bool bind_condition_services_v75(const ConditionDataInitServicesV3&,std::string&);
+  bool bind(const std::shared_ptr<CanonicalModuleRecordV2>&,
+   GameObjectInitializationServicesV1& actual_platform,ModuleInitServicesV1&,std::string&);
+--- port/level-world/canonical_module_graph_v3.cpp
++++ port/level-world/canonical_module_graph_v3.cpp
+@@ -3,6 +3,19 @@
+ bool CanonicalModuleGraphV3::missing(const char* p,std::string& e)const{e=std::string("Required same canonical Module graph ")+p;return false;}
+ std::shared_ptr<RetainedModuleVisualV3> CanonicalModuleGraphV3::visual(std::uintptr_t id)const{
+  for(const auto& entry:entries_){auto p=entry.second->visuals.find(id);if(p!=entry.second->visuals.end())return p->second;}return {};
++}
++bool CanonicalModuleGraphV3::bind_generated_room_services_v91(
++ decltype(CanonicalModuleGraphServicesV3::spawn_zone) spawn,
++ decltype(CanonicalModuleGraphServicesV3::zone_init) init,std::string& e){
++ if(!entries_.empty()||services_.spawn_zone||services_.zone_init||!spawn||!init){e="Generated rooms require fresh SAME Module graph before C1";return false;}
++ services_.spawn_zone=std::move(spawn);services_.zone_init=std::move(init);e.clear();return true;
++}
++bool CanonicalModuleGraphV3::module_receiver_v91(std::uintptr_t id,std::shared_ptr<void>& pin,CanonicalModuleV1*& actual,std::string& e){
++ for(auto& pair:entries_){auto record=pair.second->record.lock();if(record&&record->receiver&&record->receiver->base().identity()==id){pin=record;actual=record->receiver.get();e.clear();return true;}}
++ e="Required SAME live Module receiver record";return false;
++}
++bool CanonicalModuleGraphV3::module_visited_cell_v91(std::uintptr_t id,std::shared_ptr<void>& pin,std::uint8_t*& byte,std::string& e){
++ CanonicalModuleV1* actual{};if(!module_receiver_v91(id,pin,actual,e))return false;byte=&actual->source_visited3fc_v91();return true;
+ }
+ bool CanonicalModuleGraphV3::bind_condition_services_v75(const ConditionDataInitServicesV3& same,std::string& e){
+  if(!entries_.empty()||!same.owner||!same.conditions||!same.construct_condition||!same.initialize_condition||!same.destroy_condition){
+--- port/level-loader/canonical_receiver_transport_v1.hpp
++++ port/level-loader/canonical_receiver_transport_v1.hpp
+@@ -37,6 +37,7 @@
+     // The canonical candidate lease must pin this transport through factory
+     // calls. The returned existing ABI has a borrowed context, not ownership.
+     world::CanonicalClassServicesV1 services()noexcept;
++    bool admit_constructed_source_v91(const world::CanonicalClassReceiverV1&,std::string&);
+     // Actual removal/deleting destructor calls this after unpublication.
+     // Duplicate Add erases only the newly constructed duplicate identity.
+     void erased(std::uintptr_t identity){receivers_.erase(identity);}
+--- port/level-loader/canonical_receiver_transport_v1.cpp
++++ port/level-loader/canonical_receiver_transport_v1.cpp
+@@ -21,6 +21,10 @@
+ bool CanonicalReceiverTransportV1::receiver(const world::CanonicalObjectBorrowV1& object,
+     const world::CanonicalClassReceiverV1*& out,std::string& error){
+     auto* actual=find(object,error);if(!actual)return false;out=actual;return true;
++}
++bool CanonicalReceiverTransportV1::admit_constructed_source_v91(const world::CanonicalClassReceiverV1& actual,std::string& e){
++ if(!actual.object.identity||!actual.object.lease||!actual.object.shared_handle||!actual.object.class_name20||!actual.properties||receivers_.count(actual.object.identity))return missing("fresh actual generated C1 dispatch",e);
++ receivers_.emplace(actual.object.identity,actual);e.clear();return true;
+ }
+ bool CanonicalReceiverTransportV1::construct(void* context,const world::CanonicalFactoryEntryV1& entry,
+     const world::CanonicalSourceObjectRequestV1& request,world::CanonicalObjectBorrowV1& out,std::string& error){
+--- port/level-loader/noncharacter_save_connection_v89.hpp
++++ port/level-loader/noncharacter_save_connection_v89.hpp
+@@ -8,6 +8,7 @@
+ #include <canonical_destructible_container_v16.hpp>
+ #include <canonical_light_point_v53.hpp>
+ #include <canonical_constructor_prefix_v89.hpp>
++#include <canonical_level_config_module_v1.hpp>
+ #include <functional>
+ #include <memory>
+ #include <cstring>
+@@ -15,11 +16,12 @@
+ #include <type_traits>
+ #include <canonical_gameobject_graph_v68.hpp>
+ namespace dh2::loader {
+-enum class NonCharacterSaveKindV89 {object_base,gameobject,trigger,door,trigger_object,container};
++enum class NonCharacterSaveKindV89 {object_base,gameobject,trigger,door,trigger_object,container,module};
+ struct NonCharacterSaveFieldsV89 {
+  NonCharacterSaveKindV89 kind{NonCharacterSaveKindV89::gameobject};world::ObjectSaveRestoreBorrowV3 base;
+  std::int32_t *timer3b8{},*activated3b4{},*door_state3a8{};
+- std::uint8_t *reset3b0{},*interactive784{};
++ std::uint8_t *reset3b0{},*interactive784{},*module_visited3fc{};
++ target_providers::Handle16* module_zone400{};
+  std::function<bool(std::int32_t&,std::string&)> container_state394;
+  std::function<bool(bool&,std::string&)> death_reset390;
+ };
+@@ -29,6 +31,7 @@
+  world::ObjectSaveRestoreServicesV3 gameobject; // existing assertion/visual kernel
+  std::shared_ptr<void> gameobject_context_owner; // pins actual callback context only
+  std::function<bool(std::uintptr_t,std::string&)> validate_current;
++ std::function<bool(target_providers::Handle16&,std::uint8_t&,std::string&)> module_room_set_visited;
+  // Actual App.GetCurrentLevel, borrowed at reached source points.
+  std::function<bool(NonCharacterLevelFlagsV89&,std::string&)> level_flags;
+  // Genuine same-Door Opened(false)/Closed(false), not startup approximations.
+@@ -59,6 +62,7 @@
+  if(!gameobject_save_fields_v89(actual.base(),out,e))return false;out.kind=NonCharacterSaveKindV89::container;
+  out.container_state394=[&actual](auto& value,std::string& e){value=actual.state();e.clear();return true;};out.death_reset390=[&actual](bool& value,std::string& e){std::uint8_t raw{};if(!actual.read_bool(0x390,raw,e))return false;value=raw!=0;return true;};return true;
+ }
++inline bool module_save_fields_v91(world::CanonicalModuleV1& actual,NonCharacterSaveFieldsV89& out,std::string& e){if(!gameobject_save_fields_v89(actual.base(),out,e))return false;out.kind=NonCharacterSaveKindV89::module;out.module_visited3fc=&actual.source_visited3fc_v91();out.module_zone400=&actual.source_zone400_v91();return true;}
+ inline bool light_save_fields_v89(world::CanonicalLightPointV53& actual,NonCharacterSaveFieldsV89& out,std::string& e){
+  out={};out.kind=NonCharacterSaveKindV89::object_base;out.base.identity=actual.identity();out.base.visible80=actual.source_save_byte_v89(0x80,e);out.base.enabled8a=actual.source_save_byte_v89(0x8a,e);out.base.tested_ac=actual.source_save_byte_v89(0xac,e);out.base.tested_d0=actual.source_save_byte_v89(0xd0,e);
+  // Source byte80 is genuinely unproduced until real visibility property/write;
+@@ -70,6 +74,7 @@
+  if(!world::gameobject_serialize_v3(s,f.base,e))return false;
+  if(f.kind==NonCharacterSaveKindV89::trigger||f.kind==NonCharacterSaveKindV89::trigger_object){if(!f.timer3b8||!f.activated3b4){e="Required actual Trigger serialization fields";return false;}return s.write_u32(static_cast<std::uint32_t>(*f.timer3b8),e)&&s.write_u32(static_cast<std::uint32_t>(*f.activated3b4),e);}
+  if(f.kind==NonCharacterSaveKindV89::door){if(!f.door_state3a8){e="Required actual Door state3a8";return false;}return s.write_u32(static_cast<std::uint32_t>(*f.door_state3a8),e);}
++ if(f.kind==NonCharacterSaveKindV89::module){if(!f.module_visited3fc){e="Required SAME Module3fc serialization cell";return false;}return s.write({f.module_visited3fc,1},e);}
+  if(f.kind==NonCharacterSaveKindV89::container){std::int32_t state{};if(!f.container_state394||!f.container_state394(state,e))return false;const auto byte=static_cast<std::uint8_t>(state);return s.write({&byte,1},e);}return true;
+ }
+ inline bool noncharacter_deserialize_v89(level::SavegameStreamV2& s,const NonCharacterSaveFieldsV89& f,const NonCharacterRestoreServicesV89& leaves,std::string& e){
+@@ -83,6 +88,8 @@
+   if(!reset&&(*level.bytef3||*level.bytef4))return true; // actual no-read branch
+  }
+  if(!world::gameobject_deserialize_v3(s,f.base,leaves.gameobject,e))return false;
++ if(f.kind==NonCharacterSaveKindV89::module){if(!f.module_visited3fc||!f.module_zone400){e="Required SAME Module3fc/400 restore cells";return false;}if(!s.read(f.module_visited3fc,1,e))return false;if(!leaves.module_room_set_visited){e="Required genuine Module400.GetObject(false)/RoomZone.SetVisited";return false;}return leaves.module_room_set_visited(*f.module_zone400,*f.module_visited3fc,e);}
++
+  if(f.kind==NonCharacterSaveKindV89::trigger||f.kind==NonCharacterSaveKindV89::trigger_object){
+   // Fresh App current Level AFTER GameObject base/SyncVisibility callback.
+   NonCharacterLevelFlagsV89 level;if(!flags(level))return false;if(!f.reset3b0){e="Required actual Trigger reset3b0";return false;}

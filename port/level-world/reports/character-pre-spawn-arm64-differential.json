@@ -1,0 +1,22 @@
+{
+  "validation": "PASS",
+  "scope": "Original complete PreSpawn Focus/Blur/Update/Event versus optimized ARM64.\nActual field stores/branches/string compare/table pointer reloads execute;\ndeeper Character/physics/animation/Spawn/debug dependencies are explicit services.\n",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "df311637c253be7f8c887b1ea372516188ab8ba66c5ebd7e4390847f71d242a1",
+  "inventory_sha256": "70571b96fd3e4c5f61471e4f8cd0b8522b3727ecd3ed2cbe224d9441637dd3cc",
+  "reference_sha256": "39248842633be43dcf4101528593d34982f02d33ae73e3d2884013bd28c73921",
+  "source_sha256": {
+    "port/level-world/character_pre_spawn.hpp": "dfb4631f7c9dfa1f9b875389fd094192f1632748740306899f4e0ed823c19c7b",
+    "port/level-world/character_pre_spawn.cpp": "3922755aa29ace4fca820269697068682b955c438a0f2c1037f33048554b3694",
+    "port/level-world/character_state_empty.hpp": "4d0791ec65ca99b68c233dc6f459562e35032dbd59638a463bfe1de591d0e64a",
+    "port/level-world/character_state_empty.cpp": "72ee801d1ea83f0dca1499fa03c9623f5c096e3a47191596a46c1a00ab38a62e",
+    "port/level-world/reference/character-state-methods/native-methods.inc": "508dc208f661105d0e3d9c1b7826383207b96638ad9a897c2ff927f3a6970ce1",
+    "port/level-world/tests/character_pre_spawn_differential.py": "b5421c7096f6707274669497f6a5c98443c3c9ab90641713206053155c7c0781"
+  },
+  "comparisons": 538,
+  "ordered_requests": 2698,
+  "mismatches": 0,
+  "table_pointer_and_stay_kind_reload_mutations": true,
+  "full_physics_spawn_revive_backends": false,
+  "packaged_APK": false
+}

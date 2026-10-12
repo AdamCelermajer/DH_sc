@@ -1,0 +1,17 @@
+{
+  "elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "symbols": [
+    "00359338 0000016c T SceneManager::drawAll(glitch::scene::ISceneNode*)",
+    "0058f348 00000644 T glitch::scene::CSceneManager::registerNodeForRendering(glitch::scene::ISceneNode*, boost::intrusive_ptr<glitch::video::CMaterial> const&, void*, glitch::scene::E_SCENE_NODE_RENDER_PASS, glitch::core::vector3d<float> const*, int)",
+    "0058b7f4 00000098 T glitch::scene::CSceneManager::drawAll(glitch::scene::ISceneNode*)",
+    "0058b728 00000084 T glitch::scene::CSceneManager::drawAll(std::vector<glitch::scene::ISceneNode*, glitch::core::SAllocator<glitch::scene::ISceneNode*, (glitch::memory::E_MEMORY_HINT)0>> const&)",
+    "00584d2c 000001a4 T glitch::scene::CMeshSceneNode::onRegisterSceneNode()",
+    "00585370 00000264 T glitch::scene::CMeshSceneNode::render(void*)",
+    "0035ebd0 00000060 W glitch::video::IVideoDriver::drawMeshBuffer(boost::intrusive_ptr<glitch::scene::CMeshBuffer const> const&)",
+    "00664ee0 00000124 T glitch::collada::CSkinnedMesh::skin(unsigned int)",
+    "006463c8 000001c0 T glitch::collada::CMeshSceneNode::onRegisterSceneNode()",
+    "00646730 000001f8 T glitch::collada::CMeshSceneNode::render(void*)",
+    "0066fe34 00000114 T glitch::collada::detail::CColladaSoftwareSkinTechnique::prepareCache()"
+  ],
+  "claim": "original symbol/address plus bounded disassembly evidence; this adapter does not reconstruct render-pass registration"
+}

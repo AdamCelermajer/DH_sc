@@ -1,0 +1,870 @@
+{
+  "validation": "PASS",
+  "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "factory": {
+    "address": "0x340800",
+    "allocation": 8080,
+    "GO_ID": 0,
+    "C1": "0x3aa1b4",
+    "CharAI_subobject": "0x3c8",
+    "master_offset": "0x3c8+0x50=0x418"
+  },
+  "constructor_cases": [
+    {
+      "poison": 0,
+      "fields": {
+        "charprops13c8": -1,
+        "template13ca": -1,
+        "master418": 0
+      },
+      "writes": [
+        {
+          "pc": "0x3cec70",
+          "offset": "0x418",
+          "bytes": 4,
+          "value": "0x0"
+        },
+        {
+          "pc": "0x3aa34c",
+          "offset": "0x13c8",
+          "bytes": 2,
+          "value": "0xffff"
+        },
+        {
+          "pc": "0x3aa354",
+          "offset": "0x13ca",
+          "bytes": 2,
+          "value": "0xffff"
+        }
+      ],
+      "intercepted_services": [
+        {
+          "allocator_fixture": 8080
+        },
+        {
+          "GameObjectC1_fixture_GO_ID": 0
+        },
+        {
+          "subobject_fixture": "ItemInventoryC1",
+          "this_offset": 892
+        },
+        {
+          "subobject_fixture": "CharTimersC1",
+          "this_offset": 948
+        },
+        {
+          "subobject_fixture": "global_CharAI_deque_storage",
+          "this_offset": 33607556
+        },
+        {
+          "subobject_fixture": "CharAnimatorC1",
+          "this_offset": 1180
+        },
+        {
+          "subobject_fixture": "CharStateMachineC1",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "CharPropertiesC1",
+          "this_offset": 1376
+        },
+        {
+          "subobject_fixture": "NetStructCharacterC1",
+          "this_offset": 5384
+        },
+        {
+          "subobject_fixture": "NetStructCharacterC1",
+          "this_offset": 6728
+        },
+        {
+          "subobject_fixture": "TargetListSetRefObject",
+          "this_offset": 772
+        },
+        {
+          "allocator_fixture": 16
+        },
+        {
+          "subobject_fixture": "CharTimersSetCharacter",
+          "this_offset": 948
+        },
+        {
+          "subobject_fixture": "CharAISetCharacter",
+          "this_offset": 968
+        },
+        {
+          "subobject_fixture": "CharAnimatorSetCharacter",
+          "this_offset": 1180
+        },
+        {
+          "subobject_fixture": "CharStateMachineSetCharacter",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "CharPropertiesSetCharacter",
+          "this_offset": 1376
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        }
+      ]
+    },
+    {
+      "poison": 165,
+      "fields": {
+        "charprops13c8": -1,
+        "template13ca": -1,
+        "master418": 0
+      },
+      "writes": [
+        {
+          "pc": "0x3cec70",
+          "offset": "0x418",
+          "bytes": 4,
+          "value": "0x0"
+        },
+        {
+          "pc": "0x3aa34c",
+          "offset": "0x13c8",
+          "bytes": 2,
+          "value": "0xffff"
+        },
+        {
+          "pc": "0x3aa354",
+          "offset": "0x13ca",
+          "bytes": 2,
+          "value": "0xffff"
+        }
+      ],
+      "intercepted_services": [
+        {
+          "allocator_fixture": 8080
+        },
+        {
+          "GameObjectC1_fixture_GO_ID": 0
+        },
+        {
+          "subobject_fixture": "ItemInventoryC1",
+          "this_offset": 892
+        },
+        {
+          "subobject_fixture": "CharTimersC1",
+          "this_offset": 948
+        },
+        {
+          "subobject_fixture": "global_CharAI_deque_storage",
+          "this_offset": 33607556
+        },
+        {
+          "subobject_fixture": "CharAnimatorC1",
+          "this_offset": 1180
+        },
+        {
+          "subobject_fixture": "CharStateMachineC1",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "CharPropertiesC1",
+          "this_offset": 1376
+        },
+        {
+          "subobject_fixture": "NetStructCharacterC1",
+          "this_offset": 5384
+        },
+        {
+          "subobject_fixture": "NetStructCharacterC1",
+          "this_offset": 6728
+        },
+        {
+          "subobject_fixture": "TargetListSetRefObject",
+          "this_offset": 772
+        },
+        {
+          "allocator_fixture": 16
+        },
+        {
+          "subobject_fixture": "CharTimersSetCharacter",
+          "this_offset": 948
+        },
+        {
+          "subobject_fixture": "CharAISetCharacter",
+          "this_offset": 968
+        },
+        {
+          "subobject_fixture": "CharAnimatorSetCharacter",
+          "this_offset": 1180
+        },
+        {
+          "subobject_fixture": "CharStateMachineSetCharacter",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "CharPropertiesSetCharacter",
+          "this_offset": 1376
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        }
+      ]
+    },
+    {
+      "poison": 127,
+      "fields": {
+        "charprops13c8": -1,
+        "template13ca": -1,
+        "master418": 0
+      },
+      "writes": [
+        {
+          "pc": "0x3cec70",
+          "offset": "0x418",
+          "bytes": 4,
+          "value": "0x0"
+        },
+        {
+          "pc": "0x3aa34c",
+          "offset": "0x13c8",
+          "bytes": 2,
+          "value": "0xffff"
+        },
+        {
+          "pc": "0x3aa354",
+          "offset": "0x13ca",
+          "bytes": 2,
+          "value": "0xffff"
+        }
+      ],
+      "intercepted_services": [
+        {
+          "allocator_fixture": 8080
+        },
+        {
+          "GameObjectC1_fixture_GO_ID": 0
+        },
+        {
+          "subobject_fixture": "ItemInventoryC1",
+          "this_offset": 892
+        },
+        {
+          "subobject_fixture": "CharTimersC1",
+          "this_offset": 948
+        },
+        {
+          "subobject_fixture": "global_CharAI_deque_storage",
+          "this_offset": 33607556
+        },
+        {
+          "subobject_fixture": "CharAnimatorC1",
+          "this_offset": 1180
+        },
+        {
+          "subobject_fixture": "CharStateMachineC1",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "CharPropertiesC1",
+          "this_offset": 1376
+        },
+        {
+          "subobject_fixture": "NetStructCharacterC1",
+          "this_offset": 5384
+        },
+        {
+          "subobject_fixture": "NetStructCharacterC1",
+          "this_offset": 6728
+        },
+        {
+          "subobject_fixture": "TargetListSetRefObject",
+          "this_offset": 772
+        },
+        {
+          "allocator_fixture": 16
+        },
+        {
+          "subobject_fixture": "CharTimersSetCharacter",
+          "this_offset": 948
+        },
+        {
+          "subobject_fixture": "CharAISetCharacter",
+          "this_offset": 968
+        },
+        {
+          "subobject_fixture": "CharAnimatorSetCharacter",
+          "this_offset": 1180
+        },
+        {
+          "subobject_fixture": "CharStateMachineSetCharacter",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "CharPropertiesSetCharacter",
+          "this_offset": 1376
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        },
+        {
+          "subobject_fixture": "RegisterState",
+          "this_offset": 1276
+        }
+      ]
+    }
+  ],
+  "model_cases": [
+    {
+      "fixture": {
+        "model": -1,
+        "faery": 1,
+        "player": 0,
+        "high": 1,
+        "local": 1,
+        "owner": 33652736,
+        "override": 34,
+        "class": 0,
+        "saved_current": 2,
+        "name": "missing_base_model"
+      },
+      "result": null,
+      "calls": [
+        "GetCharModelId_actual"
+      ],
+      "original_saved_current_lookup_executed": false
+    },
+    {
+      "fixture": {
+        "model": -2,
+        "faery": 0,
+        "player": 0,
+        "high": 1,
+        "local": 1,
+        "owner": 0,
+        "override": 34,
+        "class": 0,
+        "saved_current": 2,
+        "name": "negative_base"
+      },
+      "result": null,
+      "calls": [
+        "GetCharModelId_actual"
+      ],
+      "original_saved_current_lookup_executed": 0
+    },
+    {
+      "fixture": {
+        "model": 116,
+        "faery": 0,
+        "player": 0,
+        "high": 1,
+        "local": 1,
+        "owner": 0,
+        "override": 34,
+        "class": 0,
+        "saved_current": 2,
+        "name": "out_of_bounds"
+      },
+      "result": null,
+      "calls": [
+        "GetCharModelId_actual"
+      ],
+      "original_saved_current_lookup_executed": 0
+    },
+    {
+      "fixture": {
+        "model": 32,
+        "faery": 0,
+        "player": 0,
+        "high": 1,
+        "local": 1,
+        "owner": 0,
+        "override": 34,
+        "class": 0,
+        "saved_current": 2,
+        "name": "NPC_authored_base"
+      },
+      "result": "data/3D/characters/faeries/faeries_00_hotty.bdae",
+      "calls": [
+        "GetCharModelId_actual",
+        "IsFaerie_actual",
+        "GetCharType_fixture",
+        "IsPlayer_fixture"
+      ],
+      "original_saved_current_lookup_executed": 0
+    },
+    {
+      "fixture": {
+        "model": 32,
+        "faery": 1,
+        "player": 0,
+        "high": 1,
+        "local": 1,
+        "owner": 0,
+        "override": 34,
+        "class": 0,
+        "saved_current": 2,
+        "name": "faery_C1_NULL_master"
+      },
+      "result": "data/3D/characters/faeries/faeries_00_hotty.bdae",
+      "calls": [
+        "GetCharModelId_actual",
+        "IsFaerie_actual",
+        "GetCharType_fixture"
+      ],
+      "original_saved_current_lookup_executed": false
+    },
+    {
+      "fixture": {
+        "model": 32,
+        "faery": 1,
+        "player": 0,
+        "high": 1,
+        "local": 1,
+        "owner": 33652736,
+        "override": 34,
+        "class": 0,
+        "saved_current": 2,
+        "name": "faery_live_master_override"
+      },
+      "result": "data/3D/characters/faeries/faeries_02_celeste.bdae",
+      "calls": [
+        "GetCharModelId_actual",
+        "IsFaerie_actual",
+        "GetCharType_fixture",
+        "GetCharFaery_fixture"
+      ],
+      "original_saved_current_lookup_executed": true
+    },
+    {
+      "fixture": {
+        "model": 32,
+        "faery": 1,
+        "player": 0,
+        "high": 1,
+        "local": 1,
+        "owner": 33652736,
+        "override": -1,
+        "class": 0,
+        "saved_current": 2,
+        "name": "faery_override_missing"
+      },
+      "result": null,
+      "calls": [
+        "GetCharModelId_actual",
+        "IsFaerie_actual",
+        "GetCharType_fixture",
+        "GetCharFaery_fixture"
+      ],
+      "original_saved_current_lookup_executed": true
+    },
+    {
+      "fixture": {
+        "model": 32,
+        "faery": 0,
+        "player": 1,
+        "high": 1,
+        "local": 1,
+        "owner": 0,
+        "override": 34,
+        "class": 0,
+        "saved_current": 2,
+        "name": "high_performance_player"
+      },
+      "result": "data/3D/characters/faeries/faeries_00_hotty.bdae",
+      "calls": [
+        "GetCharModelId_actual",
+        "IsFaerie_actual",
+        "GetCharType_fixture",
+        "IsPlayer_fixture",
+        "IsHighPerformance_fixture"
+      ],
+      "original_saved_current_lookup_executed": 0
+    },
+    {
+      "fixture": {
+        "model": 32,
+        "faery": 0,
+        "player": 1,
+        "high": 0,
+        "local": 1,
+        "owner": 0,
+        "override": 34,
+        "class": 0,
+        "saved_current": 2,
+        "name": "low_performance_local_player"
+      },
+      "result": "data/3D/characters/faeries/faeries_00_hotty.bdae",
+      "calls": [
+        "GetCharModelId_actual",
+        "IsFaerie_actual",
+        "GetCharType_fixture",
+        "IsPlayer_fixture",
+        "IsHighPerformance_fixture",
+        "IsLocalPlayer_fixture"
+      ],
+      "original_saved_current_lookup_executed": 0
+    },
+    {
+      "fixture": {
+        "model": 32,
+        "faery": 0,
+        "player": 1,
+        "high": 0,
+        "local": 0,
+        "owner": 0,
+        "override": 34,
+        "class": 290,
+        "saved_current": 2,
+        "name": "low_performance_remote_mage"
+      },
+      "result": "data/3D/characters/prince/prince_low_poly_mage.bdae",
+      "calls": [
+        "GetCharModelId_actual",
+        "IsFaerie_actual",
+        "GetCharType_fixture",
+        "IsPlayer_fixture",
+        "IsHighPerformance_fixture",
+        "IsLocalPlayer_fixture"
+      ],
+      "original_saved_current_lookup_executed": 0
+    },
+    {
+      "fixture": {
+        "model": 32,
+        "faery": 0,
+        "player": 1,
+        "high": 0,
+        "local": 0,
+        "owner": 0,
+        "override": 34,
+        "class": 325,
+        "saved_current": 2,
+        "name": "low_performance_remote_rogue"
+      },
+      "result": "data/3D/characters/prince/prince_low_poly_rogue.bdae",
+      "calls": [
+        "GetCharModelId_actual",
+        "IsFaerie_actual",
+        "GetCharType_fixture",
+        "IsPlayer_fixture",
+        "IsHighPerformance_fixture",
+        "IsLocalPlayer_fixture"
+      ],
+      "original_saved_current_lookup_executed": 0
+    },
+    {
+      "fixture": {
+        "model": 32,
+        "faery": 0,
+        "player": 1,
+        "high": 0,
+        "local": 0,
+        "owner": 0,
+        "override": 34,
+        "class": 263,
+        "saved_current": 2,
+        "name": "low_performance_remote_warrior"
+      },
+      "result": "data/3D/characters/prince/prince_low_poly_warrior.bdae",
+      "calls": [
+        "GetCharModelId_actual",
+        "IsFaerie_actual",
+        "GetCharType_fixture",
+        "IsPlayer_fixture",
+        "IsHighPerformance_fixture",
+        "IsLocalPlayer_fixture"
+      ],
+      "original_saved_current_lookup_executed": 0
+    },
+    {
+      "fixture": {
+        "model": 34,
+        "faery": 1,
+        "player": 0,
+        "high": 1,
+        "local": 1,
+        "owner": 0,
+        "override": 34,
+        "class": 0,
+        "saved_current": 2,
+        "name": "original_DefaultFairy_C1_master_NULL"
+      },
+      "result": "data/3D/characters/faeries/faeries_02_celeste.bdae",
+      "calls": [
+        "GetCharModelId_actual",
+        "IsFaerie_actual",
+        "GetCharType_fixture"
+      ],
+      "original_saved_current_lookup_executed": false
+    }
+  ],
+  "master_producer_cases": [
+    {
+      "input_master": "0x2018000",
+      "output_field418": "0x2018000",
+      "scope": "Original nonNULL SetMaster prefix; stops before main-owned AI behavior"
+    },
+    {
+      "input_master": 0,
+      "output_field418": 0,
+      "scope": "Whole original NULL-master SetMaster branch"
+    }
+  ],
+  "DefaultFairy_authored_row": {
+    "row": 97,
+    "AI": 20,
+    "AnimTable": 23,
+    "ModelFile": 34,
+    "model_name": "faeries_02_celeste",
+    "asset": "data/3D/characters/faeries/faeries_02_celeste.bdae",
+    "names_prefix_bytes": 8910,
+    "records_prefix_bytes": 401412,
+    "records_total_bytes": 401608,
+    "payload_sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784"
+  },
+  "model_dictionary": {
+    "rows": 116,
+    "payload_sha256": "682f7ee5935fea873a3c1e09a3590df2a8250f110966f4efce654f2d20367c51",
+    "names_sha256": "d731c154e9208b66b84476d97a08366ad1d3e1a074c1fc59889e03b847661fc9",
+    "low_performance_remote_rows": {
+      "75": {
+        "name": "prince_low_poly_mage",
+        "file": "data/3D/characters/prince/prince_low_poly_mage.bdae"
+      },
+      "76": {
+        "name": "prince_low_poly_rogue",
+        "file": "data/3D/characters/prince/prince_low_poly_rogue.bdae"
+      },
+      "77": {
+        "name": "prince_low_poly_warrior",
+        "file": "data/3D/characters/prince/prince_low_poly_warrior.bdae"
+      }
+    }
+  },
+  "scope": "Whole original Character factory/C1 body and CharAI C1 stores execute; unrelated inherited/subobject/storage services explicitly intercepted. Original GetCharModelName, GetCharModelId and IsFaerie bodies execute over real original model dictionary; GetCharType/IsPlayer/device/local-player/Faery row are explicit domain fixtures. Original SG_GetCurrentFaerieId executes against a difficulty1 save-storage fixture. AI_SetMaster nonNULL source store prefix and whole NULL branch execute separately. No whole InitPost, stage lifecycle, actual player equipment/save or production faery selection is claimed."
+}

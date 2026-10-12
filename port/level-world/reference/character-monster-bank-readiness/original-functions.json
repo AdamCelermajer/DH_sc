@@ -1,0 +1,245 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK9Character11GetCharTypeEv",
+      "elf_address": "0x3a3054",
+      "size": 16,
+      "sha256": "c3c6ac60324ce38733ebad4c0210947ae208b7fc052d6d8e0a6ec2aef2ca3a69"
+    },
+    {
+      "original_symbol": "_ZNK9Character8IsFaerieEv",
+      "elf_address": "0x3a3094",
+      "size": 24,
+      "sha256": "7e136a3b446fab71029f62918585b9ea849d3df0bbf68477a2c5f776862a29a4"
+    },
+    {
+      "original_symbol": "_ZNK9Character16GetCharAnimTableEv",
+      "elf_address": "0x3a3264",
+      "size": 48,
+      "sha256": "69476c3e3d76856a1e1794b2df87389a0d6654cb85e0b4e108a86926b3022d85"
+    },
+    {
+      "original_symbol": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi9AnimationENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EEN6glitch4core10SAllocatorIS6_LNSB_6memory13E_MEMORY_HINTE0EEEE13insert_uniqueERKS6_",
+      "elf_address": "0x365340",
+      "size": 392,
+      "sha256": "6a02809b6152ef5e8aff48c8366e4115181fa9d16819b8cdc7c9aef34b4ca654"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada20CDynamicAnimationSet26setDefaultAnimationLibraryERKNS0_16CColladaDatabaseE",
+      "elf_address": "0x62fc90",
+      "size": 104,
+      "sha256": "78806631b55af3aa57555539ebf9e8e3ca71f33c6dfc119df3c63b7441d5d0e6"
+    },
+    {
+      "original_symbol": "_ZN14AnimSetManager15AddTemplateAnimEii",
+      "elf_address": "0x476398",
+      "size": 204,
+      "sha256": "9ff3f7d34763f35e7cde008a7101c21adc65b4f93037299dcf276eda9608ae47"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada13CAnimationSet17getAnimationCountEv",
+      "elf_address": "0x65f044",
+      "size": 20,
+      "sha256": "55a75adc0e4406e656a0e95a2171d28cfff24af4de34a1c0508de99a3d865a9a"
+    },
+    {
+      "original_symbol": "_ZNK9Character16GetCharSkillListEv",
+      "elf_address": "0x3bc5fc",
+      "size": 48,
+      "sha256": "7711762aa425c1b5e34dd0b9ce1f2e0d9316ef3d7c0c7ad43a51b30e0dcd9210"
+    },
+    {
+      "original_symbol": "_ZNK9Character16GetCharModelNameEv",
+      "elf_address": "0x3a54d4",
+      "size": 464,
+      "sha256": "55de0f48800f0587043d231d47a98250885a4357e88e4b8c4bba571933536e2b"
+    },
+    {
+      "original_symbol": "_ZN9Character8InitPostEv",
+      "elf_address": "0x3b4d60",
+      "size": 2164,
+      "sha256": "80de661077e88ee5df672be65b792776cb2c859e38d32304019289422c6ca079"
+    },
+    {
+      "original_symbol": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi9AnimationENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EEN6glitch4core10SAllocatorIS6_LNSB_6memory13E_MEMORY_HINTE0EEEE9_M_insertEPNS_18_Rb_tree_node_baseERKS6_SJ_SJ_",
+      "elf_address": "0x36517c",
+      "size": 452,
+      "sha256": "9d6da1316b99c161881b58c74471bd8621bd437854b8b374d56c9cbc058fb760"
+    },
+    {
+      "original_symbol": "_ZN12AnimationSet23_UpdateAnimationIndicesEv",
+      "elf_address": "0x364af4",
+      "size": 140,
+      "sha256": "da6d8fea941c1c089f7562e9d9abfdcd94fcc23ad78dd2d326bedc68e1a52d65"
+    },
+    {
+      "original_symbol": "_ZNSt6vectorIN6glitch7collada16CColladaDatabaseENS0_4core10SAllocatorIS2_LNS0_6memory13E_MEMORY_HINTE0EEEE9push_backERKS2_",
+      "elf_address": "0x62ecac",
+      "size": 352,
+      "sha256": "523d49ba26d681d78003b79eec825ee72cbcd258d393fca4bada49e172645b69"
+    },
+    {
+      "original_symbol": "_ZNK9Character18GetCharSkillListIdEv",
+      "elf_address": "0x3bc5c0",
+      "size": 60,
+      "sha256": "ae0ccd8e8da06e96819b3c7d77bba945702d41a97bf35ff5530b54a83a72bc20"
+    },
+    {
+      "original_symbol": "_ZN14AnimSetManager7AddAnimEii",
+      "elf_address": "0x47653c",
+      "size": 324,
+      "sha256": "77b429cb3555b489157b32cf25f7a79da6de50171c5023ff01249727552b34e2"
+    },
+    {
+      "original_symbol": "_ZN6CSIdle6OnBlurEiP9CharacterP16CharStateMachinei",
+      "elf_address": "0x3c2d3c",
+      "size": 148,
+      "sha256": "157cea1321208cf3a37241bd8dcc9b0197fdb87c5e26759948e88968402981ea"
+    },
+    {
+      "original_symbol": "_ZN12AnimationSet13CreateAnimSetEv",
+      "elf_address": "0x364ca0",
+      "size": 88,
+      "sha256": "3d48be8f572a7b1561e2b55353309e97679e3f154cd1a319c853cc6b1c004482"
+    },
+    {
+      "original_symbol": "_ZNK9Character12GetCharSkillEi",
+      "elf_address": "0x3bc784",
+      "size": 220,
+      "sha256": "dc2d085f0cc0fd467f8bcf96357f3c2e4fe3bd99aaf38585eab36589e77020ad"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada20CDynamicAnimationSetC1Ev",
+      "elf_address": "0x3648c4",
+      "size": 184,
+      "sha256": "c0ac5339afa50051cf9e4fb1e0966a7434d67d4d9e36dd88375d601025c2032c"
+    },
+    {
+      "original_symbol": "_ZN7Structs5Skill4readEP11IStreamBase",
+      "elf_address": "0x4ebeb0",
+      "size": 1484,
+      "sha256": "e580d098dc2ed24a1918dc21d4e7d5d07de8c9d465cebff063b891b48e031600"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator8ANIM_SetEi",
+      "elf_address": "0x3cacb0",
+      "size": 28,
+      "sha256": "5340f7f91e1f08522e13b2504cca0238bd7351a7557b8c1e5d3b735a6ac39c13"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator21_AddTemplateAnimTableEiij",
+      "elf_address": "0x3c9c7c",
+      "size": 260,
+      "sha256": "5104301dccc3564282aeffcf209e78cc4b7f96d7aa6fca6aee2301ba0a0221de"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator13_AddAnimTableEiijjj",
+      "elf_address": "0x3c9d80",
+      "size": 460,
+      "sha256": "02161287c2939de2eaca3b6ab6504df97efd94cbd716a102de09eaaaa77f16bb"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada20CDynamicAnimationSet27addAnimationLibraryBindingsERKNS0_16CColladaDatabaseE",
+      "elf_address": "0x62ee9c",
+      "size": 560,
+      "sha256": "656e07d3438f4860e725fc3980ca9548f3232c054bcdef9e87982e7d99b490ec"
+    },
+    {
+      "original_symbol": "_ZNSt4priv10_Rb_globalIbE10_RebalanceEPNS_18_Rb_tree_node_baseERS3_",
+      "elf_address": "0x313760",
+      "size": 564,
+      "sha256": "0a1bb9bda722f66a440cb9a9f791fc0e2d907fcc703e68ceede36de19e054a32"
+    },
+    {
+      "original_symbol": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi9AnimationENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EEN6glitch4core10SAllocatorIS6_LNSB_6memory13E_MEMORY_HINTE0EEEE14_M_create_nodeERKS6_",
+      "elf_address": "0x364df4",
+      "size": 148,
+      "sha256": "70950a4d58ba809a1b7fe8be6d2405717509ccad033b38f37d9e405383054234"
+    },
+    {
+      "original_symbol": "_ZNK9Character8IsPlayerEv",
+      "elf_address": "0x3a49f0",
+      "size": 76,
+      "sha256": "efb4b11a24129fac129ee1ee6460e1a8f9eef7b8648d7f9f70d3d2338eee342a"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator15SetAnimationSetEv",
+      "elf_address": "0x3c9f4c",
+      "size": 1504,
+      "sha256": "f6ced01ccb807df112993f2c9988c19651b76af258551e681e147a1f574b724d"
+    },
+    {
+      "original_symbol": "_ZN7Structs8CharAnim4readEP11IStreamBase",
+      "elf_address": "0x4ef64c",
+      "size": 3780,
+      "sha256": "1f9a48ee561cdaa0547b73729ea65a5287e798ccca58ea0ea40a6eaf141c1597"
+    },
+    {
+      "original_symbol": "_ZNK9Character13GetAnimStanceEv",
+      "elf_address": "0x3a53e0",
+      "size": 212,
+      "sha256": "0a55bdcde5f109c3e50e2ac4c2ef57f33604c327489c2e422f91fbea864948c0"
+    },
+    {
+      "original_symbol": "_ZNK9Character22GetCharUniqueAnimSetIdEv",
+      "elf_address": "0x3a54b4",
+      "size": 32,
+      "sha256": "09095b1b29630c2c120e2dea8d2f02d8b02bc8dd707667a808d94ec5b2d0175b"
+    },
+    {
+      "original_symbol": "_ZN12AnimationSet13LoadAnimationEi",
+      "elf_address": "0x3659ec",
+      "size": 812,
+      "sha256": "17f25624152d8b9a559501e8a8f4cb5914f011aaea74295b7227f49506e38469"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada20CDynamicAnimationSet16getDatabaseIndexERNS0_16CColladaDatabaseE",
+      "elf_address": "0x62dbb8",
+      "size": 84,
+      "sha256": "4d0ae05e3dbf4f0c173c5f93807559c4b96cf9f2300aefac30fe6d1bdf8ab384"
+    },
+    {
+      "original_symbol": "_ZNK9Character18GetCharAnimTableIdEv",
+      "elf_address": "0x3a3228",
+      "size": 60,
+      "sha256": "d8d60d8d2fdb2d9246a68f44712f30b28285a80460573e4fc7c9e07a008dfd29"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator12_SetAnimStepEj",
+      "elf_address": "0x3ca79c",
+      "size": 924,
+      "sha256": "f30373543c3a10afae8ffa712a99f4d72b28ab46b828973dfafdcab01ce222cb"
+    },
+    {
+      "original_symbol": "_ZN6CSIdle7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "elf_address": "0x3c3020",
+      "size": 288,
+      "sha256": "7b2eb11c30874fdf3d469f7db853ed9b9f0baf4c76c316c7b539fa42597dae5b"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada13CAnimationSet19addAnimationLibraryERKNS0_16CColladaDatabaseE",
+      "elf_address": "0x6601d4",
+      "size": 40,
+      "sha256": "f090ec642b62a11be8b140a547345ac67a778fd8c9207669543398570ec0d3b9"
+    },
+    {
+      "original_symbol": "_ZNSt3mapIi9AnimationSt4lessIiEN6glitch4core10SAllocatorISt4pairIKiS0_ELNS3_6memory13E_MEMORY_HINTE0EEEEixIiEERS0_RKT_",
+      "elf_address": "0x36583c",
+      "size": 432,
+      "sha256": "484e23818f14a8c2e4bb13591c3636b746c1dbb9ab2603654676a49a8bc80ca7"
+    },
+    {
+      "original_symbol": "_ZNK9Character14GetCharModelIdEv",
+      "elf_address": "0x3a31e8",
+      "size": 64,
+      "sha256": "717e35c89b6a6bd7429ddcf73a1e1e8e78e1a43d12ab06b5c1fa8492bed4ec26"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada20CDynamicAnimationSet19addAnimationLibraryERKNS0_16CColladaDatabaseE",
+      "elf_address": "0x62e8a8",
+      "size": 24,
+      "sha256": "c374dbe5e33ccff08b1120147684250dd2231e3c430017a11eb2da5b4493a66f"
+    }
+  ]
+}

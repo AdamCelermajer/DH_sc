@@ -1,0 +1,51 @@
+--- a/port/level-world/canonical_level_config_module_v1.hpp
++++ b/port/level-world/canonical_level_config_module_v1.hpp
+@@ -44,6 +44,8 @@
+  const std::int32_t* integer(std::uint32_t)const noexcept;
+  const float* scalar_float_v55(std::uint32_t)const noexcept;
+  const std::uint8_t* byte(std::uint32_t)const noexcept;
++ // Existing actual ObjectBase save cells only. Never insert a missing C1/default.
++ std::uint8_t* source_save_byte_v91(std::uint32_t offset)noexcept{auto p=bytes_.find(offset);return p==bytes_.end()?nullptr:&p->second;}
+  const CanonicalPoint3ListV1& dfog_colors()const noexcept{return dfog_;}
+  static constexpr bool is_game_object()noexcept{return false;}
+  std::uintptr_t identity()const noexcept{return identity_;}
+--- a/port/android-native/app/src/main/cpp/renderer_campaign_noncharacter_save_v89.inc
++++ b/port/android-native/app/src/main/cpp/renderer_campaign_noncharacter_save_v89.inc
+@@ -32,7 +32,25 @@
+   const std::string name=base->class_name20();if(name!="RoomZone"&&name!="ColBox"&&name!="Floor"&&name!="GameObject"&&name!="TriggerTrap"){e="Required native serializer for actual nonjournal class "+name;return false;}
+   if(!dh2::loader::make_noncharacter_base_save_v89(std::move(borrow),std::move(services),generic,e))return false;out=generic;return true;
+  }
++ bool level_config(std::shared_ptr<dh2::world::CanonicalLevelConfigV1>& out,std::string& e){
++  SourceCampaignCandidateBorrowV55 current;std::shared_ptr<SourceWorldBorrowV61> scope;
++  auto source=world.lock();auto self=renderer.lock();
++  if(!source||!self||!self->current(e)||!borrow_source_campaign_candidate_runtime_v61(current,e)||current.actual_world!=source||
++     !borrow_source_campaign_condition_world_v70(current,scope,e)||!scope||!scope->stage34_native_v80||!scope->stage34_native_v80->config){
++   if(e.empty())e="Required SAME current typed LevelConfig borrower";return false;
++  }
++  if(!scope->stage34_native_v80->config(actual.identity,out,e)||!out||out->identity()!=actual.identity||
++     !actual.lease||actual.lease.owner_before(out)||out.owner_before(actual.lease)||actual.context!=out.get()){
++   if(e.empty())e="Replaced actual LevelConfig ObjectBase receiver";return false;
++  }return true;
++ }
+  bool deliver(bool load,dh2::level::SavegameStreamV2& stream,std::string& e){
++  if(actual.class_name20&&*actual.class_name20&&!std::strcmp(*actual.class_name20,"LevelConfig")){
++   std::shared_ptr<dh2::world::CanonicalLevelConfigV1> config;if(!level_config(config,e))return false;
++   dh2::world::ObjectSaveRestoreBorrowV3 fields;fields.identity=actual.identity;
++   fields.visible80=config->source_save_byte_v91(0x80);fields.enabled8a=config->source_save_byte_v91(0x8a);
++   return load?dh2::world::object_base_deserialize_v3(stream,fields,e):dh2::world::object_base_serialize_v3(stream,fields,e);
++  }
+   std::shared_ptr<dh2::loader::NonCharacterSaveConnectionV89> body;if(!connection(body,e))return false;
+   dh2::level::LevelSaveObjectBorrowV2 object;object.identity=reinterpret_cast<const void*>(actual.identity);object.context=this;
+   object.is_character=[](void* raw,bool& value,std::string& e){auto& same=*static_cast<NonCharacterSaveDispatchV89*>(raw);std::uintptr_t result{};if(!same.actual.as_character||!same.actual.as_character(same.actual.context,result,e))return false;value=result!=0;return true;};
+@@ -52,6 +70,11 @@
+   while(more){if(object&&object->identity==id){found=object;break;}more=current.objects->source_ordered_next_v38(key,key,object);}if(!found||!found->lease){e="Required SAME actual canonical non-Character map receiver";return false;}
+   auto dispatch=std::make_shared<NonCharacterSaveDispatchV89>();dispatch->renderer=renderer;dispatch->journal=weak_journal;dispatch->world=world;dispatch->actual=*found;dispatch->native=native;
+   if(journal->handles_identity(id)){if(!journal->save_header(id,out,e))return false;}
++  else if(found->class_name20&&*found->class_name20&&!std::strcmp(*found->class_name20,"LevelConfig")){
++   std::shared_ptr<dh2::world::CanonicalLevelConfigV1> config;if(!dispatch->level_config(config,e))return false;
++   out={};out.identity=reinterpret_cast<const void*>(id);out.checkpoint28=config->byte(0x28);
++   out.gametype48=config->string(0x48);out.map_name=config->string(0x30);out.room64=found->room64;out.disabled81=config->byte(0x81);
++  }
+   else {std::shared_ptr<void> pin;dh2::world::CanonicalGameObjectBaseOwnerV1* base{};if(!borrow_source_campaign_object_base_v77(current,id,pin,base,e)||!base)return false;out={};out.identity=reinterpret_cast<const void*>(id);out.checkpoint28=base->byte(0x28);out.gametype48=base->string(0x48);out.map_name=base->string(0x30);out.room64=found->room64;out.disabled81=base->byte(0x81);}
+   out.context=dispatch.get();out.receiver_lease_v86=dispatch;
+   out.is_character=[](void* raw,bool& value,std::string& e){auto& same=*static_cast<NonCharacterSaveDispatchV89*>(raw);std::uintptr_t result{};if(!same.actual.as_character||!same.actual.as_character(same.actual.context,result,e))return false;value=result!=0;return true;};

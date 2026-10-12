@@ -1,0 +1,125 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK16CharStateMachine14SM_IsAttackingEv",
+      "elf_address": "0x3c02d0",
+      "size": 24,
+      "sha256": "4873bc9e588299d4fd02aafec23e59f15966b80eb5db2bc7dc5960d64d7514e3"
+    },
+    {
+      "original_symbol": "_ZN9Character9RegenTickEb",
+      "elf_address": "0x3bdd90",
+      "size": 356,
+      "sha256": "0069c310faaf445c6eaa602830fa86bde64f5cf1f48510b470ad48721f7ea0d7"
+    },
+    {
+      "original_symbol": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+      "elf_address": "0x3b10b4",
+      "size": 3388,
+      "sha256": "ee29784fc33effd4a01e9098593d2348dbfaf35bb9d0568a121d89c52aefd1da"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12_UpdateRegenEv",
+      "elf_address": "0x3cb77c",
+      "size": 68,
+      "sha256": "0ccbe38eb368843376656a045580c82b96cab8a909e7d18bd02389a49da645fd"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI13AI_IsInCombatEv",
+      "elf_address": "0x3d4bc4",
+      "size": 112,
+      "sha256": "7e917c97faa26805e240a111a5719d87b9d14946aa3acd7b08657116d00c3ce3"
+    },
+    {
+      "original_symbol": "_ZN9Character11F_DotAttackERNS_12AttackResultEPS_S2_ii",
+      "elf_address": "0x3b2e68",
+      "size": 412,
+      "sha256": "0ded4194cea08229fa585499bf76158b97d41c49f2887a6965053e7c7441e7ae"
+    },
+    {
+      "original_symbol": "_ZN9Character7RegenMPEi",
+      "elf_address": "0x3bdbb8",
+      "size": 236,
+      "sha256": "f9aca1f9bfaa301e6ee4e98513b472a1340e41c2e1f4f22f3f7c31b2ade8185a"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI12AI_IsAggroedEv",
+      "elf_address": "0x3d4a00",
+      "size": 16,
+      "sha256": "854336dabcc98143cafa0997ba54fede004764db15c7a37e4f68f187b66327ad"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine12SM_IsCastingEv",
+      "elf_address": "0x3c0334",
+      "size": 24,
+      "sha256": "4e1a1e64084c9860162ee9fefbd88e638681c392d047e812c1b397e15a0ea558"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine11SM_GetStateEv",
+      "elf_address": "0x3c01ac",
+      "size": 20,
+      "sha256": "4b5797cd91d4afd7ee3becf1bb65b696146e55fc226838e13c0fbef91b0e4743"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties15PROPS_RemoveDotEi",
+      "elf_address": "0x3de83c",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI11AI_HasAggroEv",
+      "elf_address": "0x3d49f0",
+      "size": 16,
+      "sha256": "b246911c152844ecbe7ebd31fbb303d55ce8c7f782650b61098737f50d3e9252"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties16_ResetPropertiesERN7Structs19CharacterPropertiesE",
+      "elf_address": "0x3def34",
+      "size": 80,
+      "sha256": "76bfb4312f9a2a80f4f25ffa6933ba404ee59b7bd710702321d36686b58418e2"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties9PROPS_AddEii",
+      "elf_address": "0x3e0708",
+      "size": 144,
+      "sha256": "0e4a2cdfe4feef368849e8823b05d451f55b4178b762f3fa9fcaf27d8abf79c3"
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties11_GetDefaultEi",
+      "elf_address": "0x3def10",
+      "size": 36,
+      "sha256": "6710c8429d947c675e85a03cbb9a7f46bb197eafcc3f847cabdcaa91385a3017"
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi",
+      "elf_address": "0x3dedb4",
+      "size": 292,
+      "sha256": "c227dbb320f18ab04022f3d61d90e90285652215e56bce8c89c8146aa0fa706f"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine15SM_IsUsingSkillEv",
+      "elf_address": "0x3c02e8",
+      "size": 24,
+      "sha256": "774242e45789a641452a8aaeefe052685fb066dd31ffcdbfcc718b5562e97619"
+    },
+    {
+      "original_symbol": "_ZN9Character7RegenHPEi",
+      "elf_address": "0x3bdca4",
+      "size": 236,
+      "sha256": "3dfc266ef09f6c4d4f6dbd6ba04b61a1c8d0b28ddc0c8ffb943891cbb8075e4d"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties10HandleDotsEv",
+      "elf_address": "0x3df3f0",
+      "size": 144,
+      "sha256": "8c1603abda13d653817965595ad27ef785b110c6d7291dbe884d2f96c0262dd0"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties14RecalcPropertyEi",
+      "elf_address": "0x3dfe60",
+      "size": 1972,
+      "sha256": "9df07709d1780dd22c056b6bdca240de845b4c118b7b4b3d6719595193ec9030"
+    }
+  ]
+}

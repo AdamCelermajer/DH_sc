@@ -1,0 +1,66 @@
+{
+  "validation": "PASS",
+  "original_cases": 1012,
+  "debug_key": "Lua_DumpCalls",
+  "oracle_engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "runs": {
+    "gslevel_v44": {
+      "validation": "PASS",
+      "original_cases": 1012,
+      "native_safeguards": 6,
+      "current_level_global_created": false,
+      "whole_level_init_verified": false
+    },
+    "gslevel_v44_san": {
+      "validation": "PASS",
+      "original_cases": 1012,
+      "native_safeguards": 6,
+      "current_level_global_created": false,
+      "whole_level_init_verified": false
+    },
+    "actual_c1": {
+      "validation": "PASS",
+      "real_c1_pointer_aliases": 2,
+      "real_level_load_source_store": true,
+      "untouched_non_source_cells": 5,
+      "same_script_save_owners": true,
+      "missing_level_update_preserved": true,
+      "gs_entry_fixture": 2,
+      "current_level_global_created": false,
+      "gs_ctor_publication_verified": false,
+      "whole_level_init_verified": false
+    }
+  },
+  "run_commands": [
+    [
+      "wsl.exe",
+      "-e",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/source-stage-swamp-v40/gslevel_v44",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/level-init-v36/gslevel-update-v44-gold.txt"
+    ],
+    [
+      "wsl.exe",
+      "-e",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/source-stage-swamp-v40/gslevel_v44_san",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/level-init-v36/gslevel-update-v44-gold.txt"
+    ]
+  ],
+  "source_sha256": {
+    "gslevel_update_v44.hpp": "a36e48c3c9d5e4e4842cfb5e527ffa7181d7cb4af343774ba4b3a75f39e317a5",
+    "gslevel_update_v44_level_borrow.hpp": "dc559343c3282b1459b2e2c7b5ab7eefd2af2020c8a66f43180ec47ad985f939",
+    "tests/gslevel_update_v44.cpp": "8143a0069d44722b08be442564bfc0edf6c931150d4cda0dd2a3f08048d74bbd",
+    "tests/gslevel_update_v44_real_c1.cpp": "1d22c47a4655cb3b5605bf8d81e63f2242bd3c5beecbc3a8636db0980ee365b2",
+    "tools/gslevel_update_v44_real_c1_build.py": "01159c52e8f7151a1cd6f1acdf474eb13f8fece57268879a3b19ee7a693592be",
+    "reference/level-init-v36/gslevel-update-v44-original.py": "b6277b5153d100af140ed829f66e8dcf7b28d0ffa372aaa4a3a976edbeff55c0",
+    "reference/level-init-v36/gslevel-update-v44-original.json": "1879cef657c332b254bdc90ceac1297aae65ce80c303c03eba7f12d040ffa4e1",
+    "reference/level-init-v36/gslevel-update-v44-gold.txt": "61d8aa3fd90a2e8a78c6a1d05f1bf2ab6ecda79fef3d616451c6f40f9baffabd",
+    "reference/level-init-v36/gslevel-update-v40.asm": "3f49a27313b922d0aca38630816b8f682a20f9167dd70f202cca38eef991d3d8",
+    "reference/level-init-v36/level-load-v40.asm": "242147983422c69a09392e1a589ce4d2424a9b54d15e2fca31bfb74739ca3565",
+    "reference/level-init-v36/level-update-loading-v40.asm": "37f9651aadb296a486ac1025b6614c5f010701814675836884a4947d87488919",
+    "reports/gslevel-update-v44-real-c1-build.json": "17b2f5bdfbe5a7cfdb2303eb6b27bb73b8ba71b3457621621a62654f82d9417b"
+  },
+  "source_models": "Original ARM envelope; explicit Debug/Menu/Level.Update callback fixtures. Actual V5 complete C1 pointer/Level.Load bridge separately tested. No GameSM dispatch or current-level slot created.",
+  "whole_level_init_verified": false,
+  "root_publication_verified": false,
+  "emulator_launched": false
+}

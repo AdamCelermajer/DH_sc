@@ -1,0 +1,17 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7gameswf15sprite_instance7advanceEf",
+      "elf_address": "0x78240c",
+      "size": 1528,
+      "sha256": "ae0f98d5f81db0fdf22ef9f47dbeafd62e2579824c9780789068f6a5223a8264"
+    },
+    {
+      "original_symbol": "_ZN7gameswf15sprite_instance17notify_set_memberERKNS_10tu_stringiERKNS_8as_valueE",
+      "elf_address": "0x77fe60",
+      "size": 224,
+      "sha256": "83c3434ae26a6bc6e609c70128a28a6dd14f576038d4e2b886c3c510de1e9141"
+    }
+  ]
+}

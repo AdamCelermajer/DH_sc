@@ -1,0 +1,59 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN8RenderFX13CreateContextERNS_24InitializationParametersE",
+      "elf_address": "0x7a9708",
+      "size": 164,
+      "sha256": "b246e353d247300b1ead6b99866fb4474dc65a1e1a02c4b7efd33f473ba16ed3",
+      "calls": {
+        "0x752ba8": "_ZnwjN3swf7MemHintE",
+        "0x76ce38": "_ZN7gameswf14player_contextC1Ev",
+        "0x7d0dfc": "_ZN7gameswf14glyph_providerC1Eiibf",
+        "0x7a9698": "_ZN7gameswf21bitmap_glyph_providerC2Eiib"
+      }
+    },
+    {
+      "original_symbol": "_ZN8RenderFX10InitializeERNS_24InitializationParametersE",
+      "elf_address": "0x7a9814",
+      "size": 228,
+      "sha256": "3ccba898aeb32e14d881f9fb201b5daa8b23c0bf020f4793abde8cc3cc931020",
+      "calls": {
+        "0x76c740": "_ZN7gameswf29register_file_opener_callbackEPFPNS_7tu_fileEPKcE",
+        "0x76c7c4": "_ZN7gameswf27register_fscommand_callbackEPFvPNS_9characterEPKcS3_E",
+        "0x759b24": "_ZN7gameswf17get_verbose_parseEv",
+        "0x7d6658": "_ZN7gameswf30create_render_handler_irrlichtEPv",
+        "0x759cdc": "_ZN7gameswf32register_texture_loader_callbackEPFPN6glitch5video8ITextureEPKciiE",
+        "0x76f5c0": "_ZN7gameswf24standard_method_map_initEv",
+        "0x7a9708": "_ZN8RenderFX13CreateContextERNS_24InitializationParametersE",
+        "0x761170": "_ZN7gameswf21register_log_callbackEPFvbPKcE"
+      }
+    },
+    {
+      "original_symbol": "_ZN8RenderFX10InitializeEPN6glitch5video12IVideoDriverE",
+      "elf_address": "0x7a98f8",
+      "size": 92,
+      "sha256": "05d259f8f6544e6f4280bc9d09d72bbb67d752374f2049167ca4a90239db80b0",
+      "calls": {
+        "0x7611f0": "_ZN7gameswf7log_msgEPKcz",
+        "0x7a9814": "_ZN8RenderFX10InitializeERNS_24InitializationParametersE"
+      }
+    },
+    {
+      "original_symbol": "_ZN8RenderFX24SetAutoLoadGlyphsEnabledEb",
+      "elf_address": "0x7a7cc0",
+      "size": 12,
+      "sha256": "c07b370df8ec76aecccacafc43da7f6a741e4a973651f91aa1d5f1536acd8f33",
+      "calls": {}
+    },
+    {
+      "original_symbol": "_ZN8RenderFX27InitializeGlyphTextureCacheEii",
+      "elf_address": "0x7a8d74",
+      "size": 16,
+      "sha256": "de0bd23ea43c646f22820dc02ed81a21db2d80c7af7074499f24724d2075ba64",
+      "calls": {
+        "0x7611f0": "_ZN7gameswf7log_msgEPKcz"
+      }
+    }
+  ]
+}

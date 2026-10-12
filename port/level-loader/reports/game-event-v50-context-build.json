@@ -1,0 +1,32 @@
+{
+  "command": [
+    "wsl.exe",
+    "-e",
+    "/usr/bin/c++",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/game-event-v50",
+    "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/level-world",
+    "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/level-loader",
+    "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader",
+    "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/../level-world",
+    "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/game-data",
+    "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/script-runtime",
+    "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/engine-ui",
+    "-isystem",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/physics-backend/box2d-2.0.1/Include",
+    "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/asset-payloads",
+    "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/scene-materials",
+    "-c",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/game-event-v50/context-method-check.cpp",
+    "-o",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/game-event-v50/context-method-check.o"
+  ],
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": "",
+  "scope": "Compile-only exact proposed actual CanonicalLevel member/method. No mixed-layout archive link or actual C1 run."
+}

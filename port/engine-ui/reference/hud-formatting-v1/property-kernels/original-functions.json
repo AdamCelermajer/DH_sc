@@ -1,0 +1,35 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN14CharProperties16PROPS_ResetSheetEPN7Structs19CharacterPropertiesE",
+      "elf_address": "0x3def84",
+      "size": 40,
+      "sha256": "609f172fba7fc3e635de900014f5bd933c571098d9959ff53634d657cf911ec5"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties16PROPS_SetToSheetEiiPN7Structs19CharacterPropertiesE",
+      "elf_address": "0x3e0614",
+      "size": 244,
+      "sha256": "89624f1cadd21a02d9fa240064747e6eaa937cc1d0fc9a4280136ff7b9574592"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties23PROPS_ApplyClassToSheetEiPN7Structs19CharacterPropertiesE",
+      "elf_address": "0x3df314",
+      "size": 164,
+      "sha256": "bbc9c129ae6c640f43c683f3d9448b133ac26cd2586c2842a3df3085791c86d3"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties9PROPS_SetEii",
+      "elf_address": "0x3e07a0",
+      "size": 104,
+      "sha256": "e8dba6a3ac25d476f2bded4744830d789ad77a4b18271d7ae04b14f111422051"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties16PROPS_ApplyClassEib",
+      "elf_address": "0x3df3b8",
+      "size": 56,
+      "sha256": "7f84917c9003e247ed0660438304df06bc8fb77070254f5737e73e2113c281d0"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "validation": "PASS",
+  "cases": 48,
+  "nested_same_manager_calls": 48,
+  "ordered_services": 3895,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "867c6a9d8964fdfb435b0613d2289a1fb9a4f4eb0a3e1d023a5d2a086ea74941",
+  "gold_sha256": "bdb4f2af3f14fd9227964875112a4cf93183734b1512bc89d40e73932e3569a5",
+  "scope": "Actual original manager synchronous service reentry vs O2 native.\nAn explicit provider invokes SlowUpdate on the SAME live manager during a\nreached elapsed/cache/text/ally callback. ARM register context and independent\nnested stack are saved by the desktop service harness, not by production.\n"
+}

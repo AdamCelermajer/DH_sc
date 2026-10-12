@@ -1,0 +1,11 @@
+{
+  "validation": "PASS_STAGED_SOURCE",
+  "files_verified": 726,
+  "payload_bytes": 5692726,
+  "new_graph": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading",
+  "parent_graph": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v4",
+  "new_manifest_sha256": "fd95ae0d84f960b5e1c31724c7ff33ffab4432d335dd0cc5a6ba23b5c1cb7284",
+  "selected": false,
+  "whole_level_init_verified": false,
+  "counter134_138_binding_pending": true
+}

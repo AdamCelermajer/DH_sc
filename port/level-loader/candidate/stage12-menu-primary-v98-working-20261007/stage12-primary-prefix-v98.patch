@@ -1,0 +1,101 @@
+--- a/port/android-native/app/src/main/cpp/character_panel_session_v1.hpp
++++ b/port/android-native/app/src/main/cpp/character_panel_session_v1.hpp
+@@ -33,6 +33,9 @@
+   bool palette_ready_=false;
+  bool ready_=false;
+   std::unique_ptr<ui::AuthoredCharacterPanelV2> authored_;
++  std::unique_ptr<ui::AuthoredCharacterPanelV2> failed_authored_prefix_v98_;
++  std::uintptr_t failed_authored_identity_v98_{};
++  std::string failed_authored_error_v98_;
+   ui::AuthoredCharacterPanelV2* initializing_authored_{};
+  const model_renderer::PlayerGameplayBinding* authored_player_{};
+  CharacterPanelGameplayServicesV2 gameplay_services_;
+@@ -59,6 +62,8 @@
+  bool campaign_rebind_required_v104()const noexcept{return campaign_detached_v104_;}
+  // ONE authored owner retained by this same panel session. Each entry borrows
+  // the current live profile only for the complete synchronous movie operation.
++ //Only after the existing native Multi unload has cleared resource and render.
++ bool retire_failed_authored_prefix_v98(std::string&);
+  bool initialize_authored(const model_renderer::PlayerGameplayBinding&,
+                          const ui::AuthoredCharacterPanelServicesV2&,std::string&);
+  bool authored_open(const model_renderer::PlayerGameplayBinding&,std::string&);
+@@ -71,9 +76,9 @@
+   bool authored_display(const model_renderer::PlayerGameplayBinding&,int,int,int,int,std::string&);
+   bool authored_source_display_v4(const model_renderer::PlayerGameplayBinding&,std::string&);
+  bool authored_viewport(const model_renderer::PlayerGameplayBinding&,const ui::ViewportState64&,const ui::SwfViewportDriver&,std::string&);
+-  bool authored_bound()const noexcept{return authored_&&authored_->bound();}
+-  void reset_authored_v4(){authored_.reset();initializing_authored_=nullptr;gameplay_services_={};gameplay_world_v104_.reset();campaign_detached_v104_=false;}
+-  ui::AuthoredCharacterPanelV2* authored_native_v4()noexcept{return initializing_authored_?initializing_authored_:authored_.get();}
++  bool authored_bound()const noexcept{return !initializing_authored_&&!failed_authored_prefix_v98_&&authored_&&authored_->bound();}
++  void reset_authored_v4(){if(authored_player_||initializing_authored_||failed_authored_prefix_v98_)return;authored_.reset();initializing_authored_=nullptr;gameplay_services_={};gameplay_world_v104_.reset();campaign_detached_v104_=false;}
++  ui::AuthoredCharacterPanelV2* authored_native_v4()noexcept{return initializing_authored_?initializing_authored_:(failed_authored_prefix_v98_?failed_authored_prefix_v98_.get():authored_.get());}
+   bool authored_graph_scope_v4(void*,bool(*)(void*,ui::SwfAsGraph&,std::string&),std::string&);
+ };
+ }
+--- a/port/android-native/app/src/main/cpp/character_panel_authored_v2.cpp
++++ b/port/android-native/app/src/main/cpp/character_panel_authored_v2.cpp
+@@ -4,7 +4,7 @@
+  Borrow(const model_renderer::PlayerGameplayBinding*& target,const model_renderer::PlayerGameplayBinding& p):slot(target),prior(target){slot=&p;}
+  ~Borrow(){slot=prior;}};}
+ bool CharacterPanelSessionV1::can_retire_campaign_v104(const std::shared_ptr<void>& world,std::string& error)const{
+- if(!world||authored_player_||initializing_authored_){error="Character campaign detach requires actual world and quiescent native callbacks";return false;}
++ if(!world||authored_player_||initializing_authored_||failed_authored_prefix_v98_){error="Character campaign detach requires actual world and quiescent native callbacks";return false;}
+  const auto bound=gameplay_world_v104_.lock();
+  if(bound&&(bound.get()!=world.get()||bound.owner_before(world)||world.owner_before(bound))){error="Character callbacks belong to another World";return false;}
+  if(gameplay_services_.owner&&!bound){error="Character callback owner lacks its actual campaign scope";return false;}
+@@ -16,9 +16,19 @@
+  //widget reset is synthesized by this final post-destruction detach.
+  gameplay_services_={};gameplay_world_v104_.reset();campaign_detached_v104_=true;error.clear();return true;
+ }
++bool CharacterPanelSessionV1::retire_failed_authored_prefix_v98(std::string& error){
++ if(authored_player_||initializing_authored_){error="Character prefix retirement requires quiescent native dispatch";return false;}
++ if(!failed_authored_prefix_v98_){error.clear();return true;}
++ auto& p=*failed_authored_prefix_v98_;auto* stack=p.source_stack_v4();
++ if(p.source_render_identity_v91()||p.source_movie_v91()||(failed_authored_identity_v98_&&(!stack||stack->render(failed_authored_identity_v98_)))){
++  error="Required actual failed primary1 Multi unload/D0/field and render retirement";return false;
++ }
++ failed_authored_prefix_v98_.reset();failed_authored_identity_v98_=0;failed_authored_error_v98_.clear();error.clear();return true;
++}
+ bool CharacterPanelSessionV1::initialize_authored(const model_renderer::PlayerGameplayBinding& p,const ui::AuthoredCharacterPanelServicesV2& services,std::string& error){
++ if(initializing_authored_||failed_authored_prefix_v98_){if(failed_authored_error_v98_.empty())failed_authored_error_v98_="Character constructor/Load prefix requires actual teardown before replay";error=failed_authored_error_v98_;return false;}
+  if(!p.active||!p.world_owner||!prepare(error)){if(error.empty())error="Authored panel requires current live profile";return false;}
+- Borrow borrow(authored_player_,p);auto candidate=std::make_unique<ui::AuthoredCharacterPanelV2>();auto source=services;
++ Borrow borrow(authored_player_,p);auto source=services;
+  source.queries=[this](const char* name,auto& call,auto& e){if(!authored_player_){e="Authored character callback outside a current profile borrow";return false;}return dispatch(*authored_player_,name,call,e);};
+  if(!source.localization.text)source.localization.text=&text_;
+  if(campaign_detached_v104_&&authored_&&authored_->bound()){
+@@ -26,9 +36,18 @@
+   campaign_detached_v104_=false;return true;
+  }
+  struct Initializing {ui::AuthoredCharacterPanelV2*& slot;~Initializing(){slot=nullptr;}} initializing{initializing_authored_};
+- initializing_authored_=candidate.get();
+- if(!candidate->initialize(source,error))return false;
+- authored_=std::move(candidate);campaign_detached_v104_=false;return true;
++ //Session owns the actual candidate before any publication/native startup.
++ //An exception or failed callback keeps its resource available to real unload.
++ failed_authored_prefix_v98_=std::make_unique<ui::AuthoredCharacterPanelV2>();
++ initializing_authored_=failed_authored_prefix_v98_.get();
++ struct PrefixReceipt {CharacterPanelSessionV1& self;~PrefixReceipt(){if(self.failed_authored_prefix_v98_){
++  self.failed_authored_identity_v98_=self.failed_authored_prefix_v98_->source_render_identity_v91();
++ }}} receipt{*this};
++ const bool initialized=failed_authored_prefix_v98_->initialize(source,error);
++ if(!initialized||!failed_authored_error_v98_.empty()){
++  if(failed_authored_error_v98_.empty())failed_authored_error_v98_=error.empty()?"Actual Character primary1 initialization failed":error;error=failed_authored_error_v98_;return false;
++ }
++ authored_=std::move(failed_authored_prefix_v98_);failed_authored_identity_v98_=0;failed_authored_error_v98_.clear();campaign_detached_v104_=false;return true;
+ }
+ bool CharacterPanelSessionV1::authored_graph_scope_v4(void* context,bool(*callback)(void*,ui::SwfAsGraph&,std::string&),std::string& error){
+  auto* panel=authored_native_v4();if(!panel){error="Required retained authored character movie Scope";return false;}
+--- a/port/engine-ui/authored_character_panel_v2.cpp
++++ b/port/engine-ui/authored_character_panel_v2.cpp
+@@ -172,8 +172,9 @@
+   // Publish the retained implementation before Load executes native callbacks.
+   // Lifecycle/deadzone adapters reuse this same active graph during startup.
+   impl_=std::move(p);auto* runtime=impl_.get();
++  //C1 facade exists before published primary1 callbacks can borrow/unload it.
++  runtime->movie=std::make_unique<CharacterMenuMovieV1>();
+   if(runtime->services.publish_render&&!runtime->services.publish_render(runtime->render,error))return false;
+-  runtime->movie=std::make_unique<CharacterMenuMovieV1>();
+  // Multi.LoadSWF publishes its cached MenuFX before virtual Load and does not
+  // roll the constructor/publication prefix back on a required Load failure.
+  // Retain that same owner here; an application lookup must never dangle.

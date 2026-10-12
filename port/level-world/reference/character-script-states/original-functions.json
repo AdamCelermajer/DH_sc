@@ -1,0 +1,71 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN12CharAIScriptD1Ev",
+      "elf_address": "0x3d926c",
+      "size": 104,
+      "sha256": "9c4c1d37ac66c553e7d57294240a92d6e87188a9a01c1e63bbec57e02eadcc1a"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScript24CharAIScriptBindFunctionEv",
+      "elf_address": "0x3d8ec8",
+      "size": 100,
+      "sha256": "d45b3732ffe08455782ccd53300dac9bc109adef7e444fa9a9194e0aec451beb"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScriptC1Eb",
+      "elf_address": "0x3d8f44",
+      "size": 108,
+      "sha256": "b8c95e59d686ce373262c1c6e8aa7b3d558fbd4a7414e87e7aba126964d1b98a"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScript12_ChangeStateERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3d9710",
+      "size": 128,
+      "sha256": "a3e41147d3ecff25e7f1967f6c8ecb23ad78ed77feaaca3aabac85698e6610a5"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal8OnUpdateEv",
+      "elf_address": "0x3dce64",
+      "size": 64,
+      "sha256": "47fc8c7829030778675408d02e0b1e3773f59a620bad5d373201c65fb0e61dc6"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScript13CallStateInitEv",
+      "elf_address": "0x3d8e8c",
+      "size": 20,
+      "sha256": "d2c787f5492a5709113ab1630a47515a6782077333aa4c69e5246490937959d7"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScript19CallStateConditionsEv",
+      "elf_address": "0x3d8ea0",
+      "size": 20,
+      "sha256": "dc6f8887142c6d1db5d90d035740a2342645d48af746b5c8c4511e7f0bbcbb4f"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScript15CallStateUpdateEv",
+      "elf_address": "0x3d8eb4",
+      "size": 20,
+      "sha256": "a220137eb4be41b001f29b24a8f1bf809e4b8f3aeacd89dad90cd92497fb2369"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScript13CallStatePostEv",
+      "elf_address": "0x3d8e78",
+      "size": 20,
+      "sha256": "9ba93ce5ab74bc325bd855bd6fbeb9f2cbd5a54ddff43e95886e07d5cb93ab5a"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScript6_StateC1Ev",
+      "elf_address": "0x3d9684",
+      "size": 140,
+      "sha256": "fd3188466ad7375faf4b02f8f2a086ebc96b11191cc39fcf0c255f4c46fda05d"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScript14_RegisterStateERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3da144",
+      "size": 652,
+      "sha256": "8a1b2bb339c706a8e19b855b91be7d8eb0f5cc0a884ee901d80cbddb61a73d98"
+    }
+  ]
+}

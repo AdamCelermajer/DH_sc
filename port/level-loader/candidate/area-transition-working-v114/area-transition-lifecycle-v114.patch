@@ -1,0 +1,86 @@
+--- a/port/level-loader/gslevel_lifecycle_v2.hpp
++++ b/port/level-loader/gslevel_lifecycle_v2.hpp
+@@ -1,6 +1,7 @@
+ #pragma once
+ #include <cstdint>
+ #include <functional>
++#include <exception>
+ #include <memory>
+ #include <string>
+ #include <utility>
+@@ -60,6 +61,11 @@
+  GSLevelLifecycleStageV2 stage_{GSLevelLifecycleStageV2::idle};
+  GSLevelLifecycleStageV2 failed_at_{GSLevelLifecycleStageV2::idle};
+  bool ctor_attempted_{},dtor_attempted_{},busy_{};
++ enum class DtorContinuationV114 {entry,unload,menu_lookup,close_menu,destroy_level,clear_level,clear_global,complete};
++ DtorContinuationV114 dtor_continuation_v114_{DtorContinuationV114::entry};
++ std::uintptr_t dtor_menu_v114_{};
++ std::shared_ptr<Level> dtor_level_v114_; //SAME failed in-flight native receiver pin.
++ std::string dtor_reentry_v114_,dtor_first_failure_v114_;
+  std::string error_;
+  struct Guard { bool& busy;explicit Guard(bool& b):busy(b){busy=true;}~Guard(){busy=false;} };
+  template<class F,class... Args> bool call(GSLevelLifecycleStageV2 stage,
+@@ -129,25 +135,46 @@
+   stage_=GSLevelLifecycleStageV2::constructed;return true;
+  }
+  bool destroy(){
+-  if(busy_||dtor_attempted_){error_="GSLevel destructor already attempted or reentered";return false;}
+-  dtor_attempted_=true;Guard guard(busy_);error_.clear();
+-  if(state_.level34){
+-   // Pins protect synchronous callbacks, but each source reread still uses
+-   // the current SAME field34, including mutations by Unload/menu close.
+-   auto level=state_.level34;
+-   if(!call(GSLevelLifecycleStageV2::unload,services_.unload_level,level))return false;
++  //The SAME original destructor owns its continuation. A failed engine leaf
++  //may resume its retained prefix; no completed leaf/slot clear is replayed.
++  if(busy_){if(dtor_reentry_v114_.empty())dtor_reentry_v114_="GSLevel destructor reentered";error_=dtor_reentry_v114_;return false;}
++  if(dtor_continuation_v114_==DtorContinuationV114::complete){error_.clear();return true;}
++  dtor_attempted_=true;Guard guard(busy_);error_.clear();dtor_reentry_v114_.clear();
++  auto deliver=[&](GSLevelLifecycleStageV2 reached,const auto& fn,auto&&... args){
++   stage_=reached;bool done=false;
++   try{if(fn)done=fn(std::forward<decltype(args)>(args)...,error_);}
++   catch(const std::exception& ex){error_=ex.what();}
++   catch(...){error_="Actual GSLevel destructor provider threw";}
++   if(!done){if(error_.empty())error_="Required actual GSLevel destructor provider";if(dtor_first_failure_v114_.empty())dtor_first_failure_v114_=error_;error_=dtor_first_failure_v114_;failed_at_=reached;stage_=GSLevelLifecycleStageV2::failed;}
++   return done;
++  };
++  auto after=[&]{if(dtor_reentry_v114_.empty())return true;if(dtor_first_failure_v114_.empty())dtor_first_failure_v114_=dtor_reentry_v114_;error_=dtor_first_failure_v114_;failed_at_=stage_;stage_=GSLevelLifecycleStageV2::failed;return false;};
++  using D=DtorContinuationV114;
++  if(dtor_continuation_v114_==D::entry)dtor_continuation_v114_=state_.level34?D::unload:D::clear_global;
++  if(dtor_continuation_v114_==D::unload){
++   if(!dtor_level_v114_)dtor_level_v114_=state_.level34;
++   if(!deliver(GSLevelLifecycleStageV2::unload,services_.unload_level,dtor_level_v114_))return false;
++   dtor_level_v114_.reset();dtor_continuation_v114_=D::menu_lookup;if(!after())return false;
++  }
++  if(dtor_continuation_v114_==D::menu_lookup){
+    std::uintptr_t menu{};
+-   if(!call(GSLevelLifecycleStageV2::menu_lookup,services_.get_menu,"menu_HUD_0",menu))return false;
+-   if(menu&&!call(GSLevelLifecycleStageV2::close_menu,services_.menu_virtual10,menu))return false;
+-   if(state_.level34){
+-    level=state_.level34;
+-    if(!call(GSLevelLifecycleStageV2::destroy,services_.destroy_level,level))return false;
+-    state_.level34.reset();
+-   }
++   if(!deliver(GSLevelLifecycleStageV2::menu_lookup,services_.get_menu,"menu_HUD_0",menu))return false;
++   dtor_menu_v114_=menu;dtor_continuation_v114_=menu?D::close_menu:D::destroy_level;if(!after())return false;
+   }
+-  // Original Dtor clears s_level even when field34 is null or callbacks
+-  // changed the global to another receiver. Do not add identity guards.
+-  current_.reset();stage_=GSLevelLifecycleStageV2::destroyed;return true;
++  if(dtor_continuation_v114_==D::close_menu){
++   if(!deliver(GSLevelLifecycleStageV2::close_menu,services_.menu_virtual10,dtor_menu_v114_))return false;
++   dtor_continuation_v114_=D::destroy_level;if(!after())return false;
++  }
++  if(dtor_continuation_v114_==D::destroy_level){
++   if(dtor_level_v114_||state_.level34){if(!dtor_level_v114_)dtor_level_v114_=state_.level34;
++    if(!deliver(GSLevelLifecycleStageV2::destroy,services_.destroy_level,dtor_level_v114_))return false;
++    dtor_level_v114_.reset();dtor_continuation_v114_=D::clear_level;if(!after())return false;
++   }else dtor_continuation_v114_=D::clear_global;
++  }
++  if(dtor_continuation_v114_==D::clear_level){state_.level34.reset();dtor_continuation_v114_=D::clear_global;}
++  //Original clears s_level even if field34 is NULL or a callback changed it.
++  if(dtor_continuation_v114_==D::clear_global){current_.reset();dtor_continuation_v114_=D::complete;}
++  stage_=GSLevelLifecycleStageV2::destroyed;error_.clear();return true;
+  }
+  GSLevelLifecycleStageV2 stage()const noexcept{return stage_;}
+  GSLevelLifecycleStageV2 failed_at()const noexcept{return failed_at_;}

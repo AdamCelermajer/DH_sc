@@ -1,0 +1,71 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6CharAI12OnTargetDiedEv",
+      "elf_address": "0x3d1f60",
+      "size": 180,
+      "sha256": "6da8d908e16d3107681420588e4b3b1016fd743c20b08cd1457dc53bf8e8c791"
+    },
+    {
+      "original_symbol": "_ZN6CharAI18OnTargetOutOfSightEv",
+      "elf_address": "0x3d2410",
+      "size": 232,
+      "sha256": "25f5a5f770541af4bd2e0ae7ebd9c6ff8c3e79a8f8370e4481840285b42b2546"
+    },
+    {
+      "original_symbol": "_ZN6CharAI15OnTargetInSightEv",
+      "elf_address": "0x3d22e4",
+      "size": 300,
+      "sha256": "b06097812216ca67ab4b4bbe3fe1fa9e468aec1cec8ef41806fb7881e7b4facf"
+    },
+    {
+      "original_symbol": "_ZN6CharAI21OnTargetInRangedRangeEv",
+      "elf_address": "0x3d1d4c",
+      "size": 180,
+      "sha256": "c7e2c7747e1d9f52f78db74705a26ca69c5645decb8b08649919759a1709b1e1"
+    },
+    {
+      "original_symbol": "_ZN6CharAI15OnTargetRevivedEv",
+      "elf_address": "0x3d1eb4",
+      "size": 172,
+      "sha256": "0d202c8628568b04985f26765681b1281932d735d1ab7b0ad828d408b775507b"
+    },
+    {
+      "original_symbol": "_ZN6CharAI13AI_ClearAggroEP9Character",
+      "elf_address": "0x3d6d68",
+      "size": 388,
+      "sha256": "d59c80b01af4f6b38ff7a70f4eb21a3382a04edab27f4f6b51394c221f568040"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI21AI_IsTargetACharacterEv",
+      "elf_address": "0x3d5484",
+      "size": 60,
+      "sha256": "fe5c3852c20bacf37cf9baca98e6b0be27f2bcf8d2599ba20932ea5f6ff4522b"
+    },
+    {
+      "original_symbol": "_ZN6CharAI20OnTargetInCloseRangeEv",
+      "elf_address": "0x3d1ca0",
+      "size": 172,
+      "sha256": "42cd4cb02847a00d6899881f58fb644e264a75a21b49acdfd8de73a45fe2dbc5"
+    },
+    {
+      "original_symbol": "_ZN6CharAI20OnTargetInMeleeRangeEv",
+      "elf_address": "0x3d1bf4",
+      "size": 172,
+      "sha256": "d0037bf66340c616960a93018baab73fd6bd0aa46c0b013a97f6dce143f181b3"
+    },
+    {
+      "original_symbol": "_ZN6CharAI23AI_GetTargetAsCharacterEv",
+      "elf_address": "0x3d5450",
+      "size": 52,
+      "sha256": "a99083c93b92d2a21331dc1f53a8291a7bd1834a1e1b0a4b39aae8b48b823b35"
+    },
+    {
+      "original_symbol": "_ZN6CharAI18OnTargetOutOfRangeEv",
+      "elf_address": "0x3d1e00",
+      "size": 180,
+      "sha256": "18f70309c54cb2bd7fd028adffe5cc229f50ff33adbae6420cfa0998e973b072"
+    }
+  ]
+}

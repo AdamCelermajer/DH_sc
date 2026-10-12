@@ -1,0 +1,24 @@
+004595c8 70402de9 push {r4, r5, r6, lr}
+004595cc 0010a0e3 mov r1, #0
+004595d0 1c00a0e3 mov r0, #0x1c
+004595d4 e5dbfaeb bl #0x310570
+004595d8 40409fe5 ldr r4, [pc, #0x40]
+004595dc 40209fe5 ldr r2, [pc, #0x40]
+004595e0 0050a0e1 mov r5, r0
+004595e4 04408fe0 add r4, pc, r4
+004595e8 022094e7 ldr r2, [r4, r2]
+004595ec 0030a0e3 mov r3, #0
+004595f0 0010e0e3 mvn r1, #0
+004595f4 082082e2 add r2, r2, #8
+004595f8 183085e5 str r3, [r5, #0x18]
+004595fc 081085e5 str r1, [r5, #8]
+00459600 0430c5e5 strb r3, [r5, #4]
+00459604 0c3085e5 str r3, [r5, #0xc]
+00459608 103085e5 str r3, [r5, #0x10]
+0045960c 143085e5 str r3, [r5, #0x14]
+00459610 102080e4 str r2, [r0], #0x10
+00459614 bc97fbeb bl #0x33f50c
+00459618 0500a0e1 mov r0, r5
+0045961c 7080bde8 pop {r4, r5, r6, pc}
+00459620 acb45300 subseq fp, r3, ip, lsr #9
+00459624 bc460000 strheq r4, [r0], -ip

@@ -1,0 +1,39 @@
+{
+  "validation": "PASS",
+  "scope": "Actual source Value.getString for string/nil/Boolean ChangeAIState keys; numeric/identity formatting remains outside the native binding domain.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_instructions_executed": true,
+  "comparisons": 5,
+  "rows": [
+    {
+      "type": 0,
+      "value_bits": 0,
+      "key": "nil"
+    },
+    {
+      "type": 1,
+      "value_bits": 0,
+      "key": "false"
+    },
+    {
+      "type": 1,
+      "value_bits": 1065353216,
+      "key": "true"
+    },
+    {
+      "type": 1,
+      "value_bits": 2147483648,
+      "key": "false"
+    },
+    {
+      "type": 4,
+      "value_bits": 0,
+      "key": "probe"
+    }
+  ],
+  "probe_sha256": "111a117d1d2806fdeed997832fe5ecb1e2133f5f37fbb4d808aebb560fa10cac",
+  "manifest_sha256": "6729e4d87075dec2e4ed17df76923d2ab07cb9350f75a9bc7de36ee889d1378d",
+  "explicit_services": [
+    "Imported AEABI float equality; original getBool/getString instructions and literal strings execute."
+  ]
+}

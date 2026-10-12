@@ -1,0 +1,68 @@
+{
+  "validation": "PASS",
+  "source_sha256": {
+    "port/android-native/app/src/main/cpp/swf_gpu.hpp": "3b51783861ef05041733c4f9566234b6d2589411b11211d439b1a1e406255940",
+    "port/android-native/app/src/main/cpp/swf_gpu.cpp": "4f848aed44bf36d25fde8e8bc30d5d43cd28073d259792deee1d9871b1cdf311",
+    "port/android-native/app/src/main/cpp/authored_shader_program.hpp": "a65fa08b21a95ff970550f7b21103144c49ad5472587f6054485f35154252fe8",
+    "port/android-native/app/src/main/cpp/authored_shader_program.cpp": "2f4ed55901764313704d93b11d3730698adf26a16f5cd60214dd695d2630e92e",
+    "port/android-native/app/src/main/cpp/CMakeLists.txt": "591b4712fc21251f0d75e344c3683d17b4222b72365892171f8b30ad7c005917",
+    "port/engine-ui/swf_movie.hpp": "5b20a061a6edf154c8fe335f4df0ea1e608a03f45e2744a1fb7f19430566b464",
+    "port/scene-materials/shader_sources.hpp": "8115f47857aca50468885e55fb549d902e4ac0ef5220f6b88ae7ce0da8092afb",
+    "port/android-native/tools/swf_gpu_compile.py": "d3820c523d72f19c8fdccc4a2d30c6697f00a19a13428327bde00d67724c76ac"
+  },
+  "compiler_sha256": "3da8eb6f49b741ab885854665f10d3793822232f133f8c0233a8a4cb32c97dc0",
+  "commands": [
+    {
+      "abi": "arm64-v8a",
+      "arguments": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=aarch64-linux-android26",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-fsyntax-only",
+        "-I",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\scene-materials",
+        "-I",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\authored_shader_program.cpp",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\swf_gpu.cpp"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "abi": "x86_64",
+      "arguments": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=x86_64-linux-android26",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-fsyntax-only",
+        "-I",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\scene-materials",
+        "-I",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\authored_shader_program.cpp",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\swf_gpu.cpp"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "compile_only": true,
+  "linked": false,
+  "packaged_apk": false,
+  "live_gpu": false,
+  "original_full_render_parity": false,
+  "scope": "Modern GLES2 native SWF draw sink; source shader/known immediate color and blend connections; retained textures and shared-stencil query target"
+}

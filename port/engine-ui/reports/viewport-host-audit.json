@@ -1,0 +1,51 @@
+{
+  "validation": "PASS",
+  "comparisons": 5200,
+  "ordered_services": 12683,
+  "failure_reentry_guards": 12,
+  "mismatches": 0,
+  "sanitizer_findings": 0,
+  "sanitizers": [
+    "address",
+    "undefined",
+    "leak"
+  ],
+  "source_sha256": {
+    "viewport.hpp": "372e0a5aa123edf40c2a7ec6a0d9ae2f97a8af891f05f5dbd9996aaabb51ffd5",
+    "viewport.cpp": "ba2ccdba830d992463f1f61bc02501fb5d7fff65b2c4b246ca5df490e3758ba9",
+    "tests\\viewport.cpp": "6e5ce43ad41e5b136d5c3565b1e9f3ddc254c3218e92b5f02bc779d873eb1cfc"
+  },
+  "gold_sha256": "ba12fd0e90048d62c1dad24c5a011210538c0d39d7cc6126c70eedc9e4742e29",
+  "executable": "/home/adampalace/dh2-viewport-audit/viewport_audit",
+  "executable_sha256": "150bfd00619ed559469055ba3eaa9e7fa69c9fde8bef20e45a37f40318a629a6",
+  "compile_command": [
+    "wsl",
+    "-e",
+    "g++",
+    "-std=c++17",
+    "-O1",
+    "-g",
+    "-ffp-contract=off",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/viewport.cpp",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/tests/viewport.cpp",
+    "-o",
+    "/home/adampalace/dh2-viewport-audit/viewport_audit"
+  ],
+  "compiler_provenance": true,
+  "dependency_inventory": "\tlinux-vdso.so.1 (0x00007286ec8f8000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x00007286ec000000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007286ebc00000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x00007286ec77c000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x00007286eb400000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007286ec74e000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x00007286eb000000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007286ec8fa000)\n",
+  "runner_sha256": "0db499a6f264d34e23806b9c2b81cc6d84dc739b69adbe40df06666798686717",
+  "limits": {
+    "gpu_pixels": false,
+    "whole_menu_camera_owner": false,
+    "original_as_object_publication": false,
+    "driver_orientation_producer": false,
+    "original_weak_player_ownership": false
+  },
+  "scope": "Real original-gold coupled viewport arithmetic/state/services; required provider failures and synchronous publication reentry are native guards."
+}

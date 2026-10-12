@@ -1,0 +1,24 @@
+{
+  "schema": "dh2-character-spawn-fields-v42-verified",
+  "validation": "PASS candidate actual actor/factory fields and borrowed spawn kernel",
+  "native_output": "PASS real_factory_records=8 actual_actor270=1 same_probability_backing=1 property_guard_foreign_alias_adoption=1 shared_application_positive_zero_cached=1 actual_live_type_archetype=1 lifecycle_order_failures=3 record_alias_lifetime=1 no_model_template_selection=1 rng0_calls=5 rng1_calls=0\n",
+  "sources": {
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-spawn-fields-v42\\retained_character_actor_v1.cpp": "fdc2e83bc8610e174d4131f793288082e5f6ebeb53d66e8acd08ab6e1fae140a",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-spawn-fields-v42\\canonical_character_family_v4.cpp": "8c03a087b472bc7e919139affebd10a0229955b850744d075d85d15c5a3de3e9",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-spawn-fields-v42\\character_is_player_v41.cpp": "3968a3d59a254344dece961d418927160d23fdbe1bb82818f83274a2f3a95e43",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\game_object_spawn_probability_v1.cpp": "6156de7e656d0b94678669a990a95cf348fcd37534b13610d46d9fa891673d1b",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-spawn-fields-v42\\character_spawn_fields_v42_test.cpp": "535360839624e1df3814f53a5e8ae799328de179e13a80c20d401d5ddfe901c2"
+  },
+  "root_spawn_header_sha256": "ac474a9414a481802a63f95324e60c0253d3f1e1693f2ac509385255dfd9e87f",
+  "V5_spawn_header_sha256": "ac474a9414a481802a63f95324e60c0253d3f1e1693f2ac509385255dfd9e87f",
+  "binary_sha256": "14658e6f5a38f5f210c4373b9553ca9967ece3964cf2bc905e6e745ae6523569",
+  "link_map_sha256": "0833642df85112bd8af9d6a27742dcb65a9936bb3675a9980b1b5237ec1c3fab",
+  "original_cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "original_design_fixture_sha256": "6e7d4390521ef857295c59ce3457cde8690a82ee9d14b5208588779b24acbd70",
+  "old_actor_factory_archives_not_linked": true,
+  "selected_graph_unchanged": true,
+  "actual_constructor_property_owner": true,
+  "network_offline_lifecycle_providers": "Explicit pinned fixtures; existing kernel branch/order tested, main behavior not claimed",
+  "model_template_constructor_preselection": false,
+  "emulator_launched": false
+}

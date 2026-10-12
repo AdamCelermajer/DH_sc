@@ -1,0 +1,19 @@
+003963c0 000000dc t _GLOBAL__I_.._.._sources_Game_Objects_Zones_QuestMoveInZone.cpp
+00340f50 00000024 W ObjectBase* GetNewInstance<QuestMoveInZone>()
+00396120 00000130 T QuestMoveInZone::OnCollisionBegins(GameObject*)
+00396330 00000048 T QuestMoveInZone::QuestMoveInZone(ObjectBase::GO_IDS)
+00396378 00000048 T QuestMoveInZone::QuestMoveInZone(ObjectBase::GO_IDS)
+003962d4 0000001c T QuestMoveInZone::~QuestMoveInZone()
+0039628c 00000040 T QuestMoveInZone::~QuestMoveInZone()
+003962f0 00000040 T QuestMoveInZone::~QuestMoveInZone()
+009f5b84 000000c0 B Structs::v2QuestMoveInZone::m_dataNames
+0099affc 00000020 D Structs::v2QuestMoveInZone::m_dataOffsets
+005036b8 00000278 T Structs::v2QuestMoveInZone::read(IStreamBase*)
+004cee48 0000004c T Structs::v2QuestMoveInZone::finalize()
+004ceeec 0000001c T Structs::v2QuestMoveInZone::~v2QuestMoveInZone()
+004cee94 00000058 T Structs::v2QuestMoveInZone::~v2QuestMoveInZone()
+004cef08 00000058 T Structs::v2QuestMoveInZone::~v2QuestMoveInZone()
+00964ac8 00000104 D vtable for QuestMoveInZone
+00969ed8 00000018 D vtable for Structs::v2QuestMoveInZone
+003962cc 00000008 T non-virtual thunk to QuestMoveInZone::~QuestMoveInZone()
+00396284 00000008 T non-virtual thunk to QuestMoveInZone::~QuestMoveInZone()

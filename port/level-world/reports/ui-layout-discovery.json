@@ -1,0 +1,48 @@
+{
+  "status": "SOURCE_DISCOVERY_COMPLETE",
+  "scope": "Original menu/HUD resource, authored hierarchy, viewport/input and draw ownership inventory; no production UI or live draw claim",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "captured_routines": 45,
+  "cache_movies": 30,
+  "length_checked_movies": 30,
+  "table_resource_pointers": 28,
+  "droid_stage_pixels": [
+    480,
+    320
+  ],
+  "droid_slot_resources": [
+    "dqshared_droid.swf",
+    "dqcharmenu_droid.swf",
+    "dqmenus_droid.swf",
+    "dqhud_droid.swf"
+  ],
+  "arm64_comparisons": 0,
+  "native_production_implementation": false,
+  "live_draw_verified": false,
+  "first_visible_slice": "Authored HUDStyle0 player HP/MP/XP/potion status subtree connected to genuine native data",
+  "remaining_dependencies": [
+    "Owned SWF dictionary/display-list/action lifetime",
+    "Original shape tessellation and concrete GameSWF native draw sink",
+    "Texture manager requested-name resolution",
+    "Font/glyph resolver",
+    "Source InfoHUDManager updates and cursor/native callbacks"
+  ],
+  "files_sha256": {
+    "port/level-world/reference/ui-layout/menu-resource-table.json": "7da0dcb6c8ff60e57942fdd335d97dcbd873e4727f8f9a6d1c2031ddea19dd0d",
+    "port/level-world/reference/ui-layout/NOTES.md": "691061680eec5e395d90a68fd676bfa4d2b9c3cb1971d5eaaf764bc4a07bcaaf",
+    "port/level-world/reference/ui-layout/original-functions.json": "e6b1f6d5ecc8ed7e54edebead418ca2b4c462085170b04b59bfc93f5cc423c53",
+    "port/level-world/reference/ui-layout/source-global-bindings.json": "434ca8f2dd3daa1716e89017b7fa5e15021cc15da5d79a858a80520c16dd0524",
+    "port/level-world/reference/ui-layout/swf-inventory.json": "93c662ec81027a94bdb60b65ce538d858d641b3dee901d741f0b00cae5739100",
+    "port/level-world/reference/ui-layout/display-input/original-functions.json": "20530cae48c9b26c625f9aa77dd34e9c456060086908a4a971959dd003a81316",
+    "port/level-world/reference/ui-layout/flash-camera/original-functions.json": "b3a7861835a36680509bcc7e0a26531cbec2fa50b19a0112bf5345ea1eaa3c16",
+    "port/level-world/reference/ui-layout/hud-bindings/original-functions.json": "06e8060d67582fea3a4abe726ef1e8b00a28c0d23b056abdc565ee342a8e1585",
+    "port/level-world/reference/ui-layout/reference/original-functions.asm": "ee4d486785280093dce4f28be1853ab73c0619389135ef1a11f8b025b493b9a9",
+    "port/level-world/reference/ui-layout/texture-loader/original-functions.json": "1774bd9ba1b67d33b12c285da894d22bc287bbe0c2fdf22a106440fda2c05116",
+    "port/level-world/reference/ui-layout/viewport-backend/original-functions.json": "f8b1418b77887e2eef20fdbf728357a554a202dbbfe2e01807ba94a507d07b9e",
+    "port/level-world/reference/ui-layout/display-input/reference/original-functions.asm": "b9ab24073680ad5d0e2ff90068ba2c2af2bc2891c867fe30eec91c99fd942e32",
+    "port/level-world/reference/ui-layout/flash-camera/reference/original-functions.asm": "d682267376ae019279ebc0863025223465ebeb17454555dd54f159a58680d14b",
+    "port/level-world/reference/ui-layout/hud-bindings/reference/original-functions.asm": "08d3497a4e0c76edf4c3a44e6dceb69a7ba7af0353c41082c95c60fd33052547",
+    "port/level-world/reference/ui-layout/texture-loader/reference/original-functions.asm": "59191ee23de3d66e51e326dacb4bc798d9d8c7d2ca94d01c3f925b27548c2cb3",
+    "port/level-world/reference/ui-layout/viewport-backend/reference/original-functions.asm": "8bf071aad0dbd7f0b9bca1ad25a3f63888a5b4e1d1419596a7152dc6a5a9c014"
+  }
+}

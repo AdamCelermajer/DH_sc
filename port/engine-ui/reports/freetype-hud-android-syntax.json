@@ -1,0 +1,500 @@
+{
+  "validation": "PASS",
+  "checks": 70,
+  "failures": 0,
+  "compiler_sha256": "f2e1b93d9dd27b847773e7de61b00f1b49ae27eb20ba434297cc020f768a1dfb",
+  "script_sha256": "e631f7819adfbdb43a6bdb7e8129160003895cd52311ad98acf3b784c66afa39",
+  "checks_detail": [
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/base/ftbase.c",
+      "sha256": "ae923732a70f13b79aca3a40d7c8ed260eb9256791dd5b10b493a5252941c123",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/base/ftinit.c",
+      "sha256": "353a85ea69c43d5a46a918c7b44a625723825fc321d82f22859a387e187810c6",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/base/ftsystem.c",
+      "sha256": "13200847a1f67005b7af0f4bd96a57f1fdc124917d642edd3e41d3efcc11cca7",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/base/ftdebug.c",
+      "sha256": "588a8f282c4babc4ad3a24ffee1578a3a7fb4b906a7083ca291c75dbe9f1a7b1",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/base/ftbbox.c",
+      "sha256": "c6b4955793526817e84c7c09d63ead5070726ab769f978997960c7b32b4c1586",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/base/ftglyph.c",
+      "sha256": "c0f553fdf61782b3deb598cbbf9886ad04f1689cf2279d7e2c82f5ba9e77d8f3",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/base/ftmm.c",
+      "sha256": "bb2a709c82582829d87dbdf897452e61d631b322b8f5b5c701078f43167eeb26",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/base/ftstroke.c",
+      "sha256": "ea7128e5c0360591576dc7024f00ded2c9232f68d6147b5b04cac03b35af6201",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/base/ftsynth.c",
+      "sha256": "d714d3ab56427e7474ae7e914fb219d4f1e6a854d3d35c399e9b0e7f29476558",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/base/fttype1.c",
+      "sha256": "4aa04c4fe4cf3d714fe086a73807fa1402401b1cdbc75d39aa6393fbcc020c36",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/base/ftpatent.c",
+      "sha256": "36f7408bf945218b68ba88c2a03613760236441c0bc67eaa39752e6a6bf1faa2",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/base/ftxf86.c",
+      "sha256": "73fc6d4c44aad14181dc53f0f1ee1ea5d825543b544431bbdff78830d4413ad3",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/autofit/autofit.c",
+      "sha256": "82d9b0c94abb0549530e77b97e82bd32abbffd4fc315dda288edae1cb3e8e096",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/truetype/truetype.c",
+      "sha256": "d0276165858166e623c5b52d6acf40f3b5693ff7c5652070134d87627862330d",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/type1/type1.c",
+      "sha256": "542506466a8b10c9c8ec6ac1ebe279335f8cbc1d35e970cf831d0e7fd44ab146",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/cff/cff.c",
+      "sha256": "a4e06dd6eae9108aff1937e87c121af3463c0f1f058c71c94aaf864d824ceaf4",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/cid/type1cid.c",
+      "sha256": "e9ba744674f8c6575287ce380da55269b98da097c71c0d67ce8f0562fb47e3b7",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/pfr/pfr.c",
+      "sha256": "b8afa65ad1c0f319ea6c927200ba103fa2e5f87da2fc3a1833843aac181dd4f8",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/type42/type42.c",
+      "sha256": "7d3cdb86920eac07ac417e751d083663d9e8916dc30aa3a0acc1df3a98c1f342",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/winfonts/winfnt.c",
+      "sha256": "19eac7da6d6f700487469d86c23e66612c2f89202df4b58651b308f9e7ac7e08",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/pcf/pcf.c",
+      "sha256": "aec65ebedec28d723840eb3fcc0101b054497ba4be90aaf3c6109de8b59e3441",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/psaux/psaux.c",
+      "sha256": "95beb93e9e4a698bcfd57507f85d6ad64d81a71668f0750ea3ce7c0ee5a63d51",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/psnames/psnames.c",
+      "sha256": "0bfc37a7ea10957ffbba795709180284cddac94ed7585cb0c8f021e006bf93c6",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/pshinter/pshinter.c",
+      "sha256": "9df840254ac7c5c5733555e88cead5a5188cdae228a6f219a11b855f76297afa",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/raster/raster.c",
+      "sha256": "1114c09192bf63902a3340ea895821f90481a5fd442e38b59eaa158b0e4a2ff6",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/sfnt/sfnt.c",
+      "sha256": "7d47f9c990b280d35573ec5cfd5a473d7f3c8e00e4d2da79043785bc895ab04c",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/smooth/smooth.c",
+      "sha256": "bb18f6ec04fcf2a5d9b9cf953eca4968867515989dd1abee6f5f42188e4668c8",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/bdf/bdf.c",
+      "sha256": "1ea998608095b53c23cf457fe7c1d3eb198c4c386bdc23a517400108b1ec9b96",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/gzip/ftgzip.c",
+      "sha256": "dbf11d8050931aa59f33a5ff76c7e1cd4d442d2c231aa99abdd6fcbc3a668f39",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/lzw/ftlzw.c",
+      "sha256": "8d0db74d4474877e9c261b3541f36d584dc2413494b65c09014dc94fdc1c2943",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/freetype_font.cpp",
+      "sha256": "efbf41c933e87bc915b0ea5f73d7b261d6ca2273b5f3bdbf568d93618c844aeb",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/freetype_glyph_kernel.cpp",
+      "sha256": "e4453c580e13a1a3cd0e977dcc77dd5dd68357239442f45821c6ba6aab4de3ec",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/swf_freetype_provider.cpp",
+      "sha256": "afbc4d3c761e3ca972310ffe00c6f72828cc79e0274b852c6a89e45146a01999",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/swf_font_geometry.cpp",
+      "sha256": "db2c47657bb2227a017db5570a1d1cd097678f442ff0687f5cb319b3336d410a",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/swf_font_resolver.cpp",
+      "sha256": "1876dfb38e04eb4f31243d59d64a746ff5a3d3d62a8b1f0d44a72174d720e96a",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/base/ftbase.c",
+      "sha256": "ae923732a70f13b79aca3a40d7c8ed260eb9256791dd5b10b493a5252941c123",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/base/ftinit.c",
+      "sha256": "353a85ea69c43d5a46a918c7b44a625723825fc321d82f22859a387e187810c6",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/base/ftsystem.c",
+      "sha256": "13200847a1f67005b7af0f4bd96a57f1fdc124917d642edd3e41d3efcc11cca7",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/base/ftdebug.c",
+      "sha256": "588a8f282c4babc4ad3a24ffee1578a3a7fb4b906a7083ca291c75dbe9f1a7b1",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/base/ftbbox.c",
+      "sha256": "c6b4955793526817e84c7c09d63ead5070726ab769f978997960c7b32b4c1586",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/base/ftglyph.c",
+      "sha256": "c0f553fdf61782b3deb598cbbf9886ad04f1689cf2279d7e2c82f5ba9e77d8f3",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/base/ftmm.c",
+      "sha256": "bb2a709c82582829d87dbdf897452e61d631b322b8f5b5c701078f43167eeb26",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/base/ftstroke.c",
+      "sha256": "ea7128e5c0360591576dc7024f00ded2c9232f68d6147b5b04cac03b35af6201",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/base/ftsynth.c",
+      "sha256": "d714d3ab56427e7474ae7e914fb219d4f1e6a854d3d35c399e9b0e7f29476558",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/base/fttype1.c",
+      "sha256": "4aa04c4fe4cf3d714fe086a73807fa1402401b1cdbc75d39aa6393fbcc020c36",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/base/ftpatent.c",
+      "sha256": "36f7408bf945218b68ba88c2a03613760236441c0bc67eaa39752e6a6bf1faa2",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/base/ftxf86.c",
+      "sha256": "73fc6d4c44aad14181dc53f0f1ee1ea5d825543b544431bbdff78830d4413ad3",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/autofit/autofit.c",
+      "sha256": "82d9b0c94abb0549530e77b97e82bd32abbffd4fc315dda288edae1cb3e8e096",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/truetype/truetype.c",
+      "sha256": "d0276165858166e623c5b52d6acf40f3b5693ff7c5652070134d87627862330d",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/type1/type1.c",
+      "sha256": "542506466a8b10c9c8ec6ac1ebe279335f8cbc1d35e970cf831d0e7fd44ab146",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/cff/cff.c",
+      "sha256": "a4e06dd6eae9108aff1937e87c121af3463c0f1f058c71c94aaf864d824ceaf4",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/cid/type1cid.c",
+      "sha256": "e9ba744674f8c6575287ce380da55269b98da097c71c0d67ce8f0562fb47e3b7",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/pfr/pfr.c",
+      "sha256": "b8afa65ad1c0f319ea6c927200ba103fa2e5f87da2fc3a1833843aac181dd4f8",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/type42/type42.c",
+      "sha256": "7d3cdb86920eac07ac417e751d083663d9e8916dc30aa3a0acc1df3a98c1f342",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/winfonts/winfnt.c",
+      "sha256": "19eac7da6d6f700487469d86c23e66612c2f89202df4b58651b308f9e7ac7e08",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/pcf/pcf.c",
+      "sha256": "aec65ebedec28d723840eb3fcc0101b054497ba4be90aaf3c6109de8b59e3441",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/psaux/psaux.c",
+      "sha256": "95beb93e9e4a698bcfd57507f85d6ad64d81a71668f0750ea3ce7c0ee5a63d51",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/psnames/psnames.c",
+      "sha256": "0bfc37a7ea10957ffbba795709180284cddac94ed7585cb0c8f021e006bf93c6",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/pshinter/pshinter.c",
+      "sha256": "9df840254ac7c5c5733555e88cead5a5188cdae228a6f219a11b855f76297afa",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/raster/raster.c",
+      "sha256": "1114c09192bf63902a3340ea895821f90481a5fd442e38b59eaa158b0e4a2ff6",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/sfnt/sfnt.c",
+      "sha256": "7d47f9c990b280d35573ec5cfd5a473d7f3c8e00e4d2da79043785bc895ab04c",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/smooth/smooth.c",
+      "sha256": "bb18f6ec04fcf2a5d9b9cf953eca4968867515989dd1abee6f5f42188e4668c8",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/bdf/bdf.c",
+      "sha256": "1ea998608095b53c23cf457fe7c1d3eb198c4c386bdc23a517400108b1ec9b96",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/gzip/ftgzip.c",
+      "sha256": "dbf11d8050931aa59f33a5ff76c7e1cd4d442d2c231aa99abdd6fcbc3a668f39",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/vendor/freetype-2.3.7-hud/src/lzw/ftlzw.c",
+      "sha256": "8d0db74d4474877e9c261b3541f36d584dc2413494b65c09014dc94fdc1c2943",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/freetype_font.cpp",
+      "sha256": "efbf41c933e87bc915b0ea5f73d7b261d6ca2273b5f3bdbf568d93618c844aeb",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/freetype_glyph_kernel.cpp",
+      "sha256": "e4453c580e13a1a3cd0e977dcc77dd5dd68357239442f45821c6ba6aab4de3ec",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/swf_freetype_provider.cpp",
+      "sha256": "afbc4d3c761e3ca972310ffe00c6f72828cc79e0274b852c6a89e45146a01999",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/swf_font_geometry.cpp",
+      "sha256": "db2c47657bb2227a017db5570a1d1cd097678f442ff0687f5cb319b3336d410a",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/swf_font_resolver.cpp",
+      "sha256": "1876dfb38e04eb4f31243d59d64a746ff5a3d3d62a8b1f0d44a72174d720e96a",
+      "exit_code": 0,
+      "diagnostic": ""
+    }
+  ],
+  "scope": "Matching FreeType source and new raster/provider/geometry modules compile at O2 for both64bit Android targets; syntax proof only, not linked/runtime/device parity."
+}

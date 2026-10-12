@@ -1,0 +1,131 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN14PlayerSavegame5_LoadEi",
+      "elf_address": "0x464f4c",
+      "size": 1252,
+      "sha256": "1bfef539dee0894ff774c62cb342cc9af7366684c5bb21de2181c8a9e4b50261"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame11_InitSkillsEv",
+      "elf_address": "0x469764",
+      "size": 288,
+      "sha256": "54a5e8724a4e86337703b0fec90e189ab9ac7ae87e93484fd9987472a38ae6cf"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory26UpdateLocalizationForItemsEv",
+      "elf_address": "0x3fdfa0",
+      "size": 56,
+      "sha256": "ffa609ba3cf51c324f178ab0c79a580f2564831e0a22aade1e6d9906009faf2b"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame17SG_SetSkillInSlotEij",
+      "elf_address": "0x4680a8",
+      "size": 968,
+      "sha256": "d2c4b34b92033f04973ffc4042210e6636a3ca57aff48f4b867846d568ace61e"
+    },
+    {
+      "original_symbol": "_ZN12ItemInstanceC2Eij",
+      "elf_address": "0x3fc494",
+      "size": 372,
+      "sha256": "c2e74652a2e6f278237f7bdda7feb47ca7551ada7dd1d770caeb53a4d1a46402"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegameC1Ejib",
+      "elf_address": "0x4655ac",
+      "size": 272,
+      "sha256": "f71ad71b4199fb3278527c0de72ad43ae6020ffcfde1fccc3f5fbe8c43b3027f"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame16SG_SetSkillLevelEji",
+      "elf_address": "0x4667c4",
+      "size": 280,
+      "sha256": "46fb5d0d8af7d90d94cc88a87c98f501b3fa3f82ec48257ec9dcdaed69856a1b"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame16__LoadPlayerNameEP11IStreamBasePv",
+      "elf_address": "0x4698dc",
+      "size": 8,
+      "sha256": "a7994cfdd2cba43b37c7129f382435e1ed8f18be17806ce683762a1e03b61bbe"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory12SetPotionQtyEi",
+      "elf_address": "0x3ffc40",
+      "size": 220,
+      "sha256": "ac8909ec668d90805eafd0dd66b807693703213d53daadc6fe15ede2f6f3a105"
+    },
+    {
+      "original_symbol": "_ZN12ItemInstance6SetQtyEi",
+      "elf_address": "0x3fa0e4",
+      "size": 152,
+      "sha256": "9296efe8b2004e4e9e1927cc4ff4c2d3e3a80d57f676093e325e25afe532f99b"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame17__LoadPlayerLevelEP11IStreamBasePv",
+      "elf_address": "0x4689a0",
+      "size": 8,
+      "sha256": "9f5364742ddf2fce679aa7cfc6caaf0d1662df485f98fb42cbdc963568cb0416"
+    },
+    {
+      "original_symbol": "_ZNK14PlayerSavegame16SG_GetSkillLevelEj",
+      "elf_address": "0x4668dc",
+      "size": 300,
+      "sha256": "6bd05dec5b1e23ef228c9fdacf875ac281a49c0d75779cae5d69a1671cbb6d67"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame15__LoadInventoryEP11IStreamBasePv",
+      "elf_address": "0x46a3a0",
+      "size": 1024,
+      "sha256": "9ee055901faece8beef7a9376e97efe0b581187de574219f238a5428adeb2c63"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventoryC1Ev",
+      "elf_address": "0x3ff200",
+      "size": 304,
+      "sha256": "31ad44df59ae03bd3aa2dbbe54a71b4f77fdf62532a64875136379353999b153"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegameC2Ev",
+      "elf_address": "0x465c40",
+      "size": 352,
+      "sha256": "d912c7e96e8d0c523b7aa8e93c40150472de43c8bd0ea8ca3773cfe13107e160"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame12__LoadSkillsEP11IStreamBasePv",
+      "elf_address": "0x46ac74",
+      "size": 912,
+      "sha256": "435710e2a716a7d1c54f6c25760542c7bf3e5cb23ad915690d1867db29038823"
+    },
+    {
+      "original_symbol": "_ZNK14PlayerSavegame17SG_GetSkillInSlotEi",
+      "elf_address": "0x467488",
+      "size": 164,
+      "sha256": "687fc181f4d032966fc375361f4e692169e4af57ca50b9fbbaa8b3045f8414b3"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory18GetCurrentSkillSetEi",
+      "elf_address": "0x3fc6a0",
+      "size": 8,
+      "sha256": "6dcd5e75586fe6683156c0d559d4827b73bd48d501fa5781a1c6099aacd7c877"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory16_AddItemInstanceEP12ItemInstancebb",
+      "elf_address": "0x3ff5d4",
+      "size": 644,
+      "sha256": "4cbfefd1a8147801fe15f33419feb63e0c4c2185f630440de9ae4333e09c4e8d"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame7SG_LoadEi",
+      "elf_address": "0x465430",
+      "size": 32,
+      "sha256": "e1733c6af3054e499ed2a742b42bbb25ff574f857df8aa0de897752035ac99b3"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame19_SetupSavedSectionsEbb",
+      "elf_address": "0x468630",
+      "size": 656,
+      "sha256": "3dff016c15ac6cd207c9a21ab4e106fc63551782e3d1a89f340cfa82198a8704"
+    }
+  ]
+}

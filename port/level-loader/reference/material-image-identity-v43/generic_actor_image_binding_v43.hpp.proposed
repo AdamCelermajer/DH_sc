@@ -1,0 +1,15 @@
+#pragma once
+#include "generic_actor_draw_submission_v38.hpp"
+#include "material_image_identity_v43.hpp"
+namespace dh2::loader {
+// Invoke only inside submit_generic_actor_draw_v38's synchronous callback.
+// Transport chooses the SAME scoped actor BRES/Scene/actual bound material;
+// source URI must come from main's retained Visual resource producer.
+inline bool decode_actor_material_images_v43(const ActorDrawPrimitiveReadV38& draw,
+ const std::string& actual_visual_resource_uri,
+ std::vector<MaterialImageIdentityV43>& out,std::string& e){
+ if(!draw.bound_material){e="Required actual source material slot";return false;}
+ return decode_retained_material_images_v43(draw.actor.scene,*draw.bound_material,
+  draw.actor.bres,actual_visual_resource_uri,out,e);
+}
+}

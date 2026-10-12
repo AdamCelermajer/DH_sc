@@ -1,0 +1,27 @@
+V96 original batching states21..24 — source implementation
+
+Working files in this directory:
+- level_batching_source_v96.hpp/.cpp: loader-owned original BatchNodeCompiler C1/vector10/map1c/root34/Compile/Free/D1 algorithms, SAME original Level158 ownership.
+- renderer_source_batching_v96.inc: real SourceRuntime stage21..24 delivery, preserving incoming stage providers.
+- same-level-scene-owner-v96.patch: SAME Level158 owner slot, SAME Scene43c producer field, independent SourceWorld native primitive input.
+- batching-current-main-integration-v96.patch: SourceRuntime include/binder after V95 and one native canonical target TU addition.
+
+Apply the Level header delta to the coherent actual context header used by the native canonical target and private selected include domain; do not install a second/stale context. Install the source header/TU under the existing port/level-loader owner, and the renderer inc beside the actual SourceRuntime TU. The native target already owns the shared map/manager/context/runtime dependencies. Append only level_batching_source_v96.cpp; no separate compiler/Scene target or duplicate World TU. Command worker supplies disjoint Level-D1 enrollment of this SAME typed owner.
+
+Source order implemented:
+21: outer loading trace; Scene.update(0,false); fresh disable gate; prior158 D1; source compiler C1; publish158 LAST.
+22: fresh gate; ordered actual manager map, real GetHandle/resolve, genuine GameObject conversion, deleted83/type/name/Faerie filters, original vector append.
+23: fresh gate; original NULL158 early return; actual visual2d8.root8 and recursive live child-f4 mapping, node->GameObject overwrite before children.
+24: fresh gate; clearRenderLists; SAME Scene43c=1; actual Device/high-low Config caps; indices230 then vertices22c conversion; actual Compile; 43c=0 only after success; batch root addChild/visible suffix.
+Compile retains original mesh attribute48, root id-1, intrusive temporary grab/drop, source word138=2, original-root addChild, lowercase nobatch traversal, exact Scene virtual50 false/callback/NULL split/zeroPoint3D call, optional driver&7 quantize(false,true), FlushMeshBuffers(true,false,false), compiled0 publication, exact visual preservation for both containers, SetVisualObject(NULL) for the reached other objects, and Trim. Linked callback writes real segment2c then GameObject2fc; the original unsafe NULL assertion/dereference is an explicit failed prefix after the NULL segment write.
+
+Static source anchors: Level _LoadBatchInit3f240c; _LoadBatchList3f2d38; _LoadBatchMap3f5ea0; _LoadBatching3f2ae4; _MapMeshNode3f5dcc; BatchNodeCompiler Compile50dc84, Free3f1868, Trim50dbbc, D1 3f1a48; linked3efe58; SetNodeVisibleRecur50e41c; MakeNoBatchVisible50cfa8. Scene virtual50 is compile58ff10 and root virtual5c is addChild598864, not detach.
+
+Actual existing source fills nullable GameObject/Character loans, true transport source_loading_fields_v95, fresh Debug calls, original Character design AI type3 test, and genuine Device queries. Omitted AsCharacter only routes through a real typed nonCharacter base receipt; no Character or Config projection is fabricated. First recursive failure is restored before native continuations, publication or driver writes. Delivered compiler is independently pinned and its actual158/slot control block remains checked. Successful temporary drop is recorded before liveness checks; D1 release does not clear a replacement slot. Failed release preserves native resource prefixes for retry.
+
+Main supplies only reached native render/resource primitives in BatchNativeServicesV96: live visual root/name/ordered children/visibility loans; CBatchMesh/CBatchSceneNode C1 and genuine intrusive grab/drop; Scene.root.addChild and exact Scene.compile; currentRenderedNode9c/mesh segment2c loans; actual driver22c/230; quantize/FlushMeshBuffers; actual GameObject.SetVisualObject(NULL); clearRenderLists. An imported exceptional __aeabi_d2iz leaf is needed only outside portable int32 conversion range. Providers must retain genuine resource owners, capture containing World/Level weakly, and preserve their own partial C1/D1 journals. GPU/draw/shader bodies stay Main-owned. Native callbacks are synchronous loans; temporary vector/callback parameters must not escape their call.
+
+This batch implements source algorithms; positive GPU/resource support remains dependent on those genuine Main primitives. No tests, compiler, runtime, build, hash, freeze or device jobs were run. Main schedules the integrated milestone.
+Parent current-source enrollment refresh: Main moved the sole18/32 binder immediately after early_debug. The V96 integration patch now adds its binder at that actual current call site, without reintroducing the old18/32 stage9-tail call or overwriting Main Stage15/terminal/object-loading changes. Other narrow includes/context/one-TU hunks unchanged. No shared writes or patch-apply/compiler/validation jobs.
+
+Parent final scope/receipt correction: borrower copies and pins the SAME CanonicalObjectBorrow receipt before native class-conversion callbacks can erase its manager entry, retaining live field views rather than detached field values. Source current checks also require actual published campaign/App/Level/manager control blocks through existing runtime borrower, so retaining old facade objects cannot authorize retired-world delivery. batching-current-scope-review-v96.patch supplies these two narrow corrections if Main already copied the earlier inc. Source-only; no shared writes or validation jobs.

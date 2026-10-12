@@ -1,0 +1,21 @@
+{
+  "validation": "PASS",
+  "comparisons": 1792,
+  "ordered_calls": 200,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_probe_sha256": "77ee71fb4fef11bc8a692f8d0b56b9e613912d098cd4aa021598e27ca94e50ac",
+  "manifest_sha256": "828ef4a1e85e3cd493879a44dfc85730b27ea9d1d4f81339a69f0133fe39a1fb",
+  "arm64_sha256": "e60674dcd49121ef867f43ee5d60a82217cf15e13969affe1b9ca3d0d5e993f5",
+  "corpus_sha256": "c0971ea0f20a0333d30926ca7d0672145b8d50313c8b70d892db3c594944db0c",
+  "source_sha256": {
+    "port/level-world/character_clear_aggro.cpp": "3f365bef641bfb522c2c8ec3255b506ff527d9199868e97aed28aeefe150c33d",
+    "port/level-world/character_clear_aggro.hpp": "878fdd198713793aa2e24917b019e0518a876eea0208ccf25dd377af328d576f",
+    "port/level-world/character_target_bindings.cpp": "b24ad01d74fbe5de98ce9416be022c6652fa8a90ed2c820a0455b293dc405665",
+    "port/game-data/aggro.cpp": "ae05055695fb38680e41b8a11c79ce8f31b3865c14d44864e6da52def34c89fe",
+    "port/level-world/tests/character_clear_aggro_differential.py": "74f731ec26ca37fc8c80bfb304a87d29d09c10aad840c95bfdbd314fadbdf841"
+  },
+  "scope": "Frozen original ClearAggro wrapper/ownership traces vs optimized ARM64.\n\nOriginal source gold executes RB operations and Value.getUserData. Native uses\nreal aggro storage primitive and actual target setter. Notification/Stop bodies\nand original null-setter body are explicit services in the ownership proof.\n",
+  "actual_native_target_setter": true,
+  "scope_delivery_VM_proof": false
+}

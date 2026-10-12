@@ -1,0 +1,37 @@
+{
+  "validation": "PASS",
+  "scope": "Freeze bounded native effect producers and recovered methods, with explicit unresolved StateInfo registry ownership.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "module_source_sha256": {
+    "port\\level-world\\character_native_effects.hpp": "159f79b89809057f44c9315e8b8c13dfb4c0c5706819654182cc6bc3c2361421",
+    "port\\level-world\\character_native_effects.cpp": "db96197a6d3edccabc7316ef9c3fb97ffa8498015d2d1d1b6c9780fa2f999d2d",
+    "port\\level-world\\tests\\character_native_effects.cpp": "a9eaa5ee36c7a278d119256a4ab541a122109896b4f2459c1228f443c35806bd",
+    "port\\level-world\\tests\\character_native_effects_focus.cpp": "c05bff2bb7323fc3b59632e0a92c4ce17b4f1f8cdf5b874012ee8a6fb860e5ab",
+    "port\\level-world\\tests\\character_native_effects_differential.py": "491cba5857644f92265b1303dc3704ee1979b3ebc1e9d5ed28f88823cd1afecd",
+    "port\\level-world\\tests\\character_native_effects_focus_differential.py": "c22f71103dea3f99f92b5533879597c990fa5fd82ff94d0bfeba3c1e3f1dad21",
+    "port\\level-world\\tests\\character_native_effects_host.py": "412bf3aff463b10c4321861365ad4152ac8dd1b0616f629e7d7108c1039aa765",
+    "port\\level-world\\tests\\character_native_effects_focus_host.py": "da6487a4ef613896f649b454f4497e67d72331cf721744b9338ffac677891f7c",
+    "port\\level-world\\tools\\build_character_native_effects_oracle.ps1": "b81f94710455e1c2ad2030883032309831cff9fb4b1b7797a8ff0b3324839b08"
+  },
+  "proof_sha256": {
+    "port\\level-world\\reports\\character-native-effects-arm64-differential.json": "47a014576d34034fdb8ff40d7e62651e4e4f788e2d52c2eaa60325adb4c5868f",
+    "port\\level-world\\reports\\character-native-effects-focus-arm64-differential.json": "9cb81726b1c21ad73db39f8f21855103685d6d5071c642d6565affa760beb513",
+    "port\\level-world\\reports\\character-native-effects-host-audit.json": "781d3c86b804425cf275510e260b507a673f08d3ed447a0feca404479a932432",
+    "port\\level-world\\reports\\character-native-effects-focus-host-audit.json": "cfd7d2eeaaf14ee374957f76ad7ddf8b1d20b14bef9af4a0dd9236041c67b175",
+    "port\\level-world\\reference\\character-native-effects\\effect-probe.json": "198725254539b40eaed464715be14d933e32824f78dd529793308b3f5bebf98b",
+    "port\\level-world\\reference\\character-native-effects\\body-probe.json": "4bc7411459e3371038c7f3372630699cff240f906ba8396f1d8c32784206df5a",
+    "port\\level-world\\reference\\character-native-effects\\focus-probe.json": "78bdfe3fd9d7f8a8092a46f8db1b2184f07b5d6a6c25c6c7005084c57b09d7f3",
+    "port\\level-world\\reference\\character-native-effects\\behavior-ownership.json": "0096ca776bc0b336e4f04e564a8e8b522f3325df99b3f9318df39317e42558f6",
+    "port\\level-world\\reference\\character-native-effects\\effect-fixtures.bin": "6fbf1febb790d95cac78a53642c60c73bb23490dc4d5256d81768ab38a12eb11",
+    "port\\level-world\\reference\\character-native-effects\\focus-fixtures.bin": "85a64a1b96be84b6182965d717df4bc1e1c39a886560453ffbaf309266a966bd",
+    "port\\level-world\\reference\\character-native-effects\\NOTES.md": "f81c6d9371f61ef219b26d41cfee5f3acedfa9f07981def8acb2eb488fae6178",
+    "port\\level-world\\reference\\character-native-effects\\validate_native.py": "4ea9e2a74a70e75b3b4e1617013fd576e9c6049eeac41efed9cb7587aa44a47e"
+  },
+  "optimized_ARM64_comparisons": 3824,
+  "ordered_original_service_requests": 15549,
+  "sanitized_host_checks": 203118,
+  "native_registered_state_owner": false,
+  "OnInit_registration_implemented": false,
+  "full_Crypt_monster_rene": false,
+  "packaged_APK": false
+}

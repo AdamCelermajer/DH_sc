@@ -1,0 +1,72 @@
+[
+  {
+    "command": [
+      "wsl.exe",
+      "-e",
+      "/usr/bin/c++",
+      "-std=c++17",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Wno-misleading-indentation",
+      "-UNDEBUG",
+      "-g",
+      "-O1",
+      "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/script_manager_owner_v52.cpp",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/tests/script_manager_owner_v52.cpp",
+      "-o",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/scriptmanager-v52/probe-normal"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "wsl.exe",
+      "-e",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/scriptmanager-v52/probe-normal",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/scriptmanager-v52"
+    ],
+    "exit_code": 0,
+    "stdout": "{\"validation\":\"PASS\",\"scripts\":70,\"original_data_records\":870,\"original_read_values\":3495,\"names\":70,\"source_context_stop_states\":70,\"failed_prefix_cases\":8,\"main_command_factories_Init_release_are_fixtures\":true,\"whole_command_execution_verified\":false,\"whole_level_ready\":false}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "wsl.exe",
+      "-e",
+      "/usr/bin/c++",
+      "-std=c++17",
+      "-fsanitize=address,undefined",
+      "-fno-omit-frame-pointer",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Wno-misleading-indentation",
+      "-UNDEBUG",
+      "-g",
+      "-O1",
+      "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/script_manager_owner_v52.cpp",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/tests/script_manager_owner_v52.cpp",
+      "-o",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/scriptmanager-v52/probe-sanitize"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "wsl.exe",
+      "-e",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/scriptmanager-v52/probe-sanitize",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/scriptmanager-v52"
+    ],
+    "exit_code": 0,
+    "stdout": "{\"validation\":\"PASS\",\"scripts\":70,\"original_data_records\":870,\"original_read_values\":3495,\"names\":70,\"source_context_stop_states\":70,\"failed_prefix_cases\":8,\"main_command_factories_Init_release_are_fixtures\":true,\"whole_command_execution_verified\":false,\"whole_level_ready\":false}\n",
+    "stderr": ""
+  }
+]

@@ -1,0 +1,83 @@
+// SOURCE-ONLY checked operation; no native release/base provider is implemented.
+namespace dh2::world {
+bool CanonicalLightPointV57::prepare_source_teardown(std::shared_ptr<MainLightQuiescenceLeaseV57> lease,std::string& error){
+ if(source_teardown_state_==SourceLightTeardownStateV57::ObjectBaseCompleted){
+  // Idempotent completed operation; not a current-runtime/readiness claim.
+  error.clear();return true;
+ }
+ if(source_teardown_state_!=SourceLightTeardownStateV57::Alive&&
+    source_teardown_state_!=SourceLightTeardownStateV57::Prepared){
+  error="LightPoint source teardown already entered a native operation prefix";return false;
+ }
+ if(!lease||!lease->stamp.complete()||!lease->actual_owning_thread_barrier||
+    !same_light_runtime_owner_v57(services_.owner,lease->actual_runtime_owner)||
+    !lease->validate_current_owning_thread()){
+  error="Required same-current Main runtime/generation owning-thread light quiescence";return false;
+ }
+ auto* base=services_.objectbase_dtor.get();
+ if(!base||base->actor_identity!=identity_||!(base->stamp==lease->stamp)||
+    !same_light_runtime_owner_v57(base->actual_runtime_owner,lease->actual_runtime_owner)||
+    !base->validate_exact_actor(*lease)){
+  error="Required same-actor actual Main ObjectBase destruction continuation";return false;
+ }
+ if(strings_.find(0x180)==strings_.end()||strings_.find(0x168)==strings_.end()){
+  error="Missing constructed LightPoint source CString fields";return false;
+ }
+ auto* reference=node_.actor_reference.get();
+ if(node_.identity){
+  if(!node_.owner||!reference||reference->actor_identity!=identity_||
+     reference->actual_node_identity!=node_.identity||reference->actual_light_identity!=node_.actual_light_identity||
+     !(reference->stamp==lease->stamp)||
+     !same_light_runtime_owner_v57(reference->actual_runtime_owner,lease->actual_runtime_owner)||
+     !reference->validate_exact_actor_reference(*lease)){
+   error="Required unique genuine same-actor node120 native reference";return false;
+  }
+ }else if(reference||node_.actual_light_identity){
+  error="Foreign or abandoned native LightPoint reference while node120 is null";return false;
+ }
+ if(source_teardown_state_==SourceLightTeardownStateV57::Prepared&&teardown_lease_.get()!=lease.get()){
+  error="LightPoint teardown already prepared with a different Main lease";return false;
+ }
+ // NO CString/node/base mutation on any rejection above. Main's retained journal
+ // prevents actor destruction and registry erase on failure. Stores are passive.
+ teardown_lease_=std::move(lease);source_teardown_state_=SourceLightTeardownStateV57::Prepared;
+ error.clear();return true;
+}
+bool CanonicalLightPointV57::execute_source_teardown(std::shared_ptr<MainLightQuiescenceLeaseV57> lease,std::string& error){
+ if(source_teardown_state_==SourceLightTeardownStateV57::ObjectBaseCompleted){error.clear();return true;}
+ // Recheck SAME lease/owner/generation immediately before FIRST source mutation.
+ // Main holds the barrier and owner journal through this whole synchronous body.
+ if(!prepare_source_teardown(std::move(lease),error))return false;
+ auto attached=strings_.find(0x180);auto dae=strings_.find(0x168);
+ auto* reference=node_.actor_reference.get();auto* base=services_.objectbase_dtor.get();
+ // All operations below are infallible/nonthrowing once actual Main providers
+ // are bound. No asynchronous provider can be adopted through this contract.
+ // Source40bd1c: free attachedTo180 FIRST; empty destructor releases allocation.
+ {std::string empty;empty.swap(attached->second);}
+ source_teardown_state_=SourceLightTeardownStateV57::AttachedTo180Released;
+ if(node_.identity){
+  // Actual Main source-equivalent intrusive drop31d584; no shared_ptr decrement
+  // or no-op success endpoint counts as this call. node120 still holds identity.
+  reference->drop_actual_actor_node_reference();
+  source_teardown_state_=SourceLightTeardownStateV57::NativeActorReferenceDropped;
+  // Only after the genuine synchronous native drop returns, source clears120.
+  // The node may now be deleted: never dereference it or validate it afterwards.
+  node_.identity=0;node_.actual_light_identity=0;
+  source_teardown_state_=SourceLightTeardownStateV57::Node120Cleared;
+  node_.actor_reference.reset(); // consumed token; its destructor performs no drop
+  node_.owner.reset(); // PASSIVE pin; never counted as the source native drop
+ }else{
+  source_teardown_state_=SourceLightTeardownStateV57::Node120Cleared;
+ }
+ // Source40ab34: free dae168 AFTER drop/clear120, THEN actual ObjectBase fields.
+ {std::string empty;empty.swap(dae->second);}
+ source_teardown_state_=SourceLightTeardownStateV57::Dae168Released;
+ base->destroy_actual_objectbase_fields();
+ source_teardown_state_=SourceLightTeardownStateV57::ObjectBaseCompleted;
+ error.clear();return true;
+ // Main may now permit its usual deleting destructor/registry erase. The raw
+ // automatic list still borrows old actor addresses; Main retains the barrier
+ // until genuine SceneManager.Clear resets embedded manager vector and proves
+ // no old actor readers. C++ member destruction is not source-body evidence.
+}
+}

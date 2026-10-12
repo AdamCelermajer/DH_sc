@@ -1,0 +1,51 @@
+{
+  "status": "PASS",
+  "scope": "declared source receiver fixtures; not a production factory or whole-level acceptance",
+  "emulator": "emulator-5554",
+  "binary_sha256": "4485b9b896062c64c283b65411b9f24c60938f1b54fc50cf969285394608fd3b",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\base_named_animation_controller_v1.cpp",
+      "sha256": "101dfd49d50f13e50d4d084864cca7843be06f53ac45afa9a6427ee3db832cf7"
+    },
+    {
+      "path": "port\\level-world\\base_named_animation_controller_v1.cpp",
+      "sha256": "7e16dfe281c012b33b4c0e59de670603c2228d488d160f002f0e00cb55c97e23"
+    },
+    {
+      "path": "port\\level-world\\visual_timeline.cpp",
+      "sha256": "9a6ffdec646fc927ce82199a193df7d1d14ba2f738464e312efead143b4899ca"
+    }
+  ],
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\base_named_animation_controller_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\base_named_animation_controller_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\visual_timeline.cpp",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\base-named-animation-v1\\base-named-animation-v1.bin"
+  ],
+  "exit_code": 0,
+  "stdout": "Source base named-animation missing/active/inactive/changed/library branches PASS (declared animator fixtures)\n",
+  "stderr": ""
+}

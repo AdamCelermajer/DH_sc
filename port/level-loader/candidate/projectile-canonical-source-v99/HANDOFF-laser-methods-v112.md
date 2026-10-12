@@ -1,0 +1,9 @@
+Source-ready additive Laser/collision closure (uncompiled/unrun)
+
+Add laser_projectile_methods_v112.cpp ONCE beside projectile_methods_v112.cpp and projectile_target_methods_v112.cpp in the existing Projectile owner target. Consume the matching laser_projectile_methods_v112.hpp. No canonical class, common method implementation, backend, table, manager, scene or clock is duplicated.
+
+Implemented original Projectile.OnCollision3e55b4 and Laser.OnCollision3e3e2c, Laser bool SetInfo3e4570, float SetInfo3e449c, Update3e3fcc and GetSpeed3e3e24 on SAME V99 cells. Collision integer results remain separate from transport errors; callback results1/2/3, cached hit cells, Character admission, Laser target/FX publication and pending flags follow the original branches. Laser uses native-width node3d4/3d8/source3dc, retained physical construction prefix, source node/origin/target positioning, original cooldown and repeated-hit early return, cached App GetDt calls, soft-float operation rounding and unordered comparison behavior. Qualified GameObject Update remains the common genuine leaf; no animator frame/Scene clock is advanced here.
+
+Header addition: LaserProjectileServicesV112.object_position160 loans the actual peer position160 for Character collision FX (GetTargetPosition would add the wrong height). Positive Character/node/root/table/floor/room loans require genuine pins. Main supplies existing actual callback/AI/FX/visual/node/PF/physical/application resources; absent reached leaves fail explicitly. Float SetInfo invokes original assertion policy then actual virtualc8(false), without inventing an assertion mode. Invalid row/NULL source cannot continue into unsafe native memory.
+
+Earlier V99 six-file resource family stays unchanged. Parent owns existing-target CMake insertion and Main native service composition. No tests, compilation, builds, hashes, emulator or device jobs were run; validation remains the coordinated integrated milestone.

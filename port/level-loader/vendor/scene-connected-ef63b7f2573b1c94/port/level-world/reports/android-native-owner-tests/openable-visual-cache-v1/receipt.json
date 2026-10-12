@@ -1,0 +1,92 @@
+{
+  "status": "PASS",
+  "scope": "actual APK-linked native object owners, same base/property storage with declared external service fixtures; not full live level acceptance",
+  "apk_sha256": "392fb1aad87d7e828988a0be07c72edbc8402ac5dd7eb0489639678757886f94",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\openable_container_visual_cache_v1.cpp",
+      "sha256": "1d41e6dd1b142a3b808a44ac75a7f233a8f3a440e483d289be6ef7d409c4d684"
+    }
+  ],
+  "libraries": [
+    {
+      "file": "libdh2_engine_animation.so",
+      "sha256": "92d56a2ab0c1fc2b88dd3436299d265ee4429c4428150a40520f4c30deb576e5"
+    },
+    {
+      "file": "libdh2_engine_skinning.so",
+      "sha256": "87597c18c51d823dd0a26e3025a76b35cd8ec1e5b0e29fb6156a760b7c1228eb"
+    },
+    {
+      "file": "libdh2_engine_textures.so",
+      "sha256": "a182539ce73a50ceb8b9e3c8a8668e883f8eb63c845e96483f455c58e36ecc09"
+    },
+    {
+      "file": "libdh2_engine_ui.so",
+      "sha256": "3d8b8f65c268f80ee8c3d05e45cfad6199d4f6a90b99b61f1307026092adf82c"
+    },
+    {
+      "file": "libdh2_game_data.so",
+      "sha256": "e8a2183da9ee0f22275a7b6b3217c3253a2c4bbd277f3d70dd879ee3e8ea7aea"
+    },
+    {
+      "file": "libdh2_level_world.so",
+      "sha256": "5f3e93813f9748f838ed3c85d858f751c981318caaf1f3b145397634d9857ea5"
+    },
+    {
+      "file": "libdh2_native.so",
+      "sha256": "4a6cdab81aa363f8855a626711c311e97435042a2dad6e7f26a1ba7ec86a0d7e"
+    },
+    {
+      "file": "libdh2_scene_materials.so",
+      "sha256": "3211c21c723b12c96dd5df034d45c7505a6c4029886df81b253dd653bbe26e04"
+    },
+    {
+      "file": "libdh2_script_runtime.so",
+      "sha256": "8f84d00e6dd3070bfaa0a8ffd9dc6d416a06df797b4f9aaf33c0c11e2fc7dd5d"
+    }
+  ],
+  "binary_sha256": "9d3f1110a682d3602c9d0a5967e5a4a2bf29920ba6f0c2894815c7d0dd1bfc1b",
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\openable_container_visual_cache_v1.cpp",
+    "-LC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\openable-visual-cache-v1\\linked-libs",
+    "-Wl,--start-group",
+    "-l:libdh2_engine_animation.so",
+    "-l:libdh2_engine_skinning.so",
+    "-l:libdh2_engine_textures.so",
+    "-l:libdh2_engine_ui.so",
+    "-l:libdh2_game_data.so",
+    "-l:libdh2_level_world.so",
+    "-l:libdh2_native.so",
+    "-l:libdh2_scene_materials.so",
+    "-l:libdh2_script_runtime.so",
+    "-Wl,--end-group",
+    "-Wl,-rpath-link,C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\openable-visual-cache-v1\\linked-libs",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\openable-visual-cache-v1\\openable-visual-cache-v1.bin"
+  ],
+  "stdout": "go_chest_swamp.bdae nodes=4 meshes=2 colbox=1 bounds=-90,-55,0,90,55,150, parent_scale=1,1,1,\ngo_chest_swamp_big.bdae nodes=5 meshes=2 colbox=1 bounds=-150,-90,0,150,90,200, parent_scale=1,1,1,\ngo_chest_swamp_rotten.bdae nodes=13 meshes=2 colbox=1 bounds=-90,-55,0,90,55,150, parent_scale=1,1,1,\nActual three chest resources and complete-scene marker resolution PASS\n",
+  "stderr": "",
+  "exit_code": 0
+}

@@ -1,0 +1,12 @@
+{
+  "validation": "PASS",
+  "recorded_utc": "2026-10-06T12:34:59.470034+00:00",
+  "scope": "Parent-authorized private V5 manager header adoption only. Existing actual entries_ map and actual phase7c; CPP unchanged. Parent owns manifest/core build refresh.",
+  "base_header_sha256": "d66a38c1b01b2d37d9481dec0935e2e0a11d65532696b320e9fe84ce37ff75a8",
+  "adopted_header_sha256": "bbcc1a8591116b58a80ba276d7c86844b1fd42659203ce1c3e4192225d3e8669",
+  "cpp_sha256": "efb621894c1e008cf13da2f650a65a9e24e6f40e54a2d1378f7a27ce7e58e549",
+  "original_c1_proof_sha256": "c8a6ff02bc9fd7a92d1849357eafc5a7fc52188895bc7996b6a83ad541e1d795",
+  "cpp_modified": false,
+  "shared_checkout_modified": false,
+  "manifest_modified": false
+}

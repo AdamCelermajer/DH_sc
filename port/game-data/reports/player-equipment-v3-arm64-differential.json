@@ -1,0 +1,15 @@
+{
+  "validation": "PASS",
+  "comparisons": 1200,
+  "ordered_requests": 1229,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "fc6825a1a191be3f4c5ba40572b928593d164246bb024189fe4889be3be6418a",
+  "gold_sha256": "8e7b4cf1e7b9ef96e0ab11f9d98555795843a5a4a5899b7406e8533118b6fb37",
+  "source_sha256": {
+    "port/game-data/player_equipment_v3.hpp": "0a9dfa53dbc7ed85005856dafb43c638ede082c870115fcea1824afd8cabf2d4",
+    "port/game-data/player_equipment_v3.cpp": "f75ff7a3541420aa4ed546cdda2d2e5b65b2a721255a582c458008b3ea00b2a7"
+  },
+  "script_sha256": "c931d5c79a26d8233110823dd91e225b20d20574d2cf6c779a8ef08be68b2916",
+  "mismatches": 0,
+  "scope": "Execute source auto/equip/unequip, metadata and set/stack-byte algorithms.\nSplit, force-add, matching/merge, removal and Character effects are explicit\ncontrolled services. Real Item.GetItem/GetCurrentEquipSet execute in ARM32.\nNo live visual/item-effect/campaign parity is claimed.\n"
+}

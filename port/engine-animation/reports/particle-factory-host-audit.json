@@ -1,0 +1,41 @@
+{
+  "validation": "PASS",
+  "original_gold_cases": 1850,
+  "ownership_checks": 11,
+  "additional_contract_checks": 4,
+  "mismatches": 0,
+  "source_sha256": {
+    "port/engine-animation/particle_factory.hpp": "c7c88d7c8839914f8146316cc06ef101ca9170e0927b10855531a83aad0b77c2",
+    "port/engine-animation/particle_factory.cpp": "7b7afcbfb8d52e123a296cfad31e6e6d5d3b3e3265899f845df8e7247abf9bce",
+    "port/engine-animation/tests/particle_factory.cpp": "819c491412286d7a8a22e43afa4e5ce8d0b6f0cac7645f0a896ad4dcabeb1d1c",
+    "port/engine-animation/tests/particle_factory_host.py": "4ee0718f9223327465b84da759d44044d6c18ebef2134338f622b6c1ad641273",
+    "port/engine-resources/resources.hpp": "e8d08f735c4c5ee30baebb2d3afca0d91b805b9e3cdfc50152011dbf70ceb230",
+    "port/engine-resources/resources.cpp": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25"
+  },
+  "library_sha256": "f1c0d622e3973c99da6b0cf4bdbd12b861629d654d36b4b27f6869fc3cfb6618",
+  "executable_sha256": "f675e9f76acd5ef71a829da2f15b96e29314fb9989bfa616ab2ddeefd73a0fbb",
+  "reference_sha256": "5db64e3237d8b9b7222fb5e4f6f2d4c28f70d51aedf854198097c15d57d8d430",
+  "original_instruction_report_sha256": "4f1123756f9171006a6be6c9d7f88cd72f9c9f4f606a31cb7928e44e0cb6ab0a",
+  "isolated_particle_factory_dso_executed": true,
+  "main_world_library_executed": false,
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer"
+  ],
+  "sanitizer_findings": 0,
+  "compiler": "g++ (Ubuntu 15.2.0-16ubuntu1) 15.2.0\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+  "flags": [
+    "-std=c++17",
+    "-O1",
+    "-g",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation"
+  ],
+  "scope": "Original-derived context/generation constructor and registry gold replay through genuine isolated particle-factory DSO. No particle registry/factory/emission, Scene/GPU or complete FX playback claim."
+}

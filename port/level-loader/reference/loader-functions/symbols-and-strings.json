@@ -1,0 +1,1659 @@
+{
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "address": "0x318178",
+      "size": 96,
+      "symbol": "_ZN14UserPropertiesD1Ev",
+      "capture": "00318178.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x3181d8",
+      "size": 28,
+      "symbol": "_ZN14UserPropertiesD0Ev",
+      "capture": "003181d8.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x3181f4",
+      "size": 96,
+      "symbol": "_ZN14UserPropertiesD2Ev",
+      "capture": "003181f4.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x318e18",
+      "size": 68,
+      "symbol": "_ZN14UserProperties11AddPropertyEPKcS1_",
+      "capture": "00318e18.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x318e5c",
+      "size": 392,
+      "symbol": "_ZN14UserProperties14_ParseKeyValueEPcS0_",
+      "capture": "00318e5c.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "318f28",
+          "address": "0x8be778",
+          "value": "%22"
+        }
+      ]
+    },
+    {
+      "address": "0x318fe4",
+      "size": 88,
+      "symbol": "_ZN14UserProperties10_ParseLineEPc",
+      "capture": "00318fe4.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x31903c",
+      "size": 284,
+      "symbol": "_ZN14UserProperties16_ParsePropertiesEPKc",
+      "capture": "0031903c.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "31911c",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "319120",
+          "address": "0x8be780",
+          "value": "props"
+        },
+        {
+          "instruction": "319124",
+          "address": "0x8be788",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Utils\\UserProperties.cpp"
+        }
+      ]
+    },
+    {
+      "address": "0x319158",
+      "size": 88,
+      "symbol": "_ZN14UserPropertiesC1EPKc",
+      "capture": "00319158.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x3191b0",
+      "size": 88,
+      "symbol": "_ZN14UserPropertiesC2EPKc",
+      "capture": "003191b0.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x34b868",
+      "size": 892,
+      "symbol": "_ZN13ObjectManager11LoadFromXMLEP12TiXmlElementPKcRK7Point3DIfEi",
+      "capture": "0034b868.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "34b8a4",
+          "address": "0x8c0180",
+          "value": "gametype"
+        },
+        {
+          "instruction": "34b8b8",
+          "address": "0x8e10f0",
+          "value": "name"
+        },
+        {
+          "instruction": "34b900",
+          "address": "0x8c0448",
+          "value": "_prim_PlayerLight"
+        },
+        {
+          "instruction": "34b92c",
+          "address": "0x8c0460",
+          "value": "%s_%c"
+        },
+        {
+          "instruction": "34b9b0",
+          "address": "0x8c0468",
+          "value": "template"
+        },
+        {
+          "instruction": "34ba4c",
+          "address": "0x8c0478",
+          "value": "LevelConfig"
+        },
+        {
+          "instruction": "34bb14",
+          "address": "0x8c0460",
+          "value": "%s_%c"
+        },
+        {
+          "instruction": "34bb68",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "34bb6c",
+          "address": "0x8c0440",
+          "value": "element"
+        },
+        {
+          "instruction": "34bb70",
+          "address": "0x8c02a0",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Core\\ObjectManager\\ObjectManager.cpp"
+        }
+      ]
+    },
+    {
+      "address": "0x34bbe4",
+      "size": 48,
+      "symbol": "_ZN13ObjectManager11LoadFromXMLEP12TiXmlElementPKc",
+      "capture": "0034bbe4.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x3596f8",
+      "size": 832,
+      "symbol": "_ZN12SceneManager9LoadSceneEPKcS1_bb",
+      "capture": "003596f8.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "359818",
+          "address": "0x8c0c00",
+          "value": "_module"
+        },
+        {
+          "instruction": "35983c",
+          "address": "0x8c0c18",
+          "value": "_mesh"
+        },
+        {
+          "instruction": "359848",
+          "address": "0x8c0c08",
+          "value": "_minimap"
+        },
+        {
+          "instruction": "35984c",
+          "address": "0x8c0c20",
+          "value": "_floor"
+        },
+        {
+          "instruction": "359858",
+          "address": "0x8c0c28",
+          "value": "_exit"
+        },
+        {
+          "instruction": "3599b4",
+          "address": "0x8c0bf8",
+          "value": "-node"
+        }
+      ]
+    },
+    {
+      "address": "0x35cc0c",
+      "size": 208,
+      "symbol": "_ZN13RootSceneNode21ResetPositionFromFileEv",
+      "capture": "0035cc0c.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x388710",
+      "size": 32,
+      "symbol": "_ZN6Module9SerializeEP11IStreamBase",
+      "capture": "00388710.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x388b20",
+      "size": 312,
+      "symbol": "_ZN6Module8InitPostEv",
+      "capture": "00388b20.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "388b84",
+          "address": "0x8c2250",
+          "value": "generated_roomzone_%04d"
+        },
+        {
+          "instruction": "388bb4",
+          "address": "0x8c0378",
+          "value": "RoomZone"
+        }
+      ]
+    },
+    {
+      "address": "0x388f00",
+      "size": 76,
+      "symbol": "_ZN6Module11DeserializeEP11IStreamBase",
+      "capture": "00388f00.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x389444",
+      "size": 224,
+      "symbol": "_ZN6ModuleD1Ev",
+      "capture": "00389444.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x38952c",
+      "size": 28,
+      "symbol": "_ZN6ModuleD0Ev",
+      "capture": "0038952c.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x389548",
+      "size": 224,
+      "symbol": "_ZN6ModuleD2Ev",
+      "capture": "00389548.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x389e04",
+      "size": 224,
+      "symbol": "_ZN6Module17DeclarePropertiesEv",
+      "capture": "00389e04.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "389e24",
+          "address": "0x8c2318",
+          "value": "mgp"
+        },
+        {
+          "instruction": "389e38",
+          "address": "0x8c2320",
+          "value": "mvp"
+        },
+        {
+          "instruction": "389e4c",
+          "address": "0x8c2328",
+          "value": "alt_mgp"
+        },
+        {
+          "instruction": "389e60",
+          "address": "0x8c2330",
+          "value": "alt_mvp"
+        },
+        {
+          "instruction": "389e74",
+          "address": "0x8c2338",
+          "value": "alt_prob"
+        },
+        {
+          "instruction": "389e94",
+          "address": "0x8c2348",
+          "value": "fog_color"
+        }
+      ]
+    },
+    {
+      "address": "0x389fa8",
+      "size": 344,
+      "symbol": "_ZN6ModuleC1EN10ObjectBase6GO_IDSE",
+      "capture": "00389fa8.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x38a100",
+      "size": 344,
+      "symbol": "_ZN6ModuleC2EN10ObjectBase6GO_IDSE",
+      "capture": "0038a100.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x38a38c",
+      "size": 1280,
+      "symbol": "_ZNK6Module11_ChooseXmlsERSsS0_",
+      "capture": "0038a38c.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "38a840",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "38a844",
+          "address": "0x8be570",
+          "value": "false"
+        },
+        {
+          "instruction": "38a848",
+          "address": "0x8c2278",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Objects\\Block.cpp"
+        }
+      ]
+    },
+    {
+      "address": "0x38a88c",
+      "size": 560,
+      "symbol": "_ZNK6Module10LoadModuleEv",
+      "capture": "0038a88c.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "38a958",
+          "address": "0x8c0438",
+          "value": "Module"
+        },
+        {
+          "instruction": "38a9b4",
+          "address": "0x8c0438",
+          "value": "Module"
+        },
+        {
+          "instruction": "38aa74",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "38aa78",
+          "address": "0x8c2358",
+          "value": "lvl"
+        },
+        {
+          "instruction": "38aa7c",
+          "address": "0x8c2278",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Objects\\Block.cpp"
+        }
+      ]
+    },
+    {
+      "address": "0x38adc8",
+      "size": 28,
+      "symbol": "_ZN10GameObject8SetScaleERK7Point3DIfE",
+      "capture": "0038adc8.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x38ba74",
+      "size": 32,
+      "symbol": "_ZN12VisualObject4SyncEv",
+      "capture": "0038ba74.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x38be5c",
+      "size": 560,
+      "symbol": "_ZN10GameObject8InitPostEv",
+      "capture": "0038be5c.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x38cee8",
+      "size": 604,
+      "symbol": "_ZN10GameObject17DeclarePropertiesEv",
+      "capture": "0038cee8.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "38cf2c",
+          "address": "0x8c2230",
+          "value": "position"
+        },
+        {
+          "instruction": "38cf68",
+          "address": "0x8c2490",
+          "value": "rotation"
+        },
+        {
+          "instruction": "38cf90",
+          "address": "0x8c98a0",
+          "value": "dae"
+        },
+        {
+          "instruction": "38cfa4",
+          "address": "0x8c24a0",
+          "value": "xrefobject"
+        },
+        {
+          "instruction": "38cfb8",
+          "address": "0x8c24b0",
+          "value": "xrefmax"
+        },
+        {
+          "instruction": "38cfcc",
+          "address": "0x8e5188",
+          "value": "scale"
+        },
+        {
+          "instruction": "38cff4",
+          "address": "0x8c24b8",
+          "value": "alwaysVisible"
+        },
+        {
+          "instruction": "38d010",
+          "address": "0x8c24c8",
+          "value": "skip_checkpoint"
+        },
+        {
+          "instruction": "38d02c",
+          "address": "0x8c24d8",
+          "value": "spawn_prob"
+        },
+        {
+          "instruction": "38d088",
+          "address": "0x8c24e8",
+          "value": "PlayerLight"
+        },
+        {
+          "instruction": "38d0a0",
+          "address": "0x8c24f8",
+          "value": "lightset"
+        },
+        {
+          "instruction": "38d0c0",
+          "address": "0x8c2508",
+          "value": "idle_sound"
+        },
+        {
+          "instruction": "38d0d8",
+          "address": "0x8c2518",
+          "value": "facultative"
+        }
+      ]
+    },
+    {
+      "address": "0x3928f0",
+      "size": 656,
+      "symbol": "_ZN10GameObject12_SetPositionERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "capture": "003928f0.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x3938a0",
+      "size": 88,
+      "symbol": "_ZN10GameObject11SetRotationERK7Point3DIfE",
+      "capture": "003938a0.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x393db4",
+      "size": 220,
+      "symbol": "_ZN10GameObject11SetPositionERK7Point3DIfEb",
+      "capture": "00393db4.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x394338",
+      "size": 64,
+      "symbol": "_ZN10GameObject15SetVisualObjectEP12VisualObject",
+      "capture": "00394338.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x394d34",
+      "size": 380,
+      "symbol": "_ZN10GameObject15SetVisualObjectEPKcS1_b",
+      "capture": "00394d34.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x3ef200",
+      "size": 4,
+      "symbol": "_ZN5Level19_SpawnLoadingThreadEv",
+      "capture": "003ef200.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x3ef204",
+      "size": 4,
+      "symbol": "_ZN5Level17_CheckLoadProcessEv",
+      "capture": "003ef204.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x3ef208",
+      "size": 4,
+      "symbol": "_ZN5Level21_ThreadLoadingProcessEv",
+      "capture": "003ef208.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x3ef20c",
+      "size": 8,
+      "symbol": "_ZN5Level14LoadScriptFileEv",
+      "capture": "003ef20c.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x3ef214",
+      "size": 4,
+      "symbol": "_ZN5Level19_LoadResumeBatchingEv",
+      "capture": "003ef214.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x3ef218",
+      "size": 12,
+      "symbol": "_ZN5Level4LoadEv",
+      "capture": "003ef218.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x3ef224",
+      "size": 16,
+      "symbol": "_ZN5Level13ResetIsLoadedEv",
+      "capture": "003ef224.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x3ef3fc",
+      "size": 100,
+      "symbol": "_ZN5Level16CleanUpAllSkillsEv",
+      "capture": "003ef3fc.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x3efca4",
+      "size": 208,
+      "symbol": "_ZN5Level14_LoadFinalInitEv",
+      "capture": "003efca4.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x3eff98",
+      "size": 128,
+      "symbol": "_ZN5Level15_LoadCharStatesEv",
+      "capture": "003eff98.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x3f0018",
+      "size": 432,
+      "symbol": "_ZN5Level11_LoadPlayerEv",
+      "capture": "003f0018.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x3f01c8",
+      "size": 228,
+      "symbol": "_ZN5Level12_LoadFromXMLEP12TiXmlElement",
+      "capture": "003f01c8.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "3f01ec",
+          "address": "0x8c0180",
+          "value": "gametype"
+        },
+        {
+          "instruction": "3f01f8",
+          "address": "0x8c03d0",
+          "value": "Player"
+        },
+        {
+          "instruction": "3f026c",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "3f0270",
+          "address": "0x8c0440",
+          "value": "element"
+        },
+        {
+          "instruction": "3f0274",
+          "address": "0x8c6518",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Level\\Level.cpp"
+        }
+      ]
+    },
+    {
+      "address": "0x3f02ac",
+      "size": 100,
+      "symbol": "_ZN5Level25AssignSteamToLoadDataFileER12StreamBuffer",
+      "capture": "003f02ac.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x3f0310",
+      "size": 52,
+      "symbol": "_ZN5Level12LoadFileDataD1Ev",
+      "capture": "003f0310.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x3f03ec",
+      "size": 60,
+      "symbol": "_ZN5Level12LoadFileDataD0Ev",
+      "capture": "003f03ec.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x3f0428",
+      "size": 140,
+      "symbol": "_ZN5Level14LoadCheckpointEv",
+      "capture": "003f0428.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x3f1008",
+      "size": 908,
+      "symbol": "_ZN5Level11_LoadCameraEv",
+      "capture": "003f1008.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "3f1110",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "3f1118",
+          "address": "0x8c5bf8",
+          "value": "m_levelConfig != 0"
+        },
+        {
+          "instruction": "3f111c",
+          "address": "0x8c1c60",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources/Game/Level/Level.h"
+        },
+        {
+          "instruction": "3f1278",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "3f1280",
+          "address": "0x8c5bf8",
+          "value": "m_levelConfig != 0"
+        },
+        {
+          "instruction": "3f1284",
+          "address": "0x8c1c60",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources/Game/Level/Level.h"
+        },
+        {
+          "instruction": "3f12d0",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "3f12d4",
+          "address": "0x8c1c60",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources/Game/Level/Level.h"
+        },
+        {
+          "instruction": "3f12dc",
+          "address": "0x8c5bf8",
+          "value": "m_levelConfig != 0"
+        },
+        {
+          "instruction": "3f1328",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "3f1330",
+          "address": "0x8c65e0",
+          "value": "m_camera"
+        },
+        {
+          "instruction": "3f1334",
+          "address": "0x8c6518",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Level\\Level.cpp"
+        }
+      ]
+    },
+    {
+      "address": "0x3f240c",
+      "size": 320,
+      "symbol": "_ZN5Level14_LoadBatchInitEv",
+      "capture": "003f240c.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "3f2478",
+          "address": "0x8c6600",
+          "value": "IsDisablingCompiledBatching"
+        }
+      ]
+    },
+    {
+      "address": "0x3f2ae4",
+      "size": 596,
+      "symbol": "_ZN5Level13_LoadBatchingEv",
+      "capture": "003f2ae4.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "3f2b24",
+          "address": "0x8c6600",
+          "value": "IsDisablingCompiledBatching"
+        },
+        {
+          "instruction": "3f2bac",
+          "address": "0x8c66b0",
+          "value": "*** BUFFER SIZE: %d %d %d\n"
+        },
+        {
+          "instruction": "3f2c74",
+          "address": "0x8c66b0",
+          "value": "*** BUFFER SIZE: %d %d %d\n"
+        }
+      ]
+    },
+    {
+      "address": "0x3f2d38",
+      "size": 1008,
+      "symbol": "_ZN5Level14_LoadBatchListEv",
+      "capture": "003f2d38.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "3f2d78",
+          "address": "0x8c6600",
+          "value": "IsDisablingCompiledBatching"
+        },
+        {
+          "instruction": "3f2db0",
+          "address": "0x8c66d0",
+          "value": "isTracingBatchingCompiler"
+        },
+        {
+          "instruction": "3f2dc0",
+          "address": "0x8c0438",
+          "value": "Module"
+        },
+        {
+          "instruction": "3f2dc4",
+          "address": "0x8c0490",
+          "value": "Decor"
+        },
+        {
+          "instruction": "3f2dd8",
+          "address": "0x8c03d0",
+          "value": "Player"
+        },
+        {
+          "instruction": "3f2f30",
+          "address": "0x8c66d0",
+          "value": "isTracingBatchingCompiler"
+        },
+        {
+          "instruction": "3f2fa8",
+          "address": "0x8c04c0",
+          "value": "Character"
+        },
+        {
+          "instruction": "3f3004",
+          "address": "0x8c66d0",
+          "value": "isTracingBatchingCompiler"
+        },
+        {
+          "instruction": "3f3014",
+          "address": "0x8c05c8",
+          "value": "DestructibleContainer"
+        },
+        {
+          "instruction": "3f3034",
+          "address": "0x8c05a0",
+          "value": "OpenableContainer"
+        },
+        {
+          "instruction": "3f304c",
+          "address": "0x8c0568",
+          "value": "Door"
+        },
+        {
+          "instruction": "3f3064",
+          "address": "0x8c0548",
+          "value": "TimerTrap"
+        },
+        {
+          "instruction": "3f307c",
+          "address": "0x8c0538",
+          "value": "TriggerTrap"
+        },
+        {
+          "instruction": "3f3094",
+          "address": "0x8c0488",
+          "value": "AnimatedDecor"
+        },
+        {
+          "instruction": "3f30c0",
+          "address": "0x8c66d0",
+          "value": "isTracingBatchingCompiler"
+        }
+      ]
+    },
+    {
+      "address": "0x3f38a0",
+      "size": 440,
+      "symbol": "_ZN5Level15_LoadScriptFileERSs",
+      "capture": "003f38a0.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "3f38ec",
+          "address": "0x8c6730",
+          "value": ".pyscript"
+        },
+        {
+          "instruction": "3f39a0",
+          "address": "0x8c6740",
+          "value": "_pyscripts.bin"
+        },
+        {
+          "instruction": "3f39dc",
+          "address": "0x8c6750",
+          "value": "_pyscriptnames.bin"
+        }
+      ]
+    },
+    {
+      "address": "0x3f3a58",
+      "size": 232,
+      "symbol": "_ZN5Level12_LoadScriptsEv",
+      "capture": "003f3a58.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "3f3a88",
+          "address": "0x8c6768",
+          "value": "data/pydata/scripts_pyscripts.bin"
+        },
+        {
+          "instruction": "3f3a9c",
+          "address": "0x8c6790",
+          "value": "data/pydata/scripts_pyscriptnames.bin"
+        },
+        {
+          "instruction": "3f3af8",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "3f3b04",
+          "address": "0x8c5bf8",
+          "value": "m_levelConfig != 0"
+        },
+        {
+          "instruction": "3f3b08",
+          "address": "0x8c1c60",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources/Game/Level/Level.h"
+        }
+      ]
+    },
+    {
+      "address": "0x3f3b40",
+      "size": 1556,
+      "symbol": "_ZN5Level8LoadFileERKSsS1_",
+      "capture": "003f3b40.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "3f3b70",
+          "address": "0x8c67b8",
+          "value": "Level"
+        },
+        {
+          "instruction": "3f3cd4",
+          "address": "0x8c67c0",
+          "value": "\n\t"
+        },
+        {
+          "instruction": "3f3cf0",
+          "address": "0x8c67c0",
+          "value": "\n\t"
+        },
+        {
+          "instruction": "3f3d2c",
+          "address": "0x8cb820",
+          "value": "tiplayerConnectivity"
+        },
+        {
+          "instruction": "3f3fd4",
+          "address": "0x8be5d0",
+          "value": "static_"
+        },
+        {
+          "instruction": "3f3fdc",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "3f3fe4",
+          "address": "0x8c67c8",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources/Utils/StreamBuffer.h"
+        },
+        {
+          "instruction": "3f4058",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "3f4060",
+          "address": "0x8c6808",
+          "value": "!\"Can't parse the level file\""
+        },
+        {
+          "instruction": "3f4064",
+          "address": "0x8c6518",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Level\\Level.cpp"
+        }
+      ]
+    },
+    {
+      "address": "0x3f4154",
+      "size": 1096,
+      "symbol": "_ZN5Level8LoadTileEPN3rnd4TileEi",
+      "capture": "003f4154.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "3f4278",
+          "address": "0x8c6828",
+          "value": "/mgx/"
+        },
+        {
+          "instruction": "3f4290",
+          "address": "0x8c6830",
+          "value": ".mgx"
+        },
+        {
+          "instruction": "3f42c0",
+          "address": "0x8c6838",
+          "value": "/mvx/"
+        },
+        {
+          "instruction": "3f42d8",
+          "address": "0x8c6840",
+          "value": ".mvx"
+        },
+        {
+          "instruction": "3f4308",
+          "address": "0x8c6848",
+          "value": "/mgp/"
+        },
+        {
+          "instruction": "3f4330",
+          "address": "0x8c6850",
+          "value": "/mvp/"
+        },
+        {
+          "instruction": "3f4354",
+          "address": "0x8c0438",
+          "value": "Module"
+        },
+        {
+          "instruction": "3f4448",
+          "address": "0x8c0438",
+          "value": "Module"
+        },
+        {
+          "instruction": "3f4540",
+          "address": "0x8be570",
+          "value": "false"
+        },
+        {
+          "instruction": "3f4544",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "3f4548",
+          "address": "0x8c6518",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Level\\Level.cpp"
+        }
+      ]
+    },
+    {
+      "address": "0x3f459c",
+      "size": 884,
+      "symbol": "_ZN5Level13_LoadLightSetEv",
+      "capture": "003f459c.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "3f4600",
+          "address": "0x8c0438",
+          "value": "Module"
+        },
+        {
+          "instruction": "3f4604",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "3f4618",
+          "address": "0x8c5bf8",
+          "value": "m_levelConfig != 0"
+        },
+        {
+          "instruction": "3f462c",
+          "address": "0x8c1c60",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources/Game/Level/Level.h"
+        },
+        {
+          "instruction": "3f4728",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "3f472c",
+          "address": "0x8c1c60",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources/Game/Level/Level.h"
+        },
+        {
+          "instruction": "3f4734",
+          "address": "0x8c5bf8",
+          "value": "m_levelConfig != 0"
+        },
+        {
+          "instruction": "3f4788",
+          "address": "0x8c0438",
+          "value": "Module"
+        },
+        {
+          "instruction": "3f478c",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "3f47a0",
+          "address": "0x8c5bf8",
+          "value": "m_levelConfig != 0"
+        },
+        {
+          "instruction": "3f47b4",
+          "address": "0x8c1c60",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources/Game/Level/Level.h"
+        },
+        {
+          "instruction": "3f48a4",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "3f48a8",
+          "address": "0x8c1c60",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources/Game/Level/Level.h"
+        },
+        {
+          "instruction": "3f48b0",
+          "address": "0x8c5bf8",
+          "value": "m_levelConfig != 0"
+        }
+      ]
+    },
+    {
+      "address": "0x3f5ea0",
+      "size": 232,
+      "symbol": "_ZN5Level13_LoadBatchMapEv",
+      "capture": "003f5ea0.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "3f5ee0",
+          "address": "0x8c6600",
+          "value": "IsDisablingCompiledBatching"
+        }
+      ]
+    },
+    {
+      "address": "0x3f6990",
+      "size": 6472,
+      "symbol": "_ZN5Level12_LoadProcessEv",
+      "capture": "003f6990.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "3f69f0",
+          "address": "0x8c6ab0",
+          "value": "IsDisplayLoadingStepName"
+        },
+        {
+          "instruction": "3f6a20",
+          "address": "0x8c6ad0",
+          "value": "**************************************m_loadStep %d"
+        },
+        {
+          "instruction": "3f6b48",
+          "address": "0x8c6b20",
+          "value": "isTracingLevel_Loading"
+        },
+        {
+          "instruction": "3f6d9c",
+          "address": "0x8bf9f8",
+          "value": "RENDERING_DisableAllLighting"
+        },
+        {
+          "instruction": "3f6f00",
+          "address": "0x8c1fd8",
+          "value": "menu_Loading"
+        },
+        {
+          "instruction": "3f6f2c",
+          "address": "0x8c1fe8",
+          "value": "onProgress"
+        },
+        {
+          "instruction": "3f6f8c",
+          "address": "0x8bed48",
+          "value": "menu_FadeFromBlackScreen"
+        },
+        {
+          "instruction": "3f705c",
+          "address": "0x8c17b0",
+          "value": "menu_HUD_0"
+        },
+        {
+          "instruction": "3f7060",
+          "address": "0x8c17c0",
+          "value": "completeRefresh"
+        },
+        {
+          "instruction": "3f7090",
+          "address": "0x8c6b20",
+          "value": "isTracingLevel_Loading"
+        },
+        {
+          "instruction": "3f70e0",
+          "address": "0x8c6b20",
+          "value": "isTracingLevel_Loading"
+        },
+        {
+          "instruction": "3f713c",
+          "address": "0x8c6b20",
+          "value": "isTracingLevel_Loading"
+        },
+        {
+          "instruction": "3f7188",
+          "address": "0x8c6b20",
+          "value": "isTracingLevel_Loading"
+        },
+        {
+          "instruction": "3f7248",
+          "address": "0x8c6b20",
+          "value": "isTracingLevel_Loading"
+        },
+        {
+          "instruction": "3f7274",
+          "address": "0x8c67b8",
+          "value": "Level"
+        },
+        {
+          "instruction": "3f72e4",
+          "address": "0x8c6b20",
+          "value": "isTracingLevel_Loading"
+        },
+        {
+          "instruction": "3f7364",
+          "address": "0x8c6b20",
+          "value": "isTracingLevel_Loading"
+        },
+        {
+          "instruction": "3f73d8",
+          "address": "0x8c6b20",
+          "value": "isTracingLevel_Loading"
+        },
+        {
+          "instruction": "3f742c",
+          "address": "0x8c6b20",
+          "value": "isTracingLevel_Loading"
+        },
+        {
+          "instruction": "3f7474",
+          "address": "0x8c6b20",
+          "value": "isTracingLevel_Loading"
+        },
+        {
+          "instruction": "3f74f8",
+          "address": "0x8c6b08",
+          "value": "Before Level Loading"
+        },
+        {
+          "instruction": "3f7570",
+          "address": "0x8c6b20",
+          "value": "isTracingLevel_Loading"
+        },
+        {
+          "instruction": "3f7644",
+          "address": "0x8c6b20",
+          "value": "isTracingLevel_Loading"
+        },
+        {
+          "instruction": "3f76c0",
+          "address": "0x8c6b20",
+          "value": "isTracingLevel_Loading"
+        },
+        {
+          "instruction": "3f76dc",
+          "address": "0x8c6b20",
+          "value": "isTracingLevel_Loading"
+        },
+        {
+          "instruction": "3f77d4",
+          "address": "0x8c6b20",
+          "value": "isTracingLevel_Loading"
+        },
+        {
+          "instruction": "3f7820",
+          "address": "0x8c6b20",
+          "value": "isTracingLevel_Loading"
+        },
+        {
+          "instruction": "3f783c",
+          "address": "0x8c6b20",
+          "value": "isTracingLevel_Loading"
+        },
+        {
+          "instruction": "3f7894",
+          "address": "0x8c6b20",
+          "value": "isTracingLevel_Loading"
+        },
+        {
+          "instruction": "3f7a48",
+          "address": "0x8c6b20",
+          "value": "isTracingLevel_Loading"
+        },
+        {
+          "instruction": "3f7ab4",
+          "address": "0x8c6b20",
+          "value": "isTracingLevel_Loading"
+        },
+        {
+          "instruction": "3f7b00",
+          "address": "0x8c6b20",
+          "value": "isTracingLevel_Loading"
+        },
+        {
+          "instruction": "3f7b4c",
+          "address": "0x8c6b20",
+          "value": "isTracingLevel_Loading"
+        },
+        {
+          "instruction": "3f7b98",
+          "address": "0x8c6b20",
+          "value": "isTracingLevel_Loading"
+        },
+        {
+          "instruction": "3f7c00",
+          "address": "0x8c6b20",
+          "value": "isTracingLevel_Loading"
+        },
+        {
+          "instruction": "3f7c50",
+          "address": "0x8c6b20",
+          "value": "isTracingLevel_Loading"
+        },
+        {
+          "instruction": "3f7cb0",
+          "address": "0x8c6b20",
+          "value": "isTracingLevel_Loading"
+        },
+        {
+          "instruction": "3f7cdc",
+          "address": "0x8c1fd8",
+          "value": "menu_Loading"
+        },
+        {
+          "instruction": "3f7d00",
+          "address": "0x8c17b0",
+          "value": "menu_HUD_0"
+        },
+        {
+          "instruction": "3f7d0c",
+          "address": "0x8c6b78",
+          "value": "After Level Loading"
+        },
+        {
+          "instruction": "3f7d24",
+          "address": "0x8c6ab0",
+          "value": "IsDisplayLoadingStepName"
+        },
+        {
+          "instruction": "3f7db8",
+          "address": "0x8c6b20",
+          "value": "isTracingLevel_Loading"
+        },
+        {
+          "instruction": "3f7e08",
+          "address": "0x8c6b20",
+          "value": "isTracingLevel_Loading"
+        },
+        {
+          "instruction": "3f805c",
+          "address": "0x8c6b38",
+          "value": "_BACKUP.mlx"
+        },
+        {
+          "instruction": "3f80a8",
+          "address": "0x8c6b48",
+          "value": "LevelConfig.xml"
+        },
+        {
+          "instruction": "3f80c0",
+          "address": "0x8c67b8",
+          "value": "Level"
+        },
+        {
+          "instruction": "3f814c",
+          "address": "0x8c0478",
+          "value": "LevelConfig"
+        },
+        {
+          "instruction": "3f8150",
+          "address": "0x8c6b58",
+          "value": "RuntimeDefaultLevelConfig"
+        }
+      ]
+    },
+    {
+      "address": "0x470c24",
+      "size": 96,
+      "symbol": "_ZN12VisualObject11SetPositionERK7Point3DIfE",
+      "capture": "00470c24.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x472708",
+      "size": 164,
+      "symbol": "_ZN12VisualObject10SetScalingEf",
+      "capture": "00472708.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x4727ac",
+      "size": 180,
+      "symbol": "_ZN12VisualObject10SetScalingERK7Point3DIfE",
+      "capture": "004727ac.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x472860",
+      "size": 20,
+      "symbol": "_ZN12VisualObject11SyncScalingEv",
+      "capture": "00472860.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x472874",
+      "size": 212,
+      "symbol": "_ZN12VisualObject11SetRotationERK7Point3DIfE",
+      "capture": "00472874.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x472948",
+      "size": 20,
+      "symbol": "_ZN12VisualObject12SyncRotationEv",
+      "capture": "00472948.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x472a0c",
+      "size": 592,
+      "symbol": "_ZN12VisualObjectC1EP10GameObjectRKSsS3_",
+      "capture": "00472a0c.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "472b88",
+          "address": "0x8cd6b0",
+          "value": "_colbox_"
+        }
+      ]
+    },
+    {
+      "address": "0x50a504",
+      "size": 60,
+      "symbol": "_ZN12AssetManager13loadSceneNodeEPKcS1_bi",
+      "capture": "0050a504.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x5164a8",
+      "size": 396,
+      "symbol": "_ZN13TiXmlDocument14LoadFromBufferEPKvi13TiXmlEncoding",
+      "capture": "005164a8.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x520b40",
+      "size": 1112,
+      "symbol": "_ZN7PFFloor12_LoadNavMeshEPN6glitch5scene14IMeshSceneNodeE",
+      "capture": "00520b40.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "520b74",
+          "address": "0x8dc940",
+          "value": "floortypes"
+        },
+        {
+          "instruction": "520be0",
+          "address": "0x90b6f8",
+          "value": "void"
+        },
+        {
+          "instruction": "520bfc",
+          "address": "0x8dc950",
+          "value": "wall"
+        },
+        {
+          "instruction": "520c18",
+          "address": "0x8dc958",
+          "value": "hole"
+        },
+        {
+          "instruction": "520c34",
+          "address": "0x8dc960",
+          "value": "water"
+        },
+        {
+          "instruction": "520f50",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "520f54",
+          "address": "0x8dc968",
+          "value": "node->getParent()"
+        },
+        {
+          "instruction": "520f58",
+          "address": "0x8dc8d8",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Modules\\PathFinding\\PFFloor.cpp"
+        }
+      ]
+    },
+    {
+      "address": "0x521eb8",
+      "size": 916,
+      "symbol": "_ZN6PFRoom10_LoadFloorEPN6glitch5scene14IMeshSceneNodeEPKc",
+      "capture": "00521eb8.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "521f58",
+          "address": "0x8dc9f8",
+          "value": "isTracingNavMeshLoadTime"
+        },
+        {
+          "instruction": "522158",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "52215c",
+          "address": "0x8dc9f0",
+          "value": "node"
+        },
+        {
+          "instruction": "522160",
+          "address": "0x8dc988",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Modules\\PathFinding\\PFRoom.cpp"
+        }
+      ]
+    },
+    {
+      "address": "0x523c14",
+      "size": 1432,
+      "symbol": "_ZN7PFWorld8LoadRoomEPN6glitch5scene10ISceneNodeEjPKc",
+      "capture": "00523c14.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "52402c",
+          "address": "0x8dcaa0",
+          "value": "m_state == RS_LOADING"
+        },
+        {
+          "instruction": "524030",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "524034",
+          "address": "0x8dca18",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Modules\\PathFinding\\PFWorld.cpp"
+        },
+        {
+          "instruction": "524088",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "52408c",
+          "address": "0x8dc9f0",
+          "value": "node"
+        },
+        {
+          "instruction": "524090",
+          "address": "0x8dca18",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Modules\\PathFinding\\PFWorld.cpp"
+        }
+      ]
+    }
+  ],
+  "static_data": [
+    {
+      "address": "0x956a44",
+      "words": [
+        {
+          "value": "0x8cb810",
+          "string": null
+        },
+        {
+          "value": "0x8c6bd8",
+          "string": "data/"
+        },
+        {
+          "value": "0x8c6be0",
+          "string": "data/scene/"
+        },
+        {
+          "value": "0x8bf978",
+          "string": "data/3d/modules/"
+        }
+      ]
+    },
+    {
+      "address": "0x956a54",
+      "words": [
+        {
+          "value": "0x8c6bb8",
+          "string": "old/"
+        },
+        {
+          "value": "0x8c6bc0",
+          "string": "debug/"
+        },
+        {
+          "value": "0x8c6bc8",
+          "string": "ps3/"
+        },
+        {
+          "value": "0x8c6bd0",
+          "string": "iphone/"
+        },
+        {
+          "value": "0x8cb528",
+          "string": "data/menus/dqshared.swf"
+        },
+        {
+          "value": "0x8c9ff0",
+          "string": "data/menus/dqcharmenu.swf"
+        },
+        {
+          "value": "0x8ca088",
+          "string": "data/menus/dqmenus.swf"
+        },
+        {
+          "value": "0x8ca010",
+          "string": "data/menus/dqhud.swf"
+        }
+      ]
+    },
+    {
+      "address": "0x99b07c",
+      "words": [
+        {
+          "value": "0x8dc1e8",
+          "string": "No error"
+        },
+        {
+          "value": "0x8c9f20",
+          "string": "Error"
+        },
+        {
+          "value": "0x8dc1f8",
+          "string": "Failed to open file"
+        },
+        {
+          "value": "0x8dc210",
+          "string": "Memory allocation failed."
+        },
+        {
+          "value": "0x8dc230",
+          "string": "Error parsing Element."
+        },
+        {
+          "value": "0x8dc248",
+          "string": "Failed to read Element name"
+        },
+        {
+          "value": "0x8dc268",
+          "string": "Error reading Element value."
+        },
+        {
+          "value": "0x8dc288",
+          "string": "Error reading Attributes."
+        },
+        {
+          "value": "0x8dc2a8",
+          "string": "Error: empty tag."
+        },
+        {
+          "value": "0x8dc2c0",
+          "string": "Error reading end tag."
+        },
+        {
+          "value": "0x8dc2d8",
+          "string": "Error parsing Unknown."
+        },
+        {
+          "value": "0x8dc2f0",
+          "string": "Error parsing Comment."
+        },
+        {
+          "value": "0x8dc308",
+          "string": "Error parsing Declaration."
+        },
+        {
+          "value": "0x8dc328",
+          "string": "Error document empty."
+        },
+        {
+          "value": "0x8dc340",
+          "string": "Error null (0) or unexpected EOF found in input stream."
+        },
+        {
+          "value": "0x8dc378",
+          "string": "Error parsing CDATA."
+        },
+        {
+          "value": "0x8dc390",
+          "string": "Error when TiXmlDocument added to document, because TiXmlDocument can only be at the root."
+        },
+        {
+          "value": "0x8dc850",
+          "string": "&amp;"
+        },
+        {
+          "value": "0x5",
+          "string": null
+        },
+        {
+          "value": "0x26",
+          "string": null
+        }
+      ]
+    }
+  ]
+}

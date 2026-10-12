@@ -1,0 +1,10 @@
+{
+  "validation": "PASS",
+  "V2_baseline_equals_frozen_V1": true,
+  "frozen_source_drift": [],
+  "V1_source_sha256": "cc1151c868cfd374ebf416b0ce6c6f7d7bbb6950fe4b739d665f884a05825f76",
+  "V2_source_sha256": "d0856a537dbd676c16eeb53bb0ffbff37b59215576b8f2ad2e7fc23bbece5692",
+  "player_overlay_only_change": "null the deleted process-global builtin-map pointer",
+  "vendor_player_sha256": "6dd855ffcceab227fdbd0fe037ab2c242c0afa195c4135649406dda86da16578",
+  "player_overlay_sha256": "a7236e70f0f5dfe97059b94e9db7906591c7b63272f052bdc552f3368fdf258d"
+}

@@ -1,0 +1,111 @@
+{
+  "validation": "PASS",
+  "frozen": true,
+  "entry": "dh2_character_update_queued",
+  "header": "port/level-world/character_update_queued.hpp",
+  "production": "port/level-world/character_update_queued.cpp",
+  "source_and_proof_sha256": {
+    "port/level-world/character_update_queued.hpp": "242ccf94dca0ea22725dcafce9db36ef4728496c83a117f8b6c0d51b062efa36",
+    "port/level-world/character_update_queued.cpp": "a25f222e788581de230962dcf3004279157c004badb903572f3361281e961ad7",
+    "port/level-world/tests/character_update_queued.cpp": "3bc77a852de36f9dbfcf1ece53ae4ac625cb7216f7debbd2e9a2aae556dc0e63",
+    "port/level-world/tests/character_update_queued_session.cpp": "afd70dca403f59e280868fa0d88ca5661d70aeef933813f6c107431727958f19",
+    "port/level-world/tests/character_update_queued_differential.py": "457e2ce705858ecc83357fbe57c1a6976756f7f424ce4c99f412137adf6a285c",
+    "port/level-world/tests/character_update_queued_host.py": "4d9b935eb2b40e88319cae8ebd8c730034aa0b072cd77715bd3d1b140cf63f1e",
+    "port/level-world/tools/build_character_update_queued_oracle.ps1": "a0f24e8c9c66c780a36b3ac1fde79076ceab9309c091a71a8afcbd7bb22a394c",
+    "port/level-world/reference/character-update-queued/NOTES.md": "9130c8d05c3a5dca257be0e7a4d1f64311270f7241ff0904640bf23f883013e4",
+    "port/level-world/reference/character-update-queued/queued-prefix-fixtures.bin": "106cfb75a7ce440fed96ad57a42a926891fc33a19d205299cf9405c57d3b35c1",
+    "port/level-world/reference/character-update-queued/queued-prefix-fixtures.json": "9eb03501c937191ab895bb7762403c278b891933799970f2925f47b9bd6fe2b4",
+    "port/level-world/reports/character-update-queued-arm64-differential.json": "eca0ecce304c3760dff4fedfe1b24fba90dbe4e2432ce00825743cdaee12b051",
+    "port/level-world/reports/character-update-queued-host-audit.json": "ddcf352d7a30500d05df731e39091bda78f1736ab6bc02e1e847d5b0b80e5d81"
+  },
+  "unchanged_frozen_dependency_sha256": {
+    "character_update_startup.hpp": "6ebd3b16c4553ebd72cc318bc32fa83fd986bdbb9c66bea65dbc9250be516a6f",
+    "character_update_startup.cpp": "11b2966d9bf127f9fb924320708589340b624d294a37c738230b0fa3f0bf735a",
+    "character_deferred_queue.hpp": "84eef0bb553bf211bc69f16cc8417a80da307f4eb898e28536158d989bffb852",
+    "character_deferred_queue.cpp": "e24db796b46773764565bb502d7164278fc089da396ee1463dbe4f60f95b4191"
+  },
+  "original_audit": {
+    "comparisons": 2028,
+    "ordered_prefix_services": 26059,
+    "ordered_eligibility_services": 4248,
+    "ordered_queue_callbacks": 804,
+    "ordered_entries": 29033,
+    "mismatches": 0
+  },
+  "gold_sanitizer_audit": {
+    "validation": "PASS",
+    "comparisons": 2028,
+    "ordered_prefix_services": 26059,
+    "ordered_eligibility_services": 4248,
+    "ordered_queue_callbacks": 804,
+    "ordered_entries": 29033,
+    "reentry_records": 80,
+    "failure_and_contract_checks": 19,
+    "mismatches": 0
+  },
+  "actual_retained_composition": {
+    "validation": "PASS",
+    "queued_prefix_calls": 22,
+    "application_stats_increments": 22,
+    "same_native_FSM_state_queries": 66,
+    "raw_clock_fixture_calls": 11,
+    "retained_queue_entries": 9,
+    "explicit_Kill_fixture_calls": 2,
+    "explicit_AIUnload_fixture_calls": 2,
+    "checks": 5721,
+    "actual_delayed_monsters": 11,
+    "source_Idle_before_AIS": 11,
+    "retained_FSM_and_CPU_owners": 11,
+    "split_phase_pairs": 22,
+    "source_elapsed_incremented": false,
+    "required_skills_are_fixtures": true,
+    "source_vitals_and_debug_delivered": true,
+    "combat_state_unchanged": true,
+    "full_InitPost_or_Update": false,
+    "CanUpdate_and_Application_producers_are_fixtures": true,
+    "Kill_and_full_AIUnload_are_fixtures": true,
+    "mismatches": 0
+  },
+  "sanitizer_findings": 0,
+  "private_DSO_snapshot": {
+    "libdh2_engine_animation.so": "1781296c377f1e3329aff8ce74f7b21f47b1e211a7a7c0e7caa90854887b5b2e",
+    "libdh2_engine_skinning.so": "5c40960c2deec5bf2752f5b9972cdc4cb7e254c833815df97c948538b230be4b",
+    "libdh2_game_data.so": "5f1a506662d6a45e0d79f1ea2b09269eb15e1a7f7c05cf74cfafc72533c7dbe5",
+    "libdh2_level_world.so": "f09b7dfbb9e6c03a4f0a0f0be5f9452264628cbc09279fd13ae281bc39b3332c",
+    "libdh2_scene_materials.so": "08b26f5c9f913919fd76e054e1f2aa2dc5ff4d0ac073cd7171ef08f96c975411",
+    "libdh2_script_runtime.so": "ef532dd047feeb4a95973b7ead3dcc1638f6702440ca23f24d39e1717ba6d243"
+  },
+  "parent_DSO_origins": {
+    "/home/adampalace/dh2-world-build/libdh2_level_world.so": "f09b7dfbb9e6c03a4f0a0f0be5f9452264628cbc09279fd13ae281bc39b3332c",
+    "/home/adampalace/dh2-world-build/engine-skinning/libdh2_engine_skinning.so": "5c40960c2deec5bf2752f5b9972cdc4cb7e254c833815df97c948538b230be4b",
+    "/home/adampalace/dh2-world-build/game-data/libdh2_game_data.so": "5f1a506662d6a45e0d79f1ea2b09269eb15e1a7f7c05cf74cfafc72533c7dbe5",
+    "/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so": "ef532dd047feeb4a95973b7ead3dcc1638f6702440ca23f24d39e1717ba6d243",
+    "/home/adampalace/dh2-world-build/engine-skinning/engine-animation/libdh2_engine_animation.so": "1781296c377f1e3329aff8ce74f7b21f47b1e211a7a7c0e7caa90854887b5b2e",
+    "/home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.so": "08b26f5c9f913919fd76e054e1f2aa2dc5ff4d0ac073cd7171ef08f96c975411"
+  },
+  "existing_DSO_compiler_provenance_claim": false,
+  "oracle_sha256": "e50db2f3c92100830a76f85361bf1c9a113f2daf5dd2052d64fda04fe37ba4fd",
+  "native_tests": {
+    "character_update_queued_audit": [
+      "port/level-world/reference/character-update-queued/queued-prefix-fixtures.bin"
+    ],
+    "character_update_queued_session_audit": [
+      "port/level-world/reference/character-game-design/real-cache-inputs.bin",
+      ".local-inputs/character-script-owner-discovery/ai-commons-source.luac",
+      ".local-inputs/character-script-owner-extension/monster.luac",
+      "port/android-native/app/src/main/assets/worlds/crypt01.dact",
+      ".local-inputs/character-monster-bank-assets/assets",
+      "port/android-native/app/src/main/assets/data"
+    ]
+  },
+  "complete_original_pre_controller_path": true,
+  "partial_prefix_replayed": false,
+  "whole_Character_frame": false,
+  "controller_timers_AI_animator_GameObject_and_suffix_not_executed": true,
+  "required_skills_Kill_AIUnload_provider_bodies": false,
+  "upstream_CanUpdate_Application_network_clock_are_fixtures": true,
+  "borrowed_ownership": "One shared native queue, stable actor array, providers/session/FSM/CPU and queue pinned through reentry; queue destroyed before actors",
+  "source_undefined_case": "Deleting captured RB node during Kill; no original parity claim for this undefined case",
+  "central_CMake_or_renderer_edited": false,
+  "next_direction": "User reprioritized rendering engine/full connections then original UI/layout/menu/HUD. No additional enemy-AI expansion in this handoff."
+}

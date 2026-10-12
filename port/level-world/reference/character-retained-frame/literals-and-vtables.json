@@ -1,0 +1,143 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "string_ctor_literals": [
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "ctor_callsite": "0x3abeec",
+      "literal_address": "0x8c36b0",
+      "text": "KillPlayerOne"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "ctor_callsite": "0x3abf30",
+      "literal_address": "0x8c03c0",
+      "text": "Give50Potions"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "ctor_callsite": "0x3abff0",
+      "literal_address": "0x8c36e0",
+      "text": "isABot"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "ctor_callsite": "0x3cb090",
+      "literal_address": "0x8c5058",
+      "text": "isTracingCharAnimator"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "ctor_callsite": "0x3cb1b0",
+      "literal_address": "0x8c5058",
+      "text": "isTracingCharAnimator"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "ctor_callsite": "0x3cb208",
+      "literal_address": "0x8c5058",
+      "text": "isTracingCharAnimator"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "ctor_callsite": "0x3cb27c",
+      "literal_address": "0x8c5058",
+      "text": "isTracingCharAnimator"
+    },
+    {
+      "caller": "_ZN10GameObject6UpdateEv",
+      "ctor_callsite": "0x38cc3c",
+      "literal_address": "0x8c03a0",
+      "text": "TraceUpdateGameObjectOnce"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "ctor_callsite": "0x3cf56c",
+      "literal_address": "0x8c3ce8",
+      "text": "isTracingThreatChange"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "ctor_callsite": "0x3cf798",
+      "literal_address": "0x8c53d0",
+      "text": "DisableAIDelayTimerOptim"
+    }
+  ],
+  "tables": [
+    {
+      "symbol": "_ZTV9Character",
+      "address": "0x965f30",
+      "sha256": "2f19be7616f9387498bf59506a7a0791038abb047253499b9d006e09e37349b6",
+      "slots": [
+        {
+          "offset": "0x24",
+          "key": "0x3a2e1c",
+          "symbol": "_ZNK9Character11IsCharacterEv"
+        },
+        {
+          "offset": "0x28",
+          "key": "0x3a49f0",
+          "symbol": "_ZNK9Character8IsPlayerEv"
+        },
+        {
+          "offset": "0x34",
+          "key": "0x3a2ed4",
+          "symbol": "_ZNK9Character6IsDeadEv"
+        },
+        {
+          "offset": "0x54",
+          "key": "0x33dd10",
+          "symbol": "_ZNK10ObjectBase17IsRemotelyUpdatedEv"
+        },
+        {
+          "offset": "0x98",
+          "key": "0x3a4d78",
+          "symbol": "_ZN9Character8InteractEP10GameObject"
+        },
+        {
+          "offset": "0xc4",
+          "key": "0x3a36e4",
+          "symbol": "_ZNK9Character9IsZonableEv"
+        },
+        {
+          "offset": "0x148",
+          "key": "0x3a52a4",
+          "symbol": "_ZN9Character9CanUpdateEv"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZTV12v2Controller",
+      "address": "0x965f18",
+      "sha256": "ba3dad5163ef864e9d4d47f481cd14e6c1b489980154a0c1a2f6400494c3c819",
+      "slots": [
+        {
+          "offset": "0x8",
+          "key": "0x3a2f44",
+          "symbol": "_ZN12v2Controller6UpdateEv"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZTV11AISExternal",
+      "address": "0x966a48",
+      "sha256": "0c8e51cf8c4a745c609eb36e42369561575f0591cac538fce9b68b102cbccdd1",
+      "slots": [
+        {
+          "offset": "0x18",
+          "key": "0x3dce64",
+          "symbol": "_ZN11AISExternal8OnUpdateEv"
+        },
+        {
+          "offset": "0x20",
+          "key": "0x3dbe8c",
+          "symbol": "_ZN10AISDefault14OnStateChangedEii"
+        },
+        {
+          "offset": "0x98",
+          "key": "0x3dccd0",
+          "symbol": "_ZN11AISExternal11OnEndOfAnimEv"
+        }
+      ]
+    }
+  ]
+}

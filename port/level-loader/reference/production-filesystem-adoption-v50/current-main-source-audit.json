@@ -1,0 +1,304 @@
+{
+  "hashes": {
+    "port/android-native/app/src/main/cpp/original_cache_assets_v1.hpp": "79db2a5dd189cdefe766c0ccf8f4330189c91637ebfb37ed1a626185dee51082",
+    "port/android-native/app/src/main/cpp/original_cache_assets_v1.cpp": "9105ee8da9a7673248654adaa0d286a2bf33b75cf4021e34b3efcf959243d820",
+    "port/android-native/app/src/main/cpp/model_renderer.hpp": "3ef25e73885b1b632fd46718e13890a86ff49d8c66beffaca625ffccbdce90d9",
+    "port/android-native/app/src/main/cpp/model_renderer.cpp": "f5e18dc288f614f7aaf0ce8dfff34da15acf0f2613d16edb3135a532396a5d62",
+    "port/android-native/app/src/main/cpp/renderer_native_level_c1_v25.inc": "a065bb6a91f5239106bd5518e877d7a313cb255a752aff3de4746a34c8b8f00e",
+    "port/android-native/app/src/main/cpp/native_app.cpp": "b51a1b56f0ea11c9c19d5e1a1b84ea8c75b8453305bb132386498ebd80639663",
+    "port/asset-payloads/zip_asset_pack_v1.hpp": "1f3b1b158d1f5ed92840fb88b8b789e063f1b461b3797eb724f45c177d64f9ad",
+    "port/asset-payloads/zip_asset_pack_v1.cpp": "04f0900b5272680b60c64434d769ae7e6b6bee6b7e162bd47dc911ae6608b7f4"
+  },
+  "hits": [
+    {
+      "file": "port/android-native/app/src/main/cpp/original_cache_assets_v1.hpp",
+      "line": 9,
+      "text": "class OriginalCacheAssetsV1 {"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/original_cache_assets_v1.hpp",
+      "line": 14,
+      "text": "explicit OriginalCacheAssetsV1(AAssetManager* manager=nullptr):manager_(manager){}"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/original_cache_assets_v1.hpp",
+      "line": 15,
+      "text": "void manager(AAssetManager* manager){manager_=manager;state_.reset();}"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/original_cache_assets_v1.hpp",
+      "line": 16,
+      "text": "bool mount(std::size_t& files,std::string& error) const;"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/original_cache_assets_v1.hpp",
+      "line": 19,
+      "text": "bool read_admitted(const std::string&,bool& found,std::vector<std::uint8_t>&,"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/original_cache_assets_v1.cpp",
+      "line": 11,
+      "text": "struct OriginalCacheAssetsV1::State {"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/original_cache_assets_v1.cpp",
+      "line": 34,
+      "text": "bool OriginalCacheAssetsV1::mount(std::size_t& files,std::string& e) const{"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/original_cache_assets_v1.cpp",
+      "line": 48,
+      "text": "if(!next->pack.mount(std::move(source),\"com.gameloft.android.GAND.GloftD2SS/files/\",e))return false;"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/original_cache_assets_v1.cpp",
+      "line": 52,
+      "text": "__android_log_print(ANDROID_LOG_INFO,\"DH2Native\",\"Original cache mounted | files %zu | archive bytes %llu | external storage 0\",state_->files,static_cast<unsigned long long>(backing->bytes));"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/original_cache_assets_v1.cpp",
+      "line": 54,
+      "text": "files=state_->files;e.clear();return true;"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/original_cache_assets_v1.cpp",
+      "line": 56,
+      "text": "bool OriginalCacheAssetsV1::read(const std::string& uri,bool& found,std::vector<std::uint8_t>& out,std::string& e) const{"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/original_cache_assets_v1.cpp",
+      "line": 57,
+      "text": "std::size_t files;if(!mount(files,e))return false;"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/original_cache_assets_v1.cpp",
+      "line": 63,
+      "text": "bool OriginalCacheAssetsV1::read_admitted(const std::string& uri,bool& found,std::vector<std::uint8_t>& out,"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/original_cache_assets_v1.cpp",
+      "line": 65,
+      "text": "std::size_t files;if(!mount(files,e))return false;"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/original_cache_assets_v1.cpp",
+      "line": 69,
+      "text": "return state->pack.read_admitted(uri,found,out,before_payload,e);"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/original_cache_assets_v1.cpp",
+      "line": 71,
+      "text": "bool OriginalCacheAssetsV1::directory(std::vector<std::string>& out,std::string& e) const{"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/original_cache_assets_v1.cpp",
+      "line": 72,
+      "text": "std::size_t files;if(!mount(files,e))return false;"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/original_cache_assets_v1.cpp",
+      "line": 80,
+      "text": "bool OriginalCacheAssetsV1::verify_samples(std::string& e) const{"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/model_renderer.hpp",
+      "line": 44,
+      "text": "std::string load_world(const std::uint8_t*,std::size_t,AAssetManager*,const std::string& files_directory,const std::string& selected_mlx_uri);"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "line": 308,
+      "text": "std::string files_directory;"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "line": 328,
+      "text": "effects_owner(std::move(effect_owner)),files_directory(std::move(directory)){"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "line": 329,
+      "text": "if(!debug||files_directory.empty()||files_directory.front()!='/')throw std::runtime_error(\"Private game files unavailable\");"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "line": 360,
+      "text": "const auto path=context.files_directory+\"/\"+name;"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "line": 407,
+      "text": "dh2::android_ui::OriginalCacheAssetsV1 cache;"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "line": 411,
+      "text": "EquipmentPlatform(std::shared_ptr<WorldScriptContext> w,AAssetManager* a):world(std::move(w)),manager(a),cache(a){}"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "line": 945,
+      "text": "AAssetManager* assets,dh2::android_ui::OriginalCacheAssetsV1& original){"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "line": 1036,
+      "text": "equipment_platform->manager=assets;equipment_platform->cache.manager(assets);"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "line": 1092,
+      "text": "dh2::player::PlayerInfoFieldsV1* info{};auto& manager=player_skills_runtime->player_manager->manager();"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "line": 1951,
+      "text": "if(!player_skills_runtime->player_manager->manager().get_player(index,remote,info,e))return false;"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "line": 2464,
+      "text": "std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetManager* assets,const std::string& files_directory,const std::string& selected_mlx_uri){"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "line": 2476,
+      "text": "const auto script_context=restore&&live_script_world?live_script_world:std::make_shared<WorldScriptContext>(load_game_design(assets),load_design_settings(assets),load_skill_tables(assets),load_effects_tables(assets),files_directory);"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "line": 2478,
+      "text": "dh2::android_ui::OriginalCacheAssetsV1 cache(assets);"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/renderer_native_level_c1_v25.inc",
+      "line": 6,
+      "text": "dh2::android_ui::OriginalCacheAssetsV1 cache;"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/renderer_native_level_c1_v25.inc",
+      "line": 40,
+      "text": "if(!renderer_level_application_v25||renderer_level_application_v25->application!=application||renderer_level_application_v25->files->directory!=world->files_directory)"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/renderer_native_level_c1_v25.inc",
+      "line": 41,
+      "text": "renderer_level_application_v25=std::make_shared<RendererLevelApplicationV25>(application,assets,world->files_directory);"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/native_app.cpp",
+      "line": 338,
+      "text": "extern \"C\" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_loadWorld(JNIEnv* env,jclass,jbyteArray input,jobject assets,jstring files_directory,jstring selected_mlx){"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/native_app.cpp",
+      "line": 339,
+      "text": "if(!input||!assets||!files_directory||!selected_mlx)return result(env,\"Null world input\");const auto n=env->GetArrayLength(input);"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/native_app.cpp",
+      "line": 342,
+      "text": "const char* directory=env->GetStringUTFChars(files_directory,nullptr);if(!directory)return nullptr;"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/native_app.cpp",
+      "line": 343,
+      "text": "const std::string directory_path(directory);env->ReleaseStringUTFChars(files_directory,directory);"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/native_app.cpp",
+      "line": 356,
+      "text": "extern \"C\" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_loadOriginalHealthPanel(JNIEnv* env,jclass,jstring files_directory){"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/native_app.cpp",
+      "line": 358,
+      "text": "if(!files_directory)return result(env,\"Original HUD failed: private directory unavailable\");"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/native_app.cpp",
+      "line": 359,
+      "text": "const char* raw=env->GetStringUTFChars(files_directory,nullptr);if(!raw)return nullptr;"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/native_app.cpp",
+      "line": 360,
+      "text": "const std::string directory(raw);env->ReleaseStringUTFChars(files_directory,raw);"
+    },
+    {
+      "file": "port/asset-payloads/zip_asset_pack_v1.hpp",
+      "line": 27,
+      "text": "bool mount(ZipBackingV1,const std::string& prefix,std::string&);"
+    },
+    {
+      "file": "port/asset-payloads/zip_asset_pack_v1.hpp",
+      "line": 29,
+      "text": "bool read_admitted(const std::string& uri,bool& found,std::vector<std::uint8_t>&,"
+    },
+    {
+      "file": "port/asset-payloads/zip_asset_pack_v1.hpp",
+      "line": 31,
+      "text": "bool mounted() const noexcept {return bool(impl_);}"
+    },
+    {
+      "file": "port/asset-payloads/zip_asset_pack_v1.hpp",
+      "line": 33,
+      "text": "static bool key(const std::string&,std::string&,std::string&);"
+    },
+    {
+      "file": "port/asset-payloads/zip_asset_pack_v1.cpp",
+      "line": 48,
+      "text": "bool ZipAssetPackV1::mount(ZipBackingV1 backing,const std::string& prefix,std::string& e){"
+    },
+    {
+      "file": "port/asset-payloads/zip_asset_pack_v1.cpp",
+      "line": 108,
+      "text": "return read_admitted(uri,found,out,{},e);"
+    },
+    {
+      "file": "port/asset-payloads/zip_asset_pack_v1.cpp",
+      "line": 110,
+      "text": "bool ZipAssetPackV1::read_admitted(const std::string& uri,bool& found,std::vector<std::uint8_t>& out,"
+    }
+  ],
+  "working_directory_producer_present_in_audited_files": false,
+  "original_symbols": [
+    "00532ec8 0000004c T Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeAccelerometer",
+    "00532ea8 00000020 T Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeCanInterrupt",
+    "00533554 00000004 T Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeGetGameMusicVolume",
+    "005335d4 00000084 T Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeGetInfo",
+    "005325c4 000004c8 T Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeInit",
+    "00533438 00000008 T Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeKeyDown",
+    "00533428 00000008 T Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeKeyUp",
+    "00533400 00000024 T Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeOpenIGM",
+    "00533424 00000004 T Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativePause",
+    "005334dc 00000024 T Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeResume",
+    "00533500 00000054 T Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeSetOrientation",
+    "00532e78 00000030 T Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeSetPhone",
+    "00533558 00000008 T Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativegetState",
+    "00533430 00000008 T Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeonTrackballEvent",
+    "00531214 00000008 T Java_com_gameloft_android_GAND_GloftD2SS_GLMediaPlayer_nativeGetTotalSounds",
+    "0053121c 00000008 T Java_com_gameloft_android_GAND_GloftD2SS_GLMediaPlayer_nativeGetTotalSoundsOfSameInstance",
+    "00531ca4 000005a8 T Java_com_gameloft_android_GAND_GloftD2SS_GLMediaPlayer_nativeInit",
+    "00531224 00000004 T Java_com_gameloft_android_GAND_GloftD2SS_GLMediaPlayer_nativeSetStopOnMusic",
+    "005324c0 00000104 T Java_com_gameloft_android_GAND_GloftD2SS_GLResLoader_nativeInit",
+    "0052f0d8 00000004 T Java_com_gameloft_android_GAND_GloftD2SS_GLUtils_Device_nativeInit",
+    "00533440 0000009c T Java_com_gameloft_android_GAND_GloftD2SS_GameGLSurfaceView_nativeOnTouch",
+    "00531154 00000004 T Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeConfig",
+    "0053119c 00000004 T Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeDone",
+    "00531150 00000004 T Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeGameRenderer",
+    "0053115c 00000020 T Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeGetJNIEnv",
+    "005311c8 0000004c T Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeInit",
+    "00531158 00000004 T Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeOnDrawFrame",
+    "00531190 0000000c T Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeOnSurfaceChanged",
+    "005311a0 00000028 T Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeRender",
+    "0053117c 00000014 T Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeResize",
+    "00533b2c 000000ac T Java_com_gameloft_android_GAND_GloftD2SS_Musicplayer_nativeDisplayMusicTitle",
+    "00533658 000001f8 T Java_com_gameloft_android_GAND_GloftD2SS_Musicplayer_nativeInitplayer",
+    "0099b108 00000004 D RES_PATH",
+    "0034e1d4 00000048 T FileSystemBase::changeWorkingDirectoryTo(char const*)",
+    "0099b138 00000400 D glitch::io::CFileSystem::WorkingDirectory",
+    "0056c214 0000001c T glitch::io::CFileSystem::getWorkingDirectory()",
+    "0056c528 00000048 T glitch::io::CFileSystem::changeWorkingDirectoryTo(char const*)"
+  ]
+}

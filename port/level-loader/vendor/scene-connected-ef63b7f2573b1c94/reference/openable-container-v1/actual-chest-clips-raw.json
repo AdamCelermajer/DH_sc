@@ -1,0 +1,92 @@
+[
+  {
+    "file": "go_chest_swamp.bdae",
+    "clips": [
+      {
+        "words": [
+          1912,
+          166,
+          1266
+        ],
+        "name": "activate"
+      },
+      {
+        "words": [
+          1928,
+          0,
+          166
+        ],
+        "name": "idle"
+      },
+      {
+        "words": [
+          1940,
+          1266,
+          1433
+        ],
+        "name": "idleactive"
+      }
+    ],
+    "animations": 2
+  },
+  {
+    "file": "go_chest_swamp_big.bdae",
+    "clips": [
+      {
+        "words": [
+          1948,
+          166,
+          1500
+        ],
+        "name": "activate"
+      },
+      {
+        "words": [
+          1964,
+          0,
+          166
+        ],
+        "name": "idle"
+      },
+      {
+        "words": [
+          1976,
+          1500,
+          1666
+        ],
+        "name": "idleactive"
+      }
+    ],
+    "animations": 2
+  },
+  {
+    "file": "go_chest_swamp_rotten.bdae",
+    "clips": [
+      {
+        "words": [
+          3340,
+          166,
+          2000
+        ],
+        "name": "activate"
+      },
+      {
+        "words": [
+          3356,
+          0,
+          133
+        ],
+        "name": "idle"
+      },
+      {
+        "words": [
+          3368,
+          2000,
+          2166
+        ],
+        "name": "idleactive"
+      }
+    ],
+    "animations": 16
+  }
+]

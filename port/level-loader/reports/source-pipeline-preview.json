@@ -1,0 +1,64 @@
+{
+  "validation": "PASS",
+  "scope": "Observe current fixed/generated map frames after cached traversal integration.\n\nThis bounded regression does not instantiate objects, resolve conditions or\ntest campaign saves. Every device command targets and checks the private AVD.\n",
+  "serial": "emulator-5590",
+  "avd": "DH2_Loader_API37",
+  "app_id": "local.dh2.loader",
+  "apk_sha256": "359ec3b922c258417c1fbfe88efa25e1667176432f5ed61723128c40c2ece2ba",
+  "audit_source_sha256": "8a7494cfc37cfb9b67ed135f8ae0460be6388ea3cf167e0f4634639865ab2a32",
+  "steps": [
+    {
+      "identity": "DARKWOOD",
+      "definition": "003_darkwood.mlx",
+      "seed": 0,
+      "status": "DARKWOOD | 24 modules | 923 mesh instances | 936 draws | 5 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+      "frame_log": "10-05 10:41:39.660 13570 13591 I DH2Loader: DARKWOOD | 24 modules | 923 mesh instances | 936 draws | 5 textures\r\n10-05 10:41:39.660 13570 13591 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 10:41:39.670 13570 13591 I DH2Loader: MAP_FRAME_OK identity=DARKWOOD procedural=0 seed=0 modules=24 meshes=923 draws=936 triangles=40142 textures=5 viewport=2400x496 gameplay=0 objects=0\r\n",
+      "screenshot": "source-pipeline-darkwood.png"
+    },
+    {
+      "identity": "SWAMP_02",
+      "definition": "022_swamp2.rule.xml",
+      "seed": 0,
+      "status": "SWAMP_02 seed 0 | 11 modules | 497 mesh instances | 518 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 16",
+      "frame_log": "10-05 10:41:46.654 13654 13675 I DH2Loader: SWAMP_02 seed 0 | 11 modules | 497 mesh instances | 518 draws | 3 textures\r\n10-05 10:41:46.654 13654 13675 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 16\r\n10-05 10:41:46.661 13654 13675 I DH2Loader: MAP_FRAME_OK identity=SWAMP_02 procedural=1 seed=0 modules=11 meshes=497 draws=518 triangles=22659 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n",
+      "screenshot": "source-pipeline-swamp_02.png"
+    },
+    {
+      "identity": "SWAMP",
+      "definition": "001_swamp.mlx",
+      "seed": 0,
+      "status": "SWAMP | 9 modules | 369 mesh instances | 384 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 8",
+      "frame_log": "10-05 10:41:54.302 13734 13757 I DH2Loader: SWAMP | 9 modules | 369 mesh instances | 384 draws | 3 textures\r\n10-05 10:41:54.302 13734 13757 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 8\r\n10-05 10:41:54.306 13734 13757 I DH2Loader: MAP_FRAME_OK identity=SWAMP procedural=0 seed=0 modules=9 meshes=369 draws=384 triangles=24676 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n",
+      "screenshot": "source-pipeline-swamp.png"
+    },
+    {
+      "case": "missing_definition",
+      "previous_map_pixels_unchanged": true,
+      "compared_rect": [
+        0,
+        143,
+        2400,
+        765
+      ],
+      "frame_log": "10-05 10:42:05.526 13734 13757 I DH2Loader: Preparation failed; previous map retained: Missing authored XML: missing-loader-test.mlx\r\n10-05 10:42:05.526 13734 13757 I DH2Loader: MAP_FRAME_OK identity=SWAMP procedural=0 seed=0 modules=9 meshes=369 draws=384 triangles=24676 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n",
+      "screenshot": "source-pipeline-swamp-failed-retained.png"
+    },
+    {
+      "case": "module_focus",
+      "status": "Module 0 | obj_4of4_brdwalk_sw_00_0 | mobs/chests pending",
+      "screenshot": "source-pipeline-swamp-module0.png"
+    }
+  ],
+  "screenshots": {
+    "source-pipeline-darkwood.png": "1d72f9da0808193369b513c82a9ca0417734ccadee65b3a13b12f8a4bf0b22d2",
+    "source-pipeline-swamp-failed-retained.png": "ea43739e35b4e784b04ee36f883cbb4b543c5277f0a66d94260c37701d8e6bc0",
+    "source-pipeline-swamp-module0.png": "2a281907dfd0cd6cb83d7dd63b1126fe8a0a0548ea4f1b477d303c2d54668af3",
+    "source-pipeline-swamp-reloaded.png": "291391ad6fd8a20e1cb2188718748b68f091c5488f7deb29ecc4d7a5f2ec1281",
+    "source-pipeline-swamp.png": "291391ad6fd8a20e1cb2188718748b68f091c5488f7deb29ecc4d7a5f2ec1281",
+    "source-pipeline-swamp_02.png": "f53242679f1b62dfc93279eaafb5ce562e0b0c59044f2de1816908cdce33afb6"
+  },
+  "logcat_sha256": "7fc92fe1fa5835361c9a1b4002c8e47b5010b9100ddc339a74a859ed8bb58282",
+  "runtime_objects_verified": false,
+  "mob_and_chest_rendering_verified": false,
+  "full_loader_verified": false
+}

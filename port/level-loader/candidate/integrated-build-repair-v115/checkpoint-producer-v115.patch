@@ -1,0 +1,145 @@
+--- a/port/level-world/private_save_file_transport_v45.hpp
++++ b/port/level-world/private_save_file_transport_v45.hpp
+@@ -23,6 +23,8 @@
+  ~PrivateSaveFileTransportV45();
+  PrivateSaveFileTransportV45(const PrivateSaveFileTransportV45&)=delete;
+  SavegameFileServicesV2 services();
++ // Actual existence query; unlike openSavefile, it neither reads nor flushes jobs.
++ bool source_exists_v115(const std::string&,bool&,std::string&);
+  const std::string& directory_v59()const noexcept{return directory_;}
+ };
+ }
+--- a/port/level-world/private_save_file_transport_v45.cpp
++++ b/port/level-world/private_save_file_transport_v45.cpp
+@@ -13,6 +13,14 @@
+ bool PrivateSaveFileTransportV45::path(const std::string& name,std::string& out,std::string& e)const{
+  if(name.empty()||name=="."||name==".."||name.find_first_of("/\\")!=std::string::npos||name.find('\0')!=std::string::npos){e="Invalid private source save filename";return false;}
+  out=directory_+"/"+name;return true;
++}
++bool PrivateSaveFileTransportV45::source_exists_v115(const std::string& name,bool& found,std::string& e){
++ std::lock_guard<std::recursive_mutex> lock(io_mutex_v102_);found=false;e.clear();std::string p;
++ if(!path(name,p,e))return false;
++ struct stat info{};
++ if(::lstat(p.c_str(),&info)){if(errno==ENOENT||errno==ENOTDIR)return true;e="Actual source save existence errno "+std::to_string(errno);return false;}
++ if(!S_ISREG(info.st_mode)){e="Actual private source save requires regular file";return false;}
++ found=true;return true;
+ }
+ bool PrivateSaveFileTransportV45::read(void* raw,const std::string& name,bool& found,std::vector<std::uint8_t>& out,std::string& e){
+  auto& s=*static_cast<PrivateSaveFileTransportV45*>(raw);std::lock_guard<std::recursive_mutex> lock(s.io_mutex_v102_);found=false;std::string p;if(!s.path(name,p,e))return false;
+--- a/port/level-world/level_savegame_cache_v1.hpp
++++ b/port/level-world/level_savegame_cache_v1.hpp
+@@ -26,6 +26,9 @@
+  bool register_section(const char*,LevelSavegameSectionV1,LevelSavegameFieldsV1&,std::string&);
+  bool load_section(const char*,LevelSavegameSectionV1,LevelSavegameFieldsV1&,std::string&);
+  bool recache_v2(data::Bytes,std::string&);
++ // Original _cacheFile(NULL): release old cache, open current filename/backup,
++ // retain existing INFO/OBJS receiver registrations; never replay C1.
++ bool source_cache_file_v115(std::string&);
+  bool ready()const noexcept{return ready_;}
+  bool has_cached_file()const noexcept{return has_file_;}
+  const std::string& filename()const noexcept{return filename_;}
+--- a/port/level-world/level_savegame_cache_v1.cpp
++++ b/port/level-world/level_savegame_cache_v1.cpp
+@@ -39,5 +39,20 @@
+  if(!services_.load_objects){e="Required whole same ObjectManager/PlayerManager OBJS receiver loading";return false;}
+  return services_.load_objects(services_.context,bytes,f,e);
+ }
++bool LevelSavegameCacheV1::source_cache_file_v115(std::string& e){
++ e.clear();if(!ready_||!services_.read_file){e="Required constructed SAME Savegame cache/FileManager";return false;}
++ //315ad0 retires cache1c BEFORE opening the current file. Existing section
++ //callbacks and LevelSavegame fields survive a genuine absent/invalid file.
++ index_.retire_source_v108();has_file_=false;
++ std::vector<std::uint8_t> bytes;bool found=false;
++ if(!services_.read_file(services_.context,filename_,found,bytes,e))return false;
++ if(!found||!valid_header(bytes)){
++  bytes.clear();found=false;
++  if(!services_.read_file(services_.context,filename_+".bak",found,bytes,e))return false;
++  if(!found||!valid_header(bytes))return true;
++ }
++ if(!index_.load(data::Bytes{bytes.data(),bytes.size()},e))return false;
++ has_file_=true;return true;
++}
+ bool LevelSavegameCacheV1::recache_v2(data::Bytes b,std::string& e){if(!ready_){e="Required ready same Savegame recache owner";return false;}if(!index_.load(b,e))return false;has_file_=true;return true;}
+ }
+--- /dev/null
++++ b/port/level-world/level_validate_checkpoint_v115.hpp
+@@ -0,0 +1,40 @@
++#pragma once
++#include "level_savegame_cache_v1.hpp"
++#include <functional>
++namespace dh2::level {
++struct LevelCheckpointValidationServicesV115 {
++ std::function<bool(bool&,std::string&)> online;
++ std::function<bool(bool&,std::string&)> hosting;
++ std::function<bool(std::uint8_t&,std::string&)> manager719;
++ std::function<bool(const std::string&,bool&,std::string&)> exists;
++};
++// Original LevelSavegame::ValidateCheckpoint463288, on the existing cache.
++// Delivery success is separate from the original bool result. Failures retain
++// reached filename/cache/INFO prefixes; no scope-exit rollback is invented.
++inline bool level_validate_checkpoint_v115(LevelSavegameCacheV1& cache,
++ LevelSavegameFieldsV1& fields,std::uint32_t seed,std::int32_t difficulty,
++ std::int32_t row,const LevelCheckpointValidationServicesV115& services,
++ bool& valid,std::string& e){
++ e.clear();valid=false;
++ if(!cache.ready()||!fields.level8||!services.online||!services.exists){e="Required SAME constructed checkpoint receiver/online/FileManager";return false;}
++ const auto mode=fields.mode0c; //4632c8: read before original network queries.
++ bool online=false;if(!services.online(online,e))return false;
++ bool multi=false;
++ if(online){
++  bool host=false;if(!services.hosting||!services.hosting(host,e)){if(e.empty())e="Required actual checkpoint IsLocalPlayerHosting";return false;}
++  if(!host)multi=true;
++  else{std::uint8_t flag=0;if(!services.manager719||!services.manager719(flag,e)){if(e.empty())e="Required actual checkpoint manager719";return false;}multi=flag!=0;}
++ }
++ const auto checkpoint=LevelSavegameOwnerV1::checkpoint_filename(seed,mode,multi);
++ bool exists=false;if(!services.exists(checkpoint,exists,e))return false;
++ std::string selected=checkpoint;
++ if(!exists){selected+=".bak";if(!services.exists(selected,exists,e))return false;if(!exists)return true;}
++ if(!cache.source_filename_store_v83(selected,e)||!cache.source_cache_file_v115(e)||
++    !cache.load_section("INFO",LevelSavegameSectionV1::info,fields,e))return false;
++ const bool original_valid=fields.loaded_row2c==row;
++ //463458 rereads mode0c after load(INFO); preserve mutable source inputs.
++ if(!cache.source_filename_store_v83(LevelSavegameOwnerV1::filename(seed,difficulty,row,fields.mode0c),e)||
++    !cache.source_cache_file_v115(e))return false;
++ valid=original_valid;e.clear();return true;
++}
++}
+--- a/port/android-native/app/src/main/cpp/source_campaign_save_objects_v86.cpp
++++ b/port/android-native/app/src/main/cpp/source_campaign_save_objects_v86.cpp
+@@ -12,6 +12,7 @@
+ #include "application_player_manager_bootstrap_v59.hpp"
+ #include "application_save_files_owner_v61.hpp"
+ #include "level_savegame_writer_v2.hpp"
++#include "level_validate_checkpoint_v115.hpp"
+ #include <cstring>
+ namespace model_renderer {
+ namespace {bool needed(const char* leaf,std::string& e){if(e.empty())e=std::string("Required actual OBJS ")+leaf;return false;}}
+@@ -131,8 +132,28 @@
+   dh2::level::SavegameStreamV2 stream(bytes);stream.seek(offset);
+   return dh2::level::level_savegame_load_objects_v2(stream,fields,services(),e);
+  }
++ bool validate_checkpoint(dh2::level::LevelSavegameCacheV1& cache,
++  dh2::level::LevelSavegameFieldsV1& fields,std::uint32_t seed,std::int32_t difficulty,
++  std::int32_t row,bool& valid,std::string& e){
++  SourceCampaignCandidateBorrowV55 c;std::shared_ptr<SourceWorldBorrowV61> w;
++  if(!current(c,w,e)||!c.level||fields.level8!=reinterpret_cast<const void*>(c.level->identity()))return needed("same Level checkpoint validation receiver",e);
++  const auto actual=c.level->constructor_fields_v3().save_ec;
++  auto runtime=actual?std::static_pointer_cast<dh2::level::LevelSavegameRuntimeV1>(actual):nullptr;
++  if(!runtime||runtime->cache().get()!=&cache||&runtime->owner().fields()!=&fields)return needed("same LevelEC cache/INFO checkpoint receiver",e);
++  auto files=w->application->source_save_files_v61();
++  if(!files||!files->belongs_to_application(w->application)||!files->files())return needed("same Application FileManager checkpoint existence",e);
++  dh2::level::LevelCheckpointValidationServicesV115 services;
++  services.online=[this](bool& value,std::string& error){return online(value,error);};
++  services.hosting=[this](bool& value,std::string& error){return prior_.is_hosting?prior_.is_hosting(prior_.context,value,error):needed("positive original PM.IsHosting",error);};
++  services.manager719=[this](std::uint8_t& value,std::string& error){auto current_world=world_.lock();auto pm=current_world&&current_world->application?current_world->application->source_player_manager_v59():nullptr;
++   auto* manager=pm?pm->manager():nullptr;auto* current_fields=manager?manager->source_frame_fields_v68():nullptr;
++   if(!current_fields)return needed("same produced PM719 checkpoint validation",error);value=current_fields->byte719;return true;};
++  services.exists=[files](const std::string& filename,bool& found,std::string& error){return files->files()->source_exists_v115(filename,found,error);};
++  return dh2::level::level_validate_checkpoint_v115(cache,fields,seed,difficulty,row,services,valid,e);
++ }
+  void bind_application(dh2::level::LevelSavegameApplicationV1& app){
+   app.context=this;app.files.context=this;app.files.storage_lease=shared_from_this();
++  app.validate_checkpoint=[](void* p,auto& cache,auto& fields,std::uint32_t seed,std::int32_t difficulty,std::int32_t row,bool& valid,std::string& e){return static_cast<SourceCampaignSaveObjectsV86*>(p)->validate_checkpoint(cache,fields,seed,difficulty,row,valid,e);};
+   app.files.load_objects_stream_v2=[](void* p,auto bytes,std::uint64_t offset,auto& fields,std::string& e){return static_cast<SourceCampaignSaveObjectsV86*>(p)->load(bytes,offset,fields,e);};
+   app.network_online=[](void* p,bool& value,std::string& e){return static_cast<SourceCampaignSaveObjectsV86*>(p)->online(value,e);};
+   app.is_hosting=[](void* p,bool& value,std::string& e){auto& self=*static_cast<SourceCampaignSaveObjectsV86*>(p);return self.prior_.is_hosting?self.prior_.is_hosting(self.prior_.context,value,e):needed("positive original PM.IsHosting",e);};

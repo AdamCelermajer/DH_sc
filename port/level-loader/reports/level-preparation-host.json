@@ -1,0 +1,24 @@
+{
+  "validation": "PASS",
+  "scope": "Verify retained staged preparation against real cache identity/failure cases.",
+  "source_sha256": {
+    "level_preparation_v1.hpp": "6315bd417cbd6f3ecc0ac53e2924c2137e0620ca0c485112f20ab88ad4db94c9",
+    "level_preparation_v1.cpp": "d69ef984e527aa7a5e61de9105900625f31db8b96a247003be08706e29f78b6f",
+    "CMakeLists.txt": "3e48edd3ededf908d4f9e77e3f65ccd85b9725f3bf44b0b83c8e8e226db14988",
+    "tests/level_preparation_probe.cpp": "4c53c35cdbc067c237b63ed3932a7bac14d2c107747cf71ee2938772aef411b7",
+    "tests/level_preparation_host.py": "b487690cae5297f38f6d1d8449f0b04f59f3d5fa7463046fd6da2e35c4b05598"
+  },
+  "probe_sha256": "eb64aad39fc52ac1204d1473f7e1f24a3ed4a7408999976a79936171a0b3d575",
+  "inventory_sha256": "632bb0f42ccff5c60aae377efe0aba9b2d5d1bc40583472f0a69f33f5f82b611",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "actual": {
+    "validation": "PASS",
+    "lifecycle_checks": 14,
+    "modules": 9,
+    "declarations": 205,
+    "runtime_objects_verified": false,
+    "full_loader_verified": false
+  },
+  "runtime_objects_verified": false,
+  "full_loader_verified": false
+}

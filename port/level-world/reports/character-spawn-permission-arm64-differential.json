@@ -1,0 +1,18 @@
+{
+  "validation": "PASS",
+  "scope": "Source current17 CSM_Spawn with actual always-false GroupInfo::CanSpawn versus ARM64.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "33e5737cf36eddd2f654129d2dd1e5ab5c14b169895af24026f336342f93f798",
+  "reference_sha256": "dcc708268a7acb732f0c0b5c9000b64d77d55387768b5df9bd575c7e2cf53f22",
+  "source_sha256": {
+    "port/level-world/character_spawn_permission.hpp": "72531c1f78a3b95c742ed85971b58a44296f299deae52f37e91f0c57eb832ce5",
+    "port/level-world/character_spawn_permission.cpp": "cc63f772f404ee29051d1347c575aaf8239c1827581d0841351ac76a978235cf",
+    "port/level-world/tests/character_spawn_permission_differential.py": "59f00ea99f3f1beba90ee79f95fc9de74a9cb419feb4b28c8a102131b3523312"
+  },
+  "comparisons": 512,
+  "actual_original_group_rejections": 256,
+  "source_next_word_preserved_cases": 512,
+  "mismatches": 0,
+  "CanRespawn_state0": false,
+  "APK": false
+}

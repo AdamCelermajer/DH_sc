@@ -1,0 +1,27 @@
+--- a/port/android-native/app/src/main/cpp/renderer_campaign_producer_v89.inc
++++ b/port/android-native/app/src/main/cpp/renderer_campaign_producer_v89.inc
+@@ -35,11 +35,24 @@
+   // are installed; the environmental/class producers provide its native leaves.
+   dh2::loader::ScopeV67 scope{actual.actual_world,actual.level,actual.objects,actual.properties,shared_from_this()};
+   dh2::loader::SourceReleaseJournalLeavesV69 leaves;leaves.owner=shared_from_this();
++  // Main publishes the genuine owning-thread/resource primitive provider.
++  // Missing provider remains a reached native cleanup dependency; never create
++  // a synthetic barrier, free callback or complete destruction certificate.
++  if(source->noncharacter_release_primitives_v92){
++   dh2::loader::NonCharacterNativeReleasePrimitivesV92 primitives;
++   if(!source->noncharacter_release_primitives_v92(actual,primitives,e)||
++    !prepare_campaign_native_release_v92(actual,std::move(primitives),source->noncharacter_release_provider_v92,leaves,e)){
++    failure=e;return false;
++   }
++  }
+   std::shared_ptr<dh2::loader::SourceReleaseJournalV69> retained;
+   if(!dh2::loader::SourceReleaseJournalV69::create(scope,actual.receiver_transport_v69,std::move(leaves),retained,e)){
+    failure=e;return false;
+   }
+   source->noncharacter_release_journal_v89=retained;journal=retained;
++  if(source->noncharacter_release_provider_v92&&!source->noncharacter_release_provider_v92->bind_journal(retained,e)){
++   failure=e;return false;
++  }
+   if(!dh2::loader::bind_source_release_journal_v69(inputs.source,retained,e)){failure=e;return false;}
+   if(!prepare_campaign_native_lenders_v89(actual,inputs,e)){failure=e;return false;}
+   std::weak_ptr<dh2::loader::SourceReleaseJournalV69> weak=retained;

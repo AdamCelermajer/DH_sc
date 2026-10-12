@@ -1,0 +1,39 @@
+{
+  "validation": "PASS",
+  "scope": "Full supported offline/nonplayer HitFor instructions and live service order.\n\nOriginal property kernels, Cmd_Kill virtual dispatch, GetHandle, handle map/cache\nand Character cast execute. Game/debug/classification/full Kill are declared\nfixture services; unsupported player/online paths compare only reached prefixes.\n",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "da4cf3a98fafac9dabf78aba1f352e55ecf94b6e3115e6165e9ab3bbccec3466",
+  "source_sha256": {
+    "port/game-data/properties.hpp": "aeaaa77b0134ab614892cd726c8124548d3c249cf7c4f8a2e43964fdcd41217d",
+    "port/game-data/properties.cpp": "f1a77dbcb075c04fecaf3ec1d61180eb0e123e8f5cab5f64090d43aea6aa7877",
+    "port/level-world/character_hit.cpp": "6c723420bfc012306e9a79b4b8acb06b773a16e9e951c794fa88f095f9f591ac",
+    "port/level-world/character_target_providers.hpp": "1db2bc0cde5d7644b2194e333dc82209b756980c1ee7cb022774503c6e99fc36",
+    "port/level-world/character_hit.hpp": "9035d572267994ce2dfcdbda05d6e12c6cc92711f526b31720757fe8a9c65311",
+    "port/level-world/character_target_providers.cpp": "24c160b8f7e1d3e95bb06ef5f43f63c794851ec430ccfc4ff6e2135fd7aba70a",
+    "port\\level-world\\tests\\character_hit_differential.py": "70a29e03146a17f67025f65e03d94e373beec01992dd2686fa692d1d79ae8679"
+  },
+  "comparisons": 2616,
+  "gold_replay_cases": 2600,
+  "synchronous_reentry_cases": 16,
+  "ordered_requests": 31205,
+  "unsupported_original_prefixes": 251,
+  "controller_kill_fixture_calls": 1282,
+  "atomic_guards": 10,
+  "mismatches": 0,
+  "gold_sha256": "a9a96a09fcee2398663ddf3425c0043319392091ec1175c42b40b2186d65c3d6",
+  "original_kernel_entry_counts": {
+    "0x3e0708": 2370,
+    "0x3e07a0": 1503,
+    "0x40570c": 1290,
+    "0x33dd2c": 2198,
+    "0x33ff54": 2198,
+    "0x33fdc0": 2198
+  },
+  "original_import_calls": {
+    "memmove": 2198
+  },
+  "native_import_calls": {},
+  "full_kill_backend": false,
+  "packaged_APK": false,
+  "elapsed_seconds": 8.34
+}

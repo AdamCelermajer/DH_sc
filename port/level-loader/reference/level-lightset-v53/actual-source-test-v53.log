@@ -1,0 +1,3 @@
+PASS actual supplied SWAMP light Module XML -> current755 parser/canonical factory/property map/registry:1 GO19,10authoredschema; SAME receiver deferred InitPost blocked at actual CLightSceneNode(true),no fake renderer services
+source step1 parsed1 released1 attempts1 receivers1 error:
+name:_prim_PlayerLight_S attached:Player radius:3.5 automatic:1 offset:200 ambient:255

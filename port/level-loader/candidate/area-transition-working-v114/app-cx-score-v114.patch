@@ -1,0 +1,29 @@
+--- a/port/level-world/application_services_owner_v5.hpp
++++ b/port/level-world/application_services_owner_v5.hpp
+@@ -4,6 +4,7 @@
+ #include "gameplay_camera_active_v13.hpp"
+ #include "source_loading_application_fields_v55.hpp"
+ #include "source_online_loading_owner_v55.hpp"
++#include "source_cx_player_score_v114.hpp"
+ namespace dh2::character {struct DebugSwitches;}
+ namespace dh2::loader {class ScriptManagerOwnerV52;}
+ namespace dh2::player {class ApplicationPlayerManagerBootstrapV59;}
+@@ -32,6 +33,7 @@
+  std::shared_ptr<ProcessResourcePrefixSourceV95> source_resource_prefix_v95_;
+  SourceLoadingApplicationFieldsV55 source_loading_v55_;
+  std::shared_ptr<SourceOnlineLoadingOwnerV55> online_loading_v55_;
++ std::shared_ptr<SourceCXPlayerScoreV114> source_cx_score_v114_; // SAME process static CX score cells
+  // Native lifetime pins for genuine process singleton projections. Their
+  // provider closures must not strongly capture this Application or a World.
+  std::shared_ptr<character::DebugSwitches> source_debug_services_v55_;
+@@ -68,6 +70,10 @@
+  const std::shared_ptr<SourceOnlineLoadingOwnerV55>& get_online_loading_v55(){
+   if(!online_loading_v55_)online_loading_v55_=std::make_shared<SourceOnlineLoadingOwnerV55>();
+   return online_loading_v55_;
++ }
++ const std::shared_ptr<SourceCXPlayerScoreV114>& source_cx_score_v114(){
++  if(!source_cx_score_v114_)source_cx_score_v114_=std::make_shared<SourceCXPlayerScoreV114>();
++  return source_cx_score_v114_;
+  }
+  const std::shared_ptr<character::DebugSwitches>& source_debug_services_v55()const noexcept{return source_debug_services_v55_;}
+  bool publish_source_debug_services_v55(std::shared_ptr<character::DebugSwitches> owner,std::string& error){

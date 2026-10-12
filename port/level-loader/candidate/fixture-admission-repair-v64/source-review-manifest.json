@@ -1,0 +1,992 @@
+{
+  "schema": "dh2-fixture-admission-repair-v64",
+  "status": "SOURCE_PROPOSAL_UNCOMPILED",
+  "recorded_utc": "2026-10-06T18:57:18.4304887Z",
+  "successor_count": 18,
+  "strict_selected_guard_changed": false,
+  "request_seed_policy": "raw requestseed must equal C1seed; no zero wildcard",
+  "excluded_parent_successor": "tests/source_stage_swamp_v58.cpp -> tests/source_stage_swamp_v63.cpp",
+  "native_tests_run": false,
+  "compiler_jobs": 0,
+  "cmake_modified": false,
+  "root_modified": false,
+  "vendor_modified": false,
+  "historical_receipts_modified": false,
+  "entries": [
+    {
+      "original": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\canonical_loading_context_source_probe_v37.cpp",
+      "original_sha256": "45e3904511b8b0fef32de931106e2363f8952b0b5a4a85cfb1df04debe734101",
+      "frozen_baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\baselines\\canonical_loading_context_source_probe_v37.cpp",
+      "successor": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\canonical_loading_context_source_probe_v37_admission_v64.cpp",
+      "successor_sha256": "d2b0909e57535d5abd8b319a6cf9c441cdde19749583c2a4c8d0014787211435",
+      "domain": "selected actual SWAMP LevelList41",
+      "semantic_deltas": [
+        {
+          "change": "Constructor-bearing request explicitly fixed/seed7; logical identitySWAMP retained"
+        },
+        {
+          "change": "Assert real LevelList41 logical identity and barefilename before unchanged C1inputseed7"
+        },
+        {
+          "change": "Relative implementation/header and local capture includes rebased for candidate/successors location; incomplete unconstructed contexts remain unchanged"
+        }
+      ],
+      "future_target_switches": [
+        {
+          "target": "dh2_loader_integrated_loading_v37_probe",
+          "cmake_line": 404,
+          "old": " add_executable(dh2_loader_integrated_loading_v37_probe \"${loader}/tests/canonical_loading_context_source_probe_v37.cpp\")",
+          "proposal": " add_executable(dh2_loader_integrated_loading_v37_probe \"C:/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/candidate/fixture-admission-repair-v64/successors/canonical_loading_context_source_probe_v37_admission_v64.cpp\")"
+        }
+      ],
+      "native_validation": "PENDING",
+      "baseline_after_sha256": "45e3904511b8b0fef32de931106e2363f8952b0b5a4a85cfb1df04debe734101",
+      "exact_source_lines": [
+        {
+          "line": 100,
+          "text": "std::shared_ptr<CanonicalLevelContextV1> level;require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\",LevelSourceKindV1::fixed,7},bytes,level,e),e);"
+        },
+        {
+          "line": 112,
+          "text": "require(actual_design->levels()&&actual_design->levels()->level_names.at(41)==level->source_request().identity&&actual_design->levels()->levels.at(41).file==\"001_swamp.mlx\",\"Actual original SWAMP logical identity/filename required\");"
+        }
+      ],
+      "exact_original_source_lines": [
+        {
+          "line": 100,
+          "text": "std::shared_ptr<CanonicalLevelContextV1> level;require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\"},bytes,level,e),e);"
+        },
+        {
+          "line": 112,
+          "text": "require(level->construct_source_v3({\"worlds/001_swamp.mlx\",0,7,1,0,1,0,-1,0},native_ctor->services(),e),e);"
+        },
+        {
+          "line": 113,
+          "text": "require(level->constructor_owner_v3()->phase()==LevelConstructorPhaseV3::complete&&source_debug_loads==1&&globals.next_module_id==0&&level->source_word150()==0,\"whole SAME Level source constructor fields differ\");"
+        },
+        {
+          "line": 125,
+          "text": "require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\"},bytes,incomplete_level,e),e);"
+        }
+      ]
+    },
+    {
+      "original": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\canonical_loading_context_source_probe_v47.cpp",
+      "original_sha256": "1a034cec21fa208ba8f3713eab9f5db72508b7efb19641e8397fe94c51d06b29",
+      "frozen_baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\baselines\\canonical_loading_context_source_probe_v47.cpp",
+      "successor": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\canonical_loading_context_source_probe_v47_admission_v64.cpp",
+      "successor_sha256": "24ea18b0bca4acc7e03a0ab43ae98b4cefd55ef044ac948c8b58b7791090670a",
+      "domain": "selected actual SWAMP LevelList41",
+      "semantic_deltas": [
+        {
+          "change": "Constructor-bearing request explicitly fixed/seed7; logical identitySWAMP retained"
+        },
+        {
+          "change": "Assert real LevelList41 logical identity and barefilename before unchanged C1inputseed7"
+        },
+        {
+          "change": "Relative implementation/header and local capture includes rebased for candidate/successors location; incomplete unconstructed contexts remain unchanged"
+        }
+      ],
+      "future_target_switches": [
+        {
+          "target": "dh2_loader_integrated_loading_v47_probe",
+          "cmake_line": 510,
+          "old": "add_executable(dh2_loader_integrated_loading_v47_probe \"${loader}/tests/canonical_loading_context_source_probe_v47.cpp\")",
+          "proposal": "add_executable(dh2_loader_integrated_loading_v47_probe \"C:/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/candidate/fixture-admission-repair-v64/successors/canonical_loading_context_source_probe_v47_admission_v64.cpp\")"
+        }
+      ],
+      "native_validation": "PENDING",
+      "baseline_after_sha256": "1a034cec21fa208ba8f3713eab9f5db72508b7efb19641e8397fe94c51d06b29",
+      "exact_source_lines": [
+        {
+          "line": 100,
+          "text": "std::shared_ptr<CanonicalLevelContextV1> level;require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\",LevelSourceKindV1::fixed,7},bytes,level,e),e);"
+        },
+        {
+          "line": 112,
+          "text": "require(actual_design->levels()&&actual_design->levels()->level_names.at(41)==level->source_request().identity&&actual_design->levels()->levels.at(41).file==\"001_swamp.mlx\",\"Actual original SWAMP logical identity/filename required\");"
+        }
+      ],
+      "exact_original_source_lines": [
+        {
+          "line": 100,
+          "text": "std::shared_ptr<CanonicalLevelContextV1> level;require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\"},bytes,level,e),e);"
+        },
+        {
+          "line": 112,
+          "text": "require(level->construct_source_v3({\"worlds/001_swamp.mlx\",0,7,1,0,1,0,-1,0},native_ctor->services(),e),e);"
+        },
+        {
+          "line": 113,
+          "text": "require(level->constructor_owner_v3()->phase()==LevelConstructorPhaseV3::complete&&source_debug_loads==1&&globals.next_module_id==0&&level->source_word150()==0,\"whole SAME Level source constructor fields differ\");"
+        },
+        {
+          "line": 125,
+          "text": "require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\"},bytes,incomplete_level,e),e);"
+        }
+      ]
+    },
+    {
+      "original": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\canonical_module_graph_source_probe.cpp",
+      "original_sha256": "0a6ecd23fe6ff62df6050a3622c37ee3aca32ded7212d0e31dbb583f76e4d0d2",
+      "frozen_baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\baselines\\canonical_module_graph_source_probe.cpp",
+      "successor": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\canonical_module_graph_source_probe_admission_v64.cpp",
+      "successor_sha256": "76a638b87d2d815aa98bbb6c9762de39ea9542b3f20c06bbbf07dfea6d4a23ba",
+      "domain": "selected actual SWAMP LevelList41",
+      "semantic_deltas": [
+        {
+          "change": "Constructor-bearing request explicitly fixed/seed7; logical identitySWAMP retained"
+        },
+        {
+          "change": "Assert real LevelList41 logical identity and barefilename before unchanged C1inputseed7"
+        },
+        {
+          "change": "Relative implementation/header and local capture includes rebased for candidate/successors location; incomplete unconstructed contexts remain unchanged"
+        }
+      ],
+      "future_target_switches": [
+        {
+          "target": "dh2_loader_module_graph_source_probe",
+          "cmake_line": 174,
+          "old": "add_executable(dh2_loader_module_graph_source_probe \"${loader}/tests/canonical_module_graph_source_probe.cpp\")",
+          "proposal": "add_executable(dh2_loader_module_graph_source_probe \"C:/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/candidate/fixture-admission-repair-v64/successors/canonical_module_graph_source_probe_admission_v64.cpp\")"
+        }
+      ],
+      "native_validation": "PENDING",
+      "baseline_after_sha256": "0a6ecd23fe6ff62df6050a3622c37ee3aca32ded7212d0e31dbb583f76e4d0d2",
+      "exact_source_lines": [
+        {
+          "line": 99,
+          "text": "std::shared_ptr<CanonicalLevelContextV1> level;require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\",LevelSourceKindV1::fixed,7},bytes,level,e),e);"
+        },
+        {
+          "line": 111,
+          "text": "require(actual_design->levels()&&actual_design->levels()->level_names.at(41)==level->source_request().identity&&actual_design->levels()->levels.at(41).file==\"001_swamp.mlx\",\"Actual original SWAMP logical identity/filename required\");"
+        }
+      ],
+      "exact_original_source_lines": [
+        {
+          "line": 99,
+          "text": "std::shared_ptr<CanonicalLevelContextV1> level;require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\"},bytes,level,e),e);"
+        },
+        {
+          "line": 111,
+          "text": "require(level->construct_source_v3({\"worlds/001_swamp.mlx\",0,7,1,0,1,0,-1,0},native_ctor->services(),e),e);"
+        },
+        {
+          "line": 112,
+          "text": "require(level->constructor_owner_v3()->phase()==LevelConstructorPhaseV3::complete&&source_debug_loads==1&&globals.next_module_id==0&&level->source_word150()==0,\"whole SAME Level source constructor fields differ\");"
+        }
+      ]
+    },
+    {
+      "original": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\character_swamp_model_v40_probe.cpp",
+      "original_sha256": "4d80c8b012daa77de633a1d22a2f8b319b0c6ba80ce538746b15abb0f1a74b43",
+      "frozen_baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\baselines\\character_swamp_model_v40_probe.cpp",
+      "successor": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\character_swamp_model_v40_probe_admission_v64.cpp",
+      "successor_sha256": "9a962068c867160f8225a139fd367ecd1615224096d7c34125151bde9493efc4",
+      "domain": "selected actual SWAMP LevelList41",
+      "semantic_deltas": [
+        {
+          "change": "Constructor-bearing request explicitly fixed/seed7; logical identitySWAMP retained"
+        },
+        {
+          "change": "Assert real LevelList41 logical identity and barefilename before unchanged C1inputseed7"
+        },
+        {
+          "change": "Relative implementation/header and local capture includes rebased for candidate/successors location; incomplete unconstructed contexts remain unchanged"
+        }
+      ],
+      "future_target_switches": [
+        {
+          "target": "dh2_loader_character_swamp_model_v40_probe",
+          "cmake_line": 434,
+          "old": "add_executable(dh2_loader_character_swamp_model_v40_probe \"${loader}/tests/character_swamp_model_v40_probe.cpp\")",
+          "proposal": "add_executable(dh2_loader_character_swamp_model_v40_probe \"C:/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/candidate/fixture-admission-repair-v64/successors/character_swamp_model_v40_probe_admission_v64.cpp\")"
+        }
+      ],
+      "native_validation": "PENDING",
+      "baseline_after_sha256": "4d80c8b012daa77de633a1d22a2f8b319b0c6ba80ce538746b15abb0f1a74b43",
+      "exact_source_lines": [
+        {
+          "line": 104,
+          "text": "std::shared_ptr<CanonicalLevelContextV1> level;require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\",LevelSourceKindV1::fixed,7},bytes,level,e),e);"
+        },
+        {
+          "line": 116,
+          "text": "require(actual_design->levels()&&actual_design->levels()->level_names.at(41)==level->source_request().identity&&actual_design->levels()->levels.at(41).file==\"001_swamp.mlx\",\"Actual original SWAMP logical identity/filename required\");"
+        }
+      ],
+      "exact_original_source_lines": [
+        {
+          "line": 104,
+          "text": "std::shared_ptr<CanonicalLevelContextV1> level;require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\"},bytes,level,e),e);"
+        },
+        {
+          "line": 116,
+          "text": "require(level->construct_source_v3({\"worlds/001_swamp.mlx\",0,7,1,0,1,0,-1,0},native_ctor->services(),e),e);"
+        },
+        {
+          "line": 117,
+          "text": "require(level->constructor_owner_v3()->phase()==LevelConstructorPhaseV3::complete&&source_debug_loads==1&&globals.next_module_id==0&&level->source_word150()==0,\"whole SAME Level source constructor fields differ\");"
+        },
+        {
+          "line": 129,
+          "text": "require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\"},bytes,incomplete_level,e),e);"
+        }
+      ]
+    },
+    {
+      "original": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\dynamic_module_source_v44.cpp",
+      "original_sha256": "dcf1e2cf488ffe04d8e8ea2c0846fbe863f4518d2378e0b6bd81d47b73179d53",
+      "frozen_baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\baselines\\dynamic_module_source_v44.cpp",
+      "successor": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\dynamic_module_source_v44_admission_v64.cpp",
+      "successor_sha256": "0fe8d9b6b3ffb7581769e75fa8ed062729ea9e241395e1ce427a66d538551a6d",
+      "domain": "selected actual SWAMP LevelList41",
+      "semantic_deltas": [
+        {
+          "change": "Constructor-bearing request explicitly fixed/seed7; logical identitySWAMP retained"
+        },
+        {
+          "change": "Assert real LevelList41 logical identity and barefilename before unchanged C1inputseed7"
+        },
+        {
+          "change": "Relative implementation/header and local capture includes rebased for candidate/successors location; incomplete unconstructed contexts remain unchanged"
+        }
+      ],
+      "future_target_switches": [
+        {
+          "target": "dh2_loader_dynamic_module_v44",
+          "cmake_line": 465,
+          "old": "add_executable(dh2_loader_dynamic_module_v44 \"${loader}/tests/dynamic_module_source_v44.cpp\")",
+          "proposal": "add_executable(dh2_loader_dynamic_module_v44 \"C:/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/candidate/fixture-admission-repair-v64/successors/dynamic_module_source_v44_admission_v64.cpp\")"
+        }
+      ],
+      "native_validation": "PENDING",
+      "baseline_after_sha256": "dcf1e2cf488ffe04d8e8ea2c0846fbe863f4518d2378e0b6bd81d47b73179d53",
+      "exact_source_lines": [
+        {
+          "line": 104,
+          "text": "std::shared_ptr<CanonicalLevelContextV1> level;require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\",LevelSourceKindV1::fixed,7},bytes,level,e),e);"
+        },
+        {
+          "line": 116,
+          "text": "require(actual_design->levels()&&actual_design->levels()->level_names.at(41)==level->source_request().identity&&actual_design->levels()->levels.at(41).file==\"001_swamp.mlx\",\"Actual original SWAMP logical identity/filename required\");"
+        }
+      ],
+      "exact_original_source_lines": [
+        {
+          "line": 104,
+          "text": "std::shared_ptr<CanonicalLevelContextV1> level;require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\"},bytes,level,e),e);"
+        },
+        {
+          "line": 116,
+          "text": "require(level->construct_source_v3({\"worlds/001_swamp.mlx\",0,7,1,0,1,0,-1,0},native_ctor->services(),e),e);"
+        },
+        {
+          "line": 117,
+          "text": "require(level->constructor_owner_v3()->phase()==LevelConstructorPhaseV3::complete&&source_debug_loads==1&&globals.next_module_id==0&&level->source_word150()==0,\"whole SAME Level source constructor fields differ\");"
+        }
+      ]
+    },
+    {
+      "original": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\generic_actor_draw_submission_v38_probe.cpp",
+      "original_sha256": "fbc5d80732dc2de8326f4a8b7695536f9792f54cc72878e16cda2fae992249ea",
+      "frozen_baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\baselines\\generic_actor_draw_submission_v38_probe.cpp",
+      "successor": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\generic_actor_draw_submission_v38_probe_admission_v64.cpp",
+      "successor_sha256": "6d0e817508db4ef72a2e7baaf3d7fcaf2809728f59fbb8521b4a09061e1f6102",
+      "domain": "selected actual SWAMP LevelList41",
+      "semantic_deltas": [
+        {
+          "change": "Constructor-bearing request explicitly fixed/seed7; logical identitySWAMP retained"
+        },
+        {
+          "change": "Assert real LevelList41 logical identity and barefilename before unchanged C1inputseed7"
+        },
+        {
+          "change": "Relative implementation/header and local capture includes rebased for candidate/successors location; incomplete unconstructed contexts remain unchanged"
+        }
+      ],
+      "future_target_switches": [],
+      "native_validation": "PENDING",
+      "baseline_after_sha256": "fbc5d80732dc2de8326f4a8b7695536f9792f54cc72878e16cda2fae992249ea",
+      "exact_source_lines": [
+        {
+          "line": 103,
+          "text": "std::shared_ptr<CanonicalLevelContextV1> level;require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\",LevelSourceKindV1::fixed,7},bytes,level,e),e);"
+        },
+        {
+          "line": 115,
+          "text": "require(actual_design->levels()&&actual_design->levels()->level_names.at(41)==level->source_request().identity&&actual_design->levels()->levels.at(41).file==\"001_swamp.mlx\",\"Actual original SWAMP logical identity/filename required\");"
+        }
+      ],
+      "exact_original_source_lines": [
+        {
+          "line": 103,
+          "text": "std::shared_ptr<CanonicalLevelContextV1> level;require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\"},bytes,level,e),e);"
+        },
+        {
+          "line": 115,
+          "text": "require(level->construct_source_v3({\"worlds/001_swamp.mlx\",0,7,1,0,1,0,-1,0},native_ctor->services(),e),e);"
+        },
+        {
+          "line": 116,
+          "text": "require(level->constructor_owner_v3()->phase()==LevelConstructorPhaseV3::complete&&source_debug_loads==1&&globals.next_module_id==0&&level->source_word150()==0,\"whole SAME Level source constructor fields differ\");"
+        }
+      ]
+    },
+    {
+      "original": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\generic_actor_image_binding_v45_probe.cpp",
+      "original_sha256": "2cd3c95917da0748dd6134b7a0151210b65a989127da74315ea9097c2e479c3d",
+      "frozen_baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\baselines\\generic_actor_image_binding_v45_probe.cpp",
+      "successor": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\generic_actor_image_binding_v45_probe_admission_v64.cpp",
+      "successor_sha256": "65bb2e5039b369eb6229c5fdf9aa3209b9af87aab2c1909e95cd768f69b0f239",
+      "domain": "selected actual SWAMP LevelList41",
+      "semantic_deltas": [
+        {
+          "change": "Constructor-bearing request explicitly fixed/seed7; logical identitySWAMP retained"
+        },
+        {
+          "change": "Assert real LevelList41 logical identity and barefilename before unchanged C1inputseed7"
+        },
+        {
+          "change": "Relative implementation/header and local capture includes rebased for candidate/successors location; incomplete unconstructed contexts remain unchanged"
+        }
+      ],
+      "future_target_switches": [
+        {
+          "target": "dh2_loader_actor_image_v45_probe",
+          "cmake_line": 499,
+          "old": "add_executable(dh2_loader_actor_image_v45_probe \"${loader}/tests/generic_actor_image_binding_v45_probe.cpp\")",
+          "proposal": "add_executable(dh2_loader_actor_image_v45_probe \"C:/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/candidate/fixture-admission-repair-v64/successors/generic_actor_image_binding_v45_probe_admission_v64.cpp\")"
+        }
+      ],
+      "native_validation": "PENDING",
+      "baseline_after_sha256": "2cd3c95917da0748dd6134b7a0151210b65a989127da74315ea9097c2e479c3d",
+      "exact_source_lines": [
+        {
+          "line": 102,
+          "text": "std::shared_ptr<CanonicalLevelContextV1> level;require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\",LevelSourceKindV1::fixed,7},bytes,level,e),e);"
+        },
+        {
+          "line": 114,
+          "text": "require(actual_design->levels()&&actual_design->levels()->level_names.at(41)==level->source_request().identity&&actual_design->levels()->levels.at(41).file==\"001_swamp.mlx\",\"Actual original SWAMP logical identity/filename required\");"
+        }
+      ],
+      "exact_original_source_lines": [
+        {
+          "line": 102,
+          "text": "std::shared_ptr<CanonicalLevelContextV1> level;require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\"},bytes,level,e),e);"
+        },
+        {
+          "line": 114,
+          "text": "require(level->construct_source_v3({\"worlds/001_swamp.mlx\",0,7,1,0,1,0,-1,0},native_ctor->services(),e),e);"
+        },
+        {
+          "line": 115,
+          "text": "require(level->constructor_owner_v3()->phase()==LevelConstructorPhaseV3::complete&&source_debug_loads==1&&globals.next_module_id==0&&level->source_word150()==0,\"whole SAME Level source constructor fields differ\");"
+        }
+      ]
+    },
+    {
+      "original": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\generic_actor_image_lifetime_v48_probe.cpp",
+      "original_sha256": "a81d5da52e4debe736ecabf26f8f6505b3bf1418b81158371f2e25cc640b8b58",
+      "frozen_baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\baselines\\generic_actor_image_lifetime_v48_probe.cpp",
+      "successor": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\generic_actor_image_lifetime_v48_probe_admission_v64.cpp",
+      "successor_sha256": "45846b1cef78198540c3ea1e030a9264e47d90e716676e18dcc4d5c3c7d8f3b3",
+      "domain": "selected actual SWAMP LevelList41",
+      "semantic_deltas": [
+        {
+          "change": "Constructor-bearing request explicitly fixed/seed7; logical identitySWAMP retained"
+        },
+        {
+          "change": "Assert real LevelList41 logical identity and barefilename before unchanged C1inputseed7"
+        },
+        {
+          "change": "Relative implementation/header and local capture includes rebased for candidate/successors location; incomplete unconstructed contexts remain unchanged"
+        }
+      ],
+      "future_target_switches": [
+        {
+          "target": "dh2_loader_actor_image_lifetime_v48_probe",
+          "cmake_line": 536,
+          "old": "add_executable(dh2_loader_actor_image_lifetime_v48_probe \"${loader}/tests/generic_actor_image_lifetime_v48_probe.cpp\" \"${loader}/reference/main-budget-binding-v46/byte_free_observer_v46.cpp\")",
+          "proposal": "add_executable(dh2_loader_actor_image_lifetime_v48_probe \"C:/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/candidate/fixture-admission-repair-v64/successors/generic_actor_image_lifetime_v48_probe_admission_v64.cpp\" \"${loader}/reference/main-budget-binding-v46/byte_free_observer_v46.cpp\")"
+        }
+      ],
+      "native_validation": "PENDING",
+      "baseline_after_sha256": "a81d5da52e4debe736ecabf26f8f6505b3bf1418b81158371f2e25cc640b8b58",
+      "exact_source_lines": [
+        {
+          "line": 104,
+          "text": "std::shared_ptr<CanonicalLevelContextV1> level;require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\",LevelSourceKindV1::fixed,7},bytes,level,e),e);"
+        },
+        {
+          "line": 116,
+          "text": "require(actual_design->levels()&&actual_design->levels()->level_names.at(41)==level->source_request().identity&&actual_design->levels()->levels.at(41).file==\"001_swamp.mlx\",\"Actual original SWAMP logical identity/filename required\");"
+        }
+      ],
+      "exact_original_source_lines": [
+        {
+          "line": 104,
+          "text": "std::shared_ptr<CanonicalLevelContextV1> level;require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\"},bytes,level,e),e);"
+        },
+        {
+          "line": 116,
+          "text": "require(level->construct_source_v3({\"worlds/001_swamp.mlx\",0,7,1,0,1,0,-1,0},native_ctor->services(),e),e);"
+        },
+        {
+          "line": 117,
+          "text": "require(level->constructor_owner_v3()->phase()==LevelConstructorPhaseV3::complete&&source_debug_loads==1&&globals.next_module_id==0&&level->source_word150()==0,\"whole SAME Level source constructor fields differ\");"
+        }
+      ]
+    },
+    {
+      "original": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\generic_actor_visual_input_v37_probe.cpp",
+      "original_sha256": "7fdba8579d42d7535042affad7671c18e56e15a871004252551493497ae3ec06",
+      "frozen_baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\baselines\\generic_actor_visual_input_v37_probe.cpp",
+      "successor": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\generic_actor_visual_input_v37_probe_admission_v64.cpp",
+      "successor_sha256": "a073c12995bdc988e1c3a672a1f9cae11a162fc4e3cdbbd7ca133ce70ed7fb71",
+      "domain": "selected actual SWAMP LevelList41",
+      "semantic_deltas": [
+        {
+          "change": "Constructor-bearing request explicitly fixed/seed7; logical identitySWAMP retained"
+        },
+        {
+          "change": "Assert real LevelList41 logical identity and barefilename before unchanged C1inputseed7"
+        },
+        {
+          "change": "Relative implementation/header and local capture includes rebased for candidate/successors location; incomplete unconstructed contexts remain unchanged"
+        }
+      ],
+      "future_target_switches": [],
+      "native_validation": "PENDING",
+      "baseline_after_sha256": "7fdba8579d42d7535042affad7671c18e56e15a871004252551493497ae3ec06",
+      "exact_source_lines": [
+        {
+          "line": 101,
+          "text": "std::shared_ptr<CanonicalLevelContextV1> level;require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\",LevelSourceKindV1::fixed,7},bytes,level,e),e);"
+        },
+        {
+          "line": 113,
+          "text": "require(actual_design->levels()&&actual_design->levels()->level_names.at(41)==level->source_request().identity&&actual_design->levels()->levels.at(41).file==\"001_swamp.mlx\",\"Actual original SWAMP logical identity/filename required\");"
+        }
+      ],
+      "exact_original_source_lines": [
+        {
+          "line": 101,
+          "text": "std::shared_ptr<CanonicalLevelContextV1> level;require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\"},bytes,level,e),e);"
+        },
+        {
+          "line": 113,
+          "text": "require(level->construct_source_v3({\"worlds/001_swamp.mlx\",0,7,1,0,1,0,-1,0},native_ctor->services(),e),e);"
+        },
+        {
+          "line": 114,
+          "text": "require(level->constructor_owner_v3()->phase()==LevelConstructorPhaseV3::complete&&source_debug_loads==1&&globals.next_module_id==0&&level->source_word150()==0,\"whole SAME Level source constructor fields differ\");"
+        }
+      ]
+    },
+    {
+      "original": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\generic_renderer_input_v36_probe.cpp",
+      "original_sha256": "25e0f0326a970f7e2b3f79f33eefd643a81e29a5b3d58a900f74eaaf1832d846",
+      "frozen_baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\baselines\\generic_renderer_input_v36_probe.cpp",
+      "successor": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\generic_renderer_input_v36_probe_admission_v64.cpp",
+      "successor_sha256": "4b8cba60db7eda3b0f7e01fe7a983755f859b117c4dd116d5ba6cd18355dd101",
+      "domain": "selected actual SWAMP LevelList41",
+      "semantic_deltas": [
+        {
+          "change": "Constructor-bearing request explicitly fixed/seed7; logical identitySWAMP retained"
+        },
+        {
+          "change": "Assert real LevelList41 logical identity and barefilename before unchanged C1inputseed7"
+        },
+        {
+          "change": "Relative implementation/header and local capture includes rebased for candidate/successors location; incomplete unconstructed contexts remain unchanged"
+        }
+      ],
+      "future_target_switches": [],
+      "native_validation": "PENDING",
+      "baseline_after_sha256": "25e0f0326a970f7e2b3f79f33eefd643a81e29a5b3d58a900f74eaaf1832d846",
+      "exact_source_lines": [
+        {
+          "line": 101,
+          "text": "std::shared_ptr<CanonicalLevelContextV1> level;require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\",LevelSourceKindV1::fixed,7},bytes,level,e),e);"
+        },
+        {
+          "line": 113,
+          "text": "require(actual_design->levels()&&actual_design->levels()->level_names.at(41)==level->source_request().identity&&actual_design->levels()->levels.at(41).file==\"001_swamp.mlx\",\"Actual original SWAMP logical identity/filename required\");"
+        }
+      ],
+      "exact_original_source_lines": [
+        {
+          "line": 101,
+          "text": "std::shared_ptr<CanonicalLevelContextV1> level;require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\"},bytes,level,e),e);"
+        },
+        {
+          "line": 113,
+          "text": "require(level->construct_source_v3({\"worlds/001_swamp.mlx\",0,7,1,0,1,0,-1,0},native_ctor->services(),e),e);"
+        },
+        {
+          "line": 114,
+          "text": "require(level->constructor_owner_v3()->phase()==LevelConstructorPhaseV3::complete&&source_debug_loads==1&&globals.next_module_id==0&&level->source_word150()==0,\"whole SAME Level source constructor fields differ\");"
+        }
+      ]
+    },
+    {
+      "original": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\gslevel_update_v44_real_c1.cpp",
+      "original_sha256": "1d22c47a4655cb3b5605bf8d81e63f2242bd3c5beecbc3a8636db0980ee365b2",
+      "frozen_baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\baselines\\gslevel_update_v44_real_c1.cpp",
+      "successor": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\gslevel_update_v44_real_c1_admission_v64.cpp",
+      "successor_sha256": "44e181d2a7f676345ca7e5e8b70685218a1f609598ca538e2ddaa8a74b0801a9",
+      "domain": "selected actual SWAMP LevelList41",
+      "semantic_deltas": [
+        {
+          "change": "Constructor-bearing request explicitly fixed/seed7; logical identitySWAMP retained"
+        },
+        {
+          "change": "Assert real LevelList41 logical identity and barefilename before unchanged C1inputseed7"
+        },
+        {
+          "change": "Relative implementation/header and local capture includes rebased for candidate/successors location; incomplete unconstructed contexts remain unchanged"
+        }
+      ],
+      "future_target_switches": [],
+      "native_validation": "PENDING",
+      "baseline_after_sha256": "1d22c47a4655cb3b5605bf8d81e63f2242bd3c5beecbc3a8636db0980ee365b2",
+      "exact_source_lines": [
+        {
+          "line": 100,
+          "text": "std::shared_ptr<CanonicalLevelContextV1> level;require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\",LevelSourceKindV1::fixed,7},bytes,level,e),e);"
+        },
+        {
+          "line": 112,
+          "text": "require(actual_design->levels()&&actual_design->levels()->level_names.at(41)==level->source_request().identity&&actual_design->levels()->levels.at(41).file==\"001_swamp.mlx\",\"Actual original SWAMP logical identity/filename required\");"
+        }
+      ],
+      "exact_original_source_lines": [
+        {
+          "line": 100,
+          "text": "std::shared_ptr<CanonicalLevelContextV1> level;require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\"},bytes,level,e),e);"
+        },
+        {
+          "line": 112,
+          "text": "require(level->construct_source_v3({\"worlds/001_swamp.mlx\",0,7,1,0,1,0,-1,0},native_ctor->services(),e),e);"
+        },
+        {
+          "line": 113,
+          "text": "require(level->constructor_owner_v3()->phase()==LevelConstructorPhaseV3::complete&&source_debug_loads==1&&globals.next_module_id==0&&level->source_word150()==0,\"whole SAME Level source constructor fields differ\");"
+        }
+      ]
+    },
+    {
+      "original": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\level_update_loading_v46_real_c1.cpp",
+      "original_sha256": "0961608ab2eb9853f225716d5f65a6ec4b531db73a82bb33d4f9348cacc873c7",
+      "frozen_baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\baselines\\level_update_loading_v46_real_c1.cpp",
+      "successor": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\level_update_loading_v46_real_c1_admission_v64.cpp",
+      "successor_sha256": "64b6f85856ac32b7161f57b5c32e3dfd3e926badb1bb419de58067b91b1f07aa",
+      "domain": "selected actual SWAMP LevelList41",
+      "semantic_deltas": [
+        {
+          "change": "Constructor-bearing request explicitly fixed/seed7; logical identitySWAMP retained"
+        },
+        {
+          "change": "Assert real LevelList41 logical identity and barefilename before unchanged C1inputseed7"
+        },
+        {
+          "change": "Relative implementation/header and local capture includes rebased for candidate/successors location; incomplete unconstructed contexts remain unchanged"
+        }
+      ],
+      "future_target_switches": [],
+      "native_validation": "PENDING",
+      "baseline_after_sha256": "0961608ab2eb9853f225716d5f65a6ec4b531db73a82bb33d4f9348cacc873c7",
+      "exact_source_lines": [
+        {
+          "line": 101,
+          "text": "std::shared_ptr<CanonicalLevelContextV1> level;require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\",LevelSourceKindV1::fixed,7},bytes,level,e),e);"
+        },
+        {
+          "line": 113,
+          "text": "require(actual_design->levels()&&actual_design->levels()->level_names.at(41)==level->source_request().identity&&actual_design->levels()->levels.at(41).file==\"001_swamp.mlx\",\"Actual original SWAMP logical identity/filename required\");"
+        }
+      ],
+      "exact_original_source_lines": [
+        {
+          "line": 101,
+          "text": "std::shared_ptr<CanonicalLevelContextV1> level;require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\"},bytes,level,e),e);"
+        },
+        {
+          "line": 113,
+          "text": "require(level->construct_source_v3({\"worlds/001_swamp.mlx\",0,7,1,0,1,0,-1,0},native_ctor->services(),e),e);"
+        },
+        {
+          "line": 114,
+          "text": "require(level->constructor_owner_v3()->phase()==LevelConstructorPhaseV3::complete&&source_debug_loads==1&&globals.next_module_id==0&&level->source_word150()==0,\"whole SAME Level source constructor fields differ\");"
+        }
+      ]
+    },
+    {
+      "original": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\source_stage_swamp_v40.cpp",
+      "original_sha256": "95c8b1b233b4f283add4088b6d0fe81cb0716912a496eec166c0748d0c2084be",
+      "frozen_baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\baselines\\source_stage_swamp_v40.cpp",
+      "successor": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\source_stage_swamp_v40_admission_v64.cpp",
+      "successor_sha256": "f6da8ff8e32084f887be5f9999ef5f4f3229f32f24ce59f59538fd40cc8349b0",
+      "domain": "selected actual SWAMP LevelList41",
+      "semantic_deltas": [
+        {
+          "change": "Constructor-bearing request explicitly fixed/seed7; logical identitySWAMP retained"
+        },
+        {
+          "change": "Assert real LevelList41 logical identity and barefilename before unchanged C1inputseed7"
+        },
+        {
+          "change": "Relative implementation/header and local capture includes rebased for candidate/successors location; incomplete unconstructed contexts remain unchanged"
+        }
+      ],
+      "future_target_switches": [
+        {
+          "target": "dh2_loader_source_stage_swamp_v40",
+          "cmake_line": 452,
+          "old": "  add_executable(dh2_loader_source_stage_swamp_v40 \"${loader}/tests/source_stage_swamp_v40.cpp\")",
+          "proposal": "  add_executable(dh2_loader_source_stage_swamp_v40 \"C:/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/candidate/fixture-admission-repair-v64/successors/source_stage_swamp_v40_admission_v64.cpp\")"
+        }
+      ],
+      "native_validation": "PENDING",
+      "baseline_after_sha256": "95c8b1b233b4f283add4088b6d0fe81cb0716912a496eec166c0748d0c2084be",
+      "exact_source_lines": [
+        {
+          "line": 104,
+          "text": "std::shared_ptr<CanonicalLevelContextV1> level;require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\",LevelSourceKindV1::fixed,7},bytes,level,e),e);"
+        },
+        {
+          "line": 116,
+          "text": "require(actual_design->levels()&&actual_design->levels()->level_names.at(41)==level->source_request().identity&&actual_design->levels()->levels.at(41).file==\"001_swamp.mlx\",\"Actual original SWAMP logical identity/filename required\");"
+        }
+      ],
+      "exact_original_source_lines": [
+        {
+          "line": 104,
+          "text": "std::shared_ptr<CanonicalLevelContextV1> level;require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\"},bytes,level,e),e);"
+        },
+        {
+          "line": 116,
+          "text": "require(level->construct_source_v3({\"worlds/001_swamp.mlx\",0,7,1,0,1,0,-1,0},native_ctor->services(),e),e);"
+        },
+        {
+          "line": 117,
+          "text": "require(level->constructor_owner_v3()->phase()==LevelConstructorPhaseV3::complete&&source_debug_loads==1&&globals.next_module_id==0&&level->source_word150()==0,\"whole SAME Level source constructor fields differ\");"
+        }
+      ]
+    },
+    {
+      "original": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\source_stage_swamp_v47.cpp",
+      "original_sha256": "7345007d65d85e2a16293aae7776655f36806fc0901d54aba073b3a9bd177d2f",
+      "frozen_baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\baselines\\source_stage_swamp_v47.cpp",
+      "successor": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\source_stage_swamp_v47_admission_v64.cpp",
+      "successor_sha256": "3fd18b254efcb22df78e720cf738fc974ac1b0a84f632f4311d30880a89dd473",
+      "domain": "selected actual SWAMP LevelList41",
+      "semantic_deltas": [
+        {
+          "change": "Constructor-bearing request explicitly fixed/seed7; logical identitySWAMP retained"
+        },
+        {
+          "change": "Assert real LevelList41 logical identity and barefilename before unchanged C1inputseed7"
+        },
+        {
+          "change": "Relative implementation/header and local capture includes rebased for candidate/successors location; incomplete unconstructed contexts remain unchanged"
+        }
+      ],
+      "future_target_switches": [
+        {
+          "target": "dh2_loader_source_stage_swamp_v47",
+          "cmake_line": 505,
+          "old": "add_executable(dh2_loader_source_stage_swamp_v47 \"${loader}/tests/source_stage_swamp_v47.cpp\")",
+          "proposal": "add_executable(dh2_loader_source_stage_swamp_v47 \"C:/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/candidate/fixture-admission-repair-v64/successors/source_stage_swamp_v47_admission_v64.cpp\")"
+        }
+      ],
+      "native_validation": "PENDING",
+      "baseline_after_sha256": "7345007d65d85e2a16293aae7776655f36806fc0901d54aba073b3a9bd177d2f",
+      "exact_source_lines": [
+        {
+          "line": 104,
+          "text": "std::shared_ptr<CanonicalLevelContextV1> level;require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\",LevelSourceKindV1::fixed,7},bytes,level,e),e);"
+        },
+        {
+          "line": 116,
+          "text": "require(actual_design->levels()&&actual_design->levels()->level_names.at(41)==level->source_request().identity&&actual_design->levels()->levels.at(41).file==\"001_swamp.mlx\",\"Actual original SWAMP logical identity/filename required\");"
+        }
+      ],
+      "exact_original_source_lines": [
+        {
+          "line": 104,
+          "text": "std::shared_ptr<CanonicalLevelContextV1> level;require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\"},bytes,level,e),e);"
+        },
+        {
+          "line": 116,
+          "text": "require(level->construct_source_v3({\"worlds/001_swamp.mlx\",0,7,1,0,1,0,-1,0},native_ctor->services(),e),e);"
+        },
+        {
+          "line": 117,
+          "text": "require(level->constructor_owner_v3()->phase()==LevelConstructorPhaseV3::complete&&source_debug_loads==1&&globals.next_module_id==0&&level->source_word150()==0,\"whole SAME Level source constructor fields differ\");"
+        }
+      ]
+    },
+    {
+      "original": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\source_visual_helper_v41_probe.cpp",
+      "original_sha256": "8c1ebc765dd710e8509b0ca24369f25f82ff1272476dc05410e460db0659eb38",
+      "frozen_baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\baselines\\source_visual_helper_v41_probe.cpp",
+      "successor": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\source_visual_helper_v41_probe_admission_v64.cpp",
+      "successor_sha256": "1239c1b0863a2b3643b601e3bb5b98bec03b69faf2a1174278b6d3a5299288f7",
+      "domain": "selected actual SWAMP LevelList41",
+      "semantic_deltas": [
+        {
+          "change": "Constructor-bearing request explicitly fixed/seed7; logical identitySWAMP retained"
+        },
+        {
+          "change": "Assert real LevelList41 logical identity and barefilename before unchanged C1inputseed7"
+        },
+        {
+          "change": "Relative implementation/header and local capture includes rebased for candidate/successors location; incomplete unconstructed contexts remain unchanged"
+        }
+      ],
+      "future_target_switches": [
+        {
+          "target": "dh2_loader_source_visual_helper_v41_probe",
+          "cmake_line": 425,
+          "old": " add_executable(dh2_loader_source_visual_helper_v41_probe \"${loader}/tests/source_visual_helper_v41_probe.cpp\")",
+          "proposal": " add_executable(dh2_loader_source_visual_helper_v41_probe \"C:/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/candidate/fixture-admission-repair-v64/successors/source_visual_helper_v41_probe_admission_v64.cpp\")"
+        }
+      ],
+      "native_validation": "PENDING",
+      "baseline_after_sha256": "8c1ebc765dd710e8509b0ca24369f25f82ff1272476dc05410e460db0659eb38",
+      "exact_source_lines": [
+        {
+          "line": 101,
+          "text": "std::shared_ptr<CanonicalLevelContextV1> level;require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\",LevelSourceKindV1::fixed,7},bytes,level,e),e);"
+        },
+        {
+          "line": 113,
+          "text": "require(actual_design->levels()&&actual_design->levels()->level_names.at(41)==level->source_request().identity&&actual_design->levels()->levels.at(41).file==\"001_swamp.mlx\",\"Actual original SWAMP logical identity/filename required\");"
+        }
+      ],
+      "exact_original_source_lines": [
+        {
+          "line": 101,
+          "text": "std::shared_ptr<CanonicalLevelContextV1> level;require(CanonicalLevelContextV1::create({\"SWAMP\",\"data/scene/001_swamp.mlx\"},bytes,level,e),e);"
+        },
+        {
+          "line": 113,
+          "text": "require(level->construct_source_v3({\"worlds/001_swamp.mlx\",0,7,1,0,1,0,-1,0},native_ctor->services(),e),e);"
+        },
+        {
+          "line": 114,
+          "text": "require(level->constructor_owner_v3()->phase()==LevelConstructorPhaseV3::complete&&source_debug_loads==1&&globals.next_module_id==0&&level->source_word150()==0,\"whole SAME Level source constructor fields differ\");"
+        }
+      ]
+    },
+    {
+      "original": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader\\tests\\canonical_level_constructor_v3.cpp",
+      "original_sha256": "f8d4bb17a1e5184b03e93cd16ff9cc033ee89d6cb8105e95d1395c94259933f4",
+      "frozen_baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\baselines\\canonical_level_constructor_v3.cpp",
+      "successor": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\canonical_level_constructor_v3_admission_v64.cpp",
+      "successor_sha256": "42936de49b617a46f3c3cfbdbea6368afe8472579a68c9f7d7f0cd05b9104d3d",
+      "domain": "raw C1 incomplete logical table; matched and unmatched source names",
+      "semantic_deltas": [
+        {
+          "change": "Borrow selected header via existing include tree"
+        },
+        {
+          "change": "Construct direct LevelConstructorV3 with SAME level constructor_borrow_v3 and application lease; retain rawmatched/unmatched names without manufactured logical identities"
+        },
+        {
+          "change": "Assert external raw constructor exists and selectedcontext constructorowner remains absent"
+        },
+        {
+          "change": "Retry direct raw constructor once-only guard"
+        },
+        {
+          "change": "Output explicitly claims rawC1 receiver lifetime"
+        }
+      ],
+      "future_target_switches": [
+        {
+          "target": "dh2_loader_same_level_ctor_probe",
+          "cmake_line": 289,
+          "old": "add_executable(dh2_loader_same_level_ctor_probe \"${graph_snapshot}/port/level-loader/tests/canonical_level_constructor_v3.cpp\")",
+          "proposal": "add_executable(dh2_loader_same_level_ctor_probe \"C:/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/candidate/fixture-admission-repair-v64/successors/canonical_level_constructor_v3_admission_v64.cpp\")"
+        }
+      ],
+      "native_validation": "PENDING",
+      "baseline_after_sha256": "f8d4bb17a1e5184b03e93cd16ff9cc033ee89d6cb8105e95d1395c94259933f4",
+      "exact_source_lines": [
+        {
+          "line": 37,
+          "text": "auto raw_borrow=fields;raw_borrow.owner=app;"
+        },
+        {
+          "line": 38,
+          "text": "auto raw_constructor=std::make_unique<LevelConstructorV3>(std::move(raw_borrow),std::move(services));"
+        },
+        {
+          "line": 39,
+          "text": "const bool result=raw_constructor->construct({match?\"worlds/swamp01.dwld\":\"missing\",0,7,1,0,1,0,-1,0});error=raw_constructor->error();"
+        },
+        {
+          "line": 41,
+          "text": "const auto* owner=raw_constructor.get();assert(owner&&!level->constructor_owner_v3());++checks;"
+        },
+        {
+          "line": 42,
+          "text": "auto before=calls;assert(!raw_constructor->construct({\"retry\",0,7,1,0,1,0,-1,0})&&calls==before);++checks;"
+        }
+      ],
+      "exact_original_source_lines": [
+        {
+          "line": 17,
+          "text": "assert(CanonicalLevelContextV1::create(source,app,level,error));++checks;"
+        },
+        {
+          "line": 36,
+          "text": "const bool result=level->construct_source_v3({match?\"worlds/swamp01.dwld\":\"missing\",0,7,1,0,1,0,-1,0},std::move(services),error);"
+        },
+        {
+          "line": 38,
+          "text": "const auto* owner=level->constructor_owner_v3();assert(owner);++checks;"
+        },
+        {
+          "line": 39,
+          "text": "auto before=calls;assert(!level->construct_source_v3({\"retry\",0,7,1,0,1,0,-1,0},{},error)&&calls==before);++checks;"
+        }
+      ]
+    },
+    {
+      "original": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader\\tests\\level_constructor_bindings_v4.cpp",
+      "original_sha256": "a9e69cd05658a1fac37334d4e6feee219a30bd6c2f06bf8bec38226d6f85fa07",
+      "frozen_baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\baselines\\level_constructor_bindings_v4.cpp",
+      "successor": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\level_constructor_bindings_v4_admission_v64.cpp",
+      "successor_sha256": "03097d8cae78c849a5144731e0ee19a3e94f36b6ca1426689a8242bb9774cd13",
+      "domain": "selected actual LevelList logical identity; raw C1URI preserved",
+      "semantic_deltas": [
+        {
+          "change": "Borrow three selectedheaders via current include tree"
+        },
+        {
+          "change": "Derive logical identity from actual aligned LevelList first substringmatch for original unchanged selectedCString"
+        },
+        {
+          "change": "Positive request identity=actual level_names row, retainingseed7 and raw C1selectedURI"
+        },
+        {
+          "change": "Failing save-service request uses sameactual logicalidentity"
+        }
+      ],
+      "future_target_switches": [
+        {
+          "target": "dh2_loader_native_ctor_bindings_probe",
+          "cmake_line": 326,
+          "old": "add_executable(dh2_loader_native_ctor_bindings_probe \"${graph_snapshot}/port/level-loader/tests/level_constructor_bindings_v4.cpp\")",
+          "proposal": "add_executable(dh2_loader_native_ctor_bindings_probe \"C:/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/candidate/fixture-admission-repair-v64/successors/level_constructor_bindings_v4_admission_v64.cpp\")"
+        }
+      ],
+      "native_validation": "PENDING",
+      "baseline_after_sha256": "a9e69cd05658a1fac37334d4e6feee219a30bd6c2f06bf8bec38226d6f85fa07",
+      "exact_source_lines": [
+        {
+          "line": 53,
+          "text": "std::size_t selected_row=actual->levels()->levels.size();"
+        },
+        {
+          "line": 54,
+          "text": "for(std::size_t i=0;i<actual->levels()->levels.size();++i){std::string lower=actual->levels()->levels[i].file;for(char& c:lower)c=char(std::tolower(static_cast<unsigned char>(c)));if(selected.find(lower)!=std::string::npos){selected_row=i;break;}}"
+        },
+        {
+          "line": 55,
+          "text": "check(selected_row<actual->levels()->level_names.size());"
+        },
+        {
+          "line": 56,
+          "text": "const std::string selected_identity=actual->levels()->level_names.at(selected_row);check(!selected_identity.empty());"
+        },
+        {
+          "line": 59,
+          "text": "LevelSourceRequestV1 source;source.identity=selected_identity;source.definition=\"isolated-source-selection\";source.seed=7;"
+        },
+        {
+          "line": 77,
+          "text": "LevelSourceRequestV1 source;source.identity=selected_identity;source.definition=\"isolated-source-selection\";source.seed=7;std::shared_ptr<CanonicalLevelContextV1> level;check(CanonicalLevelContextV1::create(source,actual,level,error));"
+        }
+      ],
+      "exact_original_source_lines": [
+        {
+          "line": 51,
+          "text": "check(!selected.empty());"
+        },
+        {
+          "line": 54,
+          "text": "LevelSourceRequestV1 source;source.identity=selected;source.definition=\"isolated-source-selection\";source.seed=7;"
+        },
+        {
+          "line": 55,
+          "text": "std::shared_ptr<CanonicalLevelContextV1> level;check(CanonicalLevelContextV1::create(source,actual,level,error));"
+        },
+        {
+          "line": 57,
+          "text": "check(level->construct_source_v3({selected.c_str(),0,7,1,0,1,0,-1,0},bindings->services(),error));"
+        },
+        {
+          "line": 72,
+          "text": "LevelSourceRequestV1 source;source.identity=selected;source.definition=\"isolated-source-selection\";source.seed=7;std::shared_ptr<CanonicalLevelContextV1> level;check(CanonicalLevelContextV1::create(source,actual,level,error));"
+        },
+        {
+          "line": 73,
+          "text": "check(!level->construct_source_v3({selected.c_str(),0,7,1,0,1,0,-1,0},bindings->services(),error));check(level->constructor_fields_v3().script44&&!level->constructor_fields_v3().save_ec&&level->constructor_owner_v3()->failed_at()==LevelConstructorPhaseV3::save_constructor);"
+        }
+      ]
+    },
+    {
+      "original": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\canonical_preview_entity_export_v30.cpp",
+      "original_sha256": "e4510049674ae377f8774bd14dfe5cc66c5e0fbb4f6131c6b5e3a86aff5d6f73",
+      "frozen_baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\baselines\\canonical_preview_entity_export_v30.cpp",
+      "successor": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\canonical_preview_entity_export_v30_admission_v64.cpp",
+      "successor_sha256": "90073c25987a5283e8afe883a1c6d68d034d17188bebc98d1ad168d123eb2ff9",
+      "domain": "selected SWAMP indirect previewexport translation unit",
+      "semantic_deltas": [
+        {
+          "change": "Include corrected modulegraph successor rather than frozen seed0fixture"
+        }
+      ],
+      "future_target_switches": [
+        {
+          "target": "dh2_loader_preview_entity_export_v30",
+          "cmake_line": 369,
+          "old": "add_executable(dh2_loader_preview_entity_export_v30 ../canonical_preview_entity_export_v30.cpp)",
+          "proposal": "add_executable(dh2_loader_preview_entity_export_v30 \"C:/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/candidate/fixture-admission-repair-v64/successors/canonical_preview_entity_export_v30_admission_v64.cpp\")"
+        }
+      ],
+      "native_validation": "PENDING",
+      "baseline_after_sha256": "e4510049674ae377f8774bd14dfe5cc66c5e0fbb4f6131c6b5e3a86aff5d6f73",
+      "exact_source_lines": [
+        {
+          "line": 4,
+          "text": "#include \"canonical_module_graph_source_probe_admission_v64.cpp\""
+        }
+      ],
+      "exact_original_source_lines": [
+        {
+          "line": 4,
+          "text": "#include \"canonical_module_graph_source_probe.cpp\""
+        }
+      ]
+    }
+  ],
+  "source_inspection": {
+    "original_and_frozen_hashes_verified": true,
+    "successor_hashes_verified": true,
+    "all_15_selected_request_seed_assertions_present": true,
+    "all_15_actual_identity_assertions_present": true,
+    "rebased_relative_includes_resolve": true,
+    "native_validation": "PENDING",
+    "native_jobs_launched": 0
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "factory_cases": [
+    {
+      "poison": 0,
+      "fields": {
+        "dimensions374": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "physical380": 1,
+        "trigger381": 0,
+        "colzone384": 0,
+        "static84": 1
+      },
+      "declare_properties": "0x397df8",
+      "calls": [
+        {
+          "allocation": 904
+        },
+        {
+          "base_GO_ID": 20
+        }
+      ]
+    },
+    {
+      "poison": 165,
+      "fields": {
+        "dimensions374": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "physical380": 1,
+        "trigger381": 0,
+        "colzone384": 0,
+        "static84": 1
+      },
+      "declare_properties": "0x397df8",
+      "calls": [
+        {
+          "allocation": 904
+        },
+        {
+          "base_GO_ID": 20
+        }
+      ]
+    },
+    {
+      "poison": 127,
+      "fields": {
+        "dimensions374": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "physical380": 1,
+        "trigger381": 0,
+        "colzone384": 0,
+        "static84": 1
+      },
+      "declare_properties": "0x397df8",
+      "calls": [
+        {
+          "allocation": 904
+        },
+        {
+          "base_GO_ID": 20
+        }
+      ]
+    }
+  ],
+  "properties": {
+    "dimensions": {
+      "source_offset": 884,
+      "default": [
+        200.0,
+        200.0,
+        200.0
+      ]
+    }
+  },
+  "scope": "Whole original QuestMoveInZone and Zone constructors and Zone DeclareProperties; inherited GameObject ctor/properties and allocator intercepted; quest collision execution remains a main-session service."
+}

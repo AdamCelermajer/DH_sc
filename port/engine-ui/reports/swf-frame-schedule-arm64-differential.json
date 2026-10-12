@@ -1,0 +1,17 @@
+{
+  "validation": "PASS",
+  "comparisons": 2400,
+  "root_comparisons": 1200,
+  "sprite_comparisons": 1200,
+  "ordered_services": 17776,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "82fce67d7e14e8ea2aac6298d37a9d402a84d6577c603a4d69ff321c1fcca069",
+  "gold_sha256": "9eb157fb75ba98a080ed2fb0f3c4db1e641432d7bf1ca40632c9afdc6e4a3a6a",
+  "mismatches": 0,
+  "source_sha256": {
+    "port/engine-ui/swf_frame_schedule.hpp": "cbdb9f4321743863ac0cfb212d64b78501b11797c74f768eba09035c75dfa392",
+    "port/engine-ui/swf_frame_schedule.cpp": "2401099b82e8ba5e5f093d5a33690cbe3258363081b74730dce41c13f3d6bc59",
+    "port/engine-ui/tests/swf_frame_schedule_differential.py": "763ba9b6feae84d96aa89eeead912a135e23f1499474255811d554994360e994"
+  },
+  "scope": "Actual root/sprite advance instructions against O2 native field coordinators.\n\nMovie/AS/tag/listener/GC/drag services are explicit and ordered, not replaced\nby stock root.advance. Deferred frame-tag/AS interpretation is a separate core\nconnection audit; this oracle proves the corpus field branches and live rereads.\n"
+}

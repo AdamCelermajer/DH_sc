@@ -1,0 +1,35 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN8MenuBase16FS_SetDifficultyEPKcS1_Pv",
+      "elf_address": "0x4222d8",
+      "size": 44,
+      "sha256": "e7b58fa4269b94770b92508ea2cf9ecb14b94abf44ae00483abe6971a115e367"
+    },
+    {
+      "original_symbol": "_ZN9Character20SG_GetGameDifficultyEv",
+      "elf_address": "0x3bb8e4",
+      "size": 52,
+      "sha256": "475f73d6d8adba8fb9ebe720a801b3e5d876576722256937790b9a463aef03bb"
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties12PROPS_GetIntEib",
+      "elf_address": "0x3df6e0",
+      "size": 56,
+      "sha256": "f0b419601b44bb6aa3bea1f6df7d7323364dc572daa7a7d5e660201ec9868342"
+    },
+    {
+      "original_symbol": "_ZN9Character20SG_SetGameDifficultyEi",
+      "elf_address": "0x3bb950",
+      "size": 60,
+      "sha256": "f7a364e8539aa96697a2ae043753d1529e067b3fdbcecca814121ceba45bd77a"
+    },
+    {
+      "original_symbol": "_Z26NativeSetCurrentDifficultyRKN7gameswf7fn_callE",
+      "elf_address": "0x43cd68",
+      "size": 68,
+      "sha256": "64469606ce78b67c929017957cba8e704ca794a2e7c05a5b76230932b39af715"
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "address": "0x34b868",
+      "symbol": "_ZN13ObjectManager11LoadFromXMLEP12TiXmlElementPKcRK7Point3DIfEi",
+      "size": 892,
+      "sha256": "27a7810895bce281410afb617edacb4c3178605f20214fdc7d2fb9c118b59ec8"
+    },
+    {
+      "address": "0x513d78",
+      "symbol": "_ZN11PropertyMap14InitPropertiesEv",
+      "size": 628,
+      "sha256": "a4d23f889fbf3c35aa6f72ce918a8509cd76ec54c91ce4136938fdc2f72fd4e5"
+    },
+    {
+      "address": "0x513fec",
+      "symbol": "_ZN11PropertyMap11SetTemplateERKSs",
+      "size": 400,
+      "sha256": "895565f3c2d28027d59cb2012a17fc91b186d669344f526b95c1db33f917879a"
+    },
+    {
+      "address": "0x51419c",
+      "symbol": "_ZN11PropertyMap12LoadTemplateEv",
+      "size": 136,
+      "sha256": "36a8724506bcb0c527b63d96bd456fd7d50de03ac8079fe5b7324507eff882fb"
+    },
+    {
+      "address": "0x5136ec",
+      "symbol": "_ZN11PropertyMap21LoadDefaultPropertiesEv",
+      "size": 284,
+      "sha256": "08ed071e09c164a789fb948f8087d6456a0650ab03855681be38049629f67add"
+    },
+    {
+      "address": "0x513a00",
+      "symbol": "_ZN11PropertyMap20LoadOverridesFromXMLEP12TiXmlElement",
+      "size": 168,
+      "sha256": "a5f635fe47a119b53bc72820faa05e19fb96398cdca3ad90d4102e30cea90a44"
+    },
+    {
+      "address": "0x51387c",
+      "symbol": "_ZN11PropertyMap11SetPropertyEPKcS1_",
+      "size": 128,
+      "sha256": "5d7120dc4767077eba0dade71f901cd539d2fcee9abfc1fd564181a8175e6895"
+    },
+    {
+      "address": "0x3a9fe4",
+      "symbol": "_ZN9Character17DeclarePropertiesEv",
+      "size": 464,
+      "sha256": "7067155e23c3cca49658df549bbf37d50bb90eff3d4e1c44a92c092af6d2c186"
+    },
+    {
+      "address": "0x33ef7c",
+      "symbol": "_ZN11PropertyMap11AddPropertyISsEEvPKcRT_",
+      "size": 144,
+      "sha256": "b3e70f07846a14cf03a29dbb66124dcce1d035314c49244a856168a09c86dc38"
+    },
+    {
+      "address": "0x33e404",
+      "symbol": "_ZN11PropertyMap11AddPropertyISsEEvPKcRT_S3_",
+      "size": 168,
+      "sha256": "623a134380f9b4b89f1f1b052051efcb4ef084dabf619949f6fabfd7c393d832"
+    },
+    {
+      "address": "0x33e298",
+      "symbol": "_ZN18SimpleTypePropertyISsE17SetToDefaultValueEPv",
+      "size": 36,
+      "sha256": "50bf1a8dbae027591670dea485f4f743b44436104c51adfca5c4fcbef53d9f78"
+    },
+    {
+      "address": "0x3a92b4",
+      "symbol": "_ZN11PropertyMap11AddPropertyIbEEvPKcRT_S3_.clone.21",
+      "size": 140,
+      "sha256": "2282d3e039676c83001306b92e856a40c4068c670ba9e10a112c11e7823d4116"
+    },
+    {
+      "address": "0x33de80",
+      "symbol": "_ZN18SimpleTypePropertyIbE17SetToDefaultValueEPv",
+      "size": 16,
+      "sha256": "a74daad6b94e187a027bd60b7c2589b43466c55e478af1433742d44cf25bab3e"
+    },
+    {
+      "address": "0x3a35f0",
+      "symbol": "_ZN18SimpleTypePropertyI7Point2DIiEE17SetToDefaultValueEPv",
+      "size": 28,
+      "sha256": "08ad40a66ed22adc306dd94b7a205560ff8866effb22eb949028ca265bff203b"
+    },
+    {
+      "address": "0x394f00",
+      "symbol": "_ZN18SimpleTypePropertyIfE17SetToDefaultValueEPv",
+      "size": 16,
+      "sha256": "44e1a323f7aff4195cb07711e94e6be0766f9a3a713073c63c89346e92172cf0"
+    },
+    {
+      "address": "0x3a5784",
+      "symbol": "_ZNK9Character16GetPreSetAIStateEv",
+      "size": 112,
+      "sha256": "bb03b30ddae9e5fcd0daba70144aee87c04d81c0bf761ad72d415f8d8cba9498"
+    },
+    {
+      "address": "0x3aa1b4",
+      "symbol": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "size": 1448,
+      "sha256": "85471dbc43082bce2a8f0fd429f0764fb55948ce47c3396dfca28933d701e6e6"
+    }
+  ]
+}

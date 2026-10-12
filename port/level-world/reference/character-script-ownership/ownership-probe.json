@@ -1,7 +1,7 @@
 {
   "validation": "PASS",
   "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
-  "probe_sha256": "c3c4f43d050ce820b88f9569c588b59fe3904337a9de32c0947b1efd527037ca",
+  "probe_sha256": "1758b6e21ff3d0d8f858d4feac7748d7322bf603ca86b3817189b470ac68055f",
   "manifest_sha256": {
     "original-functions.json": "10880a02cec8279ef6050ca60e4f80d187e0afeef12c1eb0853784cfb12a5f6a",
     "cache-teardown\\original-functions.json": "ac89c73b38bf40cd3f18472faa1232a487fdd1686feb1c3445d927c2cf0609e4",
@@ -10,7 +10,8 @@
     "file-ownership\\original-functions.json": "166453ed72269fa845a5830df784d91710d8d90dcfe050a6b9cb6e6abc8a577c",
     "init\\original-functions.json": "ae565b32902f259681b6dc5c9c859fe046c9c716a0555f42c42db9b27938af52",
     "registration\\original-functions.json": "a21267d4bdfd6019f3c95aa247b148d27d666a9689c49903798a3700c5907ba5",
-    "vm\\original-functions.json": "ae2b74b938a437d39db5ec8cfd0b677d39e21594a26eb7073ef59ed9ad54c0a6"
+    "vm\\original-functions.json": "ae2b74b938a437d39db5ec8cfd0b677d39e21594a26eb7073ef59ed9ad54c0a6",
+    "vm-libraries\\original-functions.json": "3a1016b1e1905106f670f809e8ac0e8d6ceff762371838dcddfe29fecaa18ad1"
   },
   "original_instructions_executed": true,
   "cases": [

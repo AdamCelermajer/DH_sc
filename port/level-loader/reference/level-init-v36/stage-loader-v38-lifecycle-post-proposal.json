@@ -1,0 +1,8 @@
+{
+  "base_header_sha256": "47d83b43e0496d4eb594feb6a937629b164bdbfc0cfe0dcfa27dd9800d5a4d12",
+  "base_cpp_sha256": "1205be5dcdfdf9a403c6331a01f415da1f5619ad658498c96bf8e470aa6e3daf",
+  "proposed_header_saved_bytes_sha256": "a0245418d65c48a04654b23f66d900b0ca8863a7bffd0237a0081adf3996b6c3",
+  "proposed_cpp_saved_bytes_sha256": "acfa3919ee5687691ba28e2ed72d6089365857a692ac59c82a30f54060768901",
+  "selected_core_modified": false,
+  "source_order": "130 increment then required stage7 file13c producer then progress tail"
+}

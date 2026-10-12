@@ -1,0 +1,25 @@
+{
+  "status": "SOURCE_ONLY_NOT_COMPILED",
+  "semantic_change": false,
+  "baseline_file": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\lightpoint-source-dtor-v57-20261006\\main_light_source_release_v57.hpp.proposed",
+  "baseline_sha256": "7e2a440458c9ee4517746634c0ff5bfa47b5643faeccdcf59a7337c09d304a55",
+  "changed_sha256": "58e22fe2ca7d11c12da22d99a115b7a10c5d9329eae28e5665b83e2e9a5fd4ff",
+  "baseline_source_inc_sha256": "ad31576700d122a957a537fd2e4611e331508ecd4efca931ed7b0590ebe0eac8",
+  "baseline_header_inc_sha256": "4aae416f55916fb62b27a6f75e0089e140cc4f998ce8137a17c56cdad6994acf",
+  "baseline_zip_sha256": "107480bf15bf4075444a82654daf6f87180b72b5384b309a130d90ad9b492750",
+  "review": "PASS single-token byte equivalence and small-proposal declaration/use names",
+  "files": [
+    {
+      "file": "helper-name.patch",
+      "sha256": "848a7df74e87748b21a9760c0d31c66a734b66f008c488df16a6a1b5159f1bbe"
+    },
+    {
+      "file": "main_light_source_release_v57.hpp.proposed",
+      "sha256": "58e22fe2ca7d11c12da22d99a115b7a10c5d9329eae28e5665b83e2e9a5fd4ff"
+    },
+    {
+      "file": "supplement.md",
+      "sha256": "deafa82537a8e48957e34674e916941ccd7005176bd521f72c827509384db176"
+    }
+  ]
+}

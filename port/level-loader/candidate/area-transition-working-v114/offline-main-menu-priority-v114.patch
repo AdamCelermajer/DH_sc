@@ -1,0 +1,35 @@
+--- a/port/level-loader/application_go_to_main_menu_v114.hpp
++++ b/port/level-loader/application_go_to_main_menu_v114.hpp
+@@ -19,6 +19,9 @@
+ };
+ struct ApplicationMainMenuServicesV114 {
+  std::shared_ptr<void> owner; //Independent services, actual App/World weak.
++ // Explicit human priority for offline milestone; default retains original call.
++ // Defers optional legacy score submission, never fakes a platform result.
++ bool defer_legacy_score_submission_v114{};
+  std::function<bool(MainMenuApplicationBorrowV114&,std::string&)> application;
+  //Validates SAME process App only; authentic SwitchState retires old World.
+  std::function<bool(const MainMenuApplicationBorrowV114&,std::string&)> current_application;
+--- a/port/level-loader/application_go_to_main_menu_v114.cpp
++++ b/port/level-loader/application_go_to_main_menu_v114.cpp
+@@ -91,7 +91,9 @@
+      if(!valid())return R::failed;if(r==R::pending){e.clear();return R::pending;}break;
+     }
+     case P::debug_score:if(!deliver("Required original DEBUG_OUT32c298",services_.debug,P::score,0x32c298u))return R::failed;break;
+-    case P::score:if(!deliver("Required actual Application.SendGLHiScore",services_.send_gl_high_score,P::trophies,app_))return R::failed;break;
++    case P::score:
++     if(services_.defer_legacy_score_submission_v114){if(!valid())return R::failed;phase_=P::trophies;break;}
++     if(!deliver("Required actual Application.SendGLHiScore",services_.send_gl_high_score,P::trophies,app_))return R::failed;break;
+     case P::trophies:if(!deliver("Required actual TrophyManager.UnlockTrophiesGLLive",services_.unlock_trophies_gl_live,P::debug_players))return R::failed;break;
+     case P::debug_players:if(!deliver("Required original DEBUG_OUT32c2bc",services_.debug,P::players,0x32c2bcu))return R::failed;break;
+     case P::players:if(!deliver("Required actual PlayerManager.RemoveAllPlayers",services_.remove_all_players,P::online))return R::failed;break;
+--- a/port/android-native/app/src/main/cpp/native_source_main_menu_v114.inc
++++ b/port/android-native/app/src/main/cpp/native_source_main_menu_v114.inc
+@@ -118,6 +118,7 @@
+   std::shared_ptr<void> w;if(!borrow_source_campaign_world_owner_v104(w,e))return false;d->old_world=w;
+  }
+  ApplicationMainMenuServicesV114 s;s.owner=d;
++ s.defer_legacy_score_submission_v114=true; // Human: optional legacy network score is backlog.
+  s.application=[d](auto& out,auto& e){if(!d->current(e))return false;auto a=d->app.lock();auto& f=a->source_loading_v55();
+   out={a,a->identity(),&f.byte_ab,&f.event_b0};return true;};
+  s.current_application=[d](const auto& out,auto& e){if(!d->current(e))return false;auto a=d->app.lock();auto& f=a->source_loading_v55();

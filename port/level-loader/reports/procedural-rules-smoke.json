@@ -1,0 +1,226 @@
+{
+  "scope": "Execute original nested-rule and room-pool declaration interpretation.\n\nActual RootRule/rule constructors, virtual readers, NewRule, list/block map\nlookup, Hash, LoadRoomPools/RPElem and FillSizes execute ARM32. Known block\nkeys are caller inputs from original block-map receipts; list declarations\nexecute the previously verified original readers. Imported atoi/search and\nallocation are explicit services. RoomPool::ComputeSizeOfRules, random\nselection, layout generation and full LoadRuleFile orchestration do not run.\n",
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "lists_receipt_sha256": "af7c52144e99827d222bacc1b9c1d6935a0c48997680fc8f9375c6d815a2a20c",
+  "script_sha256": "267b20606efc7b415d62d37e25562f022ba3894982e66ce122e3f64c20a8b2f9",
+  "dependency_sources_sha256": {
+    "port\\level-loader\\tests\\procedural_rules_original.py": "267b20606efc7b415d62d37e25562f022ba3894982e66ce122e3f64c20a8b2f9",
+    "port\\level-loader\\tests\\procedural_blocks_original.py": "695ac6d5978dae6e013150d4dfce80461f851c91d6f14b5bb5835739042a16fd",
+    "port\\level-loader\\tests\\procedural_lists_original.py": "1cb25487117915ff043cfc1dd2db35f7546f12ad267566f2d0ee751cf8edc0fc",
+    "port\\engine-resources\\tests\\cpu.py": "23090abbc5bfb64ba36628db8b264b68f188e28f5f97cb9d9b6ba7c5244c8c1a",
+    "port\\game-data\\tests\\combat_differential.py": "457e3507a7f91a628b07b09a6dd836aa6bddb00d4826a5c26fb0cab82014e7ce",
+    "port\\game-data\\tests\\combat_result_differential.py": "5303a3a81a0b8e1df3b330793d74b53ea9862d359319d0c5944431e603195e46",
+    "port\\game-data\\tests\\health_differential.py": "5330340a25e94c506ca68150a1bab87b8b461cfb7aea11e346961bc2ff6dff44",
+    "port\\game-data\\tests\\combat_application_differential.py": "e7b5d189e05d8c603b2ecddead9b24997d2922d9389d14590b4fa28fdb99a9c8",
+    "port\\game-data\\tests\\aggro_differential.py": "3d5fc4103199edbe847f886344f048738067ee8b329816531b82d8bc7174a759",
+    "port\\level-world\\tests\\navigation_differential.py": "44348f1af0fb62cd62ea0a17c1eb486df2d88d02bbab9360795b59a5a1f9f148",
+    "port\\game-data\\tests\\items_differential.py": "7f7fb185583e3d3ccb68b0c99648b5f04867a2cfffdc564eeab7facf10e1f000",
+    "port\\level-loader\\tests\\xml_original_probe.py": "d856a3d96331f1f65e6225e7889efbd3cc5633215bd043acd880a19681a39209"
+  },
+  "cases": [
+    {
+      "name": "explicit-default",
+      "input_sha256": "d8fbbac1d88f321a3b5f42a95aa8300e9a977788356ea11a1afd71cc1b2ef2d0",
+      "block_names": [
+        "room"
+      ],
+      "input_hex": "3c72756c65733e3c526f6f7452756c65206e616d653d22726f6f6d222f3e3c2f72756c65733e",
+      "xml_error": 0,
+      "root_present": true,
+      "read_result": 1,
+      "rule": {
+        "type": "RootRule",
+        "read_result": 1,
+        "exit": "",
+        "id_hash": 0,
+        "length": [
+          1,
+          1
+        ],
+        "list_source": null,
+        "list_index": -1,
+        "block_names": [
+          "room"
+        ],
+        "children": []
+      },
+      "pools": []
+    },
+    {
+      "name": "list-index-and-path",
+      "input_sha256": "e28c8a3898e3f586d40620256659e5c2b24527036d8dc29abf08b9af742c2d36",
+      "block_names": [
+        "room"
+      ],
+      "input_hex": "3c72756c65733e3c6c697374206e616d653d22526f6164223e3c656c656d206e616d653d22726f6f6d222f3e3c2f6c6973743e3c526f6f7452756c65206e616d653d2223726f61645b305d222069643d22726f6f74223e3c50617468206e616d653d2223726f616422206c656e6774683d22322c342220646f6e74476f4261636b3d2230223e3c466f726365426c6f636b206e616d653d22726f6f6d2220636f6e6e65637446726f6d3d22656173742220657869743d22736f757468223e3c456e6450617468206e616d653d22726f6f6d2220657869743d226e6f727468222f3e3c2f466f726365426c6f636b3e3c2f506174683e3c2f526f6f7452756c653e3c2f72756c65733e",
+      "xml_error": 0,
+      "root_present": true,
+      "read_result": 1,
+      "rule": {
+        "type": "RootRule",
+        "read_result": 1,
+        "exit": "",
+        "id_hash": 2090695081,
+        "length": [
+          1,
+          1
+        ],
+        "list_source": 0,
+        "list_index": 0,
+        "block_names": [],
+        "children": [
+          {
+            "type": "Path",
+            "read_result": 1,
+            "exit": "",
+            "id_hash": 0,
+            "length": [
+              2,
+              4
+            ],
+            "list_source": 0,
+            "list_index": -1,
+            "block_names": [],
+            "children": [
+              {
+                "type": "ForceBlock",
+                "read_result": 1,
+                "exit": "south",
+                "id_hash": 0,
+                "length": [
+                  1,
+                  1
+                ],
+                "list_source": null,
+                "list_index": -1,
+                "block_names": [
+                  "room"
+                ],
+                "children": [
+                  {
+                    "type": "EndPath",
+                    "read_result": 1,
+                    "exit": "north",
+                    "id_hash": 0,
+                    "length": [
+                      1,
+                      1
+                    ],
+                    "list_source": null,
+                    "list_index": -1,
+                    "block_names": [
+                      "room"
+                    ],
+                    "children": []
+                  }
+                ],
+                "connect_from": 4
+              }
+            ],
+            "dont_go_back": false
+          }
+        ]
+      },
+      "pools": []
+    },
+    {
+      "name": "missing-endpath-name",
+      "input_sha256": "af80b07f842b3d7ce0c96aae6a9d9688f06bda8689c0c4a2ffb84ccf7a184a03",
+      "block_names": [
+        "room"
+      ],
+      "input_hex": "3c72756c65733e3c526f6f7452756c65206e616d653d22726f6f6d222069643d22726f6f74223e3c456e645061746820657869743d226e6f727468222f3e3c2f526f6f7452756c653e3c2f72756c65733e",
+      "xml_error": 0,
+      "root_present": true,
+      "read_result": 0,
+      "rule": {
+        "type": "RootRule",
+        "read_result": 0,
+        "exit": "",
+        "id_hash": 2090695081,
+        "length": [
+          1,
+          1
+        ],
+        "list_source": null,
+        "list_index": -1,
+        "block_names": [
+          "room"
+        ],
+        "children": [
+          {
+            "type": "EndPath",
+            "read_result": 0,
+            "exit": "",
+            "id_hash": 0,
+            "length": [
+              1,
+              1
+            ],
+            "list_source": null,
+            "list_index": -1,
+            "block_names": [],
+            "children": []
+          }
+        ]
+      },
+      "pools": []
+    },
+    {
+      "name": "missing-root-name",
+      "input_sha256": "b06d672bf5917f6ba0808094f8776729b8cd9162ff22fec8baa14958dfcde839",
+      "block_names": [
+        "room"
+      ],
+      "input_hex": "3c72756c65733e3c526f6f7452756c652069643d22726f6f74223e3c466f726365426c6f636b206e616d653d22726f6f6d222f3e3c2f526f6f7452756c653e3c2f72756c65733e",
+      "xml_error": 0,
+      "root_present": true,
+      "read_result": 0,
+      "rule": {
+        "type": "RootRule",
+        "read_result": 0,
+        "exit": "",
+        "id_hash": 0,
+        "length": [
+          1,
+          1
+        ],
+        "list_source": null,
+        "list_index": -1,
+        "block_names": [],
+        "children": []
+      },
+      "pools": []
+    },
+    {
+      "name": "missing-root",
+      "input_sha256": "24a1612e4fe668106683a66c8a4e8ba9d002aae30e9a30dcfea28a5c27b78c1c",
+      "block_names": [],
+      "input_hex": "3c72756c65732f3e",
+      "xml_error": 0,
+      "root_present": false,
+      "read_result": 0,
+      "rule": {
+        "type": "RootRule",
+        "read_result": 0,
+        "exit": "",
+        "id_hash": 0,
+        "length": [
+          1,
+          1
+        ],
+        "list_source": null,
+        "list_index": -1,
+        "block_names": [],
+        "children": []
+      },
+      "pools": []
+    }
+  ],
+  "original_execution_complete": false,
+  "smoke_execution_complete": true,
+  "pool_size_allocation_verified": false,
+  "layout_generation_verified": false,
+  "full_loader_verified": false
+}

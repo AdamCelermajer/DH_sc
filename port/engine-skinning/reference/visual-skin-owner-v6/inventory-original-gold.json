@@ -1,0 +1,11 @@
+{
+  "validation": "PASS",
+  "cases": 6,
+  "original_steps": 112,
+  "original_visual_factory_requests": 1168,
+  "all_three_actual_classes": true,
+  "gold_sha256": "8e6a2bbda9c58974c4d9cad20b32c70a43a5a33ce3db48879858a28bd25b1d74",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "script_sha256": "efceff0fc7b16dc9f856a8c84348a7ba468a201360653b92c83b0434ea64cf34",
+  "scope": "Actual three-class source inventory/Character.Skin/VisualObject composition.\nThe VisualObject calls execute their genuine source bodies in a separate\ninstruction context with the same projected catalog and retained selections.\nController/weapon construction, GPU buffer packing and Debug are explicit\nservices; actual file existence drives weapon null results. Native cache host\ncomposition independently constructs the real Scene/Skin/Mesh backing.\n"
+}

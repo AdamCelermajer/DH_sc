@@ -1,0 +1,8 @@
+{
+  "validation": "CURRENT_MAIN_SUCCESSOR_SOURCE_PROOFS_PASS_NOT_INTEGRATED",
+  "packet": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\main-budget-binding-v46-successor-977b61d8837d95b9.zip",
+  "sha256": "c4da1780af448c23206d9770dc57c4af5ac43307019a555ae19c06ca9a02daf7",
+  "member_count": 63,
+  "readback_verified": true,
+  "current_main_snapshot_readback_stable": true
+}

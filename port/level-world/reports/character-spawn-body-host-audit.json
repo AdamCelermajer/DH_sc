@@ -1,0 +1,69 @@
+{
+  "validation": "PASS",
+  "scope": "Isolated SAN Spawn1 gold replay plus genuine target/debug kernels with explicit missing-file/gameplay fixtures.",
+  "host_audit": {
+    "validation": "PASS",
+    "original_cases": 5458,
+    "original_ordered_requests": 60104,
+    "guard_prefix_source_invalid_checks": 23,
+    "nested_interactive_and_blur_checks": 1,
+    "genuine_native_target_set_sync_compositions": 1,
+    "genuine_DebugSwitches_map_keys": 9,
+    "DebugSwitches_missing_file_fixture_deliveries": 1,
+    "required_animation_CancelSneaking_fixture_deliveries": 2,
+    "mismatches": 0
+  },
+  "source_sha256": {
+    "port/level-world/character_spawn_body.hpp": "f61c44da6e3756ae1c2e68557401cf320f0a9b076a7e2590210d49e38cccbc80",
+    "port/level-world/character_spawn_body.cpp": "3b81e92efb455f0ba2acc92a2bf2d08622c774f3da2460e45b4818a1825918c3",
+    "port/level-world/character_state.hpp": "9aaab47e7ff2cf762fca6d699b25178f69b206d6c6debe161a479ea12dc20f83",
+    "port/level-world/character_state_empty.hpp": "4d0791ec65ca99b68c233dc6f459562e35032dbd59638a463bfe1de591d0e64a",
+    "port/level-world/character_state_empty.cpp": "72ee801d1ea83f0dca1499fa03c9623f5c096e3a47191596a46c1a00ab38a62e",
+    "port/level-world/reference/character-state-methods/native-methods.inc": "508dc208f661105d0e3d9c1b7826383207b96638ad9a897c2ff927f3a6970ce1",
+    "port/level-world/character_target_bindings.hpp": "bead66304f3c4454813d2fcea8e679f0eb45d1625a4ee621f4ec96bfb6886e75",
+    "port/level-world/character_target_bindings.cpp": "b24ad01d74fbe5de98ce9416be022c6652fa8a90ed2c820a0455b293dc405665",
+    "port/level-world/character_design_services.hpp": "e2997bdd47e1ebe442797a55f7802ecde8d3105a80b5eb1e6b11f7b269a33064",
+    "port/level-world/character_design_services.cpp": "bf12eb613228d963cdb78e3ff44d1cb23da87a186e0bae73b01029379808b62d",
+    "port/level-world/tests/character_spawn_body.cpp": "4a8ceb9fce97e225e31893fe7dadf2c24526100d90c0a253ae0755c15353b8ac",
+    "port/level-world/tests/character_spawn_body_host.py": "8e0b3263f87255e04c2ca6dae1ac07f34b38021e88abe202b89251e667c56d97",
+    "port/script-runtime/script_runtime.h": "6da3b8ae002da1eb75cd64d03120d37668ebec198ce3d3b5827096c43d08de14"
+  },
+  "executable_sha256": "8e51a082afd4e7441ed697d409bb79a60d4213fa97872e085fc536b5bb31cf1d",
+  "reference_sha256": "a23ddde403a56dae258956782ea9e166752de12622b9d501b959a9febea8c70f",
+  "original_ARM64_proof": {
+    "path": "port/level-world/reports/character-spawn-body-arm64-differential.json",
+    "sha256": "3c0d016dff1781f5a1e89f3900cc6e4917e76d4b2557d349f0e4ddd8c2535171"
+  },
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "leaks": true,
+    "diagnostics": 0
+  },
+  "compiler_command": [
+    "g++",
+    "-std=c++17",
+    "-O2",
+    "-g",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-fno-omit-frame-pointer",
+    "-ffunction-sections",
+    "-fdata-sections",
+    "-Wl,--gc-sections",
+    "-fsanitize=address,undefined",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/character_spawn_body.cpp",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/character_state_empty.cpp",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/character_target_bindings.cpp",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/character_design_services.cpp",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/tests/character_spawn_body.cpp",
+    "-o",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-spawn-body/spawn_body_audit"
+  ],
+  "central_DSO_used": false,
+  "full_animation_CancelSneaking_physics_backends": false,
+  "APK": false
+}

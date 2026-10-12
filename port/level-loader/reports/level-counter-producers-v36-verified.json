@@ -1,0 +1,70 @@
+{
+  "validation": "PASS",
+  "recorded_utc": "2026-10-06T11:40:52.350943+00:00",
+  "counter_accesses": 13,
+  "counter_store_cases": 19,
+  "quicksave_cases": 2560,
+  "quicksave_incomplete_save_requests": 0,
+  "sg_save_player_cases": 80,
+  "sg_save_player_incomplete_save_requests": 16,
+  "binding_shape_cases": 6,
+  "teardown_routing_cases": 3,
+  "sanitizers": [
+    "ASAN",
+    "UBSAN"
+  ],
+  "base_header_sha256": "e3559999aff2a78e4dbb6e149ca06bf8d42162f00f0dc152e34a32f9adc9ac95",
+  "source_sha256": {
+    "lifecycle_v36_counter_borrow.hpp": "71c7d06e54033b8b4ed48d7015a1f0037782b1ca5c45959aaee535ef054feebb",
+    "lifecycle_v36_counter_teardown.hpp": "eb5e206d8686fd01f0cc12ef3ff5ec413c302106741970f46cb645ae72af7722",
+    "reference/level-init-v36/level-counter-producers-v36-3efa54.asm": "902513b109445ababfaa514453986e967c5d48340bb981684138b027572325df",
+    "reference/level-init-v36/level-counter-producers-v36-3efaec.asm": "2c63f3bbd3d07f3bc04a1b27a530ba0e762c7a5712525279375e0d742aeab5dd",
+    "reference/level-init-v36/level-counter-producers-v36-3efc40.asm": "e0293c62488c995d89cfa8801e51a5944d618ae6b39153dbd9024748c21a3746",
+    "reference/level-init-v36/level-counter-producers-v36-3f059c.asm": "e418a66bc689626ebd0fa30dc8edb7a5d9e72ebfd3dec941575d81c0646305a7",
+    "reference/level-init-v36/level-counter-producers-v36-3f3128.asm": "0b284ec141e79cc3c02c8a3dc56087dc66d3ba7ee7d72429053e1a0823f601f3",
+    "reference/level-init-v36/level-counter-producers-v36-3f34c0.asm": "f679acaac7727806be7498b6a7e54dbe3b07208d57ef831aec7e74cb8c076bdf",
+    "reference/level-init-v36/level-counter-producers-v36-3f82d8.asm": "051085c7f8d3ff971ad790e67233fcf7defcb0817049c79dab9d83ebccb9aa31",
+    "reference/level-init-v36/level-counter-producers-v36-3f90b0.asm": "bde8aea1e99aa9b4f6d53f00798e8b355c0f76de88ff6b50ff0f31cbeb4b0a31",
+    "reference/level-init-v36/level-counter-producers-v36-3f92c4.asm": "4e2c3912563d27f02b03122233ca51812b999dec3d83b67df3d2b338646b3727",
+    "reference/level-init-v36/level-counter-producers-v36-3f94d8.asm": "d4f2d6ccaacfd149b0b3a61f547f48ab4b6e4b2feb18c7390432990d05950ff0",
+    "reference/level-init-v36/level-counter-producers-v36-all-level.asm": "49a31f6b1e84f4c914c41c284104d9849a094c04bff06e6710a0cd58b6ec9711",
+    "reference/level-init-v36/level-counter-producers-v36-header-proposal.json": "473890a2bdbaced4ba977771d29ebe7c474f25f01b0e9d949c31c19896a736e8",
+    "reference/level-init-v36/level-counter-producers-v36-inventory.json": "b95107870fb04659064001302a362a9f6dfa134580e135131af7c3ea415bb603",
+    "reference/level-init-v36/level-counter-producers-v36-original.json": "d8ce7de1db0d1e16e93e21d552ed8adb0f68e4cb6178afb6365948bd407cd555",
+    "reference/level-init-v36/level-counter-producers-v36-proof.py": "b75c65c2d63444f50247d4bb3a2cf8abdf658d4d114089ce929faa99cbec8189",
+    "reference/level-init-v36/level-counter-producers-v36-proposed-header.diff": "1751b41fd91b914751a8483c5b27c43cd760ecfef1aea7fd8dc3a66faf53dfb7",
+    "reference/level-init-v36/level-counter-producers-v36-proposed-header.hpp": "d673aca40592f36af03ebf6c216bf79130223325ae3a377c39dd99289bad46eb",
+    "reports/level-counter-producers-v36-handoff.md": "2347c2b601a085995edafabe0dace9ec01dc4f911c21ed8e4616fd002dfb991a",
+    "tests/cmake-lifecycle-v36-counter-borrow/CMakeLists.txt": "48091f2c9a45b985338f4e0bf676301794426f8d982244091718325218986a85",
+    "tests/lifecycle_v36_counter_borrow_test.cpp": "866886edfe6adea98f59299090fe05cb5f06b8ca47c66b99ce64d94f65b19be2"
+  },
+  "executions": [
+    {
+      "command": [
+        "C:/Users/adamc/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe",
+        "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\level-init-v36\\level-counter-producers-v36-proof.py"
+      ],
+      "returncode": 0,
+      "stdout": "{\"validation\": \"PASS\", \"original_sha256\": \"36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80\", \"counter_store_cases\": 19, \"quicksave_cases\": 2560, \"quicksave_saves\": 4, \"quicksave_incomplete_saves\": 0, \"whole_load_init_verified\": false, \"sg_save_player_cases\": 80, \"sg_save_player_incomplete_save_calls\": 16, \"sg_save_player_scope\": \"Whole original SG_SavePlayer(Character*,bool) control flow with explicit IsPlayer/blocked/level/save-effect observers. No actual persistent save writes.\"}",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/lifecycle-v36-counter-borrow/dh2_loader_lifecycle_v36_counter_borrow"
+      ],
+      "returncode": 0,
+      "stdout": "PASS binding_shape_cases=6 teardown_routing_cases=3 actual_production_C1_executed=0",
+      "stderr": ""
+    }
+  ],
+  "actual_production_C1_executed": false,
+  "whole_level_init_verified": false,
+  "production_fields_adopted": false,
+  "shared_graph_modified": false,
+  "persistent_save_written": false,
+  "emulator_launched": false
+}

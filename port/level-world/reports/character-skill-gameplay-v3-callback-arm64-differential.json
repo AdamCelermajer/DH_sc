@@ -1,0 +1,17 @@
+{
+  "validation": "PASS",
+  "cases": 1920,
+  "ordered_services": 6212,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "optimized_arm64_sha256": "150261551f4a4b66c010fe7ec3a95f12805a67f6a932176449170add304d61af",
+  "original_instructions_executed": true,
+  "optimized_arm64_instructions_executed": true,
+  "gold_sha256": "e6884738c13c46240be72ce44655a36102eb07324b9006d70bd408a2034a03ed",
+  "source_sha256": {
+    "port/level-world/tests/character_skill_gameplay_v3_differential.py": "996e707e3ceaafca6083bb2a57dbc9260274a9d1d1e06823772e32cde5a50c09",
+    "port/level-world/character_skill_callbacks_v3.cpp": "3d8c7fc2609b9d417509a32e9614ae551f329ab4d71f8a0124219276b78f3818",
+    "port/level-world/character_skill_callbacks_v3.hpp": "4d701c9db3a0d08b070d644c089374c958fc8b3a208b5b9c7882c08b3f75c88f"
+  },
+  "scope": "Actual five CharAISkillScript bodies versus optimized native choreography.\n\nReturnValues construction/erase/destruction, LuaScript calls, and Value.getBool\nare declared logical services. This does not execute the original Lua engine.\nIt verifies two receiver reloads, all return cardinalities, callback statuses,\nselected first/second Value and release order. Real same-owner VM proof follows.\n"
+}

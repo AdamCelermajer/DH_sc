@@ -1,0 +1,490 @@
+004563d0 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::DoTutorial>()
+004576d8 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::ExecScript>()
+004575a0 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::PlayCamera>()
+004571c4 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::PlayEffect>()
+00457184 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::StopEffect>()
+00457518 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::WaitCamera>()
+004573dc W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::WaitDialog>()
+004566b0 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::AwardTrophy>()
+0045672c W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::ChangeLevel>()
+00457458 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::StartDialog>()
+00456e64 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::AIResetTimer>()
+0045640c W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::LockTutorial>()
+00457254 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::PlayAnimById>()
+00456a0c W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::ReEquipHands>()
+00456768 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::RestartLevel>()
+00456638 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::ShowTrophies>()
+00456a48 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::UnEquipHands>()
+00456ea0 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::AIEnableTimer>()
+004565c0 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::BlockSaveGame>()
+004572cc W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::EnterSafeZone>()
+00456394 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::FlushMessages>()
+00456fd0 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::IncFaeryLevel>()
+00457290 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::LeaveSafeZone>()
+004570d0 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::LockCharacter>()
+00456bbc W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::PlayActorAnim>()
+0045755c W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SetCameraClip>()
+00457010 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SetFaeryState>()
+004567e8 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SetLevelState>()
+00457418 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::StartDialogID>()
+00456da8 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::AIChangeScript>()
+00457214 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::PlayAnimByName>()
+00457308 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::PlayLevelMusic>()
+00456b3c W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SetActorMaster>()
+00456f58 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SpawnCharacter>()
+0045682c W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SpawnContainer>()
+004574dc W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SetCameraTarget>()
+00457094 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::UnlockCharacter>()
+00457660 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::ExitCutSceneMode>()
+00456b7c W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SetActorPosition>()
+0045769c W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::EnterCutSceneMode>()
+00456f1c W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::PutCharacterInIdle>()
+00456540 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SkipTutorialMessage>()
+00456a84 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::UnEquipItemFromSlot>()
+004568a4 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::ActivateTriggerPlate>()
+00456674 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::AwardEndGameTrophies>()
+00456f94 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::PutCharacterInLimbus>()
+0045691c W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::ActivateProjectileTrap>()
+00456868 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::DeactivateTriggerPlate>()
+0045657c W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::EnqueueTutorialMessage>()
+00456ee0 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::MarkCharacterAsScripted>()
+00456504 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SkipAllTutorialMessages>()
+004568e0 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::DeactivateProjectileTrap>()
+004567a4 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SetWorldMapLocationState>()
+00456488 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SkipCharMenuTutorialMessage>()
+004564c4 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::EnqueueCharMenuTutorialMessage>()
+0045644c W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SkipAllCharMenuTutorialMessages>()
+00457054 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::Wait>()
+004574a0 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::NilCmd>()
+00456de8 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::AISetHP>()
+00457624 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::CONSOLE>()
+004566f0 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::EndGame>()
+00456d68 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::AISetInt>()
+00456afc W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::DropLoot>()
+00456994 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::OpenDoor>()
+004565fc W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SaveGame>()
+00456e28 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::AIDoSkill>()
+00456ac0 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::AutoEquip>()
+00456958 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::CloseDoor>()
+00456c34 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::HideActor>()
+0045710c W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::HideFlash>()
+00456bf8 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::KillActor>()
+00456cac W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::LookActor>()
+00456cec W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::MoveActor>()
+00457390 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::PlaySound>()
+004575e4 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SetCamera>()
+004569d0 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SetStatic>()
+00456c70 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::ShowActor>()
+00457148 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::ShowFlash>()
+00456d2c W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::StopActor>()
+00457348 W Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::StopSound>()
+004585e0 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_Wait>()
+00458310 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_AISetHP>()
+00458c68 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_CONSOLE>()
+00457b04 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_EndGame>()
+00458280 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_AISetInt>()
+00457fec W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_DropLoot>()
+00457e34 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_OpenDoor>()
+004579e4 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SaveGame>()
+00458358 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_AIDoSkill>()
+00457fa4 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_AutoEquip>()
+00457de4 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_CloseDoor>()
+00458ab8 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_EmptyImpl>()
+0045810c W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_HideActor>()
+004586c0 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_HideFlash>()
+004580c4 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_KillActor>()
+0045819c W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_LookActor>()
+004581e4 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_MoveActor>()
+00458998 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_PlaySound>()
+00458c20 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SetCamera>()
+00457e84 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SetStatic>()
+00458154 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ShowActor>()
+0045870c W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ShowFlash>()
+00458238 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_StopActor>()
+00458950 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_StopSound>()
+0045775c W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_DoTutorial>()
+00458d40 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ExecScript>()
+00458bd8 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_PlayCamera>()
+004587a0 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_PlayEffect>()
+00458758 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_StopEffect>()
+00458b48 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_WaitCamera>()
+004589e0 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_WaitDialog>()
+00457abc W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_AwardTrophy>()
+00457b4c W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ChangeLevel>()
+00458a70 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_StartDialog>()
+004583a0 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_AIResetTimer>()
+004577a4 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_LockTutorial>()
+00458830 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_PlayAnimById>()
+00457ecc W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ReEquipHands>()
+00457b94 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_RestartLevel>()
+00457a2c W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ShowTrophies>()
+00457f14 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_UnEquipHands>()
+004583e8 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_AIEnableTimer>()
+0045799c W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_BlockSaveGame>()
+004588c0 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_EnterSafeZone>()
+00457714 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_FlushMessages>()
+00458550 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_IncFaeryLevel>()
+00458878 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_LeaveSafeZone>()
+00458678 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_LockCharacter>()
+004595c8 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_PlayActorAnim>()
+00458b90 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SetCameraClip>()
+00458598 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SetFaeryState>()
+00457c24 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SetLevelState>()
+00458a28 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_StartDialogID>()
+004582c8 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_AIChangeScript>()
+004587e8 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_PlayAnimByName>()
+00458908 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_PlayLevelMusic>()
+00458034 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SetActorMaster>()
+004584c0 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SpawnCharacter>()
+00457c6c W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SpawnContainer>()
+00458b00 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SetCameraTarget>()
+00458630 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_UnlockCharacter>()
+00458cb0 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ExitCutSceneMode>()
+0045807c W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SetActorPosition>()
+00458cf8 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_EnterCutSceneMode>()
+00458478 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_PutCharacterInIdle>()
+0045790c W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SkipTutorialMessage>()
+00457f5c W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_UnEquipItemFromSlot>()
+00457d00 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ActivateTriggerPlate>()
+00457a74 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_AwardEndGameTrophies>()
+00458508 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_PutCharacterInLimbus>()
+00457d98 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ActivateProjectileTrap>()
+00457cb4 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_DeactivateTriggerPlate>()
+00457954 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_EnqueueTutorialMessage>()
+00458430 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_MarkCharacterAsScripted>()
+004578c4 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SkipAllTutorialMessages>()
+00457d4c W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_DeactivateProjectileTrap>()
+00457bdc W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SetWorldMapLocationState>()
+00457834 W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SkipCharMenuTutorialMessage>()
+0045787c W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_EnqueueCharMenuTutorialMessage>()
+004577ec W ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SkipAllCharMenuTutorialMessages>()
+004594a8 T Script_CharacterState_Callback(char const*, int, void (*)(ObjectBase*))
+004597b4 W Script_Wait::Update()
+0045c438 W Script_Wait::Execute(bool, int)
+0031f474 W CMsgScriptCmd::GetDataPtr()
+003279a8 W CMsgScriptCmd::SetProperties()
+00324384 W CMsgScriptCmd::~CMsgScriptCmd()
+00320010 W CMsgScriptCmd::~CMsgScriptCmd()
+0045632c T ScriptManager::ScriptCmds::Free()
+004604c0 T ScriptManager::SkipScript(int, bool)
+00455bb8 T ScriptManager::StopScript(int, bool)
+004605c0 T ScriptManager::StartScript(int, int, bool)
+00455ad8 T ScriptManager::InitCommands()
+00455be0 T ScriptManager::StopSkipping()
+0045c16c T ScriptManager::ExecuteScript(int)
+0045b264 T ScriptManager::LoadScriptFile(char const*, bool)
+0045a1c8 T ScriptManager::UnLoadAllScripts()
+0045c37c T ScriptManager::ExecuteAllScripts()
+0045ad40 T ScriptManager::LoadScriptFileNames(char const*, bool)
+0045a2ac T ScriptManager::Flush()
+009a5fdc B ScriptManager::s_inst
+004559bc T ScriptManager::ScriptManager()
+00455980 T ScriptManager::ScriptManager()
+00460204 T ScriptManager::~ScriptManager()
+0045a880 T ScriptManager::~ScriptManager()
+004557c0 W Script_AISetHP::Execute(bool, int)
+00460e68 W Script_CONSOLE::Execute(bool, int)
+0045ca80 W Script_EndGame::Execute(bool, int)
+0045f2fc W Script_AISetInt::Execute(bool, int)
+0045e374 W Script_DropLoot::Execute(bool, int)
+0045d75c W Script_OpenDoor::Execute(bool, int)
+0045c994 W Script_SaveGame::Execute(bool, int)
+004557b4 W Script_AIDoSkill::Execute(bool, int)
+0045db88 W Script_AutoEquip::Execute(bool, int)
+0045d650 W Script_CloseDoor::Execute(bool, int)
+0045c560 W Script_EmptyImpl::Execute(bool, int)
+0045e028 W Script_HideActor::Execute(bool, int)
+004597e8 W Script_HideFlash::Init()
+0045f78c W Script_HideFlash::Execute(bool, int)
+0045ea04 W Script_KillActor::Execute(bool, int)
+0045ec50 W Script_LookActor::Execute(bool, int)
+0045f0a8 W Script_MoveActor::Execute(bool, int)
+0045fefc W Script_PlaySound::Execute(bool, int)
+00455678 W Script_SetCamera::Execute(bool, int)
+0045d868 W Script_SetStatic::Execute(bool, int)
+0045eb14 W Script_ShowActor::Execute(bool, int)
+0045983c W Script_ShowFlash::Init()
+0045f8c8 W Script_ShowFlash::Execute(bool, int)
+0045eec0 W Script_StopActor::Execute(bool, int)
+0045fe2c W Script_StopSound::Execute(bool, int)
+00460950 W Script_DoTutorial::Execute(bool, int)
+004607f4 W Script_ExecScript::Execute(bool, int)
+00460110 W Script_PlayCamera::Execute(bool, int)
+004598b4 W Script_PlayEffect::Init()
+0045fa9c W Script_PlayEffect::Execute(bool, int)
+00459890 W Script_StopEffect::Execute(bool, int)
+0045c5e8 W Script_WaitCamera::Execute(bool, int)
+0045c4d8 W Script_WaitDialog::Execute(bool, int)
+004593c4 W Script_AwardTrophy::Execute(bool, int)
+0045cba0 W Script_ChangeLevel::Execute(bool, int)
+00459034 W Script_StartDialog::Init()
+00460fe8 W Script_StartDialog::Execute(bool, int)
+004557a8 W Script_AIResetTimer::Execute(bool, int)
+0045925c W Script_LockTutorial::Execute(bool, int)
+0045e24c W Script_PlayAnimById::Execute(bool, int)
+0045d95c W Script_ReEquipHands::Execute(bool, int)
+0045cdd0 W Script_RestartLevel::Execute(bool, int)
+00455904 W Script_ShowTrophies::Execute(bool, int)
+0045ded0 W Script_UnEquipHands::Execute(bool, int)
+0045579c W Script_AIEnableTimer::Execute(bool, int)
+0045c8c0 W Script_BlockSaveGame::Execute(bool, int)
+0045fc80 W Script_EnterSafeZone::Execute(bool, int)
+00460a58 W Script_FlushMessages::Execute(bool, int)
+0045f5cc W Script_IncFaeryLevel::Execute(bool, int)
+0045fbe0 W Script_LeaveSafeZone::Execute(bool, int)
+0045dda0 W Script_LockCharacter::Execute(bool, int)
+0045a2ec W Script_PlayActorAnim::Init()
+0045e890 W Script_PlayActorAnim::Execute(bool, int)
+0045c670 W Script_SetCameraClip::Execute(bool, int)
+0045f6c8 W Script_SetFaeryState::Execute(bool, int)
+0045cf40 W Script_SetLevelState::Execute(bool, int)
+00461114 W Script_StartDialogID::Execute(bool, int)
+004557cc W Script_AIChangeScript::Execute(bool, int)
+0045e124 W Script_PlayAnimByName::Execute(bool, int)
+0045fd20 W Script_PlayLevelMusic::Execute(bool, int)
+0045e4b8 W Script_SetActorMaster::Execute(bool, int)
+0045f400 W Script_SpawnCharacter::Execute(bool, int)
+0045d008 W Script_SpawnContainer::Execute(bool, int)
+00460004 W Script_SetCameraTarget::Execute(bool, int)
+0045dc80 W Script_UnlockCharacter::Execute(bool, int)
+004599ac W Script_ExitCutSceneMode::Execute(bool, int)
+0045e5c8 W Script_SetActorPosition::Execute(bool, int)
+0045a384 W Script_EnterCutSceneMode::Execute(bool, int)
+00999840 D Script_PutCharacterInIdle::waitForAnim
+0045d590 W Script_PutCharacterInIdle::Execute(bool, int)
+0045971c W Script_PutCharacterInIdle::SetState(ObjectBase*)
+00460338 W Script_SkipTutorialMessage::Execute(bool, int)
+0045da8c W Script_UnEquipItemFromSlot::Execute(bool, int)
+0045d1d8 W Script_ActivateTriggerPlate::Execute(bool, int)
+00459b04 W Script_AwardEndGameTrophies::Execute(bool, int)
+0045f4e8 W Script_PutCharacterInLimbus::Execute(bool, int)
+0045d3cc W Script_ActivateProjectileTrap::Execute(bool, int)
+0045d0e0 W Script_DeactivateTriggerPlate::Execute(bool, int)
+004613d4 W Script_EnqueueTutorialMessage::Execute(bool, int)
+0045958c W Script_MarkCharacterAsScripted::Set(ObjectBase*)
+00459550 W Script_MarkCharacterAsScripted::Unset(ObjectBase*)
+0045d4c8 W Script_MarkCharacterAsScripted::Execute(bool, int)
+0046033c W Script_SkipAllTutorialMessages::Execute(bool, int)
+0045d2d4 W Script_DeactivateProjectileTrap::Execute(bool, int)
+0045ce78 W Script_SetWorldMapLocationState::Execute(bool, int)
+004603d0 W Script_SkipCharMenuTutorialMessage::Execute(bool, int)
+00460b1c W Script_EnqueueCharMenuTutorialMessage::Execute(bool, int)
+00460428 W Script_SkipAllCharMenuTutorialMessages::Execute(bool, int)
+009f2634 B Structs::ExecScript::m_dataNames
+0099aaac D Structs::ExecScript::m_dataOffsets
+004ffc24 T Structs::ExecScript::read(IStreamBase*)
+004d39dc T Structs::ExecScript::finalize()
+004d3a54 T Structs::ExecScript::~ExecScript()
+004d3a0c T Structs::ExecScript::~ExecScript()
+004d3a70 T Structs::ExecScript::~ExecScript()
+009f31e4 B Structs::AIChangeScript::m_dataNames
+0099abe4 D Structs::AIChangeScript::m_dataOffsets
+00501974 T Structs::AIChangeScript::read(IStreamBase*)
+004d29a0 T Structs::AIChangeScript::finalize()
+004d2a44 T Structs::AIChangeScript::~AIChangeScript()
+004d29ec T Structs::AIChangeScript::~AIChangeScript()
+004d2a60 T Structs::AIChangeScript::~AIChangeScript()
+009f4d7c B Structs::v2QuestScripts::m_dataNames
+0099ae7c D Structs::v2QuestScripts::m_dataOffsets
+004dd5a8 T Structs::v2QuestScripts::read(IStreamBase*)
+004d0238 T Structs::v2QuestScripts::finalize()
+004d0888 T Structs::v2QuestScripts::~v2QuestScripts()
+004d03cc T Structs::v2QuestScripts::~v2QuestScripts()
+004d08a4 T Structs::v2QuestScripts::~v2QuestScripts()
+009f30ac B Structs::MarkCharacterAsScripted::m_dataNames
+0099abcc D Structs::MarkCharacterAsScripted::m_dataOffsets
+00501bf4 T Structs::MarkCharacterAsScripted::read(IStreamBase*)
+004d2b94 T Structs::MarkCharacterAsScripted::finalize()
+004d2c0c T Structs::MarkCharacterAsScripted::~MarkCharacterAsScripted()
+004d2bc4 T Structs::MarkCharacterAsScripted::~MarkCharacterAsScripted()
+004d2c28 T Structs::MarkCharacterAsScripted::~MarkCharacterAsScripted()
+009f261c B Structs::ScriptCmd::m_dataNames
+009f2618 B Structs::ScriptCmd::m_dataOffsets
+004ff828 T Structs::ScriptCmd::read(IStreamBase*)
+004c6c68 T Structs::ScriptCmd::finalize()
+004cdd38 T Structs::ScriptCmd::~ScriptCmd()
+004c6c64 T Structs::ScriptCmd::~ScriptCmd()
+004c6c60 T Structs::ScriptCmd::~ScriptCmd()
+00455754 W Script_Wait::IsBlocking() const
+0031f47c W CMsgScriptCmd::GetDataSize() const
+004591f0 T ScriptManager::GetIDFromName(char const*, bool) const
+00455b8c T ScriptManager::GetNameFromID(int) const
+00455c40 T ScriptManager::GetScriptModule(int) const
+00455bec T ScriptManager::IsScriptRunning(int) const
+00455c54 T ScriptManager::IsCutSceneRunning() const
+004557c4 W Script_AISetHP::IsBlocking() const
+00455648 W Script_CONSOLE::IsBlocking() const
+00455910 W Script_EndGame::IsBlocking() const
+004557d8 W Script_AISetInt::IsBlocking() const
+004557e8 W Script_DropLoot::IsBlocking() const
+00455848 W Script_OpenDoor::IsBlocking() const
+00455928 W Script_SaveGame::IsBlocking() const
+004557b8 W Script_AIDoSkill::IsBlocking() const
+004557f0 W Script_AutoEquip::IsBlocking() const
+00455884 W Script_CloseDoor::IsBlocking() const
+00455630 W Script_EmptyImpl::IsBlocking() const
+00455828 W Script_HideActor::IsBlocking() const
+00455708 W Script_HideFlash::IsBlocking() const
+00455830 W Script_KillActor::IsBlocking() const
+00455818 W Script_LookActor::IsBlocking() const
+00459698 W Script_MoveActor::IsBlocking() const
+00455650 W Script_PlaySound::IsBlocking() const
+0045567c W Script_SetCamera::IsBlocking() const
+00455810 W Script_SetStatic::IsBlocking() const
+00455820 W Script_ShowActor::IsBlocking() const
+004556c4 W Script_ShowFlash::IsBlocking() const
+004557e0 W Script_StopActor::IsBlocking() const
+00455658 W Script_StopSound::IsBlocking() const
+00455970 W Script_DoTutorial::IsBlocking() const
+00455c08 W Script_ExecScript::IsBlocking() const
+00459370 W Script_PlayCamera::IsBlocking() const
+004556ac W Script_PlayEffect::IsBlocking() const
+004556b4 W Script_StopEffect::IsBlocking() const
+0045932c W Script_WaitCamera::IsBlocking() const
+004598d8 W Script_WaitDialog::IsBlocking() const
+00455920 W Script_AwardTrophy::IsBlocking() const
+004558fc W Script_ChangeLevel::IsBlocking() const
+0045568c W Script_StartDialog::IsBlocking() const
+004557ac W Script_AIResetTimer::IsBlocking() const
+00455968 W Script_LockTutorial::IsBlocking() const
+0045569c W Script_PlayAnimById::IsBlocking() const
+00455808 W Script_ReEquipHands::IsBlocking() const
+004558f4 W Script_RestartLevel::IsBlocking() const
+00455908 W Script_ShowTrophies::IsBlocking() const
+00455800 W Script_UnEquipHands::IsBlocking() const
+004557a0 W Script_AIEnableTimer::IsBlocking() const
+00455930 W Script_BlockSaveGame::IsBlocking() const
+00455668 W Script_EnterSafeZone::IsBlocking() const
+00455978 W Script_FlushMessages::IsBlocking() const
+00455774 W Script_IncFaeryLevel::IsBlocking() const
+00455670 W Script_LeaveSafeZone::IsBlocking() const
+004556bc W Script_LockCharacter::IsBlocking() const
+00459628 W Script_PlayActorAnim::IsBlocking() const
+00455684 W Script_SetCameraClip::IsBlocking() const
+0045576c W Script_SetFaeryState::IsBlocking() const
+004558e4 W Script_SetLevelState::IsBlocking() const
+00455694 W Script_StartDialogID::IsBlocking() const
+004557d0 W Script_AIChangeScript::IsBlocking() const
+004556a4 W Script_PlayAnimByName::IsBlocking() const
+00455660 W Script_PlayLevelMusic::IsBlocking() const
+00455840 W Script_SetActorMaster::IsBlocking() const
+00455784 W Script_SpawnCharacter::IsBlocking() const
+004558dc W Script_SpawnContainer::IsBlocking() const
+004592cc W Script_SetCameraTarget::IsBlocking() const
+0045574c W Script_UnlockCharacter::IsBlocking() const
+00455640 W Script_ExitCutSceneMode::IsBlocking() const
+00455838 W Script_SetActorPosition::IsBlocking() const
+00455638 W Script_EnterCutSceneMode::IsBlocking() const
+0045578c W Script_PutCharacterInIdle::IsBlocking() const
+00455940 W Script_SkipTutorialMessage::IsBlocking() const
+004557f8 W Script_UnEquipItemFromSlot::IsBlocking() const
+004558cc W Script_ActivateTriggerPlate::IsBlocking() const
+00455918 W Script_AwardEndGameTrophies::IsBlocking() const
+0045577c W Script_PutCharacterInLimbus::IsBlocking() const
+004558bc W Script_ActivateProjectileTrap::IsBlocking() const
+004558d4 W Script_DeactivateTriggerPlate::IsBlocking() const
+00455938 W Script_EnqueueTutorialMessage::IsBlocking() const
+00455794 W Script_MarkCharacterAsScripted::IsBlocking() const
+00455948 W Script_SkipAllTutorialMessages::IsBlocking() const
+004558c4 W Script_DeactivateProjectileTrap::IsBlocking() const
+004558ec W Script_SetWorldMapLocationState::IsBlocking() const
+00455958 W Script_SkipCharMenuTutorialMessage::IsBlocking() const
+00455950 W Script_EnqueueCharMenuTutorialMessage::IsBlocking() const
+00455960 W Script_SkipAllCharMenuTutorialMessages::IsBlocking() const
+0045a670 W std::allocator<ScriptManager::ScriptCmds>::_M_allocate(unsigned int, unsigned int&)
+0045a6f8 W std::allocator<ScriptManager::ScriptContext>::_M_allocate(unsigned int, unsigned int&)
+0045af64 W std::vector<ScriptManager::ScriptCmds, std::allocator<ScriptManager::ScriptCmds>>::_M_fill_insert(ScriptManager::ScriptCmds*, unsigned int, ScriptManager::ScriptCmds const&)
+00455cc0 W std::vector<ScriptManager::ScriptCmds, std::allocator<ScriptManager::ScriptCmds>>::_M_fill_insert_aux(ScriptManager::ScriptCmds*, unsigned int, ScriptManager::ScriptCmds const&, std::__false_type const&)
+00458f34 W std::vector<ScriptManager::ScriptCmds, std::allocator<ScriptManager::ScriptCmds>>::_M_compute_next_size(unsigned int)
+0045b208 W std::vector<ScriptManager::ScriptCmds, std::allocator<ScriptManager::ScriptCmds>>::resize(unsigned int, ScriptManager::ScriptCmds const&)
+0045a7c8 W std::vector<ScriptManager::ScriptCmds, std::allocator<ScriptManager::ScriptCmds>>::~vector()
+0045a8e8 W std::vector<ScriptManager::ScriptContext, std::allocator<ScriptManager::ScriptContext>>::_M_fill_insert(ScriptManager::ScriptContext*, unsigned int, ScriptManager::ScriptContext const&)
+00455f78 W std::vector<ScriptManager::ScriptContext, std::allocator<ScriptManager::ScriptContext>>::_M_fill_insert_aux(ScriptManager::ScriptContext*, unsigned int, ScriptManager::ScriptContext const&, std::__false_type const&)
+00458fb4 W std::vector<ScriptManager::ScriptContext, std::allocator<ScriptManager::ScriptContext>>::_M_compute_next_size(unsigned int)
+0045ab8c W std::vector<ScriptManager::ScriptContext, std::allocator<ScriptManager::ScriptContext>>::resize(unsigned int, ScriptManager::ScriptContext const&)
+0045a824 W std::vector<ScriptManager::ScriptContext, std::allocator<ScriptManager::ScriptContext>>::~vector()
+00968978 V vtable for Script_Wait
+00968888 V vtable for Script_AISetHP
+00968ba0 V vtable for Script_CONSOLE
+009685d0 V vtable for Script_EndGame
+00968858 V vtable for Script_AISetInt
+00968768 V vtable for Script_DropLoot
+009686d8 V vtable for Script_OpenDoor
+00968570 V vtable for Script_SaveGame
+009688a0 V vtable for Script_AIDoSkill
+00968750 V vtable for Script_AutoEquip
+009686c0 V vtable for Script_CloseDoor
+00968b10 V vtable for Script_EmptyImpl
+009687e0 V vtable for Script_HideActor
+009689c0 V vtable for Script_HideFlash
+009687c8 V vtable for Script_KillActor
+00968810 V vtable for Script_LookActor
+00968828 V vtable for Script_MoveActor
+00968ab0 V vtable for Script_PlaySound
+00968b88 V vtable for Script_SetCamera
+009686f0 V vtable for Script_SetStatic
+009687f8 V vtable for Script_ShowActor
+009689d8 V vtable for Script_ShowFlash
+00968840 V vtable for Script_StopActor
+00968a98 V vtable for Script_StopSound
+00968498 V vtable for Script_DoTutorial
+00968be8 V vtable for Script_ExecScript
+00968b70 V vtable for Script_PlayCamera
+00968a08 V vtable for Script_PlayEffect
+009689f0 V vtable for Script_StopEffect
+00968b40 V vtable for Script_WaitCamera
+00968ac8 V vtable for Script_WaitDialog
+009685b8 V vtable for Script_AwardTrophy
+009685e8 V vtable for Script_ChangeLevel
+00968af8 V vtable for Script_StartDialog
+009688b8 V vtable for Script_AIResetTimer
+009684b0 V vtable for Script_LockTutorial
+00968a38 V vtable for Script_PlayAnimById
+00968708 V vtable for Script_ReEquipHands
+00968600 V vtable for Script_RestartLevel
+00968588 V vtable for Script_ShowTrophies
+00968720 V vtable for Script_UnEquipHands
+009688d0 V vtable for Script_AIEnableTimer
+00968558 V vtable for Script_BlockSaveGame
+00968a68 V vtable for Script_EnterSafeZone
+00968468 V vtable for Script_FlushMessages
+00968948 V vtable for Script_IncFaeryLevel
+00968a50 V vtable for Script_LeaveSafeZone
+009689a8 V vtable for Script_LockCharacter
+009687b0 V vtable for Script_PlayActorAnim
+00968b58 V vtable for Script_SetCameraClip
+00968960 V vtable for Script_SetFaeryState
+00968630 V vtable for Script_SetLevelState
+00968ae0 V vtable for Script_StartDialogID
+00968870 V vtable for Script_AIChangeScript
+00968a20 V vtable for Script_PlayAnimByName
+00968a80 V vtable for Script_PlayLevelMusic
+00968780 V vtable for Script_SetActorMaster
+00968918 V vtable for Script_SpawnCharacter
+00968648 V vtable for Script_SpawnContainer
+00968b28 V vtable for Script_SetCameraTarget
+00968990 V vtable for Script_UnlockCharacter
+00968bb8 V vtable for Script_ExitCutSceneMode
+00968798 V vtable for Script_SetActorPosition
+00968bd0 V vtable for Script_EnterCutSceneMode
+00968900 V vtable for Script_PutCharacterInIdle
+00968528 V vtable for Script_SkipTutorialMessage
+00968738 V vtable for Script_UnEquipItemFromSlot
+00968678 V vtable for Script_ActivateTriggerPlate
+009685a0 V vtable for Script_AwardEndGameTrophies
+00968930 V vtable for Script_PutCharacterInLimbus
+009686a8 V vtable for Script_ActivateProjectileTrap
+00968660 V vtable for Script_DeactivateTriggerPlate
+00968540 V vtable for Script_EnqueueTutorialMessage
+009688e8 V vtable for Script_MarkCharacterAsScripted
+00968510 V vtable for Script_SkipAllTutorialMessages
+00968690 V vtable for Script_DeactivateProjectileTrap
+00968618 V vtable for Script_SetWorldMapLocationState
+009684e0 V vtable for Script_SkipCharMenuTutorialMessage
+009684f8 V vtable for Script_EnqueueCharMenuTutorialMessage
+009684c8 V vtable for Script_SkipAllCharMenuTutorialMessages
+0096ac10 D vtable for Structs::ExecScript
+0096a868 D vtable for Structs::AIChangeScript
+0096a088 D vtable for Structs::v2QuestScripts
+0096a8e0 D vtable for Structs::MarkCharacterAsScripted
+0096ac28 D vtable for Structs::ScriptCmd

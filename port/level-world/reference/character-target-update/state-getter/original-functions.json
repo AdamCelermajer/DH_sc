@@ -1,0 +1,11 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK16CharStateMachine11SM_GetStateEv",
+      "elf_address": "0x3c01ac",
+      "size": 20,
+      "sha256": "4b5797cd91d4afd7ee3becf1bb65b696146e55fc226838e13c0fbef91b0e4743"
+    }
+  ]
+}

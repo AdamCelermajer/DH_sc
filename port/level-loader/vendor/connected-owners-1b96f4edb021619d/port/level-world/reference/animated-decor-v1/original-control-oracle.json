@@ -1,0 +1,268 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cases": [
+    {
+      "name": "",
+      "found": false,
+      "accepted": true,
+      "visual_physical28": false,
+      "constructor_calls": [
+        [
+          "base_ctor",
+          20
+        ]
+      ],
+      "init_post_calls": [
+        [
+          "decor_init_post"
+        ],
+        [
+          "assign",
+          "idle"
+        ],
+        [
+          "exists",
+          "idle"
+        ],
+        [
+          "play_index",
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          "sync"
+        ],
+        [
+          "update"
+        ]
+      ]
+    },
+    {
+      "name": "randomall",
+      "found": false,
+      "accepted": false,
+      "visual_physical28": true,
+      "constructor_calls": [
+        [
+          "base_ctor",
+          20
+        ]
+      ],
+      "init_post_calls": [
+        [
+          "decor_init_post"
+        ],
+        [
+          "count",
+          0
+        ],
+        [
+          "random_max",
+          3
+        ],
+        [
+          "play_index",
+          2,
+          0,
+          0,
+          0
+        ],
+        [
+          "completion",
+          "0x388cec",
+          true,
+          0,
+          true
+        ],
+        [
+          "sync"
+        ],
+        [
+          "podecor_ctor",
+          true
+        ],
+        [
+          "set_physical",
+          0
+        ],
+        [
+          "update"
+        ]
+      ]
+    },
+    {
+      "name": "RANDOMALL",
+      "found": false,
+      "accepted": true,
+      "visual_physical28": false,
+      "constructor_calls": [
+        [
+          "base_ctor",
+          20
+        ]
+      ],
+      "init_post_calls": [
+        [
+          "decor_init_post"
+        ],
+        [
+          "count",
+          0
+        ],
+        [
+          "random_max",
+          3
+        ],
+        [
+          "play_index",
+          2,
+          0,
+          0,
+          0
+        ],
+        [
+          "completion",
+          "0x388cec",
+          true,
+          0,
+          true
+        ],
+        [
+          "sync"
+        ],
+        [
+          "update"
+        ]
+      ]
+    },
+    {
+      "name": "activate",
+      "found": true,
+      "accepted": true,
+      "visual_physical28": false,
+      "constructor_calls": [
+        [
+          "base_ctor",
+          20
+        ]
+      ],
+      "init_post_calls": [
+        [
+          "decor_init_post"
+        ],
+        [
+          "exists",
+          "activate"
+        ],
+        [
+          "play_name",
+          "activate",
+          1
+        ],
+        [
+          "sync"
+        ],
+        [
+          "update"
+        ]
+      ]
+    },
+    {
+      "name": "activate",
+      "found": true,
+      "accepted": false,
+      "visual_physical28": true,
+      "constructor_calls": [
+        [
+          "base_ctor",
+          20
+        ]
+      ],
+      "init_post_calls": [
+        [
+          "decor_init_post"
+        ],
+        [
+          "exists",
+          "activate"
+        ],
+        [
+          "play_name",
+          "activate",
+          1
+        ],
+        [
+          "play_index",
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          "sync"
+        ],
+        [
+          "podecor_ctor",
+          true
+        ],
+        [
+          "set_physical",
+          0
+        ],
+        [
+          "update"
+        ]
+      ]
+    },
+    {
+      "name": "missing",
+      "found": false,
+      "accepted": false,
+      "visual_physical28": false,
+      "constructor_calls": [
+        [
+          "base_ctor",
+          20
+        ]
+      ],
+      "init_post_calls": [
+        [
+          "decor_init_post"
+        ],
+        [
+          "exists",
+          "missing"
+        ],
+        [
+          "play_index",
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          "sync"
+        ],
+        [
+          "update"
+        ]
+      ]
+    }
+  ],
+  "fixture_services": [
+    "base constructor38c398",
+    "CString reserve/assign",
+    "DecorInitPost388a98",
+    "timeline methods",
+    "shared Random388c58",
+    "VisualSync/PODecor/SetPhysical/Update"
+  ],
+  "actual_executed": [
+    "factory342600 derived stores",
+    "AnimatedDecorInitPost389128",
+    "MeetCondition38ab60"
+  ],
+  "production_initialization_verified": false
+}

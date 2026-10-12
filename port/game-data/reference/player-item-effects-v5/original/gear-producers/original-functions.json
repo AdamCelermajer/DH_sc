@@ -1,0 +1,65 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN14CharProperties14_LoadGearPowerEib",
+      "elf_address": "0x3e32b4",
+      "size": 2660,
+      "sha256": "654f8443e3f3e877d11f39d77cb94eb59f572c04bb6ebafa9d419d6645364c5d"
+    },
+    {
+      "original_symbol": "_ZN12VisualObject14SetModularSkinEii",
+      "elf_address": "0x470e18",
+      "size": 68,
+      "sha256": "ccff73eb19e2c2dc692271198c2ec0c80d5d6b1641508af36f80a3884b6022c0"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory22GetModularCategoryNameEj",
+      "elf_address": "0x3ffd54",
+      "size": 152,
+      "sha256": "8cfd4e1a0d534435e542a3978b93644fab5e1ac48ba7fd7f74a7820dfc47d2c2"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory23IsEquipmentSlotLeftHandEj",
+      "elf_address": "0x40022c",
+      "size": 172,
+      "sha256": "744a2f191379425578067f55efb62184b985b9ccb04bd7b52801c6de506480a4"
+    },
+    {
+      "original_symbol": "_ZNK12VisualObject18GetModularModuleIdEiPKc",
+      "elf_address": "0x474568",
+      "size": 236,
+      "sha256": "749d55fea4b3a1cf4effab1c1c60c93589277fbc295b18233b8865e6a3eec425"
+    },
+    {
+      "original_symbol": "_ZNK12ItemInstance9GetItemIdEv",
+      "elf_address": "0x3f9e00",
+      "size": 8,
+      "sha256": "68a639b2dffac301817461b8b1e1e2fbca60e4b4db136a34b582411c8b7d17ba"
+    },
+    {
+      "original_symbol": "_ZN12VisualObject13SetWeaponSkinEPKcii",
+      "elf_address": "0x473cd8",
+      "size": 456,
+      "sha256": "3d89a9a4921825c7eb03dbb24c1616dc5e41ee70e5ec3371968cc6c73233ad60"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties14_LoadGearStatsEib",
+      "elf_address": "0x3e3154",
+      "size": 352,
+      "sha256": "0bccbb9468eec29197b630bc2c3051123fe06a14e6f81ec144e2479991b296aa"
+    },
+    {
+      "original_symbol": "_ZNK12VisualObject20GetModularCategoryIdEPKc",
+      "elf_address": "0x470e5c",
+      "size": 24,
+      "sha256": "210fcb2fc13df2c1f400551fea450c616e3b020a606ea956a8da2189b47e43e6"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties16_ResetPropertiesERN7Structs19CharacterPropertiesE",
+      "elf_address": "0x3def34",
+      "size": 80,
+      "sha256": "76bfb4312f9a2a80f4f25ffa6933ba404ee59b7bd710702321d36686b58418e2"
+    }
+  ]
+}

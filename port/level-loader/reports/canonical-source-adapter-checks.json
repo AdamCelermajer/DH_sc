@@ -1,0 +1,43 @@
+{
+  "validation": "PASS",
+  "scope": "Retained XML/canonical source-prefix integration fixtures, not production classes or a live world",
+  "cases": [
+    {
+      "build": "host-xml",
+      "probe_sha256": "d162c57854fb3d88591dca8e7d5d4dfd33490ad08a2b711fb5df6b9e7de4b72a",
+      "result": {
+        "validation": "PASS",
+        "adapter_checks": 14,
+        "scope": "retained XML and canonical source-prefix receiver fixtures",
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "build": "host-sanitizers",
+      "probe_sha256": "548225eda20bac8eef2f404971625cc72008ae57c69ebc0d4fff20d0536ddd73",
+      "result": {
+        "validation": "PASS",
+        "adapter_checks": 14,
+        "scope": "retained XML and canonical source-prefix receiver fixtures",
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "build": "android-x86_64",
+      "serial": "emulator-5590",
+      "avd": "DH2_Loader_API37",
+      "probe_sha256": "6504fad2c2d49886ff4601fac3d5e55b7d210cad3c1841a6e3060513cf375ca3",
+      "result": {
+        "validation": "PASS",
+        "adapter_checks": 14,
+        "scope": "retained XML and canonical source-prefix receiver fixtures",
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    }
+  ],
+  "runtime_objects_verified": false,
+  "full_loader_verified": false
+}

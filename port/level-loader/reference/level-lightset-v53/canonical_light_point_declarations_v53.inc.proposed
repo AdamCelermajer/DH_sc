@@ -1,0 +1,14 @@
+// Insert within actual CanonicalPropertyMapV1 init_properties declaration body.
+// Also add LightPoint to recovered class whitelist; require ZERO producer.
+if(kind=="LightPoint") {
+ add("position",0x124,*source_.position_rotation_default);
+ add("radius",0x130,float{2.0f});
+ add("attenuation",0x134,std::array<float,3>{{0,0,0}});
+ add("ambientColor",0x140,std::array<float,3>{{0,0,0}});
+ add("diffuseColor",0x14c,std::array<float,3>{{0,0,0}});
+ add("specularColor",0x158,std::array<float,3>{{0,0,0}});
+ add("automatic",0x164,std::uint8_t{0});
+ add("dae",0x168,std::string{});
+ add("attachedTo",0x180,std::string{});
+ add("attachedOffset",0x1a4,*source_.position_rotation_default);
+}

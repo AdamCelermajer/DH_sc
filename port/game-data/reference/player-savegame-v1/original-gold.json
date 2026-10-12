@@ -1,0 +1,11 @@
+{
+  "validation": "PASS",
+  "comparisons": 1536,
+  "cases": 64,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "gold_sha256": "b59991c83ab64c3f2987ffeda12797339085211a4f044278f3edccee5098a92a",
+  "script_sha256": "9ee8850a604f5b786cc937893745c5097ad6f839bd72a47f4072e210bdfe4c25",
+  "names_sha256": "31642dc0d8bf11f1ebd13698bbefda4fda0aefa2c727fb4ae9449f2df073fb9f",
+  "scope": "Actual constructors/skill ownership/STL/profile readers; explicit storage,\nCharacter SkillList and CharAI.UpdateSkills services. Original map algorithms\nexecute; name backing is the actual cache dictionary, not a lookup-result stub.\n",
+  "native_comparison": false
+}

@@ -1,0 +1,105 @@
+{
+  "literals": [
+    {
+      "instruction": "0x509b54",
+      "address": "0x8bec30",
+      "value": "StrID"
+    },
+    {
+      "instruction": "0x509b60",
+      "address": "0x8dbda8",
+      "value": "GLOBAL_DECIMAL_SEPERATOR"
+    },
+    {
+      "instruction": "0x509b84",
+      "address": "0x8dbdc8",
+      "value": "GLOBAL_THOUSANDS_SEPERATOR"
+    },
+    {
+      "instruction": "0x509ba8",
+      "address": "0x8dbde8",
+      "value": "GLOBAL_THOUSANDS_GROUP_AT"
+    },
+    {
+      "instruction": "0x509be4",
+      "address": "0x8cb9f8",
+      "value": "\n"
+    },
+    {
+      "instruction": "0x509bf8",
+      "address": "0x8dbe38",
+      "value": "%.1f"
+    },
+    {
+      "instruction": "0x509c0c",
+      "address": "0x8dbe30",
+      "value": "%.2f"
+    },
+    {
+      "instruction": "0x509c20",
+      "address": "0x8c1eb8",
+      "value": "%d"
+    },
+    {
+      "instruction": "0x50a198",
+      "address": "0x8dbe20",
+      "value": "%d%s%03d"
+    },
+    {
+      "instruction": "0x50a1d8",
+      "address": "0x8dbc20",
+      "value": "%c"
+    },
+    {
+      "instruction": "0x50a214",
+      "address": "0x8c1eb8",
+      "value": "%d"
+    },
+    {
+      "instruction": "0x50a2c0",
+      "address": "0x8c1eb8",
+      "value": "%d"
+    },
+    {
+      "instruction": "0x50a2e0",
+      "address": "0x8c1eb8",
+      "value": "%d"
+    },
+    {
+      "instruction": "0x50a348",
+      "address": "0x8dbe10",
+      "value": "%d%s%03d%s%03d"
+    },
+    {
+      "instruction": "0x50a374",
+      "address": "0x8dbe10",
+      "value": "%d%s%03d%s%03d"
+    },
+    {
+      "instruction": "0x3dacfc",
+      "address": "0x8c5858",
+      "value": "SetSkill"
+    },
+    {
+      "instruction": "0x3dad70",
+      "address": "0x8c58c0",
+      "value": "OnSkillInfo"
+    }
+  ],
+  "helpers": {
+    "0x30e70c": null,
+    "0x30ea30": null,
+    "0x30eba4": null,
+    "0x30e3ac": null,
+    "0x30ec94": null,
+    "0x30ed6c": null,
+    "0x30e8a4": null,
+    "0x30e4cc": null,
+    "0x31f6b0": "_ZN11Application16GetVersionStringEPcib",
+    "0x3206d0": "_ZN11Application14GetTitleStringEPci",
+    "0x752a18": "_ZN7gameswf15format_utf_textEPKcPcib",
+    "0x3cdd78": "_ZN3sfc6script3lua9Arguments11pushIntegerEi",
+    "0x3da43c": "_ZNK3sfc6script3lua12ReturnValuesixEj",
+    "0x31bbf0": "_ZNK3sfc6script3lua5Value9getNumberEv"
+  }
+}

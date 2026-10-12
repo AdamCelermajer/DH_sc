@@ -1,0 +1,3620 @@
+{
+  "schema": "original-condition-list-v55",
+  "status": "PASS",
+  "elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "whole_original_array_reader": "Arrays::v2Conditions4b8dec +v2CondAnd505970 +ConditionStub50600c/base505b28; real bytes2796 all118rows; whole Arrays readNames4b15f8 actual2789bytes",
+  "whole_ConditionData_cases": [
+    {
+      "name": "RENE_FOLLOW",
+      "Init_Assign_C1_D1_D0_Clear_completed": true,
+      "same_compiled_pointer_cleared_after_D1_then_CustomFree": true,
+      "tested_byte_preserved": 127
+    },
+    {
+      "name": "GameStartOnly",
+      "Init_Assign_C1_D1_D0_Clear_completed": true,
+      "same_compiled_pointer_cleared_after_D1_then_CustomFree": true,
+      "tested_byte_preserved": 127
+    },
+    {
+      "name": "GameStartOnly",
+      "Init_Assign_C1_D1_D0_Clear_completed": true,
+      "same_compiled_pointer_cleared_after_D1_then_CustomFree": true,
+      "tested_byte_preserved": 127
+    },
+    {
+      "name": "IsBefore_Swamp_KillWitch",
+      "Init_Assign_C1_D1_D0_Clear_completed": true,
+      "same_compiled_pointer_cleared_after_D1_then_CustomFree": true,
+      "tested_byte_preserved": 127
+    },
+    {
+      "name": "IsAfter_Swamp_LizBlood",
+      "Init_Assign_C1_D1_D0_Clear_completed": true,
+      "same_compiled_pointer_cleared_after_D1_then_CustomFree": true,
+      "tested_byte_preserved": 127
+    },
+    {
+      "name": "IsBefore_Swamp_Escape",
+      "Init_Assign_C1_D1_D0_Clear_completed": true,
+      "same_compiled_pointer_cleared_after_D1_then_CustomFree": true,
+      "tested_byte_preserved": 127
+    },
+    {
+      "name": "IsBefore_Swamp_Escape",
+      "Init_Assign_C1_D1_D0_Clear_completed": true,
+      "same_compiled_pointer_cleared_after_D1_then_CustomFree": true,
+      "tested_byte_preserved": 127
+    },
+    {
+      "name": "IsBefore_Swamp_Escape",
+      "Init_Assign_C1_D1_D0_Clear_completed": true,
+      "same_compiled_pointer_cleared_after_D1_then_CustomFree": true,
+      "tested_byte_preserved": 127
+    },
+    {
+      "name": "IsBefore_Swamp_Escape",
+      "Init_Assign_C1_D1_D0_Clear_completed": true,
+      "same_compiled_pointer_cleared_after_D1_then_CustomFree": true,
+      "tested_byte_preserved": 127
+    },
+    {
+      "name": "EDWARD_FOLLOW",
+      "Init_Assign_C1_D1_D0_Clear_completed": true,
+      "same_compiled_pointer_cleared_after_D1_then_CustomFree": true,
+      "tested_byte_preserved": 127
+    },
+    {
+      "name": "",
+      "original_early_return_or_case_sensitive_miss": true,
+      "compiled_preserved": "0x1234",
+      "tested_preserved": 127
+    },
+    {
+      "name": "Invalid",
+      "original_early_return_or_case_sensitive_miss": true,
+      "compiled_preserved": "0x1234",
+      "tested_preserved": 127
+    },
+    {
+      "name": "rene_follow",
+      "original_early_return_or_case_sensitive_miss": true,
+      "compiled_preserved": "0x1234",
+      "tested_preserved": 127
+    },
+    {
+      "name": "absent-name",
+      "original_early_return_or_case_sensitive_miss": true,
+      "compiled_preserved": "0x1234",
+      "tested_preserved": 127
+    },
+    {
+      "repeated_Init_no_prior_List_D1_or_Free": true,
+      "source_old_list_leak_preserved": true
+    }
+  ],
+  "list_cases": [
+    {
+      "C1_poison": 0,
+      "fields": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "C1_poison": 165,
+      "fields": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "C1_poison": 127,
+      "fields": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "real_cache_list_count": 118,
+      "instances_constructed_and_deleted": 154,
+      "all_actual_factories_executed": [
+        "0x478acc",
+        "0x478b14",
+        "0x478b5c"
+      ]
+    },
+    {
+      "repeated_Assign_leaks_prior_array_and_instances": true
+    },
+    {
+      "zero_Assign_preserves_old_array4": true
+    },
+    {
+      "signed_negative_Assign_no_iteration_D1_only_frees_array": true
+    }
+  ],
+  "swamp_character_refs": [
+    {
+      "object": "_prim_NPC_PriestGood",
+      "property": "activate_cond",
+      "name": "RENE_FOLLOW",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "resolved": true,
+      "row": {
+        "name": "RENE_FOLLOW",
+        "count": 1,
+        "list_op": 0,
+        "stubs": [
+          {
+            "op": 1,
+            "argument1": 8,
+            "argument2": 13
+          }
+        ],
+        "original_constructed_instances": [
+          {
+            "op": 1,
+            "source_slot4_stub_pointer": 33626136,
+            "receiver_vtable": "0x969220",
+            "source_cache8": "0x1"
+          }
+        ],
+        "original_factory_bodies": [
+          "0x478b14"
+        ]
+      }
+    },
+    {
+      "object": "_prim_ActorTroll",
+      "property": "activate_cond",
+      "name": "GameStartOnly",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "resolved": true,
+      "row": {
+        "name": "GameStartOnly",
+        "count": 1,
+        "list_op": 0,
+        "stubs": [
+          {
+            "op": 1,
+            "argument1": 50,
+            "argument2": 6
+          }
+        ],
+        "original_constructed_instances": [
+          {
+            "op": 1,
+            "source_slot4_stub_pointer": 33622040,
+            "receiver_vtable": "0x969220",
+            "source_cache8": "0x1"
+          }
+        ],
+        "original_factory_bodies": [
+          "0x478b14"
+        ]
+      }
+    },
+    {
+      "object": "_prim_ActorPrisoner",
+      "property": "activate_cond",
+      "name": "GameStartOnly",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "resolved": true,
+      "row": {
+        "name": "GameStartOnly",
+        "count": 1,
+        "list_op": 0,
+        "stubs": [
+          {
+            "op": 1,
+            "argument1": 50,
+            "argument2": 6
+          }
+        ],
+        "original_constructed_instances": [
+          {
+            "op": 1,
+            "source_slot4_stub_pointer": 33622040,
+            "receiver_vtable": "0x969220",
+            "source_cache8": "0x1"
+          }
+        ],
+        "original_factory_bodies": [
+          "0x478b14"
+        ]
+      }
+    },
+    {
+      "object": "_prim_NPC_05",
+      "property": "deactivate_cond",
+      "name": "IsBefore_Swamp_KillWitch",
+      "source_uri": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "resolved": true,
+      "row": {
+        "name": "IsBefore_Swamp_KillWitch",
+        "count": 2,
+        "list_op": 0,
+        "stubs": [
+          {
+            "op": 1,
+            "argument1": 52,
+            "argument2": 13
+          },
+          {
+            "op": 1,
+            "argument1": 50,
+            "argument2": 13
+          }
+        ],
+        "original_constructed_instances": [
+          {
+            "op": 1,
+            "source_slot4_stub_pointer": 33624248,
+            "receiver_vtable": "0x969220",
+            "source_cache8": "0x1"
+          },
+          {
+            "op": 1,
+            "source_slot4_stub_pointer": 33624264,
+            "receiver_vtable": "0x969220",
+            "source_cache8": "0x1"
+          }
+        ],
+        "original_factory_bodies": [
+          "0x478b14",
+          "0x478b14"
+        ]
+      }
+    },
+    {
+      "object": "_prim_NPC_LizBloodPOST",
+      "property": "activate_cond",
+      "name": "IsAfter_Swamp_LizBlood",
+      "source_uri": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "resolved": true,
+      "row": {
+        "name": "IsAfter_Swamp_LizBlood",
+        "count": 1,
+        "list_op": 0,
+        "stubs": [
+          {
+            "op": 0,
+            "argument1": 51,
+            "argument2": 13
+          }
+        ],
+        "original_constructed_instances": [
+          {
+            "op": 0,
+            "source_slot4_stub_pointer": 33623064,
+            "receiver_vtable": "0x969240",
+            "source_cache8": "0x0"
+          }
+        ],
+        "original_factory_bodies": [
+          "0x478b5c"
+        ]
+      }
+    },
+    {
+      "object": "_prim_Monster_LizardFan01",
+      "property": "activate_cond",
+      "name": "IsBefore_Swamp_Escape",
+      "source_uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "resolved": true,
+      "row": {
+        "name": "IsBefore_Swamp_Escape",
+        "count": 1,
+        "list_op": 0,
+        "stubs": [
+          {
+            "op": 1,
+            "argument1": 50,
+            "argument2": 13
+          }
+        ],
+        "original_constructed_instances": [
+          {
+            "op": 1,
+            "source_slot4_stub_pointer": 33624216,
+            "receiver_vtable": "0x969220",
+            "source_cache8": "0x1"
+          }
+        ],
+        "original_factory_bodies": [
+          "0x478b14"
+        ]
+      }
+    },
+    {
+      "object": "_prim_Monster_MisterSnack",
+      "property": "activate_cond",
+      "name": "IsBefore_Swamp_Escape",
+      "source_uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "resolved": true,
+      "row": {
+        "name": "IsBefore_Swamp_Escape",
+        "count": 1,
+        "list_op": 0,
+        "stubs": [
+          {
+            "op": 1,
+            "argument1": 50,
+            "argument2": 13
+          }
+        ],
+        "original_constructed_instances": [
+          {
+            "op": 1,
+            "source_slot4_stub_pointer": 33624216,
+            "receiver_vtable": "0x969220",
+            "source_cache8": "0x1"
+          }
+        ],
+        "original_factory_bodies": [
+          "0x478b14"
+        ]
+      }
+    },
+    {
+      "object": "_prim_Monster_LizardFan03",
+      "property": "activate_cond",
+      "name": "IsBefore_Swamp_Escape",
+      "source_uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "resolved": true,
+      "row": {
+        "name": "IsBefore_Swamp_Escape",
+        "count": 1,
+        "list_op": 0,
+        "stubs": [
+          {
+            "op": 1,
+            "argument1": 50,
+            "argument2": 13
+          }
+        ],
+        "original_constructed_instances": [
+          {
+            "op": 1,
+            "source_slot4_stub_pointer": 33624216,
+            "receiver_vtable": "0x969220",
+            "source_cache8": "0x1"
+          }
+        ],
+        "original_factory_bodies": [
+          "0x478b14"
+        ]
+      }
+    },
+    {
+      "object": "_prim_Boss_SwampKing_01",
+      "property": "activate_cond",
+      "name": "IsBefore_Swamp_Escape",
+      "source_uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "resolved": true,
+      "row": {
+        "name": "IsBefore_Swamp_Escape",
+        "count": 1,
+        "list_op": 0,
+        "stubs": [
+          {
+            "op": 1,
+            "argument1": 50,
+            "argument2": 13
+          }
+        ],
+        "original_constructed_instances": [
+          {
+            "op": 1,
+            "source_slot4_stub_pointer": 33624216,
+            "receiver_vtable": "0x969220",
+            "source_cache8": "0x1"
+          }
+        ],
+        "original_factory_bodies": [
+          "0x478b14"
+        ]
+      }
+    },
+    {
+      "object": "_prim_NPC_Eddie",
+      "property": "activate_cond",
+      "name": "EDWARD_FOLLOW",
+      "source_uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "resolved": true,
+      "row": {
+        "name": "EDWARD_FOLLOW",
+        "count": 2,
+        "list_op": 0,
+        "stubs": [
+          {
+            "op": 2,
+            "argument1": 59,
+            "argument2": 6
+          },
+          {
+            "op": 1,
+            "argument1": 24,
+            "argument2": 6
+          }
+        ],
+        "original_constructed_instances": [
+          {
+            "op": 2,
+            "source_slot4_stub_pointer": 33621960,
+            "receiver_vtable": "0x9691e0",
+            "source_cache8": "0x2"
+          },
+          {
+            "op": 1,
+            "source_slot4_stub_pointer": 33621976,
+            "receiver_vtable": "0x969220",
+            "source_cache8": "0x1"
+          }
+        ],
+        "original_factory_bodies": [
+          "0x478acc",
+          "0x478b14"
+        ]
+      }
+    }
+  ],
+  "factory_types": {
+    "0": 27,
+    "1": 80,
+    "2": 47
+  },
+  "original_table_rows": [
+    {
+      "name": "DW_Statue",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 16,
+          "argument2": 13
+        },
+        {
+          "op": 1,
+          "argument1": 46,
+          "argument2": 6
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 0,
+          "source_slot4_stub_pointer": 33621880,
+          "receiver_vtable": "0x969240",
+          "source_cache8": "0x0"
+        },
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33621896,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b5c",
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "DarkTemple_Special",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 5,
+          "argument2": 3
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33621928,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc"
+      ]
+    },
+    {
+      "name": "EDWARD_FOLLOW",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 59,
+          "argument2": 6
+        },
+        {
+          "op": 1,
+          "argument1": 24,
+          "argument2": 6
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33621960,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        },
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33621976,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc",
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "Eddie_Skeletons",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 60,
+          "argument2": 6
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 0,
+          "source_slot4_stub_pointer": 33622008,
+          "receiver_vtable": "0x969240",
+          "source_cache8": "0x0"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b5c"
+      ]
+    },
+    {
+      "name": "GameStartOnly",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 50,
+          "argument2": 6
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33622040,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsAfterIH_FrostComb",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 29,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33622072,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc"
+      ]
+    },
+    {
+      "name": "IsAfterIH_Howling",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 31,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33622104,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc"
+      ]
+    },
+    {
+      "name": "IsAfterIH_Icemurk",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 30,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33622136,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc"
+      ]
+    },
+    {
+      "name": "IsAfter_Abbey_Assassin",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 0,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 0,
+          "source_slot4_stub_pointer": 33622168,
+          "receiver_vtable": "0x969240",
+          "source_cache8": "0x0"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b5c"
+      ]
+    },
+    {
+      "name": "IsAfter_Abbey_Rescue",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 1,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 0,
+          "source_slot4_stub_pointer": 33622200,
+          "receiver_vtable": "0x969240",
+          "source_cache8": "0x0"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b5c"
+      ]
+    },
+    {
+      "name": "IsAfter_Crypt02_explore",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 3,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33622232,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc"
+      ]
+    },
+    {
+      "name": "IsAfter_DWGoToGothicus",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 10,
+          "argument2": 3
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33622264,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc"
+      ]
+    },
+    {
+      "name": "IsAfter_DW_Bandit",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 6,
+          "argument2": 9
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33622296,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc"
+      ]
+    },
+    {
+      "name": "IsAfter_DW_Demon_Child",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 4,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33622328,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc"
+      ]
+    },
+    {
+      "name": "IsAfter_DarkTemple",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 5,
+          "argument2": 12
+        },
+        {
+          "op": 1,
+          "argument1": 22,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33622360,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        },
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33622376,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc",
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsAfter_DarkwoodsGoToED",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 9,
+          "argument2": 6
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33622408,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc"
+      ]
+    },
+    {
+      "name": "IsAfter_EDKillTroll",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 16,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 0,
+          "source_slot4_stub_pointer": 33622440,
+          "receiver_vtable": "0x969240",
+          "source_cache8": "0x0"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b5c"
+      ]
+    },
+    {
+      "name": "IsAfter_FinalBoss",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 22,
+          "argument2": 6
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33622472,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc"
+      ]
+    },
+    {
+      "name": "IsAfter_Gothicus2Survivors",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 27,
+          "argument2": 6
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33622504,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc"
+      ]
+    },
+    {
+      "name": "IsAfter_GothicusAssassin",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 25,
+          "argument2": 3
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33622536,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc"
+      ]
+    },
+    {
+      "name": "IsAfter_GothicusEscape",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 25,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 0,
+          "source_slot4_stub_pointer": 33622568,
+          "receiver_vtable": "0x969240",
+          "source_cache8": "0x0"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b5c"
+      ]
+    },
+    {
+      "name": "IsAfter_IV_Secret_Basement",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 28,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33622600,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc"
+      ]
+    },
+    {
+      "name": "IsAfter_KillFlaminite",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 23,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 0,
+          "source_slot4_stub_pointer": 33622632,
+          "receiver_vtable": "0x969240",
+          "source_cache8": "0x0"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b5c"
+      ]
+    },
+    {
+      "name": "IsAfter_Kill_DarkQueen_A",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 14,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 0,
+          "source_slot4_stub_pointer": 33622664,
+          "receiver_vtable": "0x969240",
+          "source_cache8": "0x0"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b5c"
+      ]
+    },
+    {
+      "name": "IsAfter_LighthouseAssassin",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 33,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 0,
+          "source_slot4_stub_pointer": 33622696,
+          "receiver_vtable": "0x969240",
+          "source_cache8": "0x0"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b5c"
+      ]
+    },
+    {
+      "name": "IsAfter_LighthouseEmissary",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 35,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 0,
+          "source_slot4_stub_pointer": 33622728,
+          "receiver_vtable": "0x969240",
+          "source_cache8": "0x0"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b5c"
+      ]
+    },
+    {
+      "name": "IsAfter_Lighthouse_to_Abbey",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 36,
+          "argument2": 3
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33622760,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc"
+      ]
+    },
+    {
+      "name": "IsAfter_MachineRoom",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 37,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33622792,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc"
+      ]
+    },
+    {
+      "name": "IsAfter_MachineRoom2",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 37,
+          "argument2": 6
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33622824,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc"
+      ]
+    },
+    {
+      "name": "IsAfter_RD_Bandit",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 45,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33622856,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc"
+      ]
+    },
+    {
+      "name": "IsAfter_RD_Tar",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 48,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33622888,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc"
+      ]
+    },
+    {
+      "name": "IsAfter_RD_Worm",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 47,
+          "argument2": 9
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33622920,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc"
+      ]
+    },
+    {
+      "name": "IsAfter_Swamp_Escape",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 50,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 0,
+          "source_slot4_stub_pointer": 33622952,
+          "receiver_vtable": "0x969240",
+          "source_cache8": "0x0"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b5c"
+      ]
+    },
+    {
+      "name": "IsAfter_Swamp_KillWitch",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 52,
+          "argument2": 13
+        },
+        {
+          "op": 0,
+          "argument1": 50,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 0,
+          "source_slot4_stub_pointer": 33622984,
+          "receiver_vtable": "0x969240",
+          "source_cache8": "0x0"
+        },
+        {
+          "op": 0,
+          "source_slot4_stub_pointer": 33623000,
+          "receiver_vtable": "0x969240",
+          "source_cache8": "0x0"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b5c",
+        "0x478b5c"
+      ]
+    },
+    {
+      "name": "IsAfter_Swamp_KillWitch2",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 52,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 0,
+          "source_slot4_stub_pointer": 33623032,
+          "receiver_vtable": "0x969240",
+          "source_cache8": "0x0"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b5c"
+      ]
+    },
+    {
+      "name": "IsAfter_Swamp_LizBlood",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 51,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 0,
+          "source_slot4_stub_pointer": 33623064,
+          "receiver_vtable": "0x969240",
+          "source_cache8": "0x0"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b5c"
+      ]
+    },
+    {
+      "name": "IsAfter_Swamp_Moths",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 53,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 0,
+          "source_slot4_stub_pointer": 33623096,
+          "receiver_vtable": "0x969240",
+          "source_cache8": "0x0"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b5c"
+      ]
+    },
+    {
+      "name": "IsAfter_UW_Crown",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 55,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33623128,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc"
+      ]
+    },
+    {
+      "name": "IsAfter_UW_LighthouseDemon",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 57,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33623160,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsAfter_WT_Balrog",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 59,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33623192,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc"
+      ]
+    },
+    {
+      "name": "IsAfter_WT_to_IcyHub",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 61,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33623224,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc"
+      ]
+    },
+    {
+      "name": "IsAfter_WindTemp",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 62,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 0,
+          "source_slot4_stub_pointer": 33623256,
+          "receiver_vtable": "0x969240",
+          "source_cache8": "0x0"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b5c"
+      ]
+    },
+    {
+      "name": "IsBeforeIH_FrostComb",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 29,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33623288,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBeforeIH_Howling",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 31,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33623320,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBeforeIH_Icemurk",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 30,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33623352,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_Abbey_Assassin",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 0,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33623384,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_Abbey_Rescue",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 1,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33623416,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_Crypt02_explore",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 3,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33623448,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_DWGoToGatedVillage",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 7,
+          "argument2": 3
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33623480,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_DW_Bandit",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 6,
+          "argument2": 9
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33623512,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_DW_Demon_Child",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 4,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33623544,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_DarkTempleClosed",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 5,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33623576,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_DarkwoodsGoToED",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 9,
+          "argument2": 6
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33623608,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_EDKillTroll",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 16,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33623640,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_Ending",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 22,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33623672,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_FireTemp",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 62,
+          "argument2": 6
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33623704,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_Firetemp_FindHotty",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 23,
+          "argument2": 6
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33623736,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_Firetemp_to_Hellgate",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 24,
+          "argument2": 6
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33623768,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_Gothicus2Survivors",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 27,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33623800,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_GothicusAssassin",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 25,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33623832,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_GothicusEscape",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 25,
+          "argument2": 6
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33623864,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_IV_Secret_Basement",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 28,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33623896,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_Kill_DarkQueen_A",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 14,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33623928,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_LighthouseAssassin",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 33,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33623960,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_LighthouseEmissary",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 35,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33623992,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_Lighthouse_to_Abbey",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 36,
+          "argument2": 6
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33624024,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_MachineRoom",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 37,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33624056,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_RDGoToLighthouse",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 46,
+          "argument2": 6
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33624088,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_RD_Bandit",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 45,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33624120,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_RD_Tar",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 48,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33624152,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_RD_Worm",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 47,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33624184,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_Swamp_Escape",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 50,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33624216,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_Swamp_KillWitch",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 52,
+          "argument2": 13
+        },
+        {
+          "op": 1,
+          "argument1": 50,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33624248,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        },
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33624264,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14",
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_UW_Blood",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 54,
+          "argument2": 6
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33624296,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_UW_Crown",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 55,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33624328,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_WT_Balrog",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 59,
+          "argument2": 6
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33624360,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_WT_EdwardDead",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 60,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33624392,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBefore_WT_to_IcyHub",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 61,
+          "argument2": 6
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33624424,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBetween_Gothicuses",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 25,
+          "argument2": 13
+        },
+        {
+          "op": 1,
+          "argument1": 27,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 0,
+          "source_slot4_stub_pointer": 33624456,
+          "receiver_vtable": "0x969240",
+          "source_cache8": "0x0"
+        },
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33624472,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b5c",
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsBetween_witch_and_swampking",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 52,
+          "argument2": 13
+        },
+        {
+          "op": 1,
+          "argument1": 50,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 0,
+          "source_slot4_stub_pointer": 33624504,
+          "receiver_vtable": "0x969240",
+          "source_cache8": "0x0"
+        },
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33624520,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b5c",
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsDW_Phase_1",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 16,
+          "argument2": 12
+        },
+        {
+          "op": 1,
+          "argument1": 14,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33624552,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        },
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33624568,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14",
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsDW_Phase_2",
+      "count": 3,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 16,
+          "argument2": 13
+        },
+        {
+          "op": 1,
+          "argument1": 1,
+          "argument2": 12
+        },
+        {
+          "op": 1,
+          "argument1": 14,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 0,
+          "source_slot4_stub_pointer": 33624600,
+          "receiver_vtable": "0x969240",
+          "source_cache8": "0x0"
+        },
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33624616,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        },
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33624632,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b5c",
+        "0x478b14",
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsDW_Phase_3",
+      "count": 3,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 1,
+          "argument2": 13
+        },
+        {
+          "op": 1,
+          "argument1": 59,
+          "argument2": 12
+        },
+        {
+          "op": 1,
+          "argument1": 14,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 0,
+          "source_slot4_stub_pointer": 33624664,
+          "receiver_vtable": "0x969240",
+          "source_cache8": "0x0"
+        },
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33624680,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        },
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33624696,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b5c",
+        "0x478b14",
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsDW_Phase_3_Permanent",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 59,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33624728,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc"
+      ]
+    },
+    {
+      "name": "IsDW_Phase_4",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 59,
+          "argument2": 12
+        },
+        {
+          "op": 1,
+          "argument1": 14,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33624760,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        },
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33624776,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc",
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsDW_Phase_4_Permanent",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 59,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33624808,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc"
+      ]
+    },
+    {
+      "name": "IsDuringIH_FrostComb",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 29,
+          "argument2": 3
+        },
+        {
+          "op": 1,
+          "argument1": 29,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33624840,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        },
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33624856,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc",
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsDuringIH_Howling",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 31,
+          "argument2": 3
+        },
+        {
+          "op": 1,
+          "argument1": 31,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33624888,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        },
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33624904,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc",
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsDuringIH_Icemurk",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 30,
+          "argument2": 3
+        },
+        {
+          "op": 1,
+          "argument1": 30,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33624936,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        },
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33624952,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc",
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsDuring_DQFight",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 24,
+          "argument2": 13
+        },
+        {
+          "op": 1,
+          "argument1": 54,
+          "argument2": 6
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 0,
+          "source_slot4_stub_pointer": 33624984,
+          "receiver_vtable": "0x969240",
+          "source_cache8": "0x0"
+        },
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33625000,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b5c",
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsDuring_DQFight2",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 14,
+          "argument2": 6
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 0,
+          "source_slot4_stub_pointer": 33625032,
+          "receiver_vtable": "0x969240",
+          "source_cache8": "0x0"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b5c"
+      ]
+    },
+    {
+      "name": "IsDuring_DW_Demon_Child",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 4,
+          "argument2": 3
+        },
+        {
+          "op": 1,
+          "argument1": 4,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33625064,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        },
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33625080,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc",
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsDuring_EDKillTroll",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 16,
+          "argument2": 3
+        },
+        {
+          "op": 1,
+          "argument1": 16,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33625112,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        },
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33625128,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc",
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsDuring_FinalBoss",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 22,
+          "argument2": 6
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 0,
+          "source_slot4_stub_pointer": 33625160,
+          "receiver_vtable": "0x969240",
+          "source_cache8": "0x0"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b5c"
+      ]
+    },
+    {
+      "name": "IsDuring_HellgateCutscene",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 23,
+          "argument2": 13
+        },
+        {
+          "op": 1,
+          "argument1": 14,
+          "argument2": 6
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 0,
+          "source_slot4_stub_pointer": 33625192,
+          "receiver_vtable": "0x969240",
+          "source_cache8": "0x0"
+        },
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33625208,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b5c",
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsDuring_MachineRoom",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 37,
+          "argument2": 6
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 0,
+          "source_slot4_stub_pointer": 33625240,
+          "receiver_vtable": "0x969240",
+          "source_cache8": "0x0"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b5c"
+      ]
+    },
+    {
+      "name": "IsDuring_RD_Bandit",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 45,
+          "argument2": 3
+        },
+        {
+          "op": 1,
+          "argument1": 45,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33625272,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        },
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33625288,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc",
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsDuring_RD_Tar",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 48,
+          "argument2": 3
+        },
+        {
+          "op": 1,
+          "argument1": 48,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33625320,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        },
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33625336,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc",
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsDuring_RD_Worm",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 47,
+          "argument2": 3
+        },
+        {
+          "op": 1,
+          "argument1": 47,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33625368,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        },
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33625384,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc",
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsDuring_Swamp_Escape",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 50,
+          "argument2": 3
+        },
+        {
+          "op": 1,
+          "argument1": 50,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33625416,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        },
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33625432,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc",
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsDuring_UW_Crown",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 55,
+          "argument2": 3
+        },
+        {
+          "op": 1,
+          "argument1": 55,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33625464,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        },
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33625480,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc",
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsDuring_WT_Balrog",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 60,
+          "argument2": 12
+        },
+        {
+          "op": 1,
+          "argument1": 59,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33625512,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        },
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33625528,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc",
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsDuring_WT_BrotherBattle",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 60,
+          "argument2": 13
+        },
+        {
+          "op": 2,
+          "argument1": 60,
+          "argument2": 3
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33625560,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        },
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33625576,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14",
+        "0x478acc"
+      ]
+    },
+    {
+      "name": "IsDuring_WT_to_IcyHub",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 61,
+          "argument2": 3
+        },
+        {
+          "op": 1,
+          "argument1": 61,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33625608,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        },
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33625624,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc",
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsDuring_WindTemp",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 62,
+          "argument2": 3
+        },
+        {
+          "op": 1,
+          "argument1": 62,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33625656,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        },
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33625672,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc",
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsHellman_Phase_3",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 59,
+          "argument2": 12
+        },
+        {
+          "op": 1,
+          "argument1": 62,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33625704,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        },
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33625720,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc",
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsHellman_Phase_4",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 62,
+          "argument2": 12
+        },
+        {
+          "op": 1,
+          "argument1": 23,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33625752,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        },
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33625768,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478acc",
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "IsNotIH_FrostComb",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 29,
+          "argument2": 6
+        },
+        {
+          "op": 2,
+          "argument1": 29,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33625800,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        },
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33625816,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14",
+        "0x478acc"
+      ]
+    },
+    {
+      "name": "IsNot_RD_Bandit",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 45,
+          "argument2": 6
+        },
+        {
+          "op": 2,
+          "argument1": 45,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33625848,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        },
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33625864,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14",
+        "0x478acc"
+      ]
+    },
+    {
+      "name": "IsNot_RD_Tar",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 48,
+          "argument2": 6
+        },
+        {
+          "op": 2,
+          "argument1": 48,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33625896,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        },
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33625912,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14",
+        "0x478acc"
+      ]
+    },
+    {
+      "name": "IsNot_RD_Worm",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 47,
+          "argument2": 6
+        },
+        {
+          "op": 2,
+          "argument1": 47,
+          "argument2": 12
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33625944,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        },
+        {
+          "op": 2,
+          "source_slot4_stub_pointer": 33625960,
+          "receiver_vtable": "0x9691e0",
+          "source_cache8": "0x2"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14",
+        "0x478acc"
+      ]
+    },
+    {
+      "name": "NoFollowers1",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 8,
+          "argument2": 13
+        },
+        {
+          "op": 1,
+          "argument1": 60,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 0,
+          "source_slot4_stub_pointer": 33625992,
+          "receiver_vtable": "0x969240",
+          "source_cache8": "0x0"
+        },
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33626008,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b5c",
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "QuestIceCave1",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 30,
+          "argument2": 6
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33626040,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "QuestIceCave2",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 29,
+          "argument2": 6
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33626072,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "QuestIceCave3",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 31,
+          "argument2": 6
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33626104,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "RENE_FOLLOW",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 8,
+          "argument2": 13
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33626136,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "RedDoor_Firetemp",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 63,
+          "argument2": 6
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33626168,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    },
+    {
+      "name": "RedDoor_IcyHub",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 32,
+          "argument2": 3
+        }
+      ],
+      "original_constructed_instances": [
+        {
+          "op": 1,
+          "source_slot4_stub_pointer": 33626200,
+          "receiver_vtable": "0x969220",
+          "source_cache8": "0x1"
+        }
+      ],
+      "original_factory_bodies": [
+        "0x478b14"
+      ]
+    }
+  ],
+  "scope": "Allocation/stream/libc strcmp leaves only. Original table/names/ConditionData Init/Clear/ConditionList/actual factory/deleting-destructor bodies execute. No Eval/quest services invoked; no gameplay/Android activation proof."
+}

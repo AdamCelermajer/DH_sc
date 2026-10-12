@@ -1,0 +1,11 @@
+00395a1c 000000dc t _GLOBAL__I_.._.._sources_Game_Objects_Zones_CheckpointZone.cpp
+00340f2c 00000024 W ObjectBase* GetNewInstance<CheckpointZone>()
+00395f04 00000218 T CheckpointZone::OnCollisionBegins(GameObject*)
+0039594c 00000068 T CheckpointZone::CheckpointZone(ObjectBase::GO_IDS)
+003959b4 00000068 T CheckpointZone::CheckpointZone(ObjectBase::GO_IDS)
+00395bb4 0000001c T CheckpointZone::~CheckpointZone()
+00395b38 00000074 T CheckpointZone::~CheckpointZone()
+00395bd0 00000074 T CheckpointZone::~CheckpointZone()
+009649a8 00000104 D vtable for CheckpointZone
+00395bac 00000008 T non-virtual thunk to CheckpointZone::~CheckpointZone()
+00395b30 00000008 T non-virtual thunk to CheckpointZone::~CheckpointZone()

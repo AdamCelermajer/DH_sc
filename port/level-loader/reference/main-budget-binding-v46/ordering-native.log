@@ -1,0 +1,3 @@
+OLD_NEGATIVE_CONTROL encoded_bytes=524348 ordering_violations=3 events=admission_released,filesystem_released,bytes_destroyed,
+CORRECTED encoded_bytes=524348 ordering_violations=0 events=bytes_destroyed,filesystem_released,admission_released,
+PASS actual_main_ledger=1 actual_original_ZIP_encoded_vector=1 byte_only_alias_retains_all_charges=1 corrected_bytes_then_filesystem_then_admission=1 GPU_context_or_render_proof=0

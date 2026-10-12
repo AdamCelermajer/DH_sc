@@ -1,0 +1,94 @@
+{
+  "validation": "PASS",
+  "scope": "One canonical Level identity/field authority and borrowed GSLevel-global/Module-load-field fixtures; exact root Module load TU, not whole Level constructor or actual Module construction",
+  "cases": [
+    {
+      "build": "connected-owner-host",
+      "probe_sha256": "2bdbc5d4bec8b6f755e6e224e44258ffa2bd4ef697e97cbe45afb2e6f5593202",
+      "result": {
+        "validation": "PASS",
+        "level_context_checks": 18,
+        "constructor_fields": {
+          "config38": 0,
+          "music11c": -1,
+          "safezone120": -1,
+          "ambient124": -1,
+          "word150": 0
+        },
+        "single_writable_gate_verified": true,
+        "full_level_constructor_verified": false,
+        "gslevel_global_fixture": true,
+        "module_load_field_checks": 5,
+        "module_class_fixture": true,
+        "load_file_fixture": true,
+        "gameplay_verified": false
+      }
+    },
+    {
+      "build": "connected-owner-sanitizers",
+      "probe_sha256": "7a90b345bd3aa99fbb4220434a12ad954f8a97f51fb635ff7647ab7fb890a3b4",
+      "result": {
+        "validation": "PASS",
+        "level_context_checks": 18,
+        "constructor_fields": {
+          "config38": 0,
+          "music11c": -1,
+          "safezone120": -1,
+          "ambient124": -1,
+          "word150": 0
+        },
+        "single_writable_gate_verified": true,
+        "full_level_constructor_verified": false,
+        "gslevel_global_fixture": true,
+        "module_load_field_checks": 5,
+        "module_class_fixture": true,
+        "load_file_fixture": true,
+        "gameplay_verified": false
+      }
+    },
+    {
+      "build": "android-x86_64",
+      "probe_sha256": "d120562c175f66ab4acf142336fe472eb0b2e67690c8e4f75523f1122ca74689",
+      "result": {
+        "validation": "PASS",
+        "level_context_checks": 18,
+        "constructor_fields": {
+          "config38": 0,
+          "music11c": -1,
+          "safezone120": -1,
+          "ambient124": -1,
+          "word150": 0
+        },
+        "single_writable_gate_verified": true,
+        "full_level_constructor_verified": false,
+        "gslevel_global_fixture": true,
+        "module_load_field_checks": 5,
+        "module_class_fixture": true,
+        "load_file_fixture": true,
+        "gameplay_verified": false
+      }
+    }
+  ],
+  "arm64_compile_sha256": "d8368622789b28abf9f00dbf21d3680a5cc7b8aad332fa0ae0a0954a40457037",
+  "source_sha256": {
+    "port/level-loader/canonical_level_context_v1.hpp": "60c515881bb4b581b43067f72888cf7bc4e5c93534076f2b68492bb2723c4ee8",
+    "port/level-loader/canonical_level_context_v1.cpp": "8d5e0314d1d3085b5f7aab0b52d67a95ab6b84d3c1664fbc8f0f2e3403105062",
+    "port/level-loader/tests/canonical_level_context_probe.cpp": "ab88184063c3234d48558aebcea270095ed1998586b25a183a040d0885de3898"
+  },
+  "original_constructor_prefix_cases": 8,
+  "original_module_field_prefix_cases": 8,
+  "module_field_oracle_sha256": "7ae7d21b418c485776ad21f49b473b3f1a31db1e989bb405aa2e783e20cbee8b",
+  "original_current_level_getter_cases": 6,
+  "gslevel_getter_oracle_sha256": "b9a97f122b249ddb7236ba70acd84613e1c83367fd835308ca05708c72bec0ab",
+  "oracle_sha256": "5e389839224b6258446c5f0dea9258555763de72885dc994b984b4e028d4a5fc",
+  "kill_contract_sha256": "ceee60938d3862a39134672a85f5a9fb3a01c3ec9c2a664bb028d162cbf66b06",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "unchanged_map_apk_sha256": "ef7048fcdecf30e0ce2422551639f27d1d61938843ff2c1cc46c4da29789a7e2",
+  "full_level_constructor_verified": false,
+  "full_loader_verified": false,
+  "root_module_contract_sha256": {
+    "module_xml_selection_v1.hpp": "eaf4e1092d58c066dec8a82d32c09887ad831733061ba91d18cf13840df1dc09",
+    "module_xml_selection_v1.cpp": "80c343e1cd47132306269657b592a9d7f35a5773c4768100224765e4beb42cd4"
+  },
+  "module_standard_header_compile_correction": "-include cstdint only on immutable test-only module_xml_selection_v1.cpp"
+}

@@ -1,0 +1,87 @@
+{
+  "source_filename_kernel": "PASS 231 original ARM/native comparisons; standalone ASAN/UBSAN",
+  "original_library_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_apk_native_identity_equal": true,
+  "virtual_producer": "CFileSystem::getWorkingDirectory; vtable symbol address+8; +0x2c endpoint",
+  "texture_relocation_literal": "ata/3d/textures/",
+  "texture_relocation_literal_bytes": 16,
+  "case_domain": {
+    "extension_detection": "case-sensitive substring .tga BEFORE ASCII lower, not suffix extension test",
+    "basename": "original56c740, retain extension=true, last slash or backslash",
+    "nontexture": "ASCII lower of suffix; input head through working-directory match+one byte preserved exactly",
+    "root_match": "first case-sensitive substring match, not root-only match",
+    "unsupported_domain": "embedded NUL or match at end enters unproved source overread; reject atomically"
+  },
+  "format_selection": {
+    "pvr2_selector_recovered": false,
+    "GPU_or_config_selection_fields_recovered": false,
+    "ApplyFilenameHacks_reads_GPU_or_config_fields": false,
+    "observed_native_role_of_PVR": "BTEXpvr magic and PVR image/header/extension loaders; no recovered pvr2 filename-prefix policy",
+    "CFS_obfuscation": "exact actual initialized map producer exists; no authentic five image mappings or GPU/config map initialization recovered",
+    "generic_create_open_global_prefix": "sdcard mount/domain prefix; .config/.glsl exclusions, NOT compressed-texture policy"
+  },
+  "five_gaps": [
+    {
+      "compatibility_exact_key": "data/3d/textures/env_crypt_alpha.tga",
+      "compatibility_exact_exists": false,
+      "diagnostic_variant_key": "data/3d/textures/pvr2_env_crypt_alpha.tga",
+      "diagnostic_variant_original_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_crypt_alpha.tga",
+      "variant_sha256": "79176905b00d8530612d3b2e3ff173d15258cf837e94369a7c0af37a47eb8d99",
+      "variant_bytes": 262204,
+      "variant_prefix_hex": "4254455870767200",
+      "variant_is_BTEXTpvr_container": true,
+      "original_selection_provider_verified": false,
+      "render_or_GPU_claimed": false
+    },
+    {
+      "compatibility_exact_key": "data/3d/textures/env_darktemple_alpha.tga",
+      "compatibility_exact_exists": false,
+      "diagnostic_variant_key": "data/3d/textures/pvr2_env_darktemple_alpha.tga",
+      "diagnostic_variant_original_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_darktemple_alpha.tga",
+      "variant_sha256": "5e75682c43e14c44baa0e2e79f86512dd6d45ab7a1df0749a88e8379914e0714",
+      "variant_bytes": 262204,
+      "variant_prefix_hex": "4254455870767200",
+      "variant_is_BTEXTpvr_container": true,
+      "original_selection_provider_verified": false,
+      "render_or_GPU_claimed": false
+    },
+    {
+      "compatibility_exact_key": "data/3d/textures/env_earth_temple_alpha.tga",
+      "compatibility_exact_exists": false,
+      "diagnostic_variant_key": "data/3d/textures/pvr2_env_earth_temple_alpha.tga",
+      "diagnostic_variant_original_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_earth_temple_alpha.tga",
+      "variant_sha256": "d1ef48eeb7dc850a6b8efe346af16fe1fbe12bc13e8cb90e998b14f2a5dd2495",
+      "variant_bytes": 262204,
+      "variant_prefix_hex": "4254455870767200",
+      "variant_is_BTEXTpvr_container": true,
+      "original_selection_provider_verified": false,
+      "render_or_GPU_claimed": false
+    },
+    {
+      "compatibility_exact_key": "data/3d/textures/env_castle_alpha.tga",
+      "compatibility_exact_exists": false,
+      "diagnostic_variant_key": "data/3d/textures/pvr2_env_castle_alpha.tga",
+      "diagnostic_variant_original_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_castle_alpha.tga",
+      "variant_sha256": "7ac29b271107587f62a33879703ed46e710e3ef240203399b182bfa222982f88",
+      "variant_bytes": 262204,
+      "variant_prefix_hex": "4254455870767200",
+      "variant_is_BTEXTpvr_container": true,
+      "original_selection_provider_verified": false,
+      "render_or_GPU_claimed": false
+    },
+    {
+      "compatibility_exact_key": "data/3d/textures/env_windtemple_alpha.tga",
+      "compatibility_exact_exists": false,
+      "diagnostic_variant_key": "data/3d/textures/pvr2_env_windtemple_alpha.tga",
+      "diagnostic_variant_original_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_windtemple_alpha.tga",
+      "variant_sha256": "5628e7270e67a8fed1ceb5311dccc089c1245eee17132d3e0faa23473855fad3",
+      "variant_bytes": 262204,
+      "variant_prefix_hex": "4254455870767200",
+      "variant_is_BTEXTpvr_container": true,
+      "original_selection_provider_verified": false,
+      "render_or_GPU_claimed": false
+    }
+  ],
+  "actual_working_directory_mount_policy_borrowed": false,
+  "main_renderer_binding": false
+}

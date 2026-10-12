@@ -1,0 +1,24 @@
+{
+  "status": "SOURCE_ONLY_UNCOMPILED",
+  "compiler_or_oracle_runs_by_worker": 0,
+  "files": {
+    "HANDOFF.md": "0aa189920a2a8eaea1f58a675d3b746c29b9273f6dc4406e5f7c7712a067ea45",
+    "script_command_init_v62.hpp": "f60f5356e0143c20aec1a89a147aac2079fbf9505c36f35b5436e0167ea8854e",
+    "script_command_init_v62_test.cpp": "4b3159e38931e228c133d15538ed23175866c18b5ae4a7380e2d35139b5ca2e7"
+  },
+  "dependencies": {
+    "candidate/command-c1-v59/script_command_receivers_v59.hpp": "d555cac844347387dcd1c0ad46c404b718b3ff03a61803832f97fa3e250dc55d",
+    "candidate/command-c1-v59/script_command_receivers_v59.cpp": "cc18c31a6c307e992c0628cb8aa01b52fecc99482098560788f7cdb2c2bad213",
+    "candidate/command-c1-v59/command_c1_descriptors_v59.inc": "2c4f7d8fa62f0c295023cd6aa0cb917bd93aac71116677940e0665a84a28a0fa",
+    "script_manager_owner_v52.hpp": "4ae31338d57f24efca512f258f1c3590fc69e835fe008d625845151465c49a10",
+    "script_manager_owner_v52.cpp": "258d88afcc747e8e60ca98dbb9eba92c84d01fddf723d44ca4d6743f97c9e8ee",
+    "script_data_schemas_v52.inc": "e855a175164a1412012fb6e03b624be69ebaa98603c1f163bebcb86eb1750078",
+    "script_command_factories_v52.inc": "951153e59985b87f52e1f4c591c5bb1af0de5bd9b4faee3dd95874c8401a687e",
+    "reference/scriptmanager-v52/command-init-459034.asm": "cf63b6000970641d09e8d7eaadbf6518027336a25cf59e0059edd8251d683adc",
+    "reference/scriptmanager-v52/command-init-4597e8.asm": "15bb6d1c55e47b6224717a095d93cd75306b53311f6413744af4509704d97aff",
+    "reference/scriptmanager-v52/command-init-45983c.asm": "07ea8275782ce0d8457bdb2fb8583e97c23edae25275da903c286ce646c41b16",
+    "reference/scriptmanager-v52/command-init-4598b4.asm": "0c579ae89b209c307c0721b0053cfd6d854b1a5260f779f2009030de92fa2a8d",
+    "reference/scriptmanager-v52/command-init-45a2ec.asm": "daa5c13fe9e8e63d76f9295d49228948d4d9fd0cdbf981e805d4591d82d97912"
+  },
+  "preserved_v61_manifest_sha256": "2510e0a3185cfb933089194ec65e4849f9517aa747b6b52505b72cf9a01c2b7e"
+}

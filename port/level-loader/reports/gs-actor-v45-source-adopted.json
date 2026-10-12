@@ -1,0 +1,39 @@
+{
+  "status": "ADOPTED SOURCE; rebuild/proofs required before READY",
+  "coherent_files": 742,
+  "sources": {
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-spawn-fields-v42\\retained_character_actor_v1.hpp": "4ed1d1f2efecd76a4a60c753b7ca0a0a3bc09e88f13d5d55ac6a5d575ff8a719",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-spawn-fields-v42\\retained_character_actor_v1.cpp": "fdc2e83bc8610e174d4131f793288082e5f6ebeb53d66e8acd08ab6e1fae140a",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-spawn-fields-v42\\canonical_character_family_v4.cpp": "8c03a087b472bc7e919139affebd10a0229955b850744d075d85d15c5a3de3e9",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-spawn-fields-v42\\character_is_player_v41.hpp": "7b680c57314b04ba26f86a80946d012015f93eed5d38fff9027e1a50681074d9",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-spawn-fields-v42\\character_is_player_v41.cpp": "3968a3d59a254344dece961d418927160d23fdbe1bb82818f83274a2f3a95e43",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\game_object_spawn_probability_v1.cpp": "6156de7e656d0b94678669a990a95cf348fcd37534b13610d46d9fa891673d1b",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-loader\\native_gslevel_runtime_v27.hpp": "ecb30f1f8663036edba97451895330f622ce152987abc9a8f5ca9c7b8627d598",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-loader\\native_gslevel_runtime_v27.cpp": "13e6fe707f5faa0e0d01455b71456bb139dd6b0386eae84a91c6697b1f90ef63",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-loader\\native_gslevel_connection_v26.hpp": "ebfbd9f6e2d5878075da0c075304241fca7b431e5cb8005247df494719adf9dc",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-loader\\native_level_application_v25.hpp": "791abdef881118433990925170386c98ef9dc670b62413ef1ce023af9c84ef28",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-loader\\native_level_application_v25.cpp": "91ce2450bdebad1c44f248069eef5434a73187a76016abef6992eef31cfbfbfa",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-loader\\canonical_level_loading_v26.hpp": "5089dd7c172e3767b5c4e52e32df8416272981c6947ff050baed849d281ed8ab",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-loader\\canonical_level_loading_v26.cpp": "24d0c981a9e883c7eb45a45fd3179b07e5c4a34c9e9d4e903eb4e918c6748dec",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-loader\\gslevel_lifecycle_v2.hpp": "d4b10856113df5b8404f0326367757c0a41f44aa35923e946bf5eb5c1126ed1b"
+  },
+  "selected_sources": {
+    "port/level-world/retained_character_actor_v1.hpp": "4ed1d1f2efecd76a4a60c753b7ca0a0a3bc09e88f13d5d55ac6a5d575ff8a719",
+    "port/level-world/retained_character_actor_v1.cpp": "fdc2e83bc8610e174d4131f793288082e5f6ebeb53d66e8acd08ab6e1fae140a",
+    "port/level-world/canonical_character_family_v4.cpp": "8c03a087b472bc7e919139affebd10a0229955b850744d075d85d15c5a3de3e9",
+    "port/level-world/character_is_player_v41.hpp": "7b680c57314b04ba26f86a80946d012015f93eed5d38fff9027e1a50681074d9",
+    "port/level-world/character_is_player_v41.cpp": "3968a3d59a254344dece961d418927160d23fdbe1bb82818f83274a2f3a95e43",
+    "port/level-world/game_object_spawn_probability_v1.cpp": "6156de7e656d0b94678669a990a95cf348fcd37534b13610d46d9fa891673d1b",
+    "port/level-loader/native_gslevel_runtime_v27.hpp": "a8d0307e98efb35ea586db9e2d807a72b2dad520f68d8af31555298e9a799638",
+    "port/level-loader/native_gslevel_runtime_v27.cpp": "30122773d92795d171e36f5e918214a3e13e972deaa273b16ddadfec8ff4d505",
+    "port/level-loader/native_gslevel_connection_v26.hpp": "ebfbd9f6e2d5878075da0c075304241fca7b431e5cb8005247df494719adf9dc",
+    "port/level-loader/native_level_application_v25.hpp": "791abdef881118433990925170386c98ef9dc670b62413ef1ce023af9c84ef28",
+    "port/level-loader/native_level_application_v25.cpp": "dddbdb068f42ab8dc0a45f20c0e80e582c01b8acdc0ebe907d17481076e293fa",
+    "port/level-loader/canonical_level_loading_v26.hpp": "5089dd7c172e3767b5c4e52e32df8416272981c6947ff050baed849d281ed8ab",
+    "port/level-loader/canonical_level_loading_v26.cpp": "24d0c981a9e883c7eb45a45fd3179b07e5c4a34c9e9d4e903eb4e918c6748dec",
+    "port/level-loader/gslevel_lifecycle_v2.hpp": "d4b10856113df5b8404f0326367757c0a41f44aa35923e946bf5eb5c1126ed1b"
+  },
+  "manifest_sha256": "637e171f8923c7daa2d8eaf1371c9de96e5cf51c32529bf6f841d577ad541fbe",
+  "shared_root_changed": false,
+  "emulator_launched": false
+}

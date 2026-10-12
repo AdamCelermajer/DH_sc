@@ -1,0 +1,9 @@
+{
+  "validation": "PASS",
+  "output": "PASS original_ARM/native_C1_cases=5 setter_cases=16 initial_global1024_zero=1 exact_tail_preservation=1 constructor_resources234_zero=1 host_chdir_performed=0 production_cache_binding=0\n",
+  "ASAN_UBSAN": true,
+  "one_shared_process_global_across_aliases_verified": true,
+  "original_ARM_fixture_sha256": "d75fcea714d9ce3a5585b2a538a44ef711e60540166f2023d219bdde1fe869f7",
+  "main_binding": false,
+  "host_chdir_executed": false
+}

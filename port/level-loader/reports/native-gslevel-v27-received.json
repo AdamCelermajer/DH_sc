@@ -1,0 +1,10 @@
+{
+  "validation": "PASS",
+  "archive_sha256": "3d0de31dc0df9706cf12352ec2ff82b1bb5f7e9eacd75c35210e26fa6de2f147",
+  "payload_files": 29,
+  "selected_into_active_overlay": false,
+  "whole_level_init_verified": false,
+  "prepared_source_declared": true,
+  "prepared_source_defined_in_packet_cpp": false,
+  "integration_gap": "Need exact frozen canonical_level_prepared_source_v25.cpp once if context successor is selected; old private context still defines the method and must not be linked alongside it."
+}

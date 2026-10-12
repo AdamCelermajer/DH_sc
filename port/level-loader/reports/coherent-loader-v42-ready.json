@@ -1,0 +1,24 @@
+{
+  "validation": "PASS",
+  "recorded_utc": "2026-10-06T13:16:16+00:00",
+  "scope": "Coherent selected private host source checkpoint; source inspection and component proofs only.",
+  "coherent_files_verified": 731,
+  "selected_graph": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading",
+  "manifest_sha256": "08e4d0eca4cc50afcf7d8a9753865dd06b8cc6513fdaef1b66aca94f74f4b4d1",
+  "cmake_sha256": "06c26179c0472424d2a4120652d134d8962b43ba7831eaffec6e3ef6d526c747",
+  "binaries": {
+    "dh2_loader_integrated_loading_v37_probe": "831436886592bd40dc08018e2a50c7155708decce4074467a29921ee5d84fa57",
+    "dh2_loader_selected_trigger_trap_v37_probe": "4c82e3008495dd086f84b8f4b268552037d8fd319a4323b1a0ca3ac237fb75d1",
+    "dh2_loader_source_visual_helper_v41_probe": "da027489efa8423650fe28998ae9325ee35559fcacf095c3d3bf33061f3b7819",
+    "dh2_loader_character_swamp_model_v40_probe": "d0a76a525efaa29df19e153a72d82ca7fa72eada9975e89df010f1bc94e8176e"
+  },
+  "receipts": {
+    "reports/loading-context-v37-integrated-verified.json": "a6fa7a71c326163daff98b2dd45d7e2391eb887117e0955dd549bd61d3d126a6",
+    "reports/source-visual-helper-v41-integrated-verified.json": "94707c8fc14c1ab8965011ed2ef0aa6c4b3c503315cc9ad388a84af71e6638b1",
+    "reports/character-swamp-model-v40/character-swamp-model-v40-coverage.json": "4c8f7d2fb8472926aa2dd57c14c535dc30bc128de0d2142906e6cf06c42a5ce0"
+  },
+  "whole_level_init_verified": false,
+  "current_GSLevel_published": false,
+  "backend_rendering_verified": false,
+  "emulator_launched": false
+}

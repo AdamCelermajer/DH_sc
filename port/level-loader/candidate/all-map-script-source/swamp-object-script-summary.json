@@ -1,0 +1,809 @@
+{
+  "status": "SOURCE_OBJECT_DEPENDENCY_INSPECTION_ONLY",
+  "cache_path": "C:\\Users\\adamc\\Downloads\\dungeonhunter2\\Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+  "summary": {
+    "level": "SWAMP",
+    "authored_chests": 5,
+    "authored_NPC_template_objects": 10,
+    "object_data_descriptors": [
+      "SwampCave_Normal_Chest",
+      "Swamp_Normal_Chest"
+    ],
+    "nonempty_chest_external_script_names": 0,
+    "root_requested_lua_resources": [
+      "data/scripts/ai/_commons.luac",
+      "data/scripts/ai/rene.luac"
+    ],
+    "source_inspected_lua_resources": [
+      "data/scripts/ai/_commons.luac",
+      "data/scripts/ai/rene.luac"
+    ],
+    "literal_include_sites": 0,
+    "literal_CallPyScript_sites": 0,
+    "dynamic_CallPyScript_sites": 0,
+    "dynamic_include_sites": 0,
+    "unresolved_dependencies": [],
+    "tests_native_engine_or_compiler_jobs_run": 0,
+    "hashes_computed": false,
+    "base_AI_builtin_default_NPC_selections": 8,
+    "base_AI_external_Rene_selections": 2
+  },
+  "resources": {
+    "data/scene/001_swamp.mlx": {
+      "requested_uri": "data/scene/001_swamp.mlx",
+      "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scene/001_swamp.mlx",
+      "source_length": 6788,
+      "stored_zip_length": 986
+    },
+    "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp": {
+      "requested_uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "source_length": 9232,
+      "stored_zip_length": 1643
+    },
+    "data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp": {
+      "requested_uri": "data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "source_length": 8900,
+      "stored_zip_length": 1268
+    },
+    "data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp": {
+      "requested_uri": "data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+      "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+      "source_length": 5824,
+      "stored_zip_length": 1216
+    },
+    "data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp": {
+      "requested_uri": "data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+      "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+      "source_length": 5383,
+      "stored_zip_length": 1081
+    },
+    "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp": {
+      "requested_uri": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "source_length": 8739,
+      "stored_zip_length": 1693
+    },
+    "data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp": {
+      "requested_uri": "data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp",
+      "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp",
+      "source_length": 4923,
+      "stored_zip_length": 939
+    },
+    "data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp": {
+      "requested_uri": "data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+      "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+      "source_length": 4054,
+      "stored_zip_length": 1027
+    },
+    "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp": {
+      "requested_uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "source_length": 9181,
+      "stored_zip_length": 1561
+    },
+    "data/3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp": {
+      "requested_uri": "data/3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp",
+      "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp",
+      "source_length": 2417,
+      "stored_zip_length": 616
+    },
+    "data/pydata/game_objects_pyarray.bin": {
+      "requested_uri": "data/pydata/game_objects_pyarray.bin",
+      "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/game_objects_pyarray.bin",
+      "source_length": 5326,
+      "stored_zip_length": 840
+    },
+    "data/pydata/game_objects_pyarraynames.bin": {
+      "requested_uri": "data/pydata/game_objects_pyarraynames.bin",
+      "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/game_objects_pyarraynames.bin",
+      "source_length": 3846,
+      "stored_zip_length": 1041
+    },
+    "data/pydata/character_properties_pyarray.bin": {
+      "requested_uri": "data/pydata/character_properties_pyarray.bin",
+      "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_properties_pyarray.bin",
+      "source_length": 401608,
+      "stored_zip_length": 8902
+    },
+    "data/pydata/character_properties_pyarraynames.bin": {
+      "requested_uri": "data/pydata/character_properties_pyarraynames.bin",
+      "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_properties_pyarraynames.bin",
+      "source_length": 8993,
+      "stored_zip_length": 2734
+    },
+    "data/pydata/character_properties_pystructnames.bin": {
+      "requested_uri": "data/pydata/character_properties_pystructnames.bin",
+      "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_properties_pystructnames.bin",
+      "source_length": 5032,
+      "stored_zip_length": 1490
+    },
+    "data/pydata/ai_pyarray.bin": {
+      "requested_uri": "data/pydata/ai_pyarray.bin",
+      "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/ai_pyarray.bin",
+      "source_length": 5071,
+      "stored_zip_length": 847
+    },
+    "data/pydata/ai_pyarraynames.bin": {
+      "requested_uri": "data/pydata/ai_pyarraynames.bin",
+      "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/ai_pyarraynames.bin",
+      "source_length": 1068,
+      "stored_zip_length": 555
+    },
+    "data/pydata/ai_pystructnames.bin": {
+      "requested_uri": "data/pydata/ai_pystructnames.bin",
+      "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/ai_pystructnames.bin",
+      "source_length": 209,
+      "stored_zip_length": 146
+    },
+    "data/scripts/ai/_commons.luac": {
+      "requested_uri": "data/scripts/ai/_commons.luac",
+      "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/_commons.luac",
+      "source_length": 13535,
+      "stored_zip_length": 1383
+    },
+    "data/scripts/ai/rene.luac": {
+      "requested_uri": "data/scripts/ai/rene.luac",
+      "authored_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/rene.luac",
+      "source_length": 9336,
+      "stored_zip_length": 1947
+    }
+  },
+  "character_table_scope": {
+    "leading_rows": 448,
+    "leading_fields": 224,
+    "names_end": 8910,
+    "names_remaining_bytes": 83,
+    "fields_end": 5032,
+    "fields_remaining_bytes": 0,
+    "leading_records_end": 401412,
+    "remaining_record_bytes_not_decoded": 196
+  },
+  "root_requests": [
+    {
+      "owner": "character_common",
+      "object": "_prim_NPC_PriestGood",
+      "uri": "data/scripts/ai/_commons.luac"
+    },
+    {
+      "owner": "character_external",
+      "object": "_prim_NPC_PriestGood",
+      "uri": "data/scripts/ai/rene.luac"
+    },
+    {
+      "owner": "character_common",
+      "object": "_prim_NPC",
+      "uri": "data/scripts/ai/_commons.luac"
+    },
+    {
+      "owner": "character_common",
+      "object": "_prim_NPC01_001",
+      "uri": "data/scripts/ai/_commons.luac"
+    },
+    {
+      "owner": "character_common",
+      "object": "_prim_ActorPrisoner",
+      "uri": "data/scripts/ai/_commons.luac"
+    },
+    {
+      "owner": "character_common",
+      "object": "_prim_NPC_04",
+      "uri": "data/scripts/ai/_commons.luac"
+    },
+    {
+      "owner": "character_common",
+      "object": "_prim_NPC_05",
+      "uri": "data/scripts/ai/_commons.luac"
+    },
+    {
+      "owner": "character_common",
+      "object": "_prim_NPC_LizBlood",
+      "uri": "data/scripts/ai/_commons.luac"
+    },
+    {
+      "owner": "character_common",
+      "object": "_prim_NPC_LizBloodPOST",
+      "uri": "data/scripts/ai/_commons.luac"
+    },
+    {
+      "owner": "character_common",
+      "object": "_prim_NPC_Eddie",
+      "uri": "data/scripts/ai/_commons.luac"
+    },
+    {
+      "owner": "character_external",
+      "object": "_prim_NPC_Eddie",
+      "uri": "data/scripts/ai/rene.luac"
+    },
+    {
+      "owner": "character_common",
+      "object": "_prim_NPC_Mothgiver",
+      "uri": "data/scripts/ai/_commons.luac"
+    }
+  ],
+  "literal_include_sites": [],
+  "data_sources": [
+    "port/game-data/data.cpp",
+    "port/game-data/ai.cpp",
+    "port/level-world/openable_container_owner_v1.cpp",
+    "reference/openable-container-v1/actual-openable-rows.json retained group offset3031..5007",
+    "port/level-world/character_script_selection.cpp",
+    "port/level-world/character_script_owner.cpp",
+    "port/level-world/character_script_session.cpp"
+  ],
+  "owner_scope": "Actual authored object LuaScript and Character ScriptSession are separate from application common/local ScriptManager; no new VM/registry is created. Base cache AI/Dialogs fields do not prove actual current resolved property state.",
+  "source_selection_note": "__npc__ is the source native script_default selector name, not a Lua global function name or a request for __npc__.luac. Actual selector/lifecycle/VM services remain Main.",
+  "source_dependency_scope": "Direct named Include/CallPyScript lexical call sites were inspected in actual text resources. No call site was found. Aliased, computed, native-issued or future runtime resource requests are not proven absent.",
+  "GameObject_LoadExternalScript_boundary": {
+    "source_address": "0x38ef60",
+    "authentic_symbol": "GameObject::LoadExternalScript(const char*,const char*)",
+    "symbol_bytes": 216,
+    "source_file": "gameobject-loadscript-source.json",
+    "same_actual_owner_cell": "GameObject+0x300; native-width actual Main cell",
+    "order": [
+      "load actual+300 at38ef64",
+      "if nonNULL virtual deleting destructor+4 at38ef88 then actual+300=NULL at38ef90",
+      "check cached name pointerNULL at38ef94/38ef98",
+      "if nonNULL load first signed byte at38ef9c; if byte0 return38efa8",
+      "ONLY nonempty alloc0x98/C1(false) then publish+300 at38efc4",
+      "actual GameObject virtual+0xc receives sameLuaScript+0x10 at38efd8",
+      "if prefix nonNULL assign actual script CString+0x68 at38effc",
+      "actual LuaScript.Load37b574 at38f008",
+      "on falseLoad D0 same new+300 and clear+300 at38f030"
+    ],
+    "NULL_case": "old owner teardown/clear only; no newLua owner/cache/file/load",
+    "nonnull_empty_case": "identical old owner teardown/clear only; no newLua owner/cache/file/load",
+    "source_return": "no defined boolean return for earlyNULL/empty; do not interpretr0 as bool",
+    "caller": "Container::InitPost tail branch39fa90; no semantic Load result check",
+    "Main_transport_success": "true only after genuine required old-owner teardown and SAME field clear/branch complete; absence is source semantics, not an invented empty file/VM or unconditional fixture success",
+    "required_Main_leaves": [
+      "actual+300 native cell/lifetime borrow",
+      "real virtualD0 teardown of existing owner if present; callbacks/finalizers stay genuine",
+      "nonempty ONLY actual allocation/C1, virtual+0xc representation, prefix assignment, Load and falseLoad cleanup"
+    ],
+    "original_runtime_executed": false
+  },
+  "objects": [
+    {
+      "source_uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "direct_child_index": 0,
+      "authored_kind": "OpenableContainer",
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_OpenableContainer_2",
+        "position": "-2198.67,935.187,250.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.537068",
+        "gametype": "OpenableContainer",
+        "condition_desc": "Invalid",
+        "_templateName": "OpenableContainer",
+        "data_desc_pydata": "OpenableContainers",
+        "condition_desc_pydata": "ConditionTable",
+        "editormax": "data/level_editor/primitives_visuals.max",
+        "editorobject": "_prim_OpenableContainer",
+        "data_desc": "Swamp_Normal_Chest"
+      },
+      "raw_element_xml": "<GameObject type=\"Block\" name=\"_prim_OpenableContainer_2\" position=\"-2198.67,935.187,250.0\" scale=\"1.0,1.0,1.0\" debugcolor=\"255.0,0.0,255.0\" rotation=\"0.0,0.0,0.537068\" gametype=\"OpenableContainer\" condition_desc=\"Invalid\" _templateName=\"OpenableContainer\" data_desc_pydata=\"OpenableContainers\" condition_desc_pydata=\"ConditionTable\" editormax=\"data/level_editor/primitives_visuals.max\" editorobject=\"_prim_OpenableContainer\" data_desc=\"Swamp_Normal_Chest\" />\n\t",
+      "source_owner": "actual canonical authored object; not global ScriptManager",
+      "object_script_request": {
+        "authored_name": "",
+        "prefix": "data/scripts/objects/",
+        "empty_source_name": true,
+        "external_uri": null,
+        "owner": "actual object LuaScript owner; separate from common/local ScriptManager",
+        "actual_LoadExternalScript_branch": "nonnull_empty: first retire/clear any old+300; return before constructing/loading"
+      }
+    },
+    {
+      "source_uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "direct_child_index": 1,
+      "authored_kind": "OpenableContainer",
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_OpenableContainer_1",
+        "position": "1826.65,1796.04,12.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,-10.9727",
+        "gametype": "OpenableContainer",
+        "condition_desc": "Invalid",
+        "_templateName": "OpenableContainer",
+        "data_desc_pydata": "OpenableContainers",
+        "condition_desc_pydata": "ConditionTable",
+        "editormax": "data/level_editor/primitives_visuals.max",
+        "editorobject": "_prim_OpenableContainer",
+        "data_desc": "Swamp_Normal_Chest"
+      },
+      "raw_element_xml": "<GameObject type=\"Block\" name=\"_prim_OpenableContainer_1\" position=\"1826.65,1796.04,12.0\" scale=\"1.0,1.0,1.0\" debugcolor=\"255.0,0.0,255.0\" rotation=\"0.0,0.0,-10.9727\" gametype=\"OpenableContainer\" condition_desc=\"Invalid\" _templateName=\"OpenableContainer\" data_desc_pydata=\"OpenableContainers\" condition_desc_pydata=\"ConditionTable\" editormax=\"data/level_editor/primitives_visuals.max\" editorobject=\"_prim_OpenableContainer\" data_desc=\"Swamp_Normal_Chest\" />\n\t",
+      "source_owner": "actual canonical authored object; not global ScriptManager",
+      "object_script_request": {
+        "authored_name": "",
+        "prefix": "data/scripts/objects/",
+        "empty_source_name": true,
+        "external_uri": null,
+        "owner": "actual object LuaScript owner; separate from common/local ScriptManager",
+        "actual_LoadExternalScript_branch": "nonnull_empty: first retire/clear any old+300; return before constructing/loading"
+      }
+    },
+    {
+      "source_uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "direct_child_index": 2,
+      "authored_kind": "Character",
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_NPC_PriestGood",
+        "position": "793.9,-617.658,272.064",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,127.0,127.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Character",
+        "condition_desc": "Invalid",
+        "_templateName": "NPC",
+        "charpropsname": "WanderingPriest",
+        "isGlobal": "1",
+        "activate_cond": "RENE_FOLLOW"
+      },
+      "raw_element_xml": "<GameObject type=\"Block\" name=\"_prim_NPC_PriestGood\" position=\"793.9,-617.658,272.064\" scale=\"1.0,1.0,1.0\" debugcolor=\"255.0,127.0,127.0\" rotation=\"0.0,0.0,0.0\" gametype=\"Character\" condition_desc=\"Invalid\" _templateName=\"NPC\" charpropsname=\"WanderingPriest\" isGlobal=\"1\" activate_cond=\"RENE_FOLLOW\" />\n\t",
+      "source_owner": "actual canonical authored object; not global ScriptManager",
+      "base_AI_reference": {
+        "raw_bits": 50,
+        "signed_table_index": 50,
+        "source_ai_props_fallback8_used": false,
+        "selected_base_table_index": 50,
+        "actual_resolved_PropertyState_verified": false
+      },
+      "base_Dialogs_reference": {
+        "raw_bits": 4294967295,
+        "source_dependency_only": true,
+        "runtime_dialog_owner_verified": false
+      },
+      "character_script_request": {
+        "authored_base_AI_Script": "rene",
+        "external_uri": "data/scripts/ai/rene.luac",
+        "owner": "actual retained Character ScriptSession; not global/local ScriptManager",
+        "base_data_only": true,
+        "builtin_selection_name": null,
+        "source_selected_kind": 4
+      }
+    },
+    {
+      "source_uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "direct_child_index": 12,
+      "authored_kind": "Character",
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_NPC",
+        "position": "703.668,-27.7563,312.239",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,127.0,127.0",
+        "rotation": "0.0,0.0,180.0",
+        "gametype": "Character",
+        "_templateName": "NPC",
+        "charpropsname": "Prisonier2"
+      },
+      "raw_element_xml": "<GameObject type=\"Block\" name=\"_prim_NPC\" position=\"703.668,-27.7563,312.239\" scale=\"1.0,1.0,1.0\" debugcolor=\"255.0,127.0,127.0\" rotation=\"0.0,0.0,180.0\" gametype=\"Character\" _templateName=\"NPC\" charpropsname=\"Prisonier2\" />\n\t",
+      "source_owner": "actual canonical authored object; not global ScriptManager",
+      "base_AI_reference": {
+        "raw_bits": 70,
+        "signed_table_index": 70,
+        "source_ai_props_fallback8_used": false,
+        "selected_base_table_index": 70,
+        "actual_resolved_PropertyState_verified": false
+      },
+      "base_Dialogs_reference": {
+        "raw_bits": 4294967295,
+        "source_dependency_only": true,
+        "runtime_dialog_owner_verified": false
+      },
+      "character_script_request": {
+        "authored_base_AI_Script": "__npc__",
+        "external_uri": null,
+        "owner": "actual retained Character ScriptSession; not global/local ScriptManager",
+        "base_data_only": true,
+        "builtin_selection_name": "__npc__",
+        "source_selected_kind": 0
+      }
+    },
+    {
+      "source_uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "direct_child_index": 13,
+      "authored_kind": "Character",
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_NPC01_001",
+        "position": "1415.62,-73.6238,494.481",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,127.0,127.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Character",
+        "_templateName": "NPC",
+        "charpropsname": "Prisonier"
+      },
+      "raw_element_xml": "<GameObject type=\"Block\" name=\"_prim_NPC01_001\" position=\"1415.62,-73.6238,494.481\" scale=\"1.0,1.0,1.0\" debugcolor=\"255.0,127.0,127.0\" rotation=\"0.0,0.0,0.0\" gametype=\"Character\" _templateName=\"NPC\" charpropsname=\"Prisonier\" />\n\t",
+      "source_owner": "actual canonical authored object; not global ScriptManager",
+      "base_AI_reference": {
+        "raw_bits": 70,
+        "signed_table_index": 70,
+        "source_ai_props_fallback8_used": false,
+        "selected_base_table_index": 70,
+        "actual_resolved_PropertyState_verified": false
+      },
+      "base_Dialogs_reference": {
+        "raw_bits": 4294967295,
+        "source_dependency_only": true,
+        "runtime_dialog_owner_verified": false
+      },
+      "character_script_request": {
+        "authored_base_AI_Script": "__npc__",
+        "external_uri": null,
+        "owner": "actual retained Character ScriptSession; not global/local ScriptManager",
+        "base_data_only": true,
+        "builtin_selection_name": "__npc__",
+        "source_selected_kind": 0
+      }
+    },
+    {
+      "source_uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "direct_child_index": 20,
+      "authored_kind": "Character",
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_ActorPrisoner",
+        "position": "0.0,0.0,0.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,127.0,127.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Character",
+        "_templateName": "NPC",
+        "charpropsname": "Prisonier2",
+        "activate_cond": "GameStartOnly"
+      },
+      "raw_element_xml": "<GameObject type=\"Block\" name=\"_prim_ActorPrisoner\" position=\"0.0,0.0,0.0\" scale=\"1.0,1.0,1.0\" debugcolor=\"255.0,127.0,127.0\" rotation=\"0.0,0.0,0.0\" gametype=\"Character\" _templateName=\"NPC\" charpropsname=\"Prisonier2\" activate_cond=\"GameStartOnly\" />\n\t",
+      "source_owner": "actual canonical authored object; not global ScriptManager",
+      "base_AI_reference": {
+        "raw_bits": 70,
+        "signed_table_index": 70,
+        "source_ai_props_fallback8_used": false,
+        "selected_base_table_index": 70,
+        "actual_resolved_PropertyState_verified": false
+      },
+      "base_Dialogs_reference": {
+        "raw_bits": 4294967295,
+        "source_dependency_only": true,
+        "runtime_dialog_owner_verified": false
+      },
+      "character_script_request": {
+        "authored_base_AI_Script": "__npc__",
+        "external_uri": null,
+        "owner": "actual retained Character ScriptSession; not global/local ScriptManager",
+        "base_data_only": true,
+        "builtin_selection_name": "__npc__",
+        "source_selected_kind": 0
+      }
+    },
+    {
+      "source_uri": "data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+      "direct_child_index": 2,
+      "authored_kind": "OpenableContainer",
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_OpenableContainer_001_001",
+        "position": "-98.5039,-928.66,250.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,-0.822485",
+        "gametype": "OpenableContainer",
+        "condition_desc": "Invalid",
+        "_templateName": "OpenableContainer",
+        "data_desc": "Swamp_Normal_Chest"
+      },
+      "raw_element_xml": "<GameObject type=\"Block\" name=\"_prim_OpenableContainer_001_001\" position=\"-98.5039,-928.66,250.0\" scale=\"1.0,1.0,1.0\" debugcolor=\"255.0,0.0,255.0\" rotation=\"0.0,0.0,-0.822485\" gametype=\"OpenableContainer\" condition_desc=\"Invalid\" _templateName=\"OpenableContainer\" data_desc=\"Swamp_Normal_Chest\" />\n\t",
+      "source_owner": "actual canonical authored object; not global ScriptManager",
+      "object_script_request": {
+        "authored_name": "",
+        "prefix": "data/scripts/objects/",
+        "empty_source_name": true,
+        "external_uri": null,
+        "owner": "actual object LuaScript owner; separate from common/local ScriptManager",
+        "actual_LoadExternalScript_branch": "nonnull_empty: first retire/clear any old+300; return before constructing/loading"
+      }
+    },
+    {
+      "source_uri": "data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+      "direct_child_index": 10,
+      "authored_kind": "OpenableContainer",
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_OpenableContainer_03",
+        "position": "-1013.42,982.703,250.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.537068",
+        "gametype": "OpenableContainer",
+        "condition_desc": "Invalid",
+        "_templateName": "OpenableContainer",
+        "data_desc_pydata": "OpenableContainers",
+        "condition_desc_pydata": "ConditionTable",
+        "editormax": "data/level_editor/primitives_visuals.max",
+        "editorobject": "_prim_OpenableContainer",
+        "data_desc": "Swamp_Normal_Chest"
+      },
+      "raw_element_xml": "<GameObject type=\"Block\" name=\"_prim_OpenableContainer_03\" position=\"-1013.42,982.703,250.0\" scale=\"1.0,1.0,1.0\" debugcolor=\"255.0,0.0,255.0\" rotation=\"0.0,0.0,0.537068\" gametype=\"OpenableContainer\" condition_desc=\"Invalid\" _templateName=\"OpenableContainer\" data_desc_pydata=\"OpenableContainers\" condition_desc_pydata=\"ConditionTable\" editormax=\"data/level_editor/primitives_visuals.max\" editorobject=\"_prim_OpenableContainer\" data_desc=\"Swamp_Normal_Chest\" />\n",
+      "source_owner": "actual canonical authored object; not global ScriptManager",
+      "object_script_request": {
+        "authored_name": "",
+        "prefix": "data/scripts/objects/",
+        "empty_source_name": true,
+        "external_uri": null,
+        "owner": "actual object LuaScript owner; separate from common/local ScriptManager",
+        "actual_LoadExternalScript_branch": "nonnull_empty: first retire/clear any old+300; return before constructing/loading"
+      }
+    },
+    {
+      "source_uri": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "direct_child_index": 0,
+      "authored_kind": "Character",
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_NPC_04",
+        "position": "1317.6,161.851,311.691",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,127.0,127.0",
+        "rotation": "0.0,0.0,36.4548",
+        "gametype": "Character",
+        "condition_desc": "Invalid",
+        "_templateName": "NPC",
+        "charpropsname": "NPCmerchantCamp",
+        "static": "1"
+      },
+      "raw_element_xml": "<GameObject type=\"Block\" name=\"_prim_NPC_04\" position=\"1317.6,161.851,311.691\" scale=\"1.0,1.0,1.0\" debugcolor=\"255.0,127.0,127.0\" rotation=\"0.0,0.0,36.4548\" gametype=\"Character\" condition_desc=\"Invalid\" _templateName=\"NPC\" charpropsname=\"NPCmerchantCamp\" static=\"1\" />\n\t",
+      "source_owner": "actual canonical authored object; not global ScriptManager",
+      "base_AI_reference": {
+        "raw_bits": 39,
+        "signed_table_index": 39,
+        "source_ai_props_fallback8_used": false,
+        "selected_base_table_index": 39,
+        "actual_resolved_PropertyState_verified": false
+      },
+      "base_Dialogs_reference": {
+        "raw_bits": 4294967295,
+        "source_dependency_only": true,
+        "runtime_dialog_owner_verified": false
+      },
+      "character_script_request": {
+        "authored_base_AI_Script": "__npc__",
+        "external_uri": null,
+        "owner": "actual retained Character ScriptSession; not global/local ScriptManager",
+        "base_data_only": true,
+        "builtin_selection_name": "__npc__",
+        "source_selected_kind": 0
+      }
+    },
+    {
+      "source_uri": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "direct_child_index": 1,
+      "authored_kind": "Character",
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_NPC_05",
+        "position": "700.545,575.958,258.661",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,127.0,127.0",
+        "rotation": "0.0,0.0,-4.47736",
+        "gametype": "Character",
+        "condition_desc": "Invalid",
+        "_templateName": "NPC",
+        "static": "1",
+        "charpropsname": "Swamp_MerchantCamp_NPC_A",
+        "deactivate_cond": "IsBefore_Swamp_KillWitch"
+      },
+      "raw_element_xml": "<GameObject type=\"Block\" name=\"_prim_NPC_05\" position=\"700.545,575.958,258.661\" scale=\"1.0,1.0,1.0\" debugcolor=\"255.0,127.0,127.0\" rotation=\"0.0,0.0,-4.47736\" gametype=\"Character\" condition_desc=\"Invalid\" _templateName=\"NPC\" static=\"1\" charpropsname=\"Swamp_MerchantCamp_NPC_A\" deactivate_cond=\"IsBefore_Swamp_KillWitch\" />\n\t",
+      "source_owner": "actual canonical authored object; not global ScriptManager",
+      "base_AI_reference": {
+        "raw_bits": 70,
+        "signed_table_index": 70,
+        "source_ai_props_fallback8_used": false,
+        "selected_base_table_index": 70,
+        "actual_resolved_PropertyState_verified": false
+      },
+      "base_Dialogs_reference": {
+        "raw_bits": 4294967295,
+        "source_dependency_only": true,
+        "runtime_dialog_owner_verified": false
+      },
+      "character_script_request": {
+        "authored_base_AI_Script": "__npc__",
+        "external_uri": null,
+        "owner": "actual retained Character ScriptSession; not global/local ScriptManager",
+        "base_data_only": true,
+        "builtin_selection_name": "__npc__",
+        "source_selected_kind": 0
+      }
+    },
+    {
+      "source_uri": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "direct_child_index": 3,
+      "authored_kind": "OpenableContainer",
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_OpenableContainer",
+        "position": "-2328.31,891.277,250.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,41.985",
+        "gametype": "OpenableContainer",
+        "_templateName": "OpenableContainer",
+        "data_desc": "SwampCave_Normal_Chest"
+      },
+      "raw_element_xml": "<GameObject type=\"Block\" name=\"_prim_OpenableContainer\" position=\"-2328.31,891.277,250.0\" scale=\"1.0,1.0,1.0\" debugcolor=\"255.0,0.0,255.0\" rotation=\"0.0,0.0,41.985\" gametype=\"OpenableContainer\" _templateName=\"OpenableContainer\" data_desc=\"SwampCave_Normal_Chest\" />\n\t",
+      "source_owner": "actual canonical authored object; not global ScriptManager",
+      "object_script_request": {
+        "authored_name": "",
+        "prefix": "data/scripts/objects/",
+        "empty_source_name": true,
+        "external_uri": null,
+        "owner": "actual object LuaScript owner; separate from common/local ScriptManager",
+        "actual_LoadExternalScript_branch": "nonnull_empty: first retire/clear any old+300; return before constructing/loading"
+      }
+    },
+    {
+      "source_uri": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "direct_child_index": 11,
+      "authored_kind": "Character",
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_NPC_LizBlood",
+        "position": "1242.84,-1014.84,255.668",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,127.0,127.0",
+        "rotation": "0.0,0.0,178.33",
+        "gametype": "Character",
+        "_templateName": "NPC",
+        "charpropsname": "Swamp_MerchantCamp_NPC_C",
+        "static": "1"
+      },
+      "raw_element_xml": "<GameObject type=\"Block\" name=\"_prim_NPC_LizBlood\" position=\"1242.84,-1014.84,255.668\" scale=\"1.0,1.0,1.0\" debugcolor=\"255.0,127.0,127.0\" rotation=\"0.0,0.0,178.33\" gametype=\"Character\" _templateName=\"NPC\" charpropsname=\"Swamp_MerchantCamp_NPC_C\" static=\"1\" />\n\t",
+      "source_owner": "actual canonical authored object; not global ScriptManager",
+      "base_AI_reference": {
+        "raw_bits": 70,
+        "signed_table_index": 70,
+        "source_ai_props_fallback8_used": false,
+        "selected_base_table_index": 70,
+        "actual_resolved_PropertyState_verified": false
+      },
+      "base_Dialogs_reference": {
+        "raw_bits": 4294967295,
+        "source_dependency_only": true,
+        "runtime_dialog_owner_verified": false
+      },
+      "character_script_request": {
+        "authored_base_AI_Script": "__npc__",
+        "external_uri": null,
+        "owner": "actual retained Character ScriptSession; not global/local ScriptManager",
+        "base_data_only": true,
+        "builtin_selection_name": "__npc__",
+        "source_selected_kind": 0
+      }
+    },
+    {
+      "source_uri": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "direct_child_index": 15,
+      "authored_kind": "Character",
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_NPC_LizBloodPOST",
+        "position": "1242.84,-1015.35,255.668",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,127.0,127.0",
+        "rotation": "0.0,0.0,91.3699",
+        "gametype": "Character",
+        "_templateName": "NPC",
+        "static": "1",
+        "charpropsname": "zKill5Lizman_Post",
+        "activate_cond": "IsAfter_Swamp_LizBlood"
+      },
+      "raw_element_xml": "<GameObject type=\"Block\" name=\"_prim_NPC_LizBloodPOST\" position=\"1242.84,-1015.35,255.668\" scale=\"1.0,1.0,1.0\" debugcolor=\"255.0,127.0,127.0\" rotation=\"0.0,0.0,91.3699\" gametype=\"Character\" _templateName=\"NPC\" static=\"1\" charpropsname=\"zKill5Lizman_Post\" activate_cond=\"IsAfter_Swamp_LizBlood\" />\n\t",
+      "source_owner": "actual canonical authored object; not global ScriptManager",
+      "base_AI_reference": {
+        "raw_bits": 27,
+        "signed_table_index": 27,
+        "source_ai_props_fallback8_used": false,
+        "selected_base_table_index": 27,
+        "actual_resolved_PropertyState_verified": false
+      },
+      "base_Dialogs_reference": {
+        "raw_bits": 4294967295,
+        "source_dependency_only": true,
+        "runtime_dialog_owner_verified": false
+      },
+      "character_script_request": {
+        "authored_base_AI_Script": "__npc__",
+        "external_uri": null,
+        "owner": "actual retained Character ScriptSession; not global/local ScriptManager",
+        "base_data_only": true,
+        "builtin_selection_name": "__npc__",
+        "source_selected_kind": 0
+      }
+    },
+    {
+      "source_uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "direct_child_index": 26,
+      "authored_kind": "Character",
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_NPC_Eddie",
+        "position": "6157.95,-981.051,272.598",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,127.0,127.0",
+        "rotation": "0.0,0.0,86.0322",
+        "gametype": "Character",
+        "_templateName": "NPC",
+        "charpropsname": "WanderingEddie",
+        "activate_cond": "EDWARD_FOLLOW"
+      },
+      "raw_element_xml": "<GameObject type=\"Block\" name=\"_prim_NPC_Eddie\" position=\"6157.95,-981.051,272.598\" scale=\"1.0,1.0,1.0\" debugcolor=\"255.0,127.0,127.0\" rotation=\"0.0,0.0,86.0322\" gametype=\"Character\" _templateName=\"NPC\" charpropsname=\"WanderingEddie\" activate_cond=\"EDWARD_FOLLOW\" />\n\t",
+      "source_owner": "actual canonical authored object; not global ScriptManager",
+      "base_AI_reference": {
+        "raw_bits": 50,
+        "signed_table_index": 50,
+        "source_ai_props_fallback8_used": false,
+        "selected_base_table_index": 50,
+        "actual_resolved_PropertyState_verified": false
+      },
+      "base_Dialogs_reference": {
+        "raw_bits": 4294967295,
+        "source_dependency_only": true,
+        "runtime_dialog_owner_verified": false
+      },
+      "character_script_request": {
+        "authored_base_AI_Script": "rene",
+        "external_uri": "data/scripts/ai/rene.luac",
+        "owner": "actual retained Character ScriptSession; not global/local ScriptManager",
+        "base_data_only": true,
+        "builtin_selection_name": null,
+        "source_selected_kind": 4
+      }
+    },
+    {
+      "source_uri": "data/3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp",
+      "direct_child_index": 0,
+      "authored_kind": "Character",
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_NPC_Mothgiver",
+        "position": "-2326.9,663.128,256.489",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,127.0,127.0",
+        "rotation": "0.0,0.0,22.4513",
+        "gametype": "Character",
+        "_templateName": "NPC",
+        "static": "1",
+        "charpropsname": "Swamp_MerchantCamp_NPC_B"
+      },
+      "raw_element_xml": "<GameObject type=\"Block\" name=\"_prim_NPC_Mothgiver\" position=\"-2326.9,663.128,256.489\" scale=\"1.0,1.0,1.0\" debugcolor=\"255.0,127.0,127.0\" rotation=\"0.0,0.0,22.4513\" gametype=\"Character\" _templateName=\"NPC\" static=\"1\" charpropsname=\"Swamp_MerchantCamp_NPC_B\" />\n\t",
+      "source_owner": "actual canonical authored object; not global ScriptManager",
+      "base_AI_reference": {
+        "raw_bits": 70,
+        "signed_table_index": 70,
+        "source_ai_props_fallback8_used": false,
+        "selected_base_table_index": 70,
+        "actual_resolved_PropertyState_verified": false
+      },
+      "base_Dialogs_reference": {
+        "raw_bits": 4294967295,
+        "source_dependency_only": true,
+        "runtime_dialog_owner_verified": false
+      },
+      "character_script_request": {
+        "authored_base_AI_Script": "__npc__",
+        "external_uri": null,
+        "owner": "actual retained Character ScriptSession; not global/local ScriptManager",
+        "base_data_only": true,
+        "builtin_selection_name": "__npc__",
+        "source_selected_kind": 0
+      }
+    }
+  ]
+}

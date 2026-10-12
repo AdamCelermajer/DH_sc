@@ -1,0 +1,41 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6CharAI11OnInitFinalEv",
+      "elf_address": "0x3d0ba4",
+      "size": 36,
+      "sha256": "c00ff0bdd25d6d1ef4de0c5f720ee1246276d8b98d4aac02df17e27757792942"
+    },
+    {
+      "original_symbol": "_ZN6CharAI17LoadScriptProcessEv",
+      "elf_address": "0x3cf1f0",
+      "size": 436,
+      "sha256": "737c53f97392fdd9d21349694eef1c6b5a189f14864f0075e4a68e67d8e8c564"
+    },
+    {
+      "original_symbol": "_ZN6CharAI10OnInitPostEv",
+      "elf_address": "0x3d0b80",
+      "size": 36,
+      "sha256": "f86bb7eae1aa9e52645b14f2af513f072eb57af451dce79a5b51767687896d61"
+    },
+    {
+      "original_symbol": "_ZN6CharAI17InitScriptProcessEb",
+      "elf_address": "0x3ce7c0",
+      "size": 80,
+      "sha256": "2c61c145a786157363337b77b877321f1c0c8804d5dcc606963d355f2dab5c5f"
+    },
+    {
+      "original_symbol": "_ZN6CharAI14StepInitScriptEv",
+      "elf_address": "0x3cb314",
+      "size": 56,
+      "sha256": "6e602114665b22538851a9fa6619af43c48ce399143c871d63d1ba4e77e6b046"
+    },
+    {
+      "original_symbol": "_ZN6CharAI22LoadNInitScriptProcessEb",
+      "elf_address": "0x3cf3a4",
+      "size": 76,
+      "sha256": "55367c650fe7526b36840fca97aee781cf9d8a5276ed3b3c580c90b3799f34a4"
+    }
+  ]
+}

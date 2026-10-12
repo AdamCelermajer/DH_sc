@@ -1,0 +1,11 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character20_GetCurrentSkillInfoERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b8f9c",
+      "size": 232,
+      "sha256": "2379324b10def096a69c7b50f1557f9a019b406937b20a8c5c9d80f8242aeba6"
+    }
+  ]
+}

@@ -1,0 +1,258 @@
+--- port/level-world/canonical_gameobject_base_owner_v1.cpp
++++ port/level-world/canonical_gameobject_base_owner_v1.cpp
+@@ -8,7 +8,7 @@
+  for(auto offset:{0x30u,0x48u,0x68u,0x90u,0xb4u,0xd4u,0x254u,0x278u,0x290u,0x2a8u,0x2c0u,0x358u})strings_[offset]={};
+  for(auto offset:{0xecu,0x108u,0x110u,0x270u})integers_[offset]=-1;
+  integers_[0x274]=100;integers_[0x370]=-1;
+- for(auto offset:{0xfcu,0x100u,0x104u,0x114u,0x11cu,0x180u,0x1b8u,0x1bcu,0x26cu,0x2d8u,0x2dcu,0x2e0u,0x2e4u,0x2e8u,0x300u})pointers_[offset]=0;
++ for(auto offset:{0x2cu,0xfcu,0x100u,0x104u,0x114u,0x11cu,0x180u,0x1b8u,0x1bcu,0x26cu,0x2d8u,0x2dcu,0x2e0u,0x2e4u,0x2e8u,0x300u})pointers_[offset]=0;
+  std::memset(runtime_.subobjects.position,0,12);std::memset(runtime_.rotation.rotation,0,12);runtime_.rotation.heading_angle=0;
+  for(unsigned i=0;i<6;++i)runtime_.subobjects.local_bounds[i]=i<3?-100.f:100.f;
+   update_absolute_aabb();dh2_nav_object_defaults(&runtime_.object);
+--- port/level-world/canonical_gameobject_graph_v68.hpp
++++ port/level-world/canonical_gameobject_graph_v68.hpp
+@@ -58,5 +58,11 @@
+  // Qualified resource teardown before actual class/base destruction. Does not
+  // claim conditions/scripts/network/base D0 or manager unpublication occurred.
+  bool release_resources(std::uintptr_t,std::string&);
++ bool destroy_visual_source_v92(std::uintptr_t actor,std::uintptr_t actual_visual,std::string&);
++ // Qualified caller has completed real class D0 and manager unpublication.
++ // This drops only exhausted service/transport storage; no hidden destructor.
++ bool discard_unassigned_visual_source_v92(std::uintptr_t,std::string&);
++ bool retire_completed_source_v92(std::uintptr_t,std::string&);
++ bool source_contains_v92(std::uintptr_t id)const noexcept{return entries_.find(id)!=entries_.end();}
+ };
+ }
+--- port/level-world/canonical_gameobject_graph_v68.cpp
++++ port/level-world/canonical_gameobject_graph_v68.cpp
+@@ -199,3 +199,28 @@
+  e.clear();return true;
+ }
+ }
++
++namespace dh2::world {
++bool CanonicalGameObjectGraphV68::destroy_visual_source_v92(std::uintptr_t id,std::uintptr_t visual,std::string& e){
++ auto p=entries_.find(id);if(p==entries_.end()||!p->second->assets||p->second->external_visual||p->second->releasing)return required("qualified actual owned visual source entry",e);
++ std::shared_ptr<void> pin;CanonicalGameObjectBaseOwnerV1* base{};if(!borrow(p->second,pin,base,e))return false;
++ auto cell=base->pointer(0x2d8);if(!cell||!visual||*cell!=visual)return required("same positive VisualObject2d8",e);
++ auto entry=p->second;entry->releasing=true;struct Guard{bool& v;~Guard(){v=false;}}guard{entry->releasing};
++ return entry->assets->set_visual(0,e);
++}
++bool CanonicalGameObjectGraphV68::retire_completed_source_v92(std::uintptr_t id,std::string& e){
++ auto p=entries_.find(id);if(p==entries_.end()){e.clear();return true;}
++ auto entry=p->second;if(entry->releasing)return required("nonrunning qualified graph retirement",e);
++ if(entry->external_visual){std::shared_ptr<RetainedGameObjectVisualV1> visual;if(!entry->external_visual(visual,e))return false;if(visual&&visual->root_identity())return required("actual external native root release",e);}
++ else if(entry->visual&&entry->visual->retained_count())return required("genuine remaining assigned/unassigned VisualObject D0 before graph retirement",e);
++ entries_.erase(p);e.clear();return true;
++}
++}
++
++namespace dh2::world {
++bool CanonicalGameObjectGraphV68::discard_unassigned_visual_source_v92(std::uintptr_t id,std::string& e){
++ auto p=entries_.find(id);if(p==entries_.end()||!p->second->visual){e.clear();return true;}
++ if(p->second->external_visual)return required("actual external unassigned visual prefix owner",e);
++ return p->second->visual->discard_unattached(e)&&p->second->visual->discard_failed(e);
++}
++}
+--- port/level-world/canonical_decor_physical_connection_v49.hpp
++++ port/level-world/canonical_decor_physical_connection_v49.hpp
+@@ -26,6 +26,7 @@
+  // Scoped borrow of the body already assigned to SAME physical2dc.
+  // Caller retains both returned receiver pin and this connection authority.
+  bool borrow_native_body(std::uintptr_t,std::shared_ptr<void>&,physical::NativeBody*&,std::string&);
++ bool destroy_owned_source_v92(std::uintptr_t id,std::string& e){return destroy(id,e);}
+  bool release(std::string&);
+  std::size_t retained_bodies()const noexcept{return bodies_.size();}
+ };
+--- port/level-world/canonical_openable_graph_v21.hpp
++++ port/level-world/canonical_openable_graph_v21.hpp
+@@ -51,6 +51,10 @@
+  bool physical_peer_v90(void*,std::uintptr_t&,std::shared_ptr<void>&,bool&,std::string&);
+  bool borrow_native_body_v69(std::uintptr_t,std::shared_ptr<void>&,
+   physical::NativeBody*&,std::string&);
++ bool destroy_visual_source_v92(std::uintptr_t,std::string&);
++ bool destroy_physical_source_v92(std::uintptr_t,std::string&);
++ bool discard_unpublished_source_v92(std::uint32_t,std::string&);
++ bool require_resources_released_v92(std::string&)const;
+  bool release(std::string&);
+ };
+ }
+--- port/level-world/canonical_openable_graph_v21.cpp
++++ port/level-world/canonical_openable_graph_v21.cpp
+@@ -120,3 +120,29 @@
+  e.clear();return true;
+ }
+ }
++
++namespace dh2::world {
++bool CanonicalOpenableGraphV21::destroy_visual_source_v92(std::uintptr_t id,std::string& e){
++ const auto cell=receiver_.base().pointer(0x2d8);if(!id||!cell||*cell!=id||!assets_)return required("same assigned visual D0 receiver",e);
++ if(animator_)animator_->clear();animator_.reset();animator_visual_.reset();
++ return assets_->set_visual(0,e);
++}
++bool CanonicalOpenableGraphV21::destroy_physical_source_v92(std::uintptr_t id,std::string& e){
++ auto p=std::find_if(bodies_.begin(),bodies_.end(),[id](const auto& body){return reinterpret_cast<std::uintptr_t>(body.get())==id;});
++ if(p==bodies_.end())return required("same owned assigned PhysicalObject D0",e);
++ if(!(*p)->release(e))return false;bodies_.erase(p);e.clear();return true;
++}
++bool CanonicalOpenableGraphV21::require_resources_released_v92(std::string& e)const{
++ if(animator_||!bodies_.empty()||(visual_&&visual_->retained_count()))return required("real owned animation/body/visual prefix teardown",e);
++ e.clear();return true;
++}
++}
++
++namespace dh2::world {
++bool CanonicalOpenableGraphV21::discard_unpublished_source_v92(std::uint32_t offset,std::string& e){
++ if(offset==0x2d8)return !visual_||(visual_->discard_unattached(e)&&visual_->discard_failed(e));
++ if(offset==0x2dc){auto slot=receiver_.base().pointer(0x2dc);if(!slot||*slot)return required("NULL assigned body before failed/unassigned body journal drain",e);
++  for(auto p=bodies_.rbegin();p!=bodies_.rend();++p)if(!(*p)->release(e))return false;bodies_.clear();}
++ e.clear();return true;
++}
++}
+--- port/level-world/gameobject_scene_root_registry_v1.hpp
++++ port/level-world/gameobject_scene_root_registry_v1.hpp
+@@ -79,6 +79,7 @@
+  explicit GameObjectSceneRootRegistryV1(std::uintptr_t source_root_identity):identity_(source_root_identity){}
+  bool add_child(GameObjectSceneRootBorrowV1,std::string&);
+  bool release_visual_root(std::uintptr_t,std::string&);
++ bool retire_unpublished_root_aliases_v92(std::uintptr_t,std::string&);
+  void force_register()noexcept{fields_.force448=1;fields_.render_dirty289=1;}
+  void notify_hierarchy_changed()noexcept{fields_.hierarchy_dirty288=1;fields_.render_dirty289=1;update_nodes_produced_v102_=false;}
+  // Whole CSceneManager::notifyVisibilityChanged5890a8 writes only byte289.
+--- port/level-world/gameobject_scene_root_registry_v1.cpp
++++ port/level-world/gameobject_scene_root_registry_v1.cpp
+@@ -153,3 +153,15 @@
+  e.clear();return true;
+ }
+ }
++
++namespace dh2::world {
++bool GameObjectSceneRootRegistryV1::retire_unpublished_root_aliases_v92(std::uintptr_t id,std::string& e){
++ if(scene_busy_v69_){e="Native root alias retirement requires actual owning-thread traversal barrier";return false;}
++ if(std::any_of(children_.begin(),children_.end(),[id](const auto& child){return child.root.identity==id;})){e="Actual scene still publishes native visual root";return false;}
++ collected_roots_v69_.erase(std::remove_if(collected_roots_v69_.begin(),collected_roots_v69_.end(),[id](const auto& child){return child.identity==id;}),collected_roots_v69_.end());
++ // Hierarchy changes invalidate optimized descendants as a domain. This drops
++ // actual cache leases, not native nodes; next original collection reproduces
++ // SAME graph. Keep source epoch/time/clock unchanged to avoid animation replay.
++ update_nodes_v102_.clear();update_nodes_produced_v102_=false;e.clear();return true;
++}
++}
+--- port/level-loader/canonical_colbox_v71.hpp
++++ port/level-loader/canonical_colbox_v71.hpp
+@@ -23,6 +23,9 @@
+  // Dedicated genuine LuaScript D0 route for LoadExternalScript38ef60's
+  // SAME LuaScriptC1(37c584) allocation in GameObject+300. Never physics.
+  std::function<bool(CanonicalGameObjectBaseOwnerV1&,std::uintptr_t actual_lua_script,std::string&)> destroy_lua_script300;
++ // Explicit failed/unassigned resource journal companion at its source-owned
++ // native domain, after assigned D0/NULL. No original absence substitution.
++ std::function<bool(CanonicalGameObjectBaseOwnerV1&,std::uint32_t,std::string&)> destroy_unpublished_native_prefixes_v92;
+  std::function<bool(CanonicalGameObjectBaseOwnerV1&,std::string&)> update_pf_object;
+  std::function<bool(std::int16_t,std::int32_t,std::string&)> stop_sound;
+  std::function<bool(CanonicalGameObjectBaseOwnerV1&,std::string&)> destroy_target_list;
+--- port/level-loader/game_object_source_destroy_v72.hpp
++++ port/level-loader/game_object_source_destroy_v72.hpp
+@@ -1,6 +1,9 @@
+ #pragma once
+ #include <canonical_gameobject_base_owner_v1.hpp>
++#include <type_traits>
+ namespace dh2::world {
++template<class S,class=void>struct HasNativePrefixCompanionV92:std::false_type{};
++template<class S>struct HasNativePrefixCompanionV92<S,std::void_t<decltype(std::declval<S>().destroy_unpublished_native_prefixes_v92)>>:std::true_type{};
+ // SAME original GameObjectD2=38d378 native order over the caller's actual base
+ // and runtime. Class wrapper owns original non-replay/completed journal state.
+ // Services are genuine typed leaves shared by actual ColBox/Floor, not a Dtor
+@@ -11,12 +14,14 @@
+  if(!live())return false;
+  for(auto offset:{0x2d8u,0x2dcu,0x2e0u}){
+   auto* cell=base.pointer(offset);if(!cell){e="Required SAME GameObject owned-native pointer cell";return false;}
+-  const auto actual=*cell;if(!actual)continue;
++  const auto actual=*cell;if(actual){
+   if(!s.destroy_native){e="Required actual visual/physical/attached deleting leaf";return false;}
+   std::shared_ptr<void> pin=offset==0x2dc?physical_owner:s.owner;
+   if(!s.destroy_native(base,offset,actual,pin,e)||!live())return false;
+   if(*cell&&*cell!=actual){e="GameObject D0 replaced its owned source pointer";return false;}
+   *cell=0;if(offset==0x2dc)physical_owner.reset();
++  }
++  if constexpr(HasNativePrefixCompanionV92<Services>::value){if(s.destroy_unpublished_native_prefixes_v92&&(!s.destroy_unpublished_native_prefixes_v92(base,offset,e)||!live()))return false;}
+  }
+  auto* script=base.pointer(0x300);if(!script){e="Required SAME LuaScript300 source cell";return false;}const auto actual_lua=*script;
+  if(actual_lua){
+--- port/level-loader/canonical_receiver_transport_v1.hpp
++++ port/level-loader/canonical_receiver_transport_v1.hpp
+@@ -41,6 +41,10 @@
+     // Duplicate Add erases only the newly constructed duplicate identity.
+     void erased(std::uintptr_t identity){receivers_.erase(identity);}
+     std::size_t retained_count()const noexcept{return receivers_.size();}
++    bool source_record_published_v92(const std::shared_ptr<void>& record)const noexcept{
++        if(!record)return false;for(const auto& entry:receivers_){const auto& pin=entry.second.object.lease;
++            if(pin&&!pin.owner_before(record)&&!record.owner_before(pin))return true;}return false;
++    }
+     // Read-only actual transport publication; no synthetic missing receiver.
+     bool contains_identity_source_v69(std::uintptr_t id)const noexcept{return receivers_.find(id)!=receivers_.end();}
+     // Borrow same retained dispatch, including a constructor's failed prefix.
+--- port/android-native/app/src/main/cpp/renderer_campaign_noncharacter_v69.inc
++++ port/android-native/app/src/main/cpp/renderer_campaign_noncharacter_v69.inc
+@@ -46,6 +46,7 @@
+   dh2::world::GameObjectInitializationServicesV1 initialization;
+   dh2::world::GameObjectSetPositionServicesV2 position;
+   std::shared_ptr<dh2::world::ConditionDataBindingV72> conditions;
++  std::vector<std::uintptr_t> released_roots_v92; // actual root IDs captured at qualified VisualD0
+  };
+  std::map<std::uintptr_t,Bound> bound;
+  std::set<std::uintptr_t> external_visuals;
+@@ -170,6 +171,55 @@
+    return dh2::world::game_object_relative_box_v3(*base,box.data(),bound->initialization.update_pf_object,e);};
+   if(!output.create_zone_physical)output.create_zone_physical=[weak,id](bool trigger,std::string& e){auto self=weak.lock();std::shared_ptr<void> pin;dh2::world::CanonicalGameObjectBaseOwnerV1* base{};return self&&self->borrow(id,pin,base,e)&&self->create_zone_physical_v82(*base,trigger,e);};
+   if(!output.bind_visual_collision_zone)output.bind_visual_collision_zone=[weak,id](const char* name,auto& node,auto& lease,std::string& e){auto self=weak.lock();std::shared_ptr<void> pin;dh2::world::CanonicalGameObjectBaseOwnerV1* base{};return self&&self->borrow(id,pin,base,e)&&self->bind_visual_collision_zone_v82(*base,name,node,lease,e);};
++ }
++ // Consume only actual resource owners at their ORIGINAL native pointer
++ // domain. Main owns class D0 order and delivery barrier, not this helper.
++ bool destroy_owned_native_source_v92(dh2::world::CanonicalGameObjectBaseOwnerV1& supplied,
++  std::uint32_t offset,std::uintptr_t actual,std::shared_ptr<void>& native_pin,bool& handled,std::string& e){
++  handled=false;std::shared_ptr<void> receiver;dh2::world::CanonicalGameObjectBaseOwnerV1* base{};
++  if(!borrow(supplied.identity(),receiver,base,e)||base!=&supplied)return false;
++  const auto cell=base->pointer(offset);if(!cell||!actual||*cell!=actual){e="Required SAME assigned native resource pointer";return false;}
++  if(offset==0x2d8){
++   handled=true;std::shared_ptr<dh2::world::RetainedGameObjectVisualV1> visual;if(!actual_visual(actual,visual,e)||!visual)return false;
++   auto bound_entry=bound.find(base->identity());if(bound_entry==bound.end()){e="Required actual preexisting visual/condition binding journal";return false;}
++   const auto root=visual->root_identity();if(root)bound_entry->second.released_roots_v92.push_back(root);
++   auto animator=animators.find(actual);if(animator!=animators.end()){animator->second->clear();animators.erase(animator);}
++   auto external=openable_graphs_v89.find(base->identity());
++   if(external!=openable_graphs_v89.end()){auto owner=external->second.lock();if(!owner){e="Actual assigned Openable native owner retired before D0";return false;}return owner->destroy_visual_source_v92(actual,e);}
++   return graph->destroy_visual_source_v92(base->identity(),actual,e);
++  }
++  if(offset==0x2dc){
++   bool zone=false;if(!release_zone_physical_v82(actual,zone,e))return false;if(zone){handled=true;return true;}
++   auto decor=decor_connections.find(base->identity());if(decor!=decor_connections.end()){
++    handled=true;if(!decor->second->destroy_owned_source_v92(actual,e))return false;
++    if(!decor->second->retained_bodies())decor_connections.erase(decor);return true;
++   }
++   auto external=openable_graphs_v89.find(base->identity());if(external!=openable_graphs_v89.end()){
++    handled=true;auto owner=external->second.lock();if(!owner){e="Actual Openable physical owner retired before D0";return false;}return owner->destroy_physical_source_v92(actual,e);
++   }
++  }
++  return true; // explicit handled=false: caller MUST use real Main leaf
++ }
++ bool discard_owned_unpublished_source_v92(dh2::world::CanonicalGameObjectBaseOwnerV1& base,std::uint32_t offset,std::string& e){
++  auto external=openable_graphs_v89.find(base.identity());if(external!=openable_graphs_v89.end()){auto owner=external->second.lock();if(!owner){e="Actual Openable resource journal missing";return false;}return owner->discard_unpublished_source_v92(offset,e);}
++  if(offset==0x2d8)return graph->discard_unassigned_visual_source_v92(base.identity(),e);
++  if(offset==0x2dc){auto decor=decor_connections.find(base.identity());if(decor!=decor_connections.end()){if(*base.pointer(0x2dc)){e="Assigned Decor native object blocks failed prefix drain";return false;}if(!decor->second->release(e))return false;decor_connections.erase(decor);}}
++  e.clear();return true;
++ }
++ bool require_owned_aliases_unpublished_v92(std::uintptr_t id,std::string& e){
++  if(!current(e)||!zone_prefixes_released(id,e))return false;
++  if(decor_connections.count(id)){e="Actual Decor resource journal remains published";return false;}
++  auto external=openable_graphs_v89.find(id);if(external!=openable_graphs_v89.end()){auto owner=external->second.lock();if(!owner){e="Actual Openable owner retired before alias qualification";return false;}if(!owner->require_resources_released_v92(e))return false;}
++  auto found=bound.find(id);
++  // Exact source registry comes from current candidate, not guessed expiry.
++  SourceCampaignCandidateBorrowV55 actual;if(!borrow_source_campaign_candidate_v55(actual,e)||!actual.roots)return false;
++  if(found!=bound.end())for(auto root:found->second.released_roots_v92)if(!actual.roots->retire_unpublished_root_aliases_v92(root,e))return false;
++  if(!graph||!graph->retire_completed_source_v92(id,e))return false;
++  // Native condition D1 must already have run at ObjectBaseD2, before class
++  // storage retirement. Check actual cells; do not destroy from this observer.
++  std::shared_ptr<void> receiver;dh2::world::CanonicalGameObjectBaseOwnerV1* base{};if(!borrow(id,receiver,base,e)||!base)return false;
++  for(auto offset:{0xa8u,0xccu}){auto cell=base->pointer(offset);if(!cell||*cell){e="Actual compiled ConditionData alias remains";return false;}}
++  if(found!=bound.end())bound.erase(found);external_visuals.erase(id);openable_graphs_v89.erase(id);e.clear();return true;
+  }
+  bool clear_conditions_at_object_base_dtor(std::uintptr_t id,std::string& e){auto found=bound.find(id);if(found==bound.end()||!found->second.conditions){e.clear();return true;}return found->second.conditions->clear(e);}
+  // Qualified visual cleanup only; authentic class/base D0 and manager/transport

@@ -1,0 +1,91 @@
+{
+  "validation": "PASS",
+  "scope": "Exact cache bytes and executable colon-method demand; comments are excluded.",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "catalog_sha256": "1652c4df384846be323c91c33d482992d21e6bc3cfd4cecb8105b5286155a586",
+  "scripts": [
+    {
+      "script": "monster",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/monster.luac",
+      "sha256": "84f07caaeb2c04f2024cc3e27d41f33806b2c53d6e8861bb3d8b371118fd0e1d",
+      "bytes": 7393,
+      "executable_colon_methods": [
+        {
+          "receiver": "defender",
+          "method": "GetID",
+          "source_address": "0x38ebe4"
+        }
+      ],
+      "target_related_call_counts": {
+        "HasTarget": 2,
+        "GetTarget": 7,
+        "SetTarget": 2,
+        "ClearTarget": 2,
+        "GetID": 2,
+        "HeadTo": 2,
+        "ClearAggro": 1,
+        "Stop": 5,
+        "MoveTo": 1,
+        "Attack": 4,
+        "Flee": 1,
+        "HasPath": 1,
+        "GetState": 2,
+        "GetStateTime": 1
+      }
+    },
+    {
+      "script": "follower",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/follower.luac",
+      "sha256": "2d281c3bc784bbc12356e37cff9e7bdcd44a13e1d45da1fcb21069b4fef48d9d",
+      "bytes": 1901,
+      "executable_colon_methods": [],
+      "target_related_call_counts": {
+        "ClearTarget": 1,
+        "Stop": 3,
+        "MoveTo": 1,
+        "GetState": 1
+      }
+    },
+    {
+      "script": "rene",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/rene.luac",
+      "sha256": "631e7137c6ba49fca45e6cf0b37d1e45e4f42af4ca120106274e7e28d5f56fc7",
+      "bytes": 9336,
+      "executable_colon_methods": [],
+      "target_related_call_counts": {
+        "GetTarget": 1,
+        "SetTarget": 1,
+        "ClearTarget": 1,
+        "Stop": 3,
+        "MoveTo": 3,
+        "Attack": 2,
+        "HasPath": 1,
+        "GetState": 1
+      }
+    },
+    {
+      "script": "_commons",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/_commons.luac",
+      "sha256": "20d34968e9983e14c24223085ab40d55d47f9387dfdbbf3ff7e6b39aea91252c",
+      "bytes": 13535,
+      "executable_colon_methods": [],
+      "target_related_call_counts": {}
+    }
+  ],
+  "registered_method_addresses": {
+    "HasTarget": "0x3b6f50",
+    "GetTarget": "0x3b6c7c",
+    "SetTarget": "0x3b8f38",
+    "ClearTarget": "0x3b5690",
+    "GetID": "0x38ebe4",
+    "HeadTo": "0x3ba71c",
+    "ClearAggro": "0x3b8648",
+    "Stop": "0x3b56b4",
+    "MoveTo": "0x3bada8",
+    "Attack": "0x3b9f44",
+    "Flee": "0x3b91a0",
+    "HasPath": "0x38e98c",
+    "GetState": "0x3b6d78",
+    "GetStateTime": "0x3b6d6c"
+  }
+}

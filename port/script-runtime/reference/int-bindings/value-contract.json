@@ -1,0 +1,21 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "script_sha256": "1cc2984597a6a4dcb76ac6dc0df7ad022bdfb108dbcd418708add8b8a99f6151",
+  "constants": {
+    "nil": "nil",
+    "false": "false",
+    "true": "true",
+    "integer_format": "%d",
+    "float_format": "%f",
+    "identity_format": "0x%0*x"
+  },
+  "imports": {
+    "0x30ecb8": "floorf",
+    "0x30df8c": "__aeabi_fcmpeq",
+    "0x30e8a4": "__aeabi_f2d",
+    "0x30eae4": "sprintf",
+    "0x30de54": "strlen",
+    "0x30e4cc": "__aeabi_f2iz",
+    "0x30e2e0": "__aeabi_ui2f"
+  }
+}

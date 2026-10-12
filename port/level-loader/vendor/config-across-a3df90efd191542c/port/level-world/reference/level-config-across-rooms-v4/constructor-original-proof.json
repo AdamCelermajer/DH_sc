@@ -1,0 +1,43 @@
+{
+  "validation": "PASS",
+  "cases": [
+    {
+      "poison": 0,
+      "byte87": 0,
+      "allocations": [
+        792,
+        12
+      ],
+      "writes87": []
+    },
+    {
+      "poison": 1,
+      "byte87": 1,
+      "allocations": [
+        792,
+        12
+      ],
+      "writes87": []
+    },
+    {
+      "poison": 165,
+      "byte87": 165,
+      "allocations": [
+        792,
+        12
+      ],
+      "writes87": []
+    },
+    {
+      "poison": 255,
+      "byte87": 255,
+      "allocations": [
+        792,
+        12
+      ],
+      "writes87": []
+    }
+  ],
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "scope": "Whole original LevelConfig factory340ca8 -> operatornew310570 -> CustomAlloc310454 -> LevelConfigC1/ObjectBaseC2. Explicit malloc poison/CString reserve/ConditionData constructor service boundaries. No byte87 write occurs; result preserves caller malloc contents. No claim malloc naturally returns zero."
+}

@@ -1,0 +1,47 @@
+{
+  "completed": 86,
+  "latest": {
+    "identity": "WIND_TEMPLE_01",
+    "definition": "029_wind_temple.rule.xml",
+    "kind": "procedural",
+    "seed": 1,
+    "expected_preparation": "assembled",
+    "runtime_objects_verified": false,
+    "gameplay_verified": false,
+    "preview": "frame_submitted",
+    "native": {
+      "procedural": 1,
+      "seed": 1,
+      "modules": 12,
+      "meshes": 451,
+      "draws": 463,
+      "triangles": 32939,
+      "textures": 4,
+      "width": 2400,
+      "height": 496
+    },
+    "visible_text": [
+      "WIND_TEMPLE_01 seed 1 | 12 modules | 451 mesh instances | 463 draws | 4 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 1",
+      "WIND_TEMPLE_01 (generated)",
+      "Seed 1",
+      "LOAD MAP",
+      "WHOLE MAP",
+      "NEXT MODULE",
+      "RELOAD",
+      "ZOOM +",
+      "ZOOM \u2212",
+      "FAILED-LOAD CHECK"
+    ],
+    "screenshot": "generated-preview-wind_temple_01-seed1.png",
+    "screenshot_sha256": "2f965ae33e9d0cfc6460d8dfffe333f277f337776c3a6e90b4239ef3814e334c",
+    "surface_bounds": [
+      0,
+      269,
+      2400,
+      765
+    ],
+    "surface_non_background_pixels": 23727,
+    "surface_color_count": 20372,
+    "visible_map_pixels": true
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "schema": "dh2-return-visit-contract-v59-source-review",
+  "status": "SOURCE_REVIEWED_NATIVE_EXECUTION_PENDING",
+  "recorded_utc": "2026-10-06T18:03:51.0132103Z",
+  "source_hashes": {
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\canonical_level_context_v1.cpp": "f6e8baab874f79bdecfc791cc8155cff2cb7f34348b1b176fc191dc66a0ac05f",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\level_constructor_v3.cpp": "039c0c476f29314f7c2f87b04217b4b632575786563167143ad6ea23df00e5c6",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\level_source_loading_v43.cpp": "ec8b76c3dd720d44a8ca65b6441bfcf032acadd9c26f5163c903d82eaaf39af9",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\level-init-v36\\level-counter-producers-v36-3f3128.asm": "0b284ec141e79cc3c02c8a3dc56087dc66d3ba7ee7d72429053e1a0823f601f3",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\level-init-v36\\level-3f6990.asm": "0fcb2aacf038550e6f2ae8b3d9c1a20c245705e92d789c688f0e5a07ff8159f5",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\level_savegame_owner_v1.cpp": "bddb330a95b2d7443cea60c5ee5a5c276ba222db912d083c8e8da468b169af0b",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\level_savegame_cache_v1.cpp": "561d938cdb6b207f3670ccb21a9e598fba17aea7ccb88a3429e1f939ffb4a0c9",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\level_savegame_objects_v2.cpp": "26fb0d7f719827d71b9cd893c9b69552ce2e545723315508e2b9b47872198ffe",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\level_savegame_runtime_v1.hpp": "676cfd119fb6bbbe086445d22a37c3186f5413a38d90634b165e5f0103a2378e",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\object_save_restore_v3.cpp": "d86486ee311f54f406f15fbc6da49f385eba422d87b9cea3fb8f70486adc2801",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\player_save_state_fields_v45.cpp": "33c4af5417b0b92d436f1be5f19886e44a2160dc4374ed8bd3e76f8b6d5cb2fa"
+  },
+  "files": {
+    "MAIN-RETURN-VISIT-CONTRACT.md": "24be3f428c22b605321d8455bdf17e7ab9155e9fe2e21e4618b3d6550acf1be1",
+    "selected_level_constructor_v59_test.cpp": "8877b00abffefe26129339f04f7f5241bd29e36bdde87a149db7b9456072a24e",
+    "selected_level_constructor_v59.hpp": "69a02561562630ba0b1424c08d67583c2c6e52e8fd4631b6352983dbca80a265"
+  },
+  "distinct_identities": [
+    {
+      "row": 41,
+      "identity": "SWAMP",
+      "source_kind": "fixed",
+      "raw_definition": "001_swamp.mlx"
+    },
+    {
+      "row": 42,
+      "identity": "SWAMP_02",
+      "source_kind": "procedural",
+      "raw_definition": "022_swamp2.rule.xml"
+    }
+  ],
+  "genuine_adapter_gap": "construct_source_v3 does not validate retained logical identity/seed against supplied C1 filename/seed",
+  "proposal": "Optional same-selected-request C1 preflight wrapper; original native C1 lookup unchanged",
+  "new_campaign_save_level_owners": 0,
+  "compiled": false,
+  "native_tests_run": false,
+  "save_callbacks_executed": false,
+  "main_eval_called": false,
+  "shared_mutated": false,
+  "selected_vendor_mutated": false,
+  "device_mutated": false,
+  "proof_scope": "Existing source/asm/readiness inventory; no current restore/roundtrip/whole-level/gameplay proof"
+}

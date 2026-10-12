@@ -1,0 +1,41 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7CSSkill6OnBlurEiP9CharacterP16CharStateMachinei",
+      "elf_address": "0x3c434c",
+      "size": 308,
+      "sha256": "e6761dc6c5d6f43b695b678924ee23ce4e7ef2af0bf2a15d96e222f389de5841"
+    },
+    {
+      "original_symbol": "_ZN7CSSkill7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "elf_address": "0x3c4480",
+      "size": 324,
+      "sha256": "32171bb0105dcd0bfcabfe810a5dc9ee44e7b562a7832398a55f4be74da914c1"
+    },
+    {
+      "original_symbol": "_ZN7CSSkill7OnEventEiP9CharacterP16CharStateMachineiPv",
+      "elf_address": "0x3c0ac8",
+      "size": 60,
+      "sha256": "bfb0054d5e809585c598ce6bc42976d3440f2a559039f84e0218e5a9ee763f31"
+    },
+    {
+      "original_symbol": "_ZN7CSSkill8OnUpdateEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c0018",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN7CSSkill6OnInitEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c8438",
+      "size": 384,
+      "sha256": "896f8664795acd5508f39186908f2c9c0fa8c4df75e195ccb94881c62cdfe328"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine16SM_SetSkillStateEjbPvb",
+      "elf_address": "0x3c6670",
+      "size": 180,
+      "sha256": "b11c1907a16535e572092626218432dbff1c90379821aa5091b2cf4bf1c678f9"
+    }
+  ]
+}

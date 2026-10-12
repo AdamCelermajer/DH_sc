@@ -1,0 +1,216 @@
+{
+  "validation": "PASS",
+  "source_sha256": {
+    "port/engine-ui/hud_text_format_v1.cpp": "3cce5aba708b6b9f90abb835ad3aafd7c092397d2498f38dba4c57008deaf76d",
+    "port/engine-ui/hud_text_v1.cpp": "662cbdaee68271aa44c3d0d1bd240807b8f333f1f4c77e0d842aa58e4b2b7a12",
+    "port/level-world/character_skill_info_v1.cpp": "4ec68f2174e0949818f5e8dfdcb684f695f6c6820ee89ac6e68e65e4f374d065",
+    "port/level-world/character_skill_properties_v1.cpp": "446d96ecc51c85e8c9a0834864e6c7788f46cf19d77f128205fdd2032e88b3ce",
+    "port/level-world/character_skill_info_session_v1.cpp": "0796032c12fddecb68bb1b9561066aff2177b731da651c59f1e20f30ba540803",
+    "port/level-world/character_hud_skill_text_v1.cpp": "f86624b6c756ce37a5330b813025d277ad71a14b6bab1234d393bbac21691508",
+    "port/script-runtime/script_runtime_return_v1.c": "ec7454cbab2ac29b4dc89e6bb759bb92dc7735f7341597322bfcdeb6416bb75f"
+  },
+  "translation_units": 14,
+  "abis": [
+    "arm64-v8a",
+    "x86_64"
+  ],
+  "commands": [
+    {
+      "abi": "arm64-v8a",
+      "source": "port/engine-ui/hud_text_format_v1.cpp",
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=aarch64-linux-android26",
+        "-std=c++17",
+        "-fsyntax-only",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-IC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\script-runtime\\lua",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_text_format_v1.cpp"
+      ]
+    },
+    {
+      "abi": "arm64-v8a",
+      "source": "port/engine-ui/hud_text_v1.cpp",
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=aarch64-linux-android26",
+        "-std=c++17",
+        "-fsyntax-only",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-IC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\script-runtime\\lua",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_text_v1.cpp"
+      ]
+    },
+    {
+      "abi": "arm64-v8a",
+      "source": "port/level-world/character_skill_info_v1.cpp",
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=aarch64-linux-android26",
+        "-std=c++17",
+        "-fsyntax-only",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-IC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\script-runtime\\lua",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_skill_info_v1.cpp"
+      ]
+    },
+    {
+      "abi": "arm64-v8a",
+      "source": "port/level-world/character_skill_properties_v1.cpp",
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=aarch64-linux-android26",
+        "-std=c++17",
+        "-fsyntax-only",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-IC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\script-runtime\\lua",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_skill_properties_v1.cpp"
+      ]
+    },
+    {
+      "abi": "arm64-v8a",
+      "source": "port/level-world/character_skill_info_session_v1.cpp",
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=aarch64-linux-android26",
+        "-std=c++17",
+        "-fsyntax-only",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-IC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\script-runtime\\lua",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_skill_info_session_v1.cpp"
+      ]
+    },
+    {
+      "abi": "arm64-v8a",
+      "source": "port/level-world/character_hud_skill_text_v1.cpp",
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=aarch64-linux-android26",
+        "-std=c++17",
+        "-fsyntax-only",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-IC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\script-runtime\\lua",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_hud_skill_text_v1.cpp"
+      ]
+    },
+    {
+      "abi": "arm64-v8a",
+      "source": "port/script-runtime/script_runtime_return_v1.c",
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang.exe",
+        "--target=aarch64-linux-android26",
+        "-std=c99",
+        "-fsyntax-only",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-IC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\script-runtime\\lua",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\script-runtime\\script_runtime_return_v1.c"
+      ]
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/engine-ui/hud_text_format_v1.cpp",
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=x86_64-linux-android26",
+        "-std=c++17",
+        "-fsyntax-only",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-IC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\script-runtime\\lua",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_text_format_v1.cpp"
+      ]
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/engine-ui/hud_text_v1.cpp",
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=x86_64-linux-android26",
+        "-std=c++17",
+        "-fsyntax-only",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-IC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\script-runtime\\lua",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_text_v1.cpp"
+      ]
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/level-world/character_skill_info_v1.cpp",
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=x86_64-linux-android26",
+        "-std=c++17",
+        "-fsyntax-only",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-IC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\script-runtime\\lua",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_skill_info_v1.cpp"
+      ]
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/level-world/character_skill_properties_v1.cpp",
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=x86_64-linux-android26",
+        "-std=c++17",
+        "-fsyntax-only",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-IC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\script-runtime\\lua",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_skill_properties_v1.cpp"
+      ]
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/level-world/character_skill_info_session_v1.cpp",
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=x86_64-linux-android26",
+        "-std=c++17",
+        "-fsyntax-only",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-IC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\script-runtime\\lua",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_skill_info_session_v1.cpp"
+      ]
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/level-world/character_hud_skill_text_v1.cpp",
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=x86_64-linux-android26",
+        "-std=c++17",
+        "-fsyntax-only",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-IC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\script-runtime\\lua",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_hud_skill_text_v1.cpp"
+      ]
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/script-runtime/script_runtime_return_v1.c",
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang.exe",
+        "--target=x86_64-linux-android26",
+        "-std=c99",
+        "-fsyntax-only",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-IC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\script-runtime\\lua",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\script-runtime\\script_runtime_return_v1.c"
+      ]
+    }
+  ],
+  "scope": "NDK source syntax readiness; not packaged linkage, device execution, or source behavior evidence."
+}

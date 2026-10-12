@@ -60,7 +60,7 @@ def main():
                 add(path, 'Captured resource/math build dependency')
     project = REPO/'port/android-native'
     for name in ('build.gradle.kts', 'settings.gradle.kts', 'gradle.properties',
-                 'gradlew', 'gradlew.bat', '.gitignore', 'README.md', 'ROADMAP.md'):
+                 'gradlew', 'gradlew.bat', 'app/build.gradle.kts', '.gitignore', 'README.md', 'ROADMAP.md'):
         add(project/name, 'Captured build setup/documentation')
     for path in (project/'gradle').rglob('*'):
         if path.is_file():

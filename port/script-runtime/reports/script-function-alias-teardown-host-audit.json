@@ -1,0 +1,223 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "regression": {
+      "validation": "PASS",
+      "original_cases": 4209,
+      "hash_cases": 263,
+      "lookup_cases": 1882,
+      "source_guard_cases": 82,
+      "replay_checks": 64299,
+      "integration_checks": 33,
+      "commons_alias_absent": true,
+      "mismatches": 0
+    },
+    "teardown": {
+      "validation": "PASS",
+      "cases": 8,
+      "actual_gc_callbacks": 8,
+      "native_alias_callbacks_during_close": 16,
+      "tracking_preserved": true,
+      "backup_clear_before_vm_close": true,
+      "borrowed_wrapper_alive_through_close": true,
+      "checks": 187,
+      "mismatches": 0
+    }
+  },
+  "source_sha256": {
+    "port/script-runtime/script_function_alias.cpp": "28117cd5fbfe1c15ed14dc2ef5fbf8ec6a23379b5f9450d15e194f67ba2a0fec",
+    "port/script-runtime/script_function_alias.h": "18437e9ee37bc55cfc91cb162000cd237946b73a3940e0eb4fa9248ab47d170e",
+    "port/script-runtime/script_runtime.h": "c29d28d5e5cd255adb582f98c2451e69379aa8532cb865d941f67b70c15d5b66",
+    "port/script-runtime/tests/script_function_alias.cpp": "eaa6236ba753d8bd087e6639af882b8062de919be244d2bf5af7a1d8b7ba0b73",
+    "port/script-runtime/tests/script_function_alias_teardown.cpp": "a80c7c304e6a814a81dfdf7b1e24697b79f3b90c45a47c7b193729f0b6d2d99e",
+    "port/script-runtime/reference/function-alias/teardown/run_host_audit.py": "23068998cc97e9a24bea9e14f482720a6c25e0322b805acf01f9bb775e149cea"
+  },
+  "compiler_arguments": {
+    "regression": [
+      "g++",
+      "-std=c++17",
+      "-O1",
+      "-g",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Wno-misleading-indentation",
+      "-fno-fast-math",
+      "-ffp-contract=off",
+      "-fsanitize=address,undefined",
+      "-fno-omit-frame-pointer",
+      "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime/script_function_alias.cpp",
+      "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime/tests/script_function_alias.cpp",
+      "-L/home/adampalace/dh2-lua514-build",
+      "-ldh2_script_runtime",
+      "-Wl,-rpath,/home/adampalace/dh2-lua514-build",
+      "-o",
+      "/home/adampalace/dh2-script-alias-teardown-audit/regression"
+    ],
+    "teardown": [
+      "g++",
+      "-std=c++17",
+      "-O1",
+      "-g",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Wno-misleading-indentation",
+      "-fno-fast-math",
+      "-ffp-contract=off",
+      "-fsanitize=address,undefined",
+      "-fno-omit-frame-pointer",
+      "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime/script_function_alias.cpp",
+      "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime/tests/script_function_alias_teardown.cpp",
+      "-L/home/adampalace/dh2-lua514-build",
+      "-ldh2_script_runtime",
+      "-Wl,-rpath,/home/adampalace/dh2-lua514-build",
+      "-o",
+      "/home/adampalace/dh2-script-alias-teardown-audit/teardown"
+    ]
+  },
+  "executable_sha256": {
+    "regression": "69e42d300c22b9aca4a87eeca44eb0a9d972ccf41c323b3e2ce877344f3f2ef9",
+    "teardown": "f67ebc2170f3f60e28aa64bbcd0a1eec368b047c961cb19dd0b838d57b360ab7"
+  },
+  "runtime_library_sha256": "789ba044bb5913422405fefae901b21b94798667f173b19d7d91f09ba4f92e5b",
+  "preserved_host_report_sha256": "6ceea1f2623f170ee1b1fd8e46872c1e47dd7cead61ac7ce8d6de3716f863771",
+  "preserved_gold_sha256": "154c320b65b43180ece8dbdaa4115305c58f21ab6aa6b5f3522992b2ad1a892e",
+  "original_teardown_instruction_report_sha256": "77781dea2731b52004df2dbb7dd950f665f4960d8371c3c7ec675beb76b06935",
+  "original_teardown_manifest_sha256": "720aacc20c195bd6aafd6dc49a70a1a7418f958b2553330cc8673badb883532c",
+  "original_teardown_assembly_sha256": "d8a4a861b96beecb4f20e4e0051f074a0197a24601f1f1bf3a321669a4eea0ff",
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer"
+  ],
+  "sanitizer_findings": 0,
+  "commands": [
+    {
+      "arguments": [
+        "mkdir",
+        "-p",
+        "/home/adampalace/dh2-script-alias-teardown-audit"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-lua514-build/libdh2_script_runtime.so"
+      ],
+      "returncode": 0,
+      "stdout": "789ba044bb5913422405fefae901b21b94798667f173b19d7d91f09ba4f92e5b  /home/adampalace/dh2-lua514-build/libdh2_script_runtime.so\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime/script_function_alias.cpp",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime/tests/script_function_alias.cpp",
+        "-L/home/adampalace/dh2-lua514-build",
+        "-ldh2_script_runtime",
+        "-Wl,-rpath,/home/adampalace/dh2-lua514-build",
+        "-o",
+        "/home/adampalace/dh2-script-alias-teardown-audit/regression"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/home/adampalace/dh2-script-alias-teardown-audit/regression",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime/reference/function-alias/alias-reference.bin",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/reference/character-script-update/lua-inputs/ai-commons.luac"
+      ],
+      "returncode": 0,
+      "stdout": "{\"validation\":\"PASS\",\"original_cases\":4209,\"hash_cases\":263,\"lookup_cases\":1882,\"source_guard_cases\":82,\"replay_checks\":64299,\"integration_checks\":33,\"commons_alias_absent\":true,\"mismatches\":0}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "cp",
+        "/home/adampalace/dh2-script-alias-teardown-audit/regression",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/script-function-alias/teardown/regression"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime/script_function_alias.cpp",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime/tests/script_function_alias_teardown.cpp",
+        "-L/home/adampalace/dh2-lua514-build",
+        "-ldh2_script_runtime",
+        "-Wl,-rpath,/home/adampalace/dh2-lua514-build",
+        "-o",
+        "/home/adampalace/dh2-script-alias-teardown-audit/teardown"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/home/adampalace/dh2-script-alias-teardown-audit/teardown"
+      ],
+      "returncode": 0,
+      "stdout": "{\"validation\":\"PASS\",\"cases\":8,\"actual_gc_callbacks\":8,\"native_alias_callbacks_during_close\":16,\"tracking_preserved\":true,\"backup_clear_before_vm_close\":true,\"borrowed_wrapper_alive_through_close\":true,\"checks\":187,\"mismatches\":0}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "cp",
+        "/home/adampalace/dh2-script-alias-teardown-audit/teardown",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/script-function-alias/teardown/teardown"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-lua514-build/libdh2_script_runtime.so"
+      ],
+      "returncode": 0,
+      "stdout": "789ba044bb5913422405fefae901b21b94798667f173b19d7d91f09ba4f92e5b  /home/adampalace/dh2-lua514-build/libdh2_script_runtime.so\n",
+      "stderr": ""
+    }
+  ],
+  "packaged_apk": false,
+  "full_original_teardown_ownership": false,
+  "scope": "Current alias source replay of frozen original4209 corpus plus genuine Lua newproxy __gc Pop/Add callbacks during actual VM close with borrowed wrapper alive. Separate original teardown instruction probe establishes backup/main order and tracking preservation; full cache/path/argument destruction and manager ownership not supplied."
+}

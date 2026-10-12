@@ -1,0 +1,5 @@
+--- a/main_light_source_release_v57.hpp.proposed
++++ b/main_light_source_release_v57.hpp.proposed
+@@ -17 +17 @@
+-inline bool same_light_runtime_owner_v56(const std::shared_ptr<void>& a,const std::shared_ptr<void>& b)noexcept {
++inline bool same_light_runtime_owner_v57(const std::shared_ptr<void>& a,const std::shared_ptr<void>& b)noexcept {

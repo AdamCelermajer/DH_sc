@@ -1,0 +1,53 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "address": "0x33f310",
+      "symbol": "_ZN10ObjectBaseC2ENS_6GO_IDSE",
+      "size": 436,
+      "sha256": "e15faf2445a48995abf99d8c5d1e59eb2713750e9908e748d4a6b2ae814d6d67"
+    },
+    {
+      "address": "0x33f014",
+      "symbol": "_ZN10ObjectBase17DeclarePropertiesEv",
+      "size": 328,
+      "sha256": "301524fd43f26e05df3d6e56e414b4d5b5aa7ba9fdf9719a42484c9f6cfb2067"
+    },
+    {
+      "address": "0x3a2fec",
+      "symbol": "_ZNK9Character11GetCharAIIdEv",
+      "size": 56,
+      "sha256": "829f264cb26c92a36252e92d6afec31d3e74708a20db10ee16495384955afaad"
+    },
+    {
+      "address": "0x3a3024",
+      "symbol": "_ZNK9Character9GetCharAIEv",
+      "size": 48,
+      "sha256": "11131ec819b3f9f48184bf209234614f953af1a625f6cf1973fdb63d7c11b7f9"
+    },
+    {
+      "address": "0x3a3054",
+      "symbol": "_ZNK9Character11GetCharTypeEv",
+      "size": 16,
+      "sha256": "c3c6ac60324ce38733ebad4c0210947ae208b7fc052d6d8e0a6ec2aef2ca3a69"
+    },
+    {
+      "address": "0x3a49f0",
+      "symbol": "_ZNK9Character8IsPlayerEv",
+      "size": 76,
+      "sha256": "efb4b11a24129fac129ee1ee6460e1a8f9eef7b8648d7f9f70d3d2338eee342a"
+    },
+    {
+      "address": "0x3b4088",
+      "symbol": "_ZN9Character18InitPhysicalObjectEv",
+      "size": 856,
+      "sha256": "1793958ab90b0c33330288678f3e05fc198d7f49d8cc5d1c468e65c532e058a4"
+    },
+    {
+      "address": "0x3a4398",
+      "symbol": "_ZN9Character15SetRelativeAABBERK4aabbIfEb",
+      "size": 216,
+      "sha256": "1d2b98404f152454f2b52a797634939a3112ec22a9ff008deb2483b3d6855712"
+    }
+  ]
+}

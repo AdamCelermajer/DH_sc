@@ -1,0 +1,159 @@
+--- a/port/level-world/canonical_module_graph_v3.hpp
++++ b/port/level-world/canonical_module_graph_v3.hpp
+@@ -33,6 +33,9 @@
+  bool missing(const char*,std::string&)const;
+ public:
+  explicit CanonicalModuleGraphV3(CanonicalModuleGraphServicesV3 s):services_(std::move(s)){}
++ // Sole genuine condition arena injection after completed candidate C1,
++ // before any authored Module/Block factory creates an embedded condition.
++ bool bind_condition_services_v75(const ConditionDataInitServicesV3&,std::string&);
+  bool bind(const std::shared_ptr<CanonicalModuleRecordV2>&,
+   GameObjectInitializationServicesV1& actual_platform,ModuleInitServicesV1&,std::string&);
+  // Explicit actual visual destruction before canonical receiver/world release.
+--- a/port/level-world/canonical_module_graph_v3.cpp
++++ b/port/level-world/canonical_module_graph_v3.cpp
+@@ -3,6 +3,19 @@
+ bool CanonicalModuleGraphV3::missing(const char* p,std::string& e)const{e=std::string("Required same canonical Module graph ")+p;return false;}
+ std::shared_ptr<RetainedModuleVisualV3> CanonicalModuleGraphV3::visual(std::uintptr_t id)const{
+  for(const auto& entry:entries_){auto p=entry.second->visuals.find(id);if(p!=entry.second->visuals.end())return p->second;}return {};
++}
++bool CanonicalModuleGraphV3::bind_condition_services_v75(const ConditionDataInitServicesV3& same,std::string& e){
++ if(!entries_.empty()||!same.owner||!same.conditions||!same.construct_condition||!same.initialize_condition||!same.destroy_condition){
++  e="Required complete SAME condition services before Module construction";return false;
++ }
++ const auto& prior=services_.conditions;
++ if(prior.owner){
++  if(prior.owner.get()!=same.owner.get()||prior.owner.owner_before(same.owner)||same.owner.owner_before(prior.owner)||prior.conditions!=same.conditions){
++   e="Module graph cannot replace its actual condition arena";return false;
++  }
++  e.clear();return true;
++ }
++ services_.conditions=same;e.clear();return true;
+ }
+ bool CanonicalModuleGraphV3::bind(const std::shared_ptr<CanonicalModuleRecordV2>& record,GameObjectInitializationServicesV1& init,ModuleInitServicesV1& module,std::string& error){
+  error.clear();if(!record||entries_.count(record.get())||!services_.candidate||!services_.rooms)return missing("fresh record/world owners",error);
+--- a/port/level-world/world_item_graph_v3.hpp
++++ b/port/level-world/world_item_graph_v3.hpp
+@@ -4,6 +4,7 @@
+ #include "world_item_drop_sound_v2.hpp"
+ #include "object_enable_condition_v2.hpp"
+ #include "game_object_set_position_v2.hpp"
++namespace dh2::world {class ConditionDataBindingV72;}
+ namespace dh2::character {
+ struct WorldItemGraphServicesV3 {
+  world::RetainedGameObjectVisualServicesV1 visual;
+@@ -15,6 +16,9 @@
+  sound::VoxPlay3DOwnerV2* vox{};std::uintptr_t vox_identity{};
+  void* destruction_context{};
+  bool(*before_item_destroy)(void*,data::ItemInstanceV1&,std::string&){};
++ // Same native embedded ConditionData source-release binding, independent
++ // condition arena with weak receiver/scope; retained through failed teardown.
++ std::shared_ptr<world::ConditionDataBindingV72> condition_binding_v75;
+ };
+ // Same canonical receiver graph used by the real145 pool. No registry/IDs or
+ // inventory are duplicated; operations not owned here remain required outer
+@@ -34,6 +38,7 @@
+ public:
+  WorldItemGraphV3(std::shared_ptr<RetainedWorldItemObjectV1>,physical::NativeWorld&,WorldItemGraphServicesV3);
+  // handled=false means caller must deliver its actual other source receiver.
++ bool clear_conditions_v75(std::string&);
+  bool route(const WorldItemRequestV1&,std::int32_t& result,bool& handled,std::string&);
+  WorldItemVisualV2& visual()noexcept{return visual_;}
+  WorldItemPhysicalV2& physical()noexcept{return physical_;}
+--- a/port/level-world/world_item_graph_v3.cpp
++++ b/port/level-world/world_item_graph_v3.cpp
+@@ -1,4 +1,5 @@
+ #include "world_item_graph_v3.hpp"
++#include "condition_scoped_binding_v72.hpp"
+ #include <cstring>
+ namespace dh2::character {
+ world::GameObjectInitializationServicesV1 WorldItemGraphV3::initialization(){auto s=services_.initialization;s.set_position=[this](const float* p,bool destination,std::string& e){return position(p,destination,e);};return s;}
+@@ -35,6 +36,14 @@
+  s.physical_position=[this](std::uintptr_t id,float x,float y,std::string& error){if(id!=reinterpret_cast<std::uintptr_t>(&physical_)){error="Required same Item physical position receiver";return false;}const float xy[]={x,y};if(dh2_native_body_set_position(&physical_.native(),xy)<0){error="Actual POItem position rejected";return false;}return true;};
+  return world::game_object_set_position_v2(item_->base(),p,destination,s,e);
+ }
++bool WorldItemGraphV3::clear_conditions_v75(std::string& e){
++ if(services_.condition_binding_v75)return services_.condition_binding_v75->clear(e);
++ // Historical ctor-empty Item graphs have no compiled receiver to destroy.
++ // A positive native slot without a genuine owner cannot be dropped.
++ const auto* activate=item_->base().pointer(0xa8);const auto* deactivate=item_->base().pointer(0xcc);
++ if(!activate||!deactivate||*activate||*deactivate){e="Required actual Item condition owner before receiver destruction";return false;}
++ e.clear();return true;
++}
+ bool WorldItemGraphV3::route(const WorldItemRequestV1& q,std::int32_t& result,bool& handled,std::string& e){
+  handled=true;if(q.object!=item_->base().identity()){e="Item operation must use same canonical graph";return false;}result=0;
+  switch(q.operation){
+--- a/port/level-world/world_item_live_owner_v5.cpp
++++ b/port/level-world/world_item_live_owner_v5.cpp
+@@ -70,7 +70,7 @@
+ bool WorldItemLiveOwnerV5::erased(std::uintptr_t id,std::string& e){
+  if(pool_.manager().ready()){e="Flush SAME145 ItemManager before canonical receiver removal";return false;}
+  auto i=records_.find(id);if(i!=records_.end()){
+-  if(i->second.graph&&(!i->second.graph->physical().detach(e)||!i->second.graph->visual().release(e)))return false;
++  if(i->second.graph&&(!i->second.graph->physical().detach(e)||!i->second.graph->visual().release(e)||!i->second.graph->clear_conditions_v75(e)))return false;
+   records_.erase(i);
+  }
+  if(!pool_.erased(id,e))return false;factory_.erased(id);return true;
+--- a/port/android-native/app/src/main/cpp/renderer_character_campaign_v62.inc
++++ b/port/android-native/app/src/main/cpp/renderer_character_campaign_v62.inc
+@@ -17,6 +17,11 @@
+  const auto floors=actual.floors;const auto roots=actual.roots;
+  const auto navigation=actual.navigation_registry;
+  dh2::world::CanonicalCharacterCandidateServicesV60 services;
++ std::shared_ptr<dh2::world::NativeConditionRuntimeV69> condition_runtime;
++ if(!lend_campaign_condition_bag_v75(actual,services.conditions,condition_runtime,e)||
++    !bind_source_campaign_module_conditions_runtime_v75(actual,services.conditions,e))return false;
++ // Record services retain this exact independent arena. Inherited Init and
++ // V72 clear consume this returned bag; no constructor-time pre-initialization.
+  auto transport_slot=std::make_shared<std::weak_ptr<RendererCharacterCandidateV60>>();
+  services.finish_player_profile_v67=[transport_slot](auto& record,auto& error){auto transport=transport_slot->lock();if(!transport||!record.actor||!record.actor->object){error="Required retained canonical player transport at completed InitPost";return false;}return transport->finish_selected_profile_v67(record.actor->object->identity,error);};
+  services.world=world;services.design=world->design.get();services.models=&cache->models();services.animation_tables=&cache->animation_tables();services.loot_tables=&cache->loot();services.physical_world=actual.physical_world;
+--- a/port/android-native/app/src/main/cpp/renderer_item_graph_v4.inc
++++ b/port/android-native/app/src/main/cpp/renderer_item_graph_v4.inc
+@@ -59,12 +59,12 @@
+    return equipment_platform->cache.read(uri.c_str(),found,bytes,e);
+   };
+   services.initialization.owner=world;
+-  services.initialization.condition_init=[this,item](std::uint32_t offset,std::string& e){
+-   // Genuine ctor/default empty condition returns before Arrays::Conditions.
+-   // Positive named conditions still demand the actual compiled-table owner.
+-   dh2::world::ConditionDataInitServicesV3 s;s.owner=world;
+-   return dh2::world::condition_data_init_v3(item->base(),offset,s,e);
+-  };
++  SourceCampaignCandidateBorrowV55 condition_scope;
++  if(!borrow_source_campaign_candidate_v55(condition_scope,error)||
++     condition_scope.actual_world.get()!=world.get()||condition_scope.actual_world.owner_before(world)||world.owner_before(condition_scope.actual_world)){
++   if(error.empty())error="Required SAME actual campaign World for Item condition binding";return false;
++  }
++  if(!bind_campaign_item_conditions_v75(condition_scope,item,services,error))return false;
+   services.initialization.check_spawn_probability=[this,item](std::int32_t& roll,std::string& e){
+    dh2::data::LootTablesV2::Borrow tables;dh2::data::ItemPowerTablesV5::Borrow powers;
+    dh2::data::ItemTextServicesV5 text;dh2::data::LootRandom8V2* random{};
+--- a/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp
++++ b/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp
+@@ -1,6 +1,7 @@
+ #include "source_campaign_runtime_v61.hpp"
+ #include "source_campaign_file_io_v65.hpp"
+ #include "model_renderer.hpp"
++#include "renderer_campaign_conditions_v75.hpp"
+ #include "../level-loader/native_root_gs_bootstrap_v55.hpp"
+ #include "../level-loader/stage_loader_v52_script_manager.hpp"
+ #include "../level-loader/retained_level_module_graph_v1.hpp"
+@@ -782,6 +783,7 @@
+  }
+  out=std::move(world);error.clear();return true;
+ }
++#include "source_campaign_module_conditions_v75.inc"
+ bool bind_source_campaign_class_factory_runtime_v61(SourceCampaignClassFactoryV60 factory,std::string& error){
+  SourceCampaignCandidateBorrowV55 actual;
+  if(!factory||!borrow_source_campaign_candidate_runtime_v61(actual,error)){
+--- a/port/android-native/app/src/main/cpp/model_renderer.cpp
++++ b/port/android-native/app/src/main/cpp/model_renderer.cpp
+@@ -6,6 +6,7 @@
+ #include "loot_root_publishers_v49.hpp"
+ #include "renderer_private_save_read_v39.hpp"
+ #include "model_renderer.hpp"
++#include "renderer_campaign_conditions_v75.hpp"
+ #include "../level-loader/native_level_application_v25.hpp"
+ #include "../level-loader/native_root_loading_connection_v50.hpp"
+ #include "source_campaign_runtime_v61.hpp"

@@ -1,0 +1,70 @@
+--- a/port/android-native/app/src/main/cpp/front_ui_session_v87.hpp
++++ b/port/android-native/app/src/main/cpp/front_ui_session_v87.hpp
+@@ -37,6 +37,8 @@
+     // Call before SAME existing MenuManager frame Update, only while this
+     // actual GSFlashMenu state is active. Does not supply another movie clock.
+     bool update_main_menu_request_v114(std::string&);
++    // Native active-state receipt produced by actual Ctor/explicit resume.
++    bool main_menu_state_active_v114()const;
+ 
+     bool bind_process_text_v101(ui::HudTextV1*,std::shared_ptr<void>,std::string&);
+     bool prepare_process_settings_v105(const std::shared_ptr<application::ApplicationServicesOwnerV5>&,
+--- a/port/android-native/app/src/main/cpp/front_ui_session_v87.cpp
++++ b/port/android-native/app/src/main/cpp/front_ui_session_v87.cpp
+@@ -69,6 +69,7 @@
+     ui::GSFlashMenuFieldsV114 main_menu_state_v114;
+     ui::GSFlashMenuServicesV114 main_menu_services_v114;
+     ui::GSFlashMenuEntryV114 main_menu_entry_v114;
++    bool main_menu_state_active_v114_{}; // adapter receipt, no source byte claim
+     bool main_menu_request_busy_v114{};std::string main_menu_request_failure_v114;
+     AAssetManager* manager{};
+     OriginalUiAssets assets;
+@@ -1613,7 +1614,7 @@
+  if(!ui::menu_fs_end_loading_v114(command,args,nullptr,owner->loading_state_services,result,error))return false;
+  handled=result.native_return!=0;return true;
+ }
+-void FrontUiSessionV87::bind_loading_state_services(const ui::LoadingMenuStateServicesV1& services){impl_->loading_state_services=services;}
++void FrontUiSessionV87::bind_loading_state_services(const ui::LoadingMenuStateServicesV1& services){impl_->main_menu_state_active_v114_=false;impl_->loading_state_services=services;}
+ void FrontUiSessionV87::bind_campaign_quest_services(const FrontCampaignQuestServicesV87& services){impl_->campaign_quests=services;}
+ void FrontUiSessionV87::bind_menu_avatar_services(const ui::MenuAvatarPreviewServicesV1& services){impl_->menu_avatar_services=services;}
+ bool FrontUiSessionV87::bind_main_menu_state_services_v114(ui::GSFlashMenuServicesV114 services,std::string& e){
+@@ -1635,6 +1636,7 @@
+  // No reset_failed, movie recreation, menu_Loading-ready synthesis or World
+  // capture. Ctor runs on the SAME process Front cells and native providers.
+  if(!actual->main_menu_entry_v114.enter(actual->main_menu_state_v114,actual->main_menu_services_v114,e))return false;
++ actual->main_menu_state_active_v114_=true;
+  actual->selected=true;actual->live_player=false;actual->report_frame=true;e.clear();return true;
+ }
+ bool FrontUiSessionV87::resume_main_menu_state_v114(std::string& e){
+@@ -1645,9 +1647,11 @@
+  auto actual=impl_;if(!actual){e="No retained actual Front state";return false;}
+  if(actual->main_menu_entry_v114.failure().empty()){e.clear();return true;}
+  if(!actual->main_menu_entry_v114.resume(actual->main_menu_state_v114,actual->main_menu_services_v114,e))return false;
++ actual->main_menu_state_active_v114_=true;
+  actual->selected=true;actual->live_player=false;actual->report_frame=true;
+  completed_entry=true;e.clear();return true;
+ }
++bool FrontUiSessionV87::main_menu_state_active_v114()const{return impl_&&impl_->main_menu_state_active_v114_;}
+ bool FrontUiSessionV87::update_main_menu_request_v114(std::string& e){
+  auto actual=impl_;if(!actual){e="No retained actual Front state";return false;}
+  if(actual->main_menu_request_busy_v114){if(actual->main_menu_request_failure_v114.empty())actual->main_menu_request_failure_v114="Recursive GSFlashMenu request delivery";e=actual->main_menu_request_failure_v114;return false;}
+--- a/port/android-native/app/src/main/cpp/native_app.cpp
++++ b/port/android-native/app/src/main/cpp/native_app.cpp
+@@ -351,6 +351,17 @@
+       }
+     }
+   }
++  // Actual returned GSFlashMenu only. Gameplay/loading retain their existing
++  // source MenuManager update, while Front drawing never advances timelines.
++  if(!model_renderer::source_campaign_active_v55()&&front_ui.main_menu_state_active_v114()){
++    std::string error;
++    if(!front_ui.update_main_menu_request_v114(error)||!authored_character_menu||
++       !authored_character_menu->source_update_v58||
++       !authored_character_menu->source_update_v58->update(false,error)){
++      if(error.empty())error="Required same process GSFlashMenu/MenuManager frame owner";
++      original_ui_error="Source main-menu frame: "+error;return;
++    }
++  }
+   // Restore after the source update so its scene phase samples this frame's
+   // player/body/camera state, rather than consuming the epoch before gameplay.
+   NativeCampaignDeliveryV104 draw_delivery(model_renderer::SourceCampaignDeliveryKindV104::draw);

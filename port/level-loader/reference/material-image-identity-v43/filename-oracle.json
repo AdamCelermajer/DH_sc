@@ -1,0 +1,113 @@
+{
+  "scope": "Original branch and literal instructions; string storage/append/lower/basename are explicit endpoints, no real filesystem or texture GPU",
+  "cases": [
+    {
+      "root": "q:/data/iphone",
+      "input": "q:/data/iphone/3d/textures/env_swamp.tga",
+      "result": "q:/data/iphone/ata/3d/textures/env_swamp.tga",
+      "basename_calls": 1
+    },
+    {
+      "root": "q:/data/iphone",
+      "input": "Q:/data/iphone/3D/Textures/env_swamp.tga",
+      "result": "ata/3d/textures/env_swamp.tga",
+      "basename_calls": 1
+    },
+    {
+      "root": "q:/data/iphone",
+      "input": "data/3d/environments/textures/test.tga",
+      "result": "ata/3d/textures/test.tga",
+      "basename_calls": 1
+    },
+    {
+      "root": "q:/data/iphone",
+      "input": "q:/data/iphone/3d/modules/swamp/swamp.bdae",
+      "result": "q:/data/iphone/3d/modules/swamp/swamp.bdae",
+      "basename_calls": 0
+    },
+    {
+      "root": "q:/data/iphone",
+      "input": "env_swamp.tga",
+      "result": "ata/3d/textures/env_swamp.tga",
+      "basename_calls": 1
+    },
+    {
+      "root": "q:/data/iphone",
+      "input": "data/3d/textures/UPPER.TGA",
+      "result": "data/3d/textures/upper.tga",
+      "basename_calls": 0
+    },
+    {
+      "root": "data",
+      "input": "q:/data/iphone/3d/textures/env_swamp.tga",
+      "result": "q:/data/ata/3d/textures/env_swamp.tga",
+      "basename_calls": 1
+    },
+    {
+      "root": "data",
+      "input": "Q:/data/iphone/3D/Textures/env_swamp.tga",
+      "result": "Q:/data/ata/3d/textures/env_swamp.tga",
+      "basename_calls": 1
+    },
+    {
+      "root": "data",
+      "input": "data/3d/environments/textures/test.tga",
+      "result": "data/ata/3d/textures/test.tga",
+      "basename_calls": 1
+    },
+    {
+      "root": "data",
+      "input": "q:/data/iphone/3d/modules/swamp/swamp.bdae",
+      "result": "q:/data/iphone/3d/modules/swamp/swamp.bdae",
+      "basename_calls": 0
+    },
+    {
+      "root": "data",
+      "input": "env_swamp.tga",
+      "result": "ata/3d/textures/env_swamp.tga",
+      "basename_calls": 1
+    },
+    {
+      "root": "data",
+      "input": "data/3d/textures/UPPER.TGA",
+      "result": "data/3d/textures/upper.tga",
+      "basename_calls": 0
+    },
+    {
+      "root": "",
+      "input": "q:/data/iphone/3d/textures/env_swamp.tga",
+      "result": "qata/3d/textures/env_swamp.tga",
+      "basename_calls": 1
+    },
+    {
+      "root": "",
+      "input": "Q:/data/iphone/3D/Textures/env_swamp.tga",
+      "result": "Qata/3d/textures/env_swamp.tga",
+      "basename_calls": 1
+    },
+    {
+      "root": "",
+      "input": "data/3d/environments/textures/test.tga",
+      "result": "data/3d/textures/test.tga",
+      "basename_calls": 1
+    },
+    {
+      "root": "",
+      "input": "q:/data/iphone/3d/modules/swamp/swamp.bdae",
+      "result": "q:/data/iphone/3d/modules/swamp/swamp.bdae",
+      "basename_calls": 0
+    },
+    {
+      "root": "",
+      "input": "env_swamp.tga",
+      "result": "eata/3d/textures/nv_swamp.tga",
+      "basename_calls": 1
+    },
+    {
+      "root": "",
+      "input": "data/3d/textures/UPPER.TGA",
+      "result": "data/3d/textures/upper.tga",
+      "basename_calls": 0
+    }
+  ]
+}

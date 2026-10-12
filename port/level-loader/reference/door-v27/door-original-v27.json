@@ -1,0 +1,400 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "factory_cases": [
+    {
+      "poison": 0,
+      "fields": {
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "physical380": 0,
+        "trigger381": 1,
+        "static84": 1,
+        "colzone384": 0,
+        "description_empty388": true,
+        "open3a4": 0,
+        "collision3a5": 1,
+        "state3a8": 0,
+        "byte3ac": 0,
+        "net100": 944,
+        "net104": 1344,
+        "checkpoint28": 1,
+        "networkf8": 3,
+        "table_id3a0_unproduced": true
+      },
+      "network": [
+        {
+          "offset": 944,
+          "members": [
+            {
+              "type": 1,
+              "backing": 0,
+              "changed": 0,
+              "sequence": 0,
+              "raw140": 4294967295,
+              "raw144": 4294967295,
+              "raw148": 0
+            },
+            {
+              "type": 1,
+              "backing": 0,
+              "changed": 0,
+              "sequence": 0,
+              "raw140": 4294967295,
+              "raw144": 4294967295,
+              "raw148": 0
+            },
+            {
+              "type": 1,
+              "backing": 0,
+              "changed": 0,
+              "sequence": 0,
+              "raw140": 4294967295,
+              "raw144": 4294967295,
+              "raw148": 0
+            }
+          ],
+          "count104": 3,
+          "declaration_offsets": [
+            304,
+            336,
+            368
+          ]
+        },
+        {
+          "offset": 1344,
+          "members": [
+            {
+              "type": 1,
+              "backing": 0,
+              "changed": 0,
+              "sequence": 0,
+              "raw140": 4294967295,
+              "raw144": 4294967295,
+              "raw148": 0
+            },
+            {
+              "type": 1,
+              "backing": 0,
+              "changed": 0,
+              "sequence": 0,
+              "raw140": 4294967295,
+              "raw144": 4294967295,
+              "raw148": 0
+            },
+            {
+              "type": 1,
+              "backing": 0,
+              "changed": 0,
+              "sequence": 0,
+              "raw140": 4294967295,
+              "raw144": 4294967295,
+              "raw148": 0
+            }
+          ],
+          "count104": 3,
+          "declaration_offsets": [
+            304,
+            336,
+            368
+          ]
+        }
+      ],
+      "calls": [
+        {
+          "allocation": 1744
+        },
+        {
+          "base_GO_ID": 2
+        },
+        {
+          "string_allocate16": 904
+        }
+      ]
+    },
+    {
+      "poison": 165,
+      "fields": {
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "physical380": 0,
+        "trigger381": 1,
+        "static84": 1,
+        "colzone384": 0,
+        "description_empty388": true,
+        "open3a4": 0,
+        "collision3a5": 1,
+        "state3a8": 0,
+        "byte3ac": 0,
+        "net100": 944,
+        "net104": 1344,
+        "checkpoint28": 1,
+        "networkf8": 3,
+        "table_id3a0_unproduced": true
+      },
+      "network": [
+        {
+          "offset": 944,
+          "members": [
+            {
+              "type": 1,
+              "backing": 0,
+              "changed": 1,
+              "sequence": 0,
+              "raw140": 0,
+              "raw144": 0,
+              "raw148": 0
+            },
+            {
+              "type": 1,
+              "backing": 0,
+              "changed": 1,
+              "sequence": 1,
+              "raw140": 0,
+              "raw144": 0,
+              "raw148": 0
+            },
+            {
+              "type": 1,
+              "backing": 0,
+              "changed": 1,
+              "sequence": 2,
+              "raw140": 0,
+              "raw144": 0,
+              "raw148": 0
+            }
+          ],
+          "count104": 3,
+          "declaration_offsets": [
+            304,
+            336,
+            368
+          ]
+        },
+        {
+          "offset": 1344,
+          "members": [
+            {
+              "type": 1,
+              "backing": 0,
+              "changed": 1,
+              "sequence": 3,
+              "raw140": 0,
+              "raw144": 0,
+              "raw148": 0
+            },
+            {
+              "type": 1,
+              "backing": 0,
+              "changed": 1,
+              "sequence": 4,
+              "raw140": 0,
+              "raw144": 0,
+              "raw148": 0
+            },
+            {
+              "type": 1,
+              "backing": 0,
+              "changed": 1,
+              "sequence": 5,
+              "raw140": 0,
+              "raw144": 0,
+              "raw148": 0
+            }
+          ],
+          "count104": 3,
+          "declaration_offsets": [
+            304,
+            336,
+            368
+          ]
+        }
+      ],
+      "calls": [
+        {
+          "allocation": 1744
+        },
+        {
+          "base_GO_ID": 2
+        },
+        {
+          "string_allocate16": 904
+        }
+      ]
+    },
+    {
+      "poison": 127,
+      "fields": {
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "physical380": 0,
+        "trigger381": 1,
+        "static84": 1,
+        "colzone384": 0,
+        "description_empty388": true,
+        "open3a4": 0,
+        "collision3a5": 1,
+        "state3a8": 0,
+        "byte3ac": 0,
+        "net100": 944,
+        "net104": 1344,
+        "checkpoint28": 1,
+        "networkf8": 3,
+        "table_id3a0_unproduced": true
+      },
+      "network": [
+        {
+          "offset": 944,
+          "members": [
+            {
+              "type": 1,
+              "backing": 0,
+              "changed": 1,
+              "sequence": 6,
+              "raw140": 0,
+              "raw144": 0,
+              "raw148": 0
+            },
+            {
+              "type": 1,
+              "backing": 0,
+              "changed": 1,
+              "sequence": 7,
+              "raw140": 0,
+              "raw144": 0,
+              "raw148": 0
+            },
+            {
+              "type": 1,
+              "backing": 0,
+              "changed": 1,
+              "sequence": 8,
+              "raw140": 0,
+              "raw144": 0,
+              "raw148": 0
+            }
+          ],
+          "count104": 3,
+          "declaration_offsets": [
+            304,
+            336,
+            368
+          ]
+        },
+        {
+          "offset": 1344,
+          "members": [
+            {
+              "type": 1,
+              "backing": 0,
+              "changed": 1,
+              "sequence": 9,
+              "raw140": 0,
+              "raw144": 0,
+              "raw148": 0
+            },
+            {
+              "type": 1,
+              "backing": 0,
+              "changed": 1,
+              "sequence": 10,
+              "raw140": 0,
+              "raw144": 0,
+              "raw148": 0
+            },
+            {
+              "type": 1,
+              "backing": 0,
+              "changed": 1,
+              "sequence": 11,
+              "raw140": 0,
+              "raw144": 0,
+              "raw148": 0
+            }
+          ],
+          "count104": 3,
+          "declaration_offsets": [
+            304,
+            336,
+            368
+          ]
+        }
+      ],
+      "calls": [
+        {
+          "allocation": 1744
+        },
+        {
+          "base_GO_ID": 2
+        },
+        {
+          "string_allocate16": 904
+        }
+      ]
+    }
+  ],
+  "properties": {
+    "dimensions": {
+      "source_offset": 884,
+      "default": [
+        200.0,
+        200.0,
+        200.0
+      ]
+    },
+    "data": {
+      "source_offset": 904,
+      "default": ""
+    },
+    "opened": {
+      "source_offset": 932,
+      "default": 1
+    },
+    "door_collision": {
+      "source_offset": 933,
+      "default": 1
+    }
+  },
+  "property_calls": [
+    {
+      "inherited_GameObject_declarations": true
+    },
+    {
+      "allocation": 44
+    },
+    {
+      "property_name": "dimensions"
+    },
+    {
+      "string_allocate16": "property-temporary"
+    },
+    {
+      "allocation": 56
+    },
+    {
+      "property_name": "data"
+    },
+    {
+      "allocation": 36
+    },
+    {
+      "property_name": "opened"
+    },
+    {
+      "allocation": 36
+    },
+    {
+      "property_name": "door_collision"
+    }
+  ],
+  "scope": "Actual Door factory/Zone and both whole NetStructDoor constructors execute including original NetStruct base, DeclareMember and SetChanged. GameObject base and string/allocator services explicit interceptions; lifecycle/behavior unported."
+}

@@ -1,0 +1,11 @@
+--- a/tests/cmake-receiver-transport/CMakeLists.txt
++++ b/tests/cmake-receiver-transport/CMakeLists.txt
+@@ -621,7 +621,7 @@
+ 
+ # Pending admitted compilation: selected request/C1 preflight component and
+ # original SWAMP source input fixture corrected to explicit raw seed7.
+-add_executable(dh2_loader_c1_admission_v63 "${loader}/tests/c1-admission-selected-v63/selected_c1_admission_v59_test.cpp")
++add_executable(dh2_loader_c1_admission_v63 "${loader}/candidate/c1-admission-service-pointer-v66/selected_c1_admission_v59_test_service_pointer_v66.cpp")
+ target_compile_features(dh2_loader_c1_admission_v63 PRIVATE cxx_std_17)
+ target_compile_options(dh2_loader_c1_admission_v63 PRIVATE -Wall -Wextra -Werror -Wno-misleading-indentation -UNDEBUG)
+ target_link_libraries(dh2_loader_c1_admission_v63 PRIVATE dh2_loader_source_loading_v43)

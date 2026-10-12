@@ -1,0 +1,39 @@
+diff --git "a/C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\baselines\\level_constructor_bindings_v4.cpp" "b/C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\level_constructor_bindings_v4_admission_v64.cpp"
+index 3e04189..54712e4 100644
+--- "a/C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\baselines\\level_constructor_bindings_v4.cpp"
++++ "b/C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\level_constructor_bindings_v4_admission_v64.cpp"
+@@ -1,6 +1,6 @@
+-#include "../canonical_level_context_v1.hpp"
+-#include "../level_constructor_bindings_v4.hpp"
+-#include "../../level-world/character_game_design.hpp"
++#include "canonical_level_context_v1.hpp"
++#include "level_constructor_bindings_v4.hpp"
++#include "character_game_design.hpp"
+ #include <array>
+ #include <cassert>
+ #include <cctype>
+@@ -49,9 +49,14 @@ int main(int argc,char** argv){try{
+  std::string selected;
+  for(auto& row:actual->levels()->levels){std::string lower=row.file;for(char& c:lower)c=char(std::tolower(static_cast<unsigned char>(c)));if(lower.find("swamp")!=std::string::npos){selected="worlds/"+lower;break;}}
+  check(!selected.empty());
++ check(actual->levels()->level_names.size()==actual->levels()->levels.size());
++ std::size_t selected_row=actual->levels()->levels.size();
++ for(std::size_t i=0;i<actual->levels()->levels.size();++i){std::string lower=actual->levels()->levels[i].file;for(char& c:lower)c=char(std::tolower(static_cast<unsigned char>(c)));if(selected.find(lower)!=std::string::npos){selected_row=i;break;}}
++ check(selected_row<actual->levels()->level_names.size());
++ const std::string selected_identity=actual->levels()->level_names.at(selected_row);check(!selected_identity.empty());
+  std::shared_ptr<CanonicalLevelContextV1> first,second;std::shared_ptr<LevelConstructorBindingsV4> first_bindings,second_bindings;
+  for(unsigned i=0;i<2;++i){
+-  LevelSourceRequestV1 source;source.identity=selected;source.definition="isolated-source-selection";source.seed=7;
++  LevelSourceRequestV1 source;source.identity=selected_identity;source.definition="isolated-source-selection";source.seed=7;
+   std::shared_ptr<CanonicalLevelContextV1> level;check(CanonicalLevelContextV1::create(source,actual,level,error));
+   auto bindings=LevelConstructorBindingsV4::create(application,error);check(bool(bindings));
+   check(level->construct_source_v3({selected.c_str(),0,7,1,0,1,0,-1,0},bindings->services(),error));
+@@ -69,7 +74,7 @@ int main(int argc,char** argv){try{
+  const std::string query="isolated_value=GetInt('first_private_state')";check(!dh2_script_vm_load_source_file(second_bindings->script()->vm_borrow(),query.data(),query.size()));dh2_script_value value{};check(!dh2_script_vm_get_global(second_bindings->script()->vm_borrow(),"isolated_value",&value)&&value.number==0);
+  check(files->save_reads==4&&files->attempted.size()==4&&files->attempted[1]==files->attempted[0]+".bak");
+  {auto bad=application;files->fail_saves=true;auto bindings=LevelConstructorBindingsV4::create(bad,error);check(bool(bindings));
+-  LevelSourceRequestV1 source;source.identity=selected;source.definition="isolated-source-selection";source.seed=7;std::shared_ptr<CanonicalLevelContextV1> level;check(CanonicalLevelContextV1::create(source,actual,level,error));
++  LevelSourceRequestV1 source;source.identity=selected_identity;source.definition="isolated-source-selection";source.seed=7;std::shared_ptr<CanonicalLevelContextV1> level;check(CanonicalLevelContextV1::create(source,actual,level,error));
+   check(!level->construct_source_v3({selected.c_str(),0,7,1,0,1,0,-1,0},bindings->services(),error));check(level->constructor_fields_v3().script44&&!level->constructor_fields_v3().save_ec&&level->constructor_owner_v3()->failed_at()==LevelConstructorPhaseV3::save_constructor);
+   check(bindings->script()&&bindings->script()->loaded_files().size()==2&&!bindings->save());
+  }

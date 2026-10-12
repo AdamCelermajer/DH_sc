@@ -1,0 +1,87 @@
+{
+  "status": "PASS",
+  "cases": 2,
+  "rows": [
+    {
+      "allocation_fill": 0,
+      "member_order": [
+        "0x130",
+        "0x158",
+        "0x180"
+      ],
+      "members": [
+        {
+          "type": 32,
+          "stamp": 0,
+          "previous": 4294967295,
+          "current": 4294967295,
+          "raw18": 0,
+          "changed": 0,
+          "value": 0
+        },
+        {
+          "type": 32,
+          "stamp": 0,
+          "previous": 4294967295,
+          "current": 4294967295,
+          "raw18": 0,
+          "changed": 0,
+          "value": 0
+        },
+        {
+          "type": 32,
+          "stamp": 0,
+          "previous": 4294967295,
+          "current": 4294967295,
+          "raw18": 0,
+          "changed": 0,
+          "value": 0
+        }
+      ],
+      "imports": {
+        "memset": 1
+      }
+    },
+    {
+      "allocation_fill": 165,
+      "member_order": [
+        "0x130",
+        "0x158",
+        "0x180"
+      ],
+      "members": [
+        {
+          "type": 32,
+          "stamp": 0,
+          "previous": 0,
+          "current": 0,
+          "raw18": 0,
+          "changed": 1,
+          "value": 0
+        },
+        {
+          "type": 32,
+          "stamp": 1,
+          "previous": 0,
+          "current": 0,
+          "raw18": 0,
+          "changed": 1,
+          "value": 0
+        },
+        {
+          "type": 32,
+          "stamp": 2,
+          "previous": 0,
+          "current": 0,
+          "raw18": 0,
+          "changed": 1,
+          "value": 0
+        }
+      ],
+      "imports": {
+        "memset": 1
+      }
+    }
+  ],
+  "scope": "Whole original NetStructTrigger398da4 including NetStructBase8138f4, DeclareMember81324c, conditional SetChanged814f84 and original global sequence mutation. Imported memset semantics supplied by CPU fixture. Old value memory is genuinely read before source zero store; allocation contents affect changed notifications."
+}

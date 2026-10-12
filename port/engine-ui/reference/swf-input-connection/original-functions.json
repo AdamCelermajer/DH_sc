@@ -1,0 +1,23 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN8RenderFX11UpdateInputEii",
+      "elf_address": "0x7ac4bc",
+      "size": 1128,
+      "sha256": "3b1ecb8040e8edc8881177c71e73f6447dcb49cae19cfe4b55fe6161b1a13d06"
+    },
+    {
+      "original_symbol": "_ZN8RenderFX12UpdateCursorERNS_6CursorEi",
+      "elf_address": "0x7ac924",
+      "size": 3432,
+      "sha256": "583ce513e7f36d588b7972d328afc02978f4145a5081e7f6b920bd0b9db44f48"
+    },
+    {
+      "original_symbol": "_ZN8RenderFX6UpdateEib",
+      "elf_address": "0x7ad68c",
+      "size": 348,
+      "sha256": "98e52be5c03c1a6a94990e9e17b002dd5ccfc6a8cf13e897f8d7c3e56594ffa8"
+    }
+  ]
+}

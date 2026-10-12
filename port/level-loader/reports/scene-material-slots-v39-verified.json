@@ -1,0 +1,30 @@
+{
+  "validation": "PASS",
+  "scope": "Recovered original native material slot producer; original geometry binding loop + exact original BRES corpus, no GPU/pass/activation claim",
+  "source_hashes": {
+    "scene_material_slot_v39.hpp": "6bd3299d7c6436c19910df5292b908c603fcbe339214e219c72c9a3a764d5f09",
+    "scene_material_slot_v39.cpp": "b57eca18d8c6daa5853d2d0c8245519679c7bb00acbfb7a67fd3996007547f1c",
+    "tests\\scene_material_slot_v39.cpp": "cfb6dffac85b911e587d123e9d70e0a10ec907ae1c04ed0c68ea3341f6049a7d"
+  },
+  "probe_sha256": "ecb6e06b504dccbf90b227e870fa1f4277ba97eff9759e395b6269540cff1df6",
+  "selected_scene_header_sha256": "b5782285c4f2368d3cdcf1a010517f764de24bac05f2768ddc570332d5cd27b3",
+  "authored_gold_sha256": "dbdc570d5383b218c98917a2393a2a837ac3e728dd6361ca94140d9ff4178ba9",
+  "original_loop_gold_sha256": "76dc3d388236378f26259cfab2eea3ff858db1027b47f483fd586101b0cc3421",
+  "original_cases": 5,
+  "original_assignment_calls": 13,
+  "complete_assets_audited": 2869,
+  "geometry_assets_native_compared": 1387,
+  "scene_instances": 10735,
+  "binding_slots": 11764,
+  "primitive_symbol_disagreements": 442,
+  "explicit_partial_audit_asset_errors": 35,
+  "missing_binding_slots_complete_assets": 0,
+  "scope_errors_not_silently_skipped": true,
+  "first_chest_all_three_authored_slots_resolved": true,
+  "first_chest_unresolved_symbol_was_false_diagnostic": true,
+  "missing_slot_foreign_instance_invalid_catalog_preserve_out": true,
+  "whole_render_pass_registration_verified": false,
+  "positive_character_visual_verified": false,
+  "whole_level_init_verified": false,
+  "native_evidence": "PASS authored_assets=1387 actual_instances=10735 exact_source_slots=11764 symbol_search_disagreements=442 original_cases=5 original_assignment_calls=13 fallback=0 foreign_missing_invalid_rejected=1"
+}

@@ -9,9 +9,14 @@
 #include <vector>
 using namespace dh2::target_search;
 static std::map<std::pair<unsigned,unsigned>,unsigned> libm;
+static unsigned libm_calls=0;
 static float fl(unsigned w){float f;std::memcpy(&f,&w,4);return f;}
 static unsigned bits(float f){unsigned w;std::memcpy(&w,&f,4);return w;}
-static float imported(unsigned op,float input){auto p=libm.find({op,bits(input)});if(p!=libm.end())return fl(p->second);if(std::isnan(input))return std::nanf("");std::fprintf(stderr,"Unknown libm %u/%08x\n",op,bits(input));std::abort();}
+static float imported(unsigned op,float input){++libm_calls;auto p=libm.find({op,bits(input)});if(p!=libm.end())return fl(p->second);if(std::isnan(input))return std::nanf("");std::fprintf(stderr,"Unknown libm %u/%08x\n",op,bits(input));std::abort();}
+extern "C" float sinf(float x) noexcept{return imported(1,x);}
+extern "C" float cosf(float x) noexcept{return imported(2,x);}
+extern "C" float acosf(float x) noexcept{return imported(3,x);}
+extern "C" void sincosf(float x,float* s,float* c) noexcept{*s=imported(1,x);*c=imported(2,x);}
 extern "C" float __wrap_sinf(float x){return imported(1,x);}
 extern "C" float __wrap_cosf(float x){return imported(2,x);}
 extern "C" float __wrap_acosf(float x){return imported(3,x);}
@@ -41,8 +46,11 @@ int main(int argc,char**argv){need(argc==2,"usage: target_search_audit corpus");
  for(auto&c:cases){c.h=r.array<12>();for(unsigned i=0;i<c.h[0];++i)c.objects.push_back(r.array<20>());for(unsigned i=0;i<c.h[1];++i){unsigned n=r.word();std::vector<unsigned>room(n);for(auto&v:room)v=r.word();c.rooms.push_back(room);}for(unsigned i=0;i<c.h[10];++i)c.outputs.push_back(r.array<5>());for(unsigned i=0;i<c.h[11];++i)c.trace.push_back(r.array<2>());for(unsigned i=0;i<c.h[0];++i)c.visible.push_back(r.word());}
  unsigned math=r.word();for(unsigned i=0;i<math;++i){auto row=r.array<3>();libm[{row[0],row[1]}]=row[2];}need(r.at==r.data.size(),"trailing bytes");unsigned callbacks=0,outputs=0,nested=0,guards=0,provider=0;
  for(auto&c:cases){Fixture f(c);need(dh2_target_list_init(&f.list,f.storage.data(),128,&f.objects[0],c.h[2],&f.services)==0,"init failed");f.trace.clear();need(dh2_target_search(&f.list,&f.registry,fl(c.h[5]),fl(c.h[6]),&f.services)==0,"search failed");need(f.trace==c.trace,"callback order mismatch");need(f.list.count==c.outputs.size(),"count mismatch");for(auto&e:c.outputs){Target24 out{};need(dh2_target_pop(&f.list,&out)==0,"pop failed");need(out.identity==std::uintptr_t(e[0])+1&&equal(bits(out.distance),e[1])&&equal(bits(out.angle),e[2])&&out.flags==e[3]&&out.reserved==e[4],"target mismatch");++outputs;}for(size_t i=0;i<c.visible.size();++i)need(f.objects[i].visible==c.visible[i],"mutation mismatch");callbacks+=f.trace.size();nested+=f.nested;
-  auto saved=f.list;auto bad=[&](int result){need(result==1&&std::memcmp(&saved,&f.list,sizeof(saved))==0,"atomic guard failed");++guards;};bad(dh2_target_list_init(&f.list,f.storage.data(),0,&f.objects[0],0,&f.services));bad(dh2_target_list_init(&f.list,f.storage.data(),128,&f.objects[0],3,&f.services));bad(dh2_target_search(&f.list,nullptr,0,0,&f.services));bad(dh2_target_search(&f.list,&f.registry,0,0,nullptr));bad(dh2_target_pop(&f.list,f.storage.data()));Target24 out{};need(dh2_target_pop(&f.list,&out)==2,"empty pop failed");
+  auto saved=f.list;auto bad=[&](int result){need(result==1&&std::memcmp(&saved,&f.list,sizeof(saved))==0,"atomic guard failed");++guards;};bad(dh2_target_list_init(&f.list,f.storage.data(),0,&f.objects[0],0,&f.services));bad(dh2_target_list_init(&f.list,f.storage.data(),128,&f.objects[0],3,&f.services));bad(dh2_target_search(&f.list,nullptr,0,0,&f.services));bad(dh2_target_search(&f.list,&f.registry,0,0,nullptr));bad(dh2_target_pop(&f.list,f.storage.data()));bad(dh2_target_pop(&f.list,reinterpret_cast<Target24*>(&f.list)));bad(dh2_target_list_init(&f.list,reinterpret_cast<Target24*>(&f.list),1,&f.objects[0],0,&f.services));Target24 out{};need(dh2_target_pop(&f.list,&out)==2,"empty pop failed");
   f.provider=1;need(dh2_target_search(&f.list,&f.registry,0,0,&f.services)==2,"provider failure failed");++provider;
+  f.provider=0;f.trace.clear();Entry16 end{},bad_entry{};bad_entry={&end,reinterpret_cast<Object48*>(reinterpret_cast<std::uintptr_t>(&f.objects[0])+1)};end.next=&bad_entry;Room16 room_end{},room{};room_end.next=&room;room={&room_end,&end};Registry8 malformed{&room_end};need(dh2_target_search(&f.list,&malformed,0,0,&f.services)==2,"unaligned borrowed object accepted");need(f.trace.size()==(f.list.reference_character?1u:0u),"malformed object reached resolve callback");++provider;
+  f.trace.clear();room.objects=reinterpret_cast<Entry16*>(reinterpret_cast<std::uintptr_t>(&end)+1);need(dh2_target_search(&f.list,&malformed,0,0,&f.services)==2,"unaligned room head accepted");++provider;
  }
- std::printf("{\"validation\":\"PASS\",\"comparisons\":%u,\"ordered_callbacks\":%u,\"accepted_records\":%u,\"synchronous_same_list_reentries\":%u,\"atomic_rejection_checks\":%u,\"provider_failure_checks\":%u,\"libm_fixture_records\":%u,\"mismatches\":0}\n",count,callbacks,outputs,nested,guards,provider,math);
+ need(libm_calls>0,"libm import fixture was bypassed");
+ std::printf("{\"validation\":\"PASS\",\"comparisons\":%u,\"ordered_callbacks\":%u,\"accepted_records\":%u,\"synchronous_same_list_reentries\":%u,\"atomic_rejection_checks\":%u,\"provider_failure_checks\":%u,\"libm_fixture_records\":%u,\"libm_fixture_calls\":%u,\"mismatches\":0}\n",count,callbacks,outputs,nested,guards,provider,math,libm_calls);
 }

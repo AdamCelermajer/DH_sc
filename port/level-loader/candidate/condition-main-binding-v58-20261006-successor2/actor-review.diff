@@ -1,0 +1,44 @@
+--- a/port/level-world/retained_character_actor_v1.hpp
++++ b/port/level-world/retained_character_actor_v1.hpp
+@@ -13,6 +13,7 @@
+ #include "character_model_name_v38.hpp"
+ #include "character_is_player_v41.hpp"
+ #include "character_parent_init_fields_v48.hpp"
++#include "character_enable_condition_fields_v58.hpp"
+ #include <array>
+ namespace dh2::character {
+ enum class RetainedCharacterConstructionV7 {existing_actor_adoption,fresh_canonical};
+@@ -150,6 +151,7 @@
+  bool loader_fields_v38(std::shared_ptr<const void>,CharacterLoaderFieldsV38&,std::string&);
+  bool model_name_fields_v38(std::shared_ptr<const void>,CharacterModelFieldsV38&,std::string&);
+  bool parent_init_fields_v48(std::shared_ptr<const void>,CharacterParentInitFieldsV48&,std::string&);
++ bool enable_condition_fields_v58(std::shared_ptr<const void>,CharacterEnableConditionFieldsV58&,std::string&);
+  bool init_post_fields(NpcInitPostBorrowV1&,std::string&);
+  bool visual_fields_v5(std::shared_ptr<void> receiver_lease,
+   const std::function<bool(std::string&)>& actual_update_pf,
+--- a/port/level-world/retained_character_actor_v1.cpp
++++ b/port/level-world/retained_character_actor_v1.cpp
+@@ -13,6 +13,7 @@
+  // CharacterC1 3a9594 stores r6=-1 (3a93d8) into signed source byte14a8.
+  animation_ai.owner_byte14a8=-1;
+  if(construction==RetainedCharacterConstructionV7::fresh_canonical){
++  source_bools_[0x8a]=1; // ObjectBase C2 MOV1 33f404 / STRB8a 33f408.
+   // Exact ObjectBase C2/ConditionData C1 and GameObject C2 producers.
+   // Existing-actor adoption has no authority to reset these cells.
+   source_bools_[0x28]=0;source_bools_[0x10c]=0;
+@@ -130,6 +131,15 @@
+  if(!properties){error="Required SAME actual initialized Character PropertyView";return false;}
+  out={std::move(fields.receiver_lease),identity_,properties,fields.properties13c8,fields.master418};error.clear();return true;
+ }
++bool RetainedCharacterActorV1::enable_condition_fields_v58(std::shared_ptr<const void> lease,CharacterEnableConditionFieldsV58& out,std::string& error){
++ if(!lease||lease.get()!=static_cast<const void*>(this)||!loader_fields_produced_v38_){error="Required SAME fresh Character enable-condition field alias authority";return false;}
++ auto enabled=source_bools_.find(0x8a),disable=source_bools_.find(0xf1);
++ if(enabled==source_bools_.end()||disable==source_bools_.end()){error="Required actual enabled8a constructor and disablef1 PropertyMap producers";return false;}
++ CharacterEnableConditionFieldsV58 result;result.receiver_lease=std::move(lease);result.identity=identity_;
++ result.enabled8a=&enabled->second;result.minimum_difficulty_ec=&source_min_difficulty_ec_;result.disable_f1=&disable->second;
++ result.condition_a8=&source_activate_compiled_a8_;result.tested_ac=&source_activate_tested_ac_;
++ out=std::move(result);error.clear();return true;
++}
+ bool RetainedCharacterActorV1::parent_init_fields_v48(std::shared_ptr<const void> lease,CharacterParentInitFieldsV48& out,std::string& error){
+  if(!lease||lease.get()!=static_cast<const void*>(this)||!loader_fields_produced_v38_||!object||object->identity!=identity_||!source_position_fields_v7_.constructed||!spawn_probability_written_||!source_scale_written_||!source_rotation_written_){error="Required SAME fresh Character inherited InitPost field alias and constructor/property authority";return false;}
+  auto activate=source_strings_.find(0x90),deactivate=source_strings_.find(0xb4),difficulty=source_strings_.find(0xd4),idle=source_strings_.find(0x358);

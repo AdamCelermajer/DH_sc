@@ -1,0 +1,150 @@
+00479f6c W Objective::Compile()
+00479f70 W Objective::InvalidateCompile()
+00479f80 W Objective::InstallObjectiveMarker(int, int)
+00479f84 W Objective::RemoveObjectiveMarker()
+0047a1d4 W Objective_GatherLoot::GetPositions(Vector3DFList&) const
+0047a1d8 W Objective_Automatic::GetPositions(Vector3DFList&) const
+0047a1dc W Objective_Automatic::Register()
+0047a1e0 W Objective_Automatic::Unregister()
+0047a1e4 T Objective::~Objective()
+0047a1e8 W non-virtual thunk to Objective_GatherLoot::~Objective_GatherLoot()
+0047a1f0 W Objective_GatherLoot::~Objective_GatherLoot()
+0047a238 W non-virtual thunk to Objective_SavedQty::~Objective_SavedQty()
+0047a240 W Objective_SavedQty::~Objective_SavedQty()
+0047a288 W non-virtual thunk to Objective_Qty::~Objective_Qty()
+0047a290 W Objective_Qty::~Objective_Qty()
+0047a2d8 W non-virtual thunk to Objective_MoveInZone::~Objective_MoveInZone()
+0047a2e0 W Objective_MoveInZone::~Objective_MoveInZone()
+0047a328 W non-virtual thunk to Objective_EventReceiver::~Objective_EventReceiver()
+0047a330 W Objective_EventReceiver::~Objective_EventReceiver()
+0047a378 T Objective::~Objective()
+0047a37c T Objective::_resetData()
+0047a388 W Objective_SavedQty::_resetData()
+0047a3a0 T Objective::GetDescStrId() const
+0047a540 T ObjectiveList::LoopOnAll(void (Objective::*)())
+0047a690 T ObjectiveList::LoopOnAll(void (Objective::*)() const) const
+0047a6f8 T ObjectiveList::LoopOnAll(void (Objective::*)(IStreamBase*), IStreamBase*)
+0047a7c4 T ObjectiveList::LoopOnAll(void (Objective::*)(__sFILE*) const, __sFILE*) const
+0047a864 W Objective_Automatic::~Objective_Automatic()
+0047a8b0 T Objective::~Objective()
+0047aab4 W Objective_EventReceiver::DBG_TraceDetailedObjectiveInformation(__sFILE*) const
+0047ab3c T Objective::_loadData(IStreamBase*)
+0047ab54 W Objective_SavedQty::_loadData(IStreamBase*)
+0047ab74 T Objective::_saveData(IStreamBase*)
+0047ab84 W Objective_SavedQty::_saveData(IStreamBase*)
+0047aba4 W Objective_GatherLoot::InitWithCurrentQty()
+0047ac94 W Objective_EventReceiver::CheckMustSendThroughNetwork(IEvent const*)
+0047ace8 W non-virtual thunk to Objective_EventReceiver::onEvent(IEvent const*, EventManager const*)
+0047acf0 W Objective_EventReceiver::onEvent(IEvent const*, EventManager const*)
+0047adbc W Objective_EventReceiver::Unregister()
+0047ae70 W Objective_EventReceiver::Register()
+0047af38 W Objective_GatherLoot::DBG_TraceDetailedObjectiveInformation(__sFILE*) const
+0047b08c W ObjectiveTemplate_KillCharacter<Structs::v2QuestClearEnemyTemplate, QE_ClearEnemyTemplate, TestCharTemplate, Objective_SavedQty>::DBG_TraceDetailedObjectiveInformation(__sFILE*) const
+0047b1f8 W ObjectiveTemplate_KillCharacter<Structs::v2QuestKillEnemyTemplate, QE_KillEnemyTemplate, TestCharTemplate, Objective_SavedQty>::DBG_TraceDetailedObjectiveInformation(__sFILE*) const
+0047b364 W Objective_Automatic::DBG_TraceDetailedObjectiveInformation(__sFILE*) const
+0047b3dc W Objective_MoveInZone::DBG_TraceDetailedObjectiveInformation(__sFILE*) const
+0047b4d4 W ObjectiveTemplate_KillCharacter<Structs::v2QuestClearEnemies, QE_ClearEnemies, TestCharPropId, Objective_SavedQty>::DBG_TraceDetailedObjectiveInformation(__sFILE*) const
+0047b640 W ObjectiveTemplate_KillCharacter<Structs::v2QuestKillEnemies, QE_KillEnemies, TestCharPropId, Objective_SavedQty>::DBG_TraceDetailedObjectiveInformation(__sFILE*) const
+0047b7ac T Objective::DBG_TraceDetailedObjectiveInformation(__sFILE*) const
+0047b850 W Objective_MoveInZone::GetPositions(Vector3DFList&) const
+0047b9b8 T Objective::GetDescStr() const
+0047ba10 T Objective::SetIsCompleted()
+0047ba5c W Objective_GatherLoot::handleEvent(IEvent const*, EventManager const*)
+0047bae4 W Objective_GatherLoot::Compile()
+0047bcd4 W Objective_MoveInZone::handleEvent(IEvent const*, EventManager const*)
+0047bd80 W Objective_Automatic::Compile()
+0047bd8c T Objective::Objective()
+0047be00 T Objective::Objective()
+0047be74 W Objective* GetObjectiveImplInstance<Objective_GatherLoot>()
+0047bec4 W Objective* GetObjectiveImplInstance<ObjectiveTemplate_KillCharacter<Structs::v2QuestClearEnemyTemplate, QE_ClearEnemyTemplate, TestCharTemplate, Objective_SavedQty>>()
+0047bf20 W Objective* GetObjectiveImplInstance<Objective_MoveInZone>()
+0047bf70 W Objective* GetObjectiveImplInstance<Objective_Automatic>()
+0047c6b4 W Objective_Automatic::~Objective_Automatic()
+0047c6f0 W ObjectiveTemplate_KillCharacter<Structs::v2QuestClearEnemies, QE_ClearEnemies, TestCharPropId, Objective_SavedQty>::GetPositions(Vector3DFList&) const
+0047c7f4 t int Objective_EventReceiver::HasEnemyOfTypeLoaded<TestCharPropId>(int, int) (.clone.3)
+0047c868 W Objective_MoveInZone::Compile()
+0047c914 W ObjectiveTemplate_KillCharacter<Structs::v2QuestClearEnemyTemplate, QE_ClearEnemyTemplate, TestCharTemplate, Objective_SavedQty>::GetPositions(Vector3DFList&) const
+0047ca18 W ObjectiveTemplate_KillCharacter<Structs::v2QuestKillEnemies, QE_KillEnemies, TestCharPropId, Objective_SavedQty>::GetPositions(Vector3DFList&) const
+0047cb1c W ObjectiveTemplate_KillCharacter<Structs::v2QuestKillEnemyTemplate, QE_KillEnemyTemplate, TestCharTemplate, Objective_SavedQty>::GetPositions(Vector3DFList&) const
+0047cc20 t int Objective_EventReceiver::HasEnemyOfTypeLoaded<TestCharTemplate>(int, int) (.clone.0)
+0047ccb4 W non-virtual thunk to Objective_EventReceiver::~Objective_EventReceiver()
+0047ccbc W Objective_EventReceiver::~Objective_EventReceiver()
+0047cd0c W non-virtual thunk to Objective_TalkToNPC::~Objective_TalkToNPC()
+0047cd14 W Objective_TalkToNPC::~Objective_TalkToNPC()
+0047cd64 W non-virtual thunk to Objective_Qty::~Objective_Qty()
+0047cd6c W Objective_Qty::~Objective_Qty()
+0047cdbc W non-virtual thunk to Objective_MoveInZone::~Objective_MoveInZone()
+0047cdc4 W Objective_MoveInZone::~Objective_MoveInZone()
+0047ce14 W non-virtual thunk to Objective_GatherLoot::~Objective_GatherLoot()
+0047ce1c W Objective_GatherLoot::~Objective_GatherLoot()
+0047ce6c W non-virtual thunk to Objective_SavedQty::~Objective_SavedQty()
+0047ce74 W Objective_SavedQty::~Objective_SavedQty()
+0047cec4 W Objective* GetObjectiveImplInstance<Objective_TalkToNPC>()
+0047cfd0 W Objective* GetObjectiveImplInstance<ObjectiveTemplate_KillCharacter<Structs::v2QuestClearEnemies, QE_ClearEnemies, TestCharPropId, Objective_SavedQty>>()
+0047d02c W Objective* GetObjectiveImplInstance<ObjectiveTemplate_KillEnemies<Structs::v2QuestKillEnemies, QE_KillEnemies, TestCharPropId, Objective_SavedQty>>()
+0047d088 W Objective* GetObjectiveImplInstance<ObjectiveTemplate_KillEnemies<Structs::v2QuestKillEnemyTemplate, QE_KillEnemyTemplate, TestCharTemplate, Objective_SavedQty>>()
+0047d1ec W non-virtual thunk to ObjectiveTemplate_KillEnemies<Structs::v2QuestKillEnemyTemplate, QE_KillEnemyTemplate, TestCharTemplate, Objective_SavedQty>::~ObjectiveTemplate_KillEnemies()
+0047d1f4 W ObjectiveTemplate_KillEnemies<Structs::v2QuestKillEnemyTemplate, QE_KillEnemyTemplate, TestCharTemplate, Objective_SavedQty>::~ObjectiveTemplate_KillEnemies()
+0047d23c W non-virtual thunk to ObjectiveTemplate_KillCharacter<Structs::v2QuestKillEnemyTemplate, QE_KillEnemyTemplate, TestCharTemplate, Objective_SavedQty>::~ObjectiveTemplate_KillCharacter()
+0047d244 W ObjectiveTemplate_KillCharacter<Structs::v2QuestKillEnemyTemplate, QE_KillEnemyTemplate, TestCharTemplate, Objective_SavedQty>::~ObjectiveTemplate_KillCharacter()
+0047d28c W non-virtual thunk to ObjectiveTemplate_KillCharacter<Structs::v2QuestClearEnemyTemplate, QE_ClearEnemyTemplate, TestCharTemplate, Objective_SavedQty>::~ObjectiveTemplate_KillCharacter()
+0047d294 W ObjectiveTemplate_KillCharacter<Structs::v2QuestClearEnemyTemplate, QE_ClearEnemyTemplate, TestCharTemplate, Objective_SavedQty>::~ObjectiveTemplate_KillCharacter()
+0047d2dc W non-virtual thunk to ObjectiveTemplate_KillEnemies<Structs::v2QuestKillEnemies, QE_KillEnemies, TestCharPropId, Objective_SavedQty>::~ObjectiveTemplate_KillEnemies()
+0047d2e4 W ObjectiveTemplate_KillEnemies<Structs::v2QuestKillEnemies, QE_KillEnemies, TestCharPropId, Objective_SavedQty>::~ObjectiveTemplate_KillEnemies()
+0047d32c W non-virtual thunk to ObjectiveTemplate_KillCharacter<Structs::v2QuestKillEnemies, QE_KillEnemies, TestCharPropId, Objective_SavedQty>::~ObjectiveTemplate_KillCharacter()
+0047d334 W ObjectiveTemplate_KillCharacter<Structs::v2QuestKillEnemies, QE_KillEnemies, TestCharPropId, Objective_SavedQty>::~ObjectiveTemplate_KillCharacter()
+0047d46c W non-virtual thunk to Objective_TalkToNPC::~Objective_TalkToNPC()
+0047d474 W Objective_TalkToNPC::~Objective_TalkToNPC()
+0047d5ac W non-virtual thunk to ObjectiveTemplate_KillCharacter<Structs::v2QuestClearEnemies, QE_ClearEnemies, TestCharPropId, Objective_SavedQty>::~ObjectiveTemplate_KillCharacter()
+0047d5b4 W ObjectiveTemplate_KillCharacter<Structs::v2QuestClearEnemies, QE_ClearEnemies, TestCharPropId, Objective_SavedQty>::~ObjectiveTemplate_KillCharacter()
+0047d6fc W Objective_GatherLoot::Unregister()
+0047d7e0 W non-virtual thunk to ObjectiveTemplate_KillCharacter<Structs::v2QuestClearEnemyTemplate, QE_ClearEnemyTemplate, TestCharTemplate, Objective_SavedQty>::~ObjectiveTemplate_KillCharacter()
+0047d7e8 W ObjectiveTemplate_KillCharacter<Structs::v2QuestClearEnemyTemplate, QE_ClearEnemyTemplate, TestCharTemplate, Objective_SavedQty>::~ObjectiveTemplate_KillCharacter()
+0047d838 W non-virtual thunk to ObjectiveTemplate_KillCharacter<Structs::v2QuestClearEnemies, QE_ClearEnemies, TestCharPropId, Objective_SavedQty>::~ObjectiveTemplate_KillCharacter()
+0047d840 W ObjectiveTemplate_KillCharacter<Structs::v2QuestClearEnemies, QE_ClearEnemies, TestCharPropId, Objective_SavedQty>::~ObjectiveTemplate_KillCharacter()
+0047d8e8 W Objective_TalkToNPC::InstallObjectiveMarker(int, int)
+0047da6c W Objective_TalkToNPC::RemoveObjectiveMarker()
+0047db34 W Objective_TalkToNPC::Register()
+0047dbc4 W Objective_TalkToNPC::Unregister()
+0047e784 W non-virtual thunk to ObjectiveTemplate_KillCharacter<Structs::v2QuestKillEnemies, QE_KillEnemies, TestCharPropId, Objective_SavedQty>::~ObjectiveTemplate_KillCharacter()
+0047e78c W ObjectiveTemplate_KillCharacter<Structs::v2QuestKillEnemies, QE_KillEnemies, TestCharPropId, Objective_SavedQty>::~ObjectiveTemplate_KillCharacter()
+0047e7dc W non-virtual thunk to ObjectiveTemplate_KillCharacter<Structs::v2QuestKillEnemyTemplate, QE_KillEnemyTemplate, TestCharTemplate, Objective_SavedQty>::~ObjectiveTemplate_KillCharacter()
+0047e7e4 W ObjectiveTemplate_KillCharacter<Structs::v2QuestKillEnemyTemplate, QE_KillEnemyTemplate, TestCharTemplate, Objective_SavedQty>::~ObjectiveTemplate_KillCharacter()
+0047e834 W non-virtual thunk to ObjectiveTemplate_KillEnemies<Structs::v2QuestKillEnemies, QE_KillEnemies, TestCharPropId, Objective_SavedQty>::~ObjectiveTemplate_KillEnemies()
+0047e83c W ObjectiveTemplate_KillEnemies<Structs::v2QuestKillEnemies, QE_KillEnemies, TestCharPropId, Objective_SavedQty>::~ObjectiveTemplate_KillEnemies()
+0047e88c W non-virtual thunk to ObjectiveTemplate_KillEnemies<Structs::v2QuestKillEnemyTemplate, QE_KillEnemyTemplate, TestCharTemplate, Objective_SavedQty>::~ObjectiveTemplate_KillEnemies()
+0047e894 W ObjectiveTemplate_KillEnemies<Structs::v2QuestKillEnemyTemplate, QE_KillEnemyTemplate, TestCharTemplate, Objective_SavedQty>::~ObjectiveTemplate_KillEnemies()
+0047e8e4 T Objective::GetDesc() const
+0047eaec W Objective_GatherLoot::Register()
+0047ed70 W ObjectiveTemplate_KillEnemies<Structs::v2QuestKillEnemies, QE_KillEnemies, TestCharPropId, Objective_SavedQty>::Compile()
+0047ee18 W ObjectiveTemplate_KillEnemies<Structs::v2QuestKillEnemyTemplate, QE_KillEnemyTemplate, TestCharTemplate, Objective_SavedQty>::Compile()
+0047eec0 W ObjectiveTemplate_KillCharacter<Structs::v2QuestKillEnemyTemplate, QE_KillEnemyTemplate, TestCharTemplate, Objective_SavedQty>::Compile()
+0047ef50 W ObjectiveTemplate_KillCharacter<Structs::v2QuestClearEnemyTemplate, QE_ClearEnemyTemplate, TestCharTemplate, Objective_SavedQty>::Compile()
+0047efe0 W ObjectiveTemplate_KillCharacter<Structs::v2QuestKillEnemies, QE_KillEnemies, TestCharPropId, Objective_SavedQty>::Compile()
+0047f070 W ObjectiveTemplate_KillCharacter<Structs::v2QuestClearEnemies, QE_ClearEnemies, TestCharPropId, Objective_SavedQty>::Compile()
+0047f100 W ObjectiveTemplate_KillCharacter<Structs::v2QuestKillEnemies, QE_KillEnemies, TestCharPropId, Objective_SavedQty>::handleEvent(IEvent const*, EventManager const*)
+0047f228 W ObjectiveTemplate_KillCharacter<Structs::v2QuestClearEnemies, QE_ClearEnemies, TestCharPropId, Objective_SavedQty>::handleEvent(IEvent const*, EventManager const*)
+0047f2bc W ObjectiveTemplate_KillCharacter<Structs::v2QuestKillEnemyTemplate, QE_KillEnemyTemplate, TestCharTemplate, Objective_SavedQty>::handleEvent(IEvent const*, EventManager const*)
+0047f350 W ObjectiveTemplate_KillCharacter<Structs::v2QuestClearEnemyTemplate, QE_ClearEnemyTemplate, TestCharTemplate, Objective_SavedQty>::handleEvent(IEvent const*, EventManager const*)
+004c8838 T Structs::v2QuestObjective::~v2QuestObjective()
+004c883c T Structs::v2QuestObjective::~v2QuestObjective()
+004c8840 T Structs::v2QuestObjective::finalize()
+004cd84c T Structs::v2QuestObjective::~v2QuestObjective()
+0050358c T Structs::v2QuestObjective::read(IStreamBase*)
+00504818 T Structs::v2QuestObjectiveStub::read(IStreamBase*)
+00969298 V vtable for Objective_GatherLoot
+009692f0 V vtable for Objective_EventReceiver
+00969348 V vtable for ObjectiveTemplate_KillCharacter<Structs::v2QuestClearEnemyTemplate, QE_ClearEnemyTemplate, TestCharTemplate, Objective_SavedQty>
+009693a0 V vtable for Objective_SavedQty
+009693f8 V vtable for Objective_Qty
+00969450 V vtable for ObjectiveTemplate_KillEnemies<Structs::v2QuestKillEnemyTemplate, QE_KillEnemyTemplate, TestCharTemplate, Objective_SavedQty>
+009694a8 V vtable for ObjectiveTemplate_KillCharacter<Structs::v2QuestKillEnemyTemplate, QE_KillEnemyTemplate, TestCharTemplate, Objective_SavedQty>
+00969608 V vtable for Objective_Automatic
+00969648 V vtable for Objective_TalkToNPC
+009696f8 V vtable for Objective_MoveInZone
+00969800 V vtable for ObjectiveTemplate_KillCharacter<Structs::v2QuestClearEnemies, QE_ClearEnemies, TestCharPropId, Objective_SavedQty>
+00969858 V vtable for ObjectiveTemplate_KillEnemies<Structs::v2QuestKillEnemies, QE_KillEnemies, TestCharPropId, Objective_SavedQty>
+009698b0 V vtable for ObjectiveTemplate_KillCharacter<Structs::v2QuestKillEnemies, QE_KillEnemies, TestCharPropId, Objective_SavedQty>
+00999844 D Objective_EventReceiver::m_curModuleId
+0099aec0 D Structs::v2QuestObjective::m_dataOffsets
+009f4f30 B Structs::v2QuestObjective::m_dataNames

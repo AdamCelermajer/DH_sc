@@ -1,0 +1,53 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character10CSM_AttackEiPviRi",
+      "elf_address": "0x3ad22c",
+      "size": 16,
+      "sha256": "64b40b5ff8cc904277094ae7882a282dbca29c5a8e9a435dc691bf2912f5c95e"
+    },
+    {
+      "original_symbol": "_ZN9Character22CSM_CanStopInteractionEiPviRi",
+      "elf_address": "0x3ad29c",
+      "size": 44,
+      "sha256": "c75da8b1e79c941e446aea5c8923bc9efb1b5a55d7fc90907e75dde47d426089"
+    },
+    {
+      "original_symbol": "_ZN9Character9CSM_SpawnEiPviRi",
+      "elf_address": "0x3ad2e4",
+      "size": 80,
+      "sha256": "cab27f7cfd94063bdebe26f8d648d504b315482a66ea237a8fededa5fce8200e"
+    },
+    {
+      "original_symbol": "_ZN9Character11CSM_InjuredEiPviRi",
+      "elf_address": "0x3ad23c",
+      "size": 8,
+      "sha256": "007f34a6c3441b0240da53f253e513b959105da2d8803255e1856aa48f48db47"
+    },
+    {
+      "original_symbol": "_ZN9Character20CSM_StoppedAttackingEiPviRi",
+      "elf_address": "0x3ad280",
+      "size": 16,
+      "sha256": "8e43de910e5e73562de2b5dc6f54fa3ec50dc6e6ebac6e574a2b625491597943"
+    },
+    {
+      "original_symbol": "_ZN9Character15CSM_InterruptedEiPviRi",
+      "elf_address": "0x3ad244",
+      "size": 60,
+      "sha256": "f5c958283cb0ba77ab381cb5a86f1a9bb4f36bb22647208d706fd05c21756b85"
+    },
+    {
+      "original_symbol": "_ZN9Character13CSM_StopSkillEiPviRi",
+      "elf_address": "0x3ad290",
+      "size": 12,
+      "sha256": "fce3ee6d925c42c31c20282419cafc551bb817935b132828254f21d86e7e6c04"
+    },
+    {
+      "original_symbol": "_ZN9Character20CSM_AfterInteractionEiPviRi",
+      "elf_address": "0x3ad2c8",
+      "size": 28,
+      "sha256": "5658672e049dc904190620490bb55bedf578352730dc81a37791b96dc728a979"
+    }
+  ]
+}

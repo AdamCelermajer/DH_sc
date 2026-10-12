@@ -1,0 +1,316 @@
+{
+  "validation": "PASS",
+  "source_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_slice": [
+    "0x42ecac",
+    "0x42ed2c"
+  ],
+  "cases": [
+    {
+      "argument": 0,
+      "loaded_mask": 0,
+      "current_level": "null",
+      "updated_slots": [],
+      "GetCurrentLevel_observer_calls": 0
+    },
+    {
+      "argument": 0,
+      "loaded_mask": 0,
+      "current_level": "not_ready",
+      "updated_slots": [],
+      "GetCurrentLevel_observer_calls": 0
+    },
+    {
+      "argument": 0,
+      "loaded_mask": 0,
+      "current_level": "ready",
+      "updated_slots": [],
+      "GetCurrentLevel_observer_calls": 0
+    },
+    {
+      "argument": 0,
+      "loaded_mask": 8,
+      "current_level": "null",
+      "updated_slots": [
+        3
+      ],
+      "GetCurrentLevel_observer_calls": 1
+    },
+    {
+      "argument": 0,
+      "loaded_mask": 8,
+      "current_level": "not_ready",
+      "updated_slots": [],
+      "GetCurrentLevel_observer_calls": 2
+    },
+    {
+      "argument": 0,
+      "loaded_mask": 8,
+      "current_level": "ready",
+      "updated_slots": [
+        3
+      ],
+      "GetCurrentLevel_observer_calls": 2
+    },
+    {
+      "argument": 0,
+      "loaded_mask": 15,
+      "current_level": "null",
+      "updated_slots": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "GetCurrentLevel_observer_calls": 4
+    },
+    {
+      "argument": 0,
+      "loaded_mask": 15,
+      "current_level": "not_ready",
+      "updated_slots": [
+        0,
+        1,
+        2
+      ],
+      "GetCurrentLevel_observer_calls": 5
+    },
+    {
+      "argument": 0,
+      "loaded_mask": 15,
+      "current_level": "ready",
+      "updated_slots": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "GetCurrentLevel_observer_calls": 5
+    },
+    {
+      "argument": 0,
+      "loaded_mask": 7,
+      "current_level": "null",
+      "updated_slots": [
+        0,
+        1,
+        2
+      ],
+      "GetCurrentLevel_observer_calls": 3
+    },
+    {
+      "argument": 0,
+      "loaded_mask": 7,
+      "current_level": "not_ready",
+      "updated_slots": [
+        0,
+        1,
+        2
+      ],
+      "GetCurrentLevel_observer_calls": 3
+    },
+    {
+      "argument": 0,
+      "loaded_mask": 7,
+      "current_level": "ready",
+      "updated_slots": [
+        0,
+        1,
+        2
+      ],
+      "GetCurrentLevel_observer_calls": 3
+    },
+    {
+      "argument": 1,
+      "loaded_mask": 0,
+      "current_level": "null",
+      "updated_slots": [],
+      "GetCurrentLevel_observer_calls": 0
+    },
+    {
+      "argument": 1,
+      "loaded_mask": 0,
+      "current_level": "not_ready",
+      "updated_slots": [],
+      "GetCurrentLevel_observer_calls": 0
+    },
+    {
+      "argument": 1,
+      "loaded_mask": 0,
+      "current_level": "ready",
+      "updated_slots": [],
+      "GetCurrentLevel_observer_calls": 0
+    },
+    {
+      "argument": 1,
+      "loaded_mask": 8,
+      "current_level": "null",
+      "updated_slots": [
+        3
+      ],
+      "GetCurrentLevel_observer_calls": 1
+    },
+    {
+      "argument": 1,
+      "loaded_mask": 8,
+      "current_level": "not_ready",
+      "updated_slots": [],
+      "GetCurrentLevel_observer_calls": 2
+    },
+    {
+      "argument": 1,
+      "loaded_mask": 8,
+      "current_level": "ready",
+      "updated_slots": [
+        3
+      ],
+      "GetCurrentLevel_observer_calls": 2
+    },
+    {
+      "argument": 1,
+      "loaded_mask": 15,
+      "current_level": "null",
+      "updated_slots": [
+        3
+      ],
+      "GetCurrentLevel_observer_calls": 1
+    },
+    {
+      "argument": 1,
+      "loaded_mask": 15,
+      "current_level": "not_ready",
+      "updated_slots": [],
+      "GetCurrentLevel_observer_calls": 2
+    },
+    {
+      "argument": 1,
+      "loaded_mask": 15,
+      "current_level": "ready",
+      "updated_slots": [
+        3
+      ],
+      "GetCurrentLevel_observer_calls": 2
+    },
+    {
+      "argument": 1,
+      "loaded_mask": 7,
+      "current_level": "null",
+      "updated_slots": [],
+      "GetCurrentLevel_observer_calls": 0
+    },
+    {
+      "argument": 1,
+      "loaded_mask": 7,
+      "current_level": "not_ready",
+      "updated_slots": [],
+      "GetCurrentLevel_observer_calls": 0
+    },
+    {
+      "argument": 1,
+      "loaded_mask": 7,
+      "current_level": "ready",
+      "updated_slots": [],
+      "GetCurrentLevel_observer_calls": 0
+    },
+    {
+      "argument": 255,
+      "loaded_mask": 0,
+      "current_level": "null",
+      "updated_slots": [],
+      "GetCurrentLevel_observer_calls": 0
+    },
+    {
+      "argument": 255,
+      "loaded_mask": 0,
+      "current_level": "not_ready",
+      "updated_slots": [],
+      "GetCurrentLevel_observer_calls": 0
+    },
+    {
+      "argument": 255,
+      "loaded_mask": 0,
+      "current_level": "ready",
+      "updated_slots": [],
+      "GetCurrentLevel_observer_calls": 0
+    },
+    {
+      "argument": 255,
+      "loaded_mask": 8,
+      "current_level": "null",
+      "updated_slots": [
+        3
+      ],
+      "GetCurrentLevel_observer_calls": 1
+    },
+    {
+      "argument": 255,
+      "loaded_mask": 8,
+      "current_level": "not_ready",
+      "updated_slots": [],
+      "GetCurrentLevel_observer_calls": 2
+    },
+    {
+      "argument": 255,
+      "loaded_mask": 8,
+      "current_level": "ready",
+      "updated_slots": [
+        3
+      ],
+      "GetCurrentLevel_observer_calls": 2
+    },
+    {
+      "argument": 255,
+      "loaded_mask": 15,
+      "current_level": "null",
+      "updated_slots": [
+        3
+      ],
+      "GetCurrentLevel_observer_calls": 1
+    },
+    {
+      "argument": 255,
+      "loaded_mask": 15,
+      "current_level": "not_ready",
+      "updated_slots": [],
+      "GetCurrentLevel_observer_calls": 2
+    },
+    {
+      "argument": 255,
+      "loaded_mask": 15,
+      "current_level": "ready",
+      "updated_slots": [
+        3
+      ],
+      "GetCurrentLevel_observer_calls": 2
+    },
+    {
+      "argument": 255,
+      "loaded_mask": 7,
+      "current_level": "null",
+      "updated_slots": [],
+      "GetCurrentLevel_observer_calls": 0
+    },
+    {
+      "argument": 255,
+      "loaded_mask": 7,
+      "current_level": "not_ready",
+      "updated_slots": [],
+      "GetCurrentLevel_observer_calls": 0
+    },
+    {
+      "argument": 255,
+      "loaded_mask": 7,
+      "current_level": "ready",
+      "updated_slots": [],
+      "GetCurrentLevel_observer_calls": 0
+    }
+  ],
+  "case_count": 36,
+  "Update_true_starts_slot3": true,
+  "Update_false_starts_slot0": true,
+  "not_ready_Level198_skips_slot3": true,
+  "movie_update_r2_is_zero": true,
+  "observers": "GetCurrentLevel and virtual movie.Update are explicit caller/service observers. Original branch/slot loads/loop and profiling functions execute. GetDt prefix/input/HUD/FlashAnim/visible registry suffix are not executed. This is not whole MenuManager.Update.",
+  "whole_MenuManager_Update_verified": false,
+  "shared_mutated": false
+}

@@ -1,0 +1,334 @@
+{
+  "validation": "PASS",
+  "scope": "Read-only source discovery and original-only prerequisite observations.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "captured_routines": 36,
+  "original_prerequisite_cases": 41,
+  "native_comparisons": 0,
+  "new_native_code": false,
+  "whole_character_frame_executed": false,
+  "arm64_differential": false,
+  "sanitizer_audit": false,
+  "compiler_provenance_claim": false,
+  "function_bytes_verified": [
+    {
+      "original_symbol": "_ZN12CharAnimator15IncAnimSetUsersEv",
+      "elf_address": "0x3c9168",
+      "size": 96,
+      "sha256": "03af40846d7c8e0c6f19cd303db49773250361cb2e74d8f0b881bad326d52373",
+      "manifest": "port/level-world/reference/character-retained-frame/animator-users/original-functions.json"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator15DecAnimSetUsersEv",
+      "elf_address": "0x3c91c8",
+      "size": 96,
+      "sha256": "6b0d8813d3f22ba18932bd61787fb314af9c25a463e790bf216a2459444ec138",
+      "manifest": "port/level-world/reference/character-retained-frame/animator-users/original-functions.json"
+    },
+    {
+      "original_symbol": "_ZN10GameObjectC1EN10ObjectBase6GO_IDSE",
+      "elf_address": "0x38c130",
+      "size": 616,
+      "sha256": "a87e66980322f425ead92f941ba031ae4a716a7ad53b252bbb70633a31a6aaa4",
+      "manifest": "port/level-world/reference/character-retained-frame/constructors/original-functions.json"
+    },
+    {
+      "original_symbol": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "elf_address": "0x3aa1b4",
+      "size": 1448,
+      "sha256": "85471dbc43082bce2a8f0fd429f0764fb55948ce47c3396dfca28933d701e6e6",
+      "manifest": "port/level-world/reference/character-retained-frame/constructors/original-functions.json"
+    },
+    {
+      "original_symbol": "_ZN10GameObject15UpdateIdleSoundEv",
+      "elf_address": "0x38ae2c",
+      "size": 708,
+      "sha256": "ce603dc81be7cebf0b4be3eb83b1d00629ba242532a9f5cb399b8c7e5d9d5649",
+      "manifest": "port/level-world/reference/character-retained-frame/dependencies/original-functions.json"
+    },
+    {
+      "original_symbol": "_ZN12v2Controller6UpdateEv",
+      "elf_address": "0x3a2f44",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "manifest": "port/level-world/reference/character-retained-frame/dependencies/original-functions.json"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal8OnUpdateEv",
+      "elf_address": "0x3dce64",
+      "size": 64,
+      "sha256": "47fc8c7829030778675408d02e0b1e3773f59a620bad5d373201c65fb0e61dc6",
+      "manifest": "port/level-world/reference/character-retained-frame/dependencies/original-functions.json"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12_UpdateAggroEv",
+      "elf_address": "0x3cf3f0",
+      "size": 2052,
+      "sha256": "710f27619e4ec3f74e8b858e269dae79fde9f2fa0e5b21cebc2b6b4270415692",
+      "manifest": "port/level-world/reference/character-retained-frame/dependencies/original-functions.json"
+    },
+    {
+      "original_symbol": "_ZN9TimerUtil6UpdateEv",
+      "elf_address": "0x317ae4",
+      "size": 68,
+      "sha256": "ce279389d1ba83d65d1ed5f8f980e80fe8fd5b7f1c9f55dd5a7ce5e3ba2a1c8c",
+      "manifest": "port/level-world/reference/character-retained-frame/dependencies/original-functions.json"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine11SM_GetStateEv",
+      "elf_address": "0x3c01ac",
+      "size": 20,
+      "sha256": "4b5797cd91d4afd7ee3becf1bb65b696146e55fc226838e13c0fbef91b0e4743",
+      "manifest": "port/level-world/reference/character-retained-frame/dependencies/original-functions.json"
+    },
+    {
+      "original_symbol": "_ZN10CharTimers6UpdateEv",
+      "elf_address": "0x3db640",
+      "size": 612,
+      "sha256": "9de6ea9eecf3a80b360e1088589d15d4a49373c922fc4eb1cd83b0792b5d67de",
+      "manifest": "port/level-world/reference/character-retained-frame/dependencies/original-functions.json"
+    },
+    {
+      "original_symbol": "_ZN10GameObject19RequireOnlineUpdateEv",
+      "elf_address": "0x38b8b8",
+      "size": 92,
+      "sha256": "d4d361601b35deb6a49d33057bc44f6a64686f60d10d17775e9e9560b78da7c6",
+      "manifest": "port/level-world/reference/character-retained-frame/dependencies/original-functions.json"
+    },
+    {
+      "original_symbol": "_ZN6CharAI13_UpdateMasterEv",
+      "elf_address": "0x3cc5a4",
+      "size": 444,
+      "sha256": "c9ce018b17bc2a9f1580a52e932fb40124914af1053028b16aeb40b1d0610fa9",
+      "manifest": "port/level-world/reference/character-retained-frame/dependencies/original-functions.json"
+    },
+    {
+      "original_symbol": "_ZN9Character9CanUpdateEv",
+      "elf_address": "0x3a52a4",
+      "size": 316,
+      "sha256": "8ab1ce0602bf7ecb8f54e165b150844dfe3931539ac1f2e708dd8369af879d35",
+      "manifest": "port/level-world/reference/character-retained-frame/dependencies/original-functions.json"
+    },
+    {
+      "original_symbol": "_ZNK9Character10IsMerchantEv",
+      "elf_address": "0x3a30c4",
+      "size": 24,
+      "sha256": "cd67635d1bb9fc3c66dd5f4389a88dc243ed18421674eaf1a93d636ad390f84b",
+      "manifest": "port/level-world/reference/character-retained-frame/eligible-helpers/original-functions.json"
+    },
+    {
+      "original_symbol": "_ZNK13ScriptManager17IsCutSceneRunningEv",
+      "elf_address": "0x455c54",
+      "size": 108,
+      "sha256": "0182db29f3f1a37b0dc50ec5255119aea8435385d8a1e8b4ef4d9813ca797510",
+      "manifest": "port/level-world/reference/character-retained-frame/eligible-helpers/original-functions.json"
+    },
+    {
+      "original_symbol": "_ZNK9Character10CanRespawnEv",
+      "elf_address": "0x3a5248",
+      "size": 92,
+      "sha256": "27df1bd744d4a5811a3f66dbaa480d14a6ec6fd6b6cf6c2c0fc8f2fbf8355e28",
+      "manifest": "port/level-world/reference/character-retained-frame/eligible-helpers/original-functions.json"
+    },
+    {
+      "original_symbol": "_ZN10ObjectBase23TestCullingBeforeUpdateERK4aabbIfE",
+      "elf_address": "0x33de90",
+      "size": 432,
+      "sha256": "b9aee9f9480608db35d0e617cdd58d28f20e829d076b683afa3aef1edfecc7ec",
+      "manifest": "port/level-world/reference/character-retained-frame/eligible-helpers/original-functions.json"
+    },
+    {
+      "original_symbol": "_ZN9Character13UpdateStateFXEv",
+      "elf_address": "0x3a4470",
+      "size": 556,
+      "sha256": "b4882cc05af9b52b5003b9fdc4faa2c9f6168aee0d8b47c1bd1914d4ac143b84",
+      "manifest": "port/level-world/reference/character-retained-frame/eligible-helpers/original-functions.json"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScript19CallStateConditionsEv",
+      "elf_address": "0x3d8ea0",
+      "size": 20,
+      "sha256": "dc6f8887142c6d1db5d90d035740a2342645d48af746b5c8c4511e7f0bbcbb4f",
+      "manifest": "port/level-world/reference/character-retained-frame/eligible-helpers/original-functions.json"
+    },
+    {
+      "original_symbol": "_Z17IsMultiplayerGamev",
+      "elf_address": "0x3a42f4",
+      "size": 80,
+      "sha256": "ffa1930eb582b6931f67543a85c58835989087efd014d3a2ca1d043fbc10f25e",
+      "manifest": "port/level-world/reference/character-retained-frame/eligible-helpers/original-functions.json"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScript15CallStateUpdateEv",
+      "elf_address": "0x3d8eb4",
+      "size": 20,
+      "sha256": "a220137eb4be41b001f29b24a8f1bf809e4b8f3aeacd89dad90cd92497fb2369",
+      "manifest": "port/level-world/reference/character-retained-frame/eligible-helpers/original-functions.json"
+    },
+    {
+      "original_symbol": "_ZN10GameObject20UpdateTargetPositionEv",
+      "elf_address": "0x393d74",
+      "size": 64,
+      "sha256": "9bc7c5b9c2bb0c4d56cabe44e41bad06739e84e8b846fd33fb50644dd0bba8ac",
+      "manifest": "port/level-world/reference/character-retained-frame/eligible-helpers/original-functions.json"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine11SM_IsScaredEb",
+      "elf_address": "0x3c034c",
+      "size": 44,
+      "sha256": "8b19e37a701dfe1ae6bb21288c6871518a76f27cb47b8b3248d22b9265715176",
+      "manifest": "port/level-world/reference/character-retained-frame/fx-queries/original-functions.json"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine12SM_IsStunnedEb",
+      "elf_address": "0x3c0378",
+      "size": 44,
+      "sha256": "46b68984d27f375d89551b4f1423c51d7c6a051e14d045f5f2dd5e3624aa5735",
+      "manifest": "port/level-world/reference/character-retained-frame/fx-queries/original-functions.json"
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties18PROPS_GetWalkSpeedEv",
+      "elf_address": "0x3de6c4",
+      "size": 68,
+      "sha256": "6974c0763d694f245ae787a7a7308728d0b6fc4daf24aab43e15039574e18f8c",
+      "manifest": "port/level-world/reference/character-retained-frame/fx-queries/original-functions.json"
+    },
+    {
+      "original_symbol": "_ZN9Character6UpdateEv",
+      "elf_address": "0x3abe98",
+      "size": 3776,
+      "sha256": "b74b4f3405a8456ce440b642e97f1b0c028c29e9e74abaa1be0aaf1534e1f8c2",
+      "manifest": "port/level-world/reference/character-retained-frame/original-functions.json"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator6UpdateEv",
+      "elf_address": "0x3caf3c",
+      "size": 948,
+      "sha256": "a3ea6cd907c75e5ee0c8a915294b4d21f94efabb644f125c2009d401481eeebe",
+      "manifest": "port/level-world/reference/character-retained-frame/original-functions.json"
+    },
+    {
+      "original_symbol": "_ZN6CSIdle8OnUpdateEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c0e80",
+      "size": 16,
+      "sha256": "cb75a2633d2bc15c4a0aaf7d11871fbefc2462a50bd63d2a31a4dc0f8ba2c757",
+      "manifest": "port/level-world/reference/character-retained-frame/original-functions.json"
+    },
+    {
+      "original_symbol": "_ZN11Application5GetDtEv",
+      "elf_address": "0x31f66c",
+      "size": 8,
+      "sha256": "7a62d669c2eb2d53321c0b59f796d82a014b82f621897d727dfd9c45be567387",
+      "manifest": "port/level-world/reference/character-retained-frame/original-functions.json"
+    },
+    {
+      "original_symbol": "_Z20PushProfilingContextPKc",
+      "elf_address": "0x3136b4",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "manifest": "port/level-world/reference/character-retained-frame/original-functions.json"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine6UpdateEv",
+      "elf_address": "0x3c628c",
+      "size": 264,
+      "sha256": "abfd28dd44b37cb6e711de13ac7a010767efbfd6faec0c925773240f77e45614",
+      "manifest": "port/level-world/reference/character-retained-frame/original-functions.json"
+    },
+    {
+      "original_symbol": "_Z19PopProfilingContextPKc",
+      "elf_address": "0x3136b8",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "manifest": "port/level-world/reference/character-retained-frame/original-functions.json"
+    },
+    {
+      "original_symbol": "_ZN10GameObject6UpdateEv",
+      "elf_address": "0x38cbe8",
+      "size": 352,
+      "sha256": "b5206fb49b4a8562124ee6ae3f1e5a82b047a9b93ce63b979be9d1fad5f4d316",
+      "manifest": "port/level-world/reference/character-retained-frame/original-functions.json"
+    },
+    {
+      "original_symbol": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c0b78",
+      "size": 776,
+      "sha256": "f012ce3658bdf43d2d800a989c6259cd3019899a085df27429ce3d915b036f75",
+      "manifest": "port/level-world/reference/character-retained-frame/original-functions.json"
+    },
+    {
+      "original_symbol": "_ZN13PhysicalWorld6updateEv",
+      "elf_address": "0x34bd08",
+      "size": 104,
+      "sha256": "61c621d1c749fbda062569f8abeacba0abd1dc822e28ad2d3174825703be9a39",
+      "manifest": "port/level-world/reference/character-retained-frame/original-functions.json"
+    }
+  ],
+  "artifacts_sha256": {
+    "port/level-world/reference/character-retained-frame/animator-users/original-functions.json": "70bb3d87af66f524bb984f6fa4885797bb35223bc80961750f1abfa87744250f",
+    "port/level-world/reference/character-retained-frame/animator-users/reference/original-functions.asm": "997e799e4e2a2d839b33a47d3dc13e791118c2e51dbb9ac0da76a185852d4402",
+    "port/level-world/reference/character-retained-frame/constructors/original-functions.json": "222093507d4f04ecef909594792fef3122ca59084e1251aaf7b28f3b8253a90d",
+    "port/level-world/reference/character-retained-frame/constructors/reference/original-functions.asm": "4b6c19d59ee9114fa4aa0f0c79e9bed3d9e0f249130721d5c2f1a593709b9643",
+    "port/level-world/reference/character-retained-frame/dependencies/original-functions.json": "74c7f1411f97a38a1145741635482cf75e2132e1ef8fa2333835d11349e14bb4",
+    "port/level-world/reference/character-retained-frame/dependencies/reference/original-functions.asm": "d77561f12463342bb84cf4c7d258538b605a8676ed17b2aa96d5ccd4ff254382",
+    "port/level-world/reference/character-retained-frame/direct-calls.json": "4da4ce14c56fad872dc12c7ddba771b0662e81c1dbb0732bc8deb2b5fb99efc0",
+    "port/level-world/reference/character-retained-frame/eligible-helpers/original-functions.json": "1ef792465930f2bca2fe1fa48a139a1d0bff92be60e8d72e50056359a8c6de4a",
+    "port/level-world/reference/character-retained-frame/eligible-helpers/reference/original-functions.asm": "e5b343cc7b52800addf4799acbc162135d1dc32963bbf3b536adb41092c317a3",
+    "port/level-world/reference/character-retained-frame/freeze_evidence.py": "358815febe06a8e11ffd1ff424af7ee2231e63700dcbdb689d9d4c6ff326e954",
+    "port/level-world/reference/character-retained-frame/fx-queries/original-functions.json": "110f4e4671c22c4a2b2513b579fa628868449c18ba1fc7a76dc96768730045a9",
+    "port/level-world/reference/character-retained-frame/fx-queries/reference/original-functions.asm": "7160d235978b5cbc2324fc629e6c97c44e1ae6a304860a6c32432cc564af5d2b",
+    "port/level-world/reference/character-retained-frame/literals-and-vtables.json": "284747a6c0eb1d87629c37ca6318f09f2e332546fc773d578cf4d83a2134c2a4",
+    "port/level-world/reference/character-retained-frame/NOTES.md": "d14a7bfec784b57264d94032d8e4f8a5e3245ebf27613563b98aadff1777761d",
+    "port/level-world/reference/character-retained-frame/original-functions.json": "c5352c214d9111086abb88f4592ac0d35d1bbcdac7b0d0978cefef9fb3b9494c",
+    "port/level-world/reference/character-retained-frame/original-prerequisites.json": "a792d94d31c202bd6a885fe18e8e4dc5b77eef0dd8f3def6a32789cda146c188",
+    "port/level-world/reference/character-retained-frame/probe_original.py": "1b598ce8fb13124b1b46d96d1411b9123a55254c20cffefff8c9d6c5527fc8a6",
+    "port/level-world/reference/character-retained-frame/reference/original-functions.asm": "11694cd0f55b2664ca75d951a629ba5eadb07d36f817bd6a9dc2e2181d2371d6"
+  },
+  "existing_kernel_inventory_only_sha256": {
+    "port/level-world/character_state_owner_frame.hpp": "1c3e6b69e9e8e853ed7aba6bdb0466e99a9262a91bc0ec561320026c2d7fac51",
+    "port/level-world/character_state_owner_frame.cpp": "d506ba5eac38e2e9991957e586365eccfbe9eeff439b07ed8f4b015fe9eca851",
+    "port/level-world/character_native_fsm.hpp": "525e057929c23b8ed8b45b71a3912b100457ca844b98b575ba11eacc310bdf1b",
+    "port/level-world/character_native_fsm.cpp": "58f7544dc7c4d693f5e6b97a2165c1d645e161e46ab349de48627886ac56ebac",
+    "port/level-world/character_idle_update.hpp": "97b98336bf2dbd82736fc4963f5be3beb3616f7dd37fbb2307171cf1b330fd88",
+    "port/level-world/character_idle_update.cpp": "db5d8a06ec37208d78fcaa5e7282873f6a06ef94f169fce7243d728a94b89dc0",
+    "port/level-world/character_idle_events.hpp": "1ba079ba75b9ab2fab2ef2408afbd11cd4af448ae2bb3e05636960e85656f9cc",
+    "port/level-world/character_idle_events.cpp": "7f01c179d6f080514d2b960cca9ad2ff51584620b80ef1c0629680dc051f8c78",
+    "port/level-world/character_ai_frame.hpp": "6f93867b30aeb651c68787493a7ea377670a86f0f11e0e4f1f406e03f3ac883f",
+    "port/level-world/character_ai_frame.cpp": "9694d48f363c07102988223ccb1c89c932b0693afa919f95d491f70099993e04",
+    "port/level-world/character_ai_update.hpp": "35efb90d8a55675e48a602d21dcce1ddbdb1aa211a6fca0acddcaa66d77e2758",
+    "port/level-world/character_ai_update.cpp": "ba39216c5ab26eb3a3f04a165c57d7644b819548fb387332c8e8076f68662e39",
+    "port/level-world/character_script_states.hpp": "fecabe415b6e085b22ca00fbc01a08936f0cd512bda4f576cc7a8ec8f58d8e41",
+    "port/level-world/character_script_states.cpp": "bc256f5cb3918b0e8b207d66be784731fe1dcc9f284269e3bcee1e875326411a",
+    "port/level-world/actor_blended_playback.hpp": "6bfe572044fa203f877acdd500fe48e2a3eef41886a6fd0a673694b02bef3bf2",
+    "port/level-world/actor_blended_playback.cpp": "139ebade8b14e07771c1a9a34d4996fa9940dcf99b05e291db3a07f1056cfa3b",
+    "port/level-world/navigation_controller.hpp": "2fd23f527acc7f3e9e0c3caac287906452b5e40954a3dcec4a44cadf4b7160e6",
+    "port/level-world/navigation_controller.cpp": "43e6d236fa5d7bdf7d2befda7f288008a6cfb87ec06a411c19fdcf2465eed9ae",
+    "port/level-world/subobjects_update.hpp": "867d8285f4328dec490f0f00f6fd82800ac24477a5e29bc132af0464a9fd4c03",
+    "port/level-world/subobjects_update.cpp": "da7407030dee5be659b4ffe3b9e5c3f10671fb47b08b2694a7eab2526ba56bfe",
+    "port/level-world/physical_world.hpp": "6041e04d6ffe0f95319eb2b66c614c013bc0f35f0205a89428f4ad9ceb7ce3c6",
+    "port/level-world/physical_world.cpp": "be5bf1faa4256553033b260b993ed32347766b9a029196616c5c4fb07eb99b15"
+  },
+  "eligible_branch": {
+    "state": 3,
+    "ai_type": 4,
+    "zoned": 1,
+    "in_zone": 0,
+    "active_ai_required": true,
+    "heading": 0,
+    "visual_eligibility_is_borrowed_source_input": true,
+    "ai_target_master_aggro_onupdate_skipped_by_original_gate": true,
+    "fsm_elapsed_advancements": 1
+  },
+  "remaining_required_delivery": [
+    "Character debug/global prefixes and CanUpdate visual/online/player/culling producers",
+    "Timer expiry effects/notifications and optional TimerUtil when installed",
+    "Exact controller class dispatch and animator set-user ownership bookkeeping",
+    "Ordered GameObject navigation/rotation/subobjects/network/idle-sound services",
+    "Character posttail multiplayer/cutscene and conditional FX/text delivery",
+    "Shared scene/physics/contact/ObjectManager eligibility owners"
+  ],
+  "reproduction": [
+    "python port/level-world/reference/character-retained-frame/probe_original.py",
+    "python port/level-world/reference/character-retained-frame/freeze_evidence.py"
+  ]
+}

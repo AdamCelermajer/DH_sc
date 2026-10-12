@@ -1,0 +1,11092 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_instructions_executed": true,
+  "explicit_services": [
+    "three StrID defaults",
+    "libc snprintf/modff/AEABI",
+    "Application title/version"
+  ],
+  "cases": [
+    {
+      "input": "615e207a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e217a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e227a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e237a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "61237a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e247a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e257a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e267a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e277a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e287a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e297a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e2a7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "612a7a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e2b7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e2c7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e2d7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e2e7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e2f7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e307a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e317a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e327a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e337a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e347a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e357a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e367a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e377a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e387a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e397a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e3a7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e3b7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e3c7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e3d7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e3e7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e3f7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e407a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e417a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e427a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e437a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e447a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e457a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e467a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e477a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e487a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e497a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e4a7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e4b7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e4c7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e4d7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e4e7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e4f7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e507a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e517a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e527a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e537a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e547a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e557a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e567a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e577a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e587a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e597a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e5a7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e5b7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e5c7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e5d7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e5e7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "615e7a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e5f7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e607a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e617a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e627a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e637a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e647a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "61312c3233347a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e657a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e667a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "61312c3233342e35377a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e677a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "61312e32337a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e687a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "613132332c3435362e37317a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e697a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "613234362e39317a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e6a7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e6b7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "61317a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e6c7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e6d7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "6131322e347a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e6e7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "610a7a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e6f7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e707a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "613132332c3435367a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e717a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e727a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e737a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e747a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "6144756e67656f6e2048756e74657220327a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ],
+        [
+          "title",
+          32,
+          0
+        ]
+      ]
+    },
+    {
+      "input": "615e757a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e767a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "61312e302e327a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ],
+        [
+          "version",
+          10,
+          1
+        ]
+      ]
+    },
+    {
+      "input": "615e777a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e787a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e797a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e7a7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e7b7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e7c7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e7d7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "615e7e7a",
+      "values": [
+        1234.567,
+        "arg"
+      ],
+      "returned": 0,
+      "output": "617a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e64",
+      "values": [
+        0.0
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e64",
+      "values": [
+        -0.0
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e64",
+      "values": [
+        0.001
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e64",
+      "values": [
+        -0.001
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e64",
+      "values": [
+        0.005
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e64",
+      "values": [
+        -0.005
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e64",
+      "values": [
+        0.05
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e64",
+      "values": [
+        -0.05
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e64",
+      "values": [
+        0.099
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e64",
+      "values": [
+        -0.099
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e64",
+      "values": [
+        1.234
+      ],
+      "returned": 0,
+      "output": "31",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e64",
+      "values": [
+        -1.234
+      ],
+      "returned": 0,
+      "output": "2d31",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e64",
+      "values": [
+        999.999
+      ],
+      "returned": 0,
+      "output": "393939",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e64",
+      "values": [
+        -999.999
+      ],
+      "returned": 0,
+      "output": "2d393939",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e64",
+      "values": [
+        1000.0
+      ],
+      "returned": 0,
+      "output": "312c303030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e64",
+      "values": [
+        -1000.0
+      ],
+      "returned": 0,
+      "output": "2d31303030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e64",
+      "values": [
+        999999.0
+      ],
+      "returned": 0,
+      "output": "3939392c393939",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e64",
+      "values": [
+        1000000.0
+      ],
+      "returned": 0,
+      "output": "312c3030302c303030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e64",
+      "values": [
+        123456789.0
+      ],
+      "returned": 0,
+      "output": "3132332c3435362c373932",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e66",
+      "values": [
+        0.0
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e66",
+      "values": [
+        -0.0
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e66",
+      "values": [
+        0.001
+      ],
+      "returned": 0,
+      "output": "302e3030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e66",
+      "values": [
+        -0.001
+      ],
+      "returned": 0,
+      "output": "302e3030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e66",
+      "values": [
+        0.005
+      ],
+      "returned": 0,
+      "output": "302e3030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e66",
+      "values": [
+        -0.005
+      ],
+      "returned": 0,
+      "output": "302e3030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e66",
+      "values": [
+        0.05
+      ],
+      "returned": 0,
+      "output": "302e3035",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e66",
+      "values": [
+        -0.05
+      ],
+      "returned": 0,
+      "output": "302e3035",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e66",
+      "values": [
+        0.099
+      ],
+      "returned": 0,
+      "output": "302e3130",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e66",
+      "values": [
+        -0.099
+      ],
+      "returned": 0,
+      "output": "302e3130",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e66",
+      "values": [
+        1.234
+      ],
+      "returned": 0,
+      "output": "312e3233",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e66",
+      "values": [
+        -1.234
+      ],
+      "returned": 0,
+      "output": "2d312e3233",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e66",
+      "values": [
+        999.999
+      ],
+      "returned": 0,
+      "output": "312c3030302e3030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e66",
+      "values": [
+        -999.999
+      ],
+      "returned": 0,
+      "output": "2d313030302e3030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e66",
+      "values": [
+        1000.0
+      ],
+      "returned": 0,
+      "output": "312c303030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e66",
+      "values": [
+        -1000.0
+      ],
+      "returned": 0,
+      "output": "2d31303030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e66",
+      "values": [
+        999999.0
+      ],
+      "returned": 0,
+      "output": "3939392c3939392e3030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e66",
+      "values": [
+        1000000.0
+      ],
+      "returned": 0,
+      "output": "312c3030302c3030302e3030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e66",
+      "values": [
+        123456789.0
+      ],
+      "returned": 0,
+      "output": "3132332c3435362c3739322e3030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e67",
+      "values": [
+        0.0
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e67",
+      "values": [
+        -0.0
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e67",
+      "values": [
+        0.001
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e67",
+      "values": [
+        -0.001
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e67",
+      "values": [
+        0.005
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e67",
+      "values": [
+        -0.005
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e67",
+      "values": [
+        0.05
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e67",
+      "values": [
+        -0.05
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e67",
+      "values": [
+        0.099
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e67",
+      "values": [
+        -0.099
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e67",
+      "values": [
+        1.234
+      ],
+      "returned": 0,
+      "output": "302e3030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e67",
+      "values": [
+        -1.234
+      ],
+      "returned": 0,
+      "output": "302e3030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e67",
+      "values": [
+        999.999
+      ],
+      "returned": 0,
+      "output": "31",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e67",
+      "values": [
+        -999.999
+      ],
+      "returned": 0,
+      "output": "2d31",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e67",
+      "values": [
+        1000.0
+      ],
+      "returned": 0,
+      "output": "31",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e67",
+      "values": [
+        -1000.0
+      ],
+      "returned": 0,
+      "output": "2d31",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e67",
+      "values": [
+        999999.0
+      ],
+      "returned": 0,
+      "output": "312c3030302e3030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e67",
+      "values": [
+        1000000.0
+      ],
+      "returned": 0,
+      "output": "312c303030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e67",
+      "values": [
+        123456789.0
+      ],
+      "returned": 0,
+      "output": "3132332c3435362e3739",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e68",
+      "values": [
+        0.0
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e68",
+      "values": [
+        -0.0
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e68",
+      "values": [
+        0.001
+      ],
+      "returned": 0,
+      "output": "302e3130",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e68",
+      "values": [
+        -0.001
+      ],
+      "returned": 0,
+      "output": "302e3130",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e68",
+      "values": [
+        0.005
+      ],
+      "returned": 0,
+      "output": "302e3530",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e68",
+      "values": [
+        -0.005
+      ],
+      "returned": 0,
+      "output": "302e3530",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e68",
+      "values": [
+        0.05
+      ],
+      "returned": 0,
+      "output": "35",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e68",
+      "values": [
+        -0.05
+      ],
+      "returned": 0,
+      "output": "2d35",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e68",
+      "values": [
+        0.099
+      ],
+      "returned": 0,
+      "output": "392e3930",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e68",
+      "values": [
+        -0.099
+      ],
+      "returned": 0,
+      "output": "2d392e3930",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e68",
+      "values": [
+        1.234
+      ],
+      "returned": 0,
+      "output": "3132332e3430",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e68",
+      "values": [
+        -1.234
+      ],
+      "returned": 0,
+      "output": "2d3132332e3430",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e68",
+      "values": [
+        999.999
+      ],
+      "returned": 0,
+      "output": "39392c3939392e3931",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e68",
+      "values": [
+        -999.999
+      ],
+      "returned": 0,
+      "output": "2d39393939392e3931",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e68",
+      "values": [
+        1000.0
+      ],
+      "returned": 0,
+      "output": "3130302c3030302e3030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e68",
+      "values": [
+        -1000.0
+      ],
+      "returned": 0,
+      "output": "2d3130303030302e3030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e68",
+      "values": [
+        999999.0
+      ],
+      "returned": 0,
+      "output": "39392c3939392c3930342e3030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e68",
+      "values": [
+        1000000.0
+      ],
+      "returned": 0,
+      "output": "3130302c3030302c3030302e3030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e68",
+      "values": [
+        123456789.0
+      ],
+      "returned": 0,
+      "output": "323134372c3438332c3634372e3030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e69",
+      "values": [
+        0.0
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e69",
+      "values": [
+        -0.0
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e69",
+      "values": [
+        0.001
+      ],
+      "returned": 0,
+      "output": "302e3030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e69",
+      "values": [
+        -0.001
+      ],
+      "returned": 0,
+      "output": "302e3030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e69",
+      "values": [
+        0.005
+      ],
+      "returned": 0,
+      "output": "302e3030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e69",
+      "values": [
+        -0.005
+      ],
+      "returned": 0,
+      "output": "302e3030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e69",
+      "values": [
+        0.05
+      ],
+      "returned": 0,
+      "output": "302e3031",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e69",
+      "values": [
+        -0.05
+      ],
+      "returned": 0,
+      "output": "302e3031",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e69",
+      "values": [
+        0.099
+      ],
+      "returned": 0,
+      "output": "302e3032",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e69",
+      "values": [
+        -0.099
+      ],
+      "returned": 0,
+      "output": "302e3032",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e69",
+      "values": [
+        1.234
+      ],
+      "returned": 0,
+      "output": "302e3235",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e69",
+      "values": [
+        -1.234
+      ],
+      "returned": 0,
+      "output": "302e3235",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e69",
+      "values": [
+        999.999
+      ],
+      "returned": 0,
+      "output": "3230302e3030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e69",
+      "values": [
+        -999.999
+      ],
+      "returned": 0,
+      "output": "2d3230302e3030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e69",
+      "values": [
+        1000.0
+      ],
+      "returned": 0,
+      "output": "323030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e69",
+      "values": [
+        -1000.0
+      ],
+      "returned": 0,
+      "output": "2d323030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e69",
+      "values": [
+        999999.0
+      ],
+      "returned": 0,
+      "output": "3139392c3939392e3739",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e69",
+      "values": [
+        1000000.0
+      ],
+      "returned": 0,
+      "output": "3230302c3030302e3030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e69",
+      "values": [
+        123456789.0
+      ],
+      "returned": 0,
+      "output": "32342c3639312c3335382e3030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6b",
+      "values": [
+        0.0
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6b",
+      "values": [
+        -0.0
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6b",
+      "values": [
+        0.001
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6b",
+      "values": [
+        -0.001
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6b",
+      "values": [
+        0.005
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6b",
+      "values": [
+        -0.005
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6b",
+      "values": [
+        0.05
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6b",
+      "values": [
+        -0.05
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6b",
+      "values": [
+        0.099
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6b",
+      "values": [
+        -0.099
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6b",
+      "values": [
+        1.234
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6b",
+      "values": [
+        -1.234
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6b",
+      "values": [
+        999.999
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6b",
+      "values": [
+        -999.999
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6b",
+      "values": [
+        1000.0
+      ],
+      "returned": 0,
+      "output": "31",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6b",
+      "values": [
+        -1000.0
+      ],
+      "returned": 0,
+      "output": "2d31",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6b",
+      "values": [
+        999999.0
+      ],
+      "returned": 0,
+      "output": "393939",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6b",
+      "values": [
+        1000000.0
+      ],
+      "returned": 0,
+      "output": "312c303030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6b",
+      "values": [
+        123456789.0
+      ],
+      "returned": 0,
+      "output": "3132332c343536",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6d",
+      "values": [
+        0.0
+      ],
+      "returned": 0,
+      "output": "302e30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6d",
+      "values": [
+        -0.0
+      ],
+      "returned": 0,
+      "output": "302e30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6d",
+      "values": [
+        0.001
+      ],
+      "returned": 0,
+      "output": "302e30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6d",
+      "values": [
+        -0.001
+      ],
+      "returned": 0,
+      "output": "302e30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6d",
+      "values": [
+        0.005
+      ],
+      "returned": 0,
+      "output": "302e30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6d",
+      "values": [
+        -0.005
+      ],
+      "returned": 0,
+      "output": "302e30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6d",
+      "values": [
+        0.05
+      ],
+      "returned": 0,
+      "output": "302e30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6d",
+      "values": [
+        -0.05
+      ],
+      "returned": 0,
+      "output": "302e30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6d",
+      "values": [
+        0.099
+      ],
+      "returned": 0,
+      "output": "302e30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6d",
+      "values": [
+        -0.099
+      ],
+      "returned": 0,
+      "output": "302e30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6d",
+      "values": [
+        1.234
+      ],
+      "returned": 0,
+      "output": "302e31",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6d",
+      "values": [
+        -1.234
+      ],
+      "returned": 0,
+      "output": "302e31",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6d",
+      "values": [
+        999.999
+      ],
+      "returned": 0,
+      "output": "31302e30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6d",
+      "values": [
+        -999.999
+      ],
+      "returned": 0,
+      "output": "2d31302e30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6d",
+      "values": [
+        1000.0
+      ],
+      "returned": 0,
+      "output": "31302e30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6d",
+      "values": [
+        -1000.0
+      ],
+      "returned": 0,
+      "output": "2d31302e30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6d",
+      "values": [
+        999999.0
+      ],
+      "returned": 0,
+      "output": "31302c3030302e30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6d",
+      "values": [
+        1000000.0
+      ],
+      "returned": 0,
+      "output": "31302c3030302e30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6d",
+      "values": [
+        123456789.0
+      ],
+      "returned": 0,
+      "output": "312c3233342c3536372e39",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e70",
+      "values": [
+        0.0
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e70",
+      "values": [
+        -0.0
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e70",
+      "values": [
+        0.001
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e70",
+      "values": [
+        -0.001
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e70",
+      "values": [
+        0.005
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e70",
+      "values": [
+        -0.005
+      ],
+      "returned": 0,
+      "output": "30",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e70",
+      "values": [
+        0.05
+      ],
+      "returned": 0,
+      "output": "35",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e70",
+      "values": [
+        -0.05
+      ],
+      "returned": 0,
+      "output": "2d35",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e70",
+      "values": [
+        0.099
+      ],
+      "returned": 0,
+      "output": "39",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e70",
+      "values": [
+        -0.099
+      ],
+      "returned": 0,
+      "output": "2d39",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e70",
+      "values": [
+        1.234
+      ],
+      "returned": 0,
+      "output": "313233",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e70",
+      "values": [
+        -1.234
+      ],
+      "returned": 0,
+      "output": "2d313233",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e70",
+      "values": [
+        999.999
+      ],
+      "returned": 0,
+      "output": "39392c393939",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e70",
+      "values": [
+        -999.999
+      ],
+      "returned": 0,
+      "output": "2d3939393939",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e70",
+      "values": [
+        1000.0
+      ],
+      "returned": 0,
+      "output": "3130302c303030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e70",
+      "values": [
+        -1000.0
+      ],
+      "returned": 0,
+      "output": "2d313030303030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e70",
+      "values": [
+        999999.0
+      ],
+      "returned": 0,
+      "output": "39392c3939392c393034",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e70",
+      "values": [
+        1000000.0
+      ],
+      "returned": 0,
+      "output": "3130302c3030302c303030",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e70",
+      "values": [
+        123456789.0
+      ],
+      "returned": 0,
+      "output": "323134372c3438332c363437",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "",
+      "prefix": "prefix:",
+      "pack": -1,
+      "returned": 0,
+      "output": "7072656669783a",
+      "trace": []
+    },
+    {
+      "input": "706c61696e",
+      "prefix": "prefix:",
+      "pack": -1,
+      "returned": 0,
+      "output": "7072656669783a706c61696e",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "7c",
+      "prefix": "prefix:",
+      "pack": -1,
+      "returned": 1,
+      "output": "7072656669783a11",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6e",
+      "prefix": "prefix:",
+      "pack": -1,
+      "returned": 0,
+      "output": "7072656669783a0a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e733a5e733a5e73",
+      "prefix": "prefix:",
+      "pack": -1,
+      "returned": 0,
+      "output": "7072656669783a783a3a79",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e66202f205e64",
+      "prefix": "prefix:",
+      "pack": -1,
+      "returned": 0,
+      "output": "7072656669783a312c3233342e3536202f203737",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e76205e74",
+      "prefix": "prefix:",
+      "pack": -1,
+      "returned": 0,
+      "output": "7072656669783a312e302e322044756e67656f6e2048756e7465722032",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ],
+        [
+          "version",
+          10,
+          1
+        ],
+        [
+          "title",
+          32,
+          0
+        ]
+      ]
+    },
+    {
+      "input": "6f6e6520212074776f203f20656e64",
+      "prefix": "prefix:",
+      "pack": -1,
+      "returned": 0,
+      "output": "7072656669783a6f6e65c2a0212074776fc2a03f20656e64",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e756e6b6e6f776e",
+      "prefix": "prefix:",
+      "pack": -1,
+      "returned": 0,
+      "output": "7072656669783a6e6b6e6f776e",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "",
+      "prefix": "prefix:",
+      "pack": 0,
+      "returned": 0,
+      "output": "7072656669783a",
+      "trace": []
+    },
+    {
+      "input": "706c61696e",
+      "prefix": "prefix:",
+      "pack": 0,
+      "returned": 0,
+      "output": "7072656669783a706c61696e",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "7c",
+      "prefix": "prefix:",
+      "pack": 0,
+      "returned": 1,
+      "output": "7072656669783a11",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6e",
+      "prefix": "prefix:",
+      "pack": 0,
+      "returned": 0,
+      "output": "7072656669783a0a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e733a5e733a5e73",
+      "prefix": "prefix:",
+      "pack": 0,
+      "returned": 0,
+      "output": "7072656669783a783a3a79",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e66202f205e64",
+      "prefix": "prefix:",
+      "pack": 0,
+      "returned": 0,
+      "output": "7072656669783a312c3233342e3536202f203737",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e76205e74",
+      "prefix": "prefix:",
+      "pack": 0,
+      "returned": 0,
+      "output": "7072656669783a312e302e322044756e67656f6e2048756e7465722032",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ],
+        [
+          "version",
+          10,
+          1
+        ],
+        [
+          "title",
+          32,
+          0
+        ]
+      ]
+    },
+    {
+      "input": "6f6e6520212074776f203f20656e64",
+      "prefix": "prefix:",
+      "pack": 0,
+      "returned": 0,
+      "output": "7072656669783a6f6e65c2a0212074776fc2a03f20656e64",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e756e6b6e6f776e",
+      "prefix": "prefix:",
+      "pack": 0,
+      "returned": 0,
+      "output": "7072656669783a6e6b6e6f776e",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "",
+      "prefix": "prefix:",
+      "pack": 4,
+      "returned": 0,
+      "output": "7072656669783a",
+      "trace": []
+    },
+    {
+      "input": "706c61696e",
+      "prefix": "prefix:",
+      "pack": 4,
+      "returned": 0,
+      "output": "7072656669783a706c61696e",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "7c",
+      "prefix": "prefix:",
+      "pack": 4,
+      "returned": 1,
+      "output": "7072656669783a11",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6e",
+      "prefix": "prefix:",
+      "pack": 4,
+      "returned": 0,
+      "output": "7072656669783a0a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e733a5e733a5e73",
+      "prefix": "prefix:",
+      "pack": 4,
+      "returned": 0,
+      "output": "7072656669783a783a3a79",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e66202f205e64",
+      "prefix": "prefix:",
+      "pack": 4,
+      "returned": 0,
+      "output": "7072656669783a312c3233342e3536202f203737",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e76205e74",
+      "prefix": "prefix:",
+      "pack": 4,
+      "returned": 0,
+      "output": "7072656669783a312e302e322044756e67656f6e2048756e7465722032",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ],
+        [
+          "version",
+          10,
+          1
+        ],
+        [
+          "title",
+          32,
+          0
+        ]
+      ]
+    },
+    {
+      "input": "6f6e6520212074776f203f20656e64",
+      "prefix": "prefix:",
+      "pack": 4,
+      "returned": 0,
+      "output": "7072656669783a6f6e65c2a021202074776fc2a03f2020656e64",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e756e6b6e6f776e",
+      "prefix": "prefix:",
+      "pack": 4,
+      "returned": 0,
+      "output": "7072656669783a6e6b6e6f776e",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "",
+      "prefix": "prefix:",
+      "pack": 5,
+      "returned": 0,
+      "output": "7072656669783a",
+      "trace": []
+    },
+    {
+      "input": "706c61696e",
+      "prefix": "prefix:",
+      "pack": 5,
+      "returned": 0,
+      "output": "7072656669783a706c61696e",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "7c",
+      "prefix": "prefix:",
+      "pack": 5,
+      "returned": 1,
+      "output": "7072656669783a11",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6e",
+      "prefix": "prefix:",
+      "pack": 5,
+      "returned": 0,
+      "output": "7072656669783a0a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e733a5e733a5e73",
+      "prefix": "prefix:",
+      "pack": 5,
+      "returned": 0,
+      "output": "7072656669783a783a3a79",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e66202f205e64",
+      "prefix": "prefix:",
+      "pack": 5,
+      "returned": 0,
+      "output": "7072656669783a312c3233342e3536202f203737",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e76205e74",
+      "prefix": "prefix:",
+      "pack": 5,
+      "returned": 0,
+      "output": "7072656669783a312e302e322044756e67656f6e2048756e7465722032",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ],
+        [
+          "version",
+          10,
+          1
+        ],
+        [
+          "title",
+          32,
+          0
+        ]
+      ]
+    },
+    {
+      "input": "6f6e6520212074776f203f20656e64",
+      "prefix": "prefix:",
+      "pack": 5,
+      "returned": 0,
+      "output": "7072656669783a6f6e65c2a021202074776fc2a03f2020656e64",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e756e6b6e6f776e",
+      "prefix": "prefix:",
+      "pack": 5,
+      "returned": 0,
+      "output": "7072656669783a6e6b6e6f776e",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "",
+      "prefix": "prefix:",
+      "pack": 6,
+      "returned": 0,
+      "output": "7072656669783a",
+      "trace": []
+    },
+    {
+      "input": "706c61696e",
+      "prefix": "prefix:",
+      "pack": 6,
+      "returned": 0,
+      "output": "7072656669783a706c61696e",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "7c",
+      "prefix": "prefix:",
+      "pack": 6,
+      "returned": 1,
+      "output": "7072656669783a11",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6e",
+      "prefix": "prefix:",
+      "pack": 6,
+      "returned": 0,
+      "output": "7072656669783a0a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e733a5e733a5e73",
+      "prefix": "prefix:",
+      "pack": 6,
+      "returned": 0,
+      "output": "7072656669783a783a3a79",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e66202f205e64",
+      "prefix": "prefix:",
+      "pack": 6,
+      "returned": 0,
+      "output": "7072656669783a312c3233342e3536202f203737",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e76205e74",
+      "prefix": "prefix:",
+      "pack": 6,
+      "returned": 0,
+      "output": "7072656669783a312e302e322044756e67656f6e2048756e7465722032",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ],
+        [
+          "version",
+          10,
+          1
+        ],
+        [
+          "title",
+          32,
+          0
+        ]
+      ]
+    },
+    {
+      "input": "6f6e6520212074776f203f20656e64",
+      "prefix": "prefix:",
+      "pack": 6,
+      "returned": 0,
+      "output": "7072656669783a6f6e65c2a021202074776fc2a03f2020656e64",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e756e6b6e6f776e",
+      "prefix": "prefix:",
+      "pack": 6,
+      "returned": 0,
+      "output": "7072656669783a6e6b6e6f776e",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "",
+      "prefix": "prefix:",
+      "pack": 7,
+      "returned": 0,
+      "output": "7072656669783a",
+      "trace": []
+    },
+    {
+      "input": "706c61696e",
+      "prefix": "prefix:",
+      "pack": 7,
+      "returned": 0,
+      "output": "7072656669783a706c61696e",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "7c",
+      "prefix": "prefix:",
+      "pack": 7,
+      "returned": 1,
+      "output": "7072656669783a11",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e6e",
+      "prefix": "prefix:",
+      "pack": 7,
+      "returned": 0,
+      "output": "7072656669783a0a",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e733a5e733a5e73",
+      "prefix": "prefix:",
+      "pack": 7,
+      "returned": 0,
+      "output": "7072656669783a783a3a79",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e66202f205e64",
+      "prefix": "prefix:",
+      "pack": 7,
+      "returned": 0,
+      "output": "7072656669783a312c3233342e3536202f203737",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e76205e74",
+      "prefix": "prefix:",
+      "pack": 7,
+      "returned": 0,
+      "output": "7072656669783a312e302e322044756e67656f6e2048756e7465722032",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ],
+        [
+          "version",
+          10,
+          1
+        ],
+        [
+          "title",
+          32,
+          0
+        ]
+      ]
+    },
+    {
+      "input": "6f6e6520212074776f203f20656e64",
+      "prefix": "prefix:",
+      "pack": 7,
+      "returned": 0,
+      "output": "7072656669783a6f6e65c2a0212074776fc2a03f20656e64",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    },
+    {
+      "input": "5e756e6b6e6f776e",
+      "prefix": "prefix:",
+      "pack": 7,
+      "returned": 0,
+      "output": "7072656669783a6e6b6e6f776e",
+      "trace": [
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_DECIMAL_SEPERATOR"
+        ],
+        [
+          "string",
+          0
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_SEPERATOR"
+        ],
+        [
+          "string",
+          1
+        ],
+        [
+          "constant",
+          "StrID",
+          "GLOBAL_THOUSANDS_GROUP_AT"
+        ],
+        [
+          "string",
+          2
+        ]
+      ]
+    }
+  ]
+}

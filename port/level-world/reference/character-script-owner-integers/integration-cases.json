@@ -1,0 +1,25 @@
+{
+  "format": "script-owner-integers-proposal-v1",
+  "status": "NOT_IMPLEMENTED_NOT_EXECUTED",
+  "existing_instruction_kernel": "port/script-runtime/reports/script-int-arm64-differential.json",
+  "existing_genuine_VM_kernel": "port/script-runtime/reports/script-int-host-audit.json",
+  "cases": [
+    {"name":"empty_construction","action":"Run source Stage0 for each supported private Session kind","expect":"Distinct map created before pending publication, map size0, no bindings before Stage1"},
+    {"name":"registration_prefix","action":"At first Stage1 index2 bind only SetInt, execute SetInt('prefix',41), inspect GetInt before index3","expect":"GetInt remains nil until its own exact index3 delivery; index3 GetInt returns41"},
+    {"name":"registration_failure_prefix","action":"Reject provider before index2 or index3","expect":"Original delivered prefix remains; no preinstalled later callback; map/receiver survive until session cleanup"},
+    {"name":"stage1_repeat","action":"Complete load, insert value, rerun actual Stage1 and Stage2","expect":"Same map and receiver, prior value preserved, source library stack grows5, registrations repeat in source order"},
+    {"name":"pending_active","action":"SetInt during source common/external load then publish active=pending","expect":"Same original Session map across load and publication; current active selection is independent of owning context"},
+    {"name":"private_sessions","action":"Run two actual owners, store same key differently","expect":"Distinct VM/map/receiver; GetInt misses insert0 only in selected Session"},
+    {"name":"same_owner_replacement","action":"Invoke captured lifecycle replacement with old active/pending and new selected source session","expect":"New map empty, old session finalizers execute with old receiver, no inherited integer values"},
+    {"name":"nested_include","action":"Root file SetInt, Include file GetInt/SetInt through genuine same-VM source scope","expect":"Same owned map, original cache and loaded-file order, unchanged generic busy protections"},
+    {"name":"source_false_load","action":"Use authentic root missing/protected-error result after prior SetInt prefix","expect":"Map prefix remains; source loaded-set false and continued publication unchanged"},
+    {"name":"missing_fraction","action":"Ordinary key succeeds; fractional numeric key with missing provider is protected error","expect":"No synthetic libc success, no extra map insertion, ordinary calls remain genuine"},
+    {"name":"missing_identity","action":"Source-projected table has genuine nonzero native identity and no source32 mapper","expect":"Protected explicit unsupported coercion before map mutation; null identity still uses0x00000000"},
+    {"name":"close_finalizers","action":"Install newproxy finalizer, add aliases/integers, destroy actual owner/session","expect":"Aliases empty and GetInt missing inserts0 at finalizer entry; SetInt reinsertion works; external observer records effects; wrappers freed only afterclose"},
+    {"name":"malformed_config","action":"Reserved persistent service configuration nonzero","expect":"Explicit native malformed rejection before Session construction/publication, no fabricated original input branch"},
+    {"name":"linked_provenance","action":"Replay via actual central owner/runtime DSOs under ASan/UBSan/leak checking","expect":"New source/binary/report hashes, zero findings, historical nil-binding test/report untouched"}
+  ],
+  "production_edits_authorized": false,
+  "whole_owner_original_differential": false,
+  "packaged_ARM64_or_live_actor_proof": false
+}

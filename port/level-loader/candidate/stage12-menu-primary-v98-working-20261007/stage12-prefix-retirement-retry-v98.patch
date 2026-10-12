@@ -1,0 +1,122 @@
+--- a/port/engine-ui/multi_menu_resource_v93.hpp
++++ b/port/engine-ui/multi_menu_resource_v93.hpp
+@@ -41,6 +41,9 @@
+  std::function<bool(std::uint32_t,MenuCameraBorrowV93&,std::string&)> camera_slot;
+  std::function<bool(std::uint32_t,const MenuCameraBorrowV93&,std::string&)> deleting_camera_virtual4;
+  std::function<bool(std::uint32_t,std::string&)> clear_camera_slot;
++ //Optional native continuation only for an admitted post-D0 field-clear prefix.
++ //resumed=true bypasses completed movie Unload/D0, then continues its camera tail.
++ std::function<bool(std::uint32_t,bool& resumed,std::string&)> resume_movie_clear_v98;
+ };
+ // Original437b3c..437c18. Missing reached producers fail, with prefix retained.
+ bool multi_menu_unload_swf_v93(const MultiMenuResourceServicesV93&,std::int32_t,std::string&);
+--- a/port/engine-ui/multi_menu_resource_v93.cpp
++++ b/port/engine-ui/multi_menu_resource_v93.cpp
+@@ -12,7 +12,10 @@
+  e.clear();if(!s.actual_manager||id<0||id>3){e="Required actual MultiMenuManager/four-slot resource id";return false;}
+  const auto slot=std::uint32_t(id);MenuMovieBorrowV58 movie;
+  if(!call(s.movie_slot,"nullable primary slot",e,slot,movie)||!retained(movie,e))return false;
+- if(!movie.identity)return true; // Source leaves an orphaned camera untouched.
++ bool resumed{};
++ if(s.resume_movie_clear_v98&&!s.resume_movie_clear_v98(slot,resumed,e))return false;
++ if(!movie.identity&&!resumed)return true; // Genuine NULL without an admitted prefix still leaves orphaned camera untouched.
++ if(!resumed){
+  std::int32_t count{};if(!call(s.active_count,"active array count",e,count))return false;
+  if(count<0){e="Malformed actual MultiMenu active array count";return false;}
+  for(std::int32_t i=count-1;i>=0;--i){
+@@ -29,6 +32,7 @@
+  if(!call(s.movie_slot,"primary after Unload",e,slot,movie)||!retained(movie,e))return false;
+  if(movie.identity&&!call(s.deleting_virtual4,"MenuFX deleting destructor",e,slot,movie))return false;
+  if(!call(s.clear_movie_slot,"primary field clear",e,slot))return false;
++ }
+  MenuCameraBorrowV93 camera;if(!call(s.camera_slot,"nullable paired MenuFlash2DCamera",e,slot,camera))return false;
+  if(camera.identity){
+   if(!camera.actual_owner){e="Required retained actual paired camera owner";return false;}
+--- a/port/android-native/app/src/main/cpp/native_menu_resources_v93.inc
++++ b/port/android-native/app/src/main/cpp/native_menu_resources_v93.inc
+@@ -1,9 +1,17 @@
++#include <optional>
+ // Included after native_gslevel_menu_v27.inc. One directory and four actual
+ // primary/camera slots serve Update, Unload and front draw transport.
+ namespace {
+ struct NativeMenuResourcesV93 {
+  std::weak_ptr<NativeCharacterMenuV4> owner;
+  std::weak_ptr<void> world;
++ struct Primary1ClearReceiptV98 {
++  dh2::ui::MenuMovieBorrowV58 movie;
++  std::weak_ptr<dh2::ui::MenuStackOwnerV1> manager;
++  bool field_cleared{},render_retired{},prefix_retired{},camera_deleted{};
++  dh2::ui::MenuCameraBorrowV93 deleted_camera;
++ };
++ std::optional<Primary1ClearReceiptV98> primary1_clear_v98;
+  std::shared_ptr<NativeCharacterMenuV4> resolve(std::string& e)const{
+   auto native=owner.lock();auto actual=world.lock();
+   const bool process=native&&application_services_v5&&native->process_directory_ready_v104&&native->process_application_v104.lock()==application_services_v5;
+@@ -45,6 +53,25 @@
+                   original_ui.hud_movie_borrow_v4(movie,facade,e);
+   }
+   e="Menu operation receiver is no longer in its actual primary slot";return false;
++ }
++ bool finish_primary1_clear_v98(std::string& e){
++  if(!primary1_clear_v98){e="Missing admitted actual primary1 post-D0 clear receipt";return false;}
++  auto native=resolve(e);auto manager=primary1_clear_v98->manager.lock();
++  if(!native||!manager||native->shared_stack_v27.get()!=manager.get()||native->shared_stack_v27.owner_before(manager)||manager.owner_before(native->shared_stack_v27)){
++   if(e.empty())e="Primary1 clear continuation belongs to replaced actual MenuManager";return false;
++  }
++  auto& p=*primary1_clear_v98;dh2::ui::MenuMovieBorrowV58 current;if(!movie_slot(1,current,e))return false;
++  if(!p.field_cleared){
++   if(current.identity!=p.movie.identity||current.actual_owner.get()!=p.movie.actual_owner.get()||current.actual_owner.owner_before(p.movie.actual_owner)||p.movie.actual_owner.owner_before(current.actual_owner)){
++    e="Primary1 field-clear continuation receiver replaced after actual D0";return false;
++   }
++   auto* panel=character_panel?character_panel->authored_native_v4():nullptr;
++   if(!panel||!panel->clear_movie_slot_v93(e))return false;
++   p.field_cleared=true;native->current_render=0;native->width=native->height=0;
++  }else if(current.identity){e="Cleared primary1 replaced while native retirement remains pending";return false;}
++  if(!p.render_retired){if(!manager->retire_render_resource_v93(p.movie.identity,e))return false;p.render_retired=true;}
++  if(!p.prefix_retired){if(!character_panel||!character_panel->retire_failed_authored_prefix_v98(e))return false;p.prefix_retired=true;}
++  e.clear();return true;
+  }
+  bool camera_slot(std::uint32_t slot,dh2::ui::MenuCameraBorrowV93& out,std::string& e)const{
+   out={};auto native=resolve(e);if(!native)return false;
+@@ -112,23 +139,36 @@
+     native->hud=nullptr;native->leases->hud.reset();return retire();
+    }
+    auto* panel=character_panel?character_panel->authored_native_v4():nullptr;
+-   if(slot!=1||!panel){e="Missing same character primary clear receiver";return false;}
+-   if(!panel->clear_movie_slot_v93(e))return false;
+-   native->current_render=0;native->width=native->height=0;return retire();};
++   if(slot!=1||!panel||!before.identity||!before.actual_owner){e="Missing same character primary clear receiver";return false;}
++   if(self->primary1_clear_v98){e="Primary1 post-D0 clear already admitted; use retained continuation";return false;}
++   self->primary1_clear_v98.emplace();
++   self->primary1_clear_v98->movie=before;self->primary1_clear_v98->manager=native->shared_stack_v27;
++   return self->finish_primary1_clear_v98(e);};
++  s.resume_movie_clear_v98=[self](auto slot,bool& resumed,auto& e){resumed=false;
++   if(slot!=1||!self->primary1_clear_v98){e.clear();return true;}
++   if(!self->finish_primary1_clear_v98(e))return false;resumed=true;return true;};
+   s.camera_slot=[self](auto slot,auto& out,auto& e){return self->camera_slot(slot,out,e);};
+   s.deleting_camera_virtual4=[self](auto slot,const auto& q,auto& e){auto native=self->resolve(e);if(!native)return false;
+    if(slot==0||slot==2)return front_ui.deleting_camera_v93(slot,q.identity,e);
+    if(slot==3)return original_ui.delete_hud_camera_v93(q.identity,e);
+    auto camera=native->character_camera_v93;
++   if(slot==1&&self->primary1_clear_v98&&self->primary1_clear_v98->camera_deleted){
++    const auto& prior=self->primary1_clear_v98->deleted_camera;
++    if(!camera||!camera->deleted||q.identity!=prior.identity||q.actual_owner.get()!=prior.actual_owner.get()||q.actual_owner.owner_before(prior.actual_owner)||prior.actual_owner.owner_before(q.actual_owner)){
++     e="Primary1 paired camera replaced after completed actual D0";return false;
++    }e.clear();return true;
++   }
+    if(slot!=1||!camera||camera->deleted||reinterpret_cast<std::uintptr_t>(camera.get())!=q.identity){
+     e="Character camera deleting receiver differs from actual slot";return false;}
+-   camera->deleted=true;e.clear();return true;};
++   camera->deleted=true;
++   if(self->primary1_clear_v98){self->primary1_clear_v98->deleted_camera=q;self->primary1_clear_v98->camera_deleted=true;}
++   e.clear();return true;};
+   s.clear_camera_slot=[self](auto slot,auto& e){auto native=self->resolve(e);if(!native)return false;
+    if(slot==0||slot==2)return front_ui.clear_camera_slot_v93(slot,e);
+    if(slot==3)return original_ui.clear_hud_camera_slot_v93(e);
+    if(slot!=1||(native->character_camera_v93&&!native->character_camera_v93->deleted)){
+     e="Character camera field clear requires actual deleting destructor";return false;}
+-   native->character_camera_v93.reset();e.clear();return true;};
++   native->character_camera_v93.reset();self->primary1_clear_v98.reset();e.clear();return true;};
+   return s;
+  }
+ };

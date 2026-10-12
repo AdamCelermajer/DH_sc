@@ -1,0 +1,17 @@
+{
+  "validation": "PASS",
+  "scope": "Isolated native constructor/property/factory transport against current retained libraries; domain callbacks explicit fixtures, whole trap runtime absent",
+  "output": "PASS original_authored_cases=41 same_factory_manager_properties=1 missing_activation_explicit=1 retained_identity=1 destructor_no_replay=1\n",
+  "binary_sha256": "2564c6b128f819dbaa9ba793420f0f87017a6b7b319f325caecf982bb9a476d8",
+  "binary": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\build\\receiver-transport-host\\trigger-trap-v37-probe",
+  "single_compiler_invocation": true,
+  "core_property_map_changed": false,
+  "emulator_started": false,
+  "sources": {
+    "canonical_trigger_trap_v37.hpp": "0abd413886be191e877c397075a99d5574d80b8b06640af07bbf1bb7fe28c8ab",
+    "canonical_trigger_trap_v37.cpp": "c8c65e8f5c727f7190b866d61c3e293e4f7cc21bdfa60b81b1637dff65ba16b8",
+    "canonical_trigger_trap_declarations_v37.inc": "cf8ea822e132eea5de78fcb2cd7967793544cfec5b19f906e7538b123946296d",
+    "tests\\trigger-trap-v37\\canonical_trigger_trap_v37_test.cpp": "d13c5e5f0cdd034a3766c02de1cc6d35b58231449cf19c63b3360977fdf4734d",
+    "tests\\trigger-trap-v37\\canonical_property_map_candidate_v37.cpp": "47b44ce6e13619db87b159d55a70d4902448056c4684f6a8ca510a5c1fe65307"
+  }
+}

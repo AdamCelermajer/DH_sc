@@ -1,0 +1,83 @@
+{
+  "status": "PASS",
+  "scope": "actual APK-linked native object owners, same base/property storage with declared external service fixtures; not full live level acceptance",
+  "apk_sha256": "5a4dc798e164f1b80b5eeb80e7db583c01fc08c1259a73159fab559f5039dcce",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\canonical_openable_container_v1.cpp",
+      "sha256": "05ef6e0fb5aacc85689a388008dbe6ba0ba59a57e194e53ab5e8e74ff3b77819"
+    }
+  ],
+  "libraries": [
+    {
+      "file": "libdh2_engine_animation.so",
+      "sha256": "92d56a2ab0c1fc2b88dd3436299d265ee4429c4428150a40520f4c30deb576e5"
+    },
+    {
+      "file": "libdh2_engine_skinning.so",
+      "sha256": "87597c18c51d823dd0a26e3025a76b35cd8ec1e5b0e29fb6156a760b7c1228eb"
+    },
+    {
+      "file": "libdh2_engine_textures.so",
+      "sha256": "a182539ce73a50ceb8b9e3c8a8668e883f8eb63c845e96483f455c58e36ecc09"
+    },
+    {
+      "file": "libdh2_engine_ui.so",
+      "sha256": "3d8b8f65c268f80ee8c3d05e45cfad6199d4f6a90b99b61f1307026092adf82c"
+    },
+    {
+      "file": "libdh2_game_data.so",
+      "sha256": "e8a2183da9ee0f22275a7b6b3217c3253a2c4bbd277f3d70dd879ee3e8ea7aea"
+    },
+    {
+      "file": "libdh2_level_world.so",
+      "sha256": "7285d3e213b545d20d22aff2a9111e98bcdd23d4f748cbbc13cdea1cb9457245"
+    },
+    {
+      "file": "libdh2_native.so",
+      "sha256": "4fe8f6563451b1918899221f959b74bd319abd5cf18b371d6f5303084b31be39"
+    },
+    {
+      "file": "libdh2_scene_materials.so",
+      "sha256": "3211c21c723b12c96dd5df034d45c7505a6c4029886df81b253dd653bbe26e04"
+    },
+    {
+      "file": "libdh2_script_runtime.so",
+      "sha256": "8f84d00e6dd3070bfaa0a8ffd9dc6d416a06df797b4f9aaf33c0c11e2fc7dd5d"
+    }
+  ],
+  "binary_sha256": "e8c7bd0f148c1426662ec84ade6c41d76922654de875ef45abd7481fbc7cb9cb",
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\canonical_openable_container_v1.cpp",
+    "-LC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\canonical-openable-v1\\linked-libs",
+    "-ldh2_level_world",
+    "-ldh2_game_data",
+    "-Wl,-rpath-link,C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\canonical-openable-v1\\linked-libs",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\canonical-openable-v1\\canonical-openable-v1.bin"
+  ],
+  "stdout": "Canonical chest SAME base/runtime/property/net-member graph PASS; missing runtime service retained\n",
+  "stderr": "",
+  "exit_code": 0
+}

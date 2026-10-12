@@ -1,0 +1,14 @@
+--- a/port/android-native/app/src/main/cpp/renderer_player_light_tweaker_v90.inc
++++ b/port/android-native/app/src/main/cpp/renderer_player_light_tweaker_v90.inc
+@@ -84,9 +84,8 @@
+   if(!start||!end||!color){e="Required SAME source config fog values";return false;}
+   roots->source_enable_fog_v68(static_cast<float>(*start),static_cast<float>(*end),*color);e.clear();return true;
+  };
+- // lights128 are source NULL in C1. Positive LightBase assignment/setters and
+- // exceptional imported libgcc conversion are genuine separate native leaves,
+- // deliberately absent until actual production providers are supplied.
++ s.light=[scope](std::uintptr_t id,application::TweakLightV90& out,std::string& e){std::shared_ptr<SourceWorldBorrowV61> w;return scope(w,e)&&borrow_campaign_light_base_v92(w,id,out,e);};
++ // Exceptional imported libgcc conversion remains its genuine reached leaf.
+  out=std::move(s);e.clear();return true;
+ }
+ 

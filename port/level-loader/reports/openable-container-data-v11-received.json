@@ -1,0 +1,13 @@
+{
+  "validation": "PASS",
+  "archive_sha256": "e959782724433c0d2b1cfd4fd582bf9762e79b6581f8c5da5aea3cfdc4745134",
+  "entries_verified": 19,
+  "selected_sources": [
+    "port/game-data/game_object_dictionary_v11.hpp",
+    "port/game-data/game_object_dictionary_v11.cpp",
+    "port/level-world/openable_container_data_connection_v11.hpp",
+    "port/level-world/openable_container_data_connection_v11.cpp"
+  ],
+  "existing_owner_unchanged": true,
+  "original_streams_and_group_slices_verified": true
+}

@@ -1,0 +1,125 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9CSInjured6OnInitEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c8850",
+      "size": 208,
+      "sha256": "2231f1eb29536130e131a5bcb17ce29dff6cdef1c9284da4664c096deff9f8b0"
+    },
+    {
+      "original_symbol": "_ZN7CSSpawn6OnInitEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c7d0c",
+      "size": 240,
+      "sha256": "c7831cf1a4a7e0a10a5a5cced704bee9996d27861527ca29a6ec2a6e1c2d8982"
+    },
+    {
+      "original_symbol": "_ZN6CSDead6OnInitEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c8920",
+      "size": 100,
+      "sha256": "2123013ba36b8d76188c02d981e97b5f9176dda8c9243a98948fc9be28d7cd29"
+    },
+    {
+      "original_symbol": "_ZN10CSReviving6OnInitEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c8b8c",
+      "size": 352,
+      "sha256": "24a581f7cfbddde636557bad3900fdfda291c1556dd05bb36762f3c68502d253"
+    },
+    {
+      "original_symbol": "_ZN13CSLiftingMove6OnInitEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c8ee0",
+      "size": 276,
+      "sha256": "a624d7e8a580dadb7caaf3c8a0982934de8d8efdc9d92d0217108c0d06844d1e"
+    },
+    {
+      "original_symbol": "_ZN8CSLimbus6OnInitEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c7cc0",
+      "size": 76,
+      "sha256": "036976e2f0153585b96eabcd21b91ccb192cca1a5571c49fa8949a6d3dbe641e"
+    },
+    {
+      "original_symbol": "_ZN13CSLiftingIdle6OnInitEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c8d5c",
+      "size": 388,
+      "sha256": "c5803e648d33cf92e7e21cd19ad8e4b5c0ccba321722c38ef5cd9c38cafc934d"
+    },
+    {
+      "original_symbol": "_ZN8CSAttack6OnInitEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c8284",
+      "size": 436,
+      "sha256": "61b2285ce2d36a6573385cbf3bb869bcaae9be159fbfdd8c5ef4849ac15b9e7a"
+    },
+    {
+      "original_symbol": "_ZN6CSIdle6OnInitEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c7e60",
+      "size": 588,
+      "sha256": "0eac7ccb9844b2b9bd95074fb65ba6b6d5be2391866895c5810a06fb264d46e6"
+    },
+    {
+      "original_symbol": "_ZN10CSInteract6OnInitEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c8984",
+      "size": 420,
+      "sha256": "79c6ad53f69bf0b54bd4d69e57730d63ec51d2d955ce562c1a65778dea147209"
+    },
+    {
+      "original_symbol": "_ZN13CSKnockedBack6OnInitEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c87d8",
+      "size": 120,
+      "sha256": "6cb0755d6f7cfd9963a3a75a33226b657f7e85ec9efdda2e769b55ac8a14455b"
+    },
+    {
+      "original_symbol": "_ZN7CSSkill6OnInitEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c8438",
+      "size": 384,
+      "sha256": "896f8664795acd5508f39186908f2c9c0fa8c4df75e195ccb94881c62cdfe328"
+    },
+    {
+      "original_symbol": "_ZN8CSScared6OnInitEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c861c",
+      "size": 276,
+      "sha256": "08a35924ae4287c7e62ccf1ce717c8cb10403f5a419ab928ff875bec9354891e"
+    },
+    {
+      "original_symbol": "_ZN10CSPreSpawn6OnInitEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c8d24",
+      "size": 56,
+      "sha256": "1a6d663db3eb92685399f77833431370e9e5c7b14afb5dadb0b309c9a1a9fb54"
+    },
+    {
+      "original_symbol": "_ZN9CSDespawn6OnInitEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c7dfc",
+      "size": 100,
+      "sha256": "2539492e4b94711cdffbb6000efc1539a896f52bf5bf900ac1ac378f99f35df7"
+    },
+    {
+      "original_symbol": "_ZN9CSRevived6OnInitEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c8cec",
+      "size": 56,
+      "sha256": "2967408578a8d56714800d3f4bc594cf3d3a188e9b05b2b9be6627d6d76dae23"
+    },
+    {
+      "original_symbol": "_ZN6CSMove6OnInitEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c80ac",
+      "size": 472,
+      "sha256": "5a26eb47925eeab956b077e3640db5ad443255f3b41af8e8385f36fcbb2369ea"
+    },
+    {
+      "original_symbol": "_ZN6CSAnim6OnInitEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c8b28",
+      "size": 100,
+      "sha256": "e445976775fd839063c5499770db0df0af419ce0f47d7bbb7aa5b950482554d4"
+    },
+    {
+      "original_symbol": "_ZN6CSCast6OnInitEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c85b8",
+      "size": 100,
+      "sha256": "5048a3105a8dc2783d26d284ac5af394a804439e30b7ac5cac98903e72a29921"
+    },
+    {
+      "original_symbol": "_ZN9CSStunned6OnInitEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c8730",
+      "size": 168,
+      "sha256": "99529ed3e2c8d03f2385ec42147cf03acda2424eee265babd79919d1a8f5d497"
+    }
+  ]
+}

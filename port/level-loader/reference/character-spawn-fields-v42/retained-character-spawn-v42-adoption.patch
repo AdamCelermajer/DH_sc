@@ -1,0 +1,71 @@
+--- a/port/level-world/retained_character_actor_v1.hpp
++++ b/port/level-world/retained_character_actor_v1.hpp
+@@ -11,6 +11,7 @@
+ #include "gameobject_visual_field_borrow_v5.hpp"
+ #include "character_set_position_v7.hpp"
+ #include "character_model_name_v38.hpp"
++#include "character_is_player_v41.hpp"
+ #include <array>
+ namespace dh2::character {
+ enum class RetainedCharacterConstructionV7 {existing_actor_adoption,fresh_canonical};
+@@ -19,6 +20,10 @@
+  std::uintptr_t identity{};
+  std::int16_t* properties13c8{};std::int16_t* template13ca{};
+  std::uintptr_t* master418{};
++};
++struct CharacterSpawnFieldsV42 {
++ std::shared_ptr<const void> receiver_lease;std::uintptr_t identity{};
++ std::int32_t* cached_roll270{};const std::int32_t* probability274{};
+ };
+ // Native retained ownership extracted from the renderer. No second properties,
+ // HP, target, FSM or timers: object is the same registry-published script object.
+@@ -36,6 +41,7 @@
+  const char* class_name20_{};
+  std::map<std::uint32_t,std::uint8_t> source_bools_;
+  std::map<std::uint32_t,std::string> source_strings_;
++ std::int32_t source_cached_spawn270_{-1}; // original GameObject C2 store38c4a8
+  std::int32_t spawn_probability_{};bool spawn_probability_written_{};
+  std::array<std::int32_t,2> spawn_delay_{};bool spawn_delay_written_{};
+  float spawn_view_radius_{};bool spawn_view_radius_written_{};
+@@ -132,6 +138,8 @@
+  std::uintptr_t& source_self_fx1484()noexcept{return self_fx1484_;}
+  std::uintptr_t& source_state_fx148c()noexcept{return state_fx148c_;}
+  std::uintptr_t& source_highlight14a0()noexcept{return highlight14a0_;}
++ bool spawn_fields_v42(std::shared_ptr<const void>,CharacterSpawnFieldsV42&,std::string&);
++ bool is_player_fields_v41(std::shared_ptr<const void>,CharacterIsPlayerFieldsV41&,std::string&);
+  bool loader_fields_v38(std::shared_ptr<const void>,CharacterLoaderFieldsV38&,std::string&);
+  bool model_name_fields_v38(std::shared_ptr<const void>,CharacterModelFieldsV38&,std::string&);
+  bool init_post_fields(NpcInitPostBorrowV1&,std::string&);
+--- a/port/level-world/retained_character_actor_v1.cpp
++++ b/port/level-world/retained_character_actor_v1.cpp
+@@ -124,4 +124,12 @@
+  if(!properties){error="Required SAME actual initialized Character PropertyView";return false;}
+  out={std::move(fields.receiver_lease),identity_,properties,fields.properties13c8,fields.master418};error.clear();return true;
+ }
++bool RetainedCharacterActorV1::spawn_fields_v42(std::shared_ptr<const void> lease,CharacterSpawnFieldsV42& out,std::string& error){
++ if(!lease||lease.get()!=static_cast<const void*>(this)||!loader_fields_produced_v38_||!spawn_probability_written_){error="Required SAME fresh Character cache270 alias and actual property-produced probability274";return false;}
++ out={std::move(lease),identity_,&source_cached_spawn270_,&spawn_probability_};error.clear();return true;
+ }
++bool RetainedCharacterActorV1::is_player_fields_v41(std::shared_ptr<const void> lease,CharacterIsPlayerFieldsV41& out,std::string& error){
++ if(!lease||lease.get()!=static_cast<const void*>(this)||!loader_fields_produced_v38_){error="Required SAME fresh Character IsPlayer receiver alias authority";return false;}
++ out={std::move(lease),identity_,&source_archetype_};error.clear();return true;
++}
++}
+--- a/port/level-world/canonical_character_family_v4.cpp
++++ b/port/level-world/canonical_character_family_v4.cpp
+@@ -55,7 +55,14 @@
+  if(q.source_entry==0x3df2a4){const auto index=static_cast<std::int32_t>(q.argument0);const auto& rows=r.design.characters()->rows;if(index>=0&&static_cast<std::size_t>(index)<rows.size())r.properties->base=rows[index];return true;}
+  if(q.source_entry==0x3e0810){return data::recalc_properties_with_class(*r.design.classes(),*r.design.rules(),*r.properties,e);}
+  if(q.source_entry==0x3a2fec){response.ai=ai(r);if(!response.ai){e="Required original AI row/fallback8";return false;}return true;}
+- if(q.source_entry==0x3a49f0){const auto* row=ai(r);if(!row){e="Required actual Character GetCharType";return false;}response.value=row->type==1;return true;}
++ if(q.source_entry==0x3a49f0){
++  character::CharacterIsPlayerFieldsV41 fields;if(!r.actor->is_player_fields_v41(r.actor,fields,e))return false;
++  character::CharacterIsPlayerServicesV41 services;services.actual_get_char_type=[&r](std::uintptr_t identity,std::int32_t& type,std::string& error){
++   if(identity!=r.actor->shared_handle().cached){error="Required SAME Character GetCharType receiver";return false;}
++   const auto* row=ai(r);if(!row){error="Required actual Character AI row/fallback8";return false;}type=row->type;return true;
++  };
++  bool player{};if(!character::character_is_player_v41(fields,services,player,e))return false;response.value=player;return true;
++ }
+  if(q.source_entry==0x3a54d4){const auto* row=ai(r);if(!row||row->type==1||row->type==3){if(r.services.remaining_init)return r.services.remaining_init(r,q,response,e);e="Required player/faery original model-name branch";return false;}
+   const auto index=r.properties->resolved[3];if(index<0){response.text=nullptr;return true;}if(!r.services.models){e="Required same original character_models_dictionary";return false;}
+   response.text=static_cast<std::size_t>(index)<r.services.models->values.size()?r.services.models->values[index].c_str():nullptr;return true;

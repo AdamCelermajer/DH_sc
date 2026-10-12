@@ -1,0 +1,17 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjiENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+      "elf_address": "0x37bcc0",
+      "size": 56,
+      "sha256": "ae005e1df344336bf3246926acd90f113eb6d758f17df6855a73b06656b32b77"
+    },
+    {
+      "original_symbol": "_ZN9LuaScriptD1Ev",
+      "elf_address": "0x37c004",
+      "size": 324,
+      "sha256": "2ffbd852c776f7881f26423d3321eb6b8191d50ec5db059f32eee2a5bc856623"
+    }
+  ]
+}

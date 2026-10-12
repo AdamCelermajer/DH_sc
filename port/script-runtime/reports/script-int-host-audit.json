@@ -1,0 +1,143 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "validation": "PASS",
+    "original_gold_cases": 3163,
+    "complete_private_map_snapshots": 6326,
+    "ordered_identity_format_services": 357,
+    "actual_VM_checks": 35,
+    "atomic_unsupported_guards": 15,
+    "mismatches": 0
+  },
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "leak": true,
+    "errors": 0
+  },
+  "source_sha256": {
+    "port/script-runtime/script_int_bindings.hpp": "4cf66271fe2a909759e03f62d5016b960cc374273eabec8a38279d15716e4d9a",
+    "port/script-runtime/script_int_bindings.cpp": "04b216621891f067b423230fd2b7aa8b47330bb08174bcaef394cca8e22edc7a",
+    "port/script-runtime/tests/script_int.cpp": "df2a49753797851944eaa5124b752b109eac558ffc7ddd2e83ac15003cbf9995",
+    "port/script-runtime/tests/run_script_int_host.py": "1b0c6e2fee0a00753b18dd2a3234554275ae980965d309115e5c46e07357a7c6",
+    "port/script-runtime/tests/emit_script_int_gold.py": "6753f9e247cfaaa2b798a4bac5da1810ab3406ba418b97b6b4597a95d3ee62a6",
+    "port/script-runtime/tests/script_int_differential.py": "8223f8de35401bc58de606ffd06eea6144ec040c9c50ca34cfba4adc85206b77",
+    "port/script-runtime/script_runtime.h": "6609f8b0a1ad716104824e5ed1653cc9b2be68396ae5b5766b38166af3561303",
+    "port/script-runtime/script_runtime.c": "cfb4aaa0585188731c76d3ed86e346bd2d48d6a2024c1f453c4bd038e8e835d1",
+    "port/script-runtime/reference/int-bindings/int-original-gold.bin": "1b62ea9e1083e860490c800a75ce16aaff51126596d729910d23abbcf45583c8",
+    "port/script-runtime/reference/int-bindings/int-original-gold.json": "cf5f965c2de02b20eef6725ac2a3b1bb508585e9965c837e1da67c418624998f",
+    "port/script-runtime/reference/int-bindings/binary-projection.json": "c9408c23aca45c05fd831320c388e1d0d29e82ba53957c46376be5c40f2e858d",
+    "port/script-runtime/reports/script-int-arm64-differential.json": "0f7c799a6d67d8c183db28c695ec3bd39465cf1859e635a86938d1a36950cb5e",
+    "port/script-runtime/reports/script-callback-native-storage-host-audit.json": "0fb93ebd4e44d2a426c99220de0ebc545763195021eff25ef98f8864273fb1b9"
+  },
+  "binaries": {
+    "libdh2_script_int.so": {
+      "path": ".local-inputs/lua514-source/ints/host/libdh2_script_int.so",
+      "sha256": "98672a6d9e4e2e52b8a00863f5e73636064c8e130b42c38d27a277ed6746c822",
+      "executed_path": "/home/adampalace/dh2-script-int-build/libdh2_script_int.so"
+    },
+    "script_int_audit": {
+      "path": ".local-inputs/lua514-source/ints/host/script_int_audit",
+      "sha256": "e9bb7ac90ef79225325dc25c5033bacd5b016143beec0f82f62f116d7765bc03",
+      "executed_path": "/home/adampalace/dh2-script-int-build/script_int_audit"
+    },
+    "libdh2_script_runtime.so": {
+      "path": ".local-inputs/lua514-source/ints/host/libdh2_script_runtime.so",
+      "sha256": "e41f62b0193fff2eb5acc2367aa7582bfa3145c95bd2c788acd7767a0c768731",
+      "executed_path": "/home/adampalace/dh2-script-callback-native-build/libdh2_script_runtime.so"
+    }
+  },
+  "compiler": "g++ (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "commands": [
+    [
+      "wsl",
+      "/usr/bin/mkdir",
+      "-p",
+      "/home/adampalace/dh2-script-int-build"
+    ],
+    [
+      "wsl",
+      "/usr/bin/g++",
+      "-shared",
+      "-fPIC",
+      "-O1",
+      "-g",
+      "-std=c++17",
+      "-fsanitize=address,undefined",
+      "-fno-omit-frame-pointer",
+      "-fno-fast-math",
+      "-ffp-contract=off",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Wno-misleading-indentation",
+      "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime/script_int_bindings.cpp",
+      "-L/home/adampalace/dh2-script-callback-native-build",
+      "-ldh2_script_runtime",
+      "-Wl,-rpath,/home/adampalace/dh2-script-callback-native-build",
+      "-o",
+      "/home/adampalace/dh2-script-int-build/libdh2_script_int.so"
+    ],
+    [
+      "wsl",
+      "/usr/bin/g++",
+      "-O1",
+      "-g",
+      "-std=c++17",
+      "-fsanitize=address,undefined",
+      "-fno-omit-frame-pointer",
+      "-fno-fast-math",
+      "-ffp-contract=off",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime/tests/script_int.cpp",
+      "-L/home/adampalace/dh2-script-int-build",
+      "-ldh2_script_int",
+      "-L/home/adampalace/dh2-script-callback-native-build",
+      "-ldh2_script_runtime",
+      "-Wl,-rpath,/home/adampalace/dh2-script-int-build:/home/adampalace/dh2-script-callback-native-build",
+      "-o",
+      "/home/adampalace/dh2-script-int-build/script_int_audit"
+    ],
+    [
+      "wsl",
+      "/usr/bin/env",
+      "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+      "UBSAN_OPTIONS=halt_on_error=1",
+      "/home/adampalace/dh2-script-int-build/script_int_audit",
+      "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime/reference/int-bindings/int-original-gold.bin"
+    ],
+    [
+      "wsl",
+      "/usr/bin/cp",
+      "/home/adampalace/dh2-script-int-build/libdh2_script_int.so",
+      "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/lua514-source/ints/host/libdh2_script_int.so"
+    ],
+    [
+      "wsl",
+      "/usr/bin/cp",
+      "/home/adampalace/dh2-script-int-build/script_int_audit",
+      "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/lua514-source/ints/host/script_int_audit"
+    ],
+    [
+      "wsl",
+      "/usr/bin/cp",
+      "/home/adampalace/dh2-script-callback-native-build/libdh2_script_runtime.so",
+      "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/lua514-source/ints/host/libdh2_script_runtime.so"
+    ],
+    [
+      "wsl",
+      "/usr/bin/g++",
+      "--version"
+    ]
+  ],
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "actual_runtime_DSO_linked": true,
+  "private_per_owner_map": true,
+  "original_instruction_report": "port/script-runtime/reports/script-int-arm64-differential.json",
+  "actual_VM_gameplay_bindings": false,
+  "shipping_Android_printf_parity": false,
+  "packaged_APK": false,
+  "scope": "New isolated int DSO and actual frozen float32 Lua DSO; complete source gold replay, genuine SetInt/GetInt Lua binding coercion, errors, separate owners and live map during VM finalization. Core runtime/generic guards unchanged."
+}

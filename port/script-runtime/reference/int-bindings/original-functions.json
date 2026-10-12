@@ -1,0 +1,59 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK3sfc6script3lua5Value7getBoolEv",
+      "elf_address": "0x31bc80",
+      "size": 172,
+      "sha256": "d156e3ff80823923f19f40cf626e4923b00ba2889f114cc8f383dfc8b60158b0"
+    },
+    {
+      "original_symbol": "_ZNK3sfc6script3lua5Value9getStringEv",
+      "elf_address": "0x31c49c",
+      "size": 408,
+      "sha256": "1694b4aa2cc23e43614f9f21be5f092e1cd326e45665fb2970c27854c0927599"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript7_GetIntERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37ec14",
+      "size": 92,
+      "sha256": "2a0b4a96c774c5272691da74eaab8a8270c360d5de540300f068dd729a426ebe"
+    },
+    {
+      "original_symbol": "_ZNK9LuaScript6GetIntEPKc",
+      "elf_address": "0x37da30",
+      "size": 148,
+      "sha256": "0be76bca260e45b83f3ffbf46d68cfa5f75339e9f6d5c8a6808f06a164bc7535"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript7_SetIntERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37de5c",
+      "size": 212,
+      "sha256": "e94082bbba7b7647b70b0b0d36f7a5fc004ccb52d455b35b1b9f57c345efe090"
+    },
+    {
+      "original_symbol": "_ZN6glitch4core10hashStringEPKc",
+      "elf_address": "0x37c164",
+      "size": 316,
+      "sha256": "eb3c5f18f0394185bddafaf8b91447a63b8610101590b857b7334cdd70a0026d"
+    },
+    {
+      "original_symbol": "_ZNK3sfc6script3lua5Value9getNumberEv",
+      "elf_address": "0x31bbf0",
+      "size": 144,
+      "sha256": "5d9d11729a2e880bfe8a07d2cdd890279798aaea748b6047d799be79e1b0c8de"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua12ReturnValues11pushIntegerEi",
+      "elf_address": "0x37cb24",
+      "size": 104,
+      "sha256": "f82c34ddaa9becff30d931e6ec79c8a9c3a73c1da5f7bf1980a70c750825eb68"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript6SetIntEPKci",
+      "elf_address": "0x37d990",
+      "size": 160,
+      "sha256": "5246d3084ec35e9c365298a3081c7c5892b9436848e7f7bd512e5d9e112f3c5c"
+    }
+  ]
+}

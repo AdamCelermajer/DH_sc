@@ -1,0 +1,1 @@
+PASS actual_MAIN_ledger=1 exact_actor_encoded_bytes=524348 metadata_probes=3 payload_attempts=2 before_payload_reserve_commit=1 cancel_reentry_replay_changed_metadata_missing_noimage_dead_renderer_rejected=1 GPU_or_decoded_phase_claim=0

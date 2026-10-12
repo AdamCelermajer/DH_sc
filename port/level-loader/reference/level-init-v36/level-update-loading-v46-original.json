@@ -1,0 +1,2745 @@
+{
+  "validation": "PASS",
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "loading_branch_cases": 172,
+  "stage_prefix_cases": 18,
+  "per_call_prefix_cases": 48,
+  "fasttravel_global_byte": "0x9f640a",
+  "actual_step_names": [
+    "LS_PhysicalWorld",
+    "LS__FirstLS__ThreadFirst",
+    "data/"
+  ],
+  "literal_noops": {
+    "0x3136b4": "0xe12fff1e",
+    "0x3136b8": "0xe12fff1e",
+    "0x31041c": "0xe12fff1e"
+  },
+  "actual_got": "0x994a98",
+  "actual_application": "0x99f72c",
+  "source_global_words": {
+    "first": "0x9f6890",
+    "second": "0x9f688c"
+  },
+  "debug_keys": {
+    "prefix": "IsDisplayLoadingStepName",
+    "2": "isTracingLevel_Loading",
+    "3": "isTracingLevel_Loading",
+    "4": "isTracingLevel_Loading",
+    "5": "isTracingLevel_Loading",
+    "6": "isTracingLevel_Loading",
+    "16": "isTracingLevel_Loading",
+    "19": "isTracingLevel_Loading"
+  },
+  "called_bodies_are_observation_fixtures": true,
+  "whole_level_init_verified": false,
+  "cases": [
+    {
+      "phase": 0,
+      "force": 0,
+      "updated": 0,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 0
+    },
+    {
+      "phase": 0,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 0,
+      "force": 1,
+      "updated": 0,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 0
+    },
+    {
+      "phase": 0,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 0
+    },
+    {
+      "phase": 1,
+      "force": 0,
+      "updated": 1,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 1
+    },
+    {
+      "phase": 1,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 1,
+      "force": 1,
+      "updated": 1,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 1
+    },
+    {
+      "phase": 1,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 1
+    },
+    {
+      "phase": 2,
+      "force": 0,
+      "updated": 2,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 2
+    },
+    {
+      "phase": 2,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 2,
+      "force": 1,
+      "updated": 2,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 2
+    },
+    {
+      "phase": 2,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 2
+    },
+    {
+      "phase": 3,
+      "force": 0,
+      "updated": 3,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 3
+    },
+    {
+      "phase": 3,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 3,
+      "force": 1,
+      "updated": 3,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 3
+    },
+    {
+      "phase": 3,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 3
+    },
+    {
+      "phase": 4,
+      "force": 0,
+      "updated": 4,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 4
+    },
+    {
+      "phase": 4,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 4,
+      "force": 1,
+      "updated": 4,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 4
+    },
+    {
+      "phase": 4,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 4
+    },
+    {
+      "phase": 5,
+      "force": 0,
+      "updated": 5,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 5
+    },
+    {
+      "phase": 5,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 5,
+      "force": 1,
+      "updated": 5,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 5
+    },
+    {
+      "phase": 5,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 5
+    },
+    {
+      "phase": 6,
+      "force": 0,
+      "updated": 6,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 6
+    },
+    {
+      "phase": 6,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 6,
+      "force": 1,
+      "updated": 6,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 6
+    },
+    {
+      "phase": 6,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 6
+    },
+    {
+      "phase": 7,
+      "force": 0,
+      "updated": 7,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 7
+    },
+    {
+      "phase": 7,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 7,
+      "force": 1,
+      "updated": 7,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 7
+    },
+    {
+      "phase": 7,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 7
+    },
+    {
+      "phase": 8,
+      "force": 0,
+      "updated": 8,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 8
+    },
+    {
+      "phase": 8,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 8,
+      "force": 1,
+      "updated": 8,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 8
+    },
+    {
+      "phase": 8,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 8
+    },
+    {
+      "phase": 9,
+      "force": 0,
+      "updated": 9,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 9
+    },
+    {
+      "phase": 9,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 9,
+      "force": 1,
+      "updated": 9,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 9
+    },
+    {
+      "phase": 9,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 9
+    },
+    {
+      "phase": 10,
+      "force": 0,
+      "updated": 10,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 10
+    },
+    {
+      "phase": 10,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 10,
+      "force": 1,
+      "updated": 10,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 10
+    },
+    {
+      "phase": 10,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 10
+    },
+    {
+      "phase": 11,
+      "force": 0,
+      "updated": 11,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 11
+    },
+    {
+      "phase": 11,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 11,
+      "force": 1,
+      "updated": 11,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 11
+    },
+    {
+      "phase": 11,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 11
+    },
+    {
+      "phase": 12,
+      "force": 0,
+      "updated": 12,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 12
+    },
+    {
+      "phase": 12,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 12,
+      "force": 1,
+      "updated": 12,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 12
+    },
+    {
+      "phase": 12,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 12
+    },
+    {
+      "phase": 13,
+      "force": 0,
+      "updated": 13,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 13
+    },
+    {
+      "phase": 13,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 13,
+      "force": 1,
+      "updated": 13,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 13
+    },
+    {
+      "phase": 13,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 13
+    },
+    {
+      "phase": 14,
+      "force": 0,
+      "updated": 14,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 14
+    },
+    {
+      "phase": 14,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 14,
+      "force": 1,
+      "updated": 14,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 14
+    },
+    {
+      "phase": 14,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 14
+    },
+    {
+      "phase": 15,
+      "force": 0,
+      "updated": 15,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 15
+    },
+    {
+      "phase": 15,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 15,
+      "force": 1,
+      "updated": 15,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 15
+    },
+    {
+      "phase": 15,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 15
+    },
+    {
+      "phase": 16,
+      "force": 0,
+      "updated": 16,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 16
+    },
+    {
+      "phase": 16,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 16,
+      "force": 1,
+      "updated": 16,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 16
+    },
+    {
+      "phase": 16,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 16
+    },
+    {
+      "phase": 17,
+      "force": 0,
+      "updated": 17,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 17
+    },
+    {
+      "phase": 17,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 17,
+      "force": 1,
+      "updated": 17,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 17
+    },
+    {
+      "phase": 17,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 17
+    },
+    {
+      "phase": 18,
+      "force": 0,
+      "updated": 18,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 18
+    },
+    {
+      "phase": 18,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 18,
+      "force": 1,
+      "updated": 18,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 18
+    },
+    {
+      "phase": 18,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 18
+    },
+    {
+      "phase": 19,
+      "force": 0,
+      "updated": 19,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 19
+    },
+    {
+      "phase": 19,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 19,
+      "force": 1,
+      "updated": 19,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 19
+    },
+    {
+      "phase": 19,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 19
+    },
+    {
+      "phase": 20,
+      "force": 0,
+      "updated": 20,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 20
+    },
+    {
+      "phase": 20,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 20,
+      "force": 1,
+      "updated": 20,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 20
+    },
+    {
+      "phase": 20,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 20
+    },
+    {
+      "phase": 21,
+      "force": 0,
+      "updated": 21,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 21
+    },
+    {
+      "phase": 21,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 21,
+      "force": 1,
+      "updated": 21,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 21
+    },
+    {
+      "phase": 21,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 21
+    },
+    {
+      "phase": 22,
+      "force": 0,
+      "updated": 22,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 22
+    },
+    {
+      "phase": 22,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 22,
+      "force": 1,
+      "updated": 22,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 22
+    },
+    {
+      "phase": 22,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 22
+    },
+    {
+      "phase": 23,
+      "force": 0,
+      "updated": 23,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 23
+    },
+    {
+      "phase": 23,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 23,
+      "force": 1,
+      "updated": 23,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 23
+    },
+    {
+      "phase": 23,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 23
+    },
+    {
+      "phase": 24,
+      "force": 0,
+      "updated": 24,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 24
+    },
+    {
+      "phase": 24,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 24,
+      "force": 1,
+      "updated": 24,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 24
+    },
+    {
+      "phase": 24,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 24
+    },
+    {
+      "phase": 25,
+      "force": 0,
+      "updated": 25,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 25
+    },
+    {
+      "phase": 25,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 25,
+      "force": 1,
+      "updated": 25,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 25
+    },
+    {
+      "phase": 25,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 25
+    },
+    {
+      "phase": 26,
+      "force": 0,
+      "updated": 26,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 26
+    },
+    {
+      "phase": 26,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 26,
+      "force": 1,
+      "updated": 26,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 26
+    },
+    {
+      "phase": 26,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 26
+    },
+    {
+      "phase": 27,
+      "force": 0,
+      "updated": 27,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 27
+    },
+    {
+      "phase": 27,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 27,
+      "force": 1,
+      "updated": 27,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 27
+    },
+    {
+      "phase": 27,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 27
+    },
+    {
+      "phase": 28,
+      "force": 0,
+      "updated": 28,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 28
+    },
+    {
+      "phase": 28,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 28,
+      "force": 1,
+      "updated": 28,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 28
+    },
+    {
+      "phase": 28,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 28
+    },
+    {
+      "phase": 29,
+      "force": 0,
+      "updated": 29,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 29
+    },
+    {
+      "phase": 29,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 29,
+      "force": 1,
+      "updated": 29,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 29
+    },
+    {
+      "phase": 29,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 29
+    },
+    {
+      "phase": 30,
+      "force": 0,
+      "updated": 30,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 30
+    },
+    {
+      "phase": 30,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 30,
+      "force": 1,
+      "updated": 30,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 30
+    },
+    {
+      "phase": 30,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 30
+    },
+    {
+      "phase": 31,
+      "force": 0,
+      "updated": 31,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 31
+    },
+    {
+      "phase": 31,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 31,
+      "force": 1,
+      "updated": 31,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 31
+    },
+    {
+      "phase": 31,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 31
+    },
+    {
+      "phase": 32,
+      "force": 0,
+      "updated": 32,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 32
+    },
+    {
+      "phase": 32,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 32,
+      "force": 1,
+      "updated": 32,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 32
+    },
+    {
+      "phase": 32,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 32
+    },
+    {
+      "phase": 33,
+      "force": 0,
+      "updated": 33,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 33
+    },
+    {
+      "phase": 33,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 33,
+      "force": 1,
+      "updated": 33,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 33
+    },
+    {
+      "phase": 33,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 33
+    },
+    {
+      "phase": 34,
+      "force": 0,
+      "updated": 34,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 34
+    },
+    {
+      "phase": 34,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 34,
+      "force": 1,
+      "updated": 34,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 34
+    },
+    {
+      "phase": 34,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 34
+    },
+    {
+      "phase": 35,
+      "force": 0,
+      "updated": 35,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 35
+    },
+    {
+      "phase": 35,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 35,
+      "force": 1,
+      "updated": 35,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 35
+    },
+    {
+      "phase": 35,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 35
+    },
+    {
+      "phase": 36,
+      "force": 0,
+      "updated": 36,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 36
+    },
+    {
+      "phase": 36,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 36,
+      "force": 1,
+      "updated": 36,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 36
+    },
+    {
+      "phase": 36,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 36
+    },
+    {
+      "phase": 37,
+      "force": 0,
+      "updated": 37,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 37
+    },
+    {
+      "phase": 37,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 37,
+      "force": 1,
+      "updated": 37,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 37
+    },
+    {
+      "phase": 37,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 37
+    },
+    {
+      "phase": 38,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 38,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 38,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 38,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 39,
+      "force": 0,
+      "updated": 39,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 39
+    },
+    {
+      "phase": 39,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 39,
+      "force": 1,
+      "updated": 39,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 39
+    },
+    {
+      "phase": 39,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 39
+    },
+    {
+      "phase": 2147483647,
+      "force": 0,
+      "updated": 2147483647,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 2147483647
+    },
+    {
+      "phase": 2147483647,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 2147483647,
+      "force": 1,
+      "updated": 2147483647,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 2147483647
+    },
+    {
+      "phase": 2147483647,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 2147483647
+    },
+    {
+      "phase": 2147483648,
+      "force": 0,
+      "updated": 2147483648,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 2147483648
+    },
+    {
+      "phase": 2147483648,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 2147483648,
+      "force": 1,
+      "updated": 2147483648,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 2147483648
+    },
+    {
+      "phase": 2147483648,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 2147483648
+    },
+    {
+      "phase": 4294967295,
+      "force": 0,
+      "updated": 4294967295,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 4294967295
+    },
+    {
+      "phase": 4294967295,
+      "force": 0,
+      "updated": 38,
+      "events": [
+        "load_process"
+      ],
+      "actual_state": 38
+    },
+    {
+      "phase": 4294967295,
+      "force": 1,
+      "updated": 4294967295,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 4294967295
+    },
+    {
+      "phase": 4294967295,
+      "force": 1,
+      "updated": 38,
+      "events": [
+        "main_gameplay_required"
+      ],
+      "actual_state": 4294967295
+    }
+  ],
+  "stages": [
+    {
+      "stage": 0,
+      "debug_result": 0,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out",
+        "clean_glitch",
+        "stop_sounds:500"
+      ],
+      "actual_cells": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "global_words": [
+        0,
+        0
+      ]
+    },
+    {
+      "stage": 0,
+      "debug_result": 1,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out",
+        "clean_glitch",
+        "stop_sounds:500"
+      ],
+      "actual_cells": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "global_words": [
+        0,
+        0
+      ]
+    },
+    {
+      "stage": 1,
+      "debug_result": 0,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out"
+      ],
+      "actual_cells": [
+        2,
+        9,
+        11,
+        13,
+        127,
+        126
+      ],
+      "global_words": [
+        305419896,
+        2882400000
+      ]
+    },
+    {
+      "stage": 1,
+      "debug_result": 1,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out"
+      ],
+      "actual_cells": [
+        2,
+        9,
+        11,
+        13,
+        127,
+        126
+      ],
+      "global_words": [
+        305419896,
+        2882400000
+      ]
+    },
+    {
+      "stage": 2,
+      "debug_result": 0,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out",
+        "debug_instance",
+        "debug:isTracingLevel_Loading",
+        "menu_instance",
+        "unload_menu:2",
+        "menu_instance",
+        "unload_menu:1",
+        "menu_instance",
+        "unload_menu:3"
+      ],
+      "actual_cells": [
+        3,
+        9,
+        11,
+        13,
+        127,
+        126
+      ],
+      "global_words": [
+        305419896,
+        2882400000
+      ]
+    },
+    {
+      "stage": 2,
+      "debug_result": 1,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out",
+        "debug_instance",
+        "debug:isTracingLevel_Loading",
+        "menu_instance",
+        "unload_menu:2",
+        "menu_instance",
+        "unload_menu:1",
+        "menu_instance",
+        "unload_menu:3"
+      ],
+      "actual_cells": [
+        3,
+        9,
+        11,
+        13,
+        127,
+        126
+      ],
+      "global_words": [
+        305419896,
+        2882400000
+      ]
+    },
+    {
+      "stage": 3,
+      "debug_result": 0,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out",
+        "debug_instance",
+        "debug:isTracingLevel_Loading"
+      ],
+      "actual_cells": [
+        4,
+        9,
+        11,
+        13,
+        127,
+        126
+      ],
+      "global_words": [
+        305419896,
+        2882400000
+      ]
+    },
+    {
+      "stage": 3,
+      "debug_result": 1,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out",
+        "debug_instance",
+        "debug:isTracingLevel_Loading"
+      ],
+      "actual_cells": [
+        4,
+        9,
+        11,
+        13,
+        127,
+        126
+      ],
+      "global_words": [
+        305419896,
+        2882400000
+      ]
+    },
+    {
+      "stage": 4,
+      "debug_result": 0,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out",
+        "debug_instance",
+        "debug:isTracingLevel_Loading",
+        "build_fx_libraries"
+      ],
+      "actual_cells": [
+        5,
+        9,
+        11,
+        13,
+        127,
+        126
+      ],
+      "global_words": [
+        305419896,
+        2882400000
+      ]
+    },
+    {
+      "stage": 4,
+      "debug_result": 1,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out",
+        "debug_instance",
+        "debug:isTracingLevel_Loading",
+        "build_fx_libraries"
+      ],
+      "actual_cells": [
+        5,
+        9,
+        11,
+        13,
+        127,
+        126
+      ],
+      "global_words": [
+        305419896,
+        2882400000
+      ]
+    },
+    {
+      "stage": 5,
+      "debug_result": 0,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out",
+        "debug_instance",
+        "debug:isTracingLevel_Loading",
+        "physical_load:0xc4fa0000/0xc4fa0000/0x44fa0000/0x44fa0000"
+      ],
+      "actual_cells": [
+        6,
+        9,
+        11,
+        13,
+        127,
+        126
+      ],
+      "global_words": [
+        305419896,
+        2882400000
+      ]
+    },
+    {
+      "stage": 5,
+      "debug_result": 1,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out",
+        "debug_instance",
+        "debug:isTracingLevel_Loading",
+        "physical_load:0xc4fa0000/0xc4fa0000/0x44fa0000/0x44fa0000"
+      ],
+      "actual_cells": [
+        6,
+        9,
+        11,
+        13,
+        127,
+        126
+      ],
+      "global_words": [
+        305419896,
+        2882400000
+      ]
+    },
+    {
+      "stage": 6,
+      "debug_result": 0,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out",
+        "debug_instance",
+        "debug:isTracingLevel_Loading",
+        "player_manager_update",
+        "allocate_game_event:12",
+        "game_event_c1",
+        "game_event_load"
+      ],
+      "actual_cells": [
+        7,
+        9,
+        11,
+        13,
+        127,
+        126
+      ],
+      "global_words": [
+        305419896,
+        2882400000
+      ]
+    },
+    {
+      "stage": 6,
+      "debug_result": 1,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out",
+        "debug_instance",
+        "debug:isTracingLevel_Loading",
+        "player_manager_update",
+        "allocate_game_event:12",
+        "game_event_c1",
+        "game_event_load"
+      ],
+      "actual_cells": [
+        7,
+        9,
+        11,
+        13,
+        127,
+        126
+      ],
+      "global_words": [
+        305419896,
+        2882400000
+      ]
+    },
+    {
+      "stage": 16,
+      "debug_result": 0,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out",
+        "debug_instance",
+        "debug:isTracingLevel_Loading"
+      ],
+      "actual_cells": [
+        17,
+        9,
+        11,
+        13,
+        127,
+        126
+      ],
+      "global_words": [
+        305419896,
+        2882400000
+      ]
+    },
+    {
+      "stage": 16,
+      "debug_result": 1,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out",
+        "debug_instance",
+        "debug:isTracingLevel_Loading"
+      ],
+      "actual_cells": [
+        17,
+        9,
+        11,
+        13,
+        127,
+        126
+      ],
+      "global_words": [
+        305419896,
+        2882400000
+      ]
+    },
+    {
+      "stage": 19,
+      "debug_result": 0,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out",
+        "debug_instance",
+        "debug:isTracingLevel_Loading"
+      ],
+      "actual_cells": [
+        20,
+        9,
+        11,
+        13,
+        127,
+        126
+      ],
+      "global_words": [
+        305419896,
+        2882400000
+      ]
+    },
+    {
+      "stage": 19,
+      "debug_result": 1,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out",
+        "debug_instance",
+        "debug:isTracingLevel_Loading"
+      ],
+      "actual_cells": [
+        20,
+        9,
+        11,
+        13,
+        127,
+        126
+      ],
+      "global_words": [
+        305419896,
+        2882400000
+      ]
+    }
+  ],
+  "per_call_prefixes": [
+    {
+      "stage": 0,
+      "fasttravel_global_byte": 0,
+      "current_level_present": false,
+      "player_character_present": false,
+      "display_loading_step_name": false,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 0,
+      "fasttravel_global_byte": 0,
+      "current_level_present": false,
+      "player_character_present": false,
+      "display_loading_step_name": true,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "menu_debug_instance",
+        "menu_debug_text:LS__FirstLS__ThreadFirst",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 0,
+      "fasttravel_global_byte": 0,
+      "current_level_present": false,
+      "player_character_present": true,
+      "display_loading_step_name": false,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 0,
+      "fasttravel_global_byte": 0,
+      "current_level_present": false,
+      "player_character_present": true,
+      "display_loading_step_name": true,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "menu_debug_instance",
+        "menu_debug_text:LS__FirstLS__ThreadFirst",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 0,
+      "fasttravel_global_byte": 0,
+      "current_level_present": true,
+      "player_character_present": false,
+      "display_loading_step_name": false,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 0,
+      "fasttravel_global_byte": 0,
+      "current_level_present": true,
+      "player_character_present": false,
+      "display_loading_step_name": true,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "menu_debug_instance",
+        "menu_debug_text:LS__FirstLS__ThreadFirst",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 0,
+      "fasttravel_global_byte": 0,
+      "current_level_present": true,
+      "player_character_present": true,
+      "display_loading_step_name": false,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 0,
+      "fasttravel_global_byte": 0,
+      "current_level_present": true,
+      "player_character_present": true,
+      "display_loading_step_name": true,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "menu_debug_instance",
+        "menu_debug_text:LS__FirstLS__ThreadFirst",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 0,
+      "fasttravel_global_byte": 1,
+      "current_level_present": false,
+      "player_character_present": false,
+      "display_loading_step_name": false,
+      "events": [
+        "application_current_level",
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 0,
+      "fasttravel_global_byte": 1,
+      "current_level_present": false,
+      "player_character_present": false,
+      "display_loading_step_name": true,
+      "events": [
+        "application_current_level",
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "menu_debug_instance",
+        "menu_debug_text:LS__FirstLS__ThreadFirst",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 0,
+      "fasttravel_global_byte": 1,
+      "current_level_present": false,
+      "player_character_present": true,
+      "display_loading_step_name": false,
+      "events": [
+        "application_current_level",
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 0,
+      "fasttravel_global_byte": 1,
+      "current_level_present": false,
+      "player_character_present": true,
+      "display_loading_step_name": true,
+      "events": [
+        "application_current_level",
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "menu_debug_instance",
+        "menu_debug_text:LS__FirstLS__ThreadFirst",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 0,
+      "fasttravel_global_byte": 1,
+      "current_level_present": true,
+      "player_character_present": false,
+      "display_loading_step_name": false,
+      "events": [
+        "application_current_level",
+        "local_player:0:true",
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 0,
+      "fasttravel_global_byte": 1,
+      "current_level_present": true,
+      "player_character_present": false,
+      "display_loading_step_name": true,
+      "events": [
+        "application_current_level",
+        "local_player:0:true",
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "menu_debug_instance",
+        "menu_debug_text:LS__FirstLS__ThreadFirst",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 0,
+      "fasttravel_global_byte": 1,
+      "current_level_present": true,
+      "player_character_present": true,
+      "display_loading_step_name": false,
+      "events": [
+        "application_current_level",
+        "local_player:0:true",
+        "unlock_all_fast_travels",
+        "world_map_instance",
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 1
+    },
+    {
+      "stage": 0,
+      "fasttravel_global_byte": 1,
+      "current_level_present": true,
+      "player_character_present": true,
+      "display_loading_step_name": true,
+      "events": [
+        "application_current_level",
+        "local_player:0:true",
+        "unlock_all_fast_travels",
+        "world_map_instance",
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "menu_debug_instance",
+        "menu_debug_text:LS__FirstLS__ThreadFirst",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 1
+    },
+    {
+      "stage": 5,
+      "fasttravel_global_byte": 0,
+      "current_level_present": false,
+      "player_character_present": false,
+      "display_loading_step_name": false,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 5,
+      "fasttravel_global_byte": 0,
+      "current_level_present": false,
+      "player_character_present": false,
+      "display_loading_step_name": true,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "menu_debug_instance",
+        "menu_debug_text:LS_PhysicalWorld",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 5,
+      "fasttravel_global_byte": 0,
+      "current_level_present": false,
+      "player_character_present": true,
+      "display_loading_step_name": false,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 5,
+      "fasttravel_global_byte": 0,
+      "current_level_present": false,
+      "player_character_present": true,
+      "display_loading_step_name": true,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "menu_debug_instance",
+        "menu_debug_text:LS_PhysicalWorld",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 5,
+      "fasttravel_global_byte": 0,
+      "current_level_present": true,
+      "player_character_present": false,
+      "display_loading_step_name": false,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 5,
+      "fasttravel_global_byte": 0,
+      "current_level_present": true,
+      "player_character_present": false,
+      "display_loading_step_name": true,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "menu_debug_instance",
+        "menu_debug_text:LS_PhysicalWorld",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 5,
+      "fasttravel_global_byte": 0,
+      "current_level_present": true,
+      "player_character_present": true,
+      "display_loading_step_name": false,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 5,
+      "fasttravel_global_byte": 0,
+      "current_level_present": true,
+      "player_character_present": true,
+      "display_loading_step_name": true,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "menu_debug_instance",
+        "menu_debug_text:LS_PhysicalWorld",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 5,
+      "fasttravel_global_byte": 1,
+      "current_level_present": false,
+      "player_character_present": false,
+      "display_loading_step_name": false,
+      "events": [
+        "application_current_level",
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 5,
+      "fasttravel_global_byte": 1,
+      "current_level_present": false,
+      "player_character_present": false,
+      "display_loading_step_name": true,
+      "events": [
+        "application_current_level",
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "menu_debug_instance",
+        "menu_debug_text:LS_PhysicalWorld",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 5,
+      "fasttravel_global_byte": 1,
+      "current_level_present": false,
+      "player_character_present": true,
+      "display_loading_step_name": false,
+      "events": [
+        "application_current_level",
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 5,
+      "fasttravel_global_byte": 1,
+      "current_level_present": false,
+      "player_character_present": true,
+      "display_loading_step_name": true,
+      "events": [
+        "application_current_level",
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "menu_debug_instance",
+        "menu_debug_text:LS_PhysicalWorld",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 5,
+      "fasttravel_global_byte": 1,
+      "current_level_present": true,
+      "player_character_present": false,
+      "display_loading_step_name": false,
+      "events": [
+        "application_current_level",
+        "local_player:0:true",
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 5,
+      "fasttravel_global_byte": 1,
+      "current_level_present": true,
+      "player_character_present": false,
+      "display_loading_step_name": true,
+      "events": [
+        "application_current_level",
+        "local_player:0:true",
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "menu_debug_instance",
+        "menu_debug_text:LS_PhysicalWorld",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 5,
+      "fasttravel_global_byte": 1,
+      "current_level_present": true,
+      "player_character_present": true,
+      "display_loading_step_name": false,
+      "events": [
+        "application_current_level",
+        "local_player:0:true",
+        "unlock_all_fast_travels",
+        "world_map_instance",
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 1
+    },
+    {
+      "stage": 5,
+      "fasttravel_global_byte": 1,
+      "current_level_present": true,
+      "player_character_present": true,
+      "display_loading_step_name": true,
+      "events": [
+        "application_current_level",
+        "local_player:0:true",
+        "unlock_all_fast_travels",
+        "world_map_instance",
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "menu_debug_instance",
+        "menu_debug_text:LS_PhysicalWorld",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 1
+    },
+    {
+      "stage": 37,
+      "fasttravel_global_byte": 0,
+      "current_level_present": false,
+      "player_character_present": false,
+      "display_loading_step_name": false,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 37,
+      "fasttravel_global_byte": 0,
+      "current_level_present": false,
+      "player_character_present": false,
+      "display_loading_step_name": true,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "menu_debug_instance",
+        "menu_debug_text:data/",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 37,
+      "fasttravel_global_byte": 0,
+      "current_level_present": false,
+      "player_character_present": true,
+      "display_loading_step_name": false,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 37,
+      "fasttravel_global_byte": 0,
+      "current_level_present": false,
+      "player_character_present": true,
+      "display_loading_step_name": true,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "menu_debug_instance",
+        "menu_debug_text:data/",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 37,
+      "fasttravel_global_byte": 0,
+      "current_level_present": true,
+      "player_character_present": false,
+      "display_loading_step_name": false,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 37,
+      "fasttravel_global_byte": 0,
+      "current_level_present": true,
+      "player_character_present": false,
+      "display_loading_step_name": true,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "menu_debug_instance",
+        "menu_debug_text:data/",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 37,
+      "fasttravel_global_byte": 0,
+      "current_level_present": true,
+      "player_character_present": true,
+      "display_loading_step_name": false,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 37,
+      "fasttravel_global_byte": 0,
+      "current_level_present": true,
+      "player_character_present": true,
+      "display_loading_step_name": true,
+      "events": [
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "menu_debug_instance",
+        "menu_debug_text:data/",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 37,
+      "fasttravel_global_byte": 1,
+      "current_level_present": false,
+      "player_character_present": false,
+      "display_loading_step_name": false,
+      "events": [
+        "application_current_level",
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 37,
+      "fasttravel_global_byte": 1,
+      "current_level_present": false,
+      "player_character_present": false,
+      "display_loading_step_name": true,
+      "events": [
+        "application_current_level",
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "menu_debug_instance",
+        "menu_debug_text:data/",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 37,
+      "fasttravel_global_byte": 1,
+      "current_level_present": false,
+      "player_character_present": true,
+      "display_loading_step_name": false,
+      "events": [
+        "application_current_level",
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 37,
+      "fasttravel_global_byte": 1,
+      "current_level_present": false,
+      "player_character_present": true,
+      "display_loading_step_name": true,
+      "events": [
+        "application_current_level",
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "menu_debug_instance",
+        "menu_debug_text:data/",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 37,
+      "fasttravel_global_byte": 1,
+      "current_level_present": true,
+      "player_character_present": false,
+      "display_loading_step_name": false,
+      "events": [
+        "application_current_level",
+        "local_player:0:true",
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 37,
+      "fasttravel_global_byte": 1,
+      "current_level_present": true,
+      "player_character_present": false,
+      "display_loading_step_name": true,
+      "events": [
+        "application_current_level",
+        "local_player:0:true",
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "menu_debug_instance",
+        "menu_debug_text:data/",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 0
+    },
+    {
+      "stage": 37,
+      "fasttravel_global_byte": 1,
+      "current_level_present": true,
+      "player_character_present": true,
+      "display_loading_step_name": false,
+      "events": [
+        "application_current_level",
+        "local_player:0:true",
+        "unlock_all_fast_travels",
+        "world_map_instance",
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 1
+    },
+    {
+      "stage": 37,
+      "fasttravel_global_byte": 1,
+      "current_level_present": true,
+      "player_character_present": true,
+      "display_loading_step_name": true,
+      "events": [
+        "application_current_level",
+        "local_player:0:true",
+        "unlock_all_fast_travels",
+        "world_map_instance",
+        "prefix_debug_load",
+        "prefix_debug:IsDisplayLoadingStepName",
+        "menu_debug_instance",
+        "menu_debug_text:data/",
+        "prefix_debug_out"
+      ],
+      "world_map_byte12c": 1
+    }
+  ],
+  "scope": "Execute original Level.Update loading selector/envelope, and original\n_LoadProcess stages0..6 up to common tail. Called engine bodies are explicit\nobservation fixtures; no gameplay, complete Init, cleanup/audio/menu/FX/PM/event\nbody is certified. Genuine profiling/memory no-ops and source stores execute ARM.\n"
+}

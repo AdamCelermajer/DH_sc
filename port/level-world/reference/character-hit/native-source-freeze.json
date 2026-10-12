@@ -1,0 +1,24 @@
+{
+  "validation": "PASS",
+  "source_sha256": {
+    "port/level-world/character_hit.hpp": "9035d572267994ce2dfcdbda05d6e12c6cc92711f526b31720757fe8a9c65311",
+    "port/level-world/character_hit.cpp": "6c723420bfc012306e9a79b4b8acb06b773a16e9e951c794fa88f095f9f591ac",
+    "port/level-world/tests/character_hit.cpp": "5bc239f8906da844820088a9b3ff7cfc2c12833fe6fdc78279be2443bfe23504",
+    "port/level-world/tests/character_hit_differential.py": "70a29e03146a17f67025f65e03d94e373beec01992dd2686fa692d1d79ae8679",
+    "port/level-world/tests/character_hit_host.py": "ed0b29fa6490c723f85f61527490492a85b1ce7ece5d23e7b41396e54450a558",
+    "port/level-world/tools/build_character_hit_oracle.ps1": "b69f4623c864cf18f645d8132c37c4ec1db7752e4f3a1c7ae5eeec1fc85b451d"
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "proof_sha256": {
+    "port\\level-world\\reports\\character-hit-arm64-differential.json": "51d8046981abfbcea5b65abb1e82e45b6f75646bccef04aa3e430b6c4741f216",
+    "port\\level-world\\reports\\character-hit-host-audit.json": "c3dfde8c3472118a590e244e2504322f42859c687c36625832ecd3fa39fcb62e",
+    "port\\level-world\\reference\\character-hit\\hit-fixtures.json": "a9a96a09fcee2398663ddf3425c0043319392091ec1175c42b40b2186d65c3d6",
+    "port\\level-world\\reference\\character-hit\\NOTES.md": "be7c40218905c82a43010ad7dad481757d8a18ed38d824a58a35c207c1f007a0",
+    "port\\level-world\\reference\\character-hit\\dependencies-functions.json": "0e1677172d57627a5416e2241c97f38924da824036ef2c5acce37f66a175759c",
+    "port\\level-world\\reference\\character-hit\\kill-boundary-functions.json": "a6a2e9661071111f83669f1f1f6f4cac9930ccb75ddf0a2f91c8f673ef5cf2c4"
+  },
+  "scope": "Complete bounded offline nonplayer HitFor; required full Kill service and unsupported player/online boundaries. Genuine nonlethal self/self tail complete; enclosing DoT still requires CancelSneaking/Text/Sound. Source-only, no APK.",
+  "host_dependency_capture": "Historical actual pre-parent-central-rebuild DSOs; separate main-linked refresh required.",
+  "full_Kill_backend": false,
+  "packaged_APK": false
+}

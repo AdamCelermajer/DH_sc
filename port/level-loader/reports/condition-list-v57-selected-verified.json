@@ -1,0 +1,75 @@
+{
+  "validation": "PASS",
+  "recorded_utc": "2026-10-06T17:24:56+00:00",
+  "coherent_files_verified": 766,
+  "selected_manifest_sha256": "5db6b26f8f14a3e4debfa5d94b2b97be4831e82e06224fafba161187c8af13fa",
+  "executions": {
+    "canonical7_and_lists118": {
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/dh2_loader_canonical_conditions_v57",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/condition-list-v55/v2conditions_pyarray.bin",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/condition-list-v55/v2conditions_pyarraynames.bin"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS ACTUAL canonical_constructor7_deletingD0_7_same_stub4_comparator0_1_2_only; real_Conditions118_154_lists_Assign_D1_using_ACTUAL_receivers; checked_alias_foreign_doubledelete_lifetime; owningWorld_no_cycle_expired_authority_borrow_guard; main_Eval_required_output_preserved; no_selected_graph_archives_no_Eval_callbacks\n",
+      "stderr": "",
+      "binary_sha256": "109cd831f842d67953bf755557127c2d34cc2e92dcb69a3b485ec57d732b10cf"
+    },
+    "same_actor_SWAMP50": {
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/dh2_loader_swamp_conditions_v57",
+        "/mnt/c/Users/adamc/Downloads/dungeonhunter2/Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/tests/native-ctor-v4/design.bin"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS original_cache_rows118_stubs154; ctor_assign_D1_controlled_factory_fixtures118; malformed4; repeatedAssign/zero/negative/foreign; actual_selected_Character50_conditions100_authored12_Invalid2_CANONICAL_C1_Assign_Clear10; same_actor_compiled_lifetime_and_clear; main_Eval_required_no_eval_no_RNG_no_whole_InitPost_claim\n",
+      "stderr": "",
+      "binary_sha256": "fccb8dd128a3c6fac4ce89418c46b178ecb38ac38e1b4de20ceb804928904ac1"
+    },
+    "ordered_qualified_parent": {
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/dh2_loader_character_conditions_v57",
+        "/mnt/c/Users/adamc/Downloads/dungeonhunter2/Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/tests/native-ctor-v4/design.bin"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS actual_ordered_LoadBase_Recalc=1 actual_model_property_backing=1 actual_family_model_route=1 NPC_Faery_NULL=1 owned_Faery_real_save_getter_original_table_callbacks=1 missing_order_dictionary_type_backing_saved=5 failed_model_not_replayed=1 NULL_model_preserves_authored_CString=1 source_scale_before_missing_parent=1 shared_parent_actual_condition_cached_spawn_pose_prefix=1 required_actual_Device_stop=1 ordered_actual_condition_prefix=1 same_actor_condition_C1_Assign_Clear=1 no_failed_condition_replay=1 Main_Eval_required=1 whole_InitPost_success=0 app_rng0_calls=9 saved_model=33\n",
+      "stderr": "",
+      "binary_sha256": "54d4ec5cdaf71e5830b5581de10b6e0f3a737ba33d881a9b7246342981271652"
+    }
+  },
+  "failures": [],
+  "actual_canonical_constructor7_D0": true,
+  "actual_cache_lists118_stubs154": true,
+  "same_actual_SWAMP_Character50_condition_fields100": true,
+  "actual_meaningful_ConditionData_Init_Assign_Clear": 10,
+  "earlier_controlled_constructor_cases_labeled_separately": true,
+  "source_input_scope": "SWAMP 50 names and condition properties captured from source into host test inputs; actual ZIP GameDesign and conditions tables, actual canonical actor/factory/property map and same-field borrows. Whole MGP source walk/ordered InitPost not asserted by this component test.",
+  "Main_Eval_required_not_called": true,
+  "ordered_host_NPC_qualified_parent_actual_condition_prefix_verified": true,
+  "authentic_first_SWAMP_qualified_parent_activation_verified": false,
+  "whole_Character_InitPost": false,
+  "whole_level_Init": false,
+  "GPU_rendering_verified": false,
+  "shared_mutated": false,
+  "source_sha256": {
+    "tools/run_conditions_v57_checks.py": "1145f3830efe73d52a39180246b7adbd3c8880dae993455abdcb015576c80317",
+    "tests/cmake-receiver-transport/CMakeLists.txt": "c1a05a2165b95d29014b495c20ae67ca86a92edf72edb9f8d72a2de7642f7ef6",
+    "tests/conditions-selected-v57/condition_swamp_positive_v55_test.cpp": "dba22d7a98f7a30d6178fd2028b65f240093a7f68ec661ab3529cdc8fdc09d33",
+    "tests/conditions-selected-v57/canonical_condition_v55_test.cpp": "de8ce042ef97756a7f777a2459d208c0fc003f15a5c7d02d4c1a589665b0faf6",
+    "tests/conditions-selected-v57/character_factory_setup_v55.inc": "d20277f6b11f23183bd702e2b1cbbc3d5236c80e76439946dfc6217198e6cc20",
+    "tests/conditions-selected-v57/parent_character_conditions_v57.cpp": "89a0025f99aa5ccca33b02ce772a42eed559fc27cdff95601f941c7e14775bb0"
+  }
+}

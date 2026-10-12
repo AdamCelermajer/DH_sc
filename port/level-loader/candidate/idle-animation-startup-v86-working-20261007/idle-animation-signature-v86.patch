@@ -1,0 +1,22 @@
+--- a/port/level-world/canonical_door_v27.hpp
++++ b/port/level-world/canonical_door_v27.hpp
+@@ -47,7 +47,7 @@
+  std::function<bool(bool&,std::string&)> sound_manager_present;
+  std::function<bool(std::int32_t,std::string&)> load_sound;
+  // Actual controller virtual20/name/arg2/arg3/stackarg4, never fake animation.
+- std::function<bool(CanonicalDoorV27&,std::uintptr_t,const char*,bool,bool,bool,std::string&)> play_idle_animation;
++ std::function<bool(CanonicalDoorV27&,std::uintptr_t,const char*,bool,std::int32_t,std::uint32_t,std::string&)> play_idle_animation;
+  std::function<bool(CanonicalDoorV27&,std::uintptr_t,bool,std::string&)> physical_filter;
+  // Exact PFWorld5252ec over THIS runtime PFObject1c8 and current source world.
+  std::function<bool(CanonicalDoorV27&,bool,std::string&)> flag_floor_dead_end;
+--- a/port/level-world/canonical_trigger_object_v28.hpp
++++ b/port/level-world/canonical_trigger_object_v28.hpp
+@@ -27,7 +27,7 @@
+  std::function<bool(std::shared_ptr<loader::ScriptManagerOwnerV52>&,std::string&)> borrow_script_manager;
+  // SAME Main arena's RETURNED V3 services, used for custom compiled788.
+  std::function<bool(ConditionDataInitServicesV3&,std::string&)> borrow_conditions;
+- std::function<bool(CanonicalTriggerObjectV28&,std::uintptr_t,const char*,bool,bool,bool,std::string&)> play_idle_animation;
++ std::function<bool(CanonicalTriggerObjectV28&,std::uintptr_t,const char*,bool,std::int32_t,std::uint32_t,std::string&)> play_idle_animation;
+  // Actual40-byte46f2f0 resource C1 +derived dispatch+394bf8(false), arguments
+  // App44 world, THIS,1,stack0/0/0/0/2/0xffff/1; journal every failed prefix.
+  std::function<bool(CanonicalTriggerObjectV28&,std::string&)> create_physical;

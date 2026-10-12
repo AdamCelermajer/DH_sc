@@ -1,0 +1,56 @@
+{
+  "read_only_main": true,
+  "stage9_packet_immutable": "level-lightset-stage9-v53-6f40d806a11189d0.zip",
+  "source_files": [
+    {
+      "path": "port/level-world/canonical_property_map_v1.cpp",
+      "sha256": "c40d5514e19aa59c02a0bcbf0d911958230df68e41d307ef669db84b5e47b3a0",
+      "bytes": 10203
+    },
+    {
+      "path": "port/level-loader/native_loading_sources_v50.cmake",
+      "sha256": "f70d688835bfe149e9990c53456cc541d81db8f5a4a1664eb9f7f47507e52eeb",
+      "bytes": 3237
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/actual_device_android_v54.hpp",
+      "sha256": "88579aa4548b44b43794f4e33eb8ab125a8f6089727823a25b84db95db45d1d4",
+      "bytes": 400
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/actual_device_android_v54.cpp",
+      "sha256": "d9d4de58a7dd1b1a416cb0bebb2ed7714c4e30712506069ac8722fa626ced5b6",
+      "bytes": 2381
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/actual_device_provider_v54.hpp",
+      "sha256": "6eebffc3cbf48fa0c0302f4edba4b9317c77a9643e6456608246eab1ffd34d74",
+      "bytes": 3215
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_native_level_c1_v25.inc",
+      "sha256": "a065bb6a91f5239106bd5518e877d7a313cb255a752aff3de4746a34c8b8f00e",
+      "bytes": 9606
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_canonical_world_v4.inc",
+      "sha256": "03c30150c4a8354a6ee28d047db5b296c519b2e1780c4ba70134d252bb5496e1",
+      "bytes": 5554
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_native_gslevel_v27.hpp",
+      "sha256": "a389e98faf62e02b0bf4f1c6c4bba456823fd9e3b800dcc6d85ffa8d7dbdcc85",
+      "bytes": 589
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "sha256": "a529874e8823de096a0c4efb352f528421e3d1f0928fd3b5e5c945d56d2f80f8",
+      "bytes": 259340
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/CMakeLists.txt",
+      "sha256": "5fa9a89488f368fd4b50ad02464c6b85ffef79f563da3014ee487aaab31eaa32",
+      "bytes": 4656
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+--- a/port/level-world/retained_gameobject_visual_v1.hpp
++++ b/port/level-world/retained_gameobject_visual_v1.hpp
+@@
+  bool ready()const noexcept{return ready_;}
++ //Read-only view of SAME actual source-created child allocations, no copied tree.
++ const auto& source_child_owners_v100()const noexcept{return node_handles_;}
+--- a/port/level-world/module_static_scene_v2.hpp
++++ b/port/level-world/module_static_scene_v2.hpp
+@@
+  const ModuleSelectedSceneV2& selected()const noexcept{return graph_;}
++ const auto& source_child_owners_v100()const noexcept{return native_nodes_v93_;}
++ bool source_set_node_visible_v100(std::uintptr_t id,bool visible,std::string& e){
++  if(!ready_){e="Retired SAME Module node visibility owner";return false;}
++  for(const auto& node:native_nodes_v93_)if(node&&reinterpret_cast<std::uintptr_t>(node.get())==id){
++   if(!node->fields||node->native_destroyed_v106||node->fields->detached){e="Retired actual Module child node";return false;}
++   const auto i=node->index;auto& state=node->fields->visibility;const auto before=flags_[i]&1u;
++   if(state.local120==std::uint8_t(visible))return true;state.local120=visible?1:0;
++   if(visible&&state.parent121)flags_[i]|=1u;else flags_[i]&=~1u;
++   graph_.node_visibility[i]=(flags_[i]&1u)?1:0;
++   if(before!=(flags_[i]&1u))propagate_node_visibility_v94(i);e.clear();return true;
++  }e="Required SAME actual Module child visibility receiver";return false;
++ }

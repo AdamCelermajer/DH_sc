@@ -1,0 +1,26 @@
+{
+  "status": "SOURCE_ADOPTED_UNCOMPILED_UNRUN",
+  "source_packet_sha256": "12c7b73990411e37711539239c362971a3051955db352d4d25e369d7644d2fa4",
+  "original_ELF_sha256_verified": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "schema_before_sha256": "e855a175164a1412012fb6e03b624be69ebaa98603c1f163bebcb86eb1750078",
+  "schema_after_sha256": "96b279867b9d824c6b64a1ef2711889189c6165811f71c78a1f25c31c2f6168a",
+  "cmake_before_sha256": "384e2e986c9784f1758a5222995522bb08dcd4dd29458f2b11469d2a3da4bca2",
+  "cmake_after_sha256": "6228289476002b15b88e93eacf1f57be6444452bddeb8e109f6a89b359403667",
+  "active_private_files": {
+    "script_command_receivers_v59.hpp": "d6cb5e7f5c646dbbaff27215818ebcaf4b5486f341e4610027abd375a6e6ea55",
+    "script_command_receivers_v59.cpp": "c685f75eab3e7c12ea68fd6178a71773e513eccfa19a5a9371be529d1f805b3d",
+    "command_c1_descriptors_v59.inc": "446af21734e2a23895cb6fd951a65a2c4a9398b266c1552d260eb3ebfb70f865",
+    "script_data_schemas_v52.inc": "96b279867b9d824c6b64a1ef2711889189c6165811f71c78a1f25c31c2f6168a"
+  },
+  "candidate_kinds": 47,
+  "required_nontrivial_Main_Init": 5,
+  "remaining_static_missing_slots": 33,
+  "unsampled_local_pairs": 37,
+  "new_cpp_targets": 2,
+  "new_test_targets": 2,
+  "native_jobs": 0,
+  "frozen_sources_changed": false,
+  "shared_sources_changed": false,
+  "selected773_changed": false,
+  "whole_level_or_camera_effect_verified": false
+}

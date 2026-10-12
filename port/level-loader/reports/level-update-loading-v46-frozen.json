@@ -1,0 +1,8 @@
+{
+  "validation": "PASS",
+  "archive": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\level-update-loading-v46-33a7ba52a6bdfbe3.zip",
+  "archive_sha256": "7b0eb1d25acfa99a37403fb6146b3bb56b17b1cce3e6ada82d98941f89d5ab38",
+  "payloads": 31,
+  "manifest_sha256": "33a7ba52a6bdfbe3b55fe5164fef88b8225a9784deff985b16d8146b6740983c",
+  "readback_verified": true
+}

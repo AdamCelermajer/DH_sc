@@ -1,0 +1,17 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN13ItemInventory14_EquipItemAutoEj",
+      "elf_address": "0x4009f8",
+      "size": 652,
+      "sha256": "7043246997f5d7b856f4aaddbb45f3b3ad90b6a15e2cdc880d8e6cf86b7b1c32"
+    },
+    {
+      "original_symbol": "_ZNK12ItemInstance7GetItemEv",
+      "elf_address": "0x3f9e08",
+      "size": 44,
+      "sha256": "df3cef6ad94f3333a35c215c39f1330df860704814086e3f08133ee6333836b2"
+    }
+  ]
+}

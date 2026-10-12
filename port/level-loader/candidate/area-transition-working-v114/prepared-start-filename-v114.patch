@@ -1,0 +1,22 @@
+--- a/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp
++++ b/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp
+@@ -805,10 +805,15 @@
+  if(!levels||row<0||std::size_t(row)>=levels->levels.size()){
+   error="Required authentic selected LNAM/default row";state->failed=true;state->failure=error;return false;
+  }
+- if(prepared_transition&&(std::size_t(row)>=levels->level_names.size()||
+-    levels->level_names[std::size_t(row)]!=prepared_transition->source.identity||
+-    levels->levels[std::size_t(row)].file!=prepared_transition->source.definition)){
+-  error="Confirmed transition differs from SAME actual LevelList destination";state->failed=true;state->failure=error;return false;
++ if(prepared_transition){
++  std::int32_t original_row=-1;const dh2::data::LevelRecord* original_record{};
++  if(!borrow_area_transition_filename_level_v114(*levels,prepared_transition->source.definition.c_str(),
++       original_row,original_record,error)||!original_record||original_row!=row||
++     std::size_t(row)>=levels->level_names.size()||
++     levels->level_names[std::size_t(row)]!=prepared_transition->source.identity){
++   if(error.empty())error="Confirmed transition differs from original C1 LevelList selection";
++   state->failed=true;state->failure=error;return false;
++  }
+  }
+  auto held_design=std::make_shared<character::CharacterGameDesign::Borrow>(state->world->design->borrow());
+  LevelConstructorApplicationV4 app;app.owner=state->world->files_owner;app.levels=held_design->levels();

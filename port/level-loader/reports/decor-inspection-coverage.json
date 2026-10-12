@@ -1,0 +1,1298 @@
+{
+  "validation": "PASS",
+  "scope": "Static authored AnimatedDecor geometry only; no navigation world or runtime class is constructed",
+  "probe_sha256": "4fef2c4bf0a6b6c7a61c63ea3e29b30ca10630482cf8bc26072ab1fa9d761206",
+  "cases": [
+    {
+      "identity": "ABBEY_RUINS_01",
+      "definition": "009a_abbey.mlx",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 2,
+        "mesh_instances": 2,
+        "vertices": 8,
+        "skinned_meshes": 0,
+        "skipped_sources": 5,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "APPLETEMPLEBACKUP",
+      "definition": "x50_earth_temple_demo_BACKUP.mlx",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 0,
+        "mesh_instances": 0,
+        "vertices": 0,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "DARKWOOD",
+      "definition": "003_darkwood.mlx",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 8,
+        "mesh_instances": 8,
+        "vertices": 32,
+        "skinned_meshes": 0,
+        "skipped_sources": 5,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "DARKWOOD_V2",
+      "definition": "003_darkwood.mlx",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 8,
+        "mesh_instances": 8,
+        "vertices": 32,
+        "skinned_meshes": 0,
+        "skipped_sources": 5,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "DARKWOOD_V3",
+      "definition": "003_darkwood.mlx",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 8,
+        "mesh_instances": 8,
+        "vertices": 32,
+        "skinned_meshes": 0,
+        "skipped_sources": 5,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "DARK_DUNGEON_TEMPLE_01",
+      "definition": "038_dark_temple.mlx",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 90,
+        "mesh_instances": 75,
+        "vertices": 5300,
+        "skinned_meshes": 75,
+        "skipped_sources": 1,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "DARK_DUNGEON_TEMPLE_BOSSROOM",
+      "definition": "039_dark_temple_bossroom_01.mlx",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 8,
+        "mesh_instances": 3,
+        "vertices": 631,
+        "skinned_meshes": 0,
+        "skipped_sources": 1,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "FIRE_TEMPLE_01",
+      "definition": "031_firetemple.mlx",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 27,
+        "mesh_instances": 13,
+        "vertices": 52,
+        "skinned_meshes": 0,
+        "skipped_sources": 22,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "ICY_HUB",
+      "definition": "025_icy_hub.mlx",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 4,
+        "mesh_instances": 4,
+        "vertices": 16,
+        "skinned_meshes": 0,
+        "skipped_sources": 36,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "INFECTED_VILLAGE_01",
+      "definition": "005_infectedvillage.mlx",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 9,
+        "mesh_instances": 9,
+        "vertices": 68,
+        "skinned_meshes": 8,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "MACHINE_ROOMS_01",
+      "definition": "037_machine_rooms_01.mlx",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 1,
+        "mesh_instances": 1,
+        "vertices": 4,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "MULTIPLAYER_TEST",
+      "definition": "101_debug_MachineRoomTestMultiPlayer.mlx",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 0,
+        "mesh_instances": 0,
+        "vertices": 0,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "PORTAL_ROOM",
+      "definition": "003_darkwood.mlx",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 8,
+        "mesh_instances": 8,
+        "vertices": 32,
+        "skinned_meshes": 0,
+        "skipped_sources": 5,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "RED_DESERT_HUB",
+      "definition": "015_red_desert_hub.mlx",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 38,
+        "mesh_instances": 5,
+        "vertices": 20,
+        "skinned_meshes": 0,
+        "skipped_sources": 1,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "SWAMP",
+      "definition": "001_swamp.mlx",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 31,
+        "mesh_instances": 99,
+        "vertices": 11401,
+        "skinned_meshes": 4,
+        "skipped_sources": 6,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "UNDERWORLD_HUB",
+      "definition": "036_underworld_hub.mlx",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 0,
+        "mesh_instances": 0,
+        "vertices": 0,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "ABBEY_ENTRANCE_01",
+      "definition": "009_abbey.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 95,
+        "mesh_instances": 217,
+        "vertices": 5001,
+        "skinned_meshes": 90,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "ABBEY_ENTRANCE_01",
+      "definition": "009_abbey.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 97,
+        "mesh_instances": 220,
+        "vertices": 5379,
+        "skinned_meshes": 89,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "APPLETEMPLE",
+      "definition": "050_earth_temple_demo.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 0,
+        "mesh_instances": 0,
+        "vertices": 0,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "APPLETEMPLE",
+      "definition": "050_earth_temple_demo.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 0,
+        "mesh_instances": 0,
+        "vertices": 0,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "DESERT_CAVE_01",
+      "definition": "016_red_desert_cave_01.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 29,
+        "mesh_instances": 57,
+        "vertices": 228,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "DESERT_CAVE_01",
+      "definition": "016_red_desert_cave_01.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 24,
+        "mesh_instances": 47,
+        "vertices": 188,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "DESERT_CAVE_02",
+      "definition": "017_red_desert_cave_02.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 2,
+        "mesh_instances": 2,
+        "vertices": 8,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "DESERT_CAVE_02",
+      "definition": "017_red_desert_cave_02.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 2,
+        "mesh_instances": 2,
+        "vertices": 8,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "DESERT_CAVE_03",
+      "definition": "018_red_desert_cave_03.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 2,
+        "mesh_instances": 2,
+        "vertices": 8,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "DESERT_CAVE_03",
+      "definition": "018_red_desert_cave_03.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 2,
+        "mesh_instances": 2,
+        "vertices": 8,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "EARTH_TEMPLE_01",
+      "definition": "011_earth_temple_01.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 69,
+        "mesh_instances": 136,
+        "vertices": 544,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "EARTH_TEMPLE_01",
+      "definition": "011_earth_temple_01.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 64,
+        "mesh_instances": 126,
+        "vertices": 504,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "EARTH_TEMPLE_02",
+      "definition": "012_earth_temple_02.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 55,
+        "mesh_instances": 107,
+        "vertices": 679,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "EARTH_TEMPLE_02",
+      "definition": "012_earth_temple_02.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 47,
+        "mesh_instances": 91,
+        "vertices": 615,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "EARTH_TEMPLE_03",
+      "definition": "013_earth_temple_03.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 36,
+        "mesh_instances": 70,
+        "vertices": 531,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "EARTH_TEMPLE_03",
+      "definition": "013_earth_temple_03.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 36,
+        "mesh_instances": 70,
+        "vertices": 531,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "ELEMENTAL_AIR",
+      "definition": "030_el_air.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 36,
+        "mesh_instances": 78,
+        "vertices": 5758,
+        "skinned_meshes": 42,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "ELEMENTAL_AIR",
+      "definition": "030_el_air.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 32,
+        "mesh_instances": 69,
+        "vertices": 5069,
+        "skinned_meshes": 37,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "ELEMENTAL_EARTH",
+      "definition": "014_el_earth.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 30,
+        "mesh_instances": 65,
+        "vertices": 4803,
+        "skinned_meshes": 35,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "ELEMENTAL_EARTH",
+      "definition": "014_el_earth.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 32,
+        "mesh_instances": 69,
+        "vertices": 5069,
+        "skinned_meshes": 37,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "ELEMENTAL_FIRE",
+      "definition": "032_el_fire.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 36,
+        "mesh_instances": 78,
+        "vertices": 5758,
+        "skinned_meshes": 42,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "ELEMENTAL_FIRE",
+      "definition": "032_el_fire.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 36,
+        "mesh_instances": 78,
+        "vertices": 5758,
+        "skinned_meshes": 42,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "ELEMENTAL_LIGHT",
+      "definition": "010_el_lightning.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 30,
+        "mesh_instances": 65,
+        "vertices": 4803,
+        "skinned_meshes": 35,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "ELEMENTAL_LIGHT",
+      "definition": "010_el_lightning.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 32,
+        "mesh_instances": 69,
+        "vertices": 5069,
+        "skinned_meshes": 37,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "ELEMENTAL_WATER",
+      "definition": "024_el_water.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 34,
+        "mesh_instances": 74,
+        "vertices": 5492,
+        "skinned_meshes": 40,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "ELEMENTAL_WATER",
+      "definition": "024_el_water.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 36,
+        "mesh_instances": 78,
+        "vertices": 5758,
+        "skinned_meshes": 42,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "GOTHICUS_CASTLE_01",
+      "definition": "008_gothicus_castle_01.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 20,
+        "mesh_instances": 45,
+        "vertices": 3958,
+        "skinned_meshes": 26,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "GOTHICUS_CASTLE_01",
+      "definition": "008_gothicus_castle_01.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 20,
+        "mesh_instances": 45,
+        "vertices": 3958,
+        "skinned_meshes": 26,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "GOTHICUS_CASTLE_02",
+      "definition": "021_gothicus_castle_02.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 23,
+        "mesh_instances": 50,
+        "vertices": 3715,
+        "skinned_meshes": 27,
+        "skipped_sources": 1,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "GOTHICUS_CASTLE_02",
+      "definition": "021_gothicus_castle_02.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 23,
+        "mesh_instances": 50,
+        "vertices": 3715,
+        "skinned_meshes": 27,
+        "skipped_sources": 1,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "GOTHICUS_CRYPT_01",
+      "definition": "007_crypt_01.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 84,
+        "mesh_instances": 191,
+        "vertices": 4442,
+        "skinned_meshes": 82,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "GOTHICUS_CRYPT_01",
+      "definition": "007_crypt_01.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 89,
+        "mesh_instances": 201,
+        "vertices": 4563,
+        "skinned_meshes": 87,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "GOTHICUS_CRYPT_02",
+      "definition": "020_crypt_02.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 94,
+        "mesh_instances": 218,
+        "vertices": 5618,
+        "skinned_meshes": 89,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "GOTHICUS_CRYPT_02",
+      "definition": "020_crypt_02.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 95,
+        "mesh_instances": 214,
+        "vertices": 5381,
+        "skinned_meshes": 89,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "ICY_CAVERN_01",
+      "definition": "026_icy_cavern_01.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 2,
+        "mesh_instances": 2,
+        "vertices": 8,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "ICY_CAVERN_01",
+      "definition": "026_icy_cavern_01.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 2,
+        "mesh_instances": 2,
+        "vertices": 8,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "ICY_CAVERN_02",
+      "definition": "027_icy_cavern_02.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 2,
+        "mesh_instances": 2,
+        "vertices": 8,
+        "skinned_meshes": 0,
+        "skipped_sources": 21,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "ICY_CAVERN_02",
+      "definition": "027_icy_cavern_02.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 2,
+        "mesh_instances": 2,
+        "vertices": 8,
+        "skinned_meshes": 0,
+        "skipped_sources": 21,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "ICY_CAVERN_03",
+      "definition": "028_icy_cavern_03.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 2,
+        "mesh_instances": 2,
+        "vertices": 8,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "ICY_CAVERN_03",
+      "definition": "028_icy_cavern_03.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 2,
+        "mesh_instances": 2,
+        "vertices": 8,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "LIGHT_HOUSE_01",
+      "definition": "019_light_house_01.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 9,
+        "mesh_instances": 9,
+        "vertices": 36,
+        "skinned_meshes": 0,
+        "skipped_sources": 1,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "LIGHT_HOUSE_01",
+      "definition": "019_light_house_01.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 9,
+        "mesh_instances": 9,
+        "vertices": 36,
+        "skinned_meshes": 0,
+        "skipped_sources": 1,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "LIGHT_HOUSE_02",
+      "definition": "019_light_house_02.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 10,
+        "mesh_instances": 10,
+        "vertices": 40,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "LIGHT_HOUSE_02",
+      "definition": "019_light_house_02.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 10,
+        "mesh_instances": 10,
+        "vertices": 40,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "LIGHT_HOUSE_03",
+      "definition": "019_light_house_03.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 1,
+        "mesh_instances": 1,
+        "vertices": 4,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "LIGHT_HOUSE_03",
+      "definition": "019_light_house_03.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 1,
+        "mesh_instances": 1,
+        "vertices": 4,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "QUESTTEST",
+      "definition": "102_debug_QUESTTEST.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 0,
+        "mesh_instances": 0,
+        "vertices": 0,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "QUESTTEST",
+      "definition": "102_debug_QUESTTEST.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 0,
+        "mesh_instances": 0,
+        "vertices": 0,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "RANDOMFORALEX",
+      "definition": "125_RandomForAlexB.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 19,
+        "mesh_instances": 42,
+        "vertices": 3183,
+        "skinned_meshes": 23,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "RANDOMFORALEX",
+      "definition": "125_RandomForAlexB.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 19,
+        "mesh_instances": 42,
+        "vertices": 3183,
+        "skinned_meshes": 23,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "ROOT_DEN_01",
+      "definition": "004_root_den.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 2,
+        "mesh_instances": 2,
+        "vertices": 8,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "ROOT_DEN_01",
+      "definition": "004_root_den.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 2,
+        "mesh_instances": 2,
+        "vertices": 8,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "SECRET_BASEMENT_01",
+      "definition": "006_basement.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 2,
+        "mesh_instances": 2,
+        "vertices": 8,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "SECRET_BASEMENT_01",
+      "definition": "006_basement.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 2,
+        "mesh_instances": 2,
+        "vertices": 8,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "SWAMP_02",
+      "definition": "022_swamp2.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 63,
+        "mesh_instances": 151,
+        "vertices": 10154,
+        "skinned_meshes": 0,
+        "skipped_sources": 2,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "SWAMP_02",
+      "definition": "022_swamp2.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 61,
+        "mesh_instances": 160,
+        "vertices": 10889,
+        "skinned_meshes": 0,
+        "skipped_sources": 2,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "SWAMP_CAVE_TROLL_A",
+      "definition": "022_swamp2_trollcave.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 11,
+        "mesh_instances": 11,
+        "vertices": 2501,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "SWAMP_CAVE_TROLL_A",
+      "definition": "022_swamp2_trollcave.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 10,
+        "mesh_instances": 10,
+        "vertices": 2157,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "SWAMP_CAVE_WITCH_A",
+      "definition": "002_swamp_witchcave.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 8,
+        "mesh_instances": 10,
+        "vertices": 2064,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "SWAMP_CAVE_WITCH_A",
+      "definition": "002_swamp_witchcave.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 8,
+        "mesh_instances": 10,
+        "vertices": 2064,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "VOID_MAZE_01",
+      "definition": "033_voidmaze_01.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 13,
+        "mesh_instances": 40,
+        "vertices": 13740,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "VOID_MAZE_01",
+      "definition": "033_voidmaze_01.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 13,
+        "mesh_instances": 40,
+        "vertices": 13740,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "VOID_MAZE_02",
+      "definition": "034_voidmaze_02.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 12,
+        "mesh_instances": 45,
+        "vertices": 15474,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "VOID_MAZE_02",
+      "definition": "034_voidmaze_02.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 12,
+        "mesh_instances": 45,
+        "vertices": 15474,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "VOID_MAZE_03",
+      "definition": "035_voidmaze_03.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 8,
+        "mesh_instances": 29,
+        "vertices": 10678,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "VOID_MAZE_03",
+      "definition": "035_voidmaze_03.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 8,
+        "mesh_instances": 29,
+        "vertices": 9932,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "WATER_TEMPLE_01",
+      "definition": "023_watertemple.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 14,
+        "mesh_instances": 13,
+        "vertices": 9193,
+        "skinned_meshes": 0,
+        "skipped_sources": 1,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "WATER_TEMPLE_01",
+      "definition": "023_watertemple.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 15,
+        "mesh_instances": 14,
+        "vertices": 10093,
+        "skinned_meshes": 0,
+        "skipped_sources": 1,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "WIND_TEMPLE_01",
+      "definition": "029_wind_temple.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 1,
+        "mesh_instances": 1,
+        "vertices": 4,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "WIND_TEMPLE_01",
+      "definition": "029_wind_temple.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 1,
+        "mesh_instances": 1,
+        "vertices": 4,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    }
+  ],
+  "runtime_objects_verified": false
+}

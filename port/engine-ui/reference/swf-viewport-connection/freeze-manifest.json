@@ -1,0 +1,36 @@
+{
+  "validation": "PASS",
+  "scope": "Source viewport/camera arithmetic with retained actual GameSWF graph and ordered AS publication; isolated actual UI DSO sanitizer composition. Setup/display routines captured, driver/GPU services remain explicit.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_sha256": {
+    "port/engine-ui/swf_viewport_connection.cpp": "7f5278e000a91a79088be113a3b6f79354a22bc2845be2cbeab922ad17a2b813",
+    "port/engine-ui/swf_viewport_connection.hpp": "197c12cb1b34e05d93a2a74679c2de762b867aee9d491722438eaef78c32c966",
+    "port/engine-ui/tests/swf_viewport_connection.cpp": "f3fae0ebd3a88ccc32a6083f46d19f2a0f6b311be4a55cf58e9ea95fe2199838",
+    "port/engine-ui/tests/swf_viewport_connection_probe.py": "504b9490bbf46f8fcbf67e2d4937a2aa643b13dc74ee6896315e69575fe0ebba",
+    "port/engine-ui/tools/swf_viewport_connection_host.py": "4a5a9cb6a46f7d5cec46fb9860adce2207b01daaedf53bdbf96d4ae6a7d7df37"
+  },
+  "proof_sha256": {
+    "port/engine-ui/reports/swf-viewport-connection-host-audit-v2.json": "029caa1069fdf77c71b99599144f561c6ff4cf2fb22dbbda787ec83742a1a56d"
+  },
+  "reference_sha256": {
+    "port/engine-ui/reference/swf-viewport-connection/NOTES.md": "512b8de95a27b382d1ac8fbf8c7e24cdafb9c966d9f77b7eea7c31cf8cd0525d",
+    "port/engine-ui/reference/swf-viewport-connection/connection-gold.bin": "9cbc259abd09d27420215bc69c70c31743abf1b65f151e77c7a9bfc4a8a6f637",
+    "port/engine-ui/reference/swf-viewport-connection/connection-probe.json": "23864cbfab2845b1366aec20dba833b8d974f5a9f1ca0fff3a4aeead7816ad65",
+    "port/engine-ui/reference/swf-viewport-connection/display-setup/original-functions.json": "340b857808a53d33bea266199aa302103a0df41d70a8a09670e2af7363bce036",
+    "port/engine-ui/reference/swf-viewport-connection/display-setup/reference/original-functions.asm": "746633a4c5f4029efcb822055354e8d5996f0c362932602af98559de944a70db",
+    "port/engine-ui/reference/swf-viewport-connection/menu-setup/original-functions.json": "b34d0cfff252dd51926762002d7cc752365853a09de0384a20eef1aacd52de1e",
+    "port/engine-ui/reference/swf-viewport-connection/menu-setup/reference/original-functions.asm": "63aa92a21306894e3e91de00b911f403b03aed6734223146b4c2b06e47776655",
+    "port/engine-ui/reference/swf-viewport-connection/original-functions.json": "dde0c120b9fcae23d83de1d15c88daa1d9daab053525ec03821dd91c71cc65a9",
+    "port/engine-ui/reference/swf-viewport-connection/reference/original-functions.asm": "6c8a877ccde9709668154f28d83dbb7dab4a687c4247f098d2cc218658f62cb4",
+    "port/engine-ui/reference/swf-viewport-connection/setup/original-functions.json": "a9511de0393079a1a5c91cf5a7d4d1a3edd123b636f8f09b19e5dc537baf32ea",
+    "port/engine-ui/reference/swf-viewport-connection/setup/reference/original-functions.asm": "ce20775c4ffa5e4e9e7ed405e25892288d03e7070925fb87c0af3d8e6959c045"
+  },
+  "actual_ui_library_sha256": "ead53a5d0d239ea15871acd766f554c2def6ddb5b8e319999225c94fb62b0deb",
+  "original_gold_comparisons": 4684,
+  "source_publications": 1583,
+  "ordered_driver_calls": 10752,
+  "ownership_and_failure_guards": 8,
+  "sanitizer_findings": 0,
+  "live_Android": false,
+  "whole_original_frame_parity": false
+}

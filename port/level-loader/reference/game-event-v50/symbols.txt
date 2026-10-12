@@ -1,0 +1,43 @@
+0047935c T GameEvent::DBG_GetCurrentStateName() const
+004793a4 T GameEvent::ExecScript(int)
+004793d0 T GameEvent::SetState(int)
+00479408 T GameEvent::Update()
+004794fc T GameEvent::Compile()
+00479538 T GameEvent::ReInit()
+00479544 T GameEvent::DBG_TraceDetailedInformation() const
+00479568 T GameEvent::AssignPyData(Structs::v2Event*)
+0047957c T GameEvent::~GameEvent()
+00479594 T GameEvent::~GameEvent()
+004795ac T GameEvent::GameEvent()
+004795e0 T GameEvent::GameEvent()
+004796f0 T GameEventManager::GetEventByID(int) const
+00479718 T GameEventManager::LoopOnAllEvents(void (GameEvent::*)())
+0047977c T GameEventManager::Compile()
+004797b0 T GameEventManager::LoopOnAllEvents(void (GameEvent::*)() const) const
+00479814 T GameEventManager::DBG_TraceDetailedInformation() const
+00479848 T GameEventManager::GetEventByName(char const*) const
+004798c8 T GameEventManager::Update()
+0047992c T GameEventManager::ReInit()
+00479968 T GameEventManager::Unload()
+00479bec T GameEventManager::~GameEventManager()
+00479cf4 T GameEventManager::GameEventManager()
+00479d08 T GameEventManager::GameEventManager()
+00479e5c T GameEventManager::Load()
+00479f34 T GameEventManager::~GameEventManager()
+004a4708 W Arrays::v2Events::finalizeNames()
+004a47a4 W Arrays::v2Events::finalize()
+004acabc W int Arrays::GetMemberIDByString<Arrays::v2Events>(char const*)
+004acb30 W int Structs::GetMemberIDByString<Structs::v2Event>(char const*)
+004b1460 W Arrays::v2Events::readNames(IStreamBase*)
+004b8c9c W Arrays::v2Events::read(IStreamBase*)
+004cfc80 T Structs::v2Event::finalize()
+004cfd04 T Structs::v2Event::~v2Event()
+004cfd94 T Structs::v2Event::~v2Event()
+004cfdb0 T Structs::v2Event::~v2Event()
+004ebc38 T Structs::v2Event::read(IStreamBase*)
+00969ff8 D vtable for Structs::v2Event
+0099af30 D Structs::v2Event::m_dataOffsets
+009a66e0 B Arrays::v2Events::size
+009a66e4 B Arrays::v2Events::members
+009a66e8 B Arrays::v2Events::m_memberNames
+009f51d0 B Structs::v2Event::m_dataNames

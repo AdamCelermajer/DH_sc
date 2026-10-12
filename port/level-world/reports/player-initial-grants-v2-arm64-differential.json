@@ -1,0 +1,15 @@
+{
+  "validation": "PASS",
+  "comparisons": 768,
+  "ordered_requests": 2697,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "b8c93c3e8bf02e36fb180462677fe098efa1ca79f394be85a37afac71a8605b9",
+  "gold_sha256": "864ced7690b5e9784f79c12df02db6afa81b93a78568e53966faecd58a438a1a",
+  "source_sha256": {
+    "port/level-world/player_initial_grants_v2.hpp": "bf6395009a9c11c59dae623313191dc203bfea7bd74f0c1619ee1c491a34e87d",
+    "port/level-world/player_initial_grants_v2.cpp": "fe57a885c2a6fed340caec32f6d22015f1ed1eadac5159c992c5928fecd6f9d0"
+  },
+  "script_sha256": "6c9935e2d27467a3904b7e72cf0fe5d2c0d09b265e9ec61804f2f4a43b03ff48",
+  "scope": "Actual Character._InitEquipment and _InitSkillsSlots vs optimized ARM64.\nLive field/getter/service responses are controlled and explicit. Captured item\ncount, uint8 online fields, bool results and all outgoing arguments execute\noriginal instructions; no campaign or native auto-equip success is inferred.\n",
+  "mismatches": 0
+}

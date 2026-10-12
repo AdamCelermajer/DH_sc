@@ -1,0 +1,14 @@
+{
+  "validation": "FROZEN",
+  "source_sha256": {
+    "port/engine-ui/gfnt.hpp": "601646de8d663764cd35626df42ff652b9d1a64bd9de2699e414c1b14cfe319d",
+    "port/engine-ui/gfnt.cpp": "53e004d0ea9271205ae07f90d6b4efc98e024fc0ec6bf41e2d687d83c72de8f9",
+    "port/engine-ui/tests/gfnt.cpp": "40688b30d5a94d3dda6f88a1364f281d463c193bd7852a2d6bb3b8d7a9a6a5a0",
+    "port/engine-ui/tests/gfnt_differential.py": "05882334cf966c76c6dbec360326e4690e7706c6c0fd63ed59bb5b3d8864b146"
+  },
+  "reports": {
+    "port/engine-ui/reports/gfnt-host-audit.json": "1c5e6634c96677c6ae86e8ae2dd21f9ceccbcbec4a704934d681ebc55ec71dbf",
+    "port/engine-ui/reports/gfnt-arm64-differential.json": "01313c523c26ebc5560ff6e8ca6e7185130b2f59c8544e6794b7e9ba01d0d024"
+  },
+  "gold_sha256": "0131e172216d44ee092495c52adc72fab35ace25e5e359b9d4811cb69083d7ed"
+}

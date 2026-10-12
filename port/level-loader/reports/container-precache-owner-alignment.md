@@ -1,0 +1,7 @@
+# Container precache ownership alignment
+
+The selected private canonical OpenableContainer and DestructibleContainer owners now require the same complete precache hook adopted by Main/Audio. The old split has-manager/current-row/load-sound route was replaced at its existing InitPost point. The complete hook owns nullable manager capture before the real current-row/raw sound getter. Missing binding fails explicitly; sound playback remains a separate Main/Audio operation.
+
+Main recipe wiring: construct the weak actual canonical receiver slot and bind model_renderer::bind_openable_precache_slot_v45(slot, SAME OpenableContainerTableV1) or bind_destructible_precache_slot_v45(slot, SAME DestructibleContainerTableV16) into precache_complete_source_v42. Populate that slot with the actual C1 receiver before InitPost. Do not make a replacement actor, clone its row, guess filenames, substitute an ordinal or treat failed sound lookup as success.
+
+This alignment updates four private owner files only. The actual Android recipe bindings and audio backend remain Main/Audio owned and are not claimed connected here. No compilation or execution took place. Historical snapshot hashes and runtime receipts predate the overlay; the next coherent milestone must refresh the snapshot and rebuild dependent sources. Component fixtures must bind the new hook deliberately and preserve source ordering; full SWAMP activation/render acceptance remains open.

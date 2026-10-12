@@ -1,0 +1,17 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character9Ctrl_KillEP10GameObjectb",
+      "elf_address": "0x3ad528",
+      "size": 76,
+      "sha256": "1b242e0090fb2cfa8f7b50c59bd2285f341ec0368ca7bc7e84294cf8d0516c53"
+    },
+    {
+      "original_symbol": "_ZN9Character4KillEP10GameObjectb",
+      "elf_address": "0x3a5b18",
+      "size": 1776,
+      "sha256": "5d0c8880d8d9fa1d5e73d3be9b69320b019f3dfcee5babbd79b6700de76abf6b"
+    }
+  ]
+}

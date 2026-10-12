@@ -1,0 +1,203 @@
+{
+  "validation": "PASS",
+  "scope": "Static authored AnimatedDecor geometry only; no navigation world or runtime class is constructed",
+  "probe_sha256": "20a14ceb323dd5938d8744cf10d4755dbb8e39fc880f1fd871a77406f29ed1fa",
+  "cases": [
+    {
+      "identity": "SWAMP",
+      "definition": "001_swamp.mlx",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 31,
+        "mesh_instances": 99,
+        "vertices": 11401,
+        "skinned_meshes": 4,
+        "skipped_sources": 6,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "DESERT_CAVE_02",
+      "definition": "017_red_desert_cave_02.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 2,
+        "mesh_instances": 2,
+        "vertices": 8,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "DESERT_CAVE_02",
+      "definition": "017_red_desert_cave_02.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 2,
+        "mesh_instances": 2,
+        "vertices": 8,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "ICY_CAVERN_02",
+      "definition": "027_icy_cavern_02.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 2,
+        "mesh_instances": 2,
+        "vertices": 8,
+        "skinned_meshes": 0,
+        "skipped_sources": 21,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "ICY_CAVERN_02",
+      "definition": "027_icy_cavern_02.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 2,
+        "mesh_instances": 2,
+        "vertices": 8,
+        "skinned_meshes": 0,
+        "skipped_sources": 21,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "SWAMP_02",
+      "definition": "022_swamp2.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 63,
+        "mesh_instances": 151,
+        "vertices": 10154,
+        "skinned_meshes": 0,
+        "skipped_sources": 2,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "SWAMP_02",
+      "definition": "022_swamp2.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 61,
+        "mesh_instances": 160,
+        "vertices": 10889,
+        "skinned_meshes": 0,
+        "skipped_sources": 2,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "VOID_MAZE_01",
+      "definition": "033_voidmaze_01.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 13,
+        "mesh_instances": 40,
+        "vertices": 13740,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "VOID_MAZE_01",
+      "definition": "033_voidmaze_01.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 13,
+        "mesh_instances": 40,
+        "vertices": 13740,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "VOID_MAZE_02",
+      "definition": "034_voidmaze_02.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 12,
+        "mesh_instances": 45,
+        "vertices": 15474,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "VOID_MAZE_02",
+      "definition": "034_voidmaze_02.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 12,
+        "mesh_instances": 45,
+        "vertices": 15474,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "VOID_MAZE_03",
+      "definition": "035_voidmaze_03.rule.xml",
+      "seed": 0,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 8,
+        "mesh_instances": 29,
+        "vertices": 10678,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    },
+    {
+      "identity": "VOID_MAZE_03",
+      "definition": "035_voidmaze_03.rule.xml",
+      "seed": 1,
+      "result": {
+        "validation": "PASS",
+        "decor_sources": 8,
+        "mesh_instances": 29,
+        "vertices": 9932,
+        "skinned_meshes": 0,
+        "skipped_sources": 0,
+        "source_pose_only": true,
+        "runtime_objects_verified": false
+      }
+    }
+  ],
+  "runtime_objects_verified": false
+}

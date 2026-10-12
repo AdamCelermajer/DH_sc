@@ -1,0 +1,32 @@
+{
+  "version": 57,
+  "status": "SOURCE_ONLY_CHECKED_TEARDOWN_PROPOSAL",
+  "supersedes": "lightpoint-source-dtor-v56-20261006 armed destructor draft",
+  "build": false,
+  "native_provider_implemented": false,
+  "runtime_test": false,
+  "explicit_process_abort": false,
+  "frozen_or_selected_changes": false,
+  "files": [
+    {
+      "file": "adoption-and-future-tests.md",
+      "bytes": 7656,
+      "sha256": "10e9b1b8a81a06c0018a03794b814c3b95372bd1009aa5384eda77d047cb8e62"
+    },
+    {
+      "file": "canonical_light_point_v57.header.inc.proposed",
+      "bytes": 2019,
+      "sha256": "4aae416f55916fb62b27a6f75e0089e140cc4f998ce8137a17c56cdad6994acf"
+    },
+    {
+      "file": "canonical_light_point_v57.source.inc.proposed",
+      "bytes": 5127,
+      "sha256": "ad31576700d122a957a537fd2e4611e331508ecd4efca931ed7b0590ebe0eac8"
+    },
+    {
+      "file": "main_light_source_release_v57.hpp.proposed",
+      "bytes": 3767,
+      "sha256": "7e2a440458c9ee4517746634c0ff5bfa47b5643faeccdcf59a7337c09d304a55"
+    }
+  ]
+}

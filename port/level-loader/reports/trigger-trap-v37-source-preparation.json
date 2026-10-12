@@ -1,0 +1,11 @@
+{
+  "scope": "New unselected TriggerTrap source and isolated candidate property-map only; core overlay and CMake unchanged",
+  "original_property_map_sha256": "b978341d3590aedd44192af0999dfb2115217264e8f05aca5962be10adbd90a7",
+  "candidate_property_map_sha256": "47b44ce6e13619db87b159d55a70d4902448056c4684f6a8ca510a5c1fe65307",
+  "authored_trigger_trap_declarations": 41,
+  "source_snapshot_paths": [
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\canonical_trigger_trap_v37.hpp",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\canonical_trigger_trap_v37.cpp"
+  ],
+  "source_constructor_proof": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\trigger-trap-v37\\trigger-trap-original-v37.json"
+}

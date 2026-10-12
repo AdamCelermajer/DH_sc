@@ -1,0 +1,68 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "source_and_proof_sha256": {
+    "port/level-world/visual_fx_preload.hpp": "b0be9221f5b49ee7bf189744ee08391553267c521adf78b1b3e55294c2f02d6b",
+    "port/level-world/visual_fx_preload.cpp": "ab8c2d4bb1f40663859fb6bc443f0ed50e4160f42426ec8c99dee2766231b667",
+    "port/level-world/tests/visual_fx_preload.cpp": "5ea0a31d52f3d622984c4344ca65fc745b215eeeba36cc2567217a96cb8577fe",
+    "port/level-world/tests/visual_fx_preload_differential.py": "f214ef2cfe5c7b9b51e87032d6fca1436efb08945aceda72b7514b3e63273a37",
+    "port/level-world/tests/visual_fx_preload_host.py": "91dc1edc92860b0d91f70150d744bb3c7e0eb5352c19407fae903def335dee82",
+    "port/level-world/tools/build_visual_fx_preload_oracle.ps1": "da6985919188d75a9f86050c6f32a0f8f7a018cf8463f005281e9311446128a8",
+    "port/level-world/reference/character-skeleton-fx/NOTES.md": "d32be724807eb43b2cfd506952d4316cda8468ad0d33e1e05c61c89e491973c0",
+    "port/level-world/reference/character-skeleton-fx/original-functions.json": "73bbbfc550216f96b2c5821eb274f0e8142215dd24d7cf036a7c44e46bbd07b4",
+    "port/level-world/reference/character-skeleton-fx/reference/original-functions.asm": "bac70de1c2bbb5cbdd332ef2acf0b330ff26a281a6a2b28807cf421dc014de56",
+    "port/level-world/reference/character-skeleton-fx/probe.py": "c22bbd004f21c52a77a04519dd89db02e05b6008ede0e40e7080bebff7a1feaa",
+    "port/level-world/reference/character-skeleton-fx/probe.json": "42bdd0a2fc68c7b747dc489bfa82aa1bf14816f189ab842a8d8d0fecd8ee0a85",
+    "port/level-world/reference/character-skeleton-fx/callers.py": "b8fd5e97b2dfe45400697f0a867a3c4b39fe42cc3b95320567999de3c6982206",
+    "port/level-world/reference/character-skeleton-fx/callers.json": "48dedc8b20eecb5797a499c614522d5bc72a7e33eeac6011239d89e250afcb60",
+    "port/level-world/reference/character-skeleton-fx/callers.asm": "2638010efbab347e70c45cd773659101ebb0108e962c905bdd5b50802e454513",
+    "port/level-world/reference/character-skeleton-fx/preload-fixtures.bin": "0a44a84ee2cca92166994d65a04474f52ea7283779250ead271dfd507f4aea3b",
+    "port/level-world/reference/character-skeleton-fx/preload-fixtures.json": "7bdbc243759fe33d4ba62997a2d1027e6c96063853f89486a8be3eae3c42d1ff",
+    "port/level-world/reference/character-skeleton-fx/resource-probe.cpp": "fb28b591e38fac4574f13b6885907ddd3dddf3566af3c752eef8eae12c7f81bc",
+    "port/level-world/reference/character-skeleton-fx/resource-host.py": "3d8ead72f14e31bd0674017b0540801242f33d48128e77d919ebb2e45fed6638",
+    "port/level-world/reference/character-skeleton-fx/resource-host-audit.json": "d69978a6f3622e1d746fda029c15435e1cd143aa963d5ae4fdc667fb9705f3e8",
+    "port/level-world/reports/visual-fx-preload-arm64-differential.json": "c264614286ddd9d92f010ca122c02a75311093fbce327c6292f690c0d29df0b8",
+    "port/level-world/reports/visual-fx-preload-host-audit.json": "269aa85e3947efe092913756cef6a830e30c787b44594ab9e0bef479ffe4e629",
+    "port/level-world/reference/character-skeleton-fx/freeze.py": "e8a7c0ae52d5e94914a54d34f099248362d4270f6a78d883028655f59d699834"
+  },
+  "registration_ready": true,
+  "native_full_library_metadata_ready": false,
+  "native_FX_playback_ready": false,
+  "mandatory_playback_gaps": [
+    "SceneManager/AssetManager factory and ownership",
+    "particle instances and source28 channels",
+    "source86 material channel",
+    "material SelfIllum virtual side effects",
+    "actual loop callback/sequence/free-pool lifecycle",
+    "shader/texture/GPU backend"
+  ],
+  "private_snapshot": {
+    "libdh2_level_world.so": {
+      "original_path": "/home/adampalace/dh2-world-build/libdh2_level_world.so",
+      "sha256": "ae66686e6aaff69c03c966351ee64401af31c82bc7629b78977ca9abbdd0bafc"
+    },
+    "libdh2_engine_skinning.so": {
+      "original_path": "/home/adampalace/dh2-world-build/engine-skinning/libdh2_engine_skinning.so",
+      "sha256": "5c40960c2deec5bf2752f5b9972cdc4cb7e254c833815df97c948538b230be4b"
+    },
+    "libdh2_game_data.so": {
+      "original_path": "/home/adampalace/dh2-world-build/game-data/libdh2_game_data.so",
+      "sha256": "ac2e2f7c4b568db0d4bfee2ae6101aa38fef376fd6f8105739b2db76b65b056d"
+    },
+    "libdh2_script_runtime.so": {
+      "original_path": "/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so",
+      "sha256": "3f1886b22c2230e6ddda5c75fae248d0a710b75034eac3144489f9992b7f9945"
+    },
+    "libdh2_engine_animation.so": {
+      "original_path": "/home/adampalace/dh2-world-build/engine-skinning/engine-animation/libdh2_engine_animation.so",
+      "sha256": "05e35956a29b774459206298e54efb5c02afc3bdda0c1ed1a12ccd95877ae856"
+    },
+    "libdh2_scene_materials.so": {
+      "original_path": "/home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.so",
+      "sha256": "08b26f5c9f913919fd76e054e1f2aa2dc5ff4d0ac073cd7171ef08f96c975411"
+    }
+  },
+  "packaged_APK": false,
+  "scope": "Freeze the bounded startup preload and explicit unsupported playback evidence."
+}

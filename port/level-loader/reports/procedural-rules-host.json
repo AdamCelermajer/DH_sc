@@ -1,0 +1,1137 @@
+{
+  "validation": "PASS",
+  "scope": "Compare original nested-rule state and unallocated room-pool declarations.\n\nAll original rule fields, list/block validation and resolution, child order,\nper-node return values and postorder FillSizes results are compared. The 35\nauthored rule definitions prepare after owner teardown without turning false\noriginal reader results into clean success. Five unsafe original domains are\nrejected explicitly. Pool random allocation and generated layouts do not run.\n",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_receipt_sha256": "2fd635a48f9bb3ae6dd458f94e05de0e795deb8e773198433724c0d7a517487e",
+  "probe_sha256": "fa725f300b8871bc89162de7fdea77008c6c8515901636e55c9e9f4ba783bee4",
+  "sources_sha256": {
+    "procedural_rules_v1.cpp": "43e12634191a3486eff48ec5bfe1fdac2b81b1e61b1413e1c932f945547254e6",
+    "procedural_rules_v1.hpp": "c3d54e0bbf1c03fe221374ac6343657ee68066f0b70a37676854bb2c705a59b2",
+    "procedural_lists_v1.cpp": "138ca44555972b1d7db822c9a1fd585bc89bdb97ca167cc67ebb1e33a9e7b636",
+    "procedural_lists_v1.hpp": "1938c96bbe1ec254a4f7d8e026a23d71543682a0ab3dd5791c9ed3d0fdc75dcd",
+    "procedural_connections_v1.cpp": "43faa7653d2bc528ce4c2f88168398e357322af53a8a163dd406a0c4943ea71b",
+    "procedural_connections_v1.hpp": "23ed0716ba0361e0ac08dcf9e18dd9f52deae851c3e6da222e3277f934bc89d3",
+    "procedural_blocks_v1.cpp": "37f14337568ba66ba81117be5c005527636b0c698061c027071aeca3e3ef1c1e",
+    "procedural_blocks_v1.hpp": "65e3b53f933946d663c8e6251b1a7f597bc86a07aa2704cc647b598313af586d",
+    "procedural_sources_v1.cpp": "9f36a524a963296e663e826183f18b93dcccadf22674e43262a040678de80de0",
+    "procedural_sources_v1.hpp": "ccd7f4c63e5cf4901a4b3fe908024c6de9e7741f9abf2a0429f2a3cb0402ddb9",
+    "procedural_file_list_v1.cpp": "0fdc833d223966a75d606cf153a0334561d650580c67161bd8c0f23064d9347f",
+    "procedural_file_list_v1.hpp": "b9bd71faffe10df3c87115238c9d0eabafd9cb5d2d63b434a28c41b10ee9bf31",
+    "procedural_random_v1.cpp": "67815b50514a985398b6bdccc3c04a4ce76785bbcd01a956585e34f95a24e08c",
+    "procedural_random_v1.hpp": "b46a6792189e0b1b5667d2eb34ab728dac5054e2bf711925ec5315c3ddbefe63",
+    "xml_document_v1.cpp": "6df87206d60c9c42bfc1621c26402520b9e7c720062df0fe86eefe4b17885125",
+    "xml_document_v1.hpp": "99e92337b48601d2a4e89641d5bafbdd795e21b7a0db761297d63ad1fdedcaf4",
+    "tests\\procedural_rules_probe.cpp": "4a8f44d6bb35579cf75c4ce761d3c96eee11763fd7469698c7b9e4e7dc5922f4",
+    "CMakeLists.txt": "aaa90a253079c882fafa1c21461c60c2ccbf9a248bf8dd753b92d79c6e0bdf66",
+    "tests\\procedural_rules_differential.py": "cf6690a5c6954b47093b15743f22823be2db2e1370850d0f9153a199814f6711"
+  },
+  "sanitizers": false,
+  "cases": [
+    {
+      "name": "explicit-default",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 1,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "list-index-and-path",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 4,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "missing-endpath-name",
+      "original_xml_error": 0,
+      "reader_result": 0,
+      "rules": 2,
+      "rules_returning_false": 2,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "missing-root-name",
+      "original_xml_error": 0,
+      "reader_result": 0,
+      "rules": 1,
+      "rules_returning_false": 1,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "missing-root",
+      "original_xml_error": 0,
+      "reader_result": 0,
+      "rules": 0,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "pool-duplicate-and-failed-parent",
+      "original_xml_error": 0,
+      "reader_result": 0,
+      "rules": 4,
+      "rules_returning_false": 2,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 1,
+      "pool_elements": 3,
+      "matches": true
+    },
+    {
+      "name": "pool-negative-length",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 2,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 1,
+      "pool_elements": 2,
+      "matches": true
+    },
+    {
+      "name": "postorder-root-pool-fill",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 2,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 2,
+      "pool_elements": 3,
+      "matches": true
+    },
+    {
+      "name": "bracket-variants",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 5,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "uppercase-list-validation-versus-resolution",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 2,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 2,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "missing-path-name-retains-extras",
+      "original_xml_error": 0,
+      "reader_result": 0,
+      "rules": 2,
+      "rules_returning_false": 2,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "numeric-fallbacks",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 3,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 1,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "empty-name-first-root",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 1,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "sixteen-children",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 17,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "unsafe-comma-loop",
+      "original_guard_pc": "0x490d38",
+      "checked_domain_rejection": "original explicit-block comma loop does not advance",
+      "matches": true
+    },
+    {
+      "name": "unsafe-unknown-child",
+      "original_guard_pc": "0x490ea0",
+      "checked_domain_rejection": "original unknown/non-element child would dereference null",
+      "matches": true
+    },
+    {
+      "name": "unsafe-seventeen-children",
+      "original_guard_pc": "0x490e8c",
+      "checked_domain_rejection": "original sixteen-child capacity exceeded",
+      "matches": true
+    },
+    {
+      "name": "unsafe-non-element-child",
+      "original_guard_pc": "0x48de44",
+      "checked_domain_rejection": "original unfiltered rule child is non-element",
+      "matches": true
+    },
+    {
+      "name": "unsafe-missing-pool-size",
+      "original_guard_pc": "0x5010410",
+      "checked_domain_rejection": "original atoi receives null input",
+      "matches": true
+    },
+    {
+      "name": "data/scene/002_swamp_witchcave.rule.xml",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 7,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/004_root_den.rule.xml",
+      "original_xml_error": 9,
+      "reader_result": 1,
+      "rules": 8,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/006_basement.rule.xml",
+      "original_xml_error": 9,
+      "reader_result": 1,
+      "rules": 6,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/007_crypt_01.rule.xml",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 7,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/008_gothicus_castle_01.rule.xml",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 7,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/009_abbey.rule.xml",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 11,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/010_el_lightning.rule.xml",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 5,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/011_earth_temple_01.rule.xml",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 4,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/012_earth_temple_02.rule.xml",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 6,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/013_earth_temple_03.rule.xml",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 5,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/014_el_earth.rule.xml",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 5,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/016_red_desert_cave_01.rule.xml",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 5,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/017_red_desert_cave_02.rule.xml",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 7,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/018_red_desert_cave_03.rule.xml",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 8,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/019_light_house_01.rule.xml",
+      "original_xml_error": 0,
+      "reader_result": 0,
+      "rules": 7,
+      "rules_returning_false": 7,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/019_light_house_02.rule.xml",
+      "original_xml_error": 0,
+      "reader_result": 0,
+      "rules": 6,
+      "rules_returning_false": 2,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/019_light_house_03.rule.xml",
+      "original_xml_error": 0,
+      "reader_result": 0,
+      "rules": 2,
+      "rules_returning_false": 2,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/020_crypt_02.rule.xml",
+      "original_xml_error": 9,
+      "reader_result": 1,
+      "rules": 6,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/021_gothicus_castle_02.rule.xml",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 7,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/022_swamp2.rule.xml",
+      "original_xml_error": 0,
+      "reader_result": 0,
+      "rules": 10,
+      "rules_returning_false": 9,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/022_swamp2_trollcave.rule.xml",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 6,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/023_watertemple.rule.xml",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 9,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/024_el_water.rule.xml",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 6,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/026_icy_cavern_01.rule.xml",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 7,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/027_icy_cavern_02.rule.xml",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 11,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/028_icy_cavern_03.rule.xml",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 7,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/029_wind_temple.rule.xml",
+      "original_xml_error": 0,
+      "reader_result": 0,
+      "rules": 13,
+      "rules_returning_false": 10,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/030_el_air.rule.xml",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 5,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/032_el_fire.rule.xml",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 5,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/033_voidmaze_01.rule.xml",
+      "original_xml_error": 9,
+      "reader_result": 0,
+      "rules": 10,
+      "rules_returning_false": 8,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/034_voidmaze_02.rule.xml",
+      "original_xml_error": 9,
+      "reader_result": 1,
+      "rules": 11,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/035_voidmaze_03.rule.xml",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 3,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/050_earth_temple_demo.rule.xml",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 4,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/102_debug_questtest.rule.xml",
+      "original_xml_error": 9,
+      "reader_result": 1,
+      "rules": 7,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    },
+    {
+      "name": "data/scene/125_randomforalexb.rule.xml",
+      "original_xml_error": 0,
+      "reader_result": 1,
+      "rules": 3,
+      "rules_returning_false": 0,
+      "unresolved_list_references": 0,
+      "unavailable_block_references": 0,
+      "pools": 0,
+      "pool_elements": 0,
+      "matches": true
+    }
+  ],
+  "additional_domain_rejections": [
+    {
+      "name": "integer-overflow",
+      "error": "Rule integer outside int32 domain"
+    },
+    {
+      "name": "lookup-buffer-overflow",
+      "error": "Rule lookup exceeds original 512-byte buffer"
+    },
+    {
+      "name": "non-element-later-child",
+      "error": "original unfiltered rule child is non-element"
+    },
+    {
+      "name": "text-first-child",
+      "error": "original unfiltered rule child is non-element"
+    }
+  ],
+  "levels": [
+    {
+      "name": "ABBEY_ENTRANCE_01",
+      "file": "009_abbey.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 1,
+      "rule_nodes": 11,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "ABBEY_RUINS_01",
+      "file": "009a_abbey.mlx",
+      "random": 0,
+      "rules": "fixed_definition"
+    },
+    {
+      "name": "APPLETEMPLE",
+      "file": "050_earth_temple_demo.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 1,
+      "rule_nodes": 4,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "APPLETEMPLEBACKUP",
+      "file": "x50_earth_temple_demo_BACKUP.mlx",
+      "random": 0,
+      "rules": "fixed_definition"
+    },
+    {
+      "name": "DARKWOOD",
+      "file": "003_darkwood.mlx",
+      "random": 0,
+      "rules": "fixed_definition"
+    },
+    {
+      "name": "DARKWOOD_V2",
+      "file": "003_darkwood.mlx",
+      "random": 0,
+      "rules": "fixed_definition"
+    },
+    {
+      "name": "DARKWOOD_V3",
+      "file": "003_darkwood.mlx",
+      "random": 0,
+      "rules": "fixed_definition"
+    },
+    {
+      "name": "DARK_DUNGEON_TEMPLE_01",
+      "file": "038_dark_temple.mlx",
+      "random": 0,
+      "rules": "fixed_definition"
+    },
+    {
+      "name": "DARK_DUNGEON_TEMPLE_BOSSROOM",
+      "file": "039_dark_temple_bossroom_01.mlx",
+      "random": 0,
+      "rules": "fixed_definition"
+    },
+    {
+      "name": "DESERT_CAVE_01",
+      "file": "016_red_desert_cave_01.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 1,
+      "rule_nodes": 5,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "DESERT_CAVE_02",
+      "file": "017_red_desert_cave_02.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 1,
+      "rule_nodes": 7,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "DESERT_CAVE_03",
+      "file": "018_red_desert_cave_03.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 1,
+      "rule_nodes": 8,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "EARTH_TEMPLE_01",
+      "file": "011_earth_temple_01.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 1,
+      "rule_nodes": 4,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "EARTH_TEMPLE_02",
+      "file": "012_earth_temple_02.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 1,
+      "rule_nodes": 6,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "EARTH_TEMPLE_03",
+      "file": "013_earth_temple_03.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 1,
+      "rule_nodes": 5,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "ELEMENTAL_AIR",
+      "file": "030_el_air.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 1,
+      "rule_nodes": 5,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "ELEMENTAL_EARTH",
+      "file": "014_el_earth.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 1,
+      "rule_nodes": 5,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "ELEMENTAL_FIRE",
+      "file": "032_el_fire.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 1,
+      "rule_nodes": 5,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "ELEMENTAL_LIGHT",
+      "file": "010_el_lightning.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 1,
+      "rule_nodes": 5,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "ELEMENTAL_WATER",
+      "file": "024_el_water.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 1,
+      "rule_nodes": 6,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "FIRE_TEMPLE_01",
+      "file": "031_firetemple.mlx",
+      "random": 0,
+      "rules": "fixed_definition"
+    },
+    {
+      "name": "GOTHICUS_CASTLE_01",
+      "file": "008_gothicus_castle_01.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 1,
+      "rule_nodes": 7,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "GOTHICUS_CASTLE_02",
+      "file": "021_gothicus_castle_02.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 1,
+      "rule_nodes": 7,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "GOTHICUS_CRYPT_01",
+      "file": "007_crypt_01.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 1,
+      "rule_nodes": 7,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "GOTHICUS_CRYPT_02",
+      "file": "020_crypt_02.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 1,
+      "rule_nodes": 6,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "ICY_CAVERN_01",
+      "file": "026_icy_cavern_01.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 1,
+      "rule_nodes": 7,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "ICY_CAVERN_02",
+      "file": "027_icy_cavern_02.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 1,
+      "rule_nodes": 11,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "ICY_CAVERN_03",
+      "file": "028_icy_cavern_03.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 1,
+      "rule_nodes": 7,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "ICY_HUB",
+      "file": "025_icy_hub.mlx",
+      "random": 0,
+      "rules": "fixed_definition"
+    },
+    {
+      "name": "INFECTED_VILLAGE_01",
+      "file": "005_infectedvillage.mlx",
+      "random": 0,
+      "rules": "fixed_definition"
+    },
+    {
+      "name": "LIGHT_HOUSE_01",
+      "file": "019_light_house_01.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 0,
+      "rule_nodes": 7,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "LIGHT_HOUSE_02",
+      "file": "019_light_house_02.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 0,
+      "rule_nodes": 6,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "LIGHT_HOUSE_03",
+      "file": "019_light_house_03.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 0,
+      "rule_nodes": 2,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "MACHINE_ROOMS_01",
+      "file": "037_machine_rooms_01.mlx",
+      "random": 0,
+      "rules": "fixed_definition"
+    },
+    {
+      "name": "MULTIPLAYER_TEST",
+      "file": "101_debug_MachineRoomTestMultiPlayer.mlx",
+      "random": 0,
+      "rules": "fixed_definition"
+    },
+    {
+      "name": "PORTAL_ROOM",
+      "file": "003_darkwood.mlx",
+      "random": 0,
+      "rules": "fixed_definition"
+    },
+    {
+      "name": "QUESTTEST",
+      "file": "102_debug_QUESTTEST.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 1,
+      "rule_nodes": 7,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "RANDOMFORALEX",
+      "file": "125_RandomForAlexB.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 1,
+      "rule_nodes": 3,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "RED_DESERT_HUB",
+      "file": "015_red_desert_hub.mlx",
+      "random": 0,
+      "rules": "fixed_definition"
+    },
+    {
+      "name": "ROOT_DEN_01",
+      "file": "004_root_den.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 1,
+      "rule_nodes": 8,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "SECRET_BASEMENT_01",
+      "file": "006_basement.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 1,
+      "rule_nodes": 6,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "SWAMP",
+      "file": "001_swamp.mlx",
+      "random": 0,
+      "rules": "fixed_definition"
+    },
+    {
+      "name": "SWAMP_02",
+      "file": "022_swamp2.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 0,
+      "rule_nodes": 10,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "SWAMP_CAVE_TROLL_A",
+      "file": "022_swamp2_trollcave.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 1,
+      "rule_nodes": 6,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "SWAMP_CAVE_WITCH_A",
+      "file": "002_swamp_witchcave.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 1,
+      "rule_nodes": 7,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "UNDERWORLD_HUB",
+      "file": "036_underworld_hub.mlx",
+      "random": 0,
+      "rules": "fixed_definition"
+    },
+    {
+      "name": "VOID_MAZE_01",
+      "file": "033_voidmaze_01.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 0,
+      "rule_nodes": 10,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "VOID_MAZE_02",
+      "file": "034_voidmaze_02.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 1,
+      "rule_nodes": 11,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "VOID_MAZE_03",
+      "file": "035_voidmaze_03.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 1,
+      "rule_nodes": 3,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "WATER_TEMPLE_01",
+      "file": "023_watertemple.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 1,
+      "rule_nodes": 9,
+      "pools": 0,
+      "pool_elements": 0
+    },
+    {
+      "name": "WIND_TEMPLE_01",
+      "file": "029_wind_temple.rule.xml",
+      "random": 1,
+      "rules": "original_compared",
+      "reader_result": 0,
+      "rule_nodes": 13,
+      "pools": 0,
+      "pool_elements": 0
+    }
+  ],
+  "summary": {
+    "original_compared": 35,
+    "fixed_definition": 16
+  },
+  "authored_rule_files_compared": 35,
+  "original_reader_results": {
+    "1": 29,
+    "0": 6
+  },
+  "authored_totals": {
+    "rules": 236,
+    "rules_returning_false": 38,
+    "unresolved_list_references": 0,
+    "unavailable_block_references": 0,
+    "pools": 0,
+    "pool_elements": 0
+  },
+  "caller_reader_failure_policy_verified": false,
+  "pool_size_allocation_verified": false,
+  "layout_generation_verified": false,
+  "full_loader_verified": false
+}

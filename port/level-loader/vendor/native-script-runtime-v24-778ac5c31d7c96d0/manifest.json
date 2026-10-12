@@ -1,0 +1,481 @@
+{
+  "scope": "Current root native Lua runtime production source closure and matching PlayerProfileIndex; not complete standalone game or loader readiness",
+  "root_apk_sha256": "6d1b7f73a4361a59a20083e808909ae1dd55b5075384ecd1c8fef0272e72c934",
+  "compiled_sources_by_abi": {
+    "arm64-v8a": [
+      "port/script-runtime/lua/lapi.c",
+      "port/script-runtime/lua/lauxlib.c",
+      "port/script-runtime/lua/lbaselib.c",
+      "port/script-runtime/lua/lcode.c",
+      "port/script-runtime/lua/ldebug.c",
+      "port/script-runtime/lua/ldo.c",
+      "port/script-runtime/lua/ldump.c",
+      "port/script-runtime/lua/lfunc.c",
+      "port/script-runtime/lua/lgc.c",
+      "port/script-runtime/lua/llex.c",
+      "port/script-runtime/lua/lmathlib.c",
+      "port/script-runtime/lua/lmem.c",
+      "port/script-runtime/lua/lobject.c",
+      "port/script-runtime/lua/lopcodes.c",
+      "port/script-runtime/lua/lparser.c",
+      "port/script-runtime/lua/lstate.c",
+      "port/script-runtime/lua/lstring.c",
+      "port/script-runtime/lua/lstrlib.c",
+      "port/script-runtime/lua/ltable.c",
+      "port/script-runtime/lua/ltablib.c",
+      "port/script-runtime/lua/ltm.c",
+      "port/script-runtime/lua/lundump.c",
+      "port/script-runtime/lua/lvm.c",
+      "port/script-runtime/lua/lzio.c",
+      "port/script-runtime/script_constants.cpp",
+      "port/script-runtime/script_design_bindings.c",
+      "port/script-runtime/script_function_alias.cpp",
+      "port/script-runtime/script_game_bindings.c",
+      "port/script-runtime/script_int_bindings.cpp",
+      "port/script-runtime/script_object_bridge.c",
+      "port/script-runtime/script_runtime_return_v3.c",
+      "port/script-runtime/script_scalar_bindings.c"
+    ],
+    "x86_64": [
+      "port/script-runtime/lua/lapi.c",
+      "port/script-runtime/lua/lauxlib.c",
+      "port/script-runtime/lua/lbaselib.c",
+      "port/script-runtime/lua/lcode.c",
+      "port/script-runtime/lua/ldebug.c",
+      "port/script-runtime/lua/ldo.c",
+      "port/script-runtime/lua/ldump.c",
+      "port/script-runtime/lua/lfunc.c",
+      "port/script-runtime/lua/lgc.c",
+      "port/script-runtime/lua/llex.c",
+      "port/script-runtime/lua/lmathlib.c",
+      "port/script-runtime/lua/lmem.c",
+      "port/script-runtime/lua/lobject.c",
+      "port/script-runtime/lua/lopcodes.c",
+      "port/script-runtime/lua/lparser.c",
+      "port/script-runtime/lua/lstate.c",
+      "port/script-runtime/lua/lstring.c",
+      "port/script-runtime/lua/lstrlib.c",
+      "port/script-runtime/lua/ltable.c",
+      "port/script-runtime/lua/ltablib.c",
+      "port/script-runtime/lua/ltm.c",
+      "port/script-runtime/lua/lundump.c",
+      "port/script-runtime/lua/lvm.c",
+      "port/script-runtime/lua/lzio.c",
+      "port/script-runtime/script_constants.cpp",
+      "port/script-runtime/script_design_bindings.c",
+      "port/script-runtime/script_function_alias.cpp",
+      "port/script-runtime/script_game_bindings.c",
+      "port/script-runtime/script_int_bindings.cpp",
+      "port/script-runtime/script_object_bridge.c",
+      "port/script-runtime/script_runtime_return_v3.c",
+      "port/script-runtime/script_scalar_bindings.c"
+    ]
+  },
+  "files": [
+    {
+      "path": "port/game-data/data.hpp",
+      "sha256": "ecc6a73c30c67685af8a3c9d5e70c5ddb9e74143da47abcd355592f791dd2901",
+      "bytes": 901
+    },
+    {
+      "path": "port/game-data/player_profile_index_v1.cpp",
+      "sha256": "6755573808a8869fe562cf476a7e581dbba8fa6ece0d6a226d8818c403cac04a",
+      "bytes": 3109
+    },
+    {
+      "path": "port/game-data/player_profile_index_v1.hpp",
+      "sha256": "b6f461352da1bbfc898f50636a77930b44ab98f358e813d3d599267aa8f7f4ca",
+      "bytes": 2130
+    },
+    {
+      "path": "port/game-data/reports/player-profile-index-v1-arm64-differential.json",
+      "sha256": "45fd78ac52c1402321bee18d27a47efddaaaea0be4411db0d2632a9eff2cf4bc",
+      "bytes": 1021
+    },
+    {
+      "path": "port/game-data/tests/player_profile_index_v1.cpp",
+      "sha256": "4baf02bb6360ac4ff2810370aeefcb32ab121f2255f5897eb0477519f6a08a7b",
+      "bytes": 2322
+    },
+    {
+      "path": "port/script-runtime/lua/lapi.c",
+      "sha256": "6aa0d9fdd88b13fe46568ad6722ecf44164fb84476cfdf6480cf05b5704935f8",
+      "bytes": 22708
+    },
+    {
+      "path": "port/script-runtime/lua/lapi.h",
+      "sha256": "4aea4c1b975d43184f4f1fd1a42c79cf11d74d2801315740cec07fe9abebb56d",
+      "bytes": 262
+    },
+    {
+      "path": "port/script-runtime/lua/lauxlib.c",
+      "sha256": "b564650bf4aca2757b9966311d32c8d5fea8803f6f33d72a856448d3b5d6d992",
+      "bytes": 17417
+    },
+    {
+      "path": "port/script-runtime/lua/lauxlib.h",
+      "sha256": "c741f9c1587f29fd08a79acbe0c46884768a47f89bee4147669f774c5cf50fc0",
+      "bytes": 5777
+    },
+    {
+      "path": "port/script-runtime/lua/lbaselib.c",
+      "sha256": "703b8c0de8142d486bc6d6082cf6427583189319a4aed3a02dd8c1653e0fd42b",
+      "bytes": 17046
+    },
+    {
+      "path": "port/script-runtime/lua/lcode.c",
+      "sha256": "f8026741a3e6ea3520c751ef2e7f6c0b88e0e36b4dab93a238d2a5ef0dab18a5",
+      "bytes": 21335
+    },
+    {
+      "path": "port/script-runtime/lua/lcode.h",
+      "sha256": "97d5a37f3b1b19eda1ef39607b3358aa0f7e917568ccd27ed0f14bc6a70d4b17",
+      "bytes": 2750
+    },
+    {
+      "path": "port/script-runtime/lua/ldebug.c",
+      "sha256": "afa5840195befaec55177273c8168748026b38df3243767fc740cc7ced0c4c8f",
+      "bytes": 16840
+    },
+    {
+      "path": "port/script-runtime/lua/ldebug.h",
+      "sha256": "d036f0dbb996bdecd48d505746f72c31b82fb2fc38f111b780568338d4ed9e9c",
+      "bytes": 1061
+    },
+    {
+      "path": "port/script-runtime/lua/ldo.c",
+      "sha256": "1839bd9227430c5344b348f57e5cd680f56e854932abde31f402282d95882326",
+      "bytes": 14851
+    },
+    {
+      "path": "port/script-runtime/lua/ldo.h",
+      "sha256": "591ad9a90098d3fbf06839da3de752d2c2585cbf5801dde4cdaffe12b23a182e",
+      "bytes": 1897
+    },
+    {
+      "path": "port/script-runtime/lua/ldump.c",
+      "sha256": "661d499262e9808732b2bf67d2d0cedafcaf0b4eefb54c922959af450fd2b87b",
+      "bytes": 3229
+    },
+    {
+      "path": "port/script-runtime/lua/lfunc.c",
+      "sha256": "525681d79098958530e5c937f7cbe94a4dafa679746ffdb16258f82b7ece29ce",
+      "bytes": 4618
+    },
+    {
+      "path": "port/script-runtime/lua/lfunc.h",
+      "sha256": "3cea0071ffda94eac378adb5f1ecb467ef2ffafff4315459e4ccdf05b5119da4",
+      "bytes": 1125
+    },
+    {
+      "path": "port/script-runtime/lua/lgc.c",
+      "sha256": "c095b53992c084bf80a9a2f0f0b885eda474646806c8a8c9ab55c4fb5643ad32",
+      "bytes": 20497
+    },
+    {
+      "path": "port/script-runtime/lua/lgc.h",
+      "sha256": "fbab2b989515377729d4c029dd58b3b6242877a88a7c4cfa703ea0deeb069a1e",
+      "bytes": 3159
+    },
+    {
+      "path": "port/script-runtime/lua/llex.c",
+      "sha256": "aecb5f00908832222e62fb1b970825278dc460a65a080d79a3693f82438e52c8",
+      "bytes": 12474
+    },
+    {
+      "path": "port/script-runtime/lua/llex.h",
+      "sha256": "0f3715d22b025727ef11debd641600a123b81718d195cd8445ac6378814458e6",
+      "bytes": 2177
+    },
+    {
+      "path": "port/script-runtime/lua/llimits.h",
+      "sha256": "1910669296681d9d2814ca46c325063724bb634c0428dae4e5ff59be54e0b758",
+      "bytes": 2349
+    },
+    {
+      "path": "port/script-runtime/lua/lmathlib.c",
+      "sha256": "e2933a56332d567cdd69f0fe514d638a8f82da6878754ff259e77cf2157263c3",
+      "bytes": 5831
+    },
+    {
+      "path": "port/script-runtime/lua/lmem.c",
+      "sha256": "e63c50cb1c75356bd4123c9ca05f77bd0cd99e05c099cf6d1bf472086761e9c5",
+      "bytes": 2172
+    },
+    {
+      "path": "port/script-runtime/lua/lmem.h",
+      "sha256": "abd1258418486c69bf5a93ceea3a1b9f8af2c7497a4fa6c27b442ffec2c5bbb1",
+      "bytes": 1494
+    },
+    {
+      "path": "port/script-runtime/lua/lobject.c",
+      "sha256": "d704915c79c721556cc5850d741ed3bef1611221356f0e3a2f0ee5cfd5fd3632",
+      "bytes": 5498
+    },
+    {
+      "path": "port/script-runtime/lua/lobject.h",
+      "sha256": "274c18373fbbad71bfebd534cae4b2d2e49934abf6672f44735edc6646fb6a8b",
+      "bytes": 8502
+    },
+    {
+      "path": "port/script-runtime/lua/lopcodes.c",
+      "sha256": "63cd74edc75970092a8ce078c4ab970efa1ee18de960d00eb826d49fe98d8a76",
+      "bytes": 2884
+    },
+    {
+      "path": "port/script-runtime/lua/lopcodes.h",
+      "sha256": "a15fe349da7c1e73b563e8c3249fe7d535eccc844cb30ec80b4e335b0699279b",
+      "bytes": 8086
+    },
+    {
+      "path": "port/script-runtime/lua/lparser.c",
+      "sha256": "61c85a7c4f5387d36b91d53a60df3802d7639928b1d76675ede6fb0868ad2510",
+      "bytes": 36696
+    },
+    {
+      "path": "port/script-runtime/lua/lparser.h",
+      "sha256": "84512d6540b83ab599cd8de5a1c8c4deaf71ff353f8e4fbc2e4ca135ba4e9ef0",
+      "bytes": 2261
+    },
+    {
+      "path": "port/script-runtime/lua/lstate.c",
+      "sha256": "c36d6b9354aaa30b5323b4984f3172783f69e0deb3186c2ef6f16a8281c59c29",
+      "bytes": 5674
+    },
+    {
+      "path": "port/script-runtime/lua/lstate.h",
+      "sha256": "dc64ea7ec74d7c1efaeaf6a9e2257f0b7856a5c988747948af2e76cf079d20fe",
+      "bytes": 5011
+    },
+    {
+      "path": "port/script-runtime/lua/lstring.c",
+      "sha256": "aa7e934c435d870b9d937ac2fb03dbfa15d367012d46e7e995a2ad8d440f2f6d",
+      "bytes": 3110
+    },
+    {
+      "path": "port/script-runtime/lua/lstring.h",
+      "sha256": "c0e8af4eb33e3357be79f906e7e1191ba53a3a790d36ca15b50471d3a339e1f0",
+      "bytes": 814
+    },
+    {
+      "path": "port/script-runtime/lua/lstrlib.c",
+      "sha256": "a978166ca36525de2708ac931834d575c8df057719bc2da39dbe3befe810ec1d",
+      "bytes": 23481
+    },
+    {
+      "path": "port/script-runtime/lua/ltable.c",
+      "sha256": "b5d3a42b7068c0c822845563c9974fa00b41a190fd4352910f5e29f0eef94dfb",
+      "bytes": 16396
+    },
+    {
+      "path": "port/script-runtime/lua/ltable.h",
+      "sha256": "219e6ac2bf43aaa93093c6bcd571c012660325e6b87ea3d6c1b40679a0acfd64",
+      "bytes": 1184
+    },
+    {
+      "path": "port/script-runtime/lua/ltablib.c",
+      "sha256": "e934dc4b2fc117a501c717302a00147f7b44eea978ef87a58a3e40e9bfe45d20",
+      "bytes": 7343
+    },
+    {
+      "path": "port/script-runtime/lua/ltm.c",
+      "sha256": "9759ae5d1aa3b11e1c7faa6c0f65e05c7126417f7f8f3f989d82fc170b07f891",
+      "bytes": 1650
+    },
+    {
+      "path": "port/script-runtime/lua/ltm.h",
+      "sha256": "54f4c2fa76b8ed8d48163e31807a19999f5d65b009ae862cb757e0773f2aa485",
+      "bytes": 1018
+    },
+    {
+      "path": "port/script-runtime/lua/lua.h",
+      "sha256": "c2a78484b53d115d9229a62e8d16db8309f1c68415b56ad5672e00674119bebb",
+      "bytes": 11688
+    },
+    {
+      "path": "port/script-runtime/lua/luaconf.h",
+      "sha256": "b3ec2e1f0d42e099157cc0adc8a4ef5c62afa09f5fefad9c95de3ef3be89cf23",
+      "bytes": 22345
+    },
+    {
+      "path": "port/script-runtime/lua/lualib.h",
+      "sha256": "13f880e9dd997a0f7fd0b17ccd949c98f33e95bd120f084de66084e888217413",
+      "bytes": 1026
+    },
+    {
+      "path": "port/script-runtime/lua/lundump.c",
+      "sha256": "611fdad9c97d2b81c918d08bc610c830dc6b8f1167b718cb32b5d1eb76149f21",
+      "bytes": 4759
+    },
+    {
+      "path": "port/script-runtime/lua/lundump.h",
+      "sha256": "9f3a2924d1585620993a70eea6cf3def34acb8322b2d9c3629bcdacc037edc64",
+      "bytes": 890
+    },
+    {
+      "path": "port/script-runtime/lua/lvm.c",
+      "sha256": "f9f0979df389c571193c4b5d20ae80180d9857ca5a9873c601c42055583cf19d",
+      "bytes": 23126
+    },
+    {
+      "path": "port/script-runtime/lua/lvm.h",
+      "sha256": "db4b79dc7f4e7656078aa527350fbf14b2fde5d136ccf1cb4f3dc397def5fb67",
+      "bytes": 1159
+    },
+    {
+      "path": "port/script-runtime/lua/lzio.c",
+      "sha256": "892bc24d898c19cbedceba419c68f910b99321c0b462be2c2c00b9d763563173",
+      "bytes": 1628
+    },
+    {
+      "path": "port/script-runtime/lua/lzio.h",
+      "sha256": "0ec77d0179bf29c1ccab97028fed761944d5c21c02808e10cd7b5883b58b2ca6",
+      "bytes": 1556
+    },
+    {
+      "path": "port/script-runtime/reports/native-production-closure-v24/INTEGRATION.md",
+      "sha256": "2ec4f5a7ee53009c5045505fd4ca34372cd0625258a4bbeacf0af3268b7673c6",
+      "bytes": 1514
+    },
+    {
+      "path": "port/script-runtime/reports/native-production-closure-v24/script-runtime-production-v24.cmake",
+      "sha256": "206ef365122972a723df79fbac3221a3df4569f80bd6368390ddb3c1db4c9c4e",
+      "bytes": 2896
+    },
+    {
+      "path": "port/script-runtime/reports/script-callback-scope-host-audit.json",
+      "sha256": "0410a1545afe42261da81ab0dd39b8fa2865f8bff9ddd89906e314c3658f5d4e",
+      "bytes": 23246
+    },
+    {
+      "path": "port/script-runtime/reports/script-function-alias-teardown-arm64-regression.json",
+      "sha256": "a9299a3e6ec27a1f444962b0d1ed501bff548074c74531526c08749e75a3b34e",
+      "bytes": 7767
+    },
+    {
+      "path": "port/script-runtime/reports/script-vm-ownership-host-audit.json",
+      "sha256": "9d80b866bea95eed5b19f95fd710a2a3a6c227375ab882d82b7108fe81d8c7f6",
+      "bytes": 24766
+    },
+    {
+      "path": "port/script-runtime/script_constants.cpp",
+      "sha256": "44d2ade00fca5f991fe5cae1c5f869dc68cb71e57344b0ed9ce240b38b3d476d",
+      "bytes": 3122
+    },
+    {
+      "path": "port/script-runtime/script_constants.hpp",
+      "sha256": "5771039bca9fce55aed7ca742ede02fad3da304d62411d4c9531c32c0e823a01",
+      "bytes": 1558
+    },
+    {
+      "path": "port/script-runtime/script_design_bindings.c",
+      "sha256": "d3fa2b17d974aec16a130ab9f6ffd547e89f5cc24b26f18e98f970ad8b931e0a",
+      "bytes": 2364
+    },
+    {
+      "path": "port/script-runtime/script_design_bindings.h",
+      "sha256": "0f7377a43a4efdfc05817901ad4dcc5344b9a1e30fbcb5de57e50f393173efd9",
+      "bytes": 1659
+    },
+    {
+      "path": "port/script-runtime/script_function_alias.cpp",
+      "sha256": "28117cd5fbfe1c15ed14dc2ef5fbf8ec6a23379b5f9450d15e194f67ba2a0fec",
+      "bytes": 4287
+    },
+    {
+      "path": "port/script-runtime/script_function_alias.h",
+      "sha256": "18437e9ee37bc55cfc91cb162000cd237946b73a3940e0eb4fa9248ab47d170e",
+      "bytes": 2226
+    },
+    {
+      "path": "port/script-runtime/script_game_bindings.c",
+      "sha256": "779f245eb5b5b738381bd003f622f84e83390af254cd2268dc9f81503e3df482",
+      "bytes": 3211
+    },
+    {
+      "path": "port/script-runtime/script_game_bindings.h",
+      "sha256": "3772bc95bcb5e26fe4969586705c89912ed468b301f40c1fcd35d628bd257266",
+      "bytes": 2089
+    },
+    {
+      "path": "port/script-runtime/script_int_bindings.cpp",
+      "sha256": "04b216621891f067b423230fd2b7aa8b47330bb08174bcaef394cca8e22edc7a",
+      "bytes": 6871
+    },
+    {
+      "path": "port/script-runtime/script_int_bindings.hpp",
+      "sha256": "4cf66271fe2a909759e03f62d5016b960cc374273eabec8a38279d15716e4d9a",
+      "bytes": 3408
+    },
+    {
+      "path": "port/script-runtime/script_object_bridge.c",
+      "sha256": "e8bd39d180c86dfa7e6fa0396351010475ac330284372e4607cd2d3e595cf74c",
+      "bytes": 2456
+    },
+    {
+      "path": "port/script-runtime/script_object_bridge.h",
+      "sha256": "63c357b3879fb74e882f8ec5a4d3fb6f6a3ad9360ca1bbabcbc38f1c142a15d9",
+      "bytes": 2803
+    },
+    {
+      "path": "port/script-runtime/script_object_bridge_internal.h",
+      "sha256": "f05dfc2c09b2c61868bc73b47b31aaa21a103b228858d2e47d0f65f976f5e071",
+      "bytes": 440
+    },
+    {
+      "path": "port/script-runtime/script_return_observer_v1.h",
+      "sha256": "a8a6e580833a589a173248b415207f7c2c54c321451b46423ab4c531147dd636",
+      "bytes": 1315
+    },
+    {
+      "path": "port/script-runtime/script_return_observer_v3.h",
+      "sha256": "8f1c27c65cdb48c0e8325196a39f47e8db2a78172fe99b7420b5c41712695617",
+      "bytes": 650
+    },
+    {
+      "path": "port/script-runtime/script_runtime.h",
+      "sha256": "8c1c24ccdc09c8b06ee1d3be35536fa25af265a650047bf6d98a08dbc707ee54",
+      "bytes": 9577
+    },
+    {
+      "path": "port/script-runtime/script_runtime_return_v3.c",
+      "sha256": "e9bf3185c11030a2a0cd3cab4558cc533560684f5d8601a5a7cf01d39988eb06",
+      "bytes": 3712
+    },
+    {
+      "path": "port/script-runtime/script_scalar_bindings.c",
+      "sha256": "de37788729dabcd53afa6ca9bf5f918229979b8624ae20e11dd1499b267ead61",
+      "bytes": 5677
+    },
+    {
+      "path": "port/script-runtime/script_scalar_bindings.h",
+      "sha256": "378f06afa5311644a89a5d2d057e8e490dcf23e3ff2a555a5fc73b06a3833a3b",
+      "bytes": 1870
+    },
+    {
+      "path": "port/script-runtime/tests/lua514.cpp",
+      "sha256": "adc6cf30bc2b6fa8d8979880632b4443414045861a147f5dcd8b0c6139bde31f",
+      "bytes": 7499
+    },
+    {
+      "path": "port/script-runtime/tests/script_callback_scope.cpp",
+      "sha256": "5ab8fe8f0169e4ac9bcb538492829ec2e6f3814b04b83af5c4813c6d5723af61",
+      "bytes": 11807
+    },
+    {
+      "path": "port/script-runtime/tests/script_function_alias_teardown.cpp",
+      "sha256": "a80c7c304e6a814a81dfdf7b1e24697b79f3b90c45a47c7b193729f0b6d2d99e",
+      "bytes": 2467
+    },
+    {
+      "path": "port/script-runtime/tests/script_indexed_return_v3.cpp",
+      "sha256": "66ac1cb7a957534feef8b1c62cf43bdcb8c497856c503a65a1fb3f66db0966f6",
+      "bytes": 5168
+    },
+    {
+      "path": "port/script-runtime/tests/script_vm_ownership.cpp",
+      "sha256": "c092f3c8b4e85db74fea97206f3571a564697332b090f8a473dd5e476a5865f9",
+      "bytes": 4531
+    }
+  ]
+}

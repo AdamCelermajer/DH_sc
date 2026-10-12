@@ -1,0 +1,23 @@
+--- a/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.hpp
++++ b/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.hpp
+@@ -34,7 +34,9 @@
+ namespace dh2::loader {struct Stage33RestoreServicesV1;struct Stage34ServicesV1;}
+ namespace dh2::loader {class SourceReleaseJournalV69;class ModuleRoomZoneConnectionV91;}
+ namespace dh2::loader {struct ProductionNonCharacterOwnersV67;}
++namespace dh2::loader {struct SourceLoadingInputsV43;}
+ namespace model_renderer {
++struct CampaignObjectLoadingNativeV95;
+ struct CampaignGeneratedRoomNativeV92;
+ class SourceCampaignFxRuntimeV77;
+ class SourceCampaignSaveObjectsV86;
+@@ -109,6 +111,10 @@
+  std::function<bool(std::string&)> source_pm_update_v70;
+  std::function<bool(const SourceCampaignCandidateBorrowV55&,
+   RendererCampaignNonCharacterInputsV69&,std::string&)> noncharacter_inputs_v81;
++ // Native resource input stays separate from the actual source Stage10/17
++ // bridge. Both callbacks borrow this World weakly, never a second scheduler.
++ std::function<bool(const SourceCampaignCandidateBorrowV55&,CampaignObjectLoadingNativeV95&,std::string&)> object_loading_native_v95;
++ std::function<bool(const SourceCampaignCandidateBorrowV55&,dh2::loader::SourceLoadingInputsV43&,std::string&)> source_object_loading_v95;
+  std::shared_ptr<void> noncharacter_producer_v89;
+  std::shared_ptr<dh2::loader::ProductionNonCharacterOwnersV67> noncharacter_owners_v105;
+  //Actual generated-room constructor/runtime sibling. The provider borrows

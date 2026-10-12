@@ -1,0 +1,30 @@
+{
+  "schema": "dh2-character-spawn-fields-v42-proposal",
+  "status": "CANDIDATE ONLY; selected V5 unchanged",
+  "initial_hashes": {
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\retained_character_actor_v1.hpp": "0d0df6e3371723570cdcac7decd713bfa9cfe86dc911e3ca0af5df27ffba8cd9",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\retained_character_actor_v1.cpp": "3a5a19027f6c1e24cd60f2c1df4a8548f036783be59fdc53231c554b10a5ca33",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\canonical_character_family_v4.hpp": "62b288d35da526ac1713e2a38095960c1bd19bc3aa87f96fc4e64ff7a42e1dac",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\canonical_character_family_v4.cpp": "acb147c525ce736011fed21edd5fc52ede1b2b0469a501e87c439b2db1f4c33a"
+  },
+  "candidate_hashes": {
+    "reference\\character-spawn-fields-v42\\build_character_spawn_fields_v42.py": "b287fe92c01a2c9281d77f7dc7fe9962f18621df6909a5df670711e41e62fdcd",
+    "reference\\character-spawn-fields-v42\\canonical_character_family_v4.cpp": "8c03a087b472bc7e919139affebd10a0229955b850744d075d85d15c5a3de3e9",
+    "reference\\character-spawn-fields-v42\\canonical_character_family_v4.hpp": "62b288d35da526ac1713e2a38095960c1bd19bc3aa87f96fc4e64ff7a42e1dac",
+    "reference\\character-spawn-fields-v42\\character_is_player_v41.cpp": "3968a3d59a254344dece961d418927160d23fdbe1bb82818f83274a2f3a95e43",
+    "reference\\character-spawn-fields-v42\\character_is_player_v41.hpp": "7b680c57314b04ba26f86a80946d012015f93eed5d38fff9027e1a50681074d9",
+    "reference\\character-spawn-fields-v42\\character_spawn_fields_v42_test.cpp": "535360839624e1df3814f53a5e8ae799328de179e13a80c20d401d5ddfe901c2",
+    "reference\\character-spawn-fields-v42\\prepare_character_spawn_fields_v42.py": "7228a92584fb37ae0352c680a4b4d15b7e79e097b520eb36bb34894054c778dc",
+    "reference\\character-spawn-fields-v42\\retained-character-spawn-v42-adoption.patch": "ad6a61b91928503b73ed6fc259bf56bec0ed15afb1af670b6ea6e33811578feb",
+    "reference\\character-spawn-fields-v42\\retained_character_actor_v1.cpp": "fdc2e83bc8610e174d4131f793288082e5f6ebeb53d66e8acd08ab6e1fae140a",
+    "reference\\character-spawn-fields-v42\\retained_character_actor_v1.hpp": "4ed1d1f2efecd76a4a60c753b7ca0a0a3bc09e88f13d5d55ac6a5d575ff8a719"
+  },
+  "original_C1_cache_store": "38c4a8 cached270=-1; original unconditional producer-prefix3poisons in V41",
+  "no_base_added": true,
+  "single_cache270": true,
+  "probability_reuses_actual_existing_member": true,
+  "adopted_state_unavailable_without_authority_transfer": true,
+  "scope": "One cache field and checked actual alias/probability/live archetype borrows only. No model/template selection, stage reorder, NPC/player behavior/save overrides.",
+  "actual_family_IsPlayer_request_updated": true,
+  "validation_receipt": "reports/character-spawn-fields-v42-verified.json"
+}

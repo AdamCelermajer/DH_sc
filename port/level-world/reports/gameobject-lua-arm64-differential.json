@@ -1,0 +1,63 @@
+{
+  "validation": "PASS",
+  "producer_cases": 133,
+  "source_ordered_registrations": 171,
+  "effective_methods": 171,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "compiler_inputs": {
+    "cpp_arguments": [
+      "--target=aarch64-linux-android24",
+      "-shared",
+      "-fPIC",
+      "-O2",
+      "-ffp-contract=off",
+      "-std=c++17",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "port/level-world/gameobject_lua_representation.cpp",
+      "port/level-world/character_target_bindings.cpp",
+      ".local-inputs\\gameobject-lua-representation\\script_object_bridge.o",
+      "-o",
+      ".local-inputs/gameobject-lua-representation/libgameobject_lua.so"
+    ],
+    "cpp_compiler": "C:\\Users\\adamc\\AppData\\Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe",
+    "source_bindings": {
+      "port/script-runtime/script_runtime.h": "6da3b8ae002da1eb75cd64d03120d37668ebec198ce3d3b5827096c43d08de14",
+      "port/level-world/gameobject_lua_representation.cpp": "9855469c0259c284f6955b794f38e10b5526bf2b69d97c958e41568b755b14e0",
+      "port/level-world/gameobject_lua_representation.hpp": "ea430c5a511f34dd820913f4334ffb46e67f94c1d08973fcb29e356f9d711421",
+      "port/level-world/character_target_bindings.hpp": "bead66304f3c4454813d2fcea8e679f0eb45d1625a4ee621f4ec96bfb6886e75",
+      "port/level-world/gameobject_lua_catalog.inc": "1652c4df384846be323c91c33d482992d21e6bc3cfd4cecb8105b5286155a586",
+      "port/script-runtime/script_object_bridge.c": "e8bd39d180c86dfa7e6fa0396351010475ac330284372e4607cd2d3e595cf74c",
+      "port/script-runtime/script_object_bridge.h": "83580b6c085b96595fce3cafc5e8b600344e1b4d6eaece1cabb7a422f98f7b5b",
+      "port/level-world/character_target_bindings.cpp": "b24ad01d74fbe5de98ce9416be022c6652fa8a90ed2c820a0455b293dc405665",
+      "port/script-runtime/script_object_bridge_internal.h": "f05dfc2c09b2c61868bc73b47b31aaa21a103b228858d2e47d0f65f976f5e071"
+    },
+    "library_sha256": "68400bdeb73cd617965835c0dd1bcdeced8840238d54daa8de29bf86586a37d9",
+    "c_compiler": "C:\\Users\\adamc\\AppData\\Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe",
+    "c_arguments": [
+      "--target=aarch64-linux-android24",
+      "-c",
+      "-fPIC",
+      "-O2",
+      "-ffp-contract=off",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iport/script-runtime/lua",
+      "port/script-runtime/script_object_bridge.c",
+      "-o",
+      ".local-inputs\\gameobject-lua-representation\\script_object_bridge.o"
+    ]
+  },
+  "manifest_sha256": "84c613fcb8076e5aa43c6a771c7678292f745a891214054a962c41dd36b41c41",
+  "producer_fixture_sha256": "ce83ef7c7785045a3a00f7da7c190e600dbfac4429189bfc7da11de0d2e3ec0b",
+  "source_sha256": {
+    "port\\level-world\\tests\\gameobject_lua_differential.py": "3ccb088155a5734bdebbaddd34d76e6e715d6f667d488c3b3bc3a14502deed5c",
+    "port\\level-world\\tests\\gameobject_lua_original.py": "7d74b47f2666f35692810f920c70624478da535bb81f1f2ff6c2afb3ce374f7f"
+  },
+  "scope": "Original/optimized ARM64 object push with identical explicit Lua primitives.\n\nOriginal virtual type/createBindings bodies and native source catalog execute;\nLua API storage/allocation are fixture services. Actual VM audited separately.\n",
+  "whole_original_VM": false,
+  "wrapper_cases": 266
+}

@@ -1,0 +1,82 @@
+[
+  {
+    "path": "port\\android-native\\app\\src\\main\\assets\\data\\character_properties_pyarray.bin",
+    "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784"
+  },
+  {
+    "path": "port\\android-native\\app\\src\\main\\assets\\data\\character_properties_pyarraynames.bin",
+    "sha256": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801"
+  },
+  {
+    "path": "port\\android-native\\app\\src\\main\\assets\\data\\character_properties_pystructnames.bin",
+    "sha256": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2"
+  },
+  {
+    "path": "port\\android-native\\app\\src\\main\\assets\\data\\character_classes_pyarray.bin",
+    "sha256": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55"
+  },
+  {
+    "path": "port\\android-native\\app\\src\\main\\assets\\data\\character_classes_pyarraynames.bin",
+    "sha256": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe"
+  },
+  {
+    "path": "port\\android-native\\app\\src\\main\\assets\\data\\character_classes_pystructnames.bin",
+    "sha256": "3347d6e0b30aec9af544eafeb1c0883cc284c1a0585fdc472f51f407d578d268"
+  },
+  {
+    "path": "port\\android-native\\app\\src\\main\\assets\\data\\ai_pyarray.bin",
+    "sha256": "bfe56f4a07dbe49bb55543137ae343334082b6a340ca156f367ee51e3b2771bc"
+  },
+  {
+    "path": "port\\android-native\\app\\src\\main\\assets\\data\\ai_pyarraynames.bin",
+    "sha256": "3e70840c238f38e0e7db7945dfcc1d6aab14644d28f8e8b7c3a014878174b36a"
+  },
+  {
+    "path": "port\\android-native\\app\\src\\main\\assets\\data\\ai_pystructnames.bin",
+    "sha256": "8e57ac44649466bd3f8fb164c3f7ab56a84c4d7c5d786e40239c9cc2e9f09d82"
+  },
+  {
+    "path": "port\\android-native\\app\\src\\main\\assets\\data\\ai_factions_pyarray.bin",
+    "sha256": "d302382d9b8079e71f9915d6fed7c262b1f9f8bb8f1a0eb6f060859a1a992e3d"
+  },
+  {
+    "path": "port\\android-native\\app\\src\\main\\assets\\data\\ai_factions_pyarraynames.bin",
+    "sha256": "ebf655de9419ee2138b9662e08275080ea7b5e421b0446b11e646baedb90e211"
+  },
+  {
+    "path": "port\\android-native\\app\\src\\main\\assets\\data\\ai_factions_pystructnames.bin",
+    "sha256": "8ebbc7927e58b9dd93d03f1f76b366ecd88f3d9b3abcaee31196dd21a05bda15"
+  },
+  {
+    "path": "port\\android-native\\app\\src\\main\\assets\\data\\levels_pyarray.bin",
+    "sha256": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c"
+  },
+  {
+    "path": "port\\android-native\\app\\src\\main\\assets\\data\\levels_pyarraynames.bin",
+    "sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432"
+  },
+  {
+    "path": "port\\android-native\\app\\src\\main\\assets\\data\\levels_pystructnames.bin",
+    "sha256": "e2b94a43ec198969f510b7a35ba27b1f71be1c1ffa1178db97ee48a925f9c705"
+  },
+  {
+    "path": "port\\android-native\\app\\src\\main\\assets\\data\\loot_table_pyarray.bin",
+    "sha256": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f"
+  },
+  {
+    "path": "port\\android-native\\app\\src\\main\\assets\\data\\loot_table_pyarraynames.bin",
+    "sha256": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba"
+  },
+  {
+    "path": "port\\android-native\\app\\src\\main\\assets\\data\\loot_table_pystructnames.bin",
+    "sha256": "ed6721327d6779e47e4def679ddeb796cf5da7ba0348d10996172e64d58bd323"
+  },
+  {
+    "path": "port\\android-native\\app\\src\\main\\assets\\data\\character_models_dictionary_pyarraynames.bin",
+    "sha256": "d731c154e9208b66b84476d97a08366ad1d3e1a074c1fc59889e03b847661fc9"
+  },
+  {
+    "path": "port\\android-native\\app\\src\\main\\assets\\data\\character_models_dictionary_pyarray.bin",
+    "sha256": "682f7ee5935fea873a3c1e09a3590df2a8250f110966f4efce654f2d20367c51"
+  }
+]

@@ -1,0 +1,332 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character14INV_UpdateSkinEv",
+      "elf_address": "0x3a999c",
+      "size": 884,
+      "sha256": "b156c99b56ca13b879fe5de72121bd20a3c097aa092a103153c3196e57085844"
+    },
+    {
+      "original_symbol": "_ZN9Character12ValidateHPMPEv",
+      "elf_address": "0x3bd140",
+      "size": 140,
+      "sha256": "f8b614e857e216839762a9b9d060c3958babe0609f6c9a22ebae2d35b4127adb"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties12_SetPropertyERN7Structs19CharacterPropertiesEii",
+      "elf_address": "0x3deca0",
+      "size": 276,
+      "sha256": "61d5cdfabfb0a114c233ebf4a4b867830a9f1c087009a5a5f8bf7503a4370510"
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties11_GetDefaultEi",
+      "elf_address": "0x3def10",
+      "size": 36,
+      "sha256": "6710c8429d947c675e85a03cbb9a7f46bb197eafcc3f847cabdcaa91385a3017"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties16_ResetPropertiesERN7Structs19CharacterPropertiesE",
+      "elf_address": "0x3def34",
+      "size": 80,
+      "sha256": "76bfb4312f9a2a80f4f25ffa6933ba404ee59b7bd710702321d36686b58418e2"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties20ResetGearsPropertiesEv",
+      "elf_address": "0x3defac",
+      "size": 8,
+      "sha256": "3f77b4414e6ee3c3feccdb753b8dfb22f382a12822cb6361d700c0ba6f78ea95"
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties14_IsPropertySetERKN7Structs19CharacterPropertiesEi",
+      "elf_address": "0x3df114",
+      "size": 44,
+      "sha256": "2d40e1a43f3becbe9b22b2d5a93c9043c6757e591415e227d31d80ff963c7303"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties12_AddPropertyERN7Structs19CharacterPropertiesEii",
+      "elf_address": "0x3df140",
+      "size": 96,
+      "sha256": "4d850624c15803158ef818077afaa6307d142de37f14c28fa56c85c65a15911e"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties19LoadGearsPropertiesEv",
+      "elf_address": "0x3df480",
+      "size": 200,
+      "sha256": "29e14f0559f8e10e5fbbb497f836dbfc7254b9793db2c28329f4ee6a21d035fe"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties16RecalcPropertiesEb",
+      "elf_address": "0x3e0810",
+      "size": 68,
+      "sha256": "ee6c8e0297cd277d0de16726c029da676123d199fbda3421ffa72f174c8708c9"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties21UpdateGearsPropertiesEv",
+      "elf_address": "0x3e08a8",
+      "size": 36,
+      "sha256": "a6e6393033840308385123b125dee49f4b6d157c5bdb26228a1a07d36936304a"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties14_LoadGearStatsEib",
+      "elf_address": "0x3e3154",
+      "size": 352,
+      "sha256": "0bccbb9468eec29197b630bc2c3051123fe06a14e6f81ec144e2479991b296aa"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties14_LoadGearPowerEib",
+      "elf_address": "0x3e32b4",
+      "size": 2660,
+      "sha256": "654f8443e3f3e877d11f39d77cb94eb59f572c04bb6ebafa9d419d6645364c5d"
+    },
+    {
+      "original_symbol": "_ZNK12ItemInstanceeqERKS_",
+      "elf_address": "0x3f9d78",
+      "size": 136,
+      "sha256": "e774eb527d22255988331132c2a0a1a6f0902928c67037865261d6ce1ca1ecf4"
+    },
+    {
+      "original_symbol": "_ZNK12ItemInstance9GetItemIdEv",
+      "elf_address": "0x3f9e00",
+      "size": 8,
+      "sha256": "68a639b2dffac301817461b8b1e1e2fbca60e4b4db136a34b582411c8b7d17ba"
+    },
+    {
+      "original_symbol": "_ZNK12ItemInstance12GetNumPowersEv",
+      "elf_address": "0x3f9e80",
+      "size": 20,
+      "sha256": "93fe41b3d6348608be7e7434d76131aac9e4073c5890480baafc2bed878b04be"
+    },
+    {
+      "original_symbol": "_ZNK12ItemInstance10GetPowerIdEj",
+      "elf_address": "0x3fa038",
+      "size": 172,
+      "sha256": "2f89242b7eb9f42fcdd477c9cc6f626b5887ffca1c2d58ff86d31f67102076f7"
+    },
+    {
+      "original_symbol": "_ZN12ItemInstance11_UpdateReqsEv",
+      "elf_address": "0x3facdc",
+      "size": 1460,
+      "sha256": "c7394e2df3710fc43eb75a60ef6e1ab0e8b0c6ef9b11a1e4984d5c558379cc33"
+    },
+    {
+      "original_symbol": "_ZN12ItemInstance12_UpdateStatsEv",
+      "elf_address": "0x3fb290",
+      "size": 528,
+      "sha256": "e263ef49d748a23b9c71852c089e4adf0f526cca27ba61f350fe23a09eb25c7d"
+    },
+    {
+      "original_symbol": "_ZN12ItemInstance9PowerInfo4swapERS0_",
+      "elf_address": "0x3fb570",
+      "size": 208,
+      "sha256": "9c0669a2b21707721797113a3c9dab088b54acd49d5e09e98a8410ec06beb0e2"
+    },
+    {
+      "original_symbol": "_ZN12ItemInstance11_UpdateNameEv",
+      "elf_address": "0x3fb754",
+      "size": 1284,
+      "sha256": "46bdedb98c535b3f49396548013cf467ad34065bbbddfae75312eb4ee68aa21a"
+    },
+    {
+      "original_symbol": "_ZN12ItemInstance8SetValueEi",
+      "elf_address": "0x3fbc58",
+      "size": 8,
+      "sha256": "e0857178738f7fd87b902d5d74ba0bd6662e141f7fcc92fecc29f2489fe5ee63"
+    },
+    {
+      "original_symbol": "_ZN12ItemInstance8AddPowerEii",
+      "elf_address": "0x3fbc60",
+      "size": 1364,
+      "sha256": "14a149da698fb427db189368bc86605fd3618db8129aa138a80f701abdb801ad"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory18GetCurrentEquipSetEi",
+      "elf_address": "0x3fc6a8",
+      "size": 32,
+      "sha256": "6ed6f8a015fc6b011d41d26f0eb64cb9980e597748a1ff0c711080f88e40d8ac"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory15IsInventoryFullEv",
+      "elf_address": "0x3fe330",
+      "size": 280,
+      "sha256": "5029e7096116bda75932887c0401fdb742009ca066deb602799d21c9b9320255"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory16_AddItemInstanceEP12ItemInstancebb",
+      "elf_address": "0x3ff5d4",
+      "size": 644,
+      "sha256": "4cbfefd1a8147801fe15f33419feb63e0c4c2185f630440de9ae4333e09c4e8d"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory20GetNumEquipmentSlotsEv",
+      "elf_address": "0x3ffd20",
+      "size": 24,
+      "sha256": "39113843180ae8a2410dfc8afe704ca4feb65036fe3571ae2ae0f5d00a00c9d0"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory22GetModularCategoryNameEj",
+      "elf_address": "0x3ffd54",
+      "size": 152,
+      "sha256": "8cfd4e1a0d534435e542a3978b93644fab5e1ac48ba7fd7f74a7820dfc47d2c2"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory15GetEquippedItemEj",
+      "elf_address": "0x3ffe3c",
+      "size": 80,
+      "sha256": "69cf53b6cff74ab550cd32f132e5a8a15b3b86fb9fa35be16a195bf20c2f918f"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory12HasTwoHanderEb",
+      "elf_address": "0x4001a0",
+      "size": 140,
+      "sha256": "fb30a48a8275d5caad1d79ae0e981d1a0fa436a46318967b373d04427aae3189"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory23IsEquipmentSlotLeftHandEj",
+      "elf_address": "0x40022c",
+      "size": 172,
+      "sha256": "744a2f191379425578067f55efb62184b985b9ccb04bd7b52801c6de506480a4"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory20IsEquipmentSlotTakenEj",
+      "elf_address": "0x4002d8",
+      "size": 204,
+      "sha256": "3d70cd66b261a98fa7198f9074098cbd5d223d7cd91b1600b19cf6106c32a28b"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory20_UnEquipItemFromSlotEji",
+      "elf_address": "0x4003a4",
+      "size": 360,
+      "sha256": "bdf061e4b10c7947faab8e3602ebe480d07b442c94d77c4253e28e85a262144d"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory16_EquipItemToSlotEjjb",
+      "elf_address": "0x400634",
+      "size": 956,
+      "sha256": "193c3880f5be84860f5070e7aa40d3a675e878b89ddbc9639741811dc97eae48"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIiEEvP11IStreamBasePT_",
+      "elf_address": "0x459090",
+      "size": 176,
+      "sha256": "68ef60c0ae32f44c79a4109bf541d8ab9b7c302f0562cdc9a84dea2efc1d83ed"
+    },
+    {
+      "original_symbol": "_ZN12VisualObject14SetModularSkinEii",
+      "elf_address": "0x470e18",
+      "size": 68,
+      "sha256": "ccff73eb19e2c2dc692271198c2ec0c80d5d6b1641508af36f80a3884b6022c0"
+    },
+    {
+      "original_symbol": "_ZNK12VisualObject20GetModularCategoryIdEPKc",
+      "elf_address": "0x470e5c",
+      "size": 24,
+      "sha256": "210fcb2fc13df2c1f400551fea450c616e3b020a606ea956a8da2189b47e43e6"
+    },
+    {
+      "original_symbol": "_ZN12VisualObject13SetWeaponSkinEPKcii",
+      "elf_address": "0x473cd8",
+      "size": 456,
+      "sha256": "3d89a9a4921825c7eb03dbb24c1616dc5e41ee70e5ec3371968cc6c73233ad60"
+    },
+    {
+      "original_symbol": "_ZNK12VisualObject18GetModularModuleIdEiPKc",
+      "elf_address": "0x474568",
+      "size": 236,
+      "sha256": "749d55fea4b3a1cf4effab1c1c60c93589277fbc295b18233b8865e6a3eec425"
+    },
+    {
+      "original_symbol": "_ZN6Arrays14ItemPowerTable8finalizeEv",
+      "elf_address": "0x4a6b74",
+      "size": 228,
+      "sha256": "bfa1c826cac16f833e9896937dfa1f5377672a56eba7930d008345facb09a6bc"
+    },
+    {
+      "original_symbol": "_ZN6Arrays14ItemPowerTable9readNamesEP11IStreamBase",
+      "elf_address": "0x4b6630",
+      "size": 408,
+      "sha256": "84574995ea70c876b11e00476c707221b41138e11a1c64b2bdf323375f8a2f21"
+    },
+    {
+      "original_symbol": "_ZN6Arrays14ItemPowerTable4readEP11IStreamBase",
+      "elf_address": "0x4bab7c",
+      "size": 332,
+      "sha256": "90caa751da38ff84fffbaa1a02ca1a83473b558d8fb63a5d693f8d593d2bcd32"
+    },
+    {
+      "original_symbol": "_ZN6Arrays13ItemPowerList4readEP11IStreamBase",
+      "elf_address": "0x4bacc8",
+      "size": 332,
+      "sha256": "11d7a8e7819817da911bd17f85a9501b873dc18e65d7393669e94acbe5317092"
+    },
+    {
+      "original_symbol": "_ZN7Structs9LootEntry8finalizeEv",
+      "elf_address": "0x4c6c08",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN7Structs12ItemPowerRef8finalizeEv",
+      "elf_address": "0x4d573c",
+      "size": 100,
+      "sha256": "e75dbc93c700a83994882f6d51bdee6de6d0242c80cdc9c4e8f255a65f4ff953"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIaEEvP11IStreamBasePT_",
+      "elf_address": "0x4db9fc",
+      "size": 176,
+      "sha256": "ea0dc44358bcd1753b66faa89e097ce4e831859120f16e333ed8fa3ba6cf7557"
+    },
+    {
+      "original_symbol": "_ZN7Structs18ItemPowerEntryList4readEP11IStreamBase",
+      "elf_address": "0x4dc8fc",
+      "size": 364,
+      "sha256": "d44eb2c59671b5d639ddbc244239ee1726aee7e0c0df6f78070b7006f92078d3"
+    },
+    {
+      "original_symbol": "_ZN7Structs12ItemPowerRef4readEP11IStreamBase",
+      "elf_address": "0x4ecdc8",
+      "size": 912,
+      "sha256": "7a0ab08d6c8c5aafe45b8ce79ac515542cc4ae9f9ec2374ab890bfe513eb658a"
+    },
+    {
+      "original_symbol": "_ZN7Structs14ItemPowerEntry4readEP11IStreamBase",
+      "elf_address": "0x4ed200",
+      "size": 128,
+      "sha256": "48a3da37036461f80d84357a77e5e187ab65a6773b411aa4af932439d1595a8c"
+    },
+    {
+      "original_symbol": "_ZN13StringManager5parseERSsPKcz",
+      "elf_address": "0x508ef4",
+      "size": 2836,
+      "sha256": "6dbb98a099a473963ec28a86543954600c12188543dcda7f7e4f5ed5a09ade91"
+    }
+  ],
+  "capture_sha256": {
+    "port/game-data/reference/player-item-effects-v5/original/character-effects/original-functions.json": "d147befca950c91a058c89833555680d543aaf1b56d184b290a69eda462dd218",
+    "port/game-data/reference/player-item-effects-v5/original/character-effects/reference/original-functions.asm": "8cadb1170e677e4859078e3683a9126295e0d2b44bee0b8f15edef12a53ffb02",
+    "port/game-data/reference/player-item-effects-v5/original/effect-dispatch/original-functions.json": "64d556fdae4df50caeeb7f02979b5ff91f31eb56c5b799b9eb2c2e01a946b611",
+    "port/game-data/reference/player-item-effects-v5/original/effect-dispatch/reference/original-functions.asm": "3d82d9319fdd5177d5ed58c23d9bc29f1b012ca75a65596a543cfea8372e211f",
+    "port/game-data/reference/player-item-effects-v5/original/equipped-getter/original-functions.json": "843e592f496ef9402d00ff379fb15f99959346a24d75648dfc6224796e7b143a",
+    "port/game-data/reference/player-item-effects-v5/original/equipped-getter/reference/original-functions.asm": "32118762695887810afdd7ca986b4f4aed5ac81ecf6073c6af15c86808903c6e",
+    "port/game-data/reference/player-item-effects-v5/original/gear-producers/original-functions.json": "c3742e2af621faa292f423d427a93709fc994bbf38a873ff8358864b1f3bcfb1",
+    "port/game-data/reference/player-item-effects-v5/original/gear-producers/reference/original-functions.asm": "7d5fd5e9d22913a9327a97c77c87e967fb55b0b29763d3452951533014847b38",
+    "port/game-data/reference/player-item-effects-v5/original/power-prefix/original-functions.json": "e06bbaa029fed037824a820dc7e685c333352adefda7ef5a84dcbfedc3aadf9a",
+    "port/game-data/reference/player-item-effects-v5/original/power-prefix/reference/original-functions.asm": "fdddff193da242ef797057909e5d3ecd3b10070f64115093826aa70b76884eb3",
+    "port/game-data/reference/player-item-effects-v5/original/power-reader/original-functions.json": "00ea76be470e51dc875be377832c02e7651342c729a91f6f6826ba247761a8ca",
+    "port/game-data/reference/player-item-effects-v5/original/power-reader/reference/original-functions.asm": "04d054cc5bec315d5b950a174371045ebd45f78002821e8d4561f08fde686262",
+    "port/game-data/reference/player-item-effects-v5/original/power-swap/original-functions.json": "7ed56254d374a7c386e96c2c89ca6e3ed02271d44a042bc6ae9d4f006f423304",
+    "port/game-data/reference/player-item-effects-v5/original/power-swap/reference/original-functions.asm": "ac23a1429f88eb1addfe9111e27aff752cc4f4384ec38286c3c9962da00c0469",
+    "port/game-data/reference/player-item-effects-v5/original/power-value-reader/original-functions.json": "81202c28d632de31ba789e47004f05c626965a8c0b19577043392834bc5ff1e2",
+    "port/game-data/reference/player-item-effects-v5/original/power-value-reader/reference/original-functions.asm": "e3de2278e10fffadd970e43496fa17ea3a1e24cad1e66e2e380d47efe666327f",
+    "port/game-data/reference/player-item-effects-v5/original/property-add/original-functions.json": "d72b56630b2cbbdf7a148d18ea305cc529731211d72bbaaaf40aef57b1b46b8d",
+    "port/game-data/reference/player-item-effects-v5/original/property-add/reference/original-functions.asm": "00ba44671da1eb915d7a480fc546d5b22327f3738e762cefb6864a4a85292878",
+    "port/game-data/reference/player-item-effects-v5/original/v4-equipment-effects/original-functions.json": "bf4f27efe8bd589641e0c38eea90d840826728940b568dc8d81dbd3c15ee5df4",
+    "port/game-data/reference/player-item-effects-v5/original/v4-equipment-effects/reference/original-functions.asm": "005ab1c73fa7c3846e2f2aa331c0627f20125b03336e0e25f81987ed52da2a49",
+    "port/game-data/reference/player-item-effects-v5/original/v4-item-presentation/original-functions.json": "cf0f51188b353a8018359414297da8a516a40e457017594734bfc1cc32e9966e",
+    "port/game-data/reference/player-item-effects-v5/original/v4-item-presentation/reference/original-functions.asm": "e73cbc5b5046ec676bf41c12ccaa9f97f06216fe408392fa4326adc9601bda2b",
+    "port/game-data/reference/player-item-effects-v5/original/v4-ownership/original-functions.json": "9e4cb83260a269ad07523c1a9218e91c0aa0284807324b2cd77ee3285c564b99",
+    "port/game-data/reference/player-item-effects-v5/original/v4-ownership/reference/original-functions.asm": "8e1e1ac200ded477e0a7fd7f3e27ee1818fde4651e213b3f3126530853df8501"
+  },
+  "scope": "Captured source caller/backend evidence; executed proof boundaries and required external services are listed in NOTES.md."
+}

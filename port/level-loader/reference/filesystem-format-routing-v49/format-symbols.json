@@ -1,0 +1,595 @@
+{
+  "names": [
+    "00602d7c t _GLOBAL__I_.._source_glitch_video_CImageLoaderATC.cpp",
+    "0060344c t _GLOBAL__I_.._source_glitch_video_CImageLoaderBMP.cpp",
+    "00604310 t _GLOBAL__I_.._source_glitch_video_CImageLoaderDDS.cpp",
+    "00604ba0 t _GLOBAL__I_.._source_glitch_video_CImageLoaderJPG.cpp",
+    "00604fd8 t _GLOBAL__I_.._source_glitch_video_CImageLoaderPNG.cpp",
+    "006057a0 t _GLOBAL__I_.._source_glitch_video_CImageLoaderPVR.cpp",
+    "006062f8 t _GLOBAL__I_.._source_glitch_video_CImageLoaderTGA.cpp",
+    "006077a4 t _GLOBAL__I_.._source_glitch_video_IImageLoader.cpp",
+    "0069f768 T PVRTCDecompress(void const*, int, int, int, unsigned char*)",
+    "00416c14 T GameSWFUtils::SwfTextureLoader(char const*, int, int)",
+    "0056e064 T glitch::io::CFileSystem::getObfuscatedFileName(char const*)",
+    "005fe9bc t boost::disable_if<boost::is_integral<glitch::video::E_TEXTURE_CLAMP>, void>::type glitch::io::IAttributes::addEnum<glitch::video::E_TEXTURE_CLAMP>(char const*, glitch::video::E_TEXTURE_CLAMP, bool) (.clone.0)",
+    "005fed24 t boost::disable_if<boost::is_integral<glitch::video::E_TEXTURE_FILTER_TYPE>, void>::type glitch::io::IAttributes::addEnum<glitch::video::E_TEXTURE_FILTER_TYPE>(char const*, glitch::video::E_TEXTURE_FILTER_TYPE, bool) (.clone.7)",
+    "005fde6c W glitch::video::E_TEXTURE_CLAMP glitch::io::IAttributes::getEnum<glitch::video::E_TEXTURE_CLAMP>(char const*)",
+    "005fde3c W glitch::video::E_TEXTURE_FILTER_TYPE glitch::io::IAttributes::getEnum<glitch::video::E_TEXTURE_FILTER_TYPE>(char const*)",
+    "005b8de8 T glitch::video::CNullDriver::captureFramebufferImpl(boost::intrusive_ptr<glitch::video::ITexture> const&, glitch::core::position2d<int> const&, glitch::core::rect<int> const&, unsigned char, glitch::video::E_TEXTURE_CUBE_MAP_FACE, bool)",
+    "005b8dc0 T glitch::video::CNullDriver::CTexture::mapImpl(unsigned char, glitch::video::E_TEXTURE_CUBE_MAP_FACE, unsigned char)",
+    "00607a64 t glitch::video::IImageLoader::ITextureDataLoading::load(glitch::io::IReadFile*, glitch::video::IImageLoader::IDataInfo const&, glitch::video::STextureDesc const&, glitch::video::(anonymous namespace)::SLoadInfo&)",
+    "00607d1c T glitch::video::IImageLoader::ITextureDataLoading::read(void*, unsigned int)",
+    "006076a8 T glitch::video::IImageLoader::ITextureDataLoading::ITextureDataLoading()",
+    "00607654 T glitch::video::IImageLoader::ITextureDataLoading::ITextureDataLoading()",
+    "00607a2c T glitch::video::IImageLoader::ITextureDataLoading::~ITextureDataLoading()",
+    "00607700 T glitch::video::IImageLoader::ITextureDataLoading::~ITextureDataLoading()",
+    "006076fc T glitch::video::IImageLoader::ITextureDataLoading::~ITextureDataLoading()",
+    "00602c84 W glitch::video::IImageLoader::hasTextureLoadInterface()",
+    "006083d0 T glitch::video::IImageLoader::loadData(glitch::io::IReadFile*, glitch::video::IImageLoader::IDataInfo const&, glitch::video::STextureDesc const&, boost::intrusive_ptr<glitch::video::ITexture> const&)",
+    "00607a48 T glitch::video::IImageLoader::IDataInfo::~IDataInfo()",
+    "00607650 T glitch::video::IImageLoader::IDataInfo::~IDataInfo()",
+    "0060764c T glitch::video::IImageLoader::IDataInfo::~IDataInfo()",
+    "00602db0 W glitch::video::IImageLoader::~IImageLoader()",
+    "00602d74 W glitch::video::IImageLoader::~IImageLoader()",
+    "005a9638 T glitch::video::IVideoDriver::captureFramebuffer(boost::intrusive_ptr<glitch::video::ITexture> const&, glitch::core::position2d<int> const&, glitch::core::rect<int> const&, unsigned char, glitch::video::E_TEXTURE_CUBE_MAP_FACE, bool)",
+    "006058a4 t glitch::video::(anonymous namespace)::readPVRHeader(glitch::io::IReadFile*, glitch::video::(anonymous namespace)::SPVRHeader&, bool&)",
+    "0060791c t glitch::video::(anonymous namespace)::IMappedWholeLoading::process(glitch::video::E_TEXTURE_CUBE_MAP_FACE, unsigned char)",
+    "00607de0 t glitch::video::(anonymous namespace)::CPerLevelRemapLoading::process(glitch::video::E_TEXTURE_CUBE_MAP_FACE, unsigned char)",
+    "005b26f0 W glitch::video::CCommonGLDriver<glitch::video::CProgrammableGLDriver<glitch::video::CGLSLShaderHandler>, glitch::video::detail::CProgrammableGLFunctionPointerSet>::setTexture(unsigned int, glitch::video::ITexture*, glitch::video::E_TEXTURE_TYPE)",
+    "005af204 W glitch::video::CCommonGLDriver<glitch::video::CProgrammableGLDriver<glitch::video::CGLSLShaderHandler>, glitch::video::detail::CProgrammableGLFunctionPointerSet>::captureFramebufferImpl(boost::intrusive_ptr<glitch::video::ITexture> const&, glitch::core::position2d<int> const&, glitch::core::rect<int> const&, unsigned char, glitch::video::E_TEXTURE_CUBE_MAP_FACE, bool)",
+    "00602c9c W glitch::video::CImageLoaderATC::hasTextureLoadInterface()",
+    "006032a0 W glitch::video::CImageLoaderATC::CDataInfo::~CDataInfo()",
+    "00602e00 W glitch::video::CImageLoaderATC::CDataInfo::~CDataInfo()",
+    "00602d9c W glitch::video::CImageLoaderATC::~CImageLoaderATC()",
+    "00602d78 W glitch::video::CImageLoaderATC::~CImageLoaderATC()",
+    "006033ac T glitch::video::CImageLoaderBMP::CImageLoaderBMP()",
+    "00603380 T glitch::video::CImageLoaderBMP::CImageLoaderBMP()",
+    "0060346c W glitch::video::CImageLoaderBMP::~CImageLoaderBMP()",
+    "00603448 W glitch::video::CImageLoaderBMP::~CImageLoaderBMP()",
+    "006041c4 W glitch::video::CImageLoaderDDS::hasTextureLoadInterface()",
+    "00604930 W glitch::video::CImageLoaderDDS::CDataInfo::~CDataInfo()",
+    "00604364 W glitch::video::CImageLoaderDDS::CDataInfo::~CDataInfo()",
+    "00604294 T glitch::video::CImageLoaderDDS::CImageLoaderDDS()",
+    "00604268 T glitch::video::CImageLoaderDDS::CImageLoaderDDS()",
+    "00604330 W glitch::video::CImageLoaderDDS::~CImageLoaderDDS()",
+    "0060430c W glitch::video::CImageLoaderDDS::~CImageLoaderDDS()",
+    "00604f48 T glitch::video::CImageLoaderJPG::error_exit(jpeg_common_struct*)",
+    "00604adc T glitch::video::CImageLoaderJPG::init_source(jpeg_decompress_struct*)",
+    "00604b08 T glitch::video::CImageLoaderJPG::term_source(jpeg_decompress_struct*)",
+    "00604ed8 T glitch::video::CImageLoaderJPG::output_message(jpeg_common_struct*)",
+    "00604ae8 T glitch::video::CImageLoaderJPG::skip_input_data(jpeg_decompress_struct*, long)",
+    "00604ae0 T glitch::video::CImageLoaderJPG::fill_input_buffer(jpeg_decompress_struct*)",
+    "00604aa8 T glitch::video::CImageLoaderJPG::CImageLoaderJPG()",
+    "00604a7c T glitch::video::CImageLoaderJPG::CImageLoaderJPG()",
+    "00604fb8 T glitch::video::CImageLoaderJPG::~CImageLoaderJPG()",
+    "00604ad8 T glitch::video::CImageLoaderJPG::~CImageLoaderJPG()",
+    "00604ad4 T glitch::video::CImageLoaderJPG::~CImageLoaderJPG()",
+    "00605718 W glitch::video::CImageLoaderPVR::hasTextureLoadInterface()",
+    "00606200 W glitch::video::CImageLoaderPVR::CDataInfo::~CDataInfo()",
+    "00605f4c W glitch::video::CImageLoaderPVR::CDataInfo::~CDataInfo()",
+    "0060576c T glitch::video::CImageLoaderPVR::CImageLoaderPVR()",
+    "00605740 T glitch::video::CImageLoaderPVR::CImageLoaderPVR()",
+    "00605f30 T glitch::video::CImageLoaderPVR::~CImageLoaderPVR()",
+    "0060579c T glitch::video::CImageLoaderPVR::~CImageLoaderPVR()",
+    "00605798 T glitch::video::CImageLoaderPVR::~CImageLoaderPVR()",
+    "00604ff8 W glitch::video::CImageLoaderPng::~CImageLoaderPng()",
+    "00604fd4 W glitch::video::CImageLoaderPng::~CImageLoaderPng()",
+    "00606318 W glitch::video::CImageLoaderTGA::~CImageLoaderTGA()",
+    "006062f4 W glitch::video::CImageLoaderTGA::~CImageLoaderTGA()",
+    "005ecaa4 T glitch::video::CTextureManager::addTexture(char const*, boost::intrusive_ptr<glitch::video::CImage> const&, bool, glitch::video::E_TEXTURE_LAYOUT)",
+    "005ec1b8 T glitch::video::CTextureManager::getPlaceHolder(glitch::video::CTextureManager::E_PLACE_HOLDER, glitch::video::E_TEXTURE_TYPE)",
+    "005ea228 T glitch::video::CTextureManager::setPlaceHolder(glitch::video::CTextureManager::E_PLACE_HOLDER, boost::intrusive_ptr<glitch::video::ITexture> const&, glitch::video::E_TEXTURE_TYPE)",
+    "005e8260 T glitch::video::CTextureManager::clearPlaceHolder(glitch::video::E_TEXTURE_TYPE, glitch::video::ITexture*)",
+    "005e90e0 T glitch::video::CTextureManager::addExternalImageLoader(boost::intrusive_ptr<glitch::video::IImageLoader> const&)",
+    "005ec460 T glitch::video::CTextureManager::createTextureFromImage(char const*, boost::intrusive_ptr<glitch::video::CImage> const&, glitch::video::E_TEXTURE_LAYOUT)",
+    "00607824 W glitch::video::SMapTextureWrite::reset(boost::intrusive_ptr<glitch::video::ITexture> const&, unsigned char, glitch::video::E_TEXTURE_CUBE_MAP_FACE, glitch::video::E_BUFFER_MAP_ACCESS)",
+    "005fda68 T glitch::video::getStringsInternal(glitch::video::E_TEXTURE_TYPE*)",
+    "005fdab4 T glitch::video::getStringsInternal(glitch::video::E_TEXTURE_CLAMP*)",
+    "005fda78 T glitch::video::getStringsInternal(glitch::video::E_TEXTURE_LAYOUT*)",
+    "005fdaa0 T glitch::video::getStringsInternal(glitch::video::E_TEXTURE_FILTER_TYPE*)",
+    "005fda8c T glitch::video::getStringsInternal(glitch::video::E_TEXTURE_CUBE_MAP_FACE*)",
+    "006ddd44 T glitch::video::CCommonGLDriverBase::CTextureBase::mapImpl(unsigned char, glitch::video::E_TEXTURE_CUBE_MAP_FACE, unsigned char)",
+    "006dd534 W glitch::video::CCommonGLDriverBase::CRenderTargetBase::setTargetInternal(glitch::video::IRenderTarget::E_ATTACHMENT_TYPE, boost::intrusive_ptr<glitch::video::ITexture> const&, glitch::video::E_TEXTURE_CUBE_MAP_FACE, unsigned int, unsigned int)",
+    "006dd604 T glitch::video::CCommonGLDriverBase::CRenderTargetBase::addTarget(glitch::video::IRenderTarget::E_ATTACHMENT_TYPE, boost::intrusive_ptr<glitch::video::ITexture> const&, glitch::video::E_TEXTURE_CUBE_MAP_FACE, unsigned int)",
+    "006dd600 T glitch::video::CCommonGLDriverBase::CRenderTargetBase::setTarget(glitch::video::IRenderTarget::E_ATTACHMENT_TYPE, boost::intrusive_ptr<glitch::video::ITexture> const&, glitch::video::E_TEXTURE_CUBE_MAP_FACE, unsigned int, unsigned int)",
+    "00602dc4 T glitch::video::createImageLoaderATC()",
+    "00603480 T glitch::video::createImageLoaderBMP()",
+    "00604344 T glitch::video::createImageLoaderDDS()",
+    "00604bc0 T glitch::video::createImageLoaderJPG()",
+    "0060500c T glitch::video::createImageLoaderPNG()",
+    "006057c0 T glitch::video::createImageLoaderPVR()",
+    "0060632c T glitch::video::createImageLoaderTGA()",
+    "005fe0d4 T glitch::video::ITexture::map(glitch::video::E_BUFFER_MAP_ACCESS, glitch::video::E_TEXTURE_CUBE_MAP_FACE, unsigned char)",
+    "007d3bb4 W glitch::video::ITexture::setWrap(glitch::video::E_TEXTURE_CLAMP)",
+    "006ce46c t glitch::video::ITexture::setWrap(glitch::video::E_TEXTURE_CLAMP) (.clone.1)",
+    "007935ec T gameswf::texture_cache::unlock_all(gameswf::player_context*)",
+    "00794488 T gameswf::texture_cache::find_used_region(int, int)",
+    "00794350 T gameswf::texture_cache::subdivide_region(gameswf::texture_cache::region*, int, int)",
+    "0079352c T gameswf::texture_cache::verify_integrity(gameswf::texture_cache::region*)",
+    "00793d78 T gameswf::texture_cache::verify_integrity()",
+    "00756c30 W gameswf::texture_cache::get_region_bounds(gameswf::texture_cache::region const*, gameswf::rect&)",
+    "00794668 T gameswf::texture_cache::find_available_region(int, int)",
+    "00793560 T gameswf::texture_cache::get_region_size_requirement(int&, int&)",
+    "007c44d8 W gameswf::texture_cache::lock()",
+    "00793ed8 T gameswf::texture_cache::reset()",
+    "00794030 T gameswf::texture_cache::texture_cache(int, int, int, bool)",
+    "007941c0 T gameswf::texture_cache::texture_cache(int, int, int, bool)",
+    "00758b8c W gameswf::texture_cache::~texture_cache()",
+    "007d1da4 T gameswf::glyph_texture_cache::add_glyph_region(unsigned short, void*, int, gameswf::glyph_texture_cache::filter_info&, bool)",
+    "007d266c T gameswf::glyph_texture_cache::get_glyph_region(unsigned short, void*, int, gameswf::glyph_texture_cache::filter_info&, gameswf::rect&)",
+    "007d1a28 W gameswf::glyph_texture_cache::~glyph_texture_cache()",
+    "00758a80 W gameswf::filter_texture_cache::get_character_region(gameswf::character*, int, int)",
+    "00756cdc W gameswf::filter_texture_cache::get_region_size_requirement_cellsize(int&, int&)",
+    "009fc584 B gameswf::s_texture_loader_callback",
+    "007c53c4 T gameswf::bitmap_glyph_texture_cache::add_glyph_region(unsigned short, void*, int)",
+    "007c55d8 T gameswf::bitmap_glyph_texture_cache::get_glyph_region(unsigned short, void*, int, gameswf::rect&)",
+    "007c4648 T gameswf::bitmap_glyph_texture_cache::bitmap_glyph_texture_cache(int, int)",
+    "007c4670 T gameswf::bitmap_glyph_texture_cache::bitmap_glyph_texture_cache(int, int)",
+    "00759cdc T gameswf::register_texture_loader_callback(glitch::video::ITexture* (*)(char const*, int, int))",
+    "007c5178 W gameswf::hash<gameswf::texture_cache::key, gameswf::texture_cache::region*, gameswf::fixed_size_hash<gameswf::texture_cache::key>>::check_expand()",
+    "007c5020 W gameswf::hash<gameswf::texture_cache::key, gameswf::texture_cache::region*, gameswf::fixed_size_hash<gameswf::texture_cache::key>>::set_raw_capacity(int)",
+    "007c51ac W gameswf::hash<gameswf::texture_cache::key, gameswf::texture_cache::region*, gameswf::fixed_size_hash<gameswf::texture_cache::key>>::add(gameswf::texture_cache::key const&, gameswf::texture_cache::region* const&)",
+    "007571ac W gameswf::hash<gameswf::texture_cache::key, gameswf::texture_cache::region*, gameswf::fixed_size_hash<gameswf::texture_cache::key>>::clear()",
+    "00793668 W gameswf::hash<gameswf::texture_cache::key, gameswf::texture_cache::region*, gameswf::fixed_size_hash<gameswf::texture_cache::key>>::erase(gameswf::hash<gameswf::texture_cache::key, gameswf::texture_cache::region*, gameswf::fixed_size_hash<gameswf::texture_cache::key>>::iterator const&)",
+    "00793814 W gameswf::hash<gameswf::texture_cache::key, gameswf::texture_cache::region*, gameswf::fixed_size_hash<gameswf::texture_cache::key>>::erase(gameswf::texture_cache::key const&)",
+    "007c536c W gameswf::hash<gameswf::texture_cache::key, gameswf::texture_cache::region*, gameswf::fixed_size_hash<gameswf::texture_cache::key>>::operator[](gameswf::texture_cache::key const&)",
+    "00793b34 W gameswf::hash<gameswf::texture_cache::region*, gameswf::texture_cache::region*, gameswf::fixed_size_hash<gameswf::texture_cache::region*>>::check_expand()",
+    "007939dc W gameswf::hash<gameswf::texture_cache::region*, gameswf::texture_cache::region*, gameswf::fixed_size_hash<gameswf::texture_cache::region*>>::set_raw_capacity(int)",
+    "00793b68 W gameswf::hash<gameswf::texture_cache::region*, gameswf::texture_cache::region*, gameswf::fixed_size_hash<gameswf::texture_cache::region*>>::add(gameswf::texture_cache::region* const&, gameswf::texture_cache::region* const&)",
+    "0079386c W gameswf::hash<gameswf::texture_cache::region*, gameswf::texture_cache::region*, gameswf::fixed_size_hash<gameswf::texture_cache::region*>>::clear()",
+    "00793ccc W gameswf::hash<gameswf::texture_cache::region*, gameswf::texture_cache::region*, gameswf::fixed_size_hash<gameswf::texture_cache::region*>>::operator[](gameswf::texture_cache::region* const&)",
+    "00793968 W gameswf::array<gameswf::texture_cache::region>::resize(int)",
+    "00757484 W gameswf::array<gameswf::texture_cache::region>::reserve(int)",
+    "00793d24 W gameswf::array<gameswf::texture_cache::region*>::remove(int)",
+    "007938ec W gameswf::array<gameswf::texture_cache::region*>::reserve(int)",
+    "00602c94 W glitch::video::IImageLoader::loadTextureData(glitch::io::IReadFile*, boost::intrusive_ptr<glitch::video::ITexture> const&, glitch::video::STextureDesc const&) const",
+    "00602c8c W glitch::video::IImageLoader::loadTextureHeader(glitch::io::IReadFile*, glitch::video::STextureDesc&) const",
+    "006077c4 W glitch::video::IImageLoader::ITextureDataLoading::getFilePitch(unsigned char) const",
+    "00607898 W glitch::video::IImageLoader::ITextureDataLoading::getSourceStep(unsigned char) const",
+    "006032dc T glitch::video::CImageLoaderATC::loadTextureData(glitch::io::IReadFile*, boost::intrusive_ptr<glitch::video::ITexture> const&, glitch::video::STextureDesc const&) const",
+    "00602e34 T glitch::video::CImageLoaderATC::loadTextureHeader(glitch::io::IReadFile*, glitch::video::STextureDesc&) const",
+    "00602cc4 T glitch::video::CImageLoaderATC::isALoadableFileFormat(glitch::io::IReadFile*) const",
+    "00603254 T glitch::video::CImageLoaderATC::isALoadableFileExtension(char const*) const",
+    "00602cac W glitch::video::CImageLoaderATC::CDataInfo::getFilePitch(unsigned char) const",
+    "00602cb4 W glitch::video::CImageLoaderATC::CDataInfo::isLittleEndian() const",
+    "00602ca4 W glitch::video::CImageLoaderATC::CDataInfo::getFileDataSize() const",
+    "00602cbc W glitch::video::CImageLoaderATC::CDataInfo::needsFlip() const",
+    "00602fe4 T glitch::video::CImageLoaderATC::loadImage(glitch::io::IReadFile*) const",
+    "006033d8 T glitch::video::CImageLoaderBMP::isALoadableFileFormat(glitch::io::IReadFile*) const",
+    "006034a0 T glitch::video::CImageLoaderBMP::isALoadableFileExtension(char const*) const",
+    "006034ec T glitch::video::CImageLoaderBMP::loadImage(glitch::io::IReadFile*) const",
+    "0060496c T glitch::video::CImageLoaderDDS::loadTextureData(glitch::io::IReadFile*, boost::intrusive_ptr<glitch::video::ITexture> const&, glitch::video::STextureDesc const&) const",
+    "00604398 T glitch::video::CImageLoaderDDS::loadTextureHeader(glitch::io::IReadFile*, glitch::video::STextureDesc&) const",
+    "006042c0 T glitch::video::CImageLoaderDDS::isALoadableFileFormat(glitch::io::IReadFile*) const",
+    "0060490c T glitch::video::CImageLoaderDDS::isALoadableFileExtension(char const*) const",
+    "00604234 W glitch::video::CImageLoaderDDS::CDataInfo::getFilePitch(unsigned char) const",
+    "00604258 W glitch::video::CImageLoaderDDS::CDataInfo::isLittleEndian() const",
+    "0060422c W glitch::video::CImageLoaderDDS::CDataInfo::getFileDataSize() const",
+    "00604260 W glitch::video::CImageLoaderDDS::CDataInfo::needsFlip() const",
+    "006046f4 T glitch::video::CImageLoaderDDS::loadImage(glitch::io::IReadFile*) const",
+    "00604b0c T glitch::video::CImageLoaderJPG::isALoadableFileFormat(glitch::io::IReadFile*) const",
+    "00604f6c T glitch::video::CImageLoaderJPG::isALoadableFileExtension(char const*) const",
+    "00604be0 T glitch::video::CImageLoaderJPG::loadImage(glitch::io::IReadFile*) const",
+    "0060623c T glitch::video::CImageLoaderPVR::loadTextureData(glitch::io::IReadFile*, boost::intrusive_ptr<glitch::video::ITexture> const&, glitch::video::STextureDesc const&) const",
+    "00605b10 T glitch::video::CImageLoaderPVR::loadTextureHeader(glitch::io::IReadFile*, glitch::video::STextureDesc&) const",
+    "006057e0 T glitch::video::CImageLoaderPVR::isALoadableFileFormat(glitch::io::IReadFile*) const",
+    "006061b4 T glitch::video::CImageLoaderPVR::isALoadableFileExtension(char const*) const",
+    "00605728 W glitch::video::CImageLoaderPVR::CDataInfo::getFilePitch(unsigned char) const",
+    "00605730 W glitch::video::CImageLoaderPVR::CDataInfo::isLittleEndian() const",
+    "00605720 W glitch::video::CImageLoaderPVR::CDataInfo::getFileDataSize() const",
+    "00605738 W glitch::video::CImageLoaderPVR::CDataInfo::needsFlip() const",
+    "00605f80 T glitch::video::CImageLoaderPVR::loadImage(glitch::io::IReadFile*) const",
+    "00605048 T glitch::video::CImageLoaderPng::isALoadableFileFormat(glitch::io::IReadFile*) const",
+    "00605674 T glitch::video::CImageLoaderPng::isALoadableFileExtension(char const*) const",
+    "006050dc T glitch::video::CImageLoaderPng::loadImage(glitch::io::IReadFile*) const",
+    "00606778 T glitch::video::CImageLoaderTGA::isALoadableFileFormat(glitch::io::IReadFile*) const",
+    "0060686c T glitch::video::CImageLoaderTGA::isALoadableFileExtension(char const*) const",
+    "00606368 T glitch::video::CImageLoaderTGA::loadImage(glitch::io::IReadFile*) const",
+    "005e8144 T glitch::video::CTextureManager::getImageLoader(glitch::io::IReadFile*) const",
+    "00756f1c W gameswf::hash<gameswf::texture_cache::key, gameswf::texture_cache::region*, gameswf::fixed_size_hash<gameswf::texture_cache::key>>::find_index(gameswf::texture_cache::key const&) const",
+    "00793754 W gameswf::hash<gameswf::texture_cache::region*, gameswf::texture_cache::region*, gameswf::fixed_size_hash<gameswf::texture_cache::region*>>::find_index(gameswf::texture_cache::region* const&) const",
+    "005e8fdc t std::vector<boost::intrusive_ptr<glitch::video::IImageLoader>, glitch::core::SAllocator<boost::intrusive_ptr<glitch::video::IImageLoader>, (glitch::memory::E_MEMORY_HINT)0>>::_M_insert_overflow_aux(boost::intrusive_ptr<glitch::video::IImageLoader>*, boost::intrusive_ptr<glitch::video::IImageLoader> const&, std::__false_type const&, unsigned int, bool) (.clone.5)",
+    "005e8f90 W std::vector<boost::intrusive_ptr<glitch::video::IImageLoader>, glitch::core::SAllocator<boost::intrusive_ptr<glitch::video::IImageLoader>, (glitch::memory::E_MEMORY_HINT)0>>::~vector()",
+    "009784b8 D vtable for glitch::video::IImageLoader::ITextureDataLoading",
+    "009784d0 D vtable for glitch::video::IImageLoader::IDataInfo",
+    "00978258 V vtable for glitch::video::IImageLoader",
+    "00978288 V vtable for glitch::video::CImageLoaderATC::CDataInfo",
+    "009782a8 D vtable for glitch::video::CImageLoaderATC",
+    "009782d8 D vtable for glitch::video::CImageLoaderBMP",
+    "00978308 V vtable for glitch::video::CImageLoaderDDS::CDataInfo",
+    "00978328 D vtable for glitch::video::CImageLoaderDDS",
+    "00978358 D vtable for glitch::video::CImageLoaderJPG",
+    "009783b8 V vtable for glitch::video::CImageLoaderPVR::CDataInfo",
+    "009783d8 D vtable for glitch::video::CImageLoaderPVR",
+    "00978388 D vtable for glitch::video::CImageLoaderPng",
+    "00978408 D vtable for glitch::video::CImageLoaderTGA",
+    "0099b788 d glitch::video::getStringsInternal(glitch::video::E_TEXTURE_TYPE*)::strings",
+    "0099b7e8 d glitch::video::getStringsInternal(glitch::video::E_TEXTURE_CLAMP*)::strings",
+    "0099b79c d glitch::video::getStringsInternal(glitch::video::E_TEXTURE_LAYOUT*)::strings",
+    "0099b7cc d glitch::video::getStringsInternal(glitch::video::E_TEXTURE_FILTER_TYPE*)::strings",
+    "0099b7b0 d glitch::video::getStringsInternal(glitch::video::E_TEXTURE_CUBE_MAP_FACE*)::strings",
+    "009582ec d configuration_table",
+    "00685a64 T png_get_compression_buffer_size",
+    "00685130 T png_get_compression_type",
+    "0069205c T png_set_compression_buffer_size",
+    "006943ec T png_set_compression_level",
+    "00694404 T png_set_compression_mem_level",
+    "00694458 T png_set_compression_method",
+    "0069441c T png_set_compression_strategy",
+    "00694494 T png_set_compression_window_bits"
+  ],
+  "strings": [
+    {
+      "offset": 1039116,
+      "text": "_ZN5batch17BatchNodeCompiler25SGameObjectLinkedCallbackclEPN6glitch5scene10CBatchMeshEPvRKNS3_12SCompileInfoE"
+    },
+    {
+      "offset": 1519798,
+      "text": "_ZN6glitch5scene30SDefaultSegmentCompileCallbackclEPNS0_10CBatchMeshEPvRKNS0_12SCompileInfoE"
+    },
+    {
+      "offset": 1751668,
+      "text": "_ZN6glitch5video20createImageLoaderPVREv"
+    },
+    {
+      "offset": 1753559,
+      "text": "_Z15PVRTCDecompressPKviiiPh"
+    },
+    {
+      "offset": 1761251,
+      "text": "_ZN6glitch5video15CImageLoaderPVR23hasTextureLoadInterfaceEv"
+    },
+    {
+      "offset": 1761312,
+      "text": "_ZNK6glitch5video15CImageLoaderPVR9CDataInfo15getFileDataSizeEv"
+    },
+    {
+      "offset": 1761376,
+      "text": "_ZNK6glitch5video15CImageLoaderPVR9CDataInfo12getFilePitchEh"
+    },
+    {
+      "offset": 1761437,
+      "text": "_ZNK6glitch5video15CImageLoaderPVR9CDataInfo14isLittleEndianEv"
+    },
+    {
+      "offset": 1761500,
+      "text": "_ZNK6glitch5video15CImageLoaderPVR9CDataInfo9needsFlipEv"
+    },
+    {
+      "offset": 1761557,
+      "text": "_ZN6glitch5video15CImageLoaderPVRC2Ev"
+    },
+    {
+      "offset": 1761595,
+      "text": "_ZTVN6glitch5video15CImageLoaderPVRE"
+    },
+    {
+      "offset": 1761632,
+      "text": "_ZN6glitch5video15CImageLoaderPVRC1Ev"
+    },
+    {
+      "offset": 1761670,
+      "text": "_ZN6glitch5video15CImageLoaderPVRD2Ev"
+    },
+    {
+      "offset": 1761708,
+      "text": "_ZN6glitch5video15CImageLoaderPVRD1Ev"
+    },
+    {
+      "offset": 1761746,
+      "text": "_ZNK6glitch5video15CImageLoaderPVR21isALoadableFileFormatEPNS_2io9IReadFileE"
+    },
+    {
+      "offset": 1761823,
+      "text": "_ZNK6glitch5video15CImageLoaderPVR17loadTextureHeaderEPNS_2io9IReadFileERNS0_12STextureDescE"
+    },
+    {
+      "offset": 1761916,
+      "text": "_ZN6glitch5video15CImageLoaderPVRD0Ev"
+    },
+    {
+      "offset": 1761954,
+      "text": "_ZN6glitch5video15CImageLoaderPVR9CDataInfoD1Ev"
+    },
+    {
+      "offset": 1762002,
+      "text": "_ZTVN6glitch5video15CImageLoaderPVR9CDataInfoE"
+    },
+    {
+      "offset": 1762049,
+      "text": "_ZNK6glitch5video15CImageLoaderPVR9loadImageEPNS_2io9IReadFileE"
+    },
+    {
+      "offset": 1762113,
+      "text": "_ZNK6glitch5video15CImageLoaderPVR24isALoadableFileExtensionEPKc"
+    },
+    {
+      "offset": 1762178,
+      "text": "_ZN6glitch5video15CImageLoaderPVR9CDataInfoD0Ev"
+    },
+    {
+      "offset": 1762226,
+      "text": "_ZNK6glitch5video15CImageLoaderPVR15loadTextureDataEPNS_2io9IReadFileERKN5boost13intrusive_ptrINS0_8ITextureEEERKNS0_12STextureDescE"
+    },
+    {
+      "offset": 2033817,
+      "text": "_ZNK6glitch7collada17CAnimationTrackEx8getValueERKNS0_18SAnimationAccessorEiPvRib"
+    },
+    {
+      "offset": 2034024,
+      "text": "_ZNK6glitch7collada17CAnimationTrackEx8getValueERKNS0_18SAnimationAccessorEiiPvRib"
+    },
+    {
+      "offset": 2034188,
+      "text": "_ZNK6glitch7collada17CAnimationTrackEx8getValueERKNS0_18SAnimationAccessorEiPvRifb"
+    },
+    {
+      "offset": 2064678,
+      "text": "_ZNK6glitch7collada18SAnimationAccessor8getValueEiPvRib"
+    },
+    {
+      "offset": 2223907,
+      "text": "_ZNK6glitch7collada18SAnimationAccessor10applyValueEiiPvRib"
+    },
+    {
+      "offset": 2223967,
+      "text": "_ZNK6glitch7collada18SAnimationAccessor10applyValueEiPvRib"
+    },
+    {
+      "offset": 2224026,
+      "text": "_ZNK6glitch7collada18SAnimationAccessor8getValueEiiPvRib"
+    },
+    {
+      "offset": 2248773,
+      "text": "_ZN6glitch16CAndroidOSDevice12postKeyEventEPvRNS_6SEventEb"
+    },
+    {
+      "offset": 2248832,
+      "text": "_ZN6glitch16CAndroidOSDevice14postMouseEventEPvRNS_6SEventE"
+    },
+    {
+      "offset": 2341699,
+      "text": "_ZN6glitch7collada15animation_track19CTextureTransformEx12applyValueExEPvRNS2_5SDataEPNS1_15CApplicatorInfoE"
+    },
+    {
+      "offset": 2342386,
+      "text": "_ZN6glitch7collada15animation_track19CTextureTransformEx10getValueExERKNS0_18SAnimationAccessorEiiPvRib"
+    },
+    {
+      "offset": 2342490,
+      "text": "_ZNK6glitch7collada15animation_track19CTextureTransformEx8getValueERKNS0_18SAnimationAccessorEiiPvRib"
+    },
+    {
+      "offset": 2342703,
+      "text": "_ZN6glitch7collada15animation_track19CTextureTransformEx10getValueExERKNS0_18SAnimationAccessorEiPvRib"
+    },
+    {
+      "offset": 2343061,
+      "text": "_ZNK6glitch7collada15animation_track19CTextureTransformEx8getValueERKNS0_18SAnimationAccessorEiPvRib"
+    },
+    {
+      "offset": 9322336,
+      "text": "decompressing PVRTC formats with non \"natural\" pitch size not supported"
+    },
+    {
+      "offset": 9322888,
+      "text": "COMPRESSED_ATC_RGB"
+    },
+    {
+      "offset": 9322912,
+      "text": "COMPRESSED_ATC_RGBA"
+    },
+    {
+      "offset": 9322936,
+      "text": "COMPRESSED_ATC_ALPHA_INTERP"
+    },
+    {
+      "offset": 9322968,
+      "text": "COMPRESSED_RGB_PVRTC_2BPP"
+    },
+    {
+      "offset": 9323000,
+      "text": "COMPRESSED_RGBA_PVRTC_2BPP"
+    },
+    {
+      "offset": 9323032,
+      "text": "COMPRESSED_RGB_PVRTC_4BPP"
+    },
+    {
+      "offset": 9323064,
+      "text": "COMPRESSED_RGBA_PVRTC_4BPP"
+    },
+    {
+      "offset": 9324848,
+      "text": "BTEXpvr"
+    },
+    {
+      "offset": 9324864,
+      "text": "PVR!"
+    },
+    {
+      "offset": 9325072,
+      "text": "corrupt PVR file"
+    },
+    {
+      "offset": 9325096,
+      "text": "PVR loader"
+    },
+    {
+      "offset": 9325136,
+      "text": ".pvr"
+    },
+    {
+      "offset": 9365912,
+      "text": "GL_AMD_compressed_ATC_texture"
+    },
+    {
+      "offset": 9366224,
+      "text": "GL_IMG_texture_compression_pvrtc"
+    },
+    {
+      "offset": 13810864,
+      "text": "CImageLoaderPVR.cpp"
+    },
+    {
+      "offset": 13810884,
+      "text": "_GLOBAL__I_.._source_glitch_video_CImageLoaderPVR.cpp"
+    },
+    {
+      "offset": 13810938,
+      "text": "_ZN6glitch5video12_GLOBAL__N_113readPVRHeaderEPNS_2io9IReadFileERNS1_10SPVRHeaderERb"
+    },
+    {
+      "offset": 13825672,
+      "text": "PVRTDecompress.cpp"
+    },
+    {
+      "offset": 13918750,
+      "text": "_ZN6glitch5video15CImageLoaderPVR9CDataInfoD1Ev"
+    },
+    {
+      "offset": 13980877,
+      "text": "_ZN6glitch5video15CImageLoaderPVRC2Ev"
+    },
+    {
+      "offset": 14123448,
+      "text": "_ZN6glitch7collada15animation_track19CTextureTransformEx10getValueExERKNS0_18SAnimationAccessorEiiPvRib"
+    },
+    {
+      "offset": 14161011,
+      "text": "_ZN6glitch5video15CImageLoaderPVR9CDataInfoD0Ev"
+    },
+    {
+      "offset": 14207795,
+      "text": "_ZNK6glitch7collada18SAnimationAccessor8getValueEiPvRib"
+    },
+    {
+      "offset": 14222765,
+      "text": "_ZNK6glitch5video15CImageLoaderPVR9CDataInfo15getFileDataSizeEv"
+    },
+    {
+      "offset": 14261322,
+      "text": "_ZN6glitch16CAndroidOSDevice14postMouseEventEPvRNS_6SEventE"
+    },
+    {
+      "offset": 14275890,
+      "text": "_ZN5batch17BatchNodeCompiler25SGameObjectLinkedCallbackclEPN6glitch5scene10CBatchMeshEPvRKNS3_12SCompileInfoE"
+    },
+    {
+      "offset": 14277429,
+      "text": "_Z15PVRTCDecompressPKviiiPh"
+    },
+    {
+      "offset": 14325807,
+      "text": "_ZN6glitch5video15CImageLoaderPVRD0Ev"
+    },
+    {
+      "offset": 14445944,
+      "text": "_ZNK6glitch5video15CImageLoaderPVR9CDataInfo14isLittleEndianEv"
+    },
+    {
+      "offset": 14504068,
+      "text": "_ZN6glitch5video15CImageLoaderPVR23hasTextureLoadInterfaceEv"
+    },
+    {
+      "offset": 14529510,
+      "text": "_ZN6glitch7collada15animation_track19CTextureTransformEx12applyValueExEPvRNS2_5SDataEPNS1_15CApplicatorInfoE"
+    },
+    {
+      "offset": 14628847,
+      "text": "_ZNK6glitch5video15CImageLoaderPVR9CDataInfo9needsFlipEv"
+    },
+    {
+      "offset": 14882641,
+      "text": "_ZNK6glitch7collada15animation_track19CTextureTransformEx8getValueERKNS0_18SAnimationAccessorEiPvRib"
+    },
+    {
+      "offset": 14918067,
+      "text": "_ZNK6glitch7collada18SAnimationAccessor8getValueEiiPvRib"
+    },
+    {
+      "offset": 14929249,
+      "text": "_ZN6glitch5scene30SDefaultSegmentCompileCallbackclEPNS0_10CBatchMeshEPvRKNS0_12SCompileInfoE"
+    },
+    {
+      "offset": 14977543,
+      "text": "_ZN6glitch7collada15animation_track19CTextureTransformEx10getValueExERKNS0_18SAnimationAccessorEiPvRib"
+    },
+    {
+      "offset": 14980190,
+      "text": "_ZNK6glitch5video15CImageLoaderPVR24isALoadableFileExtensionEPKc"
+    },
+    {
+      "offset": 14982627,
+      "text": "_ZTVN6glitch5video15CImageLoaderPVRE"
+    },
+    {
+      "offset": 14984529,
+      "text": "_ZNK6glitch5video15CImageLoaderPVR9CDataInfo12getFilePitchEh"
+    },
+    {
+      "offset": 14994076,
+      "text": "_ZTVN6glitch5video15CImageLoaderPVR9CDataInfoE"
+    },
+    {
+      "offset": 15014316,
+      "text": "_ZNK6glitch5video15CImageLoaderPVR21isALoadableFileFormatEPNS_2io9IReadFileE"
+    },
+    {
+      "offset": 15024000,
+      "text": "_ZNK6glitch7collada17CAnimationTrackEx8getValueERKNS0_18SAnimationAccessorEiPvRifb"
+    },
+    {
+      "offset": 15066522,
+      "text": "_ZNK6glitch7collada18SAnimationAccessor10applyValueEiPvRib"
+    },
+    {
+      "offset": 15149007,
+      "text": "_ZNK6glitch5video15CImageLoaderPVR17loadTextureHeaderEPNS_2io9IReadFileERNS0_12STextureDescE"
+    },
+    {
+      "offset": 15303140,
+      "text": "_ZN6glitch5video15CImageLoaderPVRD2Ev"
+    },
+    {
+      "offset": 15312624,
+      "text": "_ZNK6glitch7collada17CAnimationTrackEx8getValueERKNS0_18SAnimationAccessorEiiPvRib"
+    },
+    {
+      "offset": 15320318,
+      "text": "_ZNK6glitch7collada15animation_track19CTextureTransformEx8getValueERKNS0_18SAnimationAccessorEiiPvRib"
+    },
+    {
+      "offset": 15350436,
+      "text": "_ZN6glitch5video15CImageLoaderPVRD1Ev"
+    },
+    {
+      "offset": 15419183,
+      "text": "_ZNK6glitch7collada17CAnimationTrackEx8getValueERKNS0_18SAnimationAccessorEiPvRib"
+    },
+    {
+      "offset": 15464680,
+      "text": "_ZNK6glitch7collada18SAnimationAccessor10applyValueEiiPvRib"
+    },
+    {
+      "offset": 15627832,
+      "text": "_ZNK6glitch5video15CImageLoaderPVR15loadTextureDataEPNS_2io9IReadFileERKN5boost13intrusive_ptrINS0_8ITextureEEERKNS0_12STextureDescE"
+    },
+    {
+      "offset": 15691520,
+      "text": "_ZN6glitch5video15CImageLoaderPVRC1Ev"
+    },
+    {
+      "offset": 15803515,
+      "text": "_ZN6glitch16CAndroidOSDevice12postKeyEventEPvRNS_6SEventEb"
+    },
+    {
+      "offset": 15838917,
+      "text": "_ZNK6glitch5video15CImageLoaderPVR9loadImageEPNS_2io9IReadFileE"
+    },
+    {
+      "offset": 15898034,
+      "text": "_ZN6glitch5video20createImageLoaderPVREv"
+    }
+  ]
+}

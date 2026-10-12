@@ -1,0 +1,219 @@
+{
+  "validation": "PASS",
+  "scope": "Canonical cached file delivery and original SWAMP first failure; no live world construction",
+  "cases": [
+    {
+      "build": "connected-owner-host",
+      "probe": "dh2_loader_connected_source_probe",
+      "probe_sha256": "77ff646dbc61956b5277b7f615a84a2d87eccfafa83a91e97649de8448161c94",
+      "result": {
+        "validation": "PASS",
+        "composition_checks": 12,
+        "first_failure": {
+          "uri": "data/scene/001_swamp.mlx",
+          "element": 1,
+          "type": "LevelConfig",
+          "factory_address": 3411112,
+          "factory_prefix": "empty",
+          "registered_count": 0
+        },
+        "module_count": 9,
+        "declaration_count": 205,
+        "additional_required_classes": [
+          {
+            "type": "CheckpointZone",
+            "occurrences": 4,
+            "factory_address": 3411756
+          },
+          {
+            "type": "Decor",
+            "occurrences": 10,
+            "factory_address": 3412220
+          },
+          {
+            "type": "DestructibleContainer",
+            "occurrences": 9,
+            "factory_address": 3411292
+          },
+          {
+            "type": "Door",
+            "occurrences": 4,
+            "factory_address": 3409956
+          },
+          {
+            "type": "Dummy",
+            "occurrences": 41,
+            "factory_address": 3412132
+          },
+          {
+            "type": "LevelConfig",
+            "occurrences": 1,
+            "factory_address": 3411112
+          },
+          {
+            "type": "Module",
+            "occurrences": 9,
+            "factory_address": 3411864
+          },
+          {
+            "type": "QuestMoveInZone",
+            "occurrences": 1,
+            "factory_address": 3411792
+          },
+          {
+            "type": "SoundEmitter",
+            "occurrences": 1,
+            "factory_address": 3411148
+          },
+          {
+            "type": "SpawnPoint",
+            "occurrences": 11,
+            "factory_address": 3411472
+          },
+          {
+            "type": "TriggerObject",
+            "occurrences": 1,
+            "factory_address": 3411724
+          },
+          {
+            "type": "TriggerZone",
+            "occurrences": 18,
+            "factory_address": 3411652
+          },
+          {
+            "type": "TriggerZoneExitLevel",
+            "occurrences": 3,
+            "factory_address": 3411616
+          }
+        ],
+        "live_runtime_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "build": "connected-owner-host",
+      "probe": "loader/dh2_loader_canonical_source_adapter_probe",
+      "probe_sha256": "e4bc0d40c501cf1439659146b39bb56a3f1bd84cfa115f83c309f37ecbbd5b5b",
+      "result": {
+        "validation": "PASS",
+        "adapter_checks": 14,
+        "scope": "retained XML and canonical source-prefix receiver fixtures",
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "build": "connected-owner-sanitizers",
+      "probe": "dh2_loader_connected_source_probe",
+      "probe_sha256": "fbe0525c4aece14ddcb5c91f5f045530b408e9f172b2a83c37414d161ae50fad",
+      "result": {
+        "validation": "PASS",
+        "composition_checks": 12,
+        "first_failure": {
+          "uri": "data/scene/001_swamp.mlx",
+          "element": 1,
+          "type": "LevelConfig",
+          "factory_address": 3411112,
+          "factory_prefix": "empty",
+          "registered_count": 0
+        },
+        "module_count": 9,
+        "declaration_count": 205,
+        "additional_required_classes": [
+          {
+            "type": "CheckpointZone",
+            "occurrences": 4,
+            "factory_address": 3411756
+          },
+          {
+            "type": "Decor",
+            "occurrences": 10,
+            "factory_address": 3412220
+          },
+          {
+            "type": "DestructibleContainer",
+            "occurrences": 9,
+            "factory_address": 3411292
+          },
+          {
+            "type": "Door",
+            "occurrences": 4,
+            "factory_address": 3409956
+          },
+          {
+            "type": "Dummy",
+            "occurrences": 41,
+            "factory_address": 3412132
+          },
+          {
+            "type": "LevelConfig",
+            "occurrences": 1,
+            "factory_address": 3411112
+          },
+          {
+            "type": "Module",
+            "occurrences": 9,
+            "factory_address": 3411864
+          },
+          {
+            "type": "QuestMoveInZone",
+            "occurrences": 1,
+            "factory_address": 3411792
+          },
+          {
+            "type": "SoundEmitter",
+            "occurrences": 1,
+            "factory_address": 3411148
+          },
+          {
+            "type": "SpawnPoint",
+            "occurrences": 11,
+            "factory_address": 3411472
+          },
+          {
+            "type": "TriggerObject",
+            "occurrences": 1,
+            "factory_address": 3411724
+          },
+          {
+            "type": "TriggerZone",
+            "occurrences": 18,
+            "factory_address": 3411652
+          },
+          {
+            "type": "TriggerZoneExitLevel",
+            "occurrences": 3,
+            "factory_address": 3411616
+          }
+        ],
+        "live_runtime_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "build": "connected-owner-sanitizers",
+      "probe": "loader/dh2_loader_canonical_source_adapter_probe",
+      "probe_sha256": "56dc4a54bb1c10333f3172e8b4982be85a31ee0ee1554a45528ff68351005e33",
+      "result": {
+        "validation": "PASS",
+        "adapter_checks": 14,
+        "scope": "retained XML and canonical source-prefix receiver fixtures",
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    }
+  ],
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "fixtures_sha256": "97fffd28a2ae7183fc3112fca79bb621f03dd1ddcf0122ca57ad819e96d9fe2e",
+  "connected_archive_sha256": "29bdb6fb795260087928f5523bb7c6c15ffec39918e4e2a87cefb2d08b0c924a",
+  "supplement_sha256": "f94ddc5a5ba35ff8c72951b4cc691c27ef49ac988ac04a306489c221b51f34ea",
+  "source_sha256": {
+    "port/level-loader/canonical_cached_file_v1.hpp": "fca6603e0dd307e759be4934a668bc4a6d78affa67854c770ff26a9a437a9d46",
+    "port/level-loader/canonical_cached_file_v1.cpp": "7adf073ddfb28ebe249c76e5574a884ed3b3d08941198b0b35c8ed5510903e34",
+    "port/level-loader/tests/canonical_connected_source_probe.cpp": "2106966d607a3222f2c92c843fa4afeaffa2ce295c0bb81d3cef62a270015162",
+    "port/level-loader/tests/canonical_source_adapter_probe.cpp": "be8f916510ed85e1f461ba1456d3d29e9a578fa862a460d0d4f92695dccb8056",
+    "port/level-loader/tests/cmake-connected-owner/CMakeLists.txt": "f17d485f7c3da1e10e0b7d178e0b29c30ea88e8f1067583d7672feadba212615"
+  },
+  "second_owner_target_created": false,
+  "full_loader_verified": false
+}

@@ -1,0 +1,2594 @@
+{
+  "scope": "Execute original Tile module projection and MVX selection over original layouts.\n\nGenerate, Tile::SaveAsModuleXML, SetModuleMVXProperties, original XML parsing,\nstring/path selection, float operations and recursive naming execute ARM32.\nModule construction, property registration/default loading, property writes,\nproperty serialization and Module destruction are explicit recorded service\nboundaries. This compares generated overrides and setter attempts, not complete\nPropertyMap output, default values, XML byte serialization or whole Level load.\nFile callbacks supply original cache bytes; no mesh/path/position answer is a hook.\n",
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "layout_original_receipt_sha256": "3a32fa5ab79bce63f5d5e0282e3b4c59e83b9f6d6849dee02829dea62b93ac4a",
+  "script_sha256": "167256d424b9c29615f4715146f386fbc78991f95a8f2d0b8980b383b7425db3",
+  "dependency_sources_sha256": {
+    "port\\level-loader\\tests\\procedural_modules_original.py": "167256d424b9c29615f4715146f386fbc78991f95a8f2d0b8980b383b7425db3",
+    "port\\level-loader\\tests\\procedural_blocks_original.py": "695ac6d5978dae6e013150d4dfce80461f851c91d6f14b5bb5835739042a16fd",
+    "port\\level-loader\\tests\\procedural_lists_original.py": "1cb25487117915ff043cfc1dd2db35f7546f12ad267566f2d0ee751cf8edc0fc",
+    "port\\level-loader\\tests\\procedural_rules_original.py": "5b7b91c933eec151af11245e540a362162a9761b7e1208feadd2aaaae6e6f9ae",
+    "port\\level-loader\\tests\\procedural_instances_original.py": "2c758929a35302944ba83d960c8691354af692a5ca95e0dd2081cde60a857d78",
+    "port\\level-loader\\tests\\procedural_layout_original.py": "f2ca277cac4c45972c54fb71dc496f14d6b25e547a6c3a293435f38d4ed6a95b",
+    "port\\engine-resources\\tests\\cpu.py": "23090abbc5bfb64ba36628db8b264b68f188e28f5f97cb9d9b6ba7c5244c8c1a",
+    "port\\game-data\\tests\\combat_differential.py": "457e3507a7f91a628b07b09a6dd836aa6bddb00d4826a5c26fb0cab82014e7ce",
+    "port\\game-data\\tests\\combat_result_differential.py": "5303a3a81a0b8e1df3b330793d74b53ea9862d359319d0c5944431e603195e46",
+    "port\\game-data\\tests\\health_differential.py": "5330340a25e94c506ca68150a1bab87b8b461cfb7aea11e346961bc2ff6dff44",
+    "port\\game-data\\tests\\combat_application_differential.py": "e7b5d189e05d8c603b2ecddead9b24997d2922d9389d14590b4fa28fdb99a9c8",
+    "port\\game-data\\tests\\aggro_differential.py": "3d5fc4103199edbe847f886344f048738067ee8b329816531b82d8bc7174a759",
+    "port\\level-world\\tests\\navigation_differential.py": "44348f1af0fb62cd62ea0a17c1eb486df2d88d02bbab9360795b59a5a1f9f148",
+    "port\\game-data\\tests\\items_differential.py": "7f7fb185583e3d3ccb68b0c99648b5f04867a2cfffdc564eeab7facf10e1f000",
+    "port\\level-loader\\tests\\xml_original_probe.py": "d856a3d96331f1f65e6225e7889efbd3cc5633215bd043acd880a19681a39209"
+  },
+  "cases": [
+    {
+      "name": "data/scene/022_swamp2.rule.xml",
+      "runs": [
+        {
+          "seed": 0,
+          "modules": [
+            {
+              "properties": {
+                "name": "corner_ruin_wn_00_0",
+                "gametype": "Module",
+                "position": "0.000000,-0.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp.max",
+                "xrefobject": "_module_corner_ruin_wn_00",
+                "dae": "data/3D/Modules/Swamp/swamp.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/swamp2_corner_ruin_wn_00.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/swamp2_corner_ruin_wn_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "corner_ruin_wn_00_0"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "0.000000,-0.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_corner_ruin_wn_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/swamp2_corner_ruin_wn_00.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/swamp2_corner_ruin_wn_00.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "straight_brdwalk_we_00_1",
+                "gametype": "Module",
+                "position": "-6000.000000,-0.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp.max",
+                "xrefobject": "_module_straight_brdwalk_we_00",
+                "dae": "data/3D/Modules/Swamp/swamp.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/swamp2_straight_brdwalk_we_00.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/swamp2_straight_brdwalk_we_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "straight_brdwalk_we_00_1"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-6000.000000,-0.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_straight_brdwalk_we_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/swamp2_straight_brdwalk_we_00.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/swamp2_straight_brdwalk_we_00.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "corner_brdwalk_ne_00_2",
+                "gametype": "Module",
+                "position": "-12000.000000,-0.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp.max",
+                "xrefobject": "_module_corner_brdwalk_ne_00",
+                "dae": "data/3D/Modules/Swamp/swamp.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/swamp2_corner_brdwalk_ne_00.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/swamp2_corner_brdwalk_ne_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "corner_brdwalk_ne_00_2"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-12000.000000,-0.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_corner_brdwalk_ne_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/swamp2_corner_brdwalk_ne_00.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/swamp2_corner_brdwalk_ne_00.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "obj_2of4_brdwalk_sw_00_3",
+                "gametype": "Module",
+                "position": "-12000.000000,6000.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp.max",
+                "xrefobject": "_module_obj_2of4_brdwalk_sw_00",
+                "dae": "data/3D/Modules/Swamp/swamp.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/swamp2_obj2of4_brdwalk_sw_00.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/swamp2_obj2of4_brdwalk_sw_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "obj_2of4_brdwalk_sw_00_3"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-12000.000000,6000.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_obj_2of4_brdwalk_sw_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/swamp2_obj2of4_brdwalk_sw_00.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/swamp2_obj2of4_brdwalk_sw_00.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "corner_brdwalk_ne_00_4",
+                "gametype": "Module",
+                "position": "-18000.000000,6000.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp.max",
+                "xrefobject": "_module_corner_brdwalk_ne_00",
+                "dae": "data/3D/Modules/Swamp/swamp.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/swamp2_corner_brdwalk_ne_00.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/swamp2_corner_brdwalk_ne_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "corner_brdwalk_ne_00_4"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-18000.000000,6000.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_corner_brdwalk_ne_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/swamp2_corner_brdwalk_ne_00.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/swamp2_corner_brdwalk_ne_00.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "obj_1of4_brdwalk_nse_00_5",
+                "gametype": "Module",
+                "position": "-18000.000000,12000.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp.max",
+                "xrefobject": "_module_obj_1of4_brdwalk_nse_00",
+                "dae": "data/3D/Modules/Swamp/swamp.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/swamp2_obj_1of4_brdwalk_nse_00.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/swamp2_obj1of4_brdwalk_nse_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "obj_1of4_brdwalk_nse_00_5"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-18000.000000,12000.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_obj_1of4_brdwalk_nse_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/swamp2_obj_1of4_brdwalk_nse_00.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/swamp2_obj1of4_brdwalk_nse_00.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "obj_2of4_brdwalk_sw_00_6",
+                "gametype": "Module",
+                "position": "-18000.000000,18000.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp.max",
+                "xrefobject": "_module_obj_2of4_brdwalk_sw_00",
+                "dae": "data/3D/Modules/Swamp/swamp.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/swamp2_obj2of4_brdwalk_sw_00.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/swamp2_obj2of4_brdwalk_sw_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "obj_2of4_brdwalk_sw_00_6"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-18000.000000,18000.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_obj_2of4_brdwalk_sw_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/swamp2_obj2of4_brdwalk_sw_00.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/swamp2_obj2of4_brdwalk_sw_00.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "straight_brdwalk_we_00_7",
+                "gametype": "Module",
+                "position": "-24000.000000,18000.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp.max",
+                "xrefobject": "_module_straight_brdwalk_we_00",
+                "dae": "data/3D/Modules/Swamp/swamp.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/swamp2_straight_brdwalk_we_00.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/swamp2_straight_brdwalk_we_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "straight_brdwalk_we_00_7"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-24000.000000,18000.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_straight_brdwalk_we_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/swamp2_straight_brdwalk_we_00.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/swamp2_straight_brdwalk_we_00.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "corner_ruin_se_00_8",
+                "gametype": "Module",
+                "position": "-30000.000000,18000.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp.max",
+                "xrefobject": "_module_corner_ruin_se_00",
+                "dae": "data/3D/Modules/Swamp/swamp.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/swamp2_corner_ruin_se_00.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/swamp2_corner_ruin_se_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "corner_ruin_se_00_8"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-30000.000000,18000.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_corner_ruin_se_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/swamp2_corner_ruin_se_00.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/swamp2_corner_ruin_se_00.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "straight_brdwalk_ns_00_9",
+                "gametype": "Module",
+                "position": "-30000.000000,12000.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp.max",
+                "xrefobject": "_module_straight_brdwalk_ns_00",
+                "dae": "data/3D/Modules/Swamp/swamp.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/swamp2_straight_brdwalk_ns_01.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/swamp2_straight_brdwalk_ns_01.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "straight_brdwalk_ns_00_9"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-30000.000000,12000.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_straight_brdwalk_ns_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/swamp2_straight_brdwalk_ns_01.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/swamp2_straight_brdwalk_ns_01.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "deadend_brdwalk_w_00_10",
+                "gametype": "Module",
+                "position": "-12000.000000,12000.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp.max",
+                "xrefobject": "_module_deadend_brdwalk_w_00",
+                "dae": "data/3D/Modules/Swamp/swamp.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/swamp2_deadend_brdwalk_w_00.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/swamp2_deadend_brdwalk_w_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "deadend_brdwalk_w_00_10"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-12000.000000,12000.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_deadend_brdwalk_w_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/swamp2_deadend_brdwalk_w_00.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/swamp2_deadend_brdwalk_w_00.mvp"
+                }
+              ]
+            }
+          ],
+          "returned_index": 10,
+          "file_reads": [
+            {
+              "uri": "data/3d/modules/swamp/mvx/corner_ruin_wn_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/straight_brdwalk_we_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/corner_brdwalk_ne_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/obj_2of4_brdwalk_sw_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/corner_brdwalk_ne_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/obj_1of4_brdwalk_nse_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/obj_2of4_brdwalk_sw_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/straight_brdwalk_we_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/corner_ruin_se_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/straight_brdwalk_ns_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/deadend_brdwalk_w_00.mvx",
+              "found": true
+            }
+          ]
+        },
+        {
+          "seed": 1,
+          "modules": [
+            {
+              "properties": {
+                "name": "corner_ruin_wn_00_0",
+                "gametype": "Module",
+                "position": "0.000000,-0.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp.max",
+                "xrefobject": "_module_corner_ruin_wn_00",
+                "dae": "data/3D/Modules/Swamp/swamp.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/swamp2_corner_ruin_wn_00.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/swamp2_corner_ruin_wn_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "corner_ruin_wn_00_0"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "0.000000,-0.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_corner_ruin_wn_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/swamp2_corner_ruin_wn_00.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/swamp2_corner_ruin_wn_00.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "straight_brdwalk_we_00_1",
+                "gametype": "Module",
+                "position": "-6000.000000,-0.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp.max",
+                "xrefobject": "_module_straight_brdwalk_we_00",
+                "dae": "data/3D/Modules/Swamp/swamp.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/swamp2_straight_brdwalk_we_00.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/swamp2_straight_brdwalk_we_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "straight_brdwalk_we_00_1"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-6000.000000,-0.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_straight_brdwalk_we_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/swamp2_straight_brdwalk_we_00.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/swamp2_straight_brdwalk_we_00.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "corner_brdwalk_ne_00_2",
+                "gametype": "Module",
+                "position": "-12000.000000,-0.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp.max",
+                "xrefobject": "_module_corner_brdwalk_ne_00",
+                "dae": "data/3D/Modules/Swamp/swamp.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/swamp2_corner_brdwalk_ne_00.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/swamp2_corner_brdwalk_ne_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "corner_brdwalk_ne_00_2"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-12000.000000,-0.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_corner_brdwalk_ne_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/swamp2_corner_brdwalk_ne_00.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/swamp2_corner_brdwalk_ne_00.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "straight_brdwalk_ns_00_3",
+                "gametype": "Module",
+                "position": "-12000.000000,6000.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp.max",
+                "xrefobject": "_module_straight_brdwalk_ns_00",
+                "dae": "data/3D/Modules/Swamp/swamp.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/swamp2_straight_brdwalk_ns_00.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/swamp2_straight_brdwalk_ns_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "straight_brdwalk_ns_00_3"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-12000.000000,6000.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_straight_brdwalk_ns_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/swamp2_straight_brdwalk_ns_00.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/swamp2_straight_brdwalk_ns_00.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "straight_brdwalk_ns_00_4",
+                "gametype": "Module",
+                "position": "-12000.000000,12000.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp.max",
+                "xrefobject": "_module_straight_brdwalk_ns_00",
+                "dae": "data/3D/Modules/Swamp/swamp.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/swamp2_straight_brdwalk_ns_00.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/swamp2_straight_brdwalk_ns_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "straight_brdwalk_ns_00_4"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-12000.000000,12000.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_straight_brdwalk_ns_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/swamp2_straight_brdwalk_ns_00.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/swamp2_straight_brdwalk_ns_00.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "obj_1of4_brdwalk_nse_00_5",
+                "gametype": "Module",
+                "position": "-12000.000000,18000.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp.max",
+                "xrefobject": "_module_obj_1of4_brdwalk_nse_00",
+                "dae": "data/3D/Modules/Swamp/swamp.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/swamp2_obj_1of4_brdwalk_nse_00.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/swamp2_obj1of4_brdwalk_nse_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "obj_1of4_brdwalk_nse_00_5"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-12000.000000,18000.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_obj_1of4_brdwalk_nse_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/swamp2_obj_1of4_brdwalk_nse_00.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/swamp2_obj1of4_brdwalk_nse_00.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "deadend_brdwalk_w_00_6",
+                "gametype": "Module",
+                "position": "-6000.000000,18000.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp.max",
+                "xrefobject": "_module_deadend_brdwalk_w_00",
+                "dae": "data/3D/Modules/Swamp/swamp.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/swamp2_deadend_brdwalk_w_00.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/swamp2_deadend_brdwalk_w_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "deadend_brdwalk_w_00_6"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-6000.000000,18000.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_deadend_brdwalk_w_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/swamp2_deadend_brdwalk_w_00.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/swamp2_deadend_brdwalk_w_00.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "straight_brdwalk_ns_00_7",
+                "gametype": "Module",
+                "position": "-12000.000000,24000.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp.max",
+                "xrefobject": "_module_straight_brdwalk_ns_00",
+                "dae": "data/3D/Modules/Swamp/swamp.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/swamp2_straight_brdwalk_ns_00.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/swamp2_straight_brdwalk_ns_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "straight_brdwalk_ns_00_7"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-12000.000000,24000.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_straight_brdwalk_ns_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/swamp2_straight_brdwalk_ns_00.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/swamp2_straight_brdwalk_ns_00.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "obj_2of4_brdwalk_sw_00_8",
+                "gametype": "Module",
+                "position": "-12000.000000,30000.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp.max",
+                "xrefobject": "_module_obj_2of4_brdwalk_sw_00",
+                "dae": "data/3D/Modules/Swamp/swamp.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/swamp2_obj2of4_brdwalk_sw_00.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/swamp2_obj2of4_brdwalk_sw_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "obj_2of4_brdwalk_sw_00_8"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-12000.000000,30000.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_obj_2of4_brdwalk_sw_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/swamp2_obj2of4_brdwalk_sw_00.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/swamp2_obj2of4_brdwalk_sw_00.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "straight_brdwalk_we_00_9",
+                "gametype": "Module",
+                "position": "-18000.000000,30000.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp.max",
+                "xrefobject": "_module_straight_brdwalk_we_00",
+                "dae": "data/3D/Modules/Swamp/swamp.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/swamp2_straight_brdwalk_we_00.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/swamp2_straight_brdwalk_we_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "straight_brdwalk_we_00_9"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-18000.000000,30000.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_straight_brdwalk_we_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/swamp2_straight_brdwalk_we_00.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/swamp2_straight_brdwalk_we_00.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "corner_ruin_se_00_10",
+                "gametype": "Module",
+                "position": "-24000.000000,30000.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp.max",
+                "xrefobject": "_module_corner_ruin_se_00",
+                "dae": "data/3D/Modules/Swamp/swamp.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/swamp2_corner_ruin_se_00.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/swamp2_corner_ruin_se_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "corner_ruin_se_00_10"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-24000.000000,30000.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_corner_ruin_se_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/swamp2_corner_ruin_se_00.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/swamp2_corner_ruin_se_00.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "straight_brdwalk_ns_00_11",
+                "gametype": "Module",
+                "position": "-24000.000000,24000.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp.max",
+                "xrefobject": "_module_straight_brdwalk_ns_00",
+                "dae": "data/3D/Modules/Swamp/swamp.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/swamp2_straight_brdwalk_ns_01.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/swamp2_straight_brdwalk_ns_01.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "straight_brdwalk_ns_00_11"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-24000.000000,24000.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_straight_brdwalk_ns_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/swamp2_straight_brdwalk_ns_01.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/swamp2_straight_brdwalk_ns_01.mvp"
+                }
+              ]
+            }
+          ],
+          "returned_index": 11,
+          "file_reads": [
+            {
+              "uri": "data/3d/modules/swamp/mvx/corner_ruin_wn_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/straight_brdwalk_we_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/corner_brdwalk_ne_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/straight_brdwalk_ns_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/straight_brdwalk_ns_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/obj_1of4_brdwalk_nse_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/deadend_brdwalk_w_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/straight_brdwalk_ns_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/obj_2of4_brdwalk_sw_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/straight_brdwalk_we_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/corner_ruin_se_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/straight_brdwalk_ns_00.mvx",
+              "found": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "data/scene/022_swamp2_trollcave.rule.xml",
+      "runs": [
+        {
+          "seed": 0,
+          "modules": [
+            {
+              "properties": {
+                "name": "deadend_swpcave_w_00_0",
+                "gametype": "Module",
+                "position": "0.000000,-0.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp_cave.max",
+                "xrefobject": "_module_deadend_swpcave_w_00",
+                "dae": "data/3D/Modules/Swamp/swamp_cave.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/trollcave_deadend_swpcave_w_00.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/trollcave_deadend_swpcave_w_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "deadend_swpcave_w_00_0"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "0.000000,-0.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp_cave.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_deadend_swpcave_w_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp_cave.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/trollcave_deadend_swpcave_w_00.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/trollcave_deadend_swpcave_w_00.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "straight_swpcave_we_00_1",
+                "gametype": "Module",
+                "position": "-6000.000000,-0.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp_cave.max",
+                "xrefobject": "_module_straight_swpcave_we_00",
+                "dae": "data/3D/Modules/Swamp/swamp_cave.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/trollcave_straight_swpcave_we_01.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/trollcave_straight_swpcave_we_01.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "straight_swpcave_we_00_1"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-6000.000000,-0.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp_cave.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_straight_swpcave_we_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp_cave.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/trollcave_straight_swpcave_we_01.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/trollcave_straight_swpcave_we_01.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "corner_swpcave_ne_00_2",
+                "gametype": "Module",
+                "position": "-12000.000000,-0.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp_cave.max",
+                "xrefobject": "_module_corner_swpcave_ne_00",
+                "dae": "data/3D/Modules/Swamp/swamp_cave.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/trollcave_corner_swpcave_ne_00.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/trollcave_corner_swpcave_ne_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "corner_swpcave_ne_00_2"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-12000.000000,-0.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp_cave.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_corner_swpcave_ne_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp_cave.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/trollcave_corner_swpcave_ne_00.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/trollcave_corner_swpcave_ne_00.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "corner_swpcave_sw_00_3",
+                "gametype": "Module",
+                "position": "-12000.000000,6000.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp_cave.max",
+                "xrefobject": "_module_corner_swpcave_sw_00",
+                "dae": "data/3D/Modules/Swamp/swamp_cave.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/trollcave_corner_swpcave_sw_01.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/trollcave_corner_swpcave_sw_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "corner_swpcave_sw_00_3"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-12000.000000,6000.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp_cave.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_corner_swpcave_sw_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp_cave.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/trollcave_corner_swpcave_sw_01.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/trollcave_corner_swpcave_sw_00.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "corner_swpcave_ne_00_4",
+                "gametype": "Module",
+                "position": "-18000.000000,6000.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp_cave.max",
+                "xrefobject": "_module_corner_swpcave_ne_00",
+                "dae": "data/3D/Modules/Swamp/swamp_cave.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/trollcave_corner_swpcave_ne_00.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/trollcave_corner_swpcave_ne_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "corner_swpcave_ne_00_4"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-18000.000000,6000.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp_cave.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_corner_swpcave_ne_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp_cave.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/trollcave_corner_swpcave_ne_00.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/trollcave_corner_swpcave_ne_00.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "corner_swpcave_sw_00_5",
+                "gametype": "Module",
+                "position": "-18000.000000,12000.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp_cave.max",
+                "xrefobject": "_module_corner_swpcave_sw_00",
+                "dae": "data/3D/Modules/Swamp/swamp_cave.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/trollcave_corner_swpcave_sw_00.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/trollcave_corner_swpcave_sw_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "corner_swpcave_sw_00_5"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-18000.000000,12000.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp_cave.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_corner_swpcave_sw_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp_cave.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/trollcave_corner_swpcave_sw_00.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/trollcave_corner_swpcave_sw_00.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "t_swpcave_nse_00_6",
+                "gametype": "Module",
+                "position": "-24000.000000,12000.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp_cave.max",
+                "xrefobject": "_module_t_swpcave_nse_00",
+                "dae": "data/3D/Modules/Swamp/swamp_cave.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/trollcave_t_swpcave_nse_01.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/trollcave_t_swpcave_nse_01.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "t_swpcave_nse_00_6"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-24000.000000,12000.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp_cave.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_t_swpcave_nse_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp_cave.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/trollcave_t_swpcave_nse_01.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/trollcave_t_swpcave_nse_01.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "deadend_swpcave_n_00_7",
+                "gametype": "Module",
+                "position": "-24000.000000,6000.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp_cave.max",
+                "xrefobject": "_module_deadend_swpcave_n_00",
+                "dae": "data/3D/Modules/Swamp/swamp_cave.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/trollcave_deadend_swpcave_n_00.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/trollcave_deadend_swpcave_n_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "deadend_swpcave_n_00_7"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-24000.000000,6000.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp_cave.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_deadend_swpcave_n_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp_cave.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/trollcave_deadend_swpcave_n_00.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/trollcave_deadend_swpcave_n_00.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "deadend_swpcave_s_00_8",
+                "gametype": "Module",
+                "position": "-24000.000000,18000.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp_cave.max",
+                "xrefobject": "_module_deadend_swpcave_s_00",
+                "dae": "data/3D/Modules/Swamp/swamp_cave.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/trollcave_deadend_swpcave_s_00.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/trollcave_deadend_swpcave_s_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "deadend_swpcave_s_00_8"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-24000.000000,18000.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp_cave.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_deadend_swpcave_s_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp_cave.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/trollcave_deadend_swpcave_s_00.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/trollcave_deadend_swpcave_s_00.mvp"
+                }
+              ]
+            }
+          ],
+          "returned_index": 8,
+          "file_reads": [
+            {
+              "uri": "data/3d/modules/swamp/mvx/deadend_swpcave_w_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/straight_swpcave_we_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/corner_swpcave_ne_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/corner_swpcave_sw_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/corner_swpcave_ne_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/corner_swpcave_sw_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/t_swpcave_nse_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/deadend_swpcave_n_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/deadend_swpcave_s_00.mvx",
+              "found": true
+            }
+          ]
+        },
+        {
+          "seed": 1,
+          "modules": [
+            {
+              "properties": {
+                "name": "deadend_swpcave_w_00_0",
+                "gametype": "Module",
+                "position": "0.000000,-0.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp_cave.max",
+                "xrefobject": "_module_deadend_swpcave_w_00",
+                "dae": "data/3D/Modules/Swamp/swamp_cave.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/trollcave_deadend_swpcave_w_00.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/trollcave_deadend_swpcave_w_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "deadend_swpcave_w_00_0"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "0.000000,-0.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp_cave.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_deadend_swpcave_w_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp_cave.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/trollcave_deadend_swpcave_w_00.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/trollcave_deadend_swpcave_w_00.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "straight_swpcave_we_00_1",
+                "gametype": "Module",
+                "position": "-6000.000000,-0.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp_cave.max",
+                "xrefobject": "_module_straight_swpcave_we_00",
+                "dae": "data/3D/Modules/Swamp/swamp_cave.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/trollcave_straight_swpcave_we_01.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/trollcave_straight_swpcave_we_01.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "straight_swpcave_we_00_1"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-6000.000000,-0.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp_cave.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_straight_swpcave_we_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp_cave.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/trollcave_straight_swpcave_we_01.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/trollcave_straight_swpcave_we_01.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "corner_swpcave_ne_00_2",
+                "gametype": "Module",
+                "position": "-12000.000000,-0.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp_cave.max",
+                "xrefobject": "_module_corner_swpcave_ne_00",
+                "dae": "data/3D/Modules/Swamp/swamp_cave.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/trollcave_corner_swpcave_ne_00.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/trollcave_corner_swpcave_ne_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "corner_swpcave_ne_00_2"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-12000.000000,-0.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp_cave.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_corner_swpcave_ne_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp_cave.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/trollcave_corner_swpcave_ne_00.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/trollcave_corner_swpcave_ne_00.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "straight_swpcave_ns_00_3",
+                "gametype": "Module",
+                "position": "-12000.000000,6000.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp_cave.max",
+                "xrefobject": "_module_straight_swpcave_ns_00",
+                "dae": "data/3D/Modules/Swamp/swamp_cave.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/trollcave_straight_swpcave_ns_00.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/trollcave_straight_swpcave_ns_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "straight_swpcave_ns_00_3"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-12000.000000,6000.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp_cave.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_straight_swpcave_ns_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp_cave.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/trollcave_straight_swpcave_ns_00.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/trollcave_straight_swpcave_ns_00.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "corner_swpcave_sw_00_4",
+                "gametype": "Module",
+                "position": "-12000.000000,12000.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp_cave.max",
+                "xrefobject": "_module_corner_swpcave_sw_00",
+                "dae": "data/3D/Modules/Swamp/swamp_cave.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/trollcave_corner_swpcave_sw_01.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/trollcave_corner_swpcave_sw_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "corner_swpcave_sw_00_4"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-12000.000000,12000.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp_cave.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_corner_swpcave_sw_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp_cave.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/trollcave_corner_swpcave_sw_01.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/trollcave_corner_swpcave_sw_00.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "t_swpcave_nse_00_5",
+                "gametype": "Module",
+                "position": "-18000.000000,12000.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp_cave.max",
+                "xrefobject": "_module_t_swpcave_nse_00",
+                "dae": "data/3D/Modules/Swamp/swamp_cave.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/trollcave_t_swpcave_nse_01.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/trollcave_t_swpcave_nse_01.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "t_swpcave_nse_00_5"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-18000.000000,12000.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp_cave.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_t_swpcave_nse_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp_cave.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/trollcave_t_swpcave_nse_01.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/trollcave_t_swpcave_nse_01.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "deadend_swpcave_s_00_6",
+                "gametype": "Module",
+                "position": "-18000.000000,18000.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp_cave.max",
+                "xrefobject": "_module_deadend_swpcave_s_00",
+                "dae": "data/3D/Modules/Swamp/swamp_cave.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/trollcave_deadend_swpcave_s_00.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/trollcave_deadend_swpcave_s_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "deadend_swpcave_s_00_6"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-18000.000000,18000.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp_cave.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_deadend_swpcave_s_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp_cave.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/trollcave_deadend_swpcave_s_00.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/trollcave_deadend_swpcave_s_00.mvp"
+                }
+              ]
+            },
+            {
+              "properties": {
+                "name": "deadend_swpcave_n_00_7",
+                "gametype": "Module",
+                "position": "-18000.000000,6000.000000,0.000000",
+                "scale": "1.0,1.0,1.0",
+                "xrefmax": "data/iphone/3D/Modules/Swamp/swamp_cave.max",
+                "xrefobject": "_module_deadend_swpcave_n_00",
+                "dae": "data/3D/Modules/Swamp/swamp_cave.bdae",
+                "mgp": "data/iphone/3d/modules/swamp/mgp/trollcave_deadend_swpcave_n_00.mgp",
+                "mvp": "data/iphone/3d/modules/swamp/mvp/trollcave_deadend_swpcave_n_00.mvp"
+              },
+              "setter_attempts": [
+                {
+                  "name": "name",
+                  "value": "deadend_swpcave_n_00_7"
+                },
+                {
+                  "name": "gametype",
+                  "value": "Module"
+                },
+                {
+                  "name": "position",
+                  "value": "-18000.000000,6000.000000,0.000000"
+                },
+                {
+                  "name": "scale",
+                  "value": "1.0,1.0,1.0"
+                },
+                {
+                  "name": "xrefmax",
+                  "value": "data/iphone/3D/Modules/Swamp/swamp_cave.max"
+                },
+                {
+                  "name": "xrefobject",
+                  "value": "_module_deadend_swpcave_n_00"
+                },
+                {
+                  "name": "dae",
+                  "value": "data/3D/Modules/Swamp/swamp_cave.bdae"
+                },
+                {
+                  "name": "fog_color",
+                  "value": null
+                },
+                {
+                  "name": "is_solid",
+                  "value": null
+                },
+                {
+                  "name": "mgp",
+                  "value": "data/iphone/3d/modules/swamp/mgp/trollcave_deadend_swpcave_n_00.mgp"
+                },
+                {
+                  "name": "mvp",
+                  "value": "data/iphone/3d/modules/swamp/mvp/trollcave_deadend_swpcave_n_00.mvp"
+                }
+              ]
+            }
+          ],
+          "returned_index": 7,
+          "file_reads": [
+            {
+              "uri": "data/3d/modules/swamp/mvx/deadend_swpcave_w_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/straight_swpcave_we_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/corner_swpcave_ne_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/straight_swpcave_ns_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/corner_swpcave_sw_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/t_swpcave_nse_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/deadend_swpcave_s_00.mvx",
+              "found": true
+            },
+            {
+              "uri": "data/3d/modules/swamp/mvx/deadend_swpcave_n_00.mvx",
+              "found": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "selected_execution_complete": true,
+  "original_execution_complete": false,
+  "full_property_serialization_verified": false,
+  "native_module_projection_verified": false,
+  "android_procedural_rendering_verified": false,
+  "full_loader_verified": false
+}

@@ -113,11 +113,37 @@ def main():
   nonlocal frozen
   n=len(INSPECT.findall(logs()));before=latest(last_logs)['index'];result=adb('shell','am','broadcast','-a',PACKAGE+'.DEBUG_ANIMATION_TIME','-p',PACKAGE,'--ei','time_ms',str(ms));require('Broadcast completed: result=0' in result,'Debug inspection broadcast failed');text=wait(lambda t:len(INSPECT.findall(t))>n,'inspection snapshot');require(latest(text)['index']==before,'Debug inspection unexpectedly recreated native context');row=INSPECT.findall(text)[-1];frozen=ms>=0;require(int(row[0])==int(frozen),'Inspection pause state differs');return list(row)
  def travel(index,destination,bounds):
-  speed=None
-  for _ in range(40):
+  velocities={};no_motion_pulses=0;minimum_duration=.08
+  for _ in range(50):
    origin=zero(bounds);delta=destination-origin['game_xyz'][index]
    if abs(delta)<35:return origin
-   duration=.2 if speed is None else min(.6,max(.035,abs(delta)/speed*.65));axes=[0.,0.];axes[index]=.9 if delta>0 else -.9;n=len(POSITION.findall(logs()));axis(bounds,*axes);time.sleep(duration);axis(bounds,0,0,'UP');text=wait(lambda t:len(POSITION.findall(t))>n,'waypoint release');step=latest(text)['frames'][-1]['actor_frames'];idle_after(step);point=zero(bounds);moved=abs(point['game_xyz'][index]-origin['game_xyz'][index]);require(moved>.1,'Touch waypoint blocked');speed=moved/duration;report.setdefault('waypoint_movement',[]).append({'axis':index,'origin':origin,'end':point,'held_seconds':duration})
+   mode='Walk' if abs(delta)<200 else 'Run';speed=velocities.get(mode)
+   # Short Walk pulses include heading/clip startup. Do not infer a slower
+   # steady velocity from that startup and inflate the next hold into an
+   # overshoot. Fixed 200ms Walk approaches retain the original 35-unit gate.
+   duration=.2 if mode=='Walk' or speed is None else min(.6,max(.08,abs(delta)/speed*.65))
+   duration=min(.6,max(duration,minimum_duration));duration_ms=round(duration*1000)
+   axes=[0.,0.];magnitude=.35 if mode=='Walk' else .9;axes[index]=magnitude if delta>0 else -magnitude
+   before=logs();offset=len(before);n=len(POSITION.findall(before));left,top,right,bottom=bounds
+   x=round((left+right)/2+axes[0]*(right-left)*.44);y=round((top+bottom)/2-axes[1]*(right-left)*.44)
+   start=time.monotonic()
+   # Real Android DOWN/MOVE/UP at one joystick point. Keep ADB transport and
+   # log polling outside the requested hold; separate commands overshot and
+   # reached a blocked route. Wall time is not the finger-held duration.
+   adb('shell','input','touchscreen','swipe',str(x),str(y),str(x),str(y),str(duration_ms))
+   command_seconds=time.monotonic()-start
+   wait(lambda t:any(int(r[2])==4 for r in TRANSITION.finditer(t[offset:])),'waypoint source Move entry')
+   text=wait(lambda t:len(POSITION.findall(t))>n,'waypoint release');step=latest(text)['frames'][-1]['actor_frames'];idle_after(step)
+   point=zero(bounds);moved=abs(point['game_xyz'][index]-origin['game_xyz'][index])
+   report.setdefault('waypoint_movement',[]).append({'axis':index,'origin':origin,'end':point,'held_seconds':duration_ms/1000,'input_duration_ms':duration_ms,'input_method':'stationary Android touchscreen swipe','locomotion':mode,'command_wall_seconds':command_seconds,'native_move_entry_observed':True,'settled_idle_measured':True})
+   if moved<=.1:
+    # Preserve a pulse released before moving timeline frames. Repeat only
+    # bounded real input; blocked routes still fail and must reach the waypoint.
+    report['waypoint_movement'][-1]['no_motion_pulse']=True;no_motion_pulses+=1
+    require(no_motion_pulses<=2,'Three real touch pulses produced no displacement; waypoint remains unverified')
+    minimum_duration=min(.6,duration_ms/1000*2);continue
+   no_motion_pulses=0;minimum_duration=.08
+   velocities[mode]=max(velocities.get(mode,0),moved/(duration_ms/1000))
   raise AssertionError('Actual touch waypoint not reached')
  try:
   report['libraries']=inspect(a.apk)

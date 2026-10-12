@@ -1,0 +1,1554 @@
+{
+  "23": {
+    "kind": 23,
+    "original_size": 24,
+    "data_reader": "0x50208c",
+    "data_factory": "0x45710c",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 12,
+        "width": 4,
+        "helper": "0x3df1a0"
+      },
+      {
+        "kind": "cstring",
+        "offset": 16,
+        "length_offset": 12,
+        "helper": "0x317454"
+      },
+      {
+        "kind": "scalar",
+        "offset": 20,
+        "width": 1,
+        "helper": "0x4db89c"
+      }
+    ],
+    "constructor_defaults": []
+  },
+  "79": {
+    "kind": 79,
+    "original_size": 8,
+    "data_reader": "0x4ff898",
+    "data_factory": "0x456394",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      }
+    ],
+    "constructor_defaults": [
+      {
+        "offset": 4,
+        "width": 4,
+        "bits": 0
+      }
+    ]
+  },
+  "22": {
+    "kind": 22,
+    "original_size": 24,
+    "data_reader": "0x5021b8",
+    "data_factory": "0x457148",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 12,
+        "width": 4,
+        "helper": "0x3df1a0"
+      },
+      {
+        "kind": "cstring",
+        "offset": 16,
+        "length_offset": 12,
+        "helper": "0x317454"
+      },
+      {
+        "kind": "scalar",
+        "offset": 20,
+        "width": 1,
+        "helper": "0x4db89c"
+      }
+    ],
+    "constructor_defaults": []
+  },
+  "39": {
+    "kind": 39,
+    "original_size": 16,
+    "data_reader": "0x5016f4",
+    "data_factory": "0x456d2c",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x3df1a0"
+      },
+      {
+        "kind": "cstring",
+        "offset": 12,
+        "length_offset": 8,
+        "helper": "0x317454"
+      }
+    ],
+    "constructor_defaults": []
+  },
+  "70": {
+    "kind": 70,
+    "original_size": 8,
+    "data_reader": "0x4ff8ac",
+    "data_factory": "0x4565c0",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      }
+    ],
+    "constructor_defaults": [
+      {
+        "offset": 4,
+        "width": 4,
+        "bits": 0
+      }
+    ]
+  },
+  "32": {
+    "kind": 32,
+    "original_size": 20,
+    "data_reader": "0x501bf4",
+    "data_factory": "0x456ee0",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 1,
+        "helper": "0x4db89c"
+      },
+      {
+        "kind": "scalar",
+        "offset": 12,
+        "width": 4,
+        "helper": "0x3df1a0"
+      },
+      {
+        "kind": "cstring",
+        "offset": 16,
+        "length_offset": 12,
+        "helper": "0x317454"
+      }
+    ],
+    "constructor_defaults": []
+  },
+  "24": {
+    "kind": 24,
+    "original_size": 16,
+    "data_reader": "0x501fcc",
+    "data_factory": "0x4570d0",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x3df1a0"
+      },
+      {
+        "kind": "cstring",
+        "offset": 12,
+        "length_offset": 8,
+        "helper": "0x317454"
+      }
+    ],
+    "constructor_defaults": []
+  },
+  "1": {
+    "kind": 1,
+    "original_size": 8,
+    "data_reader": "0x4ff9b0",
+    "data_factory": "0x45769c",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      }
+    ],
+    "constructor_defaults": [
+      {
+        "offset": 4,
+        "width": 4,
+        "bits": 0
+      }
+    ]
+  },
+  "12": {
+    "kind": 12,
+    "original_size": 8,
+    "data_reader": "0x4ff8d0",
+    "data_factory": "0x4573dc",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      }
+    ],
+    "constructor_defaults": [
+      {
+        "offset": 4,
+        "width": 4,
+        "bits": 0
+      }
+    ]
+  },
+  "31": {
+    "kind": 31,
+    "original_size": 16,
+    "data_reader": "0x501cc0",
+    "data_factory": "0x456f1c",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x3df1a0"
+      },
+      {
+        "kind": "cstring",
+        "offset": 12,
+        "length_offset": 8,
+        "helper": "0x317454"
+      }
+    ],
+    "constructor_defaults": []
+  },
+  "25": {
+    "kind": 25,
+    "original_size": 16,
+    "data_reader": "0x501f0c",
+    "data_factory": "0x457094",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x3df1a0"
+      },
+      {
+        "kind": "cstring",
+        "offset": 12,
+        "length_offset": 8,
+        "helper": "0x317454"
+      }
+    ],
+    "constructor_defaults": []
+  },
+  "2": {
+    "kind": 2,
+    "original_size": 8,
+    "data_reader": "0x4ff9ac",
+    "data_factory": "0x457660",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      }
+    ],
+    "constructor_defaults": [
+      {
+        "offset": 4,
+        "width": 4,
+        "bits": 0
+      }
+    ]
+  },
+  "69": {
+    "kind": 69,
+    "original_size": 8,
+    "data_reader": "0x4ff8b0",
+    "data_factory": "0x4565fc",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      }
+    ],
+    "constructor_defaults": [
+      {
+        "offset": 4,
+        "width": 4,
+        "bits": 0
+      }
+    ]
+  },
+  "26": {
+    "kind": 26,
+    "original_size": 12,
+    "data_reader": "0x50327c",
+    "data_factory": "0x457054",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x459090"
+      }
+    ],
+    "constructor_defaults": [
+      {
+        "offset": 4,
+        "width": 4,
+        "bits": 0
+      },
+      {
+        "offset": 8,
+        "width": 4,
+        "bits": 0
+      }
+    ]
+  },
+  "3": {
+    "kind": 3,
+    "original_size": 16,
+    "data_reader": "0x5029bc",
+    "data_factory": "0x457624",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x3df1a0"
+      },
+      {
+        "kind": "cstring",
+        "offset": 12,
+        "length_offset": 8,
+        "helper": "0x317454"
+      }
+    ],
+    "constructor_defaults": []
+  },
+  "0": {
+    "kind": 0,
+    "original_size": 28,
+    "data_reader": "0x4ffc24",
+    "data_factory": "0x4576d8",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 1,
+        "helper": "0x4db89c"
+      },
+      {
+        "kind": "scalar",
+        "offset": 12,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 16,
+        "width": 4,
+        "helper": "0x3df1a0"
+      },
+      {
+        "kind": "int_array",
+        "offset": 20,
+        "length_offset": 16,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 24,
+        "width": 1,
+        "helper": "0x4db89c"
+      }
+    ],
+    "constructor_defaults": []
+  },
+  "63": {
+    "kind": 63,
+    "original_size": 8,
+    "data_reader": "0x4ff8c0",
+    "data_factory": "0x456768",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      }
+    ],
+    "constructor_defaults": [
+      {
+        "offset": 4,
+        "width": 4,
+        "bits": 0
+      }
+    ]
+  },
+  "10": {
+    "kind": 10,
+    "original_size": 20,
+    "data_reader": "0x50345c",
+    "data_factory": "0x457458",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 12,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 16,
+        "width": 4,
+        "helper": "0x459090"
+      }
+    ],
+    "constructor_defaults": [
+      {
+        "offset": 4,
+        "width": 4,
+        "bits": 0
+      },
+      {
+        "offset": 8,
+        "width": 4,
+        "bits": 0
+      },
+      {
+        "offset": 12,
+        "width": 4,
+        "bits": 0
+      },
+      {
+        "offset": 16,
+        "width": 4,
+        "bits": 0
+      }
+    ]
+  },
+  "13": {
+    "kind": 13,
+    "original_size": 20,
+    "data_reader": "0x4ffab4",
+    "data_factory": "0x457390",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 12,
+        "width": 1,
+        "helper": "0x4db89c"
+      },
+      {
+        "kind": "scalar",
+        "offset": 13,
+        "width": 1,
+        "helper": "0x4db89c"
+      },
+      {
+        "kind": "scalar",
+        "offset": 16,
+        "width": 4,
+        "helper": "0x459090"
+      }
+    ],
+    "constructor_defaults": [
+      {
+        "offset": 4,
+        "width": 4,
+        "bits": 0
+      },
+      {
+        "offset": 8,
+        "width": 4,
+        "bits": 0
+      },
+      {
+        "offset": 12,
+        "width": 1,
+        "bits": 0
+      },
+      {
+        "offset": 13,
+        "width": 1,
+        "bits": 0
+      },
+      {
+        "offset": 16,
+        "width": 4,
+        "bits": 0
+      }
+    ]
+  },
+  "68": {
+    "kind": 68,
+    "original_size": 8,
+    "data_reader": "0x4ff8b4",
+    "data_factory": "0x456638",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      }
+    ],
+    "constructor_defaults": [
+      {
+        "offset": 4,
+        "width": 4,
+        "bits": 0
+      }
+    ]
+  },
+  "8": {
+    "kind": 8,
+    "original_size": 24,
+    "data_reader": "0x5026c8",
+    "data_factory": "0x4574dc",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 12,
+        "width": 4,
+        "helper": "0x3df1a0"
+      },
+      {
+        "kind": "cstring",
+        "offset": 16,
+        "length_offset": 12,
+        "helper": "0x317454"
+      },
+      {
+        "kind": "scalar",
+        "offset": 20,
+        "width": 1,
+        "helper": "0x4db89c"
+      }
+    ],
+    "constructor_defaults": []
+  },
+  "46": {
+    "kind": 46,
+    "original_size": 24,
+    "data_reader": "0x500e90",
+    "data_factory": "0x456b7c",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x3df1a0"
+      },
+      {
+        "kind": "cstring",
+        "offset": 12,
+        "length_offset": 8,
+        "helper": "0x317454"
+      },
+      {
+        "kind": "scalar",
+        "offset": 16,
+        "width": 4,
+        "helper": "0x3df1a0"
+      },
+      {
+        "kind": "cstring",
+        "offset": 20,
+        "length_offset": 16,
+        "helper": "0x317454"
+      }
+    ],
+    "constructor_defaults": []
+  },
+  "41": {
+    "kind": 41,
+    "original_size": 24,
+    "data_reader": "0x501414",
+    "data_factory": "0x456cac",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x3df1a0"
+      },
+      {
+        "kind": "cstring",
+        "offset": 12,
+        "length_offset": 8,
+        "helper": "0x317454"
+      },
+      {
+        "kind": "scalar",
+        "offset": 16,
+        "width": 4,
+        "helper": "0x3df1a0"
+      },
+      {
+        "kind": "cstring",
+        "offset": 20,
+        "length_offset": 16,
+        "helper": "0x317454"
+      }
+    ],
+    "constructor_defaults": []
+  },
+  "77": {
+    "kind": 77,
+    "original_size": 12,
+    "data_reader": "0x502a7c",
+    "data_factory": "0x45640c",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x459090"
+      }
+    ],
+    "constructor_defaults": [
+      {
+        "offset": 4,
+        "width": 4,
+        "bits": 0
+      },
+      {
+        "offset": 8,
+        "width": 4,
+        "bits": 0
+      }
+    ]
+  },
+  "45": {
+    "kind": 45,
+    "original_size": 32,
+    "data_reader": "0x500ff4",
+    "data_factory": "0x456bbc",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 12,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 16,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 20,
+        "width": 4,
+        "helper": "0x3df1a0"
+      },
+      {
+        "kind": "cstring",
+        "offset": 24,
+        "length_offset": 20,
+        "helper": "0x317454"
+      },
+      {
+        "kind": "scalar",
+        "offset": 28,
+        "width": 1,
+        "helper": "0x4db89c"
+      }
+    ],
+    "constructor_defaults": []
+  },
+  "30": {
+    "kind": 30,
+    "original_size": 16,
+    "data_reader": "0x501d80",
+    "data_factory": "0x456f58",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x3df1a0"
+      },
+      {
+        "kind": "cstring",
+        "offset": 12,
+        "length_offset": 8,
+        "helper": "0x317454"
+      }
+    ],
+    "constructor_defaults": []
+  },
+  "44": {
+    "kind": 44,
+    "original_size": 16,
+    "data_reader": "0x5011d4",
+    "data_factory": "0x456bf8",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x3df1a0"
+      },
+      {
+        "kind": "cstring",
+        "offset": 12,
+        "length_offset": 8,
+        "helper": "0x317454"
+      }
+    ],
+    "constructor_defaults": []
+  },
+  "78": {
+    "kind": 78,
+    "original_size": 20,
+    "data_reader": "0x4ffe38",
+    "data_factory": "0x4563d0",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x3df1a0"
+      },
+      {
+        "kind": "cstring",
+        "offset": 12,
+        "length_offset": 8,
+        "helper": "0x317454"
+      },
+      {
+        "kind": "scalar",
+        "offset": 16,
+        "width": 4,
+        "helper": "0x459090"
+      }
+    ],
+    "constructor_defaults": []
+  },
+  "5": {
+    "kind": 5,
+    "original_size": 16,
+    "data_reader": "0x4ffba0",
+    "data_factory": "0x4575a0",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 12,
+        "width": 1,
+        "helper": "0x4db89c"
+      }
+    ],
+    "constructor_defaults": [
+      {
+        "offset": 4,
+        "width": 4,
+        "bits": 0
+      },
+      {
+        "offset": 8,
+        "width": 4,
+        "bits": 0
+      },
+      {
+        "offset": 12,
+        "width": 1,
+        "bits": 0
+      }
+    ]
+  },
+  "15": {
+    "kind": 15,
+    "original_size": 12,
+    "data_reader": "0x50336c",
+    "data_factory": "0x457308",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x459090"
+      }
+    ],
+    "constructor_defaults": [
+      {
+        "offset": 4,
+        "width": 4,
+        "bits": 0
+      },
+      {
+        "offset": 8,
+        "width": 4,
+        "bits": 0
+      }
+    ]
+  },
+  "43": {
+    "kind": 43,
+    "original_size": 16,
+    "data_reader": "0x501294",
+    "data_factory": "0x456c34",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x3df1a0"
+      },
+      {
+        "kind": "cstring",
+        "offset": 12,
+        "length_offset": 8,
+        "helper": "0x317454"
+      }
+    ],
+    "constructor_defaults": []
+  },
+  "19": {
+    "kind": 19,
+    "original_size": 32,
+    "data_reader": "0x502418",
+    "data_factory": "0x457214",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x3df1a0"
+      },
+      {
+        "kind": "cstring",
+        "offset": 12,
+        "length_offset": 8,
+        "helper": "0x317454"
+      },
+      {
+        "kind": "scalar",
+        "offset": 16,
+        "width": 1,
+        "helper": "0x4db89c"
+      },
+      {
+        "kind": "scalar",
+        "offset": 20,
+        "width": 4,
+        "helper": "0x3df1a0"
+      },
+      {
+        "kind": "cstring",
+        "offset": 24,
+        "length_offset": 20,
+        "helper": "0x317454"
+      },
+      {
+        "kind": "scalar",
+        "offset": 28,
+        "width": 1,
+        "helper": "0x4db89c"
+      }
+    ],
+    "constructor_defaults": []
+  },
+  "51": {
+    "kind": 51,
+    "original_size": 16,
+    "data_reader": "0x500914",
+    "data_factory": "0x456a48",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x3df1a0"
+      },
+      {
+        "kind": "cstring",
+        "offset": 12,
+        "length_offset": 8,
+        "helper": "0x317454"
+      }
+    ],
+    "constructor_defaults": []
+  },
+  "6": {
+    "kind": 6,
+    "original_size": 16,
+    "data_reader": "0x4ff8d8",
+    "data_factory": "0x45755c",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 12,
+        "width": 4,
+        "helper": "0x459090"
+      }
+    ],
+    "constructor_defaults": [
+      {
+        "offset": 4,
+        "width": 4,
+        "bits": 0
+      },
+      {
+        "offset": 8,
+        "width": 4,
+        "bits": 0
+      },
+      {
+        "offset": 12,
+        "width": 4,
+        "bits": 0
+      }
+    ]
+  },
+  "20": {
+    "kind": 20,
+    "original_size": 40,
+    "data_reader": "0x5022e4",
+    "data_factory": "0x4571c4",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 16,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 20,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 24,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 28,
+        "width": 4,
+        "helper": "0x3df1a0"
+      },
+      {
+        "kind": "cstring",
+        "offset": 32,
+        "length_offset": 28,
+        "helper": "0x317454"
+      },
+      {
+        "kind": "scalar",
+        "offset": 36,
+        "width": 1,
+        "helper": "0x4db89c"
+      }
+    ],
+    "constructor_defaults": []
+  },
+  "42": {
+    "kind": 42,
+    "original_size": 16,
+    "data_reader": "0x501354",
+    "data_factory": "0x456c70",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x3df1a0"
+      },
+      {
+        "kind": "cstring",
+        "offset": 12,
+        "length_offset": 8,
+        "helper": "0x317454"
+      }
+    ],
+    "constructor_defaults": []
+  },
+  "52": {
+    "kind": 52,
+    "original_size": 16,
+    "data_reader": "0x500854",
+    "data_factory": "0x456a0c",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x3df1a0"
+      },
+      {
+        "kind": "cstring",
+        "offset": 12,
+        "length_offset": 8,
+        "helper": "0x317454"
+      }
+    ],
+    "constructor_defaults": []
+  },
+  "29": {
+    "kind": 29,
+    "original_size": 20,
+    "data_reader": "0x501e40",
+    "data_factory": "0x456f94",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 1,
+        "helper": "0x4db89c"
+      },
+      {
+        "kind": "scalar",
+        "offset": 12,
+        "width": 4,
+        "helper": "0x3df1a0"
+      },
+      {
+        "kind": "cstring",
+        "offset": 16,
+        "length_offset": 12,
+        "helper": "0x317454"
+      }
+    ],
+    "constructor_defaults": []
+  },
+  "27": {
+    "kind": 27,
+    "original_size": 16,
+    "data_reader": "0x5031a8",
+    "data_factory": "0x457010",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 12,
+        "width": 4,
+        "helper": "0x459090"
+      }
+    ],
+    "constructor_defaults": [
+      {
+        "offset": 4,
+        "width": 4,
+        "bits": 0
+      },
+      {
+        "offset": 8,
+        "width": 4,
+        "bits": 0
+      },
+      {
+        "offset": 12,
+        "width": 4,
+        "bits": 0
+      }
+    ]
+  },
+  "21": {
+    "kind": 21,
+    "original_size": 12,
+    "data_reader": "0x5032f4",
+    "data_factory": "0x457184",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x459090"
+      }
+    ],
+    "constructor_defaults": [
+      {
+        "offset": 4,
+        "width": 4,
+        "bits": 0
+      },
+      {
+        "offset": 8,
+        "width": 4,
+        "bits": 0
+      }
+    ]
+  },
+  "14": {
+    "kind": 14,
+    "original_size": 20,
+    "data_reader": "0x4ff9d4",
+    "data_factory": "0x457348",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 12,
+        "width": 1,
+        "helper": "0x4db89c"
+      },
+      {
+        "kind": "scalar",
+        "offset": 16,
+        "width": 4,
+        "helper": "0x459090"
+      }
+    ],
+    "constructor_defaults": [
+      {
+        "offset": 4,
+        "width": 4,
+        "bits": 0
+      },
+      {
+        "offset": 8,
+        "width": 4,
+        "bits": 0
+      },
+      {
+        "offset": 12,
+        "width": 1,
+        "bits": 0
+      },
+      {
+        "offset": 16,
+        "width": 4,
+        "bits": 0
+      }
+    ]
+  },
+  "54": {
+    "kind": 54,
+    "original_size": 20,
+    "data_reader": "0x5006bc",
+    "data_factory": "0x456994",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x3df1a0"
+      },
+      {
+        "kind": "cstring",
+        "offset": 12,
+        "length_offset": 8,
+        "helper": "0x317454"
+      },
+      {
+        "kind": "scalar",
+        "offset": 16,
+        "width": 1,
+        "helper": "0x4db89c"
+      }
+    ],
+    "constructor_defaults": []
+  },
+  "55": {
+    "kind": 55,
+    "original_size": 20,
+    "data_reader": "0x5005f0",
+    "data_factory": "0x456958",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x3df1a0"
+      },
+      {
+        "kind": "cstring",
+        "offset": 12,
+        "length_offset": 8,
+        "helper": "0x317454"
+      },
+      {
+        "kind": "scalar",
+        "offset": 16,
+        "width": 1,
+        "helper": "0x4db89c"
+      }
+    ],
+    "constructor_defaults": []
+  },
+  "40": {
+    "kind": 40,
+    "original_size": 32,
+    "data_reader": "0x501578",
+    "data_factory": "0x456cec",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      },
+      {
+        "kind": "scalar",
+        "offset": 8,
+        "width": 4,
+        "helper": "0x3df1a0"
+      },
+      {
+        "kind": "cstring",
+        "offset": 12,
+        "length_offset": 8,
+        "helper": "0x317454"
+      },
+      {
+        "kind": "scalar",
+        "offset": 16,
+        "width": 1,
+        "helper": "0x4db89c"
+      },
+      {
+        "kind": "scalar",
+        "offset": 20,
+        "width": 4,
+        "helper": "0x3df1a0"
+      },
+      {
+        "kind": "cstring",
+        "offset": 24,
+        "length_offset": 20,
+        "helper": "0x317454"
+      },
+      {
+        "kind": "scalar",
+        "offset": 28,
+        "width": 1,
+        "helper": "0x4db89c"
+      }
+    ],
+    "constructor_defaults": []
+  },
+  "16": {
+    "kind": 16,
+    "original_size": 8,
+    "data_reader": "0x4ff8cc",
+    "data_factory": "0x4572cc",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      }
+    ],
+    "constructor_defaults": [
+      {
+        "offset": 4,
+        "width": 4,
+        "bits": 0
+      }
+    ]
+  },
+  "17": {
+    "kind": 17,
+    "original_size": 8,
+    "data_reader": "0x4ff8c8",
+    "data_factory": "0x457290",
+    "actions": [
+      {
+        "kind": "scalar",
+        "offset": 4,
+        "width": 4,
+        "helper": "0x459090"
+      }
+    ],
+    "constructor_defaults": [
+      {
+        "offset": 4,
+        "width": 4,
+        "bits": 0
+      }
+    ]
+  }
+}

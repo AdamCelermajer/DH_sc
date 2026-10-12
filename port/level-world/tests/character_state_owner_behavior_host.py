@@ -1,0 +1,13 @@
+"""Standalone source-owner behavior composition proof; no central/APK claim."""
+import argparse,hashlib,json,shlex,subprocess
+from pathlib import Path
+R=Path(__file__).resolve().parents[1];REPO=R.parents[1];sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+def posix(p):return '/mnt/'+p.drive[0].lower()+str(p.resolve())[2:].replace('\\','/')
+def run(args):
+ r=subprocess.run(args,capture_output=True,text=True,encoding='utf8',errors='replace');assert r.returncode==0,(r.returncode,r.stdout,r.stderr);return r
+p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);a=p.parse_args();a.output.parent.mkdir(parents=True,exist_ok=True)
+paths=['port/level-world/'+x for x in ('character_state.cpp','character_state.hpp','character_native_fsm.hpp','character_state_owner.cpp','character_state_owner.hpp','character_state_owner_data.inc','character_state_owner_behavior.cpp','character_state_owner_behavior.hpp','tests/character_state_owner_behavior.cpp','tests/character_state_owner_behavior_host.py')]+['port/script-runtime/script_runtime.h'];sources={x:sha(REPO/x) for x in paths}
+exe=REPO/'.local-inputs/character-state-owner-behavior/behavior_audit_final';flags=['-std=c++17','-O2','-g','-fno-omit-frame-pointer','-fsanitize=address,undefined','-fno-fast-math','-ffp-contract=off','-Wall','-Wextra','-Werror'];cmd=['g++',*flags,*[posix(R/x) for x in ('character_state.cpp','character_state_owner.cpp','character_state_owner_behavior.cpp','tests/character_state_owner_behavior.cpp')],'-o',posix(exe)];run(['wsl','-e','bash','-lc',shlex.join(cmd)])
+gold=R/'reference/character-state/state-reference.bin';assert sha(gold)=='9e11a899a29f9682959c00e988ad4fc04ee4a3f610de9044e933d47997d27a57';out=run(['wsl','-e','env','ASAN_OPTIONS=detect_leaks=1','UBSAN_OPTIONS=halt_on_error=1',posix(exe),posix(gold)]);assert not out.stderr and sources=={x:sha(REPO/x) for x in paths}
+proof=R/'reports/character-state-owner-behavior-arm64-differential.json';data=dict(validation='PASS',host_audit=json.loads(out.stdout.strip()),original_sha256='36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80',reference_sha256=sha(gold),source_sha256=sources,executable_sha256=sha(exe),sanitizers=dict(address=True,undefined=True,leak_detection=True,diagnostics=0),original_arm64_proof=dict(path=str(proof.relative_to(REPO)).replace('\\','/'),sha256=sha(proof)),compiler_command=cmd,scope=__doc__,full_AI=False,genuine_full_service_backends_executed=False,unimplemented_behaviors='16 other state families and Spawn are required borrowed service deliveries; host intentionally verifies failure prefix',central_DSO_used=False)
+a.output.write_text(json.dumps(data,indent=2)+'\n');print(json.dumps(data))

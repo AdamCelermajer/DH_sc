@@ -1,0 +1,7 @@
+# Original FS trace helper
+
+`menu_fs_trace_v114.hpp/.cpp` adds the finite source helper and enrollment into existing `MenuFSCommandServicesV114.source_trace(bool manager,cmd,args,e)`. Append its CPP to the existing menu/native owner target; it links existing `character_design_services.cpp` Debug kernels. Main retains an independent `MenuFSTraceServicesV114` with SAME actual Debug shared owner, actual filesystem context owner and files pointer, plus current menu/process callback. The installed callback is weak and preserves an incoming genuine source trace. It requires no World or additional Debug registry.
+
+Manager42e75c: Debug.load337888; local std::string C13140ec literal8ca0e0 `isTracingMenuManager`; GetSwitch337a88; stringD1318254; then actual menu_HUD_0 lookup/virtual38. Base427a24: NULL cmd returns true before Debug; otherwise same trace with8c9048 `isTracingMenuBase`; then actual map dispatch. Both ignore GetSwitch return. The alleged temporary variable is only ordinary std::string key storage; there is no formatting, native logging, Debug mutation, or restore of prior Debug value in either body. Main's existing dispatch performs downstream original methods after this helper returns.
+
+The actual existing Debug kernels retain their native failure prefix (loaded1 etc). Existing-file parser outside those kernels' supported domain remains a real failure, not tracing-disabled success. No jobs/tests/builds were run.

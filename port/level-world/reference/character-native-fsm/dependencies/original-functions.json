@@ -1,0 +1,41 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK16CharStateMachine11SM_IsScaredEb",
+      "elf_address": "0x3c034c",
+      "size": 44,
+      "sha256": "8b19e37a701dfe1ae6bb21288c6871518a76f27cb47b8b3248d22b9265715176"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine15SM_SetStunStateEjbPvb",
+      "elf_address": "0x3c5ffc",
+      "size": 328,
+      "sha256": "1ecdd250add8334f6d9f347ac774bb8aa713c9f1d340feadf2f53a61a32c6701"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine16SM_SetScareStateEjbPvb",
+      "elf_address": "0x3c6144",
+      "size": 328,
+      "sha256": "8a7ce3e3a1b359d9b40931fa0ffdda9905bb9af395d4aed562b90ef5348edf35"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine12SM_IsStunnedEb",
+      "elf_address": "0x3c0378",
+      "size": 44,
+      "sha256": "46b68984d27f375d89551b4f1423c51d7c6a051e14d045f5f2dd5e3624aa5735"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua12ReturnValues11pushIntegerEi",
+      "elf_address": "0x37cb24",
+      "size": 104,
+      "sha256": "f82c34ddaa9becff30d931e6ec79c8a9c3a73c1da5f7bf1980a70c750825eb68"
+    },
+    {
+      "original_symbol": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c0b78",
+      "size": 776,
+      "sha256": "f012ce3658bdf43d2d800a989c6259cd3019899a085df27429ce3d915b036f75"
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "validation": "PASS",
+  "source_sha256": {
+    "port\\engine-ui\\swf_input_session_v1.hpp": "910e4d6d41b80564fc1e19cc71c69fd2dbc42f6f958f7f7e5b000f00d0645441",
+    "port\\engine-ui\\swf_input_session_v1.cpp": "44ed1e13800f30348244bbb283ef5a9c7063d1384ec4d5cd44cf226c0084a772",
+    "port\\engine-ui\\swf_input_connection_v2.hpp": "4734d16f9bad46c098894d237ccf0f6bd67cec32ec8e40c356edcbc219080bb1",
+    "port\\engine-ui\\swf_input_connection_v2.cpp": "d0856a537dbd676c16eeb53bb0ffbff37b59215576b8f2ad2e7fc23bbece5692",
+    "port\\engine-ui\\gameswf_player_lifetime_overlay_v1.cmake": "0e3f5284f7169535e2e04767ae292a65716b848453985bac0d4ef5dcb6797b0a",
+    "port\\engine-ui\\overlays\\player-lifetime-v1\\gameswf_player.cpp": "a7236e70f0f5dfe97059b94e9db7906591c7b63272f052bdc552f3368fdf258d",
+    "port\\engine-ui\\tests\\swf_input_session_v1.cpp": "f2862f3fc9b20dc1b99560efdda2ae9bb62eb32b215f56f6dbb5b460b1b25153",
+    "port\\engine-ui\\tools\\swf_input_session_host_v1.py": "24be0581a1d307c7291d70e8c60be492bc34d1fbe157495769030674be6c76c2",
+    "port\\engine-ui\\reference\\swf-input-session-v1\\NOTES.md": "bbe3b18fb42a983a0c14315488af08bb4c21d126e700fd3424e81715a41f0681"
+  },
+  "proof_sha256": {
+    "port\\engine-ui\\reports\\swf-input-session-v1-host-audit-final.json": "5198b77b64ed9c6f6488e121542878ef8c59883808697788cecee7e6cf4b0042",
+    "port\\engine-ui\\reports\\swf-input-session-v1-android-compile.json": "88eab12e3f3fc06a83dfbd6483210c4cc707053fb3c7f31cd2988d63c0c627de",
+    "port\\engine-ui\\reference\\swf-input-session-v1\\connection-baseline.json": "10732cd5590f9229d8db63adca13e5e5443ace1de70bdd49e221978e70e921d0"
+  },
+  "frozen_input_frame_manifest": {
+    "path": "port\\engine-ui\\reference\\swf-native-input-frame-v1\\freeze-manifest.json",
+    "sha256": "5bc8544505a2ea255b83eb0179dd6dcec501bd5905aa26127178eede2477ca0c",
+    "source_unchanged": true
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "actual_host_library_sha256": "2dc5dd65ba523c5b36e76a009da5a0643952fbb5b9bf9361b769679ca6de3563",
+  "session_checks": 121,
+  "host_original_gold_comparisons": 10800,
+  "host_core_input_cases": 17,
+  "host_core_frame_checks": 28,
+  "sanitizer_findings": 0,
+  "Android_compile_ABIs": [
+    "arm64-v8a",
+    "x86_64"
+  ],
+  "Android_link_or_APK_or_GPU_test": false,
+  "modern_last_player_safety_overlay": true,
+  "application_advance_flag_producer_recovered": false,
+  "Android_pointer_slot_button_mask_policy_recovered": false,
+  "complete_original_application_parity": false,
+  "existing_checkpoint_changed": false
+}

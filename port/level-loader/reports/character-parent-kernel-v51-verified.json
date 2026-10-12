@@ -1,0 +1,59 @@
+{
+  "schema": "dh2-character-parent-shared-kernel-v51-verified",
+  "validation": "PASS shared original control +actual ordered Character parent prefix",
+  "tests": [
+    {
+      "test": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-parent-kernel-v51\\parent_kernel_control_v51.cpp",
+      "sha256": "d14ab65a4611d9617cd3ec09c37287c7851b3ee1012719688184a8b00b90ec78",
+      "stdout": "PASS shared_generic_control_original_cases=4 required_actual_producer_stops=2 genuine_ConditionData_empty_Invalid=1 actual_cached_spawn=1 whole_SetPosition_kernel=1 source_device_branch=1 Character_halfword_upper_guard=1 no_successful_visual_callbacks=1 controlled_inputs_not_firstSWAMP=1\n",
+      "binary_sha256": "fe06280c42f835dabf10c3b90335246f309b1ee97459d865a441086d52b1fe7d",
+      "link_map_sha256": "89202fda81606ba776da03c0be7cf1d3570186c1e09f2393bfc7ca619647d58e"
+    },
+    {
+      "test": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-parent-kernel-v51\\parent_character_model_v51.cpp",
+      "sha256": "c20ad9e8ebade68518f170a56e5154388b8b7dcec8b7db66692c967a2efbb636",
+      "stdout": "PASS actual_ordered_LoadBase_Recalc=1 actual_model_property_backing=1 actual_family_model_route=1 NPC_Faery_NULL=1 owned_Faery_real_save_getter_original_table_callbacks=1 missing_order_dictionary_type_backing_saved=5 failed_model_not_replayed=1 NULL_model_preserves_authored_CString=1 source_scale_before_missing_parent=1 shared_parent_actual_condition_cached_spawn_pose_prefix=1 required_actual_Device_stop=1 whole_InitPost_success=0 app_rng0_calls=8 saved_model=33\n",
+      "binary_sha256": "3b2787e54a1f741f78fd344bab7e594e585bdec3bf38f7c074b8c5ce64e5189f",
+      "link_map_sha256": "c600fbdbcab1bbb7eaaad86c974a2a0dcc17aa4395c015c65de576f7151c455a"
+    }
+  ],
+  "candidate_sources": {
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-parent-kernel-v51\\character_parent_init_post_v51.hpp": "cf0b00801cdbea6decf6d6af59d1d5e709340af435e778071b7647463fd9694c",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-parent-kernel-v51\\condition_data_init_v3.cpp": "e4ce15fc02bf7ed71fc93234189bd067666943c75ee1eb40aefb333d3d02690a",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-parent-kernel-v51\\condition_data_init_v3.hpp": "02307c267db3f3c9c9409b000cf32e289551991e9b3b21ab7928fc2db287137c",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-parent-kernel-v51\\condition_data_kernel_v51.hpp": "387cb31a4dbd22f0d5e3e2574801396ebb6de14c0929f59b542ee6f175a4774f",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-parent-kernel-v51\\condition_data_services_v51.hpp": "608e9dd6190184ab338ebdfd557c1357ff699c4d6d9199e8a436852479dc2ede",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-parent-kernel-v51\\game_object_initialization_fields_v51.hpp": "6248ad4def9ffd021325d2541e18224cb1741e55c9f7d9bf17b321489aa1a674",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-parent-kernel-v51\\game_object_initialization_kernel_v51.hpp": "6cdfbd69b06fc95dd525aeddceaac036a1e522457c18436de354dee8d90a74d5",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-parent-kernel-v51\\game_object_initialization_owner_v1.cpp": "d27440fce41ea95444635952a9e778959b415ad6e0903b5c0bb4d076aa445652",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-parent-kernel-v51\\game_object_initialization_owner_v1.hpp": "31400f9a6431cf748e1a4a3aeacd2ebc77f6cb63774fb2e66846c27a2416691c",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-parent-kernel-v51\\game_object_initialization_services_v51.hpp": "70a93040a6a16b83af6344d39516a4a5f97b895655597b267747f7ce4cef4c11",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-parent-kernel-v51\\original-condition_data_init_v3.cpp": "c6dd07c84e01052583a4ad8fcd4f27a6ddd8b7204548d31b0d01fdca0e028a29",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-parent-kernel-v51\\original-condition_data_init_v3.hpp": "02bded5b07434640a585a1fe39b158ee0a941b6e5b002bd62a06e9d5043bfdbe",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-parent-kernel-v51\\original-game_object_initialization_owner_v1.cpp": "2e93f9e784cead9e4be27f3f46a5d8957db4308052989fa5f971511a54ca1865",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-parent-kernel-v51\\original-game_object_initialization_owner_v1.hpp": "ff3becf37fad2a2bbb629dad1eec7806aa4515734e1233a93194701f8a6d6809",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-parent-kernel-v51\\parent_character_model_v51.cpp": "c20ad9e8ebade68518f170a56e5154388b8b7dcec8b7db66692c967a2efbb636",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-parent-kernel-v51\\parent_kernel_compile_v51.cpp": "65c99618365d801b71db78db5dacd924ff8766b8eac605f9f1e6c84d6c7a6ccb",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-parent-kernel-v51\\parent_kernel_control_v51.cpp": "d14ab65a4611d9617cd3ec09c37287c7851b3ee1012719688184a8b00b90ec78",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-parent-kernel-v51\\source_device_pipeline_v51.hpp": "2346fce9f4d6c2aa4c8294d420ee3d777324edfba5853cc9e7d6534a566f33df"
+  },
+  "selected_sources_unchanged": {
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\retained_character_actor_v1.hpp": "439a4d434712ab387e5d5dafb1e10e487b7145006cd857ab8bf2f5ebca74b43a",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\retained_character_actor_v1.cpp": "c6dd2b541605f8dbf5c83259721973b4a7ec3a08e4bf81342e145f7c7b107dcd",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\character_parent_init_fields_v48.hpp": "ada18dcbb02d7a78df775255aeaa2fee16ea940e6ec91f95ba95c78e226b35af",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\canonical_character_family_v4.cpp": "8b25023efde915318219a55288412d66faf84c8f230ca790420b2ff6ece4b91a",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\game_object_initialization_owner_v1.hpp": "ff3becf37fad2a2bbb629dad1eec7806aa4515734e1233a93194701f8a6d6809",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\game_object_initialization_owner_v1.cpp": "2e93f9e784cead9e4be27f3f46a5d8957db4308052989fa5f971511a54ca1865",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\condition_data_init_v3.hpp": "02bded5b07434640a585a1fe39b158ee0a941b6e5b002bd62a06e9d5043bfdbe",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\condition_data_init_v3.cpp": "c6dd07c84e01052583a4ad8fcd4f27a6ddd8b7204548d31b0d01fdca0e028a29"
+  },
+  "no_old_generic_initialization_condition_objects": true,
+  "no_second_base_pose_visual_save": true,
+  "source_halfword_Character_storage_preserved": true,
+  "actual_Character_prefix": "actual NPC ordered existing model then shared ConditionData/cache/SetPosition; required actual Device stop",
+  "whole_Character_InitPost_success": false,
+  "compiled_condition_allocated": false,
+  "successful_visual_callbacks": false,
+  "controlled_NULLvisual_inputs_are_not_first_SWAMP": true,
+  "emulator_launched": false
+}

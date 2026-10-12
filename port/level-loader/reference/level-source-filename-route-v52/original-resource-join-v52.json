@@ -1,0 +1,176 @@
+{
+  "validation": "PASS",
+  "comparisons": 24,
+  "original_FileHandleC1_34fc18_and_ToLowerCase34e414_executed": true,
+  "endpoints": "strcpy/strcat/sprintf; CFS.open returns actual missing pointer; no file read/handle success",
+  "cases": [
+    {
+      "root": "",
+      "filename": "001_swamp.mlx",
+      "RES_PATH": "ACTUAL/RES/",
+      "application_byteA8": 0,
+      "source_CFS_open_argument": "001_swamp.mlx"
+    },
+    {
+      "root": "",
+      "filename": "001_swamp.mlx",
+      "RES_PATH": "ACTUAL/RES/",
+      "application_byteA8": 1,
+      "source_CFS_open_argument": "001_swamp.mlx"
+    },
+    {
+      "root": "",
+      "filename": "data/scene/UPPER.mlx",
+      "RES_PATH": "ACTUAL/RES/",
+      "application_byteA8": 0,
+      "source_CFS_open_argument": "data/scene/UPPER.mlx"
+    },
+    {
+      "root": "",
+      "filename": "data/scene/UPPER.mlx",
+      "RES_PATH": "ACTUAL/RES/",
+      "application_byteA8": 1,
+      "source_CFS_open_argument": "data/scene/upper.mlx"
+    },
+    {
+      "root": "",
+      "filename": "name.savegame",
+      "RES_PATH": "ACTUAL/RES/",
+      "application_byteA8": 0,
+      "source_CFS_open_argument": "ACTUAL/RES/name.savegame"
+    },
+    {
+      "root": "",
+      "filename": "name.savegame",
+      "RES_PATH": "ACTUAL/RES/",
+      "application_byteA8": 1,
+      "source_CFS_open_argument": "actual/res/name.savegame"
+    },
+    {
+      "root": "",
+      "filename": "prefix.savegame.bak",
+      "RES_PATH": "ACTUAL/RES/",
+      "application_byteA8": 0,
+      "source_CFS_open_argument": "ACTUAL/RES/prefix.savegame.bak"
+    },
+    {
+      "root": "",
+      "filename": "prefix.savegame.bak",
+      "RES_PATH": "ACTUAL/RES/",
+      "application_byteA8": 1,
+      "source_CFS_open_argument": "actual/res/prefix.savegame.bak"
+    },
+    {
+      "root": "data/",
+      "filename": "001_swamp.mlx",
+      "RES_PATH": "ACTUAL/RES/",
+      "application_byteA8": 0,
+      "source_CFS_open_argument": "data/001_swamp.mlx"
+    },
+    {
+      "root": "data/",
+      "filename": "001_swamp.mlx",
+      "RES_PATH": "ACTUAL/RES/",
+      "application_byteA8": 1,
+      "source_CFS_open_argument": "data/001_swamp.mlx"
+    },
+    {
+      "root": "data/",
+      "filename": "data/scene/UPPER.mlx",
+      "RES_PATH": "ACTUAL/RES/",
+      "application_byteA8": 0,
+      "source_CFS_open_argument": "data/data/scene/UPPER.mlx"
+    },
+    {
+      "root": "data/",
+      "filename": "data/scene/UPPER.mlx",
+      "RES_PATH": "ACTUAL/RES/",
+      "application_byteA8": 1,
+      "source_CFS_open_argument": "data/data/scene/upper.mlx"
+    },
+    {
+      "root": "data/",
+      "filename": "name.savegame",
+      "RES_PATH": "ACTUAL/RES/",
+      "application_byteA8": 0,
+      "source_CFS_open_argument": "ACTUAL/RES/name.savegame"
+    },
+    {
+      "root": "data/",
+      "filename": "name.savegame",
+      "RES_PATH": "ACTUAL/RES/",
+      "application_byteA8": 1,
+      "source_CFS_open_argument": "actual/res/name.savegame"
+    },
+    {
+      "root": "data/",
+      "filename": "prefix.savegame.bak",
+      "RES_PATH": "ACTUAL/RES/",
+      "application_byteA8": 0,
+      "source_CFS_open_argument": "ACTUAL/RES/prefix.savegame.bak"
+    },
+    {
+      "root": "data/",
+      "filename": "prefix.savegame.bak",
+      "RES_PATH": "ACTUAL/RES/",
+      "application_byteA8": 1,
+      "source_CFS_open_argument": "actual/res/prefix.savegame.bak"
+    },
+    {
+      "root": "UPPER\\Root\\",
+      "filename": "001_swamp.mlx",
+      "RES_PATH": "ACTUAL/RES/",
+      "application_byteA8": 0,
+      "source_CFS_open_argument": "UPPER\\Root\\001_swamp.mlx"
+    },
+    {
+      "root": "UPPER\\Root\\",
+      "filename": "001_swamp.mlx",
+      "RES_PATH": "ACTUAL/RES/",
+      "application_byteA8": 1,
+      "source_CFS_open_argument": "upper\\root\\001_swamp.mlx"
+    },
+    {
+      "root": "UPPER\\Root\\",
+      "filename": "data/scene/UPPER.mlx",
+      "RES_PATH": "ACTUAL/RES/",
+      "application_byteA8": 0,
+      "source_CFS_open_argument": "UPPER\\Root\\data/scene/UPPER.mlx"
+    },
+    {
+      "root": "UPPER\\Root\\",
+      "filename": "data/scene/UPPER.mlx",
+      "RES_PATH": "ACTUAL/RES/",
+      "application_byteA8": 1,
+      "source_CFS_open_argument": "upper\\root\\data/scene/upper.mlx"
+    },
+    {
+      "root": "UPPER\\Root\\",
+      "filename": "name.savegame",
+      "RES_PATH": "ACTUAL/RES/",
+      "application_byteA8": 0,
+      "source_CFS_open_argument": "ACTUAL/RES/name.savegame"
+    },
+    {
+      "root": "UPPER\\Root\\",
+      "filename": "name.savegame",
+      "RES_PATH": "ACTUAL/RES/",
+      "application_byteA8": 1,
+      "source_CFS_open_argument": "actual/res/name.savegame"
+    },
+    {
+      "root": "UPPER\\Root\\",
+      "filename": "prefix.savegame.bak",
+      "RES_PATH": "ACTUAL/RES/",
+      "application_byteA8": 0,
+      "source_CFS_open_argument": "ACTUAL/RES/prefix.savegame.bak"
+    },
+    {
+      "root": "UPPER\\Root\\",
+      "filename": "prefix.savegame.bak",
+      "RES_PATH": "ACTUAL/RES/",
+      "application_byteA8": 1,
+      "source_CFS_open_argument": "actual/res/prefix.savegame.bak"
+    }
+  ]
+}

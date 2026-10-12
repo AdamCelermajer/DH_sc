@@ -1,0 +1,47 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN15VisualFXManager16RegisterFXToLoadEi",
+      "elf_address": "0x496434",
+      "size": 352,
+      "sha256": "5513ea05486803b4a2e72611e89529bedf4f29aa273340e8f049f3ad721c5b72"
+    },
+    {
+      "original_symbol": "_ZN15VisualFXManager19RegisterFXSetToLoadEi",
+      "elf_address": "0x4967e8",
+      "size": 364,
+      "sha256": "d21d4c301fb2e0ce6559243788729dde9e35d2b157d3dc64f5f835cc32d2f8ac"
+    },
+    {
+      "original_symbol": "_ZN15VisualFXManager10GrabAnimFXEiP10GameObject",
+      "elf_address": "0x495430",
+      "size": 648,
+      "sha256": "ef277260818ef8b49fa47ca5dd724110750efe79cd4030cc0677eb23a2e92e08"
+    },
+    {
+      "original_symbol": "_ZNK9Character10GetFXBloodEv",
+      "elf_address": "0x3a33d0",
+      "size": 104,
+      "sha256": "8c0a591694c9972a41943dee403e259883eeef5edf0c6e086024640283081056"
+    },
+    {
+      "original_symbol": "_ZNK9Character15GetFXBloodDeathEv",
+      "elf_address": "0x3a3368",
+      "size": 104,
+      "sha256": "7a6239cc54d9642427474fa6642511f0add25af696a9dfa76eac17d66ccf79e9"
+    },
+    {
+      "original_symbol": "_ZN9Character24RegisterCharacterFXTableEv",
+      "elf_address": "0x3b4738",
+      "size": 252,
+      "sha256": "2e2820a574659249c622a201fea50d94903179061ab446d490d33a6ab10fc9cd"
+    },
+    {
+      "original_symbol": "_ZNK9Character14GetFXFootprintEv",
+      "elf_address": "0x3a3300",
+      "size": 104,
+      "sha256": "d881eb6a7174d210f9943fa019778b8d21fb4f02ab7a4ee01c416e1c66f3d875"
+    }
+  ]
+}

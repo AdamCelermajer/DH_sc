@@ -1,0 +1,51 @@
+--- a/port/level-world/canonical_door_v27.hpp
++++ b/port/level-world/canonical_door_v27.hpp
+@@ -25,9 +25,9 @@
+  DoorNetworkOwnerV27& operator=(const DoorNetworkOwnerV27&)=delete;
+ };
+ // Read-only typed borrow of the SAME original Arrays::Doors producer.
+-// Source24-byte row has dispatch0 and five signed fields4..14; modern typed
++// Source24-byte row has dispatch0, CString length4/pointer8 and signedc/10/14; modern typed
+ // fields are not an ARM-image/vptr cast or a second table/registry.
+-struct DoorDeclarationRowV77 {std::array<std::int32_t,5> fields4_14;};
++struct DoorDeclarationRowV77 {std::string script4;std::int32_t sound_c{},sound10{},visual14{};};
+ struct DoorTableBorrowV77 {
+  std::shared_ptr<const void> receiver;
+  const std::vector<std::string>* names{};
+--- a/port/level-world/canonical_door_v27.cpp
++++ b/port/level-world/canonical_door_v27.cpp
+@@ -60,7 +60,7 @@
+  for(std::size_t i=0;i<table.names->size();++i)if(!std::strcmp(data388_.c_str(),(*table.names)[i].c_str())){found=static_cast<std::int32_t>(i);break;}
+  table_id3a0_=found; // Source stores miss -1 too, before Zone/visual work.
+  if(found!=-1){const auto* row=door_row_v77(table,found,e);if(!row)return false;
+-  const auto visual_id=row->fields4_14[4];
++  const auto visual_id=row->visual14;
+   if(visual_id!=-1){
+    if(!table.objects)return required_door_v77("SAME GameObjectDict owner",e);
+    const std::string* model{};if(!table.objects->file(visual_id,model,e))return false;
+@@ -88,12 +88,12 @@
+  DoorTableBorrowV77 first;if(!borrow_door_table_v77(leaves,first,e))return false;
+  const auto* row=door_row_v77(first,*table_id3a0_,e);if(!row)return false;
+  if(!leaves.load_sound)return required_door_v77("Vox LoadSound3699fc",e);
+- if(!leaves.load_sound(row->fields4_14[3],e))return false; // source10 first
++ if(!leaves.load_sound(row->sound10,e))return false; // source10 first
+  // Original reloads3a0 and table base after the first sound callback.
+  DoorTableBorrowV77 second;if(!borrow_door_table_v77(leaves,second,e))return false;
+  if(!table_id3a0_)return required_door_v77("retained source3a0 after LoadSound",e);
+  row=door_row_v77(second,*table_id3a0_,e);if(!row)return false;
+- return leaves.load_sound(row->fields4_14[2],e); // sourcec second, even -1 UID
++ return leaves.load_sound(row->sound_c,e); // sourcec second, even -1 UID
+ }
+ bool CanonicalDoorV27::startup_state_v77(bool opened,std::string& e){
+  const auto& leaves=services_.startup;const auto* visual_slot=base_.pointer(0x2d8);const auto* physical_slot=base_.pointer(0x2dc);
+--- a/port/level-world/canonical_trigger_object_v28.hpp
++++ b/port/level-world/canonical_trigger_object_v28.hpp
+@@ -12,7 +12,7 @@
+ class CanonicalTriggerObjectV28;
+ // Only consumed fields from the SAME decoded source24-byte TriggerObjects
+ // row. Its native CStringc is not Door's signed soundc field or an ARM pointer.
+-struct TriggerObjectDeclarationRowV78 {std::string external_script_c;std::int32_t sound10,visual14;};
++struct TriggerObjectDeclarationRowV78 {std::int32_t raw4{};std::string external_script_c;std::int32_t sound10{},visual14{};};
+ struct TriggerObjectTableBorrowV78 {
+  std::shared_ptr<const void> receiver;
+  const std::vector<std::string>* names{};

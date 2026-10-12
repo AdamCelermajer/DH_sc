@@ -1,0 +1,167 @@
+{
+  "scope": "Staged GS/current Level/shared-menu source successor; default Crypt C1 retained; source component proof, not whole Init/live campaign acceptance",
+  "files": [
+    {
+      "path": "port/level-loader/native_gslevel_runtime_v27.hpp",
+      "sha256": "ecb30f1f8663036edba97451895330f622ce152987abc9a8f5ca9c7b8627d598",
+      "bytes": 1866
+    },
+    {
+      "path": "port/level-loader/native_gslevel_runtime_v27.cpp",
+      "sha256": "13e6fe707f5faa0e0d01455b71456bb139dd6b0386eae84a91c6697b1f90ef63",
+      "bytes": 1658
+    },
+    {
+      "path": "port/level-loader/native_gslevel_connection_v26.hpp",
+      "sha256": "ebfbd9f6e2d5878075da0c075304241fca7b431e5cb8005247df494719adf9dc",
+      "bytes": 2516
+    },
+    {
+      "path": "port/level-loader/native_level_application_v25.hpp",
+      "sha256": "791abdef881118433990925170386c98ef9dc670b62413ef1ce023af9c84ef28",
+      "bytes": 2253
+    },
+    {
+      "path": "port/level-loader/native_level_application_v25.cpp",
+      "sha256": "91ce2450bdebad1c44f248069eef5434a73187a76016abef6992eef31cfbfbfa",
+      "bytes": 3565
+    },
+    {
+      "path": "port/level-loader/canonical_level_loading_v26.hpp",
+      "sha256": "5089dd7c172e3767b5c4e52e32df8416272981c6947ff050baed849d281ed8ab",
+      "bytes": 1133
+    },
+    {
+      "path": "port/level-loader/canonical_level_loading_v26.cpp",
+      "sha256": "24d0c981a9e883c7eb45a45fd3179b07e5c4a34c9e9d4e903eb4e918c6748dec",
+      "bytes": 1977
+    },
+    {
+      "path": "port/level-loader/canonical_level_context_v1.hpp",
+      "sha256": "01d64bdb27cbbad5af1d6cb01a7e089f976cd09822eb58b36cc384cea009005e",
+      "bytes": 5740
+    },
+    {
+      "path": "port/level-loader/canonical_level_context_v1.cpp",
+      "sha256": "c9c17c15305e0d600a44b406a7b5e243b9f8a9535a55b80fa65b83ba01bc789a",
+      "bytes": 3636
+    },
+    {
+      "path": "port/level-loader/gslevel_lifecycle_v2.hpp",
+      "sha256": "d4b10856113df5b8404f0326367757c0a41f44aa35923e946bf5eb5c1126ed1b",
+      "bytes": 7688
+    },
+    {
+      "path": "port/level-loader/tests/native_gslevel_runtime_v27.cpp",
+      "sha256": "c2d2277bf4d170fef541e8bc9f489ae2aa5865e279601ed9b11ade148d264e8f",
+      "bytes": 10722
+    },
+    {
+      "path": "port/engine-ui/authored_shared_menu_roster_v27.hpp",
+      "sha256": "41adbf496fe9327b1bdce0b0b4c59ed048861d86d0a15643f6d523bbbeba188a",
+      "bytes": 1791
+    },
+    {
+      "path": "port/engine-ui/authored_shared_menu_roster_v27.cpp",
+      "sha256": "fb9f9958f75ac9622201a68d19da2785e829634dc1de94ae26ec70e9aadaa485",
+      "bytes": 9540
+    },
+    {
+      "path": "port/engine-ui/menu_stack_owner_v1.hpp",
+      "sha256": "917b5d710c0f22e5ed30eb80b3e381a16c6c9d7092a6c7b270438699064df9b9",
+      "bytes": 2028
+    },
+    {
+      "path": "port/engine-ui/menu_stack_owner_v1.cpp",
+      "sha256": "3ec18e23225f27bdb1eac28b7784aa02d23b7f8af64ca468e3a3a5274bf0f243",
+      "bytes": 5256
+    },
+    {
+      "path": "port/engine-ui/authored_character_panel_v2.hpp",
+      "sha256": "062714234886b4c77cde8cab4dcd4af33fef5927f3b05248c525ca0b97418e04",
+      "bytes": 4010
+    },
+    {
+      "path": "port/engine-ui/authored_character_panel_v2.cpp",
+      "sha256": "c435e2aad07f21fad48e2307f0ea4195564ad6f4d0717f6a52ef7a0124882489",
+      "bytes": 23432
+    },
+    {
+      "path": "port/level-world/generic_lua_script_owner_v13.hpp",
+      "sha256": "7e78ded0f74a017945dafa1037122b9f00be2f8298d8a0dfe8d157ee68f5d92e",
+      "bytes": 3177
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_native_gslevel_v27.hpp",
+      "sha256": "a389e98faf62e02b0bf4f1c6c4bba456823fd9e3b800dcc6d85ffa8d7dbdcc85",
+      "bytes": 589
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_native_level_c1_v25.inc",
+      "sha256": "77f6de1b448054e1b002936d792aa8788024c4368459bdec69e08205d4ac8b9d",
+      "bytes": 10281
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_gameplay_camera_live_v20.inc",
+      "sha256": "02b8f4602573644990f38a1f4565bbd214e2855937cead0c27f7e6b821e743c1",
+      "bytes": 15197
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/native_character_menu_v4.inc",
+      "sha256": "0c773d971717d52bc92932bae63abad457fd8eb847371ec446db6826041e9b15",
+      "bytes": 18243
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/native_menu_loading_bootstrap_v27.inc",
+      "sha256": "3828819c45d037e55bd592d5e20bdbe34ec438656c11a2b877684fabbad2e7c5",
+      "bytes": 4820
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/native_gslevel_menu_v27.inc",
+      "sha256": "8b05fff6d8534cd30b16b6840246e956798e02172f781504bc1285dd93d0823d",
+      "bytes": 4909
+    },
+    {
+      "path": "port/level-loader/reports/native-gslevel-v27/README.md",
+      "sha256": "489f54077d83b2fb81d8b7cdfd5b4af233a494018e806d85af4ed631109b0f18",
+      "bytes": 4881
+    },
+    {
+      "path": "port/level-loader/reports/native-gslevel-v27/compile.json",
+      "sha256": "6fd8ceed563a5d12cb1598e0ca7416184a2018ebeadccdeb8220bd7679a0394c",
+      "bytes": 21028
+    },
+    {
+      "path": "port/level-loader/reports/native-gslevel-v27/host-receipt.json",
+      "sha256": "12d7af6bdb98f2bbefdb3d75a070e091c57cd5627bc09af13f69d28e42da11ae",
+      "bytes": 9193
+    },
+    {
+      "path": ".local-inputs/run_native_gslevel_v27_host.py",
+      "sha256": "4249190c01bddf0c2fc37d6d51205022545c40ed49fca8f539b6cfd3853305c2",
+      "bytes": 3037
+    },
+    {
+      "path": ".local-inputs/compile_native_gslevel_v27.py",
+      "sha256": "12ffa953b22e75a6d581901468b4b199dc8c4c4a3bd44ca6b75fec9bfc15025a",
+      "bytes": 1979
+    }
+  ],
+  "shared_root_hooks": [
+    "model_renderer.hpp includes renderer_native_gslevel_v27.hpp",
+    "model_renderer.cpp World retains native_gslevel_v27; prepare/flush camera prototypes; current native global borrow",
+    "native_app.cpp includes authored_shared_menu_roster_v27.hpp and native_gslevel_menu_v27.inc",
+    "level-world CMake adds native_gslevel_runtime_v27.cpp",
+    "engine-ui CMake adds authored_shared_menu_roster_v27.cpp"
+  ],
+  "required_dependencies": [
+    "existing full C1 LevelConstructorBindingsV4/LevelConstructorV3 owners",
+    "V25 source Application/context and V26 Loading owner",
+    "existing native menu platform/localization/SWF source facade",
+    "whole original Level.Init/LoadProcess/Unload/destruction",
+    "front MenuManager native history adoption and lifetime-safe Loading unbind/GL restore"
+  ],
+  "private_loader_checkout_untouched": true,
+  "emulators_untouched": true,
+  "apk_built_or_installed": false
+}

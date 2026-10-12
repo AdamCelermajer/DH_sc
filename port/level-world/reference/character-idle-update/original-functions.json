@@ -1,0 +1,77 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN13PlayerManager13GetNumPlayersEv",
+      "elf_address": "0x36d7a8",
+      "size": 108,
+      "sha256": "6574deec313751fb822b36bf2310b9c927cecad8dba59a00e150f21c8434f1b2"
+    },
+    {
+      "original_symbol": "_ZN9Character13_GetStateTimeERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b6d6c",
+      "size": 12,
+      "sha256": "1cb7291ef4a8d4f3b34d2d4ff3192fd04e84f0ed8b605b6ad05e20857b376017"
+    },
+    {
+      "original_symbol": "_ZN6CSIdle8OnUpdateEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c0e80",
+      "size": 16,
+      "sha256": "cb75a2633d2bc15c4a0aaf7d11871fbefc2462a50bd63d2a31a4dc0f8ba2c757"
+    },
+    {
+      "original_symbol": "_ZN9Character10RaiseEventEiPv",
+      "elf_address": "0x3a4d5c",
+      "size": 28,
+      "sha256": "2422a21cba16aea71f10939f0f32fe6326e27beb11fe6160b058426b0e2156e3"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine6UpdateEv",
+      "elf_address": "0x3c628c",
+      "size": 264,
+      "sha256": "abfd28dd44b37cb6e711de13ac7a010767efbfd6faec0c925773240f77e45614"
+    },
+    {
+      "original_symbol": "_ZNK9Character8IsPlayerEv",
+      "elf_address": "0x3a49f0",
+      "size": 76,
+      "sha256": "efb4b11a24129fac129ee1ee6460e1a8f9eef7b8648d7f9f70d3d2338eee342a"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine11SM_GetStateEv",
+      "elf_address": "0x3c01ac",
+      "size": 20,
+      "sha256": "4b5797cd91d4afd7ee3becf1bb65b696146e55fc226838e13c0fbef91b0e4743"
+    },
+    {
+      "original_symbol": "_ZN12v2Controller10Cmd_MoveToERK7Point3DIfE",
+      "elf_address": "0x4054e4",
+      "size": 92,
+      "sha256": "4897a20b173d71c7c1633d47216f210056d8c79232b8cc6c553b74b16763abfc"
+    },
+    {
+      "original_symbol": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c0b78",
+      "size": 776,
+      "sha256": "f012ce3658bdf43d2d800a989c6259cd3019899a085df27429ce3d915b036f75"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager9GetPlayerEib",
+      "elf_address": "0x36e744",
+      "size": 32,
+      "sha256": "5d19ac5cd09da90a3037728eecc8623b843e040bab522a6abe6a2eaedb2a82a6"
+    },
+    {
+      "original_symbol": "_Z9GetOnlinev",
+      "elf_address": "0x7fd794",
+      "size": 4,
+      "sha256": "39e1051e33bd200a0ebe62d8a3340b45bba86b3a31ac8822e6d4f2c7b60a152e"
+    },
+    {
+      "original_symbol": "_ZN10GameObject19SetHeadingDirectionERK7Point3DIfEb",
+      "elf_address": "0x393be8",
+      "size": 260,
+      "sha256": "63ed101dc26fa3fa92c8d55483396200d17d41800b53e5bd148870d9e515bc86"
+    }
+  ]
+}

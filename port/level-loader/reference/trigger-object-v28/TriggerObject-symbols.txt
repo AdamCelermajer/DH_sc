@@ -1,0 +1,43 @@
+003996a8 0000028c t _GLOBAL__I_.._.._sources_Game_Objects_Triggers_TriggerObject.cpp
+00340f0c 00000020 W ObjectBase* GetNewInstance<TriggerObject>()
+00399580 0000011c T TriggerObject::Deserialize(IStreamBase*)
+00399d70 00000080 T TriggerObject::DeclareProperties()
+003993bc 000000d4 T TriggerObject::TestInteractiveCond()
+0039939c 00000020 T TriggerObject::InterpretIncomingNetStruct(bool)
+003994a8 000000d0 T TriggerObject::Update()
+00399ff8 00000398 T TriggerObject::InitPost()
+00399af0 00000278 T TriggerObject::Interact(GameObject*)
+003996a4 00000004 T TriggerObject::Serialize(IStreamBase*)
+00399df0 00000104 T TriggerObject::TriggerObject()
+00399ef4 00000104 T TriggerObject::TriggerObject()
+003999d8 0000001c T TriggerObject::~TriggerObject()
+0039993c 00000094 T TriggerObject::~TriggerObject()
+003999f4 00000094 T TriggerObject::~TriggerObject()
+004a73cc 0000009c W Arrays::TriggerObjects::finalizeNames()
+009a6580 00000004 B Arrays::TriggerObjects::m_memberNames
+004bb320 0000014c W Arrays::TriggerObjects::read(IStreamBase*)
+009a6578 00000004 B Arrays::TriggerObjects::size
+009a657c 00000004 B Arrays::TriggerObjects::members
+004a7468 000000e4 W Arrays::TriggerObjects::finalize()
+004b5c9c 00000198 W Arrays::TriggerObjects::readNames(IStreamBase*)
+004adfd0 00000074 W int Arrays::GetMemberIDByString<Arrays::TriggerObjects>(char const*)
+009ebfb8 00000060 B Structs::TriggerObject::m_dataNames
+0099a358 00000010 D Structs::TriggerObject::m_dataOffsets
+004fd448 000001d0 T Structs::TriggerObject::read(IStreamBase*)
+004d9c9c 00000028 T Structs::TriggerObject::finalize()
+004d9d04 0000001c T Structs::TriggerObject::~TriggerObject()
+004d9cc4 00000040 T Structs::TriggerObject::~TriggerObject()
+004d9d20 00000040 T Structs::TriggerObject::~TriggerObject()
+004ae044 00000058 W int Structs::GetMemberIDByString<Structs::TriggerObject>(char const*)
+00399328 00000008 W TriggerObject::IsAnimated() const
+00399318 00000008 W TriggerObject::IsUpdatable() const
+00399490 00000018 T TriggerObject::IsInteractive(GameObject*) const
+00399330 00000038 T TriggerObject::GetInteractionType(GameObject*) const
+00399320 00000008 W TriggerObject::IsZonable() const
+00965058 00000104 D vtable for TriggerObject
+0096b408 00000018 D vtable for Structs::TriggerObject
+00399578 00000008 T non-virtual thunk to TriggerObject::Deserialize(IStreamBase*)
+0039969c 00000008 T non-virtual thunk to TriggerObject::Serialize(IStreamBase*)
+003999d0 00000008 T non-virtual thunk to TriggerObject::~TriggerObject()
+00399934 00000008 T non-virtual thunk to TriggerObject::~TriggerObject()
+00399d68 00000008 T non-virtual thunk to TriggerObject::DeclareProperties()

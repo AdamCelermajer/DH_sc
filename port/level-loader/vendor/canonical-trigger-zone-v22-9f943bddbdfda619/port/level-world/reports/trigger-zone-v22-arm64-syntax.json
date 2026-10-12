@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "scope": "strict ARM64 syntax TriggerZone owner only",
+  "sources": [
+    {
+      "path": "port/level-world/canonical_trigger_zone_v22.cpp",
+      "sha256": "5dc3080f4e6e3ac4653c61640683ba012b47283b8b7ca29bf8345fadad85c792"
+    }
+  ],
+  "stdout": "",
+  "stderr": ""
+}

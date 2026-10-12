@@ -1,0 +1,9 @@
+{
+  "validation": "PASS",
+  "recipe_sha256": "e7608376d2f022c333580ee93edc531c583cc5cd4483979a44d0e550962c3946",
+  "successful_selection_script_sha256": "b367a1598d2a597e508b8ffebfa6b18a4192179971a40d033003b04837cef2ef",
+  "duplicate_rejection_script_sha256": "cf2ebbf67c827abbb1d0302fd90e16fdaaba483f62531077760908ff410fe8c8",
+  "selection_exit_code": 0,
+  "duplicate_exit_code": 1,
+  "duplicate_error": "Source-facade-v1 requires exactly one swf_movie.cpp"
+}

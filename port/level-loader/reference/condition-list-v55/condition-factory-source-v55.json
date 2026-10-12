@@ -1,0 +1,362 @@
+{
+  "table": "0x969258",
+  "slots": [
+    {
+      "op": 0,
+      "entry": "0x478b5c",
+      "name": "Condition* GetConditionImplInstance<Condition_IsQuestInState>()"
+    },
+    {
+      "op": 1,
+      "entry": "0x478b14",
+      "name": "Condition* GetConditionImplInstance<Condition_IsQuestStateLower>()"
+    },
+    {
+      "op": 2,
+      "entry": "0x478acc",
+      "name": "Condition* GetConditionImplInstance<Condition_IsQuestStateHigher>()"
+    },
+    {
+      "op": 3,
+      "entry": "0x478a80",
+      "name": "Condition* GetConditionImplInstance<Condition_IsPlayerInLevel>()"
+    },
+    {
+      "op": 4,
+      "entry": "0x478a34",
+      "name": "Condition* GetConditionImplInstance<Condition_IsLevelInState>()"
+    },
+    {
+      "op": 5,
+      "entry": "0x4789e8",
+      "name": "Condition* GetConditionImplInstance<Condition_IsPlayerAtLevel>()"
+    },
+    {
+      "op": 6,
+      "entry": "0x47899c",
+      "name": "Condition* GetConditionImplInstance<Condition_IsEventInState>()"
+    }
+  ],
+  "original_constructed_by_type": {
+    "0": {
+      "factory": "0x478b5c",
+      "name": "Condition* GetConditionImplInstance<Condition_IsQuestInState>()",
+      "vtable": "0x969240",
+      "cache8": "0x0"
+    },
+    "1": {
+      "factory": "0x478b14",
+      "name": "Condition* GetConditionImplInstance<Condition_IsQuestStateLower>()",
+      "vtable": "0x969220",
+      "cache8": "0x1"
+    },
+    "2": {
+      "factory": "0x478acc",
+      "name": "Condition* GetConditionImplInstance<Condition_IsQuestStateHigher>()",
+      "vtable": "0x9691e0",
+      "cache8": "0x2"
+    }
+  },
+  "symbols": [
+    {
+      "address": "0x47899c",
+      "size": 76,
+      "kind": "W",
+      "name": "Condition* GetConditionImplInstance<Condition_IsEventInState>()"
+    },
+    {
+      "address": "0x478a34",
+      "size": 76,
+      "kind": "W",
+      "name": "Condition* GetConditionImplInstance<Condition_IsLevelInState>()"
+    },
+    {
+      "address": "0x478b5c",
+      "size": 72,
+      "kind": "W",
+      "name": "Condition* GetConditionImplInstance<Condition_IsQuestInState>()"
+    },
+    {
+      "address": "0x4789e8",
+      "size": 76,
+      "kind": "W",
+      "name": "Condition* GetConditionImplInstance<Condition_IsPlayerAtLevel>()"
+    },
+    {
+      "address": "0x478a80",
+      "size": 76,
+      "kind": "W",
+      "name": "Condition* GetConditionImplInstance<Condition_IsPlayerInLevel>()"
+    },
+    {
+      "address": "0x478b14",
+      "size": 72,
+      "kind": "W",
+      "name": "Condition* GetConditionImplInstance<Condition_IsQuestStateLower>()"
+    },
+    {
+      "address": "0x478acc",
+      "size": 72,
+      "kind": "W",
+      "name": "Condition* GetConditionImplInstance<Condition_IsQuestStateHigher>()"
+    },
+    {
+      "address": "0x478c10",
+      "size": 180,
+      "kind": "W",
+      "name": "Condition_IsEventInState::DBG_TraceDetailedConditionInformation(__sFILE*)"
+    },
+    {
+      "address": "0x478db4",
+      "size": 220,
+      "kind": "W",
+      "name": "Condition_IsEventInState::Eval()"
+    },
+    {
+      "address": "0x4791f4",
+      "size": 60,
+      "kind": "W",
+      "name": "Condition_IsEventInState::~Condition_IsEventInState()"
+    },
+    {
+      "address": "0x4787a8",
+      "size": 52,
+      "kind": "W",
+      "name": "Condition_IsEventInState::~Condition_IsEventInState()"
+    },
+    {
+      "address": "0x478fb0",
+      "size": 28,
+      "kind": "W",
+      "name": "Condition_IsLevelInState::DBG_TraceDetailedConditionInformation(__sFILE*)"
+    },
+    {
+      "address": "0x478638",
+      "size": 8,
+      "kind": "W",
+      "name": "Condition_IsLevelInState::Eval()"
+    },
+    {
+      "address": "0x47917c",
+      "size": 60,
+      "kind": "W",
+      "name": "Condition_IsLevelInState::~Condition_IsLevelInState()"
+    },
+    {
+      "address": "0x478844",
+      "size": 52,
+      "kind": "W",
+      "name": "Condition_IsLevelInState::~Condition_IsLevelInState()"
+    },
+    {
+      "address": "0x479320",
+      "size": 60,
+      "kind": "W",
+      "name": "Condition_IsQuestInState::~Condition_IsQuestInState()"
+    },
+    {
+      "address": "0x4788e0",
+      "size": 52,
+      "kind": "W",
+      "name": "Condition_IsQuestInState::~Condition_IsQuestInState()"
+    },
+    {
+      "address": "0x478f94",
+      "size": 28,
+      "kind": "W",
+      "name": "Condition_IsPlayerAtLevel::DBG_TraceDetailedConditionInformation(__sFILE*)"
+    },
+    {
+      "address": "0x478640",
+      "size": 8,
+      "kind": "W",
+      "name": "Condition_IsPlayerAtLevel::Eval()"
+    },
+    {
+      "address": "0x47926c",
+      "size": 60,
+      "kind": "W",
+      "name": "Condition_IsPlayerAtLevel::~Condition_IsPlayerAtLevel()"
+    },
+    {
+      "address": "0x478810",
+      "size": 52,
+      "kind": "W",
+      "name": "Condition_IsPlayerAtLevel::~Condition_IsPlayerAtLevel()"
+    },
+    {
+      "address": "0x478ba4",
+      "size": 108,
+      "kind": "W",
+      "name": "Condition_IsPlayerInLevel::DBG_TraceDetailedConditionInformation(__sFILE*)"
+    },
+    {
+      "address": "0x478d78",
+      "size": 60,
+      "kind": "W",
+      "name": "Condition_IsPlayerInLevel::Eval()"
+    },
+    {
+      "address": "0x479230",
+      "size": 60,
+      "kind": "W",
+      "name": "Condition_IsPlayerInLevel::~Condition_IsPlayerInLevel()"
+    },
+    {
+      "address": "0x4787dc",
+      "size": 52,
+      "kind": "W",
+      "name": "Condition_IsPlayerInLevel::~Condition_IsPlayerInLevel()"
+    },
+    {
+      "address": "0x4792e4",
+      "size": 60,
+      "kind": "W",
+      "name": "Condition_IsQuestStateLower::~Condition_IsQuestStateLower()"
+    },
+    {
+      "address": "0x4788ac",
+      "size": 52,
+      "kind": "W",
+      "name": "Condition_IsQuestStateLower::~Condition_IsQuestStateLower()"
+    },
+    {
+      "address": "0x4792a8",
+      "size": 60,
+      "kind": "W",
+      "name": "Condition_IsQuestStateHigher::~Condition_IsQuestStateHigher()"
+    },
+    {
+      "address": "0x478878",
+      "size": 52,
+      "kind": "W",
+      "name": "Condition_IsQuestStateHigher::~Condition_IsQuestStateHigher()"
+    },
+    {
+      "address": "0x478cc4",
+      "size": 180,
+      "kind": "W",
+      "name": "Condition_IsQuestInStateGeneric::DBG_TraceDetailedConditionInformation(__sFILE*)"
+    },
+    {
+      "address": "0x478fe8",
+      "size": 184,
+      "kind": "W",
+      "name": "Condition_IsQuestInStateGeneric::Eval()"
+    },
+    {
+      "address": "0x4791b8",
+      "size": 60,
+      "kind": "W",
+      "name": "Condition_IsQuestInStateGeneric::~Condition_IsQuestInStateGeneric()"
+    },
+    {
+      "address": "0x4786a4",
+      "size": 52,
+      "kind": "W",
+      "name": "Condition_IsQuestInStateGeneric::~Condition_IsQuestInStateGeneric()"
+    },
+    {
+      "address": "0x478fcc",
+      "size": 28,
+      "kind": "T",
+      "name": "Condition::DBG_TraceDetailedConditionInformation(__sFILE*)"
+    },
+    {
+      "address": "0x478634",
+      "size": 4,
+      "kind": "W",
+      "name": "Condition::Compile()"
+    },
+    {
+      "address": "0x478674",
+      "size": 44,
+      "kind": "T",
+      "name": "Condition::Condition()"
+    },
+    {
+      "address": "0x478648",
+      "size": 44,
+      "kind": "T",
+      "name": "Condition::Condition()"
+    },
+    {
+      "address": "0x478e90",
+      "size": 28,
+      "kind": "T",
+      "name": "Condition::~Condition()"
+    },
+    {
+      "address": "0x4786d8",
+      "size": 4,
+      "kind": "T",
+      "name": "Condition::~Condition()"
+    },
+    {
+      "address": "0x4786a0",
+      "size": 4,
+      "kind": "T",
+      "name": "Condition::~Condition()"
+    },
+    {
+      "address": "0x95c6f8",
+      "size": 16,
+      "kind": "D",
+      "name": "vtable for ConditionData"
+    },
+    {
+      "address": "0x969158",
+      "size": 28,
+      "kind": "V",
+      "name": "vtable for Condition_IsEventInState"
+    },
+    {
+      "address": "0x969198",
+      "size": 28,
+      "kind": "V",
+      "name": "vtable for Condition_IsLevelInState"
+    },
+    {
+      "address": "0x969238",
+      "size": 28,
+      "kind": "V",
+      "name": "vtable for Condition_IsQuestInState"
+    },
+    {
+      "address": "0x969178",
+      "size": 28,
+      "kind": "V",
+      "name": "vtable for Condition_IsPlayerAtLevel"
+    },
+    {
+      "address": "0x9691b8",
+      "size": 28,
+      "kind": "V",
+      "name": "vtable for Condition_IsPlayerInLevel"
+    },
+    {
+      "address": "0x969218",
+      "size": 28,
+      "kind": "V",
+      "name": "vtable for Condition_IsQuestStateLower"
+    },
+    {
+      "address": "0x9691d8",
+      "size": 28,
+      "kind": "V",
+      "name": "vtable for Condition_IsQuestStateHigher"
+    },
+    {
+      "address": "0x9691f8",
+      "size": 28,
+      "kind": "V",
+      "name": "vtable for Condition_IsQuestInStateGeneric"
+    },
+    {
+      "address": "0x969278",
+      "size": 28,
+      "kind": "D",
+      "name": "vtable for Condition"
+    }
+  ]
+}

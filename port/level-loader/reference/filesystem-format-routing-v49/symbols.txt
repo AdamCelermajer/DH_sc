@@ -1,0 +1,147 @@
+0034e56c t _GLOBAL__I_.._.._sources_Core_Irrlicht_FileSystemBase.cpp
+0034f81c t _GLOBAL__I_.._.._sources_Core_Irrlicht_FileSystemWin32.cpp
+0042b304 t _GLOBAL__I_.._.._sources_Game_Menus_MenuFileSystem.cpp
+0056c5cc t _GLOBAL__I_.._source_glitch_io_CFileSystem.cpp
+00350aec T IrrFactory::createFileSystem()
+00350a80 T IrrFactory::createSceneManager(glitch::video::IVideoDriver*, boost::intrusive_ptr<glitch::io::IFileSystem> const&, glitch::gui::ICursorControl*, glitch::gui::IGUIEnvironment*)
+00352c3c T SceneManager::SceneManager(glitch::video::IVideoDriver*, boost::intrusive_ptr<glitch::io::IFileSystem>, glitch::gui::ICursorControl*, glitch::gui::IGUIEnvironment*)
+00352d4c T SceneManager::SceneManager(glitch::video::IVideoDriver*, boost::intrusive_ptr<glitch::io::IFileSystem>, glitch::gui::ICursorControl*, glitch::gui::IGUIEnvironment*)
+0034df94 W FileSystemBase::doesFileExists(char const*)
+0034e688 T FileSystemBase::createAndOpenFile(char const*)
+0034dfe0 W FileSystemBase::doesResourceExists(char const*)
+0034e150 W FileSystemBase::doesSavefileExists(char const*)
+0034e0fc T FileSystemBase::decodeObfuscatedData(int, void*, int, void*)
+0034e1d4 T FileSystemBase::changeWorkingDirectoryTo(char const*)
+0034e504 T FileSystemBase::FileSystemBase()
+0034e538 T FileSystemBase::FileSystemBase()
+0034e4b4 T FileSystemBase::~FileSystemBase()
+0034e480 T FileSystemBase::~FileSystemBase()
+0034e4d0 T FileSystemBase::~FileSystemBase()
+0034eec8 T FileSystemWin32::_FileHandle::read(void*, unsigned long long)
+0034ee10 T FileSystemWin32::_FileHandle::seek(unsigned long long)
+0034ee74 T FileSystemWin32::_FileHandle::write(void const*, unsigned long long)
+0034fc18 T FileSystemWin32::_FileHandle::_FileHandle(char const*, char const*, bool, bool)
+0035003c T FileSystemWin32::_FileHandle::_FileHandle(char const*, char const*, bool, bool)
+0034fbbc T FileSystemWin32::_FileHandle::~_FileHandle()
+0034fb7c T FileSystemWin32::_FileHandle::~_FileHandle()
+0034fbd8 T FileSystemWin32::_FileHandle::~_FileHandle()
+0034ebc0 W FileSystemWin32::copySavefile(char const*)
+0034f34c T FileSystemWin32::makeFullPath(char const*, char const*, char*, int)
+0034f35c T FileSystemWin32::makeFullPath(wchar_t const*, wchar_t const*, wchar_t*, int)
+0034ff28 T FileSystemWin32::openResource(char const*)
+0034fee4 T FileSystemWin32::openSavefile(char const*, bool)
+0034fe50 T FileSystemWin32::_createHandle(char const*, char const*, bool, bool)
+0034ff84 T FileSystemWin32::openTraceFile(char const*)
+0034ffb0 T FileSystemWin32::openFile(char const*, bool, bool)
+0034f068 T FileSystemWin32::_getPaths()
+0034ebcc T FileSystemWin32::closeFile(IFileStream*&)
+0034f6f4 T FileSystemWin32::FileSystemWin32()
+0034f788 T FileSystemWin32::FileSystemWin32()
+0034f6a4 T FileSystemWin32::~FileSystemWin32()
+0034f670 T FileSystemWin32::~FileSystemWin32()
+0034f6c0 T FileSystemWin32::~FileSystemWin32()
+00894684 T vox::FileSystemStdio::FileSystemStdio()
+008945dc T vox::FileSystemStdio::FileSystemStdio()
+00894760 T vox::FileSystemStdio::~FileSystemStdio()
+0089472c T vox::FileSystemStdio::~FileSystemStdio()
+0089477c T vox::FileSystemStdio::~FileSystemStdio()
+008947b0 T vox::VoxNewFileSystem()
+00894290 T vox::FileSystemInterface::SetArchive(char const*, bool, bool, bool)
+00a33ec4 B vox::FileSystemInterface::m_instance
+008945a4 T vox::FileSystemInterface::GetInstance()
+00893e88 T vox::FileSystemInterface::GetDirectory(char*, int, char*)
+00893f4c T vox::FileSystemInterface::PopDirectory()
+008941ec T vox::FileSystemInterface::PushDirectory(char*)
+00894140 T vox::FileSystemInterface::DestroyInstance()
+00894330 T vox::FileSystemInterface::OpenFile(char*, vox::VoxFileAccessMode)
+00a33eac B vox::FileSystemInterface::m_IOFunc
+00893ff0 T vox::FileSystemInterface::CloseFile(vox::FileInterface*)
+008940c0 T vox::FileSystemInterface::~FileSystemInterface()
+0089405c T vox::FileSystemInterface::~FileSystemInterface()
+008940dc T vox::FileSystemInterface::~FileSystemInterface()
+00533fb0 T glitch::CIrrFactory::createFileSystem()
+00533f60 T glitch::CIrrFactory::createSceneManager(glitch::video::IVideoDriver*, boost::intrusive_ptr<glitch::io::IFileSystem> const&, glitch::gui::ICursorControl*, glitch::gui::IGUIEnvironment*)
+00533f28 T glitch::CIrrFactory::createGUIEnvironment(boost::intrusive_ptr<glitch::io::IFileSystem> const&, glitch::video::IVideoDriver*, glitch::IOSOperator*)
+009f66e4 B glitch::io::CFileSystem::ObfuscationMap
+0056c230 T glitch::io::CFileSystem::createXMLReader(char const*)
+0056c480 T glitch::io::CFileSystem::createXMLReader(glitch::io::IReadFile*)
+0056c278 T glitch::io::CFileSystem::createXMLWriter(char const*)
+0056c414 T glitch::io::CFileSystem::createXMLWriter(glitch::io::IWriteFile*)
+0099b138 D glitch::io::CFileSystem::WorkingDirectory
+0056ca70 T glitch::io::CFileSystem::addPakFileArchive(char const*, bool, bool)
+0056d2c0 T glitch::io::CFileSystem::addZipFileArchive(char const*, bool, bool)
+0056d4e0 T glitch::io::CFileSystem::createAndOpenFile(char const*)
+0056ce60 T glitch::io::CFileSystem::removeFileArchive(char const*)
+0056c570 T glitch::io::CFileSystem::createAndWriteFile(char const*, bool)
+0056c44c T glitch::io::CFileSystem::createXMLReaderUTF8(char const*)
+0056c43c T glitch::io::CFileSystem::createXMLReaderUTF8(glitch::io::IReadFile*)
+0056c214 T glitch::io::CFileSystem::getWorkingDirectory()
+0056d180 T glitch::io::CFileSystem::addFolderFileArchive(char const*, bool, bool)
+0056c57c T glitch::io::CFileSystem::createMemoryReadFile(void*, int, char const*, bool)
+0056e6dc T glitch::io::CFileSystem::addObfuscationFileMap(char const*, unsigned char, std::basic_string<char, std::char_traits<char>, glitch::core::SAllocator<char, (glitch::memory::E_MEMORY_HINT)0>>)
+0056c3ec T glitch::io::CFileSystem::createEmptyAttributes(glitch::video::IVideoDriver*)
+0056e064 T glitch::io::CFileSystem::getObfuscatedFileName(char const*)
+0056c528 T glitch::io::CFileSystem::changeWorkingDirectoryTo(char const*)
+0056c0f8 T glitch::io::CFileSystem::createAndOpenFileFromArchives(char const*)
+0056dc40 T glitch::io::CFileSystem::open(char const*, char const*)
+0056cb78 T glitch::io::CFileSystem::clear()
+0056c0a8 T glitch::io::CFileSystem::CFileSystem()
+0056c058 T glitch::io::CFileSystem::CFileSystem()
+0056cca8 T glitch::io::CFileSystem::~CFileSystem()
+0056cc44 T glitch::io::CFileSystem::~CFileSystem()
+0056ccc4 T glitch::io::CFileSystem::~CFileSystem()
+0056c490 W glitch::io::IFileSystem::~IFileSystem()
+0056c054 W glitch::io::IFileSystem::~IFileSystem()
+005780fc T glitch::io::CUnZipReader::CUnZipReader(glitch::io::IFileSystem*, char const*, bool, bool)
+005781b4 T glitch::io::CUnZipReader::CUnZipReader(glitch::io::IFileSystem*, char const*, bool, bool)
+0056c2d8 T glitch::io::createFileSystem()
+0053a0c0 T glitch::gui::CGUIEnvironment::CGUIEnvironment(boost::intrusive_ptr<glitch::io::IFileSystem> const&, glitch::video::IVideoDriver*, glitch::IOSOperator*)
+0053a308 T glitch::gui::CGUIEnvironment::CGUIEnvironment(boost::intrusive_ptr<glitch::io::IFileSystem> const&, glitch::video::IVideoDriver*, glitch::IOSOperator*)
+0053a2d0 T glitch::gui::createGUIEnvironment(boost::intrusive_ptr<glitch::io::IFileSystem> const&, glitch::video::IVideoDriver*, glitch::IOSOperator*)
+0057db94 T glitch::scene::CBatchMesh::load(glitch::io::IReadFile*, glitch::video::IVideoDriver*, glitch::io::IFileSystem*, glitch::collada::CRootSceneNode*, glitch::collada::CColladaFactory*)
+0058d908 T glitch::scene::CSceneManager::CSceneManager(glitch::video::IVideoDriver*, boost::intrusive_ptr<glitch::io::IFileSystem> const&, glitch::gui::ICursorControl*, glitch::scene::IMeshCache*, glitch::gui::IGUIEnvironment*)
+0058ddd0 T glitch::scene::CSceneManager::CSceneManager(glitch::video::IVideoDriver*, boost::intrusive_ptr<glitch::io::IFileSystem> const&, glitch::gui::ICursorControl*, glitch::scene::IMeshCache*, glitch::gui::IGUIEnvironment*)
+006d1b5c T glitch::scene::CTerrainSceneNode::CTerrainSceneNode(boost::intrusive_ptr<glitch::io::IFileSystem> const&, int, unsigned int, int, glitch::scene::E_TERRAIN_PATCH_SIZE, glitch::core::vector3d<float> const&, glitch::core::quaternion const&, glitch::core::vector3d<float> const&)
+006d18bc T glitch::scene::CTerrainSceneNode::CTerrainSceneNode(boost::intrusive_ptr<glitch::io::IFileSystem> const&, int, unsigned int, int, glitch::scene::E_TERRAIN_PATCH_SIZE, glitch::core::vector3d<float> const&, glitch::core::quaternion const&, glitch::core::vector3d<float> const&)
+006b9360 T glitch::scene::CColladaBinaryFileLoader::CColladaBinaryFileLoader(glitch::scene::CSceneManager*, boost::intrusive_ptr<glitch::io::IFileSystem> const&)
+006b9310 T glitch::scene::CColladaBinaryFileLoader::CColladaBinaryFileLoader(glitch::scene::CSceneManager*, boost::intrusive_ptr<glitch::io::IFileSystem> const&)
+006bb008 T glitch::scene::CDefaultSceneNodeFactory::CDefaultSceneNodeFactory(glitch::scene::CSceneManager*, glitch::gui::ICursorControl*, boost::intrusive_ptr<glitch::io::IFileSystem> const&)
+006baae8 T glitch::scene::CDefaultSceneNodeFactory::CDefaultSceneNodeFactory(glitch::scene::CSceneManager*, glitch::gui::ICursorControl*, boost::intrusive_ptr<glitch::io::IFileSystem> const&)
+0034e1ac W FileSystemBase::formatFilePath(std::basic_string<char, std::char_traits<char>, glitch::core::SAllocator<char, (glitch::memory::E_MEMORY_HINT)0>> const&) const
+0034e5f4 T FileSystemBase::getAbsolutePath(std::basic_string<char, std::char_traits<char>, glitch::core::SAllocator<char, (glitch::memory::E_MEMORY_HINT)0>> const&) const
+0034e96c T FileSystemBase::ApplyFilenameHacks(char const*) const
+0034ebfc T FileSystemWin32::getFolders(char const*, std::vector<std::string, std::allocator<std::string>>&) const
+0034ef58 T FileSystemWin32::_FileHandle::peek(void*, unsigned long long) const
+0034ee20 T FileSystemWin32::_FileHandle::size() const
+0034edf0 T FileSystemWin32::_FileHandle::tell() const
+0034eb94 W FileSystemWin32::_FileHandle::canRead() const
+0034eb9c W FileSystemWin32::_FileHandle::canWrite() const
+0034eba4 W FileSystemWin32::getRootPath() const
+0034ebc4 T FileSystemWin32::_getFileInfo(char const*, char const*, void*) const
+0034f10c T FileSystemWin32::backupSavefile(char const*, char const*) const
+0034f274 T FileSystemWin32::deleteSavefile(char const*) const
+0034f8a4 T FileSystemWin32::formatFilePath(std::basic_string<char, std::char_traits<char>, glitch::core::SAllocator<char, (glitch::memory::E_MEMORY_HINT)0>> const&) const
+0034ec00 T FileSystemWin32::isFileNewerThan(char const*, char const*) const
+0035041c T FileSystemWin32::getFilesMatching(char const*, char const*, std::vector<std::string, std::allocator<std::string>>&) const
+0034ebac W FileSystemWin32::getResourcesPath() const
+0034ebb4 W FileSystemWin32::getSavefilesPath() const
+003505a0 T FileSystemWin32::getFiles(char const*, std::vector<std::string, std::allocator<std::string>>&) const
+0056c6b4 T glitch::io::CFileSystem::getFileDir(std::basic_string<char, std::char_traits<char>, glitch::core::SAllocator<char, (glitch::memory::E_MEMORY_HINT)0>> const&) const
+0056c4a4 T glitch::io::CFileSystem::createFileList() const
+0056c348 T glitch::io::CFileSystem::getAbsolutePath(std::basic_string<char, std::char_traits<char>, glitch::core::SAllocator<char, (glitch::memory::E_MEMORY_HINT)0>> const&) const
+0056c740 T glitch::io::CFileSystem::getFileBasename(std::basic_string<char, std::char_traits<char>, glitch::core::SAllocator<char, (glitch::memory::E_MEMORY_HINT)0>> const&, bool) const
+0056df38 T glitch::io::CFileSystem::existFile(char const*) const
+0034df7c W glitch::io::CFileSystem::existFile(std::basic_string<char, std::char_traits<char>, glitch::core::SAllocator<char, (glitch::memory::E_MEMORY_HINT)0>> const&) const
+00535648 T glitch::gui::CGUIEnvironment::getFileSystem() const
+005b90ac T glitch::video::CNullDriver::getDriverType() const
+005e9908 W glitch::video::CTextureManager::getHashName(char const*) const
+005aefa4 T glitch::video::COpenGLES2Driver::getDriverType() const
+005af04c W glitch::video::CProgrammableGLDriver<glitch::video::CGLSLShaderHandler>::getDriverType() const
+005fdbf0 T glitch::video::ITexture::getDriverType() const
+0095ca80 D vtable for FileSystemBase
+0095cb88 D vtable for FileSystemWin32
+0095cc50 D vtable for FileSystemWin32::_FileHandle
+00993d60 D vtable for vox::FileSystemStdio
+00993ce8 D vtable for vox::FileSystemInterface
+00974340 D vtable for glitch::io::CFileSystem
+009742c8 V vtable for glitch::io::IFileSystem

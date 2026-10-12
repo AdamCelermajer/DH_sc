@@ -1,0 +1,13 @@
+{
+  "status": "TEST_SOURCE_ADOPTED_UNCOMPILED",
+  "cmake_before_sha256": "e1c6f36a8a0ad9c0272b9c3ff1c2439112bc46352731096c5da787cc2405c934",
+  "cmake_after_sha256": "384e2e986c9784f1758a5222995522bb08dcd4dd29458f2b11469d2a3da4bca2",
+  "test_sha256": "5d27467e9c073a857f4ff16415d62bec9e8d9c1e4db2058f7f4b6f9df73705c3",
+  "changed_targets": [
+    "dh2_loader_c1_admission_v63"
+  ],
+  "production_sources_changed": false,
+  "frozen_tests_changed": false,
+  "shared_sources_changed": false,
+  "compiler_or_runtime_launched": false
+}

@@ -1,7 +1,7 @@
 # Source work after the Prince bank checkpoint
 
-Newer candidate and live-test status is recorded in
-`controller-facing-source-status.md`. The sections below describe the earlier
+Current checkpoint and live-test status is recorded in
+`ai-timers-alias-source-status.md`. The sections below describe the earlier
 source integration stage; they are not the newest candidate inventory.
 
 The last saved, emulator-verified checkpoint remains

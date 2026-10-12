@@ -1,0 +1,74 @@
+{
+  "validation": "PASS",
+  "scope": "Complete original SWAMP root XML -> actual config/nine-Module static graph, generated RoomZones, same-world floor/collision/post-load/InitFinal and same-root controller construction/release; actual first MGP constructor failure; outer providers fixtures",
+  "cases": [
+    {
+      "build": "host",
+      "probe_sha256": "e3a38ce714fbcb28262d191b1509bfe3d85858d0b5a8e21080f536a101422ebb",
+      "result": {
+        "validation": "PASS",
+        "original_mlx_declarations": 10,
+        "actual_modules": 9,
+        "floor_clones": 16,
+        "exits": 19,
+        "generated_zones": 9,
+        "actual_init_final": 9,
+        "same_root_controllers": 9,
+        "controllers_released": 9,
+        "reserved_null_key0": true,
+        "first_mgp_missing_type": "OpenableContainer",
+        "outer_provider_fixtures": true,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "build": "sanitizers",
+      "probe_sha256": "84632eb008b5cd33a6c9a27f0a63e416c569a74bb5e0fefbfb5d9046b26304de",
+      "result": {
+        "validation": "PASS",
+        "original_mlx_declarations": 10,
+        "actual_modules": 9,
+        "floor_clones": 16,
+        "exits": 19,
+        "generated_zones": 9,
+        "actual_init_final": 9,
+        "same_root_controllers": 9,
+        "controllers_released": 9,
+        "reserved_null_key0": true,
+        "first_mgp_missing_type": "OpenableContainer",
+        "outer_provider_fixtures": true,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "build": "android-x86_64",
+      "probe_sha256": "9dc8dbf50a87915bb7ae871e08c63ace6943f3b57cfc17e6ea0eed4026189600",
+      "result": {
+        "validation": "PASS",
+        "original_mlx_declarations": 10,
+        "actual_modules": 9,
+        "floor_clones": 16,
+        "exits": 19,
+        "generated_zones": 9,
+        "actual_init_final": 9,
+        "same_root_controllers": 9,
+        "controllers_released": 9,
+        "reserved_null_key0": true,
+        "first_mgp_missing_type": "OpenableContainer",
+        "outer_provider_fixtures": true,
+        "full_loader_verified": false
+      }
+    }
+  ],
+  "arm64_compile_sha256": "1ea36d6249244cbc7986dcb6c8ff8b4581123998df78ab00cd263ee0c481d1b1",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "probe_source_sha256": "1caf0ee439cf485d0ed195175459db43224ef445d6b16dc286ccf4d5eb16e5a3",
+  "coherent_manifest_sha256": "04f154f9dd60a5667202586f631348af53d0199cd6fbdb1319f9ca513acf0303",
+  "coherent_files": 351,
+  "incoming_controller_entries_verified": 17,
+  "copied_module_declarations": false,
+  "whole_candidate_destruction_verified": false,
+  "tiny_anim_controller_constructor_verified": true,
+  "controller_scope": "actual nine static SWAMP roots, empty original animation libraries",
+  "full_loader_verified": false
+}

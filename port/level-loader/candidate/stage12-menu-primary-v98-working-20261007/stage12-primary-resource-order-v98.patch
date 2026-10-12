@@ -1,0 +1,68 @@
+--- a/port/engine-ui/swf_movie.hpp
++++ b/port/engine-ui/swf_movie.hpp
+@@ -63,6 +63,9 @@
+  // shared/root character. Provider uses weak leases to avoid owning a cycle;
+  // native_owner retains it through the graph's complete teardown.
+  bool (*graph_start)(void*,const SwfAsLease&,std::string&){};
++ //Reached original RenderFX.SetTextBufferingEnabled: SAME native root byte85.
++ //Typed real engine leaf; owner retained by native_owner, no replacement root.
++ std::function<bool(const SwfAsLease&,bool,std::string&)> source_text_buffering_v98;
+ };
+ struct SwfClipInfo { std::int32_t id{},depth{},frame{},frames{};bool visible{};SwfMatrix local{},world{}; };
+ class SwfHudClip {
+--- a/port/engine-ui/swf_movie.cpp
++++ b/port/engine-ui/swf_movie.cpp
+@@ -248,6 +248,10 @@
+  for(const auto&file:shared){auto r=p->player->load_file(file.c_str());if(!r){e="SWF shared movie rejected: "+file;return false;}r->advance(0);gameswf::as_value value;bool global_com=p->player->get_global()->get_member("com",&value);bool root_com=r->get_root_movie()->get_member("com",&value);p->messages.push_back(std::string("Shared namespace: global com=")+(global_com?"yes":"no")+", root com="+(root_com?"yes":"no"));if(s.diagnostic)s.diagnostic(s.context,false,p->messages.back().c_str());gameswf::as_object* package=p->player->get_global();for(const char*part:{"com","gameloft","components","ui"}){gameswf::as_value item;bool found=package&&package->get_member(part,&item);package=found?item.to_object():nullptr;std::string diagnostic=std::string("Shared package ")+part+": "+(package?"object":"missing");if(package){for(auto iter=package->m_members.begin();iter!=package->m_members.end();++iter)diagnostic+=" "+std::string(iter->first.c_str());}if(s.diagnostic)s.diagnostic(s.context,false,diagnostic.c_str());}p->shared.push_back(r);}
+  p->root=p->player->load_file(movie.c_str());if(!p->root){e="SWF movie rejected: "+movie;return false;}
+  if(!as->attach_root(p->root.get_ptr(),e)||!p->finish(e))return false;
++ if(source){
++  if(!s.source_text_buffering_v98){e="Required SAME native root text-buffering byte85 setter";return false;}
++  if(!s.source_text_buffering_v98({p,p->player.get_ptr(),p->root.get_ptr()},true,e))return false;
++ }
+  external_context_clear_v91_={};input_.reset();action_script_.reset();viewport_.reset();impl_=std::move(p);action_script_=std::move(as);return true;
+ }
+ bool SwfMovie::advance(float seconds,std::string&e){auto owner=impl_;if(!owner||!owner->root||!std::isfinite(seconds)||seconds<0){e="Invalid SWF advance";return false;}Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}owner->root->advance(seconds);return owner->finish(e);}
+--- a/port/engine-ui/authored_character_panel_v2.cpp
++++ b/port/engine-ui/authored_character_panel_v2.cpp
+@@ -181,7 +181,8 @@
+  movie_services.read=Forward::read;movie_services.texture=Forward::texture;movie_services.image=Forward::image;movie_services.draw=Forward::draw;movie_services.native_call=Forward::call;movie_services.stencil=Forward::stencil;movie_services.diagnostic=Forward::diagnostic;movie_services.graph_start=Forward::start;
+   p->render=reinterpret_cast<std::uintptr_t>(p.get());
+   std::uint32_t flags{};
+-  if(!p->services.panel_render_flags||!p->services.panel_render_flags(flags,error)||!p->stack->register_render_live_v27(p->render,flags,nullptr,nullptr,error))return false;
++  //Original RenderFX C1 input flags1c=0; LoadMenu sets84 only after native Load.
++  if((!source_uri&&(!p->services.panel_render_flags||!p->services.panel_render_flags(flags,error)))||!p->stack->register_render_live_v27(p->render,flags,nullptr,nullptr,error))return false;
+   // Publish the retained implementation before Load executes native callbacks.
+   // Lifecycle/deadzone adapters reuse this same active graph during startup.
+   impl_=std::move(p);auto* runtime=impl_.get();
+--- a/port/android-native/app/src/main/cpp/renderer_native_menu_load_v98.hpp
++++ b/port/android-native/app/src/main/cpp/renderer_native_menu_load_v98.hpp
+@@ -9,6 +9,7 @@
+ struct NativePrimaryMenuFactsV98 {
+  std::shared_ptr<void> receiver;
+  const std::int32_t* width_screen{}; //actual Width_Screen99b114, not view rectangle
++ const std::int32_t* height_screen{}; //actual Height_Screen, MenuFlash2DCamera C1 half dimensions
+  const std::uint8_t* htc_devices{}; //9f6403, reached width800 first
+  const std::uint8_t* no_igp{}; //9f640d, width800/HTCfalse only
+ };
+@@ -18,6 +19,7 @@
+  //Existing Multi primary1/CharacterPanelSession, URI exactly as selected.
+  //Publish SAME retained RenderFX BEFORE virtual Load/native startup callbacks.
+  //Allow genuine HUD3NULL; defer common manager PostLoad/Hide to caller below.
++ //Publish RenderFX only: caller owns paired camera C1 AFTER native Load.
+  //Retain a failed constructor/Load prefix in that SAME owner for real teardown.
+  std::function<bool(const char* actual_uri,std::uint32_t slot,std::string&)> load_primary;
+ };
+--- a/port/android-native/app/src/main/cpp/native_menu_load1_v98.inc
++++ b/port/android-native/app/src/main/cpp/native_menu_load1_v98.inc
+@@ -67,6 +67,10 @@
+  SwfMovie* primary_movie{};std::shared_ptr<void> primary_pin;
+  const bool primary_borrowed=provider->directory->movie(1,primary,primary_movie,primary_pin,e);if(!reached())return false;
+  if(!primary_borrowed||!primary_movie||!primary_pin||!same_movie(1,primary))return fail();
++ //Multi.LoadSWF437df0 creates its SAME native paired camera after Load/text buffering.
++ if(!facts.height_screen){e="Required actual Height_Screen cell for MenuFlash2DCamera C1";return fail();}
++ if(native_pin->character_camera_v93){e="Primary1 camera exists before original post-Load camera C1 boundary";return fail();}
++ native_pin->character_camera_v93=std::make_shared<MenuFlash2DCameraOwnerV93>(primary.identity,*facts.width_screen,*facts.height_screen);
+  auto* render=stack_pin->render(primary.identity);if(!render){e="Required pre-Load actual RenderFX publication";return fail();}
+  render->flags=0x84; //SetInputBehavior7a7c98 before original virtual10(1,false).
+  //Deliver through the independently retained SAME movie; no raw panel survives native callback delivery.

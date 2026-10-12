@@ -1,0 +1,76 @@
+{
+  "validation": "PASS",
+  "source_sha256": {
+    "port/android-native/app/src/main/cpp/swf_gpu.hpp": "3b51783861ef05041733c4f9566234b6d2589411b11211d439b1a1e406255940",
+    "port/android-native/app/src/main/cpp/swf_gpu.cpp": "22acb961e6a56107c917684a9220a905cf5b63d2be328edbc5abdbf31e469622",
+    "port/android-native/app/src/main/cpp/authored_shader_program.hpp": "a65fa08b21a95ff970550f7b21103144c49ad5472587f6054485f35154252fe8",
+    "port/android-native/app/src/main/cpp/authored_shader_program.cpp": "2f4ed55901764313704d93b11d3730698adf26a16f5cd60214dd695d2630e92e",
+    "port/android-native/app/src/main/cpp/original_ui_assets.hpp": "59163f94d70f8e22a6f6e20e77c156e0eaf121c72ecbcb6e6c453b48a812f559",
+    "port/android-native/app/src/main/cpp/original_ui_assets.cpp": "fb4f17618f4fbbeb24a5dee027d5ec6b66c639ac0bf3a2772b47416c0cd0d166",
+    "port/android-native/app/src/main/cpp/original_ui_asset_catalog.inc": "582c8085ac69ea500469eb746a7e4ec00850cd0636ae55350e7807fb6011b2e1",
+    "port/android-native/app/src/main/cpp/CMakeLists.txt": "b7808465a59f208dd44897bf0919bd808b1b9472efda7341adc571cf1541d93d",
+    "port/engine-ui/swf_movie.hpp": "6de117225b6e512c5f65d1a43f5d8335a6b8d039f50fb946cd5d04891b246961",
+    "port/scene-materials/shader_sources.hpp": "8115f47857aca50468885e55fb549d902e4ac0ef5220f6b88ae7ce0da8092afb",
+    "port/scene-materials/swf_texture.hpp": "6013cd34295b1986d1af8327279051a242bfd20eb3f5add8e8580c46000402f7",
+    "port/asset-payloads/sha256.hpp": "e71f270904420cd05541b66c9f3e78af369a7636f23c7368e1f0d87a94911ab0",
+    "port/android-native/reports/original-ui-catalog.json": "e18d3bfd2d2179a323d997318c5821abaf7b5b6a8a032e75f39d4832116154f7",
+    "port/android-native/tools/swf_gpu_compile.py": "db0b69785fdbac2228024f8aa57736b42084c784dd64fc6616945a8f16d67045"
+  },
+  "compiler_sha256": "3da8eb6f49b741ab885854665f10d3793822232f133f8c0233a8a4cb32c97dc0",
+  "commands": [
+    {
+      "abi": "arm64-v8a",
+      "arguments": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=aarch64-linux-android26",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-fsyntax-only",
+        "-I",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\scene-materials",
+        "-I",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\authored_shader_program.cpp",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\swf_gpu.cpp",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\original_ui_assets.cpp"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "abi": "x86_64",
+      "arguments": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=x86_64-linux-android26",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-fsyntax-only",
+        "-I",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\scene-materials",
+        "-I",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\authored_shader_program.cpp",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\swf_gpu.cpp",
+        "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\original_ui_assets.cpp"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "compile_only": true,
+  "linked": false,
+  "packaged_apk": false,
+  "live_gpu": false,
+  "original_full_render_parity": false,
+  "scope": "Modern GLES2 native SWF draw sink and exact bundled UI resource reader; source shader/known immediate color and blend connections; retained textures and shared-stencil query target"
+}

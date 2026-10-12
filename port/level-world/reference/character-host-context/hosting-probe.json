@@ -1,0 +1,2101 @@
+{
+  "validation": "PASS",
+  "scope": "Original GetHostingPlayer gate/call ordering; manager/network/debug services and GetPlayerByInternalID explicit.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "manifest_sha256": "e574dd362bf19fceb3774682aca0b308de805f168358b8c8601230d3d4ee33f3",
+  "probe_sha256": "4404f60b37bb286f2a376738576da366e4233bf037e6dafbcba91836a4286d56",
+  "original_instructions_executed": true,
+  "cases": 128,
+  "ordered_services": 424,
+  "native_manager_implemented": false,
+  "rows": [
+    {
+      "debug": 0,
+      "enabled": 0,
+      "valid": 0,
+      "initialized": 0,
+      "host_id": -1,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 0,
+      "valid": 0,
+      "initialized": 0,
+      "host_id": -1,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 0,
+      "valid": 0,
+      "initialized": 0,
+      "host_id": 0,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 0,
+      "valid": 0,
+      "initialized": 0,
+      "host_id": 0,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 0,
+      "valid": 0,
+      "initialized": 0,
+      "host_id": 37,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 0,
+      "valid": 0,
+      "initialized": 0,
+      "host_id": 37,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 0,
+      "valid": 0,
+      "initialized": 0,
+      "host_id": -2147483648,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 0,
+      "valid": 0,
+      "initialized": 0,
+      "host_id": -2147483648,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 0,
+      "valid": 0,
+      "initialized": 1,
+      "host_id": -1,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 0,
+      "valid": 0,
+      "initialized": 1,
+      "host_id": -1,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 0,
+      "valid": 0,
+      "initialized": 1,
+      "host_id": 0,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 0,
+      "valid": 0,
+      "initialized": 1,
+      "host_id": 0,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 0,
+      "valid": 0,
+      "initialized": 1,
+      "host_id": 37,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 0,
+      "valid": 0,
+      "initialized": 1,
+      "host_id": 37,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 0,
+      "valid": 0,
+      "initialized": 1,
+      "host_id": -2147483648,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 0,
+      "valid": 0,
+      "initialized": 1,
+      "host_id": -2147483648,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 0,
+      "valid": 1,
+      "initialized": 0,
+      "host_id": -1,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 0,
+      "valid": 1,
+      "initialized": 0,
+      "host_id": -1,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 0,
+      "valid": 1,
+      "initialized": 0,
+      "host_id": 0,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 0,
+      "valid": 1,
+      "initialized": 0,
+      "host_id": 0,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 0,
+      "valid": 1,
+      "initialized": 0,
+      "host_id": 37,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 0,
+      "valid": 1,
+      "initialized": 0,
+      "host_id": 37,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 0,
+      "valid": 1,
+      "initialized": 0,
+      "host_id": -2147483648,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 0,
+      "valid": 1,
+      "initialized": 0,
+      "host_id": -2147483648,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 0,
+      "valid": 1,
+      "initialized": 1,
+      "host_id": -1,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 0,
+      "valid": 1,
+      "initialized": 1,
+      "host_id": -1,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 0,
+      "valid": 1,
+      "initialized": 1,
+      "host_id": 0,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 0,
+      "valid": 1,
+      "initialized": 1,
+      "host_id": 0,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 0,
+      "valid": 1,
+      "initialized": 1,
+      "host_id": 37,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 0,
+      "valid": 1,
+      "initialized": 1,
+      "host_id": 37,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 0,
+      "valid": 1,
+      "initialized": 1,
+      "host_id": -2147483648,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 0,
+      "valid": 1,
+      "initialized": 1,
+      "host_id": -2147483648,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 1,
+      "valid": 0,
+      "initialized": 0,
+      "host_id": -1,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 1,
+      "valid": 0,
+      "initialized": 0,
+      "host_id": -1,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 1,
+      "valid": 0,
+      "initialized": 0,
+      "host_id": 0,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 1,
+      "valid": 0,
+      "initialized": 0,
+      "host_id": 0,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 1,
+      "valid": 0,
+      "initialized": 0,
+      "host_id": 37,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 1,
+      "valid": 0,
+      "initialized": 0,
+      "host_id": 37,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 1,
+      "valid": 0,
+      "initialized": 0,
+      "host_id": -2147483648,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 1,
+      "valid": 0,
+      "initialized": 0,
+      "host_id": -2147483648,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 1,
+      "valid": 0,
+      "initialized": 1,
+      "host_id": -1,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 1,
+      "valid": 0,
+      "initialized": 1,
+      "host_id": -1,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 1,
+      "valid": 0,
+      "initialized": 1,
+      "host_id": 0,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 1,
+      "valid": 0,
+      "initialized": 1,
+      "host_id": 0,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 1,
+      "valid": 0,
+      "initialized": 1,
+      "host_id": 37,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 1,
+      "valid": 0,
+      "initialized": 1,
+      "host_id": 37,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 1,
+      "valid": 0,
+      "initialized": 1,
+      "host_id": -2147483648,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 1,
+      "valid": 0,
+      "initialized": 1,
+      "host_id": -2147483648,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 1,
+      "valid": 1,
+      "initialized": 0,
+      "host_id": -1,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 1,
+      "valid": 1,
+      "initialized": 0,
+      "host_id": -1,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 1,
+      "valid": 1,
+      "initialized": 0,
+      "host_id": 0,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 1,
+      "valid": 1,
+      "initialized": 0,
+      "host_id": 0,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 1,
+      "valid": 1,
+      "initialized": 0,
+      "host_id": 37,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 1,
+      "valid": 1,
+      "initialized": 0,
+      "host_id": 37,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 1,
+      "valid": 1,
+      "initialized": 0,
+      "host_id": -2147483648,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 1,
+      "valid": 1,
+      "initialized": 0,
+      "host_id": -2147483648,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 1,
+      "valid": 1,
+      "initialized": 1,
+      "host_id": -1,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 1,
+      "valid": 1,
+      "initialized": 1,
+      "host_id": -1,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 1,
+      "valid": 1,
+      "initialized": 1,
+      "host_id": 0,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 1,
+      "valid": 1,
+      "initialized": 1,
+      "host_id": 0,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 1,
+      "valid": 1,
+      "initialized": 1,
+      "host_id": 37,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 1,
+      "valid": 1,
+      "initialized": 1,
+      "host_id": 37,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 1,
+      "valid": 1,
+      "initialized": 1,
+      "host_id": -2147483648,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 0,
+      "enabled": 1,
+      "valid": 1,
+      "initialized": 1,
+      "host_id": -2147483648,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 0,
+      "valid": 0,
+      "initialized": 0,
+      "host_id": -1,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        "network_enabled",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 0,
+      "valid": 0,
+      "initialized": 0,
+      "host_id": -1,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        "network_enabled",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 0,
+      "valid": 0,
+      "initialized": 0,
+      "host_id": 0,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        "network_enabled",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 0,
+      "valid": 0,
+      "initialized": 0,
+      "host_id": 0,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        "network_enabled",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 0,
+      "valid": 0,
+      "initialized": 0,
+      "host_id": 37,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        "network_enabled",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 0,
+      "valid": 0,
+      "initialized": 0,
+      "host_id": 37,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        "network_enabled",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 0,
+      "valid": 0,
+      "initialized": 0,
+      "host_id": -2147483648,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        "network_enabled",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 0,
+      "valid": 0,
+      "initialized": 0,
+      "host_id": -2147483648,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        "network_enabled",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 0,
+      "valid": 0,
+      "initialized": 1,
+      "host_id": -1,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        "network_enabled",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 0,
+      "valid": 0,
+      "initialized": 1,
+      "host_id": -1,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        "network_enabled",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 0,
+      "valid": 0,
+      "initialized": 1,
+      "host_id": 0,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        "network_enabled",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 0,
+      "valid": 0,
+      "initialized": 1,
+      "host_id": 0,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        "network_enabled",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 0,
+      "valid": 0,
+      "initialized": 1,
+      "host_id": 37,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        "network_enabled",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 0,
+      "valid": 0,
+      "initialized": 1,
+      "host_id": 37,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        "network_enabled",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 0,
+      "valid": 0,
+      "initialized": 1,
+      "host_id": -2147483648,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        "network_enabled",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 0,
+      "valid": 0,
+      "initialized": 1,
+      "host_id": -2147483648,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        "network_enabled",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 0,
+      "valid": 1,
+      "initialized": 0,
+      "host_id": -1,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        "network_enabled",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 0,
+      "valid": 1,
+      "initialized": 0,
+      "host_id": -1,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        "network_enabled",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 0,
+      "valid": 1,
+      "initialized": 0,
+      "host_id": 0,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        "network_enabled",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 0,
+      "valid": 1,
+      "initialized": 0,
+      "host_id": 0,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        "network_enabled",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 0,
+      "valid": 1,
+      "initialized": 0,
+      "host_id": 37,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        "network_enabled",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 0,
+      "valid": 1,
+      "initialized": 0,
+      "host_id": 37,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        "network_enabled",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 0,
+      "valid": 1,
+      "initialized": 0,
+      "host_id": -2147483648,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        "network_enabled",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 0,
+      "valid": 1,
+      "initialized": 0,
+      "host_id": -2147483648,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        "network_enabled",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 0,
+      "valid": 1,
+      "initialized": 1,
+      "host_id": -1,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        "network_enabled",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 0,
+      "valid": 1,
+      "initialized": 1,
+      "host_id": -1,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        "network_enabled",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 0,
+      "valid": 1,
+      "initialized": 1,
+      "host_id": 0,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        "network_enabled",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 0,
+      "valid": 1,
+      "initialized": 1,
+      "host_id": 0,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        "network_enabled",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 0,
+      "valid": 1,
+      "initialized": 1,
+      "host_id": 37,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        "network_enabled",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 0,
+      "valid": 1,
+      "initialized": 1,
+      "host_id": 37,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        "network_enabled",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 0,
+      "valid": 1,
+      "initialized": 1,
+      "host_id": -2147483648,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        "network_enabled",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 0,
+      "valid": 1,
+      "initialized": 1,
+      "host_id": -2147483648,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        "network_enabled",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 1,
+      "valid": 0,
+      "initialized": 0,
+      "host_id": -1,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        "network_enabled",
+        "network_object",
+        "network_valid",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 1,
+      "valid": 0,
+      "initialized": 0,
+      "host_id": -1,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        "network_enabled",
+        "network_object",
+        "network_valid",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 1,
+      "valid": 0,
+      "initialized": 0,
+      "host_id": 0,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        "network_enabled",
+        "network_object",
+        "network_valid",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 1,
+      "valid": 0,
+      "initialized": 0,
+      "host_id": 0,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        "network_enabled",
+        "network_object",
+        "network_valid",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 1,
+      "valid": 0,
+      "initialized": 0,
+      "host_id": 37,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        "network_enabled",
+        "network_object",
+        "network_valid",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 1,
+      "valid": 0,
+      "initialized": 0,
+      "host_id": 37,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        "network_enabled",
+        "network_object",
+        "network_valid",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 1,
+      "valid": 0,
+      "initialized": 0,
+      "host_id": -2147483648,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        "network_enabled",
+        "network_object",
+        "network_valid",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 1,
+      "valid": 0,
+      "initialized": 0,
+      "host_id": -2147483648,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        "network_enabled",
+        "network_object",
+        "network_valid",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 1,
+      "valid": 0,
+      "initialized": 1,
+      "host_id": -1,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        "network_enabled",
+        "network_object",
+        "network_valid",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 1,
+      "valid": 0,
+      "initialized": 1,
+      "host_id": -1,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        "network_enabled",
+        "network_object",
+        "network_valid",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 1,
+      "valid": 0,
+      "initialized": 1,
+      "host_id": 0,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        "network_enabled",
+        "network_object",
+        "network_valid",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 1,
+      "valid": 0,
+      "initialized": 1,
+      "host_id": 0,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        "network_enabled",
+        "network_object",
+        "network_valid",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 1,
+      "valid": 0,
+      "initialized": 1,
+      "host_id": 37,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        "network_enabled",
+        "network_object",
+        "network_valid",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 1,
+      "valid": 0,
+      "initialized": 1,
+      "host_id": 37,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        "network_enabled",
+        "network_object",
+        "network_valid",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 1,
+      "valid": 0,
+      "initialized": 1,
+      "host_id": -2147483648,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        "network_enabled",
+        "network_object",
+        "network_valid",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 1,
+      "valid": 0,
+      "initialized": 1,
+      "host_id": -2147483648,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        "network_enabled",
+        "network_object",
+        "network_valid",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 1,
+      "valid": 1,
+      "initialized": 0,
+      "host_id": -1,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        "network_enabled",
+        "network_object",
+        "network_valid",
+        "network_manager",
+        "initialized",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 1,
+      "valid": 1,
+      "initialized": 0,
+      "host_id": -1,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        "network_enabled",
+        "network_object",
+        "network_valid",
+        "network_manager",
+        "initialized",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 1,
+      "valid": 1,
+      "initialized": 0,
+      "host_id": 0,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        "network_enabled",
+        "network_object",
+        "network_valid",
+        "network_manager",
+        "initialized",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 1,
+      "valid": 1,
+      "initialized": 0,
+      "host_id": 0,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        "network_enabled",
+        "network_object",
+        "network_valid",
+        "network_manager",
+        "initialized",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 1,
+      "valid": 1,
+      "initialized": 0,
+      "host_id": 37,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        "network_enabled",
+        "network_object",
+        "network_valid",
+        "network_manager",
+        "initialized",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 1,
+      "valid": 1,
+      "initialized": 0,
+      "host_id": 37,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        "network_enabled",
+        "network_object",
+        "network_valid",
+        "network_manager",
+        "initialized",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 1,
+      "valid": 1,
+      "initialized": 0,
+      "host_id": -2147483648,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        "network_enabled",
+        "network_object",
+        "network_valid",
+        "network_manager",
+        "initialized",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 1,
+      "valid": 1,
+      "initialized": 0,
+      "host_id": -2147483648,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        "network_enabled",
+        "network_object",
+        "network_valid",
+        "network_manager",
+        "initialized",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 1,
+      "valid": 1,
+      "initialized": 1,
+      "host_id": -1,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        "network_enabled",
+        "network_object",
+        "network_valid",
+        "network_manager",
+        "initialized",
+        "network_manager",
+        {
+          "lookup_internal_id": -1,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 1,
+      "valid": 1,
+      "initialized": 1,
+      "host_id": -1,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        "network_enabled",
+        "network_object",
+        "network_valid",
+        "network_manager",
+        "initialized",
+        "network_manager",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 1,
+      "valid": 1,
+      "initialized": 1,
+      "host_id": 0,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        "network_enabled",
+        "network_object",
+        "network_valid",
+        "network_manager",
+        "initialized",
+        "network_manager",
+        {
+          "lookup_internal_id": 0,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 1,
+      "valid": 1,
+      "initialized": 1,
+      "host_id": 0,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        "network_enabled",
+        "network_object",
+        "network_valid",
+        "network_manager",
+        "initialized",
+        "network_manager",
+        {
+          "lookup_internal_id": 1,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 1,
+      "valid": 1,
+      "initialized": 1,
+      "host_id": 37,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        "network_enabled",
+        "network_object",
+        "network_valid",
+        "network_manager",
+        "initialized",
+        "network_manager",
+        {
+          "lookup_internal_id": 37,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 1,
+      "valid": 1,
+      "initialized": 1,
+      "host_id": 37,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        "network_enabled",
+        "network_object",
+        "network_valid",
+        "network_manager",
+        "initialized",
+        "network_manager",
+        {
+          "lookup_internal_id": 38,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 1,
+      "valid": 1,
+      "initialized": 1,
+      "host_id": -2147483648,
+      "mutate": 0,
+      "trace": [
+        "debug",
+        "network_enabled",
+        "network_object",
+        "network_valid",
+        "network_manager",
+        "initialized",
+        "network_manager",
+        {
+          "lookup_internal_id": -2147483648,
+          "remote": false
+        }
+      ]
+    },
+    {
+      "debug": 1,
+      "enabled": 1,
+      "valid": 1,
+      "initialized": 1,
+      "host_id": -2147483648,
+      "mutate": 1,
+      "trace": [
+        "debug",
+        "network_enabled",
+        "network_object",
+        "network_valid",
+        "network_manager",
+        "initialized",
+        "network_manager",
+        {
+          "lookup_internal_id": -2147483647,
+          "remote": false
+        }
+      ]
+    }
+  ]
+}

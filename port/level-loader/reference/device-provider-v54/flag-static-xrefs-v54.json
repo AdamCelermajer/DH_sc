@@ -1,0 +1,79 @@
+{
+  "method": "linear constant propagation candidate xrefs, must validate containing source body; not exhaustive CFG proof",
+  "xrefs": [
+    {
+      "pc": "0x32c228",
+      "operation": "strb",
+      "target": "Multiplayer",
+      "symbol": "_ZN11Application12GoToMainMenuE17GoToMainMenuEvent",
+      "symbol_address": "0x32c1f4",
+      "source_value": 0,
+      "instruction": "r3, [r2]"
+    },
+    {
+      "pc": "0x3816bc",
+      "operation": "ldrb",
+      "target": "SHARP",
+      "symbol": "_ZN6Device22IsProgrammablePipelineEv",
+      "symbol_address": "0x3816a8",
+      "instruction": "r2, [r2]"
+    },
+    {
+      "pc": "0x3816d0",
+      "operation": "ldrb",
+      "target": "HTC",
+      "symbol": "_ZN6Device22IsProgrammablePipelineEv",
+      "symbol_address": "0x3816a8",
+      "instruction": "r2, [r2]"
+    },
+    {
+      "pc": "0x3816e4",
+      "operation": "ldrb",
+      "target": "Multiplayer",
+      "symbol": "_ZN6Device22IsProgrammablePipelineEv",
+      "symbol_address": "0x3816a8",
+      "instruction": "r2, [r2]"
+    },
+    {
+      "pc": "0x42bacc",
+      "operation": "strb",
+      "target": "Multiplayer",
+      "symbol": "_ZN12MenuMainMenu8GotFocusEv",
+      "symbol_address": "0x42ba98",
+      "source_value": 0,
+      "instruction": "r2, [r1]"
+    },
+    {
+      "pc": "0x439f2c",
+      "operation": "ldrb",
+      "target": "SHARP",
+      "symbol": "_Z26NativeIsMultiplayerEnabledRKN7gameswf7fn_callE",
+      "symbol_address": "0x439f18",
+      "instruction": "r2, [r2]"
+    },
+    {
+      "pc": "0x439f40",
+      "operation": "ldrb",
+      "target": "HTC",
+      "symbol": "_Z26NativeIsMultiplayerEnabledRKN7gameswf7fn_callE",
+      "symbol_address": "0x439f18",
+      "instruction": "r1, [r2]"
+    },
+    {
+      "pc": "0x43cd00",
+      "operation": "ldrb",
+      "target": "HTC",
+      "symbol": "_Z23NativeGetCreditMovementRKN7gameswf7fn_callE",
+      "symbol_address": "0x43ccec",
+      "instruction": "r2, [r2]"
+    },
+    {
+      "pc": "0x52f714",
+      "operation": "ldrb",
+      "target": "Multiplayer",
+      "symbol": "pressMainMenuInIGM",
+      "symbol_address": "0x52f6e4",
+      "instruction": "r5, [r8]"
+    }
+  ]
+}

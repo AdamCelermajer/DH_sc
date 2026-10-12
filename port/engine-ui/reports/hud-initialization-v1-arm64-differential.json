@@ -1,0 +1,19 @@
+{
+  "validation": "PASS",
+  "comparisons": 450,
+  "entry_counts": [
+    150,
+    150,
+    150
+  ],
+  "ordered_services": 4657,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_sha256": "6434907e12d25e950df122696fad085a8fc479115e78485eb146433e632be38d",
+  "gold_sha256": "6da4130fa625621ba4fb100018f76ba3f8e70e9e82f3e3b646366ce9d640aac1",
+  "source_sha256": {
+    "hud_initialization_v1.cpp": "7dc9b8f94fe0b86dba991ffea98e668b7c95f4e0750dccecdc04c7812551301c",
+    "hud_initialization_v1.hpp": "6191714964d44e28177bd97d44a29597dc1b0af636516232bc0f9670447afe9f"
+  },
+  "scope": "Complete three original HUD initialization wrappers versus O2 native.\nArgument/AS casts and writes, saved getters, localization formatting and skill\nVCB endpoints are explicit fixture imports. Actual wrapper branches/order and\nexplicit synthetic Skill76 projections execute; no genuine saved-session claim.\n"
+}

@@ -1,0 +1,42 @@
+{
+  "validation": "SOURCE_AUDIT_COMPLETE",
+  "scope": "Read-only current main source +original-derived binding proposal; no production service adoption/run claim",
+  "source_snapshot": "reference/level-init-v36/loader-provider-binding-v47-source-snapshot.json",
+  "additional_facts": {
+    "fx_build_module_key": "AnimatedFX",
+    "fx_key_address": "0x8d5050",
+    "fast_travel_count_global_address": "0x9a65d8",
+    "fast_travel_count_global_symbol": "009a65d8 B Arrays::FastTravelList::size",
+    "debug_out_first_instruction": "0xe92d000f"
+  },
+  "actual_body_reuse": [
+    "sole current GS borrow",
+    "PM get_local_player",
+    "Debug missing-file load/GetSwitch",
+    "DebugModules missing-file GetModule",
+    "retained NativeWorld.load"
+  ],
+  "adapter_migrations": [
+    "uint32 source134/138/13c",
+    "logical NAME/raw filename separation with seed equality",
+    "constructed-only GS frame field borrow",
+    "main binding actual Application/Debug/physical services"
+  ],
+  "missing_source_bodies": [
+    "Debug existing-file parser",
+    "Character/PlayerSave unlock_all_fast_travels producer",
+    "MenuWorldMap byte12c facet",
+    "MenuDebug/GetLoadingStepName full binding",
+    "_DEBUG_OUT body",
+    "Application.CleanGlitch",
+    "Vox StopAll500",
+    "whole Menu.Unload",
+    "FX BuildLibraries inner bodies",
+    "PM6c9/Update",
+    "GameEvent C1/Load/Level-owned194 lease"
+  ],
+  "original_engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "whole_level_init_verified": false,
+  "gameplay_ready": false,
+  "shared_mutation": false
+}

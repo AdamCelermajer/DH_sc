@@ -1,0 +1,1133 @@
+diff --git a/port/level-loader/level_source_loading_v43.hpp b/port/level-loader/level_source_loading_v43.hpp
+--- a/port/level-loader/level_source_loading_v43.hpp
++++ b/port/level-loader/level_source_loading_v43.hpp
+@@ -1,19 +1,22 @@
+ #pragma once
+ #include "lifecycle_v36.hpp"
+ #include "assigned_root_source_v64.hpp"
+-#include "stage_loader_v38_root_file.hpp"
+-#include "stage_loader_v38_init_post.hpp"
+-#include <canonical_object_manager_v1.hpp>
+-#include <module_xml_selection_v1.hpp>
+-namespace dh2::loader {
+-class RetainedLevelModuleGraphV1;
+-struct SourceLoadingInputsV43 {
+- std::shared_ptr<RetainedLevelModuleGraphV1> preparation;
+- // Aliasing shared_ptr is allowed for a manager inside the real candidate owner.
+- std::shared_ptr<world::CanonicalObjectManagerV1> manager;
+- Stage7GlobalsV38 globals;
+- Stage7ServicesV38 procedural;
+- AssignedRootServicesV64 assigned_source;
++#include "filename_root_source_v65.hpp"
++#include "stage_loader_v38_root_file.hpp"
++#include "stage_loader_v38_init_post.hpp"
++#include <canonical_object_manager_v1.hpp>
++#include <module_xml_selection_v1.hpp>
++namespace dh2::loader {
++class RetainedLevelModuleGraphV1;
++struct SourceLoadingInputsV43 {
++ std::shared_ptr<RetainedLevelModuleGraphV1> preparation;
++ // Aliasing shared_ptr is allowed for a manager inside the real candidate owner.
++ std::shared_ptr<world::CanonicalObjectManagerV1> manager;
++ Stage7GlobalsV38 globals;
++ Stage7ServicesV38 procedural;
++ AssignedRootServicesV64 assigned_source;
++ // Production native filename branch; absent retains historical ZIP inspection.
++ std::shared_ptr<FilenameRootRouteV65> native_filename_source;
+  std::shared_ptr<void> filename_provider;
+  // Original filesystem/mount resolution, supplied by the actual application.
+  // Source spelling and the resolved resource identity stay distinct.
+diff --git a/port/level-loader/level_source_loading_v43.cpp b/port/level-loader/level_source_loading_v43.cpp
+--- a/port/level-loader/level_source_loading_v43.cpp
++++ b/port/level-loader/level_source_loading_v43.cpp
+@@ -2,51 +2,78 @@
+ #include "retained_level_module_graph_v1.hpp"
+ #include "stage_loader_v38_stage10.hpp"
+ #include "stage_loader_v39_file_counter.hpp"
+-namespace dh2::loader {
+-struct SourceLoadingV43::Impl {
+- SourceLoadingInputsV43 inputs;
+- std::unique_ptr<Stage7BodyV38> root;
+- std::unique_ptr<Stage10BodyV38<world::CanonicalObjectManagerV1>> objects;
+- std::unique_ptr<LifecycleV36> lifecycle;
+- LifecycleDiagnosticsV36 terminal;
+- AssignedRootRouteV64 assigned_root;RootSourceModeV64 root_source_mode{RootSourceModeV64::none};
+- bool filename_resolved{},unload_completed{};std::string source_name,resolved_name;
+- Impl(SourceLoadingInputsV43 in,LifecycleBorrowV36 actual,Stage7FieldsV38 fields,FileCounterBorrowV39 file):inputs(std::move(in)){
+-  auto root_services=std::move(inputs.procedural);
+-  root_services.root_file_step=[this](const std::string& name,const char* tag,std::string& e){
+-   if(!tag||std::string(tag)!="Level"){e="Require original root Level tag";return LifecycleStepV36::failed;}
+-   const auto& level=inputs.preparation->level();
+-   if(!select_root_source_mode_v64(level->constructor_fields_v3().field140,root_source_mode,e))return LifecycleStepV36::failed;
+-   if(root_source_mode==RootSourceModeV64::assigned){
+-    return assigned_root.step(level,name,inputs.assigned_source,[this](auto document,auto owner,auto source,auto& error){
+-     const auto result=inputs.preparation->load_root_document_step_v64(std::move(document),std::move(owner),std::move(source));
+-     if(result==LevelFileWalkStepV1::failed)error=inputs.preparation->status().error;return result;
+-    },e);
+-   }
+-   if(!filename_resolved){
+-    if(!inputs.filename_provider||!inputs.resolve_filename){e="Required actual filesystem filename resolver";return LifecycleStepV36::dependency_missing;}
+-    std::string next;if(!inputs.resolve_filename(name,next,e))return LifecycleStepV36::failed;
+-    if(next.empty()||next.find('\0')!=std::string::npos){e="Filename resolver returned invalid resource identity";return LifecycleStepV36::failed;}
+-    source_name=name;resolved_name=std::move(next);filename_resolved=true;
+-   }else if(source_name!=name){e="Actual root filename changed after source occurrence began";return LifecycleStepV36::failed;}
+-   const auto result=inputs.preparation->load_root_step_v38(resolved_name);
+-   if(result==LevelFileWalkStepV1::failed){e=inputs.preparation->status().error;return LifecycleStepV36::failed;}
+-   return result==LevelFileWalkStepV1::complete?LifecycleStepV36::complete:LifecycleStepV36::pending;
+-  };
+-  root_services.increment_actual_file13c=actual_file_counter_increment_v39(std::move(file));
+-  root=std::make_unique<Stage7BodyV38>(std::move(fields),inputs.globals,std::move(root_services));
+-  auto object_services=std::move(inputs.object_services);
+-  object_services.load_module=[this](std::uintptr_t identity,std::string& e){
+-   return inputs.preparation->load_source_module_v38(identity,inputs.module_xml,e)?LifecycleStepV36::complete:LifecycleStepV36::failed;
+-  };
+-  object_services.init_post=[this](const world::CanonicalObjectBorrowV1& object,std::string& e){return inputs.preparation->source_object_init_post_v38(object,e);};
+-  objects=std::make_unique<Stage10BodyV38<world::CanonicalObjectManagerV1>>(actual,inputs.manager,*inputs.manager,std::move(object_services));
+-  auto services=std::move(inputs.external);
+-  services.stage_body[7]=[this](std::string& e){const auto r=root->step();if(r==LifecycleStepV36::failed)e=root->error();return r;};
+-  services.after_source_increment[7]=[this](std::string& e){return root->after_source_increment(e);};
+-  services.stage_body[10]=[this](std::string& e){const auto r=objects->step();if(r==LifecycleStepV36::failed)e=objects->error();return r;};
+-  services.cancel_and_unload=compose_assigned_cancel_v64(assigned_root,unload_completed,
+-   [this]{return inputs.preparation->level();},inputs.assigned_source,std::move(services.cancel_and_unload));
++#include "stage7_cancel_cleanup.hpp"
++namespace dh2::loader {
++struct SourceLoadingV43::Impl {
++ SourceLoadingInputsV43 inputs;
++ std::unique_ptr<Stage7BodyV38> root;
++ std::unique_ptr<Stage10BodyV38<world::CanonicalObjectManagerV1>> objects;
++ std::unique_ptr<LifecycleV36> lifecycle;
++ LifecycleDiagnosticsV36 terminal;
++ AssignedRootRouteV64 assigned_root;RootSourceModeV64 root_source_mode{RootSourceModeV64::none};
++ bool filename_resolved{},unload_completed{};std::string source_name,resolved_name;
++ Impl(SourceLoadingInputsV43 in,LifecycleBorrowV36 actual,Stage7FieldsV38 fields,FileCounterBorrowV39 file):inputs(std::move(in)){
++  auto root_services=std::move(inputs.procedural);
++  root_services.root_file_step=[this](const std::string& name,const char* tag,std::string& e){
++   if(!tag||std::string(tag)!="Level"){e="Require original root Level tag";return LifecycleStepV36::failed;}
++   const auto& level=inputs.preparation->level();
++   const bool own_filename140=root_source_mode==RootSourceModeV64::filename&&inputs.native_filename_source&&inputs.native_filename_source->owns_assigned_prefix();
++   if(own_filename140){if(!inputs.native_filename_source->accepts_owned140(*level,e))return LifecycleStepV36::failed;}
++   else if(!select_root_source_mode_v64(level->constructor_fields_v3().field140,root_source_mode,e))return LifecycleStepV36::failed;
++   if(root_source_mode==RootSourceModeV64::assigned){
++    return assigned_root.step(level,name,inputs.assigned_source,[this](auto document,auto owner,auto source,auto& error){
++     const auto result=inputs.preparation->load_root_document_step_v64(std::move(document),std::move(owner),std::move(source));
++     if(result==LevelFileWalkStepV1::failed)error=inputs.preparation->status().error;return result;
++    },e);
++   }
++   if(inputs.native_filename_source){
++    return inputs.native_filename_source->step(level,name,inputs.assigned_source,[this](auto document,auto owner,auto source,auto& error){
++     const auto result=inputs.preparation->load_root_document_step_v64(std::move(document),std::move(owner),std::move(source));
++     if(result==LevelFileWalkStepV1::failed)error=inputs.preparation->status().error;return result;
++    },e);
++   }
++   if(!filename_resolved){
++    if(!inputs.filename_provider||!inputs.resolve_filename){e="Required actual filesystem filename resolver";return LifecycleStepV36::dependency_missing;}
++    std::string next;if(!inputs.resolve_filename(name,next,e))return LifecycleStepV36::failed;
++    if(next.empty()||next.find('\0')!=std::string::npos){e="Filename resolver returned invalid resource identity";return LifecycleStepV36::failed;}
++    source_name=name;resolved_name=std::move(next);filename_resolved=true;
++   }else if(source_name!=name){e="Actual root filename changed after source occurrence began";return LifecycleStepV36::failed;}
++   const auto result=inputs.preparation->load_root_step_v38(resolved_name);
++   if(result==LevelFileWalkStepV1::failed){e=inputs.preparation->status().error;return LifecycleStepV36::failed;}
++   return result==LevelFileWalkStepV1::complete?LifecycleStepV36::complete:LifecycleStepV36::pending;
++  };
++  root_services.increment_actual_file13c=actual_file_counter_increment_v39(std::move(file));
++  root=std::make_unique<Stage7BodyV38>(std::move(fields),inputs.globals,std::move(root_services));
++  auto object_services=std::move(inputs.object_services);
++  object_services.load_module=[this](std::uintptr_t identity,std::string& e){
++   return inputs.preparation->load_source_module_v38(identity,inputs.module_xml,e)?LifecycleStepV36::complete:LifecycleStepV36::failed;
++  };
++  object_services.init_post=[this](const world::CanonicalObjectBorrowV1& object,std::string& e){return inputs.preparation->source_object_init_post_v38(object,e);};
++  objects=std::make_unique<Stage10BodyV38<world::CanonicalObjectManagerV1>>(actual,inputs.manager,*inputs.manager,std::move(object_services));
++  auto services=std::move(inputs.external);
++  services.stage_body[7]=[this](std::string& e){const auto r=root->step();if(r==LifecycleStepV36::failed)e=root->error();return r;};
++  services.after_source_increment[7]=[this](std::string& e){return root->after_source_increment(e);};
++  services.stage_body[10]=[this](std::string& e){const auto r=objects->step();if(r==LifecycleStepV36::failed)e=objects->error();return r;};
++  // Filename source handle is independent of the copied Level140 receiver.
++  // Close it before actual teardown, retaining it while close yields/fails.
++  if(services.cancel_and_unload&&inputs.native_filename_source){auto original=std::move(services.cancel_and_unload);
++   services.cancel_and_unload=[this,original=std::move(original)](std::string& e){
++    const auto close=inputs.native_filename_source->close_before_unload(inputs.preparation->level(),e);
++    if(close!=LifecycleStepV36::complete)return close;return original(e);
++   };
++  }
++  services.cancel_and_unload=compose_assigned_cancel_v64(assigned_root,unload_completed,
++   [this]{return inputs.preparation->level();},inputs.assigned_source,std::move(services.cancel_and_unload));
++  // Drop filename route's own captured parser/Level aliases only after genuine
++  // external unload and assigned cleanup succeeded, even if Main retains route.
++  if(services.cancel_and_unload&&inputs.native_filename_source){auto finish=std::move(services.cancel_and_unload);
++   services.cancel_and_unload=[this,finish=std::move(finish)](std::string& e){
++    const auto result=finish(e);if(result!=LifecycleStepV36::complete)return result;
++    if(!inputs.native_filename_source->release_after_unload(inputs.preparation->level(),inputs.assigned_source,e))return LifecycleStepV36::failed;
++    return LifecycleStepV36::complete;
++   };
++  }
++  services.cancel_and_unload=wrap_stage7_cancel_v64(*root,std::move(services.cancel_and_unload));
+   auto pins=std::move(inputs.resource_pins);pins.push_back(inputs.preparation);pins.push_back(inputs.manager);
+   lifecycle=std::make_unique<LifecycleV36>(actual.fields,std::move(actual.actual_level_owner),std::move(pins),std::move(services));
+  }
+diff --git a/port/level-loader/xml_document_v1.hpp b/port/level-loader/xml_document_v1.hpp
+--- a/port/level-loader/xml_document_v1.hpp
++++ b/port/level-loader/xml_document_v1.hpp
+@@ -32,32 +32,50 @@
+ class XmlDocumentV1 {
+     struct Snapshot;
+     std::shared_ptr<const Snapshot> snapshot_;
+-    bool capture_impl(std::string,std::vector<std::uint8_t>,bool level_buffer,std::string&);
+-public:
+-    class Borrow {
+-        friend class XmlDocumentV1;
+-        std::shared_ptr<const Snapshot> snapshot_;
+-        explicit Borrow(std::shared_ptr<const Snapshot> p):snapshot_(std::move(p)){}
+-    public:
+-        Borrow()=default;
+-        explicit operator bool()const noexcept{return bool(snapshot_);}
+-        const std::string& uri() const;
+-        const std::vector<std::uint8_t>& source() const;
+-        const std::vector<XmlElementV1>& elements() const;
+-        const std::vector<std::uint32_t>& roots() const;
+-        const std::vector<XmlTopLevelNodeV1>& top_level_nodes() const;
+-        bool used_level_buffer_route() const;
+-        const XmlDiagnosticV1& diagnostic() const;
+-        bool parsed() const;
+-    };
+-    // Captures parser error/partial tree as evidence, not permission to instantiate
+-    // a malformed level. Synchronous publication is all-or-nothing; the owning
+-    // facade must not be mutated concurrently with borrow(). A successful capture
+-    // may still have parsed()==false, requiring caller error-policy reconstruction.
+-    bool capture(std::string uri,std::vector<std::uint8_t> bytes,std::string& error);
+-    // Original TiXmlDocument::LoadFromBuffer converts CR and CRLF to LF before
+-    // parsing. Raw source bytes stay retained; direct capture stays unchanged.
+-    bool capture_level_buffer(std::string uri,std::vector<std::uint8_t> bytes,std::string& error);
++public:
++    class NativeBackendV65 {
++        friend class XmlDocumentV1;struct Impl;std::unique_ptr<Impl> impl_;
++        NativeBackendV65();
++    public:
++        ~NativeBackendV65();std::uintptr_t identity()const noexcept;
++        void release_native()noexcept;
++        NativeBackendV65(const NativeBackendV65&)=delete;
++    };
++private:
++    bool capture_impl(std::string,std::vector<std::uint8_t>,bool level_buffer,std::string&,std::shared_ptr<NativeBackendV65> backend={});
++public:
++    class Borrow {
++        friend class XmlDocumentV1;
++        std::shared_ptr<const Snapshot> snapshot_;
++        explicit Borrow(std::shared_ptr<const Snapshot> p):snapshot_(std::move(p)){}
++    public:
++        Borrow()=default;
++        explicit operator bool()const noexcept{return bool(snapshot_);}
++        const std::string& uri() const;
++        const std::vector<std::uint8_t>& source() const;
++        const std::vector<XmlElementV1>& elements() const;
++        const std::vector<std::uint32_t>& roots() const;
++        const std::vector<XmlTopLevelNodeV1>& top_level_nodes() const;
++        bool used_level_buffer_route() const;
++        const XmlDiagnosticV1& diagnostic() const;
++        bool parsed() const;
++        std::uintptr_t native_document_identity_v65()const noexcept;
++        std::uintptr_t native_element_identity_v65(std::uint32_t)const noexcept;
++        std::uintptr_t native_top_level_identity_v65(std::uint32_t)const noexcept;
++    };
++    // Captures parser error/partial tree as evidence, not permission to instantiate
++    // a malformed level. Synchronous publication is all-or-nothing; the owning
++    // facade must not be mutated concurrently with borrow(). A successful capture
++    // may still have parsed()==false, requiring caller error-policy reconstruction.
++    bool capture(std::string uri,std::vector<std::uint8_t> bytes,std::string& error);
++    // Original TiXmlDocument::LoadFromBuffer converts CR and CRLF to LF before
++    // parsing. Raw source bytes stay retained; direct capture stays unchanged.
++    bool capture_level_buffer(std::string uri,std::vector<std::uint8_t> bytes,std::string& error);
++    // Allocate native document before assigned stream/debug validation; parse
++    // and project ONCE from that SAME backend. Borrow maps are invalidated by
++    // explicit native D0 while immutable diagnostic snapshot remains usable.
++    static bool allocate_native_backend_v65(std::shared_ptr<NativeBackendV65>&,std::string&);
++    bool capture_retained_level_buffer_v65(std::string,std::vector<std::uint8_t>,std::shared_ptr<NativeBackendV65>,std::string&);
+     Borrow borrow()const{return Borrow(snapshot_);}
+ };
+ }
+diff --git a/port/level-loader/xml_document_v1.cpp b/port/level-loader/xml_document_v1.cpp
+--- a/port/level-loader/xml_document_v1.cpp
++++ b/port/level-loader/xml_document_v1.cpp
+@@ -3,99 +3,129 @@
+ #include <algorithm>
+ #include <functional>
+ #include <stdexcept>
+-
+-namespace dh2::loader {
+-struct XmlDocumentV1::Snapshot {
+-    std::string uri;
+-    std::vector<std::uint8_t> source;
+-    std::vector<XmlElementV1> elements;
+-    std::vector<std::uint32_t> roots;
+-    std::vector<XmlTopLevelNodeV1> top_level_nodes;
+-    bool level_buffer{};
+-    XmlDiagnosticV1 diagnostic;
+-};
+-const std::string* XmlElementV1::attribute(const std::string& key)const noexcept {
+-    for(const auto& a:attributes)if(a.first==key)return &a.second;
+-    return nullptr;
+-}
+-const std::string& XmlDocumentV1::Borrow::uri()const {
+-    if(!snapshot_)throw std::logic_error("XML snapshot unavailable");
+-    return snapshot_->uri;
+-}
+-const std::vector<std::uint8_t>& XmlDocumentV1::Borrow::source()const {
+-    if(!snapshot_)throw std::logic_error("XML snapshot unavailable");
+-    return snapshot_->source;
+-}
+-const std::vector<XmlElementV1>& XmlDocumentV1::Borrow::elements()const {
+-    if(!snapshot_)throw std::logic_error("XML snapshot unavailable");
+-    return snapshot_->elements;
+-}
+-const XmlDiagnosticV1& XmlDocumentV1::Borrow::diagnostic()const {
+-    if(!snapshot_)throw std::logic_error("XML snapshot unavailable");
+-    return snapshot_->diagnostic;
+-}
+-const std::vector<std::uint32_t>& XmlDocumentV1::Borrow::roots()const {
+-    if(!snapshot_)throw std::logic_error("XML snapshot unavailable");
+-    return snapshot_->roots;
+-}
+-const std::vector<XmlTopLevelNodeV1>& XmlDocumentV1::Borrow::top_level_nodes()const {
+-    if(!snapshot_)throw std::logic_error("XML snapshot unavailable");
+-    return snapshot_->top_level_nodes;
+-}
+-bool XmlDocumentV1::Borrow::used_level_buffer_route()const {
+-    if(!snapshot_)throw std::logic_error("XML snapshot unavailable");
+-    return snapshot_->level_buffer;
+-}
+-bool XmlDocumentV1::Borrow::parsed()const {
+-    return snapshot_&&!snapshot_->diagnostic.code&&!snapshot_->elements.empty();
+-}
+-bool XmlDocumentV1::capture(std::string uri,std::vector<std::uint8_t> bytes,std::string& error) {
+-    return capture_impl(std::move(uri),std::move(bytes),false,error);
+-}
+-bool XmlDocumentV1::capture_level_buffer(std::string uri,std::vector<std::uint8_t> bytes,std::string& error) {
+-    return capture_impl(std::move(uri),std::move(bytes),true,error);
+-}
+-bool XmlDocumentV1::capture_impl(std::string uri,std::vector<std::uint8_t> bytes,bool level_buffer,std::string& error) {
+-    error.clear();
+-    try {
+-        if(uri.empty()||uri.find('\0')!=std::string::npos||bytes.size()>16u*1024u*1024u||
+-           std::find(bytes.begin(),bytes.end(),0)!=bytes.end())
+-            throw std::runtime_error("XML input outside native capture domain");
+-        auto next=std::make_shared<Snapshot>();next->uri=std::move(uri);next->source=std::move(bytes);
+-        next->level_buffer=level_buffer;
+-        std::string raw;
+-        raw.reserve(next->source.size());
+-        for(std::size_t i=0;i<next->source.size();++i) {
+-            const auto byte=next->source[i];
+-            if(level_buffer&&byte=='\r') {
+-                raw+='\n';
+-                if(i+1<next->source.size()&&next->source[i+1]=='\n')++i;
+-            }else raw+=static_cast<char>(byte);
+-        }
+-        TiXmlDocument doc;doc.Parse(raw.c_str(),nullptr,TIXML_ENCODING_UNKNOWN);
+-        next->diagnostic={doc.ErrorId(),doc.ErrorRow(),doc.ErrorCol(),doc.ErrorDesc()};
+-        std::function<std::uint32_t(const TiXmlElement*,std::int32_t,unsigned)> append;
+-        append=[&](const TiXmlElement* e,std::int32_t parent,unsigned depth) {
+-            if(depth>256||next->elements.size()>=65536)throw std::runtime_error("XML element domain exceeded");
+-            const auto index=static_cast<std::uint32_t>(next->elements.size());
+-            XmlElementV1 node;node.tag=e->Value();node.parent=parent;node.row=e->Row();node.column=e->Column();
+-            node.next_sibling_is_non_element=e->NextSibling()&&!e->NextSibling()->ToElement();
+-            node.first_child_is_non_element=e->FirstChild()&&!e->FirstChild()->ToElement();
+-            if(const auto* text=e->GetText())node.text=text;
+-            for(auto* a=e->FirstAttribute();a;a=a->Next())node.attributes.emplace_back(a->Name(),a->Value());
+-            next->elements.push_back(std::move(node));
+-            for(auto* c=e->FirstChildElement();c;c=c->NextSiblingElement()) {
+-                auto child=append(c,static_cast<std::int32_t>(index),depth+1);
+-                next->elements[index].children.push_back(child);
+-            }
+-            return index;
+-        };
+-        for(auto* root=doc.FirstChild();root;root=root->NextSibling()) {
+-            XmlTopLevelNodeV1 node;node.kind=static_cast<std::uint32_t>(root->Type());node.value=root->Value();
+-            if(const auto* element=root->ToElement()) {
+-                node.element=append(element,-1,0);next->roots.push_back(node.element);
+-            }
+-            next->top_level_nodes.push_back(std::move(node));
++#include <optional>
++
++namespace dh2::loader {
++struct XmlDocumentV1::NativeBackendV65::Impl {
++ std::unique_ptr<TiXmlDocument> document=std::make_unique<TiXmlDocument>();
++ bool attempted{};
++};
++XmlDocumentV1::NativeBackendV65::NativeBackendV65():impl_(std::make_unique<Impl>()){}
++XmlDocumentV1::NativeBackendV65::~NativeBackendV65()=default;
++std::uintptr_t XmlDocumentV1::NativeBackendV65::identity()const noexcept{return impl_?reinterpret_cast<std::uintptr_t>(impl_->document.get()):0;}
++void XmlDocumentV1::NativeBackendV65::release_native()noexcept{if(impl_)impl_->document.reset();}
++bool XmlDocumentV1::allocate_native_backend_v65(std::shared_ptr<NativeBackendV65>& out,std::string& e){
++ try{auto next=std::shared_ptr<NativeBackendV65>(new NativeBackendV65);out=std::move(next);return true;}
++ catch(const std::exception& ex){e=ex.what();return false;}
++}
++struct XmlDocumentV1::Snapshot {
++    std::string uri;
++    std::vector<std::uint8_t> source;
++    std::vector<XmlElementV1> elements;
++    std::vector<std::uint32_t> roots;
++    std::vector<XmlTopLevelNodeV1> top_level_nodes;
++    bool level_buffer{};
++    XmlDiagnosticV1 diagnostic;
++    std::shared_ptr<NativeBackendV65> native_backend;
++    std::vector<std::uintptr_t> native_elements,native_top_level;
++};
++const std::string* XmlElementV1::attribute(const std::string& key)const noexcept {
++    for(const auto& a:attributes)if(a.first==key)return &a.second;
++    return nullptr;
++}
++const std::string& XmlDocumentV1::Borrow::uri()const {
++    if(!snapshot_)throw std::logic_error("XML snapshot unavailable");
++    return snapshot_->uri;
++}
++const std::vector<std::uint8_t>& XmlDocumentV1::Borrow::source()const {
++    if(!snapshot_)throw std::logic_error("XML snapshot unavailable");
++    return snapshot_->source;
++}
++const std::vector<XmlElementV1>& XmlDocumentV1::Borrow::elements()const {
++    if(!snapshot_)throw std::logic_error("XML snapshot unavailable");
++    return snapshot_->elements;
++}
++const XmlDiagnosticV1& XmlDocumentV1::Borrow::diagnostic()const {
++    if(!snapshot_)throw std::logic_error("XML snapshot unavailable");
++    return snapshot_->diagnostic;
++}
++const std::vector<std::uint32_t>& XmlDocumentV1::Borrow::roots()const {
++    if(!snapshot_)throw std::logic_error("XML snapshot unavailable");
++    return snapshot_->roots;
++}
++const std::vector<XmlTopLevelNodeV1>& XmlDocumentV1::Borrow::top_level_nodes()const {
++    if(!snapshot_)throw std::logic_error("XML snapshot unavailable");
++    return snapshot_->top_level_nodes;
++}
++bool XmlDocumentV1::Borrow::used_level_buffer_route()const {
++    if(!snapshot_)throw std::logic_error("XML snapshot unavailable");
++    return snapshot_->level_buffer;
++}
++bool XmlDocumentV1::Borrow::parsed()const {
++    return snapshot_&&!snapshot_->diagnostic.code&&!snapshot_->elements.empty();
++}
++bool XmlDocumentV1::capture(std::string uri,std::vector<std::uint8_t> bytes,std::string& error) {
++    return capture_impl(std::move(uri),std::move(bytes),false,error);
++}
++bool XmlDocumentV1::capture_level_buffer(std::string uri,std::vector<std::uint8_t> bytes,std::string& error) {
++    return capture_impl(std::move(uri),std::move(bytes),true,error);
++}
++std::uintptr_t XmlDocumentV1::Borrow::native_document_identity_v65()const noexcept{return snapshot_&&snapshot_->native_backend?snapshot_->native_backend->identity():0;}
++std::uintptr_t XmlDocumentV1::Borrow::native_element_identity_v65(std::uint32_t index)const noexcept{return native_document_identity_v65()&&index<snapshot_->native_elements.size()?snapshot_->native_elements[index]:0;}
++std::uintptr_t XmlDocumentV1::Borrow::native_top_level_identity_v65(std::uint32_t index)const noexcept{return native_document_identity_v65()&&index<snapshot_->native_top_level.size()?snapshot_->native_top_level[index]:0;}
++bool XmlDocumentV1::capture_retained_level_buffer_v65(std::string uri,std::vector<std::uint8_t> bytes,std::shared_ptr<NativeBackendV65> backend,std::string& error){
++ if(!backend){error="Required SAME retained native XML backend";return false;}
++ return capture_impl(std::move(uri),std::move(bytes),true,error,std::move(backend));
++}
++bool XmlDocumentV1::capture_impl(std::string uri,std::vector<std::uint8_t> bytes,bool level_buffer,std::string& error,std::shared_ptr<NativeBackendV65> backend) {
++    error.clear();
++    try {
++        if(uri.empty()||uri.find('\0')!=std::string::npos||bytes.size()>16u*1024u*1024u||
++           std::find(bytes.begin(),bytes.end(),0)!=bytes.end())
++            throw std::runtime_error("XML input outside native capture domain");
++        auto next=std::make_shared<Snapshot>();next->uri=std::move(uri);next->source=std::move(bytes);
++        next->level_buffer=level_buffer;
++        std::string raw;
++        raw.reserve(next->source.size());
++        for(std::size_t i=0;i<next->source.size();++i) {
++            const auto byte=next->source[i];
++            if(level_buffer&&byte=='\r') {
++                raw+='\n';
++                if(i+1<next->source.size()&&next->source[i+1]=='\n')++i;
++            }else raw+=static_cast<char>(byte);
++        }
++        std::optional<TiXmlDocument> local;
++        if(backend){
++            if(!backend->impl_||!backend->impl_->document||backend->impl_->attempted)throw std::runtime_error("Retained native XML backend cannot reparse or resume after D0");
++            backend->impl_->attempted=true;next->native_backend=backend;
++        }else local.emplace();
++        auto& doc=backend?*backend->impl_->document:*local;
++        doc.Parse(raw.c_str(),nullptr,TIXML_ENCODING_UNKNOWN);
++        next->diagnostic={doc.ErrorId(),doc.ErrorRow(),doc.ErrorCol(),doc.ErrorDesc()};
++        std::function<std::uint32_t(const TiXmlElement*,std::int32_t,unsigned)> append;
++        append=[&](const TiXmlElement* e,std::int32_t parent,unsigned depth) {
++            if(depth>256||next->elements.size()>=65536)throw std::runtime_error("XML element domain exceeded");
++            const auto index=static_cast<std::uint32_t>(next->elements.size());
++            XmlElementV1 node;node.tag=e->Value();node.parent=parent;node.row=e->Row();node.column=e->Column();
++            node.next_sibling_is_non_element=e->NextSibling()&&!e->NextSibling()->ToElement();
++            node.first_child_is_non_element=e->FirstChild()&&!e->FirstChild()->ToElement();
++            if(const auto* text=e->GetText())node.text=text;
++            for(auto* a=e->FirstAttribute();a;a=a->Next())node.attributes.emplace_back(a->Name(),a->Value());
++            next->elements.push_back(std::move(node));
++            if(backend)next->native_elements.push_back(reinterpret_cast<std::uintptr_t>(e));
++            for(auto* c=e->FirstChildElement();c;c=c->NextSiblingElement()) {
++                auto child=append(c,static_cast<std::int32_t>(index),depth+1);
++                next->elements[index].children.push_back(child);
++            }
++            return index;
++        };
++        for(auto* root=doc.FirstChild();root;root=root->NextSibling()) {
++            XmlTopLevelNodeV1 node;node.kind=static_cast<std::uint32_t>(root->Type());node.value=root->Value();
++            if(const auto* element=root->ToElement()) {
++                node.element=append(element,-1,0);next->roots.push_back(node.element);
++            }
++            next->top_level_nodes.push_back(std::move(node));
++            if(backend)next->native_top_level.push_back(reinterpret_cast<std::uintptr_t>(root));
+         }
+         snapshot_=std::move(next);return true;
+     }catch(const std::exception& e){error=e.what();return false;}
+diff --git a/port/level-loader/stage_loader_v38_root_file.hpp b/port/level-loader/stage_loader_v38_root_file.hpp
+--- a/port/level-loader/stage_loader_v38_root_file.hpp
++++ b/port/level-loader/stage_loader_v38_root_file.hpp
+@@ -1,84 +1,162 @@
+ #pragma once
+ #include "lifecycle_v36_counter_borrow.hpp"
+-namespace dh2::loader {
+-struct Stage7FieldsV38 {
+- LifecycleBorrowV36 level;
+- std::uint32_t* party_dc{};std::uint32_t* word_e0{};
+- std::uint8_t* procedural_e8{};std::string* name_f8{};
+-};
+-template<class Context> bool borrow_stage7_fields_v38(const std::shared_ptr<Context>& level,Stage7FieldsV38& out,std::string& error){
+- Stage7FieldsV38 next;if(!borrow_lifecycle_fields_v36(level,next.level,error))return false;
+- auto source=level->constructor_borrow_v3();if(!source.fields){error="Required actual Level C1 source fields";return false;}
+- next.party_dc=&source.fields->party_dc;next.word_e0=&source.fields->word_e0;
+- next.procedural_e8=&source.fields->byte_e8;next.name_f8=&source.fields->name_f8;out=std::move(next);return true;
+-}
+-struct Stage7GlobalsV38 {
+- std::shared_ptr<void> actual_owner;
+- std::uint32_t* source_dc_global{};std::uint32_t* source_e0_global{};
+-};
+-struct GeneratedSourceStreamV38 {std::shared_ptr<void> actual_owner;std::uintptr_t identity{};};
+-struct Stage7ServicesV38 {
+- std::function<bool(std::uint8_t&,std::string&)> online_byte5;
+- std::function<bool(GeneratedSourceStreamV38&,std::string&)> construct_stream;
+- // Actual GenerateRandomLevel output, including faithful serializer/ownership.
+- // pending is a native responsiveness adaptation over one retained generator
+- // cursor; it must not reroll/restart the original generator on each tick.
+- std::function<LifecycleStepV36(const GeneratedSourceStreamV38&,std::uint32_t,bool&,std::string&)> generate;
+- std::function<bool(const LifecycleBorrowV36&,const GeneratedSourceStreamV38&,std::string&)> assign_stream;
+- std::function<bool(GeneratedSourceStreamV38&,std::string&)> destroy_stream;
+- // Exact Level.LoadFile occurrence: named root Level and original root child
+- // factory order/Player guard. CanonicalCachedFileV1 supplies fixed files.
+- std::function<LifecycleStepV36(const std::string&,const char*,std::string&)> root_file_step;
+- std::function<bool(std::string&)> increment_actual_file13c;
+-};
+-enum class Stage7PhaseV38 {publish_globals,online,stream,generate,assign,backup,destroy,load_counter,root_file,file_index,complete,failed};
+-class Stage7BodyV38 {
+- Stage7FieldsV38 fields_;Stage7GlobalsV38 globals_;Stage7ServicesV38 services_;
+- GeneratedSourceStreamV38 stream_;std::uint32_t seed_{};bool generated_{},busy_{};
+- Stage7PhaseV38 phase_{Stage7PhaseV38::publish_globals};std::string error_;
+- LifecycleStepV36 fail(const char* operation){phase_=Stage7PhaseV38::failed;if(error_.empty())error_=std::string("Required actual stage7 provider: ")+operation;return LifecycleStepV36::failed;}
+- template<class F,class... A> bool call(const F& fn,A&&... args){return fn&&fn(std::forward<A>(args)...,error_)&&phase_!=Stage7PhaseV38::failed;}
+-public:
+- Stage7BodyV38(Stage7FieldsV38 fields,Stage7GlobalsV38 globals,Stage7ServicesV38 services):fields_(std::move(fields)),globals_(std::move(globals)),services_(std::move(services)){}
+- Stage7BodyV38(const Stage7BodyV38&)=delete;
+- Stage7PhaseV38 phase()const noexcept{return phase_;}
+- const std::string& error()const noexcept{return error_;}
+- // Original3f72b4..3f72c8: dispatcher writes130=8 BEFORE file13c++.
+- // Bind this as LifecycleServices.after_source_increment[7].
+- bool after_source_increment(std::string& error){
+-  if(busy_){fail("post-increment reentered");error=error_;return false;}
+-  struct Guard{bool& b;Guard(bool& v):b(v){b=true;}~Guard(){b=false;}} guard(busy_);
+-  if(phase_==Stage7PhaseV38::complete){error.clear();return true;}
+-  if(phase_!=Stage7PhaseV38::file_index||!fields_.level.fields.state130||*fields_.level.fields.state130!=8){fail("source130=8 before file13c increment");error=error_;return false;}
+-  if(!call(services_.increment_actual_file13c)){fail("actual source file13c increment");error=error_;return false;}
+-  phase_=Stage7PhaseV38::complete;error.clear();return true;
+- }
+- LifecycleStepV36 step(){
+-  if(phase_==Stage7PhaseV38::failed)return LifecycleStepV36::failed;if(phase_==Stage7PhaseV38::complete||phase_==Stage7PhaseV38::file_index)return LifecycleStepV36::complete;
+-  if(busy_)return fail("runtime-thread nonreentrancy");struct Guard{bool& b;Guard(bool& v):b(v){b=true;}~Guard(){b=false;}} guard(busy_);
+-  if(!fields_.level.actual_level_owner||!fields_.level.fields.state130||*fields_.level.fields.state130!=7||!fields_.level.fields.current138||!fields_.party_dc||!fields_.word_e0||!fields_.procedural_e8||!fields_.name_f8)return fail("same actual Level stage7 fields");
+-  switch(phase_){
+-  case Stage7PhaseV38::publish_globals:
+-   if(!globals_.actual_owner||!globals_.source_dc_global||!globals_.source_e0_global)return fail("actual source globals");
+-   *globals_.source_dc_global=*fields_.party_dc;*globals_.source_e0_global=*fields_.word_e0;
+-   phase_=*fields_.procedural_e8?Stage7PhaseV38::online:Stage7PhaseV38::load_counter;break;
+-  case Stage7PhaseV38::online:{
+-   std::uint8_t online{};if(!call(services_.online_byte5,online))return fail("GetOnline byte5");
+-   // Source reads selected GLOBAL after online callback, before Stream C1.
+-   seed_=online?*globals_.source_e0_global:*globals_.source_dc_global;phase_=Stage7PhaseV38::stream;break;}
+-  case Stage7PhaseV38::stream:
+-   if(!call(services_.construct_stream,stream_)||!stream_.actual_owner||!stream_.identity)return fail("actual StreamBuffer C1");phase_=Stage7PhaseV38::generate;break;
+-  case Stage7PhaseV38::generate:{
+-   if(!services_.generate)return fail("GenerateRandomLevel/faithful output serializer");const auto result=services_.generate(stream_,seed_,generated_,error_);
+-   if(phase_==Stage7PhaseV38::failed)return LifecycleStepV36::failed;if(result==LifecycleStepV36::pending)return result;if(result!=LifecycleStepV36::complete)return fail("GenerateRandomLevel");phase_=generated_?Stage7PhaseV38::assign:Stage7PhaseV38::backup;break;}
+-  case Stage7PhaseV38::assign:
+-   if(!call(services_.assign_stream,fields_.level,stream_))return fail("AssignSteamToLoadDataFile actual field140");phase_=Stage7PhaseV38::destroy;break;
+-  case Stage7PhaseV38::backup:{
+-   auto& name=*fields_.name_f8;if(name.empty()||name.find('\0')!=std::string::npos)return fail("nonempty source CString backup domain");
+-   name[0]='x';const auto dot=name.find('.');if(dot!=std::string::npos){name.resize(dot);name+="_BACKUP.mlx";}
+-   phase_=Stage7PhaseV38::destroy;break;}
+-  case Stage7PhaseV38::destroy:
+-   if(!call(services_.destroy_stream,stream_))return fail("actual temporary StreamBuffer destruction");stream_={};phase_=Stage7PhaseV38::load_counter;break;
++#include <exception>
++namespace dh2::loader {
++struct Stage7FieldsV38 {
++ LifecycleBorrowV36 level;
++ std::uint32_t* party_dc{};std::uint32_t* word_e0{};
++ std::uint8_t* procedural_e8{};std::string* name_f8{};
++};
++template<class Context> bool borrow_stage7_fields_v38(const std::shared_ptr<Context>& level,Stage7FieldsV38& out,std::string& error){
++ Stage7FieldsV38 next;if(!borrow_lifecycle_fields_v36(level,next.level,error))return false;
++ auto source=level->constructor_borrow_v3();if(!source.fields){error="Required actual Level C1 source fields";return false;}
++ next.party_dc=&source.fields->party_dc;next.word_e0=&source.fields->word_e0;
++ next.procedural_e8=&source.fields->byte_e8;next.name_f8=&source.fields->name_f8;out=std::move(next);return true;
++}
++struct Stage7GlobalsV38 {
++ std::shared_ptr<void> actual_owner;
++ std::uint32_t* source_dc_global{};std::uint32_t* source_e0_global{};
++};
++struct GeneratedSourceStreamV38 {std::shared_ptr<void> actual_owner;std::uintptr_t identity{};};
++struct Stage7ServicesV38 {
++ std::function<bool(std::uint8_t&,std::string&)> online_byte5;
++ std::function<bool(GeneratedSourceStreamV38&,std::string&)> construct_stream;
++ // Actual GenerateRandomLevel output, including faithful serializer/ownership.
++ // pending is a native responsiveness adaptation over one retained generator
++ // cursor; it must not reroll/restart the original generator on each tick.
++ std::function<LifecycleStepV36(const GeneratedSourceStreamV38&,std::uint32_t,bool&,std::string&)> generate;
++ std::function<bool(const LifecycleBorrowV36&,const GeneratedSourceStreamV38&,std::string&)> assign_stream;
++ std::function<bool(GeneratedSourceStreamV38&,std::string&)> destroy_stream;
++ // Exact Level.LoadFile occurrence: named root Level and original root child
++ // factory order/Player guard. CanonicalCachedFileV1 supplies fixed files.
++ std::function<LifecycleStepV36(const std::string&,const char*,std::string&)> root_file_step;
++ std::function<bool(std::string&)> increment_actual_file13c;
++ // Native cancellation adaptation for a started generator that has not completed.
++ // Stop its retained cursor/work before temporary D1 or world teardown; failure
++ // preserves the cursor/owner, and an explicit retry finishes that same prefix.
++ std::function<LifecycleStepV36(const GeneratedSourceStreamV38&,std::string&)> cancel_generation;
++};
++enum class Stage7PhaseV38 {publish_globals,online,stream,generate,assign,backup,destroy,load_counter,root_file,file_index,complete,failed};
++class Stage7BodyV38 {
++ Stage7FieldsV38 fields_;Stage7GlobalsV38 globals_;Stage7ServicesV38 services_;
++ GeneratedSourceStreamV38 stream_;std::uint32_t seed_{};bool generated_{},busy_{};
++ // These are local cleanup cursors, not Level/RNG/readiness or save fields.
++ bool cancel_requested_{},generation_entered_{},generation_finished_{},generator_quiesced_{};
++ bool temporary_destroy_complete_{},temporary_drop_complete_{},cleanup_reentered_{};
++ std::shared_ptr<void> temporary_cleanup_pin_;std::uintptr_t temporary_identity_{};
++ Stage7PhaseV38 phase_{Stage7PhaseV38::publish_globals};std::string error_;
++ LifecycleStepV36 fail(const char* operation){phase_=Stage7PhaseV38::failed;if(error_.empty())error_=std::string("Required actual stage7 provider: ")+operation;return LifecycleStepV36::failed;}
++ template<class F,class... A> bool call(const F& fn,A&&... args){return fn&&fn(std::forward<A>(args)...,error_)&&phase_!=Stage7PhaseV38::failed;}
++ bool same_temporary_owner()const noexcept{
++  return !stream_.actual_owner||(stream_.actual_owner.get()==temporary_cleanup_pin_.get()&&
++   !stream_.actual_owner.owner_before(temporary_cleanup_pin_)&&!temporary_cleanup_pin_.owner_before(stream_.actual_owner));
++ }
++ bool destroy_temporary(std::string& error){
++  if(temporary_drop_complete_)return true;
++  if(!temporary_cleanup_pin_){
++   if(!stream_.actual_owner&&!stream_.identity){temporary_destroy_complete_=true;temporary_drop_complete_=true;return true;}
++   if(!stream_.actual_owner){error="Required actual temporary StreamBuffer owner before D1";return false;}
++   temporary_cleanup_pin_=stream_.actual_owner;temporary_identity_=stream_.identity;
++  }
++  if(!same_temporary_owner()||(temporary_identity_&&stream_.identity&&stream_.identity!=temporary_identity_)){
++   error="Temporary StreamBuffer receiver/owner replaced during destruction";return false;
++  }
++  // Retain genuine ownership metadata across a partial provider failure; a
++  // cleared native identity stays cleared, so retry must not repeat completed D1.
++  if(!stream_.actual_owner)stream_.actual_owner=temporary_cleanup_pin_;
++  if(!temporary_destroy_complete_){
++   if(!services_.destroy_stream){error="Required actual temporary StreamBuffer D1 provider";return false;}
++   const bool complete=services_.destroy_stream(stream_,error);
++   if(complete)temporary_destroy_complete_=true;
++   if(cleanup_reentered_){
++    if(!stream_.actual_owner)stream_.actual_owner=temporary_cleanup_pin_;
++    error=error_;return false;
++   }
++   if(!same_temporary_owner()||(temporary_identity_&&stream_.identity&&stream_.identity!=temporary_identity_)){
++    if(error.empty())error="Temporary StreamBuffer receiver/owner changed during D1";return false;
++   }
++   if(!complete){
++    if(!stream_.actual_owner)stream_.actual_owner=temporary_cleanup_pin_;
++    return false;
++   }
++  }
++  stream_={};temporary_cleanup_pin_.reset();temporary_identity_=0;temporary_drop_complete_=true;return true;
++ }
++public:
++ Stage7BodyV38(Stage7FieldsV38 fields,Stage7GlobalsV38 globals,Stage7ServicesV38 services):fields_(std::move(fields)),globals_(std::move(globals)),services_(std::move(services)){}
++ Stage7BodyV38(const Stage7BodyV38&)=delete;
++ Stage7PhaseV38 phase()const noexcept{return phase_;}
++ const std::string& error()const noexcept{return error_;}
++ // Source has no cancellation branch. This safety continuation quiesces a
++ // retained generator, then calls the mandatory real temporary D1 before
++ // actual world teardown. It never advances source130/file13c or reruns Generate.
++ // Partial failure retains source/services/leases for an explicit cancel retry.
++ LifecycleStepV36 prepare_cancel(std::string& error){
++  cancel_requested_=true;
++  if(busy_){cleanup_reentered_=true;fail("cleanup reentered during delivery");error=error_;return LifecycleStepV36::failed;}
++  cleanup_reentered_=false;busy_=true;struct Busy{bool& value;~Busy(){value=false;}} guard{busy_};
++  try{
++   if(!generator_quiesced_){
++    if(generation_entered_&&!generation_finished_){
++     if(!services_.cancel_generation){error="Required pending-generator quiescence before temporary D1/unload";return LifecycleStepV36::dependency_missing;}
++     const auto result=services_.cancel_generation(stream_,error);
++     if(result==LifecycleStepV36::complete)generator_quiesced_=true;
++     if(cleanup_reentered_){error=error_;return LifecycleStepV36::failed;}
++     if(result!=LifecycleStepV36::complete)return result;
++    }
++    generator_quiesced_=true;
++   }
++   // The retained generator is now authentically idle; its callback captures
++   // can be dropped before D1, while all remaining providers stay on failure.
++   services_.generate={};services_.cancel_generation={};
++   if(!destroy_temporary(error))return LifecycleStepV36::failed;
++   error.clear();return LifecycleStepV36::complete;
++  }catch(const std::exception& ex){if(error.empty())error=ex.what();return LifecycleStepV36::failed;}
++  catch(...){if(error.empty())error="Stage7 cleanup provider threw";return LifecycleStepV36::failed;}
++ }
++ // Only the successful genuine unload composer may dispose remaining provider
++ // and global pins. Keeping this body for diagnostics after failure stays safe.
++ void finish_cancel()noexcept{
++  if(cancel_requested_&&generator_quiesced_&&temporary_drop_complete_){services_={};globals_={};}
++ }
++ // Original3f72b4..3f72c8: dispatcher writes130=8 BEFORE file13c++.
++ // Bind this as LifecycleServices.after_source_increment[7].
++ bool after_source_increment(std::string& error){
++  if(cancel_requested_){error="Stage7 source increment suppressed after cancellation";return false;}
++  if(busy_){fail("post-increment reentered");error=error_;return false;}
++  struct Guard{bool& b;Guard(bool& v):b(v){b=true;}~Guard(){b=false;}} guard(busy_);
++  if(phase_==Stage7PhaseV38::complete){error.clear();return true;}
++  if(phase_!=Stage7PhaseV38::file_index||!fields_.level.fields.state130||*fields_.level.fields.state130!=8){fail("source130=8 before file13c increment");error=error_;return false;}
++  if(!call(services_.increment_actual_file13c)){fail("actual source file13c increment");error=error_;return false;}
++  phase_=Stage7PhaseV38::complete;error.clear();return true;
++ }
++ LifecycleStepV36 step(){
++  if(cancel_requested_)return fail("source delivery suppressed after cancellation");
++  if(phase_==Stage7PhaseV38::failed)return LifecycleStepV36::failed;if(phase_==Stage7PhaseV38::complete||phase_==Stage7PhaseV38::file_index)return LifecycleStepV36::complete;
++  if(busy_)return fail("runtime-thread nonreentrancy");struct Guard{bool& b;Guard(bool& v):b(v){b=true;}~Guard(){b=false;}} guard(busy_);
++  if(!fields_.level.actual_level_owner||!fields_.level.fields.state130||*fields_.level.fields.state130!=7||!fields_.level.fields.current138||!fields_.party_dc||!fields_.word_e0||!fields_.procedural_e8||!fields_.name_f8)return fail("same actual Level stage7 fields");
++  switch(phase_){
++  case Stage7PhaseV38::publish_globals:
++   if(!globals_.actual_owner||!globals_.source_dc_global||!globals_.source_e0_global)return fail("actual source globals");
++   *globals_.source_dc_global=*fields_.party_dc;*globals_.source_e0_global=*fields_.word_e0;
++   phase_=*fields_.procedural_e8?Stage7PhaseV38::online:Stage7PhaseV38::load_counter;break;
++  case Stage7PhaseV38::online:{
++   std::uint8_t online{};if(!call(services_.online_byte5,online))return fail("GetOnline byte5");
++   // Source reads selected GLOBAL after online callback, before Stream C1.
++   seed_=online?*globals_.source_e0_global:*globals_.source_dc_global;phase_=Stage7PhaseV38::stream;break;}
++  case Stage7PhaseV38::stream:
++   if(!call(services_.construct_stream,stream_)||!stream_.actual_owner||!stream_.identity)return fail("actual StreamBuffer C1");phase_=Stage7PhaseV38::generate;break;
++  case Stage7PhaseV38::generate:{
++   if(!services_.generate)return fail("GenerateRandomLevel/faithful output serializer");generation_entered_=true;const auto result=services_.generate(stream_,seed_,generated_,error_);if(result==LifecycleStepV36::complete)generation_finished_=true;
++   if(phase_==Stage7PhaseV38::failed)return LifecycleStepV36::failed;if(result==LifecycleStepV36::pending)return result;if(result!=LifecycleStepV36::complete)return fail("GenerateRandomLevel");phase_=generated_?Stage7PhaseV38::assign:Stage7PhaseV38::backup;break;}
++  case Stage7PhaseV38::assign:
++   if(!call(services_.assign_stream,fields_.level,stream_))return fail("AssignSteamToLoadDataFile actual field140");phase_=Stage7PhaseV38::destroy;break;
++  case Stage7PhaseV38::backup:{
++   auto& name=*fields_.name_f8;if(name.empty()||name.find('\0')!=std::string::npos)return fail("nonempty source CString backup domain");
++   name[0]='x';const auto dot=name.find('.');if(dot!=std::string::npos){name.resize(dot);name+="_BACKUP.mlx";}
++   phase_=Stage7PhaseV38::destroy;break;}
++  case Stage7PhaseV38::destroy:
++   if(!destroy_temporary(error_))return fail("actual temporary StreamBuffer destruction");if(phase_==Stage7PhaseV38::failed)return LifecycleStepV36::failed;phase_=Stage7PhaseV38::load_counter;break;
+   case Stage7PhaseV38::load_counter:*fields_.level.fields.current138=500;phase_=Stage7PhaseV38::root_file;break;
+   case Stage7PhaseV38::root_file:{
+    if(!services_.root_file_step)return fail("Level.LoadFile/root factory transport");const auto result=services_.root_file_step(*fields_.name_f8,"Level",error_);
+diff --git a/port/level-loader/assigned_loadfile_kernel_v65.hpp b/port/level-loader/assigned_loadfile_kernel_v65.hpp
+new file mode 100644
+--- /dev/null
++++ b/port/level-loader/assigned_loadfile_kernel_v65.hpp
+@@ -0,0 +1,42 @@
++#pragma once
++#include "assigned_root_source_v64.hpp"
++#include "stage_loader_v38_root_file.hpp"
++#include <savegame_stream_v2.hpp>
++namespace dh2::loader {
++// Semantic host receiver for original LoadFileData, not a fabricated ARM layout.
++// It owns the ONE copied stream/backend; never a Level or generator lease.
++struct AssignedLoadFileDataV65 {
++ std::unique_ptr<level::SavegameStreamV2> stream;
++ std::shared_ptr<XmlDocumentV1::NativeBackendV65> backend;
++ XmlDocumentV1 xml;
++ std::uint8_t buffer_flag34{},flag48{};
++ std::uintptr_t document38{},root3c{},node40{},child44{};
++ bool read_started{},read_failed{},retired{};
++ std::string source_name,error;
++};
++struct SourceIStreamBorrowV65 {std::shared_ptr<void> actual_owner;std::uintptr_t identity{};};
++struct AssignedCopyLeavesV65 {
++ std::shared_ptr<void> owner;
++ // Source IStreamBase vtable+8 and +18 only. Bool is successful execution of
++ // the complete native getter/read; never a generated-ready policy callback.
++ std::function<bool(const SourceIStreamBorrowV65&,std::uint64_t&,std::string&)> size;
++ std::function<bool(const SourceIStreamBorrowV65&,void*,std::uint32_t,std::string&)> read;
++};
++// Loader owns allocation/clear/Grow/copy/publish order. Genuine stream leaves
++// come from the existing generator owner; temporary lifetime ends after Assign.
++bool copy_stream_to_level140_v65(CanonicalLevelContextV1&,const SourceIStreamBorrowV65&,const AssignedCopyLeavesV65&,std::string&);
++bool assign_generated_stream_v65(CanonicalLevelContextV1&,const GeneratedSourceStreamV38&,const AssignedCopyLeavesV65&,std::string&);
++struct AssignedReadLeavesV65 {
++ std::shared_ptr<void> owner;
++ // Existing canonical parser-result handler is reused unchanged.
++ std::function<bool(bool,std::string&)> parse_result;
++ // Original Buffer availability assertion/debug policy at LoadFile3f3f8c.
++ // Invoked only when actual flag34 is zero; no callback owns Read/parser body.
++ std::function<bool(std::string&)> unavailable_buffer;
++};
++AssignedRootServicesV64 assigned_root_kernel_services_v65(AssignedReadLeavesV65);
++// Adapter for Stage7's existing SAME LifecycleBorrow signature. Weak Level
++// avoids storing a strong Level owner back in its own assigned-resource slot.
++std::function<bool(const LifecycleBorrowV36&,const GeneratedSourceStreamV38&,std::string&)>
++ assigned_stream_stage7_binding_v65(std::weak_ptr<CanonicalLevelContextV1>,AssignedCopyLeavesV65);
++}
+diff --git a/port/level-loader/assigned_loadfile_kernel_v65.cpp b/port/level-loader/assigned_loadfile_kernel_v65.cpp
+new file mode 100644
+--- /dev/null
++++ b/port/level-loader/assigned_loadfile_kernel_v65.cpp
+@@ -0,0 +1,119 @@
++#include "assigned_loadfile_kernel_v65.hpp"
++#include <exception>
++namespace dh2::loader {
++namespace {
++bool same_owner(const std::shared_ptr<void>& a,const std::shared_ptr<void>& b){return !a.owner_before(b)&&!b.owner_before(a);}
++std::shared_ptr<AssignedLoadFileDataV65> live(const AssignedRootBorrowV64& b,std::string& e){
++ if(!assigned_root_live_v64(b,e))return {};
++ auto state=std::static_pointer_cast<AssignedLoadFileDataV65>(b.assigned_alias);
++ if(state->retired||b.stream_identity!=reinterpret_cast<std::uintptr_t>(state->stream.get())||b.document38!=&state->document38||b.root3c!=&state->root3c||b.node40!=&state->node40||b.child44!=&state->child44||b.flag48!=&state->flag48||b.buffer_flag34!=&state->buffer_flag34){e="Required SAME live loader-owned assigned cells";return {};}
++ return state;
++}
++}
++bool copy_stream_to_level140_v65(CanonicalLevelContextV1& level,const SourceIStreamBorrowV65& generated,const AssignedCopyLeavesV65& leaves,std::string& e){
++ auto native=level.constructor_borrow_v3();auto& owning=level.assigned_source_owner_slot_v65();auto& operation=level.assigned_source_operation_slot_v65();
++ if(operation){operation=2;e="Assigned stream mutation reentered";return false;}
++ if(!native.owner||!native.fields||!leaves.owner||!leaves.size||!leaves.read||!generated.actual_owner||!generated.identity||native.fields->field140||owning){e="Required fresh SAME Level140 and actual generator Size/Read leaves";return false;}
++ operation=1;struct Guard{std::uint8_t& flag;~Guard(){flag=0;}} guard{operation};
++ try{
++  // Allocate receiver before StreamBuffer C1(Size/Grow/Read), as3f02c0/e4.
++  auto state=std::make_shared<AssignedLoadFileDataV65>();std::uint64_t source_size=0;
++  if(!leaves.size(generated,source_size,e))return false;
++  if(operation!=1){if(e.empty())e="Assigned mutation recursively failed during Size";return false;}
++  if(native.fields->field140||owning){e="Actual assigned slot changed during Size";return false;}
++  // StreamBuffer::expand317180 passes only low32 to Buffer::setSize317014.
++  // Fresh Buffer clear resets flag; setSize owns one allocation + NULL sentinel,
++  // then source3170cc writes flag1 and3170d0/d4 writes requested size/count.
++  const auto copied_size=static_cast<std::uint32_t>(source_size);
++  std::vector<std::uint8_t> bytes(copied_size);
++  state->stream=std::make_unique<dh2::level::SavegameStreamV2>(std::move(bytes));
++  state->buffer_flag34=1;
++  if(!leaves.read(generated,state->stream->source_copy_destination_v65(),copied_size,e))return false;
++  if(operation!=1){if(e.empty())e="Assigned mutation recursively failed during Read";return false;}
++  if(native.fields->field140||owning){e="Actual assigned slot changed during Size/Grow/Read";return false;}
++  // Receiver38/3c/40/44/48 were zero-initialized. Publish raw140 LAST.
++  owning=state;native.fields->field140=reinterpret_cast<std::uintptr_t>(state.get());return true;
++ }catch(const std::exception& ex){if(e.empty())e=ex.what();return false;}
++}
++bool assign_generated_stream_v65(CanonicalLevelContextV1& level,const GeneratedSourceStreamV38& source,const AssignedCopyLeavesV65& leaves,std::string& e){
++ return copy_stream_to_level140_v65(level,{source.actual_owner,source.identity},leaves,e);
++}
++AssignedRootServicesV64 assigned_root_kernel_services_v65(AssignedReadLeavesV65 leaves){
++ AssignedRootServicesV64 services;services.owner=leaves.owner;
++ services.borrow=[](CanonicalLevelContextV1& level,AssignedRootBorrowV64& out,std::string& e){
++  auto native=level.constructor_borrow_v3();auto& owning=level.assigned_source_owner_slot_v65();
++  if(!native.owner||!native.fields||!owning||owning.get()!=reinterpret_cast<void*>(native.fields->field140)){e="Required actual loader-owned assigned140 receiver";return false;}
++  auto state=std::static_pointer_cast<AssignedLoadFileDataV65>(owning);
++  if(state->retired||!state->stream){e="Assigned stream receiver already retired";return false;}
++  out={native.owner,level.identity(),&native.fields->field140,&owning,native.fields->field140,reinterpret_cast<std::uintptr_t>(state->stream.get()),owning,std::shared_ptr<const void>(owning,state->stream.get()),&state->buffer_flag34,&state->document38,&state->root3c,&state->node40,&state->child44,&state->flag48};return true;
++ };
++ services.read_document=[leaves](const AssignedRootBorrowV64& b,const std::string& name,XmlDocumentV1::Borrow& out,std::shared_ptr<const void>& alias,std::string& e){
++  auto state=live(b,e);if(!state)return LifecycleStepV36::failed;
++  if(state->read_failed){e=state->error;return LifecycleStepV36::failed;}
++  if(state->read_started){
++   if(name!=state->source_name||!state->xml.borrow()){e="Assigned native Read prefix cannot replay/change source";state->read_failed=true;state->error=e;return LifecycleStepV36::failed;}
++   out=state->xml.borrow();alias=std::shared_ptr<const void>(state->backend,reinterpret_cast<const void*>(state->document38));return LifecycleStepV36::complete;
++  }
++  state->read_started=true;state->source_name=name;
++  auto fail=[&]{state->read_failed=true;state->error=e;return LifecycleStepV36::failed;};
++  try{
++  // Actual TiXML C1 and38 publication precede original buffer/debug checks.
++  if(!XmlDocumentV1::allocate_native_backend_v65(state->backend,e))return fail();
++  state->document38=state->backend->identity();
++  if(!state->buffer_flag34){
++   if(!leaves.unavailable_buffer){e="Required original DebugSwitch buffer assertion leaf";return fail();}
++   if(!leaves.unavailable_buffer(e)||state->read_failed||!assigned_root_live_v64(b,e))return fail();
++  }
++  // Original LoadFromBuffer normalization + ONE parse in actual retained doc38.
++  // Snapshot projection maps that same backend; no alternate parser or reparse.
++  if(!state->xml.capture_retained_level_buffer_v65(name,state->stream->bytes(),state->backend,e))return fail();
++  if(!assigned_root_live_v64(b,e))return fail();
++  auto document=state->xml.borrow();
++  if(!document.diagnostic().code){state->root3c=state->document38;state->node40=document.native_top_level_identity_v65(0);}
++  out=std::move(document);alias=std::shared_ptr<const void>(state->backend,reinterpret_cast<const void*>(state->document38));return LifecycleStepV36::complete;
++  }catch(const std::exception& ex){if(e.empty())e=ex.what();return fail();}
++ };
++ services.parse_result=[leaves](const AssignedRootBorrowV64& b,bool ok,std::string& e){
++  if(!live(b,e))return false;if(!leaves.parse_result){e="Required existing canonical XML parser-result handler";return false;}return leaves.parse_result(ok,e);
++ };
++ services.observe_walk=[](const AssignedRootBorrowV64& b,const LevelFileWalkV1& walk,std::string& e){
++  auto state=live(b,e);if(!state)return false;
++  if(!walk.document||walk.document.native_document_identity_v65()!=state->document38){e="Walk must project actual assigned native document38";return false;}
++  state->node40=walk.document.native_top_level_identity_v65(walk.root_cursor);state->child44=0;
++  if(walk.root_cursor<walk.document.top_level_nodes().size()&&!walk.advance_root){
++   const auto& node=walk.document.top_level_nodes()[walk.root_cursor];
++   if(node.kind==1&&node.element!=UINT32_MAX&&node.value==walk.requested_root){
++    const auto& children=walk.document.elements()[node.element].children;
++    if(walk.child_cursor<children.size())state->child44=walk.document.native_element_identity_v65(children[walk.child_cursor]);
++   }
++  }
++  return true;
++ };
++ services.before_element=[](const AssignedRootBorrowV64& b,const XmlDocumentV1::Borrow& document,std::uint32_t element,std::string& e){
++  auto state=live(b,e);if(!state)return false;
++  if(document.native_document_identity_v65()!=state->document38||!state->child44||document.native_element_identity_v65(element)!=state->child44){e="Factory must consume SAME actual native child44";return false;}return true;
++ };
++ services.release=[](const AssignedRootReleaseV64& b,std::string& e){
++  // Only live Level/owning metadata is inspected before any native cell access.
++  if(!*b.slot140){if(*b.owning_slot&&!same_owner(*b.owning_slot,b.assigned_alias)){e="Cannot drop replacement assigned owner";return false;}b.owning_slot->reset();return true;}
++  if(*b.slot140!=b.assigned_identity||!*b.owning_slot||b.owning_slot->get()!=b.assigned_alias.get()||!same_owner(*b.owning_slot,b.assigned_alias)){e="Cannot D0 replacement assigned receiver";return false;}
++  auto state=std::static_pointer_cast<AssignedLoadFileDataV65>(b.assigned_alias);
++  if(state->retired){e="Assigned D0 was not followed by native140 clear";return false;}
++  // Original completion D0s document38 first, then reloads140 and D0s assigned
++  // state (whose D0 owns only StreamBuffer/CustomFree), finally140=0.
++  if(state->backend)state->backend->release_native();
++  // Original leaves retired document38 untouched until assigned receiver D0;
++  // retained metadata aliases never dereference that retired pointer.
++  state->stream.reset();state->buffer_flag34=0;state->retired=true;
++  *b.slot140=0;b.owning_slot->reset();return true;
++ };
++ return services;
++}
++std::function<bool(const LifecycleBorrowV36&,const GeneratedSourceStreamV38&,std::string&)> assigned_stream_stage7_binding_v65(std::weak_ptr<CanonicalLevelContextV1> weak,AssignedCopyLeavesV65 leaves){
++ return [weak=std::move(weak),leaves=std::move(leaves)](const LifecycleBorrowV36& actual,const GeneratedSourceStreamV38& source,std::string& e){
++  auto level=weak.lock();if(!level){e="Assigned Level lifetime ended";return false;}auto native=level->constructor_borrow_v3();
++  if(actual.actual_level_owner.get()!=level.get()||actual.actual_level_owner.owner_before(native.owner)||native.owner.owner_before(actual.actual_level_owner)){e="Stage7 Assign requires SAME actual Level owner";return false;}
++  return assign_generated_stream_v65(*level,source,leaves,e);
++ };
++}
++}
+diff --git a/port/level-loader/filename_root_source_v65.hpp b/port/level-loader/filename_root_source_v65.hpp
+new file mode 100644
+--- /dev/null
++++ b/port/level-loader/filename_root_source_v65.hpp
+@@ -0,0 +1,99 @@
++#pragma once
++#include "assigned_loadfile_kernel_v65.hpp"
++#include "level_root_filename_route_v52.hpp"
++namespace dh2::loader {
++struct FilenameSourceLeavesV65 {
++ std::shared_ptr<void> owner;
++ std::function<bool(const std::string&,bool&,std::string&)> is_using_uncompiled_data;
++ // Same actual ordered CFS open boundary as V52. Successful found=true MUST
++ // also lend genuine IStreamBase handle/owner; canonical URI is diagnostic.
++ std::function<bool(const std::string&,bool&,std::string&,SourceIStreamBorrowV65&,std::string&)> open_resource;
++ std::function<LifecycleStepV36(SourceIStreamBorrowV65&,std::string&)> close_source;
++ AssignedCopyLeavesV65 copy;
++};
++class FilenameRootRouteV65 {
++ FilenameSourceLeavesV65 leaves_;
++ std::unique_ptr<LevelRootFilenameResolverV52> resolver_;
++ SourceIStreamBorrowV65 opened_;
++ std::shared_ptr<void> expected_;
++ std::weak_ptr<CanonicalLevelContextV1> level_seen_;
++ std::uintptr_t expected_identity_{};
++ std::string name_,canonical_,error_;
++ enum class Phase{fresh,close_source,read,complete,failed};Phase phase_{Phase::fresh};
++ bool busy_{},close_reentered_{};AssignedRootRouteV64 assigned_;
++ LifecycleStepV36 fail(std::string& e){phase_=Phase::failed;if(error_.empty())error_=e.empty()?"Actual filename source prefix failed":e;e=error_;return LifecycleStepV36::failed;}
++ bool close_done_{};
++public:
++ explicit FilenameRootRouteV65(FilenameSourceLeavesV65 leaves):leaves_(std::move(leaves)){
++  LevelRootFilenameServicesV52 route;route.actual_filesystem_owner=leaves_.owner;
++  route.is_using_uncompiled_data=leaves_.is_using_uncompiled_data;
++  route.open_resource=[this](const std::string& name,bool& found,std::string& canonical,std::string& e){
++   if(!leaves_.open_resource){e="Required genuine filename IStreamBase open leaf";return false;}
++   SourceIStreamBorrowV65 next;const bool ok=leaves_.open_resource(name,found,canonical,next,e);
++   if(next.actual_owner||next.identity)opened_=std::move(next); // retain reached prefix even on failure
++   if(!ok)return false;
++   if(found&&(!opened_.actual_owner||!opened_.identity)){e="Filename open did not retain actual source handle";return false;}
++   if(!found&&opened_.actual_owner){e="Missing resource returned a live source handle";return false;}return true;
++  };
++  resolver_=std::make_unique<LevelRootFilenameResolverV52>(std::move(route));
++ }
++ FilenameRootRouteV65(const FilenameRootRouteV65&)=delete;
++ bool owns_assigned_prefix()const noexcept{return expected_identity_!=0;}
++ bool accepts_owned140(const CanonicalLevelContextV1& level,std::string& e)const{
++  if(level_seen_.lock().get()!=&level){e="Filename occurrence changed retained Level owner";return false;}
++  const auto actual=level.constructor_fields_v3().field140;
++  const auto& owning=level.assigned_source_owner_slot_v65();
++  if(phase_==Phase::complete&&!actual&&!owning)return true;
++  if(!expected_||actual!=expected_identity_||!owning||owning.get()!=expected_.get()||owning.owner_before(expected_)||expected_.owner_before(owning)){e="Filename occurrence assigned140 cleared/replaced prematurely";return false;}return true;
++ }
++ // Used by cancellation before native candidate teardown. Actual handle is
++ // retained on close failure/pending; no parser/copy replay or fake close.
++ LifecycleStepV36 close_before_unload(const std::shared_ptr<CanonicalLevelContextV1>& level,std::string& e){
++  if(phase_!=Phase::fresh&&level_seen_.lock()!=level){e="Cannot close another Level filename occurrence";return LifecycleStepV36::failed;}
++  if(busy_){close_reentered_=true;e="Filename source close reentered";return LifecycleStepV36::failed;}
++  if(close_done_||!opened_.actual_owner)return LifecycleStepV36::complete;
++  if(!leaves_.close_source){e="Required actual filesystem close leaf";return LifecycleStepV36::dependency_missing;}
++  busy_=true;struct Guard{bool& flag;~Guard(){flag=false;}} guard{busy_};
++  close_reentered_=false;const auto result=leaves_.close_source(opened_,e);
++  if(close_reentered_){if(e.empty())e="Filename source close recursively failed";return LifecycleStepV36::failed;}
++  if(result==LifecycleStepV36::complete){opened_={};close_done_=true;}
++  return result;
++ }
++ bool release_after_unload(const std::shared_ptr<CanonicalLevelContextV1>& level,const AssignedRootServicesV64& services,std::string& e){
++  if(phase_!=Phase::fresh&&level_seen_.lock()!=level){e="Cannot release another Level filename occurrence";return false;}
++  if(!assigned_.release_after_unload(level,services,e))return false;
++  expected_.reset();phase_=Phase::failed;return true;
++ }
++ template<class Consume>
++ LifecycleStepV36 step(const std::shared_ptr<CanonicalLevelContextV1>& level,const std::string& name,const AssignedRootServicesV64& services,Consume consume,std::string& e){
++  if(busy_){e="Filename load source reentered";return fail(e);}
++  if(phase_==Phase::failed){e=error_;return LifecycleStepV36::failed;}
++  if(!level){e="Required SAME retained filename Level";return fail(e);}
++  if(phase_!=Phase::fresh&&level_seen_.lock()!=level){e="Filename controller belongs to another retained Level";return fail(e);}
++  if(phase_!=Phase::fresh&&name!=name_){e="Filename occurrence changed original source name";return fail(e);}
++  if(phase_==Phase::complete)return LifecycleStepV36::complete;
++  busy_=true;struct Guard{bool& flag;~Guard(){flag=false;}} guard{busy_};
++  try{
++   if(phase_==Phase::fresh){
++    if(level->constructor_fields_v3().field140||level->assigned_source_owner_slot_v65()){e="Fresh filename source cannot adopt a foreign assigned receiver";return fail(e);}
++    name_=name;level_seen_=level;
++    if(!resolver_->resolve(name,canonical_,nullptr,e)||phase_==Phase::failed)return fail(e);
++    if(!copy_stream_to_level140_v65(*level,opened_,leaves_.copy,e)||phase_==Phase::failed)return fail(e);
++    expected_=level->assigned_source_owner_slot_v65();expected_identity_=level->constructor_fields_v3().field140;phase_=Phase::close_source;
++   }
++   if(!accepts_owned140(*level,e))return fail(e);
++   if(phase_==Phase::close_source){
++    if(!leaves_.close_source){e="Required actual filesystem close after copy/publish140";return fail(e);}
++    const auto result=leaves_.close_source(opened_,e);if(phase_==Phase::failed)return fail(e);
++    if(result==LifecycleStepV36::pending)return result;
++    if(result!=LifecycleStepV36::complete)return fail(e);
++    opened_={};close_done_=true;phase_=Phase::read;
++    return LifecycleStepV36::pending; // Original filename prefix returns false; Read is NEXT call.
++   }
++   const auto result=assigned_.step(level,name_,services,std::move(consume),e);
++   if(result==LifecycleStepV36::complete){phase_=Phase::complete;expected_.reset();return result;}
++   if(result!=LifecycleStepV36::pending)return fail(e);return result;
++  }catch(const std::exception& ex){if(e.empty())e=ex.what();return fail(e);}
++ }
++};
++}
+diff --git a/port/level-loader/stage7_cancel_cleanup.hpp b/port/level-loader/stage7_cancel_cleanup.hpp
+new file mode 100644
+--- /dev/null
++++ b/port/level-loader/stage7_cancel_cleanup.hpp
+@@ -0,0 +1,21 @@
++#pragma once
++#include "stage_loader_v38_root_file.hpp"
++namespace dh2::loader {
++// root and callback references are owned by the stable SourceLoading Impl.
++// No callback may outlive it. Required cleanup runs before the genuine native
++// unload/source-release composition, which retains its own partial prefix.
++// Successful steps are cached inside root/the existing unload composer, so a
++// failed release retry cannot regenerate, destroy a completed temp, or replay
++// completed world unload. Missing real unload never reports cancelled.
++inline std::function<LifecycleStepV36(std::string&)> wrap_stage7_cancel_v64(
++ Stage7BodyV38& root,std::function<LifecycleStepV36(std::string&)> original){
++ if(!original)return {};
++ return [&root,original=std::move(original)](std::string& error){
++  const auto ready=root.prepare_cancel(error);
++  if(ready!=LifecycleStepV36::complete)return ready;
++  const auto result=original(error);
++  if(result==LifecycleStepV36::complete)root.finish_cancel();
++  return result;
++ };
++}
++}
+diff --git a/port/level-loader/vendor/character-rng-integration-v5-loading/port/level-loader/canonical_level_context_v1.hpp b/port/level-loader/vendor/character-rng-integration-v5-loading/port/level-loader/canonical_level_context_v1.hpp
+--- a/port/level-loader/vendor/character-rng-integration-v5-loading/port/level-loader/canonical_level_context_v1.hpp
++++ b/port/level-loader/vendor/character-rng-integration-v5-loading/port/level-loader/canonical_level_context_v1.hpp
+@@ -26,38 +26,46 @@
+     std::unique_ptr<LevelConstructorV3> constructor_v3_;
+     // Sole storage/receiver owner for this actual Level field194.
+     std::shared_ptr<GameEventManagerV50> game_events194_;
+-    CanonicalLevelContextV1(LevelSourceRequestV1,std::shared_ptr<void>);
+-public:
+-    CanonicalLevelContextV1(const CanonicalLevelContextV1&)=delete;
+-    CanonicalLevelContextV1& operator=(const CanonicalLevelContextV1&)=delete;
+-    static bool create(LevelSourceRequestV1,std::shared_ptr<void> services,
+-        std::shared_ptr<CanonicalLevelContextV1>& out,std::string& error);
+-    std::uintptr_t identity()const noexcept{return kill_.identity;}
+-    const character::KillLevel16* kill_level()const noexcept{return &kill_;}
+-    std::uint32_t& source_word150()noexcept{return kill_.loot_gate150;}
+-    const LevelSourceRequestV1& source_request()const noexcept{return request_;}
+-    const LevelPreparationV1::Borrow& prepared_source()const noexcept{return prepared_;}
+-    // Attaches only a matching completed SOURCE description, never an active
+-    // world. Invalid input preserves this receiver's previous source borrow.
+-    bool retain_prepared_source(LevelPreparationV1::Borrow,std::string&);
+-    struct ConfigFields {
+-        std::shared_ptr<void> level_owner;
+-        std::uintptr_t* config38{};
+-        std::int32_t* music11c{};std::int32_t* safezone120{};std::int32_t* ambient124{};
+-    };
+-    // Direct inputs to main's exact LevelConfigPublicationBorrowV2. The caller
+-    // adds its actual Arrays::Sounds lease/catalog and canonical config lookup.
+-    ConfigFields config_fields();
+-    struct ModuleLoadFields {
+-        std::shared_ptr<void> level_owner;
+-        std::int32_t* object_module_id18c{};
+-        float* module_offset160{};
+-    };
+-    // Direct inputs to root's ModuleLevelLoadBorrowV1. This creates no Module
+-    // selector, load callback, current-Level slot or publication path. Caller
+-    // supplies the original Level::LoadFile continuation on the SAME candidate.
+-    ModuleLoadFields module_load_fields();
+-    LevelConstructorBorrowV3 constructor_borrow_v3();
++    // Actual field140 resource owner, independent of loading wrappers. It owns
++    // assigned copy/backend state only and MUST NOT retain this Level.
++    std::shared_ptr<void> assigned_source_owner_v65_;
++    // Sequential adapter guard only; not an original campaign/source field.
++    std::uint8_t assigned_source_operation_v65_{};
++    CanonicalLevelContextV1(LevelSourceRequestV1,std::shared_ptr<void>);
++public:
++    CanonicalLevelContextV1(const CanonicalLevelContextV1&)=delete;
++    CanonicalLevelContextV1& operator=(const CanonicalLevelContextV1&)=delete;
++    static bool create(LevelSourceRequestV1,std::shared_ptr<void> services,
++        std::shared_ptr<CanonicalLevelContextV1>& out,std::string& error);
++    std::uintptr_t identity()const noexcept{return kill_.identity;}
++    const character::KillLevel16* kill_level()const noexcept{return &kill_;}
++    std::uint32_t& source_word150()noexcept{return kill_.loot_gate150;}
++    const LevelSourceRequestV1& source_request()const noexcept{return request_;}
++    const LevelPreparationV1::Borrow& prepared_source()const noexcept{return prepared_;}
++    // Attaches only a matching completed SOURCE description, never an active
++    // world. Invalid input preserves this receiver's previous source borrow.
++    bool retain_prepared_source(LevelPreparationV1::Borrow,std::string&);
++    struct ConfigFields {
++        std::shared_ptr<void> level_owner;
++        std::uintptr_t* config38{};
++        std::int32_t* music11c{};std::int32_t* safezone120{};std::int32_t* ambient124{};
++    };
++    // Direct inputs to main's exact LevelConfigPublicationBorrowV2. The caller
++    // adds its actual Arrays::Sounds lease/catalog and canonical config lookup.
++    ConfigFields config_fields();
++    struct ModuleLoadFields {
++        std::shared_ptr<void> level_owner;
++        std::int32_t* object_module_id18c{};
++        float* module_offset160{};
++    };
++    // Direct inputs to root's ModuleLevelLoadBorrowV1. This creates no Module
++    // selector, load callback, current-Level slot or publication path. Caller
++    // supplies the original Level::LoadFile continuation on the SAME candidate.
++    ModuleLoadFields module_load_fields();
++    LevelConstructorBorrowV3 constructor_borrow_v3();
++    std::shared_ptr<void>& assigned_source_owner_slot_v65()noexcept{return assigned_source_owner_v65_;}
++    const std::shared_ptr<void>& assigned_source_owner_slot_v65()const noexcept{return assigned_source_owner_v65_;}
++    std::uint8_t& assigned_source_operation_slot_v65()noexcept{return assigned_source_operation_v65_;}
+     bool game_event_fields_v50(GameEventLevelFieldsV50&,std::string&);
+     bool construct_source_v3(LevelConstructorArgumentsV3,LevelConstructorServicesV3,std::string&);
+     const LevelConstructorFieldsV3& constructor_fields_v3()const noexcept{return constructor_fields_v3_;}
+diff --git a/port/level-loader/vendor/character-rng-integration-v5-loading/port/level-world/savegame_stream_v2.hpp b/port/level-loader/vendor/character-rng-integration-v5-loading/port/level-world/savegame_stream_v2.hpp
+new file mode 100644
+--- /dev/null
++++ b/port/level-loader/vendor/character-rng-integration-v5-loading/port/level-world/savegame_stream_v2.hpp
+@@ -0,0 +1,28 @@
++#pragma once
++#include "../game-data/data.hpp"
++#include <cstdint>
++#include <string>
++#include <vector>
++#include <utility>
++namespace dh2::level {
++// Source StreamBuffer's independent read/write cursors and 0x800-byte blocks.
++// Contiguous native storage is an ABI adapter; positions/bytes remain source.
++class SavegameStreamV2 {
++ std::vector<std::uint8_t> bytes_;std::uint64_t read_{},write_{};
++public:
++ SavegameStreamV2()=default;
++ // Adopts the loader-owned Grow allocation without another byte copy.
++ explicit SavegameStreamV2(std::vector<std::uint8_t>&& bytes):bytes_(std::move(bytes)){}
++ std::uint8_t* source_copy_destination_v65()noexcept{return bytes_.data();}
++ explicit SavegameStreamV2(data::Bytes b){if(b.size)bytes_.assign(b.data,b.data+b.size);}
++ const std::vector<std::uint8_t>& bytes()const noexcept{return bytes_;}
++ std::uint64_t tell()const noexcept{return read_;}
++ std::uint64_t tell_write()const noexcept{return write_;}
++ std::uint64_t size()const noexcept{return bytes_.size();}
++ void seek(std::uint64_t)noexcept;void seek_write(std::uint64_t)noexcept;
++ bool read(void*,std::size_t,std::string&);bool write(data::Bytes,std::string&);
++ bool read_u32(std::uint32_t&,std::string&);bool read_u64(std::uint64_t&,std::string&);
++ bool write_u32(std::uint32_t,std::string&);bool write_u64(std::uint64_t,std::string&);
++ bool read_string(std::string&,std::string&);bool write_string(const std::string&,std::string&);
++};
++}

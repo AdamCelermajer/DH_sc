@@ -1,0 +1,23 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK3sfc6script3lua5Value9getStringEv",
+      "elf_address": "0x31c49c",
+      "size": 408,
+      "sha256": "1694b4aa2cc23e43614f9f21be5f092e1cd326e45665fb2970c27854c0927599"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript4CallEPKc",
+      "elf_address": "0x37c514",
+      "size": 112,
+      "sha256": "bd5f9d01fa32fcf2e4e458d913958481ded2d873a49c0165c4069484374f29fc"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault8OnUpdateEv",
+      "elf_address": "0x3dc798",
+      "size": 64,
+      "sha256": "b4b2accbca71efc2e95e37357589e0c2e722873cac3f1395065000d8561a8913"
+    }
+  ]
+}

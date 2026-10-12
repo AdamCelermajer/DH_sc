@@ -1,0 +1,174 @@
+{
+  "validation": "PASS",
+  "design_sha256": "6e7d4390521ef857295c59ce3457cde8690a82ee9d14b5208588779b24acbd70",
+  "table_streams_verified": 15,
+  "constant_streams_verified": 26,
+  "unconsumed_fixture_name_blobs": 142,
+  "consumed_original_streams": [
+    {
+      "name": "character_properties_pyarray.bin",
+      "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784"
+    },
+    {
+      "name": "character_properties_pyarraynames.bin",
+      "sha256": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801"
+    },
+    {
+      "name": "character_properties_pystructnames.bin",
+      "sha256": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2"
+    },
+    {
+      "name": "character_classes_pyarray.bin",
+      "sha256": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55"
+    },
+    {
+      "name": "character_classes_pyarraynames.bin",
+      "sha256": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe"
+    },
+    {
+      "name": "character_classes_pystructnames.bin",
+      "sha256": "3347d6e0b30aec9af544eafeb1c0883cc284c1a0585fdc472f51f407d578d268"
+    },
+    {
+      "name": "ai_pyarray.bin",
+      "sha256": "bfe56f4a07dbe49bb55543137ae343334082b6a340ca156f367ee51e3b2771bc"
+    },
+    {
+      "name": "ai_pyarraynames.bin",
+      "sha256": "3e70840c238f38e0e7db7945dfcc1d6aab14644d28f8e8b7c3a014878174b36a"
+    },
+    {
+      "name": "ai_pystructnames.bin",
+      "sha256": "8e57ac44649466bd3f8fb164c3f7ab56a84c4d7c5d786e40239c9cc2e9f09d82"
+    },
+    {
+      "name": "ai_factions_pyarray.bin",
+      "sha256": "d302382d9b8079e71f9915d6fed7c262b1f9f8bb8f1a0eb6f060859a1a992e3d"
+    },
+    {
+      "name": "ai_factions_pyarraynames.bin",
+      "sha256": "ebf655de9419ee2138b9662e08275080ea7b5e421b0446b11e646baedb90e211"
+    },
+    {
+      "name": "ai_factions_pystructnames.bin",
+      "sha256": "8ebbc7927e58b9dd93d03f1f76b366ecd88f3d9b3abcaee31196dd21a05bda15"
+    },
+    {
+      "name": "levels_pyarray.bin",
+      "sha256": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c"
+    },
+    {
+      "name": "levels_pyarraynames.bin",
+      "sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432"
+    },
+    {
+      "name": "levels_pystructnames.bin",
+      "sha256": "e2b94a43ec198969f510b7a35ba27b1f71be1c1ffa1178db97ee48a925f9c705"
+    },
+    {
+      "name": "ai_pycst.bin",
+      "sha256": "c3e5338160ef790decc62163c551b24be6401332aa5867d7274de8fd89e1d94e"
+    },
+    {
+      "name": "animations_pycst.bin",
+      "sha256": "dfac957b74e79c293f99651d2089489f855397f1de7256a9e555af681c1b990f"
+    },
+    {
+      "name": "character_classes_pycst.bin",
+      "sha256": "e4f42db282ab0f660647676e164d28280ea60db3079ae77a8752dc51cf2dcd84"
+    },
+    {
+      "name": "character_properties_pycst.bin",
+      "sha256": "48024ac14ed9994cfb899cb83d161b461bf78f0b7c10ff6efee0860277f14f52"
+    },
+    {
+      "name": "common_text_pycst.bin",
+      "sha256": "1d5eae8f575f8e5ae625f72eae7e6485a2c610ef08c160a51bb6148ff6a5bcc5"
+    },
+    {
+      "name": "design_pycst.bin",
+      "sha256": "db014f9832c1d9e60c62272a2ee67d15568d003c191ae32bbce070cb49056931"
+    },
+    {
+      "name": "dialogs_pycst.bin",
+      "sha256": "9625936dfb9f0fc86da76f36ae66c435e5b56f89c896918bd752243b1387ea06"
+    },
+    {
+      "name": "effects_pycst.bin",
+      "sha256": "f821c078e34e22df340cac5d6b4e88ae02a0698ad9d9df7e4cbc6bede6a7a625"
+    },
+    {
+      "name": "engine_core_pycst.bin",
+      "sha256": "2b61a269d8feefbcf1419e213c887d00fe9bcc8febf63b43340d37391e27376c"
+    },
+    {
+      "name": "faeries_pycst.bin",
+      "sha256": "559a9e44bfa3d1c6cbb9b234523a893d241f6021f464e86b6589da7c0d4930d5"
+    },
+    {
+      "name": "fonts_pycst.bin",
+      "sha256": "6cc64a82f85ca20006e9ffd6092a39fcaf0eb38858bac0091c8335b56963d8fa"
+    },
+    {
+      "name": "game_objects_pycst.bin",
+      "sha256": "055dadeb6982ebfa47220574b10999a4f9eb78375dfd3f33f69a475313ee4597"
+    },
+    {
+      "name": "item_powers_pycst.bin",
+      "sha256": "0bc21dbcee7dfe61394968f758d2eca5c08bd68af04b8ed1d251878b38c4c981"
+    },
+    {
+      "name": "levels_pycst.bin",
+      "sha256": "a620d7813bdd92b63b0863cf95f840389d9f358b56d823d8e31313f80ff87c10"
+    },
+    {
+      "name": "loot_audiovisual_pycst.bin",
+      "sha256": "ff1b4a1a5faee0ee2d8cac9bf5113db0eff1a991632b120c4335e8b1b7dc1b34"
+    },
+    {
+      "name": "loot_table_pycst.bin",
+      "sha256": "bf60c406ba80b49d337bc82dda35f2f6bc2848d1d6983a37cfb0f881d24cb6fe"
+    },
+    {
+      "name": "multiplayer_pycst.bin",
+      "sha256": "5026e0c6aedf643403685deee33defdf2a3f3b56be4a3b6cd1d443e9fe4a5466"
+    },
+    {
+      "name": "projectiles_pycst.bin",
+      "sha256": "6be57b10285fdf43c112e00130b00654054597b28b38d34de7ca7cc0142f8595"
+    },
+    {
+      "name": "scripts_pycst.bin",
+      "sha256": "8a48588048c3eb7dbe559aae89804a947b391eab67894aaa73f588437a497fd1"
+    },
+    {
+      "name": "skills_pycst.bin",
+      "sha256": "302879d1b1bb035380f7be9e87c385ceadbc2e58a94e8f1b9285747a307801f1"
+    },
+    {
+      "name": "specs_pycst.bin",
+      "sha256": "a1a29eb6918860afc8d9c264c4d1856da9a3dae157536de40b3e2c3e9d5930f5"
+    },
+    {
+      "name": "trophies_pycst.bin",
+      "sha256": "30813ee63573f83bf39e5766eb024e086c702c3ef7fec42f49f4488c6c32fd14"
+    },
+    {
+      "name": "v2conditions_pycst.bin",
+      "sha256": "6a5bef06a0eff222c6cae50312bf5c42dfef421f3fed85e3d3122ede2d6550e7"
+    },
+    {
+      "name": "v2eventmanager_pycst.bin",
+      "sha256": "13e1ace862c6a8c0857a42fd0476e2ddf7a002389e004a055fb3363ace60e8c8"
+    },
+    {
+      "name": "v2quests_pycst.bin",
+      "sha256": "35feff579bdb6b36fef849afea06044830af9dd6180953727179ecc12926ac6a"
+    },
+    {
+      "name": "worldmap_pycst.bin",
+      "sha256": "0d4151ee2f104b13e0f1607d7927d238121041e9fbb37084ddfe1ecc17a0c0e6"
+    }
+  ],
+  "full_loader_verified": false
+}

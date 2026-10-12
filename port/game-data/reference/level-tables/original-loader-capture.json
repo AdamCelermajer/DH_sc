@@ -1,0 +1,94 @@
+{
+  "validation": "SOURCE_CAPTURED",
+  "scope": "Capture real FastTravelList/LevelList and individual record reader outputs.\n\nOriginal array, row and scalar/string stream instructions execute. The virtual\nbyte stream and allocator are explicit services. Vtables/string pointers and\nbool padding are normalized, with every serialized scalar/string byte retained.\n",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "probe_sha256": "1acc16374961e0bbb15cc91af43933d572b2b737bdaa51ef8193d15fb73d3e86",
+  "assets_sha256": {
+    "levels_pyarray.bin": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c",
+    "levels_pyarraynames.bin": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432",
+    "levels_pystructnames.bin": "e2b94a43ec198969f510b7a35ba27b1f71be1c1ffa1178db97ee48a925f9c705"
+  },
+  "gold_sha256": "dd8414bb525280da4b9ab51c8e080c8c24a54d677881ba25a3fd1d93659568cc",
+  "actual_array_loads": [
+    {
+      "reader": "0x4ba8e4",
+      "start": 0,
+      "end": 1133
+    },
+    {
+      "reader": "0x4ba794",
+      "start": 1133,
+      "end": 5574
+    }
+  ],
+  "cache_fast_travel_rows": 33,
+  "cache_level_rows": 51,
+  "synthetic_rows": 128,
+  "record_cases": 212,
+  "stream_reads": 2539,
+  "allocator_calls": 329,
+  "schema": [
+    [
+      "DescriptionId",
+      "EntryPointId",
+      "LevelName",
+      "LocationType",
+      "StringId"
+    ],
+    [
+      "Dbg_IsStable",
+      "DynamicBusRouting",
+      "Hub",
+      "IsRandom",
+      "LevelDescription",
+      "LevelFile",
+      "LevelName",
+      "LevelState",
+      "MapName",
+      "MonsterLvlMax",
+      "MonsterLvlMaxHard",
+      "MonsterLvlMaxNightmare",
+      "MonsterLvlMin",
+      "MonsterLvlMinHard",
+      "MonsterLvlMinNightmare"
+    ]
+  ],
+  "crypt": [
+    {
+      "name": "GOTHICUS_CRYPT_01",
+      "texts": [
+        "empty.vrf",
+        "007_crypt_01.rule.xml"
+      ],
+      "maximum": [
+        10,
+        47,
+        76
+      ],
+      "minimum": [
+        8,
+        45,
+        74
+      ]
+    },
+    {
+      "name": "GOTHICUS_CRYPT_02",
+      "texts": [
+        "empty.vrf",
+        "020_crypt_02.rule.xml"
+      ],
+      "maximum": [
+        12,
+        49,
+        78
+      ],
+      "minimum": [
+        9,
+        46,
+        75
+      ]
+    }
+  ],
+  "source_Application_level_selection_verified": false
+}

@@ -1,0 +1,34 @@
+--- a/port/android-native/app/src/main/cpp/renderer_campaign_noncharacter_v69.inc
++++ b/port/android-native/app/src/main/cpp/renderer_campaign_noncharacter_v69.inc
+@@ -144,15 +144,7 @@
+  bool bind_visual_collision_zone_v82(dh2::world::CanonicalGameObjectBaseOwnerV1& supplied,const char* name,
+   std::uintptr_t& node,std::shared_ptr<void>& lease,std::string& e){
+   std::shared_ptr<void> receiver;dh2::world::CanonicalGameObjectBaseOwnerV1* base{};
+-  if(!borrow(supplied.identity(),receiver,base,e)||base!=&supplied)return false;
+-  const auto* slot=base->pointer(0x2d8);if(!slot||!*slot){e="Zone visual lookup requires actual produced VisualObject2d8";return false;}
+-  std::shared_ptr<dh2::world::RetainedGameObjectVisualV1> visual;std::uintptr_t actual{};
+-  if(!actual_visual(*slot,visual,e)||!visual->node_from_name(name,actual,e))return false;
+-  if(!actual){node=0;lease.reset();e.clear();return true;} // genuine source search NULL
+-  // Inline Visual/root storage and immutable BRES bytes cannot impersonate
+-  // independent native child grab/drop, mesh bounds or triangle-selector owner.
+-  e="Required SAME independent _colzone child grab/drop, unique mesh bounds and triangle-selector owner";
+-  return false;
++  return borrow(supplied.identity(),receiver,base,e)&&base==&supplied&&bind_retained_colzone_v91(*this,supplied,name,node,lease,e);
+  }
+  void bind_zone_startup_v82(dh2::world::ZoneStartupServicesV76& output){
+   std::weak_ptr<RendererCampaignNonCharacterV69> weak=shared_from_this();output.owner=shared_from_this();
+@@ -462,12 +454,14 @@
+  std::weak_ptr<RendererCampaignNonCharacterV69> weak=self;
+  dh2::world::CanonicalGameObjectGraphServicesV68 graph;graph.owner=self->files;graph.roots=actual.roots;graph.visual.owner=self->files;
+  graph.visual.read_asset=[files=self->files](const auto& path,auto& bytes,bool& found,auto& e){return files->read(path,found,bytes,e);};
++ graph.colzone_inside_v91=[weak](auto& base,std::uintptr_t id,const auto& peer,bool& inside,std::string& e){auto self=weak.lock();return self&&self->current(e)&&retained_colzone_inside_v91(*self,base,id,peer,inside,e);};
+  graph.native_body_v90=[weak](auto& base,auto& pin,auto*& body,std::string& e){auto self=weak.lock();return self&&self->current(e)&&self->physical_body(base,pin,body,e);};
+  graph.current=[weak](std::string& e){auto self=weak.lock();return self&&self->current(e);};
+  graph.is_animated=[](auto& base,bool& value,std::string& e){const auto* name=base.class_name20();if(!name){e="Actual canonical class name not produced";return false;}
+   value=!std::strcmp(name,"AnimatedDecor")||!std::strcmp(name,"TriggerObject")||!std::strcmp(name,"Door")||!std::strcmp(name,"OpenableContainer")||!std::strcmp(name,"DestructibleContainer");e.clear();return true;};
+  self->graph=std::make_shared<dh2::world::CanonicalGameObjectGraphV68>(std::move(graph));
+  bind_campaign_zone_physical_v90(weak,self->native.zone_physical);
++
+  if(!borrow_source_campaign_game_object_arrays_v81(actual,self->native.declaration_arrays,e))return false;
+  auto classes=self->native.source;
+  if(!bind_campaign_declaration_arrays_v81(std::weak_ptr<RendererCampaignNonCharacterV69>(self),classes,self->native.declaration_arrays,e))return false;

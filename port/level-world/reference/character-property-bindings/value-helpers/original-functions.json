@@ -1,0 +1,35 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK3sfc6script3lua5Value7getBoolEv",
+      "elf_address": "0x31bc80",
+      "size": 172,
+      "sha256": "d156e3ff80823923f19f40cf626e4923b00ba2889f114cc8f383dfc8b60158b0"
+    },
+    {
+      "original_symbol": "_ZNK3sfc6script3lua5Value10getPointerEv",
+      "elf_address": "0x31b580",
+      "size": 32,
+      "sha256": "d4a7df181f8af768787ede9a55eb13588a1bd0ed23f69d4964cf67c8655802fe"
+    },
+    {
+      "original_symbol": "_ZNK3sfc6script3lua5Value11getUIntegerEv",
+      "elf_address": "0x38d798",
+      "size": 16,
+      "sha256": "0553d12ea35fd62a6857d3f01e2f1f7c8385bff2bcfd8f834f888d28a3eed1f2"
+    },
+    {
+      "original_symbol": "_ZNK3sfc6script3lua9ArgumentsixEj",
+      "elf_address": "0x37baf8",
+      "size": 88,
+      "sha256": "528e2585a4eea034eba7e0120a35cd1c132335414df62c491cd35c0691e92463"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua12ReturnValues11pushIntegerEi",
+      "elf_address": "0x37cb24",
+      "size": 104,
+      "sha256": "f82c34ddaa9becff30d931e6ec79c8a9c3a73c1da5f7bf1980a70c750825eb68"
+    }
+  ]
+}

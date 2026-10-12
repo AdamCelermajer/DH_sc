@@ -1,0 +1,13 @@
+# Original ScriptManager InitCommands and state13 V95
+
+SOURCE ONLY. No shared source edits, tests, syntax/compiler/build/apply checks, native/emulator jobs or proof/hash/freeze packets.
+
+Current Root ScriptManagerOwnerV52 loads real command/Data records and calls virtual Init during LoadScriptFile, matching original45b558. However it has no InitCommands body/state13 provider, and CanonicalScriptCommandV59 incorrectly rejects a second successful Init. Original ScriptManager.InitCommands455ad8 explicitly walks the same retained scripts and commands and invokes virtual0 again. This is a legitimate source pass after object InitPost, not C1/Assign replay or a second script engine.
+
+Apply script-init-commands-v95.patch surgically to current script_manager_owner_v52.hpp/.cpp and script_command_receivers_v59.cpp. Existing TUs remain linked once. The exact owner loop refreshes script/command counts, calls the same actual command Init under existing synchronous reentry/failure guards, retains mutation prefixes on callback failure, and does not reset contexts/current/common or recalculate aggregate skip4. Canonical command removes only its unoriginal prior-success rejection; genuine failed/reentered/released/Data-identity checks remain.
+
+Apply script-stage13-current-runtime-v95.patch to the actual SourceRuntime bind_source_stage8_v55 function. It installs source state13 only if that native body slot is empty, consumes SAME existing App ScriptManager, actual current candidate/Level and trace receipt, and returns the actual Init result. Dispatcher alone advances13->14. Existing independent ScriptManager/candidate resource pins and original Stage8 script loading remain. No new parser/cache/command C1/Exec frame loop is introduced. Main owns source command behavior and will see a second actual Init delivery at its original native stage.
+
+Source evidence: original libDungeonHunter2.so ARM code455ad8..455b88; inner call455b40 loads pc from original vtable0, reloads count0/storage8 after each call; outer vector size is reread. Original LoadScriptFile45b534/38 assigns kind8/Data_c, then45b558 invokes the same virtual0 and45b570..578 updates aggregate skip only there. Existing retained reference/scriptmanager-v52/manager-load-commands.asm records that initial pass. The source lifecycle table marks state13 at3f7a34 as ScriptManager.InitCommands. No synthetic defer of the initial call or removal of authored commands is used.
+
+Integrated native menu/profile→SWAMP→movement/HUD/lifecycle validation remains deferred to Main's comprehensive milestone. Cinematic/dialogue execution and quest effects remain Main-owned; this loader change restores their actual command initialization order.

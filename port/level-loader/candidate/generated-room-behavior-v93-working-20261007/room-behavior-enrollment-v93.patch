@@ -1,0 +1,10 @@
+--- a/port/android-native/app/src/main/cpp/renderer_source_boundary_v61.inc
++++ b/port/android-native/app/src/main/cpp/renderer_source_boundary_v61.inc
+@@ -309,5 +309,6 @@
+  if(!install_campaign_player_light_tweakers_v90(result,error)||
+     !install_campaign_no_room_primitive_v89(result,error)||
+-    !install_campaign_noncharacter_producer_v89(result,error))return false;
++    !install_campaign_noncharacter_producer_v89(result,error)||
++    !install_campaign_generated_room_behavior_v93(result,error))return false;
+  error.clear();return true;
+ }

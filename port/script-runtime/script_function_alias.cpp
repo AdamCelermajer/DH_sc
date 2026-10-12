@@ -41,6 +41,10 @@ extern "C" int dh2_script_alias_add(dh2_script_aliases* a,const char* name,const
 extern "C" int dh2_script_alias_push(dh2_script_aliases* a){
  if(!a)return -1;a->backup.clear();a->recording=true;return 0;
 }
+extern "C" int dh2_script_alias_clear_contents(dh2_script_aliases* a){
+ if(!a)return -1;
+ a->backup.clear();a->names.clear();return 0;
+}
 extern "C" int dh2_script_alias_pop(dh2_script_aliases* a){
  if(!a)return -1;
  try{

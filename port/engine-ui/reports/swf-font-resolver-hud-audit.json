@@ -1,0 +1,71 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "validation": "PASS",
+    "font_reads": 4,
+    "genuine_file_opens": 4,
+    "genuine_file_closes": 4,
+    "resolved_fonts": [
+      "Fontin SmallCaps",
+      "Arial"
+    ],
+    "alpha_uploads": 245,
+    "nonempty_alpha_uploads": 239,
+    "bitmap_quads": 1032
+  },
+  "source_sha256": {
+    "port/engine-ui/swf_font_resolver.hpp": "c40655869b4dfe3b05fa226ed148b77ee984a45fbd70b70ba38ae3160b8a0462",
+    "port/engine-ui/swf_font_resolver.cpp": "1876dfb38e04eb4f31243d59d64a746ff5a3d3d62a8b1f0d44a72174d720e96a",
+    "port/engine-ui/tests/swf_font_resolver.cpp": "84806dc5a70c4c77c785a2392f50f7b5b6f922d8c64b33217c8182e5d65618d8",
+    "port/engine-ui/tests/swf_font_resolver_hud.cpp": "7f36a75a41695a8f0db34a6e992f59b0510dc9eaec2727ad9aa8d6855b9be7bd",
+    "port/engine-ui/tests/swf_font_resolver_differential.py": "d0edf6bfe9bffcee49558b84ce604d30daca70c8e9ce028979675b3f25c313d2",
+    "port/engine-ui/freetype237-hud.cmake": "ac8afc6d3cd246d9159e0ab67b5b2340f3b4c4afc84aed7497078a4c707d5804"
+  },
+  "executable_sha256": "4dcb6f79091b27bbc390440fd69ae392b281c32a85091f60a08b3e81b332e383",
+  "corpus_sha256": "beaf3510617ba8d30753982676e5cbf7ca4fb42f7f4a417c6da449d0f5bc47a5",
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "leak_detection": true,
+    "findings": 0,
+    "vptr": false
+  },
+  "original_instruction_report_sha256": "1516d145e230ee3b883bb7859cae8e1fdd03304f106a6ccf181134d02ee283a9",
+  "dependency_source_sha256": {
+    "port/engine-ui/swf_movie.hpp": "6de117225b6e512c5f65d1a43f5d8335a6b8d039f50fb946cd5d04891b246961",
+    "port/engine-ui/swf_movie.cpp": "38c5bfcf44cb4e2a0c6ff64ea3688502560afc6c2629105890c9c527c2b564ad",
+    "port/engine-ui/swf_freetype_provider.hpp": "418e98f0d78c72885622173c3994da2a117c38d2769cc7f82de1c0b39ebeca5a",
+    "port/engine-ui/swf_freetype_provider.cpp": "afbc4d3c761e3ca972310ffe00c6f72828cc79e0274b852c6a89e45146a01999",
+    "port/engine-ui/freetype_font.hpp": "b3e08aebf2e756af1c61e72e5759526aef9be1ee3cdae810b9343c238e9713aa",
+    "port/engine-ui/freetype_font.cpp": "efbf41c933e87bc915b0ea5f73d7b261d6ca2273b5f3bdbf568d93618c844aeb",
+    "port/engine-ui/freetype_glyph_kernel.hpp": "64c3283bb58c325295370b00f2d796c3d970766ee4868b1cad04d0d46ffe6aee",
+    "port/engine-ui/freetype_glyph_kernel.cpp": "e4453c580e13a1a3cd0e977dcc77dd5dd68357239442f45821c6ba6aab4de3ec"
+  },
+  "core_library_sha256": "54506e7d96e0200765ca05d16b60e9053c2b4c89fccb9121ea6288e3bc48d36c",
+  "freetype_library_sha256": "c66367710ebd7ca25cf0d9090117ab82f7b4152be148b054182cbbdfa3a8236d",
+  "hud_vendor_manifest_sha256": "f1313f1e35df20cde190bc330387943c37bf44cb101d18beacfec801f1eff917",
+  "actual_resource_sha256": {
+    ".local-inputs/font-text-discovery/Fontin SmallCaps.ttf": "e0aa9854059f79a24dd9ced942c1add193d1ff83c3ff44685c6d5d8ff3ce53c4",
+    ".local-inputs/font-text-discovery/wqy-zenhei.ttf": "734b412c7aea22930d740a8edd9162f36f99aa343ca9271411ab501279fc7dd3",
+    ".local-inputs/ui-layout-discovery/dqshared_droid.swf": "f0f9f119f2fe474d21c722e361ef9907ef2b885654705073e0cb956432f46263",
+    ".local-inputs/ui-layout-discovery/dqhud_droid.swf": "a4ffacd1abdf7c9b2ba19c46ebb81c60c100458731a4cdba5880391b9c11b238"
+  },
+  "borrowed_fixtures": [
+    "Debug.load/GetSwitch delivered",
+    "language0",
+    "base cache/ and directory rewrite",
+    "image/export texture identities",
+    "symbol-text echo",
+    "stencilfalse",
+    "viewport480x320"
+  ],
+  "genuine_services": [
+    "source font resolver",
+    "FreeType237 glyph raster",
+    "actual original-cache Fontin/wqy font bytes",
+    "host fopen(rb)/fclose",
+    "actual shared+HUD SWF core load/advance/display",
+    "retained upload pixels/bitmap-quad callbacks"
+  ],
+  "scope": "Actual HUD has no unresolved font requests,245 alpha uploads/239 nonempty/1032quads. Genuine original resolver chooses actual Fontin and Arial wqy bytes; host file-open ownership real. Core/fa\u00e7ade/HUD vptr excluded. No source file-manager/Debug/language ownership or complete FT fork/options/localization/GPU/package/device parity."
+}

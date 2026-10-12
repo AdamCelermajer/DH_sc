@@ -1,0 +1,34 @@
+{
+  "schema": "dh2-character-parent-cells-v48-verified",
+  "validation": "PASS isolated actual-owner constructor/alias transport",
+  "sources": {
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-parent-init-v48\\actual-actor-cell-candidate\\retained_character_actor_v1.cpp": "c6dd2b541605f8dbf5c83259721973b4a7ec3a08e4bf81342e145f7c7b107dcd",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-parent-init-v48\\actual-actor-cell-candidate\\canonical_character_family_v4.cpp": "8b25023efde915318219a55288412d66faf84c8f230ca790420b2ff6ece4b91a",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-parent-init-v48\\actual-actor-cell-candidate\\character_is_player_v41.cpp": "7f329d367d4410d0381ba64557cbf4bc8d5397f976f95891621daf8d88241bc7",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-parent-init-v48\\actual-actor-cell-candidate\\character_parent_cells_v48_test.cpp": "a3587d7a278e119cf8c34f0c27f1d4ce23c5c142e3c2d958a174c7d269372e9d"
+  },
+  "header": "ada18dcbb02d7a78df775255aeaa2fee16ea940e6ec91f95ba95c78e226b35af",
+  "binary_sha256": "88d9d6c5f60402ee18dc2a4b47178d3a079bb0fd29dbcdab23b509a802c71003",
+  "link_map_sha256": "fe4095928e3762a318b5f6f2622834629fe949d904db67fd35c6f325028dfe8f",
+  "native_output": "PASS original_parent_cells=8 actual_factory_records=3 parent_NPC_pose_visual_alias=1 constructor_property_guard=1 foreign_record_adoption_guard=1 failed_borrow_preserves_output=1 live_condition_sound_source_stores=1 scalar_second_borrow_not_reset=1 record_alias_lifetime_no_cycle=1 no_model_template_selection=1 rng0_calls=0 whole_GameObject_InitPost_wired=0 compiled_condition_allocated=0\n",
+  "selected_sources_unchanged": {
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\retained_character_actor_v1.hpp": "4ed1d1f2efecd76a4a60c753b7ca0a0a3bc09e88f13d5d55ac6a5d575ff8a719",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\retained_character_actor_v1.cpp": "c383a6f77b9f6527ea396ca2b9beb0831b479349d8a775df2a84452d1c94c586",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\canonical_character_family_v4.hpp": "62b288d35da526ac1713e2a38095960c1bd19bc3aa87f96fc4e64ff7a42e1dac",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\canonical_character_family_v4.cpp": "8b25023efde915318219a55288412d66faf84c8f230ca790420b2ff6ece4b91a"
+  },
+  "no_archived_actor_factory_predicate": true,
+  "newcells": 8,
+  "compiled_condition_allocated": false,
+  "whole_GameObject_InitPost_wired": false,
+  "rendered": false,
+  "playable": false,
+  "emulator_launched": false,
+  "selected750_actor_semantic_text_matches": true,
+  "selected750_actor_hashes": {
+    "retained_character_actor_v1.hpp": "439a4d434712ab387e5d5dafb1e10e487b7145006cd857ab8bf2f5ebca74b43a",
+    "retained_character_actor_v1.cpp": "c6dd2b541605f8dbf5c83259721973b4a7ec3a08e4bf81342e145f7c7b107dcd",
+    "character_parent_init_fields_v48.hpp": "ada18dcbb02d7a78df775255aeaa2fee16ea940e6ec91f95ba95c78e226b35af"
+  },
+  "selected750_current_build_ready": false
+}

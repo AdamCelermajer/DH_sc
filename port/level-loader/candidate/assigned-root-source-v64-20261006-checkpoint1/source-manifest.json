@@ -1,0 +1,20 @@
+{
+  "schema": "dh2-assigned-root-v64-frozen-review-checkpoint",
+  "status": "SOURCE_ONLY_UNCOMPILED",
+  "files": {
+    "assigned_root_source_v64.hpp": "ca048da1ad35999c91f539efa2c1c7594d9a5e61f531f4e6679bf1e4e1ddbbc9",
+    "cached_level_file_v1.cpp": "155c75fb058fae932bf60cb4c485e28f0415d43f62b24e09dc6e040a4d3849d6",
+    "cached_level_file_v1.hpp": "b72ad40ea7a3b445f7d3e359ed2df77def410859f2a7195377ae8a9f79dc9909",
+    "canonical_cached_file_v1.cpp": "ab55fe9d0ac609dd975e7960d2b76ebc9e56232aafd40e7f6a7a31046bb878bf",
+    "canonical_cached_file_v1.hpp": "b386879e128ccebf2d3c88650a5ba2bc91d0a6bf3a987b85f5492765c6bd2b70",
+    "level_source_loading_v43.cpp": "d357300a10c4e5a869c261f9e8fbff2af5b5d4211651aa912c073bfc2abb46f9",
+    "level_source_loading_v43.hpp": "c71d70b619bd6f0e267ee0e899e9710b2eb006928d80f537e77a2b915fdaa368",
+    "retained_level_module_graph_v1.cpp": "ae68554fe3df6f8b7f60e3cc50b476170d12dcd1fb4eb771c124abf5b28cb88f",
+    "retained_level_module_graph_v1.hpp": "32a87d4ef9b8bb4287f7925332a3ea5f62eba9808635235abeb54e0ddacea350"
+  },
+  "fixed_source_callbacks": "Same parse_result/release kernel, optional cursor hooks default empty",
+  "original_copy_proof": "3172d8 getsize/grow/read-copy then3f0300 assigned140 beforetemporary3169c4destroy",
+  "pending": "source tests/handoff; actual loader-owned Assign/Read/D0 bodies remain reconstruction gap",
+  "native_jobs": 0,
+  "selected_or_root_mutated": false
+}

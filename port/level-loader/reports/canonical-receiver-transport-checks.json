@@ -1,0 +1,53 @@
+{
+  "validation": "PASS",
+  "scope": "Generic catalog constructor/retained receiver transport against exact current root canonical owners; explicit receiver/field/continuation/network/delete fixtures",
+  "cases": [
+    {
+      "build": "host",
+      "probe_sha256": "37d0ff63cdb8b549d31117188e428a2d3b0c6adf66fe479d1ed7264af2f088be",
+      "result": {
+        "validation": "PASS",
+        "receiver_transport_checks": 15,
+        "catalog_entries_forwarded": 33,
+        "class_construction_fixtures": true,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "build": "sanitizers",
+      "probe_sha256": "6fb29be6a152298f0056b05f76dc70dafe78e876f57edb29c67ab46aee5ee138",
+      "result": {
+        "validation": "PASS",
+        "receiver_transport_checks": 15,
+        "catalog_entries_forwarded": 33,
+        "class_construction_fixtures": true,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "build": "android-x86_64",
+      "probe_sha256": "92bcca63d62db593b2abd69a8af3275f2c0adf8d1793a2da36bb6445d25a11c3",
+      "result": {
+        "validation": "PASS",
+        "receiver_transport_checks": 15,
+        "catalog_entries_forwarded": 33,
+        "class_construction_fixtures": true,
+        "full_loader_verified": false
+      }
+    }
+  ],
+  "arm64_compile_sha256": "28ccc4e82e9ac172e1517effe77ea1b1e36890923c882bb630a6bb15eb0ec573",
+  "source_sha256": {
+    "port/level-loader/canonical_receiver_transport_v1.hpp": "fcbedff902549152a7f277f5fd404e0c2a58eea37b95b7fddc0be1da0a50aa6e",
+    "port/level-loader/canonical_receiver_transport_v1.cpp": "d4fd2afdba198e32fe5d4d9bbfcf1fe08d3b12c8cdac94aed295e6bb756b430c",
+    "port/level-loader/tests/canonical_receiver_transport_probe.cpp": "91bf2867b63af89a8efac8ebe485a6c4e2d670b7d86c2e5c5b1b4cec4f7277da"
+  },
+  "owner_snapshot": "port/level-loader/vendor/receiver-transport-owners-d4ff4a071e22a6db",
+  "owner_manifest_sha256": "d0e7a729a7cb323ac95287c0cd80c14cb9d819f724d67fff27d7f0381f40fba2",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "fixture_sha256": "1c3efaa97b77ee06301db0b957f516201db0ed272b2467da34018a9298941d3d",
+  "unfiltered_swamp_first_type": "LevelConfig",
+  "unfiltered_swamp_factory_prefix": "empty",
+  "class_construction_verified": false,
+  "full_loader_verified": false
+}

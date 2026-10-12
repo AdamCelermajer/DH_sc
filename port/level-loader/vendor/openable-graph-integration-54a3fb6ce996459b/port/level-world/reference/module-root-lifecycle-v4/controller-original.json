@@ -1,0 +1,32 @@
+{
+  "validation": "PASS",
+  "cases": 2,
+  "rows": [
+    {
+      "mode": 0,
+      "ctor_trace": [
+        "0x597094"
+      ],
+      "complete_trace": [
+        "0x597094",
+        "0x31d584"
+      ],
+      "root_reference_after_ctor": 2,
+      "root_reference_after_dtor": 1
+    },
+    {
+      "mode": 1,
+      "ctor_trace": [
+        "0x598658"
+      ],
+      "complete_trace": [
+        "0x598658",
+        "0x31d584"
+      ],
+      "root_reference_after_ctor": 2,
+      "root_reference_after_dtor": 1
+    }
+  ],
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "scope": "whole original AnimController C1/D1 and getAnimators/removeAnimators/drop against explicit preconstructed Root source fields; not whole Root factory/C1 or final Root deletion proof"
+}

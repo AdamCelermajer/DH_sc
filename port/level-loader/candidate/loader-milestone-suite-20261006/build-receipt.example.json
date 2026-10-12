@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "validation": "NOT_BUILT",
+  "integration_id": "MAIN_FILL_AFTER_ONE_COHERENT_BUILD",
+  "coherent_source_batches": [
+    "selected-C1-admission-773",
+    "native-loadfile-v65",
+    "stage7-lifecycle-cancellation",
+    "script-command-complete-80",
+    "upper-cancel-forwarding",
+    "container-complete-precache-overlay",
+    "script-complete-bind-preflight"
+  ],
+  "case_ids": [
+    "c1_admission",
+    "fixed_swamp_native_file",
+    "assigned_seam_lifetimes",
+    "lifecycle_reentry",
+    "script_data_storage",
+    "script_commands_80",
+    "typed_script_init",
+    "script_app_ownership",
+    "actor_image_lifetimes"
+  ],
+  "note": "Example only. Main records PASS only after its one admitted coherent milestone build; this suite never builds."
+}

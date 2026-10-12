@@ -1,0 +1,118 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "hud_swf_sha256": "a4ffacd1abdf7c9b2ba19c46ebb81c60c100458731a4cdba5880391b9c11b238",
+  "bounded_status_region": {
+    "start": "0x41e0f4",
+    "end_exclusive": "0x41e208",
+    "sha256": "5d47eda6c8662e37d7d5512a02e3b214517c6dd1f8aa7bd15dc50e25472e9750"
+  },
+  "cache_base": {
+    "address": "0x8c1058",
+    "value": "_root.menu_HUD_%d"
+  },
+  "cache_style": {
+    "address": "0x8c1600",
+    "value": "HUDStyle"
+  },
+  "cached_resolved_indices": {
+    "hp": 36,
+    "max_hp": 38,
+    "mp": 41,
+    "max_mp": 43,
+    "xp": 33,
+    "max_xp": 34
+  },
+  "targets": [
+    {
+      "index": 0,
+      "address": "0x8c8908",
+      "value": "HUDelements.HealthBars.player.bar_hp",
+      "character_id": 90,
+      "frames": 100,
+      "direct_tags": [
+        0,
+        1,
+        26
+      ],
+      "reachable_sprite_ids": [
+        87,
+        89,
+        90
+      ],
+      "reachable_action_or_clip_action_count": 0
+    },
+    {
+      "index": 1,
+      "address": "0x8c8978",
+      "value": "HUDelements.HealthBars.player.bar_mp",
+      "character_id": 147,
+      "frames": 100,
+      "direct_tags": [
+        0,
+        1,
+        26
+      ],
+      "reachable_sprite_ids": [
+        144,
+        146,
+        147
+      ],
+      "reachable_action_or_clip_action_count": 0
+    },
+    {
+      "index": 2,
+      "address": "0x8c89a0",
+      "value": "HUDelements.HealthBars.player.bar_xp",
+      "character_id": 152,
+      "frames": 101,
+      "direct_tags": [
+        0,
+        1,
+        26
+      ],
+      "reachable_sprite_ids": [
+        149,
+        151,
+        152
+      ],
+      "reachable_action_or_clip_action_count": 0
+    },
+    {
+      "index": 3,
+      "address": "0x8c8930",
+      "value": "HUDelements.HealthBars.btn_potion.DistressGlow",
+      "character_id": 113,
+      "frames": 103,
+      "direct_tags": [
+        0,
+        1,
+        26
+      ],
+      "reachable_sprite_ids": [
+        111,
+        112,
+        113
+      ],
+      "reachable_action_or_clip_action_count": 0
+    },
+    {
+      "index": 4,
+      "address": "0x8c8960",
+      "value": "_root.HurtCorners",
+      "character_id": 31,
+      "frames": 103,
+      "direct_tags": [
+        0,
+        1,
+        26
+      ],
+      "reachable_sprite_ids": [
+        29,
+        30,
+        31
+      ],
+      "reachable_action_or_clip_action_count": 0
+    }
+  ],
+  "scope": "Source literals decoded from original initCachedChars; original FastUpdate region bytes bound. Actual uncompressed dqhud sprite inventory, including recursively referenced sprite placements. No SWF parser/core instruction parity, timeline scheduling or source HUDStyle constant producer claimed."
+}

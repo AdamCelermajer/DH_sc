@@ -1,0 +1,33 @@
+{
+  "validation": "PASS",
+  "source_sha256": {
+    "port/engine-ui/hud_startup_callbacks.hpp": "6300fe64f2b505079634f19b6aa41bb92720323873092924e6f48097d5b25e9f",
+    "port/engine-ui/hud_startup_callbacks.cpp": "05dc59ce3c36d5a4c7b99074ba5c08cbf5b5ce8eb234407ecfa4a535660259e5",
+    "port/engine-ui/tests/hud_startup.cpp": "3dfdf80890cd5abd559594690ba163cef22a14529a84d28e645187f8dac968b5",
+    "port/engine-ui/tests/hud_startup_differential.py": "987a76327b6b92abb6a364325296ad70a7ac97f450a652afde79e2b2e9f162a2"
+  },
+  "proof_sha256": {
+    "port/engine-ui/reports/hud-startup-callbacks-arm64-differential.json": "d6523e339bb4f4620b4ac58bb424476e3aca6dc319614fae68d224178acdec33",
+    "port/engine-ui/reports/hud-startup-callbacks-host-audit.json": "b4563577eb95f1f9ead578844132639f933efeb4d7ff7c3b167f21d430d7bd19",
+    "port/engine-ui/reference/hud-startup-callbacks/NOTES.md": "be9baf059beea83899ad9a9ab602fe1e1ad76062389b332b1b6b1c27ca88c29c",
+    "port/engine-ui/reference/hud-startup-callbacks/original-functions.asm": "075c3420bfbba85a55702a4b6994eb1e1004f9638934f538bf1fe43bb993583f",
+    "port/engine-ui/reference/hud-startup-callbacks/original-functions.json": "d2e7f4db5998fff79b2716effa101cf7c4d7d78be9dad57daddca911a0df7540",
+    "port/engine-ui/reference/hud-startup-callbacks/settings-potions-static.json": "4b1216bfc614944d84537abf25ede53531b30fe8a2910b7276ab4e1ea7dfed08",
+    "port/engine-ui/reference/hud-startup-callbacks/source-fixtures.bin": "5036f0b4adb953a2c590b15a2b0c7a93c8ffc0085f4b4fbfadc9b2766f8ea03d",
+    "port/engine-ui/reference/hud-startup-callbacks/helpers/original-functions.asm": "7023c1f91d32525bce8543df7cd6a5bea91f1c463978548c7aa6fa233f955770",
+    "port/engine-ui/reference/hud-startup-callbacks/helpers/original-functions.json": "0cbaa8c2807cfd1d7091308e0b3c65375c996177d13da65c42e4ca4f9b1b185a",
+    "port/engine-ui/reference/hud-startup-callbacks/owned-dependencies/original-functions.asm": "ff3a30aa8b8e8bf643595128d7a4ed5d6fe09fe841653019d14a565a4688d7aa",
+    "port/engine-ui/reference/hud-startup-callbacks/owned-dependencies/original-functions.json": "686c31b0a8daa2e6e73e2f6e50064b876c25ac8f265016da7d9844df1fb7abb8",
+    "port/engine-ui/reference/hud-startup-callbacks/potions/original-functions.asm": "59c0a02483e2909e7fab4c8ac1540f061f14843df3cd5a407bf8f95ab855bdf5",
+    "port/engine-ui/reference/hud-startup-callbacks/potions/original-functions.json": "98238123ae1e9d130749b456cc55f7c796ecda7b6b4593060552f66c148da232",
+    ".local-inputs/hud-native-settings-discovery/original_probe.py": "ba34806d967da5bde8c79278903b27326134064a0a4059bd3e3bd80a95fd7dd7",
+    ".local-inputs/hud-native-settings-discovery/original-probe.json": "cbf254084f767a22df8fbe17241d049a5488cfa44ea77741217fa99048a1f8db",
+    ".local-inputs/hud-native-settings-discovery/settings_potions_static.py": "28c2a972ab9ce801d81171937cfac4e450170f63035b2ef52f02a5f50566c959",
+    ".local-inputs/hud-native-settings-discovery/libhud_startup_oracle.so": "11a152bd7ae6b03c50b4fa2fc9139751c68befc3095391cd657dfdac55056874",
+    ".local-inputs/hud-native-settings-discovery/hud_startup_audit": "255752dd171a8c6834327ef876f14acc0df78e4fad6c3ee03cdf5d4e82eb50ed"
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "comparisons": 1946,
+  "ordered_services": 8736,
+  "scope": "Isolated optimized source wrapper reconstruction, real ASan/UBSan/LSan replay; manager/audio/device/result callbacks are explicit services. Not complete Savegame/profile or live menu integration."
+}

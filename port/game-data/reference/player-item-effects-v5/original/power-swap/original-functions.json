@@ -1,0 +1,11 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN12ItemInstance9PowerInfo4swapERS0_",
+      "elf_address": "0x3fb570",
+      "size": 208,
+      "sha256": "9c0669a2b21707721797113a3c9dab088b54acd49d5e09e98a8410ec06beb0e2"
+    }
+  ]
+}

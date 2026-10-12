@@ -1,0 +1,13 @@
+{
+  "packet": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\scriptmanager-v52-8f61045846e72158.zip",
+  "sha256": "5605268d4c4ed79927b1d1f22dca613ceb156b6a8d862c579babe76f2b912476",
+  "payloads": 41,
+  "manifest_verified": true,
+  "production_sources": {
+    "script_manager_owner_v52.hpp": "4ae31338d57f24efca512f258f1c3590fc69e835fe008d625845151465c49a10",
+    "script_manager_owner_v52.cpp": "258d88afcc747e8e60ca98dbb9eba92c84d01fddf723d44ca4d6743f97c9e8ee",
+    "script_data_schemas_v52.inc": "e855a175164a1412012fb6e03b624be69ebaa98603c1f163bebcb86eb1750078",
+    "script_command_factories_v52.inc": "951153e59985b87f52e1f4c591c5bb1af0de5bd9b4faee3dd95874c8401a687e",
+    "stage_loader_v52_script_manager.hpp": "371328097ba44e9cd36961870e97191ae50b0394a5efccfca190e31d50ae442b"
+  }
+}

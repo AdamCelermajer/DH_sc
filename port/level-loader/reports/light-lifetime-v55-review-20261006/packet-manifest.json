@@ -1,0 +1,124 @@
+{
+  "status": "PASS",
+  "continuation_policy": "consume prior original PASS; small source writes only; no new heavy process",
+  "live_jobs_started": 0,
+  "source_execution_rerun": false,
+  "gpu_or_full_init_claim": false,
+  "files": [
+    {
+      "file": "authored51-bounded-coverage.md",
+      "bytes": 4934,
+      "sha256": "c8d01d085b8348076327c33087dd425600128ddebfb98a6f08ac403fe63f7ab0"
+    },
+    {
+      "file": "authored51-lightset-mode-matrix-v55.json",
+      "bytes": 210437,
+      "sha256": "72c0665c37aa21d881983389343d5fb0e1dc2782945c4700bad088366d50326d"
+    },
+    {
+      "file": "canonical_light_point_destructor_v55.inc.proposed",
+      "bytes": 1562,
+      "sha256": "6a8e2618380394eaff6ef8578aa51e93820252983ae5a825aa4e53533c5252ca"
+    },
+    {
+      "file": "cleanup-symbols.txt",
+      "bytes": 1712,
+      "sha256": "df90039f32a240e0347f43a35f320f85f8ce9fec249eb1bcb15b84a03502c914"
+    },
+    {
+      "file": "dh2-light-reset-proof-v55.py",
+      "bytes": 2251,
+      "sha256": "fb5d8431fb3539dc41af55d9263c5d5f0c55997829c92fd7a1e4a46e21512cf4"
+    },
+    {
+      "file": "dh2-lightpoint-dtor-proof-v55.py",
+      "bytes": 2960,
+      "sha256": "5a4bfd3d26ecb80580b58bf5eb737854b70451e65197f8158b28934cf1c332f0"
+    },
+    {
+      "file": "dh2-lightset-assignment-v55.py",
+      "bytes": 2797,
+      "sha256": "fcf8072ef65fe9fd1d454346582028165ca4613a32050e91babee040287ab09a"
+    },
+    {
+      "file": "handoff.md",
+      "bytes": 7990,
+      "sha256": "545acb6c82d30beda53b3441dc94c168d412b28dc114294eb4b1ac751fdf4ae0"
+    },
+    {
+      "file": "light_cleanup_required_main_hooks_v55.hpp.proposed",
+      "bytes": 1379,
+      "sha256": "4269d02aca64f42826ac74eefcdc9d657599a81a99754cd67912d63896b9db81"
+    },
+    {
+      "file": "original-lightpoint-dtor-v55.json",
+      "bytes": 3310,
+      "sha256": "07023daf08a440ca3a8ac7f77bbd77cc96b0a7ca97ff744cbd25935e55deb416"
+    },
+    {
+      "file": "original-lightset-assignment-v55.json",
+      "bytes": 1668,
+      "sha256": "bdc60bfe691c1d5321be02a63139ed11c3631bf5e8842c5a674a1e61b49247c5"
+    },
+    {
+      "file": "original-lightset-reset-v55.json",
+      "bytes": 1713,
+      "sha256": "da2f068222d49651c6c2fa3a0ac883710f5e6a108d4acf584dd6035a1928a407"
+    },
+    {
+      "file": "replay_original_bodies_v55.py",
+      "bytes": 1881,
+      "sha256": "7063e56cd14e0907c7987cfe0bced2faf69245eb1c91b468078f90fc64903ea8"
+    },
+    {
+      "file": "source-0033e998.asm",
+      "bytes": 4672,
+      "sha256": "907ed0e6610c66047d6228ffdb2fd74f9a7f3bbfb6a51f0f03cca272cb1d01f7"
+    },
+    {
+      "file": "source-00353bac.asm",
+      "bytes": 3101,
+      "sha256": "bacfc6329e383b6c127cb7c415c581ad9b4253cb95c0e56f473bd1e69a859bb9"
+    },
+    {
+      "file": "source-003541d4.asm",
+      "bytes": 8557,
+      "sha256": "bf87aa34d0c6cf2c350b7a5553dd34d565d3080109c1eeff96bba25ea0914132"
+    },
+    {
+      "file": "source-00354468.asm",
+      "bytes": 4447,
+      "sha256": "339a50c2afd52a13139b6e4395a47104311fd7489d411d8e9243d44dcdef168c"
+    },
+    {
+      "file": "source-003f0690.asm",
+      "bytes": 3986,
+      "sha256": "28326c064a1089cb0dc19f2c920badfc85fcff749827b71ba741f079cb09b6f9"
+    },
+    {
+      "file": "source-003f90b0.asm",
+      "bytes": 8474,
+      "sha256": "bde8aea1e99aa9b4f6d53f00798e8b355c0f76de88ff6b50ff0f31cbeb4b0a31"
+    },
+    {
+      "file": "source-0040ab34.asm",
+      "bytes": 1654,
+      "sha256": "d8dd280364979750441f704a41d3136f3730bc03ac0ca8175c4f7bb340cab7ca"
+    },
+    {
+      "file": "source-0040bd1c.asm",
+      "bytes": 1190,
+      "sha256": "197569606dae282010371d6cc10148ad2da17f56292bed9b40474b4ca3ef4c85"
+    },
+    {
+      "file": "source-0040cbc0.asm",
+      "bytes": 3613,
+      "sha256": "e4b172fcb3bb21c2e7cc72feb5f81e136303105777a7d6b6a677b220ac46f26c"
+    },
+    {
+      "file": "verify_preserved_packet.ps1",
+      "bytes": 4440,
+      "sha256": "48d8dc7cdb794338ac96fa4817aee51f32d07b9559c7389d76d50116916416af"
+    }
+  ]
+}

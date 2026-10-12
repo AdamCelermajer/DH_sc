@@ -1,0 +1,211 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "factory_cases": [
+    {
+      "poison": 0,
+      "fields": {
+        "data7d4": 4294967295,
+        "empty7dc": true,
+        "empty800": true,
+        "byte818": 0,
+        "byte819": 0,
+        "network100": 968,
+        "network104": 1392,
+        "physical380": 0,
+        "trigger381": 1,
+        "static84": 1
+      },
+      "unproduced": {
+        "0x7d8": true,
+        "0x7f4": true,
+        "0x7f8": true,
+        "0x7fc": true
+      },
+      "calls": [
+        {
+          "allocation": 2080
+        },
+        {
+          "base_GO_ID": 14
+        }
+      ]
+    },
+    {
+      "poison": 165,
+      "fields": {
+        "data7d4": 4294967295,
+        "empty7dc": true,
+        "empty800": true,
+        "byte818": 0,
+        "byte819": 0,
+        "network100": 968,
+        "network104": 1392,
+        "physical380": 0,
+        "trigger381": 1,
+        "static84": 1
+      },
+      "unproduced": {
+        "0x7d8": true,
+        "0x7f4": true,
+        "0x7f8": true,
+        "0x7fc": true
+      },
+      "calls": [
+        {
+          "allocation": 2080
+        },
+        {
+          "base_GO_ID": 14
+        }
+      ]
+    },
+    {
+      "poison": 127,
+      "fields": {
+        "data7d4": 4294967295,
+        "empty7dc": true,
+        "empty800": true,
+        "byte818": 0,
+        "byte819": 0,
+        "network100": 968,
+        "network104": 1392,
+        "physical380": 0,
+        "trigger381": 1,
+        "static84": 1
+      },
+      "unproduced": {
+        "0x7d8": true,
+        "0x7f4": true,
+        "0x7f8": true,
+        "0x7fc": true
+      },
+      "calls": [
+        {
+          "allocation": 2080
+        },
+        {
+          "base_GO_ID": 14
+        }
+      ]
+    }
+  ],
+  "properties": {
+    "dimensions": {
+      "source_offset": 884,
+      "default": [
+        200.0,
+        200.0,
+        200.0
+      ]
+    },
+    "triggercount": {
+      "source_offset": 936,
+      "default": 1
+    },
+    "triggerdelay": {
+      "source_offset": 940,
+      "default": 0
+    },
+    "resetonhubchange": {
+      "source_offset": 944,
+      "default": 0
+    },
+    "scope": {
+      "source_offset": 1816,
+      "default": -1
+    },
+    "triggertype": {
+      "source_offset": 1820,
+      "default": -1
+    },
+    "cineID": {
+      "source_offset": 1824,
+      "default": -1
+    },
+    "script": {
+      "source_offset": 1828,
+      "default": ""
+    },
+    "script_move_out": {
+      "source_offset": 1856,
+      "default": ""
+    },
+    "script_all_player": {
+      "source_offset": 1884,
+      "default": ""
+    },
+    "script_all_player_move_out": {
+      "source_offset": 1912,
+      "default": ""
+    },
+    "effect_one_player": {
+      "source_offset": 1940,
+      "default": ""
+    },
+    "is_door_closed": {
+      "source_offset": 1980,
+      "default": ""
+    },
+    "levelID": {
+      "source_offset": 2008,
+      "default": -1
+    },
+    "levelName": {
+      "source_offset": 2012,
+      "default": ""
+    },
+    "entrypointID": {
+      "source_offset": 2036,
+      "default": -1
+    },
+    "maploc": {
+      "source_offset": 2040,
+      "default": -1
+    },
+    "question": {
+      "source_offset": 2044,
+      "default": -1
+    },
+    "fasttravel": {
+      "source_offset": 2048,
+      "default": ""
+    }
+  },
+  "init_post_tail_cases": [
+    {
+      "name": "",
+      "result7d4": 99,
+      "calls": [
+        {
+          "parent_InitPost": true
+        }
+      ]
+    },
+    {
+      "name": "SWAMP_02",
+      "result7d4": 17,
+      "calls": [
+        {
+          "parent_InitPost": true
+        },
+        {
+          "lookup": "SWAMP_02"
+        }
+      ]
+    },
+    {
+      "name": "MissingLevel",
+      "result7d4": 4294967295,
+      "calls": [
+        {
+          "parent_InitPost": true
+        },
+        {
+          "lookup": "MissingLevel"
+        }
+      ]
+    }
+  ],
+  "scope": "Original whole Exit/TriggerZone/Trigger/ZoneEx/Zone factory constructors and DeclareProperties execute; inherited GameObject and allocator/string services explicit interceptions. Transition execution unported."
+}

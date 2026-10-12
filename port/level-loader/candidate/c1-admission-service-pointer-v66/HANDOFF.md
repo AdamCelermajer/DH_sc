@@ -1,0 +1,16 @@
+# C1 admission service-pointer successor V66
+SOURCE PROPOSAL ONLY. Native validation is PENDING. No compiler, build, linker, Oracle, WSL or native case ran.
+
+Selected773source order is correct by inspection: canonical_level_context_v1.cpp53 rejects any existing constructor owner;54 invokes selectedadmission;55 borrows fields;59 creates/publishes the constructor capsule;60 enters C1. The guard changes only error text; it reads the immutable selectedrequest/table and uses a local bounded lowercase buffer. NULLname/table and misalignednames return before any row or seed scan; row mismatch and seed mismatch also precede borrowing, helper calls or stores. The rawname must be a live NULterminated CString as required by the original native constructor; no invented address-validation policy is added.
+
+V63sourceSWAMP explicitly retains logicalidentitySWAMP and seed7 at105;117reads/asserts original LevelList41bare001_swamp.mlx;118passes that originalCString and seed7. All13adopted V64target source lines remain present exactly in current CMake. Parent V63has its separate source_swamp_admission_v63target. The historical rawV58target/source/receipts stay historical.
+
+Existing pending V63synthetic tests cover NULLname, unknownlogicalidentity, known-rowidentitymismatch, foreignseed, request0/C1seed7 rejection, request0/C1seed0 unchanged forwarding, originalfirstsubstringprecedence and completedowner/script/save/output preservation. They did not cover NULLservices.levels; the existing completedretry assertion also did not assert the exact error, so reversing ownercheck/preflight could satisfy that assertion.
+
+This unique successor adds exactly that missing pointer/order pair:
+- Fresh selectedSWAMP7 with services.levels=NULL rejects the exact guard error; a complete semantic C1snapshot and aliasedsourcecells remain equal, constructorowner remains NULL, outputshared_ptr remains identical, helpercount/debug/savecount remain0 and moduleglobal99 stays99. The next valid request runs the original constructor and reaches realconstructor-selected fixture row41/seed7, exactly7explicit helpercallbacks, debug1/module0 and one same-row/seed save request.
+- After that completed constructor, another services.levels=NULL retry must return the exact existingowner error before the pointerguard. The completed source snapshot, event/script/save/constructor pointers, output, helpers/debug/module/savecount remain unchanged.
+
+The snapshot uses semantic fields and separate vector/array values, not object padding, ARM layout, fabricatedRowLookup or a new productionowner. Its script/save pins are test observations only. Synthetic helpers remain explicitly marked as such; no real Lua/Save/restoration/runtime proof is claimed. Unmatched raw names and invalid/oversized table filenames are not newly claimed as tested.
+
+Future Main source-only adoption: switch only dh2_loader_c1_admission_v63's source from tests/c1-admission-selected-v63/selected_c1_admission_v59_test.cpp to candidate/c1-admission-service-pointer-v66/selected_c1_admission_v59_test_service_pointer_v66.cpp. Header APIs, selected productionguard, root/Mainkillfields, CMake, V63source and V64successors are unchanged by this packet. Keep the frozen V63copy, diff and SHA256manifest.

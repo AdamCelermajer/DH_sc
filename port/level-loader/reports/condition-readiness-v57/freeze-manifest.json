@@ -1,0 +1,14 @@
+{
+  "schema": "dh2-all51-condition-readiness-v57-freeze",
+  "files": {
+    "reports\\condition-readiness-v57\\all-level-condition-readiness.json": "ff4165ed0e451c0895e82863afecaee3e19452198a58d64bde4e51061fb007bd",
+    "reports\\condition-readiness-v57\\all-level-condition-readiness.md": "c342b6c1f6648eccbec661f54c777be9939f95176b9ec082063dd289d63c8be2",
+    "tools\\audit_conditions_all_levels_v57.py": "bfd2837dcf19f5aa80633601cb5ecf4a4f59563b6f25143eaa07e948ebf3177b",
+    "reports\\condition-list-v57-selected-verified.json": "95a83da2c1e4ff17a622c44881f519b3e90c4e15f7f278b9e7df4ac1ff17b104"
+  },
+  "exact_cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "source_render_Eval_claim": false,
+  "source_missing_names_not_constructor_gaps": true,
+  "original_XML_attribute_verified_refs": 873,
+  "native_condition_component_adopted_selected766": true
+}

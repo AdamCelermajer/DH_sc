@@ -1,0 +1,155 @@
+{
+  "scope": "complete source Level C1 and typed same-owner Lua/Save composition; deeper backend and full game limits in handoff doc",
+  "files": [
+    {
+      "path": "port/level-loader/level_constructor_v3.hpp",
+      "sha256": "12a5bcfbf4e28820ac46dea20b78b00dab67c74618561ae4ed24e6ddfe44f5c0",
+      "bytes": 4666
+    },
+    {
+      "path": "port/level-loader/level_constructor_v3.cpp",
+      "sha256": "039c0c476f29314f7c2f87b04217b4b632575786563167143ad6ea23df00e5c6",
+      "bytes": 5934
+    },
+    {
+      "path": "port/level-loader/canonical_level_context_v1.hpp",
+      "sha256": "ae4c1981cdfe776c1d645ffd280e94edefbbc9ffce0f33c6b5e9f457b9b9f031",
+      "bytes": 5338
+    },
+    {
+      "path": "port/level-loader/canonical_level_context_v1.cpp",
+      "sha256": "f6e8baab874f79bdecfc791cc8155cff2cb7f34348b1b176fc191dc66a0ac05f",
+      "bytes": 3913
+    },
+    {
+      "path": "port/level-loader/level_constructor_bindings_v4.hpp",
+      "sha256": "616d84515678f29fb394a686e96c2fd41b66b5fd7c24b39172de4d265474e86c",
+      "bytes": 2017
+    },
+    {
+      "path": "port/level-loader/level_constructor_bindings_v4.cpp",
+      "sha256": "3645564435f812c021d9b3c8dfef3ca5b7c889accc850975e7e91671c1f84f15",
+      "bytes": 3552
+    },
+    {
+      "path": "port/level-loader/tests/level_constructor_v3.cpp",
+      "sha256": "56c1fbeae46886526f20cc8491765a34bd7721a8979a025a339ca458d2905a17",
+      "bytes": 8182
+    },
+    {
+      "path": "port/level-loader/tests/canonical_level_constructor_v3.cpp",
+      "sha256": "f8d4bb17a1e5184b03e93cd16ff9cc033ee89d6cb8105e95d1395c94259933f4",
+      "bytes": 4119
+    },
+    {
+      "path": "port/level-loader/tests/level_constructor_bindings_v4.cpp",
+      "sha256": "a9e69cd05658a1fac37334d4e6feee219a30bd6c2f06bf8bec38226d6f85fa07",
+      "bytes": 7727
+    },
+    {
+      "path": "port/level-loader/LEVEL-CONSTRUCTOR-NATIVE-V4-HANDOFF.md",
+      "sha256": "6187862cdd9205584c7f2437d7042d41c54c724939c5c1ed4d308bb1a1873197",
+      "bytes": 5054
+    },
+    {
+      "path": "port/level-loader/reports/level-constructor-v3/receipt.json",
+      "sha256": "56c0f3fe731c97f44b005311f25cff8521da6a81105a4161e8a55d2f68cece09",
+      "bytes": 1325
+    },
+    {
+      "path": "port/level-loader/reports/level-constructor-v3/context/receipt.json",
+      "sha256": "27e648b3fadc1e96e71e10b57ba869791f741aa6c0a3d86dd0323fbc08dd27ac",
+      "bytes": 1558
+    },
+    {
+      "path": "port/level-loader/reports/level-constructor-v3/source-literals.json",
+      "sha256": "69267b6df8cedd2a9e861030e4b871c6d17caa48a525080c1baf3d69a150f305",
+      "bytes": 1032
+    },
+    {
+      "path": "port/level-loader/reports/level-constructor-v3/level-c1-original.asm",
+      "sha256": "6d69acab1f7d3090381b26d1eb8393399023c45683ab06cb00a7bd340badf813",
+      "bytes": 14031
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/level-constructor-bindings-v4/receipt.json",
+      "sha256": "26a922428e1c04e92110015f7e793672f85f9b22825ac23f9c53a962e95a32db",
+      "bytes": 6550
+    },
+    {
+      "path": "port/level-world/event_manager_owner_v12.hpp",
+      "sha256": "15a5e8206fb3c951fa7a1d3486ca0167cbf486a0d3cffa13d8d6db9f0b040b16",
+      "bytes": 3230
+    },
+    {
+      "path": "port/level-world/event_manager_owner_v12.cpp",
+      "sha256": "b66a23fe43ce48e104cc0845431e541b4a757eee51baa6b18e5cdce81adeb459",
+      "bytes": 5364
+    },
+    {
+      "path": "port/level-world/generic_lua_script_owner_v13.hpp",
+      "sha256": "f6f1e18589a13d5e3faab3de1b73365787535f60374aaf354c707061e4930aeb",
+      "bytes": 3158
+    },
+    {
+      "path": "port/level-world/generic_lua_script_owner_v13.cpp",
+      "sha256": "1129dfa0695977763ab1d3d2749e3771302f6c9c33d9b2072d30b4360e45c863",
+      "bytes": 14993
+    },
+    {
+      "path": "port/level-world/level_savegame_owner_v1.hpp",
+      "sha256": "33e1869ee0df95affb272a577a21c63d2b6465845a62a24e205b5eeed89b06c0",
+      "bytes": 2731
+    },
+    {
+      "path": "port/level-world/level_savegame_owner_v1.cpp",
+      "sha256": "bddb330a95b2d7443cea60c5ee5a5c276ba222db912d083c8e8da468b169af0b",
+      "bytes": 4067
+    },
+    {
+      "path": "port/level-world/level_savegame_cache_v1.hpp",
+      "sha256": "326411bd1374f0efb4bc26dc7fc2d6d9dfa0da941bb8e8076845f456b9bd0096",
+      "bytes": 1879
+    },
+    {
+      "path": "port/level-world/level_savegame_cache_v1.cpp",
+      "sha256": "561d938cdb6b207f3670ccb21a9e598fba17aea7ccb88a3429e1f939ffb4a0c9",
+      "bytes": 2918
+    },
+    {
+      "path": "port/level-world/level_savegame_runtime_v1.hpp",
+      "sha256": "676cfd119fb6bbbe086445d22a37c3186f5413a38d90634b165e5f0103a2378e",
+      "bytes": 1875
+    },
+    {
+      "path": "port/level-world/level_savegame_runtime_v1.cpp",
+      "sha256": "a96a52df3a2b87e94503611ce6be6e66441865c760cdd6195350168a5ae33e2f",
+      "bytes": 2593
+    },
+    {
+      "path": "port/level-loader/reports/native-level-services-v5/compile-receipt.json",
+      "sha256": "9338da53d622f133271b675a372df764c8c6cb52eeb0800c6e6772e91e90ba83",
+      "bytes": 2767
+    },
+    {
+      "path": ".local-inputs/root_verify_level_ctor_v3.py",
+      "sha256": "a584f5f6055d51008c8c310da31f0c402d262b43e392c7b3203cf157a275928c",
+      "bytes": 8775
+    },
+    {
+      "path": ".local-inputs/root_verify_level_context_v3.py",
+      "sha256": "ef546c4978e5a57926be89c87c15444bed11a576087a48168b586a87a8f8cde1",
+      "bytes": 2570
+    },
+    {
+      "path": ".local-inputs/root_level_bindings_inputs_v4.py",
+      "sha256": "d196f8cb7d673a0d28f0ae20bec0bd993e7c84023ec3a72ef4ff9b444aa95104",
+      "bytes": 1031
+    },
+    {
+      "path": ".local-inputs/root_compile_native_level_services_v5.py",
+      "sha256": "fe4fd23174ac35d57c8c0fed1bf123b554ab211223d698b4de4a4c0c15bed2f3",
+      "bytes": 1885
+    }
+  ]
+}

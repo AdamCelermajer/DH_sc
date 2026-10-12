@@ -1,0 +1,24 @@
+--- a/port/level-loader/production_noncharacter_composition_v67.cpp
++++ b/port/level-loader/production_noncharacter_composition_v67.cpp
+@@ -17,6 +17,21 @@
+    if(!CatalogEnvironmentV67::create(scope,std::move(services.lights),owners.environment,lights,e))return false;
+    parts.push_back(std::move(lights));
+   }
++  if(services.generic){
++   PartV67 generic;
++   if(!CatalogGenericV70::create(scope,std::move(services.generic),owners.generic,generic,e))return false;
++   parts.push_back(std::move(generic));
++  }
++  if(services.colbox){
++   PartV67 part;
++   if(!make_colbox_catalog_part_v71(scope,*services.colbox,part,e,&owners.colbox))return false;
++   parts.push_back(std::move(part));
++  }
++  if(services.floor){
++   PartV67 part;
++   if(!make_floor_catalog_part_v72(scope,*services.floor,part,e,&owners.floor))return false;
++   parts.push_back(std::move(part));
++  }
+   std::shared_ptr<ProductionNonCharacterCatalogV67> actual;
+   if(!ProductionNonCharacterCatalogV67::create(std::move(scope),std::move(parts),actual,e)||
+      !actual->require_entries(required,e))return false;

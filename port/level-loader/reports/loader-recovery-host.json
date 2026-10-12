@@ -1,0 +1,29 @@
+{
+  "validation": "PASS",
+  "cases": [
+    {
+      "name": "recovery",
+      "result": {
+        "validation": "PASS",
+        "recovery_checks": 20,
+        "backup_read_fault_retains_previous_map": true,
+        "repair_rollback_verified": true,
+        "original_mode_verified": true,
+        "runtime_objects_verified": false
+      },
+      "probe_sha256": "5ebddb749878106969f63f524f4adcd46e51d603193b33e2792d492d820aecb6"
+    },
+    {
+      "name": "lifecycle",
+      "result": {
+        "validation": "PASS",
+        "lifecycle_checks": 14,
+        "modules": 9,
+        "declarations": 205,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      },
+      "probe_sha256": "5a0b57e6afe990b443d3aaa924bf448b2b3e16752a9a92d4115df1225d17d4e0"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK14CharProperties14_IsPropertySetERKN7Structs19CharacterPropertiesEi",
+      "elf_address": "0x3df114",
+      "size": 44,
+      "sha256": "2d40e1a43f3becbe9b22b2d5a93c9043c6757e591415e227d31d80ff963c7303"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties21UpdateGearsPropertiesEv",
+      "elf_address": "0x3e08a8",
+      "size": 36,
+      "sha256": "a6e6393033840308385123b125dee49f4b6d157c5bdb26228a1a07d36936304a"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties12_SetPropertyERN7Structs19CharacterPropertiesEii",
+      "elf_address": "0x3deca0",
+      "size": 276,
+      "sha256": "61d5cdfabfb0a114c233ebf4a4b867830a9f1c087009a5a5f8bf7503a4370510"
+    }
+  ]
+}

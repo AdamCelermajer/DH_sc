@@ -1,0 +1,56 @@
+{
+  "validation": "PASS",
+  "retained_clip_cases": 1014,
+  "authored_matrix_comparisons": 602,
+  "frozen_status_real_core_cases": 8,
+  "frozen_status_services": 160,
+  "required_advance_deliveries": 2089,
+  "genuine_upstream_sound_queries": 1055,
+  "source_owned_weak_nodes": 11,
+  "advance_ownership_guards": 3,
+  "failure_guards": 7,
+  "triangle_strips": 50,
+  "vertices": 200,
+  "source_sha256": {
+    "port/engine-ui/swf_movie.hpp": "52dca5375a98a93ddf425e6a4cebe94568608f7d2960653d7ed266d25d5b50f2",
+    "port/engine-ui/swf_movie.cpp": "920779547262cf1f212bfacfbe5d8e6eab96dbe56ba89b14290eb0df959891df",
+    "port/engine-ui/swf_viewport_connection.hpp": "197c12cb1b34e05d93a2a74679c2de762b867aee9d491722438eaef78c32c966",
+    "port/engine-ui/swf_viewport_connection.cpp": "7f5278e000a91a79088be113a3b6f79354a22bc2845be2cbeab922ad17a2b813",
+    "port/engine-ui/viewport.hpp": "372e0a5aa123edf40c2a7ec6a0d9ae2f97a8af891f05f5dbd9996aaabb51ffd5",
+    "port/engine-ui/viewport.cpp": "ba2ccdba830d992463f1f61bc02501fb5d7fff65b2c4b246ca5df490e3758ba9",
+    "port/engine-ui/hud_player_values.hpp": "3a7c2e5ad740135c6836a4aece4bac2f1f0df20ca29a3f2cedb64f1482798fd6",
+    "port/engine-ui/hud_player_values.cpp": "93c72ba1150b5b9ab37f178fd59bdf63bd5ab1fd3b4d6d1dd3af74e51bc1a26e",
+    "port/engine-ui/hud_sprite_timeline.hpp": "4585e30a0aba44c1c9a2ea5430f0a4e59f624a7099cefc3eb15679c13f304e53",
+    "port/engine-ui/hud_sprite_timeline.cpp": "48d1a025d97395adf77b5cb5a93e4828e300b412b17493503e431aa9dd8dbbe6",
+    "port/engine-ui/hud_sprite_core.hpp": "b97a9c7ff876be84618424b9edf18239bfa85dfbc371fb957c2d703529f7a7a1",
+    "port/engine-ui/hud_sprite_core.cpp": "7bdb36cc652d3157cc525da90fa86eef8c4ee0df6a373b854069a4470c63401d",
+    "port/engine-ui/hud_advance_owner.hpp": "7a801f029da013c262aaefdb3d54222a43f67bda073e7d0b2693bf78b0f5fd0c",
+    "port/engine-ui/hud_advance_owner.cpp": "7b0fc4f423d85917f54a94912310b5056cee31b04405aae632993fb3cc76872f",
+    "port/engine-ui/tests/hud_sprite_core.cpp": "f657b6172358fea1fc3cf24fc5a00d1060c53de059611451d8b90d2f988ed81d"
+  },
+  "core_library_sha256": "54506e7d96e0200765ca05d16b60e9053c2b4c89fccb9121ea6288e3bc48d36c",
+  "executable_sha256": "ef87c3ebc7797dcc4b5a9f118eac5e9284d3f3fe556704ae7eef0c4d8cd632db",
+  "private_scoped_visitor_header_sha256": "2883171ea8f3667f74ff048c1f0df7e9c41847021f1cf81be9be680198fe7cbc",
+  "private_scoped_visitor_cpp_sha256": "133764d3a87ca198b621fdec466e5f863fad2ccf34b8c99a6fa85efddd3379cf",
+  "asset_sha256": {
+    "dqshared_droid.swf": "f0f9f119f2fe474d21c722e361ef9907ef2b885654705073e0cb956432f46263",
+    "dqhud_droid.swf": "a4ffacd1abdf7c9b2ba19c46ebb81c60c100458731a4cdba5880391b9c11b238"
+  },
+  "authored_matrix_samples_sha256": "a7706893f3e7ec9fcbb384844e72a187968a3bd6484b6f22865e192b74fa4275",
+  "matrix_inventory_sha256": "d1ec93a107bc27b1fd08b6e200c692378b5975c4edea3750905da94e0b3ab553",
+  "sanitizers": [
+    "address",
+    "undefined(excluding upstream vptr)",
+    "leak"
+  ],
+  "sanitizer_findings": 0,
+  "limits": {
+    "texture_images_localization_stencil_are_fixtures": true,
+    "notify_owner_uses_actual_core_weak_parent_projection": true,
+    "needs_advance_storage_owned_sidecar": true,
+    "full_original_tag_or_AS_parity": false,
+    "live_GL": false,
+    "production_facade_wired": false
+  },
+  "scope": "Actual retained HUD core connection with audit-only scoped clip visitor.\nFrozen facade/vendor remain untouched. The private visitor adds no scheduling,\ntag, draw or lifetime policy; production facade wiring remains parent-owned.\n"
+}

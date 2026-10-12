@@ -1,0 +1,83 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6CharAI13_SkillCleanUpEv",
+      "elf_address": "0x3d8ae0",
+      "size": 72,
+      "sha256": "48496c272608ec923072a79d7bc3d31e383592b9f64010437647596b90bc415c"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine15SM_SetDeadStateEbPvb",
+      "elf_address": "0x3c58c8",
+      "size": 488,
+      "sha256": "b6a218cf121594c43a4f38edf0817db2ca9e8e43c413173ba33721938da0c74e"
+    },
+    {
+      "original_symbol": "_ZN6CharAI13_SpellCleanUpEv",
+      "elf_address": "0x3d8a98",
+      "size": 72,
+      "sha256": "221946bb28d69c3a38b1c8facd237368549c342a8282399bda287b871377d5aa"
+    },
+    {
+      "original_symbol": "_ZN6CharAI10AI_SetDeadEv",
+      "elf_address": "0x3d6cdc",
+      "size": 140,
+      "sha256": "f3468811a494010b0265316a819636747c2e66a6e4090f019c6c2b0d3fa8a96d"
+    },
+    {
+      "original_symbol": "_ZN6CharAI17AI_SyncLastTargetEv",
+      "elf_address": "0x3d49c4",
+      "size": 12,
+      "sha256": "1d26e4e6644d0ec94f0daefc74f9c8505836921f95969dd265d097ab3f026ff1"
+    },
+    {
+      "original_symbol": "_ZN12v2Controller8Cmd_KillEP10GameObjectb",
+      "elf_address": "0x40570c",
+      "size": 28,
+      "sha256": "0a2c77862173fe1e153fc8803367a7ef0de280e3ec56f1102133d9b273fb9f28"
+    },
+    {
+      "original_symbol": "_ZN6CharAI6OnDiedEP10GameObject",
+      "elf_address": "0x3d1000",
+      "size": 80,
+      "sha256": "e872aa87b36c9d46638f7ea691bfcde728a6068401d2111dcf4c0cd3036cc2bc"
+    },
+    {
+      "original_symbol": "_ZN10CharTimers8TMR_StopEj",
+      "elf_address": "0x3db2d8",
+      "size": 32,
+      "sha256": "6dbf462d15b090873ba926013ab337200b3311223de9da6d7c3bcae893637b61"
+    },
+    {
+      "original_symbol": "_ZN6CharAI16AI_ClearAllAggroEv",
+      "elf_address": "0x3d5fa8",
+      "size": 480,
+      "sha256": "9cf1065d84a6b5f84f26ef7debd8bec0bc834a646ccd8c9f6f29a5c38eb101a3"
+    },
+    {
+      "original_symbol": "_ZN6CharAI24AI_ClearAllAggroTowardMeEb",
+      "elf_address": "0x3d6abc",
+      "size": 544,
+      "sha256": "0012a66decb3a0881c65af6597d53705d83aec1e651e9c5c00c7ad3cd8929543"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12AI_SetTargetEP10GameObjectb",
+      "elf_address": "0x3d6890",
+      "size": 556,
+      "sha256": "59e960e083eb4c7fbc17a3373ec303b0688f7345bf9d4c8d145dfce349b7ee7c"
+    },
+    {
+      "original_symbol": "_ZN6CharAI9GroupInfo6OnDiedEP9CharacterP10GameObject",
+      "elf_address": "0x3d2628",
+      "size": 420,
+      "sha256": "3fea06ae2e3aef110f8e22e5eae5ec12ffa279246564fc0e87429ff9256267fb"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12RaiseAIEventEiPv",
+      "elf_address": "0x3cbb34",
+      "size": 1764,
+      "sha256": "f8acba22b51432beded75bba8e834aac58382fd66b137c1f310a16496789b966"
+    }
+  ]
+}

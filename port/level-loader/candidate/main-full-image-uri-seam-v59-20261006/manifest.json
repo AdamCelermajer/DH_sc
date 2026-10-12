@@ -1,0 +1,25 @@
+{
+  "version": 59,
+  "status": "SOURCE_ONLY_OWNER_PRESERVING_DECLARATIONS",
+  "supersedes": "V58 owner-setting resolver binder",
+  "provider_implemented": false,
+  "build_or_runtime_test": false,
+  "budget_enum_crossed": false,
+  "files": [
+    {
+      "file": "adoption-plan.md",
+      "sha256": "cc146d0a389ddf8013875c6da4fc527df291d39fc5ee901ac1f90e1c3df4ec5f",
+      "bytes": 6785
+    },
+    {
+      "file": "main_full_simage_uri_seam_v59.hpp.proposed",
+      "sha256": "7de91087fd4541f93bd5a45ec0af44afe5001fbf01c1d671342a86a100e670af",
+      "bytes": 4216
+    },
+    {
+      "file": "source-compatibility-review.md",
+      "sha256": "79def7fc0539fa9adf4b196b78dc9cd58b1f880f445ee2dd382ccd078b832c52",
+      "bytes": 3044
+    }
+  ]
+}

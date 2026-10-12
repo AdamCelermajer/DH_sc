@@ -1,0 +1,173 @@
+{
+  "validation": "PASS",
+  "scope": "Original state gold plus genuine scoped VM/alias/Default-kernel integration; no fake Crypt state registration.",
+  "host_audit": {
+    "validation": "PASS",
+    "checks": 22005,
+    "original_cases": 1476,
+    "ordered_services": 1800,
+    "genuine_scoped_VM": true,
+    "actual_default_kernel": true,
+    "owner_library": "/home/adampalace/dh2-world-build/libdh2_level_world.so",
+    "runtime_library": "/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so"
+  },
+  "source_sha256": {
+    "port\\level-world\\character_script_states.hpp": "fecabe415b6e085b22ca00fbc01a08936f0cd512bda4f576cc7a8ec8f58d8e41",
+    "port\\level-world\\character_script_states.cpp": "bc256f5cb3918b0e8b207d66be784731fe1dcc9f284269e3bcee1e875326411a",
+    "port\\level-world\\tests\\character_script_states.cpp": "7126e74d5e3e2efe533451584d403617e6f184e26e2fe0bf37df3c0a9ac33e34",
+    "port\\level-world\\tests\\character_script_states_host.py": "86073abb01ff0d7bf738e564559672203af8d1c7153924896655e682b527021a",
+    "port\\script-runtime\\script_runtime.h": "6609f8b0a1ad716104824e5ed1653cc9b2be68396ae5b5766b38166af3561303",
+    "port\\script-runtime\\script_runtime.c": "cfb4aaa0585188731c76d3ed86e346bd2d48d6a2024c1f453c4bd038e8e835d1"
+  },
+  "binary_sha256": {
+    "/home/adampalace/dh2-world-build/libdh2_level_world.so": "775a299eb3aa128c5634656531d99f8a4af05343f5933f50e2145df27893454c",
+    "/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so": "a36063101f6a58df4dbedba5aad764f9fd941b4d3357e0366369ef5c25e82c47",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-states/host": "2da53d842af20364f06a78e6fb7a8c7e579e59e3a15beec5f3dbd6595089ddbe"
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_gold_sha256": "d853724c5f665433ba05ff7fa70a1a242a96f9ee6e7b21dab12e44fdc06f16c7",
+  "arm64_report_sha256": "1d11c8afe4d1df94e84432dd8f3494106bebea7d0de0643a15b94bad12af5ca5",
+  "authored_state_inventory": {
+    "monster": {
+      "sha256": "84f07caaeb2c04f2024cc3e27d41f33806b2c53d6e8861bb3d8b371118fd0e1d",
+      "bytes": 7393,
+      "register_occurrences": 0,
+      "change_occurrences": 0
+    },
+    "rene": {
+      "sha256": "631e7137c6ba49fca45e6cf0b37d1e45e4f42af4ca120106274e7e28d5f56fc7",
+      "bytes": 9336,
+      "register_occurrences": 0,
+      "change_occurrences": 0
+    },
+    "_commons": {
+      "sha256": "20d34968e9983e14c24223085ab40d55d47f9387dfdbbf3ff7e6b39aea91252c",
+      "bytes": 13535,
+      "register_occurrences": 0,
+      "change_occurrences": 0
+    }
+  },
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer"
+  ],
+  "sanitizer_findings": 0,
+  "main_world_library_executed": true,
+  "module_in_main_world": true,
+  "full_Crypt_script_VM_loaded": false,
+  "nonstring_Change_getString_supported": false,
+  "packaged_APK": false,
+  "commands": [
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-world-build/libdh2_level_world.so"
+      ],
+      "returncode": 0,
+      "stdout": "775a299eb3aa128c5634656531d99f8a4af05343f5933f50e2145df27893454c  /home/adampalace/dh2-world-build/libdh2_level_world.so\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so"
+      ],
+      "returncode": 0,
+      "stdout": "a36063101f6a58df4dbedba5aad764f9fd941b4d3357e0366369ef5c25e82c47  /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/tests/character_script_states.cpp",
+        "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+        "-L/home/adampalace/dh2-world-build/script-runtime",
+        "-ldh2_script_runtime",
+        "-L/home/adampalace/dh2-world-build",
+        "-ldh2_level_world",
+        "-Wl,-rpath,/home/adampalace/dh2-world-build/script-runtime",
+        "-Wl,-rpath,/home/adampalace/dh2-world-build",
+        "-Wl,-rpath,/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-states",
+        "-ldl",
+        "-o",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-states/host"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "env",
+        "LD_LIBRARY_PATH=/home/adampalace/dh2-world-build/script-runtime:/home/adampalace/dh2-world-build:/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-states",
+        "ASAN_OPTIONS=detect_leaks=1:abort_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-states/host",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/reference/character-script-states/state-fixtures.bin"
+      ],
+      "returncode": 0,
+      "stdout": "{\"validation\":\"PASS\",\"checks\":22005,\"original_cases\":1476,\"ordered_services\":1800,\"genuine_scoped_VM\":true,\"actual_default_kernel\":true,\"owner_library\":\"/home/adampalace/dh2-world-build/libdh2_level_world.so\",\"runtime_library\":\"/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so\"}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "env",
+        "LD_LIBRARY_PATH=/home/adampalace/dh2-world-build/script-runtime:/home/adampalace/dh2-world-build:/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-states",
+        "ASAN_OPTIONS=detect_leaks=1:abort_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ldd",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-states/host"
+      ],
+      "returncode": 0,
+      "stdout": "\tlinux-vdso.so.1 (0x00007805cfb8b000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x00007805cf200000)\n\tlibdh2_script_runtime.so => /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so (0x00007805cee00000)\n\tlibdh2_level_world.so => /home/adampalace/dh2-world-build/libdh2_level_world.so (0x00007805cda00000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007805cd600000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x00007805cf9e0000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x00007805cce00000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007805cf9b0000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x00007805cca00000)\n\tlibdh2_engine_skinning.so => /home/adampalace/dh2-world-build/engine-skinning/libdh2_engine_skinning.so (0x00007805ced36000)\n\tlibdh2_game_data.so => /home/adampalace/dh2-world-build/game-data/libdh2_game_data.so (0x00007805cc400000)\n\tlibdh2_engine_animation.so => /home/adampalace/dh2-world-build/engine-skinning/engine-animation/libdh2_engine_animation.so (0x00007805cc000000)\n\tlibdh2_scene_materials.so => /home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.so (0x00007805cd46b000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007805cfb8d000)\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-world-build/libdh2_level_world.so"
+      ],
+      "returncode": 0,
+      "stdout": "775a299eb3aa128c5634656531d99f8a4af05343f5933f50e2145df27893454c  /home/adampalace/dh2-world-build/libdh2_level_world.so\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so"
+      ],
+      "returncode": 0,
+      "stdout": "a36063101f6a58df4dbedba5aad764f9fd941b4d3357e0366369ef5c25e82c47  /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-world-build/libdh2_level_world.so"
+      ],
+      "returncode": 0,
+      "stdout": "775a299eb3aa128c5634656531d99f8a4af05343f5933f50e2145df27893454c  /home/adampalace/dh2-world-build/libdh2_level_world.so\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-states/host"
+      ],
+      "returncode": 0,
+      "stdout": "2da53d842af20364f06a78e6fb7a8c7e579e59e3a15beec5f3dbd6595089ddbe  /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-states/host\n",
+      "stderr": ""
+    }
+  ],
+  "linked_dependencies": "linux-vdso.so.1 (0x00007805cfb8b000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x00007805cf200000)\n\tlibdh2_script_runtime.so => /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so (0x00007805cee00000)\n\tlibdh2_level_world.so => /home/adampalace/dh2-world-build/libdh2_level_world.so (0x00007805cda00000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007805cd600000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x00007805cf9e0000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x00007805cce00000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007805cf9b0000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x00007805cca00000)\n\tlibdh2_engine_skinning.so => /home/adampalace/dh2-world-build/engine-skinning/libdh2_engine_skinning.so (0x00007805ced36000)\n\tlibdh2_game_data.so => /home/adampalace/dh2-world-build/game-data/libdh2_game_data.so (0x00007805cc400000)\n\tlibdh2_engine_animation.so => /home/adampalace/dh2-world-build/engine-skinning/engine-animation/libdh2_engine_animation.so (0x00007805cc000000)\n\tlibdh2_scene_materials.so => /home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.so (0x00007805cd46b000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007805cfb8d000)"
+}

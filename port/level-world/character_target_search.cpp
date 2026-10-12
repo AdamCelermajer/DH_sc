@@ -3,8 +3,12 @@
 #include <cstring>
 namespace dh2::target_search { namespace {
 bool aligned(const void* p,std::uintptr_t a=8) { return p && !(reinterpret_cast<std::uintptr_t>(p)&(a-1)); }
+bool overlap(const void* a,std::uintptr_t an,const void* b,std::uintptr_t bn) {
+ auto x=reinterpret_cast<std::uintptr_t>(a),y=reinterpret_cast<std::uintptr_t>(b);
+ return x<=y?y-x<an:x-y<bn;
+}
 bool valid_services(const Services16* s) { return aligned(s)&&s->invoke; }
-bool valid_list(const List40* l) { return aligned(l)&&aligned(l->heap)&&l->capacity>0&&l->capacity<=65536&&l->count<=l->capacity&&aligned(l->owner)&&l->sort<=2&&l->reserved==0; }
+bool valid_list(const List40* l) { return aligned(l)&&aligned(l->heap)&&l->capacity>0&&l->capacity<=65536&&l->count<=l->capacity&&aligned(l->owner)&&(!l->reference_character||aligned(l->reference_character))&&l->sort<=2&&l->reserved==0&&!overlap(l,sizeof(*l),l->heap,l->capacity*sizeof(Target24)); }
 bool call(const Services16* s,Service op,const Object48* subject,const Object48* other,Response16& out) {
  out={};Request24 q{op,0,subject?subject->identity:0,other?other->identity:0};return s->invoke(s->context,&q,&out)==0;
 }
@@ -52,7 +56,7 @@ int character_valid(List40* l,Object48* candidate,const Services16* s) {
 }
 } // namespace
 extern "C" int dh2_target_list_init(List40* l,Target24* heap,std::uint32_t capacity,Object48* owner,std::uint32_t sort,const Services16* s) {
- if(!aligned(l)||!aligned(heap)||!aligned(owner)||!owner->identity||!capacity||capacity>65536||sort>2||!valid_services(s))return 1;
+ if(!aligned(l)||!aligned(heap)||!aligned(owner)||!owner->identity||!capacity||capacity>65536||sort>2||!valid_services(s)||overlap(l,sizeof(*l),heap,capacity*sizeof(Target24)))return 1;
  *l={heap,0,capacity,owner,nullptr,sort,0};Response16 r;if(!call(s,is_character,owner,nullptr,r))return 2;if(r.word)l->reference_character=owner;return 0;
 }
 extern "C" int dh2_target_search(List40* l,const Registry8* registry,float radius,float cone,const Services16* s) {
@@ -66,20 +70,22 @@ extern "C" int dh2_target_search(List40* l,const Registry8* registry,float radiu
  auto end=registry->rooms;auto room=end->next;std::uint32_t visits=0;
  if(!aligned(room))return 2;
  // Reset/ValidateCurrent reads each room head once on entering that room.
- Entry16* entry=room==end?nullptr:room->objects?room->objects->next:nullptr;
+ if(room!=end&&!aligned(room->objects))return 2;
+ Entry16* entry=room==end?nullptr:room->objects->next;
  while(room!=end) {
   if(++visits>65536||!aligned(room)||!aligned(room->objects)||!aligned(entry))return 2;
   if(entry==room->objects) {
    room=room->next;if(!aligned(room))return 2;
-   entry=room==end?nullptr:room->objects?room->objects->next:nullptr;continue;
+   if(room!=end&&!aligned(room->objects))return 2;
+   entry=room==end?nullptr:room->objects->next;continue;
   }
   auto object=entry->object;Object48* character=nullptr;
+  if(object&&!aligned(object))return 2;
   // GetChar executes even for null/self/invisible Get results.
   if(!call(s,resolve_character,object,nullptr,r))return 2;
   character=reinterpret_cast<Object48*>(r.word);
   if(character&&!aligned(character))return 2;
   if(object&&object!=l->owner&&object->visible) {
-   if(!aligned(object))return 2;
    if(!call(s,is_zonable,object,nullptr,r))return 2;
    if(!(r.word&&object->zoned&&!object->in_zone)) {
     if(!call(s,is_interactive,object,l->owner,r))return 2;
@@ -109,7 +115,7 @@ extern "C" int dh2_target_search(List40* l,const Registry8* registry,float radiu
  return 0;
 }
 extern "C" int dh2_target_pop(List40* l,Target24* out) {
- if(!valid_list(l)||!aligned(out)||(reinterpret_cast<std::uintptr_t>(out)>=reinterpret_cast<std::uintptr_t>(l->heap)&&reinterpret_cast<std::uintptr_t>(out)<reinterpret_cast<std::uintptr_t>(l->heap)+l->capacity*sizeof(Target24)))return 1;
+ if(!valid_list(l)||!aligned(out)||overlap(out,sizeof(*out),l,sizeof(*l))||overlap(out,sizeof(*out),l->heap,l->capacity*sizeof(Target24)))return 1;
  if(!l->count)return 2;
  *out=l->heap[0];pop(l);return 0;
 }

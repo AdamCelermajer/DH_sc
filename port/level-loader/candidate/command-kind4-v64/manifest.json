@@ -1,0 +1,39 @@
+{
+  "status": "SOURCE_ONLY_UNCOMPILED_UNRUN",
+  "kind_added": 4,
+  "original_execution_runs": 0,
+  "native_compiler_or_runtime_jobs": 0,
+  "integration_edits": 4,
+  "baseline_files_sha256": {
+    "candidate/command-c1-v59/script_command_receivers_v59.hpp": "d555cac844347387dcd1c0ad46c404b718b3ff03a61803832f97fa3e250dc55d",
+    "candidate/command-c1-v59/script_command_receivers_v59.cpp": "cc18c31a6c307e992c0628cb8aa01b52fecc99482098560788f7cdb2c2bad213",
+    "candidate/command-c1-v59/command_c1_descriptors_v59.inc": "2c4f7d8fa62f0c295023cd6aa0cb917bd93aac71116677940e0665a84a28a0fa",
+    "script_data_schemas_v52.inc": "e855a175164a1412012fb6e03b624be69ebaa98603c1f163bebcb86eb1750078",
+    "script_manager_owner_v52.cpp": "258d88afcc747e8e60ca98dbb9eba92c84d01fddf723d44ca4d6743f97c9e8ee",
+    "script_manager_owner_v52.hpp": "4ae31338d57f24efca512f258f1c3590fc69e835fe008d625845151465c49a10",
+    "script_command_factories_v52.inc": "951153e59985b87f52e1f4c591c5bb1af0de5bd9b4faee3dd95874c8401a687e",
+    "reference/scriptmanager-v52/factory-table.json": "23368cb0dcd7309e2c18d5822c13f57b18330cd575bf61a8f5a3540b41aceb11",
+    "reference/scriptmanager-v52/source-symbols.txt": "cdca4384a318286cb4bb28eaa91dd223ce74d3561e25c346d537e1bb4ee82b89",
+    "reference/scriptmanager-v52/primitive-helpers.json": "ab51670a57c5d4c355271446f0c2acaf89dabb07fd8da116a0b112f884bd27f3"
+  },
+  "candidate_files_sha256": {
+    "base_Data_reader.asm": "afe9041298336fc70b606670e88bdaadd91ad05a608097018f5bf15a9665012c",
+    "base_Init.asm": "1cd06e4d50555f4cf47497464ef5b6194d2b56fc99902ef8f94ce0f28a28c52b",
+    "command_c1_descriptors_v59.inc": "446af21734e2a23895cb6fd951a65a2c4a9398b266c1552d260eb3ebfb70f865",
+    "command_factory.asm": "85ba8339ab6ccf2b03730a6379fca1d3914c6da4b95a886c4d692e60497797f1",
+    "data_factory.asm": "8157bd4f5dc4378d925679bd74440ded63180fa2e1c29fef4e878b3158251b71",
+    "Data_reader.asm": "4615d621df71a0a4cfdd74dbacde5f100325550f9398ade2e9ca6f4c146b9ad6",
+    "Execute.asm": "102581a1f80281e486db55cd0a76c705d3861925e22669999a24ac2d186df3a1",
+    "HANDOFF.md": "2d22559014ca7716cf853cf1566fafc3376f89a7cb9f7b03b6be91c3551087f6",
+    "IsBlocking.asm": "d4d1dfa2942af8408746966e3ad6df18dedc07b44def8ecbe34f7cc3146e53d7",
+    "kind4-minimal-proposed.diff": "04b78094afe90d9f1defa7daf1364c9e1043caf03d9b4d59ce14fdfb4ea7f477",
+    "kind4-source-proof.json": "5146b68484ef1d2a12d2d4e1d8a523df7b5bc913286a0c0558117a4fdd86ab3f",
+    "kind4_source_only_test.cpp": "9407dc9f764b61fb733dff83b43cc0ad7c498a046944a738d7c05f2b000a5155",
+    "raw_byte_helper.asm": "8f628f52ae3ee8fa0973b5a7b01173dd35c818972c46c88f29878f7a102b366b",
+    "raw_word_helper.asm": "051b224cdf06c45bcabe5174459c7504972025df69d43e198083598cdd281358",
+    "script_command_receivers_v59.cpp": "c685f75eab3e7c12ea68fd6178a71773e513eccfa19a5a9371be529d1f805b3d",
+    "script_command_receivers_v59.hpp": "d6cb5e7f5c646dbbaff27215818ebcaf4b5486f341e4610027abd375a6e6ea55",
+    "script_data_schemas_v52.inc": "a77e9e88f65d93a3dc3f0200dbc5b095fb86e9eea796e0ee298745fae6a9560e",
+    "script_manager_owner_v52.cpp": "258d88afcc747e8e60ca98dbb9eba92c84d01fddf723d44ca4d6743f97c9e8ee"
+  }
+}

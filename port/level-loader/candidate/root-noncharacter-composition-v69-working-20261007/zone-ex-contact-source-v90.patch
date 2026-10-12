@@ -1,0 +1,19 @@
+--- a/port/level-world/canonical_trigger_zone_v22.cpp
++++ b/port/level-world/canonical_trigger_zone_v22.cpp
+@@ -1,4 +1,5 @@
+ #include "canonical_trigger_zone_v22.hpp"
++#include "zone_ex_contacts_v90.hpp"
+ #include <algorithm>
+ namespace dh2::world {
+ namespace {template<class F,class... A>bool required(const F& f,const char* n,std::string& e,A&&... a){if(!f){e=std::string("Required actual TriggerZone ")+n;return false;}return f(std::forward<A>(a)...,e);}}
+@@ -67,8 +68,8 @@
+  if(players<=1||local_only3bc_||resolved_[2]==-1||resolved_[0]==-1)return true;
+  const bool any=touching>0;if(!one_player7b5_){if(!any)return true;if(!start_once(resolved_[0],e))return false;one_player7b5_=1;return show_marker(e);}if(any)return true;one_player7b5_=0;return start_once(resolved_[1],e)&&hide_marker(e);
+ }
+-bool CanonicalTriggerZoneV22::collision_begin(std::uintptr_t object,std::string& e){if(!object)return missing("actual collision GameObject receiver",e);bool inside{};if(!required(services_.zone_inside,"Zone IsInside3970c8",e,object,inside))return false;if(!inside)return true;if(!contacts_.insert(object).second)return true;bool character{},player{};if(!required(services_.is_character,"source virtual24 after insertion",e,object,character))return false;if(!character)return true;++characters3a0_;if(!required(services_.is_player,"source virtual28 after character counter",e,object,player))return false;if(player)++players3a4_;return true;}
+-bool CanonicalTriggerZoneV22::collision_end(std::uintptr_t object,std::string& e){if(!object)return missing("actual collision GameObject receiver",e);bool inside{};if(!required(services_.zone_inside,"Zone IsInside3970c8",e,object,inside))return false;if(inside)return true;auto i=contacts_.find(object);if(i==contacts_.end())return true;contacts_.erase(i);bool character{},player{};if(!required(services_.is_character,"source virtual24 after removal",e,object,character))return false;if(!character)return true;--characters3a0_;if(!required(services_.is_player,"source virtual28 after character counter",e,object,player))return false;if(player)--players3a4_;return true;}
++bool CanonicalTriggerZoneV22::collision_begin(std::uintptr_t object,std::string& e){return zone_ex_contact_v90(contacts_,characters3a0_,players3a4_,object,true,services_.zone_inside,services_.is_character,services_.is_player,e);}
++bool CanonicalTriggerZoneV22::collision_end(std::uintptr_t object,std::string& e){return zone_ex_contact_v90(contacts_,characters3a0_,players3a4_,object,false,services_.zone_inside,services_.is_character,services_.is_player,e);}
+ bool CanonicalTriggerZoneV22::destroy(std::string& e){if(destroyed_)return missing("destruction replay refused",e);destroyed_=true;if(!hide_marker(e))return false;for(auto i=names_.rbegin();i!=names_.rend();++i)i->clear();for(auto index:{1u,0u})if(!required(services_.destroy_network,"actual NetStructTrigger destructor",e,network_[index]))return false;colzone_lease_.reset();return required(services_.destroy_base,"actual Zone/GameObject destructor",e,base_);}
+ CanonicalClassReceiverV1 CanonicalTriggerZoneV22::factory_receiver(std::shared_ptr<CanonicalTriggerZoneV22> o,std::shared_ptr<const void> xml){auto a=canonical_class_receiver_v1(o);a.source_lease=std::move(xml);a.init_post=[o](auto& e){return o->init_post(e);};a.is_game_object=[](bool& v,auto&){v=true;return true;};a.position=[o](auto& p,auto&){std::copy_n(o->base().vector3(0x160),3,p.begin());return true;};a.set_position=[o](const auto& p,bool b,auto& e){return required(o->services_.initialization.set_position,"source SetPosition",e,p.data(),b);};return a;}
+ }

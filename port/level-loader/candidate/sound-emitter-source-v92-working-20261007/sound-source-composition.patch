@@ -1,0 +1,10 @@
+--- a/port/level-loader/catalog_auxiliary_v67.cpp
++++ b/port/level-loader/catalog_auxiliary_v67.cpp
+@@ -269,6 +269,7 @@
+   };
+   inputs.sound=[state](const auto& source,const auto& actual,auto& init,auto& services,auto& e){
+    initialization(state,actual,init);std::weak_ptr<CanonicalSoundEmitterRecordV32> weak=actual;auto lend=state->leaves->sound;services.owner=state->scope.services_owner;services.sound_names=state->leaves->sound_names;using S=world::SoundEmitterServicesV32;
++   services.destroy_base_v92=member(state,weak,lend,&S::destroy_base_v92,"SoundEmitter inherited GameObjectD2");services.platform_stop_v92=member(state,weak,lend,&S::platform_stop_v92,"actual nativeStopSoundBig");
+    services.whole_update=member(state,weak,lend,&S::whole_update,"SoundEmitter actual audio update");services.whole_destroy=member(state,weak,lend,&S::whole_destroy,"SoundEmitter actual audio shutdown");return admit(state,source,actual,"SoundEmitter",e);
+   };
+   // Containers have their separate actual catalog part. No dormant provider

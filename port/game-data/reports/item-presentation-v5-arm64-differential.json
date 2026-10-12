@@ -1,0 +1,20 @@
+{
+  "validation": "PASS",
+  "comparisons": 4031,
+  "actual_metadata_rows": 1322,
+  "actual_metadata_caller_cases": 3966,
+  "name_grammar_cases": 56,
+  "class_requirements_cases": 9,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "ccf5414f68bde55cec0d03c95152d2444969de62f23876264d4fe987b3cf0501",
+  "gold_sha256": "82d8ffac0974fbd5b0e7536d81bc26f3210b15e892887b32be7719efb632505a",
+  "source_sha256": {
+    "port/game-data/item_presentation_v5.hpp": "f296c1caa3bd008fc7de5dc09379657eeb084d57711c1345343575868eee41b3",
+    "port/game-data/item_presentation_v5.cpp": "9684a2cd9c2cea693afedd1c6d3867fae17c34afaff84c486c37f1bd48a77306",
+    "port/game-data/tests/item_presentation_v5_fixture.cpp": "e31c397fbd6ae0b37060df83b5ca8cb911f633d4fab420d31ae267e792ae09ed",
+    "port/game-data/tests/item_presentation_v5_original.py": "dd399b92fed11dbb07b800069448211f790618b4f3b04b76b9403465258851e8",
+    "port/game-data/tests/item_presentation_v5_differential.py": "d362fc28805c5092500e384eaf497de6bbe05fc25e393da30944efd308596db6"
+  },
+  "scope": "Original Item text caller instructions versus O2 native caller bodies.\nActual metadata/class-name fields are used; controlled localization and a\ndeclared integer/string varargs formatter isolate caller grammar/projection.\nThis is not a StringManager or real localized text/GPU parity claim.\n"
+}

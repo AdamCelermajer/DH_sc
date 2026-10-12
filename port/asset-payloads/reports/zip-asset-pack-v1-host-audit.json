@@ -1,0 +1,69 @@
+{
+  "validation": "PASS",
+  "files": 6833,
+  "uncompressed_bytes": 648357710,
+  "guards": 21,
+  "mismatches": 0,
+  "source_sha256": {
+    "port/asset-payloads/zip_asset_pack_v1.hpp": "4fc7ae99288a30a36bcb32009f17b2972ba4dd7a186370b67707446a57fcc602",
+    "port/asset-payloads/zip_asset_pack_v1.cpp": "badd8da04cdcce67778638af09f4cb6ca1f10c3c3e260202faa8274d044d5a8c",
+    "port/asset-payloads/sha256.hpp": "e71f270904420cd05541b66c9f3e78af369a7636f23c7368e1f0d87a94911ab0",
+    "port/asset-payloads/sha256.cpp": "6c1a4f0161c2316e817e2c277480ebf159b700b036f074d39ccaec0cb2c70867",
+    "port/asset-payloads/tests/zip_asset_pack_v1.cpp": "4624549315201b0bb983c5fa8b699a78753cdbd185744a4caa7506c347d78a09",
+    "port/asset-payloads/tests/zip_asset_pack_v1_host.py": "05d1c6d013294bd284d4ffe849b99a8632fed13dfeb28886c39a8bf031d91055"
+  },
+  "original_cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "expected_sha256": "7568d3fea644f6efef986630beba35db8f6488d43707ea5ce2823cd96b8decd3",
+  "guards_sha256": "c31e95a9fd79e8040ce837d7afa5e92e408818ff5f0a5ea05e624169ce60873a",
+  "commands": [
+    {
+      "arguments": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/asset-payloads/zip_asset_pack_v1.cpp",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/asset-payloads/sha256.cpp",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/asset-payloads/tests/zip_asset_pack_v1.cpp",
+        "-lz",
+        "-o",
+        "/home/adampalace/dh2-zip-asset-pack-v1-audit"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/home/adampalace/dh2-zip-asset-pack-v1-audit",
+        "/mnt/c/Users/adamc/Downloads/Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/zip-asset-pack-v1/expected.tsv",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/zip-asset-pack-v1/guards.tsv"
+      ],
+      "returncode": 0,
+      "stdout": "{\"validation\":\"PASS\",\"files\":6833,\"uncompressed_bytes\":648357710,\"guards\":21,\"mismatches\":0}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-zip-asset-pack-v1-audit"
+      ],
+      "returncode": 0,
+      "stdout": "b0f83aab81aa93ca42d7f9b15cd87cdda5362b49190f21ec2fd853c9d600cabe  /home/adampalace/dh2-zip-asset-pack-v1-audit\n",
+      "stderr": ""
+    }
+  ],
+  "sanitizer_findings": 0,
+  "binary_sha256": "b0f83aab81aa93ca42d7f9b15cd87cdda5362b49190f21ec2fd853c9d600cabe",
+  "live_Android_verified": false,
+  "packaged_APK": false
+}

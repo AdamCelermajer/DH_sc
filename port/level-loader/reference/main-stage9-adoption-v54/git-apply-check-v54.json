@@ -1,0 +1,14 @@
+{
+  "command": [
+    "git",
+    "apply",
+    "--check",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\main-stage9-adoption-v54\\current-root-stage9-source-v54.patch"
+  ],
+  "workdir": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc",
+  "exit_code": 0,
+  "output": "",
+  "patch_sha256": "458be8d67bec43f5a11526a033c6a67ca8ce47037faafa22eb4d6afad057b830",
+  "root_mutated": false,
+  "line_endings": "normalized LF unified patch; initial CRLF doubling fixed in successor without modifying source"
+}

@@ -1,0 +1,13 @@
+{
+  "scope": "Valid patch adopted into private V5 actual actor only after full candidate ownership checks; parent coherent rebuild pending.",
+  "inputs": {
+    "header_sha256": "0a1954ecb0d19f800de635c576fd3090e2ea361a8d57653d640e5de96018d0d1",
+    "source_sha256": "6dce8ac669db1ecd139678a6e4f9c5729b7b061a48f810b467a6b8e113afa279"
+  },
+  "patch_sha256": "56abb96da96b1104af4aa3c67cfcfaf172dcff45a8a031055ab6488bbcc19ecf",
+  "applied": true,
+  "lease_contract": "Call with shared_ptr<const void>(canonical_record, canonical_record->actor.get()); compare actual actor pointer, not facade identity; preserves record controlblock lifetime",
+  "error_cleared_on_success": true,
+  "validation_receipt": "reports/character-actual-binding-v39-verified.json",
+  "adoption_receipt": "reports/character-actual-fields-v39-adopted.json"
+}

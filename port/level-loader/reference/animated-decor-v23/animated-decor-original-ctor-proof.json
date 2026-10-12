@@ -1,0 +1,85 @@
+{
+  "validation": "PASS",
+  "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_factory_cases": [
+    {
+      "poison": 0,
+      "derived_bytes": {
+        "0x84": 1,
+        "0x375": 0,
+        "0x376": 1,
+        "0x377": 0,
+        "0x378": 0
+      },
+      "animation_empty": true,
+      "calls": [
+        {
+          "allocation_bytes": 916
+        },
+        {
+          "actual_GameObject_C1_id": 20
+        },
+        {
+          "string_allocation_offset": "0x37c",
+          "bytes": 16
+        }
+      ]
+    },
+    {
+      "poison": 165,
+      "derived_bytes": {
+        "0x84": 1,
+        "0x375": 0,
+        "0x376": 1,
+        "0x377": 165,
+        "0x378": 165
+      },
+      "animation_empty": true,
+      "calls": [
+        {
+          "allocation_bytes": 916
+        },
+        {
+          "actual_GameObject_C1_id": 20
+        },
+        {
+          "string_allocation_offset": "0x37c",
+          "bytes": 16
+        }
+      ]
+    },
+    {
+      "poison": 127,
+      "derived_bytes": {
+        "0x84": 1,
+        "0x375": 0,
+        "0x376": 1,
+        "0x377": 127,
+        "0x378": 127
+      },
+      "animation_empty": true,
+      "calls": [
+        {
+          "allocation_bytes": 916
+        },
+        {
+          "actual_GameObject_C1_id": 20
+        },
+        {
+          "string_allocation_offset": "0x37c",
+          "bytes": 16
+        }
+      ]
+    }
+  ],
+  "property_declaration": [
+    {
+      "qualified_Decor_DeclareProperties": true
+    },
+    {
+      "additional_string_property": "startanim",
+      "offset": "0x37c"
+    }
+  ],
+  "scope": "Whole actual342600 factory instruction flow with explicit allocation/GameObject C1/string allocation interception; exact derived stores and string37c/property declaration; no InitPost/animation claim"
+}

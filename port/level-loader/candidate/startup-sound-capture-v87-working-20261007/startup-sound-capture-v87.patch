@@ -1,0 +1,107 @@
+--- a/port/level-world/canonical_door_v27.hpp
++++ b/port/level-world/canonical_door_v27.hpp
+@@ -3,6 +3,7 @@
+ #include "canonical_class_receiver_bindings_v1.hpp"
+ #include "game_object_initialization_owner_v1.hpp"
+ #include "zone_startup_v76.hpp"
++#include "source_startup_sound_v87.hpp"
+ #include "../game-data/game_object_dictionary_v11.hpp"
+ #include <optional>
+ namespace dh2::world {
+@@ -44,8 +45,8 @@
+  // original derived dispatch, then394bf8 SetPhysicalObject(false). Retain
+  // every allocated native failure prefix in Main's existing resource journal.
+  std::function<bool(CanonicalDoorV27&,std::string&)> create_door_physical;
+- std::function<bool(bool&,std::string&)> sound_manager_present;
+- std::function<bool(std::int32_t,std::string&)> load_sound;
++ // Captured actual nullable manager, held through each reached LoadSound.
++ std::function<bool(StartupSoundManagerBorrowV87&,std::string&)> borrow_sound_manager;
+  // Actual controller virtual20/name/arg2/arg3/stackarg4, never fake animation.
+  std::function<bool(CanonicalDoorV27&,std::uintptr_t,const char*,bool,bool,bool,std::string&)> play_idle_animation;
+  std::function<bool(CanonicalDoorV27&,std::uintptr_t,bool,std::string&)> physical_filter;
+--- a/port/level-world/canonical_door_v27.cpp
++++ b/port/level-world/canonical_door_v27.cpp
+@@ -83,17 +83,18 @@
+  if(collision3a5_){if(!leaves.owner||!leaves.create_door_physical)return required_door_v77("actual Door physical constructor/assignment",e);if(!leaves.create_door_physical(*this,e))return false;}
+  if(!table_id3a0_)return required_door_v77("produced source3a0",e);
+  if(*table_id3a0_==-1)return true;
+- if(!leaves.owner||!leaves.sound_manager_present)return required_door_v77("actual VoxSoundManager instance query",e);
+- bool sound{};if(!leaves.sound_manager_present(sound,e))return false;if(!sound)return true;
++ if(!leaves.owner||!leaves.borrow_sound_manager)return required_door_v77("actual nullable VoxSoundManager snapshot",e);
++ StartupSoundManagerBorrowV87 sound;if(!leaves.borrow_sound_manager(sound,e))return false;
++ if(!sound.valid_nullable())return required_door_v77("actual captured SoundManager owner/method",e);
++ if(!sound)return true;
+  DoorTableBorrowV77 first;if(!borrow_door_table_v77(leaves,first,e))return false;
+  const auto* row=door_row_v77(first,*table_id3a0_,e);if(!row)return false;
+- if(!leaves.load_sound)return required_door_v77("Vox LoadSound3699fc",e);
+- if(!leaves.load_sound(row->sound10,e))return false; // source10 first
++ if(!sound.load_sound(row->sound10,e))return false; // source10 first
+  // Original reloads3a0 and table base after the first sound callback.
+  DoorTableBorrowV77 second;if(!borrow_door_table_v77(leaves,second,e))return false;
+  if(!table_id3a0_)return required_door_v77("retained source3a0 after LoadSound",e);
+  row=door_row_v77(second,*table_id3a0_,e);if(!row)return false;
+- return leaves.load_sound(row->sound_c,e); // sourcec second, even -1 UID
++ return sound.load_sound(row->sound_c,e); // sourcec second, even -1 UID
+ }
+ bool CanonicalDoorV27::startup_state_v77(bool opened,std::string& e){
+  const auto& leaves=services_.startup;const auto* visual_slot=base_.pointer(0x2d8);const auto* physical_slot=base_.pointer(0x2dc);
+--- a/port/level-world/canonical_trigger_object_v28.hpp
++++ b/port/level-world/canonical_trigger_object_v28.hpp
+@@ -5,6 +5,7 @@
+ #include "canonical_trigger_zone_v22.hpp" // same source398da4 network projection
+ #include <optional>
+ #include "zone_startup_v76.hpp"
++#include "source_startup_sound_v87.hpp"
+ #include "condition_data_init_v3.hpp"
+ #include "../game-data/game_object_dictionary_v11.hpp"
+ #include <script_manager_owner_v52.hpp>
+@@ -31,8 +32,8 @@
+  // Actual40-byte46f2f0 resource C1 +derived dispatch+394bf8(false), arguments
+  // App44 world, THIS,1,stack0/0/0/0/2/0xffff/1; journal every failed prefix.
+  std::function<bool(CanonicalTriggerObjectV28&,std::string&)> create_physical;
+- std::function<bool(bool&,std::string&)> sound_manager_present;
+- std::function<bool(std::int32_t,std::string&)> load_sound;
++ // Captured actual nullable manager, held through each reached LoadSound.
++ std::function<bool(StartupSoundManagerBorrowV87&,std::string&)> borrow_sound_manager;
+  // GameObject38ef60 with actual rowCString and exact path prefix. This is
+  // existing object Lua-resource setup, not the ScriptManager80 scheduler.
+  std::function<bool(CanonicalTriggerObjectV28&,const char*,const char*,std::string&)> load_external_script;
+--- a/port/level-world/canonical_trigger_object_v28.cpp
++++ b/port/level-world/canonical_trigger_object_v28.cpp
+@@ -98,12 +98,12 @@
+  }
+  if(!leaves.owner||!leaves.create_physical)return required_trigger_startup_v78("genuine resource constructor/assignment",e);
+  if(!leaves.create_physical(*this,e))return false;
+- if(!leaves.sound_manager_present)return required_trigger_startup_v78("actual VoxSoundManager query",e);
+- bool sound{};if(!leaves.sound_manager_present(sound,e))return false;
++ if(!leaves.borrow_sound_manager)return required_trigger_startup_v78("actual nullable VoxSoundManager snapshot",e);
++ StartupSoundManagerBorrowV87 sound;if(!leaves.borrow_sound_manager(sound,e))return false;
++ if(!sound.valid_nullable())return required_trigger_startup_v78("actual captured SoundManager owner/method",e);
+  if(sound){TriggerObjectTableBorrowV78 current;if(!borrow_trigger_table_v78(leaves,current,e))return false;
+   const auto* row=trigger_row_v78(current,data_id730_,e);if(!row)return false;
+-  if(!leaves.load_sound)return required_trigger_startup_v78("Vox LoadSound3699fc",e);
+-  if(!leaves.load_sound(row->sound10,e))return false;
++  if(!sound.load_sound(row->sound10,e))return false;
+  }
+  // Source reborrows730/table after sound; even absent sound manager reaches
+  // LoadExternalScript(rowCStringc,"data/scripts/objects/"). No scheduling.
+--- a/port/level-loader/catalog_auxiliary_v67.cpp
++++ b/port/level-loader/catalog_auxiliary_v67.cpp
+@@ -209,7 +209,7 @@
+    using D=world::DoorStartupServicesV77;
+ #define DOOR_STARTUP(name) services.startup.name=door_startup_member_v77(state,weak,lend,&D::name,#name)
+    DOOR_STARTUP(borrow_tables);DOOR_STARTUP(register_animation_callbacks);DOOR_STARTUP(apply_mesh_box);DOOR_STARTUP(create_door_physical);
+-   DOOR_STARTUP(sound_manager_present);DOOR_STARTUP(load_sound);DOOR_STARTUP(play_idle_animation);DOOR_STARTUP(physical_filter);DOOR_STARTUP(flag_floor_dead_end);DOOR_STARTUP(source_delete);
++   DOOR_STARTUP(borrow_sound_manager);DOOR_STARTUP(play_idle_animation);DOOR_STARTUP(physical_filter);DOOR_STARTUP(flag_floor_dead_end);DOOR_STARTUP(source_delete);
+ #undef DOOR_STARTUP
+    services.startup.zone.set_bounding_box=[state,weak,lend](auto& base,const float* box,bool flag,auto& error){AuxiliaryDeliveryV67 d;std::shared_ptr<CanonicalDoorRecordV27> r;if(!borrow(*state,d,error)||!receiver(weak,r,error))return false;world::DoorServicesV27 current;if(!lend(d,*r->owner,current,error))return false;
+     if(!same_owner(current.owner,state->scope.services_owner)||!same_owner(current.startup.zone.owner,state->scope.services_owner)||!current.startup.zone.set_bounding_box){error="Required genuine SAME Door Zone bounding service";return false;}
+@@ -230,7 +230,7 @@
+    services.startup.owner=state->scope.services_owner;services.startup.zone.owner=state->scope.services_owner;using T=world::TriggerObjectStartupServicesV78;
+ #define TRIGGER_OBJECT_STARTUP(name) services.startup.name=trigger_object_startup_member_v78(state,weak,lend,&T::name,#name)
+    TRIGGER_OBJECT_STARTUP(borrow_tables);TRIGGER_OBJECT_STARTUP(borrow_script_manager);TRIGGER_OBJECT_STARTUP(borrow_conditions);
+-   TRIGGER_OBJECT_STARTUP(play_idle_animation);TRIGGER_OBJECT_STARTUP(create_physical);TRIGGER_OBJECT_STARTUP(sound_manager_present);TRIGGER_OBJECT_STARTUP(load_sound);TRIGGER_OBJECT_STARTUP(load_external_script);TRIGGER_OBJECT_STARTUP(source_delete);
++   TRIGGER_OBJECT_STARTUP(play_idle_animation);TRIGGER_OBJECT_STARTUP(create_physical);TRIGGER_OBJECT_STARTUP(borrow_sound_manager);TRIGGER_OBJECT_STARTUP(load_external_script);TRIGGER_OBJECT_STARTUP(source_delete);
+ #undef TRIGGER_OBJECT_STARTUP
+    services.startup.zone.set_bounding_box=[state,weak,lend](auto& base,const float* box,bool flag,auto& error){AuxiliaryDeliveryV67 d;std::shared_ptr<CanonicalTriggerObjectRecordV28> r;if(!borrow(*state,d,error)||!receiver(weak,r,error))return false;world::TriggerObjectServicesV28 current;if(!lend(d,*r->owner,current,error))return false;
+     if(!same_owner(current.owner,state->scope.services_owner)||!same_owner(current.startup.zone.owner,state->scope.services_owner)||!current.startup.zone.set_bounding_box){error="Required genuine SAME TriggerObject Zone bounding service";return false;}

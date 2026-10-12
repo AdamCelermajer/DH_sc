@@ -1,0 +1,8 @@
+{
+  "validation": "SYNTAX_PASS_PROBE_PREPARED_NOT_LINKED_OR_RUN",
+  "packet": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\generic-actor-image-binding-v45-103a9a93eb53732f.zip",
+  "sha256": "484380bf626466c472b8a3b5094743e67daec05b0b9dc8d6ad6eeb47e88edc9f",
+  "member_count": 11,
+  "readback_verified": true,
+  "coherent_parent_execution_required": true
+}

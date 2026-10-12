@@ -1,0 +1,8 @@
+--- port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp
++++ port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp
+@@
+ #include <projectile_precache_source_v96.hpp>
++#include "projectile_precache_campaign_v96.hpp"
+@@
+-  preload.projectile_sources=[weak,validate=preload.validate_current](ProjectilePrecacheSourcesV96& out,std::string& e){auto world=weak.lock();if(!validate(e)||!world||!world->projectile_precache_v96){if(e.empty())e="Required actual ProjectileManager pool/Create/DeSpawn loan AFTER Item145 prefix";return false;}out=*world->projectile_precache_v96;auto native=out.validate_current;out.validate_current=[validate,native](std::string& e){return validate(e)&&native&&native(e);};return true;};
++  preload.projectile_sources=[weak,level=std::weak_ptr<CanonicalLevelContextV1>(actual)](ProjectilePrecacheSourcesV96& out,std::string& e){return lend_source_campaign_projectile_precache_v96(weak,level,out,e);};

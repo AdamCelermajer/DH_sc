@@ -1,0 +1,15 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/design_pycst.bin",
+  "bytes": 3999,
+  "sha256": "db014f9832c1d9e60c62272a2ee67d15568d003c191ae32bbce070cb49056931",
+  "source_asset": "port/android-native/app/src/main/assets/data/design_pycst.bin",
+  "group": "CharacterDesign",
+  "constants": {
+    "PlayerInterPenetration_Delay": 1500,
+    "PlayerInterPenetration_Dist": 150
+  },
+  "parser": "port/android-native/tools/bundle_locomotion.py",
+  "parser_sha256": "12b05d875aa280543662480901a038e0edb040428477e9a08da345055c521320",
+  "scope": "Exact original cache stream and bundled asset identity; dynamic native design lookup remains required."
+}

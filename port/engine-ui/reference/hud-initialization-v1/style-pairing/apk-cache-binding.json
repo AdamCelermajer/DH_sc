@@ -1,0 +1,14 @@
+{
+  "apk_path": "C:\\Users\\adamc\\Downloads\\dungeonhunter2\\Dungeon-Hunter-2-HD-v1-0-2.apk",
+  "apk_sha256": "32c2d027b585a42547311cd95da6a3975fdb3174e663e513d42a7f49d1a4c200",
+  "manifest_package": "com.gameloft.android.GAND.GloftD2SS",
+  "version_code": 102,
+  "version_name": "1.0.2",
+  "manifest_tool": "Android SDK build-tools36.0.0 aapt2 dump badging",
+  "elf_member": "lib/armeabi-v7a/libDungeonHunter2.so",
+  "elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "elf_byte_identical_to_local": true,
+  "cache_path": "C:\\Users\\adamc\\Downloads\\dungeonhunter2\\Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "scope": "The library is verified from the canonical APK. Cache and APK package/version naming agree; there is no cryptographic signed producer assertion connecting separately distributed cache ZIP to APK."
+}

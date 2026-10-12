@@ -1,0 +1,2967 @@
+{
+  "validation": "PASS",
+  "original_engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_objective_constructor_reset_types": 11,
+  "original_event_reader_rows": 66,
+  "original_reader_bytes": 1204,
+  "original_manager_c1": [
+    0,
+    0,
+    0
+  ],
+  "original_whole_manager_load_events": 66,
+  "original_nested_objectives": 66,
+  "observed_objective_types": [
+    0,
+    4,
+    5
+  ],
+  "original_nonempty_load_noop": true,
+  "stream_delivery_is_fixture": true,
+  "functional_compile_register_effects_verified": false,
+  "types": [
+    {
+      "type": 0,
+      "size": 48,
+      "vtable": "0x969860",
+      "reset": "0x47a388",
+      "constructed_hex": "609896000000000000a5a5a5005000020000000000a5a5a5a4989600a5a5a5a500000000000000000000000000000000",
+      "reset_hex": "609896000000000000a5a5a5005000020000000000a5a5a5a4989600a5a5a5a500000000000000000000000000000000",
+      "allocations": [
+        {
+          "identity": 34603008,
+          "size": 48,
+          "hint": 0
+        }
+      ]
+    },
+    {
+      "type": 1,
+      "size": 48,
+      "vtable": "0x969808",
+      "reset": "0x47a388",
+      "constructed_hex": "089896000100000000a5a5a5005000020000000000a5a5a54c989600a5a5a5a500000000000000000000000000000000",
+      "reset_hex": "089896000100000000a5a5a5005000020000000000a5a5a54c989600a5a5a5a500000000000000000000000000000000",
+      "allocations": [
+        {
+          "identity": 34603056,
+          "size": 48,
+          "hint": 0
+        }
+      ]
+    },
+    {
+      "type": 2,
+      "size": 40,
+      "vtable": "0x9697b0",
+      "reset": "0x47a388",
+      "constructed_hex": "b09796000200000000a5a5a5005000020000000000a5a5a5f4979600a5a5a5a500000000ffffffff",
+      "reset_hex": "b09796000200000000a5a5a5005000020000000000a5a5a5f4979600a5a5a5a500000000ffffffff",
+      "allocations": [
+        {
+          "identity": 34603104,
+          "size": 40,
+          "hint": 0
+        }
+      ]
+    },
+    {
+      "type": 3,
+      "size": 40,
+      "vtable": "0x969758",
+      "reset": "0x47a388",
+      "constructed_hex": "589796000300000000a5a5a5005000020000000000a5a5a59c979600a5a5a5a500000000ffffffff",
+      "reset_hex": "589796000300000000a5a5a5005000020000000000a5a5a59c979600a5a5a5a500000000ffffffff",
+      "allocations": [
+        {
+          "identity": 34603152,
+          "size": 40,
+          "hint": 0
+        }
+      ]
+    },
+    {
+      "type": 4,
+      "size": 36,
+      "vtable": "0x969700",
+      "reset": "0x47a37c",
+      "constructed_hex": "009796000400000000a5a5a5005000020000000000a5a5a544979600a5a5a5a500000000",
+      "reset_hex": "009796000400000000a5a5a5005000020000000000a5a5a544979600a5a5a5a578563412",
+      "allocations": [
+        {
+          "identity": 34603200,
+          "size": 36,
+          "hint": 0
+        }
+      ]
+    },
+    {
+      "type": 5,
+      "size": 44,
+      "vtable": "0x969650",
+      "reset": "0x47a388",
+      "constructed_hex": "509696000500000000a5a5a5005000020000000000a5a5a594969600a5a5a5a500000000ffffffff00000000",
+      "reset_hex": "509696000500000000a5a5a5005000020000000000a5a5a594969600a5a5a5a500000000ffffffff00000000",
+      "allocations": [
+        {
+          "identity": 34603248,
+          "size": 44,
+          "hint": 0
+        }
+      ]
+    },
+    {
+      "type": 6,
+      "size": 24,
+      "vtable": "0x969610",
+      "reset": "0x47a37c",
+      "constructed_hex": "109696000600000000a5a5a5005000020000000000a5a5a5",
+      "reset_hex": "109696000600000000a5a5a5005000020000000000a5a5a5",
+      "allocations": [
+        {
+          "identity": 34603296,
+          "size": 24,
+          "hint": 0
+        }
+      ]
+    },
+    {
+      "type": 7,
+      "size": 40,
+      "vtable": "0x9695b8",
+      "reset": "0x47a388",
+      "constructed_hex": "b89596000700000000a5a5a5005000020000000000a5a5a5fc959600a5a5a5a500000000ffffffff",
+      "reset_hex": "b89596000700000000a5a5a5005000020000000000a5a5a5fc959600a5a5a5a500000000ffffffff",
+      "allocations": [
+        {
+          "identity": 34603328,
+          "size": 40,
+          "hint": 0
+        }
+      ]
+    },
+    {
+      "type": 8,
+      "size": 40,
+      "vtable": "0x969560",
+      "reset": "0x47a388",
+      "constructed_hex": "609596000800000000a5a5a5005000020000000000a5a5a5a4959600a5a5a5a500000000ffffffff",
+      "reset_hex": "609596000800000000a5a5a5005000020000000000a5a5a5a4959600a5a5a5a500000000ffffffff",
+      "allocations": [
+        {
+          "identity": 34603376,
+          "size": 40,
+          "hint": 0
+        }
+      ]
+    },
+    {
+      "type": 9,
+      "size": 40,
+      "vtable": "0x969508",
+      "reset": "0x47a388",
+      "constructed_hex": "089596000900000000a5a5a5005000020000000000a5a5a54c959600a5a5a5a500000000ffffffff",
+      "reset_hex": "089596000900000000a5a5a5005000020000000000a5a5a54c959600a5a5a5a500000000ffffffff",
+      "allocations": [
+        {
+          "identity": 34603424,
+          "size": 40,
+          "hint": 0
+        }
+      ]
+    },
+    {
+      "type": 10,
+      "size": 48,
+      "vtable": "0x969458",
+      "reset": "0x47a388",
+      "constructed_hex": "589496000a00000000a5a5a5005000020000000000a5a5a59c949600a5a5a5a500000000000000000000000000000000",
+      "reset_hex": "589496000a00000000a5a5a5005000020000000000a5a5a59c949600a5a5a5a500000000000000000000000000000000",
+      "allocations": [
+        {
+          "identity": 34603472,
+          "size": 48,
+          "hint": 0
+        }
+      ]
+    }
+  ],
+  "rows": [
+    {
+      "index": 0,
+      "field4": 0,
+      "script": "AbbeyScripts.AbbeyB_inspect_dead_body",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            440,
+            0,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 4,
+      "end": 85
+    },
+    {
+      "index": 1,
+      "field4": 0,
+      "script": "AbbeyScripts.AbbeyB_inspect_dead_body",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            441,
+            0,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 85,
+      "end": 166
+    },
+    {
+      "index": 2,
+      "field4": 0,
+      "script": "AbbeyScripts.AbbeyB_inspect_dead_body",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            442,
+            0,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 166,
+      "end": 247
+    },
+    {
+      "index": 3,
+      "field4": 1,
+      "script": "AbbeyScripts.Monk_a",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            2,
+            1,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 247,
+      "end": 310
+    },
+    {
+      "index": 4,
+      "field4": 1,
+      "script": "AbbeyScripts.Monk_b",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            3,
+            1,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 310,
+      "end": 373
+    },
+    {
+      "index": 5,
+      "field4": 1,
+      "script": "AbbeyScripts.Monk_c",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            4,
+            1,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 373,
+      "end": 436
+    },
+    {
+      "index": 6,
+      "field4": 1,
+      "script": "AbbeyScripts.Monk_d",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            5,
+            1,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 436,
+      "end": 499
+    },
+    {
+      "index": 7,
+      "field4": 1,
+      "script": "AbbeyScripts.Rene_talk",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            320,
+            1,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 499,
+      "end": 565
+    },
+    {
+      "index": 8,
+      "field4": 21,
+      "script": "GothicusCastle01Scripts.AssassinReturn1",
+      "objectives": [
+        {
+          "words": [
+            4,
+            4294967295,
+            4294967295,
+            21,
+            13,
+            0
+          ],
+          "string10": "",
+          "string18": "_prim_QuestMoveinZone_AssassinTeleport01"
+        }
+      ],
+      "begin": 565,
+      "end": 688
+    },
+    {
+      "index": 9,
+      "field4": 21,
+      "script": "GothicusCastle01Scripts.AssassinReturn2",
+      "objectives": [
+        {
+          "words": [
+            4,
+            4294967295,
+            4294967295,
+            21,
+            13,
+            0
+          ],
+          "string10": "",
+          "string18": "_prim_QuestMoveinZone_AssassinTeleport02"
+        }
+      ],
+      "begin": 688,
+      "end": 811
+    },
+    {
+      "index": 10,
+      "field4": 38,
+      "script": "RedDesertHubScripts.bandit_quest_success",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            343,
+            38,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 811,
+      "end": 895
+    },
+    {
+      "index": 11,
+      "field4": 38,
+      "script": "RedDesertHubScripts.Wanderer_a",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            337,
+            38,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 895,
+      "end": 969
+    },
+    {
+      "index": 12,
+      "field4": 38,
+      "script": "RedDesertHubScripts.Wanderer_b",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            338,
+            38,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 969,
+      "end": 1043
+    },
+    {
+      "index": 13,
+      "field4": 38,
+      "script": "RedDesertHubScripts.Sandwalker_a",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            339,
+            38,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 1043,
+      "end": 1119
+    },
+    {
+      "index": 14,
+      "field4": 38,
+      "script": "RedDesertHubScripts.Sandwalker_b",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            340,
+            38,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 1119,
+      "end": 1195
+    },
+    {
+      "index": 15,
+      "field4": 38,
+      "script": "RedDesertHubScripts.tarmine_quest_success",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            345,
+            38,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 1195,
+      "end": 1280
+    },
+    {
+      "index": 16,
+      "field4": 38,
+      "script": "RedDesertHubScripts.sandworm_quest_success",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            347,
+            38,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 1280,
+      "end": 1366
+    },
+    {
+      "index": 17,
+      "field4": 24,
+      "script": "Crypt01Scripts.crypt2_boss_opendoor",
+      "objectives": [
+        {
+          "words": [
+            0,
+            4294967295,
+            4294967295,
+            36,
+            24,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 1366,
+      "end": 1445
+    },
+    {
+      "index": 18,
+      "field4": 12,
+      "script": "DemoScripts.Wave_b",
+      "objectives": [
+        {
+          "words": [
+            0,
+            4294967295,
+            4294967295,
+            127,
+            2,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 1445,
+      "end": 1507
+    },
+    {
+      "index": 19,
+      "field4": 4,
+      "script": "DarkwoodScripts.OpenRedDoorsToRedDesert",
+      "objectives": [
+        {
+          "words": [
+            0,
+            4294967295,
+            4294967295,
+            57,
+            4,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 1507,
+      "end": 1590
+    },
+    {
+      "index": 20,
+      "field4": 4,
+      "script": "DarkwoodScripts.Hellman_aftInit",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            215,
+            4,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 1590,
+      "end": 1665
+    },
+    {
+      "index": 21,
+      "field4": 12,
+      "script": "EarthTemple01Scripts.Door_A_open",
+      "objectives": [
+        {
+          "words": [
+            0,
+            4294967295,
+            4294967295,
+            124,
+            12,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 1665,
+      "end": 1741
+    },
+    {
+      "index": 22,
+      "field4": 14,
+      "script": "EarthTemple03Scripts.Door_C_open",
+      "objectives": [
+        {
+          "words": [
+            0,
+            4294967295,
+            4294967295,
+            125,
+            14,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 1741,
+      "end": 1817
+    },
+    {
+      "index": 23,
+      "field4": 12,
+      "script": "EarthTemple02Scripts.Midboss_defeated",
+      "objectives": [
+        {
+          "words": [
+            0,
+            4294967295,
+            4294967295,
+            116,
+            13,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 1817,
+      "end": 1898
+    },
+    {
+      "index": 24,
+      "field4": 4,
+      "script": "DarkwoodScripts.BanditHunt_Success",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            174,
+            38,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 1898,
+      "end": 1976
+    },
+    {
+      "index": 25,
+      "field4": 4,
+      "script": "DarkwoodScripts.GCV1_guard_a",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            176,
+            4,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 1976,
+      "end": 2048
+    },
+    {
+      "index": 26,
+      "field4": 4,
+      "script": "DarkwoodScripts.GCV1_guard_b",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            177,
+            4,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 2048,
+      "end": 2120
+    },
+    {
+      "index": 27,
+      "field4": 4,
+      "script": "DarkwoodScripts.GCV2_guard_a",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            178,
+            4,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 2120,
+      "end": 2192
+    },
+    {
+      "index": 28,
+      "field4": 4,
+      "script": "DarkwoodScripts.GCV2_guard_b",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            179,
+            4,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 2192,
+      "end": 2264
+    },
+    {
+      "index": 29,
+      "field4": 4,
+      "script": "DarkwoodScripts.GCV4_gaurd_a",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            180,
+            4,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 2264,
+      "end": 2336
+    },
+    {
+      "index": 30,
+      "field4": 4,
+      "script": "DarkwoodScripts.P1_merchant_b_initial",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            181,
+            4,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 2336,
+      "end": 2417
+    },
+    {
+      "index": 31,
+      "field4": 4,
+      "script": "DarkwoodScripts.P1_merchant_f",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            182,
+            4,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 2417,
+      "end": 2490
+    },
+    {
+      "index": 32,
+      "field4": 4,
+      "script": "DarkwoodScripts.GCV1_villager_a",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            183,
+            4,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 2490,
+      "end": 2565
+    },
+    {
+      "index": 33,
+      "field4": 4,
+      "script": "DarkwoodScripts.GCV1_villager_b",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            184,
+            4,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 2565,
+      "end": 2640
+    },
+    {
+      "index": 34,
+      "field4": 4,
+      "script": "DarkwoodScripts.GCV1_villager_c",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            185,
+            4,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 2640,
+      "end": 2715
+    },
+    {
+      "index": 35,
+      "field4": 4,
+      "script": "DarkwoodScripts.GCV1_villager_d",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            186,
+            4,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 2715,
+      "end": 2790
+    },
+    {
+      "index": 36,
+      "field4": 4,
+      "script": "DarkwoodScripts.GCV1_villager_e",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            187,
+            4,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 2790,
+      "end": 2865
+    },
+    {
+      "index": 37,
+      "field4": 4,
+      "script": "DarkwoodScripts.GCV1_villager_f",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            188,
+            4,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 2865,
+      "end": 2940
+    },
+    {
+      "index": 38,
+      "field4": 4,
+      "script": "DarkwoodScripts.GCV1_villager_g",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            189,
+            4,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 2940,
+      "end": 3015
+    },
+    {
+      "index": 39,
+      "field4": 4,
+      "script": "DarkwoodScripts.GCV2_villager_a",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            190,
+            4,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 3015,
+      "end": 3090
+    },
+    {
+      "index": 40,
+      "field4": 4,
+      "script": "DarkwoodScripts.GCV2_villager_b",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            191,
+            4,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 3090,
+      "end": 3165
+    },
+    {
+      "index": 41,
+      "field4": 4,
+      "script": "DarkwoodScripts.GCV2_villager_c",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            192,
+            4,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 3165,
+      "end": 3240
+    },
+    {
+      "index": 42,
+      "field4": 4,
+      "script": "DarkwoodScripts.GCV2_villager_d",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            193,
+            4,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 3240,
+      "end": 3315
+    },
+    {
+      "index": 43,
+      "field4": 4,
+      "script": "DarkwoodScripts.GCV2_villager_e",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            194,
+            4,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 3315,
+      "end": 3390
+    },
+    {
+      "index": 44,
+      "field4": 4,
+      "script": "DarkwoodScripts.GCV3_villager_e",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            199,
+            4,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 3390,
+      "end": 3465
+    },
+    {
+      "index": 45,
+      "field4": 4,
+      "script": "DarkwoodScripts.GCV3_villager_b",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            196,
+            4,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 3465,
+      "end": 3540
+    },
+    {
+      "index": 46,
+      "field4": 4,
+      "script": "DarkwoodScripts.GCV3_villager_c",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            197,
+            4,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 3540,
+      "end": 3615
+    },
+    {
+      "index": 47,
+      "field4": 4,
+      "script": "DarkwoodScripts.GCV3_villager_d",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            198,
+            4,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 3615,
+      "end": 3690
+    },
+    {
+      "index": 48,
+      "field4": 4,
+      "script": "DarkwoodScripts.GCV4_villager_a",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            200,
+            4,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 3690,
+      "end": 3765
+    },
+    {
+      "index": 49,
+      "field4": 4,
+      "script": "DarkwoodScripts.GCV4_villager_b",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            201,
+            4,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 3765,
+      "end": 3840
+    },
+    {
+      "index": 50,
+      "field4": 4,
+      "script": "DarkwoodScripts.GCV4_villager_c",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            202,
+            4,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 3840,
+      "end": 3915
+    },
+    {
+      "index": 51,
+      "field4": 22,
+      "script": "GothicusCastle02Scripts.GothicusB_survivor_a",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            204,
+            22,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 3915,
+      "end": 4003
+    },
+    {
+      "index": 52,
+      "field4": 22,
+      "script": "GothicusCastle02Scripts.GothicusB_survivor_b",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            205,
+            22,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 4003,
+      "end": 4091
+    },
+    {
+      "index": 53,
+      "field4": 22,
+      "script": "GothicusCastle02Scripts.GothicusB_survivor_c",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            206,
+            22,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 4091,
+      "end": 4179
+    },
+    {
+      "index": 54,
+      "field4": 22,
+      "script": "GothicusCastle02Scripts.GothicusB_survivor_d",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            207,
+            22,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 4179,
+      "end": 4267
+    },
+    {
+      "index": 55,
+      "field4": 26,
+      "script": "IcyCaverns02Scripts.monk_c",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            243,
+            26,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 4267,
+      "end": 4337
+    },
+    {
+      "index": 56,
+      "field4": 26,
+      "script": "IcyCaverns02Scripts.monk_d",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            244,
+            26,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 4337,
+      "end": 4407
+    },
+    {
+      "index": 57,
+      "field4": 28,
+      "script": "IcyHubScripts.quest_cave3_success",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            236,
+            28,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 4407,
+      "end": 4484
+    },
+    {
+      "index": 58,
+      "field4": 28,
+      "script": "IcyHubScripts.quest_cave1_success",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            238,
+            28,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 4484,
+      "end": 4561
+    },
+    {
+      "index": 59,
+      "field4": 28,
+      "script": "IcyHubScripts.quest_cave2_success",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            240,
+            28,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 4561,
+      "end": 4638
+    },
+    {
+      "index": 60,
+      "field4": 28,
+      "script": "IcyHubScripts.monk_a",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            245,
+            28,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 4638,
+      "end": 4702
+    },
+    {
+      "index": 61,
+      "field4": 28,
+      "script": "IcyHubScripts.monk_b",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            246,
+            28,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 4702,
+      "end": 4766
+    },
+    {
+      "index": 62,
+      "field4": 41,
+      "script": "SwampScripts.Swamp_Camp_PrisonerB_b",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            444,
+            41,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 4766,
+      "end": 4845
+    },
+    {
+      "index": 63,
+      "field4": 41,
+      "script": "SwampScripts.Swamp_Camp_PrisonerC_b",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            445,
+            41,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 4845,
+      "end": 4924
+    },
+    {
+      "index": 64,
+      "field4": 45,
+      "script": "DarkwoodScripts.Inspect_grave_edward",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            439,
+            45,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 4924,
+      "end": 5004
+    },
+    {
+      "index": 65,
+      "field4": 45,
+      "script": "DarkwoodScripts.Inspect_grave_king",
+      "objectives": [
+        {
+          "words": [
+            5,
+            4294967295,
+            4294967295,
+            446,
+            45,
+            1
+          ],
+          "string10": "",
+          "string18": ""
+        }
+      ],
+      "begin": 5004,
+      "end": 5082
+    }
+  ],
+  "events": [
+    {
+      "id": 0,
+      "name": "ABBEY_body_a",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34614136,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "ABBEY_body_b",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34614280,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "ABBEY_body_c",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34614424,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "ABBEY_monk_a",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34614552,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "ABBEY_monk_b",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34614680,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "ABBEY_monk_c",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34614808,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "ABBEY_monk_d",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34614936,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "ABBEY_rene",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34615064,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "AssassinTeleport1a",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 4,
+          "size": 36,
+          "defined_words": {
+            "0x4": 4,
+            "0xc": 34615208,
+            "0x10": 0,
+            "0x20": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "AssassinTeleport2a",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 4,
+          "size": 36,
+          "defined_words": {
+            "0x4": 4,
+            "0xc": 34615384,
+            "0x10": 0,
+            "0x20": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "BLOODSAND_Bandit_done",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34615560,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "name": "BLOODSAND_NPC_001",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34615688,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "name": "BLOODSAND_NPC_002",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34615816,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "name": "BLOODSAND_NPC_003",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34615960,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "name": "BLOODSAND_NPC_004",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34616104,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "name": "BLOODSAND_Tar_done",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34616248,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "name": "BLOODSAND_Worm_done",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34616392,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "name": "Crypt_boss_door_open",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 0,
+          "size": 48,
+          "defined_words": {
+            "0x4": 0,
+            "0xc": 34616536,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 0,
+            "0x28": 0,
+            "0x2c": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "name": "DEMO_apple_wave_1",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 0,
+          "size": 48,
+          "defined_words": {
+            "0x4": 0,
+            "0xc": 34616664,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 0,
+            "0x28": 0,
+            "0x2c": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "name": "DW_Statue",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 0,
+          "size": 48,
+          "defined_words": {
+            "0x4": 0,
+            "0xc": 34616808,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 0,
+            "0x28": 0,
+            "0x2c": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "name": "DW_UW_Hellman",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34616936,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "name": "EL_door_A",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 0,
+          "size": 48,
+          "defined_words": {
+            "0x4": 0,
+            "0xc": 34617080,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 0,
+            "0x28": 0,
+            "0x2c": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "name": "EL_door_C",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 0,
+          "size": 48,
+          "defined_words": {
+            "0x4": 0,
+            "0xc": 34617224,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 0,
+            "0x28": 0,
+            "0x2c": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "name": "EL_midboss_killed",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 0,
+          "size": 48,
+          "defined_words": {
+            "0x4": 0,
+            "0xc": 34617368,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 0,
+            "0x28": 0,
+            "0x2c": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "name": "GCV_BanditHunt_Success",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34617512,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "name": "GCV_GUARD_P1_001",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34617640,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "name": "GCV_GUARD_P1_002",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34617768,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "name": "GCV_GUARD_P2_001",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34617896,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "name": "GCV_GUARD_P2_002",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34618024,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "name": "GCV_GUARD_P4_001",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34618152,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "name": "GCV_P1_001",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34618296,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "name": "GCV_P1_002",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34618424,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "name": "GCV_P1_003",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34618552,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "name": "GCV_P1_004",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34618680,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "name": "GCV_P1_005",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34618808,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "name": "GCV_P1_006",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34618936,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "name": "GCV_P1_007",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34619064,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "name": "GCV_P1_008",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34619192,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "name": "GCV_P1_009",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34619320,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "name": "GCV_P2_001",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34619448,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "name": "GCV_P2_002",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34619576,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "name": "GCV_P2_003",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34619704,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "name": "GCV_P2_004",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34619832,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "name": "GCV_P2_005",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34619960,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "name": "GCV_P3_001",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34620088,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 45,
+      "name": "GCV_P3_002",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34620216,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 46,
+      "name": "GCV_P3_003",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34620344,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 47,
+      "name": "GCV_P3_004",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34620472,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 48,
+      "name": "GCV_P4_001",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34620600,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "name": "GCV_P4_002",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34620728,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 50,
+      "name": "GCV_P4_003",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34620856,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "name": "Gothicus_survivor_a",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34621000,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "name": "Gothicus_survivor_b",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34621144,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 53,
+      "name": "Gothicus_survivor_c",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34621288,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 54,
+      "name": "Gothicus_survivor_d",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34621432,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 55,
+      "name": "IH_NPC_CAVE_CULTIST_001",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34621560,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 56,
+      "name": "IH_NPC_CAVE_CULTIST_002",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34621688,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 57,
+      "name": "IH_NPC_Comb_Complete",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34621832,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 58,
+      "name": "IH_NPC_Howling_Complete",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34621976,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 59,
+      "name": "IH_NPC_Icemurk_Complete",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34622120,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 60,
+      "name": "IH_NPC_MONK_001",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34622248,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 61,
+      "name": "IH_NPC_MONK_002",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34622376,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 62,
+      "name": "Kill5Lizman_Post",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34622520,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 63,
+      "name": "KillMoths_Post",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34622664,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 64,
+      "name": "UW_EdwardGrave",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34622808,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    },
+    {
+      "id": 65,
+      "name": "UW_KingGrave",
+      "state0": 0,
+      "registered18": 0,
+      "objectives": [
+        {
+          "type": 5,
+          "size": 44,
+          "defined_words": {
+            "0x4": 5,
+            "0xc": 34622952,
+            "0x10": 0,
+            "0x20": 0,
+            "0x24": 4294967295,
+            "0x28": 0
+          },
+          "source_reset_complete": true
+        }
+      ]
+    }
+  ]
+}

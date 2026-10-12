@@ -1,0 +1,196 @@
+--- a/port/android-native/app/src/main/cpp/native_menu_postmovie_v62.inc
++++ b/port/android-native/app/src/main/cpp/native_menu_postmovie_v62.inc
+@@ -1,3 +1,4 @@
++#include "renderer_native_menu_load_v98.hpp"
+ #include "gameswf/gameswf_character.h"
+ namespace {
+ std::unique_ptr<dh2::ui::MenuMapOwnerV62> source_map_menu_v62;
+@@ -6,6 +7,9 @@
+  std::shared_ptr<void> world_transport;
+  model_renderer::MenuHudWorldOperationV62 world_operations;
+  bool world_bound{};
++ model_renderer::NativePrimary1LoadServicesV98 loadmenu1_services_v98;
++ std::weak_ptr<dh2::loader::CanonicalLevelContextV1> loadmenu1_level_v98;
++ bool loadmenu1_attempted_v98{};std::string loadmenu1_failure_v98;
+  bool loadmenu3_attempted{};std::string loadmenu3_failure;
+  dh2::ui::HudControlsServicesV62 canonical_controls;
+  dh2::ui::HudControlsServicesV62 controls(){
+@@ -194,3 +198,5 @@
+  }
+  e.clear();return true;
+ }
++
++#include "native_menu_load1_v98.inc"
+--- a/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp
++++ b/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp
+@@ -37,6 +37,7 @@
+ #include "visual_fx_manager_libraries_v63.hpp"
+ #include "campaign_navigation_registry_v64.hpp"
+ #include "renderer_native_menu_prefix_v62.hpp"
++#include "renderer_native_menu_load_v98.hpp"
+ #include "../level-loader/level_gameplay_update_v66.hpp"
+ #include "physical_world.hpp"
+ #include "player_manager_post_init_v66.hpp"
+@@ -428,6 +429,7 @@
+ 
+ #include "source_campaign_camera_v67.inc"
+ #include "renderer_source_stage34_v80.inc"
++#include "source_campaign_stage12_v98.inc"
+ 
+ bool connect_source_campaign_candidate_v55(RendererSourceCampaignV55& state,
+  const std::shared_ptr<dh2::loader::NativeGSLevelRuntimeV27>& gs,
+@@ -707,6 +709,7 @@
+   if(phase==38)stable->final_tail_complete=true;
+   return true;
+  };
++ if(!bind_source_campaign_stage12_v98(current_world,actual,out.source,error))return false;
+  // All source body/progress/tail authorities remain explicit. Later root
+  // stages bind their genuine providers into this SAME candidate connection.
+  (void)gs;
+--- /dev/null
++++ b/port/android-native/app/src/main/cpp/renderer_native_menu_load_v98.hpp
+@@ -0,0 +1,27 @@
++#pragma once
++#include <exception>
++#include <functional>
++#include <memory>
++#include <string>
++#include <cstdint>
++namespace dh2::application {class ApplicationServicesOwnerV5;}
++namespace model_renderer {
++struct NativePrimaryMenuFactsV98 {
++ std::shared_ptr<void> receiver;
++ const std::int32_t* width_screen{}; //actual Width_Screen99b114, not view rectangle
++ const std::uint8_t* htc_devices{}; //9f6403, reached width800 first
++ const std::uint8_t* no_igp{}; //9f640d, width800/HTCfalse only
++};
++struct NativePrimary1LoadServicesV98 {
++ std::shared_ptr<void> owner; //existing process menu/session/resource authority
++ std::function<bool(NativePrimaryMenuFactsV98&,std::string&)> facts;
++ //Existing Multi primary1/CharacterPanelSession, URI exactly as selected.
++ //Publish SAME retained RenderFX BEFORE virtual Load/native startup callbacks.
++ //Allow genuine HUD3NULL; defer common manager PostLoad/Hide to caller below.
++ //Retain a failed constructor/Load prefix in that SAME owner for real teardown.
++ std::function<bool(const char* actual_uri,std::uint32_t slot,std::string&)> load_primary;
++};
++bool bind_native_primary1_loader_v98(const std::shared_ptr<dh2::application::ApplicationServicesOwnerV5>&,
++ NativePrimary1LoadServicesV98,std::string&);
++bool source_native_loadmenu1_v98(std::shared_ptr<void> actual_world,std::string&);
++}
+--- /dev/null
++++ b/port/android-native/app/src/main/cpp/native_menu_load1_v98.inc
+@@ -0,0 +1,99 @@
++//Include at native_menu_postmovie_v62.inc end, after source_postmovie exists.
++//This is MenuManager.LoadMenu(1) sequencing on the SAME process directory.
++bool model_renderer::bind_native_primary1_loader_v98(
++ const std::shared_ptr<dh2::application::ApplicationServicesOwnerV5>& app,
++ NativePrimary1LoadServicesV98 services,std::string& e){
++ auto provider=source_postmovie_v62.lock();NativeCharacterMenuV4* native{};
++ if(!provider||!provider->directory->resolve(native,e)||!app||provider->directory->application.lock()!=app||
++  !native->process_directory_ready_v104||native->process_application_v104.lock()!=app||!services.owner||!services.facts||!services.load_primary){if(e.empty())e="Required SAME existing process primary1 loader and actual layout globals";return false;}
++ if(provider->loadmenu1_services_v98.owner){e="Actual primary1 movie loader already enrolled; preserve existing provider";return false;}
++ const auto same=[&](const auto& containing){return containing&&!services.owner.owner_before(containing)&&!containing.owner_before(services.owner);};
++ if(same(native->shared_stack_v27)||same(provider->directory->current_world())){e="Primary1 resource provider must not own its containing manager/World";return false;}
++ provider->loadmenu1_services_v98=std::move(services);e.clear();return true;
++}
++bool model_renderer::source_native_loadmenu1_v98(std::shared_ptr<void> world,std::string& e){
++ using namespace dh2::ui;
++ auto provider=source_postmovie_v62.lock();NativeCharacterMenuV4* native{};try{
++ if(!provider||!provider->directory->resolve(native,e)||provider->directory->current_world()!=world){if(e.empty())e="Required SAME current process MenuManager/campaign";return false;}
++ dh2::loader::CanonicalCurrentLevelBorrowV1 current;
++ if(!borrow_current_native_level_v27(current,e)||!current||current.level()->constructor_fields_v3().field130!=12){if(e.empty())e="LoadMenu1 requires actual published Level state12";return false;}
++ const auto prior=provider->loadmenu1_level_v98.lock();
++ if(prior&&prior.get()==current.level().get()&&!prior.owner_before(current.level())&&!current.level().owner_before(prior)&&provider->loadmenu1_attempted_v98){if(provider->loadmenu1_failure_v98.empty())provider->loadmenu1_failure_v98="Source primary1 loading occurrence already attempted";e=provider->loadmenu1_failure_v98;return false;}
++ const bool earlier_attempt=provider->loadmenu1_attempted_v98;
++ provider->loadmenu1_level_v98=current.level();provider->loadmenu1_attempted_v98=true;provider->loadmenu1_failure_v98.clear();
++ const auto level_pin=current.level();const auto native_pin=authored_character_menu;
++ const auto stack_pin=native->shared_stack_v27;const auto roster_pin=native->shared_roster_v27;const auto app_pin=provider->directory->application.lock();
++ auto fail=[&](){if(provider->loadmenu1_failure_v98.empty())provider->loadmenu1_failure_v98=e.empty()?"Actual primary1 source loading failed":e;e=provider->loadmenu1_failure_v98;return false;};
++ auto reached=[&](){
++  if(!provider->loadmenu1_failure_v98.empty())return fail();
++  const auto callback_error=e;NativeCharacterMenuV4* live{};dh2::loader::CanonicalCurrentLevelBorrowV1 now;
++  const auto same=[](const auto& a,const auto& b){return a&&b&&a.get()==b.get()&&!a.owner_before(b)&&!b.owner_before(a);};
++  if(!same(source_postmovie_v62.lock(),provider)||!provider->directory->resolve(live,e)||live!=native_pin.get()||
++   !same(authored_character_menu,native_pin)||!same(provider->directory->current_world(),world)||
++   !same(provider->directory->application.lock(),app_pin)||!same(live->shared_stack_v27,stack_pin)||!same(live->shared_roster_v27,roster_pin)||
++   !borrow_current_native_level_v27(now,e)||!same(now.level(),level_pin)||level_pin->constructor_fields_v3().field130!=12){
++   if(e.empty())e="Primary1 callback changed actual process/campaign/Level loading scope";return fail();
++  }e=callback_error;return true;
++ };
++ auto same_movie=[&](std::uint32_t slot,const MenuMovieBorrowV58& expected){MenuMovieBorrowV58 now;
++  const bool ok=provider->directory->movie_slot(slot,now,e);if(!reached())return false;
++  if(!ok||now.identity!=expected.identity||now.actual_owner.get()!=expected.actual_owner.get()||
++   now.actual_owner.owner_before(expected.actual_owner)||expected.actual_owner.owner_before(now.actual_owner)){
++   if(e.empty())e="Primary loading callback retired/replaced actual movie resource";return fail();
++  }return true;
++ };
++ if(!reached())return false;
++ MenuMovieBorrowV58 old;const bool old_ok=provider->directory->movie_slot&&provider->directory->movie_slot(1,old,e);if(!reached())return false;
++ if(!old_ok)return fail();
++ //New campaign occurrence requires real Stage2 retirement, never only a reset of bookkeeping.
++ if(earlier_attempt&&old.identity){e="Previous primary1 prefix remains live before new loading occurrence";return fail();}
++ const auto services=provider->loadmenu1_services_v98;
++ if(!services.owner||!services.facts||!services.load_primary){e="Required Main CharacterPanelSession SAME primary1 movie loader permitting HUD3NULL";return fail();}
++ NativePrimaryMenuFactsV98 facts;const bool facts_ok=services.facts(facts,e);if(!reached())return false;
++ if(!facts_ok||!facts.receiver||!facts.width_screen){if(e.empty())e="Required actual layout global owner/Width_Screen cell";return fail();}
++ const char* uri="data/menus/dqcharmenu.swf";
++ if(*facts.width_screen==854)uri="data/menus/dqcharmenu_droid.swf";
++ else if(*facts.width_screen==800){
++  if(!facts.htc_devices){e="Required actual HTC_DEVICES source byte";return fail();}
++  if(!*facts.htc_devices){if(!facts.no_igp){e="Required actual NO_IGP source byte";return fail();}(void)*facts.no_igp;}
++  //All three source800 Character1 rows select this SAME literal.
++  uri="data/menus/dqcharmenu_i9000.swf";
++ }
++ const bool loaded=services.load_primary(uri,1,e);if(!reached())return false;if(!loaded)return fail();
++ MenuMovieBorrowV58 primary;const bool primary_ok=provider->directory->movie_slot(1,primary,e);if(!reached())return false;
++ if(!primary_ok||!primary.actual_owner||!primary.identity){if(e.empty())e="Primary1 Load did not publish a genuine retained resource";return fail();}
++ {auto* panel=character_panel?character_panel->authored_native_v4():nullptr;
++ if(!panel||panel->source_stack_v4()!=native->shared_stack_v27.get()||panel->source_render_identity_v91()!=primary.identity||!panel->source_movie_v91()){e="Loaded primary1 differs from actual CharacterPanelSession/process directory";return fail();}}
++ SwfMovie* primary_movie{};std::shared_ptr<void> primary_pin;
++ const bool primary_borrowed=provider->directory->movie(1,primary,primary_movie,primary_pin,e);if(!reached())return false;
++ if(!primary_borrowed||!primary_movie||!primary_pin||!same_movie(1,primary))return fail();
++ auto* render=stack_pin->render(primary.identity);if(!render){e="Required pre-Load actual RenderFX publication";return fail();}
++ render->flags=0x84; //SetInputBehavior7a7c98 before original virtual10(1,false).
++ //Deliver through the independently retained SAME movie; no raw panel survives native callback delivery.
++ const bool initial_update=primary_movie->source_update_v93(1,false,e);if(!reached())return false;
++ if(!initial_update||!same_movie(1,primary))return fail();
++ //Historical name: this existing body implements common LoadMenu singleton
++ //weak-context refresh, with no primary3-only operation or loading-state gate.
++ const bool singletons=source_native_loadmenu3_singletons_v67(world,e);if(!reached())return false;
++ if(!singletons||!same_movie(1,primary))return fail();
++ const auto first=stack_pin->registry_count_v58();
++ for(std::uint32_t slot=0;slot<4;++slot){MenuMovieBorrowV58 q;const bool slot_ok=provider->directory->movie_slot(slot,q,e);if(!reached())return false;if(!slot_ok)return fail();if(!q.identity)continue;
++  SwfMovie* movie{};std::shared_ptr<void> lease;const bool borrowed=provider->directory->movie(slot,q,movie,lease,e);if(!reached())return false;
++  if(!borrowed||!movie||!lease||!same_movie(slot,q))return fail();auto* r=stack_pin->render(q.identity);if(!r){e="PostLoad lacks SAME current primary render directory";return fail();}
++  const auto flags=r->flags;const bool posted=roster_pin->post_load(*movie,lease,flags,e);if(!reached())return false;
++  if(!posted||!same_movie(slot,q)||!same_movie(1,primary))return fail();
++ }
++ for(auto i=first;i<stack_pin->registry_count_v58();++i){auto* q=stack_pin->registry_at_v58(i);
++  if(!q||!roster_pin->receiver_fields_v59(q->identity)){e="New source menu lacks actual PostLoad receiver";return fail();}
++  const auto id=q->identity;const bool dragged=roster_pin->register_drag_and_drops_v68(id,e);if(!reached())return false;
++  if(!dragged||!same_movie(1,primary))return fail();
++  q=stack_pin->registry_at_v58(i);if(!q||q->identity!=id||!roster_pin->receiver_fields_v59(id)){e="Drag callback retired/replaced appended actual menu";return fail();}
++  const bool hidden=roster_pin->hide_receiver_v68(id,e);if(!reached())return false;
++  if(!hidden||!same_movie(1,primary))return fail();
++ }
++ if(!reached())return false;e.clear();return true; //Dispatcher alone commits12->13.
++ }catch(const std::exception& x){
++  if(provider){if(provider->loadmenu1_failure_v98.empty())provider->loadmenu1_failure_v98=std::string("Actual primary1 native delivery threw: ")+x.what();e=provider->loadmenu1_failure_v98;}
++  else e=std::string("Actual primary1 native delivery threw: ")+x.what();return false;
++ }catch(...){if(provider){if(provider->loadmenu1_failure_v98.empty())provider->loadmenu1_failure_v98="Actual primary1 native delivery threw";e=provider->loadmenu1_failure_v98;}else e="Actual primary1 native delivery threw";return false;}
++}
+--- /dev/null
++++ b/port/android-native/app/src/main/cpp/source_campaign_stage12_v98.inc
+@@ -0,0 +1,12 @@
++//Include in source_campaign_runtime_v61 model_renderer, before connect body.
++static bool bind_source_campaign_stage12_v98(const std::shared_ptr<SourceWorldBorrowV61>& world,
++ const std::shared_ptr<dh2::loader::CanonicalLevelContextV1>& level,
++ dh2::loader::SourceLoadingInputsV43& inputs,std::string& e){
++ if(inputs.external.stage_body[12]){e.clear();return true;}
++ if(!world||!world->application||!level||!inputs.preparation||inputs.preparation->level()!=level){e="Required SAME Stage12 actual preparation/menu campaign";return false;}
++ const auto weak=std::weak_ptr<SourceWorldBorrowV61>(world);const auto expected=std::weak_ptr<dh2::loader::CanonicalLevelContextV1>(level);
++ inputs.external.stage_body[12]=[weak,expected](std::string& e){auto world=weak.lock();auto level=expected.lock();dh2::loader::CanonicalCurrentLevelBorrowV1 current;
++  if(!world||!level||!borrow_current_native_level_v27(current,e)||current.level()!=level||current.level().owner_before(level)||level.owner_before(current.level())||level->constructor_fields_v3().field130!=12){if(e.empty())e="Required SAME actual Stage12 Level/menu owner";return dh2::loader::LifecycleStepV36::failed;}
++  return source_native_loadmenu1_v98(world->owner,e)?dh2::loader::LifecycleStepV36::complete:dh2::loader::LifecycleStepV36::failed;
++ };e.clear();return true;
++}

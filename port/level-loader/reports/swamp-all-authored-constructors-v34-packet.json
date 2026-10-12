@@ -1,0 +1,8 @@
+{
+  "path": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\swamp-all-authored-constructors-v34-90f12122877a2f17.zip",
+  "sha256": "aff9d6854869fe2c5153452ca2174534841b2fd2f7daf94bcea82d5085ee13ac",
+  "payloads": 46,
+  "constructed_objects": 195,
+  "complete_module_pairs": 9,
+  "full_loader_verified": false
+}

@@ -1,0 +1,46 @@
+--- a/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.hpp
++++ b/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.hpp
+@@ -97,6 +97,9 @@
+  std::function<bool(const dh2::loader::CheckedCommandBorrowV59&,std::string&)> script_command_init;
+  std::function<bool(const std::shared_ptr<dh2::loader::CanonicalLevelContextV1>&,bool,std::string&)> gameplay_update;
+  std::function<bool(std::string&)> post_init_characters;
++ // Main supplies the SAME actual gameplay leaves before source warm-start32.
++ // The provider closure must weakly borrow this containing World.
++ std::function<bool(const SourceCampaignCandidateBorrowV55&,dh2::loader::LevelGameplayServicesV66&,std::string&)> gameplay_inputs_v96;
+  std::shared_ptr<dh2::loader::LevelGameplayServicesV66> gameplay_services_v66;
+  std::shared_ptr<dh2::loader::LevelGameplayUpdateV66> gameplay_owner_v66;
+  std::shared_ptr<dh2::loader::LevelPlayerPlacementServicesV68> player_placement_v68;
+--- a/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp
++++ b/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp
+@@ -458,6 +458,17 @@
+  };
+  if(!RendererSourceCandidateV55::create(std::move(candidate),state.candidate,error))return false;
+  if(!state.candidate->lend_loading_inputs_v55(out.source,error))return false;
++ // Source32 needs actual object/physics/camera leaves before completion38.
++ // Preserve already-bound services. An absent producer stays absent, retaining
++ // the original reached warm-start failure prefix rather than fake readiness.
++ if(!current_world->gameplay_services_v66&&current_world->gameplay_inputs_v96){
++  SourceCampaignCandidateBorrowV55 current;
++  if(!borrow_source_campaign_candidate_runtime_v61(current,error)||current.level!=actual)return false;
++  dh2::loader::LevelGameplayServicesV66 services;
++  if(!current_world->gameplay_inputs_v96(current,services,error)||
++   !bind_source_campaign_gameplay_services_v66(current,std::move(services),error))return false;
++ }
++
+  if(!bind_deferred_campaign_object_loading_v106(current_world,out.source,error))return false;
+  // Original stage7 writes the process Random seeds at99f89c/99f8a0.
+  // Borrow the same App-retained channels used by canonical spawn/loot.
+@@ -1065,6 +1076,13 @@
+     !same(services.actual_application,actual.application)||!same(services.actual_object_manager,actual.objects)||
+     !services.provider||state.world->gameplay_services_v66){
+   error="Gameplay leaves require sole binding to SAME actual source Level/App/ObjectManager";return false;
++ }
++ // This World retains both the packet and the Level update owner. A
++ // provider alias of World/Level/manager would retain its own containing scope.
++ const auto aliases=[](const auto& provider,const auto& containing){return provider&&containing&&
++  !provider.owner_before(containing)&&!containing.owner_before(provider);};
++ if(aliases(services.provider,actual.actual_world)||aliases(services.provider,actual.level)||aliases(services.provider,actual.objects)){
++  error="Gameplay primitive authority must not own its containing World/Level/ObjectManager";return false;
+  }
+  // The real frame source is App8c. This native physics adapter implements the
+  // recovered PhysicalWorld.update Step(dt*float0.001,10) on its SAME backend.

@@ -1,0 +1,142 @@
+[
+  {
+    "command": [
+      "wsl.exe",
+      "-e",
+      "/usr/bin/c++",
+      "-std=c++17",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Wno-misleading-indentation",
+      "-UNDEBUG",
+      "-g",
+      "-O1",
+      "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/game_event_manager_v50.cpp",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/tests/game_event_manager_v50.cpp",
+      "-o",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/game-event-v50/game_event_manager_v50-normal"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "wsl.exe",
+      "-e",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/game-event-v50/game_event_manager_v50-normal",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/game-event-v50"
+    ],
+    "exit_code": 0,
+    "stdout": "{\"validation\":\"PASS\",\"original_rows\":66,\"original_objectives\":66,\"original_constructor_reset_types\":11,\"failed_prefix_cases\":7,\"same_table_row_aliases\":66,\"functional_compile_effects_verified\":false,\"whole_level_ready\":false}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "wsl.exe",
+      "-e",
+      "/usr/bin/c++",
+      "-std=c++17",
+      "-fsanitize=address,undefined",
+      "-fno-omit-frame-pointer",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Wno-misleading-indentation",
+      "-UNDEBUG",
+      "-g",
+      "-O1",
+      "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/game_event_manager_v50.cpp",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/tests/game_event_manager_v50.cpp",
+      "-o",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/game-event-v50/game_event_manager_v50-sanitize"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "wsl.exe",
+      "-e",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/game-event-v50/game_event_manager_v50-sanitize",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/game-event-v50"
+    ],
+    "exit_code": 0,
+    "stdout": "{\"validation\":\"PASS\",\"original_rows\":66,\"original_objectives\":66,\"original_constructor_reset_types\":11,\"failed_prefix_cases\":7,\"same_table_row_aliases\":66,\"functional_compile_effects_verified\":false,\"whole_level_ready\":false}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "wsl.exe",
+      "-e",
+      "/usr/bin/c++",
+      "-std=c++17",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Wno-misleading-indentation",
+      "-UNDEBUG",
+      "-g",
+      "-O1",
+      "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/game_event_manager_v50.cpp",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/tests/stage_game_event_v50.cpp",
+      "-o",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/game-event-v50/stage_game_event_v50-normal"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "wsl.exe",
+      "-e",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/game-event-v50/stage_game_event_v50-normal",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/game-event-v50"
+    ],
+    "exit_code": 0,
+    "stdout": "{\"validation\":\"PASS\",\"stage6_body_cases\":8,\"event194_lease_persists_after_stage_body\":true,\"source_trace_player_publish_load_order\":true,\"same_completed_actual_C1_verified\":false,\"PlayerManagerUpdate_body_is_fixture\":true,\"whole_level_ready\":false}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "wsl.exe",
+      "-e",
+      "/usr/bin/c++",
+      "-std=c++17",
+      "-fsanitize=address,undefined",
+      "-fno-omit-frame-pointer",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Wno-misleading-indentation",
+      "-UNDEBUG",
+      "-g",
+      "-O1",
+      "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/game_event_manager_v50.cpp",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/tests/stage_game_event_v50.cpp",
+      "-o",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/game-event-v50/stage_game_event_v50-sanitize"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "wsl.exe",
+      "-e",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/game-event-v50/stage_game_event_v50-sanitize",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/game-event-v50"
+    ],
+    "exit_code": 0,
+    "stdout": "{\"validation\":\"PASS\",\"stage6_body_cases\":8,\"event194_lease_persists_after_stage_body\":true,\"source_trace_player_publish_load_order\":true,\"same_completed_actual_C1_verified\":false,\"PlayerManagerUpdate_body_is_fixture\":true,\"whole_level_ready\":false}\n",
+    "stderr": ""
+  }
+]

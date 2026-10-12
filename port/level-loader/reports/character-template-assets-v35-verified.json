@@ -1,0 +1,88 @@
+{
+  "validation": "PASS",
+  "scope": "Original CharTemplate/CharInfoName table decoding and non-player template branch; borrowed caller RNG/cache updates verified. Inspection ordering is explicit; canonical actor activation and player/faery branches unverified.",
+  "original_proof": {
+    "validation": "PASS",
+    "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "actual_original_rows": 121,
+    "record_bytes_consumed": 2516,
+    "selector_cases": 371,
+    "gold_sha256": "4f4924bd8c6160c6e1f65c31dd0e689f95f5772a311977319a0c3da20e83e6c7",
+    "scope": "Whole original CharTemplate/CharInfoName record readers and non-player SafeGetCharPropsId/template lookup/inline RNG branch; stream/storage and IsPlayer=false services explicit. Player/save branch outside this adapter.",
+    "swamp_rows": {
+      "Swamp2_CommonType1": [
+        351,
+        351,
+        351,
+        351,
+        352
+      ],
+      "Swamp2_CommonType2": [
+        354,
+        354,
+        354,
+        354,
+        355
+      ],
+      "Swamp_CommonType1": [
+        360,
+        360,
+        360,
+        360,
+        361
+      ],
+      "Swamp_CommonType2": [
+        371,
+        371,
+        371,
+        371,
+        372
+      ],
+      "Swamp_CommonType3": [
+        349
+      ],
+      "Swamp_MiniBossType1": [
+        363
+      ],
+      "Swamp_MiniBossType2": [
+        384
+      ],
+      "Swamp_SpecialType1": [
+        361
+      ],
+      "Swamp_UncommonType1": [
+        362
+      ],
+      "Swamp_UncommonType2": [
+        368
+      ]
+    },
+    "inputs_sha256": {
+      "character_templates_pyarray.bin": "815ace4b5921f86e59c05f2b6c25f80de39a4195f3a09bdfc93020b6f024dce2",
+      "character_templates_pyarraynames.bin": "a211685c487eb834521101959077b03ff233219a7908a3538564c311cc0991e0",
+      "character_templates_pystructnames.bin": "cb84c15300beb2528555c01e281eaac151a523d3a36fd2aaadc7c4574a41e64b"
+    }
+  },
+  "native_result": "PASS original_rows=121 original_selector_cases=371 source_rng_cache_verified=1 snapshot_survives_owner=1 malformed_atomic=1",
+  "native_binary_sha256": "323771ff89053d63ac3c197e8c0126ada75c38a616e50ff71edf78eb35268186",
+  "source_sha256": {
+    "character_template_assets_v35.hpp": "eaea8961543a434ef06259f5c3ba5b0e0be0b97bd1260f5f90097d0f8577e926",
+    "character_template_assets_v35.cpp": "41c04fb8606d4fe2e25baeff013b859781e624a32145a771b6c81ce474666f17",
+    "tests/character_templates_v35.cpp": "a4b9b43700f5560567ed38a88e20fd423169b5ca53c59da379b64bc83098572a",
+    "tests/canonical_preview_entity_export_v30.cpp": "e4510049674ae377f8774bd14dfe5cc66c5e0fbb4f6131c6b5e3a86aff5d6f73",
+    "tests/canonical_preview_entity_export_v30.inc": "e431f853aa20163b608e3a1be93eeb6c01875167587699bc69c791c43a21d762",
+    "tests/cmake-receiver-transport/CMakeLists.txt": "6e16097e991dd49b1100dc92b857b17f17a9c3ef67958c1c4098444ca2294896"
+  },
+  "manifest_sha256": "66374b3b3f5cfd9a3ae07b789783739aefa7f962e3bf2511e847ac041d183d8e",
+  "asset_coverage": {
+    "characters": "49",
+    "chests": "5",
+    "blocked_visuals": "1",
+    "constructed": "195",
+    "next_constructor": ""
+  },
+  "pending_visual_branch": "_prim_Faery: actual owner/save model-name branch",
+  "visible_qa_pending": true,
+  "direct_emulator_launch_disabled": true,
+  "full_loader_verified": false
+}

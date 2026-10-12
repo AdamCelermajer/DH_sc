@@ -1,0 +1,18 @@
+{
+  "status": "SOURCE_ADOPTED_UNCOMPILED",
+  "coherent_files": 773,
+  "selected_manifest_sha256": "3a4444717deb1cdddb273b66e8cf666af6d9425012e0b8e8d525b51b5f4220eb",
+  "patch_sha256": "078ac0431dd79a0e0cc82286200f9fb5ba885f23b5e1f03335bb51c2bc7814bd",
+  "source_packet_sha256": "ba841403418bf44da60f6faf3270ce72121e9968278c60c853724fb9268e235c",
+  "source_guard_before_borrow_allocation_helpers": true,
+  "source_native_C1_algorithm_changed": false,
+  "zero_input_seed_forwarded_unchanged": true,
+  "new_SWAMP_source_fixture_request_seed": 7,
+  "new_SWAMP_C1_input_seed": 7,
+  "old_receipts_archives_tests_untouched": true,
+  "historical_fixture_corrections_pending": 16,
+  "build_link_runtime_verified": false,
+  "full_Init_verified": false,
+  "shared_mutated": false,
+  "new_jobs_launched": false
+}

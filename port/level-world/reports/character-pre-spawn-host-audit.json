@@ -1,0 +1,55 @@
+{
+  "validation": "PASS",
+  "scope": "Isolated source-bound PreSpawn gold replay with ASan/UBSan; no scene or APK claim.",
+  "host_audit": {
+    "validation": "PASS",
+    "original_cases": 538,
+    "original_ordered_requests": 2698,
+    "guard_prefix_source_invalid_checks": 22,
+    "nested_interactive_event_checks": 1,
+    "mismatches": 0
+  },
+  "reference_sha256": "39248842633be43dcf4101528593d34982f02d33ae73e3d2884013bd28c73921",
+  "source_sha256": {
+    "port/level-world/character_pre_spawn.hpp": "dfb4631f7c9dfa1f9b875389fd094192f1632748740306899f4e0ed823c19c7b",
+    "port/level-world/character_pre_spawn.cpp": "3922755aa29ace4fca820269697068682b955c438a0f2c1037f33048554b3694",
+    "port/level-world/character_state.hpp": "9aaab47e7ff2cf762fca6d699b25178f69b206d6c6debe161a479ea12dc20f83",
+    "port/level-world/character_state_empty.hpp": "4d0791ec65ca99b68c233dc6f459562e35032dbd59638a463bfe1de591d0e64a",
+    "port/level-world/character_state_empty.cpp": "72ee801d1ea83f0dca1499fa03c9623f5c096e3a47191596a46c1a00ab38a62e",
+    "port/level-world/reference/character-state-methods/native-methods.inc": "508dc208f661105d0e3d9c1b7826383207b96638ad9a897c2ff927f3a6970ce1",
+    "port/level-world/tests/character_pre_spawn.cpp": "5d6c81956a0d7ec498b94aa0addbc8ca386132999eefff19b5dd57e76632da97",
+    "port/level-world/tests/character_pre_spawn_host.py": "14b97b7337d1f1c2f5b85903be415a2d097a7e507fedc73d6fc780ed559058c6"
+  },
+  "executable_sha256": "83db888444c8d6bc041e63130b86bc0cfe732476b42fb7f080c55f014b5acd65",
+  "original_arm64_proof": {
+    "path": "port/level-world/reports/character-pre-spawn-arm64-differential.json",
+    "sha256": "9496667b44817dd7abbff86ff4f51b37efefc88715d818f9ffeec69adf94907d"
+  },
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "leak_detection": true,
+    "diagnostics": 0
+  },
+  "compiler_command": [
+    "g++",
+    "-std=c++17",
+    "-O2",
+    "-g",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-fno-omit-frame-pointer",
+    "-fsanitize=address,undefined",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/character_pre_spawn.cpp",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/character_state_empty.cpp",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/tests/character_pre_spawn.cpp",
+    "-o",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-pre-spawn/pre_spawn_audit"
+  ],
+  "central_DSO_used": false,
+  "full_physics_spawn_revive_backends": false,
+  "packaged_APK": false
+}

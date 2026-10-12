@@ -1,0 +1,125 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6glitch4core18allocProcessBufferEi",
+      "elf_address": "0x5345f4",
+      "size": 148,
+      "sha256": "6a612ece625b989ccf32e04711daecbbd639fcb56eff04fa6f98e513c722b2ef"
+    },
+    {
+      "original_symbol": "_ZN6glitch5video18ICodeShaderManager20initAdditionalConfigEPKc",
+      "elf_address": "0x6e0a3c",
+      "size": 296,
+      "sha256": "1263dd88456409c7f62dd889c2c0a196ad90ff12fe9d697e4a1ca4167e61c2d8"
+    },
+    {
+      "original_symbol": "_ZN6glitch5video15CGLSLShaderCodeC1EPKcPS3_NS0_13E_SHADER_TYPEEPNS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEEb",
+      "elf_address": "0x6df738",
+      "size": 320,
+      "sha256": "ef95c09ebcd8fc44d05aa15f36c1f1bb326460de11700f7cbe0fda0d315f90c5"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15CColladaFactory14createMaterialERKNS0_16CColladaDatabaseEPNS_5video12IVideoDriverEPNS0_9SMaterialEPNS0_14CRootSceneNodeE",
+      "elf_address": "0x6323d0",
+      "size": 244,
+      "sha256": "dc3090658f74e4ff70633a92030aab1b739e3b836e2ed704418ca6af4aed0b51"
+    },
+    {
+      "original_symbol": "_ZN6glitch4core32isProcessBufferHeapExcessEnabledEv",
+      "elf_address": "0x534254",
+      "size": 20,
+      "sha256": "405e597749b5ccba72595e980d5755ae43cd6da77376cfc6d080cf8d82f2c44a"
+    },
+    {
+      "original_symbol": "_ZN6glitch5video18CGLSLShaderManager12createShaderEPKcS3_S3_S3_S3_PNS_2io9IReadFileES6_",
+      "elf_address": "0x6e01b4",
+      "size": 404,
+      "sha256": "b53f059259f1e2b65fd6dac8e81801c9d07a8b159bd13dfc949c6693b2163b66"
+    },
+    {
+      "original_symbol": "_ZN6glitch5video14IShaderManager10loadShaderEPKc",
+      "elf_address": "0x5e72bc",
+      "size": 596,
+      "sha256": "8ccca71779fa160bddd33149df3a0ca9d82fad143888981bdac5a8c3026e31e6"
+    },
+    {
+      "original_symbol": "_ZNK6glitch5video15CGLSLShaderCode13compileShaderEv",
+      "elf_address": "0x6df3c0",
+      "size": 416,
+      "sha256": "e25befd1ba0df38d5a28a316a77b78c821261c86d779e766f3607acf7be3ec3e"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada19SProfileGLES2Traits12createShaderEPNS_5video14IShaderManagerERNS0_5SPassINS0_25SRenderStatesProgrammableEEE",
+      "elf_address": "0x634b30",
+      "size": 308,
+      "sha256": "b8c161d864042f4f4e74803848cb6f907b69b3ceeebae5aa25bb994cd1669684"
+    },
+    {
+      "original_symbol": "_ZN16BufferedRenderer23createBlendModeMaterialEN5boost13intrusive_ptrIN6glitch5video17CMaterialRendererEEEiPKc",
+      "elf_address": "0x7d4ab0",
+      "size": 140,
+      "sha256": "47e762154c47f1bf774cf15d697c2bb908c40129102923d6fe7ee48b7e6a4556"
+    },
+    {
+      "original_symbol": "_ZN6glitch5video18ICodeShaderManager18makeShaderCodeNameEPKcjS3_jS3_jPj",
+      "elf_address": "0x6e0b64",
+      "size": 172,
+      "sha256": "dc1ae7101343e01a8e5f14383a9d89e697a8c20e4afa4aafa4d2130730dbb80e"
+    },
+    {
+      "original_symbol": "_ZN6glitch4core33setProcessBufferHeapExcessEnabledEb",
+      "elf_address": "0x534268",
+      "size": 20,
+      "sha256": "08b1b6c47a2ef4090f1b479e7bf61ffca279a096ff14037d8b167c8a8e0f7222"
+    },
+    {
+      "original_symbol": "_ZNK21render_handler_glitch10fill_style5applyEPN6glitch5video12IVideoDriverER16BufferedRendererP6Vertexi",
+      "elf_address": "0x7d6b54",
+      "size": 648,
+      "sha256": "b7b6da7a74d8ae1a56d53326c398872b878d31c0ddcbf45f08b17d19820a2251"
+    },
+    {
+      "original_symbol": "_ZN6glitch5video18CGLSLShaderManager16createShaderCodeEPKcNS0_13E_SHADER_TYPEES3_PNS_2io9IReadFileE",
+      "elf_address": "0x6dfe68",
+      "size": 844,
+      "sha256": "2fc259ff52a2b2287740bc95ff033c95f37c0b396b7a9998df6657576cdc813d"
+    },
+    {
+      "original_symbol": "_ZN6glitch5video18ICodeShaderManager18makeShaderCodeNameEPKcS3_S3_Pj",
+      "elf_address": "0x6e0c10",
+      "size": 148,
+      "sha256": "2fff2062e1c50d4b24d06161bd15c5d5356d4c3d138b4438ee5c32fae4bc7281"
+    },
+    {
+      "original_symbol": "_ZN21render_handler_glitch11draw_bitmapERKN7gameswf6matrixEPNS0_11bitmap_infoERKNS0_4rectES8_NS0_4rgbaE",
+      "elf_address": "0x7d8df4",
+      "size": 1464,
+      "sha256": "717532f07d4fcd9df7ffe0c729c669f268b9aeaa746b57284b6bc9aa7875c407"
+    },
+    {
+      "original_symbol": "_ZN6glitch5video15CGLSLShaderCode12createShaderEiPPKci",
+      "elf_address": "0x6df560",
+      "size": 68,
+      "sha256": "6cf7ea98ed920510e7394877e59a8127de72f30063da0a490f15610de6e584a6"
+    },
+    {
+      "original_symbol": "_ZN21render_handler_glitch14set_blend_modeEN7gameswf10blend_mode2idE",
+      "elf_address": "0x7d81e4",
+      "size": 120,
+      "sha256": "216fe454cc829b54d133c2e945337f0586145f9c127133161a62988010460455"
+    },
+    {
+      "original_symbol": "_ZN21render_handler_glitchC1EPN6glitch5video12IVideoDriverE",
+      "elf_address": "0x7d60f4",
+      "size": 1380,
+      "sha256": "d6683dfde7e8fab7397bd4e972b0e6abf2ba6bd0a5ea3b930b168feef95a8104"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada14createMaterialERKNS0_16CColladaDatabaseEPNS_5video12IVideoDriverERKN5boost13intrusive_ptrINS4_17CMaterialRendererEEERNS0_9SMaterialEPNS0_14CRootSceneNodeE",
+      "elf_address": "0x631ce8",
+      "size": 1768,
+      "sha256": "85623a86cab3a537b4b865cd201292198524a9033ce9a266fed7713c3c138e4b"
+    }
+  ]
+}

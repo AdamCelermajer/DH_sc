@@ -1,0 +1,506 @@
+{
+  "validation": "PASS",
+  "stage": "Whole same-owner player skill V3, complete source cache/AI/callback/Buff/timer/Faery producer composition",
+  "source_and_evidence_sha256": {
+    "port/level-world/character_faery_element_v3.cpp": "12e09ce76e0a8071189e481c459cf28de099a59250e346b6849045acbe6f29ef",
+    "port/level-world/character_faery_element_v3.hpp": "5a024a1e474d4244e5f0696d1fa8c7e57decdbd8dbfac7124316c7e55ec2b802",
+    "port/level-world/character_player_skills_v3.cpp": "951da6934eff712d5a3755eb91eb0d5d8fc1b44b7122d7f361a658f93e5551a5",
+    "port/level-world/character_player_skills_v3.hpp": "8f887c84860a5669a9333f6235d0a21e694612cecc919e40b50ed520c4215a6a",
+    "port/level-world/character_script_session_v3.cpp": "cb6071d019877d0a01c6064867b3599008dc6ede6a86c244010cbc0f25d86a45",
+    "port/level-world/character_script_session_v3.hpp": "c91611ff5c9266b25b51cd47e585841e219f3496f1a7a7c8502ef6dc6b97b022",
+    "port/level-world/character_skill_ai_v3.cpp": "c735b19f0f190807d7ff88e7788bc36db8681432555e2ec6c289123ddedefd69",
+    "port/level-world/character_skill_ai_v3.hpp": "09bc15ca1b49042b7f0eb007e5d8ddabcb382e6df1af7c69b7b7dafa4591f286",
+    "port/level-world/character_skill_buff_bindings_v3.cpp": "ac8bec626a21030b2b79f03b3221c3ef8100c22bf57c06b78c9b4f8e42c549fc",
+    "port/level-world/character_skill_buff_bindings_v3.hpp": "f956132c74d0b95bf113554bc6772606aa06011efb22ca95f6f796e92aaecec9",
+    "port/level-world/character_skill_callback_session_v3.cpp": "8f8fded54f063c2b660048f29f3c3118e5e7029780bb7e6ccc51660f52cc00b4",
+    "port/level-world/character_skill_callback_session_v3.hpp": "0c3868261c97ff9b943835b5c11bbc11c1cf1db01b19804725036e884065e1ab",
+    "port/level-world/character_skill_callbacks_v3.cpp": "3d8c7fc2609b9d417509a32e9614ae551f329ab4d71f8a0124219276b78f3818",
+    "port/level-world/character_skill_callbacks_v3.hpp": "4d701c9db3a0d08b070d644c089374c958fc8b3a208b5b9c7882c08b3f75c88f",
+    "port/level-world/character_skill_class_v3.cpp": "ddc95e5659e12449bba9040d1263f1a374993171e24080aaa5c2c12fe2cf052c",
+    "port/level-world/character_skill_class_v3.hpp": "30b8404f9797220a87b764589f82ea6e79ece9b05514d85a12ade670b1fc0c63",
+    "port/level-world/character_skill_cooldown_v3.cpp": "56d208b3c6a4de346183e87df00de9c081117d04d574adbe8a35f8216af39900",
+    "port/level-world/character_skill_cooldown_v3.hpp": "e54f2f1779a9361150a395244d7e9ef644e7597f4e0afec3896867df2cb88cbf",
+    "port/level-world/character_skill_info_session_v3.cpp": "a33e16661af89bcedbe8e7b1f1d37d47befab674069b74028cad5dc98ddd7fa7",
+    "port/level-world/character_skill_info_session_v3.hpp": "b73adbf78bcbfdd33eceb606ea96e4424dc7ccf1406dff8703d5b1497c1bc4f2",
+    "port/level-world/character_skills_owner_v3.cpp": "8ec96b8654a47cbf9b06025b0f250e65fd6ff13eecb4e052ad8c648475d70cff",
+    "port/level-world/character_skills_owner_v3.hpp": "594b8a850bb1ce87bd6e1e2d4e0cfe02d7ba683e13bef905adb832af68c95be5",
+    "port/level-world/character_skills_session_v3.cpp": "99fa67a8930294a0f7b43850388443a6744960b6ac319b04bbdf2df24e88f59a",
+    "port/level-world/character_skills_session_v3.hpp": "8e85298e5764a8b1305816e14da37b82087ec2381d39a13bd39c3ca75d6d7bfd",
+    "port/level-world/reference/character-skill-gameplay-v3/ai-gold-v3.bin": "4abed0754060b25a3c65ee2cb7addebc912752d888703400703cd66062c9d49e",
+    "port/level-world/reference/character-skill-gameplay-v3/ai-gold-v3.json": "dfbc90ebb5c29575c5001f1f0d3adbb2df96c4bf11784d7571a54b2789ab5727",
+    "port/level-world/reference/character-skill-gameplay-v3/buff-wrapper-gold.json": "e0cb8011a8dd502e3abe0b2e2fd690be6442440031763d7668f76d5bf28b9a90",
+    "port/level-world/reference/character-skill-gameplay-v3/callback-gold.bin": "208992c9815b84e57fe3c7dc598e81d2d7eb4934d91cb0492ba9b7bae939b844",
+    "port/level-world/reference/character-skill-gameplay-v3/callback-gold.json": "e6884738c13c46240be72ce44655a36102eb07324b9006d70bd408a2034a03ed",
+    "port/level-world/reference/character-skill-gameplay-v3/connections/original-functions.json": "89d72cf8150ae9c248649e6c1bc8596093b9baf500b50d299eeedb6d226274dd",
+    "port/level-world/reference/character-skill-gameplay-v3/connections/reference/original-functions.asm": "9cdf20804e70739765cf15ac497e2ea470e6d48862a928d0647af3988f34a114",
+    "port/level-world/reference/character-skill-gameplay-v3/cooldown/original-functions.json": "3f759dd4ac7b056f899024609903903953ea066e23830032d13e8c34d03a25f7",
+    "port/level-world/reference/character-skill-gameplay-v3/cooldown/reference/original-functions.asm": "b54c92f4d90446e3a3a8fcaf7d6339ac17ac8702670f4686202a62028a912f69",
+    "port/level-world/reference/character-skill-gameplay-v3/cooldown-writer-gold.json": "96ab88f6da4657f4ffbb7804a3eabd4ea0f44cc1c2ea71b8e63e93d10641f6aa",
+    "port/level-world/reference/character-skill-gameplay-v3/dispatch/original-functions.json": "d7e4a69d721ab9f2928734bb74c132229bd62bff3fd0f47f9a0975d372840870",
+    "port/level-world/reference/character-skill-gameplay-v3/dispatch/reference/original-functions.asm": "38049fbe9be1dbea2b2b199ec18ec9be0f9e496fc4af2b7bdb14b3db1efc06be",
+    "port/level-world/reference/character-skill-gameplay-v3/faery/original-functions.json": "03fbc75c55675066a6869a434644478a1a3a274edeafec687dba24bfe9f67aba",
+    "port/level-world/reference/character-skill-gameplay-v3/faery/reference/original-functions.asm": "13d23d8aef944065ee83022bf7b1419cfc8daa20bb8722958f6ab2b080e18b13",
+    "port/level-world/reference/character-skill-gameplay-v3/faery-element/original-functions.json": "21f620372241f59f2dc80f3ed2c8de0cdd451186da44ae9471e5783f81bce186",
+    "port/level-world/reference/character-skill-gameplay-v3/faery-element/reference/original-functions.asm": "12355f8d69013195c2fc3bf2171ef406a87e2e616ef129e922b4d9bbde2fa9d4",
+    "port/level-world/reference/character-skill-gameplay-v3/faery-level/original-functions.json": "28f771a98405c2b5a16081325a7d2d070ac5e3f500f1abe882d9a4d40e2d688d",
+    "port/level-world/reference/character-skill-gameplay-v3/faery-level/reference/original-functions.asm": "bb710f4ca87b8475bc71bd45d0093654e41a82ff7482a4c3edfb500b78ff4fa9",
+    "port/level-world/reference/character-skill-gameplay-v3/faery-query-gold-v3.json": "b85eb73a6806a66a541a96e38ad416b532e88f72729772c77880df6f77673301",
+    "port/level-world/reference/character-skill-gameplay-v3/focus/original-functions.json": "88e50d90cceb1fc325c5fd8af76ba4c48d5d57ace47de76244530451cbef040e",
+    "port/level-world/reference/character-skill-gameplay-v3/focus/reference/original-functions.asm": "f0e42665429e7e11b6294b057c2625e572394794710bab58c9f0f6a38f128f8a",
+    "port/level-world/reference/character-skill-gameplay-v3/helpers/original-functions.json": "8c01041749a28c7227435f4c1a9f07ef1f5968f789e719fe8395fe2f5831c17e",
+    "port/level-world/reference/character-skill-gameplay-v3/helpers/reference/original-functions.asm": "443285a14a28727624081d9da4ce8c481ef51cb4aaad1740684b89a13ded5421",
+    "port/level-world/reference/character-skill-gameplay-v3/integration.json": "74867484a1d6344114cd30b6ff9fdbf8c89e412a14f726667d967135b42182d9",
+    "port/level-world/reference/character-skill-gameplay-v3/lifecycle/original-functions.json": "3762ef62575a3f34e4e5f997b775be40171e4fb926ebe9c03148facb28e37a28",
+    "port/level-world/reference/character-skill-gameplay-v3/lifecycle/reference/original-functions.asm": "3a31b26d2fdd1c26403a5b1a1baa4636ab5359606a165cb2434204dc587c6f95",
+    "port/level-world/reference/character-skill-gameplay-v3/NOTES.md": "7131205b1ff59f751f60b700fc9155e6be276983be4aa2da86b0192f66e5fba4",
+    "port/level-world/reference/character-skill-gameplay-v3/timer-id/original-functions.json": "f512919b0b5cc18356bc4396a50bd6fdfcb49baf3244be04ad5b50b68244ae7a",
+    "port/level-world/reference/character-skill-gameplay-v3/timer-id/probe.json": "222d0299c4e137dd5817be1653f8d8aa4f34951a6f2005f5d16c977e21374f06",
+    "port/level-world/reference/character-skill-gameplay-v3/timer-id/reference/original-functions.asm": "a50d6c19317ce262068d030d4d08f683e01ef26f9cd0af109b79c2f34c44b03f",
+    "port/level-world/reference/character-skill-gameplay-v3/versioning-final.json": "3a7e738abe3cc3fa9e11bb719da52261fb2b3a106d8911e70e49137fbb3497f6",
+    "port/level-world/reference/character-skill-gameplay-v3/versioning-map.json": "459c2f2e0e6a8f4f5be11b54ce1f9ec53118a80162b3589cba94a220815162ed",
+    "port/level-world/reports/character-skill-gameplay-v3-ai-arm64-differential.json": "df153c6f2d955a7ea3525fec7547d944f7eac506584350b78a699be278c3d742",
+    "port/level-world/reports/character-skill-gameplay-v3-buff-arm64-differential.json": "bb381bcaa1b9aabafba432c65a322f85ced1a619ca8d69e48c0ea986baea4800",
+    "port/level-world/reports/character-skill-gameplay-v3-callback-arm64-differential.json": "99d5d23af896ee6d07f0f854659923de56f8f95949c8ad2b5b1ee99b98870c2b",
+    "port/level-world/reports/character-skill-gameplay-v3-class-arm64-differential.json": "594201df9a9e32b7f71a7f26be9dbdae82fec96afa43d56acef25d3cf9cfe31f",
+    "port/level-world/reports/character-skill-gameplay-v3-cooldown-arm64-differential.json": "a7a4360ae8fb2c7ad38db79b34330591b7a118eaf82685f001527ff108b7bda3",
+    "port/level-world/reports/character-skill-gameplay-v3-faery-arm64-differential.json": "9f9f67cf4cacd0a9a27b3f685c01faf5b92b13eb1b895c6512dc55a4b2786027",
+    "port/level-world/reports/character-skill-gameplay-v3-indexed-runtime-host-audit.json": "bcc0ea89c0e6dd760a478e29614293370ab5fc0f7ff56b4b33a79c87751810cc",
+    "port/level-world/reports/character-skill-gameplay-v3-player-host-audit.json": "cb6f69b0bf6e5d50ba4399bf98dd2c5704501a2656ddcc05af2af8678e7cd4bc",
+    "port/level-world/tests/character_faery_queries_v3_differential.py": "550635bc5bd5463c5e6146800d67ad7ed75f95a280012c21ffe3b079af8841cc",
+    "port/level-world/tests/character_player_skills_v3.cpp": "1cbf31c1cf1a6c7bc6ae87dca10c15635d90d8c13d0870aa79fe804cb9c44da9",
+    "port/level-world/tests/character_skill_ai_v3.cpp": "f520ca00e1c731a8bbb613b31670c71218f48d262135d336b598e9298678b59c",
+    "port/level-world/tests/character_skill_ai_v3_differential.py": "33192d7d183e849e0f4319b8f1b51bda72f046637e1448177c395cd68a7d0a53",
+    "port/level-world/tests/character_skill_buff_v3_differential.py": "97f40ae431879b0440f2166618fe945494771d8e3e6ea40089869bd888bdf393",
+    "port/level-world/tests/character_skill_callbacks_v3.cpp": "80fb2de47b9ce777a99634a5af5308ee2c185e571dc32fdbbf6497b67786c9c9",
+    "port/level-world/tests/character_skill_class_v3_differential.py": "62a5b4013ccefc33de712c063e13bb0f493aca0bb5dc0634430b3183851cdd8e",
+    "port/level-world/tests/character_skill_cooldown_v3_differential.py": "984a80a0ac5c305b368cb96dd134a2807e89b392f1fc0f84cf173527a5a8fb82",
+    "port/level-world/tests/character_skill_gameplay_v3_differential.py": "996e707e3ceaafca6083bb2a57dbc9260274a9d1d1e06823772e32cde5a50c09",
+    "port/level-world/tests/character_skill_gameplay_v3_player_host.py": "7888941e34d76aab05b042a533042f11ea0ba3a57beacdde55e1a347dbda4e37",
+    "port/level-world/tests/character_skill_gameplay_v3_runtime_host.py": "da3fe0b414c8044a5fe17289ada43ff87384f3cbccde30f101c7be78eb260e64",
+    "port/level-world/tests/character_skill_timer_identity_v3_original.py": "3a491a7badcfa78b2329660cb334a08eb70220b44dd015fa05e10a3d9201f699",
+    "port/level-world/tools/build_character_skill_gameplay_v3_oracle.ps1": "db31734ed5f610331eb678294aa4ece14c87f0e9569f19ceda10379065a2ec58",
+    "port/level-world/tools/freeze_character_skill_gameplay_v3.py": "8d911d2260ac5b9ffa28c7ac3fe84a5d69a23a7be8f047bcf700139332d7bd3e",
+    "port/script-runtime/script_return_observer_v3.h": "8f1c27c65cdb48c0e8325196a39f47e8db2a78172fe99b7420b5c41712695617",
+    "port/script-runtime/script_runtime_return_v3.c": "e9bf3185c11030a2a0cd3cab4558cc533560684f5d8601a5a7cf01d39988eb06",
+    "port/script-runtime/tests/script_indexed_return_v3.cpp": "66ac1cb7a957534feef8b1c62cf43bdcb8c497856c503a65a1fb3f66db0966f6"
+  },
+  "production_sources": [
+    "port/level-world/character_skill_callbacks_v3.hpp",
+    "port/level-world/character_skill_callbacks_v3.cpp",
+    "port/level-world/character_skill_buff_bindings_v3.hpp",
+    "port/level-world/character_skill_buff_bindings_v3.cpp",
+    "port/level-world/character_script_session_v3.hpp",
+    "port/level-world/character_script_session_v3.cpp",
+    "port/level-world/character_skills_session_v3.hpp",
+    "port/level-world/character_skills_session_v3.cpp",
+    "port/level-world/character_skill_info_session_v3.hpp",
+    "port/level-world/character_skill_info_session_v3.cpp",
+    "port/level-world/character_player_skills_v3.hpp",
+    "port/level-world/character_player_skills_v3.cpp",
+    "port/level-world/character_skills_owner_v3.hpp",
+    "port/level-world/character_skills_owner_v3.cpp",
+    "port/level-world/character_skill_callback_session_v3.hpp",
+    "port/level-world/character_skill_callback_session_v3.cpp",
+    "port/level-world/character_skill_class_v3.hpp",
+    "port/level-world/character_skill_class_v3.cpp",
+    "port/level-world/character_skill_cooldown_v3.hpp",
+    "port/level-world/character_skill_cooldown_v3.cpp",
+    "port/level-world/character_faery_element_v3.hpp",
+    "port/level-world/character_faery_element_v3.cpp",
+    "port/level-world/character_skill_ai_v3.hpp",
+    "port/level-world/character_skill_ai_v3.cpp",
+    "port/script-runtime/script_return_observer_v3.h",
+    "port/script-runtime/script_runtime_return_v3.c"
+  ],
+  "optimized_arm64_oracle": {
+    "path": ".local-inputs/character-skill-gameplay-v3/libskill_gameplay_v3_oracle.so",
+    "sha256": "150261551f4a4b66c010fe7ec3a95f12805a67f6a932176449170add304d61af",
+    "original_differential_cases": 8800
+  },
+  "original_functions": {
+    "0x31bc80": {
+      "original_symbol": "_ZNK3sfc6script3lua5Value7getBoolEv",
+      "elf_address": "0x31bc80",
+      "size": 172,
+      "sha256": "d156e3ff80823923f19f40cf626e4923b00ba2889f114cc8f383dfc8b60158b0"
+    },
+    "0x494978": {
+      "original_symbol": "_ZN15VisualFXManager14DropAnimatedFXERP10AnimatedFX",
+      "elf_address": "0x494978",
+      "size": 316,
+      "sha256": "0243184adf121f184e5aca9df26d1411a054c982704d380da9cde135b6fb15f7"
+    },
+    "0x3a4d5c": {
+      "original_symbol": "_ZN9Character10RaiseEventEiPv",
+      "elf_address": "0x3a4d5c",
+      "size": 28,
+      "sha256": "2422a21cba16aea71f10939f0f32fe6326e27beb11fe6160b058426b0e2156e3"
+    },
+    "0x3dbedc": {
+      "original_symbol": "_ZN10AISDefault7OnTimerEPv",
+      "elf_address": "0x3dbedc",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    "0x3d3d68": {
+      "original_symbol": "_ZN6CharAI25_OnAnimStepEnd_SkillSpellEv",
+      "elf_address": "0x3d3d68",
+      "size": 108,
+      "sha256": "d9e4b6a1c57d06ee04031759f4a2499e848514758d9b7c7455ff1197a1abb135"
+    },
+    "0x3bc784": {
+      "original_symbol": "_ZNK9Character12GetCharSkillEi",
+      "elf_address": "0x3bc784",
+      "size": 220,
+      "sha256": "dc2d085f0cc0fd467f8bcf96357f3c2e4fe3bd99aaf38585eab36589e77020ad"
+    },
+    "0x3d84e0": {
+      "original_symbol": "_ZN6CharAI14AI_CancelSkillEj",
+      "elf_address": "0x3d84e0",
+      "size": 244,
+      "sha256": "b304aa5ca13b9b51caf272960f8e93cfcad7b3fd364762b80130a6c50f6f0924"
+    },
+    "0x3da794": {
+      "original_symbol": "_ZN17CharAISkillScript7OnSkillEv",
+      "elf_address": "0x3da794",
+      "size": 292,
+      "sha256": "2fccdd3a00f2be7c9649fb91e1d2e8d9085cc1767c8ab178a22f00830386c507"
+    },
+    "0x3d0c10": {
+      "original_symbol": "_ZN6CharAI7OnTimerEPv",
+      "elf_address": "0x3d0c10",
+      "size": 36,
+      "sha256": "3a33c2e8ef4aa19218df1b5976e4ed38e41f2d3d69173d6a5fadee457081c675"
+    },
+    "0x3d3dd4": {
+      "original_symbol": "_ZN6CharAI27_OnAnimStepBegin_SkillSpellEv",
+      "elf_address": "0x3d3dd4",
+      "size": 112,
+      "sha256": "cfa02bc9fb8909976dc97a4b0419916416be7c894ef2f0801db6b95811870a16"
+    },
+    "0x3c6670": {
+      "original_symbol": "_ZN16CharStateMachine16SM_SetSkillStateEjbPvb",
+      "elf_address": "0x3c6670",
+      "size": 180,
+      "sha256": "b11c1907a16535e572092626218432dbff1c90379821aa5091b2cf4bf1c678f9"
+    },
+    "0x3b55d4": {
+      "original_symbol": "_ZNK14CharProperties18PROPS_GetFromSheetEiPN7Structs19CharacterPropertiesE",
+      "elf_address": "0x3b55d4",
+      "size": 164,
+      "sha256": "131099abb0a16a3590cd19fcb923b58dd3b7e220733cf18e46adda6d3125d5ac"
+    },
+    "0x3b97e0": {
+      "original_symbol": "_ZN9Character24_SetSkillCooldownTimerIdERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b97e0",
+      "size": 496,
+      "sha256": "1234fbc6dd51220781adfe8f45786e45bd9a18dc996acc98bc0751b36b76cede"
+    },
+    "0x3b90e4": {
+      "original_symbol": "_ZN9Character24_SetSpellCooldownTimerIdERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b90e4",
+      "size": 188,
+      "sha256": "844e05483f96db8ba8d91649737ecc5bb1644f56e291c7302354df9a7ff9011e"
+    },
+    "0x3bd40c": {
+      "original_symbol": "_ZNK9Character7HasManaEi",
+      "elf_address": "0x3bd40c",
+      "size": 236,
+      "sha256": "68a2317b75a673fa81939aa1990d6a7d8a9ba7f3d761a8246fe6888281e5c0ab"
+    },
+    "0x3bdef4": {
+      "original_symbol": "_ZN9Character7UseManaEi",
+      "elf_address": "0x3bdef4",
+      "size": 476,
+      "sha256": "ed3125787dc0818e10c73ac7748201618bfaf23b0df8d9daea23c15bee806e68"
+    },
+    "0x3dcc80": {
+      "original_symbol": "_ZN10AISDefault13OnScriptTimerEj",
+      "elf_address": "0x3dcc80",
+      "size": 80,
+      "sha256": "6d2591dc4edf41c812770f36a951dfe38ac03ed7cbf5a67bbdce73bf459bcbb6"
+    },
+    "0x3dca50": {
+      "original_symbol": "_ZN10AISDefault11OnAnimEventEPKc",
+      "elf_address": "0x3dca50",
+      "size": 560,
+      "sha256": "cd3b1256304d8161cbe4cb6fbd71fd42c06af54e618405102db06fc67a80e2f8"
+    },
+    "0x3aeac0": {
+      "original_symbol": "_ZNK9Character12GetCharFaeryEi",
+      "elf_address": "0x3aeac0",
+      "size": 540,
+      "sha256": "fe4e97ed7031dab0c7a88aee5cfb1057f3585d3cb28ee4fcbf874484bc8bfd6f"
+    },
+    "0x3c0334": {
+      "original_symbol": "_ZNK16CharStateMachine12SM_IsCastingEv",
+      "elf_address": "0x3c0334",
+      "size": 24,
+      "sha256": "4e1a1e64084c9860162ee9fefbd88e638681c392d047e812c1b397e15a0ea558"
+    },
+    "0x3ae5a0": {
+      "original_symbol": "_ZNK9Character18GetCharFaeryListIdEv",
+      "elf_address": "0x3ae5a0",
+      "size": 60,
+      "sha256": "c37053de3efe1748d58adb715bef2f581d9ca2b157b24fcbab4ab5ce47f6daca"
+    },
+    "0x3c02e8": {
+      "original_symbol": "_ZNK16CharStateMachine15SM_IsUsingSkillEv",
+      "elf_address": "0x3c02e8",
+      "size": 24,
+      "sha256": "774242e45789a641452a8aaeefe052685fb066dd31ffcdbfcc718b5562e97619"
+    },
+    "0x3b6dc4": {
+      "original_symbol": "_ZN9Character24_GetEquippedFaeryElementERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b6dc4",
+      "size": 52,
+      "sha256": "ee88eddf019c657872b3fff81dd431897f57d342b609d27876936b49e4c1d96f"
+    },
+    "0x3b6df8": {
+      "original_symbol": "_ZN9Character29_GetCurrentEquippedFaeryLevelERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b6df8",
+      "size": 56,
+      "sha256": "a7c11f8aaa70f316da48d6702d888efb0deac878d727a9372481f6edeb6393a8"
+    },
+    "0x3d81c0": {
+      "original_symbol": "_ZN6CharAI13AI_BeginSpellEb",
+      "elf_address": "0x3d81c0",
+      "size": 364,
+      "sha256": "ad01a1076435bf859f8e6ed617332dd70ceefb06f8c54adcda54f483bfd7a4d0"
+    },
+    "0x3d8b28": {
+      "original_symbol": "_ZN6CharAI10_SpellBlurEv",
+      "elf_address": "0x3d8b28",
+      "size": 84,
+      "sha256": "e55409b785ae17cee9442afca1e90259901b99100baaec49feb8bdfc699b7751"
+    },
+    "0x3d8ba4": {
+      "original_symbol": "_ZN6CharAI11_SpellEventEv",
+      "elf_address": "0x3d8ba4",
+      "size": 84,
+      "sha256": "76db1a7aec5f4564857504e6b8f1d6ea83f3b5219613a9c889689c9a1de70167"
+    },
+    "0x3d8038": {
+      "original_symbol": "_ZN6CharAI11_SpellFocusEv",
+      "elf_address": "0x3d8038",
+      "size": 84,
+      "sha256": "03bc062bf825eacc8898e50f82c0477acc704f8112e0ca7f3cff09d6188b9a2d"
+    },
+    "0x3d8b7c": {
+      "original_symbol": "_ZN6CharAI10_SkillBlurEv",
+      "elf_address": "0x3d8b7c",
+      "size": 40,
+      "sha256": "a45d595e1bec8b296132de2f17768425db000d5a05ca1bb3551c5faadb7680e4"
+    },
+    "0x3d808c": {
+      "original_symbol": "_ZN6CharAI11_SkillFocusEv",
+      "elf_address": "0x3d808c",
+      "size": 40,
+      "sha256": "78bfc3b05693b2d13360a7e55673c2fc1acfdc0e135b7b0b39ff7c977fc46668"
+    },
+    "0x3d8bf8": {
+      "original_symbol": "_ZN6CharAI11_SkillEventEv",
+      "elf_address": "0x3d8bf8",
+      "size": 40,
+      "sha256": "e6ae60569613882df422bd19922e0a38e118c280e5f1767594ba6e1590787120"
+    },
+    "0x3cb458": {
+      "original_symbol": "_ZNK6CharAI21IsScriptProcessLoadedEv",
+      "elf_address": "0x3cb458",
+      "size": 20,
+      "sha256": "3237ba645c298932386a0f77afcdead3df1eea763288bc7468c4b2f1b4c02e94"
+    },
+    "0x3e101c": {
+      "original_symbol": "_ZN14CharProperties13PROPS_DelBuffEiPN7Structs19CharacterPropertiesE",
+      "elf_address": "0x3e101c",
+      "size": 544,
+      "sha256": "bbbabb6e4920599ed2344065b505772abe40bafd4fd804ece2ea60b9d5cccbc5"
+    },
+    "0x3e232c": {
+      "original_symbol": "_ZN14CharProperties13PROPS_AddBuffEijijiPKc",
+      "elf_address": "0x3e232c",
+      "size": 1012,
+      "sha256": "a18cc07f98578e7b3f42dff695b9ddb1e46f4052af46e9d0c8a0e2c8a94b042f"
+    },
+    "0x3da43c": {
+      "original_symbol": "_ZNK3sfc6script3lua12ReturnValuesixEj",
+      "elf_address": "0x3da43c",
+      "size": 88,
+      "sha256": "667063192d42c0a7249704adcd4dd2a9d2de9623fc92cabe89a8dd6bd7da3c40"
+    },
+    "0x3da3d0": {
+      "original_symbol": "_ZN17CharAISkillScript11GetCooldownEv",
+      "elf_address": "0x3da3d0",
+      "size": 108,
+      "sha256": "ce93c2131435534d0ec7ed5ad2765134145afc28e881cca89ce9cb7573768b1f"
+    },
+    "0x38eb00": {
+      "original_symbol": "_ZN3sfc6script3lua12ReturnValues11pushPointerEPv",
+      "elf_address": "0x38eb00",
+      "size": 104,
+      "sha256": "8e5310bdd6555999e924de6e2fa9e275fe69d0276bd999bf240ca695111f9ac3"
+    },
+    "0x3d8358": {
+      "original_symbol": "_ZNK6CharAI16AI_IsSkillUsableEj",
+      "elf_address": "0x3d8358",
+      "size": 284,
+      "sha256": "26c060734fdea9266a673b4a585a9ef49a17b51e552002edf6b4bc853743873e"
+    },
+    "0x3d86bc": {
+      "original_symbol": "_ZN6CharAI13AI_BeginSkillEj",
+      "elf_address": "0x3d86bc",
+      "size": 428,
+      "sha256": "07f9880765e3246c9b29f75f02dbb681ffcd0f2cfb9e2ada082c3286fc6eb258"
+    },
+    "0x3da8b8": {
+      "original_symbol": "_ZN17CharAISkillScript10OnPreSkillEv",
+      "elf_address": "0x3da8b8",
+      "size": 292,
+      "sha256": "3972de55702fb6ccf8952ea66409b1080471254f0f746ee11906b9530e4dac28"
+    },
+    "0x3b842c": {
+      "original_symbol": "_ZN9Character11_RemoveBuffERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b842c",
+      "size": 320,
+      "sha256": "540f6abf54cce7a687ace8b335e47d98f3646da5ed8ad5e2ba293d9ee5c24c31"
+    },
+    "0x3db16c": {
+      "original_symbol": "_ZN17CharAISkillScript19OnSkillCheck_ActiveEv",
+      "elf_address": "0x3db16c",
+      "size": 284,
+      "sha256": "4c031fb529fe75640f145f3d93c80a0bc46faf5b41bbd71ca30660f5fdb84e6e"
+    },
+    "0x3d8868": {
+      "original_symbol": "_ZN6CharAI11AI_UseSkillEj",
+      "elf_address": "0x3d8868",
+      "size": 44,
+      "sha256": "f4cda95a87dfc8f5944afe6dc8d94e0aa74a7baa924a89ea9a12b284193b2d02"
+    },
+    "0x3da9dc": {
+      "original_symbol": "_ZN17CharAISkillScript19OnSkillCheck_UsableEv",
+      "elf_address": "0x3da9dc",
+      "size": 288,
+      "sha256": "134ce235298bc205644729576fece573f1d76114959849c35a12c7d839805f78"
+    },
+    "0x3da6c0": {
+      "original_symbol": "_ZN17CharAISkillScript11OnPostSkillEv",
+      "elf_address": "0x3da6c0",
+      "size": 212,
+      "sha256": "2eba26203a2db2e46ae26e712b6f94fe0828204c6dc43b20624970b989d544b7"
+    },
+    "0x3d8474": {
+      "original_symbol": "_ZN6CharAI11AI_EndSkillEj",
+      "elf_address": "0x3d8474",
+      "size": 108,
+      "sha256": "311acd353c02d9db01124eefbf8b15cfe15f05e3dd38041fcce0efeac3f54ca9"
+    },
+    "0x3d85d4": {
+      "original_symbol": "_ZNK6CharAI16AI_IsSkillActiveEj",
+      "elf_address": "0x3d85d4",
+      "size": 232,
+      "sha256": "557d8c92cd19e97c037a8eadf91fe61db45a43a64d0e3abe22be88041f55b854"
+    },
+    "0x3b7864": {
+      "original_symbol": "_ZN9Character8_UseManaERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b7864",
+      "size": 136,
+      "sha256": "5e517fdbf64178e06e099a623d62a96592e6b44eac73fb08b65f7375f2e93c5f"
+    },
+    "0x3b86a8": {
+      "original_symbol": "_ZN9Character11_CreateBuffERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b86a8",
+      "size": 1328,
+      "sha256": "d27d95457954bcc92550921df30a3e52d076bd6040aa10b0f3a6c213bfd68570"
+    },
+    "0x3b78ec": {
+      "original_symbol": "_ZN9Character8_HasManaERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b78ec",
+      "size": 136,
+      "sha256": "08359029bd9fb9ca19b23ce3faaf66a1786b09f5826f6873b3dc509fe3e7c0bd"
+    },
+    "0x3db288": {
+      "original_symbol": "_ZNK10CharTimers6_Timer5GetIDEv",
+      "elf_address": "0x3db288",
+      "size": 8,
+      "sha256": "68a639b2dffac301817461b8b1e1e2fbca60e4b4db136a34b582411c8b7d17ba"
+    }
+  },
+  "original_only_timer_id_cases": 256,
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "leaks": true,
+    "findings": 0
+  },
+  "host_results": {
+    "player": {
+      "validation": "PASS",
+      "genuine_player_sessions": 3,
+      "complete_original_scripts": 219,
+      "same_owner_spell_queries": 9,
+      "source_init_vitals": 3,
+      "source_skill_instances": 19,
+      "ordered_writer_registrations": 18,
+      "authoritative_player_vcb": 3,
+      "skill_queries": 42,
+      "original_sheet_words": 9408,
+      "original_formatted_strings": 84,
+      "busy_rejections": 2,
+      "required_number_and_index_failures": 2,
+      "same_owner_saved_mutation": true,
+      "same_owner_timer_lookup_controlled_return_fixture": true,
+      "borrowed_inputs_destroyed_while_pinned": true,
+      "actual_vm_finalizer_checks": 1,
+      "authored_cooldown_creation_and_expiry": true,
+      "source_skill_ai_calls": 18,
+      "passive_callbacks": 15,
+      "checks": 2224,
+      "missing_debug_file_fixture": true,
+      "source_idle_fsm_projection_fixture": true,
+      "full_campaign_or_gameplay": false
+    },
+    "ai": {
+      "validation": "PASS",
+      "original_cases": 2304,
+      "ordered_services": 3629,
+      "atomic_and_required_guards": 5,
+      "checks": 99825
+    },
+    "callbacks": {
+      "validation": "PASS",
+      "original_cases": 1920,
+      "ordered_services": 6212,
+      "atomic_and_required_guards": 8,
+      "checks": 54137
+    }
+  },
+  "runtime_results": {
+    "indexed": {
+      "validation": "PASS",
+      "source_calls": 660,
+      "all_return_projections": 2025,
+      "observers": 663,
+      "busy_guards": 663,
+      "checks": 4004
+    },
+    "legacy_first": {
+      "validation": "PASS",
+      "calls": 17,
+      "observers": 13,
+      "busy_guards": 13,
+      "maximum_arity": 256,
+      "checks": 30
+    }
+  },
+  "existing_dependent_receipts": [
+    "port/engine-ui/reference/hud-formatting-v1/freeze-manifest.json",
+    "port/level-world/reference/character-current-spell-v1/freeze-manifest.json"
+  ],
+  "scope_limits": [
+    "Native borrowed providers remain explicit; no fabricated active SkillFSM6/search/combat/network/trophy/nonnull FX effects.",
+    "Actual retained passive Focus/Event/Blur uses controlled current-index fixture.",
+    "Saved levels/duration/difficulty/Idle-FSM inputs are explicit fixtures, no fresh campaign/full Character frame proof.",
+    "Private coherent main120 transitive DSOs are historical compiler provenance; no current packaged Android/GPU proof.",
+    "No shared source/CMake/renderer/APK mutation."
+  ]
+}

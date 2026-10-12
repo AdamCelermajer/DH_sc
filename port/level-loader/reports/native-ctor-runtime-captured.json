@@ -1,0 +1,9 @@
+{
+  "validation": "PASS",
+  "snapshot": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\native-ctor-runtime-374b4fd748e67552",
+  "snapshot_sha256": "374b4fd748e67552785eed65bf5815abe13f0f9f4da347860375b0ef8f5bdc87",
+  "source_files": 80,
+  "all_existing_interfaces_byte_identical": true,
+  "original_input_streams_verified": 17,
+  "full_loader_verified": false
+}

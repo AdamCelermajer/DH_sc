@@ -1,0 +1,8 @@
+{
+  "archive": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\level-preparation-handoff-8e58f2de9e440b61.zip",
+  "archive_sha256": "29088dba2f0bf6377f7e1be93cd5e32c4454b05487afa5cd623f338c35240a99",
+  "checkpoint_sha256": "8e58f2de9e440b617d43955bcd1b7c00106374ee6b28f33be2986d94eb0af899",
+  "apk_sha256": "a94e1c4c41e4cb6d2d2acfefd476a8a246942ef4f348ce301f9258d2967759d3",
+  "files": 88,
+  "full_loader_verified": false
+}

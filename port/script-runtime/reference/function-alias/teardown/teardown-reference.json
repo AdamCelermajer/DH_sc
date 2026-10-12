@@ -1,0 +1,312 @@
+{
+  "rows": [
+    {
+      "tracking_before": 0,
+      "main_setup_keys": 0,
+      "second_clear": false,
+      "original_clear_order": [],
+      "native_node_delete_group_order": [],
+      "original_state_at_instance_close": [
+        0,
+        0,
+        0
+      ],
+      "native_cleared_state": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "tracking_before": 0,
+      "main_setup_keys": 0,
+      "second_clear": true,
+      "original_clear_order": [],
+      "native_node_delete_group_order": [],
+      "original_state_at_instance_close": [
+        0,
+        0,
+        0
+      ],
+      "native_cleared_state": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "tracking_before": 0,
+      "main_setup_keys": 1,
+      "second_clear": false,
+      "original_clear_order": [
+        52
+      ],
+      "native_node_delete_group_order": [
+        52
+      ],
+      "original_state_at_instance_close": [
+        0,
+        0,
+        0
+      ],
+      "native_cleared_state": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "tracking_before": 0,
+      "main_setup_keys": 1,
+      "second_clear": true,
+      "original_clear_order": [],
+      "native_node_delete_group_order": [],
+      "original_state_at_instance_close": [
+        0,
+        0,
+        0
+      ],
+      "native_cleared_state": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "tracking_before": 0,
+      "main_setup_keys": 8,
+      "second_clear": false,
+      "original_clear_order": [
+        52
+      ],
+      "native_node_delete_group_order": [
+        52
+      ],
+      "original_state_at_instance_close": [
+        0,
+        0,
+        0
+      ],
+      "native_cleared_state": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "tracking_before": 0,
+      "main_setup_keys": 8,
+      "second_clear": true,
+      "original_clear_order": [],
+      "native_node_delete_group_order": [],
+      "original_state_at_instance_close": [
+        0,
+        0,
+        0
+      ],
+      "native_cleared_state": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "tracking_before": 0,
+      "main_setup_keys": 32,
+      "second_clear": false,
+      "original_clear_order": [
+        52
+      ],
+      "native_node_delete_group_order": [
+        52
+      ],
+      "original_state_at_instance_close": [
+        0,
+        0,
+        0
+      ],
+      "native_cleared_state": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "tracking_before": 0,
+      "main_setup_keys": 32,
+      "second_clear": true,
+      "original_clear_order": [],
+      "native_node_delete_group_order": [],
+      "original_state_at_instance_close": [
+        0,
+        0,
+        0
+      ],
+      "native_cleared_state": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "tracking_before": 1,
+      "main_setup_keys": 0,
+      "second_clear": false,
+      "original_clear_order": [
+        76,
+        52
+      ],
+      "native_node_delete_group_order": [
+        76,
+        52
+      ],
+      "original_state_at_instance_close": [
+        0,
+        0,
+        1
+      ],
+      "native_cleared_state": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "tracking_before": 1,
+      "main_setup_keys": 0,
+      "second_clear": true,
+      "original_clear_order": [],
+      "native_node_delete_group_order": [],
+      "original_state_at_instance_close": [
+        0,
+        0,
+        1
+      ],
+      "native_cleared_state": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "tracking_before": 1,
+      "main_setup_keys": 1,
+      "second_clear": false,
+      "original_clear_order": [
+        76,
+        52
+      ],
+      "native_node_delete_group_order": [
+        76,
+        52
+      ],
+      "original_state_at_instance_close": [
+        0,
+        0,
+        1
+      ],
+      "native_cleared_state": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "tracking_before": 1,
+      "main_setup_keys": 1,
+      "second_clear": true,
+      "original_clear_order": [],
+      "native_node_delete_group_order": [],
+      "original_state_at_instance_close": [
+        0,
+        0,
+        1
+      ],
+      "native_cleared_state": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "tracking_before": 1,
+      "main_setup_keys": 8,
+      "second_clear": false,
+      "original_clear_order": [
+        76,
+        52
+      ],
+      "native_node_delete_group_order": [
+        76,
+        52
+      ],
+      "original_state_at_instance_close": [
+        0,
+        0,
+        1
+      ],
+      "native_cleared_state": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "tracking_before": 1,
+      "main_setup_keys": 8,
+      "second_clear": true,
+      "original_clear_order": [],
+      "native_node_delete_group_order": [],
+      "original_state_at_instance_close": [
+        0,
+        0,
+        1
+      ],
+      "native_cleared_state": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "tracking_before": 1,
+      "main_setup_keys": 32,
+      "second_clear": false,
+      "original_clear_order": [
+        76,
+        52
+      ],
+      "native_node_delete_group_order": [
+        76,
+        52
+      ],
+      "original_state_at_instance_close": [
+        0,
+        0,
+        1
+      ],
+      "native_cleared_state": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "tracking_before": 1,
+      "main_setup_keys": 32,
+      "second_clear": true,
+      "original_clear_order": [],
+      "native_node_delete_group_order": [],
+      "original_state_at_instance_close": [
+        0,
+        0,
+        1
+      ],
+      "native_cleared_state": [
+        0,
+        0,
+        1
+      ]
+    }
+  ]
+}

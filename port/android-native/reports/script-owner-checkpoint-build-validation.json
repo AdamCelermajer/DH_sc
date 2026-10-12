@@ -1,0 +1,10 @@
+{
+  "validation": "FAIL",
+  "scope": "Validate frozen Prince-bank APK/build inputs; live checks are separate.\n\nRead-only except for a NEW output report. No builds, instruction execution, ADB,\ninstallation or gameplay are performed. PAB1 is a port metadata format, not an\noriginal engine format; its ordered requests bind the original registration\nprobe. Host proofs are not packaged instruction or full-bank pose proofs.\n",
+  "error": "Native inventory differs; ARM32/other ABI forbidden",
+  "build_validation": "NOT_ESTABLISHED",
+  "live_validation": "NOT_ESTABLISHED",
+  "physical_arm64_verified": false,
+  "full_game_verified": false,
+  "validator_sha256": "da95330ae34f302044a710f85dd91667e4b295b195eb9a01ef227e3caa4520b4"
+}

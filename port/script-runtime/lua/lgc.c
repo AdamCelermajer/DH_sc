@@ -164,8 +164,14 @@ static int traversetable (global_State *g, Table *h) {
     markobject(g, h->metatable);
   mode = gfasttm(g, h->metatable, TM_MODE);
   if (mode && ttisstring(mode)) {  /* is there a weak mode? */
-    weakkey = (strchr(svalue(mode), 'k') != NULL);
-    weakvalue = (strchr(svalue(mode), 'v') != NULL);
+    /* TString stores its bytes after the union, which Android FORTIFY can
+       mistake for a zero-sized object in strchr. Use the known allocation
+       length, retaining strchr's stop-at-first-NUL behavior. */
+    const char *bytes = svalue(mode);
+    const char *nul = (const char *)memchr(bytes, 0, tsvalue(mode)->len);
+    size_t length = nul ? (size_t)(nul - bytes) : tsvalue(mode)->len;
+    weakkey = (memchr(bytes, 'k', length) != NULL);
+    weakvalue = (memchr(bytes, 'v', length) != NULL);
     if (weakkey || weakvalue) {  /* is really weak? */
       h->marked &= ~(KEYWEAK | VALUEWEAK);  /* clear bits */
       h->marked |= cast_byte((weakkey << KEYWEAKBIT) |
@@ -708,4 +714,3 @@ void luaC_linkupval (lua_State *L, UpVal *uv) {
     }
   }
 }
-

@@ -1,0 +1,8 @@
+{
+  "validation": "PASS",
+  "path": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\scene-v3-private-handoff-f3f06ab96e54bdb8.zip",
+  "sha256": "063da6031147cfdc46a88d6335af59c9b28519e2e396a1deb82a402f9da1bc6c",
+  "entries": 272,
+  "checkpoint_sha256": "f3f06ab96e54bdb87708b9b27882a3312169cba788fdd69c03cfd2816d98e2c7",
+  "full_loader_verified": false
+}

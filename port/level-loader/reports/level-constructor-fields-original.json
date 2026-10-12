@@ -1,0 +1,114 @@
+{
+  "validation": "PASS",
+  "scope": "Actual ARM LevelC1 direct stores through3f3270 only; constructor helpers are declared fixture boundaries.",
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "symbol": "_ZN5LevelC1EPKcijjjbbii",
+  "entry": "0x3f3128",
+  "cutoff_before": "0x3f3274",
+  "helpers_declared_as_fixtures": [
+    "EventManager constructor",
+    "LuaScript constructor",
+    "std::string constructor"
+  ],
+  "direct_stores": {
+    "config38": "0x3f319c",
+    "music11c": "0x3f3244",
+    "safezone120": "0x3f3248",
+    "ambient124": "0x3f324c",
+    "word150": "0x3f3270"
+  },
+  "cases": [
+    {
+      "poison_byte": 0,
+      "argument": 0,
+      "fields": {
+        "config38": 0,
+        "music11c": -1,
+        "safezone120": -1,
+        "ambient124": -1,
+        "word150": 0
+      }
+    },
+    {
+      "poison_byte": 0,
+      "argument": 3735928559,
+      "fields": {
+        "config38": 0,
+        "music11c": -1,
+        "safezone120": -1,
+        "ambient124": -1,
+        "word150": 0
+      }
+    },
+    {
+      "poison_byte": 90,
+      "argument": 0,
+      "fields": {
+        "config38": 0,
+        "music11c": -1,
+        "safezone120": -1,
+        "ambient124": -1,
+        "word150": 0
+      }
+    },
+    {
+      "poison_byte": 90,
+      "argument": 3735928559,
+      "fields": {
+        "config38": 0,
+        "music11c": -1,
+        "safezone120": -1,
+        "ambient124": -1,
+        "word150": 0
+      }
+    },
+    {
+      "poison_byte": 165,
+      "argument": 0,
+      "fields": {
+        "config38": 0,
+        "music11c": -1,
+        "safezone120": -1,
+        "ambient124": -1,
+        "word150": 0
+      }
+    },
+    {
+      "poison_byte": 165,
+      "argument": 3735928559,
+      "fields": {
+        "config38": 0,
+        "music11c": -1,
+        "safezone120": -1,
+        "ambient124": -1,
+        "word150": 0
+      }
+    },
+    {
+      "poison_byte": 255,
+      "argument": 0,
+      "fields": {
+        "config38": 0,
+        "music11c": -1,
+        "safezone120": -1,
+        "ambient124": -1,
+        "word150": 0
+      }
+    },
+    {
+      "poison_byte": 255,
+      "argument": 3735928559,
+      "fields": {
+        "config38": 0,
+        "music11c": -1,
+        "safezone120": -1,
+        "ambient124": -1,
+        "word150": 0
+      }
+    }
+  ],
+  "capture_sha256": "6d69acab1f7d3090381b26d1eb8393399023c45683ab06cb00a7bd340badf813",
+  "oracle_sha256": "fbe546d7dccf65d5cddb3f0ceb8bb5ba5425b180fa4b6e30e06e328d44fb41f7",
+  "cpu_helper_sha256": "04b7a600e9bfed2285ef273b9365780c5c86870b9350d796756673eeb1b41f4c",
+  "full_level_constructor_verified": false
+}

@@ -1,0 +1,50 @@
+{
+  "validation": "PASS",
+  "comparisons": 13978,
+  "comparisons_by_callback": {
+    "to_fixed": 1711,
+    "from_fixed": 1711,
+    "mul_fixed": 1711,
+    "div_fixed": 1711,
+    "bit_not": 1711,
+    "bit_and": 1856,
+    "bit_or": 1856,
+    "bit_xor": 1711
+  },
+  "ordered_imported_service_calls": 862,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library": {
+    "path": ".local-inputs/lua514-source/scalar/libscript_scalar_oracle.so",
+    "sha256": "cc3cfc13379dc724d3d42cdfea6bb78f3418385f5f3f2de4d3c556dadf11c8a6"
+  },
+  "gold": {
+    "path": "port/script-runtime/reference/scalar-bindings/scalar-original-gold.json",
+    "sha256": "6c8a515988deec061d29e27c68e2f2f8aebf8763c8e417942f3cc7fcc8638878"
+  },
+  "binary_gold": {
+    "path": "port/script-runtime/reference/scalar-bindings/scalar-original-gold.bin",
+    "sha256": "1db4e59bb1aa052fb538bd25b4bd9f5d0ff4a8ce82fd702b39f411c1979c8898"
+  },
+  "source_sha256": {
+    "port/script-runtime/script_scalar_bindings.h": "378f06afa5311644a89a5d2d057e8e490dcf23e3ff2a555a5fc73b06a3833a3b",
+    "port/script-runtime/script_scalar_bindings.c": "de37788729dabcd53afa6ca9bf5f918229979b8624ae20e11dd1499b267ead61",
+    "port/script-runtime/tests/script_scalar_differential.py": "70da1328fc793f0cb3a0fd8c52f85b87e74faf9805a8f713abe48e86ffc86053",
+    "port/script-runtime/lua/lua.h": "c2a78484b53d115d9229a62e8d16db8309f1c68415b56ad5672e00674119bebb",
+    "port/script-runtime/lua/luaconf.h": "b3ec2e1f0d42e099157cc0adc8a4ef5c62afa09f5fefad9c95de3ef3be89cf23",
+    "port/script-runtime/lua/lauxlib.h": "c741f9c1587f29fd08a79acbe0c46884768a47f89bee4147669f774c5cf50fc0",
+    "port/level-world/tests/visual_timeline_differential.py": "ce516c7e9f913ea92389c7e74b14eee7f629f9d8e623eb2b646b5afb2234fb0e"
+  },
+  "original_capture_sha256": "85ce3b203e14799e9711e5e3ad8f49b1aabb74f139a8f72f9c6d87b9992cabd8",
+  "explicit_services": [
+    "Undefined signed AEABI conversion contract: trunc0,saturation,NaN0; integer-to-float nearest-even.",
+    "Undefined AEABI division: trunc0,MIN/-1 wraps; zero-divisor fixture returns0x13579bdf.",
+    "Source native64 identity mapped to original uint32 identity.",
+    "Fresh Lua VM numeric-string primitive fixture1024.5: genuine host Lua proof separately.",
+    "ReturnValues ordered numeric projection, not original STL allocation."
+  ],
+  "actual_original_callback_instructions_executed": true,
+  "native_optimized_ARM64": true,
+  "whole_VM_differential": false,
+  "packaged_APK": false
+}

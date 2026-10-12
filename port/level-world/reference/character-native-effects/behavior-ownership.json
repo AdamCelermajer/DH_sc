@@ -1,0 +1,30 @@
+{
+  "validation": "PASS",
+  "scope": "Original stateless state-behavior singleton factories; no global constructor/vtable initialization or per-machine map allocation claim.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "probe_sha256": "dafc5a0abee7f3a3d014d04be067c3f17480f92d9f89b99cbc81863731895f10",
+  "original_factory_instructions_executed": true,
+  "repeat_returns_identical": true,
+  "rows": [
+    {
+      "kind": "Scared",
+      "factory": "0x3c0534",
+      "GOT_slot": "0x9996c4",
+      "shared_object": "0x9a2ad0",
+      "symbols": [
+        "_ZN9SingletonI8CSScaredE6s_instE"
+      ],
+      "raw_object_word": "0x0"
+    },
+    {
+      "kind": "Stunned",
+      "factory": "0x3c0550",
+      "GOT_slot": "0x9991b0",
+      "shared_object": "0x9a2ad8",
+      "symbols": [
+        "_ZN9SingletonI9CSStunnedE6s_instE"
+      ],
+      "raw_object_word": "0x0"
+    }
+  ]
+}

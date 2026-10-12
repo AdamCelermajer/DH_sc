@@ -1,0 +1,209 @@
+--- a/port/level-world/canonical_sound_emitter_v32.hpp
++++ b/port/level-world/canonical_sound_emitter_v32.hpp
+@@ -9,6 +9,10 @@
+  std::shared_ptr<void> owner;
+  std::shared_ptr<const std::vector<std::string>> sound_names;
+  std::function<bool(CanonicalSoundEmitterV32&,std::string&)> whole_update,whole_destroy;
++ // Exact inherited GameObjectD2 and existing JNI nativeStopSoundBig primitive.
++ // Neither is the SoundEmitterD1 body: that source order is implemented here.
++ std::function<bool(CanonicalSoundEmitterV32&,std::string&)> destroy_base_v92;
++ std::function<bool(std::int32_t,std::string&)> platform_stop_v92;
+ };
+ // Original factory340ccc/C1 39551c. Sound name resolution is original
+ // InitPost395144; playback/update and shutdown borrow the main audio system.
+@@ -20,7 +24,8 @@
+  std::optional<std::uint8_t> loop374_;
+  std::string sound378_;
+  std::int32_t sound_id390_{-1};float dist_min394_{-1},dist_max398_{-1};std::uint8_t byte39c_{};
+- bool destroyed_{};
++ bool destroyed_{},destruction_started_{},destroying_{};
++ bool audio_stop_complete_v92_{},string_released_v92_{}; // actual completed cleanup prefixes only
+ public:
+  CanonicalSoundEmitterV32(std::shared_ptr<void>,actor::RuntimeState&,GameObjectInitializationServicesV1,SoundEmitterServicesV32);
+  CanonicalGameObjectBaseOwnerV1& base()noexcept{return base_;}
+@@ -36,6 +41,11 @@
+  std::int32_t sound_id()const noexcept{return sound_id390_;}
+  float distance_min()const noexcept{return dist_min394_;}float distance_max()const noexcept{return dist_max398_;}
+  std::uint8_t source_byte39c()const noexcept{return byte39c_;}
++ std::uint8_t& source_playing39c_v92()noexcept{return byte39c_;}
++ std::string& source_sound378_v92()noexcept{return sound378_;}
++ bool& source_audio_stop_complete_v92()noexcept{return audio_stop_complete_v92_;}
++ bool& source_string_released_v92()noexcept{return string_released_v92_;}
++ bool destruction_started_v92()const noexcept{return destruction_started_;}
+  bool init_post(std::string&);bool update(std::string&);bool destroy(std::string&);
+  bool init_final(bool& eligible,std::string& e){return initialization_.init_final(eligible,e);}
+  bool set_position(const std::array<float,3>&,bool,std::string&);
+--- a/port/level-world/canonical_sound_emitter_v32.cpp
++++ b/port/level-world/canonical_sound_emitter_v32.cpp
+@@ -1,6 +1,8 @@
+ #include "canonical_sound_emitter_v32.hpp"
+ #include <algorithm>
+ #include <utility>
++#include <cstring>
++#include <limits>
+ namespace dh2::world {
+ CanonicalSoundEmitterV32::CanonicalSoundEmitterV32(std::shared_ptr<void> world,actor::RuntimeState& runtime,GameObjectInitializationServicesV1 init,SoundEmitterServicesV32 services):base_(reinterpret_cast<std::uintptr_t>(this),20,std::move(world),runtime),initialization_services_(std::move(init)),initialization_(base_,initialization_services_),services_(std::move(services)){*base_.byte(0x85)=1;}
+ CanonicalPropertyActorV1 CanonicalSoundEmitterV32::properties()noexcept{auto result=canonical_family_fields_v15(*this);result.fields.write_float=[](void*p,std::uint32_t o,float v,std::string&e){return static_cast<CanonicalSoundEmitterV32*>(p)->write_float(o,v,e);};return result;}
+@@ -9,9 +11,23 @@
+ bool CanonicalSoundEmitterV32::write_int(std::uint32_t o,std::int32_t v,std::string&e){auto f=base_.properties().fields;return f.write_int(f.context,o,v,e);}
+ bool CanonicalSoundEmitterV32::write_float(std::uint32_t o,float v,std::string&e){if(o==0x394){dist_min394_=v;return true;}if(o==0x398){dist_max398_=v;return true;}auto f=base_.properties().fields;return f.write_float(f.context,o,v,e);}
+ bool CanonicalSoundEmitterV32::write_string(std::uint32_t o,const std::string&v,std::string&e){if(o==0x378){sound378_=v;return true;}auto f=base_.properties().fields;return f.write_string(f.context,o,v,e);}
+-bool CanonicalSoundEmitterV32::init_post(std::string&e){if(!services_.sound_names){e="Required actual Arrays::Sounds name snapshot";return false;}const auto&names=*services_.sound_names;auto at=std::find(names.begin(),names.end(),sound378_);sound_id390_=at==names.end()?-1:static_cast<std::int32_t>(at-names.begin());return true;}
+-bool CanonicalSoundEmitterV32::update(std::string&e){if(!services_.whole_update){e="Required actual SoundEmitter playback/update3951c0";return false;}return services_.whole_update(*this,e);}
+-bool CanonicalSoundEmitterV32::destroy(std::string&e){if(destroyed_){e="SoundEmitter destruction cannot replay";return false;}if(!services_.whole_destroy){e="Required actual SoundEmitter audio shutdown/destruction";return false;}destroyed_=true;return services_.whole_destroy(*this,e);}
++bool CanonicalSoundEmitterV32::init_post(std::string&e){
++ if(destruction_started_){e="SoundEmitter InitPost cannot reuse native D1 prefix";return false;}
++ if(!services_.sound_names){e="Required actual Arrays::Sounds name snapshot";return false;}
++ const auto& names=*services_.sound_names;
++ if(names.size()>std::size_t(std::numeric_limits<std::int32_t>::max())){e="Original SoundEmitter names exceed signed native row domain";return false;}
++ sound_id390_=-1;
++ for(std::size_t i=0;i<names.size();++i)if(!std::strcmp(sound378_.c_str(),names[i].c_str())){sound_id390_=static_cast<std::int32_t>(i);break;}
++ e.clear();return true;
++}
++bool CanonicalSoundEmitterV32::update(std::string&e){if(destruction_started_){e="SoundEmitter cannot update a native D1 prefix";return false;}if(!services_.whole_update){e="Required actual SoundEmitter playback/update3951c0";return false;}return services_.whole_update(*this,e);}
++bool CanonicalSoundEmitterV32::destroy(std::string&e){
++ if(destroyed_){e="SoundEmitter destruction cannot replay";return false;}
++ if(destroying_){e="SoundEmitter destruction cannot reenter";return false;}
++ if(!services_.whole_destroy){e="Required actual SoundEmitter D1 source body";return false;}
++ destroying_=true;destruction_started_=true;struct Guard{bool& b;~Guard(){b=false;}}guard{destroying_};
++ if(!services_.whole_destroy(*this,e))return false;destroyed_=true;return true;
++}
+ bool CanonicalSoundEmitterV32::set_position(const std::array<float,3>&v,bool d,std::string&e){if(!initialization_services_.set_position){e="Required SAME SoundEmitter SetPosition";return false;}return initialization_services_.set_position(v.data(),d,e);}
+ CanonicalClassReceiverV1 CanonicalSoundEmitterV32::factory_receiver(std::shared_ptr<CanonicalSoundEmitterV32> owner,std::shared_ptr<const void> xml){auto result=canonical_class_receiver_v1(owner);result.source_lease=std::move(xml);result.init_post=[owner](std::string&e){return owner->init_post(e);};result.is_game_object=[](bool&v,std::string&){v=true;return true;};result.position=[owner](std::array<float,3>&v,std::string&){std::copy_n(owner->base().vector3(0x160),3,v.begin());return true;};result.set_position=[owner](const std::array<float,3>&v,bool d,std::string&e){return owner->set_position(v,d,e);};return result;}
+ }
+--- a/port/engine-audio/audio_mixer_v34.hpp
++++ b/port/engine-audio/audio_mixer_v34.hpp
+@@ -16,6 +16,8 @@
+  const char* source_dsp_bus{}; // SAME catalog string, retained until output drain.
+  float source_fade_seconds{}; // Volume envelope converted by actual consumer rate.
+  AudioBankV34 source_bank{};
++ // Actual Reset3D/Set3DPosition output from existing source spatial producer.
++ std::array<float,3> source_position3d_v92{};bool source_position_produced_v92{};
+ };
+ enum class AudioReceiptKindV34:std::uint8_t {started,completed,stopped,stolen,rejected,malformed,control_required};
+ struct AudioReceiptV34 {std::uint64_t token{},frame{};AudioReceiptKindV34 kind{};};
+--- a/port/engine-audio/audio_gameplay_runtime_v40.hpp
++++ b/port/engine-audio/audio_gameplay_runtime_v40.hpp
+@@ -15,7 +15,7 @@
+  bool(*source_command)(void*,const dh2::character::CombatSoundPlayV1&,
+   const AudioSoundV34&,const AudioGroupV34&,AudioCommandV34&,std::string&){};
+ };
+-struct AudioVoiceStateV40 {int xml_uid{-1};bool started{},control_required{};};
++struct AudioVoiceStateV40 {int xml_uid{-1};bool started{},control_required{};std::array<float,3> source_position3d_v92{};bool source_position_produced_v92{};};
+ struct AudioControlClosedProofV40 {
+  const AudioMixerV34* mixer{};
+  const std::atomic<bool>* close_completed{};
+--- a/port/engine-audio/vox_source_fields_v38.cpp
++++ b/port/engine-audio/vox_source_fields_v38.cpp
+@@ -22,6 +22,8 @@
+ bool vox_source_spatial_command_v38(const VoxListenerAuthorityV38&a,const AudioSpatialSourceV34&s,float gain,float pitch,AudioCommandV34&command,std::string&error){
+  if(!std::isfinite(gain)||gain<0||!std::isfinite(pitch)||pitch<=0){error="Required original source DSP gain/pitch";return false;}AudioSpatialResultV34 result;if(!audio_spatial_v34(a.listener,s,result)){error="Required recovered finite source spatial domain";return false;}
+  const float distance=float(result.distance_q14)/16384.f;const float actual_pitch=mul(pitch,float(result.doppler_q14)/16384.f);if(actual_pitch>8){error="Required modern transport pitch capacity";return false;}
+- command.left=mul(mul(gain,distance),float(result.left_q14)/16384.f);command.right=mul(mul(gain,distance),float(result.right_q14)/16384.f);command.pitch=actual_pitch;error.clear();return true;
++ command.left=mul(mul(gain,distance),float(result.left_q14)/16384.f);command.right=mul(mul(gain,distance),float(result.right_q14)/16384.f);command.pitch=actual_pitch;
++ std::copy_n(s.position,3,command.source_position3d_v92.begin());command.source_position_produced_v92=true;
++ error.clear();return true;
+ }
+ }
+--- a/port/engine-audio/audio_gameplay_runtime_v42.hpp
++++ b/port/engine-audio/audio_gameplay_runtime_v42.hpp
+@@ -31,6 +31,8 @@
+  // Its fresh emitter/property body is separate from Play3D's listener gates.
+  using PlainCommand=std::function<bool(const AudioSoundV34&,const AudioGroupV34&,AudioCommandV34&,std::string&)>;
+  bool submit_plain_source(int source_ordinal,std::int64_t,const PlainCommand&,std::string&);
++ // Original Stop/Stop3D10-handle domain on SAME retained source voices.
++ bool stop_source_emitters_v92(int source_ordinal,int milliseconds,const float* reference,float radius,std::string&);
+  bool stop_source_ordinal(int source_ordinal,std::uint32_t fade_frames,std::string&);
+  bool source_ordinal_playing(int source_ordinal,bool&,std::string&);
+  bool resume_source_ordinal(int source_ordinal,std::uint32_t fade_frames,std::string&);
+--- a/port/engine-audio/audio_gameplay_runtime_v42.cpp
++++ b/port/engine-audio/audio_gameplay_runtime_v42.cpp
+@@ -1,5 +1,6 @@
+ #include "audio_gameplay_runtime_v42.hpp"
+ #include <cstring>
++#include <cmath>
+ namespace dh2::audio {
+ AudioGameplayRuntimeV42::AudioGameplayRuntimeV42(std::uintptr_t manager,AudioGameplaySourcesV40 sources):manager_(manager),sources_(sources),bank_(catalog_,mixer_,sources.exact_assets){}
+ bool AudioGameplayRuntimeV42::initialize_exact_source(std::string&error){
+@@ -21,7 +22,7 @@
+  std::uint64_t frame;if(!clock_.frame_at(event_ns_,mixer_.output_frame(),frame)){error_="Required real focused output timestamp for source event";return -1;}
+  if(voices_.size()>=1024){error_="Audio voice observation capacity; drain producer receipts";return -1;}
+  AudioCommandV34 command;if(!sources_.source_command||!sources_.source_command(sources_.context,play,*sound,*group,command,error_)){if(error_.empty())error_="Required same actual source listener/emitter/DSP/music fields";return -1;}command.start_frame=frame;
+- std::uint64_t token;if(!bank_.play_uid(uid,command,token)){error_=bank_.error();return -1;}voices_.emplace(token,AudioVoiceStateV40{uid,false});last_token_=token;last_uid_=uid;return 0;
++ std::uint64_t token;if(!bank_.play_uid(uid,command,token)){error_=bank_.error();return -1;}voices_.emplace(token,AudioVoiceStateV40{uid,false,false,command.source_position3d_v92,command.source_position_produced_v92});last_token_=token;last_uid_=uid;return 0;
+ }
+ int AudioGameplayRuntimeV42::invoke(void*raw,const dh2::sound::VoxPlay3DRequestV2&q,dh2::sound::VoxPlay3DResponseV2&r){
+  auto&self=*static_cast<AudioGameplayRuntimeV42*>(raw);using O=dh2::sound::VoxPlay3DOperationV2;
+@@ -59,7 +60,7 @@
+  if(!make||!make(*sound,*group,command,error)){if(error.empty())error="Required whole original fresh Play emitter/properties body";return false;}
+  command.kind=AudioCommandKindV34::play;command.start_frame=frame;
+  std::uint64_t token{};if(!bank_.play_uid(sound->uid,command,token,false)){error=bank_.error();return false;}
+- voices_.emplace(token,AudioVoiceStateV40{sound->uid,false});last_token_=token;last_uid_=sound->uid;
++ voices_.emplace(token,AudioVoiceStateV40{sound->uid,false,false,command.source_position3d_v92,command.source_position_produced_v92});last_token_=token;last_uid_=sound->uid;
+  error.clear();return true;
+ }
+ bool AudioGameplayRuntimeV42::source_ordinal_playing(int ordinal,bool&playing,std::string&error){
+@@ -73,6 +74,34 @@
+  pump_receipts();
+  for(const auto&entry:voices_)if(entry.second.xml_uid==row->uid){AudioCommandV34 command;command.kind=AudioCommandKindV34::stop;command.token=entry.first;command.fade_frames=fade;
+   if(!mixer_.post(command)){error="Actual Stop queue full; preserve reached source prefix";return false;}}
++ error.clear();return true;
++}
++bool AudioGameplayRuntimeV42::stop_source_emitters_v92(int ordinal,int milliseconds,const float* reference,float radius,std::string& error){
++ if(ordinal<0){error.clear();return true;}
++ if(!initialized_||quiescing_||in_submit_){error="Required SAME active native Stop producer";return false;}
++ const auto* row=bindings_.row(ordinal);if(!row){error="Required source Stop generated12-byte sound row";return false;}
++ // Original slot NULL / Vox.IsReady false exit occurs BEFORE fade/handles.
++ if(row->uid<0){error="Original positive ordinal Stop indexes a negative datasource UID; unsafe branch remains open";return false;}
++ if(!bank_.source_slot_identity_v101(row->uid)){error.clear();return true;}
++ if(!bank_.source_slot_sample_v101(row->uid)){error="Required actual positive datasource IsReady state";return false;}
++ if(milliseconds<0){error="Negative source Stop envelope remains outside transport capacity";return false;}
++ volatile float seconds=static_cast<float>(milliseconds)/1000.0f;
++ pump_receipts();unsigned count=0;
++ // SAME existing handlable/voice token order. A generated UID selects a
++ // single actual sample kind; never merge a second emitter/position registry.
++ for(const auto& entry:voices_){if(entry.second.xml_uid!=row->uid)continue;if(count++==10)break;
++  if(reference){
++   if(!entry.second.source_position_produced_v92){error="Required actual registered emitter Set3DPosition output";return false;}
++   const auto& p=entry.second.source_position3d_v92;
++   volatile float x=p[0]-reference[0],y=p[1]-reference[1],z=p[2]-reference[2];
++   volatile float xx=x*x,yy=y*y,zz=z*z;volatile float xy=xx+yy;volatile float sum=xy+zz;
++   const float distance=static_cast<float>(std::sqrt(static_cast<double>(sum)));
++   // Original36a3ec fcmplt(radius,distance), STRICT; NaN naturally skips.
++   if(!(radius<distance))continue;
++  }
++  AudioCommandV34 command;command.kind=AudioCommandKindV34::stop;command.token=entry.first;command.source_fade_seconds=seconds;
++  if(!mixer_.post(command)){error="Actual Stop command queue full; native posted prefix retained";return false;}
++ }
+  error.clear();return true;
+ }
+ bool AudioGameplayRuntimeV42::resume_source_ordinal(int ordinal,std::uint32_t fade,std::string&error){
+--- a/port/engine-audio/integration-v42/audio_application_manager_v42.hpp
++++ b/port/engine-audio/integration-v42/audio_application_manager_v42.hpp
+@@ -44,6 +44,8 @@
+  bool set_actual_disabled(bool,std::string&);
+  // Reached original LoadSound(rawUID): no ordinal conversion or Play3D gates.
+  bool precache_raw_uid(int,std::string&);
++ using SourcePlatformStopV92=std::function<bool(int,std::string&)>;
++ bool stop_source_v92(int source_ordinal,int milliseconds,const float* reference,float radius,const SourcePlatformStopV92&,std::string&);
+  bool submit_actual_play(const dh2::character::CombatSoundPlayV1&,std::int64_t,std::string&);
+  dh2::sound::VoxMusicFieldsV1& music_fields_on_producer()noexcept{return music_fields_;}
+  std::optional<AudioListenerRowV38>& listener_row_on_producer()noexcept{return listener_row_;}
+--- a/port/engine-audio/integration-v42/audio_application_manager_v42.cpp
++++ b/port/engine-audio/integration-v42/audio_application_manager_v42.cpp
+@@ -157,6 +157,15 @@
+  auto sample=runtime->load_sample_actual_xml_uid(uid,error);if(!sample)return false;
+  error.clear();return true; // SAME runtime bank now owns the sole UID slot.
+ }
++bool AudioApplicationManagerV42::stop_source_v92(int ordinal,int milliseconds,const float* reference,float radius,const SourcePlatformStopV92& platform,std::string& error){
++ // Whole original negative-UID -> process platform flag -> source data slot
++ // ordering. Do not replace nativeStopSoundBig with silence/StopAll.
++ if(ordinal<0){error.clear();return true;}
++ if(!producer(error))return false;
++ if(disabled_){if(!platform){error="Required genuine nativeStopSoundBig JNI leaf";return false;}return platform(ordinal,error);}
++ auto* runtime=runtime_on_producer();if(!runtime){error="Required SAME actual source Stop runtime";return false;}
++ return runtime->stop_source_emitters_v92(ordinal,milliseconds,reference,radius,error);
++}
+ bool AudioApplicationManagerV42::submit_actual_play(const dh2::character::CombatSoundPlayV1&play,std::int64_t event,std::string&error){
+  if(!producer(error)||closing_||!session_){if(error.empty())error="Application SoundManager closing/unavailable";return false;}
+  return session_->submit_actual_play(play,event,error);

@@ -1,0 +1,1619 @@
+{
+  "validation": "PASS",
+  "scope": "Compare staged source results with the frozen prior fixed/procedural milestone.",
+  "source_sha256": {
+    "level_preparation_v1.hpp": "6315bd417cbd6f3ecc0ac53e2924c2137e0620ca0c485112f20ab88ad4db94c9",
+    "level_preparation_v1.cpp": "d69ef984e527aa7a5e61de9105900625f31db8b96a247003be08706e29f78b6f",
+    "CMakeLists.txt": "3e48edd3ededf908d4f9e77e3f65ccd85b9725f3bf44b0b83c8e8e226db14988",
+    "tests/level_preparation_probe.cpp": "4c53c35cdbc067c237b63ed3932a7bac14d2c107747cf71ee2938772aef411b7",
+    "tests/level_preparation_coverage.py": "9f3db7fa09762d43fd017f519aedc0c90fda2f1f16c1e67b2642b2e1899ea0f0"
+  },
+  "probe_sha256": "c1e7859eed09adbdba8328f10db06867ece755806af684f6878845c47aa7c874",
+  "baseline_archive_sha256": "684f2a0ace2ced5aa7400bffc5ae181f01f930a7e2990b01ba3faff30367c346",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "cases": [
+    {
+      "identity": "ABBEY_RUINS_01",
+      "definition": "009a_abbey.mlx",
+      "kind": "fixed",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 1,
+        "source_documents": 3,
+        "assets": 1,
+        "scene_instances": 53,
+        "declarations": 73,
+        "stages": 4,
+        "generated": false,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "APPLETEMPLEBACKUP",
+      "definition": "x50_earth_temple_demo_BACKUP.mlx",
+      "kind": "fixed",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 5,
+        "source_documents": 11,
+        "assets": 1,
+        "scene_instances": 248,
+        "declarations": 61,
+        "stages": 4,
+        "generated": false,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "DARKWOOD",
+      "definition": "003_darkwood.mlx",
+      "kind": "fixed",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 24,
+        "source_documents": 49,
+        "assets": 1,
+        "scene_instances": 971,
+        "declarations": 257,
+        "stages": 4,
+        "generated": false,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "DARKWOOD_V2",
+      "definition": "003_darkwood.mlx",
+      "kind": "fixed",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 24,
+        "source_documents": 49,
+        "assets": 1,
+        "scene_instances": 971,
+        "declarations": 257,
+        "stages": 4,
+        "generated": false,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "DARKWOOD_V3",
+      "definition": "003_darkwood.mlx",
+      "kind": "fixed",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 24,
+        "source_documents": 49,
+        "assets": 1,
+        "scene_instances": 971,
+        "declarations": 257,
+        "stages": 4,
+        "generated": false,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "DARK_DUNGEON_TEMPLE_01",
+      "definition": "038_dark_temple.mlx",
+      "kind": "fixed",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 8,
+        "source_documents": 17,
+        "assets": 1,
+        "scene_instances": 47,
+        "declarations": 191,
+        "stages": 4,
+        "generated": false,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "DARK_DUNGEON_TEMPLE_BOSSROOM",
+      "definition": "039_dark_temple_bossroom_01.mlx",
+      "kind": "fixed",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 2,
+        "source_documents": 5,
+        "assets": 2,
+        "scene_instances": 12,
+        "declarations": 43,
+        "stages": 4,
+        "generated": false,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "FIRE_TEMPLE_01",
+      "definition": "031_firetemple.mlx",
+      "kind": "fixed",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 12,
+        "source_documents": 25,
+        "assets": 1,
+        "scene_instances": 323,
+        "declarations": 173,
+        "stages": 4,
+        "generated": false,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "ICY_HUB",
+      "definition": "025_icy_hub.mlx",
+      "kind": "fixed",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 7,
+        "source_documents": 15,
+        "assets": 1,
+        "scene_instances": 306,
+        "declarations": 142,
+        "stages": 4,
+        "generated": false,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "INFECTED_VILLAGE_01",
+      "definition": "005_infectedvillage.mlx",
+      "kind": "fixed",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 2,
+        "source_documents": 5,
+        "assets": 1,
+        "scene_instances": 16,
+        "declarations": 53,
+        "stages": 4,
+        "generated": false,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "MACHINE_ROOMS_01",
+      "definition": "037_machine_rooms_01.mlx",
+      "kind": "fixed",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 13,
+        "source_documents": 9,
+        "assets": 1,
+        "scene_instances": 82,
+        "declarations": 131,
+        "stages": 4,
+        "generated": false,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "MULTIPLAYER_TEST",
+      "definition": "101_debug_MachineRoomTestMultiPlayer.mlx",
+      "kind": "fixed",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 1,
+        "source_documents": 3,
+        "assets": 1,
+        "scene_instances": 7,
+        "declarations": 8,
+        "stages": 4,
+        "generated": false,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "PORTAL_ROOM",
+      "definition": "003_darkwood.mlx",
+      "kind": "fixed",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 24,
+        "source_documents": 49,
+        "assets": 1,
+        "scene_instances": 971,
+        "declarations": 257,
+        "stages": 4,
+        "generated": false,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "RED_DESERT_HUB",
+      "definition": "015_red_desert_hub.mlx",
+      "kind": "fixed",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 6,
+        "source_documents": 13,
+        "assets": 1,
+        "scene_instances": 230,
+        "declarations": 113,
+        "stages": 4,
+        "generated": false,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "SWAMP",
+      "definition": "001_swamp.mlx",
+      "kind": "fixed",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 9,
+        "source_documents": 19,
+        "assets": 1,
+        "scene_instances": 421,
+        "declarations": 205,
+        "stages": 4,
+        "generated": false,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "UNDERWORLD_HUB",
+      "definition": "036_underworld_hub.mlx",
+      "kind": "fixed",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 9,
+        "source_documents": 19,
+        "assets": 1,
+        "scene_instances": 356,
+        "declarations": 110,
+        "stages": 4,
+        "generated": false,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "ABBEY_ENTRANCE_01",
+      "definition": "009_abbey.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 11,
+        "source_documents": 21,
+        "assets": 1,
+        "scene_instances": 110,
+        "declarations": 220,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "ABBEY_ENTRANCE_01",
+      "definition": "009_abbey.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 11,
+        "source_documents": 21,
+        "assets": 1,
+        "scene_instances": 109,
+        "declarations": 207,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "APPLETEMPLE",
+      "definition": "050_earth_temple_demo.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 4,
+        "source_documents": 8,
+        "assets": 1,
+        "scene_instances": 185,
+        "declarations": 43,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "APPLETEMPLE",
+      "definition": "050_earth_temple_demo.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 4,
+        "source_documents": 8,
+        "assets": 1,
+        "scene_instances": 185,
+        "declarations": 43,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "DESERT_CAVE_01",
+      "definition": "016_red_desert_cave_01.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 9,
+        "source_documents": 19,
+        "assets": 1,
+        "scene_instances": 311,
+        "declarations": 167,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "DESERT_CAVE_01",
+      "definition": "016_red_desert_cave_01.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 7,
+        "source_documents": 15,
+        "assets": 1,
+        "scene_instances": 261,
+        "declarations": 133,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "DESERT_CAVE_02",
+      "definition": "017_red_desert_cave_02.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "original_no_layout",
+      "actual": {
+        "validation": "NO_LAYOUT",
+        "generated": false
+      }
+    },
+    {
+      "identity": "DESERT_CAVE_02",
+      "definition": "017_red_desert_cave_02.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 10,
+        "source_documents": 19,
+        "assets": 1,
+        "scene_instances": 245,
+        "declarations": 109,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "DESERT_CAVE_03",
+      "definition": "018_red_desert_cave_03.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 10,
+        "source_documents": 16,
+        "assets": 1,
+        "scene_instances": 246,
+        "declarations": 120,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "DESERT_CAVE_03",
+      "definition": "018_red_desert_cave_03.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 10,
+        "source_documents": 18,
+        "assets": 1,
+        "scene_instances": 241,
+        "declarations": 109,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "EARTH_TEMPLE_01",
+      "definition": "011_earth_temple_01.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 7,
+        "source_documents": 13,
+        "assets": 1,
+        "scene_instances": 361,
+        "declarations": 184,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "EARTH_TEMPLE_01",
+      "definition": "011_earth_temple_01.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 6,
+        "source_documents": 13,
+        "assets": 1,
+        "scene_instances": 313,
+        "declarations": 163,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "EARTH_TEMPLE_02",
+      "definition": "012_earth_temple_02.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 8,
+        "source_documents": 15,
+        "assets": 1,
+        "scene_instances": 364,
+        "declarations": 153,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "EARTH_TEMPLE_02",
+      "definition": "012_earth_temple_02.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 7,
+        "source_documents": 15,
+        "assets": 1,
+        "scene_instances": 323,
+        "declarations": 127,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "EARTH_TEMPLE_03",
+      "definition": "013_earth_temple_03.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 5,
+        "source_documents": 11,
+        "assets": 1,
+        "scene_instances": 244,
+        "declarations": 114,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "EARTH_TEMPLE_03",
+      "definition": "013_earth_temple_03.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 5,
+        "source_documents": 11,
+        "assets": 1,
+        "scene_instances": 244,
+        "declarations": 114,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "ELEMENTAL_AIR",
+      "definition": "030_el_air.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 8,
+        "source_documents": 15,
+        "assets": 1,
+        "scene_instances": 297,
+        "declarations": 150,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "ELEMENTAL_AIR",
+      "definition": "030_el_air.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 7,
+        "source_documents": 13,
+        "assets": 1,
+        "scene_instances": 265,
+        "declarations": 131,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "ELEMENTAL_EARTH",
+      "definition": "014_el_earth.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 7,
+        "source_documents": 15,
+        "assets": 1,
+        "scene_instances": 259,
+        "declarations": 122,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "ELEMENTAL_EARTH",
+      "definition": "014_el_earth.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 7,
+        "source_documents": 13,
+        "assets": 1,
+        "scene_instances": 265,
+        "declarations": 131,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "ELEMENTAL_FIRE",
+      "definition": "032_el_fire.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 8,
+        "source_documents": 15,
+        "assets": 1,
+        "scene_instances": 297,
+        "declarations": 148,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "ELEMENTAL_FIRE",
+      "definition": "032_el_fire.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 8,
+        "source_documents": 15,
+        "assets": 1,
+        "scene_instances": 297,
+        "declarations": 148,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "ELEMENTAL_LIGHT",
+      "definition": "010_el_lightning.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 7,
+        "source_documents": 15,
+        "assets": 1,
+        "scene_instances": 259,
+        "declarations": 130,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "ELEMENTAL_LIGHT",
+      "definition": "010_el_lightning.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 7,
+        "source_documents": 13,
+        "assets": 1,
+        "scene_instances": 265,
+        "declarations": 126,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "ELEMENTAL_WATER",
+      "definition": "024_el_water.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 8,
+        "source_documents": 13,
+        "assets": 1,
+        "scene_instances": 284,
+        "declarations": 143,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "ELEMENTAL_WATER",
+      "definition": "024_el_water.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 8,
+        "source_documents": 15,
+        "assets": 1,
+        "scene_instances": 304,
+        "declarations": 144,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "GOTHICUS_CASTLE_01",
+      "definition": "008_gothicus_castle_01.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 7,
+        "source_documents": 15,
+        "assets": 1,
+        "scene_instances": 242,
+        "declarations": 101,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "GOTHICUS_CASTLE_01",
+      "definition": "008_gothicus_castle_01.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 7,
+        "source_documents": 15,
+        "assets": 1,
+        "scene_instances": 242,
+        "declarations": 101,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "GOTHICUS_CASTLE_02",
+      "definition": "021_gothicus_castle_02.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 7,
+        "source_documents": 15,
+        "assets": 1,
+        "scene_instances": 242,
+        "declarations": 118,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "GOTHICUS_CASTLE_02",
+      "definition": "021_gothicus_castle_02.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 7,
+        "source_documents": 15,
+        "assets": 1,
+        "scene_instances": 242,
+        "declarations": 118,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "GOTHICUS_CRYPT_01",
+      "definition": "007_crypt_01.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 8,
+        "source_documents": 17,
+        "assets": 1,
+        "scene_instances": 127,
+        "declarations": 185,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "GOTHICUS_CRYPT_01",
+      "definition": "007_crypt_01.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 8,
+        "source_documents": 17,
+        "assets": 1,
+        "scene_instances": 136,
+        "declarations": 193,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "GOTHICUS_CRYPT_02",
+      "definition": "020_crypt_02.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 11,
+        "source_documents": 21,
+        "assets": 1,
+        "scene_instances": 108,
+        "declarations": 215,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "GOTHICUS_CRYPT_02",
+      "definition": "020_crypt_02.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 11,
+        "source_documents": 23,
+        "assets": 1,
+        "scene_instances": 116,
+        "declarations": 201,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "ICY_CAVERN_01",
+      "definition": "026_icy_cavern_01.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 10,
+        "source_documents": 17,
+        "assets": 1,
+        "scene_instances": 180,
+        "declarations": 79,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "ICY_CAVERN_01",
+      "definition": "026_icy_cavern_01.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 10,
+        "source_documents": 19,
+        "assets": 1,
+        "scene_instances": 170,
+        "declarations": 83,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "ICY_CAVERN_02",
+      "definition": "027_icy_cavern_02.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "original_no_layout",
+      "actual": {
+        "validation": "NO_LAYOUT",
+        "generated": false
+      }
+    },
+    {
+      "identity": "ICY_CAVERN_02",
+      "definition": "027_icy_cavern_02.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "original_no_layout",
+      "actual": {
+        "validation": "NO_LAYOUT",
+        "generated": false
+      }
+    },
+    {
+      "identity": "ICY_CAVERN_03",
+      "definition": "028_icy_cavern_03.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 11,
+        "source_documents": 19,
+        "assets": 1,
+        "scene_instances": 189,
+        "declarations": 109,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "ICY_CAVERN_03",
+      "definition": "028_icy_cavern_03.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 11,
+        "source_documents": 17,
+        "assets": 1,
+        "scene_instances": 183,
+        "declarations": 110,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "LIGHT_HOUSE_01",
+      "definition": "019_light_house_01.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 5,
+        "source_documents": 11,
+        "assets": 1,
+        "scene_instances": 414,
+        "declarations": 171,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "LIGHT_HOUSE_01",
+      "definition": "019_light_house_01.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 5,
+        "source_documents": 11,
+        "assets": 1,
+        "scene_instances": 421,
+        "declarations": 173,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "LIGHT_HOUSE_02",
+      "definition": "019_light_house_02.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 5,
+        "source_documents": 11,
+        "assets": 1,
+        "scene_instances": 457,
+        "declarations": 164,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "LIGHT_HOUSE_02",
+      "definition": "019_light_house_02.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 5,
+        "source_documents": 11,
+        "assets": 1,
+        "scene_instances": 473,
+        "declarations": 162,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "LIGHT_HOUSE_03",
+      "definition": "019_light_house_03.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 1,
+        "source_documents": 3,
+        "assets": 1,
+        "scene_instances": 35,
+        "declarations": 24,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "LIGHT_HOUSE_03",
+      "definition": "019_light_house_03.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 1,
+        "source_documents": 3,
+        "assets": 1,
+        "scene_instances": 35,
+        "declarations": 24,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "QUESTTEST",
+      "definition": "102_debug_QUESTTEST.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 7,
+        "source_documents": 8,
+        "assets": 1,
+        "scene_instances": 58,
+        "declarations": 23,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "QUESTTEST",
+      "definition": "102_debug_QUESTTEST.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 7,
+        "source_documents": 8,
+        "assets": 1,
+        "scene_instances": 58,
+        "declarations": 23,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "RANDOMFORALEX",
+      "definition": "125_RandomForAlexB.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 5,
+        "source_documents": 8,
+        "assets": 1,
+        "scene_instances": 179,
+        "declarations": 40,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "RANDOMFORALEX",
+      "definition": "125_RandomForAlexB.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 5,
+        "source_documents": 8,
+        "assets": 1,
+        "scene_instances": 179,
+        "declarations": 40,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "ROOT_DEN_01",
+      "definition": "004_root_den.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 8,
+        "source_documents": 17,
+        "assets": 1,
+        "scene_instances": 199,
+        "declarations": 105,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "ROOT_DEN_01",
+      "definition": "004_root_den.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 8,
+        "source_documents": 17,
+        "assets": 1,
+        "scene_instances": 199,
+        "declarations": 105,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "SECRET_BASEMENT_01",
+      "definition": "006_basement.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 8,
+        "source_documents": 15,
+        "assets": 1,
+        "scene_instances": 79,
+        "declarations": 61,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "SECRET_BASEMENT_01",
+      "definition": "006_basement.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 8,
+        "source_documents": 17,
+        "assets": 1,
+        "scene_instances": 78,
+        "declarations": 63,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "SWAMP_02",
+      "definition": "022_swamp2.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 11,
+        "source_documents": 17,
+        "assets": 1,
+        "scene_instances": 562,
+        "declarations": 169,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "SWAMP_02",
+      "definition": "022_swamp2.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 12,
+        "source_documents": 19,
+        "assets": 1,
+        "scene_instances": 583,
+        "declarations": 171,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "SWAMP_CAVE_TROLL_A",
+      "definition": "022_swamp2_trollcave.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 9,
+        "source_documents": 16,
+        "assets": 1,
+        "scene_instances": 56,
+        "declarations": 86,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "SWAMP_CAVE_TROLL_A",
+      "definition": "022_swamp2_trollcave.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 8,
+        "source_documents": 17,
+        "assets": 1,
+        "scene_instances": 49,
+        "declarations": 79,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "SWAMP_CAVE_WITCH_A",
+      "definition": "002_swamp_witchcave.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 7,
+        "source_documents": 15,
+        "assets": 1,
+        "scene_instances": 43,
+        "declarations": 91,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "SWAMP_CAVE_WITCH_A",
+      "definition": "002_swamp_witchcave.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 7,
+        "source_documents": 15,
+        "assets": 1,
+        "scene_instances": 43,
+        "declarations": 91,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "VOID_MAZE_01",
+      "definition": "033_voidmaze_01.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 9,
+        "source_documents": 17,
+        "assets": 1,
+        "scene_instances": 44,
+        "declarations": 43,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "VOID_MAZE_01",
+      "definition": "033_voidmaze_01.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 9,
+        "source_documents": 17,
+        "assets": 1,
+        "scene_instances": 44,
+        "declarations": 43,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "VOID_MAZE_02",
+      "definition": "034_voidmaze_02.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 11,
+        "source_documents": 15,
+        "assets": 1,
+        "scene_instances": 54,
+        "declarations": 25,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "VOID_MAZE_02",
+      "definition": "034_voidmaze_02.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 11,
+        "source_documents": 15,
+        "assets": 1,
+        "scene_instances": 54,
+        "declarations": 25,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "VOID_MAZE_03",
+      "definition": "035_voidmaze_03.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 7,
+        "source_documents": 11,
+        "assets": 1,
+        "scene_instances": 33,
+        "declarations": 17,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "VOID_MAZE_03",
+      "definition": "035_voidmaze_03.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembly_blocked",
+      "actual": null
+    },
+    {
+      "identity": "WATER_TEMPLE_01",
+      "definition": "023_watertemple.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 13,
+        "source_documents": 22,
+        "assets": 1,
+        "scene_instances": 333,
+        "declarations": 143,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "WATER_TEMPLE_01",
+      "definition": "023_watertemple.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 13,
+        "source_documents": 22,
+        "assets": 1,
+        "scene_instances": 324,
+        "declarations": 146,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "WIND_TEMPLE_01",
+      "definition": "029_wind_temple.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 12,
+        "source_documents": 21,
+        "assets": 1,
+        "scene_instances": 499,
+        "declarations": 122,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "identity": "WIND_TEMPLE_01",
+      "definition": "029_wind_temple.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "status": "assembled",
+      "actual": {
+        "validation": "PASS",
+        "module_count": 12,
+        "source_documents": 21,
+        "assets": 1,
+        "scene_instances": 499,
+        "declarations": 122,
+        "stages": 11,
+        "generated": true,
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    }
+  ],
+  "fixed_cases": 16,
+  "procedural_cases": 70,
+  "runtime_objects_verified": false,
+  "full_loader_verified": false
+}

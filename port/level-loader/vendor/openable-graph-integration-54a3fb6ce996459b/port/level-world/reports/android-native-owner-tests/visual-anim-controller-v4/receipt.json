@@ -1,0 +1,46 @@
+{
+  "status": "PASS",
+  "scope": "declared source receiver fixtures; not a production factory or whole-level acceptance",
+  "emulator": "emulator-5554",
+  "binary_sha256": "d47fdb896e724dc7995b165a78b02e75e1c240689022bcd4ac1aa5e98f8f09fc",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\visual_anim_controller_owner_v4.cpp",
+      "sha256": "a31a52a18f998fe33517d73031daf6e64a291ecd02f905e5f2cd88995445494b"
+    },
+    {
+      "path": "port\\level-world\\visual_anim_controller_owner_v4.cpp",
+      "sha256": "11059fdf45afecdf15808ea324df4a622c0636fc9ff210ee2564f03823fa0486"
+    }
+  ],
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\visual_anim_controller_owner_v4.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\visual_anim_controller_owner_v4.cpp",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\visual-anim-controller-v4\\visual-anim-controller-v4.bin"
+  ],
+  "exit_code": 0,
+  "stdout": "AnimController SAME root lifetime/callback/remove/failure-prefix PASS\n",
+  "stderr": ""
+}

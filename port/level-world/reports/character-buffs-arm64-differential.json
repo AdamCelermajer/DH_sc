@@ -1,0 +1,62 @@
+{
+  "validation": "PASS",
+  "scope": "Actual buff control/property instructions versus O2 owned native STL.\n\nARM32 map allocation/string/deque mutation and imported timer/FX services are\nexplicit fixtures. Tree search, selection, reset/resolve/full recalc, expiry\nand lifetime call order execute original instructions. ARM64 owned STL and\nthe already proved native TimerStore execute, including all property kernels.\n",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_instructions_executed": true,
+  "original_property_reset_resolve_recalculate_unmocked": true,
+  "original_class_input": "defaults ClassID=-1 (source negative-id class skip)",
+  "original_STL_mutation_timer_FX_services": "explicit fixtures",
+  "native_owned_STL_and_timers_executed": true,
+  "comparisons": 528,
+  "service_requests": 1231,
+  "gold_sha256": "9111b79af4d47c88df7e809557ed659215424d2af39850ad1a86ddf32635a1ed",
+  "native_sha256": "0c92373874a9488b1a227f42f77f3e242f54dbc55d70a275b593b193613ea41d",
+  "source_sha256": {
+    "port/game-data/class_tables.cpp": "3960dbf2d35b895c3baa137cecf67dacd6fafb368352f74c89af4cc2f90d1595",
+    "port/level-world/character_buffs.hpp": "2d3b4b7753868bb797c00888c5efb6e40e86f1bda4df5e812cfc6da6a07d7e06",
+    "port/level-world/character_timers.cpp": "8a7ea63fb09debcf850731c59ff7530fd5cc10d9b6753d3dfb6c97ae413c71f4",
+    "port/level-world/character_buffs.cpp": "84523e93217166a154952d677c1b04f1ed3ee16e322312db8ba134ceeb3e59db",
+    "port/level-world/character_timers.hpp": "22c775ebf458563dfe1dccfe519b94cbd0e519897bf1c85bec1ec2d111eb0883",
+    "port/game-data/properties.hpp": "aeaaa77b0134ab614892cd726c8124548d3c249cf7c4f8a2e43964fdcd41217d",
+    "port/game-data/properties.cpp": "f1a77dbcb075c04fecaf3ec1d61180eb0e123e8f5cab5f64090d43aea6aa7877",
+    "port/game-data/class_tables.hpp": "f9f41759396e9c4c421ae4013797410c03b4d8ee3b5d78a2656b6bf26c6185e7",
+    "port/level-world/tests/character_buffs_oracle.cpp": "1ee4d2a9dc0b1a16fd82b332178b357d5a66c8a74d97373a9aeadf0b4347182d"
+  },
+  "compiler": {
+    "compiler_sha256": "3da8eb6f49b741ab885854665f10d3793822232f133f8c0233a8a4cb32c97dc0",
+    "library_sha256": "0c92373874a9488b1a227f42f77f3e242f54dbc55d70a275b593b193613ea41d",
+    "arguments": [
+      "--target=aarch64-linux-android24",
+      "-std=c++17",
+      "-O2",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-fno-fast-math",
+      "-ffp-contract=off",
+      "-fPIC",
+      "-shared",
+      "port/level-world/character_buffs.cpp",
+      "port/level-world/character_timers.cpp",
+      "port/game-data/properties.cpp",
+      "port/game-data/class_tables.cpp",
+      "port/level-world/tests/character_buffs_oracle.cpp",
+      "-o",
+      ".local-inputs/character-buffs-discovery/oracle.so"
+    ],
+    "source_sha256": {
+      "port/game-data/class_tables.cpp": "3960dbf2d35b895c3baa137cecf67dacd6fafb368352f74c89af4cc2f90d1595",
+      "port/level-world/character_buffs.hpp": "2d3b4b7753868bb797c00888c5efb6e40e86f1bda4df5e812cfc6da6a07d7e06",
+      "port/level-world/character_timers.cpp": "8a7ea63fb09debcf850731c59ff7530fd5cc10d9b6753d3dfb6c97ae413c71f4",
+      "port/level-world/character_buffs.cpp": "84523e93217166a154952d677c1b04f1ed3ee16e322312db8ba134ceeb3e59db",
+      "port/level-world/character_timers.hpp": "22c775ebf458563dfe1dccfe519b94cbd0e519897bf1c85bec1ec2d111eb0883",
+      "port/game-data/properties.hpp": "aeaaa77b0134ab614892cd726c8124548d3c249cf7c4f8a2e43964fdcd41217d",
+      "port/game-data/properties.cpp": "f1a77dbcb075c04fecaf3ec1d61180eb0e123e8f5cab5f64090d43aea6aa7877",
+      "port/game-data/class_tables.hpp": "f9f41759396e9c4c421ae4013797410c03b4d8ee3b5d78a2656b6bf26c6185e7",
+      "port/level-world/tests/character_buffs_oracle.cpp": "1ee4d2a9dc0b1a16fd82b332178b357d5a66c8a74d97373a9aeadf0b4347182d"
+    },
+    "compiler": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe"
+  },
+  "script_sha256": "40c1899ac0807a3fcacb19bb3f1e329251f6cb11b2fc676b6758f267d170fda1",
+  "mismatches": 0
+}

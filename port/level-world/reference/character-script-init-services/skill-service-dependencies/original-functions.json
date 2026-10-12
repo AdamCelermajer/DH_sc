@@ -1,0 +1,83 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9LuaScript4CallEPKcRKN3sfc6script3lua9ArgumentsE",
+      "elf_address": "0x37c41c",
+      "size": 120,
+      "sha256": "e9a24628fc5e1790fd128bed17d3e6d82744c40691fc3e2e17ef67262e1ac031"
+    },
+    {
+      "original_symbol": "_ZN6CharAI13_SkillCleanUpEv",
+      "elf_address": "0x3d8ae0",
+      "size": 72,
+      "sha256": "48496c272608ec923072a79d7bc3d31e383592b9f64010437647596b90bc415c"
+    },
+    {
+      "original_symbol": "_ZNSs19_M_range_initializeEPKcS0_",
+      "elf_address": "0x3116e8",
+      "size": 72,
+      "sha256": "45075e105c133d266caf029231a17938018bb62a8a095f967f74e12f09d34d07"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua5Value9setNumberEf",
+      "elf_address": "0x31b5e8",
+      "size": 16,
+      "sha256": "e6051f936693b6c02e69a0a20ccc8bb7374424886d0b02369985736207be7554"
+    },
+    {
+      "original_symbol": "_ZN6CharAI13_SpellCleanUpEv",
+      "elf_address": "0x3d8a98",
+      "size": 72,
+      "sha256": "221946bb28d69c3a38b1c8facd237368549c342a8282399bda287b871377d5aa"
+    },
+    {
+      "original_symbol": "_ZNSt6vectorIP17CharAISkillScriptSaIS1_EE7reserveEj",
+      "elf_address": "0x3cd584",
+      "size": 204,
+      "sha256": "b0162a77a29a3ca47815be12b1abe88ca0e4cb23d8c5e3afa071aafaad65d633"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript4CallEPKc",
+      "elf_address": "0x37c514",
+      "size": 112,
+      "sha256": "bd5f9d01fa32fcf2e4e458d913958481ded2d873a49c0165c4069484374f29fc"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua9ArgumentsD1Ev",
+      "elf_address": "0x319228",
+      "size": 56,
+      "sha256": "b2161d9478508698d32ed1a10ec04f7f3fac21c378911d12f99e3756b6151744"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua9Arguments10pushStringEPKc",
+      "elf_address": "0x39ec10",
+      "size": 104,
+      "sha256": "5ca3d6060080cbdec9f5b09f1ecd1d2e8e6532174fdbf0cf59dc59b3bd7a0307"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua9Arguments11pushIntegerEi",
+      "elf_address": "0x3cdd78",
+      "size": 180,
+      "sha256": "483cbe87eabf700aabba2356c996d5ad1173e0a505066bd35a4a75a0d45b7204"
+    },
+    {
+      "original_symbol": "_ZNSs9_M_assignEPKcS0_",
+      "elf_address": "0x3109e0",
+      "size": 192,
+      "sha256": "0dec702175815372c1050956647c127d6a120d13c7e55234ee29385735be3e7c"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua5Value9setStringEPKc",
+      "elf_address": "0x31c46c",
+      "size": 48,
+      "sha256": "9de10720c2d691b9d514139a2afc73cc9aff0ccf99419213629de294bf559a96"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua9ArgumentsC1Ev",
+      "elf_address": "0x3192b4",
+      "size": 56,
+      "sha256": "ecff21dac0d948631c7d396560380f046c04bfa519f31879dcc4f96f0ceb26bb"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+[
+  {
+    "add_pc": "0x30eee4",
+    "pointer": "0x8be368",
+    "value": "%f"
+  },
+  {
+    "add_pc": "0x30efec",
+    "pointer": "0x8be378",
+    "value": "%f,%f,%f"
+  },
+  {
+    "add_pc": "0x30eea8",
+    "pointer": "0x8c1eb8",
+    "value": "%d"
+  },
+  {
+    "add_pc": "0x30eebc",
+    "pointer": "0x8c1eb8",
+    "value": "%d"
+  },
+  {
+    "add_pc": "0x51365c",
+    "pointer": "0x8c0270",
+    "value": "GameObject"
+  }
+]

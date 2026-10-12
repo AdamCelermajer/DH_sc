@@ -1,0 +1,59 @@
+{
+  "validation": "PASS",
+  "actual_original_assignment_and_vector_assignment_bodies": true,
+  "source_manager": "explicit initialized source-layout storage; fresh ctor/driver not supplied",
+  "CLight_fixture": "independent refs retained so no final native/GPU free inferred",
+  "rows": [
+    {
+      "source_light_present": false,
+      "self_assignment": false,
+      "destination_names": [
+        "PlayerLight",
+        "SceneLight",
+        "CameraLight",
+        "MonsterLight"
+      ],
+      "same_destination_name_fields": true,
+      "auto_count_after": 0,
+      "auto_storage_reused": true,
+      "old_light_ref_after": 1,
+      "new_light_ref_after": 2,
+      "destination_slot78": "0x0",
+      "field1a0_after": 0
+    },
+    {
+      "source_light_present": true,
+      "self_assignment": false,
+      "destination_names": [
+        "PlayerLight",
+        "SceneLight",
+        "CameraLight",
+        "MonsterLight"
+      ],
+      "same_destination_name_fields": true,
+      "auto_count_after": 0,
+      "auto_storage_reused": true,
+      "old_light_ref_after": 1,
+      "new_light_ref_after": 3,
+      "destination_slot78": "0x2073000",
+      "field1a0_after": 0
+    },
+    {
+      "source_light_present": false,
+      "self_assignment": true,
+      "destination_names": [
+        "OLD0",
+        "OLD1",
+        "OLD2",
+        "OLD3"
+      ],
+      "same_destination_name_fields": true,
+      "auto_count_after": 2,
+      "auto_storage_reused": true,
+      "old_light_ref_after": 2,
+      "new_light_ref_after": 2,
+      "destination_slot78": "0x2072000",
+      "field1a0_after": 77
+    }
+  ]
+}

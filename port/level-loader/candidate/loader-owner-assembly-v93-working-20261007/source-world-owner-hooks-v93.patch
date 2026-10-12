@@ -1,0 +1,26 @@
+--- a/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.hpp
++++ b/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.hpp
+@@ -31,8 +31,9 @@
+ namespace dh2::loader {class GameEventTablesV50;}
+ namespace dh2::loader {class GameEventRuntimeV75;}
+ namespace dh2::loader {struct Stage33RestoreServicesV1;struct Stage34ServicesV1;}
+-namespace dh2::loader {class SourceReleaseJournalV69;}
++namespace dh2::loader {class SourceReleaseJournalV69;class ModuleRoomZoneConnectionV91;struct NonCharacterNativeReleasePrimitivesV92;}
+ namespace model_renderer {
++struct CampaignNonCharacterReleaseV92;struct CampaignGeneratedRoomNativeV92;
+ class SourceCampaignFxRuntimeV77;
+ class SourceCampaignSaveObjectsV86;
+ class SourceCampaignDeathRewardsV84;
+@@ -103,6 +104,12 @@
+  std::function<bool(std::string&)> source_pm_update_v70;
+  std::function<bool(const SourceCampaignCandidateBorrowV55&,
+   RendererCampaignNonCharacterInputsV69&,std::string&)> noncharacter_inputs_v81;
++ // Native method providers use the current actual candidate and independent
++ // primitive authority. Their closures must borrow this World weakly.
++ std::function<bool(const SourceCampaignCandidateBorrowV55&,dh2::loader::NonCharacterNativeReleasePrimitivesV92&,std::string&)> noncharacter_release_primitives_v92;
++ std::function<bool(const SourceCampaignCandidateBorrowV55&,CampaignGeneratedRoomNativeV92&,std::string&)> generated_room_native_v92;
++ std::shared_ptr<CampaignNonCharacterReleaseV92> noncharacter_release_provider_v92;
++ std::shared_ptr<dh2::loader::ModuleRoomZoneConnectionV91> module_room_zones_v91;
+  std::shared_ptr<void> noncharacter_producer_v89;
+  std::shared_ptr<dh2::loader::SourceReleaseJournalV69> noncharacter_release_journal_v89;
+  std::function<bool(dh2::world::CanonicalZonePhysicalServicesV82&,std::string&)> physical_services_v90;

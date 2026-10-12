@@ -1,0 +1,32 @@
+[
+  {
+    "address": "0x3f6990",
+    "size": 6472,
+    "symbol": "Level::_LoadProcess()"
+  },
+  {
+    "address": "0x3f0898",
+    "size": 584,
+    "symbol": "Level::PlaceFaeryAndFollowers(Character*)"
+  },
+  {
+    "address": "0x3d4d80",
+    "size": 288,
+    "symbol": "CharAI::AI_SetMaster(Character*)"
+  },
+  {
+    "address": "0x3cc5a4",
+    "size": 444,
+    "symbol": "CharAI::_UpdateMaster()"
+  },
+  {
+    "address": "0x3b9084",
+    "size": 96,
+    "symbol": "Character::_SetMaster(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+  },
+  {
+    "address": "0x3b379c",
+    "size": 136,
+    "symbol": "Character::InitSpawned(int, Point3D<float> const&)"
+  }
+]

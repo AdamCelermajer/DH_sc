@@ -1,0 +1,101 @@
+--- port/level-world/canonical_gameobject_base_owner_v1.hpp
++++ port/level-world/canonical_gameobject_base_owner_v1.hpp
+@@ -2,12 +2,14 @@
+ #include "canonical_property_map_v1.hpp"
+ #include "character_world_npc_object_v1.hpp"
+ #include "actor_runtime.hpp"
++#include "gameobject_embedded_resources_v93.hpp"
+ namespace dh2::world {
+ // Same base-field authority for actual fresh GameObject class receivers.
+ // Runtime is borrowed, never copied: caller retains its one PF/pose owner.
+ class CanonicalGameObjectBaseOwnerV1 {
+  std::uintptr_t identity_{};std::shared_ptr<void> world_pin_;
+  actor::RuntimeState& runtime_;
++ std::unique_ptr<GameObjectEmbeddedResourcesV93> embedded_v93_;
+  std::uint32_t type_f4_{};target_providers::Handle16 handle_{};
+  const char* class_name20_{};std::int32_t room64_{-1};
+  std::string template_name8_;
+@@ -38,6 +40,7 @@
+  CanonicalObjectBorrowV1 canonical(std::shared_ptr<void> receiver_lease);
+  CanonicalPropertyActorV1 properties()noexcept;
+  actor::RuntimeState& runtime()noexcept{return runtime_;}
++ GameObjectEmbeddedResourcesV93* source_embedded_resources_v93()noexcept{return embedded_v93_.get();}
+  std::uintptr_t identity()const noexcept{return identity_;}
+  character::WorldNpcObjectFieldsV1& lifecycle()noexcept{return lifecycle_;}
+  target_providers::Handle16& shared_handle()noexcept{return handle_;}
+--- port/level-world/canonical_gameobject_base_owner_v1.cpp
++++ port/level-world/canonical_gameobject_base_owner_v1.cpp
+@@ -1,5 +1,6 @@
+ #include "canonical_gameobject_base_owner_v1.hpp"
+ #include <cstring>
++#include <stdexcept>
+ namespace dh2::world {
+ CanonicalGameObjectBaseOwnerV1::CanonicalGameObjectBaseOwnerV1(std::uintptr_t identity,std::uint32_t type,std::shared_ptr<void> pin,actor::RuntimeState& runtime):identity_(identity),world_pin_(std::move(pin)),runtime_(runtime),type_f4_(type){
+  handle_={0,UINT32_MAX,identity};
+@@ -12,6 +13,10 @@
+  std::memset(runtime_.subobjects.position,0,12);std::memset(runtime_.rotation.rotation,0,12);runtime_.rotation.heading_angle=0;
+  for(unsigned i=0;i<6;++i)runtime_.subobjects.local_bounds[i]=i<3?-100.f:100.f;
+   update_absolute_aabb();dh2_nav_object_defaults(&runtime_.object);
++ // SAME embedded PFObject/TargetList resource authority, retained with this
++ // real base. Native TargetList C1 has actual empty deque+backup-map resources.
++ embedded_v93_=std::make_unique<GameObjectEmbeddedResourcesV93>(runtime_);
++ std::string embedded_error;if(!embedded_v93_->pf.construct(embedded_error))throw std::logic_error(embedded_error);
+  // SAME source destination+1a8 used by SetDestination393600. The port's
+  // whole SetPosition successor already borrows controller.destination;
+  // target_position is the separate LookAt cached-node projection.
+--- port/android-native/app/src/main/cpp/source_campaign_character_fsm_v101.cpp
++++ port/android-native/app/src/main/cpp/source_campaign_character_fsm_v101.cpp
+@@ -1,4 +1,5 @@
+ #include "source_campaign_character_fsm_v101.hpp"
++#include "gameobject_embedded_resources_v93.hpp"
+ #include "renderer_character_campaign_v62.hpp"
+ #include "model_renderer.hpp"
+ #include "canonical_character_candidate_v60.hpp"
+@@ -291,6 +292,16 @@
+    auto& path=r_.actor->runtime.path;dh2_nav_drop_path(&path);path.segments=nullptr;path.capacity=0;
+   }
+  }
++ bool borrow_pf_path_storage_v93(dh2::world::PfPathStorageBorrowV93& out,std::string& error){
++  if(!r_.actor){error="Actual canonical PF actor missing";return false;}auto& path=r_.actor->runtime.path;
++  if(!path.segments||path.segments!=route_segments_.data()||path.capacity!=route_segments_.size()){error="PF path must borrow SAME actual FSM-owned route buffer";return false;}
++  out={};out.owner=r_.fsm_context_v101;out.segments=&route_segments_;
++  if(!out.owner){error="Actual canonical FSM owner missing";return false;}
++  std::weak_ptr<void> weak=r_.fsm_context_v101;out.release_storage=[weak](std::string& error){auto pin=weak.lock();if(!pin){error="Actual PF path storage owner retired early";return false;}auto owner=std::static_pointer_cast<CampaignFsmV101>(pin);auto& path=owner->r_.actor->runtime.path;
++   if(path.count||path.owned||path.segments!=owner->route_segments_.data()||path.capacity!=owner->route_segments_.size()){error="PF DropPath must complete before SAME buffer release";return false;}
++   std::vector<dh2::navigation::PathSegment>{}.swap(owner->route_segments_);path.segments=nullptr;path.capacity=0;error.clear();return true;};
++  error.clear();return true;
++ }
+  bool bind(WorldNpcStateServicesV1& out){
+   if(!r_.actor||!r_.services.debug||!r_.services.debug_files||!floors_||!navigation_)return fail("Required actual canonical FSM resource graph");
+   r_.actor->diagnostics=std::make_unique<StateOwnerDebugDiagnostics>(*r_.services.debug,*r_.services.debug_files);
+@@ -568,4 +579,10 @@
+  };
+  return true;
+ }
+-}
++bool borrow_source_campaign_character_pf_path_storage_v93(const std::shared_ptr<void>& world,std::uintptr_t id,
++ dh2::world::PfPathStorageBorrowV93& out,std::string& error){
++ SourceCampaignCharacterBorrowV62 actual;if(!borrow_source_campaign_character_v62(world,id,actual,error)||!actual.character->actor||!actual.character->fsm_context_v101)return false;
++ auto owner=std::static_pointer_cast<CampaignFsmV101>(actual.character->fsm_context_v101);return owner->borrow_pf_path_storage_v93(out,error);
++}
++
++}
+--- port/android-native/app/src/main/cpp/source_campaign_character_fsm_v101.hpp
++++ port/android-native/app/src/main/cpp/source_campaign_character_fsm_v101.hpp
+@@ -2,6 +2,7 @@
+ #include "character_world_npc_state_owner_v1.hpp"
+ #include "character_player_skills_v3.hpp"
+ #include "actor_blended_playback.hpp"
++#include "gameobject_embedded_resources_v93.hpp"
+ namespace dh2::world {struct CanonicalCharacterCandidateRecordV60;}
+ namespace dh2::world {struct CanonicalCharacterCandidateServicesV60;}
+ namespace dh2::character {class CharacterCandidateCacheV62;}
+@@ -29,6 +30,8 @@
+  std::uintptr_t,std::string&);
+ bool source_campaign_character_is_zonable_v104(const std::shared_ptr<void>&,
+  std::uintptr_t,bool&,std::string&);
++bool borrow_source_campaign_character_pf_path_storage_v93(const std::shared_ptr<void>&,
++ std::uintptr_t,dh2::world::PfPathStorageBorrowV93&,std::string&);
+ bool source_campaign_character_command_stop_v101(const std::shared_ptr<void>&,
+  std::uintptr_t,std::string&);
+ bool source_campaign_character_command_heading_v101(const std::shared_ptr<void>&,

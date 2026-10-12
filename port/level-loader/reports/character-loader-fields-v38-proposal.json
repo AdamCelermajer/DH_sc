@@ -1,0 +1,127 @@
+{
+  "schema": "dh2-character-loader-fields-v38-proposal",
+  "existing_actor_sources": {
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v4\\port\\level-world\\retained_character_actor_v1.hpp": "0a1954ecb0d19f800de635c576fd3090e2ea361a8d57653d640e5de96018d0d1",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v4\\port\\level-world\\retained_character_actor_v1.cpp": "6dce8ac669db1ecd139678a6e4f9c5729b7b061a48f810b467a6b8e113afa279"
+  },
+  "actor_changes_applied": true,
+  "source_fields": [
+    {
+      "offset": "0x13c8",
+      "type": "signed int16",
+      "C1": -1,
+      "source_instruction": "3aa34c",
+      "current_actor_storage": "char_properties_id13c8_ already exists; reuse it"
+    },
+    {
+      "offset": "0x13ca",
+      "type": "signed int16",
+      "C1": -1,
+      "source_instruction": "3aa354",
+      "proposed_actual_storage": "char_template_id13ca_ in SAME RetainedCharacterActorV1"
+    },
+    {
+      "offset": "0x418",
+      "type": "Character identity / pointer",
+      "C1": 0,
+      "source_instruction": "CharAI3cec70 writes+50; Character CharAI subobject+3c8",
+      "proposed_actual_storage": "source_ai_master50 in SAME retained actor; exact field passed to main CharAI master services"
+    }
+  ],
+  "cache_producers": [
+    {
+      "entry": "Character::SafeGetCharPropsTemplateId3b36ec",
+      "effect": "nonempty actual template name writes signed16 row index or -1 into13ca; empty template returns current13ca"
+    },
+    {
+      "entry": "Character::SafeGetCharPropsId3b3d38",
+      "effect": "already-selected13c8 returns before RNG; nonplayer weighted original template selection updates SAME13c8 and application RNG; direct charpropsname lookup updates same13c8; player branch requires actual SG_Load/class provider"
+    },
+    {
+      "entry": "Character::InitSpawned3b379c",
+      "effect": "writes argument low16 into13c8 before source position/activation; does not reset13ca"
+    }
+  ],
+  "master_producers": [
+    {
+      "entry": "CharAI::AI_SetMaster3d4d80",
+      "store": "3d4d8c",
+      "effect": "stores source master into SAME CharAI+50/Character418 before remaining main-owned AI behavior"
+    },
+    {
+      "entry": "Character::_SetMaster3b9084",
+      "effect": "Lua callback routes actual canonical target to AI_SetMaster"
+    },
+    {
+      "entry": "Level::PlaceFaeryAndFollowers3f0898",
+      "effect": "assigns main player master via same AI_SetMaster; must resolve/pin canonical player"
+    }
+  ],
+  "loading_order": [
+    {
+      "state": 10,
+      "entry": "3f70cc",
+      "call": "ObjectManager::InitPost3f7118",
+      "model_point": "Character::InitPost3b4ee4 invokes actual GetCharModelName"
+    },
+    {
+      "state": 14,
+      "entry": "3f7880",
+      "call": "Level::_LoadPlayer3f78b8"
+    },
+    {
+      "state": 36,
+      "effect": "waits actual NativeEndLoading before state37"
+    },
+    {
+      "state": 37,
+      "entry": "3f7c98",
+      "call": "Level::PlaceFaeryAndFollowers3f7ef8; master/source callbacks can change before increment38"
+    }
+  ],
+  "inspection_validity": "Fresh source-factory C1 record with property/class initialization complete and no reached master-producing callbacks can inspect genuine NULL-master base-model branch. State number alone is not proof of unchanged master: every model query must borrow/read its current actual field. Existing-actor adoption requires transferred actual cache/master authority, never constructor defaults reused as saved state.",
+  "DefaultFairy": {
+    "row": 97,
+    "AI": 20,
+    "AnimTable": 23,
+    "ModelFile": 34,
+    "model_name": "faeries_02_celeste",
+    "asset": "data/3D/characters/faeries/faeries_02_celeste.bdae",
+    "names_prefix_bytes": 8910,
+    "records_prefix_bytes": 401412,
+    "records_total_bytes": 401608,
+    "payload_sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784"
+  },
+  "acceptance": [
+    {
+      "id": "V38-C1",
+      "status": "verified original",
+      "evidence": "3 poisoned full factory/C1 body plus actual CharAI C1 stores; unrelated constructors/storage explicit fixtures"
+    },
+    {
+      "id": "V38-MODEL",
+      "status": "verified bounded native/original selection",
+      "evidence": "13 original cases and stateless borrowed-field native adapter; actual GetModelId/IsFaerie/SG current-ID bodies execute in oracle"
+    },
+    {
+      "id": "V38-ACTOR-FIELDS",
+      "status": "actual private V5 fields adopted; coherent parent rebuild pending",
+      "evidence": "reports/character-actual-binding-v39-verified.json: full candidate actor with record alias lifetime, foreign lease/fresh-adopted guards; no old actor/factory linked"
+    },
+    {
+      "id": "V38-LIVE-MASTER-SAVE",
+      "status": "required main services",
+      "evidence": "no production player/master/save/Faery row fabricated"
+    },
+    {
+      "id": "V38-VISUAL",
+      "status": "pending parent inspection export integration",
+      "evidence": "C1 DefaultFairy base model34 Celeste source reference proved; no device run"
+    }
+  ],
+  "current_selected_graph": "vendor/character-rng-integration-v5-loading",
+  "actual_adoption_receipt": "reports/character-actual-fields-v39-adopted.json",
+  "foreign_receiver_lease_validation": "actual actor pointer alias, separate facade identity, record controlblock lifetime; raw record/foreign aliases rejected",
+  "success_error_clear": true,
+  "valid_strengthened_patch_sha256": "56abb96da96b1104af4aa3c67cfcfaf172dcff45a8a031055ab6488bbcc19ecf"
+}

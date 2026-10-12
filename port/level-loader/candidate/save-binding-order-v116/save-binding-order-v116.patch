@@ -1,0 +1,36 @@
+--- a/port/android-native/app/src/main/cpp/renderer_source_stage34_v80.inc
++++ b/port/android-native/app/src/main/cpp/renderer_source_stage34_v80.inc
+@@ -92,11 +92,29 @@
+  native33.owner=owner33;native34.owner=owner34;
+  native33.actual_application=source_world->application;native34.actual_application=source_world->application;
+  native33.debug=debug;native34.debug=debug;
+- auto connection=source_world->native_level_c1_v25?*source_world->native_level_c1_v25:nullptr;
+- auto bindings=connection?connection->bindings():nullptr;
+- auto save=bindings?bindings->save():nullptr;
++ // This composition runs inside bootstrap.begin/connect_candidate, AFTER
++ // actual GS/Level C1 but BEFORE adopt_into fills the World adapter slots.
++ // Borrow the already constructed child from that SAME retained bootstrap;
++ // never replay C1 or infer Save ownership from the not-yet-filled alias.
++ auto gs=source_campaign_v55&&source_campaign_v55->world==source_world?
++  source_campaign_v55->bootstrap.gs():nullptr;
++ auto connection=gs&&gs->connection()?gs->connection()->level_connection():nullptr;
++ if(!gs||!source_campaign_v55->globals||
++    !gs->owns_globals_v50(source_campaign_v55->globals)||
++    !same(gs->fields().level34,level)||!same(source_campaign_v55->globals->s_level,level)||
++    !connection||!connection->complete()||!same(connection->candidate(),level)){
++  e="Required SAME completed bootstrap Level C1 before Stage33/34 enrollment";return false;
++ }
++ const auto adopted=source_world->native_level_c1_v25?*source_world->native_level_c1_v25:nullptr;
++ if(adopted&&!same(adopted,connection)){
++  e="World Level C1 alias differs from SAME retained bootstrap child";return false;
++ }
++ auto bindings=connection->bindings();
++ if(!bindings){e="Required actual completed Level C1 bindings before Stage33/34 enrollment";return false;}
++ auto save=bindings->save();
+  const auto& save_field=level->constructor_fields_v3().save_ec;
+- if((save_field||save)&&(!connection||connection->candidate()!=level||!same(save_field,save))){
++ if((save_field||save)&&(!same(save_field,save)||
++    !save->owner().ready()||save->owner().fields().level8!=reinterpret_cast<const void*>(level->identity()))){
+   e="Required SAME typed LevelEC save runtime from actual C1 bindings";return false;
+  }
+  native33.level_save=save;

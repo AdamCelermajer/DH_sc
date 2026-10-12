@@ -1,0 +1,8 @@
+{
+  "validation": "PASS",
+  "archive_sha256": "0c61fa0a0aa1a665dfa977cf989a322eb9effc12bcf66c9e89bead8f2b62892b",
+  "entries_verified": 30,
+  "snapshot": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\level-constructor-native-v4-2b2e752a73b86430",
+  "status": "verified immutable source retained; constructor/context composition pending",
+  "full_loader_verified": false
+}

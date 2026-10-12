@@ -1,0 +1,47 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN14PlayerSavegame21__LoadDifficultyLevelEP11IStreamBasePv",
+      "elf_address": "0x468968",
+      "size": 56,
+      "sha256": "588c66612bde0fe1947d682a66877541ba6b9431c2e332f843ba774000fae23d"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame13__LoadFaeriesEP11IStreamBasePv",
+      "elf_address": "0x4691d0",
+      "size": 348,
+      "sha256": "bd85e7fde608ed8be9d986dc97dd3b4a829a49d872e9819249b0f3879b3c9f0f"
+    },
+    {
+      "original_symbol": "_ZNK14PlayerSavegame17SG_GetFaerieLevelEji",
+      "elf_address": "0x466700",
+      "size": 196,
+      "sha256": "57e55a7d00bc69847dce284e28c4657b25dcbd59e0f7a7e495ca0ee6f7a550b4"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame12_InitFaeriesEv",
+      "elf_address": "0x4694c8",
+      "size": 132,
+      "sha256": "ddaa7fc26df4f9fc6aa0d8046dbbbc66c1a9625cac41b98768a8651b5efa58e0"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame17SG_SetFaerieStateEjii",
+      "elf_address": "0x466588",
+      "size": 180,
+      "sha256": "ec64a9ebecd3b4ee3c4aad7b5542dcf0b9ff6e11017495da136cafdab3eb3779"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame18__LoadCurrentFaeryEP11IStreamBasePv",
+      "elf_address": "0x468cd4",
+      "size": 228,
+      "sha256": "0b14a5fbbf568f4e7e0a5fd3caad7062220b9a70511cd100e7a49455bf508966"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame17SG_SetFaerieLevelEjii",
+      "elf_address": "0x46663c",
+      "size": 196,
+      "sha256": "e7e4b24479445c8214a2385e677826b47555539fece0c5a07610f47420301150"
+    }
+  ]
+}

@@ -1,0 +1,357 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "provenance_sha256": "a38bbcfbde007bd328de9152ea1e5499a97903f472b36c9ccbac37f36de94126",
+  "inputs": [
+    {
+      "room": 0,
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+      "sha256": "f827a7627268dbb807c538940cdf66e1b1b72aeecb34c1fd558b62cb03cb84c9"
+    },
+    {
+      "room": 1,
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_straight_ns_01.mgp",
+      "sha256": "0266b9548bb29c929b4c37b87708a2519371da3329e400e73ed3d2ada12b0e25"
+    },
+    {
+      "room": 2,
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_corner_sw_02.mgp",
+      "sha256": "ff4defedde868b53eeb5d5c9ac39dc41fc6b85d55cd27891e3009d3ad3e04168"
+    },
+    {
+      "room": 3,
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_corner_ne_02.mgp",
+      "sha256": "095665bc7250b6700837f359d620adcdaed52647a0e61b83db499b64eb6efdfa"
+    },
+    {
+      "room": 4,
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_t_sew_01.mgp",
+      "sha256": "a34d860d4b94cbcb936ecc9ab1ad2d8ee8450c15067a44298ac88d0a5c3c8189"
+    },
+    {
+      "room": 5,
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_deadend_e_01.mgp",
+      "sha256": "41604cc014bfeeef32b93432f49d2dc7643915f8112a123f1d0de9c3e6e47c8b"
+    },
+    {
+      "room": 6,
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_corner_nw_02.mgp",
+      "sha256": "5652c6b5d64cf75e9b8c043cc61f6308ea6ca67784b2342c836b22469aa03179"
+    },
+    {
+      "room": 7,
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+      "sha256": "c88e2e8028fe8bdf18bb703f2f0db69c9a6df7b8060f282d4d5f20fb455f04a2"
+    }
+  ],
+  "records": [
+    {
+      "room": 0,
+      "name": "_prim_tmp_cultist01",
+      "template": "Monster",
+      "charpropsname": "Crypt_Skeleton",
+      "authored": {
+        "ai_state": null,
+        "ai_state_visible": null,
+        "auto_spawn": null,
+        "spawn_delay": null,
+        "spawn_view_radius": null,
+        "char_group": null,
+        "char_group_role": null
+      },
+      "descriptor_resolved": {
+        "ai_state": "",
+        "ai_state_visible": true,
+        "auto_spawn": true,
+        "spawn_delay": [
+          0,
+          0
+        ],
+        "spawn_view_radius": 0.0,
+        "char_group": "",
+        "char_group_role": ""
+      },
+      "preset_state": 3
+    },
+    {
+      "room": 0,
+      "name": "_prim_tmp_cultist03",
+      "template": "Monster",
+      "charpropsname": "Crypt_Skeleton",
+      "authored": {
+        "ai_state": null,
+        "ai_state_visible": null,
+        "auto_spawn": null,
+        "spawn_delay": null,
+        "spawn_view_radius": null,
+        "char_group": null,
+        "char_group_role": null
+      },
+      "descriptor_resolved": {
+        "ai_state": "",
+        "ai_state_visible": true,
+        "auto_spawn": true,
+        "spawn_delay": [
+          0,
+          0
+        ],
+        "spawn_view_radius": 0.0,
+        "char_group": "",
+        "char_group_role": ""
+      },
+      "preset_state": 3
+    },
+    {
+      "room": 0,
+      "name": "_prim_tmp_cultist05",
+      "template": "Monster",
+      "charpropsname": "CryptSlime",
+      "authored": {
+        "ai_state": null,
+        "ai_state_visible": null,
+        "auto_spawn": null,
+        "spawn_delay": null,
+        "spawn_view_radius": null,
+        "char_group": null,
+        "char_group_role": null
+      },
+      "descriptor_resolved": {
+        "ai_state": "",
+        "ai_state_visible": true,
+        "auto_spawn": true,
+        "spawn_delay": [
+          0,
+          0
+        ],
+        "spawn_view_radius": 0.0,
+        "char_group": "",
+        "char_group_role": ""
+      },
+      "preset_state": 3
+    },
+    {
+      "room": 0,
+      "name": "_prim_tmp_cultist06",
+      "template": "Monster",
+      "charpropsname": "CryptSlime",
+      "authored": {
+        "ai_state": null,
+        "ai_state_visible": null,
+        "auto_spawn": null,
+        "spawn_delay": null,
+        "spawn_view_radius": null,
+        "char_group": null,
+        "char_group_role": null
+      },
+      "descriptor_resolved": {
+        "ai_state": "",
+        "ai_state_visible": true,
+        "auto_spawn": true,
+        "spawn_delay": [
+          0,
+          0
+        ],
+        "spawn_view_radius": 0.0,
+        "char_group": "",
+        "char_group_role": ""
+      },
+      "preset_state": 3
+    },
+    {
+      "room": 0,
+      "name": "_prim_tmp_cultist07",
+      "template": "Monster",
+      "charpropsname": "Crypt_Skeleton",
+      "authored": {
+        "ai_state": null,
+        "ai_state_visible": null,
+        "auto_spawn": null,
+        "spawn_delay": null,
+        "spawn_view_radius": null,
+        "char_group": null,
+        "char_group_role": null
+      },
+      "descriptor_resolved": {
+        "ai_state": "",
+        "ai_state_visible": true,
+        "auto_spawn": true,
+        "spawn_delay": [
+          0,
+          0
+        ],
+        "spawn_view_radius": 0.0,
+        "char_group": "",
+        "char_group_role": ""
+      },
+      "preset_state": 3
+    },
+    {
+      "room": 0,
+      "name": "_prim_tmp_cultist08",
+      "template": "Monster",
+      "charpropsname": "Crypt_Skeleton",
+      "authored": {
+        "ai_state": null,
+        "ai_state_visible": null,
+        "auto_spawn": null,
+        "spawn_delay": null,
+        "spawn_view_radius": null,
+        "char_group": null,
+        "char_group_role": null
+      },
+      "descriptor_resolved": {
+        "ai_state": "",
+        "ai_state_visible": true,
+        "auto_spawn": true,
+        "spawn_delay": [
+          0,
+          0
+        ],
+        "spawn_view_radius": 0.0,
+        "char_group": "",
+        "char_group_role": ""
+      },
+      "preset_state": 3
+    },
+    {
+      "room": 3,
+      "name": "_prim_Monster",
+      "template": "Monster",
+      "charpropsname": "CryptSlime",
+      "authored": {
+        "ai_state": "Idle",
+        "ai_state_visible": null,
+        "auto_spawn": null,
+        "spawn_delay": null,
+        "spawn_view_radius": null,
+        "char_group": "",
+        "char_group_role": "Normal"
+      },
+      "descriptor_resolved": {
+        "ai_state": "Idle",
+        "ai_state_visible": true,
+        "auto_spawn": true,
+        "spawn_delay": [
+          0,
+          0
+        ],
+        "spawn_view_radius": 0.0,
+        "char_group": "",
+        "char_group_role": "Normal"
+      },
+      "preset_state": 3
+    },
+    {
+      "room": 3,
+      "name": "_prim_Monster02",
+      "template": "Monster",
+      "charpropsname": "CryptSlime_RE",
+      "authored": {
+        "ai_state": "Idle",
+        "ai_state_visible": null,
+        "auto_spawn": null,
+        "spawn_delay": null,
+        "spawn_view_radius": null,
+        "char_group": "",
+        "char_group_role": "Normal"
+      },
+      "descriptor_resolved": {
+        "ai_state": "Idle",
+        "ai_state_visible": true,
+        "auto_spawn": true,
+        "spawn_delay": [
+          0,
+          0
+        ],
+        "spawn_view_radius": 0.0,
+        "char_group": "",
+        "char_group_role": "Normal"
+      },
+      "preset_state": 3
+    },
+    {
+      "room": 3,
+      "name": "_prim_Monster05",
+      "template": "Monster",
+      "charpropsname": "CryptSlime",
+      "authored": {
+        "ai_state": "Idle",
+        "ai_state_visible": null,
+        "auto_spawn": null,
+        "spawn_delay": null,
+        "spawn_view_radius": null,
+        "char_group": "",
+        "char_group_role": "Normal"
+      },
+      "descriptor_resolved": {
+        "ai_state": "Idle",
+        "ai_state_visible": true,
+        "auto_spawn": true,
+        "spawn_delay": [
+          0,
+          0
+        ],
+        "spawn_view_radius": 0.0,
+        "char_group": "",
+        "char_group_role": "Normal"
+      },
+      "preset_state": 3
+    },
+    {
+      "room": 7,
+      "name": "_prim_Monster_Ghost05",
+      "template": "Monster",
+      "charpropsname": "Crypt_Ghost",
+      "authored": {
+        "ai_state": "Idle",
+        "ai_state_visible": null,
+        "auto_spawn": null,
+        "spawn_delay": null,
+        "spawn_view_radius": null,
+        "char_group": "",
+        "char_group_role": "Normal"
+      },
+      "descriptor_resolved": {
+        "ai_state": "Idle",
+        "ai_state_visible": true,
+        "auto_spawn": true,
+        "spawn_delay": [
+          0,
+          0
+        ],
+        "spawn_view_radius": 0.0,
+        "char_group": "",
+        "char_group_role": "Normal"
+      },
+      "preset_state": 3
+    },
+    {
+      "room": 7,
+      "name": "_prim_Monster_Ghost06",
+      "template": "Monster",
+      "charpropsname": "Crypt_Ghost",
+      "authored": {
+        "ai_state": "Idle",
+        "ai_state_visible": null,
+        "auto_spawn": null,
+        "spawn_delay": null,
+        "spawn_view_radius": null,
+        "char_group": "",
+        "char_group_role": "Normal"
+      },
+      "descriptor_resolved": {
+        "ai_state": "Idle",
+        "ai_state_visible": true,
+        "auto_spawn": true,
+        "spawn_delay": [
+          0,
+          0
+        ],
+        "spawn_view_radius": 0.0,
+        "char_group": "",
+        "char_group_role": "Normal"
+      },
+      "preset_state": 3
+    }
+  ],
+  "scope": "MGP XML read directly from canonical cache; descriptor defaults from captured instructions, not full XML factory replay."
+}

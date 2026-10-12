@@ -1,0 +1,10 @@
+--- a/port/android-native/app/src/main/cpp/renderer_campaign_source_owner_assembly_v93.inc
++++ b/port/android-native/app/src/main/cpp/renderer_campaign_source_owner_assembly_v93.inc
+@@ -10,6 +10,7 @@
+  if(!source->generated_room_native_v92(actual,native,e)||
+   !bind_campaign_generated_rooms_complete_v92(actual,composition,std::weak_ptr<SourceWorldBorrowV61>(source),
+    std::move(native),source->noncharacter_release_journal_v89,source->module_room_zones_v91,e))return false;
++ if(!install_campaign_object_loading_inputs_v95(source,composition,source->module_room_zones_v91,e))return false;
+  SourceNonCharacterRestoreLenderV89 restore;
+  if(!make_campaign_noncharacter_restore_lender_v91(composition,restore,e))return false;
+  return bind_campaign_noncharacter_saved_objects_v89(actual,composition,

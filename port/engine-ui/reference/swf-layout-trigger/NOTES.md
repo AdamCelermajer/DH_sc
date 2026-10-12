@@ -1,0 +1,31 @@
+# Authored droid HUD layout / original input readiness
+
+This is read-only recovery, separate from the frozen mutable event module. It does not change the facade, core, CMake, Android renderer, assets or APK. Original ELF SHA256 is 36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80.
+
+## Layout finding
+
+Exact dqhud_droid.swf SHA256 a4ffacd1abdf7c9b2ba19c46ebb81c60c100458731a4cdba5880391b9c11b238 was decompressed and decoded at original offsets. DoAction, DoInitAction, nested DefineFunction/DefineFunction2 and PlaceObject2/3 ClipActions are included. `action-evidence.json` records coverage and all decoded/raw resource hashes. The scratch decoder and JSON/text listings are under `.local-inputs/swf-layout-trigger`. Opcode names come from the pinned GameSWF disassembler table; constant-pool operands are resolved to their original strings. This is bytecode inspection, not an original ActionScript execution oracle.
+
+Neither dqhud_droid nor dqshared_droid decoded actions contains a Viewport or resize literal, and no unexpanded With/Try body or unknown opcode remains. The broader exact cached SWF byte scan is included separately; a substring scan alone is not a dynamic call proof. There is no evidence of an authored HUD `onResize` callback to call after publication. Do not add such a callback or claim advance(0) is a resize/reflow producer.
+
+Root `DisplayRightHud` at decompressed offset 0x2f9d is selection/lifecycle: hides menu_HUD_0..3, creates ObjHud, requests NativeGetOptionParameters("HUDStyle", ObjHud), selects menu_HUD_<CurrentOption>, makes it visible, calls its onPush then onShow and sets global CurrentHud. It also refreshes icons/iTunes/death text. These are real required native option/faery/menu/audio/localization services; this method is not a narrow resize routine and must not be invoked merely to reflow the player bar.
+
+The as.hud.Hud prototype DisplayRightHud assignment at 0x32273 only requests HUDStyle into ObjHud. Prototype onLoad at 0x31db1 installs actual handlers, including HealthBars.btn_potion.onRelease -> NativeUsePotion(0). Prototype onPush at 0x31fb4 updates icons/skills, calls its DisplayRightHud and resets visibility/animation; onShow at 0x3215e updates visibility and level-up animation. None reads global Viewport or driver dimensions. Root and prototype ownership differ; a method name alone is not a callable binding.
+
+Original FlashCamera.Update 0x42cd84 calls RenderFX.SetViewport 0x7a9bac and SetBounds 0x7a9b30. The complete original root.set_display_bounds 0x7755f4 captured in `reference/viewport` publishes a fresh ordinary global Viewport object with xMin/yMin/xMax/yMax. Its captured body contains no authored resize invocation. Native bridge already reproduces the fresh publication. Source authored player/HurtCorner placement plus the recovered source display rectangle remains the proven status-subtree path. Initial core advance(0) runs initialization; it is not evidence that viewport publication changes that placement.
+
+## Native customization / orientation path
+
+Complete HUDControls.initCachedChars 0x419b4c binds actual current HUD controls into owned cached character records. It resolves HUDStyle and distinguishes style 0/1, snapshots actual authored transforms, and conditionally restores source-owned customized coordinate arrays. SetHUDPos 0x4187a0 walks eleven real cached controls and sends quantized requested positions through GameSWFUtils.MoveBtnPos 0x41684c; optional bool calls SaveHUDPos 0x418360. MoveBtnPos reads parent/input transforms, converts requested pixels to twips, applies the original inverse matrix service then calls RenderFX.SetPosition. These are user-customization/receiver services, not a discovered viewport-triggered AS layout call.
+
+HUDControls.Update 0x41a780 invokes initCachedChars only while its own initialized byte +8 is false and its real gameplay/context gates hold; it also handles source world/controller gameplay inputs. MenuManager.Update 0x42ea04 reaches HUDControls.Update through the real player/menu gate. Calling this entire update to reposition a display-only subtree would incorrectly introduce gameplay dependencies. Required ownership includes actual MenuFX/current context, HUD option producer, cached-character graph lease, stored custom coordinate arrays, and original save/property services.
+
+NativeUpdateOrientation 0x43a8b0 queries Application's original option 0x320e44 then tail-calls Application.UpdateOrientation 0x31f748; it is not a direct HUD resize call. The latter deeper application/driver/input ownership has not been reconstructed here. RenderFX.SetOrientation 0x7a7eb4 routes the real render-handler virtual +a8. RegisterDisplayCallback 0x7a7e80 attaches a supplied callback/context to the actual character virtual +154; a callback target or owned HUDMinimap is not supplied by this task.
+
+## Next complete HUD input connection
+
+`reference/swf-input-connection/NOTES.md` and its freeze bind the complete source SendEvent coordinator, actual retained InvokeASCallback bridge and the full captured UpdateCursor/UpdateInput/Update bodies. This supports genuine no-argument AS method delivery under an exact retained graph Scope, but does not replace the source cursor producer.
+
+Required next ownership/backends are the four source cursor slots and renderer flags/context/native receiver; exact screen-to-logical mapping; retained topmost hit-test receiver and real character local transforms; focus/pressed/animation slot transitions; MenuFX current state's CanHandleEvent/OnEvent; source two-argument root advancement, listener/GC policy, pending animation-completion delivery; and actual Application/Input game receivers. Source raw notify_mouse_state only writes its three fields; upstream immediate MOUSE_MOVE and upstream advance's mouse-button prefix are different behavior. No arbitrary button rectangles, unconditional native acceptance or stock mouse shortcut is justified.
+
+HealthBars.player status display is not the containing HUD controls tree. The authored potion handler is on HealthBars.btn_potion, and requires genuine NativeUsePotion character/item/HP-MP/audio services captured at 0x43d2c8. NativeAwayFromHud 0x43ab98 and NativeRefreshHudManager 0x43a810 likewise require real player/menu/HUD owners. These must be connected before claiming full HUD buttons/input.

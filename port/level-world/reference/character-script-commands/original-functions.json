@@ -1,0 +1,41 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character7_AttackERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b9f44",
+      "size": 120,
+      "sha256": "af2e54d63cc24844556035ad60cdd94b0f46382a6287f52155f3e121c57349fc"
+    },
+    {
+      "original_symbol": "_ZN9Character5_FleeERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b91a0",
+      "size": 260,
+      "sha256": "0a42e9ab21891dfad09260d5adc66cfd4fe781825508315bda729de434b7d2ae"
+    },
+    {
+      "original_symbol": "_ZN9Character7_HeadToERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3ba71c",
+      "size": 1216,
+      "sha256": "82675f461edc3c1d902ad3c591924e079c6a4659b2590fbddc0c65c0567b0f4f"
+    },
+    {
+      "original_symbol": "_ZN9Character5_StopERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b56b4",
+      "size": 8,
+      "sha256": "34ba55e4c9299a5da059587d33a55edf12c8741d100a6e52869c822e016f968a"
+    },
+    {
+      "original_symbol": "_ZN10GameObject8_HasPathERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x38e98c",
+      "size": 52,
+      "sha256": "49f6f439cf1e51cc1ac0aa9cf2d5cd4b1f34b4f18b53e19316083f8525457f2e"
+    },
+    {
+      "original_symbol": "_ZN9Character7_MoveToERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3bada8",
+      "size": 1216,
+      "sha256": "f389d8a9451ddfb72ed0c540c1fe025843207b1c827a68373f895fda2c6c8fd4"
+    }
+  ]
+}

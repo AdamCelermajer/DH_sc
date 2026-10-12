@@ -1,0 +1,15 @@
+# Parent adoption proposal ONLY. Do not include in Android/shared libraries.
+# Duplicate dh2_loader_actor_image_v45_probe's exact include/definition/options
+# and link dependencies in the selected coherent graph. Replace its probe TU:
+#   tests/generic_actor_image_binding_v45_probe.cpp
+# with:
+#   tests/generic_actor_image_lifetime_v48_probe.cpp
+# and add exactly one test-only observer TU:
+#   reference/main-budget-binding-v46/byte_free_observer_v46.cpp
+# Suggested target name: dh2_loader_actor_image_lifetime_v48_probe
+# Build serially (-j1); run with the exact V45 original ZIP/design/save arguments.
+# The includes are relative to the probe and require no new common include path.
+# Never add the observer TU to gameplay/budget/ZIP libraries or Android targets.
+# This global-delete observer assumes the normal host g++/libstdc++ malloc/free
+# allocation implementation. Do not combine with an allocator override or ASAN
+# alloc/dealloc-mismatch instrumentation without selecting compatible endpoints.

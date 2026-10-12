@@ -1,0 +1,29 @@
+{
+  "audit_json_sha256": "c7dec51b48c11ff7ce9268d6e88eb86cabdc44866ccc2004a1f1b258476b905a",
+  "audit_json_bytes": 19828777,
+  "audit_markdown_sha256": "81fb77b9875e702aa14c510d88d2ce20d4295b530a4d45a0b518e8d7ebb1f890",
+  "audit_summary_sha256": "900ae07e49981d9e76db467063822cd3fb6935328574521cba65e0f2876e2335",
+  "audit_summary_bytes": 243650,
+  "audit_tool_sha256": "d0f4ebf1f42fbfb184e23d5623e4b0572b04b415aabe76fbdb20bbda9696ea2f",
+  "deterministic_two_runs": true,
+  "malformed_name_inputs_rejected": 4,
+  "main_save_provider_source_snapshots": [
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\player_savegame_v1.hpp",
+      "sha256": "014acd3b821b4ab99b7fbd2072a8df4132465d783917e3b9592e58e8aeda0f6f"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\quest_savegame_v1.hpp",
+      "sha256": "9d35ec3c111db3f5352553114321b0087e7d3ef02a6133b8390d74bd4430d969"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\player_save_load_owner_v1.hpp",
+      "sha256": "45af833cdd75f7ba19ceccb334031fe8fceb049ab8758d78d2234af5f2d92c49"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\player_save_quest_sync_v3.hpp",
+      "sha256": "e1cdbc9ef29f98561b652fb11a93672d504404365813b19d9dfcac3dfbdc02af"
+    }
+  ],
+  "no_native_build_or_device_launch": true
+}

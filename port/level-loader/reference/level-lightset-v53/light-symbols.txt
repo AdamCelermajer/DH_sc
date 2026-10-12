@@ -1,0 +1,224 @@
+0040ad0c 000000dc t _GLOBAL__I_.._.._sources_Game_Lights_LightBase.cpp
+0040bee0 000000dc t _GLOBAL__I_.._.._sources_Game_Lights_LightPoint.cpp
+0040e2a8 000000dc t _GLOBAL__I_.._.._sources_Game_Lights_PlayerLightTweaker.cpp
+00644418 00000020 t _GLOBAL__I_.._source_glitch_collada_CColladaLightSceneNode.cpp
+00583bf8 00000020 t _GLOBAL__I_.._source_glitch_scene_CLightSceneNode.cpp
+0059fbe0 00000020 t _GLOBAL__I_.._source_glitch_video_CLight.cpp
+005a18b8 00000020 t _GLOBAL__I_.._source_glitch_video_ELightType.cpp
+0034115c 00000020 W ObjectBase* GetNewInstance<LightPoint>()
+009f6dfc 00000004 V guard variable for glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CLightColorMixin<unsigned char>>>::getInstance()::s_Instance
+009f6980 00000004 b guard variable for glitch::video::IVideoDriver::getDynamicLight(unsigned short) const::nullLight
+0040b828 000001e4 T LightPoint::AssignTweaker(int, int)
+0040b7cc 0000005c T LightPoint::GetIdsFromName(char const*, int&, int&, char&)
+0040bfc4 000001b4 T LightPoint::DeclareProperties()
+0040bac0 0000021c T LightPoint::RefreshAttachment()
+0040ba0c 000000b4 T LightPoint::Update()
+0040bcdc 00000038 T LightPoint::InitPost()
+0040bdd8 00000084 T LightPoint::LightPoint()
+0040be5c 00000084 T LightPoint::LightPoint()
+0040bd70 0000001c T LightPoint::~LightPoint()
+0040bd1c 0000004c T LightPoint::~LightPoint()
+0040bd8c 0000004c T LightPoint::~LightPoint()
+003f2194 0000001c T LevelConfig::~LevelConfig()
+003f20c8 000000c4 T LevelConfig::~LevelConfig()
+003f21b0 000000c4 T LevelConfig::~LevelConfig()
+00353bac 000000d0 T SceneManager::_RegisterAutomacticLights()
+00359d08 000002a4 T SceneManager::SetMaterialRimLightEffects(boost::intrusive_ptr<glitch::video::CMaterial>, float, std::string)
+0035a188 00000250 T SceneManager::SetMaterialRimLightEffects(glitch::scene::ISceneNode*, float, std::string)
+00371050 00000090 T PlayerManager::_AttachLightToPlayerCharacter(int)
+0040de48 00000460 T PlayerLightTweaker::onSetValue(std::string const&)
+0099978c 00000014 D PlayerLightTweaker::TWEAKER_NAMES
+0040dd7c 000000cc T PlayerLightTweaker::GetIdsFromName(char const*)
+0032f2b4 00000534 W PlayerLightTweaker::PlayerLightTweaker()
+0040e518 0000005c W PlayerLightTweaker::~PlayerLightTweaker()
+0040e4c4 00000054 W PlayerLightTweaker::~PlayerLightTweaker()
+00474260 000000b8 W Level::GetRimLightFile()
+005b9118 00000070 W boost::intrusive_ptr<glitch::video::CLight const>::~intrusive_ptr()
+005aa3c8 00000070 W boost::intrusive_ptr<glitch::video::CLight>::~intrusive_ptr()
+005bb650 00000088 W boost::intrusive_ptr<glitch::video::CLight>::operator=(boost::intrusive_ptr<glitch::video::CLight> const&)
+0031d808 0000000c W glitch::io::IAttribute::getLight()
+0031d8c8 00000004 W glitch::io::IAttribute::setLight(boost::intrusive_ptr<glitch::video::CLight>)
+00566db0 000000f0 T glitch::io::CAttributes::setAttribute(char const*, boost::intrusive_ptr<glitch::video::CLight>)
+00561aa0 000000b4 T glitch::io::CAttributes::setAttribute(int, boost::intrusive_ptr<glitch::video::CLight>)
+00568124 00000114 T glitch::io::CAttributes::addStringAsLight(char const*, wchar_t const*, bool)
+00568238 00000088 T glitch::io::CAttributes::addLight(char const*, boost::intrusive_ptr<glitch::video::CLight>, bool)
+005623e0 0000003c T glitch::io::CAttributes::getLight(char const*)
+00560798 0000004c T glitch::io::CAttributes::getLight(int)
+0056377c 00000044 W glitch::io::CLightAttribute::getStringW()
+005606c4 00000010 W glitch::io::CLightAttribute::getBool()
+005606a8 0000001c W glitch::io::CLightAttribute::getLight()
+005633ec 0000007c W glitch::io::CLightAttribute::setLight(boost::intrusive_ptr<glitch::video::CLight> const&)
+00561dd8 00000028 W glitch::io::CLightAttribute::getString(char*)
+00562ae4 0000002c W glitch::io::CLightAttribute::getString()
+005606d4 00000004 W glitch::io::CLightAttribute::setString(char const*)
+00566c90 00000120 W glitch::io::CLightAttribute::CLightAttribute(char const*, boost::intrusive_ptr<glitch::video::CLight> const&, glitch::video::IVideoDriver*, bool)
+00565210 0000001c W glitch::io::CLightAttribute::~CLightAttribute()
+0056514c 000000c4 W glitch::io::CLightAttribute::~CLightAttribute()
+00589508 00000010 T glitch::scene::CSceneManager::setAmbientLight(glitch::video::SColorf const&)
+00583c18 000000d8 T glitch::scene::CLightSceneNode::doLightRecalc()
+00583d34 00000054 T glitch::scene::CLightSceneNode::onRegisterSceneNode()
+00583d88 00000054 T glitch::scene::CLightSceneNode::deserializeAttributes(glitch::io::IAttributes*, glitch::io::SAttributeReadWriteOptions*)
+00583f94 00000028 T glitch::scene::CLightSceneNode::clone()
+00583d18 0000001c T glitch::scene::CLightSceneNode::render(void*)
+00583e30 00000164 T glitch::scene::CLightSceneNode::CLightSceneNode(glitch::scene::CLightSceneNode&)
+005840f0 00000148 T glitch::scene::CLightSceneNode::CLightSceneNode(bool)
+00584350 000001f4 T glitch::scene::CLightSceneNode::CLightSceneNode(int, glitch::core::vector3d<float> const&, glitch::video::SColorf const&, float)
+00583fbc 00000134 T glitch::scene::CLightSceneNode::CLightSceneNode(glitch::scene::CLightSceneNode&)
+00584238 00000118 T glitch::scene::CLightSceneNode::CLightSceneNode(bool)
+00584544 000001b4 T glitch::scene::CLightSceneNode::CLightSceneNode(int, glitch::core::vector3d<float> const&, glitch::video::SColorf const&, float)
+00584960 0000001c T glitch::scene::CLightSceneNode::~CLightSceneNode()
+005848a4 000000bc T glitch::scene::CLightSceneNode::~CLightSceneNode()
+0058497c 000000bc T glitch::scene::CLightSceneNode::~CLightSceneNode()
+005aaa40 00000044 T glitch::video::IVideoDriver::addDynamicLight(boost::intrusive_ptr<glitch::video::CLight> const&)
+005aaa84 00000054 T glitch::video::IVideoDriver::deleteAllDynamicLights()
+005a8ae8 0000008c T glitch::video::IVideoDriver::resetDefaultDynamicLight()
+009573fc 00000004 D glitch::video::IVideoDriver::SceneAmbientLightParameterName
+009573ec 00000004 D glitch::video::IVideoDriver::DynamicLightParameterNamePrefix
+005ab2f8 000003dc T glitch::video::IVideoDriver::IVideoDriver(glitch::IDevice*, glitch::video::IShaderManager*, glitch::video::CMaterialRendererManager*, glitch::video::CTextureManager*, glitch::video::CGlobalMaterialParameterManager*, boost::intrusive_ptr<glitch::video::CLight> const&)
+005aaf1c 000003dc T glitch::video::IVideoDriver::IVideoDriver(glitch::IDevice*, glitch::video::IShaderManager*, glitch::video::CMaterialRendererManager*, glitch::video::CTextureManager*, glitch::video::CGlobalMaterialParameterManager*, boost::intrusive_ptr<glitch::video::CLight> const&)
+009f69d4 00000004 b glitch::video::(anonymous namespace)::NullLightPtr
+005b187c 00000208 W glitch::video::CProgrammableGLDriver<glitch::video::CGLSLShaderHandler>::commitLightParameter(glitch::video::CGLSLShader const*, glitch::video::CLight const*, glitch::video::SShaderParameterDef const&)
+005e7974 000001dc T glitch::video::getLightParameterName(char const*)
+005a015c 000001a4 T glitch::video::CLight::deserializeAttributes(glitch::io::IAttributes*, glitch::io::SAttributeReadWriteOptions*)
+0059fc00 00000040 T glitch::video::CLight::setAbsoluteTransformation(glitch::core::CMatrix4<float> const&)
+0059feb8 00000040 T glitch::video::CLight::allocate(glitch::video::STransformationSource**)
+0059fe08 000000b0 T glitch::video::CLight::CLight(glitch::video::STransformationSource**)
+0059fc40 000000c0 T glitch::video::CLight::CLight(glitch::video::CLight const&, glitch::video::STransformationSource**)
+0059fef8 000000b0 T glitch::video::CLight::CLight(glitch::video::STransformationSource**)
+0059fd48 000000c0 T glitch::video::CLight::CLight(glitch::video::CLight const&, glitch::video::STransformationSource**)
+005bb5b0 000000a0 W void glitch::video::detail::grabParameter<boost::intrusive_ptr<glitch::video::CLight>>(boost::intrusive_ptr<glitch::video::CLight>*, unsigned int)
+005d5004 000000ec W boost::enable_if<glitch::video::detail::SIsValidSetMaterialParamaterOverload<boost::intrusive_ptr<glitch::video::CLight>>, bool>::type glitch::video::detail::IMaterialParameters<glitch::video::CMaterialRenderer, glitch::ISharedMemoryBlockHeader<glitch::video::CMaterialRenderer>>::setParameter<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, boost::intrusive_ptr<glitch::video::CLight> const*, int)
+005d4f34 000000d0 W boost::enable_if<glitch::video::detail::SIsValidSetMaterialParamaterOverload<boost::intrusive_ptr<glitch::video::CLight>>, bool>::type glitch::video::detail::IMaterialParameters<glitch::video::CMaterialRenderer, glitch::ISharedMemoryBlockHeader<glitch::video::CMaterialRenderer>>::setParameter<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, unsigned int, boost::intrusive_ptr<glitch::video::CLight> const&)
+005d56d8 0000010c W boost::enable_if<glitch::video::detail::SIsValidSetMaterialParamaterOverload<boost::intrusive_ptr<glitch::video::CLight>>, bool>::type glitch::video::detail::IMaterialParameters<glitch::video::CMaterialRenderer, glitch::ISharedMemoryBlockHeader<glitch::video::CMaterialRenderer>>::setParameterCvt<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, boost::intrusive_ptr<glitch::video::CLight> const*, int)
+005d5174 00000084 W boost::enable_if<glitch::video::detail::SIsValidSetMaterialParamaterOverload<boost::intrusive_ptr<glitch::video::CLight>>, bool>::type glitch::video::detail::IMaterialParameters<glitch::video::CMaterialRenderer, glitch::ISharedMemoryBlockHeader<glitch::video::CMaterialRenderer>>::setParameterCvt<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, unsigned int, boost::intrusive_ptr<glitch::video::CLight> const&)
+005c568c 00000124 W boost::enable_if<glitch::video::detail::SIsValidSetMaterialParamaterOverload<boost::intrusive_ptr<glitch::video::CLight>>, bool>::type glitch::video::detail::IMaterialParameters<glitch::video::CGlobalMaterialParameterManager, glitch::video::detail::globalmaterialparametermanager::SEmptyBase>::setParameter<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, boost::intrusive_ptr<glitch::video::CLight> const*, int)
+005be68c 00000108 W boost::enable_if<glitch::video::detail::SIsValidSetMaterialParamaterOverload<boost::intrusive_ptr<glitch::video::CLight>>, bool>::type glitch::video::detail::IMaterialParameters<glitch::video::CGlobalMaterialParameterManager, glitch::video::detail::globalmaterialparametermanager::SEmptyBase>::setParameter<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, unsigned int, boost::intrusive_ptr<glitch::video::CLight> const&)
+005c540c 00000144 W boost::enable_if<glitch::video::detail::SIsValidSetMaterialParamaterOverload<boost::intrusive_ptr<glitch::video::CLight>>, bool>::type glitch::video::detail::IMaterialParameters<glitch::video::CGlobalMaterialParameterManager, glitch::video::detail::globalmaterialparametermanager::SEmptyBase>::setParameterCvt<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, boost::intrusive_ptr<glitch::video::CLight> const*, int)
+005c5be0 000000bc W boost::enable_if<glitch::video::detail::SIsValidSetMaterialParamaterOverload<boost::intrusive_ptr<glitch::video::CLight>>, bool>::type glitch::video::detail::IMaterialParameters<glitch::video::CGlobalMaterialParameterManager, glitch::video::detail::globalmaterialparametermanager::SEmptyBase>::setParameterCvt<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, unsigned int, boost::intrusive_ptr<glitch::video::CLight> const&)
+005cc2b8 000000fc W boost::enable_if<glitch::video::detail::SIsValidSetMaterialParamaterOverload<boost::intrusive_ptr<glitch::video::CLight>>, bool>::type glitch::video::detail::IMaterialParameters<glitch::video::CMaterial, glitch::ISharedMemoryBlockHeader<glitch::video::CMaterial>>::setParameter<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, boost::intrusive_ptr<glitch::video::CLight> const*, int)
+005ce95c 000000ec W boost::enable_if<glitch::video::detail::SIsValidSetMaterialParamaterOverload<boost::intrusive_ptr<glitch::video::CLight>>, bool>::type glitch::video::detail::IMaterialParameters<glitch::video::CMaterial, glitch::ISharedMemoryBlockHeader<glitch::video::CMaterial>>::setParameter<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, unsigned int, boost::intrusive_ptr<glitch::video::CLight> const&)
+005cce20 00000120 W boost::enable_if<glitch::video::detail::SIsValidSetMaterialParamaterOverload<boost::intrusive_ptr<glitch::video::CLight>>, bool>::type glitch::video::detail::IMaterialParameters<glitch::video::CMaterial, glitch::ISharedMemoryBlockHeader<glitch::video::CMaterial>>::setParameterCvt<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, boost::intrusive_ptr<glitch::video::CLight> const*, int)
+005cc1b8 00000100 W boost::enable_if<glitch::video::detail::SIsValidSetMaterialParamaterOverload<boost::intrusive_ptr<glitch::video::CLight>>, bool>::type glitch::video::detail::IMaterialParameters<glitch::video::CMaterial, glitch::ISharedMemoryBlockHeader<glitch::video::CMaterial>>::setParameterCvt<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, unsigned int, boost::intrusive_ptr<glitch::video::CLight> const&)
+0062ff80 00000088 t glitch::collada::(anonymous namespace)::getExternalLightSceneNodeDefault(char const*)
+0065b244 00000034 T glitch::collada::CRootSceneNode::addLight(glitch::collada::CLightSceneNode*)
+0065b5f4 00000054 T glitch::collada::CRootSceneNode::getLight(char const*)
+00631af8 00000030 T glitch::collada::CColladaFactory::createLight(glitch::collada::CColladaDatabase const&, glitch::collada::SLight*)
+00630008 00000008 T glitch::collada::CColladaFactory::getExternalLightSceneNode(glitch::collada::CColladaDatabase const&, boost::intrusive_ptr<glitch::video::CMaterialRenderer const> const&, unsigned short, unsigned int, char const*)
+00630010 00000008 T glitch::collada::CColladaFactory::getExternalLightSceneNode(glitch::collada::CColladaDatabase const&, boost::intrusive_ptr<glitch::video::CMaterial const> const&, unsigned short, unsigned int, char const*)
+006444ec 000002c0 T glitch::collada::CLightSceneNode::CLightSceneNode(glitch::collada::CColladaDatabase const&, glitch::collada::SLight&)
+006447ac 00000290 T glitch::collada::CLightSceneNode::CLightSceneNode(glitch::collada::CColladaDatabase const&, glitch::collada::SLight&)
+006444b0 0000001c W glitch::collada::CLightSceneNode::~CLightSceneNode()
+00644438 00000058 W glitch::collada::CLightSceneNode::~CLightSceneNode()
+00611078 00000094 W glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CLightColorMixin<unsigned char>>>::getInstance()
+0060f750 00000014 W glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CLightColorMixin<unsigned char>>>::~CVirtualEx()
+0060ed88 00000004 W glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CLightColorMixin<unsigned char>>>::~CVirtualEx()
+0060dfc0 00000068 W glitch::collada::animation_track::CApplicator<glitch::collada::animation_track::SLightColor>::applyValueEx(void*, void*, glitch::collada::animation_track::CApplicatorInfo*)
+006126c8 000000dc W glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CMixin<unsigned char, 3, glitch::collada::animation_track::SLightColor, -1, unsigned char>, unsigned char, 3, glitch::collada::animation_track::SUseDefaultLerp<unsigned char>>::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, int, float, void*)
+00612874 00000094 W glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CMixin<unsigned char, 3, glitch::collada::animation_track::SLightColor, -1, unsigned char>, unsigned char, 3, glitch::collada::animation_track::SUseDefaultLerp<unsigned char>>::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, int, int, float, void*)
+00621a7c 00000108 W glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CLightColorMixin<unsigned char>>::applyAddedValueEx(void*, float*, int, void*, glitch::collada::animation_track::CApplicatorInfo*)
+00621958 00000108 W glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CLightColorMixin<unsigned char>>::applyBlendedValueEx(void*, float*, int, void*, glitch::collada::animation_track::CApplicatorInfo*)
+00612604 0000006c W glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CLightColorMixin<unsigned char>>::applyKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, void*, glitch::collada::animation_track::CApplicatorInfo*)
+006127a4 0000003c W glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CLightColorMixin<unsigned char>>::applyKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, int, float, void*, glitch::collada::animation_track::CApplicatorInfo*)
+0040b498 00000130 T LightBase::setLightNode(glitch::scene::CLightSceneNode*)
+0040b3c8 000000d0 T LightBase::SetAttenuation(Point3D<float>)
+0040b720 000000ac T LightBase::SetAmbientColor(Point3D<float>)
+0040b674 000000ac T LightBase::SetDiffuseColor(Point3D<float>)
+0040b5c8 000000ac T LightBase::SetSpecularColor(Point3D<float>)
+0040adf0 000002d0 T LightBase::DeclareProperties()
+0040a708 00000004 W LightBase::RefreshAttachment()
+0040a728 00000040 T LightBase::TurnOn()
+0040a714 00000014 T LightBase::Update()
+0040a768 0000001c T LightBase::TurnOff()
+0040b0c0 00000308 T LightBase::InitPost()
+0040a8f8 000001a0 T LightBase::SyncData()
+0040aba4 000000b4 T LightBase::LightBase(ObjectBase::GO_IDS)
+0040ac58 000000b4 T LightBase::LightBase(ObjectBase::GO_IDS)
+0040ab18 0000001c T LightBase::~LightBase()
+0040aaa0 00000070 T LightBase::~LightBase()
+0040ab34 00000070 T LightBase::~LightBase()
+0034336c 000000e4 T ObjectManager::GetLightBaseList(std::list<LightBase*, std::allocator<LightBase*>>&) const
+003ef4a8 00000098 W Level::GetLevelConfig() const
+005606e0 00000010 W glitch::io::CLightAttribute::getTypeString() const
+005606d8 00000008 W glitch::io::CLightAttribute::getType() const
+00583cf0 00000028 T glitch::scene::CLightSceneNode::getBoundingBox() const
+00583ddc 00000054 T glitch::scene::CLightSceneNode::serializeAttributes(glitch::io::IAttributes*, glitch::io::SAttributeReadWriteOptions*) const
+00583bec 0000000c T glitch::scene::CLightSceneNode::getType() const
+005aa940 00000100 T glitch::video::IVideoDriver::getDynamicLight(unsigned short) const
+005d3f14 00000118 T glitch::video::CMaterialRenderer::getBindedLightCount(unsigned char, unsigned char) const
+005af034 00000008 W glitch::video::CProgrammableGLDriver<glitch::video::CGLSLShaderHandler>::queryMaxLightCount() const
+0059ffa8 000001b4 T glitch::video::CLight::serializeAttributes(glitch::io::IAttributes*, glitch::io::SAttributeReadWriteOptions*) const
+0059fd00 00000048 T glitch::video::CLight::clone(glitch::video::STransformationSource**) const
+005d5378 00000118 W boost::enable_if<glitch::video::detail::SIsValidSetMaterialParamaterOverload<boost::intrusive_ptr<glitch::video::CLight>>, bool>::type glitch::video::detail::IMaterialParameters<glitch::video::CMaterialRenderer, glitch::ISharedMemoryBlockHeader<glitch::video::CMaterialRenderer>>::getParameter<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, boost::intrusive_ptr<glitch::video::CLight>*, int) const
+005d7578 000000d0 W boost::enable_if<glitch::video::detail::SIsValidSetMaterialParamaterOverload<boost::intrusive_ptr<glitch::video::CLight>>, bool>::type glitch::video::detail::IMaterialParameters<glitch::video::CMaterialRenderer, glitch::ISharedMemoryBlockHeader<glitch::video::CMaterialRenderer>>::getParameter<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, unsigned int, boost::intrusive_ptr<glitch::video::CLight>&) const
+005d55cc 0000010c W boost::enable_if<glitch::video::detail::SIsValidSetMaterialParamaterOverload<boost::intrusive_ptr<glitch::video::CLight>>, bool>::type glitch::video::detail::IMaterialParameters<glitch::video::CMaterialRenderer, glitch::ISharedMemoryBlockHeader<glitch::video::CMaterialRenderer>>::getParameterCvt<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, boost::intrusive_ptr<glitch::video::CLight>*, int) const
+005d50f0 00000084 W boost::enable_if<glitch::video::detail::SIsValidSetMaterialParamaterOverload<boost::intrusive_ptr<glitch::video::CLight>>, bool>::type glitch::video::detail::IMaterialParameters<glitch::video::CMaterialRenderer, glitch::ISharedMemoryBlockHeader<glitch::video::CMaterialRenderer>>::getParameterCvt<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, unsigned int, boost::intrusive_ptr<glitch::video::CLight>&) const
+005c2198 00000150 W boost::enable_if<glitch::video::detail::SIsValidSetMaterialParamaterOverload<boost::intrusive_ptr<glitch::video::CLight>>, bool>::type glitch::video::detail::IMaterialParameters<glitch::video::CGlobalMaterialParameterManager, glitch::video::detail::globalmaterialparametermanager::SEmptyBase>::getParameter<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, boost::intrusive_ptr<glitch::video::CLight>*, int) const
+005c5a40 00000108 W boost::enable_if<glitch::video::detail::SIsValidSetMaterialParamaterOverload<boost::intrusive_ptr<glitch::video::CLight>>, bool>::type glitch::video::detail::IMaterialParameters<glitch::video::CGlobalMaterialParameterManager, glitch::video::detail::globalmaterialparametermanager::SEmptyBase>::getParameter<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, unsigned int, boost::intrusive_ptr<glitch::video::CLight>&) const
+005c518c 00000144 W boost::enable_if<glitch::video::detail::SIsValidSetMaterialParamaterOverload<boost::intrusive_ptr<glitch::video::CLight>>, bool>::type glitch::video::detail::IMaterialParameters<glitch::video::CGlobalMaterialParameterManager, glitch::video::detail::globalmaterialparametermanager::SEmptyBase>::getParameterCvt<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, boost::intrusive_ptr<glitch::video::CLight>*, int) const
+005c58ec 000000bc W boost::enable_if<glitch::video::detail::SIsValidSetMaterialParamaterOverload<boost::intrusive_ptr<glitch::video::CLight>>, bool>::type glitch::video::detail::IMaterialParameters<glitch::video::CGlobalMaterialParameterManager, glitch::video::detail::globalmaterialparametermanager::SEmptyBase>::getParameterCvt<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, unsigned int, boost::intrusive_ptr<glitch::video::CLight>&) const
+005cc50c 0000011c W boost::enable_if<glitch::video::detail::SIsValidSetMaterialParamaterOverload<boost::intrusive_ptr<glitch::video::CLight>>, bool>::type glitch::video::detail::IMaterialParameters<glitch::video::CMaterial, glitch::ISharedMemoryBlockHeader<glitch::video::CMaterial>>::getParameter<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, boost::intrusive_ptr<glitch::video::CLight>*, int) const
+005ceae0 000000d4 W boost::enable_if<glitch::video::detail::SIsValidSetMaterialParamaterOverload<boost::intrusive_ptr<glitch::video::CLight>>, bool>::type glitch::video::detail::IMaterialParameters<glitch::video::CMaterial, glitch::ISharedMemoryBlockHeader<glitch::video::CMaterial>>::getParameter<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, unsigned int, boost::intrusive_ptr<glitch::video::CLight>&) const
+005cd0d8 00000110 W boost::enable_if<glitch::video::detail::SIsValidSetMaterialParamaterOverload<boost::intrusive_ptr<glitch::video::CLight>>, bool>::type glitch::video::detail::IMaterialParameters<glitch::video::CMaterial, glitch::ISharedMemoryBlockHeader<glitch::video::CMaterial>>::getParameterCvt<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, boost::intrusive_ptr<glitch::video::CLight>*, int) const
+005cc3b4 00000088 W boost::enable_if<glitch::video::detail::SIsValidSetMaterialParamaterOverload<boost::intrusive_ptr<glitch::video::CLight>>, bool>::type glitch::video::detail::IMaterialParameters<glitch::video::CMaterial, glitch::ISharedMemoryBlockHeader<glitch::video::CMaterial>>::getParameterCvt<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, unsigned int, boost::intrusive_ptr<glitch::video::CLight>&) const
+00644404 00000008 T glitch::collada::CLightSceneNode::getLightID() const
+0064440c 0000000c T glitch::collada::CLightSceneNode::getUID() const
+0060eea8 0000000c W glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CLightColorMixin<unsigned char>>>::applyValue(void*, void*, glitch::collada::animation_track::CApplicatorInfo*) const
+0060eea0 00000008 W glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CLightColorMixin<unsigned char>>>::getValueSize() const
+006213c8 000000f0 W glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CLightColorMixin<unsigned char>>>::getAddedValue(void*, float*, int, void*) const
+0060eeb4 00000058 W glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CLightColorMixin<unsigned char>>>::retrieveValue(void*, void*) const
+00621b84 0000001c W glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CLightColorMixin<unsigned char>>>::applyAddedValue(void*, float*, int, void*, glitch::collada::animation_track::CApplicatorInfo*) const
+006211e8 000000f0 W glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CLightColorMixin<unsigned char>>>::getBlendedValue(void*, float*, int, void*) const
+00618d8c 0000001c W glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CLightColorMixin<unsigned char>>>::getIdentityValue(void*) const
+00612684 00000044 W glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CLightColorMixin<unsigned char>>>::getKeyBasedValue(glitch::collada::SAnimationAccessor const&, int, void*) const
+00612820 00000054 W glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CLightColorMixin<unsigned char>>>::getKeyBasedValue(glitch::collada::SAnimationAccessor const&, int, int, void*) const
+00612804 0000001c W glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CLightColorMixin<unsigned char>>>::getKeyBasedValue(glitch::collada::SAnimationAccessor const&, int, int, float, void*) const
+00612908 00000024 W glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CLightColorMixin<unsigned char>>>::getKeyBasedValue(glitch::collada::SAnimationAccessor const&, int, int, int, float, void*) const
+00621a60 0000001c W glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CLightColorMixin<unsigned char>>>::applyBlendedValue(void*, float*, int, void*, glitch::collada::animation_track::CApplicatorInfo*) const
+00612670 00000014 W glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CLightColorMixin<unsigned char>>>::applyKeyBasedValue(glitch::collada::SAnimationAccessor const&, int, void*, glitch::collada::animation_track::CApplicatorInfo*) const
+006127e0 00000024 W glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CLightColorMixin<unsigned char>>>::applyKeyBasedValue(glitch::collada::SAnimationAccessor const&, int, int, float, void*, glitch::collada::animation_track::CApplicatorInfo*) const
+0061b24c 00000024 T glitch::collada::CColladaDatabase::constructLight(char const*, glitch::collada::CRootSceneNode*) const
+00619404 0000004c T glitch::collada::CColladaDatabase::constructLight(glitch::collada::SLight*, glitch::collada::CRootSceneNode*) const
+00619450 00000024 T glitch::collada::CColladaDatabase::constructLight(int, glitch::collada::CRootSceneNode*) const
+0060e504 00000048 T glitch::collada::CColladaDatabase::getExternalLightSceneNode(boost::intrusive_ptr<glitch::video::CMaterialRenderer const> const&, unsigned short, unsigned int, char const*) const
+0060e4bc 00000048 T glitch::collada::CColladaDatabase::getExternalLightSceneNode(boost::intrusive_ptr<glitch::video::CMaterial const> const&, unsigned short, unsigned int, char const*) const
+0061b1ec 00000060 T glitch::collada::CColladaDatabase::getLight(char const*) const
+0060e3ac 0000001c T glitch::collada::CColladaDatabase::getLight(int) const
+0040a70c 00000008 W LightBase::IsUpdatable() const
+0040a784 00000174 T LightBase::Draw() const
+006ffe48 0000009c W std::vector<boost::intrusive_ptr<glitch::video::CLight>, glitch::core::SAllocator<boost::intrusive_ptr<glitch::video::CLight>, (glitch::memory::E_MEMORY_HINT)0>>::~vector()
+00352118 0000003c W LightBase** std::vector<LightBase*, glitch::core::SAllocator<LightBase*, (glitch::memory::E_MEMORY_HINT)0>>::_M_allocate_and_copy<LightBase* const*>(unsigned int&, LightBase* const*, LightBase* const*)
+003540c0 00000114 W std::vector<LightBase*, glitch::core::SAllocator<LightBase*, (glitch::memory::E_MEMORY_HINT)0>>::operator=(std::vector<LightBase*, glitch::core::SAllocator<LightBase*, (glitch::memory::E_MEMORY_HINT)0>> const&)
+00975cd8 0000012c D construction vtable for glitch::scene::ISceneNode-in-glitch::scene::CLightSceneNode
+00975e08 00000038 D construction vtable for glitch::io::IAttributeExchangingObject-in-glitch::scene::CLightSceneNode
+0097f028 00000038 D construction vtable for glitch::io::IAttributeExchangingObject-in-glitch::collada::CLightSceneNode
+0097eef8 0000012c D construction vtable for glitch::scene::ISceneNode-in-glitch::collada::CLightSceneNode
+0097edc8 0000012c D construction vtable for glitch::scene::CLightSceneNode-in-glitch::collada::CLightSceneNode
+00975cb8 00000020 D VTT for glitch::scene::CLightSceneNode
+0097ed98 0000002c D VTT for glitch::collada::CLightSceneNode
+00967a50 00000094 D vtable for LightPoint
+00967b08 00000020 D vtable for PlayerLightTweaker
+009679b8 00000094 D vtable for LightBase
+00973118 0000011c V vtable for glitch::io::CLightAttribute
+00975b88 0000012c D vtable for glitch::scene::CLightSceneNode
+0097ec68 0000012c D vtable for glitch::collada::CLightSceneNode
+00979d30 00000098 V vtable for glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CLightColorMixin<unsigned char>>>
+0040bd68 00000008 T non-virtual thunk to LightPoint::~LightPoint()
+0040bd14 00000008 T non-virtual thunk to LightPoint::~LightPoint()
+003f218c 00000008 T non-virtual thunk to LevelConfig::~LevelConfig()
+003f20c0 00000008 T non-virtual thunk to LevelConfig::~LevelConfig()
+0040ab10 00000008 T non-virtual thunk to LightBase::~LightBase()
+0040aa98 00000008 T non-virtual thunk to LightBase::~LightBase()
+0040bfbc 00000008 T non-virtual thunk to LightPoint::DeclareProperties()
+0040ade8 00000008 T non-virtual thunk to LightBase::DeclareProperties()
+00584a48 00000010 T virtual thunk to glitch::scene::CLightSceneNode::~CLightSceneNode()
+00584a68 00000010 T virtual thunk to glitch::scene::CLightSceneNode::~CLightSceneNode()
+006444dc 00000010 W virtual thunk to glitch::collada::CLightSceneNode::~CLightSceneNode()
+006444a0 00000010 W virtual thunk to glitch::collada::CLightSceneNode::~CLightSceneNode()
+00584a78 00000010 T virtual thunk to glitch::scene::CLightSceneNode::serializeAttributes(glitch::io::IAttributes*, glitch::io::SAttributeReadWriteOptions*) const
+00584a88 00000010 T virtual thunk to glitch::scene::CLightSceneNode::deserializeAttributes(glitch::io::IAttributes*, glitch::io::SAttributeReadWriteOptions*)
+00584a38 00000010 T virtual thunk to glitch::scene::CLightSceneNode::~CLightSceneNode()
+00584a58 00000010 T virtual thunk to glitch::scene::CLightSceneNode::~CLightSceneNode()
+006444cc 00000010 W virtual thunk to glitch::collada::CLightSceneNode::~CLightSceneNode()
+00644490 00000010 W virtual thunk to glitch::collada::CLightSceneNode::~CLightSceneNode()
+009f6ebc 00000004 V glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CLightColorMixin<unsigned char>>>::getInstance()::s_Instance
+009f6984 00000004 b glitch::video::IVideoDriver::getDynamicLight(unsigned short) const::nullLight

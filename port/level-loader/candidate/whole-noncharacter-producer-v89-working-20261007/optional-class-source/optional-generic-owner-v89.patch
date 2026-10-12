@@ -1,0 +1,25 @@
+--- a/port/android-native/app/src/main/cpp/renderer_campaign_noncharacter_v69.inc
++++ b/port/android-native/app/src/main/cpp/renderer_campaign_noncharacter_v69.inc
+@@ -569,6 +569,22 @@
+ #undef V69_LIGHT_LEAF
+   classes.lights=std::move(lights);
+  }
++ // Optional original RoomZone/TriggerTrap provider uses the SAME exact
++ // catalog authority while its native resources/callbacks remain unchanged.
++ if(classes.generic){
++  auto generic=std::make_shared<dh2::loader::CatalogGenericServicesV70>(*classes.generic);generic->owner=self;
++  auto guard_generic=[weak](auto original){return [weak,original=std::move(original)](auto&&... args)->bool{
++   auto& error=std::get<sizeof...(args)-1>(std::forward_as_tuple(args...));
++   auto same=weak.lock();if(!same){error="Released SAME optional source catalog authority";return false;}
++   return same->current(error)&&original(std::forward<decltype(args)>(args)...)&&same->current(error);
++  };};
++#define V89_GENERIC_LEAF(field) if(generic->field)generic->field=guard_generic(std::move(generic->field))
++  V89_GENERIC_LEAF(validate_current);V89_GENERIC_LEAF(lend_initialization);V89_GENERIC_LEAF(lend_position);
++  V89_GENERIC_LEAF(lend_trigger_trap);V89_GENERIC_LEAF(destroy_room_zone);
++  V89_GENERIC_LEAF(retain_release_record);V89_GENERIC_LEAF(release_completed);
++#undef V89_GENERIC_LEAF
++  classes.generic=std::move(generic);
++ }
+  RendererCampaignNonCharacterCompositionV69 prepared;prepared.services=self;
+  if(!dh2::loader::make_source_campaign_noncharacter_factory_v67(actual,self,std::move(classes),self->native.required_types,prepared.catalog,prepared.factory,e,&prepared.owners))return false;
+  if(self->native.after_catalog_composition_v89&&!self->native.after_catalog_composition_v89(prepared.owners,e))return false;

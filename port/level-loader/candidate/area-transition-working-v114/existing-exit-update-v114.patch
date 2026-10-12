@@ -1,0 +1,115 @@
+--- port/level-world/zone_collision_runtime_v83.hpp
++++ port/level-world/zone_collision_runtime_v83.hpp
+@@ -62,6 +62,10 @@
+ bool quest_move_collision_begin_v83(CanonicalQuestMoveZoneV31&,std::uintptr_t,
+  const ZoneCollisionServicesV83&,std::string&);
+ struct ExitZoneRuntimeServicesV83 {
++ //Pure SAME-owner/epoch admission; weak actual receiver/World captures.
++ std::function<bool(CanonicalExitZoneV29&,std::string&)> current_v114;
++ //Actual UpdateIdleSound38ae2c, after native signed-short370 gate.
++ std::function<bool(CanonicalExitZoneV29&,std::string&)> update_idle_sound_v114;
+  ZoneCollisionServicesV83 collision;
+  std::function<bool(std::string&)> play_idle_sound,require_online_update;
+  std::function<bool(bool&,std::string&)> online,virtual54,local_hosting;
+--- port/level-world/zone_collision_runtime_v83.cpp
++++ port/level-world/zone_collision_runtime_v83.cpp
+@@ -1,6 +1,8 @@
+ #include "zone_collision_runtime_v83.hpp"
+ #include <cmath>
+ #include <cstring>
++#include <exception>
++#include <utility>
+ namespace dh2::world {namespace {
+ template<class F,class... A>bool call(const F& f,const char* name,std::string& e,A&&... a){
+  if(!f){e=std::string("Required actual Zone ")+name;return false;}return f(std::forward<A>(a)...,e);
+@@ -95,34 +97,63 @@
+  return level.events->raise_async(envelope.borrow(),e);
+ }
+ bool exit_zone_update_v83(CanonicalExitZoneV29& zone,const ExitZoneRuntimeServicesV83& s,std::string& e){
+- auto* idle=zone.base().integer(0x370);if(!idle){e="Required actual Exit idle-sound370";return false;}
+- if(*idle>=0&&!call(s.play_idle_sound,"Exit PlaySound38ae2c",e))return false;
+- bool online{},remote{};if(!call(s.online,"Exit GetOnline.byte5",e,online))return false;
+- if(online&&!call(s.virtual54,"Exit source virtual54",e,remote))return false;
+- auto* touching=zone.source_integer(0x3c0);if(!touching){e="Required SAME Exit touching3c0";return false;}
+- if(!online||!remote){std::int32_t count{};if(!zone.source_number_touching_v83(count,e))return false;*touching=count;}
+- ZoneLevelBorrowV83 level;if(!call(s.collision.current_level,"Exit GetCurrentLevel",e,level))return false;
+- if(level.identity){if(!level.receiver||!level.transitions144){e="Required SAME Exit Level byte144";return false;}if(!*level.transitions144){e.clear();return true;}}
+- std::uintptr_t local{};if(!call(s.collision.local_player,"Exit GetLocalPlayer(0,true)",e,0,true,local))return false;
+- auto* unlocked=zone.source_byte(0x818);auto* displayed=zone.source_byte(0x819);
+- auto* name=zone.source_string(0x7dc);auto* fasttravel=zone.source_string(0x800);auto* entry=zone.source_integer(0x7f4);auto* level_id=zone.source_integer(0x7d4);
+- if(!unlocked||!displayed||!name||!fasttravel||!entry||!level_id){e="Required actual Exit authored/C1 fields";return false;}
+- auto show=[&](bool visible){std::string title;if(!call(s.level_display_name,"Arrays.LevelList/GetString row24",e,name->c_str(),title))return false;
+-  if(!call(s.display_fasttravel,"actual HUD.DisplayFastTravel four arguments",e,visible,title.c_str(),name->c_str(),*entry))return false;
+-  *displayed=visible?1:0;return true;};
+- if(local){
+-  if(*touching&&! *unlocked){if(!call(s.unlock_fasttravel,"Character.SG_SetFastTravelIdUnlocked3bba84",e,local,fasttravel->c_str(),true,-1))return false;*unlocked=1;}
+-  bool hit{};if(!zone_is_touching_v83(zone.base(),local,s.collision,hit,e))return false;
+-  if(hit){bool hosting{};if(!call(s.local_hosting,"PlayerManager.IsLocalPlayerHosting36f074",e,hosting))return false;
+-   if(hosting){
+-    // Qualified GameObject.MeetCondition38ab60 is literally TRUE; this is
+-    // distinct from ConditionData predicates attached to the authored graph.
+-    if(!call(s.require_online_update,"Exit RequireOnlineUpdate38b8b8",e))return false;
+-    if(*level_id==-1||*displayed){e.clear();return true;}
+-    return show(true);
++ e.clear();
++ auto current=[&](std::string& error){return !s.current_v114||s.current_v114(zone,error);};
++ auto reached=[&](const auto& fn,const char* name,auto&&... args){
++  if(!current(e))return false;if(!fn){e=std::string("Required actual Exit ")+name;return false;}
++  std::string local;const bool done=fn(std::forward<decltype(args)>(args)...,local);
++  if(!done){e=local.empty()?std::string("Required actual Exit ")+name:local;return false;}
++  return current(e);
++ };
++ try{
++  if(!current(e))return false;
++  auto* idle=zone.base().integer(0x370);if(!idle){e="Required SAME Exit signed-short370 cell";return false;}
++  const auto raw=static_cast<std::uint16_t>(*idle);std::int16_t ordinal;std::memcpy(&ordinal,&raw,2);
++  if(ordinal>=0&&!reached(s.update_idle_sound_v114,"GameObject.UpdateIdleSound38ae2c",zone))return false;
++  bool online{},remote{};if(!reached(s.online,"GetOnline.byte5",online))return false;
++  if(online&&!reached(s.virtual54,"source virtual54",remote))return false;
++  auto* touching=zone.source_integer(0x3c0);if(!touching){e="Required SAME Exit touching3c0";return false;}
++  if(!online||!remote){
++   std::int32_t count{};if(!zone.source_number_touching_v83(count,e)||!current(e))return false;
++   *touching=count;
++  }
++  ZoneLevelBorrowV83 level;if(!reached(s.collision.current_level,"GetCurrentLevel",level))return false;
++  if(level.identity){if(!level.receiver||!level.transitions144){e="Required SAME Exit Level byte144";return false;}
++   if(!*level.transitions144){e.clear();return true;}}
++  std::uintptr_t local{};if(!reached(s.collision.local_player,"GetLocalPlayer(0,true)",0,true,local))return false;
++  auto* displayed=zone.source_byte(0x819);if(!displayed){e="Required SAME Exit displayed819";return false;}
++  auto show=[&](bool visible){
++   auto* name=zone.source_string(0x7dc);if(!name){e="Required actual Exit LevelName7dc";return false;}
++   std::string title;if(!reached(s.level_display_name,"LevelList lookup/GetString row24",name->c_str(),title))return false;
++   //Source rereads destination buffer and entry AFTER localization.
++   name=zone.source_string(0x7dc);auto* entry=zone.source_integer(0x7f4);
++   if(!name||!entry){e="Required actual reached Exit destination/entry fields";return false;}
++   if(!reached(s.display_fasttravel,"HUD.DisplayFastTravel(active,title,LevelName,EntryPoint)",visible,title.c_str(),name->c_str(),*entry))return false;
++   *displayed=visible?1:0;return true;
++  };
++  if(local){
++   if(*touching){
++    auto* unlocked=zone.source_byte(0x818);if(!unlocked){e="Required SAME Exit unlocked818";return false;}
++    if(!*unlocked){
++     auto* fasttravel=zone.source_string(0x800);if(!fasttravel){e="Required actual FastTravelName800";return false;}
++     if(!reached(s.unlock_fasttravel,"Character.SG_SetFastTravelIdUnlocked3bba84",local,fasttravel->c_str(),true,-1))return false;
++     *unlocked=1;
++    }
++   }
++   bool hit{};if(!zone_is_touching_v83(zone.base(),local,s.collision,hit,e)||!current(e))return false;
++   if(hit){bool hosting{};if(!reached(s.local_hosting,"PlayerManager.IsLocalPlayerHosting36f074",hosting))return false;
++    if(hosting){
++     //Qualified GameObject.MeetCondition38ab60 is literal TRUE.
++     //No Trigger.CanActivate/Update, new evaluator or automatic transition.
++     if(!reached(s.require_online_update,"GameObject.RequireOnlineUpdate38b8b8"))return false;
++     auto* level_id=zone.source_integer(0x7d4);if(!level_id){e="Required SAME Exit LevelListID7d4";return false;}
++     if(*level_id==-1||*displayed){e.clear();return true;}
++     return show(true);
++    }
+    }
+   }
+- }
+- if(*displayed)return show(false);e.clear();return true;
++  if(*displayed)return show(false);e.clear();return true;
++ }catch(const std::exception& ex){e=ex.what();return false;}catch(...){e="Exit native leaf threw; reached prefix retained";return false;}
+ }
++
+ }

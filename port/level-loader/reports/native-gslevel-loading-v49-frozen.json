@@ -1,0 +1,8 @@
+{
+  "validation": "PASS",
+  "archive": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\native-gslevel-loading-v49-d2c6e02d9d55ee73.zip",
+  "archive_sha256": "46a24ce1eda17c491487e90b7db3cb540d507bb79b928848912182fb67f32df2",
+  "payloads": 53,
+  "manifest_sha256": "d2c6e02d9d55ee73973c943625cef3825bc9d9ff3cf26056abcffbee8b6e4d17",
+  "readback_verified": true
+}

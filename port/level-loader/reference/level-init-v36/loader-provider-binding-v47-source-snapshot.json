@@ -1,0 +1,135 @@
+{
+  "original_engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_symbols": [
+    "00330740 W DebugSwitches::GetInstance()",
+    "003bba70 T Character::SG_UnlockAllFastTravels()",
+    "0042d4bc T MenuManager::UnloadMenu(int)",
+    "009f640a B handle_cheats_inGame",
+    "009f688c B g_bigV",
+    "009f6890 B g_bigI"
+  ],
+  "read_only_main_sources": [
+    {
+      "path": "port/level-loader/native_gslevel_runtime_v27.hpp",
+      "sha256": "ecb30f1f8663036edba97451895330f622ce152987abc9a8f5ca9c7b8627d598",
+      "bytes": 1866
+    },
+    {
+      "path": "port/level-loader/native_gslevel_runtime_v27.cpp",
+      "sha256": "13e6fe707f5faa0e0d01455b71456bb139dd6b0386eae84a91c6697b1f90ef63",
+      "bytes": 1658
+    },
+    {
+      "path": "port/level-loader/native_gslevel_connection_v26.hpp",
+      "sha256": "ebfbd9f6e2d5878075da0c075304241fca7b431e5cb8005247df494719adf9dc",
+      "bytes": 2516
+    },
+    {
+      "path": "port/level-loader/native_level_application_v25.hpp",
+      "sha256": "791abdef881118433990925170386c98ef9dc670b62413ef1ce023af9c84ef28",
+      "bytes": 2253
+    },
+    {
+      "path": "port/level-loader/native_level_application_v25.cpp",
+      "sha256": "91ce2450bdebad1c44f248069eef5434a73187a76016abef6992eef31cfbfbfa",
+      "bytes": 3565
+    },
+    {
+      "path": "port/level-loader/canonical_level_context_v1.hpp",
+      "sha256": "01d64bdb27cbbad5af1d6cb01a7e089f976cd09822eb58b36cc384cea009005e",
+      "bytes": 5740
+    },
+    {
+      "path": "port/level-loader/level_constructor_v3.hpp",
+      "sha256": "e3559999aff2a78e4dbb6e149ca06bf8d42162f00f0dc152e34a32f9adc9ac95",
+      "bytes": 4750
+    },
+    {
+      "path": "port/level-loader/canonical_level_loading_v26.hpp",
+      "sha256": "5089dd7c172e3767b5c4e52e32df8416272981c6947ff050baed849d281ed8ab",
+      "bytes": 1133
+    },
+    {
+      "path": "port/level-world/application_services_owner_v5.hpp",
+      "sha256": "87b12842824f64f8a1a61a9c122a410a25f5104c33b05db29f0f0005d940c055",
+      "bytes": 2013
+    },
+    {
+      "path": "port/level-world/player_manager_owner_v1.hpp",
+      "sha256": "8b969842103f8a792e168d515eb5f5bd302abe00f9ac92f30ac540007da78f6a",
+      "bytes": 3727
+    },
+    {
+      "path": "port/level-world/player_manager_combat_runtime_v2.hpp",
+      "sha256": "8276c4baf23031fc3bb6a891b4c7f05b65dbaed893b923c0a6e71f9648b4d5e2",
+      "bytes": 1877
+    },
+    {
+      "path": "port/level-world/character_design_services.hpp",
+      "sha256": "e2997bdd47e1ebe442797a55f7802ecde8d3105a80b5eb1e6b11f7b269a33064",
+      "bytes": 2362
+    },
+    {
+      "path": "port/level-world/character_design_services.cpp",
+      "sha256": "bf12eb613228d963cdb78e3ff44d1cb23da87a186e0bae73b01029379808b62d",
+      "bytes": 4744
+    },
+    {
+      "path": "port/level-world/visual_fx_preload.hpp",
+      "sha256": "b0be9221f5b49ee7bf189744ee08391553267c521adf78b1b3e55294c2f02d6b",
+      "bytes": 2387
+    },
+    {
+      "path": "port/level-world/visual_fx_preload.cpp",
+      "sha256": "ab8c2d4bb1f40663859fb6bc443f0ed50e4160f42426ec8c99dee2766231b667",
+      "bytes": 3807
+    },
+    {
+      "path": "port/level-world/physical_world.hpp",
+      "sha256": "6041e04d6ffe0f95319eb2b66c614c013bc0f35f0205a89428f4ad9ceb7ce3c6",
+      "bytes": 2318
+    },
+    {
+      "path": "port/level-world/physical_world.cpp",
+      "sha256": "be5bf1faa4256553033b260b993ed32347766b9a029196616c5c4fb07eb99b15",
+      "bytes": 6514
+    },
+    {
+      "path": "port/engine-ui/menu_manager_push_v1.hpp",
+      "sha256": "21bd79c69e38311a67044fcd88926fb5fdb7df13915d9987d9f09efa429b6e0a",
+      "bytes": 2105
+    },
+    {
+      "path": "port/engine-ui/loading_menu_v1.hpp",
+      "sha256": "02e50f59c00b7f267913c3dcbc9fd0cb8f033715aa1a4a622094a7b6b511a10f",
+      "bytes": 3218
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "sha256": "8782fbaff7d3d9a9d927bf58e446585eec6cb9153ca2b6377a60c03fa6519f08",
+      "bytes": 257675
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_native_level_c1_v25.inc",
+      "sha256": "a065bb6a91f5239106bd5518e877d7a313cb255a752aff3de4746a34c8b8f00e",
+      "bytes": 9606
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/renderer_player_manager_boot_v25.inc",
+      "sha256": "f13056346bfcf7230e8f8b1d08f95ff77cc82fbcc9d3c29ab321ca2937f625a0",
+      "bytes": 7147
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/native_gslevel_menu_v27.inc",
+      "sha256": "8b05fff6d8534cd30b16b6840246e956798e02172f781504bc1285dd93d0823d",
+      "bytes": 4909
+    }
+  ],
+  "main_source_layout_requires_original_scalar_migration": [
+    134,
+    138,
+    "13c"
+  ],
+  "source_snapshots_are_read_only": true,
+  "main_paths_do_not_assert_current_runtime_or_device_state": true
+}

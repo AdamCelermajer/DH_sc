@@ -1,0 +1,26 @@
+{
+  "validation": "PASS",
+  "scope": "Original DebugSwitches load/GetSwitch missing-file instructions and OnInit constant keys versus O2 native owned-map backend.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_manifest_sha256": "38deb2b5cc3e50bdcfaad67901f98e27115a3819a887dd953599a00354779ecb",
+  "original_helper_manifest_sha256": "136eb0f55fa0d02fe78c3943692053082bc053b841ca50e8d7b49eceb176e3e9",
+  "optimized_arm64_library_sha256": "6af9372cceda3a8b9db8ac67ddf3d54de992bd57bdc8b931fdd306cdec80c877",
+  "gold_sha256": "293efef765fbfd36a27a08025bdacdfb975bdbd53bec47adc8839ca28f81542c",
+  "debug_operations": 126,
+  "fresh_singleton_sessions": 9,
+  "tick_original_OnInit_cases": 16,
+  "tick_native_calls": 32,
+  "native_guards": 4,
+  "mismatches": 0,
+  "original_instructions_executed": true,
+  "native_owned_std_map_instructions_executed": true,
+  "original_STL_map_and_string_services_explicit": true,
+  "source_file_parser_supported": false,
+  "source_sha256": {
+    "port\\level-world\\character_design_services.hpp": "e2997bdd47e1ebe442797a55f7802ecde8d3105a80b5eb1e6b11f7b269a33064",
+    "port\\level-world\\character_design_services.cpp": "bf12eb613228d963cdb78e3ff44d1cb23da87a186e0bae73b01029379808b62d",
+    "port\\level-world\\tests\\character_design_services_differential.py": "9c48e5b3e438845f4eada03461babd2dcddb1e4e76e6ff4e302f38d6d6c25f86",
+    "port\\level-world\\tools\\build_character_design_services_oracle.ps1": "f7481575a628b9695652c18ac0e50f4e2cc6f432d138b2311931a7cea7270b07"
+  },
+  "packaged_APK": false
+}

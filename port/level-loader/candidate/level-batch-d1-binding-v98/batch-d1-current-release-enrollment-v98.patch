@@ -1,0 +1,18 @@
+--- port/android-native/app/src/main/cpp/source_campaign_release_v88.cpp
++++ port/android-native/app/src/main/cpp/source_campaign_release_v88.cpp
+@@ -3,6 +3,7 @@
+ #include "source_campaign_admission_v104.hpp"
+ #include "source_campaign_fx_v77.hpp"
+ #include "source_campaign_scene_pf_release_v106.hpp"
++#include <level_batch_release_binding_v98.hpp>
+ #include "source_campaign_items_v88.hpp"
+ #include "source_campaign_character_unload_v105.hpp"
+ #include "visual_fx_manager_libraries_v63.hpp"
+@@ -281,6 +282,7 @@
+  d.lua_script_d1=[t](const auto& receiver,auto& e){std::shared_ptr<SourceWorldBorrowV61> w;std::shared_ptr<NativeLevelConnectionV25> connection;
+   if(!t->connection(w,connection,e))return false;auto script=connection->bindings()->script();return same(receiver,script)?script->close_source_v88(e):missing(e);};
+  if(!bind_source_campaign_scene_pf_release_v106(c,d,e))return false;
++ if(!bind_level_batch_release_source_v98(d,c.level,e))return false;
+  auto owner=std::make_shared<SourceCampaignReleaseV88>();owner->transport_=t;
+  owner->unload_=std::make_shared<LevelUnloadSourceV1>(c.level,std::move(s));
+  owner->destroy_=std::make_shared<LevelDestroySourceV1>(c.level,std::move(d));

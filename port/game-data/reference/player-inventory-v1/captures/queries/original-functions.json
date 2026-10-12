@@ -1,0 +1,83 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK13ItemInventory11GetNumItemsEv",
+      "elf_address": "0x3fc608",
+      "size": 20,
+      "sha256": "de5b675667dd945cf5432a5ffc672e93c56713d120a65fdbf9faf0d66808251c"
+    },
+    {
+      "original_symbol": "_ZNK14PlayerSavegame15SG_GetSkillSlotEj",
+      "elf_address": "0x46752c",
+      "size": 440,
+      "sha256": "4073a8d2cae83771f026f49fe343a796c8724f449938dd97ba5fa6097b5dd7a4"
+    },
+    {
+      "original_symbol": "_ZN9Character12SG_SetPlayerEPS_",
+      "elf_address": "0x3bb754",
+      "size": 28,
+      "sha256": "91fbd5ef17f0799059c7d35e1d3c27f558348f8c342339be3666ba449526fb82"
+    },
+    {
+      "original_symbol": "_ZNK9Character18GetCharSkillListIdEv",
+      "elf_address": "0x3bc5c0",
+      "size": 60,
+      "sha256": "ae0ccd8e8da06e96819b3c7d77bba945702d41a97bf35ff5530b54a83a72bc20"
+    },
+    {
+      "original_symbol": "_ZN12ItemInstance8SetValueEi",
+      "elf_address": "0x3fbc58",
+      "size": 8,
+      "sha256": "e0857178738f7fd87b902d5d74ba0bd6662e141f7fcc92fecc29f2489fe5ee63"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory16_DelItemInstanceEP12ItemInstance",
+      "elf_address": "0x3fe7d8",
+      "size": 160,
+      "sha256": "bfbc646dbe5844331dbe69c83b2096f334187045f9ef304f840da88789c62a7f"
+    },
+    {
+      "original_symbol": "_ZNK14PlayerSavegame13SG_GetSkillIdEj",
+      "elf_address": "0x466a08",
+      "size": 272,
+      "sha256": "1ab9198c28ea328ec38a05a358fa1ecb8a6ba8470992766ff3a3042b62c62f1a"
+    },
+    {
+      "original_symbol": "_ZNK14PlayerSavegame16SG_HasSkillSlotsEv",
+      "elf_address": "0x4676e4",
+      "size": 52,
+      "sha256": "b59606a441cc40fe487232b7a6b9071a1c29ad406b713fa0d1d84978cb1cf6aa"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory16SwapEquipmentSetEv",
+      "elf_address": "0x3fc6c8",
+      "size": 32,
+      "sha256": "3ef99483c7788fed3e7604a26fd0e95526a9c5b72fa9246eb8461238b3844539"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory18GetCurrentEquipSetEi",
+      "elf_address": "0x3fc6a8",
+      "size": 32,
+      "sha256": "6ed6f8a015fc6b011d41d26f0eb64cb9980e597748a1ff0c711080f88e40d8ac"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory18GetCurrentSkillSetEi",
+      "elf_address": "0x3fc6a0",
+      "size": 8,
+      "sha256": "6dcd5e75586fe6683156c0d559d4827b73bd48d501fa5781a1c6099aacd7c877"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory13GetNumPotionsEv",
+      "elf_address": "0x3fc690",
+      "size": 16,
+      "sha256": "20d3f617d112f999ec656bc0718c4827316ef920b41eea08bb60694d3a716e3f"
+    },
+    {
+      "original_symbol": "_ZN12ItemInstance6AddQtyEi",
+      "elf_address": "0x3fa17c",
+      "size": 12,
+      "sha256": "af7638813c5f6c088456fdd2a6f47018f11b1ada7377753e2d3407bb2b2fd1be"
+    }
+  ]
+}

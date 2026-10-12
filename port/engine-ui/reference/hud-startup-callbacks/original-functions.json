@@ -1,0 +1,17 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_Z18NativeLoadSettingsRKN7gameswf7fn_callE",
+      "elf_address": "0x43b2d8",
+      "size": 184,
+      "sha256": "344c2c8ce35c99b7947e6678dfc44433a421d19414866f6103b80459aa25dda3"
+    },
+    {
+      "original_symbol": "_Z26NativeIsMultiplayerEnabledRKN7gameswf7fn_callE",
+      "elf_address": "0x439f18",
+      "size": 140,
+      "sha256": "c269424a877c15fa4e0815a158cddb06126ad2e4946e38a7d0dc1fbd3aa88151"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+--- a/port/android-native/app/src/main/cpp/native_source_area_transition_v114.inc
++++ b/port/android-native/app/src/main/cpp/native_source_area_transition_v114.inc
+@@
+ bool model_renderer::enqueue_confirmed_source_area_transition_v114(
+  std::shared_ptr<const dh2::loader::AreaTransitionRequestV114> request,
+  dh2::loader::AreaTransitionServicesV114 services,std::string& error){
++ if(source_main_menu_transition_owned_v114()){
++  error="An accepted main-menu return already owns its native continuation";return false;
++ }
+  using Sequence=dh2::loader::AreaTransitionSequenceV114;

@@ -1,0 +1,133 @@
+{
+  "scope": "partial canonical callable owners; full source class/PropertyMap/visual/loot/restoration integration remains required",
+  "entries": {
+    "docs/CANONICAL-LOADER-OWNERS-HANDOFF-2026-10-05.md": {
+      "sha256": "5e511f21b47ec36c4b93991ea6a2c0cf13c06e2e2ce6a83fb9f23c0e68019a3f",
+      "bytes": 3000
+    },
+    "port/level-world/canonical_object_factory_v1.cpp": {
+      "sha256": "6cd1c27feb628ed730a7f163bd8095069ae0880a5c16d33d0d5bbd51784b2638",
+      "bytes": 4374
+    },
+    "port/level-world/canonical_object_factory_v1.hpp": {
+      "sha256": "59b7b283e8c528e49d99778179d190a5d4a5abb176257ee7ffc0f02a74c65439",
+      "bytes": 2610
+    },
+    "port/level-world/canonical_object_manager_v1.cpp": {
+      "sha256": "e60783260d9891e7c521f91976c788aad0abaa81a7d4ce10f2ceb95efbe17780",
+      "bytes": 4433
+    },
+    "port/level-world/canonical_object_manager_v1.hpp": {
+      "sha256": "57c743bb6c22fbfa7b284737e65c2cfbd23a8690b6201fe0646914564a809541",
+      "bytes": 2737
+    },
+    "port/level-world/character_collision_lifecycle_v1.cpp": {
+      "sha256": "43fc63c1bf17ffa297b9a12f367689fec28ef9ce0b19e2229a7136d05a68cbc7",
+      "bytes": 1470
+    },
+    "port/level-world/character_collision_lifecycle_v1.hpp": {
+      "sha256": "c3ba0bb53c058143e68aa1b334510d5eb37777d25547752ec3f16c79eaa27b4d",
+      "bytes": 1045
+    },
+    "port/level-world/character_world_npc_object_v1.cpp": {
+      "sha256": "f97774cd6732ff95fa5702c15882db1dd886316877526bc0aebe4c5729bd0e0b",
+      "bytes": 5924
+    },
+    "port/level-world/character_world_npc_object_v1.hpp": {
+      "sha256": "85cd574bb8f03bcdad3e37099197b0b7afbac1397884b3bbafec97a37747141b",
+      "bytes": 3056
+    },
+    "port/level-world/native_physical_filter_v1.cpp": {
+      "sha256": "abc13b1563bbf0f9100378e78506e39f085fae2c4fc49165cb08463a5d562c11",
+      "bytes": 1067
+    },
+    "port/level-world/native_physical_filter_v1.hpp": {
+      "sha256": "02cb7182033ed73fee1adf1a5e69e77212725e1f8c08331482d7160de3183ec1",
+      "bytes": 543
+    },
+    "port/level-world/openable_container_interaction_v2.cpp": {
+      "sha256": "8ee7faff7f0223f9195d7318aca43cda524b0f0641a7ad3efd58c8144210e54e",
+      "bytes": 2331
+    },
+    "port/level-world/openable_container_interaction_v2.hpp": {
+      "sha256": "ebbd350c20da59dfe61c3dc44c25dffd01a949d5ba98afa389b394781e17c9bf",
+      "bytes": 1567
+    },
+    "port/level-world/openable_container_owner_v1.cpp": {
+      "sha256": "1c13b822c8f450cee3ebc9e6d66ae111a6d923e7e4101f1811317f3476c23090",
+      "bytes": 9250
+    },
+    "port/level-world/openable_container_owner_v1.hpp": {
+      "sha256": "1e6edcdf6ce22642f32a307419dd4f8a456132b6fffd290630aa400cffaff8b5",
+      "bytes": 3843
+    },
+    "port/level-world/reference/canonical-object-factory-v1/factory-catalog.json": {
+      "sha256": "8519654bc97c7362e3b2ccae704ab07eefcb204982490ff95c331d57aad04433",
+      "bytes": 3131
+    },
+    "port/level-world/reference/canonical-object-factory-v1/factory-literals.json": {
+      "sha256": "a9d6fca1262eca174a94b0750039d317e21bf03a26a0d101dd2efe9c4243dad4",
+      "bytes": 1818
+    },
+    "port/level-world/reference/canonical-object-factory-v1/object-base-constructor-original.json": {
+      "sha256": "3988ab1ebb711e0edb214c94ee4c3fb4042d9c2a5865e24a6dad51a6907243c3",
+      "bytes": 3943
+    },
+    "port/level-world/reference/canonical-object-factory-v1/original-functions.json": {
+      "sha256": "8da7e461070313541023057951103d5ffdf9a09d458953a81764ebc99f1d26ae",
+      "bytes": 54127
+    },
+    "port/level-world/reference/canonical-object-factory-v1/original-source.asm": {
+      "sha256": "81c2bafdafbfad1bb0db7e158b83da84e7151b5fcb705e6c1001357d380cf5af",
+      "bytes": 438548
+    },
+    "port/level-world/reference/canonical-object-factory-v1/property-declarations-original.json": {
+      "sha256": "6112f012d2678aa87aa811d91f14c816eccd624488e0bd4e723f3a0c2d802d27",
+      "bytes": 29694
+    },
+    "port/level-world/reference/canonical-object-factory-v1/property-parse-source.asm": {
+      "sha256": "6eaf810d0e56c25d4285b7ecfa228a0436708cf434972ac8d0f3f71c8b68b4d4",
+      "bytes": 1174
+    },
+    "port/level-world/reference/canonical-object-factory-v1/property-receiver-vtables.json": {
+      "sha256": "374df8d826ccda36250dfc78d9f6c4345ec452e62fa0423f4e929287c0c867f1",
+      "bytes": 3891
+    },
+    "port/level-world/reference/canonical-object-factory-v1/property-receivers.asm": {
+      "sha256": "aeff33f817f596d04f5b0acd90af253cc5d17e12f05802c475d95facaf776ccf",
+      "bytes": 34535
+    },
+    "port/level-world/reports/android-native-owner-tests/canonical-object-factory-v1/receipt.json": {
+      "sha256": "a7bb586bde7bc093a3d9d83776624942d1c638fbe059c0dbd3899a3d9bff54d4",
+      "bytes": 2682
+    },
+    "port/level-world/reports/android-native-owner-tests/openable-container-v2/receipt.json": {
+      "sha256": "a35b73e04f4317daa36a431f995d76574e240680fadd2473a1516f835a51f038",
+      "bytes": 2676
+    },
+    "port/level-world/retained_character_actor_v1.cpp": {
+      "sha256": "b57287bb4ee3c34c44a5d7e1dbfad71c1f5f98c37c103696fa993d693b0fe9fd",
+      "bytes": 3687
+    },
+    "port/level-world/retained_character_actor_v1.hpp": {
+      "sha256": "60d990330401bc8175db5e6cdc111a7e808ec0ddd8765d9e8ed99a2d33d33ceb",
+      "bytes": 3868
+    },
+    "port/level-world/tests/canonical_object_factory_v1.cpp": {
+      "sha256": "ac197e541de4b6f25adc421820e684a8f7dbd8e524d6ab9e5370b7c86a301600",
+      "bytes": 3137
+    },
+    "port/level-world/tests/openable_container_owner_v1.cpp": {
+      "sha256": "97610b87ebef9e6cab319b168f7badfe192e8e03ca0ff8038d0b705a57a2d71b",
+      "bytes": 5623
+    },
+    "port/level-world/tests/retained_character_actor_v1.cpp": {
+      "sha256": "d2fe1376462ea738be11b88b6d4f779018b5dd6c9ea64a0121f72b3c0bc21526",
+      "bytes": 1536
+    },
+    "reports/openable-container-owner-v1.md": {
+      "sha256": "bc32e74186ba0665f0ce20e3527a4c67d4f9e03bbae6e4e1aa8aecdfa82a8b69",
+      "bytes": 4683
+    }
+  }
+}

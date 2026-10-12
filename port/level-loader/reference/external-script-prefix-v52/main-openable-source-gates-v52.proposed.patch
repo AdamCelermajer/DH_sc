@@ -1,0 +1,23 @@
+--- a/port/level-world/canonical_openable_graph_v21.cpp
++++ b/port/level-world/canonical_openable_graph_v21.cpp
+@@ -1,4 +1,6 @@
+ #include "canonical_openable_graph_v21.hpp"
++#include "qualified_gameobject_condition_v47.hpp"
++#include "game_object_external_script_prefix_v52.hpp"
+ #include <algorithm>
+ namespace dh2::world {
+ namespace {bool required(const char* name,std::string& e){e=std::string("Required actual OpenableContainer graph ")+name;return false;}}
+@@ -14,6 +16,13 @@
+ }
+ OpenableContainerServicesV1 CanonicalOpenableGraphV21::container_services(){
+  auto s=services_.container;s.owner=services_.world;
++ // Original qualified base MeetCondition38ab60 is literal true.
++ s.meet_condition=[](bool& out,std::string& e){out=qualified_gameobject_meet_condition_v47();e.clear();return true;};
++ // Do not replace an existing whole main Lua provider.
++ if(!s.load_object_script)s.load_object_script=[this](const char* name,const char* directory,std::string& e){
++  bool whole=false;return game_object_external_script_prefix_v52(receiver_.base().pointer(0x300),name,directory,{},whole,e);
++ };
++
+  s.game_object_init_post=[this](auto& e){bool eligible{};return initialization_->init_post(eligible,e);};
+  s.game_object_init_final=[this](auto& e){bool eligible{};return initialization_->init_final(eligible,e);};
+  s.has_visual=[this](bool& out,auto& e){auto* p=receiver_.base().pointer(0x2d8);if(!p)return required("base visual2d8",e);out=*p!=0;return true;};

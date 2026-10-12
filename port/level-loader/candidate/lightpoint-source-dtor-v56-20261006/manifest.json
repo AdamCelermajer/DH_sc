@@ -1,0 +1,31 @@
+{
+  "version": 56,
+  "status": "SOURCE_ONLY_PROPOSAL",
+  "source_execution": false,
+  "build": false,
+  "native_provider_implemented": false,
+  "old_or_selected_source_changed": false,
+  "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "files": [
+    {
+      "file": "adoption-and-future-tests.md",
+      "sha256": "2cc7080bd84e100bd3490051279cca0a563ba305fe49bb367fc6cec5d8e67e6b",
+      "bytes": 6283
+    },
+    {
+      "file": "canonical_light_point_v56.header.inc.proposed",
+      "sha256": "2e0cfb1861b3f17d48ebb120267285602f1cd42ca9603f5d8e89adc95ffe5032",
+      "bytes": 1590
+    },
+    {
+      "file": "canonical_light_point_v56.source.inc.proposed",
+      "sha256": "0385d91dc3dcf01739f6c6b4baf2107ab96c2dd451df1d1ceae9c76023d4ea62",
+      "bytes": 5323
+    },
+    {
+      "file": "main_light_source_release_v56.hpp.proposed",
+      "sha256": "c8a441e4e7e64dda740c3d78d4946b680b5f85e9246892ed19f95cfb4837f751",
+      "bytes": 3765
+    }
+  ]
+}

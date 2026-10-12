@@ -1,0 +1,13 @@
+{
+  "source": "Explicit stable current root source capture for Module load boundary verification",
+  "files": {
+    "module_xml_selection_v1.hpp": {
+      "sha256": "eaf4e1092d58c066dec8a82d32c09887ad831733061ba91d18cf13840df1dc09",
+      "bytes": 1102
+    },
+    "module_xml_selection_v1.cpp": {
+      "sha256": "80c343e1cd47132306269657b592a9d7f35a5773c4768100224765e4beb42cd4",
+      "bytes": 2721
+    }
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "validation": "PASS",
+  "actual_original_ResetLightSets_body": true,
+  "final_CLight_delete_and_GPU": "not reached; fixture keeps independent ref1",
+  "rows": [
+    {
+      "occupied_slot_indices": [],
+      "all25_slots_cleared": true,
+      "shared_light_refcount_before": 1,
+      "shared_light_refcount_after": 1,
+      "field1a0_after": 0,
+      "names_bytes_preserved": true,
+      "automatic_vector_preserved": true
+    },
+    {
+      "occupied_slot_indices": [
+        0
+      ],
+      "all25_slots_cleared": true,
+      "shared_light_refcount_before": 2,
+      "shared_light_refcount_after": 1,
+      "field1a0_after": 0,
+      "names_bytes_preserved": true,
+      "automatic_vector_preserved": true
+    },
+    {
+      "occupied_slot_indices": [
+        0,
+        4,
+        5,
+        19,
+        20,
+        24
+      ],
+      "all25_slots_cleared": true,
+      "shared_light_refcount_before": 7,
+      "shared_light_refcount_after": 1,
+      "field1a0_after": 0,
+      "names_bytes_preserved": true,
+      "automatic_vector_preserved": true
+    },
+    {
+      "occupied_slot_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24
+      ],
+      "all25_slots_cleared": true,
+      "shared_light_refcount_before": 26,
+      "shared_light_refcount_after": 1,
+      "field1a0_after": 0,
+      "names_bytes_preserved": true,
+      "automatic_vector_preserved": true
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "scope": "Compare native generated module overrides with original ARM setter boundaries.",
+  "validation": "PASS",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "original_receipt_sha256": "7faf83d6b9d5da4ae89f1b25db8fe83348aa8c35b58ad2b465bed35b9aaf5c73",
+  "probe_sha256": "89c69310999b27f7cf8bd38e0da802728c1c6f0aaf5fbaeb539542c871b82157",
+  "probe": "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/host-xml/dh2_loader_procedural_modules_probe",
+  "script_sha256": "20bed6fc6741373406fe0f5899618f88778408461f6160b460565947c71f8944",
+  "cases": [
+    {
+      "name": "data/scene/022_swamp2.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 11,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/022_swamp2.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 12,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/022_swamp2_trollcave.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 9,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/022_swamp2_trollcave.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 8,
+      "differences": {}
+    }
+  ],
+  "runs": 4,
+  "module_occurrences": 40,
+  "native_module_projection_verified": false,
+  "full_property_serialization_verified": false,
+  "android_procedural_rendering_verified": false,
+  "full_loader_verified": false
+}

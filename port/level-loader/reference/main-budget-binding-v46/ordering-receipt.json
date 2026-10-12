@@ -1,0 +1,46 @@
+{
+  "validation": "PASS",
+  "scope": "Original ZIP actual encoded allocation with snapshotted current MAIN CpuAdmission/ledger implementation; exact corrected/old V45 holder semantics and real vector/filesystem final deletion, not actual V45 fullgraph/GL proof",
+  "native_evidence": "OLD_NEGATIVE_CONTROL encoded_bytes=524348 ordering_violations=3 events=admission_released,filesystem_released,bytes_destroyed,\nCORRECTED encoded_bytes=524348 ordering_violations=0 events=bytes_destroyed,filesystem_released,admission_released,\nPASS actual_main_ledger=1 actual_original_ZIP_encoded_vector=1 byte_only_alias_retains_all_charges=1 corrected_bytes_then_filesystem_then_admission=1 GPU_context_or_render_proof=0",
+  "compile_command": [
+    "wsl.exe",
+    "-d",
+    "Ubuntu",
+    "--",
+    "g++",
+    "-std=c++17",
+    "-O1",
+    "-g",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/main-budget-binding-v46/main-source-snapshot/port/engine-resources",
+    "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/main-budget-binding-v46/main-source-snapshot/port/asset-payloads",
+    "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/main-budget-binding-v46/main-source-snapshot/port/android-native/app/src/main/cpp",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/main-budget-binding-v46/admission_destruction_v46.cpp",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/main-budget-binding-v46/main-source-snapshot/port/engine-resources/admitted_cpu_bytes_v40.cpp",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/main-budget-binding-v46/main-source-snapshot/port/engine-resources/resource_budget_v37.cpp",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/main-budget-binding-v46/main-source-snapshot/port/asset-payloads/zip_asset_pack_v1.cpp",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/main-budget-binding-v46/main-source-snapshot/port/android-native/app/src/main/cpp/native_resource_budget_v38.cpp",
+    "-lz",
+    "-pthread",
+    "-o",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/admission-destruction-v46/probe"
+  ],
+  "run_command": [
+    "wsl.exe",
+    "-d",
+    "Ubuntu",
+    "--",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/admission-destruction-v46/probe",
+    "/mnt/c/Users/adamc/Downloads/dungeonhunter2/Dungeon-Hunter-2-HD-v1-0-2-cache.zip"
+  ],
+  "parent_corrected_v45_sha256": "4d248e9a0f645fa4d5a8eb9166228122c959fed6664921c0ef92971ff0353a37",
+  "source_sha256": {
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\main-budget-binding-v46\\admission_destruction_v46.cpp": "e4bb1ba80aca414528dfe5be767581732d3740121c120a607eb44cffc75f875f",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\main-budget-binding-v46\\main-source-snapshot\\port\\engine-resources\\admitted_cpu_bytes_v40.cpp": "2f2b8d32e5971bbebde2763d043f422c5cd9c90a3f8499647f5e0edd8ece9be5",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\main-budget-binding-v46\\main-source-snapshot\\port\\engine-resources\\resource_budget_v37.cpp": "cb9fca1579fea9e751c8ca5889ad4b5ffcd6a9f04794a23ee51317c8a16f493f",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\main-budget-binding-v46\\main-source-snapshot\\port\\asset-payloads\\zip_asset_pack_v1.cpp": "04f0900b5272680b60c64434d769ae7e6b6bee6b7e162bd47dc911ae6608b7f4",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\main-budget-binding-v46\\main-source-snapshot\\port\\android-native\\app\\src\\main\\cpp\\native_resource_budget_v38.cpp": "d5a818e9dce7be2aa9c6116126db6b847ebeebbe4b0812d75f77dff929f2cacf"
+  },
+  "probe_sha256": "0880244151535947537ff73a9b195822a690418dbd4f679e6528fe1303cc70e1"
+}

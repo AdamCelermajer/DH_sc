@@ -1,0 +1,111 @@
+{
+  "validation": "PASS",
+  "scope": "Nonblank map viewport and visible identity checks over retained screenshots. This is not original image parity or gameplay verification.",
+  "coverage_sha256": "c04425f2fc13d400c41be9b4f213ab28471b8757a9b1eafacf66bcea2896414a",
+  "source_sha256": "f89a827913d401b0abdde4b4e9c13c5326a085d463eb23b4a0b8b0e1aaf4646b",
+  "compared_rect": [
+    0,
+    143,
+    2400,
+    891
+  ],
+  "cases": [
+    {
+      "level": "ABBEY_RUINS_01",
+      "screenshot_sha256": "0fc40c60dd150dbb6bcbc82e593dd1176bb381961fa065291e8f80af5c5cf1de",
+      "unique_map_colors": 41552,
+      "non_background_pixels": 110367
+    },
+    {
+      "level": "APPLETEMPLEBACKUP",
+      "screenshot_sha256": "3e41c3488f3856aef8e944779c55588bf2020716e59fb7b5bba4e7530a368d6b",
+      "unique_map_colors": 30036,
+      "non_background_pixels": 72261
+    },
+    {
+      "level": "DARKWOOD",
+      "screenshot_sha256": "11d5559a31b95582341cb5fd9c4b5d0582751d314886006161db37986b657573",
+      "unique_map_colors": 53838,
+      "non_background_pixels": 84111
+    },
+    {
+      "level": "DARKWOOD_V2",
+      "screenshot_sha256": "9b3c1c40135c2f84ac547a46d22acb0401c3eb064b090bca2978d0da1e7055d7",
+      "unique_map_colors": 53838,
+      "non_background_pixels": 84111
+    },
+    {
+      "level": "DARKWOOD_V3",
+      "screenshot_sha256": "2c46885b51b7e09400661ec9516b10c0056ecf9ae9e19e073e963d1e92e8c465",
+      "unique_map_colors": 53838,
+      "non_background_pixels": 84111
+    },
+    {
+      "level": "DARK_DUNGEON_TEMPLE_01",
+      "screenshot_sha256": "d74b156ac24d534cd0c9909f25a4782816c220da631716ec5bd7ba194122fad6",
+      "unique_map_colors": 2632,
+      "non_background_pixels": 37728
+    },
+    {
+      "level": "DARK_DUNGEON_TEMPLE_BOSSROOM",
+      "screenshot_sha256": "15e99c8755412db60524ff2102e16586c63c8a1b22bc052ae03723c7a91475b9",
+      "unique_map_colors": 4141,
+      "non_background_pixels": 55256
+    },
+    {
+      "level": "FIRE_TEMPLE_01",
+      "screenshot_sha256": "e440146c6019219af5c5e48208d1071435099508889a198b087ef7a732550d8b",
+      "unique_map_colors": 27661,
+      "non_background_pixels": 74929
+    },
+    {
+      "level": "ICY_HUB",
+      "screenshot_sha256": "e208796866917145a396cccb0e1089aac87ba93534e983f14b4eb9ce790820bf",
+      "unique_map_colors": 63652,
+      "non_background_pixels": 100801
+    },
+    {
+      "level": "INFECTED_VILLAGE_01",
+      "screenshot_sha256": "077e1e13bcba8342c6718342686c41b8eca1bdd8e5410deb89556bac4685f388",
+      "unique_map_colors": 31579,
+      "non_background_pixels": 136248
+    },
+    {
+      "level": "MACHINE_ROOMS_01",
+      "screenshot_sha256": "116df90e0c5430bcbcba06cbf5982968623f7baf66855c783e95863d2f4625bc",
+      "unique_map_colors": 44609,
+      "non_background_pixels": 146445
+    },
+    {
+      "level": "MULTIPLAYER_TEST",
+      "screenshot_sha256": "943ada9ab065eb66af4b85731ecc391216ade0511507e2ac96363039c9c749f4",
+      "unique_map_colors": 51007,
+      "non_background_pixels": 175477
+    },
+    {
+      "level": "PORTAL_ROOM",
+      "screenshot_sha256": "8c9b89ebac940b1939d4bded4e2bbb7b2173922d6595b3865098e48b66ff7e29",
+      "unique_map_colors": 53838,
+      "non_background_pixels": 84111
+    },
+    {
+      "level": "RED_DESERT_HUB",
+      "screenshot_sha256": "2e9dc077e4143672b33ce192e949367fd79d6d40e8e419df83f57dba0e8f1fcb",
+      "unique_map_colors": 37275,
+      "non_background_pixels": 90763
+    },
+    {
+      "level": "SWAMP",
+      "screenshot_sha256": "21e5f89ebf35a9fd98d6bb6e49dcaf300ae158eaf44b97d614fcb698c1cd09d5",
+      "unique_map_colors": 17611,
+      "non_background_pixels": 93661
+    },
+    {
+      "level": "UNDERWORLD_HUB",
+      "screenshot_sha256": "919af66b1fa1b2c8bb3705cadc355c535f364b6b3a3dc0b743a7b7b0f504511f",
+      "unique_map_colors": 36770,
+      "non_background_pixels": 52933
+    }
+  ],
+  "full_loader_verified": false
+}

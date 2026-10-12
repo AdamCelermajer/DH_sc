@@ -1,0 +1,226 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "source_inventory_sha256": "c7dec51b48c11ff7ce9268d6e88eb86cabdc44866ccc2004a1f1b258476b905a",
+  "authored_property_counts": {
+    "activate": 10,
+    "deactivate": 2
+  },
+  "sentinels": 2,
+  "meaningful": 10,
+  "cases": [
+    {
+      "object": "_prim_NPC_PriestGood",
+      "property": "activate_cond",
+      "name": "RENE_FOLLOW",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "direct_child_index": 2,
+      "condition_sentinel": false,
+      "row_exists": true,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 8,
+          "argument2": 13
+        }
+      ],
+      "native_transport_status": "PASS actual selected762 same actor canonical C1/Assign/D0/Clear; Eval main required"
+    },
+    {
+      "object": "_prim_ActorTroll",
+      "property": "activate_cond",
+      "name": "GameStartOnly",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "direct_child_index": 19,
+      "condition_sentinel": false,
+      "row_exists": true,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 50,
+          "argument2": 6
+        }
+      ],
+      "native_transport_status": "PASS actual selected762 same actor canonical C1/Assign/D0/Clear; Eval main required"
+    },
+    {
+      "object": "_prim_ActorPrisoner",
+      "property": "activate_cond",
+      "name": "GameStartOnly",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "direct_child_index": 20,
+      "condition_sentinel": false,
+      "row_exists": true,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 50,
+          "argument2": 6
+        }
+      ],
+      "native_transport_status": "PASS actual selected762 same actor canonical C1/Assign/D0/Clear; Eval main required"
+    },
+    {
+      "object": "_prim_MothTemplate_13",
+      "property": "activate_cond",
+      "name": "Invalid",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "direct_child_index": 23,
+      "condition_sentinel": true,
+      "row_exists": false,
+      "list_op": null,
+      "stubs": [],
+      "native_transport_status": "genuine early return; no allocation"
+    },
+    {
+      "object": "_prim_MothTemplate_13",
+      "property": "deactivate_cond",
+      "name": "Invalid",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "direct_child_index": 23,
+      "condition_sentinel": true,
+      "row_exists": false,
+      "list_op": null,
+      "stubs": [],
+      "native_transport_status": "genuine early return; no allocation"
+    },
+    {
+      "object": "_prim_NPC_05",
+      "property": "deactivate_cond",
+      "name": "IsBefore_Swamp_KillWitch",
+      "source_uri": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "direct_child_index": 1,
+      "condition_sentinel": false,
+      "row_exists": true,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 52,
+          "argument2": 13
+        },
+        {
+          "op": 1,
+          "argument1": 50,
+          "argument2": 13
+        }
+      ],
+      "native_transport_status": "PASS actual selected762 same actor canonical C1/Assign/D0/Clear; Eval main required"
+    },
+    {
+      "object": "_prim_NPC_LizBloodPOST",
+      "property": "activate_cond",
+      "name": "IsAfter_Swamp_LizBlood",
+      "source_uri": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "direct_child_index": 15,
+      "condition_sentinel": false,
+      "row_exists": true,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 51,
+          "argument2": 13
+        }
+      ],
+      "native_transport_status": "PASS actual selected762 same actor canonical C1/Assign/D0/Clear; Eval main required"
+    },
+    {
+      "object": "_prim_Monster_LizardFan01",
+      "property": "activate_cond",
+      "name": "IsBefore_Swamp_Escape",
+      "source_uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "direct_child_index": 9,
+      "condition_sentinel": false,
+      "row_exists": true,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 50,
+          "argument2": 13
+        }
+      ],
+      "native_transport_status": "PASS actual selected762 same actor canonical C1/Assign/D0/Clear; Eval main required"
+    },
+    {
+      "object": "_prim_Monster_MisterSnack",
+      "property": "activate_cond",
+      "name": "IsBefore_Swamp_Escape",
+      "source_uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "direct_child_index": 10,
+      "condition_sentinel": false,
+      "row_exists": true,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 50,
+          "argument2": 13
+        }
+      ],
+      "native_transport_status": "PASS actual selected762 same actor canonical C1/Assign/D0/Clear; Eval main required"
+    },
+    {
+      "object": "_prim_Monster_LizardFan03",
+      "property": "activate_cond",
+      "name": "IsBefore_Swamp_Escape",
+      "source_uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "direct_child_index": 11,
+      "condition_sentinel": false,
+      "row_exists": true,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 50,
+          "argument2": 13
+        }
+      ],
+      "native_transport_status": "PASS actual selected762 same actor canonical C1/Assign/D0/Clear; Eval main required"
+    },
+    {
+      "object": "_prim_Boss_SwampKing_01",
+      "property": "activate_cond",
+      "name": "IsBefore_Swamp_Escape",
+      "source_uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "direct_child_index": 14,
+      "condition_sentinel": false,
+      "row_exists": true,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 50,
+          "argument2": 13
+        }
+      ],
+      "native_transport_status": "PASS actual selected762 same actor canonical C1/Assign/D0/Clear; Eval main required"
+    },
+    {
+      "object": "_prim_NPC_Eddie",
+      "property": "activate_cond",
+      "name": "EDWARD_FOLLOW",
+      "source_uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "direct_child_index": 26,
+      "condition_sentinel": false,
+      "row_exists": true,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 59,
+          "argument2": 6
+        },
+        {
+          "op": 1,
+          "argument1": 24,
+          "argument2": 6
+        }
+      ],
+      "native_transport_status": "PASS actual selected762 same actor canonical C1/Assign/D0/Clear; Eval main required"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "got_value": "0x99b108",
+  "relocations": [
+    "    0x995098 R_ARM_RELATIVE -"
+  ],
+  "literals": {
+    "0x8c06e0": ".config",
+    "0x8c06e8": ".glsl",
+    "0x8c06f0": "/sdcard/"
+  },
+  "symbols": [
+    "008e00e0 r glitch::video::(anonymous namespace)::TextureTypeMap"
+  ]
+}

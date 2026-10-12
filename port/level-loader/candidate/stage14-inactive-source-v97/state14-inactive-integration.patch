@@ -1,0 +1,65 @@
+--- port/android-native/app/src/main/cpp/source_campaign_runtime_v61.hpp
++++ port/android-native/app/src/main/cpp/source_campaign_runtime_v61.hpp
+@@ -36,6 +36,7 @@
+ namespace dh2::loader {struct ProductionNonCharacterOwnersV67;}
+ namespace dh2::loader {struct SourceLoadingInputsV43;}
+ namespace dh2::loader {struct GameObjectSourceFrameServicesV74;}
++namespace dh2::loader {struct Stage14InactiveSourcesV97;}
+ namespace model_renderer {
+ struct CampaignObjectLoadingNativeV95;
+ struct CampaignGeneratedRoomNativeV92;
+@@ -101,6 +102,8 @@
+  std::shared_ptr<dh2::loader::LevelGameplayServicesV66> gameplay_services_v66;
+  std::shared_ptr<dh2::loader::LevelGameplayUpdateV66> gameplay_owner_v66;
+  std::shared_ptr<dh2::loader::LevelPlayerPlacementServicesV68> player_placement_v68;
++ // Actual positive online failure primitives; no shadow networking/menu state.
++ std::shared_ptr<dh2::loader::Stage14InactiveSourcesV97> stage14_inactive_v97;
+  std::shared_ptr<dh2::character::WorldLootGameplayV23> prepared_items_v88;
+  std::shared_ptr<SourceCampaignItemsV88> item_transport_v88;
+  std::shared_ptr<SourceCampaignContainerTargetsV104> container_targets_v104;
+--- port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp
++++ port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp
+@@ -1,3 +1,4 @@
++#include <stage14_inactive_source_v97.hpp>
+ #include "source_campaign_retirement_v88.hpp"
+ #include "source_campaign_runtime_v61.hpp"
+ #include "source_campaign_module_rooms_v91.hpp"
+@@ -595,7 +596,7 @@
+   if(!early_loading_trace_v46(debug,e)||!source->prepare_floors(e))return LifecycleStepV36::failed;
+   return LifecycleStepV36::complete;
+  };
+- out.source.external.stage_body[14]=[weak,level=std::weak_ptr<CanonicalLevelContextV1>(actual),debug=out.early_debug](std::string& e){
++ out.source.external.stage_body[14]=[weak,level=std::weak_ptr<CanonicalLevelContextV1>(actual),debug=out.early_debug,tail=std::shared_ptr<Stage14InactiveTailV97>{}](std::string& e)mutable{
+   auto world=weak.lock();auto source=level.lock();
+   if(!world||!source||!world->player_manager||!world->canonical_world||source->constructor_fields_v3().field130!=14){
+    e="Stage14 requires SAME actual PM/Level/ObjectManager";return LifecycleStepV36::failed;
+@@ -607,15 +608,18 @@
+   auto online=world->application->get_online_loading_v55();
+   if(!online){e="Required actual Stage14 GetOnline";return LifecycleStepV36::failed;}
+   if(online->byte5()){
++   const auto captured_application=world->application; // native r7 before local PlayerInfo/virtual5c
+    dh2::player::PlayerInfoFieldsV1* player{};bool active{};
+    if(!world->player_manager->get_local_player(0,false,player,e)||!player||!world->player_manager->network()||
+       !world->player_manager->network()->is_active_selected_v67(*player,online->byte5(),active,e)){
+     if(e.empty())e="Required actual online local PlayerInfo selected5c";return LifecycleStepV36::failed;
+    }
+    if(!active){
+-    // Original inactive5c alone reaches matching virtual3c, connection
+-    // DisconnectAll, then Application.GoToMainMenu(3).
+-    e="Required original inactive Stage14 matching/disconnect/mainmenu tail";return LifecycleStepV36::failed;
++    if(!world->stage14_inactive_v97){e="Required actual inactive Stage14 Matching/ConnectionManager/Application primitives";return LifecycleStepV36::failed;}
++    if(!tail)tail=std::make_shared<Stage14InactiveTailV97>(*world->stage14_inactive_v97,captured_application);
++    if(!tail->run(captured_application,e))return LifecycleStepV36::failed;
++    // Menu delivery may change current World; retain this actual Level source
++    // pin through the caller-owned dispatcher130 increment3f6e90. No recheck.
+    }
+   }
+   e.clear();return LifecycleStepV36::complete;
+@@ -1431,3 +1435,7 @@
+ }
+ 
+ }
++
++namespace model_renderer {
++#include "source_campaign_stage14_inactive_v97.inc"
++}

@@ -1,0 +1,18 @@
+--- a/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.hpp
++++ b/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.hpp
+@@ -33,6 +33,7 @@
+ namespace dh2::loader {struct Stage33RestoreServicesV1;struct Stage34ServicesV1;}
+ namespace dh2::loader {class SourceReleaseJournalV69;}
+ namespace model_renderer {
++struct CampaignNonCharacterReleaseV92;
+ class SourceCampaignFxRuntimeV77;
+ class SourceCampaignSaveObjectsV86;
+ class SourceCampaignDeathRewardsV84;
+@@ -104,6 +105,7 @@
+  std::function<bool(const SourceCampaignCandidateBorrowV55&,
+   RendererCampaignNonCharacterInputsV69&,std::string&)> noncharacter_inputs_v81;
+  std::shared_ptr<void> noncharacter_producer_v89;
++ std::shared_ptr<CampaignNonCharacterReleaseV92> noncharacter_release_provider_v92; // SAME independent release sibling
+  std::shared_ptr<dh2::loader::SourceReleaseJournalV69> noncharacter_release_journal_v89;
+  std::function<bool(dh2::world::CanonicalZonePhysicalServicesV82&,std::string&)> physical_services_v90;
+  std::function<bool(std::uintptr_t,std::string&)> noncharacter_frame_v104;

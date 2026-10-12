@@ -1,0 +1,13 @@
+# Native root source composition
+
+The new header native_root_source_binding_v65.hpp provides one explicit production composition entry point, bind_native_root_source_v65(leaves, loadingInputs, error). It connects both original input branches to the same already implemented assigned-copy/TiXML/canonical factory path. It opens no file and publishes no Level state during composition. No test/build/device job was run.
+
+Main uses the actual retained source candidate to populate loadingInputs.preparation and manager first, then calls this binder before NativeRootLoadingConnectionV50::create. Supply genuine filename.owner, App isUsingUncompiledData, original ordered CFS open Resource returning the real IStream owner/identity, genuine close, and actual Size/Read leaves. Supply the existing canonical parser-result/debug policy in read. An absent unavailable_buffer callback fails only if that original assertion edge is reached; it is never silently replaced by success.
+
+For procedural maps also provide generated_copy Size/Read over the actual temporary stream. The binder creates the existing weak SAME-Level Stage7 assignment closure. It does not supply GenerateRandomLevel, a serializer, temporary C1/D1 or online state; those original Stage7 providers remain required. Fixed maps do not need generated leaves. It changes neither source seed nor save identity.
+
+Composition requires fresh SAME Level140 and a SAME retained manager/preparation. It rejects existing native/assigned/historical filename/assignment bindings rather than replacing their authority. Direct or alias Level control-block providers are rejected to avoid storing a Level ownership cycle. Hidden strong captures remain the provider owner's responsibility. Rejected output is preserved. It builds all potentially allocating closures before publishing the input services.
+
+Loader implementation remains authoritative: source Size, allocate/Grow/Read, publish independent Level140 last, close fixed input, return pending, then one actual retained TiXML document/ordered factory journal, and original release/cancellation prefix. Both fixed and procedural branches use assigned_root_kernel_services_v65. Existing old SourceLoadingV43::create remains available for labeled inspection/component callers; production callers must explicitly use this native composition contract.
+
+Pending integration: actual Main Application/CFS/IStream leaves and the call at source candidate creation, original procedural serializer/generator, dependent milestone rebuild, real SWAMP activation and rendering. A populated callback is not evidence of authentic behavior or whole-level readiness. No filesystem/source-body stub was added.

@@ -1,0 +1,33 @@
+{
+  "validation": "PASS",
+  "comparisons": 2028,
+  "ordered_prefix_services": 26059,
+  "ordered_eligibility_services": 4248,
+  "ordered_queue_callbacks": 804,
+  "ordered_entries": 29033,
+  "mismatches": 0,
+  "source_sha256": {
+    "port/level-world/character_update_queued.hpp": "242ccf94dca0ea22725dcafce9db36ef4728496c83a117f8b6c0d51b062efa36",
+    "port/level-world/character_update_queued.cpp": "a25f222e788581de230962dcf3004279157c004badb903572f3361281e961ad7",
+    "port/level-world/tests/character_update_queued_differential.py": "457e2ce705858ecc83357fbe57c1a6976756f7f424ce4c99f412137adf6a285c",
+    "port/level-world/tools/build_character_update_queued_oracle.ps1": "a0f24e8c9c66c780a36b3ac1fde79076ceab9309c091a71a8afcbd7bb22a394c",
+    "port/level-world/character_can_update.hpp": "d78387cf87b2ca01a2b82ed6a79aab5e37b8cac45c9c39010df331a745f83ae2",
+    "port/level-world/character_can_update.cpp": "22565a3e5fdf23503b8ea0634459803b0aa031fecdedf7db54dfa85b7207f991",
+    "port/level-world/character_deferred_queue.hpp": "84eef0bb553bf211bc69f16cc8417a80da307f4eb898e28536158d989bffb852",
+    "port/level-world/character_deferred_queue.cpp": "e24db796b46773764565bb502d7164278fc089da396ee1463dbe4f60f95b4191",
+    "port/level-world/tests/character_deferred_queue_differential.py": "b5c8ef495ddb5ab38f64afe5f1ff965f7e4d9b335aae039bcda1213b0818f038",
+    "port/level-world/tests/character_update_startup_differential.py": "51abe53c1a5fadf9da08885bad73dc3a0b7f4fff19428913f08b56120ad81d35",
+    "port/level-world/tests/character_can_update_differential.py": "090b37ca8b75948ec9b28c4838689c364708cfacdcaf06f5a76a096e8135b4de"
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_sha256": "e50db2f3c92100830a76f85361bf1c9a113f2daf5dd2052d64fda04fe37ba4fd",
+  "binary_corpus_sha256": "106cfb75a7ce440fed96ad57a42a926891fc33a19d205299cf9405c57d3b35c1",
+  "JSON_corpus_sha256": "9eb03501c937191ab895bb7762403c278b891933799970f2925f47b9bd6fe2b4",
+  "frozen_manifests": {
+    "port/level-world/reference/character-update-startup/original-functions.json": "ec3107f843f770f67463d7409e0586656d01c4ab97e2ee4153ab63c9d0896b92",
+    "port/level-world/reference/character-deferred-queue/original-functions.json": "6143b09f9e8ee49c4ea789bcbe7cab882375401eeb3c4023f32a14737f987d3e"
+  },
+  "scope": "Complete source pre-controller startup including the actual shared RB queue.\n\nCharacter.Update executes continuously from its entry to the real controller\nboundary; actual CanUpdate and RB init/insert/erase/destruction execute. Diagnostic,\nmanager/deferred-load/inventory and final Kill/AIUnload bodies are explicit services.\nThere is no controller/timer/AI/animator/GameObject or whole-frame claim.\n",
+  "whole_Character_frame": false,
+  "partial_prefix_replayed": false
+}

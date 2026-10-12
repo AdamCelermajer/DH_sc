@@ -1,0 +1,658 @@
+diff --git a/port/level-loader/procedural_xml_emission_v66.hpp b/port/level-loader/procedural_xml_emission_v66.hpp
+new file mode 100644
+--- /dev/null
++++ b/port/level-loader/procedural_xml_emission_v66.hpp
+@@ -0,0 +1,26 @@
++#pragma once
++#include "procedural_modules_v1.hpp"
++#include <canonical_property_map_v1.hpp>
++#include <canonical_level_config_module_v1.hpp>
++#include <memory>
++#include <functional>
++namespace dh2::loader {
++// Original vector<Point3D> ObjToStr is BX LR. Its preceding CustomAlloc256
++// contents are therefore the output source, not an invented empty/color list.
++// Owner is the actual allocator/runtime lifetime pin. Original helpers never
++// free these allocations; do not zero/free/reuse them at callback return.
++struct PropertyScratchV66 {std::shared_ptr<void> owner;std::uint8_t* bytes{};std::size_t size{};};
++struct ProceduralXmlServicesV66 {
++ std::shared_ptr<void> actual_runtime_owner;
++ world::CanonicalPropertyMapV1* properties{};
++ world::ModuleRuntimeGlobalsV1* module_globals{};
++ std::function<bool(PropertyScratchV66&,std::string&)> allocate_property_scratch256;
++};
++// Module/LevelConfig field reads and actual registered descriptor traversal are
++// loader-owned. Engine supplies genuine globals/property registration and heap.
++bool load_original_rule_config_v66(const XmlDocumentV1::Borrow&,std::uint32_t,
++ world::CanonicalLevelConfigV1&,ProceduralXmlServicesV66&,std::string&);
++bool save_modular_level_to_bytes_v66(const ProceduralModulePlanV1&,
++ world::CanonicalLevelConfigV1&,const std::string& actual_rule_filename,
++ ProceduralXmlServicesV66&,std::vector<std::uint8_t>&,std::string&);
++}
+diff --git a/port/level-loader/procedural_xml_emission_v66.cpp b/port/level-loader/procedural_xml_emission_v66.cpp
+new file mode 100644
+--- /dev/null
++++ b/port/level-loader/procedural_xml_emission_v66.cpp
+@@ -0,0 +1,133 @@
++#include "procedural_xml_emission_v66.hpp"
++#include "tinyxml.h"
++#include <algorithm>
++#include <cstdio>
++#include <cstring>
++#include <functional>
++#include <exception>
++#include <type_traits>
++namespace dh2::loader {
++namespace {
++using Value=world::CanonicalPropertyValueV1;
++using Descriptor=world::CanonicalPropertyDescriptorV1;
++using Rows=std::vector<std::pair<std::string,Descriptor>>;
++bool missing(std::string& e){e="Required produced SAME registered Module/LevelConfig property field";return false;}
++bool read_config(world::CanonicalLevelConfigV1& config,world::CanonicalPropertyActorV1& actor,const Descriptor& d,Value& out,std::string& e){
++ if(d.source_offset==8){if(!actor.template_name)return missing(e);out=*actor.template_name;return true;}
++ return std::visit([&](const auto& expected)->bool{
++  using T=std::decay_t<decltype(expected)>;const auto offset=d.source_offset;
++  if constexpr(std::is_same_v<T,std::uint8_t>){std::uint8_t value{};if(!actor.fields.read_bool||!actor.fields.read_bool(actor.fields.context,offset,value,e))return false;out=value;}
++  else if constexpr(std::is_same_v<T,std::int32_t>){auto p=config.integer(offset);if(!p)return missing(e);out=*p;}
++  else if constexpr(std::is_same_v<T,float>){auto p=config.scalar_float_v55(offset);if(!p)return missing(e);out=*p;}
++  else if constexpr(std::is_same_v<T,std::string>){auto p=config.string(offset);if(!p)return missing(e);out=*p;}
++  else if constexpr(std::is_same_v<T,std::array<float,3>>){auto p=config.vector(offset);if(!p)return missing(e);out=*p;}
++  else if constexpr(std::is_same_v<T,world::CanonicalPoint3ListV1>){if(offset!=0x204)return missing(e);out=config.dfog_colors();}
++  else return missing(e);return true;
++ },d.default_value);
++}
++bool read_module(world::CanonicalModuleV1& module,world::CanonicalPropertyActorV1& actor,const Descriptor& d,Value& out,std::string& e){
++ if(d.source_offset==8){if(!actor.template_name)return missing(e);out=*actor.template_name;return true;}
++ return std::visit([&](const auto& expected)->bool{
++  using T=std::decay_t<decltype(expected)>;const auto offset=d.source_offset;auto& base=module.base();
++  if constexpr(std::is_same_v<T,std::uint8_t>){std::uint8_t value{};if(!actor.fields.read_bool||!actor.fields.read_bool(actor.fields.context,offset,value,e))return false;out=value;}
++  else if constexpr(std::is_same_v<T,std::int32_t>){auto p=base.integer(offset);if(!p)return missing(e);out=*p;}
++  else if constexpr(std::is_same_v<T,float>){auto p=base.scalar(offset);if(!p)return missing(e);out=*p;}
++  else if constexpr(std::is_same_v<T,std::string>){const auto& xml=module.xml();const std::string* p=nullptr;
++   switch(offset){case 0x378:p=&xml.mgp378;break;case 0x390:p=&xml.mvp390;break;case 0x3a8:p=&xml.alt_mgp3a8;break;case 0x3c0:p=&xml.alt_mvp3c0;break;case 0x3d8:p=&xml.alt_prob3d8;break;default:p=base.string(offset);}
++   if(!p)return missing(e);out=*p;
++  }else if constexpr(std::is_same_v<T,std::array<float,3>>){
++   if(offset==0x3f0)out=module.fog_color();else{const auto p=base.vector3(offset);if(!p)return missing(e);out=std::array<float,3>{p[0],p[1],p[2]};}
++  }else return missing(e);return true;
++ },d.default_value);
++}
++bool property_text(const Value& value,ProceduralXmlServicesV66& services,std::string& out,std::string& e){
++ // Strings copy their source CString directly. EVERY other SimpleTypeProperty
++ // allocates256 before ObjToStr, including helpers which leak that allocation.
++ // Preserve the reached allocation order; engine supplies genuine heap owner.
++ if(std::holds_alternative<std::string>(value)){out=std::get<std::string>(value);return true;}
++ if(!services.allocate_property_scratch256){e="Required genuine CustomAlloc256 for original property ToString helpers";return false;}
++ PropertyScratchV66 scratch;if(!services.allocate_property_scratch256(scratch,e))return false;
++ if(!scratch.owner||!scratch.bytes||scratch.size<256){e="Required retained original property scratch allocation256";return false;}
++ return std::visit([&](const auto& actual)->bool{
++  using T=std::decay_t<decltype(actual)>;
++  if constexpr(std::is_same_v<T,std::string>){return false;}
++  else if constexpr(std::is_same_v<T,world::CanonicalPoint3ListV1>){
++   // Original vector helper is BX LR: bytes remain exactly as allocated.
++   const auto end=std::find(scratch.bytes,scratch.bytes+256,std::uint8_t{0});
++   if(end==scratch.bytes+256){e="Original no-op property string lacks NUL within allocation256; unsafe source branch unresolved";return false;}
++   out.assign(reinterpret_cast<const char*>(scratch.bytes),std::size_t(end-scratch.bytes));return true;
++  }else{
++   auto* buffer=reinterpret_cast<char*>(scratch.bytes);int count=0;
++   if constexpr(std::is_same_v<T,std::uint8_t>||std::is_same_v<T,std::int32_t>)count=std::snprintf(buffer,256,"%d",int(actual));
++   else if constexpr(std::is_same_v<T,float>)count=std::snprintf(buffer,256,"%f",double(actual));
++   else if constexpr(std::is_same_v<T,std::array<float,3>>)count=std::snprintf(buffer,256,"%f,%f,%f",double(actual[0]),double(actual[1]),double(actual[2]));
++   else if constexpr(std::is_same_v<T,std::array<std::int32_t,2>>)count=std::snprintf(buffer,256,"%d,%d",int(actual[0]),int(actual[1]));
++   if(count<0||std::size_t(count)>=256){e="Original property format exceeds allocated256 domain";return false;}
++   out.assign(buffer,std::size_t(count));return true;
++  }
++ },value);
++}
++template<class Read>
++bool save_properties(TiXmlElement& parent,world::CanonicalPropertyActorV1 actor,ProceduralXmlServicesV66& services,Read read,std::string& e){
++ Rows descriptors;if(!services.properties->source_save_descriptors_v66(actor,descriptors,e))return false;
++ auto element=std::make_unique<TiXmlElement>("GameObject");
++ for(const auto& row:descriptors){Value current;std::string text;
++  if(!read(actor,row.second,current,e)||!property_text(current,services,text,e))return false;
++  // Source5135b4 emits ALL nonNULL registered descriptors in map key order.
++  element->SetAttribute(row.first.c_str(),text.c_str());
++ }
++ parent.LinkEndChild(element.release());return true;
++}
++}
++bool load_original_rule_config_v66(const XmlDocumentV1::Borrow& document,std::uint32_t element,world::CanonicalLevelConfigV1& config,ProceduralXmlServicesV66& services,std::string& e){
++ if(!document||element>=document.elements().size()||!services.properties){e="Required actual rules root and registered property map";return false;}
++ auto actor=config.properties();Rows descriptors;if(!services.properties->source_save_descriptors_v66(actor,descriptors,e))return false;
++ for(const auto& row:descriptors){const auto* attribute=document.elements()[element].attribute(row.first);const char* text=attribute?attribute->c_str():nullptr;
++  if(row.first=="_templateName"){
++   // Original SetProperty writes CString directly. The shared game's modern
++   // _templateName compatibility clone is not invoked by this native producer.
++   if(!actor.template_name||!std::holds_alternative<std::string>(row.second.default_value))return missing(e);
++   *actor.template_name=text?std::string(text):std::get<std::string>(row.second.default_value);
++  }else if(!services.properties->set_property(actor,row.first.c_str(),text,e))return false;
++ }
++ return true;
++}
++bool save_modular_level_to_bytes_v66(const ProceduralModulePlanV1& plan,world::CanonicalLevelConfigV1& config,const std::string& filename,ProceduralXmlServicesV66& services,std::vector<std::uint8_t>& out,std::string& e){
++ if(!services.actual_runtime_owner||!services.properties||!services.module_globals||!plan.layout.source_owner||plan.modules.size()!=plan.layout.tiles.size()||plan.layout.generated!=!plan.layout.tiles.empty()){e="Required actual generator layout/registered temporary receivers";return false;}
++ if(!plan.reference_repairs.empty()){e="Inspection reference repairs cannot become original generated stream";return false;}
++ try{
++  TiXmlDocument document;
++  document.LinkEndChild(new TiXmlDeclaration("1.0","utf-8",""));
++  // Original fixed64 copy includes the trailing C terminator in comment value;
++  // TiXML visitor prints CString, therefore the exact visible text ends here.
++  document.LinkEndChild(new TiXmlComment(" This file was generated by the Dungeon Hunter random generator "));
++  document.LinkEndChild(new TiXmlComment(" Software version 0.01 "));
++  const auto slash=filename.rfind('/');const auto source=slash==filename.npos?filename:filename.substr(slash+1);
++  char comment[128];const auto written=std::snprintf(comment,sizeof comment," Source file: %s ",source.c_str());
++  if(written<0||std::size_t(written)>=sizeof comment){e="Original source-file comment format buffer exceeded";return false;}
++  document.LinkEndChild(new TiXmlComment(comment));
++  auto* level=new TiXmlElement("Level");document.LinkEndChild(level);
++  if(!save_properties(*level,config.properties(),services,[&](auto& actor,const auto& d,auto& value,auto& error){return read_config(config,actor,d,value,error);},e))return false;
++  std::vector<bool> visited(plan.layout.tiles.size());std::uint32_t next_index=0;
++  std::function<bool(std::uint32_t,unsigned)> emit=[&](std::uint32_t tile,unsigned depth){
++   if(depth>256||tile>=plan.modules.size()||visited[tile]||plan.modules[tile].tile!=next_index){e="Original tile preorder/index ownership inconsistent";return false;}
++   visited[tile]=true;++next_index;
++   actor::RuntimeState runtime{};world::CanonicalModuleV1 module(services.actual_runtime_owner,runtime,*services.module_globals,{},{});
++   module.base().class_name20()="Module";auto properties=module.properties();
++   if(!services.properties->init_properties(properties,e)||!services.properties->load_defaults(properties,e))return false;
++   // Sequential original SetProperty calls include meaningful NULL setters.
++   for(const auto& setter:plan.modules[tile].setter_attempts)
++    if(!services.properties->set_property(properties,setter.name.c_str(),setter.value?setter.value->c_str():nullptr,e))return false;
++   if(!save_properties(*level,properties,services,[&](auto& actor,const auto& d,auto& value,auto& error){return read_module(module,actor,d,value,error);},e))return false;
++   for(const auto child:plan.layout.tiles[tile].children)if(!emit(child,depth+1))return false;
++   return true;
++  };
++  if(plan.layout.generated&&!emit(0,0))return false;
++  if(next_index!=plan.modules.size()){e="Generated tile ownership has disconnected/unserialized nodes";return false;}
++  TiXmlPrinter printer;printer.SetLineBreak("\r\n");
++  if(!document.Accept(&printer)){e="Actual TinyXML printer delivery failed";return false;}
++  const auto* bytes=reinterpret_cast<const std::uint8_t*>(printer.CStr());
++  std::vector<std::uint8_t> next(bytes,bytes+printer.Size());out=std::move(next);return true;
++ }catch(const std::exception& ex){if(e.empty())e=ex.what();return false;}
++}
++}
+diff --git a/port/level-loader/procedural_generator_stream_v66.hpp b/port/level-loader/procedural_generator_stream_v66.hpp
+new file mode 100644
+--- /dev/null
++++ b/port/level-loader/procedural_generator_stream_v66.hpp
+@@ -0,0 +1,22 @@
++#pragma once
++#include "procedural_xml_emission_v66.hpp"
++#include "assigned_loadfile_kernel_v65.hpp"
++#include "procedural_sources_v1.hpp"
++namespace dh2::loader {
++struct ProceduralGenerationServicesV66 {
++ std::shared_ptr<void> owner;assets::ZipAssetPackV1 actual_resources;
++ ProceduralXmlServicesV66 xml;
++};
++class ProceduralGeneratorBindingV66:public std::enable_shared_from_this<ProceduralGeneratorBindingV66> {
++ struct Impl;std::unique_ptr<Impl> impl_;
++ ProceduralGeneratorBindingV66(std::unique_ptr<Impl>);
++public:
++ ~ProceduralGeneratorBindingV66();
++ static bool create(std::weak_ptr<CanonicalLevelContextV1>,ProceduralGenerationServicesV66,
++  std::shared_ptr<ProceduralGeneratorBindingV66>&,std::string&);
++ // Supplies constructor/generate/destroy/cancel/Assign only. Caller retains
++ // actual online/progress/filesystem bodies from the existing source driver.
++ Stage7ServicesV38 services();
++ AssignedCopyLeavesV65 generated_copy_leaves();
++};
++}
+diff --git a/port/level-loader/procedural_generator_stream_v66.cpp b/port/level-loader/procedural_generator_stream_v66.cpp
+new file mode 100644
+--- /dev/null
++++ b/port/level-loader/procedural_generator_stream_v66.cpp
+@@ -0,0 +1,156 @@
++#include "procedural_generator_stream_v66.hpp"
++#include <exception>
++namespace dh2::loader {
++namespace {
++struct GeneratedStreamV66 {
++ std::unique_ptr<level::SavegameStreamV2> stream=std::make_unique<level::SavegameStreamV2>();
++ bool retired{},serialized{},generated_outcome{};std::uint32_t completed_seed{};
++};
++enum class PhaseV66{sources,blocks,connections,lists,rules,layout,modules,serialize,release,complete,failed};
++struct RandomGeneratorV66 {
++ std::unique_ptr<world::CanonicalLevelConfigV1> config;
++ ProceduralSourcesV1 sources;ProceduralBlocksV1 blocks;ProceduralConnectionsV1 connections;
++ ProceduralListsV1 lists;ProceduralRulesV1 rules;ProceduralLayoutResultV1 layout;
++ ProceduralModulePlanV1 modules;
++ std::uint32_t seed{};std::string identity,filename,error;
++ PhaseV66 phase{PhaseV66::sources};bool cancelled{},retired{};
++ void retire(){
++  // Retire real config/reader/layout resources before14c pins can drop.
++  // Envelope metadata may survive an alias; it owns no live generator body.
++  config.reset();modules={};layout={};rules={};lists={};connections={};blocks={};sources={};retired=true;
++ }
++};
++template<class A,class B>bool owner_equal(const std::shared_ptr<A>& a,const std::shared_ptr<B>& b){return !a.owner_before(b)&&!b.owner_before(a);}
++}
++struct ProceduralGeneratorBindingV66::Impl {
++ std::weak_ptr<CanonicalLevelContextV1> level;ProceduralGenerationServicesV66 services;
++ std::shared_ptr<GeneratedStreamV66> temporary;
++ std::shared_ptr<RandomGeneratorV66> current;
++ bool busy{},poisoned{},generation_cancelled{};std::string error;
++ bool fail(const char* why,std::string& e){if(error.empty())error=e.empty()?why:e;e=error;poisoned=true;if(current){current->error=error;current->phase=PhaseV66::failed;}return false;}
++ bool same_temporary(const GeneratedSourceStreamV38& source,std::string& e)const{
++  if(!temporary||temporary->retired||!temporary->stream||source.identity!=reinterpret_cast<std::uintptr_t>(temporary->stream.get())||source.actual_owner.get()!=temporary->stream.get()||!owner_equal(source.actual_owner,temporary)){e="Required SAME live generated StreamBuffer owner/cursor";return false;}return true;
++ }
++ bool same_current(CanonicalLevelContextV1& actual,std::string& e)const{
++  const auto native=actual.constructor_fields_v3().field14c;const auto& owning=actual.procedural_generator_owner_slot_v66();
++  if(!current||native!=reinterpret_cast<std::uintptr_t>(current.get())||owning.get()!=current.get()||!owner_equal(owning,current)){e="Actual generator14c cleared/replaced during pending source operation";return false;}return true;
++ }
++ bool release_generator(CanonicalLevelContextV1& actual,std::string& e){
++  auto native=actual.constructor_borrow_v3();auto& owning=actual.procedural_generator_owner_slot_v66();
++  if(!native.fields->field14c&&!owning){current.reset();return true;}
++  if(!owning||owning.get()!=reinterpret_cast<void*>(native.fields->field14c)){e="Required actual generator14c owned receiver for D0";return false;}
++  if(current&&(!same_current(actual,e)))return false;
++  // Original RandomGenerator D1 owns config/rules/tiles; CustomFree follows.
++  // Do not hold a strong Level in that owning slot. Local aliases retire here.
++  auto receiver=std::static_pointer_cast<RandomGeneratorV66>(owning);
++  if(!receiver->retired)receiver->retire();
++  current.reset();owning.reset();native.fields->field14c=0;return true;
++ }
++ bool construct(GeneratedSourceStreamV38& out,std::string& e){
++  if(busy)return fail("Generated temporary constructor reentered",e);
++  if(temporary){e="Existing generated temporary must complete D1 first";return false;}
++  auto next=std::make_shared<GeneratedStreamV66>();temporary=next;generation_cancelled=false;poisoned=false;error.clear();
++  out={std::shared_ptr<void>(next,next->stream.get()),reinterpret_cast<std::uintptr_t>(next->stream.get())};return true;
++ }
++ LifecycleStepV36 generate(const GeneratedSourceStreamV38& source,std::uint32_t seed,bool& generated,std::string& e){
++  if(busy){fail("Original procedural generator reentered",e);return LifecycleStepV36::failed;}
++  if(poisoned||generation_cancelled){e=error.empty()?"Cancelled generator cannot resume":error;return LifecycleStepV36::failed;}
++  if(!same_temporary(source,e))return LifecycleStepV36::failed;
++  auto actual=level.lock();if(!actual){e="Actual generator Level lifetime ended";return LifecycleStepV36::failed;}
++  if(temporary->serialized){if(current||seed!=temporary->completed_seed){e="Completed generated occurrence changed seed/retirement";return LifecycleStepV36::failed;}generated=temporary->generated_outcome;return LifecycleStepV36::complete;}
++  busy=true;struct Guard{bool& flag;~Guard(){flag=false;}} guard{busy};
++  try{
++   if(!current){
++    // Original GenerateRandomLevel D0s preexisting14c before400/C1/config.
++    if(!release_generator(*actual,e))return LifecycleStepV36::failed;
++    auto next=std::make_shared<RandomGeneratorV66>();next->seed=seed;next->identity=actual->source_request().identity;next->filename=actual->constructor_fields_v3().name_f8;
++    if(next->filename.empty()||next->filename.find('\0')!=std::string::npos){e="Required actual Level.name_f8 rule CString";return LifecycleStepV36::failed;}
++    next->config=std::make_unique<world::CanonicalLevelConfigV1>(services.xml.actual_runtime_owner,world::LevelConfigServicesV1{});
++    auto config=next->config->canonical(services.xml.actual_runtime_owner);if(!config.class_name20){e="Required SAME temporary LevelConfig class-name field";return LifecycleStepV36::failed;}
++    *config.class_name20="LevelConfig";auto properties=next->config->properties();
++    if(!services.xml.properties->init_properties(properties,e)||!services.xml.properties->load_defaults(properties,e))return LifecycleStepV36::failed;
++    current=std::move(next);actual->procedural_generator_owner_slot_v66()=current;
++    actual->constructor_borrow_v3().fields->field14c=reinterpret_cast<std::uintptr_t>(current.get());
++   }
++   if(!same_current(*actual,e)||current->seed!=seed||current->filename!=actual->constructor_fields_v3().name_f8||current->identity!=actual->source_request().identity){fail("Pending generator changed Level/source/seed identity",e);return LifecycleStepV36::failed;}
++   bool ok=true;
++   switch(current->phase){
++    case PhaseV66::sources:ok=current->sources.prepare_rule_root_v66(services.actual_resources,current->identity,current->filename,
++     [&](const auto& document,auto root,auto& error){return load_original_rule_config_v66(document,root,*current->config,services.xml,error);},e);
++     if(ok)current->phase=PhaseV66::blocks;break;
++    case PhaseV66::blocks:ok=current->blocks.prepare(current->sources.borrow(),e);if(ok)current->phase=PhaseV66::connections;break;
++    case PhaseV66::connections:ok=current->connections.prepare(current->blocks.borrow(),e);if(ok)current->phase=PhaseV66::lists;break;
++    case PhaseV66::lists:ok=current->lists.prepare(current->connections.borrow(),e);if(ok)current->phase=PhaseV66::rules;break;
++    case PhaseV66::rules:ok=current->rules.prepare(current->lists.borrow(),e);if(ok)current->phase=PhaseV66::layout;break;
++    case PhaseV66::layout:ok=generate_procedural_layout_v1(current->rules.borrow(),seed,current->layout,e);if(ok)current->phase=PhaseV66::modules;break;
++    case PhaseV66::modules:
++     if(current->layout.generated)ok=prepare_procedural_modules_v66(services.actual_resources,current->layout,current->modules,e);
++     else current->modules.layout=current->layout; // Save STILL runs when Generate returned false.
++     if(ok)current->phase=PhaseV66::serialize;break;
++    case PhaseV66::serialize:{std::vector<std::uint8_t> bytes;
++     ok=save_modular_level_to_bytes_v66(current->modules,*current->config,current->filename,services.xml,bytes,e);
++     if(poisoned)return LifecycleStepV36::failed;
++     if(ok){
++      // Source expand resets read/write to0, then virtual Write writes printer
++      // Size bytes (no terminal NUL), leaving read0/writeSize for subsequent COPY.
++      if(bytes.size()>UINT32_MAX){e="Original printer-size32 domain exceeded";ok=false;}
++      else{temporary->stream->source_expand_v66(static_cast<std::uint32_t>(bytes.size()));
++       ok=temporary->stream->write({bytes.data(),bytes.size()},e);if(ok)current->phase=PhaseV66::release;}
++     }break;
++    }
++    case PhaseV66::release:{const bool outcome=current->layout.generated;
++     if(!release_generator(*actual,e))return LifecycleStepV36::failed;
++     temporary->serialized=true;temporary->generated_outcome=outcome;temporary->completed_seed=seed;generated=outcome;return LifecycleStepV36::complete;
++    }
++    case PhaseV66::complete:return LifecycleStepV36::complete;
++    case PhaseV66::failed:e=current->error;return LifecycleStepV36::failed;
++   }
++   if(poisoned)return LifecycleStepV36::failed;
++   if(!ok){fail("Required original procedural generation/emission source body",e);return LifecycleStepV36::failed;}
++   if(!same_current(*actual,e)){fail("Generator receiver changed after reached source stage",e);return LifecycleStepV36::failed;}
++   return LifecycleStepV36::pending;
++  }catch(const std::exception& ex){if(e.empty())e=ex.what();fail("Original generation source operation threw",e);return LifecycleStepV36::failed;}
++ }
++ bool destroy(GeneratedSourceStreamV38& source,std::string& e){
++  if(busy)return fail("Generated temporary D1 during active generator",e);
++  if(!temporary){if(!source.actual_owner&&!source.identity)return true;e="Foreign generated temporary D1";return false;}
++  if(!same_temporary(source,e))return false;
++  if(current){e="Actual generator must quiesce/D0 before temporary D1";return false;}
++  temporary->stream.reset();temporary->retired=true;source={};temporary.reset();return true;
++ }
++ LifecycleStepV36 cancel(const GeneratedSourceStreamV38& source,std::string& e){
++  if(busy){fail("Generator cancellation reentered active source stage",e);return LifecycleStepV36::failed;}
++  if(!same_temporary(source,e))return LifecycleStepV36::failed;
++  generation_cancelled=true;auto actual=level.lock();
++  if(!actual){if(current){e="Missing actual Level for retained generator14c teardown";return LifecycleStepV36::failed;}return LifecycleStepV36::complete;}
++  if(!release_generator(*actual,e))return LifecycleStepV36::failed;return LifecycleStepV36::complete;
++ }
++};
++ProceduralGeneratorBindingV66::ProceduralGeneratorBindingV66(std::unique_ptr<Impl> p):impl_(std::move(p)){}
++ProceduralGeneratorBindingV66::~ProceduralGeneratorBindingV66()=default;
++bool ProceduralGeneratorBindingV66::create(std::weak_ptr<CanonicalLevelContextV1> weak,ProceduralGenerationServicesV66 services,std::shared_ptr<ProceduralGeneratorBindingV66>& out,std::string& e){
++ auto actual=weak.lock();
++ if(!actual||!services.owner||!services.xml.actual_runtime_owner||!services.xml.properties||!services.xml.module_globals){e="Required SAME actual Level/runtime/property-map/module-global generation binding";return false;}
++ const auto native=actual->constructor_borrow_v3();if(owner_equal(services.owner,native.owner)||owner_equal(services.xml.actual_runtime_owner,native.owner)){e="Level-owned generator must not retain Level-owning engine aliases";return false;}
++ auto impl=std::make_unique<Impl>();impl->level=std::move(weak);impl->services=std::move(services);
++ out=std::shared_ptr<ProceduralGeneratorBindingV66>(new ProceduralGeneratorBindingV66(std::move(impl)));return true;
++}
++AssignedCopyLeavesV65 ProceduralGeneratorBindingV66::generated_copy_leaves(){
++ auto self=shared_from_this();AssignedCopyLeavesV65 leaves;leaves.owner=self;
++ leaves.size=[self](const SourceIStreamBorrowV65& source,std::uint64_t& size,std::string& e){
++  if(!self->impl_->same_temporary({source.actual_owner,source.identity},e)||!self->impl_->temporary->serialized){e="Required complete original generated stream before Size";return false;}size=self->impl_->temporary->stream->size();return true;
++ };
++ leaves.read=[self](const SourceIStreamBorrowV65& source,void* out,std::uint32_t bytes,std::string& e){
++  if(!self->impl_->same_temporary({source.actual_owner,source.identity},e)||!self->impl_->temporary->serialized){e="Required complete original generated stream before Read";return false;}
++  return self->impl_->temporary->stream->read(out,bytes,e);
++ };return leaves;
++}
++Stage7ServicesV38 ProceduralGeneratorBindingV66::services(){
++ auto self=shared_from_this();Stage7ServicesV38 result;
++ result.construct_stream=[self](auto& source,auto& e){return self->impl_->construct(source,e);};
++ result.generate=[self](const auto& source,auto seed,auto& generated,auto& e){return self->impl_->generate(source,seed,generated,e);};
++ result.destroy_stream=[self](auto& source,auto& e){return self->impl_->destroy(source,e);};
++ result.cancel_generation=[self](const auto& source,auto& e){return self->impl_->cancel(source,e);};
++ result.assign_stream=assigned_stream_stage7_binding_v65(impl_->level,generated_copy_leaves());return result;
++}
++}
+diff --git a/port/level-loader/procedural_sources_v1.hpp b/port/level-loader/procedural_sources_v1.hpp
+--- a/port/level-loader/procedural_sources_v1.hpp
++++ b/port/level-loader/procedural_sources_v1.hpp
+@@ -2,40 +2,45 @@
+ #include "xml_document_v1.hpp"
+ #include "../asset-payloads/zip_asset_pack_v1.hpp"
+ #include <memory>
+-namespace dh2::loader {
+-struct ProceduralBlockSourceV1 {
+-    std::string filename,name;
+-    std::uint32_t document{},root{};
+-};
+-// Original rule file and file-listed MGX sources only; not a generated layout,
+-// selected MGP/MVP graph, typed rules/exits or shared runtime ABI.
+-class ProceduralSourcesV1 {
+-    struct Snapshot;
+-    std::shared_ptr<const Snapshot> snapshot_;
+-public:
+-    class Borrow {
+-        friend class ProceduralSourcesV1;
+-        std::shared_ptr<const Snapshot> snapshot_;
+-        explicit Borrow(std::shared_ptr<const Snapshot> p):snapshot_(std::move(p)){}
+-    public:
+-        Borrow()=default;
+-        explicit operator bool()const noexcept{return bool(snapshot_);}
+-        const std::string& identity()const;
+-        const std::string& folder()const;
+-        const std::string& file_list_uri()const;
+-        const std::vector<std::uint8_t>& file_list_bytes()const;
+-        const std::vector<std::string>& filenames()const;
+-        const std::vector<XmlDocumentV1::Borrow>& documents()const;
+-        const std::vector<ProceduralBlockSourceV1>& blocks()const;
+-        std::uint32_t rule_root()const;
+-    };
+-    // Original LoadRuleFile and MgxBlock::LoadFromXmlStream do not branch on
+-    // LoadFromBuffer's return. Retain its diagnostic and select the first
+-    // matching root. No parser error is converted into a clean parse claim.
+-    // Missing dependencies fail explicitly; original silent block omission is
+-    // not used to make a falsely complete graph.
+-    bool prepare(const assets::ZipAssetPackV1&,std::string identity,
+-                 const std::string& definition,std::string& error);
++#include <functional>
++namespace dh2::loader {
++struct ProceduralBlockSourceV1 {
++    std::string filename,name;
++    std::uint32_t document{},root{};
++};
++// Original rule file and file-listed MGX sources only; not a generated layout,
++// selected MGP/MVP graph, typed rules/exits or shared runtime ABI.
++class ProceduralSourcesV1 {
++    struct Snapshot;
++    std::shared_ptr<const Snapshot> snapshot_;
++public:
++    class Borrow {
++        friend class ProceduralSourcesV1;
++        std::shared_ptr<const Snapshot> snapshot_;
++        explicit Borrow(std::shared_ptr<const Snapshot> p):snapshot_(std::move(p)){}
++    public:
++        Borrow()=default;
++        explicit operator bool()const noexcept{return bool(snapshot_);}
++        const std::string& identity()const;
++        const std::string& folder()const;
++        const std::string& file_list_uri()const;
++        const std::vector<std::uint8_t>& file_list_bytes()const;
++        const std::vector<std::string>& filenames()const;
++        const std::vector<XmlDocumentV1::Borrow>& documents()const;
++        const std::vector<ProceduralBlockSourceV1>& blocks()const;
++        std::uint32_t rule_root()const;
++    };
++    // Original LoadRuleFile and MgxBlock::LoadFromXmlStream do not branch on
++    // LoadFromBuffer's return. Retain its diagnostic and select the first
++    // matching root. No parser error is converted into a clean parse claim.
++    // Missing dependencies fail explicitly; original silent block omission is
++    // not used to make a falsely complete graph.
++    bool prepare(const assets::ZipAssetPackV1&,std::string identity,
++                 const std::string& definition,std::string& error);
++    // Production source order: LoadRuleFile applies SAME LevelConfig overrides
++    // immediately after rules root selection, before folder/MGX acquisition.
++    bool prepare_rule_root_v66(const assets::ZipAssetPackV1&,std::string,const std::string&,
++        const std::function<bool(const XmlDocumentV1::Borrow&,std::uint32_t,std::string&)>&,std::string&);
+     Borrow borrow()const{return Borrow(snapshot_);}
+ };
+ }
+diff --git a/port/level-loader/procedural_sources_v1.cpp b/port/level-loader/procedural_sources_v1.cpp
+--- a/port/level-loader/procedural_sources_v1.cpp
++++ b/port/level-loader/procedural_sources_v1.cpp
+@@ -62,17 +62,20 @@
+             const auto prior=captured.find(key);
+             if(prior==captured.end()){
+                 if(next->documents.size()>=4096)throw std::runtime_error("Procedural document limit exceeded");
+-                XmlDocumentV1 xml;std::string why;if(!xml.capture(key,std::move(bytes),why))throw std::runtime_error(why);
+-                id=static_cast<std::uint32_t>(next->documents.size());next->documents.push_back(xml.borrow());captured.emplace(key,id);
+-            }else id=prior->second;
+-            const auto& doc=next->documents.at(id);
+-            // Original caller chooses Child(tag,0) without checking parse bool.
+-            for(auto root:doc.roots())if(doc.elements().at(root).tag==tag)return {id,root};
+-            throw std::runtime_error("Procedural root "+std::string(tag)+" absent in "+key+": "+doc.diagnostic().message);
+-        };
+-        // Original LoadRuleFile rfind('/') only: bare names gain data/scene/.
+-        const auto definition_uri=definition.find('/')==definition.npos?"data/scene/"+definition:definition;
+-        const auto rule=document(definition_uri,"rules");next->root=rule.second;
++                XmlDocumentV1 xml;std::string why;
++                const bool captured=reached?xml.capture_level_buffer(key,std::move(bytes),why):xml.capture(key,std::move(bytes),why);
++                if(!captured)throw std::runtime_error(why);
++                id=static_cast<std::uint32_t>(next->documents.size());next->documents.push_back(xml.borrow());captured.emplace(key,id);
++            }else id=prior->second;
++            const auto& doc=next->documents.at(id);
++            // Original caller chooses Child(tag,0) without checking parse bool.
++            for(auto root:doc.roots())if(doc.elements().at(root).tag==tag)return {id,root};
++            throw std::runtime_error("Procedural root "+std::string(tag)+" absent in "+key+": "+doc.diagnostic().message);
++        };
++        // Original LoadRuleFile rfind('/') only: bare names gain data/scene/.
++        const auto definition_uri=definition.find('/')==definition.npos?"data/scene/"+definition:definition;
++        const auto rule=document(definition_uri,"rules");next->root=rule.second;
++        if(reached&&!reached(next->documents.at(rule.first),rule.second,error))return false;
+         const auto& element=next->documents.at(rule.first).elements().at(rule.second);
+         if(const auto* folder=element.attribute("folder"))next->folder=*folder;
+         next->file_list_uri=read(next->folder+"/mgx/mgxlist.txt",next->file_list_bytes);
+diff --git a/port/level-loader/procedural_modules_v1.hpp b/port/level-loader/procedural_modules_v1.hpp
+--- a/port/level-loader/procedural_modules_v1.hpp
++++ b/port/level-loader/procedural_modules_v1.hpp
+@@ -36,6 +36,9 @@
+ // Missing MVX is retained explicitly, matching the original optional Open branch.
+ // Missing MGP/MVP dependencies are checked by the subsequent source stage.
+ // Failed candidates leave out unchanged, including its retained source graph.
++// Original production MVX LoadFromBuffer path; inspection API stays separate.
++bool prepare_procedural_modules_v66(const assets::ZipAssetPackV1&,
++    const ProceduralLayoutResultV1&,ProceduralModulePlanV1& out,std::string& error);
+ bool prepare_procedural_modules_v1(const assets::ZipAssetPackV1&,
+     const ProceduralLayoutResultV1&,ProceduralModulePlanV1& out,std::string& error);
+ }
+diff --git a/port/level-loader/procedural_modules_v1.cpp b/port/level-loader/procedural_modules_v1.cpp
+--- a/port/level-loader/procedural_modules_v1.cpp
++++ b/port/level-loader/procedural_modules_v1.cpp
+@@ -85,21 +85,27 @@
+                 bool found=false;std::vector<std::uint8_t> raw;
+                 if(!pack.read(uri,found,raw,error))throw std::runtime_error(error);
+                 if(found){
+-                    XmlDocumentV1 parser;if(!parser.capture(key,std::move(raw),error))throw std::runtime_error(error);
+-                    // SetModuleMVXProperties ignores LoadFromBuffer's boolean.
+-                    // Retain any parser diagnostic and select its first matching children.
+-                    doc=parser.borrow();document=std::uint32_t(next.mvx_documents.size());
+-                    next.mvx_documents.push_back(doc);captured.emplace(key,document);
+-                }
+-            }
+-            if(tile.block_source>=blocks.blocks().size()||tile.name!=sources.blocks().at(tile.block_source).name)
+-                throw std::runtime_error("Generated tile/source identity inconsistent");
+-            ProceduralModuleV1 module;
+-            if(!project_procedural_module_v1(tile,i,blocks.blocks().at(tile.block_source),sources.folder(),*target,doc,module,error))return false;
+-            module.mvx_document=document;next.modules.push_back(std::move(module));
+-        }
+-        next.returned_index=next.modules.empty()?0:std::uint32_t(next.modules.size()-1);
+-        out=std::move(next);error.clear();return true;
+-    }catch(const std::exception& e){error=e.what();return false;}
+-}
+-}
++                    XmlDocumentV1 parser;const bool captured=native_buffer?parser.capture_level_buffer(key,std::move(raw),error):parser.capture(key,std::move(raw),error);
++                    if(!captured)throw std::runtime_error(error);
++                    // SetModuleMVXProperties ignores LoadFromBuffer's boolean.
++                    // Retain any parser diagnostic and select its first matching children.
++                    doc=parser.borrow();document=std::uint32_t(next.mvx_documents.size());
++                    next.mvx_documents.push_back(doc);captured.emplace(key,document);
++                }
++            }
++            if(tile.block_source>=blocks.blocks().size()||tile.name!=sources.blocks().at(tile.block_source).name)
++                throw std::runtime_error("Generated tile/source identity inconsistent");
++            ProceduralModuleV1 module;
++            if(!project_procedural_module_v1(tile,i,blocks.blocks().at(tile.block_source),sources.folder(),*target,doc,module,error))return false;
++            module.mvx_document=document;next.modules.push_back(std::move(module));
++        }
++        next.returned_index=next.modules.empty()?0:std::uint32_t(next.modules.size()-1);
++        out=std::move(next);error.clear();return true;
++    }catch(const std::exception& e){error=e.what();return false;}
++}
++bool prepare_procedural_modules_v1(const assets::ZipAssetPackV1& pack,const ProceduralLayoutResultV1& layout,ProceduralModulePlanV1& out,std::string& error){
++ return prepare_procedural_modules_impl_v66(pack,layout,out,error,false);
++}
++bool prepare_procedural_modules_v66(const assets::ZipAssetPackV1& pack,const ProceduralLayoutResultV1& layout,ProceduralModulePlanV1& out,std::string& error){
++ return prepare_procedural_modules_impl_v66(pack,layout,out,error,true);
++}}
+diff --git a/port/level-loader/vendor/character-rng-integration-v5-loading/port/level-world/canonical_property_map_v1.hpp b/port/level-loader/vendor/character-rng-integration-v5-loading/port/level-world/canonical_property_map_v1.hpp
+--- a/port/level-loader/vendor/character-rng-integration-v5-loading/port/level-world/canonical_property_map_v1.hpp
++++ b/port/level-loader/vendor/character-rng-integration-v5-loading/port/level-world/canonical_property_map_v1.hpp
+@@ -54,6 +54,9 @@
+  bool load_overrides(CanonicalPropertyActorV1&,const CanonicalSourceObjectRequestV1&,std::string&);
+  bool set_property(CanonicalPropertyActorV1&,const char*,const char*,std::string&);
+  bool set_template_parameter(CanonicalPropertyActorV1&,const char*,const char*,std::string&);
++ // Source SavePropertiesToXML iterates SAME current registered map in key
++ // order. Read-only descriptors, not another schema/default producer.
++ bool source_save_descriptors_v66(CanonicalPropertyActorV1&,std::vector<std::pair<std::string,CanonicalPropertyDescriptorV1>>&,std::string&);
+  std::size_t class_count()const noexcept{return classes_.size();}
+ };
+ }
+diff --git a/port/level-loader/vendor/character-rng-integration-v5-loading/port/level-world/canonical_property_map_v1.cpp b/port/level-loader/vendor/character-rng-integration-v5-loading/port/level-world/canonical_property_map_v1.cpp
+--- a/port/level-loader/vendor/character-rng-integration-v5-loading/port/level-world/canonical_property_map_v1.cpp
++++ b/port/level-loader/vendor/character-rng-integration-v5-loading/port/level-world/canonical_property_map_v1.cpp
+@@ -140,4 +140,9 @@
+  auto i=descriptors->find(name);if(i==descriptors->end()){e="source null template descriptor outside safe native domain";return false;}
+  i->second.default_value=zero_value(i->second.default_value);return parse(i->second.default_value,text,e,source_);
+ }
+-}
++bool CanonicalPropertyMapV1::source_save_descriptors_v66(CanonicalPropertyActorV1& actor,std::vector<std::pair<std::string,CanonicalPropertyDescriptorV1>>& out,std::string& e){
++ auto* descriptors=current(actor,e);if(!descriptors)return false;
++ std::vector<std::pair<std::string,CanonicalPropertyDescriptorV1>> next;
++ next.reserve(descriptors->size());for(const auto& row:*descriptors)next.push_back(row);
++ out=std::move(next);return true;
++}}
+diff --git a/port/level-loader/vendor/character-rng-integration-v5-loading/port/level-world/savegame_stream_v2.hpp b/port/level-loader/vendor/character-rng-integration-v5-loading/port/level-world/savegame_stream_v2.hpp
+--- a/port/level-loader/vendor/character-rng-integration-v5-loading/port/level-world/savegame_stream_v2.hpp
++++ b/port/level-loader/vendor/character-rng-integration-v5-loading/port/level-world/savegame_stream_v2.hpp
+@@ -15,6 +15,9 @@
+  explicit SavegameStreamV2(std::vector<std::uint8_t>&& bytes):bytes_(std::move(bytes)){}
+  std::uint8_t* source_copy_destination_v65()noexcept{return bytes_.data();}
+  explicit SavegameStreamV2(data::Bytes b){if(b.size)bytes_.assign(b.data,b.data+b.size);}
++ // Original expand clears owned buffers before Grow, then resets BOTH
++ // cursors. Receiver identity stays stable across generator serialization.
++ void source_expand_v66(std::uint32_t size){std::vector<std::uint8_t>{}.swap(bytes_);bytes_.resize(size);read_=write_=0;}
+  const std::vector<std::uint8_t>& bytes()const noexcept{return bytes_;}
+  std::uint64_t tell()const noexcept{return read_;}
+  std::uint64_t tell_write()const noexcept{return write_;}
+diff --git a/port/level-loader/vendor/character-rng-integration-v5-loading/port/level-loader/canonical_level_context_v1.hpp b/port/level-loader/vendor/character-rng-integration-v5-loading/port/level-loader/canonical_level_context_v1.hpp
+--- a/port/level-loader/vendor/character-rng-integration-v5-loading/port/level-loader/canonical_level_context_v1.hpp
++++ b/port/level-loader/vendor/character-rng-integration-v5-loading/port/level-loader/canonical_level_context_v1.hpp
+@@ -29,40 +29,43 @@
+     // Actual field140 resource owner, independent of loading wrappers. It owns
+     // assigned copy/backend state only and MUST NOT retain this Level.
+     std::shared_ptr<void> assigned_source_owner_v65_;
+-    // Sequential adapter guard only; not an original campaign/source field.
+-    std::uint8_t assigned_source_operation_v65_{};
+-    CanonicalLevelContextV1(LevelSourceRequestV1,std::shared_ptr<void>);
+-public:
+-    CanonicalLevelContextV1(const CanonicalLevelContextV1&)=delete;
+-    CanonicalLevelContextV1& operator=(const CanonicalLevelContextV1&)=delete;
+-    static bool create(LevelSourceRequestV1,std::shared_ptr<void> services,
+-        std::shared_ptr<CanonicalLevelContextV1>& out,std::string& error);
+-    std::uintptr_t identity()const noexcept{return kill_.identity;}
+-    const character::KillLevel16* kill_level()const noexcept{return &kill_;}
+-    std::uint32_t& source_word150()noexcept{return kill_.loot_gate150;}
+-    const LevelSourceRequestV1& source_request()const noexcept{return request_;}
+-    const LevelPreparationV1::Borrow& prepared_source()const noexcept{return prepared_;}
+-    // Attaches only a matching completed SOURCE description, never an active
+-    // world. Invalid input preserves this receiver's previous source borrow.
+-    bool retain_prepared_source(LevelPreparationV1::Borrow,std::string&);
+-    struct ConfigFields {
+-        std::shared_ptr<void> level_owner;
+-        std::uintptr_t* config38{};
+-        std::int32_t* music11c{};std::int32_t* safezone120{};std::int32_t* ambient124{};
+-    };
+-    // Direct inputs to main's exact LevelConfigPublicationBorrowV2. The caller
+-    // adds its actual Arrays::Sounds lease/catalog and canonical config lookup.
+-    ConfigFields config_fields();
+-    struct ModuleLoadFields {
+-        std::shared_ptr<void> level_owner;
+-        std::int32_t* object_module_id18c{};
+-        float* module_offset160{};
+-    };
+-    // Direct inputs to root's ModuleLevelLoadBorrowV1. This creates no Module
+-    // selector, load callback, current-Level slot or publication path. Caller
+-    // supplies the original Level::LoadFile continuation on the SAME candidate.
+-    ModuleLoadFields module_load_fields();
+-    LevelConstructorBorrowV3 constructor_borrow_v3();
++    // Actual transient RandomGenerator14c owner; contains no Level alias.
++    std::shared_ptr<void> procedural_generator_owner_v66_;
++    // Sequential adapter guard only; not an original campaign/source field.
++    std::uint8_t assigned_source_operation_v65_{};
++    CanonicalLevelContextV1(LevelSourceRequestV1,std::shared_ptr<void>);
++public:
++    CanonicalLevelContextV1(const CanonicalLevelContextV1&)=delete;
++    CanonicalLevelContextV1& operator=(const CanonicalLevelContextV1&)=delete;
++    static bool create(LevelSourceRequestV1,std::shared_ptr<void> services,
++        std::shared_ptr<CanonicalLevelContextV1>& out,std::string& error);
++    std::uintptr_t identity()const noexcept{return kill_.identity;}
++    const character::KillLevel16* kill_level()const noexcept{return &kill_;}
++    std::uint32_t& source_word150()noexcept{return kill_.loot_gate150;}
++    const LevelSourceRequestV1& source_request()const noexcept{return request_;}
++    const LevelPreparationV1::Borrow& prepared_source()const noexcept{return prepared_;}
++    // Attaches only a matching completed SOURCE description, never an active
++    // world. Invalid input preserves this receiver's previous source borrow.
++    bool retain_prepared_source(LevelPreparationV1::Borrow,std::string&);
++    struct ConfigFields {
++        std::shared_ptr<void> level_owner;
++        std::uintptr_t* config38{};
++        std::int32_t* music11c{};std::int32_t* safezone120{};std::int32_t* ambient124{};
++    };
++    // Direct inputs to main's exact LevelConfigPublicationBorrowV2. The caller
++    // adds its actual Arrays::Sounds lease/catalog and canonical config lookup.
++    ConfigFields config_fields();
++    struct ModuleLoadFields {
++        std::shared_ptr<void> level_owner;
++        std::int32_t* object_module_id18c{};
++        float* module_offset160{};
++    };
++    // Direct inputs to root's ModuleLevelLoadBorrowV1. This creates no Module
++    // selector, load callback, current-Level slot or publication path. Caller
++    // supplies the original Level::LoadFile continuation on the SAME candidate.
++    ModuleLoadFields module_load_fields();
++    LevelConstructorBorrowV3 constructor_borrow_v3();
++    std::shared_ptr<void>& procedural_generator_owner_slot_v66()noexcept{return procedural_generator_owner_v66_;}
+     std::shared_ptr<void>& assigned_source_owner_slot_v65()noexcept{return assigned_source_owner_v65_;}
+     const std::shared_ptr<void>& assigned_source_owner_slot_v65()const noexcept{return assigned_source_owner_v65_;}
+     std::uint8_t& assigned_source_operation_slot_v65()noexcept{return assigned_source_operation_v65_;}

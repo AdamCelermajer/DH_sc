@@ -1,0 +1,49 @@
+{
+  "validation": "PASS",
+  "scope": "Freeze partial XML/canonical handle adapter; no live runtime or level claim.",
+  "base_archive": "map-recovery-handoff-5888339e4164baaa.zip",
+  "base_archive_sha256": "d83a37a11b3833f03d45cb89a63f18f2765f92b5cb973e4516facc6728075a87",
+  "canonical_owner_archive": "canonical-loader-owners-handoff-e8cc6acab5183a2b.zip",
+  "canonical_owner_archive_sha256": "6fef03533022762709695f2847d7877f22ff8c4471296dae83fa85ad704eab9e",
+  "source_sha256": {
+    "canonical_source_adapter_v1.hpp": "50b9147bd1682765a52a56d5e9f65ba62f2a5c2a7536c7f0a053f16dbe858847",
+    "canonical_source_adapter_v1.cpp": "6f484af2027c760f04b4423702b7cb0c2a58fd202f75c4b8c453a286272b675a",
+    "tests/canonical_source_adapter_probe.cpp": "4cfca993f6a1a1e112ba1d7db567968bb43b34a6f4efb2dc60aa10c2714c3caf",
+    "tests/cmake-canonical-owner/CMakeLists.txt": "93634358729edbe5861b75e3d5a5f06f798ca55d48189a63db42b45d5a7f546c",
+    "CMakeLists.txt": "9de73fa47787569b212cc1a7395fe433390e2a3bb2345d754ad1f7d16640a4ac",
+    "README.md": "b3daaa4d97e28cb32faf12ea3ad956115bcf626badd50e4e999c51578da94e31",
+    "OWNER-CONTEXT-REQUIREMENTS.md": "602a756fde01423a7344428cc7cac058c8be4250d0e4921fe761ff40f065dd01",
+    "CANONICAL-SOURCE-ADAPTER-HANDOFF.md": "5f9076c20926f489dcc9765b2001a32e5c8aa37aa3893a79c0888e276954fdac",
+    "tools/run_canonical_adapter_checks.py": "07f2be2cd519177afc1e2debfbc4d271a4e1cbf51d5e4b5295806a77bd6685fb",
+    "tools/record_owner_reuse_result.py": "4a77da28baecb152d8349ba354d14b76d0c2327c4958cf05eecb55dc6b6c4753",
+    "tools/capture_canonical_source_adapter_checkpoint.py": "f0efeb6955657c0821a5af34baee9bcae4f0d2c4284c2463f7dd6d72a543f5dd",
+    "reports/canonical-source-adapter-checks.json": "31df6e3d10f8f01f32d7a67caa35f278519a64c2d49c94cf61341ff1ccc53cc2",
+    "reports/canonical-owner-reuse-check.json": "aa407da5f0e2ebc7daac716767de7ffdce63905fabf8ee2475769e25110f239d",
+    "vendor/canonical-owners-e8cc6acab5183a2b/CANONICAL-LOADER-OWNERS-HANDOFF-2026-10-05.md": "5e511f21b47ec36c4b93991ea6a2c0cf13c06e2e2ce6a83fb9f23c0e68019a3f",
+    "vendor/canonical-owners-e8cc6acab5183a2b/canonical-loader-owners-manifest.json": "602636f41cfb81f07dbb7045306e55f658907a08f36c08083c6148ed865e9c34",
+    "vendor/canonical-owners-e8cc6acab5183a2b/canonical_object_factory_v1.cpp": "6cd1c27feb628ed730a7f163bd8095069ae0880a5c16d33d0d5bbd51784b2638",
+    "vendor/canonical-owners-e8cc6acab5183a2b/canonical_object_factory_v1.hpp": "59b7b283e8c528e49d99778179d190a5d4a5abb176257ee7ffc0f02a74c65439",
+    "vendor/canonical-owners-e8cc6acab5183a2b/canonical_object_manager_v1.cpp": "e60783260d9891e7c521f91976c788aad0abaa81a7d4ce10f2ceb95efbe17780",
+    "vendor/canonical-owners-e8cc6acab5183a2b/canonical_object_manager_v1.hpp": "57c743bb6c22fbfa7b284737e65c2cfbd23a8690b6201fe0646914564a809541"
+  },
+  "existing_dependency_sha256": {
+    "port/level-world/character_target_providers.hpp": "1db2bc0cde5d7644b2194e333dc82209b756980c1ee7cb022774503c6e99fc36",
+    "port/level-world/character_combat_queries.hpp": "89cb7b2b2cc69f00f6408f0b468f0c46e065c1cb7e4fa30280d9d49902d16edf",
+    "port/game-data/animation_tables.hpp": "ff7a7e7c9050893c4efc68b314bae1f20197013fa12cda4f10bf2646ad94c35d",
+    "port/game-data/data.hpp": "ecc6a73c30c67685af8a3c9d5e70c5ddb9e74143da47abcd355592f791dd2901"
+  },
+  "arm64_probe_sha256": "fc9980f666198ede43b180f4782de3be676e0be8af2b46d094438fd8efc2eef4",
+  "map_apk_sha256": "ef7048fcdecf30e0ce2422551639f27d1d61938843ff2c1cc46c4da29789a7e2",
+  "adapter_checks_per_execution": 14,
+  "executed_configurations": [
+    "host-xml",
+    "host-sanitizers",
+    "android-x86_64",
+    "existing-owner-target"
+  ],
+  "full_property_map_provider_available": false,
+  "class_init_final_available": false,
+  "canonical_cleanup_commit_available": false,
+  "runtime_objects_verified": false,
+  "full_loader_verified": false
+}

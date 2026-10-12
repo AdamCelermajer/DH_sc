@@ -1,0 +1,46 @@
+// At genuine NativeGS/source-loading assembly, BEFORE SourceLoadingV43::create,
+// in model_renderer.cpp anonymous scope where these existing owners are visible.
+// No equivalent SourceLoadingV43 runtime assembly site exists in current Main
+// yet; renderer_native_level_c1_v25.inc is C1/GS transport only. This fragment
+// attaches to that forthcoming source candidate assembly, never preview load().
+
+MainStage9ActualInputsV54 actual;
+actual.level=world->native_level_c1_v25->candidate();
+actual.manager=std::shared_ptr<dh2::world::CanonicalObjectManagerV1>(
+ world->canonical_world,&world->canonical_world->manager);
+// source_modules is the SAME CanonicalLevelModuleBindingsV2 whose actual GO4
+// publication produced Level.config38. Do not allocate one solely for stage9.
+actual.modules=source_modules;
+actual.actual_device_owner=dh2::android_resources::budget_lease_v39();
+actual.files=existing_actual_root_file_inputs; // same candidate/manager/classes
+actual.files.level=actual.level;actual.files.manager=actual.manager.get();
+actual.files.actual_filesystem_owner=existing_v52_fs_owner;
+actual.files.resolve_filename=existing_v52_root_resolver;
+actual.validate_scope=[weak=std::weak_ptr<WorldScriptContext>(world),
+ weak_manager=std::weak_ptr<dh2::world::CanonicalObjectManagerV1>(actual.manager),
+ weak_level=std::weak_ptr<dh2::loader::CanonicalLevelContextV1>(actual.level)](std::string& error){
+ auto current=weak.lock();auto manager=weak_manager.lock();auto level=weak_level.lock();
+ if(!current||!manager||!level||live_script_world!=current||!equipment_platform||
+ equipment_platform->world!=current||!current->canonical_world||
+ &current->canonical_world->manager!=manager.get()||!current->native_level_c1_v25||
+ current->native_level_c1_v25->candidate()!=level){error="Required actual current World/source manager/Level C1 scope";return false;}
+ error.clear();return true;
+};
+std::shared_ptr<MainStage9LightsetBindingV54> stage9;
+if(!MainStage9LightsetBindingV54::bind(std::move(actual),source_loading_inputs,stage9,error))return false;
+// The SourceLoading callback owns stage9. Keep its file journal for the same
+// candidate teardown; it uses weak binding validation, so externally held file
+// views reject a destroyed stage9 owner. Do not also strongly pin World from a
+// World-owned binding (cycle): canonical facet contains raw World; guards weak.
+
+// Existing CanonicalLevelClassDispatchInputsV1.remaining before unknown class:
+if(entry.name&&std::string(entry.name)=="LightPoint"&&entry.original_address==0x34115c)
+ return same_candidate_light_factory->construct(entry,source,receiver,error);
+return existing_remaining(entry,source,receiver,error);
+// actual light factory input.world = SAME source candidate/provider facet;
+// provider uses weak record for same receiver callbacks. Preserve actual
+// RendererCanonicalWorldV4.assign_network (offline genuine early return),
+// language_added and canonical_vec3_origin_v1. Bind the source LoadTemplate
+// assertion9 diagnostic: existing properties ctor currently passes nullptr.
+// No dummy node/GL actor; native light callbacks remain required until Main's
+// authentic retained lighting engine supplies them.

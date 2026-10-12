@@ -1,0 +1,17 @@
+{
+  "validation": "PASS",
+  "archive_sha256": "4f6ec8db779e64a0c5d910c394ecac204f137927d31219ce1bacf80924cd443a",
+  "source_entries_verified": 19,
+  "docs_retained": 2,
+  "selected_sources": [
+    "port/level-world/character_set_position_v7.hpp",
+    "port/level-world/character_set_position_v7.cpp",
+    "port/level-world/retained_character_position_owner_v7.hpp",
+    "port/level-world/retained_character_position_owner_v7.cpp",
+    "port/level-world/retained_character_actor_v1.hpp",
+    "port/level-world/retained_character_actor_v1.cpp",
+    "port/level-world/canonical_character_family_v4.cpp"
+  ],
+  "v6_capability_sha256": "18c28b17363aed319eb2943a4a5d95a98cf688ae55d9358a54a3c71bdc40726c",
+  "full_loader_verified": false
+}

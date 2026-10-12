@@ -1,0 +1,11 @@
+{
+  "status": "SOURCE_ONLY_UNCOMPILED_UNRUN",
+  "archive": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\command-kind4-v64-source-only-ed15f4ca37a2f6e2.zip",
+  "archive_sha256": "12c7b73990411e37711539239c362971a3051955db352d4d25e369d7644d2fa4",
+  "manifest_sha256": "ed15f4ca37a2f6e2841bc0636bbc3d8ffa2b15428394fddc91884bcb7f5f9b19",
+  "diff_sha256": "04b78094afe90d9f1defa7daf1364c9e1043caf03d9b4d59ce14fdfb4ea7f477",
+  "proof_sha256": "5146b68484ef1d2a12d2d4e1d8a523df7b5bc913286a0c0558117a4fdd86ab3f",
+  "test_sha256": "9407dc9f764b61fb733dff83b43cc0ad7c498a046944a738d7c05f2b000a5155",
+  "handoff_sha256": "2d22559014ca7716cf853cf1566fafc3376f89a7cb9f7b03b6be91c3551087f6",
+  "V59_frozen_header_cpp_preserved": true
+}

@@ -1,0 +1,22 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "64b69a8255e62de9d800b94ea1fd811752eb4f564ec626292904f7dede2e7387",
+  "corpus_sha256": "64d287eebe6fb57db07df51e1d4894b831a96b41c841de4da9056db35611028b",
+  "source_sha256": {
+    "port/engine-ui/game_option_table_v1.hpp": "5dd3edbc9a5f1e4fd568f7513b90e6f37964023b3aecd6e421d1be494e8ada93",
+    "port/engine-ui/game_option_table_v1.cpp": "8ffd204eba23339675b635c415deb9cfa9f397d45fe264cbfc3142fc31f7debf",
+    "port/engine-ui/owned_hud_settings_v1.hpp": "22d32d0e81c70a4966f986b6da1e8def5499859c77063d92eeea71afc27c3155",
+    "port/engine-ui/owned_hud_settings_v1.cpp": "9cc1cf9ba79272159ccea80f12649c752b0744c74b2bf0a8c1685382759e7269",
+    "port/engine-ui/settings_native_files_v1.hpp": "be40fa0f68685ead0ab31c93cf95116dd3014bc95a7eee1dd0273de1f01413d3",
+    "port/engine-ui/settings_native_files_v1.cpp": "65730369ba3d42944abc7785f2c216db07c92d2f27a7aa4b918f6534925691a3"
+  },
+  "script_sha256": "481ebdb96c75fe98df40bdad0dbe120c001e972d9fba6f457eb275b9cecca626",
+  "comparisons": 784,
+  "original_full_owner_gold_cases": 254,
+  "parser_cases": 512,
+  "record_cases": 272,
+  "mismatches": 0,
+  "scope": "Original cache/manager/parser execution and O2 ARM64 pure-kernel proof.\nFull owner gold uses real original private STL nodes; file-copy/empty scene/\nTextManager/platform enum services are explicit. Pure ARM64 checks source row\nand option parsing, not complete cross-ELF C++ STL ownership.\n",
+  "services": "Original stream/storage and keyed map lookup; native callback context full 64-bit. All source key/value reads and stop logic execute original instructions."
+}

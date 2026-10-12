@@ -1,0 +1,11 @@
+--- a/port/level-loader/native_noncharacter_sources_v67.cmake
++++ b/port/level-loader/native_noncharacter_sources_v67.cmake
+@@ -16,7 +16,7 @@
+   endif()
+  endforeach()
+  set(catalog_sources production_noncharacter_catalog_v67.cpp production_noncharacter_composition_v67.cpp condition_scoped_binding_v72.cpp catalog_containers_v67.cpp catalog_environment_v67.cpp)
+- set(loader_sources canonical_light_point_v53.cpp canonical_light_point_factory_v53.cpp)
++ set(loader_sources canonical_light_point_v53.cpp canonical_light_point_factory_v53.cpp game_object_arrays_owner_v81.cpp)
+  set(world_sources canonical_openable_graph_v21.cpp light_set_name_owner_v3.cpp)
+  set(added)
+  foreach(group IN ITEMS catalog loader world)

@@ -1,0 +1,12 @@
+--- a/port/android-native/app/src/main/cpp/renderer_character_campaign_v62.inc
++++ b/port/android-native/app/src/main/cpp/renderer_character_campaign_v62.inc
+@@ -279,8 +279,7 @@
+  if(!source_world->noncharacter_inputs_v81(actual,inputs,e))return false;
+  RendererCampaignNonCharacterCompositionV69 noncharacters;
+  if(!compose_campaign_noncharacter_v69(assets,actual,std::move(inputs),noncharacters,e))return false;
+- if(!bind_campaign_noncharacter_saved_objects_v89(actual,noncharacters,
+-    source_world->noncharacter_release_journal_v89,{},e))return false;
++ if(!bind_campaign_source_owner_connections_v93(actual,source_world,noncharacters,e))return false;
+  services.conditions=noncharacters.services->native.conditions;
+  if(!RendererCharacterCandidateV60::connect(actual,std::move(services),std::move(noncharacters.factory),transport,e))return false;
+  *transport_slot=transport;

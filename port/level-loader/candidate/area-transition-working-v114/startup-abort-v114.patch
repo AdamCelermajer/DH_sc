@@ -1,0 +1,139 @@
+--- a/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp
++++ b/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp
+@@ -1,4 +1,5 @@
+ #include "source_campaign_retirement_v88.hpp"
++#include "source_campaign_startup_abort_v114.hpp"
+ #include "source_campaign_release_v88.hpp"
+ #include "source_campaign_runtime_v61.hpp"
+ #include <area_transition_request_v114.hpp>
+@@ -391,9 +392,11 @@
+  dh2::loader::GSLevelServicesV2<dh2::loader::CanonicalLevelContextV1> menu;
+  dh2::loader::NativeRootGSBootstrapV55 bootstrap;
+  std::shared_ptr<dh2::loader::NativeGSLevelGlobalsV27> globals;
+- enum class RetirementPhaseV88 {idle,admit,cancel,gs_destroy,native_retire,failed};
++ enum class RetirementPhaseV88 {idle,admit,cancel,gs_destroy,native_retire,prefix_quiesce,prefix_cancel,prefix_release,prefix_native_retire,failed};
+  RetirementPhaseV88 retirement_phase_v88{RetirementPhaseV88::idle};
+  SourceCampaignRetirementServicesV88 retirement_v88;
++ SourceCampaignStartupAbortServicesV114 startup_abort_v114;
++ bool startup_cancel_requested_v114{},startup_release_complete_v114{},startup_native_complete_v114{};
+  bool retirement_busy_v88{};std::string retirement_failure_v88;
+  bool failed{},cancelling{},cancelled{},final_tail_complete{};std::string failure;
+ };
+@@ -776,6 +779,7 @@
+  if(!renderer.globals||!renderer.create_world){error="Required actual renderer source boundary";return false;}
+  if(renderer.globals->s_level){error="Original GS current Level exists; require actual unload";return false;}
+  auto owned=std::make_unique<RendererSourceCampaignV55>();owned->profile=std::move(profile);
++ owned->globals=renderer.globals; //Retain actual process slot before create_world can fail.
+  source_campaign_v55=std::move(owned);auto* retained=source_campaign_v55.get();
+  if(!renderer.create_world(assets,retained->profile,retained->world,error)||!retained->world){
+   retained->failed=true;retained->failure=error;return false;
+@@ -1451,8 +1455,109 @@
+  state.retirement_v88=std::move(services);state.retirement_phase_v88=RendererSourceCampaignV55::RetirementPhaseV88::admit;
+  e.clear();return true;
+ }
++bool borrow_source_campaign_startup_prefix_v114(SourceCampaignStartupPrefixV114& out,std::string& e){
++ if(!source_campaign_v55||!source_campaign_v55->failed){e="Require actually retained failed source startup";return false;}
++ auto& state=*source_campaign_v55;SourceCampaignStartupPrefixV114 actual;
++ actual.world=state.world;actual.selected=state.profile;actual.globals=state.globals;actual.gs=state.bootstrap.gs();
++ if(actual.gs){actual.gs_connection=actual.gs->connection().get();actual.published_level34=actual.gs->fields().level34;
++  if(actual.gs_connection){actual.level_connection=actual.gs_connection->level_connection();
++   if(actual.level_connection){actual.allocated_level=actual.level_connection->candidate();actual.bindings=actual.level_connection->bindings();actual.level_c1_complete=actual.level_connection->complete();}}
++ }
++ actual.has_loading=bool(state.bootstrap.loading());
++ if(state.world&&state.world->native_loading_v50&&*state.world->native_loading_v50)actual.has_loading=true;
++ out=std::move(actual);e.clear();return true;
++}
++bool begin_source_campaign_startup_abort_v114(SourceCampaignStartupAbortServicesV114 services,std::string& e){
++ using Phase=RendererSourceCampaignV55::RetirementPhaseV88;
++ SourceCampaignStartupPrefixV114 prefix;if(!borrow_source_campaign_startup_prefix_v114(prefix,e))return false;
++ auto& state=*source_campaign_v55;
++ if(state.retirement_busy_v88||state.retirement_phase_v88!=Phase::idle||!services.owner||
++    !services.quiesce||!services.release_prefix||!services.retire_native){e="Require once-only genuine failed-start native abort providers";return false;}
++ if(prefix.world&&((prefix.world->native_loading_v50&&*prefix.world->native_loading_v50)||
++                  (prefix.world->native_gslevel_v27&&*prefix.world->native_gslevel_v27))){
++  e="Adopted source GS/loading must use ordinary SAME V88 release retirement";return false;
++ }
++ for(const auto& enclosing:{std::shared_ptr<void>(prefix.world),prefix.world?prefix.world->owner:std::shared_ptr<void>{},
++      prefix.world?std::shared_ptr<void>(prefix.world->application):std::shared_ptr<void>{},
++      std::shared_ptr<void>(prefix.gs),std::shared_ptr<void>(prefix.allocated_level),std::shared_ptr<void>(prefix.level_connection)}){
++  if(enclosing&&!services.owner.owner_before(enclosing)&&!enclosing.owner_before(services.owner)){
++   e="Startup abort services must not own containing World/GS/Level prefix";return false;
++  }
++ }
++ if(prefix.world&&prefix.world->admission_v104){bool pending{};if(!prefix.world->admission_v104->close(pending,e))return false;}
++ state.startup_abort_v114=std::move(services);state.retirement_phase_v88=Phase::prefix_quiesce;
++ e.clear();return true;
++}
++namespace {
++SourceCampaignRetirementResultV88 drain_source_campaign_startup_prefix_v114(std::string& e){
++ using R=SourceCampaignRetirementResultV88;using P=RendererSourceCampaignV55::RetirementPhaseV88;
++ auto& state=*source_campaign_v55;if(state.retirement_busy_v88){e.clear();return R::pending;}
++ state.retirement_busy_v88=true;struct Busy{bool* flag;~Busy(){if(flag)*flag=false;}} busy{&state.retirement_busy_v88};
++ auto fail=[&]{if(state.retirement_first_failure_v114.empty())state.retirement_first_failure_v114=e.empty()?"Genuine failed-start abort provider failed":e;
++  state.retirement_failure_v88=state.retirement_first_failure_v114;state.retirement_resume_v114=state.retirement_phase_v88;
++  state.retirement_phase_v88=P::failed;e=state.retirement_failure_v88;return R::failed;};
++ try{
++  SourceCampaignStartupPrefixV114 prefix;if(!borrow_source_campaign_startup_prefix_v114(prefix,e))return fail();
++  auto current=[&]{if(source_campaign_v55.get()!=&state||state.world!=prefix.world||state.bootstrap.gs()!=prefix.gs){e="SAME failed-start prefix changed during native abort";return false;}return true;};
++  if(state.retirement_phase_v88==P::prefix_quiesce){
++   const auto r=state.startup_abort_v114.quiesce(prefix,e);if(r==R::failed)return fail();if(r==R::pending){e.clear();return r;}
++   state.retirement_phase_v88=P::prefix_cancel; //Commit true native quiescence before post-scope checks.
++   if(!current())return fail();
++  }
++  if(state.retirement_phase_v88==P::prefix_cancel){
++   //Cancel only the actual retained connection, if C1 progressed that far.
++   //Absent loading is genuine absence; partial native C1 still needs release.
++   if(!state.startup_cancel_requested_v114){
++    if(state.bootstrap.loading())state.bootstrap.loading()->request_cancel();
++    state.startup_cancel_requested_v114=true;
++   }
++   if(state.bootstrap.loading()){
++    const auto r=state.bootstrap.loading()->drain_cancel(e);
++    if(r==dh2::loader::LifecycleStatusV36::failed)return fail();
++    if(r!=dh2::loader::LifecycleStatusV36::cancelled){e.clear();return R::pending;}
++   }
++   state.retirement_phase_v88=P::prefix_release;
++  }
++  if(state.retirement_phase_v88==P::prefix_release){
++   if(!state.startup_release_complete_v114){const auto r=state.startup_abort_v114.release_prefix(prefix,e);
++    if(r==R::failed)return fail();if(r==R::pending){e.clear();return r;}state.startup_release_complete_v114=true;
++   }
++   if(!current())return fail();
++   if((prefix.gs&&prefix.gs->fields().level34)||(prefix.globals&&prefix.globals->s_level)){
++    e="Actual partial GS/Level prefix release did not clear native34/s_level";return fail();
++   }
++   //When enrolled, use the existing release receipts, never another journal.
++   if(prefix.world&&prefix.world->release_v88){bool unload{},destroy{};
++    if(!source_campaign_release_complete_v88(prefix.world->release_v88,unload,destroy,e)||!unload||!destroy){
++     if(e.empty())e="Existing startup release journals remain incomplete";return fail();
++    }
++   }
++   state.retirement_phase_v88=P::prefix_native_retire;
++  }
++  if(!state.startup_native_complete_v114){const auto r=state.startup_abort_v114.retire_native(prefix,e);
++   if(r==R::failed)return fail();if(r==R::pending){e.clear();return r;}state.startup_native_complete_v114=true;
++  }
++  if(!current())return fail();
++  if((prefix.gs&&prefix.gs->fields().level34)||(prefix.globals&&prefix.globals->s_level)){
++   e="Native unpublication changed cleared startup source slots";return fail();
++  }
++  if(prefix.world){
++   if(prefix.world->native_loading_v50)prefix.world->native_loading_v50->reset();
++   if(prefix.world->native_gslevel_v27)prefix.world->native_gslevel_v27->reset();
++   if(prefix.world->native_level_c1_v25)prefix.world->native_level_c1_v25->reset();
++  }
++  //Only authentic native release/final retirement permits wrapper storage drop.
++  busy.flag=nullptr;source_campaign_v55.reset();e.clear();return R::complete;
++ }catch(const std::exception& ex){e=ex.what();return fail();}
++ catch(...){e="Genuine failed-start abort threw; reached prefix retained";return fail();}
++}
++}
+ SourceCampaignRetirementResultV88 drain_source_campaign_retirement_v88(std::string& e){
+  using Result=SourceCampaignRetirementResultV88;using Phase=RendererSourceCampaignV55::RetirementPhaseV88;
++ if(source_campaign_v55&&(source_campaign_v55->retirement_phase_v88==Phase::prefix_quiesce||
++    source_campaign_v55->retirement_phase_v88==Phase::prefix_cancel||
++    source_campaign_v55->retirement_phase_v88==Phase::prefix_release||
++    source_campaign_v55->retirement_phase_v88==Phase::prefix_native_retire))return drain_source_campaign_startup_prefix_v114(e);
+  if(!source_campaign_v55||!source_campaign_retirement_requested_v88()){e="Required actual retained campaign retirement request";return Result::failed;}
+  auto& state=*source_campaign_v55;
+  if(state.retirement_phase_v88==Phase::failed){e=state.retirement_failure_v88;return Result::failed;}

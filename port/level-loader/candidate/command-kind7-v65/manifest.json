@@ -1,0 +1,40 @@
+{
+  "status": "SOURCE_ONLY_UNCOMPILED_UNRUN",
+  "kind_added": 7,
+  "static_code_literal_bytes_recorded": 811,
+  "native_or_original_jobs": 0,
+  "integration_edits": 4,
+  "baseline_kind4_file_sha256": {
+    "script_command_receivers_v59.hpp": "d6cb5e7f5c646dbbaff27215818ebcaf4b5486f341e4610027abd375a6e6ea55",
+    "script_command_receivers_v59.cpp": "c685f75eab3e7c12ea68fd6178a71773e513eccfa19a5a9371be529d1f805b3d",
+    "command_c1_descriptors_v59.inc": "446af21734e2a23895cb6fd951a65a2c4a9398b266c1552d260eb3ebfb70f865",
+    "script_data_schemas_v52.inc": "a77e9e88f65d93a3dc3f0200dbc5b095fb86e9eea796e0ee298745fae6a9560e",
+    "script_manager_owner_v52.cpp": "258d88afcc747e8e60ca98dbb9eba92c84d01fddf723d44ca4d6743f97c9e8ee"
+  },
+  "baseline_kind4_archive_sha256": "12c7b73990411e37711539239c362971a3051955db352d4d25e369d7644d2fa4",
+  "frozen46_header_sha256": "d555cac844347387dcd1c0ad46c404b718b3ff03a61803832f97fa3e250dc55d",
+  "frozen46_cpp_sha256": "cc18c31a6c307e992c0628cb8aa01b52fecc99482098560788f7cdb2c2bad213",
+  "files_sha256": {
+    "base_Data_Free.asm": "6995ce8b29f17c0147fc4fcfe6ca976b14cc7cdfc315f5438811af17e6e090db",
+    "command_c1_descriptors_v59.inc": "313c8d87440ab7627f4d073ef8af305d6c5effeb44dfdbf6086a3b8d57c42ce5",
+    "command_factory.asm": "271989c8efb1e15a994310c6b369c5d894abc5f40f99407e8c3c2d15e9514fda",
+    "current_Level_getter_code.asm": "4d344b9bb86caed4aa225d1c81c67ae4f7d590f72736cf937bc4ab029986f7b9",
+    "data_factory.asm": "c3976cd175141459b3622c67613ce33aafa6d8f684ae1107934b92fcaf40f1d1",
+    "Data_Free.asm": "e9781bc5e251c106db3dd6ac8a7f892c372d7d751d39ab8a576e760d8eed248d",
+    "Data_reader.asm": "9b8764ef6cd113516e2195aae92aebb35b09861e2e5c909718f719f743542234",
+    "Execute_code.asm": "6c56c4ccea93ea27bf87c2cfd8794cd011414fafc989a8bdbc3c1bb252447739",
+    "float_helper_full_count_guard.asm": "e7d20ef817352534db23c2b5b68503a005f69a753fca290434482f1ab03e6dc2",
+    "float_helper_full_scope.asm": "f6df461d941397b8178903ed4434aad617a24b4f76cba1e969fd20f68eb7700a",
+    "float_helper_prefix.asm": "267c14f39fe4ae02ae9e0c89eb0b5f631eadd087d2ffd93e9674febf05484ab6",
+    "HANDOFF.md": "6c90baa9efa86929f1b141a5405c440f8c56dd91e4b0a5aec2515d0781cdb3ed",
+    "Init.asm": "1cd06e4d50555f4cf47497464ef5b6194d2b56fc99902ef8f94ce0f28a28c52b",
+    "IsBlocking_code.asm": "4746e9379f67ce64eb41bd401e694010025bc00e66a5487ed3b88151aa9f8a35",
+    "kind7-minimal-proposed.diff": "3b4832d74e49bc2bb51dcff0289db331dac82a20411e8ed627ab92aa126311f6",
+    "kind7-source-proof.json": "eb2917fed118dd98788b75a56c8e175fc90834f5413d0587d4c483e0cfdda50c",
+    "kind7_source_only_test.cpp": "b3ef51d28b3b8ef33dcd0560c96263555cb3f36135009d49a02b35a150ae8be2",
+    "script_command_receivers_v59.cpp": "74bcb4fdfc7914aeccaf3fd973311c73239c02bf6fd44e14161fdd4ba4faaa90",
+    "script_command_receivers_v59.hpp": "4d82cd9b8900e7fe5ccc79ee3a00970b95aadadba7bd3e946180c9a47ca2b2b1",
+    "script_data_schemas_v52.inc": "6b44f2ee58751bf8092572337b1311a12a857f42ae8f6f7d30db49f1238df898",
+    "script_manager_owner_v52.cpp": "258d88afcc747e8e60ca98dbb9eba92c84d01fddf723d44ca4d6743f97c9e8ee"
+  }
+}

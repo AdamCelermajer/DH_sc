@@ -1,0 +1,1 @@
+PASS original_cache=6833 actual_bres=305 authored_instances=7346 materials=1802 sampler_records=2779 distinct_canonical_image_reads=95 explicit_source_domain_rejections=8 resource_bytes_peak=one_bres_plus_one_image no_devices=1

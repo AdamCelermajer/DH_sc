@@ -1,0 +1,31 @@
+// Surgical changes to a unique successor of the SAME canonical GO19 receiver.
+// No old/selected/root file is changed; these are source-only adoption snippets.
+// UseV57 factory/receiver/service names and Main's capability interface header.
+// Replace node borrow with LightNodeBorrowV57; add to the InitServices successor:
+std::unique_ptr<MainLightObjectBaseDtorContinuationV57> objectbase_dtor;
+// Every publication/failed-candidate path must enter Main's retained actor journal.
+// Never dispose a produced node/native reference before checked source teardown.
+
+// Add to the receiver private fields:
+enum class SourceLightTeardownStateV57 {
+ Alive,Prepared,AttachedTo180Released,NativeActorReferenceDropped,Node120Cleared,
+ Dae168Released,ObjectBaseCompleted
+};
+std::shared_ptr<MainLightQuiescenceLeaseV57> teardown_lease_;
+SourceLightTeardownStateV57 source_teardown_state_{SourceLightTeardownStateV57::Alive};
+
+// Add to the receiver public methods:
+bool prepare_source_teardown(std::shared_ptr<MainLightQuiescenceLeaseV57>,std::string&);
+bool execute_source_teardown(std::shared_ptr<MainLightQuiescenceLeaseV57>,std::string&);
+SourceLightTeardownStateV57 source_teardown_state()const noexcept{return source_teardown_state_;}
+~CanonicalLightPointV57()noexcept=default;
+// This passive C++ destructor is allowed only after Main's journal observes
+// ObjectBaseCompleted. It is NOT the native intrusive-drop implementation.
+// Journal/Flush must hold the actor on any false result; no process abort added.
+CanonicalLightPointV57(const CanonicalLightPointV57&)=delete;
+CanonicalLightPointV57& operator=(const CanonicalLightPointV57&)=delete;
+CanonicalLightPointV57(CanonicalLightPointV57&&)=delete;
+CanonicalLightPointV57& operator=(CanonicalLightPointV57&&)=delete;
+// InitPost/property mutation/attachment/registration must reject after Prepared.
+// Main owns real source ObjectManager.Flush and keeps the quiescence lease until
+// its actual SceneManager.Clear/no-old-borrow proof; do not erase registry early.

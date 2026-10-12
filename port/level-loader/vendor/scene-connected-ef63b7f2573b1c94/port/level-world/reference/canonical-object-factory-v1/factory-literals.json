@@ -1,0 +1,92 @@
+[
+  {
+    "add_instruction": "0x34acd4",
+    "literal": "0x34b040",
+    "address": "0x8c03d0",
+    "value": "Player"
+  },
+  {
+    "add_instruction": "0x34ad08",
+    "literal": "0x34b044",
+    "address": "0x8c0350",
+    "value": "PlayerCharacter_"
+  },
+  {
+    "add_instruction": "0x34ad24",
+    "literal": "0x34b048",
+    "address": "0x8c03e8",
+    "value": "HighestThreatPlayer"
+  },
+  {
+    "add_instruction": "0x34ad54",
+    "literal": "0x34b04c",
+    "address": "0x8c03d8",
+    "value": "LocalPlayer"
+  },
+  {
+    "add_instruction": "0x34ad64",
+    "literal": "0x34b050",
+    "address": "0x8c03d0",
+    "value": "Player"
+  },
+  {
+    "add_instruction": "0x34afa4",
+    "literal": "0x34b060",
+    "address": "0x8c03d8",
+    "value": "LocalPlayer"
+  },
+  {
+    "add_instruction": "0x34b4bc",
+    "literal": "0x34b51c",
+    "address": "0x8c0438",
+    "value": "Module"
+  },
+  {
+    "add_instruction": "0x34b8a4",
+    "literal": "0x34bbb4",
+    "address": "0x8c0180",
+    "value": "gametype"
+  },
+  {
+    "add_instruction": "0x34b8b8",
+    "literal": "0x34bbb8",
+    "address": "0x8e10f0",
+    "value": "name"
+  },
+  {
+    "add_instruction": "0x34b900",
+    "literal": "0x34bbbc",
+    "address": "0x8c0448",
+    "value": "_prim_PlayerLight"
+  },
+  {
+    "add_instruction": "0x34b92c",
+    "literal": "0x34bbc0",
+    "address": "0x8c0460",
+    "value": "%s_%c"
+  },
+  {
+    "add_instruction": "0x34b9b0",
+    "literal": "0x34bbc4",
+    "address": "0x8c0468",
+    "value": "template"
+  },
+  {
+    "add_instruction": "0x34ba4c",
+    "literal": "0x34bbc8",
+    "address": "0x8c0478",
+    "value": "LevelConfig"
+  },
+  {
+    "add_instruction": "0x34bb14",
+    "literal": "0x34bbcc",
+    "address": "0x8c0460",
+    "value": "%s_%c"
+  },
+  {
+    "add_instruction": "0x5246c0",
+    "literal": "0x52474c",
+    "address": "0x8f29e8",
+    "value": "-"
+  }
+]

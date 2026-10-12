@@ -1,0 +1,62 @@
+--- port/game-data/level_tables.hpp
++++ port/game-data/level_tables.hpp
+@@ -8,7 +8,10 @@
+ struct LevelTextSpan16 {const std::uint8_t* data;std::uint32_t size,reserved;};
+ static_assert(sizeof(FastTravelProjection28)==28&&sizeof(LevelProjection72)==72&&sizeof(LevelTextSpan16)==16);
+ struct FastTravelRecord {FastTravelProjection28 scalar{};std::string level_name;};
+-struct LevelRecord {LevelProjection72 scalar{};std::string description,file;};
++struct LevelRecord {LevelProjection72 scalar{};std::string description,file;
++ // Existing first source CString at0xc is DynamicBusRouting, not scalar LevelDescription.
++ const std::string& dynamic_bus_routing_v94()const noexcept{return description;}
++};
+ struct LevelTables {
+  std::vector<std::string> travel_names,level_names,travel_fields,level_fields;
+  std::vector<FastTravelRecord> travel;
+--- port/engine-audio/integration-v42/audio_application_manager_v42.hpp
++++ port/engine-audio/integration-v42/audio_application_manager_v42.hpp
+@@ -41,6 +41,7 @@
+  );
+  std::uintptr_t identity()const noexcept{return reinterpret_cast<std::uintptr_t>(this);}
+  bool disabled()const noexcept{return disabled_;}
++ bool source_producer_ready_v94(std::string&)const;
+  bool set_actual_disabled(bool,std::string&);
+  // Reached original LoadSound(rawUID): no ordinal conversion or Play3D gates.
+  bool precache_raw_uid(int,std::string&);
+--- port/engine-audio/integration-v42/audio_application_manager_v42.cpp
++++ port/engine-audio/integration-v42/audio_application_manager_v42.cpp
+@@ -31,6 +31,9 @@
+   next->session_.reset();error=construction_error;return {};
+  }
+  error.clear();return next;
++}
++bool AudioApplicationManagerV42::source_producer_ready_v94(std::string& error)const{
++ if(!producer(error)||closing_){if(error.empty())error="Required live SAME process audio producer";return false;}error.clear();return true;
+ }
+ bool AudioApplicationManagerV42::set_actual_disabled(bool value,std::string&error){
+  if(!producer(error))return false;
+--- port/engine-audio/audio_gameplay_runtime_v42.hpp
++++ port/engine-audio/audio_gameplay_runtime_v42.hpp
+@@ -38,6 +38,8 @@
+  bool initialize_priority_banks_v100(std::string&);
+  bool select_source_event_v100(int actual_event_uid,AudioRandomV34,int&,std::string&);
+  bool source_static_bus_routing_v100(const char*,std::string&);
++ bool source_dynamic_bus_routing_v94(const char*,std::string&);
++ bool source_slot_ready_v94(int uid)const{return bool(bank_.source_slot_sample_v101(uid));}
+  std::uintptr_t source_slot_identity_v101(int uid)const noexcept{return bank_.source_slot_identity_v101(uid);}
+  bool first_source_channel_v101(int actual_xml_uid,std::uint64_t&,std::string&);
+  bool native_state_owned_v101(std::uint64_t actual_owned_token,const char*,std::string&);
+--- port/engine-audio/audio_gameplay_runtime_v42.cpp
++++ port/engine-audio/audio_gameplay_runtime_v42.cpp
+@@ -106,6 +106,12 @@
+  if(!initialized_||quiescing_||in_submit_){error="Required SAME live XML event owner during Initialize";return false;}
+  return catalog_.select_event(uid,random,sound,error);
+ }
++bool AudioGameplayRuntimeV42::source_dynamic_bus_routing_v94(const char* path,std::string& error){
++ if(!initialized_||quiescing_||!path){error="Required SAME live process engine dynamic routing call";return false;}
++ // Exact Android/Callback driver vtable30 -> DriverInterface88ed50 BX LR.
++ // Real inherited leaf consumes no bytes/file and stores no routing graph.
++ error.clear();return true;
++}
+ bool AudioGameplayRuntimeV42::source_static_bus_routing_v100(const char*path,std::string&error){
+  if(!initialized_||quiescing_||!path||std::strcmp(path,"/app_home/data/routing/template_dhpsn.vrt")){
+   error="Required reached original static bus routing request";return false;

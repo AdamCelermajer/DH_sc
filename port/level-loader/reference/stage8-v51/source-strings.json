@@ -1,0 +1,25 @@
+{
+  "elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "strings": {
+    "common_file": {
+      "identity": "0x8c6768",
+      "text": "data/pydata/scripts_pyscripts.bin"
+    },
+    "common_names": {
+      "identity": "0x8c6790",
+      "text": "data/pydata/scripts_pyscriptnames.bin"
+    },
+    "search9": {
+      "identity": "0x8c6730",
+      "text": ".pyscript"
+    },
+    "replacement14": {
+      "identity": "0x8c6740",
+      "text": "_pyscripts.bin"
+    },
+    "replacement18": {
+      "identity": "0x8c6750",
+      "text": "_pyscriptnames.bin"
+    }
+  }
+}

@@ -1,0 +1,1317 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "manifest_sha256": "5e13a9454fbb5ba5262683bf03cd385cfed9f7d64105eb8c4c97dfb6c1813177",
+  "script_sha256": "ddefdcc1a3dfb864505d1978cb3036a11617b21fe1e98b05ff221c0ffce2b13c",
+  "character": "CryptSlime_RE",
+  "authored_skill_list": -1,
+  "character_row": 34,
+  "animation_table": 64,
+  "skill_list": 3,
+  "skill_sequences": [],
+  "animation_set_id": 16387,
+  "constant_queries": [
+    {
+      "group": "AnimStancedAnim",
+      "key": "SL__LIST_IPHONE",
+      "value": 210
+    }
+  ],
+  "model_property": {
+    "dictionary_id": 89,
+    "path": "data/3D/characters/slime/slime_green_v2.bdae",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/slime_green_v2.bdae",
+    "bytes": 27812,
+    "sha256": "6d54cdcbace41948f426a31bc8501fac78f26ae1c1f36b4553b916f54a5786a1",
+    "scene_nodes": 9
+  },
+  "native_character_table_fields": {
+    "0x4": "Attack",
+    "0x8": "AttackStatic",
+    "0xc": "Blocking",
+    "0x10": "DeadlyGreatKB",
+    "0x14": "Despawn",
+    "0x18": "DespawnGreatKB",
+    "0x1c": "Died",
+    "0x20": "Dodging",
+    "0x24": "GreatKnockedBack",
+    "0x28": "Idle",
+    "0x2c": "IdleFromOOC",
+    "0x30": "IdleOOC",
+    "0x34": "IdleSneak",
+    "0x38": "IdleToOOC",
+    "0x3c": "Injured",
+    "0x40": "Interact",
+    "0x48": "KnockedBack",
+    "0x4c": "LiftDrop",
+    "0x50": "LiftIdle",
+    "0x54": "LiftMove",
+    "0x58": "Limbus",
+    "0x5c": "MenuIdle",
+    "0x60": "MenuOnSelect",
+    "0x64": "PreSpawn",
+    "0x68": "Revived",
+    "0x6c": "Reviving",
+    "0x70": "Run",
+    "0x74": "Run180",
+    "0x78": "RunSneak",
+    "0x7c": "Scared",
+    "0x80": "Spawn",
+    "0x84": "Spells",
+    "0x8c": "Stunned",
+    "0x90": "Template",
+    "0x94": "Walk",
+    "0x98": "Walk180",
+    "0x9c": "WalkSneak"
+  },
+  "template": {
+    "clip_id": 1267,
+    "path": "data/3D/characters/slime/animations/slime_template_anim.bdae",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_template_anim.bdae",
+    "bytes": 5744,
+    "sha256": "c39e568ebb138f16cbbae64abf9cb1b5f0a71f9f2deaefc38b24ce4734f9b503",
+    "tracks": 21,
+    "start": 0,
+    "end": 2666,
+    "scene_nodes": 8,
+    "channel_type_counts": {
+      "5": 7,
+      "10": 7,
+      "1": 7
+    },
+    "unsupported_domain_tracks": []
+  },
+  "registration_calls": [
+    {
+      "kind": "template",
+      "set_id": 16387,
+      "clip_id": 1267,
+      "path": "data/3D/characters/slime/animations/slime_template_anim.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1265,
+      "path": "data/3D/characters/slime/animations/slime_spawn.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1258,
+      "path": "data/3D/characters/slime/animations/slime_idle.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1258,
+      "path": "data/3D/characters/slime/animations/slime_idle.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1258,
+      "path": "data/3D/characters/slime/animations/slime_idle.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1258,
+      "path": "data/3D/characters/slime/animations/slime_idle.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1258,
+      "path": "data/3D/characters/slime/animations/slime_idle.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1259,
+      "path": "data/3D/characters/slime/animations/slime_idle_02.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1268,
+      "path": "data/3D/characters/slime/animations/slime_walk.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1268,
+      "path": "data/3D/characters/slime/animations/slime_walk.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1268,
+      "path": "data/3D/characters/slime/animations/slime_walk.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1261,
+      "path": "data/3D/characters/slime/animations/slime_pre_attack_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1246,
+      "path": "data/3D/characters/slime/animations/slime_attack_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1247,
+      "path": "data/3D/characters/slime/animations/slime_attack_01_to_idle.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1262,
+      "path": "data/3D/characters/slime/animations/slime_pre_attack_02.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1248,
+      "path": "data/3D/characters/slime/animations/slime_attack_02.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1249,
+      "path": "data/3D/characters/slime/animations/slime_attack_02_to_idle.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1268,
+      "path": "data/3D/characters/slime/animations/slime_walk.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1268,
+      "path": "data/3D/characters/slime/animations/slime_walk.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1268,
+      "path": "data/3D/characters/slime/animations/slime_walk.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1263,
+      "path": "data/3D/characters/slime/animations/slime_pre_stunned.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1266,
+      "path": "data/3D/characters/slime/animations/slime_stunned.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1260,
+      "path": "data/3D/characters/slime/animations/slime_post_stunned.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1264,
+      "path": "data/3D/characters/slime/animations/slime_pushback.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1252,
+      "path": "data/3D/characters/slime/animations/slime_great_pushback.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1255,
+      "path": "data/3D/characters/slime/animations/slime_great_pushback_standup.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1256,
+      "path": "data/3D/characters/slime/animations/slime_hurt_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1257,
+      "path": "data/3D/characters/slime/animations/slime_hurt_02.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1256,
+      "path": "data/3D/characters/slime/animations/slime_hurt_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1257,
+      "path": "data/3D/characters/slime/animations/slime_hurt_02.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1256,
+      "path": "data/3D/characters/slime/animations/slime_hurt_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1257,
+      "path": "data/3D/characters/slime/animations/slime_hurt_02.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1251,
+      "path": "data/3D/characters/slime/animations/slime_dying.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1250,
+      "path": "data/3D/characters/slime/animations/slime_despawn.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1252,
+      "path": "data/3D/characters/slime/animations/slime_great_pushback.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1254,
+      "path": "data/3D/characters/slime/animations/slime_great_pushback_dying.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 16387,
+      "clip_id": 1253,
+      "path": "data/3D/characters/slime/animations/slime_great_pushback_despawn.bdae"
+    }
+  ],
+  "registration_calls_count": 37,
+  "unique_clip_count": 23,
+  "first_unique_order": [
+    1267,
+    1265,
+    1258,
+    1259,
+    1268,
+    1261,
+    1246,
+    1247,
+    1262,
+    1248,
+    1249,
+    1263,
+    1266,
+    1260,
+    1264,
+    1252,
+    1255,
+    1256,
+    1257,
+    1251,
+    1250,
+    1254,
+    1253
+  ],
+  "table_calls": [
+    {
+      "template": true,
+      "sequence": 619,
+      "stance": 0
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 617,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 613,
+      "stance": 0,
+      "flags": 2,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 620,
+      "stance": 0,
+      "flags": 16,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 32,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 607,
+      "stance": 0,
+      "flags": 64,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 605,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 606,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 128,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 620,
+      "stance": 0,
+      "flags": 256,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 618,
+      "stance": 0,
+      "flags": 512,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 616,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 615,
+      "stance": 0,
+      "flags": 1024,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 612,
+      "stance": 0,
+      "flags": 2048,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 614,
+      "stance": 0,
+      "flags": 4096,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 614,
+      "stance": 0,
+      "flags": 8192,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 614,
+      "stance": 0,
+      "flags": 16384,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 611,
+      "stance": 0,
+      "flags": 32768,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 609,
+      "stance": 0,
+      "flags": 65536,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 608,
+      "stance": 0,
+      "flags": 131072,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 610,
+      "stance": 0,
+      "flags": 262144,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 1048576,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 524288,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 4,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 8,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 8,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 16777216,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 16777216,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 8388608,
+      "mask": 210
+    }
+  ],
+  "preload_requests": [],
+  "existing_set_registration_calls": 0,
+  "prototype_projection": [],
+  "prototype_projection_count": 0,
+  "resources": [
+    {
+      "clip_id": 1267,
+      "path": "data/3D/characters/slime/animations/slime_template_anim.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_template_anim.bdae",
+      "bytes": 5744,
+      "sha256": "c39e568ebb138f16cbbae64abf9cb1b5f0a71f9f2deaefc38b24ce4734f9b503",
+      "tracks": 21,
+      "start": 0,
+      "end": 2666,
+      "scene_nodes": 8,
+      "channel_type_counts": {
+        "5": 7,
+        "10": 7,
+        "1": 7
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1265,
+      "path": "data/3D/characters/slime/animations/slime_spawn.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_spawn.bdae",
+      "bytes": 5772,
+      "sha256": "d91ad8ab0cff4c055be090436427ecb65169b473247c3bed48ae945c53d3e1aa",
+      "tracks": 12,
+      "start": 0,
+      "end": 1066,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 6,
+        "1": 6
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1258,
+      "path": "data/3D/characters/slime/animations/slime_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_idle.bdae",
+      "bytes": 5792,
+      "sha256": "f3135891294b0277a66f1bb08b7aec87efade7317a93ea2993d5df9e62591472",
+      "tracks": 12,
+      "start": 0,
+      "end": 1333,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 6,
+        "1": 6
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1259,
+      "path": "data/3D/characters/slime/animations/slime_idle_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_idle_02.bdae",
+      "bytes": 5728,
+      "sha256": "fdf12aecf3b38dc20de496e2fcb2d90db88512b794b2ee05ad95842c9cd41baf",
+      "tracks": 12,
+      "start": 0,
+      "end": 1333,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 6,
+        "1": 6
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1268,
+      "path": "data/3D/characters/slime/animations/slime_walk.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_walk.bdae",
+      "bytes": 5212,
+      "sha256": "966d248d406756d06f028570f79208ac3f047d0bb0c537103405b60694b80f05",
+      "tracks": 13,
+      "start": 0,
+      "end": 1066,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "1": 7,
+        "5": 6
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1261,
+      "path": "data/3D/characters/slime/animations/slime_pre_attack_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_pre_attack_01.bdae",
+      "bytes": 3168,
+      "sha256": "eb07914aadac438e79cd901a05f0f90b2b7e08a6822494b08be68047dc8293ae",
+      "tracks": 12,
+      "start": 0,
+      "end": 200,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 6,
+        "1": 6
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1246,
+      "path": "data/3D/characters/slime/animations/slime_attack_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_attack_01.bdae",
+      "bytes": 3256,
+      "sha256": "21ea289f9b9d2d2128445c311cbdeabbf406e15e570763ed228fd6976362e0c0",
+      "tracks": 12,
+      "start": 200,
+      "end": 500,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 6,
+        "1": 6
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1247,
+      "path": "data/3D/characters/slime/animations/slime_attack_01_to_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_attack_01_to_idle.bdae",
+      "bytes": 4136,
+      "sha256": "19194ac919bcce58739a8df48b9448c251a09d0b598f7b597ee828361693843f",
+      "tracks": 12,
+      "start": 500,
+      "end": 1500,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 6,
+        "1": 6
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1262,
+      "path": "data/3D/characters/slime/animations/slime_pre_attack_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_pre_attack_02.bdae",
+      "bytes": 3252,
+      "sha256": "315a2f52e8cbcabc3899dd8763d1bfa36696ca23911f36a26c40ca4a52480a19",
+      "tracks": 12,
+      "start": 0,
+      "end": 200,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 6,
+        "1": 6
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1248,
+      "path": "data/3D/characters/slime/animations/slime_attack_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_attack_02.bdae",
+      "bytes": 3776,
+      "sha256": "bd906d1f0ef2086deb2617ea1451531a3a9c2cb549bbe776b22f5877c6b3bbe1",
+      "tracks": 12,
+      "start": 200,
+      "end": 600,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 6,
+        "1": 6
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1249,
+      "path": "data/3D/characters/slime/animations/slime_attack_02_to_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_attack_02_to_idle.bdae",
+      "bytes": 4452,
+      "sha256": "86f01551aa577f5c86beac627914c288f5c3cacb05a08ef7d03dd3511c6f5238",
+      "tracks": 12,
+      "start": 600,
+      "end": 1500,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 6,
+        "1": 6
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1263,
+      "path": "data/3D/characters/slime/animations/slime_pre_stunned.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_pre_stunned.bdae",
+      "bytes": 3188,
+      "sha256": "3ae67a15b8e627da8f6a6febfa1808bd87cd57cf4ed453d861b39f5163644c01",
+      "tracks": 12,
+      "start": 0,
+      "end": 200,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 6,
+        "1": 6
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1266,
+      "path": "data/3D/characters/slime/animations/slime_stunned.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_stunned.bdae",
+      "bytes": 5496,
+      "sha256": "743d723a57b39bcfda3fe76fa43d96562c6576aa274f192c8759286ce66bdbd1",
+      "tracks": 12,
+      "start": 200,
+      "end": 1700,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 6,
+        "1": 6
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1260,
+      "path": "data/3D/characters/slime/animations/slime_post_stunned.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_post_stunned.bdae",
+      "bytes": 4508,
+      "sha256": "b2c11ef4837d73c8afac0fcd87233644fe8528706dd8c67349453dc61e0eae95",
+      "tracks": 12,
+      "start": 1700,
+      "end": 2500,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 6,
+        "1": 6
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1264,
+      "path": "data/3D/characters/slime/animations/slime_pushback.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_pushback.bdae",
+      "bytes": 4828,
+      "sha256": "5c9b2c19949084ca98d5e0207a6cc0430bec6d8918b208e3feeff6de2d0a7b3d",
+      "tracks": 12,
+      "start": 0,
+      "end": 1100,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 6,
+        "1": 6
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1252,
+      "path": "data/3D/characters/slime/animations/slime_great_pushback.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_great_pushback.bdae",
+      "bytes": 4464,
+      "sha256": "c62c8e5164379540eb4fda5d724a479ef3d63ca2325e21f84150287f55940531",
+      "tracks": 12,
+      "start": 0,
+      "end": 699,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 6,
+        "1": 6
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1255,
+      "path": "data/3D/characters/slime/animations/slime_great_pushback_standup.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_great_pushback_standup.bdae",
+      "bytes": 5612,
+      "sha256": "36a1753e0910550e448ed6ac4e6d3bf35c343a00416e4efc7723494f5e956a39",
+      "tracks": 11,
+      "start": 699,
+      "end": 2400,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 5,
+        "1": 6
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1256,
+      "path": "data/3D/characters/slime/animations/slime_hurt_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_hurt_01.bdae",
+      "bytes": 4672,
+      "sha256": "dd718d562f62f29f039fbf7e7acc25f7d50731349b6dfb68c2a96bd6f562edf4",
+      "tracks": 12,
+      "start": 0,
+      "end": 833,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 6,
+        "1": 6
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1257,
+      "path": "data/3D/characters/slime/animations/slime_hurt_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_hurt_02.bdae",
+      "bytes": 4684,
+      "sha256": "f2f36690daae699592ac60bd17f1c4cb3d580c2e25c2f4222bc5721c06e012a4",
+      "tracks": 12,
+      "start": 0,
+      "end": 866,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 6,
+        "1": 6
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1251,
+      "path": "data/3D/characters/slime/animations/slime_dying.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_dying.bdae",
+      "bytes": 6992,
+      "sha256": "60057288188a3c56f4690e66529c7663ca67f7f05e9ff15d7d26bb6fa43321fc",
+      "tracks": 12,
+      "start": 0,
+      "end": 2500,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 6,
+        "1": 6
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1250,
+      "path": "data/3D/characters/slime/animations/slime_despawn.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_despawn.bdae",
+      "bytes": 3548,
+      "sha256": "9d8dd415498c0b6ffe8e362122f7dc687a735d2d880d113e34605886ca799332",
+      "tracks": 12,
+      "start": 0,
+      "end": 1000,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 6,
+        "1": 6
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1254,
+      "path": "data/3D/characters/slime/animations/slime_great_pushback_dying.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_great_pushback_dying.bdae",
+      "bytes": 6452,
+      "sha256": "3089562312cd6dc30d77439e50c9c76ef4655afa1c946a9686359d78ad1438b0",
+      "tracks": 12,
+      "start": 699,
+      "end": 2466,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 6,
+        "1": 6
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1253,
+      "path": "data/3D/characters/slime/animations/slime_great_pushback_despawn.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_great_pushback_despawn.bdae",
+      "bytes": 3548,
+      "sha256": "779c271164ca8e7dfa3e85b91c53a143495d5000b623072ae6b09083075abf83",
+      "tracks": 12,
+      "start": 0,
+      "end": 1000,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 6,
+        "1": 6
+      },
+      "unsupported_domain_tracks": []
+    }
+  ],
+  "inputs": [
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_properties_pyarraynames.bin",
+      "bytes": 8993,
+      "sha256": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_properties_pystructnames.bin",
+      "bytes": 5032,
+      "sha256": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_properties_pyarray.bin",
+      "bytes": 401608,
+      "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_pyarray.bin",
+      "bytes": 72812,
+      "sha256": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_pystructnames.bin",
+      "bytes": 648,
+      "sha256": "d4e19b0e688c51b2d7bcdc2a80b8553b99789e94c825e1e1bacf052590e86134"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_dictionary_pyarray.bin",
+      "bytes": 104357,
+      "sha256": "faee362a0cbf3fdcf3b09e2b957482c87f90ce25bc68048d1dfc7c742838fca7"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_pycst.bin",
+      "bytes": 1089,
+      "sha256": "dfac957b74e79c293f99651d2089489f855397f1de7256a9e555af681c1b990f"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_models_dictionary_pyarray.bin",
+      "bytes": 5366,
+      "sha256": "682f7ee5935fea873a3c1e09a3590df2a8250f110966f4efce654f2d20367c51"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/slime_green_v2.bdae",
+      "bytes": 27812,
+      "sha256": "6d54cdcbace41948f426a31bc8501fac78f26ae1c1f36b4553b916f54a5786a1"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/skills_pyarray.bin",
+      "bytes": 11862,
+      "sha256": "e336986d5aee78fd1aed7fe7ec43cc8d58fa03d4fd27216779c0e96e47acc2d6"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_template_anim.bdae",
+      "bytes": 5744,
+      "sha256": "c39e568ebb138f16cbbae64abf9cb1b5f0a71f9f2deaefc38b24ce4734f9b503"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_spawn.bdae",
+      "bytes": 5772,
+      "sha256": "d91ad8ab0cff4c055be090436427ecb65169b473247c3bed48ae945c53d3e1aa"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_idle.bdae",
+      "bytes": 5792,
+      "sha256": "f3135891294b0277a66f1bb08b7aec87efade7317a93ea2993d5df9e62591472"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_idle_02.bdae",
+      "bytes": 5728,
+      "sha256": "fdf12aecf3b38dc20de496e2fcb2d90db88512b794b2ee05ad95842c9cd41baf"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_walk.bdae",
+      "bytes": 5212,
+      "sha256": "966d248d406756d06f028570f79208ac3f047d0bb0c537103405b60694b80f05"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_pre_attack_01.bdae",
+      "bytes": 3168,
+      "sha256": "eb07914aadac438e79cd901a05f0f90b2b7e08a6822494b08be68047dc8293ae"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_attack_01.bdae",
+      "bytes": 3256,
+      "sha256": "21ea289f9b9d2d2128445c311cbdeabbf406e15e570763ed228fd6976362e0c0"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_attack_01_to_idle.bdae",
+      "bytes": 4136,
+      "sha256": "19194ac919bcce58739a8df48b9448c251a09d0b598f7b597ee828361693843f"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_pre_attack_02.bdae",
+      "bytes": 3252,
+      "sha256": "315a2f52e8cbcabc3899dd8763d1bfa36696ca23911f36a26c40ca4a52480a19"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_attack_02.bdae",
+      "bytes": 3776,
+      "sha256": "bd906d1f0ef2086deb2617ea1451531a3a9c2cb549bbe776b22f5877c6b3bbe1"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_attack_02_to_idle.bdae",
+      "bytes": 4452,
+      "sha256": "86f01551aa577f5c86beac627914c288f5c3cacb05a08ef7d03dd3511c6f5238"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_pre_stunned.bdae",
+      "bytes": 3188,
+      "sha256": "3ae67a15b8e627da8f6a6febfa1808bd87cd57cf4ed453d861b39f5163644c01"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_stunned.bdae",
+      "bytes": 5496,
+      "sha256": "743d723a57b39bcfda3fe76fa43d96562c6576aa274f192c8759286ce66bdbd1"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_post_stunned.bdae",
+      "bytes": 4508,
+      "sha256": "b2c11ef4837d73c8afac0fcd87233644fe8528706dd8c67349453dc61e0eae95"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_pushback.bdae",
+      "bytes": 4828,
+      "sha256": "5c9b2c19949084ca98d5e0207a6cc0430bec6d8918b208e3feeff6de2d0a7b3d"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_great_pushback.bdae",
+      "bytes": 4464,
+      "sha256": "c62c8e5164379540eb4fda5d724a479ef3d63ca2325e21f84150287f55940531"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_great_pushback_standup.bdae",
+      "bytes": 5612,
+      "sha256": "36a1753e0910550e448ed6ac4e6d3bf35c343a00416e4efc7723494f5e956a39"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_hurt_01.bdae",
+      "bytes": 4672,
+      "sha256": "dd718d562f62f29f039fbf7e7acc25f7d50731349b6dfb68c2a96bd6f562edf4"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_hurt_02.bdae",
+      "bytes": 4684,
+      "sha256": "f2f36690daae699592ac60bd17f1c4cb3d580c2e25c2f4222bc5721c06e012a4"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_dying.bdae",
+      "bytes": 6992,
+      "sha256": "60057288188a3c56f4690e66529c7663ca67f7f05e9ff15d7d26bb6fa43321fc"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_despawn.bdae",
+      "bytes": 3548,
+      "sha256": "9d8dd415498c0b6ffe8e362122f7dc687a735d2d880d113e34605886ca799332"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_great_pushback_dying.bdae",
+      "bytes": 6452,
+      "sha256": "3089562312cd6dc30d77439e50c9c76ef4655afa1c946a9686359d78ad1438b0"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_great_pushback_despawn.bdae",
+      "bytes": 3548,
+      "sha256": "779c271164ca8e7dfa3e85b91c53a143495d5000b623072ae6b09083075abf83"
+    }
+  ],
+  "row160_projection": {
+    "words": [
+      0,
+      607,
+      4294967295,
+      614,
+      608,
+      609,
+      610,
+      611,
+      614,
+      612,
+      613,
+      4294967295,
+      4294967295,
+      4294967295,
+      4294967295,
+      614,
+      9,
+      0,
+      615,
+      4294967295,
+      4294967295,
+      4294967295,
+      4294967295,
+      4294967295,
+      4294967295,
+      4294967295,
+      4294967295,
+      4294967295,
+      4294967295,
+      4294967295,
+      4294967295,
+      620,
+      617,
+      0,
+      0,
+      618,
+      619,
+      620,
+      4294967295,
+      4294967295
+    ],
+    "pointer_words_zeroed": [
+      17,
+      34
+    ],
+    "interact": [
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1
+    ],
+    "spells": []
+  },
+  "idle_focus_probes": [
+    {
+      "suppressed": 0,
+      "flags": 9088,
+      "calls": [
+        {
+          "animator_is_embedded": true,
+          "sequence": 613,
+          "flags": 9088
+        }
+      ],
+      "constant_queries": [
+        {
+          "group": "AnimStancedAnim",
+          "key": "SL__LIST_IPHONE",
+          "value": 210
+        },
+        {
+          "group": "AnimStances",
+          "key": "COUNT_IPHONE",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "suppressed": 1,
+      "flags": 85,
+      "calls": [],
+      "constant_queries": []
+    },
+    {
+      "suppressed": 255,
+      "flags": 85,
+      "calls": [],
+      "constant_queries": []
+    }
+  ],
+  "source_idle_sequence": 613,
+  "first_dictionary_engine_index": {
+    "1267": 0,
+    "1265": 1,
+    "1258": 2,
+    "1259": 7,
+    "1268": 8,
+    "1261": 11,
+    "1246": 12,
+    "1247": 13,
+    "1262": 14,
+    "1248": 15,
+    "1249": 16,
+    "1263": 20,
+    "1266": 21,
+    "1260": 22,
+    "1264": 23,
+    "1252": 24,
+    "1255": 25,
+    "1256": 26,
+    "1257": 27,
+    "1251": 32,
+    "1250": 33,
+    "1254": 35,
+    "1253": 36
+  },
+  "scope": "Actual SetAnimationSet, recursive table registration and Character table/skill/model-ID getters execute on cache-backed structs with actual non-player branch. Character IsPlayer, constant lookup, manager/resource-loading, script/FX/audio services are fixtures. Clip registrations are call requests; load-probe separately proves duplicate append. GetCharModelName equipment/game-state override branches are not executed here. No live equipment/property inheritance or full cache lifecycle claim."
+}

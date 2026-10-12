@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK14CharProperties12PROPS_GetIntEib",
+      "elf_address": "0x3df6e0",
+      "size": 56,
+      "sha256": "f0b419601b44bb6aa3bea1f6df7d7323364dc572daa7a7d5e660201ec9868342"
+    },
+    {
+      "original_symbol": "_ZNK15PyDataConstants11getConstantEPKcS1_",
+      "elf_address": "0x4c4bdc",
+      "size": 84,
+      "sha256": "68b44ec75248778bf67c0d53653dc4956669795e073aef0b0b688e2e557ed794"
+    },
+    {
+      "original_symbol": "_ZN9Character7RegenMPEi",
+      "elf_address": "0x3bdbb8",
+      "size": 236,
+      "sha256": "f9aca1f9bfaa301e6ee4e98513b472a1340e41c2e1f4f22f3f7c31b2ade8185a"
+    },
+    {
+      "original_symbol": "_ZN9Character7RegenHPEi",
+      "elf_address": "0x3bdca4",
+      "size": 236,
+      "sha256": "3dfc266ef09f6c4d4f6dbd6ba04b61a1c8d0b28ddc0c8ffb943891cbb8075e4d"
+    }
+  ]
+}

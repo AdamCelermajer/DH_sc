@@ -1,0 +1,31 @@
+--- a/port/level-loader/canonical_light_point_v53.cpp
++++ b/port/level-loader/canonical_light_point_v53.cpp
+@@ -1,4 +1,5 @@
+ #include "canonical_light_point_v53.hpp"
++#include "retained_light_resources_v92.hpp"
+ #include <algorithm>
+ #include <exception>
+ namespace dh2::world {
+@@ -171,6 +172,7 @@
+   node_.identity=0;node_.actual_light_identity=0;
+   teardown_state_=LightTeardownStateV67::Node120Cleared;
+   node_.actor_reference.reset(); // consumed token destructor does not drop
++  node_.load_prefix_v92.reset();node_.source_node_v92.reset();
+   node_.owner.reset(); // passive lifetime pin, not the source intrusive drop
+  }else teardown_state_=LightTeardownStateV67::Node120Cleared;
+  {std::string empty;empty.swap(dae->second);}
+@@ -186,3 +188,14 @@
+ }
+ 
+ 
++
++namespace dh2::world {
++bool CanonicalLightPointV53::source_set_light_vector_v92(std::uint32_t offset,const std::array<float,3>& value,std::string& e){
++ if(!writable(e))return false;auto field=vectors_.find(offset);if(field==vectors_.end()||(offset!=0x134&&offset!=0x140&&offset!=0x14c&&offset!=0x158)){e="Original LightBase setter field domain";return false;}
++ LightParameterFieldsV53 light;if(!borrow_retained_light_parameters_v92(node_,light,e)||!light.validate_current(e))return false;
++ field->second=value;
++ if(offset==0x134){field->second[1]=value[1]/1000.f;field->second[2]=value[2]/1000000.f;*light.attenuation34=field->second;}
++ else{auto target=offset==0x140?light.ambient4:offset==0x14c?light.diffuse14:light.specular24;(*target)[3]=1.f;(*target)[2]=value[2];(*target)[1]=value[1];(*target)[0]=value[0];}
++ return light.validate_current(e);
++}
++}

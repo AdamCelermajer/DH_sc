@@ -1,0 +1,10 @@
+{
+  "validation": "PASS",
+  "archive_sha256": "1da0af651b30a4d1a662d05e60b46d73937bf74900221604f2640220024b0773",
+  "verified_entries": 12,
+  "selected_cpp": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\config-across-a3df90efd191542c\\port\\level-world\\canonical_level_config_module_v1.cpp",
+  "selected_cpp_sha256": "87f7aefe8ec3256ff92e1b0444c23ca7c6948335dac18d91acd84417058ed8ec",
+  "policy": "explicit modern legacy-UB repair: native LevelConfig byte87=0; not recovered original zero initialization",
+  "header_graph_unchanged": true,
+  "full_loader_verified": false
+}

@@ -1,0 +1,92 @@
+{
+  "status": "PASS",
+  "scope": "actual APK-linked native object owners, same base/property storage with declared external service fixtures; not full live level acceptance",
+  "apk_sha256": "f9bed5ab8a9520d6c0f49b83183f376374f1f0928c9965fa7e2c5edce1ec868b",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\retained_scene_visual_connection_v3.cpp",
+      "sha256": "6fab5393e174c687084b893b63c165046909beea3451c825738e3058c31c4d38"
+    }
+  ],
+  "libraries": [
+    {
+      "file": "libdh2_engine_animation.so",
+      "sha256": "92d56a2ab0c1fc2b88dd3436299d265ee4429c4428150a40520f4c30deb576e5"
+    },
+    {
+      "file": "libdh2_engine_skinning.so",
+      "sha256": "87597c18c51d823dd0a26e3025a76b35cd8ec1e5b0e29fb6156a760b7c1228eb"
+    },
+    {
+      "file": "libdh2_engine_textures.so",
+      "sha256": "a182539ce73a50ceb8b9e3c8a8668e883f8eb63c845e96483f455c58e36ecc09"
+    },
+    {
+      "file": "libdh2_engine_ui.so",
+      "sha256": "afca252b306b25b1cd4b451fb1d8d1d2319ae765f266454e54d5336973fbe633"
+    },
+    {
+      "file": "libdh2_game_data.so",
+      "sha256": "e8a2183da9ee0f22275a7b6b3217c3253a2c4bbd277f3d70dd879ee3e8ea7aea"
+    },
+    {
+      "file": "libdh2_level_world.so",
+      "sha256": "7c99382287162e8c4c8008fcc68f403c3282c807d2205553f845135af8b6a32e"
+    },
+    {
+      "file": "libdh2_native.so",
+      "sha256": "aeeb4516a40b3d2ea539389ea23b6cf22124e505fe03f5063a2c4b009cd40cb8"
+    },
+    {
+      "file": "libdh2_scene_materials.so",
+      "sha256": "3211c21c723b12c96dd5df034d45c7505a6c4029886df81b253dd653bbe26e04"
+    },
+    {
+      "file": "libdh2_script_runtime.so",
+      "sha256": "8f84d00e6dd3070bfaa0a8ffd9dc6d416a06df797b4f9aaf33c0c11e2fc7dd5d"
+    }
+  ],
+  "binary_sha256": "1d7cffbbcc1547f17f9199c715c9b34b37f62c5ef1ef68d9141ce8bc30346580",
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\retained_scene_visual_connection_v3.cpp",
+    "-LC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\retained-scene-visual-v3\\linked-libs",
+    "-Wl,--start-group",
+    "-l:libdh2_engine_animation.so",
+    "-l:libdh2_engine_skinning.so",
+    "-l:libdh2_engine_textures.so",
+    "-l:libdh2_engine_ui.so",
+    "-l:libdh2_game_data.so",
+    "-l:libdh2_level_world.so",
+    "-l:libdh2_native.so",
+    "-l:libdh2_scene_materials.so",
+    "-l:libdh2_script_runtime.so",
+    "-Wl,--end-group",
+    "-Wl,-rpath-link,C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\retained-scene-visual-v3\\linked-libs",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\retained-scene-visual-v3\\retained-scene-visual-v3.bin"
+  ],
+  "stdout": "Actual chest scene-root/visibility/animator removal PASS models=3; assetread and PF are declared boundary providers\n",
+  "stderr": "",
+  "exit_code": 0
+}

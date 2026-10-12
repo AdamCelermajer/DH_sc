@@ -1,0 +1,71 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK3sfc6script3lua5Value7getBoolEv",
+      "elf_address": "0x31bc80",
+      "size": 172,
+      "sha256": "d156e3ff80823923f19f40cf626e4923b00ba2889f114cc8f383dfc8b60158b0"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI21IsScriptProcessLoadedEv",
+      "elf_address": "0x3cb458",
+      "size": 20,
+      "sha256": "3237ba645c298932386a0f77afcdead3df1eea763288bc7468c4b2f1b4c02e94"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties13PROPS_DelBuffEiPN7Structs19CharacterPropertiesE",
+      "elf_address": "0x3e101c",
+      "size": 544,
+      "sha256": "bbbabb6e4920599ed2344065b505772abe40bafd4fd804ece2ea60b9d5cccbc5"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties13PROPS_AddBuffEijijiPKc",
+      "elf_address": "0x3e232c",
+      "size": 1012,
+      "sha256": "a18cc07f98578e7b3f42dff695b9ddb1e46f4052af46e9d0c8a0e2c8a94b042f"
+    },
+    {
+      "original_symbol": "_ZN9Character7UseManaEi",
+      "elf_address": "0x3bdef4",
+      "size": 476,
+      "sha256": "ed3125787dc0818e10c73ac7748201618bfaf23b0df8d9daea23c15bee806e68"
+    },
+    {
+      "original_symbol": "_ZNK3sfc6script3lua12ReturnValuesixEj",
+      "elf_address": "0x3da43c",
+      "size": 88,
+      "sha256": "667063192d42c0a7249704adcd4dd2a9d2de9623fc92cabe89a8dd6bd7da3c40"
+    },
+    {
+      "original_symbol": "_ZN17CharAISkillScript11GetCooldownEv",
+      "elf_address": "0x3da3d0",
+      "size": 108,
+      "sha256": "ce93c2131435534d0ec7ed5ad2765134145afc28e881cca89ce9cb7573768b1f"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine12SM_IsCastingEv",
+      "elf_address": "0x3c0334",
+      "size": 24,
+      "sha256": "4e1a1e64084c9860162ee9fefbd88e638681c392d047e812c1b397e15a0ea558"
+    },
+    {
+      "original_symbol": "_ZN17CharAISkillScript7OnSkillEv",
+      "elf_address": "0x3da794",
+      "size": 292,
+      "sha256": "2fccdd3a00f2be7c9649fb91e1d2e8d9085cc1767c8ab178a22f00830386c507"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua12ReturnValues11pushPointerEPv",
+      "elf_address": "0x38eb00",
+      "size": 104,
+      "sha256": "8e5310bdd6555999e924de6e2fa9e275fe69d0276bd999bf240ca695111f9ac3"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine15SM_IsUsingSkillEv",
+      "elf_address": "0x3c02e8",
+      "size": 24,
+      "sha256": "774242e45789a641452a8aaeefe052685fb066dd31ffcdbfcc718b5562e97619"
+    }
+  ]
+}

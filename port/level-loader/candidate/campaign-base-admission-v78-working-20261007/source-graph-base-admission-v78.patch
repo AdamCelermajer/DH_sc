@@ -1,0 +1,80 @@
+--- a/port/level-world/canonical_gameobject_graph_v68.hpp
++++ b/port/level-world/canonical_gameobject_graph_v68.hpp
+@@ -29,7 +29,7 @@
+   std::shared_ptr<RetainedSceneVisualConnectionV3> visual;
+   std::function<bool(std::shared_ptr<RetainedGameObjectVisualV1>&,std::string&)> external_visual;
+   std::unique_ptr<GameObjectVisualAssetOwnerV1> assets;
+-  bool releasing{};
++  bool releasing{},base_only_v78{};
+  };
+  CanonicalGameObjectGraphServicesV68 services_;
+  std::map<std::uintptr_t,std::shared_ptr<Entry>> entries_;
+@@ -39,6 +39,9 @@
+   std::shared_ptr<RetainedGameObjectVisualV1>&,std::string&)const;
+ public:
+  explicit CanonicalGameObjectGraphV68(CanonicalGameObjectGraphServicesV68);
++ // Admit SAME constructed base before script Init can borrow waypoints;
++ // no visual C1, initialization body or property/default execution occurs.
++ bool observe_base_v78(std::uintptr_t,CanonicalBaseBorrowV68,std::string&);
+  bool bind(std::uintptr_t,CanonicalBaseBorrowV68,
+   GameObjectInitializationServicesV1&,GameObjectSetPositionServicesV2&,std::string&);
+  // Containers already own their complete typed visual/animation/body graph.
+--- a/port/level-world/canonical_gameobject_graph_v68.cpp
++++ b/port/level-world/canonical_gameobject_graph_v68.cpp
+@@ -22,15 +22,33 @@
+   return required("same attached VisualObject2d8",e);
+  return true;
+ }
++bool CanonicalGameObjectGraphV68::observe_base_v78(std::uintptr_t id,CanonicalBaseBorrowV68 actual,std::string& e){
++ if(!id||!actual||entries_.find(id)!=entries_.end())return required("sole constructor base admission",e);
++ auto entry=std::make_shared<Entry>();entry->identity=id;entry->borrow=std::move(actual);entry->base_only_v78=true;
++ std::shared_ptr<void> pin;CanonicalGameObjectBaseOwnerV1* base{};
++ if(!borrow(entry,pin,base,e))return false;
++ // Storage is the existing weak graph entry. Actual class/manager/journal
++ // still own C1; this transport makes no native method or visual allocation.
++ entries_.emplace(id,std::move(entry));e.clear();return true;
++}
+ bool CanonicalGameObjectGraphV68::bind(std::uintptr_t id,CanonicalBaseBorrowV68 actual,
+  GameObjectInitializationServicesV1& init,GameObjectSetPositionServicesV2& position,std::string& e){
+  if(!id||!actual||!init.owner||!position.owner||!services_.owner||!services_.roots||!services_.visual.read_asset)
+   return required("actual constructor/platform/scene/cache owners",e);
+- if(entries_.find(id)!=entries_.end())return required("one resource binding per actual constructor",e);
+- auto entry=std::make_shared<Entry>();entry->identity=id;entry->borrow=std::move(actual);
++ auto found=entries_.find(id);std::shared_ptr<Entry> entry;
++ std::shared_ptr<void> lease;CanonicalGameObjectBaseOwnerV1* base{};
++ if(found!=entries_.end()){
++  entry=found->second;if(!entry->base_only_v78)return required("one resource binding per actual constructor",e);
++  if(!borrow(entry,lease,base,e))return false;
++  std::shared_ptr<void> proposed_pin;CanonicalGameObjectBaseOwnerV1* proposed{};
++  if(!actual(proposed_pin,proposed,e))return false;
++  if(!proposed_pin||proposed!=base||lease.owner_before(proposed_pin)||proposed_pin.owner_before(lease))
++   return required("same admitted base during visual-resource upgrade",e);
++ }else{
++  entry=std::make_shared<Entry>();entry->identity=id;entry->borrow=std::move(actual);
++  if(!borrow(entry,lease,base,e))return false;
++ }
+  entry->platform=init;entry->position=position;
+- std::shared_ptr<void> lease;CanonicalGameObjectBaseOwnerV1* base{};
+- if(!borrow(entry,lease,base,e))return false;
+  const auto weak=weak_from_this();const std::weak_ptr<Entry> weak_entry=entry;
+  auto source=services_.visual;
+  source.parent_is_animated=[weak,weak_entry](bool& value,std::string& error){
+@@ -47,6 +65,7 @@
+  };
+  entry->visual=std::make_shared<RetainedSceneVisualConnectionV3>(*base,std::move(source),services_.roots);
+  entry->assets=std::make_unique<GameObjectVisualAssetOwnerV1>(*base,entry->visual->services(entry->visual));
++ entry->base_only_v78=false;
+  // Retain the reached resource prefix before any subsequent source callback.
+  entries_.emplace(id,entry);
+  auto scoped=[weak,weak_entry](std::shared_ptr<CanonicalGameObjectGraphV68>& graph,
+@@ -140,6 +159,10 @@
+  if(entry->external_visual)return required("container's own qualified visual teardown",e);
+  if(entry->releasing)return required("non-reentrant resource teardown",e);
+  std::shared_ptr<void> lease;CanonicalGameObjectBaseOwnerV1* base{};if(!borrow(entry,lease,base,e))return false;
++ if(entry->base_only_v78){
++  const auto* visual=base->pointer(0x2d8);if(!visual||*visual)return required("NULL visual on uninitialized admitted base",e);
++  entries_.erase(found);e.clear();return true; // qualified absent visual only
++ }
+  entry->releasing=true;struct Scope{bool& value;~Scope(){value=false;}} scope{entry->releasing};
+  if(!entry->assets->set_visual(std::uintptr_t{0},e)||!entry->visual->discard_unattached(e)||!entry->visual->discard_failed(e))return false;
+  entries_.erase(found);e.clear();return true;

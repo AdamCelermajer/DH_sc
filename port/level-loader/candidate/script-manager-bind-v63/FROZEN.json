@@ -1,0 +1,10 @@
+{
+  "status": "SOURCE_ONLY_UNCOMPILED",
+  "archive": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\script-manager-bind-v63-source-only-857cbd89ef47d0eb.zip",
+  "archive_sha256": "adcc45e34b463d1273a1afbe509d34fd57726d33251e128420c8068050ee5c33",
+  "manifest_sha256": "857cbd89ef47d0eb615c728b059bfcaae78e5b79df2815151b2c1a908265bce1",
+  "header_sha256": "49b57f3e0ae8aad92197fad2e60e4250c7dceca73d4e90417b5151263a85cb85",
+  "handoff_sha256": "0aa60cd2ebba931b67e9af92ef1739f696c53ca44df59171c21ea0d6a841ae72",
+  "engine_leaf_calls_at_binding": 0,
+  "manager_allocations_by_binder": 0
+}

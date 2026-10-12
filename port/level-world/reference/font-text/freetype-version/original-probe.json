@@ -1,0 +1,271 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "script_sha256": "f44a020c0e2a8189f34af5323988b27d3d679286a02d38663ac12b783691f50e",
+  "manifest_sha256": "7eb8627e9dc56eee2d9e38a87e4ce00fcdcdb1c8382278ff2fb4ff103905b70e",
+  "comparisons": 18,
+  "mismatches": 0,
+  "version": [
+    2,
+    3,
+    7
+  ],
+  "cases": [
+    {
+      "operation": "FT_Init_FreeType",
+      "allocation_error": 0,
+      "return": 0,
+      "services": [
+        {
+          "address": "0x70d8a4",
+          "args": [
+            33562624,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "address": "0x70d438",
+          "args": [
+            33558528,
+            33562624,
+            0,
+            0
+          ]
+        },
+        {
+          "address": "0x708364",
+          "args": [
+            33558528,
+            196,
+            67166164,
+            0
+          ]
+        },
+        {
+          "address": "0x708364",
+          "args": [
+            33558528,
+            16384,
+            67166164,
+            0
+          ]
+        },
+        {
+          "address": "0x70d690",
+          "args": [
+            33619968,
+            16384,
+            7,
+            33619968
+          ]
+        }
+      ]
+    },
+    {
+      "operation": "FT_Library_Version",
+      "null_library": false,
+      "output_mask": 0,
+      "words": [
+        2779096485,
+        2779096485,
+        2779096485
+      ]
+    },
+    {
+      "operation": "FT_Library_Version",
+      "null_library": false,
+      "output_mask": 1,
+      "words": [
+        2,
+        2779096485,
+        2779096485
+      ]
+    },
+    {
+      "operation": "FT_Library_Version",
+      "null_library": false,
+      "output_mask": 2,
+      "words": [
+        2779096485,
+        3,
+        2779096485
+      ]
+    },
+    {
+      "operation": "FT_Library_Version",
+      "null_library": false,
+      "output_mask": 3,
+      "words": [
+        2,
+        3,
+        2779096485
+      ]
+    },
+    {
+      "operation": "FT_Library_Version",
+      "null_library": false,
+      "output_mask": 4,
+      "words": [
+        2779096485,
+        2779096485,
+        7
+      ]
+    },
+    {
+      "operation": "FT_Library_Version",
+      "null_library": false,
+      "output_mask": 5,
+      "words": [
+        2,
+        2779096485,
+        7
+      ]
+    },
+    {
+      "operation": "FT_Library_Version",
+      "null_library": false,
+      "output_mask": 6,
+      "words": [
+        2779096485,
+        3,
+        7
+      ]
+    },
+    {
+      "operation": "FT_Library_Version",
+      "null_library": false,
+      "output_mask": 7,
+      "words": [
+        2,
+        3,
+        7
+      ]
+    },
+    {
+      "operation": "FT_Library_Version",
+      "null_library": true,
+      "output_mask": 0,
+      "words": [
+        2779096485,
+        2779096485,
+        2779096485
+      ]
+    },
+    {
+      "operation": "FT_Library_Version",
+      "null_library": true,
+      "output_mask": 1,
+      "words": [
+        0,
+        2779096485,
+        2779096485
+      ]
+    },
+    {
+      "operation": "FT_Library_Version",
+      "null_library": true,
+      "output_mask": 2,
+      "words": [
+        2779096485,
+        0,
+        2779096485
+      ]
+    },
+    {
+      "operation": "FT_Library_Version",
+      "null_library": true,
+      "output_mask": 3,
+      "words": [
+        0,
+        0,
+        2779096485
+      ]
+    },
+    {
+      "operation": "FT_Library_Version",
+      "null_library": true,
+      "output_mask": 4,
+      "words": [
+        2779096485,
+        2779096485,
+        0
+      ]
+    },
+    {
+      "operation": "FT_Library_Version",
+      "null_library": true,
+      "output_mask": 5,
+      "words": [
+        0,
+        2779096485,
+        0
+      ]
+    },
+    {
+      "operation": "FT_Library_Version",
+      "null_library": true,
+      "output_mask": 6,
+      "words": [
+        2779096485,
+        0,
+        0
+      ]
+    },
+    {
+      "operation": "FT_Library_Version",
+      "null_library": true,
+      "output_mask": 7,
+      "words": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "operation": "FT_Init_FreeType",
+      "allocation_error": 6,
+      "return": 6,
+      "services": [
+        {
+          "address": "0x70d8a4",
+          "args": [
+            33562624,
+            33562640,
+            33562644,
+            33562648
+          ]
+        },
+        {
+          "address": "0x70d438",
+          "args": [
+            33558528,
+            33562624,
+            33562644,
+            33562648
+          ]
+        },
+        {
+          "address": "0x708364",
+          "args": [
+            33558528,
+            196,
+            67166164,
+            33562648
+          ]
+        },
+        {
+          "address": "0x70d890",
+          "args": [
+            33558528,
+            196,
+            67166164,
+            33562648
+          ]
+        }
+      ]
+    }
+  ],
+  "scope": "Original FT_Init_FreeType, FT_New_Library and FT_Library_Version instructions execute. Memory object allocation, ft_mem_alloc, allocation-debug hook, default-module registration and memory destruction are explicit controlled services; this is version/initialization ordering proof, not a complete FreeType raster proof."
+}

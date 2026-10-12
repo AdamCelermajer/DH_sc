@@ -1,0 +1,67 @@
+--- a/port/engine-ui/authored_menu_weak_character_v59.hpp
++++ b/port/engine-ui/authored_menu_weak_character_v59.hpp
+@@ -22,6 +22,8 @@
+  // Exact MenuBase.Update421fe0 + RenderFX.IsAnimOver7a7dd4. Neither advances
+  // the movie nor changes its play state. Counter78 is an unsigned source word.
+  bool update(SwfAsGraph&,AuthoredMenuFieldsV1&,std::string&);
++ // Original raw weak query; get_ptr performs actual dead-proxy drop/clear.
++ bool source_live_v114()noexcept;
+  void reset()noexcept;
+ };
+ }
+--- a/port/engine-ui/authored_menu_weak_character_v59.cpp
++++ b/port/engine-ui/authored_menu_weak_character_v59.cpp
+@@ -76,5 +76,6 @@
+  if(current>=last)++fields.counter78;
+  return true;
+ }
++bool AuthoredMenuWeakCharacterV59::source_live_v114()noexcept{return impl_->character.get_ptr()!=nullptr;}
+ void AuthoredMenuWeakCharacterV59::reset()noexcept{impl_->character=nullptr;}
+ }
+--- a/port/android-native/app/src/main/cpp/native_menu_singletons_v67.inc
++++ b/port/android-native/app/src/main/cpp/native_menu_singletons_v67.inc
+@@ -1,7 +1,8 @@
+ #include "renderer_character_campaign_v62.hpp"
++#include "source_process_arrays_v101.hpp"
+ #include "gameswf/gameswf_sprite.h"
+ namespace {
+-enum class MenuSingletonKindV67:unsigned {debug,main,merchant,select_class,enter_name,lobby,inventory,inventory_details,world_map,confirm,hud_confirm};
++enum class MenuSingletonKindV67:unsigned {debug,main,merchant,select_class,enter_name,lobby,inventory,inventory_details,world_map,confirm,hud_confirm,leaderboard};
+ struct NativeMenuSingletonV67 {
+  MenuSingletonKindV67 kind;dh2::ui::AuthoredMenuFieldsV1 fields;dh2::ui::AuthoredCharacterStateV1 state;dh2::ui::MenuStackCharacterV1 projection{};
+  std::array<dh2::ui::AuthoredMenuWeakCharacterV59,4> cached;
+@@ -18,11 +19,11 @@
+  } map;
+  bool constructor_attempted{},constructed{};std::string failure;
+  explicit NativeMenuSingletonV67(MenuSingletonKindV67 k):kind(k){
+-  constexpr const char* names[]{"menu_Debug","menu_MainMenu","menu_Merchant","menu_SelectClass","menu_EnterName","menu_MultiplayerLobbyMulti","menu_InventorySheetMain","menu_InventorySheetDetails","menu_FastTravel","menu_confirm","menu_hud_confirm"};
++  constexpr const char* names[]{"menu_Debug","menu_MainMenu","menu_Merchant","menu_SelectClass","menu_EnterName","menu_MultiplayerLobbyMulti","menu_InventorySheetMain","menu_InventorySheetDetails","menu_FastTravel","menu_confirm","menu_hud_confirm","Multiplayer_Leaderboard"};
+   fields.identity=reinterpret_cast<std::uintptr_t>(this);fields.name=names[static_cast<unsigned>(k)];state.fields=&fields;map.e4=this;
+  }
+ };
+-std::array<std::unique_ptr<NativeMenuSingletonV67>,11> source_singleton_v67;
++std::array<std::shared_ptr<NativeMenuSingletonV67>,12> source_singleton_v67;
+ bool source_worldmap_initialize_v68(NativeMenuPostMovieV62& provider,NativeMenuSingletonV67& owner,std::string& e){
+  for(std::uint32_t slot=0;slot<4;++slot){dh2::ui::MenuMovieBorrowV58 q;if(!provider.directory->movie_slot(slot,q,e))return false;
+   if(q.identity!=owner.fields.render)continue;dh2::ui::SwfMovie* movie{};std::shared_ptr<void> lease;
+@@ -70,8 +71,9 @@
+  }else if(owner.kind==MenuSingletonKindV67::select_class){
+   if(owner.fields.render){
+    if(!directory.find_base(owner.fields,owner.state,"class_title.text",owner.cached[2],e)||
+-      !directory.find_base(owner.fields,owner.state,"class_description.text",owner.cached[3],e))return false;
+-   std::int32_t id{};auto world=directory.world.lock();if(!model_renderer::source_character_table_index_v67(world,"KnightPlayerBase",id,e))return false;owner.select164=id;
++      !directory.find_base(owner.fields,owner.state,"s_description.text",owner.cached[3],e))return false;
++   std::int32_t id{};std::shared_ptr<dh2::android_ui::SourceProcessArraysV101> arrays;
++   if(!original_ui.process_arrays_borrow_v101(arrays,e)||!arrays||!arrays->get_member_id("CharacterTable","KnightPlayerBase",id,e))return false;owner.select164=id;
+   }
+  }else if(owner.kind==MenuSingletonKindV67::world_map&&owner.fields.render){
+   if(!source_worldmap_initialize_v68(provider,owner,e))return false;
+@@ -81,7 +83,7 @@
+ bool source_singleton_get_v67(NativeMenuPostMovieV62& provider,MenuSingletonKindV67 kind,NativeMenuSingletonV67*& out,std::string& e){
+  const auto index=static_cast<unsigned>(kind);auto& retained=source_singleton_v67[index];
+  if(retained){out=retained.get();if(!out->constructed){e=out->failure;return false;}return true;}
+- retained=std::make_unique<NativeMenuSingletonV67>(kind);out=retained.get();out->constructor_attempted=true;
++ retained=std::make_shared<NativeMenuSingletonV67>(kind);out=retained.get();out->constructor_attempted=true;
+  bool ignored{};
+  if(!provider.directory->debug_load(e)||!provider.directory->debug_switch("isTracingMenuBase",ignored,e)){out->failure=e;return false;}
+  source_menu_process_v62->source_fs_commands().source_menu_base_c2_registration();

@@ -1,0 +1,9 @@
+{
+  "status": "shared kernel adopted; selected rebuild pending",
+  "coherent_files": 762,
+  "generic_public_APIs_preserved": true,
+  "same_actual_Character_fields": true,
+  "second_CanonicalBase_created": false,
+  "whole_Character_InitPost": false,
+  "shared_mutated": false
+}

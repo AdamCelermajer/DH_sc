@@ -1,0 +1,1726 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_instructions_executed": true,
+  "loader": "0x4b53f8",
+  "row_readers": [
+    "0x4dc2ac"
+  ],
+  "bytes_consumed": 10167,
+  "input_sha256": "03b99c2d8e5293f57233626721a003b1a5f5bbcaff5fcb9c2e315f68954e0286",
+  "name_sha256": "a24e59f8d5c7479b31117085e56a7ce99946882acb80b3a438c9b0e2b1eb688b",
+  "schema_sha256": "e2e395411036e57c7148f7b3f8c4b0a7924b97f405f07493e5f2274b2cc9d0ad",
+  "packs": [
+    {
+      "pack": 0,
+      "sheets": [
+        {
+          "sheet": 0,
+          "name": "Darkwoods",
+          "filename": "text/darkwoods.english"
+        },
+        {
+          "sheet": 1,
+          "name": "GLLive",
+          "filename": "text/gllive.english"
+        },
+        {
+          "sheet": 2,
+          "name": "Gated",
+          "filename": "text/gated.english"
+        },
+        {
+          "sheet": 3,
+          "name": "GatedB",
+          "filename": "text/gatedb.english"
+        },
+        {
+          "sheet": 4,
+          "name": "GothicusA",
+          "filename": "text/gothicusa.english"
+        },
+        {
+          "sheet": 5,
+          "name": "GothicusB",
+          "filename": "text/gothicusb.english"
+        },
+        {
+          "sheet": 6,
+          "name": "Graveyard",
+          "filename": "text/graveyard.english"
+        },
+        {
+          "sheet": 7,
+          "name": "Hellgate",
+          "filename": "text/hellgate.english"
+        },
+        {
+          "sheet": 8,
+          "name": "Infected",
+          "filename": "text/infected.english"
+        },
+        {
+          "sheet": 9,
+          "name": "Sewer",
+          "filename": "text/sewer.english"
+        },
+        {
+          "sheet": 10,
+          "name": "SwampB",
+          "filename": "text/swampb.english"
+        },
+        {
+          "sheet": 11,
+          "name": "abbey",
+          "filename": "text/abbey.english"
+        },
+        {
+          "sheet": 12,
+          "name": "abbeyB",
+          "filename": "text/abbeyb.english"
+        },
+        {
+          "sheet": 13,
+          "name": "airtemple",
+          "filename": "text/airtemple.english"
+        },
+        {
+          "sheet": 14,
+          "name": "darktemple",
+          "filename": "text/darktemple.english"
+        },
+        {
+          "sheet": 15,
+          "name": "desert",
+          "filename": "text/desert.english"
+        },
+        {
+          "sheet": 16,
+          "name": "driedwell",
+          "filename": "text/driedwell.english"
+        },
+        {
+          "sheet": 17,
+          "name": "earthtemple",
+          "filename": "text/earthtemple.english"
+        },
+        {
+          "sheet": 18,
+          "name": "extras",
+          "filename": "text/extras.english"
+        },
+        {
+          "sheet": 19,
+          "name": "gameplaymenus",
+          "filename": "text/gameplaymenus.english"
+        },
+        {
+          "sheet": 20,
+          "name": "global",
+          "filename": "text/global.english"
+        },
+        {
+          "sheet": 21,
+          "name": "hellgateB",
+          "filename": "text/hellgateb.english"
+        },
+        {
+          "sheet": 22,
+          "name": "icyhub",
+          "filename": "text/icyhub.english"
+        },
+        {
+          "sheet": 23,
+          "name": "ingame",
+          "filename": "text/ingame.english"
+        },
+        {
+          "sheet": 24,
+          "name": "items",
+          "filename": "text/items.english"
+        },
+        {
+          "sheet": 25,
+          "name": "lighthouse",
+          "filename": "text/lighthouse.english"
+        },
+        {
+          "sheet": 26,
+          "name": "locations",
+          "filename": "text/locations.english"
+        },
+        {
+          "sheet": 27,
+          "name": "machine",
+          "filename": "text/machine.english"
+        },
+        {
+          "sheet": 28,
+          "name": "menu",
+          "filename": "text/menu.english"
+        },
+        {
+          "sheet": 29,
+          "name": "quests",
+          "filename": "text/quests.english"
+        },
+        {
+          "sheet": 30,
+          "name": "sidequests",
+          "filename": "text/sidequests.english"
+        },
+        {
+          "sheet": 31,
+          "name": "swamp",
+          "filename": "text/swamp.english"
+        },
+        {
+          "sheet": 32,
+          "name": "tutorial",
+          "filename": "text/tutorial.english"
+        },
+        {
+          "sheet": 33,
+          "name": "underworldhub",
+          "filename": "text/underworldhub.english"
+        },
+        {
+          "sheet": 34,
+          "name": "void",
+          "filename": "text/void.english"
+        },
+        {
+          "sheet": 35,
+          "name": "volcano",
+          "filename": "text/volcano.english"
+        },
+        {
+          "sheet": 36,
+          "name": "watertemple",
+          "filename": "text/watertemple.english"
+        }
+      ]
+    },
+    {
+      "pack": 1,
+      "sheets": [
+        {
+          "sheet": 0,
+          "name": "Darkwoods",
+          "filename": "text/darkwoods.french"
+        },
+        {
+          "sheet": 1,
+          "name": "GLLive",
+          "filename": "text/gllive.french"
+        },
+        {
+          "sheet": 2,
+          "name": "Gated",
+          "filename": "text/gated.french"
+        },
+        {
+          "sheet": 3,
+          "name": "GatedB",
+          "filename": "text/gatedb.french"
+        },
+        {
+          "sheet": 4,
+          "name": "GothicusA",
+          "filename": "text/gothicusa.french"
+        },
+        {
+          "sheet": 5,
+          "name": "GothicusB",
+          "filename": "text/gothicusb.french"
+        },
+        {
+          "sheet": 6,
+          "name": "Graveyard",
+          "filename": "text/graveyard.french"
+        },
+        {
+          "sheet": 7,
+          "name": "Hellgate",
+          "filename": "text/hellgate.french"
+        },
+        {
+          "sheet": 8,
+          "name": "Infected",
+          "filename": "text/infected.french"
+        },
+        {
+          "sheet": 9,
+          "name": "Sewer",
+          "filename": "text/sewer.french"
+        },
+        {
+          "sheet": 10,
+          "name": "SwampB",
+          "filename": "text/swampb.french"
+        },
+        {
+          "sheet": 11,
+          "name": "abbey",
+          "filename": "text/abbey.french"
+        },
+        {
+          "sheet": 12,
+          "name": "abbeyB",
+          "filename": "text/abbeyb.french"
+        },
+        {
+          "sheet": 13,
+          "name": "airtemple",
+          "filename": "text/airtemple.french"
+        },
+        {
+          "sheet": 14,
+          "name": "darktemple",
+          "filename": "text/darktemple.french"
+        },
+        {
+          "sheet": 15,
+          "name": "desert",
+          "filename": "text/desert.french"
+        },
+        {
+          "sheet": 16,
+          "name": "driedwell",
+          "filename": "text/driedwell.french"
+        },
+        {
+          "sheet": 17,
+          "name": "earthtemple",
+          "filename": "text/earthtemple.french"
+        },
+        {
+          "sheet": 18,
+          "name": "extras",
+          "filename": "text/extras.french"
+        },
+        {
+          "sheet": 19,
+          "name": "gameplaymenus",
+          "filename": "text/gameplaymenus.french"
+        },
+        {
+          "sheet": 20,
+          "name": "global",
+          "filename": "text/global.french"
+        },
+        {
+          "sheet": 21,
+          "name": "hellgateB",
+          "filename": "text/hellgateb.french"
+        },
+        {
+          "sheet": 22,
+          "name": "icyhub",
+          "filename": "text/icyhub.french"
+        },
+        {
+          "sheet": 23,
+          "name": "ingame",
+          "filename": "text/ingame.french"
+        },
+        {
+          "sheet": 24,
+          "name": "items",
+          "filename": "text/items.french"
+        },
+        {
+          "sheet": 25,
+          "name": "lighthouse",
+          "filename": "text/lighthouse.french"
+        },
+        {
+          "sheet": 26,
+          "name": "locations",
+          "filename": "text/locations.french"
+        },
+        {
+          "sheet": 27,
+          "name": "machine",
+          "filename": "text/machine.french"
+        },
+        {
+          "sheet": 28,
+          "name": "menu",
+          "filename": "text/menu.french"
+        },
+        {
+          "sheet": 29,
+          "name": "quests",
+          "filename": "text/quests.french"
+        },
+        {
+          "sheet": 30,
+          "name": "sidequests",
+          "filename": "text/sidequests.french"
+        },
+        {
+          "sheet": 31,
+          "name": "swamp",
+          "filename": "text/swamp.french"
+        },
+        {
+          "sheet": 32,
+          "name": "tutorial",
+          "filename": "text/tutorial.french"
+        },
+        {
+          "sheet": 33,
+          "name": "underworldhub",
+          "filename": "text/underworldhub.french"
+        },
+        {
+          "sheet": 34,
+          "name": "void",
+          "filename": "text/void.french"
+        },
+        {
+          "sheet": 35,
+          "name": "volcano",
+          "filename": "text/volcano.french"
+        },
+        {
+          "sheet": 36,
+          "name": "watertemple",
+          "filename": "text/watertemple.french"
+        }
+      ]
+    },
+    {
+      "pack": 2,
+      "sheets": [
+        {
+          "sheet": 0,
+          "name": "Darkwoods",
+          "filename": "text/darkwoods.german"
+        },
+        {
+          "sheet": 1,
+          "name": "GLLive",
+          "filename": "text/gllive.german"
+        },
+        {
+          "sheet": 2,
+          "name": "Gated",
+          "filename": "text/gated.german"
+        },
+        {
+          "sheet": 3,
+          "name": "GatedB",
+          "filename": "text/gatedb.german"
+        },
+        {
+          "sheet": 4,
+          "name": "GothicusA",
+          "filename": "text/gothicusa.german"
+        },
+        {
+          "sheet": 5,
+          "name": "GothicusB",
+          "filename": "text/gothicusb.german"
+        },
+        {
+          "sheet": 6,
+          "name": "Graveyard",
+          "filename": "text/graveyard.german"
+        },
+        {
+          "sheet": 7,
+          "name": "Hellgate",
+          "filename": "text/hellgate.german"
+        },
+        {
+          "sheet": 8,
+          "name": "Infected",
+          "filename": "text/infected.german"
+        },
+        {
+          "sheet": 9,
+          "name": "Sewer",
+          "filename": "text/sewer.german"
+        },
+        {
+          "sheet": 10,
+          "name": "SwampB",
+          "filename": "text/swampb.german"
+        },
+        {
+          "sheet": 11,
+          "name": "abbey",
+          "filename": "text/abbey.german"
+        },
+        {
+          "sheet": 12,
+          "name": "abbeyB",
+          "filename": "text/abbeyb.german"
+        },
+        {
+          "sheet": 13,
+          "name": "airtemple",
+          "filename": "text/airtemple.german"
+        },
+        {
+          "sheet": 14,
+          "name": "darktemple",
+          "filename": "text/darktemple.german"
+        },
+        {
+          "sheet": 15,
+          "name": "desert",
+          "filename": "text/desert.german"
+        },
+        {
+          "sheet": 16,
+          "name": "driedwell",
+          "filename": "text/driedwell.german"
+        },
+        {
+          "sheet": 17,
+          "name": "earthtemple",
+          "filename": "text/earthtemple.german"
+        },
+        {
+          "sheet": 18,
+          "name": "extras",
+          "filename": "text/extras.german"
+        },
+        {
+          "sheet": 19,
+          "name": "gameplaymenus",
+          "filename": "text/gameplaymenus.german"
+        },
+        {
+          "sheet": 20,
+          "name": "global",
+          "filename": "text/global.german"
+        },
+        {
+          "sheet": 21,
+          "name": "hellgateB",
+          "filename": "text/hellgateb.german"
+        },
+        {
+          "sheet": 22,
+          "name": "icyhub",
+          "filename": "text/icyhub.german"
+        },
+        {
+          "sheet": 23,
+          "name": "ingame",
+          "filename": "text/ingame.german"
+        },
+        {
+          "sheet": 24,
+          "name": "items",
+          "filename": "text/items.german"
+        },
+        {
+          "sheet": 25,
+          "name": "lighthouse",
+          "filename": "text/lighthouse.german"
+        },
+        {
+          "sheet": 26,
+          "name": "locations",
+          "filename": "text/locations.german"
+        },
+        {
+          "sheet": 27,
+          "name": "machine",
+          "filename": "text/machine.german"
+        },
+        {
+          "sheet": 28,
+          "name": "menu",
+          "filename": "text/menu.german"
+        },
+        {
+          "sheet": 29,
+          "name": "quests",
+          "filename": "text/quests.german"
+        },
+        {
+          "sheet": 30,
+          "name": "sidequests",
+          "filename": "text/sidequests.german"
+        },
+        {
+          "sheet": 31,
+          "name": "swamp",
+          "filename": "text/swamp.german"
+        },
+        {
+          "sheet": 32,
+          "name": "tutorial",
+          "filename": "text/tutorial.german"
+        },
+        {
+          "sheet": 33,
+          "name": "underworldhub",
+          "filename": "text/underworldhub.german"
+        },
+        {
+          "sheet": 34,
+          "name": "void",
+          "filename": "text/void.german"
+        },
+        {
+          "sheet": 35,
+          "name": "volcano",
+          "filename": "text/volcano.german"
+        },
+        {
+          "sheet": 36,
+          "name": "watertemple",
+          "filename": "text/watertemple.german"
+        }
+      ]
+    },
+    {
+      "pack": 3,
+      "sheets": [
+        {
+          "sheet": 0,
+          "name": "Darkwoods",
+          "filename": "text/darkwoods.italian"
+        },
+        {
+          "sheet": 1,
+          "name": "GLLive",
+          "filename": "text/gllive.italian"
+        },
+        {
+          "sheet": 2,
+          "name": "Gated",
+          "filename": "text/gated.italian"
+        },
+        {
+          "sheet": 3,
+          "name": "GatedB",
+          "filename": "text/gatedb.italian"
+        },
+        {
+          "sheet": 4,
+          "name": "GothicusA",
+          "filename": "text/gothicusa.italian"
+        },
+        {
+          "sheet": 5,
+          "name": "GothicusB",
+          "filename": "text/gothicusb.italian"
+        },
+        {
+          "sheet": 6,
+          "name": "Graveyard",
+          "filename": "text/graveyard.italian"
+        },
+        {
+          "sheet": 7,
+          "name": "Hellgate",
+          "filename": "text/hellgate.italian"
+        },
+        {
+          "sheet": 8,
+          "name": "Infected",
+          "filename": "text/infected.italian"
+        },
+        {
+          "sheet": 9,
+          "name": "Sewer",
+          "filename": "text/sewer.italian"
+        },
+        {
+          "sheet": 10,
+          "name": "SwampB",
+          "filename": "text/swampb.italian"
+        },
+        {
+          "sheet": 11,
+          "name": "abbey",
+          "filename": "text/abbey.italian"
+        },
+        {
+          "sheet": 12,
+          "name": "abbeyB",
+          "filename": "text/abbeyb.italian"
+        },
+        {
+          "sheet": 13,
+          "name": "airtemple",
+          "filename": "text/airtemple.italian"
+        },
+        {
+          "sheet": 14,
+          "name": "darktemple",
+          "filename": "text/darktemple.italian"
+        },
+        {
+          "sheet": 15,
+          "name": "desert",
+          "filename": "text/desert.italian"
+        },
+        {
+          "sheet": 16,
+          "name": "driedwell",
+          "filename": "text/driedwell.italian"
+        },
+        {
+          "sheet": 17,
+          "name": "earthtemple",
+          "filename": "text/earthtemple.italian"
+        },
+        {
+          "sheet": 18,
+          "name": "extras",
+          "filename": "text/extras.italian"
+        },
+        {
+          "sheet": 19,
+          "name": "gameplaymenus",
+          "filename": "text/gameplaymenus.italian"
+        },
+        {
+          "sheet": 20,
+          "name": "global",
+          "filename": "text/global.italian"
+        },
+        {
+          "sheet": 21,
+          "name": "hellgateB",
+          "filename": "text/hellgateb.italian"
+        },
+        {
+          "sheet": 22,
+          "name": "icyhub",
+          "filename": "text/icyhub.italian"
+        },
+        {
+          "sheet": 23,
+          "name": "ingame",
+          "filename": "text/ingame.italian"
+        },
+        {
+          "sheet": 24,
+          "name": "items",
+          "filename": "text/items.italian"
+        },
+        {
+          "sheet": 25,
+          "name": "lighthouse",
+          "filename": "text/lighthouse.italian"
+        },
+        {
+          "sheet": 26,
+          "name": "locations",
+          "filename": "text/locations.italian"
+        },
+        {
+          "sheet": 27,
+          "name": "machine",
+          "filename": "text/machine.italian"
+        },
+        {
+          "sheet": 28,
+          "name": "menu",
+          "filename": "text/menu.italian"
+        },
+        {
+          "sheet": 29,
+          "name": "quests",
+          "filename": "text/quests.italian"
+        },
+        {
+          "sheet": 30,
+          "name": "sidequests",
+          "filename": "text/sidequests.italian"
+        },
+        {
+          "sheet": 31,
+          "name": "swamp",
+          "filename": "text/swamp.italian"
+        },
+        {
+          "sheet": 32,
+          "name": "tutorial",
+          "filename": "text/tutorial.italian"
+        },
+        {
+          "sheet": 33,
+          "name": "underworldhub",
+          "filename": "text/underworldhub.italian"
+        },
+        {
+          "sheet": 34,
+          "name": "void",
+          "filename": "text/void.italian"
+        },
+        {
+          "sheet": 35,
+          "name": "volcano",
+          "filename": "text/volcano.italian"
+        },
+        {
+          "sheet": 36,
+          "name": "watertemple",
+          "filename": "text/watertemple.italian"
+        }
+      ]
+    },
+    {
+      "pack": 4,
+      "sheets": [
+        {
+          "sheet": 0,
+          "name": "Darkwoods",
+          "filename": "text/darkwoods.japanese"
+        },
+        {
+          "sheet": 1,
+          "name": "GLLive",
+          "filename": "text/gllive.japanese"
+        },
+        {
+          "sheet": 2,
+          "name": "Gated",
+          "filename": "text/gated.japanese"
+        },
+        {
+          "sheet": 3,
+          "name": "GatedB",
+          "filename": "text/gatedb.japanese"
+        },
+        {
+          "sheet": 4,
+          "name": "GothicusA",
+          "filename": "text/gothicusa.japanese"
+        },
+        {
+          "sheet": 5,
+          "name": "GothicusB",
+          "filename": "text/gothicusb.japanese"
+        },
+        {
+          "sheet": 6,
+          "name": "Graveyard",
+          "filename": "text/graveyard.japanese"
+        },
+        {
+          "sheet": 7,
+          "name": "Hellgate",
+          "filename": "text/hellgate.japanese"
+        },
+        {
+          "sheet": 8,
+          "name": "Infected",
+          "filename": "text/infected.japanese"
+        },
+        {
+          "sheet": 9,
+          "name": "Sewer",
+          "filename": "text/sewer.japanese"
+        },
+        {
+          "sheet": 10,
+          "name": "SwampB",
+          "filename": "text/swampb.japanese"
+        },
+        {
+          "sheet": 11,
+          "name": "abbey",
+          "filename": "text/abbey.japanese"
+        },
+        {
+          "sheet": 12,
+          "name": "abbeyB",
+          "filename": "text/abbeyb.japanese"
+        },
+        {
+          "sheet": 13,
+          "name": "airtemple",
+          "filename": "text/airtemple.japanese"
+        },
+        {
+          "sheet": 14,
+          "name": "darktemple",
+          "filename": "text/darktemple.japanese"
+        },
+        {
+          "sheet": 15,
+          "name": "desert",
+          "filename": "text/desert.japanese"
+        },
+        {
+          "sheet": 16,
+          "name": "driedwell",
+          "filename": "text/driedwell.japanese"
+        },
+        {
+          "sheet": 17,
+          "name": "earthtemple",
+          "filename": "text/earthtemple.japanese"
+        },
+        {
+          "sheet": 18,
+          "name": "extras",
+          "filename": "text/extras.japanese"
+        },
+        {
+          "sheet": 19,
+          "name": "gameplaymenus",
+          "filename": "text/gameplaymenus.japanese"
+        },
+        {
+          "sheet": 20,
+          "name": "global",
+          "filename": "text/global.japanese"
+        },
+        {
+          "sheet": 21,
+          "name": "hellgateB",
+          "filename": "text/hellgateb.japanese"
+        },
+        {
+          "sheet": 22,
+          "name": "icyhub",
+          "filename": "text/icyhub.japanese"
+        },
+        {
+          "sheet": 23,
+          "name": "ingame",
+          "filename": "text/ingame.japanese"
+        },
+        {
+          "sheet": 24,
+          "name": "items",
+          "filename": "text/items.japanese"
+        },
+        {
+          "sheet": 25,
+          "name": "lighthouse",
+          "filename": "text/lighthouse.japanese"
+        },
+        {
+          "sheet": 26,
+          "name": "locations",
+          "filename": "text/locations.japanese"
+        },
+        {
+          "sheet": 27,
+          "name": "machine",
+          "filename": "text/machine.japanese"
+        },
+        {
+          "sheet": 28,
+          "name": "menu",
+          "filename": "text/menu.japanese"
+        },
+        {
+          "sheet": 29,
+          "name": "quests",
+          "filename": "text/quests.japanese"
+        },
+        {
+          "sheet": 30,
+          "name": "sidequests",
+          "filename": "text/sidequests.japanese"
+        },
+        {
+          "sheet": 31,
+          "name": "swamp",
+          "filename": "text/swamp.japanese"
+        },
+        {
+          "sheet": 32,
+          "name": "tutorial",
+          "filename": "text/tutorial.japanese"
+        },
+        {
+          "sheet": 33,
+          "name": "underworldhub",
+          "filename": "text/underworldhub.japanese"
+        },
+        {
+          "sheet": 34,
+          "name": "void",
+          "filename": "text/void.japanese"
+        },
+        {
+          "sheet": 35,
+          "name": "volcano",
+          "filename": "text/volcano.japanese"
+        },
+        {
+          "sheet": 36,
+          "name": "watertemple",
+          "filename": "text/watertemple.japanese"
+        }
+      ]
+    },
+    {
+      "pack": 5,
+      "sheets": [
+        {
+          "sheet": 0,
+          "name": "Darkwoods",
+          "filename": "text/darkwoods.korean"
+        },
+        {
+          "sheet": 1,
+          "name": "GLLive",
+          "filename": "text/gllive.korean"
+        },
+        {
+          "sheet": 2,
+          "name": "Gated",
+          "filename": "text/gated.korean"
+        },
+        {
+          "sheet": 3,
+          "name": "GatedB",
+          "filename": "text/gatedb.korean"
+        },
+        {
+          "sheet": 4,
+          "name": "GothicusA",
+          "filename": "text/gothicusa.korean"
+        },
+        {
+          "sheet": 5,
+          "name": "GothicusB",
+          "filename": "text/gothicusb.korean"
+        },
+        {
+          "sheet": 6,
+          "name": "Graveyard",
+          "filename": "text/graveyard.korean"
+        },
+        {
+          "sheet": 7,
+          "name": "Hellgate",
+          "filename": "text/hellgate.korean"
+        },
+        {
+          "sheet": 8,
+          "name": "Infected",
+          "filename": "text/infected.korean"
+        },
+        {
+          "sheet": 9,
+          "name": "Sewer",
+          "filename": "text/sewer.korean"
+        },
+        {
+          "sheet": 10,
+          "name": "SwampB",
+          "filename": "text/swampb.korean"
+        },
+        {
+          "sheet": 11,
+          "name": "abbey",
+          "filename": "text/abbey.korean"
+        },
+        {
+          "sheet": 12,
+          "name": "abbeyB",
+          "filename": "text/abbeyb.korean"
+        },
+        {
+          "sheet": 13,
+          "name": "airtemple",
+          "filename": "text/airtemple.korean"
+        },
+        {
+          "sheet": 14,
+          "name": "darktemple",
+          "filename": "text/darktemple.korean"
+        },
+        {
+          "sheet": 15,
+          "name": "desert",
+          "filename": "text/desert.korean"
+        },
+        {
+          "sheet": 16,
+          "name": "driedwell",
+          "filename": "text/driedwell.korean"
+        },
+        {
+          "sheet": 17,
+          "name": "earthtemple",
+          "filename": "text/earthtemple.korean"
+        },
+        {
+          "sheet": 18,
+          "name": "extras",
+          "filename": "text/extras.korean"
+        },
+        {
+          "sheet": 19,
+          "name": "gameplaymenus",
+          "filename": "text/gameplaymenus.korean"
+        },
+        {
+          "sheet": 20,
+          "name": "global",
+          "filename": "text/global.korean"
+        },
+        {
+          "sheet": 21,
+          "name": "hellgateB",
+          "filename": "text/hellgateb.korean"
+        },
+        {
+          "sheet": 22,
+          "name": "icyhub",
+          "filename": "text/icyhub.korean"
+        },
+        {
+          "sheet": 23,
+          "name": "ingame",
+          "filename": "text/ingame.korean"
+        },
+        {
+          "sheet": 24,
+          "name": "items",
+          "filename": "text/items.korean"
+        },
+        {
+          "sheet": 25,
+          "name": "lighthouse",
+          "filename": "text/lighthouse.korean"
+        },
+        {
+          "sheet": 26,
+          "name": "locations",
+          "filename": "text/locations.korean"
+        },
+        {
+          "sheet": 27,
+          "name": "machine",
+          "filename": "text/machine.korean"
+        },
+        {
+          "sheet": 28,
+          "name": "menu",
+          "filename": "text/menu.korean"
+        },
+        {
+          "sheet": 29,
+          "name": "quests",
+          "filename": "text/quests.korean"
+        },
+        {
+          "sheet": 30,
+          "name": "sidequests",
+          "filename": "text/sidequests.korean"
+        },
+        {
+          "sheet": 31,
+          "name": "swamp",
+          "filename": "text/swamp.korean"
+        },
+        {
+          "sheet": 32,
+          "name": "tutorial",
+          "filename": "text/tutorial.korean"
+        },
+        {
+          "sheet": 33,
+          "name": "underworldhub",
+          "filename": "text/underworldhub.korean"
+        },
+        {
+          "sheet": 34,
+          "name": "void",
+          "filename": "text/void.korean"
+        },
+        {
+          "sheet": 35,
+          "name": "volcano",
+          "filename": "text/volcano.korean"
+        },
+        {
+          "sheet": 36,
+          "name": "watertemple",
+          "filename": "text/watertemple.korean"
+        }
+      ]
+    },
+    {
+      "pack": 6,
+      "sheets": [
+        {
+          "sheet": 0,
+          "name": "Darkwoods",
+          "filename": "text/darkwoods.sc"
+        },
+        {
+          "sheet": 1,
+          "name": "GLLive",
+          "filename": "text/gllive.sc"
+        },
+        {
+          "sheet": 2,
+          "name": "Gated",
+          "filename": "text/gated.sc"
+        },
+        {
+          "sheet": 3,
+          "name": "GatedB",
+          "filename": "text/gatedb.sc"
+        },
+        {
+          "sheet": 4,
+          "name": "GothicusA",
+          "filename": "text/gothicusa.sc"
+        },
+        {
+          "sheet": 5,
+          "name": "GothicusB",
+          "filename": "text/gothicusb.sc"
+        },
+        {
+          "sheet": 6,
+          "name": "Graveyard",
+          "filename": "text/graveyard.sc"
+        },
+        {
+          "sheet": 7,
+          "name": "Hellgate",
+          "filename": "text/hellgate.sc"
+        },
+        {
+          "sheet": 8,
+          "name": "Infected",
+          "filename": "text/infected.sc"
+        },
+        {
+          "sheet": 9,
+          "name": "Sewer",
+          "filename": "text/sewer.sc"
+        },
+        {
+          "sheet": 10,
+          "name": "SwampB",
+          "filename": "text/swampb.sc"
+        },
+        {
+          "sheet": 11,
+          "name": "abbey",
+          "filename": "text/abbey.sc"
+        },
+        {
+          "sheet": 12,
+          "name": "abbeyB",
+          "filename": "text/abbeyb.sc"
+        },
+        {
+          "sheet": 13,
+          "name": "airtemple",
+          "filename": "text/airtemple.sc"
+        },
+        {
+          "sheet": 14,
+          "name": "darktemple",
+          "filename": "text/darktemple.sc"
+        },
+        {
+          "sheet": 15,
+          "name": "desert",
+          "filename": "text/desert.sc"
+        },
+        {
+          "sheet": 16,
+          "name": "driedwell",
+          "filename": "text/driedwell.sc"
+        },
+        {
+          "sheet": 17,
+          "name": "earthtemple",
+          "filename": "text/earthtemple.sc"
+        },
+        {
+          "sheet": 18,
+          "name": "extras",
+          "filename": "text/extras.sc"
+        },
+        {
+          "sheet": 19,
+          "name": "gameplaymenus",
+          "filename": "text/gameplaymenus.sc"
+        },
+        {
+          "sheet": 20,
+          "name": "global",
+          "filename": "text/global.sc"
+        },
+        {
+          "sheet": 21,
+          "name": "hellgateB",
+          "filename": "text/hellgateb.sc"
+        },
+        {
+          "sheet": 22,
+          "name": "icyhub",
+          "filename": "text/icyhub.sc"
+        },
+        {
+          "sheet": 23,
+          "name": "ingame",
+          "filename": "text/ingame.sc"
+        },
+        {
+          "sheet": 24,
+          "name": "items",
+          "filename": "text/items.sc"
+        },
+        {
+          "sheet": 25,
+          "name": "lighthouse",
+          "filename": "text/lighthouse.sc"
+        },
+        {
+          "sheet": 26,
+          "name": "locations",
+          "filename": "text/locations.sc"
+        },
+        {
+          "sheet": 27,
+          "name": "machine",
+          "filename": "text/machine.sc"
+        },
+        {
+          "sheet": 28,
+          "name": "menu",
+          "filename": "text/menu.sc"
+        },
+        {
+          "sheet": 29,
+          "name": "quests",
+          "filename": "text/quests.sc"
+        },
+        {
+          "sheet": 30,
+          "name": "sidequests",
+          "filename": "text/sidequests.sc"
+        },
+        {
+          "sheet": 31,
+          "name": "swamp",
+          "filename": "text/swamp.sc"
+        },
+        {
+          "sheet": 32,
+          "name": "tutorial",
+          "filename": "text/tutorial.sc"
+        },
+        {
+          "sheet": 33,
+          "name": "underworldhub",
+          "filename": "text/underworldhub.sc"
+        },
+        {
+          "sheet": 34,
+          "name": "void",
+          "filename": "text/void.sc"
+        },
+        {
+          "sheet": 35,
+          "name": "volcano",
+          "filename": "text/volcano.sc"
+        },
+        {
+          "sheet": 36,
+          "name": "watertemple",
+          "filename": "text/watertemple.sc"
+        }
+      ]
+    },
+    {
+      "pack": 7,
+      "sheets": [
+        {
+          "sheet": 0,
+          "name": "Darkwoods",
+          "filename": "text/darkwoods.spanish"
+        },
+        {
+          "sheet": 1,
+          "name": "GLLive",
+          "filename": "text/gllive.spanish"
+        },
+        {
+          "sheet": 2,
+          "name": "Gated",
+          "filename": "text/gated.spanish"
+        },
+        {
+          "sheet": 3,
+          "name": "GatedB",
+          "filename": "text/gatedb.spanish"
+        },
+        {
+          "sheet": 4,
+          "name": "GothicusA",
+          "filename": "text/gothicusa.spanish"
+        },
+        {
+          "sheet": 5,
+          "name": "GothicusB",
+          "filename": "text/gothicusb.spanish"
+        },
+        {
+          "sheet": 6,
+          "name": "Graveyard",
+          "filename": "text/graveyard.spanish"
+        },
+        {
+          "sheet": 7,
+          "name": "Hellgate",
+          "filename": "text/hellgate.spanish"
+        },
+        {
+          "sheet": 8,
+          "name": "Infected",
+          "filename": "text/infected.spanish"
+        },
+        {
+          "sheet": 9,
+          "name": "Sewer",
+          "filename": "text/sewer.spanish"
+        },
+        {
+          "sheet": 10,
+          "name": "SwampB",
+          "filename": "text/swampb.spanish"
+        },
+        {
+          "sheet": 11,
+          "name": "abbey",
+          "filename": "text/abbey.spanish"
+        },
+        {
+          "sheet": 12,
+          "name": "abbeyB",
+          "filename": "text/abbeyb.spanish"
+        },
+        {
+          "sheet": 13,
+          "name": "airtemple",
+          "filename": "text/airtemple.spanish"
+        },
+        {
+          "sheet": 14,
+          "name": "darktemple",
+          "filename": "text/darktemple.spanish"
+        },
+        {
+          "sheet": 15,
+          "name": "desert",
+          "filename": "text/desert.spanish"
+        },
+        {
+          "sheet": 16,
+          "name": "driedwell",
+          "filename": "text/driedwell.spanish"
+        },
+        {
+          "sheet": 17,
+          "name": "earthtemple",
+          "filename": "text/earthtemple.spanish"
+        },
+        {
+          "sheet": 18,
+          "name": "extras",
+          "filename": "text/extras.spanish"
+        },
+        {
+          "sheet": 19,
+          "name": "gameplaymenus",
+          "filename": "text/gameplaymenus.spanish"
+        },
+        {
+          "sheet": 20,
+          "name": "global",
+          "filename": "text/global.spanish"
+        },
+        {
+          "sheet": 21,
+          "name": "hellgateB",
+          "filename": "text/hellgateb.spanish"
+        },
+        {
+          "sheet": 22,
+          "name": "icyhub",
+          "filename": "text/icyhub.spanish"
+        },
+        {
+          "sheet": 23,
+          "name": "ingame",
+          "filename": "text/ingame.spanish"
+        },
+        {
+          "sheet": 24,
+          "name": "items",
+          "filename": "text/items.spanish"
+        },
+        {
+          "sheet": 25,
+          "name": "lighthouse",
+          "filename": "text/lighthouse.spanish"
+        },
+        {
+          "sheet": 26,
+          "name": "locations",
+          "filename": "text/locations.spanish"
+        },
+        {
+          "sheet": 27,
+          "name": "machine",
+          "filename": "text/machine.spanish"
+        },
+        {
+          "sheet": 28,
+          "name": "menu",
+          "filename": "text/menu.spanish"
+        },
+        {
+          "sheet": 29,
+          "name": "quests",
+          "filename": "text/quests.spanish"
+        },
+        {
+          "sheet": 30,
+          "name": "sidequests",
+          "filename": "text/sidequests.spanish"
+        },
+        {
+          "sheet": 31,
+          "name": "swamp",
+          "filename": "text/swamp.spanish"
+        },
+        {
+          "sheet": 32,
+          "name": "tutorial",
+          "filename": "text/tutorial.spanish"
+        },
+        {
+          "sheet": 33,
+          "name": "underworldhub",
+          "filename": "text/underworldhub.spanish"
+        },
+        {
+          "sheet": 34,
+          "name": "void",
+          "filename": "text/void.spanish"
+        },
+        {
+          "sheet": 35,
+          "name": "volcano",
+          "filename": "text/volcano.spanish"
+        },
+        {
+          "sheet": 36,
+          "name": "watertemple",
+          "filename": "text/watertemple.spanish"
+        }
+      ]
+    },
+    {
+      "pack": 8,
+      "sheets": [
+        {
+          "sheet": 0,
+          "name": "Darkwoods",
+          "filename": "text/darkwoods.symbols"
+        },
+        {
+          "sheet": 1,
+          "name": "GLLive",
+          "filename": "text/gllive.symbols"
+        },
+        {
+          "sheet": 2,
+          "name": "Gated",
+          "filename": "text/gated.symbols"
+        },
+        {
+          "sheet": 3,
+          "name": "GatedB",
+          "filename": "text/gatedb.symbols"
+        },
+        {
+          "sheet": 4,
+          "name": "GothicusA",
+          "filename": "text/gothicusa.symbols"
+        },
+        {
+          "sheet": 5,
+          "name": "GothicusB",
+          "filename": "text/gothicusb.symbols"
+        },
+        {
+          "sheet": 6,
+          "name": "Graveyard",
+          "filename": "text/graveyard.symbols"
+        },
+        {
+          "sheet": 7,
+          "name": "Hellgate",
+          "filename": "text/hellgate.symbols"
+        },
+        {
+          "sheet": 8,
+          "name": "Infected",
+          "filename": "text/infected.symbols"
+        },
+        {
+          "sheet": 9,
+          "name": "Sewer",
+          "filename": "text/sewer.symbols"
+        },
+        {
+          "sheet": 10,
+          "name": "SwampB",
+          "filename": "text/swampb.symbols"
+        },
+        {
+          "sheet": 11,
+          "name": "abbey",
+          "filename": "text/abbey.symbols"
+        },
+        {
+          "sheet": 12,
+          "name": "abbeyB",
+          "filename": "text/abbeyb.symbols"
+        },
+        {
+          "sheet": 13,
+          "name": "airtemple",
+          "filename": "text/airtemple.symbols"
+        },
+        {
+          "sheet": 14,
+          "name": "darktemple",
+          "filename": "text/darktemple.symbols"
+        },
+        {
+          "sheet": 15,
+          "name": "desert",
+          "filename": "text/desert.symbols"
+        },
+        {
+          "sheet": 16,
+          "name": "driedwell",
+          "filename": "text/driedwell.symbols"
+        },
+        {
+          "sheet": 17,
+          "name": "earthtemple",
+          "filename": "text/earthtemple.symbols"
+        },
+        {
+          "sheet": 18,
+          "name": "extras",
+          "filename": "text/extras.symbols"
+        },
+        {
+          "sheet": 19,
+          "name": "gameplaymenus",
+          "filename": "text/gameplaymenus.symbols"
+        },
+        {
+          "sheet": 20,
+          "name": "global",
+          "filename": "text/global.symbols"
+        },
+        {
+          "sheet": 21,
+          "name": "hellgateB",
+          "filename": "text/hellgateb.symbols"
+        },
+        {
+          "sheet": 22,
+          "name": "icyhub",
+          "filename": "text/icyhub.symbols"
+        },
+        {
+          "sheet": 23,
+          "name": "ingame",
+          "filename": "text/ingame.symbols"
+        },
+        {
+          "sheet": 24,
+          "name": "items",
+          "filename": "text/items.symbols"
+        },
+        {
+          "sheet": 25,
+          "name": "lighthouse",
+          "filename": "text/lighthouse.symbols"
+        },
+        {
+          "sheet": 26,
+          "name": "locations",
+          "filename": "text/locations.symbols"
+        },
+        {
+          "sheet": 27,
+          "name": "machine",
+          "filename": "text/machine.symbols"
+        },
+        {
+          "sheet": 28,
+          "name": "menu",
+          "filename": "text/menu.symbols"
+        },
+        {
+          "sheet": 29,
+          "name": "quests",
+          "filename": "text/quests.symbols"
+        },
+        {
+          "sheet": 30,
+          "name": "sidequests",
+          "filename": "text/sidequests.symbols"
+        },
+        {
+          "sheet": 31,
+          "name": "swamp",
+          "filename": "text/swamp.symbols"
+        },
+        {
+          "sheet": 32,
+          "name": "tutorial",
+          "filename": "text/tutorial.symbols"
+        },
+        {
+          "sheet": 33,
+          "name": "underworldhub",
+          "filename": "text/underworldhub.symbols"
+        },
+        {
+          "sheet": 34,
+          "name": "void",
+          "filename": "text/void.symbols"
+        },
+        {
+          "sheet": 35,
+          "name": "volcano",
+          "filename": "text/volcano.symbols"
+        },
+        {
+          "sheet": 36,
+          "name": "watertemple",
+          "filename": "text/watertemple.symbols"
+        }
+      ]
+    }
+  ],
+  "scope": "Original ordered common_text reader and filename/name getters; explicit byte stream/allocator services."
+}

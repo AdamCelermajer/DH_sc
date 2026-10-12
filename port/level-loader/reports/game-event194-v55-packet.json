@@ -1,0 +1,10 @@
+{
+  "validation": "PASS",
+  "archive": "game-event194-v55-actual-c1-a3e15448e4bf7be3.zip",
+  "sha256": "7a0f86805dd98a71a723e2e945abce2ea87ef76d014758be9cddbe4307e23659",
+  "payloads": 7,
+  "readback_verified": true,
+  "actual_C1_event_lease_verified": true,
+  "whole_level_Init": false,
+  "functional_Unload": false
+}

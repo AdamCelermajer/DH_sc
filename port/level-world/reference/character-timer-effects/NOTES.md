@@ -1,0 +1,50 @@
+# Timer expiry regen and DoT producers
+
+Original ELF SHA256: `36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80`. This new module reconstructs expiry arithmetic and source coordinator order using existing owned native property sheets. Virtual/world/application/buff receivers remain explicit. No renderer, CMake, shared runtime, APK or frozen module was edited.
+
+## Routes and clocks
+
+Actual complete RaiseAIEvent `0x3cbb34` sends event0x33 directly to `CharAI::_UpdateRegen` `0x3cb77c`, and event0x34 directly to `CharProperties::HandleDots` `0x3df3f0`. Those routes bypass the ordinary forced/controller/global-event gates. Timer expiry passes its actual Timer object; neither body reads that timer, its elapsed/duration/repeat values, Application dt, or design constants.
+
+Timer creation remains the already proved CharAI.OnInit producer: CharacterDesign/AI_Tick3000, DoT_Tick1000, repeat-1. The real TimerStore advances elapsed by dt and dispatches each catch-up expiry separately; these effect bodies apply their raw property amount once per delivered expiry. There is no guessed per-second rate, elapsed scaling, duration division, or multiplication by AI_Tick/DoT_Tick. ScriptManager blocked and paused-timer gates belong to TimerStore, not an extra effects gate.
+
+## Regen source order
+
+UpdateRegen first calls owner virtual+0x54. Verified Character vtable `0x965f30`+8+0x54 resolves to ObjectBase::IsRemotelyUpdated `0x33dd10`: return1 if signed source network ID at+0x110 is not -1, otherwise return raw byte+0x118. A nonzero return ends regen; it is not a dead check. The helper `dh2_character_timer_owner_query(kind0)` executes those exact projected-field semantics. Character vtable+0x34 resolves to IsDead `0x3a2ed4`, which returns raw byte+0x1449; helper kind1 preserves that byte.
+
+After remote returnsfalse, source rereads and retains the tick Character BEFORE AI_IsInCombat `0x3d4bc4`. Combat short-circuits on CharAI+0x8c nonzero (`AI_HasAggro`, `0x3d49f0`), then+0xa4 nonzero (`AI_IsAggroed`, `0x3d4a00`), then independently rereads the current Character's machine and SM_GetState for IsAttacking5, IsUsingSkill6, IsCasting7. SM_GetState `0x3c01ac` returns -1 for null current StateInfo. The service must provide the genuine live getter each time, rather than a cached single state ID. Current-state mutation between those reads is covered by the instruction corpus.
+
+`Character::RegenTick` `0x3bdd90` retains the Character property/cached-sheet addresses, then unconditionally DebugSwitches.load and GetSwitch(`isTracingChar_Stats`) before rates. Noncombat reads HP39 then MP44; combat reads HP40 then MP45. HP is regenerated completely before the MP rate is read, so real callback mutations of rates/property sheets affect the latter read.
+
+RegenHP `0x3bdca4` and RegenMP `0x3bdbb8` read current HP36/MP41 and maximum HP38/MP43. Negative requested amount becomes maximum. Signed cap comparison uses wrapping32 current+delta; when greater than maximum, delta becomes wrapping32 maximum-current. Nonpositive delta does nothing. Positive delta calls Debug load/query again, discards the switch result, then invokes actual PropertyAdd with the retained delta. The native kernel calls the already genuine PropertyAdd resolver, preserving default/type/saved/base semantics and the possible -1 sentinel deficit. No float rounding or signed-overflow UB is substituted. Original property getters/Add/resolver execute unmocked in the new differential.
+
+## DoT state correction and source application
+
+CharProperties+0xa94 is the EXISTING cached/resolved property sheet at Character+0xff4. It is not a separately allocated DoT buffer. The initial exploratory label was corrected before handoff; the final API has only a PropertyView and no invented DotSheet owner.
+
+HandleDots retains that cached-sheet address and iterates element-1,0,1,2,3,4, reading property126..131 live in that order. Each signed positive value calls the current owner IsDead virtual+0x34; nonzero skips that entry. After false it rereads owner for F_DotAttack `0x3b2e68`, using self/self, the raw amount, and element. F_DotAttack does Debug load/GetSwitch(`isTracingChar_Attack`), then `_F_CalculateResult` `0x3b2638` with mask0x20080000, weapon category-1, element, direct amount. HandleDots rereads owner again for F_ApplyResult `0x3b10b4` with self/self and false. Calculation/application can change later cached entries; the corpus covers such a later-entry mutation.
+
+The seven explicit services are remote query, live current-state query, dead query, Debug load, Debug query, CalculateResult, ApplyResult. Calculate must supply every CombatResult field. No accepted no-op damage or absent callback is invented. Native failures stop after delivered prefixes. Positive DoT fails explicitly without its real calculation/application service. The existing combat_result kernel provides a recovered calculation core; full original ApplyResult effects and complete buff ownership are not supplied by this module.
+
+## Genuine reset and remaining timed-buff ownership
+
+`PROPS_RemoveDot` `0x3de83c` is literally `bx lr` for every argument. The new bounded helper preserves that actual body; it does not pretend to clear a property or remove a timed buff. The distinct Lua RemoveDots wrapper and buff registry must not be replaced by it.
+
+ResetAllProperties `0x3defc4` resets base, saved, gear, then tail-calls `_ResetProperties` `0x3def34` on cached sheet+0xa94. `_ResetProperties` reads each of the224 original property defaults via `0x3def10` and stores it through the source property offset mapping. `dh2_character_cached_reset` implements only that cached-sheet tail and requires disjoint defaults/output. This does not clear the buff registry or cancel timers. Native property backing/pointer fields remain stable while a retained source inline sheet is used.
+
+Actual positive DoT ownership is the normal buff system, captured separately in `dot-producers` and `buff-lifecycle`:
+
+- `PROPS_AddDot` `0x3e2720` looks up `AUTO_DOT_01_FIRE` in source dictionary arrays, adds element to its source base index, and calls AddBuff. Its six labels are dot_normal/fire/water/lightning/earth/air for element-1..4. When AddBuff returns an instance, it writes raw amount to instance property127+element through `0x3deca0`, then resolves that property through `0x3dfe60`.
+- `PROPS_AddBuff` `0x3e232c` owns BuffDecl registry and ordered BuffInst containers. ARM32 BuffInst allocation is0x394 bytes; source fields include strength+0x384, timer ID+0x388 initially-1, CharProperties owner+0x38c, declaration+0x390. It resets the full instance sheet before writing status property+0x2b4 and cached+0xd48. It reuses/replaces instances using source strength, capacity, timer elapsed/duration and FX rules; those policies have not been reconstructed here.
+- A timed instance starts an actual Character Timer with its supplied duration, repeat0, event0x36, reference=BuffInst, and stores the returned timer ID. This is distinct from periodic event0x34. Duration in AddBuff is passed through without an additional dt or tick conversion; F_ApplyResult supplies DoT duration via its source ASR8 conversion before AddDot.
+- BuffExpired `0x3e123c` gets timer user reference BEFORE timer GetID, compares it to instance timer ID (source assertion path), then calls DelBuff using declaration ID and exact instance. DelBuff `0x3e101c` stops the timer, destroys/frees the selected instances/container or declaration, and recomputes properties through `0x3e0810`. Full map/deque/FX ownership and reentry must be proved before native active-buff acceptance.
+
+These are captured ownership facts and a precise remaining boundary, not a completed native buff registry. Inactive DoT from actual negative property defaults is a genuine branch requiring no damage service. It is safe to advance that branch, and incorrect to accept positive DoT with an empty expiry provider.
+
+## Proofs and integration
+
+`character-timer-effects-arm64-differential.json`: PASS1456 expiries (1200 regen,256 DoT),1382 exact positive PropertyAdds,408 explicit attack-fixture applications,32 full cached resets,192 actual RemoveDot bodies,72 original owner queries, zero mismatches. All four224-word property sheets compare exactly. The original GetProperty/Add/resolver bodies execute; Debug/string/virtual/CalculateResult/ApplyResult services are explicit. This corpus does not claim a full original damage callback or buff registry execution.
+
+`character-timer-effects-host-audit.json`: PASS106022 checks,1,304,576 sheet words, seven malformed atomic guards, seven provider-failure prefixes, zero ASan/UBSan findings. It links actual sanitized world/data/runtime DSOs and the isolated effects DSO, records dladdr and before/after source/binary hashes, and replays the original-derived corpus. Its separate persistent composition executes real TimerStore→complete RaiseAIEvent→new effects→actual native FSM getter/owner query/Debug owned std::map and actual fopen. Four regen and fifteen inactive DoT expiries pass, with paused and global-blocked gates and multiple catch-up expiries. The positive-DoT missing-provider failure is asserted. Receiver field values and synthetic rates in that composition are explicit source-field fixtures; whole Application/gameplay state production is not claimed.
+
+Central production add: `character_timer_effects.cpp` only. Central audit target: `tests/character_timer_effects.cpp`, linked dh2_level_world, dh2_game_data, dh2_script_runtime and dl with sanitizer flags. Run direct Python `tests/character_timer_effects_host.py --main-linked`; it builds/replays against the actual main DSO and writes a NEW main-linked report. The runner derives host-fixtures.bin losslessly from original TEF1 gold plus the exact original property default/type asset rows. Direct executable takes five paths: host-fixtures.bin, cached-reset-fixtures.bin, owner-query-fixtures.bin, character_properties_pyarray.bin, workspace scratch files directory. No APK/live timer behavior is asserted before parent connects genuine per-monster FSM and timer receiver ownership.

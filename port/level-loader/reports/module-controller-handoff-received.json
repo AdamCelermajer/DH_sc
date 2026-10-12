@@ -1,0 +1,8 @@
+{
+  "validation": "PASS",
+  "archive_sha256": "9bd35ee02aea3aaa1b0c461c527e6071356c331945b8190d1af98423d3a47e01",
+  "verified_entries": 17,
+  "coherent_files": 351,
+  "overlay": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\module-graph-integration-b3ceccd6833a5ca6",
+  "full_loader_verified": false
+}

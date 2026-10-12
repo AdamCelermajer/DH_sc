@@ -1,0 +1,11 @@
+# Early actual gameplay-service input V96
+
+Source-only narrow additions to current SourceWorld and actual SourceRuntime. No shared edits, validation jobs or new owner TU.
+
+State32 original warm-start calls actual ObjectManager.Update, physical and camera methods before loading reaches38. Main's existing bind_source_campaign_gameplay_services_v66 already supports this timing and fills native physics/camera/debug leaves, but current source has no producer call before loading construction. gameplay_inputs_v96 is a typed Main input factory for the SAME LevelGameplayServicesV66 packet. SourceRuntime consumes it after sole candidate.lend_loading_inputs and before SourceLoading creation, preserving a packet already bound through the existing public API. It invokes no frame, actor update, physics or camera method during input composition.
+
+Main installs source.gameplay_inputs_v96 at actual World enrollment with an independent primitive owner and weak captures of containing World. It supplies its actual object/update/body callbacks, actual App/manager identities and all other genuine reached gameplay methods. The existing native binder remains authoritative and binds once. No alternate Level.Update scheduler, state flag, initialized marker or default body is introduced. Missing input remains absent; source32 retains its authentic ambient/App94 prefix and reports required services at their reached call. Full post38 gameplay still requires the real existing frame-services packet.
+
+The existing binder now rejects provider control-block aliases of its containing World/Level/manager. Those objects retain the gameplay packet/update owner, so such an alias is a real ownership cycle even if its raw alias pointer differs. Independent process/App/service authorities remain supported. This guard does not certify external callback capture graphs; Main's provider callbacks must also remain weak toward containing scope. It does not issue native draw/contact/cleanup barriers or replace retirement orchestration.
+
+Apply early-gameplay-inputs-v96.patch surgically while preserving current Stage9/13/18/32/object-loading/terminal integration and Root V105 visitor slots. Current owning CPP remains linked once. No build or runtime acceptance is claimed.

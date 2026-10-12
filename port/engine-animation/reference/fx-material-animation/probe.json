@@ -1,0 +1,383 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "resource_sha256": "b54e3b05ba684eca654c8a58b8ebd5e84f7cad25929e0b5a60405f66dfdc772e",
+  "factory_executed": true,
+  "factory_result": "uchar4 material component3",
+  "factory_instance": "0x9f6ef8",
+  "factory_vtable": "0x97a618",
+  "typed_slots": {
+    "0x0": "0x60edc4",
+    "0x4": "0x60f87c",
+    "0x8": "0x60edec",
+    "0xc": "0x618f88",
+    "0x10": "0x626124",
+    "0x14": "0x626688",
+    "0x18": "0x625a28",
+    "0x1c": "0x6258e8",
+    "0x20": "0x61a558",
+    "0x24": "0x619a64",
+    "0x28": "0x61a474",
+    "0x2c": "0x618050",
+    "0x30": "0x60df00",
+    "0x34": "0x60df04",
+    "0x38": "0x60df08",
+    "0x3c": "0x60df0c",
+    "0x40": "0x622ac8",
+    "0x44": "0x60df3c",
+    "0x48": "0x622a18",
+    "0x4c": "0x60df84",
+    "0x50": "0x60dfa8",
+    "0x54": "0x60dfac",
+    "0x58": "0x60dfb0",
+    "0x5c": "0x60dfb4",
+    "0x60": "0x6e307c",
+    "0x64": "0x6e2f3c",
+    "0x68": "0x6e2c40",
+    "0x6c": "0x6e2ad8",
+    "0x70": "0x6229d0",
+    "0x74": "0x6e2dbc",
+    "0x78": "0x6e2fdc",
+    "0x7c": "0x6e2b8c",
+    "0x80": "0x6e2ce8",
+    "0x84": "0x6e2e90",
+    "0x88": "0x6e2a18",
+    "0x8c": "0x60edf4",
+    "0x90": "0x0",
+    "0x94": "0x0"
+  },
+  "material_parameters": [
+    {
+      "id": "Standard_13",
+      "effect_uri": "#ProfileCOMMON_Standard_13-fx1302961790_zombie_spawn_fx",
+      "raw_material_type": 1,
+      "parameters": [
+        {
+          "name": "__irrlicht_Diffuse_color",
+          "type": 7,
+          "count": 1,
+          "element_counts_offset": 15288,
+          "element_counts": [
+            1
+          ],
+          "data_offset": 15292
+        },
+        {
+          "name": "__irrlicht_EnvironmentMap_intensity",
+          "type": 4,
+          "count": 1,
+          "element_counts_offset": 15308,
+          "element_counts": [
+            1
+          ],
+          "data_offset": 15312
+        },
+        {
+          "name": "__irrlicht_Additive",
+          "type": 0,
+          "count": 1,
+          "element_counts_offset": 15316,
+          "element_counts": [
+            1
+          ],
+          "data_offset": 15320
+        },
+        {
+          "name": "__irrlicht_Backface_Culling",
+          "type": 0,
+          "count": 1,
+          "element_counts_offset": 15324,
+          "element_counts": [
+            1
+          ],
+          "data_offset": 15328
+        },
+        {
+          "name": "__irrlicht_Frontface_Culling",
+          "type": 0,
+          "count": 1,
+          "element_counts_offset": 15332,
+          "element_counts": [
+            1
+          ],
+          "data_offset": 15336
+        },
+        {
+          "name": "__irrlicht_Rendering_Set",
+          "type": 0,
+          "count": 1,
+          "element_counts_offset": 15340,
+          "element_counts": [
+            1
+          ],
+          "data_offset": 15344
+        },
+        {
+          "name": "__irrlicht_Render_Priority",
+          "type": 0,
+          "count": 1,
+          "element_counts_offset": 15348,
+          "element_counts": [
+            1
+          ],
+          "data_offset": 15352
+        },
+        {
+          "name": "msl_light0_position",
+          "type": 6,
+          "count": 1,
+          "element_counts_offset": 15356,
+          "element_counts": [
+            1
+          ],
+          "data_offset": 15360
+        },
+        {
+          "name": "msl_light0_direction",
+          "type": 6,
+          "count": 1,
+          "element_counts_offset": 15372,
+          "element_counts": [
+            1
+          ],
+          "data_offset": 15376
+        },
+        {
+          "name": "msl_PSSG_spot_light_l0_1_color",
+          "type": 7,
+          "count": 1,
+          "element_counts_offset": 15388,
+          "element_counts": [
+            1
+          ],
+          "data_offset": 15392
+        },
+        {
+          "name": "msl_PSSG_spot_light_l0_1_attenuation",
+          "type": 7,
+          "count": 1,
+          "element_counts_offset": 15408,
+          "element_counts": [
+            1
+          ],
+          "data_offset": 15412
+        },
+        {
+          "name": "msl_PSSG_spot_light_l0_1_inner_cone_angle",
+          "type": 4,
+          "count": 1,
+          "element_counts_offset": 15428,
+          "element_counts": [
+            1
+          ],
+          "data_offset": 15432
+        },
+        {
+          "name": "msl_PSSG_spot_light_l0_1_outer_cone_angle",
+          "type": 4,
+          "count": 1,
+          "element_counts_offset": 15436,
+          "element_counts": [
+            1
+          ],
+          "data_offset": 15440
+        },
+        {
+          "name": "msl_light1_position",
+          "type": 6,
+          "count": 1,
+          "element_counts_offset": 15444,
+          "element_counts": [
+            1
+          ],
+          "data_offset": 15448
+        },
+        {
+          "name": "msl_PSSG_point_light_l1_1_color",
+          "type": 7,
+          "count": 1,
+          "element_counts_offset": 15460,
+          "element_counts": [
+            1
+          ],
+          "data_offset": 15464
+        },
+        {
+          "name": "msl_PSSG_point_light_l1_1_attenuation",
+          "type": 7,
+          "count": 1,
+          "element_counts_offset": 15480,
+          "element_counts": [
+            1
+          ],
+          "data_offset": 15484
+        },
+        {
+          "name": "__scene_ambient",
+          "type": 6,
+          "count": 1,
+          "element_counts_offset": 15500,
+          "element_counts": [
+            1
+          ],
+          "data_offset": 15504
+        },
+        {
+          "name": "diffuse-sampler",
+          "type": 11,
+          "count": 1,
+          "element_counts_offset": 15516,
+          "element_counts": [
+            1
+          ],
+          "data_offset": 15520
+        }
+      ]
+    },
+    {
+      "id": "fx_particles_alpha_001",
+      "effect_uri": "#ProfileCOMMON_fx_particles_alpha_001-fx1302961790_zombie_spawn_fx",
+      "raw_material_type": 4294967295,
+      "parameters": [
+        {
+          "name": "diffuse-sampler",
+          "type": 11,
+          "count": 1,
+          "element_counts_offset": 15576,
+          "element_counts": [
+            1
+          ],
+          "data_offset": 15580
+        },
+        {
+          "name": "transparent-sampler",
+          "type": 11,
+          "count": 1,
+          "element_counts_offset": 15588,
+          "element_counts": [
+            1
+          ],
+          "data_offset": 15592
+        }
+      ]
+    },
+    {
+      "id": "fx_particles_alpha_002",
+      "effect_uri": "#ProfileCOMMON_fx_particles_alpha_002-fx1302961790_zombie_spawn_fx",
+      "raw_material_type": 4294967295,
+      "parameters": [
+        {
+          "name": "diffuse-sampler",
+          "type": 11,
+          "count": 1,
+          "element_counts_offset": 15648,
+          "element_counts": [
+            1
+          ],
+          "data_offset": 15652
+        },
+        {
+          "name": "transparent-sampler",
+          "type": 11,
+          "count": 1,
+          "element_counts_offset": 15660,
+          "element_counts": [
+            1
+          ],
+          "data_offset": 15664
+        }
+      ]
+    }
+  ],
+  "selfillum_original_ctor_executed": true,
+  "selfillum_primary_address_point": "0x976b24",
+  "selfillum_virtual_88": "ISceneNode::getMaterialCount5970b0",
+  "selfillum_visits": [
+    {
+      "function": "0x5970b0",
+      "node": 0
+    },
+    {
+      "function": "0x5970b0",
+      "node": 512
+    },
+    {
+      "function": "0x5970b0",
+      "node": 1024
+    }
+  ],
+  "selfillum_node_bytes_unchanged": true,
+  "factory_guard_fixture": "initialized static singleton only; factory selection instructions execute",
+  "particle_type28_supported": false,
+  "binding_original_forceBind_and_parameter_lookup_executed": true,
+  "binding_traces": [
+    {
+      "mode": "named_parameter",
+      "trace": [
+        [
+          "find_material",
+          "Standard_13",
+          true
+        ],
+        [
+          "intern",
+          "diffuse-color"
+        ],
+        [
+          "set_target",
+          0,
+          true,
+          0
+        ]
+      ],
+      "clone_owned_fields_match": true
+    },
+    {
+      "mode": "missing_parameter",
+      "trace": [
+        [
+          "find_material",
+          "Standard_13",
+          true
+        ],
+        [
+          "intern",
+          "diffuse-color"
+        ],
+        [
+          "set_target",
+          0,
+          true,
+          65535
+        ]
+      ],
+      "clone_owned_fields_match": true,
+      "missing_parameter_setter_return_false_unchanged": true
+    },
+    {
+      "mode": "missing_material",
+      "trace": [
+        [
+          "find_material",
+          "Standard_13",
+          false
+        ],
+        [
+          "set_target",
+          0,
+          false,
+          null
+        ]
+      ]
+    }
+  ],
+  "binding_services_explicit": [
+    "material search65ca30 result",
+    "interned name6a5074 result",
+    "setTarget receiver/clone allocation5341ac"
+  ],
+  "source_sha256": {
+    "probe.py": "d4f47215a8e74535897f1ba2e678bddb24f2ff04ddd25ee27e0d6d02cef6993c"
+  },
+  "original_manifest_sha256": "11cb65d2aa9f0cd4a2ee9d6a2a4939b9d431018314b3ec47959047af44551e7a"
+}

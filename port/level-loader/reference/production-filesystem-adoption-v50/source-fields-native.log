@@ -1,0 +1,1 @@
+PASS original_ARM/native_C1_cases=5 setter_cases=16 initial_global1024_zero=1 exact_tail_preservation=1 constructor_resources234_zero=1 host_chdir_performed=0 production_cache_binding=0

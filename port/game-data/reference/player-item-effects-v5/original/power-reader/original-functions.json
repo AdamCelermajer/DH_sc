@@ -1,0 +1,35 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6Arrays14ItemPowerTable9readNamesEP11IStreamBase",
+      "elf_address": "0x4b6630",
+      "size": 408,
+      "sha256": "84574995ea70c876b11e00476c707221b41138e11a1c64b2bdf323375f8a2f21"
+    },
+    {
+      "original_symbol": "_ZN6Arrays14ItemPowerTable8finalizeEv",
+      "elf_address": "0x4a6b74",
+      "size": 228,
+      "sha256": "bfa1c826cac16f833e9896937dfa1f5377672a56eba7930d008345facb09a6bc"
+    },
+    {
+      "original_symbol": "_ZN7Structs12ItemPowerRef8finalizeEv",
+      "elf_address": "0x4d573c",
+      "size": 100,
+      "sha256": "e75dbc93c700a83994882f6d51bdee6de6d0242c80cdc9c4e8f255a65f4ff953"
+    },
+    {
+      "original_symbol": "_ZN7Structs12ItemPowerRef4readEP11IStreamBase",
+      "elf_address": "0x4ecdc8",
+      "size": 912,
+      "sha256": "7a0ab08d6c8c5aafe45b8ce79ac515542cc4ae9f9ec2374ab890bfe513eb658a"
+    },
+    {
+      "original_symbol": "_ZN6Arrays14ItemPowerTable4readEP11IStreamBase",
+      "elf_address": "0x4bab7c",
+      "size": 332,
+      "sha256": "90caa751da38ff84fffbaa1a02ca1a83473b558d8fb63a5d693f8d593d2bcd32"
+    }
+  ]
+}

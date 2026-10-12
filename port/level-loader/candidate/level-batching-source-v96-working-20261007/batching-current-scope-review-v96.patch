@@ -1,0 +1,27 @@
+--- a/port/android-native/app/src/main/cpp/renderer_source_batching_v96.inc
++++ b/port/android-native/app/src/main/cpp/renderer_source_batching_v96.inc
+@@ -14,6 +14,12 @@
+   if(!source||!source->owner||!source->application||!source->canonical_world||!producer||!producer->factory||!producer->preparation||!receiver||
+    producer->preparation->level()!=receiver||producer->canonical!=source->canonical_world||&producer->canonical->manager!=&producer->preparation->manager()){
+    if(e.empty())e="Retired or mismatched SAME batch Level/Scene/manager";return false;}
++  SourceCampaignCandidateBorrowV55 actual;
++  const auto same=[](const auto& a,const auto& b){return a&&b&&a.get()==b.get()&&!a.owner_before(b)&&!b.owner_before(a);};
++  if(!borrow_source_campaign_candidate_runtime_v61(actual,e)||!same(actual.actual_world,source->owner)||
++   !same(actual.application,source->application)||!same(actual.level,receiver)||!same(actual.objects,producer->canonical->manager_lease)){
++   if(e.empty())e="Batch callback replaced actual published campaign/App/Level/manager";return false;
++  }
+   if(busy){if(failed[active_phase-21]){e=error[active_phase-21];return false;}
+    if(receiver->constructor_fields_v3().field130!=active_phase){if(e.empty())e="Actual batch phase changed during native delivery";return false;}
+    if(auto expected=active_compiler.lock()){const auto& slot=receiver->batch_compiler_owner_slot_v96();
+@@ -22,7 +28,10 @@
+  bool debug(const char* key,bool& value,std::string& e)const{
+   std::shared_ptr<SourceWorldBorrowV61> source;std::shared_ptr<RendererSourceCandidateV55> producer;std::shared_ptr<dh2::loader::CanonicalLevelContextV1> receiver;
+   return source_debug_load_v55(world,e)&&current(source,producer,receiver,e)&&source_debug_switch_v55(world,key,value,e)&&current(source,producer,receiver,e);}
+- bool borrow_object(const dh2::world::CanonicalObjectBorrowV1& object,dh2::loader::BatchObjectBorrowV96& out,std::string& e)const{
++ bool borrow_object(const dh2::world::CanonicalObjectBorrowV1& supplied,dh2::loader::BatchObjectBorrowV96& out,std::string& e)const{
++  // Keep the actual receiver receipt/pin through native callbacks even if
++  // those callbacks remove or replace its manager map entry. Fields stay live.
++  const auto object=supplied;
+   std::shared_ptr<SourceWorldBorrowV61> source;std::shared_ptr<RendererSourceCandidateV55> producer;std::shared_ptr<dh2::loader::CanonicalLevelContextV1> receiver;
+   if(!current(source,producer,receiver,e)||!object.lease||!object.identity)return false;
+   auto transport=producer->transport;if(!transport){e="Required SAME actual source receiver transport";return false;}

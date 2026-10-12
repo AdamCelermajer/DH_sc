@@ -1,0 +1,3293 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "probe_sha256": "5331c8afa6c80c74540dd8a2c36783e078a00a39b7e8822aa5b12f6ea1a83126",
+  "manifest_sha256": "76ef8a8a7fcbad28acdea454c391ff0bdd810adc6e41aa2d01a5e63bf3604f74",
+  "original_instructions_executed": true,
+  "cases": 188,
+  "rows": [
+    {
+      "group": "Include",
+      "count": 0,
+      "type": 0,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 0,
+      "type": 0,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 0,
+      "type": 1,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 0,
+      "type": 1,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 0,
+      "type": 2,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 0,
+      "type": 2,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 0,
+      "type": 3,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 0,
+      "type": 3,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 0,
+      "type": 4,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 0,
+      "type": 4,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 0,
+      "type": 5,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 0,
+      "type": 5,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 0,
+      "type": 6,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 0,
+      "type": 6,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 0,
+      "type": 7,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 0,
+      "type": 7,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 1,
+      "type": 0,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 1,
+      "type": 0,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 1,
+      "type": 1,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 1,
+      "type": 1,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 1,
+      "type": 2,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 1,
+      "type": 2,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 1,
+      "type": 3,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 1,
+      "type": 3,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 1,
+      "type": 4,
+      "load_boolean": 0,
+      "trace": [
+        {
+          "service": "LuaScript.Load",
+          "script": 33558528,
+          "name": "6368696c64"
+        }
+      ]
+    },
+    {
+      "group": "Include",
+      "count": 1,
+      "type": 4,
+      "load_boolean": 1,
+      "trace": [
+        {
+          "service": "LuaScript.Load",
+          "script": 33558528,
+          "name": "6368696c64"
+        }
+      ]
+    },
+    {
+      "group": "Include",
+      "count": 1,
+      "type": 5,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 1,
+      "type": 5,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 1,
+      "type": 6,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 1,
+      "type": 6,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 1,
+      "type": 7,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 1,
+      "type": 7,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 2,
+      "type": 0,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 2,
+      "type": 0,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 2,
+      "type": 1,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 2,
+      "type": 1,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 2,
+      "type": 2,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 2,
+      "type": 2,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 2,
+      "type": 3,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 2,
+      "type": 3,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 2,
+      "type": 4,
+      "load_boolean": 0,
+      "trace": [
+        {
+          "service": "LuaScript.Load",
+          "script": 33558528,
+          "name": "6368696c64"
+        }
+      ]
+    },
+    {
+      "group": "Include",
+      "count": 2,
+      "type": 4,
+      "load_boolean": 1,
+      "trace": [
+        {
+          "service": "LuaScript.Load",
+          "script": 33558528,
+          "name": "6368696c64"
+        }
+      ]
+    },
+    {
+      "group": "Include",
+      "count": 2,
+      "type": 5,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 2,
+      "type": 5,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 2,
+      "type": 6,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 2,
+      "type": 6,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 2,
+      "type": 7,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 2,
+      "type": 7,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 16,
+      "type": 0,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 16,
+      "type": 0,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 16,
+      "type": 1,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 16,
+      "type": 1,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 16,
+      "type": 2,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 16,
+      "type": 2,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 16,
+      "type": 3,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 16,
+      "type": 3,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 16,
+      "type": 4,
+      "load_boolean": 0,
+      "trace": [
+        {
+          "service": "LuaScript.Load",
+          "script": 33558528,
+          "name": "6368696c64"
+        }
+      ]
+    },
+    {
+      "group": "Include",
+      "count": 16,
+      "type": 4,
+      "load_boolean": 1,
+      "trace": [
+        {
+          "service": "LuaScript.Load",
+          "script": 33558528,
+          "name": "6368696c64"
+        }
+      ]
+    },
+    {
+      "group": "Include",
+      "count": 16,
+      "type": 5,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 16,
+      "type": 5,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 16,
+      "type": 6,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 16,
+      "type": 6,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 16,
+      "type": 7,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 16,
+      "type": 7,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 33,
+      "type": 0,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 33,
+      "type": 0,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 33,
+      "type": 1,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 33,
+      "type": 1,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 33,
+      "type": 2,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 33,
+      "type": 2,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 33,
+      "type": 3,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 33,
+      "type": 3,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 33,
+      "type": 4,
+      "load_boolean": 0,
+      "trace": [
+        {
+          "service": "LuaScript.Load",
+          "script": 33558528,
+          "name": "6368696c64"
+        }
+      ]
+    },
+    {
+      "group": "Include",
+      "count": 33,
+      "type": 4,
+      "load_boolean": 1,
+      "trace": [
+        {
+          "service": "LuaScript.Load",
+          "script": 33558528,
+          "name": "6368696c64"
+        }
+      ]
+    },
+    {
+      "group": "Include",
+      "count": 33,
+      "type": 5,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 33,
+      "type": 5,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 33,
+      "type": 6,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 33,
+      "type": 6,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 33,
+      "type": 7,
+      "load_boolean": 0,
+      "trace": []
+    },
+    {
+      "group": "Include",
+      "count": 33,
+      "type": 7,
+      "load_boolean": 1,
+      "trace": []
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "",
+      "loaded_before": false,
+      "status": 0,
+      "result": 0,
+      "trace": []
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "",
+      "loaded_before": false,
+      "status": 2,
+      "result": 0,
+      "trace": []
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "",
+      "loaded_before": false,
+      "status": 4,
+      "result": 0,
+      "trace": []
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "",
+      "loaded_before": true,
+      "status": 0,
+      "result": 0,
+      "trace": []
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "",
+      "loaded_before": true,
+      "status": 2,
+      "result": 0,
+      "trace": []
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "",
+      "loaded_before": true,
+      "status": 4,
+      "result": 0,
+      "trace": []
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child",
+      "loaded_before": false,
+      "status": 0,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.luac",
+          "hit": false
+        },
+        {
+          "service": "cache_lookup",
+          "name": "data/scripts/ai/child.luac"
+        },
+        {
+          "service": "stream_reset",
+          "offset": 0
+        },
+        {
+          "service": "Instance.loadFile",
+          "status": 0,
+          "loaded_before": false
+        },
+        {
+          "service": "Error.destroy"
+        },
+        {
+          "service": "loaded_insert",
+          "name": "data/scripts/ai/child.luac"
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child",
+      "loaded_before": true,
+      "status": 2,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.luac",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child",
+      "loaded_before": true,
+      "status": 4,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.luac",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child",
+      "loaded_before": true,
+      "status": 0,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.luac",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child",
+      "loaded_before": true,
+      "status": 2,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.luac",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child",
+      "loaded_before": true,
+      "status": 4,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.luac",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child.lua",
+      "loaded_before": false,
+      "status": 0,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.luac",
+          "hit": false
+        },
+        {
+          "service": "cache_lookup",
+          "name": "data/scripts/ai/child.luac"
+        },
+        {
+          "service": "stream_reset",
+          "offset": 0
+        },
+        {
+          "service": "Instance.loadFile",
+          "status": 0,
+          "loaded_before": false
+        },
+        {
+          "service": "Error.destroy"
+        },
+        {
+          "service": "loaded_insert",
+          "name": "data/scripts/ai/child.luac"
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child.lua",
+      "loaded_before": true,
+      "status": 2,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.luac",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child.lua",
+      "loaded_before": true,
+      "status": 4,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.luac",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child.lua",
+      "loaded_before": true,
+      "status": 0,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.luac",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child.lua",
+      "loaded_before": true,
+      "status": 2,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.luac",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child.lua",
+      "loaded_before": true,
+      "status": 4,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.luac",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child.luac",
+      "loaded_before": false,
+      "status": 0,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.luac",
+          "hit": false
+        },
+        {
+          "service": "cache_lookup",
+          "name": "data/scripts/ai/child.luac"
+        },
+        {
+          "service": "stream_reset",
+          "offset": 0
+        },
+        {
+          "service": "Instance.loadFile",
+          "status": 0,
+          "loaded_before": false
+        },
+        {
+          "service": "Error.destroy"
+        },
+        {
+          "service": "loaded_insert",
+          "name": "data/scripts/ai/child.luac"
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child.luac",
+      "loaded_before": true,
+      "status": 2,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.luac",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child.luac",
+      "loaded_before": true,
+      "status": 4,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.luac",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child.luac",
+      "loaded_before": true,
+      "status": 0,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.luac",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child.luac",
+      "loaded_before": true,
+      "status": 2,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.luac",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child.luac",
+      "loaded_before": true,
+      "status": 4,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.luac",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child.lua.extra",
+      "loaded_before": false,
+      "status": 0,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.lua.extrac",
+          "hit": false
+        },
+        {
+          "service": "cache_lookup",
+          "name": "data/scripts/ai/child.lua.extrac"
+        },
+        {
+          "service": "stream_reset",
+          "offset": 0
+        },
+        {
+          "service": "Instance.loadFile",
+          "status": 0,
+          "loaded_before": false
+        },
+        {
+          "service": "Error.destroy"
+        },
+        {
+          "service": "loaded_insert",
+          "name": "data/scripts/ai/child.lua.extrac"
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child.lua.extra",
+      "loaded_before": true,
+      "status": 2,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.lua.extrac",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child.lua.extra",
+      "loaded_before": true,
+      "status": 4,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.lua.extrac",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child.lua.extra",
+      "loaded_before": true,
+      "status": 0,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.lua.extrac",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child.lua.extra",
+      "loaded_before": true,
+      "status": 2,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.lua.extrac",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child.lua.extra",
+      "loaded_before": true,
+      "status": 4,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.lua.extrac",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child.luac.extra",
+      "loaded_before": false,
+      "status": 0,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.luac.extra",
+          "hit": false
+        },
+        {
+          "service": "cache_lookup",
+          "name": "data/scripts/ai/child.luac.extra"
+        },
+        {
+          "service": "stream_reset",
+          "offset": 0
+        },
+        {
+          "service": "Instance.loadFile",
+          "status": 0,
+          "loaded_before": false
+        },
+        {
+          "service": "Error.destroy"
+        },
+        {
+          "service": "loaded_insert",
+          "name": "data/scripts/ai/child.luac.extra"
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child.luac.extra",
+      "loaded_before": true,
+      "status": 2,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.luac.extra",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child.luac.extra",
+      "loaded_before": true,
+      "status": 4,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.luac.extra",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child.luac.extra",
+      "loaded_before": true,
+      "status": 0,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.luac.extra",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child.luac.extra",
+      "loaded_before": true,
+      "status": 2,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.luac.extra",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child.luac.extra",
+      "loaded_before": true,
+      "status": 4,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.luac.extra",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "folder.lua/child",
+      "loaded_before": false,
+      "status": 0,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/folder.lua/childc",
+          "hit": false
+        },
+        {
+          "service": "cache_lookup",
+          "name": "data/scripts/ai/folder.lua/childc"
+        },
+        {
+          "service": "stream_reset",
+          "offset": 0
+        },
+        {
+          "service": "Instance.loadFile",
+          "status": 0,
+          "loaded_before": false
+        },
+        {
+          "service": "Error.destroy"
+        },
+        {
+          "service": "loaded_insert",
+          "name": "data/scripts/ai/folder.lua/childc"
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "folder.lua/child",
+      "loaded_before": true,
+      "status": 2,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/folder.lua/childc",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "folder.lua/child",
+      "loaded_before": true,
+      "status": 4,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/folder.lua/childc",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "folder.lua/child",
+      "loaded_before": true,
+      "status": 0,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/folder.lua/childc",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "folder.lua/child",
+      "loaded_before": true,
+      "status": 2,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/folder.lua/childc",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "folder.lua/child",
+      "loaded_before": true,
+      "status": 4,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/folder.lua/childc",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child.LUA",
+      "loaded_before": false,
+      "status": 0,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.LUA.luac",
+          "hit": false
+        },
+        {
+          "service": "cache_lookup",
+          "name": "data/scripts/ai/child.LUA.luac"
+        },
+        {
+          "service": "stream_reset",
+          "offset": 0
+        },
+        {
+          "service": "Instance.loadFile",
+          "status": 0,
+          "loaded_before": false
+        },
+        {
+          "service": "Error.destroy"
+        },
+        {
+          "service": "loaded_insert",
+          "name": "data/scripts/ai/child.LUA.luac"
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child.LUA",
+      "loaded_before": true,
+      "status": 2,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.LUA.luac",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child.LUA",
+      "loaded_before": true,
+      "status": 4,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.LUA.luac",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child.LUA",
+      "loaded_before": true,
+      "status": 0,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.LUA.luac",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child.LUA",
+      "loaded_before": true,
+      "status": 2,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.LUA.luac",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "AddFile.cached",
+      "name": "child.LUA",
+      "loaded_before": true,
+      "status": 4,
+      "result": 1,
+      "trace": [
+        {
+          "service": "loaded_lookup",
+          "name": "data/scripts/ai/child.LUA.luac",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 0,
+      "call_status": 0,
+      "initial_stack": 0,
+      "final_stack": 0,
+      "status": 0,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 0,
+          "top_before": 0
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": ""
+        },
+        {
+          "service": "lua_pcall",
+          "args": 0,
+          "results": 0,
+          "error_handler": 0,
+          "status": 0
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": ""
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 0,
+      "call_status": 0,
+      "initial_stack": 1,
+      "final_stack": 1,
+      "status": 0,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 0,
+          "top_before": 1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": ""
+        },
+        {
+          "service": "lua_pcall",
+          "args": 0,
+          "results": 0,
+          "error_handler": 0,
+          "status": 0
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": ""
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 0,
+      "call_status": 0,
+      "initial_stack": 5,
+      "final_stack": 5,
+      "status": 0,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 0,
+          "top_before": 5
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": ""
+        },
+        {
+          "service": "lua_pcall",
+          "args": 0,
+          "results": 0,
+          "error_handler": 0,
+          "status": 0
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": ""
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 0,
+      "call_status": 2,
+      "initial_stack": 0,
+      "final_stack": 0,
+      "status": 2,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 0,
+          "top_before": 0
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": ""
+        },
+        {
+          "service": "lua_pcall",
+          "args": 0,
+          "results": 0,
+          "error_handler": 0,
+          "status": 2
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 0,
+      "call_status": 2,
+      "initial_stack": 1,
+      "final_stack": 1,
+      "status": 2,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 0,
+          "top_before": 1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": ""
+        },
+        {
+          "service": "lua_pcall",
+          "args": 0,
+          "results": 0,
+          "error_handler": 0,
+          "status": 2
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 0,
+      "call_status": 2,
+      "initial_stack": 5,
+      "final_stack": 5,
+      "status": 2,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 0,
+          "top_before": 5
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": ""
+        },
+        {
+          "service": "lua_pcall",
+          "args": 0,
+          "results": 0,
+          "error_handler": 0,
+          "status": 2
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 0,
+      "call_status": 4,
+      "initial_stack": 0,
+      "final_stack": 0,
+      "status": 4,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 0,
+          "top_before": 0
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": ""
+        },
+        {
+          "service": "lua_pcall",
+          "args": 0,
+          "results": 0,
+          "error_handler": 0,
+          "status": 4
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 0,
+      "call_status": 4,
+      "initial_stack": 1,
+      "final_stack": 1,
+      "status": 4,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 0,
+          "top_before": 1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": ""
+        },
+        {
+          "service": "lua_pcall",
+          "args": 0,
+          "results": 0,
+          "error_handler": 0,
+          "status": 4
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 0,
+      "call_status": 4,
+      "initial_stack": 5,
+      "final_stack": 5,
+      "status": 4,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 0,
+          "top_before": 5
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": ""
+        },
+        {
+          "service": "lua_pcall",
+          "args": 0,
+          "results": 0,
+          "error_handler": 0,
+          "status": 4
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 0,
+      "call_status": 5,
+      "initial_stack": 0,
+      "final_stack": 0,
+      "status": 5,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 0,
+          "top_before": 0
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": ""
+        },
+        {
+          "service": "lua_pcall",
+          "args": 0,
+          "results": 0,
+          "error_handler": 0,
+          "status": 5
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 0,
+      "call_status": 5,
+      "initial_stack": 1,
+      "final_stack": 1,
+      "status": 5,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 0,
+          "top_before": 1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": ""
+        },
+        {
+          "service": "lua_pcall",
+          "args": 0,
+          "results": 0,
+          "error_handler": 0,
+          "status": 5
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 0,
+      "call_status": 5,
+      "initial_stack": 5,
+      "final_stack": 5,
+      "status": 5,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 0,
+          "top_before": 5
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": ""
+        },
+        {
+          "service": "lua_pcall",
+          "args": 0,
+          "results": 0,
+          "error_handler": 0,
+          "status": 5
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 2,
+      "call_status": 0,
+      "initial_stack": 0,
+      "final_stack": 0,
+      "status": 2,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 2,
+          "top_before": 0
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 2,
+      "call_status": 0,
+      "initial_stack": 1,
+      "final_stack": 1,
+      "status": 2,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 2,
+          "top_before": 1
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 2,
+      "call_status": 0,
+      "initial_stack": 5,
+      "final_stack": 5,
+      "status": 2,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 2,
+          "top_before": 5
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 2,
+      "call_status": 2,
+      "initial_stack": 0,
+      "final_stack": 0,
+      "status": 2,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 2,
+          "top_before": 0
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 2,
+      "call_status": 2,
+      "initial_stack": 1,
+      "final_stack": 1,
+      "status": 2,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 2,
+          "top_before": 1
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 2,
+      "call_status": 2,
+      "initial_stack": 5,
+      "final_stack": 5,
+      "status": 2,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 2,
+          "top_before": 5
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 2,
+      "call_status": 4,
+      "initial_stack": 0,
+      "final_stack": 0,
+      "status": 2,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 2,
+          "top_before": 0
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 2,
+      "call_status": 4,
+      "initial_stack": 1,
+      "final_stack": 1,
+      "status": 2,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 2,
+          "top_before": 1
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 2,
+      "call_status": 4,
+      "initial_stack": 5,
+      "final_stack": 5,
+      "status": 2,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 2,
+          "top_before": 5
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 2,
+      "call_status": 5,
+      "initial_stack": 0,
+      "final_stack": 0,
+      "status": 2,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 2,
+          "top_before": 0
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 2,
+      "call_status": 5,
+      "initial_stack": 1,
+      "final_stack": 1,
+      "status": 2,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 2,
+          "top_before": 1
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 2,
+      "call_status": 5,
+      "initial_stack": 5,
+      "final_stack": 5,
+      "status": 2,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 2,
+          "top_before": 5
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 3,
+      "call_status": 0,
+      "initial_stack": 0,
+      "final_stack": 0,
+      "status": 3,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 3,
+          "top_before": 0
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 3,
+      "call_status": 0,
+      "initial_stack": 1,
+      "final_stack": 1,
+      "status": 3,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 3,
+          "top_before": 1
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 3,
+      "call_status": 0,
+      "initial_stack": 5,
+      "final_stack": 5,
+      "status": 3,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 3,
+          "top_before": 5
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 3,
+      "call_status": 2,
+      "initial_stack": 0,
+      "final_stack": 0,
+      "status": 3,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 3,
+          "top_before": 0
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 3,
+      "call_status": 2,
+      "initial_stack": 1,
+      "final_stack": 1,
+      "status": 3,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 3,
+          "top_before": 1
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 3,
+      "call_status": 2,
+      "initial_stack": 5,
+      "final_stack": 5,
+      "status": 3,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 3,
+          "top_before": 5
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 3,
+      "call_status": 4,
+      "initial_stack": 0,
+      "final_stack": 0,
+      "status": 3,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 3,
+          "top_before": 0
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 3,
+      "call_status": 4,
+      "initial_stack": 1,
+      "final_stack": 1,
+      "status": 3,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 3,
+          "top_before": 1
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 3,
+      "call_status": 4,
+      "initial_stack": 5,
+      "final_stack": 5,
+      "status": 3,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 3,
+          "top_before": 5
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 3,
+      "call_status": 5,
+      "initial_stack": 0,
+      "final_stack": 0,
+      "status": 3,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 3,
+          "top_before": 0
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 3,
+      "call_status": 5,
+      "initial_stack": 1,
+      "final_stack": 1,
+      "status": 3,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 3,
+          "top_before": 1
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 3,
+      "call_status": 5,
+      "initial_stack": 5,
+      "final_stack": 5,
+      "status": 3,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 3,
+          "top_before": 5
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 4,
+      "call_status": 0,
+      "initial_stack": 0,
+      "final_stack": 0,
+      "status": 4,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 4,
+          "top_before": 0
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 4,
+      "call_status": 0,
+      "initial_stack": 1,
+      "final_stack": 1,
+      "status": 4,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 4,
+          "top_before": 1
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 4,
+      "call_status": 0,
+      "initial_stack": 5,
+      "final_stack": 5,
+      "status": 4,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 4,
+          "top_before": 5
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 4,
+      "call_status": 2,
+      "initial_stack": 0,
+      "final_stack": 0,
+      "status": 4,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 4,
+          "top_before": 0
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 4,
+      "call_status": 2,
+      "initial_stack": 1,
+      "final_stack": 1,
+      "status": 4,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 4,
+          "top_before": 1
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 4,
+      "call_status": 2,
+      "initial_stack": 5,
+      "final_stack": 5,
+      "status": 4,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 4,
+          "top_before": 5
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 4,
+      "call_status": 4,
+      "initial_stack": 0,
+      "final_stack": 0,
+      "status": 4,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 4,
+          "top_before": 0
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 4,
+      "call_status": 4,
+      "initial_stack": 1,
+      "final_stack": 1,
+      "status": 4,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 4,
+          "top_before": 1
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 4,
+      "call_status": 4,
+      "initial_stack": 5,
+      "final_stack": 5,
+      "status": 4,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 4,
+          "top_before": 5
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 4,
+      "call_status": 5,
+      "initial_stack": 0,
+      "final_stack": 0,
+      "status": 4,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 4,
+          "top_before": 0
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 4,
+      "call_status": 5,
+      "initial_stack": 1,
+      "final_stack": 1,
+      "status": 4,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 4,
+          "top_before": 1
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 4,
+      "call_status": 5,
+      "initial_stack": 5,
+      "final_stack": 5,
+      "status": 4,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 4,
+          "top_before": 5
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 5,
+      "call_status": 0,
+      "initial_stack": 0,
+      "final_stack": 0,
+      "status": 5,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 5,
+          "top_before": 0
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 5,
+      "call_status": 0,
+      "initial_stack": 1,
+      "final_stack": 1,
+      "status": 5,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 5,
+          "top_before": 1
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 5,
+      "call_status": 0,
+      "initial_stack": 5,
+      "final_stack": 5,
+      "status": 5,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 5,
+          "top_before": 5
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 5,
+      "call_status": 2,
+      "initial_stack": 0,
+      "final_stack": 0,
+      "status": 5,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 5,
+          "top_before": 0
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 5,
+      "call_status": 2,
+      "initial_stack": 1,
+      "final_stack": 1,
+      "status": 5,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 5,
+          "top_before": 1
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 5,
+      "call_status": 2,
+      "initial_stack": 5,
+      "final_stack": 5,
+      "status": 5,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 5,
+          "top_before": 5
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 5,
+      "call_status": 4,
+      "initial_stack": 0,
+      "final_stack": 0,
+      "status": 5,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 5,
+          "top_before": 0
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 5,
+      "call_status": 4,
+      "initial_stack": 1,
+      "final_stack": 1,
+      "status": 5,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 5,
+          "top_before": 1
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 5,
+      "call_status": 4,
+      "initial_stack": 5,
+      "final_stack": 5,
+      "status": 5,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 5,
+          "top_before": 5
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 5,
+      "call_status": 5,
+      "initial_stack": 0,
+      "final_stack": 0,
+      "status": 5,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 5,
+          "top_before": 0
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 5,
+      "call_status": 5,
+      "initial_stack": 1,
+      "final_stack": 1,
+      "status": 5,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 5,
+          "top_before": 1
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    },
+    {
+      "group": "Instance.loadFile",
+      "load_status": 5,
+      "call_status": 5,
+      "initial_stack": 5,
+      "final_stack": 5,
+      "status": 5,
+      "trace": [
+        {
+          "service": "lua_load",
+          "reader": "0x31b018",
+          "chunk_name": "loadFile()",
+          "status": 5,
+          "top_before": 5
+        },
+        {
+          "service": "lua_tolstring",
+          "index": -1
+        },
+        {
+          "service": "error_string_copy",
+          "bytes": "6e6573746564"
+        },
+        {
+          "service": "lua_settop",
+          "index": -2
+        }
+      ]
+    }
+  ],
+  "mismatches": 0,
+  "symbol_inventory": [
+    {
+      "symbol": "_ZN9LuaScript7_GetIntERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "address": "0x37ec14",
+      "size": 92
+    },
+    {
+      "symbol": "_ZNK9LuaScript6GetIntEPKc",
+      "address": "0x37da30",
+      "size": 148
+    },
+    {
+      "symbol": "_ZN9LuaScript16_IncludePyStructERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "address": "0x37b56c",
+      "size": 4
+    },
+    {
+      "symbol": "_ZN9LuaScript7_SetIntERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "address": "0x37de5c",
+      "size": 212
+    },
+    {
+      "symbol": "_ZN9LuaScript13_IncludePyCstERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "address": "0x37b568",
+      "size": 4
+    },
+    {
+      "symbol": "_ZN9LuaScript15_IncludePyArrayERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "address": "0x37b570",
+      "size": 4
+    },
+    {
+      "symbol": "_ZN9LuaScript8_IncludeERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "address": "0x37efe4",
+      "size": 88
+    },
+    {
+      "symbol": "_ZN9LuaScript6SetIntEPKci",
+      "address": "0x37d990",
+      "size": 160
+    }
+  ],
+  "boundaries": [
+    "std::string allocation/copy/destruction",
+    "loaded std::set/cache std::map lookup/insertion",
+    "cached StreamBuffer reset",
+    "Instance.loadFile service in AddFile cases",
+    "lua_load/lua_pcall/error-stack services in Instance cases"
+  ],
+  "scope": "Original Include/AddFile/loadFile choreography; VM/STL/cache operations explicit services."
+}

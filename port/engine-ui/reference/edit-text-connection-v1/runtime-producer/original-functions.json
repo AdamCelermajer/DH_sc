@@ -1,0 +1,136 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN8RenderFX23SetTextBufferingEnabledEb",
+      "elf_address": "0x7a7cb4",
+      "size": 12,
+      "sha256": "eb9b7b652220ab840c702bf47d409b5367b4ddf1bf5752584964df1e8c536533",
+      "calls": {}
+    },
+    {
+      "original_symbol": "_ZN7gameswf4root19flush_buffered_textEv",
+      "elf_address": "0x7748b8",
+      "size": 96,
+      "sha256": "3707f2f64d5bb901651a8ba01902674d65b9178e8ad41f59e670ca57c7faeef0",
+      "calls": {
+        "0x774848": "_ZN7gameswf5arrayINS_9smart_ptrINS_9characterEEEE6resizeEi.clone.0"
+      }
+    },
+    {
+      "original_symbol": "_ZN7gameswf4root18set_display_boundsEiiiiNS_10scale_modeE",
+      "elf_address": "0x7755f4",
+      "size": 1860,
+      "sha256": "1a36eaf7f5780cb87bc8ad6fac18f843f16760364426ef44f3bfaeb7cbf427e8",
+      "calls": {
+        "0x773dc0": "_ZN7gameswf4root17screen_to_logicalERNS_5pointE",
+        "0x752ba8": "_ZnwjN3swf7MemHintE",
+        "0x76b820": "_ZN7gameswf9as_objectC1EPNS_6playerE",
+        "0x413a7c": "_ZN7gameswf9tu_stringC1EPKc",
+        "0x797124": "_ZN7gameswf8as_value9drop_refsEv",
+        "0x759c64": "_ZNK7gameswf11ref_counted7add_refEv",
+        "0x752b38": "_ZN7gameswf13free_internalEPvj"
+      }
+    },
+    {
+      "original_symbol": "_ZNK7gameswf4root15get_pixel_scaleEv",
+      "elf_address": "0x7741bc",
+      "size": 8,
+      "sha256": "ffe014f6eeeba0be14666f8531dd52e07886b87c26688fc23df953b96f0bfd37",
+      "calls": {}
+    },
+    {
+      "original_symbol": "_ZN8RenderFX10SetContextEPN7gameswf9characterE",
+      "elf_address": "0x7a7ee8",
+      "size": 8,
+      "sha256": "fe0a0548a35f746429ebc5f30e61bf8dc63c94dd44bf6fd613e866f0807d1e0b",
+      "calls": {}
+    },
+    {
+      "original_symbol": "_ZN12GameSWFUtils14GetPixelScaleXEPN7gameswf4rootE",
+      "elf_address": "0x4164c0",
+      "size": 60,
+      "sha256": "41697ae75801731329cdc1e5b5ea26493a1b87ba9205282dd282709f2ac9a6ed",
+      "calls": {}
+    },
+    {
+      "original_symbol": "_ZN12GameSWFUtils14GetPixelScaleYEPN7gameswf4rootE",
+      "elf_address": "0x4164fc",
+      "size": 60,
+      "sha256": "cfb42ae2da2830346fe5f6e0d2f95d85660159a7f1efad66b93d34f373cced4c",
+      "calls": {}
+    },
+    {
+      "original_symbol": "_ZN12GameSWFUtils17GetInvPixelScaleXEPN7gameswf4rootE",
+      "elf_address": "0x416538",
+      "size": 64,
+      "sha256": "df2e851bfcab705b044e2e3bc04d59fcdabb714caded0fae6b73b64eb40955a8",
+      "calls": {}
+    },
+    {
+      "original_symbol": "_ZN12GameSWFUtils17GetInvPixelScaleYEPN7gameswf4rootE",
+      "elf_address": "0x416578",
+      "size": 64,
+      "sha256": "b86ee48fc6a4e1c302552c1c88591d6104f45006e86878de09eb07e8223a910c",
+      "calls": {}
+    },
+    {
+      "original_symbol": "_ZN8RenderFX7SetTextEPN7gameswf9characterEPKcb",
+      "elf_address": "0x7a92e0",
+      "size": 176,
+      "sha256": "9b1f0c2aa665c483971ba408e302fa456620ba99b1b00049ef1e378fe51ce233",
+      "calls": {
+        "0x413a7c": "_ZN7gameswf9tu_stringC1EPKc",
+        "0x790ab0": "_ZN7gameswf19edit_text_character14set_text_valueERKNS_9tu_stringEb",
+        "0x752b38": "_ZN7gameswf13free_internalEPvj"
+      }
+    },
+    {
+      "original_symbol": "_ZN8RenderFX7SetTextEPKcS1_b",
+      "elf_address": "0x7a9390",
+      "size": 44,
+      "sha256": "d2553096a3e0c2414fe16419b02479072e6f8dbe7807c466df8ac60c0efdddde",
+      "calls": {
+        "0x7a9160": "_ZN8RenderFX4FindEPKc",
+        "0x7a92e0": "_ZN8RenderFX7SetTextEPN7gameswf9characterEPKcb"
+      }
+    },
+    {
+      "original_symbol": "_ZN8RenderFX13PreloadGlyphsEPN7gameswf9characterE",
+      "elf_address": "0x7a95a8",
+      "size": 140,
+      "sha256": "618e53ad8acf5ffdeb74d956690bd4bb44e293b62f68136e1405afb05666d7db",
+      "calls": {
+        "0x7a8c08": "_ZN8RenderFX14FindCharactersEPN7gameswf9characterEPKci",
+        "0x78c2d0": "_ZN7gameswf19edit_text_character14preload_glyphsEv"
+      }
+    },
+    {
+      "original_symbol": "_ZN8RenderFX13PreloadGlyphsEPtiPKcibbPKN7gameswf6filterE",
+      "elf_address": "0x7aafac",
+      "size": 268,
+      "sha256": "4773310d30e6dc37d9b317dd993b27ec11a95f16d3ec414b5c77b8054a36295a",
+      "calls": {
+        "0x752ba8": "_ZnwjN3swf7MemHintE",
+        "0x7cf8d8": "_ZN7gameswf4fontC1EPNS_6playerE",
+        "0x759c64": "_ZNK7gameswf11ref_counted7add_refEv",
+        "0x413a7c": "_ZN7gameswf9tu_stringC1EPKc",
+        "0x752f50": "_ZN7gameswf9tu_stringaSERKS0_",
+        "0x78b240": "_ZN7gameswf19preload_glyph_codesEPNS_14player_contextEPtiPNS_4fontEiPKNS_6filterE",
+        "0x75a240": "_ZN7gameswf11ref_counted8drop_refEv",
+        "0x752b38": "_ZN7gameswf13free_internalEPvj"
+      }
+    },
+    {
+      "original_symbol": "_ZN8RenderFX13PreloadGlyphsEPKcS1_ibbPKN7gameswf6filterE",
+      "elf_address": "0x7ab0b8",
+      "size": 276,
+      "sha256": "ead254e356d2dbf02701cf778baa9bf9ed993c2e4d781bb0d4390ad62f016023",
+      "calls": {
+        "0x752494": "_ZN7gameswf29decode_next_unicode_characterEPPKc",
+        "0x779e7c": "_ZN7gameswf5arrayItE7reserveEi",
+        "0x7aafac": "_ZN8RenderFX13PreloadGlyphsEPtiPKcibbPKN7gameswf6filterE"
+      }
+    }
+  ]
+}

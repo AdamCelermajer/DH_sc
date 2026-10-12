@@ -1,0 +1,17 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK9Character18GetCharSkillListIdEv",
+      "elf_address": "0x3bc5c0",
+      "size": 60,
+      "sha256": "ae0ccd8e8da06e96819b3c7d77bba945702d41a97bf35ff5530b54a83a72bc20"
+    },
+    {
+      "original_symbol": "_ZNK9Character18GetCharFaeryListIdEv",
+      "elf_address": "0x3ae5a0",
+      "size": 60,
+      "sha256": "c37053de3efe1748d58adb715bef2f581d9ca2b157b24fcbab4ab5ce47f6daca"
+    }
+  ]
+}

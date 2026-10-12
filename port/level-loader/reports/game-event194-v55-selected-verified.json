@@ -1,0 +1,73 @@
+{
+  "validation": "PASS",
+  "recorded_utc": "2026-10-06T16:49:48+00:00",
+  "coherent_files_verified": 755,
+  "manifest_sha256": "e1892d76f250d4e2f5ed553fda03f28ebb45f7eb6112a973186fc6262aeefa8e",
+  "executions": {
+    "event194": {
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/dh2_loader_event194_c1_v55",
+        "/mnt/c/Users/adamc/Downloads/dungeonhunter2/Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/tests/native-ctor-v4/design.bin",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/native-ctor-missing-saves"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"event194_actual_C1_cases\":2,\"event194_completed_source_storage\":66,\"phase6_selection_PM_debug_deepcleanup_are_fixtures\":true,\"validation\":\"PASS\",\"composition\":\"NativeGSLevelLoadingConnectionV49-source-row-inputV52\",\"actual_gs_cases\":2,\"source_publication_before_menu\":true,\"logical_identity\":\"SWAMP\",\"raw_name\":\"001_swamp.mlx\",\"row3c\":41,\"seed114\":7,\"frame_states\":[1,2,3],\"same_c1_loading_pointer_aliases_per_case\":5,\"missing_per_call_prefix_stops_before_stage0\":true,\"missing_clean_glitch_preserves_original_global_prefix\":true,\"genuine_debug_missing_file_attempts\":1,\"create_rejections\":20,\"menu_updates\":4,\"source_manager_phase7c\":0,\"state130\":0,\"same_lua_save_owners\":true,\"same_global_cleared_by_outer_dtor\":true,\"sibling_cycle_free\":true,\"flag_logging_menu_deep_cleanup_transports_are_fixtures\":true,\"whole_load_process_prefix_verified\":false,\"source_abort_teardown_verified\":false,\"whole_level_init_verified\":false,\"gameplay_ready\":false}\n",
+      "stderr": "",
+      "binary_sha256": "e413927e4941b2dd12f0f672b0f310c77843ccbe63d9229796b5bde97f783e31"
+    },
+    "source_row_GS": {
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/dh2_loader_native_gslevel_loading_source_v52",
+        "/mnt/c/Users/adamc/Downloads/dungeonhunter2/Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/tests/native-ctor-v4/design.bin",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/native-ctor-missing-saves"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"composition\":\"NativeGSLevelLoadingConnectionV49-source-row-inputV52\",\"actual_gs_cases\":2,\"source_publication_before_menu\":true,\"logical_identity\":\"SWAMP\",\"raw_name\":\"001_swamp.mlx\",\"row3c\":41,\"seed114\":7,\"frame_states\":[1,2,3],\"same_c1_loading_pointer_aliases_per_case\":5,\"missing_per_call_prefix_stops_before_stage0\":true,\"missing_clean_glitch_preserves_original_global_prefix\":true,\"genuine_debug_missing_file_attempts\":1,\"create_rejections\":20,\"menu_updates\":4,\"source_manager_phase7c\":0,\"state130\":0,\"same_lua_save_owners\":true,\"same_global_cleared_by_outer_dtor\":true,\"sibling_cycle_free\":true,\"flag_logging_menu_deep_cleanup_transports_are_fixtures\":true,\"whole_load_process_prefix_verified\":false,\"source_abort_teardown_verified\":false,\"whole_level_init_verified\":false,\"gameplay_ready\":false}\n",
+      "stderr": "",
+      "binary_sha256": "8d244367e3446c50cdf80aa2b8dc16ef2e513c5bdacf2d6f0ee695fe1ed45632"
+    },
+    "source7_10": {
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/dh2_loader_source_stage_swamp_v47",
+        "/mnt/c/Users/adamc/Downloads/dungeonhunter2/Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/tests/native-ctor-v4/design.bin",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/native-ctor-missing-saves"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"composition\":\"SourceLoadingV43\",\"atomic_create_rejections\":8,\"cancellation_transport_cases\":2,\"source_abort_teardown_verified\":false,\"selected_source_entry_fixture_states\":[7,10],\"omitted_source_bodies\":[0,1,2,3,4,5,6,8,9],\"raw_name\":\"worlds/001_swamp.mlx\",\"cache_uri\":\"data/scene/001_swamp.mlx\",\"root_factories\":10,\"module_sources\":9,\"authored_factories\":195,\"character_factories\":50,\"source_file13c\":1,\"state130\":10,\"progress30\":26,\"manager_phase7c\":3,\"initial_map1c\":11,\"map1c_at_stop\":215,\"successful_class_conditions\":10,\"stage8_required_service\":\"LevelConfig/fog/Level._LoadScripts\",\"error\":\"OpenableContainer required source service: SoundManager pointer\",\"floor11_ran\":false,\"geometry17_ran\":false,\"whole_level_init_verified\":false,\"gameplay_ready\":false}\n",
+      "stderr": "V47 observed source boundary: OpenableContainer required source service: SoundManager pointer conditions=10 modules_initialized=9\n",
+      "binary_sha256": "5e2025aefb21948a775036705959c0e81ea6d41cdd88342fc515de6b8b4cf220"
+    }
+  },
+  "failures": [],
+  "actual_C1_event194_owner_aliases_verified": true,
+  "source_tables_retained_after_stage_release": true,
+  "native_storage_released_after_C1_lifetime_without_cycle": true,
+  "incomplete_C1_borrow_preserves_output": true,
+  "missing_PM_after_real_fixture_flag_store_before_manager_publish": true,
+  "source_phixtures": "Stage6 entry selected explicitly; actual completed C1/GS/event table/storage are real. PM trace/Update and deep outerGS cleanup are observer fixtures. Stage31/register/quest/trueUnload not executed. Source7/10 case retains historical worlds transport fixture, explicitly not original resource alias.",
+  "source_sha256": {
+    "tests/native_gslevel_event194_v55.cpp": "af281b5d4bae8c489666de78ee103f3b67b9fcd2bfc3b9943d62779c75e6358e",
+    "tests/cmake-receiver-transport/CMakeLists.txt": "d85a21770005a1a0108d1e4978926c4fbecd24002917c7ace1765edb353c5219",
+    "tools/run_event194_v55_checks.py": "ddb3e38804d4fded32c1c236ffc039d496d55f2e71a9692672a75aac9ed0a71b"
+  },
+  "whole_level_init_verified": false,
+  "source_gameplay_verified": false,
+  "functional_GameEvent_Unload_verified": false,
+  "emulator_launched": false,
+  "shared_mutated": false
+}

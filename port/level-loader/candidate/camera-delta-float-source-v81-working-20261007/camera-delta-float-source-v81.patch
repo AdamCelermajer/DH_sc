@@ -1,0 +1,29 @@
+--- a/port/level-loader/level_constructor_v3.hpp
++++ b/port/level-loader/level_constructor_v3.hpp
+@@ -23,7 +23,9 @@
+  std::uint32_t field13c{}; // source file-count/index scalar, ADD32 in state7
+  std::uintptr_t field140{}; // actual LoadFileData stream-state pointer
+  std::uint8_t byte144{},byte145{};std::int32_t field148{-1};
+- std::uintptr_t field14c{},field154{},field158{},field15c{},field194{},field19c{},field1a0{},field1a4{};
++ std::uintptr_t field14c{},field154{},field158{},field15c{},field194{};
++ // Original state34 fsub stores: scalar camera-node minus parent XYZ.
++ float field19c{},field1a0{},field1a4{};
+  std::uint8_t byte16c{},byte198{},byte1a8{};
+ };
+ struct LevelConstructorArgumentsV3 {
+--- a/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp
++++ b/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp
+@@ -1066,11 +1066,10 @@
+   if(!start||!end){e="Required produced LevelConfig fog1d8/1dc";return false;}
+   dh2::camera::PointV2 eye,parent;if(!world->camera_application->source_positions_v67(eye,parent,e))return false;
+   const auto& fields=level->constructor_fields_v3();
+-  const std::uintptr_t offsets[]={fields.field19c,fields.field1a0,fields.field1a4};
++  const float offsets[]={fields.field19c,fields.field1a0,fields.field1a4};
+   float relative[3],scaled[3];
+   for(unsigned i=0;i<3;++i){
+-   const auto bits=static_cast<std::uint32_t>(offsets[i]);float offset;std::memcpy(&offset,&bits,4);
+-   relative[i]=(eye[i]-parent[i])+offset;scaled[i]=relative[i]*roots->frame_fields_v67().fog_transform458[i];
++   relative[i]=(eye[i]-parent[i])+offsets[i];scaled[i]=relative[i]*roots->frame_fields_v67().fog_transform458[i];
+   }
+   const float x=scaled[0]*scaled[0],y=scaled[1]*scaled[1],z=scaled[2]*scaled[2];
+   const float sum=(x+y)+z;float distance=static_cast<float>(std::sqrt(static_cast<double>(sum)));

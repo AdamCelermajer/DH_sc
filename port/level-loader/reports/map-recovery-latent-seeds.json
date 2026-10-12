@@ -1,0 +1,564 @@
+{
+  "scope": "Additional native seed tests; no cache or engine edits",
+  "cases": [
+    {
+      "identity": "GOTHICUS_CASTLE_02",
+      "definition": "data/scene/021_gothicus_castle_02.rule.xml",
+      "seeds": [
+        {
+          "seed": 0,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 1,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 2,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 3,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 4,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 5,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 6,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 7,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 8,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 9,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 10,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 11,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 12,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 13,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 14,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 15,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 16,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 17,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 18,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 19,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 20,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 21,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 22,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 23,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 24,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 25,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 26,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 27,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 28,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 29,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 30,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 31,
+          "generated": true,
+          "selected_missing": []
+        }
+      ],
+      "missing_reference_hits": [],
+      "not_selected_in_tested_seeds": [
+        [
+          "gameplay",
+          "gc02_corner_ws_01.mgp"
+        ]
+      ]
+    },
+    {
+      "identity": "VOID_MAZE_01",
+      "definition": "data/scene/033_voidmaze_01.rule.xml",
+      "seeds": [
+        {
+          "seed": 0,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 1,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 2,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 3,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 4,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 5,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 6,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 7,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 8,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 9,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 10,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 11,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 12,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 13,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 14,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 15,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 16,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 17,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 18,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 19,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 20,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 21,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 22,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 23,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 24,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 25,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 26,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 27,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 28,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 29,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 30,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 31,
+          "generated": true,
+          "selected_missing": []
+        }
+      ],
+      "missing_reference_hits": [],
+      "not_selected_in_tested_seeds": [
+        [
+          "gameplay",
+          "vm011_corner_voidmaze_ne_00_01.mgp"
+        ]
+      ]
+    },
+    {
+      "identity": "VOID_MAZE_02",
+      "definition": "data/scene/034_voidmaze_02.rule.xml",
+      "seeds": [
+        {
+          "seed": 0,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 1,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 2,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 3,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 4,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 5,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 6,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 7,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 8,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 9,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 10,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 11,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 12,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 13,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 14,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 15,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 16,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 17,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 18,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 19,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 20,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 21,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 22,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 23,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 24,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 25,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 26,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 27,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 28,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 29,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 30,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 31,
+          "generated": true,
+          "selected_missing": []
+        }
+      ],
+      "missing_reference_hits": [],
+      "not_selected_in_tested_seeds": [
+        [
+          "gameplay",
+          "vm011_corner_voidmaze_ne_00_01.mgp"
+        ],
+        [
+          "visual",
+          "vm01_x_voidmaze_nswe_00"
+        ]
+      ]
+    },
+    {
+      "identity": "VOID_MAZE_03",
+      "definition": "data/scene/035_voidmaze_03.rule.xml",
+      "seeds": [
+        {
+          "seed": 0,
+          "generated": true,
+          "selected_missing": []
+        },
+        {
+          "seed": 1,
+          "generated": true,
+          "selected_missing": [
+            [
+              "gameplay",
+              "vm011_corner_voidmaze_ne_00_01.mgp"
+            ]
+          ]
+        }
+      ],
+      "missing_reference_hits": [
+        {
+          "seed": 1,
+          "reference": [
+            "gameplay",
+            "vm011_corner_voidmaze_ne_00_01.mgp"
+          ],
+          "assembly": {
+            "exit_code": 1,
+            "stderr": "Missing authored XML: data/iphone/3d/modules/void_maze/mgp/vm011_corner_voidmaze_ne_00_01.mgp\n",
+            "result": null
+          }
+        }
+      ],
+      "not_selected_in_tested_seeds": []
+    }
+  ]
+}

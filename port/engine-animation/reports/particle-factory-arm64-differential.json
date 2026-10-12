@@ -1,0 +1,103 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_manifest_sha256": "b42e7a2e4cf2b6147a1933b06a96ba373d35d1a968c8d4f0255ee3642c059c50",
+  "arm64_library_sha256": "0cc9c6caaa6e19aeb95a99766b8c9d74269e1dc299f71ccb1dc1d0b2d922f5af",
+  "reference_sha256": "5db64e3237d8b9b7222fb5e4f6f2d4c28f70d51aedf854198097c15d57d8d430",
+  "source_sha256": {
+    "port/engine-animation/particle_factory.hpp": "c7c88d7c8839914f8146316cc06ef101ca9170e0927b10855531a83aad0b77c2",
+    "port/engine-animation/particle_factory.cpp": "7b7afcbfb8d52e123a296cfad31e6e6d5d3b3e3265899f845df8e7247abf9bce",
+    "port/engine-animation/tests/particle_factory.cpp": "819c491412286d7a8a22e43afa4e5ce8d0b6f0cac7645f0a896ad4dcabeb1d1c",
+    "port/engine-animation/tests/particle_factory_differential.py": "b4debf9cf8c43ceacdc1be4a320524f8bdaee5db425ee7ed767072cea77faaf8",
+    "port/engine-resources/resources.hpp": "e8d08f735c4c5ee30baebb2d3afca0d91b805b9e3cdfc50152011dbf70ceb230",
+    "port/engine-resources/resources.cpp": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25"
+  },
+  "comparisons": 1850,
+  "operation_counts": {
+    "0": 160,
+    "1": 1410,
+    "2": 240,
+    "3": 40
+  },
+  "original_source_calls": {
+    "0x64d1d0": 440,
+    "0x64d0bc": 10412,
+    "0x63a8ec": 4165,
+    "0x6545d0": 440,
+    "0x651924": 2495,
+    "0x650400": 2140,
+    "0x6501d4": 80
+  },
+  "hash_comparisons": 1410,
+  "registry_transcript_commands": 7200,
+  "hash_collision": "2553482e34475a5f2e /6e79284d705a7e2c4a =>c66e9677",
+  "actual_fx77_emitter_inputs": [
+    {
+      "index": 0,
+      "name": "gl_pcloud_debris-emitter",
+      "record_offset": 15880,
+      "record_sha256": "f4acda99d8f014dd7d4f7bffee9ed5253ba7589fb194eb5542e694f575c57e93",
+      "descriptor_offset": 16196,
+      "descriptor_sha256": "1116024b539f6519eac34eab4c733c9cd09768a47f3e9a52c6b24c3db74d239e",
+      "shape_offset": 16168,
+      "shape_sha256": "28d7d38a7953f36cd8ec183a2a48b4a713a2e541d62726de34840b048166deed",
+      "factory_mode": 0,
+      "descriptor_type": 3,
+      "real_cloud_color_baker": true
+    },
+    {
+      "index": 1,
+      "name": "gl_pcloud_dust-emitter",
+      "record_offset": 16024,
+      "record_sha256": "17696e76c6de9799f0d4a86a65f975a6e8fbc24c1a9b571a25b07762335d3055",
+      "descriptor_offset": 16252,
+      "descriptor_sha256": "1116024b539f6519eac34eab4c733c9cd09768a47f3e9a52c6b24c3db74d239e",
+      "shape_offset": 16232,
+      "shape_sha256": "807117f45ddedbf26c1022ed7c5cb5067171e1837bc4b4c11d39e23e22b49d0f",
+      "factory_mode": 0,
+      "descriptor_type": 3,
+      "real_cloud_color_baker": true
+    }
+  ],
+  "original_ordered_prefixes": [
+    {
+      "name": "gl_pcloud_debris-emitter",
+      "ordered_setters": [
+        "EmitterType",
+        "RadiusLength",
+        "Width",
+        "Height",
+        "MaxParticles",
+        "BirthRate"
+      ]
+    },
+    {
+      "name": "gl_pcloud_dust-emitter",
+      "ordered_setters": [
+        "EmitterType",
+        "RadiusLength",
+        "MaxParticles",
+        "BirthRate"
+      ]
+    }
+  ],
+  "original_instructions_executed": true,
+  "compiled_arm64_instructions_executed": true,
+  "constructor_registration_order": [
+    "AnimationDatabase",
+    "BirthRate",
+    "MaxParticles"
+  ],
+  "oracle_services": [
+    "initialized hashsingletonguard",
+    "single-thread pthread allocator locks return0",
+    "ABI unsigned division",
+    "required preconstructed cloud return",
+    "borrowed other-model parameter storage"
+  ],
+  "prefix_boundary": "656500 redirects to real epilogue656c88 after BirthRate, before Life",
+  "mismatches": 0,
+  "resource_sha256": "b54e3b05ba684eca654c8a58b8ebd5e84f7cad25929e0b5a60405f66dfdc772e",
+  "scope": "Real context/generation fields, hash-keyed unique registry/null lookup/word setters and original initParticleSystem through BirthRate prefix. Original cloud construction return is a required preconstructed context/generation service fixture; other model storage providers are explicit borrowed cells. Full cloud model/simulation/baker/material/rendering, native AnimationDatabase pointer mapping and attachment receivers remain required. Native shared leases separately audited.",
+  "elapsed_seconds": 8.2
+}

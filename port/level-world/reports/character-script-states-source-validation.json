@@ -1,0 +1,46 @@
+{
+  "validation": "PASS",
+  "scope": "Frozen state module proof against its actual historical scoped DSO. Current dependency correction requires a separate central replay. No invented authored Crypt registrations or full original VM/frame claim.",
+  "source_sha256": {
+    "port\\level-world\\character_script_states.hpp": "fecabe415b6e085b22ca00fbc01a08936f0cd512bda4f576cc7a8ec8f58d8e41",
+    "port\\level-world\\character_script_states.cpp": "bc256f5cb3918b0e8b207d66be784731fe1dcc9f284269e3bcee1e875326411a",
+    "port\\level-world\\tests\\character_script_states.cpp": "7126e74d5e3e2efe533451584d403617e6f184e26e2fe0bf37df3c0a9ac33e34",
+    "port\\level-world\\tests\\character_script_states_host.py": "86073abb01ff0d7bf738e564559672203af8d1c7153924896655e682b527021a",
+    "port\\script-runtime\\script_runtime.h": "6609f8b0a1ad716104824e5ed1653cc9b2be68396ae5b5766b38166af3561303",
+    "port\\script-runtime\\script_runtime.c": "3a9e8551184ecd6a698f86ea831a9832edf1d837bbe2a018a9b83d13c2000580"
+  },
+  "dependency_source_drift": {
+    "port\\script-runtime\\script_runtime.c": {
+      "tested_source_sha256": "3a9e8551184ecd6a698f86ea831a9832edf1d837bbe2a018a9b83d13c2000580",
+      "current_source_sha256": "cfb4aaa0585188731c76d3ed86e346bd2d48d6a2024c1f453c4bd038e8e835d1",
+      "reason": "Parent-authorized later native argument-storage correction; tested scoped DSO/proof remains historical, central replay pending."
+    }
+  },
+  "current_dependencies_replayed": false,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_ARM32_vs_optimized_ARM64_cases": 1476,
+  "ordered_services": 1800,
+  "native_atomic_rejections": 5,
+  "source_key_conversion_cases": 5,
+  "actual_native_host_checks": 22005,
+  "sanitizer_findings": 0,
+  "proof_sha256": {
+    "port\\level-world\\reports\\character-script-states-arm64-differential.json": "1d11c8afe4d1df94e84432dd8f3494106bebea7d0de0643a15b94bad12af5ca5",
+    "port\\level-world\\reports\\character-script-states-host-audit.json": "a93555b6a3a579c43bea6815a6a9ee7e6d64965bd95fa73592a656cb8f731cf0",
+    "port\\level-world\\reference\\character-script-states\\string-key-probe.json": "22b54c5ed740675c8066d30c324931d487a22d6225eeb2ffe15fbd5974e80bc9"
+  },
+  "notes_sha256": "3bcaf6c9933c1e24e10baec9f710cdd6e92ea875511d9aae5186c8439f10a6ef",
+  "freeze_script_sha256": "2d94cefaa3d9e0b88f80f85871d9aef1ba5e512c25f8ac7dfa5663be09cd2aae",
+  "source_Change_supported_keys": [
+    "string",
+    "nil",
+    "Boolean"
+  ],
+  "unsupported_Change_keys": [
+    "numeric/identity Value.getString formatting"
+  ],
+  "actual_Crypt_registry_calls": 0,
+  "Owner_extended": false,
+  "full_original_VM_executed": false,
+  "packaged_APK": false
+}

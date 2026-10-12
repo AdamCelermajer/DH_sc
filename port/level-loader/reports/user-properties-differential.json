@@ -1,0 +1,879 @@
+{
+  "validation": "PASS",
+  "scope": "Execute original UserProperties parsing through its AddProperty boundary.\n\nActual line/key/value parsing executes original instructions. The owning map\nassignment is an observed service; last writes win. Full floor loading does\nnot execute. Imported strchr/strstr are byte-string services, not parse results.\n",
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "probe_sha256": "9811a36bcd802a507b51d242bcc97810a469065359f36f79d5409d2afffe93c1",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "swamp_bdae_sha256": "89da80c60a7ebecd0e8a27a9d46f2625e3a5ec112933e5aa7cab251412b8364d",
+  "authored_property_strings": [
+    "floortypes = %22hole%22",
+    "floortypes = %22water%22",
+    "floortypes = %22wood%22",
+    "floortypes = %22door%22\r\n"
+  ],
+  "script_sha256": "4dfd885e66d276c45580c50de43aac53a54ee302900a93e1ba20db98bc7a4cb7",
+  "cases": [
+    {
+      "input": "floortypes = %22hole%22",
+      "expected": {
+        "floortypes": "hole"
+      },
+      "actual": {
+        "floortypes": "hole"
+      },
+      "matches": true
+    },
+    {
+      "input": "floortypes = %22water%22",
+      "expected": {
+        "floortypes": "water"
+      },
+      "actual": {
+        "floortypes": "water"
+      },
+      "matches": true
+    },
+    {
+      "input": "floortypes = %22wood%22",
+      "expected": {
+        "floortypes": "wood"
+      },
+      "actual": {
+        "floortypes": "wood"
+      },
+      "matches": true
+    },
+    {
+      "input": "floortypes = %22door%22\r\n",
+      "expected": {
+        "floortypes": "door"
+      },
+      "actual": {
+        "floortypes": "door"
+      },
+      "matches": true
+    },
+    {
+      "input": "",
+      "expected": {},
+      "actual": {},
+      "matches": true
+    },
+    {
+      "input": "key",
+      "expected": {
+        "key": ""
+      },
+      "actual": {
+        "key": ""
+      },
+      "matches": true
+    },
+    {
+      "input": "key=",
+      "expected": {
+        "key": ""
+      },
+      "actual": {
+        "key": ""
+      },
+      "matches": true
+    },
+    {
+      "input": "=value",
+      "expected": {},
+      "actual": {},
+      "matches": true
+    },
+    {
+      "input": "!!!",
+      "expected": {},
+      "actual": {},
+      "matches": true
+    },
+    {
+      "input": "_floor_types=water",
+      "expected": {
+        "floor": "water"
+      },
+      "actual": {
+        "floor": "water"
+      },
+      "matches": true
+    },
+    {
+      "input": "floortypes = \"water\"",
+      "expected": {
+        "floortypes": " \"water\""
+      },
+      "actual": {
+        "floortypes": " \"water\""
+      },
+      "matches": true
+    },
+    {
+      "input": "floortypes = %22void water%22 trailing",
+      "expected": {
+        "floortypes": "void water"
+      },
+      "actual": {
+        "floortypes": "void water"
+      },
+      "matches": true
+    },
+    {
+      "input": "x=a=b",
+      "expected": {
+        "x": "a=b"
+      },
+      "actual": {
+        "x": "a=b"
+      },
+      "matches": true
+    },
+    {
+      "input": "floortypes=%22open",
+      "expected": {
+        "floortypes": "%22open"
+      },
+      "actual": {
+        "floortypes": "%22open"
+      },
+      "matches": true
+    },
+    {
+      "input": "floortypes=hole\nfloortypes=water",
+      "expected": {
+        "floortypes": "water"
+      },
+      "actual": {
+        "floortypes": "water"
+      },
+      "matches": true
+    },
+    {
+      "input": "Floortypes=hole",
+      "expected": {
+        "Floortypes": "hole"
+      },
+      "actual": {
+        "Floortypes": "hole"
+      },
+      "matches": true
+    },
+    {
+      "input": "123= value\r\n",
+      "expected": {
+        "123": " value\r"
+      },
+      "actual": {
+        "123": " value\r"
+      },
+      "matches": true
+    },
+    {
+      "input": "a\nb\nc",
+      "expected": {
+        "a": "",
+        "b": "",
+        "c": ""
+      },
+      "actual": {
+        "a": "",
+        "b": "",
+        "c": ""
+      },
+      "matches": true
+    },
+    {
+      "input": "a=%22%22",
+      "expected": {
+        "a": ""
+      },
+      "actual": {
+        "a": ""
+      },
+      "matches": true
+    },
+    {
+      "input": "a=%22x%22%22y%22",
+      "expected": {
+        "a": "x"
+      },
+      "actual": {
+        "a": "x"
+      },
+      "matches": true
+    },
+    {
+      "input": "a\rb=hello",
+      "expected": {
+        "a": "hello"
+      },
+      "actual": {
+        "a": "hello"
+      },
+      "matches": true
+    },
+    {
+      "input": "!Floor!=%22open",
+      "expected": {
+        "Floor": "%22open"
+      },
+      "actual": {
+        "Floor": "%22open"
+      },
+      "matches": true
+    },
+    {
+      "input": "!Floor!=void=wall",
+      "expected": {
+        "Floor": "void=wall"
+      },
+      "actual": {
+        "Floor": "void=wall"
+      },
+      "matches": true
+    },
+    {
+      "input": "floor_types=water",
+      "expected": {
+        "floor": "water"
+      },
+      "actual": {
+        "floor": "water"
+      },
+      "matches": true
+    },
+    {
+      "input": " key =%22open",
+      "expected": {
+        "key": "%22open"
+      },
+      "actual": {
+        "key": "%22open"
+      },
+      "matches": true
+    },
+    {
+      "input": "floor=water",
+      "expected": {
+        "floor": "water"
+      },
+      "actual": {
+        "floor": "water"
+      },
+      "matches": true
+    },
+    {
+      "input": "floor=",
+      "expected": {
+        "floor": ""
+      },
+      "actual": {
+        "floor": ""
+      },
+      "matches": true
+    },
+    {
+      "input": "!Floor!=%22open",
+      "expected": {
+        "Floor": "%22open"
+      },
+      "actual": {
+        "Floor": "%22open"
+      },
+      "matches": true
+    },
+    {
+      "input": "!Floor!=",
+      "expected": {
+        "Floor": ""
+      },
+      "actual": {
+        "Floor": ""
+      },
+      "matches": true
+    },
+    {
+      "input": "1x=",
+      "expected": {
+        "1x": ""
+      },
+      "actual": {
+        "1x": ""
+      },
+      "matches": true
+    },
+    {
+      "input": "1x=%22open",
+      "expected": {
+        "1x": "%22open"
+      },
+      "actual": {
+        "1x": "%22open"
+      },
+      "matches": true
+    },
+    {
+      "input": "=void=wall",
+      "expected": {},
+      "actual": {},
+      "matches": true
+    },
+    {
+      "input": "floor_types=water",
+      "expected": {
+        "floor": "water"
+      },
+      "actual": {
+        "floor": "water"
+      },
+      "matches": true
+    },
+    {
+      "input": "floor_types= %22wood%22\r",
+      "expected": {
+        "floor": "wood"
+      },
+      "actual": {
+        "floor": "wood"
+      },
+      "matches": true
+    },
+    {
+      "input": "1x= %22wood%22\r",
+      "expected": {
+        "1x": "wood"
+      },
+      "actual": {
+        "1x": "wood"
+      },
+      "matches": true
+    },
+    {
+      "input": "!Floor!=void=wall",
+      "expected": {
+        "Floor": "void=wall"
+      },
+      "actual": {
+        "Floor": "void=wall"
+      },
+      "matches": true
+    },
+    {
+      "input": "!Floor!= %22wood%22\r",
+      "expected": {
+        "Floor": "wood"
+      },
+      "actual": {
+        "Floor": "wood"
+      },
+      "matches": true
+    },
+    {
+      "input": "floor_types=water",
+      "expected": {
+        "floor": "water"
+      },
+      "actual": {
+        "floor": "water"
+      },
+      "matches": true
+    },
+    {
+      "input": "floor_types=%22hole%22",
+      "expected": {
+        "floor": "hole"
+      },
+      "actual": {
+        "floor": "hole"
+      },
+      "matches": true
+    },
+    {
+      "input": "!Floor!= %22wood%22\r",
+      "expected": {
+        "Floor": "wood"
+      },
+      "actual": {
+        "Floor": "wood"
+      },
+      "matches": true
+    },
+    {
+      "input": " key =",
+      "expected": {
+        "key": ""
+      },
+      "actual": {
+        "key": ""
+      },
+      "matches": true
+    },
+    {
+      "input": " key =",
+      "expected": {
+        "key": ""
+      },
+      "actual": {
+        "key": ""
+      },
+      "matches": true
+    },
+    {
+      "input": "1x=%22hole%22",
+      "expected": {
+        "1x": "hole"
+      },
+      "actual": {
+        "1x": "hole"
+      },
+      "matches": true
+    },
+    {
+      "input": "floor=",
+      "expected": {
+        "floor": ""
+      },
+      "actual": {
+        "floor": ""
+      },
+      "matches": true
+    },
+    {
+      "input": "floor_types=%22open",
+      "expected": {
+        "floor": "%22open"
+      },
+      "actual": {
+        "floor": "%22open"
+      },
+      "matches": true
+    },
+    {
+      "input": "1x=%22open",
+      "expected": {
+        "1x": "%22open"
+      },
+      "actual": {
+        "1x": "%22open"
+      },
+      "matches": true
+    },
+    {
+      "input": "floor_types=void=wall",
+      "expected": {
+        "floor": "void=wall"
+      },
+      "actual": {
+        "floor": "void=wall"
+      },
+      "matches": true
+    },
+    {
+      "input": " key = %22wood%22\r",
+      "expected": {
+        "key": "wood"
+      },
+      "actual": {
+        "key": "wood"
+      },
+      "matches": true
+    },
+    {
+      "input": "!Floor!=%22hole%22",
+      "expected": {
+        "Floor": "hole"
+      },
+      "actual": {
+        "Floor": "hole"
+      },
+      "matches": true
+    },
+    {
+      "input": "!Floor!=water",
+      "expected": {
+        "Floor": "water"
+      },
+      "actual": {
+        "Floor": "water"
+      },
+      "matches": true
+    },
+    {
+      "input": " key =water",
+      "expected": {
+        "key": "water"
+      },
+      "actual": {
+        "key": "water"
+      },
+      "matches": true
+    },
+    {
+      "input": "=water",
+      "expected": {},
+      "actual": {},
+      "matches": true
+    },
+    {
+      "input": "1x=water",
+      "expected": {
+        "1x": "water"
+      },
+      "actual": {
+        "1x": "water"
+      },
+      "matches": true
+    },
+    {
+      "input": "floor=",
+      "expected": {
+        "floor": ""
+      },
+      "actual": {
+        "floor": ""
+      },
+      "matches": true
+    },
+    {
+      "input": "1x=water",
+      "expected": {
+        "1x": "water"
+      },
+      "actual": {
+        "1x": "water"
+      },
+      "matches": true
+    },
+    {
+      "input": "=%22hole%22",
+      "expected": {},
+      "actual": {},
+      "matches": true
+    },
+    {
+      "input": " key =void=wall",
+      "expected": {
+        "key": "void=wall"
+      },
+      "actual": {
+        "key": "void=wall"
+      },
+      "matches": true
+    },
+    {
+      "input": " key =water",
+      "expected": {
+        "key": "water"
+      },
+      "actual": {
+        "key": "water"
+      },
+      "matches": true
+    },
+    {
+      "input": "floor_types=",
+      "expected": {
+        "floor": ""
+      },
+      "actual": {
+        "floor": ""
+      },
+      "matches": true
+    },
+    {
+      "input": "floor=%22open",
+      "expected": {
+        "floor": "%22open"
+      },
+      "actual": {
+        "floor": "%22open"
+      },
+      "matches": true
+    },
+    {
+      "input": "!Floor!= %22wood%22\r",
+      "expected": {
+        "Floor": "wood"
+      },
+      "actual": {
+        "Floor": "wood"
+      },
+      "matches": true
+    },
+    {
+      "input": " key = %22wood%22\r",
+      "expected": {
+        "key": "wood"
+      },
+      "actual": {
+        "key": "wood"
+      },
+      "matches": true
+    },
+    {
+      "input": "!Floor!=",
+      "expected": {
+        "Floor": ""
+      },
+      "actual": {
+        "Floor": ""
+      },
+      "matches": true
+    },
+    {
+      "input": "!Floor!=%22hole%22",
+      "expected": {
+        "Floor": "hole"
+      },
+      "actual": {
+        "Floor": "hole"
+      },
+      "matches": true
+    },
+    {
+      "input": "floor=water",
+      "expected": {
+        "floor": "water"
+      },
+      "actual": {
+        "floor": "water"
+      },
+      "matches": true
+    },
+    {
+      "input": "!Floor!=%22open",
+      "expected": {
+        "Floor": "%22open"
+      },
+      "actual": {
+        "Floor": "%22open"
+      },
+      "matches": true
+    },
+    {
+      "input": "!Floor!=water",
+      "expected": {
+        "Floor": "water"
+      },
+      "actual": {
+        "Floor": "water"
+      },
+      "matches": true
+    },
+    {
+      "input": "!Floor!=%22hole%22",
+      "expected": {
+        "Floor": "hole"
+      },
+      "actual": {
+        "Floor": "hole"
+      },
+      "matches": true
+    },
+    {
+      "input": "!Floor!=water",
+      "expected": {
+        "Floor": "water"
+      },
+      "actual": {
+        "Floor": "water"
+      },
+      "matches": true
+    },
+    {
+      "input": "floor_types=",
+      "expected": {
+        "floor": ""
+      },
+      "actual": {
+        "floor": ""
+      },
+      "matches": true
+    },
+    {
+      "input": "1x=%22hole%22",
+      "expected": {
+        "1x": "hole"
+      },
+      "actual": {
+        "1x": "hole"
+      },
+      "matches": true
+    },
+    {
+      "input": "floor_types= %22wood%22\r",
+      "expected": {
+        "floor": "wood"
+      },
+      "actual": {
+        "floor": "wood"
+      },
+      "matches": true
+    },
+    {
+      "input": "!Floor!= %22wood%22\r",
+      "expected": {
+        "Floor": "wood"
+      },
+      "actual": {
+        "Floor": "wood"
+      },
+      "matches": true
+    },
+    {
+      "input": "=",
+      "expected": {},
+      "actual": {},
+      "matches": true
+    },
+    {
+      "input": " key =",
+      "expected": {
+        "key": ""
+      },
+      "actual": {
+        "key": ""
+      },
+      "matches": true
+    },
+    {
+      "input": "!Floor!=",
+      "expected": {
+        "Floor": ""
+      },
+      "actual": {
+        "Floor": ""
+      },
+      "matches": true
+    },
+    {
+      "input": " key =%22open",
+      "expected": {
+        "key": "%22open"
+      },
+      "actual": {
+        "key": "%22open"
+      },
+      "matches": true
+    },
+    {
+      "input": "=%22open",
+      "expected": {},
+      "actual": {},
+      "matches": true
+    },
+    {
+      "input": "floor=%22open",
+      "expected": {
+        "floor": "%22open"
+      },
+      "actual": {
+        "floor": "%22open"
+      },
+      "matches": true
+    },
+    {
+      "input": "floor=",
+      "expected": {
+        "floor": ""
+      },
+      "actual": {
+        "floor": ""
+      },
+      "matches": true
+    },
+    {
+      "input": "1x=%22hole%22",
+      "expected": {
+        "1x": "hole"
+      },
+      "actual": {
+        "1x": "hole"
+      },
+      "matches": true
+    },
+    {
+      "input": "!Floor!= %22wood%22\r",
+      "expected": {
+        "Floor": "wood"
+      },
+      "actual": {
+        "Floor": "wood"
+      },
+      "matches": true
+    },
+    {
+      "input": "!Floor!=%22open",
+      "expected": {
+        "Floor": "%22open"
+      },
+      "actual": {
+        "Floor": "%22open"
+      },
+      "matches": true
+    },
+    {
+      "input": "floor_types=%22hole%22",
+      "expected": {
+        "floor": "hole"
+      },
+      "actual": {
+        "floor": "hole"
+      },
+      "matches": true
+    },
+    {
+      "input": " key =%22open",
+      "expected": {
+        "key": "%22open"
+      },
+      "actual": {
+        "key": "%22open"
+      },
+      "matches": true
+    },
+    {
+      "input": "floortypes = %22hole%22",
+      "expected": {
+        "floortypes": "hole"
+      },
+      "actual": {
+        "floortypes": "hole"
+      },
+      "matches": true
+    },
+    {
+      "input": "floortypes = %22water%22",
+      "expected": {
+        "floortypes": "water"
+      },
+      "actual": {
+        "floortypes": "water"
+      },
+      "matches": true
+    },
+    {
+      "input": "floortypes = %22wood%22",
+      "expected": {
+        "floortypes": "wood"
+      },
+      "actual": {
+        "floortypes": "wood"
+      },
+      "matches": true
+    },
+    {
+      "input": "floortypes = %22door%22\r\n",
+      "expected": {
+        "floortypes": "door"
+      },
+      "actual": {
+        "floortypes": "door"
+      },
+      "matches": true
+    }
+  ]
+}

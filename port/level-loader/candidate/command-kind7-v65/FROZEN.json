@@ -1,0 +1,12 @@
+{
+  "status": "SOURCE_ONLY_UNCOMPILED_UNRUN",
+  "archive": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\command-kind7-v65-source-only-6e835c2eec7cd172.zip",
+  "archive_sha256": "82ce0bd54e45242835b651bad2b2a48c377f8c7c0cd3d24d42d821a05454510e",
+  "manifest_sha256": "6e835c2eec7cd172a5033400006de567415259678092929bf79d3fc7ca50ce21",
+  "diff_sha256": "3b4832d74e49bc2bb51dcff0289db331dac82a20411e8ed627ab92aa126311f6",
+  "proof_sha256": "eb2917fed118dd98788b75a56c8e175fc90834f5413d0587d4c483e0cfdda50c",
+  "test_sha256": "b3ef51d28b3b8ef33dcd0560c96263555cb3f36135009d49a02b35a150ae8be2",
+  "handoff_sha256": "6c90baa9efa86929f1b141a5405c440f8c56dd91e4b0a5aec2515d0781cdb3ed",
+  "baseline_kind4_preserved": true,
+  "frozen46_preserved": true
+}

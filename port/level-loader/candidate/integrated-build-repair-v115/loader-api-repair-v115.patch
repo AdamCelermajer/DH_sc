@@ -1,0 +1,85 @@
+--- a/port/level-loader/retained_level_module_graph_v1.hpp
++++ b/port/level-loader/retained_level_module_graph_v1.hpp
+@@ -79,6 +79,8 @@
+     bool capture_draw_frames(std::vector<ModuleDrawFrameV1>& out,std::string&)const;
+     const RetainedModulePreparationStatusV1& status()const noexcept{return status_;}
+     const auto& level()const noexcept{return input_.level;}
++    // Borrow the existing provider/registry lease; never construct another owner.
++    const std::shared_ptr<void>& candidate_owner_v50()const noexcept{return input_.candidate_owner;}
+     world::CanonicalObjectManagerV1& manager()const noexcept{return *input_.manager;}
+     const auto& floor_world()const noexcept{return input_.floors;}
+     const auto& modules()const noexcept{return modules_;}
+--- a/port/level-world/level_savegame_owner_v1.hpp
++++ b/port/level-world/level_savegame_owner_v1.hpp
+@@ -32,6 +32,8 @@
+  // Source Savegame D1/D0, before lease reset. D1 releases cache/directory;
+  // it does not call FlushJobs (global job delivery is a separate boundary).
+  bool (*destroy_cache)(void*,void*,std::string&){};
++ // Delivery success and original checkpoint validity are separate results.
++ bool (*validate_checkpoint)(void*,void*,LevelSavegameFieldsV1&,std::uint32_t,std::int32_t,std::int32_t,bool&,std::string&){};
+ };
+ class LevelSavegameOwnerV1 {
+  LevelSavegameServicesV1 services_; LevelSavegameFieldsV1 fields_;
+@@ -46,6 +48,7 @@
+  static std::string checkpoint_filename(std::uint32_t,std::int32_t,bool);
+  bool construct(const LevelSavegameRequestV1&,std::string&);
+  bool load(std::string&); bool save(std::string&); bool release(std::string&);
++ bool validate_checkpoint(std::uint32_t seed,std::int32_t difficulty,std::int32_t row,bool& valid,std::string&);
+  bool ready()const noexcept{return ready_;}
+  unsigned phase()const noexcept{return phase_;}
+  void* native_savegame()const noexcept{return cache_.get();}
+--- a/port/level-world/level_savegame_owner_v1.cpp
++++ b/port/level-world/level_savegame_owner_v1.cpp
+@@ -36,6 +36,11 @@
+   std::uint8_t flag=0;if(!services_.manager_flag719||!services_.manager_flag719(services_.context,flag,e))return fail(e,"Required same PlayerManager byte719");if(flag)return true;}
+  if(!services_.save_all||!services_.save_all(services_.context,cache_.get(),e))return fail(e,"Required source Savegame saveAll/jobs/file owner");return true;
+ }
++bool LevelSavegameOwnerV1::validate_checkpoint(std::uint32_t seed,std::int32_t difficulty,std::int32_t row,bool& valid,std::string& e){
++ e.clear();valid=false;if(!ready_||!cache_||busy_||released_)return fail(e,"Required ready SAME LevelSavegame checkpoint validation owner");Guard guard(busy_);
++ if(!services_.validate_checkpoint||!services_.validate_checkpoint(services_.context,cache_.get(),fields_,seed,difficulty,row,valid,e))return fail(e,"Required genuine SAME LevelSavegame.ValidateCheckpoint463288");
++ return true;
++}
+ bool LevelSavegameOwnerV1::release(std::string& e){
+  e.clear();if(busy_)return fail(e,"LevelSavegame lifetime is busy");if(released_)return true;Guard guard(busy_);
+  if(cache_){if(!services_.destroy_cache||!services_.destroy_cache(services_.context,cache_.get(),e))return fail(e,"Required source Savegame destructor/job lifetime");cache_.reset();}
+--- a/port/level-world/level_savegame_runtime_v1.hpp
++++ b/port/level-world/level_savegame_runtime_v1.hpp
+@@ -10,6 +10,8 @@
+  // The source saveAll section serialization, global jobs and file delivery.
+  // INFO must write SAME fields.row28; OBJS must enumerate SAME ObjectManager.
+  bool (*save_all)(void*,LevelSavegameCacheV1&,LevelSavegameFieldsV1&,std::string&){};
++ // Main supplies original filename/cache/INFO validation on this SAME cache.
++ bool (*validate_checkpoint)(void*,LevelSavegameCacheV1&,LevelSavegameFieldsV1&,std::uint32_t,std::int32_t,std::int32_t,bool&,std::string&){};
+ };
+ // One native Savegame cache per LevelSavegame, and one borrowed Level identity.
+ // Allocate this before the outer Level rereads its constructor arguments.
+@@ -25,6 +27,7 @@
+  static bool flag(void*,std::uint8_t&,std::string&);
+  static bool save(void*,void*,std::string&);
+  static bool destroy(void*,void*,std::string&);
++ static bool checkpoint_valid(void*,void*,LevelSavegameFieldsV1&,std::uint32_t,std::int32_t,std::int32_t,bool&,std::string&);
+  bool same_cache(void*,std::string&)const;
+ public:
+  explicit LevelSavegameRuntimeV1(LevelSavegameApplicationV1);
+--- a/port/level-world/level_savegame_runtime_v1.cpp
++++ b/port/level-world/level_savegame_runtime_v1.cpp
+@@ -1,6 +1,6 @@
+ #include "level_savegame_runtime_v1.hpp"
+ namespace dh2::level {
+-LevelSavegameRuntimeV1::LevelSavegameRuntimeV1(LevelSavegameApplicationV1 a):application_(a),owner_({this,create,section,load,online,hosting,flag,save,destroy}){}
++LevelSavegameRuntimeV1::LevelSavegameRuntimeV1(LevelSavegameApplicationV1 a):application_(a),owner_({this,create,section,load,online,hosting,flag,save,destroy,checkpoint_valid}){}
+ bool LevelSavegameRuntimeV1::same_cache(void* p,std::string& e)const{auto c=cache_.lock();if(!c||c.get()!=p){e="Required same retained Level Savegame cache";return false;}return true;}
+ bool LevelSavegameRuntimeV1::create(void* p,const std::string& f,bool raw,std::shared_ptr<void>& out,std::string& e){auto& t=*static_cast<LevelSavegameRuntimeV1*>(p);auto c=std::make_shared<LevelSavegameCacheV1>(t.application_.files);if(!c->construct(f,raw,e))return false;t.cache_=c;out=std::move(c);return true;}
+ bool LevelSavegameRuntimeV1::section(void* p,void* c,const char* n,LevelSavegameSectionV1 s,LevelSavegameFieldsV1& f,std::string& e){auto& t=*static_cast<LevelSavegameRuntimeV1*>(p);return t.same_cache(c,e)&&static_cast<LevelSavegameCacheV1*>(c)->register_section(n,s,f,e);}
+@@ -9,5 +9,11 @@
+ bool LevelSavegameRuntimeV1::hosting(void* p,bool& v,std::string& e){auto& a=static_cast<LevelSavegameRuntimeV1*>(p)->application_;if(!a.is_hosting){e="Required same source PlayerManager IsHosting";return false;}return a.is_hosting(a.context,v,e);}
+ bool LevelSavegameRuntimeV1::flag(void* p,std::uint8_t& v,std::string& e){auto& a=static_cast<LevelSavegameRuntimeV1*>(p)->application_;if(!a.manager_flag719){e="Required same source PlayerManager byte719";return false;}return a.manager_flag719(a.context,v,e);}
+ bool LevelSavegameRuntimeV1::save(void* p,void* c,std::string& e){auto& t=*static_cast<LevelSavegameRuntimeV1*>(p);if(!t.same_cache(c,e))return false;if(!t.application_.save_all){e="Required whole source Savegame saveAll serialization/jobs/file delivery";return false;}return t.application_.save_all(t.application_.context,*static_cast<LevelSavegameCacheV1*>(c),t.owner_.fields(),e);}
++bool LevelSavegameRuntimeV1::checkpoint_valid(void* p,void* c,LevelSavegameFieldsV1& fields,std::uint32_t seed,std::int32_t difficulty,std::int32_t row,bool& valid,std::string& e){
++ auto& t=*static_cast<LevelSavegameRuntimeV1*>(p);
++ if(!t.same_cache(c,e)||&fields!=&t.owner_.fields()){if(e.empty())e="Required SAME checkpoint cache/fields";return false;}
++ if(!t.application_.validate_checkpoint){e="Required genuine Main ValidateCheckpoint filename/cache/INFO primitive";return false;}
++ return t.application_.validate_checkpoint(t.application_.context,*static_cast<LevelSavegameCacheV1*>(c),fields,seed,difficulty,row,valid,e);
++}
+ bool LevelSavegameRuntimeV1::destroy(void* p,void* c,std::string& e){auto& t=*static_cast<LevelSavegameRuntimeV1*>(p);if(!t.same_cache(c,e))return false;t.cache_.reset();return true;}
+ }

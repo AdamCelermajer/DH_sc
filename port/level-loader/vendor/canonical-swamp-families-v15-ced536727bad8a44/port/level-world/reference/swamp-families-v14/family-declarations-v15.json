@@ -1,0 +1,1367 @@
+{
+  "source_sha256": "b2679ff9b5e49c73df83caa2a5b9cffb7b89a377fe30bf3c75faddd53148d615",
+  "scope": "actual parsed source attribute report, not raw XML parser acceptance",
+  "declarations": [
+    {
+      "document": 1,
+      "element": 11,
+      "uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "tag": "GameObject",
+      "source_order": 10,
+      "origin": "gameplay",
+      "module": 0,
+      "module_name": "obj_4of4_brdwalk_sw_00_0",
+      "module_offset": [
+        0,
+        0,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_EntryPoint",
+        "position": "1090.75,-212.202,258.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,0.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "SpawnPoint",
+        "entrypointID": "0",
+        "_templateName": "EntryPoint",
+        "activate_cond": "Invalid",
+        "script": ""
+      },
+      "authored_position": [
+        1090.75,
+        -212.201996,
+        258
+      ],
+      "translated_position": [
+        1090.75,
+        -212.201996,
+        258
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_EntryPoint",
+          "position": "1090.75,-212.202,258.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,0.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "SpawnPoint",
+          "entrypointID": "0",
+          "_templateName": "EntryPoint",
+          "activate_cond": "Invalid",
+          "script": ""
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 4,
+      "element": 6,
+      "uri": "data/3d/modules/swamp/mvp/obj_3of4_brdwalk_sw_00.mvp",
+      "tag": "GameObject",
+      "source_order": 5,
+      "origin": "visual",
+      "module": 1,
+      "module_name": "obj_3of4_brdwalk_sw_00_1",
+      "module_offset": [
+        -6000,
+        0,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prop_corpse_01_001",
+        "position": "799.1,1154.6,260.2",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "0.0,0.0,0.0",
+        "rotation": "0.0,0.0,90.0",
+        "xrefmax": "data/iphone/3D/Props/Swamp/prop_swamp_corpses.max",
+        "xrefobject": "_prop_corpse_01",
+        "dae": "data/3D/Props/Swamp/prop_swamp_corpses.bdae",
+        "gametype": "Decor",
+        "_templateName": "Props"
+      },
+      "authored_position": [
+        799.099976,
+        1154.59998,
+        260.200012
+      ],
+      "translated_position": [
+        -5200.8999,
+        1154.59998,
+        260.200012
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        90
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prop_corpse_01_001",
+          "position": "799.1,1154.6,260.2",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "0.0,0.0,0.0",
+          "rotation": "0.0,0.0,90.0",
+          "xrefmax": "data/iphone/3D/Props/Swamp/prop_swamp_corpses.max",
+          "xrefobject": "_prop_corpse_01",
+          "dae": "data/3D/Props/Swamp/prop_swamp_corpses.bdae",
+          "gametype": "Decor",
+          "_templateName": "Props"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 4,
+      "element": 7,
+      "uri": "data/3d/modules/swamp/mvp/obj_3of4_brdwalk_sw_00.mvp",
+      "tag": "GameObject",
+      "source_order": 6,
+      "origin": "visual",
+      "module": 1,
+      "module_name": "obj_3of4_brdwalk_sw_00_1",
+      "module_offset": [
+        -6000,
+        0,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prop_corpse_02_001",
+        "position": "961.9,852.2,257.9",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "0.0,0.0,0.0",
+        "rotation": "6.83019e-006,0.0,0.0",
+        "xrefmax": "data/iphone/3D/Props/Swamp/prop_swamp_corpses.max",
+        "xrefobject": "_prop_corpse_02",
+        "dae": "data/3D/Props/Swamp/prop_swamp_corpses.bdae",
+        "gametype": "Decor",
+        "_templateName": "Props"
+      },
+      "authored_position": [
+        961.900024,
+        852.200012,
+        257.899994
+      ],
+      "translated_position": [
+        -5038.1001,
+        852.200012,
+        257.899994
+      ],
+      "rotation_degrees": [
+        6.83019016e-06,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prop_corpse_02_001",
+          "position": "961.9,852.2,257.9",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "0.0,0.0,0.0",
+          "rotation": "6.83019e-006,0.0,0.0",
+          "xrefmax": "data/iphone/3D/Props/Swamp/prop_swamp_corpses.max",
+          "xrefobject": "_prop_corpse_02",
+          "dae": "data/3D/Props/Swamp/prop_swamp_corpses.bdae",
+          "gametype": "Decor",
+          "_templateName": "Props"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 4,
+      "element": 8,
+      "uri": "data/3d/modules/swamp/mvp/obj_3of4_brdwalk_sw_00.mvp",
+      "tag": "GameObject",
+      "source_order": 7,
+      "origin": "visual",
+      "module": 1,
+      "module_name": "obj_3of4_brdwalk_sw_00_1",
+      "module_offset": [
+        -6000,
+        0,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prop_small_bloodstain_001",
+        "position": "996.8,917.9,260.2",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "86.0,86.0,86.0",
+        "rotation": "0.0,0.0,0.0",
+        "xrefmax": "data/iphone/3D/Props/Swamp/prop_swamp_corpses.max",
+        "xrefobject": "_prop_small_bloodstain",
+        "dae": "data/3D/Props/Swamp/prop_swamp_corpses.bdae",
+        "gametype": "Decor",
+        "_templateName": "Props"
+      },
+      "authored_position": [
+        996.799988,
+        917.900024,
+        260.200012
+      ],
+      "translated_position": [
+        -5003.2002,
+        917.900024,
+        260.200012
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prop_small_bloodstain_001",
+          "position": "996.8,917.9,260.2",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "86.0,86.0,86.0",
+          "rotation": "0.0,0.0,0.0",
+          "xrefmax": "data/iphone/3D/Props/Swamp/prop_swamp_corpses.max",
+          "xrefobject": "_prop_small_bloodstain",
+          "dae": "data/3D/Props/Swamp/prop_swamp_corpses.bdae",
+          "gametype": "Decor",
+          "_templateName": "Props"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 4,
+      "element": 9,
+      "uri": "data/3d/modules/swamp/mvp/obj_3of4_brdwalk_sw_00.mvp",
+      "tag": "GameObject",
+      "source_order": 8,
+      "origin": "visual",
+      "module": 1,
+      "module_name": "obj_3of4_brdwalk_sw_00_1",
+      "module_offset": [
+        -6000,
+        0,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prop_small_bloodstain_02",
+        "position": "799.1,1154.6,260.2",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "86.0,86.0,86.0",
+        "rotation": "0.0,0.0,0.0",
+        "xrefmax": "data/iphone/3D/Props/Swamp/prop_swamp_corpses.max",
+        "xrefobject": "_prop_small_bloodstain",
+        "dae": "data/3D/Props/Swamp/prop_swamp_corpses.bdae",
+        "gametype": "Decor",
+        "_templateName": "Props"
+      },
+      "authored_position": [
+        799.099976,
+        1154.59998,
+        260.200012
+      ],
+      "translated_position": [
+        -5200.8999,
+        1154.59998,
+        260.200012
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prop_small_bloodstain_02",
+          "position": "799.1,1154.6,260.2",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "86.0,86.0,86.0",
+          "rotation": "0.0,0.0,0.0",
+          "xrefmax": "data/iphone/3D/Props/Swamp/prop_swamp_corpses.max",
+          "xrefobject": "_prop_small_bloodstain",
+          "dae": "data/3D/Props/Swamp/prop_swamp_corpses.bdae",
+          "gametype": "Decor",
+          "_templateName": "Props"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 6,
+      "element": 4,
+      "uri": "data/3d/modules/swamp/mvp/obj_1of4_brdwalk_nse_00.mvp",
+      "tag": "GameObject",
+      "source_order": 3,
+      "origin": "visual",
+      "module": 2,
+      "module_name": "obj_1of4_brdwalk_nse_00_2",
+      "module_offset": [
+        -6000,
+        6000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prop_corpse_02_001",
+        "position": "166.024,-1024.28,250.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "0.0,0.0,0.0",
+        "rotation": "0.0,0.0,40.5421",
+        "xrefmax": "data/iphone/3D/Props/Swamp/prop_swamp_corpses.max",
+        "xrefobject": "_prop_corpse_02",
+        "dae": "data/3D/Props/Swamp/prop_swamp_corpses.bdae",
+        "gametype": "Decor",
+        "_templateName": "Props"
+      },
+      "authored_position": [
+        166.024002,
+        -1024.28003,
+        250
+      ],
+      "translated_position": [
+        -5833.97607,
+        4975.71973,
+        250
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        40.542099
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prop_corpse_02_001",
+          "position": "166.024,-1024.28,250.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "0.0,0.0,0.0",
+          "rotation": "0.0,0.0,40.5421",
+          "xrefmax": "data/iphone/3D/Props/Swamp/prop_swamp_corpses.max",
+          "xrefobject": "_prop_corpse_02",
+          "dae": "data/3D/Props/Swamp/prop_swamp_corpses.bdae",
+          "gametype": "Decor",
+          "_templateName": "Props"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 8,
+      "element": 2,
+      "uri": "data/3d/modules/swamp/mvp/corner_ruin_ws_00.mvp",
+      "tag": "GameObject",
+      "source_order": 1,
+      "origin": "visual",
+      "module": 3,
+      "module_name": "corner_ruin_ws_00_3",
+      "module_offset": [
+        -6000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prop_corpses_small_pile_001",
+        "position": "84.6274,-967.047,318.923",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "0.0,0.0,0.0",
+        "rotation": "0.0,0.0,0.0",
+        "xrefmax": "data/iphone/3D/Props/Swamp/prop_swamp_corpses.max",
+        "xrefobject": "_prop_corpses_small_pile",
+        "dae": "data/3D/Props/Swamp/prop_swamp_corpses.bdae",
+        "gametype": "Decor",
+        "_templateName": "Props"
+      },
+      "authored_position": [
+        84.6274033,
+        -967.046997,
+        318.923004
+      ],
+      "translated_position": [
+        -5915.37256,
+        11032.9531,
+        318.923004
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prop_corpses_small_pile_001",
+          "position": "84.6274,-967.047,318.923",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "0.0,0.0,0.0",
+          "rotation": "0.0,0.0,0.0",
+          "xrefmax": "data/iphone/3D/Props/Swamp/prop_swamp_corpses.max",
+          "xrefobject": "_prop_corpses_small_pile",
+          "dae": "data/3D/Props/Swamp/prop_swamp_corpses.bdae",
+          "gametype": "Decor",
+          "_templateName": "Props"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 9,
+      "element": 13,
+      "uri": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "tag": "GameObject",
+      "source_order": 12,
+      "origin": "gameplay",
+      "module": 4,
+      "module_name": "merchantcamp_ruins_swe_00_4",
+      "module_offset": [
+        -12000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_EntryPoint_from_Swamp2",
+        "position": "-77.6475,-2172.22,257.788",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,0.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "SpawnPoint",
+        "_templateName": "EntryPoint",
+        "script": "",
+        "entrypointID": "3"
+      },
+      "authored_position": [
+        -77.6474991,
+        -2172.21997,
+        257.787994
+      ],
+      "translated_position": [
+        -12077.6475,
+        9827.78027,
+        257.787994
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_EntryPoint_from_Swamp2",
+          "position": "-77.6475,-2172.22,257.788",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,0.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "SpawnPoint",
+          "_templateName": "EntryPoint",
+          "script": "",
+          "entrypointID": "3"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 10,
+      "element": 7,
+      "uri": "data/3d/modules/swamp/mvp/merchantcamp_ruins_swe_00.mvp",
+      "tag": "GameObject",
+      "source_order": 6,
+      "origin": "visual",
+      "module": 4,
+      "module_name": "merchantcamp_ruins_swe_00_4",
+      "module_offset": [
+        -12000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prop_corpse_01_001",
+        "position": "-1476.63,304.727,270.625",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "0.0,0.0,0.0",
+        "rotation": "0.0,0.0,54.0159",
+        "xrefmax": "data/iphone/3D/Props/Swamp/prop_swamp_corpses.max",
+        "xrefobject": "_prop_corpse_01",
+        "dae": "data/3D/Props/Swamp/prop_swamp_corpses.bdae",
+        "gametype": "Decor",
+        "_templateName": "Props"
+      },
+      "authored_position": [
+        -1476.63,
+        304.72699,
+        270.625
+      ],
+      "translated_position": [
+        -13476.6299,
+        12304.7266,
+        270.625
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        54.0158997
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prop_corpse_01_001",
+          "position": "-1476.63,304.727,270.625",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "0.0,0.0,0.0",
+          "rotation": "0.0,0.0,54.0159",
+          "xrefmax": "data/iphone/3D/Props/Swamp/prop_swamp_corpses.max",
+          "xrefobject": "_prop_corpse_01",
+          "dae": "data/3D/Props/Swamp/prop_swamp_corpses.bdae",
+          "gametype": "Decor",
+          "_templateName": "Props"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 10,
+      "element": 8,
+      "uri": "data/3d/modules/swamp/mvp/merchantcamp_ruins_swe_00.mvp",
+      "tag": "GameObject",
+      "source_order": 7,
+      "origin": "visual",
+      "module": 4,
+      "module_name": "merchantcamp_ruins_swe_00_4",
+      "module_offset": [
+        -12000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prop_corpse_02_001",
+        "position": "-1006.27,13.457,247.536",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "0.0,0.0,0.0",
+        "rotation": "0.0,0.0,50.1297",
+        "xrefmax": "data/iphone/3D/Props/Swamp/prop_swamp_corpses.max",
+        "xrefobject": "_prop_corpse_02",
+        "dae": "data/3D/Props/Swamp/prop_swamp_corpses.bdae",
+        "gametype": "Decor",
+        "_templateName": "Props"
+      },
+      "authored_position": [
+        -1006.27002,
+        13.4569998,
+        247.535995
+      ],
+      "translated_position": [
+        -13006.2695,
+        12013.457,
+        247.535995
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        50.1296997
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prop_corpse_02_001",
+          "position": "-1006.27,13.457,247.536",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "0.0,0.0,0.0",
+          "rotation": "0.0,0.0,50.1297",
+          "xrefmax": "data/iphone/3D/Props/Swamp/prop_swamp_corpses.max",
+          "xrefobject": "_prop_corpse_02",
+          "dae": "data/3D/Props/Swamp/prop_swamp_corpses.bdae",
+          "gametype": "Decor",
+          "_templateName": "Props"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 13,
+      "element": 3,
+      "uri": "data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+      "tag": "GameObject",
+      "source_order": 2,
+      "origin": "gameplay",
+      "module": 6,
+      "module_name": "deadend_brdwalk_w_00_7",
+      "module_offset": [
+        -6000,
+        18000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_EntryPoint_WitchCaveExit",
+        "position": "771.258,197.887,195.758",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,0.0",
+        "rotation": "0.0,0.0,-45.0",
+        "gametype": "SpawnPoint",
+        "_templateName": "EntryPoint",
+        "entrypointID": "4",
+        "activate_cond": "RENE_FOLLOW",
+        "script": "enterLocation_Swamp_RENE"
+      },
+      "authored_position": [
+        771.257996,
+        197.886993,
+        195.757996
+      ],
+      "translated_position": [
+        -5228.74219,
+        18197.8867,
+        195.757996
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        -45
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_EntryPoint_WitchCaveExit",
+          "position": "771.258,197.887,195.758",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,0.0",
+          "rotation": "0.0,0.0,-45.0",
+          "gametype": "SpawnPoint",
+          "_templateName": "EntryPoint",
+          "entrypointID": "4",
+          "activate_cond": "RENE_FOLLOW",
+          "script": "enterLocation_Swamp_RENE"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 13,
+      "element": 4,
+      "uri": "data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+      "tag": "GameObject",
+      "source_order": 3,
+      "origin": "gameplay",
+      "module": 6,
+      "module_name": "deadend_brdwalk_w_00_7",
+      "module_offset": [
+        -6000,
+        18000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_EntryPoint_WitchCaveExit01",
+        "position": "773.699,194.064,195.758",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,0.0",
+        "rotation": "0.0,0.0,-45.0",
+        "gametype": "SpawnPoint",
+        "_templateName": "EntryPoint",
+        "entrypointID": "4",
+        "script": "enterLocation_Swamp",
+        "activate_cond": "NoFollowers1"
+      },
+      "authored_position": [
+        773.698975,
+        194.063995,
+        195.757996
+      ],
+      "translated_position": [
+        -5226.30078,
+        18194.0645,
+        195.757996
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        -45
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_EntryPoint_WitchCaveExit01",
+          "position": "773.699,194.064,195.758",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,0.0",
+          "rotation": "0.0,0.0,-45.0",
+          "gametype": "SpawnPoint",
+          "_templateName": "EntryPoint",
+          "entrypointID": "4",
+          "script": "enterLocation_Swamp",
+          "activate_cond": "NoFollowers1"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 13,
+      "element": 5,
+      "uri": "data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+      "tag": "GameObject",
+      "source_order": 4,
+      "origin": "gameplay",
+      "module": 6,
+      "module_name": "deadend_brdwalk_w_00_7",
+      "module_offset": [
+        -6000,
+        18000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_EntryPoint_WitchCaveExit02",
+        "position": "771.45,198.824,195.758",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,0.0",
+        "rotation": "0.0,0.0,-45.0",
+        "gametype": "SpawnPoint",
+        "_templateName": "EntryPoint",
+        "entrypointID": "4",
+        "activate_cond": "EDWARD_FOLLOW",
+        "script": "enterLocation_Swamp_EDWARD"
+      },
+      "authored_position": [
+        771.450012,
+        198.824005,
+        195.757996
+      ],
+      "translated_position": [
+        -5228.5498,
+        18198.8242,
+        195.757996
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        -45
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_EntryPoint_WitchCaveExit02",
+          "position": "771.45,198.824,195.758",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,0.0",
+          "rotation": "0.0,0.0,-45.0",
+          "gametype": "SpawnPoint",
+          "_templateName": "EntryPoint",
+          "entrypointID": "4",
+          "activate_cond": "EDWARD_FOLLOW",
+          "script": "enterLocation_Swamp_EDWARD"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 13,
+      "element": 6,
+      "uri": "data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+      "tag": "GameObject",
+      "source_order": 5,
+      "origin": "gameplay",
+      "module": 6,
+      "module_name": "deadend_brdwalk_w_00_7",
+      "module_offset": [
+        -6000,
+        18000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_EntryPoint_WitchCaveExit03",
+        "position": "775.3,193.721,195.758",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,0.0",
+        "rotation": "0.0,0.0,-45.0",
+        "gametype": "SpawnPoint",
+        "_templateName": "EntryPoint",
+        "entrypointID": "4",
+        "script": "enterLocation_Swamp",
+        "activate_cond": "IsAfter_KillFlaminite"
+      },
+      "authored_position": [
+        775.299988,
+        193.720993,
+        195.757996
+      ],
+      "translated_position": [
+        -5224.7002,
+        18193.7207,
+        195.757996
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        -45
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_EntryPoint_WitchCaveExit03",
+          "position": "775.3,193.721,195.758",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,0.0",
+          "rotation": "0.0,0.0,-45.0",
+          "gametype": "SpawnPoint",
+          "_templateName": "EntryPoint",
+          "entrypointID": "4",
+          "script": "enterLocation_Swamp",
+          "activate_cond": "IsAfter_KillFlaminite"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 14,
+      "element": 7,
+      "uri": "data/3d/modules/swamp/mvp/deadend_brdwalk_w_00.mvp",
+      "tag": "GameObject",
+      "source_order": 6,
+      "origin": "visual",
+      "module": 6,
+      "module_name": "deadend_brdwalk_w_00_7",
+      "module_offset": [
+        -6000,
+        18000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prop_small_bloodstain_001",
+        "position": "1243.07,679.939,232.063",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "86.0,86.0,86.0",
+        "rotation": "0.0,0.0,126.332",
+        "xrefmax": "data/iphone/3D/Props/Swamp/prop_swamp_corpses.max",
+        "xrefobject": "_prop_small_bloodstain",
+        "dae": "data/3D/Props/Swamp/prop_swamp_corpses.bdae",
+        "gametype": "Decor",
+        "_templateName": "Props"
+      },
+      "authored_position": [
+        1243.06995,
+        679.939026,
+        232.063004
+      ],
+      "translated_position": [
+        -4756.93018,
+        18679.9395,
+        232.063004
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        126.332001
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prop_small_bloodstain_001",
+          "position": "1243.07,679.939,232.063",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "86.0,86.0,86.0",
+          "rotation": "0.0,0.0,126.332",
+          "xrefmax": "data/iphone/3D/Props/Swamp/prop_swamp_corpses.max",
+          "xrefobject": "_prop_small_bloodstain",
+          "dae": "data/3D/Props/Swamp/prop_swamp_corpses.bdae",
+          "gametype": "Decor",
+          "_templateName": "Props"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 15,
+      "element": 14,
+      "uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "tag": "GameObject",
+      "source_order": 13,
+      "origin": "gameplay",
+      "module": 7,
+      "module_name": "bossroom_ruins_ns__8",
+      "module_offset": [
+        -18000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_EntryPoint_from_darkwood",
+        "position": "6140.53,-398.688,252.089",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,0.0",
+        "rotation": "0.0,0.0,90.0",
+        "gametype": "SpawnPoint",
+        "_templateName": "EntryPoint",
+        "entrypointID": "1",
+        "activate_cond": "RENE_FOLLOW",
+        "script": "enterLocation_Swamp_RENE2"
+      },
+      "authored_position": [
+        6140.52979,
+        -398.687988,
+        252.089005
+      ],
+      "translated_position": [
+        -11859.4707,
+        11601.3125,
+        252.089005
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        90
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_EntryPoint_from_darkwood",
+          "position": "6140.53,-398.688,252.089",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,0.0",
+          "rotation": "0.0,0.0,90.0",
+          "gametype": "SpawnPoint",
+          "_templateName": "EntryPoint",
+          "entrypointID": "1",
+          "activate_cond": "RENE_FOLLOW",
+          "script": "enterLocation_Swamp_RENE2"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 15,
+      "element": 23,
+      "uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "tag": "GameObject",
+      "source_order": 22,
+      "origin": "gameplay",
+      "module": 7,
+      "module_name": "bossroom_ruins_ns__8",
+      "module_offset": [
+        -18000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_EntryPoint_from_darkwood02",
+        "position": "-1363.95,-812.168,-109.679",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,0.0",
+        "rotation": "0.0,0.0,90.0",
+        "gametype": "SpawnPoint",
+        "_templateName": "EntryPoint",
+        "entrypointID": "13",
+        "script": ""
+      },
+      "authored_position": [
+        -1363.94995,
+        -812.16803,
+        -109.679001
+      ],
+      "translated_position": [
+        -19363.9492,
+        11187.832,
+        -109.679001
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        90
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_EntryPoint_from_darkwood02",
+          "position": "-1363.95,-812.168,-109.679",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,0.0",
+          "rotation": "0.0,0.0,90.0",
+          "gametype": "SpawnPoint",
+          "_templateName": "EntryPoint",
+          "entrypointID": "13",
+          "script": ""
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 15,
+      "element": 24,
+      "uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "tag": "GameObject",
+      "source_order": 23,
+      "origin": "gameplay",
+      "module": 7,
+      "module_name": "bossroom_ruins_ns__8",
+      "module_offset": [
+        -18000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_EntryPoint_from_darkwood03",
+        "position": "6299.59,-398.688,252.089",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,0.0",
+        "rotation": "0.0,0.0,90.0",
+        "gametype": "SpawnPoint",
+        "script": "script_name",
+        "_templateName": "EntryPoint",
+        "entrypointID": "1",
+        "activate_cond": "NoFollowers1"
+      },
+      "authored_position": [
+        6299.58984,
+        -398.687988,
+        252.089005
+      ],
+      "translated_position": [
+        -11700.4102,
+        11601.3125,
+        252.089005
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        90
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_EntryPoint_from_darkwood03",
+          "position": "6299.59,-398.688,252.089",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,0.0",
+          "rotation": "0.0,0.0,90.0",
+          "gametype": "SpawnPoint",
+          "script": "script_name",
+          "_templateName": "EntryPoint",
+          "entrypointID": "1",
+          "activate_cond": "NoFollowers1"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 15,
+      "element": 25,
+      "uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "tag": "GameObject",
+      "source_order": 24,
+      "origin": "gameplay",
+      "module": 7,
+      "module_name": "bossroom_ruins_ns__8",
+      "module_offset": [
+        -18000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_EntryPoint_from_darkwood04",
+        "position": "6199.25,-592.166,252.089",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,0.0",
+        "rotation": "0.0,0.0,90.0",
+        "gametype": "SpawnPoint",
+        "_templateName": "EntryPoint",
+        "entrypointID": "1",
+        "activate_cond": "EDWARD_FOLLOW",
+        "script": ""
+      },
+      "authored_position": [
+        6199.25,
+        -592.166016,
+        252.089005
+      ],
+      "translated_position": [
+        -11800.75,
+        11407.834,
+        252.089005
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        90
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_EntryPoint_from_darkwood04",
+          "position": "6199.25,-592.166,252.089",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,0.0",
+          "rotation": "0.0,0.0,90.0",
+          "gametype": "SpawnPoint",
+          "_templateName": "EntryPoint",
+          "entrypointID": "1",
+          "activate_cond": "EDWARD_FOLLOW",
+          "script": ""
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 15,
+      "element": 26,
+      "uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "tag": "GameObject",
+      "source_order": 25,
+      "origin": "gameplay",
+      "module": 7,
+      "module_name": "bossroom_ruins_ns__8",
+      "module_offset": [
+        -18000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_EntryPoint_from_darkwood05",
+        "position": "6199.25,-212.45,252.089",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,0.0",
+        "rotation": "0.0,0.0,90.0",
+        "gametype": "SpawnPoint",
+        "_templateName": "EntryPoint",
+        "entrypointID": "1",
+        "script": "",
+        "activate_cond": "IsAfter_KillFlaminite"
+      },
+      "authored_position": [
+        6199.25,
+        -212.449997,
+        252.089005
+      ],
+      "translated_position": [
+        -11800.75,
+        11787.5498,
+        252.089005
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        90
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_EntryPoint_from_darkwood05",
+          "position": "6199.25,-212.45,252.089",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,0.0",
+          "rotation": "0.0,0.0,90.0",
+          "gametype": "SpawnPoint",
+          "_templateName": "EntryPoint",
+          "entrypointID": "1",
+          "script": "",
+          "activate_cond": "IsAfter_KillFlaminite"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 18,
+      "element": 4,
+      "uri": "data/3d/modules/swamp/mvp/obj_2of4_brdwalk_sw_00.mvp",
+      "tag": "GameObject",
+      "source_order": 3,
+      "origin": "visual",
+      "module": 8,
+      "module_name": "obj_2of4_brdwalk_sw_00_9",
+      "module_offset": [
+        0,
+        6000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prop_corpses_pile_001",
+        "position": "703.936,931.132,0.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "86.0,86.0,86.0",
+        "rotation": "0.0,0.0,-80.0",
+        "xrefmax": "data/iphone/3D/Props/Swamp/prop_swamp_corpses.max",
+        "xrefobject": "_prop_corpses_pile",
+        "dae": "data/3D/Props/Swamp/prop_swamp_corpses.bdae",
+        "gametype": "Decor",
+        "_templateName": "Props"
+      },
+      "authored_position": [
+        703.935974,
+        931.132019,
+        0
+      ],
+      "translated_position": [
+        703.935974,
+        6931.13184,
+        0
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        -80
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prop_corpses_pile_001",
+          "position": "703.936,931.132,0.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "86.0,86.0,86.0",
+          "rotation": "0.0,0.0,-80.0",
+          "xrefmax": "data/iphone/3D/Props/Swamp/prop_swamp_corpses.max",
+          "xrefobject": "_prop_corpses_pile",
+          "dae": "data/3D/Props/Swamp/prop_swamp_corpses.bdae",
+          "gametype": "Decor",
+          "_templateName": "Props"
+        },
+        "children": []
+      }
+    }
+  ]
+}

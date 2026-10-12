@@ -1,0 +1,525 @@
+{
+  "validation": "PASS",
+  "elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_path_cases": 18,
+  "original_stage8_cases": 6,
+  "standard_string_transports_are_fixtures": true,
+  "fog_and_ScriptManager_bodies_are_fixtures": true,
+  "lua44_untouched": true,
+  "whole_stage8_body_services_verified": false,
+  "paths": [
+    {
+      "input": "",
+      "normalized": "",
+      "calls": []
+    },
+    {
+      "input": "x",
+      "normalized": "x",
+      "calls": []
+    },
+    {
+      "input": "12345678",
+      "normalized": "12345678",
+      "calls": []
+    },
+    {
+      "input": ".pyscript",
+      "normalized": ".pyscript",
+      "calls": [
+        [
+          "commands",
+          "_pyscripts.bin",
+          0
+        ],
+        [
+          "names",
+          "_pyscriptnames.bin",
+          0
+        ]
+      ]
+    },
+    {
+      "input": "a.pyscript",
+      "normalized": "a.pyscript",
+      "calls": [
+        [
+          "commands",
+          "a_pyscripts.bin",
+          0
+        ],
+        [
+          "names",
+          "a_pyscriptnames.bin",
+          0
+        ]
+      ]
+    },
+    {
+      "input": "a.PYSCRIPT",
+      "normalized": "a.PYSCRIPT",
+      "calls": []
+    },
+    {
+      "input": "data\\scene\\swamp.pyscript",
+      "normalized": "data/scene/swamp.pyscript",
+      "calls": [
+        [
+          "commands",
+          "data/scene/swamp_pyscripts.bin",
+          0
+        ],
+        [
+          "names",
+          "data/scene/swamp_pyscriptnames.bin",
+          0
+        ]
+      ]
+    },
+    {
+      "input": "data\\scene\\swamp.pyscript.tail",
+      "normalized": "data/scene/swamp.pyscript.tail",
+      "calls": [
+        [
+          "commands",
+          "data/scene/swamp_pyscripts.bin",
+          0
+        ],
+        [
+          "names",
+          "data/scene/swamp_pyscriptnames.bin",
+          0
+        ]
+      ]
+    },
+    {
+      "input": "a.pyscript/b.pyscript",
+      "normalized": "a.pyscript/b.pyscript",
+      "calls": [
+        [
+          "commands",
+          "a.pyscript/b_pyscripts.bin",
+          0
+        ],
+        [
+          "names",
+          "a.pyscript/b_pyscriptnames.bin",
+          0
+        ]
+      ]
+    },
+    {
+      "input": "none\\file.lua",
+      "normalized": "none\\file.lua",
+      "calls": []
+    },
+    {
+      "input": "abc.pyscrip",
+      "normalized": "abc.pyscrip",
+      "calls": []
+    },
+    {
+      "input": "abc.pyscripts",
+      "normalized": "abc.pyscripts",
+      "calls": [
+        [
+          "commands",
+          "abc_pyscripts.bin",
+          0
+        ],
+        [
+          "names",
+          "abc_pyscriptnames.bin",
+          0
+        ]
+      ]
+    },
+    {
+      "input": "abc\\.pyscript\\tail",
+      "normalized": "abc/.pyscript/tail",
+      "calls": [
+        [
+          "commands",
+          "abc/_pyscripts.bin",
+          0
+        ],
+        [
+          "names",
+          "abc/_pyscriptnames.bin",
+          0
+        ]
+      ]
+    },
+    {
+      "input": "\\.pyscript",
+      "normalized": "/.pyscript",
+      "calls": [
+        [
+          "commands",
+          "/_pyscripts.bin",
+          0
+        ],
+        [
+          "names",
+          "/_pyscriptnames.bin",
+          0
+        ]
+      ]
+    },
+    {
+      "input": "a.pyscript.pyscript",
+      "normalized": "a.pyscript.pyscript",
+      "calls": [
+        [
+          "commands",
+          "a.pyscript_pyscripts.bin",
+          0
+        ],
+        [
+          "names",
+          "a.pyscript_pyscriptnames.bin",
+          0
+        ]
+      ]
+    },
+    {
+      "input": "some/relative.pyscript",
+      "normalized": "some/relative.pyscript",
+      "calls": [
+        [
+          "commands",
+          "some/relative_pyscripts.bin",
+          0
+        ],
+        [
+          "names",
+          "some/relative_pyscriptnames.bin",
+          0
+        ]
+      ]
+    },
+    {
+      "input": "actual lua .luac",
+      "normalized": "actual lua .luac",
+      "calls": []
+    },
+    {
+      "input": "unicode_\u00c3\u00a9.pyscript",
+      "normalized": "unicode_\u00c3\u00a9.pyscript",
+      "calls": [
+        [
+          "commands",
+          "unicode_\u00c3\u00a9_pyscripts.bin",
+          0
+        ],
+        [
+          "names",
+          "unicode_\u00c3\u00a9_pyscriptnames.bin",
+          0
+        ]
+      ]
+    }
+  ],
+  "stages": [
+    {
+      "fog": false,
+      "initial_config_missing": false,
+      "fallback": "",
+      "common_names_changes_config": false,
+      "events": [
+        [
+          "debug",
+          "IsDisplayLoadingStepName"
+        ],
+        [
+          "debug",
+          "isTracingLevel_Loading"
+        ],
+        [
+          "unload"
+        ],
+        [
+          "commands",
+          "data/pydata/scripts_pyscripts.bin",
+          1
+        ],
+        [
+          "names",
+          "data/pydata/scripts_pyscriptnames.bin",
+          1
+        ],
+        [
+          "commands",
+          "data/scene/swamp_pyscripts.bin",
+          0
+        ],
+        [
+          "names",
+          "data/scene/swamp_pyscriptnames.bin",
+          0
+        ]
+      ],
+      "final130": 9,
+      "lua44_unchanged": true
+    },
+    {
+      "fog": true,
+      "initial_config_missing": false,
+      "fallback": "",
+      "common_names_changes_config": false,
+      "events": [
+        [
+          "debug",
+          "IsDisplayLoadingStepName"
+        ],
+        [
+          "debug",
+          "isTracingLevel_Loading"
+        ],
+        [
+          "fog",
+          200
+        ],
+        [
+          "unload"
+        ],
+        [
+          "commands",
+          "data/pydata/scripts_pyscripts.bin",
+          1
+        ],
+        [
+          "names",
+          "data/pydata/scripts_pyscriptnames.bin",
+          1
+        ],
+        [
+          "commands",
+          "data/scene/swamp_pyscripts.bin",
+          0
+        ],
+        [
+          "names",
+          "data/scene/swamp_pyscriptnames.bin",
+          0
+        ]
+      ],
+      "final130": 9,
+      "lua44_unchanged": true
+    },
+    {
+      "fog": false,
+      "initial_config_missing": true,
+      "fallback": "default",
+      "common_names_changes_config": false,
+      "events": [
+        [
+          "debug",
+          "IsDisplayLoadingStepName"
+        ],
+        [
+          "debug",
+          "isTracingLevel_Loading"
+        ],
+        [
+          "spawn",
+          "LevelConfig",
+          "RuntimeDefaultLevelConfig",
+          0,
+          1
+        ],
+        [
+          "resolve",
+          0
+        ],
+        [
+          "setconfig",
+          33574912
+        ],
+        [
+          "unload"
+        ],
+        [
+          "commands",
+          "data/pydata/scripts_pyscripts.bin",
+          1
+        ],
+        [
+          "names",
+          "data/pydata/scripts_pyscriptnames.bin",
+          1
+        ],
+        [
+          "commands",
+          "data/scene/swamp_pyscripts.bin",
+          0
+        ],
+        [
+          "names",
+          "data/scene/swamp_pyscriptnames.bin",
+          0
+        ]
+      ],
+      "final130": 9,
+      "lua44_unchanged": true
+    },
+    {
+      "fog": false,
+      "initial_config_missing": true,
+      "fallback": "override",
+      "common_names_changes_config": false,
+      "events": [
+        [
+          "debug",
+          "IsDisplayLoadingStepName"
+        ],
+        [
+          "debug",
+          "isTracingLevel_Loading"
+        ],
+        [
+          "fallback_file",
+          "override/sourceLevelConfig.xml",
+          "Level"
+        ],
+        [
+          "fallback_file",
+          "override/sourceLevelConfig.xml",
+          "Level"
+        ],
+        [
+          "unload"
+        ],
+        [
+          "commands",
+          "data/pydata/scripts_pyscripts.bin",
+          1
+        ],
+        [
+          "names",
+          "data/pydata/scripts_pyscriptnames.bin",
+          1
+        ],
+        [
+          "commands",
+          "data/scene/swamp_pyscripts.bin",
+          0
+        ],
+        [
+          "names",
+          "data/scene/swamp_pyscriptnames.bin",
+          0
+        ]
+      ],
+      "final130": 9,
+      "lua44_unchanged": true
+    },
+    {
+      "fog": false,
+      "initial_config_missing": true,
+      "fallback": "override_miss",
+      "common_names_changes_config": false,
+      "events": [
+        [
+          "debug",
+          "IsDisplayLoadingStepName"
+        ],
+        [
+          "debug",
+          "isTracingLevel_Loading"
+        ],
+        [
+          "fallback_file",
+          "override/sourceLevelConfig.xml",
+          "Level"
+        ],
+        [
+          "fallback_file",
+          "override/sourceLevelConfig.xml",
+          "Level"
+        ],
+        [
+          "spawn",
+          "LevelConfig",
+          "RuntimeDefaultLevelConfig",
+          0,
+          1
+        ],
+        [
+          "resolve",
+          0
+        ],
+        [
+          "setconfig",
+          33574912
+        ],
+        [
+          "unload"
+        ],
+        [
+          "commands",
+          "data/pydata/scripts_pyscripts.bin",
+          1
+        ],
+        [
+          "names",
+          "data/pydata/scripts_pyscriptnames.bin",
+          1
+        ],
+        [
+          "commands",
+          "data/scene/swamp_pyscripts.bin",
+          0
+        ],
+        [
+          "names",
+          "data/scene/swamp_pyscriptnames.bin",
+          0
+        ]
+      ],
+      "final130": 9,
+      "lua44_unchanged": true
+    },
+    {
+      "fog": false,
+      "initial_config_missing": false,
+      "fallback": "",
+      "common_names_changes_config": true,
+      "events": [
+        [
+          "debug",
+          "IsDisplayLoadingStepName"
+        ],
+        [
+          "debug",
+          "isTracingLevel_Loading"
+        ],
+        [
+          "unload"
+        ],
+        [
+          "commands",
+          "data/pydata/scripts_pyscripts.bin",
+          1
+        ],
+        [
+          "names",
+          "data/pydata/scripts_pyscriptnames.bin",
+          1
+        ],
+        [
+          "commands",
+          "later/config_pyscripts.bin",
+          0
+        ],
+        [
+          "names",
+          "later/config_pyscriptnames.bin",
+          0
+        ]
+      ],
+      "final130": 9,
+      "lua44_unchanged": true
+    }
+  ]
+}

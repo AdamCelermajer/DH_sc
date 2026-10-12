@@ -1,0 +1,14 @@
+{
+  "stock_sha256": "22982233db016b2344d115db3b5eec6d62944094449de4ef25a328187d05848b",
+  "overlay_sha256": "c587ec54baf8a2b68d747ad8f5c8039334df27d6c55f764fc30a8137f2053d1d",
+  "changed_functions": [
+    "font::get_glyph"
+  ],
+  "stock_source": "port/engine-ui/vendor/gameswf1714/gameswf/gameswf_font.cpp",
+  "overlay_source": "port/engine-ui/overlays/font-v1/gameswf_font.cpp",
+  "original_function": {
+    "address": "0x7d01bc",
+    "size": 640
+  },
+  "provider_contract": "shape-independent native SwfHudFreetypeProvider; NULL embedded shape, provider-first image and advance; source bitmap-face and FT-face interfaces are represented by native provider ownership, not separate full fork reconstruction."
+}

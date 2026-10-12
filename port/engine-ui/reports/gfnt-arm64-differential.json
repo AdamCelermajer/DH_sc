@@ -1,0 +1,23 @@
+{
+  "validation": "PASS",
+  "comparisons": 8532,
+  "present_glyphs": 272,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "font_sha256": "45a426d731ec69996de61a2c47290afa0a59f6a64079440e298339cdfa15656d",
+  "library_sha256": "372a5b47e69803f31c352c53e9c6d50f18500d28bbe9185b1a13b15d4a260f38",
+  "gold_sha256": "0131e172216d44ee092495c52adc72fab35ace25e5e359b9d4811cb69083d7ed",
+  "source_sha256": {
+    "port/engine-ui/gfnt.hpp": "601646de8d663764cd35626df42ff652b9d1a64bd9de2699e414c1b14cfe319d",
+    "port/engine-ui/gfnt.cpp": "53e004d0ea9271205ae07f90d6b4efc98e024fc0ec6bf41e2d687d83c72de8f9",
+    "port/engine-ui/tests/gfnt_differential.py": "05882334cf966c76c6dbec360326e4690e7706c6c0fd63ed59bb5b3d8864b146"
+  },
+  "original_import_services": {
+    "__aeabi_ui2f": 1,
+    "__aeabi_fmul": 546,
+    "__aeabi_fdiv": 273,
+    "__aeabi_i2f": 544,
+    "__aeabi_f2iz": 272
+  },
+  "scope": "Actual original cached glyph raster and complete Metrics20, plus original constructor font-scale arithmetic block, vs optimized ARM64 kernel. Original imported float32/compiler conversions modeled explicitly. All8451 slots plus81height/boundary cases. No source texture-cache allocation, TTF, layout, GPU or packaged parity."
+}

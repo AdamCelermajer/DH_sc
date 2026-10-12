@@ -1,0 +1,59 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7gameswfL21display_glyph_recordsEPKNS_6matrixEPNS_9characterERNS_5arrayINS_17text_glyph_recordEEEPNS_20movie_definition_subEPNS_4rgbaEhhh",
+      "elf_address": "0x78faa0",
+      "size": 4060,
+      "sha256": "84c119267f2922a982660d241040749c15d45a1c735b055c4e5ba62757dfdad2"
+    },
+    {
+      "original_symbol": "_ZN7gameswf26default_bitmap_font_entityC1EPNS_21bitmap_glyph_providerERKNS_9tu_stringE",
+      "elf_address": "0x7c68c4",
+      "size": 648,
+      "sha256": "5daf4a0362e53e1736f589350529ee12c3c524b3c352d19f6ecb5abfa75e2722"
+    },
+    {
+      "original_symbol": "_ZN7gameswf19edit_text_character11format_textEb",
+      "elf_address": "0x78efb8",
+      "size": 564,
+      "sha256": "a7c4e28e91cd347abc5de7b559459273503784d6a803fedb86c2e9ef8e6d8f68"
+    },
+    {
+      "original_symbol": "_ZN8RenderFX13PreloadGlyphsEPKcS1_ibbPKN7gameswf6filterE",
+      "elf_address": "0x7ab0b8",
+      "size": 276,
+      "sha256": "ead254e356d2dbf02701cf778baa9bf9ed993c2e4d781bb0d4390ad62f016023"
+    },
+    {
+      "original_symbol": "_ZN7gameswf19edit_text_character14set_text_valueERKNS_9tu_stringEb",
+      "elf_address": "0x790ab0",
+      "size": 500,
+      "sha256": "c4ec75633d888fe938c16c090558489373e56d53461b1bb7941f3e8c432529b2"
+    },
+    {
+      "original_symbol": "_ZN7gameswf18bitmap_font_entity14get_char_imageEtiPNS_4rectEPf",
+      "elf_address": "0x7c59dc",
+      "size": 564,
+      "sha256": "38db698b14f080929984ea17d2cb28c898c7a8198e5f990f8b5315218dbc97e4"
+    },
+    {
+      "original_symbol": "_ZN12GameSWFUtils12PreloadGlyphEPKcPN7gameswf9characterEP6MenuFX",
+      "elf_address": "0x41724c",
+      "size": 336,
+      "sha256": "79f661ad5a966cece0e2280c6d47c80314f1eed5e2e05221f2e391d802471da7"
+    },
+    {
+      "original_symbol": "_ZN7gameswf4font4readEPNS_6streamEiPNS_20movie_definition_subE",
+      "elf_address": "0x7cfa30",
+      "size": 1932,
+      "sha256": "70c603b6740f78edc262dce8305e003a03e993cef43c7863cb845a669bb29d43"
+    },
+    {
+      "original_symbol": "_ZN8RenderFX13PreloadGlyphsEPN7gameswf9characterE",
+      "elf_address": "0x7a95a8",
+      "size": 140,
+      "sha256": "618e53ad8acf5ffdeb74d956690bd4bb44e293b62f68136e1405afb05666d7db"
+    }
+  ]
+}

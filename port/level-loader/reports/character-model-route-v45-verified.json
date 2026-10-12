@@ -1,0 +1,41 @@
+{
+  "schema": "dh2-character-model-route-v45-verified",
+  "validation": "PASS bounded ordered actual model-stage route",
+  "native_output": "PASS actual_ordered_LoadBase_Recalc=1 actual_model_property_backing=1 actual_family_model_route=1 NPC_Faery_NULL=1 owned_Faery_real_save_getter_original_table_callbacks=1 missing_order_dictionary_type_backing_saved=5 failed_model_not_replayed=1 NULL_model_preserves_authored_CString=1 source_scale_before_missing_parent=1 whole_InitPost_success=0 app_rng0_calls=8 saved_model=33\n",
+  "sources": {
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-model-route-v45\\retained_character_actor_v1.cpp": "fdc2e83bc8610e174d4131f793288082e5f6ebeb53d66e8acd08ab6e1fae140a",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-model-route-v45\\canonical_character_family_v4.cpp": "8b25023efde915318219a55288412d66faf84c8f230ca790420b2ff6ece4b91a",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-model-route-v45\\character_is_player_v41.cpp": "3968a3d59a254344dece961d418927160d23fdbe1bb82818f83274a2f3a95e43",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-model-route-v45\\character_model_route_v45.cpp": "4590be23d7c231b02bd472a1531a20ccccde65ac7d3b4e7e40f9fe1b7fc3c50e",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\character_model_name_v38.cpp": "62af39611d8047fe00b33be7588e377309867e00e4af4a9aa350f4a87c62dc83",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\game_object_spawn_probability_v1.cpp": "6156de7e656d0b94678669a990a95cf348fcd37534b13610d46d9fa891673d1b",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-model-route-v45\\genuine-save-snapshot\\player_savegame_v1.cpp": "ca713e12bd25307bca7b24c95714cec45bda1e198fdbe70e952315659ef91d43",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\faery_tables.cpp": "ac646932288e65764ba7f66fe352966de734c56f6737df5f7bc18b47d91b1a79",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-model-route-v45\\character_model_route_v45_test.cpp": "b8cb8cb76be196841eb016022cd3762b4322c8d33606b62de82ba78f868a77f1"
+  },
+  "genuine_save_header_sha256": "014acd3b821b4ab99b7fbd2072a8df4132465d783917e3b9592e58e8aeda0f6f",
+  "genuine_save_source_provenance": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\publication\\checkpoint\\port\\game-data\\player_savegame_v1.cpp",
+  "selected_sources_unchanged": {
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\retained_character_actor_v1.hpp": "4ed1d1f2efecd76a4a60c753b7ca0a0a3bc09e88f13d5d55ac6a5d575ff8a719",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\retained_character_actor_v1.cpp": "fdc2e83bc8610e174d4131f793288082e5f6ebeb53d66e8acd08ab6e1fae140a",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\canonical_character_family_v4.hpp": "62b288d35da526ac1713e2a38095960c1bd19bc3aa87f96fc4e64ff7a42e1dac",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\canonical_character_family_v4.cpp": "8c03a087b472bc7e919139affebd10a0229955b850744d075d85d15c5a3de3e9"
+  },
+  "coherent_parent_ready": true,
+  "binary_sha256": "62ecf965c09243c05c1f9b72cfa4e634562ef7ed01e0eb86325ddb441eefee92",
+  "link_map_sha256": "d2d80832c73a6a225dff68e43de9f86dcec53080f349be7d5b6dce0ccc78d36a",
+  "no_archived_actor_factory": true,
+  "actual_LoadBase_Recalc_helpers": true,
+  "remaining_fixtures": "Debug/online/network, saved difficulty1/DEFAULT Faery list/master Save association. Actual retained save getter and original Faery tables used. Whole gameplay save/player/AI/visual not claimed.",
+  "whole_InitPost_success": false,
+  "constructor_model_template_preselection": false,
+  "emulator_launched": false,
+  "native_runner_sha256": "60312bb1ed87a5e7d2309a7dea040b05c9994a900fa6e296060e8a32bea761d1",
+  "original_cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "original_elf_proof_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "design_fixture_sha256": "6e7d4390521ef857295c59ce3457cde8690a82ee9d14b5208588779b24acbd70",
+  "ordered_stop_entry": "0x38be5c",
+  "app_random0_calls": 8,
+  "owned_faery_original_table_model33": true,
+  "original_dae_transport_readback": true
+}

@@ -1,0 +1,29 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "manifest_sha256": "a308a6834cf46a81c1e473a929a36caf69bfa819ac2078830d0f69c4207d9978",
+  "arm64_library_sha256": "73db4ff0049b257b6b828e74697b3094dd7c83cf7e04401550cbf97b228a5baf",
+  "source_sha256": {
+    "port/level-world/character_idle_update.hpp": "97b98336bf2dbd82736fc4963f5be3beb3616f7dd37fbb2307171cf1b330fd88",
+    "port/level-world/character_idle_update.cpp": "db5d8a06ec37208d78fcaa5e7282873f6a06ef94f169fce7243d728a94b89dc0",
+    "port/level-world/tests/character_idle_update_differential.py": "af6baa190149da623c3a0f1a4a2384c3c84c2e836462fc92202ada721bc1a722"
+  },
+  "comparisons": 1800,
+  "ordered_requests": 10055,
+  "reentry_cases": 15,
+  "atomic_guards": 5,
+  "mismatches": 0,
+  "gold_sha256": "c594fd58c9a5b7198b46e0afc177d57f7b904665578505dd34f65a40aec49361",
+  "binary_gold_sha256": "0190df0ad15567a7ed6432a642f20d360744ad9217713774d08758877b6bbef9",
+  "original_imports": {
+    "__aeabi_i2f": 639,
+    "__aeabi_fsub": 4093,
+    "__aeabi_fmul": 4732,
+    "__aeabi_fadd": 2910,
+    "__aeabi_fcmpgt": 1183,
+    "sqrtf": 544,
+    "__aeabi_fdiv": 544
+  },
+  "scope": "Actual Idle OnUpdate/CommonUpdate instructions vs O2 ARM64 coordinator.\nCharacter event/controller bodies and original manager/constant/IsPlayer calls\nare required synchronous fixtures. Float imports use the established IEEE oracle.\n",
+  "elapsed_seconds": 3.45
+}

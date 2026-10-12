@@ -1,0 +1,50 @@
+--- a/port/level-loader/canonical_light_point_v53.hpp
++++ b/port/level-loader/canonical_light_point_v53.hpp
+@@ -121,6 +121,11 @@
+  CanonicalPropertyActorV1 properties()noexcept;
+  bool init_post(std::string&);
+  bool source_loading_fields_v95(std::shared_ptr<void>,CanonicalObjectLoadingFieldsV95&,std::string&);
++ //Actual LightBase/LightPoint vtable40/3c/44/48 inherit these ObjectBase
++ //source bodies. They do not toggle CLight5a or node visibility.
++ bool source_set_visible_v96(bool,std::string&);
++ bool source_set_updating_v96(bool,std::string&);
++ bool source_enabled_event_v96(bool,std::string&);
+  bool sync_data(const LightParameterFieldsV53&,std::string&);
+  const std::string* string(std::uint32_t)const noexcept;
+  const std::array<float,3>* vector(std::uint32_t)const noexcept;
+--- a/port/level-loader/canonical_light_point_v53.cpp
++++ b/port/level-loader/canonical_light_point_v53.cpp
+@@ -41,13 +41,30 @@
+  return value;
+ }
+ bool CanonicalLightPointV53::source_loading_fields_v95(std::shared_ptr<void> pin,CanonicalObjectLoadingFieldsV95& out,std::string& e){
+- if(!writable(e)||!pin){if(e.empty())e="Required live SAME LightPoint field lease";return false;}
++ if(!writable(e)||!pin||pin.get()!=this){if(e.empty())e="Required live SAME LightPoint field lease";return false;}
+  CanonicalObjectLoadingFieldsV95 value;value.receiver=std::move(pin);value.archetype48=string(0x48);
+  value.enabled8a=at(bytes_,0x8a);value.minimum_ec=at(ints_,0xec);value.disabled_f1=byte(0xf1);
+  value.condition_a8=&condition_a8_v95_;value.tested_ac=&tested_ac_v95_;value.condition_cc=&condition_cc_v95_;value.tested_d0=&tested_d0_v95_;
+- //LightBase overrides SetVisible: do not substitute ObjectBase80-only stores.
+- //A changed enabled state requires the real LightBase resource setter.
++ //The actual vtable inherits ObjectBase33de04/34, NOT GameObject methods.
++ const std::weak_ptr<CanonicalLightPointV53> actual(std::shared_ptr<CanonicalLightPointV53>(value.receiver,this));
++ value.objectbase_enabled_event=[actual](bool enabled,std::string& e){auto receiver=actual.lock();if(!receiver){e="Retired SAME LightPoint Enabled/Disabled receiver";return false;}return receiver->source_enabled_event_v96(enabled,e);};
+  out=std::move(value);e.clear();return true;
++}
++bool CanonicalLightPointV53::source_set_visible_v96(bool requested,std::string& e){
++ if(!writable(e))return false;
++ //33dcf8: true rereads SAME8a, false stores0. C1 did not initialize80.
++ bytes_[0x80]=requested?bytes_.at(0x8a):0;e.clear();return true;
++}
++bool CanonicalLightPointV53::source_set_updating_v96(bool requested,std::string& e){
++ if(!writable(e))return false;
++ //33dcf0 sole actual85 store. No CLight/node/Scene clock side effects.
++ bytes_.at(0x85)=requested?1:0;e.clear();return true;
++}
++bool CanonicalLightPointV53::source_enabled_event_v96(bool enabled,std::string& e){
++ //Enabled33de04 calls virtual40(true), then3c(true).
++ //Disabled33de34 calls virtual3c(false), then40(false).
++ if(enabled)return source_set_visible_v96(true,e)&&source_set_updating_v96(true,e);
++ return source_set_updating_v96(false,e)&&source_set_visible_v96(false,e);
+ }
+ bool CanonicalLightPointV53::fail(const std::string& n,std::string& e){if(error_.empty())error_=n.empty()?"Actual LightPoint service failed":n;e=error_;return false;}
+ bool CanonicalLightPointV53::init_post(std::string& e){if(!writable(e))return false;

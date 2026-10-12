@@ -1,0 +1,6 @@
+{"data/scripts/skills/prince_mage_staffmaster.luac",1429,"b61c7b5a0d7039d0384f0b84aef66a7f460721fd7736882a7b1a9607eca0f84b"},
+{"data/sounds/sfx_menu_select.wav",10784,"8afb7665dec542af18f914295adb0ea7ecfb498ba5973d573d755ae485e6799d"},
+{"data/3d/completelevels/dh2_testing/dh2_testing_floormap.bdae",4400,"a46d743c562e9ee082912971a04b028972f80f9e702338fadf49657ec64a82df"},
+{"data/pydata/loot_table_pyarray.bin",284104,"4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f"},
+{"data/menus/loadanims_i9000.swf",1456,"1089ccb7f77e4da014d47326a9cbe0bb6150b1439ebb04693154d997d678d2a3"},
+{".nomedia",0,"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"},

@@ -1,0 +1,53 @@
+{
+  "validation": "PASS_DEPENDENCY_AUDIT",
+  "scope": "Hash-verified integration dependency audit; no source selection or complete lifecycle claim",
+  "created_at": "2026-10-06T11:26:41+00:00",
+  "verified_packets": {
+    "active_graph": {
+      "files_verified": 725,
+      "manifest_sha256": "df31322785aa4a59b186afdee5959f624b7877c1b88a4ea81bca6eb093d29164"
+    },
+    "received_gslevel": {
+      "files_verified": 29,
+      "manifest_sha256": "c9ee7fdc391d81a4498576cefad8e47dd80ad3344c90e1bb13a0d66ae29cbdb3"
+    },
+    "prepared_source_supplement": {
+      "files_verified": 1,
+      "manifest_sha256": "47c786175da7224a4a55b4f88e5f264579aa34d4f2d8660a540ba5cdb9802092"
+    }
+  },
+  "selected_successor": false,
+  "direct_emulator_launch": false,
+  "whole_level_init_verified": false,
+  "source_hashes": {
+    "vendor/character-rng-integration-v4/port/level-loader/level_constructor_v3.hpp": "12a5bcfbf4e28820ac46dea20b78b00dab67c74618561ae4ed24e6ddfe44f5c0",
+    "vendor/native-gslevel-v27-received/port/level-loader/canonical_level_context_v1.hpp": "01d64bdb27cbbad5af1d6cb01a7e089f976cd09822eb58b36cc384cea009005e",
+    "vendor/native-gslevel-v27-received/port/level-loader/canonical_level_context_v1.cpp": "c9c17c15305e0d600a44b406a7b5e243b9f8a9535a55b80fa65b83ba01bc789a",
+    "vendor/character-rng-integration-v4/port/level-loader/canonical_level_context_v1.cpp": "f6e8baab874f79bdecfc791cc8155cff2cb7f34348b1b176fc191dc66a0ac05f",
+    "vendor/native-gslevel-v27-prepared-source-supplement/port/level-loader/canonical_level_prepared_source_v25.cpp": "734de74a996cca81eacda5fe5c77b86eeb256c60a171405f381838b72644e936"
+  },
+  "dependencies": [
+    {
+      "id": "actual_state130_storage",
+      "selected": "std::uintptr_t field130",
+      "successor_requirement": "std::uint32_t* state130",
+      "impact": "64-bit host pointer-type mismatch prevents coherent context-only adoption",
+      "owner": "main source successor + loader selection"
+    },
+    {
+      "id": "actual_progress_counters134_138",
+      "selected": "std::uintptr_t fields134/138",
+      "requirement": "Authentic _LoadProcess scalar tail needs original 32-bit words with signed compare semantics",
+      "impact": "Actual retained counter producer/typed borrow required; no reinterpret casts or parallel storage",
+      "owner": "main source successor + loader lifecycle"
+    },
+    {
+      "id": "prepared_source_single_definition",
+      "selected": "retain_prepared_source embedded in old context.cpp",
+      "successor_requirement": "separate canonical_level_prepared_source_v25.cpp",
+      "impact": "Compile successor context and prepared-source TU exactly once; remove old definition by selecting the successor",
+      "owner": "loader selection"
+    }
+  ],
+  "next_action": "Receive narrow frozen constructor header/source successor and counter field proof from main; then select coherent context and compile genuine lifecycle binding."
+}

@@ -1,0 +1,10 @@
+{
+  "validation": "PASS",
+  "comparisons": 864,
+  "level_queries": 12960,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "gold_sha256": "b01f2dac1ce6ca4b106aea663a3ab0cae4196d39d74f91c5962d93522a0b26bb",
+  "script_sha256": "196c3b86c47e249a36ddce57e8d069f9f1a36a88a29939e2bf69e682954e609f",
+  "scope": "Actual saved-faery constructor/init, setters, named readers and level\nqueries. Three source difficulties each allocate literal five rows; selected\ndifficulty is an actual source global, not private per-owner inferred state.\n",
+  "native_comparison": false
+}

@@ -1,0 +1,518 @@
+[
+  {
+    "identity": "ABBEY_RUINS_01",
+    "seed": 0,
+    "pid": "7943",
+    "log": "--------- beginning of main\r\n10-05 06:36:22.115  7943  7973 I DH2Loader: ABBEY_RUINS_01 | 1 modules | 49 mesh instances | 53 draws | 3 textures\r\n10-05 06:36:22.115  7943  7973 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:36:22.118  7943  7973 I DH2Loader: MAP_FRAME_OK identity=ABBEY_RUINS_01 procedural=0 seed=0 modules=1 meshes=49 draws=53 triangles=7046 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "APPLETEMPLEBACKUP",
+    "seed": 0,
+    "pid": "8035",
+    "log": "--------- beginning of main\r\n10-05 06:36:27.949  8035  8056 I DH2Loader: APPLETEMPLEBACKUP | 5 modules | 230 mesh instances | 231 draws | 3 textures\r\n10-05 06:36:27.949  8035  8056 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1\r\n10-05 06:36:27.954  8035  8056 I DH2Loader: MAP_FRAME_OK identity=APPLETEMPLEBACKUP procedural=0 seed=0 modules=5 meshes=230 draws=231 triangles=15260 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "DARKWOOD",
+    "seed": 0,
+    "pid": "8125",
+    "log": "--------- beginning of main\r\n10-05 06:36:34.323  8125  8149 I DH2Loader: DARKWOOD | 24 modules | 923 mesh instances | 936 draws | 5 textures\r\n10-05 06:36:34.323  8125  8149 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:36:34.331  8125  8149 I DH2Loader: MAP_FRAME_OK identity=DARKWOOD procedural=0 seed=0 modules=24 meshes=923 draws=936 triangles=40142 textures=5 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "DARKWOOD_V2",
+    "seed": 0,
+    "pid": "8226",
+    "log": "--------- beginning of main\r\n10-05 06:36:41.072  8226  8247 I DH2Loader: DARKWOOD_V2 | 24 modules | 923 mesh instances | 936 draws | 5 textures\r\n10-05 06:36:41.072  8226  8247 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:36:41.079  8226  8247 I DH2Loader: MAP_FRAME_OK identity=DARKWOOD_V2 procedural=0 seed=0 modules=24 meshes=923 draws=936 triangles=40142 textures=5 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "DARKWOOD_V3",
+    "seed": 0,
+    "pid": "8327",
+    "log": "--------- beginning of main\r\n10-05 06:36:47.245  8327  8352 I DH2Loader: DARKWOOD_V3 | 24 modules | 923 mesh instances | 936 draws | 5 textures\r\n10-05 06:36:47.245  8327  8352 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:36:47.254  8327  8352 I DH2Loader: MAP_FRAME_OK identity=DARKWOOD_V3 procedural=0 seed=0 modules=24 meshes=923 draws=936 triangles=40142 textures=5 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "DARK_DUNGEON_TEMPLE_01",
+    "seed": 0,
+    "pid": "8421",
+    "log": "--------- beginning of main\r\n10-05 06:36:52.303  8421  8454 I DH2Loader: DARK_DUNGEON_TEMPLE_01 | 8 modules | 16 mesh instances | 17 draws | 3 textures\r\n10-05 06:36:52.303  8421  8454 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:36:52.306  8421  8454 I DH2Loader: MAP_FRAME_OK identity=DARK_DUNGEON_TEMPLE_01 procedural=0 seed=0 modules=8 meshes=16 draws=17 triangles=21087 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "DARK_DUNGEON_TEMPLE_BOSSROOM",
+    "seed": 0,
+    "pid": "8509",
+    "log": "--------- beginning of main\r\n10-05 06:36:57.785  8509  8533 I DH2Loader: DARK_DUNGEON_TEMPLE_BOSSROOM | 2 modules | 6 mesh instances | 6 draws | 4 textures\r\n10-05 06:36:57.785  8509  8533 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:36:57.789  8509  8533 I DH2Loader: MAP_FRAME_OK identity=DARK_DUNGEON_TEMPLE_BOSSROOM procedural=0 seed=0 modules=2 meshes=6 draws=6 triangles=4745 textures=4 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "FIRE_TEMPLE_01",
+    "seed": 0,
+    "pid": "8600",
+    "log": "--------- beginning of main\r\n10-05 06:37:03.195  8600  8624 I DH2Loader: FIRE_TEMPLE_01 | 12 modules | 274 mesh instances | 300 draws | 3 textures\r\n10-05 06:37:03.195  8600  8624 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:37:03.200  8600  8624 I DH2Loader: MAP_FRAME_OK identity=FIRE_TEMPLE_01 procedural=0 seed=0 modules=12 meshes=274 draws=300 triangles=39745 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "ICY_HUB",
+    "seed": 0,
+    "pid": "8686",
+    "log": "--------- beginning of main\r\n10-05 06:37:08.872  8686  8709 I DH2Loader: ICY_HUB | 7 modules | 288 mesh instances | 288 draws | 3 textures\r\n10-05 06:37:08.872  8686  8709 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:37:08.878  8686  8709 I DH2Loader: MAP_FRAME_OK identity=ICY_HUB procedural=0 seed=0 modules=7 meshes=288 draws=288 triangles=21313 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "INFECTED_VILLAGE_01",
+    "seed": 0,
+    "pid": "8777",
+    "log": "--------- beginning of main\r\n10-05 06:37:14.152  8777  8800 I DH2Loader: INFECTED_VILLAGE_01 | 2 modules | 9 mesh instances | 13 draws | 3 textures\r\n10-05 06:37:14.152  8777  8800 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:37:14.171  8777  8800 I DH2Loader: MAP_FRAME_OK identity=INFECTED_VILLAGE_01 procedural=0 seed=0 modules=2 meshes=9 draws=13 triangles=5699 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "MACHINE_ROOMS_01",
+    "seed": 0,
+    "pid": "8860",
+    "log": "--------- beginning of main\r\n10-05 06:37:18.968  8860  8884 I DH2Loader: MACHINE_ROOMS_01 | 13 modules | 13 mesh instances | 13 draws | 2 textures\r\n10-05 06:37:18.968  8860  8884 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:37:19.100  8860  8884 I DH2Loader: MAP_FRAME_OK identity=MACHINE_ROOMS_01 procedural=0 seed=0 modules=13 meshes=13 draws=13 triangles=33706 textures=2 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "MULTIPLAYER_TEST",
+    "seed": 0,
+    "pid": "8943",
+    "log": "--------- beginning of main\r\n10-05 06:37:23.932  8943  8969 I DH2Loader: MULTIPLAYER_TEST | 1 modules | 1 mesh instances | 1 draws | 2 textures\r\n10-05 06:37:23.932  8943  8969 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:37:23.936  8943  8969 I DH2Loader: MAP_FRAME_OK identity=MULTIPLAYER_TEST procedural=0 seed=0 modules=1 meshes=1 draws=1 triangles=2592 textures=2 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "PORTAL_ROOM",
+    "seed": 0,
+    "pid": "9020",
+    "log": "--------- beginning of main\r\n10-05 06:37:31.003  9020  9044 I DH2Loader: PORTAL_ROOM | 24 modules | 923 mesh instances | 936 draws | 5 textures\r\n10-05 06:37:31.003  9020  9044 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:37:31.010  9020  9044 I DH2Loader: MAP_FRAME_OK identity=PORTAL_ROOM procedural=0 seed=0 modules=24 meshes=923 draws=936 triangles=40142 textures=5 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "RED_DESERT_HUB",
+    "seed": 0,
+    "pid": "9121",
+    "log": "--------- beginning of main\r\n10-05 06:37:36.598  9121  9145 I DH2Loader: RED_DESERT_HUB | 6 modules | 205 mesh instances | 224 draws | 4 textures\r\n10-05 06:37:36.598  9121  9145 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:37:36.605  9121  9145 I DH2Loader: MAP_FRAME_OK identity=RED_DESERT_HUB procedural=0 seed=0 modules=6 meshes=205 draws=224 triangles=19858 textures=4 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "SWAMP",
+    "seed": 0,
+    "pid": "9209",
+    "log": "--------- beginning of main\r\n10-05 06:37:42.691  9209  9238 I DH2Loader: SWAMP | 9 modules | 369 mesh instances | 384 draws | 3 textures\r\n10-05 06:37:42.691  9209  9238 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 8\r\n10-05 06:37:42.699  9209  9238 I DH2Loader: MAP_FRAME_OK identity=SWAMP procedural=0 seed=0 modules=9 meshes=369 draws=384 triangles=24676 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "UNDERWORLD_HUB",
+    "seed": 0,
+    "pid": "9300",
+    "log": "--------- beginning of main\r\n10-05 06:37:48.742  9300  9323 I DH2Loader: UNDERWORLD_HUB | 9 modules | 347 mesh instances | 348 draws | 4 textures\r\n10-05 06:37:48.742  9300  9323 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:37:48.746  9300  9323 I DH2Loader: MAP_FRAME_OK identity=UNDERWORLD_HUB procedural=0 seed=0 modules=9 meshes=347 draws=348 triangles=30148 textures=4 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "ABBEY_ENTRANCE_01",
+    "seed": 0,
+    "pid": "9396",
+    "log": "--------- beginning of main\r\n10-05 06:37:54.162  9396  9422 I DH2Loader: ABBEY_ENTRANCE_01 seed 0 | 11 modules | 68 mesh instances | 70 draws | 3 textures\r\n10-05 06:37:54.162  9396  9422 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:37:54.167  9396  9422 I DH2Loader: MAP_FRAME_OK identity=ABBEY_ENTRANCE_01 procedural=1 seed=0 modules=11 meshes=68 draws=70 triangles=16072 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "ABBEY_ENTRANCE_01",
+    "seed": 1,
+    "pid": "9480",
+    "log": "--------- beginning of main\r\n10-05 06:37:59.547  9480  9503 I DH2Loader: ABBEY_ENTRANCE_01 seed 1 | 11 modules | 67 mesh instances | 69 draws | 3 textures\r\n10-05 06:37:59.547  9480  9503 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:37:59.553  9480  9503 I DH2Loader: MAP_FRAME_OK identity=ABBEY_ENTRANCE_01 procedural=1 seed=1 modules=11 meshes=67 draws=69 triangles=15299 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "APPLETEMPLE",
+    "seed": 0,
+    "pid": "9570",
+    "log": "--------- beginning of main\r\n10-05 06:38:04.896  9570  9595 I DH2Loader: APPLETEMPLE seed 0 | 4 modules | 171 mesh instances | 172 draws | 3 textures\r\n10-05 06:38:04.896  9570  9595 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1\r\n10-05 06:38:04.914  9570  9595 I DH2Loader: MAP_FRAME_OK identity=APPLETEMPLE procedural=1 seed=0 modules=4 meshes=171 draws=172 triangles=12398 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "APPLETEMPLE",
+    "seed": 1,
+    "pid": "9654",
+    "log": "--------- beginning of main\r\n10-05 06:38:10.555  9654  9678 I DH2Loader: APPLETEMPLE seed 1 | 4 modules | 171 mesh instances | 172 draws | 3 textures\r\n10-05 06:38:10.555  9654  9678 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1\r\n10-05 06:38:10.558  9654  9678 I DH2Loader: MAP_FRAME_OK identity=APPLETEMPLE procedural=1 seed=1 modules=4 meshes=171 draws=172 triangles=12398 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "DESERT_CAVE_01",
+    "seed": 0,
+    "pid": "9746",
+    "log": "--------- beginning of main\r\n10-05 06:38:15.892  9746  9771 I DH2Loader: DESERT_CAVE_01 seed 0 | 9 modules | 277 mesh instances | 287 draws | 3 textures\r\n10-05 06:38:15.892  9746  9771 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:38:15.897  9746  9771 I DH2Loader: MAP_FRAME_OK identity=DESERT_CAVE_01 procedural=1 seed=0 modules=9 meshes=277 draws=287 triangles=27080 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "DESERT_CAVE_01",
+    "seed": 1,
+    "pid": "9830",
+    "log": "--------- beginning of main\r\n10-05 06:38:21.214  9830  9855 I DH2Loader: DESERT_CAVE_01 seed 1 | 7 modules | 235 mesh instances | 243 draws | 3 textures\r\n10-05 06:38:21.214  9830  9855 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:38:21.226  9830  9855 I DH2Loader: MAP_FRAME_OK identity=DESERT_CAVE_01 procedural=1 seed=1 modules=7 meshes=235 draws=243 triangles=20918 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "DESERT_CAVE_02",
+    "seed": 0,
+    "pid": "9919",
+    "log": "--------- beginning of main\r\n10-05 06:38:25.293  9919  9944 I DH2Loader: Preparation failed: Original generator produced no layout for DESERT_CAVE_02 seed 0\r\n"
+  },
+  {
+    "identity": "DESERT_CAVE_02",
+    "seed": 1,
+    "pid": "9989",
+    "log": "--------- beginning of main\r\n10-05 06:38:30.787  9989 10013 I DH2Loader: DESERT_CAVE_02 seed 1 | 10 modules | 207 mesh instances | 218 draws | 3 textures\r\n10-05 06:38:30.787  9989 10013 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:38:30.793  9989 10013 I DH2Loader: MAP_FRAME_OK identity=DESERT_CAVE_02 procedural=1 seed=1 modules=10 meshes=207 draws=218 triangles=22110 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "DESERT_CAVE_03",
+    "seed": 0,
+    "pid": "10080",
+    "log": "--------- beginning of main\r\n10-05 06:38:36.174 10080 10104 I DH2Loader: DESERT_CAVE_03 seed 0 | 10 modules | 208 mesh instances | 217 draws | 3 textures\r\n10-05 06:38:36.174 10080 10104 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:38:36.196 10080 10104 I DH2Loader: MAP_FRAME_OK identity=DESERT_CAVE_03 procedural=1 seed=0 modules=10 meshes=208 draws=217 triangles=24734 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "DESERT_CAVE_03",
+    "seed": 1,
+    "pid": "10163",
+    "log": "--------- beginning of main\r\n10-05 06:38:41.963 10163 10187 I DH2Loader: DESERT_CAVE_03 seed 1 | 10 modules | 203 mesh instances | 211 draws | 3 textures\r\n10-05 06:38:41.963 10163 10187 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:38:41.982 10163 10187 I DH2Loader: MAP_FRAME_OK identity=DESERT_CAVE_03 procedural=1 seed=1 modules=10 meshes=203 draws=211 triangles=23012 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "EARTH_TEMPLE_01",
+    "seed": 0,
+    "pid": "10255",
+    "log": "--------- beginning of main\r\n10-05 06:38:47.460 10255 10282 I DH2Loader: EARTH_TEMPLE_01 seed 0 | 7 modules | 335 mesh instances | 335 draws | 3 textures\r\n10-05 06:38:47.460 10255 10282 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1\r\n10-05 06:38:47.464 10255 10282 I DH2Loader: MAP_FRAME_OK identity=EARTH_TEMPLE_01 procedural=1 seed=0 modules=7 meshes=335 draws=335 triangles=19622 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "EARTH_TEMPLE_01",
+    "seed": 1,
+    "pid": "10344",
+    "log": "--------- beginning of main\r\n10-05 06:38:53.387 10344 10369 I DH2Loader: EARTH_TEMPLE_01 seed 1 | 6 modules | 291 mesh instances | 291 draws | 3 textures\r\n10-05 06:38:53.387 10344 10369 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1\r\n10-05 06:38:53.409 10344 10369 I DH2Loader: MAP_FRAME_OK identity=EARTH_TEMPLE_01 procedural=1 seed=1 modules=6 meshes=291 draws=291 triangles=17652 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "EARTH_TEMPLE_02",
+    "seed": 0,
+    "pid": "10430",
+    "log": "--------- beginning of main\r\n10-05 06:38:59.441 10430 10452 I DH2Loader: EARTH_TEMPLE_02 seed 0 | 8 modules | 334 mesh instances | 335 draws | 3 textures\r\n10-05 06:38:59.441 10430 10452 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:38:59.448 10430 10452 I DH2Loader: MAP_FRAME_OK identity=EARTH_TEMPLE_02 procedural=1 seed=0 modules=8 meshes=334 draws=335 triangles=20058 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "EARTH_TEMPLE_02",
+    "seed": 1,
+    "pid": "10525",
+    "log": "--------- beginning of main\r\n10-05 06:39:04.765 10525 10548 I DH2Loader: EARTH_TEMPLE_02 seed 1 | 7 modules | 297 mesh instances | 298 draws | 3 textures\r\n10-05 06:39:04.765 10525 10548 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:39:04.797 10525 10548 I DH2Loader: MAP_FRAME_OK identity=EARTH_TEMPLE_02 procedural=1 seed=1 modules=7 meshes=297 draws=298 triangles=18215 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "EARTH_TEMPLE_03",
+    "seed": 0,
+    "pid": "10608",
+    "log": "--------- beginning of main\r\n10-05 06:39:11.189 10608 10631 I DH2Loader: EARTH_TEMPLE_03 seed 0 | 5 modules | 226 mesh instances | 226 draws | 3 textures\r\n10-05 06:39:11.189 10608 10631 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:39:11.206 10608 10631 I DH2Loader: MAP_FRAME_OK identity=EARTH_TEMPLE_03 procedural=1 seed=0 modules=5 meshes=226 draws=226 triangles=15034 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "EARTH_TEMPLE_03",
+    "seed": 1,
+    "pid": "10706",
+    "log": "--------- beginning of main\r\n10-05 06:39:17.159 10706 10729 I DH2Loader: EARTH_TEMPLE_03 seed 1 | 5 modules | 226 mesh instances | 226 draws | 3 textures\r\n10-05 06:39:17.159 10706 10729 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:39:17.172 10706 10729 I DH2Loader: MAP_FRAME_OK identity=EARTH_TEMPLE_03 procedural=1 seed=1 modules=5 meshes=226 draws=226 triangles=15034 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "ELEMENTAL_AIR",
+    "seed": 0,
+    "pid": "10801",
+    "log": "--------- beginning of main\r\n10-05 06:39:23.862 10801 10830 I DH2Loader: ELEMENTAL_AIR seed 0 | 8 modules | 267 mesh instances | 271 draws | 3 textures\r\n10-05 06:39:23.862 10801 10830 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2\r\n10-05 06:39:23.879 10801 10830 I DH2Loader: MAP_FRAME_OK identity=ELEMENTAL_AIR procedural=1 seed=0 modules=8 meshes=267 draws=271 triangles=19760 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "ELEMENTAL_AIR",
+    "seed": 1,
+    "pid": "10895",
+    "log": "--------- beginning of main\r\n10-05 06:39:30.117 10895 10919 I DH2Loader: ELEMENTAL_AIR seed 1 | 7 modules | 239 mesh instances | 243 draws | 3 textures\r\n10-05 06:39:30.117 10895 10919 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2\r\n10-05 06:39:30.121 10895 10919 I DH2Loader: MAP_FRAME_OK identity=ELEMENTAL_AIR procedural=1 seed=1 modules=7 meshes=239 draws=243 triangles=16987 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "ELEMENTAL_EARTH",
+    "seed": 0,
+    "pid": "10981",
+    "log": "--------- beginning of main\r\n10-05 06:39:35.911 10981 11005 I DH2Loader: ELEMENTAL_EARTH seed 0 | 7 modules | 233 mesh instances | 239 draws | 3 textures\r\n10-05 06:39:35.911 10981 11005 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2\r\n10-05 06:39:35.923 10981 11005 I DH2Loader: MAP_FRAME_OK identity=ELEMENTAL_EARTH procedural=1 seed=0 modules=7 meshes=233 draws=239 triangles=17201 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "ELEMENTAL_EARTH",
+    "seed": 1,
+    "pid": "11065",
+    "log": "--------- beginning of main\r\n10-05 06:39:42.326 11065 11098 I DH2Loader: ELEMENTAL_EARTH seed 1 | 7 modules | 239 mesh instances | 243 draws | 3 textures\r\n10-05 06:39:42.326 11065 11098 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2\r\n10-05 06:39:42.341 11065 11098 I DH2Loader: MAP_FRAME_OK identity=ELEMENTAL_EARTH procedural=1 seed=1 modules=7 meshes=239 draws=243 triangles=16987 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "ELEMENTAL_FIRE",
+    "seed": 0,
+    "pid": "11159",
+    "log": "--------- beginning of main\r\n10-05 06:39:48.082 11159 11183 I DH2Loader: ELEMENTAL_FIRE seed 0 | 8 modules | 267 mesh instances | 271 draws | 3 textures\r\n10-05 06:39:48.082 11159 11183 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2\r\n10-05 06:39:48.086 11159 11183 I DH2Loader: MAP_FRAME_OK identity=ELEMENTAL_FIRE procedural=1 seed=0 modules=8 meshes=267 draws=271 triangles=19760 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "ELEMENTAL_FIRE",
+    "seed": 1,
+    "pid": "11247",
+    "log": "--------- beginning of main\r\n10-05 06:39:53.541 11247 11270 I DH2Loader: ELEMENTAL_FIRE seed 1 | 8 modules | 267 mesh instances | 271 draws | 3 textures\r\n10-05 06:39:53.541 11247 11270 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2\r\n10-05 06:39:53.548 11247 11270 I DH2Loader: MAP_FRAME_OK identity=ELEMENTAL_FIRE procedural=1 seed=1 modules=8 meshes=267 draws=271 triangles=19760 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "ELEMENTAL_LIGHT",
+    "seed": 0,
+    "pid": "11331",
+    "log": "--------- beginning of main\r\n10-05 06:39:58.970 11331 11356 I DH2Loader: ELEMENTAL_LIGHT seed 0 | 7 modules | 233 mesh instances | 239 draws | 3 textures\r\n10-05 06:39:58.970 11331 11356 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2\r\n10-05 06:39:59.008 11331 11356 I DH2Loader: MAP_FRAME_OK identity=ELEMENTAL_LIGHT procedural=1 seed=0 modules=7 meshes=233 draws=239 triangles=17201 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "ELEMENTAL_LIGHT",
+    "seed": 1,
+    "pid": "11418",
+    "log": "--------- beginning of main\r\n10-05 06:40:04.379 11418 11442 I DH2Loader: ELEMENTAL_LIGHT seed 1 | 7 modules | 239 mesh instances | 243 draws | 3 textures\r\n10-05 06:40:04.379 11418 11442 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2\r\n10-05 06:40:04.418 11418 11442 I DH2Loader: MAP_FRAME_OK identity=ELEMENTAL_LIGHT procedural=1 seed=1 modules=7 meshes=239 draws=243 triangles=16987 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "ELEMENTAL_WATER",
+    "seed": 0,
+    "pid": "11500",
+    "log": "--------- beginning of main\r\n10-05 06:40:10.248 11500 11521 I DH2Loader: ELEMENTAL_WATER seed 0 | 8 modules | 254 mesh instances | 258 draws | 3 textures\r\n10-05 06:40:10.248 11500 11521 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2\r\n10-05 06:40:10.297 11500 11521 I DH2Loader: MAP_FRAME_OK identity=ELEMENTAL_WATER procedural=1 seed=0 modules=8 meshes=254 draws=258 triangles=20105 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "ELEMENTAL_WATER",
+    "seed": 1,
+    "pid": "11585",
+    "log": "--------- beginning of main\r\n10-05 06:40:15.689 11585 11608 I DH2Loader: ELEMENTAL_WATER seed 1 | 8 modules | 274 mesh instances | 280 draws | 3 textures\r\n10-05 06:40:15.689 11585 11608 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2\r\n10-05 06:40:15.714 11585 11608 I DH2Loader: MAP_FRAME_OK identity=ELEMENTAL_WATER procedural=1 seed=1 modules=8 meshes=274 draws=280 triangles=19629 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "GOTHICUS_CASTLE_01",
+    "seed": 0,
+    "pid": "11667",
+    "log": "--------- beginning of main\r\n10-05 06:40:21.038 11667 11692 I DH2Loader: GOTHICUS_CASTLE_01 seed 0 | 7 modules | 216 mesh instances | 223 draws | 3 textures\r\n10-05 06:40:21.038 11667 11692 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1\r\n10-05 06:40:21.047 11667 11692 I DH2Loader: MAP_FRAME_OK identity=GOTHICUS_CASTLE_01 procedural=1 seed=0 modules=7 meshes=216 draws=223 triangles=17581 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "GOTHICUS_CASTLE_01",
+    "seed": 1,
+    "pid": "11760",
+    "log": "--------- beginning of main\r\n10-05 06:40:27.119 11760 11783 I DH2Loader: GOTHICUS_CASTLE_01 seed 1 | 7 modules | 216 mesh instances | 223 draws | 3 textures\r\n10-05 06:40:27.119 11760 11783 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1\r\n10-05 06:40:27.123 11760 11783 I DH2Loader: MAP_FRAME_OK identity=GOTHICUS_CASTLE_01 procedural=1 seed=1 modules=7 meshes=216 draws=223 triangles=17581 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "GOTHICUS_CASTLE_02",
+    "seed": 0,
+    "pid": "11849",
+    "log": "--------- beginning of main\r\n10-05 06:40:32.772 11849 11875 I DH2Loader: GOTHICUS_CASTLE_02 seed 0 | 7 modules | 216 mesh instances | 223 draws | 3 textures\r\n10-05 06:40:32.772 11849 11875 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1\r\n10-05 06:40:32.781 11849 11875 I DH2Loader: MAP_FRAME_OK identity=GOTHICUS_CASTLE_02 procedural=1 seed=0 modules=7 meshes=216 draws=223 triangles=17581 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "GOTHICUS_CASTLE_02",
+    "seed": 1,
+    "pid": "11935",
+    "log": "--------- beginning of main\r\n10-05 06:40:38.246 11935 11960 I DH2Loader: GOTHICUS_CASTLE_02 seed 1 | 7 modules | 216 mesh instances | 223 draws | 3 textures\r\n10-05 06:40:38.246 11935 11960 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1\r\n10-05 06:40:38.268 11935 11960 I DH2Loader: MAP_FRAME_OK identity=GOTHICUS_CASTLE_02 procedural=1 seed=1 modules=7 meshes=216 draws=223 triangles=17581 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "GOTHICUS_CRYPT_01",
+    "seed": 0,
+    "pid": "12026",
+    "log": "--------- beginning of main\r\n10-05 06:40:43.491 12026 12049 I DH2Loader: GOTHICUS_CRYPT_01 seed 0 | 8 modules | 97 mesh instances | 97 draws | 3 textures\r\n10-05 06:40:43.491 12026 12049 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:40:43.506 12026 12049 I DH2Loader: MAP_FRAME_OK identity=GOTHICUS_CRYPT_01 procedural=1 seed=0 modules=8 meshes=97 draws=97 triangles=14251 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "GOTHICUS_CRYPT_01",
+    "seed": 1,
+    "pid": "12109",
+    "log": "--------- beginning of main\r\n10-05 06:40:48.867 12109 12133 I DH2Loader: GOTHICUS_CRYPT_01 seed 1 | 8 modules | 106 mesh instances | 106 draws | 3 textures\r\n10-05 06:40:48.867 12109 12133 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:40:48.907 12109 12133 I DH2Loader: MAP_FRAME_OK identity=GOTHICUS_CRYPT_01 procedural=1 seed=1 modules=8 meshes=106 draws=106 triangles=15754 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "GOTHICUS_CRYPT_02",
+    "seed": 0,
+    "pid": "12195",
+    "log": "--------- beginning of main\r\n10-05 06:40:54.227 12195 12219 I DH2Loader: GOTHICUS_CRYPT_02 seed 0 | 11 modules | 66 mesh instances | 66 draws | 3 textures\r\n10-05 06:40:54.227 12195 12219 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:40:54.293 12195 12219 I DH2Loader: MAP_FRAME_OK identity=GOTHICUS_CRYPT_02 procedural=1 seed=0 modules=11 meshes=66 draws=66 triangles=17857 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "GOTHICUS_CRYPT_02",
+    "seed": 1,
+    "pid": "12276",
+    "log": "--------- beginning of main\r\n10-05 06:40:59.524 12276 12299 I DH2Loader: GOTHICUS_CRYPT_02 seed 1 | 11 modules | 74 mesh instances | 75 draws | 3 textures\r\n10-05 06:40:59.524 12276 12299 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:40:59.594 12276 12299 I DH2Loader: MAP_FRAME_OK identity=GOTHICUS_CRYPT_02 procedural=1 seed=1 modules=11 meshes=74 draws=75 triangles=17089 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "ICY_CAVERN_01",
+    "seed": 0,
+    "pid": "12363",
+    "log": "--------- beginning of main\r\n10-05 06:41:05.311 12363 12387 I DH2Loader: ICY_CAVERN_01 seed 0 | 10 modules | 142 mesh instances | 148 draws | 3 textures\r\n10-05 06:41:05.311 12363 12387 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1\r\n10-05 06:41:05.321 12363 12387 I DH2Loader: MAP_FRAME_OK identity=ICY_CAVERN_01 procedural=1 seed=0 modules=10 meshes=142 draws=148 triangles=30309 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "ICY_CAVERN_01",
+    "seed": 1,
+    "pid": "12445",
+    "log": "--------- beginning of main\r\n10-05 06:41:10.725 12445 12469 I DH2Loader: ICY_CAVERN_01 seed 1 | 10 modules | 132 mesh instances | 139 draws | 3 textures\r\n10-05 06:41:10.725 12445 12469 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:41:10.733 12445 12469 I DH2Loader: MAP_FRAME_OK identity=ICY_CAVERN_01 procedural=1 seed=1 modules=10 meshes=132 draws=139 triangles=29783 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "ICY_CAVERN_02",
+    "seed": 0,
+    "pid": "12534",
+    "log": "--------- beginning of main\r\n10-05 06:41:15.307 12534 12560 I DH2Loader: Preparation failed: Original generator produced no layout for ICY_CAVERN_02 seed 0\r\n"
+  },
+  {
+    "identity": "ICY_CAVERN_02",
+    "seed": 1,
+    "pid": "12608",
+    "log": "--------- beginning of main\r\n10-05 06:41:19.503 12608 12633 I DH2Loader: Preparation failed: Original generator produced no layout for ICY_CAVERN_02 seed 1\r\n"
+  },
+  {
+    "identity": "ICY_CAVERN_03",
+    "seed": 0,
+    "pid": "12684",
+    "log": "--------- beginning of main\r\n10-05 06:41:25.208 12684 12705 I DH2Loader: ICY_CAVERN_03 seed 0 | 11 modules | 147 mesh instances | 155 draws | 3 textures\r\n10-05 06:41:25.208 12684 12705 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:41:25.212 12684 12705 I DH2Loader: MAP_FRAME_OK identity=ICY_CAVERN_03 procedural=1 seed=0 modules=11 meshes=147 draws=155 triangles=33916 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "ICY_CAVERN_03",
+    "seed": 1,
+    "pid": "12769",
+    "log": "--------- beginning of main\r\n10-05 06:41:31.116 12769 12793 I DH2Loader: ICY_CAVERN_03 seed 1 | 11 modules | 141 mesh instances | 150 draws | 3 textures\r\n10-05 06:41:31.116 12769 12793 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:41:31.122 12769 12793 I DH2Loader: MAP_FRAME_OK identity=ICY_CAVERN_03 procedural=1 seed=1 modules=11 meshes=141 draws=150 triangles=33210 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "LIGHT_HOUSE_01",
+    "seed": 0,
+    "pid": "12862",
+    "log": "--------- beginning of main\r\n10-05 06:41:36.613 12862 12887 I DH2Loader: LIGHT_HOUSE_01 seed 0 | 5 modules | 394 mesh instances | 425 draws | 3 textures\r\n10-05 06:41:36.613 12862 12887 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:41:36.619 12862 12887 I DH2Loader: MAP_FRAME_OK identity=LIGHT_HOUSE_01 procedural=1 seed=0 modules=5 meshes=394 draws=425 triangles=18187 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "LIGHT_HOUSE_01",
+    "seed": 1,
+    "pid": "12947",
+    "log": "--------- beginning of main\r\n10-05 06:41:42.420 12947 12977 I DH2Loader: LIGHT_HOUSE_01 seed 1 | 5 modules | 401 mesh instances | 432 draws | 3 textures\r\n10-05 06:41:42.420 12947 12977 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:41:42.438 12947 12977 I DH2Loader: MAP_FRAME_OK identity=LIGHT_HOUSE_01 procedural=1 seed=1 modules=5 meshes=401 draws=432 triangles=17412 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "LIGHT_HOUSE_02",
+    "seed": 0,
+    "pid": "13036",
+    "log": "--------- beginning of main\r\n10-05 06:41:47.709 13036 13060 I DH2Loader: LIGHT_HOUSE_02 seed 0 | 5 modules | 437 mesh instances | 473 draws | 3 textures\r\n10-05 06:41:47.709 13036 13060 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:41:47.722 13036 13060 I DH2Loader: MAP_FRAME_OK identity=LIGHT_HOUSE_02 procedural=1 seed=0 modules=5 meshes=437 draws=473 triangles=21642 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "LIGHT_HOUSE_02",
+    "seed": 1,
+    "pid": "13122",
+    "log": "--------- beginning of main\r\n10-05 06:41:53.383 13122 13147 I DH2Loader: LIGHT_HOUSE_02 seed 1 | 5 modules | 453 mesh instances | 491 draws | 3 textures\r\n10-05 06:41:53.383 13122 13147 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:41:53.391 13122 13147 I DH2Loader: MAP_FRAME_OK identity=LIGHT_HOUSE_02 procedural=1 seed=1 modules=5 meshes=453 draws=491 triangles=21683 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "LIGHT_HOUSE_03",
+    "seed": 0,
+    "pid": "13210",
+    "log": "--------- beginning of main\r\n10-05 06:41:59.691 13210 13232 I DH2Loader: Preparation failed: Map material symbol differs\r\n"
+  },
+  {
+    "identity": "LIGHT_HOUSE_03",
+    "seed": 1,
+    "pid": "13300",
+    "log": "--------- beginning of main\r\n10-05 06:42:05.359 13300 13326 I DH2Loader: Preparation failed: Map material symbol differs\r\n"
+  },
+  {
+    "identity": "QUESTTEST",
+    "seed": 0,
+    "pid": "13386",
+    "log": "--------- beginning of main\r\n10-05 06:42:11.112 13386 13406 I DH2Loader: QUESTTEST seed 0 | 7 modules | 32 mesh instances | 32 draws | 3 textures\r\n10-05 06:42:11.112 13386 13406 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:42:11.116 13386 13406 I DH2Loader: MAP_FRAME_OK identity=QUESTTEST procedural=1 seed=0 modules=7 meshes=32 draws=32 triangles=12319 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "QUESTTEST",
+    "seed": 1,
+    "pid": "13471",
+    "log": "--------- beginning of main\r\n10-05 06:42:16.336 13471 13495 I DH2Loader: QUESTTEST seed 1 | 7 modules | 32 mesh instances | 32 draws | 3 textures\r\n10-05 06:42:16.336 13471 13495 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:42:16.404 13471 13495 I DH2Loader: MAP_FRAME_OK identity=QUESTTEST procedural=1 seed=1 modules=7 meshes=32 draws=32 triangles=12319 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "RANDOMFORALEX",
+    "seed": 0,
+    "pid": "13555",
+    "log": "--------- beginning of main\r\n10-05 06:42:21.758 13555 13579 I DH2Loader: RANDOMFORALEX seed 0 | 5 modules | 161 mesh instances | 165 draws | 3 textures\r\n10-05 06:42:21.758 13555 13579 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1\r\n10-05 06:42:21.765 13555 13579 I DH2Loader: MAP_FRAME_OK identity=RANDOMFORALEX procedural=1 seed=0 modules=5 meshes=161 draws=165 triangles=12550 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "RANDOMFORALEX",
+    "seed": 1,
+    "pid": "13641",
+    "log": "--------- beginning of main\r\n10-05 06:42:27.299 13641 13667 I DH2Loader: RANDOMFORALEX seed 1 | 5 modules | 161 mesh instances | 165 draws | 3 textures\r\n10-05 06:42:27.299 13641 13667 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1\r\n10-05 06:42:27.306 13641 13667 I DH2Loader: MAP_FRAME_OK identity=RANDOMFORALEX procedural=1 seed=1 modules=5 meshes=161 draws=165 triangles=12550 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "ROOT_DEN_01",
+    "seed": 0,
+    "pid": "13729",
+    "log": "--------- beginning of main\r\n10-05 06:42:33.437 13729 13752 I DH2Loader: ROOT_DEN_01 seed 0 | 8 modules | 168 mesh instances | 204 draws | 3 textures\r\n10-05 06:42:33.437 13729 13752 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1\r\n10-05 06:42:33.442 13729 13752 I DH2Loader: MAP_FRAME_OK identity=ROOT_DEN_01 procedural=1 seed=0 modules=8 meshes=168 draws=204 triangles=23933 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "ROOT_DEN_01",
+    "seed": 1,
+    "pid": "13816",
+    "log": "--------- beginning of main\r\n10-05 06:42:39.106 13816 13838 I DH2Loader: ROOT_DEN_01 seed 1 | 8 modules | 168 mesh instances | 204 draws | 3 textures\r\n10-05 06:42:39.106 13816 13838 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1\r\n10-05 06:42:39.115 13816 13838 I DH2Loader: MAP_FRAME_OK identity=ROOT_DEN_01 procedural=1 seed=1 modules=8 meshes=168 draws=204 triangles=23933 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "SECRET_BASEMENT_01",
+    "seed": 0,
+    "pid": "13902",
+    "log": "--------- beginning of main\r\n10-05 06:42:44.442 13902 13925 I DH2Loader: SECRET_BASEMENT_01 seed 0 | 8 modules | 49 mesh instances | 68 draws | 3 textures\r\n10-05 06:42:44.442 13902 13925 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:42:44.447 13902 13925 I DH2Loader: MAP_FRAME_OK identity=SECRET_BASEMENT_01 procedural=1 seed=0 modules=8 meshes=49 draws=68 triangles=19856 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "SECRET_BASEMENT_01",
+    "seed": 1,
+    "pid": "13979",
+    "log": "--------- beginning of main\r\n10-05 06:42:49.891 13979 14003 I DH2Loader: SECRET_BASEMENT_01 seed 1 | 8 modules | 48 mesh instances | 67 draws | 3 textures\r\n10-05 06:42:49.891 13979 14003 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:42:49.897 13979 14003 I DH2Loader: MAP_FRAME_OK identity=SECRET_BASEMENT_01 procedural=1 seed=1 modules=8 meshes=48 draws=67 triangles=18912 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "SWAMP_02",
+    "seed": 0,
+    "pid": "14069",
+    "log": "--------- beginning of main\r\n10-05 06:42:56.015 14069 14092 I DH2Loader: SWAMP_02 seed 0 | 11 modules | 497 mesh instances | 518 draws | 3 textures\r\n10-05 06:42:56.015 14069 14092 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 16\r\n10-05 06:42:56.026 14069 14092 I DH2Loader: MAP_FRAME_OK identity=SWAMP_02 procedural=1 seed=0 modules=11 meshes=497 draws=518 triangles=22659 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "SWAMP_02",
+    "seed": 1,
+    "pid": "14154",
+    "log": "--------- beginning of main\r\n10-05 06:43:01.643 14154 14178 I DH2Loader: SWAMP_02 seed 1 | 12 modules | 523 mesh instances | 546 draws | 3 textures\r\n10-05 06:43:01.643 14154 14178 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 8\r\n10-05 06:43:01.649 14154 14178 I DH2Loader: MAP_FRAME_OK identity=SWAMP_02 procedural=1 seed=1 modules=12 meshes=523 draws=546 triangles=24753 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "SWAMP_CAVE_TROLL_A",
+    "seed": 0,
+    "pid": "14245",
+    "log": "--------- beginning of main\r\n10-05 06:43:07.435 14245 14269 I DH2Loader: SWAMP_CAVE_TROLL_A seed 0 | 9 modules | 18 mesh instances | 25 draws | 3 textures\r\n10-05 06:43:07.435 14245 14269 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:43:07.439 14245 14269 I DH2Loader: MAP_FRAME_OK identity=SWAMP_CAVE_TROLL_A procedural=1 seed=0 modules=9 meshes=18 draws=25 triangles=11664 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "SWAMP_CAVE_TROLL_A",
+    "seed": 1,
+    "pid": "14335",
+    "log": "--------- beginning of main\r\n10-05 06:43:12.362 14335 14358 I DH2Loader: SWAMP_CAVE_TROLL_A seed 1 | 8 modules | 16 mesh instances | 22 draws | 3 textures\r\n10-05 06:43:12.362 14335 14358 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:43:12.383 14335 14358 I DH2Loader: MAP_FRAME_OK identity=SWAMP_CAVE_TROLL_A procedural=1 seed=1 modules=8 meshes=16 draws=22 triangles=10311 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "SWAMP_CAVE_WITCH_A",
+    "seed": 0,
+    "pid": "14412",
+    "log": "--------- beginning of main\r\n10-05 06:43:18.077 14412 14436 I DH2Loader: SWAMP_CAVE_WITCH_A seed 0 | 7 modules | 14 mesh instances | 19 draws | 3 textures\r\n10-05 06:43:18.077 14412 14436 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:43:18.103 14412 14436 I DH2Loader: MAP_FRAME_OK identity=SWAMP_CAVE_WITCH_A procedural=1 seed=0 modules=7 meshes=14 draws=19 triangles=10002 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "SWAMP_CAVE_WITCH_A",
+    "seed": 1,
+    "pid": "14502",
+    "log": "--------- beginning of main\r\n10-05 06:43:23.457 14502 14525 I DH2Loader: SWAMP_CAVE_WITCH_A seed 1 | 7 modules | 14 mesh instances | 19 draws | 3 textures\r\n10-05 06:43:23.457 14502 14525 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:43:23.477 14502 14525 I DH2Loader: MAP_FRAME_OK identity=SWAMP_CAVE_WITCH_A procedural=1 seed=1 modules=7 meshes=14 draws=19 triangles=10002 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "VOID_MAZE_01",
+    "seed": 0,
+    "pid": "14580",
+    "log": "--------- beginning of main\r\n10-05 06:43:27.702 14580 14604 I DH2Loader: VOID_MAZE_01 seed 0 | 9 modules | 9 mesh instances | 9 draws | 2 textures\r\n10-05 06:43:27.702 14580 14604 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:43:27.706 14580 14604 I DH2Loader: MAP_FRAME_OK identity=VOID_MAZE_01 procedural=1 seed=0 modules=9 meshes=9 draws=9 triangles=16 textures=2 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "VOID_MAZE_01",
+    "seed": 1,
+    "pid": "14657",
+    "log": "--------- beginning of main\r\n10-05 06:43:32.117 14657 14682 I DH2Loader: VOID_MAZE_01 seed 1 | 9 modules | 9 mesh instances | 9 draws | 2 textures\r\n10-05 06:43:32.117 14657 14682 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:43:32.120 14657 14682 I DH2Loader: MAP_FRAME_OK identity=VOID_MAZE_01 procedural=1 seed=1 modules=9 meshes=9 draws=9 triangles=16 textures=2 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "VOID_MAZE_02",
+    "seed": 0,
+    "pid": "14727",
+    "log": "--------- beginning of main\r\n10-05 06:43:36.645 14727 14751 I DH2Loader: VOID_MAZE_02 seed 0 | 11 modules | 11 mesh instances | 11 draws | 2 textures\r\n10-05 06:43:36.645 14727 14751 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:43:36.648 14727 14751 I DH2Loader: MAP_FRAME_OK identity=VOID_MAZE_02 procedural=1 seed=0 modules=11 meshes=11 draws=11 triangles=22 textures=2 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "VOID_MAZE_02",
+    "seed": 1,
+    "pid": "14797",
+    "log": "--------- beginning of main\r\n10-05 06:43:40.832 14797 14827 I DH2Loader: VOID_MAZE_02 seed 1 | 11 modules | 11 mesh instances | 11 draws | 2 textures\r\n10-05 06:43:40.832 14797 14827 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:43:40.835 14797 14827 I DH2Loader: MAP_FRAME_OK identity=VOID_MAZE_02 procedural=1 seed=1 modules=11 meshes=11 draws=11 triangles=22 textures=2 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "VOID_MAZE_03",
+    "seed": 0,
+    "pid": "14875",
+    "log": "--------- beginning of main\r\n10-05 06:43:45.138 14875 14901 I DH2Loader: VOID_MAZE_03 seed 0 | 7 modules | 7 mesh instances | 7 draws | 2 textures\r\n10-05 06:43:45.138 14875 14901 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:43:45.142 14875 14901 I DH2Loader: MAP_FRAME_OK identity=VOID_MAZE_03 procedural=1 seed=0 modules=7 meshes=7 draws=7 triangles=14 textures=2 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "VOID_MAZE_03",
+    "seed": 1,
+    "pid": "14948",
+    "log": "--------- beginning of main\r\n10-05 06:43:49.967 14948 14974 I DH2Loader: Preparation failed: Missing authored XML: data/iphone/3d/modules/void_maze/mgp/vm011_corner_voidmaze_ne_00_01.mgp\r\n"
+  },
+  {
+    "identity": "WATER_TEMPLE_01",
+    "seed": 0,
+    "pid": "15025",
+    "log": "--------- beginning of main\r\n10-05 06:43:56.182 15025 15050 I DH2Loader: WATER_TEMPLE_01 seed 0 | 13 modules | 283 mesh instances | 284 draws | 3 textures\r\n10-05 06:43:56.182 15025 15050 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:43:56.189 15025 15050 I DH2Loader: MAP_FRAME_OK identity=WATER_TEMPLE_01 procedural=1 seed=0 modules=13 meshes=283 draws=284 triangles=29938 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "WATER_TEMPLE_01",
+    "seed": 1,
+    "pid": "15112",
+    "log": "--------- beginning of main\r\n10-05 06:44:01.881 15112 15137 I DH2Loader: WATER_TEMPLE_01 seed 1 | 13 modules | 274 mesh instances | 275 draws | 3 textures\r\n10-05 06:44:01.881 15112 15137 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:44:01.885 15112 15137 I DH2Loader: MAP_FRAME_OK identity=WATER_TEMPLE_01 procedural=1 seed=1 modules=13 meshes=274 draws=275 triangles=30306 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "WIND_TEMPLE_01",
+    "seed": 0,
+    "pid": "15204",
+    "log": "--------- beginning of main\r\n10-05 06:44:08.163 15204 15228 I DH2Loader: WIND_TEMPLE_01 seed 0 | 12 modules | 451 mesh instances | 463 draws | 4 textures\r\n10-05 06:44:08.163 15204 15228 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1\r\n10-05 06:44:08.173 15204 15228 I DH2Loader: MAP_FRAME_OK identity=WIND_TEMPLE_01 procedural=1 seed=0 modules=12 meshes=451 draws=463 triangles=32939 textures=4 viewport=2400x496 gameplay=0 objects=0\r\n"
+  },
+  {
+    "identity": "WIND_TEMPLE_01",
+    "seed": 1,
+    "pid": "15297",
+    "log": "--------- beginning of main\r\n10-05 06:44:14.136 15297 15321 I DH2Loader: WIND_TEMPLE_01 seed 1 | 12 modules | 451 mesh instances | 463 draws | 4 textures\r\n10-05 06:44:14.136 15297 15321 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1\r\n10-05 06:44:14.140 15297 15321 I DH2Loader: MAP_FRAME_OK identity=WIND_TEMPLE_01 procedural=1 seed=1 modules=12 meshes=451 draws=463 triangles=32939 textures=4 viewport=2400x496 gameplay=0 objects=0\r\n"
+  }
+]

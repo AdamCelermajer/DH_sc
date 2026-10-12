@@ -1,0 +1,23 @@
+{
+  "validation": "PASS",
+  "scope": "Complete original CharacterFX registration and Grab invalid-ID guards.\nOriginal recursive preload executes. Debug/file/string ownership is an explicit\nsynchronous service fixture. No enabled valid Grab factory is accepted.\n",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "manifest_sha256": "da54e48a9c9a44025ac46bc9af383b50b08f3f5c237cc72a16fa142af207181d",
+  "library_sha256": "d0bcab56780af0df246a22ff56b17f7ee93ef041ea0cb36737a814efd23961ca",
+  "source_sha256": {
+    "port/game-data/effects_tables.hpp": "8e0b1eb1ce1f7f581ed59283a65fbceee9ebea0515daab220605903a5ab69fac",
+    "port/level-world/character_init_fx.hpp": "1abe881b0070eadaabd41eaae92ab2923082decef62b0c3c7d11b06be3c0b7e4",
+    "port/level-world/character_init_fx.cpp": "02723ee6fb0bd663a8b374a29d9953c938e38c85de819c2ade1af3be2dd42e59",
+    "port/level-world/visual_fx_preload.hpp": "b0be9221f5b49ee7bf189744ee08391553267c521adf78b1b3e55294c2f02d6b",
+    "port/level-world/visual_fx_preload.cpp": "ab8c2d4bb1f40663859fb6bc443f0ed50e4160f42426ec8c99dee2766231b667",
+    "port/level-world/tests/character_init_fx_differential.py": "7149519d37ae2c5d8e88e97ab17894d9e6675f249885072d4704152f0b2f5dc5"
+  },
+  "comparisons": 480,
+  "register_cases": 360,
+  "negative_grab_cases": 120,
+  "captured_rows_mutation_cases": 72,
+  "ordered_services": 4592,
+  "mismatches": 0,
+  "gold_sha256": "1a6321a84e6fcda2f94fdccd256a97da64859a8f6cdb6b26b575471ae5afd849",
+  "binary_gold_sha256": "c5136915868a58af47f2c183774df22f720270ea35f6c9ea76241c4fa2840b7d"
+}

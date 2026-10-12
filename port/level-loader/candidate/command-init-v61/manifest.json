@@ -1,0 +1,23 @@
+{
+  "status": "SOURCE_ONLY_UNCOMPILED",
+  "compiler_or_oracle_runs": 0,
+  "Main_leaves_implemented": false,
+  "files": {
+    "HANDOFF.md": "eb676a0e37ba6f7e67747978fed2da8558e55e14b397d91449057fbdd7e7ae91",
+    "script_command_init_v61.hpp": "d5a8f9322ae418f112d7edbb9099da0af30f22bb58b8c4939354425ba498ade7",
+    "script_command_init_v61_test.cpp": "6a85ccf57bc948c6d2b398db12edd597c772690a56fb475e929ee65de0e90bee"
+  },
+  "dependencies": {
+    "candidate/command-c1-v59/script_command_receivers_v59.hpp": "d555cac844347387dcd1c0ad46c404b718b3ff03a61803832f97fa3e250dc55d",
+    "candidate/command-c1-v59/script_command_receivers_v59.cpp": "cc18c31a6c307e992c0628cb8aa01b52fecc99482098560788f7cdb2c2bad213",
+    "candidate/command-c1-v59/MAIN-INIT-HOOKS.md": "5dbfb5596a04e2bc7370e8b08fa64415a5a04e2f7e3347af59bf8c986b557db3",
+    "script_manager_owner_v52.hpp": "4ae31338d57f24efca512f258f1c3590fc69e835fe008d625845151465c49a10",
+    "script_manager_owner_v52.cpp": "258d88afcc747e8e60ca98dbb9eba92c84d01fddf723d44ca4d6743f97c9e8ee",
+    "script_data_schemas_v52.inc": "e855a175164a1412012fb6e03b624be69ebaa98603c1f163bebcb86eb1750078",
+    "reference/scriptmanager-v52/command-init-459034.asm": "cf63b6000970641d09e8d7eaadbf6518027336a25cf59e0059edd8251d683adc",
+    "reference/scriptmanager-v52/command-init-4597e8.asm": "15bb6d1c55e47b6224717a095d93cd75306b53311f6413744af4509704d97aff",
+    "reference/scriptmanager-v52/command-init-45983c.asm": "07ea8275782ce0d8457bdb2fb8583e97c23edae25275da903c286ce646c41b16",
+    "reference/scriptmanager-v52/command-init-4598b4.asm": "0c579ae89b209c307c0721b0053cfd6d854b1a5260f779f2009030de92fa2a8d",
+    "reference/scriptmanager-v52/command-init-45a2ec.asm": "daa5c13fe9e8e63d76f9295d49228948d4d9fd0cdbf981e805d4591d82d97912"
+  }
+}

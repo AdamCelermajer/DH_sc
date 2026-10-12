@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "scope": "strict ARM64 syntax Destructible source receiver/table/dictionary fixture and production schema",
+  "sources": [
+    {
+      "path": "port/level-world/canonical_destructible_container_v16.cpp",
+      "sha256": "a7181e63a520b374261803eac0a5e8dd89c96c69eddf161af1c9d188048e6995"
+    },
+    {
+      "path": "port/level-world/destructible_container_data_v16.cpp",
+      "sha256": "aefd5b7b80cb8c0a873a642118f3fecd250f65dc5b6aeb92ff7539b37a59011f"
+    },
+    {
+      "path": "port/level-world/tests/canonical_destructible_container_v16.cpp",
+      "sha256": "a3af3699ab9f9401ff5da9ae6beb060808bc8384e1c4a7d3ec80c23dd6bb0f28"
+    },
+    {
+      "path": "port/level-world/canonical_property_map_v1.cpp",
+      "sha256": "0b0de181f990e85e155052fa2893d6195019410b505a4bfa59b20515ad7fee7b"
+    }
+  ],
+  "stdout": "",
+  "stderr": ""
+}

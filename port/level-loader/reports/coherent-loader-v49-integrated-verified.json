@@ -1,0 +1,203 @@
+{
+  "validation": "PASS",
+  "recorded_utc": "2026-10-06T15:14:53+00:00",
+  "coherent_files_verified": 749,
+  "manifest_sha256": "bda9ece02c0cbc3e23800c28fcad46b912e4dedc2a1f10905040ed672cfd7da3",
+  "source_sha256": {
+    "native_gslevel_frame_v45.hpp": "19ea9a747e9ef730c1611eaa7f5480964d7f233009afd217441781e7455ec2e6",
+    "native_gslevel_frame_v45.cpp": "0bb26a4b4f593e841797e643e9aa0d7f5e160de1465ac3c1fc4688ba8f21d0c3",
+    "retained_level_module_graph_v1.hpp": "74ced02b5def32c944df9544da35c1f59105204480361aa9f00969c77882a514",
+    "retained_level_module_graph_v1.cpp": "d1737b405c630684ff410a1d45c70a851a14c6579287d020393f557c793b241c",
+    "generic_actor_image_binding_v45.hpp": "5ccf8f82681a236de81b89fb3057e0707b3a8a7d1c26622d64b6933035befbfa",
+    "generic_actor_image_binding_v45.cpp": "4d248e9a0f645fa4d5a8eb9166228122c959fed6664921c0ef92971ff0353a37",
+    "tests/generic_actor_image_lifetime_v48_probe.cpp": "a81d5da52e4debe736ecabf26f8f6505b3bf1418b81158371f2e25cc640b8b58",
+    "tests/source_stage_swamp_v47.cpp": "7345007d65d85e2a16293aae7776655f36806fc0901d54aba073b3a9bd177d2f",
+    "tests/canonical_loading_context_source_probe_v47.cpp": "1a034cec21fa208ba8f3713eab9f5db72508b7efb19641e8397fe94c51d06b29",
+    "tests/name-selected-v48/character_name_predicate_v48_test.cpp": "39867efbc2ddcd55e89ed44a2b62c840d8fb8f97c9eda2b8c4c49ddc7881b234",
+    "tests/name-selected-v48/character_spawn_name_v48_regression.cpp": "30b4d63a009783cddcc10008157027bc59a4485b881d2f8844fcfe452b25ce16",
+    "tests/cmake-receiver-transport/CMakeLists.txt": "26c963b01060c0e4e3cd2c93be1ae85d513f1ba65834431becbba7dee2259683"
+  },
+  "executions": {
+    "character_name": {
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/dh2_loader_character_name_v48",
+        "/mnt/c/Users/adamc/Downloads/dungeonhunter2/Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/tests/native-ctor-v4/design.bin"
+      ],
+      "stdout": "PASS actual_factory_name_vs_gametype=20 live_Name30_changes=20 same_NAME30_buffer44_borrow=1 actual_AI_rows_resolved_fixture=1 missing_type0_name_preserves_output=1 nonzero_type_skips_name=1 no_model_template_preselection=1 rng0_calls=0 rng1_calls=0 whole_InitPost_success=0\n",
+      "stderr": "",
+      "returncode": 0,
+      "binary_sha256": "51a19e115e9fb556e1d13e155771c88f667129168a2848e2455d3b16fbc89616"
+    },
+    "character_spawn": {
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/dh2_loader_character_spawn_name_v48",
+        "/mnt/c/Users/adamc/Downloads/dungeonhunter2/Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/tests/native-ctor-v4/design.bin"
+      ],
+      "stdout": "PASS real_factory_records=8 actual_actor270=1 same_probability_backing=1 property_guard_foreign_alias_adoption=1 shared_application_positive_zero_cached=1 actual_live_type_name=1 lifecycle_order_failures=3 record_alias_lifetime=1 no_model_template_selection=1 rng0_calls=5 rng1_calls=0\n",
+      "stderr": "",
+      "returncode": 0,
+      "binary_sha256": "3403c03deb54152d914531ebbee0513e71ddc0d8110d7678275e290db3e9632b"
+    },
+    "character_model": {
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/dh2_loader_character_model_v47",
+        "/mnt/c/Users/adamc/Downloads/dungeonhunter2/Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/tests/native-ctor-v4/design.bin"
+      ],
+      "stdout": "PASS actual_ordered_LoadBase_Recalc=1 actual_model_property_backing=1 actual_family_model_route=1 NPC_Faery_NULL=1 owned_Faery_real_save_getter_original_table_callbacks=1 missing_order_dictionary_type_backing_saved=5 failed_model_not_replayed=1 NULL_model_preserves_authored_CString=1 source_scale_before_missing_parent=1 whole_InitPost_success=0 app_rng0_calls=8 saved_model=33\n",
+      "stderr": "",
+      "returncode": 0,
+      "binary_sha256": "afaa9aa19cd539ab0f9e56ca92f9e137af38b982fb64662510362fc21642344a"
+    },
+    "gs_frame": {
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/dh2_loader_native_gslevel_frame_v45",
+        "/mnt/c/Users/adamc/Downloads/dungeonhunter2/Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/tests/native-ctor-v4/design.bin",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/native-ctor-missing-saves"
+      ],
+      "stdout": "{\"validation\":\"PASS\",\"logical_identity\":\"SWAMP\",\"raw_name\":\"worlds/001_swamp.mlx\",\"real_row3c\":41,\"source_seed114\":7,\"real_c1_script_reads\":2,\"real_c1_save_reads\":2,\"source_gs_publication_before_menu\":true,\"frame_states\":[1,2,3],\"state130\":0,\"missing_level_update_stops3\":true,\"atomic_create_rejections\":6,\"frame_menu_updates\":2,\"same_global_cleared_by_outer_dtor\":true,\"frame_sibling_cycle_free\":true,\"deep_unload_destroy_are_fixtures\":true,\"whole_level_init_verified\":false,\"gameplay_ready\":false}\n",
+      "stderr": "",
+      "returncode": 0,
+      "binary_sha256": "de68030e1066ea24dd064692358adddb2ce49453f7b70294bfc4cec6f33e54a3"
+    },
+    "source_stage": {
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/dh2_loader_source_stage_swamp_v47",
+        "/mnt/c/Users/adamc/Downloads/dungeonhunter2/Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/tests/native-ctor-v4/design.bin",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/native-ctor-missing-saves"
+      ],
+      "stdout": "{\"validation\":\"PASS\",\"composition\":\"SourceLoadingV43\",\"atomic_create_rejections\":8,\"cancellation_transport_cases\":2,\"source_abort_teardown_verified\":false,\"selected_source_entry_fixture_states\":[7,10],\"omitted_source_bodies\":[0,1,2,3,4,5,6,8,9],\"raw_name\":\"worlds/001_swamp.mlx\",\"cache_uri\":\"data/scene/001_swamp.mlx\",\"root_factories\":10,\"module_sources\":9,\"authored_factories\":195,\"character_factories\":50,\"source_file13c\":1,\"state130\":10,\"progress30\":26,\"manager_phase7c\":3,\"initial_map1c\":11,\"map1c_at_stop\":215,\"successful_class_conditions\":10,\"stage8_required_service\":\"LevelConfig/fog/Level._LoadScripts\",\"error\":\"OpenableContainer required source service: SoundManager pointer\",\"floor11_ran\":false,\"geometry17_ran\":false,\"whole_level_init_verified\":false,\"gameplay_ready\":false}\n",
+      "stderr": "V47 observed source boundary: OpenableContainer required source service: SoundManager pointer conditions=10 modules_initialized=9\n",
+      "returncode": 0,
+      "binary_sha256": "706c6976a2af25fc5d877989f6a3f2f6020cb56794c36c91c3104b77363c7407"
+    },
+    "integrated_loading": {
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/dh2_loader_integrated_loading_v47_probe",
+        "/mnt/c/Users/adamc/Downloads/dungeonhunter2/Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/tests/native-ctor-v4/design.bin",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/native-ctor-missing-saves"
+      ],
+      "stdout": "{\"validation\":\"PASS\",\"original_mlx_declarations\":10,\"actual_modules\":9,\"floor_clones\":16,\"exits\":19,\"generated_zones\":9,\"actual_init_final\":9,\"render_frame_modules\":9,\"render_frame_meshes\":386,\"same_root_controllers\":9,\"controllers_released\":9,\"reserved_null_key0\":true,\"actual_container_constructed\":5,\"actual_container_published\":5,\"factory_failure_prefix\":\"none\",\"config_across_rooms_modern_repair\":true,\"room_zone_across_rooms_modern_repair\":true,\"authored_container_properties_verified\":true,\"named_template_context_modern_repair\":true,\"template_assertion_fixture\":true,\"template_context_problem\":false,\"actual_character_constructed\":50,\"authored_objects_constructed\":195,\"character_authored_fields_verified\":true,\"whole_character_factory_position_verified\":true,\"shared_application_RNG_connected\":true,\"actual_chest_table_dictionary_connected\":true,\"chest_condition_names\":[\"\",\"\"],\"chest_condition_source_kernel_connected\":true,\"actual_chest_visual_constructed\":true,\"source_null_user_pf_kernel_connected\":true,\"source_device_predicate_connected\":true,\"device_facts_fixture\":true,\"actual_dummy_constructed\":41,\"actual_destructible_constructed\":9,\"actual_spawn_point_constructed\":11,\"actual_decor_constructed\":10,\"actual_trigger_zone_constructed\":18,\"actual_animated_decor_constructed\":37,\"animated_decor_whole_init_verified\":false,\"actual_checkpoint_constructed\":4,\"checkpoint_activation_save_verified\":false,\"actual_door_constructed\":4,\"door_whole_init_verified\":false,\"actual_trigger_object_constructed\":1,\"trigger_object_whole_init_verified\":false,\"actual_exit_zone_constructed\":3,\"exit_zone_transition_verified\":false,\"actual_quest_move_zone_constructed\":1,\"quest_collision_verified\":false,\"actual_sound_emitter_constructed\":1,\"audio_playback_verified\":false,\"source_container_graph_v21_selected\":true,\"positive_animation_callbacks_verified\":false,\"completed_module_source_pairs\":9,\"all_module_object_sources_complete\":true,\"first_mgp_complete\":true,\"first_missing_file_index\":-1,\"first_missing_source_type\":\"\",\"module_source_error\":\"\",\"container_init_post_missing_service\":\"OpenableContainer required source service: SoundManager pointer\",\"outer_provider_fixtures\":true,\"retained_application_API_verified\":true,\"whole_source_level_ctor_verified\":true,\"source_gate150\":0,\"whole_level_init_verified\":false,\"current_GSLevel_published\":false,\"full_loader_verified\":false}\n",
+      "stderr": "LOADING_CONTEXT_V37 PASS actual_C1_alias=1 no_shadow_state=1 incomplete_C1_rejected=1 actual_progress=1 missing_stage_stops=1 world_ready=0\nV47 observed chest: completed=0 error=OpenableContainer required source service: SoundManager pointer\n",
+      "returncode": 0,
+      "binary_sha256": "9bfcb7a3b2f724502ef55ba0a433e445bceced8c5bec8b852bb5a708543898ae"
+    },
+    "actor_image_lifetime": {
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/dh2_loader_actor_image_lifetime_v48_probe",
+        "/mnt/c/Users/adamc/Downloads/dungeonhunter2/Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/tests/native-ctor-v4/design.bin",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/native-ctor-missing-saves"
+      ],
+      "stdout": "{\"validation\":\"PASS\",\"original_mlx_declarations\":10,\"actual_modules\":9,\"floor_clones\":16,\"exits\":19,\"generated_zones\":9,\"actual_init_final\":9,\"render_frame_modules\":9,\"render_frame_meshes\":386,\"same_root_controllers\":9,\"controllers_released\":9,\"reserved_null_key0\":true,\"actual_container_constructed\":5,\"actual_container_published\":5,\"factory_failure_prefix\":\"none\",\"config_across_rooms_modern_repair\":true,\"room_zone_across_rooms_modern_repair\":true,\"authored_container_properties_verified\":true,\"named_template_context_modern_repair\":true,\"template_assertion_fixture\":true,\"template_context_problem\":false,\"actual_character_constructed\":50,\"authored_objects_constructed\":195,\"character_authored_fields_verified\":true,\"whole_character_factory_position_verified\":true,\"shared_application_RNG_connected\":true,\"actual_chest_table_dictionary_connected\":true,\"chest_condition_names\":[\"\",\"\"],\"chest_condition_source_kernel_connected\":true,\"actual_chest_visual_constructed\":true,\"source_null_user_pf_kernel_connected\":true,\"source_device_predicate_connected\":true,\"device_facts_fixture\":true,\"actual_dummy_constructed\":41,\"actual_destructible_constructed\":9,\"actual_spawn_point_constructed\":11,\"actual_decor_constructed\":10,\"actual_trigger_zone_constructed\":18,\"actual_animated_decor_constructed\":37,\"animated_decor_whole_init_verified\":false,\"actual_checkpoint_constructed\":4,\"checkpoint_activation_save_verified\":false,\"actual_door_constructed\":4,\"door_whole_init_verified\":false,\"actual_trigger_object_constructed\":1,\"trigger_object_whole_init_verified\":false,\"actual_exit_zone_constructed\":3,\"exit_zone_transition_verified\":false,\"actual_quest_move_zone_constructed\":1,\"quest_collision_verified\":false,\"actual_sound_emitter_constructed\":1,\"audio_playback_verified\":false,\"source_container_graph_v21_selected\":true,\"positive_animation_callbacks_verified\":false,\"completed_module_source_pairs\":9,\"all_module_object_sources_complete\":true,\"first_mgp_complete\":true,\"first_missing_file_index\":-1,\"first_missing_source_type\":\"\",\"module_source_error\":\"\",\"container_init_post_missing_service\":\"OpenableContainer required source service: SoundManager pointer\",\"outer_provider_fixtures\":true,\"retained_application_API_verified\":true,\"whole_source_level_ctor_verified\":true,\"source_gate150\":0,\"whole_level_init_verified\":false,\"current_GSLevel_published\":false,\"full_loader_verified\":false}\n",
+      "stderr": "V48_ACTUAL_CHEST_INITPOST result=0 boundary=\"OpenableContainer required source service: SoundManager pointer\" expected=\"OpenableContainer required source service: SoundManager pointer\"\nSOURCE_VISUAL_HELPER_V41 PASS retained_instances=2 visible_instances=1 hidden_helper=1 primitives=2 native_skinned=2 rigid=0 unresolved_materials=0 helper_bounds_preserved=1 independent_render_byte_guard=1 whole_level_init=0 backend_rendering=0\nACTUAL_V45_BYTE_DELETE_V48 PASS byte_only_copy=1 bytes_before_filesystem_before_admission=1 host_admission_fixture=1 production_budget_GPU_claim=0\nGENERIC_ACTOR_IMAGE_V45 PASS actual_chest_draws=2 native_skinned=2 source_materials=37,38 samplers=8 no_image=3 actual_original_cache_reads=5 exact_source_sampler_names_indices_order=1 before_read_admission_fixture=1 foreign_stale_missing_rejected=1 callback_visual_release_rejected=1 independent_image_pin_release=1 GPU_texture_residency=0 whole_level_init=0\n",
+      "returncode": 0,
+      "binary_sha256": "514a3e893cb1c1c6a62a0187742ee8c963347bcbb9c06fd604d74265bd593108"
+    },
+    "cancel_reentry": {
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/dh2_loader_cancel_reentry_v43"
+      ],
+      "stdout": "LIFECYCLE_CANCEL_REENTRY_V43 PASS nested_failure_preserved=1 failed_cleanup_pins_retained=1 successful_cleanup_releases_pins=1 terminal_tick_safe=1 component_fixture_only=1\n",
+      "stderr": "",
+      "returncode": 0,
+      "binary_sha256": "99f91bfeb64efdb7aa9d5a603a8d624bc122a7f830b99fcbc0e98c06e6ecb961"
+    },
+    "dynamic_module_0": {
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/dh2_loader_dynamic_module_v44",
+        "/mnt/c/Users/adamc/Downloads/dungeonhunter2/Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/tests/native-ctor-v4/design.bin",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/native-ctor-missing-saves",
+        "0"
+      ],
+      "stdout": "DYNAMIC_MODULE_V44 PASS mode=0 typed_record_queries=1 original_source_pairs=9 dynamic_loaded=0 dynamic_bound=1 source_pairs=9 whole_init=0 transport_fixture=1\n",
+      "stderr": "",
+      "returncode": 0,
+      "binary_sha256": "71f2728dc27f32ffd436a97deee5b328841d6fec1457efb921146f7a99169302"
+    },
+    "dynamic_module_1": {
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/dh2_loader_dynamic_module_v44",
+        "/mnt/c/Users/adamc/Downloads/dungeonhunter2/Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/tests/native-ctor-v4/design.bin",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/native-ctor-missing-saves",
+        "1"
+      ],
+      "stdout": "DYNAMIC_MODULE_V44 PASS mode=1 typed_record_queries=0 original_source_pairs=9 dynamic_loaded=0 dynamic_bound=0 source_pairs=9 whole_init=0 transport_fixture=1\n",
+      "stderr": "",
+      "returncode": 0,
+      "binary_sha256": "71f2728dc27f32ffd436a97deee5b328841d6fec1457efb921146f7a99169302"
+    },
+    "dynamic_module_2": {
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/dh2_loader_dynamic_module_v44",
+        "/mnt/c/Users/adamc/Downloads/dungeonhunter2/Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/tests/native-ctor-v4/design.bin",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/native-ctor-missing-saves",
+        "2"
+      ],
+      "stdout": "DYNAMIC_MODULE_V44 PASS mode=2 typed_record_queries=1 original_source_pairs=9 dynamic_loaded=0 dynamic_bound=0 source_pairs=9 whole_init=0 transport_fixture=1\n",
+      "stderr": "",
+      "returncode": 0,
+      "binary_sha256": "71f2728dc27f32ffd436a97deee5b328841d6fec1457efb921146f7a99169302"
+    }
+  },
+  "failed_checks": [],
+  "scope": "Current coherent selected native components; original NAME predicate with same factory receiver, ordered model continuation, qualified base condition, exact source7/10 preparation, real chest image ownership and retained GS prefix. Engine platform/condition/RNG-domain transports remain explicit test fixtures.",
+  "prior_predicate_claim_retracted": "Original IsPlayer reads NAME30/buffer44, not archetype48/buffer5c. V41/V42 archived semantic labels superseded; no frozen packet overwritten.",
+  "whole_level_init_verified": false,
+  "actual_gameplay_level_update_verified": false,
+  "actual_abort_teardown_verified": false,
+  "gpu_rendering_verified": false,
+  "emulator_launched": false
+}

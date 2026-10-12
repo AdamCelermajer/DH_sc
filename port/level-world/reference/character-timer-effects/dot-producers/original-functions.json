@@ -1,0 +1,41 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_Z16CF_CalcDotDamageP9CharacterS0_b",
+      "elf_address": "0x3b09c4",
+      "size": 272,
+      "sha256": "bf4618e32f9fd56c5d7abf85d30abafeb0ca8c8df38b9a97dd3d00c9d63a714b"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties12PROPS_AddDotEiii",
+      "elf_address": "0x3e2720",
+      "size": 828,
+      "sha256": "6b6d2ed89201118bff63db834b8cdd14294adbd130bc9f352369a941e34baee1"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI13AI_IsInCombatEv",
+      "elf_address": "0x3d4bc4",
+      "size": 112,
+      "sha256": "7e917c97faa26805e240a111a5719d87b9d14946aa3acd7b08657116d00c3ce3"
+    },
+    {
+      "original_symbol": "_ZN9Character7RegenMPEi",
+      "elf_address": "0x3bdbb8",
+      "size": 236,
+      "sha256": "f9aca1f9bfaa301e6ee4e98513b472a1340e41c2e1f4f22f3f7c31b2ade8185a"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties15PROPS_RemoveDotEi",
+      "elf_address": "0x3de83c",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN9Character7RegenHPEi",
+      "elf_address": "0x3bdca4",
+      "size": 236,
+      "sha256": "3dfc266ef09f6c4d4f6dbd6ba04b61a1c8d0b28ddc0c8ffb943891cbb8075e4d"
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "validation": "PASS",
+  "recorded_at_utc": "2026-10-04T00:35:32.0989697Z",
+  "scope": "Frozen native-game-foundation APK, four emulator suites; original complete game not verified",
+  "apk": "port/android-native/build/checkpoints/dh2-native-game-foundation-22835b1e.apk",
+  "apk_sha256": "22835b1ea01babbad9d8078e4df247a1bcdffe2db81172c1e25e69fea3f7b748",
+  "apk_bytes": 23653057,
+  "source_build_capture": {
+    "path": ".local-inputs/native-game-foundation-build-capture.zip",
+    "sha256": "245701d5d556f5b080b084dd0d09ed1e8af829945cda7cbdc17b0b8992b862d1",
+    "compiled_input_count": 350
+  },
+  "build_inspection": {
+    "path": "port/android-native/reports/native-game-foundation-build-inspection.json",
+    "sha256": "110ef68258dcce00c0eebeea7b0efeae11da63964787e15d4f9067100b372947",
+    "validation": "PASS",
+    "historical_live_validation": "NOT_RUN"
+  },
+  "emulator": {
+    "serial": "emulator-5554",
+    "api": 37,
+    "abi": "x86_64"
+  },
+  "suites": [
+    {
+      "path": ".local-inputs/game-foundation-live-movement/live-actor-smoke.json",
+      "sha256": "52a7816c21deef4005bff84422a842ede071568fda100a83c7d678665bee31a4",
+      "validation": "PASS",
+      "apk_sha256": "22835b1ea01babbad9d8078e4df247a1bcdffe2db81172c1e25e69fea3f7b748",
+      "installed_apk_sha256": "22835b1ea01babbad9d8078e4df247a1bcdffe2db81172c1e25e69fea3f7b748"
+    },
+    {
+      "path": ".local-inputs/game-foundation-live-lifecycle/live-actor-lifecycle-smoke.json",
+      "sha256": "de9b223c53766568a58b4a0449fdce9f86fdae34f6189ec82ec2bc1af1692a59",
+      "validation": "PASS",
+      "apk_sha256": "22835b1ea01babbad9d8078e4df247a1bcdffe2db81172c1e25e69fea3f7b748",
+      "installed_apk_sha256": "22835b1ea01babbad9d8078e4df247a1bcdffe2db81172c1e25e69fea3f7b748"
+    },
+    {
+      "path": ".local-inputs/game-foundation-live-bank/prince-bank-smoke.json",
+      "sha256": "c6c9c0cb7326a00261431c354225b91c9aa36a61bdced7241631f4d0d69e43d5",
+      "validation": "PASS",
+      "apk_sha256": "22835b1ea01babbad9d8078e4df247a1bcdffe2db81172c1e25e69fea3f7b748",
+      "installed_apk_sha256": "22835b1ea01babbad9d8078e4df247a1bcdffe2db81172c1e25e69fea3f7b748"
+    },
+    {
+      "path": ".local-inputs/game-foundation-live-combat/character-combat-smoke.json",
+      "sha256": "120b0cbdd9e73abe68a5de411c6332edcdf7c71b36ec26ca0d8b2cf51a0cdc95",
+      "validation": "PASS",
+      "apk_sha256": "22835b1ea01babbad9d8078e4df247a1bcdffe2db81172c1e25e69fea3f7b748",
+      "installed_apk_sha256": "22835b1ea01babbad9d8078e4df247a1bcdffe2db81172c1e25e69fea3f7b748"
+    }
+  ],
+  "visual_inspection": {
+    "screenshot": ".local-inputs/game-foundation-live-bank/attack-finite-idle.png",
+    "sha256": "9d79c14affd2a8d7b51c2b31df5002d19fde4bf50929e00351178ff5a306517a",
+    "observed": "Textured Crypt scene with player and monster visible; prototype debug UI"
+  },
+  "physical_arm64_verified": false,
+  "full_game_verified": false,
+  "full_enemy_ai_verified": false,
+  "all_game_assets_bundled": false,
+  "newer_owner_integers_tables_effects_in_this_apk": false
+}

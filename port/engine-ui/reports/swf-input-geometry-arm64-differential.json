@@ -1,0 +1,22 @@
+{
+  "validation": "PASS",
+  "comparisons": 6900,
+  "geometry_comparisons": 5200,
+  "setter_policy_comparisons": 1700,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "bdadbb2ca9f0c054418e184849b605bbca8de9daac4baf11e187349ec9b4e9e0",
+  "gold_sha256": "c4a62cb008db03a1825cf09f08564102447beeea9f9babb026a26613bb50e0ac",
+  "source_sha256": {
+    "port\\engine-ui\\swf_input_geometry.hpp": "de74fb1c4e846494caed4f895daadc7f6ba3a1ee6da7727968300682d3d42605",
+    "port\\engine-ui\\swf_input_geometry.cpp": "83cedb6d4f0f13f27c58e8de8e22e84388f850b1113c42eed985b5583770cc81",
+    "port\\engine-ui\\swf_input_policy.hpp": "b6f2949e77d9aefb2cf017f336d989d2480f25ea451e1e19ac9bcb3cc3b5f52a",
+    "port\\engine-ui\\swf_input_policy.cpp": "88dc1345816e2871dc17657df2f520767d57812a65459d2cef1cd94f0b6a1ae5",
+    "port\\engine-ui\\tests\\swf_input_geometry_differential.py": "859c7c653e4d87c0361d929f15dcb9d3ddb0a8118ed239b200ff75df0030857c"
+  },
+  "boundaries": [
+    "Original tu_string equality helper imported as exact byte equality",
+    "NeedAdvance remains the original recursively reached service; observer separately traverses actual weak parents"
+  ],
+  "whole_input_parity": false
+}

@@ -1,0 +1,16 @@
+--- a/port/level-world/CMakeLists.txt
++++ b/port/level-world/CMakeLists.txt
+@@ -696,6 +696,13 @@
+ endif()
+ # Root source loading reuses this target's single canonical owners.
+ include("${CMAKE_CURRENT_LIST_DIR}/../level-loader/native_loading_sources_v50.cmake")
++# Add the coherent native root/module/catalog closure on this SAME
++# owner and its existing XML target. Existing exact source paths are reused.
++include("${CMAKE_CURRENT_LIST_DIR}/../level-loader/native_loader_production_v71.cmake")
++dh2_loader_attach_production(dh2_level_world
++ LOADER_DIR "${CMAKE_CURRENT_LIST_DIR}/../level-loader"
++ WORLD_DIR "${CMAKE_CURRENT_LIST_DIR}"
++ XML_TARGET dh2_camera_xml_v20)
+ target_sources(dh2_level_world PRIVATE
+  character_menu_campaign_save_v50.cpp
+  campaign_save_profile_v45.cpp private_save_file_transport_v45.cpp

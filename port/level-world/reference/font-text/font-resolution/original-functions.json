@@ -1,0 +1,23 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7gameswf12get_fontfileEPKcRNS_9tu_stringEbb",
+      "elf_address": "0x7d0fe4",
+      "size": 344,
+      "sha256": "b76b9454b1ac9fdec780d28c659aab607a4ac6c893d0e428392dfedc0df23a06"
+    },
+    {
+      "original_symbol": "_ZN8RenderFX7SetTextEPN7gameswf9characterEPKcb",
+      "elf_address": "0x7a92e0",
+      "size": 176,
+      "sha256": "9b1f0c2aa665c483971ba408e302fa456620ba99b1b00049ef1e378fe51ce233"
+    },
+    {
+      "original_symbol": "_Z12get_fontfilePKcbbPci",
+      "elf_address": "0x42b38c",
+      "size": 1128,
+      "sha256": "07a78f8a1f0c299cf22178a578842adfb35bcccafa46be2748252013109a7b97"
+    }
+  ]
+}

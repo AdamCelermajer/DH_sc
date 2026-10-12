@@ -1,0 +1,87 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_manifest_sha256": "12cef18fc1c36747c3cc85c83549492ba245291308189e9e2abf9eabdc206176",
+  "resource_sha256": "8e9f5a3d59c2bac3d713f856a326e5556412f0bca1f2646feaa4be3a502895d9",
+  "resource_size": 3752,
+  "source_function": "SProfileGLES2Traits.createShader634b30",
+  "original_instructions_executed": true,
+  "actual_resource_passes": [
+    {
+      "technique": "default",
+      "pass_offset": 2420,
+      "program_name": "GameSWFVS.glslGameSWFFS.glsl",
+      "vertex_file": "GameSWFVS.glsl",
+      "vertex_preamble": "",
+      "fragment_file": "GameSWFFS.glsl",
+      "fragment_preamble": "",
+      "raw_pass_sha256": "b5aade8eeb30512b04087be7a2cc1e3663685570f5aae52e7d12a62b32701132",
+      "raw_render_state_64_hex": "545400ffff00ffff000f1c00073008000000000000000000000000000000803f000000000000803f0000803f0000803f000000000000803f0000803f00000000",
+      "source_sampler_mapping": {
+        "TextureSampler": 0
+      }
+    },
+    {
+      "technique": "multiply",
+      "pass_offset": 2548,
+      "program_name": "GameSWFVS.glslGameSWFFS_blend.glsl",
+      "vertex_file": "GameSWFVS.glsl",
+      "vertex_preamble": "",
+      "fragment_file": "GameSWFFS_blend.glsl",
+      "fragment_preamble": "",
+      "raw_pass_sha256": "d36eb54b47e3af58c4f28994ffca75ced26bd8a40e6762d19124317b1ca079d2",
+      "raw_render_state_64_hex": "565600ffff00ffff000f1c00073008000000000000000000000000000000803f000000000000803f0000803f0000803f000000000000803f0000803f00000000",
+      "source_sampler_mapping": {
+        "TextureSampler": 0
+      }
+    },
+    {
+      "technique": "screen",
+      "pass_offset": 2676,
+      "program_name": "GameSWFVS.glslGameSWFFS_blend.glsl",
+      "vertex_file": "GameSWFVS.glsl",
+      "vertex_preamble": "",
+      "fragment_file": "GameSWFFS_blend.glsl",
+      "fragment_preamble": "",
+      "raw_pass_sha256": "a92a2b72ec8a8282896a43d755912b6ecd2a903bcb8c2400550d5297159d7933",
+      "raw_render_state_64_hex": "313100ffff00ffff000f1c00073008000000000000000000000000000000803f000000000000803f0000803f0000803f000000000000803f0000803f00000000",
+      "source_sampler_mapping": {
+        "TextureSampler": 0
+      }
+    },
+    {
+      "technique": "overlay",
+      "pass_offset": 2804,
+      "program_name": "GameSWFVS.glslGameSWFFS_blend.glsl",
+      "vertex_file": "GameSWFVS.glsl",
+      "vertex_preamble": "",
+      "fragment_file": "GameSWFFS_blend.glsl",
+      "fragment_preamble": "",
+      "raw_pass_sha256": "a15de08bc73d2aef4a8c3a0f685635f8390a9d7f45f087165e0a341e6dbb7285",
+      "raw_render_state_64_hex": "161600ffff00ffff000f1c00073008000000000000000000000000000000803f000000000000803f0000803f0000803f000000000000803f0000803f00000000",
+      "source_sampler_mapping": {
+        "TextureSampler": 0
+      }
+    }
+  ],
+  "constructor_capture": "render_handler_glitch7d60f4",
+  "source_constructor_registration": {
+    "resource": "gameswf_effects.bdae",
+    "material": "_1_-_Default-fx",
+    "mode_to_technique": {
+      "0": "default",
+      "1": "default",
+      "3": "multiply",
+      "4": "screen",
+      "13": "overlay",
+      "15": "default",
+      "16": "default"
+    }
+  },
+  "services": [
+    "IShaderManager.createShader request observer returning null",
+    "original serialized BRES relocation",
+    "initialized allocation singleton"
+  ],
+  "scope": "Actual GLES2 pass selection/string concatenation and raw authored state evidence. No GL driver/render-state execution, SWF display-list drawing or complete material factory claim."
+}

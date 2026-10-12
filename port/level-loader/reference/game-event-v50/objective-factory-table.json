@@ -1,0 +1,125 @@
+{
+  "table": "0x969910",
+  "rows": [
+    {
+      "type": 0,
+      "address": "0x47cf78",
+      "symbol": "0047cf78 W Objective* GetObjectiveImplInstance<ObjectiveTemplate_InteractWith<Structs::v2QuestTriggerPlate, QE_TriggerPlate>>()"
+    },
+    {
+      "type": 1,
+      "address": "0x47cf20",
+      "symbol": "0047cf20 W Objective* GetObjectiveImplInstance<ObjectiveTemplate_InteractWith<Structs::v2QuestDestroyGameObject, QE_DestroyGameObject>>()"
+    },
+    {
+      "type": 2,
+      "address": "0x47bf20",
+      "symbol": "0047bf20 W Objective* GetObjectiveImplInstance<Objective_MoveInZone>()"
+    },
+    {
+      "type": 3,
+      "address": "0x47cec4",
+      "symbol": "0047cec4 W Objective* GetObjectiveImplInstance<Objective_TalkToNPC>()"
+    },
+    {
+      "type": 4,
+      "address": "0x47bf70",
+      "symbol": "0047bf70 W Objective* GetObjectiveImplInstance<Objective_Automatic>()"
+    },
+    {
+      "type": 5,
+      "address": "0x47d194",
+      "symbol": "0047d194 W Objective* GetObjectiveImplInstance<ObjectiveTemplate_InteractWith<Structs::v2QuestOpenGameObject, QE_OpenGameObject>>()"
+    },
+    {
+      "type": 6,
+      "address": "0x47d13c",
+      "symbol": "0047d13c W Objective* GetObjectiveImplInstance<ObjectiveTemplate_InteractWith<Structs::v2QuestTriggerOn, QE_TriggerOn>>()"
+    },
+    {
+      "type": 7,
+      "address": "0x47d0e4",
+      "symbol": "0047d0e4 W Objective* GetObjectiveImplInstance<ObjectiveTemplate_InteractWith<Structs::v2QuestPickedUpLiftable, QE_PickedUpLiftable>>()"
+    },
+    {
+      "type": 8,
+      "address": "0x47d088",
+      "symbol": "0047d088 W Objective* GetObjectiveImplInstance<ObjectiveTemplate_KillEnemies<Structs::v2QuestKillEnemyTemplate, QE_KillEnemyTemplate, TestCharTemplate, Objective_SavedQty>>()"
+    },
+    {
+      "type": 9,
+      "address": "0x47bec4",
+      "symbol": "0047bec4 W Objective* GetObjectiveImplInstance<ObjectiveTemplate_KillCharacter<Structs::v2QuestClearEnemyTemplate, QE_ClearEnemyTemplate, TestCharTemplate, Objective_SavedQty>>()"
+    },
+    {
+      "type": 10,
+      "address": "0x47be74",
+      "symbol": "0047be74 W Objective* GetObjectiveImplInstance<Objective_GatherLoot>()"
+    },
+    {
+      "type": 11,
+      "address": "0x0",
+      "symbol": null
+    },
+    {
+      "type": 12,
+      "address": "0x0",
+      "symbol": null
+    },
+    {
+      "type": 13,
+      "address": "0x0",
+      "symbol": null
+    },
+    {
+      "type": 14,
+      "address": "0x47a378",
+      "symbol": "0047a378 T Objective::~Objective()"
+    },
+    {
+      "type": 15,
+      "address": "0x47a8b0",
+      "symbol": "0047a8b0 T Objective::~Objective()"
+    },
+    {
+      "type": 16,
+      "address": "0x479f6c",
+      "symbol": "00479f6c W Objective::Compile()"
+    },
+    {
+      "type": 17,
+      "address": "0x47b7ac",
+      "symbol": "0047b7ac T Objective::DBG_TraceDetailedObjectiveInformation(__sFILE*) const"
+    },
+    {
+      "type": 18,
+      "address": "0x479f80",
+      "symbol": "00479f80 W Objective::InstallObjectiveMarker(int, int)"
+    },
+    {
+      "type": 19,
+      "address": "0x479f84",
+      "symbol": "00479f84 W Objective::RemoveObjectiveMarker()"
+    },
+    {
+      "type": 20,
+      "address": "0x0",
+      "symbol": null
+    },
+    {
+      "type": 21,
+      "address": "0x0",
+      "symbol": null
+    },
+    {
+      "type": 22,
+      "address": "0x0",
+      "symbol": null
+    },
+    {
+      "type": 23,
+      "address": "0x47e8e4",
+      "symbol": "0047e8e4 T Objective::GetDesc() const"
+    }
+  ]
+}

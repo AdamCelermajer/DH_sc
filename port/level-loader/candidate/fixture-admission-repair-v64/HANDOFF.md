@@ -1,0 +1,16 @@
+# Fixture admission repair V64
+SOURCE PROPOSAL ONLY. Native compilation, linking, execution, Oracle, device and restoration validation are PENDING under Main RAM hold.
+
+Eighteen source successors:15of16 audited direct SWAMP fixtures;2selected historical constructor fixtures;1indirect preview wrapper. The sixteenth audit entry source_stage_swamp_v58.cpp is covered by Main's separate source_stage_swamp_v63.cpp and is deliberately not duplicated.
+
+Fifteen actual-cache SWAMP successors explicitly request LevelSourceKindV1::fixed and seed7, retain canonical logicalidentitySWAMP, and assert actual LevelList41's logicalidentity/filename before the unchanged raw C1input and seed7. Incomplete contexts that never construct keep their deliberate historical inputs. No production guard, C1 body, seed resolution, original source data or helper behavior changed.
+
+The synthetic canonical_level_constructor_v3 successor intentionally leaves its incomplete names table, arbitrary fixtureidentity and matched/unmatched raw names unchanged. It invokes existing LevelConstructorV3 directly over SAME CanonicalLevelContext constructor_borrow_v3 fields with an external once-only constructor capsule; checks use that raw owner/retry and assert selected-context constructor_owner_v3 remains absent. This is raw C1 field/lifetime coverage, never selected admission/publication/readiness proof. It creates no canonical table names and offers no selected guard bypass API.
+
+The actual51-row bindings successor retains its original raw worlds/<lowerfile> CString and seed7. It reproduces original first-substring row selection for that supplied CString, then takes request.identity from actual level_names at that row; both positive and failed save-service cases use that logical identity. No guessed SWAMP name or hardcoded URI identity remains.
+
+Successors are directly addressable in candidate/successors. Relative private source/header and local capture includes are rebased for that location, while selected constructor fixture headers use the existing selected include tree. The preview wrapper includes the modulegraph successor in its same successor directory. Retaining source includes of implementation .cpp in historical standalone draw fixtures does not admit them as additional production TUs; future Main must preserve existing target composition.
+
+source-review-manifest.json records exact original/frozen/successor SHA256, semantic and literal source lines, and current future target switches. Per-source .diff files show every include and fixture delta. Unmapped historical files have no current CMake target in tests/cmake-receiver-transport; any future use must explicitly choose the corrected successor. Target switches are proposals only; CMake is untouched. The modulegraph previewexport target is an indirect consumer and also needs its wrapper successor.
+
+All original source hashes were read back unchanged. Frozen copies are under baselines; prior files/receipts and selected773 owners are untouched. Existing PASS strings inside test source describe future executable output only; no new PASS receipt exists. Main's earlier historical772 rawSWAMP195objects/50Characters/source7/10 result stays historical and does not validate these sources or selected773.

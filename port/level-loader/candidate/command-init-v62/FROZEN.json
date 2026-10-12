@@ -1,0 +1,15 @@
+{
+  "status": "SOURCE_ONLY_UNCOMPILED",
+  "archive": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\command-init-v62-source-only-4f76061c449ad006.zip",
+  "archive_sha256": "584078173b4bc1b51ca4e1a6658e0972b2a0158a67ea73c4d994791c89ae5ff8",
+  "manifest_sha256": "4f76061c449ad0062e004fb01fdc52eebc968cc2880633f6a0624d82dda5d5f7",
+  "header_sha256": "f60f5356e0143c20aec1a89a147aac2079fbf9505c36f35b5436e0167ea8854e",
+  "test_sha256": "4b3159e38931e228c133d15538ed23175866c18b5ae4a7380e2d35139b5ca2e7",
+  "handoff_sha256": "0aa189920a2a8eaea1f58a675d3b746c29b9273f6dc4406e5f7c7712a067ea45",
+  "V61_preserved": true,
+  "V59_unchanged_hashes": {
+    "candidate/command-c1-v59/script_command_receivers_v59.hpp": "d555cac844347387dcd1c0ad46c404b718b3ff03a61803832f97fa3e250dc55d",
+    "candidate/command-c1-v59/script_command_receivers_v59.cpp": "cc18c31a6c307e992c0628cb8aa01b52fecc99482098560788f7cdb2c2bad213",
+    "candidate/command-c1-v59/command_c1_descriptors_v59.inc": "2c4f7d8fa62f0c295023cd6aa0cb917bd93aac71116677940e0665a84a28a0fa"
+  }
+}

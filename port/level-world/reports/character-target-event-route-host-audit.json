@@ -1,0 +1,50 @@
+{
+  "validation": "PASS",
+  "comparisons": 1944,
+  "ordered_services": 2096,
+  "word_checks": 10328,
+  "native_guards": 9,
+  "provider_failure_checks": 2,
+  "native_only_reentry_checks": 1,
+  "native_only_captured_argument_checks": 1,
+  "mismatches": 0,
+  "source_bindings": {
+    "port\\level-world\\character_ai_events.cpp": "fa459fb66755400887d4e042d1038013001ec2ebd3746962a7d2f29830baa5b0",
+    "port\\level-world\\character_ai_events.hpp": "e78a1542dd1316047414419bcea7d8ad9fee32a410959d2f80db4af47ef357c3",
+    "port\\level-world\\tests\\character_target_event_route.cpp": "9c8bcd107a4ee42c950b55aa3526d1c421862faf7c820334d7d1b2baa823e683",
+    "port\\level-world\\tests\\character_target_event_route_host.py": "88fd48882b28d5def1b26f2b64e1061fb7a51d3be3e419912f60db9c7508a39b",
+    "port\\level-world\\tests\\character_target_event_route_differential.py": "afd1a6c1adfc3f44f1b9ed173be8b68979dcf175128e5c69d1e6a07bef0f7db2",
+    "port\\level-world\\reference\\character-target-event-route\\target-route-fixtures.bin": "4ad8f6a1c7987970c5c223baeda6e8dfda9bec40aaa0add5603ec65f71585935",
+    "port\\level-world\\reports\\character-target-event-route-arm64-differential.json": "2490958ab8f1d387915a7ab85b1aaddffe6b9820c3c8777adefb71e2cbf36cb6",
+    "port\\level-world\\character_target_bindings.hpp": "bead66304f3c4454813d2fcea8e679f0eb45d1625a4ee621f4ec96bfb6886e75",
+    "port\\level-world\\..\\script-runtime\\script_runtime.h": "6da3b8ae002da1eb75cd64d03120d37668ebec198ce3d3b5827096c43d08de14",
+    "port\\level-world\\reference\\character-target-event-route\\original-functions.json": "c32a707d32ef5b58b73787ef38479ef1735fd1fbff29456cc0830bd3c8f29a08",
+    "port\\level-world\\reference\\character-target-event-route\\reference\\original-functions.asm": "d65442053dd245cf564f80c53da3dddc795f859a547ab5d3c50676fb699a201f",
+    "port\\level-world\\tests\\character_target_endpoints_original.py": "8a0ea97593296882172dba158a9fee519ae921c8b525064687015baf5b2ef907",
+    "port\\level-world\\reference\\character-target-event-route\\endpoints-original-probe.json": "403e08b733c6eb5a042c338bf88a319dbe8f0b6ab2021683add1a6be7b5c189d"
+  },
+  "binary_bindings": {
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\character-target-event-route\\character_target_event_route_host": "8b4301b0c7581402ff246009c365bd66bc8147f80024a667df1dfb70aba129db"
+  },
+  "compiler_command": [
+    "wsl.exe",
+    "--",
+    "g++",
+    "-std=c++17",
+    "-O1",
+    "-g",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/character_ai_events.cpp",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/tests/character_target_event_route.cpp",
+    "-o",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-target-event-route/character_target_event_route_host"
+  ],
+  "asan_ubsan": true,
+  "sanitizer_findings": 0,
+  "scope": "Replay source target-event generic routing under ASan/UBSan.\n\nHandler/FSM deliveries are synchronous borrowed services. This proves source control,\nreload/store order and reentry, not full world, predicate or Lua ownership.\n",
+  "compiler_provenance": "standalone compiler command recorded"
+}

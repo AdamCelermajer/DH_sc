@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6Arrays10FaeryTable4readEP11IStreamBase",
+      "elf_address": "0x4bbfe0",
+      "size": 332,
+      "sha256": "b650279953dec112e6bcb4cdc6a1af9b2b8b8687f81caf15cecb68ec4a85cd30"
+    },
+    {
+      "original_symbol": "_ZN6Arrays14FaeryListTable4readEP11IStreamBase",
+      "elf_address": "0x4bc12c",
+      "size": 332,
+      "sha256": "8c1696726d7dfa09d1d33aff8d59a3a8358b5d3c6444978eb19577822d8a0602"
+    },
+    {
+      "original_symbol": "_ZN7Structs5Faery4readEP11IStreamBase",
+      "elf_address": "0x50637c",
+      "size": 740,
+      "sha256": "1900eec2f29d0ec4f32f324b94293a9eea3a64b18dddb4d64ccd77cb861c4bf3"
+    },
+    {
+      "original_symbol": "_ZN7Structs9FaeryList4readEP11IStreamBase",
+      "elf_address": "0x4eab9c",
+      "size": 292,
+      "sha256": "fcc9933b9ea4f39ff5ee4bf6f99c938cd6153d3d63f7be660a69d8aa9bc30846"
+    }
+  ]
+}

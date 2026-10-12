@@ -1,0 +1,403 @@
+--- a/port/level-world/canonical_property_map_v1.cpp
++++ b/port/level-world/canonical_property_map_v1.cpp
+@@ -55,7 +55,7 @@
+  if(auto failed=incomplete_.find(actor.class_name);failed!=incomplete_.end()){e=failed->second;return false;}
+  if(classes_.find(actor.class_name)!=classes_.end())return true;
+  const std::string kind=actor.class_name;
+-  if(kind!="ObjectBase"&&kind!="GameObject"&&kind!="Dummy"&&kind!="Decor"&&kind!="SpawnPoint"&&kind!="DestructibleContainer"&&kind!="TriggerZone"&&kind!="Item"&&kind!="Character"&&kind!="Player"&&kind!="OpenableContainer"&&kind!="AnimatedDecor"&&kind!="Module"&&kind!="Block"&&kind!="LevelConfig"&&kind!="RoomZone"){e="required unrecovered registered class DeclareProperties";return false;}
++  if(kind!="LightPoint"&&kind!="ObjectBase"&&kind!="GameObject"&&kind!="Dummy"&&kind!="Decor"&&kind!="SpawnPoint"&&kind!="DestructibleContainer"&&kind!="TriggerZone"&&kind!="Item"&&kind!="Character"&&kind!="Player"&&kind!="OpenableContainer"&&kind!="AnimatedDecor"&&kind!="Module"&&kind!="Block"&&kind!="LevelConfig"&&kind!="RoomZone"){e="required unrecovered registered class DeclareProperties";return false;}
+  auto& base=classes_[kind][""];base.emplace("_templateName",CanonicalPropertyDescriptorV1{8,std::string{}});
+  incomplete_[kind]="source DeclareProperties incomplete; candidate context must be released";
+  std::uint8_t static_default{};
+@@ -70,6 +70,7 @@
+   {const auto& kind=declaration_kind;
+  #include "canonical_property_declarations_v1.inc"
+  #include "canonical_level_config_module_declarations_v1.inc"
++  #include "canonical_light_point_declarations_v53.inc"
+   }
+  // RoomZone::DeclareProperties396554 is bx lr: only the PropertyMap's
+  // own _templateName declaration above exists; do not inherit GameObject.
+--- a/port/level-loader/native_loading_sources_v50.cmake
++++ b/port/level-loader/native_loading_sources_v50.cmake
+@@ -10,7 +10,9 @@
+   canonical_module_files_v1.cpp canonical_source_adapter_v1.cpp canonical_receiver_transport_v1.cpp
+   cached_level_file_v1.cpp level_file_walk_v1.cpp object_entry_v1.cpp
+   object_initialization_v1.cpp resource_paths_v1.cpp user_properties_v1.cpp
+-  visual_transform_v1.cpp module_draw_frame_v1.cpp)
++  visual_transform_v1.cpp module_draw_frame_v1.cpp
++  canonical_light_point_v53.cpp canonical_light_point_factory_v53.cpp
++  level_lightset_stage9_v53.cpp canonical_lightset_file_v53.cpp)
+ set(_dh2_v50_world_sources
+   canonical_level_module_bindings_v2.cpp canonical_module_graph_v3.cpp
+   retained_module_visual_v3.cpp module_selected_scene_v2.cpp
+--- /dev/null
++++ b/port/level-loader/canonical_light_point_v53.hpp
+@@ -0,0 +1,62 @@
++#pragma once
++#include <canonical_property_map_v1.hpp>
++#include <light_set_name_owner_v3.hpp>
++#include <memory>
++namespace dh2::world {
++// A borrowed ACTUAL renderer light node. Main supplies its retained node owner,
++// native identity and storage writer. A source miss is node.identity==0.
++struct LightNodeBorrowV53 {std::shared_ptr<void> owner;std::uintptr_t identity{},actual_light_identity{};};
++struct LightParameterFieldsV53 {
++ std::shared_ptr<void> owner;std::uintptr_t actual_light_identity{};
++ std::array<float,4>* ambient4{};std::array<float,4>* diffuse14{};std::array<float,4>* specular24{};
++ std::array<float,3>* attenuation34{};float* radius40{};
++ std::function<bool(std::string&)> validate_current;
++};
++struct LightPointInitServicesV53 {
++ std::shared_ptr<void> owner;
++ // Original LoadScene(dae,"",false,false), choose first actual light node.
++ std::function<bool(const std::string&,const char*,bool,bool,LightNodeBorrowV53&,std::string&)> first_scene_light;
++ std::function<bool(bool,LightNodeBorrowV53&,std::string&)> construct_light_node;
++ std::function<bool(const LightNodeBorrowV53&,std::string&)> attach_root;
++ std::function<bool(std::uintptr_t,const LightNodeBorrowV53&,std::string&)> add_automatic;
++ // Source SyncData's actual CLight storage/driver writer; not GPU completion.
++ std::function<bool(const LightNodeBorrowV53&,LightParameterFieldsV53&,std::string&)> borrow_light_parameters;
++ std::function<bool(const char*,bool&,std::string&)> debug_switch;
++ std::function<bool(const LightNodeBorrowV53&,std::uint16_t,std::string&)> set_type;
++ // Must borrow the existing manager Names owner, not allocate a parallel one.
++ std::shared_ptr<LightSetNameOwnerV3> names;
++ std::function<bool(std::uintptr_t,const LightNodeBorrowV53&,LightSetNameOwnerV3&,std::string&)> refresh_attachment;
++};
++// Genuine ObjectBase-derived factory34115c / LightPointC1_40bdd8, GO_ID19.
++// Never inherits GameObject geometry/Visual/Character fields.
++class CanonicalLightPointV53 final {
++ std::shared_ptr<void> pin_;std::uintptr_t identity_;
++ target_providers::Handle16 handle_;std::uint32_t type_{19};std::int32_t room_{-1};const char* class_name_{};
++ std::string template_;std::map<std::uint32_t,std::uint8_t> bytes_;
++ std::map<std::uint32_t,std::int32_t> ints_;std::map<std::uint32_t,float> floats_;
++ std::map<std::uint32_t,std::string> strings_;std::map<std::uint32_t,std::array<float,3>> vectors_;
++ LightPointInitServicesV53 services_;LightNodeBorrowV53 node_;bool attempted_{},complete_{};std::string error_;
++ static bool set_name(void*,const char*,std::string&);static bool set_archetype(void*,const char*,std::string&);
++ static bool as_character(void*,std::uintptr_t&,std::string&);static bool across(void*,std::uint8_t&,std::string&);
++ static bool read_bool(void*,std::uint32_t,std::uint8_t&,std::string&);
++ static bool write_bool(void*,std::uint32_t,std::uint8_t,std::string&);static bool write_int(void*,std::uint32_t,std::int32_t,std::string&);
++ static bool write_float(void*,std::uint32_t,float,std::string&);static bool write_string(void*,std::uint32_t,const std::string&,std::string&);
++ static bool write_vector(void*,std::uint32_t,const std::array<float,3>&,std::string&);
++ bool fail(const std::string&,std::string&);
++ bool write_light_parameters(const LightParameterFieldsV53&,std::string&);
++public:
++ CanonicalLightPointV53(std::shared_ptr<void>,LightPointInitServicesV53);
++ CanonicalObjectBorrowV1 canonical(std::shared_ptr<void>);
++ CanonicalPropertyActorV1 properties()noexcept;
++ bool init_post(std::string&);
++ bool sync_data(const LightParameterFieldsV53&,std::string&);
++ const std::string* string(std::uint32_t)const noexcept;
++ const std::array<float,3>* vector(std::uint32_t)const noexcept;
++ const float* floating(std::uint32_t)const noexcept;
++ const std::uint8_t* byte(std::uint32_t)const noexcept;
++ std::uintptr_t identity()const noexcept{return identity_;}
++ const LightNodeBorrowV53& actual_node()const noexcept{return node_;}
++ bool init_complete()const noexcept{return complete_;}
++ static constexpr bool is_game_object()noexcept{return false;}
++};
++}
+--- /dev/null
++++ b/port/level-loader/canonical_light_point_v53.cpp
+@@ -0,0 +1,97 @@
++#include "canonical_light_point_v53.hpp"
++#include <algorithm>
++namespace dh2::world {
++namespace {
++template<class T>T* at(std::map<std::uint32_t,T>& m,std::uint32_t o){auto i=m.find(o);return i==m.end()?nullptr:&i->second;}
++template<class T>const T* at(const std::map<std::uint32_t,T>& m,std::uint32_t o){auto i=m.find(o);return i==m.end()?nullptr:&i->second;}
++bool needs(const char* n,std::string& e){e="Required actual LightPoint ";e+=n;return false;}
++}
++CanonicalLightPointV53::CanonicalLightPointV53(std::shared_ptr<void> p,LightPointInitServicesV53 s):pin_(std::move(p)),identity_(reinterpret_cast<std::uintptr_t>(this)),handle_{0,UINT32_MAX,identity_},services_(std::move(s)){
++ for(auto o:{0x28u,0x29u,0x60u,0x81u,0x84u,0x86u,0x88u,0x89u,0xf0u,0xf1u,0xf8u,0x10cu,0x118u,0x119u})bytes_[o]=0;
++ bytes_[0x85]=1;bytes_[0x8a]=1;
++ // Modern deterministic room-local safety, as other ObjectBase receivers:
++ // original C1 leaves87 indeterminate; not constructor byte parity for87.
++ bytes_[0x87]=0;
++ for(auto o:{0xecu,0x108u,0x110u})ints_[o]=-1;
++ for(auto o:{0x30u,0x48u,0x68u,0x90u,0xb4u,0xd4u,0x168u,0x180u})strings_[o]={};
++ for(auto o:{0x124u,0x134u,0x140u,0x14cu,0x158u,0x1a4u})vectors_[o]={0,0,0};
++ // radius130 and automatic164 were NOT initialized by C1. Descriptor defaults
++ // produce them; missing property initialization is an explicit failure.
++}
++bool CanonicalLightPointV53::set_name(void* p,const char* v,std::string& e){if(!v)return needs("name CString",e);static_cast<CanonicalLightPointV53*>(p)->strings_[0x30]=v;e.clear();return true;}
++bool CanonicalLightPointV53::set_archetype(void* p,const char* v,std::string& e){if(!v)return needs("archetype CString",e);static_cast<CanonicalLightPointV53*>(p)->strings_[0x48]=v;e.clear();return true;}
++bool CanonicalLightPointV53::as_character(void*,std::uintptr_t& o,std::string& e){o=0;e.clear();return true;}
++bool CanonicalLightPointV53::across(void* p,std::uint8_t& o,std::string& e){return read_bool(p,0x87,o,e);}
++bool CanonicalLightPointV53::read_bool(void* p,std::uint32_t o,std::uint8_t& v,std::string& e){auto* x=at(static_cast<CanonicalLightPointV53*>(p)->bytes_,o);if(!x)return needs("produced byte",e);v=*x;e.clear();return true;}
++bool CanonicalLightPointV53::write_bool(void* p,std::uint32_t o,std::uint8_t v,std::string& e){auto& m=static_cast<CanonicalLightPointV53*>(p)->bytes_;if(o!=0x164&&!at(m,o))return needs("declared byte offset",e);m[o]=v;e.clear();return true;}
++bool CanonicalLightPointV53::write_int(void* p,std::uint32_t o,std::int32_t v,std::string& e){auto* x=at(static_cast<CanonicalLightPointV53*>(p)->ints_,o);if(!x)return needs("declared int offset",e);*x=v;e.clear();return true;}
++bool CanonicalLightPointV53::write_float(void* p,std::uint32_t o,float v,std::string& e){if(o!=0x130)return needs("radius source offset",e);static_cast<CanonicalLightPointV53*>(p)->floats_[o]=v;e.clear();return true;}
++bool CanonicalLightPointV53::write_string(void* p,std::uint32_t o,const std::string& v,std::string& e){auto* x=at(static_cast<CanonicalLightPointV53*>(p)->strings_,o);if(!x)return needs("constructed CString offset",e);*x=v;e.clear();return true;}
++bool CanonicalLightPointV53::write_vector(void* p,std::uint32_t o,const std::array<float,3>& v,std::string& e){auto* x=at(static_cast<CanonicalLightPointV53*>(p)->vectors_,o);if(!x)return needs("declared Point3D offset",e);*x=v;e.clear();return true;}
++CanonicalObjectBorrowV1 CanonicalLightPointV53::canonical(std::shared_ptr<void> p){return {identity_,std::move(p),&handle_,&type_,nullptr,&room_,this,set_name,set_archetype,as_character,&class_name_,across};}
++CanonicalPropertyActorV1 CanonicalLightPointV53::properties()noexcept{return {class_name_,&template_,{this,read_bool,write_bool,write_int,write_float,write_string,write_vector}};}
++const std::string* CanonicalLightPointV53::string(std::uint32_t o)const noexcept{return at(strings_,o);}
++const std::array<float,3>* CanonicalLightPointV53::vector(std::uint32_t o)const noexcept{return at(vectors_,o);}
++const float* CanonicalLightPointV53::floating(std::uint32_t o)const noexcept{return at(floats_,o);}
++const std::uint8_t* CanonicalLightPointV53::byte(std::uint32_t o)const noexcept{return at(bytes_,o);}
++bool CanonicalLightPointV53::fail(const std::string& n,std::string& e){if(error_.empty())error_=n.empty()?"Actual LightPoint service failed":n;e=error_;return false;}
++bool CanonicalLightPointV53::init_post(std::string& e){
++ if(complete_){e.clear();return true;}if(attempted_)return fail("LightPoint source prefix already attempted; release candidate",e);
++ if(!at(floats_,0x130)||!at(bytes_,0x164))return fail("Required actual LightPoint descriptor defaults/overrides",e);
++ attempted_=true;bytes_[0x1b0]=0;bytes_[0x1b1]=0;
++ for(auto o:{0x140u,0x14cu,0x158u})for(auto& v:vectors_.at(o))v=v/255.f;
++ vectors_.at(0x134)[1]=vectors_.at(0x134)[1]/1000.f;vectors_.at(0x134)[2]=vectors_.at(0x134)[2]/1000000.f;
++ if(!services_.owner)return fail("Required actual LightPoint renderer owner",e);
++ if(!strings_.at(0x168).empty()){
++  if(!services_.first_scene_light)return fail("Required actual LightPoint SceneManager.LoadScene",e);
++  if(!services_.first_scene_light(strings_.at(0x168),"",false,false,node_,e))return fail(e,e);
++ }
++ if(!node_.identity){
++  if(!services_.construct_light_node)return fail("Required actual LightPoint CLightSceneNode(true)",e);
++  if(!services_.construct_light_node(true,node_,e))return fail(e,e);
++ }
++ if(!node_.identity||!node_.owner||!node_.actual_light_identity)return fail("Required actual retained LightPoint light node",e);
++ if(!services_.attach_root)return fail("Required actual LightPoint scene-root attachment",e);
++ if(!services_.attach_root(node_,e))return fail(e,e);
++ if(bytes_.at(0x164)){
++  if(!services_.add_automatic)return fail("Required actual SceneManager automatic-light registry",e);
++  if(!services_.add_automatic(identity_,node_,e))return fail(e,e);
++ }
++ bool write_parameters=true;
++ if(!strings_.at(0x168).empty()){
++  if(!services_.debug_switch)return fail("Required actual LightPoint TestMultiPlayerLight switch",e);
++  if(!services_.debug_switch("TestMultiPlayerLight",write_parameters,e))return fail(e,e);
++ }
++ if(write_parameters){
++  if(!services_.borrow_light_parameters)return fail("Required actual LightPoint CLight parameter storage",e);
++  LightParameterFieldsV53 parameters;if(!services_.borrow_light_parameters(node_,parameters,e))return fail(e,e);
++  if(parameters.actual_light_identity!=node_.actual_light_identity)return fail("Foreign CLight parameter owner",e);
++  if(!write_light_parameters(parameters,e))return fail(e,e);
++ }
++ if(!services_.set_type)return fail("Required actual LightPoint CLight type58 writer",e);
++ if(!services_.set_type(node_,0,e))return fail(e,e);
++ if(!services_.names||!services_.refresh_attachment)return fail("Required actual LightPoint RefreshAttachment/shared light-set Names",e);
++ if(!services_.refresh_attachment(identity_,node_,*services_.names,e))return fail(e,e);
++ complete_=true;e.clear();return true;
++}
++bool CanonicalLightPointV53::sync_data(const LightParameterFieldsV53& f,std::string& e){
++ if(!strings_.at(0x168).empty()){
++  if(!services_.owner||!services_.debug_switch)return needs("DebugSwitch TestMultiPlayerLight",e);
++  bool override=false;if(!services_.debug_switch("TestMultiPlayerLight",override,e))return false;
++  if(!override){e.clear();return true;} // exact source skip, not driver success
++ }
++ return write_light_parameters(f,e);
++}
++bool CanonicalLightPointV53::write_light_parameters(const LightParameterFieldsV53& f,std::string& e){
++ if(!f.owner||!f.actual_light_identity||!f.ambient4||!f.diffuse14||!f.specular24||!f.attenuation34||!f.radius40||!f.validate_current)return needs("SAME current retained CLight parameter fields",e);
++ if(!f.validate_current(e))return false;
++ auto* radius=at(floats_,0x130);if(!radius)return needs("produced radius",e);
++ if(*radius>0.01f)*f.radius40=*radius; // strict comparison, source preserves near-zero radius
++ *f.attenuation34=vectors_.at(0x134);
++ for(auto pair:{std::pair<std::array<float,4>*,std::uint32_t>{f.ambient4,0x140},{f.diffuse14,0x14c},{f.specular24,0x158}}){
++  const auto& v=vectors_.at(pair.second);*pair.first={v[0],v[1],v[2],1.f};
++ }
++ if(!f.validate_current(e))return false;e.clear();return true;
++}
++
++}
+--- /dev/null
++++ b/port/level-loader/canonical_light_point_factory_v53.hpp
+@@ -0,0 +1,25 @@
++#pragma once
++#include "canonical_light_point_v53.hpp"
++#include <canonical_class_receiver_bindings_v1.hpp>
++namespace dh2::loader {
++struct CanonicalLightPointRecordV53 {
++ std::unique_ptr<world::CanonicalLightPointV53> owner;
++ std::shared_ptr<const void> declaration;
++};
++struct CanonicalLightPointFactoryInputsV53 {
++ std::shared_ptr<void> world;
++ std::function<bool(const world::CanonicalSourceObjectRequestV1&,const std::shared_ptr<CanonicalLightPointRecordV53>&,world::LightPointInitServicesV53&,std::string&)> services;
++};
++// Bind this to the existing remaining canonical factory dispatch before the
++// unknown-class failure. SAME catalog factory34115c, no extra registry.
++class CanonicalLightPointFactoryV53 final {
++ CanonicalLightPointFactoryInputsV53 input_;
++ std::vector<std::shared_ptr<CanonicalLightPointRecordV53>> records_;
++public:
++ explicit CanonicalLightPointFactoryV53(CanonicalLightPointFactoryInputsV53 i):input_(std::move(i)){}
++ bool construct(const world::CanonicalFactoryEntryV1&,const world::CanonicalSourceObjectRequestV1&,world::CanonicalClassReceiverV1&,std::string&);
++ const auto& records()const noexcept{return records_;}
++ // Call AFTER actual manager unpublication and transport.erased(identity).
++ void erased(std::uintptr_t);
++};
++}
+--- /dev/null
++++ b/port/level-loader/canonical_light_point_factory_v53.cpp
+@@ -0,0 +1,22 @@
++#include "canonical_light_point_factory_v53.hpp"
++#include <cstring>
++#include <algorithm>
++namespace dh2::loader {
++bool CanonicalLightPointFactoryV53::construct(const world::CanonicalFactoryEntryV1& entry,const world::CanonicalSourceObjectRequestV1& source,world::CanonicalClassReceiverV1& out,std::string& e){
++ if(!entry.name||std::strcmp(entry.name,"LightPoint")||entry.original_address!=0x34115c){e="Require actual LightPoint catalog factory34115c";return false;}
++ if(!input_.world||!source.source_lease){e="Required SAME LightPoint World/source declaration owner";return false;}
++ auto record=std::make_shared<CanonicalLightPointRecordV53>();record->declaration=source.source_lease;
++ world::LightPointInitServicesV53 s;s.owner=input_.world;
++ if(input_.services&&!input_.services(source,record,s,e))return false;
++ if(!s.owner||s.owner.owner_before(input_.world)||input_.world.owner_before(s.owner)||record->owner){e="LightPoint provider replaced World lease/replayed source constructor";return false;}
++ record->owner=std::make_unique<world::CanonicalLightPointV53>(input_.world,std::move(s));
++ auto receiver=std::shared_ptr<world::CanonicalLightPointV53>(record,record->owner.get());
++ auto candidate=world::canonical_class_receiver_v1(receiver);candidate.source_lease=source.source_lease;
++ candidate.init_post=[receiver](std::string& error){return receiver->init_post(error);};
++ candidate.is_game_object=[](bool& value,std::string& error){value=false;error.clear();return true;};
++ records_.push_back(std::move(record));out=std::move(candidate);e.clear();return true;
++}
++void CanonicalLightPointFactoryV53::erased(std::uintptr_t identity){
++ records_.erase(std::remove_if(records_.begin(),records_.end(),[identity](const auto& record){return record->owner&&record->owner->identity()==identity;}),records_.end());
++}
++}
+--- /dev/null
++++ b/port/level-loader/level_lightset_stage9_v53.hpp
+@@ -0,0 +1,33 @@
++#pragma once
++#include "lifecycle_v36.hpp"
++#include <canonical_level_context_v1.hpp>
++#include <canonical_level_config_module_v1.hpp>
++namespace dh2::loader {
++struct Stage9ConfigBorrowV53 {
++ std::shared_ptr<void> level_owner,config_owner;
++ std::uintptr_t* actual_config38{};std::uintptr_t config_identity{};
++ const std::string* fixed2d0{};const std::string* regular2b8{};
++};
++bool borrow_stage9_config_v53(const std::shared_ptr<CanonicalLevelContextV1>&,
++ const std::shared_ptr<world::CanonicalLevelConfigV1>&,Stage9ConfigBorrowV53&,std::string&);
++struct Stage9ServicesV53 {
++ std::shared_ptr<void> actual_device_owner;
++ std::function<bool(bool&,std::string&)> is_fixed_pipeline;
++ std::shared_ptr<void> actual_file_loader_owner;
++ std::function<LifecycleStepV36(const std::string&,const char*,std::string&)> load_module_file_step;
++ // Check actual current Level/config/device owner on each synchronous poll.
++ std::function<bool(std::string&)> validate_current;
++};
++// Source _LoadLightSet3f459c: one of fixed/regular files, tag Module.
++// Nonblocking poll adaptation; original loops synchronously until LoadFile!=0.
++// This stores no alternate Level, manager, light-set Names or gameplay state.
++class Stage9BodyV53 final {
++ Stage9ConfigBorrowV53 fields_;Stage9ServicesV53 services_;
++ bool selected_{},fixed_{},complete_{},failed_{},busy_{};std::string filename_,error_;
++ LifecycleStepV36 fail(const std::string&,std::string&);
++public:
++ Stage9BodyV53(Stage9ConfigBorrowV53 f,Stage9ServicesV53 s):fields_(std::move(f)),services_(std::move(s)){}
++ LifecycleStepV36 step(std::string&);
++ const std::string& selected_filename()const noexcept{return filename_;}
++};
++}
+--- /dev/null
++++ b/port/level-loader/level_lightset_stage9_v53.cpp
+@@ -0,0 +1,35 @@
++#include "level_lightset_stage9_v53.hpp"
++namespace dh2::loader {
++bool borrow_stage9_config_v53(const std::shared_ptr<CanonicalLevelContextV1>& level,const std::shared_ptr<world::CanonicalLevelConfigV1>& config,Stage9ConfigBorrowV53& out,std::string& e){
++ if(!level||!config){e="Required SAME actual Level/LevelConfig owner";return false;}
++ auto f=level->config_fields();auto fixed=config->string(0x2d0);auto regular=config->string(0x2b8);
++ if(!f.level_owner||!f.config38||*f.config38!=config->identity()||!fixed||!regular){e="Required published SAME Level.config38/actual config light filenames";return false;}
++ out={f.level_owner,config,f.config38,config->identity(),fixed,regular};e.clear();return true;
++}
++LifecycleStepV36 Stage9BodyV53::fail(const std::string& message,std::string& e){if(!failed_){failed_=true;error_=message.empty()?"Actual source light-set service failed":message;}e=error_;return LifecycleStepV36::failed;}
++LifecycleStepV36 Stage9BodyV53::step(std::string& e){
++ if(failed_){e=error_;return LifecycleStepV36::failed;}
++ if(busy_)return fail("Stage9 reentrant source delivery",e);
++ busy_=true;struct Guard{bool& b;~Guard(){b=false;}} guard{busy_};
++ if(!fields_.level_owner||!fields_.config_owner||!fields_.actual_config38||!fields_.config_identity||*fields_.actual_config38!=fields_.config_identity||!fields_.fixed2d0||!fields_.regular2b8)return fail("Required current actual Level.config38/retained config",e);
++ if(!services_.validate_current)return fail("Required current Level/device validation",e);
++ if(!services_.validate_current(e))return fail(e,e);if(failed_){e=error_;return LifecycleStepV36::failed;}
++ if(complete_){e.clear();return LifecycleStepV36::complete;}
++ if(!selected_){
++  if(!services_.actual_device_owner||!services_.is_fixed_pipeline)return fail("Required actual Device.IsFixedPipeline381668",e);
++  if(!services_.is_fixed_pipeline(fixed_,e))return fail(e,e);
++  if(failed_){e=error_;return LifecycleStepV36::failed;}
++  filename_=fixed_?*fields_.fixed2d0:*fields_.regular2b8;selected_=true;
++ }else if(filename_!=(fixed_?*fields_.fixed2d0:*fields_.regular2b8))return fail("Actual selected light-set filename changed during occurrence",e);
++ if(filename_.empty()){complete_=true;e.clear();return LifecycleStepV36::complete;}
++ if(filename_.find('\0')!=std::string::npos)return fail("Source light-set CString contains embedded NUL",e);
++ if(!services_.actual_file_loader_owner||!services_.load_module_file_step)return fail("Required actual LoadFile Module continuation",e);
++ auto result=services_.load_module_file_step(filename_,"Module",e);
++ if(failed_){e=error_;return LifecycleStepV36::failed;}
++ if(result==LifecycleStepV36::failed)return fail(e,e);
++ if(*fields_.actual_config38!=fields_.config_identity||filename_!=(fixed_?*fields_.fixed2d0:*fields_.regular2b8))return fail("Actual config changed during light-set delivery",e);
++ if(!services_.validate_current(e))return fail(e,e);if(failed_){e=error_;return LifecycleStepV36::failed;}
++ if(result==LifecycleStepV36::complete)complete_=true;
++ if(result!=LifecycleStepV36::dependency_missing)e.clear();return result;
++}
++}
+--- /dev/null
++++ b/port/level-loader/canonical_lightset_file_v53.hpp
+@@ -0,0 +1,27 @@
++#pragma once
++#include <canonical_cached_file_v1.hpp>
++#include "level_lightset_stage9_v53.hpp"
++namespace dh2::loader {
++struct CanonicalLightsetFileInputsV53 {
++ assets::ZipAssetPackV1 archive;
++ std::shared_ptr<CanonicalLevelContextV1> level;
++ std::shared_ptr<void> candidate_owner;
++ world::CanonicalObjectManagerV1* manager{};
++ world::CanonicalClassServicesV1 classes;CanonicalFileSourceServicesV1 source;
++ std::shared_ptr<void> actual_filesystem_owner;
++ std::function<bool(const std::string&,std::string&,std::string&)> resolve_filename;
++ std::function<bool(std::string&)> validate_current;
++};
++// Same parser/factory/registry producer as root/module load, one retained XML
++// occurrence. Actual LightPoint dispatch is REQUIRED; never skip gametype19.
++class CanonicalLightsetFileV53 final {
++ CanonicalLightsetFileInputsV53 input_;std::unique_ptr<CanonicalCachedFileV1> file_;
++ CanonicalLevelContextV1::ModuleLoadFields fields_;std::string raw_,uri_,error_;
++ std::array<float,3> position_{};std::int32_t room_{};bool started_{},failed_{},busy_{};
++public:
++ explicit CanonicalLightsetFileV53(CanonicalLightsetFileInputsV53);
++ LifecycleStepV36 step(const std::string&,const char*,std::string&);
++ const CanonicalCachedFileV1* actual_file()const noexcept{return file_.get();}
++ bool discard_after_owner_release(const std::function<bool(std::string&)>&,std::string&);
++};
++}
+--- /dev/null
++++ b/port/level-loader/canonical_lightset_file_v53.cpp
+@@ -0,0 +1,29 @@
++#include "canonical_lightset_file_v53.hpp"
++#include <algorithm>
++namespace dh2::loader {
++CanonicalLightsetFileV53::CanonicalLightsetFileV53(CanonicalLightsetFileInputsV53 in):input_(std::move(in)){if(input_.level)fields_=input_.level->module_load_fields();}
++LifecycleStepV36 CanonicalLightsetFileV53::step(const std::string& raw,const char* tag,std::string& e){
++ auto fail=[&](const std::string& n){if(!failed_){failed_=true;error_=n.empty()?"Actual light-set file producer failed":n;}e=error_;return LifecycleStepV36::failed;};
++ if(failed_){e=error_;return LifecycleStepV36::failed;}if(busy_)return fail("Reentrant light-set canonical file delivery");
++ busy_=true;struct Guard{bool& b;~Guard(){b=false;}} guard{busy_};
++ if(!tag||std::string(tag)!="Module"||!input_.level||!input_.candidate_owner||!input_.manager||!fields_.level_owner||!fields_.module_offset160||!fields_.object_module_id18c)return fail("Required SAME Level/manager/candidate/Module LoadFile fields");
++ if(!input_.validate_current||!input_.validate_current(e))return fail(e.empty()?"Required current actual light-set candidate validation":e);
++ if(failed_)return fail(error_);
++ // This adapter implements resource-open/buffer traversal only. Do not resolve
++ // a filename when original LoadFile already owns an assigned stream140.
++ if(input_.level->constructor_fields_v3().field140)return fail("Required actual assigned Level140 stream continuation");
++ if(!started_){
++  if(!input_.actual_filesystem_owner||!input_.resolve_filename)return fail("Required actual light-set filesystem route");
++  std::string next;if(!input_.resolve_filename(raw,next,e))return fail(e);if(failed_)return fail(error_);
++  if(next.empty()||next.find('\0')!=std::string::npos)return fail("Invalid actual light-set resource identity");
++  raw_=raw;uri_=std::move(next);position_={fields_.module_offset160[0],fields_.module_offset160[1],fields_.module_offset160[2]};room_=*fields_.object_module_id18c;
++  file_=std::make_unique<CanonicalCachedFileV1>(input_.archive,*input_.manager,input_.classes,input_.source,CanonicalModuleContextV1{input_.candidate_owner,UINT32_MAX,room_,position_},ObjectEntryRouteV1::level);started_=true;
++ }
++ if(raw!=raw_||!std::equal(position_.begin(),position_.end(),fields_.module_offset160)||room_!=*fields_.object_module_id18c)return fail("Actual light-set occurrence/Level load fields changed");
++ const auto result=file_->step(uri_,"Module");if(failed_)return fail(error_);
++ if(result==LevelFileWalkStepV1::failed)return fail(file_->error());
++ if(!input_.validate_current(e))return fail(e);if(failed_)return fail(error_);
++ e.clear();return result==LevelFileWalkStepV1::complete?LifecycleStepV36::complete:LifecycleStepV36::pending;
++}
++bool CanonicalLightsetFileV53::discard_after_owner_release(const std::function<bool(std::string&)>& release,std::string& e){if(!file_){e.clear();return true;}return file_->discard_after_owner_release(release,e);}
++}
+--- /dev/null
++++ b/port/level-world/canonical_light_point_declarations_v53.inc
+@@ -0,0 +1,14 @@
++// Insert within actual CanonicalPropertyMapV1 init_properties declaration body.
++// Also add LightPoint to recovered class whitelist; require ZERO producer.
++if(kind=="LightPoint") {
++ add("position",0x124,*source_.position_rotation_default);
++ add("radius",0x130,float{2.0f});
++ add("attenuation",0x134,std::array<float,3>{{0,0,0}});
++ add("ambientColor",0x140,std::array<float,3>{{0,0,0}});
++ add("diffuseColor",0x14c,std::array<float,3>{{0,0,0}});
++ add("specularColor",0x158,std::array<float,3>{{0,0,0}});
++ add("automatic",0x164,std::uint8_t{0});
++ add("dae",0x168,std::string{});
++ add("attachedTo",0x180,std::string{});
++ add("attachedOffset",0x1a4,*source_.position_rotation_default);
++}

@@ -1,0 +1,50 @@
+{
+  "scope": "NEW original-derived game-event storage, sole initialized Arrays.v2Events producer candidate, actual-Level194 member/borrow proposal. Selected graph/shared/device untouched.",
+  "original_engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "base_context": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader\\canonical_level_context_v1.hpp",
+  "base_context_sha256": "01d64bdb27cbbad5af1d6cb01a7e089f976cd09822eb58b36cc384cea009005e",
+  "proposed_header_sha256": "2d20917216f318aab910f89952198e8af785a8b3e44d0fb9b1cef10c72bd3cdd",
+  "source_fields": [
+    {
+      "source": "0x3f7330",
+      "field": "SAME Level.field194",
+      "semantics": "actual manager pointer; level-owned modern strong lease is additive"
+    },
+    {
+      "source": "0x3f733c..0x3f7344",
+      "field": "SAME Level.state130",
+      "semantics": "dispatcher increments ONLY after storage Load complete"
+    }
+  ],
+  "native_original_gold_rows": 66,
+  "native_original_gold_objectives": 66,
+  "native_objective_constructor_reset_types": 11,
+  "native_failure_prefix_cases": 7,
+  "native_stage6_fixture_cases": 9,
+  "normal_pass": true,
+  "asan_ubsan_pass": true,
+  "actual_C1_new_member_runtime_tested": false,
+  "actual_C1_member_method_compile_checked": true,
+  "functional_compile_register_quest_effects_verified": false,
+  "whole_level_ready": false,
+  "modern_safety_extensions": [
+    "bounded native steps preserve original intra-load order; scheduling is native adapter policy",
+    "bounded validated byte spans/counts/types",
+    "NULL-safe unpublished objective suffix instead of original uninitialized pointer array",
+    "failure/reentry latch preserving reached prefixes",
+    "strong event-table and actual Level owner leases"
+  ],
+  "required_main_bodies": [
+    "actual PlayerManager.Update378fb4 after actual byte6c9=1",
+    "existing actual DebugSwitches.GetInstance/GetSwitch trace callback",
+    "adopt sole initialized table owner into real application GameDesign initialization; data decoder alone does not register Lua namespace",
+    "actual stage31 Compile/InvalidateCompile/Register behavior over SAME retained event/objective fields",
+    "actual objective functional bodies/quest effects and real Unregister/Unload479968 teardown"
+  ],
+  "table_assets": {
+    "reference\\game-event-v50\\v2eventmanager_pyarray.bin": "733812ebab464fd991370474a099f5fe29f0af0ae3fca79a4df22e543683c87e",
+    "reference\\game-event-v50\\v2eventmanager_pyarraynames.bin": "900e2e0afa4d37497deb8fe995fa883f50e4bb9dae632d9dc28dac8d49e273f2",
+    "reference\\game-event-v50\\v2eventmanager_pycst.bin": "13e1ace862c6a8c0857a42fd0476e2ddf7a002389e004a055fb3363ace60e8c8",
+    "reference\\game-event-v50\\v2eventmanager_pystructnames.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "scope": "Whole original LightSetManagerC1 and name lookup; actual CString/libc leaves only.",
+  "ctor_names": [
+    "PlayerLight",
+    "SceneLight",
+    "CameraLight",
+    "MonsterLight"
+  ],
+  "ctor_calls": [
+    "CString reserve16",
+    "CString reserve16",
+    "CString reserve16",
+    "CString reserve16",
+    "CString assign PlayerLight",
+    "CString assign SceneLight",
+    "CString assign CameraLight",
+    "CString assign MonsterLight"
+  ],
+  "query_cases": [
+    {
+      "name": "PlayerLight",
+      "expected": 0
+    },
+    {
+      "name": "SceneLight",
+      "expected": 1
+    },
+    {
+      "name": "CameraLight",
+      "expected": 2
+    },
+    {
+      "name": "MonsterLight",
+      "expected": 3
+    },
+    {
+      "name": "",
+      "expected": 0
+    },
+    {
+      "name": "sceneLight",
+      "expected": 0
+    },
+    {
+      "name": "absent",
+      "expected": 0
+    },
+    {
+      "name": "SceneLight\u0000X",
+      "expected": 1
+    }
+  ]
+}

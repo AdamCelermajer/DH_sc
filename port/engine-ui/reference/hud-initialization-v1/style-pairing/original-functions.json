@@ -1,0 +1,35 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN14InfoHUDManager15initCachedCharsEv",
+      "elf_address": "0x41d880",
+      "size": 1168,
+      "sha256": "03b8fbca873aba6d56d15339fb87b675fb511a31da8d6f2395d7a678603e7955"
+    },
+    {
+      "original_symbol": "_ZN11Application14GetSavedOptionEPKc",
+      "elf_address": "0x320e44",
+      "size": 48,
+      "sha256": "8331be7f3725447f70f125af44c323ea99e75cf792de5db166837e9d1cc3010c"
+    },
+    {
+      "original_symbol": "_ZNK15SavegameManager9getOptionEPKc",
+      "elf_address": "0x46d474",
+      "size": 52,
+      "sha256": "3fcab59a9826462cc9e0219b962a0313718d2a02e9f2e76d909ad333adf27d7c"
+    },
+    {
+      "original_symbol": "_Z25NativeGetOptionParametersRKN7gameswf7fn_callE",
+      "elf_address": "0x44a298",
+      "size": 812,
+      "sha256": "a005ec7a01edb80520e550f133f8d533b94cf5a106d0b1afcebd7f79d90090f4"
+    },
+    {
+      "original_symbol": "_ZN7gameswf8as_value10set_stringEPKc",
+      "elf_address": "0x797350",
+      "size": 184,
+      "sha256": "4661e971d72860a058499b3eec8cad84fa89c18e846d42e45d98a7b642deeeb2"
+    }
+  ]
+}

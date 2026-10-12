@@ -1,0 +1,127 @@
+[
+  {
+    "instruction": "0x7d1058",
+    "target": "0x90bf80",
+    "text": "Times New Roman"
+  },
+  {
+    "instruction": "0x7d1070",
+    "target": "0x90bfb8",
+    "text": "/usr/share/fonts/truetype/times"
+  },
+  {
+    "instruction": "0x7d1090",
+    "target": "0x90b8a0",
+    "text": "b"
+  },
+  {
+    "instruction": "0x7d10cc",
+    "target": "0x8c9bb0",
+    "text": ".ttf"
+  },
+  {
+    "instruction": "0x7d10e4",
+    "target": "0x90bfd8",
+    "text": "bi"
+  },
+  {
+    "instruction": "0x7d110c",
+    "target": "0x90b8a0",
+    "text": "b"
+  },
+  {
+    "instruction": "0x42b3f0",
+    "target": "0x8c9b88",
+    "text": "isTracingMenuFS"
+  },
+  {
+    "instruction": "0x42b424",
+    "target": "0x8bf750",
+    "text": "_sans"
+  },
+  {
+    "instruction": "0x42b43c",
+    "target": "0x8c9bb8",
+    "text": "_serif"
+  },
+  {
+    "instruction": "0x42b454",
+    "target": "0x8c9bc0",
+    "text": "_typewriter"
+  },
+  {
+    "instruction": "0x42b46c",
+    "target": "0x8c9c50",
+    "text": "Symbol"
+  },
+  {
+    "instruction": "0x42b484",
+    "target": "0x8c9c78",
+    "text": "Arial"
+  },
+  {
+    "instruction": "0x42b4a4",
+    "target": "0x8c9c80",
+    "text": "%sdata/wqy-zenhei.ttf"
+  },
+  {
+    "instruction": "0x42b520",
+    "target": "0x8c07a8",
+    "text": "rb"
+  },
+  {
+    "instruction": "0x42b570",
+    "target": "0x8c9bf8",
+    "text": "#/system/DroidSans-Bold.ttf"
+  },
+  {
+    "instruction": "0x42b594",
+    "target": "0x8c9c18",
+    "text": "#/system/DroidSerif-Italic.ttf"
+  },
+  {
+    "instruction": "0x42b5b0",
+    "target": "0x8c9b98",
+    "text": "#/system/fonts/DroidSans.ttf"
+  },
+  {
+    "instruction": "0x42b5e8",
+    "target": "0x8c9c38",
+    "text": "#/system/DroidSans.ttf"
+  },
+  {
+    "instruction": "0x42b630",
+    "target": "0x8c9cc8",
+    "text": "%sdata/%s.ttf"
+  },
+  {
+    "instruction": "0x42b650",
+    "target": "0x8c9b98",
+    "text": "#/system/fonts/DroidSans.ttf"
+  },
+  {
+    "instruction": "0x42b670",
+    "target": "0x8c9c58",
+    "text": "%sdata/menus/SCT_Font_3.fnt"
+  },
+  {
+    "instruction": "0x42b710",
+    "target": "0x8c9c98",
+    "text": "%sdata/japanese.ttf"
+  },
+  {
+    "instruction": "0x42b730",
+    "target": "0x8c9bd0",
+    "text": "#/system/DroidSerif-BoldItalic.ttf"
+  },
+  {
+    "instruction": "0x42b750",
+    "target": "0x8c9c80",
+    "text": "%sdata/wqy-zenhei.ttf"
+  },
+  {
+    "instruction": "0x42b774",
+    "target": "0x8c9cb0",
+    "text": "%sdata/nanumgothic.ttf"
+  }
+]

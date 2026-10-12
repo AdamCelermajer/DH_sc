@@ -1,0 +1,74 @@
+[
+  {
+    "address": "0x9f6403",
+    "size": 1,
+    "kind": "B",
+    "name": "HTC_DEVICES"
+  },
+  {
+    "address": "0x9a5b59",
+    "size": 1,
+    "kind": "B",
+    "name": "Is_In_Multiplayer_Mode"
+  },
+  {
+    "address": "0x9f6404",
+    "size": 1,
+    "kind": "B",
+    "name": "SHARP_DEVICES"
+  },
+  {
+    "address": "0x5b90ac",
+    "size": 8,
+    "kind": "T",
+    "name": "glitch::video::CNullDriver::getDriverType() const"
+  },
+  {
+    "address": "0x5aefa4",
+    "size": 8,
+    "kind": "T",
+    "name": "glitch::video::COpenGLES2Driver::getDriverType() const"
+  },
+  {
+    "address": "0x5af04c",
+    "size": 8,
+    "kind": "W",
+    "name": "glitch::video::CProgrammableGLDriver<glitch::video::CGLSLShaderHandler>::getDriverType() const"
+  },
+  {
+    "address": "0x5fdbf0",
+    "size": 28,
+    "kind": "T",
+    "name": "glitch::video::ITexture::getDriverType() const"
+  },
+  {
+    "address": "0x977fd0",
+    "size": 32,
+    "kind": "D",
+    "name": "vtable for glitch::video::CNullDriver::CFramebuffer"
+  },
+  {
+    "address": "0x977fa0",
+    "size": 44,
+    "kind": "D",
+    "name": "vtable for glitch::video::CNullDriver::CBuffer"
+  },
+  {
+    "address": "0x977f70",
+    "size": 44,
+    "kind": "D",
+    "name": "vtable for glitch::video::CNullDriver::CTexture"
+  },
+  {
+    "address": "0x977d40",
+    "size": 560,
+    "kind": "D",
+    "name": "vtable for glitch::video::CNullDriver"
+  },
+  {
+    "address": "0x977b18",
+    "size": 548,
+    "kind": "D",
+    "name": "vtable for glitch::video::COpenGLES2Driver"
+  }
+]

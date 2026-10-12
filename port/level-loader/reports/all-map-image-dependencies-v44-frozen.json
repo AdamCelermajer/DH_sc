@@ -1,0 +1,28 @@
+{
+  "validation": "PASS",
+  "packet": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\all-map-image-dependencies-v44-25fbb718e2da2de4.zip",
+  "sha256": "3dc62ee3e72d4c1802348fb47ce4a1c615ecbdeac751f93854fa9356f8387d40",
+  "member_count": 21,
+  "readback_verified": true,
+  "summary": {
+    "levels": 51,
+    "unique_bres": 84,
+    "native_asset_selector_queries": 305,
+    "dependencies": 2369,
+    "image_rows": 92005,
+    "image_statuses": {
+      "compatibility_canonical_resolved": 57232,
+      "source_no_image": 34385,
+      "archive_entry_absent_for_compatibility_canonical_uri": 388
+    },
+    "per_instance_sampler_rows_including_inspections": 92158,
+    "exact_compatibility_absent_unique_uris": 5,
+    "unresolved_lexical_uri_route_unique": 0,
+    "original_format_route_required_unique": 5,
+    "model_provider_required": 4750,
+    "native_raw_sampler_comparisons": 2779,
+    "malformed_bres_count": 0,
+    "nongeometry_nonvisual_queries": 7,
+    "missing_module_selector_queries": 1
+  }
+}

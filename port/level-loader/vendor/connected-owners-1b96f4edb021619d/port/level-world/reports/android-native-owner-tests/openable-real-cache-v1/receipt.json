@@ -1,0 +1,46 @@
+{
+  "status": "PASS",
+  "scope": "declared source receiver fixtures; not a production factory or whole-level acceptance",
+  "emulator": "emulator-5554",
+  "binary_sha256": "0d19512a6a35f590f76f56a0e4ab662670fbc6da03aa67048096e1e3df294ecb",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\openable_container_real_cache_v1.cpp",
+      "sha256": "e937296a3e4832270e4daedde57d3d2aea74e5a305443e60b47ddab1027df1f2"
+    },
+    {
+      "path": "port\\level-world\\openable_container_owner_v1.cpp",
+      "sha256": "a0a18238e2dbff40420096ce0aeb4f47f1a7a415afb59358b8a2f99932370d65"
+    }
+  ],
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\openable_container_real_cache_v1.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\openable_container_owner_v1.cpp",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\openable-real-cache-v1\\openable-real-cache-v1.bin"
+  ],
+  "exit_code": 0,
+  "stdout": "Actual original cache OpenableContainers68 rows + selected SWAMP source names/loot/visual/sound + bounded rejection PASS\n",
+  "stderr": ""
+}

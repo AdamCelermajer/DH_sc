@@ -1,0 +1,26 @@
+{
+  "source_sha256": {
+    "port/engine-ui/freetype_font.hpp": "b3e08aebf2e756af1c61e72e5759526aef9be1ee3cdae810b9343c238e9713aa",
+    "port/engine-ui/freetype_font.cpp": "efbf41c933e87bc915b0ea5f73d7b261d6ca2273b5f3bdbf568d93618c844aeb",
+    "port/engine-ui/freetype_glyph_kernel.hpp": "64c3283bb58c325295370b00f2d796c3d970766ee4868b1cad04d0d46ffe6aee",
+    "port/engine-ui/freetype_glyph_kernel.cpp": "e4453c580e13a1a3cd0e977dcc77dd5dd68357239442f45821c6ba6aab4de3ec",
+    "port/engine-ui/swf_freetype_provider.hpp": "418e98f0d78c72885622173c3994da2a117c38d2769cc7f82de1c0b39ebeca5a",
+    "port/engine-ui/swf_freetype_provider.cpp": "afbc4d3c761e3ca972310ffe00c6f72828cc79e0274b852c6a89e45146a01999",
+    "port/engine-ui/swf_font_geometry.hpp": "ebe76668dd1875c9dae7711beabb450113d93aa320d4a37a312d1f6011a7913a",
+    "port/engine-ui/swf_font_geometry.cpp": "db2c47657bb2227a017db5570a1d1cd097678f442ff0687f5cb319b3336d410a",
+    "port/engine-ui/freetype237.cmake": "01fe763ab679eb602cd6fe2af060a027cd50a7177b4e61ba0d3e3127aad41fde",
+    "port/engine-ui/tests/freetype_font.cpp": "d2356a03014305ccfc43032d1f539235eb38bc9712eb7c0755c28ea862cf40ac",
+    "port/engine-ui/tests/freetype_glyph_differential.py": "c859f91c52ea2d518cdf9922d5cb09d36f6db7617b747a04c749beb633beddd5"
+  },
+  "reference_sha256": {
+    "port/engine-ui/reference/freetype-font/fontin-fixtures.bin": "79d0065db2af27b638fb6e0d39de2c61292b877ff02d37593789849beef02b12",
+    "port/engine-ui/reference/freetype-font/official-source-manifest.json": "c82f5e50ee3749c005de8653cc31b2ee0b0c6c109a64c3eefbe522c20ffe025f",
+    "port/engine-ui/reference/freetype-font/native-source-manifest.json": "ea332eadd569fa07448c4b8d0f02021084e11cf0b8f4e6d2aff57ee28d6ef2df"
+  },
+  "reports_sha256": {
+    "port/engine-ui/reports/freetype-glyph-arm64-differential.json": "14bded88a178af3091687e26d47c921ebde1871100f4a2db66b0e838cfd58808",
+    "port/engine-ui/reports/freetype-font-host-audit.json": "bf0e18c652748803044c2dde31ea6154740f08b67679152a5fc67caa359d95f5",
+    "port/engine-ui/reports/freetype-hud-provider-diagnostic.json": "c0bf10d4bb529f92b74c6752cd0ce4a9e4eb0a25eef66e73bbb62ffad8d48b1c",
+    "port/engine-ui/reports/freetype-font-android-syntax.json": "8bc9da220c51ea5a268b79c93850db74496328a3d18ef5edf20f7822b3ef4d2a"
+  }
+}

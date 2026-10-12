@@ -1,6 +1,29 @@
 # DH2 native Android reconstruction
 
-Latest saved checkpoint: [dh2-native-prince-bank-4f5b7d11.apk](build/checkpoints/dh2-native-prince-bank-4f5b7d11.apk),
+Latest saved checkpoint: [dh2-native-player-status-d1cbb521.apk](build/checkpoints/dh2-native-player-status-d1cbb521.apk),
+108,596,203 bytes, SHA-256 `d1cbb5215e4595034c70451110626452bfef1bd3d1c7e608381485c2cf6c625c`.
+The default app opens a fullscreen landscape Crypt scene with the live player
+and original health, mana and XP status artwork. The same resolved player sheet
+used by combat drives five original timeline clips, including distress glow and
+hurt corners. Source viewport/camera publication replaces the stretched preview;
+the private HUD framebuffer composites transparently over the world. Movement
+and Attack remain prototype Android controls. The asset picker and diagnostics
+are available behind **Dev** rather than covering the game.
+
+[Checkpoint validation](reports/native-connected-player-hud-d1cbb521-checkpoint-validation.json)
+binds 102 sanitized source suites and seven emulator scenarios to these exact APK
+bytes: default scene, real touch movement, authored enemy damage, context resume,
+developer drawer, stationary combat and moving combat. Both repository and
+Android Studio builds were inspected. This APK includes 770 assets and 18 ELF64
+libraries for ARM64/x86_64 with 16KiB load alignment; it needs no separate cache
+for this playable prototype. The visible emulator runs this checkpoint.
+
+Skills, potion actions, portrait selection, complete original HUD input, full
+enemy AI/pathing, campaign, audio/saves and physical ARM64 testing remain open.
+The complete game cache has 6,833 files; this checkpoint contains the required
+prototype subset. The native reconstruction goal remains active.
+
+Earlier saved checkpoint: [dh2-native-prince-bank-4f5b7d11.apk](build/checkpoints/dh2-native-prince-bank-4f5b7d11.apk),
 20,726,897 bytes, SHA-256 `4f5b7d11891e575793f0b5e99056fe5d3cf3cf7a1a705f7ee0f5b632ba19bd82`.
 The live Prince now uses native two-slot playback with all116 exact animation
 resources and158 original registration occurrences, including template1111 and

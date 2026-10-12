@@ -1,0 +1,14 @@
+--- a/port/android-native/app/src/main/cpp/renderer_campaign_noncharacter_restore_v91.inc
++++ b/port/android-native/app/src/main/cpp/renderer_campaign_noncharacter_restore_v91.inc
+@@ -38,9 +38,9 @@
+  const std::weak_ptr<dh2::loader::ContainerCatalogOwnerV67> containers=composition.owners.containers;
+  out=[weak,containers](std::uintptr_t id,dh2::loader::NonCharacterRestoreServicesV89& out,std::string& e){
+   auto self=weak.lock();std::shared_ptr<void> pin;dh2::world::CanonicalGameObjectBaseOwnerV1* base{};
+-  if(!self||!self->current(e)||!self->borrow(id,pin,base,e)||!base||base->identity()!=id||!base->class_name20())return false;
++  if(!self||!self->current(e)||!borrow_noncharacter_saved_base_v92(self,id,pin,base,e)||!base||base->identity()!=id||!base->class_name20())return false;
+   dh2::loader::NonCharacterRestoreServicesV89 s;s.owner=self->files;
+-  s.validate_current=[weak](std::uintptr_t id,std::string& e){auto self=weak.lock();std::shared_ptr<void> pin;dh2::world::CanonicalGameObjectBaseOwnerV1* base{};return self&&self->current(e)&&self->borrow(id,pin,base,e)&&base&&base->identity()==id;};
++  s.validate_current=[weak](std::uintptr_t id,std::string& e){auto self=weak.lock();std::shared_ptr<void> pin;dh2::world::CanonicalGameObjectBaseOwnerV1* base{};return self&&self->current(e)&&borrow_noncharacter_saved_base_v92(self,id,pin,base,e)&&base&&base->identity()==id;};
+   const std::string name=base->class_name20();
+   if(name=="Door"){
+    std::shared_ptr<dh2::loader::CanonicalDoorRecordV27> record;if(!borrow_restore_record_v91(self,"Door",id,record,e)||&record->owner->base()!=base)return false;

@@ -1,0 +1,22 @@
+--- port/level-loader/catalog_auxiliary_v67.hpp
++++ port/level-loader/catalog_auxiliary_v67.hpp
+@@ -34,6 +34,8 @@
+  std::function<CanonicalConstructorStateV89()> constructor_state;
+  std::function<std::uintptr_t()> identity; //0 before that real C1 completes
+  std::function<bool(std::string&)> destroy_source;
++ // Existing generated receiver factory retirement after real D0/aliases/map/transport.
++ std::function<bool(std::string&)> retire_storage_after_source_release_v91;
+  // Typed SAME-record OBJS projection; no caller type-erasure cast or lookup.
+  std::function<bool(level::LevelSaveObjectBorrowV2&,std::string&)> borrow_save_header;
+  std::function<bool(NonCharacterRestoreServicesV89,std::shared_ptr<NonCharacterSaveConnectionV89>&,std::string&)> make_save_connection;
+--- port/level-loader/source_release_journal_v69.hpp
++++ port/level-loader/source_release_journal_v69.hpp
+@@ -151,7 +151,7 @@
+   std::shared_ptr<world::CanonicalObjectManagerV1> manager;std::shared_ptr<CanonicalReceiverTransportV1> transport;if(!scope(manager,transport,e)||!manager_absent(*manager,id,e))return false;
+   if(!leaves_.require_native_aliases_unpublished||!leaves_.require_native_aliases_unpublished(id,e)){if(e.empty())e="Required real native/draw alias quiescence before transport erase";return false;}
+   if(!manager_absent(*manager,id,e))return false;transport->erased(id);
+-  bool result=false;if(entry->kind==Kind::auxiliary){auto owner=auxiliary_.lock();if(owner)result=owner->erase_after_source_release(id,e);else e="Required SAME auxiliary catalog storage continuation";}
++  bool result=false;if(entry->kind==Kind::auxiliary){if(entry->auxiliary->retire_storage_after_source_release_v91)result=entry->auxiliary->retire_storage_after_source_release_v91(e);else {auto owner=auxiliary_.lock();if(owner)result=owner->erase_after_source_release(id,e);else e="Required SAME auxiliary catalog storage continuation";}}
+   else if(entry->kind==Kind::light){auto owner=environment_.lock();if(owner)result=owner->erase_after_source_release(id,e);else e="Required SAME light catalog storage continuation";}
+   else {auto owner=containers_.lock();if(owner)result=owner->retire_after_unpublication(id,e);else e="Required SAME container catalog storage continuation";}
+   if(!result)return false;auto i=std::find_if(entries_.begin(),entries_.end(),[&](const auto& value){return value.get()==entry;});if(i==entries_.end()){e="Actual release entry changed during storage continuation";return false;}entries_.erase(i);e.clear();return true;

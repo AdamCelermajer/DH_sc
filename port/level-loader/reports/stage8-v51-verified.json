@@ -1,0 +1,47 @@
+{
+  "validation": "PASS",
+  "scope": "Recovered whole stage8 Level control flow/path parser contract over existing canonical config. Fog/global native ScriptManager/fallback bodies remain genuine required main services. No LuaScript44 binding or second VM/global.",
+  "original_engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "actual_arm_path_cases": 18,
+  "actual_arm_stage8_cases": 6,
+  "native_path_gold_cases": 18,
+  "native_stage8_fixture_cases": 13,
+  "native_normal_pass": true,
+  "native_asan_ubsan_pass": true,
+  "same_completed_actual_LevelC1_runtime_verified": false,
+  "whole_stage8_body_services_verified": false,
+  "whole_level_ready": false,
+  "source_boundaries": {
+    "stage8": "0x3f7174..0x3f7200",
+    "null_config_fallback": "0x3f8070..0x3f8194",
+    "Level_LoadScripts": "0x3f3a58",
+    "Level_LoadScriptFile": "0x3f38a0",
+    "ScriptManager_UnLoadAllScripts": "0x45a1c8",
+    "ScriptManager_LoadScriptFile": "0x45b264",
+    "ScriptManager_LoadScriptFileNames": "0x45ad40",
+    "ObjectManager_InitModulesFogColor": "0x347100"
+  },
+  "existing_config_proposal": {
+    "header_base_sha256": "41a70c9cf44f669f18316ac784cc4b27b114ce5045518c627f08eceffd270ddb",
+    "cpp_base_sha256": "87f7aefe8ec3256ff92e1b0444c23ca7c6948335dac18d91acd84417058ed8ec",
+    "header_proposed_sha256": "2ed0c6bbb84f2364a3fa75a22f9902497fb6e9a6408f71d86129f1611e84349c",
+    "cpp_proposed_sha256": "03a446074e5ecefc4ca858c2a438032d26b3d9ee5f662edc13e3a36eff091b59",
+    "method": "const float* scalar_float_v51(uint32_t) const noexcept",
+    "new_storage_fields": 0
+  },
+  "remaining_main_services": [
+    "actual global ScriptManager owner and full45a1c8/45b264/45ad40 bodies over SAME compiled command/context/name storage",
+    "actual fog/module347100 service when real config204 nonempty",
+    "actual config identity lookup from SAME retained ObjectManager registry",
+    "NULLconfig38 actual app override LoadFile/default Spawn/type4/SetLevelConfig provider only if reached"
+  ],
+  "safety_extensions": [
+    "bounded pending fallback callback avoids original synchronous spin",
+    "reject NULLconfig after required actual producer instead of original invalid dereference/assert",
+    "reject fog float outside finite signed32 native conversion domain",
+    "reentry/failure latch preserves prefix and refuses replay"
+  ],
+  "Lua44_writes": 0,
+  "common_compiled_script_count": 15,
+  "swamp_compiled_script_count": 55
+}

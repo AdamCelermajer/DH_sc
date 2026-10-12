@@ -1,0 +1,14 @@
+{
+  "validation": "PASS",
+  "external_owner_selected": true,
+  "second_owner_target_created": false,
+  "probe_sha256": "9764d278633152b116cc91a7e651c31f395104fdc54d173ab9d50c6ce68b39af",
+  "result": {
+    "validation": "PASS",
+    "adapter_checks": 14,
+    "scope": "retained XML and canonical source-prefix receiver fixtures",
+    "runtime_objects_verified": false,
+    "full_loader_verified": false
+  },
+  "scope": "Existing canonical owner target integration fixture; not production runtime acceptance"
+}

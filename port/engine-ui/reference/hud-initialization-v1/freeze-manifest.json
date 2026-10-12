@@ -1,0 +1,137 @@
+{
+  "validation": "PASS",
+  "scope": "Frozen complete five-wrapper native HUD startup + genuine owned skill/saved/settings query adapters + source-selected base-resource V2 manager connection. Canonical base all-four-style authored composition is proven; unresolved game/localization/SkillInfo providers remain explicit. No full original AS fork/GPU/live-gameplay claim.",
+  "source_and_evidence_sha256": {
+    "port/engine-ui/hud_initialization_core_v1.cpp": "6e3836313aa1cf613a3d466060094f5bdd4fc5637c1e008055843a4cee2e4728",
+    "port/engine-ui/hud_initialization_core_v1.hpp": "1f0bdf5d3d17572520f765ad56e86c75b055de7ab5d8b8ea8abac48f575ff011",
+    "port/engine-ui/hud_initialization_owned_v1.cpp": "cba1bda75858e479b732bea3b6929decdf2dae1a29bbffd816c3c5633f4e74d7",
+    "port/engine-ui/hud_initialization_owned_v1.hpp": "35fc3a0c6af2006ffcec33ddb2a5de6147a38c84a5dc9319267a550ded917429",
+    "port/engine-ui/hud_initialization_v1.cpp": "7dc9b8f94fe0b86dba991ffea98e668b7c95f4e0750dccecdc04c7812551301c",
+    "port/engine-ui/hud_initialization_v1.hpp": "6191714964d44e28177bd97d44a29597dc1b0af636516232bc0f9670447afe9f",
+    "port/engine-ui/hud_manager_core_v2.cpp": "53332d6064d2d289da879e2ba76517cb7b11ec5eeb4eafdd80945b6a9fdf8951",
+    "port/engine-ui/hud_manager_core_v2.hpp": "aef2771ed73f75dc30154dd370024bf698e9d2945de8b237ddb28d0a64627fc1",
+    "port/engine-ui/reference/hud-initialization-v1/dependencies/original-functions.json": "8b567ae81ec186d9f3a92e49116aee28b8c178deb2bbb490ce085c96f19f34cd",
+    "port/engine-ui/reference/hud-initialization-v1/dependencies/reference/original-functions.asm": "127e8d21be57b65e7ee52c910315f373e8e20b78f6d6842dbb3fee51ae5b864c",
+    "port/engine-ui/reference/hud-initialization-v1/format-dependencies/original-functions.json": "47340a5ef68a6c22db1506e7d8a386243c677685a1705e87023ab9f186627b4a",
+    "port/engine-ui/reference/hud-initialization-v1/format-dependencies/reference/original-functions.asm": "373aceaa23be49a4bedb2d7db2eff246bdcdc40a72653fdd31bcd91abc921715",
+    "port/engine-ui/reference/hud-initialization-v1/NOTES.md": "1f28a1f9dea310105e4c79a02da851d7a7e12de74758070fb6c9be298822bdd7",
+    "port/engine-ui/reference/hud-initialization-v1/option-ipod/original-functions.json": "b950b97342be8ae7dfe77c204cce88b83c049a12c57cfa689130832f4eb004e2",
+    "port/engine-ui/reference/hud-initialization-v1/option-ipod/reference/original-functions.asm": "9d5025beb728c51c91a18aa328e4a49ec97757c11646e5ac99b817f880c3d808",
+    "port/engine-ui/reference/hud-initialization-v1/options-gold.bin": "1491d6e28015a8ea64a2d1d23462d821af5cef1d78f039c2142c153ff1dd9209",
+    "port/engine-ui/reference/hud-initialization-v1/original-functions.json": "dcd9f91ea2d7048166a342336a0fba896893f6c3e29afec018c35bf58ea8b6c3",
+    "port/engine-ui/reference/hud-initialization-v1/reference/original-functions.asm": "cea77e7cfc1172733d9915825015d3c33d3debf8c1073f90136dc9fcaa6bd7f6",
+    "port/engine-ui/reference/hud-initialization-v1/saved-dependencies/original-functions.json": "cdbbf50cc801fd13c6c48d4528a6329137e6f3b0c3a80dbb2daa75072c09588f",
+    "port/engine-ui/reference/hud-initialization-v1/saved-dependencies/reference/original-functions.asm": "9714828d11d3be7d90d0445b0f23ac1aa87617ac1f86773ee801acbd7a044492",
+    "port/engine-ui/reference/hud-initialization-v1/style-pairing/apk-cache-binding.json": "48191b437be97ef9d369fca491f328b5c5a88c6acd8f7d817d18af34bb5ccd0c",
+    "port/engine-ui/reference/hud-initialization-v1/style-pairing/asset-layouts.json": "b35e5ecd0562bba66227c55fbd740ffe73bc6a80a3abad1f76babb08ff28fb96",
+    "port/engine-ui/reference/hud-initialization-v1/style-pairing/original-functions.json": "825ce4c693161c744e7ec1e7e41943ca66029ccde7b7249521d0e5d726a97554",
+    "port/engine-ui/reference/hud-initialization-v1/style-pairing/reference/original-functions.asm": "365ff5141b712c19d44241ab546b7b9b1fef1855a45d3846ec90e9ab5b297898",
+    "port/engine-ui/reference/hud-initialization-v1/style-producer/original-functions.json": "7b10b7e17494da341e03b22d0e0e3054a2940013c970a50c7b03687333a0a0fd",
+    "port/engine-ui/reference/hud-initialization-v1/style-producer/reference/original-functions.asm": "48be11c3668b2025b9624ff31fd05e79d65a18c07c6308c759fc9277b13f66ff",
+    "port/engine-ui/reference/hud-initialization-v1/style-producer/selector-original-probes.json": "0412ec9fe23a5046d0812473ddddf2840b07029e5429aecafeab2fd4247f9a11",
+    "port/engine-ui/reference/hud-initialization-v1/three-wrapper-calls.json": "8e0444b81ac8a5dcef886854cddfd5656359b32bedf8a4d542fefe0d5c6b01da",
+    "port/engine-ui/reference/hud-initialization-v1/value-dependencies/original-functions.json": "2885f3943f9001d608c9af2f78c4efd8e1dd7721724efc068fbead1a33af1ef6",
+    "port/engine-ui/reference/hud-initialization-v1/value-dependencies/reference/original-functions.asm": "03b9ac656590c9ebc62da182211101181f417a583c822bc015cfed5650bf5af9",
+    "port/engine-ui/reference/hud-initialization-v1/wrappers-gold.bin": "6da4130fa625621ba4fb100018f76ba3f8e70e9e82f3e3b646366ce9d640aac1",
+    "port/engine-ui/reports/hud-initialization-options-v1-arm64-differential.json": "3a5a08c65972e53a6cefc5c98b1c8c536bd0087b2f60d48a1a3cbb5cafd09c69",
+    "port/engine-ui/reports/hud-initialization-v1-android-compile.json": "182218721545b8868b7b723e76f95e6d9b415856ec31774f19ca7325e68ec842",
+    "port/engine-ui/reports/hud-initialization-v1-arm64-differential.json": "d0697156dd6dcfeedb7691e6261293ce9ac77dea6f9712285d0e8c896a197d03",
+    "port/engine-ui/reports/hud-initialization-v1-host-audit.json": "554bb01dfc824e5ee6f9b2878a8084240a41a95f1be0254ba834ac206126ae90",
+    "port/engine-ui/tests/hud_initialization_core_v1.cpp": "1abb49b129c814aa50ca9768a08c694adfbc95c4de31c6b29e2bdc7fb102497c",
+    "port/engine-ui/tests/hud_initialization_options_v1_differential.py": "b6d2f39fff2e0bed81c3181cb1c62613e1629ac33cb9a69452837aa2fc500d10",
+    "port/engine-ui/tests/hud_initialization_v1.cpp": "34f6a66eb79ff08522e9fab8d5a10a97d20273fd4de6d2725a83c9985362ce9d",
+    "port/engine-ui/tests/hud_initialization_v1_differential.py": "9ba32eb2534590fb744f087949d4e2e921500555880ab034352ec7d9e027d797",
+    "port/engine-ui/tests/hud_initialization_v1_host.py": "b513c1f810edd844e19deafefe40f034caadbb150376b5ab4d88dd7db74bc86a",
+    "port/engine-ui/tools/build_hud_initialization_v1_oracle.ps1": "7fc5501533ee2e7568a8f422fb29bf40bd0fcaac6b602f5a3170b27d62eb8361",
+    "port/engine-ui/tools/check_hud_initialization_v1_android.py": "65e836f2fa48bcf88983cd24b419ae60006b3fa6d854663771ad339f4b53820e"
+  },
+  "production_sources": [
+    "port/engine-ui/hud_initialization_v1.cpp",
+    "port/engine-ui/hud_initialization_core_v1.cpp",
+    "port/engine-ui/hud_initialization_owned_v1.cpp",
+    "port/engine-ui/hud_manager_core_v2.cpp"
+  ],
+  "link_ownership": {
+    "engine_ui": [
+      "hud_initialization_v1.cpp",
+      "hud_initialization_core_v1.cpp",
+      "hud_manager_core_v2.cpp"
+    ],
+    "level_world": [
+      "../engine-ui/hud_initialization_owned_v1.cpp"
+    ],
+    "reason": "owned query uses genuine world Character.GetLevel and UI OwnedHudSettings; one-way World->UI avoids a cycle"
+  },
+  "proof_counts": {
+    "original_O2_wrappers": 962,
+    "ordered_wrapper_services": 7240,
+    "required_failure_prefixes": 8907,
+    "original_only_selector": 240,
+    "base_authored_styles": 4,
+    "base_manager_styles": 4,
+    "base_native_wrapper_calls": 95,
+    "base_exact_cache_paths": 30,
+    "droid_authored_styles": 4,
+    "droid_manager_styles": 2,
+    "droid_required_cache_rejections": 2,
+    "owned_queries_per_resource": 538,
+    "guards_per_resource": 6,
+    "Android_compile_objects": 8,
+    "sanitizer_findings": 0
+  },
+  "main_target_contract": [
+    {
+      "name": "hud_initialization_v1_audit",
+      "source": "tests/hud_initialization_v1.cpp",
+      "args": [
+        "reference/hud-initialization-v1/wrappers-gold.bin",
+        "reference/hud-initialization-v1/options-gold.bin"
+      ]
+    },
+    {
+      "name": "hud_initialization_core_v1_audit",
+      "source": "tests/hud_initialization_core_v1.cpp",
+      "args": [
+        "<ui-layout-discovery>",
+        "<android-assets>"
+      ]
+    },
+    {
+      "name": "hud_initialization_core_v1_audit (base)",
+      "source": "tests/hud_initialization_core_v1.cpp",
+      "args": [
+        "<ui-layout-discovery>",
+        "<android-assets>",
+        "dqhud.swf"
+      ]
+    }
+  ],
+  "required_services": [
+    "local/remote player resolution43c388",
+    "integer string lookup508edc/508e1c",
+    "parseEx509aec",
+    "AI_GetSkillInfo3d7e88 plus genuine private Skill.GetInfo VCB and output sheet",
+    "source faery offset3aeac0",
+    "genuine constants4c4bdc",
+    "build-language globals",
+    "platform533570",
+    "whole-manager inventory/usability/cooldown/world/sound/position/text providers"
+  ],
+  "remaining_deviations": {
+    "original_only_movie_selector_not_native_O2": true,
+    "upstream_GameSWF_action_scheduling_not_complete_original_fork": true,
+    "named_saved_profile_assignment_is_fixture": true,
+    "headless_game_formatting_and_backend_services_are_fixtures": true,
+    "historical_110_DSO_compiler_provenance_not_claimed": true
+  },
+  "resource_stage_pixels": {
+    "dqhud.swf": [
+      1024,
+      768
+    ],
+    "dqhud_droid.swf": [
+      480,
+      320
+    ]
+  }
+}

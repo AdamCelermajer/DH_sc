@@ -1,0 +1,23 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_Z19NativeGetNumPotionsRKN7gameswf7fn_callE",
+      "elf_address": "0x44996c",
+      "size": 420,
+      "sha256": "acf89cadf8516df2349369fcc8d76c112bd85d415357c25148caf040cc98210c"
+    },
+    {
+      "original_symbol": "_ZN6Device22IsProgrammablePipelineEv",
+      "elf_address": "0x3816a8",
+      "size": 148,
+      "sha256": "914143133a6232d76f803aca7784f525e90e7ac5ab56872ffeb044b0b83d1242"
+    },
+    {
+      "original_symbol": "_Z25NativeGetStringNumPotionsRKN7gameswf7fn_callE",
+      "elf_address": "0x446978",
+      "size": 388,
+      "sha256": "55d4b4887c360862096c235ec6ca6b1499c06fbaedcced9041fdd89b9bcca148"
+    }
+  ]
+}

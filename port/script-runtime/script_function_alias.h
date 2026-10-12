@@ -21,6 +21,10 @@ int dh2_script_alias_add_values(dh2_script_aliases*,const dh2_script_value*,uint
  * hash order: nonempty previous values are restored; empty values are erased. */
 int dh2_script_alias_push(dh2_script_aliases*);
 int dh2_script_alias_pop(dh2_script_aliases*);
+/* LuaScript teardown clears backup then main, preserving tracking byte.
+ * Keep this wrapper alive through VM close: Lua __gc may invoke its callbacks.
+ * This clears contents only; it does not own or close a VM. */
+int dh2_script_alias_clear_contents(dh2_script_aliases*);
 /* Borrowed map must outlive this VM's bindings. These install genuine source
  * PushVFTable, AddToVFTable and PopVFTable, not timer or manager ownership. */
 int dh2_script_alias_bind(dh2_script_vm*,dh2_script_aliases*);

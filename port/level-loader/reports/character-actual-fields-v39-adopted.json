@@ -1,0 +1,25 @@
+{
+  "status": "ACTUAL V5 SOURCE ADOPTED; coherent parent rebuild still required",
+  "initial_actor_hashes": {
+    "retained_character_actor_v1.hpp": "0a1954ecb0d19f800de635c576fd3090e2ea361a8d57653d640e5de96018d0d1",
+    "retained_character_actor_v1.cpp": "6dce8ac669db1ecd139678a6e4f9c5729b7b061a48f810b467a6b8e113afa279"
+  },
+  "files": {
+    "vendor\\character-rng-integration-v5-loading\\port\\level-world\\retained_character_actor_v1.hpp": "0d0df6e3371723570cdcac7decd713bfa9cfe86dc911e3ca0af5df27ffba8cd9",
+    "vendor\\character-rng-integration-v5-loading\\port\\level-world\\retained_character_actor_v1.cpp": "3a5a19027f6c1e24cd60f2c1df4a8548f036783be59fdc53231c554b10a5ca33",
+    "vendor\\character-rng-integration-v5-loading\\port\\level-world\\character_model_name_v38.hpp": "09b56d52678b9f65f97ae21b34b220a08ac1221f15172c2e57e68d3c98a9a292",
+    "vendor\\character-rng-integration-v5-loading\\port\\level-world\\character_model_name_v38.cpp": "62af39611d8047fe00b33be7588e377309867e00e4af4a9aa350f4a87c62dc83",
+    "character_template_frame_v39.hpp": "218c434c0f9c1521d7f8b36b0cf6618a095a68195e2eafe503178006345e0964"
+  },
+  "patch_sha256": "56abb96da96b1104af4aa3c67cfcfaf172dcff45a8a031055ab6488bbcc19ecf",
+  "proof_receipt_sha256": "3b98b4732f905f0743f427b81b10d7777c75cb0e90ae6aeed62678fecc164d17",
+  "scope": "Only two V5 actor files and new stateless model/template binding files. No CMake, integration-manifest, shared root, AI behavior, save override or emulator change.",
+  "lease": "shared_ptr<const void>(actual_record, actual_record->actor.get()); .get()==actual actor, facade identity independently preserved",
+  "fresh": "C1 proves13ca=-1, CharAI master50=NULL; uses existing13c8 field. Fresh production enables borrow. Existing adoption remains unavailable.",
+  "pending": [
+    "Parent refresh integration manifest and rebuild ALL coherent V5 graph before linking new actor layout",
+    "Main route actual AI_SetMaster/Lua/PlaceFaery producers to same master50 field",
+    "Main provide actual IsPlayer/player SG_Load and owned Faery save/table services",
+    "Parent wire actual templates/app channel0 and actual canonical record alias; frame imposes no loading call order"
+  ]
+}

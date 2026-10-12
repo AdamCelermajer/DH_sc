@@ -1,0 +1,35 @@
+// In main's existing renderer/resource owner scope, after its actual cache mount:
+std::shared_ptr<dh2::android_ui::OriginalCacheAssetsV1> cache_pin;
+if(!borrow_current_mounted_cache_v50(equipment_platform->cache,cache_pin,error))return false;
+MainMountedImageFilesystemV50 fs;
+fs.actual_mounted_cache=cache_pin;
+fs.actual_source_globals=source_filesystem_globals_v50(); // ONE source static global
+auto same_world=std::weak_ptr<WorldScriptContext>(equipment_platform->world);
+fs.actual_renderer_owner=equipment_platform->world;
+fs.require_current_renderer_owner=[same_world](std::string& e){
+ auto actual=same_world.lock();
+ if(!actual||!equipment_platform||equipment_platform->world!=actual||live_script_world!=actual){
+  e="Required current SAME renderer World/resource owner";return false;
+ }
+ e.clear();return true;
+};
+// Source globals/Win32 path C1 belong to the resource filesystem/bootstrap, before
+// image scopes. Never reset WorkingDirectory on each actor, cache copy, World or GL
+// restart. Its concrete observed chdir continuation updates only after host result0.
+// Source RES_PATH's library initializer is empty. Later platform root delivery is
+// a distinct source input; do not substitute WorldScriptContext.files_directory.
+// CResFactory's reached SAME resource directory still must be retained/supplied by
+// its actual Scene/resource producer. It is not a new per-actor dictionary.
+images.owner=cache_pin;
+images.canonical_uri=[fs,actual_CRes_directory_owner,actual_CRes_directory](
+ const MaterialImageIdentityV43& image,std::string& canonical,std::string& e){
+ if(!actual_CRes_directory_owner||!actual_CRes_directory){
+  e="Required actual SAME Scene CResFactory resource-directory producer";return false;
+ }
+ return resolve_main_mounted_image_filename_v50(fs,*actual_CRes_directory,image,canonical,e);
+};
+// V45 calls this only for authored images. Its canonical key guard then main CPU
+// admit_before_read remains mandatory. Bind images.read through existing main
+// read_admitted/real encoded admission service (V46 proposal) on this SAME cache;
+// never wire plain cache.read here and claim encoded-budget integration.
+// Bytes retain cache/admission; canonical callback does not retain renderer forever.

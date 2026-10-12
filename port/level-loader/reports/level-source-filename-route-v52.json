@@ -1,0 +1,45 @@
+{
+  "validation": "SOURCE_AND_HOST_PROPOSAL_PASS_NOT_SELECTED",
+  "authentic_level_source": "chapter-coverage-v36-summary.json levels.design_row.file, all51 no slash/prefix; SWAMP row41 001_swamp.mlx",
+  "source_Loader": "Level.LoadFile3f3b40; four ordered prefixes then actual IsUsingUncompiledData query; uncompiled original attempt first if true, then first old/debug/ps3/iphone removal compiled attempt",
+  "map_to_cache": "001_swamp.mlx -> actual search hit data/scene/001_swamp.mlx, no worlds alias",
+  "worlds_fixture_witness": "original4 queries no exact cache hits; C1 substring row lookup did not establish filesystem alias",
+  "original_application_mode": "320678: actual source cc!=d0 plus case-sensitive .mlx/.mgp/.mvp/.xml substring; no constant false invented",
+  "actual_CFS_route": "FileSystemWin32.openResource34ff28 primary resources234 then trace338; FileHandleC1_34fc18 root+name, .savegame RES_PATH override, byteA8 ASCII lower; CFS.open56dc40 initialized ObfuscationMap exact lookup/key formatting then working-dir joining and fopen",
+  "different_texture_route": "createAndOpenFile/ApplyFilenameHacks are not this Level openResource path; five alpha URI gaps untouched",
+  "proofs": {
+    "original_Level_queries": 58,
+    "original_CFS_map_and_workingdir_cases": 75,
+    "original_FileHandle_join_cases": 24,
+    "all51_current_Main_source_actual_ZIP_metadata": 51,
+    "ASAN_UBSAN": "PASS",
+    "renderer_application_FS_fields": "explicit host/source-layout fixtures; production aliases not bound",
+    "Android_AssetManager_fd_log": "explicit descriptor transports; current Main cache/ZIP bodies compiled and actual supplied ZIP pread",
+    "payload_read_XML_LoadFile_success": false,
+    "current_root_Renderer_GPU_budget_proof": false
+  },
+  "strict_no_resource_guard": "Original LoadFile returns1 when all opens miss; native filename resolver deliberately fails when no actual resource identity is produced. This is a modern required-resource guard, not a claim of that full original return parity.",
+  "procedural_stream_boundary": "When actual Level140 already holds generated StreamBuffer, original LoadFile bypasses filename-open branch. SourceLoading integration must use actual retained stream/root parser; resolving the original rule XML is lookup evidence only, not a Level root or generated success.",
+  "production_bindings_required": [
+    "same actual mounted cache/resource owner",
+    "recovered same FS Win32 path fields and shared WorkingDirectory",
+    "actual initialized CFS map (source empty initial global is an initializer state, not missing-provider default)",
+    "same actual Application cc/d0 range/lowerA8 and reached RES_PATH delivery",
+    "actual current runtime/renderer scope checks",
+    "actual generated-stream transport when140nonNULL"
+  ],
+  "shared_selected_main_mutations": false,
+  "cache_API_current_readback_equal": true,
+  "dependencies": {
+    "resource_paths_v1.hpp": "70e9e1311b612c07426191fe90ade6152c7ad9dfd4d248ad167283576695d02a",
+    "resource_paths_v1.cpp": "0e87904b81851e4969874326f284577ba76937fc7934dc793ce42b25cf6c8e89",
+    "reference/production-filesystem-adoption-v50/original_filesystem_fields_v50.hpp": "d73d087396a8e172e5237d972eaed60c380abccb6944e68433ea21d070b4bc32",
+    "reference/production-filesystem-adoption-v50/original_filesystem_fields_v50.cpp": "ee8f62cdda456e7f37b178cec40b96763b3dadca4c56ddc86e2cb96ac643e7bf",
+    "reference/production-filesystem-adoption-v50/main_mounted_image_filesystem_v50.hpp": "f7e42870357b0249c6848d2aa342ee1bdcc602e4888ad7634e5a9d13885c8635",
+    "reference/production-filesystem-adoption-v50/main_mounted_image_filesystem_v50.cpp.proposed": "079428d1e2379969a3d756adbda2524c40aee3218da71299deb8d4cb41a70938",
+    "reference/production-filesystem-adoption-v50/main-source-snapshot/port/android-native/app/src/main/cpp/original_cache_assets_v1.hpp": "79db2a5dd189cdefe766c0ccf8f4330189c91637ebfb37ed1a626185dee51082",
+    "reference/production-filesystem-adoption-v50/main-source-snapshot/port/android-native/app/src/main/cpp/original_cache_assets_v1.cpp": "9105ee8da9a7673248654adaa0d286a2bf33b75cf4021e34b3efcf959243d820",
+    "reference/production-filesystem-adoption-v50/main-source-snapshot/port/asset-payloads/zip_asset_pack_v1.hpp": "1f3b1b158d1f5ed92840fb88b8b789e063f1b461b3797eb724f45c177d64f9ad",
+    "reference/production-filesystem-adoption-v50/main-source-snapshot/port/asset-payloads/zip_asset_pack_v1.cpp": "04f0900b5272680b60c64434d769ae7e6b6bee6b7e162bd47dc911ae6608b7f4"
+  }
+}

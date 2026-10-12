@@ -1,0 +1,17 @@
+{
+  "validation": "PASS",
+  "archive_sha256": "8bbd70e51e10a04b3752638dc59a771c58d37d7b814152f0a6a8e638546efa2d",
+  "payloads_verified": 26,
+  "selected_sources": [
+    "port/level-world/canonical_trigger_zone_v22.hpp",
+    "port/level-world/canonical_trigger_zone_v22.cpp",
+    "port/level-world/canonical_trigger_zone_declarations_v22.inc",
+    "port/level-world/canonical_property_map_v1.cpp",
+    "port/level-world/tests/canonical_trigger_zone_v22.cpp",
+    "port/level-world/tests/trigger_declarations_v22.inc",
+    "port/level-world/tests/trigger_update_original_cases_v22.inc",
+    "port/level-world/tests/trigger_predicates_original_v22.inc"
+  ],
+  "network_zero_backing_is_modern_correction": true,
+  "full_loader_verified": false
+}

@@ -1,0 +1,8 @@
+# Parent adds after verifying/rebuilding coherent V5 selected owners.
+add_executable(dh2_loader_character_swamp_model_v40_probe "${loader}/tests/character_swamp_model_v40_probe.cpp")
+target_compile_features(dh2_loader_character_swamp_model_v40_probe PRIVATE cxx_std_17)
+target_compile_options(dh2_loader_character_swamp_model_v40_probe PRIVATE -Wall -Wextra -Werror -Wno-misleading-indentation -UNDEBUG)
+target_link_libraries(dh2_loader_character_swamp_model_v40_probe PRIVATE ${source_probe_links} dh2_loader_lifecycle_v36 dh2_loader_generic_renderer_input_v37)
+target_link_options(dh2_loader_character_swamp_model_v40_probe PRIVATE -Wl,--gc-sections -Wl,--no-undefined)
+# character_model_name_v38.cpp must be in coherent Character owner target;
+# existing source_probe_links supplies character_template_assets_v35.cpp.

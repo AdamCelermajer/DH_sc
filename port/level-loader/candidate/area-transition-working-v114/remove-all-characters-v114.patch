@@ -1,0 +1,65 @@
+--- a/port/level-world/player_manager_owner_v1.hpp
++++ b/port/level-world/player_manager_owner_v1.hpp
+@@ -50,6 +50,8 @@
+  std::map<std::int32_t,std::unique_ptr<PlayerInfoFieldsV1>> players_;
+  PlayerInfoFieldsV1 dummy_;std::vector<std::int32_t> friendly_,local_,remote_;
+  std::int32_t character_count6c4_{};
++ bool remove_characters_active_v114_{};std::int32_t remove_characters_index_v114_{};
++ PlayerInfoFieldsV1* remove_characters_pending_v114_{};std::int32_t remove_characters_internal_v114_{};
+  [[maybe_unused]] std::int32_t unknown6cc_{-1}; // Preserve recovered C1 field.
+  PlayerManagerSourceFrameFieldsV68 frame_v68_;
+  level::SavegameStreamV2 quest_sync6e0_v70_;
+@@ -70,6 +72,9 @@
+  // RemoveAllPlayers3727c0 captures GetNumPlayers once, then removes current
+  // friendly player0 each time and finally stores the same character count0.
+  bool remove_all_players_v114(std::string&);
++ // Original RemoveAllCharacters3721b8: live count/index walk, SAME existing
++ // RemoveCharacter receiver, final source count store. No actor deletion clone.
++ bool remove_all_characters_v114(std::string&);
+  bool get_by_internal(std::int32_t,bool,PlayerInfoFieldsV1*&,std::string&);
+  bool get_player(std::int32_t,bool,PlayerInfoFieldsV1*&,std::string&);
+  bool get_local_player(std::int32_t,bool,PlayerInfoFieldsV1*&,std::string&);
+--- a/port/level-world/player_manager_owner_v1.cpp
++++ b/port/level-world/player_manager_owner_v1.cpp
+@@ -50,6 +50,28 @@
+  if(it->second->character660){if(!call({PlayerManagerOperationV1::remove_character,id,0,0,false,it->second.get(),&character_count6c4_},r,e))return false;if(it->second->character660){e="RemoveCharacter did not clear same PlayerInfo character660";return false;}}
+  players_.erase(it);return numbers(e);
+ }
++bool PlayerManagerOwnerV1::remove_all_characters_v114(std::string& e){
++ if(!initialized_||running_){e="Require actual non-reentrant RemoveAllCharacters receiver";return false;}
++ if(!remove_characters_active_v114_){remove_characters_index_v114_=0;remove_characters_active_v114_=true;}
++ for(;;){
++  if(remove_characters_pending_v114_){
++   PlayerInfoFieldsV1* same{};
++   if(!get_by_internal(remove_characters_internal_v114_,false,same,e)||same!=remove_characters_pending_v114_){if(e.empty())e="Captured source removal PlayerInfo changed";return false;}
++   PlayerManagerResponseV1 response;
++   // Resume the SAME genuine native RemoveCharacter continuation even if
++   // that completed prefix has already stored NULL into Character660.
++   if(!call({PlayerManagerOperationV1::remove_character,remove_characters_internal_v114_,0,0,false,same,&character_count6c4_},response,e))return false;
++   remove_characters_pending_v114_=nullptr;
++  }
++  std::int32_t count{};if(!num_players(count,e))return false; // original live requery
++  if(remove_characters_index_v114_>=count)break;
++  PlayerInfoFieldsV1* info{};
++  if(!get_player(remove_characters_index_v114_,false,info,e)||!info){if(e.empty())e="Require reached original friendly player";return false;}
++  ++remove_characters_index_v114_; // native increments before RemoveCharacter
++  if(info->character660){remove_characters_pending_v114_=info;remove_characters_internal_v114_=info->internal670;}
++ }
++ character_count6c4_=0;remove_characters_active_v114_=false;e.clear();return true;
++}
+ bool PlayerManagerOwnerV1::get_by_internal(std::int32_t id,bool flag,PlayerInfoFieldsV1*& out,std::string& e){
+  e.clear();if(!initialized_){e="Required source PlayerManager constructor";return false;}
+  if(id==-1){out=&dummy_;return true;}bool net;if(!network(net,e))return false;
+--- a/port/android-native/app/src/main/cpp/renderer_player_manage_characters_v70.inc
++++ b/port/android-native/app/src/main/cpp/renderer_player_manage_characters_v70.inc
+@@ -57,6 +57,10 @@
+    if(!same||!same->manager()||!same->network()){error="Released SAME PM ClearLoadingInfo receiver";return false;}
+    return dh2::player::player_manager_clear_loading_v70(*same->manager(),*same->network(),query,error);
+   };
++  s.remove_all_characters=[weak_pm](std::string& error){auto same=weak_pm.lock();
++   if(!same||!same->manager()){error="Released same process PM RemoveAllCharacters";return false;}
++   return same->manager()->remove_all_characters_v114(error);
++  };
+   owner_=std::make_unique<dh2::player::PlayerManageCharactersOwnerV70>(*pm->manager(),std::move(s));return true;
+  }
+  bool update(std::string& e){auto app=app_.lock();if(!app||!app->source_player_manager_v59()||!owner_){e="Required canonical preplayer PM management receiver";return false;}return owner_->update(e);}

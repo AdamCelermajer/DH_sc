@@ -1,0 +1,9 @@
+{
+  "validation": "PASS",
+  "comparisons": 96,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "gold_sha256": "de3278c2a812dc55227ea4276c149008b1d129fa286eb24410b14dd9047e6f90",
+  "script_sha256": "1dc3dcf7246e9fbe55d12fc4368d4be462150d05c37021414c790f704dc6978f",
+  "scope": "Actual Savegame::_cacheFile false-flag section index and original STL.\nWrapper stream copy/size/seek/tell and storage are explicit caller services;\nfile open/backup/corruption replacement remain outside this valid-file corpus.\n",
+  "native_comparison": false
+}

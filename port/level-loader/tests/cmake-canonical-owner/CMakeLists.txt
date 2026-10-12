@@ -1,0 +1,22 @@
+cmake_minimum_required(VERSION 3.16)
+project(dh2_canonical_owner_reuse_check LANGUAGES CXX)
+get_filename_component(loader "${CMAKE_CURRENT_LIST_DIR}/../.." ABSOLUTE)
+if(NOT EXISTS "${DH2_TEST_OWNER_ARCHIVE}")
+ message(FATAL_ERROR "Provide the already-built canonical owner archive")
+endif()
+add_library(adapter_owner_fixture STATIC IMPORTED GLOBAL)
+set_target_properties(adapter_owner_fixture PROPERTIES
+ IMPORTED_LOCATION "${DH2_TEST_OWNER_ARCHIVE}"
+ INTERFACE_INCLUDE_DIRECTORIES "${loader}/vendor/canonical-owners-e8cc6acab5183a2b;${loader}/../level-world")
+set(DH2_LOADER_CANONICAL_OWNER_TARGET adapter_owner_fixture CACHE STRING "" FORCE)
+add_subdirectory("${loader}" "${CMAKE_CURRENT_BINARY_DIR}/loader")
+if(TARGET dh2_loader_canonical_owners)
+ message(FATAL_ERROR "Loader unexpectedly compiled a second canonical owner target")
+endif()
+get_target_property(adapters dh2_loader_canonical_adapter LINK_LIBRARIES)
+list(FIND adapters adapter_owner_fixture owner_index)
+if(owner_index LESS 0)
+ message(FATAL_ERROR "Adapter does not consume the supplied existing owner")
+endif()
+file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/owner-reuse-check.json"
+ "{\"validation\":\"PASS\",\"external_owner_selected\":true,\"second_owner_target_created\":false}\n")

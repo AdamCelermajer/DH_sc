@@ -1,0 +1,17 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK14CharProperties11_GetDefaultEi",
+      "elf_address": "0x3def10",
+      "size": 36,
+      "sha256": "6710c8429d947c675e85a03cbb9a7f46bb197eafcc3f847cabdcaa91385a3017"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties12_AddPropertyERN7Structs19CharacterPropertiesEii",
+      "elf_address": "0x3df140",
+      "size": 96,
+      "sha256": "4d850624c15803158ef818077afaa6307d142de37f14c28fa56c85c65a15911e"
+    }
+  ]
+}

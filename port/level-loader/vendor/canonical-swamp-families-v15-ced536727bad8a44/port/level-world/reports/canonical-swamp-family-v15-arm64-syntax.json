@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "scope": "strict ARM64 syntax Decor/SpawnPoint owner/test and isolated candidate schema",
+  "sources": [
+    {
+      "path": "port/level-world/canonical_spawn_point_v15.cpp",
+      "sha256": "270e08c02233e32cffd94ea767f1ef9dc791da679adc79cc0d060ede79bd8a94"
+    },
+    {
+      "path": "port/level-world/canonical_decor_v15.cpp",
+      "sha256": "7e2f57f9785b6e9994e509d56c9406c5b17d45822cb634920696d971cb4b40da"
+    },
+    {
+      "path": "port/level-world/tests/canonical_swamp_family_v15.cpp",
+      "sha256": "f3d40ab083830bf9518fda9d752791a127ddf5c3617df049d2e8184da25cc1b0"
+    },
+    {
+      "path": ".local-inputs/canonical_family_map_candidate_v15.cpp",
+      "sha256": "30911a8d2d89396b3ebf5e7869c7da4c4917849a475e7f817f247bc7b1140d18"
+    }
+  ],
+  "stdout": "",
+  "stderr": ""
+}

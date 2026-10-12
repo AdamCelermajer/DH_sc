@@ -1,0 +1,155 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN15bitmap_info_oglC1EPN6glitch5video12IVideoDriverEiiPh",
+      "elf_address": "0x7d5404",
+      "size": 280,
+      "sha256": "26f031bcbea8d88fa978fc47f70b136c808fe31095c5bcd313f67a00b409b5a7"
+    },
+    {
+      "original_symbol": "_ZNK6glitch2io11CFileSystem15getFileBasenameERKSbIcSt11char_traitsIcENS_4core10SAllocatorIcLNS_6memory13E_MEMORY_HINTE0EEEEb",
+      "elf_address": "0x56c740",
+      "size": 260,
+      "sha256": "83cac32261e113a9c6c3b663f1e27af02f78ecbbdb6a206a4789537a31a5e784"
+    },
+    {
+      "original_symbol": "_ZN6glitch2io10CZipReader22deletePathFromFilenameERSbIcSt11char_traitsIcENS_4core10SAllocatorIcLNS_6memory13E_MEMORY_HINTE0EEEE",
+      "elf_address": "0x577b50",
+      "size": 120,
+      "sha256": "f0086b826d78c4092e738c29fc44fd3791263954b0c44b3aeea143a0c28cf8c2"
+    },
+    {
+      "original_symbol": "_ZN6glitch2io10CZipReaderC1EPNS0_9IReadFileEbb",
+      "elf_address": "0x577fa4",
+      "size": 172,
+      "sha256": "a7dc25d7406cd67ee17e1a688c9381bfb74766a8f91ecfbb802aac3da617e267"
+    },
+    {
+      "original_symbol": "_ZN21render_handler_glitch19draw_mesh_primitiveEiPKviPKti",
+      "elf_address": "0x7d94f8",
+      "size": 572,
+      "sha256": "09c02384e8db7840ff2fc3df7b6f5e080956e4b7f6c9582e7e95e7430d2c4c42"
+    },
+    {
+      "original_symbol": "_ZN16BufferedRenderer5flushEv",
+      "elf_address": "0x7d6894",
+      "size": 428,
+      "sha256": "b50aa184b8de0598993ba7ac5fa434f4fc3cd6016171d55835d7314522f3d9d2"
+    },
+    {
+      "original_symbol": "_ZN14FileSystemBase17createAndOpenFileEPKc",
+      "elf_address": "0x34e688",
+      "size": 740,
+      "sha256": "55167869d2ec2e03d2f6f9416639efc2e892b2d953069fac3b1cfa6959699eb3"
+    },
+    {
+      "original_symbol": "_ZN21render_handler_glitch15draw_mesh_stripEPKvi",
+      "elf_address": "0x7d9764",
+      "size": 44,
+      "sha256": "def12a07868b2b5d8c06cb72bb0d8f43e1689d116a15c8a0d682ccef3f858e6d"
+    },
+    {
+      "original_symbol": "_ZN6glitch2io11CFileSystem29createAndOpenFileFromArchivesEPKc",
+      "elf_address": "0x56c0f8",
+      "size": 284,
+      "sha256": "8b140d1dcd3d6e3a951be56bb55269e194975dcb77d0a0b2ffcba7bb10e765de"
+    },
+    {
+      "original_symbol": "_ZNK7gameswf6cxform9transformENS_4rgbaE",
+      "elf_address": "0x794f8c",
+      "size": 420,
+      "sha256": "4449e87032242ac9b45c5d4b1252a01407c953383880949347b94e58cbcc366d"
+    },
+    {
+      "original_symbol": "_ZN6glitch5video15CTextureManager10getTextureEPKcS3_",
+      "elf_address": "0x5ed210",
+      "size": 368,
+      "sha256": "35ea5055a45edbd656a0cd5a39f09560b3637dc41b4305e063d59ff6cc5c4830"
+    },
+    {
+      "original_symbol": "_ZN21render_handler_glitch18draw_triangle_listEPKviPKti",
+      "elf_address": "0x7d9734",
+      "size": 48,
+      "sha256": "81f77daf1cc968db9f39283b9990d7edc8de8c42888032ee5c3d4f225d01b32b"
+    },
+    {
+      "original_symbol": "_ZNK6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE8CTexture16updateParametersEv",
+      "elf_address": "0x5afd40",
+      "size": 688,
+      "sha256": "0ef708f2a2f447e781e8656ec76345d41c62766e20c6d0524fb5307e1dad02d0"
+    },
+    {
+      "original_symbol": "_ZN6glitch2io10CZipReader8findFileEPKc",
+      "elf_address": "0x578520",
+      "size": 260,
+      "sha256": "44ec4bd1f62fc7d9ee52084b2a7b44163a44641aafb9483cda3a5274051312c4"
+    },
+    {
+      "original_symbol": "_ZNK14FileSystemBase18ApplyFilenameHacksEPKc",
+      "elf_address": "0x34e96c",
+      "size": 496,
+      "sha256": "14d158677220bc820842c4edfd958727dc9a4bfc53c445d4e98ce73101cdfb67"
+    },
+    {
+      "original_symbol": "_ZN7gameswf6cxform5clampEv",
+      "elf_address": "0x795130",
+      "size": 936,
+      "sha256": "553ff7cf4c334b7f770ee8ffc5d3e9faa4332fec2cc4fe34976c02d90ffd251c"
+    },
+    {
+      "original_symbol": "_ZN6glitch5video6detail10renderpass12SRenderStateC1ERKNS0_12SRenderStateE",
+      "elf_address": "0x5d7a10",
+      "size": 564,
+      "sha256": "e06e8f5ee8f6df566c1576414d31e3a4389e32d442da94250e6f49de3ba1c08f"
+    },
+    {
+      "original_symbol": "_Z11ToLowerCaseRSbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS1_6memory13E_MEMORY_HINTE0EEEEii",
+      "elf_address": "0x34e090",
+      "size": 108,
+      "sha256": "d144307b46fa61bf436910ba39ae43bde10820bea91e464c821d18dacfed531d"
+    },
+    {
+      "original_symbol": "_ZN6glitch2io11CFileSystem19getWorkingDirectoryEv",
+      "elf_address": "0x56c214",
+      "size": 28,
+      "sha256": "ba66718f96aa605dbaaff25f9d873a19582cbbea73d019cb0416087f73722988"
+    },
+    {
+      "original_symbol": "_ZN21render_handler_glitch10fill_style10set_bitmapEPN7gameswf11bitmap_infoERKNS1_6matrixENS1_14render_handler16bitmap_wrap_modeERKNS1_6cxformE",
+      "elf_address": "0x7d4430",
+      "size": 296,
+      "sha256": "0fb81ae1f78e20ae4cc3b910be67164f68b258f9455719cb116328fd2a8b75b7"
+    },
+    {
+      "original_symbol": "_ZN21render_handler_glitch11draw_bitmapERKN7gameswf6matrixEPNS0_11bitmap_infoERKNS0_4rectES8_NS0_4rgbaE",
+      "elf_address": "0x7d8df4",
+      "size": 1464,
+      "sha256": "717532f07d4fcd9df7ffe0c729c669f268b9aeaa746b57284b6bc9aa7875c407"
+    },
+    {
+      "original_symbol": "_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE21applyRenderStateBlendINS5_10renderpass12SRenderStateEEEvRKT_",
+      "elf_address": "0x5af3f8",
+      "size": 380,
+      "sha256": "7fcb7764acdfffca0928b4e3634d8c49b954d5e8516e435c9dea1d8d90b8a5bf"
+    },
+    {
+      "original_symbol": "_ZN6glitch5video12pixel_format7convertENS0_14E_PIXEL_FORMATEPKvjS2_Pvjjjb",
+      "elf_address": "0x5f95ac",
+      "size": 17128,
+      "sha256": "e7800d2f639bb3a99de3dfb52b86eb4f1123b75a0e4e503d5c8c7cae72ce376a"
+    },
+    {
+      "original_symbol": "_ZN6glitch5video8ITexture7setWrapENS0_15E_TEXTURE_CLAMPE",
+      "elf_address": "0x7d3bb4",
+      "size": 112,
+      "sha256": "31989e986362d060efa9e9e3f362fe5d62b4e57bd11cb1a6de9bb6b4a703c904"
+    },
+    {
+      "original_symbol": "_ZN15bitmap_info_ogl6layoutEv",
+      "elf_address": "0x7d5c20",
+      "size": 1072,
+      "sha256": "fab7fca8c88d33ca592e81a3409431bf5cbaf485714d966c85f84aa669a9992f"
+    }
+  ]
+}

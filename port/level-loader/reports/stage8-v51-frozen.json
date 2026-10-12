@@ -1,0 +1,20 @@
+{
+  "packet": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\stage8-v51-3b54fa4106aafcb6.zip",
+  "sha256": "a1e02e8e86a2956490e95cb2a598b02b2f7a8685b97a6445f9346ffdb03899c4",
+  "payloads": 24,
+  "manifest_verified": true,
+  "sources": {
+    "level_script_paths_v51.hpp": "259938d9bb83d9370c2d777e722f3d6355133c83b8252633371e6144c84606c1",
+    "stage_loader_v51_config_scripts.hpp": "180379d82de69607067f9cf7d3932ff19d428ce1472561788f9640e0a7117874",
+    "stage_loader_v51_canonical_config.hpp": "ac1719fd160c3343fd4116b47a8fc8338ff120a78a11cfd10c0fdd4da60fd60f",
+    "tests/stage_config_scripts_v51.cpp": "68a69d8cc7f6500730217f58b2a97edc9e6fc298d6a8bf3955fc07700939c89b"
+  },
+  "proposal": {
+    "header_base_sha256": "41a70c9cf44f669f18316ac784cc4b27b114ce5045518c627f08eceffd270ddb",
+    "cpp_base_sha256": "87f7aefe8ec3256ff92e1b0444c23ca7c6948335dac18d91acd84417058ed8ec",
+    "header_proposed_sha256": "2ed0c6bbb84f2364a3fa75a22f9902497fb6e9a6408f71d86129f1611e84349c",
+    "cpp_proposed_sha256": "03a446074e5ecefc4ca858c2a438032d26b3d9ee5f662edc13e3a36eff091b59",
+    "method": "const float* scalar_float_v51(uint32_t) const noexcept",
+    "new_storage_fields": 0
+  }
+}

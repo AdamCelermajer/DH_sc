@@ -1,0 +1,23 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "validation": "PASS",
+    "comparisons": 1946,
+    "ordered_services": 8736,
+    "guards": 12,
+    "failure_prefixes": 14,
+    "host_service_reentry_checks": 1,
+    "mismatches": 0
+  },
+  "sanitizer_findings": 0,
+  "source_sha256": {
+    "port/engine-ui/hud_startup_callbacks.hpp": "6300fe64f2b505079634f19b6aa41bb92720323873092924e6f48097d5b25e9f",
+    "port/engine-ui/hud_startup_callbacks.cpp": "05dc59ce3c36d5a4c7b99074ba5c08cbf5b5ce8eb234407ecfa4a535660259e5",
+    "port/engine-ui/tests/hud_startup.cpp": "3dfdf80890cd5abd559594690ba163cef22a14529a84d28e645187f8dac968b5",
+    "port/engine-ui/tests/hud_startup_differential.py": "987a76327b6b92abb6a364325296ad70a7ac97f450a652afde79e2b2e9f162a2"
+  },
+  "executable_sha256": "255752dd171a8c6834327ef876f14acc0df78e4fad6c3ee03cdf5d4e82eb50ed",
+  "gold_sha256": "5036f0b4adb953a2c590b15a2b0c7a93c8ffc0085f4b4fbfadc9b2766f8ea03d",
+  "arm64_proof_sha256": "d6523e339bb4f4620b4ac58bb424476e3aca6dc319614fae68d224178acdec33",
+  "scope": "Isolated optimized source wrapper reconstruction, real ASan/UBSan/LSan replay; manager/audio/device/result callbacks are explicit services. Not complete Savegame/profile or live menu integration."
+}

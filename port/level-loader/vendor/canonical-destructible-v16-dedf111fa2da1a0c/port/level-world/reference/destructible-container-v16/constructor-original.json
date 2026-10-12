@@ -1,0 +1,42 @@
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "go_id": 1,
+      "state394": 2,
+      "opener398": 0,
+      "progress6f0": 0,
+      "progress6f4": 0,
+      "data374_unproduced_poison": "0xa5a5a5a5",
+      "network_offsets": [
+        "0x3a0",
+        "0x548"
+      ]
+    },
+    {
+      "go_id": 1,
+      "state394": 2,
+      "opener398": 0,
+      "progress6f0": 0,
+      "progress6f4": 0,
+      "data374_unproduced_poison": "0xa5a5a5a5",
+      "network_offsets": [
+        "0x3a0",
+        "0x548"
+      ]
+    },
+    {
+      "go_id": 1,
+      "state394": 2,
+      "opener398": 0,
+      "progress6f0": 0,
+      "progress6f4": 0,
+      "data374_unproduced_poison": "0xa5a5a5a5",
+      "network_offsets": [
+        "0x3a0",
+        "0x548"
+      ]
+    }
+  ],
+  "scope": "whole source factory/Destructible/Container/GameObject constructor graph, including both real NetStructContainer constructors; imported allocation/mutex/unsigned divide and inline CString reserve fixtures"
+}

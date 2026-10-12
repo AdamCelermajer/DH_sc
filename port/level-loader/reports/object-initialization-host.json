@@ -1,0 +1,265 @@
+{
+  "validation": "PASS",
+  "scope": "Compare portable dispatcher traces and memberships with original ARM receipts.\n\nThe services in both probes are explicit fixture implementations. This verifies\ndispatch ordering, not real class construction/behavior or a gameplay ABI.\n",
+  "original_receipt_sha256": "134337ba0eceabf0926441e0007d18e3fa05b1396bb5cb6723f5604e0508e017",
+  "probe_sha256": "a99e1dd3ca57914be05ff02f9c1ed756bada0b7f783df9a42dc4449bbc7fcde1",
+  "probe_input_sha256": "82fce67f6c51c03abd117fe3bd2f3545715193e94d7c5d61b2554579e8dd3187",
+  "source_sha256": {
+    "object_initialization_v1.cpp": "1e05b6835f742754d54ec2b0d3da0267b16d6678e68f38157b9d895b6151b0ff",
+    "object_initialization_v1.hpp": "e85e7479696b336d4e2bf2879fba99eb05cbf5fc3793825db2ea42d85cdfaf0b",
+    "tests/object_initialization_probe.cpp": "fa66d20fc3a113b3a09919b8d0aa048085083d74eb10f6d8ff8e70b8aa06cd6c",
+    "tests/object_initialization_host.py": "5fcc84ca9291c0b92a16cd93866589f3e137cea61e6fe8f6e0b4d45636397cc2"
+  },
+  "cases": [
+    {
+      "name": "empty",
+      "calls": 2,
+      "events": 3,
+      "room_list": [],
+      "transient_lists": {
+        "0x2c": [],
+        "0x34": [],
+        "0x44": []
+      }
+    },
+    {
+      "name": "single",
+      "calls": 4,
+      "events": 6,
+      "room_list": [],
+      "transient_lists": {
+        "0x2c": [],
+        "0x34": [],
+        "0x44": []
+      }
+    },
+    {
+      "name": "updating",
+      "calls": 4,
+      "events": 6,
+      "room_list": [],
+      "transient_lists": {
+        "0x2c": [
+          "npc"
+        ],
+        "0x34": [],
+        "0x44": []
+      }
+    },
+    {
+      "name": "module_then_objects",
+      "calls": 9,
+      "events": 13,
+      "room_list": [],
+      "transient_lists": {
+        "0x2c": [
+          "npc"
+        ],
+        "0x34": [],
+        "0x44": []
+      }
+    },
+    {
+      "name": "dead_handle",
+      "calls": 6,
+      "events": 7,
+      "room_list": [],
+      "transient_lists": {
+        "0x2c": [],
+        "0x34": [],
+        "0x44": []
+      }
+    },
+    {
+      "name": "room_flags",
+      "calls": 12,
+      "events": 18,
+      "room_list": [
+        "room"
+      ],
+      "transient_lists": {
+        "0x2c": [
+          "sound",
+          "updating_a8_cc"
+        ],
+        "0x34": [],
+        "0x44": [
+          "room",
+          "sound",
+          "updating_a8_cc"
+        ]
+      }
+    },
+    {
+      "name": "module_append",
+      "calls": 10,
+      "events": 15,
+      "room_list": [],
+      "transient_lists": {
+        "0x2c": [],
+        "0x34": [],
+        "0x44": []
+      }
+    },
+    {
+      "name": "five_modules",
+      "calls": 17,
+      "events": 23,
+      "room_list": [],
+      "transient_lists": {
+        "0x2c": [],
+        "0x34": [],
+        "0x44": []
+      }
+    },
+    {
+      "name": "room_casefold",
+      "calls": 4,
+      "events": 6,
+      "room_list": [
+        "room"
+      ],
+      "transient_lists": {
+        "0x2c": [],
+        "0x34": [],
+        "0x44": [
+          "room"
+        ]
+      }
+    },
+    {
+      "name": "balanced_tree",
+      "calls": 16,
+      "events": 24,
+      "room_list": [],
+      "transient_lists": {
+        "0x2c": [
+          "actor1",
+          "actor3",
+          "actor5"
+        ],
+        "0x34": [],
+        "0x44": []
+      }
+    },
+    {
+      "name": "all_flags",
+      "calls": 66,
+      "events": 99,
+      "room_list": [],
+      "transient_lists": {
+        "0x2c": [
+          "flags1",
+          "flags3",
+          "flags5",
+          "flags7",
+          "flags9",
+          "flags11",
+          "flags13",
+          "flags15",
+          "flags17",
+          "flags19",
+          "flags21",
+          "flags23",
+          "flags25",
+          "flags27",
+          "flags29",
+          "flags31"
+        ],
+        "0x34": [],
+        "0x44": [
+          "flags2",
+          "flags3",
+          "flags8",
+          "flags9",
+          "flags10",
+          "flags11",
+          "flags12",
+          "flags13",
+          "flags14",
+          "flags15",
+          "flags18",
+          "flags19",
+          "flags26",
+          "flags27"
+        ]
+      }
+    },
+    {
+      "name": "clear_preexisting_lists",
+      "calls": 4,
+      "events": 6,
+      "room_list": [],
+      "transient_lists": {
+        "0x2c": [
+          "actor"
+        ],
+        "0x34": [],
+        "0x44": [
+          "actor"
+        ]
+      }
+    },
+    {
+      "name": "registry_order",
+      "calls": 8,
+      "events": 12,
+      "room_list": [],
+      "transient_lists": {
+        "0x2c": [],
+        "0x34": [],
+        "0x44": []
+      }
+    },
+    {
+      "name": "init_changes_membership",
+      "calls": 4,
+      "events": 6,
+      "room_list": [],
+      "transient_lists": {
+        "0x2c": [],
+        "0x34": [],
+        "0x44": [
+          "actor"
+        ]
+      }
+    },
+    {
+      "name": "room_changes_membership",
+      "calls": 4,
+      "events": 6,
+      "room_list": [
+        "room"
+      ],
+      "transient_lists": {
+        "0x2c": [],
+        "0x34": [],
+        "0x44": [
+          "room"
+        ]
+      }
+    },
+    {
+      "name": "module_inserts_registry",
+      "calls": 12,
+      "events": 19,
+      "room_list": [],
+      "transient_lists": {
+        "0x2c": [
+          "before"
+        ],
+        "0x34": [],
+        "0x44": []
+      }
+    }
+  ],
+  "call_count": 182,
+  "event_count": 269,
+  "adapter_checks": {
+    "validation": "PASS",
+    "adapter_checks": 6
+  },
+  "runtime_factory_contract_agreed": false,
+  "runtime_objects_verified": false,
+  "full_loader_verified": false
+}

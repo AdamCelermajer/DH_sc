@@ -1,0 +1,27 @@
+--- a/port/level-world/character_world_npc_state_owner_v1.hpp
++++ b/port/level-world/character_world_npc_state_owner_v1.hpp
+@@ -63,4 +63,7 @@
+  // Only genuine source preset CString may select initial level state. No
+  // conversion from renderer animation/state labels or inferred alive status.
+  int initialize_level(const char* source_preset);
++ //Actual GetPreSetAIState result from the SAME Character13cc std::string.
++ //Reuses the existing native FSM initialization and selected body services.
++ int initialize_level_preset_v95(std::int32_t source_preset);
+  int transition(std::int32_t next,std::int32_t event,std::uintptr_t payload);
+--- a/port/level-world/character_world_npc_state_owner_v1.cpp
++++ b/port/level-world/character_world_npc_state_owner_v1.cpp
+@@ -24,2 +24,3 @@
+ int CharacterWorldNpcStateOwnerV1::initialize_level(const char* preset){if(!coherent()||!preset)return completed(-1,"level preset/body");std::int32_t id=0;if(dh2_character_native_fsm_preset_state(&id,preset)!=1)return completed(-1,"preset");return completed(owner_.initialize_level(id,methods_),"level init");}
++int CharacterWorldNpcStateOwnerV1::initialize_level_preset_v95(std::int32_t preset){if(!coherent())return completed(-1,"level preset/body");return completed(owner_.initialize_level(preset,methods_),"level init");}
+ int CharacterWorldNpcStateOwnerV1::transition(std::int32_t next,std::int32_t event,std::uintptr_t payload){if(!coherent())return completed(-1,"state binding");return completed(owner_.transition(next,event,payload,methods_),"transition");}
+--- a/port/level-world/source_loading_application_fields_v55.hpp
++++ b/port/level-world/source_loading_application_fields_v55.hpp
+@@ -19,3 +19,8 @@
+  std::uint8_t byte_ec{},byte_b4{1};
++ //SAME Application94, first published here by actual loading-state32 stores.
++ //Initial allocation value is NOT a source producer; consumers must require
++ //native_byte94_produced_v95 until another proven original producer is bound.
++ std::uint8_t byte94_v95{};
++ bool native_byte94_produced_v95{}; //Adapter provenance, not a native game flag.
+  std::uint8_t handle_cheats_inGame9f640a{};
+  std::uint32_t g_bigI9f6890{},g_bigV9f688c{};

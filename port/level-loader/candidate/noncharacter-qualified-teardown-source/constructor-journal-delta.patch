@@ -1,0 +1,19 @@
+--- port/level-loader/source_release_journal_v69.hpp
++++ port/level-loader/source_release_journal_v69.hpp
+@@ -10,6 +10,7 @@
+ struct SourceConstructorPrefixBorrowV89 {
+  std::shared_ptr<void> record;std::shared_ptr<const void> declaration;const char* class_name{};
+  CanonicalConstructorStateV89 constructor_state{};
++ std::shared_ptr<AuxiliaryReleaseRecordV67> auxiliary_v92; // exact admitted prefix, not reconstructed resource list
+ };
+ struct SourceReleaseJournalLeavesV69 {
+  std::shared_ptr<void> owner; // independent genuine release primitives
+@@ -170,7 +171,7 @@
+   retirement_running_=true;struct Guard{bool& running;~Guard(){running=false;}}guard{retirement_running_};
+   if(before==CanonicalConstructorStateV89::failed){
+    if(!leaves_.unwind_failed_constructor_prefix){e="Required genuine record-qualified failed C1 resource unwind/alias absence";return false;}
+-   SourceConstructorPrefixBorrowV89 actual{record,entry.source,entry.auxiliary?entry.auxiliary->class_name:"LightPoint",before};
++   SourceConstructorPrefixBorrowV89 actual{record,entry.source,entry.auxiliary?entry.auxiliary->class_name:"LightPoint",before,entry.auxiliary};
+    if(!leaves_.unwind_failed_constructor_prefix(actual,e))return false;
+   }
+   // Constructor completion/owner are reread after Main unwind. The factory's

@@ -1,0 +1,34 @@
+diff --git "a/C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\baselines\\canonical_level_constructor_v3.cpp" "b/C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\canonical_level_constructor_v3_admission_v64.cpp"
+index 520ce56..0b79b50 100644
+--- "a/C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\baselines\\canonical_level_constructor_v3.cpp"
++++ "b/C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\canonical_level_constructor_v3_admission_v64.cpp"
+@@ -1,4 +1,4 @@
+-#include "../canonical_level_context_v1.hpp"
++#include "canonical_level_context_v1.hpp"
+ #include <cassert>
+ #include <cstring>
+ #include <iostream>
+@@ -33,10 +33,13 @@ int main(){
+   services.online_byte5=[](auto& value,auto&){value=0;return true;};
+   services.allocate_save=[&](auto& storage,auto&){auto save=std::make_shared<int>(2);save_weak=save;storage=save;allocated=save;++calls;return true;};
+   services.construct_save=[&](const auto& storage,const auto& request,auto&){auto retained=weak.lock();assert(retained&&storage==allocated&&request.level_identity==retained->identity()&&request.seed==7&&request.row==0&&request.difficulty==3&&request.mode==0&&!request.source_flag);++checks;++calls;return true;};
+-  const bool result=level->construct_source_v3({match?"worlds/swamp01.dwld":"missing",0,7,1,0,1,0,-1,0},std::move(services),error);
++  // Explicit raw C1 fixture: incomplete logical table and unmatched name stay in the low-level domain.
++  auto raw_borrow=fields;raw_borrow.owner=app;
++  auto raw_constructor=std::make_unique<LevelConstructorV3>(std::move(raw_borrow),std::move(services));
++  const bool result=raw_constructor->construct({match?"worlds/swamp01.dwld":"missing",0,7,1,0,1,0,-1,0});error=raw_constructor->error();
+   assert(result==!fail_script);++checks;
+-  const auto* owner=level->constructor_owner_v3();assert(owner);++checks;
+-  auto before=calls;assert(!level->construct_source_v3({"retry",0,7,1,0,1,0,-1,0},{},error)&&calls==before);++checks;
++  const auto* owner=raw_constructor.get();assert(owner&&!level->constructor_owner_v3());++checks;
++  auto before=calls;assert(!raw_constructor->construct({"retry",0,7,1,0,1,0,-1,0})&&calls==before);++checks;
+   if(!fail_script){assert(*fields.gate150==0&&*fields.config38==0&&*fields.music11c==-1&&*fields.module_id18c==-1&&app->debug==1&&app->module_id==0);++checks;assert(bool(level->constructor_fields_v3().save_ec)==match);++checks;}
+   std::shared_ptr<CanonicalLevelContextV1> global=level;CanonicalCurrentLevelBorrowV1 current;
+   assert(borrow_current_canonical_level_v1({app,&global},current,error)&&current.identity()==level->identity());++checks;
+@@ -45,5 +48,5 @@ int main(){
+   fields.owner.reset();config.level_owner.reset();module.level_owner.reset();assert(!weak.expired());++checks;
+   current={};allocated.reset();assert(weak.expired()&&script_weak.expired()&&save_weak.expired());++checks;
+  }
+- std::cout<<"PASS same Level constructor lifetime "<<checks<<'\n';
++ std::cout<<"PASS raw C1 same Level receiver lifetime "<<checks<<'\n';
+ }

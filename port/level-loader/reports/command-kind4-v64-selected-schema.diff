@@ -1,0 +1,16 @@
+--- a/script_data_schemas_v52.inc
++++ b/script_data_schemas_v52.inc
+@@ -1,10 +1,12 @@
+-// Generated only from original executed Data C1/read actions and original static factory addresses.
++// Original Data C1/read schemas: retained executed proofs plus kind4 bounded static ARM proof.
++// Kind4 provenance: candidate/command-kind4-v64/kind4-source-proof.json.
+ inline const std::map<std::int32_t,ScriptDataSchemaV52>& original_script_data_schemas_v52(){
+  static const std::map<std::int32_t,ScriptDataSchemaV52> schemas{
+   {0,{28u,0x4576d8u,0x4ffc24u,{{4,4,0},{8,1,0},{12,4,0},{16,4,0},{20,255,16},{24,1,0}},{}}},
+   {1,{8u,0x45769cu,0x4ff9b0u,{{4,4,0}},{{4,{4,0u}}}}},
+   {2,{8u,0x457660u,0x4ff9acu,{{4,4,0}},{{4,{4,0u}}}}},
+   {3,{16u,0x457624u,0x5029bcu,{{4,4,0},{8,4,0},{12,0,8}},{}}},
++  {4,{32u,0x4575e4u,0x5027f0u,{{4,4,0},{8,4,0},{12,0,8},{16,4,0},{20,0,16},{24,4,0},{28,1,0}},{}}},
+   {5,{16u,0x4575a0u,0x4ffba0u,{{4,4,0},{8,4,0},{12,1,0}},{{4,{4,0u}},{8,{4,0u}},{12,{1,0u}}}}},
+   {6,{16u,0x45755cu,0x4ff8d8u,{{4,4,0},{8,4,0},{12,4,0}},{{4,{4,0u}},{8,{4,0u}},{12,{4,0u}}}}},
+   {8,{24u,0x4574dcu,0x5026c8u,{{4,4,0},{8,4,0},{12,4,0},{16,0,12},{20,1,0}},{}}},

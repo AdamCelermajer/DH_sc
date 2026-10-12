@@ -1,0 +1,11 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN10ObjectBaseC2ENS_6GO_IDSE",
+      "elf_address": "0x33f310",
+      "size": 436,
+      "sha256": "e15faf2445a48995abf99d8c5d1e59eb2713750e9908e748d4a6b2ae814d6d67"
+    }
+  ]
+}

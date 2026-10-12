@@ -1,0 +1,24 @@
+--- a/port/level-loader/canonical_module_files_v1.hpp
++++ b/port/level-loader/canonical_module_files_v1.hpp
+@@ -49,3 +49,6 @@
+     bool begin_module(std::uint32_t occurrence,std::string&);
++    //Original Level.LoadFile outside Module.Load. Keeps the SAME160/18c and
++    //uses no invented Module index. Native stream/parser/release stay shared.
++    bool begin_level_file(std::string&);
+     // Owns this relay and therefore its same-Level field lifetime. The callback
+     // uses a weak relay capture, preventing a self-owned callback cycle.
+--- a/port/level-loader/canonical_module_files_v1.cpp
++++ b/port/level-loader/canonical_module_files_v1.cpp
+@@ -72,3 +72,11 @@
+     occurrence_=occurrence;module_started_=true;captured_context_=false;captured_={};return true;
+ }
++bool CanonicalModuleFilesV1::begin_level_file(std::string& error){
++    error.clear();if(discard_requested_||discarded_)return fail("canonical Level source release requested",error);
++    if(failed_){error=error_;return false;}
++    if(dispatching_||file_pending_)return fail("canonical Level occurrence changed during pending source delivery",error);
++    if(!native_filename_)return fail("production Level source requires SAME bound native source",error);
++    //UINT32_MAX identifies a direct Level file occurrence, never Module0.
++    occurrence_=UINT32_MAX;module_started_=true;captured_context_=false;captured_={};return true;
++}
+ world::ModuleLevelLoadBorrowV1 CanonicalModuleFilesV1::load_borrow(){
+

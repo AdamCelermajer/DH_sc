@@ -1,0 +1,685 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_cfs_open56dc40_and_real_RB_tree_find56db48_executed": true,
+  "comparisons": 75,
+  "map_provenance": "explicit source-layout initialized one-node map fixtures; no production mappings inferred",
+  "physical_open": "original fopen argument captured; explicit fopen returns missing, no OS I/O",
+  "cases": [
+    {
+      "input": "data/scene/001_swamp.mlx",
+      "working_directory": "",
+      "map_entry": null,
+      "physical_fopen_filename": "data/scene/001_swamp.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "data/scene/001_swamp.mlx",
+      "working_directory": "",
+      "map_entry": [
+        "scene/001_swamp.mlx",
+        "data/scene/MAPPED.mlx"
+      ],
+      "physical_fopen_filename": "data/scene/001_swamp.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "data/scene/001_swamp.mlx",
+      "working_directory": "",
+      "map_entry": [
+        "data/scene/001_swamp.mlx",
+        "C:/RESOURCE/mapped.mlx"
+      ],
+      "physical_fopen_filename": "C:/RESOURCE/mapped.mlx",
+      "map_applied": true
+    },
+    {
+      "input": "./data/scene/001_swamp.mlx",
+      "working_directory": "",
+      "map_entry": null,
+      "physical_fopen_filename": "./data/scene/001_swamp.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "./data/scene/001_swamp.mlx",
+      "working_directory": "",
+      "map_entry": [
+        "scene/001_swamp.mlx",
+        "data/scene/MAPPED.mlx"
+      ],
+      "physical_fopen_filename": "./data/scene/001_swamp.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "./data/scene/001_swamp.mlx",
+      "working_directory": "",
+      "map_entry": [
+        "data/scene/001_swamp.mlx",
+        "C:/RESOURCE/mapped.mlx"
+      ],
+      "physical_fopen_filename": "C:/RESOURCE/mapped.mlx",
+      "map_applied": true
+    },
+    {
+      "input": "q:/DATA/scene/file.mlx",
+      "working_directory": "",
+      "map_entry": null,
+      "physical_fopen_filename": "q:/DATA/scene/file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "q:/DATA/scene/file.mlx",
+      "working_directory": "",
+      "map_entry": [
+        "scene/001_swamp.mlx",
+        "data/scene/MAPPED.mlx"
+      ],
+      "physical_fopen_filename": "q:/DATA/scene/file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "q:/DATA/scene/file.mlx",
+      "working_directory": "",
+      "map_entry": [
+        "data/scene/001_swamp.mlx",
+        "C:/RESOURCE/mapped.mlx"
+      ],
+      "physical_fopen_filename": "q:/DATA/scene/file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "Dir\\file.mlx",
+      "working_directory": "",
+      "map_entry": null,
+      "physical_fopen_filename": "Dir\\file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "Dir\\file.mlx",
+      "working_directory": "",
+      "map_entry": [
+        "scene/001_swamp.mlx",
+        "data/scene/MAPPED.mlx"
+      ],
+      "physical_fopen_filename": "Dir\\file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "Dir\\file.mlx",
+      "working_directory": "",
+      "map_entry": [
+        "data/scene/001_swamp.mlx",
+        "C:/RESOURCE/mapped.mlx"
+      ],
+      "physical_fopen_filename": "Dir\\file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "WORLD/file.mlx",
+      "working_directory": "",
+      "map_entry": null,
+      "physical_fopen_filename": "WORLD/file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "WORLD/file.mlx",
+      "working_directory": "",
+      "map_entry": [
+        "scene/001_swamp.mlx",
+        "data/scene/MAPPED.mlx"
+      ],
+      "physical_fopen_filename": "WORLD/file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "WORLD/file.mlx",
+      "working_directory": "",
+      "map_entry": [
+        "data/scene/001_swamp.mlx",
+        "C:/RESOURCE/mapped.mlx"
+      ],
+      "physical_fopen_filename": "WORLD/file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "data/scene/001_swamp.mlx",
+      "working_directory": "data",
+      "map_entry": null,
+      "physical_fopen_filename": "data/data/scene/001_swamp.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "data/scene/001_swamp.mlx",
+      "working_directory": "data",
+      "map_entry": [
+        "scene/001_swamp.mlx",
+        "data/scene/MAPPED.mlx"
+      ],
+      "physical_fopen_filename": "data/data/scene/MAPPED.mlx",
+      "map_applied": true
+    },
+    {
+      "input": "data/scene/001_swamp.mlx",
+      "working_directory": "data",
+      "map_entry": [
+        "data/scene/001_swamp.mlx",
+        "C:/RESOURCE/mapped.mlx"
+      ],
+      "physical_fopen_filename": "data/data/scene/001_swamp.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "./data/scene/001_swamp.mlx",
+      "working_directory": "data",
+      "map_entry": null,
+      "physical_fopen_filename": "data/./data/scene/001_swamp.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "./data/scene/001_swamp.mlx",
+      "working_directory": "data",
+      "map_entry": [
+        "scene/001_swamp.mlx",
+        "data/scene/MAPPED.mlx"
+      ],
+      "physical_fopen_filename": "data/data/scene/MAPPED.mlx",
+      "map_applied": true
+    },
+    {
+      "input": "./data/scene/001_swamp.mlx",
+      "working_directory": "data",
+      "map_entry": [
+        "data/scene/001_swamp.mlx",
+        "C:/RESOURCE/mapped.mlx"
+      ],
+      "physical_fopen_filename": "data/./data/scene/001_swamp.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "q:/DATA/scene/file.mlx",
+      "working_directory": "data",
+      "map_entry": null,
+      "physical_fopen_filename": "q:/DATA/scene/file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "q:/DATA/scene/file.mlx",
+      "working_directory": "data",
+      "map_entry": [
+        "scene/001_swamp.mlx",
+        "data/scene/MAPPED.mlx"
+      ],
+      "physical_fopen_filename": "q:/DATA/scene/file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "q:/DATA/scene/file.mlx",
+      "working_directory": "data",
+      "map_entry": [
+        "data/scene/001_swamp.mlx",
+        "C:/RESOURCE/mapped.mlx"
+      ],
+      "physical_fopen_filename": "q:/DATA/scene/file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "Dir\\file.mlx",
+      "working_directory": "data",
+      "map_entry": null,
+      "physical_fopen_filename": "data/Dir\\file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "Dir\\file.mlx",
+      "working_directory": "data",
+      "map_entry": [
+        "scene/001_swamp.mlx",
+        "data/scene/MAPPED.mlx"
+      ],
+      "physical_fopen_filename": "data/Dir\\file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "Dir\\file.mlx",
+      "working_directory": "data",
+      "map_entry": [
+        "data/scene/001_swamp.mlx",
+        "C:/RESOURCE/mapped.mlx"
+      ],
+      "physical_fopen_filename": "data/Dir\\file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "WORLD/file.mlx",
+      "working_directory": "data",
+      "map_entry": null,
+      "physical_fopen_filename": "data/WORLD/file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "WORLD/file.mlx",
+      "working_directory": "data",
+      "map_entry": [
+        "scene/001_swamp.mlx",
+        "data/scene/MAPPED.mlx"
+      ],
+      "physical_fopen_filename": "data/WORLD/file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "WORLD/file.mlx",
+      "working_directory": "data",
+      "map_entry": [
+        "data/scene/001_swamp.mlx",
+        "C:/RESOURCE/mapped.mlx"
+      ],
+      "physical_fopen_filename": "data/WORLD/file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "data/scene/001_swamp.mlx",
+      "working_directory": "data/",
+      "map_entry": null,
+      "physical_fopen_filename": "data/data/scene/001_swamp.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "data/scene/001_swamp.mlx",
+      "working_directory": "data/",
+      "map_entry": [
+        "scene/001_swamp.mlx",
+        "data/scene/MAPPED.mlx"
+      ],
+      "physical_fopen_filename": "data/data/scene/MAPPED.mlx",
+      "map_applied": true
+    },
+    {
+      "input": "data/scene/001_swamp.mlx",
+      "working_directory": "data/",
+      "map_entry": [
+        "data/scene/001_swamp.mlx",
+        "C:/RESOURCE/mapped.mlx"
+      ],
+      "physical_fopen_filename": "data/data/scene/001_swamp.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "./data/scene/001_swamp.mlx",
+      "working_directory": "data/",
+      "map_entry": null,
+      "physical_fopen_filename": "data/./data/scene/001_swamp.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "./data/scene/001_swamp.mlx",
+      "working_directory": "data/",
+      "map_entry": [
+        "scene/001_swamp.mlx",
+        "data/scene/MAPPED.mlx"
+      ],
+      "physical_fopen_filename": "data/data/scene/MAPPED.mlx",
+      "map_applied": true
+    },
+    {
+      "input": "./data/scene/001_swamp.mlx",
+      "working_directory": "data/",
+      "map_entry": [
+        "data/scene/001_swamp.mlx",
+        "C:/RESOURCE/mapped.mlx"
+      ],
+      "physical_fopen_filename": "data/./data/scene/001_swamp.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "q:/DATA/scene/file.mlx",
+      "working_directory": "data/",
+      "map_entry": null,
+      "physical_fopen_filename": "q:/DATA/scene/file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "q:/DATA/scene/file.mlx",
+      "working_directory": "data/",
+      "map_entry": [
+        "scene/001_swamp.mlx",
+        "data/scene/MAPPED.mlx"
+      ],
+      "physical_fopen_filename": "q:/DATA/scene/file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "q:/DATA/scene/file.mlx",
+      "working_directory": "data/",
+      "map_entry": [
+        "data/scene/001_swamp.mlx",
+        "C:/RESOURCE/mapped.mlx"
+      ],
+      "physical_fopen_filename": "q:/DATA/scene/file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "Dir\\file.mlx",
+      "working_directory": "data/",
+      "map_entry": null,
+      "physical_fopen_filename": "data/Dir\\file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "Dir\\file.mlx",
+      "working_directory": "data/",
+      "map_entry": [
+        "scene/001_swamp.mlx",
+        "data/scene/MAPPED.mlx"
+      ],
+      "physical_fopen_filename": "data/Dir\\file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "Dir\\file.mlx",
+      "working_directory": "data/",
+      "map_entry": [
+        "data/scene/001_swamp.mlx",
+        "C:/RESOURCE/mapped.mlx"
+      ],
+      "physical_fopen_filename": "data/Dir\\file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "WORLD/file.mlx",
+      "working_directory": "data/",
+      "map_entry": null,
+      "physical_fopen_filename": "data/WORLD/file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "WORLD/file.mlx",
+      "working_directory": "data/",
+      "map_entry": [
+        "scene/001_swamp.mlx",
+        "data/scene/MAPPED.mlx"
+      ],
+      "physical_fopen_filename": "data/WORLD/file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "WORLD/file.mlx",
+      "working_directory": "data/",
+      "map_entry": [
+        "data/scene/001_swamp.mlx",
+        "C:/RESOURCE/mapped.mlx"
+      ],
+      "physical_fopen_filename": "data/WORLD/file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "data/scene/001_swamp.mlx",
+      "working_directory": "ROOT\\",
+      "map_entry": null,
+      "physical_fopen_filename": "ROOT\\data/scene/001_swamp.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "data/scene/001_swamp.mlx",
+      "working_directory": "ROOT\\",
+      "map_entry": [
+        "scene/001_swamp.mlx",
+        "data/scene/MAPPED.mlx"
+      ],
+      "physical_fopen_filename": "ROOT\\data/scene/001_swamp.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "data/scene/001_swamp.mlx",
+      "working_directory": "ROOT\\",
+      "map_entry": [
+        "data/scene/001_swamp.mlx",
+        "C:/RESOURCE/mapped.mlx"
+      ],
+      "physical_fopen_filename": "C:/RESOURCE/mapped.mlx",
+      "map_applied": true
+    },
+    {
+      "input": "./data/scene/001_swamp.mlx",
+      "working_directory": "ROOT\\",
+      "map_entry": null,
+      "physical_fopen_filename": "ROOT\\./data/scene/001_swamp.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "./data/scene/001_swamp.mlx",
+      "working_directory": "ROOT\\",
+      "map_entry": [
+        "scene/001_swamp.mlx",
+        "data/scene/MAPPED.mlx"
+      ],
+      "physical_fopen_filename": "ROOT\\./data/scene/001_swamp.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "./data/scene/001_swamp.mlx",
+      "working_directory": "ROOT\\",
+      "map_entry": [
+        "data/scene/001_swamp.mlx",
+        "C:/RESOURCE/mapped.mlx"
+      ],
+      "physical_fopen_filename": "C:/RESOURCE/mapped.mlx",
+      "map_applied": true
+    },
+    {
+      "input": "q:/DATA/scene/file.mlx",
+      "working_directory": "ROOT\\",
+      "map_entry": null,
+      "physical_fopen_filename": "q:/DATA/scene/file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "q:/DATA/scene/file.mlx",
+      "working_directory": "ROOT\\",
+      "map_entry": [
+        "scene/001_swamp.mlx",
+        "data/scene/MAPPED.mlx"
+      ],
+      "physical_fopen_filename": "q:/DATA/scene/file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "q:/DATA/scene/file.mlx",
+      "working_directory": "ROOT\\",
+      "map_entry": [
+        "data/scene/001_swamp.mlx",
+        "C:/RESOURCE/mapped.mlx"
+      ],
+      "physical_fopen_filename": "q:/DATA/scene/file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "Dir\\file.mlx",
+      "working_directory": "ROOT\\",
+      "map_entry": null,
+      "physical_fopen_filename": "ROOT\\Dir\\file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "Dir\\file.mlx",
+      "working_directory": "ROOT\\",
+      "map_entry": [
+        "scene/001_swamp.mlx",
+        "data/scene/MAPPED.mlx"
+      ],
+      "physical_fopen_filename": "ROOT\\Dir\\file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "Dir\\file.mlx",
+      "working_directory": "ROOT\\",
+      "map_entry": [
+        "data/scene/001_swamp.mlx",
+        "C:/RESOURCE/mapped.mlx"
+      ],
+      "physical_fopen_filename": "ROOT\\Dir\\file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "WORLD/file.mlx",
+      "working_directory": "ROOT\\",
+      "map_entry": null,
+      "physical_fopen_filename": "ROOT\\WORLD/file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "WORLD/file.mlx",
+      "working_directory": "ROOT\\",
+      "map_entry": [
+        "scene/001_swamp.mlx",
+        "data/scene/MAPPED.mlx"
+      ],
+      "physical_fopen_filename": "ROOT\\WORLD/file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "WORLD/file.mlx",
+      "working_directory": "ROOT\\",
+      "map_entry": [
+        "data/scene/001_swamp.mlx",
+        "C:/RESOURCE/mapped.mlx"
+      ],
+      "physical_fopen_filename": "ROOT\\WORLD/file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "data/scene/001_swamp.mlx",
+      "working_directory": "/sdcard/",
+      "map_entry": null,
+      "physical_fopen_filename": "/sdcard/data/scene/001_swamp.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "data/scene/001_swamp.mlx",
+      "working_directory": "/sdcard/",
+      "map_entry": [
+        "scene/001_swamp.mlx",
+        "data/scene/MAPPED.mlx"
+      ],
+      "physical_fopen_filename": "/sdcard/data/scene/001_swamp.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "data/scene/001_swamp.mlx",
+      "working_directory": "/sdcard/",
+      "map_entry": [
+        "data/scene/001_swamp.mlx",
+        "C:/RESOURCE/mapped.mlx"
+      ],
+      "physical_fopen_filename": "C:/RESOURCE/mapped.mlx",
+      "map_applied": true
+    },
+    {
+      "input": "./data/scene/001_swamp.mlx",
+      "working_directory": "/sdcard/",
+      "map_entry": null,
+      "physical_fopen_filename": "/sdcard/./data/scene/001_swamp.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "./data/scene/001_swamp.mlx",
+      "working_directory": "/sdcard/",
+      "map_entry": [
+        "scene/001_swamp.mlx",
+        "data/scene/MAPPED.mlx"
+      ],
+      "physical_fopen_filename": "/sdcard/./data/scene/001_swamp.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "./data/scene/001_swamp.mlx",
+      "working_directory": "/sdcard/",
+      "map_entry": [
+        "data/scene/001_swamp.mlx",
+        "C:/RESOURCE/mapped.mlx"
+      ],
+      "physical_fopen_filename": "C:/RESOURCE/mapped.mlx",
+      "map_applied": true
+    },
+    {
+      "input": "q:/DATA/scene/file.mlx",
+      "working_directory": "/sdcard/",
+      "map_entry": null,
+      "physical_fopen_filename": "q:/DATA/scene/file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "q:/DATA/scene/file.mlx",
+      "working_directory": "/sdcard/",
+      "map_entry": [
+        "scene/001_swamp.mlx",
+        "data/scene/MAPPED.mlx"
+      ],
+      "physical_fopen_filename": "q:/DATA/scene/file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "q:/DATA/scene/file.mlx",
+      "working_directory": "/sdcard/",
+      "map_entry": [
+        "data/scene/001_swamp.mlx",
+        "C:/RESOURCE/mapped.mlx"
+      ],
+      "physical_fopen_filename": "q:/DATA/scene/file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "Dir\\file.mlx",
+      "working_directory": "/sdcard/",
+      "map_entry": null,
+      "physical_fopen_filename": "/sdcard/Dir\\file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "Dir\\file.mlx",
+      "working_directory": "/sdcard/",
+      "map_entry": [
+        "scene/001_swamp.mlx",
+        "data/scene/MAPPED.mlx"
+      ],
+      "physical_fopen_filename": "/sdcard/Dir\\file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "Dir\\file.mlx",
+      "working_directory": "/sdcard/",
+      "map_entry": [
+        "data/scene/001_swamp.mlx",
+        "C:/RESOURCE/mapped.mlx"
+      ],
+      "physical_fopen_filename": "/sdcard/Dir\\file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "WORLD/file.mlx",
+      "working_directory": "/sdcard/",
+      "map_entry": null,
+      "physical_fopen_filename": "/sdcard/WORLD/file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "WORLD/file.mlx",
+      "working_directory": "/sdcard/",
+      "map_entry": [
+        "scene/001_swamp.mlx",
+        "data/scene/MAPPED.mlx"
+      ],
+      "physical_fopen_filename": "/sdcard/WORLD/file.mlx",
+      "map_applied": false
+    },
+    {
+      "input": "WORLD/file.mlx",
+      "working_directory": "/sdcard/",
+      "map_entry": [
+        "data/scene/001_swamp.mlx",
+        "C:/RESOURCE/mapped.mlx"
+      ],
+      "physical_fopen_filename": "/sdcard/WORLD/file.mlx",
+      "map_applied": false
+    }
+  ]
+}

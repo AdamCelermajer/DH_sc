@@ -1,0 +1,43 @@
+{
+  "validation": "PASS",
+  "scope": "Verify the source-backed factory/entry milestone without claiming live objects.",
+  "source_and_receipt_sha256": {
+    "object_entry_v1.hpp": "0934a05b557b7797e9a1ddea64fd808d4fc98b7fd8a7ce7d7117398f12270893",
+    "object_entry_v1.cpp": "b84d1dc4b2349d8062b45f22cf69399dfd2d69b25b8036deb83f48bfcf760a31",
+    "original_factory_table_v1.inc": "4f360e03f04d069d50d7779794b2306ab93cdf177415a941ef4c6bf3d340a643",
+    "CMakeLists.txt": "6509466024114756271d6a8bdd9c1434145f97e7289dc72a0354c2c69d56a868",
+    "tests/object_factory_dispatch_original.py": "c04b7ffa909ae629515d67e215e86903fc39cf958fae88e68127bf9e36ab41a5",
+    "tests/object_entry_probe.cpp": "0195e6c52bac7ddd6b2d4caf3ede2a3430eea246380e39a79e49c4a08a26c058",
+    "tests/object_entry_host.py": "7f65abdf84b87578138ede6ef060236a3ef6fe3a654fe83f8e2d8a805ba88513",
+    "tools/generate_original_factory_table.py": "a4410447360e894167b13c76603065b4c7e72a0dfc56b9ad91556741e4ed7a9f",
+    "tools/capture_object_entry_checkpoint.py": "fcae81deafa3b6acd78bb4d16814d1eb5fff9ea581761ba02c1891549156f9fe",
+    "OBJECT-ENTRY-HANDOFF.md": "712b23794ca42c08a8bb9c40b1c4357300a41f468910180fc296af2b4cace0f2",
+    "OBJECT-INITIALIZATION-HANDOFF.md": "1273cee16fbf40fb67dc7a3ccccece52c0aaa664452afe9af383122b6c1dce28",
+    "INTERFACE-PROPOSAL.md": "cc6f2d32b1971e951952ac64ecdc0c0079191bd219bd5a39da96aa2d096027c3",
+    "reports/object-factory-dispatch-original.json": "36de423d6e8f12bd3a58eb0043d815f2fb1796df3892e80974675287fc0d981a",
+    "reports/object-entry-host.json": "ac25221703597e46cffb03b29266a53d58862ff22007c96057a7b1085a91aacf",
+    "reports/object-entry-sanitizers.json": "97e6c0aae58793066c79d38c8d2d0ace90bef6868d41bdf72efd59fa286a5243",
+    "reports/original-object-factories.json": "fe19470f8cb8aa76e7f0d4d375411a7d9094c7984751fd6d41ca697802c0f70f"
+  },
+  "built_artifact_sha256": {
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\build\\host-xml\\dh2_loader_object_entry_probe": "26850892ab36256bc4395f887f670932dd8f2953259d9165807971f933348e65",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\build\\host-sanitizers\\dh2_loader_object_entry_probe": "9477e020bd7d6191cc26fea1d5ed22e3cee4d553dfb53ec07e957110a4614ff0",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\build\\android-arm64\\libdh2_level_loader.a": "ce348d220ef98980ae624319745da562f78701100823cd71d8446f1494e2a327",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\build\\android-x86_64\\libdh2_level_loader.a": "0f594bc2be4726f3a86d88ba69e5eafb138a395086fde09ffb2766395b19822f"
+  },
+  "original_factory_dispatch_cases": 102,
+  "original_mgp_link_entry_cases": 30,
+  "original_xml_gate_cases": 13,
+  "native_registry_entries_compared": 33,
+  "native_lookup_cases_per_build": 69,
+  "native_xml_entry_cases_per_build": 43,
+  "unsafe_native_adapter_cases_per_build": 1,
+  "host_and_sanitizer_matches": true,
+  "mgp_link_entry_policy": "original null handle; retained explicit unregistered record",
+  "full_file_caller_policy_verified": false,
+  "runtime_factory_contract_agreed": false,
+  "runtime_objects_verified": false,
+  "mob_and_chest_rendering_verified": false,
+  "new_apk_installed": false,
+  "full_loader_verified": false
+}

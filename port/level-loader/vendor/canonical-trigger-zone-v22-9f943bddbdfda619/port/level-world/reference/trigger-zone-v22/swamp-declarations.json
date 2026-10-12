@@ -1,0 +1,1340 @@
+{
+  "scope": "Actual parsed SWAMP205 source census, not raw XML loader acceptance",
+  "source_sha256": "b2679ff9b5e49c73df83caa2a5b9cffb7b89a377fe30bf3c75faddd53148d615",
+  "declarations": [
+    {
+      "document": 1,
+      "element": 15,
+      "uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "tag": "GameObject",
+      "source_order": 14,
+      "origin": "gameplay",
+      "module": 0,
+      "module_name": "obj_4of4_brdwalk_sw_00_0",
+      "module_offset": [
+        0,
+        0,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_TriggerZone_KillTroll",
+        "position": "-2609.25,15.0942,255.777",
+        "scale": "1.0,4.87712,1.0",
+        "debugcolor": "0.0,255.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "skip_checkpoint": "0",
+        "gametype": "TriggerZone",
+        "triggercount": "1",
+        "triggerdelay": "0",
+        "script_move_out": "",
+        "script_all_player": "",
+        "script_all_player_move_out": "",
+        "effect_one_player": "",
+        "_templateName": "TriggerZone",
+        "script": "Hide_Troll"
+      },
+      "authored_position": [
+        -2609.25,
+        15.0942001,
+        255.776993
+      ],
+      "translated_position": [
+        -2609.25,
+        15.0942001,
+        255.776993
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        4.87712002,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_TriggerZone_KillTroll",
+          "position": "-2609.25,15.0942,255.777",
+          "scale": "1.0,4.87712,1.0",
+          "debugcolor": "0.0,255.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "skip_checkpoint": "0",
+          "gametype": "TriggerZone",
+          "triggercount": "1",
+          "triggerdelay": "0",
+          "script_move_out": "",
+          "script_all_player": "",
+          "script_all_player_move_out": "",
+          "effect_one_player": "",
+          "_templateName": "TriggerZone",
+          "script": "Hide_Troll"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 1,
+      "element": 23,
+      "uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "tag": "GameObject",
+      "source_order": 22,
+      "origin": "gameplay",
+      "module": 0,
+      "module_name": "obj_4of4_brdwalk_sw_00_0",
+      "module_offset": [
+        0,
+        0,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_TriggerZone",
+        "position": "-2033.31,254.846,287.618",
+        "scale": "12.2957,1.0,1.0",
+        "debugcolor": "0.0,255.0,255.0",
+        "rotation": "0.0,0.0,-90.0",
+        "skip_checkpoint": "0",
+        "gametype": "TriggerZone",
+        "triggercount": "1",
+        "triggerdelay": "0",
+        "script_move_out": "",
+        "script_all_player": "",
+        "script_all_player_move_out": "",
+        "effect_one_player": "",
+        "_templateName": "TriggerZone",
+        "script": "tutorial_treasure"
+      },
+      "authored_position": [
+        -2033.31006,
+        254.845993,
+        287.618011
+      ],
+      "translated_position": [
+        -2033.31006,
+        254.845993,
+        287.618011
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        -90
+      ],
+      "scale": [
+        12.2957001,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_TriggerZone",
+          "position": "-2033.31,254.846,287.618",
+          "scale": "12.2957,1.0,1.0",
+          "debugcolor": "0.0,255.0,255.0",
+          "rotation": "0.0,0.0,-90.0",
+          "skip_checkpoint": "0",
+          "gametype": "TriggerZone",
+          "triggercount": "1",
+          "triggerdelay": "0",
+          "script_move_out": "",
+          "script_all_player": "",
+          "script_all_player_move_out": "",
+          "effect_one_player": "",
+          "_templateName": "TriggerZone",
+          "script": "tutorial_treasure"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 1,
+      "element": 25,
+      "uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "tag": "GameObject",
+      "source_order": 24,
+      "origin": "gameplay",
+      "module": 0,
+      "module_name": "obj_4of4_brdwalk_sw_00_0",
+      "module_offset": [
+        0,
+        0,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Zone_EnterLoc_Prison",
+        "position": "-2762.05,-1002.1,258.0",
+        "scale": "51.3625,25.5224,1.55566",
+        "debugcolor": "0.0,255.0,255.0",
+        "rotation": "0.0,0.0,-23.4937",
+        "skip_checkpoint": "0",
+        "gametype": "TriggerZone",
+        "script_all_player": "",
+        "script_all_player_move_out": "",
+        "effect_one_player": "",
+        "_templateName": "TriggerZone",
+        "script": "enterLocation_StartRoom",
+        "triggerdelay": "0",
+        "triggercount": "-1"
+      },
+      "authored_position": [
+        -2762.05005,
+        -1002.09998,
+        258
+      ],
+      "translated_position": [
+        -2762.05005,
+        -1002.09998,
+        258
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        -23.4937
+      ],
+      "scale": [
+        51.3624992,
+        25.5223999,
+        1.55566001
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Zone_EnterLoc_Prison",
+          "position": "-2762.05,-1002.1,258.0",
+          "scale": "51.3625,25.5224,1.55566",
+          "debugcolor": "0.0,255.0,255.0",
+          "rotation": "0.0,0.0,-23.4937",
+          "skip_checkpoint": "0",
+          "gametype": "TriggerZone",
+          "script_all_player": "",
+          "script_all_player_move_out": "",
+          "effect_one_player": "",
+          "_templateName": "TriggerZone",
+          "script": "enterLocation_StartRoom",
+          "triggerdelay": "0",
+          "triggercount": "-1"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 1,
+      "element": 26,
+      "uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "tag": "GameObject",
+      "source_order": 25,
+      "origin": "gameplay",
+      "module": 0,
+      "module_name": "obj_4of4_brdwalk_sw_00_0",
+      "module_offset": [
+        0,
+        0,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_TriggerZone_001",
+        "position": "-12137.5,10444.0,226.608",
+        "scale": "5.30364,2.82465,1.0",
+        "debugcolor": "0.0,255.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "skip_checkpoint": "0",
+        "gametype": "TriggerZone",
+        "triggercount": "1",
+        "triggerdelay": "0",
+        "script_move_out": "",
+        "script_all_player": "",
+        "script_all_player_move_out": "",
+        "effect_one_player": "",
+        "_templateName": "TriggerZone",
+        "script": "Door_Inspection_South",
+        "activate_cond": "IsBefore_Gothicus2Survivors"
+      },
+      "authored_position": [
+        -12137.5,
+        10444,
+        226.608002
+      ],
+      "translated_position": [
+        -12137.5,
+        10444,
+        226.608002
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        5.30363989,
+        2.82465005,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_TriggerZone_001",
+          "position": "-12137.5,10444.0,226.608",
+          "scale": "5.30364,2.82465,1.0",
+          "debugcolor": "0.0,255.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "skip_checkpoint": "0",
+          "gametype": "TriggerZone",
+          "triggercount": "1",
+          "triggerdelay": "0",
+          "script_move_out": "",
+          "script_all_player": "",
+          "script_all_player_move_out": "",
+          "effect_one_player": "",
+          "_templateName": "TriggerZone",
+          "script": "Door_Inspection_South",
+          "activate_cond": "IsBefore_Gothicus2Survivors"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 1,
+      "element": 27,
+      "uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "tag": "GameObject",
+      "source_order": 26,
+      "origin": "gameplay",
+      "module": 0,
+      "module_name": "obj_4of4_brdwalk_sw_00_0",
+      "module_offset": [
+        0,
+        0,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_TriggerZone_18",
+        "position": "-11571.0,11233.1,226.608",
+        "scale": "9.58204,10.6719,1.61438",
+        "debugcolor": "0.0,255.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "skip_checkpoint": "0",
+        "gametype": "TriggerZone",
+        "triggercount": "1",
+        "triggerdelay": "0",
+        "script_move_out": "",
+        "script_all_player": "",
+        "script_all_player_move_out": "",
+        "effect_one_player": "",
+        "_templateName": "TriggerZone",
+        "activate_cond": "IsAfter_Gothicus2Survivors",
+        "script": "Swamp2_Intro"
+      },
+      "authored_position": [
+        -11571,
+        11233.0996,
+        226.608002
+      ],
+      "translated_position": [
+        -11571,
+        11233.0996,
+        226.608002
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        9.58203983,
+        10.6718998,
+        1.61438
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_TriggerZone_18",
+          "position": "-11571.0,11233.1,226.608",
+          "scale": "9.58204,10.6719,1.61438",
+          "debugcolor": "0.0,255.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "skip_checkpoint": "0",
+          "gametype": "TriggerZone",
+          "triggercount": "1",
+          "triggerdelay": "0",
+          "script_move_out": "",
+          "script_all_player": "",
+          "script_all_player_move_out": "",
+          "effect_one_player": "",
+          "_templateName": "TriggerZone",
+          "activate_cond": "IsAfter_Gothicus2Survivors",
+          "script": "Swamp2_Intro"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 3,
+      "element": 2,
+      "uri": "data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "tag": "GameObject",
+      "source_order": 1,
+      "origin": "gameplay",
+      "module": 1,
+      "module_name": "obj_3of4_brdwalk_sw_00_1",
+      "module_offset": [
+        -6000,
+        0,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_MothMovieTriggerZone",
+        "position": "1488.29,-42.526,257.356",
+        "scale": "1.48227,6.07723,1.13815",
+        "debugcolor": "0.0,255.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "TriggerZone",
+        "triggercount": "1",
+        "triggerdelay": "0",
+        "script_move_out": "",
+        "_templateName": "TriggerZone",
+        "script": "MothIntro"
+      },
+      "authored_position": [
+        1488.29004,
+        -42.526001,
+        257.355988
+      ],
+      "translated_position": [
+        -4511.70996,
+        -42.526001,
+        257.355988
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1.48227,
+        6.07722998,
+        1.13814998
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_MothMovieTriggerZone",
+          "position": "1488.29,-42.526,257.356",
+          "scale": "1.48227,6.07723,1.13815",
+          "debugcolor": "0.0,255.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "TriggerZone",
+          "triggercount": "1",
+          "triggerdelay": "0",
+          "script_move_out": "",
+          "_templateName": "TriggerZone",
+          "script": "MothIntro"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 3,
+      "element": 5,
+      "uri": "data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "tag": "GameObject",
+      "source_order": 4,
+      "origin": "gameplay",
+      "module": 1,
+      "module_name": "obj_3of4_brdwalk_sw_00_1",
+      "module_offset": [
+        -6000,
+        0,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_TriggerZone_LizManIntro",
+        "position": "3102.95,-3.3969,256.739",
+        "scale": "1.0,5.54917,1.0",
+        "debugcolor": "0.0,255.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "skip_checkpoint": "0",
+        "gametype": "TriggerZone",
+        "triggercount": "1",
+        "triggerdelay": "0",
+        "script_move_out": "",
+        "script_all_player": "",
+        "script_all_player_move_out": "",
+        "effect_one_player": "",
+        "_templateName": "TriggerZone",
+        "script": "LizardMan_Intro"
+      },
+      "authored_position": [
+        3102.94995,
+        -3.39689994,
+        256.739014
+      ],
+      "translated_position": [
+        -2897.05005,
+        -3.39689994,
+        256.739014
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        5.54917002,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_TriggerZone_LizManIntro",
+          "position": "3102.95,-3.3969,256.739",
+          "scale": "1.0,5.54917,1.0",
+          "debugcolor": "0.0,255.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "skip_checkpoint": "0",
+          "gametype": "TriggerZone",
+          "triggercount": "1",
+          "triggerdelay": "0",
+          "script_move_out": "",
+          "script_all_player": "",
+          "script_all_player_move_out": "",
+          "effect_one_player": "",
+          "_templateName": "TriggerZone",
+          "script": "LizardMan_Intro"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 5,
+      "element": 6,
+      "uri": "data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+      "tag": "GameObject",
+      "source_order": 5,
+      "origin": "gameplay",
+      "module": 2,
+      "module_name": "obj_1of4_brdwalk_nse_00_2",
+      "module_offset": [
+        -6000,
+        6000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_TriggerZone_001",
+        "position": "828.573,-1522.05,257.332",
+        "scale": "3.55219,1.0,1.0",
+        "debugcolor": "0.0,255.0,255.0",
+        "rotation": "0.0,0.0,-25.1947",
+        "skip_checkpoint": "0",
+        "gametype": "TriggerZone",
+        "triggercount": "1",
+        "triggerdelay": "0",
+        "script_move_out": "",
+        "script_all_player": "",
+        "script_all_player_move_out": "",
+        "effect_one_player": "",
+        "_templateName": "TriggerZone",
+        "script": "TrollReturn"
+      },
+      "authored_position": [
+        828.572998,
+        -1522.05005,
+        257.332001
+      ],
+      "translated_position": [
+        -5171.42676,
+        4477.9502,
+        257.332001
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        -25.1947002
+      ],
+      "scale": [
+        3.55219007,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_TriggerZone_001",
+          "position": "828.573,-1522.05,257.332",
+          "scale": "3.55219,1.0,1.0",
+          "debugcolor": "0.0,255.0,255.0",
+          "rotation": "0.0,0.0,-25.1947",
+          "skip_checkpoint": "0",
+          "gametype": "TriggerZone",
+          "triggercount": "1",
+          "triggerdelay": "0",
+          "script_move_out": "",
+          "script_all_player": "",
+          "script_all_player_move_out": "",
+          "effect_one_player": "",
+          "_templateName": "TriggerZone",
+          "script": "TrollReturn"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 5,
+      "element": 11,
+      "uri": "data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+      "tag": "GameObject",
+      "source_order": 10,
+      "origin": "gameplay",
+      "module": 2,
+      "module_name": "obj_1of4_brdwalk_nse_00_2",
+      "module_offset": [
+        -6000,
+        6000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Zone_EnterLoc_south",
+        "position": "3720.99,1512.4,258.0",
+        "scale": "73.6856,53.6092,1.55566",
+        "debugcolor": "0.0,255.0,255.0",
+        "rotation": "0.0,0.0,-23.4937",
+        "skip_checkpoint": "0",
+        "gametype": "TriggerZone",
+        "script_all_player": "",
+        "script_all_player_move_out": "",
+        "effect_one_player": "",
+        "_templateName": "TriggerZone",
+        "script": "enterLocation_South_Boardwalk",
+        "triggerdelay": "0",
+        "triggercount": "-1"
+      },
+      "authored_position": [
+        3720.98999,
+        1512.40002,
+        258
+      ],
+      "translated_position": [
+        -2279.01001,
+        7512.3999,
+        258
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        -23.4937
+      ],
+      "scale": [
+        73.6856003,
+        53.6091995,
+        1.55566001
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Zone_EnterLoc_south",
+          "position": "3720.99,1512.4,258.0",
+          "scale": "73.6856,53.6092,1.55566",
+          "debugcolor": "0.0,255.0,255.0",
+          "rotation": "0.0,0.0,-23.4937",
+          "skip_checkpoint": "0",
+          "gametype": "TriggerZone",
+          "script_all_player": "",
+          "script_all_player_move_out": "",
+          "effect_one_player": "",
+          "_templateName": "TriggerZone",
+          "script": "enterLocation_South_Boardwalk",
+          "triggerdelay": "0",
+          "triggercount": "-1"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 5,
+      "element": 12,
+      "uri": "data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+      "tag": "GameObject",
+      "source_order": 11,
+      "origin": "gameplay",
+      "module": 2,
+      "module_name": "obj_1of4_brdwalk_nse_00_2",
+      "module_offset": [
+        -6000,
+        6000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_TriggerZone_001_ChestAmbush",
+        "position": "-100.709,-997.21,249.893",
+        "scale": "1.25824,1.15994,1.29931",
+        "debugcolor": "0.0,255.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "skip_checkpoint": "0",
+        "gametype": "TriggerZone",
+        "triggercount": "1",
+        "triggerdelay": "0",
+        "script_move_out": "",
+        "script_all_player": "",
+        "script_all_player_move_out": "",
+        "effect_one_player": "",
+        "_templateName": "TriggerZone",
+        "script": "LizardMan_Ambush1"
+      },
+      "authored_position": [
+        -100.709,
+        -997.210022,
+        249.893005
+      ],
+      "translated_position": [
+        -6100.70898,
+        5002.79004,
+        249.893005
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1.25823998,
+        1.15994,
+        1.29930997
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_TriggerZone_001_ChestAmbush",
+          "position": "-100.709,-997.21,249.893",
+          "scale": "1.25824,1.15994,1.29931",
+          "debugcolor": "0.0,255.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "skip_checkpoint": "0",
+          "gametype": "TriggerZone",
+          "triggercount": "1",
+          "triggerdelay": "0",
+          "script_move_out": "",
+          "script_all_player": "",
+          "script_all_player_move_out": "",
+          "effect_one_player": "",
+          "_templateName": "TriggerZone",
+          "script": "LizardMan_Ambush1"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 7,
+      "element": 5,
+      "uri": "data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+      "tag": "GameObject",
+      "source_order": 4,
+      "origin": "gameplay",
+      "module": 3,
+      "module_name": "corner_ruin_ws_00_3",
+      "module_offset": [
+        -6000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_TriggerZone_BigLizIntro",
+        "position": "-395.03,-2397.88,243.661",
+        "scale": "5.92165,1.73469,1.0",
+        "debugcolor": "0.0,255.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "skip_checkpoint": "0",
+        "gametype": "TriggerZone",
+        "triggercount": "1",
+        "triggerdelay": "0",
+        "script_move_out": "",
+        "script_all_player": "",
+        "script_all_player_move_out": "",
+        "effect_one_player": "",
+        "_templateName": "TriggerZone",
+        "script": "LizCaptain_Intro"
+      },
+      "authored_position": [
+        -395.029999,
+        -2397.87988,
+        243.660995
+      ],
+      "translated_position": [
+        -6395.02979,
+        9602.12012,
+        243.660995
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        5.92164993,
+        1.73468995,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_TriggerZone_BigLizIntro",
+          "position": "-395.03,-2397.88,243.661",
+          "scale": "5.92165,1.73469,1.0",
+          "debugcolor": "0.0,255.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "skip_checkpoint": "0",
+          "gametype": "TriggerZone",
+          "triggercount": "1",
+          "triggerdelay": "0",
+          "script_move_out": "",
+          "script_all_player": "",
+          "script_all_player_move_out": "",
+          "effect_one_player": "",
+          "_templateName": "TriggerZone",
+          "script": "LizCaptain_Intro"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 9,
+      "element": 6,
+      "uri": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "tag": "GameObject",
+      "source_order": 5,
+      "origin": "gameplay",
+      "module": 4,
+      "module_name": "merchantcamp_ruins_swe_00_4",
+      "module_offset": [
+        -12000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Zone_EnterLoc_MerchantCamp",
+        "position": "1007.59,-155.392,258.0",
+        "scale": "15.8186,18.0,2.0",
+        "debugcolor": "0.0,255.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "skip_checkpoint": "0",
+        "gametype": "TriggerZone",
+        "script_all_player": "",
+        "script_all_player_move_out": "",
+        "effect_one_player": "",
+        "_templateName": "TriggerZone",
+        "script": "enterLocation_MerchantCamp",
+        "triggerdelay": "0",
+        "triggercount": "-1",
+        "script_move_out": "exitLocation_MerchantCamp"
+      },
+      "authored_position": [
+        1007.59003,
+        -155.391998,
+        258
+      ],
+      "translated_position": [
+        -10992.4102,
+        11844.6084,
+        258
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        15.8185997,
+        18,
+        2
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Zone_EnterLoc_MerchantCamp",
+          "position": "1007.59,-155.392,258.0",
+          "scale": "15.8186,18.0,2.0",
+          "debugcolor": "0.0,255.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "skip_checkpoint": "0",
+          "gametype": "TriggerZone",
+          "script_all_player": "",
+          "script_all_player_move_out": "",
+          "effect_one_player": "",
+          "_templateName": "TriggerZone",
+          "script": "enterLocation_MerchantCamp",
+          "triggerdelay": "0",
+          "triggercount": "-1",
+          "script_move_out": "exitLocation_MerchantCamp"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 9,
+      "element": 8,
+      "uri": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "tag": "GameObject",
+      "source_order": 7,
+      "origin": "gameplay",
+      "module": 4,
+      "module_name": "merchantcamp_ruins_swe_00_4",
+      "module_offset": [
+        -12000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_TriggerZone_Camp_Intro",
+        "position": "2547.63,-183.08,234.447",
+        "scale": "1.0,13.0082,1.0",
+        "debugcolor": "0.0,255.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "skip_checkpoint": "0",
+        "gametype": "TriggerZone",
+        "triggercount": "1",
+        "triggerdelay": "0",
+        "script_move_out": "",
+        "script_all_player": "",
+        "script_all_player_move_out": "",
+        "effect_one_player": "",
+        "_templateName": "TriggerZone",
+        "script": "Camp_Intro"
+      },
+      "authored_position": [
+        2547.62988,
+        -183.080002,
+        234.447006
+      ],
+      "translated_position": [
+        -9452.37012,
+        11816.9199,
+        234.447006
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        13.0081997,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_TriggerZone_Camp_Intro",
+          "position": "2547.63,-183.08,234.447",
+          "scale": "1.0,13.0082,1.0",
+          "debugcolor": "0.0,255.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "skip_checkpoint": "0",
+          "gametype": "TriggerZone",
+          "triggercount": "1",
+          "triggerdelay": "0",
+          "script_move_out": "",
+          "script_all_player": "",
+          "script_all_player_move_out": "",
+          "effect_one_player": "",
+          "_templateName": "TriggerZone",
+          "script": "Camp_Intro"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 9,
+      "element": 21,
+      "uri": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "tag": "GameObject",
+      "source_order": 20,
+      "origin": "gameplay",
+      "module": 4,
+      "module_name": "merchantcamp_ruins_swe_00_4",
+      "module_offset": [
+        -12000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Zone_EnterLoc_swampking",
+        "position": "-5803.9,-74.4102,258.0",
+        "scale": "27.6151,20.0981,2.0",
+        "debugcolor": "0.0,255.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "skip_checkpoint": "0",
+        "gametype": "TriggerZone",
+        "script_all_player": "",
+        "script_all_player_move_out": "",
+        "effect_one_player": "",
+        "_templateName": "TriggerZone",
+        "triggerdelay": "0",
+        "triggercount": "-1",
+        "script_move_out": "",
+        "script": "enterLocation_Swamp_King"
+      },
+      "authored_position": [
+        -5803.8999,
+        -74.410202,
+        258
+      ],
+      "translated_position": [
+        -17803.9004,
+        11925.5898,
+        258
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        27.6151009,
+        20.0981007,
+        2
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Zone_EnterLoc_swampking",
+          "position": "-5803.9,-74.4102,258.0",
+          "scale": "27.6151,20.0981,2.0",
+          "debugcolor": "0.0,255.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "skip_checkpoint": "0",
+          "gametype": "TriggerZone",
+          "script_all_player": "",
+          "script_all_player_move_out": "",
+          "effect_one_player": "",
+          "_templateName": "TriggerZone",
+          "triggerdelay": "0",
+          "triggercount": "-1",
+          "script_move_out": "",
+          "script": "enterLocation_Swamp_King"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 9,
+      "element": 26,
+      "uri": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "tag": "GameObject",
+      "source_order": 25,
+      "origin": "gameplay",
+      "module": 4,
+      "module_name": "merchantcamp_ruins_swe_00_4",
+      "module_offset": [
+        -12000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_TriggerZone_hacksavething",
+        "position": "0.0,-2610.36,262.521",
+        "scale": "7.35388,3.9818,1.0",
+        "debugcolor": "0.0,255.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "skip_checkpoint": "0",
+        "gametype": "TriggerZone",
+        "triggerdelay": "0",
+        "script_move_out": "",
+        "script_all_player": "",
+        "script_all_player_move_out": "",
+        "effect_one_player": "",
+        "_templateName": "TriggerZone",
+        "script": "HackSave",
+        "triggercount": "-1",
+        "activate_cond": "IsBefore_Gothicus2Survivors"
+      },
+      "authored_position": [
+        0,
+        -2610.36011,
+        262.520996
+      ],
+      "translated_position": [
+        -12000,
+        9389.63965,
+        262.520996
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        7.35387993,
+        3.98180008,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_TriggerZone_hacksavething",
+          "position": "0.0,-2610.36,262.521",
+          "scale": "7.35388,3.9818,1.0",
+          "debugcolor": "0.0,255.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "skip_checkpoint": "0",
+          "gametype": "TriggerZone",
+          "triggerdelay": "0",
+          "script_move_out": "",
+          "script_all_player": "",
+          "script_all_player_move_out": "",
+          "effect_one_player": "",
+          "_templateName": "TriggerZone",
+          "script": "HackSave",
+          "triggercount": "-1",
+          "activate_cond": "IsBefore_Gothicus2Survivors"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 11,
+      "element": 9,
+      "uri": "data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp",
+      "tag": "GameObject",
+      "source_order": 8,
+      "origin": "gameplay",
+      "module": 5,
+      "module_name": "corner_brdwalk_se_00_5",
+      "module_offset": [
+        -12000,
+        18000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Zone_EnterLoc_NorthWilderness",
+        "position": "2997.54,460.938,219.589",
+        "scale": "57.0916,19.2962,1.99993",
+        "debugcolor": "0.0,255.0,255.0",
+        "rotation": "0.568227,0.38182,-0.00337899",
+        "skip_checkpoint": "0",
+        "gametype": "TriggerZone",
+        "script_all_player": "",
+        "script_all_player_move_out": "",
+        "effect_one_player": "",
+        "_templateName": "TriggerZone",
+        "script": "enterLocation_North_Boardwalk",
+        "triggerdelay": "0",
+        "triggercount": "-1"
+      },
+      "authored_position": [
+        2997.54004,
+        460.937988,
+        219.589005
+      ],
+      "translated_position": [
+        -9002.45996,
+        18460.9375,
+        219.589005
+      ],
+      "rotation_degrees": [
+        0.568226993,
+        0.381819993,
+        -0.00337899011
+      ],
+      "scale": [
+        57.0915985,
+        19.2961998,
+        1.99993002
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Zone_EnterLoc_NorthWilderness",
+          "position": "2997.54,460.938,219.589",
+          "scale": "57.0916,19.2962,1.99993",
+          "debugcolor": "0.0,255.0,255.0",
+          "rotation": "0.568227,0.38182,-0.00337899",
+          "skip_checkpoint": "0",
+          "gametype": "TriggerZone",
+          "script_all_player": "",
+          "script_all_player_move_out": "",
+          "effect_one_player": "",
+          "_templateName": "TriggerZone",
+          "script": "enterLocation_North_Boardwalk",
+          "triggerdelay": "0",
+          "triggercount": "-1"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 15,
+      "element": 1,
+      "uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "tag": "GameObject",
+      "source_order": 0,
+      "origin": "gameplay",
+      "module": 7,
+      "module_name": "bossroom_ruins_ns__8",
+      "module_offset": [
+        -18000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_TriggerZone_17",
+        "position": "2562.63,0.0,-337.838",
+        "scale": "1.90501,8.5513,6.10928",
+        "debugcolor": "0.0,255.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "TriggerZone",
+        "condition_desc": "Invalid",
+        "script": "Swamp_Serpent_Intro",
+        "_templateName": "TriggerZone",
+        "activate_cond": "IsBefore_Swamp_Escape"
+      },
+      "authored_position": [
+        2562.62988,
+        0,
+        -337.838013
+      ],
+      "translated_position": [
+        -15437.3701,
+        12000,
+        -337.838013
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1.90500998,
+        8.55130005,
+        6.10928011
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_TriggerZone_17",
+          "position": "2562.63,0.0,-337.838",
+          "scale": "1.90501,8.5513,6.10928",
+          "debugcolor": "0.0,255.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "TriggerZone",
+          "condition_desc": "Invalid",
+          "script": "Swamp_Serpent_Intro",
+          "_templateName": "TriggerZone",
+          "activate_cond": "IsBefore_Swamp_Escape"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 15,
+      "element": 20,
+      "uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "tag": "GameObject",
+      "source_order": 19,
+      "origin": "gameplay",
+      "module": 7,
+      "module_name": "bossroom_ruins_ns__8",
+      "module_offset": [
+        -18000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_TriggerZone_openwall",
+        "position": "3330.47,88.9346,258.482",
+        "scale": "1.0,5.72647,2.16918",
+        "debugcolor": "0.0,255.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "skip_checkpoint": "0",
+        "gametype": "TriggerZone",
+        "triggercount": "1",
+        "triggerdelay": "0",
+        "script_move_out": "",
+        "script_all_player": "",
+        "script_all_player_move_out": "",
+        "effect_one_player": "",
+        "_templateName": "TriggerZone",
+        "script": "OpenWall",
+        "activate_cond": "IsAfter_DWGoToGothicus"
+      },
+      "authored_position": [
+        3330.46997,
+        88.9346008,
+        258.481995
+      ],
+      "translated_position": [
+        -14669.5303,
+        12088.9346,
+        258.481995
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        5.72646999,
+        2.16917992
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_TriggerZone_openwall",
+          "position": "3330.47,88.9346,258.482",
+          "scale": "1.0,5.72647,2.16918",
+          "debugcolor": "0.0,255.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "skip_checkpoint": "0",
+          "gametype": "TriggerZone",
+          "triggercount": "1",
+          "triggerdelay": "0",
+          "script_move_out": "",
+          "script_all_player": "",
+          "script_all_player_move_out": "",
+          "effect_one_player": "",
+          "_templateName": "TriggerZone",
+          "script": "OpenWall",
+          "activate_cond": "IsAfter_DWGoToGothicus"
+        },
+        "children": []
+      }
+    }
+  ]
+}

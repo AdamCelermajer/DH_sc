@@ -1,0 +1,59 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character11ResetSkillsEv",
+      "elf_address": "0x3bc860",
+      "size": 396,
+      "sha256": "9ac64e5d3e86a83b49748f42d552a69bab4aa4404d04e156134a2af866070048"
+    },
+    {
+      "original_symbol": "_ZN8MenuBase17FS_SetPlayerClassEPKcS1_Pv",
+      "elf_address": "0x41f640",
+      "size": 132,
+      "sha256": "755b676ca183628c01be6f7b798d714e6b614af058280469bf3364e0e87d51a2"
+    },
+    {
+      "original_symbol": "_ZN9Character17SG_SetPlayerLevelEi",
+      "elf_address": "0x3bb840",
+      "size": 20,
+      "sha256": "74e1314c792bb6f25b38fa7ae38453fc13a9613e5ea55b9147be4f86dee75a9a"
+    },
+    {
+      "original_symbol": "_ZN9Character16SG_SetPlayerNameEPKc",
+      "elf_address": "0x3bbf08",
+      "size": 56,
+      "sha256": "ded3cd9128731e9a5432ae5625c7b9343f0ac1bb9d420b020453b3ef9598e612"
+    },
+    {
+      "original_symbol": "_ZN8MenuBase12FS_StartGameEPKcS1_Pv",
+      "elf_address": "0x4220a0",
+      "size": 480,
+      "sha256": "566ad7f06c1569f5bbae2b0d571c316cf81e954340d750562a798d7482c43343"
+    },
+    {
+      "original_symbol": "_ZN9Character7InitAllEv",
+      "elf_address": "0x3b35f0",
+      "size": 40,
+      "sha256": "a0cb579c5d560843ef584d20f1564de1e6e507f661201dfef7b63b6d0b6a2d9b"
+    },
+    {
+      "original_symbol": "_ZN9Character16_InitSkillsSlotsEv",
+      "elf_address": "0x3b3a90",
+      "size": 112,
+      "sha256": "c6b7d1fc88348fd777d7d548971ea77b74ea0d0dafd374b69038a3a979f2550f"
+    },
+    {
+      "original_symbol": "_ZN9Character24InitializePlayerSavegameEv",
+      "elf_address": "0x3b36b0",
+      "size": 52,
+      "sha256": "30123d9f8a72d9e531e14bc9cff5d363580d7c3069730d1713bbcfa08bf6c821"
+    },
+    {
+      "original_symbol": "_Z15NativeStartGameRKN7gameswf7fn_callE",
+      "elf_address": "0x43e0d0",
+      "size": 568,
+      "sha256": "d6a40b775ef2074fe99a8b494f86b60d5de375c8cd7675a7d127738630a211de"
+    }
+  ]
+}

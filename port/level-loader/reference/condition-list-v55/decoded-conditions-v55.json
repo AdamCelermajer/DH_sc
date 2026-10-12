@@ -1,0 +1,1613 @@
+{
+  "rows": [
+    {
+      "name": "DW_Statue",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 16,
+          "argument2": 13
+        },
+        {
+          "op": 1,
+          "argument1": 46,
+          "argument2": 6
+        }
+      ]
+    },
+    {
+      "name": "DarkTemple_Special",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 5,
+          "argument2": 3
+        }
+      ]
+    },
+    {
+      "name": "EDWARD_FOLLOW",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 59,
+          "argument2": 6
+        },
+        {
+          "op": 1,
+          "argument1": 24,
+          "argument2": 6
+        }
+      ]
+    },
+    {
+      "name": "Eddie_Skeletons",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 60,
+          "argument2": 6
+        }
+      ]
+    },
+    {
+      "name": "GameStartOnly",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 50,
+          "argument2": 6
+        }
+      ]
+    },
+    {
+      "name": "IsAfterIH_FrostComb",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 29,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsAfterIH_Howling",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 31,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsAfterIH_Icemurk",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 30,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_Abbey_Assassin",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 0,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_Abbey_Rescue",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 1,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_Crypt02_explore",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 3,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_DWGoToGothicus",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 10,
+          "argument2": 3
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_DW_Bandit",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 6,
+          "argument2": 9
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_DW_Demon_Child",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 4,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_DarkTemple",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 5,
+          "argument2": 12
+        },
+        {
+          "op": 1,
+          "argument1": 22,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_DarkwoodsGoToED",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 9,
+          "argument2": 6
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_EDKillTroll",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 16,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_FinalBoss",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 22,
+          "argument2": 6
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_Gothicus2Survivors",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 27,
+          "argument2": 6
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_GothicusAssassin",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 25,
+          "argument2": 3
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_GothicusEscape",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 25,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_IV_Secret_Basement",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 28,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_KillFlaminite",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 23,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_Kill_DarkQueen_A",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 14,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_LighthouseAssassin",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 33,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_LighthouseEmissary",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 35,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_Lighthouse_to_Abbey",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 36,
+          "argument2": 3
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_MachineRoom",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 37,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_MachineRoom2",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 37,
+          "argument2": 6
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_RD_Bandit",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 45,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_RD_Tar",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 48,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_RD_Worm",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 47,
+          "argument2": 9
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_Swamp_Escape",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 50,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_Swamp_KillWitch",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 52,
+          "argument2": 13
+        },
+        {
+          "op": 0,
+          "argument1": 50,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_Swamp_KillWitch2",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 52,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_Swamp_LizBlood",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 51,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_Swamp_Moths",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 53,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_UW_Crown",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 55,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_UW_LighthouseDemon",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 57,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_WT_Balrog",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 59,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_WT_to_IcyHub",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 61,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsAfter_WindTemp",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 62,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsBeforeIH_FrostComb",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 29,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsBeforeIH_Howling",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 31,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsBeforeIH_Icemurk",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 30,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_Abbey_Assassin",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 0,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_Abbey_Rescue",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 1,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_Crypt02_explore",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 3,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_DWGoToGatedVillage",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 7,
+          "argument2": 3
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_DW_Bandit",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 6,
+          "argument2": 9
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_DW_Demon_Child",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 4,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_DarkTempleClosed",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 5,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_DarkwoodsGoToED",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 9,
+          "argument2": 6
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_EDKillTroll",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 16,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_Ending",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 22,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_FireTemp",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 62,
+          "argument2": 6
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_Firetemp_FindHotty",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 23,
+          "argument2": 6
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_Firetemp_to_Hellgate",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 24,
+          "argument2": 6
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_Gothicus2Survivors",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 27,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_GothicusAssassin",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 25,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_GothicusEscape",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 25,
+          "argument2": 6
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_IV_Secret_Basement",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 28,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_Kill_DarkQueen_A",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 14,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_LighthouseAssassin",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 33,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_LighthouseEmissary",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 35,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_Lighthouse_to_Abbey",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 36,
+          "argument2": 6
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_MachineRoom",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 37,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_RDGoToLighthouse",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 46,
+          "argument2": 6
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_RD_Bandit",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 45,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_RD_Tar",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 48,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_RD_Worm",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 47,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_Swamp_Escape",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 50,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_Swamp_KillWitch",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 52,
+          "argument2": 13
+        },
+        {
+          "op": 1,
+          "argument1": 50,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_UW_Blood",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 54,
+          "argument2": 6
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_UW_Crown",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 55,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_WT_Balrog",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 59,
+          "argument2": 6
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_WT_EdwardDead",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 60,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsBefore_WT_to_IcyHub",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 61,
+          "argument2": 6
+        }
+      ]
+    },
+    {
+      "name": "IsBetween_Gothicuses",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 25,
+          "argument2": 13
+        },
+        {
+          "op": 1,
+          "argument1": 27,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsBetween_witch_and_swampking",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 52,
+          "argument2": 13
+        },
+        {
+          "op": 1,
+          "argument1": 50,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsDW_Phase_1",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 16,
+          "argument2": 12
+        },
+        {
+          "op": 1,
+          "argument1": 14,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsDW_Phase_2",
+      "count": 3,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 16,
+          "argument2": 13
+        },
+        {
+          "op": 1,
+          "argument1": 1,
+          "argument2": 12
+        },
+        {
+          "op": 1,
+          "argument1": 14,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsDW_Phase_3",
+      "count": 3,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 1,
+          "argument2": 13
+        },
+        {
+          "op": 1,
+          "argument1": 59,
+          "argument2": 12
+        },
+        {
+          "op": 1,
+          "argument1": 14,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsDW_Phase_3_Permanent",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 59,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsDW_Phase_4",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 59,
+          "argument2": 12
+        },
+        {
+          "op": 1,
+          "argument1": 14,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsDW_Phase_4_Permanent",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 59,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsDuringIH_FrostComb",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 29,
+          "argument2": 3
+        },
+        {
+          "op": 1,
+          "argument1": 29,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsDuringIH_Howling",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 31,
+          "argument2": 3
+        },
+        {
+          "op": 1,
+          "argument1": 31,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsDuringIH_Icemurk",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 30,
+          "argument2": 3
+        },
+        {
+          "op": 1,
+          "argument1": 30,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsDuring_DQFight",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 24,
+          "argument2": 13
+        },
+        {
+          "op": 1,
+          "argument1": 54,
+          "argument2": 6
+        }
+      ]
+    },
+    {
+      "name": "IsDuring_DQFight2",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 14,
+          "argument2": 6
+        }
+      ]
+    },
+    {
+      "name": "IsDuring_DW_Demon_Child",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 4,
+          "argument2": 3
+        },
+        {
+          "op": 1,
+          "argument1": 4,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsDuring_EDKillTroll",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 16,
+          "argument2": 3
+        },
+        {
+          "op": 1,
+          "argument1": 16,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsDuring_FinalBoss",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 22,
+          "argument2": 6
+        }
+      ]
+    },
+    {
+      "name": "IsDuring_HellgateCutscene",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 23,
+          "argument2": 13
+        },
+        {
+          "op": 1,
+          "argument1": 14,
+          "argument2": 6
+        }
+      ]
+    },
+    {
+      "name": "IsDuring_MachineRoom",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 37,
+          "argument2": 6
+        }
+      ]
+    },
+    {
+      "name": "IsDuring_RD_Bandit",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 45,
+          "argument2": 3
+        },
+        {
+          "op": 1,
+          "argument1": 45,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsDuring_RD_Tar",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 48,
+          "argument2": 3
+        },
+        {
+          "op": 1,
+          "argument1": 48,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsDuring_RD_Worm",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 47,
+          "argument2": 3
+        },
+        {
+          "op": 1,
+          "argument1": 47,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsDuring_Swamp_Escape",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 50,
+          "argument2": 3
+        },
+        {
+          "op": 1,
+          "argument1": 50,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsDuring_UW_Crown",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 55,
+          "argument2": 3
+        },
+        {
+          "op": 1,
+          "argument1": 55,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsDuring_WT_Balrog",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 60,
+          "argument2": 12
+        },
+        {
+          "op": 1,
+          "argument1": 59,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsDuring_WT_BrotherBattle",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 60,
+          "argument2": 13
+        },
+        {
+          "op": 2,
+          "argument1": 60,
+          "argument2": 3
+        }
+      ]
+    },
+    {
+      "name": "IsDuring_WT_to_IcyHub",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 61,
+          "argument2": 3
+        },
+        {
+          "op": 1,
+          "argument1": 61,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsDuring_WindTemp",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 62,
+          "argument2": 3
+        },
+        {
+          "op": 1,
+          "argument1": 62,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "IsHellman_Phase_3",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 59,
+          "argument2": 12
+        },
+        {
+          "op": 1,
+          "argument1": 62,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsHellman_Phase_4",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 2,
+          "argument1": 62,
+          "argument2": 12
+        },
+        {
+          "op": 1,
+          "argument1": 23,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsNotIH_FrostComb",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 29,
+          "argument2": 6
+        },
+        {
+          "op": 2,
+          "argument1": 29,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsNot_RD_Bandit",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 45,
+          "argument2": 6
+        },
+        {
+          "op": 2,
+          "argument1": 45,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsNot_RD_Tar",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 48,
+          "argument2": 6
+        },
+        {
+          "op": 2,
+          "argument1": 48,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "IsNot_RD_Worm",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 47,
+          "argument2": 6
+        },
+        {
+          "op": 2,
+          "argument1": 47,
+          "argument2": 12
+        }
+      ]
+    },
+    {
+      "name": "NoFollowers1",
+      "count": 2,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 0,
+          "argument1": 8,
+          "argument2": 13
+        },
+        {
+          "op": 1,
+          "argument1": 60,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "QuestIceCave1",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 30,
+          "argument2": 6
+        }
+      ]
+    },
+    {
+      "name": "QuestIceCave2",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 29,
+          "argument2": 6
+        }
+      ]
+    },
+    {
+      "name": "QuestIceCave3",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 31,
+          "argument2": 6
+        }
+      ]
+    },
+    {
+      "name": "RENE_FOLLOW",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 8,
+          "argument2": 13
+        }
+      ]
+    },
+    {
+      "name": "RedDoor_Firetemp",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 63,
+          "argument2": 6
+        }
+      ]
+    },
+    {
+      "name": "RedDoor_IcyHub",
+      "count": 1,
+      "list_op": 0,
+      "stubs": [
+        {
+          "op": 1,
+          "argument1": 32,
+          "argument2": 3
+        }
+      ]
+    }
+  ],
+  "data_consumed": 2796,
+  "names_consumed": 2789,
+  "type_counts": {
+    "0": 27,
+    "1": 80,
+    "2": 47
+  },
+  "source_sha256": {
+    "v2conditions_pyarray.bin": "52b9f3d7d15182a0b5c5daa11bcba2720e9be752f1db5f0bcde054b6a5911f53",
+    "v2conditions_pyarraynames.bin": "029b7b9253386078a87988344907a71de1a68ba105a034ff6ea48a0a3490ae9d",
+    "v2conditions_pycst.bin": "6a5bef06a0eff222c6cae50312bf5c42dfef421f3fed85e3d3122ede2d6550e7",
+    "v2conditions_pystructnames.bin": "94efc18c04974aca9fb3560333f7ca2702d519a52584a1c5be1b8fbf3cd6c080"
+  }
+}

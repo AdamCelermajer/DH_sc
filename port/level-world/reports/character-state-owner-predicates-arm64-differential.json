@@ -1,0 +1,17 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "e6b8509e9bf994ec2d46e3aec7c0161bba1f0a615b9dd4af8e88e24682bdf847",
+  "source_sha256": {
+    "port/level-world/character_state_owner.hpp": "0d755e64ed5301e93e623d7825eeab5e87ea0a4f32f6eddbfb61c8f65f99cebd",
+    "port/level-world/character_state_owner.cpp": "c26077ba5a5c1383c81a32f72d60f0e0611204d237d6541bf7845abba72a2820",
+    "port/level-world/tests/character_state_owner_predicates_differential.py": "14e2c25f13ec077bfa0eb8c76f5daafa6e236682db2cdf5b666fb66c3cdf6b0a"
+  },
+  "reference_sha256": "7856b4091114c658a982b1e877890b0356c8e9a197bab40a57ec0e902473bf7e",
+  "comparisons": 2016,
+  "mismatches": 0,
+  "source_predicates": 7,
+  "spawn_backend": false,
+  "original_instructions_executed": true,
+  "optimized_arm64_instructions_executed": true
+}

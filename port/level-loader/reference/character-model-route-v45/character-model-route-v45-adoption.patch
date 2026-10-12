@@ -1,0 +1,15 @@
+--- a/port/level-world/canonical_character_family_v4.cpp
++++ b/port/level-world/canonical_character_family_v4.cpp
+@@ -63,9 +63,9 @@
+   };
+   bool player{};if(!character::character_is_player_v41(fields,services,player,e))return false;response.value=player;return true;
+  }
+- if(q.source_entry==0x3a54d4){const auto* row=ai(r);if(!row||row->type==1||row->type==3){if(r.services.remaining_init)return r.services.remaining_init(r,q,response,e);e="Required player/faery original model-name branch";return false;}
+-  const auto index=r.properties->resolved[3];if(index<0){response.text=nullptr;return true;}if(!r.services.models){e="Required same original character_models_dictionary";return false;}
+-  response.text=static_cast<std::size_t>(index)<r.services.models->values.size()?r.services.models->values[index].c_str():nullptr;return true;
++ if(q.source_entry==0x3a54d4){
++  if(r.services.remaining_init)return r.services.remaining_init(r,q,response,e);
++  e="Required SAME whole Character model-name provider at reached source request";return false;
+  }
+  if(q.source_entry==0x3bc4d0){return true;} // Source Character14e8 is NULL in fresh NPC C1; SG_Load returns at NULL.
+  if(r.services.remaining_init)return r.services.remaining_init(r,q,response,e);

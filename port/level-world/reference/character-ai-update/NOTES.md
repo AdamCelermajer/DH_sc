@@ -60,13 +60,16 @@ faerie type3 through IsFaerie0x3a3094; otherwise it returns MeetCondition0x38ab6
 
 Character::IsPlayer0x3a49f0 queries GetCharType0x3a3054. That reads resolved
 AI row+0x38 through GetCharAI0x3a3024, whose row stride is0x44. Type1 is player;
-type0 instead uses the original interned-name comparison; other types are not
+type0 calls the relocated `strstr` import with `PlayerCharacter` and compares
+the returned pointer to the start of the name, so it is a prefix test; other types are not
 player. The separately cache-bound `character-script-selection/authored-inputs.json`
 shows selected row44 Player has Type1 and script `__player__`. Thus genuine
 Prince IsZonable is false. This is a recovered virtual producer, not a generic
 always-false zoning service: other native characters require their own actual
 row/type/name/condition producers. Twenty-seven focused cases execute the actual
 Character virtual bodies against supplied resolved AI rows1/2/3.
+The type0 description was corrected from the earlier interned-name shorthand
+using the complete capture in `../character-target-providers/generic/`.
 
 GameObject EnableZoning/DisableZoning are captured but not reimplemented here.
 They manage zone/world registration, zoned+0x2ee, in-zone+0x2f0, visual visibility

@@ -1,0 +1,96 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "actual_original_ctor_cases": 6,
+  "cases": [
+    {
+      "entry": "0x34a1e8",
+      "poison": 0,
+      "phase7c": 0,
+      "map1c": 0,
+      "flush": {
+        "phase7c_before_flush": 0,
+        "map1c_before_flush": 0
+      }
+    },
+    {
+      "entry": "0x34a1e8",
+      "poison": 165,
+      "phase7c": 0,
+      "map1c": 0,
+      "flush": {
+        "phase7c_before_flush": 0,
+        "map1c_before_flush": 0
+      }
+    },
+    {
+      "entry": "0x34a1e8",
+      "poison": 255,
+      "phase7c": 0,
+      "map1c": 0,
+      "flush": {
+        "phase7c_before_flush": 0,
+        "map1c_before_flush": 0
+      }
+    },
+    {
+      "entry": "0x34a404",
+      "poison": 0,
+      "phase7c": 0,
+      "map1c": 0,
+      "flush": {
+        "phase7c_before_flush": 0,
+        "map1c_before_flush": 0
+      }
+    },
+    {
+      "entry": "0x34a404",
+      "poison": 165,
+      "phase7c": 0,
+      "map1c": 0,
+      "flush": {
+        "phase7c_before_flush": 0,
+        "map1c_before_flush": 0
+      }
+    },
+    {
+      "entry": "0x34a404",
+      "poison": 255,
+      "phase7c": 0,
+      "map1c": 0,
+      "flush": {
+        "phase7c_before_flush": 0,
+        "map1c_before_flush": 0
+      }
+    }
+  ],
+  "scope": "Whole original ObjectManager C1 body executes all field stores, across both aliases and3poisons; Flush is an explicit observer so map1c here is pre-Flush0, not completed constructor reserved-null1. Original Flush phase-reset slice3499c8..3499d4 separately executes actual MOV/STR across3poisons. Existing original Flush reserved-null-node proof remains separate.",
+  "phase7c_source_stores": [
+    "0x34a2dc",
+    "0x34a4f8",
+    "0x3499d4"
+  ],
+  "phase7c_source_zero_registers": [
+    "0x34a200",
+    "0x34a41c",
+    "0x3499c8"
+  ],
+  "flush_direct_phase7c_accesses": [
+    "3499d4: e584507c     \tstr\tr5, [r4, #0x7c]"
+  ],
+  "original_flush_phase_slices": [
+    {
+      "poison": 0,
+      "phase7c": 0
+    },
+    {
+      "poison": 2779096485,
+      "phase7c": 0
+    },
+    {
+      "poison": 4294967295,
+      "phase7c": 0
+    }
+  ],
+  "whole_loader_verified": false
+}

@@ -1,0 +1,15 @@
+{
+  "validation": "PASS",
+  "cases": 4196,
+  "ordered_requests": 3649,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_sha256": "cbb9c0d917787f554f753a6788a66277dd2f1c8031faf8a8997d11c26accca78",
+  "gold_sha256": "17ef355f7aa490056f40daaa19be3931364dd9bdb66b66d3afbcfad7fbce194c",
+  "source_sha256": {
+    "port\\level-world\\character_script_commands.hpp": "51f22d25809578af83f6da1f07b4cacbe2be6dbd2e1d5e35eec7b0477089e3c9",
+    "port\\level-world\\character_script_commands.cpp": "2d352d1f464a59a1591503f93a788c7321f95be503a440f1615eaf8318f43770",
+    "port\\level-world\\tests\\character_script_commands_differential.py": "29e33e663fbce3d9f62787916e38c5949e4e03d0315c9118e5960e42d8f2484f"
+  },
+  "scope": "Original command wrapper instructions versus optimized ARM64 source.\n\nController commands and heading queries are synchronous services. Numeric,\nboolean, nil and identity Value getters execute original instructions; string\ngetNumber is an explicit temporary-Lua conversion fixture. Path nodes are\ncaller storage, with actual original traversal. No live controller/path claim.\n",
+  "mismatches": 0
+}

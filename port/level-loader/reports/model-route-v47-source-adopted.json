@@ -1,0 +1,13 @@
+{
+  "status": "SOURCE ADOPTED; rebuild required",
+  "coherent_files": 749,
+  "sources": {
+    "port\\level-world\\canonical_character_family_v4.cpp": "8b25023efde915318219a55288412d66faf84c8f230ca790420b2ff6ece4b91a",
+    "port\\level-world\\character_model_route_v45.hpp": "b7768555316c8c5234b86779f5d84fcd6c66d3c2446765459b18cb10a53539a0",
+    "port\\level-world\\character_model_route_v45.cpp": "4590be23d7c231b02bd472a1531a20ccccde65ac7d3b4e7e40f9fe1b7fc3c50e",
+    "port\\game-data\\player_savegame_v1.cpp": "ca713e12bd25307bca7b24c95714cec45bda1e198fdbe70e952315659ef91d43",
+    "port\\game-data\\faery_tables.cpp": "ac646932288e65764ba7f66fe352966de734c56f6737df5f7bc18b47d91b1a79"
+  },
+  "main_save_not_replaced": true,
+  "constructor_preselection": false
+}

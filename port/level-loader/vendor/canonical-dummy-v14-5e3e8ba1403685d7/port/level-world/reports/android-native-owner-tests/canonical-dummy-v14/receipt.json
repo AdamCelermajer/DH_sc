@@ -1,0 +1,105 @@
+{
+  "status": "PASS",
+  "scope": "actual APK-linked native object owners, same base/property storage with declared external service fixtures; not full live level acceptance",
+  "apk_sha256": "21ec722e1f04fe7be6308fabb952c13166b3cd862dceafafb30d44ec2ff0c5d8",
+  "sources": [
+    {
+      "path": "port\\level-world\\tests\\canonical_dummy_v14.cpp",
+      "sha256": "0681d2a731e2ae666fc5eec594ba778d89abfa6f1505c932409e1b5f26700914"
+    },
+    {
+      "path": "port\\level-world\\canonical_dummy_owner_v14.cpp",
+      "sha256": "5547acd52966920e70b943f8e459a8dd094a2d7820e77c709ccbd6b92e2048fb"
+    },
+    {
+      "path": "port\\level-world\\canonical_property_map_v1.cpp",
+      "sha256": "67b9e2844e8930cef0f71c414dc81911f78ed68c6d00b9e52d842db7e35779a4"
+    }
+  ],
+  "libraries": [
+    {
+      "file": "libdh2_engine_animation.so",
+      "sha256": "dedafde8f44a5530f06009ad88b7ea30ba77c4e374aa2511f08cb7396295bd4a"
+    },
+    {
+      "file": "libdh2_engine_skinning.so",
+      "sha256": "67460e517d47c01e5172e5f9246890afd79a094058bfbadf075b10d5b308afae"
+    },
+    {
+      "file": "libdh2_engine_textures.so",
+      "sha256": "db4cd16685ec624eb89d1b3762bd44aad736923fd4be7b0b8b7882277006c947"
+    },
+    {
+      "file": "libdh2_engine_ui.so",
+      "sha256": "0ab86803dd44c86921fc37431072658a4f4687613e32b1066508a7ac23c2a708"
+    },
+    {
+      "file": "libdh2_game_data.so",
+      "sha256": "301659bc3c8d4459676fd75351d5439ae9abb54caa391f6717c8c098f74e28fb"
+    },
+    {
+      "file": "libdh2_level_world.so",
+      "sha256": "130428ba4982ed980112088e81f09eb8a58584a580c5a1574f672881b40e92df"
+    },
+    {
+      "file": "libdh2_native.so",
+      "sha256": "5124a38ffd4f4fad2977cbcb805eec8d8084e3cf08e3d4964f2e0cf2e3d18cfc"
+    },
+    {
+      "file": "libdh2_scene_materials.so",
+      "sha256": "b143c1c89e7a0b229d31f9de584f10aa1632d9e47449422937eb1a6bd45756e9"
+    },
+    {
+      "file": "libdh2_script_runtime.so",
+      "sha256": "17d6f7200a427053b1d888c89f38e8a62f5a54502165a7f68d2cd50d5dab5d6c"
+    }
+  ],
+  "binary_sha256": "8503af1fa60c70cfcdba601062e6b4705a1a23eb3f770d9b8e9498fb273e9f4e",
+  "compile": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "--target=x86_64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-math",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-textures",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-ffunction-sections",
+    "-fdata-sections",
+    "-static-libstdc++",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\canonical_dummy_v14.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\canonical_dummy_owner_v14.cpp",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\canonical_property_map_v1.cpp",
+    "-LC:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\canonical-dummy-v14\\linked-libs",
+    "-Wl,--start-group",
+    "-l:libdh2_engine_animation.so",
+    "-l:libdh2_engine_skinning.so",
+    "-l:libdh2_engine_textures.so",
+    "-l:libdh2_engine_ui.so",
+    "-l:libdh2_game_data.so",
+    "-l:libdh2_level_world.so",
+    "-l:libdh2_native.so",
+    "-l:libdh2_scene_materials.so",
+    "-l:libdh2_script_runtime.so",
+    "-Wl,--end-group",
+    "-Wl,--gc-sections",
+    "-Wl,-rpath-link,C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\canonical-dummy-v14\\linked-libs",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\android-native-owner-tests\\canonical-dummy-v14\\canonical-dummy-v14.bin"
+  ],
+  "stdout": "Dummy actual parsed SWAMP declarations PASS 41 rows 616 checks; real constructor/default/typed fields; required initialization providers remain explicit\n",
+  "stderr": "",
+  "exit_code": 0
+}

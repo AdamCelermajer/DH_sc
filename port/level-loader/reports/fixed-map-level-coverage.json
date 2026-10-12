@@ -1,0 +1,4014 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "probe_sha256": "25bc9844aca26d170f8014916346d9554473a5f47433aee55882b5a06f66a96f",
+  "source_coverage_sha256": "0e62f73c1ccce84db62f78dfda27e63fb8135ff12ee91985469045f42b0c28a4",
+  "scope": "Attempt owned native map assembly for every prepared fixed source set.\n\nKeep original preparation blockers visible for all 51 rows. Assembled does not\nmean rendered, runtime-object supported, gameplay supported or loader-complete.\n",
+  "levels": [
+    {
+      "name": "ABBEY_ENTRANCE_01",
+      "file": "009_abbey.rule.xml",
+      "random": 1,
+      "source_preparation": "rule_generation_unimplemented",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/009_abbey.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "ABBEY_RUINS_01",
+      "file": "009a_abbey.mlx",
+      "random": 0,
+      "source_preparation": "prepared",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "assembled",
+      "result": {
+        "validation": "PASS",
+        "identity": "ABBEY_RUINS_01",
+        "asset_count": 1,
+        "module_count": 1,
+        "nodes": 66,
+        "materials": 6,
+        "geometry_kinds": {
+          "exit": 2,
+          "floor": 1,
+          "mesh": 49,
+          "module_root": 1
+        },
+        "mesh_vertex_visits": 17685,
+        "all_indices": 21693,
+        "all_primitives": 57,
+        "navigation": {
+          "floors": 1,
+          "triangles": 125,
+          "nodes": 128,
+          "edges": 314,
+          "sewn": true
+        },
+        "mesh_bounds": [
+          [
+            -4476.44336,
+            -3290.31592,
+            -249.422974
+          ],
+          [
+            4516.97656,
+            6088.91113,
+            2988.45703
+          ]
+        ],
+        "modules": [
+          {
+            "name": "_module_straight_b_ns_001",
+            "xrefobject": "_module_straight_b_ns",
+            "asset": 0,
+            "position": [
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "modules_without_floors": [],
+        "floor_flag_counts": {
+          "0": 1
+        },
+        "unclassified_geometry": [],
+        "floor_metadata": [
+          {
+            "node": "_floor_straight_b_ns",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          }
+        ],
+        "ownership_checks": true,
+        "map_render_verified": false,
+        "gameplay_verified": false
+      }
+    },
+    {
+      "name": "APPLETEMPLE",
+      "file": "050_earth_temple_demo.rule.xml",
+      "random": 1,
+      "source_preparation": "rule_generation_unimplemented",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/050_earth_temple_demo.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "APPLETEMPLEBACKUP",
+      "file": "x50_earth_temple_demo_BACKUP.mlx",
+      "random": 0,
+      "source_preparation": "prepared",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "assembled",
+      "result": {
+        "validation": "PASS",
+        "identity": "APPLETEMPLEBACKUP",
+        "asset_count": 1,
+        "module_count": 5,
+        "nodes": 303,
+        "materials": 8,
+        "geometry_kinds": {
+          "exit": 8,
+          "floor": 5,
+          "mesh": 230,
+          "module_root": 4,
+          "unclassified": 1
+        },
+        "mesh_vertex_visits": 28458,
+        "all_indices": 47652,
+        "all_primitives": 249,
+        "navigation": {
+          "floors": 5,
+          "triangles": 372,
+          "nodes": 403,
+          "edges": 1102,
+          "sewn": true
+        },
+        "mesh_bounds": [
+          [
+            -15563.79,
+            -9000,
+            -847.020996
+          ],
+          [
+            2614.21997,
+            9146.9502,
+            3230.1001
+          ]
+        ],
+        "modules": [
+          {
+            "name": "entry_earthtemp_w__0",
+            "xrefobject": "_module_entry_earthtemp_w_",
+            "asset": 0,
+            "position": [
+              0,
+              -3000,
+              0
+            ]
+          },
+          {
+            "name": "straight_earthtemp_ew__1",
+            "xrefobject": "_module_straight_earthtemp_ew_",
+            "asset": 0,
+            "position": [
+              -6000,
+              -6000,
+              0
+            ]
+          },
+          {
+            "name": "corner_earthtemp_ne__2",
+            "xrefobject": "_module_corner_earthtemp_ne_",
+            "asset": 0,
+            "position": [
+              -12000,
+              -6000,
+              0
+            ]
+          },
+          {
+            "name": "midboss_earthtemp_ns__3",
+            "xrefobject": "_module_midboss_earthtemp_ns_",
+            "asset": 0,
+            "position": [
+              -12000,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "deadend_earthtemp_s__4",
+            "xrefobject": "_module_deadend_earthtemp_s_",
+            "asset": 0,
+            "position": [
+              -12000,
+              6000,
+              0
+            ]
+          }
+        ],
+        "modules_without_floors": [],
+        "floor_flag_counts": {
+          "0": 5
+        },
+        "unclassified_geometry": [
+          "_module_entry_earthtemp_w__PIVOT"
+        ],
+        "floor_metadata": [
+          {
+            "node": "_floor_entry_earthtemp_w__PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_straight_earthtemp_ns_01_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_corner_earthtemp_ne__PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_midboss_earthtemp_ns__PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_deadend_earthtemp_s__PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          }
+        ],
+        "ownership_checks": true,
+        "map_render_verified": false,
+        "gameplay_verified": false
+      }
+    },
+    {
+      "name": "DARKWOOD",
+      "file": "003_darkwood.mlx",
+      "random": 0,
+      "source_preparation": "prepared",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "assembled",
+      "result": {
+        "validation": "PASS",
+        "identity": "DARKWOOD",
+        "asset_count": 1,
+        "module_count": 24,
+        "nodes": 1020,
+        "materials": 6,
+        "geometry_kinds": {
+          "floor": 24,
+          "mesh": 923,
+          "module_root": 24
+        },
+        "mesh_vertex_visits": 76519,
+        "all_indices": 126771,
+        "all_primitives": 984,
+        "navigation": {
+          "floors": 24,
+          "triangles": 1827,
+          "nodes": 2263,
+          "edges": 8618,
+          "sewn": true
+        },
+        "mesh_bounds": [
+          [
+            -19799.9707,
+            -27320.668,
+            -1750.01501
+          ],
+          [
+            20178.4766,
+            21178.9023,
+            2571.62988
+          ]
+        ],
+        "modules": [
+          {
+            "name": "_module_01_001",
+            "xrefobject": "_module_01",
+            "asset": 0,
+            "position": [
+              2976.70996,
+              -20932.8008,
+              -0.00244140998
+            ]
+          },
+          {
+            "name": "_module_02_001",
+            "xrefobject": "_module_02",
+            "asset": 0,
+            "position": [
+              2976.70996,
+              -14932.7998,
+              -0.00244140998
+            ]
+          },
+          {
+            "name": "_module_03_001",
+            "xrefobject": "_module_03",
+            "asset": 0,
+            "position": [
+              8976.82031,
+              -14932.7998,
+              -0.00418295991
+            ]
+          },
+          {
+            "name": "_module_04_001",
+            "xrefobject": "_module_04",
+            "asset": 0,
+            "position": [
+              8976.69043,
+              -8932.75977,
+              0.00157361
+            ]
+          },
+          {
+            "name": "_module_08_001",
+            "xrefobject": "_module_08",
+            "asset": 0,
+            "position": [
+              2976.58008,
+              -8932.76953,
+              0.00331516005
+            ]
+          },
+          {
+            "name": "_module_13_001",
+            "xrefobject": "_module_13",
+            "asset": 0,
+            "position": [
+              -3023.1499,
+              -8932.75977,
+              0.00331516005
+            ]
+          },
+          {
+            "name": "_module_19_001",
+            "xrefobject": "_module_19",
+            "asset": 0,
+            "position": [
+              -9023.25977,
+              -8932.76953,
+              0.00505670998
+            ]
+          },
+          {
+            "name": "_module_12_001",
+            "xrefobject": "_module_12",
+            "asset": 0,
+            "position": [
+              -3023.02002,
+              -14932.7998,
+              -0.00244140998
+            ]
+          },
+          {
+            "name": "_module_23_001",
+            "xrefobject": "_module_23",
+            "asset": 0,
+            "position": [
+              -9023.01953,
+              -14932.7998,
+              -0.00265297992
+            ]
+          },
+          {
+            "name": "_module_09_001",
+            "xrefobject": "_module_09",
+            "asset": 0,
+            "position": [
+              2977.08008,
+              -2932.79004,
+              0.000881129992
+            ]
+          },
+          {
+            "name": "_module_05_001",
+            "xrefobject": "_module_05",
+            "asset": 0,
+            "position": [
+              8977.19043,
+              -2932.77002,
+              -0.000860420987
+            ]
+          },
+          {
+            "name": "_module_06_001",
+            "xrefobject": "_module_06",
+            "asset": 0,
+            "position": [
+              8977.05957,
+              3067.21997,
+              0.00489614997
+            ]
+          },
+          {
+            "name": "_module_10_001",
+            "xrefobject": "_module_10",
+            "asset": 0,
+            "position": [
+              2976.94995,
+              3067.20996,
+              0.0066376999
+            ]
+          },
+          {
+            "name": "_module_15_001",
+            "xrefobject": "_module_15",
+            "asset": 0,
+            "position": [
+              -3022.77002,
+              3067.21997,
+              0.0066376999
+            ]
+          },
+          {
+            "name": "_module_21_001",
+            "xrefobject": "_module_21",
+            "asset": 0,
+            "position": [
+              -9022.88965,
+              3067.20996,
+              0.00837924983
+            ]
+          },
+          {
+            "name": "_module_20_001",
+            "xrefobject": "_module_20",
+            "asset": 0,
+            "position": [
+              -9022.75977,
+              -2932.78003,
+              0.00262268004
+            ]
+          },
+          {
+            "name": "_module_14_001",
+            "xrefobject": "_module_14",
+            "asset": 0,
+            "position": [
+              -3022.6499,
+              -2932.77002,
+              0.000881129992
+            ]
+          },
+          {
+            "name": "_module_11_001",
+            "xrefobject": "_module_11",
+            "asset": 0,
+            "position": [
+              2977.01001,
+              9067.46973,
+              0.290924996
+            ]
+          },
+          {
+            "name": "_module_16_001",
+            "xrefobject": "_module_16",
+            "asset": 0,
+            "position": [
+              -3022.71997,
+              9067.49023,
+              0.290924996
+            ]
+          },
+          {
+            "name": "_module_27_001",
+            "xrefobject": "_module_27",
+            "asset": 0,
+            "position": [
+              -9022.71973,
+              9067.49023,
+              0.291202009
+            ]
+          },
+          {
+            "name": "_module_07_001",
+            "xrefobject": "_module_07",
+            "asset": 0,
+            "position": [
+              8977.12012,
+              9067.48047,
+              0.289184004
+            ]
+          },
+          {
+            "name": "_module_17_001",
+            "xrefobject": "_module_17",
+            "asset": 0,
+            "position": [
+              -3022.83008,
+              15067.5,
+              0.292663991
+            ]
+          },
+          {
+            "name": "_module_28_001",
+            "xrefobject": "_module_28",
+            "asset": 0,
+            "position": [
+              -15023.2998,
+              -2932.77002,
+              0.00496101007
+            ]
+          },
+          {
+            "name": "_module_29_001",
+            "xrefobject": "_module_29",
+            "asset": 0,
+            "position": [
+              14976.7002,
+              -8932.75977,
+              0.00158690999
+            ]
+          }
+        ],
+        "modules_without_floors": [],
+        "floor_flag_counts": {
+          "0": 24
+        },
+        "unclassified_geometry": [],
+        "floor_metadata": [
+          {
+            "node": "_floor_01_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_02_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_03_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_04_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_05_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_12_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_11_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_06_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_07_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_14_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_13",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_23",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_22_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_21_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_20_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_16_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_15_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_25",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_26_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_19_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_24_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_28_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_17_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_connectreddesert_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          }
+        ],
+        "ownership_checks": true,
+        "map_render_verified": false,
+        "gameplay_verified": false
+      }
+    },
+    {
+      "name": "DARKWOOD_V2",
+      "file": "003_darkwood.mlx",
+      "random": 0,
+      "source_preparation": "prepared",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "assembled",
+      "result": {
+        "validation": "PASS",
+        "identity": "DARKWOOD_V2",
+        "asset_count": 1,
+        "module_count": 24,
+        "nodes": 1020,
+        "materials": 6,
+        "geometry_kinds": {
+          "floor": 24,
+          "mesh": 923,
+          "module_root": 24
+        },
+        "mesh_vertex_visits": 76519,
+        "all_indices": 126771,
+        "all_primitives": 984,
+        "navigation": {
+          "floors": 24,
+          "triangles": 1827,
+          "nodes": 2263,
+          "edges": 8618,
+          "sewn": true
+        },
+        "mesh_bounds": [
+          [
+            -19799.9707,
+            -27320.668,
+            -1750.01501
+          ],
+          [
+            20178.4766,
+            21178.9023,
+            2571.62988
+          ]
+        ],
+        "modules": [
+          {
+            "name": "_module_01_001",
+            "xrefobject": "_module_01",
+            "asset": 0,
+            "position": [
+              2976.70996,
+              -20932.8008,
+              -0.00244140998
+            ]
+          },
+          {
+            "name": "_module_02_001",
+            "xrefobject": "_module_02",
+            "asset": 0,
+            "position": [
+              2976.70996,
+              -14932.7998,
+              -0.00244140998
+            ]
+          },
+          {
+            "name": "_module_03_001",
+            "xrefobject": "_module_03",
+            "asset": 0,
+            "position": [
+              8976.82031,
+              -14932.7998,
+              -0.00418295991
+            ]
+          },
+          {
+            "name": "_module_04_001",
+            "xrefobject": "_module_04",
+            "asset": 0,
+            "position": [
+              8976.69043,
+              -8932.75977,
+              0.00157361
+            ]
+          },
+          {
+            "name": "_module_08_001",
+            "xrefobject": "_module_08",
+            "asset": 0,
+            "position": [
+              2976.58008,
+              -8932.76953,
+              0.00331516005
+            ]
+          },
+          {
+            "name": "_module_13_001",
+            "xrefobject": "_module_13",
+            "asset": 0,
+            "position": [
+              -3023.1499,
+              -8932.75977,
+              0.00331516005
+            ]
+          },
+          {
+            "name": "_module_19_001",
+            "xrefobject": "_module_19",
+            "asset": 0,
+            "position": [
+              -9023.25977,
+              -8932.76953,
+              0.00505670998
+            ]
+          },
+          {
+            "name": "_module_12_001",
+            "xrefobject": "_module_12",
+            "asset": 0,
+            "position": [
+              -3023.02002,
+              -14932.7998,
+              -0.00244140998
+            ]
+          },
+          {
+            "name": "_module_23_001",
+            "xrefobject": "_module_23",
+            "asset": 0,
+            "position": [
+              -9023.01953,
+              -14932.7998,
+              -0.00265297992
+            ]
+          },
+          {
+            "name": "_module_09_001",
+            "xrefobject": "_module_09",
+            "asset": 0,
+            "position": [
+              2977.08008,
+              -2932.79004,
+              0.000881129992
+            ]
+          },
+          {
+            "name": "_module_05_001",
+            "xrefobject": "_module_05",
+            "asset": 0,
+            "position": [
+              8977.19043,
+              -2932.77002,
+              -0.000860420987
+            ]
+          },
+          {
+            "name": "_module_06_001",
+            "xrefobject": "_module_06",
+            "asset": 0,
+            "position": [
+              8977.05957,
+              3067.21997,
+              0.00489614997
+            ]
+          },
+          {
+            "name": "_module_10_001",
+            "xrefobject": "_module_10",
+            "asset": 0,
+            "position": [
+              2976.94995,
+              3067.20996,
+              0.0066376999
+            ]
+          },
+          {
+            "name": "_module_15_001",
+            "xrefobject": "_module_15",
+            "asset": 0,
+            "position": [
+              -3022.77002,
+              3067.21997,
+              0.0066376999
+            ]
+          },
+          {
+            "name": "_module_21_001",
+            "xrefobject": "_module_21",
+            "asset": 0,
+            "position": [
+              -9022.88965,
+              3067.20996,
+              0.00837924983
+            ]
+          },
+          {
+            "name": "_module_20_001",
+            "xrefobject": "_module_20",
+            "asset": 0,
+            "position": [
+              -9022.75977,
+              -2932.78003,
+              0.00262268004
+            ]
+          },
+          {
+            "name": "_module_14_001",
+            "xrefobject": "_module_14",
+            "asset": 0,
+            "position": [
+              -3022.6499,
+              -2932.77002,
+              0.000881129992
+            ]
+          },
+          {
+            "name": "_module_11_001",
+            "xrefobject": "_module_11",
+            "asset": 0,
+            "position": [
+              2977.01001,
+              9067.46973,
+              0.290924996
+            ]
+          },
+          {
+            "name": "_module_16_001",
+            "xrefobject": "_module_16",
+            "asset": 0,
+            "position": [
+              -3022.71997,
+              9067.49023,
+              0.290924996
+            ]
+          },
+          {
+            "name": "_module_27_001",
+            "xrefobject": "_module_27",
+            "asset": 0,
+            "position": [
+              -9022.71973,
+              9067.49023,
+              0.291202009
+            ]
+          },
+          {
+            "name": "_module_07_001",
+            "xrefobject": "_module_07",
+            "asset": 0,
+            "position": [
+              8977.12012,
+              9067.48047,
+              0.289184004
+            ]
+          },
+          {
+            "name": "_module_17_001",
+            "xrefobject": "_module_17",
+            "asset": 0,
+            "position": [
+              -3022.83008,
+              15067.5,
+              0.292663991
+            ]
+          },
+          {
+            "name": "_module_28_001",
+            "xrefobject": "_module_28",
+            "asset": 0,
+            "position": [
+              -15023.2998,
+              -2932.77002,
+              0.00496101007
+            ]
+          },
+          {
+            "name": "_module_29_001",
+            "xrefobject": "_module_29",
+            "asset": 0,
+            "position": [
+              14976.7002,
+              -8932.75977,
+              0.00158690999
+            ]
+          }
+        ],
+        "modules_without_floors": [],
+        "floor_flag_counts": {
+          "0": 24
+        },
+        "unclassified_geometry": [],
+        "floor_metadata": [
+          {
+            "node": "_floor_01_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_02_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_03_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_04_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_05_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_12_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_11_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_06_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_07_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_14_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_13",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_23",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_22_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_21_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_20_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_16_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_15_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_25",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_26_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_19_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_24_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_28_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_17_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_connectreddesert_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          }
+        ],
+        "ownership_checks": true,
+        "map_render_verified": false,
+        "gameplay_verified": false
+      }
+    },
+    {
+      "name": "DARKWOOD_V3",
+      "file": "003_darkwood.mlx",
+      "random": 0,
+      "source_preparation": "prepared",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "assembled",
+      "result": {
+        "validation": "PASS",
+        "identity": "DARKWOOD_V3",
+        "asset_count": 1,
+        "module_count": 24,
+        "nodes": 1020,
+        "materials": 6,
+        "geometry_kinds": {
+          "floor": 24,
+          "mesh": 923,
+          "module_root": 24
+        },
+        "mesh_vertex_visits": 76519,
+        "all_indices": 126771,
+        "all_primitives": 984,
+        "navigation": {
+          "floors": 24,
+          "triangles": 1827,
+          "nodes": 2263,
+          "edges": 8618,
+          "sewn": true
+        },
+        "mesh_bounds": [
+          [
+            -19799.9707,
+            -27320.668,
+            -1750.01501
+          ],
+          [
+            20178.4766,
+            21178.9023,
+            2571.62988
+          ]
+        ],
+        "modules": [
+          {
+            "name": "_module_01_001",
+            "xrefobject": "_module_01",
+            "asset": 0,
+            "position": [
+              2976.70996,
+              -20932.8008,
+              -0.00244140998
+            ]
+          },
+          {
+            "name": "_module_02_001",
+            "xrefobject": "_module_02",
+            "asset": 0,
+            "position": [
+              2976.70996,
+              -14932.7998,
+              -0.00244140998
+            ]
+          },
+          {
+            "name": "_module_03_001",
+            "xrefobject": "_module_03",
+            "asset": 0,
+            "position": [
+              8976.82031,
+              -14932.7998,
+              -0.00418295991
+            ]
+          },
+          {
+            "name": "_module_04_001",
+            "xrefobject": "_module_04",
+            "asset": 0,
+            "position": [
+              8976.69043,
+              -8932.75977,
+              0.00157361
+            ]
+          },
+          {
+            "name": "_module_08_001",
+            "xrefobject": "_module_08",
+            "asset": 0,
+            "position": [
+              2976.58008,
+              -8932.76953,
+              0.00331516005
+            ]
+          },
+          {
+            "name": "_module_13_001",
+            "xrefobject": "_module_13",
+            "asset": 0,
+            "position": [
+              -3023.1499,
+              -8932.75977,
+              0.00331516005
+            ]
+          },
+          {
+            "name": "_module_19_001",
+            "xrefobject": "_module_19",
+            "asset": 0,
+            "position": [
+              -9023.25977,
+              -8932.76953,
+              0.00505670998
+            ]
+          },
+          {
+            "name": "_module_12_001",
+            "xrefobject": "_module_12",
+            "asset": 0,
+            "position": [
+              -3023.02002,
+              -14932.7998,
+              -0.00244140998
+            ]
+          },
+          {
+            "name": "_module_23_001",
+            "xrefobject": "_module_23",
+            "asset": 0,
+            "position": [
+              -9023.01953,
+              -14932.7998,
+              -0.00265297992
+            ]
+          },
+          {
+            "name": "_module_09_001",
+            "xrefobject": "_module_09",
+            "asset": 0,
+            "position": [
+              2977.08008,
+              -2932.79004,
+              0.000881129992
+            ]
+          },
+          {
+            "name": "_module_05_001",
+            "xrefobject": "_module_05",
+            "asset": 0,
+            "position": [
+              8977.19043,
+              -2932.77002,
+              -0.000860420987
+            ]
+          },
+          {
+            "name": "_module_06_001",
+            "xrefobject": "_module_06",
+            "asset": 0,
+            "position": [
+              8977.05957,
+              3067.21997,
+              0.00489614997
+            ]
+          },
+          {
+            "name": "_module_10_001",
+            "xrefobject": "_module_10",
+            "asset": 0,
+            "position": [
+              2976.94995,
+              3067.20996,
+              0.0066376999
+            ]
+          },
+          {
+            "name": "_module_15_001",
+            "xrefobject": "_module_15",
+            "asset": 0,
+            "position": [
+              -3022.77002,
+              3067.21997,
+              0.0066376999
+            ]
+          },
+          {
+            "name": "_module_21_001",
+            "xrefobject": "_module_21",
+            "asset": 0,
+            "position": [
+              -9022.88965,
+              3067.20996,
+              0.00837924983
+            ]
+          },
+          {
+            "name": "_module_20_001",
+            "xrefobject": "_module_20",
+            "asset": 0,
+            "position": [
+              -9022.75977,
+              -2932.78003,
+              0.00262268004
+            ]
+          },
+          {
+            "name": "_module_14_001",
+            "xrefobject": "_module_14",
+            "asset": 0,
+            "position": [
+              -3022.6499,
+              -2932.77002,
+              0.000881129992
+            ]
+          },
+          {
+            "name": "_module_11_001",
+            "xrefobject": "_module_11",
+            "asset": 0,
+            "position": [
+              2977.01001,
+              9067.46973,
+              0.290924996
+            ]
+          },
+          {
+            "name": "_module_16_001",
+            "xrefobject": "_module_16",
+            "asset": 0,
+            "position": [
+              -3022.71997,
+              9067.49023,
+              0.290924996
+            ]
+          },
+          {
+            "name": "_module_27_001",
+            "xrefobject": "_module_27",
+            "asset": 0,
+            "position": [
+              -9022.71973,
+              9067.49023,
+              0.291202009
+            ]
+          },
+          {
+            "name": "_module_07_001",
+            "xrefobject": "_module_07",
+            "asset": 0,
+            "position": [
+              8977.12012,
+              9067.48047,
+              0.289184004
+            ]
+          },
+          {
+            "name": "_module_17_001",
+            "xrefobject": "_module_17",
+            "asset": 0,
+            "position": [
+              -3022.83008,
+              15067.5,
+              0.292663991
+            ]
+          },
+          {
+            "name": "_module_28_001",
+            "xrefobject": "_module_28",
+            "asset": 0,
+            "position": [
+              -15023.2998,
+              -2932.77002,
+              0.00496101007
+            ]
+          },
+          {
+            "name": "_module_29_001",
+            "xrefobject": "_module_29",
+            "asset": 0,
+            "position": [
+              14976.7002,
+              -8932.75977,
+              0.00158690999
+            ]
+          }
+        ],
+        "modules_without_floors": [],
+        "floor_flag_counts": {
+          "0": 24
+        },
+        "unclassified_geometry": [],
+        "floor_metadata": [
+          {
+            "node": "_floor_01_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_02_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_03_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_04_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_05_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_12_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_11_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_06_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_07_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_14_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_13",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_23",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_22_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_21_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_20_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_16_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_15_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_25",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_26_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_19_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_24_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_28_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_17_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_connectreddesert_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          }
+        ],
+        "ownership_checks": true,
+        "map_render_verified": false,
+        "gameplay_verified": false
+      }
+    },
+    {
+      "name": "DARK_DUNGEON_TEMPLE_01",
+      "file": "038_dark_temple.mlx",
+      "random": 0,
+      "source_preparation": "prepared",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "assembled",
+      "result": {
+        "validation": "PASS",
+        "identity": "DARK_DUNGEON_TEMPLE_01",
+        "asset_count": 1,
+        "module_count": 8,
+        "nodes": 71,
+        "materials": 7,
+        "geometry_kinds": {
+          "exit": 15,
+          "floor": 8,
+          "mesh": 16,
+          "module_root": 8
+        },
+        "mesh_vertex_visits": 34057,
+        "all_indices": 66855,
+        "all_primitives": 48,
+        "navigation": {
+          "floors": 8,
+          "triangles": 742,
+          "nodes": 882,
+          "edges": 2616,
+          "sewn": true
+        },
+        "mesh_bounds": [
+          [
+            -7187.38965,
+            -3528.87988,
+            -2761.79126
+          ],
+          [
+            10639.7002,
+            33444.2578,
+            2979.82275
+          ]
+        ],
+        "modules": [
+          {
+            "name": "_module_01_001",
+            "xrefobject": "_module_01",
+            "asset": 0,
+            "position": [
+              1216.53003,
+              -0.000105544997,
+              0
+            ]
+          },
+          {
+            "name": "_module_02_001",
+            "xrefobject": "_module_02",
+            "asset": 0,
+            "position": [
+              1216.53003,
+              6000,
+              0
+            ]
+          },
+          {
+            "name": "_module_03_001",
+            "xrefobject": "_module_03",
+            "asset": 0,
+            "position": [
+              -4783.47021,
+              6000,
+              0
+            ]
+          },
+          {
+            "name": "_module_04_001",
+            "xrefobject": "_module_04",
+            "asset": 0,
+            "position": [
+              1216.53003,
+              12000,
+              0
+            ]
+          },
+          {
+            "name": "_module_05_001",
+            "xrefobject": "_module_05",
+            "asset": 0,
+            "position": [
+              0,
+              18000,
+              0
+            ]
+          },
+          {
+            "name": "_module_06_001",
+            "xrefobject": "_module_06",
+            "asset": 0,
+            "position": [
+              6000,
+              18000,
+              0
+            ]
+          },
+          {
+            "name": "_module_07_001",
+            "xrefobject": "_module_07",
+            "asset": 0,
+            "position": [
+              2563.1499,
+              24000,
+              0
+            ]
+          },
+          {
+            "name": "_module_08_001",
+            "xrefobject": "_module_08",
+            "asset": 0,
+            "position": [
+              2563.1499,
+              30000,
+              0
+            ]
+          }
+        ],
+        "modules_without_floors": [],
+        "floor_flag_counts": {
+          "0": 8
+        },
+        "unclassified_geometry": [],
+        "floor_metadata": [
+          {
+            "node": "_floor_01_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_02_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_03_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_04_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_05_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_06_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_07_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_08_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          }
+        ],
+        "ownership_checks": true,
+        "map_render_verified": false,
+        "gameplay_verified": false
+      }
+    },
+    {
+      "name": "DARK_DUNGEON_TEMPLE_BOSSROOM",
+      "file": "039_dark_temple_bossroom_01.mlx",
+      "random": 0,
+      "source_preparation": "prepared",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "assembled",
+      "result": {
+        "validation": "PASS",
+        "identity": "DARK_DUNGEON_TEMPLE_BOSSROOM",
+        "asset_count": 2,
+        "module_count": 2,
+        "nodes": 17,
+        "materials": 10,
+        "geometry_kinds": {
+          "exit": 2,
+          "floor": 2,
+          "mesh": 6,
+          "module_root": 2
+        },
+        "mesh_vertex_visits": 6881,
+        "all_indices": 14991,
+        "all_primitives": 12,
+        "navigation": {
+          "floors": 2,
+          "triangles": 180,
+          "nodes": 204,
+          "edges": 596,
+          "sewn": true
+        },
+        "mesh_bounds": [
+          [
+            -4061.61816,
+            -3524.15771,
+            -739.599976
+          ],
+          [
+            7064.8584,
+            3750.47241,
+            2465.68994
+          ]
+        ],
+        "modules": [
+          {
+            "name": "_module_darktemple_001",
+            "xrefobject": "_module_bossfinal",
+            "asset": 0,
+            "position": [
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "_module_kingroom_t_001",
+            "xrefobject": "_module_kingroom_t",
+            "asset": 1,
+            "position": [
+              6000,
+              0,
+              0
+            ]
+          }
+        ],
+        "modules_without_floors": [],
+        "floor_flag_counts": {
+          "0": 2
+        },
+        "unclassified_geometry": [],
+        "floor_metadata": [
+          {
+            "node": "_floor_bossroomfinal_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_deadend_s04",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          }
+        ],
+        "ownership_checks": true,
+        "map_render_verified": false,
+        "gameplay_verified": false
+      }
+    },
+    {
+      "name": "DESERT_CAVE_01",
+      "file": "016_red_desert_cave_01.rule.xml",
+      "random": 1,
+      "source_preparation": "rule_generation_unimplemented",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/016_red_desert_cave_01.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "DESERT_CAVE_02",
+      "file": "017_red_desert_cave_02.rule.xml",
+      "random": 1,
+      "source_preparation": "rule_generation_unimplemented",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/017_red_desert_cave_02.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "DESERT_CAVE_03",
+      "file": "018_red_desert_cave_03.rule.xml",
+      "random": 1,
+      "source_preparation": "rule_generation_unimplemented",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/018_red_desert_cave_03.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "EARTH_TEMPLE_01",
+      "file": "011_earth_temple_01.rule.xml",
+      "random": 1,
+      "source_preparation": "rule_generation_unimplemented",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/011_earth_temple_01.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "EARTH_TEMPLE_02",
+      "file": "012_earth_temple_02.rule.xml",
+      "random": 1,
+      "source_preparation": "rule_generation_unimplemented",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/012_earth_temple_02.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "EARTH_TEMPLE_03",
+      "file": "013_earth_temple_03.rule.xml",
+      "random": 1,
+      "source_preparation": "rule_generation_unimplemented",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/013_earth_temple_03.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "ELEMENTAL_AIR",
+      "file": "030_el_air.rule.xml",
+      "random": 1,
+      "source_preparation": "rule_generation_unimplemented",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/030_el_air.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "ELEMENTAL_EARTH",
+      "file": "014_el_earth.rule.xml",
+      "random": 1,
+      "source_preparation": "rule_generation_unimplemented",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/014_el_earth.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "ELEMENTAL_FIRE",
+      "file": "032_el_fire.rule.xml",
+      "random": 1,
+      "source_preparation": "rule_generation_unimplemented",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/032_el_fire.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "ELEMENTAL_LIGHT",
+      "file": "010_el_lightning.rule.xml",
+      "random": 1,
+      "source_preparation": "rule_generation_unimplemented",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/010_el_lightning.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "ELEMENTAL_WATER",
+      "file": "024_el_water.rule.xml",
+      "random": 1,
+      "source_preparation": "rule_generation_unimplemented",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/024_el_water.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "FIRE_TEMPLE_01",
+      "file": "031_firetemple.mlx",
+      "random": 0,
+      "source_preparation": "prepared",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "assembled",
+      "result": {
+        "validation": "PASS",
+        "identity": "FIRE_TEMPLE_01",
+        "asset_count": 1,
+        "module_count": 12,
+        "nodes": 340,
+        "materials": 4,
+        "geometry_kinds": {
+          "exit": 25,
+          "floor": 12,
+          "mesh": 274,
+          "module_root": 12
+        },
+        "mesh_vertex_visits": 77943,
+        "all_indices": 122868,
+        "all_primitives": 423,
+        "navigation": {
+          "floors": 12,
+          "triangles": 536,
+          "nodes": 589,
+          "edges": 1562,
+          "sewn": true
+        },
+        "mesh_bounds": [
+          [
+            36046.7695,
+            211.129883,
+            -25.3499756
+          ],
+          [
+            54057.707,
+            42218.6992,
+            3980.45996
+          ]
+        ],
+        "modules": [
+          {
+            "name": "_module_corner_firetemple_nw_00_001",
+            "xrefobject": "_module_corner_firetemple_nw_00",
+            "asset": 0,
+            "position": [
+              51056.3984,
+              16337.0996,
+              0
+            ]
+          },
+          {
+            "name": "_module_corner_firetemple_se_00_001",
+            "xrefobject": "_module_corner_firetemple_se_00",
+            "asset": 0,
+            "position": [
+              45053.5,
+              21210.6992,
+              0
+            ]
+          },
+          {
+            "name": "_module_corner_firetemple_sw_00_001",
+            "xrefobject": "_module_corner_firetemple_sw_00",
+            "asset": 0,
+            "position": [
+              51056.3984,
+              21215.5996,
+              0
+            ]
+          },
+          {
+            "name": "_module_T_firetemple_nse_00_001",
+            "xrefobject": "_module_T_firetemple_nse_00",
+            "asset": 0,
+            "position": [
+              39054.1992,
+              15211.7998,
+              0
+            ]
+          },
+          {
+            "name": "_module_fallentowerrepeat_firetemple_ns_00_001",
+            "xrefobject": "_module_fallentowerrepeat_firetemple_ns_00",
+            "asset": 0,
+            "position": [
+              39053.3008,
+              27212,
+              0
+            ]
+          },
+          {
+            "name": "_module_boss_firetemple_s_00_001",
+            "xrefobject": "_module_boss_firetemple_s_00",
+            "asset": 0,
+            "position": [
+              39047.1016,
+              39215.1992,
+              0
+            ]
+          },
+          {
+            "name": "_module_fallentowertop_firetemple_ns_00_001",
+            "xrefobject": "_module_fallentowertop_firetemple_ns_00",
+            "asset": 0,
+            "position": [
+              39046.8008,
+              33213.1016,
+              0
+            ]
+          },
+          {
+            "name": "_module_entrance_firetemple_en_00_001",
+            "xrefobject": "_module_entrance_firetemple_en_00",
+            "asset": 0,
+            "position": [
+              45054.8984,
+              3211.17993,
+              0
+            ]
+          },
+          {
+            "name": "_module_T_firetemple_nsw_00_001",
+            "xrefobject": "_module_T_firetemple_nsw_00",
+            "asset": 0,
+            "position": [
+              45054.8008,
+              9211.17969,
+              0
+            ]
+          },
+          {
+            "name": "_module_corner_firetemple_ne_00_001",
+            "xrefobject": "_module_corner_firetemple_ne_00",
+            "asset": 0,
+            "position": [
+              39054.6992,
+              9211.73047,
+              0
+            ]
+          },
+          {
+            "name": "_module_T_firetemple_nse_01_001",
+            "xrefobject": "_module_T_firetemple_nse_01",
+            "asset": 0,
+            "position": [
+              45054.8008,
+              15211.2002,
+              0
+            ]
+          },
+          {
+            "name": "_module_towerknockdown_firetemple_ns_00_001",
+            "xrefobject": "_module_towerknockdown_firetemple_ns_00",
+            "asset": 0,
+            "position": [
+              39053.3984,
+              21211.6992,
+              0
+            ]
+          }
+        ],
+        "modules_without_floors": [],
+        "floor_flag_counts": {
+          "0": 12
+        },
+        "unclassified_geometry": [],
+        "floor_metadata": [
+          {
+            "node": "_floor_corner_firetemple_nw_00",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_corner_firetemple_se_00",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_corner_firetemple_sw_00",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_T_firetemple_nse_00",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_fallentowerrepeat_firetemple_ns_00",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_boss_firetemple_s_00",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_fallentowertop_firetemple_ns_00",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_entrance_firetemple_wn_00",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_moduleT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_corner_firetemple_ne_00",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_moduleT01",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_towerknockdown_firetemple_ns_00",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          }
+        ],
+        "ownership_checks": true,
+        "map_render_verified": false,
+        "gameplay_verified": false
+      }
+    },
+    {
+      "name": "GOTHICUS_CASTLE_01",
+      "file": "008_gothicus_castle_01.rule.xml",
+      "random": 1,
+      "source_preparation": "rule_generation_unimplemented",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/008_gothicus_castle_01.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "GOTHICUS_CASTLE_02",
+      "file": "021_gothicus_castle_02.rule.xml",
+      "random": 1,
+      "source_preparation": "rule_generation_unimplemented",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/021_gothicus_castle_02.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "GOTHICUS_CRYPT_01",
+      "file": "007_crypt_01.rule.xml",
+      "random": 1,
+      "source_preparation": "rule_generation_unimplemented",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/007_crypt_01.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "GOTHICUS_CRYPT_02",
+      "file": "020_crypt_02.rule.xml",
+      "random": 1,
+      "source_preparation": "parser_blocked",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "XML parse failure in data/scene/020_crypt_02.rule.xml: Error reading end tag."
+    },
+    {
+      "name": "ICY_CAVERN_01",
+      "file": "026_icy_cavern_01.rule.xml",
+      "random": 1,
+      "source_preparation": "rule_generation_unimplemented",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/026_icy_cavern_01.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "ICY_CAVERN_02",
+      "file": "027_icy_cavern_02.rule.xml",
+      "random": 1,
+      "source_preparation": "rule_generation_unimplemented",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/027_icy_cavern_02.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "ICY_CAVERN_03",
+      "file": "028_icy_cavern_03.rule.xml",
+      "random": 1,
+      "source_preparation": "rule_generation_unimplemented",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/028_icy_cavern_03.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "ICY_HUB",
+      "file": "025_icy_hub.mlx",
+      "random": 0,
+      "source_preparation": "prepared",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "assembled",
+      "result": {
+        "validation": "PASS",
+        "identity": "ICY_HUB",
+        "asset_count": 1,
+        "module_count": 7,
+        "nodes": 603,
+        "materials": 6,
+        "geometry_kinds": {
+          "exit": 5,
+          "floor": 6,
+          "mesh": 288,
+          "module_root": 7
+        },
+        "mesh_vertex_visits": 32064,
+        "all_indices": 65376,
+        "all_primitives": 306,
+        "navigation": {
+          "floors": 6,
+          "triangles": 275,
+          "nodes": 301,
+          "edges": 847,
+          "sewn": true
+        },
+        "mesh_bounds": [
+          [
+            -27358.6797,
+            -41394.9492,
+            -4573.40967
+          ],
+          [
+            -10566.3691,
+            -15927.585,
+            3886.65698
+          ]
+        ],
+        "modules": [
+          {
+            "name": "_module__001",
+            "xrefobject": "_module_",
+            "asset": 0,
+            "position": [
+              -15209.0996,
+              -38521.1016,
+              -1829.35999
+            ]
+          },
+          {
+            "name": "_module_01_001",
+            "xrefobject": "_module_01",
+            "asset": 0,
+            "position": [
+              -21209.0996,
+              -38521.1016,
+              -1829.35999
+            ]
+          },
+          {
+            "name": "_module_02_001",
+            "xrefobject": "_module_02",
+            "asset": 0,
+            "position": [
+              -21209.0996,
+              -32521.0996,
+              -1829.35999
+            ]
+          },
+          {
+            "name": "_module_03_001",
+            "xrefobject": "_module_03",
+            "asset": 0,
+            "position": [
+              -15209.0996,
+              -32521.0996,
+              -1829.35999
+            ]
+          },
+          {
+            "name": "_module_04_001",
+            "xrefobject": "_module_04",
+            "asset": 0,
+            "position": [
+              -15209.0996,
+              -26521.0996,
+              -1829.35999
+            ]
+          },
+          {
+            "name": "_module_05_001",
+            "xrefobject": "_module_05",
+            "asset": 0,
+            "position": [
+              -21209.0996,
+              -26521.0996,
+              -1829.35999
+            ]
+          },
+          {
+            "name": "_module_06_001",
+            "xrefobject": "_module_06",
+            "asset": 0,
+            "position": [
+              -22077,
+              -19365.6992,
+              -5087.3501
+            ]
+          }
+        ],
+        "modules_without_floors": [
+          "_module_06_001"
+        ],
+        "floor_flag_counts": {
+          "0": 6
+        },
+        "unclassified_geometry": [],
+        "floor_metadata": [
+          {
+            "node": "_floor_01_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_2_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_4_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_5_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_6_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_icyhub_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          }
+        ],
+        "ownership_checks": true,
+        "map_render_verified": false,
+        "gameplay_verified": false
+      }
+    },
+    {
+      "name": "INFECTED_VILLAGE_01",
+      "file": "005_infectedvillage.mlx",
+      "random": 0,
+      "source_preparation": "prepared",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "assembled",
+      "result": {
+        "validation": "PASS",
+        "identity": "INFECTED_VILLAGE_01",
+        "asset_count": 1,
+        "module_count": 2,
+        "nodes": 25,
+        "materials": 5,
+        "geometry_kinds": {
+          "exit": 3,
+          "floor": 2,
+          "mesh": 9,
+          "module_root": 2
+        },
+        "mesh_vertex_visits": 14404,
+        "all_indices": 18702,
+        "all_primitives": 20,
+        "navigation": {
+          "floors": 2,
+          "triangles": 439,
+          "nodes": 576,
+          "edges": 2194,
+          "sewn": true
+        },
+        "mesh_bounds": [
+          [
+            -4843.43994,
+            -6277.35986,
+            514.421997
+          ],
+          [
+            4843.43799,
+            5684.23975,
+            2697.86182
+          ]
+        ],
+        "modules": [
+          {
+            "name": "_module_infectedvillage_01_001",
+            "xrefobject": "_module_infectedvillage_01",
+            "asset": 0,
+            "position": [
+              -3448.5,
+              3000,
+              0
+            ]
+          },
+          {
+            "name": "_module_infectedvillage_02_001",
+            "xrefobject": "_module_infectedvillage_02",
+            "asset": 0,
+            "position": [
+              2551.5,
+              3000,
+              0
+            ]
+          }
+        ],
+        "modules_without_floors": [],
+        "floor_flag_counts": {
+          "0": 2
+        },
+        "unclassified_geometry": [],
+        "floor_metadata": [
+          {
+            "node": "_floor_infectedvillage_01_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_infectedvillage_02_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          }
+        ],
+        "ownership_checks": true,
+        "map_render_verified": false,
+        "gameplay_verified": false
+      }
+    },
+    {
+      "name": "LIGHT_HOUSE_01",
+      "file": "019_light_house_01.rule.xml",
+      "random": 1,
+      "source_preparation": "rule_generation_unimplemented",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/019_light_house_01.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "LIGHT_HOUSE_02",
+      "file": "019_light_house_02.rule.xml",
+      "random": 1,
+      "source_preparation": "rule_generation_unimplemented",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/019_light_house_02.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "LIGHT_HOUSE_03",
+      "file": "019_light_house_03.rule.xml",
+      "random": 1,
+      "source_preparation": "rule_generation_unimplemented",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/019_light_house_03.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "MACHINE_ROOMS_01",
+      "file": "037_machine_rooms_01.mlx",
+      "random": 0,
+      "source_preparation": "prepared",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "assembled",
+      "result": {
+        "validation": "PASS",
+        "identity": "MACHINE_ROOMS_01",
+        "asset_count": 1,
+        "module_count": 13,
+        "nodes": 82,
+        "materials": 13,
+        "geometry_kinds": {
+          "exit": 52,
+          "floor": 4,
+          "mesh": 13,
+          "module_root": 13
+        },
+        "mesh_vertex_visits": 39655,
+        "all_indices": 110385,
+        "all_primitives": 82,
+        "navigation": {
+          "floors": 4,
+          "triangles": 1685,
+          "nodes": 2315,
+          "edges": 9360,
+          "sewn": true
+        },
+        "mesh_bounds": [
+          [
+            -4999.99902,
+            -5999.92188,
+            -64.2640991
+          ],
+          [
+            19000.0801,
+            18001.1777,
+            424.515106
+          ]
+        ],
+        "modules": [
+          {
+            "name": "_module_plane_machineroom_02_001",
+            "xrefobject": "_module_plane_machineroom_02",
+            "asset": 0,
+            "position": [
+              10000,
+              9000,
+              0
+            ]
+          },
+          {
+            "name": "_module_plane_machineroom_03_001",
+            "xrefobject": "_module_plane_machineroom_03",
+            "asset": 0,
+            "position": [
+              4000,
+              9000,
+              0
+            ]
+          },
+          {
+            "name": "_module_plane_machineroom_01_001",
+            "xrefobject": "_module_plane_machineroom_01",
+            "asset": 0,
+            "position": [
+              10000,
+              3000,
+              0
+            ]
+          },
+          {
+            "name": "_module_plane_machineroom_00_001",
+            "xrefobject": "_module_plane_machineroom_00",
+            "asset": 0,
+            "position": [
+              4000,
+              3000,
+              0
+            ]
+          },
+          {
+            "name": "_module_plane_machineroom_04_001",
+            "xrefobject": "_module_plane_machineroom_04",
+            "asset": 0,
+            "position": [
+              16000,
+              3000,
+              0
+            ]
+          },
+          {
+            "name": "_module_plane_machineroom_04_002",
+            "xrefobject": "_module_plane_machineroom_04",
+            "asset": 0,
+            "position": [
+              10000,
+              -3000,
+              -1.52588e-05
+            ]
+          },
+          {
+            "name": "_module_plane_machineroom_04_003",
+            "xrefobject": "_module_plane_machineroom_04",
+            "asset": 0,
+            "position": [
+              4000,
+              -3000,
+              -1.52588e-05
+            ]
+          },
+          {
+            "name": "_module_plane_machineroom_04_004",
+            "xrefobject": "_module_plane_machineroom_04",
+            "asset": 0,
+            "position": [
+              -2000,
+              -3000,
+              9.1552698e-05
+            ]
+          },
+          {
+            "name": "_module_plane_machineroom_04_005",
+            "xrefobject": "_module_plane_machineroom_04",
+            "asset": 0,
+            "position": [
+              -2000,
+              3000,
+              0
+            ]
+          },
+          {
+            "name": "_module_plane_machineroom_04_006",
+            "xrefobject": "_module_plane_machineroom_04",
+            "asset": 0,
+            "position": [
+              10000,
+              15000,
+              -6.10351999e-05
+            ]
+          },
+          {
+            "name": "_module_plane_machineroom_04_007",
+            "xrefobject": "_module_plane_machineroom_04",
+            "asset": 0,
+            "position": [
+              4000,
+              15000,
+              0
+            ]
+          },
+          {
+            "name": "_module_plane_machineroom_04_008",
+            "xrefobject": "_module_plane_machineroom_04",
+            "asset": 0,
+            "position": [
+              16000,
+              9000,
+              0
+            ]
+          },
+          {
+            "name": "_module_plane_machineroom_04_009",
+            "xrefobject": "_module_plane_machineroom_04",
+            "asset": 0,
+            "position": [
+              16000,
+              15000,
+              9.1552698e-05
+            ]
+          }
+        ],
+        "modules_without_floors": [
+          "_module_plane_machineroom_04_001",
+          "_module_plane_machineroom_04_002",
+          "_module_plane_machineroom_04_003",
+          "_module_plane_machineroom_04_004",
+          "_module_plane_machineroom_04_005",
+          "_module_plane_machineroom_04_006",
+          "_module_plane_machineroom_04_007",
+          "_module_plane_machineroom_04_008",
+          "_module_plane_machineroom_04_009"
+        ],
+        "floor_flag_counts": {
+          "0": 4
+        },
+        "unclassified_geometry": [],
+        "floor_metadata": [
+          {
+            "node": "_floor_plane_machineroom_02",
+            "raw": "floortypes = %22sand%22",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_plane_machineroom_03",
+            "raw": "floortypes = %22sand%22",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_plane_machineroom_01",
+            "raw": "floortypes = %22sand%22",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_plane_machineroom_00",
+            "raw": "floortypes = %22sand%22",
+            "floor_flags": 0,
+            "object_flags": 1
+          }
+        ],
+        "ownership_checks": true,
+        "map_render_verified": false,
+        "gameplay_verified": false
+      }
+    },
+    {
+      "name": "MULTIPLAYER_TEST",
+      "file": "101_debug_MachineRoomTestMultiPlayer.mlx",
+      "random": 0,
+      "source_preparation": "prepared",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "assembled",
+      "result": {
+        "validation": "PASS",
+        "identity": "MULTIPLAYER_TEST",
+        "asset_count": 1,
+        "module_count": 1,
+        "nodes": 7,
+        "materials": 13,
+        "geometry_kinds": {
+          "exit": 4,
+          "floor": 1,
+          "mesh": 1,
+          "module_root": 1
+        },
+        "mesh_vertex_visits": 3068,
+        "all_indices": 9336,
+        "all_primitives": 7,
+        "navigation": {
+          "floors": 1,
+          "triangles": 412,
+          "nodes": 542,
+          "edges": 1878,
+          "sewn": true
+        },
+        "mesh_bounds": [
+          [
+            -2999.95825,
+            -3000.07544,
+            -64.2640991
+          ],
+          [
+            3001.1416,
+            3000.00464,
+            424.515015
+          ]
+        ],
+        "modules": [
+          {
+            "name": "_module_plane_machineroom_00_001",
+            "xrefobject": "_module_plane_machineroom_00",
+            "asset": 0,
+            "position": [
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "modules_without_floors": [],
+        "floor_flag_counts": {
+          "0": 1
+        },
+        "unclassified_geometry": [],
+        "floor_metadata": [
+          {
+            "node": "_floor_plane_machineroom_00",
+            "raw": "floortypes = %22sand%22",
+            "floor_flags": 0,
+            "object_flags": 1
+          }
+        ],
+        "ownership_checks": true,
+        "map_render_verified": false,
+        "gameplay_verified": false
+      }
+    },
+    {
+      "name": "PORTAL_ROOM",
+      "file": "003_darkwood.mlx",
+      "random": 0,
+      "source_preparation": "prepared",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "assembled",
+      "result": {
+        "validation": "PASS",
+        "identity": "PORTAL_ROOM",
+        "asset_count": 1,
+        "module_count": 24,
+        "nodes": 1020,
+        "materials": 6,
+        "geometry_kinds": {
+          "floor": 24,
+          "mesh": 923,
+          "module_root": 24
+        },
+        "mesh_vertex_visits": 76519,
+        "all_indices": 126771,
+        "all_primitives": 984,
+        "navigation": {
+          "floors": 24,
+          "triangles": 1827,
+          "nodes": 2263,
+          "edges": 8618,
+          "sewn": true
+        },
+        "mesh_bounds": [
+          [
+            -19799.9707,
+            -27320.668,
+            -1750.01501
+          ],
+          [
+            20178.4766,
+            21178.9023,
+            2571.62988
+          ]
+        ],
+        "modules": [
+          {
+            "name": "_module_01_001",
+            "xrefobject": "_module_01",
+            "asset": 0,
+            "position": [
+              2976.70996,
+              -20932.8008,
+              -0.00244140998
+            ]
+          },
+          {
+            "name": "_module_02_001",
+            "xrefobject": "_module_02",
+            "asset": 0,
+            "position": [
+              2976.70996,
+              -14932.7998,
+              -0.00244140998
+            ]
+          },
+          {
+            "name": "_module_03_001",
+            "xrefobject": "_module_03",
+            "asset": 0,
+            "position": [
+              8976.82031,
+              -14932.7998,
+              -0.00418295991
+            ]
+          },
+          {
+            "name": "_module_04_001",
+            "xrefobject": "_module_04",
+            "asset": 0,
+            "position": [
+              8976.69043,
+              -8932.75977,
+              0.00157361
+            ]
+          },
+          {
+            "name": "_module_08_001",
+            "xrefobject": "_module_08",
+            "asset": 0,
+            "position": [
+              2976.58008,
+              -8932.76953,
+              0.00331516005
+            ]
+          },
+          {
+            "name": "_module_13_001",
+            "xrefobject": "_module_13",
+            "asset": 0,
+            "position": [
+              -3023.1499,
+              -8932.75977,
+              0.00331516005
+            ]
+          },
+          {
+            "name": "_module_19_001",
+            "xrefobject": "_module_19",
+            "asset": 0,
+            "position": [
+              -9023.25977,
+              -8932.76953,
+              0.00505670998
+            ]
+          },
+          {
+            "name": "_module_12_001",
+            "xrefobject": "_module_12",
+            "asset": 0,
+            "position": [
+              -3023.02002,
+              -14932.7998,
+              -0.00244140998
+            ]
+          },
+          {
+            "name": "_module_23_001",
+            "xrefobject": "_module_23",
+            "asset": 0,
+            "position": [
+              -9023.01953,
+              -14932.7998,
+              -0.00265297992
+            ]
+          },
+          {
+            "name": "_module_09_001",
+            "xrefobject": "_module_09",
+            "asset": 0,
+            "position": [
+              2977.08008,
+              -2932.79004,
+              0.000881129992
+            ]
+          },
+          {
+            "name": "_module_05_001",
+            "xrefobject": "_module_05",
+            "asset": 0,
+            "position": [
+              8977.19043,
+              -2932.77002,
+              -0.000860420987
+            ]
+          },
+          {
+            "name": "_module_06_001",
+            "xrefobject": "_module_06",
+            "asset": 0,
+            "position": [
+              8977.05957,
+              3067.21997,
+              0.00489614997
+            ]
+          },
+          {
+            "name": "_module_10_001",
+            "xrefobject": "_module_10",
+            "asset": 0,
+            "position": [
+              2976.94995,
+              3067.20996,
+              0.0066376999
+            ]
+          },
+          {
+            "name": "_module_15_001",
+            "xrefobject": "_module_15",
+            "asset": 0,
+            "position": [
+              -3022.77002,
+              3067.21997,
+              0.0066376999
+            ]
+          },
+          {
+            "name": "_module_21_001",
+            "xrefobject": "_module_21",
+            "asset": 0,
+            "position": [
+              -9022.88965,
+              3067.20996,
+              0.00837924983
+            ]
+          },
+          {
+            "name": "_module_20_001",
+            "xrefobject": "_module_20",
+            "asset": 0,
+            "position": [
+              -9022.75977,
+              -2932.78003,
+              0.00262268004
+            ]
+          },
+          {
+            "name": "_module_14_001",
+            "xrefobject": "_module_14",
+            "asset": 0,
+            "position": [
+              -3022.6499,
+              -2932.77002,
+              0.000881129992
+            ]
+          },
+          {
+            "name": "_module_11_001",
+            "xrefobject": "_module_11",
+            "asset": 0,
+            "position": [
+              2977.01001,
+              9067.46973,
+              0.290924996
+            ]
+          },
+          {
+            "name": "_module_16_001",
+            "xrefobject": "_module_16",
+            "asset": 0,
+            "position": [
+              -3022.71997,
+              9067.49023,
+              0.290924996
+            ]
+          },
+          {
+            "name": "_module_27_001",
+            "xrefobject": "_module_27",
+            "asset": 0,
+            "position": [
+              -9022.71973,
+              9067.49023,
+              0.291202009
+            ]
+          },
+          {
+            "name": "_module_07_001",
+            "xrefobject": "_module_07",
+            "asset": 0,
+            "position": [
+              8977.12012,
+              9067.48047,
+              0.289184004
+            ]
+          },
+          {
+            "name": "_module_17_001",
+            "xrefobject": "_module_17",
+            "asset": 0,
+            "position": [
+              -3022.83008,
+              15067.5,
+              0.292663991
+            ]
+          },
+          {
+            "name": "_module_28_001",
+            "xrefobject": "_module_28",
+            "asset": 0,
+            "position": [
+              -15023.2998,
+              -2932.77002,
+              0.00496101007
+            ]
+          },
+          {
+            "name": "_module_29_001",
+            "xrefobject": "_module_29",
+            "asset": 0,
+            "position": [
+              14976.7002,
+              -8932.75977,
+              0.00158690999
+            ]
+          }
+        ],
+        "modules_without_floors": [],
+        "floor_flag_counts": {
+          "0": 24
+        },
+        "unclassified_geometry": [],
+        "floor_metadata": [
+          {
+            "node": "_floor_01_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_02_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_03_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_04_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_05_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_12_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_11_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_06_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_07_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_14_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_13",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_23",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_22_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_21_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_20_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_16_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_15_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_25",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_26_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_19_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_24_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_28_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_17_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_connectreddesert_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          }
+        ],
+        "ownership_checks": true,
+        "map_render_verified": false,
+        "gameplay_verified": false
+      }
+    },
+    {
+      "name": "QUESTTEST",
+      "file": "102_debug_QUESTTEST.rule.xml",
+      "random": 1,
+      "source_preparation": "parser_blocked",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "XML parse failure in data/scene/102_debug_questtest.rule.xml: Error reading end tag."
+    },
+    {
+      "name": "RANDOMFORALEX",
+      "file": "125_RandomForAlexB.rule.xml",
+      "random": 1,
+      "source_preparation": "rule_generation_unimplemented",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/125_randomforalexb.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "RED_DESERT_HUB",
+      "file": "015_red_desert_hub.mlx",
+      "random": 0,
+      "source_preparation": "prepared",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "assembled",
+      "result": {
+        "validation": "PASS",
+        "identity": "RED_DESERT_HUB",
+        "asset_count": 1,
+        "module_count": 6,
+        "nodes": 246,
+        "materials": 5,
+        "geometry_kinds": {
+          "exit": 13,
+          "floor": 6,
+          "mesh": 205,
+          "module_root": 6
+        },
+        "mesh_vertex_visits": 33045,
+        "all_indices": 62370,
+        "all_primitives": 287,
+        "navigation": {
+          "floors": 6,
+          "triangles": 548,
+          "nodes": 708,
+          "edges": 2650,
+          "sewn": true
+        },
+        "mesh_bounds": [
+          [
+            -13274.6553,
+            -5616.72021,
+            -2606.08984
+          ],
+          [
+            5753.81445,
+            13761.2441,
+            3013.70996
+          ]
+        ],
+        "modules": [
+          {
+            "name": "_module_01_001",
+            "xrefobject": "_module_01",
+            "asset": 0,
+            "position": [
+              -589.106995,
+              1181.41003,
+              -1384.73999
+            ]
+          },
+          {
+            "name": "_module_02_001",
+            "xrefobject": "_module_02",
+            "asset": 0,
+            "position": [
+              -6589.10986,
+              1181.41003,
+              -1384.73999
+            ]
+          },
+          {
+            "name": "_module_03_001",
+            "xrefobject": "_module_03",
+            "asset": 0,
+            "position": [
+              -589.106995,
+              7181.41016,
+              -1384.73999
+            ]
+          },
+          {
+            "name": "_module_05_001",
+            "xrefobject": "_module_05",
+            "asset": 0,
+            "position": [
+              -589.106995,
+              13181.4004,
+              -1384.73999
+            ]
+          },
+          {
+            "name": "_module_04_001",
+            "xrefobject": "_module_04",
+            "asset": 0,
+            "position": [
+              -6589.10986,
+              7181.41016,
+              -1384.73999
+            ]
+          },
+          {
+            "name": "_module_06_001",
+            "xrefobject": "_module_06",
+            "asset": 0,
+            "position": [
+              -6589.10986,
+              13181.4004,
+              -1384.73999
+            ]
+          }
+        ],
+        "modules_without_floors": [],
+        "floor_flag_counts": {
+          "0": 6
+        },
+        "unclassified_geometry": [],
+        "floor_metadata": [
+          {
+            "node": "_floor_01",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_02",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_4",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_5",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_03",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_6",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          }
+        ],
+        "ownership_checks": true,
+        "map_render_verified": false,
+        "gameplay_verified": false
+      }
+    },
+    {
+      "name": "ROOT_DEN_01",
+      "file": "004_root_den.rule.xml",
+      "random": 1,
+      "source_preparation": "parser_blocked",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "XML parse failure in data/scene/004_root_den.rule.xml: Error reading end tag."
+    },
+    {
+      "name": "SECRET_BASEMENT_01",
+      "file": "006_basement.rule.xml",
+      "random": 1,
+      "source_preparation": "parser_blocked",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "XML parse failure in data/scene/006_basement.rule.xml: Error reading end tag."
+    },
+    {
+      "name": "SWAMP",
+      "file": "001_swamp.mlx",
+      "random": 0,
+      "source_preparation": "prepared",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "assembled",
+      "result": {
+        "validation": "PASS",
+        "identity": "SWAMP",
+        "asset_count": 1,
+        "module_count": 9,
+        "nodes": 615,
+        "materials": 9,
+        "geometry_kinds": {
+          "exit": 19,
+          "floor": 16,
+          "mesh": 369,
+          "module_root": 9,
+          "unclassified": 8
+        },
+        "mesh_vertex_visits": 51948,
+        "all_indices": 77784,
+        "all_primitives": 436,
+        "navigation": {
+          "floors": 16,
+          "triangles": 626,
+          "nodes": 767,
+          "edges": 2543,
+          "sewn": true
+        },
+        "mesh_bounds": [
+          [
+            -21024.9492,
+            -3000.00195,
+            -947.893005
+          ],
+          [
+            3000,
+            21000.8711,
+            3742.3999
+          ]
+        ],
+        "modules": [
+          {
+            "name": "obj_4of4_brdwalk_sw_00_0",
+            "xrefobject": "_module_obj_4of4_brdwalk_sw_00",
+            "asset": 0,
+            "position": [
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "obj_3of4_brdwalk_sw_00_1",
+            "xrefobject": "_module_obj_3of4_brdwalk_sw_00",
+            "asset": 0,
+            "position": [
+              -6000,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "obj_1of4_brdwalk_nse_00_2",
+            "xrefobject": "_module_obj_1of4_brdwalk_nse_00",
+            "asset": 0,
+            "position": [
+              -6000,
+              6000,
+              0
+            ]
+          },
+          {
+            "name": "corner_ruin_ws_00_3",
+            "xrefobject": "_module_corner_ruin_ws_00",
+            "asset": 0,
+            "position": [
+              -6000,
+              12000,
+              0
+            ]
+          },
+          {
+            "name": "merchantcamp_ruins_swe_00_4",
+            "xrefobject": "_module_merchantcamp_ruins_swe_00",
+            "asset": 0,
+            "position": [
+              -12000,
+              12000,
+              0
+            ]
+          },
+          {
+            "name": "corner_brdwalk_se_00_5",
+            "xrefobject": "_module_corner_brdwalk_se_00",
+            "asset": 0,
+            "position": [
+              -12000,
+              18000,
+              0
+            ]
+          },
+          {
+            "name": "deadend_brdwalk_w_00_7",
+            "xrefobject": "_module_deadend_brdwalk_w_00",
+            "asset": 0,
+            "position": [
+              -6000,
+              18000,
+              0
+            ]
+          },
+          {
+            "name": "bossroom_ruins_ns__8",
+            "xrefobject": "_module_bossroom_ruins_ns_",
+            "asset": 0,
+            "position": [
+              -18000,
+              12000,
+              0
+            ]
+          },
+          {
+            "name": "obj_2of4_brdwalk_sw_00_9",
+            "xrefobject": "_module_obj_2of4_brdwalk_sw_00",
+            "asset": 0,
+            "position": [
+              0,
+              6000,
+              0
+            ]
+          }
+        ],
+        "modules_without_floors": [],
+        "floor_flag_counts": {
+          "0": 10,
+          "1": 2,
+          "2": 4
+        },
+        "unclassified_geometry": [
+          "Object01_PIVOT",
+          "Object02_PIVOT",
+          "Object03_PIVOT",
+          "Object04_PIVOT",
+          "Object05_PIVOT",
+          "Object06_PIVOT",
+          "Object07_PIVOT",
+          "Object08_PIVOT"
+        ],
+        "floor_metadata": [
+          {
+            "node": "_floor_obj_4of4_brdwalk_sw_",
+            "raw": "floortypes = %22wood%22",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_water_obj_4of4_brdwalk_sw_",
+            "raw": "floortypes = %22water%22",
+            "floor_flags": 2,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_corner_ruin_ne_",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_obj_1of4_brdwalk_nse_",
+            "raw": "floortypes = %22wood%22",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_corner_ruin_ws_",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_doorswamp",
+            "raw": "floortypes = %22door%22\r\n",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_merchantcamp_ruins_swe_",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_corner_brdwalk_se_",
+            "raw": "floortypes = %22wood%22",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_deadend_brdwalk_w_",
+            "raw": "floortypes = %22wood%22",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_deadend_brdwalk_water_w_",
+            "raw": "floortypes = %22water%22",
+            "floor_flags": 2,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_bossroom_ruins_ns_",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_swampking_01_PIVOT",
+            "raw": "floortypes = %22hole%22",
+            "floor_flags": 1,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_swampking_02_PIVOT",
+            "raw": "floortypes = %22hole%22",
+            "floor_flags": 1,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_water_bossroom_ruins_ns__PIVOT",
+            "raw": "floortypes = %22water%22",
+            "floor_flags": 2,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_obj_2of4_brdwalk_sw_",
+            "raw": "floortypes = %22wood%22",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_water_obj_2of4_brdwalk_sw_",
+            "raw": "floortypes = %22water%22",
+            "floor_flags": 2,
+            "object_flags": 1
+          }
+        ],
+        "ownership_checks": true,
+        "map_render_verified": false,
+        "gameplay_verified": false
+      }
+    },
+    {
+      "name": "SWAMP_02",
+      "file": "022_swamp2.rule.xml",
+      "random": 1,
+      "source_preparation": "rule_generation_unimplemented",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/022_swamp2.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "SWAMP_CAVE_TROLL_A",
+      "file": "022_swamp2_trollcave.rule.xml",
+      "random": 1,
+      "source_preparation": "rule_generation_unimplemented",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/022_swamp2_trollcave.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "SWAMP_CAVE_WITCH_A",
+      "file": "002_swamp_witchcave.rule.xml",
+      "random": 1,
+      "source_preparation": "rule_generation_unimplemented",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/002_swamp_witchcave.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "UNDERWORLD_HUB",
+      "file": "036_underworld_hub.mlx",
+      "random": 0,
+      "source_preparation": "prepared",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "assembled",
+      "result": {
+        "validation": "PASS",
+        "identity": "UNDERWORLD_HUB",
+        "asset_count": 1,
+        "module_count": 9,
+        "nodes": 663,
+        "materials": 4,
+        "geometry_kinds": {
+          "floor": 9,
+          "mesh": 347
+        },
+        "mesh_vertex_visits": 69602,
+        "all_indices": 93921,
+        "all_primitives": 357,
+        "navigation": {
+          "floors": 9,
+          "triangles": 1159,
+          "nodes": 1414,
+          "edges": 4979,
+          "sewn": true
+        },
+        "mesh_bounds": [
+          [
+            -24236.1016,
+            -8144.2832,
+            -4194.46484
+          ],
+          [
+            2079.68604,
+            16798.1914,
+            3156.72998
+          ]
+        ],
+        "modules": [
+          {
+            "name": "_module_under_02_001",
+            "xrefobject": "_module_under_02",
+            "asset": 0,
+            "position": [
+              -1637.18994,
+              920.442993,
+              -2445.79004
+            ]
+          },
+          {
+            "name": "_module_under_03_001",
+            "xrefobject": "_module_under_03",
+            "asset": 0,
+            "position": [
+              -7637.18994,
+              920.442993,
+              -2445.79004
+            ]
+          },
+          {
+            "name": "_module_under_04_001",
+            "xrefobject": "_module_under_04",
+            "asset": 0,
+            "position": [
+              -5568.47998,
+              6920.43994,
+              -2445.79004
+            ]
+          },
+          {
+            "name": "_module_under_05_001",
+            "xrefobject": "_module_under_05",
+            "asset": 0,
+            "position": [
+              -2233.43994,
+              12942.7002,
+              -3548.5
+            ]
+          },
+          {
+            "name": "_module_under_06_001",
+            "xrefobject": "_module_under_06",
+            "asset": 0,
+            "position": [
+              -13637.2002,
+              3118.15991,
+              -2445.79004
+            ]
+          },
+          {
+            "name": "_module_under_07_001",
+            "xrefobject": "_module_under_07",
+            "asset": 0,
+            "position": [
+              -19637.1992,
+              3118.15991,
+              -2445.79004
+            ]
+          },
+          {
+            "name": "_module_under_08_001",
+            "xrefobject": "_module_under_08",
+            "asset": 0,
+            "position": [
+              -21068.5996,
+              -2881.84009,
+              -2445.79004
+            ]
+          },
+          {
+            "name": "_module_under_09_001",
+            "xrefobject": "_module_under_09",
+            "asset": 0,
+            "position": [
+              -17937.4004,
+              9118.16016,
+              -2445.79004
+            ]
+          },
+          {
+            "name": "_module_under_01_001",
+            "xrefobject": "_module_under_01",
+            "asset": 0,
+            "position": [
+              -1637.18994,
+              -5079.56006,
+              -2445.79004
+            ]
+          }
+        ],
+        "modules_without_floors": [],
+        "floor_flag_counts": {
+          "0": 9
+        },
+        "unclassified_geometry": [],
+        "floor_metadata": [
+          {
+            "node": "_floor_under_02_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_under_03_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_under_04_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_lghtouse_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_under_09_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_under_10_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_under_08",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_under_06_PIVOT",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          },
+          {
+            "node": "_floor_under_01",
+            "raw": "",
+            "floor_flags": 0,
+            "object_flags": 1
+          }
+        ],
+        "ownership_checks": true,
+        "map_render_verified": false,
+        "gameplay_verified": false
+      }
+    },
+    {
+      "name": "VOID_MAZE_01",
+      "file": "033_voidmaze_01.rule.xml",
+      "random": 1,
+      "source_preparation": "parser_blocked",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "XML parse failure in data/scene/033_voidmaze_01.rule.xml: Error reading end tag."
+    },
+    {
+      "name": "VOID_MAZE_02",
+      "file": "034_voidmaze_02.rule.xml",
+      "random": 1,
+      "source_preparation": "parser_blocked",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "XML parse failure in data/scene/034_voidmaze_02.rule.xml: Error reading end tag."
+    },
+    {
+      "name": "VOID_MAZE_03",
+      "file": "035_voidmaze_03.rule.xml",
+      "random": 1,
+      "source_preparation": "rule_generation_unimplemented",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/035_voidmaze_03.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "WATER_TEMPLE_01",
+      "file": "023_watertemple.rule.xml",
+      "random": 1,
+      "source_preparation": "rule_generation_unimplemented",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/023_watertemple.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "WIND_TEMPLE_01",
+      "file": "029_wind_temple.rule.xml",
+      "random": 1,
+      "source_preparation": "rule_generation_unimplemented",
+      "map_render_verified": false,
+      "gameplay_verified": false,
+      "map_preparation": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/029_wind_temple.rule.xml; rule generation is not implemented by fixed source preparation"
+    }
+  ],
+  "summary": {
+    "source_blocked": 35,
+    "assembled": 16
+  },
+  "full_loader_verified": false
+}

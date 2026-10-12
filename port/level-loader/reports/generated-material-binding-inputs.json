@@ -1,0 +1,771 @@
+{
+  "scope": "Read original serialized binding fields for generated map name mismatches.",
+  "asset_count": 1,
+  "mismatches": [
+    {
+      "asset": "data/3D/Modules/lighthousse/lighthouse.bdae",
+      "node": "_module_bossroom-node",
+      "geometry": "#_module_bossroom-mesh",
+      "primitive": 0,
+      "primitive_symbol": "ColorMaterial",
+      "binding_target": "#ColorMaterial_00E5D79A",
+      "binding_fields": [
+        {
+          "offset": 0,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 4,
+          "value": 489288,
+          "string": "#ColorMaterial_00E5D79A"
+        },
+        {
+          "offset": 8,
+          "value": 1,
+          "string": null
+        },
+        {
+          "offset": 12,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 16,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 20,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 24,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 28,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 32,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 36,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 40,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 44,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 48,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 52,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 56,
+          "value": 0,
+          "string": null
+        }
+      ]
+    },
+    {
+      "asset": "data/3D/Modules/lighthousse/lighthouse.bdae",
+      "node": "_mesh_box_cache-node",
+      "geometry": "#_mesh_box_cache-mesh",
+      "primitive": 0,
+      "primitive_symbol": "ColorMaterial",
+      "binding_target": "#ColorMaterial_0057E157",
+      "binding_fields": [
+        {
+          "offset": 0,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 4,
+          "value": 488992,
+          "string": "#ColorMaterial_0057E157"
+        },
+        {
+          "offset": 8,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 12,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 16,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 20,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 24,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 28,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 32,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 36,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 40,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 44,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 48,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 52,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 56,
+          "value": 0,
+          "string": null
+        }
+      ]
+    },
+    {
+      "asset": "data/3D/Modules/lighthousse/lighthouse.bdae",
+      "node": "_module_close_01-node",
+      "geometry": "#_module_close_01-mesh",
+      "primitive": 0,
+      "primitive_symbol": "ColorMaterial",
+      "binding_target": "#ColorMaterial_00E5D79A",
+      "binding_fields": [
+        {
+          "offset": 0,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 4,
+          "value": 489288,
+          "string": "#ColorMaterial_00E5D79A"
+        },
+        {
+          "offset": 8,
+          "value": 1,
+          "string": null
+        },
+        {
+          "offset": 12,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 16,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 20,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 24,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 28,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 32,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 36,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 40,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 44,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 48,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 52,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 56,
+          "value": 0,
+          "string": null
+        }
+      ]
+    },
+    {
+      "asset": "data/3D/Modules/lighthousse/lighthouse.bdae",
+      "node": "_module_close_02-node",
+      "geometry": "#_module_close_02-mesh",
+      "primitive": 0,
+      "primitive_symbol": "ColorMaterial",
+      "binding_target": "#ColorMaterial_00E5D79A",
+      "binding_fields": [
+        {
+          "offset": 0,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 4,
+          "value": 489288,
+          "string": "#ColorMaterial_00E5D79A"
+        },
+        {
+          "offset": 8,
+          "value": 1,
+          "string": null
+        },
+        {
+          "offset": 12,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 16,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 20,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 24,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 28,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 32,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 36,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 40,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 44,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 48,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 52,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 56,
+          "value": 0,
+          "string": null
+        }
+      ]
+    },
+    {
+      "asset": "data/3D/Modules/lighthousse/lighthouse.bdae",
+      "node": "_module_close_03-node",
+      "geometry": "#_module_close_03-mesh",
+      "primitive": 0,
+      "primitive_symbol": "ColorMaterial",
+      "binding_target": "#ColorMaterial_00E5D79A",
+      "binding_fields": [
+        {
+          "offset": 0,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 4,
+          "value": 489288,
+          "string": "#ColorMaterial_00E5D79A"
+        },
+        {
+          "offset": 8,
+          "value": 1,
+          "string": null
+        },
+        {
+          "offset": 12,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 16,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 20,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 24,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 28,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 32,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 36,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 40,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 44,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 48,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 52,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 56,
+          "value": 0,
+          "string": null
+        }
+      ]
+    },
+    {
+      "asset": "data/3D/Modules/lighthousse/lighthouse.bdae",
+      "node": "_module_open_01-node",
+      "geometry": "#_module_open_01-mesh",
+      "primitive": 0,
+      "primitive_symbol": "ColorMaterial",
+      "binding_target": "#ColorMaterial_00E5D79A",
+      "binding_fields": [
+        {
+          "offset": 0,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 4,
+          "value": 489288,
+          "string": "#ColorMaterial_00E5D79A"
+        },
+        {
+          "offset": 8,
+          "value": 1,
+          "string": null
+        },
+        {
+          "offset": 12,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 16,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 20,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 24,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 28,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 32,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 36,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 40,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 44,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 48,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 52,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 56,
+          "value": 0,
+          "string": null
+        }
+      ]
+    },
+    {
+      "asset": "data/3D/Modules/lighthousse/lighthouse.bdae",
+      "node": "_module_open_02-node",
+      "geometry": "#_module_open_02-mesh",
+      "primitive": 0,
+      "primitive_symbol": "ColorMaterial",
+      "binding_target": "#ColorMaterial_00E5D79A",
+      "binding_fields": [
+        {
+          "offset": 0,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 4,
+          "value": 489288,
+          "string": "#ColorMaterial_00E5D79A"
+        },
+        {
+          "offset": 8,
+          "value": 1,
+          "string": null
+        },
+        {
+          "offset": 12,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 16,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 20,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 24,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 28,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 32,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 36,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 40,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 44,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 48,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 52,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 56,
+          "value": 0,
+          "string": null
+        }
+      ]
+    },
+    {
+      "asset": "data/3D/Modules/lighthousse/lighthouse.bdae",
+      "node": "_module_open_03-node",
+      "geometry": "#_module_open_03-mesh",
+      "primitive": 0,
+      "primitive_symbol": "ColorMaterial",
+      "binding_target": "#ColorMaterial_00E5D79A",
+      "binding_fields": [
+        {
+          "offset": 0,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 4,
+          "value": 489288,
+          "string": "#ColorMaterial_00E5D79A"
+        },
+        {
+          "offset": 8,
+          "value": 1,
+          "string": null
+        },
+        {
+          "offset": 12,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 16,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 20,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 24,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 28,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 32,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 36,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 40,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 44,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 48,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 52,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 56,
+          "value": 0,
+          "string": null
+        }
+      ]
+    },
+    {
+      "asset": "data/3D/Modules/lighthousse/lighthouse.bdae",
+      "node": "_module_startroom-node",
+      "geometry": "#_module_startroom-mesh",
+      "primitive": 0,
+      "primitive_symbol": "ColorMaterial",
+      "binding_target": "#ColorMaterial_00E5D79A",
+      "binding_fields": [
+        {
+          "offset": 0,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 4,
+          "value": 489288,
+          "string": "#ColorMaterial_00E5D79A"
+        },
+        {
+          "offset": 8,
+          "value": 1,
+          "string": null
+        },
+        {
+          "offset": 12,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 16,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 20,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 24,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 28,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 32,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 36,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 40,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 44,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 48,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 52,
+          "value": 0,
+          "string": null
+        },
+        {
+          "offset": 56,
+          "value": 0,
+          "string": null
+        }
+      ]
+    }
+  ]
+}

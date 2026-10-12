@@ -1,0 +1,229 @@
+--- a/port/engine-ui/swf_movie.hpp
++++ b/port/engine-ui/swf_movie.hpp
+@@ -80,6 +80,8 @@
+  // Load shared files first in supplied order, retaining one player/global AS namespace.
+  // No GPU, font resolver, game globals or missing native functions are fabricated.
+  bool load(const std::vector<std::string>& shared,const std::string& movie,const SwfServices&,std::string&);
++ //Original RenderFX.Load: supplied URI/workdir, no eager shared preload/frame.
++ bool load_source_resource_v98(const char* actual_uri,const SwfServices&,std::string&);
+  // Full MenuFX resource operation on the actual constructor controller owner.
+  // Caller supplies reached renderer virtualA4 and same owned state arrays.
+  bool unload_menu_resource_v91(struct SwfMenuUnloadServicesV91&,std::string&);
+@@ -144,7 +146,9 @@
+  gameswf::font* borrowed_font(std::int32_t resource_id) const; // invalidated by destruction/reload
+  const std::vector<std::string>& diagnostics() const;
+  std::uintptr_t player_identity() const noexcept; // retained graph identity, no VM operation
+- private: struct Impl;std::shared_ptr<Impl> impl_;
++ private:
++ bool load_resource_v98(const std::vector<std::string>&,const std::string&,const SwfServices&,bool source,std::string&);
++ struct Impl;std::shared_ptr<Impl> impl_;
+  std::function<bool(std::string&)> external_context_clear_v91_;
+  std::shared_ptr<SwfViewportConnection> viewport_;
+  std::shared_ptr<SwfAsGraph> action_script_;
+--- a/port/engine-ui/swf_movie.cpp
++++ b/port/engine-ui/swf_movie.cpp
+@@ -221,13 +221,25 @@
+  input_.reset();external_context_clear_v91_={};e.clear();return true;
+ }
+ SwfMovie::SwfMovie(SwfMovie&&)noexcept=default;SwfMovie&SwfMovie::operator=(SwfMovie&&)noexcept=default;
+-bool SwfMovie::load(const std::vector<std::string>&shared,const std::string&movie,const SwfServices&s,std::string&e){auto p=std::make_shared<Impl>();p->service=s;p->source_filename_v91=movie;Impl::Scope scope(p.get());if(!scope.entered){e="SWF core busy";return false;}
++bool SwfMovie::load(const std::vector<std::string>&shared,const std::string&movie,const SwfServices&s,std::string&e){return load_resource_v98(shared,movie,s,false,e);}
++bool SwfMovie::load_source_resource_v98(const char* uri,const SwfServices& s,std::string& e){
++ if(!uri||!*uri){e="Required original primary1 resource URI";return false;}
++ return load_resource_v98({},uri,s,true,e);
++}
++bool SwfMovie::load_resource_v98(const std::vector<std::string>&shared,const std::string&movie,const SwfServices&s,bool source,std::string&e){
++ if(source&&(!impl_||!impl_->controllers||impl_->player||impl_->root)){e="Original source movie C1 prefix requires genuine unload before replay";return false;}
++ auto p=source?std::make_shared<Impl>(impl_->controllers):std::make_shared<Impl>();p->service=s;p->source_filename_v91=movie;Impl::Scope scope(p.get());if(!scope.entered){e="SWF core busy";return false;}
+  if(!s.read||!s.draw){e="SWF read/draw services required";return false;}p->player=new gameswf::player;p->player->set_separate_thread(false);gameswf::set_use_cache_files(false);
++ if(source){
++  //Original+38 player publication precedes graph/startup/file callbacks.
++  external_context_clear_v91_={};input_.reset();action_script_.reset();viewport_.reset();impl_=p;
++  const auto slash=movie.find_last_of("/\\");if(slash!=std::string::npos)p->player->set_workdir(movie.substr(0,slash+1).c_str());
++ }
+  p->player->get_global()->set_member("NativeGetStringFromSymbol",gameswf::as_value(Impl::native_string));
+  if(!s.native_actions.empty()&&(!s.native_owner||!s.native_action)){e="Required owned native AS callback provider unavailable";return false;}
+  if(s.graph_start&&!s.native_owner){e="Required owned SWF graph startup provider unavailable";return false;}
+  for(const auto&name:s.native_actions)if(name=="NativeGetStringFromSymbol"){e="NativeGetStringFromSymbol already registered by movie facade";return false;}
+- auto as=std::make_shared<SwfAsGraph>();auto context=std::make_shared<Impl::AsContext>();
++ auto as=std::make_shared<SwfAsGraph>();if(source)action_script_=as;auto context=std::make_shared<Impl::AsContext>();
+  context->graph=p;context->provider_owner=s.native_owner;context->provider_context=s.context;context->callback=s.native_action;
+  SwfAsServices as_services;as_services.context=context.get();as_services.owner=context;
+  as_services.within_scope=Impl::AsContext::within;as_services.native_call=Impl::AsContext::native;as_services.failure=Impl::AsContext::failure;
+--- a/port/engine-ui/character_menu_movie_v1.hpp
++++ b/port/engine-ui/character_menu_movie_v1.hpp
+@@ -19,6 +19,7 @@
+  std::shared_ptr<void> source_update_owner_;
+  std::vector<CharacterMenuScreenV1> screens_;
+  bool loaded_{};
++ bool load_impl_v98(const SwfServices&,const char* source_uri,std::string&);
+ public:
+  CharacterMenuMovieV1();~CharacterMenuMovieV1();
+  CharacterMenuMovieV1(const CharacterMenuMovieV1&)=delete;
+@@ -26,6 +27,7 @@
+  // Restore source player globals before ANY shared/movie script, then run the
+  // caller's real startup observers. Caller owner must not own this movie.
+  bool load(const SwfServices&,std::string&);
++ bool load_source_resource_v98(const char* actual_uri,const SwfServices&,std::string&);
+  bool advance(float,std::string&);
+  bool source_virtual10_v93(std::int32_t,bool,std::string&);
+  bool deleting_movie_v93(std::string&);
+--- a/port/engine-ui/character_menu_movie_v1.cpp
++++ b/port/engine-ui/character_menu_movie_v1.cpp
+@@ -45,15 +45,25 @@
+ };
+ CharacterMenuMovieV1::CharacterMenuMovieV1():movie_(std::make_shared<SwfMovie>()){}
+ CharacterMenuMovieV1::~CharacterMenuMovieV1()=default;
+-bool CharacterMenuMovieV1::load(const SwfServices& source,std::string& error){
++bool CharacterMenuMovieV1::load(const SwfServices& source,std::string& error){return load_impl_v98(source,nullptr,error);}
++bool CharacterMenuMovieV1::load_source_resource_v98(const char* uri,const SwfServices& source,std::string& error){
++ if(!uri||!*uri){error="Required original primary1 URI";return false;}return load_impl_v98(source,uri,error);
++}
++bool CharacterMenuMovieV1::load_impl_v98(const SwfServices& source,const char* source_uri,std::string& error){
+  error.clear();
+  if(!source.native_owner||!source.native_action||!source.read||!source.draw||
+     std::find(source.native_actions.begin(),source.native_actions.end(),"NativeReloadSkills")==source.native_actions.end()){
+   error="Character movie requires retained game services and the original startup NativeReloadSkills binding";return false;
+  }
+  auto provider=std::make_shared<Provider>();provider->source=source;
++ if(source_uri&&loaded_){error="Actual primary1 source resource already loaded; require genuine unload";return false;}
+  auto movie=loaded_?std::make_shared<SwfMovie>():movie_;
+  if(!movie||deleted_){error="Character resource awaits source field clear/reconstruction";return false;}
++ if(source_uri){
++  if(!movie->load_source_resource_v98(source_uri,provider->wrapped(provider),error))return false;
++  //Common MenuManager.PostLoad owns actual discovered receivers, not droid-only inspection screens.
++  loaded_=true;return true;
++ }
+  if(!movie->load({"dqshared_droid.swf"},"dqcharmenu_droid.swf",provider->wrapped(provider),error)||!movie->advance(0,error))return false;
+  struct Bind {
+   std::vector<CharacterMenuScreenV1> screens;
+--- a/port/engine-ui/authored_character_panel_v2.hpp
++++ b/port/engine-ui/authored_character_panel_v2.hpp
+@@ -42,11 +42,13 @@
+ // handlers execute their actual authored ActionScript, never replacement UI.
+ class AuthoredCharacterPanelV2 {
+  struct Impl;std::unique_ptr<Impl> impl_;
++ bool initialize_impl_v98(const AuthoredCharacterPanelServicesV2&,const char* source_uri,std::string&);
+ public:
+  AuthoredCharacterPanelV2();~AuthoredCharacterPanelV2();
+  AuthoredCharacterPanelV2(const AuthoredCharacterPanelV2&)=delete;
+  AuthoredCharacterPanelV2& operator=(const AuthoredCharacterPanelV2&)=delete;
+  bool initialize(const AuthoredCharacterPanelServicesV2&,std::string&);
++ bool load_source_primary1_v98(const AuthoredCharacterPanelServicesV2&,const char* actual_uri,std::string&);
+  bool rebind_process_services_v104(const AuthoredCharacterPanelServicesV2&,std::string&);
+  bool open(std::string&); // original manager PushMenu(menu_CharacterMenu)
+  bool advance(float seconds,std::string&);
+--- a/port/engine-ui/authored_character_panel_v2.cpp
++++ b/port/engine-ui/authored_character_panel_v2.cpp
+@@ -144,11 +144,24 @@
+  //Keep player, root, receiver states, movie, weak caches and navigation alive.
+  impl_->services=source;error.clear();return true;
+ }
+-bool AuthoredCharacterPanelV2::initialize(const AuthoredCharacterPanelServicesV2& s,std::string& error){
+- if(!s.movie.native_owner||!s.maximum_occurrences||!s.globals||!s.hud.identity||!s.base.identity||!s.hud.root||!s.base.root){error="Required actual character menu platform/HUD/base/stack globals";return false;}
++bool AuthoredCharacterPanelV2::initialize(const AuthoredCharacterPanelServicesV2& s,std::string& error){return initialize_impl_v98(s,nullptr,error);}
++bool AuthoredCharacterPanelV2::load_source_primary1_v98(const AuthoredCharacterPanelServicesV2& s,const char* uri,std::string& error){
++ if(!uri||!*uri){error="Required original primary1 URI";return false;}return initialize_impl_v98(s,uri,error);
++}
++bool AuthoredCharacterPanelV2::initialize_impl_v98(const AuthoredCharacterPanelServicesV2& s,const char* source_uri,std::string& error){
++ if(!source_uri){
++  if(!s.movie.native_owner||!s.maximum_occurrences||!s.globals||!s.hud.identity||!s.base.identity||!s.hud.root||!s.base.root){error="Required actual character menu platform/HUD/base/stack globals";return false;}
++ }else{
++  auto* view=s.shared_stack_v27?s.shared_stack_v27->view():nullptr;
++  if(impl_||!s.movie.native_owner||!s.maximum_occurrences||!s.globals||!s.queries||!s.base.identity||!s.base.root||!view||
++   view->globals!=s.globals||!view->base_render||view->base_render->identity!=s.base.identity||
++   (s.hud.identity?(!s.hud.root||!view->hud_root||view->hud_root->identity!=s.hud.identity):(s.hud.root||view->hud_root))){
++   error="Required SAME actual primary1 process stack/base/current nullable HUD and native queries";return false;
++  }
++ }
+  auto p=std::make_unique<Impl>();p->services=s;p->stack=s.shared_stack_v27?s.shared_stack_v27:std::make_shared<MenuStackOwnerV1>(s.maximum_occurrences);
+  const auto add_render=[&](const CharacterPanelRenderBorrowV2& r){auto* existing=p->stack->render(r.identity);if(existing){if(existing->flags!=r.flags||existing->root!=r.root||existing->controller_focus!=r.focus){error="Character panel reused RenderFX ownership differs";return false;}return true;}return p->stack->register_render_live_v27(r.identity,r.flags,r.root,r.focus,error);};
+- if(!add_render(s.hud)||!add_render(s.base))return false;
++ if(((!source_uri||s.hud.identity)&&!add_render(s.hud))||!add_render(s.base))return false;
+  for(const auto& render:s.additional_renders)if(!add_render(render))return false;
+  MenuStackActionsGraphV1 navigation;p->services=s;navigation.owner=p->provider;navigation.instance=[raw=p.get()](auto*& stack,auto&){stack=raw->stack.get();return true;};navigation.lifecycle={p.get(),Impl::stack_service};p->navigation=std::make_unique<MenuStackActionsV1>(std::move(navigation));
+  p->bridge=std::make_unique<CharacterMenuAsBridgeV1>(p->provider,[raw=p.get()](const char* name,auto& call,auto& e){if(AuthoredCharacterMenuBridgeV1::route_for(name)==AuthoredCharacterMenuRouteV1::navigation)return raw->navigation->dispatch(name,call,e);if(!raw->services.queries){e=std::string("Required same-profile character query/action: ")+name;return false;}return raw->services.queries(name,call,e);});
+@@ -178,6 +191,17 @@
+  // Multi.LoadSWF publishes its cached MenuFX before virtual Load and does not
+  // roll the constructor/publication prefix back on a required Load failure.
+  // Retain that same owner here; an application lookup must never dangle.
++  if(source_uri){
++   if(!runtime->movie->load_source_resource_v98(source_uri,movie_services,error))return false;
++   struct Root {Impl& r;static bool run(void* raw,SwfAsGraph& graph,std::string& e){auto& r=static_cast<Root*>(raw)->r;SwfAsValue root;gameswf::as_object* actual{};
++    if(!graph.root_value(root,e)||!graph.borrow_object(root,actual,e)||!actual||!actual->is(gameswf::sprite_instance::m_class_id)||!r.services.character||!r.services.character(actual,r.root,e)){
++     if(e.empty())e="Required SAME source primary1 root character projection";return false;
++    }
++    auto* render=r.stack->render(r.render);if(!render){e="Source primary1 lost actual published RenderFX";return false;}render->root=&r.root;e.clear();return true;
++   }} root{*runtime};
++   if(!runtime->scoped(&root,Root::run,error))return false;
++   runtime->loaded=true;return true; //V98 caller owns virtual10/common PostLoad/DragHide.
++  }
+   if(!runtime->movie->load(movie_services,error)||!runtime->register_movie(error))return false;
+   runtime->loaded=true;return true;
+ }
+--- a/port/android-native/app/src/main/cpp/character_panel_session_v1.hpp
++++ b/port/android-native/app/src/main/cpp/character_panel_session_v1.hpp
+@@ -42,6 +42,8 @@
+  std::weak_ptr<void> gameplay_world_v104_;
+  bool campaign_detached_v104_{};
+  bool prepare(std::string&);
++ bool initialize_authored_impl_v98(const model_renderer::PlayerGameplayBinding&,const ui::AuthoredCharacterPanelServicesV2&,
++   const char* source_uri,std::function<bool(model_renderer::PlayerGameplayBinding&,std::string&)> live_binding,std::string&);
+ public:
+   explicit CharacterPanelSessionV1(AAssetManager* assets):manager_(assets),assets_(assets),presentation_(assets_){}
+  bool font_palette_borrow_v4(const ui::CharacterMenuFontPaletteV1*& out,std::string& error){
+@@ -64,6 +66,9 @@
+  // the current live profile only for the complete synchronous movie operation.
+  //Only after the existing native Multi unload has cleared resource and render.
+  bool retire_failed_authored_prefix_v98(std::string&);
++ //Main lends genuine current selected binding per callback, weak toward campaign.
++ bool load_source_primary1_v98(const model_renderer::PlayerGameplayBinding&,const ui::AuthoredCharacterPanelServicesV2&,
++   const char* actual_uri,std::function<bool(model_renderer::PlayerGameplayBinding&,std::string&)> live_binding,std::string&);
+  bool initialize_authored(const model_renderer::PlayerGameplayBinding&,
+                          const ui::AuthoredCharacterPanelServicesV2&,std::string&);
+  bool authored_open(const model_renderer::PlayerGameplayBinding&,std::string&);
+--- a/port/android-native/app/src/main/cpp/character_panel_authored_v2.cpp
++++ b/port/android-native/app/src/main/cpp/character_panel_authored_v2.cpp
+@@ -25,13 +25,31 @@
+  }
+  failed_authored_prefix_v98_.reset();failed_authored_identity_v98_=0;failed_authored_error_v98_.clear();error.clear();return true;
+ }
+-bool CharacterPanelSessionV1::initialize_authored(const model_renderer::PlayerGameplayBinding& p,const ui::AuthoredCharacterPanelServicesV2& services,std::string& error){
++bool CharacterPanelSessionV1::initialize_authored(const model_renderer::PlayerGameplayBinding& p,const ui::AuthoredCharacterPanelServicesV2& services,std::string& error){return initialize_authored_impl_v98(p,services,nullptr,{},error);}
++bool CharacterPanelSessionV1::load_source_primary1_v98(const model_renderer::PlayerGameplayBinding& p,const ui::AuthoredCharacterPanelServicesV2& services,const char* uri,
++ std::function<bool(model_renderer::PlayerGameplayBinding&,std::string&)> live_binding,std::string& error){
++ if(!uri||!*uri||!live_binding){error="Required original primary1 URI and genuine current selected Character borrower";return false;}
++ return initialize_authored_impl_v98(p,services,uri,std::move(live_binding),error);
++}
++bool CharacterPanelSessionV1::initialize_authored_impl_v98(const model_renderer::PlayerGameplayBinding& p,const ui::AuthoredCharacterPanelServicesV2& services,const char* source_uri,
++ std::function<bool(model_renderer::PlayerGameplayBinding&,std::string&)> live_binding,std::string& error){
+  if(initializing_authored_||failed_authored_prefix_v98_){if(failed_authored_error_v98_.empty())failed_authored_error_v98_="Character constructor/Load prefix requires actual teardown before replay";error=failed_authored_error_v98_;return false;}
+  if(!p.active||!p.world_owner||!prepare(error)){if(error.empty())error="Authored panel requires current live profile";return false;}
+  Borrow borrow(authored_player_,p);auto source=services;
+  source.queries=[this](const char* name,auto& call,auto& e){if(!authored_player_){e="Authored character callback outside a current profile borrow";return false;}return dispatch(*authored_player_,name,call,e);};
++ if(source_uri){
++  if(authored_&&authored_->source_render_identity_v91()){error="Existing primary1 awaits genuine Stage2 unload before source reconstruction";return false;}
++  const auto campaign=std::weak_ptr<void>(p.world_owner);
++  source.queries=[this,campaign,live_binding=std::move(live_binding)](const char* name,auto& call,auto& e){model_renderer::PlayerGameplayBinding live;
++   if(!live_binding(live,e)||!live.active||!live.world_owner){if(e.empty())e="Required genuine current selected Character for primary1 native query";return false;}
++   const auto world=campaign.lock();if(!world||world.get()!=live.world_owner.get()||world.owner_before(live.world_owner)||live.world_owner.owner_before(world)){
++    e="Primary1 native query belongs to replaced campaign";return false;
++   }
++   Borrow borrow(authored_player_,live);return dispatch(live,name,call,e);
++  };
++ }
+  if(!source.localization.text)source.localization.text=&text_;
+- if(campaign_detached_v104_&&authored_&&authored_->bound()){
++ if(!source_uri&&campaign_detached_v104_&&authored_&&authored_->bound()){
+   if(!authored_->rebind_process_services_v104(source,error))return false;
+   campaign_detached_v104_=false;return true;
+  }
+@@ -43,7 +61,7 @@
+  struct PrefixReceipt {CharacterPanelSessionV1& self;~PrefixReceipt(){if(self.failed_authored_prefix_v98_){
+   self.failed_authored_identity_v98_=self.failed_authored_prefix_v98_->source_render_identity_v91();
+  }}} receipt{*this};
+- const bool initialized=failed_authored_prefix_v98_->initialize(source,error);
++ const bool initialized=source_uri?failed_authored_prefix_v98_->load_source_primary1_v98(source,source_uri,error):failed_authored_prefix_v98_->initialize(source,error);
+  if(!initialized||!failed_authored_error_v98_.empty()){
+   if(failed_authored_error_v98_.empty())failed_authored_error_v98_=error.empty()?"Actual Character primary1 initialization failed":error;error=failed_authored_error_v98_;return false;
+  }

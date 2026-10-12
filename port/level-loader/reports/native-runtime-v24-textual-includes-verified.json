@@ -1,0 +1,7 @@
+{
+  "validation": "PASS",
+  "archive_sha256": "0bc322650cb1da267ffcf9fda678a1ae10fc97d90bbc30c78292b4d440fd82ad",
+  "payloads_verified": 2,
+  "existing_captured_includes_byte_identical": true,
+  "separate_translation_units": false
+}

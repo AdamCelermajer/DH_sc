@@ -1,0 +1,23 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character9_InitHpMpEv",
+      "elf_address": "0x3b3a70",
+      "size": 32,
+      "sha256": "0c9ab776c61de88c1a933c450e708793c0e97c076328e3259881c62fad0911de"
+    },
+    {
+      "original_symbol": "_ZN6CharAI15UpdateAllSkillsEv",
+      "elf_address": "0x3d8894",
+      "size": 180,
+      "sha256": "7c3efb393b1c872b2992c91f04214cbf333d09330a5fd26d84e14c1b0fef58c3"
+    },
+    {
+      "original_symbol": "_ZN6CharAI18SetSkillsAndSpellsEv",
+      "elf_address": "0x3ce044",
+      "size": 1916,
+      "sha256": "ca650d7059d273436362d2d10ba973fbbc0fe1dfd632b86857e982470593ded2"
+    }
+  ]
+}

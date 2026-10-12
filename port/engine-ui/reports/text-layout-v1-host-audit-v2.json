@@ -1,0 +1,54 @@
+{
+  "validation": "PASS",
+  "results": {
+    "validation": "PASS",
+    "whole_original_cases": 960,
+    "required_or_unsafe_domain_guards": 4
+  },
+  "source_and_gold_sha256": {
+    "port/engine-ui/text_layout_v1.hpp": "73e9cbb6892cfd99b8d5cd9a03955ef6e6c41f251c5aa5bb02eab9f57ed4c6da",
+    "port/engine-ui/text_layout_v1.cpp": "5f4aaeb895f6529a7681ccebe7a0df86ef05e9d9e18527ac3d347c48e72b8316",
+    "port/engine-ui/tests/text_layout_v1.cpp": "ae9ac4ac303f5003a10972930ddc13e600cd76c68258a7b5bb9cce2aaeac6ec2",
+    "port/engine-ui/tests/text_layout_v1_original.py": "874d0b736e258217b2770c44efdacb8fc909b82be5c9811983be169738ab3eda",
+    "port/engine-ui/tests/text_layout_v1_host.py": "344f7edcc17c96a68f39e381cc973ed89afaaebfabf37a497aff851fb6845cdd",
+    "port/engine-ui/reference/text-layout-v1/original-functions.json": "bc676ea01cb810863106ea13a7ac68f69f18541dd76ef1cc1309a7ad6184be9b",
+    "port/engine-ui/reference/text-layout-v1/reference/original-functions.asm": "6a121868d262ef5c5d35f1159af103aae4a539b0f236186d1405ff7974ff3408",
+    "port/engine-ui/reference/text-layout-v1/capture_dependencies.py": "68ce3e671e62594d13c6c2723ffccc1d3246514775a47e3b26769451a6eeca81",
+    "port/engine-ui/reference/text-layout-v1/dependencies-and-literals.json": "9286891427882ed85a07999a29dfc1cfbc16fa11d49eb23fc402c924b5659da1",
+    "port/engine-ui/reference/text-layout-v1/whole-gold.bin": "c23e4f46ed3e195a95de7ef93ad5206704d17ececf21f8be9647b5eb47b08ca5",
+    "port/engine-ui/reference/text-layout-v1/whole-gold-v2.bin": "20d2dc3427aa0693134bf132e6fef30dfee3dd40c2e3a67a7aaedf858fbcb200"
+  },
+  "executable_sha256": "8174af8d705d1d4874f0882f3ecc522a5f358e0e987e102d8eaeb47e6e64e025",
+  "compiler_command": [
+    "wsl",
+    "-e",
+    "g++",
+    "-std=c++17",
+    "-O2",
+    "-g",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/text_layout_v1.cpp",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/tests/text_layout_v1.cpp",
+    "-o",
+    "/home/adampalace/dh2-text-layout-v1-audit"
+  ],
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "sanitizers": [
+    "address",
+    "undefined",
+    "leak"
+  ],
+  "sanitizer_findings": 0,
+  "scope": "Compile and replay the complete original dynamic text layout corpus.\nOnly this new subsystem is built. Existing archives, frozen sources and the\nvisible Android checkpoint are neither rebound nor promoted by this receipt.\n",
+  "limits": {
+    "original_layout_parser_and_image_coordinators_execute": true,
+    "array_string_hash_and_font_producers_are_explicit_original_test_services": true,
+    "C_locale_lowercase_table_is_external_fixture": true,
+    "real_retained_UI_adapter_complete": false,
+    "glyph_and_image_GPU_backend_complete": false,
+    "source_reset_format_and_preload_bodies_recovered": false,
+    "APK_promoted": false,
+    "physical_device_execution": false
+  }
+}

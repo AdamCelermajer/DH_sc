@@ -1,0 +1,19 @@
+{
+  "schema": "dh2-character-model-route-v45-prepared",
+  "status": "Native bounded prefix PASS; whole InitPost pending",
+  "base_V42_source_sha256": "8c03a087b472bc7e919139affebd10a0229955b850744d075d85d15c5a3de3e9",
+  "changed_source_sha256": "8b25023efde915318219a55288412d66faf84c8f230ca790420b2ff6ece4b91a",
+  "patch_sha256": "6c52b41d3b35769a35d093d926cffcf81c599a2d6d78a51df6809182b1961fc7",
+  "new_route_hpp_sha256": "b7768555316c8c5234b86779f5d84fcd6c66d3c2446765459b18cb10a53539a0",
+  "new_route_cpp_sha256": "4590be23d7c231b02bd472a1531a20ccccde65ac7d3b4e7e40f9fe1b7fc3c50e",
+  "same_actual_owner_property_alias": true,
+  "readiness_witness": "existing actual NPC owner current model request after completed source LoadBase/Recalc prefix",
+  "factory_weak_no_record_cycle": true,
+  "new_shadow_stage_or_cache": false,
+  "selected_graph_changed": false,
+  "native_run": true,
+  "game_or_emulator_launched": false,
+  "test_source_sha256": "b8cb8cb76be196841eb016022cd3762b4322c8d33606b62de82ba78f868a77f1",
+  "test_syntax_pass": true,
+  "native_runner_sha256": "60312bb1ed87a5e7d2309a7dea040b05c9994a900fa6e296060e8a32bea761d1"
+}

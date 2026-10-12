@@ -1,0 +1,13 @@
+--- a/port/level-loader/native_noncharacter_sources_v67.cmake
++++ b/port/level-loader/native_noncharacter_sources_v67.cmake
+@@ -15,8 +15,8 @@
+    list(APPEND existing_absolute "${path}")
+   endif()
+  endforeach()
+- set(catalog_sources production_noncharacter_catalog_v67.cpp production_noncharacter_composition_v67.cpp catalog_containers_v67.cpp catalog_environment_v67.cpp catalog_generic_v70.cpp catalog_colbox_v71.cpp catalog_floor_v72.cpp)
+- set(loader_sources canonical_light_point_v53.cpp canonical_light_point_factory_v53.cpp game_object_arrays_owner_v81.cpp canonical_colbox_v71.cpp canonical_floor_v72.cpp)
++ set(catalog_sources production_noncharacter_catalog_v67.cpp production_noncharacter_composition_v67.cpp catalog_containers_v67.cpp catalog_environment_v67.cpp catalog_generic_v70.cpp catalog_colbox_v71.cpp catalog_floor_v72.cpp catalog_projectiles_v99.cpp)
++ set(loader_sources canonical_light_point_v53.cpp canonical_light_point_factory_v53.cpp game_object_arrays_owner_v81.cpp canonical_colbox_v71.cpp canonical_floor_v72.cpp canonical_projectile_v99.cpp projectile_resource_services_v99.cpp)
+  set(world_sources canonical_openable_graph_v21.cpp light_set_name_owner_v3.cpp canonical_room_zone_v3.cpp canonical_room_zone_factory_v3.cpp)
+  set(added)
+  foreach(group IN ITEMS catalog loader world)

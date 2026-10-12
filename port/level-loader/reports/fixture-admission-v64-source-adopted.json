@@ -1,0 +1,95 @@
+{
+  "status": "SOURCE_TARGETS_ADOPTED_UNCOMPILED",
+  "candidate_manifest_sha256": "a57ebfa8133c80a4c9375efdd82ca77fceac2d4a6ed045536ea99006be83c2bc",
+  "original_successor_pairs_verified": 18,
+  "changed_current_target_count": 13,
+  "changes": [
+    {
+      "target": "dh2_loader_integrated_loading_v37_probe",
+      "old": " add_executable(dh2_loader_integrated_loading_v37_probe \"${loader}/tests/canonical_loading_context_source_probe_v37.cpp\")",
+      "new": " add_executable(dh2_loader_integrated_loading_v37_probe \"${loader}/candidate/fixture-admission-repair-v64/successors/canonical_loading_context_source_probe_v37_admission_v64.cpp\")",
+      "source_sha256": "d2b0909e57535d5abd8b319a6cf9c441cdde19749583c2a4c8d0014787211435"
+    },
+    {
+      "target": "dh2_loader_integrated_loading_v47_probe",
+      "old": "add_executable(dh2_loader_integrated_loading_v47_probe \"${loader}/tests/canonical_loading_context_source_probe_v47.cpp\")",
+      "new": "add_executable(dh2_loader_integrated_loading_v47_probe \"${loader}/candidate/fixture-admission-repair-v64/successors/canonical_loading_context_source_probe_v47_admission_v64.cpp\")",
+      "source_sha256": "24ea18b0bca4acc7e03a0ab43ae98b4cefd55ef044ac948c8b58b7791090670a"
+    },
+    {
+      "target": "dh2_loader_module_graph_source_probe",
+      "old": "add_executable(dh2_loader_module_graph_source_probe \"${loader}/tests/canonical_module_graph_source_probe.cpp\")",
+      "new": "add_executable(dh2_loader_module_graph_source_probe \"${loader}/candidate/fixture-admission-repair-v64/successors/canonical_module_graph_source_probe_admission_v64.cpp\")",
+      "source_sha256": "76a638b87d2d815aa98bbb6c9762de39ea9542b3f20c06bbbf07dfea6d4a23ba"
+    },
+    {
+      "target": "dh2_loader_character_swamp_model_v40_probe",
+      "old": "add_executable(dh2_loader_character_swamp_model_v40_probe \"${loader}/tests/character_swamp_model_v40_probe.cpp\")",
+      "new": "add_executable(dh2_loader_character_swamp_model_v40_probe \"${loader}/candidate/fixture-admission-repair-v64/successors/character_swamp_model_v40_probe_admission_v64.cpp\")",
+      "source_sha256": "9a962068c867160f8225a139fd367ecd1615224096d7c34125151bde9493efc4"
+    },
+    {
+      "target": "dh2_loader_dynamic_module_v44",
+      "old": "add_executable(dh2_loader_dynamic_module_v44 \"${loader}/tests/dynamic_module_source_v44.cpp\")",
+      "new": "add_executable(dh2_loader_dynamic_module_v44 \"${loader}/candidate/fixture-admission-repair-v64/successors/dynamic_module_source_v44_admission_v64.cpp\")",
+      "source_sha256": "0fe8d9b6b3ffb7581769e75fa8ed062729ea9e241395e1ce427a66d538551a6d"
+    },
+    {
+      "target": "dh2_loader_actor_image_v45_probe",
+      "old": "add_executable(dh2_loader_actor_image_v45_probe \"${loader}/tests/generic_actor_image_binding_v45_probe.cpp\")",
+      "new": "add_executable(dh2_loader_actor_image_v45_probe \"${loader}/candidate/fixture-admission-repair-v64/successors/generic_actor_image_binding_v45_probe_admission_v64.cpp\")",
+      "source_sha256": "65bb2e5039b369eb6229c5fdf9aa3209b9af87aab2c1909e95cd768f69b0f239"
+    },
+    {
+      "target": "dh2_loader_actor_image_lifetime_v48_probe",
+      "old": "add_executable(dh2_loader_actor_image_lifetime_v48_probe \"${loader}/tests/generic_actor_image_lifetime_v48_probe.cpp\" \"${loader}/reference/main-budget-binding-v46/byte_free_observer_v46.cpp\")",
+      "new": "add_executable(dh2_loader_actor_image_lifetime_v48_probe \"${loader}/candidate/fixture-admission-repair-v64/successors/generic_actor_image_lifetime_v48_probe_admission_v64.cpp\" \"${loader}/reference/main-budget-binding-v46/byte_free_observer_v46.cpp\")",
+      "source_sha256": "45846b1cef78198540c3ea1e030a9264e47d90e716676e18dcc4d5c3c7d8f3b3"
+    },
+    {
+      "target": "dh2_loader_source_stage_swamp_v40",
+      "old": "  add_executable(dh2_loader_source_stage_swamp_v40 \"${loader}/tests/source_stage_swamp_v40.cpp\")",
+      "new": "  add_executable(dh2_loader_source_stage_swamp_v40 \"${loader}/candidate/fixture-admission-repair-v64/successors/source_stage_swamp_v40_admission_v64.cpp\")",
+      "source_sha256": "f6da8ff8e32084f887be5f9999ef5f4f3229f32f24ce59f59538fd40cc8349b0"
+    },
+    {
+      "target": "dh2_loader_source_stage_swamp_v47",
+      "old": "add_executable(dh2_loader_source_stage_swamp_v47 \"${loader}/tests/source_stage_swamp_v47.cpp\")",
+      "new": "add_executable(dh2_loader_source_stage_swamp_v47 \"${loader}/candidate/fixture-admission-repair-v64/successors/source_stage_swamp_v47_admission_v64.cpp\")",
+      "source_sha256": "3fd18b254efcb22df78e720cf738fc974ac1b0a84f632f4311d30880a89dd473"
+    },
+    {
+      "target": "dh2_loader_source_visual_helper_v41_probe",
+      "old": " add_executable(dh2_loader_source_visual_helper_v41_probe \"${loader}/tests/source_visual_helper_v41_probe.cpp\")",
+      "new": " add_executable(dh2_loader_source_visual_helper_v41_probe \"${loader}/candidate/fixture-admission-repair-v64/successors/source_visual_helper_v41_probe_admission_v64.cpp\")",
+      "source_sha256": "1239c1b0863a2b3643b601e3bb5b98bec03b69faf2a1174278b6d3a5299288f7"
+    },
+    {
+      "target": "dh2_loader_same_level_ctor_probe",
+      "old": "add_executable(dh2_loader_same_level_ctor_probe \"${graph_snapshot}/port/level-loader/tests/canonical_level_constructor_v3.cpp\")",
+      "new": "add_executable(dh2_loader_same_level_ctor_probe \"${loader}/candidate/fixture-admission-repair-v64/successors/canonical_level_constructor_v3_admission_v64.cpp\")",
+      "source_sha256": "42936de49b617a46f3c3cfbdbea6368afe8472579a68c9f7d7f0cd05b9104d3d"
+    },
+    {
+      "target": "dh2_loader_native_ctor_bindings_probe",
+      "old": "add_executable(dh2_loader_native_ctor_bindings_probe \"${graph_snapshot}/port/level-loader/tests/level_constructor_bindings_v4.cpp\")",
+      "new": "add_executable(dh2_loader_native_ctor_bindings_probe \"${loader}/candidate/fixture-admission-repair-v64/successors/level_constructor_bindings_v4_admission_v64.cpp\")",
+      "source_sha256": "03097d8cae78c849a5144731e0ee19a3e94f36b6ca1426689a8242bb9774cd13"
+    },
+    {
+      "target": "dh2_loader_preview_entity_export_v30",
+      "old": "add_executable(dh2_loader_preview_entity_export_v30 ../canonical_preview_entity_export_v30.cpp)",
+      "new": "add_executable(dh2_loader_preview_entity_export_v30 \"${loader}/candidate/fixture-admission-repair-v64/successors/canonical_preview_entity_export_v30_admission_v64.cpp\")",
+      "source_sha256": "90073c25987a5283e8afe883a1c6d68d034d17188bebc98d1ad168d123eb2ff9"
+    }
+  ],
+  "cmake_before_sha256": "1b5bae63ad966ab1114a4a0d71e92e82de7561c991f493f6620c4a602e169419",
+  "cmake_after_sha256": "e1c6f36a8a0ad9c0272b9c3ff1c2439112bc46352731096c5da787cc2405c934",
+  "historical_source_files_receipts_archives_modified": false,
+  "raw_C1_synthetic_tests_keep_low_level_domain": true,
+  "actual_table_bindings_get_canonical_logical_identity": true,
+  "selected_SWAMP_request_seed7_matches_C1input7": true,
+  "selected_guard_weakened": false,
+  "new_compiler_build_runtime_jobs": false,
+  "shared_modified": false
+}

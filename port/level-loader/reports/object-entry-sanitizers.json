@@ -1,0 +1,590 @@
+{
+  "validation": "PASS",
+  "scope": "Check native retained entry classifications against executed original branches.\n\nThis is source preparation and original-registry metadata, not native object\nconstruction, class behavior, event/restoration integration or rendering.\n",
+  "script_sha256": "7f65abdf84b87578138ede6ef060236a3ef6fe3a654fe83f8e2d8a805ba88513",
+  "source_sha256": {
+    "object_entry_v1.cpp": "b84d1dc4b2349d8062b45f22cf69399dfd2d69b25b8036deb83f48bfcf760a31",
+    "object_entry_v1.hpp": "0934a05b557b7797e9a1ddea64fd808d4fc98b7fd8a7ce7d7117398f12270893",
+    "original_factory_table_v1.inc": "4f360e03f04d069d50d7779794b2306ab93cdf177415a941ef4c6bf3d340a643",
+    "tests/object_entry_probe.cpp": "0195e6c52bac7ddd6b2d4caf3ede2a3430eea246380e39a79e49c4a08a26c058",
+    "tests/object_entry_host.py": "7f65abdf84b87578138ede6ef060236a3ef6fe3a654fe83f8e2d8a805ba88513"
+  },
+  "original_receipt_sha256": "36de423d6e8f12bd3a58eb0043d815f2fb1796df3892e80974675287fc0d981a",
+  "factory_receipt_sha256": "fe19470f8cb8aa76e7f0d4d375411a7d9094c7984751fd6d41ca697802c0f70f",
+  "probe_sha256": "0f161c335b695ec3e752c9794dd13810f46c09c432397913171db453b13ed6a1",
+  "input_sha256": "dc307524e54ebed58f670d637c1215d5cd9a30c2081141cad9f1bdfb9765c499",
+  "registry_entries_compared": 33,
+  "cases": [
+    {
+      "label": "dispatch-0",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-1",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-2",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-3",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-4",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-5",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-6",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-7",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-8",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-9",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-10",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-11",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-12",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-13",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-14",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-15",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-16",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-17",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-18",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-19",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-20",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-21",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-22",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-23",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-24",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-25",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-26",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-27",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-28",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-29",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-30",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-31",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-32",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-33",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-34",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-35",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-36",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-37",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-38",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-39",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-40",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-41",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-42",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-43",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-44",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-45",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-46",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-47",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-48",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-49",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-50",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-51",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-52",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-53",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-54",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-55",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-56",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-57",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-58",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-59",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-60",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-61",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-62",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-63",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-64",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-65",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-66",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-67",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "dispatch-68",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "data/3d/modules/icy_cavern/mgp/ic01_corner_icycavern_sw_00_01.mgp:_exit_west_09:False",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "data/3d/modules/icy_cavern/mgp/ic01_corner_icycavern_sw_00_01.mgp:_exit_west_09:True",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "data/3d/modules/icy_cavern/mgp/ic03_corner_icycavern_sw_00_01.mgp:_exit_west_09:False",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "data/3d/modules/icy_cavern/mgp/ic03_corner_icycavern_sw_00_01.mgp:_exit_west_09:True",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "data/3d/modules/icy_cavern/mgp/ic02_corner_icycavern_sw_00_01.mgp:_exit_west_11:False",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "data/3d/modules/icy_cavern/mgp/ic02_corner_icycavern_sw_00_01.mgp:_exit_west_11:True",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "data/3d/modules/icy_cavern/mgp/ic02_corner_icycavern_sw_00_01.mgp:_exit_west_09:False",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "data/3d/modules/icy_cavern/mgp/ic02_corner_icycavern_sw_00_01.mgp:_exit_west_09:True",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "data/3d/modules/icy_cavern/mgp/ic02_corner_icycavern_sw_00_01.mgp:_exit_west_09_001:False",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "data/3d/modules/icy_cavern/mgp/ic02_corner_icycavern_sw_00_01.mgp:_exit_west_09_001:True",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "data/3d/modules/water_temple/mgp/watertemple_corner_ne_05.mgp:_exit_north_06:False",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "data/3d/modules/water_temple/mgp/watertemple_corner_ne_05.mgp:_exit_north_06:True",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "data/3d/modules/water_temple/mgp/watertemple_corner_ne_05.mgp:_exit_east_06:False",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "data/3d/modules/water_temple/mgp/watertemple_corner_ne_05.mgp:_exit_east_06:True",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp:_exit_south_10_001:False",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp:_exit_south_10_001:True",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp:_exit_south_10_001_001:False",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp:_exit_south_10_001_001:True",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp:_exit_south_10_001_001_001:False",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp:_exit_south_10_001_001_001:True",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "data/3d/modules/abbey/mgp/debug_straight_a_01.mgp:_exit_west_01:False",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "data/3d/modules/abbey/mgp/debug_straight_a_01.mgp:_exit_west_01:True",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "data/3d/modules/abbey/mgp/debug_straight_a_01.mgp:_exit_east_01:False",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "data/3d/modules/abbey/mgp/debug_straight_a_01.mgp:_exit_east_01:True",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "data/3d/modules/castle/mgp/boss_earth.mgp:_exit_south_07_001:False",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "data/3d/modules/castle/mgp/boss_earth.mgp:_exit_south_07_001:True",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "data/3d/modules/castle/mgp/boss_lightning.mgp:_exit_south_07_001:False",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "data/3d/modules/castle/mgp/boss_lightning.mgp:_exit_south_07_001:True",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "data/3d/modules/castle/mgp/boss_fire.mgp:_exit_south_07_001:False",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "data/3d/modules/castle/mgp/boss_fire.mgp:_exit_south_07_001:True",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "gate-99",
+      "disposition": "original_player_exclusion",
+      "original_execution_compared": true
+    },
+    {
+      "label": "gate-100",
+      "disposition": "original_unregistered_type",
+      "original_execution_compared": true
+    },
+    {
+      "label": "gate-101",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "gate-102",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "gate-103",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "gate-104",
+      "disposition": "original_missing_attribute",
+      "original_execution_compared": true
+    },
+    {
+      "label": "gate-105",
+      "disposition": "original_missing_attribute",
+      "original_execution_compared": true
+    },
+    {
+      "label": "gate-106",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "gate-107",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "gate-108",
+      "disposition": "original_type_filter",
+      "original_execution_compared": true
+    },
+    {
+      "label": "gate-109",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "gate-110",
+      "disposition": "original_type_filter",
+      "original_execution_compared": true
+    },
+    {
+      "label": "gate-111",
+      "disposition": "registered_requires_services",
+      "original_execution_compared": true
+    },
+    {
+      "label": "level-missing-type",
+      "disposition": "unsafe_level_missing_type",
+      "original_execution_compared": false
+    }
+  ],
+  "original_lookup_cases_compared": 69,
+  "original_xml_entry_cases_compared": 43,
+  "unsafe_adapter_case": 1,
+  "runtime_factory_contract_agreed": false,
+  "runtime_objects_verified": false,
+  "full_loader_verified": false
+}

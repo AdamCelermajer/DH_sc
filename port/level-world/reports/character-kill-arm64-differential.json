@@ -1,0 +1,33 @@
+{
+  "validation": "PASS",
+  "scope": "Actual Kill/Ctrl_Kill instructions, property kernels and exact service order.\n\nLoot, aggro enumeration, classification/handle, XP, trophies, constants and\nevent dispatch are declared fixture services. No supported source blocks skip.\nNull current-Level probes compare the reached unsafe producer prefix only.\n",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "e9d3bd8d508f948f7bf00738d50bb897d7789a3727db844cabd038870cc2bf6d",
+  "source_sha256": {
+    "port/level-world/character_kill.cpp": "b02573981a54839ef300f1a04bdee51246fbb62de2af5104735f32b8e9f4fcfb",
+    "port/game-data/properties.cpp": "f1a77dbcb075c04fecaf3ec1d61180eb0e123e8f5cab5f64090d43aea6aa7877",
+    "port/game-data/properties.hpp": "aeaaa77b0134ab614892cd726c8124548d3c249cf7c4f8a2e43964fdcd41217d",
+    "port/level-world/character_kill.hpp": "ceee60938d3862a39134672a85f5a9fb3a01c3ec9c2a664bb028d162cbf66b06",
+    "port\\level-world\\tests\\character_kill_differential.py": "5f1e910fb975aa794d2d98fa933a1141f322e5f8fc51f647b8263b9e075894c5"
+  },
+  "comparisons": 2222,
+  "gold_replay_cases": 2200,
+  "synchronous_reentry_cases": 22,
+  "ctrl_kill_comparisons": 1112,
+  "ordered_requests": 24705,
+  "unsafe_original_prefixes": 69,
+  "atomic_guards": 8,
+  "mismatches": 0,
+  "gold_sha256": "136b9c897df7889215fc0a29d705d4b554d33fbc0a2a679430c72cba9d51c7a3",
+  "original_kernel_entry_counts": {
+    "0x3e07a0": 2051,
+    "0x3e0798": 1252,
+    "0x3e0708": 1252,
+    "0x3df6e0": 1076
+  },
+  "original_import_calls": {},
+  "native_import_calls": {},
+  "full_loot_xp_quest_AI_backends": false,
+  "packaged_APK": false,
+  "elapsed_seconds": 7.11
+}

@@ -1,0 +1,15 @@
+{
+  "archive": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\character-loader-fields-v38-d338a484b6a68b79.zip",
+  "sha256": "44f6ca222687a67f0a2823ac38e87662bda0ebe741e9835577f2cbb87278fd17",
+  "manifest_sha256": "d338a484b6a68b7980745d6393f8a0b43187734b93a1f67fa9b13b52bb08dbef",
+  "payloads": 39,
+  "actor_changes_applied": false,
+  "model_adapter_cases": 13,
+  "original_ctor_poison_cases": 3,
+  "saved_faery_selection_verified": false,
+  "device_launch": false,
+  "selected_actor_source_snapshots": {
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v4\\port\\level-world\\retained_character_actor_v1.hpp": "0a1954ecb0d19f800de635c576fd3090e2ea361a8d57653d640e5de96018d0d1",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v4\\port\\level-world\\retained_character_actor_v1.cpp": "6dce8ac669db1ecd139678a6e4f9c5729b7b061a48f810b467a6b8e113afa279"
+  }
+}

@@ -1,0 +1,82 @@
+[
+  {
+    "address": "0x394eb0",
+    "size": 16,
+    "name": "GameObject::LoadVisualObject()"
+  },
+  {
+    "address": "0x38be5c",
+    "size": 560,
+    "name": "GameObject::InitPost()"
+  },
+  {
+    "address": "0x38c130",
+    "size": 616,
+    "name": "GameObject::GameObject(ObjectBase::GO_IDS)"
+  },
+  {
+    "address": "0x38c398",
+    "size": 616,
+    "name": "GameObject::GameObject(ObjectBase::GO_IDS)"
+  },
+  {
+    "address": "0x33ec0c",
+    "size": 148,
+    "name": "ObjectBase::InitPost()"
+  },
+  {
+    "address": "0x33f15c",
+    "size": 436,
+    "name": "ObjectBase::ObjectBase(ObjectBase::GO_IDS)"
+  },
+  {
+    "address": "0x33f310",
+    "size": 436,
+    "name": "ObjectBase::ObjectBase(ObjectBase::GO_IDS)"
+  },
+  {
+    "address": "0x33eb28",
+    "size": 228,
+    "name": "ConditionData::Init()"
+  },
+  {
+    "address": "0x33e7c8",
+    "size": 48,
+    "name": "ConditionData::Clear()"
+  },
+  {
+    "address": "0x33ed7c",
+    "size": 92,
+    "name": "ConditionData::ConditionData()"
+  },
+  {
+    "address": "0x33edd8",
+    "size": 92,
+    "name": "ConditionData::ConditionData()"
+  },
+  {
+    "address": "0x478914",
+    "size": 136,
+    "name": "ConditionList::AssignPyData(Structs::v2ConditionStub*, int)"
+  },
+  {
+    "address": "0x4786f0",
+    "size": 20,
+    "name": "ConditionList::ConditionList()"
+  },
+  {
+    "address": "0x4786dc",
+    "size": 20,
+    "name": "ConditionList::ConditionList()"
+  },
+  {
+    "address": "0x38174c",
+    "size": 4,
+    "name": "Device::IsHighPerformance()"
+  },
+  {
+    "address": "0x3816a8",
+    "size": 148,
+    "name": "Device::IsProgrammablePipeline()"
+  }
+]

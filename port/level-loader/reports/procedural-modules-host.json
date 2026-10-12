@@ -1,0 +1,507 @@
+{
+  "scope": "Compare native generated module overrides with original ARM setter boundaries.",
+  "validation": "PASS",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "original_receipt_sha256": "b969346a47b92c879d49e7f7655ea084e132235a749d7fd9f442c68f5cd3eedd",
+  "probe_sha256": "89c69310999b27f7cf8bd38e0da802728c1c6f0aaf5fbaeb539542c871b82157",
+  "probe": "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/host-xml/dh2_loader_procedural_modules_probe",
+  "script_sha256": "20bed6fc6741373406fe0f5899618f88778408461f6160b460565947c71f8944",
+  "cases": [
+    {
+      "name": "data/scene/002_swamp_witchcave.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 7,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/002_swamp_witchcave.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 7,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/004_root_den.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 8,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/004_root_den.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 8,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/006_basement.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 8,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/006_basement.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 8,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/007_crypt_01.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 8,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/007_crypt_01.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 8,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/008_gothicus_castle_01.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 7,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/008_gothicus_castle_01.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 7,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/009_abbey.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 11,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/009_abbey.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 11,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/010_el_lightning.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 7,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/010_el_lightning.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 7,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/011_earth_temple_01.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 7,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/011_earth_temple_01.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 6,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/012_earth_temple_02.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 8,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/012_earth_temple_02.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 7,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/013_earth_temple_03.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 5,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/013_earth_temple_03.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 5,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/014_el_earth.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 7,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/014_el_earth.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 7,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/016_red_desert_cave_01.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 9,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/016_red_desert_cave_01.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 7,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/017_red_desert_cave_02.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 0,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/017_red_desert_cave_02.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 10,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/018_red_desert_cave_03.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 10,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/018_red_desert_cave_03.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 10,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/019_light_house_01.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 5,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/019_light_house_01.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 5,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/019_light_house_02.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 5,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/019_light_house_02.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 5,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/019_light_house_03.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 1,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/019_light_house_03.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 1,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/020_crypt_02.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 11,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/020_crypt_02.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 11,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/021_gothicus_castle_02.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 7,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/021_gothicus_castle_02.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 7,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/022_swamp2.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 11,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/022_swamp2.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 12,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/022_swamp2_trollcave.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 9,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/022_swamp2_trollcave.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 8,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/023_watertemple.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 13,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/023_watertemple.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 13,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/024_el_water.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 8,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/024_el_water.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 8,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/026_icy_cavern_01.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 10,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/026_icy_cavern_01.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 10,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/027_icy_cavern_02.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 0,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/027_icy_cavern_02.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 0,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/028_icy_cavern_03.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 11,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/028_icy_cavern_03.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 11,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/029_wind_temple.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 12,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/029_wind_temple.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 12,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/030_el_air.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 8,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/030_el_air.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 7,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/032_el_fire.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 8,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/032_el_fire.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 8,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/033_voidmaze_01.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 9,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/033_voidmaze_01.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 9,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/034_voidmaze_02.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 11,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/034_voidmaze_02.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 11,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/035_voidmaze_03.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 7,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/035_voidmaze_03.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 7,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/050_earth_temple_demo.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 4,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/050_earth_temple_demo.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 4,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/102_debug_questtest.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 7,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/102_debug_questtest.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 7,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/125_randomforalexb.rule.xml",
+      "seed": 0,
+      "matches": true,
+      "modules": 5,
+      "differences": {}
+    },
+    {
+      "name": "data/scene/125_randomforalexb.rule.xml",
+      "seed": 1,
+      "matches": true,
+      "modules": 5,
+      "differences": {}
+    }
+  ],
+  "runs": 70,
+  "module_occurrences": 533,
+  "native_module_projection_verified": true,
+  "full_property_serialization_verified": false,
+  "android_procedural_rendering_verified": false,
+  "full_loader_verified": false
+}

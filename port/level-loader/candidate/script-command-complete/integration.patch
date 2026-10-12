@@ -1,0 +1,464 @@
+--- a/script_command_receivers_v59.hpp
++++ b/script_command_receivers_v59.hpp
+@@ -16,6 +16,11 @@
+  std::shared_ptr<CanonicalScriptCommandV59> actual_receiver;
+  std::shared_ptr<void> actual_menu_owner; // scoped pin; .get() equals SAME menu10
+  std::uintptr_t identity{};std::uintptr_t* menu10{};
++};
++struct CheckedCommandPointerBorrowV59 {
++ std::shared_ptr<CanonicalScriptCommandV59> actual_receiver;
++ std::shared_ptr<void> actual_target_owner;
++ std::uintptr_t identity{};std::uint32_t original_offset{};std::uintptr_t* actual_pointer{};
+ };
+ struct ScriptCommandBehaviorV59 {
+  std::weak_ptr<void> actual_owner;
+@@ -41,6 +46,10 @@
+  virtual const std::uintptr_t* menu_pointer_cell() const noexcept{return nullptr;}
+  virtual std::weak_ptr<void>* menu_owner_cell() noexcept{return nullptr;}
+  virtual const std::weak_ptr<void>* menu_owner_cell() const noexcept{return nullptr;}
++ virtual std::uintptr_t* native_pointer_cell(std::uint32_t o) noexcept{return o==16?menu_pointer_cell():nullptr;}
++ virtual const std::uintptr_t* native_pointer_cell(std::uint32_t o) const noexcept{return o==16?menu_pointer_cell():nullptr;}
++ virtual std::weak_ptr<void>* native_pointer_owner_cell(std::uint32_t o) noexcept{return o==16?menu_owner_cell():nullptr;}
++ virtual const std::weak_ptr<void>* native_pointer_owner_cell(std::uint32_t o) const noexcept{return o==16?menu_owner_cell():nullptr;}
+  virtual CommandOperandCellV59* operand_cell(std::uint32_t) noexcept=0;
+  virtual const CommandOperandCellV59* operand_cell(std::uint32_t) const noexcept=0;
+  void apply_constructor_operands();
+@@ -55,6 +64,7 @@
+  std::uintptr_t identity()const noexcept{return reinterpret_cast<std::uintptr_t>(this);}
+  bool checked_data_borrow(CheckedCommandBorrowV59&,std::string&);
+  bool checked_menu_borrow(CheckedCommandMenuBorrowV59&,std::string&);
++ bool checked_pointer_borrow(std::uint32_t,CheckedCommandPointerBorrowV59&,std::string&);
+  ScriptCommandBorrowV52 constructor_borrow();
+  bool init(std::string&);bool execute(bool,std::int32_t,std::string&);
+  bool release_base_storage(std::string&);
+@@ -428,6 +438,258 @@
+  Script_FlushMessagesReceiverV59(const CommandC1DescriptorV59& d,ScriptCommandBehaviorV59 b):CanonicalScriptCommandV59(d,std::move(b),79){apply_constructor_operands();}
+  std::int32_t receiver_kind() const noexcept override {return 79;}
+ };
++class Script_EmptyImplReceiverV59 final : public CanonicalScriptCommandV59 {
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_EmptyImplReceiverV59(const CommandC1DescriptorV59& desc,ScriptCommandBehaviorV59 behavior):CanonicalScriptCommandV59(desc,std::move(behavior),9){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 9;}
++};
++class Script_StartDialogIDReceiverV59 final : public CanonicalScriptCommandV59 {
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_StartDialogIDReceiverV59(const CommandC1DescriptorV59& desc,ScriptCommandBehaviorV59 behavior):CanonicalScriptCommandV59(desc,std::move(behavior),11){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 11;}
++};
++class Script_PlayAnimByIdReceiverV59 final : public CanonicalScriptCommandV59 {
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_PlayAnimByIdReceiverV59(const CommandC1DescriptorV59& desc,ScriptCommandBehaviorV59 behavior):CanonicalScriptCommandV59(desc,std::move(behavior),18){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 18;}
++};
++class Script_IncFaeryLevelReceiverV59 final : public CanonicalScriptCommandV59 {
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_IncFaeryLevelReceiverV59(const CommandC1DescriptorV59& desc,ScriptCommandBehaviorV59 behavior):CanonicalScriptCommandV59(desc,std::move(behavior),28){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 28;}
++};
++class Script_AIEnableTimerReceiverV59 final : public CanonicalScriptCommandV59 {
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_AIEnableTimerReceiverV59(const CommandC1DescriptorV59& desc,ScriptCommandBehaviorV59 behavior):CanonicalScriptCommandV59(desc,std::move(behavior),33){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 33;}
++};
++class Script_AIResetTimerReceiverV59 final : public CanonicalScriptCommandV59 {
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_AIResetTimerReceiverV59(const CommandC1DescriptorV59& desc,ScriptCommandBehaviorV59 behavior):CanonicalScriptCommandV59(desc,std::move(behavior),34){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 34;}
++};
++class Script_AIDoSkillReceiverV59 final : public CanonicalScriptCommandV59 {
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_AIDoSkillReceiverV59(const CommandC1DescriptorV59& desc,ScriptCommandBehaviorV59 behavior):CanonicalScriptCommandV59(desc,std::move(behavior),35){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 35;}
++};
++class Script_AISetHPReceiverV59 final : public CanonicalScriptCommandV59 {
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_AISetHPReceiverV59(const CommandC1DescriptorV59& desc,ScriptCommandBehaviorV59 behavior):CanonicalScriptCommandV59(desc,std::move(behavior),36){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 36;}
++};
++class Script_AIChangeScriptReceiverV59 final : public CanonicalScriptCommandV59 {
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_AIChangeScriptReceiverV59(const CommandC1DescriptorV59& desc,ScriptCommandBehaviorV59 behavior):CanonicalScriptCommandV59(desc,std::move(behavior),37){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 37;}
++};
++class Script_AISetIntReceiverV59 final : public CanonicalScriptCommandV59 {
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_AISetIntReceiverV59(const CommandC1DescriptorV59& desc,ScriptCommandBehaviorV59 behavior):CanonicalScriptCommandV59(desc,std::move(behavior),38){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 38;}
++};
++class Script_SetActorMasterReceiverV59 final : public CanonicalScriptCommandV59 {
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_SetActorMasterReceiverV59(const CommandC1DescriptorV59& desc,ScriptCommandBehaviorV59 behavior):CanonicalScriptCommandV59(desc,std::move(behavior),47){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 47;}
++};
++class Script_DropLootReceiverV59 final : public CanonicalScriptCommandV59 {
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_DropLootReceiverV59(const CommandC1DescriptorV59& desc,ScriptCommandBehaviorV59 behavior):CanonicalScriptCommandV59(desc,std::move(behavior),48){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 48;}
++};
++class Script_AutoEquipReceiverV59 final : public CanonicalScriptCommandV59 {
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_AutoEquipReceiverV59(const CommandC1DescriptorV59& desc,ScriptCommandBehaviorV59 behavior):CanonicalScriptCommandV59(desc,std::move(behavior),49){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 49;}
++};
++class Script_UnEquipItemFromSlotReceiverV59 final : public CanonicalScriptCommandV59 {
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_UnEquipItemFromSlotReceiverV59(const CommandC1DescriptorV59& desc,ScriptCommandBehaviorV59 behavior):CanonicalScriptCommandV59(desc,std::move(behavior),50){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 50;}
++};
++class Script_SetStaticReceiverV59 final : public CanonicalScriptCommandV59 {
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_SetStaticReceiverV59(const CommandC1DescriptorV59& desc,ScriptCommandBehaviorV59 behavior):CanonicalScriptCommandV59(desc,std::move(behavior),53){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 53;}
++};
++class Script_ActivateProjectileTrapReceiverV59 final : public CanonicalScriptCommandV59 {
++ // Execute source stores an actual target object pointer here. Preserve
++ // original32-bit NULL provenance with one native-width nonowning cell.
++ std::uintptr_t target10_{};std::weak_ptr<void> actual_target_owner_;
++ std::uintptr_t* native_pointer_cell(std::uint32_t o) noexcept override{return o==16?&target10_:nullptr;}
++ const std::uintptr_t* native_pointer_cell(std::uint32_t o) const noexcept override{return o==16?&target10_:nullptr;}
++ std::weak_ptr<void>* native_pointer_owner_cell(std::uint32_t o) noexcept override{return o==16?&actual_target_owner_:nullptr;}
++ const std::weak_ptr<void>* native_pointer_owner_cell(std::uint32_t o) const noexcept override{return o==16?&actual_target_owner_:nullptr;}
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_ActivateProjectileTrapReceiverV59(const CommandC1DescriptorV59& desc,ScriptCommandBehaviorV59 behavior):CanonicalScriptCommandV59(desc,std::move(behavior),56){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 56;}
++};
++class Script_DeactivateProjectileTrapReceiverV59 final : public CanonicalScriptCommandV59 {
++ // Execute source stores an actual target object pointer here. Preserve
++ // original32-bit NULL provenance with one native-width nonowning cell.
++ std::uintptr_t target10_{};std::weak_ptr<void> actual_target_owner_;
++ std::uintptr_t* native_pointer_cell(std::uint32_t o) noexcept override{return o==16?&target10_:nullptr;}
++ const std::uintptr_t* native_pointer_cell(std::uint32_t o) const noexcept override{return o==16?&target10_:nullptr;}
++ std::weak_ptr<void>* native_pointer_owner_cell(std::uint32_t o) noexcept override{return o==16?&actual_target_owner_:nullptr;}
++ const std::weak_ptr<void>* native_pointer_owner_cell(std::uint32_t o) const noexcept override{return o==16?&actual_target_owner_:nullptr;}
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_DeactivateProjectileTrapReceiverV59(const CommandC1DescriptorV59& desc,ScriptCommandBehaviorV59 behavior):CanonicalScriptCommandV59(desc,std::move(behavior),57){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 57;}
++};
++class Script_ActivateTriggerPlateReceiverV59 final : public CanonicalScriptCommandV59 {
++ // Execute source stores an actual target object pointer here. Preserve
++ // original32-bit NULL provenance with one native-width nonowning cell.
++ std::uintptr_t target10_{};std::weak_ptr<void> actual_target_owner_;
++ std::uintptr_t* native_pointer_cell(std::uint32_t o) noexcept override{return o==16?&target10_:nullptr;}
++ const std::uintptr_t* native_pointer_cell(std::uint32_t o) const noexcept override{return o==16?&target10_:nullptr;}
++ std::weak_ptr<void>* native_pointer_owner_cell(std::uint32_t o) noexcept override{return o==16?&actual_target_owner_:nullptr;}
++ const std::weak_ptr<void>* native_pointer_owner_cell(std::uint32_t o) const noexcept override{return o==16?&actual_target_owner_:nullptr;}
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_ActivateTriggerPlateReceiverV59(const CommandC1DescriptorV59& desc,ScriptCommandBehaviorV59 behavior):CanonicalScriptCommandV59(desc,std::move(behavior),58){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 58;}
++};
++class Script_DeactivateTriggerPlateReceiverV59 final : public CanonicalScriptCommandV59 {
++ // Execute source stores an actual target object pointer here. Preserve
++ // original32-bit NULL provenance with one native-width nonowning cell.
++ std::uintptr_t target10_{};std::weak_ptr<void> actual_target_owner_;
++ std::uintptr_t* native_pointer_cell(std::uint32_t o) noexcept override{return o==16?&target10_:nullptr;}
++ const std::uintptr_t* native_pointer_cell(std::uint32_t o) const noexcept override{return o==16?&target10_:nullptr;}
++ std::weak_ptr<void>* native_pointer_owner_cell(std::uint32_t o) noexcept override{return o==16?&actual_target_owner_:nullptr;}
++ const std::weak_ptr<void>* native_pointer_owner_cell(std::uint32_t o) const noexcept override{return o==16?&actual_target_owner_:nullptr;}
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_DeactivateTriggerPlateReceiverV59(const CommandC1DescriptorV59& desc,ScriptCommandBehaviorV59 behavior):CanonicalScriptCommandV59(desc,std::move(behavior),59){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 59;}
++};
++class Script_SpawnContainerReceiverV59 final : public CanonicalScriptCommandV59 {
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_SpawnContainerReceiverV59(const CommandC1DescriptorV59& desc,ScriptCommandBehaviorV59 behavior):CanonicalScriptCommandV59(desc,std::move(behavior),60){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 60;}
++};
++class Script_SetLevelStateReceiverV59 final : public CanonicalScriptCommandV59 {
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_SetLevelStateReceiverV59(const CommandC1DescriptorV59& desc,ScriptCommandBehaviorV59 behavior):CanonicalScriptCommandV59(desc,std::move(behavior),61){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 61;}
++};
++class Script_SetWorldMapLocationStateReceiverV59 final : public CanonicalScriptCommandV59 {
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_SetWorldMapLocationStateReceiverV59(const CommandC1DescriptorV59& desc,ScriptCommandBehaviorV59 behavior):CanonicalScriptCommandV59(desc,std::move(behavior),62){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 62;}
++};
++class Script_ChangeLevelReceiverV59 final : public CanonicalScriptCommandV59 {
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_ChangeLevelReceiverV59(const CommandC1DescriptorV59& desc,ScriptCommandBehaviorV59 behavior):CanonicalScriptCommandV59(desc,std::move(behavior),64){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 64;}
++};
++class Script_EndGameReceiverV59 final : public CanonicalScriptCommandV59 {
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_EndGameReceiverV59(const CommandC1DescriptorV59& desc,ScriptCommandBehaviorV59 behavior):CanonicalScriptCommandV59(desc,std::move(behavior),65){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 65;}
++};
++class Script_AwardTrophyReceiverV59 final : public CanonicalScriptCommandV59 {
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_AwardTrophyReceiverV59(const CommandC1DescriptorV59& desc,ScriptCommandBehaviorV59 behavior):CanonicalScriptCommandV59(desc,std::move(behavior),66){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 66;}
++};
++class Script_AwardEndGameTrophiesReceiverV59 final : public CanonicalScriptCommandV59 {
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_AwardEndGameTrophiesReceiverV59(const CommandC1DescriptorV59& desc,ScriptCommandBehaviorV59 behavior):CanonicalScriptCommandV59(desc,std::move(behavior),67){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 67;}
++};
++class Script_EnqueueTutorialMessageReceiverV59 final : public CanonicalScriptCommandV59 {
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_EnqueueTutorialMessageReceiverV59(const CommandC1DescriptorV59& desc,ScriptCommandBehaviorV59 behavior):CanonicalScriptCommandV59(desc,std::move(behavior),71){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 71;}
++};
++class Script_SkipTutorialMessageReceiverV59 final : public CanonicalScriptCommandV59 {
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_SkipTutorialMessageReceiverV59(const CommandC1DescriptorV59& desc,ScriptCommandBehaviorV59 behavior):CanonicalScriptCommandV59(desc,std::move(behavior),72){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 72;}
++};
++class Script_SkipAllTutorialMessagesReceiverV59 final : public CanonicalScriptCommandV59 {
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_SkipAllTutorialMessagesReceiverV59(const CommandC1DescriptorV59& desc,ScriptCommandBehaviorV59 behavior):CanonicalScriptCommandV59(desc,std::move(behavior),73){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 73;}
++};
++class Script_EnqueueCharMenuTutorialMessageReceiverV59 final : public CanonicalScriptCommandV59 {
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_EnqueueCharMenuTutorialMessageReceiverV59(const CommandC1DescriptorV59& desc,ScriptCommandBehaviorV59 behavior):CanonicalScriptCommandV59(desc,std::move(behavior),74){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 74;}
++};
++class Script_SkipCharMenuTutorialMessageReceiverV59 final : public CanonicalScriptCommandV59 {
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_SkipCharMenuTutorialMessageReceiverV59(const CommandC1DescriptorV59& desc,ScriptCommandBehaviorV59 behavior):CanonicalScriptCommandV59(desc,std::move(behavior),75){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 75;}
++};
++class Script_SkipAllCharMenuTutorialMessagesReceiverV59 final : public CanonicalScriptCommandV59 {
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_SkipAllCharMenuTutorialMessagesReceiverV59(const CommandC1DescriptorV59& desc,ScriptCommandBehaviorV59 behavior):CanonicalScriptCommandV59(desc,std::move(behavior),76){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 76;}
++};
+ bool create_script_command_receiver_v59(std::int32_t,ScriptCommandBehaviorV59,
+  std::shared_ptr<CanonicalScriptCommandV59>& out,std::string&);
+ ScriptManagerServicesV52 bind_script_command_factories_v59(ScriptManagerServicesV52,ScriptCommandBehaviorV59);
+--- a/script_command_receivers_v59.cpp
++++ b/script_command_receivers_v59.cpp
+@@ -13,7 +13,7 @@
+  for(const auto& s:d.stores){if(s.offset==4){if(s.width!=1)throw std::runtime_error("Original skip4 store width mismatch");skip4_=std::uint8_t(s.value);}else if(s.offset==8){kind8_=signed_word(s.value);}else if(s.offset==12){if(s.value)throw std::runtime_error("Original data_c constructor must be NULL");data_c_=0;}else if(!operand_domain(d,s.offset,std::uint8_t(s.width)))throw std::runtime_error("Unrecovered original C1 operand store");}
+ }
+ void CanonicalScriptCommandV59::apply_constructor_operands(){
+- for(const auto& s:descriptor_.stores)if(s.offset>=16){if(s.offset==16&&menu_pointer_cell()){if(s.width!=4||s.value!=0)throw std::runtime_error("Original menu+10 C1 must produceNULL");*menu_pointer_cell()=0;menu_owner_cell()->reset();continue;}auto cell=operand_cell(s.offset);if(!cell||cell->original_width!=s.width)throw std::runtime_error("Concrete original receiver C1 cell mismatch");cell->value=OperandScalarV59{std::uint8_t(s.width),s.value};}
++ for(const auto& s:descriptor_.stores)if(s.offset>=16){if(native_pointer_cell(s.offset)){if(s.width!=4||s.value!=0)throw std::runtime_error("Original source pointer C1 must produce NULL");*native_pointer_cell(s.offset)=0;native_pointer_owner_cell(s.offset)->reset();continue;}auto cell=operand_cell(s.offset);if(!cell||cell->original_width!=s.width)throw std::runtime_error("Concrete original receiver C1 cell mismatch");cell->value=OperandScalarV59{std::uint8_t(s.width),s.value};}
+ }
+ bool CanonicalScriptCommandV59::fail(const std::string& e,std::string& error){failed_=true;failure_=e.empty()?"Command required actual body failed":e;error=failure_;return false;}
+ bool CanonicalScriptCommandV59::checked_data_borrow(CheckedCommandBorrowV59& out,std::string& error){
+@@ -23,6 +23,9 @@
+ }
+ bool CanonicalScriptCommandV59::checked_menu_borrow(CheckedCommandMenuBorrowV59& out,std::string& error){
+  CheckedCommandBorrowV59 actual;if(!checked_data_borrow(actual,error))return false;auto cell=menu_pointer_cell();auto owner=menu_owner_cell();if(!cell||!owner){error="Actual receiver has no source-proven menu+10 pointer cell";return false;}auto pin=owner->lock();if(*cell&&(!pin||reinterpret_cast<std::uintptr_t>(pin.get())!=*cell)){error="Required live SAME actual Menu alias owner";return false;}CheckedCommandMenuBorrowV59 next{actual.actual_receiver,std::move(pin),identity(),cell};out=std::move(next);error.clear();return true;
++}
++bool CanonicalScriptCommandV59::checked_pointer_borrow(std::uint32_t offset,CheckedCommandPointerBorrowV59& out,std::string& error){
++ CheckedCommandBorrowV59 actual;if(!checked_data_borrow(actual,error))return false;auto cell=native_pointer_cell(offset);auto owner=native_pointer_owner_cell(offset);if(!cell||!owner){error="Actual receiver has no source-proven native pointer at this offset";return false;}auto pin=owner->lock();if(*cell&&(!pin||reinterpret_cast<std::uintptr_t>(pin.get())!=*cell)){error="Required live SAME actual source target alias owner";return false;}CheckedCommandPointerBorrowV59 next{actual.actual_receiver,std::move(pin),identity(),offset,cell};out=std::move(next);error.clear();return true;
+ }
+ ScriptCommandBorrowV52 CanonicalScriptCommandV59::constructor_borrow(){auto self=shared_from_this();return {self,identity(),descriptor_.factory,&skip4_,&kind8_,&data_c_,&data_,[self](std::string& e){return self->init(e);},[self](std::string& e){return self->release_base_storage(e);}};}
+ bool CanonicalScriptCommandV59::init(std::string& error){
+@@ -64,16 +67,16 @@
+  cell->value=OperandScalarV59{n,n==1?value&255:value};error.clear();return true;
+ }
+ bool CanonicalScriptCommandV59::read_operand_pointer(std::uint32_t o,std::uintptr_t& out,std::string& error)const {
+- if(released_||!operand_domain(descriptor_,o,4)){error="Invalid actual native pointer operand";return false;}if(o==16&&menu_pointer_cell()){const auto value=*menu_pointer_cell();auto pin=menu_owner_cell()->lock();if(value&&(!pin||reinterpret_cast<std::uintptr_t>(pin.get())!=value)){error="Required live SAME actual Menu alias owner";return false;}out=value;error.clear();return true;}auto cell=operand_cell(o);
++ if(released_||!operand_domain(descriptor_,o,4)){error="Invalid actual native pointer operand";return false;}if(native_pointer_cell(o)){const auto value=*native_pointer_cell(o);auto pin=native_pointer_owner_cell(o)->lock();if(value&&(!pin||reinterpret_cast<std::uintptr_t>(pin.get())!=value)){error="Required live SAME actual source target alias owner";return false;}out=value;error.clear();return true;}auto cell=operand_cell(o);
+  if(cell&&cell->original_width==4)if(auto v=std::get_if<OperandPointerV59>(&cell->value)){out=v->value;error.clear();return true;}
+  error="Original opaque constructor word has no proven native pointer producer";return false;
+ }
+ bool CanonicalScriptCommandV59::write_operand_pointer(std::uint32_t o,std::uintptr_t value,std::shared_ptr<void> owner,std::string& error){
+- if(released_||!operand_domain(descriptor_,o,4)||(value&&!owner)){error="Required actual pointer producer/lease for command operand";return false;}if(o==16&&menu_pointer_cell()){if(value&&reinterpret_cast<std::uintptr_t>(owner.get())!=value){error="Require SAME actual Menu pointer/alias owner";return false;}*menu_pointer_cell()=value;if(value)*menu_owner_cell()=owner;else menu_owner_cell()->reset();error.clear();return true;}auto cell=operand_cell(o);
++ if(released_||!operand_domain(descriptor_,o,4)||(value&&!owner)){error="Required actual pointer producer/lease for command operand";return false;}if(native_pointer_cell(o)){if(value&&reinterpret_cast<std::uintptr_t>(owner.get())!=value){error="Require SAME actual native pointer/alias owner";return false;}*native_pointer_cell(o)=value;if(value)*native_pointer_owner_cell(o)=owner;else native_pointer_owner_cell(o)->reset();error.clear();return true;}auto cell=operand_cell(o);
+  if(!cell||cell->original_width!=4){error="No original full-width actual cell for pointer producer";return false;}cell->value=OperandPointerV59{value,std::move(owner)};error.clear();return true;
+ }
+ bool CanonicalScriptCommandV59::constructor_word(std::uint32_t o,std::uint8_t n,std::uint32_t& out,std::string& error)const{
+- if(released_){error="Released actual command receiver";return false;}if(o==16&&n==4&&menu_pointer_cell()&&!*menu_pointer_cell()){out=0;error.clear();return true;}if(o==4&&n==1){out=skip4_;error.clear();return true;}if(o==8&&n==4){out=std::uint32_t(kind8_);error.clear();return true;}if(o==12&&n==4&&data_c_==0){out=0;error.clear();return true;}return read_operand_word(o,n,out,error);
++ if(released_){error="Released actual command receiver";return false;}if(n==4&&native_pointer_cell(o)&&!*native_pointer_cell(o)){out=0;error.clear();return true;}if(o==4&&n==1){out=skip4_;error.clear();return true;}if(o==8&&n==4){out=std::uint32_t(kind8_);error.clear();return true;}if(o==12&&n==4&&data_c_==0){out=0;error.clear();return true;}return read_operand_word(o,n,out,error);
+ }
+ bool create_script_command_receiver_v59(std::int32_t kind,ScriptCommandBehaviorV59 services,std::shared_ptr<CanonicalScriptCommandV59>& out,std::string& error){
+  const auto found=command_c1_descriptors_v59().find(kind);if(found==command_c1_descriptors_v59().end()){error="Required original C1 receiver for unretained command class "+std::to_string(kind);return false;}
+@@ -126,6 +129,38 @@
+ case 77:candidate=std::make_shared<Script_LockTutorialReceiverV59>(found->second,services);break;
+ case 78:candidate=std::make_shared<Script_DoTutorialReceiverV59>(found->second,services);break;
+ case 79:candidate=std::make_shared<Script_FlushMessagesReceiverV59>(found->second,services);break;
++case 9:candidate=std::make_shared<Script_EmptyImplReceiverV59>(found->second,services);break;
++case 11:candidate=std::make_shared<Script_StartDialogIDReceiverV59>(found->second,services);break;
++case 18:candidate=std::make_shared<Script_PlayAnimByIdReceiverV59>(found->second,services);break;
++case 28:candidate=std::make_shared<Script_IncFaeryLevelReceiverV59>(found->second,services);break;
++case 33:candidate=std::make_shared<Script_AIEnableTimerReceiverV59>(found->second,services);break;
++case 34:candidate=std::make_shared<Script_AIResetTimerReceiverV59>(found->second,services);break;
++case 35:candidate=std::make_shared<Script_AIDoSkillReceiverV59>(found->second,services);break;
++case 36:candidate=std::make_shared<Script_AISetHPReceiverV59>(found->second,services);break;
++case 37:candidate=std::make_shared<Script_AIChangeScriptReceiverV59>(found->second,services);break;
++case 38:candidate=std::make_shared<Script_AISetIntReceiverV59>(found->second,services);break;
++case 47:candidate=std::make_shared<Script_SetActorMasterReceiverV59>(found->second,services);break;
++case 48:candidate=std::make_shared<Script_DropLootReceiverV59>(found->second,services);break;
++case 49:candidate=std::make_shared<Script_AutoEquipReceiverV59>(found->second,services);break;
++case 50:candidate=std::make_shared<Script_UnEquipItemFromSlotReceiverV59>(found->second,services);break;
++case 53:candidate=std::make_shared<Script_SetStaticReceiverV59>(found->second,services);break;
++case 56:candidate=std::make_shared<Script_ActivateProjectileTrapReceiverV59>(found->second,services);break;
++case 57:candidate=std::make_shared<Script_DeactivateProjectileTrapReceiverV59>(found->second,services);break;
++case 58:candidate=std::make_shared<Script_ActivateTriggerPlateReceiverV59>(found->second,services);break;
++case 59:candidate=std::make_shared<Script_DeactivateTriggerPlateReceiverV59>(found->second,services);break;
++case 60:candidate=std::make_shared<Script_SpawnContainerReceiverV59>(found->second,services);break;
++case 61:candidate=std::make_shared<Script_SetLevelStateReceiverV59>(found->second,services);break;
++case 62:candidate=std::make_shared<Script_SetWorldMapLocationStateReceiverV59>(found->second,services);break;
++case 64:candidate=std::make_shared<Script_ChangeLevelReceiverV59>(found->second,services);break;
++case 65:candidate=std::make_shared<Script_EndGameReceiverV59>(found->second,services);break;
++case 66:candidate=std::make_shared<Script_AwardTrophyReceiverV59>(found->second,services);break;
++case 67:candidate=std::make_shared<Script_AwardEndGameTrophiesReceiverV59>(found->second,services);break;
++case 71:candidate=std::make_shared<Script_EnqueueTutorialMessageReceiverV59>(found->second,services);break;
++case 72:candidate=std::make_shared<Script_SkipTutorialMessageReceiverV59>(found->second,services);break;
++case 73:candidate=std::make_shared<Script_SkipAllTutorialMessagesReceiverV59>(found->second,services);break;
++case 74:candidate=std::make_shared<Script_EnqueueCharMenuTutorialMessageReceiverV59>(found->second,services);break;
++case 75:candidate=std::make_shared<Script_SkipCharMenuTutorialMessageReceiverV59>(found->second,services);break;
++case 76:candidate=std::make_shared<Script_SkipAllCharMenuTutorialMessagesReceiverV59>(found->second,services);break;
+  default:error="Unretained original class C1";return false;}out=std::move(candidate);error.clear();return true;
+  }catch(const std::exception& e){error=e.what();return false;}
+ }
+--- a/command_c1_descriptors_v59.inc
++++ b/command_c1_descriptors_v59.inc
+@@ -1,4 +1,4 @@
+-// Exact source C1 stores from actual executed factories and MEM_WRITE addresses.
++// Source C1 stores: retained46 executed MEM_WRITE evidence plus bounded ARM source for remaining34.
+ inline const std::map<std::int32_t,CommandC1DescriptorV59>& command_c1_descriptors_v59(){
+ static const std::map<std::int32_t,CommandC1DescriptorV59> table{
+ {0,{0,"Script_ExecScript",0x458d40u,0x455628u,20u,{{16u,4u,0u,0x458d64u},{4u,1u,0u,0x458d68u},{8u,4u,4294967295u,0x458d78u},{12u,4u,0u,0x458d7cu}}}},
+@@ -49,5 +49,37 @@
+ {77,{77,"Script_LockTutorial",0x4577a4u,0x455628u,16u,{{12u,4u,0u,0x4577c8u},{4u,1u,0u,0x4577ccu},{8u,4u,4294967295u,0x4577dcu}}}},
+ {78,{78,"Script_DoTutorial",0x45775cu,0x455628u,16u,{{12u,4u,0u,0x457780u},{4u,1u,0u,0x457784u},{8u,4u,4294967295u,0x457794u}}}},
+ {79,{79,"Script_FlushMessages",0x457714u,0x455628u,16u,{{12u,4u,0u,0x457738u},{4u,1u,0u,0x45773cu},{8u,4u,4294967295u,0x45774cu}}}},
++{9,{9,"Script_EmptyImpl",0x458ab8u,0x455628u,16u,{{12u,4u,0u,0x458adcu},{4u,1u,0u,0x458ae0u},{8u,4u,4294967295u,0x458af0u}}}},
++{11,{11,"Script_StartDialogID",0x458a28u,0x455628u,16u,{{12u,4u,0u,0x458a4cu},{4u,1u,0u,0x458a50u},{8u,4u,4294967295u,0x458a60u}}}},
++{18,{18,"Script_PlayAnimById",0x458830u,0x455628u,16u,{{12u,4u,0u,0x458854u},{4u,1u,0u,0x458858u},{8u,4u,4294967295u,0x458868u}}}},
++{28,{28,"Script_IncFaeryLevel",0x458550u,0x455628u,16u,{{12u,4u,0u,0x458574u},{4u,1u,0u,0x458578u},{8u,4u,4294967295u,0x458588u}}}},
++{33,{33,"Script_AIEnableTimer",0x4583e8u,0x455628u,16u,{{12u,4u,0u,0x45840cu},{4u,1u,0u,0x458410u},{8u,4u,4294967295u,0x458420u}}}},
++{34,{34,"Script_AIResetTimer",0x4583a0u,0x455628u,16u,{{12u,4u,0u,0x4583c4u},{4u,1u,0u,0x4583c8u},{8u,4u,4294967295u,0x4583d8u}}}},
++{35,{35,"Script_AIDoSkill",0x458358u,0x455628u,16u,{{12u,4u,0u,0x45837cu},{4u,1u,0u,0x458380u},{8u,4u,4294967295u,0x458390u}}}},
++{36,{36,"Script_AISetHP",0x458310u,0x455628u,16u,{{12u,4u,0u,0x458334u},{4u,1u,0u,0x458338u},{8u,4u,4294967295u,0x458348u}}}},
++{37,{37,"Script_AIChangeScript",0x4582c8u,0x455628u,16u,{{12u,4u,0u,0x4582ecu},{4u,1u,0u,0x4582f0u},{8u,4u,4294967295u,0x458300u}}}},
++{38,{38,"Script_AISetInt",0x458280u,0x455628u,16u,{{12u,4u,0u,0x4582a4u},{4u,1u,0u,0x4582a8u},{8u,4u,4294967295u,0x4582b8u}}}},
++{47,{47,"Script_SetActorMaster",0x458034u,0x455628u,16u,{{12u,4u,0u,0x458058u},{4u,1u,0u,0x45805cu},{8u,4u,4294967295u,0x45806cu}}}},
++{48,{48,"Script_DropLoot",0x457fecu,0x455628u,16u,{{12u,4u,0u,0x458010u},{4u,1u,0u,0x458014u},{8u,4u,4294967295u,0x458024u}}}},
++{49,{49,"Script_AutoEquip",0x457fa4u,0x455628u,16u,{{12u,4u,0u,0x457fc8u},{4u,1u,0u,0x457fccu},{8u,4u,4294967295u,0x457fdcu}}}},
++{50,{50,"Script_UnEquipItemFromSlot",0x457f5cu,0x455628u,16u,{{12u,4u,0u,0x457f80u},{4u,1u,0u,0x457f84u},{8u,4u,4294967295u,0x457f94u}}}},
++{53,{53,"Script_SetStatic",0x457e84u,0x455628u,16u,{{12u,4u,0u,0x457ea8u},{4u,1u,0u,0x457eacu},{8u,4u,4294967295u,0x457ebcu}}}},
++{56,{56,"Script_ActivateProjectileTrap",0x457d98u,0x455628u,20u,{{16u,4u,0u,0x457dbcu},{4u,1u,0u,0x457dc0u},{8u,4u,4294967295u,0x457dd0u},{12u,4u,0u,0x457dd4u}}}},
++{57,{57,"Script_DeactivateProjectileTrap",0x457d4cu,0x455628u,20u,{{16u,4u,0u,0x457d70u},{4u,1u,0u,0x457d74u},{8u,4u,4294967295u,0x457d84u},{12u,4u,0u,0x457d88u}}}},
++{58,{58,"Script_ActivateTriggerPlate",0x457d00u,0x455628u,20u,{{16u,4u,0u,0x457d24u},{4u,1u,0u,0x457d28u},{8u,4u,4294967295u,0x457d38u},{12u,4u,0u,0x457d3cu}}}},
++{59,{59,"Script_DeactivateTriggerPlate",0x457cb4u,0x455628u,20u,{{16u,4u,0u,0x457cd8u},{4u,1u,0u,0x457cdcu},{8u,4u,4294967295u,0x457cecu},{12u,4u,0u,0x457cf0u}}}},
++{60,{60,"Script_SpawnContainer",0x457c6cu,0x455628u,16u,{{12u,4u,0u,0x457c90u},{4u,1u,0u,0x457c94u},{8u,4u,4294967295u,0x457ca4u}}}},
++{61,{61,"Script_SetLevelState",0x457c24u,0x455628u,16u,{{12u,4u,0u,0x457c48u},{4u,1u,0u,0x457c4cu},{8u,4u,4294967295u,0x457c5cu}}}},
++{62,{62,"Script_SetWorldMapLocationState",0x457bdcu,0x455628u,16u,{{12u,4u,0u,0x457c00u},{4u,1u,0u,0x457c04u},{8u,4u,4294967295u,0x457c14u}}}},
++{64,{64,"Script_ChangeLevel",0x457b4cu,0x455628u,16u,{{12u,4u,0u,0x457b70u},{4u,1u,0u,0x457b74u},{8u,4u,4294967295u,0x457b84u}}}},
++{65,{65,"Script_EndGame",0x457b04u,0x455628u,16u,{{12u,4u,0u,0x457b28u},{4u,1u,0u,0x457b2cu},{8u,4u,4294967295u,0x457b3cu}}}},
++{66,{66,"Script_AwardTrophy",0x457abcu,0x455628u,16u,{{12u,4u,0u,0x457ae0u},{4u,1u,0u,0x457ae4u},{8u,4u,4294967295u,0x457af4u}}}},
++{67,{67,"Script_AwardEndGameTrophies",0x457a74u,0x455628u,16u,{{12u,4u,0u,0x457a98u},{4u,1u,0u,0x457a9cu},{8u,4u,4294967295u,0x457aacu}}}},
++{71,{71,"Script_EnqueueTutorialMessage",0x457954u,0x455628u,16u,{{12u,4u,0u,0x457978u},{4u,1u,0u,0x45797cu},{8u,4u,4294967295u,0x45798cu}}}},
++{72,{72,"Script_SkipTutorialMessage",0x45790cu,0x455628u,16u,{{12u,4u,0u,0x457930u},{4u,1u,0u,0x457934u},{8u,4u,4294967295u,0x457944u}}}},
++{73,{73,"Script_SkipAllTutorialMessages",0x4578c4u,0x455628u,16u,{{12u,4u,0u,0x4578e8u},{4u,1u,0u,0x4578ecu},{8u,4u,4294967295u,0x4578fcu}}}},
++{74,{74,"Script_EnqueueCharMenuTutorialMessage",0x45787cu,0x455628u,16u,{{12u,4u,0u,0x4578a0u},{4u,1u,0u,0x4578a4u},{8u,4u,4294967295u,0x4578b4u}}}},
++{75,{75,"Script_SkipCharMenuTutorialMessage",0x457834u,0x455628u,16u,{{12u,4u,0u,0x457858u},{4u,1u,0u,0x45785cu},{8u,4u,4294967295u,0x45786cu}}}},
++{76,{76,"Script_SkipAllCharMenuTutorialMessages",0x4577ecu,0x455628u,16u,{{12u,4u,0u,0x457810u},{4u,1u,0u,0x457814u},{8u,4u,4294967295u,0x457824u}}}},
+ };return table;
+ }
+--- a/script_data_schemas_v52.inc
++++ b/script_data_schemas_v52.inc
+@@ -1,4 +1,4 @@
+-// Generated only from original executed Data C1/read actions and original static factory addresses.
++// Data schemas: retained46 executed C1/reader evidence plus bounded ARM source for remaining34.
+ inline const std::map<std::int32_t,ScriptDataSchemaV52>& original_script_data_schemas_v52(){
+  static const std::map<std::int32_t,ScriptDataSchemaV52> schemas{
+   {0,{28u,0x4576d8u,0x4ffc24u,{{4,4,0},{8,1,0},{12,4,0},{16,4,0},{20,255,16},{24,1,0}},{}}},
+@@ -49,5 +49,37 @@
+   {77,{12u,0x45640cu,0x502a7cu,{{4,4,0},{8,4,0}},{{4,{4,0u}},{8,{4,0u}}}}},
+   {78,{20u,0x4563d0u,0x4ffe38u,{{4,4,0},{8,4,0},{12,0,8},{16,4,0}},{}}},
+   {79,{8u,0x456394u,0x4ff898u,{{4,4,0}},{{4,{4,0u}}}}},
++  {9,{8u,0x4574a0u,0x4ff8d4u,{{4,4,0}},{{4,{4,0u}}}}},
++  {11,{12u,0x457418u,0x5033e4u,{{4,4,0},{8,4,0}},{{4,{4,0u}},{8,{4,0u}}}}},
++  {18,{28u,0x457254u,0x502594u,{{4,4,0},{8,4,0},{12,1,0},{16,4,0},{20,0,16},{24,1,0}},{}}},
++  {28,{12u,0x456fd0u,0x503130u,{{4,4,0},{8,4,0}},{{4,{4,0u}},{8,{4,0u}}}}},
++  {33,{12u,0x456ea0u,0x4ff9b4u,{{4,4,0},{8,1,0}},{{4,{4,0u}},{8,{1,0u}}}}},
++  {34,{8u,0x456e64u,0x4ff8c4u,{{4,4,0}},{{4,{4,0u}}}}},
++  {35,{20u,0x456e28u,0x501ad8u,{{4,4,0},{8,4,0},{12,4,0},{16,0,12}},{}}},
++  {36,{12u,0x456de8u,0x5030b8u,{{4,4,0},{8,4,0}},{{4,{4,0u}},{8,{4,0u}}}}},
++  {37,{24u,0x456da8u,0x501974u,{{4,4,0},{8,4,0},{12,0,8},{16,4,0},{20,0,16}},{}}},
++  {38,{28u,0x456d68u,0x5017b4u,{{4,4,0},{8,4,0},{12,0,8},{16,4,0},{20,0,16},{24,4,0}},{}}},
++  {47,{32u,0x456b3cu,0x500d14u,{{4,4,0},{8,1,0},{12,4,0},{16,0,12},{20,1,0},{24,4,0},{28,0,24}},{}}},
++  {48,{24u,0x456afcu,0x500bb0u,{{4,4,0},{8,4,0},{12,0,8},{16,4,0},{20,0,16}},{}}},
++  {49,{16u,0x456ac0u,0x500af0u,{{4,4,0},{8,4,0},{12,0,8}},{}}},
++  {50,{20u,0x456a84u,0x5009d4u,{{4,4,0},{8,4,0},{12,4,0},{16,0,12}},{}}},
++  {53,{20u,0x4569d0u,0x500788u,{{4,4,0},{8,1,0},{12,4,0},{16,0,12}},{}}},
++  {56,{16u,0x45691cu,0x500530u,{{4,4,0},{8,4,0},{12,0,8}},{}}},
++  {57,{16u,0x4568e0u,0x500470u,{{4,4,0},{8,4,0},{12,0,8}},{}}},
++  {58,{16u,0x4568a4u,0x5003b0u,{{4,4,0},{8,4,0},{12,0,8}},{}}},
++  {59,{16u,0x456868u,0x5002f0u,{{4,4,0},{8,4,0},{12,0,8}},{}}},
++  {60,{16u,0x45682cu,0x500230u,{{4,4,0},{8,4,0},{12,0,8}},{}}},
++  {61,{16u,0x4567e8u,0x502fe4u,{{4,4,0},{8,4,0},{12,4,0}},{{4,{4,0u}},{8,{4,0u}},{12,{4,0u}}}}},
++  {62,{16u,0x4567a4u,0x502f10u,{{4,4,0},{8,4,0},{12,4,0}},{{4,{4,0u}},{8,{4,0u}},{12,{4,0u}}}}},
++  {64,{20u,0x45672cu,0x500114u,{{4,4,0},{8,4,0},{12,4,0},{16,0,12}},{}}},
++  {65,{8u,0x4566f0u,0x4ff8bcu,{{4,4,0}},{{4,{4,0u}}}}},
++  {66,{12u,0x4566b0u,0x502e98u,{{4,4,0},{8,4,0}},{{4,{4,0u}},{8,{4,0u}}}}},
++  {67,{8u,0x456674u,0x4ff8b8u,{{4,4,0}},{{4,{4,0u}}}}},
++  {71,{16u,0x45657cu,0x502dc4u,{{4,4,0},{8,4,0},{12,4,0}},{{4,{4,0u}},{8,{4,0u}},{12,{4,0u}}}}},
++  {72,{8u,0x456540u,0x4ff8a8u,{{4,4,0}},{{4,{4,0u}}}}},
++  {73,{8u,0x456504u,0x4ff8a4u,{{4,4,0}},{{4,{4,0u}}}}},
++  {74,{28u,0x4564c4u,0x4fff54u,{{4,4,0},{8,4,0},{12,0,8},{16,4,0},{20,0,16},{24,4,0}},{}}},
++  {75,{8u,0x456488u,0x4ff8a0u,{{4,4,0}},{{4,{4,0u}}}}},
++  {76,{8u,0x45644cu,0x4ff89cu,{{4,4,0}},{{4,{4,0u}}}}},
+  };return schemas;
+ }

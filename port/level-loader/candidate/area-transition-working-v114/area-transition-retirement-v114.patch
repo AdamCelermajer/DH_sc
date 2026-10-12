@@ -1,0 +1,72 @@
+--- a/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp
++++ b/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp
+@@ -394,6 +394,9 @@
+  RetirementPhaseV88 retirement_phase_v88{RetirementPhaseV88::idle};
+  SourceCampaignRetirementServicesV88 retirement_v88;
+  bool retirement_busy_v88{};std::string retirement_failure_v88;
++ RetirementPhaseV88 retirement_resume_v114{RetirementPhaseV88::idle};
++ bool retirement_gs_complete_v114{},retirement_native_complete_v114{};
++ std::string retirement_first_failure_v114;
+  bool failed{},cancelling{},cancelled{},final_tail_complete{};std::string failure;
+ };
+ std::unique_ptr<RendererSourceCampaignV55> source_campaign_v55;
+@@ -1424,6 +1427,18 @@
+  state.retirement_v88=std::move(services);state.retirement_phase_v88=RendererSourceCampaignV55::RetirementPhaseV88::admit;
+  e.clear();return true;
+ }
++bool retry_source_campaign_retirement_v114(std::string& e){
++ using Phase=RendererSourceCampaignV55::RetirementPhaseV88;
++ if(!source_campaign_v55||source_campaign_v55->retirement_busy_v88||
++    source_campaign_v55->retirement_phase_v88!=Phase::failed||
++    source_campaign_v55->retirement_resume_v114==Phase::idle||
++    source_campaign_v55->retirement_resume_v114==Phase::failed){
++  e="Require failed SAME retained campaign retirement continuation";return false;
++ }
++ auto& state=*source_campaign_v55;
++ state.retirement_phase_v88=state.retirement_resume_v114;
++ state.retirement_failure_v88.clear();e.clear();return true;
++}
+ SourceCampaignRetirementResultV88 drain_source_campaign_retirement_v88(std::string& e){
+  using Result=SourceCampaignRetirementResultV88;using Phase=RendererSourceCampaignV55::RetirementPhaseV88;
+  if(!source_campaign_v55||!source_campaign_retirement_requested_v88()){e="Required actual retained campaign retirement request";return Result::failed;}
+@@ -1436,6 +1451,9 @@
+  auto world=state.world;auto gs=state.bootstrap.gs();auto globals=state.globals;
+  struct Busy {bool* flag;~Busy(){if(flag)*flag=false;}} busy{&state.retirement_busy_v88};
+  auto fail=[&]{state.retirement_failure_v88=e.empty()?"Actual source campaign retirement provider failed":e;
++  if(state.retirement_first_failure_v114.empty())state.retirement_first_failure_v114=state.retirement_failure_v88;
++  state.retirement_failure_v88=state.retirement_first_failure_v114;
++  state.retirement_resume_v114=state.retirement_phase_v88;
+   state.retirement_phase_v88=Phase::failed;e=state.retirement_failure_v88;return Result::failed;};
+  try{
+   if(!world||!gs||!globals||!world->native_loading_v50||!*world->native_loading_v50||
+@@ -1455,13 +1473,18 @@
+   if(state.retirement_phase_v88==Phase::gs_destroy){
+    //Exactly ONE existing original GS Dtor. Its journals own Unload, HUD close,
+    //Level D1 and both source slot clears. Failure never replays that prefix.
+-   if(!gs->destroy(e))return fail();
++   if(!state.retirement_gs_complete_v114){
++    if(!gs->destroy(e))return fail();state.retirement_gs_complete_v114=true;
++   }
+    if(gs->fields().level34||globals->s_level){e="Original GS Dtor did not unpublish actual34/s_level";return fail();}
+    bool unload{},destroy{};if(!source_campaign_release_complete_v88(world->release_v88,unload,destroy,e)||!unload||!destroy){e="GS destruction returned before actual Level release journals completed";return fail();}
+    state.retirement_phase_v88=Phase::native_retire;
+   }
+-  const auto result=state.retirement_v88.retire_world(world->owner,e);
+-  if(result==Result::failed)return fail();if(result==Result::pending){e.clear();return Result::pending;}
++  if(!state.retirement_native_complete_v114){
++   const auto result=state.retirement_v88.retire_world(world->owner,e);
++   if(result==Result::failed)return fail();if(result==Result::pending){e.clear();return Result::pending;}
++   state.retirement_native_complete_v114=true;
++  }
+   if(gs->fields().level34||globals->s_level||source_campaign_v55->world!=world){e="Actual source/renderer ownership changed during final retirement";return fail();}
+   //Native retirement observed unpublication. Only now release source wrappers;
+   //no destruction/readiness callback is simulated by storage expiration.
+--- a/port/android-native/app/src/main/cpp/source_campaign_retirement_v88.hpp
++++ b/port/android-native/app/src/main/cpp/source_campaign_retirement_v88.hpp
+@@ -20,4 +20,6 @@
+ bool begin_source_campaign_retirement_v88(SourceCampaignRetirementServicesV88,std::string&);
+ SourceCampaignRetirementResultV88 drain_source_campaign_retirement_v88(std::string&);
+ bool source_campaign_retirement_requested_v88()noexcept;
++//Explicit resume of the SAME failed continuation; never starts new teardown.
++bool retry_source_campaign_retirement_v114(std::string&);
+ }

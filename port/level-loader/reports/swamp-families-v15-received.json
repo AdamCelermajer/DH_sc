@@ -1,0 +1,7 @@
+{
+  "validation": "PASS",
+  "archive_sha256": "feec85e69625c744c4db509bdacf2ce590486dd7e014984e585244451da4b9df",
+  "entries_verified": 24,
+  "status": "verified immutable snapshot retained; as-reached construction/schema selection pending",
+  "full_loader_verified": false
+}

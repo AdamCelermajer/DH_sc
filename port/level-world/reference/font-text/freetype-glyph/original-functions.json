@@ -1,0 +1,17 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7gameswf14glyph_provider15get_face_entityERKNS_9tu_stringEbb",
+      "elf_address": "0x7d113c",
+      "size": 1240,
+      "sha256": "ce2f73d2dbf804c29318151ecb1aeaae3f8825d657e549159cf5380791dbffaf"
+    },
+    {
+      "original_symbol": "_ZN7gameswf14glyph_provider14get_char_imageEtRKNS_9tu_stringEbbiPNS_4rectEPf",
+      "elf_address": "0x7d1614",
+      "size": 1044,
+      "sha256": "3f41ec857d1a62f2b4489b888d4d20c251f9790f2d599563df7ff0f97b3812f0"
+    }
+  ]
+}

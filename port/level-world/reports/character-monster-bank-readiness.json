@@ -1,0 +1,114 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "producer_report": {
+    "path": ".local-inputs/character-monster-bank-assets/producer-report.json",
+    "sha256": "2577a6b392ef2e009ea0b8a3a6df831db8c77233da6120675c68763a34bb6faa"
+  },
+  "native_reader_report": {
+    "path": "port/level-world/reference/character-monster-bank-readiness/native-reader-host-audit.json",
+    "sha256": "af7d6b3b1cff0a59b66fc30e0422ebbd6601aa6946a7fc97a0bbd7cc5732eba4"
+  },
+  "file_sha256": {
+    "port/level-world/reference/character-monster-bank-readiness/NOTES.md": "2abaa8257b6b9451263269d826a627344a21cfe8c1dd543ae4796cc468711b97",
+    "port/level-world/reference/character-monster-bank-readiness/probe.py": "ddefdcc1a3dfb864505d1978cb3036a11617b21fe1e98b05ff221c0ffce2b13c",
+    "port/level-world/reference/character-monster-bank-readiness/produce.py": "04a3e09a59598d03841dbd9767130359bb7dee633c9c2dd258b43471c08c44ab",
+    "port/level-world/reference/character-monster-bank-readiness/freeze.py": "89901a2500bddf701ede1839ca8cfaf03d0506627d6b5cf4287189b10f77c860",
+    "port/level-world/reference/character-monster-bank-readiness/reader-probe.cpp": "6b60ff53969b57ff02e45a6d44a7fdab5a1326df3ded5264f995acff6e3fa551",
+    "port/level-world/reference/character-monster-bank-readiness/host-audit.py": "e7febc4dc8b7897d178f8817fd24251ba2b1406607a97f6e71b7cc602600aac2",
+    "port/level-world/reference/character-monster-bank-readiness/native-reader-host-audit.json": "af7d6b3b1cff0a59b66fc30e0422ebbd6601aa6946a7fc97a0bbd7cc5732eba4",
+    "port/level-world/reference/character-monster-bank-readiness/original-functions.json": "5e13a9454fbb5ba5262683bf03cd385cfed9f7d64105eb8c4c97dfb6c1813177",
+    "port/level-world/reference/character-monster-bank-readiness/reference/original-functions.asm": "8f34afa5ec72dbe3e877c5ef3be9b3d5f0a1b95dbf0362e32ade1e8a68dc369d",
+    "port/level-world/reference/character-monster-bank-readiness/skeleton-probe.json": "e6887368f0c24512badaaea526327552d359678ca7db75b2c6980f75d76f4ba4",
+    "port/level-world/reference/character-monster-bank-readiness/slime-probe.json": "6c0e47d532161fdd99d0fdd9eeaf02504be1b4054d8a2da356aaec5eea813aad",
+    "port/level-world/reference/character-monster-bank-readiness/slime-red-probe.json": "adb2ca7adeb2c3a93a89d86380acb2d5adb89bb07f63e4e5b34199ee51fa132c",
+    "port/level-world/reference/character-monster-bank-readiness/ghost-probe.json": "4475e2f6b4c336747786021c86454a3096fb80cfa07d96950044eb1784d48b2f",
+    ".local-inputs/character-monster-bank-assets/producer-report.json": "2577a6b392ef2e009ea0b8a3a6df831db8c77233da6120675c68763a34bb6faa"
+  },
+  "banks": {
+    "skeleton": {
+      "character": "Crypt_Skeleton",
+      "source_probe_sha256": "e6887368f0c24512badaaea526327552d359678ca7db75b2c6980f75d76f4ba4",
+      "animation_table": 62,
+      "animation_set_id": 15875,
+      "template_dictionary_id": 1203,
+      "ordered_requests": 44,
+      "unique_resources": 23,
+      "source_idle_sequence": 596,
+      "source_placements": [
+        "_prim_tmp_cultist01",
+        "_prim_tmp_cultist03",
+        "_prim_tmp_cultist07",
+        "_prim_tmp_cultist08"
+      ],
+      "PAB1": {
+        "path": ".local-inputs\\character-monster-bank-assets\\assets\\data\\monster-skeleton-animation-bank.bin",
+        "sha256": "a5bbf6e617c9f2cca698193b568a4a8686f5ec57884a7ac073eea67cb2c72af6"
+      }
+    },
+    "slime": {
+      "character": "CryptSlime",
+      "source_probe_sha256": "6c0e47d532161fdd99d0fdd9eeaf02504be1b4054d8a2da356aaec5eea813aad",
+      "animation_table": 64,
+      "animation_set_id": 16387,
+      "template_dictionary_id": 1267,
+      "ordered_requests": 37,
+      "unique_resources": 23,
+      "source_idle_sequence": 613,
+      "source_placements": [
+        "_prim_tmp_cultist05",
+        "_prim_tmp_cultist06",
+        "_prim_Monster",
+        "_prim_Monster05"
+      ],
+      "PAB1": {
+        "path": ".local-inputs\\character-monster-bank-assets\\assets\\data\\monster-slime-animation-bank.bin",
+        "sha256": "248cfde99bde22b3c5267c195f5746c9727904ccd0ac5eb2b810c21ea5e95313"
+      }
+    },
+    "slime-red": {
+      "character": "CryptSlime_RE",
+      "source_probe_sha256": "adb2ca7adeb2c3a93a89d86380acb2d5adb89bb07f63e4e5b34199ee51fa132c",
+      "animation_table": 64,
+      "animation_set_id": 16387,
+      "template_dictionary_id": 1267,
+      "ordered_requests": 37,
+      "unique_resources": 23,
+      "source_idle_sequence": 613,
+      "source_placements": [
+        "_prim_Monster02"
+      ],
+      "PAB1": {
+        "path": ".local-inputs\\character-monster-bank-assets\\assets\\data\\monster-slime-red-animation-bank.bin",
+        "sha256": "f8b6e6f5c6d592345d9eb1c2e19b1d25a6f601e26fd48e57ea62de6d452569d0"
+      }
+    },
+    "ghost": {
+      "character": "Crypt_Ghost",
+      "source_probe_sha256": "4475e2f6b4c336747786021c86454a3096fb80cfa07d96950044eb1784d48b2f",
+      "animation_table": 24,
+      "animation_set_id": 6147,
+      "template_dictionary_id": 716,
+      "ordered_requests": 28,
+      "unique_resources": 18,
+      "source_idle_sequence": 210,
+      "source_placements": [
+        "_prim_Monster_Ghost05",
+        "_prim_Monster_Ghost06"
+      ],
+      "PAB1": {
+        "path": ".local-inputs\\character-monster-bank-assets\\assets\\data\\monster-ghost-animation-bank.bin",
+        "sha256": "3d62a99bbcad88775fedb09bbde8f8b34b441fd12ce6c7f1a33371e481650060"
+      }
+    }
+  },
+  "unique_animation_files": 64,
+  "ordered_occurrences": 146,
+  "authored_monster_placements": 11,
+  "ghost_template_signed_start": -133,
+  "native_reader_samples": 26292,
+  "sanitizer_findings": 0,
+  "production_APK_assets_changed": false,
+  "scope": "Original instruction registration/getter/Idle Focus request evidence plus byte-exact isolated PAB1/cache staging and native shared-reader compatibility. Explicit manager/constant/IsPlayer/script/FX/audio probe services; not original complete frame, GPU, cache allocation or live AI parity."
+}

@@ -1,0 +1,5 @@
+{
+  "validation": "PASS",
+  "ASAN_UBSAN": true,
+  "output": "PASS original/native FileHandle joins=24 source_overflow_domain_rejected=1\n"
+}

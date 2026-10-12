@@ -1,0 +1,17 @@
+# V75 renderer condition composition — source only
+
+Main owns native_conditions_v69.hpp/table/runtime and the exact model_renderer::borrow_source_campaign_conditions_v70 API. This candidate calls that borrower only. It creates no table, runtime, list, condition class, evaluator, world or registry.
+
+Install renderer_campaign_conditions_v75.hpp/.cpp and source_campaign_module_conditions_v75.inc into the existing Root cpp sibling directory. Add the new renderer CPP to that existing renderer owner target. Apply integration.patch surgically to the current Root sources; do not overwrite whole active files. Main is publishing the borrower header/body concurrently, so keep its exact declaration/implementation authoritative. The candidate's matching declaration is a repeat of the confirmed API and has no definition.
+
+The patch touches canonical_module_graph_v3.hpp/.cpp, world_item_graph_v3.hpp/.cpp, world_item_live_owner_v5.cpp, renderer_character_campaign_v62.inc, renderer_item_graph_v4.inc, source_campaign_runtime_v61.cpp and model_renderer.cpp. Existing V72 condition_scoped_binding_v72.hpp/.cpp must be visible and linked in the same world owner; existing Character V72 clear successor must remain adopted. Existing native_conditions_table_v69.cpp/runtime_v69.cpp stay Main-owned and are not duplicated.
+
+Character receives the exact returned V3 bag. Module's existing graph receives it after public GS/C1/candidate publication and before stage7/XML entry construction, through a setter rejecting receiver entries or arena replacement. Module existing ordered clear8c/b0 remains the source destruction path. Character existing borrowed-field V72 cleanup consumes services.conditions, including failed Init prefixes.
+
+Item graph services retain only the scoped V72 binding and independent native condition owner. The binding borrows Item and containing World weakly; each call pins the actual receiver for the whole Init/Clear. Item's existing WorldItemLiveOwnerV5::erased route now clears conditions after its physical/visual release and before graph/record/pool/factory storage drops. Positive slots without a binding reject destruction; historical constructor-empty graphs remain no-allocation/no-D0 branches. Campaign Item composition requires the SAME published current campaign World: the old owner-only callback cannot silently compile named conditions.
+
+Non-Character worker owns its own fragment. At its composition entry it calls lend_campaign_condition_bag_v75(actual, inputs.conditions, sharedRuntime,error) and uses its existing V72 journal. Main borrower returns the same per-campaign arena on those getter calls; this helper never calls NativeConditionRuntimeV69::create or read_native_condition_table_v69. Typed bind_campaign_condition_base_v75 consumes an already returned bag/runtime without another borrow.
+
+Provider capture contract remains Main's: the arena is independent of App/World/Level/manager and its actual queries borrow them weakly. The candidate checks exact runtime identity/controlblock and rejects containing-owner aliases. No retained complete candidate receipt or Level-owning alias is stored back into those owners. No evaluation or gameplay effect is substituted.
+
+No tests, builds, compiler, hashes, fixtures, emulator or proof cycle ran. Main's integrated first-SWAMP milestone remains the validation point. The exact public Main borrower publication is the only external source integration dependency of this batch.

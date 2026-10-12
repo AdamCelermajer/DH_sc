@@ -1,0 +1,13 @@
+{
+  "status": "SOURCE_ONLY_UNCOMPILED",
+  "review": "five_original_Init_source_ABI_native_menu_pointer_lifetime",
+  "files": {
+    "candidate/command-c1-v59/c1_gold_v59.inc": "f6aad29a542ee1d52ecc18b3b4ea51dbb5e629d74f89b23fb5e6d5fe7621364b",
+    "candidate/command-c1-v59/command_c1_descriptors_v59.inc": "2c4f7d8fa62f0c295023cd6aa0cb917bd93aac71116677940e0665a84a28a0fa",
+    "candidate/command-c1-v59/HANDOFF.md": "0bfdea93112026094072c8a7abdbaf64e676593de766f116b4f0fe51b76854bf",
+    "candidate/command-c1-v59/MAIN-INIT-HOOKS.md": "5dbfb5596a04e2bc7370e8b08fa64415a5a04e2f7e3347af59bf8c986b557db3",
+    "candidate/command-c1-v59/script_command_receivers_v59.cpp": "cc18c31a6c307e992c0628cb8aa01b52fecc99482098560788f7cdb2c2bad213",
+    "candidate/command-c1-v59/script_command_receivers_v59.hpp": "d555cac844347387dcd1c0ad46c404b718b3ff03a61803832f97fa3e250dc55d",
+    "candidate/command-c1-v59/script_command_receivers_v59_test.cpp": "07f999c5a5aedc4c5fff297c5a9e8b838e5c5bdf4e7e3b93bf87d3c234c37a6e"
+  }
+}

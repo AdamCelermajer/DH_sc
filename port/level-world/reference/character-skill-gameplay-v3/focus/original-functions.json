@@ -1,0 +1,47 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6CharAI13AI_BeginSpellEb",
+      "elf_address": "0x3d81c0",
+      "size": 364,
+      "sha256": "ad01a1076435bf859f8e6ed617332dd70ceefb06f8c54adcda54f483bfd7a4d0"
+    },
+    {
+      "original_symbol": "_ZN6CharAI10_SpellBlurEv",
+      "elf_address": "0x3d8b28",
+      "size": 84,
+      "sha256": "e55409b785ae17cee9442afca1e90259901b99100baaec49feb8bdfc699b7751"
+    },
+    {
+      "original_symbol": "_ZN6CharAI11_SpellEventEv",
+      "elf_address": "0x3d8ba4",
+      "size": 84,
+      "sha256": "76db1a7aec5f4564857504e6b8f1d6ea83f3b5219613a9c889689c9a1de70167"
+    },
+    {
+      "original_symbol": "_ZN6CharAI11_SpellFocusEv",
+      "elf_address": "0x3d8038",
+      "size": 84,
+      "sha256": "03bc062bf825eacc8898e50f82c0477acc704f8112e0ca7f3cff09d6188b9a2d"
+    },
+    {
+      "original_symbol": "_ZN6CharAI10_SkillBlurEv",
+      "elf_address": "0x3d8b7c",
+      "size": 40,
+      "sha256": "a45d595e1bec8b296132de2f17768425db000d5a05ca1bb3551c5faadb7680e4"
+    },
+    {
+      "original_symbol": "_ZN6CharAI11_SkillFocusEv",
+      "elf_address": "0x3d808c",
+      "size": 40,
+      "sha256": "78bfc3b05693b2d13360a7e55673c2fc1acfdc0e135b7b0b39ff7c977fc46668"
+    },
+    {
+      "original_symbol": "_ZN6CharAI11_SkillEventEv",
+      "elf_address": "0x3d8bf8",
+      "size": 40,
+      "sha256": "e6ae60569613882df422bd19922e0a38e118c280e5f1767594ba6e1590787120"
+    }
+  ]
+}

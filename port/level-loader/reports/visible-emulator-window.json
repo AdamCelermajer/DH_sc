@@ -1,0 +1,18 @@
+{
+  "avd": "DH2_Loader_API37",
+  "serial": "emulator-5590",
+  "booted": true,
+  "windows": [
+    {
+      "title": "Android Emulator - DH2_Loader_API37:5590",
+      "pid": 154420,
+      "visible": true,
+      "bounds": [
+        1104,
+        142,
+        2008,
+        579
+      ]
+    }
+  ]
+}

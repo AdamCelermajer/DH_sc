@@ -1,0 +1,96 @@
+--- a/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.hpp
++++ b/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.hpp
+@@ -38,6 +38,7 @@
+ namespace dh2::loader {struct SourceLoadingInputsV43;}
+ namespace dh2::loader {struct ProjectilePrecacheSourcesV96;}
+ namespace dh2::loader {struct GameObjectSourceFrameServicesV74;}
++namespace dh2::loader {struct AreaTransitionRequestV114;}
+ namespace model_renderer {
+ struct CampaignObjectLoadingNativeV95;
+ struct SourceObjectUpdateLeavesV105;
+@@ -181,7 +182,8 @@
+ };
+ bool start_source_campaign_runtime_v61(AAssetManager*,
+  std::shared_ptr<const dh2::android_ui::FrontSelectedProfileV50>,
+- SourceCampaignRendererServicesV61,std::string&);
++ SourceCampaignRendererServicesV61,std::string&,
++ const dh2::loader::AreaTransitionRequestV114* prepared_transition=nullptr);
+ bool source_campaign_runtime_active_v61();
+ bool update_source_campaign_noncharacter_v104(const std::shared_ptr<SourceWorldBorrowV61>&,
+  std::uintptr_t,std::string&);
+--- a/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp
++++ b/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp
+@@ -1,6 +1,7 @@
+ #include "source_campaign_retirement_v88.hpp"
+ #include "source_campaign_release_v88.hpp"
+ #include "source_campaign_runtime_v61.hpp"
++#include <area_transition_request_v114.hpp>
+ #include <projectile_precache_source_v96.hpp>
+ #include "projectile_precache_campaign_v96.hpp"
+ #include <level_batching_source_v96.hpp>
+@@ -752,11 +753,25 @@
+ 
+ }
+ bool start_source_campaign_runtime_v61(AAssetManager* assets,
+- std::shared_ptr<const dh2::android_ui::FrontSelectedProfileV50> profile,SourceCampaignRendererServicesV61 renderer,std::string& error)try{
++ std::shared_ptr<const dh2::android_ui::FrontSelectedProfileV50> profile,SourceCampaignRendererServicesV61 renderer,std::string& error,
++ const dh2::loader::AreaTransitionRequestV114* prepared_transition)try{
+  using namespace dh2;using namespace dh2::loader;
+  if(source_campaign_v55){error="Source campaign already retained; require whole source unload before a new launch";return false;}
+  if(!assets||!profile||profile->metadata.slot<0||profile->metadata.selected_difficulty<0||profile->metadata.selected_difficulty>=3){
+   error="Required immutable selected profile and genuine per-difficulty location";return false;
++ }
++ // Confirmed transitions consume one previously projected live Save tuple.
++ // The profile is Main's fresh restore projection, never cached menu state.
++ if(prepared_transition){
++  const auto& plan=*prepared_transition;
++  if(!plan.restore.file||plan.restore.profile_slot!=profile->metadata.slot||
++     plan.application.profile_slot!=profile->metadata.slot||
++     plan.source_difficulty!=profile->metadata.selected_difficulty||
++     plan.gs.word20!=std::uint32_t(profile->metadata.slot)||plan.source.seed!=plan.gs.word20||
++     plan.source.identity.empty()||plan.source.definition.empty()||plan.destination_row<0||
++     plan.gs.name18!=plan.source.definition||plan.application.filename!=plan.source.definition){
++   error="Required SAME actual restore profile/slot and confirmed source/GS transition tuple";return false;
++  }
+  }
+  if(!renderer.globals||!renderer.create_world){error="Required actual renderer source boundary";return false;}
+  if(renderer.globals->s_level){error="Original GS current Level exists; require actual unload";return false;}
+@@ -786,9 +801,14 @@
+  state->player_manager=state->world->player_manager;state->globals=renderer.globals;
+  const auto difficulty=std::size_t(state->profile->metadata.selected_difficulty);
+  auto tables=state->world->design->borrow();const auto* levels=tables.levels();
+- const auto row=state->profile->metadata.location.levels[difficulty];
++ const auto row=prepared_transition?prepared_transition->destination_row:state->profile->metadata.location.levels[difficulty];
+  if(!levels||row<0||std::size_t(row)>=levels->levels.size()){
+   error="Required authentic selected LNAM/default row";state->failed=true;state->failure=error;return false;
++ }
++ if(prepared_transition&&(std::size_t(row)>=levels->level_names.size()||
++    levels->level_names[std::size_t(row)]!=prepared_transition->source.identity||
++    levels->levels[std::size_t(row)].file!=prepared_transition->source.definition)){
++  error="Confirmed transition differs from SAME actual LevelList destination";state->failed=true;state->failure=error;return false;
+  }
+  auto held_design=std::make_shared<character::CharacterGameDesign::Borrow>(state->world->design->borrow());
+  LevelConstructorApplicationV4 app;app.owner=state->world->files_owner;app.levels=held_design->levels();
+@@ -800,7 +820,13 @@
+  }
+  app=state->world->level_application->bind(std::move(app));
+  NativeRootGSBootstrapInputsV55 input;input.globals=state->globals;
+- input.application=std::move(app);input.request.identity=levels->level_names[std::size_t(row)];
++ input.application=std::move(app);
++ if(prepared_transition){
++  // Projection already read Debug/Timer/Save once; do not select seeds again.
++  input.request=prepared_transition->source;
++  input.arguments=prepared_transition->gs;
++ }else{
++ input.request.identity=levels->level_names[std::size_t(row)];
+  input.request.definition=levels->levels[std::size_t(row)].file;
+  input.request.seed=std::uint32_t(state->profile->metadata.slot);
+  const auto& location=state->profile->metadata.location;
+@@ -812,6 +838,7 @@
+    std::chrono::steady_clock::now().time_since_epoch()).count()); // Native Timer.getRealTime backend.
+  input.arguments={input.request.definition,location.entry_points[difficulty],input.request.seed,
+   source_seed,source_seed,1,location.use_spawn_point[difficulty],-1,state->profile->requested_difficulty};
++ }
+  input.online_state=[](std::uint32_t&,std::string& e){e="Required actual OnlineGameState34 producer";return false;};
+  input.constructor.online_byte5=[online](std::uint8_t& out,std::string& e){out=online->byte5();e.clear();return true;};
+  input.constructor.online_state34=[](std::int32_t&,std::string& e){e="Required actual OnlineGameState34 producer";return false;};

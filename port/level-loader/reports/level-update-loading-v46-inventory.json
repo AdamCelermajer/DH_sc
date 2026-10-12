@@ -1,0 +1,119 @@
+{
+  "per_call_prefix": {
+    "source_range": "3f69b0..3f6a24",
+    "global_byte": {
+      "symbol": "handle_cheats_inGame",
+      "address": "9f640a"
+    },
+    "fasttravel_order": [
+      "Application.GetCurrentLevel31f594; NULL skips",
+      "PlayerManager.GetLocalPlayer36e478(slot0,true); actual PlayerInfo.character660 NULL skips",
+      "Character.SG_UnlockAllFastTravels3bba70",
+      "MenuWorldMap.GetInstance4364f8; actual byte12c=1"
+    ],
+    "debug_order": [
+      "global actual DebugSwitches.load337888",
+      "GetSwitch337a88(IsDisplayLoadingStepName)",
+      "when enabled DBG_GetLoadingStepName3ef18c",
+      "MenuDebug.GetInstance42a660 then SetText42a08c",
+      "_DEBUG_OUT324114 actual phase130"
+    ],
+    "source_provider_status": "Required explicit complete prefix. New wrapper refuses dispatcher entry if absent; no fake debug/fasttravel globals."
+  },
+  "stages": [
+    {
+      "state": 0,
+      "entry": "3f74c8",
+      "order": [
+        "actual global g_bigI9f6890=0",
+        "actual global g_bigV9f688c=0",
+        "actual global Application.CleanGlitch31f55c",
+        "ShowMemoryStats31041c genuine BX LR",
+        "actual VoxSoundManager.StopAllSounds369990(500)",
+        "actual Application.byteb4=1",
+        "sameC1.field134=0",
+        "sameC1.field138=0",
+        "sameC1.field13c=0",
+        "sameC1.byte144=0",
+        "dispatcher130++ then common progress/UI tail"
+      ],
+      "native_provider": "stage0_body_v46 implements authentic scalar prefix/order with actual borrowed cells. CleanGlitch/audio remain required main services. Missing body preserves reached globals and unreached suffix."
+    },
+    {
+      "state": 1,
+      "entry": "3f753c",
+      "order": [
+        "source signed default increment"
+      ],
+      "native_provider": "Existing LifecycleV36 genuine scalar default increment; no required stage body."
+    },
+    {
+      "state": 2,
+      "entry": "3f745c",
+      "order": [
+        "DebugSwitches.GetInstance330740/GetSwitch337a88(isTracingLevel_Loading), ignored result",
+        "FRESH MenuManager.GetInstance42ca8c ->UnloadMenu42d4bc(2)",
+        "FRESH MenuManager.GetInstance ->UnloadMenu(1)",
+        "FRESH MenuManager.GetInstance ->UnloadMenu(3)",
+        "130++"
+      ],
+      "native_provider": "Menu whole Unload body not found in current main/source inventory. Required main/menu callback, no Hide/Pop substitute."
+    },
+    {
+      "state": 3,
+      "entry": "3f7414",
+      "order": [
+        "DebugSwitches.GetInstance/GetSwitch(isTracingLevel_Loading), result ignored",
+        "130++"
+      ],
+      "native_provider": "Existing bounded dispatcher omits debug-only body. New composed wrapper requires explicit debug-only-stage callback. Same evidence for16 entry3f780c and19 entry3f76ac."
+    },
+    {
+      "state": 4,
+      "entry": "3f73c0",
+      "order": [
+        "DebugSwitches.GetInstance/GetSwitch(isTracingLevel_Loading), ignored",
+        "actual global VisualFXManager.BuildLibraries496bd8",
+        "130++"
+      ],
+      "native_provider": "Whole BuildLibraries absent. Original additionally debug-load/GetModule then optional _BuildAnimLibrary496ba4; when actual list28/2c empty sets actual byte4=1 then _BuildAnimFXDict495364 and _BuildAnimFXSets496954. Existing visual_fx_preload only queue entries and CharacterMeshFX PreCache are different bodies."
+    },
+    {
+      "state": 5,
+      "entry": "3f734c",
+      "order": [
+        "DebugSwitches.GetInstance/GetSwitch(isTracingLevel_Loading), ignored",
+        "actual Application.PhysicalWorld+44.load34c048(-2000,-2000,2000,2000)",
+        "130++"
+      ],
+      "native_provider": "NEW stage5_physical_body_v46 uses SAME retained physical::NativeWorld::load. Original bound bitwords c4fa0000,c4fa0000,44fa0000,44fa0000 captured. No substitute world allocation; native backend creation and source listener registration performed by actual existing implementation."
+    },
+    {
+      "state": 6,
+      "entry": "3f72d0",
+      "order": [
+        "DebugSwitches.GetInstance/GetSwitch(isTracingLevel_Loading), ignored",
+        "actual Application.PlayerManager+40.byte6c9=1",
+        "PlayerManager.Update378fb4",
+        "new12 MemoryHint0",
+        "GameEventManager C1 479d08",
+        "publish SAME new receiver to actual Level.field194",
+        "GameEventManager.Load479e5c",
+        "130++"
+      ],
+      "native_provider": "Current retained PlayerManagerOwnerV1/CombatRuntimeV2 lack Update and actual byte6c9. GameEventManager is separate from embedded EventManagerOwnerV12; require actual sole C1 owner/pointer lease and real event table loader. Original bare vector C1 follows479cac, Load skips nonemptyvector or resizes to actual event count and constructs actual32byte GameEvent then AssignPyData/ReInit before each vector store."
+    }
+  ],
+  "later_service_inventory": {
+    "state8": "Whole LevelConfig/fog/_LoadScripts3f3a58 remains required; constructor script44 Lua scripts do not certify this stage.",
+    "state9": "Whole _LoadLightSet3f459c required. Main LightSetNameOwnerV3 covers only four actual names/GetId, explicitly not full light/filter/driver load.",
+    "state14": "Whole _LoadPlayer call3f78b8 plus reached online bindings remains main player/character/AI/save ownership; no default model/profile bridge success.",
+    "state20": "Main GameplayCameraRuntimeV11.load exists as substantial original-derived camera-resource/graph/animator/AnimSet/view composition, with borrowed actual World/Application/SceneManager/camera active slot. Loader may orchestrate it only after real LevelConfig and actual camera field/publication/required scene registration services are supplied. Its loaded flag is not whole Level.Init."
+  },
+  "required_application_bindings": {
+    "stage0": "Actual g_bigI/g_bigV word owner, actual Application.byteb4 and identity/lease, genuine CleanGlitch device chain (globalApp+10 ->owner+10 ->virtualac), SAME Vox manager/StopAll(500). No production copies/globals added.",
+    "stage5": "Alias shared_ptr to actual Application+44 NativeWorld and complete actual tracing DebugSwitches service. Calls original clear/newbackend at source5; never run against concurrent live world outside main orchestration.",
+    "prefix": "Actual handle_cheats_inGame byte; existing CurrentLevel/getLocalPlayer/Character fasttravels/MenuWorldMap byte12c; actual global DebugSwitches plus DebugMenu/Text/log bodies. Main owns current publication/state dispatch."
+  },
+  "ownership_boundary": "Loading adapter only. Main owns forced/phase38 gameplay continuation, per-class actor logic/skills, current/global selection, player/camera/light/full App facets and real incomplete-abort teardown. No emulator, selected graph/CMake/manifest/common/shared mutation."
+}

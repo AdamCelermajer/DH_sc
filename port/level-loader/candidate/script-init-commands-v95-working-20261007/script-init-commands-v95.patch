@@ -1,0 +1,57 @@
+--- a/port/level-loader/script_manager_owner_v52.hpp
++++ b/port/level-loader/script_manager_owner_v52.hpp
+@@ -100,6 +100,9 @@
+  std::uintptr_t identity()const noexcept{return reinterpret_cast<std::uintptr_t>(this);}
+  bool load_commands(const char*,bool common,std::string&);
+  bool load_names(const char*,bool common,std::string&);
++ // Whole ScriptManager.InitCommands455ad8. Original LoadScriptFile already
++ // calls Init; state13 intentionally calls the SAME virtual Init again.
++ bool init_commands_v95(std::string&);
+  bool unload_all(std::string&);
+  //Whole45a2ac: reset0/30/4/8, actual UnLoadAll, then controller blocked=0.
+  bool flush_source_v88(std::function<bool(std::string&)> actual_controller_reset,std::string&);
+--- a/port/level-loader/script_manager_owner_v52.cpp
++++ b/port/level-loader/script_manager_owner_v52.cpp
+@@ -59,6 +59,30 @@
+   if(!reader.finished())return fail("Unexpected compiled script stream tail",error);error.clear();return true;
+  }catch(const std::exception& e){return fail(e.what(),error);}catch(...){return fail("ScriptManager source service threw",error);}
+ }
++bool ScriptManagerOwnerV52::init_commands_v95(std::string& error){
++ if(busy_||execution_depth_v96_)return fail("ScriptManager InitCommands reentered; native prefix retained",error);
++ if(diagnostics_.failed){error=diagnostics_.error;return false;}
++ struct Busy{bool& b;explicit Busy(bool& value):b(value){b=true;}~Busy(){b=false;}} guard(busy_);
++ try{
++  // Native outer count is refreshed after each script. Native inner signed
++  // count0/storage8 is refreshed after each actual virtual0 callback.
++  for(std::size_t script_index=0;script_index<commands_.size();++script_index){
++   for(std::int32_t command_index=0;command_index<commands_[script_index].count0;++command_index){
++    auto& script=commands_[script_index];
++    if(!script.storage8||std::size_t(command_index)>=script.storage8->size())return fail("Required actual ScriptCmds count0/storage8 in InitCommands",error);
++    auto& command=(*script.storage8)[std::size_t(command_index)].command;
++    auto receiver=command.actual_owner;auto init=command.init;
++    if(!receiver||!init)return fail("Required SAME retained command virtual0 for InitCommands",error);
++    if(!init(error))return fail(error,error);
++    if(!reached_callback(error))return false;
++    ++diagnostics_.initialized_commands;
++   }
++  }
++  // Original455ad8 changes no ScriptContext/current/common or aggregate skip
++  // fields, and does not reassign Data, rerun C1 or load the stream again.
++  error.clear();return true;
++ }catch(const std::exception& e){return fail(e.what(),error);}catch(...){return fail("Actual ScriptManager InitCommands callback threw; prefix retained",error);}
++}
+ bool ScriptManagerOwnerV52::load_names(const char* name,bool common,std::string& error){
+  if(busy_||execution_depth_v96_)return fail("ScriptManager names reentered; prefix retained",error);if(diagnostics_.failed){error=diagnostics_.error;return false;}if(common_skip(common)){error.clear();return true;}
+  struct Busy{bool& b;explicit Busy(bool& v):b(v){b=true;}~Busy(){b=false;}} guard(busy_);
+--- a/port/level-loader/script_command_receivers_v59.cpp
++++ b/port/level-loader/script_command_receivers_v59.cpp
+@@ -29,7 +29,8 @@
+ }
+ ScriptCommandBorrowV52 CanonicalScriptCommandV59::constructor_borrow(){auto self=shared_from_this();return {self,identity(),descriptor_.factory,&skip4_,&kind8_,&data_c_,&data_,[self](std::string& e){return self->init(e);},[self](std::string& e){return self->release_base_storage(e);},[self](bool skip,std::int32_t module,std::string& e){return self->execute(skip,module,e);},[self](bool& value,std::string& e){return self->blocking_v96(value,e);},[self](std::string& e){return self->update_v96(e);},self};}
+ bool CanonicalScriptCommandV59::init(std::string& error){
+- if(busy_)return fail("Actual command Init reentered; prefix retained",error);if(failed_){error=failure_;return false;}if(initialized_)return fail("Actual command Init already completed; refusing replay",error);
++ if(busy_)return fail("Actual command Init reentered; prefix retained",error);if(failed_){error=failure_;return false;}// Original LoadScriptFile and InitCommands both invoke virtual Init.
++ // Keep actual reentry/failure guards; successful prior Init is not a gate.
+  CheckedCommandBorrowV59 actual;if(!checked_data_borrow(actual,error))return fail(error,error);
+  struct Busy{bool& b;explicit Busy(bool& v):b(v){b=true;}~Busy(){b=false;}} guard(busy_);
+  if(descriptor_.Init==0x455628){initialized_=true;error.clear();return true;} // Original literal BX LR.

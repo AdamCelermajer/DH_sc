@@ -1,0 +1,1237 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "summary_sha256": "900ae07e49981d9e76db467063822cd3fb6935328574521cba65e0f2876e2335",
+  "source_LevelList_rows": 51,
+  "original_LoadFile_and_Application_mode_bodies_executed": true,
+  "filesystem_open_endpoint": "explicit missing-resource virtual; no XML/load success supplied",
+  "prefixes": [
+    "",
+    "data/",
+    "data/scene/",
+    "data/3d/modules/"
+  ],
+  "first_token_removal": [
+    "old/",
+    "debug/",
+    "ps3/",
+    "iphone/"
+  ],
+  "source_rows": [
+    {
+      "input": "009_abbey.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "009_abbey.rule.xml",
+        "data/009_abbey.rule.xml",
+        "data/scene/009_abbey.rule.xml",
+        "data/3d/modules/009_abbey.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "009_abbey.rule.xml",
+        "data/009_abbey.rule.xml",
+        "data/scene/009_abbey.rule.xml",
+        "data/3d/modules/009_abbey.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/009_abbey.rule.xml"
+      ]
+    },
+    {
+      "input": "009a_abbey.mlx",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "009a_abbey.mlx",
+        "data/009a_abbey.mlx",
+        "data/scene/009a_abbey.mlx",
+        "data/3d/modules/009a_abbey.mlx"
+      ],
+      "actual_original_mode_queries": [
+        "009a_abbey.mlx",
+        "data/009a_abbey.mlx",
+        "data/scene/009a_abbey.mlx",
+        "data/3d/modules/009a_abbey.mlx"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/009a_abbey.mlx"
+      ]
+    },
+    {
+      "input": "050_earth_temple_demo.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "050_earth_temple_demo.rule.xml",
+        "data/050_earth_temple_demo.rule.xml",
+        "data/scene/050_earth_temple_demo.rule.xml",
+        "data/3d/modules/050_earth_temple_demo.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "050_earth_temple_demo.rule.xml",
+        "data/050_earth_temple_demo.rule.xml",
+        "data/scene/050_earth_temple_demo.rule.xml",
+        "data/3d/modules/050_earth_temple_demo.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/050_earth_temple_demo.rule.xml"
+      ]
+    },
+    {
+      "input": "x50_earth_temple_demo_BACKUP.mlx",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "x50_earth_temple_demo_BACKUP.mlx",
+        "data/x50_earth_temple_demo_BACKUP.mlx",
+        "data/scene/x50_earth_temple_demo_BACKUP.mlx",
+        "data/3d/modules/x50_earth_temple_demo_BACKUP.mlx"
+      ],
+      "actual_original_mode_queries": [
+        "x50_earth_temple_demo_BACKUP.mlx",
+        "data/x50_earth_temple_demo_BACKUP.mlx",
+        "data/scene/x50_earth_temple_demo_BACKUP.mlx",
+        "data/3d/modules/x50_earth_temple_demo_BACKUP.mlx"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/x50_earth_temple_demo_BACKUP.mlx"
+      ]
+    },
+    {
+      "input": "003_darkwood.mlx",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "003_darkwood.mlx",
+        "data/003_darkwood.mlx",
+        "data/scene/003_darkwood.mlx",
+        "data/3d/modules/003_darkwood.mlx"
+      ],
+      "actual_original_mode_queries": [
+        "003_darkwood.mlx",
+        "data/003_darkwood.mlx",
+        "data/scene/003_darkwood.mlx",
+        "data/3d/modules/003_darkwood.mlx"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/003_darkwood.mlx"
+      ]
+    },
+    {
+      "input": "003_darkwood.mlx",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "003_darkwood.mlx",
+        "data/003_darkwood.mlx",
+        "data/scene/003_darkwood.mlx",
+        "data/3d/modules/003_darkwood.mlx"
+      ],
+      "actual_original_mode_queries": [
+        "003_darkwood.mlx",
+        "data/003_darkwood.mlx",
+        "data/scene/003_darkwood.mlx",
+        "data/3d/modules/003_darkwood.mlx"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/003_darkwood.mlx"
+      ]
+    },
+    {
+      "input": "003_darkwood.mlx",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "003_darkwood.mlx",
+        "data/003_darkwood.mlx",
+        "data/scene/003_darkwood.mlx",
+        "data/3d/modules/003_darkwood.mlx"
+      ],
+      "actual_original_mode_queries": [
+        "003_darkwood.mlx",
+        "data/003_darkwood.mlx",
+        "data/scene/003_darkwood.mlx",
+        "data/3d/modules/003_darkwood.mlx"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/003_darkwood.mlx"
+      ]
+    },
+    {
+      "input": "038_dark_temple.mlx",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "038_dark_temple.mlx",
+        "data/038_dark_temple.mlx",
+        "data/scene/038_dark_temple.mlx",
+        "data/3d/modules/038_dark_temple.mlx"
+      ],
+      "actual_original_mode_queries": [
+        "038_dark_temple.mlx",
+        "data/038_dark_temple.mlx",
+        "data/scene/038_dark_temple.mlx",
+        "data/3d/modules/038_dark_temple.mlx"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/038_dark_temple.mlx"
+      ]
+    },
+    {
+      "input": "039_dark_temple_bossroom_01.mlx",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "039_dark_temple_bossroom_01.mlx",
+        "data/039_dark_temple_bossroom_01.mlx",
+        "data/scene/039_dark_temple_bossroom_01.mlx",
+        "data/3d/modules/039_dark_temple_bossroom_01.mlx"
+      ],
+      "actual_original_mode_queries": [
+        "039_dark_temple_bossroom_01.mlx",
+        "data/039_dark_temple_bossroom_01.mlx",
+        "data/scene/039_dark_temple_bossroom_01.mlx",
+        "data/3d/modules/039_dark_temple_bossroom_01.mlx"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/039_dark_temple_bossroom_01.mlx"
+      ]
+    },
+    {
+      "input": "016_red_desert_cave_01.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "016_red_desert_cave_01.rule.xml",
+        "data/016_red_desert_cave_01.rule.xml",
+        "data/scene/016_red_desert_cave_01.rule.xml",
+        "data/3d/modules/016_red_desert_cave_01.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "016_red_desert_cave_01.rule.xml",
+        "data/016_red_desert_cave_01.rule.xml",
+        "data/scene/016_red_desert_cave_01.rule.xml",
+        "data/3d/modules/016_red_desert_cave_01.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/016_red_desert_cave_01.rule.xml"
+      ]
+    },
+    {
+      "input": "017_red_desert_cave_02.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "017_red_desert_cave_02.rule.xml",
+        "data/017_red_desert_cave_02.rule.xml",
+        "data/scene/017_red_desert_cave_02.rule.xml",
+        "data/3d/modules/017_red_desert_cave_02.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "017_red_desert_cave_02.rule.xml",
+        "data/017_red_desert_cave_02.rule.xml",
+        "data/scene/017_red_desert_cave_02.rule.xml",
+        "data/3d/modules/017_red_desert_cave_02.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/017_red_desert_cave_02.rule.xml"
+      ]
+    },
+    {
+      "input": "018_red_desert_cave_03.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "018_red_desert_cave_03.rule.xml",
+        "data/018_red_desert_cave_03.rule.xml",
+        "data/scene/018_red_desert_cave_03.rule.xml",
+        "data/3d/modules/018_red_desert_cave_03.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "018_red_desert_cave_03.rule.xml",
+        "data/018_red_desert_cave_03.rule.xml",
+        "data/scene/018_red_desert_cave_03.rule.xml",
+        "data/3d/modules/018_red_desert_cave_03.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/018_red_desert_cave_03.rule.xml"
+      ]
+    },
+    {
+      "input": "011_earth_temple_01.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "011_earth_temple_01.rule.xml",
+        "data/011_earth_temple_01.rule.xml",
+        "data/scene/011_earth_temple_01.rule.xml",
+        "data/3d/modules/011_earth_temple_01.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "011_earth_temple_01.rule.xml",
+        "data/011_earth_temple_01.rule.xml",
+        "data/scene/011_earth_temple_01.rule.xml",
+        "data/3d/modules/011_earth_temple_01.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/011_earth_temple_01.rule.xml"
+      ]
+    },
+    {
+      "input": "012_earth_temple_02.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "012_earth_temple_02.rule.xml",
+        "data/012_earth_temple_02.rule.xml",
+        "data/scene/012_earth_temple_02.rule.xml",
+        "data/3d/modules/012_earth_temple_02.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "012_earth_temple_02.rule.xml",
+        "data/012_earth_temple_02.rule.xml",
+        "data/scene/012_earth_temple_02.rule.xml",
+        "data/3d/modules/012_earth_temple_02.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/012_earth_temple_02.rule.xml"
+      ]
+    },
+    {
+      "input": "013_earth_temple_03.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "013_earth_temple_03.rule.xml",
+        "data/013_earth_temple_03.rule.xml",
+        "data/scene/013_earth_temple_03.rule.xml",
+        "data/3d/modules/013_earth_temple_03.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "013_earth_temple_03.rule.xml",
+        "data/013_earth_temple_03.rule.xml",
+        "data/scene/013_earth_temple_03.rule.xml",
+        "data/3d/modules/013_earth_temple_03.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/013_earth_temple_03.rule.xml"
+      ]
+    },
+    {
+      "input": "030_el_air.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "030_el_air.rule.xml",
+        "data/030_el_air.rule.xml",
+        "data/scene/030_el_air.rule.xml",
+        "data/3d/modules/030_el_air.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "030_el_air.rule.xml",
+        "data/030_el_air.rule.xml",
+        "data/scene/030_el_air.rule.xml",
+        "data/3d/modules/030_el_air.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/030_el_air.rule.xml"
+      ]
+    },
+    {
+      "input": "014_el_earth.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "014_el_earth.rule.xml",
+        "data/014_el_earth.rule.xml",
+        "data/scene/014_el_earth.rule.xml",
+        "data/3d/modules/014_el_earth.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "014_el_earth.rule.xml",
+        "data/014_el_earth.rule.xml",
+        "data/scene/014_el_earth.rule.xml",
+        "data/3d/modules/014_el_earth.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/014_el_earth.rule.xml"
+      ]
+    },
+    {
+      "input": "032_el_fire.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "032_el_fire.rule.xml",
+        "data/032_el_fire.rule.xml",
+        "data/scene/032_el_fire.rule.xml",
+        "data/3d/modules/032_el_fire.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "032_el_fire.rule.xml",
+        "data/032_el_fire.rule.xml",
+        "data/scene/032_el_fire.rule.xml",
+        "data/3d/modules/032_el_fire.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/032_el_fire.rule.xml"
+      ]
+    },
+    {
+      "input": "010_el_lightning.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "010_el_lightning.rule.xml",
+        "data/010_el_lightning.rule.xml",
+        "data/scene/010_el_lightning.rule.xml",
+        "data/3d/modules/010_el_lightning.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "010_el_lightning.rule.xml",
+        "data/010_el_lightning.rule.xml",
+        "data/scene/010_el_lightning.rule.xml",
+        "data/3d/modules/010_el_lightning.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/010_el_lightning.rule.xml"
+      ]
+    },
+    {
+      "input": "024_el_water.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "024_el_water.rule.xml",
+        "data/024_el_water.rule.xml",
+        "data/scene/024_el_water.rule.xml",
+        "data/3d/modules/024_el_water.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "024_el_water.rule.xml",
+        "data/024_el_water.rule.xml",
+        "data/scene/024_el_water.rule.xml",
+        "data/3d/modules/024_el_water.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/024_el_water.rule.xml"
+      ]
+    },
+    {
+      "input": "031_firetemple.mlx",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "031_firetemple.mlx",
+        "data/031_firetemple.mlx",
+        "data/scene/031_firetemple.mlx",
+        "data/3d/modules/031_firetemple.mlx"
+      ],
+      "actual_original_mode_queries": [
+        "031_firetemple.mlx",
+        "data/031_firetemple.mlx",
+        "data/scene/031_firetemple.mlx",
+        "data/3d/modules/031_firetemple.mlx"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/031_firetemple.mlx"
+      ]
+    },
+    {
+      "input": "008_gothicus_castle_01.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "008_gothicus_castle_01.rule.xml",
+        "data/008_gothicus_castle_01.rule.xml",
+        "data/scene/008_gothicus_castle_01.rule.xml",
+        "data/3d/modules/008_gothicus_castle_01.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "008_gothicus_castle_01.rule.xml",
+        "data/008_gothicus_castle_01.rule.xml",
+        "data/scene/008_gothicus_castle_01.rule.xml",
+        "data/3d/modules/008_gothicus_castle_01.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/008_gothicus_castle_01.rule.xml"
+      ]
+    },
+    {
+      "input": "021_gothicus_castle_02.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "021_gothicus_castle_02.rule.xml",
+        "data/021_gothicus_castle_02.rule.xml",
+        "data/scene/021_gothicus_castle_02.rule.xml",
+        "data/3d/modules/021_gothicus_castle_02.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "021_gothicus_castle_02.rule.xml",
+        "data/021_gothicus_castle_02.rule.xml",
+        "data/scene/021_gothicus_castle_02.rule.xml",
+        "data/3d/modules/021_gothicus_castle_02.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/021_gothicus_castle_02.rule.xml"
+      ]
+    },
+    {
+      "input": "007_crypt_01.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "007_crypt_01.rule.xml",
+        "data/007_crypt_01.rule.xml",
+        "data/scene/007_crypt_01.rule.xml",
+        "data/3d/modules/007_crypt_01.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "007_crypt_01.rule.xml",
+        "data/007_crypt_01.rule.xml",
+        "data/scene/007_crypt_01.rule.xml",
+        "data/3d/modules/007_crypt_01.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/007_crypt_01.rule.xml"
+      ]
+    },
+    {
+      "input": "020_crypt_02.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "020_crypt_02.rule.xml",
+        "data/020_crypt_02.rule.xml",
+        "data/scene/020_crypt_02.rule.xml",
+        "data/3d/modules/020_crypt_02.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "020_crypt_02.rule.xml",
+        "data/020_crypt_02.rule.xml",
+        "data/scene/020_crypt_02.rule.xml",
+        "data/3d/modules/020_crypt_02.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/020_crypt_02.rule.xml"
+      ]
+    },
+    {
+      "input": "026_icy_cavern_01.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "026_icy_cavern_01.rule.xml",
+        "data/026_icy_cavern_01.rule.xml",
+        "data/scene/026_icy_cavern_01.rule.xml",
+        "data/3d/modules/026_icy_cavern_01.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "026_icy_cavern_01.rule.xml",
+        "data/026_icy_cavern_01.rule.xml",
+        "data/scene/026_icy_cavern_01.rule.xml",
+        "data/3d/modules/026_icy_cavern_01.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/026_icy_cavern_01.rule.xml"
+      ]
+    },
+    {
+      "input": "027_icy_cavern_02.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "027_icy_cavern_02.rule.xml",
+        "data/027_icy_cavern_02.rule.xml",
+        "data/scene/027_icy_cavern_02.rule.xml",
+        "data/3d/modules/027_icy_cavern_02.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "027_icy_cavern_02.rule.xml",
+        "data/027_icy_cavern_02.rule.xml",
+        "data/scene/027_icy_cavern_02.rule.xml",
+        "data/3d/modules/027_icy_cavern_02.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/027_icy_cavern_02.rule.xml"
+      ]
+    },
+    {
+      "input": "028_icy_cavern_03.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "028_icy_cavern_03.rule.xml",
+        "data/028_icy_cavern_03.rule.xml",
+        "data/scene/028_icy_cavern_03.rule.xml",
+        "data/3d/modules/028_icy_cavern_03.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "028_icy_cavern_03.rule.xml",
+        "data/028_icy_cavern_03.rule.xml",
+        "data/scene/028_icy_cavern_03.rule.xml",
+        "data/3d/modules/028_icy_cavern_03.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/028_icy_cavern_03.rule.xml"
+      ]
+    },
+    {
+      "input": "025_icy_hub.mlx",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "025_icy_hub.mlx",
+        "data/025_icy_hub.mlx",
+        "data/scene/025_icy_hub.mlx",
+        "data/3d/modules/025_icy_hub.mlx"
+      ],
+      "actual_original_mode_queries": [
+        "025_icy_hub.mlx",
+        "data/025_icy_hub.mlx",
+        "data/scene/025_icy_hub.mlx",
+        "data/3d/modules/025_icy_hub.mlx"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/025_icy_hub.mlx"
+      ]
+    },
+    {
+      "input": "005_infectedvillage.mlx",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "005_infectedvillage.mlx",
+        "data/005_infectedvillage.mlx",
+        "data/scene/005_infectedvillage.mlx",
+        "data/3d/modules/005_infectedvillage.mlx"
+      ],
+      "actual_original_mode_queries": [
+        "005_infectedvillage.mlx",
+        "data/005_infectedvillage.mlx",
+        "data/scene/005_infectedvillage.mlx",
+        "data/3d/modules/005_infectedvillage.mlx"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/005_infectedvillage.mlx"
+      ]
+    },
+    {
+      "input": "019_light_house_01.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "019_light_house_01.rule.xml",
+        "data/019_light_house_01.rule.xml",
+        "data/scene/019_light_house_01.rule.xml",
+        "data/3d/modules/019_light_house_01.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "019_light_house_01.rule.xml",
+        "data/019_light_house_01.rule.xml",
+        "data/scene/019_light_house_01.rule.xml",
+        "data/3d/modules/019_light_house_01.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/019_light_house_01.rule.xml"
+      ]
+    },
+    {
+      "input": "019_light_house_02.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "019_light_house_02.rule.xml",
+        "data/019_light_house_02.rule.xml",
+        "data/scene/019_light_house_02.rule.xml",
+        "data/3d/modules/019_light_house_02.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "019_light_house_02.rule.xml",
+        "data/019_light_house_02.rule.xml",
+        "data/scene/019_light_house_02.rule.xml",
+        "data/3d/modules/019_light_house_02.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/019_light_house_02.rule.xml"
+      ]
+    },
+    {
+      "input": "019_light_house_03.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "019_light_house_03.rule.xml",
+        "data/019_light_house_03.rule.xml",
+        "data/scene/019_light_house_03.rule.xml",
+        "data/3d/modules/019_light_house_03.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "019_light_house_03.rule.xml",
+        "data/019_light_house_03.rule.xml",
+        "data/scene/019_light_house_03.rule.xml",
+        "data/3d/modules/019_light_house_03.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/019_light_house_03.rule.xml"
+      ]
+    },
+    {
+      "input": "037_machine_rooms_01.mlx",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "037_machine_rooms_01.mlx",
+        "data/037_machine_rooms_01.mlx",
+        "data/scene/037_machine_rooms_01.mlx",
+        "data/3d/modules/037_machine_rooms_01.mlx"
+      ],
+      "actual_original_mode_queries": [
+        "037_machine_rooms_01.mlx",
+        "data/037_machine_rooms_01.mlx",
+        "data/scene/037_machine_rooms_01.mlx",
+        "data/3d/modules/037_machine_rooms_01.mlx"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/037_machine_rooms_01.mlx"
+      ]
+    },
+    {
+      "input": "101_debug_MachineRoomTestMultiPlayer.mlx",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "101_debug_MachineRoomTestMultiPlayer.mlx",
+        "data/101_debug_MachineRoomTestMultiPlayer.mlx",
+        "data/scene/101_debug_MachineRoomTestMultiPlayer.mlx",
+        "data/3d/modules/101_debug_MachineRoomTestMultiPlayer.mlx"
+      ],
+      "actual_original_mode_queries": [
+        "101_debug_MachineRoomTestMultiPlayer.mlx",
+        "data/101_debug_MachineRoomTestMultiPlayer.mlx",
+        "data/scene/101_debug_MachineRoomTestMultiPlayer.mlx",
+        "data/3d/modules/101_debug_MachineRoomTestMultiPlayer.mlx"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/101_debug_MachineRoomTestMultiPlayer.mlx"
+      ]
+    },
+    {
+      "input": "003_darkwood.mlx",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "003_darkwood.mlx",
+        "data/003_darkwood.mlx",
+        "data/scene/003_darkwood.mlx",
+        "data/3d/modules/003_darkwood.mlx"
+      ],
+      "actual_original_mode_queries": [
+        "003_darkwood.mlx",
+        "data/003_darkwood.mlx",
+        "data/scene/003_darkwood.mlx",
+        "data/3d/modules/003_darkwood.mlx"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/003_darkwood.mlx"
+      ]
+    },
+    {
+      "input": "102_debug_QUESTTEST.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "102_debug_QUESTTEST.rule.xml",
+        "data/102_debug_QUESTTEST.rule.xml",
+        "data/scene/102_debug_QUESTTEST.rule.xml",
+        "data/3d/modules/102_debug_QUESTTEST.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "102_debug_QUESTTEST.rule.xml",
+        "data/102_debug_QUESTTEST.rule.xml",
+        "data/scene/102_debug_QUESTTEST.rule.xml",
+        "data/3d/modules/102_debug_QUESTTEST.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/102_debug_QUESTTEST.rule.xml"
+      ]
+    },
+    {
+      "input": "125_RandomForAlexB.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "125_RandomForAlexB.rule.xml",
+        "data/125_RandomForAlexB.rule.xml",
+        "data/scene/125_RandomForAlexB.rule.xml",
+        "data/3d/modules/125_RandomForAlexB.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "125_RandomForAlexB.rule.xml",
+        "data/125_RandomForAlexB.rule.xml",
+        "data/scene/125_RandomForAlexB.rule.xml",
+        "data/3d/modules/125_RandomForAlexB.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/125_RandomForAlexB.rule.xml"
+      ]
+    },
+    {
+      "input": "015_red_desert_hub.mlx",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "015_red_desert_hub.mlx",
+        "data/015_red_desert_hub.mlx",
+        "data/scene/015_red_desert_hub.mlx",
+        "data/3d/modules/015_red_desert_hub.mlx"
+      ],
+      "actual_original_mode_queries": [
+        "015_red_desert_hub.mlx",
+        "data/015_red_desert_hub.mlx",
+        "data/scene/015_red_desert_hub.mlx",
+        "data/3d/modules/015_red_desert_hub.mlx"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/015_red_desert_hub.mlx"
+      ]
+    },
+    {
+      "input": "004_root_den.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "004_root_den.rule.xml",
+        "data/004_root_den.rule.xml",
+        "data/scene/004_root_den.rule.xml",
+        "data/3d/modules/004_root_den.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "004_root_den.rule.xml",
+        "data/004_root_den.rule.xml",
+        "data/scene/004_root_den.rule.xml",
+        "data/3d/modules/004_root_den.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/004_root_den.rule.xml"
+      ]
+    },
+    {
+      "input": "006_basement.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "006_basement.rule.xml",
+        "data/006_basement.rule.xml",
+        "data/scene/006_basement.rule.xml",
+        "data/3d/modules/006_basement.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "006_basement.rule.xml",
+        "data/006_basement.rule.xml",
+        "data/scene/006_basement.rule.xml",
+        "data/3d/modules/006_basement.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/006_basement.rule.xml"
+      ]
+    },
+    {
+      "input": "001_swamp.mlx",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "001_swamp.mlx",
+        "data/001_swamp.mlx",
+        "data/scene/001_swamp.mlx",
+        "data/3d/modules/001_swamp.mlx"
+      ],
+      "actual_original_mode_queries": [
+        "001_swamp.mlx",
+        "data/001_swamp.mlx",
+        "data/scene/001_swamp.mlx",
+        "data/3d/modules/001_swamp.mlx"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/001_swamp.mlx"
+      ]
+    },
+    {
+      "input": "022_swamp2.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "022_swamp2.rule.xml",
+        "data/022_swamp2.rule.xml",
+        "data/scene/022_swamp2.rule.xml",
+        "data/3d/modules/022_swamp2.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "022_swamp2.rule.xml",
+        "data/022_swamp2.rule.xml",
+        "data/scene/022_swamp2.rule.xml",
+        "data/3d/modules/022_swamp2.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/022_swamp2.rule.xml"
+      ]
+    },
+    {
+      "input": "022_swamp2_trollcave.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "022_swamp2_trollcave.rule.xml",
+        "data/022_swamp2_trollcave.rule.xml",
+        "data/scene/022_swamp2_trollcave.rule.xml",
+        "data/3d/modules/022_swamp2_trollcave.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "022_swamp2_trollcave.rule.xml",
+        "data/022_swamp2_trollcave.rule.xml",
+        "data/scene/022_swamp2_trollcave.rule.xml",
+        "data/3d/modules/022_swamp2_trollcave.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/022_swamp2_trollcave.rule.xml"
+      ]
+    },
+    {
+      "input": "002_swamp_witchcave.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "002_swamp_witchcave.rule.xml",
+        "data/002_swamp_witchcave.rule.xml",
+        "data/scene/002_swamp_witchcave.rule.xml",
+        "data/3d/modules/002_swamp_witchcave.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "002_swamp_witchcave.rule.xml",
+        "data/002_swamp_witchcave.rule.xml",
+        "data/scene/002_swamp_witchcave.rule.xml",
+        "data/3d/modules/002_swamp_witchcave.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/002_swamp_witchcave.rule.xml"
+      ]
+    },
+    {
+      "input": "036_underworld_hub.mlx",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "036_underworld_hub.mlx",
+        "data/036_underworld_hub.mlx",
+        "data/scene/036_underworld_hub.mlx",
+        "data/3d/modules/036_underworld_hub.mlx"
+      ],
+      "actual_original_mode_queries": [
+        "036_underworld_hub.mlx",
+        "data/036_underworld_hub.mlx",
+        "data/scene/036_underworld_hub.mlx",
+        "data/3d/modules/036_underworld_hub.mlx"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/036_underworld_hub.mlx"
+      ]
+    },
+    {
+      "input": "033_voidmaze_01.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "033_voidmaze_01.rule.xml",
+        "data/033_voidmaze_01.rule.xml",
+        "data/scene/033_voidmaze_01.rule.xml",
+        "data/3d/modules/033_voidmaze_01.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "033_voidmaze_01.rule.xml",
+        "data/033_voidmaze_01.rule.xml",
+        "data/scene/033_voidmaze_01.rule.xml",
+        "data/3d/modules/033_voidmaze_01.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/033_voidmaze_01.rule.xml"
+      ]
+    },
+    {
+      "input": "034_voidmaze_02.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "034_voidmaze_02.rule.xml",
+        "data/034_voidmaze_02.rule.xml",
+        "data/scene/034_voidmaze_02.rule.xml",
+        "data/3d/modules/034_voidmaze_02.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "034_voidmaze_02.rule.xml",
+        "data/034_voidmaze_02.rule.xml",
+        "data/scene/034_voidmaze_02.rule.xml",
+        "data/3d/modules/034_voidmaze_02.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/034_voidmaze_02.rule.xml"
+      ]
+    },
+    {
+      "input": "035_voidmaze_03.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "035_voidmaze_03.rule.xml",
+        "data/035_voidmaze_03.rule.xml",
+        "data/scene/035_voidmaze_03.rule.xml",
+        "data/3d/modules/035_voidmaze_03.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "035_voidmaze_03.rule.xml",
+        "data/035_voidmaze_03.rule.xml",
+        "data/scene/035_voidmaze_03.rule.xml",
+        "data/3d/modules/035_voidmaze_03.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/035_voidmaze_03.rule.xml"
+      ]
+    },
+    {
+      "input": "023_watertemple.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "023_watertemple.rule.xml",
+        "data/023_watertemple.rule.xml",
+        "data/scene/023_watertemple.rule.xml",
+        "data/3d/modules/023_watertemple.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "023_watertemple.rule.xml",
+        "data/023_watertemple.rule.xml",
+        "data/scene/023_watertemple.rule.xml",
+        "data/3d/modules/023_watertemple.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/023_watertemple.rule.xml"
+      ]
+    },
+    {
+      "input": "029_wind_temple.rule.xml",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "029_wind_temple.rule.xml",
+        "data/029_wind_temple.rule.xml",
+        "data/scene/029_wind_temple.rule.xml",
+        "data/3d/modules/029_wind_temple.rule.xml"
+      ],
+      "actual_original_mode_queries": [
+        "029_wind_temple.rule.xml",
+        "data/029_wind_temple.rule.xml",
+        "data/scene/029_wind_temple.rule.xml",
+        "data/3d/modules/029_wind_temple.rule.xml"
+      ],
+      "source_return_when_all_missing": 1,
+      "original_level_id": null,
+      "actual_cache_hits": [
+        "data/scene/029_wind_temple.rule.xml"
+      ]
+    }
+  ],
+  "fixture_witnesses": [
+    {
+      "input": "worlds/001_swamp.mlx",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "worlds/001_swamp.mlx",
+        "data/worlds/001_swamp.mlx",
+        "data/scene/worlds/001_swamp.mlx",
+        "data/3d/modules/worlds/001_swamp.mlx"
+      ],
+      "actual_original_mode_queries": [
+        "worlds/001_swamp.mlx",
+        "data/worlds/001_swamp.mlx",
+        "data/scene/worlds/001_swamp.mlx",
+        "data/3d/modules/worlds/001_swamp.mlx"
+      ],
+      "source_return_when_all_missing": 1,
+      "actual_cache_hits": []
+    },
+    {
+      "input": "old/debug/ps3/iphone/001_swamp.mlx",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "debug/ps3/iphone/001_swamp.mlx",
+        "data/debug/ps3/iphone/001_swamp.mlx",
+        "data/scene/debug/ps3/iphone/001_swamp.mlx",
+        "data/3d/modules/debug/ps3/iphone/001_swamp.mlx"
+      ],
+      "actual_original_mode_queries": [
+        "old/debug/ps3/iphone/001_swamp.mlx",
+        "data/old/debug/ps3/iphone/001_swamp.mlx",
+        "data/scene/old/debug/ps3/iphone/001_swamp.mlx",
+        "data/3d/modules/old/debug/ps3/iphone/001_swamp.mlx"
+      ],
+      "source_return_when_all_missing": 1,
+      "actual_cache_hits": []
+    },
+    {
+      "input": "data/iphone/001_swamp.mlx",
+      "nonempty_source_cc_d0_range": false,
+      "open_resource_attempts": [
+        "data/001_swamp.mlx",
+        "data/data/001_swamp.mlx",
+        "data/scene/data/001_swamp.mlx",
+        "data/3d/modules/data/001_swamp.mlx"
+      ],
+      "actual_original_mode_queries": [
+        "data/iphone/001_swamp.mlx",
+        "data/data/iphone/001_swamp.mlx",
+        "data/scene/data/iphone/001_swamp.mlx",
+        "data/3d/modules/data/iphone/001_swamp.mlx"
+      ],
+      "source_return_when_all_missing": 1,
+      "actual_cache_hits": []
+    }
+  ],
+  "nonempty_range_mode_cases": [
+    {
+      "input": "old/001_swamp.mlx",
+      "nonempty_source_cc_d0_range": true,
+      "open_resource_attempts": [
+        "old/001_swamp.mlx",
+        "001_swamp.mlx",
+        "data/old/001_swamp.mlx",
+        "data/001_swamp.mlx",
+        "data/scene/old/001_swamp.mlx",
+        "data/scene/001_swamp.mlx",
+        "data/3d/modules/old/001_swamp.mlx",
+        "data/3d/modules/001_swamp.mlx"
+      ],
+      "actual_original_mode_queries": [
+        "old/001_swamp.mlx",
+        "data/old/001_swamp.mlx",
+        "data/scene/old/001_swamp.mlx",
+        "data/3d/modules/old/001_swamp.mlx"
+      ],
+      "source_return_when_all_missing": 1
+    },
+    {
+      "input": "debug/001_swamp.mlx",
+      "nonempty_source_cc_d0_range": true,
+      "open_resource_attempts": [
+        "debug/001_swamp.mlx",
+        "001_swamp.mlx",
+        "data/debug/001_swamp.mlx",
+        "data/001_swamp.mlx",
+        "data/scene/debug/001_swamp.mlx",
+        "data/scene/001_swamp.mlx",
+        "data/3d/modules/debug/001_swamp.mlx",
+        "data/3d/modules/001_swamp.mlx"
+      ],
+      "actual_original_mode_queries": [
+        "debug/001_swamp.mlx",
+        "data/debug/001_swamp.mlx",
+        "data/scene/debug/001_swamp.mlx",
+        "data/3d/modules/debug/001_swamp.mlx"
+      ],
+      "source_return_when_all_missing": 1
+    },
+    {
+      "input": "iphone/001_swamp.mlx",
+      "nonempty_source_cc_d0_range": true,
+      "open_resource_attempts": [
+        "iphone/001_swamp.mlx",
+        "001_swamp.mlx",
+        "data/iphone/001_swamp.mlx",
+        "data/001_swamp.mlx",
+        "data/scene/iphone/001_swamp.mlx",
+        "data/scene/001_swamp.mlx",
+        "data/3d/modules/iphone/001_swamp.mlx",
+        "data/3d/modules/001_swamp.mlx"
+      ],
+      "actual_original_mode_queries": [
+        "iphone/001_swamp.mlx",
+        "data/iphone/001_swamp.mlx",
+        "data/scene/iphone/001_swamp.mlx",
+        "data/3d/modules/iphone/001_swamp.mlx"
+      ],
+      "source_return_when_all_missing": 1
+    },
+    {
+      "input": "001_swamp.mlx",
+      "nonempty_source_cc_d0_range": true,
+      "open_resource_attempts": [
+        "001_swamp.mlx",
+        "001_swamp.mlx",
+        "data/001_swamp.mlx",
+        "data/001_swamp.mlx",
+        "data/scene/001_swamp.mlx",
+        "data/scene/001_swamp.mlx",
+        "data/3d/modules/001_swamp.mlx",
+        "data/3d/modules/001_swamp.mlx"
+      ],
+      "actual_original_mode_queries": [
+        "001_swamp.mlx",
+        "data/001_swamp.mlx",
+        "data/scene/001_swamp.mlx",
+        "data/3d/modules/001_swamp.mlx"
+      ],
+      "source_return_when_all_missing": 1
+    }
+  ],
+  "compiled_rows_with_exact_cache_hit": 51,
+  "full_Level_or_generated_stream_verified": false
+}

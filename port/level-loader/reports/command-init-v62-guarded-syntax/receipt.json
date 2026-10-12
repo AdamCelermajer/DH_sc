@@ -1,0 +1,167 @@
+{
+  "scope": "ONE Windows NDK arm64 V62 Init adapter/test template syntax leaf; no link/runtime/WSL/ASAN/Oracle/emulator",
+  "recorded_utc": "2026-10-06T19:06:31+00:00",
+  "status": "PASS",
+  "compiler": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+  "compiler_sha256": "3da8eb6f49b741ab885854665f10d3793822232f133f8c0233a8a4cb32c97dc0",
+  "args": [
+    "-IC:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader",
+    "-IC:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\command-init-v62",
+    "-IC:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader/candidate/command-c1-v59",
+    "--target=aarch64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-DTU_CONFIG_LINK_TO_FREETYPE=0",
+    "-DTU_CONFIG_LINK_TO_JPEGLIB=0",
+    "-DTU_CONFIG_LINK_TO_LIBPNG=0",
+    "-DTU_CONFIG_LINK_TO_THREAD=0",
+    "-Ddh2_engine_ui_EXPORTS",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include",
+    "-DANDROID",
+    "-D_FORTIFY_SOURCE=2",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-fsyntax-only",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\command-init-v62\\script_command_init_v62_test.cpp"
+  ],
+  "source_sha256": {
+    "candidate/command-init-v62/script_command_init_v62_test.cpp": "4b3159e38931e228c133d15538ed23175866c18b5ae4a7380e2d35139b5ca2e7",
+    "candidate/command-init-v62/script_command_init_v62.hpp": "f60f5356e0143c20aec1a89a147aac2079fbf9505c36f35b5436e0167ea8854e",
+    "candidate/command-c1-v59/script_command_receivers_v59.hpp": "d555cac844347387dcd1c0ad46c404b718b3ff03a61803832f97fa3e250dc55d",
+    "candidate/command-c1-v59/command_c1_descriptors_v59.inc": "2c4f7d8fa62f0c295023cd6aa0cb917bd93aac71116677940e0665a84a28a0fa",
+    "script_manager_owner_v52.hpp": "4ae31338d57f24efca512f258f1c3590fc69e835fe008d625845151465c49a10"
+  },
+  "guard_sha256": {
+    "windows_job_guard_v36.py": "b52f79ffd4fa65e7f67656b8f84b79e8e53c9d03926f6d22b6778a7dac8b5a1a",
+    "emulator_watchdog_v36.py": "e15862cb02dac935b4be699db0b690bc3c4b0bf27c110e0dc493476f56e2a63e"
+  },
+  "admission": "Main explicitly admitted one512MiB job/active4/max30s;physical>=8GiB/processes<=900",
+  "host_polls": [
+    {
+      "commit_total_bytes": 38369853440,
+      "commit_limit_bytes": 100753940480,
+      "physical_available_bytes": 12494696448,
+      "physical_total_bytes": 34181947392,
+      "page_size_bytes": 4096,
+      "handles": 171165,
+      "processes": 387
+    },
+    {
+      "commit_total_bytes": 38383616000,
+      "commit_limit_bytes": 100753940480,
+      "physical_available_bytes": 12478050304,
+      "physical_total_bytes": 34181947392,
+      "page_size_bytes": 4096,
+      "handles": 171546,
+      "processes": 389
+    },
+    {
+      "commit_total_bytes": 38393843712,
+      "commit_limit_bytes": 100753940480,
+      "physical_available_bytes": 12461588480,
+      "physical_total_bytes": 34181947392,
+      "page_size_bytes": 4096,
+      "handles": 171555,
+      "processes": 389
+    },
+    {
+      "commit_total_bytes": 38406561792,
+      "commit_limit_bytes": 100753940480,
+      "physical_available_bytes": 12456480768,
+      "physical_total_bytes": 34181947392,
+      "page_size_bytes": 4096,
+      "handles": 171596,
+      "processes": 389
+    },
+    {
+      "commit_total_bytes": 38345134080,
+      "commit_limit_bytes": 100753940480,
+      "physical_available_bytes": 12453425152,
+      "physical_total_bytes": 34181947392,
+      "page_size_bytes": 4096,
+      "handles": 171630,
+      "processes": 389
+    },
+    {
+      "commit_total_bytes": 38348386304,
+      "commit_limit_bytes": 100753940480,
+      "physical_available_bytes": 12449390592,
+      "physical_total_bytes": 34181947392,
+      "page_size_bytes": 4096,
+      "handles": 171658,
+      "processes": 389
+    },
+    {
+      "commit_total_bytes": 38343720960,
+      "commit_limit_bytes": 100753940480,
+      "physical_available_bytes": 12447023104,
+      "physical_total_bytes": 34181947392,
+      "page_size_bytes": 4096,
+      "handles": 171668,
+      "processes": 389
+    },
+    {
+      "commit_total_bytes": 38357127168,
+      "commit_limit_bytes": 100753940480,
+      "physical_available_bytes": 12440129536,
+      "physical_total_bytes": 34181947392,
+      "page_size_bytes": 4096,
+      "handles": 171692,
+      "processes": 389
+    },
+    {
+      "commit_total_bytes": 38271188992,
+      "commit_limit_bytes": 100753940480,
+      "physical_available_bytes": 12481437696,
+      "physical_total_bytes": 34181947392,
+      "page_size_bytes": 4096,
+      "handles": 171918,
+      "processes": 391
+    },
+    {
+      "commit_total_bytes": 38288797696,
+      "commit_limit_bytes": 100753940480,
+      "physical_available_bytes": 12456931328,
+      "physical_total_bytes": 34181947392,
+      "page_size_bytes": 4096,
+      "handles": 171819,
+      "processes": 391
+    }
+  ],
+  "identity": {
+    "pid": 276344,
+    "create_time_filetime": 134357871917299972
+  },
+  "limits_before_resume": {
+    "flags": 8968,
+    "job_memory_limit": 536870912,
+    "process_memory_limit": 536870912,
+    "peak_job_bytes": 1527808,
+    "active_process_limit": 4
+  },
+  "exit_code": 0,
+  "limits_after": {
+    "flags": 8968,
+    "job_memory_limit": 536870912,
+    "process_memory_limit": 536870912,
+    "peak_job_bytes": 110436352,
+    "active_process_limit": 4
+  },
+  "elapsed_seconds": 1.0,
+  "stdout": "",
+  "stderr": "",
+  "whole_level_Init": false,
+  "native_runtime_tested": false,
+  "shared_mutated": false,
+  "actual_Main_leaves_are_transport_fixtures": true,
+  "original_Execute_verified": false
+}

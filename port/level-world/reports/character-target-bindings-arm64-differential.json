@@ -1,0 +1,39 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "compiler_inputs": {
+    "compiler": "C:\\Users\\adamc\\AppData\\Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe",
+    "library_sha256": "c7ecb1219a887208958f2e176e9e85099bddf780bb51f028e9265d2eb71cff78",
+    "compiler_arguments": [
+      "--target=aarch64-linux-android24",
+      "-shared",
+      "-fPIC",
+      "-O2",
+      "-ffp-contract=off",
+      "-std=c++17",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "port/level-world/character_target_bindings.cpp",
+      "-o",
+      ".local-inputs/character-target-bindings-discovery/libcharacter_target_bindings.so"
+    ],
+    "source_bindings": {
+      "port/level-world/character_target_bindings.hpp": "bead66304f3c4454813d2fcea8e679f0eb45d1625a4ee621f4ec96bfb6886e75",
+      "port/level-world/character_target_bindings.cpp": "b24ad01d74fbe5de98ce9416be022c6652fa8a90ed2c820a0455b293dc405665"
+    }
+  },
+  "manifest_sha256": "481628fc53bcb638da7086c1f70fe24138544d005a1a33f7d4b29d6bc568b3ea",
+  "gold_sha256": "9575360e83ff673ec5e6246519f19d7e229f74cf5747f9703d2650ffd9b83555",
+  "cases": 3955,
+  "ordered_services": 21946,
+  "original_ai_rows": 76,
+  "asset_sha256": "bfe56f4a07dbe49bb55543137ae343334082b6a340ca156f367ee51e3b2771bc",
+  "source_sha256": {
+    "port\\level-world\\tests\\character_target_bindings_differential.py": "5c26c3e226f23462b8a9f68ee853b76b1df5c0aecc200fc326bb1783abf461c4"
+  },
+  "mismatches": 0,
+  "scope": "Full original target setter/wrappers vs optimized ARM64, with live service reentry.\n\nDebug storage/string allocation and ReturnValues append are explicit services.\nGetCharAIId, real Character.IsDead, AI_IsInSight/GetTargetPosition and actual\nAIProps stream decoding execute original instructions. GetTarget compares its\nprojection-entry identity only; no original GameObject Lua representation claim.\n",
+  "full_GetTarget_Lua_projection": false,
+  "whole_world_registry": false
+}

@@ -1,0 +1,30 @@
+--- a/port/android-native/app/src/main/cpp/renderer_campaign_native_lenders_v89.inc
++++ b/port/android-native/app/src/main/cpp/renderer_campaign_native_lenders_v89.inc
+@@ -134,7 +134,16 @@
+      auto scripts=actual.application?actual.application->source_script_manager_v52():nullptr;
+      if(!scripts){e="Required SAME App ScriptManager for SpawnPoint";return false;}return scripts->start_script_v96(id,room,flag,e);};
+    }
+-   if constexpr(std::is_same_v<Services,dh2::world::SoundEmitterServicesV32>)out.sound_names=provider->sound_names;
++   if constexpr(std::is_same_v<Services,dh2::world::SoundEmitterServicesV32>){
++    out.sound_names=provider->sound_names;
++    auto source=provider->source.lock();
++    if(!source){e="Actual SoundEmitter source World retired before typed service preparation";return false;}
++    // SAME sibling prepared before journal and attached once before XML.
++    // Keep it weak on the actor; qualified GameObjectD2 cannot call derived D1.
++    bind_campaign_sound_emitter_base_v92(
++     std::weak_ptr<CampaignNonCharacterReleaseV92>(source->noncharacter_release_provider_v92),weak,out);
++    if(!bind_campaign_sound_emitter_v92(provider,weak,out,e))return false;
++   }
+    if constexpr(std::is_same_v<Services,dh2::world::DoorServicesV27>||std::is_same_v<Services,dh2::world::TriggerObjectServicesV28>){
+     out.startup.owner=provider;out.startup.zone.owner=provider;
+    }
+--- a/port/android-native/app/src/main/cpp/model_renderer.cpp
++++ b/port/android-native/app/src/main/cpp/model_renderer.cpp
+@@ -38,6 +38,7 @@
+ #include "canonical_zone_physical_v82.hpp"
+ #include "renderer_startup_idle_animation_v86.hpp"
+ #include "renderer_startup_sound_capture_v87.hpp"
++#include "renderer_sound_emitter_binding_v92.hpp"
+ #include <type_traits>
+ #include <tuple>
+ #include "source_campaign_fx_v77.hpp"

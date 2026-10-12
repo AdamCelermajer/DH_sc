@@ -1,0 +1,97 @@
+[
+  {
+    "address": "0x387ad0",
+    "name": "_ZN18SimpleTypePropertyIN6glitch4core8vector3dIfEEE8ToStringEPv",
+    "size": 72
+  },
+  {
+    "address": "0x5134f0",
+    "name": "_ZN11PropertyMap19SavePropertiesToXMLEP12TiXmlElementPKc",
+    "size": 388
+  },
+  {
+    "address": "0x387b54",
+    "name": "_ZN18SimpleTypePropertyIN6glitch4core11dimension2dIfEEE8ToStringEPv",
+    "size": 72
+  },
+  {
+    "address": "0x3f3858",
+    "name": "_ZN18SimpleTypePropertyISt6vectorI7Point3DIfESaIS2_EEE8ToStringEPv",
+    "size": 72
+  },
+  {
+    "address": "0x33e218",
+    "name": "_ZN18SimpleTypePropertyISsE8ToStringEPv",
+    "size": 44
+  },
+  {
+    "address": "0x389980",
+    "name": "_ZN18SimpleTypePropertyI7Point3DIfEE8ToStringEPv",
+    "size": 72
+  },
+  {
+    "address": "0x30eec8",
+    "name": "_Z8ObjToStrPcRf",
+    "size": 52
+  },
+  {
+    "address": "0x3a926c",
+    "name": "_ZN18SimpleTypePropertyI7Point2DIiEE8ToStringEPv",
+    "size": 72
+  },
+  {
+    "address": "0x3950fc",
+    "name": "_ZN18SimpleTypePropertyIfE8ToStringEPv",
+    "size": 72
+  },
+  {
+    "address": "0x30efb0",
+    "name": "_Z8ObjToStrPcR7Point3DIfE",
+    "size": 96
+  },
+  {
+    "address": "0x30eea0",
+    "name": "_Z8ObjToStrPcRi",
+    "size": 20
+  },
+  {
+    "address": "0x33e5b0",
+    "name": "_ZN18SimpleTypePropertyIbE8ToStringEPv",
+    "size": 72
+  },
+  {
+    "address": "0x38bac4",
+    "name": "_ZN18SimpleTypePropertyIiE8ToStringEPv",
+    "size": 72
+  },
+  {
+    "address": "0x30ee60",
+    "name": "_Z8ObjToStrPcRSt6vectorI7Point3DIfESaIS2_EE",
+    "size": 4
+  },
+  {
+    "address": "0x510fe0",
+    "name": "_ZN16PropertyInstance8ToStringEv",
+    "size": 92
+  },
+  {
+    "address": "0x30ee84",
+    "name": "_Z8ObjToStrPcR7Point2DIiE",
+    "size": 28
+  },
+  {
+    "address": "0x30eefc",
+    "name": "_Z8ObjToStrPcRN6glitch4core11dimension2dIfEE",
+    "size": 84
+  },
+  {
+    "address": "0x30eeb4",
+    "name": "_Z8ObjToStrPcRb",
+    "size": 20
+  },
+  {
+    "address": "0x30ef50",
+    "name": "_Z8ObjToStrPcRN6glitch4core8vector3dIfEE",
+    "size": 96
+  }
+]

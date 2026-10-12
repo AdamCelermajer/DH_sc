@@ -1,0 +1,69 @@
+{
+  "validation": "SYNTAX_PASS_ONLY",
+  "full_test_linked": false,
+  "runtime_probe_run": false,
+  "coherent_parent_rebuild_required": true,
+  "flags_extracted_from_existing_v5_target_only_no_archive_link": true,
+  "results": [
+    {
+      "file": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\generic_actor_image_binding_v45.cpp",
+      "sha256": "7961a151f9fc317c11ac59325f8e3b8359cf8cb18d1a392445f1c352c081619d",
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/usr/bin/c++",
+        "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/level-world",
+        "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/level-loader",
+        "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader",
+        "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/../level-world",
+        "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/game-data",
+        "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/script-runtime",
+        "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/engine-ui",
+        "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/scene-materials",
+        "-isystem",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/physics-backend/box2d-2.0.1/Include",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-UNDEBUG",
+        "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/asset-payloads",
+        "-fsyntax-only",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/generic_actor_image_binding_v45.cpp"
+      ],
+      "status": "SYNTAX_PASS"
+    },
+    {
+      "file": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\generic_actor_image_binding_v45_probe.cpp",
+      "sha256": "2cd3c95917da0748dd6134b7a0151210b65a989127da74315ea9097c2e479c3d",
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/usr/bin/c++",
+        "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/level-world",
+        "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/level-loader",
+        "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader",
+        "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/../level-world",
+        "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/game-data",
+        "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/script-runtime",
+        "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/engine-ui",
+        "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/scene-materials",
+        "-isystem",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/physics-backend/box2d-2.0.1/Include",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-UNDEBUG",
+        "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/asset-payloads",
+        "-fsyntax-only",
+        "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/tests/generic_actor_image_binding_v45_probe.cpp"
+      ],
+      "status": "SYNTAX_PASS"
+    }
+  ]
+}

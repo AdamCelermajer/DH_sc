@@ -1,0 +1,11 @@
+{
+  "validation": "PASS",
+  "checks": 10,
+  "deliberate_rejections": 7,
+  "mismatches": 0,
+  "source_sha256": {
+    "port/engine-ui/tools/verify_font_overlay_stage.py": "30ad3cd6337d68f9b3b75759ccfc236e39b44f052e52afcd451a5c6702689a9b",
+    "port/engine-ui/tools/verify_connected_hud_stage.py": "61781fd786e77877a2a46b5be5fbc42a9f75bdcfcab380ef56a8741c0beedb7a",
+    "port/engine-ui/tests/connected_hud_stage_verifiers.py": "a0a6a47e0ea8c584c13b9bf43915cd1e47a1337bc8a5e20de5c48095c390625f"
+  }
+}

@@ -1,0 +1,22 @@
+--- a/port/level-world/canonical_level_config_module_v1.cpp
++++ b/port/level-world/canonical_level_config_module_v1.cpp
+@@ -14,6 +14,9 @@
+  // Exact ObjectBaseC2 + LevelConfigC1; uninitialized source fields remain
+  // absent until a genuine descriptor default/override producer writes them.
+  for(auto o:{0x28u,0x29u,0x60u,0x81u,0x84u,0x85u,0x86u,0x88u,0x89u,0xf0u,0xf1u,0xf8u,0x10cu,0x118u,0x119u,0x29cu})bytes_[o]=0;
++ // Actual inherited ObjectBaseC2 calls ConditionDataC1 at8c/b0.
++ // Native33edc8 stores each tested+20 byte0: sourceac/d0, distinct real cells.
++ bytes_[0xac]=0;bytes_[0xd0]=0;
+  bytes_[0x8a]=1;for(auto o:{0xecu,0x108u,0x110u})ints_[o]=-1;
+  // Modern safety correction, NOT original constructor parity: the original
+  // malloc-backed LevelConfig leaves 87 indeterminate and declares no inherited
+--- a/port/android-native/app/src/main/cpp/renderer_campaign_noncharacter_save_v89.inc
++++ b/port/android-native/app/src/main/cpp/renderer_campaign_noncharacter_save_v89.inc
+@@ -49,6 +49,7 @@
+    std::shared_ptr<dh2::world::CanonicalLevelConfigV1> config;if(!level_config(config,e))return false;
+    dh2::world::ObjectSaveRestoreBorrowV3 fields;fields.identity=actual.identity;
+    fields.visible80=config->source_save_byte_v91(0x80);fields.enabled8a=config->source_save_byte_v91(0x8a);
++   fields.tested_ac=config->source_save_byte_v91(0xac);fields.tested_d0=config->source_save_byte_v91(0xd0);
+    return load?dh2::world::object_base_deserialize_v3(stream,fields,e):dh2::world::object_base_serialize_v3(stream,fields,e);
+   }
+   std::shared_ptr<dh2::loader::NonCharacterSaveConnectionV89> body;if(!connection(body,e))return false;

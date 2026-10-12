@@ -1,0 +1,15 @@
+{
+  "validation": "PASS",
+  "cases": 4096,
+  "ordered_services": 18390,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "optimized_arm64_sha256": "e361107cafa1e07617bdd9c4c416658d3aac0e15aa8121a028f6ccc9d2f5175f",
+  "gold_sha256": "5fd2b81a0834bd4ea51fb47efc771cce38197b94d8bc9adb5d2bcfa3962c8ea7",
+  "scope": "Execute complete source CSSkill Focus/Blur/Event/Update and SM_SetSkillState.\n\nDebug string ownership and body/animation/timer/class/table dependencies are\ndeclared synchronous services. Source target\u2192last target copy executes in ARM32.\n",
+  "source_sha256": {
+    "port\\level-world\\character_skill_state_v4.cpp": "ddb6b9d6f0e738aceefe562c696db7d00217ece0b4b2fc0e0af3db6b1f1fe2f2",
+    "port\\level-world\\character_skill_state_v4.hpp": "a3a94f1fc5d95af195131fbed0241a8f707055e1288ea9cd2e94f7fd20dd7212",
+    "port\\level-world\\tests\\character_skill_state_v4_differential.py": "4e70cff4ede00645f0d7cab16c8dcc34369e9f32b128d16800584219428347fb"
+  }
+}

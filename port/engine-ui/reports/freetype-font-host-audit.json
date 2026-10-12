@@ -1,0 +1,42 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "validation": "PASS",
+    "checks": 2284,
+    "rasters": 570,
+    "atomic_guards": 5,
+    "alpha_uploads": 0,
+    "nonempty_alpha_uploads": 0,
+    "bitmap_quads": 0,
+    "font_reads": 0,
+    "font_misses": 0,
+    "core_diagnostics": 0
+  },
+  "source_sha256": {
+    "port/engine-ui/freetype_font.hpp": "b3e08aebf2e756af1c61e72e5759526aef9be1ee3cdae810b9343c238e9713aa",
+    "port/engine-ui/freetype_font.cpp": "efbf41c933e87bc915b0ea5f73d7b261d6ca2273b5f3bdbf568d93618c844aeb",
+    "port/engine-ui/freetype_glyph_kernel.hpp": "64c3283bb58c325295370b00f2d796c3d970766ee4868b1cad04d0d46ffe6aee",
+    "port/engine-ui/freetype_glyph_kernel.cpp": "e4453c580e13a1a3cd0e977dcc77dd5dd68357239442f45821c6ba6aab4de3ec",
+    "port/engine-ui/swf_freetype_provider.hpp": "418e98f0d78c72885622173c3994da2a117c38d2769cc7f82de1c0b39ebeca5a",
+    "port/engine-ui/swf_freetype_provider.cpp": "afbc4d3c761e3ca972310ffe00c6f72828cc79e0274b852c6a89e45146a01999",
+    "port/engine-ui/swf_font_geometry.hpp": "ebe76668dd1875c9dae7711beabb450113d93aa320d4a37a312d1f6011a7913a",
+    "port/engine-ui/swf_font_geometry.cpp": "db2c47657bb2227a017db5570a1d1cd097678f442ff0687f5cb319b3336d410a",
+    "port/engine-ui/freetype237.cmake": "01fe763ab679eb602cd6fe2af060a027cd50a7177b4e61ba0d3e3127aad41fde",
+    "port/engine-ui/tests/freetype_font.cpp": "d2356a03014305ccfc43032d1f539235eb38bc9712eb7c0755c28ea862cf40ac",
+    "port/engine-ui/tests/freetype_glyph_differential.py": "c859f91c52ea2d518cdf9922d5cb09d36f6db7617b747a04c749beb633beddd5"
+  },
+  "executable_sha256": "d61cc12b44bf4972d436ae2f5086db4857ccebab412a6994f7feb0659b73c5c8",
+  "freetype_library_sha256": "3f5e9b4a5de3008c0c19ce817a4eee3dd937bb8e75fb9bfb3ec5f8ce3bf47358",
+  "font_sha256": "e0aa9854059f79a24dd9ced942c1add193d1ff83c3ff44685c6d5d8ff3ce53c4",
+  "corpus_sha256": "79d0065db2af27b638fb6e0d39de2c61292b877ff02d37593789849beef02b12",
+  "official_archive_sha256": "4ecf879eb69fc323669981f02aebff1e3045de415303e86ee67f2080cb3ee888",
+  "native_vendor_manifest_sha256": "ea332eadd569fa07448c4b8d0f02021084e11cf0b8f4e6d2aff57ee28d6ef2df",
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "leak_detection": true,
+    "findings": 0
+  },
+  "build_mode": "O2, DH2_FONT_RASTER_ONLY, no-fast-math, fp-contract=off",
+  "scope": "Real source-built matching-version FreeType, exact Fontin bytes,570ASCII rasters,owned byte lifetime,source scaling and atomic failure/replacement. Original engine glyph-layout instruction comparison is separately bound. No complete original FreeType build-option/raster or full UI/GPU parity."
+}

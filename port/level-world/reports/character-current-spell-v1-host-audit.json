@@ -1,0 +1,130 @@
+{
+  "validation": "PASS",
+  "original_cases": 512,
+  "ordered_services": 2048,
+  "real_VM_queries": 2,
+  "guards": 10,
+  "checks": 12847,
+  "full_player_initialization": false,
+  "source_sha256": {
+    "port/level-world/character_current_spell_v1.hpp": "f277ba46149c52e41909edc0b7d8cce335988c34b20958ece91b144d3df0d967",
+    "port/level-world/character_current_spell_v1.cpp": "620f32de3989ba8d1afc3557dbafe7af8a42dc3bd48cca4242d1bd80aac88da4",
+    "port/level-world/tests/character_current_spell_v1.cpp": "0bcba36e7002ff9384522cf27980deaa4a090733d5a5b1814d8098cb3cbb1bd1",
+    "port/level-world/tests/character_current_spell_v1_host.py": "0d66cf15156078b5353c94f301c62266a4f5fd850252904aba3fa6c69536f9a2",
+    "port/level-world/tests/character_current_spell_v1_oracle.cpp": "39387814ba41109173e51b912eefcf1a3cb3e428728dbc1a1b92f79870798245",
+    "port/level-world/tests/character_current_spell_v1_differential.py": "a7e387950ad22724a97c7d01c2d7f3e403bed8b545d81d38262029fc24bdfd94",
+    "port/level-world/reference/character-current-spell-v1/source-gold.bin": "95c5e042275b65d90b199d5d794e905f1299c00e8bab31409ed1fe34a60e6a6e",
+    "port/level-world/reference/character-current-spell-v1/source-capture.json": "5e4bc2319ab4e98625ee8cdcaa3979b9b95b55fbc091f793b5d9e5cabd94fd31",
+    "port/level-world/reports/character-current-spell-v1-arm64-differential.json": "d07fbc6cee56a873138780d36bb9dafb3ea82c5564a719cedfb15d442b215d0a",
+    "port/script-runtime/script_runtime.h": "2c01523ecd91a71a3f0cdb78f582d87f933d77768b8a0d31bb708e6d3c99b2a2",
+    "port/script-runtime/script_return_observer_v1.h": "a8a6e580833a589a173248b415207f7c2c54c321451b46423ab4c531147dd636"
+  },
+  "commands": [
+    {
+      "arguments": [
+        "mkdir",
+        "-p",
+        "/home/adampalace/dh2-current-spell-v1-build"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-shared",
+        "-fPIC",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/character_current_spell_v1.cpp",
+        "-o",
+        "/home/adampalace/dh2-current-spell-v1-build/libcurrent_spell_v1_host.so"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/tests/character_current_spell_v1.cpp",
+        "-L/home/adampalace/dh2-current-spell-v1-build",
+        "-lcurrent_spell_v1_host",
+        "-L/home/adampalace/dh2-world-build/script-runtime",
+        "-ldh2_script_runtime",
+        "-Wl,-rpath,/home/adampalace/dh2-current-spell-v1-build",
+        "-Wl,-rpath,/home/adampalace/dh2-world-build/script-runtime",
+        "-o",
+        "/home/adampalace/dh2-current-spell-v1-build/audit"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/home/adampalace/dh2-current-spell-v1-build/audit",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/reference/character-current-spell-v1/source-gold.bin"
+      ],
+      "returncode": 0,
+      "stdout": "{\"validation\":\"PASS\",\"original_cases\":512,\"ordered_services\":2048,\"real_VM_queries\":2,\"guards\":10,\"checks\":12847,\"full_player_initialization\":false}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so"
+      ],
+      "returncode": 0,
+      "stdout": "93621af10461136d20bb8e93193a79b1999b90e33056343d6293f22766de48c2  /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-current-spell-v1-build/libcurrent_spell_v1_host.so"
+      ],
+      "returncode": 0,
+      "stdout": "d2d59a6a84ba91efc360a8cd99731e5c909dbca88093d023b789fb540c811a7f  /home/adampalace/dh2-current-spell-v1-build/libcurrent_spell_v1_host.so\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-current-spell-v1-build/audit"
+      ],
+      "returncode": 0,
+      "stdout": "5fdce0cf5480760b8b74f0c49295d1f6c706344bcc5f830b3183a2a43ab3e08b  /home/adampalace/dh2-current-spell-v1-build/audit\n",
+      "stderr": ""
+    }
+  ],
+  "sanitizer_findings": 0,
+  "runtime_sha256": "93621af10461136d20bb8e93193a79b1999b90e33056343d6293f22766de48c2",
+  "query_library_sha256": "d2d59a6a84ba91efc360a8cd99731e5c909dbca88093d023b789fb540c811a7f",
+  "binary_sha256": "5fdce0cf5480760b8b74f0c49295d1f6c706344bcc5f830b3183a2a43ab3e08b",
+  "scope": "Sanitize original current-spell gold and real source-VM callback delivery.\n\nBuilds one isolated production query DSO; parent owns central World selection.\nSG/table services are declared fixtures here, not a complete saved-player proof.\n",
+  "central_World_linked": false,
+  "live_Android": false
+}

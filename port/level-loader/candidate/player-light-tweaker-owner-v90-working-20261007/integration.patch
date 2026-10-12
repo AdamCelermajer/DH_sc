@@ -1,0 +1,101 @@
+--- a/port/level-world/application_services_owner_v5.hpp
++++ b/port/level-world/application_services_owner_v5.hpp
+@@ -1,5 +1,6 @@
+ #pragma once
+ #include "event_manager_owner_v12.hpp"
++#include <array>
+ #include "gameplay_camera_active_v13.hpp"
+ #include "source_loading_application_fields_v55.hpp"
+ #include "source_online_loading_owner_v55.hpp"
+@@ -12,6 +13,7 @@
+ namespace dh2::ui {class OwnedHudSettingsV1;}
+ namespace dh2::application {
+ class ApplicationSaveFilesOwnerV61;
++class PlayerLightTweakerOwnerV90;
+ // Retained native Application identity and currently reconstructed service
+ // fields. This is not a claim that the whole Application ctor/PostInit/Shutdown
+ // is implemented. C1 zeros pointer14; the first PostInit service allocation
+@@ -45,6 +47,8 @@
+  // SAME App+4c SavegameManager, already constructed/loaded by original UI.
+  // It is also the sole mutable NativeSetCurrentDifficulty+0c authority.
+  std::shared_ptr<ui::OwnedHudSettingsV1> source_settings4c_v67_;
++ // SAME original App58/5c/60/64 slots, populated in PostInit order.
++ std::array<std::shared_ptr<PlayerLightTweakerOwnerV90>,4> source_tweakers58_v90_{};
+ public:
+  ApplicationServicesOwnerV5()=default;
+  ApplicationServicesOwnerV5(const ApplicationServicesOwnerV5&)=delete;
+@@ -95,6 +99,13 @@
+   }
+   source_player_manager_v59_=std::move(owner);error.clear();return true;
+  }
++ const std::shared_ptr<PlayerLightTweakerOwnerV90>& source_tweaker58_v90(std::size_t i=0)const{return source_tweakers58_v90_.at(i);}
++ bool publish_source_tweaker58_v90(std::size_t i,std::shared_ptr<PlayerLightTweakerOwnerV90> value,std::string& e){
++  if(i>=4||!value){e="Required actual App58..64 tweaker receiver";return false;}
++  auto& slot=source_tweakers58_v90_[i];
++  if(slot&&(slot.get()!=value.get()||slot.owner_before(value)||value.owner_before(slot))){e="Different source tweaker already published on SAME App slot";return false;}
++  slot=std::move(value);e.clear();return true;
++ }
+  bool post_init_events_v5(std::string&);
+  const std::shared_ptr<events::EventManagerOwnerV12>& events14()const noexcept{return events14_;}
+  camera::GameplayCameraActiveV13& active_camera()noexcept{return active_camera_;}
+--- a/port/level-world/canonical_level_config_module_v1.hpp
++++ b/port/level-world/canonical_level_config_module_v1.hpp
+@@ -41,6 +41,8 @@
+  bool init_post(std::string&);
+  const std::string* string(std::uint32_t)const noexcept;
+  const std::array<float,3>* vector(std::uint32_t)const noexcept;
++ // SAME produced Point3D cells for original scalar component stores.
++ float* source_vector_component_v90(std::uint32_t base,std::size_t component)noexcept{auto i=vectors_.find(base);return i!=vectors_.end()&&component<3?&i->second[component]:nullptr;}
+  const std::int32_t* integer(std::uint32_t)const noexcept;
+  const float* scalar_float_v55(std::uint32_t)const noexcept;
+  const std::uint8_t* byte(std::uint32_t)const noexcept;
+--- a/port/level-loader/stage_loader_stage34_v1.hpp
++++ b/port/level-loader/stage_loader_stage34_v1.hpp
+@@ -9,6 +9,7 @@
+  std::shared_ptr<void> owner;std::uintptr_t identity{};
+  std::uint8_t* color_f4{}; // four contiguous actual source RGBA bytes
+  float* start110{};float* end114{};float* direction11c{}; // actual XYZ
++ std::function<bool(std::string&)> source_fog_written_v90; // notification AFTER authentic stores only
+ };
+ struct Stage34ControllerV1 {std::shared_ptr<void> owner;std::uintptr_t character{};std::uint32_t* locked8{};};
+ struct Stage34MatchingDestinationV1 {std::shared_ptr<void> owner;std::uintptr_t identity{};};
+@@ -101,6 +102,7 @@
+    // Native PLT30e964 is __aeabi_i2f, NOT float-to-int conversion.
+    *params.start110=start_value;*params.end114=end_value;
+    if(!config(cfg))return reject(e,"Required fresh config direction for manager58");const auto* direction=cfg->vector(0x1f8);if(!direction)return reject(e,"Required config1f8 fog direction mask");const auto manager_direction=*direction;params.direction11c[0]=manager_direction[0];params.direction11c[1]=manager_direction[1];params.direction11c[2]=manager_direction[2];
++   if(params.source_fog_written_v90&&(!params.source_fog_written_v90(e)||!current()))return reject(e,"Actual tweaker write notification failed");
+    std::shared_ptr<world::GameObjectSceneRootRegistryV1> transform_scene;if(!scene(transform_scene))return reject(e,"Required fresh scene1c fog transform owner");
+    if(!config(cfg))return reject(e,"Required fresh config direction for scene1c");direction=cfg->vector(0x1f8);if(!direction)return reject(e,"Required fresh config1f8 vector");transform_scene->source_frame_fields_v67().fog_transform458=*direction;++transform_scene->source_frame_fields_v67().parameter_revision;
+    // Scene receiver is reread and pinned BEFORE native Debug switch call.
+--- a/port/android-native/app/src/main/cpp/renderer_source_boundary_v61.inc
++++ b/port/android-native/app/src/main/cpp/renderer_source_boundary_v61.inc
+@@ -2,6 +2,7 @@
+ // definitions and table loaders. Caller retains candidate + World separately;
+ // candidate callbacks borrow World weakly, preventing World/loading cycles.
+ bool install_campaign_noncharacter_producer_v89(const std::shared_ptr<SourceWorldBorrowV61>&,std::string&);
++static bool install_campaign_player_light_tweakers_v90(const std::shared_ptr<SourceWorldBorrowV61>&,std::string&);
+ static bool install_campaign_no_room_primitive_v89(const std::shared_ptr<SourceWorldBorrowV61>&,std::string&);
+ namespace {
+ struct CampaignEnvironmentNameSnapshotV89;
+@@ -166,7 +167,8 @@
+   camera_bindings.debug_after_add=[debug](std::string& e){return debug->trace(e);};
+  }
+  if(!borrow_gameplay_camera_services_v20(application,std::move(camera_bindings),result->camera_application,error))return false;
+- if(!install_campaign_no_room_primitive_v89(result,error)||
++ if(!install_campaign_player_light_tweakers_v90(result,error)||
++    !install_campaign_no_room_primitive_v89(result,error)||
+     !install_campaign_noncharacter_producer_v89(result,error))return false;
+  error.clear();return true;
+ }
+--- a/port/android-native/app/src/main/cpp/renderer_source_stage34_v80.inc
++++ b/port/android-native/app/src/main/cpp/renderer_source_stage34_v80.inc
+@@ -148,6 +148,9 @@
+   if(!more||!object||!object->lease){e="Required actual LevelConfig canonical lease";return false;}
+   out=std::shared_ptr<world::CanonicalLevelConfigV1>(object->lease,const_cast<world::CanonicalLevelConfigV1*>(config));return true;
+  };
++ // Publish the existing checked typed lookup for current native tweaker calls;
++ // its closures already weakly borrow SAME candidate, never containing World.
++ if(source_world->stage34_native_v80&&!source_world->stage34_native_v80->config)source_world->stage34_native_v80->config=native34.config;
+  if(!native34.scene1c)native34.scene1c=[scope_world,same](const auto& app,std::shared_ptr<world::GameObjectSceneRootRegistryV1>& out,std::string& e){
+   std::shared_ptr<SourceWorldBorrowV61> w;if(!scope_world(w,e)||!same(app,w->application)||!w->canonical_world)return false;
+   out=w->canonical_world->scene_roots_v20;if(!out){e="Required SAME actual scene1c root owner";return false;}return true;

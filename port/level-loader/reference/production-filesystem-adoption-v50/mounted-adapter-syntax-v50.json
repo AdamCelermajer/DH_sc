@@ -1,0 +1,24 @@
+{
+  "validation": "SYNTAX_PASS_NOT_LINKED",
+  "command": [
+    "wsl",
+    "--",
+    "/usr/bin/g++",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-fsyntax-only",
+    "-x",
+    "c++",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/production-filesystem-adoption-v50/main_mounted_image_filesystem_v50.cpp.proposed",
+    "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/production-filesystem-adoption-v50/host-include",
+    "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-resources",
+    "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-math"
+  ],
+  "actual_main_API_header_snapshot": true,
+  "Android_API_implementation_supplied": false,
+  "production_working_directory_binding": false,
+  "current_main_runtime_mount_GPU_probe": false
+}

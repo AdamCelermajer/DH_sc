@@ -1,0 +1,54 @@
+--- port/level-world/application_services_owner_v5.hpp
++++ port/level-world/application_services_owner_v5.hpp
+@@ -14,6 +14,8 @@
+ namespace dh2::application {
+ class ApplicationSaveFilesOwnerV61;
+ class PlayerLightTweakerOwnerV90;
++class ProcessResourcePrefixSourceV95;
++struct ProcessResourcePrefixBorrowV95;
+ // Retained native Application identity and currently reconstructed service
+ // fields. This is not a claim that the whole Application ctor/PostInit/Shutdown
+ // is implemented. C1 zeros pointer14; the first PostInit service allocation
+@@ -27,6 +29,9 @@
+  // SceneManager/factory/Zoom/animation services survive individual Worlds
+  // and GL contexts; the adapter must not hold a strong Application cycle.
+  std::shared_ptr<void> native_camera_services_v20_;
++ // Adapter pin for the actual process RES_PATH buffer published by appInit.
++ // No recovered App byte offset; independent storage survives Level/World.
++ std::shared_ptr<ProcessResourcePrefixSourceV95> source_resource_prefix_v95_;
+  SourceLoadingApplicationFieldsV55 source_loading_v55_;
+  std::shared_ptr<SourceOnlineLoadingOwnerV55> online_loading_v55_;
+  // Native lifetime pins for genuine process singleton projections. Their
+@@ -50,6 +55,8 @@
+  std::array<std::shared_ptr<PlayerLightTweakerOwnerV90>,4> source_tweakers58_v90_{};
+ public:
+  ApplicationServicesOwnerV5()=default;
++ bool initialize_source_resource_prefix_v95(std::string&);
++ bool borrow_source_resource_prefix_v95(ProcessResourcePrefixBorrowV95&,std::string&)const;
+  ApplicationServicesOwnerV5(const ApplicationServicesOwnerV5&)=delete;
+  ApplicationServicesOwnerV5& operator=(const ApplicationServicesOwnerV5&)=delete;
+  std::uintptr_t identity()const noexcept{return reinterpret_cast<std::uintptr_t>(this);}
+--- port/level-world/application_services_owner_v5.cpp
++++ port/level-world/application_services_owner_v5.cpp
+@@ -1,3 +1,4 @@
++#include "process_resource_prefix_source_v95.hpp"
+ #include "application_services_owner_v5.hpp"
+ #include "application_spawn_random_owner_v4.hpp"
+ #include "visual_fx_manager_libraries_v63.hpp"
+@@ -38,3 +39,16 @@
+  error.clear();return true;
+ }
+ }
++
++namespace dh2::application {
++bool ApplicationServicesOwnerV5::initialize_source_resource_prefix_v95(std::string& e){
++ // Existing process App owns one original appInit resource prefix. Admit the
++ // owner before allocation so a reached failed constructor prefix remains.
++ if(!source_resource_prefix_v95_)source_resource_prefix_v95_=std::make_shared<ProcessResourcePrefixSourceV95>();
++ return source_resource_prefix_v95_->initialize_gl_media_player_source(e);
++}
++bool ApplicationServicesOwnerV5::borrow_source_resource_prefix_v95(ProcessResourcePrefixBorrowV95& out,std::string& e)const{
++ if(!source_resource_prefix_v95_){e="Required actual process appInit RES_PATH owner before routing";return false;}
++ return source_resource_prefix_v95_->borrow(out,e);
++}
++}

@@ -1,0 +1,250 @@
+--- a/port/android-native/app/src/main/cpp/model_renderer.cpp
++++ b/port/android-native/app/src/main/cpp/model_renderer.cpp
+@@ -1,3 +1,9 @@
++#include <source_release_journal_v69.hpp>
++#include "campaign_zone_class_binding_v83.hpp"
++#include "renderer_campaign_zone_physical_v90.hpp"
++#include <zone_ex_contacts_v90.hpp>
++#include <stage_loader_stage34_v1.hpp>
++#include <tuple>
+ #include "character_kill_live_v21.hpp"
+ #include "character_ais_death_vm_v56.hpp"
+ #include "player_missing_death_fields_v56.hpp"
+@@ -2677,6 +2683,10 @@
+  std::copy_n(view.view.values,16,view16);std::copy_n(view.eye.data(),3,position3);e.clear();return true;
+ }
+ #include "renderer_campaign_noncharacter_v69.inc"
++#include "renderer_campaign_environment_v89.inc"
++#include "renderer_campaign_native_lenders_v89.inc"
++#include "renderer_campaign_no_room_v89.inc"
++#include "renderer_campaign_producer_v89.inc"
+ #include "renderer_character_campaign_v62.inc"
+ bool start_source_campaign_v55(AAssetManager* assets,std::shared_ptr<const dh2::android_ui::FrontSelectedProfileV50> profile,std::string& error){
+  return start_source_campaign_runtime_v61(assets,std::move(profile),renderer_source_services_v61(),error);
+--- a/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.hpp
++++ b/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.hpp
+@@ -27,9 +27,9 @@
+ namespace dh2::loader {class GameEventTablesV50;}
+ namespace dh2::loader {class GameEventRuntimeV75;}
+ namespace dh2::loader {struct Stage33RestoreServicesV1;struct Stage34ServicesV1;}
++namespace dh2::loader {class SourceReleaseJournalV69;}
+ namespace model_renderer {
+ class SourceCampaignFxRuntimeV77;
+-class SourceCampaignSaveObjectsV86;
+ class SourceCampaignDeathRewardsV84;
+ struct SourceCampaignCandidateBorrowV55;
+ struct RendererCampaignNonCharacterInputsV69;
+@@ -58,7 +58,6 @@
+  std::shared_ptr<dh2::data::DesignSettingsOwner> settings;
+  std::shared_ptr<dh2::loader::GameEventTablesV50> game_event_tables;
+  std::shared_ptr<dh2::loader::GameEventRuntimeV75> game_events_v75;
+- std::shared_ptr<SourceCampaignSaveObjectsV86> save_objects_v86;
+  std::shared_ptr<SourceGameEventDependenciesV75> game_event_dependencies_v75;
+  std::shared_ptr<dh2::character::CharacterOidPreloadServicesV81> character_preload_v81;
+  std::shared_ptr<SourceCanonicalBorrowV61> canonical_world;
+@@ -93,6 +92,9 @@
+  std::function<bool(std::string&)> source_pm_update_v70;
+  std::function<bool(const SourceCampaignCandidateBorrowV55&,
+   RendererCampaignNonCharacterInputsV69&,std::string&)> noncharacter_inputs_v81;
++ // Independent source input authority and admitted journal are siblings.
++ std::shared_ptr<void> noncharacter_producer_v89;
++ std::shared_ptr<dh2::loader::SourceReleaseJournalV69> noncharacter_release_journal_v89;
+  std::shared_ptr<dh2::world::CanonicalGameObjectGraphV68> gameobject_graph_v68;
+  std::shared_ptr<dh2::navigation::CampaignFrameScratchV76> frame_scratch_v76;
+  std::shared_ptr<SourceCampaignFxRuntimeV77> fx_runtime_v77;
+--- a/port/android-native/app/src/main/cpp/renderer_source_boundary_v61.inc
++++ b/port/android-native/app/src/main/cpp/renderer_source_boundary_v61.inc
+@@ -1,7 +1,9 @@
+ // Include in model_renderer.cpp AFTER the actual World/canonical/C1 owner
+ // definitions and table loaders. Caller retains candidate + World separately;
+ // candidate callbacks borrow World weakly, preventing World/loading cycles.
++bool install_campaign_noncharacter_producer_v89(const std::shared_ptr<SourceWorldBorrowV61>&,std::string&);
+ namespace {
++struct CampaignEnvironmentNameSnapshotV89;
+ struct RendererImmutableTablesV55 {
+  std::shared_ptr<dh2::character::CharacterGameDesign> design;
+  std::shared_ptr<dh2::data::DesignSettingsOwner> settings;
+@@ -9,6 +11,9 @@
+  std::shared_ptr<dh2::data::EffectsTables> effects;
+  std::shared_ptr<dh2::data::Dictionary> animation_dictionary;
+  std::shared_ptr<dh2::loader::GameEventTablesV50> game_events;
++ std::shared_ptr<CampaignEnvironmentNameSnapshotV89> campaign_names_v89;
++ bool campaign_names_attempted_v89{};
++ std::string campaign_names_failure_v89;
+  std::shared_ptr<dh2::loader::GameObjectArraysOwnerV81> game_object_arrays_v81;
+  bool game_object_arrays_attempted_v81{};
+  std::string game_object_arrays_failure_v81;
+@@ -160,6 +165,7 @@
+   camera_bindings.debug_after_add=[debug](std::string& e){return debug->trace(e);};
+  }
+  if(!borrow_gameplay_camera_services_v20(application,std::move(camera_bindings),result->camera_application,error))return false;
++ if(!install_campaign_noncharacter_producer_v89(result,error))return false;
+  error.clear();return true;
+ }
+ SourceCampaignRendererServicesV61 renderer_source_services_v61(){
+--- a/port/android-native/app/src/main/cpp/renderer_campaign_noncharacter_v69.inc
++++ b/port/android-native/app/src/main/cpp/renderer_campaign_noncharacter_v69.inc
+@@ -11,7 +11,9 @@
+  dh2::loader::LevelPlayerPlacementServicesV68 placement;
+  dh2::world::RetainedGameObjectDecorServicesV1 decor_native;
+  dh2::world::CanonicalZonePhysicalServicesV82 zone_physical; // genuine peer/contact virtual leaves
++ dh2::world::ZoneCollisionServicesV83 zone_collision; // actual public V83 transport plus incoming mesh/peer leaves
+  std::vector<std::string> required_types;
++ std::function<bool(dh2::loader::ProductionNonCharacterOwnersV67&,std::string&)> after_catalog_composition_v89;
+  std::function<bool(dh2::world::CanonicalGameObjectBaseOwnerV1&,std::string&)> failed_spawn_mark;
+  std::function<bool(dh2::world::CanonicalGameObjectBaseOwnerV1&,dh2::loader::GameObjectSourceFrameServicesV74&,std::string&)> lend_frame_services;
+  CampaignGenericRuntimeReceiverServicesV69 runtime_receiver;
+@@ -47,6 +49,7 @@
+  };
+  std::map<std::uintptr_t,Bound> bound;
+  std::set<std::uintptr_t> external_visuals;
++ std::map<std::uintptr_t,std::weak_ptr<dh2::world::CanonicalOpenableGraphV21>> openable_graphs_v89;
+  bool current(std::string& e)const{
+   SourceCampaignCandidateBorrowV55 actual;if(!borrow_source_campaign_candidate_v55(actual,e))return false;
+   auto world=scope.actual_world.lock();auto level=scope.level.lock();auto objects=scope.objects.lock();
+@@ -126,7 +129,7 @@
+   // first native construct/assign and retains every failed source prefix.
+   auto zone=std::make_shared<dh2::world::CanonicalZonePhysicalV82>(*base,*world,receiver,std::move(services));
+   auto prefix=std::make_shared<dh2::loader::AuxiliaryResourcePrefixV82>();prefix->backing=world;prefix->receiver=zone;
+-  prefix->identity=reinterpret_cast<std::uintptr_t>(zone.get());
++  prefix->identity=reinterpret_cast<std::uintptr_t>(zone.get());prefix->source_owner8=zone->source_owner8();
+   std::weak_ptr<dh2::world::CanonicalZonePhysicalV82> actual=zone;
+   std::weak_ptr<dh2::loader::AuxiliaryResourcePrefixV82> state=prefix;
+   prefix->release_source=[actual,state](std::string& e){auto zone=actual.lock();auto prefix=state.lock();
+@@ -158,6 +161,13 @@
+  }
+  void bind_trigger_zone_resources_v82(std::uintptr_t id,dh2::world::TriggerZoneServicesV22& output){
+   std::weak_ptr<RendererCampaignNonCharacterV69> weak=shared_from_this();
++  auto get=[weak,id](auto& pin,auto*& base,std::string& e){auto self=weak.lock();return self&&self->borrow(id,pin,base,e);};
++  if(!output.spawn_roll_probability)output.spawn_roll_probability=container_spawn_roll_v89(get);
++  if(!output.set_bounding_box)output.set_bounding_box=[weak,get](const std::array<float,6>& box,bool absolute,std::string& e){
++   auto self=weak.lock();std::shared_ptr<void> pin;dh2::world::CanonicalGameObjectBaseOwnerV1* base{};Bound* bound{};
++   if(!self||!get(pin,base,e)||!self->ensure(*base,bound,e))return false;
++   if(absolute){e="Required original Trigger Zone relative bounding box";return false;}
++   return dh2::world::game_object_relative_box_v3(*base,box.data(),bound->initialization.update_pf_object,e);};
+   if(!output.create_zone_physical)output.create_zone_physical=[weak,id](bool trigger,std::string& e){auto self=weak.lock();std::shared_ptr<void> pin;dh2::world::CanonicalGameObjectBaseOwnerV1* base{};return self&&self->borrow(id,pin,base,e)&&self->create_zone_physical_v82(*base,trigger,e);};
+   if(!output.bind_visual_collision_zone)output.bind_visual_collision_zone=[weak,id](const char* name,auto& node,auto& lease,std::string& e){auto self=weak.lock();std::shared_ptr<void> pin;dh2::world::CanonicalGameObjectBaseOwnerV1* base{};return self&&self->borrow(id,pin,base,e)&&self->bind_visual_collision_zone_v82(*base,name,node,lease,e);};
+  }
+@@ -316,8 +326,37 @@
+    struct FacetPin {std::shared_ptr<dh2::loader::AuxiliaryResourcePrefixV82> prefix;std::shared_ptr<void> receiver;};
+    pin=std::make_shared<FacetPin>(FacetPin{prefix,std::move(receiver)});return true;
+   }
++  const auto openable=openable_graphs_v89.find(base.identity());if(openable!=openable_graphs_v89.end()){
++   auto graph=openable->second.lock();if(!graph){e="Released SAME Openable physical owner";return false;}
++   return graph->borrow_native_body_v69(*base.pointer(0x2dc),pin,body,e);
++  }
+   const auto at=decor_connections.find(base.identity());if(at!=decor_connections.end())return at->second->borrow_native_body(*base.pointer(0x2dc),pin,body,e);
+   if(!native.borrow_native_body){e="Required actual non-Decor native physical facet borrower";return false;}return native.borrow_native_body(base,pin,body,e);
++ }
++ template<class Getter,class Member>auto inherited_container_call_v89(Getter get,Member member){
++  std::weak_ptr<RendererCampaignNonCharacterV69> weak=shared_from_this();
++  return [weak,get,member](auto&&... args)->bool{auto& e=std::get<sizeof...(args)-1>(std::forward_as_tuple(args...));
++   auto self=weak.lock();std::shared_ptr<void> pin;dh2::world::CanonicalGameObjectBaseOwnerV1* base{};Bound* bound{};
++   if(!self||!get(pin,base,e)||!base||!self->ensure(*base,bound,e))return false;
++   const auto& callback=bound->initialization.*member;if(!callback){e="Required genuine reached inherited container initialization leaf";return false;}
++   return callback(std::forward<decltype(args)>(args)...);};
++ }
++ template<class Getter>void bind_container_initialization_v89(Getter get,dh2::world::GameObjectInitializationServicesV1& init){
++  init.difficulty_names=native.source.auxiliary.difficulty_names.get();init.sound_names=native.source.auxiliary.sound_names.get();
++#define INHERITED_CONTAINER(field) if(!init.field)init.field=inherited_container_call_v89(get,&dh2::world::GameObjectInitializationServicesV1::field)
++  INHERITED_CONTAINER(condition_init);INHERITED_CONTAINER(check_spawn_probability);INHERITED_CONTAINER(device_high_performance);
++  INHERITED_CONTAINER(load_visual);INHERITED_CONTAINER(set_position);INHERITED_CONTAINER(visual_sync);INHERITED_CONTAINER(set_visible);
++  INHERITED_CONTAINER(init_pf_object);INHERITED_CONTAINER(update_pf_object);INHERITED_CONTAINER(light_set_id);
++  INHERITED_CONTAINER(visual_set_light_set);INHERITED_CONTAINER(visual_root);INHERITED_CONTAINER(node_from_name);
++#undef INHERITED_CONTAINER
++ }
++ template<class Getter>auto container_spawn_roll_v89(Getter get){
++  std::weak_ptr<RendererCampaignNonCharacterV69> weak=shared_from_this();
++  return [weak,get](std::int32_t& roll,std::int32_t& probability,std::string& e){auto self=weak.lock();
++   std::shared_ptr<void> pin;dh2::world::CanonicalGameObjectBaseOwnerV1* base{};Bound* bound{};
++   if(!self||!get(pin,base,e)||!base||!self->ensure(*base,bound,e)||!bound->initialization.check_spawn_probability||
++      !bound->initialization.check_spawn_probability(roll,e))return false;
++   auto value=base->integer(0x274);if(!value){e="Required SAME actual probability274 reread";return false;}probability=*value;return true;};
+  }
+  bool actual_visual(std::uintptr_t visual,std::shared_ptr<dh2::world::RetainedGameObjectVisualV1>& out,std::string& e){return current(e)&&graph->borrow_visual(visual,out,e);}
+  bool animator(std::uintptr_t visual,std::shared_ptr<dh2::world::RetainedGenericAnimatorV21>& out,std::string& e){auto found=animators.find(visual);if(found!=animators.end()){out=found->second;return true;}
+@@ -423,10 +462,12 @@
+  std::weak_ptr<RendererCampaignNonCharacterV69> weak=self;
+  dh2::world::CanonicalGameObjectGraphServicesV68 graph;graph.owner=self->files;graph.roots=actual.roots;graph.visual.owner=self->files;
+  graph.visual.read_asset=[files=self->files](const auto& path,auto& bytes,bool& found,auto& e){return files->read(path,found,bytes,e);};
++ graph.native_body_v90=[weak](auto& base,auto& pin,auto*& body,std::string& e){auto self=weak.lock();return self&&self->current(e)&&self->physical_body(base,pin,body,e);};
+  graph.current=[weak](std::string& e){auto self=weak.lock();return self&&self->current(e);};
+  graph.is_animated=[](auto& base,bool& value,std::string& e){const auto* name=base.class_name20();if(!name){e="Actual canonical class name not produced";return false;}
+   value=!std::strcmp(name,"AnimatedDecor")||!std::strcmp(name,"TriggerObject")||!std::strcmp(name,"Door")||!std::strcmp(name,"OpenableContainer")||!std::strcmp(name,"DestructibleContainer");e.clear();return true;};
+  self->graph=std::make_shared<dh2::world::CanonicalGameObjectGraphV68>(std::move(graph));
++ bind_campaign_zone_physical_v90(weak,self->native.zone_physical);
+  if(!borrow_source_campaign_game_object_arrays_v81(actual,self->native.declaration_arrays,e))return false;
+  auto classes=self->native.source;
+  if(!bind_campaign_declaration_arrays_v81(std::weak_ptr<RendererCampaignNonCharacterV69>(self),classes,self->native.declaration_arrays,e))return false;
+@@ -458,7 +499,6 @@
+  auto source_spawn=classes.auxiliary.spawn_point;
+  if(source_spawn)classes.auxiliary.spawn_point=[weak,source_spawn](const auto& d,auto& receiver,auto& output,std::string& e){auto self=weak.lock();if(!self||!source_spawn(d,receiver,output,e))return false;output.owner=self;
+   output.script_id=[weak](const std::string& name,bool common,std::int32_t& id,std::string& e){auto self=weak.lock();if(!self||!self->current(e))return false;auto app=self->application.lock();auto scripts=app?app->source_script_manager_v52():nullptr;if(!scripts){e="Required actual App ScriptManager GetIDFromName";return false;}id=scripts->id_from_name(name.c_str(),common);e.clear();return true;};
+-  output.start_script=[weak](std::int32_t id,std::int32_t module,bool received,std::string& e){auto self=weak.lock();if(!self||!self->current(e))return false;auto app=self->application.lock();auto scripts=app?app->source_script_manager_v52():nullptr;if(!scripts){e="Required SAME App ScriptManager for actual SpawnPoint script start";return false;}return scripts->start_script_v96(id,module,received,e);};
+   output.set_object_position=[weak](std::uintptr_t id,const float* p,bool destination,std::string& e){auto self=weak.lock();return self&&self->set_object_position(id,p,destination,e);};
+   output.set_object_rotation=[weak](std::uintptr_t id,const float* p,std::string& e){auto self=weak.lock();return self&&self->set_object_rotation(id,p,e);};return true;};
+  auto source_trigger=classes.auxiliary.trigger_object;
+@@ -486,9 +526,12 @@
+  auto openable_services=classes.containers.openable_services;
+  if(openable_services)classes.containers.openable_services=[weak,openable_services](const auto& scope,const auto& q,const auto& slot,auto& output,std::string& e){auto self=weak.lock();if(!self||!self->current(e)||!openable_services(scope,q,slot,output,e))return false;
+   output.world=self;
++  auto get=[slot](auto& pin,auto*& base,std::string& e){auto actual=slot?slot->lock():nullptr;if(!actual){e="Unproduced/released SAME Openable C1";return false;}pin=actual;base=&actual->base();return true;};
++  self->bind_container_initialization_v89(get,output.initialization);
++  if(!output.container.spawn_roll_and_probability)output.container.spawn_roll_and_probability=self->container_spawn_roll_v89(get);
+   // Use actual roots/physics already provided by genuine source container services.
+   // Read from mounted APK cache; graph remains the sole Openable Visual C1.
+-  output.visual.owner=self->files;output.visual.read_asset=[files=self->files](const auto& path,auto& bytes,bool& found,std::string& e){return files->read(path,found,bytes,e);};
++  output.visual.owner=self->files;if(!output.visual.read_asset)output.visual.read_asset=[files=self->files](const auto& path,auto& bytes,bool& found,std::string& e){return files->read(path,found,bytes,e);};
+   output.initialization.owner=self;output.position.owner=self;output.decor.owner=self;output.container.owner=self;
+   if(!output.container.precache_complete_source_v42)output.container.precache_complete_source_v42=bind_openable_precache_slot_v45(slot,self->native.source.containers.openable_table);
+   return true;};
+@@ -496,20 +539,48 @@
+  if(admit_openable)classes.containers.admit_openable=[weak,admit_openable](const auto& scope,const auto& q,const auto& actual,std::string& e){auto self=weak.lock();if(!self||!admit_openable(scope,q,actual,e)||!self->current(e))return false;
+   std::weak_ptr<dh2::world::CanonicalOpenableGraphV21> receiver=actual;const auto id=actual->receiver().base().identity();
+   dh2::world::CanonicalBaseBorrowV68 borrow=[weak,receiver](auto& pin,auto*& base,std::string& e){auto self=weak.lock();auto graph=receiver.lock();if(!self||!graph||!self->current(e))return false;pin=graph;base=&graph->receiver().base();return true;};
+-  self->borrows.push_back(borrow);
++  self->borrows.push_back(borrow);self->openable_graphs_v89[id]=actual;
+   auto visual=[receiver](auto& out,std::string& e){auto graph=receiver.lock();if(!graph){e="Released SAME Openable graph visual";return false;}out=graph->visual();e.clear();return true;};
+   if(!self->graph->observe_visual(id,borrow,std::move(visual),e))return false;self->external_visuals.insert(id);return true;};
+  auto destructible_services=classes.containers.destructible_services;
+  if(destructible_services)classes.containers.destructible_services=[weak,destructible_services](const auto& scope,const auto& q,const auto& slot,auto& init,auto& output,std::string& e){auto self=weak.lock();if(!self||!self->current(e)||!destructible_services(scope,q,slot,init,output,e))return false;
+   init.owner=self;output.owner=self;output.common.owner=self;
++  auto get=[slot](auto& pin,auto*& base,std::string& e){auto actual=slot?slot->lock():nullptr;if(!actual){e="Unproduced/released SAME Destructible C1";return false;}pin=actual;base=&actual->base();return true;};
++  self->bind_container_initialization_v89(get,init);
++  if(!output.common.spawn_roll_and_probability)output.common.spawn_roll_and_probability=self->container_spawn_roll_v89(get);
+   if(!output.common.precache_complete_source_v42)output.common.precache_complete_source_v42=bind_destructible_precache_slot_v45(slot,self->native.source.containers.destructible_table);
+   return true;};
+  auto admit_destructible=classes.containers.admit_destructible;
+  if(admit_destructible)classes.containers.admit_destructible=[weak,admit_destructible](const auto& scope,const auto& q,const auto& actual,std::string& e){auto self=weak.lock();if(!self||!admit_destructible(scope,q,actual,e)||!self->current(e))return false;
+   std::weak_ptr<dh2::world::CanonicalDestructibleContainerV16> receiver=actual;
+   self->borrows.push_back([weak,receiver](auto& pin,auto*& base,std::string& e){auto self=weak.lock();auto r=receiver.lock();if(!self||!r||!self->current(e))return false;pin=r;base=&r->base();return true;});return true;};
++ // Same independent V69 authority required by CatalogEnvironment exact-owner
++ // admission. Clone the service packet only; names/nodes/native owners remain
++ // SAME. All reached engine callbacks borrow V69 self weakly across delivery.
++ if(classes.lights){
++  auto lights=std::make_shared<dh2::loader::LightEnvironmentLeavesV67>(*classes.lights);lights->owner=self;
++  auto guard_light=[weak](auto original){return [weak,original=std::move(original)](auto&&... args)->bool{
++   std::string* error{};auto locate=[&](auto& value){if constexpr(std::is_same_v<decltype(value),std::string&>)error=&value;};(locate(args),...);
++   if(!error)return false;auto owner=weak.lock();if(!owner){*error="Required live SAME V69 light delivery authority";return false;}
++   if(!owner->current(*error)||!original(std::forward<decltype(args)>(args)...))return false;return owner->current(*error);
++  };};
++#define V69_LIGHT_LEAF(field) if(lights->field)lights->field=guard_light(std::move(lights->field))
++  V69_LIGHT_LEAF(validate_current);V69_LIGHT_LEAF(bind_objectbase_dtor);V69_LIGHT_LEAF(first_scene_light);V69_LIGHT_LEAF(construct_light_node);V69_LIGHT_LEAF(attach_root);V69_LIGHT_LEAF(add_automatic);V69_LIGHT_LEAF(borrow_light_parameters);V69_LIGHT_LEAF(debug_switch);V69_LIGHT_LEAF(set_type);V69_LIGHT_LEAF(refresh_attachment);V69_LIGHT_LEAF(retain_release_record);V69_LIGHT_LEAF(release_completed);
++#undef V69_LIGHT_LEAF
++  classes.lights=std::move(lights);
++ }
+  RendererCampaignNonCharacterCompositionV69 prepared;prepared.services=self;
+  if(!dh2::loader::make_source_campaign_noncharacter_factory_v67(actual,self,std::move(classes),self->native.required_types,prepared.catalog,prepared.factory,e,&prepared.owners))return false;
++ if(self->native.after_catalog_composition_v89&&!self->native.after_catalog_composition_v89(prepared.owners,e))return false;
++ // Enrollment precedes XML/Modules. Capture the original class metadata as
++ // each real authored factory entry reaches dispatch; never hardcode a level.
++ auto source_factory=std::move(prepared.factory);
++ prepared.factory=[weak,source_factory](const auto& entry,const auto& request,auto& receiver,std::string& e){
++  auto same=weak.lock();if(!same||!same->current(e)||!entry.name)return false;
++  auto& names=same->native.required_types;
++  if(std::find(names.begin(),names.end(),entry.name)==names.end())names.emplace_back(entry.name);
++  return source_factory(entry,request,receiver,e);
++ };
+  bind_campaign_base_admission_v78(weak,prepared.factory);
+  if(!bind_source_campaign_object_graph_v68(actual,self->graph,e))return false;
+  // Preserve existing actual placement/save callbacks; replace only typed Spawn borrow.

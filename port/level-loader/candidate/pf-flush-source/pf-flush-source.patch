@@ -1,0 +1,451 @@
+--- /dev/null
++++ b/port/level-world/pf_flush_services_v1.hpp
+@@ -0,0 +1,67 @@
++#pragma once
++#include "floors.hpp"
++#include <functional>
++#include <memory>
++#include <string>
++namespace dh2::world {
++class ModuleFloorCloneV3;class SceneManagerMapOwnerV2;class ModulePFRoomsV3;
++enum class PFWorldFlushPhaseV1 {idle,quiesce,actual_fields,rooms,floor_aux68,clone_drop40,floor_tail,room_storage,bounds_zero,object_map2c,exits84,outer44,inner48,initialized_zero,complete,failed};
++struct SceneMapNodeBorrowV2;
++struct FloorCloneDestructionV1 {
++ std::shared_ptr<void> owner; // independent service; Main captures actual scopes weakly
++ // Actual cached render/model/scene aliases already unpublished. No fabricated
++ // count, guessed empty renderer, or passive C++ expiry is a native D0 receipt.
++ std::function<bool(ModuleFloorCloneV3&,std::string&)> require_unpublished;
++ // Genuine copied IMeshSceneNode derived/base D1, while SAME BRES and Record
++ // are pinned. Does not delete this borrowed port allocation itself.
++ std::function<bool(ModuleFloorCloneV3&,std::string&)> native_mesh_d1;
++};
++struct SceneMapDestructionV1 {
++ std::shared_ptr<void> owner;
++ // Actual SceneManager/draw/animator delivery quiescence before native parent
++ // references drop. This must purge actual collected render aliases too.
++ std::function<bool(SceneManagerMapOwnerV2&,std::string&)> quiesce;
++ // Scene parent reference drop, not child D0: each PFFloor still owns mesh40.
++ // SAME parentec/list clear happens FIRST (removeAll598818..59882c), then
++ // this leaf drops the actual native parent/transport reference. The local
++ // diagnostic C++ pin is not a synthetic native grab or a child constructor.
++ std::function<bool(const SceneMapNodeBorrowV2&,std::string&)> child_parent_drop;
++ // Actual map CSceneNode derived D1 prefix after root parent drop, then
++ // base ISNode D1 removeAll happens in this SAME owner, followed by actual
++ //114 scene-manager drop/list/name/IObject tail. Neither leaf deletes the
++ // borrowed port allocation itself. No passive expiry is counted as D0.
++ std::function<bool(SceneManagerMapOwnerV2&,std::string&)> native_map_d1_prefix,native_map_d1_tail;
++};
++struct PFGraphDestructionV1 {
++ std::shared_ptr<void> receiver;std::uintptr_t identity{};
++ std::function<bool(std::string&)> native_d0;
++};
++// Pointers/closures must project the SAME actual PFWorld fields, not a second
++// World or source-looking copies initialized from sewn/vector sizes. The
++// existing floor adapter does not yet expose native2c/44/48/4 producers.
++struct PFWorldFlushFieldsV1 {
++ std::shared_ptr<void> owner;
++ std::uintptr_t identity{}; // actual PFWorld receiver, not floor-array address
++ std::shared_ptr<floors::World> storage_owner; // SAME navigation storage lease
++ std::uint32_t *initialized4{};
++ std::uintptr_t *outer44{},*inner48{};
++ // Whole actual floor->PFObject deque tree erase/reset. This is a required
++ // real owner body, not guessed absence of PF objects. Existing ModulePFRooms
++ // owns actual vector<pair<ExitDirection,Vec3f>>84; loader clears it directly.
++ std::function<bool(std::string&)> erase_floor_objects2c;
++ std::function<bool(std::uintptr_t,PFGraphDestructionV1&,std::string&)> graph;
++};
++struct PFWorldFlushServicesV1 {
++ std::shared_ptr<void> owner; // independent; no containing World/Level capture
++ // Prove source Scene virtual68/map-child/drop and draw/query/event quiescence
++ // already completed. PF Flush never invents a SceneManager or clears it late.
++ std::function<bool(ModulePFRoomsV3&,std::string&)> require_quiescent;
++ std::function<bool(floors::World&,std::uintptr_t,PFWorldFlushFieldsV1&,std::string&)> actual_fields;
++ // Exact PFFloorD1 boundary: free actual68 before mesh40.drop, then release
++ // c0,b4,a8 storage /90,78 trees /28,4 strings before floor allocation free.
++ // Main must lend genuine positive owners. Loader owns ordered slot/free
++ // continuation; these leaves may not delete the borrowed Record themselves.
++ std::function<bool(floors::Record&,std::string&)> floor_aux68_d1,floor_tail_d1;
++ FloorCloneDestructionV1 clone;
++};
++}
+--- a/port/level-world/module_floor_clone_v3.hpp
++++ b/port/level-world/module_floor_clone_v3.hpp
+@@ -1,6 +1,7 @@
+ #pragma once
+ #include "scene_manager_map_owner_v2.hpp"
+ #include "floors.hpp"
++#include "pf_flush_services_v1.hpp"
+ namespace dh2::world {
+ // The real CopyMeshSceneNode successor: independent node TRS/cache/name,
+ // immutable geometry borrowed from the SAME loaded BRES and PF Record.
+@@ -14,6 +15,7 @@
+  std::array<float,4> rotation_{};
+  std::array<float,16> cached_{};
+  bool local_visible_{true},parent_visible_{true};
++ bool native_d1_attempted_v1_{},native_d1_complete_v1_{},native_d1_running_v1_{};std::string native_d1_failure_v1_;
+  ModuleFloorCloneV3(std::shared_ptr<void>,std::shared_ptr<void>,floors::Record&,
+   const float*,const float*,std::shared_ptr<SceneManagerMapOwnerV2>);
+ public:
+@@ -22,7 +24,11 @@
+   std::shared_ptr<SceneManagerMapOwnerV2>,std::shared_ptr<ModuleFloorCloneV3>&,std::string&);
+  SceneMapNodeBorrowV2 map_node();
+  std::uintptr_t identity()const noexcept{return reinterpret_cast<std::uintptr_t>(this);}
+- const floors::Record& floor()const noexcept{return *record_;}
++ const floors::Record& floor()const;
++ // Actual PFFloor.mesh40 drop after Scene/map unpublication. Main class D1
++ // runs while this clone still pins SAME Record and immutable BRES bytes.
++ bool drop_floor_reference_v1(const FloorCloneDestructionV1&,std::string&);
++ bool native_destroyed_v1()const noexcept{return native_d1_complete_v1_;}
+  std::uintptr_t parent()const noexcept{return parent_;}
+  std::uint32_t flags()const noexcept{return flags_;}
+  const std::array<float,16>& cached_matrix()const noexcept{return cached_;}
+--- a/port/level-world/module_floor_clone_v3.cpp
++++ b/port/level-world/module_floor_clone_v3.cpp
+@@ -2,6 +2,7 @@
+ #include "../engine-math/math.hpp"
+ #include <algorithm>
+ #include <cmath>
++#include <stdexcept>
+ namespace dh2::world {
+ ModuleFloorCloneV3::ModuleFloorCloneV3(std::shared_ptr<void> resource,std::shared_ptr<void> world,
+  floors::Record& record,const float* q,const float* scale,std::shared_ptr<SceneManagerMapOwnerV2> map):
+@@ -19,6 +20,7 @@
+  out=std::shared_ptr<ModuleFloorCloneV3>(new ModuleFloorCloneV3(std::move(resource),std::move(world),record,q,scale,std::move(map)));return true;
+ }
+ SceneMapNodeBorrowV2 ModuleFloorCloneV3::map_node(){
++ if(native_d1_attempted_v1_)throw std::logic_error("Cannot republish native-destroyed floor clone");
+  auto self=shared_from_this();SceneMapNodeBorrowV2 b;
+  b.owner=self;b.identity=identity();b.parentec=&parent_;b.flags11c=&flags_;
+  b.cached_position=[self](std::array<float,3>& p,std::string& e){e.clear();std::copy_n(self->cached_.data()+12,3,p.begin());return true;};
+@@ -49,4 +51,29 @@
+  };
+  return b;
+ }
++
++const floors::Record& ModuleFloorCloneV3::floor()const{
++ if((native_d1_attempted_v1_&&!native_d1_running_v1_)||!record_||!world_)throw std::logic_error("Native floor clone Record is retired");
++ return *record_;
+ }
++bool ModuleFloorCloneV3::drop_floor_reference_v1(const FloorCloneDestructionV1& services,std::string& e){
++ if(native_d1_complete_v1_){e.clear();return true;}
++ if(native_d1_attempted_v1_){e=native_d1_failure_v1_.empty()?"Floor clone D1 cannot replay/reenter a reached prefix":native_d1_failure_v1_;return false;}
++ auto map=map_.lock();
++ // PFFloorD1 only drops mesh40; it does NOT detach it. Source LevelD1's
++ // Scene virtual68 must have dropped parent references/render aliases first.
++ if(parent_){e="Require genuine Scene/map parent removal before last PF mesh40 drop";return false;}
++ if(map){const auto children=map->children();if(std::find(children.begin(),children.end(),identity())!=children.end()){e="Floor clone still published in SAME Scene map";return false;}}
++ if(!record_||!world_||!resource_||!services.owner||!services.require_unpublished||!services.native_mesh_d1){e="Required live SAME floor/bytes and actual copied-mesh D1 services";return false;}
++ if(!services.require_unpublished(*this,e))return false;
++ native_d1_attempted_v1_=true;
++ auto fail=[&]{native_d1_failure_v1_=e.empty()?"Required actual copied IMeshSceneNode D1":e;e=native_d1_failure_v1_;return false;};
++ native_d1_running_v1_=true;struct Guard{bool& running;~Guard(){running=false;}}guard{native_d1_running_v1_};
++ try{if(!services.native_mesh_d1(*this,e))return fail();}
++ catch(const std::exception& ex){e=ex.what();return fail();}catch(...){e="Actual copied-mesh D1 provider threw";return fail();}
++ if(parent_){e="Native clone D1 reparented the retired receiver";return fail();}
++ // Logical native drop/D1 completed. Diagnostic shared aliases may still pin
++ // this port allocation, but cannot re-enter its engine/draw/floor methods.
++ record_=nullptr;resource_.reset();world_.reset();map_.reset();native_d1_complete_v1_=true;e.clear();return true;
++}
++}
+--- a/port/level-world/scene_manager_map_owner_v2.hpp
++++ b/port/level-world/scene_manager_map_owner_v2.hpp
+@@ -1,5 +1,6 @@
+ #pragma once
+ #include "gameobject_scene_root_registry_v1.hpp"
++#include "pf_flush_services_v1.hpp"
+ namespace dh2::world {
+ struct SceneMapNodeBorrowV2 {
+  std::shared_ptr<void> owner;
+@@ -26,6 +27,7 @@
+  std::array<float,6> relative_box_{-1,-1,-1,1,1,1}; // CSceneNode5839d8
+  bool local_visible_{true},parent_visible_{true},constructed_{};
+  std::vector<SceneMapNodeBorrowV2> children_;
++ bool native_d1_attempted_v1_{},native_d1_complete_v1_{};std::string native_d1_failure_v1_;
+  bool visibility(bool,std::string&);
+  bool source_scene_phase_v69(std::uint32_t,std::string&);
+ public:
+@@ -33,7 +35,12 @@
+  bool add(SceneMapNodeBorrowV2,std::string&);
+  bool remove(std::uintptr_t,std::string&);
+  bool release(std::string&);
++ // Invoke at genuine Scene virtual68 before Physical/PF Flush. Preserves
++ // child/source-prefix ownership on failure; does not invoke clone D0 early.
++ bool release_scene_source_v1(const SceneMapDestructionV1&,std::string&);
++ bool native_destroyed_v1()const noexcept{return native_d1_complete_v1_;}
+  std::uintptr_t identity()const noexcept{return reinterpret_cast<std::uintptr_t>(this);}
++ std::uintptr_t scene_manager_identity_v1()const noexcept{auto owner=scene_manager_.lock();return owner?owner->scene_manager_identity_v16():0;}
+  std::vector<std::uintptr_t> children()const;
+  std::uint32_t flags()const noexcept{return flags_;}
+  const std::array<float,6>& constructor_box()const noexcept{return relative_box_;}
+--- a/port/level-world/scene_manager_map_owner_v2.cpp
++++ b/port/level-world/scene_manager_map_owner_v2.cpp
+@@ -15,6 +15,7 @@
+ }
+ bool SceneManagerMapOwnerV2::add(SceneMapNodeBorrowV2 child,std::string& error){
+  error.clear();
++ if(native_d1_attempted_v1_){error="Cannot reconstruct/reparent a native-destroyed map group";return false;}
+  auto manager=scene_manager_.lock();
+  if(!manager){error="Scene map requires SAME SceneManager root owner";return false;}
+  if(!constructed_){
+@@ -89,4 +90,31 @@
+  }
+  error.clear();return true;
+ }
++
++bool SceneManagerMapOwnerV2::release_scene_source_v1(const SceneMapDestructionV1& services,std::string& e){
++ if(native_d1_complete_v1_){e.clear();return true;}
++ if(native_d1_attempted_v1_){e=native_d1_failure_v1_.empty()?"Scene map D1 cannot replay/reenter a reached prefix":native_d1_failure_v1_;return false;}
++ // Native Scene28c has no published group before first AddNodeToMap. This
++ // legitimate absence invokes no class D0; its unused host adapter can expire.
++ if(!constructed_&&children_.empty()){e.clear();return true;}
++ if(!services.owner||!services.quiesce||!services.child_parent_drop||!services.native_map_d1_prefix||!services.native_map_d1_tail){e="Required actual Scene/map quiescence and native parent/map D1 leaves";return false;}
++ if(!services.quiesce(*this,e))return false;
++ auto manager=scene_manager_.lock();if(!manager){e="Required SAME SceneManager before map parent drop";return false;}
++ native_d1_attempted_v1_=true;
++ auto fail=[&]{native_d1_failure_v1_=e.empty()?"Required actual Scene map source teardown":e;e=native_d1_failure_v1_;return false;};
++ // Original ISNode.remove59706c reaches parent.removeChild; the root parent
++ // NULL/reference drop precedes this map's native D1 and removeAll5987e8.
++ if(!manager->remove_root_parent_reference_v1(identity(),e)||!services.native_map_d1_prefix(*this,e))return fail();
++ while(!children_.empty()){
++  auto child=children_.front(); // modern diagnostic pin, not another native grab
++  if(!child.owner||!child.parentec||*child.parentec!=identity()){e="Require SAME actual map child parent before source drop";return fail();}
++  // removeAll598818..59882c clears links/parentec before child.drop. Existing
++  // map remove supplies the SAME list/parent mutation, then Main releases its
++  // native parent reference/transport alias; PFFloor still owns mesh40.
++  if(!remove(child.identity,e)||!services.child_parent_drop(child,e))return fail();
++ }
++ if(!services.native_map_d1_tail(*this,e))return fail();
++ if(parent_||!children_.empty()){e="Native map D1 retained/replaced child/root membership";return fail();}
++ constructed_=false;native_d1_complete_v1_=true;e.clear();return true;
+ }
++}
+--- a/port/level-world/gameobject_scene_root_registry_v1.hpp
++++ b/port/level-world/gameobject_scene_root_registry_v1.hpp
+@@ -3,7 +3,6 @@
+ #include "scene_manager_frame_fields_v67.hpp"
+ #include <vector>
+ namespace dh2::world {
+-class ScenePreloadCollectionV81;
+ // SAME source manager state, separately typed from renderer draw-list owner.
+ // Full render registration is not implemented by root attachment.
+ struct GameObjectSceneManagerFieldsV1 {
+@@ -54,14 +53,14 @@
+  std::uint64_t scene_epoch_v69_{};
+  bool scene_epoch_produced_v69_{},scene_busy_v69_{},scene_failed_v69_{};
+  std::string scene_error_v69_;
+- //Actual SceneManager preloaded-node collection44c, distinct from visible
+- //root children/render registration. Native resources have independent pins.
+- std::shared_ptr<ScenePreloadCollectionV81> preloaded_scenes_v81_;
+ public:
+  GameObjectSceneRootRegistryV1():identity_(reinterpret_cast<std::uintptr_t>(this)){}
+  explicit GameObjectSceneRootRegistryV1(std::uintptr_t source_root_identity):identity_(source_root_identity){}
+  bool add_child(GameObjectSceneRootBorrowV1,std::string&);
+  bool release_visual_root(std::uintptr_t,std::string&);
++ // Source Scene virtual68/removeChild parent-reference operation only. Native
++ // class D1 is delivered separately by its SAME typed lifecycle owner.
++ bool remove_root_parent_reference_v1(std::uintptr_t,std::string&);
+  void force_register()noexcept{fields_.force448=1;fields_.render_dirty289=1;}
+  void notify_hierarchy_changed()noexcept{fields_.hierarchy_dirty288=1;fields_.render_dirty289=1;}
+  // Whole CSceneManager::notifyVisibilityChanged5890a8 writes only byte289.
+@@ -91,11 +90,6 @@
+  bool source_scene_phase_v69(std::uint64_t actual_draw_epoch,std::uint32_t actual_timer,std::string&);
+  bool source_register_nodes_v69(bool native_context_force,std::uint8_t actual_script_byte30,
+    const SceneRegistrationTransportV69&,std::string&);
+- bool source_preload_collection_v81(std::shared_ptr<ScenePreloadCollectionV81>,std::string&);
+- const std::shared_ptr<ScenePreloadCollectionV81>& preloaded_scenes_v81()const noexcept{return preloaded_scenes_v81_;}
+- //Only SceneManager.clear354468 releases preloaded nodes; neither GL context
+- //loss nor LevelD1's separate cachedCharOID-map clear implies this operation.
+- void source_clear_preloaded_scenes_v81()noexcept;
+  // CSceneManager::setAmbientLight receives LevelConfig1cc RGB and alpha1.
+  void set_ambient_v67(const std::array<float,4>&value)noexcept{source_set_ambient_v67(value);}
+  const std::array<float,4>* ambient_v67()const noexcept{return ambient_set_v67_?&frame_v67_.ambient104:nullptr;}
+--- a/port/level-world/gameobject_scene_root_registry_v1.cpp
++++ b/port/level-world/gameobject_scene_root_registry_v1.cpp
+@@ -25,6 +25,13 @@
+  if(!p->animators_removed){if(!p->root.remove_animators(e))return false;p->animators_removed=true;fields_.hierarchy_dirty288=1;fields_.render_dirty289=1;}
+  if(*p->root.parentec!=identity_){e="Canonical scene root parent changed without source RemoveChild";return false;}
+  *p->root.parentec=0;children_.erase(p);return true;
++}
++bool GameObjectSceneRootRegistryV1::remove_root_parent_reference_v1(std::uintptr_t id,std::string& e){
++ auto p=std::find_if(children_.begin(),children_.end(),[&](const Entry& node){return node.root.identity==id;});
++ if(p==children_.end()||!p->root.owner||!p->root.parentec||*p->root.parentec!=identity_){e="Required SAME registered root parent reference";return false;}
++ // Distinct from VisualD1 virtual74/removeAnimators before68. Native Scene
++ // removal drops its parent ownership before the reached child D1/removeAll.
++ *p->root.parentec=0;children_.erase(p);fields_.hierarchy_dirty288=1;fields_.render_dirty289=1;e.clear();return true;
+ }
+ std::vector<std::uintptr_t> GameObjectSceneRootRegistryV1::roots()const{std::vector<std::uintptr_t> out;for(auto& p:children_)out.push_back(p.root.identity);return out;}
+ bool GameObjectSceneRootRegistryV1::set_active_camera_v13(GameObjectSceneCameraBorrowV13 next,std::string& e){
+--- a/port/level-world/module_pf_room_v3.hpp
++++ b/port/level-world/module_pf_room_v3.hpp
+@@ -29,6 +29,9 @@
+  std::vector<std::shared_ptr<ModulePFRoomV3>> rooms_;
+  std::vector<ModulePFExitV3> exits_;
+  octree::Box bounds_{};
++ bool flush_attempted_v1_{},flush_complete_v1_{};std::string flush_failure_v1_;
++ std::weak_ptr<void> flush_receiver_v1_;std::uintptr_t flush_receiver_identity_v1_{};
++ PFWorldFlushPhaseV1 flush_phase_v1_{PFWorldFlushPhaseV1::idle},flush_failed_at_v1_{PFWorldFlushPhaseV1::idle};
+  // One source LoadRoom algorithm over the caller's SAME retained graph.
+  // These scoped adapters lend actual mesh local fields and native membership;
+  // no alternative Scene/C1/floor world or retained callback graph is created.
+@@ -54,6 +57,13 @@
+  // After the SAME floor graph's proven post_load, publish retained PFRoom
+  // boxes (including Decor extensions) to the collision query projection.
+  bool publish_collision_bounds(std::string&);
++ // Whole PFWorld.Flush5236d0 over SAME rooms/floors/map. Genuine native
++ // D1 leaves run before source slots/port ownership clear. No Scene removal
++ // is guessed here: earlier original Scene virtual68 must have quiesced it.
++ bool flush_source_v1(const PFWorldFlushServicesV1&,const std::shared_ptr<void>& actual_pf_owner,std::uintptr_t actual_pf_identity,std::string&);
++ auto flush_phase_v1()const noexcept{return flush_phase_v1_;}
++ auto flush_failed_at_v1()const noexcept{return flush_failed_at_v1_;}
++ bool source_flushing_v1()const noexcept{return flush_attempted_v1_;}
+  const auto& rooms()const noexcept{return rooms_;}
+  const auto& exits()const noexcept{return exits_;}
+  const octree::Box& bounds()const noexcept{return bounds_;}
+--- a/port/level-world/module_pf_room_v3.cpp
++++ b/port/level-world/module_pf_room_v3.cpp
+@@ -2,6 +2,8 @@
+ #include "retained_gameobject_visual_v1.hpp"
+ #include "module_floor_append_v2.hpp"
+ #include <algorithm>
++#include <exception>
++#include <type_traits>
+ namespace dh2::world {
+ namespace {
+ void extend(octree::Box& a,const octree::Box& b){for(unsigned k=0;k<3;++k){a.minimum[k]=std::min(a.minimum[k],b.minimum[k]);a.maximum[k]=std::max(a.maximum[k],b.maximum[k]);}}
+@@ -10,7 +12,7 @@
+  world_(std::move(world)),map_(std::move(map)),debug_(std::move(debug)){}
+ bool ModulePFRoomsV3::extend_owner_bounds(const std::shared_ptr<ModulePFRoomV3>& room,
+  const float* box,bool solid,std::string& error){
+- error.clear();if(!room||!box||std::find(rooms_.begin(),rooms_.end(),room)==rooms_.end()){
++ error.clear();if(flush_attempted_v1_){error="Cannot extend PF ownership after native Flush began";return false;}if(!room||!box||std::find(rooms_.begin(),rooms_.end(),room)==rooms_.end()){
+   error="Required SAME published PFRoom and owner AABB";return false;
+  }
+  // Historical combined adapter preserves its existing source flag write.
+@@ -19,7 +21,7 @@
+ }
+ bool ModulePFRoomsV3::extend_source_bounds_v77(const std::shared_ptr<ModulePFRoomV3>& room,
+  const float* box,std::string& error){
+- error.clear();if(!room||!box||std::find(rooms_.begin(),rooms_.end(),room)==rooms_.end()){
++ error.clear();if(flush_attempted_v1_){error="Cannot extend PF ownership after native Flush began";return false;}if(!room||!box||std::find(rooms_.begin(),rooms_.end(),room)==rooms_.end()){
+   error="Required SAME published PFRoom and owner AABB";return false;
+  }
+  octree::Box owner;std::copy_n(box,3,owner.minimum);std::copy_n(box+3,3,owner.maximum);
+@@ -27,7 +29,7 @@
+  extend(room->bounds,owner);extend(bounds_,owner);return true;
+ }
+ bool ModulePFRoomsV3::publish_collision_bounds(std::string& error){
+- error.clear();if(!world_||!world_->sewn){error="Required SAME completed PF floor post-load graph";return false;}
++ error.clear();if(flush_attempted_v1_){error="Cannot republish collision aliases after native Flush began";return false;}if(!world_||!world_->sewn){error="Required SAME completed PF floor post-load graph";return false;}
+  for(const auto& room:rooms_){
+   if(room->id>=world_->collision_rooms.size()||room->id>=world_->collision_room_floors.size()||world_->collision_room_floors[room->id]!=room->floors){
+    error="Required exact retained PFRoom floor membership";return false;
+@@ -68,7 +70,7 @@
+  const std::function<bool(unsigned,std::string&)>& remove_floor,
+  const std::function<bool(unsigned,std::string&)>& remove_node,unsigned id,const std::string& name,
+  std::shared_ptr<ModulePFRoomV3>& out,std::string& error){
+- error.clear();if(!world_||!map_||!resource){error="Required SAME PF world/map/resource producer";return false;}
++ error.clear();if(flush_attempted_v1_){error="Cannot LoadRoom into native-flushed PF storage";return false;}if(!world_||!map_||!resource){error="Required SAME PF world/map/resource producer";return false;}
+  if(world_->sewn||rooms_.size()>=512){error="PF LoadRoom requires active unsewn room graph";return false;}
+  // PFWorld publishes its freshly constructed room before SearchByType.
+  auto room=std::make_shared<ModulePFRoomV3>();room->name=name;room->source_room1c=id;
+@@ -86,7 +88,6 @@
+  unsigned minimap=UINT32_MAX;
+  for(const unsigned i:snapshot){
+   const auto& n=s.graph[s.instances[i].node_index];if(n.name.find("minimap")!=std::string::npos)minimap=i;}
+- if(minimap!=UINT32_MAX){error="Required actual minimap mesh AddNodeToMap continuation";return false;}
+  for(const unsigned i:snapshot){
+   const auto& instance=s.instances[i];const auto node_index=instance.node_index;
+   const auto& n=s.graph[node_index];
+@@ -111,6 +112,17 @@
+    if(tracing&&!debug_.clock_ms(end,error))return false;
+    if(room->floors.size()==1)room->bounds=actual->bounds;else extend(room->bounds,actual->bounds);
+    if(!map_->add(clone->map_node(),error))return false; // PFRoom::_LoadFloor
++   // Original523dfc completes _LoadFloor BEFORE523e00 tests the captured
++   // minimap. With no floor, this branch is never reached and the native
++   // room later returns NULL. Keep the real record/clone/first-map-add prefix.
++   if(minimap!=UINT32_MAX){
++    // The selected SAME authored mesh has no independent native child owner
++    // in this retained graph yet. A Visual/root alias or copied mesh/Scene is
++    // not an AddNodeToMap receiver; fail exactly at native523e24.
++    error="Required independent SAME authored minimap mesh AddNodeToMap receiver";return false;
++   }
++   // Native523eb4..523ed4 uses the last floor's freshly copied mesh only
++   // when the first search found no minimap. This is the actual clone above.
+    if(!map_->add(clone->map_node(),error))return false; // PFWorld::LoadRoom
+   }
+   if(n.name.find("_exit_")!=std::string::npos){
+@@ -124,4 +136,73 @@
+  if(rooms_.size()==1)bounds_=room->bounds;else extend(bounds_,room->bounds);
+  out=std::move(room);return true;
+ }
+-}
++
++bool ModulePFRoomsV3::flush_source_v1(const PFWorldFlushServicesV1& services,const std::shared_ptr<void>& actual_pf_owner,std::uintptr_t actual_pf_identity,std::string& e){
++ if(!actual_pf_owner||!actual_pf_identity){e="Required live actual PFWorld receiver for source Flush";return false;}
++ if(flush_attempted_v1_){auto expected=flush_receiver_v1_.lock();if(!expected||flush_receiver_identity_v1_!=actual_pf_identity||expected.owner_before(actual_pf_owner)||actual_pf_owner.owner_before(expected)){e="PF Flush journal belongs to a different actual receiver";return false;}}
++ if(flush_complete_v1_){e.clear();return true;}
++ if(flush_attempted_v1_){e=flush_failure_v1_.empty()?"PFWorld.Flush cannot replay/reenter a reached native prefix":flush_failure_v1_;return false;}
++ if(!world_||!map_||!services.owner||!services.require_quiescent||!services.actual_fields){e="Required SAME PF owner and genuine Flush admission/field borrows";return false;}
++ flush_phase_v1_=PFWorldFlushPhaseV1::quiesce;
++ if(!services.require_quiescent(*this,e))return false;
++ // Native PFFloorD1 does only mesh40.drop; its last reference must be the
++ // floor after earlier actual Scene virtual68 removed SAME map children.
++ if(!map_->children().empty()){e="Require genuine Scene/map child unpublication before PFWorld.Flush";return false;}
++ PFWorldFlushFieldsV1 fields;flush_phase_v1_=PFWorldFlushPhaseV1::actual_fields;
++ if(!services.actual_fields(*world_,actual_pf_identity,fields,e)||!fields.owner||fields.identity!=actual_pf_identity||fields.owner.owner_before(actual_pf_owner)||actual_pf_owner.owner_before(fields.owner)||fields.storage_owner.get()!=world_.get()||fields.storage_owner.owner_before(world_)||world_.owner_before(fields.storage_owner)||!fields.initialized4||!fields.outer44||!fields.inner48||!fields.erase_floor_objects2c){if(e.empty())e="Required actual SAME PFWorld initialized4/graph44/48/map2c/exits84 producers";return false;}
++ flush_receiver_v1_=actual_pf_owner;flush_receiver_identity_v1_=actual_pf_identity;flush_attempted_v1_=true;
++ auto fail=[&]{if(flush_failure_v1_.empty())flush_failure_v1_=e.empty()?"Required actual PFWorld native destruction leaf":e;if(flush_phase_v1_!=PFWorldFlushPhaseV1::failed){flush_failed_at_v1_=flush_phase_v1_;flush_phase_v1_=PFWorldFlushPhaseV1::failed;}e=flush_failure_v1_;return false;};
++ try{
++  // PFWorld5236f0 room D0; PFRoomD1 521de8 floor D0 in actual array order.
++  for(auto& room_slot:rooms_){if(!room_slot)continue;flush_phase_v1_=PFWorldFlushPhaseV1::rooms;auto room=room_slot;
++   if(room->clones.size()>room->floors.size()){e="PFRoom clone ownership differs from SAME floor slots";return fail();}
++   for(std::size_t index=0;index<room->floors.size();++index){const auto fid=room->floors[index];
++    if(fid>=world_->records.size()){e="Require SAME published PFRoom floor allocation";return fail();}
++    if(!world_->records[fid])continue;auto* record=world_->records[fid].get();
++    flush_phase_v1_=PFWorldFlushPhaseV1::floor_aux68;
++    if(!services.floor_aux68_d1||!services.floor_aux68_d1(*record,e))return fail();
++    // Original51ccdc..51ccfc drops mesh40 BEFORE c0/b4/a8/tree/name tail.
++    // A bounded native failed load can have an actually NULL clone slot.
++    if(index<room->clones.size()&&room->clones[index]){
++     flush_phase_v1_=PFWorldFlushPhaseV1::clone_drop40;auto clone=room->clones[index];
++     if(&clone->floor()!=record){e="Floor mesh40 does not borrow SAME Record";return fail();}
++     if(!clone->drop_floor_reference_v1(services.clone,e))return fail();
++     if(index>=room->clones.size()||room->clones[index].get()!=clone.get()||room->clones[index].owner_before(clone)||clone.owner_before(room->clones[index])){e="Actual floor mesh40 owner replaced during clone D1";return fail();}room->clones[index].reset();
++    }
++    flush_phase_v1_=PFWorldFlushPhaseV1::floor_tail;
++    if(!services.floor_tail_d1||!services.floor_tail_d1(*record,e))return fail();
++    if(fid>=world_->records.size()||world_->records[fid].get()!=record){e="Actual PFFloor allocation replaced during native D1";return fail();}
++    // Native PFFloorD0 CustomFree continuation, not passive expiry. Existing
++    // Record owns this successor's buffers; real D1 leaves preceded freeing.
++    world_->records[fid].reset();
++   }
++   // Actual PFRoomD1 frees floor pointer array then room name; D0 frees room.
++   flush_phase_v1_=PFWorldFlushPhaseV1::room_storage;
++   std::vector<unsigned>{}.swap(room->floors);std::vector<std::shared_ptr<ModuleFloorCloneV3>>{}.swap(room->clones);std::string{}.swap(room->name);
++   if(room_slot.get()!=room.get()){e="PFRoom allocation replaced during native D1";return fail();}room_slot.reset();
++  }
++  // Original Flush sets vector.end=begin, retaining its room-vector capacity.
++  rooms_.clear();
++  for(const auto& record:world_->records)if(record){e="Actual PF Record outside destroyed source Room floor ownership; refusing passive D0";return fail();}
++  world_->records.clear();
++  flush_phase_v1_=PFWorldFlushPhaseV1::bounds_zero;bounds_={}; // SAME six14..28 cells
++  flush_phase_v1_=PFWorldFlushPhaseV1::object_map2c;if(!fields.erase_floor_objects2c(e))return fail();
++  flush_phase_v1_=PFWorldFlushPhaseV1::exits84;exits_.clear(); // original vector84.end=begin BEFORE graph D0s
++  auto graph_d0=[&](std::uintptr_t& slot,PFWorldFlushPhaseV1 phase){flush_phase_v1_=phase;const auto identity=slot;if(!identity)return true;PFGraphDestructionV1 graph;
++   if(!fields.graph||!fields.graph(identity,graph,e)||!graph.receiver||graph.identity!=identity||!graph.native_d0){if(e.empty())e="Required SAME positive PF sparse-graph native D0 owner";return fail();}
++   if(!graph.native_d0(e))return fail();slot=0;return true;
++  };
++  if(!graph_d0(*fields.outer44,PFWorldFlushPhaseV1::outer44)||!graph_d0(*fields.inner48,PFWorldFlushPhaseV1::inner48))return false;
++  flush_phase_v1_=PFWorldFlushPhaseV1::initialized_zero;*fields.initialized4=0;
++  // Native projections invalidate only after actual source graph D0s. Keep
++  // old PF arrays/pins intact if either owner/leaf failed. No alternate graph.
++  auto retire=[](auto& values){using Storage=std::decay_t<decltype(values)>;Storage{}.swap(values);};
++  retire(world_->selectors);retire(world_->nodes);retire(world_->edges);retire(world_->invalid);retire(world_->validation);retire(world_->floor_graphs);retire(world_->validation_floors);retire(world_->first_boundary);retire(world_->second_boundary);retire(world_->links);
++  retire(world_->search_edges);retire(world_->search_offsets);retire(world_->search_nodes);retire(world_->search_heap);retire(world_->collision_room_floors);retire(world_->collision_rooms);retire(world_->collision_floors);retire(world_->route_traits);// Source Flush leaves SearchFailCache78 and path deque4c alive.
++  // SAME supported route cache/path buffers persist until their real source
++  // owner reset/D1; do not silently add a cache/queue destruction here.
++  world_->sewing={};world_->collision_world={};world_->route_graph={};world_->route_world={};world_->route_search={};world_->route_workspace={};world_->graph={};world_->sewn=false;
++  flush_complete_v1_=true;flush_phase_v1_=PFWorldFlushPhaseV1::complete;e.clear();return true;
++ }catch(const std::exception& ex){e=ex.what();return fail();}catch(...){e="PFWorld native teardown provider threw; preserving remaining source prefix";return fail();}
++}
++}

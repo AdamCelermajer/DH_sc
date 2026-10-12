@@ -1,0 +1,65 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7gameswf19edit_text_character24get_topmost_mouse_entityEff",
+      "elf_address": "0x78bb58",
+      "size": 180,
+      "sha256": "cd53c78393d0b885293b4b5752977405f2473368c0ca03de7c7d17f4eb283129"
+    },
+    {
+      "original_symbol": "_Z19CanHandleMouseEventPN7gameswf9characterE",
+      "elf_address": "0x7a8c6c",
+      "size": 108,
+      "sha256": "fa7d55895786718afb796d28ff49038e184d52e5f593c128d4f2a97bd051ba8d"
+    },
+    {
+      "original_symbol": "_ZN7gameswf25button_character_instance24get_topmost_mouse_entityEff",
+      "elf_address": "0x7c6e50",
+      "size": 240,
+      "sha256": "9a8ac8da0eef79e2ec39e06726c818f5f3e57596de97ddf39f105b0413016ea4"
+    },
+    {
+      "original_symbol": "_ZN7gameswf9smart_ptrINS_9characterEE7set_refEPS1_",
+      "elf_address": "0x75518c",
+      "size": 64,
+      "sha256": "9624ae0c669cd229c75898a436ddddb488da42fce34ded0611c7df61ca86c91c"
+    },
+    {
+      "original_symbol": "_ZN7gameswf6matrix18set_scale_rotationEfff",
+      "elf_address": "0x796920",
+      "size": 324,
+      "sha256": "4bb40d5eeff78183f98bfa65fa1b249e1333ee3076a7c80b7419a6530206d090"
+    },
+    {
+      "original_symbol": "_ZN8RenderFX14FindCharactersEPN7gameswf9characterEPKci",
+      "elf_address": "0x7a8c08",
+      "size": 100,
+      "sha256": "4b3e61d008b2fea8059b8ea61cc1f7bc128a5b804535b50a43ebe3d824721e8a"
+    },
+    {
+      "original_symbol": "_ZN7gameswf15sprite_instance24get_topmost_mouse_entityEff",
+      "elf_address": "0x77f00c",
+      "size": 380,
+      "sha256": "22a7ac8c20ed38314e2bb2dac0a093538bba2517102e281282b0e5dd22feae2a"
+    },
+    {
+      "original_symbol": "_ZN7gameswf17generic_character24get_topmost_mouse_entityEff",
+      "elf_address": "0x75b6fc",
+      "size": 96,
+      "sha256": "88171e689a74fc43e15573c17a5cb294138a862d5d59c872b8c01108fc62b066"
+    },
+    {
+      "original_symbol": "_ZN8RenderFX8PlayAnimEPN7gameswf9characterEPKci",
+      "elf_address": "0x7aba04",
+      "size": 8,
+      "sha256": "eb7da6634046d18c0021556922496f8a258cce86ce2c165738991e9db8aa71ac"
+    },
+    {
+      "original_symbol": "_Z16GetLocalPositionPN7gameswf9characterEff",
+      "elf_address": "0x7aa2e0",
+      "size": 272,
+      "sha256": "9152835af577cabe08994f56ddd9d19f6b436d9ce55b61199eb73226860be63a"
+    }
+  ]
+}

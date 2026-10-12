@@ -1,0 +1,51 @@
+#include "main_level_root_filesystem_v52.hpp"
+#include "../production-filesystem-adoption-v50/main-source-snapshot/port/android-native/app/src/main/cpp/original_cache_assets_v1.hpp"
+#include "../production-filesystem-adoption-v50/main-source-snapshot/port/asset-payloads/zip_asset_pack_v1.hpp"
+namespace dh2::loader {
+namespace {
+bool live(const MainLevelRootFilesystemV52& fs,std::string& e){
+ if(fs.mounted.actual_renderer_owner.expired()||!fs.mounted.actual_mounted_cache||!fs.mounted.actual_source_globals||!fs.mounted.require_current_renderer_owner||!fs.actual_source_paths||!fs.actual_initialized_cfs_map||!fs.actual_application_owner||!fs.actual_application_lowercase_a8||!fs.actual_uncompiled_begin_cc||!fs.actual_uncompiled_end_d0||!fs.actual_RES_PATH){e="Required SAME current mounted filesystem/Application/source path/map fields";return false;}
+ return fs.mounted.require_current_renderer_owner(e);
+}
+}
+bool open_main_level_root_resource_v52(const MainLevelRootFilesystemV52& fs,const std::string& name,
+ bool& found,std::string& canonical,std::string& error){
+ if(!live(fs,error))return false;
+ const auto working=fs.mounted.actual_source_globals->value();
+ const auto resource=*fs.actual_RES_PATH;const auto lower=*fs.actual_application_lowercase_a8;
+ // Exact openResource34ff28 primary resources234, then trace338 on miss.
+ for(const auto* root:{&fs.actual_source_paths->resources234,&fs.actual_source_paths->trace338}){
+  std::string joined,physical;bool mapped{};
+  if(!original_root_resource_join_v52(root->data(),name,resource,lower!=0,joined,error)||
+     !original_cfs_open_filename_v52(joined,working,*fs.actual_initialized_cfs_map,physical,mapped,error))return false;
+  std::string key;
+  if(!assets::ZipAssetPackV1::key(physical,key,error)){
+   error="Required source physical-domain mapping into actual APK cache namespace: "+error;return false;
+  }
+  bool stopped=false,payload_found=false;std::vector<std::uint8_t> none;
+  const std::string marker="V52 actual cache metadata stop before root payload";
+  const bool read=fs.mounted.actual_mounted_cache->read_admitted(key,payload_found,none,
+   [&](std::uint32_t,std::string& e){stopped=true;e=marker;return false;},error);
+  const auto read_error=error;
+  if(fs.mounted.actual_source_globals->value()!=working||*fs.actual_RES_PATH!=resource||*fs.actual_application_lowercase_a8!=lower){error="Actual source filesystem fields changed during root lookup";return false;}
+  if(!live(fs,error))return false;
+  if(stopped){
+   if(read||payload_found||read_error!=marker||!none.empty()||none.capacity()!=0){error="Root metadata probe did not stop before actual payload allocation";return false;}
+   found=true;canonical=std::move(key);error.clear();return true;
+  }
+  if(!read){error=read_error;return false;}
+  if(payload_found||!none.empty()||none.capacity()!=0){error="Root cache bypassed required before-payload metadata stop";return false;}
+ }
+ found=false;canonical.clear();error.clear();return true;
+}
+bool bind_main_level_root_filename_v52(MainLevelRootFilesystemV52 fs,std::shared_ptr<LevelRootFilenameResolverV52>& out,std::string& error){
+ if(!live(fs,error))return false;
+ auto owned=std::make_shared<MainLevelRootFilesystemV52>(std::move(fs));LevelRootFilenameServicesV52 s;s.actual_filesystem_owner=owned;
+ s.is_using_uncompiled_data=[owned](const std::string& name,bool& value,std::string& e){
+  if(!live(*owned,e))return false;
+  value=original_level_uses_uncompiled_v52(*owned->actual_uncompiled_begin_cc!=*owned->actual_uncompiled_end_d0,name);e.clear();return true;
+ };
+ s.open_resource=[owned](const std::string& name,bool& found,std::string& canonical,std::string& e){return open_main_level_root_resource_v52(*owned,name,found,canonical,e);};
+ out=std::make_shared<LevelRootFilenameResolverV52>(std::move(s));error.clear();return true;
+}
+} // namespace dh2::loader

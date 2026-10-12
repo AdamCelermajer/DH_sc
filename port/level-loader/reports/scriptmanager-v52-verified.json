@@ -1,0 +1,63 @@
+{
+  "validation": "PASS",
+  "scope": "Original-derived ONE ScriptManager loading/reference/storage owner; actual commands always require main C1/Init/release providers. No Execute/cinematic/quest success or second VM/global.",
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_manager_C1": "0x455980",
+  "source_LoadCommands": "0x45b264",
+  "source_LoadNames": "0x45ad40",
+  "source_UnLoadAll": "0x45a1c8",
+  "original_scripts": 70,
+  "original_data_records": 870,
+  "original_data_kinds": 46,
+  "native_values_compared": 3495,
+  "native_names_compared": 70,
+  "native_contexts_compared": 70,
+  "native_failure_prefix_cases": 8,
+  "normal_pass": true,
+  "asan_ubsan_pass": true,
+  "original_required_factory_stop_prefix": {
+    "cursor": 8,
+    "common8": 15,
+    "command_lists": 15,
+    "contexts": 15,
+    "first_count0": 4,
+    "array_allocated": true,
+    "first_command_factory_not_executed": true
+  },
+  "original_whole_unload_storage": {
+    "common8": 0,
+    "current0": 4294967295,
+    "field4": 305419896,
+    "byte30": 119,
+    "commands": 0,
+    "contexts": 0,
+    "names": 0
+  },
+  "native_command_C1_Init_release_are_fixtures": true,
+  "original_Init_bodies_not_executed_in_parser_oracle": true,
+  "whole_command_execution_verified": false,
+  "whole_level_ready": false,
+  "explicit_main_dependencies": {
+    "class_C1_factories": 46,
+    "distinct_Init_functions": 6,
+    "genuine_Init_noop": "0x455628 ScriptCmdImpl::Init BX LR",
+    "nontrivial_Init": [
+      "0x459034 Script_StartDialog::Init",
+      "0x4597e8 Script_HideFlash::Init",
+      "0x45983c Script_ShowFlash::Init",
+      "0x4598b4 Script_PlayEffect::Init",
+      "0x45a2ec Script_PlayActorAnim::Init"
+    ],
+    "class_execution_and_blocking_finish": "Main over SAME actual command owners and SAME contexts; not created here",
+    "class_storage_release": "Source BASE ScriptCmdImpl destructor / CustomFree-equivalent real main body"
+  },
+  "extensibility": "Original factory domain0..79; current native source data schemas46 types cover all common15/SWAMP55 bytes. Other types stop explicitly unless main supplies genuine generated-data C1/read extension; never fabricate empty rows.",
+  "safety_extensions": [
+    "bounded scalar/byte spans/counts",
+    "zero-safe native unpublished command-slot suffix vs original uninitialized new[]",
+    "required callback ownership checks",
+    "Load failure/reentry latch with explicit storage-only Unload recovery",
+    "failed release attempt guarded against body replay",
+    "native owned CString/int-array fields replace ARM addresses; data is not an executable command"
+  ]
+}

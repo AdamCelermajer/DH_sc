@@ -1,0 +1,667 @@
+{
+  "validation": "PASS",
+  "scope": "Bind original procedural generation evidence; native generation is pending.",
+  "sources_sha256": {
+    "port\\level-loader\\tests\\procedural_layout_original.py": "f2ca277cac4c45972c54fb71dc496f14d6b25e547a6c3a293435f38d4ed6a95b",
+    "port\\level-loader\\tests\\procedural_blocks_original.py": "695ac6d5978dae6e013150d4dfce80461f851c91d6f14b5bb5835739042a16fd",
+    "port\\level-loader\\tests\\procedural_lists_original.py": "1cb25487117915ff043cfc1dd2db35f7546f12ad267566f2d0ee751cf8edc0fc",
+    "port\\level-loader\\tests\\procedural_rules_original.py": "5b7b91c933eec151af11245e540a362162a9761b7e1208feadd2aaaae6e6f9ae",
+    "port\\level-loader\\tests\\procedural_instances_original.py": "2c758929a35302944ba83d960c8691354af692a5ca95e0dd2081cde60a857d78",
+    "port\\engine-resources\\tests\\cpu.py": "23090abbc5bfb64ba36628db8b264b68f188e28f5f97cb9d9b6ba7c5244c8c1a",
+    "port\\game-data\\tests\\combat_differential.py": "457e3507a7f91a628b07b09a6dd836aa6bddb00d4826a5c26fb0cab82014e7ce",
+    "port\\game-data\\tests\\combat_result_differential.py": "5303a3a81a0b8e1df3b330793d74b53ea9862d359319d0c5944431e603195e46",
+    "port\\game-data\\tests\\health_differential.py": "5330340a25e94c506ca68150a1bab87b8b461cfb7aea11e346961bc2ff6dff44",
+    "port\\game-data\\tests\\combat_application_differential.py": "e7b5d189e05d8c603b2ecddead9b24997d2922d9389d14590b4fa28fdb99a9c8",
+    "port\\game-data\\tests\\aggro_differential.py": "3d5fc4103199edbe847f886344f048738067ee8b329816531b82d8bc7174a759",
+    "port\\level-world\\tests\\navigation_differential.py": "44348f1af0fb62cd62ea0a17c1eb486df2d88d02bbab9360795b59a5a1f9f148",
+    "port\\game-data\\tests\\items_differential.py": "7f7fb185583e3d3ccb68b0c99648b5f04867a2cfffdc564eeab7facf10e1f000",
+    "port\\level-loader\\tests\\xml_original_probe.py": "d856a3d96331f1f65e6225e7889efbd3cc5633215bd043acd880a19681a39209",
+    "port\\level-loader\\reference\\procedural-generation\\003109e0.asm": "420848fd3fee39021680ab7e53b6605e3b571419409556520f1873afa5991d93",
+    "port\\level-loader\\reference\\procedural-generation\\00487bb0.asm": "c714332630f8ede39b96b194abb67c09bcc6a8eeaf7dd74d9981ceb4d7768de6",
+    "port\\level-loader\\reference\\procedural-generation\\00487dd8.asm": "0671e68f37bb0f8207ebac2b410421fc4cf1e5940563fb9e1d7a9ce07a26ea59",
+    "port\\level-loader\\reference\\procedural-generation\\00488134.asm": "7b3aa7cebec91e1306c8d4f9c0c067f5d49b588f64445b198baa50941021ab1b",
+    "port\\level-loader\\reference\\procedural-generation\\0048ad14.asm": "5d844635a90face245d0830e91c989da0f428a03b9d0026bd90ec0de6d3d8fc3",
+    "port\\level-loader\\reference\\procedural-generation\\0048ad54.asm": "99c8ff42617f329150323ced1beeef8e9ea825bc87894a2c480779f48985e1dd",
+    "port\\level-loader\\reference\\procedural-generation\\0048b578.asm": "9e0145072f4f246878af3ba6216cd04875ef304ce6482a2fd26cc1d73202241a",
+    "port\\level-loader\\reference\\procedural-generation\\0048b7fc.asm": "4ef592ef552b85b679ec1c042c67f45772e628c4ba37f116d0c34dfd68a03a23",
+    "port\\level-loader\\reference\\procedural-generation\\0048b85c.asm": "c7f50bfc6c185a9d1fde3ee5e4878c77669572acab4756493f41d4ca78c045a1",
+    "port\\level-loader\\reference\\procedural-generation\\0048b8f0.asm": "c26423f3a663383e1964d94f88e0976b1f9ce5b2210af84dee580cd135b3424d",
+    "port\\level-loader\\reference\\procedural-generation\\0048ba58.asm": "256804c5ff6694502acb1f3c8d04430cf4ed25c69b82df5217e752e11b273514",
+    "port\\level-loader\\reference\\procedural-generation\\0048bd0c.asm": "abc87fc787e90c1825ffbe8a77b0a42b5cd7a01691c22148201f4812775b08fc",
+    "port\\level-loader\\reference\\procedural-generation\\0048bebc.asm": "b3587846e9d9fe0898a192454b4edb04d4f2dfc43f6c6304e37e1ed3a5b9d74d",
+    "port\\level-loader\\reference\\procedural-generation\\0048c31c.asm": "8fa834f89fd9217c18e9204303296fac1df1bd0876f0c6abc4a29c0e23cf0c3b",
+    "port\\level-loader\\reference\\procedural-generation\\0048ddf8.asm": "6b4768ae2f14bf80fe9e48c4dc8fc40ab481a978229f504b888bb8a6021e2813",
+    "port\\level-loader\\reference\\procedural-generation\\0048e628.asm": "4b7d8e6701b299c19a09c35b888af5fe36a2aa57cb86be4ae251be5569c8d284",
+    "port\\level-loader\\reference\\procedural-generation\\0048e690.asm": "a4ad468a7885afefe03a3d51033ea4bf00951ce8dc4e120b4bebe127ff8002c4",
+    "port\\level-loader\\reference\\procedural-generation\\0048e83c.asm": "6bfe89522cadd877a884f739e0734d55a685c349d03fbe06c7614ff3ccdb87bb",
+    "port\\level-loader\\reference\\procedural-generation\\0048e8ac.asm": "0f2ae8bac29e08bbb4534d0800ad9336757de269ed4b6e151dd3950980e07fb4",
+    "port\\level-loader\\reference\\procedural-generation\\0048ec74.asm": "e7c6aa1fb66eedc07731e8248e3beccd71b8d75caa39e0721fcba1b584b92f64",
+    "port\\level-loader\\reference\\procedural-generation\\0048f05c.asm": "f503c23f2ef43440b748146c9c106c3eafece6820b01ba08dd56d8dfe68507a7",
+    "port\\level-loader\\reference\\procedural-generation\\0048f25c.asm": "7dfabdac3b1ac0927c6b08b84921361a8ad6c2b2be8a0209c20635b3849fcf3d",
+    "port\\level-loader\\reference\\procedural-generation\\0048f47c.asm": "c4d325b201a220bb241cc746bc6e3d4b398cedfd4666140c5e81279727d8e8a0",
+    "port\\level-loader\\reference\\procedural-generation\\0048f954.asm": "cb913af12162d14a31de259e7df4a4cd63a8c3e106c7edb5fa7149e19107776f",
+    "port\\level-loader\\reference\\procedural-generation\\0048fd64.asm": "a6297d7604958c4ce2dad7c68849e28f6124cac71986b2f9e6e4a440d980a030",
+    "port\\level-loader\\reference\\procedural-generation\\00490304.asm": "ee5b91be64cecc0f57899d91c4f50b1e09d79994f3a3d79904ebcd9d7f30295c",
+    "port\\level-loader\\reference\\procedural-generation\\004913d8.asm": "aa5ba60e1642bee09c744a6bec04ef6cc6de88cd33d1066e451867881ca51b68",
+    "port\\level-loader\\reference\\procedural-generation\\00491428.asm": "fd70d21c957522b55606506d56508b5ac0a77ec948272bc666fb69bbfc94bfc7",
+    "port\\level-loader\\reference\\procedural-generation\\00491440.asm": "98f44adc17bcf5f84bc9962cf1201c1e6ff67b820ca0b1395922a88b50297d11",
+    "port\\level-loader\\reference\\procedural-generation\\004917f8.asm": "cf53d5328da244fbbd808395654ec6a736d1d6aa95acc519cc01cc4206074e70",
+    "port\\level-loader\\reference\\procedural-generation\\004918a8.asm": "fc4bdf6bc71b6eee28405a58195b0e455d4d75d99a42f283115125d7d32dae5f",
+    "port\\level-loader\\reference\\procedural-generation\\00491928.asm": "91384ce89ae6f9e01665ba3e516aa64df5f2f46bc05c84ea9659c2a8a052078a",
+    "port\\level-loader\\reference\\procedural-generation\\0049196c.asm": "f426e6e4a6b44fef4674f9e0575458160d3dda7537fae511975872062a5c6df5",
+    "port\\level-loader\\reference\\procedural-generation\\004919b0.asm": "35f4cdf4272534332c017bb200ec07077ec5c2a473db188ca10890e9eff9407d",
+    "port\\level-loader\\reference\\procedural-generation\\00491ab0.asm": "41a3b03ae447c94ebfa97a531a76ef0dfbf1fd30cc63a1af3d9ff70bca0986b9",
+    "port\\level-loader\\reference\\procedural-generation\\distributions.bin": "205a5d3544d6533a50805704739bf860369ef0a4f8e7b3b67bb778f0c11b7b33",
+    "port\\level-loader\\reference\\procedural-generation\\provenance.json": "d6ccebf0b32aec760e87e5b9d820c8d1eaa9aca5e2e8ccfb168c62591555caf8",
+    "port\\level-loader\\tools\\capture_procedural_generation_reference.py": "42cffd5b2b43bc8984d39e92621bae0ca84d60baf776a1fcd6b3c8ed681f672e",
+    "port\\level-loader\\tools\\capture_procedural_layout_checkpoint.py": "d98bb27dc25683fad821eaf4abc745251501c855ba158cb817ca17202c4fe2d5",
+    "port\\level-loader\\PROCEDURAL-GENERATION-REFERENCE-HANDOFF.md": "5e58401cd903de9689505e3c1c36a01c970907542cee945b9ce4f51c9e1abbf3"
+  },
+  "receipts_sha256": {
+    "procedural-layout-original.json": "3a32fa5ab79bce63f5d5e0282e3b4c59e83b9f6d6849dee02829dea62b93ac4a",
+    "procedural-file-lists-original.json": "2ced1af1a948f0333bd3021c3a1c8bf5f9f7a0c1851a97f0613e1a928b79d7c6",
+    "procedural-rules-original.json": "2fd635a48f9bb3ae6dd458f94e05de0e795deb8e773198433724c0d7a517487e"
+  },
+  "totals": {
+    "definitions": 35,
+    "runs": 70,
+    "successful_runs": 67,
+    "no_layout_runs": 3,
+    "tile_occurrences": 533,
+    "random_calls": 1365,
+    "place_calls": 1185,
+    "unspawn_calls": 652,
+    "root_reader_false_definitions": 6
+  },
+  "synthetic_tile_counts": {
+    "single-root": [
+      1,
+      1
+    ],
+    "three-room-force-chain": [
+      3,
+      3
+    ],
+    "same-block-path-rejected": [
+      0,
+      0
+    ],
+    "list-root-selection": [
+      1,
+      1
+    ]
+  },
+  "levels": [
+    {
+      "name": "data/scene/002_swamp_witchcave.rule.xml",
+      "reader_result": 1,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 7
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 7
+        }
+      ]
+    },
+    {
+      "name": "data/scene/004_root_den.rule.xml",
+      "reader_result": 1,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 8
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 8
+        }
+      ]
+    },
+    {
+      "name": "data/scene/006_basement.rule.xml",
+      "reader_result": 1,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 8
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 8
+        }
+      ]
+    },
+    {
+      "name": "data/scene/007_crypt_01.rule.xml",
+      "reader_result": 1,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 8
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 8
+        }
+      ]
+    },
+    {
+      "name": "data/scene/008_gothicus_castle_01.rule.xml",
+      "reader_result": 1,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 7
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 7
+        }
+      ]
+    },
+    {
+      "name": "data/scene/009_abbey.rule.xml",
+      "reader_result": 1,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 11
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 11
+        }
+      ]
+    },
+    {
+      "name": "data/scene/010_el_lightning.rule.xml",
+      "reader_result": 1,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 7
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 7
+        }
+      ]
+    },
+    {
+      "name": "data/scene/011_earth_temple_01.rule.xml",
+      "reader_result": 1,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 7
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 6
+        }
+      ]
+    },
+    {
+      "name": "data/scene/012_earth_temple_02.rule.xml",
+      "reader_result": 1,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 8
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 7
+        }
+      ]
+    },
+    {
+      "name": "data/scene/013_earth_temple_03.rule.xml",
+      "reader_result": 1,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 5
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 5
+        }
+      ]
+    },
+    {
+      "name": "data/scene/014_el_earth.rule.xml",
+      "reader_result": 1,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 7
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 7
+        }
+      ]
+    },
+    {
+      "name": "data/scene/016_red_desert_cave_01.rule.xml",
+      "reader_result": 1,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 9
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 7
+        }
+      ]
+    },
+    {
+      "name": "data/scene/017_red_desert_cave_02.rule.xml",
+      "reader_result": 1,
+      "runs": [
+        {
+          "seed": 0,
+          "success": false,
+          "tiles": 0
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 10
+        }
+      ]
+    },
+    {
+      "name": "data/scene/018_red_desert_cave_03.rule.xml",
+      "reader_result": 1,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 10
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 10
+        }
+      ]
+    },
+    {
+      "name": "data/scene/019_light_house_01.rule.xml",
+      "reader_result": 0,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 5
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 5
+        }
+      ]
+    },
+    {
+      "name": "data/scene/019_light_house_02.rule.xml",
+      "reader_result": 0,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 5
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 5
+        }
+      ]
+    },
+    {
+      "name": "data/scene/019_light_house_03.rule.xml",
+      "reader_result": 0,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 1
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 1
+        }
+      ]
+    },
+    {
+      "name": "data/scene/020_crypt_02.rule.xml",
+      "reader_result": 1,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 11
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 11
+        }
+      ]
+    },
+    {
+      "name": "data/scene/021_gothicus_castle_02.rule.xml",
+      "reader_result": 1,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 7
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 7
+        }
+      ]
+    },
+    {
+      "name": "data/scene/022_swamp2.rule.xml",
+      "reader_result": 0,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 11
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 12
+        }
+      ]
+    },
+    {
+      "name": "data/scene/022_swamp2_trollcave.rule.xml",
+      "reader_result": 1,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 9
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 8
+        }
+      ]
+    },
+    {
+      "name": "data/scene/023_watertemple.rule.xml",
+      "reader_result": 1,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 13
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 13
+        }
+      ]
+    },
+    {
+      "name": "data/scene/024_el_water.rule.xml",
+      "reader_result": 1,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 8
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 8
+        }
+      ]
+    },
+    {
+      "name": "data/scene/026_icy_cavern_01.rule.xml",
+      "reader_result": 1,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 10
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 10
+        }
+      ]
+    },
+    {
+      "name": "data/scene/027_icy_cavern_02.rule.xml",
+      "reader_result": 1,
+      "runs": [
+        {
+          "seed": 0,
+          "success": false,
+          "tiles": 0
+        },
+        {
+          "seed": 1,
+          "success": false,
+          "tiles": 0
+        }
+      ]
+    },
+    {
+      "name": "data/scene/028_icy_cavern_03.rule.xml",
+      "reader_result": 1,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 11
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 11
+        }
+      ]
+    },
+    {
+      "name": "data/scene/029_wind_temple.rule.xml",
+      "reader_result": 0,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 12
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 12
+        }
+      ]
+    },
+    {
+      "name": "data/scene/030_el_air.rule.xml",
+      "reader_result": 1,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 8
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 7
+        }
+      ]
+    },
+    {
+      "name": "data/scene/032_el_fire.rule.xml",
+      "reader_result": 1,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 8
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 8
+        }
+      ]
+    },
+    {
+      "name": "data/scene/033_voidmaze_01.rule.xml",
+      "reader_result": 0,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 9
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 9
+        }
+      ]
+    },
+    {
+      "name": "data/scene/034_voidmaze_02.rule.xml",
+      "reader_result": 1,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 11
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 11
+        }
+      ]
+    },
+    {
+      "name": "data/scene/035_voidmaze_03.rule.xml",
+      "reader_result": 1,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 7
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 7
+        }
+      ]
+    },
+    {
+      "name": "data/scene/050_earth_temple_demo.rule.xml",
+      "reader_result": 1,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 4
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 4
+        }
+      ]
+    },
+    {
+      "name": "data/scene/102_debug_questtest.rule.xml",
+      "reader_result": 1,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 7
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 7
+        }
+      ]
+    },
+    {
+      "name": "data/scene/125_randomforalexb.rule.xml",
+      "reader_result": 1,
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "tiles": 5
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "tiles": 5
+        }
+      ]
+    }
+  ],
+  "original_generate_executed": true,
+  "selection_placement_answers_are_fixtures": false,
+  "from_filename_or_full_load_rule_file_executed": false,
+  "pool_compute_executed": false,
+  "original_serialization_executed": false,
+  "repeated_load_unload_verified": false,
+  "native_layout_generation_verified": false,
+  "android_procedural_rendering_verified": false,
+  "runtime_factory_contract_agreed": false,
+  "runtime_objects_verified": false,
+  "full_loader_verified": false
+}

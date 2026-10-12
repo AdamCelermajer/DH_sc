@@ -1,0 +1,10 @@
+{
+  "validation": "PASS",
+  "original_cases": 128,
+  "reader_comparisons": 384,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "gold_sha256": "050e1cac90096132b950c566d39c64b43a40ddf88cce7ea1b450b6efcda31853",
+  "class_names_sha256": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe",
+  "script_sha256": "27a0607ee25ad84351fc9bb0ddc290a10c485a75ad745dde32a5b4d5e3b7d90a",
+  "scope": "Original named Player name/level/class section readers, actual class name\ncache bytes, original string and stream instructions. Storage/stream services\nare explicit; no creation default/name/class source is synthesized.\n"
+}

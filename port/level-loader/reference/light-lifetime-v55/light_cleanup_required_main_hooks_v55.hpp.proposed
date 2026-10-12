@@ -1,0 +1,25 @@
+#pragma once
+#include <memory>
+#include <string>
+#include <functional>
+namespace dh2::loader {
+// CONTRACT ONLY: no competing light/driver/Level.Unload implementation.
+// Attach these reached bodies to Main's one existing Level destruction path.
+struct LightCleanupMainHooksV55 {
+ std::shared_ptr<void> actual_runtime_owner;
+ std::function<bool(std::string&)> quiesce_source_runtime; // owning-thread barrier
+ // Original LevelDtor3f91c8 invokes whole ObjectManager.Flush3496b8. That
+ // reaches GO19 deleting destructor, drops its node reference and destroys
+ // source fields. Renderer/automatic-list borrows MUST NOT run between calls.
+ std::function<bool(std::string&)> actual_object_manager_flush;
+ // Original subsequent virtual68 dispatch -> SceneManager.clear354468:
+ // drop44c retained scene nodes; CSceneManager.clear589888; construct/assign
+ // fresh embedded LightSetManager; unloadAll CRes cache; driver collections;
+ // drop node438, clear28c. Slot reset alone is NOT equivalent.
+ std::function<bool(std::string&)> actual_scene_manager_clear;
+ // Caller proves both bodies completed before releasing loader XML/factory
+ // journals. Source resources/encoded/decoded/GPU charges remain retained by
+ // genuine outstanding owner pins; no unconditional ledger/cache reset.
+ std::function<bool(std::string&)> verify_no_old_light_borrows;
+};
+}

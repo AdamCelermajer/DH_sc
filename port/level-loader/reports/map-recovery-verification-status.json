@@ -1,0 +1,12 @@
+{
+  "final_android_build": "PASS: ARM64 and x86_64",
+  "native_recovery_before_static_decor": "PASS: 344 assembly cases, 86 original-mode cases, 20 recovery plus 14 lifecycle checks in normal and sanitizer builds",
+  "new_static_decor_native_probe": "PASS: final-source host86, sanitizers13 and Android86; retained borrow/failure semantics verified",
+  "final_source_android_visual_audit": "see map-recovery-preview.json",
+  "final_source_retention_audit": "see loader-recovery-preview.json",
+  "runtime_objects_verified": false,
+  "animation_verified": false,
+  "full_loader_verified": false,
+  "final_source_host_sanitizer_retest": "PASS: 344 assembly and 86 original-mode cases; 20 recovery plus 14 lifecycle checks in normal/sanitizer builds; 86 normal and 13 sanitizer decor cases",
+  "final_source_native_android_retest": "PASS: x86_64 20 recovery checks, 14 lifecycle checks, all 86 decor/ownership cases"
+}

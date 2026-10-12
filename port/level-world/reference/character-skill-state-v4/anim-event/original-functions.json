@@ -1,0 +1,11 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6CharAI12_OnAnimEventEPKc",
+      "elf_address": "0x3d4434",
+      "size": 1424,
+      "sha256": "19cc413b745f4e9b52408e463c76c814ce5534fa3f6d345ab83774d62f26f315"
+    }
+  ]
+}

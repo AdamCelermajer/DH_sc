@@ -1,0 +1,31 @@
+{
+  "proof_sha256": {
+    "port/level-world/reference/character-kill/death-routing-functions.asm": "801c9988dc407e8256d9f67760ac22f42a372bab0672706a3bf27061e5a23d10",
+    "port/level-world/reference/character-kill/original-functions.json": "c0a377f27797459beb6e2f965080cd4f691b8456fc3562e0ef199fb1afb13323",
+    "port/level-world/reference/character-kill/NOTES.md": "6c4ee82236df2485c50b51f0d9c80adb525d2f2e14798a519bd3d36ff7414c47",
+    "port/level-world/reference/character-kill/original-functions.asm": "a17e4f8e4863cac2fc9d468f9c0b0ce3d7f818938eae3251d60a3fcc415498a0",
+    "port/level-world/reports/character-kill-host-audit.json": "2c4796e2cd7e3b98834018b1097c2a0aabc25a06e17984dee4094ff1e19399dc",
+    "port/level-world/reference/character-kill/death-routing-functions.json": "d632d53a1474498d26a8c0d0fd417f284f9ecc7b6b68e2c3dadba7f11860cca1",
+    "port/level-world/reference/character-kill/kill-fixtures.json": "136b9c897df7889215fc0a29d705d4b554d33fbc0a2a679430c72cba9d51c7a3",
+    "port/level-world/reports/character-kill-arm64-differential.json": "44405ea552f11a214a4a791c48ede4f8e62d080746f0b3c0c1637c3a36fc77cd"
+  },
+  "comparisons": 2222,
+  "source_sha256": {
+    "port/level-world/tools/build_character_kill_oracle.ps1": "d2634698a3c27594b36559d4cfc008d32423c69b26810eb33ea51109e98b10f2",
+    "port/level-world/tests/character_kill.cpp": "e2f5dd4f3cde8c67a184684ebec1ef6f55d04561b5433d361f409caf98a3b875",
+    "port/level-world/character_kill.hpp": "ceee60938d3862a39134672a85f5a9fb3a01c3ec9c2a664bb028d162cbf66b06",
+    "port/level-world/character_kill.cpp": "b02573981a54839ef300f1a04bdee51246fbb62de2af5104735f32b8e9f4fcfb",
+    "port/level-world/tests/character_kill_host.py": "bad1593a0750171d641fcc79fd508a4033b12be201441eabe3e5b91cb26258e9",
+    "port/level-world/tests/character_kill_differential.py": "5f1e910fb975aa794d2d98fa933a1141f322e5f8fc51f647b8263b9e075894c5"
+  },
+  "host_checks": 484688,
+  "host_dependency_capture": "Historical isolated Kill DSO invoking actual central world/data/runtime DSOs at hashes bound by host report; separate main-linked refresh after central rebuild.",
+  "ordered_requests": 24705,
+  "packaged_APK": false,
+  "sanitizer_findings": 0,
+  "synchronous_reentry_cases": 22,
+  "full_loot_xp_quest_AI_backends": false,
+  "scope": "Complete recoverable Kill and Ctrl_Kill control flow with required truthful deeper loot/XP/trophy/quest/AI services. Source-only; no full death/backend/APK parity.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "validation": "PASS"
+}

@@ -1,0 +1,23 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK16CharStateMachine11SM_GetStateEv",
+      "elf_address": "0x3c01ac",
+      "size": 20,
+      "sha256": "4b5797cd91d4afd7ee3becf1bb65b696146e55fc226838e13c0fbef91b0e4743"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties16_ResetPropertiesERN7Structs19CharacterPropertiesE",
+      "elf_address": "0x3def34",
+      "size": 80,
+      "sha256": "76bfb4312f9a2a80f4f25ffa6933ba404ee59b7bd710702321d36686b58418e2"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties18ResetAllPropertiesEv",
+      "elf_address": "0x3defc4",
+      "size": 48,
+      "sha256": "d6e4b202c4d980d5a1fa8fc0e3dec97601f1328973bf66a9bd7755800bf5990a"
+    }
+  ]
+}

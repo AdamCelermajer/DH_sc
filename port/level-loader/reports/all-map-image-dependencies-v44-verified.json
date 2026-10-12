@@ -1,0 +1,14 @@
+{
+  "validation": "PASS",
+  "normalized_matrix_sha256": "f7f93ac94087c10d0ab1a31a92c041f5dff230597f71c7ab1127c21071f88f05",
+  "normalized_matrix_bytes": 13515549,
+  "levels": 51,
+  "reconstructed_source_instance_material_sampler_rows": 92005,
+  "status_counts": {
+    "compatibility_canonical_resolved": 57232,
+    "source_no_image": 34385,
+    "archive_entry_absent_for_compatibility_canonical_uri": 388
+  },
+  "source_no_image_and_authored_uri_distinguished": true,
+  "actual_runtime_rendering_claim": false
+}

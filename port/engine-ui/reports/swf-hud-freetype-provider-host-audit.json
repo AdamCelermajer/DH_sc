@@ -1,0 +1,101 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "validation": "PASS",
+    "font_reads": 4,
+    "genuine_file_opens": 4,
+    "genuine_file_closes": 4,
+    "resolved_fonts": [
+      "Fontin SmallCaps",
+      "Arial"
+    ],
+    "alpha_uploads": 246,
+    "nonempty_alpha_uploads": 239,
+    "bitmap_quads": 1056,
+    "packed_uploads": 7,
+    "localization_calls": 1,
+    "text_sheets": 3
+  },
+  "source_sha256": {
+    "port/engine-ui/freetype_bitmap_alpha.hpp": "ebbd595524064c795d7ae87326dbcafbc32a88322f75eb5087ee8a5fc001ab06",
+    "port/engine-ui/freetype_bitmap_alpha.cpp": "d5a20f44edc326f646b10d9ae4134c2384bb5c04b674d5256507101131b4037e",
+    "port/engine-ui/hud_freetype_font.hpp": "137741dc606aa65d2532d8443cd7165a6b71e7b25208aa92894275780465b2a6",
+    "port/engine-ui/hud_freetype_font.cpp": "9a3df0edace00b7c1c997ce08c7a0876e2827b6037777f606036a329f0c55a3b",
+    "port/engine-ui/swf_hud_freetype_provider.hpp": "7ec3731910d505dedb883a656f058c4036d5aa5729930229016df37b8ec575e1",
+    "port/engine-ui/swf_hud_freetype_provider.cpp": "4e3313cf555e4c50abee13c5dc032097476408a0fb51b3bb529a12bf7920eb7f",
+    "port/engine-ui/tests/hud_freetype_provider.cpp": "eb6e7e5b5743a5e8f4c675e800d018261d1994619f98fd499082ae3626dcb6a3"
+  },
+  "dependency_source_sha256": {
+    "port/engine-ui/freetype_font.hpp": "b3e08aebf2e756af1c61e72e5759526aef9be1ee3cdae810b9343c238e9713aa",
+    "port/engine-ui/freetype_font.cpp": "efbf41c933e87bc915b0ea5f73d7b261d6ca2273b5f3bdbf568d93618c844aeb",
+    "port/engine-ui/freetype_glyph_kernel.hpp": "64c3283bb58c325295370b00f2d796c3d970766ee4868b1cad04d0d46ffe6aee",
+    "port/engine-ui/freetype_glyph_kernel.cpp": "e4453c580e13a1a3cd0e977dcc77dd5dd68357239442f45821c6ba6aab4de3ec",
+    "port/engine-ui/freetype237-hud.cmake": "ac8afc6d3cd246d9159e0ab67b5b2340f3b4c4afc84aed7497078a4c707d5804",
+    "port/engine-ui/swf_movie.hpp": "6de117225b6e512c5f65d1a43f5d8335a6b8d039f50fb946cd5d04891b246961",
+    "port/engine-ui/swf_movie.cpp": "38c5bfcf44cb4e2a0c6ff64ea3688502560afc6c2629105890c9c527c2b564ad",
+    "port/engine-ui/localization.hpp": "48433e35464d7fc14118de3d60a5323766a22c8116761e61eb605809187bbc8c",
+    "port/engine-ui/localization.cpp": "b519ab31e8553ccc808822fc1c9f846ebdff5f9e608eb31cd2fe3245d2860611",
+    "port/engine-ui/swf_font_resolver.hpp": "c40655869b4dfe3b05fa226ed148b77ee984a45fbd70b70ba38ae3160b8a0462",
+    "port/engine-ui/swf_font_resolver.cpp": "1876dfb38e04eb4f31243d59d64a746ff5a3d3d62a8b1f0d44a72174d720e96a",
+    "port/script-runtime/script_constants.hpp": "5771039bca9fce55aed7ca742ede02fad3da304d62411d4c9531c32c0e823a01",
+    "port/script-runtime/script_constants.cpp": "44d2ade00fca5f991fe5cae1c5f869dc68cb71e57344b0ed9ce240b38b3d476d"
+  },
+  "executable_sha256": "5de9a0c8ca8dde24a96c0ecebdda4b77943bf93e11519fc7d755a2c3b0ec86b7",
+  "library_sha256": {
+    ".local-inputs/font-text-discovery/main93-snapshot/libdh2_engine_animation.so": "922a9a9ec5d6be20c97f414f060fa870e82d919ef87c639f34d19d79b707aaf0",
+    ".local-inputs/font-text-discovery/main93-snapshot/libdh2_engine_skinning.so": "5c40960c2deec5bf2752f5b9972cdc4cb7e254c833815df97c948538b230be4b",
+    ".local-inputs/font-text-discovery/main93-snapshot/libdh2_engine_ui.so": "1c9dc63a9f5d18c1851f01b88dbf3a593ce52e75527649babb54647ededac529",
+    ".local-inputs/font-text-discovery/main93-snapshot/libdh2_game_data.so": "6bebe74bb614c921760fc353705eecb3bd520d8010b14c03b18b21295c42f186",
+    ".local-inputs/font-text-discovery/main93-snapshot/libdh2_level_world.so": "d1199fadafa837c5e3b9b3426abc527b02a6da5756a05d9e48f4192d2bf03c76",
+    ".local-inputs/font-text-discovery/main93-snapshot/libdh2_scene_materials.so": "b1c05403707a3fcfcd8843fe5adabff33e5a14e7a791d6ee4c60b2a08e5099fb",
+    ".local-inputs/font-text-discovery/main93-snapshot/libdh2_script_runtime.so": "73188ef1da1e2a35002d3a563ee1b967f424c5401481aaff559e4333d7b3731a"
+  },
+  "dependency_stage": "Immutable coherent main93 host DSO snapshot; additive sources compiled into dedicated test, not attributed to main93 aggregate.",
+  "actual_resource_sha256": {
+    ".local-inputs/font-text-discovery/Fontin SmallCaps.ttf": "e0aa9854059f79a24dd9ced942c1add193d1ff83c3ff44685c6d5d8ff3ce53c4",
+    ".local-inputs/font-text-discovery/wqy-zenhei.ttf": "734b412c7aea22930d740a8edd9162f36f99aa343ca9271411ab501279fc7dd3",
+    ".local-inputs/ui-layout-discovery/dqshared_droid.swf": "f0f9f119f2fe474d21c722e361ef9907ef2b885654705073e0cb956432f46263",
+    ".local-inputs/ui-layout-discovery/dqhud_droid.swf": "a4ffacd1abdf7c9b2ba19c46ebb81c60c100458731a4cdba5880391b9c11b238",
+    "port/android-native/app/src/main/assets/original-cache/data/pydata/common_text_pyarray.bin": "03b99c2d8e5293f57233626721a003b1a5f5bbcaff5fcb9c2e315f68954e0286",
+    "port/android-native/app/src/main/assets/original-cache/data/pydata/common_text_pyarraynames.bin": "a24e59f8d5c7479b31117085e56a7ce99946882acb80b3a438c9b0e2b1eb688b",
+    "port/android-native/app/src/main/assets/original-cache/data/pydata/common_text_pystructnames.bin": "e2e395411036e57c7148f7b3f8c4b0a7924b97f405f07493e5f2274b2cc9d0ad",
+    "port/android-native/app/src/main/assets/original-cache/data/pydata/common_text_pycst.bin": "1d5eae8f575f8e5ae625f72eae7e6485a2c610ef08c160a51bb6148ff6a5bcc5",
+    "port/android-native/app/src/main/assets/data/fonts_pycst.bin": "6cc64a82f85ca20006e9ffd6092a39fcaf0eb38858bac0091c8335b56963d8fa"
+  },
+  "diagnostic_sha256": "98ba38c61647cde81128ffe639b00b7669bb43da70830bcce01a4bbbd7182747",
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "leak_detection": true,
+    "findings": 0,
+    "vptr": false
+  },
+  "borrowed_fixture_projections": [
+    "Debug required deliveries",
+    "language0",
+    "no-player identity0",
+    "base cache/ and directory rewrite",
+    "logical text resource leases",
+    "image/export texture identities",
+    "stencilfalse",
+    "viewport480x320"
+  ],
+  "genuine_services": [
+    "original cache Fontin and Arial-resolved wqy bytes",
+    "host font fopen/fclose",
+    "native Localization actual common_text rows and text packs",
+    "native source constants loader and maps",
+    "actual shared/HUD GameSWF core load/advance/display",
+    "safe real FreeType237 raster",
+    "retained alpha upload pixels/bitmap callbacks"
+  ],
+  "localized_result": "World Map",
+  "packed_P_probe": {
+    "size": 12,
+    "mode": 1,
+    "width": 5,
+    "rows": 8,
+    "pitch": 1
+  },
+  "scope": "Actual localized original HUD CPU/image-callback replay with safe packed glyphs, source metrics and no missing font. No GPU/APK/device parity. Provider-first original advance fork gap is separately documented and not patched here."
+}

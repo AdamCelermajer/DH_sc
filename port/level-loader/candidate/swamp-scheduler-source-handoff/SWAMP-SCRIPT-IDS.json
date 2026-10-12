@@ -1,0 +1,1043 @@
+{
+  "status": "SOURCE_ONLY_NOT_EXECUTED",
+  "id_basis": "SAME App ScriptManager: common C00 append first, then SWAMP L01 append; IDs are actual manager append order, not a competing scheduler registry",
+  "source_inventory": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\all-map-script-source\\source-script-coverage.json",
+  "scripts": [
+    {
+      "id": 0,
+      "pair": "C00",
+      "local_index": 0,
+      "name_display": "BeginCutScene",
+      "name_raw_hex": "426567696e4375745363656e65",
+      "command_count": 4,
+      "kinds": [
+        22,
+        23,
+        39,
+        79
+      ]
+    },
+    {
+      "id": 1,
+      "pair": "C00",
+      "local_index": 1,
+      "name_display": "BeginScriptedCutScene",
+      "name_raw_hex": "426567696e53637269707465644375745363656e65",
+      "command_count": 8,
+      "kinds": [
+        1,
+        22,
+        23,
+        24,
+        32,
+        39,
+        70,
+        79
+      ]
+    },
+    {
+      "id": 2,
+      "pair": "C00",
+      "local_index": 2,
+      "name_display": "EndCutScene",
+      "name_raw_hex": "456e644375745363656e65",
+      "command_count": 3,
+      "kinds": [
+        12,
+        22,
+        23
+      ]
+    },
+    {
+      "id": 3,
+      "pair": "C00",
+      "local_index": 3,
+      "name_display": "EndScriptedCutScene",
+      "name_raw_hex": "456e6453637269707465644375745363656e65",
+      "command_count": 8,
+      "kinds": [
+        2,
+        12,
+        22,
+        23,
+        25,
+        31,
+        32,
+        69
+      ]
+    },
+    {
+      "id": 4,
+      "pair": "C00",
+      "local_index": 4,
+      "name_display": "OnEnterLevel01",
+      "name_raw_hex": "4f6e456e7465724c6576656c3031",
+      "command_count": 12,
+      "kinds": [
+        22,
+        23,
+        24,
+        25,
+        26,
+        31,
+        32,
+        39
+      ]
+    },
+    {
+      "id": 5,
+      "pair": "C00",
+      "local_index": 5,
+      "name_display": "OnEnterLevel02",
+      "name_raw_hex": "4f6e456e7465724c6576656c3032",
+      "command_count": 12,
+      "kinds": [
+        22,
+        23,
+        24,
+        25,
+        26,
+        31,
+        32,
+        39
+      ]
+    },
+    {
+      "id": 6,
+      "pair": "C00",
+      "local_index": 6,
+      "name_display": "PlayerDeathScript",
+      "name_raw_hex": "506c617965724465617468536372697074",
+      "command_count": 9,
+      "kinds": [
+        0,
+        3,
+        22,
+        23,
+        63
+      ]
+    },
+    {
+      "id": 7,
+      "pair": "C00",
+      "local_index": 7,
+      "name_display": "PlayerDeathScript_01",
+      "name_raw_hex": "506c6179657244656174685363726970745f3031",
+      "command_count": 2,
+      "kinds": [
+        10,
+        12
+      ]
+    },
+    {
+      "id": 8,
+      "pair": "C00",
+      "local_index": 8,
+      "name_display": "PlayerDeathScript_02",
+      "name_raw_hex": "506c6179657244656174685363726970745f3032",
+      "command_count": 2,
+      "kinds": [
+        10,
+        12
+      ]
+    },
+    {
+      "id": 9,
+      "pair": "C00",
+      "local_index": 9,
+      "name_display": "PlayerDeathScript_03",
+      "name_raw_hex": "506c6179657244656174685363726970745f3033",
+      "command_count": 2,
+      "kinds": [
+        10,
+        12
+      ]
+    },
+    {
+      "id": 10,
+      "pair": "C00",
+      "local_index": 10,
+      "name_display": "PlayerDeathScript_04",
+      "name_raw_hex": "506c6179657244656174685363726970745f3034",
+      "command_count": 2,
+      "kinds": [
+        10,
+        12
+      ]
+    },
+    {
+      "id": 11,
+      "pair": "C00",
+      "local_index": 11,
+      "name_display": "PlayerDeathScript_05",
+      "name_raw_hex": "506c6179657244656174685363726970745f3035",
+      "command_count": 2,
+      "kinds": [
+        10,
+        12
+      ]
+    },
+    {
+      "id": 12,
+      "pair": "C00",
+      "local_index": 12,
+      "name_display": "PlayerLevelUp",
+      "name_raw_hex": "506c617965724c6576656c5570",
+      "command_count": 1,
+      "kinds": [
+        13
+      ]
+    },
+    {
+      "id": 13,
+      "pair": "C00",
+      "local_index": 13,
+      "name_display": "ShowUnlockedTrophies",
+      "name_raw_hex": "53686f77556e6c6f636b656454726f7068696573",
+      "command_count": 7,
+      "kinds": [
+        24,
+        25,
+        31,
+        32,
+        39,
+        68
+      ]
+    },
+    {
+      "id": 14,
+      "pair": "C00",
+      "local_index": 14,
+      "name_display": "WaitQuestUpdate",
+      "name_raw_hex": "576169745175657374557064617465",
+      "command_count": 7,
+      "kinds": [
+        12,
+        24,
+        25,
+        31,
+        32,
+        39
+      ]
+    },
+    {
+      "id": 15,
+      "pair": "L01",
+      "local_index": 0,
+      "name_display": "Camp_Intro",
+      "name_raw_hex": "43616d705f496e74726f",
+      "command_count": 29,
+      "kinds": [
+        0,
+        8,
+        10,
+        12,
+        24,
+        25,
+        26,
+        41,
+        46,
+        79
+      ]
+    },
+    {
+      "id": 16,
+      "pair": "L01",
+      "local_index": 1,
+      "name_display": "CombatTuto",
+      "name_raw_hex": "436f6d6261745475746f",
+      "command_count": 24,
+      "kinds": [
+        0,
+        8,
+        10,
+        12,
+        24,
+        25,
+        77
+      ]
+    },
+    {
+      "id": 17,
+      "pair": "L01",
+      "local_index": 2,
+      "name_display": "Door_Inspection_South",
+      "name_raw_hex": "446f6f725f496e7370656374696f6e5f536f757468",
+      "command_count": 13,
+      "kinds": [
+        0,
+        8,
+        10,
+        12,
+        24,
+        25,
+        26
+      ]
+    },
+    {
+      "id": 18,
+      "pair": "L01",
+      "local_index": 3,
+      "name_display": "FaeryBackFlip",
+      "name_raw_hex": "46616572794261636b466c6970",
+      "command_count": 1,
+      "kinds": [
+        45
+      ]
+    },
+    {
+      "id": 19,
+      "pair": "L01",
+      "local_index": 4,
+      "name_display": "FaeryIdle",
+      "name_raw_hex": "466165727949646c65",
+      "command_count": 1,
+      "kinds": [
+        45
+      ]
+    },
+    {
+      "id": 20,
+      "pair": "L01",
+      "local_index": 5,
+      "name_display": "FaeryLoop",
+      "name_raw_hex": "46616572794c6f6f70",
+      "command_count": 1,
+      "kinds": [
+        45
+      ]
+    },
+    {
+      "id": 21,
+      "pair": "L01",
+      "local_index": 6,
+      "name_display": "FaeryTwist",
+      "name_raw_hex": "46616572795477697374",
+      "command_count": 1,
+      "kinds": [
+        45
+      ]
+    },
+    {
+      "id": 22,
+      "pair": "L01",
+      "local_index": 7,
+      "name_display": "Faerycrazy",
+      "name_raw_hex": "46616572796372617a79",
+      "command_count": 1,
+      "kinds": [
+        45
+      ]
+    },
+    {
+      "id": 23,
+      "pair": "L01",
+      "local_index": 8,
+      "name_display": "FirstQuest_Start",
+      "name_raw_hex": "466972737451756573745f5374617274",
+      "command_count": 1,
+      "kinds": [
+        3
+      ]
+    },
+    {
+      "id": 24,
+      "pair": "L01",
+      "local_index": 9,
+      "name_display": "Flushit",
+      "name_raw_hex": "466c7573686974",
+      "command_count": 2,
+      "kinds": [
+        3,
+        79
+      ]
+    },
+    {
+      "id": 25,
+      "pair": "L01",
+      "local_index": 10,
+      "name_display": "HackSave",
+      "name_raw_hex": "4861636b53617665",
+      "command_count": 1,
+      "kinds": [
+        46
+      ]
+    },
+    {
+      "id": 26,
+      "pair": "L01",
+      "local_index": 11,
+      "name_display": "Hide_Troll",
+      "name_raw_hex": "486964655f54726f6c6c",
+      "command_count": 2,
+      "kinds": [
+        3,
+        26
+      ]
+    },
+    {
+      "id": 27,
+      "pair": "L01",
+      "local_index": 12,
+      "name_display": "LizBlood_Activate",
+      "name_raw_hex": "4c697a426c6f6f645f4163746976617465",
+      "command_count": 17,
+      "kinds": [
+        0,
+        8,
+        10,
+        12,
+        24,
+        25,
+        26,
+        41
+      ]
+    },
+    {
+      "id": 28,
+      "pair": "L01",
+      "local_index": 13,
+      "name_display": "LizBlood_PostAccept",
+      "name_raw_hex": "4c697a426c6f6f645f506f7374416363657074",
+      "command_count": 5,
+      "kinds": [
+        0,
+        8,
+        10,
+        12,
+        25
+      ]
+    },
+    {
+      "id": 29,
+      "pair": "L01",
+      "local_index": 14,
+      "name_display": "LizCaptain_Intro",
+      "name_raw_hex": "4c697a4361707461696e5f496e74726f",
+      "command_count": 23,
+      "kinds": [
+        0,
+        8,
+        13,
+        24,
+        25,
+        26,
+        30,
+        41,
+        44,
+        45
+      ]
+    },
+    {
+      "id": 30,
+      "pair": "L01",
+      "local_index": 15,
+      "name_display": "LizardMan_Ambush1",
+      "name_raw_hex": "4c697a6172644d616e5f416d6275736831",
+      "command_count": 4,
+      "kinds": [
+        26,
+        30
+      ]
+    },
+    {
+      "id": 31,
+      "pair": "L01",
+      "local_index": 16,
+      "name_display": "LizardMan_Ambush2",
+      "name_raw_hex": "4c697a6172644d616e5f416d6275736832",
+      "command_count": 2,
+      "kinds": [
+        26,
+        30
+      ]
+    },
+    {
+      "id": 32,
+      "pair": "L01",
+      "local_index": 17,
+      "name_display": "LizardMan_Intro",
+      "name_raw_hex": "4c697a6172644d616e5f496e74726f",
+      "command_count": 12,
+      "kinds": [
+        0,
+        8,
+        24,
+        25,
+        26,
+        30,
+        78
+      ]
+    },
+    {
+      "id": 33,
+      "pair": "L01",
+      "local_index": 18,
+      "name_display": "MothIntro",
+      "name_raw_hex": "4d6f7468496e74726f",
+      "command_count": 23,
+      "kinds": [
+        0,
+        5,
+        8,
+        13,
+        24,
+        25,
+        30,
+        31,
+        41,
+        45,
+        46
+      ]
+    },
+    {
+      "id": 34,
+      "pair": "L01",
+      "local_index": 19,
+      "name_display": "Movement_Tuto",
+      "name_raw_hex": "4d6f76656d656e745f5475746f",
+      "command_count": 1,
+      "kinds": [
+        78
+      ]
+    },
+    {
+      "id": 35,
+      "pair": "L01",
+      "local_index": 20,
+      "name_display": "Movement_Tuto2",
+      "name_raw_hex": "4d6f76656d656e745f5475746f32",
+      "command_count": 17,
+      "kinds": [
+        0,
+        10,
+        12,
+        24,
+        25,
+        26,
+        77,
+        79
+      ]
+    },
+    {
+      "id": 36,
+      "pair": "L01",
+      "local_index": 21,
+      "name_display": "PlayerDialog",
+      "name_raw_hex": "506c617965724469616c6f67",
+      "command_count": 1,
+      "kinds": [
+        45
+      ]
+    },
+    {
+      "id": 37,
+      "pair": "L01",
+      "local_index": 22,
+      "name_display": "PlayerIdle",
+      "name_raw_hex": "506c6179657249646c65",
+      "command_count": 1,
+      "kinds": [
+        45
+      ]
+    },
+    {
+      "id": 38,
+      "pair": "L01",
+      "local_index": 23,
+      "name_display": "ResumeLevelMusic",
+      "name_raw_hex": "526573756d654c6576656c4d75736963",
+      "command_count": 1,
+      "kinds": [
+        15
+      ]
+    },
+    {
+      "id": 39,
+      "pair": "L01",
+      "local_index": 24,
+      "name_display": "Swamp2_Intro",
+      "name_raw_hex": "5377616d70325f496e74726f",
+      "command_count": 19,
+      "kinds": [
+        0,
+        8,
+        10,
+        12,
+        24,
+        25,
+        26
+      ]
+    },
+    {
+      "id": 40,
+      "pair": "L01",
+      "local_index": 25,
+      "name_display": "Swamp_Camp_PrisonerB_a",
+      "name_raw_hex": "5377616d705f43616d705f507269736f6e6572425f61",
+      "command_count": 12,
+      "kinds": [
+        0,
+        10,
+        12,
+        24,
+        25,
+        41
+      ]
+    },
+    {
+      "id": 41,
+      "pair": "L01",
+      "local_index": 26,
+      "name_display": "Swamp_Camp_PrisonerB_b",
+      "name_raw_hex": "5377616d705f43616d705f507269736f6e6572425f62",
+      "command_count": 8,
+      "kinds": [
+        0,
+        10,
+        12,
+        24,
+        25,
+        41
+      ]
+    },
+    {
+      "id": 42,
+      "pair": "L01",
+      "local_index": 27,
+      "name_display": "Swamp_Camp_PrisonerC_a",
+      "name_raw_hex": "5377616d705f43616d705f507269736f6e6572435f61",
+      "command_count": 8,
+      "kinds": [
+        0,
+        10,
+        12,
+        24,
+        25
+      ]
+    },
+    {
+      "id": 43,
+      "pair": "L01",
+      "local_index": 28,
+      "name_display": "Swamp_Camp_PrisonerC_b",
+      "name_raw_hex": "5377616d705f43616d705f507269736f6e6572435f62",
+      "command_count": 11,
+      "kinds": [
+        0,
+        10,
+        12,
+        24,
+        25,
+        26,
+        41
+      ]
+    },
+    {
+      "id": 44,
+      "pair": "L01",
+      "local_index": 29,
+      "name_display": "Swamp_Camp_PrisonerE_a",
+      "name_raw_hex": "5377616d705f43616d705f507269736f6e6572455f61",
+      "command_count": 10,
+      "kinds": [
+        0,
+        10,
+        12,
+        24,
+        25
+      ]
+    },
+    {
+      "id": 45,
+      "pair": "L01",
+      "local_index": 30,
+      "name_display": "Swamp_Intro",
+      "name_raw_hex": "5377616d705f496e74726f",
+      "command_count": 164,
+      "kinds": [
+        0,
+        5,
+        6,
+        8,
+        10,
+        12,
+        14,
+        19,
+        20,
+        21,
+        24,
+        25,
+        26,
+        27,
+        29,
+        30,
+        31,
+        41,
+        42,
+        43,
+        45,
+        46,
+        51,
+        52
+      ]
+    },
+    {
+      "id": 46,
+      "pair": "L01",
+      "local_index": 31,
+      "name_display": "Swamp_Serpent_Defeated",
+      "name_raw_hex": "5377616d705f53657270656e745f4465666561746564",
+      "command_count": 104,
+      "kinds": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        10,
+        12,
+        13,
+        19,
+        20,
+        21,
+        24,
+        25,
+        31,
+        41,
+        43,
+        45,
+        46,
+        51,
+        52,
+        54
+      ]
+    },
+    {
+      "id": 47,
+      "pair": "L01",
+      "local_index": 32,
+      "name_display": "Swamp_Serpent_Intro",
+      "name_raw_hex": "5377616d705f53657270656e745f496e74726f",
+      "command_count": 113,
+      "kinds": [
+        0,
+        5,
+        6,
+        8,
+        10,
+        12,
+        13,
+        14,
+        20,
+        24,
+        25,
+        29,
+        31,
+        41,
+        42,
+        43,
+        45,
+        46,
+        55
+      ]
+    },
+    {
+      "id": 48,
+      "pair": "L01",
+      "local_index": 33,
+      "name_display": "Swamp_Witch_Activate",
+      "name_raw_hex": "5377616d705f57697463685f4163746976617465",
+      "command_count": 29,
+      "kinds": [
+        0,
+        8,
+        10,
+        12,
+        24,
+        25,
+        26,
+        40,
+        41
+      ]
+    },
+    {
+      "id": 49,
+      "pair": "L01",
+      "local_index": 34,
+      "name_display": "SwimKing_01",
+      "name_raw_hex": "5377696d4b696e675f3031",
+      "command_count": 3,
+      "kinds": [
+        3,
+        26,
+        30
+      ]
+    },
+    {
+      "id": 50,
+      "pair": "L01",
+      "local_index": 35,
+      "name_display": "SwimKing_02",
+      "name_raw_hex": "5377696d4b696e675f3032",
+      "command_count": 3,
+      "kinds": [
+        3,
+        26,
+        30
+      ]
+    },
+    {
+      "id": 51,
+      "pair": "L01",
+      "local_index": 36,
+      "name_display": "SwimKing_03",
+      "name_raw_hex": "5377696d4b696e675f3033",
+      "command_count": 3,
+      "kinds": [
+        3,
+        26,
+        30
+      ]
+    },
+    {
+      "id": 52,
+      "pair": "L01",
+      "local_index": 37,
+      "name_display": "TrollReturn",
+      "name_raw_hex": "54726f6c6c52657475726e",
+      "command_count": 19,
+      "kinds": [
+        0,
+        5,
+        8,
+        13,
+        24,
+        25,
+        26,
+        31,
+        39,
+        40,
+        45
+      ]
+    },
+    {
+      "id": 53,
+      "pair": "L01",
+      "local_index": 38,
+      "name_display": "Tutorial_Merchant",
+      "name_raw_hex": "5475746f7269616c5f4d65726368616e74",
+      "command_count": 22,
+      "kinds": [
+        0,
+        8,
+        10,
+        12,
+        24,
+        25
+      ]
+    },
+    {
+      "id": 54,
+      "pair": "L01",
+      "local_index": 39,
+      "name_display": "chest_tuto",
+      "name_raw_hex": "63686573745f7475746f",
+      "command_count": 16,
+      "kinds": [
+        0,
+        8,
+        10,
+        12,
+        24,
+        25,
+        26,
+        77
+      ]
+    },
+    {
+      "id": 55,
+      "pair": "L01",
+      "local_index": 40,
+      "name_display": "cinematic_Tuto_levelUp",
+      "name_raw_hex": "63696e656d617469635f5475746f5f6c6576656c5570",
+      "command_count": 14,
+      "kinds": [
+        0,
+        10,
+        12,
+        24,
+        25
+      ]
+    },
+    {
+      "id": 56,
+      "pair": "L01",
+      "local_index": 41,
+      "name_display": "cinematic_Tuto_potionUse",
+      "name_raw_hex": "63696e656d617469635f5475746f5f706f74696f6e557365",
+      "command_count": 16,
+      "kinds": [
+        0,
+        10,
+        12,
+        24,
+        25
+      ]
+    },
+    {
+      "id": 57,
+      "pair": "L01",
+      "local_index": 42,
+      "name_display": "enterLocation_MerchantCamp",
+      "name_raw_hex": "656e7465724c6f636174696f6e5f4d65726368616e7443616d70",
+      "command_count": 2,
+      "kinds": [
+        10,
+        16
+      ]
+    },
+    {
+      "id": 58,
+      "pair": "L01",
+      "local_index": 43,
+      "name_display": "enterLocation_North_Boardwalk",
+      "name_raw_hex": "656e7465724c6f636174696f6e5f4e6f7274685f426f61726477616c6b",
+      "command_count": 1,
+      "kinds": [
+        10
+      ]
+    },
+    {
+      "id": 59,
+      "pair": "L01",
+      "local_index": 44,
+      "name_display": "enterLocation_South_Boardwalk",
+      "name_raw_hex": "656e7465724c6f636174696f6e5f536f7574685f426f61726477616c6b",
+      "command_count": 1,
+      "kinds": [
+        10
+      ]
+    },
+    {
+      "id": 60,
+      "pair": "L01",
+      "local_index": 45,
+      "name_display": "enterLocation_StartRoom",
+      "name_raw_hex": "656e7465724c6f636174696f6e5f5374617274526f6f6d",
+      "command_count": 1,
+      "kinds": [
+        10
+      ]
+    },
+    {
+      "id": 61,
+      "pair": "L01",
+      "local_index": 46,
+      "name_display": "enterLocation_Swamp",
+      "name_raw_hex": "656e7465724c6f636174696f6e5f5377616d70",
+      "command_count": 1,
+      "kinds": [
+        10
+      ]
+    },
+    {
+      "id": 62,
+      "pair": "L01",
+      "local_index": 47,
+      "name_display": "enterLocation_Swamp_EDWARD",
+      "name_raw_hex": "656e7465724c6f636174696f6e5f5377616d705f454457415244",
+      "command_count": 6,
+      "kinds": [
+        3,
+        10,
+        42,
+        46
+      ]
+    },
+    {
+      "id": 63,
+      "pair": "L01",
+      "local_index": 48,
+      "name_display": "enterLocation_Swamp_King",
+      "name_raw_hex": "656e7465724c6f636174696f6e5f5377616d705f4b696e67",
+      "command_count": 1,
+      "kinds": [
+        10
+      ]
+    },
+    {
+      "id": 64,
+      "pair": "L01",
+      "local_index": 49,
+      "name_display": "enterLocation_Swamp_RENE",
+      "name_raw_hex": "656e7465724c6f636174696f6e5f5377616d705f52454e45",
+      "command_count": 6,
+      "kinds": [
+        3,
+        10,
+        42,
+        46
+      ]
+    },
+    {
+      "id": 65,
+      "pair": "L01",
+      "local_index": 50,
+      "name_display": "enterLocation_Swamp_RENE2",
+      "name_raw_hex": "656e7465724c6f636174696f6e5f5377616d705f52454e4532",
+      "command_count": 5,
+      "kinds": [
+        3,
+        42,
+        46
+      ]
+    },
+    {
+      "id": 66,
+      "pair": "L01",
+      "local_index": 51,
+      "name_display": "enterLocation_To_Witch_Cave",
+      "name_raw_hex": "656e7465724c6f636174696f6e5f546f5f57697463685f43617665",
+      "command_count": 1,
+      "kinds": [
+        10
+      ]
+    },
+    {
+      "id": 67,
+      "pair": "L01",
+      "local_index": 52,
+      "name_display": "exitLocation_MerchantCamp",
+      "name_raw_hex": "657869744c6f636174696f6e5f4d65726368616e7443616d70",
+      "command_count": 2,
+      "kinds": [
+        10,
+        17
+      ]
+    },
+    {
+      "id": 68,
+      "pair": "L01",
+      "local_index": 53,
+      "name_display": "open_SwampKingDoor",
+      "name_raw_hex": "6f70656e5f5377616d704b696e67446f6f72",
+      "command_count": 3,
+      "kinds": [
+        26,
+        54
+      ]
+    },
+    {
+      "id": 69,
+      "pair": "L01",
+      "local_index": 54,
+      "name_display": "tutorial_treasure",
+      "name_raw_hex": "7475746f7269616c5f7472656173757265",
+      "command_count": 1,
+      "kinds": [
+        78
+      ]
+    }
+  ]
+}

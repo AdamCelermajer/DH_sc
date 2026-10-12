@@ -1,0 +1,48 @@
+{
+  "validation": "PASS",
+  "retained_clip_cases": 1014,
+  "authored_matrix_comparisons": 602,
+  "frozen_status_real_core_cases": 8,
+  "frozen_status_services": 160,
+  "required_advance_deliveries": 2089,
+  "genuine_upstream_sound_queries": 1055,
+  "source_owner_projection_nodes": 11,
+  "failure_guards": 7,
+  "triangle_strips": 50,
+  "vertices": 200,
+  "source_sha256": {
+    "port/engine-ui/swf_movie.hpp": "6de117225b6e512c5f65d1a43f5d8335a6b8d039f50fb946cd5d04891b246961",
+    "port/engine-ui/swf_movie.cpp": "38c5bfcf44cb4e2a0c6ff64ea3688502560afc6c2629105890c9c527c2b564ad",
+    "port/engine-ui/hud_player_values.hpp": "3a7c2e5ad740135c6836a4aece4bac2f1f0df20ca29a3f2cedb64f1482798fd6",
+    "port/engine-ui/hud_player_values.cpp": "93c72ba1150b5b9ab37f178fd59bdf63bd5ab1fd3b4d6d1dd3af74e51bc1a26e",
+    "port/engine-ui/hud_sprite_timeline.hpp": "4585e30a0aba44c1c9a2ea5430f0a4e59f624a7099cefc3eb15679c13f304e53",
+    "port/engine-ui/hud_sprite_timeline.cpp": "48d1a025d97395adf77b5cb5a93e4828e300b412b17493503e431aa9dd8dbbe6",
+    "port/engine-ui/hud_sprite_core.hpp": "b97a9c7ff876be84618424b9edf18239bfa85dfbc371fb957c2d703529f7a7a1",
+    "port/engine-ui/hud_sprite_core.cpp": "7bdb36cc652d3157cc525da90fa86eef8c4ee0df6a373b854069a4470c63401d",
+    "port/engine-ui/tests/hud_sprite_core.cpp": "15466f900830087de27c3f0ea4c21d3f23adc6cfbf766911f972e09a95e05190"
+  },
+  "core_library_sha256": "54506e7d96e0200765ca05d16b60e9053c2b4c89fccb9121ea6288e3bc48d36c",
+  "executable_sha256": "7af48a4d01c36be1fe757ca8afba53a3988ec1c5c30a77d22adb93e3ce959d81",
+  "private_scoped_visitor_header_sha256": "a531f6c91d4883afc43902d1dc15f21e3567860b76c32362846923a65f9b87c9",
+  "private_scoped_visitor_cpp_sha256": "38bced54108b092297ed8574cbd479dbc2c0d6908aba38282c985539237277fe",
+  "asset_sha256": {
+    "dqshared_droid.swf": "f0f9f119f2fe474d21c722e361ef9907ef2b885654705073e0cb956432f46263",
+    "dqhud_droid.swf": "a4ffacd1abdf7c9b2ba19c46ebb81c60c100458731a4cdba5880391b9c11b238"
+  },
+  "authored_matrix_samples_sha256": "a7706893f3e7ec9fcbb384844e72a187968a3bd6484b6f22865e192b74fa4275",
+  "matrix_inventory_sha256": "d1ec93a107bc27b1fd08b6e200c692378b5975c4edea3750905da94e0b3ab553",
+  "sanitizers": [
+    "address",
+    "undefined(excluding upstream vptr)",
+    "leak"
+  ],
+  "sanitizer_findings": 0,
+  "limits": {
+    "texture_images_localization_stencil_are_fixtures": true,
+    "notify_owner_uses_actual_core_weak_parent_projection": true,
+    "full_original_tag_or_AS_parity": false,
+    "live_GL": false,
+    "production_facade_wired": false
+  },
+  "scope": "Actual retained HUD core connection with audit-only scoped clip visitor.\nFrozen facade/vendor remain untouched. The private visitor adds no scheduling,\ntag, draw or lifetime policy; production facade wiring remains parent-owned.\n"
+}

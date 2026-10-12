@@ -1,0 +1,88 @@
+--- a/port/level-world/world_loot_gameplay_v23.hpp
++++ b/port/level-world/world_loot_gameplay_v23.hpp
+@@ -58,7 +58,7 @@
+  std::map<std::uintptr_t,Destruction> destruction_;
+  sound::VoxPlay3DOwnerV2 vox_;
+  std::uintptr_t vox_identity_{};
+- std::uint32_t absolute_ms_{};bool attempted_{},ready_{},frame_failed_{},final_attempted_{};
++ std::uint32_t absolute_ms_{};bool attempted_{},factory_prepared_{},precache_attempted_{},ready_{},frame_failed_{},final_attempted_{};
+  std::string error_;
+  static bool query(void*,const data::LootCreationQueryV8&,data::LootCreationResponseV8&,std::string&);
+  static bool notifications(void*,data::LootTemporaryInventoryV8&,data::ItemInstanceV1&,std::string&);
+@@ -73,7 +73,13 @@
+   const navigation::CollisionWorld*,navigation::ObstacleRegistry*,data::LootPowerResourcesV7::Borrow,
+   data::LootAudioVisualV8::Borrow,WorldLootGameplayServicesV23);
+  WorldLootGameplayV23(const WorldLootGameplayV23&)=delete;
+- // Actual source ItemManager initialization invokes this once.
++ // Empty source ItemManager C1 exists before loading; PreCache is stage29.
++ // Preparation binds the SAME factory/pool without spawning, InitOnce or
++ // publishing145. Genuine cache/World/PM/Scene/physics services are required.
++ bool prepare_source_factory_v88(std::string&);
++ bool precache_source_pool_v88(std::string&); // caller: actual source stage29
++ bool factory_prepared_v88()const noexcept{return factory_prepared_;}
++ // Legacy combined entry preserves its former once-only prepare+precache.
+  bool initialize(std::string&);
+  // Called at the actual source pending-object InitFinal boundary; separate
+  // from construction/PreCache, no replay on retained resource restoration.
+--- a/port/level-world/world_loot_gameplay_v23.cpp
++++ b/port/level-world/world_loot_gameplay_v23.cpp
+@@ -70,7 +70,11 @@
+  }
+  if(!self.services_.items.outer_item){e="Required positive outer Item source operation "+std::to_string(unsigned(q.operation));return false;}return self.services_.items.outer_item(self.services_.items.context,q,out,e);
+ }
+-bool WorldLootGameplayV23::initialize(std::string& e){if(attempted_){e="Loot gameplay initialization retains reached prefix; retry unavailable";return false;}attempted_=true;
++bool WorldLootGameplayV23::initialize(std::string& e){
++ if(!factory_prepared_&&!prepare_source_factory_v88(e))return false;
++ return precache_source_pool_v88(e);
++}
++bool WorldLootGameplayV23::prepare_source_factory_v88(std::string& e){if(attempted_){e="Loot factory preparation retains reached prefix; retry unavailable";return false;}attempted_=true;
+  if(!services_.application_lease||!services_.gear||!services_.gear->ready()||!services_.debug||!services_.presentation||!powers_||!audiovisual_||!services_.items.world||!services_.items.roots||!geometry_||!obstacles_||!vox_identity_){e="Required actual retained World/cache/Item/Gear/Debug loot graph";return false;}
+  data::LootTablesV2::Borrow tables;data::ItemPowerTablesV5::Borrow definitions;data::ItemTextServicesV5 text;data::LootRandom8V2* rng{};
+  if(!services_.gear->loot_sources_v8(tables,definitions,text,rng,e)||!rng)return false;
+@@ -84,7 +88,13 @@
+  auto items=services_.items;items.context=this;items.graph_services=graph;items.outer_item=outer;items.drop=loot_->drop_services();items.interaction={this,interaction,creation_->services().source.entry};
+  items.factory.item.inventory_debug=creation_->services().source.entry;items.factory.item.context=this;items.factory.item.full_notifications=notifications;
+  items_=std::make_unique<WorldItemLiveOwnerV5>(manager_,properties_,physics_,geometry_,obstacles_,tables,audiovisual_,std::move(items));
+- if(!loot_->bind_pool(items_->pool(),e)||!pickup_->bind_items(*items_,e)||!items_->precache(e))return false;ready_=true;return true;
++ if(!loot_->bind_pool(items_->pool(),e)||!pickup_->bind_items(*items_,e))return false;
++ factory_prepared_=true;e.clear();return true;
++}
++bool WorldLootGameplayV23::precache_source_pool_v88(std::string& e){
++ if(!factory_prepared_||!items_||precache_attempted_){e="Required SAME prepared source Item factory and single actual stage29 PreCache";return false;}
++ precache_attempted_=true;
++ if(!items_->precache(e))return false;ready_=true;e.clear();return true;
+ }
+ bool WorldLootGameplayV23::route(KillActor56& actor,const KillRequest56& q,KillResponse16& out,bool& handled,std::string& e){handled=q.service==kill_drop_loot;if(!handled)return true;if(!ready_||!loot_){e="Required initialized actual145 loot graph";return false;}return loot_->route(actor,q,out,handled,e);}
+ bool WorldLootGameplayV23::initialize_final(std::string& e){if(!ready_||frame_failed_||final_attempted_){e="Required fresh ready Item pool before source InitFinal; no replay";return false;}final_attempted_=true;for(auto id:item_ids_){bool eligible{};if(!items_->init_final_v23(id,eligible,e)){frame_failed_=true;return false;}}return true;}
+@@ -106,7 +116,7 @@
+ bool WorldLootGameplayV23::interact(std::uintptr_t item,std::uintptr_t character,std::string& e){if(!ready_||frame_failed_){e="Required ready actual loot graph for pickup";return false;}return items_->interact(item,character,e);}
+ bool WorldLootGameplayV23::detach_physics(std::string& e){if(!items_){e="Required retained actual Item physical graph";return false;}if(!items_->detach_physics(e))return false;frames_.clear();geometry_=nullptr;obstacles_=nullptr;return true;}
+ bool WorldLootGameplayV23::release(std::string& e){
+- if(!items_){e="Required SAME ItemManager release graph";return false;}ready_=false;
++ if(!items_){e="Required SAME ItemManager release graph";return false;}ready_=false;factory_prepared_=false;
+  if(!items_->pool().manager().flush(e))return false;
+  for(auto id:item_ids_)if(!items_->erased(id,e))return false;
+  frames_.clear();item_ids_.clear();destruction_.clear();return true;
+--- a/port/android-native/app/src/main/cpp/renderer_item_candidate_v57.inc
++++ b/port/android-native/app/src/main/cpp/renderer_item_candidate_v57.inc
+@@ -13,3 +13,20 @@
+  dh2::world::CanonicalItemCandidateTransportV57 transport(*owner->items(),candidate.manager,candidate.properties,actual_item_owner_lease);
+  return transport.construct(entry,request,out,e);
+ }
++
++// Narrow actual-source admission after empty ItemManager/factory preparation.
++// Legacy stage29 route above remains intact. This never constructs a second
++// owner/pool, starts PreCache, calls InitOnce or replays inherited InitPost.
++static bool renderer_source_item_receiver_v88(dh2::character::WorldLootGameplayV23& same,
++ const std::shared_ptr<void>& actual_item_owner_lease,
++ RendererCanonicalWorldV4& candidate,const dh2::world::CanonicalFactoryEntryV1& entry,
++ const dh2::world::CanonicalSourceObjectRequestV1& request,
++ dh2::world::CanonicalClassReceiverV1& out,std::string& e){
++ if(!actual_item_owner_lease||!same.factory_prepared_v88()||!same.items()){
++  e="Required genuinely prepared SAME source Item owner/factory before authored Item C1";return false;
++ }
++ // Existing V57 checks both actual manager and SAME property-map references,
++ // exact Item340d38, retained declaration, actual Item/Handle/property receiver.
++ dh2::world::CanonicalItemCandidateTransportV57 transport(*same.items(),candidate.manager,candidate.properties,actual_item_owner_lease);
++ return transport.construct(entry,request,out,e);
++}

@@ -1,0 +1,147 @@
+[
+  {
+    "vtable": "0x95c5c8",
+    "slots": [
+      {
+        "address": "0x33e218",
+        "symbol": "_ZN18SimpleTypePropertyISsE8ToStringEPv"
+      },
+      {
+        "address": "0x33f4c4",
+        "symbol": "_ZN18SimpleTypePropertyISsE10FromStringEPvPKc"
+      },
+      {
+        "address": "0x33e538",
+        "symbol": "_ZN18SimpleTypePropertyISsE14IsDefaultValueEPv"
+      },
+      {
+        "address": "0x33e298",
+        "symbol": "_ZN18SimpleTypePropertyISsE17SetToDefaultValueEPv"
+      },
+      {
+        "address": "0x33e358",
+        "symbol": "_ZN18SimpleTypePropertyISsE25SetDefaultValueFromStringEPKc"
+      },
+      {
+        "address": "0x33ee34",
+        "symbol": "_ZN18SimpleTypePropertyISsE5CloneEv"
+      }
+    ]
+  },
+  {
+    "vtable": "0x95c608",
+    "slots": [
+      {
+        "address": "0x33e5b0",
+        "symbol": "_ZN18SimpleTypePropertyIbE8ToStringEPv"
+      },
+      {
+        "address": "0x33e598",
+        "symbol": "_ZN18SimpleTypePropertyIbE10FromStringEPvPKc"
+      },
+      {
+        "address": "0x33de64",
+        "symbol": "_ZN18SimpleTypePropertyIbE14IsDefaultValueEPv"
+      },
+      {
+        "address": "0x33de80",
+        "symbol": "_ZN18SimpleTypePropertyIbE17SetToDefaultValueEPv"
+      },
+      {
+        "address": "0x33e580",
+        "symbol": "_ZN18SimpleTypePropertyIbE25SetDefaultValueFromStringEPKc"
+      },
+      {
+        "address": "0x33eed8",
+        "symbol": "_ZN18SimpleTypePropertyIbE5CloneEv"
+      }
+    ]
+  },
+  {
+    "vtable": "0x964708",
+    "slots": [
+      {
+        "address": "0x38bac4",
+        "symbol": "_ZN18SimpleTypePropertyIiE8ToStringEPv"
+      },
+      {
+        "address": "0x38baac",
+        "symbol": "_ZN18SimpleTypePropertyIiE10FromStringEPvPKc"
+      },
+      {
+        "address": "0x38ae00",
+        "symbol": "_ZN18SimpleTypePropertyIiE14IsDefaultValueEPv"
+      },
+      {
+        "address": "0x38ae1c",
+        "symbol": "_ZN18SimpleTypePropertyIiE17SetToDefaultValueEPv"
+      },
+      {
+        "address": "0x38ba94",
+        "symbol": "_ZN18SimpleTypePropertyIiE25SetDefaultValueFromStringEPKc"
+      },
+      {
+        "address": "0x38c08c",
+        "symbol": "_ZN18SimpleTypePropertyIiE5CloneEv"
+      }
+    ]
+  },
+  {
+    "vtable": "0x964898",
+    "slots": [
+      {
+        "address": "0x3950fc",
+        "symbol": "_ZN18SimpleTypePropertyIfE8ToStringEPv"
+      },
+      {
+        "address": "0x3950e0",
+        "symbol": "_ZN18SimpleTypePropertyIfE10FromStringEPvPKc"
+      },
+      {
+        "address": "0x394ed4",
+        "symbol": "_ZN18SimpleTypePropertyIfE14IsDefaultValueEPv"
+      },
+      {
+        "address": "0x394f00",
+        "symbol": "_ZN18SimpleTypePropertyIfE17SetToDefaultValueEPv"
+      },
+      {
+        "address": "0x3950c8",
+        "symbol": "_ZN18SimpleTypePropertyIfE25SetDefaultValueFromStringEPKc"
+      },
+      {
+        "address": "0x394f98",
+        "symbol": "_ZN18SimpleTypePropertyIfE5CloneEv"
+      }
+    ]
+  },
+  {
+    "vtable": "0x965eb0",
+    "slots": [
+      {
+        "address": "0x3a926c",
+        "symbol": "_ZN18SimpleTypePropertyI7Point2DIiEE8ToStringEPv"
+      },
+      {
+        "address": "0x3a66d8",
+        "symbol": "_ZN18SimpleTypePropertyI7Point2DIiEE10FromStringEPvPKc"
+      },
+      {
+        "address": "0x3a357c",
+        "symbol": "_ZN18SimpleTypePropertyI7Point2DIiEE14IsDefaultValueEPv"
+      },
+      {
+        "address": "0x3a35f0",
+        "symbol": "_ZN18SimpleTypePropertyI7Point2DIiEE17SetToDefaultValueEPv"
+      },
+      {
+        "address": "0x3a66bc",
+        "symbol": "_ZN18SimpleTypePropertyI7Point2DIiEE25SetDefaultValueFromStringEPKc"
+      },
+      {
+        "address": "0x3a98e8",
+        "symbol": "_ZN18SimpleTypePropertyI7Point2DIiEE5CloneEv"
+      }
+    ]
+  }
+]

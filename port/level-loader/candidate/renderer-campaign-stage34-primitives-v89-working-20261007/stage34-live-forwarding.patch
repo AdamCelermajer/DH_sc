@@ -1,0 +1,35 @@
+--- a/port/android-native/app/src/main/cpp/renderer_source_stage34_v80.inc
++++ b/port/android-native/app/src/main/cpp/renderer_source_stage34_v80.inc
+@@ -2,6 +2,21 @@
+ // after current SourceWorldBorrow/RendererSourceCandidate/private state types.
+ // Add stage_loader_stage34_v1.hpp and retained_character_position_owner_v7.hpp
+ // to that TU. This adapter creates no World/App/PM/Character/camera/Save owner.
++// Late primitive publication is genuine World enrollment. Resolve only the
++// missing no-room/Tweaker leaf at real delivery, preserving Main V102/V103.
++template<class... Args>
++static std::function<bool(Args...)> live_stage34_primitive_v89(
++ std::weak_ptr<SourceWorldBorrowV61> weak,
++ std::function<bool(Args...)> dh2::loader::Stage34ServicesV1::* member){
++ return [weak,member,busy=std::make_shared<bool>(false)](Args... args)->bool{
++  auto& error=std::get<sizeof...(Args)-1>(std::tie(args...));
++  if(*busy){error="Recursive Stage34 primitive forwarding; native prefix retained";return false;}
++  auto world=weak.lock();auto source=world?world->stage34_native_v80:nullptr;
++  if(!source||!(source.get()->*member)){error="Required actually published Stage34 native primitive";return false;}
++  auto call=source.get()->*member;*busy=true;struct Guard{bool& value;~Guard(){value=false;}}guard{*busy};
++  return call(std::forward<Args>(args)...);
++ };
++}
+ bool compose_source_stage33_stage34_v80(const std::shared_ptr<SourceWorldBorrowV61>& source_world,
+  const std::shared_ptr<RendererSourceCandidateV55>& candidate,
+  const std::shared_ptr<dh2::loader::CanonicalLevelContextV1>& level,
+@@ -239,6 +254,10 @@
+  //Incoming no-room and online matching leaves remain untouched.
+  // They are called only where original Stage33/34 reaches them; this adapter
+  // never substitutes completed gameplay updates or fake empty operations.
++ // Only currently absent peers are live forwarded. Existing real Scene
++ // V102 and Level V103 fog/material/light methods above remain authoritative.
++ if(!native34.handle_no_room_objects)native34.handle_no_room_objects=live_stage34_primitive_v89(weak,&Stage34ServicesV1::handle_no_room_objects);
++ if(!native34.fog_params58)native34.fog_params58=live_stage34_primitive_v89(weak,&Stage34ServicesV1::fog_params58);
+  out33=std::move(native33);out34=std::move(native34);e.clear();return true;
+ }
+ 

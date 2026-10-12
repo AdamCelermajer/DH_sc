@@ -1,0 +1,3239 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_registration": {
+    "path": "port/level-world/reference/character-monster-state-ownership/registration-plan.json",
+    "sha256": "9da95b34ff38af98629a136bb6c306f34eeedd5b1c8a539c2a1b2500203d0f4f"
+  },
+  "script_sha256": "f12f8813a1a98b0c2f1027b69eb35de6fa7cfc3407233838dd1d039c305a3578",
+  "scope": "Original remaining sixteen state-family vtable methods: exact bx-lr empty\nclassification, complete captures and static dependency inventory only.\n",
+  "state_families": 16,
+  "methods": 64,
+  "exact_bx_lr_empty_methods": 18,
+  "empty_focus_blur": 0,
+  "static_dependencies_not_dynamic_execution_order": true,
+  "rows": [
+    {
+      "state": 0,
+      "type": "8CSLimbus",
+      "operation": 0,
+      "method": "on_focus",
+      "source_function": "0x3c2e58",
+      "symbol": "_ZN8CSLimbus7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "size": 292,
+      "sha256": "8e29e9bed96add4ce42ccaf3d9ad2b51ec9850bca6064f9e74924405f50d1bc7",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c2e88",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c2ea0",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c2eac",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c2eb4",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c2ee0",
+          "instruction": "bl",
+          "target": "0x3d5fa8",
+          "symbol": "_ZN6CharAI16AI_ClearAllAggroEv"
+        },
+        {
+          "pc": "0x3c2f04",
+          "instruction": "bl",
+          "target": "0x3a4bac",
+          "symbol": "_ZNK9Character15GetRespawnDelayEv"
+        },
+        {
+          "pc": "0x3c2f10",
+          "instruction": "bl",
+          "target": "0x7fd794",
+          "symbol": "_Z9GetOnlinev"
+        },
+        {
+          "pc": "0x3c2f24",
+          "instruction": "bl",
+          "target": "0x3a4bac",
+          "symbol": "_ZNK9Character15GetRespawnDelayEv"
+        },
+        {
+          "pc": "0x3c2f40",
+          "instruction": "bl",
+          "target": "0x3dbe24",
+          "symbol": "_ZN10CharTimers9TMR_StartEjiiPv"
+        },
+        {
+          "pc": "0x3c2f54",
+          "instruction": "bl",
+          "target": "0x36f074",
+          "symbol": "_ZN13PlayerManager20IsLocalPlayerHostingEv"
+        },
+        {
+          "pc": "0x3c2f64",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": [
+        {
+          "pc": "0x3c2ecc",
+          "instruction": "ldr",
+          "operands": "pc, [r3, #0x40]"
+        }
+      ]
+    },
+    {
+      "state": 0,
+      "type": "8CSLimbus",
+      "operation": 1,
+      "method": "on_blur",
+      "source_function": "0x3c2be4",
+      "symbol": "_ZN8CSLimbus6OnBlurEiP9CharacterP16CharStateMachinei",
+      "size": 344,
+      "sha256": "f3c50b20f129706b7c8cd8e0b5d283fa876a2246cbedd5734a25f104d593b57f",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c2c14",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c2c2c",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c2c38",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c2c40",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c2c74",
+          "instruction": "bl",
+          "target": "0x393db4",
+          "symbol": "_ZN10GameObject11SetPositionERK7Point3DIfEb"
+        },
+        {
+          "pc": "0x3c2c80",
+          "instruction": "bl",
+          "target": "0x3938a0",
+          "symbol": "_ZN10GameObject11SetRotationERK7Point3DIfE"
+        },
+        {
+          "pc": "0x3c2c90",
+          "instruction": "bl",
+          "target": "0x3a59ac",
+          "symbol": "_ZN9Character6ReviveEP10GameObjectb"
+        },
+        {
+          "pc": "0x3c2cf4",
+          "instruction": "bl",
+          "target": "0x3c01c0",
+          "symbol": "_ZNK16CharStateMachine13SM_IsInLimbusEv"
+        },
+        {
+          "pc": "0x3c2d28",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": [
+        {
+          "pc": "0x3c2c64",
+          "instruction": "ldr",
+          "operands": "pc, [r3, #0x40]"
+        }
+      ]
+    },
+    {
+      "state": 0,
+      "type": "8CSLimbus",
+      "operation": 2,
+      "method": "on_update",
+      "source_function": "0x3bffe4",
+      "symbol": "_ZN8CSLimbus8OnUpdateEiP9CharacterP16CharStateMachine",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "empty": true,
+      "raw_hex": "1eff2fe1",
+      "direct_dependencies": [],
+      "indirect_calls": []
+    },
+    {
+      "state": 0,
+      "type": "8CSLimbus",
+      "operation": 3,
+      "method": "on_event",
+      "source_function": "0x3bffe8",
+      "symbol": "_ZN8CSLimbus7OnEventEiP9CharacterP16CharStateMachineiPv",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "empty": true,
+      "raw_hex": "1eff2fe1",
+      "direct_dependencies": [],
+      "indirect_calls": []
+    },
+    {
+      "state": 1,
+      "type": "7CSSpawn",
+      "operation": 0,
+      "method": "on_focus",
+      "source_function": "0x3c35ec",
+      "symbol": "_ZN7CSSpawn7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "size": 424,
+      "sha256": "28e75a41daa974cdc84cfd7d4960533b6402863dfdddd6ad0be0eae815b30876",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c361c",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c3634",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c3640",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c3648",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c3650",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c3668",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c3674",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c367c",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c36b4",
+          "instruction": "bl",
+          "target": "0x3a3228",
+          "symbol": "_ZNK9Character18GetCharAnimTableIdEv"
+        },
+        {
+          "pc": "0x3c36e0",
+          "instruction": "bl",
+          "target": "0x4c4bdc",
+          "symbol": "_ZNK15PyDataConstants11getConstantEPKcS1_"
+        },
+        {
+          "pc": "0x3c36f4",
+          "instruction": "bl",
+          "target": "0x3cacb0",
+          "symbol": "_ZN12CharAnimator8ANIM_SetEi"
+        },
+        {
+          "pc": "0x3c3708",
+          "instruction": "bl",
+          "target": "0x3d6890",
+          "symbol": "_ZN6CharAI12AI_SetTargetEP10GameObjectb"
+        },
+        {
+          "pc": "0x3c3710",
+          "instruction": "bl",
+          "target": "0x3d49c4",
+          "symbol": "_ZN6CharAI17AI_SyncLastTargetEv"
+        },
+        {
+          "pc": "0x3c3718",
+          "instruction": "bl",
+          "target": "0x3bc6b8",
+          "symbol": "_ZN9Character14CancelSneakingEv"
+        },
+        {
+          "pc": "0x3c3740",
+          "instruction": "bl",
+          "target": "0x470ce4",
+          "symbol": "_ZN12VisualObject11StartFadeInEf"
+        },
+        {
+          "pc": "0x3c3764",
+          "instruction": "bl",
+          "target": "0x3a53e0",
+          "symbol": "_ZNK9Character13GetAnimStanceEv"
+        },
+        {
+          "pc": "0x3c376c",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 1,
+      "type": "7CSSpawn",
+      "operation": 1,
+      "method": "on_blur",
+      "source_function": "0x3c2f7c",
+      "symbol": "_ZN7CSSpawn6OnBlurEiP9CharacterP16CharStateMachinei",
+      "size": 164,
+      "sha256": "2241aa4f3100d2c4f902d9466004f060bd54fe0d2b6ac86bd64e4b7a8a37eb9a",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c2fac",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c2fc4",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c2fd0",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c2fd8",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c2fec",
+          "instruction": "bl",
+          "target": "0x3b4088",
+          "symbol": "_ZN9Character18InitPhysicalObjectEv"
+        },
+        {
+          "pc": "0x3c300c",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 1,
+      "type": "7CSSpawn",
+      "operation": 2,
+      "method": "on_update",
+      "source_function": "0x3bfff0",
+      "symbol": "_ZN7CSSpawn8OnUpdateEiP9CharacterP16CharStateMachine",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "empty": true,
+      "raw_hex": "1eff2fe1",
+      "direct_dependencies": [],
+      "indirect_calls": []
+    },
+    {
+      "state": 1,
+      "type": "7CSSpawn",
+      "operation": 3,
+      "method": "on_event",
+      "source_function": "0x3c0b04",
+      "symbol": "_ZN7CSSpawn7OnEventEiP9CharacterP16CharStateMachineiPv",
+      "size": 76,
+      "sha256": "98cc488bdc9d54104bd87eae408d95f9a7df127f48502935aa9692546fc69e06",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c0b28",
+          "instruction": "bl",
+          "target": "0x30e31c",
+          "symbol": null
+        },
+        {
+          "pc": "0x3c0b48",
+          "instruction": "b",
+          "target": "0x3b4088",
+          "symbol": "_ZN9Character18InitPhysicalObjectEv"
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 2,
+      "type": "9CSDespawn",
+      "operation": 0,
+      "method": "on_focus",
+      "source_function": "0x3c32fc",
+      "symbol": "_ZN9CSDespawn7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "size": 236,
+      "sha256": "72d4969e9b7850c7db7428bc1277e52d18284f0d06e33d4a0a4bc8d4dee94724",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c332c",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c3344",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c3350",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c3358",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c3360",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c3378",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c3384",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c338c",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c33ac",
+          "instruction": "bl",
+          "target": "0x3c0b50",
+          "symbol": "_ZN16CharStateMachine10SM_SetAnimEi"
+        },
+        {
+          "pc": "0x3c33b4",
+          "instruction": "bl",
+          "target": "0x3bc6b8",
+          "symbol": "_ZN9Character14CancelSneakingEv"
+        },
+        {
+          "pc": "0x3c33d0",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 2,
+      "type": "9CSDespawn",
+      "operation": 1,
+      "method": "on_blur",
+      "source_function": "0x3c3794",
+      "symbol": "_ZN9CSDespawn6OnBlurEiP9CharacterP16CharStateMachinei",
+      "size": 416,
+      "sha256": "d705052796abcf8b317331e3fadf7e5acc9193a84903b2d531a70103ea5402bc",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c37c4",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c37dc",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c37e8",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c37f0",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c380c",
+          "instruction": "bl",
+          "target": "0x3a5248",
+          "symbol": "_ZNK9Character10CanRespawnEv"
+        },
+        {
+          "pc": "0x3c3818",
+          "instruction": "bl",
+          "target": "0x7fd794",
+          "symbol": "_Z9GetOnlinev"
+        },
+        {
+          "pc": "0x3c3840",
+          "instruction": "bl",
+          "target": "0x3c91c8",
+          "symbol": "_ZN12CharAnimator15DecAnimSetUsersEv"
+        },
+        {
+          "pc": "0x3c3848",
+          "instruction": "bl",
+          "target": "0x3ca52c",
+          "symbol": "_ZN12CharAnimator16RequestAnimPurgeEv"
+        },
+        {
+          "pc": "0x3c3864",
+          "instruction": "bl",
+          "target": "0x3a7b24",
+          "symbol": "_ZN9Character19UnLoadScriptProcessENSt4priv17_Rb_tree_iteratorISt4pairIKiPS_ENS0_11_MapTraitsTIS5_EEEEb"
+        },
+        {
+          "pc": "0x3c3884",
+          "instruction": "bl",
+          "target": "0x7fd794",
+          "symbol": "_Z9GetOnlinev"
+        },
+        {
+          "pc": "0x3c38a8",
+          "instruction": "bl",
+          "target": "0x36e478",
+          "symbol": "_ZN13PlayerManager14GetLocalPlayerEib"
+        },
+        {
+          "pc": "0x3c38e0",
+          "instruction": "bl",
+          "target": "0x33ddb4",
+          "symbol": "_ZN10ObjectBase6DeleteEv"
+        },
+        {
+          "pc": "0x3c3908",
+          "instruction": "bl",
+          "target": "0x3a30ac",
+          "symbol": "_ZNK9Character10IsSummonedEv"
+        },
+        {
+          "pc": "0x3c3918",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": [
+        {
+          "pc": "0x3c38f4",
+          "instruction": "ldr",
+          "operands": "pc, [r3, #0x28]"
+        }
+      ]
+    },
+    {
+      "state": 2,
+      "type": "9CSDespawn",
+      "operation": 2,
+      "method": "on_update",
+      "source_function": "0x3bfff8",
+      "symbol": "_ZN9CSDespawn8OnUpdateEiP9CharacterP16CharStateMachine",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "empty": true,
+      "raw_hex": "1eff2fe1",
+      "direct_dependencies": [],
+      "indirect_calls": []
+    },
+    {
+      "state": 2,
+      "type": "9CSDespawn",
+      "operation": 3,
+      "method": "on_event",
+      "source_function": "0x3bfffc",
+      "symbol": "_ZN9CSDespawn7OnEventEiP9CharacterP16CharStateMachineiPv",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "empty": true,
+      "raw_hex": "1eff2fe1",
+      "direct_dependencies": [],
+      "indirect_calls": []
+    },
+    {
+      "state": 6,
+      "type": "7CSSkill",
+      "operation": 0,
+      "method": "on_focus",
+      "source_function": "0x3c4480",
+      "symbol": "_ZN7CSSkill7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "size": 324,
+      "sha256": "32171bb0105dcd0bfcabfe810a5dc9ee44e7b562a7832398a55f4be74da914c1",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c44b0",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c44c8",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c44d4",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c44dc",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c4500",
+          "instruction": "bl",
+          "target": "0x3a4d5c",
+          "symbol": "_ZN9Character10RaiseEventEiPv"
+        },
+        {
+          "pc": "0x3c4510",
+          "instruction": "bl",
+          "target": "0x3c0b50",
+          "symbol": "_ZN16CharStateMachine10SM_SetAnimEi"
+        },
+        {
+          "pc": "0x3c4520",
+          "instruction": "bl",
+          "target": "0x3c93fc",
+          "symbol": "_ZN12CharAnimator13ANIM_SetSpeedEf"
+        },
+        {
+          "pc": "0x3c4530",
+          "instruction": "bl",
+          "target": "0x3bc6b8",
+          "symbol": "_ZN9Character14CancelSneakingEv"
+        },
+        {
+          "pc": "0x3c4554",
+          "instruction": "bl",
+          "target": "0x46eae0",
+          "symbol": "_ZN14PhysicalObject5unpinEv"
+        },
+        {
+          "pc": "0x3c455c",
+          "instruction": "bl",
+          "target": "0x3a3064",
+          "symbol": "_ZNK9Character9IsMonsterEv"
+        },
+        {
+          "pc": "0x3c4588",
+          "instruction": "bl",
+          "target": "0x3a3144",
+          "symbol": "_ZNK9Character10IsMiniBossEv"
+        },
+        {
+          "pc": "0x3c4598",
+          "instruction": "bl",
+          "target": "0x3a3158",
+          "symbol": "_ZNK9Character6IsBossEv"
+        },
+        {
+          "pc": "0x3c45b0",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 6,
+      "type": "7CSSkill",
+      "operation": 1,
+      "method": "on_blur",
+      "source_function": "0x3c434c",
+      "symbol": "_ZN7CSSkill6OnBlurEiP9CharacterP16CharStateMachinei",
+      "size": 308,
+      "sha256": "e6761dc6c5d6f43b695b678924ee23ce4e7ef2af0bf2a15d96e222f389de5841",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c437c",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c4394",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c43a0",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c43a8",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c43b0",
+          "instruction": "bl",
+          "target": "0x3d49c4",
+          "symbol": "_ZN6CharAI17AI_SyncLastTargetEv"
+        },
+        {
+          "pc": "0x3c43b8",
+          "instruction": "bl",
+          "target": "0x3938f8",
+          "symbol": "_ZN10GameObject4StopEv"
+        },
+        {
+          "pc": "0x3c43c8",
+          "instruction": "bl",
+          "target": "0x3a4d5c",
+          "symbol": "_ZN9Character10RaiseEventEiPv"
+        },
+        {
+          "pc": "0x3c43e4",
+          "instruction": "bl",
+          "target": "0x46eb20",
+          "symbol": "_ZN14PhysicalObject3pinEv"
+        },
+        {
+          "pc": "0x3c43ec",
+          "instruction": "bl",
+          "target": "0x3a3064",
+          "symbol": "_ZNK9Character9IsMonsterEv"
+        },
+        {
+          "pc": "0x3c442c",
+          "instruction": "bl",
+          "target": "0x3dbe24",
+          "symbol": "_ZN10CharTimers9TMR_StartEjiiPv"
+        },
+        {
+          "pc": "0x3c4434",
+          "instruction": "bl",
+          "target": "0x3a3064",
+          "symbol": "_ZNK9Character9IsMonsterEv"
+        },
+        {
+          "pc": "0x3c4444",
+          "instruction": "bl",
+          "target": "0x3a3144",
+          "symbol": "_ZNK9Character10IsMiniBossEv"
+        },
+        {
+          "pc": "0x3c4454",
+          "instruction": "bl",
+          "target": "0x3a3158",
+          "symbol": "_ZNK9Character6IsBossEv"
+        },
+        {
+          "pc": "0x3c446c",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 6,
+      "type": "7CSSkill",
+      "operation": 2,
+      "method": "on_update",
+      "source_function": "0x3c0018",
+      "symbol": "_ZN7CSSkill8OnUpdateEiP9CharacterP16CharStateMachine",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "empty": true,
+      "raw_hex": "1eff2fe1",
+      "direct_dependencies": [],
+      "indirect_calls": []
+    },
+    {
+      "state": 6,
+      "type": "7CSSkill",
+      "operation": 3,
+      "method": "on_event",
+      "source_function": "0x3c0ac8",
+      "symbol": "_ZN7CSSkill7OnEventEiP9CharacterP16CharStateMachineiPv",
+      "size": 60,
+      "sha256": "bfb0054d5e809585c598ce6bc42976d3440f2a559039f84e0218e5a9ee763f31",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c0ae8",
+          "instruction": "bl",
+          "target": "0x30e31c",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 7,
+      "type": "6CSCast",
+      "operation": 0,
+      "method": "on_focus",
+      "source_function": "0x3c39d0",
+      "symbol": "_ZN6CSCast7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "size": 212,
+      "sha256": "4f9866f9af65600fcd501119c5f877098c9b184a86e7a4e4e1a65401ceb17bc8",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c3a00",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c3a18",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c3a24",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c3a2c",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c3a44",
+          "instruction": "bl",
+          "target": "0x3a4d5c",
+          "symbol": "_ZN9Character10RaiseEventEiPv"
+        },
+        {
+          "pc": "0x3c3a54",
+          "instruction": "bl",
+          "target": "0x3c0b50",
+          "symbol": "_ZN16CharStateMachine10SM_SetAnimEi"
+        },
+        {
+          "pc": "0x3c3a64",
+          "instruction": "bl",
+          "target": "0x3c93fc",
+          "symbol": "_ZN12CharAnimator13ANIM_SetSpeedEf"
+        },
+        {
+          "pc": "0x3c3a74",
+          "instruction": "bl",
+          "target": "0x3bc6b8",
+          "symbol": "_ZN9Character14CancelSneakingEv"
+        },
+        {
+          "pc": "0x3c3a90",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 7,
+      "type": "6CSCast",
+      "operation": 1,
+      "method": "on_blur",
+      "source_function": "0x3c3934",
+      "symbol": "_ZN6CSCast6OnBlurEiP9CharacterP16CharStateMachinei",
+      "size": 156,
+      "sha256": "2bf5b676bafec67bf0f4a655ca38a4f7489a275f51b8143daa10ed00f7e7d8d8",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c3964",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c397c",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c3988",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c3990",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c39a0",
+          "instruction": "bl",
+          "target": "0x3a4d5c",
+          "symbol": "_ZN9Character10RaiseEventEiPv"
+        },
+        {
+          "pc": "0x3c39bc",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 7,
+      "type": "6CSCast",
+      "operation": 2,
+      "method": "on_update",
+      "source_function": "0x3c0020",
+      "symbol": "_ZN6CSCast8OnUpdateEiP9CharacterP16CharStateMachine",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "empty": true,
+      "raw_hex": "1eff2fe1",
+      "direct_dependencies": [],
+      "indirect_calls": []
+    },
+    {
+      "state": 7,
+      "type": "6CSCast",
+      "operation": 3,
+      "method": "on_event",
+      "source_function": "0x3c0024",
+      "symbol": "_ZN6CSCast7OnEventEiP9CharacterP16CharStateMachineiPv",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "empty": true,
+      "raw_hex": "1eff2fe1",
+      "direct_dependencies": [],
+      "indirect_calls": []
+    },
+    {
+      "state": 8,
+      "type": "8CSScared",
+      "operation": 0,
+      "method": "on_focus",
+      "source_function": "0x3c45c4",
+      "symbol": "_ZN8CSScared7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "size": 452,
+      "sha256": "96e2b63b759220c8c939d6d371511f5c14b81075acc284124c2df6856982f5c2",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c45f4",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c460c",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c4618",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c4620",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c4644",
+          "instruction": "bl",
+          "target": "0x3a3228",
+          "symbol": "_ZNK9Character18GetCharAnimTableIdEv"
+        },
+        {
+          "pc": "0x3c4670",
+          "instruction": "bl",
+          "target": "0x4c4bdc",
+          "symbol": "_ZNK15PyDataConstants11getConstantEPKcS1_"
+        },
+        {
+          "pc": "0x3c4684",
+          "instruction": "bl",
+          "target": "0x3cacb0",
+          "symbol": "_ZN12CharAnimator8ANIM_SetEi"
+        },
+        {
+          "pc": "0x3c469c",
+          "instruction": "bl",
+          "target": "0x3c26a0",
+          "symbol": "_ZN6Random9GetRandomEib.clone.1"
+        },
+        {
+          "pc": "0x3c46a0",
+          "instruction": "bl",
+          "target": "0x30e964",
+          "symbol": null
+        },
+        {
+          "pc": "0x3c46ac",
+          "instruction": "bl",
+          "target": "0x30ed6c",
+          "symbol": null
+        },
+        {
+          "pc": "0x3c46b8",
+          "instruction": "bl",
+          "target": "0x30eba4",
+          "symbol": null
+        },
+        {
+          "pc": "0x3c46c4",
+          "instruction": "bl",
+          "target": "0x3c26a0",
+          "symbol": "_ZN6Random9GetRandomEib.clone.1"
+        },
+        {
+          "pc": "0x3c46c8",
+          "instruction": "bl",
+          "target": "0x30e964",
+          "symbol": null
+        },
+        {
+          "pc": "0x3c46d4",
+          "instruction": "bl",
+          "target": "0x30ed6c",
+          "symbol": null
+        },
+        {
+          "pc": "0x3c46e0",
+          "instruction": "bl",
+          "target": "0x30eba4",
+          "symbol": null
+        },
+        {
+          "pc": "0x3c46ec",
+          "instruction": "bl",
+          "target": "0x3c26a0",
+          "symbol": "_ZN6Random9GetRandomEib.clone.1"
+        },
+        {
+          "pc": "0x3c4704",
+          "instruction": "bl",
+          "target": "0x3c26a0",
+          "symbol": "_ZN6Random9GetRandomEib.clone.1"
+        },
+        {
+          "pc": "0x3c4720",
+          "instruction": "bl",
+          "target": "0x405374",
+          "symbol": "_ZN12v2Controller15Cmd_HeadTowardsERK7Point3DIfE"
+        },
+        {
+          "pc": "0x3c4728",
+          "instruction": "bl",
+          "target": "0x3bc6b8",
+          "symbol": "_ZN9Character14CancelSneakingEv"
+        },
+        {
+          "pc": "0x3c4738",
+          "instruction": "bl",
+          "target": "0x46eae0",
+          "symbol": "_ZN14PhysicalObject5unpinEv"
+        },
+        {
+          "pc": "0x3c475c",
+          "instruction": "bl",
+          "target": "0x3a53e0",
+          "symbol": "_ZNK9Character13GetAnimStanceEv"
+        },
+        {
+          "pc": "0x3c4764",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 8,
+      "type": "8CSScared",
+      "operation": 1,
+      "method": "on_blur",
+      "source_function": "0x3c4834",
+      "symbol": "_ZN8CSScared6OnBlurEiP9CharacterP16CharStateMachinei",
+      "size": 172,
+      "sha256": "53d1193abddeeb1392cc7570c4e5f334d9fd3750445bf06a22322357c7860609",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c4864",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c487c",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c4888",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c4890",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c489c",
+          "instruction": "bl",
+          "target": "0x4053d0",
+          "symbol": "_ZN12v2Controller15Cmd_HeadTowardsEP10GameObject"
+        },
+        {
+          "pc": "0x3c48ac",
+          "instruction": "bl",
+          "target": "0x46eb20",
+          "symbol": "_ZN14PhysicalObject3pinEv"
+        },
+        {
+          "pc": "0x3c48cc",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 8,
+      "type": "8CSScared",
+      "operation": 2,
+      "method": "on_update",
+      "source_function": "0x3c4788",
+      "symbol": "_ZN8CSScared8OnUpdateEiP9CharacterP16CharStateMachine",
+      "size": 172,
+      "sha256": "f6b7ce0ccdcce06914617c373e6ddc24f89ea829847f607c74d0a438cfdbc32c",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c47c8",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c47dc",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c47e8",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c47f0",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c4800",
+          "instruction": "bl",
+          "target": "0x3c948c",
+          "symbol": "_ZN12CharAnimator13ANIM_StopLoopEb"
+        },
+        {
+          "pc": "0x3c4820",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 8,
+      "type": "8CSScared",
+      "operation": 3,
+      "method": "on_event",
+      "source_function": "0x3c2b28",
+      "symbol": "_ZN8CSScared7OnEventEiP9CharacterP16CharStateMachineiPv",
+      "size": 188,
+      "sha256": "1fd97149e99e95bc205d3549a266af9e65c4cdf0bcc3b48d4475cae8f1970952",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c2b54",
+          "instruction": "bl",
+          "target": "0x3c26a0",
+          "symbol": "_ZN6Random9GetRandomEib.clone.1"
+        },
+        {
+          "pc": "0x3c2b58",
+          "instruction": "bl",
+          "target": "0x30e964",
+          "symbol": null
+        },
+        {
+          "pc": "0x3c2b64",
+          "instruction": "bl",
+          "target": "0x30ed6c",
+          "symbol": null
+        },
+        {
+          "pc": "0x3c2b70",
+          "instruction": "bl",
+          "target": "0x30eba4",
+          "symbol": null
+        },
+        {
+          "pc": "0x3c2b7c",
+          "instruction": "bl",
+          "target": "0x3c26a0",
+          "symbol": "_ZN6Random9GetRandomEib.clone.1"
+        },
+        {
+          "pc": "0x3c2b80",
+          "instruction": "bl",
+          "target": "0x30e964",
+          "symbol": null
+        },
+        {
+          "pc": "0x3c2b8c",
+          "instruction": "bl",
+          "target": "0x30ed6c",
+          "symbol": null
+        },
+        {
+          "pc": "0x3c2b98",
+          "instruction": "bl",
+          "target": "0x30eba4",
+          "symbol": null
+        },
+        {
+          "pc": "0x3c2ba4",
+          "instruction": "bl",
+          "target": "0x3c26a0",
+          "symbol": "_ZN6Random9GetRandomEib.clone.1"
+        },
+        {
+          "pc": "0x3c2bbc",
+          "instruction": "bl",
+          "target": "0x3c26a0",
+          "symbol": "_ZN6Random9GetRandomEib.clone.1"
+        },
+        {
+          "pc": "0x3c2bd8",
+          "instruction": "bl",
+          "target": "0x405374",
+          "symbol": "_ZN12v2Controller15Cmd_HeadTowardsERK7Point3DIfE"
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 9,
+      "type": "9CSStunned",
+      "operation": 0,
+      "method": "on_focus",
+      "source_function": "0x3c3cc0",
+      "symbol": "_ZN9CSStunned7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "size": 384,
+      "sha256": "2566436118d70d8d0904508f4e76927ec8ba680a070d45930601af5afc2ecfc9",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c3cf0",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c3d08",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c3d14",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c3d1c",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c3d24",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c3d3c",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c3d48",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c3d50",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c3d74",
+          "instruction": "bl",
+          "target": "0x3a3228",
+          "symbol": "_ZNK9Character18GetCharAnimTableIdEv"
+        },
+        {
+          "pc": "0x3c3da0",
+          "instruction": "bl",
+          "target": "0x4c4bdc",
+          "symbol": "_ZNK15PyDataConstants11getConstantEPKcS1_"
+        },
+        {
+          "pc": "0x3c3db4",
+          "instruction": "bl",
+          "target": "0x3cacb0",
+          "symbol": "_ZN12CharAnimator8ANIM_SetEi"
+        },
+        {
+          "pc": "0x3c3ddc",
+          "instruction": "bl",
+          "target": "0x3bc6b8",
+          "symbol": "_ZN9Character14CancelSneakingEv"
+        },
+        {
+          "pc": "0x3c3dec",
+          "instruction": "bl",
+          "target": "0x46eae0",
+          "symbol": "_ZN14PhysicalObject5unpinEv"
+        },
+        {
+          "pc": "0x3c3e10",
+          "instruction": "bl",
+          "target": "0x3a53e0",
+          "symbol": "_ZNK9Character13GetAnimStanceEv"
+        },
+        {
+          "pc": "0x3c3e18",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": [
+        {
+          "pc": "0x3c3dc4",
+          "instruction": "ldr",
+          "operands": "pc, [r3, #0x28]"
+        }
+      ]
+    },
+    {
+      "state": 9,
+      "type": "9CSStunned",
+      "operation": 1,
+      "method": "on_blur",
+      "source_function": "0x3c3b4c",
+      "symbol": "_ZN9CSStunned6OnBlurEiP9CharacterP16CharStateMachinei",
+      "size": 172,
+      "sha256": "8566f6babf68fbe03e36f63f83488330314b62ed374eb42d693a389e2a6decde",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c3b7c",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c3b94",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c3ba0",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c3ba8",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c3bc4",
+          "instruction": "bl",
+          "target": "0x46eb20",
+          "symbol": "_ZN14PhysicalObject3pinEv"
+        },
+        {
+          "pc": "0x3c3be4",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 9,
+      "type": "9CSStunned",
+      "operation": 2,
+      "method": "on_update",
+      "source_function": "0x3c549c",
+      "symbol": "_ZN9CSStunned8OnUpdateEiP9CharacterP16CharStateMachine",
+      "size": 172,
+      "sha256": "bc75ec8d83e59761c10ce34859ed036d0000ca0cdb21495ccf78fffc36d4e1ee",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c54dc",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c54f0",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c54fc",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c5504",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c5514",
+          "instruction": "bl",
+          "target": "0x3c1a00",
+          "symbol": "_ZN16CharStateMachine15SM_SetIdleStateEb"
+        },
+        {
+          "pc": "0x3c5534",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 9,
+      "type": "9CSStunned",
+      "operation": 3,
+      "method": "on_event",
+      "source_function": "0x3c0030",
+      "symbol": "_ZN9CSStunned7OnEventEiP9CharacterP16CharStateMachineiPv",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "empty": true,
+      "raw_hex": "1eff2fe1",
+      "direct_dependencies": [],
+      "indirect_calls": []
+    },
+    {
+      "state": 10,
+      "type": "13CSKnockedBack",
+      "operation": 0,
+      "method": "on_focus",
+      "source_function": "0x3c4a48",
+      "symbol": "_ZN13CSKnockedBack7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "size": 348,
+      "sha256": "7a37094eab3684b5e5582f93301f1975c1128527b210856f250e1e72d1ab3e58",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c4a80",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c4a98",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c4aa4",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c4aac",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c4ab4",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c4acc",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c4ad8",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c4ae0",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c4af8",
+          "instruction": "bl",
+          "target": "0x3c0b50",
+          "symbol": "_ZN16CharStateMachine10SM_SetAnimEi"
+        },
+        {
+          "pc": "0x3c4b28",
+          "instruction": "bl",
+          "target": "0x46ece8",
+          "symbol": "_ZN14PhysicalObject9setFilterEsttb"
+        },
+        {
+          "pc": "0x3c4b54",
+          "instruction": "bl",
+          "target": "0x393d48",
+          "symbol": "_ZN10GameObject6LookAtEPS_"
+        },
+        {
+          "pc": "0x3c4b5c",
+          "instruction": "bl",
+          "target": "0x3bc6b8",
+          "symbol": "_ZN9Character14CancelSneakingEv"
+        },
+        {
+          "pc": "0x3c4b6c",
+          "instruction": "bl",
+          "target": "0x46eae0",
+          "symbol": "_ZN14PhysicalObject5unpinEv"
+        },
+        {
+          "pc": "0x3c4b8c",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 10,
+      "type": "13CSKnockedBack",
+      "operation": 1,
+      "method": "on_blur",
+      "source_function": "0x3c48e0",
+      "symbol": "_ZN13CSKnockedBack6OnBlurEiP9CharacterP16CharStateMachinei",
+      "size": 188,
+      "sha256": "9f624e6d0fe416aa07af99540e4e261d4b6caee1c3c2d9f00804eda7be66ae95",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c4910",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c4928",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c4934",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c493c",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c4958",
+          "instruction": "bl",
+          "target": "0x46ec6c",
+          "symbol": "_ZN14PhysicalObject11resetFilterEv"
+        },
+        {
+          "pc": "0x3c4968",
+          "instruction": "bl",
+          "target": "0x46eb20",
+          "symbol": "_ZN14PhysicalObject3pinEv"
+        },
+        {
+          "pc": "0x3c4988",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 10,
+      "type": "13CSKnockedBack",
+      "operation": 2,
+      "method": "on_update",
+      "source_function": "0x3c0038",
+      "symbol": "_ZN13CSKnockedBack8OnUpdateEiP9CharacterP16CharStateMachine",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "empty": true,
+      "raw_hex": "1eff2fe1",
+      "direct_dependencies": [],
+      "indirect_calls": []
+    },
+    {
+      "state": 10,
+      "type": "13CSKnockedBack",
+      "operation": 3,
+      "method": "on_event",
+      "source_function": "0x3c5ab0",
+      "symbol": "_ZN13CSKnockedBack7OnEventEiP9CharacterP16CharStateMachineiPv",
+      "size": 140,
+      "sha256": "6db8b4192e2d6dcad5ce93de9a0de7dd77f1ac8b9543655098e9122f5e1dec55",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c5ae8",
+          "instruction": "b",
+          "target": "0x46ec6c",
+          "symbol": "_ZN14PhysicalObject11resetFilterEv"
+        },
+        {
+          "pc": "0x3c5b14",
+          "instruction": "bl",
+          "target": "0x3c9924",
+          "symbol": "_ZN12CharAnimator9ANIM_StopEv"
+        },
+        {
+          "pc": "0x3c5b38",
+          "instruction": "b",
+          "target": "0x3c58c8",
+          "symbol": "_ZN16CharStateMachine15SM_SetDeadStateEbPvb"
+        }
+      ],
+      "indirect_calls": [
+        {
+          "pc": "0x3c5afc",
+          "instruction": "ldr",
+          "operands": "pc, [r3, #0x34]"
+        }
+      ]
+    },
+    {
+      "state": 11,
+      "type": "9CSInjured",
+      "operation": 0,
+      "method": "on_focus",
+      "source_function": "0x3c33e8",
+      "symbol": "_ZN9CSInjured7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "size": 228,
+      "sha256": "c3252ebc7607f882d4f7b9a6b302b1c6023fe85f4b3a789d37bf07e10269b454",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c3418",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c3430",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c343c",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c3444",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c344c",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c3464",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c3470",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c3478",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c3490",
+          "instruction": "bl",
+          "target": "0x3c0b50",
+          "symbol": "_ZN16CharStateMachine10SM_SetAnimEi"
+        },
+        {
+          "pc": "0x3c3498",
+          "instruction": "bl",
+          "target": "0x3bc6b8",
+          "symbol": "_ZN9Character14CancelSneakingEv"
+        },
+        {
+          "pc": "0x3c34b4",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 11,
+      "type": "9CSInjured",
+      "operation": 1,
+      "method": "on_blur",
+      "source_function": "0x3c4ba4",
+      "symbol": "_ZN9CSInjured6OnBlurEiP9CharacterP16CharStateMachinei",
+      "size": 152,
+      "sha256": "88a34dc800634a5bb61297da2451c879dd3f4563015bebd6a781613aa79dbc75",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c4bd4",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c4bec",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c4bf8",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c4c00",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c4c0c",
+          "instruction": "bl",
+          "target": "0x4052bc",
+          "symbol": "_ZN12v2Controller10Cmd_LookAtEP10GameObject"
+        },
+        {
+          "pc": "0x3c4c28",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 11,
+      "type": "9CSInjured",
+      "operation": 2,
+      "method": "on_update",
+      "source_function": "0x3c0040",
+      "symbol": "_ZN9CSInjured8OnUpdateEiP9CharacterP16CharStateMachine",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "empty": true,
+      "raw_hex": "1eff2fe1",
+      "direct_dependencies": [],
+      "indirect_calls": []
+    },
+    {
+      "state": 11,
+      "type": "9CSInjured",
+      "operation": 3,
+      "method": "on_event",
+      "source_function": "0x3c0044",
+      "symbol": "_ZN9CSInjured7OnEventEiP9CharacterP16CharStateMachineiPv",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "empty": true,
+      "raw_hex": "1eff2fe1",
+      "direct_dependencies": [],
+      "indirect_calls": []
+    },
+    {
+      "state": 13,
+      "type": "10CSInteract",
+      "operation": 0,
+      "method": "on_focus",
+      "source_function": "0x3c5548",
+      "symbol": "_ZN10CSInteract7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "size": 316,
+      "sha256": "203f68c4e354cebc1ac73f1c4962b6efa3eab329a4a11d9c21b91c2268f0e0c3",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c557c",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c5594",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c55a0",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c55a8",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c55b0",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c55c8",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c55d4",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c55dc",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c55e4",
+          "instruction": "bl",
+          "target": "0x3a3064",
+          "symbol": "_ZNK9Character9IsMonsterEv"
+        },
+        {
+          "pc": "0x3c5604",
+          "instruction": "bl",
+          "target": "0x3c0b50",
+          "symbol": "_ZN16CharStateMachine10SM_SetAnimEi"
+        },
+        {
+          "pc": "0x3c560c",
+          "instruction": "bl",
+          "target": "0x3a316c",
+          "symbol": "_ZNK9Character13IsCharSittingEv"
+        },
+        {
+          "pc": "0x3c561c",
+          "instruction": "bl",
+          "target": "0x3bc6b8",
+          "symbol": "_ZN9Character14CancelSneakingEv"
+        },
+        {
+          "pc": "0x3c5650",
+          "instruction": "bl",
+          "target": "0x4052bc",
+          "symbol": "_ZN12v2Controller10Cmd_LookAtEP10GameObject"
+        },
+        {
+          "pc": "0x3c5664",
+          "instruction": "bl",
+          "target": "0x3c1a00",
+          "symbol": "_ZN16CharStateMachine15SM_SetIdleStateEb"
+        },
+        {
+          "pc": "0x3c566c",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 13,
+      "type": "10CSInteract",
+      "operation": 1,
+      "method": "on_blur",
+      "source_function": "0x3c4f8c",
+      "symbol": "_ZN10CSInteract6OnBlurEiP9CharacterP16CharStateMachinei",
+      "size": 296,
+      "sha256": "1d9b60e1890e9e494206f5198c39728db6b4e934a3af71b3161c32adfd9873a8",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c4fc0",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c4fd8",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c4fe4",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c4fec",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c4ff4",
+          "instruction": "bl",
+          "target": "0x3a316c",
+          "symbol": "_ZNK9Character13IsCharSittingEv"
+        },
+        {
+          "pc": "0x3c5058",
+          "instruction": "bl",
+          "target": "0x3a310c",
+          "symbol": "_ZNK9Character5IsNPCEv"
+        },
+        {
+          "pc": "0x3c5070",
+          "instruction": "bl",
+          "target": "0x3938a0",
+          "symbol": "_ZN10GameObject11SetRotationERK7Point3DIfE"
+        },
+        {
+          "pc": "0x3c5098",
+          "instruction": "bl",
+          "target": "0x3ee5a8",
+          "symbol": "_ZN14LiftableObject4DropEv"
+        },
+        {
+          "pc": "0x3c50a0",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 13,
+      "type": "10CSInteract",
+      "operation": 2,
+      "method": "on_update",
+      "source_function": "0x3c0080",
+      "symbol": "_ZN10CSInteract8OnUpdateEiP9CharacterP16CharStateMachine",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "empty": true,
+      "raw_hex": "1eff2fe1",
+      "direct_dependencies": [],
+      "indirect_calls": []
+    },
+    {
+      "state": 13,
+      "type": "10CSInteract",
+      "operation": 3,
+      "method": "on_event",
+      "source_function": "0x3c1558",
+      "symbol": "_ZN10CSInteract7OnEventEiP9CharacterP16CharStateMachineiPv",
+      "size": 168,
+      "sha256": "3c13ba4352a41a681396cbe55c844065e4a30ca405959304bc2a551107f83556",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c158c",
+          "instruction": "bl",
+          "target": "0x30e31c",
+          "symbol": null
+        },
+        {
+          "pc": "0x3c15a8",
+          "instruction": "bl",
+          "target": "0x3ee468",
+          "symbol": "_ZN14LiftableObject7ReleaseEv"
+        },
+        {
+          "pc": "0x3c15c4",
+          "instruction": "bl",
+          "target": "0x30e31c",
+          "symbol": null
+        },
+        {
+          "pc": "0x3c15e4",
+          "instruction": "bl",
+          "target": "0x3ee5fc",
+          "symbol": "_ZN14LiftableObject6PickUpEP10GameObject"
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 14,
+      "type": "6CSAnim",
+      "operation": 0,
+      "method": "on_focus",
+      "source_function": "0x3c324c",
+      "symbol": "_ZN6CSAnim7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "size": 176,
+      "sha256": "923b4424930f87b883f15c9a031f06a2f31d0afe9c0760ab2f5b34a8ba2a71cb",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c327c",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c3294",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c32a0",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c32a8",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c32cc",
+          "instruction": "bl",
+          "target": "0x3c0b50",
+          "symbol": "_ZN16CharStateMachine10SM_SetAnimEi"
+        },
+        {
+          "pc": "0x3c32e8",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 14,
+      "type": "6CSAnim",
+      "operation": 1,
+      "method": "on_blur",
+      "source_function": "0x3c2dd0",
+      "symbol": "_ZN6CSAnim6OnBlurEiP9CharacterP16CharStateMachinei",
+      "size": 136,
+      "sha256": "f8b9b7168a0d55872d16bf0c9d043ce01ca274810a28cb9e41c9ea9e6ab23ac4",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c2e00",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c2e14",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c2e20",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c2e28",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c2e44",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 14,
+      "type": "6CSAnim",
+      "operation": 2,
+      "method": "on_update",
+      "source_function": "0x3c1a3c",
+      "symbol": "_ZN6CSAnim8OnUpdateEiP9CharacterP16CharStateMachine",
+      "size": 40,
+      "sha256": "5c5cb86e37ef7975bce52033fe57e116503890ae5964ee25ddb40064cd9c9d79",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c1a60",
+          "instruction": "b",
+          "target": "0x3c1a00",
+          "symbol": "_ZN16CharStateMachine15SM_SetIdleStateEb"
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 14,
+      "type": "6CSAnim",
+      "operation": 3,
+      "method": "on_event",
+      "source_function": "0x3c1a14",
+      "symbol": "_ZN6CSAnim7OnEventEiP9CharacterP16CharStateMachineiPv",
+      "size": 40,
+      "sha256": "8b9c39d48153c84d8663351aafeb4cb3817a783abf5b5ac39b88ff844a073b7a",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c1a38",
+          "instruction": "b",
+          "target": "0x3c1a00",
+          "symbol": "_ZN16CharStateMachine15SM_SetIdleStateEb"
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 15,
+      "type": "10CSReviving",
+      "operation": 0,
+      "method": "on_focus",
+      "source_function": "0x3c5294",
+      "symbol": "_ZN10CSReviving7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "size": 344,
+      "sha256": "faec2a7a5952ff4f290cc0c82f7661550ad6ae7e869e4337876fba1795efbaa4",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c52c4",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c52dc",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c52e8",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c52f0",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c5300",
+          "instruction": "bl",
+          "target": "0x3bc6b8",
+          "symbol": "_ZN9Character14CancelSneakingEv"
+        },
+        {
+          "pc": "0x3c531c",
+          "instruction": "bl",
+          "target": "0x33dd2c",
+          "symbol": "_ZN10ObjectBase9GetHandleEv"
+        },
+        {
+          "pc": "0x3c5324",
+          "instruction": "bl",
+          "target": "0x33ff54",
+          "symbol": "_ZN12ObjectHandlecvP9CharacterEv"
+        },
+        {
+          "pc": "0x3c533c",
+          "instruction": "bl",
+          "target": "0x3d6890",
+          "symbol": "_ZN6CharAI12AI_SetTargetEP10GameObjectb"
+        },
+        {
+          "pc": "0x3c5344",
+          "instruction": "bl",
+          "target": "0x3d49c4",
+          "symbol": "_ZN6CharAI17AI_SyncLastTargetEv"
+        },
+        {
+          "pc": "0x3c5360",
+          "instruction": "bl",
+          "target": "0x3a3228",
+          "symbol": "_ZNK9Character18GetCharAnimTableIdEv"
+        },
+        {
+          "pc": "0x3c538c",
+          "instruction": "bl",
+          "target": "0x4c4bdc",
+          "symbol": "_ZNK15PyDataConstants11getConstantEPKcS1_"
+        },
+        {
+          "pc": "0x3c539c",
+          "instruction": "bl",
+          "target": "0x3a53e0",
+          "symbol": "_ZNK9Character13GetAnimStanceEv"
+        },
+        {
+          "pc": "0x3c53a8",
+          "instruction": "bl",
+          "target": "0x3c0b50",
+          "symbol": "_ZN16CharStateMachine10SM_SetAnimEi"
+        },
+        {
+          "pc": "0x3c53c8",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 15,
+      "type": "10CSReviving",
+      "operation": 1,
+      "method": "on_blur",
+      "source_function": "0x3c6724",
+      "symbol": "_ZN10CSReviving6OnBlurEiP9CharacterP16CharStateMachinei",
+      "size": 176,
+      "sha256": "872d697d3abd4d7bb9ccad9b3381486b8b2d53610fd347b0de2371a5c992e00d",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c6754",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c676c",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c6778",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c6780",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c6798",
+          "instruction": "bl",
+          "target": "0x3c5880",
+          "symbol": "_ZN16CharStateMachine18SM_SetRevivedStateEPvb"
+        },
+        {
+          "pc": "0x3c67c0",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 15,
+      "type": "10CSReviving",
+      "operation": 2,
+      "method": "on_update",
+      "source_function": "0x3c0058",
+      "symbol": "_ZN10CSReviving8OnUpdateEiP9CharacterP16CharStateMachine",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "empty": true,
+      "raw_hex": "1eff2fe1",
+      "direct_dependencies": [],
+      "indirect_calls": []
+    },
+    {
+      "state": 15,
+      "type": "10CSReviving",
+      "operation": 3,
+      "method": "on_event",
+      "source_function": "0x3c005c",
+      "symbol": "_ZN10CSReviving7OnEventEiP9CharacterP16CharStateMachineiPv",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "empty": true,
+      "raw_hex": "1eff2fe1",
+      "direct_dependencies": [],
+      "indirect_calls": []
+    },
+    {
+      "state": 16,
+      "type": "9CSRevived",
+      "operation": 0,
+      "method": "on_focus",
+      "source_function": "0x3c34cc",
+      "symbol": "_ZN9CSRevived7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "size": 288,
+      "sha256": "296ce758d197bad97d4afa9a09545accc7438dba56fe382c6718d0dc5cc3aad4",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c34fc",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c3514",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c3520",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c3528",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c3538",
+          "instruction": "bl",
+          "target": "0x3bc6b8",
+          "symbol": "_ZN9Character14CancelSneakingEv"
+        },
+        {
+          "pc": "0x3c3554",
+          "instruction": "bl",
+          "target": "0x3a3228",
+          "symbol": "_ZNK9Character18GetCharAnimTableIdEv"
+        },
+        {
+          "pc": "0x3c3580",
+          "instruction": "bl",
+          "target": "0x4c4bdc",
+          "symbol": "_ZNK15PyDataConstants11getConstantEPKcS1_"
+        },
+        {
+          "pc": "0x3c3590",
+          "instruction": "bl",
+          "target": "0x3a53e0",
+          "symbol": "_ZNK9Character13GetAnimStanceEv"
+        },
+        {
+          "pc": "0x3c359c",
+          "instruction": "bl",
+          "target": "0x3c0b50",
+          "symbol": "_ZN16CharStateMachine10SM_SetAnimEi"
+        },
+        {
+          "pc": "0x3c35c8",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 16,
+      "type": "9CSRevived",
+      "operation": 1,
+      "method": "on_blur",
+      "source_function": "0x3c53ec",
+      "symbol": "_ZN9CSRevived6OnBlurEiP9CharacterP16CharStateMachinei",
+      "size": 176,
+      "sha256": "f5c30ec994534973d221ab60d90723f2c5fc897711f862e91cdcd88bab9affa0",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c541c",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c5434",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c5440",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c5448",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c5458",
+          "instruction": "bl",
+          "target": "0x3a59ac",
+          "symbol": "_ZN9Character6ReviveEP10GameObjectb"
+        },
+        {
+          "pc": "0x3c546c",
+          "instruction": "bl",
+          "target": "0x3a41a0",
+          "symbol": "_ZN9Character23AddMultiplayerHighlightEv"
+        },
+        {
+          "pc": "0x3c5488",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 16,
+      "type": "9CSRevived",
+      "operation": 2,
+      "method": "on_update",
+      "source_function": "0x3c0064",
+      "symbol": "_ZN9CSRevived8OnUpdateEiP9CharacterP16CharStateMachine",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "empty": true,
+      "raw_hex": "1eff2fe1",
+      "direct_dependencies": [],
+      "indirect_calls": []
+    },
+    {
+      "state": 16,
+      "type": "9CSRevived",
+      "operation": 3,
+      "method": "on_event",
+      "source_function": "0x3c0068",
+      "symbol": "_ZN9CSRevived7OnEventEiP9CharacterP16CharStateMachineiPv",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "empty": true,
+      "raw_hex": "1eff2fe1",
+      "direct_dependencies": [],
+      "indirect_calls": []
+    },
+    {
+      "state": 17,
+      "type": "10CSPreSpawn",
+      "operation": 0,
+      "method": "on_focus",
+      "source_function": "0x3c688c",
+      "symbol": "_ZN10CSPreSpawn7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "size": 404,
+      "sha256": "a0d2c3c84c684fd615e4fffcb29838e0c02e701ffce8d35c15be03bf17c107ea",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c68bc",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c68d4",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c68e0",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c68e8",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c6908",
+          "instruction": "bl",
+          "target": "0x3a3228",
+          "symbol": "_ZNK9Character18GetCharAnimTableIdEv"
+        },
+        {
+          "pc": "0x3c6924",
+          "instruction": "bl",
+          "target": "0x3a3228",
+          "symbol": "_ZNK9Character18GetCharAnimTableIdEv"
+        },
+        {
+          "pc": "0x3c6938",
+          "instruction": "bl",
+          "target": "0x3cacb0",
+          "symbol": "_ZN12CharAnimator8ANIM_SetEi"
+        },
+        {
+          "pc": "0x3c6948",
+          "instruction": "bl",
+          "target": "0x394bf8",
+          "symbol": "_ZN10GameObject17SetPhysicalObjectEP14PhysicalObjectb"
+        },
+        {
+          "pc": "0x3c6970",
+          "instruction": "bl",
+          "target": "0x3949b0",
+          "symbol": "_ZN10GameObject17DisableCollisionsEv"
+        },
+        {
+          "pc": "0x3c6998",
+          "instruction": "bl",
+          "target": "0x3a3228",
+          "symbol": "_ZNK9Character18GetCharAnimTableIdEv"
+        },
+        {
+          "pc": "0x3c69c0",
+          "instruction": "bl",
+          "target": "0x4c4bdc",
+          "symbol": "_ZNK15PyDataConstants11getConstantEPKcS1_"
+        },
+        {
+          "pc": "0x3c69dc",
+          "instruction": "bl",
+          "target": "0x3cacb0",
+          "symbol": "_ZN12CharAnimator8ANIM_SetEi"
+        },
+        {
+          "pc": "0x3c69e8",
+          "instruction": "bl",
+          "target": "0x3c93fc",
+          "symbol": "_ZN12CharAnimator13ANIM_SetSpeedEf"
+        },
+        {
+          "pc": "0x3c69f4",
+          "instruction": "bl",
+          "target": "0x3a53e0",
+          "symbol": "_ZNK9Character13GetAnimStanceEv"
+        },
+        {
+          "pc": "0x3c69fc",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": [
+        {
+          "pc": "0x3c6968",
+          "instruction": "ldr",
+          "operands": "pc, [r3, #0x40]"
+        }
+      ]
+    },
+    {
+      "state": 17,
+      "type": "10CSPreSpawn",
+      "operation": 1,
+      "method": "on_blur",
+      "source_function": "0x3c67d4",
+      "symbol": "_ZN10CSPreSpawn6OnBlurEiP9CharacterP16CharStateMachinei",
+      "size": 184,
+      "sha256": "8265cb185107779691dda40758d052eac5fb2d1d339691d727e99aaf3a061a21",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c6804",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c681c",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c6828",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c6830",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c6854",
+          "instruction": "bl",
+          "target": "0x3a59ac",
+          "symbol": "_ZN9Character6ReviveEP10GameObjectb"
+        },
+        {
+          "pc": "0x3c685c",
+          "instruction": "bl",
+          "target": "0x394a3c",
+          "symbol": "_ZN10GameObject16EnableCollisionsEv"
+        },
+        {
+          "pc": "0x3c6878",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": [
+        {
+          "pc": "0x3c6844",
+          "instruction": "ldr",
+          "operands": "pc, [r3, #0x40]"
+        }
+      ]
+    },
+    {
+      "state": 17,
+      "type": "10CSPreSpawn",
+      "operation": 2,
+      "method": "on_update",
+      "source_function": "0x3c0070",
+      "symbol": "_ZN10CSPreSpawn8OnUpdateEiP9CharacterP16CharStateMachine",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "empty": true,
+      "raw_hex": "1eff2fe1",
+      "direct_dependencies": [],
+      "indirect_calls": []
+    },
+    {
+      "state": 17,
+      "type": "10CSPreSpawn",
+      "operation": 3,
+      "method": "on_event",
+      "source_function": "0x3c2810",
+      "symbol": "_ZN10CSPreSpawn7OnEventEiP9CharacterP16CharStateMachineiPv",
+      "size": 312,
+      "sha256": "64df1d09cb5a466ec657da7b228c82fefdb43f8c4a2ef5e42ba0dffa7e9a4821",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c2850",
+          "instruction": "bl",
+          "target": "0x30e31c",
+          "symbol": null
+        },
+        {
+          "pc": "0x3c286c",
+          "instruction": "bl",
+          "target": "0x3b4088",
+          "symbol": "_ZN9Character18InitPhysicalObjectEv"
+        },
+        {
+          "pc": "0x3c2890",
+          "instruction": "bl",
+          "target": "0x3ad2e4",
+          "symbol": "_ZN9Character9CSM_SpawnEiPviRi"
+        },
+        {
+          "pc": "0x3c28f8",
+          "instruction": "bl",
+          "target": "0x30e004",
+          "symbol": null
+        },
+        {
+          "pc": "0x3c290c",
+          "instruction": "bl",
+          "target": "0x3c2734",
+          "symbol": "_ZN16CharStateMachine16SM_SetSpawnStateEbb"
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 18,
+      "type": "13CSLiftingIdle",
+      "operation": 0,
+      "method": "on_focus",
+      "source_function": "0x3c3140",
+      "symbol": "_ZN13CSLiftingIdle7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "size": 268,
+      "sha256": "dd94801cbf2958fa154131d3322b55a12332a0d3004ae50a38fe2e8fa20f54bc",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c3170",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c3188",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c3194",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c319c",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c31c0",
+          "instruction": "bl",
+          "target": "0x3a3228",
+          "symbol": "_ZNK9Character18GetCharAnimTableIdEv"
+        },
+        {
+          "pc": "0x3c31ec",
+          "instruction": "bl",
+          "target": "0x4c4bdc",
+          "symbol": "_ZNK15PyDataConstants11getConstantEPKcS1_"
+        },
+        {
+          "pc": "0x3c31fc",
+          "instruction": "bl",
+          "target": "0x3a53e0",
+          "symbol": "_ZNK9Character13GetAnimStanceEv"
+        },
+        {
+          "pc": "0x3c3208",
+          "instruction": "bl",
+          "target": "0x3cacb0",
+          "symbol": "_ZN12CharAnimator8ANIM_SetEi"
+        },
+        {
+          "pc": "0x3c3228",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 18,
+      "type": "13CSLiftingIdle",
+      "operation": 1,
+      "method": "on_blur",
+      "source_function": "0x3c50b4",
+      "symbol": "_ZN13CSLiftingIdle6OnBlurEiP9CharacterP16CharStateMachinei",
+      "size": 228,
+      "sha256": "f08d69516eab30aa268089d0dcf2d2911cc387a569f1ef0eed2ca5fa99655c72",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c50e8",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c5100",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c510c",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c5114",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c517c",
+          "instruction": "bl",
+          "target": "0x3ee5a8",
+          "symbol": "_ZN14LiftableObject4DropEv"
+        },
+        {
+          "pc": "0x3c5184",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 18,
+      "type": "13CSLiftingIdle",
+      "operation": 2,
+      "method": "on_update",
+      "source_function": "0x3c0e90",
+      "symbol": "_ZN13CSLiftingIdle8OnUpdateEiP9CharacterP16CharStateMachine",
+      "size": 16,
+      "sha256": "3732a9e577cae98ed3a03a3bcc69f49824ef4ebf4e506beb58fd8c0b29b70e5b",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c0e9c",
+          "instruction": "b",
+          "target": "0x3c0b78",
+          "symbol": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine"
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 18,
+      "type": "13CSLiftingIdle",
+      "operation": 3,
+      "method": "on_event",
+      "source_function": "0x3c6608",
+      "symbol": "_ZN13CSLiftingIdle7OnEventEiP9CharacterP16CharStateMachineiPv",
+      "size": 52,
+      "sha256": "637226189cf8d95daab510bff280628c0dfad2d27cfda169bae2a23b361527ac",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c6638",
+          "instruction": "b",
+          "target": "0x3c64ac",
+          "symbol": "_ZN16CharStateMachine19SM_SetInteractStateEibPvb"
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 19,
+      "type": "13CSLiftingMove",
+      "operation": 0,
+      "method": "on_focus",
+      "source_function": "0x3c3e40",
+      "symbol": "_ZN13CSLiftingMove7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "size": 308,
+      "sha256": "083cc657e500d56c90ce2f14974789215a37bc193ae473834e973a29632a072c",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c3e70",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c3e88",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c3e94",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c3e9c",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c3ec0",
+          "instruction": "bl",
+          "target": "0x3a3228",
+          "symbol": "_ZNK9Character18GetCharAnimTableIdEv"
+        },
+        {
+          "pc": "0x3c3eec",
+          "instruction": "bl",
+          "target": "0x4c4bdc",
+          "symbol": "_ZNK15PyDataConstants11getConstantEPKcS1_"
+        },
+        {
+          "pc": "0x3c3f00",
+          "instruction": "bl",
+          "target": "0x3cacb0",
+          "symbol": "_ZN12CharAnimator8ANIM_SetEi"
+        },
+        {
+          "pc": "0x3c3f08",
+          "instruction": "bl",
+          "target": "0x3de6c4",
+          "symbol": "_ZNK14CharProperties18PROPS_GetWalkSpeedEv"
+        },
+        {
+          "pc": "0x3c3f14",
+          "instruction": "bl",
+          "target": "0x3c93fc",
+          "symbol": "_ZN12CharAnimator13ANIM_SetSpeedEf"
+        },
+        {
+          "pc": "0x3c3f24",
+          "instruction": "bl",
+          "target": "0x46eae0",
+          "symbol": "_ZN14PhysicalObject5unpinEv"
+        },
+        {
+          "pc": "0x3c3f48",
+          "instruction": "bl",
+          "target": "0x3a53e0",
+          "symbol": "_ZNK9Character13GetAnimStanceEv"
+        },
+        {
+          "pc": "0x3c3f50",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 19,
+      "type": "13CSLiftingMove",
+      "operation": 1,
+      "method": "on_blur",
+      "source_function": "0x3c5198",
+      "symbol": "_ZN13CSLiftingMove6OnBlurEiP9CharacterP16CharStateMachinei",
+      "size": 252,
+      "sha256": "62fe4145cbfe0d237287acd36b4265acf8ef0f86dafdc0243b06fd7c038b9dbb",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c51cc",
+          "instruction": "bl",
+          "target": "0x337888",
+          "symbol": "_ZN13DebugSwitches4loadEv"
+        },
+        {
+          "pc": "0x3c51e4",
+          "instruction": "bl",
+          "target": "0x3140ec",
+          "symbol": "_ZNSsC1EPKcRKSaIcE"
+        },
+        {
+          "pc": "0x3c51f0",
+          "instruction": "bl",
+          "target": "0x337a88",
+          "symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+        },
+        {
+          "pc": "0x3c51f8",
+          "instruction": "bl",
+          "target": "0x318254",
+          "symbol": "_ZNSsD1Ev"
+        },
+        {
+          "pc": "0x3c5200",
+          "instruction": "bl",
+          "target": "0x3938f8",
+          "symbol": "_ZN10GameObject4StopEv"
+        },
+        {
+          "pc": "0x3c5210",
+          "instruction": "bl",
+          "target": "0x46eb20",
+          "symbol": "_ZN14PhysicalObject3pinEv"
+        },
+        {
+          "pc": "0x3c5278",
+          "instruction": "bl",
+          "target": "0x3ee5a8",
+          "symbol": "_ZN14LiftableObject4DropEv"
+        },
+        {
+          "pc": "0x3c5280",
+          "instruction": "bl",
+          "target": "0x30e310",
+          "symbol": null
+        }
+      ],
+      "indirect_calls": []
+    },
+    {
+      "state": 19,
+      "type": "13CSLiftingMove",
+      "operation": 2,
+      "method": "on_update",
+      "source_function": "0x3c0ea0",
+      "symbol": "_ZN13CSLiftingMove8OnUpdateEiP9CharacterP16CharStateMachine",
+      "size": 120,
+      "sha256": "7bab03f9b13d31a32675dac3a89ed3b611682133a659cb3f4850c477f66ade5f",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c0ec8",
+          "instruction": "b",
+          "target": "0x3a4d5c",
+          "symbol": "_ZN9Character10RaiseEventEiPv"
+        },
+        {
+          "pc": "0x3c0f04",
+          "instruction": "bl",
+          "target": "0x39361c",
+          "symbol": "_ZNK10GameObject15IsAtDestinationEv"
+        }
+      ],
+      "indirect_calls": [
+        {
+          "pc": "0x3c0ef0",
+          "instruction": "ldr",
+          "operands": "pc, [r3, #0x28]"
+        }
+      ]
+    },
+    {
+      "state": 19,
+      "type": "13CSLiftingMove",
+      "operation": 3,
+      "method": "on_event",
+      "source_function": "0x3c663c",
+      "symbol": "_ZN13CSLiftingMove7OnEventEiP9CharacterP16CharStateMachineiPv",
+      "size": 52,
+      "sha256": "5b32f6b62abf3e278ae949003d8d98287c0067b9320bde7b60d5e52ccd1e1995",
+      "empty": false,
+      "raw_hex": null,
+      "direct_dependencies": [
+        {
+          "pc": "0x3c666c",
+          "instruction": "b",
+          "target": "0x3c64ac",
+          "symbol": "_ZN16CharStateMachine19SM_SetInteractStateEibPvb"
+        }
+      ],
+      "indirect_calls": []
+    }
+  ]
+}

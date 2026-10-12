@@ -1,0 +1,167 @@
+[
+  {
+    "type": 0,
+    "size": 48,
+    "vtable": "0x969860",
+    "reset": "0x47a388",
+    "constructed_hex": "609896000000000000a5a5a5005000020000000000a5a5a5a4989600a5a5a5a500000000000000000000000000000000",
+    "reset_hex": "609896000000000000a5a5a5005000020000000000a5a5a5a4989600a5a5a5a500000000000000000000000000000000",
+    "allocations": [
+      {
+        "identity": 34603008,
+        "size": 48,
+        "hint": 0
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "size": 48,
+    "vtable": "0x969808",
+    "reset": "0x47a388",
+    "constructed_hex": "089896000100000000a5a5a5005000020000000000a5a5a54c989600a5a5a5a500000000000000000000000000000000",
+    "reset_hex": "089896000100000000a5a5a5005000020000000000a5a5a54c989600a5a5a5a500000000000000000000000000000000",
+    "allocations": [
+      {
+        "identity": 34603056,
+        "size": 48,
+        "hint": 0
+      }
+    ]
+  },
+  {
+    "type": 2,
+    "size": 40,
+    "vtable": "0x9697b0",
+    "reset": "0x47a388",
+    "constructed_hex": "b09796000200000000a5a5a5005000020000000000a5a5a5f4979600a5a5a5a500000000ffffffff",
+    "reset_hex": "b09796000200000000a5a5a5005000020000000000a5a5a5f4979600a5a5a5a500000000ffffffff",
+    "allocations": [
+      {
+        "identity": 34603104,
+        "size": 40,
+        "hint": 0
+      }
+    ]
+  },
+  {
+    "type": 3,
+    "size": 40,
+    "vtable": "0x969758",
+    "reset": "0x47a388",
+    "constructed_hex": "589796000300000000a5a5a5005000020000000000a5a5a59c979600a5a5a5a500000000ffffffff",
+    "reset_hex": "589796000300000000a5a5a5005000020000000000a5a5a59c979600a5a5a5a500000000ffffffff",
+    "allocations": [
+      {
+        "identity": 34603152,
+        "size": 40,
+        "hint": 0
+      }
+    ]
+  },
+  {
+    "type": 4,
+    "size": 36,
+    "vtable": "0x969700",
+    "reset": "0x47a37c",
+    "constructed_hex": "009796000400000000a5a5a5005000020000000000a5a5a544979600a5a5a5a500000000",
+    "reset_hex": "009796000400000000a5a5a5005000020000000000a5a5a544979600a5a5a5a578563412",
+    "allocations": [
+      {
+        "identity": 34603200,
+        "size": 36,
+        "hint": 0
+      }
+    ]
+  },
+  {
+    "type": 5,
+    "size": 44,
+    "vtable": "0x969650",
+    "reset": "0x47a388",
+    "constructed_hex": "509696000500000000a5a5a5005000020000000000a5a5a594969600a5a5a5a500000000ffffffff00000000",
+    "reset_hex": "509696000500000000a5a5a5005000020000000000a5a5a594969600a5a5a5a500000000ffffffff00000000",
+    "allocations": [
+      {
+        "identity": 34603248,
+        "size": 44,
+        "hint": 0
+      }
+    ]
+  },
+  {
+    "type": 6,
+    "size": 24,
+    "vtable": "0x969610",
+    "reset": "0x47a37c",
+    "constructed_hex": "109696000600000000a5a5a5005000020000000000a5a5a5",
+    "reset_hex": "109696000600000000a5a5a5005000020000000000a5a5a5",
+    "allocations": [
+      {
+        "identity": 34603296,
+        "size": 24,
+        "hint": 0
+      }
+    ]
+  },
+  {
+    "type": 7,
+    "size": 40,
+    "vtable": "0x9695b8",
+    "reset": "0x47a388",
+    "constructed_hex": "b89596000700000000a5a5a5005000020000000000a5a5a5fc959600a5a5a5a500000000ffffffff",
+    "reset_hex": "b89596000700000000a5a5a5005000020000000000a5a5a5fc959600a5a5a5a500000000ffffffff",
+    "allocations": [
+      {
+        "identity": 34603328,
+        "size": 40,
+        "hint": 0
+      }
+    ]
+  },
+  {
+    "type": 8,
+    "size": 40,
+    "vtable": "0x969560",
+    "reset": "0x47a388",
+    "constructed_hex": "609596000800000000a5a5a5005000020000000000a5a5a5a4959600a5a5a5a500000000ffffffff",
+    "reset_hex": "609596000800000000a5a5a5005000020000000000a5a5a5a4959600a5a5a5a500000000ffffffff",
+    "allocations": [
+      {
+        "identity": 34603376,
+        "size": 40,
+        "hint": 0
+      }
+    ]
+  },
+  {
+    "type": 9,
+    "size": 40,
+    "vtable": "0x969508",
+    "reset": "0x47a388",
+    "constructed_hex": "089596000900000000a5a5a5005000020000000000a5a5a54c959600a5a5a5a500000000ffffffff",
+    "reset_hex": "089596000900000000a5a5a5005000020000000000a5a5a54c959600a5a5a5a500000000ffffffff",
+    "allocations": [
+      {
+        "identity": 34603424,
+        "size": 40,
+        "hint": 0
+      }
+    ]
+  },
+  {
+    "type": 10,
+    "size": 48,
+    "vtable": "0x969458",
+    "reset": "0x47a388",
+    "constructed_hex": "589496000a00000000a5a5a5005000020000000000a5a5a59c949600a5a5a5a500000000000000000000000000000000",
+    "reset_hex": "589496000a00000000a5a5a5005000020000000000a5a5a59c949600a5a5a5a500000000000000000000000000000000",
+    "allocations": [
+      {
+        "identity": 34603472,
+        "size": 48,
+        "hint": 0
+      }
+    ]
+  }
+]

@@ -1,0 +1,45 @@
+{
+  "validation": "PASS",
+  "record_comparisons": 383,
+  "list_comparisons": 164,
+  "table_comparisons": 65,
+  "original_name_queries": 195,
+  "actual_skills": 127,
+  "actual_lists": 36,
+  "actual_source_boundaries": [
+    36,
+    127,
+    1000,
+    11862
+  ],
+  "actual_names_boundaries": [
+    559,
+    2757
+  ],
+  "actual_schema_boundaries": [
+    12,
+    233
+  ],
+  "dynamic_payload_bytes": 142294,
+  "duplicate_firstNUL_original": true,
+  "mismatches": 0,
+  "stream_read_calls": 17375,
+  "allocations": 3100,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "manifest_sha256": "4bc6f1745ec0e2770d6ef4ff8ccdccacfd32037bcf37b7ddf9ddb15f19c335b2",
+  "arm64_sha256": "1d401a1dbc420bf9f3ac09d90fe71cbaf843db920f82382db10670118a23e1e7",
+  "corpus_sha256": "e7b5e11a874f3b7994f95e4fe0a36e72100bf572de4d1f31b0ab4345bbc498d4",
+  "source_sha256": {
+    "port/game-data/skill_tables.cpp": "85695e3a274dae96bb92abcfdd12bdfb24b4d9f910f0026a777a39ce6c5534dd",
+    "port/game-data/skill_tables.hpp": "fe01ceadd86c43a2a6f92bcf8edd76466643c521db01b7176bab25fad311abab",
+    "port/game-data/tests/skill_tables_differential.py": "92298173a32e70c5275b7ab814a5e0e635ce79d083eca1055de4cc6f3b2dca30"
+  },
+  "input_sha256": {
+    "skills_pyarray.bin": "e336986d5aee78fd1aed7fe7ec43cc8d58fa03d4fd27216779c0e96e47acc2d6",
+    "skills_pyarraynames.bin": "31642dc0d8bf11f1ebd13698bbefda4fda0aefa2c727fb4ae9449f2df073fb9f",
+    "skills_pystructnames.bin": "fd882501b0b7af0191272e6802558d1e1ac4031f6237cf5e2c767ebae946f4b9"
+  },
+  "scope": "Full source SkillList/Skill readers, tables/names and getter instructions vs O2.\n\nNative bounded decoders preserve every raw scalar, bool byte, vector element and\nstring byte. Ownership is audited separately using these same production readers.\nOriginal allocation/stream/string compare imports are explicit services.\n",
+  "whole_Application_registration": false,
+  "owned_Cpp_snapshot_ARM64": false
+}

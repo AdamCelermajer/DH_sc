@@ -1,0 +1,354 @@
+{
+  "validation": "PASS",
+  "scope": "Reached quoted project include closure for exact scene composition only",
+  "compilation_sources": 35,
+  "resolved_files": {
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\scene-connected-ef63b7f2573b1c94\\port\\level-world\\tests\\retained_scene_visual_connection_v3.cpp": {
+      "sha256": "6fab5393e174c687084b893b63c165046909beea3451c825738e3058c31c4d38",
+      "bytes": 4299
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\scene-connected-ef63b7f2573b1c94\\port\\level-world\\retained_scene_visual_connection_v3.hpp": {
+      "sha256": "a63cfb1507bac2e5d6d2599998554270d340c05570acb2a58547f20d69bee4d5",
+      "bytes": 1209
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\scene-connected-ef63b7f2573b1c94\\port\\level-world\\gameobject_scene_root_registry_v1.hpp": {
+      "sha256": "e1f073cbda955a9d44e1537996655e124b39a50d2de1fc1629a1af23dc53abec",
+      "bytes": 1824
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\scene-connected-ef63b7f2573b1c94\\port\\level-world\\retained_gameobject_visual_v1.hpp": {
+      "sha256": "58a8426a601d34887a9de15fba8af3f27e612d78d1e12dd06de7dee559cc9809",
+      "bytes": 5022
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\engine-skinning\\skinning.hpp": {
+      "sha256": "a391a40189905b937069fe786c5a615e87b9daf8a679b121b62418f0a2ed09a2",
+      "bytes": 1257
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\scene-materials\\scene.hpp": {
+      "sha256": "12d0a8b7487b26d2748ebc1e29325f28a99a2f410147f455a419324d56e9dd90",
+      "bytes": 1526
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\asset-payloads\\payloads.hpp": {
+      "sha256": "a57d4f01d93dcd13eee90944490ab9d645d2e4c9210ede952c1cb79f030ad4ee",
+      "bytes": 4261
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\engine-resources\\resources.hpp": {
+      "sha256": "e8d08f735c4c5ee30baebb2d3afca0d91b805b9e3cdfc50152011dbf70ceb230",
+      "bytes": 6630
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\scene-connected-ef63b7f2573b1c94\\port\\level-world\\gameobject_scene_binding_v1.hpp": {
+      "sha256": "51fdb93b6c60cf60088d9236e4e142904de510fa3a4a2af2d2a0091ee6f0d945",
+      "bytes": 883
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\visual_motion.hpp": {
+      "sha256": "c5949284aedefb97f05ccfe85c81089dacee09ccd0b339f8fdf5f1d7b708193f",
+      "bytes": 3202
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\engine-animation\\animation.hpp": {
+      "sha256": "876d1b7e6fe4d1bf9363d7bcb28b0e7ef2b253794bebaa3421f29d87bbd756b3",
+      "bytes": 5396
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\engine-animation\\events.hpp": {
+      "sha256": "0ed4ff91b4402ccdf0acc938e4a0ea88ef20f3be6ba942b5039e6233677a560a",
+      "bytes": 1844
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\subobjects_update.hpp": {
+      "sha256": "867d8285f4328dec490f0f00f6fd82800ac24477a5e29bc132af0464a9fd4c03",
+      "bytes": 2358
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\physical_controls.hpp": {
+      "sha256": "fdcc4c6eef686bb9b9ecc9d10acab580eff3d8f0ec95ff850ad38850e1b33a85",
+      "bytes": 2081
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\decor_scene.hpp": {
+      "sha256": "a6af7f3f8f8dc5e54bec46eb2f82572af27b3d9f128d712c59365638c638cb73",
+      "bytes": 1341
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\decor_body_config.hpp": {
+      "sha256": "423f63f5fa4b5c73c72f030c3842ae8f3c76237154330668315c70c527a26dfd",
+      "bytes": 1681
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\character_body_config.hpp": {
+      "sha256": "c2c921fdd67013db9ff9d000bf10852fb5bb3ba358c3822d993d3cd0ff64a28d",
+      "bytes": 2109
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\scene-connected-ef63b7f2573b1c94\\port\\level-world\\base_named_animation_controller_v1.hpp": {
+      "sha256": "016336a3f31af22cb1304c95b6ab2d9ccf574e4b6dffde6e36bb101a330e0f1f",
+      "bytes": 1346
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\visual_timeline.hpp": {
+      "sha256": "36a31a050d03f488328c6a4bb3c4287ff3e81ed5044929deded1b3d33ccd1611",
+      "bytes": 3387
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\scene-connected-ef63b7f2573b1c94\\port\\level-world\\canonical_gameobject_base_owner_v1.hpp": {
+      "sha256": "02cf1d5da5b10016f2649c5f32ff2484b187911e590937f39828fa36e07c8343",
+      "bytes": 3353
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\actor_runtime.hpp": {
+      "sha256": "e1e0f84529dbf69811994a73c092afded509ec07a066d7f411fc7ed849195c38",
+      "bytes": 2820
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\navigation_controller.hpp": {
+      "sha256": "2fd23f527acc7f3e9e0c3caac287906452b5e40954a3dcec4a44cadf4b7160e6",
+      "bytes": 2098
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\navigation_heading.hpp": {
+      "sha256": "d929560cd90c3fb99e72190734f4b70f405dc924764969709c132bd2f94d9c6e",
+      "bytes": 1415
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\navigation_avoidance.hpp": {
+      "sha256": "3d1f726869fc6b8ea08e3c6ffc3d99e711a0caed07c8f9b9c2c58bd265f99b36",
+      "bytes": 2469
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\navigation_objects.hpp": {
+      "sha256": "8bf7052ea8c1c58cadddda10f85e7d0808612df0c0bc6bf6be5532ebe9bfe011",
+      "bytes": 2981
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\navigation_motion.hpp": {
+      "sha256": "f9f8848fdd4cd59cfea57e0bd92aba0717d27474a16577199662f310cd6a4dac",
+      "bytes": 2487
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\navigation_world.hpp": {
+      "sha256": "b83122f6bcb8955fd16a52cc85d5d6f65158bd1db25fd40ebac9726903d85b6e",
+      "bytes": 2514
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\selector.hpp": {
+      "sha256": "a4dd1bd20d3e5c69cc39c17da0d3078e80728c2213d5e60bbad968c73ac89790",
+      "bytes": 1686
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\octree.hpp": {
+      "sha256": "d4559a690c6c62ee2d5ac768c116e091fb1852a7801b1a7a4fed02692dd1cf83",
+      "bytes": 1397
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\collision.hpp": {
+      "sha256": "87d5813bc13b4f9653ed0cf6766d0d4355bfce6447a2777a1d01adb0e4c4399b",
+      "bytes": 1482
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\navigation.hpp": {
+      "sha256": "ddc90198792130ec4bcff9402b4eb7721c636d417e8515356b7c15455f089f71",
+      "bytes": 2744
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\navigation_search.hpp": {
+      "sha256": "af3060785046aac8ae0feb43d131fd0b4ada7099deb681f018bd27a7eae17bb0",
+      "bytes": 1714
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\navigation_path.hpp": {
+      "sha256": "af1c1dce850c0b51e68793d79d8d354e237bb3934fe63f12c5c79535a0dfde5a",
+      "bytes": 2416
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\native_body.hpp": {
+      "sha256": "711c9049c8e686edc1e4d49890e7650205658070f65af225540c51d3f865e140",
+      "bytes": 2789
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\move_state.hpp": {
+      "sha256": "5140673461e9e52bfd6e8f029d14cb3a079e69c6e59e6871711707588256baa0",
+      "bytes": 1119
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\actor_rotation.hpp": {
+      "sha256": "58fd75a271be3d01c1d749ff796e49db2229c79480269fccf7f5ef748f2f7212",
+      "bytes": 835
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\scene-lifecycle-header-85cd574bb8f03bcd\\character_world_npc_object_v1.hpp": {
+      "sha256": "85cd574bb8f03bcdad3e37099197b0b7afbac1397884b3bbafec97a37747141b",
+      "bytes": 3056
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\scene-connected-ef63b7f2573b1c94\\port\\level-world\\canonical_property_map_v1.hpp": {
+      "sha256": "eb1d9c6154a77d57201d7909ddf40df614f4351903c47ccf4969512ce7bccc84",
+      "bytes": 2906
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\scene-connected-ef63b7f2573b1c94\\port\\level-world\\canonical_object_factory_v1.hpp": {
+      "sha256": "59b7b283e8c528e49d99778179d190a5d4a5abb176257ee7ffc0f02a74c65439",
+      "bytes": 2610
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\scene-connected-ef63b7f2573b1c94\\port\\level-world\\canonical_object_manager_v1.hpp": {
+      "sha256": "36f21ca8797c50d049f97fe997e7344a1d2e62b19fee477ed0422d48e5161797",
+      "bytes": 2879
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\character_target_providers.hpp": {
+      "sha256": "1db2bc0cde5d7644b2194e333dc82209b756980c1ee7cb022774503c6e99fc36",
+      "bytes": 2358
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\character_combat_queries.hpp": {
+      "sha256": "89cb7b2b2cc69f00f6408f0b468f0c46e065c1cb7e4fa30280d9d49902d16edf",
+      "bytes": 2170
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\game-data\\animation_tables.hpp": {
+      "sha256": "ff7a7e7c9050893c4efc68b314bae1f20197013fa12cda4f10bf2646ad94c35d",
+      "bytes": 2164
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\game-data\\data.hpp": {
+      "sha256": "ecc6a73c30c67685af8a3c9d5e70c5ddb9e74143da47abcd355592f791dd2901",
+      "bytes": 901
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\scene-connected-ef63b7f2573b1c94\\port\\level-world\\retained_gameobject_visual_asset_connection_v2.hpp": {
+      "sha256": "e6d9ccd1b05d705514e5d84e98a66c0e590e796016f7a8993b83679d887e2060",
+      "bytes": 1556
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\scene-connected-ef63b7f2573b1c94\\port\\level-world\\retained_gameobject_visual_asset_connection_v1.hpp": {
+      "sha256": "ed4563081642491b538bbb7e627e01321bba2b91c141b8eecd38940650525cbb",
+      "bytes": 946
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\scene-connected-ef63b7f2573b1c94\\port\\level-world\\game_object_visual_asset_owner_v1.hpp": {
+      "sha256": "ffd3d1dc3e9d84d34c48a9c10e5071876b9e24fc869b37ed9ff9b43a1c626304",
+      "bytes": 1379
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\scene-connected-ef63b7f2573b1c94\\port\\level-world\\retained_gameobject_visual_v1.cpp": {
+      "sha256": "469812688f22edb469aa4e04f5706c9705b110f83acd745c70fe62dded20f7c5",
+      "bytes": 15583
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\engine-math\\math.hpp": {
+      "sha256": "52a54820c7e591d03b78e3124a2d7583338587916980178077067344f9d06b01",
+      "bytes": 3376
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\engine-skinning\\skinning.cpp": {
+      "sha256": "2ee08cf3509bb4f69a7f872b2085375178213c66c86e8a22e047fbc024329102",
+      "bytes": 8219
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\engine-animation\\angle_interpreter.cpp": {
+      "sha256": "018a29c34536fce1831e9f78aee41e1c58584875fa522a22e05fc89fd84ab45f",
+      "bytes": 2145
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\engine-animation\\angle_interpreter.hpp": {
+      "sha256": "27fb2ebadeafe4b758ee5f142560aaa01fefa2f27c845fad1c8adff0ce0d01df",
+      "bytes": 844
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\engine-animation\\component_applicator.cpp": {
+      "sha256": "9abca1a630447b10b7ea871f66af1e523511af5328fd03189e8be13dd1bb57bd",
+      "bytes": 3773
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\engine-animation\\animation_blend.hpp": {
+      "sha256": "e88920e0485bd8e18f18598edc80a1dccc0fa83d43c34262e4fc750f3e20f5e3",
+      "bytes": 1650
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\engine-animation\\component_applicator.hpp": {
+      "sha256": "dd30a665ff1ad58ddceb04c8d204ac597237a17761eee9055fb985b219af945d",
+      "bytes": 1914
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\engine-animation\\animation_registration.cpp": {
+      "sha256": "74365756322d081aa171ca54802fbf5a94488f1e29a9b9a0260ff0bb2514f0ae",
+      "bytes": 2194
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\engine-animation\\animation_registration.hpp": {
+      "sha256": "2a7d8c0f6cb887af5e2268c88e28fc5408441d9770d7fbc779efbcd897bca8b1",
+      "bytes": 2314
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\engine-animation\\animation_blend.cpp": {
+      "sha256": "5066e683add9d92643f350aa91819f694a7b2be82201785be40cc7812536d2ac",
+      "bytes": 3571
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\engine-animation\\event_track.cpp": {
+      "sha256": "e7b70e88bbcbdc54ce28adbc78590fdc1005304cc8d017f9aab91149bf150792",
+      "bytes": 2610
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\engine-animation\\events.cpp": {
+      "sha256": "5f2b833865f68399c337fd5037e011fac70c6ec7a539acd02f0c159f874d0f35",
+      "bytes": 4429
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\engine-animation\\animation.cpp": {
+      "sha256": "741a4df6e1c1753a9fbcf20192c2b1f09ed0d1bfc5701ab9ccd943e76713237f",
+      "bytes": 28374
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\scene-materials\\scene.cpp": {
+      "sha256": "056638ec512ca2dcdcb684f334273d85b323716bc46506a360749fa79cab143d",
+      "bytes": 11169
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\asset-payloads\\payloads.cpp": {
+      "sha256": "ebc397d54978acd7da07f6f1c30a5fa7f232be34018af885527a734627a86c6d",
+      "bytes": 18957
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\engine-resources\\resources.cpp": {
+      "sha256": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+      "bytes": 11880
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\engine-math\\math.cpp": {
+      "sha256": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+      "bytes": 13157
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\visual_timeline.cpp": {
+      "sha256": "9a6ffdec646fc927ce82199a193df7d1d14ba2f738464e312efead143b4899ca",
+      "bytes": 5394
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\decor_scene.cpp": {
+      "sha256": "fb9e12a72dc1ccde580ba3973b11e9c40737954d4e58a76579949a3252c55a4a",
+      "bytes": 3497
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\decor_body_config.cpp": {
+      "sha256": "12632e46228e34601b5e44cf3cd63b9b2dc6a7e44bdda884821cd287b25600fa",
+      "bytes": 3581
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\navigation_objects.cpp": {
+      "sha256": "daa5d8c5d117b0ebbfcc7c363259c66c58d6e29ce89776044bdd0a9ad4cedbc9",
+      "bytes": 6365
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\physical_controls.cpp": {
+      "sha256": "104b8b409e40eb1e733388d8977b7c0dbe333dfd7b61fc9d17aef67dca77aea6",
+      "bytes": 2523
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\octree.cpp": {
+      "sha256": "bda658c0603f1e896ef6cdde3753605a541b250de5271735ca8e03e0ae43c05a",
+      "bytes": 5033
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\collision.cpp": {
+      "sha256": "dff964510ded9c4586688d6494f7946636ba7b4385994e632f26e37635bc2378",
+      "bytes": 4727
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\selector.cpp": {
+      "sha256": "312fa4adfa811188cb4df66b893826ecaafc795deba21d5ef38f21e3f984e4d5",
+      "bytes": 6749
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\navigation_search.cpp": {
+      "sha256": "468666c49030bdfed67074356e1130579d651b8bfca5a3f35e2cdae79debdaa0",
+      "bytes": 5254
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\navigation_world.cpp": {
+      "sha256": "0799b088893b4c774a56541acbb4593a4bb7c7dc343452f8ab136c3574025f0d",
+      "bytes": 8129
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\navigation_motion.cpp": {
+      "sha256": "9d87dcb28d981a83d278f098807a9deb65e4b4491b49938fa3bdca87d1c1509f",
+      "bytes": 7783
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\body_transform.cpp": {
+      "sha256": "c744fa0504bc5f0361e85fcce41a24bcf8abc8de14f2e1276b2ce45359092adf",
+      "bytes": 1869
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\body_transform.hpp": {
+      "sha256": "9f1249603a4cc7425c288ea2f1e87ce23ed59d2cd82763ad75757ff7b925f34f",
+      "bytes": 1541
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\visual_motion.cpp": {
+      "sha256": "7d9e9ab6fa0f6a2653f67b114b36dd38a18338409d1969390f75b4ba4a59d414",
+      "bytes": 7995
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\scene-connected-ef63b7f2573b1c94\\port\\level-world\\retained_scene_visual_connection_v3.cpp": {
+      "sha256": "d25f250e57c7af201e42246ff57e3cf90eefefdb9a4a8bcbd6936583b6ee0b1c",
+      "bytes": 2102
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\scene-connected-ef63b7f2573b1c94\\port\\level-world\\gameobject_scene_root_registry_v1.cpp": {
+      "sha256": "de48dd5e63ee3d238c7c2efee597d6b197fc41a6dffe603c9c250f20fb65c544",
+      "bytes": 2094
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\scene-connected-ef63b7f2573b1c94\\port\\level-world\\retained_gameobject_visual_asset_connection_v2.cpp": {
+      "sha256": "6e73a49104ef731f12ee20f759f07e868d2703d863103de986d0ba1ab35e2b4a",
+      "bytes": 3164
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\scene-connected-ef63b7f2573b1c94\\port\\level-world\\gameobject_scene_binding_v1.cpp": {
+      "sha256": "915bf2bedc6c9cc7a1ffb7e292515b45417eba48cbd10163228dba78111ddbbf",
+      "bytes": 2095
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\scene-connected-ef63b7f2573b1c94\\port\\level-world\\base_named_animation_controller_v1.cpp": {
+      "sha256": "c5ce416da97b92874843c0f85b3594e96dcb3a6e56132fe2f3809b9a8c4c14a6",
+      "bytes": 1662
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\scene-connected-ef63b7f2573b1c94\\port\\level-world\\game_object_visual_asset_owner_v1.cpp": {
+      "sha256": "c824c60767dc82bf8c230c6dc64eea63faf69913898893084e8b065f7dab5cb3",
+      "bytes": 2611
+    },
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\scene-connected-ef63b7f2573b1c94\\port\\level-world\\canonical_gameobject_base_owner_v1.cpp": {
+      "sha256": "d0817375765ac8c3e56aa98c3db05406bf2452e1c01746c109f7527fd1e30888",
+      "bytes": 6575
+    }
+  },
+  "missing_includes": [],
+  "standard_header_correction": "-include stdexcept for immutable visual TU",
+  "full_loader_verified": false
+}

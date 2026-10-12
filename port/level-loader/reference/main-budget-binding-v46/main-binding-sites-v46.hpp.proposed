@@ -1,0 +1,37 @@
+// ADOPTION SKETCH ONLY: place beside main's actual source owner, not the loader
+// graph. Preserve the same mounted cache State; no actor/world clone or ledger.
+// The renderer supplies its actual live scope lease and canonical resolver.
+auto main_ledger = dh2::android_resources::budget_lease_v39();
+// Verify actual_cache belongs to this same renderer source and mount first.
+std::size_t files = 0;
+if (!actual_cache.mount(files, error)) return false;
+auto retained_cache = std::make_shared<dh2::android_ui::OriginalCacheAssetsV1>(actual_cache);
+// Copy shares OriginalCache's existing immutable State/file descriptor. Avoid
+// retaining EquipmentPlatform (unique_ptr, owns WorldScriptContext) in byte pins.
+MainEncodedImageBudgetInputsV46 inputs;
+inputs.filesystem_owner = retained_cache;
+inputs.actual_renderer_owner = actual_live_renderer_scope_lease;
+inputs.actual_main_budget = main_ledger;
+inputs.scope = dh2::resources::ResourceScopeV37::actor;
+inputs.original_read_admitted = [retained_cache](const auto& uri, auto& found,
+ auto& bytes, const auto& before_payload, auto& error) {
+ return retained_cache->read_admitted(uri, found, bytes, before_payload, error);
+};
+auto encoded = std::make_shared<MainEncodedImageBudgetProviderV46>(std::move(inputs));
+MaterialImageServicesV43 images;
+if (!encoded->image_services(actual_canonical_image_resolver, images, error)) return false;
+actor_image_services.admit_before_read = [encoded](const auto& identity,
+ const auto& canonical_uri, auto& pin, auto& error) {
+ return encoded->admit_before_read(identity, canonical_uri, pin, error);
+};
+// In existing actual Character/container lookup:
+// actor_image_owner_v45(actual_receiver, actual_visual_if_character, images,...)
+// keeps the existing visual2d8/model290 and material/scene producers.
+
+// GPU CONSUMER REQUIREMENT (no new GL implementation here): factor existing
+// upload() after its encoded read to accept binding.image.bytes directly and a
+// canonical URI cache key. Keep dh2_texture_open/decode; RetainedBytesV39 decoded
+// allocation; GPU reserve_create(texture,scope,rgba_bytes,0); current generation;
+// preallocation of owned/map entries; GL success->commit->existing charge map.
+// Source no-image bypasses this upload: technique/material owner chooses it.
+// Do not reread encoded bytes through the basename-only upload() entry point.

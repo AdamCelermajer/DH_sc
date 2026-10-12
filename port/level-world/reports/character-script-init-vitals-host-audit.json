@@ -1,0 +1,145 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "host_audit": {
+    "validation": "PASS",
+    "gold_cases": 900,
+    "ordered_debug_property_services": 3333,
+    "atomic_guards": 15,
+    "required_failure_prefixes": 2,
+    "checks": 16397,
+    "mismatches": 0
+  },
+  "session_VM_composition": {
+    "validation": "PASS",
+    "actual_Crypt_session_vitals": 11,
+    "identity_atomic_guards": 11,
+    "missing_skills_rejected": 11,
+    "skills_fixture_configure": 11,
+    "skills_fixture_update": 11,
+    "genuine_DebugSwitches_missing_file_fixture_deliveries": 1,
+    "host_fixture_projection_reads": 55,
+    "combat_state_unchanged": true,
+    "checks": 624,
+    "mismatches": 0
+  },
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "diagnostics": 0,
+    "leak_detection": true
+  },
+  "source_sha256": {
+    "port/level-world/character_script_init_vitals.hpp": "84570494ac2ce5deb39260a63a5345eec2e0e7822215c5c5e50fbe70c366b42a",
+    "port/level-world/character_script_init_vitals.cpp": "ece17f29fb0f3561c7f5a91bbc4c3c940d654e3b482c1bc25093cbe7714a61f2",
+    "port/level-world/character_script_init_vitals_session.cpp": "fef4bc20904c358fa4f6732648e3b6e4e71feb6b07bbc1005830d62355aadf1a",
+    "port/level-world/tests/character_script_init_vitals.cpp": "285a31b7a20010e5182fb24aa8467951396bc26a8eaee595a3a37792aa5f1628",
+    "port/level-world/tests/character_script_init_vitals_session.cpp": "c89833f6a32ba4ae60747782c5bfa56500607bd22a4561c4efe17f2bcf9a3c2a",
+    "port/level-world/tests/character_script_lifecycle.cpp": "2dd7accbcc5564633f6c0405248acd572e1cbfb6ac8f45888d033b29a570d3db",
+    "port/level-world/tests/character_script_session.cpp": "b7b35c03b057dd09eacf162f8af01795a2ce41db4904c4c500b4e8173940e734",
+    "port/level-world/character_script_lifecycle.cpp": "7161ac627879454dfb6166d1db46108ef238bb171e64eb85b5a0d50248c4a6df",
+    "port/level-world/character_script_lifecycle.hpp": "bf7916e299901b3e46fbb1b1a388165f1f2a90895f55c808792c52e0f59ef9c7",
+    ".local-inputs/character-script-init-services/host.py": "15b7b74d00b9e2e98f127d8609b91329ae368b90273e1fb417e4d877a1b59933"
+  },
+  "input_sha256": {
+    "port/level-world/reference/character-game-design/real-cache-inputs.bin": "6e7d4390521ef857295c59ce3457cde8690a82ee9d14b5208588779b24acbd70",
+    ".local-inputs/character-script-owner-discovery/ai-commons-source.luac": "20d34968e9983e14c24223085ab40d55d47f9387dfdbbf3ff7e6b39aea91252c",
+    ".local-inputs/character-script-owner-extension/monster.luac": "84f07caaeb2c04f2024cc3e27d41f33806b2c53d6e8861bb3d8b371118fd0e1d",
+    "port/android-native/app/src/main/assets/worlds/crypt01.dact": "be44bd6d160973bf70a0cab61399a14d8bea6a7eade41790594cf6b781a04cca"
+  },
+  "gold_sha256": "06b9126ea548b7977d90d625e86b2a53a31e2fe0097f1485d2072a5e2951caed",
+  "arm64_report_sha256": "587b57ca3282f013c61dd8196fffc673484d2eb20e44b4045b18619f62baf95d",
+  "executable_sha256": {
+    "vitals-audit": "bfec92d37ee363eda2cfffda3d5b274a54eb4567dba7269ad2188322d3c463d5",
+    "vitals-session-audit": "f96f9f0e6c01d4c2f3c65bac8bc15ca1e105bd816cc9d4dc393a94aa48587722"
+  },
+  "shared_dependency_snapshot_sha256": {
+    "libdh2_engine_animation.so": "a56f42d1d09fb1bbd46eeef4d7b2464a9dea9f007e348d0790ec74c39033b3ae",
+    "libdh2_engine_skinning.so": "5c40960c2deec5bf2752f5b9972cdc4cb7e254c833815df97c948538b230be4b",
+    "libdh2_game_data.so": "5f1a506662d6a45e0d79f1ea2b09269eb15e1a7f7c05cf74cfafc72533c7dbe5",
+    "libdh2_level_world.so": "b12fe69d4317ecc631b3f79eb26443eea33b13aae5ba8cf6081b888592173f21",
+    "libdh2_scene_materials.so": "08b26f5c9f913919fd76e054e1f2aa2dc5ff4d0ac073cd7171ef08f96c975411",
+    "libdh2_script_runtime.so": "3f1886b22c2230e6ddda5c75fae248d0a710b75034eac3144489f9992b7f9945"
+  },
+  "compiler_sha256": "e6718f7e0c7d057c3ff77b550c603da9bc4030e3ede3c053705acce1293dbe4d",
+  "commands": [
+    {
+      "arguments": [
+        "g++",
+        "-std=c++17",
+        "-O2",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "port/level-world/tests/character_script_init_vitals.cpp",
+        "port/level-world/character_script_init_vitals.cpp",
+        "port/game-data/properties.cpp",
+        "port/game-data/class_tables.cpp",
+        "-Wl,--wrap=dh2_property_add",
+        "-o",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-init-services/vitals-audit"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "g++",
+        "-std=c++17",
+        "-O2",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "port/level-world/tests/character_script_init_vitals_session.cpp",
+        "port/level-world/character_script_init_vitals.cpp",
+        "port/level-world/character_script_init_vitals_session.cpp",
+        "-L/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-init-services/dependencies",
+        "-ldh2_level_world",
+        "-ldh2_game_data",
+        "-ldh2_script_runtime",
+        "-ldl",
+        "-Wl,-rpath,/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-init-services/dependencies",
+        "-o",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-init-services/vitals-session-audit"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-init-services/vitals-audit",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/reference/character-script-init-services/vitals-fixtures.bin"
+      ],
+      "returncode": 0,
+      "stdout": "{\"validation\":\"PASS\",\"gold_cases\":900,\"ordered_debug_property_services\":3333,\"atomic_guards\":15,\"required_failure_prefixes\":2,\"checks\":16397,\"mismatches\":0}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-init-services/vitals-session-audit",
+        "port/level-world/reference/character-game-design/real-cache-inputs.bin",
+        ".local-inputs/character-script-owner-discovery/ai-commons-source.luac",
+        ".local-inputs/character-script-owner-extension/monster.luac",
+        "port/android-native/app/src/main/assets/worlds/crypt01.dact"
+      ],
+      "returncode": 0,
+      "stdout": "{\"validation\":\"PASS\",\"actual_Crypt_session_vitals\":11,\"identity_atomic_guards\":11,\"missing_skills_rejected\":11,\"skills_fixture_configure\":11,\"skills_fixture_update\":11,\"genuine_DebugSwitches_missing_file_fixture_deliveries\":1,\"host_fixture_projection_reads\":55,\"combat_state_unchanged\":true,\"checks\":624,\"mismatches\":0}\n",
+      "stderr": ""
+    }
+  ],
+  "scope": "Original full InitHpMp/regen/property instruction replay plus genuine session vitals binding and real shared Debug owner using explicit missing-file provider. Skills configure/update remain named fixtures, and absent services reject. Original common/monster initialization executes independently. No full InitScriptProcess/AI/live/package claim."
+}

@@ -1,0 +1,9 @@
+{
+  "validation": "PASS",
+  "archive_sha256": "9376c674127f9c30ec5a5d7e4a635ed05d00171c0343b780a81e914a098515b6",
+  "source_sha256": "734de74a996cca81eacda5fe5c77b86eeb256c60a171405f381838b72644e936",
+  "payload_files": 1,
+  "selected_into_active_graph": false,
+  "unchanged_method_vs_old_private_cpp": true,
+  "integration_rule": "Select new context CPP and compile prepared-source TU once; old context still defines the method and must not be linked alongside it."
+}

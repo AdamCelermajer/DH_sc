@@ -1,0 +1,71 @@
+--- a/port/android-native/app/src/main/cpp/model_renderer.hpp
++++ b/port/android-native/app/src/main/cpp/model_renderer.hpp
+@@ -88,6 +88,9 @@
+ // Sole retained native Application service receiver; required before camera
+ // Zoom/Overview attach to Application14. Level has a distinct event base.
+ bool borrow_actual_application_services_v5(std::shared_ptr<dh2::application::ApplicationServicesOwnerV5>&,std::string&);
++// Actual appInit RES_PATH publication and its independent byte-owner loan.
++bool initialize_source_resource_prefix_v95(const std::shared_ptr<dh2::application::ApplicationServicesOwnerV5>&,std::string&);
++bool borrow_source_resource_prefix_v95(std::string&,std::string&);
+ // Lazy source GetInstance construction; retained across Worlds/GL resets.
+ bool borrow_actual_input_manager_v60(std::shared_ptr<dh2::input::SourceInputManagerV60>&,std::string&);
+ // Source campaign adapter. Retains failed original prefixes; no Crypt fallback
+--- a/port/android-native/app/src/main/cpp/native_app.cpp
++++ b/port/android-native/app/src/main/cpp/native_app.cpp
+@@ -8,6 +8,7 @@
+ #include "owned_hud_settings_v1.hpp"
+ #include "source_input_manager_v60.hpp"
+ #include "application_save_files_owner_v61.hpp"
++#include "process_resource_prefix_source_v95.hpp"
+ #include "gameplay_camera_application_v23.hpp"
+ #include "renderer_character_campaign_v62.hpp"
+ #include "application_player_manager_bootstrap_v59.hpp"
+@@ -100,6 +101,9 @@
+  }
+  out=application_services_v5;error.clear();return true;
+ }
++namespace model_renderer {
++#include "renderer_resource_prefix_source_v95.inc"
++}
+ bool model_renderer::borrow_actual_input_manager_v60(std::shared_ptr<dh2::input::SourceInputManagerV60>& out,std::string& error)try{
+  out.reset();
+  std::shared_ptr<dh2::application::ApplicationServicesOwnerV5> application;
+@@ -176,6 +180,9 @@
+      if(!application_services_v5)application_services_v5=std::make_shared<dh2::application::ApplicationServicesOwnerV5>();
+      std::string application_error;
+      if(!application_services_v5->events14()&&!application_services_v5->post_init_events_v5(application_error))throw std::runtime_error(application_error);
++     // Original process appInit publication precedes GS loading/audio routing.
++     // Idempotent completed publication also survives GL context recreation.
++     if(!model_renderer::initialize_source_resource_prefix_v95(application_services_v5,application_error))throw std::runtime_error(application_error);
+      auto* manager=assets?AAssetManager_fromJava(env,assets):nullptr;
+       gameplay_assets=manager;
+       // Reached GSInit phase0 audio constructor; full phase9 settings remain
+--- a/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp
++++ b/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp
+@@ -5,6 +5,7 @@
+ #include "actual_device_android_v54.hpp"
+ #include "native_resource_budget_v38.hpp"
+ #include <level_lightset_stage9_v53.hpp>
++#include <stage_loader_audio_v94.hpp>
+ #include "native_source_script_ui_v98.hpp"
+ #include "source_campaign_script_runtime_v99.hpp"
+ #include "source_campaign_save_objects_v86.hpp"
+@@ -362,6 +363,7 @@
+  loading.resource_pins.push_back(scripts);error.clear();return true;
+ }
+ #include "renderer_source_stage9_v94.inc"
++#include "renderer_source_stage15_audio_v94.inc"
+ struct RendererSourceCampaignV55 {
+  std::shared_ptr<SourceWorldBorrowV61> world;
+  std::shared_ptr<const dh2::android_ui::FrontSelectedProfileV50> profile;
+@@ -653,7 +655,9 @@
+  };
+  if(!borrow_source_script_manager_v55(state.world,source_script_factory_v62(state.world),scripts,error)||
+     !bind_source_stage8_v55(state.candidate,actual,scripts,out.early_debug,out.source,error)||
+-    !bind_source_stage9_v94(state.world,state.candidate,actual,out.source,error))return false;
++    !bind_source_stage9_v94(state.world,state.candidate,actual,out.source,error)||
++    !bind_source_stage15_audio_v94(state.world,state.candidate,actual,out.early_debug,
++      model_renderer::borrow_source_resource_prefix_v95,out.source,error))return false;
+  out.frame.actual_debug_owner=current_world->debug;
+  out.frame.debug_load=out.prefix.debug_load;
+  out.frame.debug_get_switch=out.prefix.debug_get_switch;

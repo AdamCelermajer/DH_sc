@@ -1,0 +1,434 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "script_sha256": "fa82bd53afde22e83080372a97c626e93c61efcffb03367aa1435f01899b0ffa",
+  "cases": [
+    {
+      "flags": 0,
+      "requests": []
+    },
+    {
+      "flags": 1,
+      "requests": [
+        {
+          "section": "PNAM",
+          "loader": "0x4698dc",
+          "saver": "0x4688c0",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "PLVL",
+          "loader": "0x4689a0",
+          "saver": "0x468930",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "PCLS",
+          "loader": "0x469d88",
+          "saver": "0x4698e4",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "PDFL",
+          "loader": "0x468968",
+          "saver": "0x4688f8",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "LNAM",
+          "loader": "0x468b78",
+          "saver": "0x468b20",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "LEPT",
+          "loader": "0x468938",
+          "saver": "0x4688c8",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "LUSP",
+          "loader": "0x468af0",
+          "saver": "0x4689a8",
+          "context_matches_savegame": true
+        }
+      ]
+    },
+    {
+      "flags": 2,
+      "requests": [
+        {
+          "initialize": "0x46954c",
+          "subject_offset": 0
+        },
+        {
+          "initialize": "0x469764",
+          "subject_offset": 0
+        },
+        {
+          "initialize": "0x4694c8",
+          "subject_offset": 0
+        },
+        {
+          "initialize": "0x46c1a8",
+          "subject_offset": 184
+        },
+        {
+          "initialize": "0x46c1a8",
+          "subject_offset": 280
+        }
+      ]
+    },
+    {
+      "flags": 4,
+      "requests": [
+        {
+          "section": "LVLS",
+          "loader": "0x46a9cc",
+          "saver": "0x46a7a0",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "SKIL",
+          "loader": "0x46ac74",
+          "saver": "0x469e6c",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "FAES",
+          "loader": "0x4691d0",
+          "saver": "0x468f18",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "CFEE",
+          "loader": "0x0",
+          "saver": "0x468bf0",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "QEST",
+          "loader": "0x469478",
+          "saver": "0x469454",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "PROP",
+          "loader": "0x46932c",
+          "saver": "0x4689d8",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "GEAR",
+          "loader": "0x46a3a0",
+          "saver": "0x46a0b4",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "FTVL",
+          "loader": "0x469b18",
+          "saver": "0x469cdc",
+          "context_matches_savegame": true
+        }
+      ]
+    },
+    {
+      "flags": 7,
+      "requests": [
+        {
+          "section": "PNAM",
+          "loader": "0x4698dc",
+          "saver": "0x4688c0",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "PLVL",
+          "loader": "0x4689a0",
+          "saver": "0x468930",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "PCLS",
+          "loader": "0x469d88",
+          "saver": "0x4698e4",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "PDFL",
+          "loader": "0x468968",
+          "saver": "0x4688f8",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "LNAM",
+          "loader": "0x468b78",
+          "saver": "0x468b20",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "LEPT",
+          "loader": "0x468938",
+          "saver": "0x4688c8",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "LUSP",
+          "loader": "0x468af0",
+          "saver": "0x4689a8",
+          "context_matches_savegame": true
+        },
+        {
+          "initialize": "0x46954c",
+          "subject_offset": 0
+        },
+        {
+          "initialize": "0x469764",
+          "subject_offset": 0
+        },
+        {
+          "initialize": "0x4694c8",
+          "subject_offset": 0
+        },
+        {
+          "initialize": "0x46c1a8",
+          "subject_offset": 184
+        },
+        {
+          "initialize": "0x46c1a8",
+          "subject_offset": 280
+        },
+        {
+          "section": "LVLS",
+          "loader": "0x46a9cc",
+          "saver": "0x46a7a0",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "SKIL",
+          "loader": "0x46ac74",
+          "saver": "0x469e6c",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "FAES",
+          "loader": "0x4691d0",
+          "saver": "0x468f18",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "CFEE",
+          "loader": "0x0",
+          "saver": "0x468bf0",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "QEST",
+          "loader": "0x469478",
+          "saver": "0x469454",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "PROP",
+          "loader": "0x46932c",
+          "saver": "0x4689d8",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "GEAR",
+          "loader": "0x46a3a0",
+          "saver": "0x46a0b4",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "FTVL",
+          "loader": "0x469b18",
+          "saver": "0x469cdc",
+          "context_matches_savegame": true
+        }
+      ]
+    },
+    {
+      "flags": 8,
+      "requests": [
+        {
+          "section": "SKIL",
+          "loader": "0x46ac74",
+          "saver": "0x469e6c",
+          "context_matches_savegame": true
+        }
+      ]
+    },
+    {
+      "flags": 16,
+      "requests": [
+        {
+          "initialize": "0x46c1a8",
+          "subject_offset": 184
+        },
+        {
+          "initialize": "0x46c1a8",
+          "subject_offset": 280
+        },
+        {
+          "section": "QEST",
+          "loader": "0x469478",
+          "saver": "0x469454",
+          "context_matches_savegame": true
+        }
+      ]
+    },
+    {
+      "flags": 32,
+      "requests": [
+        {
+          "section": "PROP",
+          "loader": "0x46932c",
+          "saver": "0x4689d8",
+          "context_matches_savegame": true
+        }
+      ]
+    },
+    {
+      "flags": 63,
+      "requests": [
+        {
+          "section": "PNAM",
+          "loader": "0x4698dc",
+          "saver": "0x4688c0",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "PLVL",
+          "loader": "0x4689a0",
+          "saver": "0x468930",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "PCLS",
+          "loader": "0x469d88",
+          "saver": "0x4698e4",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "PDFL",
+          "loader": "0x468968",
+          "saver": "0x4688f8",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "LNAM",
+          "loader": "0x468b78",
+          "saver": "0x468b20",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "LEPT",
+          "loader": "0x468938",
+          "saver": "0x4688c8",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "LUSP",
+          "loader": "0x468af0",
+          "saver": "0x4689a8",
+          "context_matches_savegame": true
+        },
+        {
+          "initialize": "0x46954c",
+          "subject_offset": 0
+        },
+        {
+          "initialize": "0x469764",
+          "subject_offset": 0
+        },
+        {
+          "initialize": "0x4694c8",
+          "subject_offset": 0
+        },
+        {
+          "initialize": "0x46c1a8",
+          "subject_offset": 184
+        },
+        {
+          "initialize": "0x46c1a8",
+          "subject_offset": 280
+        },
+        {
+          "section": "LVLS",
+          "loader": "0x46a9cc",
+          "saver": "0x46a7a0",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "SKIL",
+          "loader": "0x46ac74",
+          "saver": "0x469e6c",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "FAES",
+          "loader": "0x4691d0",
+          "saver": "0x468f18",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "CFEE",
+          "loader": "0x0",
+          "saver": "0x468bf0",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "QEST",
+          "loader": "0x469478",
+          "saver": "0x469454",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "PROP",
+          "loader": "0x46932c",
+          "saver": "0x4689d8",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "GEAR",
+          "loader": "0x46a3a0",
+          "saver": "0x46a0b4",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "FTVL",
+          "loader": "0x469b18",
+          "saver": "0x469cdc",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "SKIL",
+          "loader": "0x46ac74",
+          "saver": "0x469e6c",
+          "context_matches_savegame": true
+        },
+        {
+          "section": "PROP",
+          "loader": "0x46932c",
+          "saver": "0x4689d8",
+          "context_matches_savegame": true
+        },
+        {
+          "initialize": "0x46c1a8",
+          "subject_offset": 184
+        },
+        {
+          "initialize": "0x46c1a8",
+          "subject_offset": 280
+        },
+        {
+          "section": "QEST",
+          "loader": "0x469478",
+          "saver": "0x469454",
+          "context_matches_savegame": true
+        }
+      ]
+    }
+  ],
+  "scope": "Original PlayerSavegame::_Load request order; named section readers and\nquest/level/network owners are explicitly borrowed services in this probe.\n"
+}

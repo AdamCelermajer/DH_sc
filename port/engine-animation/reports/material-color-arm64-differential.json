@@ -1,0 +1,32 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_manifest_sha256": "11cb65d2aa9f0cd4a2ee9d6a2a4939b9d431018314b3ec47959047af44551e7a",
+  "arm64_library_sha256": "ac8656dd54d0313fe26ce635e293d20b11667781a5571301fccf308c8bff3839",
+  "reference_sha256": "446f4ba53f7a389127b4212f98e3224ba3ef8965f04e4f66f8555635e805e6b4",
+  "source_sha256": {
+    "port/engine-animation/material_color.hpp": "c8c0f1572a0706c448a28e0112ca50d4497562e7e21ced2da33c0c1b2da59083",
+    "port/engine-animation/material_color.cpp": "240bab4957913bbd41082d7b8ab5d13d804e09c8bbaa0e98a7bd7c511e92ef51",
+    "port/engine-animation/tests/material_color.cpp": "9b168728558d98efa06b891d9b74691f73ac823f12f9e393a7ab02f3df58066b",
+    "port/engine-animation/tests/material_color_differential.py": "4adcc99fd04f5fdebe647b75a63d19040090f66c8ca79e6a61aa214ee94656e4"
+  },
+  "comparisons": 7899,
+  "operation_counts": {
+    "0": 424,
+    "6": 12,
+    "1": 2115,
+    "7": 1728,
+    "2": 404,
+    "4": 816,
+    "3": 1200,
+    "5": 1200
+  },
+  "actual_fx77_key_interpretations": 1740,
+  "atomic_guards": 13,
+  "mismatches": 0,
+  "original_instructions_executed": true,
+  "compiled_arm64_instructions_executed": true,
+  "asset_sha256": "b54e3b05ba684eca654c8a58b8ebd5e84f7cad25929e0b5a60405f66dfdc772e",
+  "scope": "Source component3 byte key/interpolation/wrapped delta, uchar4 contributions and resolved CMaterial parameter types8/16 including stamps. Actual original accessor getters, f2uiz, key/interpolation application and blended setter execute; native directory/name/factory, particle28, event/timeline and GPU composition excluded. IEEE arithmetic follows shared soft-float contract; final converted byte outputs are exact.",
+  "elapsed_seconds": 6.25
+}

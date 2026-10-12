@@ -1,0 +1,21 @@
+{
+  "calls": [
+    {
+      "va": "0x36ca2c",
+      "target": "0x56e064",
+      "function_va": "0x36c7b0",
+      "function": "VoxSoundManager::VoxSoundManager()"
+    },
+    {
+      "va": "0x36cd4c",
+      "target": "0x56e064",
+      "function_va": "0x36cad0",
+      "function": "VoxSoundManager::VoxSoundManager()"
+    }
+  ],
+  "apk_data_save": {
+    "length": 157456,
+    "prefix": "0fb205f5030154cbf93f8df6273e832864b31f0190bb49aa5ff616efee0adefce68ac0be068220657f30ee05d9e6af9d48c7b770343e0b0e072cb483098ea28ce256fecdb077316628a3b8fb72e39a1ec88275801888693377ff3868d34b67cd19ebd8cb",
+    "contains_pvr2": false
+  }
+}

@@ -1,0 +1,27 @@
+--- a/port/level-world/canonical_room_zone_v3.hpp
++++ b/port/level-world/canonical_room_zone_v3.hpp
+@@ -42,6 +42,7 @@
+  bool source_has_inside_v104(const std::array<float,3>&)const noexcept;
+  bool source_has_been_visited_v104(bool&,std::string&);
+  bool source_set_visited_v104(bool,std::string&);
++ bool source_set_visited_byte_v104(std::uint8_t,std::string&);
+  const std::list<std::uintptr_t>& source_occupants394_v104()const noexcept{return occupants_;}
+  std::uintptr_t module()const noexcept{return module38c_;}
+  std::uint8_t* source_byte(std::uint32_t o)noexcept{
+--- a/port/level-world/canonical_room_zone_v3.cpp
++++ b/port/level-world/canonical_room_zone_v3.cpp
+@@ -105,10 +105,13 @@
+  visited=*byte!=0;e.clear();return true;
+ }
+ bool CanonicalRoomZoneV3::source_set_visited_v104(bool visited,std::string& e){
++ return source_set_visited_byte_v104(visited?1:0,e);
++}
++bool CanonicalRoomZoneV3::source_set_visited_byte_v104(std::uint8_t visited,std::string& e){
+  if(!module38c_){e.clear();return true;}
+  std::uint8_t* byte{};std::shared_ptr<void> pin;
+  if(!runtime_v104_.module_visited||!runtime_v104_.module_visited(module38c_,byte,pin,e)||!pin||!byte){if(e.empty())e="Required actual Module3fc visited cell";return false;}
+- *byte=visited?1:0;e.clear();return true;
++ *byte=visited;e.clear();return true;
+ }
+ bool CanonicalRoomZoneV3::source_update_v104(std::string& e){
+  const auto& s=runtime_v104_;std::array<float,6> bounds;

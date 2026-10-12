@@ -1,0 +1,170 @@
+{
+  "status": "CAPTURED",
+  "cases": 10,
+  "rows": [
+    {
+      "touching": 0,
+      "players": 1,
+      "all_script": -1,
+      "active_before": 0,
+      "one_before": 0,
+      "active_after": 0,
+      "one_after": 0,
+      "activation_count": 0,
+      "calls": [
+        "TriggerUpdate"
+      ]
+    },
+    {
+      "touching": 0,
+      "players": 1,
+      "all_script": -1,
+      "active_before": 1,
+      "one_before": 1,
+      "active_after": 0,
+      "one_after": 1,
+      "activation_count": 1,
+      "calls": [
+        "TriggerUpdate",
+        [
+          "Script",
+          11
+        ]
+      ]
+    },
+    {
+      "touching": 1,
+      "players": 1,
+      "all_script": -1,
+      "active_before": 0,
+      "one_before": 0,
+      "active_after": 1,
+      "one_after": 0,
+      "activation_count": 0,
+      "calls": [
+        "TriggerUpdate",
+        [
+          "Script",
+          10
+        ],
+        "HideMarker"
+      ]
+    },
+    {
+      "touching": 1,
+      "players": 1,
+      "all_script": -1,
+      "active_before": 1,
+      "one_before": 1,
+      "active_after": 1,
+      "one_after": 1,
+      "activation_count": 0,
+      "calls": [
+        "TriggerUpdate"
+      ]
+    },
+    {
+      "touching": 0,
+      "players": 2,
+      "all_script": 20,
+      "active_before": 0,
+      "one_before": 0,
+      "active_after": 0,
+      "one_after": 0,
+      "activation_count": 0,
+      "calls": [
+        "TriggerUpdate"
+      ]
+    },
+    {
+      "touching": 0,
+      "players": 2,
+      "all_script": 20,
+      "active_before": 1,
+      "one_before": 1,
+      "active_after": 0,
+      "one_after": 0,
+      "activation_count": 1,
+      "calls": [
+        "TriggerUpdate",
+        [
+          "Script",
+          11
+        ],
+        [
+          "Script",
+          11
+        ],
+        "HideMarker"
+      ]
+    },
+    {
+      "touching": 1,
+      "players": 2,
+      "all_script": 20,
+      "active_before": 0,
+      "one_before": 0,
+      "active_after": 0,
+      "one_after": 1,
+      "activation_count": 0,
+      "calls": [
+        "TriggerUpdate",
+        [
+          "Script",
+          10
+        ],
+        "ShowMarker"
+      ]
+    },
+    {
+      "touching": 1,
+      "players": 2,
+      "all_script": 20,
+      "active_before": 1,
+      "one_before": 1,
+      "active_after": 1,
+      "one_after": 1,
+      "activation_count": 0,
+      "calls": [
+        "TriggerUpdate"
+      ]
+    },
+    {
+      "touching": 2,
+      "players": 2,
+      "all_script": 20,
+      "active_before": 0,
+      "one_before": 0,
+      "active_after": 1,
+      "one_after": 1,
+      "activation_count": 0,
+      "calls": [
+        "TriggerUpdate",
+        [
+          "Script",
+          20
+        ],
+        "HideMarker",
+        [
+          "Script",
+          10
+        ],
+        "ShowMarker"
+      ]
+    },
+    {
+      "touching": 2,
+      "players": 2,
+      "all_script": 20,
+      "active_before": 1,
+      "one_before": 1,
+      "active_after": 1,
+      "one_after": 1,
+      "activation_count": 0,
+      "calls": [
+        "TriggerUpdate"
+      ]
+    }
+  ],
+  "scope": "Whole original TriggerZone.Update decision/store sequence over offline/local-only=false domain; actual PlayerManager/Online/TriggerUpdate/touch count/Script/Marker are service observers. Not an application acceptance."
+}

@@ -1,0 +1,17 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "plan_sha256": "9da95b34ff38af98629a136bb6c306f34eeedd5b1c8a539c2a1b2500203d0f4f",
+  "script_sha256": "919e31d793f08f28ce9a915283635d2f4154d6fe6ba99813c04802fc0f2ef990",
+  "actual_original_construction": true,
+  "registered_states": 20,
+  "shared_singletons": 20,
+  "ordered_event_registrations": 109,
+  "stl_node_insertions": 129,
+  "duplicate_or_unknown_rejections": 24,
+  "idle_OnInit_clears_machine_3c_byte": true,
+  "current_null_after_registration": true,
+  "elapsed_after_registration": 0,
+  "scope": "Execute source constructor/RegisterState/factories/OnInit/SM_RegisterEvent.\nOnly STL node insertion, initialized singleton vtables and logging are supplied.\nSource map searches, fields, duplicate guards, event writes really execute.\n",
+  "mismatches": 0
+}

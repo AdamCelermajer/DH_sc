@@ -1,0 +1,9 @@
+{
+  "validation": "PASS",
+  "comparisons": 72,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "gold_sha256": "c062735c3a4c4c92714deb32e150c913aa9c237e3e044c4d3917d5604b474127",
+  "script_sha256": "ad586044ca5861b18aa45ed4c11cf8a5c6543433027d732316f74b909d79787e",
+  "scope": "Original ItemInventory ctor, ItemInstance ctor, named inventory reader,\nactual table lookup and force-insert ownership. Name/stats/requirements/power,\nfullness/equipment/notifications are explicit required controlled services.\nThis corpus does not claim those deeper game effects or campaign file parity.\n",
+  "native_comparison": false
+}

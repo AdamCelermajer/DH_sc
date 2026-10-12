@@ -1,0 +1,10 @@
+--- a/port/android-native/app/src/main/cpp/source_campaign_module_rooms_v91.hpp
++++ b/port/android-native/app/src/main/cpp/source_campaign_module_rooms_v91.hpp
+@@ -9,4 +9,7 @@
+  std::shared_ptr<void>&,dh2::world::CanonicalModuleV1*&,std::string&);
+ bool borrow_source_campaign_module_visited_v91(const std::shared_ptr<void>& actual_world,std::uintptr_t,
+  std::shared_ptr<void>&,std::uint8_t*&,std::string&);
++bool source_campaign_module_sync_visibility_v94(const std::shared_ptr<void>& actual_world,
++ std::uintptr_t actual_module_identity,std::string&);
++
+ }

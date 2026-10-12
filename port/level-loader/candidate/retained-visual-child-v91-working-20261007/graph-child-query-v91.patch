@@ -1,0 +1,34 @@
+--- a/port/level-world/canonical_gameobject_graph_v68.hpp
++++ b/port/level-world/canonical_gameobject_graph_v68.hpp
+@@ -5,6 +5,7 @@
+ #include <map>
+ #include "native_body.hpp"
+ namespace dh2::world {
++struct ZonePeerBorrowV83;
+ // A scoped borrow of an already constructed canonical class. The callback
+ // must pin that exact receiver; this graph constructs no GameObject or World.
+ using CanonicalBaseBorrowV68=std::function<bool(
+@@ -17,6 +18,7 @@
+  std::function<bool(std::string&)> current;
+  // Read-only SAME assigned physical facet. Captures class/World weakly.
+  std::function<bool(CanonicalGameObjectBaseOwnerV1&,std::shared_ptr<void>&,physical::NativeBody*&,std::string&)> native_body_v90;
++ std::function<bool(CanonicalGameObjectBaseOwnerV1&,std::uintptr_t,const ZonePeerBorrowV83&,bool&,std::string&)> colzone_inside_v91;
+ };
+ // Shared resource implementation for scenery, animated scenery, triggers and
+ // destructible objects. All field writes stay on the actual class base. The
+--- a/port/level-world/canonical_gameobject_graph_v68.cpp
++++ b/port/level-world/canonical_gameobject_graph_v68.cpp
+@@ -180,3 +180,13 @@
+  e.clear();return true;
+ }
+ }
++
++namespace dh2::world {
++bool CanonicalGameObjectGraphV68::source_colzone_inside_v91(CanonicalGameObjectBaseOwnerV1& supplied,std::uintptr_t node,
++ const ZonePeerBorrowV83& peer,bool& inside,std::string& e)const{
++ std::shared_ptr<void> pin;CanonicalGameObjectBaseOwnerV1* base{};
++ if(!borrow_base_v77(supplied.identity(),pin,base,e)||base!=&supplied)return false;
++ if(!services_.colzone_inside_v91){e="Required actual retained colzone selector";return false;}
++ return services_.colzone_inside_v91(*base,node,peer,inside,e);
++}
++}

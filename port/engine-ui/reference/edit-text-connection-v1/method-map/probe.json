@@ -1,0 +1,490 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_instructions_executed": true,
+  "explicit_fixture_services": [
+    "tu_string storage",
+    "as_value function storage",
+    "owned hash insert"
+  ],
+  "ordered_classes": [
+    {
+      "class": 0,
+      "members": [
+        {
+          "name": "addProperty",
+          "callback": "0x76ada4",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf21as_object_addpropertyERKNS_7fn_callE"
+        },
+        {
+          "name": "registerClass",
+          "callback": "0x769420",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf23as_object_registerclassERKNS_7fn_callE"
+        },
+        {
+          "name": "hasOwnProperty",
+          "callback": "0x769388",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf24as_object_hasownpropertyERKNS_7fn_callE"
+        },
+        {
+          "name": "watch",
+          "callback": "0x7692a8",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf15as_object_watchERKNS_7fn_callE"
+        },
+        {
+          "name": "unwatch",
+          "callback": "0x76924c",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf17as_object_unwatchERKNS_7fn_callE"
+        },
+        {
+          "name": "addEventListener",
+          "callback": "0x76b55c",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf28as_object_add_event_listenerERKNS_7fn_callE"
+        }
+      ]
+    },
+    {
+      "class": 2,
+      "members": [
+        {
+          "name": "toString",
+          "callback": "0x7a3d5c",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf19as_number_to_stringERKNS_7fn_callE"
+        },
+        {
+          "name": "valueOf",
+          "callback": "0x7a3cf0",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf17as_number_valueofERKNS_7fn_callE"
+        }
+      ]
+    },
+    {
+      "class": 3,
+      "members": [
+        {
+          "name": "toString",
+          "callback": "0x79b29c",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf20as_boolean_to_stringERKNS_7fn_callE"
+        },
+        {
+          "name": "valueOf",
+          "callback": "0x79b298",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf18as_boolean_valueofERKNS_7fn_callE"
+        }
+      ]
+    },
+    {
+      "class": 4,
+      "members": [
+        {
+          "name": "toString",
+          "callback": "0x7a5708",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf16string_to_stringERKNS_7fn_callE"
+        },
+        {
+          "name": "fromCharCode",
+          "callback": "0x7a5f80",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf21string_from_char_codeERKNS_7fn_callE"
+        },
+        {
+          "name": "charCodeAt",
+          "callback": "0x7a65d8",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf19string_char_code_atERKNS_7fn_callE"
+        },
+        {
+          "name": "concat",
+          "callback": "0x7a61c0",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf13string_concatERKNS_7fn_callE"
+        },
+        {
+          "name": "indexOf",
+          "callback": "0x7a58a8",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf15string_index_ofERKNS_7fn_callE"
+        },
+        {
+          "name": "lastIndexOf",
+          "callback": "0x7a57c4",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf20string_last_index_ofERKNS_7fn_callE"
+        },
+        {
+          "name": "slice",
+          "callback": "0x7a5a18",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf12string_sliceERKNS_7fn_callE"
+        },
+        {
+          "name": "split",
+          "callback": "0x7a5b5c",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf12string_splitERKNS_7fn_callE"
+        },
+        {
+          "name": "substring",
+          "callback": "0x7a6070",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf16string_substringERKNS_7fn_callE"
+        },
+        {
+          "name": "substr",
+          "callback": "0x7a6678",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf13string_substrERKNS_7fn_callE"
+        },
+        {
+          "name": "toLowerCase",
+          "callback": "0x7a6378",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf19string_to_lowercaseERKNS_7fn_callE"
+        },
+        {
+          "name": "toUpperCase",
+          "callback": "0x7a62e8",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf19string_to_uppercaseERKNS_7fn_callE"
+        },
+        {
+          "name": "charAt",
+          "callback": "0x7a64e0",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf14string_char_atERKNS_7fn_callE"
+        },
+        {
+          "name": "length",
+          "callback": "0x0",
+          "value_bytes": "000600000000000020010102",
+          "symbol": "pthread_mutexattr_init"
+        }
+      ]
+    },
+    {
+      "class": 5,
+      "members": [
+        {
+          "name": "call",
+          "callback": "0x7d39bc",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf18as_s_function_callERKNS_7fn_callE"
+        }
+      ]
+    },
+    {
+      "class": 1,
+      "members": [
+        {
+          "name": "play",
+          "callback": "0x7c12d4",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf11sprite_playERKNS_7fn_callE"
+        },
+        {
+          "name": "stop",
+          "callback": "0x7c12b8",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf11sprite_stopERKNS_7fn_callE"
+        },
+        {
+          "name": "gotoAndStop",
+          "callback": "0x7c1adc",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf20sprite_goto_and_stopERKNS_7fn_callE"
+        },
+        {
+          "name": "gotoAndPlay",
+          "callback": "0x7c198c",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf20sprite_goto_and_playERKNS_7fn_callE"
+        },
+        {
+          "name": "nextFrame",
+          "callback": "0x7c1258",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf17sprite_next_frameERKNS_7fn_callE"
+        },
+        {
+          "name": "prevFrame",
+          "callback": "0x7c120c",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf17sprite_prev_frameERKNS_7fn_callE"
+        },
+        {
+          "name": "getBytesLoaded",
+          "callback": "0x7c11e0",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf23sprite_get_bytes_loadedERKNS_7fn_callE"
+        },
+        {
+          "name": "getBytesTotal",
+          "callback": "0x7c11b4",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf22sprite_get_bytes_totalERKNS_7fn_callE"
+        },
+        {
+          "name": "swapDepths",
+          "callback": "0x7c2028",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf18sprite_swap_depthsERKNS_7fn_callE"
+        },
+        {
+          "name": "duplicateMovieClip",
+          "callback": "0x7c10d0",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf26sprite_duplicate_movieclipERKNS_7fn_callE"
+        },
+        {
+          "name": "getDepth",
+          "callback": "0x7c10a0",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf16sprite_get_depthERKNS_7fn_callE"
+        },
+        {
+          "name": "createEmptyMovieClip",
+          "callback": "0x7c1018",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf29sprite_create_empty_movieclipERKNS_7fn_callE"
+        },
+        {
+          "name": "removeMovieClip",
+          "callback": "0x7c222c",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf23sprite_remove_movieclipERKNS_7fn_callE"
+        },
+        {
+          "name": "hitTest",
+          "callback": "0x7c136c",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf15sprite_hit_testERKNS_7fn_callE"
+        },
+        {
+          "name": "getBounds",
+          "callback": "0x7c23f4",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf17sprite_get_boundsERKNS_7fn_callE"
+        },
+        {
+          "name": "localToGlobal",
+          "callback": "0x7c1938",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf19sprite_local_globalERKNS_7fn_callE"
+        },
+        {
+          "name": "globalToLocal",
+          "callback": "0x7c18a8",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf19sprite_global_localERKNS_7fn_callE"
+        },
+        {
+          "name": "startDrag",
+          "callback": "0x7c1ea8",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf17sprite_start_dragERKNS_7fn_callE"
+        },
+        {
+          "name": "stopDrag",
+          "callback": "0x7c1e70",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf16sprite_stop_dragERKNS_7fn_callE"
+        },
+        {
+          "name": "loadMovie",
+          "callback": "0x7c077c",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf16sprite_loadmovieERKNS_7fn_callE"
+        },
+        {
+          "name": "unloadMovie",
+          "callback": "0x7c071c",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf18sprite_unloadmovieERKNS_7fn_callE"
+        },
+        {
+          "name": "getNextHighestDepth",
+          "callback": "0x7c0fe8",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf26sprite_getnexthighestdepthERKNS_7fn_callE"
+        },
+        {
+          "name": "getInstanceAtDepth",
+          "callback": "0x7c0f7c",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf24sprite_instance_at_depthERKNS_7fn_callE"
+        },
+        {
+          "name": "createTextField",
+          "callback": "0x7c0e08",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf24sprite_create_text_fieldERKNS_7fn_callE"
+        },
+        {
+          "name": "attachMovie",
+          "callback": "0x7c1c24",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf19sprite_attach_movieERKNS_7fn_callE"
+        },
+        {
+          "name": "beginFill",
+          "callback": "0x7c0cd0",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf17sprite_begin_fillERKNS_7fn_callE"
+        },
+        {
+          "name": "endFill",
+          "callback": "0x7c0cbc",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf15sprite_end_fillERKNS_7fn_callE"
+        },
+        {
+          "name": "lineTo",
+          "callback": "0x7c0b64",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf14sprite_line_toERKNS_7fn_callE"
+        },
+        {
+          "name": "moveTo",
+          "callback": "0x7c0c10",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf14sprite_move_toERKNS_7fn_callE"
+        },
+        {
+          "name": "curveTo",
+          "callback": "0x7c0a3c",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf15sprite_curve_toERKNS_7fn_callE"
+        },
+        {
+          "name": "clear",
+          "callback": "0x7c12f0",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf12sprite_clearERKNS_7fn_callE"
+        },
+        {
+          "name": "lineStyle",
+          "callback": "0x7c08a0",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf17sprite_line_styleERKNS_7fn_callE"
+        },
+        {
+          "name": "setFPS",
+          "callback": "0x7c0dbc",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf14sprite_set_fpsERKNS_7fn_callE"
+        },
+        {
+          "name": "addFrameScript",
+          "callback": "0x7c0824",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf17sprite_add_scriptERKNS_7fn_callE"
+        }
+      ]
+    },
+    {
+      "class": 6,
+      "members": [
+        {
+          "name": "setTextFormat",
+          "callback": "0x78f9f0",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf14set_textformatERKNS_7fn_callE"
+        },
+        {
+          "name": "getTextFormat",
+          "callback": "0x791d48",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf14get_textformatERKNS_7fn_callE"
+        }
+      ]
+    },
+    {
+      "class": 7,
+      "members": [
+        {
+          "name": "toString",
+          "callback": "0x798da8",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf17as_array_tostringERKNS_7fn_callE"
+        },
+        {
+          "name": "push",
+          "callback": "0x7994a0",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf13as_array_pushERKNS_7fn_callE"
+        },
+        {
+          "name": "pop",
+          "callback": "0x7982a4",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf12as_array_popERKNS_7fn_callE"
+        },
+        {
+          "name": "concat",
+          "callback": "0x79926c",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf15as_array_concatERKNS_7fn_callE"
+        },
+        {
+          "name": "join",
+          "callback": "0x798c14",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf13as_array_joinERKNS_7fn_callE"
+        },
+        {
+          "name": "reverse",
+          "callback": "0x798204",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf16as_array_reverseERKNS_7fn_callE"
+        },
+        {
+          "name": "sort",
+          "callback": "0x79b124",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf13as_array_sortERKNS_7fn_callE"
+        },
+        {
+          "name": "shift",
+          "callback": "0x798a38",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf14as_array_shiftERKNS_7fn_callE"
+        },
+        {
+          "name": "unshift",
+          "callback": "0x7993a4",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf16as_array_unshiftERKNS_7fn_callE"
+        },
+        {
+          "name": "slice",
+          "callback": "0x79913c",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf14as_array_sliceERKNS_7fn_callE"
+        },
+        {
+          "name": "splice",
+          "callback": "0x79a4d8",
+          "value_bytes": "000000000000000000000000",
+          "symbol": "_ZN7gameswf15as_array_spliceERKNS_7fn_callE"
+        },
+        {
+          "name": "length",
+          "callback": "0x0",
+          "value_bytes": "0006000000000000e0020102",
+          "symbol": "pthread_mutexattr_init"
+        }
+      ]
+    }
+  ]
+}

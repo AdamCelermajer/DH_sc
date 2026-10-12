@@ -1,0 +1,41 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_sha256": {
+    "port\\level-world\\character_host_context.hpp": "cd51145421b37194bd79deec6603696a1d26e9d20f3030cb20372012430ac80e",
+    "port\\level-world\\character_host_context.cpp": "ecf88d6974033f84868bfb95a1b01ee6a15b32f6397ba119510c432e636a6384",
+    "port\\level-world\\tests\\character_host_context.cpp": "1ccf53deb4a472ae2cd5f49500c0609fb5b5fc8101cf2c5396db8e4376f8bbc7",
+    "port\\level-world\\tests\\character_host_context_host.py": "4cb2adacc1370ca8ae88f82b5485be485a3d027f2db60b0da6c968ea8d8cee19",
+    "port\\level-world\\tests\\character_host_context_differential.py": "58fd80be781d0f546e87a620422447d9eef0bf6ef1afd8ae20fe4b7f72c457e6",
+    "port\\level-world\\tools\\build_character_host_context_oracle.ps1": "3124695753b1b6ad75c601e3cd3472ce9f577e18751ddfd4e60b09ba72c9d881",
+    "port\\level-world\\reference\\character-host-context\\NOTES.md": "d12e3a3f77559b5c0428c60d939559b5367ee5beae7888365d799ecd89f1f356",
+    "port\\level-world\\reference\\character-host-context\\hosting_probe.py": "4404f60b37bb286f2a376738576da366e4233bf037e6dafbcba91836a4286d56",
+    "port\\level-world\\reference\\character-host-context\\validate_native.py": "be755f485d06a3b7ae587a2d4043dd112338cf1d3a0b9517ec6dcfc4cacb319e"
+  },
+  "proof_sha256": {
+    "port\\level-world\\reports\\character-host-context-arm64-differential.json": "3b036caca73f142d67654cd784eed05a400e83375dd2c4781e57baf9d0cb5f5f",
+    "port\\level-world\\reports\\character-host-context-host-audit.json": "ab352f1a0a7e4ae1e4e53a322e5f2aae4f69a8f0e0f726c5da5c723fe1bc6d06",
+    "port\\level-world\\reference\\character-host-context\\hosting-probe.json": "8350e964463349b19df5ef361e717453f0d365df27e89420866b6a4d8980f87c",
+    "port\\level-world\\reference\\character-host-context\\original-probe.json": "a1395fbda34f077ded4be4b9523b46f34f7d19669758fa1fd24834e366fc085e",
+    "port\\level-world\\reference\\character-host-context\\host-context-fixtures.bin": "a45ce66329bb92aa1dc46e1d61abc1c246b552b58c4cf988612c8905258d74ef",
+    "port\\game-data\\reference\\level-tables\\original-loader-capture.json": "4e9d0763116c9a09e5f6be978c5338df1a66e0f674cd50219347a8765d253cd1"
+  },
+  "original_manifests_sha256": {
+    "port\\level-world\\reference\\character-host-context\\original-functions.json": "f0ba746ee2511bd1e26324347a60c090b1e7e3a5a34516c64e16a87abb912eab",
+    "port\\level-world\\reference\\character-host-context\\producers\\original-functions.json": "e574dd362bf19fceb3774682aca0b308de805f168358b8c8601230d3d4ee33f3",
+    "port\\level-world\\reference\\character-host-context\\player\\original-functions.json": "ce366481a6bf72aba6a304a103b5620db2598f495edf0ec50ff29f12540d03b6",
+    "port\\level-world\\reference\\character-host-context\\difficulty\\original-functions.json": "724e7c09599ce664785c68a0bb4ec4883e1351bd0e789c624321fe5132e36b25",
+    "port\\level-world\\reference\\character-host-context\\level\\original-functions.json": "89ac93ac7aca63870a2da5614d78090fada38d95609976b815d0e1baae1c9949"
+  },
+  "original_O2_comparisons": 1233,
+  "ordered_services": 4041,
+  "original_hosting_gate_cases": 128,
+  "host_checks": 31004,
+  "genuine_VM_cases": 179,
+  "actual_decoded_Level_rows": 51,
+  "decoded_original_and_VM_tiers": 153,
+  "sanitizer_findings": 0,
+  "source_manager_Application_and_session_ownership_bound": false,
+  "whole_monster_Init": false,
+  "packaged_APK": false
+}

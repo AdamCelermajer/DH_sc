@@ -1,0 +1,40 @@
+# V59 exact Main Init hook checklist
+
+Status: SOURCE_ONLY_UNCOMPILED. Source/disassembly/ELF metadata inspection only. No WSL/compiler/sanitizer/Unicorn/oracle/device launch took place. This checklist supplies no behavior implementation and creates no gameplay owner, VM, or state.
+
+All offsets below are hexadecimal original ARM logical field offsets. The modern receiver's real fields have native layout; never cast receiver/Data to an ARM struct or compute native addresses by adding ARM offsets. CheckedCommandBorrowV59 pins SAME receiver/Data and lends SAME skip4/kind8/data_c. Source Init has void semantics; callback bool means the required body completed or transport failed, never the value of a source return register.
+
+Before Main dispatches any Init: validate actual receiver dynamic type against the row below; identity equals receiver.identity(); pointers equal checked_data_borrow's actual header cells; source_kind/kind8/descriptor.kind all agree; data_c equals actual_data.identity(). Bind to Main's current retained typed owners through weak captures and scoped pins. Do not copy fields into a second receiver or classify the opaque PlayActorAnim C1 extras by guesswork.
+
+| Kind / actual receiver | Source Init | Consumed SAME parsed Data | Required actual typed Main owner/hooks | Source receiver writes |
+|---|---|---|---|---|
+|10 Script_StartDialogReceiverV59|459034|scalar(0x0c), width4|Main Application singleton, actual Application+0x2c PyDataConstants, getConstant("DialogStyles","EnterLocationDialog") at4c4bdc|*checked.skip4 = exactly0 or1 from equality of Data+0xc and returned32-bit constant, at459078. No dialogue progression in Init.|
+|23 Script_HideFlashReceiverV59|4597e8|cstring(0x10); CString length was scalar0x0c|actual MenuManager::GetInstance42ca8c; source strstr(name,"HUD"); actual GetMenuByName42d1f0 when substring absent|SAME actual native-width menu10: NULL if strstr returns nonNULL; otherwise actual Menu result (including genuine NULL). Store provenance45981c/459830.|
+|22 Script_ShowFlashReceiverV59|45983c|cstring(0x10); CString length was scalar0x0c|same MenuManager hooks and case-sensitive strstr substring branch|SAME actual native-width menu10: NULL if HUD substring present; otherwise actual Menu result. Store provenance459870/459884.|
+|20 Script_PlayEffectReceiverV59|4598b4|scalar(0x08), width4|existing VisualFXManager singleton's actual RegisterFXSetToLoad(int)4967e8, with signed32 interpretation of Data+0x08|No receiver/header/operand store occurs in this Init. Actual registration body is required; no eager FX or success fixture.|
+|45 Script_PlayActorAnimReceiverV59|45a2ec|cstring(0x18), scalar(0x08)width4 then scalar(0x0c)width4|actual Application+0x38 ObjectManager; actual GetObjectByName(name,-1,false,NULL)34aca0 with genuine ObjectHandle result; handle.GetObject(false)33fdc0; actual handle operator Character*33ff54; SAME Character's embedded CharAnimator+0x49c; ANIM_AddAnimDictToSet(int)3c9b14 twice in authored8/c order|No receiver/header/opaque extra store occurs. Actual NULL GetObject or Character-conversion result is source early return, before animator calls. Missing services are errors, not NULL fixtures.|
+
+Source ordering to preserve:
+
+- StartDialog reads actual Application+0x2c and Data+c before actual constant call, then writes skip4. V52 folds script.skip4 only after this real Init completes.
+- Show/Hide call MenuManager::GetInstance BEFORE reading the SAME Data CString and before strstr. For a HUD substring, do not call GetMenuByName. For absent substring, pass the original CString unchanged; do not trim, case-fold, use equality, or substitute a default menu.
+- PlayEffect reads Data+8 then reaches actual global VisualFXManager and tail-calls registration. Do not manufacture a VisualFXManager.
+- PlayActorAnim uses a temporary actual ObjectHandle returned by Main; GetObject(false) precedes Character conversion, then two AddAnimDictToSet calls on SAME embedded animator. It does not fill command+10/+14/+18 with the looked-up actor during Init. Those extras retain only original proven constructor values (0,0,ffffffff); their later meanings require separate Execute evidence.
+
+Menu pointer ABI and lifetime:
+
+- Original Show/Hide C1 stores32-bit NULL at logical+0x10. Original Init proves that cell is a Menu pointer. V59 uses actual std::uintptr_t menu10_ (native-width), not an opaque uint32 word, for exactly these two receivers. Other unproved extra cells remain opaque scalar variants.
+- Bind the real Menu target using write_operand_pointer(0x10, uintptr_t(actual_menu), actual_menu_alias_owner,error). The alias shared owner must have .get()==actual_menu. If Main owns menus indirectly, use an aliasing lease to the actual Menu, not its manager address. Storage retains a weak alias lease, avoiding receiver->App cycles. The manager/actual application remains authoritative for Menu lifetime.
+- A proven NULL target uses write_operand_pointer(0x10,0,{},error). Actual lookup NULL is permitted; provider absence is a failure.
+- checked_menu_borrow returns pointers into SAME receiver menu10 and a scoped actual_menu_owner pin; nonNULL targets require that pin's .get()==stored pointer. Keep the borrow scoped to the actual Main body. read_operand_pointer checks the same live alias; expired or foreign aliases fail without changing output. Scalar read/write of menu10 is unavailable, preventing32-bit truncation.
+- An exposed menu10 pointer is borrowed only. Main must use the checked write method to update both pointer and weak alias; direct mutation followed by a foreign/expired owner is detected at the next checked borrow/read.
+
+ABI/storage review and corrected source risks:
+
+- V59 constructor_borrow matches the frozen V52 aggregate order: owner, identity, originalfactory, SAME skip4/kind8/data_c, address of SAME retained_data shared lease, Init wrapper, base-release wrapper. V52 publishes command before Data read; assigns kind/data then invokes Init; failure retains prefix; Unload resets retained/pending Data and clears data_c before invoking V59 base storage release. No Execute/Finish is called.
+- Base Free45632c calls qualified ScriptCmdImpl D1 at455a68, then CustomFree310440. D1 calls actual Data virtual Free then destructor and clears+c. V59 does not claim to execute ARM destructors: V52 releases native parsed-data ownership in that order; V59 marks receiver storage released, then manager drops native ownership. Native destructors only release leases and class storage. Long-lived modern inspection borrows can delay physical destruction; runtime must scope borrows to the reached body/teardown.
+- Public concrete construction previously accepted arbitrary temporary descriptors, creating a dangling-reference risk or mismatched dynamic class. V59 now validates SAME stable canonical descriptor against expected concrete kind, rejecting foreign clones. Receiver copy/move is deleted so an initialized actual receiver cannot be duplicated by implicit copying.
+- Same-data post-Init identity checks remain active. Callback closures must capture Main weakly; a weak token cannot repair a std::function closure that independently captures App strongly. Frozen V52 services.owner must be a stream/cache authority lease without an App ownership cycle when App owns ScriptManager.
+- New source-only native test checks dynamic classes/gold C1 cells, >UINT32 actual Menu pointer roundtrip, rejected scalar truncation/foreign alias/expired alias, unchanged failed-read output, scoped checked borrow pins, and canonical descriptor rejection. It remains uncompiled.
+
+Direct ELF metadata provenance (not execution): ELF SHA36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80. PC-relative literals resolve DialogStyles8ccc30, EnterLocationDialog8cce70, HUD8ccf10. .plt begins30dd74; entry305 at30ebd4 resolves .rel.plt/.dynsym import strstr. GOT99828c references Singleton<Application>::s_inst99f72c; GOT9965a0 references Singleton<VisualFXManager>::s_inst9a1cd4. Five frozen command-init ASM files and script_data_schemas_v52.inc supply body/action provenance.

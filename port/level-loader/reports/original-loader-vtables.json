@@ -1,0 +1,432 @@
+{
+  "validation": "PASS",
+  "scope": "Resolve loader-relevant ARM vtable slots from the supplied ELF image.\n\nReads the original initialized image through the existing Cpu loader. It does\nnot construct or activate gameplay objects. Relocated entries are reported\nalongside every matching defined dynamic symbol, rather than guessed names.\n",
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "script_sha256": "5895de775373e281cdcead7372722e3e4d3f5d8e807f3e5e0534d57e7024f6b5",
+  "cpu_helper_sha256": "04b7a600e9bfed2285ef273b9365780c5c86870b9350d796756673eeb1b41f4c",
+  "early_init_gametype_literal": {
+    "address": "0x8c0478",
+    "value": "LevelConfig",
+    "load_instruction": "0x34ba4c"
+  },
+  "vtables": [
+    {
+      "symbol": "_ZTV10ObjectBase",
+      "address_point_offset": 8,
+      "address_point": "0x95c678",
+      "entries": [
+        {
+          "slot": "0x0",
+          "target": "0x33e840",
+          "symbols": [
+            "_ZN10ObjectBaseD1Ev"
+          ]
+        },
+        {
+          "slot": "0x4",
+          "target": "0x33e97c",
+          "symbols": [
+            "_ZN10ObjectBaseD0Ev"
+          ]
+        },
+        {
+          "slot": "0x8",
+          "target": "0x33dcb4",
+          "symbols": [
+            "_ZNK3sfc6script3lua8UserData13getUDTypeNameEv"
+          ]
+        },
+        {
+          "slot": "0xc",
+          "target": "0x33dcc4",
+          "symbols": [
+            "_ZN3sfc6script3lua8UserData14createBindingsERNS1_6BinderE"
+          ]
+        },
+        {
+          "slot": "0x10",
+          "target": "0x33e1f0",
+          "symbols": [
+            "_ZN10ObjectBase9SerializeEP11IStreamBase"
+          ]
+        },
+        {
+          "slot": "0x14",
+          "target": "0x33e0f8",
+          "symbols": [
+            "_ZN10ObjectBase11DeserializeEP11IStreamBase"
+          ]
+        },
+        {
+          "slot": "0x18",
+          "target": "0x33f014",
+          "symbols": [
+            "_ZN10ObjectBase17DeclarePropertiesEv"
+          ]
+        },
+        {
+          "slot": "0x1c",
+          "target": "0x33ec0c",
+          "symbols": [
+            "_ZN10ObjectBase8InitPostEv"
+          ]
+        },
+        {
+          "slot": "0x20",
+          "target": "0x33dcc8",
+          "symbols": [
+            "_ZNK10ObjectBase12IsGameObjectEv"
+          ]
+        },
+        {
+          "slot": "0x24",
+          "target": "0x33dcd0",
+          "symbols": [
+            "_ZNK10ObjectBase11IsCharacterEv"
+          ]
+        },
+        {
+          "slot": "0x28",
+          "target": "0x33dcd8",
+          "symbols": [
+            "_ZNK10ObjectBase8IsPlayerEv"
+          ]
+        },
+        {
+          "slot": "0x2c",
+          "target": "0x0",
+          "symbols": []
+        }
+      ]
+    },
+    {
+      "symbol": "_ZTV10GameObject",
+      "address_point_offset": 8,
+      "address_point": "0x964750",
+      "entries": [
+        {
+          "slot": "0x0",
+          "target": "0x38d228",
+          "symbols": [
+            "_ZN10GameObjectD1Ev"
+          ]
+        },
+        {
+          "slot": "0x4",
+          "target": "0x38d35c",
+          "symbols": [
+            "_ZN10GameObjectD0Ev"
+          ]
+        },
+        {
+          "slot": "0x8",
+          "target": "0x340124",
+          "symbols": [
+            "_ZNK10GameObject13getUDTypeNameEv"
+          ]
+        },
+        {
+          "slot": "0xc",
+          "target": "0x38d7ec",
+          "symbols": [
+            "_ZN10GameObject14createBindingsERN3sfc6script3lua6BinderE"
+          ]
+        },
+        {
+          "slot": "0x10",
+          "target": "0x38b9e4",
+          "symbols": [
+            "_ZN10GameObject9SerializeEP11IStreamBase"
+          ]
+        },
+        {
+          "slot": "0x14",
+          "target": "0x38b91c",
+          "symbols": [
+            "_ZN10GameObject11DeserializeEP11IStreamBase"
+          ]
+        },
+        {
+          "slot": "0x18",
+          "target": "0x38cee8",
+          "symbols": [
+            "_ZN10GameObject17DeclarePropertiesEv"
+          ]
+        },
+        {
+          "slot": "0x1c",
+          "target": "0x38be5c",
+          "symbols": [
+            "_ZN10GameObject8InitPostEv"
+          ]
+        },
+        {
+          "slot": "0x20",
+          "target": "0x340054",
+          "symbols": [
+            "_ZNK10GameObject12IsGameObjectEv"
+          ]
+        },
+        {
+          "slot": "0x24",
+          "target": "0x33dcd0",
+          "symbols": [
+            "_ZNK10ObjectBase11IsCharacterEv"
+          ]
+        },
+        {
+          "slot": "0x28",
+          "target": "0x33dcd8",
+          "symbols": [
+            "_ZNK10ObjectBase8IsPlayerEv"
+          ]
+        },
+        {
+          "slot": "0x2c",
+          "target": "0x38cbe8",
+          "symbols": [
+            "_ZN10GameObject6UpdateEv"
+          ]
+        }
+      ]
+    },
+    {
+      "symbol": "_ZTV5Decor",
+      "address_point_offset": 8,
+      "address_point": "0x964610",
+      "entries": [
+        {
+          "slot": "0x0",
+          "target": "0x388428",
+          "symbols": [
+            "_ZN5DecorD1Ev"
+          ]
+        },
+        {
+          "slot": "0x4",
+          "target": "0x388eb0",
+          "symbols": [
+            "_ZN5DecorD0Ev"
+          ]
+        },
+        {
+          "slot": "0x8",
+          "target": "0x340124",
+          "symbols": [
+            "_ZNK10GameObject13getUDTypeNameEv"
+          ]
+        },
+        {
+          "slot": "0xc",
+          "target": "0x38d7ec",
+          "symbols": [
+            "_ZN10GameObject14createBindingsERN3sfc6script3lua6BinderE"
+          ]
+        },
+        {
+          "slot": "0x10",
+          "target": "0x38b9e4",
+          "symbols": [
+            "_ZN10GameObject9SerializeEP11IStreamBase"
+          ]
+        },
+        {
+          "slot": "0x14",
+          "target": "0x38b91c",
+          "symbols": [
+            "_ZN10GameObject11DeserializeEP11IStreamBase"
+          ]
+        },
+        {
+          "slot": "0x18",
+          "target": "0x3899d0",
+          "symbols": [
+            "_ZN5Decor17DeclarePropertiesEv"
+          ]
+        },
+        {
+          "slot": "0x1c",
+          "target": "0x388a98",
+          "symbols": [
+            "_ZN5Decor8InitPostEv"
+          ]
+        },
+        {
+          "slot": "0x20",
+          "target": "0x340054",
+          "symbols": [
+            "_ZNK10GameObject12IsGameObjectEv"
+          ]
+        },
+        {
+          "slot": "0x24",
+          "target": "0x33dcd0",
+          "symbols": [
+            "_ZNK10ObjectBase11IsCharacterEv"
+          ]
+        },
+        {
+          "slot": "0x28",
+          "target": "0x33dcd8",
+          "symbols": [
+            "_ZNK10ObjectBase8IsPlayerEv"
+          ]
+        },
+        {
+          "slot": "0x2c",
+          "target": "0x38cbe8",
+          "symbols": [
+            "_ZN10GameObject6UpdateEv"
+          ]
+        }
+      ]
+    },
+    {
+      "symbol": "_ZTV6Module",
+      "address_point_offset": 8,
+      "address_point": "0x964518",
+      "entries": [
+        {
+          "slot": "0x0",
+          "target": "0x389444",
+          "symbols": [
+            "_ZN6ModuleD1Ev"
+          ]
+        },
+        {
+          "slot": "0x4",
+          "target": "0x38952c",
+          "symbols": [
+            "_ZN6ModuleD0Ev"
+          ]
+        },
+        {
+          "slot": "0x8",
+          "target": "0x340124",
+          "symbols": [
+            "_ZNK10GameObject13getUDTypeNameEv"
+          ]
+        },
+        {
+          "slot": "0xc",
+          "target": "0x38d7ec",
+          "symbols": [
+            "_ZN10GameObject14createBindingsERN3sfc6script3lua6BinderE"
+          ]
+        },
+        {
+          "slot": "0x10",
+          "target": "0x388710",
+          "symbols": [
+            "_ZN6Module9SerializeEP11IStreamBase"
+          ]
+        },
+        {
+          "slot": "0x14",
+          "target": "0x388f00",
+          "symbols": [
+            "_ZN6Module11DeserializeEP11IStreamBase"
+          ]
+        },
+        {
+          "slot": "0x18",
+          "target": "0x389e04",
+          "symbols": [
+            "_ZN6Module17DeclarePropertiesEv"
+          ]
+        },
+        {
+          "slot": "0x1c",
+          "target": "0x388b20",
+          "symbols": [
+            "_ZN6Module8InitPostEv"
+          ]
+        },
+        {
+          "slot": "0x20",
+          "target": "0x340054",
+          "symbols": [
+            "_ZNK10GameObject12IsGameObjectEv"
+          ]
+        },
+        {
+          "slot": "0x24",
+          "target": "0x33dcd0",
+          "symbols": [
+            "_ZNK10ObjectBase11IsCharacterEv"
+          ]
+        },
+        {
+          "slot": "0x28",
+          "target": "0x33dcd8",
+          "symbols": [
+            "_ZNK10ObjectBase8IsPlayerEv"
+          ]
+        },
+        {
+          "slot": "0x2c",
+          "target": "0x38cbe8",
+          "symbols": [
+            "_ZN10GameObject6UpdateEv"
+          ]
+        }
+      ]
+    },
+    {
+      "symbol": "_ZTV13RootSceneNode",
+      "address_point_offset": 28,
+      "address_point": "0x95fdf4",
+      "entries": [
+        {
+          "slot": "0x90",
+          "target": "0x5970bc",
+          "symbols": [
+            "_ZNK6glitch5scene10ISceneNode8getScaleEv"
+          ]
+        },
+        {
+          "slot": "0x94",
+          "target": "0x5970c4",
+          "symbols": [
+            "_ZN6glitch5scene10ISceneNode8setScaleERKNS_4core8vector3dIfEE"
+          ]
+        },
+        {
+          "slot": "0x98",
+          "target": "0x5970ec",
+          "symbols": [
+            "_ZNK6glitch5scene10ISceneNode11getRotationEv"
+          ]
+        },
+        {
+          "slot": "0x9c",
+          "target": "0x5970f4",
+          "symbols": [
+            "_ZN6glitch5scene10ISceneNode11setRotationERKNS_4core10quaternionE"
+          ]
+        },
+        {
+          "slot": "0xa0",
+          "target": "0x597124",
+          "symbols": [
+            "_ZNK6glitch5scene10ISceneNode11getPositionEv"
+          ]
+        },
+        {
+          "slot": "0xa4",
+          "target": "0x59712c",
+          "symbols": [
+            "_ZN6glitch5scene10ISceneNode11setPositionERKNS_4core8vector3dIfEE"
+          ]
+        },
+        {
+          "slot": "0xb8",
+          "target": "0x35c27c",
+          "symbols": [
+            "_ZN13RootSceneNode22updateAbsolutePositionEb"
+          ]
+        }
+      ]
+    }
+  ]
+}

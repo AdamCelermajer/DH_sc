@@ -1,0 +1,118 @@
+--- a/port/level-loader/canonical_light_point_v53.hpp
++++ b/port/level-loader/canonical_light_point_v53.hpp
+@@ -3,6 +3,7 @@
+ #include <light_set_name_owner_v3.hpp>
+ #include <memory>
+ namespace dh2::world {
++struct RetainedLightSceneNodeV92;struct RetainedLightScenePrefixV92;
+ // The SAME receiver's source D0 uses unique genuine native-reference and base
+ // continuation leaves. Passive node pins/capability destructors never perform
+ // the actor120 intrusive drop. Runtime/barrier pins remain independent of the
+@@ -58,7 +59,7 @@
+ };
+ // A borrowed ACTUAL renderer light node. Main supplies its retained node owner,
+ // native identity and storage writer. A source miss is node.identity==0.
+-struct LightNodeBorrowV53 {std::shared_ptr<void> owner;std::uintptr_t identity{},actual_light_identity{};std::unique_ptr<LightActorNodeReferenceV67> actor_reference;};
++struct LightNodeBorrowV53 {std::shared_ptr<void> owner;std::uintptr_t identity{},actual_light_identity{};std::unique_ptr<LightActorNodeReferenceV67> actor_reference;std::shared_ptr<RetainedLightSceneNodeV92> source_node_v92;std::shared_ptr<RetainedLightScenePrefixV92> load_prefix_v92;};
+ struct LightParameterFieldsV53 {
+  std::shared_ptr<void> owner;std::uintptr_t actual_light_identity{};
+  std::array<float,4>* ambient4{};std::array<float,4>* diffuse14{};std::array<float,4>* specular24{};
+@@ -97,6 +98,7 @@
+  std::string template_;std::map<std::uint32_t,std::uint8_t> bytes_;
+  std::map<std::uint32_t,std::int32_t> ints_;std::map<std::uint32_t,float> floats_;
+  std::map<std::uint32_t,std::string> strings_;std::map<std::uint32_t,std::array<float,3>> vectors_;
++ target_providers::Handle16 attached_handle198_v92_{0,UINT32_MAX,0};
+  LightPointInitServicesV53 services_;LightNodeBorrowV53 node_;bool attempted_{},complete_{};std::string error_;
+  static bool set_name(void*,const char*,std::string&);static bool set_archetype(void*,const char*,std::string&);
+  static bool as_character(void*,std::uintptr_t&,std::string&);static bool across(void*,std::uint8_t&,std::string&);
+@@ -126,6 +128,10 @@
+  std::uint8_t* source_save_byte_v89(std::uint32_t,std::string&);
+  std::uintptr_t identity()const noexcept{return identity_;}
+  const LightNodeBorrowV53& actual_node()const noexcept{return node_;}
++ bool source_set_light_vector_v92(std::uint32_t,const std::array<float,3>&,std::string&);
++ std::string* source_string_v92(std::uint32_t o,std::string& e){if(!writable(e))return nullptr;auto i=strings_.find(o);if(i==strings_.end()){e="Missing SAME LightPoint CString";return nullptr;}return &i->second;}
++ std::uint8_t* source_byte_v92(std::uint32_t o,std::string& e){if(!writable(e))return nullptr;auto i=bytes_.find(o);if(i==bytes_.end()){e="Missing SAME LightPoint produced byte";return nullptr;}return &i->second;}
++ target_providers::Handle16& source_attached_handle198_v92()noexcept{return attached_handle198_v92_;}
+  bool init_complete()const noexcept{return complete_;}
+  static constexpr bool is_game_object()noexcept{return false;}
+ };
+--- a/port/level-loader/catalog_environment_v67.hpp
++++ b/port/level-loader/catalog_environment_v67.hpp
+@@ -11,6 +11,7 @@
+  world::CanonicalPropertyMapV1* properties{};
+  // Set only during an actual receiver leaf, never retained by the provider.
+  world::CanonicalLightPointV53* receiver{};
++ std::shared_ptr<void> services_owner; // Actual final independent Scope boundary, not old producer packet.
+ };
+ struct LightEnvironmentLeavesV67 {
+  // Independent runtime authority; no strong containing World/Level/manager
+--- a/port/level-loader/catalog_environment_v67.cpp
++++ b/port/level-loader/catalog_environment_v67.cpp
+@@ -8,7 +8,7 @@
+  return a&&b&&!a.owner_before(b)&&!b.owner_before(a);
+ }
+ bool borrow(const ScopeV67& s,const LightEnvironmentLeavesV67& p,LightDeliveryV67& b,std::string& e){
+- b={s.actual_world.lock(),s.level.lock(),s.objects.lock(),s.properties};
++ b={s.actual_world.lock(),s.level.lock(),s.objects.lock(),s.properties};b.services_owner=s.services_owner;
+  if(!b.actual_world||!b.level||!b.objects||!b.properties){e="LightPoint actual World/Level/manager lifetime expired";return false;}
+  return p.validate_current(b,e);
+ }
+--- a/port/level-world/gameobject_scene_root_registry_v1.hpp
++++ b/port/level-world/gameobject_scene_root_registry_v1.hpp
+@@ -4,7 +4,7 @@
+ #include "light_set_name_owner_v3.hpp"
+ #include <vector>
+ namespace dh2::world {
+-class ScenePreloadCollectionV81;
++class ScenePreloadCollectionV81;class SceneLightResourcesV92;
+ // SAME source manager state, separately typed from renderer draw-list owner.
+ // Full render registration is not implemented by root attachment.
+ struct GameObjectSceneManagerFieldsV1 {
+@@ -60,6 +60,7 @@
+  GameObjectSceneManagerFieldsV1 fields_;
+  SceneManagerFrameFieldsV67 frame_v67_;
+  std::shared_ptr<LightSetNameOwnerV3> source_light_names_v89_;
++ std::shared_ptr<SceneLightResourcesV92> source_light_resources_v92_;
+  std::vector<Entry> children_;
+  GameObjectSceneCameraBorrowV13 active_camera_e4_;
+  bool ambient_set_v67_{};
+@@ -105,6 +106,7 @@
+   if(!source_light_names_v89_)source_light_names_v89_=std::make_shared<LightSetNameOwnerV3>();
+   return source_light_names_v89_;
+  }
++ const std::shared_ptr<SceneLightResourcesV92>& source_light_resources_v92();
+  std::uintptr_t identity()const noexcept{return identity_;}
+  std::uintptr_t scene_manager_identity_v16()const noexcept{return reinterpret_cast<std::uintptr_t>(this);}
+  bool set_active_camera_v13(GameObjectSceneCameraBorrowV13,std::string&);
+--- a/port/level-loader/player_light_tweaker_owner_v90.hpp
++++ b/port/level-loader/player_light_tweaker_owner_v90.hpp
+@@ -71,6 +71,10 @@
+  // Future ORIGINAL publication must write these actual pointer slots and
+  // lend a matching real LightBase owner via Services.light. C1 leaves NULL.
+  std::uintptr_t* source_light128(std::size_t i)noexcept{return !closed_&&i<5?&lights128_[i]:nullptr;}
++ // Source AssignTweaker40b828 writes the SAME selected actual actor pointer,
++ // attenuation and packed RGB cells after the real LightSet.SetLight call.
++ bool source_assign_light_v92(std::size_t,std::uintptr_t,const std::array<float,3>&,
++  const std::array<float,3>&,const std::array<float,3>&,const std::array<float,3>&,std::string&);
+  // Source D1: derived stringf8, base vector70(empty), name54, group1c,
+  // mappings4. Device6c is borrowed; no device/light grab/drop was in D1.
+  bool close(std::string&);
+--- a/port/level-loader/player_light_tweaker_owner_v90.cpp
++++ b/port/level-loader/player_light_tweaker_owner_v90.cpp
+@@ -108,3 +108,16 @@
+  std::vector<Group>().swap(group1c_.children);std::vector<std::string>().swap(group1c_.variables);std::string().swap(group1c_.name);mappings4_.clear();closed_=true;e.clear();return true;
+ }
+ }
++
++namespace dh2::application {
++bool PlayerLightTweakerOwnerV90::source_assign_light_v92(std::size_t slot,std::uintptr_t actor,
++ const std::array<float,3>& attenuation,const std::array<float,3>& ambient,
++ const std::array<float,3>& diffuse,const std::array<float,3>& specular,std::string& e){
++ if(!constructed()||slot>=5||!actor){e="Required SAME constructed App tweaker/LightBase slot";return false;}
++ lights128_[slot]=actor;attenuation7c_[slot]=attenuation;
++ const auto assign=[&](const auto& source,auto& target){for(std::size_t i=0;i<3;++i){const double value=double(source[i])*255.0;
++  if(!std::isfinite(value)||value<-2147483648.0||value>=2147483648.0){e="Reached original imported double-to-int RGB domain is unsupported";return false;}
++  target[i]=std::uint8_t(static_cast<std::int32_t>(value));}target[3]=255;return true;};
++ if(!assign(ambient,ambientb8_[slot])||!assign(diffuse,diffusecc_[slot])||!assign(specular,speculare0_[slot]))return false;e.clear();return true;
++}
++}

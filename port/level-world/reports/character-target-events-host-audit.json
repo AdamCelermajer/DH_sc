@@ -1,0 +1,48 @@
+{
+  "validation": "PASS",
+  "comparisons": 2013,
+  "ordered_services": 11534,
+  "word_checks": 196622,
+  "genuine_ai_rows": 76,
+  "native_guards": 10,
+  "provider_failure_checks": 14,
+  "mismatches": 0,
+  "source_bindings": {
+    "port\\level-world\\character_target_events.cpp": "ce3d46cae0cd40e5de2cbd1312a4cb9d3ecadbefedff30fd3fabeeb7ebec07a5",
+    "port\\level-world\\character_target_events.hpp": "36ecab0282c65c34b782a09aececdf0249f0374afbdda34c5125a651a1df30cc",
+    "port\\level-world\\tests\\character_target_events.cpp": "931067f2e0a385c4df32934098ecc030f99df450fd0aef6d00b7111ccc5aacef",
+    "port\\level-world\\tests\\character_target_events_host.py": "17363b7e142d95bc94536dce2f6f599392100bee8a96d9885dcd279f803277aa",
+    "port\\level-world\\tests\\character_target_events_differential.py": "05aba3b2c387621b4771fb18a9bee76801a29f380445d14d0f07701ab5617fad",
+    "port\\level-world\\reference\\character-target-events\\target-events-fixtures.bin": "c10972d9b56a6f72c749065367db1a4cfbb23fbfd8a9a5ac85a7ec9946852317",
+    "port\\level-world\\reports\\character-target-events-arm64-differential.json": "8c8e3d8ae11462170ea8081f33ce2b73f533450fc644a72c7ae8b95f3496564a",
+    "port\\level-world\\character_target_bindings.hpp": "bead66304f3c4454813d2fcea8e679f0eb45d1625a4ee621f4ec96bfb6886e75",
+    "port\\level-world\\..\\script-runtime\\script_runtime.h": "6da3b8ae002da1eb75cd64d03120d37668ebec198ce3d3b5827096c43d08de14",
+    "port\\level-world\\reference\\character-target-events\\original-functions.json": "01996c952b683936ec49cc11c1e5ddfafcec8c0578037d16ff6f9c20ef906e5b",
+    "port\\level-world\\reference\\character-target-events\\reference\\original-functions.asm": "a456cccc1fe6773f567d43a33a778f52ecae683908050b306abc68943653c805",
+    "port\\android-native\\app\\src\\main\\assets\\data\\ai_pyarray.bin": "bfe56f4a07dbe49bb55543137ae343334082b6a340ca156f367ee51e3b2771bc"
+  },
+  "binary_bindings": {
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\character-target-events\\character_target_events_host": "f4a7aa9a849269af61cfdd0d8a1c5a35effe9c98310ea62def8b43155c0ec042"
+  },
+  "compiler_command": [
+    "wsl.exe",
+    "--",
+    "g++",
+    "-std=c++17",
+    "-O1",
+    "-g",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/character_target_events.cpp",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/tests/character_target_events.cpp",
+    "-o",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-target-events/character_target_events_host"
+  ],
+  "asan_ubsan": true,
+  "sanitizer_findings": 0,
+  "scope": "Replay complete original target-handler prefixes under ASan/UBSan.\n\nDebug/target-character/aggro/sound/active-AIS services are synchronous borrowed boundaries. This proves source control,\nreload/store order and reentry, not full world, predicate or Lua ownership.\n",
+  "compiler_provenance": "standalone compiler command recorded"
+}

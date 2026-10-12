@@ -1,0 +1,48 @@
+--- port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp
++++ port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp
+@@ -1,3 +1,4 @@
++#include <projectile_precache_source_v96.hpp>
+ #include "source_campaign_retirement_v88.hpp"
+ #include "source_campaign_runtime_v61.hpp"
+ #include "source_campaign_module_rooms_v91.hpp"
+@@ -524,15 +525,13 @@
+  out.early_debug={current_world->debug,out.prefix.debug_instance_get_switch};
+  if(!bind_source_stage33_stage34_v80(current_world,state.candidate,actual,out.early_debug,out.source.external,error))return false;
+  if(!out.source.external.stage_body[29]){
+-  out.source.external.stage_body[29]=[weak,level=std::weak_ptr<CanonicalLevelContextV1>(actual)](std::string& e){
++  Stage29PrecacheServicesV96 preload;preload.debug=out.early_debug;
++  preload.validate_current=[weak,level=std::weak_ptr<CanonicalLevelContextV1>(actual)](std::string& e){
+    auto world=weak.lock();auto expected=level.lock();SourceCampaignCandidateBorrowV55 current;
+-   if(!world||!expected||!borrow_source_campaign_candidate_runtime_v61(current,e)||
+-      current.actual_world!=world->owner||current.level!=expected){
+-    if(e.empty())e="Required same current source Level before Item145 PreCache";
+-    return LifecycleStepV36::failed;
+-   }
+-   return precache_source_campaign_items_v88(current,e)?LifecycleStepV36::complete:LifecycleStepV36::failed;
+-  };
++   if(!world||!expected||!borrow_source_campaign_candidate_runtime_v61(current,e)||current.actual_world!=world->owner||current.level!=expected||expected->constructor_fields_v3().field130!=29){if(e.empty())e="Required SAME current state29/epoch/cancellation scope";return false;}return true;};
++  preload.actual_item_precache=[validate=preload.validate_current](std::string& e){SourceCampaignCandidateBorrowV55 current;return validate(e)&&borrow_source_campaign_candidate_runtime_v61(current,e)&&precache_source_campaign_items_v88(current,e);};
++  preload.projectile_sources=[weak,validate=preload.validate_current](ProjectilePrecacheSourcesV96& out,std::string& e){auto world=weak.lock();if(!validate(e)||!world||!world->projectile_precache_v96){if(e.empty())e="Required actual ProjectileManager pool/Create/DeSpawn loan AFTER Item145 prefix";return false;}out=*world->projectile_precache_v96;auto native=out.validate_current;out.validate_current=[validate,native](std::string& e){return validate(e)&&native&&native(e);};return true;};
++  out.source.external.stage_body[29]=stage29_precache_source_v96(std::move(preload));
+  }
+  auto libraries=application->source_fx_libraries_v63();
+  if(!libraries){
+--- port/android-native/app/src/main/cpp/source_campaign_runtime_v61.hpp
++++ port/android-native/app/src/main/cpp/source_campaign_runtime_v61.hpp
+@@ -35,6 +35,7 @@
+ namespace dh2::loader {class SourceReleaseJournalV69;class ModuleRoomZoneConnectionV91;}
+ namespace dh2::loader {struct ProductionNonCharacterOwnersV67;}
+ namespace dh2::loader {struct SourceLoadingInputsV43;}
++namespace dh2::loader {struct ProjectilePrecacheSourcesV96;}
+ namespace model_renderer {
+ struct CampaignObjectLoadingNativeV95;
+ struct CampaignGeneratedRoomNativeV92;
+@@ -102,6 +103,8 @@
+  std::shared_ptr<dh2::loader::LevelPlayerPlacementServicesV68> player_placement_v68;
+  std::shared_ptr<dh2::character::WorldLootGameplayV23> prepared_items_v88;
+  std::shared_ptr<SourceCampaignItemsV88> item_transport_v88;
++ // Typed genuine process ProjectileManager primitive lender; no new manager.
++ std::shared_ptr<dh2::loader::ProjectilePrecacheSourcesV96> projectile_precache_v96;
+  std::shared_ptr<SourceCampaignContainerTargetsV104> container_targets_v104;
+  std::shared_ptr<dh2::character::SourceItemResourcesV88> item_resources_v88;
+  std::shared_ptr<SourceCampaignDeathRewardsV84> death_rewards_v84;

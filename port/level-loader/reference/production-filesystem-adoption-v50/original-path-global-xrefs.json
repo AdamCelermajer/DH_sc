@@ -1,0 +1,34 @@
+{
+  "bounded_ARM_PC_relative_GOT_scan": [
+    {
+      "instruction": "0x34f088",
+      "global": "0x99b108",
+      "function": "FileSystemWin32::_getPaths()",
+      "function_va": "0x34f068"
+    },
+    {
+      "instruction": "0x34f120",
+      "global": "0x99b108",
+      "function": "FileSystemWin32::backupSavefile(char const*, char const*) const",
+      "function_va": "0x34f10c"
+    },
+    {
+      "instruction": "0x34f28c",
+      "global": "0x99b108",
+      "function": "FileSystemWin32::deleteSavefile(char const*) const",
+      "function_va": "0x34f274"
+    },
+    {
+      "instruction": "0x56c220",
+      "global": "0x99b138",
+      "function": "glitch::io::CFileSystem::getWorkingDirectory()",
+      "function_va": "0x56c214"
+    },
+    {
+      "instruction": "0x82b22c",
+      "global": "0x99b108",
+      "function": "XP_API_FILE_OPEN",
+      "function_va": "0x82b214"
+    }
+  ]
+}

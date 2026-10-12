@@ -1,0 +1,67 @@
+--- a/port/level-world/retained_character_actor_v1.hpp
++++ b/port/level-world/retained_character_actor_v1.hpp
+@@ -210,6 +210,7 @@
+  // Additive Kill borrow only: these are the SAME constructor/InitPre/OOI
+  // cells. No PropertyMap, initialization provider or field replay occurs.
+  void kill_metadata_borrow_v23(const std::int32_t*& room,const std::int16_t*& properties,std::uintptr_t*& tracked)noexcept{room=&room64_;properties=&char_properties_id13c8_;tracked=&source_ooi14a4;}
++ bool source_set_name_v114(const char* name,std::string& e){if(!name||!object){e="Require actual runtime ObjectBase.SetName receiver";return false;}source_name_=name;object->name=source_name_;e.clear();return true;}
+  const std::string& source_name()const noexcept{return source_name_;}
+  const std::string& source_archetype()const noexcept{return source_archetype_;}
+  void publish_across_rooms(std::uint8_t value)noexcept{across_rooms87_=value;across_rooms_written_=true;}
+--- a/port/level-world/canonical_object_manager_v1.hpp
++++ b/port/level-world/canonical_object_manager_v1.hpp
+@@ -100,6 +100,7 @@
+  bool flush_source_v1(const CanonicalObjectLifecycleV1&,std::string&);
+  bool borrow_native_storage_v108(const std::shared_ptr<CanonicalObjectManagerV1>&,ObjectManagerNativeStorageV1&,std::string&);
+  bool source_lifecycle_failed_v1()const noexcept{return lifecycle_failed_v1_;}
++ bool source_rename_v114(std::uintptr_t,const char*,const std::function<bool(std::string&)>&,std::string&);
+  bool by_name(const char*,std::int32_t,bool,const char*,target_providers::Handle16&,std::string&);
+  bool add(CanonicalObjectBorrowV1,const char*,const char*,std::int32_t,bool,target_providers::Handle16&,std::string&);
+  bool get_handle(std::int32_t,target_providers::Handle16&,std::string&);
+--- a/port/level-world/canonical_object_manager_v1.cpp
++++ b/port/level-world/canonical_object_manager_v1.cpp
+@@ -61,6 +61,11 @@
+  if(!actual||actual->identity!=actor.identity||actual->lease!=actor.lease){e="Spawn pending receiver differs from canonical manager publication";return false;}
+  source_c1_fresh_v50_=false;pending_.push_back(actor.identity);return true;
+ }
++bool CanonicalObjectManagerV1::source_rename_v114(std::uintptr_t id,const char* name,const std::function<bool(std::string&)>& actual,std::string& e){
++ if(!name||!actual){e="Require actual SetName source receiver";return false;}
++ for(auto& row:entries_)if(row.second.actor.identity==id){if(!actual(e))return false;row.second.name=name;return true;}
++ e="SetName receiver absent from same source map";return false;
++}
+ bool CanonicalObjectManagerV1::by_name(const char* name,std::int32_t room,bool create,const char* threat,target_providers::Handle16& out,std::string& e){
+  if(lifecycle_failed_v1_){e=lifecycle_failure_v1_;return false;}
+  if(create&&lifecycle_busy_v1_){e="ObjectManager allocating name lookup is quiesced during/after failed destruction";return false;}
+--- a/port/android-native/app/src/main/cpp/renderer_player_manager_startup_v70.inc
++++ b/port/android-native/app/src/main/cpp/renderer_player_manager_startup_v70.inc
+@@ -5,6 +5,7 @@
+  std::weak_ptr<dh2::application::ApplicationServicesOwnerV5> application_;
+  std::weak_ptr<void> world_;
+  std::unique_ptr<RendererPlayerAddCharacterV70> add_;
++ std::map<dh2::player::PlayerInfoFieldsV1*,std::unique_ptr<model_renderer::SourcePlayerCharacterRemovalV114>> removals_v114_;
+  std::unique_ptr<dh2::player::PlayerLocalControllersOwnerV70> local_;
+  std::unique_ptr<dh2::player::PlayerManagerUpdateOwnerV70> update_;
+  dh2::player::PlayerOnlineQueryV70 online_;
+@@ -35,6 +36,11 @@
+  static bool remaining(void* raw,const dh2::player::PlayerManagerRequestV1& q,dh2::player::PlayerManagerResponseV1& out,std::string& e){
+   auto& self=*static_cast<RendererPlayerManagerStartupV70*>(raw);
+   if(q.operation==dh2::player::PlayerManagerOperationV1::character_initialization)return self.add_->deliver(q,out,e);
++  if(q.operation==dh2::player::PlayerManagerOperationV1::remove_character){
++   auto app=self.application_.lock();auto world=self.world_.lock();if(!app||!world||!q.player){e="Required same process local removal scope";return false;}
++   auto& body=self.removals_v114_[q.player];if(!body)body=std::make_unique<model_renderer::SourcePlayerCharacterRemovalV114>();
++   if(!body->execute(world,app,q,e))return false;self.removals_v114_.erase(q.player);return true;
++  }
+   e="Required PlayerManager source continuation "+std::to_string(std::uint32_t(q.operation));return false;
+  }
+ public:
+--- a/port/level-world/player_manager_owner_v1.cpp
++++ b/port/level-world/player_manager_owner_v1.cpp
+@@ -47,7 +47,7 @@
+  running_=true;struct G{bool& b;~G(){b=false;}}g{running_};bool net;if(!network(net,e))return false;PlayerManagerResponseV1 r;
+  if(net)return call({PlayerManagerOperationV1::network_remove_player,id},r,e);
+  auto it=players_.find(id);if(it==players_.end())return true;
+- if(it->second->character660){if(!call({PlayerManagerOperationV1::remove_character,id,0,0,false,it->second.get(),&character_count6c4_},r,e))return false;if(it->second->character660){e="RemoveCharacter did not clear same PlayerInfo character660";return false;}}
++ if(it->second->character660){if(!call({PlayerManagerOperationV1::remove_character,id,0,0,false,it->second.get(),&character_count6c4_},r,e))return false;}
+  players_.erase(it);return numbers(e);
+ }
+ bool PlayerManagerOwnerV1::remove_all_characters_v114(std::string& e){

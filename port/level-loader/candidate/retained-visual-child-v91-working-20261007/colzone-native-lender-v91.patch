@@ -1,0 +1,13 @@
+--- a/port/android-native/app/src/main/cpp/renderer_campaign_native_lenders_v89.inc
++++ b/port/android-native/app/src/main/cpp/renderer_campaign_native_lenders_v89.inc
+@@ -72,6 +72,10 @@
+    auto graph=weak.lock();std::shared_ptr<void> pin;dh2::physical::NativeBody* body{};
+    if(!graph||!graph->borrow_native_body_v90(id,pin,body,e)||!body)return false;radius=body->radius;return true;};
+   e.clear();return true;};
++ if(!provider->zones.mesh_inside)provider->zones.mesh_inside=[provider](auto& base,std::uintptr_t id,const auto& peer,bool& inside,std::string& e){
++  SourceCampaignCandidateBorrowV55 actual;auto source=provider->source.lock();
++  if(!provider->current(actual,e)||!source||!source->gameobject_graph_v68){if(e.empty())e="Required SAME retained native colzone graph";return false;}
++  return source->gameobject_graph_v68->source_colzone_inside_v91(base,id,peer,inside,e);};
+  if(!bind_source_campaign_zone_services_v83(actual,provider->zones,e))return false;
+  prepared.zone_collision=provider->zones;
+  if(!prepared.zone_physical.owner)prepared.zone_physical.owner=provider;

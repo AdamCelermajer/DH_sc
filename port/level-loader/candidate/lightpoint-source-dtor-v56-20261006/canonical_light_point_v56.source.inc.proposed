@@ -1,0 +1,84 @@
+// SOURCE-ONLY successor proposal. Main adoption must include the header/service
+// capability changes and preflight ALL retained GO19 candidates before its Flush.
+// No renderer/GPU node drop or ObjectBase provider implementation is supplied.
+#include <exception>
+namespace dh2::world {
+namespace {
+// A failed destructor precondition cannot return false: C++ would then destroy
+// members implicitly and violate the source release contract. Main rejects this
+// before Flush via arm_source_destruction; a later invariant breach fails closed
+// before180/node/168 mutation. This trap is a proposed integration safeguard,
+// not recovered original error behavior; it must never be normal cancellation.
+void light_dtor_require_v56(bool pass)noexcept {if(!pass)std::terminate();}
+void clear_light_source_string_v56(std::map<std::uint32_t,std::string>& strings,std::uint32_t offset)noexcept {
+ auto it=strings.find(offset);light_dtor_require_v56(it!=strings.end());
+ std::string empty;empty.swap(it->second); // empty destructor releases allocation
+}
+}
+bool CanonicalLightPointV56::arm_source_destruction(std::shared_ptr<MainLightQuiescenceLeaseV56> lease,std::string& error){
+ if(!lease||!lease->stamp.complete()||!lease->actual_owning_thread_barrier||
+    !same_light_runtime_owner_v56(services_.owner,lease->actual_runtime_owner)||
+    !lease->validate_current_owning_thread()){
+  error="Required same-current Main runtime/generation owning-thread light quiescence";return false;
+ }
+ auto* base=services_.objectbase_dtor.get();
+ if(!base||base->actor_identity!=identity_||!(base->stamp==lease->stamp)||
+    !same_light_runtime_owner_v56(base->actual_runtime_owner,lease->actual_runtime_owner)||
+    !base->validate_exact_actor(*lease)){
+  error="Required same-actor actual Main ObjectBase destruction continuation";return false;
+ }
+ if(strings_.find(0x180)==strings_.end()||strings_.find(0x168)==strings_.end()){
+  error="Missing constructed LightPoint source CString fields";return false;
+ }
+ auto* reference=node_.actor_reference.get();
+ if(node_.identity){
+  if(!node_.owner||!reference||reference->actor_identity!=identity_||
+     reference->actual_node_identity!=node_.identity||reference->actual_light_identity!=node_.actual_light_identity||
+     !(reference->stamp==lease->stamp)||
+     !same_light_runtime_owner_v56(reference->actual_runtime_owner,lease->actual_runtime_owner)||
+     !reference->validate_exact_actor_reference(*lease)){
+   error="Required unique genuine same-actor node120 native reference";return false;
+  }
+ }else if(reference||node_.actual_light_identity){
+  error="Foreign or abandoned native LightPoint reference while node120 is null";return false;
+ }
+ if(source_dtor_armed_&&dtor_lease_.get()!=lease.get()){
+  error="LightPoint destruction already armed with a different Main quiescence lease";return false;
+ }
+ dtor_lease_=std::move(lease);source_dtor_armed_=true;error.clear();return true;
+}
+CanonicalLightPointV56::~CanonicalLightPointV56()noexcept {
+ // Validate EVERY prerequisite again before touching any owned source field.
+ // No allocation/error reporting/throwing is allowed from the destructor.
+ auto* base=services_.objectbase_dtor.get();auto* reference=node_.actor_reference.get();
+ light_dtor_require_v56(source_dtor_armed_&&dtor_lease_&&base);
+ light_dtor_require_v56(dtor_lease_->stamp.complete()&&dtor_lease_->actual_owning_thread_barrier&&
+  same_light_runtime_owner_v56(services_.owner,dtor_lease_->actual_runtime_owner)&&
+  dtor_lease_->validate_current_owning_thread()&&base->actor_identity==identity_&&
+  base->stamp==dtor_lease_->stamp&&same_light_runtime_owner_v56(base->actual_runtime_owner,dtor_lease_->actual_runtime_owner)&&
+  base->validate_exact_actor(*dtor_lease_));
+ light_dtor_require_v56(strings_.find(0x180)!=strings_.end()&&strings_.find(0x168)!=strings_.end());
+ if(node_.identity){
+  light_dtor_require_v56(node_.owner&&reference&&reference->actor_identity==identity_&&
+   reference->actual_node_identity==node_.identity&&reference->actual_light_identity==node_.actual_light_identity&&
+   reference->stamp==dtor_lease_->stamp&&same_light_runtime_owner_v56(reference->actual_runtime_owner,dtor_lease_->actual_runtime_owner)&&
+   reference->validate_exact_actor_reference(*dtor_lease_));
+ }else{light_dtor_require_v56(!reference&&!node_.actual_light_identity);}
+ // LightPointD1_40bd1c: CString attachedTo180 before LightBase destruction.
+ clear_light_source_string_v56(strings_,0x180);
+ if(node_.identity){
+  // LightBaseD2_40ab34: actual native actor-reference drop31d584 completes FIRST.
+  reference->drop_actual_actor_node_reference();
+  // The source120 clear happens only AFTER that actual synchronous drop returns.
+  node_.identity=0;node_.actual_light_identity=0;
+  node_.actor_reference.reset(); // consumed capability; never a second native drop
+  node_.owner.reset(); // passive pin release; NEVER counted as the source drop
+ }
+ // LightBaseD2: dae CString168, THEN genuine same-actor ObjectBase continuation.
+ clear_light_source_string_v56(strings_,0x168);
+ base->destroy_actual_objectbase_fields();
+ // Main retains another copy of the quiescence lease until actual SceneManager
+ // clear finishes; destruction of this local lease cannot reopen raw-list reads.
+ // Services/base/remaining passive pins may now leave ordinary C++ scope.
+}
+}

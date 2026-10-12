@@ -1,0 +1,23 @@
+{
+  "schema": "dh2-character-parent-init-cells-v48-proposed",
+  "status": "Original producers proven; actual owner source candidate; native ownership tests pending",
+  "baseline": {
+    "retained_character_actor_v1.hpp": "4ed1d1f2efecd76a4a60c753b7ca0a0a3bc09e88f13d5d55ac6a5d575ff8a719",
+    "retained_character_actor_v1.cpp": "c383a6f77b9f6527ea396ca2b9beb0831b479349d8a775df2a84452d1c94c586"
+  },
+  "candidate": {
+    "character_parent_init_fields_v48.hpp": "ada18dcbb02d7a78df775255aeaa2fee16ea940e6ec91f95ba95c78e226b35af",
+    "retained_character_actor_v1.cpp": "c6dd2b541605f8dbf5c83259721973b4a7ec3a08e4bf81342e145f7c7b107dcd",
+    "retained_character_actor_v1.hpp": "439a4d434712ab387e5d5dafb1e10e487b7145006cd857ab8bf2f5ebca74b43a"
+  },
+  "patch_sha256": "6c19673bb13935b6d556fafba08903e434fa067c673e61b4499b2892746e0954",
+  "new_ObjectBase_cells": 7,
+  "new_GameObject_idle_halfword": 1,
+  "checkpoint_optimization": "Existing actual actor source_bools map receives original constructor cells; no duplicate bool fields",
+  "compiled_condition_allocated": false,
+  "duplicate_base_sheet_visual_save": false,
+  "adopted_actor_authority": false,
+  "whole_parent_InitPost_wired": false,
+  "condition_cleanup_required": "Main actual ConditionData.Clear/ConditionList destruction must be installed before nonNULL compiled ownership can complete or close; no close callback success fabricated",
+  "selected_graph_written": false
+}

@@ -1,0 +1,16 @@
+{
+  "status": "SOURCE_ONLY_UNCOMPILED_UNRUN",
+  "test_file": "candidate/script-manager-bind-v63/script_manager_bind_v63_ownership_test.cpp",
+  "test_sha256": "9df2a3993219140e4a3f72a026d441ad51910e946b8529ef8ba28c0f771230e3",
+  "note_sha256": "d4023a89dcd1ee8e7bc8d8b9e85b30222b9dc55cfb775c0fb47e00389d6d981a",
+  "dependency_includes_sha256": {
+    "candidate/script-manager-bind-v63/script_manager_bind_v63.hpp": "49b57f3e0ae8aad92197fad2e60e4250c7dceca73d4e90417b5151263a85cb85",
+    "candidate/command-init-v62/script_command_init_v62.hpp": "f60f5356e0143c20aec1a89a147aac2079fbf9505c36f35b5436e0167ea8854e",
+    "candidate/command-c1-v59/script_command_receivers_v59.hpp": "d555cac844347387dcd1c0ad46c404b718b3ff03a61803832f97fa3e250dc55d",
+    "script_manager_owner_v52.hpp": "4ae31338d57f24efca512f258f1c3590fc69e835fe008d625845151465c49a10"
+  },
+  "genuine_binder_defect_found": false,
+  "new_binding_version_created": false,
+  "compiler_or_runtime_jobs_launched": 0,
+  "preserved_existing_V63_archive_sha256": "adcc45e34b463d1273a1afbe509d34fd57726d33251e128420c8068050ee5c33"
+}

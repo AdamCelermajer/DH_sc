@@ -1,0 +1,43 @@
+{
+  "schema": "dh2-device-provider-v54-host",
+  "status": "PASS",
+  "sources_sha256": {
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\device-provider-v54\\device_provider_v54_test.cpp": "50aafacd7968fc372ff95ad09a7561a69a126d9d473c6c9735a91afe0c0bddc9",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-resources\\resource_budget_v37.cpp": "7d645543087042a76d08a3d49dfc977be0d467a3551979374e5629b2f04ac23d",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_startup_callbacks.cpp": "05dc59ce3c36d5a4c7b99074ba5c08cbf5b5ce8eb234407ecfa4a535660259e5",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\device-provider-v54\\actual_device_provider_v54.hpp": "6eebffc3cbf48fa0c0302f4edba4b9317c77a9643e6456608246eab1ffd34d74",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\device-provider-v54\\native_device_provider_v54.inc": "d8684fad061e6a6529fb9438c02c6c7dff873786098c513be31f865e9f314698"
+  },
+  "stdout": "PASS source flags3 byte255/short-circuit; actual ledger identity/loss/generation/rebind; current GL/thread/API fixtures; output preserved; no live Android activation claim\n",
+  "binary_sha256": "8146fce7b95e6a3d1f2eaf2d4ece5f7ef72cb8dbe95c08b7dc3881600cea67ad",
+  "actual_ledger_and_existing_device_kernel": true,
+  "egl_queries_in_host_are_explicit_fixtures": true,
+  "android_or_whole_character_activation_proven": false,
+  "selected_shared_writes": false,
+  "android_ndk_syntax": "PASS aarch64-linux-android26; no link/deploy/runtime proof",
+  "source_owner_inputs": {
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\native_app.cpp": "8759c5079c72f9d0492f5a53cf54cd52b40d7f0f4bcfd50cc667fc51bc5c8209",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\front_ui_session_v87.cpp": "9cc0ca9c9b7dc3232ce7274aef5fc80028e7be46bd1ef7fa947785eff9cbeb00",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\native_resource_budget_v38.hpp": "01620f9d67eff9980e193d234606efddcfe8aa1c739d8aac297a425b8d9a314c",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\native_resource_budget_v38.cpp": "aa5f507b73528ee0577e9ce4e94d02d50b2d7b9aafb46a52f656819aad033927",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\renderer_item_graph_v4.inc": "c46e09db056490dc5ca990dc72ac82a00ca2762b169d8f1aab0c6d6bb87c9737",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_startup_callbacks.cpp": "05dc59ce3c36d5a4c7b99074ba5c08cbf5b5ce8eb234407ecfa4a535660259e5",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-resources\\resource_budget_v37.cpp": "7d645543087042a76d08a3d49dfc977be0d467a3551979374e5629b2f04ac23d",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\java\\com\\example\\dh2\\MainActivity.java": "096bb9418d2d3c7adcd46a3be8568d3d7d1418c11b8ca525869f301a7d92ccfa"
+  },
+  "original_receipt": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\device-provider-v54\\original-device-v54.json",
+  "original_receipt_sha256": "fadd5ccafb68ccc4108192e36c01865a8639caf7918b33eb896696c567564c6b",
+  "multiplayer_producer_boundary": "Existing current FrontUi actual field initialized0; original BSS0 and menu return/reset producers proven. Positive multiplayer transition must update that same main-owned field; not fabricated from equipment online_mode.",
+  "native_candidate_files": {
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\device-provider-v54\\actual_device_android_v54.cpp": "d81a0e9f5439c1ee5c6c536e4fde28b6536db288e707204ba6100d946ba14054",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\device-provider-v54\\actual_device_android_v54.hpp": "04874d2a09873b66fe5d41cdc52d151ccf35f6d6900b8e041f668e32e9615d33",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\device-provider-v54\\actual_device_provider_v54.hpp": "6eebffc3cbf48fa0c0302f4edba4b9317c77a9643e6456608246eab1ffd34d74",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\device-provider-v54\\build_device_v54.py": "1459b770a8cc2b81e7dab2e074c90867691694b680b1009d7c2ec34e80f017cd",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\device-provider-v54\\device_provider_v54_test.cpp": "50aafacd7968fc372ff95ad09a7561a69a126d9d473c6c9735a91afe0c0bddc9",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\device-provider-v54\\native_device_provider_v54.inc": "d8684fad061e6a6529fb9438c02c6c7dff873786098c513be31f865e9f314698",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\device-provider-v54\\prove_device_v54.py": "9163923389457af9103c4e402a1db5596a841bc09fe592f75156a749fdd748d4",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\device-provider-v54\\recover_device_provider_v54.py": "e721c24befba762e659774f2145f9b7de92208b98c1e45c495c1fcc307cd6e73",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\device-provider-v54\\write_android_device_v54.py": "9ced17f535c2de3e14ec05d8f6b3efb8f99012ba5e8bd7988d23ef8d1c9bf82b",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\device-provider-v54\\xref_device_flags_v54.py": "bcbf491b6e8d92d299a788ffc597faca44766a07862d8df86421ee830c2e15d3"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6Random9GetRandomEib.clone.1",
+      "elf_address": "0x3c26a0",
+      "size": 148,
+      "sha256": "a70d4d5315415572bdece050332868fe0f529f98d648aa1c10fc141f4d9344d3"
+    },
+    {
+      "original_symbol": "_ZN10CharTimers9TMR_StartEjiiPv",
+      "elf_address": "0x3dbe24",
+      "size": 84,
+      "sha256": "7d6993ff7e409b6b319e972d1604b4ee49a1affa167f349a480aad2dd06b1cb6"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine9_SetStateEiiPv",
+      "elf_address": "0x3c1938",
+      "size": 200,
+      "sha256": "4441e973629e1e245b5b6f452e586ee1e367303fd5f93db42ac91b715cd362bb"
+    },
+    {
+      "original_symbol": "_ZN9Character9CSM_SpawnEiPviRi",
+      "elf_address": "0x3ad2e4",
+      "size": 80,
+      "sha256": "cab27f7cfd94063bdebe26f8d648d504b315482a66ea237a8fededa5fce8200e"
+    },
+    {
+      "original_symbol": "_ZN9Character17DeclarePropertiesEv",
+      "elf_address": "0x3a9fe4",
+      "size": 464,
+      "sha256": "7067155e23c3cca49658df549bbf37d50bb90eff3d4e1c44a92c092af6d2c186"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine16SM_SetSpawnStateEbb",
+      "elf_address": "0x3c2734",
+      "size": 220,
+      "sha256": "db3abe9f104aba3b6c77de6a7861b146f7a8d18ed111c7d6a8b37bd82b8e4eac"
+    },
+    {
+      "original_symbol": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "elf_address": "0x3aa1b4",
+      "size": 1448,
+      "sha256": "85471dbc43082bce2a8f0fd429f0764fb55948ce47c3396dfca28933d701e6e6"
+    }
+  ]
+}

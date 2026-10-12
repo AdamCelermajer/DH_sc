@@ -1,0 +1,106 @@
+{
+  "validation": "PASS",
+  "scope": "Original compiled-data path attempts with all resource reads missing; no successful load inferred.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_receipt_sha256": "d82de3192d6e7de9fbc70bfe1a012e9e737661d483113609b4185358a0ea0911",
+  "native_probe_sha256": "2f7aaf4c46e64b2558b56952d5b5a286f1f9ced7ec16952727307ebd1d25caea",
+  "cases": [
+    {
+      "input": "001_swamp.mlx",
+      "original": [
+        "001_swamp.mlx",
+        "data/001_swamp.mlx",
+        "data/scene/001_swamp.mlx",
+        "data/3d/modules/001_swamp.mlx"
+      ],
+      "native": [
+        "001_swamp.mlx",
+        "data/001_swamp.mlx",
+        "data/scene/001_swamp.mlx",
+        "data/3d/modules/001_swamp.mlx"
+      ],
+      "equal": true
+    },
+    {
+      "input": "data/iphone/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "original": [
+        "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+        "data/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+        "data/scene/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+        "data/3d/modules/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp"
+      ],
+      "native": [
+        "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+        "data/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+        "data/scene/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+        "data/3d/modules/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp"
+      ],
+      "equal": true
+    },
+    {
+      "input": "old/debug/ps3/iphone/data/a.mgp",
+      "original": [
+        "debug/ps3/iphone/data/a.mgp",
+        "data/debug/ps3/iphone/data/a.mgp",
+        "data/scene/debug/ps3/iphone/data/a.mgp",
+        "data/3d/modules/debug/ps3/iphone/data/a.mgp"
+      ],
+      "native": [
+        "debug/ps3/iphone/data/a.mgp",
+        "data/debug/ps3/iphone/data/a.mgp",
+        "data/scene/debug/ps3/iphone/data/a.mgp",
+        "data/3d/modules/debug/ps3/iphone/data/a.mgp"
+      ],
+      "equal": true
+    },
+    {
+      "input": "data/iphone/iphone/a.mvp",
+      "original": [
+        "data/iphone/a.mvp",
+        "data/data/iphone/a.mvp",
+        "data/scene/data/iphone/a.mvp",
+        "data/3d/modules/data/iphone/a.mvp"
+      ],
+      "native": [
+        "data/iphone/a.mvp",
+        "data/data/iphone/a.mvp",
+        "data/scene/data/iphone/a.mvp",
+        "data/3d/modules/data/iphone/a.mvp"
+      ],
+      "equal": true
+    },
+    {
+      "input": "data/IPP/iphone/a.mvp",
+      "original": [
+        "data/IPP/a.mvp",
+        "data/data/IPP/a.mvp",
+        "data/scene/data/IPP/a.mvp",
+        "data/3d/modules/data/IPP/a.mvp"
+      ],
+      "native": [
+        "data/IPP/a.mvp",
+        "data/data/IPP/a.mvp",
+        "data/scene/data/IPP/a.mvp",
+        "data/3d/modules/data/IPP/a.mvp"
+      ],
+      "equal": true
+    },
+    {
+      "input": "data/iphone/3d/modules/swamp/mgp/a.mgp",
+      "original": [
+        "data/3d/modules/swamp/mgp/a.mgp",
+        "data/data/3d/modules/swamp/mgp/a.mgp",
+        "data/scene/data/3d/modules/swamp/mgp/a.mgp",
+        "data/3d/modules/data/3d/modules/swamp/mgp/a.mgp"
+      ],
+      "native": [
+        "data/3d/modules/swamp/mgp/a.mgp",
+        "data/data/3d/modules/swamp/mgp/a.mgp",
+        "data/scene/data/3d/modules/swamp/mgp/a.mgp",
+        "data/3d/modules/data/3d/modules/swamp/mgp/a.mgp"
+      ],
+      "equal": true
+    }
+  ],
+  "full_loader_verified": false
+}

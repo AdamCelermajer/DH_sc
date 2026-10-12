@@ -1,0 +1,26 @@
+{
+  "status": "Original proof PASS; actual-factory20 test pending coherent parent READY",
+  "baseline_selected": {
+    "retained_character_actor_v1.hpp": "4ed1d1f2efecd76a4a60c753b7ca0a0a3bc09e88f13d5d55ac6a5d575ff8a719",
+    "retained_character_actor_v1.cpp": "fdc2e83bc8610e174d4131f793288082e5f6ebeb53d66e8acd08ab6e1fae140a",
+    "character_is_player_v41.hpp": "7b680c57314b04ba26f86a80946d012015f93eed5d38fff9027e1a50681074d9",
+    "character_is_player_v41.cpp": "3968a3d59a254344dece961d418927160d23fdbe1bb82818f83274a2f3a95e43",
+    "canonical_character_family_v4.hpp": "62b288d35da526ac1713e2a38095960c1bd19bc3aa87f96fc4e64ff7a42e1dac",
+    "canonical_character_family_v4.cpp": "8b25023efde915318219a55288412d66faf84c8f230ca790420b2ff6ece4b91a",
+    "character_model_route_v45.hpp": "b7768555316c8c5234b86779f5d84fcd6c66d3c2446765459b18cb10a53539a0",
+    "character_model_route_v45.cpp": "4590be23d7c231b02bd472a1531a20ccccde65ac7d3b4e7e40f9fe1b7fc3c50e"
+  },
+  "candidate": {
+    "retained_character_actor_v1.hpp": "4ed1d1f2efecd76a4a60c753b7ca0a0a3bc09e88f13d5d55ac6a5d575ff8a719",
+    "retained_character_actor_v1.cpp": "05d8e5c053c942571eaa9f91bdddb916a6fdae66781484785cb30716ef8fd7a3",
+    "character_is_player_v41.hpp": "4cdc9cfc7697750659063ef2083b865c0622152eca5885332abab9542c910084",
+    "character_is_player_v41.cpp": "9ad5c2bee6fda0f0452658c6e7aee0777a888ccd3993b192c9c8ca238508a1ef",
+    "canonical_character_family_v4.hpp": "62b288d35da526ac1713e2a38095960c1bd19bc3aa87f96fc4e64ff7a42e1dac",
+    "canonical_character_family_v4.cpp": "8b25023efde915318219a55288412d66faf84c8f230ca790420b2ff6ece4b91a",
+    "character_model_route_v45.hpp": "b7768555316c8c5234b86779f5d84fcd6c66d3c2446765459b18cb10a53539a0",
+    "character_model_route_v45.cpp": "4590be23d7c231b02bd472a1531a20ccccde65ac7d3b4e7e40f9fe1b7fc3c50e"
+  },
+  "patch_sha256": "b641eda1f43be4089fe1e1adc0130c83cdcde80cc9b3f58c4ae2a72e63568413",
+  "selected_writes": false,
+  "missing7field_candidate_bundled": false
+}

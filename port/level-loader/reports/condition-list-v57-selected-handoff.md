@@ -1,0 +1,7 @@
+# Selected condition owner V57
+
+Four existing frozen V55 production files are adopted into selected766: condition_list_owner_v55.hpp/.cpp and canonical_condition_receivers_v55.hpp/.cpp. No new production API from V55. Permanent isolated build targets and tools/run_conditions_v57_checks.py reproduce three passing native checks; all selected file hashes and original fixture bytes are verified.
+
+The canonical test checks all seven genuine constructor/D0 profiles and actual118lists/154stubs. The SWAMP component uses source-captured names/condition properties for50 actual canonical Characters and their100same-actor fields, including10meaningful C1/Assign/Clear operations. It does not claim the entire MGP walk or whole InitPost. The ordered host NPC test reaches real LoadBase/Recalc/model and qualified parent38be5c, allocates RENE_FOLLOW through the actual condition owner, then stops at required Device. Reinitializing a failed receiver does not replay allocation; actual condition Clear/D0 releases the list. Main Eval remains explicit and is never called successfully by these tests.
+
+Main binds the same lists->services() only in the reached qualified parent service. Retain the original table/factory/list owner in the actual World/Application, avoiding cycles; do not preinitialize conditions in C1 to bypass ordered InitPost. Functional Eval, whole actor activation, contiguous level Init/Unload and visible SWAMP acceptance remain open. Included private CMake is reproducibility evidence, not a replacement for Main's build file.

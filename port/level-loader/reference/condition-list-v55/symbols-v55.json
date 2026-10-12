@@ -1,0 +1,224 @@
+[
+  {
+    "address": "0x47899c",
+    "size": 76,
+    "kind": "W",
+    "name": "Condition* GetConditionImplInstance<Condition_IsEventInState>()"
+  },
+  {
+    "address": "0x478a34",
+    "size": 76,
+    "kind": "W",
+    "name": "Condition* GetConditionImplInstance<Condition_IsLevelInState>()"
+  },
+  {
+    "address": "0x478b5c",
+    "size": 72,
+    "kind": "W",
+    "name": "Condition* GetConditionImplInstance<Condition_IsQuestInState>()"
+  },
+  {
+    "address": "0x4789e8",
+    "size": 76,
+    "kind": "W",
+    "name": "Condition* GetConditionImplInstance<Condition_IsPlayerAtLevel>()"
+  },
+  {
+    "address": "0x478a80",
+    "size": 76,
+    "kind": "W",
+    "name": "Condition* GetConditionImplInstance<Condition_IsPlayerInLevel>()"
+  },
+  {
+    "address": "0x478b14",
+    "size": 72,
+    "kind": "W",
+    "name": "Condition* GetConditionImplInstance<Condition_IsQuestStateLower>()"
+  },
+  {
+    "address": "0x478acc",
+    "size": 72,
+    "kind": "W",
+    "name": "Condition* GetConditionImplInstance<Condition_IsQuestStateHigher>()"
+  },
+  {
+    "address": "0x478914",
+    "size": 136,
+    "kind": "T",
+    "name": "ConditionList::AssignPyData(Structs::v2ConditionStub*, int)"
+  },
+  {
+    "address": "0x478704",
+    "size": 88,
+    "kind": "T",
+    "name": "ConditionList::Eval()"
+  },
+  {
+    "address": "0x4786f0",
+    "size": 20,
+    "kind": "T",
+    "name": "ConditionList::ConditionList()"
+  },
+  {
+    "address": "0x4786dc",
+    "size": 20,
+    "kind": "T",
+    "name": "ConditionList::ConditionList()"
+  },
+  {
+    "address": "0x478eac",
+    "size": 116,
+    "kind": "T",
+    "name": "ConditionList::~ConditionList()"
+  },
+  {
+    "address": "0x478f20",
+    "size": 116,
+    "kind": "T",
+    "name": "ConditionList::~ConditionList()"
+  },
+  {
+    "address": "0x4a4888",
+    "size": 156,
+    "kind": "W",
+    "name": "Arrays::v2Conditions::finalizeNames()"
+  },
+  {
+    "address": "0x9a66dc",
+    "size": 4,
+    "kind": "B",
+    "name": "Arrays::v2Conditions::m_memberNames"
+  },
+  {
+    "address": "0x4b8dec",
+    "size": 316,
+    "kind": "W",
+    "name": "Arrays::v2Conditions::read(IStreamBase*)"
+  },
+  {
+    "address": "0x9a66d4",
+    "size": 4,
+    "kind": "B",
+    "name": "Arrays::v2Conditions::size"
+  },
+  {
+    "address": "0x9a66d8",
+    "size": 4,
+    "kind": "B",
+    "name": "Arrays::v2Conditions::members"
+  },
+  {
+    "address": "0x4a4924",
+    "size": 216,
+    "kind": "W",
+    "name": "Arrays::v2Conditions::finalize()"
+  },
+  {
+    "address": "0x4b15f8",
+    "size": 408,
+    "kind": "W",
+    "name": "Arrays::v2Conditions::readNames(IStreamBase*)"
+  },
+  {
+    "address": "0x4acb88",
+    "size": 116,
+    "kind": "W",
+    "name": "int Arrays::GetMemberIDByString<Arrays::v2Conditions>(char const*)"
+  },
+  {
+    "address": "0x9f42c4",
+    "size": 24,
+    "kind": "B",
+    "name": "Structs::v2Condition::m_dataNames"
+  },
+  {
+    "address": "0x9f42c0",
+    "size": 4,
+    "kind": "B",
+    "name": "Structs::v2Condition::m_dataOffsets"
+  },
+  {
+    "address": "0x505b28",
+    "size": 112,
+    "kind": "T",
+    "name": "Structs::v2Condition::read(IStreamBase*)"
+  },
+  {
+    "address": "0x4c7cc4",
+    "size": 4,
+    "kind": "T",
+    "name": "Structs::v2Condition::finalize()"
+  },
+  {
+    "address": "0x4cd980",
+    "size": 28,
+    "kind": "T",
+    "name": "Structs::v2Condition::~v2Condition()"
+  },
+  {
+    "address": "0x4c7cc0",
+    "size": 4,
+    "kind": "T",
+    "name": "Structs::v2Condition::~v2Condition()"
+  },
+  {
+    "address": "0x4c7cbc",
+    "size": 4,
+    "kind": "T",
+    "name": "Structs::v2Condition::~v2Condition()"
+  },
+  {
+    "address": "0x9f42dc",
+    "size": 72,
+    "kind": "B",
+    "name": "Structs::v2ConditionStub::m_dataNames"
+  },
+  {
+    "address": "0x99ae2c",
+    "size": 12,
+    "kind": "D",
+    "name": "Structs::v2ConditionStub::m_dataOffsets"
+  },
+  {
+    "address": "0x50600c",
+    "size": 212,
+    "kind": "T",
+    "name": "Structs::v2ConditionStub::read(IStreamBase*)"
+  },
+  {
+    "address": "0x4c7d30",
+    "size": 4,
+    "kind": "T",
+    "name": "Structs::v2ConditionStub::finalize()"
+  },
+  {
+    "address": "0x4cdc58",
+    "size": 28,
+    "kind": "T",
+    "name": "Structs::v2ConditionStub::~v2ConditionStub()"
+  },
+  {
+    "address": "0x4c7cfc",
+    "size": 52,
+    "kind": "T",
+    "name": "Structs::v2ConditionStub::~v2ConditionStub()"
+  },
+  {
+    "address": "0x4c7cc8",
+    "size": 52,
+    "kind": "T",
+    "name": "Structs::v2ConditionStub::~v2ConditionStub()"
+  },
+  {
+    "address": "0x47875c",
+    "size": 76,
+    "kind": "T",
+    "name": "ConditionList::DBG_TraceDetailedConditionListInformation(__sFILE*) const"
+  },
+  {
+    "address": "0x96a310",
+    "size": 24,
+    "kind": "D",
+    "name": "vtable for Structs::v2ConditionStub"
+  }
+]

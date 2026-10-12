@@ -1,0 +1,46 @@
+--- a/script_command_receivers_v59.hpp
++++ b/script_command_receivers_v59.hpp
+@@ -117,6 +117,13 @@
+  Script_SetCameraClipReceiverV59(const CommandC1DescriptorV59& d,ScriptCommandBehaviorV59 b):CanonicalScriptCommandV59(d,std::move(b),6){apply_constructor_operands();}
+  std::int32_t receiver_kind() const noexcept override {return 6;}
+ };
++class Script_WaitCameraReceiverV59 final : public CanonicalScriptCommandV59 {
++ CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
++ const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
++public:
++ Script_WaitCameraReceiverV59(const CommandC1DescriptorV59& d,ScriptCommandBehaviorV59 b):CanonicalScriptCommandV59(d,std::move(b),7){apply_constructor_operands();}
++ std::int32_t receiver_kind() const noexcept override {return 7;}
++};
+ class Script_SetCameraTargetReceiverV59 final : public CanonicalScriptCommandV59 {
+  CommandOperandCellV59* operand_cell(std::uint32_t o) noexcept override {(void)o;return nullptr;}
+  const CommandOperandCellV59* operand_cell(std::uint32_t o) const noexcept override {(void)o;return nullptr;}
+--- a/script_command_receivers_v59.cpp
++++ b/script_command_receivers_v59.cpp
+@@ -85,6 +85,7 @@
+ case 4:candidate=std::make_shared<Script_SetCameraReceiverV59>(found->second,services);break;
+ case 5:candidate=std::make_shared<Script_PlayCameraReceiverV59>(found->second,services);break;
+ case 6:candidate=std::make_shared<Script_SetCameraClipReceiverV59>(found->second,services);break;
++case 7:candidate=std::make_shared<Script_WaitCameraReceiverV59>(found->second,services);break;
+ case 8:candidate=std::make_shared<Script_SetCameraTargetReceiverV59>(found->second,services);break;
+ case 10:candidate=std::make_shared<Script_StartDialogReceiverV59>(found->second,services);break;
+ case 12:candidate=std::make_shared<Script_WaitDialogReceiverV59>(found->second,services);break;
+--- a/command_c1_descriptors_v59.inc
++++ b/command_c1_descriptors_v59.inc
+@@ -8,6 +8,7 @@
+ {4,{4,"Script_SetCamera",0x458c20u,0x455628u,16u,{{12u,4u,0u,0x458c44u},{4u,1u,0u,0x458c48u},{8u,4u,4294967295u,0x458c58u}}}},
+ {5,{5,"Script_PlayCamera",0x458bd8u,0x455628u,16u,{{12u,4u,0u,0x458bfcu},{4u,1u,0u,0x458c00u},{8u,4u,4294967295u,0x458c10u}}}},
+ {6,{6,"Script_SetCameraClip",0x458b90u,0x455628u,16u,{{12u,4u,0u,0x458bb4u},{4u,1u,0u,0x458bb8u},{8u,4u,4294967295u,0x458bc8u}}}},
++{7,{7,"Script_WaitCamera",0x458b48u,0x455628u,16u,{{12u,4u,0u,0x458b6cu},{4u,1u,0u,0x458b70u},{8u,4u,4294967295u,0x458b80u}}}},
+ {8,{8,"Script_SetCameraTarget",0x458b00u,0x455628u,16u,{{12u,4u,0u,0x458b24u},{4u,1u,0u,0x458b28u},{8u,4u,4294967295u,0x458b38u}}}},
+ {10,{10,"Script_StartDialog",0x458a70u,0x459034u,16u,{{12u,4u,0u,0x458a94u},{4u,1u,0u,0x458a98u},{8u,4u,4294967295u,0x458aa8u}}}},
+ {12,{12,"Script_WaitDialog",0x4589e0u,0x455628u,16u,{{12u,4u,0u,0x458a04u},{4u,1u,0u,0x458a08u},{8u,4u,4294967295u,0x458a18u}}}},
+--- a/script_data_schemas_v52.inc
++++ b/script_data_schemas_v52.inc
+@@ -8,6 +8,7 @@
+   {4,{32u,0x4575e4u,0x5027f0u,{{4,4,0},{8,4,0},{12,0,8},{16,4,0},{20,0,16},{24,4,0},{28,1,0}},{}}},
+   {5,{16u,0x4575a0u,0x4ffba0u,{{4,4,0},{8,4,0},{12,1,0}},{{4,{4,0u}},{8,{4,0u}},{12,{1,0u}}}}},
+   {6,{16u,0x45755cu,0x4ff8d8u,{{4,4,0},{8,4,0},{12,4,0}},{{4,{4,0u}},{8,{4,0u}},{12,{4,0u}}}}},
++  {7,{12u,0x457518u,0x4ffdc0u,{{4,4,0},{8,4,0}},{{4,{4,0u}},{8,{4,0u}}}}},
+   {8,{24u,0x4574dcu,0x5026c8u,{{4,4,0},{8,4,0},{12,4,0},{16,0,12},{20,1,0}},{}}},
+   {10,{20u,0x457458u,0x50345cu,{{4,4,0},{8,4,0},{12,4,0},{16,4,0}},{{4,{4,0u}},{8,{4,0u}},{12,{4,0u}},{16,{4,0u}}}}},
+   {12,{8u,0x4573dcu,0x4ff8d0u,{{4,4,0}},{{4,{4,0u}}}}},

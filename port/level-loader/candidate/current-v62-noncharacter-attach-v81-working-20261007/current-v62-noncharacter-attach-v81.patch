@@ -1,0 +1,45 @@
+--- a/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.hpp
++++ b/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.hpp
+@@ -27,6 +27,7 @@
+ namespace model_renderer {
+ class SourceCampaignFxRuntimeV77;
+ struct SourceCampaignCandidateBorrowV55;
++struct RendererCampaignNonCharacterInputsV69;
+ struct SourceConditionDependenciesV70;
+ struct SourceQuestMarkerDependenciesV76;
+ struct SourceGameEventDependenciesV75;
+@@ -77,6 +78,11 @@
+  std::shared_ptr<dh2::loader::LevelPlayerPlacementServicesV68> player_placement_v68;
+  std::shared_ptr<void> source_pm_update_provider_v70;
+  std::function<bool(std::string&)> source_pm_update_v70;
++ // Actual native source service producer, called once during the existing
++ // combined Character/non-Character binding. Captures must remain weak to
++ // containing World/App/Level; this is not a second class factory binding.
++ std::function<bool(const SourceCampaignCandidateBorrowV55&,
++  RendererCampaignNonCharacterInputsV69&,std::string&)> noncharacter_inputs_v81;
+  std::shared_ptr<dh2::world::CanonicalGameObjectGraphV68> gameobject_graph_v68;
+  std::shared_ptr<dh2::navigation::CampaignFrameScratchV76> frame_scratch_v76;
+  std::shared_ptr<SourceCampaignFxRuntimeV77> fx_runtime_v77;
+--- a/port/android-native/app/src/main/cpp/renderer_character_campaign_v62.inc
++++ b/port/android-native/app/src/main/cpp/renderer_character_campaign_v62.inc
+@@ -146,8 +146,19 @@
+   output.physical_body=[weak](std::uintptr_t identity,dh2::physical::NativeBody*& body,auto& error){auto r=weak.lock();if(!r||!r->physical_owner_v62||identity!=reinterpret_cast<std::uintptr_t>(r->physical_owner_v62.get())){error="Required exact Character physical2dc receiver";return false;}body=&r->physical_owner_v62->native();return true;};
+   error.clear();return true;
+  };
++ // Compose native auxiliary/container services before the ONE existing
++ // combined class-factory connection. Keep this function's current FX,
++ // profile, host and Character resource hooks unchanged.
++ std::shared_ptr<SourceWorldBorrowV61> source_world;
++ if(!borrow_source_campaign_condition_world_v70(actual,source_world,e)||!source_world)return false;
++ if(!source_world->noncharacter_inputs_v81){e="Required actual first-SWAMP non-Character source service producer";return false;}
++ RendererCampaignNonCharacterInputsV69 native_inputs{};
++ if(!source_world->noncharacter_inputs_v81(actual,native_inputs,e))return false;
++ RendererCampaignNonCharacterCompositionV69 noncharacters;
++ if(!compose_campaign_noncharacter_v69(assets,actual,std::move(native_inputs),noncharacters,e))return false;
++ services.conditions=noncharacters.services->native.conditions; // SAME returned Main arena
+  std::shared_ptr<RendererCharacterCandidateV60> transport;
+- if(!RendererCharacterCandidateV60::connect(actual,std::move(services),{},transport,e))return false;
++ if(!RendererCharacterCandidateV60::connect(actual,std::move(services),std::move(noncharacters.factory),transport,e))return false;
+  *transport_slot=transport;
+  if(!transport->bind_cache_v67(cache,e))return false;
+  return publish_campaign_character_transport_v62(transport,actual.actual_world,e);

@@ -1,0 +1,73 @@
+--- a/port/level-loader/menu_main_menu_state_v114.hpp
++++ b/port/level-loader/menu_main_menu_state_v114.hpp
+@@ -30,6 +30,7 @@
+ public:
+  bool enter(GSFlashMenuFieldsV114&,const GSFlashMenuServicesV114&,std::string&);
+  bool resume(GSFlashMenuFieldsV114&,const GSFlashMenuServicesV114&,std::string&);
++ bool arm_resume(std::string&);
+  const std::string& failure()const noexcept{return failure_;}
+ };
+ // Original Update384460 request prefix only. Sole existing MenuManager frame
+@@ -51,10 +52,11 @@
+ // retains reached prefix on host failure; explicit resume retries failed leaf.
+ class MenuManagerResetV114 {
+  unsigned phase_{},slot_{},index_{};std::int32_t count_{};
+- bool busy_{},complete_{};std::string failure_;
++ bool busy_{},complete_{},resume_receipt_{};std::string failure_;
+ public:
+  bool reset(const MenuManagerResetServicesV114&,std::string&);
+  bool resume(const MenuManagerResetServicesV114&,std::string&);
++ bool arm_resume(std::string&);
+  const std::string& failure()const noexcept{return failure_;}
+ };
+ }
+--- a/port/level-loader/menu_main_menu_state_v114.cpp
++++ b/port/level-loader/menu_main_menu_state_v114.cpp
+@@ -56,6 +56,7 @@
+   }
+  }
+ }
++bool GSFlashMenuEntryV114::arm_resume(std::string& e){if(busy_){e="Cannot arm active GS entry";return false;}failure_.clear();e.clear();return true;}
+ bool GSFlashMenuEntryV114::resume(GSFlashMenuFieldsV114& f,const GSFlashMenuServicesV114& s,std::string& e){
+  if(busy_){e="Cannot resume active GSFlashMenu entry";return false;}
+  if(failure_.empty()){e="No failed retained GSFlashMenu entry";return false;}
+@@ -72,9 +73,10 @@
+ bool MenuManagerResetV114::reset(const MenuManagerResetServicesV114& s,std::string& e){
+  if(busy_){if(failure_.empty())failure_="Recursive MenuManager.Reset";e=failure_;return false;}
+  if(!failure_.empty()){e=failure_;return false;}
+- if(complete_){phase_=slot_=index_=0;count_=0;complete_=false;}
++ if(complete_&&!resume_receipt_){phase_=slot_=index_=0;count_=0;complete_=false;}
+  busy_=true;struct Busy{bool& b;~Busy(){b=false;}} busy{busy_};
+  if(!s.owner){failure_="Required independent MenuManager.Reset provider";e=failure_;return false;}
++ if(resume_receipt_){if(!guard(s.current,failure_,e))return false;resume_receipt_=false;e.clear();return true;}
+  for(;;){
+   if(!guard(s.current,failure_,e))return false;
+   if(phase_==0){
+@@ -113,6 +115,7 @@
+   failure_="Invalid retained MenuManager.Reset continuation";e=failure_;return false;
+  }
+ }
++bool MenuManagerResetV114::arm_resume(std::string& e){if(busy_){e="Cannot arm active Reset";return false;}resume_receipt_=complete_&&!failure_.empty();failure_.clear();e.clear();return true;}
+ bool MenuManagerResetV114::resume(const MenuManagerResetServicesV114& s,std::string& e){
+  if(busy_){e="Cannot resume active MenuManager.Reset";return false;}
+  if(failure_.empty()){e="No failed retained MenuManager.Reset";return false;}
+--- a/port/android-native/app/src/main/cpp/front_ui_session_v87.hpp
++++ b/port/android-native/app/src/main/cpp/front_ui_session_v87.hpp
+@@ -33,6 +33,7 @@
+     bool borrow_main_menu_state_v114(loader::MainMenuStateBorrowV114&,std::string&);
+     bool enter_main_menu_state_v114(const loader::MainMenuStateBorrowV114&,std::string&);
+     bool resume_main_menu_state_v114(std::string&);
++    bool arm_main_menu_state_resume_v114(std::string&);
+     // Call before SAME existing MenuManager frame Update, only while this
+     // actual GSFlashMenu state is active. Does not supply another movie clock.
+     bool update_main_menu_request_v114(std::string&);
+--- a/port/android-native/app/src/main/cpp/front_ui_session_v87.cpp
++++ b/port/android-native/app/src/main/cpp/front_ui_session_v87.cpp
+@@ -1672,6 +1672,7 @@
+  if(!actual->main_menu_entry_v114.enter(actual->main_menu_state_v114,actual->main_menu_services_v114,e))return false;
+  actual->selected=true;actual->live_player=false;actual->report_frame=true;e.clear();return true;
+ }
++bool FrontUiSessionV87::arm_main_menu_state_resume_v114(std::string& e){auto actual=impl_;if(!actual){e="No retained SAME Front entry";return false;}return actual->main_menu_entry_v114.arm_resume(e);}
+ bool FrontUiSessionV87::resume_main_menu_state_v114(std::string& e){
+  auto actual=impl_;if(!actual){e="No retained actual Front state";return false;}
+  if(actual->main_menu_entry_v114.failure().empty()){e.clear();return true;}

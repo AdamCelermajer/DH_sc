@@ -1,0 +1,36 @@
+--- a/port/level-world/canonical_openable_graph_v21.hpp
++++ b/port/level-world/canonical_openable_graph_v21.hpp
+@@ -48,6 +48,7 @@
+  bool frame(std::uint32_t,std::string&);
+  bool init_final(std::string& e){return receiver_.receiver().init_final(e);}
+  bool set_position(const float*,bool,std::string&);
++ bool physical_peer_v90(void*,std::uintptr_t&,std::shared_ptr<void>&,bool& handled,std::string&);
+  bool borrow_native_body_v69(std::uintptr_t,std::shared_ptr<void>&,
+   physical::NativeBody*&,std::string&);
+  bool release(std::string&);
+--- a/port/level-world/canonical_openable_graph_v21.cpp
++++ b/port/level-world/canonical_openable_graph_v21.cpp
+@@ -110,3 +110,13 @@
+  return !visual_||visual_->discard_unattached(e);
+ }
+ }
++
++namespace dh2::world {
++bool CanonicalOpenableGraphV21::physical_peer_v90(void* context,std::uintptr_t& id,std::shared_ptr<void>& pin,bool& handled,std::string& e){
++ handled=false;pin.reset();
++ for(const auto& body:bodies_)if(body&&body->world_object().context==context){
++  pin=shared_from_this();id=body->source_owner_base_v49().identity();handled=true;e.clear();return true;
++ }
++ e.clear();return true;
++}
++}
+--- a/port/level-world/world_item_physical_v2.hpp
++++ b/port/level-world/world_item_physical_v2.hpp
+@@ -41,6 +41,7 @@
+  bool assign(std::string&);
+  bool detach(std::string&);
+  bool collision(physical::ContactEvent,void* actual_peer,std::string&);
++ const physical::WorldObject& world_object_v90()const noexcept{return transport_;}
+  physical::NativeBody& native()noexcept{return native_;}
+  b2Shape*& secondary_shape()noexcept{return secondary_shape_;}
+  const physical::CharacterBodyConfig& config()const noexcept{return config_;}

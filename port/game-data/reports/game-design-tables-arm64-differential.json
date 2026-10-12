@@ -1,0 +1,46 @@
+{
+  "validation": "PASS",
+  "scope": "Actual registered map insertion/GetOID and six real name getter bodies vs O2 ARM64.\n\nNames are borrowed from genuine decoded cache byte streams. Original owned RB\nmap/string helpers execute; allocator/libc imports are explicit services.\nWhole Application/loader ownership and other registered getters are not claimed.\n",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "compiler_inputs": {
+    "source_bindings": {
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\game_design_tables.cpp": "a7c5a884708d27c379e80187aecf40873e40b0881202809fde8fa3e1bd181dba",
+      "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\game_design_tables.hpp": "52bdb1135fdaa4fd03866797d0ccb5dd200ecd622963b8afeeb4470a2b58049e"
+    },
+    "optimization": "O2",
+    "library_sha256": "35828013101678287b9bb88b27f53d955a10c7861882209658e271b11a27ca42",
+    "target": "aarch64-linux-android24",
+    "compiler": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe"
+  },
+  "manifest_sha256": "48eaa345259542643c1c209a33be1e8c7dc4cd7e82dec336e770efa488e7f864",
+  "registry_producer_sha256": "05974adf75fcf85c4db06faefe3f39c3e1a759e67c8042ee030d7022a68dd16a",
+  "gold_sha256": "9d30139f4e441179c49ab31e0fbef16f61ebadd644a77af0520986517d8b3f2a",
+  "query_comparisons": 1110,
+  "direct_getter_comparisons": 1054,
+  "original_registrations": 11,
+  "original_getter_calls": 2157,
+  "original_allocator_calls": 1,
+  "mutable_duplicate_tables": [
+    0,
+    1,
+    3,
+    4,
+    5
+  ],
+  "asset_bindings": {
+    "ai_pystructnames.bin": "8e57ac44649466bd3f8fb164c3f7ab56a84c4d7c5d786e40239c9cc2e9f09d82",
+    "ai_pyarraynames.bin": "3e70840c238f38e0e7db7945dfcc1d6aab14644d28f8e8b7c3a014878174b36a",
+    "character_classes_pystructnames.bin": "3347d6e0b30aec9af544eafeb1c0883cc284c1a0585fdc472f51f407d578d268",
+    "character_classes_pyarraynames.bin": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe",
+    "character_properties_pystructnames.bin": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2",
+    "character_properties_pyarraynames.bin": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801"
+  },
+  "source_bindings": {
+    "port\\game-data\\game_design_tables.cpp": "a7c5a884708d27c379e80187aecf40873e40b0881202809fde8fa3e1bd181dba",
+    "port\\game-data\\game_design_tables.hpp": "52bdb1135fdaa4fd03866797d0ccb5dd200ecd622963b8afeeb4470a2b58049e",
+    "port\\game-data\\tests\\game_design_tables_differential.py": "f52af3b6da502fae59a9d9f70596d8fa9f8282e6528ddea5676cbc3a8b2357ef"
+  },
+  "mismatches": 0,
+  "other_registered_getters_proved": false,
+  "whole_application_ownership_proved": false
+}

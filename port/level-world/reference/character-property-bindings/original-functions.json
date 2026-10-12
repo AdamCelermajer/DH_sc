@@ -1,0 +1,23 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK14CharProperties18PROPS_GetFromSheetEiPN7Structs19CharacterPropertiesE",
+      "elf_address": "0x3b55d4",
+      "size": 164,
+      "sha256": "131099abb0a16a3590cd19fcb923b58dd3b7e220733cf18e46adda6d3125d5ac"
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi",
+      "elf_address": "0x3dedb4",
+      "size": 292,
+      "sha256": "c227dbb320f18ab04022f3d61d90e90285652215e56bce8c89c8146aa0fa706f"
+    },
+    {
+      "original_symbol": "_ZN9Character8_GetPropERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b9d8c",
+      "size": 440,
+      "sha256": "aca6d61d2d0a5e330c79a38a01dde437fde4a4a14216edd969a3846f1879b08f"
+    }
+  ]
+}

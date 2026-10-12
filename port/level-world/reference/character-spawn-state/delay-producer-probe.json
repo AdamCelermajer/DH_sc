@@ -1,0 +1,82 @@
+{
+  "validation": "PASS",
+  "scope": "Original Character spawn_delay registration and constructor store block, with explicit property/allocation services.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "script_sha256": "7834d80d8ff700f99325cc80e959f177c3470a480b6a2a8dedb1c1821a05541b",
+  "ordered_registrations": [
+    {
+      "name": "charpropsname",
+      "field_offset": "0x13b0",
+      "service": "0x33ef7c"
+    },
+    {
+      "name": "char_template",
+      "field_offset": "0x1398",
+      "service": "0x33ef7c"
+    },
+    {
+      "name": "ai_state",
+      "field_offset": "0x13cc",
+      "service": "0x33ef7c"
+    },
+    {
+      "name": "ai_state_visible",
+      "field_offset": "0x13e4",
+      "service": "0x3a92b4"
+    },
+    {
+      "name": "starting_waypoint",
+      "field_offset": "0x13e8",
+      "service": "0x33ef7c"
+    },
+    {
+      "name": "char_group",
+      "field_offset": "0x1400",
+      "service": "0x33ef7c"
+    },
+    {
+      "name": "char_group_role",
+      "field_offset": "0x1418",
+      "service": "0x33ef7c"
+    },
+    {
+      "name": "auto_spawn",
+      "field_offset": "0x1430",
+      "service": "0x3a92b4"
+    },
+    {
+      "name": "spawn_delay",
+      "field_offset": "0x1434",
+      "service": "0x513ce4",
+      "vtable": "0x965eb0",
+      "vtable_symbols": [
+        "_ZTV18SimpleTypePropertyI7Point2DIiEE"
+      ]
+    },
+    {
+      "name": "spawn_view_radius",
+      "field_offset": "0x143c",
+      "service": "0x513ce4",
+      "vtable": "0x964898",
+      "vtable_symbols": [
+        "_ZTV18SimpleTypePropertyIfE"
+      ]
+    }
+  ],
+  "descriptor_allocations": [
+    40,
+    36
+  ],
+  "spawn_delay": {
+    "name": "spawn_delay",
+    "field_offset": "0x1434",
+    "service": "0x513ce4",
+    "vtable": "0x965eb0",
+    "vtable_symbols": [
+      "_ZTV18SimpleTypePropertyI7Point2DIiEE"
+    ]
+  },
+  "constructor_zero_store_cases": 4,
+  "constructor_zero_register": "r8=0 established by source mov at0x3aa240; selected store block executes actual3aa414..3aa420.",
+  "full_constructor_and_property_text_loader": false
+}

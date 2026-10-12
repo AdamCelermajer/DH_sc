@@ -1,0 +1,50 @@
+{
+  "schema": "dh2-enable8a-original-v58",
+  "status": "PASS",
+  "elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "whole_ctor_cases": [
+    {
+      "constructor": "0x33f15c",
+      "poison": 0,
+      "enabled8a": 1,
+      "source_store": "33f254 C1 /33f408 C2 STRB1",
+      "disable_f1": 0
+    },
+    {
+      "constructor": "0x33f15c",
+      "poison": 165,
+      "enabled8a": 1,
+      "source_store": "33f254 C1 /33f408 C2 STRB1",
+      "disable_f1": 0
+    },
+    {
+      "constructor": "0x33f15c",
+      "poison": 127,
+      "enabled8a": 1,
+      "source_store": "33f254 C1 /33f408 C2 STRB1",
+      "disable_f1": 0
+    },
+    {
+      "constructor": "0x33f310",
+      "poison": 0,
+      "enabled8a": 1,
+      "source_store": "33f254 C1 /33f408 C2 STRB1",
+      "disable_f1": 0
+    },
+    {
+      "constructor": "0x33f310",
+      "poison": 165,
+      "enabled8a": 1,
+      "source_store": "33f254 C1 /33f408 C2 STRB1",
+      "disable_f1": 0
+    },
+    {
+      "constructor": "0x33f310",
+      "poison": 127,
+      "enabled8a": 1,
+      "source_store": "33f254 C1 /33f408 C2 STRB1",
+      "disable_f1": 0
+    }
+  ],
+  "scope": "Original whole ObjectBase C1/C2 execute; only allocation leaves supplied as in frozen V48. Fresh original enabled8a=1, disablef1=0; no enable event/Eval executed."
+}

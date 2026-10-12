@@ -1,0 +1,704 @@
+[
+  {
+    "call": "0x3a97fc",
+    "target": "0x3c1600",
+    "caller": "_ZN9CharacterC2EN10ObjectBase6GO_IDSE",
+    "caller_address": "0x3a9340"
+  },
+  {
+    "call": "0x3a9820",
+    "target": "0x3c7318",
+    "caller": "_ZN9CharacterC2EN10ObjectBase6GO_IDSE",
+    "caller_address": "0x3a9340"
+  },
+  {
+    "call": "0x3aa670",
+    "target": "0x3c1600",
+    "caller": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+    "caller_address": "0x3aa1b4"
+  },
+  {
+    "call": "0x3aa694",
+    "target": "0x3c7318",
+    "caller": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+    "caller_address": "0x3aa1b4"
+  },
+  {
+    "call": "0x3c5824",
+    "target": "0x3c1938",
+    "caller": "_ZN16CharStateMachine15RaiseStateEventEiPv",
+    "caller_address": "0x3c5684"
+  },
+  {
+    "call": "0x3c60c8",
+    "target": "0x3c1938",
+    "caller": "_ZN16CharStateMachine15SM_SetStunStateEjbPvb",
+    "caller_address": "0x3c5ffc"
+  },
+  {
+    "call": "0x3c6210",
+    "target": "0x3c1938",
+    "caller": "_ZN16CharStateMachine16SM_SetScareStateEjbPvb",
+    "caller_address": "0x3c6144"
+  },
+  {
+    "call": "0x3c7cf8",
+    "target": "0x3c7b18",
+    "caller": "_ZN8CSLimbus6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c7cc0"
+  },
+  {
+    "call": "0x3c7d44",
+    "target": "0x3c7b18",
+    "caller": "_ZN7CSSpawn6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c7d0c"
+  },
+  {
+    "call": "0x3c7d68",
+    "target": "0x3c7b18",
+    "caller": "_ZN7CSSpawn6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c7d0c"
+  },
+  {
+    "call": "0x3c7d98",
+    "target": "0x3c7b18",
+    "caller": "_ZN7CSSpawn6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c7d0c"
+  },
+  {
+    "call": "0x3c7dc4",
+    "target": "0x3c7b18",
+    "caller": "_ZN7CSSpawn6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c7d0c"
+  },
+  {
+    "call": "0x3c7de4",
+    "target": "0x3c7b18",
+    "caller": "_ZN7CSSpawn6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c7d0c"
+  },
+  {
+    "call": "0x3c7e30",
+    "target": "0x3c7b18",
+    "caller": "_ZN9CSDespawn6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c7dfc"
+  },
+  {
+    "call": "0x3c7e54",
+    "target": "0x3c7b18",
+    "caller": "_ZN9CSDespawn6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c7dfc"
+  },
+  {
+    "call": "0x3c7e98",
+    "target": "0x3c7b18",
+    "caller": "_ZN6CSIdle6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c7e60"
+  },
+  {
+    "call": "0x3c7ec0",
+    "target": "0x3c7b18",
+    "caller": "_ZN6CSIdle6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c7e60"
+  },
+  {
+    "call": "0x3c7ee4",
+    "target": "0x3c7b18",
+    "caller": "_ZN6CSIdle6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c7e60"
+  },
+  {
+    "call": "0x3c7f14",
+    "target": "0x3c7b18",
+    "caller": "_ZN6CSIdle6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c7e60"
+  },
+  {
+    "call": "0x3c7f40",
+    "target": "0x3c7b18",
+    "caller": "_ZN6CSIdle6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c7e60"
+  },
+  {
+    "call": "0x3c7f64",
+    "target": "0x3c7b18",
+    "caller": "_ZN6CSIdle6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c7e60"
+  },
+  {
+    "call": "0x3c7f88",
+    "target": "0x3c7b18",
+    "caller": "_ZN6CSIdle6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c7e60"
+  },
+  {
+    "call": "0x3c7fac",
+    "target": "0x3c7b18",
+    "caller": "_ZN6CSIdle6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c7e60"
+  },
+  {
+    "call": "0x3c7fd0",
+    "target": "0x3c7b18",
+    "caller": "_ZN6CSIdle6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c7e60"
+  },
+  {
+    "call": "0x3c7ffc",
+    "target": "0x3c7b18",
+    "caller": "_ZN6CSIdle6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c7e60"
+  },
+  {
+    "call": "0x3c8020",
+    "target": "0x3c7b18",
+    "caller": "_ZN6CSIdle6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c7e60"
+  },
+  {
+    "call": "0x3c8044",
+    "target": "0x3c7b18",
+    "caller": "_ZN6CSIdle6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c7e60"
+  },
+  {
+    "call": "0x3c8068",
+    "target": "0x3c7b18",
+    "caller": "_ZN6CSIdle6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c7e60"
+  },
+  {
+    "call": "0x3c808c",
+    "target": "0x3c7b18",
+    "caller": "_ZN6CSIdle6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c7e60"
+  },
+  {
+    "call": "0x3c80e4",
+    "target": "0x3c7b18",
+    "caller": "_ZN6CSMove6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c80ac"
+  },
+  {
+    "call": "0x3c8108",
+    "target": "0x3c7b18",
+    "caller": "_ZN6CSMove6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c80ac"
+  },
+  {
+    "call": "0x3c8138",
+    "target": "0x3c7b18",
+    "caller": "_ZN6CSMove6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c80ac"
+  },
+  {
+    "call": "0x3c8164",
+    "target": "0x3c7b18",
+    "caller": "_ZN6CSMove6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c80ac"
+  },
+  {
+    "call": "0x3c8188",
+    "target": "0x3c7b18",
+    "caller": "_ZN6CSMove6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c80ac"
+  },
+  {
+    "call": "0x3c81ac",
+    "target": "0x3c7b18",
+    "caller": "_ZN6CSMove6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c80ac"
+  },
+  {
+    "call": "0x3c81d0",
+    "target": "0x3c7b18",
+    "caller": "_ZN6CSMove6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c80ac"
+  },
+  {
+    "call": "0x3c81f4",
+    "target": "0x3c7b18",
+    "caller": "_ZN6CSMove6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c80ac"
+  },
+  {
+    "call": "0x3c8220",
+    "target": "0x3c7b18",
+    "caller": "_ZN6CSMove6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c80ac"
+  },
+  {
+    "call": "0x3c8244",
+    "target": "0x3c7b18",
+    "caller": "_ZN6CSMove6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c80ac"
+  },
+  {
+    "call": "0x3c8268",
+    "target": "0x3c7b18",
+    "caller": "_ZN6CSMove6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c80ac"
+  },
+  {
+    "call": "0x3c82b8",
+    "target": "0x3c7b18",
+    "caller": "_ZN8CSAttack6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8284"
+  },
+  {
+    "call": "0x3c82dc",
+    "target": "0x3c7b18",
+    "caller": "_ZN8CSAttack6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8284"
+  },
+  {
+    "call": "0x3c8304",
+    "target": "0x3c7b18",
+    "caller": "_ZN8CSAttack6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8284"
+  },
+  {
+    "call": "0x3c8328",
+    "target": "0x3c7b18",
+    "caller": "_ZN8CSAttack6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8284"
+  },
+  {
+    "call": "0x3c8358",
+    "target": "0x3c7b18",
+    "caller": "_ZN8CSAttack6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8284"
+  },
+  {
+    "call": "0x3c8384",
+    "target": "0x3c7b18",
+    "caller": "_ZN8CSAttack6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8284"
+  },
+  {
+    "call": "0x3c83a8",
+    "target": "0x3c7b18",
+    "caller": "_ZN8CSAttack6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8284"
+  },
+  {
+    "call": "0x3c83cc",
+    "target": "0x3c7b18",
+    "caller": "_ZN8CSAttack6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8284"
+  },
+  {
+    "call": "0x3c83f8",
+    "target": "0x3c7b18",
+    "caller": "_ZN8CSAttack6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8284"
+  },
+  {
+    "call": "0x3c841c",
+    "target": "0x3c7b18",
+    "caller": "_ZN8CSAttack6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8284"
+  },
+  {
+    "call": "0x3c8470",
+    "target": "0x3c7b18",
+    "caller": "_ZN7CSSkill6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8438"
+  },
+  {
+    "call": "0x3c8494",
+    "target": "0x3c7b18",
+    "caller": "_ZN7CSSkill6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8438"
+  },
+  {
+    "call": "0x3c84c4",
+    "target": "0x3c7b18",
+    "caller": "_ZN7CSSkill6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8438"
+  },
+  {
+    "call": "0x3c84e8",
+    "target": "0x3c7b18",
+    "caller": "_ZN7CSSkill6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8438"
+  },
+  {
+    "call": "0x3c850c",
+    "target": "0x3c7b18",
+    "caller": "_ZN7CSSkill6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8438"
+  },
+  {
+    "call": "0x3c8538",
+    "target": "0x3c7b18",
+    "caller": "_ZN7CSSkill6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8438"
+  },
+  {
+    "call": "0x3c855c",
+    "target": "0x3c7b18",
+    "caller": "_ZN7CSSkill6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8438"
+  },
+  {
+    "call": "0x3c8580",
+    "target": "0x3c7b18",
+    "caller": "_ZN7CSSkill6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8438"
+  },
+  {
+    "call": "0x3c85a0",
+    "target": "0x3c7b18",
+    "caller": "_ZN7CSSkill6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8438"
+  },
+  {
+    "call": "0x3c85ec",
+    "target": "0x3c7b18",
+    "caller": "_ZN6CSCast6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c85b8"
+  },
+  {
+    "call": "0x3c8610",
+    "target": "0x3c7b18",
+    "caller": "_ZN6CSCast6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c85b8"
+  },
+  {
+    "call": "0x3c8650",
+    "target": "0x3c7b18",
+    "caller": "_ZN8CSScared6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c861c"
+  },
+  {
+    "call": "0x3c8678",
+    "target": "0x3c7b18",
+    "caller": "_ZN8CSScared6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c861c"
+  },
+  {
+    "call": "0x3c869c",
+    "target": "0x3c7b18",
+    "caller": "_ZN8CSScared6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c861c"
+  },
+  {
+    "call": "0x3c86cc",
+    "target": "0x3c7b18",
+    "caller": "_ZN8CSScared6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c861c"
+  },
+  {
+    "call": "0x3c86f8",
+    "target": "0x3c7b18",
+    "caller": "_ZN8CSScared6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c861c"
+  },
+  {
+    "call": "0x3c8718",
+    "target": "0x3c7b18",
+    "caller": "_ZN8CSScared6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c861c"
+  },
+  {
+    "call": "0x3c8768",
+    "target": "0x3c7b18",
+    "caller": "_ZN9CSStunned6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8730"
+  },
+  {
+    "call": "0x3c8798",
+    "target": "0x3c7b18",
+    "caller": "_ZN9CSStunned6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8730"
+  },
+  {
+    "call": "0x3c87c0",
+    "target": "0x3c7b18",
+    "caller": "_ZN9CSStunned6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8730"
+  },
+  {
+    "call": "0x3c8810",
+    "target": "0x3c7b18",
+    "caller": "_ZN13CSKnockedBack6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c87d8"
+  },
+  {
+    "call": "0x3c883c",
+    "target": "0x3c7b18",
+    "caller": "_ZN13CSKnockedBack6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c87d8"
+  },
+  {
+    "call": "0x3c8884",
+    "target": "0x3c7b18",
+    "caller": "_ZN9CSInjured6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8850"
+  },
+  {
+    "call": "0x3c88a8",
+    "target": "0x3c7b18",
+    "caller": "_ZN9CSInjured6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8850"
+  },
+  {
+    "call": "0x3c88cc",
+    "target": "0x3c7b18",
+    "caller": "_ZN9CSInjured6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8850"
+  },
+  {
+    "call": "0x3c88f0",
+    "target": "0x3c7b18",
+    "caller": "_ZN9CSInjured6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8850"
+  },
+  {
+    "call": "0x3c8914",
+    "target": "0x3c7b18",
+    "caller": "_ZN9CSInjured6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8850"
+  },
+  {
+    "call": "0x3c8954",
+    "target": "0x3c7b18",
+    "caller": "_ZN6CSDead6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8920"
+  },
+  {
+    "call": "0x3c8978",
+    "target": "0x3c7b18",
+    "caller": "_ZN6CSDead6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8920"
+  },
+  {
+    "call": "0x3c89c8",
+    "target": "0x3c7b18",
+    "caller": "_ZN10CSInteract6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8984"
+  },
+  {
+    "call": "0x3c89ec",
+    "target": "0x3c7b18",
+    "caller": "_ZN10CSInteract6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8984"
+  },
+  {
+    "call": "0x3c8a10",
+    "target": "0x3c7b18",
+    "caller": "_ZN10CSInteract6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8984"
+  },
+  {
+    "call": "0x3c8a34",
+    "target": "0x3c7b18",
+    "caller": "_ZN10CSInteract6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8984"
+  },
+  {
+    "call": "0x3c8a58",
+    "target": "0x3c7b18",
+    "caller": "_ZN10CSInteract6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8984"
+  },
+  {
+    "call": "0x3c8a7c",
+    "target": "0x3c7b18",
+    "caller": "_ZN10CSInteract6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8984"
+  },
+  {
+    "call": "0x3c8aa8",
+    "target": "0x3c7b18",
+    "caller": "_ZN10CSInteract6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8984"
+  },
+  {
+    "call": "0x3c8acc",
+    "target": "0x3c7b18",
+    "caller": "_ZN10CSInteract6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8984"
+  },
+  {
+    "call": "0x3c8af0",
+    "target": "0x3c7b18",
+    "caller": "_ZN10CSInteract6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8984"
+  },
+  {
+    "call": "0x3c8b10",
+    "target": "0x3c7b18",
+    "caller": "_ZN10CSInteract6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8984"
+  },
+  {
+    "call": "0x3c8b5c",
+    "target": "0x3c7b18",
+    "caller": "_ZN6CSAnim6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8b28"
+  },
+  {
+    "call": "0x3c8b80",
+    "target": "0x3c7b18",
+    "caller": "_ZN6CSAnim6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8b28"
+  },
+  {
+    "call": "0x3c8bc0",
+    "target": "0x3c7b18",
+    "caller": "_ZN10CSReviving6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8b8c"
+  },
+  {
+    "call": "0x3c8be8",
+    "target": "0x3c7b18",
+    "caller": "_ZN10CSReviving6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8b8c"
+  },
+  {
+    "call": "0x3c8c0c",
+    "target": "0x3c7b18",
+    "caller": "_ZN10CSReviving6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8b8c"
+  },
+  {
+    "call": "0x3c8c3c",
+    "target": "0x3c7b18",
+    "caller": "_ZN10CSReviving6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8b8c"
+  },
+  {
+    "call": "0x3c8c68",
+    "target": "0x3c7b18",
+    "caller": "_ZN10CSReviving6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8b8c"
+  },
+  {
+    "call": "0x3c8c8c",
+    "target": "0x3c7b18",
+    "caller": "_ZN10CSReviving6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8b8c"
+  },
+  {
+    "call": "0x3c8cb0",
+    "target": "0x3c7b18",
+    "caller": "_ZN10CSReviving6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8b8c"
+  },
+  {
+    "call": "0x3c8cd4",
+    "target": "0x3c7b18",
+    "caller": "_ZN10CSReviving6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8b8c"
+  },
+  {
+    "call": "0x3c8d18",
+    "target": "0x3c7b18",
+    "caller": "_ZN9CSRevived6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8cec"
+  },
+  {
+    "call": "0x3c8d50",
+    "target": "0x3c7b18",
+    "caller": "_ZN10CSPreSpawn6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8d24"
+  },
+  {
+    "call": "0x3c8d90",
+    "target": "0x3c7b18",
+    "caller": "_ZN13CSLiftingIdle6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8d5c"
+  },
+  {
+    "call": "0x3c8db8",
+    "target": "0x3c7b18",
+    "caller": "_ZN13CSLiftingIdle6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8d5c"
+  },
+  {
+    "call": "0x3c8ddc",
+    "target": "0x3c7b18",
+    "caller": "_ZN13CSLiftingIdle6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8d5c"
+  },
+  {
+    "call": "0x3c8e0c",
+    "target": "0x3c7b18",
+    "caller": "_ZN13CSLiftingIdle6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8d5c"
+  },
+  {
+    "call": "0x3c8e38",
+    "target": "0x3c7b18",
+    "caller": "_ZN13CSLiftingIdle6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8d5c"
+  },
+  {
+    "call": "0x3c8e5c",
+    "target": "0x3c7b18",
+    "caller": "_ZN13CSLiftingIdle6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8d5c"
+  },
+  {
+    "call": "0x3c8e80",
+    "target": "0x3c7b18",
+    "caller": "_ZN13CSLiftingIdle6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8d5c"
+  },
+  {
+    "call": "0x3c8ea4",
+    "target": "0x3c7b18",
+    "caller": "_ZN13CSLiftingIdle6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8d5c"
+  },
+  {
+    "call": "0x3c8ec8",
+    "target": "0x3c7b18",
+    "caller": "_ZN13CSLiftingIdle6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8d5c"
+  },
+  {
+    "call": "0x3c8f18",
+    "target": "0x3c7b18",
+    "caller": "_ZN13CSLiftingMove6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8ee0"
+  },
+  {
+    "call": "0x3c8f3c",
+    "target": "0x3c7b18",
+    "caller": "_ZN13CSLiftingMove6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8ee0"
+  },
+  {
+    "call": "0x3c8f6c",
+    "target": "0x3c7b18",
+    "caller": "_ZN13CSLiftingMove6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8ee0"
+  },
+  {
+    "call": "0x3c8f98",
+    "target": "0x3c7b18",
+    "caller": "_ZN13CSLiftingMove6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8ee0"
+  },
+  {
+    "call": "0x3c8fbc",
+    "target": "0x3c7b18",
+    "caller": "_ZN13CSLiftingMove6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8ee0"
+  },
+  {
+    "call": "0x3c8fdc",
+    "target": "0x3c7b18",
+    "caller": "_ZN13CSLiftingMove6OnInitEiP9CharacterP16CharStateMachine",
+    "caller_address": "0x3c8ee0"
+  },
+  {
+    "call": "0x3effc8",
+    "target": "0x3a5784",
+    "caller": "_ZN5Level15_LoadCharStatesEv",
+    "caller_address": "0x3eff98"
+  }
+]

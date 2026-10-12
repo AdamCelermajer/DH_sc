@@ -1,0 +1,44 @@
+{
+  "validation": "PASS",
+  "original_gold_replay": {
+    "validation": "PASS",
+    "comparisons": 520,
+    "ordered_services": 13905,
+    "failure_guards": 17
+  },
+  "actual_AS_adapter": {
+    "validation": "PASS",
+    "actual_AS_sessions": 8,
+    "adapter_checks": 54,
+    "provider_deliveries": 66,
+    "genuine_low_health_constant": 15,
+    "constants_assignments": 152
+  },
+  "source_sha256": {
+    "port/engine-ui/hud_player_infos.hpp": "9aa23cfc0a9745b3ec2c7377cc896a9e3bbdb6f67a42c4121d869f38cec6a6c9",
+    "port/engine-ui/hud_player_infos.cpp": "a2f14a871255e5bfa1b7ef889cbdec6a4b3daad9dbebbfca2d06f928f5da132c",
+    "port/engine-ui/hud_player_infos_core.hpp": "72bb4b05d5f902a636883d7032de2e335f9e9454a57aae395a533e69523685cf",
+    "port/engine-ui/hud_player_infos_core.cpp": "4385710eb3883a637c142151d10e5928d1e94acaf281eec7e7c626a647b268ea",
+    "port/engine-ui/tests/hud_player_infos.cpp": "e9dce42694a76aa060d9eba85d93e822d8ef578f15dced1c98bf8f9550dbf01e",
+    "port/engine-ui/tests/hud_player_infos_core.cpp": "369be2344237d89b7c52c68becca7709711adf31233ab769f07dcf6da1630fce",
+    "port/script-runtime/script_constants.hpp": "5771039bca9fce55aed7ca742ede02fad3da304d62411d4c9531c32c0e823a01",
+    "port/script-runtime/script_constants.cpp": "44d2ade00fca5f991fe5cae1c5f869dc68cb71e57344b0ed9ce240b38b3d476d"
+  },
+  "gold_sha256": "6038db6112028dc8083845fae77c573525decfb35599eb656305a9a48e2d2024",
+  "constants_stream_sha256": "db014f9832c1d9e60c62272a2ee67d15568d003c191ae32bbce070cb49056931",
+  "core_library_sha256": "54506e7d96e0200765ca05d16b60e9053c2b4c89fccb9121ea6288e3bc48d36c",
+  "executable_sha256": "d86f0ca6a148c7eb365df156466e35b745e4851b7f1216ce8045f8f6b6e05388",
+  "adapter_executable_sha256": "2e6807c15594073e36fc115b37edd7533d91044097b0f9c428f74bf28b33158a",
+  "sanitizer_findings": 0,
+  "sanitizers": [
+    "address",
+    "undefined(adapter excludes upstream vptr)",
+    "leak"
+  ],
+  "limits": {
+    "skill_potion_player_property_saved_option_services_are_fixtures": true,
+    "low_health_constant_is_actual_owned_cache": true,
+    "original_AS_coercion_and_generic_object_setter_parity": false,
+    "live_HUD": false
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "scope": "Explicit current-source missing-header supplement, not supplied original archive and not executed NPC lifecycle",
+  "source": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_world_npc_object_v1.hpp",
+  "sha256": "85cd574bb8f03bcdad3e37099197b0b7afbac1397884b3bbafec97a37747141b",
+  "bytes": 3056,
+  "source_stable_during_capture": true,
+  "frozen_base_field_names_checked": [
+    "struct WorldNpcObjectFieldsV1",
+    "visible80",
+    "disabled81",
+    "static84",
+    "updating85",
+    "enabled8a",
+    "non_zonable2ed",
+    "zoning2ee",
+    "entered2f0",
+    "disabled373",
+    "assigned2ef",
+    "room2f4",
+    "visible_written"
+  ],
+  "resolved_existing_private_headers": [
+    {
+      "path": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\navigation_objects.hpp",
+      "sha256": "8bf7052ea8c1c58cadddda10f85e7d0808612df0c0bc6bf6be5532ebe9bfe011"
+    },
+    {
+      "path": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-world\\native_body.hpp",
+      "sha256": "711c9049c8e686edc1e4d49890e7650205658070f65af225540c51d3f865e140"
+    }
+  ],
+  "no_shared_mutation": true,
+  "full_loader_verified": false
+}

@@ -1,0 +1,12 @@
+{
+  "validation": "PASS",
+  "cases": 704,
+  "core_requests": 434,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "optimized_arm64_sha256": "150261551f4a4b66c010fe7ec3a95f12805a67f6a932176449170add304d61af",
+  "gold_sha256": "e0cb8011a8dd502e3abe0b2e2fd690be6442440031763d7668f76d5bf28b9a90",
+  "original_instructions_executed": true,
+  "optimized_arm64_instructions_executed": true,
+  "scope": "Full original Lua CreateBuff/RemoveBuff wrappers versus native callbacks.\nActual original argument guards/getters and IEEE conversion execute. Buff core\nAdd/Delete and ReturnValues pointer append are observed services; native owned\nBuff application/removal is exercised separately on the same retained session.\n"
+}

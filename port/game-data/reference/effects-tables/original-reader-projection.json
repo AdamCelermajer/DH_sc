@@ -1,0 +1,6850 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "inputs": {
+    "effects_pyarraynames.bin": {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/effects_pyarraynames.bin",
+      "bytes": 8906,
+      "sha256": "f91b3ef914e6840c4339c1af32446c5f3d24605aaa4a9403a797cc941edbc043"
+    },
+    "effects_pystructnames.bin": {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/effects_pystructnames.bin",
+      "bytes": 346,
+      "sha256": "d4296263d954714d560083e058da3ff4d87d4b35fa7c796c4e88618f4cb2cc2b"
+    },
+    "effects_dictionary_pyarraynames.bin": {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/effects_dictionary_pyarraynames.bin",
+      "bytes": 10280,
+      "sha256": "8227757b4e18e10f898e0693eeb1b728b024e8b4675162f97c5fbb6647b910f2"
+    },
+    "effects_dictionary_pyarray.bin": {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/effects_dictionary_pyarray.bin",
+      "bytes": 16770,
+      "sha256": "e0162462ed31315a637b3f784e6957949054855357cf09431e5249db5c42d294"
+    },
+    "effects_pyarray.bin": {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/effects_pyarray.bin",
+      "bytes": 12953,
+      "sha256": "9a743e51e4ba098a63fd274ee890efeaf0dc6f750d51fc53fd9ef2c01695f71b"
+    }
+  },
+  "names": [
+    [
+      "AAA_DONT_DELETE",
+      "AUTO_DEBUFF_SLOW",
+      "AUTO_DOT_00_NORMAL",
+      "AUTO_DOT_01_FIRE",
+      "AUTO_DOT_02_WATER",
+      "AUTO_DOT_03_LIGHTNING",
+      "AUTO_DOT_04_EARTH",
+      "AUTO_DOT_05_AIR",
+      "BalrogFlameFX",
+      "Balrog_Attack_01",
+      "Balrog_Attack_03",
+      "Balrog_dying_01",
+      "Balrog_hurt_01",
+      "Celest_Level_1_Main",
+      "Celest_Level_1_Player",
+      "DarkQueen1AttackMelee",
+      "DarkQueen1CastProjectile",
+      "DarkQueen1Dying",
+      "DarkQueen2Attack",
+      "DarkQueen2CastProjectile",
+      "DarkQueen2Dying",
+      "DarkQueen2Spawn",
+      "Dragon_Attack_01",
+      "Dragon_Attack_01B",
+      "Dragon_Attack_02",
+      "Dragon_Attack_03",
+      "Dragon_Intimidate_00",
+      "Dragon_Intimidate_01",
+      "Dragon_Intimidate_01B",
+      "Dragon_Intimidate_02",
+      "Dragon_Intimidate_03",
+      "DustTrail_Prince",
+      "DustTrail_Zombie",
+      "Faery_FogDot",
+      "Flaminite_Spec_Attack1",
+      "Flaminite_Spec_Attack2",
+      "Flaminite_Spec_Attack3",
+      "Generic_spawn",
+      "Hotty_Level_1_Player_Pre",
+      "Hotty_Level_1_Target",
+      "Lighthouse_portal_persist",
+      "MadrukFaeries_Dying",
+      "MadrukFaeries_Spawn",
+      "Madruk_FastProjectileImpact",
+      "Madruk_Shockwave",
+      "Madruk_Slam",
+      "Madruk_SlowProjectileImpact",
+      "Madruk_Torso_Melee",
+      "Madruk_Torso_laser_charging",
+      "Madruk_Torso_laser_hurt",
+      "Madruk_Torso_laser_idle",
+      "Madruk_Torso_laser_start",
+      "Madruk_Torso_lifedrain_hurt",
+      "Madruk_green_faery_cast",
+      "Madruk_heal",
+      "Madruk_orange_faery_cast",
+      "Madruk_shield",
+      "ResGod_SelfFX",
+      "Rocky_Level_1_Player_Pre",
+      "Rocky_Level_1_Target",
+      "Root_Charge",
+      "Root_Dying",
+      "Root_Slam",
+      "Scavenger_Attack",
+      "Skill_LightHouseEmissary_Melee",
+      "Skill_LightHouseEmissary_Range",
+      "Skill_Madruk_Torso_lifedrain",
+      "Skill_Madruk_Torso_lifedrain_persist",
+      "Spell_Madruk_Torso_lifedrain",
+      "Spell_Madruk_Torso_lifedrain_persist",
+      "SwampkingImpactFX",
+      "Wetty_Level_1_Main",
+      "Wetty_Level_1_Player_Pre",
+      "WindDragonAoEBomb",
+      "Windy_Level_1_Main",
+      "Windy_Level_1_Player_Pre",
+      "WitchImpactFX",
+      "Zombie_spawn",
+      "active_buff_fx",
+      "bloodsplat",
+      "bloodsplat_hero",
+      "cs_darkqueen_scene03c_idle_rene_portal",
+      "cs_darkqueen_scene03c_rene_portal",
+      "cs_darkqueen_scene04_raisebodya",
+      "cs_darkqueen_scene05_raisebodyb",
+      "cs_darkqueen_scene06_farvue",
+      "cs_darkqueen_scene07_princecoverface",
+      "cs_darkqueen_scene08_daerk_queen_entrance",
+      "cs_earth_temple_intro_scene07_priests_start_summon",
+      "cs_earth_temple_intro_scene08a_boss_ports_in",
+      "cs_earth_temple_intro_scene08b_boss_hits_floor",
+      "cs_earth_temple_outro_scene02_03_faery_exits_boss",
+      "cs_earth_temple_outro_scene02_boss_collapses",
+      "cs_finalboss_intro_scene01_souls",
+      "cs_finalboss_intro_scene02_player_port_in",
+      "cs_finalboss_intro_scene03_port_in_fadeout",
+      "cs_finalboss_intro_scene04_big_glow",
+      "cs_finalboss_intro_scene05_big_glow",
+      "cs_finalboss_intro_scene06_ghosts",
+      "cs_finalboss_intro_scene07_rene_port_in",
+      "cs_finalboss_intro_scene07_talk_fightstartfx",
+      "cs_madruk_end_scene01_boss_deathscene",
+      "cs_madruk_end_scene02_princecoverface",
+      "cs_madruk_end_scene03_gawdparticle",
+      "cs_madruk_end_scene05_princedeath",
+      "cs_sk_intro_scene01_running_in",
+      "cs_sk_intro_scene03_dustoffthecieling",
+      "cs_sk_intro_scene04_lizardmansplashes",
+      "cs_sk_intro_scene08_swampkingwave",
+      "cs_sk_intro_scene09_bitelizardmanintwo",
+      "cs_sk_intro_scene10_swampkingrawrr",
+      "cs_sk_outro_scene01_swampkingdeath",
+      "cs_sk_outro_scene03_smokinhead",
+      "cs_sk_outro_scene04_smokinhead",
+      "cs_sk_outro_scene05_smokinhead",
+      "cs_sk_outro_scene07_smokinhead",
+      "cs_swamp_intro_01_bloodsplat_prisoner",
+      "cs_swamp_intro_02_bloodsplat_prisoner",
+      "cs_swamp_intro_09_rezeffect",
+      "cs_swamp_intro_13_refletdelumiere",
+      "cs_swamp_intro_14_explodedoor",
+      "cutscene_dh2_witch_intro_scene_01_portal",
+      "dark_queen_demon_death_FX",
+      "dark_queen_demon_spawn_FX",
+      "elem_dmg_01_fire",
+      "elem_dmg_02_water",
+      "elem_dmg_03_lightning",
+      "elem_dmg_04_earth",
+      "elem_dmg_05_air",
+      "enemy_summon",
+      "enemy_summoned_minion",
+      "faeries_celeste_faery_dust",
+      "fx_airtemple_teleportshockwave",
+      "fx_swampking_attack_03_poisonspit",
+      "fx_swampking_blue_shockwave",
+      "level_up",
+      "loot_orb_fx",
+      "quest_marker",
+      "quest_marker_blue",
+      "quest_marker_merchant",
+      "rock_explosion_big",
+      "sandworm_shockwave",
+      "skill_dh2_assassin_assassination",
+      "skill_dh2_assassin_blindness",
+      "skill_dh2_assassin_poison_sting",
+      "skill_dh2_assassin_poison_sting_persist",
+      "skill_dh2_monster_edward_despawn",
+      "skill_dh2_prince_illusionist_figments",
+      "skill_dh2_prince_illusionist_terror",
+      "skill_dh2_prince_illusionist_timecontrol",
+      "skill_dh2_prince_mage_cold_ray",
+      "skill_dh2_prince_mage_cyclone",
+      "skill_dh2_prince_mage_illusionist_eclipse",
+      "skill_dh2_prince_mage_illusionist_eclipse_persist",
+      "skill_dh2_prince_mage_stone_escape_death",
+      "skill_dh2_prince_mage_stone_escape_idle",
+      "skill_dh2_prince_necromancer_deathclaw",
+      "skill_dh2_prince_necromancer_fireskullrain",
+      "skill_dh2_prince_necromancer_pestilence",
+      "skill_dh2_prince_necromancer_rise",
+      "skill_dh2_prince_rogue_jump_kick",
+      "skill_dh2_prince_rogue_quickness",
+      "skill_dh2_prince_rogue_roundhouse",
+      "skill_dh2_prince_rogue_vicious_strike",
+      "skill_dh2_prince_warrior_bash_down",
+      "skill_dh2_prince_warrior_berseker_berserk",
+      "skill_dh2_prince_warrior_berseker_crushing_blow",
+      "skill_dh2_prince_warrior_berseker_frenzy",
+      "skill_dh2_prince_warrior_berseker_intimidate",
+      "skill_dh2_prince_warrior_berseker_killing_streak",
+      "skill_dh2_prince_warrior_berseker_survival",
+      "skill_dh2_prince_warrior_berseker_whirling_drift",
+      "skill_dh2_prince_warrior_charge",
+      "skill_dh2_prince_warrior_ground_slam",
+      "skill_dh2_prince_warrior_paladin_divine_judgement",
+      "skill_dh2_prince_warrior_paladin_guarding_aura",
+      "skill_dh2_prince_warrior_paladin_guarding_aura_persist",
+      "skill_dh2_prince_warrior_paladin_offensive_aura",
+      "skill_dh2_prince_warrior_paladin_offensive_aura_persist",
+      "skill_dh2_prince_warrior_paladin_purifying_aura",
+      "skill_dh2_prince_warrior_paladin_purifying_aura_persist",
+      "skill_prince_knight_charge",
+      "skill_prince_knight_rage",
+      "skill_prince_knight_shockwave",
+      "skill_prince_knight_slam",
+      "skill_prince_knight_warcry",
+      "skill_prince_knight_whirlwind",
+      "skill_prince_mage_earthmastery",
+      "skill_prince_mage_firemastery",
+      "skill_prince_mage_lightningmastery",
+      "skill_prince_mage_magearmor",
+      "skill_prince_mage_magearmor_cast",
+      "skill_prince_mage_pre_earthmastery",
+      "skill_prince_mage_pre_lightningmastery",
+      "skill_prince_mage_pre_watermastery",
+      "skill_prince_mage_pre_windmastery",
+      "skill_prince_mage_psychic_blast",
+      "skill_prince_mage_summon",
+      "skill_prince_mage_summoned_minion",
+      "skill_prince_mage_watermastery",
+      "skill_prince_mage_windmastery",
+      "skill_prince_rogue_bladefury",
+      "skill_prince_rogue_elementaltrap_01_fire",
+      "skill_prince_rogue_elementaltrap_02_water",
+      "skill_prince_rogue_elementaltrap_03_lightning",
+      "skill_prince_rogue_elementaltrap_04_earth",
+      "skill_prince_rogue_elementaltrap_05_air",
+      "skill_prince_rogue_jumpattack",
+      "skill_prince_rogue_pre_jumpattack",
+      "skill_prince_rogue_sneak",
+      "skill_prince_rogue_twinstrike",
+      "skill_prince_rogue_viciousstrike",
+      "spell_dh2_assassin_blindness_persist",
+      "spell_dh2_cauldron_blue",
+      "spell_dh2_cauldron_blue_persist",
+      "spell_dh2_cauldron_green",
+      "spell_dh2_cauldron_green_persist",
+      "spell_dh2_cauldron_red",
+      "spell_dh2_cauldron_red_persist",
+      "spell_dh2_faery_ressurect",
+      "spell_dh2_faery_teleport",
+      "spell_dh2_hurt_regular_arrow",
+      "spell_dh2_hurt_simplified_chain_lightning",
+      "spell_dh2_monster_assassin_teleport",
+      "spell_dh2_prince_illusionist_figments",
+      "spell_dh2_prince_illusionist_terror",
+      "spell_dh2_prince_illusionist_timecontrol",
+      "spell_dh2_prince_mage_illusionist_eclipse",
+      "spell_dh2_prince_mage_illusionist_hypnotic_gaze_persist",
+      "spell_dh2_prince_mage_stone_escape_magefx",
+      "spell_dh2_prince_necromancer_fireskullrain",
+      "spell_dh2_prince_necromancer_pestilence",
+      "spell_dh2_prince_necromancer_rise",
+      "spell_dh2_prince_rogue_burst_shot",
+      "spell_dh2_prince_rogue_quickness",
+      "spell_dh2_prince_warrior_paladin_conversion_persist",
+      "spell_dh2_prince_warrior_paladin_divine_judgement",
+      "spell_dh2_prince_warrior_paladin_guarding_aura",
+      "spell_dh2_prince_warrior_paladin_offensive_aura",
+      "spell_dh2_prince_warrior_paladin_purifying_aura",
+      "spell_earth_hurt",
+      "spell_fire_hurt",
+      "spell_flower_poison_hurt",
+      "spell_lightning_hurt",
+      "spell_poison_hurt",
+      "spell_spider_poison_hurt",
+      "spell_water_hurt",
+      "spell_wind_hurt",
+      "spotlight",
+      "state_feared",
+      "state_poisonned",
+      "state_slowed",
+      "state_stunned",
+      "swoosh_prince_1hand_combo_01",
+      "swoosh_prince_1hand_combo_02",
+      "swoosh_prince_1hand_combo_03",
+      "swoosh_prince_2hand_combo_01",
+      "swoosh_prince_2hand_combo_02",
+      "swoosh_prince_dual_combo_01",
+      "swoosh_prince_dual_combo_02",
+      "swoosh_prince_dual_combo_03",
+      "target_circle",
+      "target_circle_00_chest",
+      "target_circle_01_item",
+      "target_circle_02_lever",
+      "target_circle_03_npc",
+      "target_circle_04_UNUSED",
+      "target_circle_05_UNUSED",
+      "target_circle_06_UNUSED",
+      "target_circle_07_UNUSED",
+      "target_circle_08_attack",
+      "target_circle_09_UNUSED",
+      "target_circle_10_revive",
+      "target_cross",
+      "terror_target",
+      "walk_in_water"
+    ],
+    [
+      "Default",
+      "DefaultMonster",
+      "NoBlood"
+    ],
+    [
+      "Default",
+      "Grass",
+      "Metal",
+      "Sand",
+      "Water",
+      "WetFloor",
+      "Wood"
+    ]
+  ],
+  "schemas": [
+    [
+      "File",
+      "ForceCancel",
+      "Loop",
+      "OrientOnce",
+      "OrientWithAnchor",
+      "PlayTime",
+      "PoolSize",
+      "Redir",
+      "ScaleWithAnchor",
+      "SelfIllum",
+      "Speed",
+      "SubObject"
+    ],
+    [
+      "ForceCache",
+      "LoopAFX",
+      "Steps",
+      "Type"
+    ],
+    [
+      "BloodDeathEffect",
+      "BloodEffect",
+      "FootprintEffect",
+      "SwooshEffect",
+      "TriggerFloorFX"
+    ],
+    [
+      "Effect",
+      "Floortype",
+      "RunSound",
+      "WalkSound"
+    ]
+  ],
+  "dictionary_names": [
+    "balrog_dying_fx",
+    "balrog_firespit",
+    "balrog_hurt_01_fx",
+    "bloodsplat",
+    "bloodsplat_hero",
+    "boss_target_circle",
+    "cs_darkqueen_scene03c_idle_rene_portal",
+    "cs_darkqueen_scene03c_rene_portal",
+    "cs_darkqueen_scene04_raisebodya",
+    "cs_darkqueen_scene05_raisebodyb",
+    "cs_darkqueen_scene06_farvue",
+    "cs_darkqueen_scene07_princecoverface",
+    "cs_darkqueen_scene08_daerk_queen_entrance",
+    "cs_darkqueen_scene09_prince_banished_to_underworld",
+    "cs_earth_temple_intro_scene07_priests_start_summon",
+    "cs_earth_temple_intro_scene08a_boss_ports_in",
+    "cs_earth_temple_intro_scene08b_boss_hits_floor",
+    "cs_earth_temple_outro_scene02_03_faery_exits_boss",
+    "cs_earth_temple_outro_scene02_boss_collapses",
+    "cs_finalboss_intro_scene01_souls",
+    "cs_finalboss_intro_scene02_player_port_in",
+    "cs_finalboss_intro_scene03_port_in_fadeout",
+    "cs_finalboss_intro_scene04_big_glow",
+    "cs_finalboss_intro_scene05_big_glow",
+    "cs_finalboss_intro_scene06_ghosts",
+    "cs_finalboss_intro_scene07_rene_port_in",
+    "cs_finalboss_intro_scene07_talk_fightstartfx",
+    "cs_madruk_end_scene01_boss_deathscene",
+    "cs_madruk_end_scene02_princecoverface",
+    "cs_madruk_end_scene03_gawdparticle",
+    "cs_madruk_end_scene05_princedeath",
+    "cs_sk_intro_scene01_running_in",
+    "cs_sk_intro_scene03_dustoffthecieling",
+    "cs_sk_intro_scene04_lizardmansplashes",
+    "cs_sk_intro_scene08_swampkingwave",
+    "cs_sk_intro_scene09_bitelizardmanintwo",
+    "cs_sk_intro_scene10_swampkingrawrr",
+    "cs_sk_outro_scene01_swampkingdeath",
+    "cs_sk_outro_scene02_smokinhead",
+    "cs_sk_outro_scene03_smokinhead",
+    "cs_sk_outro_scene04_smokinhead",
+    "cs_sk_outro_scene05_smokinhead",
+    "cs_sk_outro_scene07_smokinhead",
+    "cs_swamp_intro_01_bloodsplat_prisoner",
+    "cs_swamp_intro_02_bloodsplat_prisoner",
+    "cs_swamp_intro_09_rezeffect",
+    "cs_swamp_intro_13_refletdelumiere",
+    "cs_swamp_intro_14_explodedoor",
+    "cutscene_dh2_witch_intro_scene_01_portal",
+    "dark_queen_demon_death_fx",
+    "dark_queen_demon_spawn_fx",
+    "dust_cloud",
+    "dust_trail",
+    "enemy_summon",
+    "enemy_summoned_minion",
+    "faeries_celeste_faery_dust",
+    "fx_airtemple_teleportshockwave",
+    "fx_humanfootsteps",
+    "fx_lizardmanfootsteps",
+    "fx_rene_to_madruk_shockwave",
+    "fx_swampking_attack_03_poisonspit",
+    "fx_swampking_blue_shockwave",
+    "fx_walk_in_water",
+    "level_up",
+    "loot_orb_fx",
+    "marker_fear",
+    "marker_poisoned",
+    "marker_slow",
+    "marker_stun",
+    "quest_marker",
+    "quest_marker_blue",
+    "quest_marker_merchant",
+    "rock_explosion_big",
+    "skill_dh2_faeries_fx_madruk01_death",
+    "skill_dh2_faery_earth",
+    "skill_dh2_faery_fire",
+    "skill_dh2_faery_lightning",
+    "skill_dh2_faery_water",
+    "skill_dh2_faery_wind",
+    "skill_dh2_monster_dark_queen1stform_attack_melee",
+    "skill_dh2_monster_dark_queen1stform_die",
+    "skill_dh2_monster_dark_queen1stform_projectile",
+    "skill_dh2_monster_dark_queen2ndform_attack",
+    "skill_dh2_monster_dark_queen2ndform_die",
+    "skill_dh2_monster_dark_queen2ndform_projectile",
+    "skill_dh2_monster_dark_queen2ndform_spawn",
+    "skill_dh2_monster_dragon_attack_01",
+    "skill_dh2_monster_dragon_attack_01b",
+    "skill_dh2_monster_dragon_attack_02",
+    "skill_dh2_monster_dragon_attack_03",
+    "skill_dh2_monster_dragon_intimidate",
+    "skill_dh2_monster_dragon_intimidate_01",
+    "skill_dh2_monster_dragon_intimidate_01b",
+    "skill_dh2_monster_dragon_intimidate_02",
+    "skill_dh2_monster_dragon_intimidate_03",
+    "skill_dh2_monster_edward_despawn",
+    "skill_dh2_monster_faeries_fogdot",
+    "skill_dh2_monster_fx_renepowerup",
+    "skill_dh2_monster_lighthouse_melee",
+    "skill_dh2_monster_lighthouse_portal_persist",
+    "skill_dh2_monster_lighthouse_special_effect",
+    "skill_dh2_monster_madruk01_energyspikes",
+    "skill_dh2_monster_madruk01_green_faery_cast",
+    "skill_dh2_monster_madruk01_heal",
+    "skill_dh2_monster_madruk01_orange_faery_cast",
+    "skill_dh2_monster_madruk01_shield",
+    "skill_dh2_monster_madruk01_shockwave",
+    "skill_dh2_monster_madrukfinal_attack_melee_01",
+    "skill_dh2_monster_madrukfinal_laser_charging",
+    "skill_dh2_monster_madrukfinal_laser_idle",
+    "skill_dh2_monster_madrukfinal_laser_start",
+    "skill_dh2_monster_madrukfinal_lifedrain",
+    "skill_dh2_monster_madrukfinal_lifedrain_persist",
+    "skill_dh2_monster_root_troll_charge",
+    "skill_dh2_monster_root_troll_dome_idle",
+    "skill_dh2_monster_root_troll_dome_warning",
+    "skill_dh2_monster_root_troll_dying",
+    "skill_dh2_monster_root_troll_flaminite_firespit",
+    "skill_dh2_monster_root_troll_hulksmash",
+    "skill_dh2_monster_root_troll_idle_to_dome",
+    "skill_dh2_monster_sand_worm_shockwave",
+    "skill_dh2_monster_spawn",
+    "skill_dh2_prince_mage_cold_ray",
+    "skill_dh2_prince_mage_cyclone",
+    "skill_dh2_prince_mage_illusionist_eclipse",
+    "skill_dh2_prince_mage_illusionist_eclipse_persist",
+    "skill_dh2_prince_mage_illusionist_figments",
+    "skill_dh2_prince_mage_illusionist_terror",
+    "skill_dh2_prince_mage_illusionist_time_control",
+    "skill_dh2_prince_mage_necromancer_death_claw",
+    "skill_dh2_prince_mage_necromancer_fire_skull_rain",
+    "skill_dh2_prince_mage_necromancer_pestilence",
+    "skill_dh2_prince_mage_necromancer_rise",
+    "skill_dh2_prince_mage_stone_escape_death",
+    "skill_dh2_prince_mage_stone_escape_idle",
+    "skill_dh2_prince_rogue_assassin_assassination",
+    "skill_dh2_prince_rogue_assassin_blindness",
+    "skill_dh2_prince_rogue_assassin_poison_sting",
+    "skill_dh2_prince_rogue_assassin_poison_sting_persist",
+    "skill_dh2_prince_rogue_jump_kick",
+    "skill_dh2_prince_rogue_quickness",
+    "skill_dh2_prince_rogue_roundhouse",
+    "skill_dh2_prince_rogue_vicious_strike",
+    "skill_dh2_prince_warrior_bash_down",
+    "skill_dh2_prince_warrior_berseker_berserk",
+    "skill_dh2_prince_warrior_berseker_crushing_blow",
+    "skill_dh2_prince_warrior_berseker_frenzy",
+    "skill_dh2_prince_warrior_berseker_intimidate",
+    "skill_dh2_prince_warrior_berseker_killing_streak",
+    "skill_dh2_prince_warrior_berseker_survival",
+    "skill_dh2_prince_warrior_berseker_whirlwind",
+    "skill_dh2_prince_warrior_charge",
+    "skill_dh2_prince_warrior_ground_slam",
+    "skill_dh2_prince_warrior_paladin_divine_judgement",
+    "skill_dh2_prince_warrior_paladin_guarding_aura",
+    "skill_dh2_prince_warrior_paladin_guarding_aura_persist",
+    "skill_dh2_prince_warrior_paladin_offensive_aura",
+    "skill_dh2_prince_warrior_paladin_offensive_aura_persist",
+    "skill_dh2_prince_warrior_paladin_purifying_aura",
+    "skill_dh2_prince_warrior_paladin_purifying_aura_persist",
+    "skill_prince_knight_charge",
+    "skill_prince_knight_rage",
+    "skill_prince_knight_shockwave",
+    "skill_prince_knight_slam",
+    "skill_prince_knight_warcry",
+    "skill_prince_knight_whirlwind",
+    "skill_prince_mage_earthmastery",
+    "skill_prince_mage_firemastery",
+    "skill_prince_mage_lightningmastery",
+    "skill_prince_mage_magearmor",
+    "skill_prince_mage_magearmor_cast",
+    "skill_prince_mage_pre_earthmastery",
+    "skill_prince_mage_pre_lightningmastery",
+    "skill_prince_mage_pre_watermastery",
+    "skill_prince_mage_pre_windmastery",
+    "skill_prince_mage_psychic_blast",
+    "skill_prince_mage_summon",
+    "skill_prince_mage_summoned_minion",
+    "skill_prince_mage_watermastery",
+    "skill_prince_mage_windmastery",
+    "skill_prince_rogue_bladefury",
+    "skill_prince_rogue_elementaltrap_earth",
+    "skill_prince_rogue_elementaltrap_fire",
+    "skill_prince_rogue_elementaltrap_lightning",
+    "skill_prince_rogue_elementaltrap_water",
+    "skill_prince_rogue_elementaltrap_wind",
+    "skill_prince_rogue_jumpattack",
+    "skill_prince_rogue_pre_jumpattack",
+    "skill_prince_rogue_sneak",
+    "skill_prince_rogue_twinstrike",
+    "skill_prince_rogue_viciousstrike",
+    "spell_dh2_cauldron_blue",
+    "spell_dh2_cauldron_blue_persist",
+    "spell_dh2_cauldron_green",
+    "spell_dh2_cauldron_green_persist",
+    "spell_dh2_cauldron_red",
+    "spell_dh2_cauldron_red_persist",
+    "spell_dh2_faery_earth",
+    "spell_dh2_faery_fire",
+    "spell_dh2_faery_lightning",
+    "spell_dh2_faery_ressurect",
+    "spell_dh2_faery_teleport",
+    "spell_dh2_faery_water",
+    "spell_dh2_faery_wind",
+    "spell_dh2_hurt_bogwitch",
+    "spell_dh2_hurt_earth",
+    "spell_dh2_hurt_electric",
+    "spell_dh2_hurt_exploding_arrow",
+    "spell_dh2_hurt_fire",
+    "spell_dh2_hurt_lightning",
+    "spell_dh2_hurt_monster_flaminite_dome",
+    "spell_dh2_hurt_monster_flower",
+    "spell_dh2_hurt_monster_madruk01_fast_bolt",
+    "spell_dh2_hurt_monster_madruk_lazer",
+    "spell_dh2_hurt_monster_madruk_lifedrain",
+    "spell_dh2_hurt_monster_spiderpoison",
+    "spell_dh2_hurt_poison",
+    "spell_dh2_hurt_projectile_arrow_magic",
+    "spell_dh2_hurt_regular_arrow",
+    "spell_dh2_hurt_simplified_chain_lightning",
+    "spell_dh2_hurt_steam",
+    "spell_dh2_hurt_water",
+    "spell_dh2_hurt_wind",
+    "spell_dh2_monster_assassin_teleport",
+    "spell_dh2_monster_dark_queen2ndform_faery_summon",
+    "spell_dh2_monster_dragon_fire_rain",
+    "spell_dh2_monster_madrukfinal_lifedrain",
+    "spell_dh2_monster_madrukfinal_lifedrain_persist",
+    "spell_dh2_prince_mage_illusionist_eclipse",
+    "spell_dh2_prince_mage_illusionist_figments",
+    "spell_dh2_prince_mage_illusionist_hypnotic_gaze",
+    "spell_dh2_prince_mage_illusionist_hypnotic_gaze_persist",
+    "spell_dh2_prince_mage_illusionist_terror",
+    "spell_dh2_prince_mage_illusionist_time_control",
+    "spell_dh2_prince_mage_necromancer_fire_skull_rain",
+    "spell_dh2_prince_mage_necromancer_pestilence",
+    "spell_dh2_prince_mage_necromancer_rise",
+    "spell_dh2_prince_mage_stone_escape_magefx",
+    "spell_dh2_prince_rogue_assassin_blindness_persist",
+    "spell_dh2_prince_rogue_quickness",
+    "spell_dh2_prince_warrior_paladin_conversion",
+    "spell_dh2_prince_warrior_paladin_conversion_persist",
+    "spell_dh2_prince_warrior_paladin_divine_judgement",
+    "spell_dh2_prince_warrior_paladin_guarding_aura",
+    "spell_dh2_prince_warrior_paladin_offensive_aura",
+    "spell_dh2_prince_warrior_paladin_purifying_aura",
+    "spell_dh2_splined_projectile",
+    "spell_earth_hurt",
+    "spell_earth_pre_prince_casting",
+    "spell_earth_prince_casting",
+    "spell_fire",
+    "spell_fire_hurt",
+    "spell_fire_prince_casting",
+    "spell_lightning",
+    "spell_lightning_hurt",
+    "spell_lightning_post_prince_casting",
+    "spell_lightning_pre_prince_casting",
+    "spell_lightning_prince_casting",
+    "spell_pre_fire",
+    "spell_pre_lightning",
+    "spell_pre_water",
+    "spell_pre_wind",
+    "spell_projectile_exploding_arrow",
+    "spell_water",
+    "spell_water_hurt",
+    "spell_water_pre_prince_casting",
+    "spell_water_prince_casting",
+    "spell_wind",
+    "spell_wind_hurt",
+    "spell_wind_pre_prince_casting",
+    "spell_wind_prince_casting",
+    "spotlight",
+    "swoosh_prince_1hand_combo_01",
+    "swoosh_prince_1hand_combo_02",
+    "swoosh_prince_1hand_combo_03",
+    "swoosh_prince_2hand_combo_01",
+    "swoosh_prince_2hand_combo_02",
+    "swoosh_prince_dual_combo_01",
+    "swoosh_prince_dual_combo_02",
+    "swoosh_prince_dual_combo_03",
+    "target_circle",
+    "target_cross",
+    "troll_hit",
+    "zombie_spawn_fx"
+  ],
+  "dictionary_paths": [
+    "data/3D/interface/balrog_dying_fx.bdae",
+    "data/3D/interface/balrog_firespit.bdae",
+    "data/3D/interface/balrog_hurt_01_fx.bdae",
+    "data/3D/FX/bloodsplat.bdae",
+    "data/3D/FX/bloodsplat_hero.bdae",
+    "data/3D/interface/boss_target_circle.bdae",
+    "data/3D/interface/cs_darkqueen_scene03c_idle_rene_portal.bdae",
+    "data/3D/interface/cs_darkqueen_scene03c_rene_portal.bdae",
+    "data/3D/interface/cs_darkqueen_scene04_raisebodyA.bdae",
+    "data/3D/interface/cs_darkqueen_scene05_raisebodyB.bdae",
+    "data/3D/interface/cs_darkqueen_scene06_farvue.bdae",
+    "data/3D/interface/cs_darkqueen_scene07_princecoverface.bdae",
+    "data/3D/interface/cs_darkqueen_scene08_daerk_queen_entrance.bdae",
+    "data/3D/interface/cs_darkqueen_scene09_prince_banished_to_underworld.bdae",
+    "data/3D/interface/cs_earth_temple_intro_scene07_priests_start_summon.bdae",
+    "data/3D/interface/cs_earth_temple_intro_scene08a_boss_ports_in.bdae",
+    "data/3D/interface/cs_earth_temple_intro_scene08b_boss_hits_floor.bdae",
+    "data/3D/interface/cs_earth_temple_outro_scene02_03_faery_exits_boss.bdae",
+    "data/3D/interface/cs_earth_temple_outro_scene02_boss_collapses.bdae",
+    "data/3D/interface/cs_finalboss_intro_scene01_souls.bdae",
+    "data/3D/interface/cs_finalboss_intro_scene02_player_port_in.bdae",
+    "data/3D/interface/cs_finalboss_intro_scene03_port_in_fadeout.bdae",
+    "data/3D/interface/cs_finalboss_intro_scene04_big_glow.bdae",
+    "data/3D/interface/cs_finalboss_intro_scene05_big_glow.bdae",
+    "data/3D/interface/cs_finalboss_intro_scene06_ghosts.bdae",
+    "data/3D/interface/cs_finalboss_intro_scene07_rene_port_in.bdae",
+    "data/3D/interface/cs_finalboss_intro_scene07_talk_fightstartfx.bdae",
+    "data/3D/interface/cs_madruk_end_scene01_boss_deathscene.bdae",
+    "data/3D/interface/cs_madruk_end_scene02_princecoverface.bdae",
+    "data/3D/interface/cs_madruk_end_scene03_gawdparticle.bdae",
+    "data/3D/interface/cs_madruk_end_scene05_princedeath.bdae",
+    "data/3D/interface/cs_sk_intro_scene01_running_in.bdae",
+    "data/3D/interface/cs_sk_intro_scene03_dustoffthecieling.bdae",
+    "data/3D/interface/cs_sk_intro_scene04_lizardmansplashes.bdae",
+    "data/3D/interface/cs_sk_intro_scene08_swampkingwave.bdae",
+    "data/3D/interface/cs_sk_intro_scene09_bitelizardmanintwo.bdae",
+    "data/3D/interface/cs_sk_intro_scene10_swampkingrawrr.bdae",
+    "data/3D/interface/cs_sk_outro_scene01_swampkingdeath.bdae",
+    "data/3D/interface/cs_sk_outro_scene02_smokinhead.bdae",
+    "data/3D/interface/cs_sk_outro_scene03_smokinhead.bdae",
+    "data/3D/interface/cs_sk_outro_scene04_smokinhead.bdae",
+    "data/3D/interface/cs_sk_outro_scene05_smokinhead.bdae",
+    "data/3D/interface/cs_sk_outro_scene07_smokinhead.bdae",
+    "data/3D/interface/cs_swamp_intro_01_bloodsplat_prisoner.bdae",
+    "data/3D/interface/cs_swamp_intro_02_bloodsplat_prisoner.bdae",
+    "data/3D/interface/cs_swamp_intro_09_rezeffect.bdae",
+    "data/3D/interface/cs_swamp_intro_13_refletdelumiere.bdae",
+    "data/3D/interface/cs_swamp_intro_14_explodedoor.bdae",
+    "data/3D/interface/cutscene_dh2_witch_intro_scene_01_portal.bdae",
+    "data/3D/interface/dark_queen_demon_death_FX.bdae",
+    "data/3D/interface/dark_queen_demon_spawn_FX.bdae",
+    "data/3D/FX/dust_cloud.bdae",
+    "data/3D/interface/dust_trail.bdae",
+    "data/3D/interface/enemy_summon.bdae",
+    "data/3D/interface/enemy_summoned_minion.bdae",
+    "data/3D/interface/faeries_celeste_faery_dust.bdae",
+    "data/3D/interface/fx_airtemple_teleportshockwave.bdae",
+    "data/3D/FX/fx_humanfootsteps.bdae",
+    "data/3D/FX/fx_lizardmanfootsteps.bdae",
+    "data/3D/interface/fx_rene_to_madruk_shockwave.bdae",
+    "data/3D/interface/fx_swampking_attack_03_poisonspit.bdae",
+    "data/3D/interface/fx_swampking_blue_shockwave.bdae",
+    "data/3D/FX/fx_walk_in_water.bdae",
+    "data/3D/interface/level_up.bdae",
+    "data/3D/interface/loot_orb_fx.bdae",
+    "data/3D/interface/marker_fear.bdae",
+    "data/3D/interface/marker_poisoned.bdae",
+    "data/3D/interface/marker_slow.bdae",
+    "data/3D/interface/marker_stun.bdae",
+    "data/3D/interface/quest_marker.bdae",
+    "data/3D/interface/quest_marker_blue.bdae",
+    "data/3D/interface/quest_marker_merchant.bdae",
+    "data/3D/interface/rock_explosion_big.bdae",
+    "data/3D/interface/skill_dh2_faeries_fx_madruk01_death.bdae",
+    "data/3D/interface/skill_dh2_faery_earth.bdae",
+    "data/3D/interface/skill_dh2_faery_fire.bdae",
+    "data/3D/interface/skill_dh2_faery_lightning.bdae",
+    "data/3D/interface/skill_dh2_faery_water.bdae",
+    "data/3D/interface/skill_dh2_faery_wind.bdae",
+    "data/3D/interface/skill_dh2_monster_dark_queen1stform_attack_melee.bdae",
+    "data/3D/interface/skill_dh2_monster_dark_queen1stform_die.bdae",
+    "data/3D/interface/skill_dh2_monster_dark_queen1stform_projectile.bdae",
+    "data/3D/interface/skill_dh2_monster_dark_queen2ndform_attack.bdae",
+    "data/3D/interface/skill_dh2_monster_dark_queen2ndform_die.bdae",
+    "data/3D/interface/skill_dh2_monster_dark_queen2ndform_projectile.bdae",
+    "data/3D/interface/skill_dh2_monster_dark_queen2ndform_spawn.bdae",
+    "data/3D/interface/skill_dh2_monster_dragon_attack_01.bdae",
+    "data/3D/interface/skill_dh2_monster_dragon_attack_01b.bdae",
+    "data/3D/interface/skill_dh2_monster_dragon_attack_02.bdae",
+    "data/3D/interface/skill_dh2_monster_dragon_attack_03.bdae",
+    "data/3D/interface/skill_dh2_monster_dragon_intimidate.bdae",
+    "data/3D/interface/skill_dh2_monster_dragon_intimidate_01.bdae",
+    "data/3D/interface/skill_dh2_monster_dragon_intimidate_01b.bdae",
+    "data/3D/interface/skill_dh2_monster_dragon_intimidate_02.bdae",
+    "data/3D/interface/skill_dh2_monster_dragon_intimidate_03.bdae",
+    "data/3D/interface/skill_dh2_monster_edward_despawn.bdae",
+    "data/3D/interface/skill_dh2_monster_faeries_fogdot.bdae",
+    "data/3D/interface/skill_dh2_monster_fx_renepowerup.bdae",
+    "data/3D/interface/skill_dh2_monster_lighthouse_melee.bdae",
+    "data/3D/interface/skill_dh2_monster_lighthouse_portal_persist.bdae",
+    "data/3D/interface/skill_dh2_monster_lighthouse_special_effect.bdae",
+    "data/3D/interface/skill_dh2_monster_madruk01_energyspikes.bdae",
+    "data/3D/interface/skill_dh2_monster_madruk01_green_faery_cast.bdae",
+    "data/3D/interface/skill_dh2_monster_madruk01_heal.bdae",
+    "data/3D/interface/skill_dh2_monster_madruk01_orange_faery_cast.bdae",
+    "data/3D/interface/skill_dh2_monster_madruk01_shield.bdae",
+    "data/3D/interface/skill_dh2_monster_madruk01_shockwave.bdae",
+    "data/3D/interface/skill_dh2_monster_madrukfinal_attack_melee_01.bdae",
+    "data/3D/interface/skill_dh2_monster_madrukfinal_laser_charging.bdae",
+    "data/3D/interface/skill_dh2_monster_madrukfinal_laser_idle.bdae",
+    "data/3D/interface/skill_dh2_monster_madrukfinal_laser_start.bdae",
+    "data/3D/interface/skill_dh2_monster_madrukfinal_lifedrain.bdae",
+    "data/3D/interface/skill_dh2_monster_madrukfinal_lifedrain_persist.bdae",
+    "data/3D/interface/skill_dh2_monster_root_troll_charge.bdae",
+    "data/3D/interface/skill_dh2_monster_root_troll_dome_idle.bdae",
+    "data/3D/interface/skill_dh2_monster_root_troll_dome_warning.bdae",
+    "data/3D/interface/skill_dh2_monster_root_troll_dying.bdae",
+    "data/3D/interface/skill_dh2_monster_root_troll_flaminite_firespit.bdae",
+    "data/3D/interface/skill_dh2_monster_root_troll_hulksmash.bdae",
+    "data/3D/interface/skill_dh2_monster_root_troll_idle_to_dome.bdae",
+    "data/3D/interface/skill_dh2_monster_sand_worm_shockwave.bdae",
+    "data/3D/interface/skill_dh2_monster_spawn.bdae",
+    "data/3D/interface/skill_dh2_prince_mage_cold_ray.bdae",
+    "data/3D/interface/skill_dh2_prince_mage_cyclone.bdae",
+    "data/3D/interface/skill_dh2_prince_mage_illusionist_eclipse.bdae",
+    "data/3D/interface/skill_dh2_prince_mage_illusionist_eclipse_persist.bdae",
+    "data/3D/interface/skill_dh2_prince_mage_illusionist_figments.bdae",
+    "data/3D/interface/skill_dh2_prince_mage_illusionist_terror.bdae",
+    "data/3D/interface/skill_dh2_prince_mage_illusionist_time_control.bdae",
+    "data/3D/interface/skill_dh2_prince_mage_necromancer_death_claw.bdae",
+    "data/3D/interface/skill_dh2_prince_mage_necromancer_fire_skull_rain.bdae",
+    "data/3D/interface/skill_dh2_prince_mage_necromancer_pestilence.bdae",
+    "data/3D/interface/skill_dh2_prince_mage_necromancer_rise.bdae",
+    "data/3D/interface/skill_dh2_prince_mage_stone_escape_death.bdae",
+    "data/3D/interface/skill_dh2_prince_mage_stone_escape_idle.bdae",
+    "data/3D/interface/skill_dh2_prince_rogue_assassin_assassination.bdae",
+    "data/3D/interface/skill_dh2_prince_rogue_assassin_blindness.bdae",
+    "data/3D/interface/skill_dh2_prince_rogue_assassin_poison_sting.bdae",
+    "data/3D/interface/skill_dh2_prince_rogue_assassin_poison_sting_persist.bdae",
+    "data/3D/interface/skill_dh2_prince_rogue_jump_kick.bdae",
+    "data/3D/interface/skill_dh2_prince_rogue_quickness.bdae",
+    "data/3D/interface/skill_dh2_prince_rogue_roundhouse.bdae",
+    "data/3D/interface/skill_dh2_prince_rogue_vicious_strike.bdae",
+    "data/3D/interface/skill_dh2_prince_warrior_bash_down.bdae",
+    "data/3D/interface/skill_dh2_prince_warrior_berseker_berserk.bdae",
+    "data/3D/interface/skill_dh2_prince_warrior_berseker_crushing_blow.bdae",
+    "data/3D/interface/skill_dh2_prince_warrior_berseker_frenzy.bdae",
+    "data/3D/interface/skill_dh2_prince_warrior_berseker_intimidate.bdae",
+    "data/3D/interface/skill_dh2_prince_warrior_berseker_killing_streak.bdae",
+    "data/3D/interface/skill_dh2_prince_warrior_berseker_survival.bdae",
+    "data/3D/interface/skill_dh2_prince_warrior_berseker_whirlwind.bdae",
+    "data/3D/interface/skill_dh2_prince_warrior_charge.bdae",
+    "data/3D/interface/skill_dh2_prince_warrior_ground_slam.bdae",
+    "data/3D/interface/skill_dh2_prince_warrior_paladin_divine_judgement.bdae",
+    "data/3D/interface/skill_dh2_prince_warrior_paladin_guarding_aura.bdae",
+    "data/3D/interface/skill_dh2_prince_warrior_paladin_guarding_aura_persist.bdae",
+    "data/3D/interface/skill_dh2_prince_warrior_paladin_offensive_aura.bdae",
+    "data/3D/interface/skill_dh2_prince_warrior_paladin_offensive_aura_persist.bdae",
+    "data/3D/interface/skill_dh2_prince_warrior_paladin_purifying_aura.bdae",
+    "data/3D/interface/skill_dh2_prince_warrior_paladin_purifying_aura_persist.bdae",
+    "data/3D/interface/skill_prince_knight_charge.bdae",
+    "data/3D/interface/skill_prince_knight_rage.bdae",
+    "data/3D/interface/skill_prince_knight_shockwave.bdae",
+    "data/3D/interface/skill_prince_knight_slam.bdae",
+    "data/3D/interface/skill_prince_knight_warcry.bdae",
+    "data/3D/interface/skill_prince_knight_whirlwind.bdae",
+    "data/3D/interface/skill_prince_mage_earthmastery.bdae",
+    "data/3D/interface/skill_prince_mage_firemastery.bdae",
+    "data/3D/interface/skill_prince_mage_lightningmastery.bdae",
+    "data/3D/interface/skill_prince_mage_magearmor.bdae",
+    "data/3D/interface/skill_prince_mage_magearmor_cast.bdae",
+    "data/3D/interface/skill_prince_mage_pre_earthmastery.bdae",
+    "data/3D/interface/skill_prince_mage_pre_lightningmastery.bdae",
+    "data/3D/interface/skill_prince_mage_pre_watermastery.bdae",
+    "data/3D/interface/skill_prince_mage_pre_windmastery.bdae",
+    "data/3D/interface/skill_prince_mage_psychic_blast.bdae",
+    "data/3D/interface/skill_prince_mage_summon.bdae",
+    "data/3D/interface/skill_prince_mage_summoned_minion.bdae",
+    "data/3D/interface/skill_prince_mage_watermastery.bdae",
+    "data/3D/interface/skill_prince_mage_windmastery.bdae",
+    "data/3D/interface/skill_prince_rogue_bladefury.bdae",
+    "data/3D/interface/skill_prince_rogue_elementaltrap_earth.bdae",
+    "data/3D/interface/skill_prince_rogue_elementaltrap_fire.bdae",
+    "data/3D/interface/skill_prince_rogue_elementaltrap_lightning.bdae",
+    "data/3D/interface/skill_prince_rogue_elementaltrap_water.bdae",
+    "data/3D/interface/skill_prince_rogue_elementaltrap_wind.bdae",
+    "data/3D/interface/skill_prince_rogue_jumpattack.bdae",
+    "data/3D/interface/skill_prince_rogue_pre_jumpattack.bdae",
+    "data/3D/interface/skill_prince_rogue_sneak.bdae",
+    "data/3D/interface/skill_prince_rogue_twinstrike.bdae",
+    "data/3D/interface/skill_prince_rogue_viciousstrike.bdae",
+    "data/3D/interface/spell_dh2_cauldron_blue.bdae",
+    "data/3D/interface/spell_dh2_cauldron_blue_persist.bdae",
+    "data/3D/interface/spell_dh2_cauldron_green.bdae",
+    "data/3D/interface/spell_dh2_cauldron_green_persist.bdae",
+    "data/3D/interface/spell_dh2_cauldron_red.bdae",
+    "data/3D/interface/spell_dh2_cauldron_red_persist.bdae",
+    "data/3D/interface/spell_dh2_faery_earth.bdae",
+    "data/3D/interface/spell_dh2_faery_fire.bdae",
+    "data/3D/interface/spell_dh2_faery_lightning.bdae",
+    "data/3D/interface/spell_dh2_faery_ressurect.bdae",
+    "data/3D/interface/spell_dh2_faery_teleport.bdae",
+    "data/3D/interface/spell_dh2_faery_water.bdae",
+    "data/3D/interface/spell_dh2_faery_wind.bdae",
+    "data/3D/interface/spell_dh2_hurt_bogwitch.bdae",
+    "data/3D/interface/spell_dh2_hurt_earth.bdae",
+    "data/3D/interface/spell_dh2_hurt_electric.bdae",
+    "data/3D/interface/spell_dh2_hurt_exploding_arrow.bdae",
+    "data/3D/interface/spell_dh2_hurt_fire.bdae",
+    "data/3D/interface/spell_dh2_hurt_lightning.bdae",
+    "data/3D/interface/spell_dh2_hurt_monster_flaminite_dome.bdae",
+    "data/3D/interface/spell_dh2_hurt_monster_flower.bdae",
+    "data/3D/interface/spell_dh2_hurt_monster_madruk01_fast_bolt.bdae",
+    "data/3D/interface/spell_dh2_hurt_monster_madruk_lazer.bdae",
+    "data/3D/interface/spell_dh2_hurt_monster_madruk_lifedrain.bdae",
+    "data/3D/interface/spell_dh2_hurt_monster_spiderpoison.bdae",
+    "data/3D/interface/spell_dh2_hurt_poison.bdae",
+    "data/3D/interface/spell_dh2_hurt_projectile_arrow_magic.bdae",
+    "data/3D/interface/spell_dh2_hurt_regular_arrow.bdae",
+    "data/3D/interface/spell_dh2_hurt_simplified_chain_lightning.bdae",
+    "data/3D/interface/spell_dh2_hurt_steam.bdae",
+    "data/3D/interface/spell_dh2_hurt_water.bdae",
+    "data/3D/interface/spell_dh2_hurt_wind.bdae",
+    "data/3D/interface/spell_dh2_monster_assassin_teleport.bdae",
+    "data/3D/interface/spell_dh2_monster_dark_queen2ndform_faery_summon.bdae",
+    "data/3D/interface/spell_dh2_monster_dragon_fire_rain.bdae",
+    "data/3D/interface/spell_dh2_monster_madrukfinal_lifedrain.bdae",
+    "data/3D/interface/spell_dh2_monster_madrukfinal_lifedrain_persist.bdae",
+    "data/3D/interface/spell_dh2_prince_mage_illusionist_eclipse.bdae",
+    "data/3D/interface/spell_dh2_prince_mage_illusionist_figments.bdae",
+    "data/3D/interface/spell_dh2_prince_mage_illusionist_hypnotic_gaze.bdae",
+    "data/3D/interface/spell_dh2_prince_mage_illusionist_hypnotic_gaze_persist.bdae",
+    "data/3D/interface/spell_dh2_prince_mage_illusionist_terror.bdae",
+    "data/3D/interface/spell_dh2_prince_mage_illusionist_time_control.bdae",
+    "data/3D/interface/spell_dh2_prince_mage_necromancer_fire_skull_rain.bdae",
+    "data/3D/interface/spell_dh2_prince_mage_necromancer_pestilence.bdae",
+    "data/3D/interface/spell_dh2_prince_mage_necromancer_rise.bdae",
+    "data/3D/interface/spell_dh2_prince_mage_stone_escape_magefx.bdae",
+    "data/3D/interface/spell_dh2_prince_rogue_assassin_blindness_persist.bdae",
+    "data/3D/interface/spell_dh2_prince_rogue_quickness.bdae",
+    "data/3D/interface/spell_dh2_prince_warrior_paladin_conversion.bdae",
+    "data/3D/interface/spell_dh2_prince_warrior_paladin_conversion_persist.bdae",
+    "data/3D/interface/spell_dh2_prince_warrior_paladin_divine_judgement.bdae",
+    "data/3D/interface/spell_dh2_prince_warrior_paladin_guarding_aura.bdae",
+    "data/3D/interface/spell_dh2_prince_warrior_paladin_offensive_aura.bdae",
+    "data/3D/interface/spell_dh2_prince_warrior_paladin_purifying_aura.bdae",
+    "data/3D/interface/spell_dh2_splined_projectile.bdae",
+    "data/3D/interface/spell_earth_hurt.bdae",
+    "data/3D/interface/spell_earth_pre_prince_casting.bdae",
+    "data/3D/interface/spell_earth_prince_casting.bdae",
+    "data/3D/interface/spell_fire.bdae",
+    "data/3D/interface/spell_fire_hurt.bdae",
+    "data/3D/interface/spell_fire_prince_casting.bdae",
+    "data/3D/interface/spell_lightning.bdae",
+    "data/3D/interface/spell_lightning_hurt.bdae",
+    "data/3D/interface/spell_lightning_post_prince_casting.bdae",
+    "data/3D/interface/spell_lightning_pre_prince_casting.bdae",
+    "data/3D/interface/spell_lightning_prince_casting.bdae",
+    "data/3D/interface/spell_pre_fire.bdae",
+    "data/3D/interface/spell_pre_lightning.bdae",
+    "data/3D/interface/spell_pre_water.bdae",
+    "data/3D/interface/spell_pre_wind.bdae",
+    "data/3D/interface/spell_projectile_exploding_arrow.bdae",
+    "data/3D/interface/spell_water.bdae",
+    "data/3D/interface/spell_water_hurt.bdae",
+    "data/3D/interface/spell_water_pre_prince_casting.bdae",
+    "data/3D/interface/spell_water_prince_casting.bdae",
+    "data/3D/interface/spell_wind.bdae",
+    "data/3D/interface/spell_wind_hurt.bdae",
+    "data/3D/interface/spell_wind_pre_prince_casting.bdae",
+    "data/3D/interface/spell_wind_prince_casting.bdae",
+    "data/3D/interface/spotlight.bdae",
+    "data/3D/interface/swoosh_prince_1hand_combo_01.bdae",
+    "data/3D/interface/swoosh_prince_1hand_combo_02.bdae",
+    "data/3D/interface/swoosh_prince_1hand_combo_03.bdae",
+    "data/3D/interface/swoosh_prince_2hand_combo_01.bdae",
+    "data/3D/interface/swoosh_prince_2hand_combo_02.bdae",
+    "data/3D/interface/swoosh_prince_dual_combo_01.bdae",
+    "data/3D/interface/swoosh_prince_dual_combo_02.bdae",
+    "data/3D/interface/swoosh_prince_dual_combo_03.bdae",
+    "data/3D/interface/target_circle.bdae",
+    "data/3D/interface/target_cross.bdae",
+    "data/3D/interface/troll_hit.bdae",
+    "data/3D/interface/zombie_spawn_fx.bdae"
+  ],
+  "sets": [
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": -1,
+      "steps": [
+        {
+          "file": -1,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 0,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 222,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 66,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 208,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 221,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 209,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 205,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 222,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 117,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 282,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 1,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 0,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 2,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 1,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 199,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 0,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 1,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 76,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1073322394,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 79,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 81,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 80,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 0,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 82,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 0,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 84,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 83,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 0,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 85,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 0,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 86,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 87,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 88,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 89,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 90,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 91,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 92,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 93,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 94,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 52,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 0,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 52,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 0,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 96,
+          "force_cancel": 0,
+          "loop": -1,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 119,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 115,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 114,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 121,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 1,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 1,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 75,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 1,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 198,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 99,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 73,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 224,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 212,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 59,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 101,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 206,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 107,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 108,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 213,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 109,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 110,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 214,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 102,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 103,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 104,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 105,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 97,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 1,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 74,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 1,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 197,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 113,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 116,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 118,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1070386381,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 282,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 98,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 100,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 111,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 112,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 226,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 227,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 220,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 0,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 1,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 202,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 1,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 77,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 225,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 1,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 203,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 1,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 78,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 204,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 0,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 283,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 1,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 177,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 3,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 4,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 6,
+          "force_cancel": 0,
+          "loop": -1,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 7,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 8,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 9,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 10,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 11,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 12,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 14,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 15,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 16,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 17,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 18,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 19,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 20,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 21,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 22,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 23,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 24,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 25,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 26,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 27,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 28,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 29,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 30,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 31,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 32,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 33,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 34,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 35,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 36,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 37,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 39,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 40,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 41,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 42,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 43,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 44,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 45,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 46,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 47,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 48,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 0,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 49,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 50,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 208,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 221,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 209,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 205,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 222,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 53,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 54,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 55,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 56,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 60,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 61,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 63,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 64,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 69,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 70,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 71,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 72,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 0,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 120,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 135,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1066192077,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 136,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1066192077,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 137,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1066192077,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 138,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1066192077,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 95,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 126,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 127,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 128,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 122,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067030938,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 123,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 124,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 125,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 133,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 134,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 129,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 130,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 131,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 132,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 139,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1066192077,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 140,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1066192077,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 141,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1066192077,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 142,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1066192077,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 143,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 144,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 145,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 143,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 147,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 148,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 149,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 150,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 151,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 152,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 153,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 154,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 155,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 156,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 157,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 158,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 159,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 160,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 161,
+          "force_cancel": 1,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 162,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 0,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 163,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 164,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 165,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 166,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 0,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 167,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 0,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 168,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 0,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 169,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 170,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 171,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 0,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 172,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 0,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 173,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 0,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 174,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 0,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 175,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1073322394,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 176,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 177,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 178,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 0,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 179,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 0,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 180,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 182,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 184,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 183,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 181,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 185,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 186,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 187,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 188,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 189,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 190,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 238,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1066192077,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 191,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 192,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 193,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 194,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 195,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 196,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 200,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 201,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 218,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 219,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 223,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 229,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 232,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 233,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 228,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 231,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 237,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 234,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 235,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 236,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 207,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1066192077,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 239,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1066192077,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 241,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 242,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 243,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 244,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 245,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 205,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 208,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 211,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 209,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 216,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 215,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 221,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 222,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 271,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 0,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 65,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 66,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 67,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 68,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 272,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 273,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 274,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 275,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 276,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 277,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 278,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 279,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1067869798,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 280,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 1,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 280,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 1,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 281,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 1,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 69,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 1,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": -1,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 1,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": -1,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 1,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": -1,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 1,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": -1,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 1,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": -1,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 1,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 280,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 1,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": -1,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 1,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 281,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 281,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 65,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 0,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    },
+    {
+      "force_cache": 0,
+      "loop": 0,
+      "type": 0,
+      "steps": [
+        {
+          "file": 62,
+          "force_cancel": 0,
+          "loop": 0,
+          "orient_once": 0,
+          "orient_with_anchor": 1,
+          "play_time": -1,
+          "pool_size": 0,
+          "redir": 0,
+          "scale_with_anchor": 1,
+          "self_illum": 1,
+          "speed_bits": 1065353216,
+          "subobject": ""
+        }
+      ]
+    }
+  ],
+  "character_rows": [
+    {
+      "blood_death": -1,
+      "blood": 80,
+      "footprint": -1,
+      "swoosh": -1,
+      "trigger_floor_fx": 1
+    },
+    {
+      "blood_death": -1,
+      "blood": 79,
+      "footprint": -1,
+      "swoosh": -1,
+      "trigger_floor_fx": 0
+    },
+    {
+      "blood_death": -1,
+      "blood": -1,
+      "footprint": -1,
+      "swoosh": -1,
+      "trigger_floor_fx": 0
+    }
+  ],
+  "footstep_rows": [
+    {
+      "effect": -1,
+      "floor_type": "",
+      "run_sounds": [
+        258
+      ],
+      "walk_sounds": [
+        258
+      ]
+    },
+    {
+      "effect": -1,
+      "floor_type": "grass",
+      "run_sounds": [
+        256
+      ],
+      "walk_sounds": [
+        256
+      ]
+    },
+    {
+      "effect": -1,
+      "floor_type": "metal",
+      "run_sounds": [
+        257
+      ],
+      "walk_sounds": [
+        257
+      ]
+    },
+    {
+      "effect": -1,
+      "floor_type": "sand",
+      "run_sounds": [
+        256
+      ],
+      "walk_sounds": [
+        256
+      ]
+    },
+    {
+      "effect": 275,
+      "floor_type": "water",
+      "run_sounds": [
+        259
+      ],
+      "walk_sounds": [
+        259
+      ]
+    },
+    {
+      "effect": -1,
+      "floor_type": "wet",
+      "run_sounds": [
+        260
+      ],
+      "walk_sounds": [
+        260
+      ]
+    },
+    {
+      "effect": -1,
+      "floor_type": "wood",
+      "run_sounds": [
+        261
+      ],
+      "walk_sounds": [
+        261
+      ]
+    }
+  ],
+  "consumed": {
+    "sets": 12700,
+    "characters": 12755,
+    "footsteps": 12953,
+    "dictionary": 16770
+  },
+  "reader_calls": {
+    "0x4ed73c": 276,
+    "0x506990": 276,
+    "0x4ed5a8": 3,
+    "0x506660": 7
+  },
+  "executed_struct_readers": {
+    "_ZN7Structs9AnimFXTpl4readEP11IStreamBase": 276,
+    "_ZN7Structs6AnimFX4readEP11IStreamBase": 276,
+    "_ZN7Structs10CharEffect4readEP11IStreamBase": 3,
+    "_ZN7Structs14FootstepEffect4readEP11IStreamBase": 7,
+    "_ZN7Structs11ColladaFile4readEP11IStreamBase": 284
+  },
+  "script_sha256": "0883099c774efaed274a65f5ce41b0ff65f708feec36db648bd18a2bc1504e0b",
+  "manifest_sha256": "66237ef2db1f478135d0958b52547314640df39fe6622572a4e8990e075badd6",
+  "assembly_sha256": "448582b3d5379ef1018217254fb41736fcf6c971ff0d2d60523d1a25c2bcff68",
+  "scope": "Capture and execute the original effects cache readers with raw-stream fixtures.\n\nAllocation and little-endian stream services are explicit host fixtures. Original\ntable/row instructions execute; this does not establish FX factory or playback.\n",
+  "canonical_projection_sha256": "677cdf71dedf72d95cb4398cab55cb8b5d82a5c76ecd97fc543c7480b274cacb"
+}

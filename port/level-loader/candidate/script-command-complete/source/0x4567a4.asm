@@ -1,0 +1,17 @@
+004567a4 10402de9 push {r4, lr}
+004567a8 0010a0e3 mov r1, #0
+004567ac 1000a0e3 mov r0, #0x10
+004567b0 6ee7faeb bl #0x310570
+004567b4 24409fe5 ldr r4, [pc, #0x24]
+004567b8 24109fe5 ldr r1, [pc, #0x24]
+004567bc 0020a0e3 mov r2, #0
+004567c0 04408fe0 add r4, pc, r4
+004567c4 011094e7 ldr r1, [r4, r1]
+004567c8 0c2080e5 str r2, [r0, #0xc]
+004567cc 042080e5 str r2, [r0, #4]
+004567d0 081081e2 add r1, r1, #8
+004567d4 001080e5 str r1, [r0]
+004567d8 082080e5 str r2, [r0, #8]
+004567dc 1080bde8 pop {r4, pc}
+004567e0 d0e25300 ldrsbeq lr, [r3], #-0x20
+004567e4 902b0000 muleq r0, r0, fp

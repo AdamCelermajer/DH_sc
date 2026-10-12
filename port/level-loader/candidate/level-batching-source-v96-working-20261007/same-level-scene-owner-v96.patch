@@ -1,0 +1,36 @@
+--- a/port/level-loader/canonical_level_context_v1.hpp
++++ b/port/level-loader/canonical_level_context_v1.hpp
+@@ -7,2 +7,3 @@
+ namespace dh2::loader {
++class BatchNodeCompilerSourceV96;
+ // One retained game-Level receiver, distinct from LevelConfig and Module.
+@@ -28,2 +29,4 @@
+     std::uint8_t assigned_source_operation_v65_{}; // native sequential-call guard
++    //SAME source Level158 compiler ownership. Never pins containing Level/World.
++    std::shared_ptr<BatchNodeCompilerSourceV96> batch_compiler158_v96_;
+     CanonicalLevelContextV1(LevelSourceRequestV1,std::shared_ptr<void>);
+@@ -68,2 +71,3 @@
+     std::uint8_t& assigned_source_operation_slot_v65()noexcept{return assigned_source_operation_v65_;}
++    std::shared_ptr<BatchNodeCompilerSourceV96>& batch_compiler_owner_slot_v96()noexcept{return batch_compiler158_v96_;}
+     bool construct_source_v3(LevelConstructorArgumentsV3,LevelConstructorServicesV3,std::string&);
+--- a/port/level-world/scene_manager_frame_fields_v67.hpp
++++ b/port/level-world/scene_manager_frame_fields_v67.hpp
+@@ -28,2 +28,6 @@
+  std::uint8_t lighting430{},specular431{},fog432{};
++ //SAME Scene43c; actual state24 writes1 before native compile and0 only after.
++ //No initial allocation value is advertised as a proven native C1 producer.
++ std::uint8_t batching43c_v96{};
++ bool native_batching43c_produced_v96{};
+  std::array<float,3> fog_transform458{0,0,1};
+--- a/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.hpp
++++ b/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.hpp
+@@ -32,2 +32,3 @@
+ namespace dh2::loader {class GameEventRuntimeV75;}
++namespace dh2::loader {struct BatchNativeServicesV96;}
+ namespace dh2::loader {struct Stage33RestoreServicesV1;struct Stage34ServicesV1;}
+@@ -105,2 +106,5 @@
+  std::shared_ptr<dh2::loader::SourceReleaseJournalV69> noncharacter_release_journal_v89;
++ //Genuine native node/mesh/Scene compile resource leaves; weak containingWorld.
++ //Absence remains absence. Source stages retain their reached failure prefix.
++ std::function<bool(const SourceCampaignCandidateBorrowV55&,dh2::loader::BatchNativeServicesV96&,std::string&)> batching_native_v96;
+  std::function<bool(dh2::world::CanonicalZonePhysicalServicesV82&,std::string&)> physical_services_v90;

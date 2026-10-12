@@ -1,0 +1,10 @@
+diff --git "a/C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\baselines\\canonical_preview_entity_export_v30.cpp" "b/C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\canonical_preview_entity_export_v30_admission_v64.cpp"
+index eec6092..1c9c7a4 100644
+--- "a/C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\baselines\\canonical_preview_entity_export_v30.cpp"
++++ "b/C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\canonical_preview_entity_export_v30_admission_v64.cpp"
+@@ -1,4 +1,4 @@
+ #include "character_template_assets_v35.hpp"
+ #include "character_scene.hpp"
+ #define DH2_PREVIEW_ENTITY_EXPORT_V30
+-#include "canonical_module_graph_source_probe.cpp"
++#include "canonical_module_graph_source_probe_admission_v64.cpp"

@@ -1,0 +1,15 @@
+{
+  "validation": "PASS",
+  "comparisons": 1562,
+  "ordered_services": 13721,
+  "explicit_zero_runtime_cases": 313,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "928d6ebca3a725eb25189b5178fbb072cbd24afd39aa044e1044da85e0a66432",
+  "gold_sha256": "c086a746656271a8d17d9008be355e37314e26b2bade4cbcf302e8c1711c737e",
+  "source_sha256": {
+    "hud_player_values.hpp": "3a7c2e5ad740135c6836a4aece4bac2f1f0df20ca29a3f2cedb64f1482798fd6",
+    "hud_player_values.cpp": "93c72ba1150b5b9ab37f178fd59bdf63bd5ab1fd3b4d6d1dd3af74e51bc1a26e"
+  },
+  "scope": "Original FastUpdate status instruction region and full RenderFX GotoFrame\nversus O2 ARM64. Cached clip services, sprite virtual operations and the imported\ninteger division runtime are explicit caller projections. Sprite timeline tags,\nActionScript scheduling, potion/skill prefix/tail and full manager are outside.\nZero-divisor cases compare an explicit runtime result, not a recovered handler.\n"
+}

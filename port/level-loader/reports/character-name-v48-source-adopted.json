@@ -1,0 +1,17 @@
+{
+  "status": "source adopted; native proof pending",
+  "prior_predicate_semantic_claim": "retracted: V41/V42 used archetype48 instead of original NAME30; old frozen receipts retained as historical",
+  "before": {
+    "port\\level-world\\retained_character_actor_v1.cpp": "fdc2e83bc8610e174d4131f793288082e5f6ebeb53d66e8acd08ab6e1fae140a",
+    "port\\level-world\\character_is_player_v41.hpp": "7b680c57314b04ba26f86a80946d012015f93eed5d38fff9027e1a50681074d9",
+    "port\\level-world\\character_is_player_v41.cpp": "3968a3d59a254344dece961d418927160d23fdbe1bb82818f83274a2f3a95e43"
+  },
+  "after": {
+    "port\\level-world\\retained_character_actor_v1.cpp": "c383a6f77b9f6527ea396ca2b9beb0831b479349d8a775df2a84452d1c94c586",
+    "port\\level-world\\character_is_player_v41.hpp": "28fe79e681193d6cfbdd9f3845839ebee35acd5566d1e15800a7fe836446ca5c",
+    "port\\level-world\\character_is_player_v41.cpp": "7f329d367d4410d0381ba64557cbf4bc8d5397f976f95891621daf8d88241bc7"
+  },
+  "manifest_files": 749,
+  "shared_writes": false,
+  "seven_other_storage_fields_added": false
+}

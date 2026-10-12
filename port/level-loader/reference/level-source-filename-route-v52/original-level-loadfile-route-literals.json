@@ -1,0 +1,59 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "addresses": {
+    "initial_tag": "0x8c67b8",
+    "local_prefix_constructor": "0x8cb810",
+    "array_outer": "0x956a44",
+    "array_remove": "0x956a54",
+    "compiled_final_prefix": "0x8c67c0",
+    "uncompiled_final_prefix": "0x8c67c0",
+    "empty_reset": "0x8cb810",
+    "replace_input": "0x8cb810"
+  },
+  "literals": {
+    "initial_tag": "Level",
+    "local_prefix_constructor": "",
+    "compiled_final_prefix": "\n\t",
+    "uncompiled_final_prefix": "\n\t",
+    "empty_reset": "",
+    "replace_input": ""
+  },
+  "arrays": {
+    "array_outer": [
+      {
+        "pointer": "0x8cb810",
+        "string": ""
+      },
+      {
+        "pointer": "0x8c6bd8",
+        "string": "data/"
+      },
+      {
+        "pointer": "0x8c6be0",
+        "string": "data/scene/"
+      },
+      {
+        "pointer": "0x8bf978",
+        "string": "data/3d/modules/"
+      }
+    ],
+    "array_remove": [
+      {
+        "pointer": "0x8c6bb8",
+        "string": "old/"
+      },
+      {
+        "pointer": "0x8c6bc0",
+        "string": "debug/"
+      },
+      {
+        "pointer": "0x8c6bc8",
+        "string": "ps3/"
+      },
+      {
+        "pointer": "0x8c6bd0",
+        "string": "iphone/"
+      }
+    ]
+  }
+}

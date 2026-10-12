@@ -1,0 +1,10 @@
+{
+  "validation": "PASS",
+  "archive": "external-script-source-gates-v52-89147af28ec1c7ef.zip",
+  "sha256": "a4cae7fe4302d6850e15bf10a13fe14b35d126b4c0659b5123f8d524864b69e9",
+  "payload_members": 9,
+  "readback_verified": true,
+  "main_baseline_sha256": "26d841bd481c4ce3c594af7da2f0358d5c5df3c371fddce1f5da3e1967eff337",
+  "shared_mutated": false,
+  "whole_chest_InitPost_verified": false
+}

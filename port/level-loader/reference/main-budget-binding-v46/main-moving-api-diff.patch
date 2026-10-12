@@ -1,0 +1,126 @@
+--- port/android-native/app/src/main/cpp/native_resource_budget_v38.hpp captured
++++ port/android-native/app/src/main/cpp/native_resource_budget_v38.hpp current
+@@ -11,3 +11,5 @@
+ void context_lost_v38()noexcept;
+ void release_v38(resources::ResourceTokenV37&);
++// Explicit diagnostics only; never sampled on the rendering hot path.
++std::string budget_report_v46();
+ }
+
+--- port/android-native/app/src/main/cpp/native_resource_budget_v38.cpp captured
++++ port/android-native/app/src/main/cpp/native_resource_budget_v38.cpp current
+@@ -1,4 +1,5 @@
+ #include "native_resource_budget_v38.hpp"
+ #include <stdexcept>
++#include <sstream>
+ namespace dh2::android_resources {
+ std::shared_ptr<resources::ContextResourceBudgetV37> budget_lease_v39(){
+@@ -17,3 +18,19 @@
+ void context_lost_v38()noexcept{budget_v38().context_lost();}
+ void release_v38(resources::ResourceTokenV37& token){if(!token)return;std::string error;if(!budget_v38().release(token,error))throw std::runtime_error("Native resource release: "+error);}
++std::string budget_report_v46(){
++ const auto ledger=budget_lease_v39();const auto s=ledger->snapshot();const auto& limits=ledger->limits();
++ std::ostringstream out;out<<"{\"admitted_storage_only\":true,\"driver_residency_measured\":false,\"generation\":"<<s.context_generation
++  <<",\"limits\":{\"gpu\":"<<limits.gpu_bytes<<",\"textures\":"<<limits.texture_gpu_bytes<<",\"cpu\":"<<limits.cpu_bytes<<"}";
++ const auto usage=[&out](const resources::ResourceUsageV37& u){
++  out<<"{\"gpu\":"<<u.gpu_bytes<<",\"cpu\":"<<u.cpu_bytes<<",\"textures\":"<<u.texture_gpu_bytes<<",\"fx_buffers\":"<<u.fx_buffer_gpu_bytes;
++  out<<",\"objects\":[";for(std::size_t i=0;i<u.objects.size();++i){if(i)out<<',';out<<u.objects[i];}
++  out<<"],\"unknown_gpu_storage_objects\":[";
++  for(std::size_t i=0;i<u.unknown_gpu_storage_objects.size();++i){if(i)out<<',';out<<u.unknown_gpu_storage_objects[i];}
++  out<<"]}";
++ };
++ out<<",\"live\":";usage(s.live);out<<",\"pending\":";usage(s.pending);out<<",\"peak\":";usage(s.peak);
++ out<<",\"records\":"<<s.occupied_records<<",\"rejections\":"<<s.rejections<<",\"scopes\":[";
++ for(std::size_t i=0;i<s.live_by_scope.size();++i){if(i)out<<',';out<<"{\"scope\":"<<i<<",\"live\":";usage(s.live_by_scope[i]);out<<",\"peak\":";usage(s.peak_by_scope[i]);out<<'}';}
++ out<<"]}";return out.str();
+ }
++}
+
+--- port/android-native/app/src/main/cpp/native_app.cpp captured
++++ port/android-native/app/src/main/cpp/native_app.cpp current
+@@ -293,4 +293,8 @@
+  return authored_character_menu&&authored_character_menu->opened?JNI_TRUE:JNI_FALSE;
+ }
++extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_resourceBudgetReport(JNIEnv* env,jclass){
++ try{return result(env,dh2::android_resources::budget_report_v46());}
++ catch(const std::exception& failure){__android_log_print(ANDROID_LOG_ERROR,tag,"Resource report failed: %s",failure.what());return nullptr;}
++}
+ extern "C" JNIEXPORT jboolean JNICALL Java_com_example_dh2_NativeBridge_authoredCharacterMenuBack(JNIEnv*,jclass){
+  if(!authored_character_menu||!authored_character_menu->opened)return JNI_FALSE;
+
+--- port/engine-resources/resource_budget_v37.hpp captured
++++ port/engine-resources/resource_budget_v37.hpp current
+@@ -9,5 +9,5 @@
+ namespace dh2::resources {
+ inline constexpr std::uint64_t mib_v37=1024ull*1024ull;
+-enum class ResourceKindV37 : std::uint8_t {texture,vertex_buffer,index_buffer,program,framebuffer,renderbuffer,cpu_request,count};
++enum class ResourceKindV37 : std::uint8_t {texture,vertex_buffer,index_buffer,program,framebuffer,renderbuffer,cpu_request,shader,count};
+ enum class ResourceScopeV37 : std::uint8_t {world,actor,equipment,fx,loot,swf_front,swf_gameplay,shader,asset_archive,other,count};
+ enum class ReplacementModeV37 : std::uint8_t {same_object_storage,separate_candidate,same_object_coexisting_storage};
+@@ -26,5 +26,5 @@
+  std::uint64_t individual_gpu_bytes=128*mib_v37,individual_cpu_bytes=64*mib_v37;
+  std::uint64_t bulk_archive_cpu_bytes=512*mib_v37;
+- std::array<std::uint32_t,std::size_t(ResourceKindV37::count)> objects{{4096,8192,8192,256,256,256,4096}};
++ std::array<std::uint32_t,std::size_t(ResourceKindV37::count)> objects{{4096,8192,8192,256,256,256,4096,256}};
+  std::uint32_t record_slots=8192;
+ };
+@@ -36,4 +36,6 @@
+ struct ResourceUsageV37 {
+  std::uint64_t gpu_bytes{},cpu_bytes{},texture_gpu_bytes{},fx_buffer_gpu_bytes{};
++ // Count-only program/shader storage remains explicitly unknown in bytes.
++ std::array<std::uint64_t,std::size_t(ResourceKindV37::count)> unknown_gpu_storage_objects{};
+  std::array<std::uint64_t,std::size_t(ResourceKindV37::count)> objects{};
+  std::array<std::uint64_t,std::size_t(ResourceKindV37::count)> gpu_bytes_by_kind{},cpu_bytes_by_kind{};
+@@ -42,5 +44,5 @@
+ struct ResourceBudgetSnapshotV37 {
+  ResourceUsageV37 live,pending,requested,peak;
+- std::array<ResourceUsageV37,std::size_t(ResourceScopeV37::count)> live_by_scope{},pending_by_scope{};
++ std::array<ResourceUsageV37,std::size_t(ResourceScopeV37::count)> live_by_scope{},pending_by_scope{},peak_by_scope{};
+  std::array<std::uint64_t,std::size_t(ResourceKindV37::count)> creates{},replacements{},releases{},context_discards{},rejections_by_kind{};
+  std::uint64_t reservations{},commits{},aborts{},rejections{},context_generation{},context_losses{},bookkeeping_bytes{};
+
+--- port/engine-resources/resource_budget_v37.cpp captured
++++ port/engine-resources/resource_budget_v37.cpp current
+@@ -13,4 +13,5 @@
+  ResourceUsageV37 u;u.cpu_bytes=c.cpu_bytes;u.gpu_bytes=gpu?c.gpu_bytes:0;
+  u.objects[std::size_t(c.kind)]=gpu||!gpu_kind(c.kind)?1:0;
++ if(gpu&&!c.gpu_bytes&&(c.kind==ResourceKindV37::program||c.kind==ResourceKindV37::shader))u.unknown_gpu_storage_objects[std::size_t(c.kind)]=1;
+  u.gpu_bytes_by_kind[std::size_t(c.kind)]=u.gpu_bytes;u.cpu_bytes_by_kind[std::size_t(c.kind)]=u.cpu_bytes;
+  if(c.kind==ResourceKindV37::texture)u.texture_gpu_bytes=u.gpu_bytes;
+@@ -18,11 +19,11 @@
+  return u;
+ }
+-void add(ResourceUsageV37& a,const ResourceUsageV37& b){a.gpu_bytes+=b.gpu_bytes;a.cpu_bytes+=b.cpu_bytes;a.texture_gpu_bytes+=b.texture_gpu_bytes;a.fx_buffer_gpu_bytes+=b.fx_buffer_gpu_bytes;for(std::size_t i=0;i<kinds;++i){a.objects[i]+=b.objects[i];a.gpu_bytes_by_kind[i]+=b.gpu_bytes_by_kind[i];a.cpu_bytes_by_kind[i]+=b.cpu_bytes_by_kind[i];}}
+-void sub(ResourceUsageV37& a,const ResourceUsageV37& b){a.gpu_bytes-=b.gpu_bytes;a.cpu_bytes-=b.cpu_bytes;a.texture_gpu_bytes-=b.texture_gpu_bytes;a.fx_buffer_gpu_bytes-=b.fx_buffer_gpu_bytes;for(std::size_t i=0;i<kinds;++i){a.objects[i]-=b.objects[i];a.gpu_bytes_by_kind[i]-=b.gpu_bytes_by_kind[i];a.cpu_bytes_by_kind[i]-=b.cpu_bytes_by_kind[i];}}
++void add(ResourceUsageV37& a,const ResourceUsageV37& b){a.gpu_bytes+=b.gpu_bytes;a.cpu_bytes+=b.cpu_bytes;a.texture_gpu_bytes+=b.texture_gpu_bytes;a.fx_buffer_gpu_bytes+=b.fx_buffer_gpu_bytes;for(std::size_t i=0;i<kinds;++i){a.objects[i]+=b.objects[i];a.unknown_gpu_storage_objects[i]+=b.unknown_gpu_storage_objects[i];a.gpu_bytes_by_kind[i]+=b.gpu_bytes_by_kind[i];a.cpu_bytes_by_kind[i]+=b.cpu_bytes_by_kind[i];}}
++void sub(ResourceUsageV37& a,const ResourceUsageV37& b){a.gpu_bytes-=b.gpu_bytes;a.cpu_bytes-=b.cpu_bytes;a.texture_gpu_bytes-=b.texture_gpu_bytes;a.fx_buffer_gpu_bytes-=b.fx_buffer_gpu_bytes;for(std::size_t i=0;i<kinds;++i){a.objects[i]-=b.objects[i];a.unknown_gpu_storage_objects[i]-=b.unknown_gpu_storage_objects[i];a.gpu_bytes_by_kind[i]-=b.gpu_bytes_by_kind[i];a.cpu_bytes_by_kind[i]-=b.cpu_bytes_by_kind[i];}}
+ ResourceUsageV37 delta(const ResourceUsageV37& next,const ResourceUsageV37& old){
+  ResourceUsageV37 u;auto positive=[](auto a,auto b){return a>b?a-b:0;};
+  u.gpu_bytes=positive(next.gpu_bytes,old.gpu_bytes);u.cpu_bytes=positive(next.cpu_bytes,old.cpu_bytes);
+  u.texture_gpu_bytes=positive(next.texture_gpu_bytes,old.texture_gpu_bytes);u.fx_buffer_gpu_bytes=positive(next.fx_buffer_gpu_bytes,old.fx_buffer_gpu_bytes);
+- for(std::size_t i=0;i<kinds;++i){u.objects[i]=positive(next.objects[i],old.objects[i]);u.gpu_bytes_by_kind[i]=positive(next.gpu_bytes_by_kind[i],old.gpu_bytes_by_kind[i]);u.cpu_bytes_by_kind[i]=positive(next.cpu_bytes_by_kind[i],old.cpu_bytes_by_kind[i]);}return u;
++ for(std::size_t i=0;i<kinds;++i){u.objects[i]=positive(next.objects[i],old.objects[i]);u.unknown_gpu_storage_objects[i]=positive(next.unknown_gpu_storage_objects[i],old.unknown_gpu_storage_objects[i]);u.gpu_bytes_by_kind[i]=positive(next.gpu_bytes_by_kind[i],old.gpu_bytes_by_kind[i]);u.cpu_bytes_by_kind[i]=positive(next.cpu_bytes_by_kind[i],old.cpu_bytes_by_kind[i]);}return u;
+ }
+ bool fits(std::uint64_t current,std::uint64_t extra,std::uint64_t limit){return current<=limit&&extra<=limit-current;}
+@@ -50,7 +51,11 @@
+ void ContextResourceBudgetV37::update_requested_and_peak()noexcept{
+  auto u=snapshot_.live;add(u,snapshot_.pending);snapshot_.requested=u;
+- auto& p=snapshot_.peak;p.gpu_bytes=std::max(p.gpu_bytes,u.gpu_bytes);p.cpu_bytes=std::max(p.cpu_bytes,u.cpu_bytes);
+- p.texture_gpu_bytes=std::max(p.texture_gpu_bytes,u.texture_gpu_bytes);p.fx_buffer_gpu_bytes=std::max(p.fx_buffer_gpu_bytes,u.fx_buffer_gpu_bytes);
+- for(std::size_t i=0;i<kinds;++i){p.objects[i]=std::max(p.objects[i],u.objects[i]);p.gpu_bytes_by_kind[i]=std::max(p.gpu_bytes_by_kind[i],u.gpu_bytes_by_kind[i]);p.cpu_bytes_by_kind[i]=std::max(p.cpu_bytes_by_kind[i],u.cpu_bytes_by_kind[i]);}
++ auto peak=[](ResourceUsageV37& p,const ResourceUsageV37& value){
++  p.gpu_bytes=std::max(p.gpu_bytes,value.gpu_bytes);p.cpu_bytes=std::max(p.cpu_bytes,value.cpu_bytes);
++  p.texture_gpu_bytes=std::max(p.texture_gpu_bytes,value.texture_gpu_bytes);p.fx_buffer_gpu_bytes=std::max(p.fx_buffer_gpu_bytes,value.fx_buffer_gpu_bytes);
++  for(std::size_t i=0;i<kinds;++i){p.objects[i]=std::max(p.objects[i],value.objects[i]);p.unknown_gpu_storage_objects[i]=std::max(p.unknown_gpu_storage_objects[i],value.unknown_gpu_storage_objects[i]);p.gpu_bytes_by_kind[i]=std::max(p.gpu_bytes_by_kind[i],value.gpu_bytes_by_kind[i]);p.cpu_bytes_by_kind[i]=std::max(p.cpu_bytes_by_kind[i],value.cpu_bytes_by_kind[i]);}
++ };
++ peak(snapshot_.peak,u);
++ for(std::size_t i=0;i<scopes;++i){auto scoped=snapshot_.live_by_scope[i];add(scoped,snapshot_.pending_by_scope[i]);peak(snapshot_.peak_by_scope[i],scoped);}
+ }
+ bool ContextResourceBudgetV37::begin_context(std::string& error){
+@@ -84,5 +89,5 @@
+  const auto target=footprint(c,gpu_kind(c.kind));
+  auto held=prior&&mode==ReplacementModeV37::same_object_storage?delta(target,footprint(prior->charge,prior->gpu_live)):target;
+- if(prior&&mode==ReplacementModeV37::same_object_coexisting_storage){const auto old_usage=footprint(prior->charge,prior->gpu_live);for(std::size_t i=0;i<kinds;++i)held.objects[i]=target.objects[i]>old_usage.objects[i]?target.objects[i]-old_usage.objects[i]:0;}
++ if(prior&&mode==ReplacementModeV37::same_object_coexisting_storage){const auto old_usage=footprint(prior->charge,prior->gpu_live);for(std::size_t i=0;i<kinds;++i){held.objects[i]=target.objects[i]>old_usage.objects[i]?target.objects[i]-old_usage.objects[i]:0;held.unknown_gpu_storage_objects[i]=target.unknown_gpu_storage_objects[i]>old_usage.unknown_gpu_storage_objects[i]?target.unknown_gpu_storage_objects[i]-old_usage.unknown_gpu_storage_objects[i]:0;}}
+  const auto& current=snapshot_.requested;
+  if(!fits(current.gpu_bytes,held.gpu_bytes,limits_.gpu_bytes))return reject(c.kind,"V37 aggregate requested GPU byte budget exhausted",error);

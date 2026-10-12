@@ -1,0 +1,202 @@
+{
+  "validation": "PASS",
+  "results": {
+    "pure": {
+      "validation": "PASS",
+      "comparisons": 962,
+      "ordered_services": 7240,
+      "required_failure_prefixes": 8907,
+      "native_guards": 3,
+      "mismatches": 0
+    },
+    "core": {
+      "validation": "PASS",
+      "authored_hud_styles": 4,
+      "blank_source_profiles": 4,
+      "dynamic_buttons": 6,
+      "manager_supported_styles": 2,
+      "manager_required_cache_rejections": 2,
+      "matching_source_cache_paths": 0,
+      "authored_lifecycle_methods": 16,
+      "native_wrapper_calls": 101,
+      "owned_query_checks": 538,
+      "ordered_backend_requests": 1552,
+      "required_failure_guards": 6,
+      "parseEx_fixture_calls": 72,
+      "skill_GetInfo_fixture_calls": 96,
+      "Android_capability_fixture_calls": 8,
+      "settings_loads": 1,
+      "inventory_localization_fixture_calls": 1,
+      "sanitizer_findings": 0
+    },
+    "base_authored": {
+      "validation": "PASS",
+      "authored_hud_styles": 4,
+      "blank_source_profiles": 4,
+      "dynamic_buttons": 6,
+      "manager_supported_styles": 4,
+      "manager_required_cache_rejections": 0,
+      "matching_source_cache_paths": 30,
+      "authored_lifecycle_methods": 16,
+      "native_wrapper_calls": 95,
+      "owned_query_checks": 538,
+      "ordered_backend_requests": 1406,
+      "required_failure_guards": 6,
+      "parseEx_fixture_calls": 72,
+      "skill_GetInfo_fixture_calls": 84,
+      "Android_capability_fixture_calls": 8,
+      "settings_loads": 1,
+      "inventory_localization_fixture_calls": 1,
+      "sanitizer_findings": 0
+    }
+  },
+  "source_sha256": {
+    "port/engine-ui/hud_manager_core_v2.hpp": "aef2771ed73f75dc30154dd370024bf698e9d2945de8b237ddb28d0a64627fc1",
+    "port/engine-ui/hud_manager_core_v2.cpp": "53332d6064d2d289da879e2ba76517cb7b11ec5eeb4eafdd80945b6a9fdf8951",
+    "port/engine-ui/hud_initialization_v1.cpp": "7dc9b8f94fe0b86dba991ffea98e668b7c95f4e0750dccecdc04c7812551301c",
+    "port/engine-ui/hud_initialization_v1.hpp": "6191714964d44e28177bd97d44a29597dc1b0af636516232bc0f9670447afe9f",
+    "port/engine-ui/hud_initialization_core_v1.cpp": "6e3836313aa1cf613a3d466060094f5bdd4fc5637c1e008055843a4cee2e4728",
+    "port/engine-ui/hud_initialization_core_v1.hpp": "1f0bdf5d3d17572520f765ad56e86c75b055de7ab5d8b8ea8abac48f575ff011",
+    "port/engine-ui/hud_initialization_owned_v1.cpp": "cba1bda75858e479b732bea3b6929decdf2dae1a29bbffd816c3c5633f4e74d7",
+    "port/engine-ui/hud_initialization_owned_v1.hpp": "35fc3a0c6af2006ffcec33ddb2a5de6147a38c84a5dc9319267a550ded917429",
+    "port/engine-ui/tests/hud_initialization_v1.cpp": "34f6a66eb79ff08522e9fab8d5a10a97d20273fd4de6d2725a83c9985362ce9d",
+    "port/engine-ui/tests/hud_initialization_core_v1.cpp": "1abb49b129c814aa50ca9768a08c694adfbc95c4de31c6b29e2bdc7fb102497c",
+    "port/engine-ui/tests/hud_manager_core.cpp": "0f061869903bc085aa8ee7bd6dff1071843dacb96468327b8e030506bfcf3214",
+    "port/engine-ui/swf_movie.hpp": "e609bcf6218b3eec91a78de35546a9e649fbc6ab31feb0f58e5015b8fa996bd9",
+    "port/engine-ui/swf_actionscript_connection.hpp": "3bab4140bdac7b6d797c953178fd4bc2ba63eb06e7303d58f822d0801065e915",
+    "port/engine-ui/owned_hud_settings_v1.hpp": "22d32d0e81c70a4966f986b6da1e8def5499859c77063d92eeea71afc27c3155",
+    "port/engine-ui/../game-data/player_savegame_v1.cpp": "5affc8e4c046ab84156fb2a9b12dac3fffca5af827f1431367c2aa73dea78e92",
+    "port/engine-ui/../game-data/player_savegame_v1.hpp": "3addcdbb3a286f15b7ebd479e0a1e54395a030aa1117be0ba35f3193bfa66e8c",
+    "port/engine-ui/../game-data/skill_tables.hpp": "fe01ceadd86c43a2a6f92bcf8edd76466643c521db01b7176bab25fad311abab",
+    "port/engine-ui/../game-data/properties.hpp": "aeaaa77b0134ab614892cd726c8124548d3c249cf7c4f8a2e43964fdcd41217d"
+  },
+  "dependency_snapshot": {
+    "/home/adampalace/dh2-world-build/engine-skinning/engine-animation/libdh2_engine_animation.so": {
+      "snapshot": "/home/adampalace/dh2-hud-initialization-v1-snapshot/libdh2_engine_animation.so",
+      "sha256": "922a9a9ec5d6be20c97f414f060fa870e82d919ef87c639f34d19d79b707aaf0"
+    },
+    "/home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.so": {
+      "snapshot": "/home/adampalace/dh2-hud-initialization-v1-snapshot/libdh2_scene_materials.so",
+      "sha256": "b1c05403707a3fcfcd8843fe5adabff33e5a14e7a791d6ee4c60b2a08e5099fb"
+    },
+    "/home/adampalace/dh2-world-build/engine-skinning/libdh2_engine_skinning.so": {
+      "snapshot": "/home/adampalace/dh2-hud-initialization-v1-snapshot/libdh2_engine_skinning.so",
+      "sha256": "5c40960c2deec5bf2752f5b9972cdc4cb7e254c833815df97c948538b230be4b"
+    },
+    "/home/adampalace/dh2-world-build/engine-ui/libdh2_engine_ui.so": {
+      "snapshot": "/home/adampalace/dh2-hud-initialization-v1-snapshot/libdh2_engine_ui.so",
+      "sha256": "c5b915a035c09da983e930658c45329821f3ccbc5d6622caa1282e3528b37e8b"
+    },
+    "/home/adampalace/dh2-world-build/game-data/libdh2_game_data.so": {
+      "snapshot": "/home/adampalace/dh2-hud-initialization-v1-snapshot/libdh2_game_data.so",
+      "sha256": "6bebe74bb614c921760fc353705eecb3bd520d8010b14c03b18b21295c42f186"
+    },
+    "/home/adampalace/dh2-world-build/libdh2_level_world.so": {
+      "snapshot": "/home/adampalace/dh2-hud-initialization-v1-snapshot/libdh2_level_world.so",
+      "sha256": "3dadc60dc41fc2d01d8fb0aa7daf56ff60902f8ac8eef56c42dfa0023bb93c19"
+    },
+    "/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so": {
+      "snapshot": "/home/adampalace/dh2-hud-initialization-v1-snapshot/libdh2_script_runtime.so",
+      "sha256": "73188ef1da1e2a35002d3a563ee1b967f424c5401481aaff559e4333d7b3731a"
+    }
+  },
+  "actual_linked_dependencies": {
+    "pure": "linux-vdso.so.1 (0x00007021f3885000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x00007021f3000000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007021f2c00000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x00007021f2eda000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x00007021f2400000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007021f3717000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x00007021f2000000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007021f3887000)",
+    "core": "linux-vdso.so.1 (0x000077c88c82a000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x000077c88bc00000)\n\tlibdh2_engine_ui.so => /home/adampalace/dh2-hud-initialization-v1-snapshot/libdh2_engine_ui.so (0x000077c888e00000)\n\tlibdh2_level_world.so => /home/adampalace/dh2-hud-initialization-v1-snapshot/libdh2_level_world.so (0x000077c886e00000)\n\tlibdh2_game_data.so => /home/adampalace/dh2-hud-initialization-v1-snapshot/libdh2_game_data.so (0x000077c886400000)\n\tlibz.so.1 => /usr/lib/x86_64-linux-gnu/libz.so.1 (0x000077c88c7fe000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x000077c886000000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x000077c8862da000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x000077c885800000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x000077c88c7ce000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x000077c885400000)\n\tlibdh2_engine_skinning.so => /home/adampalace/dh2-hud-initialization-v1-snapshot/libdh2_engine_skinning.so (0x000077c88c336000)\n\tlibdh2_script_runtime.so => /home/adampalace/dh2-hud-initialization-v1-snapshot/libdh2_script_runtime.so (0x000077c884e00000)\n\tlibdh2_engine_animation.so => /home/adampalace/dh2-hud-initialization-v1-snapshot/libdh2_engine_animation.so (0x000077c884800000)\n\tlibdh2_scene_materials.so => /home/adampalace/dh2-hud-initialization-v1-snapshot/libdh2_scene_materials.so (0x000077c884400000)\n\t/lib64/ld-linux-x86-64.so.2 (0x000077c88c82c000)"
+  },
+  "executable_sha256": {
+    "pure": "bad93b6ca7f92ecbef6b4ff6614a8f87777113f89973e20ce5b2abb1dce80279",
+    "core": "4c39dfd29aee0164a5fe6733702b2c962b308989158eed7b257980a3e0b84528"
+  },
+  "compiler_commands": {
+    "pure": [
+      "wsl",
+      "-e",
+      "g++",
+      "-std=c++17",
+      "-O1",
+      "-g",
+      "-fsanitize=address,undefined",
+      "-fno-omit-frame-pointer",
+      "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+      "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/hud_initialization_v1.cpp",
+      "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/tests/hud_initialization_v1.cpp",
+      "-o",
+      "/home/adampalace/dh2-hud-initialization-v1-audit/hud_initialization_pure_v1_audit"
+    ],
+    "core": [
+      "wsl",
+      "-e",
+      "g++",
+      "-std=c++17",
+      "-O1",
+      "-g",
+      "-fsanitize=address,undefined",
+      "-fno-omit-frame-pointer",
+      "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+      "-w",
+      "-fno-sanitize=vptr",
+      "-fpermissive",
+      "-isystem",
+      "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714",
+      "-DTU_CONFIG_LINK_TO_JPEGLIB=0",
+      "-DTU_CONFIG_LINK_TO_LIBPNG=0",
+      "-DTU_CONFIG_LINK_TO_FREETYPE=0",
+      "-DTU_CONFIG_LINK_TO_THREAD=0",
+      "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/hud_manager_core_v2.cpp",
+      "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/hud_initialization_v1.cpp",
+      "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/hud_initialization_core_v1.cpp",
+      "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/hud_initialization_owned_v1.cpp",
+      "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/../game-data/player_savegame_v1.cpp",
+      "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/tests/hud_initialization_core_v1.cpp",
+      "-L/home/adampalace/dh2-hud-initialization-v1-snapshot",
+      "-Wl,-rpath,/home/adampalace/dh2-hud-initialization-v1-snapshot",
+      "-Wl,-rpath-link,/home/adampalace/dh2-hud-initialization-v1-snapshot",
+      "-ldh2_engine_ui",
+      "-ldh2_level_world",
+      "-ldh2_game_data",
+      "-lz",
+      "-ldl",
+      "-o",
+      "/home/adampalace/dh2-hud-initialization-v1-audit/hud_initialization_core_v1_audit"
+    ]
+  },
+  "gold_sha256": {
+    "wrappers-gold.bin": "6da4130fa625621ba4fb100018f76ba3f8e70e9e82f3e3b646366ce9d640aac1",
+    "options-gold.bin": "1491d6e28015a8ea64a2d1d23462d821af5cef1d78f039c2142c153ff1dd9209"
+  },
+  "asset_sha256": {
+    "data/skills_pyarray.bin": "e336986d5aee78fd1aed7fe7ec43cc8d58fa03d4fd27216779c0e96e47acc2d6",
+    "data/skills_pyarraynames.bin": "31642dc0d8bf11f1ebd13698bbefda4fda0aefa2c727fb4ae9449f2df073fb9f",
+    "data/skills_pystructnames.bin": "fd882501b0b7af0191272e6802558d1e1ac4031f6237cf5e2c767ebae946f4b9",
+    "data/character_properties_pyarray.bin": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+    "data/character_properties_pyarraynames.bin": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801",
+    "data/character_properties_pystructnames.bin": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2",
+    "data/design_pyarray.bin": "fd70c8be93cd3d5b7947309e22f00a7c5230a4a7541ec6f9ebfdac67335e6296",
+    "data/design_pyarraynames.bin": "d9d5ec686e24d2ee0dcf9f7b627b6679ee522b2df311c6861b7c1bb39ab96c7b",
+    "data/design_pystructnames.bin": "d955c29a9ddeb091bc5382eff44002a93e6390228bbe0974769648cc58044dc6",
+    "original-cache/data/pydata/common_text_pyarray.bin": "03b99c2d8e5293f57233626721a003b1a5f5bbcaff5fcb9c2e315f68954e0286",
+    "original-cache/data/pydata/common_text_pyarraynames.bin": "a24e59f8d5c7479b31117085e56a7ce99946882acb80b3a438c9b0e2b1eb688b",
+    "original-cache/data/pydata/common_text_pystructnames.bin": "e2e395411036e57c7148f7b3f8c4b0a7924b97f405f07493e5f2274b2cc9d0ad"
+  },
+  "swf_sha256": {
+    "dqshared_droid.swf": "f0f9f119f2fe474d21c722e361ef9907ef2b885654705073e0cb956432f46263",
+    "dqhud_droid.swf": "a4ffacd1abdf7c9b2ba19c46ebb81c60c100458731a4cdba5880391b9c11b238",
+    "dqshared.swf": "c2c5f597b4697df9fe59accf72fbc9037bc4c8ad85be76f71b897e14e16e8513",
+    "dqhud.swf": "3ab455733367acf657df6eaaec39c93fed34cbcf519255e02cf488c07a96f2bb"
+  },
+  "sanitizers": [
+    "address",
+    "undefined(vptr excluded for core ABI)",
+    "leak"
+  ],
+  "sanitizer_findings": 0,
+  "scope": "Source-gold replay and actual retained authored HUD lifecycle.\nUses a pre-copied coherent native DSO snapshot, never rebuilding shared DSOs.\nThe receipt binds exact new compiler inputs and actual linked DSO bytes; it\ndoes not relabel the snapshot as current-source compiler provenance.\n",
+  "limits": {
+    "live_GPU": false,
+    "full_original_ActionScript_fork_parity": false,
+    "loaded_skill_profile_is_explicit_fixture": true,
+    "parseEx_integer_localization_skill_VCB_platform_scene_PlayerManager_are_fixtures": true,
+    "snapshot_compiler_provenance_claimed": false
+  }
+}

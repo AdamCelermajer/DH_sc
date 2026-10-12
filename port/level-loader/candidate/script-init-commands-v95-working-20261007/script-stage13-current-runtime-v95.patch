@@ -1,0 +1,27 @@
+--- a/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp
++++ b/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp
+@@ -297,6 +297,24 @@
+   error="Stage8 requires SAME candidate/C1/sole actual ScriptManager and empty body slot";return false;
+  }
+  Stage8LevelBorrowV51 actual;if(!borrow_stage8_level_v51(level,actual,error))return false;
++ // State13 is a distinct native Init pass over the SAME loaded commands.
++ // Retain the supplied trace before Stage8 consumes its own service receipt.
++ if(!loading.external.stage_body[13]){
++  const std::weak_ptr<RendererSourceCandidateV55> weak_candidate=candidate;
++  const std::weak_ptr<CanonicalLevelContextV1> weak_level=level;
++  const std::weak_ptr<ScriptManagerOwnerV52> weak_scripts=scripts;
++  loading.external.stage_body[13]=[weak_candidate,weak_level,weak_scripts,trace=debug](std::string& e){
++   auto candidate=weak_candidate.lock();auto level=weak_level.lock();auto scripts=weak_scripts.lock();
++   auto world=candidate?candidate->world.lock():nullptr;SourceCampaignCandidateBorrowV55 current;
++   if(!candidate||!level||!scripts||!world||!borrow_source_campaign_candidate_runtime_v61(current,e)||
++    current.actual_world!=world->owner||current.level!=level||candidate->preparation->level()!=level||
++    level->constructor_fields_v3().field130!=13||!world->application||world->application->source_script_manager_v52()!=scripts){
++    if(e.empty())e="Required SAME actual state13/ScriptManager/native candidate";return LifecycleStepV36::failed;
++   }
++   if(!early_loading_trace_v46(trace,e)||!scripts->init_commands_v95(e))return LifecycleStepV36::failed;
++   e.clear();return LifecycleStepV36::complete; // Dispatcher alone owns13->14.
++  };
++ }
+  Stage8ServicesV51 services;services.debug=std::move(debug);
+  const auto canonical=candidate->canonical;const auto weak=std::weak_ptr<RendererSourceFactoryCoreV55>(candidate->factory);
+  services.borrow_actual_config=[weak,canonical](std::uintptr_t identity,Stage8ConfigBorrowV51& out,std::string& e){

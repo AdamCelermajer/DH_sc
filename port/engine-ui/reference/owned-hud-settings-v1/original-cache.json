@@ -1,0 +1,354 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "records_offset": 240,
+  "records_consumed": 692,
+  "names_offset": 56,
+  "names_consumed": 272,
+  "rows": [
+    {
+      "name": "AAA_DONT_DELETE",
+      "fields": {
+        "Default": 0,
+        "Label": -1,
+        "Max": 0,
+        "Min": 0,
+        "Step": 0,
+        "Type": -1,
+        "ValueStr": -1
+      },
+      "words": [
+        0,
+        -1,
+        0,
+        0,
+        0,
+        -1,
+        -1
+      ]
+    },
+    {
+      "name": "AllFaeries",
+      "fields": {
+        "Default": 0,
+        "Label": 1835231,
+        "Max": 1,
+        "Min": 0,
+        "Step": 1,
+        "Type": 0,
+        "ValueStr": -1
+      },
+      "words": [
+        0,
+        1835231,
+        1,
+        0,
+        1,
+        0,
+        -1
+      ]
+    },
+    {
+      "name": "AllLevels",
+      "fields": {
+        "Default": 0,
+        "Label": 1835232,
+        "Max": 1,
+        "Min": 0,
+        "Step": 1,
+        "Type": 0,
+        "ValueStr": -1
+      },
+      "words": [
+        0,
+        1835232,
+        1,
+        0,
+        1,
+        0,
+        -1
+      ]
+    },
+    {
+      "name": "AutoOrientation",
+      "fields": {
+        "Default": 1,
+        "Label": 1835251,
+        "Max": 2,
+        "Min": 0,
+        "Step": 1,
+        "Type": 2,
+        "ValueStr": 1835253
+      },
+      "words": [
+        1,
+        1835251,
+        2,
+        0,
+        1,
+        2,
+        1835253
+      ]
+    },
+    {
+      "name": "AutoTransmute",
+      "fields": {
+        "Default": 0,
+        "Label": 1835153,
+        "Max": 5,
+        "Min": 0,
+        "Step": 1,
+        "Type": 2,
+        "ValueStr": 1835173
+      },
+      "words": [
+        0,
+        1835153,
+        5,
+        0,
+        1,
+        2,
+        1835173
+      ]
+    },
+    {
+      "name": "DPad",
+      "fields": {
+        "Default": 1,
+        "Label": 1835185,
+        "Max": 2,
+        "Min": 0,
+        "Step": 1,
+        "Type": 2,
+        "ValueStr": 1835186
+      },
+      "words": [
+        1,
+        1835185,
+        2,
+        0,
+        1,
+        2,
+        1835186
+      ]
+    },
+    {
+      "name": "ForwardCam",
+      "fields": {
+        "Default": 1,
+        "Label": 1835152,
+        "Max": 1,
+        "Min": 0,
+        "Step": 1,
+        "Type": 0,
+        "ValueStr": -1
+      },
+      "words": [
+        1,
+        1835152,
+        1,
+        0,
+        1,
+        0,
+        -1
+      ]
+    },
+    {
+      "name": "GOD",
+      "fields": {
+        "Default": 0,
+        "Label": 1835235,
+        "Max": 1,
+        "Min": 0,
+        "Step": 1,
+        "Type": 0,
+        "ValueStr": -1
+      },
+      "words": [
+        0,
+        1835235,
+        1,
+        0,
+        1,
+        0,
+        -1
+      ]
+    },
+    {
+      "name": "GOD_MANA",
+      "fields": {
+        "Default": 0,
+        "Label": 1835236,
+        "Max": 1,
+        "Min": 0,
+        "Step": 1,
+        "Type": 0,
+        "ValueStr": -1
+      },
+      "words": [
+        0,
+        1835236,
+        1,
+        0,
+        1,
+        0,
+        -1
+      ]
+    },
+    {
+      "name": "GiveGold",
+      "fields": {
+        "Default": 0,
+        "Label": 1835233,
+        "Max": 1,
+        "Min": 0,
+        "Step": 1,
+        "Type": 0,
+        "ValueStr": -1
+      },
+      "words": [
+        0,
+        1835233,
+        1,
+        0,
+        1,
+        0,
+        -1
+      ]
+    },
+    {
+      "name": "HUDStyle",
+      "fields": {
+        "Default": 0,
+        "Label": 1835192,
+        "Max": 2,
+        "Min": 0,
+        "Step": 1,
+        "Type": 2,
+        "ValueStr": 1835188
+      },
+      "words": [
+        0,
+        1835192,
+        2,
+        0,
+        1,
+        2,
+        1835188
+      ]
+    },
+    {
+      "name": "Language",
+      "fields": {
+        "Default": -1,
+        "Label": 1310730,
+        "Max": 8,
+        "Min": 0,
+        "Step": 1,
+        "Type": 2,
+        "ValueStr": 1310760
+      },
+      "words": [
+        -1,
+        1310730,
+        8,
+        0,
+        1,
+        2,
+        1310760
+      ]
+    },
+    {
+      "name": "LevelUp",
+      "fields": {
+        "Default": 0,
+        "Label": 1310782,
+        "Max": 1,
+        "Min": 0,
+        "Step": 1,
+        "Type": 0,
+        "ValueStr": -1
+      },
+      "words": [
+        0,
+        1310782,
+        1,
+        0,
+        1,
+        0,
+        -1
+      ]
+    },
+    {
+      "name": "OneShotKill",
+      "fields": {
+        "Default": 0,
+        "Label": 1835237,
+        "Max": 1,
+        "Min": 0,
+        "Step": 1,
+        "Type": 0,
+        "ValueStr": -1
+      },
+      "words": [
+        0,
+        1835237,
+        1,
+        0,
+        1,
+        0,
+        -1
+      ]
+    },
+    {
+      "name": "VolumeFX",
+      "fields": {
+        "Default": 100,
+        "Label": 1310788,
+        "Max": 100,
+        "Min": 0,
+        "Step": 5,
+        "Type": 1,
+        "ValueStr": -1
+      },
+      "words": [
+        100,
+        1310788,
+        100,
+        0,
+        5,
+        1,
+        -1
+      ]
+    },
+    {
+      "name": "VolumeMusic",
+      "fields": {
+        "Default": 100,
+        "Label": 1310789,
+        "Max": 100,
+        "Min": 0,
+        "Step": 5,
+        "Type": 1,
+        "ValueStr": -1
+      },
+      "words": [
+        100,
+        1310789,
+        100,
+        0,
+        5,
+        1,
+        -1
+      ]
+    }
+  ],
+  "input_sha256": {
+    "design_pyarray.bin": "fd70c8be93cd3d5b7947309e22f00a7c5230a4a7541ec6f9ebfdac67335e6296",
+    "design_pyarraynames.bin": "d9d5ec686e24d2ee0dcf9f7b627b6679ee522b2df311c6861b7c1bb39ab96c7b",
+    "design_pystructnames.bin": "d955c29a9ddeb091bc5382eff44002a93e6390228bbe0974769648cc58044dc6"
+  },
+  "stream_reads": 146,
+  "allocations": 18,
+  "scope": "Actual original GameOptionTable.read/readNames executed on canonical cache stream suffixes; caller stream+allocation services. No inferred defaults."
+}

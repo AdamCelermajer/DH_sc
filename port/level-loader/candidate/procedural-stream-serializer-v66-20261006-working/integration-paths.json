@@ -1,0 +1,62 @@
+[
+  {
+    "candidate": "procedural_xml_emission_v66.hpp",
+    "baseline": null,
+    "target": "port/level-loader/procedural_xml_emission_v66.hpp"
+  },
+  {
+    "candidate": "procedural_xml_emission_v66.cpp",
+    "baseline": null,
+    "target": "port/level-loader/procedural_xml_emission_v66.cpp"
+  },
+  {
+    "candidate": "procedural_generator_stream_v66.hpp",
+    "baseline": null,
+    "target": "port/level-loader/procedural_generator_stream_v66.hpp"
+  },
+  {
+    "candidate": "procedural_generator_stream_v66.cpp",
+    "baseline": null,
+    "target": "port/level-loader/procedural_generator_stream_v66.cpp"
+  },
+  {
+    "candidate": "procedural_sources_v1.hpp",
+    "baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\procedural_sources_v1.hpp",
+    "target": "port/level-loader/procedural_sources_v1.hpp"
+  },
+  {
+    "candidate": "procedural_sources_v1.cpp",
+    "baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\procedural_sources_v1.cpp",
+    "target": "port/level-loader/procedural_sources_v1.cpp"
+  },
+  {
+    "candidate": "procedural_modules_v1.hpp",
+    "baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\procedural_modules_v1.hpp",
+    "target": "port/level-loader/procedural_modules_v1.hpp"
+  },
+  {
+    "candidate": "procedural_modules_v1.cpp",
+    "baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\procedural_modules_v1.cpp",
+    "target": "port/level-loader/procedural_modules_v1.cpp"
+  },
+  {
+    "candidate": "canonical_property_map_v1.hpp",
+    "baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\canonical_property_map_v1.hpp",
+    "target": "port/level-loader/vendor/character-rng-integration-v5-loading/port/level-world/canonical_property_map_v1.hpp"
+  },
+  {
+    "candidate": "canonical_property_map_v1.cpp",
+    "baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\canonical_property_map_v1.cpp",
+    "target": "port/level-loader/vendor/character-rng-integration-v5-loading/port/level-world/canonical_property_map_v1.cpp"
+  },
+  {
+    "candidate": "savegame_stream_v2.hpp",
+    "baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\savegame_stream_v2.hpp",
+    "target": "port/level-loader/vendor/character-rng-integration-v5-loading/port/level-world/savegame_stream_v2.hpp"
+  },
+  {
+    "candidate": "canonical_level_context_v1.hpp",
+    "baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader\\canonical_level_context_v1.hpp",
+    "target": "port/level-loader/vendor/character-rng-integration-v5-loading/port/level-loader/canonical_level_context_v1.hpp"
+  }
+]

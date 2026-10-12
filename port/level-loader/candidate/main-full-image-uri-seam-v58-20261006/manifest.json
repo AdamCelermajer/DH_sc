@@ -1,0 +1,19 @@
+{
+  "version": 58,
+  "status": "SOURCE_ONLY_DECLARATIONS",
+  "provider_implemented": false,
+  "legacy_api_changed": false,
+  "source_only": true,
+  "files": [
+    {
+      "file": "adoption-plan.md",
+      "sha256": "8cad9d08db8e09f29b8b3710198a91e9dc2f74054705080004e7f80ab39259b8",
+      "bytes": 6663
+    },
+    {
+      "file": "main_full_simage_uri_seam_v58.hpp.proposed",
+      "sha256": "257e5ce76d2f655ba7cb62eb811bf002905cfa280713a9c39044da17e323f7d8",
+      "bytes": 3952
+    }
+  ]
+}

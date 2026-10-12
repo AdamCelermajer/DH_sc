@@ -1,0 +1,11 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6glitch4core10hashStringEPKc",
+      "elf_address": "0x37c164",
+      "size": 316,
+      "sha256": "eb3c5f18f0394185bddafaf8b91447a63b8610101590b857b7334cdd70a0026d"
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character13_GetStateTimeERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b6d6c",
+      "size": 12,
+      "sha256": "1cb7291ef4a8d4f3b34d2d4ff3192fd04e84f0ed8b605b6ad05e20857b376017"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine9_GetStateEi",
+      "elf_address": "0x3c184c",
+      "size": 236,
+      "sha256": "d4c133172df15b53899726d7628894e37e4cb8afb254bbd54ca2847cf72734e1"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine9_SetStateEiiPv",
+      "elf_address": "0x3c1938",
+      "size": 200,
+      "sha256": "4441e973629e1e245b5b6f452e586ee1e367303fd5f93db42ac91b715cd362bb"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine15RaiseStateEventEiPv",
+      "elf_address": "0x3c5684",
+      "size": 508,
+      "sha256": "5508184fa6236ab106322e2ac88495dd991dcba5b1c8f3a2d9ca89eb2d633477"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine12SetCharacterEP9Character",
+      "elf_address": "0x3c1600",
+      "size": 148,
+      "sha256": "7e232f38e49887b13cd7e5e4051873c7443e736c0dfc73fbc2b7e9c008590c3f"
+    },
+    {
+      "original_symbol": "_ZN9Character9_GetStateERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b6d78",
+      "size": 40,
+      "sha256": "135a6c6970122375b66964dbceaf84e5ed2c0282c409fe1046254a51c3d18b5f"
+    },
+    {
+      "original_symbol": "_ZNK9Character16GetPreSetAIStateEv",
+      "elf_address": "0x3a5784",
+      "size": 112,
+      "sha256": "bb03b30ddae9e5fcd0daba70144aee87c04d81c0bf761ad72d415f8d8cba9498"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine6UpdateEv",
+      "elf_address": "0x3c628c",
+      "size": 264,
+      "sha256": "abfd28dd44b37cb6e711de13ac7a010767efbfd6faec0c925773240f77e45614"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine11SM_GetStateEv",
+      "elf_address": "0x3c01ac",
+      "size": 20,
+      "sha256": "4b5797cd91d4afd7ee3becf1bb65b696146e55fc226838e13c0fbef91b0e4743"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine13RegisterStateEi",
+      "elf_address": "0x3c7318",
+      "size": 408,
+      "sha256": "59401405652aec47d48c1cca939a81b9816231e92ba951b92457a42ab332d5e8"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine9_GetEventEii",
+      "elf_address": "0x3c1694",
+      "size": 440,
+      "sha256": "84a7b54fe1aa5dbed638f49e98cd69a4f556e4a5fbfa84ec5a1de24c799490a1"
+    }
+  ]
+}

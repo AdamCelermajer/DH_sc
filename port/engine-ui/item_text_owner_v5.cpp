@@ -1,0 +1,16 @@
+#include "item_text_owner_v5.hpp"
+#include <cstring>
+namespace dh2::ui {
+ItemTextOwnerV5::ItemTextOwnerV5(const data::ItemTable& i,const data::CharacterTable& c,HudTextV1& t,const HudTextEnvironmentV1& e):items_(&i),characters_(&c),text_(&t),environment_(e){}
+const data::Item* ItemTextOwnerV5::metadata(void* p,const data::ItemInstanceV1& i,std::string& e){auto& c=*static_cast<ItemTextOwnerV5*>(p);auto* row=data::item(*c.items_,i.id);if(!row)e="Original Item ID absent from genuine owned table";return row;}
+bool ItemTextOwnerV5::constant(const char* group,const char* key,std::int32_t& result,std::string& e){auto& loc=environment_.localization;if(!loc.constant){e="Item text requires actual constant owner";return false;}std::uint32_t v;if(!loc.constant(loc.context,group,key,v,e))return false;std::memcpy(&result,&v,4);return true;}
+bool ItemTextOwnerV5::raw_string(std::int32_t id,std::string& out,std::string& e){bool is_null;if(!text_->integer_string(id,environment_.localization,out,is_null,e))return false;if(is_null){e="Item text source localized null-pointer continuation unsupported";return false;}return true;}
+bool ItemTextOwnerV5::invoke(void* p,data::ItemInstanceV1&,const data::ItemTextRequestV5& q,data::ItemTextResponseV5& r,std::string& out,std::string& e){auto& c=*static_cast<ItemTextOwnerV5*>(p);using Op=data::ItemTextOperationV5;
+ if(q.operation==Op::constant)return c.constant(q.group,q.key,r.value,e);
+ if(q.operation==Op::integer_string)return c.raw_string(q.value,r.text,e);
+ if(q.operation==Op::class_name){if(q.value<0||std::size_t(q.value)>=c.characters_->rows.size()){e="Source requirement class row unavailable";return false;}r.value=c.characters_->rows[std::size_t(q.value)][5];return true;}
+ if(q.operation==Op::parse_ex){std::vector<HudTextVariantV1> a;a.reserve(q.count);for(unsigned j=0;j<q.count;++j)a.push_back({q.arguments[j].number,q.arguments[j].integer,q.arguments[j].text});bool changed;return c.text_->parse_ex(q.input,a.data(),a.size(),c.environment_,out,changed,e);}
+ if(q.operation==Op::parse_varargs){struct Context{ItemTextOwnerV5* owner;std::string value;}ctx{&c,{}};HudTextServicesV1 svc{&ctx,[](void* p,const HudTextRequestV1& q,HudTextResponseV1& r,std::string& e){auto& c=*static_cast<Context*>(p);if(q.operation==hud_text_constant_v1)return c.owner->constant(q.group,q.key,r.value,e);if(q.operation==hud_text_integer_string_v1){if(!c.owner->raw_string(q.value,c.value,e))return false;r.text=c.value.c_str();return true;}if(q.operation==hud_text_pack_v1){r.value=c.owner->text_->pack();return true;}const auto& env=c.owner->environment_;if(q.operation==hud_text_version_v1){if(!env.version){e="Item text Application version required";return false;}if(!env.version(env.application,q.limit,q.flag!=0,c.value,e))return false;r.text=c.value.c_str();return true;}if(q.operation==hud_text_title_v1){if(!env.title){e="Item text Application title required";return false;}if(!env.title(env.application,q.limit,c.value,e))return false;r.text=c.value.c_str();return true;}e="Unknown source Item formatter service";return false;}};bool changed;return item_text_varargs_v5(q.input,q.arguments,q.count,svc,out,changed,e);}
+ e="Unknown original Item text operation";return false;
+}
+}

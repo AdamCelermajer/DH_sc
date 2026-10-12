@@ -1,0 +1,72 @@
+[
+  {
+    "caller": "_ZN9Container8InteractEP10GameObject",
+    "site": "0x3a0c50",
+    "target": "Container::DoOpen"
+  },
+  {
+    "caller": "_ZN12VisualObjectC2EP10GameObjectRKSsS3_",
+    "site": "0x472e8c",
+    "target": "VisualObject::SetAnimController"
+  },
+  {
+    "caller": "_ZN14AnimControllerC2EP13RootSceneNodeb",
+    "site": "0x474eb4",
+    "target": "AnimController::SetCallbacksOnAll"
+  },
+  {
+    "caller": "_ZN12VisualObjectD1Ev",
+    "site": "0x4738a8",
+    "target": "VisualObject::SetAnimController"
+  },
+  {
+    "caller": "_ZN9Container15__EventCallbackERKN6glitch7collada15STriggeredEventEPv",
+    "site": "0x3a0cd8",
+    "target": "Container::DoOpen"
+  },
+  {
+    "caller": "_ZN12VisualObjectC1EP10GameObjectRKSsS3_",
+    "site": "0x472c3c",
+    "target": "VisualObject::SetAnimController"
+  },
+  {
+    "caller": "_ZN11CameraLevel4LoadEPKciS1_",
+    "site": "0x4108b0",
+    "target": "AnimSetControllerC1"
+  },
+  {
+    "caller": "_ZN11CameraLevel4LoadEPKciS1_",
+    "site": "0x4108bc",
+    "target": "VisualObject::SetAnimController"
+  },
+  {
+    "caller": "_ZN12CharAnimator25ANIM_AddSetToRenderObjectEv",
+    "site": "0x3c99fc",
+    "target": "AnimSetControllerC1"
+  },
+  {
+    "caller": "_ZN12CharAnimator25ANIM_AddSetToRenderObjectEv",
+    "site": "0x3c9a08",
+    "target": "VisualObject::SetAnimController"
+  },
+  {
+    "caller": "_ZN12CharAnimator25ANIM_AddSetToRenderObjectEv",
+    "site": "0x3c9ac0",
+    "target": "BlendedAnimSetControllerC1"
+  },
+  {
+    "caller": "_ZN12CharAnimator25ANIM_AddSetToRenderObjectEv",
+    "site": "0x3c9acc",
+    "target": "VisualObject::SetAnimController"
+  },
+  {
+    "caller": "_ZN12VisualObjectD2Ev",
+    "site": "0x473ae0",
+    "target": "VisualObject::SetAnimController"
+  },
+  {
+    "caller": "_ZN14AnimControllerC1EP13RootSceneNodeb",
+    "site": "0x474da0",
+    "target": "AnimController::SetCallbacksOnAll"
+  }
+]

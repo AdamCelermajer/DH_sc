@@ -1,0 +1,12 @@
+00342600 00000090 W ObjectBase* GetNewInstance<AnimatedDecor>()
+00389dd4 00000028 T AnimatedDecor::DeclareProperties()
+00388cec 000000e0 T AnimatedDecor::__CallbackRandomAll(glitch::scene::ITimelineController*, void*)
+00389128 00000214 T AnimatedDecor::InitPost()
+0038910c 0000001c W AnimatedDecor::~AnimatedDecor()
+00389098 0000006c W AnimatedDecor::~AnimatedDecor()
+003883dc 00000008 W AnimatedDecor::IsAnimated() const
+003884f8 00000004 W AnimatedDecor::IsZonable() const
+00964418 000000f4 D vtable for AnimatedDecor
+00389104 00000008 W non-virtual thunk to AnimatedDecor::~AnimatedDecor()
+00389090 00000008 W non-virtual thunk to AnimatedDecor::~AnimatedDecor()
+00389dcc 00000008 T non-virtual thunk to AnimatedDecor::DeclareProperties()

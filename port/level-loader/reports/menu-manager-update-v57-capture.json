@@ -1,0 +1,11 @@
+{
+  "source_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "whole_MenuManager_Update_entry": "0x42ea04",
+  "code_end": "0x42ee40",
+  "literal_end": "0x42ee94",
+  "capture": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\level-init-v36\\menu-manager-update-v57.asm",
+  "capture_sha256": "d68996baaa9a1a4c8a69a6238b7513aa99a6d17927e4600c5239ed71fbd50404",
+  "runtime_oracle_executed": false,
+  "shared_mutated": false,
+  "paused_menu_chat_resumed": false
+}

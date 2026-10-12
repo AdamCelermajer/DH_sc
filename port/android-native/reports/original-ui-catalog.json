@@ -1,0 +1,13 @@
+{
+  "validation": "PASS",
+  "resources": 385,
+  "stage_report_sha256": {
+    "port/android-native/reports/original-ui-assets-stage.json": "e01cc156b501192e41a89ae113bde31269e75951a95966813b4f72432fd705d1",
+    "port/android-native/reports/original-ui-text-assets-stage.json": "5bf91d75f2e40d0b4f5f31bfca1c607cce07302582ffeefc38bf66ab15b0cdf3",
+    "port/android-native/reports/original-ui-texture-assets-stage.json": "c8ebed058aff70eee4fd6ba43bc2a1acffa38cdda77d80bc67dbebfb7a66cc55"
+  },
+  "catalog_sha256": "582c8085ac69ea500469eb746a7e4ec00850cd0636ae55350e7807fb6011b2e1",
+  "runtime_casefold_service": true,
+  "original_archive_registration_parity": false,
+  "packaged_apk": false
+}

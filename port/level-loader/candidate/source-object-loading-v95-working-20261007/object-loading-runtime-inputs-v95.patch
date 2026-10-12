@@ -1,0 +1,13 @@
+--- a/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp
++++ b/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp
+@@ -457,6 +457,10 @@
+  };
+  if(!RendererSourceCandidateV55::create(std::move(candidate),state.candidate,error))return false;
+  if(!state.candidate->lend_loading_inputs_v55(out.source,error))return false;
++ if(!current_world->source_object_loading_v95){error="Required actual Stage10/17 source input producer";return false;}
++ SourceCampaignCandidateBorrowV55 object_candidate;
++ if(!borrow_source_campaign_candidate_runtime_v61(object_candidate,error)||object_candidate.level!=actual||
++  !current_world->source_object_loading_v95(object_candidate,out.source,error))return false;
+  // Original stage7 writes the process Random seeds at99f89c/99f8a0.
+  // Borrow the same App-retained channels used by canonical spawn/loot.
+  const auto random=application->source_random_v62();

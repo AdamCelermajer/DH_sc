@@ -1,0 +1,69 @@
+#pragma once
+#include <cstdint>
+#include <memory>
+namespace dh2::world {
+// INTERFACE PROPOSAL ONLY. Main supplies each concrete provider using its actual
+// native node/actor reference and its existing ObjectBase destruction path.
+// No loader implementation of either reached body is supplied here.
+struct LightRuntimeStampV56 {
+ std::uintptr_t application{},level{},object_manager{},scene_manager{},lightset_manager{};
+ std::uint64_t generation{};
+ bool operator==(const LightRuntimeStampV56& x)const noexcept {
+  return application==x.application&&level==x.level&&object_manager==x.object_manager&&
+   scene_manager==x.scene_manager&&lightset_manager==x.lightset_manager&&generation==x.generation;
+ }
+ bool complete()const noexcept{return application&&level&&object_manager&&scene_manager&&lightset_manager&&generation;}
+};
+inline bool same_light_runtime_owner_v56(const std::shared_ptr<void>& a,const std::shared_ptr<void>& b)noexcept {
+ return a&&b&&a.get()==b.get()&&!a.owner_before(b)&&!b.owner_before(a);
+}
+struct MainLightQuiescenceLeaseV56 {
+ std::shared_ptr<void> actual_runtime_owner;
+ std::shared_ptr<void> actual_owning_thread_barrier; // stays held through Flush -> Clear
+ LightRuntimeStampV56 stamp;
+ // Real Main token validates the SAME runtime owner/generation and that renderer,
+ // auto-registration, update and attachment readers cannot enter this interval.
+ virtual bool validate_current_owning_thread()const noexcept=0;
+ virtual ~MainLightQuiescenceLeaseV56()=default;
+};
+class MainLightActorNodeReferenceV56 {
+public:
+ // This token OWNS exactly ONE genuine actor120 intrusive native-node reference.
+ // Passive owner pins and root-parent/lightset/cache refs are separate.
+ // Token destruction does not invent or implicitly count a shared_ptr drop.
+ std::shared_ptr<void> actual_runtime_owner;
+ LightRuntimeStampV56 stamp;
+ std::uintptr_t actual_node_identity{},actual_light_identity{},actor_identity{};
+ MainLightActorNodeReferenceV56()=default;
+ MainLightActorNodeReferenceV56(const MainLightActorNodeReferenceV56&)=delete;
+ MainLightActorNodeReferenceV56& operator=(const MainLightActorNodeReferenceV56&)=delete;
+ virtual bool validate_exact_actor_reference(const MainLightQuiescenceLeaseV56&)const noexcept=0;
+ // The actual Main native-node intrusive drop corresponding to31d584 MUST run
+ // synchronously, exactly once and without throwing. It can destroy the node;
+ // the caller must not inspect the node afterwards. No decrement implementation,
+ // fixture or success callback is supplied by loader. Provider destructor must
+ // NOT call this body again once it has returned.
+ virtual void drop_actual_actor_node_reference()noexcept=0;
+ virtual ~MainLightActorNodeReferenceV56()=default;
+};
+class MainLightObjectBaseDtorContinuationV56 {
+public:
+ std::shared_ptr<void> actual_runtime_owner;
+ LightRuntimeStampV56 stamp;
+ std::uintptr_t actor_identity{};
+ virtual bool validate_exact_actor(const MainLightQuiescenceLeaseV56&)const noexcept=0;
+ // Bind Main's one existing reached ObjectBase destruction continuation for the
+ // SAME canonical GO19. Must consume/clear its own fields once in source order;
+ // must not be an empty success endpoint or a second competing actor owner.
+ // Host class layout is NOT original ARM storage; never cast and invoke33e998.
+ virtual void destroy_actual_objectbase_fields()noexcept=0;
+ virtual ~MainLightObjectBaseDtorContinuationV56()=default;
+};
+struct LightNodeBorrowV56 {
+ // Passive genuine lifetime pin. Its deleter MUST NOT own actor120's reference.
+ // Main's node construction/scene lookup returns BOTH this and the unique token.
+ std::shared_ptr<void> owner;
+ std::uintptr_t identity{},actual_light_identity{};
+ std::unique_ptr<MainLightActorNodeReferenceV56> actor_reference;
+};
+}

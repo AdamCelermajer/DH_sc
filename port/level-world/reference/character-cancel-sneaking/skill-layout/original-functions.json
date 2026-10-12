@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7Structs9SkillList4readEP11IStreamBase",
+      "elf_address": "0x4ea830",
+      "size": 292,
+      "sha256": "deee5b9fa231d5a552f350a607093108fa525a0b2b63e995b8caddc0834d7868"
+    },
+    {
+      "original_symbol": "_ZN7Structs5Skill4readEP11IStreamBase",
+      "elf_address": "0x4ebeb0",
+      "size": 1484,
+      "sha256": "e580d098dc2ed24a1918dc21d4e7d5d07de8c9d465cebff063b891b48e031600"
+    },
+    {
+      "original_symbol": "_ZN6Arrays10SkillTable4readEP11IStreamBase",
+      "elf_address": "0x4b9810",
+      "size": 340,
+      "sha256": "432e191d80dc48a1195512ad7e33388ea4c5333d191c69f871ffcab733f053c2"
+    },
+    {
+      "original_symbol": "_ZN6Arrays14SkillListTable4readEP11IStreamBase",
+      "elf_address": "0x4b9964",
+      "size": 332,
+      "sha256": "efe1c4861d4feaa821c8eb6aa02df215cf8e10adc7baba06645e940c10788587"
+    }
+  ]
+}

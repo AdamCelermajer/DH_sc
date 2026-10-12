@@ -1,0 +1,7 @@
+{
+  "reason": "Main session reports Windows Event2004 resource exhaustion and qemu private commit tens of GiB; user confirms emulator/app crashes",
+  "prior_launcher_sha256": "3c5323d000e848624c35ab323a925ffa0b8f748985162bbfba9af0ae46fd81c4",
+  "prior_launcher": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\direct-emulator-launch-v33.py.disabled",
+  "direct_launch_disabled": true,
+  "all_emulator_processes_left_untouched": true
+}

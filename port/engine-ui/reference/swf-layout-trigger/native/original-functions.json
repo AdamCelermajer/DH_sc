@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN11HUDControls9SetHUDPosEPA2_fb",
+      "elf_address": "0x4187a0",
+      "size": 988,
+      "sha256": "a095cac856b0e9fbf78a8585d4a8836177d8261a3918d7968c61d41af2c4131a"
+    },
+    {
+      "original_symbol": "_ZN11HUDControls10RefreshHUDEv",
+      "elf_address": "0x418b7c",
+      "size": 112,
+      "sha256": "9a43a147d4a2f0384f1e97d37492f2c7e81377b7ad1df596b9ee5e8e61caa0c7"
+    },
+    {
+      "original_symbol": "_ZN11MenuManager6UpdateEb",
+      "elf_address": "0x42ea04",
+      "size": 1168,
+      "sha256": "f17bd9255da419b90f31d24ab13e246f8cc396a2431df68474b7268b97f30e2b"
+    },
+    {
+      "original_symbol": "_ZN11HUDControls6UpdateEv",
+      "elf_address": "0x41a780",
+      "size": 636,
+      "sha256": "9d488158664f79160e6ab2002db04a01617f0d6aeeedd06e5f9090d322c19c3b"
+    }
+  ]
+}

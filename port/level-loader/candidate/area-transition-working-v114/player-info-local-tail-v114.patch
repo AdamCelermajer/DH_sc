@@ -1,0 +1,93 @@
+--- a/port/level-world/player_network_local_owner_v4.hpp
++++ b/port/level-world/player_network_local_owner_v4.hpp
+@@ -70,6 +70,17 @@
+   std::uint8_t dirty1c{};
+  } cutscene_change4e8_v99,death_change388_v99;
+  bool cutscene_members_produced_v99{};
++ // Additional SAME PlayerInfo members reached by RemoveCharacter371d80.
++ // 4a0 is NetStructInt(type32), NOT NetStructByteArray32; its value is4c0.
++ std::int32_t remove_scalar4c0_v114{},character_xp448_v114{},character_gold498_v114{};
++ // Actual NetStructByteArray36 at3b0: native-width data3d0 +signed size3d4.
++ // C1 startsNULL/0; actual PlayerInfo.Reset fills36 bytes ff; tail empties it.
++ std::unique_ptr<std::uint8_t[]> character_buffer3d0_v114;
++ std::int32_t character_buffer_size3d4_v114{};
++ MemberChangeV99 remove_change4a0_v114,class_change360_v114,name_change2b0_v114,
++  level_change310_v114,buffer_change3b0_v114,xp_change428_v114,gold_change478_v114,ingame_change4c8_v114;
++ bool remove_members_produced_v114{},buffer_empty_pending_v114{};
++
+  bool loading_clear_produced_v70{};
+  bool managed_fields_produced_v70{};
+  std::shared_ptr<data::PlayerSavegameV1> profile680_v70;
+@@ -95,6 +106,8 @@
+  // Network serialization and other PlayerInfo members remain separate.
+  bool source_set_in_cutscene_v99(PlayerInfoFieldsV1&,bool,std::string&);
+  bool source_reset_dead_local_v99(PlayerInfoFieldsV1&,std::string&);
++ // Actual RemoveCharacter371d80 local destination-member tail only.
++ bool source_remove_character_local_tail_v114(PlayerInfoFieldsV1&,std::string&);
+  bool is_active_selected_v67(PlayerInfoFieldsV1&,std::uint8_t actual_online5,bool&,std::string&);
+  std::shared_ptr<PlayerInfoNetworkIdentityV4> borrow(PlayerInfoFieldsV1&)const;
+  void erased(PlayerInfoFieldsV1& info)noexcept{records_.erase(&info);}
+--- a/port/level-world/player_network_local_owner_v4.cpp
++++ b/port/level-world/player_network_local_owner_v4.cpp
+@@ -1,4 +1,6 @@
+ #include "player_network_local_owner_v4.hpp"
++#include <exception>
++#include <cstring>
+ namespace dh2::player {
+ namespace {
+ // Actual NetStruct::s_changeCounter a33530 is process BSS0, not App dt/frame.
+@@ -71,6 +73,16 @@
+  // Reset. Reconstruct no packet list or other unsupported member metadata.
+  actual->cutscene_change4e8_v99={};actual->death_change388_v99={};
+  actual->loading_member505_v70=0;actual->cutscene_members_produced_v99=true;
++ // Same derived C1/Reset backing, not another Net/player owner. Actual
++ // NetStructByteArray36 C1 isNULL/0; Reset373c9c fills36 bytes ff.
++ actual->remove_scalar4c0_v114=0;actual->character_xp448_v114=0;actual->character_gold498_v114=0;
++ actual->remove_change4a0_v114={};actual->class_change360_v114={};actual->name_change2b0_v114={};
++ actual->level_change310_v114={};actual->buffer_change3b0_v114={};actual->xp_change428_v114={};
++ actual->gold_change478_v114={};actual->ingame_change4c8_v114={};
++ try{actual->character_buffer3d0_v114=std::unique_ptr<std::uint8_t[]>(new std::uint8_t[36]);}
++ catch(const std::exception& x){e=x.what();return false;}
++ actual->character_buffer_size3d4_v114=36;std::memset(actual->character_buffer3d0_v114.get(),0xff,36);
++ actual->remove_members_produced_v114=true;
+  e.clear();return true;
+ }
+ bool PlayerNetworkLocalOwnerV4::source_selected_profile_class_v68(PlayerInfoFieldsV1& record,std::int32_t selected,std::string& e){
+@@ -91,6 +103,37 @@
+  if(actual->loading_member505_v70!=incoming){actual->loading_member505_v70=incoming;member_changed_v99(actual->cutscene_change4e8_v99);}
+  e.clear();return true;
+ }
++bool PlayerNetworkLocalOwnerV4::source_remove_character_local_tail_v114(PlayerInfoFieldsV1& record,std::string& e){
++ auto actual=borrow(record);
++ if(!actual||actual->receiver!=&record||!actual->parent_lease||!actual->selected_player_info_v67||
++    !actual->managed_fields_produced_v70||!actual->remove_members_produced_v114){
++  e="Required SAME produced PlayerInfo local RemoveCharacter members";return false;
++ }
++ // Source371fcc calls actual4a0.virtual1c with integer0 (value4c0).
++ // Destination SetValue36d9f0 compares before source SetChanged814f84.
++ if(actual->remove_scalar4c0_v114){actual->remove_scalar4c0_v114=0;member_changed_v99(actual->remove_change4a0_v114);}
++ bool local{};if(!is_local(record,local,e))return false;
++ if(borrow(record)!=actual){e="PlayerInfo identity replaced after actual selected virtual50";return false;}
++ if(!local){e.clear();return true;}
++ if(actual->character_class380_v68!=-1){actual->character_class380_v68=-1;member_changed_v99(actual->class_change360_v114);}
++ if(!actual->character_name2d0_v70.empty()){actual->character_name2d0_v70.clear();member_changed_v99(actual->name_change2b0_v114);}
++ if(actual->character_level330_v70!=-1){actual->character_level330_v70=-1;member_changed_v99(actual->level_change310_v114);}
++ // NetStructByteArray36.SetBuffer(NULL,0): temporaryNULL/0 is equal to
++ // destination size0. Positive length differs, so actual ByteArray frees old
++ // storage, stores size0, then performs original new[0], and SetChanged.
++ if(actual->character_buffer_size3d4_v114||actual->buffer_empty_pending_v114){
++  if(!actual->buffer_empty_pending_v114){actual->character_buffer3d0_v114.reset();actual->character_buffer_size3d4_v114=0;actual->buffer_empty_pending_v114=true;}
++  try{actual->character_buffer3d0_v114=std::unique_ptr<std::uint8_t[]>(new std::uint8_t[0]);}
++  catch(const std::exception& x){e=x.what();return false;}
++  actual->buffer_empty_pending_v114=false;member_changed_v99(actual->buffer_change3b0_v114);
++ }
++ if(actual->character_xp448_v114){actual->character_xp448_v114=0;member_changed_v99(actual->xp_change428_v114);}
++ if(actual->character_gold498_v114){actual->character_gold498_v114=0;member_changed_v99(actual->gold_change478_v114);}
++ // Existing historical visible4e5 field IS actual SetIngame's bool value:
++ // member4c8 +1d =4e5. Reuse SAME cell rather than shadowing it.
++ if(actual->character_visible4e5_v70){actual->character_visible4e5_v70=0;member_changed_v99(actual->ingame_change4c8_v114);}
++ e.clear();return true;
++}
+ bool PlayerNetworkLocalOwnerV4::source_reset_dead_local_v99(PlayerInfoFieldsV1& record,std::string& e){
+  auto actual=borrow(record);
+  if(!actual||actual->receiver!=&record||!actual->selected_player_info_v67||!actual->cutscene_members_produced_v99){

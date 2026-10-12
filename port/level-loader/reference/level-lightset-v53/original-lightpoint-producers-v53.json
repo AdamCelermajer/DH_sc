@@ -1,0 +1,91 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "actual_C1_and_DeclareProperties_executed": true,
+  "property_registration_endpoint": "capture only, original declaration bodies/string/default producers execute",
+  "constructor": {
+    "0xf4": 19,
+    "0x64": 4294967295,
+    "0x120": 0,
+    "0x124": 0,
+    "0x128": 0,
+    "0x12c": 0,
+    "0x134": 0,
+    "0x138": 0,
+    "0x13c": 0,
+    "0x140": 0,
+    "0x144": 0,
+    "0x148": 0,
+    "0x14c": 0,
+    "0x150": 0,
+    "0x154": 0,
+    "0x158": 0,
+    "0x15c": 0,
+    "0x160": 0,
+    "0x1a4": 0,
+    "0x1a8": 0,
+    "0x1ac": 0,
+    "85": "01"
+  },
+  "properties": [
+    {
+      "name": "position",
+      "offset": "0x124",
+      "property_vtable": "0x964038",
+      "default_bytes": "000000000000000000000000000000000000000000000000"
+    },
+    {
+      "name": "radius",
+      "offset": "0x130",
+      "property_vtable": "0x964898",
+      "default_bytes": "000000400000000000000000000000000000000000000000"
+    },
+    {
+      "name": "attenuation",
+      "offset": "0x134",
+      "property_vtable": "0x964038",
+      "default_bytes": "000000000000000000000000000000000000000000000000"
+    },
+    {
+      "name": "ambientColor",
+      "offset": "0x140",
+      "property_vtable": "0x964038",
+      "default_bytes": "000000000000000000000000000000000000000000000000"
+    },
+    {
+      "name": "diffuseColor",
+      "offset": "0x14c",
+      "property_vtable": "0x964038",
+      "default_bytes": "000000000000000000000000000000000000000000000000"
+    },
+    {
+      "name": "specularColor",
+      "offset": "0x158",
+      "property_vtable": "0x964038",
+      "default_bytes": "000000000000000000000000000000000000000000000000"
+    },
+    {
+      "name": "automatic",
+      "offset": "0x164",
+      "property_vtable": "0x95c608",
+      "default_bytes": "000000000000000000000000000000000000000000000000"
+    },
+    {
+      "name": "dae",
+      "offset": "0x168",
+      "property_vtable": "0x95c5c8",
+      "default_bytes": "000000000000000000000000000000008001200280012002"
+    },
+    {
+      "name": "attachedTo",
+      "offset": "0x180",
+      "property_vtable": "0x95c5c8",
+      "default_bytes": "00000000000000000000000000000000c0012002c0012002"
+    },
+    {
+      "name": "attachedOffset",
+      "offset": "0x1a4",
+      "property_vtable": "0x964038",
+      "default_bytes": "000000000000000000000000000000000000000000000000"
+    }
+  ]
+}

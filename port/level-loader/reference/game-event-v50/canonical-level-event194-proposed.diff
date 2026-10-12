@@ -1,0 +1,27 @@
+--- canonical_level_context_v1.hpp
++++ canonical_level_context_v1.hpp
+@@ -2,6 +2,7 @@
+ #include "level_preparation_v1.hpp"
+ #include "character_kill.hpp"
+ #include "level_constructor_v3.hpp"
++#include "game_event_level_fields_v50.hpp"
+ 
+ namespace dh2::loader {
+ // One retained game-Level receiver, distinct from LevelConfig and Module.
+@@ -23,6 +24,8 @@
+     // create() retains the historical field prefix; it does not run this body.
+     LevelConstructorFieldsV3 constructor_fields_v3_;
+     std::unique_ptr<LevelConstructorV3> constructor_v3_;
++    // Sole storage/receiver owner for this actual Level field194.
++    std::shared_ptr<GameEventManagerV50> game_events194_;
+     CanonicalLevelContextV1(LevelSourceRequestV1,std::shared_ptr<void>);
+ public:
+     CanonicalLevelContextV1(const CanonicalLevelContextV1&)=delete;
+@@ -55,6 +58,7 @@
+     // supplies the original Level::LoadFile continuation on the SAME candidate.
+     ModuleLoadFields module_load_fields();
+     LevelConstructorBorrowV3 constructor_borrow_v3();
++    bool game_event_fields_v50(GameEventLevelFieldsV50&,std::string&);
+     bool construct_source_v3(LevelConstructorArgumentsV3,LevelConstructorServicesV3,std::string&);
+     const LevelConstructorFieldsV3& constructor_fields_v3()const noexcept{return constructor_fields_v3_;}
+     const LevelConstructorV3* constructor_owner_v3()const noexcept{return constructor_v3_.get();}

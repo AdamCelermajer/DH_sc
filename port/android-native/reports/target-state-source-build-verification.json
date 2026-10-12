@@ -1,0 +1,37 @@
+{
+  "latest_tested_checkpoint": "dh2-native-monster-init-f19abb6a.apk",
+  "physical_arm64_verified": false,
+  "full_enemy_AI": false,
+  "builds": [
+    {
+      "bytes": 23622011,
+      "sha256": "85e81c97e24db9606b10738c2a30bb4242ce18611754452bee0e90d1939b2f31",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\build\\outputs\\apk\\debug\\app-debug.apk",
+      "abis": [
+        "arm64-v8a",
+        "x86_64"
+      ],
+      "emulator_tested": false,
+      "assembleDebug_exit_code": 0
+    },
+    {
+      "bytes": 22688123,
+      "sha256": "7c9d432c547877dd183190373f2e07c788c6ff3cb5aa427cee258abc301d675d",
+      "path": "C:\\Users\\adamc\\AndroidStudioProjects\\dh2\\app\\build\\outputs\\apk\\debug\\app-debug.apk",
+      "abis": [
+        "arm64-v8a",
+        "x86_64"
+      ],
+      "emulator_tested": false,
+      "assembleDebug_exit_code": 0
+    }
+  ],
+  "scope": "Native source-stage host audits and successful Android builds, without a new emulator-tested checkpoint",
+  "host_audit": {
+    "sha256": "edbe5c9b347492e4f4bcfba28541ce37b67fdc08b8df17676f6cd125bcaeeb23",
+    "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\character-target-events-state-bodies-main-linked-host-audit.json",
+    "audits": 17,
+    "sanitizer_findings": 0
+  },
+  "validation": "PASS"
+}

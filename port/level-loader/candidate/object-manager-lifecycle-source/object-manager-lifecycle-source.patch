@@ -1,0 +1,229 @@
+--- /dev/null
++++ b/port/level-world/canonical_object_lifecycle_v1.hpp
+@@ -0,0 +1,54 @@
++#pragma once
++#include <cstdint>
++#include <functional>
++#include <list>
++#include <memory>
++#include <string>
++namespace dh2::world {
++class CanonicalObjectManagerV1;struct CanonicalObjectBorrowV1;
++// These are borrows of SAME original storage absent from the small map/Add
++// projection, not permission to make fresh empty containers for teardown.
++enum class ObjectManagerContainerV1:unsigned {list24=0x24,list3c=0x3c,list44=0x44,list80=0x80,tree98=0x98,treeb0=0xb0,treec8=0xc8,treee0=0xe0,tree108=0x108,list128=0x128,list130=0x130,tree148=0x148,tree164=0x164,tree17c=0x17c,tree194=0x194};
++struct ObjectManagerNativeStorageV1 {
++ std::shared_ptr<void> owner;std::uintptr_t manager_identity{};
++ std::list<std::uintptr_t> *orphan4{},*list2c{},*characters70{},*no_room88{},*objects90{},*network100{};
++ std::list<std::uint16_t>* removed120{};
++ std::uint32_t *word54{},*word58{},*word138{},*word13c{},*word140{};std::uint8_t* byte160{};
++ // Erase/reset this reached actual container only. This is storage cleanup,
++ // never a whole Remove/Flush callback, gameplay leaf or guessed absence.
++ std::function<bool(ObjectManagerContainerV1,std::string&)> clear;
++ // Source AddRoomObjects3427a0 registers the SAME now-empty no_room88 list
++ // address in real list80 after list80 clears. No copied room-list snapshot.
++ std::function<bool(std::string&)> register_no_room88;
++};
++struct ObjectManagerGameObjectFieldsV1 {
++ std::shared_ptr<void> owner;std::uintptr_t identity{};
++ std::uintptr_t* room_zone2f4{};std::uint8_t *no_room2f8{},*orphan2fc{};
++};
++struct CanonicalObjectLifecycleV1 {
++ std::shared_ptr<void> owner; // independent; containing Level/World weak
++ std::function<bool(CanonicalObjectManagerV1&,std::string&)> require_quiescent;
++ std::function<bool(CanonicalObjectManagerV1&,ObjectManagerNativeStorageV1&,std::string&)> native_storage;
++ // Exact ObjectHandle GameObject conversion: GetObject(false), real virtual20.
++ // false conversion is source NULL; do not infer it from class name/type_f4.
++ std::function<bool(const CanonicalObjectBorrowV1&,bool&,ObjectManagerGameObjectFieldsV1&,std::string&)> game_object;
++ std::function<bool(const ObjectManagerGameObjectFieldsV1&,std::uintptr_t,std::string&)> room_remove;
++ std::function<bool(const CanonicalObjectBorrowV1&,std::string&)> flush_target_list,object_delete,ai_update_pointers,ai_remove_from_group;
++ std::function<bool(bool&,std::string&)> online_byte5;
++ std::function<bool(const CanonicalObjectBorrowV1&,bool&,std::string&)> character_virtual28;
++ std::function<bool(const CanonicalObjectBorrowV1&,std::uint16_t&,std::string&)> network_id108;
++ // Real class D0 portion INCLUDING source-position ConditionData clear and
++ // derived/base Lua/scene/network teardown. Must not free the borrowed host
++ // allocation or retire its journal before manager/transport/draw unpublish.
++ std::function<bool(const CanonicalObjectBorrowV1&,std::string&)> class_d0;
++ // Real orphan queue owns native receiver after map erase. Existing Main
++ // release journal must admit/pin it; adding an integer to orphan4 is not D0.
++ std::function<bool(const CanonicalObjectBorrowV1&,std::string&)> orphan_admit;
++ // Borrow existing native orphan identity after its map entry was erased.
++ // No loader-owned orphan receiver registry or manufactured object.
++ std::function<bool(std::uintptr_t,CanonicalObjectBorrowV1&,std::string&)> native_receiver;
++ // Host journal retirement ONLY after native bodies and actual publication
++ // checks. Does no functional teardown; pending/orphan aliases stay pinned.
++ std::function<bool(CanonicalObjectManagerV1&,std::string&)> retire_after_unpublication;
++};
++}
+--- a/port/level-world/canonical_object_manager_v1.hpp
++++ b/port/level-world/canonical_object_manager_v1.hpp
+@@ -1,5 +1,6 @@
+ #pragma once
+ #include "character_target_providers.hpp"
++#include "canonical_object_lifecycle_v1.hpp"
+ #include <map>
+ #include <memory>
+ #include <string>
+@@ -33,7 +34,7 @@
+ };
+ // Source ObjectManager ctor34a404/GetObjectByName34aca0/Add34b270 projection.
+ // Owns map/list nodes and leases only. Actor fields remain the receiver's one
+-// canonical storage. Remove/Flush lifecycle is deliberately a separate service.
++// canonical storage. Remove/Flush consume typed real lifecycle/storage leaves.
+ class CanonicalObjectManagerV1 {
+  struct Entry {std::string name;CanonicalObjectBorrowV1 actor;};
+  std::map<std::int32_t,Entry> entries_;
+@@ -44,6 +45,9 @@
+  // Native ownership receipt only: invalidated at source mutation prefixes.
+  // Never substitutes source initialized/count/phase fields.
+  bool source_c1_fresh_v50_{};
++ bool lifecycle_busy_v1_{},lifecycle_failed_v1_{};std::string lifecycle_failure_v1_;
++ bool lifecycle_admit_v1(const CanonicalObjectLifecycleV1&,ObjectManagerNativeStorageV1&,std::string&);
++ bool lifecycle_fail_v1(std::string&);
+  bool required(bool,const char*,std::string&);
+ public:
+  explicit CanonicalObjectManagerV1(CanonicalObjectManagerServicesV1 services):services_(services){
+@@ -53,6 +57,11 @@
+   entries_.try_emplace(0);next_key_=1;source_c1_fresh_v50_=true;
+  }
+  CanonicalObjectManagerV1(const CanonicalObjectManagerV1&)=delete;
++ // Source Remove348ea4 / Flush3496b8 on this SAME map/lists/handles.
++ // Failed destructive prefixes stay pinned and cannot be replayed.
++ bool remove_source_v1(target_providers::Handle16,const CanonicalObjectLifecycleV1&,std::string&);
++ bool flush_source_v1(const CanonicalObjectLifecycleV1&,std::string&);
++ bool source_lifecycle_failed_v1()const noexcept{return lifecycle_failed_v1_;}
+  bool by_name(const char*,std::int32_t,bool,const char*,target_providers::Handle16&,std::string&);
+  bool add(CanonicalObjectBorrowV1,const char*,const char*,std::int32_t,bool,target_providers::Handle16&,std::string&);
+  bool get_handle(std::int32_t,target_providers::Handle16&,std::string&);
+--- a/port/level-world/canonical_object_manager_v1.cpp
++++ b/port/level-world/canonical_object_manager_v1.cpp
+@@ -1,6 +1,8 @@
+ #include "canonical_object_manager_v1.hpp"
+ #include <cstring>
+ #include <limits>
++#include <algorithm>
++#include <exception>
+ namespace dh2::world {
+ bool CanonicalObjectManagerV1::required(bool available,const char* name,std::string& e){if(!available){e=std::string("required source ObjectManager provider: ")+name;return false;}return true;}
+ const CanonicalObjectBorrowV1* CanonicalObjectManagerV1::object(std::int32_t key)const noexcept{auto i=entries_.find(key);return i==entries_.end()||!i->second.actor.identity?nullptr:&i->second.actor;}
+@@ -20,12 +22,15 @@
+  return true;
+ }
+ bool CanonicalObjectManagerV1::append_pending(const CanonicalObjectBorrowV1& actor,std::string& e){
++ if(lifecycle_busy_v1_||lifecycle_failed_v1_){e="ObjectManager publication is quiesced during/after failed native destruction";return false;}
+  if(!actor.identity||!actor.lease||!actor.shared_handle){e="Required published source Spawn pending receiver";return false;}
+  const auto* actual=object(actor.shared_handle->key);
+  if(!actual||actual->identity!=actor.identity||actual->lease!=actor.lease){e="Spawn pending receiver differs from canonical manager publication";return false;}
+  source_c1_fresh_v50_=false;pending_.push_back(actor.identity);return true;
+ }
+ bool CanonicalObjectManagerV1::by_name(const char* name,std::int32_t room,bool create,const char* threat,target_providers::Handle16& out,std::string& e){
++ if(lifecycle_failed_v1_){e=lifecycle_failure_v1_;return false;}
++ if(create&&lifecycle_busy_v1_){e="ObjectManager allocating name lookup is quiesced during/after failed destruction";return false;}
+  out={0,UINT32_MAX,0};if(!name){e="source GetObjectByName null name is outside safe native domain";return false;}
+  if(!std::strncmp(name,"Player",6)||!std::strncmp(name,"PlayerCharacter_",16)||!std::strncmp(name,"LocalPlayer",11))room=-1;
+  if(!std::strcmp(name,"HighestThreatPlayer"))return required(services_.highest_threat!=nullptr,"HighestThreatPlayer",e)&&services_.highest_threat(services_.context,threat,room,create,out,e);
+@@ -47,9 +52,10 @@
+  // Original counter mutation precedes allocation/insertion. Prefix survives.
+  auto [i,inserted]=entries_.try_emplace(key);if(!inserted){e="source key wrapped onto an existing map node";return false;}i->second.name=name;out.key=key;return true;
+ }
+-bool CanonicalObjectManagerV1::get_handle(std::int32_t key,target_providers::Handle16& out,std::string& e){auto* a=object(key);if(!a||!a->shared_handle){e="source GetHandle requires canonical receiver";return false;}a->shared_handle->frame=frame_;out=*a->shared_handle;return true;}
++bool CanonicalObjectManagerV1::get_handle(std::int32_t key,target_providers::Handle16& out,std::string& e){if(lifecycle_failed_v1_){e=lifecycle_failure_v1_;return false;}auto* a=object(key);if(!a||!a->shared_handle){e="source GetHandle requires canonical receiver";return false;}a->shared_handle->frame=frame_;out=*a->shared_handle;return true;}
+ bool CanonicalObjectManagerV1::resolve_handle_v4(target_providers::Handle16& handle,bool asserted,
+  const CanonicalObjectBorrowV1*& out,const std::function<bool(std::string&)>& assertion,std::string& e){
++ if(lifecycle_failed_v1_&&!lifecycle_busy_v1_){e=lifecycle_failure_v1_;out=nullptr;return false;}
+  out=nullptr;std::uintptr_t result{};
+  if(handle.key){
+   if(!handle.cached||handle.frame!=frame_){
+@@ -72,6 +78,7 @@
+  e="Required retained receiver for source cached ObjectHandle address";return false;
+ }
+ bool CanonicalObjectManagerV1::add(CanonicalObjectBorrowV1 actor,const char* name,const char* archetype,std::int32_t room,bool network,target_providers::Handle16& out,std::string& e){
++ if(lifecycle_busy_v1_||lifecycle_failed_v1_){e="ObjectManager Add is quiesced during/after failed native destruction";return false;}
+  if(!actor.identity||!actor.lease||!actor.shared_handle||!actor.type_f4||!actor.room64||!name||!archetype){e="source Add requires actual constructed receiver fields/name/archetype";return false;}
+  if(!by_name(name,room,true,nullptr,out,e))return false;
+  out.frame=frame_;if(auto* prior=object(out.key)){out.cached=prior->identity;return required(services_.destroy_duplicate!=nullptr,"duplicate virtual deleting destructor",e)&&services_.destroy_duplicate(services_.context,actor,e);}
+@@ -87,4 +94,84 @@
+  if(services_.published&&!services_.published(services_.context,out.key,a,character,e))return false;
+  return true;
+ }
++bool CanonicalObjectManagerV1::lifecycle_fail_v1(std::string& e){lifecycle_failed_v1_=true;if(lifecycle_failure_v1_.empty())lifecycle_failure_v1_=e.empty()?"Required actual ObjectManager native lifecycle leaf; prefix retained":e;e=lifecycle_failure_v1_;return false;}
++bool CanonicalObjectManagerV1::lifecycle_admit_v1(const CanonicalObjectLifecycleV1& s,ObjectManagerNativeStorageV1& f,std::string& e){
++ if(lifecycle_failed_v1_||lifecycle_busy_v1_){e=lifecycle_failure_v1_.empty()?"ObjectManager native lifecycle cannot replay/reenter":lifecycle_failure_v1_;return false;}
++ if(!s.owner||!s.require_quiescent||!s.native_storage||!s.require_quiescent(*this,e)||!s.native_storage(*this,f,e)||!f.owner||f.manager_identity!=reinterpret_cast<std::uintptr_t>(this)){if(e.empty())e="Required SAME ObjectManager storage and actual delivery quiescence";return false;}
++ return true;
+ }
++bool CanonicalObjectManagerV1::remove_source_v1(target_providers::Handle16 handle,const CanonicalObjectLifecycleV1& s,std::string& e){
++ ObjectManagerNativeStorageV1 f;if(!lifecycle_admit_v1(s,f,e))return false;
++ lifecycle_busy_v1_=true;source_c1_fresh_v50_=false;struct Guard{bool& b;~Guard(){b=false;}}guard{lifecycle_busy_v1_};
++ auto fail=[&]{return lifecycle_fail_v1(e);};
++ auto receiver=[&](std::uintptr_t id,CanonicalObjectBorrowV1& out){if(!id){e="Original lifecycle reaches NULL receiver outside safe native domain";return false;}for(const auto& entry:entries_)if(entry.second.actor.identity==id&&entry.second.actor.lease){out=entry.second.actor;return true;}if(s.native_receiver&&s.native_receiver(id,out,e)&&out.identity==id&&out.lease)return true;if(e.empty())e="Required existing actual lifecycle receiver";return false;};
++ auto resolve=[&](CanonicalObjectBorrowV1& out){out={};const CanonicalObjectBorrowV1* p{};if(!resolve_handle_v4(handle,false,p,{},e))return false;if(p)out=*p;return true;};
++ auto character=[&](std::uintptr_t& id){id=0;CanonicalObjectBorrowV1 a;if(!resolve(a))return false;if(!a.identity)return true;if(!a.as_character){e="Required original Handle Character conversion";return false;}return a.as_character(a.context,id,e);};
++ auto remove_all=[](auto& list,std::uintptr_t id){list.erase(std::remove(list.begin(),list.end(),id),list.end());};
++ auto remove_first=[](auto& list,std::uintptr_t id){auto i=std::find(list.begin(),list.end(),id);if(i!=list.end())list.erase(i);};
++ try{
++  CanonicalObjectBorrowV1 first;if(!resolve(first))return fail();bool game=false;ObjectManagerGameObjectFieldsV1 g;
++  if(first.identity&&(!s.game_object||!s.game_object(first,game,g,e)))return fail();
++  if(game){
++   if(!g.owner||g.owner.owner_before(first.lease)||first.lease.owner_before(g.owner)||g.identity!=first.identity||!g.room_zone2f4||!g.no_room2f8||!g.orphan2fc){e="Required SAME GameObject2f4/2f8/2fc cells";return fail();}
++   if(*g.room_zone2f4&&(!s.room_remove||!s.room_remove(g,*g.room_zone2f4,e)))return fail();
++   if(!f.no_room88||!f.objects90){e="Required actual no-room88/object90 lists";return fail();}
++   auto i=std::find(f.no_room88->begin(),f.no_room88->end(),g.identity);if(i!=f.no_room88->end()){f.no_room88->erase(i);*g.no_room2f8=0;}
++   remove_first(*f.objects90,g.identity);
++  }
++  CanonicalObjectBorrowV1 a;if(!resolve(a))return fail();if(!f.list2c){e="Required actual ObjectBase list2c";return fail();}remove_all(*f.list2c,a.identity);
++  std::uintptr_t ch{};if(!character(ch))return fail();if(!f.characters70){e="Required actual Character list70";return fail();}remove_all(*f.characters70,ch);
++  if(!character(ch))return fail();if(ch){remove_all(characters_,ch);CanonicalObjectBorrowV1 actual;if(!receiver(ch,actual)||!s.ai_remove_from_group||!s.ai_remove_from_group(actual,e))return fail();}
++  if(!resolve(a))return fail();if(a.identity){if(!a.type_f4){e="Required SAME type_f4 for source Remove";return fail();}if(*a.type_f4==5)remove_all(modules_,a.identity);}
++  bool online{};if(!s.online_byte5||!s.online_byte5(online,e))return fail();
++  if(online){
++   if(!f.network100||!f.removed120){e="Required actual network100/removed120 lists";return fail();}
++   // Original operator[] may insert a NULL node, without advancing next4c.
++   auto i=f.network100->begin();
++   for(;i!=f.network100->end();++i){auto& mapped=entries_[handle.key].actor;if(*i==mapped.identity)break;}
++   if(i!=f.network100->end()){
++    CanonicalObjectBorrowV1 network;if(!receiver(*i,network))return fail();std::uintptr_t nc{};
++    if(!network.shared_handle){e="Required SAME network GetHandle";return fail();}network.shared_handle->frame=frame_;auto nh=*network.shared_handle;const CanonicalObjectBorrowV1* n{};
++    if(!resolve_handle_v4(nh,false,n,{},e))return fail();if(n&&(!n->as_character||!n->as_character(n->context,nc,e)))return fail();
++    bool virtual28=false;if(nc&&(!s.character_virtual28||!s.character_virtual28(network,virtual28,e)))return fail();
++    if(!nc||!virtual28){std::uint16_t id{};if(!s.network_id108||!s.network_id108(network,id,e))return fail();f.removed120->push_back(id);}
++    f.network100->erase(i);
++   }
++  }
++  --count_; // Native wraps; NULL GameObject is only rejected at its reached read.
++  if(!game){e="Original Remove reaches NULL GameObject2fc read after count50 decrement; unsupported safe native domain";return fail();}
++  auto& mapped=entries_[handle.key].actor;
++  if(*g.orphan2fc){if(mapped.identity){if(!f.orphan4||!s.orphan_admit||!s.orphan_admit(mapped,e))return fail();f.orphan4->push_back(mapped.identity);}}
++  else if(mapped.identity){auto pin=mapped;if(!s.class_d0||!s.class_d0(pin,e))return fail();}
++  entries_.erase(handle.key);++frame_;
++  if(!s.retire_after_unpublication||!s.retire_after_unpublication(*this,e))return fail();e.clear();return true;
++ }catch(const std::exception& ex){e=ex.what();return fail();}catch(...){e="ObjectManager Remove native leaf threw; prefix retained";return fail();}
++}
++bool CanonicalObjectManagerV1::flush_source_v1(const CanonicalObjectLifecycleV1& s,std::string& e){
++ ObjectManagerNativeStorageV1 f;if(!lifecycle_admit_v1(s,f,e))return false;
++ lifecycle_busy_v1_=true;source_c1_fresh_v50_=false;struct Guard{bool& b;~Guard(){b=false;}}guard{lifecycle_busy_v1_};
++ auto fail=[&]{return lifecycle_fail_v1(e);};
++ auto receiver=[&](std::uintptr_t id,CanonicalObjectBorrowV1& out){if(!id){e="Original lifecycle reaches NULL receiver outside safe native domain";return false;}for(const auto& entry:entries_)if(entry.second.actor.identity==id&&entry.second.actor.lease){out=entry.second.actor;return true;}if(s.native_receiver&&s.native_receiver(id,out,e)&&out.identity==id&&out.lease)return true;if(e.empty())e="Required actual Character/orphan receiver";return false;};
++ auto clear=[&](ObjectManagerContainerV1 id){if(!f.clear){e="Required reached native manager container clear";return false;}return f.clear(id,e);};
++ try{
++  for(auto id:characters_){CanonicalObjectBorrowV1 a;if(!receiver(id,a)||!s.flush_target_list||!s.flush_target_list(a,e))return fail();if(!s.object_delete||!s.object_delete(a,e))return fail();}
++  for(auto id:characters_){CanonicalObjectBorrowV1 a;if(!receiver(id,a)||!s.ai_update_pointers||!s.ai_update_pointers(a,e))return fail();}
++  for(auto i=entries_.begin();i!=entries_.end();++i)if(i->second.actor.identity){auto pin=i->second.actor;if(!s.class_d0||!s.class_d0(pin,e))return fail();if(i->second.actor.identity!=pin.identity||i->second.actor.lease.owner_before(pin.lease)||pin.lease.owner_before(i->second.actor.lease)){e="SAME native map receiver changed during class D0";return fail();}i->second.actor={};}
++  if(!f.objects90){e="Required actual object90 list";return fail();}f.objects90->clear();entries_.clear();characters_.clear();modules_.clear();
++  if(!f.network100||!f.removed120){e="Required native network100/removed120 lists";return fail();}f.network100->clear();f.removed120->clear();
++  if(!clear(ObjectManagerContainerV1::tree108)||!clear(ObjectManagerContainerV1::tree164)||!clear(ObjectManagerContainerV1::tree17c)||!clear(ObjectManagerContainerV1::tree194)||!clear(ObjectManagerContainerV1::list128)||!clear(ObjectManagerContainerV1::list130)||!clear(ObjectManagerContainerV1::list80))return fail();
++  if(!f.no_room88||!f.register_no_room88){e="Required SAME no-room88 and real AddRoomObjects registration";return fail();}f.no_room88->clear();if(!f.register_no_room88(e))return fail();
++  if(!f.word138||!f.word13c||!f.word140){e="Required actual manager138/13c/140 cells";return fail();}*f.word138=0;*f.word13c=0;*f.word140=0;
++  if(!clear(ObjectManagerContainerV1::tree148))return fail();
++  if(!f.byte160){e="Required actual manager160 byte";return fail();}*f.byte160=0;entries_.try_emplace(0);next_key_=1;
++  if(!f.word54||!f.word58){e="Required actual manager54/58 cells";return fail();}*f.word58=0;count_=0;*f.word54=0;
++  if(!clear(ObjectManagerContainerV1::list3c)||!f.list2c){if(e.empty())e="Required actual manager2c storage";return fail();}f.list2c->clear();
++  if(!clear(ObjectManagerContainerV1::list44))return fail();pending_.clear();if(!f.characters70){e="Required actual Character70 storage";return fail();}f.characters70->clear();if(!clear(ObjectManagerContainerV1::list24))return fail();init_phase7c_=0;
++  // FlushAllOrphanRenderObjects3454dc: genuine D0, NULL cell, then list clear.
++  if(!f.orphan4){e="Required actual orphan4 list/receiver journals";return fail();}
++  for(auto& id:*f.orphan4)if(id){CanonicalObjectBorrowV1 a;if(!receiver(id,a)||!s.class_d0||!s.class_d0(a,e))return fail();id=0;}f.orphan4->clear();
++  if(!clear(ObjectManagerContainerV1::tree98)||!clear(ObjectManagerContainerV1::treeb0)||!clear(ObjectManagerContainerV1::treec8)||!clear(ObjectManagerContainerV1::treee0))return fail();
++  if(!s.retire_after_unpublication||!s.retire_after_unpublication(*this,e))return fail();e.clear();return true;
++ }catch(const std::exception& ex){e=ex.what();return fail();}catch(...){e="ObjectManager Flush native leaf threw; prefix retained";return fail();}
++}
++}

@@ -1,0 +1,63 @@
+[
+  {
+    "command": [
+      "wsl.exe",
+      "-e",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/stage8-v51/probe-normal",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/stage8-v51"
+    ],
+    "exit_code": 0,
+    "stdout": "{\"validation\":\"PASS\",\"original_path_gold_cases\":18,\"stage8_fixture_cases\":13,\"actual_canonical_config_field_writes\":true,\"same_completed_actual_LevelC1_verified\":false,\"ScriptManager_fog_execution_providers_are_fixtures\":true,\"Lua44_unchanged\":true,\"whole_level_ready\":false}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "wsl.exe",
+      "-e",
+      "/usr/bin/c++",
+      "-std=c++17",
+      "-fsanitize=address,undefined",
+      "-fno-omit-frame-pointer",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Wno-misleading-indentation",
+      "-UNDEBUG",
+      "-g",
+      "-O1",
+      "-ffunction-sections",
+      "-fdata-sections",
+      "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/stage8-v51/config-candidate",
+      "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/level-world",
+      "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/level-loader",
+      "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader",
+      "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/../level-world",
+      "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/game-data",
+      "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/script-runtime",
+      "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/engine-ui",
+      "-isystem",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/physics-backend/box2d-2.0.1/Include",
+      "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/asset-payloads",
+      "-I/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/vendor/character-rng-integration-v5-loading/port/scene-materials",
+      "-Wl,--gc-sections",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/stage8-v51/config-candidate/canonical_level_config_module_v1.cpp",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/tests/stage_config_scripts_v51.cpp",
+      "-o",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/stage8-v51/probe-sanitize"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "wsl.exe",
+      "-e",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/stage8-v51/probe-sanitize",
+      "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/stage8-v51"
+    ],
+    "exit_code": 0,
+    "stdout": "{\"validation\":\"PASS\",\"original_path_gold_cases\":18,\"stage8_fixture_cases\":13,\"actual_canonical_config_field_writes\":true,\"same_completed_actual_LevelC1_verified\":false,\"ScriptManager_fog_execution_providers_are_fixtures\":true,\"Lua44_unchanged\":true,\"whole_level_ready\":false}\n",
+    "stderr": ""
+  }
+]

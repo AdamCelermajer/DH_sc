@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "integration_id": "MAIN_FILL_AFTER_ONE_COHERENT_BUILD",
+  "output_root": "C:/Main/isolated-loader-milestone-results",
+  "build_receipt": "C:/Main/isolated-loader-build/milestone-build-receipt.json",
+  "paths": {
+    "cache": "C:/Main/original/DungeonHunter2-cache.zip",
+    "design": "C:/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/tests/native-ctor-v4/design.bin",
+    "script_reference": "C:/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/reference/scriptmanager-v52"
+  },
+  "executables": {
+    "c1_admission": {
+      "executable": "C:/Main/isolated-loader-build/dh2_loader_c1_admission_v63.exe"
+    },
+    "fixed_swamp_native_file": {
+      "executable": "C:/Main/isolated-loader-build/dh2_loader_swamp_native_milestone.exe"
+    },
+    "assigned_seam_lifetimes": {
+      "executable": "C:/Main/isolated-loader-build/dh2_loader_assigned_source_milestone.exe"
+    },
+    "lifecycle_reentry": {
+      "executable": "C:/Main/isolated-loader-build/dh2_loader_cancel_reentry_v43.exe"
+    },
+    "script_data_storage": {
+      "executable": "C:/Main/isolated-loader-build/dh2_loader_script_storage_milestone.exe"
+    },
+    "script_commands_80": {
+      "executable": "C:/Main/isolated-loader-build/dh2_loader_commands_80_milestone.exe"
+    },
+    "typed_script_init": {
+      "executable": "C:/Main/isolated-loader-build/dh2_loader_script_init_milestone.exe"
+    },
+    "script_app_ownership": {
+      "executable": "C:/Main/isolated-loader-build/dh2_loader_script_binding_v63.exe"
+    },
+    "actor_image_lifetimes": {
+      "executable": "C:/Main/isolated-loader-build/dh2_loader_image_lifetime_milestone.exe"
+    }
+  },
+  "runtime_providers": {}
+}

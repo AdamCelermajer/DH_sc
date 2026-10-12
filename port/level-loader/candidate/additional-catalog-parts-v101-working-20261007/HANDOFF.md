@@ -1,0 +1,5 @@
+# Additional original factory parts in existing production catalog
+
+Apply additional-catalog-parts-v101.patch to current existing composition header/CPP; same owning TU, no new target or factory registry. Main appends the real Projectile/Laser canonical PartV67 to services.additional_parts_v101 before its sole compose_production_noncharacter_catalog_v67 call. Other original families can use the same exact extension slot.
+
+Existing ProductionNonCharacterCatalogV67::create remains authoritative for original factory names/addresses, reserved Main types, duplicates and independent part owners. Actual extra part owners are retained in the existing ProductionNonCharacterOwnersV67 bag so Main final qualified unpublication retires them with other catalogs. This adds constructor routing/lifetime composition only; native C1/D1/class behavior remains in its actual child owner. No passive shared_ptr expiration is claimed as native destruction. Existing required_types and once-before-XML binding stay intact. No shared writes, validation/build/compiler/hash/proof/device jobs.

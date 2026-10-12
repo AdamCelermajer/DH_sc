@@ -1,0 +1,36 @@
+--- port/level-loader/noncharacter_native_release_v92.hpp
++++ port/level-loader/noncharacter_native_release_v92.hpp
+@@ -3,12 +3,14 @@
+ #include "object_base_source_destroy_v92.hpp"
+ #include "container_source_destroy_v92.hpp"
+ #include "source_release_journal_v69.hpp"
++#include "gameobject_embedded_release_binding_v93.hpp"
+ namespace dh2::loader {
+ struct NonCharacterNativeReleasePrimitivesV92 {
+  std::shared_ptr<void> owner; // independent actual Main primitive authority
+  world::ColBoxServicesV71 gameobject; // existing exact GameObject source kernel ABI
+  ObjectBaseDestroyLeavesV92 object_base;
+  ContainerNetworkDestroyV92 container_network;
++ std::function<bool(actor::RuntimeState&,std::uintptr_t,world::PfPathStorageBorrowV93&,std::string&)> pf_path_storage_v93;
+  // Actual owning thread / frame/contact/scene delivery barrier before native D0.
+  std::function<bool(std::uintptr_t,std::string&)> require_cleanup_delivery;
+  // Actual GPU/draw/contact/network/observer aliases AFTER native unpublication.
+--- port/android-native/app/src/main/cpp/renderer_campaign_native_release_v92.inc
++++ port/android-native/app/src/main/cpp/renderer_campaign_native_release_v92.inc
+@@ -35,6 +35,16 @@
+    if(!actual.conditions.owner)actual.conditions=graph->native.conditions;
+    else {const auto& same=graph->native.conditions;if(actual.conditions.owner.owner_before(same.owner)||same.owner.owner_before(actual.conditions.owner)||actual.conditions.conditions!=same.conditions){e="ObjectBaseD2 must borrow SAME actual compiled-condition arena/table";return false;}}
+    return dh2::loader::object_base_source_destroy_v92(base,actual,e);};
++  dh2::world::PfObjectDestructionServicesV93 pf;pf.owner=native.owner;
++  const auto identity=base.identity();
++  pf.require_delivery_barrier=[weak,identity](auto& runtime,std::string& e){auto self=weak.lock();SourceCampaignCandidateBorrowV55 actual;auto graph=self?self->composition.lock():nullptr;std::shared_ptr<void> pin;dh2::world::CanonicalGameObjectBaseOwnerV1* base{};
++   if(!self||!self->current(actual,e)||!graph||!graph->borrow(identity,pin,base,e)||!base||&base->runtime()!=&runtime||!self->native.require_cleanup_delivery){if(e.empty())e="Required SAME actual PF destructor delivery barrier";return false;}return self->native.require_cleanup_delivery(identity,e);};
++  pf.borrow_world=[weak,identity](auto& runtime,std::shared_ptr<void>& owner,const dh2::navigation::CollisionWorld*& geometry,dh2::navigation::ObstacleRegistry*& registry,std::uint64_t& key,std::string& e){auto self=weak.lock();SourceCampaignCandidateBorrowV55 actual;auto graph=self?self->composition.lock():nullptr;std::shared_ptr<void> pin;dh2::world::CanonicalGameObjectBaseOwnerV1* base{};
++   if(!self||!self->current(actual,e)||!graph||!graph->borrow(identity,pin,base,e)||!base||&base->runtime()!=&runtime||!actual.floors||!actual.navigation_registry){if(e.empty())e="Required SAME actual existing PFWorld/navigation registry";return false;}
++   struct Lease{std::shared_ptr<dh2::floors::World> floors;std::shared_ptr<dh2::navigation::CampaignNavigationRegistryV64> registry;};
++   owner=std::make_shared<Lease>(Lease{actual.floors,actual.navigation_registry});geometry=&actual.floors->collision_world;registry=&actual.navigation_registry->registry();key=identity;e.clear();return true;};
++  pf.borrow_path_storage=[weak,identity](auto& runtime,auto& out,std::string& e){auto self=weak.lock();if(!self||!self->native.pf_path_storage_v93){e="Required checked actual Main producer for positive PF path buffer";return false;}return self->native.pf_path_storage_v93(runtime,identity,out,e);};
++  if(!dh2::loader::bind_gameobject_embedded_release_v93(base,std::move(pf),out,e))return false;
+   return true;
+  }
+  bool destroy_gameobject(dh2::world::CanonicalGameObjectBaseOwnerV1& base,std::string& e){

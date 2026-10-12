@@ -1,0 +1,79 @@
+{
+  "schema": "dh2-c1-admission-service-pointer-v66",
+  "status": "SOURCE_PROPOSAL_UNCOMPILED",
+  "recorded_utc": "2026-10-06T19:13:21.4936362Z",
+  "original": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\c1-admission-selected-v63\\selected_c1_admission_v59_test.cpp",
+  "original_sha256": "5eed72380a50e044e3edb85db94ca9cf12492e6503e3feb7b612e49e4e2fe0fd",
+  "frozen_baseline": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\c1-admission-service-pointer-v66\\selected_c1_admission_v59_test_v63_frozen.cpp",
+  "frozen_sha256": "5eed72380a50e044e3edb85db94ca9cf12492e6503e3feb7b612e49e4e2fe0fd",
+  "successor": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\c1-admission-service-pointer-v66\\selected_c1_admission_v59_test_service_pointer_v66.cpp",
+  "successor_sha256": "5d27467e9c073a857f4ff16415d62bec9e8d9c1e4db2058f7f4b6f9df73705c3",
+  "original_after_sha256": "5eed72380a50e044e3edb85db94ca9cf12492e6503e3feb7b612e49e4e2fe0fd",
+  "source_deltas": [
+    "Add full semanticC1snapshot over every LevelConstructorFieldsV3 member and aliased config/music/safezone/ambient/gate/moduleoffset/moduleid plus request and constructor identity",
+    "Fresh selectedSWAMP7 with services.levelsNULL rejects exactguarderror, preserves allfields/owners/output, runs0helpers; validretry reaches existing row41/seed7C1/save",
+    "Completed sameowner with services.levelsNULL reports exactexistingownererror before guard, preserves fullsnapshot/output/helpercount"
+  ],
+  "future_cmake_target": "dh2_loader_c1_admission_v63",
+  "future_source_switch": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\c1-admission-service-pointer-v66\\selected_c1_admission_v59_test_service_pointer_v66.cpp",
+  "synthetic_callbacks": true,
+  "original_row_lookup_replaced": false,
+  "production_api_changed": false,
+  "guard_changed": false,
+  "selected_changed": false,
+  "root_changed": false,
+  "cmake_changed": false,
+  "new_native_jobs": 0,
+  "native_validation": "PENDING",
+  "exact_added_source_lines": [
+    {
+      "line": 38,
+      "text": "struct C1AdmissionSnapshotV66 {"
+    },
+    {
+      "line": 43,
+      "text": "static C1AdmissionSnapshotV66 snapshot_c1_v66(const std::shared_ptr<CanonicalLevelContextV1>& level){"
+    },
+    {
+      "line": 55,
+      "text": "static bool same_c1_v66(const C1AdmissionSnapshotV66& a,const C1AdmissionSnapshotV66& b){"
+    },
+    {
+      "line": 72,
+      "text": "auto pointer_before=snapshot_c1_v66(pointer_level);auto missing_table=services(pointer_app);missing_table.levels=nullptr;auto pointer_output=pointer_level;"
+    },
+    {
+      "line": 74,
+      "text": "e==\"Required selected Level request and SAME complete Arrays::LevelList\"&&same_c1_v66(pointer_before,snapshot_c1_v66(pointer_level))&&"
+    },
+    {
+      "line": 75,
+      "text": "!pointer_level->constructor_owner_v3()&&pointer_output==pointer_level&&pointer_app->callbacks==0&&pointer_app->debug==0&&pointer_app->module_id==99&&pointer_app->saves.empty(),"
+    },
+    {
+      "line": 80,
+      "text": "pointer_app->callbacks==7&&pointer_app->debug==1&&pointer_app->module_id==0&&pointer_app->saves.size()==1&&pointer_app->saves[0].row==41&&pointer_app->saves[0].seed==7,"
+    },
+    {
+      "line": 83,
+      "text": "auto completed_before=snapshot_c1_v66(pointer_level);auto completed_callbacks=pointer_app->callbacks;"
+    },
+    {
+      "line": 84,
+      "text": "auto completed_missing_table=services(pointer_app);completed_missing_table.levels=nullptr;e.clear();"
+    },
+    {
+      "line": 86,
+      "text": "e==\"Same Level constructor continuation already attempted\"&&same_c1_v66(completed_before,snapshot_c1_v66(pointer_level))&&"
+    }
+  ],
+  "bounded_source_review": {
+    "selected_ctx_order": "canonical_level_context_v1.cpp:53 ownerreplay;54 preflight;55borrow;59make_unique;60construct",
+    "guard_pointer_domain": "selected_c1_admission_v59.hpp:15 shortcircuitNULLname/NULLtable/alignednames;purelowercasefirstsubstringscan;27identityrow;28rawseed",
+    "v63_selected_request": "source_stage_swamp_v63.cpp:105identitySWAMPseed7;117actualrow41bare001_swamp.mlx;118C1seed7",
+    "current_v64_target_switches_readback": 13,
+    "source_fields_snapshot": "Every LevelConstructorFieldsV3 member plus aliasedconfig/music/safezone/ambient/gate/moduleoffset/moduleid, owneridentity, script/save/event pointers, retainedrequest strings/kind/seed/flags",
+    "test_native_outcome": "PENDING",
+    "source_only": true
+  }
+}

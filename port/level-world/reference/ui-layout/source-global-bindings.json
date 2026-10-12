@@ -1,0 +1,38 @@
+[
+  {
+    "GOT_offset": "0x25c4",
+    "GOT_address": "0x99705c",
+    "value": "0x99b114",
+    "symbol": "Width_Screen"
+  },
+  {
+    "GOT_offset": "0x2768",
+    "GOT_address": "0x997200",
+    "value": "0x9f6403",
+    "symbol": "HTC_DEVICES"
+  },
+  {
+    "GOT_offset": "0x16e0",
+    "GOT_address": "0x996178",
+    "value": "0x9f640d",
+    "symbol": "NO_IGP"
+  },
+  {
+    "GOT_offset": "0x39b4",
+    "GOT_address": "0x99844c",
+    "value": "0x9fc994",
+    "symbol": "_ZN7gameswf16s_render_handlerE"
+  },
+  {
+    "GOT_offset": "0x2778",
+    "GOT_address": "0x997210",
+    "value": "0x9fc584",
+    "symbol": "_ZN7gameswf25s_texture_loader_callbackE"
+  },
+  {
+    "GOT_offset": "0x37f4",
+    "GOT_address": "0x99828c",
+    "value": "0x99f72c",
+    "symbol": "_ZN9SingletonI11ApplicationE6s_instE"
+  }
+]

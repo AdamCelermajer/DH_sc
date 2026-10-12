@@ -1,0 +1,23 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN13ItemInventory15GetEquippedItemEj",
+      "elf_address": "0x3ffe3c",
+      "size": 80,
+      "sha256": "69cf53b6cff74ab550cd32f132e5a8a15b3b86fb9fa35be16a195bf20c2f918f"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory18GetCurrentEquipSetEi",
+      "elf_address": "0x3fc6a8",
+      "size": 32,
+      "sha256": "6ed6f8a015fc6b011d41d26f0eb64cb9980e597748a1ff0c711080f88e40d8ac"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory20GetNumEquipmentSlotsEv",
+      "elf_address": "0x3ffd20",
+      "size": 24,
+      "sha256": "39113843180ae8a2410dfc8afe704ca4feb65036fe3571ae2ae0f5d00a00c9d0"
+    }
+  ]
+}

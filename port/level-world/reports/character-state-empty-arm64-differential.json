@@ -1,0 +1,22 @@
+{
+  "validation": "PASS",
+  "scope": "Actual original bx-lr methods versus optimized native empty-only dispatcher.\nNonempty bodies are catalog/metadata rejection checks, never executed as stubs.\n",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "e80f90e2e861b1b5f94952897b6dc41d3a70bbe90c7a1560a499c4449b95ba0e",
+  "inventory_sha256": "70571b96fd3e4c5f61471e4f8cd0b8522b3727ecd3ed2cbe224d9441637dd3cc",
+  "reference_sha256": "442f7ef1c9eaf1f10b659720ef68e4a1db79418aeb296a346ca1548d7234659e",
+  "source_sha256": {
+    "port/level-world/character_state_empty.hpp": "4d0791ec65ca99b68c233dc6f459562e35032dbd59638a463bfe1de591d0e64a",
+    "port/level-world/character_state_empty.cpp": "72ee801d1ea83f0dca1499fa03c9623f5c096e3a47191596a46c1a00ab38a62e",
+    "port/level-world/reference/character-state-methods/native-methods.inc": "508dc208f661105d0e3d9c1b7826383207b96638ad9a897c2ff927f3a6970ce1",
+    "port/level-world/tests/character_state_empty_differential.py": "37668c9d8bdb344389f566abbb76cee4c3359e0b8b9ee6e3234a6dcc019f4784"
+  },
+  "method_metadata_comparisons": 64,
+  "original_empty_instruction_calls": 72,
+  "empty_methods": 18,
+  "nonempty_method_rejections": 46,
+  "invalid_metadata_checks": 68,
+  "mismatches": 0,
+  "full_nonempty_behaviors": false,
+  "packaged_APK": false
+}

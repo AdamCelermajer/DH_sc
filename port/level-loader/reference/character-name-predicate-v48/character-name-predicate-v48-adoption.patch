@@ -1,0 +1,39 @@
+--- a/port/level-world/retained_character_actor_v1.cpp
++++ b/port/level-world/retained_character_actor_v1.cpp
+@@ -130,6 +130,6 @@
+ }
+ bool RetainedCharacterActorV1::is_player_fields_v41(std::shared_ptr<const void> lease,CharacterIsPlayerFieldsV41& out,std::string& error){
+  if(!lease||lease.get()!=static_cast<const void*>(this)||!loader_fields_produced_v38_){error="Required SAME fresh Character IsPlayer receiver alias authority";return false;}
+- out={std::move(lease),identity_,&source_archetype_};error.clear();return true;
++ out={std::move(lease),identity_,&source_name_};error.clear();return true;
+ }
+ }
+--- a/port/level-world/character_is_player_v41.hpp
++++ b/port/level-world/character_is_player_v41.hpp
+@@ -7,13 +7,13 @@
+ struct CharacterIsPlayerFieldsV41 {
+  std::shared_ptr<const void> receiver_lease;
+  std::uintptr_t identity{};
+- const std::string* live_archetype{};
++ const std::string* live_name{};
+ };
+ struct CharacterIsPlayerServicesV41 {
+  std::function<bool(std::uintptr_t,std::int32_t&,std::string&)> actual_get_char_type;
+ };
+ // Whole original IsPlayer3a49f0 body. GetCharType remains an actual borrowed
+-// service. Archetype is read only for type0, from the SAME live receiver.
++// service. Name CString30/buffer44 is read only for type0, from the SAME live receiver.
+ bool character_is_player_v41(const CharacterIsPlayerFieldsV41&,
+  const CharacterIsPlayerServicesV41&,bool&,std::string&);
+ }
+--- a/port/level-world/character_is_player_v41.cpp
++++ b/port/level-world/character_is_player_v41.cpp
+@@ -7,7 +7,7 @@
+  std::int32_t type{};if(!services.actual_get_char_type(fields.identity,type,error))return false;
+  bool player;
+  if(type){player=type==1;}
+- else{if(!fields.live_archetype){error="Required SAME live type0 Character archetype CString";return false;}const auto* text=fields.live_archetype->c_str();player=std::strstr(text,"PlayerCharacter")==text;}
++ else{if(!fields.live_name){error="Required SAME live type0 Character name CString30";return false;}const auto* text=fields.live_name->c_str();player=std::strstr(text,"PlayerCharacter")==text;}
+  out=player;error.clear();return true;
+ }
+ }

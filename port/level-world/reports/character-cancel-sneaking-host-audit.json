@@ -1,0 +1,71 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "validation": "PASS",
+    "checks": 34930,
+    "cases": 976,
+    "ordered_calls": 1791,
+    "actual_cache_cases": 152,
+    "actual_lists": 36,
+    "actual_skills": 127,
+    "native_guards": 15,
+    "full_DelBuff": false,
+    "full_skill_VM": false
+  },
+  "source_and_input_sha256": {
+    "port/level-world/character_cancel_sneaking.cpp": "f3bc02c718a29739d8afc71aa5b8040714de1c84b23b3b84a1d8c474bdcdcf54",
+    "port/level-world/character_cancel_sneaking.hpp": "d3b808ff7280d181c96e6ad60df3d650cfbf3dcba33e0286ad0c84b55beeffe0",
+    "port/level-world/tests/character_cancel_sneaking.cpp": "79601a2b72f3c62b1c0a629fa87ac9492da45b0b8b83a5f2f60110d028a9a47f",
+    "port/level-world/tests/character_cancel_sneaking_host.py": "fd5ca56bd01300cc1a55095457df6606c0d284303e38135c3f4bf27c0570e8fa",
+    "port/level-world/character_property_bindings.hpp": "eb38bfc456cb80f567156477e12863671c969a247557f28a0fafd462cf6ba215",
+    "port/level-world/reference/character-cancel-sneaking/cancel-sneaking-fixtures.bin": "60517c5c257ead1d7ce0af8ab80123b69ad938ce58a64bc666f78c71916acbe3",
+    ".local-inputs/character-cancel-sneaking/skills_pyarray.bin": "e336986d5aee78fd1aed7fe7ec43cc8d58fa03d4fd27216779c0e96e47acc2d6",
+    "port/level-world/reports/character-cancel-sneaking-arm64-differential.json": "bebc2de7c4769fa4782e2fb9194e15b7d93ffa85559439a937f75fce44b47cdc",
+    "port/level-world/reference/character-cancel-sneaking/original-functions.json": "c048ff85bbd9272669e60b17284afd0b75cd6e87aea1fad101e0c5b80930ee37",
+    "port/level-world/reference/character-cancel-sneaking/reference/original-functions.asm": "38eeb07e10f6eaa3c8b2e244cfc4e24d21a97effd8e19f79f055595f53c6d449",
+    "port/level-world/reference/character-cancel-sneaking/skill-layout/original-functions.json": "96c8934d05219b5cd81d65b9a127085c536a1df002e401e257e3fe7e819515f8",
+    "port/level-world/reference/character-cancel-sneaking/skill-layout/reference/original-functions.asm": "7400cbbcd9a14852aacb3a80d907c9a6df45dc28441e92db2f2e351549de32c6"
+  },
+  "executable_sha256": "bb1b687ef81253b7ec2d4cdccecb39947405781e1470f0f3146f0eea4cf2a16b",
+  "compiler_command": [
+    "wsl.exe",
+    "--",
+    "g++",
+    "-std=c++17",
+    "-O1",
+    "-g",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/character_cancel_sneaking.cpp",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/tests/character_cancel_sneaking.cpp",
+    "-o",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-cancel-sneaking/character_cancel_sneaking_host"
+  ],
+  "run_command": [
+    "wsl.exe",
+    "--",
+    "env",
+    "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+    "UBSAN_OPTIONS=halt_on_error=1",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-cancel-sneaking/character_cancel_sneaking_host",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/reference/character-cancel-sneaking/cancel-sneaking-fixtures.bin",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-cancel-sneaking/skills_pyarray.bin"
+  ],
+  "sanitizer_findings": 0,
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer",
+    "LeakSanitizer"
+  ],
+  "scope": "Isolated new CancelSneaking coordinator/source gold/actual cache sanitizer replay.",
+  "central_DSO_rebuilt": false,
+  "full_DelBuff": false,
+  "full_skill_VM": false,
+  "cache_projection_only": true
+}

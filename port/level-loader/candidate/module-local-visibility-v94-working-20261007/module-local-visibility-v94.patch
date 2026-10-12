@@ -1,0 +1,187 @@
+--- a/port/level-world/module_static_scene_v2.hpp
++++ b/port/level-world/module_static_scene_v2.hpp
+@@ -26,6 +26,9 @@
+  std::array<float,6> root_absolute_box_{-1,-1,-1,1,1,1};
+  std::vector<std::array<float,6>> node_boxes_;
+  std::uint32_t root_flags_{0x60f};
++ scene::VisibilityV91 root_visibility_v94_;
++ std::uint8_t root_visible_request209_v94_{}; // Original RootC1 zero; positive local requests defer.
++ bool root_visibility_failed_v94_{};
+  // SAME allocated root fields and constructor-empty ISceneNode animator lists.
+  std::uintptr_t root_parentec_{},root_game_object204_{};
+  std::vector<VisualAnimatorBorrowV4> root_animators_,root_bound_animators_;
+@@ -35,6 +38,9 @@
+  scene::MeshDetachViewV91 detached_meshes_;scene::NodeDetachViewV91 detached_nodes_;
+  std::vector<std::uint8_t> authored_node_visibility_,authored_mesh_visibility_;
+  bool initialize_native_children_v93(std::string&);
++ void notify_node_visibility_v94(unsigned,bool);
++ void propagate_node_visibility_v94(unsigned);
++ void update_mesh_visibility_v94(unsigned,bool);
+  void update_absolute(unsigned);
+  void optimize(unsigned);
+ public:
+@@ -54,6 +60,10 @@
+  bool lend_map_mesh_v93(unsigned,const std::shared_ptr<SceneManagerMapOwnerV2>&,SceneMapNodeBorrowV2&,std::string&);
+  bool remove_node(unsigned,std::string&);
+  bool notify_root_visibility(bool,std::string&);
++ bool set_root_local_visibility_v94(bool,std::string&);
++ bool commit_root_local_visibility_v94(const std::function<bool(std::string&)>&,std::string&);
++ std::uint8_t source_visible_request209_v94()const noexcept{return root_visible_request209_v94_;}
++ const scene::VisibilityV91& source_root_visibility_v94()const noexcept{return root_visibility_v94_;}
+  // Source setPosition followed by Root::updateAbsolutePosition(false).
+  // Rebuilds root cache only; optimized child caches are left untouched.
+  bool sync_root_position(const float*,std::string&);
+--- a/port/level-world/module_static_scene_v2.cpp
++++ b/port/level-world/module_static_scene_v2.cpp
+@@ -23,7 +23,7 @@
+  for(unsigned i=0;i<flags_.size();++i)if(!authored_node_visibility_[i])flags_[i]&=~1u;
+  node_boxes_.assign(graph_.scene.graph.size(),std::array<float,6>{-1,-1,-1,1,1,1});
+  mesh_fields_.bind(graph_.scene.instances);mesh_fields_.assign(graph_.scene.instances.size(),ModuleStaticMeshFieldsV2{});
+- for(unsigned i=0;i<mesh_fields_.size();++i)if(!authored_mesh_visibility_[i])mesh_fields_[i].flags&=~1u;
++ for(unsigned i=0;i<mesh_fields_.size();++i){mesh_fields_[i].visibility.parent121=authored_node_visibility_[graph_.scene.instances[i].node_index]?1:0;if(!authored_mesh_visibility_[i])mesh_fields_[i].flags&=~1u;}
+  detached_meshes_.bind(graph_.scene.instances);detached_meshes_.assign(graph_.scene.instances.size(),0);
+  detached_nodes_.bind(graph_.scene.graph);detached_nodes_.assign(graph_.scene.graph.size(),0);
+  // Source root ctor/update caches relative transform, sets120 and clears50.
+@@ -103,13 +103,41 @@
+  if(!ready_||i>=flags_.size()){error="Required actual Module node relative receiver";return false;}
+  const auto& n=graph_.scene.graph[i];dh2_node_matrix(out.data(),n.translation,n.quaternion,n.scale);flags_[i]=(flags_[i]&~0xeu)|0x10u;return true;
+ }
+-bool ModuleStaticSceneV2::notify_root_visibility(bool parent,std::string& error){
+- error.clear();if(!ready_){error="Required constructed Module root visibility graph";return false;}
+- const auto previous=root_flags_&1u;if(parent)root_flags_|=1u;else root_flags_&=~1u;
+- if(previous==(root_flags_&1u))return true;
+- for(unsigned i=0;i<flags_.size();++i){const bool visible=parent&&authored_node_visibility_[i];graph_.node_visibility[i]=visible?1:0;if(visible)flags_[i]|=1u;else flags_[i]&=~1u;}
+- for(unsigned i=0;i<mesh_fields_.size();++i){if(detached_meshes_[i])continue;const bool visible=parent&&authored_mesh_visibility_[i]&&!detached_meshes_[i];graph_.instance_visibility[i]=visible?1:0;if(visible)mesh_fields_[i].flags|=1u;else mesh_fields_[i].flags&=~1u;}
+- return true;
++void ModuleStaticSceneV2::update_mesh_visibility_v94(unsigned i,bool parent){
++ if(detached_meshes_[i])return;auto& state=mesh_fields_[i];state.visibility.parent121=parent?1:0;
++ if(state.visibility.local120&&parent)state.flags|=1u;else state.flags&=~1u;graph_.instance_visibility[i]=(state.flags&1u)?1:0;
++}
++void ModuleStaticSceneV2::propagate_node_visibility_v94(unsigned i){
++ for(unsigned m=0;m<graph_.scene.instances.size();++m)if(graph_.scene.instances[m].node_index==i)update_mesh_visibility_v94(m,(flags_[i]&1u)!=0);
++ for(unsigned n=0;n<graph_.scene.graph.size();++n)if(graph_.scene.graph[n].parent==static_cast<std::int32_t>(i))notify_node_visibility_v94(n,(flags_[i]&1u)!=0);
++}
++void ModuleStaticSceneV2::notify_node_visibility_v94(unsigned i,bool parent){
++ if(detached_nodes_[i])return;auto& actual=graph_.scene.graph[i].source_storage_v91().visibility;const auto before=flags_[i]&1u;actual.parent121=parent?1:0;
++ if(actual.local120&&parent)flags_[i]|=1u;else flags_[i]&=~1u;graph_.node_visibility[i]=(flags_[i]&1u)?1:0;
++ if(before!=(flags_[i]&1u))propagate_node_visibility_v94(i);
++}
++bool ModuleStaticSceneV2::notify_root_visibility(bool parent,std::string& e){
++ if(!ready_){e="Required SAME constructed Module root parent visibility";return false;}const auto before=root_flags_&1u;root_visibility_v94_.parent121=parent?1:0;
++ if(root_visibility_v94_.local120&&parent)root_flags_|=1u;else root_flags_&=~1u;
++ if(before!=(root_flags_&1u))for(unsigned i=0;i<graph_.scene.graph.size();++i)if(graph_.scene.graph[i].parent<0)notify_node_visibility_v94(i,(root_flags_&1u)!=0);e.clear();return true;
++}
++bool ModuleStaticSceneV2::set_root_local_visibility_v94(bool local,std::string& e){
++ if(!ready_){e="Required SAME constructed Module root local visibility";return false;}
++ root_visible_request209_v94_=local?1:0; //35c270 before any qualified setter.
++ if(local){e.clear();return true;}
++ if(root_visibility_v94_.local120==0){e.clear();return true;}const auto before=root_flags_&1u;root_visibility_v94_.local120=0;root_flags_&=~1u;
++ if(before!=(root_flags_&1u))for(unsigned i=0;i<graph_.scene.graph.size();++i)if(graph_.scene.graph[i].parent<0)notify_node_visibility_v94(i,false);e.clear();return true;
++}
++bool ModuleStaticSceneV2::commit_root_local_visibility_v94(const std::function<bool(std::string&)>& notify,std::string& e){
++ if(root_visibility_failed_v94_){e="Retained Module root failed visibility notification prefix";return false;}
++ if(!ready_){e="Required SAME live Module onAnimate root";return false;}
++ if(!root_visible_request209_v94_||(root_flags_&1u)){e.clear();return true;}
++ //35d310 qualified ISceneNode.SetVisible(true), actual manager notification,
++ //THEN209=0. This prefix precedes Root's hidden/OnAnimate200 early returns.
++ const auto before=root_flags_&1u;root_visibility_v94_.local120=1;
++ if(root_visibility_v94_.parent121)root_flags_|=1u;else root_flags_&=~1u;
++ if(before!=(root_flags_&1u))for(unsigned i=0;i<graph_.scene.graph.size();++i)if(graph_.scene.graph[i].parent<0)notify_node_visibility_v94(i,true);
++ if(!notify||!notify(e)){root_visibility_failed_v94_=true;if(e.empty())e="Required SAME Scene.notifyVisibilityChanged5890a8";return false;}root_visible_request209_v94_=0;e.clear();return true;
+ }
+ bool ModuleStaticSceneV2::sync_root_position(const float* position,std::string& error){
+  error.clear();if(!ready_||!position){error="Required same Module root position receiver";return false;}
+--- a/port/level-world/module_selected_scene_v2.cpp
++++ b/port/level-world/module_selected_scene_v2.cpp
+@@ -108,6 +108,7 @@
+         // CSceneNode::getUserPropertyStr reads the first String at SNode+72.
+         if(const auto properties=r.w(p+72))state.user_properties=r.field(properties,true);
+         std::copy(translation,translation+3,state.translation);std::copy(scale,scale+3,state.scale);std::copy(quaternion,quaternion+4,state.quaternion);
++        state.source_storage_v91().visibility={std::uint8_t(r.w(p+52)!=0),std::uint8_t(visible)};
+         s.graph.push_back(std::move(state));
+         visible=visible&&r.w(p+52)!=0;node_visibility.push_back(visible?1u:0u);
+         auto count=r.w(p+64),base=r.w(p+68);r.array(base,count,8);
+--- a/port/level-world/retained_module_visual_v3.hpp
++++ b/port/level-world/retained_module_visual_v3.hpp
+@@ -45,6 +45,8 @@
+  bool source_asset_miss(std::string&);
+  bool apply_mesh_box(std::string&);
+  bool sync(std::string&);
++ bool set_root_local_visibility_v94(bool,std::string&);
++ bool sync_visibility_v94(std::string&);
+  bool release(std::string&);
+  bool root_bounds(std::array<float,6>&,std::string&);
+  std::uintptr_t identity()const noexcept{return reinterpret_cast<std::uintptr_t>(this);}
+--- a/port/level-world/retained_module_visual_v3.cpp
++++ b/port/level-world/retained_module_visual_v3.cpp
+@@ -29,9 +29,11 @@
+  root.notify_visibility=[weak](bool parent,std::string& error){auto p=weak.lock();if(!p){error="Released Module root";return false;}return static_cast<ModuleStaticSceneV2*>(p.get())->notify_root_visibility(parent,error);};
+  // Same ctor-empty root list, validated by the actual static resource domain.
+  root.remove_animators=[weak](std::string& error){auto p=weak.lock();if(!p){error="Released Module root";return false;}return static_cast<ModuleStaticSceneV2*>(p.get())->remove_source_animators(error);};
+- root.scene_phase_v69=[weak,counter=services_.root_update_counter](std::uint32_t,std::string& error){
++ root.scene_phase_v69=[weak,scene_manager=std::weak_ptr<GameObjectSceneRootRegistryV1>(services_.roots),counter=services_.root_update_counter](std::uint32_t,std::string& error){
+   auto p=weak.lock();if(!p||!counter){error="Required SAME actual Module root/counter phase";return false;}
+-  auto& scene=*static_cast<ModuleStaticSceneV2*>(p.get());const auto flags=scene.root_flags();
++  auto& scene=*static_cast<ModuleStaticSceneV2*>(p.get());
++  if(!scene.commit_root_local_visibility_v94([scene_manager](std::string& e){auto manager=scene_manager.lock();if(!manager){e="Retired SAME Module Scene visibility receiver";return false;}manager->notify_visibility_changed_v3();e.clear();return true;},error))return false;
++  const auto flags=scene.root_flags();
+   if(((flags&0x400u)&&!(flags&1u))||!(flags&0x200u)){error.clear();return true;}
+   const std::vector<VisualAnimatorBorrowV4>* animators{};
+   if(!scene.get_source_animators(animators,error))return false;
+@@ -114,3 +116,25 @@
+  services_.roots->force_register();ready_=false;bytes_.reset();resource_lease_.reset();bres_={};return true;
+ }
+ }
++
++namespace dh2::world {
++bool RetainedModuleVisualV3::set_root_local_visibility_v94(bool visible,std::string& e){
++ if(!root_present_){e.clear();return true;}if(!services_.roots)return missing("SAME SceneManager SetVisible/ForceRegister receiver",e);
++ // VisualObject.SetVisible471368 reads effective bit1 and forces source
++ // registration only when it differs, BEFORE virtual48 stores Root209.
++ if(std::uint32_t(visible)!=(root_scene().root_flags()&1u))services_.roots->force_register();
++ return root_scene().set_root_local_visibility_v94(visible,e);
++}
++bool RetainedModuleVisualV3::sync_visibility_v94(std::string& e){
++ const auto visible=base_.byte(0x80);if(!visible)return missing("produced SAME Module visible80",e);
++ if(!*visible)return set_root_local_visibility_v94(false,e);
++ // Module389fa8 installs original vtable+8. Its virtualc4 is genuine
++ // GameObject.IsZonable3883b8: byte2ed XOR1, not guessed/static policy.
++ const auto non_zonable=base_.byte(0x2ed);if(!non_zonable)return missing("SAME Module IsZonable2ed",e);
++ if(std::uint8_t(*non_zonable^1u)){
++  const auto zoning=base_.byte(0x2ee);if(!zoning)return missing("SAME Module zoning2ee",e);
++  if(*zoning){const auto entered=base_.byte(0x2f0);if(!entered)return missing("SAME Module entered2f0",e);if(!*entered)return set_root_local_visibility_v94(false,e);}
++ }
++ return set_root_local_visibility_v94(true,e);
++}
++}
+--- a/port/level-world/canonical_module_graph_v3.hpp
++++ b/port/level-world/canonical_module_graph_v3.hpp
+@@ -40,5 +40,8 @@
+  // Explicit actual visual destruction before canonical receiver/world release.
+  bool release(const CanonicalModuleRecordV2*,std::string&);
+  std::shared_ptr<RetainedModuleVisualV3> visual(std::uintptr_t)const;
++ // Typed same-class SyncVisibility delivery for saved Module OBJS/native
++ // methods. Pins the actual record throughout; never uses V69 generic graph.
++ bool source_sync_visibility_v94(std::uintptr_t actor_identity,std::string&);
+ };
+ }
+--- a/port/level-world/canonical_module_graph_v3.cpp
++++ b/port/level-world/canonical_module_graph_v3.cpp
+@@ -70,3 +70,17 @@
+  entries_.erase(p);return true;
+ }
+ }
++
++namespace dh2::world {
++bool CanonicalModuleGraphV3::source_sync_visibility_v94(std::uintptr_t id,std::string& e){
++ if(!id)return missing("positive typed Module SyncVisibility identity",e);
++ for(const auto& item:entries_){auto entry=item.second;auto record=entry?entry->record.lock():nullptr;
++  if(!record||!record->receiver||record->receiver->base().identity()!=id)continue;
++  auto& base=record->receiver->base();const auto slot=base.pointer(0x2d8);if(!slot)return missing("SAME Module visual2d8 cell",e);
++  if(!*slot){e.clear();return true;} // Original GameObject.SyncVisibility NULL visual branch.
++  auto found=entry->visuals.find(*slot);if(found==entry->visuals.end()||!found->second||found->second->identity()!=*slot)return missing("SAME Module-owned VisualObject2d8",e);
++  return found->second->sync_visibility_v94(e); //record remains pinned through all reached native stores.
++ }
++ return missing("live canonical Module record for SyncVisibility",e);
++}
++}

@@ -1,0 +1,47 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN16CharStateMachine15SM_SetIdleStateEb",
+      "elf_address": "0x3c1a00",
+      "size": 20,
+      "sha256": "2f34c20abaa650c14e84f08555b56141402f1b71e7be7db45e2b6c94c32fc091"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine9_SetStateEiiPv",
+      "elf_address": "0x3c1938",
+      "size": 200,
+      "sha256": "4441e973629e1e245b5b6f452e586ee1e367303fd5f93db42ac91b715cd362bb"
+    },
+    {
+      "original_symbol": "_ZN5Level15_LoadCharStatesEv",
+      "elf_address": "0x3eff98",
+      "size": 128,
+      "sha256": "81c5d94fc88d610cefd462d248923217433ba719c13a97d4459449eb0ea16dc3"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine12SetCharacterEP9Character",
+      "elf_address": "0x3c1600",
+      "size": 148,
+      "sha256": "7e232f38e49887b13cd7e5e4051873c7443e736c0dfc73fbc2b7e9c008590c3f"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine19SM_SetPreSpawnStateEv",
+      "elf_address": "0x3c1a64",
+      "size": 16,
+      "sha256": "cc07ffb50da40b36b442ed528b006a7dc74010c7c46afb395fe54c951f735bc7"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachineC1Ev",
+      "elf_address": "0x3c1ac4",
+      "size": 148,
+      "sha256": "189fa1793ac3e5238a798cd548f7e30a61e4e902d26d32515f89f6b88a63f5af"
+    },
+    {
+      "original_symbol": "_ZN6CSIdle7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "elf_address": "0x3c3020",
+      "size": 288,
+      "sha256": "7b2eb11c30874fdf3d469f7db853ed9b9f0baf4c76c316c7b539fa42597dae5b"
+    }
+  ]
+}

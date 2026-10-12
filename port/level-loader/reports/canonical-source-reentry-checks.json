@@ -1,0 +1,393 @@
+{
+  "validation": "PASS",
+  "scope": "Direct canonical file callback guards and existing source/Module regression checks; no whole-world construction",
+  "cases": [
+    {
+      "build": "host",
+      "probe": "loader/dh2_loader_cached_file_reentry_probe",
+      "probe_sha256": "3e6ac1161c2b0d6d669215e777107653170a7b157c00e9db8cc762e4b2f20edd",
+      "result": {
+        "validation": "PASS",
+        "direct_file_reentry_checks": 4,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "build": "host",
+      "probe": "dh2_loader_connected_source_probe",
+      "probe_sha256": "e2391f08b8026c8dae933f9f1ed0511a1d2f74890324fda0d043505b430dcf36",
+      "result": {
+        "validation": "PASS",
+        "composition_checks": 12,
+        "first_failure": {
+          "uri": "data/scene/001_swamp.mlx",
+          "element": 1,
+          "type": "LevelConfig",
+          "factory_address": 3411112,
+          "factory_prefix": "empty",
+          "registered_count": 0
+        },
+        "module_count": 9,
+        "declaration_count": 205,
+        "additional_required_classes": [
+          {
+            "type": "CheckpointZone",
+            "occurrences": 4,
+            "factory_address": 3411756
+          },
+          {
+            "type": "Decor",
+            "occurrences": 10,
+            "factory_address": 3412220
+          },
+          {
+            "type": "DestructibleContainer",
+            "occurrences": 9,
+            "factory_address": 3411292
+          },
+          {
+            "type": "Door",
+            "occurrences": 4,
+            "factory_address": 3409956
+          },
+          {
+            "type": "Dummy",
+            "occurrences": 41,
+            "factory_address": 3412132
+          },
+          {
+            "type": "LevelConfig",
+            "occurrences": 1,
+            "factory_address": 3411112
+          },
+          {
+            "type": "Module",
+            "occurrences": 9,
+            "factory_address": 3411864
+          },
+          {
+            "type": "QuestMoveInZone",
+            "occurrences": 1,
+            "factory_address": 3411792
+          },
+          {
+            "type": "SoundEmitter",
+            "occurrences": 1,
+            "factory_address": 3411148
+          },
+          {
+            "type": "SpawnPoint",
+            "occurrences": 11,
+            "factory_address": 3411472
+          },
+          {
+            "type": "TriggerObject",
+            "occurrences": 1,
+            "factory_address": 3411724
+          },
+          {
+            "type": "TriggerZone",
+            "occurrences": 18,
+            "factory_address": 3411652
+          },
+          {
+            "type": "TriggerZoneExitLevel",
+            "occurrences": 3,
+            "factory_address": 3411616
+          }
+        ],
+        "live_runtime_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "build": "host",
+      "probe": "loader/dh2_loader_canonical_source_adapter_probe",
+      "probe_sha256": "a7c8375195f7a44b1f49a9ee42dd1935c020cc4e3c92d7908a50a789bf7d78ef",
+      "result": {
+        "validation": "PASS",
+        "adapter_checks": 14,
+        "scope": "retained XML and canonical source-prefix receiver fixtures",
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "build": "host",
+      "probe": "loader/dh2_loader_canonical_module_files_probe",
+      "probe_sha256": "cd5442cbd6fe5acc35544768cab2587663954faa09f3eed9dd5ace33b57e10c7",
+      "result": {
+        "validation": "PASS",
+        "module_file_checks": 14,
+        "positive_source_gate_fixtures": true,
+        "class_construction_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "build": "sanitizers",
+      "probe": "loader/dh2_loader_cached_file_reentry_probe",
+      "probe_sha256": "f24856d2bd324c144934e801454ef659b1845fea6dcddd781a9996b8949f61b7",
+      "result": {
+        "validation": "PASS",
+        "direct_file_reentry_checks": 4,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "build": "sanitizers",
+      "probe": "dh2_loader_connected_source_probe",
+      "probe_sha256": "56504c83c2e61cd31740bae0218ad90c9248fb8413958b6c4b3fa9cb4693e725",
+      "result": {
+        "validation": "PASS",
+        "composition_checks": 12,
+        "first_failure": {
+          "uri": "data/scene/001_swamp.mlx",
+          "element": 1,
+          "type": "LevelConfig",
+          "factory_address": 3411112,
+          "factory_prefix": "empty",
+          "registered_count": 0
+        },
+        "module_count": 9,
+        "declaration_count": 205,
+        "additional_required_classes": [
+          {
+            "type": "CheckpointZone",
+            "occurrences": 4,
+            "factory_address": 3411756
+          },
+          {
+            "type": "Decor",
+            "occurrences": 10,
+            "factory_address": 3412220
+          },
+          {
+            "type": "DestructibleContainer",
+            "occurrences": 9,
+            "factory_address": 3411292
+          },
+          {
+            "type": "Door",
+            "occurrences": 4,
+            "factory_address": 3409956
+          },
+          {
+            "type": "Dummy",
+            "occurrences": 41,
+            "factory_address": 3412132
+          },
+          {
+            "type": "LevelConfig",
+            "occurrences": 1,
+            "factory_address": 3411112
+          },
+          {
+            "type": "Module",
+            "occurrences": 9,
+            "factory_address": 3411864
+          },
+          {
+            "type": "QuestMoveInZone",
+            "occurrences": 1,
+            "factory_address": 3411792
+          },
+          {
+            "type": "SoundEmitter",
+            "occurrences": 1,
+            "factory_address": 3411148
+          },
+          {
+            "type": "SpawnPoint",
+            "occurrences": 11,
+            "factory_address": 3411472
+          },
+          {
+            "type": "TriggerObject",
+            "occurrences": 1,
+            "factory_address": 3411724
+          },
+          {
+            "type": "TriggerZone",
+            "occurrences": 18,
+            "factory_address": 3411652
+          },
+          {
+            "type": "TriggerZoneExitLevel",
+            "occurrences": 3,
+            "factory_address": 3411616
+          }
+        ],
+        "live_runtime_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "build": "sanitizers",
+      "probe": "loader/dh2_loader_canonical_source_adapter_probe",
+      "probe_sha256": "5985ef28b2d874cdb2b20e964216f3e6cceb400cda0df02b7fcf06eb033ca4b9",
+      "result": {
+        "validation": "PASS",
+        "adapter_checks": 14,
+        "scope": "retained XML and canonical source-prefix receiver fixtures",
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "build": "sanitizers",
+      "probe": "loader/dh2_loader_canonical_module_files_probe",
+      "probe_sha256": "f722dca158c78bbc3e9d0ccfe14d10d06688cc502717be8a658b10d23ee5eb82",
+      "result": {
+        "validation": "PASS",
+        "module_file_checks": 14,
+        "positive_source_gate_fixtures": true,
+        "class_construction_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "build": "android-x86_64",
+      "probe": "loader/dh2_loader_cached_file_reentry_probe",
+      "probe_sha256": "71a6fd5c85c12214ae8876434ec04906a2b6fda92ad49c4f3f9c5dbf0a3b12b9",
+      "result": {
+        "validation": "PASS",
+        "direct_file_reentry_checks": 4,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "build": "android-x86_64",
+      "probe": "dh2_loader_connected_source_probe",
+      "probe_sha256": "67aa7774faea019e3c7b2ea8caf6d1cb6013cf60d14c097eac905202bcf5a957",
+      "result": {
+        "validation": "PASS",
+        "composition_checks": 12,
+        "first_failure": {
+          "uri": "data/scene/001_swamp.mlx",
+          "element": 1,
+          "type": "LevelConfig",
+          "factory_address": 3411112,
+          "factory_prefix": "empty",
+          "registered_count": 0
+        },
+        "module_count": 9,
+        "declaration_count": 205,
+        "additional_required_classes": [
+          {
+            "type": "CheckpointZone",
+            "occurrences": 4,
+            "factory_address": 3411756
+          },
+          {
+            "type": "Decor",
+            "occurrences": 10,
+            "factory_address": 3412220
+          },
+          {
+            "type": "DestructibleContainer",
+            "occurrences": 9,
+            "factory_address": 3411292
+          },
+          {
+            "type": "Door",
+            "occurrences": 4,
+            "factory_address": 3409956
+          },
+          {
+            "type": "Dummy",
+            "occurrences": 41,
+            "factory_address": 3412132
+          },
+          {
+            "type": "LevelConfig",
+            "occurrences": 1,
+            "factory_address": 3411112
+          },
+          {
+            "type": "Module",
+            "occurrences": 9,
+            "factory_address": 3411864
+          },
+          {
+            "type": "QuestMoveInZone",
+            "occurrences": 1,
+            "factory_address": 3411792
+          },
+          {
+            "type": "SoundEmitter",
+            "occurrences": 1,
+            "factory_address": 3411148
+          },
+          {
+            "type": "SpawnPoint",
+            "occurrences": 11,
+            "factory_address": 3411472
+          },
+          {
+            "type": "TriggerObject",
+            "occurrences": 1,
+            "factory_address": 3411724
+          },
+          {
+            "type": "TriggerZone",
+            "occurrences": 18,
+            "factory_address": 3411652
+          },
+          {
+            "type": "TriggerZoneExitLevel",
+            "occurrences": 3,
+            "factory_address": 3411616
+          }
+        ],
+        "live_runtime_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "build": "android-x86_64",
+      "probe": "loader/dh2_loader_canonical_source_adapter_probe",
+      "probe_sha256": "9602cce7d09ec678cb9eb25080aeb8e5c76e3540edf31f3c5d67fa692080ee29",
+      "result": {
+        "validation": "PASS",
+        "adapter_checks": 14,
+        "scope": "retained XML and canonical source-prefix receiver fixtures",
+        "runtime_objects_verified": false,
+        "full_loader_verified": false
+      }
+    },
+    {
+      "build": "android-x86_64",
+      "probe": "loader/dh2_loader_canonical_module_files_probe",
+      "probe_sha256": "a375b573b8671fc26a151d8472dfb8452d6f27eaedc713ebfb60232a67d461eb",
+      "result": {
+        "validation": "PASS",
+        "module_file_checks": 14,
+        "positive_source_gate_fixtures": true,
+        "class_construction_verified": false,
+        "full_loader_verified": false
+      }
+    }
+  ],
+  "baseline_reproduction": {
+    "exit_code": 1,
+    "diagnostic": "recursive direct file delivery was accepted"
+  },
+  "source_sha256": {
+    "port/level-loader/canonical_cached_file_v1.hpp": "8f16fd825502f4208742d706cd877ff2ce65759a967fccc80dd44d6140817b7b",
+    "port/level-loader/canonical_cached_file_v1.cpp": "f804d876a85f57881a166c98bc29a7952c0e53cf623209dfeb0e24addb57d815",
+    "port/level-loader/tests/canonical_cached_file_reentry_probe.cpp": "529fc84b3041545a16b41842eccba86062020d80c816cd09c56bd83958cf6251"
+  },
+  "arm64_compile_sha256": {
+    "loader/dh2_loader_cached_file_reentry_probe": "d59d7e88cfc3c9ef3da4a3f62cb01c3691f76e6507ecd52fccbffe4d5b7c6676",
+    "dh2_loader_connected_source_probe": "6fdc3b7d790bbfe97925431eb924fa51937e3287ea06cf3010ada719bde212a3",
+    "loader/dh2_loader_canonical_source_adapter_probe": "545d4310e06051984d198a4d9ab12ba5beaff0d603bf24b1623789284cd54461",
+    "loader/dh2_loader_canonical_module_files_probe": "faa099fd149a58d75409e1f7cd39de22d49116880d92f368b9e8e9ce0c522a6b"
+  },
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "fixture_sha256": {
+    "connected-source-fixtures.zip": "97fffd28a2ae7183fc3112fca79bb621f03dd1ddcf0122ca57ad819e96d9fe2e",
+    "module-file-fixtures.zip": "770b21ab0ddef32e7ca14fc4d462c3c409b98d89e6b5e310ca7b61214e68aff5"
+  },
+  "full_loader_verified": false
+}

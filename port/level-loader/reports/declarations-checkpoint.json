@@ -1,0 +1,45 @@
+{
+  "validation": "PASS",
+  "scope": "Bind the internal declaration milestone; leave prior preview receipts intact.",
+  "sources_sha256": {
+    "port\\level-loader\\CMakeLists.txt": "d12e0bba6f675fe53d2ddf5f8ccac847b188a3c2c7c93d3f17a0aadb99292db9",
+    "port\\level-loader\\fixed_declarations_v1.cpp": "c3e02ee1332adf6acd273a7dbefbf582d8989427f74e0a9ccfa8e9e14fdb96e5",
+    "port\\level-loader\\fixed_declarations_v1.hpp": "9a836a73878c6d3cbfeffd3de0f1ca42d06776ae2a6b723b952f5b1f510d59f7",
+    "port\\level-loader\\fixed_map_v1.cpp": "692d31007e5139f70909d21f9f8bfd1b4a65b4395f0b68e0902b7be483962110",
+    "port\\level-loader\\fixed_map_v1.hpp": "0179a5372b5f3bcd43d6d39407445c8bb9854ebb98f60caf0be90694064813bc",
+    "port\\level-loader\\fixed_sources_v1.cpp": "f5daa8c3e19cfd5fbddb61272ec0a35d03e60e67da6b62cee69779779d75d095",
+    "port\\level-loader\\fixed_sources_v1.hpp": "2acc5ca1f4944b66d599a636fcccd0bf64fee64e323e6f2bb58d8920edfef3b8",
+    "port\\level-loader\\resource_paths_v1.cpp": "0e87904b81851e4969874326f284577ba76937fc7934dc793ce42b25cf6c8e89",
+    "port\\level-loader\\resource_paths_v1.hpp": "70e9e1311b612c07426191fe90ade6152c7ad9dfd4d248ad167283576695d02a",
+    "port\\level-loader\\user_properties_v1.cpp": "f780e44fea995b4865257dee31107544f2f62c561ee2e9e8659d47e942375ea7",
+    "port\\level-loader\\user_properties_v1.hpp": "f1e230f10f7f2a1573d88778d68cbaaafd12e8c130b414e17a4b128cf1f5fd85",
+    "port\\level-loader\\visual_transform_v1.cpp": "9ef62708858e3ef669181a76700baf7fe91ae3c586cbddef7114b1c7aaaa5446",
+    "port\\level-loader\\visual_transform_v1.hpp": "03784831b8e07acf5c955818214c251955c1220ab02aa03d655b09897f7f1f0e",
+    "port\\level-loader\\xml_document_v1.cpp": "b7df0bf2e63e0029eae1928e787c4e547e87349fdb8f9ba75fd51489ae5b01a2",
+    "port\\level-loader\\xml_document_v1.hpp": "f93f2543aaca8275a500949f49bf834c2ecf1f276fbb413017fe1657fc6fdc5a",
+    "port\\level-loader\\tests\\fixed_declarations_host.py": "9449fe97c558b6530c0aae1212809b27cbebb1d4dbc14e33433ddd0e59ef3422",
+    "port\\level-loader\\tests\\fixed_declarations_probe.cpp": "339175f8b88a3e25c31418f3a8fe8d91b9aa5fe7548b7f945c4fa58656648de0"
+  },
+  "binaries_sha256": {
+    "host-xml/libdh2_level_loader.a": "fc844d4450c5f409ad6dc289603928c2efb80d0970a1e54e54475eb83030af25",
+    "host-xml/dh2_loader_fixed_declarations_probe": "2d29e277b507a36cba18ff08ed2dc0fcdae2bea7f915255362241a1dadffca03",
+    "host-sanitizers/libdh2_level_loader.a": "c800d92ab6857e442b55aa0081310748ab46595774c0ec7684b12fd9183e350a",
+    "host-sanitizers/dh2_loader_fixed_declarations_probe": "dab9a5c1e391b28ad2add801f9186048a239b048fc4a8221ff6b218fe013fcd6",
+    "android-arm64/libdh2_level_loader.a": "6ccedbf63b3af37414c39afa20a8de57ba8ef3bf5e44ce6ff2ff60ad293f2799",
+    "android-arm64/dh2_loader_fixed_declarations_probe": "7d59e76d2b38f5b1af3141b36c35a7e38a1ffccba780850ca8ca15fd986f2289",
+    "android-x86_64/libdh2_level_loader.a": "5a8fc340145bd68e330d90c66cdb8d265cd58f660891d91288ebd55ff013b6a3",
+    "android-x86_64/dh2_loader_fixed_declarations_probe": "0c1de5f948a764b6c3837d0efcc451ae77f59fa436693ecb9d7fe36215f81077"
+  },
+  "receipts_sha256": {
+    "fixed-declarations-host.json": "253c5cfa0fbf0ea50ec16342c7ffc66f9798a362ed7bb6aaab62aa325d4d3cf2",
+    "fixed-declarations-sanitizers.json": "bd313a7666a04572829b33c26b7b53a242f9536c1a260273f4acdab58903a40f"
+  },
+  "swamp_declarations_sha256": "b2679ff9b5e49c73df83caa2a5b9cffb7b89a377fe30bf3c75faddd53148d615",
+  "occurrences_compared": 2331,
+  "fixed_levels_compared": 16,
+  "source_blocked": 35,
+  "android_execution_of_declarations_verified": false,
+  "runtime_factory_contract_agreed": false,
+  "runtime_objects_verified": false,
+  "full_loader_verified": false
+}

@@ -1,0 +1,161 @@
+{
+  "scope": "ONE Main-admitted Windows NDK arm64 selected773 canonical_level_context_v1.cpp syntax leaf; no link/runtime/WSL/ASAN/Oracle/emulator",
+  "recorded_utc": "2026-10-06T19:28:18+00:00",
+  "status": "PASS",
+  "compiler": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+  "compiler_sha256": "3da8eb6f49b741ab885854665f10d3793822232f133f8c0233a8a4cb32c97dc0",
+  "args": [
+    "-IC:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader",
+    "-IC:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\android-native",
+    "-IC:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\asset-payloads",
+    "-IC:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\engine-animation",
+    "-IC:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\engine-math",
+    "-IC:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\engine-resources",
+    "-IC:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\engine-skinning",
+    "-IC:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\engine-ui",
+    "-IC:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\game-data",
+    "-IC:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader",
+    "-IC:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world",
+    "-IC:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\physics-backend",
+    "-IC:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\scene-materials",
+    "-IC:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\script-runtime",
+    "-IC:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader",
+    "--target=aarch64-none-linux-android24",
+    "--sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+    "-DTU_CONFIG_LINK_TO_FREETYPE=0",
+    "-DTU_CONFIG_LINK_TO_JPEGLIB=0",
+    "-DTU_CONFIG_LINK_TO_LIBPNG=0",
+    "-DTU_CONFIG_LINK_TO_THREAD=0",
+    "-Ddh2_engine_ui_EXPORTS",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+    "-IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714",
+    "-isystem",
+    "C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include",
+    "-DANDROID",
+    "-D_FORTIFY_SOURCE=2",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-fsyntax-only",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader\\canonical_level_context_v1.cpp"
+  ],
+  "source_sha256": {
+    "vendor/character-rng-integration-v5-loading/port/level-loader/canonical_level_context_v1.cpp": "ff00d5a08af914c89b95b81b4b6ee56b8babb7e3190b90cb14cf671e2ad11993",
+    "vendor/character-rng-integration-v5-loading/port/level-loader/canonical_level_context_v1.hpp": "2d20917216f318aab910f89952198e8af785a8b3e44d0fb9b1cef10c72bd3cdd",
+    "vendor/character-rng-integration-v5-loading/port/level-loader/selected_c1_admission_v59.hpp": "c00fda349da238cdfb6102ad8f2d32d04b088b06adb46aa07e05a7602a37e215",
+    "vendor/character-rng-integration-v5-loading/integration-manifest.json": "3a4444717deb1cdddb273b66e8cf666af6d9425012e0b8e8d525b51b5f4220eb"
+  },
+  "guard_sha256": {
+    "windows_job_guard_v36.py": "b52f79ffd4fa65e7f67656b8f84b79e8e53c9d03926f6d22b6778a7dac8b5a1a",
+    "emulator_watchdog_v36.py": "e15862cb02dac935b4be699db0b690bc3c4b0bf27c110e0dc493476f56e2a63e"
+  },
+  "admission": "Main explicitly admitted one512MiB job/active4/max30s;physical>=8GiB/processes<=900",
+  "host_polls": [
+    {
+      "commit_total_bytes": 25464033280,
+      "commit_limit_bytes": 100753940480,
+      "physical_available_bytes": 19855712256,
+      "physical_total_bytes": 34181947392,
+      "page_size_bytes": 4096,
+      "handles": 161519,
+      "processes": 378
+    },
+    {
+      "commit_total_bytes": 25375715328,
+      "commit_limit_bytes": 100753940480,
+      "physical_available_bytes": 19916533760,
+      "physical_total_bytes": 34181947392,
+      "page_size_bytes": 4096,
+      "handles": 161284,
+      "processes": 376
+    },
+    {
+      "commit_total_bytes": 25349832704,
+      "commit_limit_bytes": 100753940480,
+      "physical_available_bytes": 19985678336,
+      "physical_total_bytes": 34181947392,
+      "page_size_bytes": 4096,
+      "handles": 160218,
+      "processes": 372
+    },
+    {
+      "commit_total_bytes": 25351258112,
+      "commit_limit_bytes": 100753940480,
+      "physical_available_bytes": 19973103616,
+      "physical_total_bytes": 34181947392,
+      "page_size_bytes": 4096,
+      "handles": 160564,
+      "processes": 375
+    },
+    {
+      "commit_total_bytes": 25352204288,
+      "commit_limit_bytes": 100753940480,
+      "physical_available_bytes": 19964506112,
+      "physical_total_bytes": 34181947392,
+      "page_size_bytes": 4096,
+      "handles": 160289,
+      "processes": 372
+    },
+    {
+      "commit_total_bytes": 25361375232,
+      "commit_limit_bytes": 100753940480,
+      "physical_available_bytes": 19947274240,
+      "physical_total_bytes": 34181947392,
+      "page_size_bytes": 4096,
+      "handles": 160315,
+      "processes": 372
+    },
+    {
+      "commit_total_bytes": 25431986176,
+      "commit_limit_bytes": 100753940480,
+      "physical_available_bytes": 19919101952,
+      "physical_total_bytes": 34181947392,
+      "page_size_bytes": 4096,
+      "handles": 160721,
+      "processes": 375
+    },
+    {
+      "commit_total_bytes": 25452371968,
+      "commit_limit_bytes": 100753940480,
+      "physical_available_bytes": 19893604352,
+      "physical_total_bytes": 34181947392,
+      "page_size_bytes": 4096,
+      "handles": 160744,
+      "processes": 375
+    }
+  ],
+  "identity": {
+    "pid": 72088,
+    "create_time_filetime": 134357884981692857
+  },
+  "limits_before_resume": {
+    "flags": 8968,
+    "job_memory_limit": 536870912,
+    "process_memory_limit": 536870912,
+    "peak_job_bytes": 1523712,
+    "active_process_limit": 4
+  },
+  "exit_code": 0,
+  "limits_after": {
+    "flags": 8968,
+    "job_memory_limit": 536870912,
+    "process_memory_limit": 536870912,
+    "peak_job_bytes": 95162368,
+    "active_process_limit": 4
+  },
+  "elapsed_seconds": 0.8119999999998981,
+  "stdout": "",
+  "stderr": "",
+  "whole_level_Init": false,
+  "native_runtime_tested": false,
+  "shared_mutated": false,
+  "selected_coherent_files": 773,
+  "C1_admission_test_executed": false,
+  "full_graph_build_link_or_runtime_verified": false
+}

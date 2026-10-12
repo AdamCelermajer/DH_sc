@@ -1,0 +1,43 @@
+{
+  "schema": "dh2-condition-main-binding-v58-source-review-successor2",
+  "status": "SOURCE_REVIEWED_NATIVE_TEST_PENDING",
+  "recorded_utc": "2026-10-06T17:54:43.7778523Z",
+  "supersedes": "condition-main-binding-v58-20261006-successor1.zip",
+  "prior_packet_sha256": "13e777a22f0c34d2b9990687a0f2e840f378209c12c968030de34822f9b8b0c2",
+  "baseline_selected_file_count": 772,
+  "baseline_selected_manifest_sha256": "5455733504332842ad97c98c5862a00b8cc7292bd463758e5c3b4195168e0c81",
+  "baseline_headers_verified": {
+    "port/level-world/retained_character_actor_v1.hpp": "439a4d434712ab387e5d5dafb1e10e487b7145006cd857ab8bf2f5ebca74b43a",
+    "port/level-world/retained_character_actor_v1.cpp": "c6dd2b541605f8dbf5c83259721973b4a7ec3a08e4bf81342e145f7c7b107dcd",
+    "port/level-world/game_object_initialization_services_v51.hpp": "70a93040a6a16b83af6344d39516a4a5f97b895655597b267747f7ce4cef4c11",
+    "port/level-world/condition_data_services_v51.hpp": "608e9dd6190184ab338ebdfd557c1357ff699c4d6d9199e8a436852479dc2ede"
+  },
+  "files": {
+    "actor-review.diff": "895001559bb2a03470c87622ab71a847e219de9381209cf399ef5bf7bef06012",
+    "character_condition_binding_v58_test.cpp": "b527c031d4b867192d6336a9f716421ab8aec239ac29ca6f35afac08e91eaac5",
+    "character_condition_binding_v58.hpp": "bfaf3113bb176ece70e88c810b1e02d0b65f650f0a8263f648f600f491734c4b",
+    "character_enable_condition_fields_v58.hpp": "47d6ebd8562ba575f317f93c38b734b2b298d5b04cb8252ed52133c4c2832d7f",
+    "enabled8a-original-prior-v58.json": "9f8baf1a0accbfed11bc3699953b37737439e24900ad7686de3dd4b6bf896463",
+    "HANDOFF.md": "f9275263329d5ff4a6d92fca13b27e02cb6ebb8a26ae34461c1cac528cb51ddf",
+    "MAIN-ADOPTION-CLOSURE.md": "a6e6b3e48ff9cb9f882b295c131a535928e48bdc2f9ac3d063ac236c1da82828",
+    "retained_character_actor_v1.cpp": "65b5ba5e3af2a5a336286b77e836348b01eb2987bc9601c13b51ddc82e2081de",
+    "retained_character_actor_v1.hpp": "c2acfa90b973af24fa3a34961b968c1a0c4106cd8936c537a3e830b14907b6a9"
+  },
+  "source_review_findings": [
+    "Fixed callback Actor A / qualified parent Actor B mismatch by explicit actor validation and same-record composition",
+    "Checked constructor only fresh_canonical; adopted actors receive no fabricated enabled8a",
+    "Checked V48 pointer identities against actual actor before capture",
+    "Checked Main condition_init ABI and required single V51 service type definitions",
+    "Checked five-argument ScriptCharacterObject ctor and native PropertyMap f1 producer",
+    "Documented exact four incremental files and current Main prerequisite closure"
+  ],
+  "source_diff": "Four incremental production files, no member cells, numbered unified actor hunks",
+  "native_compile_verified": false,
+  "native_test_executed": false,
+  "main_eval_called": false,
+  "native_jobs_launched": 0,
+  "shared_mutated": false,
+  "selected_vendor_mutated": false,
+  "device_mutated": false,
+  "pending": "RAM hold admission then coherent header overlay native borrow/adoption/C1 Assign Clear test"
+}

@@ -1,0 +1,280 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_instructions_executed": true,
+  "alpha_constructor_cases": 32,
+  "alpha_pixels": 256,
+  "format_table_address": "0x8e36c0",
+  "format_descriptor40_words": {
+    "2": [
+      1,
+      0,
+      0,
+      0,
+      255,
+      17301760,
+      134217728,
+      0,
+      16777215,
+      65793
+    ],
+    "12": [
+      1,
+      65280,
+      16711680,
+      4278190080,
+      255,
+      69207040,
+      134744072,
+      1576968,
+      197121,
+      65793
+    ],
+    "14": [
+      1,
+      255,
+      65280,
+      16711680,
+      4278190080,
+      69207040,
+      134744072,
+      403703808,
+      50462976,
+      65793
+    ]
+  },
+  "alpha_image_format12_constructor": "0x7d5404",
+  "actual_format12_to14_convert": "0x5f95ac",
+  "alpha_cases": [
+    {
+      "alpha_hex": "0001020304050607",
+      "original_image12_hex": "00ffffff01ffffff02ffffff03ffffff04ffffff05ffffff06ffffff07ffffff",
+      "original_converted14_rgba_hex": "ffffff00ffffff01ffffff02ffffff03ffffff04ffffff05ffffff06ffffff07"
+    },
+    {
+      "alpha_hex": "08090a0b0c0d0e0f",
+      "original_image12_hex": "08ffffff09ffffff0affffff0bffffff0cffffff0dffffff0effffff0fffffff",
+      "original_converted14_rgba_hex": "ffffff08ffffff09ffffff0affffff0bffffff0cffffff0dffffff0effffff0f"
+    },
+    {
+      "alpha_hex": "1011121314151617",
+      "original_image12_hex": "10ffffff11ffffff12ffffff13ffffff14ffffff15ffffff16ffffff17ffffff",
+      "original_converted14_rgba_hex": "ffffff10ffffff11ffffff12ffffff13ffffff14ffffff15ffffff16ffffff17"
+    },
+    {
+      "alpha_hex": "18191a1b1c1d1e1f",
+      "original_image12_hex": "18ffffff19ffffff1affffff1bffffff1cffffff1dffffff1effffff1fffffff",
+      "original_converted14_rgba_hex": "ffffff18ffffff19ffffff1affffff1bffffff1cffffff1dffffff1effffff1f"
+    },
+    {
+      "alpha_hex": "2021222324252627",
+      "original_image12_hex": "20ffffff21ffffff22ffffff23ffffff24ffffff25ffffff26ffffff27ffffff",
+      "original_converted14_rgba_hex": "ffffff20ffffff21ffffff22ffffff23ffffff24ffffff25ffffff26ffffff27"
+    },
+    {
+      "alpha_hex": "28292a2b2c2d2e2f",
+      "original_image12_hex": "28ffffff29ffffff2affffff2bffffff2cffffff2dffffff2effffff2fffffff",
+      "original_converted14_rgba_hex": "ffffff28ffffff29ffffff2affffff2bffffff2cffffff2dffffff2effffff2f"
+    },
+    {
+      "alpha_hex": "3031323334353637",
+      "original_image12_hex": "30ffffff31ffffff32ffffff33ffffff34ffffff35ffffff36ffffff37ffffff",
+      "original_converted14_rgba_hex": "ffffff30ffffff31ffffff32ffffff33ffffff34ffffff35ffffff36ffffff37"
+    },
+    {
+      "alpha_hex": "38393a3b3c3d3e3f",
+      "original_image12_hex": "38ffffff39ffffff3affffff3bffffff3cffffff3dffffff3effffff3fffffff",
+      "original_converted14_rgba_hex": "ffffff38ffffff39ffffff3affffff3bffffff3cffffff3dffffff3effffff3f"
+    },
+    {
+      "alpha_hex": "4041424344454647",
+      "original_image12_hex": "40ffffff41ffffff42ffffff43ffffff44ffffff45ffffff46ffffff47ffffff",
+      "original_converted14_rgba_hex": "ffffff40ffffff41ffffff42ffffff43ffffff44ffffff45ffffff46ffffff47"
+    },
+    {
+      "alpha_hex": "48494a4b4c4d4e4f",
+      "original_image12_hex": "48ffffff49ffffff4affffff4bffffff4cffffff4dffffff4effffff4fffffff",
+      "original_converted14_rgba_hex": "ffffff48ffffff49ffffff4affffff4bffffff4cffffff4dffffff4effffff4f"
+    },
+    {
+      "alpha_hex": "5051525354555657",
+      "original_image12_hex": "50ffffff51ffffff52ffffff53ffffff54ffffff55ffffff56ffffff57ffffff",
+      "original_converted14_rgba_hex": "ffffff50ffffff51ffffff52ffffff53ffffff54ffffff55ffffff56ffffff57"
+    },
+    {
+      "alpha_hex": "58595a5b5c5d5e5f",
+      "original_image12_hex": "58ffffff59ffffff5affffff5bffffff5cffffff5dffffff5effffff5fffffff",
+      "original_converted14_rgba_hex": "ffffff58ffffff59ffffff5affffff5bffffff5cffffff5dffffff5effffff5f"
+    },
+    {
+      "alpha_hex": "6061626364656667",
+      "original_image12_hex": "60ffffff61ffffff62ffffff63ffffff64ffffff65ffffff66ffffff67ffffff",
+      "original_converted14_rgba_hex": "ffffff60ffffff61ffffff62ffffff63ffffff64ffffff65ffffff66ffffff67"
+    },
+    {
+      "alpha_hex": "68696a6b6c6d6e6f",
+      "original_image12_hex": "68ffffff69ffffff6affffff6bffffff6cffffff6dffffff6effffff6fffffff",
+      "original_converted14_rgba_hex": "ffffff68ffffff69ffffff6affffff6bffffff6cffffff6dffffff6effffff6f"
+    },
+    {
+      "alpha_hex": "7071727374757677",
+      "original_image12_hex": "70ffffff71ffffff72ffffff73ffffff74ffffff75ffffff76ffffff77ffffff",
+      "original_converted14_rgba_hex": "ffffff70ffffff71ffffff72ffffff73ffffff74ffffff75ffffff76ffffff77"
+    },
+    {
+      "alpha_hex": "78797a7b7c7d7e7f",
+      "original_image12_hex": "78ffffff79ffffff7affffff7bffffff7cffffff7dffffff7effffff7fffffff",
+      "original_converted14_rgba_hex": "ffffff78ffffff79ffffff7affffff7bffffff7cffffff7dffffff7effffff7f"
+    },
+    {
+      "alpha_hex": "8081828384858687",
+      "original_image12_hex": "80ffffff81ffffff82ffffff83ffffff84ffffff85ffffff86ffffff87ffffff",
+      "original_converted14_rgba_hex": "ffffff80ffffff81ffffff82ffffff83ffffff84ffffff85ffffff86ffffff87"
+    },
+    {
+      "alpha_hex": "88898a8b8c8d8e8f",
+      "original_image12_hex": "88ffffff89ffffff8affffff8bffffff8cffffff8dffffff8effffff8fffffff",
+      "original_converted14_rgba_hex": "ffffff88ffffff89ffffff8affffff8bffffff8cffffff8dffffff8effffff8f"
+    },
+    {
+      "alpha_hex": "9091929394959697",
+      "original_image12_hex": "90ffffff91ffffff92ffffff93ffffff94ffffff95ffffff96ffffff97ffffff",
+      "original_converted14_rgba_hex": "ffffff90ffffff91ffffff92ffffff93ffffff94ffffff95ffffff96ffffff97"
+    },
+    {
+      "alpha_hex": "98999a9b9c9d9e9f",
+      "original_image12_hex": "98ffffff99ffffff9affffff9bffffff9cffffff9dffffff9effffff9fffffff",
+      "original_converted14_rgba_hex": "ffffff98ffffff99ffffff9affffff9bffffff9cffffff9dffffff9effffff9f"
+    },
+    {
+      "alpha_hex": "a0a1a2a3a4a5a6a7",
+      "original_image12_hex": "a0ffffffa1ffffffa2ffffffa3ffffffa4ffffffa5ffffffa6ffffffa7ffffff",
+      "original_converted14_rgba_hex": "ffffffa0ffffffa1ffffffa2ffffffa3ffffffa4ffffffa5ffffffa6ffffffa7"
+    },
+    {
+      "alpha_hex": "a8a9aaabacadaeaf",
+      "original_image12_hex": "a8ffffffa9ffffffaaffffffabffffffacffffffadffffffaeffffffafffffff",
+      "original_converted14_rgba_hex": "ffffffa8ffffffa9ffffffaaffffffabffffffacffffffadffffffaeffffffaf"
+    },
+    {
+      "alpha_hex": "b0b1b2b3b4b5b6b7",
+      "original_image12_hex": "b0ffffffb1ffffffb2ffffffb3ffffffb4ffffffb5ffffffb6ffffffb7ffffff",
+      "original_converted14_rgba_hex": "ffffffb0ffffffb1ffffffb2ffffffb3ffffffb4ffffffb5ffffffb6ffffffb7"
+    },
+    {
+      "alpha_hex": "b8b9babbbcbdbebf",
+      "original_image12_hex": "b8ffffffb9ffffffbaffffffbbffffffbcffffffbdffffffbeffffffbfffffff",
+      "original_converted14_rgba_hex": "ffffffb8ffffffb9ffffffbaffffffbbffffffbcffffffbdffffffbeffffffbf"
+    },
+    {
+      "alpha_hex": "c0c1c2c3c4c5c6c7",
+      "original_image12_hex": "c0ffffffc1ffffffc2ffffffc3ffffffc4ffffffc5ffffffc6ffffffc7ffffff",
+      "original_converted14_rgba_hex": "ffffffc0ffffffc1ffffffc2ffffffc3ffffffc4ffffffc5ffffffc6ffffffc7"
+    },
+    {
+      "alpha_hex": "c8c9cacbcccdcecf",
+      "original_image12_hex": "c8ffffffc9ffffffcaffffffcbffffffccffffffcdffffffceffffffcfffffff",
+      "original_converted14_rgba_hex": "ffffffc8ffffffc9ffffffcaffffffcbffffffccffffffcdffffffceffffffcf"
+    },
+    {
+      "alpha_hex": "d0d1d2d3d4d5d6d7",
+      "original_image12_hex": "d0ffffffd1ffffffd2ffffffd3ffffffd4ffffffd5ffffffd6ffffffd7ffffff",
+      "original_converted14_rgba_hex": "ffffffd0ffffffd1ffffffd2ffffffd3ffffffd4ffffffd5ffffffd6ffffffd7"
+    },
+    {
+      "alpha_hex": "d8d9dadbdcdddedf",
+      "original_image12_hex": "d8ffffffd9ffffffdaffffffdbffffffdcffffffddffffffdeffffffdfffffff",
+      "original_converted14_rgba_hex": "ffffffd8ffffffd9ffffffdaffffffdbffffffdcffffffddffffffdeffffffdf"
+    },
+    {
+      "alpha_hex": "e0e1e2e3e4e5e6e7",
+      "original_image12_hex": "e0ffffffe1ffffffe2ffffffe3ffffffe4ffffffe5ffffffe6ffffffe7ffffff",
+      "original_converted14_rgba_hex": "ffffffe0ffffffe1ffffffe2ffffffe3ffffffe4ffffffe5ffffffe6ffffffe7"
+    },
+    {
+      "alpha_hex": "e8e9eaebecedeeef",
+      "original_image12_hex": "e8ffffffe9ffffffeaffffffebffffffecffffffedffffffeeffffffefffffff",
+      "original_converted14_rgba_hex": "ffffffe8ffffffe9ffffffeaffffffebffffffecffffffedffffffeeffffffef"
+    },
+    {
+      "alpha_hex": "f0f1f2f3f4f5f6f7",
+      "original_image12_hex": "f0fffffff1fffffff2fffffff3fffffff4fffffff5fffffff6fffffff7ffffff",
+      "original_converted14_rgba_hex": "fffffff0fffffff1fffffff2fffffff3fffffff4fffffff5fffffff6fffffff7"
+    },
+    {
+      "alpha_hex": "f8f9fafbfcfdfeff",
+      "original_image12_hex": "f8fffffff9fffffffafffffffbfffffffcfffffffdfffffffeffffffffffffff",
+      "original_converted14_rgba_hex": "fffffff8fffffff9fffffffafffffffbfffffffcfffffffdfffffffeffffffff"
+    }
+  ],
+  "canonical_cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "canonical_cache_bindings": [
+    {
+      "export_name": "menus/MenusGraphics_droid.tga",
+      "source_loader_generic_request": "data/menus/MenusGraphics_droid.tga",
+      "original_resolved_request": "data/3d/textures/menusgraphics_droid.tga",
+      "canonical_cache_file": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/MenusGraphics_droid.tga",
+      "size": 524348,
+      "sha256": "c75e8f4df8a9b28fcca7aa819a05cd69e6206d27a391b4364fd67790aeea86c7",
+      "logical_casefold_index": "data/3d/textures/menusgraphics_droid.tga",
+      "physical_case_preserved": true
+    },
+    {
+      "export_name": "menus/MenusGraphics.tga",
+      "source_loader_generic_request": "data/menus/MenusGraphics.tga",
+      "original_resolved_request": "data/3d/textures/menusgraphics.tga",
+      "canonical_cache_file": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/MenusGraphics.tga",
+      "size": 4194348,
+      "sha256": "ddc6194e85381e07ecc9586040e0546fd3219a53fc054095277f6c0d7262ad74",
+      "logical_casefold_index": "data/3d/textures/menusgraphics.tga",
+      "physical_case_preserved": true
+    },
+    {
+      "export_name": "menus/map_top.tga",
+      "source_loader_generic_request": "data/menus/map_top.tga",
+      "original_resolved_request": "data/3d/textures/map_top.tga",
+      "canonical_cache_file": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/map_top.tga",
+      "size": 131132,
+      "sha256": "d758912d7e9e9cfaee64bb8fe7afdafd70eaf7841c106b82f205e176a2b97be9",
+      "logical_casefold_index": "data/3d/textures/map_top.tga",
+      "physical_case_preserved": true
+    },
+    {
+      "export_name": "menus/map_bottom.tga",
+      "source_loader_generic_request": "data/menus/map_bottom.tga",
+      "original_resolved_request": "data/3d/textures/map_bottom.tga",
+      "canonical_cache_file": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/map_bottom.tga",
+      "size": 524348,
+      "sha256": "038faedbd0f68f42975deca4638257382dcd79fc5907138fad67efb026c0a1b3",
+      "logical_casefold_index": "data/3d/textures/map_bottom.tga",
+      "physical_case_preserved": true
+    },
+    {
+      "export_name": "menus/iPhone_Table_DH2.tga",
+      "source_loader_generic_request": "data/menus/iPhone_Table_DH2.tga",
+      "original_resolved_request": "data/3d/textures/iphone_table_dh2.tga",
+      "canonical_cache_file": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/iphone_table_dh2.tga",
+      "size": 32828,
+      "sha256": "9850caf0375d313529b4219ecc4bb2be24118e70546c5edfc577f4028dc0f58b",
+      "logical_casefold_index": "data/3d/textures/iphone_table_dh2.tga",
+      "physical_case_preserved": true
+    },
+    {
+      "export_name": "menus/splash_final_droid.tga",
+      "source_loader_generic_request": "data/menus/splash_final_droid.tga",
+      "original_resolved_request": "data/3d/textures/splash_final_droid.tga",
+      "canonical_cache_file": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/splash_final_droid.tga",
+      "size": 8388652,
+      "sha256": "2a296425a7072f22b6ac0ec9344b441599ebc7b5497dc22e671c791f455df2a8",
+      "logical_casefold_index": "data/3d/textures/splash_final_droid.tga",
+      "physical_case_preserved": true
+    }
+  ],
+  "source_services": [
+    "actual original filename/cwd/basename/lower instructions",
+    "image allocation/identity observer, real original alpha byte writes",
+    "required reference release observer",
+    "genuine original pixel_format conversion"
+  ],
+  "scope": "Original logical filename and pixel-layout/conversion evidence. Canonical-cache casefold index is an explicit modern native resource service, not proof that the original platform registered this archive with ignorecase. No source bitmap/GL upload ownership or complete font/display-list parity."
+}

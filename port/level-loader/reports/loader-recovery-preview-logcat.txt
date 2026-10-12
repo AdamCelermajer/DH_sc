@@ -1,0 +1,1257 @@
+--------- beginning of main
+10-05 14:09:10.687  3304  3325 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ABBEY_RUINS_01 stage=sources
+10-05 14:09:10.689  3304  3325 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ABBEY_RUINS_01 stage=map
+10-05 14:09:10.815  3304  3325 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ABBEY_RUINS_01 stage=declarations
+10-05 14:09:10.817  3304  3325 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ABBEY_RUINS_01 stage=publish_source
+10-05 14:09:10.818  3304  3325 I DH2Loader: STATIC_DECOR_INSPECTION identity=ABBEY_RUINS_01 sources=2 skipped=5 runtime_objects=0 animation=0
+10-05 14:09:12.162  3304  3325 I DH2Loader: ABBEY_RUINS_01 | 1 modules | 51 mesh instances | 55 draws | 4 textures
+10-05 14:09:12.162  3304  3325 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 2 | Decor providers pending: 5
+10-05 14:09:12.169  3304  3325 I DH2Loader: MAP_FRAME_OK identity=ABBEY_RUINS_01 procedural=0 seed=0 modules=1 meshes=51 draws=55 triangles=7050 textures=4 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=2 decor_meshes=2 decor_skipped=5
+10-05 14:09:15.873  3396  3417 I DH2Loader: SOURCE_PREPARATION_STAGE identity=APPLETEMPLEBACKUP stage=sources
+10-05 14:09:15.881  3396  3417 I DH2Loader: SOURCE_PREPARATION_STAGE identity=APPLETEMPLEBACKUP stage=map
+10-05 14:09:15.939  3396  3417 I DH2Loader: SOURCE_PREPARATION_STAGE identity=APPLETEMPLEBACKUP stage=declarations
+10-05 14:09:15.939  3396  3417 I DH2Loader: SOURCE_PREPARATION_STAGE identity=APPLETEMPLEBACKUP stage=publish_source
+10-05 14:09:15.939  3396  3417 I DH2Loader: STATIC_DECOR_INSPECTION identity=APPLETEMPLEBACKUP sources=0 skipped=0 runtime_objects=0 animation=0
+10-05 14:09:16.635  3396  3417 I DH2Loader: APPLETEMPLEBACKUP | 5 modules | 230 mesh instances | 231 draws | 3 textures
+10-05 14:09:16.635  3396  3417 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1
+10-05 14:09:16.640  3396  3417 I DH2Loader: MAP_FRAME_OK identity=APPLETEMPLEBACKUP procedural=0 seed=0 modules=5 meshes=230 draws=231 triangles=15260 textures=3 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=0 decor_meshes=0 decor_skipped=0
+10-05 14:09:20.021  3477  3498 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DARKWOOD stage=sources
+10-05 14:09:20.034  3477  3498 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DARKWOOD stage=map
+10-05 14:09:20.236  3477  3498 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DARKWOOD stage=declarations
+10-05 14:09:20.237  3477  3498 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DARKWOOD stage=publish_source
+10-05 14:09:20.238  3477  3498 I DH2Loader: STATIC_DECOR_INSPECTION identity=DARKWOOD sources=8 skipped=5 runtime_objects=0 animation=0
+10-05 14:09:21.407  3477  3498 I DH2Loader: DARKWOOD | 24 modules | 931 mesh instances | 944 draws | 6 textures
+10-05 14:09:21.407  3477  3498 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 8 | Decor providers pending: 5
+10-05 14:09:21.413  3477  3498 I DH2Loader: MAP_FRAME_OK identity=DARKWOOD procedural=0 seed=0 modules=24 meshes=931 draws=944 triangles=40158 textures=6 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=8 decor_meshes=8 decor_skipped=5
+10-05 14:09:24.764  3556  3579 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DARKWOOD_V2 stage=sources
+10-05 14:09:24.769  3556  3579 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DARKWOOD_V2 stage=map
+10-05 14:09:25.002  3556  3579 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DARKWOOD_V2 stage=declarations
+10-05 14:09:25.003  3556  3579 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DARKWOOD_V2 stage=publish_source
+10-05 14:09:25.004  3556  3579 I DH2Loader: STATIC_DECOR_INSPECTION identity=DARKWOOD_V2 sources=8 skipped=5 runtime_objects=0 animation=0
+10-05 14:09:26.150  3556  3579 I DH2Loader: DARKWOOD_V2 | 24 modules | 931 mesh instances | 944 draws | 6 textures
+10-05 14:09:26.150  3556  3579 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 8 | Decor providers pending: 5
+10-05 14:09:26.156  3556  3579 I DH2Loader: MAP_FRAME_OK identity=DARKWOOD_V2 procedural=0 seed=0 modules=24 meshes=931 draws=944 triangles=40158 textures=6 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=8 decor_meshes=8 decor_skipped=5
+10-05 14:09:29.654  3642  3665 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DARKWOOD_V3 stage=sources
+10-05 14:09:29.666  3642  3665 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DARKWOOD_V3 stage=map
+10-05 14:09:29.822  3642  3665 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DARKWOOD_V3 stage=declarations
+10-05 14:09:29.823  3642  3665 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DARKWOOD_V3 stage=publish_source
+10-05 14:09:29.832  3642  3665 I DH2Loader: STATIC_DECOR_INSPECTION identity=DARKWOOD_V3 sources=8 skipped=5 runtime_objects=0 animation=0
+10-05 14:09:30.962  3642  3665 I DH2Loader: DARKWOOD_V3 | 24 modules | 931 mesh instances | 944 draws | 6 textures
+10-05 14:09:30.962  3642  3665 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 8 | Decor providers pending: 5
+10-05 14:09:30.971  3642  3665 I DH2Loader: MAP_FRAME_OK identity=DARKWOOD_V3 procedural=0 seed=0 modules=24 meshes=931 draws=944 triangles=40158 textures=6 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=8 decor_meshes=8 decor_skipped=5
+10-05 14:09:34.221  3721  3745 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DARK_DUNGEON_TEMPLE_01 stage=sources
+10-05 14:09:34.233  3721  3745 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DARK_DUNGEON_TEMPLE_01 stage=map
+10-05 14:09:34.253  3721  3745 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DARK_DUNGEON_TEMPLE_01 stage=declarations
+10-05 14:09:34.255  3721  3745 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DARK_DUNGEON_TEMPLE_01 stage=publish_source
+10-05 14:09:34.266  3721  3745 I DH2Loader: STATIC_DECOR_INSPECTION identity=DARK_DUNGEON_TEMPLE_01 sources=90 skipped=1 runtime_objects=0 animation=0
+10-05 14:09:34.860  3721  3745 I DH2Loader: DARK_DUNGEON_TEMPLE_01 | 8 modules | 16 mesh instances | 17 draws | 3 textures
+10-05 14:09:34.860  3721  3745 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 90 | Decor providers pending: 76
+10-05 14:09:34.862  3721  3745 I DH2Loader: MAP_FRAME_OK identity=DARK_DUNGEON_TEMPLE_01 procedural=0 seed=0 modules=8 meshes=16 draws=17 triangles=21087 textures=3 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=90 decor_meshes=0 decor_skipped=76
+10-05 14:09:38.352  3799  3821 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DARK_DUNGEON_TEMPLE_BOSSROOM stage=sources
+10-05 14:09:38.354  3799  3821 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DARK_DUNGEON_TEMPLE_BOSSROOM stage=map
+10-05 14:09:38.357  3799  3821 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DARK_DUNGEON_TEMPLE_BOSSROOM stage=declarations
+10-05 14:09:38.364  3799  3821 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DARK_DUNGEON_TEMPLE_BOSSROOM stage=publish_source
+10-05 14:09:38.365  3799  3821 I DH2Loader: STATIC_DECOR_INSPECTION identity=DARK_DUNGEON_TEMPLE_BOSSROOM sources=8 skipped=1 runtime_objects=0 animation=0
+10-05 14:09:39.241  3799  3821 I DH2Loader: DARK_DUNGEON_TEMPLE_BOSSROOM | 2 modules | 9 mesh instances | 9 draws | 6 textures
+10-05 14:09:39.241  3799  3821 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 8 | Decor providers pending: 1
+10-05 14:09:39.252  3799  3821 I DH2Loader: MAP_FRAME_OK identity=DARK_DUNGEON_TEMPLE_BOSSROOM procedural=0 seed=0 modules=2 meshes=9 draws=9 triangles=5192 textures=6 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=8 decor_meshes=3 decor_skipped=1
+10-05 14:09:42.581  3877  3896 I DH2Loader: SOURCE_PREPARATION_STAGE identity=FIRE_TEMPLE_01 stage=sources
+10-05 14:09:42.584  3877  3896 I DH2Loader: SOURCE_PREPARATION_STAGE identity=FIRE_TEMPLE_01 stage=map
+10-05 14:09:42.681  3877  3896 I DH2Loader: SOURCE_PREPARATION_STAGE identity=FIRE_TEMPLE_01 stage=declarations
+10-05 14:09:42.682  3877  3896 I DH2Loader: SOURCE_PREPARATION_STAGE identity=FIRE_TEMPLE_01 stage=publish_source
+10-05 14:09:42.683  3877  3896 I DH2Loader: STATIC_DECOR_INSPECTION identity=FIRE_TEMPLE_01 sources=27 skipped=22 runtime_objects=0 animation=0
+10-05 14:09:43.312  3877  3896 I DH2Loader: FIRE_TEMPLE_01 | 12 modules | 287 mesh instances | 313 draws | 4 textures
+10-05 14:09:43.312  3877  3896 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 14 | Static authored decor: 27 | Decor providers pending: 22
+10-05 14:09:43.317  3877  3896 I DH2Loader: MAP_FRAME_OK identity=FIRE_TEMPLE_01 procedural=0 seed=0 modules=12 meshes=287 draws=313 triangles=39771 textures=4 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=27 decor_meshes=13 decor_skipped=22
+10-05 14:09:46.827  3958  3984 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_HUB stage=sources
+10-05 14:09:46.830  3958  3984 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_HUB stage=map
+10-05 14:09:46.856  3958  3984 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_HUB stage=declarations
+10-05 14:09:46.856  3958  3984 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_HUB stage=publish_source
+10-05 14:09:46.868  3958  3984 I DH2Loader: STATIC_DECOR_INSPECTION identity=ICY_HUB sources=4 skipped=36 runtime_objects=0 animation=0
+10-05 14:09:47.608  3958  3984 I DH2Loader: ICY_HUB | 7 modules | 292 mesh instances | 292 draws | 4 textures
+10-05 14:09:47.608  3958  3984 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 4 | Decor providers pending: 36
+10-05 14:09:47.612  3958  3984 I DH2Loader: MAP_FRAME_OK identity=ICY_HUB procedural=0 seed=0 modules=7 meshes=292 draws=292 triangles=21321 textures=4 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=4 decor_meshes=4 decor_skipped=36
+10-05 14:09:51.087  4038  4061 I DH2Loader: SOURCE_PREPARATION_STAGE identity=INFECTED_VILLAGE_01 stage=sources
+10-05 14:09:51.088  4038  4061 I DH2Loader: SOURCE_PREPARATION_STAGE identity=INFECTED_VILLAGE_01 stage=map
+10-05 14:09:51.103  4038  4061 I DH2Loader: SOURCE_PREPARATION_STAGE identity=INFECTED_VILLAGE_01 stage=declarations
+10-05 14:09:51.103  4038  4061 I DH2Loader: SOURCE_PREPARATION_STAGE identity=INFECTED_VILLAGE_01 stage=publish_source
+10-05 14:09:51.104  4038  4061 I DH2Loader: STATIC_DECOR_INSPECTION identity=INFECTED_VILLAGE_01 sources=9 skipped=0 runtime_objects=0 animation=0
+10-05 14:09:51.800  4038  4061 I DH2Loader: INFECTED_VILLAGE_01 | 2 modules | 10 mesh instances | 14 draws | 4 textures
+10-05 14:09:51.800  4038  4061 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 9 | Decor providers pending: 8
+10-05 14:09:51.803  4038  4061 I DH2Loader: MAP_FRAME_OK identity=INFECTED_VILLAGE_01 procedural=0 seed=0 modules=2 meshes=10 draws=14 triangles=5701 textures=4 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=9 decor_meshes=1 decor_skipped=8
+10-05 14:09:55.140  4115  4136 I DH2Loader: SOURCE_PREPARATION_STAGE identity=MACHINE_ROOMS_01 stage=sources
+10-05 14:09:55.142  4115  4136 I DH2Loader: SOURCE_PREPARATION_STAGE identity=MACHINE_ROOMS_01 stage=map
+10-05 14:09:55.202  4115  4136 I DH2Loader: SOURCE_PREPARATION_STAGE identity=MACHINE_ROOMS_01 stage=declarations
+10-05 14:09:55.202  4115  4136 I DH2Loader: SOURCE_PREPARATION_STAGE identity=MACHINE_ROOMS_01 stage=publish_source
+10-05 14:09:55.203  4115  4136 I DH2Loader: STATIC_DECOR_INSPECTION identity=MACHINE_ROOMS_01 sources=1 skipped=0 runtime_objects=0 animation=0
+10-05 14:09:55.601  4115  4136 I DH2Loader: MACHINE_ROOMS_01 | 13 modules | 14 mesh instances | 14 draws | 3 textures
+10-05 14:09:55.601  4115  4136 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 1
+10-05 14:09:55.605  4115  4136 I DH2Loader: MAP_FRAME_OK identity=MACHINE_ROOMS_01 procedural=0 seed=0 modules=13 meshes=14 draws=14 triangles=33708 textures=3 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=1 decor_meshes=1 decor_skipped=0
+10-05 14:09:59.240  4191  4213 I DH2Loader: SOURCE_PREPARATION_STAGE identity=MULTIPLAYER_TEST stage=sources
+10-05 14:09:59.249  4191  4213 I DH2Loader: SOURCE_PREPARATION_STAGE identity=MULTIPLAYER_TEST stage=map
+10-05 14:09:59.270  4191  4213 I DH2Loader: SOURCE_PREPARATION_STAGE identity=MULTIPLAYER_TEST stage=declarations
+10-05 14:09:59.270  4191  4213 I DH2Loader: SOURCE_PREPARATION_STAGE identity=MULTIPLAYER_TEST stage=publish_source
+10-05 14:09:59.270  4191  4213 I DH2Loader: STATIC_DECOR_INSPECTION identity=MULTIPLAYER_TEST sources=0 skipped=0 runtime_objects=0 animation=0
+10-05 14:09:59.644  4191  4213 I DH2Loader: MULTIPLAYER_TEST | 1 modules | 1 mesh instances | 1 draws | 2 textures
+10-05 14:09:59.644  4191  4213 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0
+10-05 14:09:59.647  4191  4213 I DH2Loader: MAP_FRAME_OK identity=MULTIPLAYER_TEST procedural=0 seed=0 modules=1 meshes=1 draws=1 triangles=2592 textures=2 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=0 decor_meshes=0 decor_skipped=0
+10-05 14:10:03.389  4261  4285 I DH2Loader: SOURCE_PREPARATION_STAGE identity=PORTAL_ROOM stage=sources
+10-05 14:10:03.422  4261  4285 I DH2Loader: SOURCE_PREPARATION_STAGE identity=PORTAL_ROOM stage=map
+10-05 14:10:03.738  4261  4285 I DH2Loader: SOURCE_PREPARATION_STAGE identity=PORTAL_ROOM stage=declarations
+10-05 14:10:03.739  4261  4285 I DH2Loader: SOURCE_PREPARATION_STAGE identity=PORTAL_ROOM stage=publish_source
+10-05 14:10:03.740  4261  4285 I DH2Loader: STATIC_DECOR_INSPECTION identity=PORTAL_ROOM sources=8 skipped=5 runtime_objects=0 animation=0
+10-05 14:10:05.132  4261  4285 I DH2Loader: PORTAL_ROOM | 24 modules | 931 mesh instances | 944 draws | 6 textures
+10-05 14:10:05.132  4261  4285 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 8 | Decor providers pending: 5
+10-05 14:10:05.144  4261  4285 I DH2Loader: MAP_FRAME_OK identity=PORTAL_ROOM procedural=0 seed=0 modules=24 meshes=931 draws=944 triangles=40158 textures=6 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=8 decor_meshes=8 decor_skipped=5
+10-05 14:10:08.857  4349  4372 I DH2Loader: SOURCE_PREPARATION_STAGE identity=RED_DESERT_HUB stage=sources
+10-05 14:10:08.861  4349  4372 I DH2Loader: SOURCE_PREPARATION_STAGE identity=RED_DESERT_HUB stage=map
+10-05 14:10:08.893  4349  4372 I DH2Loader: SOURCE_PREPARATION_STAGE identity=RED_DESERT_HUB stage=declarations
+10-05 14:10:08.893  4349  4372 I DH2Loader: SOURCE_PREPARATION_STAGE identity=RED_DESERT_HUB stage=publish_source
+10-05 14:10:08.897  4349  4372 I DH2Loader: STATIC_DECOR_INSPECTION identity=RED_DESERT_HUB sources=38 skipped=1 runtime_objects=0 animation=0
+10-05 14:10:10.030  4349  4372 I DH2Loader: RED_DESERT_HUB | 6 modules | 210 mesh instances | 229 draws | 5 textures
+10-05 14:10:10.030  4349  4372 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 38 | Decor providers pending: 1
+10-05 14:10:10.035  4349  4372 I DH2Loader: MAP_FRAME_OK identity=RED_DESERT_HUB procedural=0 seed=0 modules=6 meshes=210 draws=229 triangles=19868 textures=5 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=38 decor_meshes=5 decor_skipped=1
+10-05 14:10:14.614  4426  4451 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP stage=sources
+10-05 14:10:14.623  4426  4451 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP stage=map
+10-05 14:10:14.722  4426  4451 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP stage=declarations
+10-05 14:10:14.722  4426  4451 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP stage=publish_source
+10-05 14:10:14.747  4426  4451 I DH2Loader: STATIC_DECOR_INSPECTION identity=SWAMP sources=31 skipped=6 runtime_objects=0 animation=0
+10-05 14:10:17.960  4426  4451 I DH2Loader: SWAMP | 9 modules | 464 mesh instances | 480 draws | 8 textures
+10-05 14:10:17.960  4426  4451 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 23 | Static authored decor: 31 | Decor providers pending: 10
+10-05 14:10:17.988  4426  4451 I DH2Loader: MAP_FRAME_OK identity=SWAMP procedural=0 seed=0 modules=9 meshes=464 draws=480 triangles=28967 textures=8 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=31 decor_meshes=95 decor_skipped=10
+10-05 14:10:22.179  4524  4548 I DH2Loader: SOURCE_PREPARATION_STAGE identity=UNDERWORLD_HUB stage=sources
+10-05 14:10:22.184  4524  4548 I DH2Loader: SOURCE_PREPARATION_STAGE identity=UNDERWORLD_HUB stage=map
+10-05 14:10:22.258  4524  4548 I DH2Loader: SOURCE_PREPARATION_STAGE identity=UNDERWORLD_HUB stage=declarations
+10-05 14:10:22.258  4524  4548 I DH2Loader: SOURCE_PREPARATION_STAGE identity=UNDERWORLD_HUB stage=publish_source
+10-05 14:10:22.259  4524  4548 I DH2Loader: STATIC_DECOR_INSPECTION identity=UNDERWORLD_HUB sources=0 skipped=0 runtime_objects=0 animation=0
+10-05 14:10:23.849  4524  4548 I DH2Loader: UNDERWORLD_HUB | 9 modules | 347 mesh instances | 348 draws | 4 textures
+10-05 14:10:23.849  4524  4548 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0
+10-05 14:10:23.853  4524  4548 I DH2Loader: MAP_FRAME_OK identity=UNDERWORLD_HUB procedural=0 seed=0 modules=9 meshes=347 draws=348 triangles=30148 textures=4 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=0 decor_meshes=0 decor_skipped=0
+10-05 14:10:27.268  4611  4635 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ABBEY_ENTRANCE_01 stage=procedural_sources
+10-05 14:10:27.270  4611  4635 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ABBEY_ENTRANCE_01 stage=blocks
+10-05 14:10:27.270  4611  4635 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ABBEY_ENTRANCE_01 stage=connections
+10-05 14:10:27.270  4611  4635 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ABBEY_ENTRANCE_01 stage=lists
+10-05 14:10:27.270  4611  4635 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ABBEY_ENTRANCE_01 stage=rules
+10-05 14:10:27.270  4611  4635 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ABBEY_ENTRANCE_01 stage=layout
+10-05 14:10:27.270  4611  4635 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ABBEY_ENTRANCE_01 stage=modules
+10-05 14:10:27.272  4611  4635 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ABBEY_ENTRANCE_01 stage=sources
+10-05 14:10:27.281  4611  4635 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ABBEY_ENTRANCE_01 stage=map
+10-05 14:10:27.315  4611  4635 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ABBEY_ENTRANCE_01 stage=declarations
+10-05 14:10:27.316  4611  4635 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ABBEY_ENTRANCE_01 stage=publish_source
+10-05 14:10:27.329  4611  4635 I DH2Loader: STATIC_DECOR_INSPECTION identity=ABBEY_ENTRANCE_01 sources=95 skipped=0 runtime_objects=0 animation=0
+10-05 14:10:28.910  4611  4635 I DH2Loader: ABBEY_ENTRANCE_01 seed 0 | 11 modules | 195 mesh instances | 197 draws | 8 textures
+10-05 14:10:28.910  4611  4635 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 90 | Static authored decor: 95 | Decor providers pending: 90
+10-05 14:10:28.918  4611  4635 I DH2Loader: MAP_FRAME_OK identity=ABBEY_ENTRANCE_01 procedural=1 seed=0 modules=11 meshes=195 draws=197 triangles=16332 textures=8 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=95 decor_meshes=127 decor_skipped=90
+10-05 14:10:32.762  4695  4720 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ABBEY_ENTRANCE_01 stage=procedural_sources
+10-05 14:10:32.763  4695  4720 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ABBEY_ENTRANCE_01 stage=blocks
+10-05 14:10:32.765  4695  4720 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ABBEY_ENTRANCE_01 stage=connections
+10-05 14:10:32.765  4695  4720 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ABBEY_ENTRANCE_01 stage=lists
+10-05 14:10:32.765  4695  4720 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ABBEY_ENTRANCE_01 stage=rules
+10-05 14:10:32.765  4695  4720 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ABBEY_ENTRANCE_01 stage=layout
+10-05 14:10:32.766  4695  4720 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ABBEY_ENTRANCE_01 stage=modules
+10-05 14:10:32.768  4695  4720 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ABBEY_ENTRANCE_01 stage=sources
+10-05 14:10:32.776  4695  4720 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ABBEY_ENTRANCE_01 stage=map
+10-05 14:10:32.807  4695  4720 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ABBEY_ENTRANCE_01 stage=declarations
+10-05 14:10:32.808  4695  4720 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ABBEY_ENTRANCE_01 stage=publish_source
+10-05 14:10:32.824  4695  4720 I DH2Loader: STATIC_DECOR_INSPECTION identity=ABBEY_ENTRANCE_01 sources=97 skipped=0 runtime_objects=0 animation=0
+10-05 14:10:34.786  4695  4720 I DH2Loader: ABBEY_ENTRANCE_01 seed 1 | 11 modules | 198 mesh instances | 200 draws | 10 textures
+10-05 14:10:34.786  4695  4720 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 89 | Static authored decor: 97 | Decor providers pending: 89
+10-05 14:10:34.804  4695  4720 I DH2Loader: MAP_FRAME_OK identity=ABBEY_ENTRANCE_01 procedural=1 seed=1 modules=11 meshes=198 draws=200 triangles=16023 textures=10 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=97 decor_meshes=131 decor_skipped=89
+10-05 14:10:38.496  4786  4810 I DH2Loader: SOURCE_PREPARATION_STAGE identity=APPLETEMPLE stage=procedural_sources
+10-05 14:10:38.497  4786  4810 I DH2Loader: SOURCE_PREPARATION_STAGE identity=APPLETEMPLE stage=blocks
+10-05 14:10:38.497  4786  4810 I DH2Loader: SOURCE_PREPARATION_STAGE identity=APPLETEMPLE stage=connections
+10-05 14:10:38.497  4786  4810 I DH2Loader: SOURCE_PREPARATION_STAGE identity=APPLETEMPLE stage=lists
+10-05 14:10:38.498  4786  4810 I DH2Loader: SOURCE_PREPARATION_STAGE identity=APPLETEMPLE stage=rules
+10-05 14:10:38.498  4786  4810 I DH2Loader: SOURCE_PREPARATION_STAGE identity=APPLETEMPLE stage=layout
+10-05 14:10:38.498  4786  4810 I DH2Loader: SOURCE_PREPARATION_STAGE identity=APPLETEMPLE stage=modules
+10-05 14:10:38.498  4786  4810 I DH2Loader: SOURCE_PREPARATION_STAGE identity=APPLETEMPLE stage=sources
+10-05 14:10:38.500  4786  4810 I DH2Loader: SOURCE_PREPARATION_STAGE identity=APPLETEMPLE stage=map
+10-05 14:10:38.559  4786  4810 I DH2Loader: SOURCE_PREPARATION_STAGE identity=APPLETEMPLE stage=declarations
+10-05 14:10:38.559  4786  4810 I DH2Loader: SOURCE_PREPARATION_STAGE identity=APPLETEMPLE stage=publish_source
+10-05 14:10:38.559  4786  4810 I DH2Loader: STATIC_DECOR_INSPECTION identity=APPLETEMPLE sources=0 skipped=0 runtime_objects=0 animation=0
+10-05 14:10:39.510  4786  4810 I DH2Loader: APPLETEMPLE seed 0 | 4 modules | 171 mesh instances | 172 draws | 3 textures
+10-05 14:10:39.510  4786  4810 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1
+10-05 14:10:39.536  4786  4810 I DH2Loader: MAP_FRAME_OK identity=APPLETEMPLE procedural=1 seed=0 modules=4 meshes=171 draws=172 triangles=12398 textures=3 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=0 decor_meshes=0 decor_skipped=0
+10-05 14:10:43.690  4870  4895 I DH2Loader: SOURCE_PREPARATION_STAGE identity=APPLETEMPLE stage=procedural_sources
+10-05 14:10:43.692  4870  4895 I DH2Loader: SOURCE_PREPARATION_STAGE identity=APPLETEMPLE stage=blocks
+10-05 14:10:43.692  4870  4895 I DH2Loader: SOURCE_PREPARATION_STAGE identity=APPLETEMPLE stage=connections
+10-05 14:10:43.692  4870  4895 I DH2Loader: SOURCE_PREPARATION_STAGE identity=APPLETEMPLE stage=lists
+10-05 14:10:43.692  4870  4895 I DH2Loader: SOURCE_PREPARATION_STAGE identity=APPLETEMPLE stage=rules
+10-05 14:10:43.693  4870  4895 I DH2Loader: SOURCE_PREPARATION_STAGE identity=APPLETEMPLE stage=layout
+10-05 14:10:43.693  4870  4895 I DH2Loader: SOURCE_PREPARATION_STAGE identity=APPLETEMPLE stage=modules
+10-05 14:10:43.693  4870  4895 I DH2Loader: SOURCE_PREPARATION_STAGE identity=APPLETEMPLE stage=sources
+10-05 14:10:43.695  4870  4895 I DH2Loader: SOURCE_PREPARATION_STAGE identity=APPLETEMPLE stage=map
+10-05 14:10:43.744  4870  4895 I DH2Loader: SOURCE_PREPARATION_STAGE identity=APPLETEMPLE stage=declarations
+10-05 14:10:43.744  4870  4895 I DH2Loader: SOURCE_PREPARATION_STAGE identity=APPLETEMPLE stage=publish_source
+10-05 14:10:43.744  4870  4895 I DH2Loader: STATIC_DECOR_INSPECTION identity=APPLETEMPLE sources=0 skipped=0 runtime_objects=0 animation=0
+10-05 14:10:44.866  4870  4895 I DH2Loader: APPLETEMPLE seed 1 | 4 modules | 171 mesh instances | 172 draws | 3 textures
+10-05 14:10:44.866  4870  4895 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1
+10-05 14:10:44.883  4870  4895 I DH2Loader: MAP_FRAME_OK identity=APPLETEMPLE procedural=1 seed=1 modules=4 meshes=171 draws=172 triangles=12398 textures=3 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=0 decor_meshes=0 decor_skipped=0
+10-05 14:10:48.936  4954  4978 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_01 stage=procedural_sources
+10-05 14:10:48.937  4954  4978 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_01 stage=blocks
+10-05 14:10:48.938  4954  4978 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_01 stage=connections
+10-05 14:10:48.938  4954  4978 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_01 stage=lists
+10-05 14:10:48.938  4954  4978 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_01 stage=rules
+10-05 14:10:48.938  4954  4978 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_01 stage=layout
+10-05 14:10:48.938  4954  4978 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_01 stage=modules
+10-05 14:10:48.939  4954  4978 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_01 stage=sources
+10-05 14:10:48.944  4954  4978 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_01 stage=map
+10-05 14:10:48.996  4954  4978 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_01 stage=declarations
+10-05 14:10:48.996  4954  4978 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_01 stage=publish_source
+10-05 14:10:48.999  4954  4978 I DH2Loader: STATIC_DECOR_INSPECTION identity=DESERT_CAVE_01 sources=29 skipped=0 runtime_objects=0 animation=0
+10-05 14:10:50.719  4954  4978 I DH2Loader: DESERT_CAVE_01 seed 0 | 9 modules | 334 mesh instances | 344 draws | 5 textures
+10-05 14:10:50.719  4954  4978 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 29
+10-05 14:10:50.730  4954  4978 I DH2Loader: MAP_FRAME_OK identity=DESERT_CAVE_01 procedural=1 seed=0 modules=9 meshes=334 draws=344 triangles=27194 textures=5 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=29 decor_meshes=57 decor_skipped=0
+10-05 14:10:55.183  5039  5061 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_01 stage=procedural_sources
+10-05 14:10:55.185  5039  5061 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_01 stage=blocks
+10-05 14:10:55.185  5039  5061 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_01 stage=connections
+10-05 14:10:55.187  5039  5061 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_01 stage=lists
+10-05 14:10:55.187  5039  5061 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_01 stage=rules
+10-05 14:10:55.188  5039  5061 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_01 stage=layout
+10-05 14:10:55.188  5039  5061 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_01 stage=modules
+10-05 14:10:55.190  5039  5061 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_01 stage=sources
+10-05 14:10:55.194  5039  5061 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_01 stage=map
+10-05 14:10:55.250  5039  5061 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_01 stage=declarations
+10-05 14:10:55.251  5039  5061 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_01 stage=publish_source
+10-05 14:10:55.253  5039  5061 I DH2Loader: STATIC_DECOR_INSPECTION identity=DESERT_CAVE_01 sources=24 skipped=0 runtime_objects=0 animation=0
+10-05 14:10:57.373  5039  5061 I DH2Loader: DESERT_CAVE_01 seed 1 | 7 modules | 282 mesh instances | 290 draws | 5 textures
+10-05 14:10:57.373  5039  5061 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 24
+10-05 14:10:57.382  5039  5061 I DH2Loader: MAP_FRAME_OK identity=DESERT_CAVE_01 procedural=1 seed=1 modules=7 meshes=282 draws=290 triangles=21012 textures=5 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=24 decor_meshes=47 decor_skipped=0
+10-05 14:11:01.499  5128  5150 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_02 stage=procedural_sources
+10-05 14:11:01.500  5128  5150 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_02 stage=blocks
+10-05 14:11:01.500  5128  5150 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_02 stage=connections
+10-05 14:11:01.500  5128  5150 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_02 stage=lists
+10-05 14:11:01.500  5128  5150 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_02 stage=rules
+10-05 14:11:01.500  5128  5150 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_02 stage=layout
+10-05 14:11:01.501  5128  5150 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_02 stage=backup_sources
+10-05 14:11:01.504  5128  5150 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_02 stage=map
+10-05 14:11:01.560  5128  5150 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_02 stage=declarations
+10-05 14:11:01.560  5128  5150 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_02 stage=publish_source
+10-05 14:11:01.560  5128  5150 I DH2Loader: SOURCE_BACKUP_SELECTED identity=DESERT_CAVE_02 seed=0 definition=x17_red_desert_cave_02_BACKUP.mlx
+10-05 14:11:01.561  5128  5150 I DH2Loader: STATIC_DECOR_INSPECTION identity=DESERT_CAVE_02 sources=2 skipped=0 runtime_objects=0 animation=0
+10-05 14:11:02.855  5128  5150 I DH2Loader: DESERT_CAVE_02 seed 0 [original backup] | 10 modules | 207 mesh instances | 216 draws | 4 textures
+10-05 14:11:02.855  5128  5150 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 2
+10-05 14:11:02.863  5128  5150 I DH2Loader: MAP_FRAME_OK identity=DESERT_CAVE_02 procedural=0 seed=0 modules=10 meshes=207 draws=216 triangles=22896 textures=4 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=2 decor_meshes=2 decor_skipped=0
+10-05 14:11:07.044  5209  5240 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_02 stage=procedural_sources
+10-05 14:11:07.069  5209  5240 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_02 stage=blocks
+10-05 14:11:07.069  5209  5240 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_02 stage=connections
+10-05 14:11:07.069  5209  5240 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_02 stage=lists
+10-05 14:11:07.069  5209  5240 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_02 stage=rules
+10-05 14:11:07.069  5209  5240 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_02 stage=layout
+10-05 14:11:07.070  5209  5240 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_02 stage=modules
+10-05 14:11:07.071  5209  5240 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_02 stage=sources
+10-05 14:11:07.082  5209  5240 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_02 stage=map
+10-05 14:11:07.140  5209  5240 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_02 stage=declarations
+10-05 14:11:07.140  5209  5240 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_02 stage=publish_source
+10-05 14:11:07.141  5209  5240 I DH2Loader: STATIC_DECOR_INSPECTION identity=DESERT_CAVE_02 sources=2 skipped=0 runtime_objects=0 animation=0
+10-05 14:11:08.491  5209  5240 I DH2Loader: DESERT_CAVE_02 seed 1 | 10 modules | 209 mesh instances | 220 draws | 4 textures
+10-05 14:11:08.491  5209  5240 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 2
+10-05 14:11:08.499  5209  5240 I DH2Loader: MAP_FRAME_OK identity=DESERT_CAVE_02 procedural=1 seed=1 modules=10 meshes=209 draws=220 triangles=22114 textures=4 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=2 decor_meshes=2 decor_skipped=0
+10-05 14:11:11.932  5299  5323 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_03 stage=procedural_sources
+10-05 14:11:11.934  5299  5323 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_03 stage=blocks
+10-05 14:11:11.934  5299  5323 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_03 stage=connections
+10-05 14:11:11.934  5299  5323 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_03 stage=lists
+10-05 14:11:11.934  5299  5323 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_03 stage=rules
+10-05 14:11:11.934  5299  5323 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_03 stage=layout
+10-05 14:11:11.936  5299  5323 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_03 stage=modules
+10-05 14:11:11.938  5299  5323 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_03 stage=sources
+10-05 14:11:11.944  5299  5323 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_03 stage=map
+10-05 14:11:12.066  5299  5323 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_03 stage=declarations
+10-05 14:11:12.066  5299  5323 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_03 stage=publish_source
+10-05 14:11:12.067  5299  5323 I DH2Loader: STATIC_DECOR_INSPECTION identity=DESERT_CAVE_03 sources=2 skipped=0 runtime_objects=0 animation=0
+10-05 14:11:12.821  5299  5323 I DH2Loader: DESERT_CAVE_03 seed 0 | 10 modules | 210 mesh instances | 219 draws | 4 textures
+10-05 14:11:12.821  5299  5323 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 2
+10-05 14:11:12.830  5299  5323 I DH2Loader: MAP_FRAME_OK identity=DESERT_CAVE_03 procedural=1 seed=0 modules=10 meshes=210 draws=219 triangles=24738 textures=4 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=2 decor_meshes=2 decor_skipped=0
+10-05 14:11:16.732  5377  5407 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_03 stage=procedural_sources
+10-05 14:11:16.735  5377  5407 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_03 stage=blocks
+10-05 14:11:16.735  5377  5407 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_03 stage=connections
+10-05 14:11:16.735  5377  5407 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_03 stage=lists
+10-05 14:11:16.736  5377  5407 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_03 stage=rules
+10-05 14:11:16.736  5377  5407 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_03 stage=layout
+10-05 14:11:16.736  5377  5407 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_03 stage=modules
+10-05 14:11:16.737  5377  5407 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_03 stage=sources
+10-05 14:11:16.743  5377  5407 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_03 stage=map
+10-05 14:11:16.788  5377  5407 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_03 stage=declarations
+10-05 14:11:16.788  5377  5407 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DESERT_CAVE_03 stage=publish_source
+10-05 14:11:16.789  5377  5407 I DH2Loader: STATIC_DECOR_INSPECTION identity=DESERT_CAVE_03 sources=2 skipped=0 runtime_objects=0 animation=0
+10-05 14:11:17.545  5377  5407 I DH2Loader: DESERT_CAVE_03 seed 1 | 10 modules | 205 mesh instances | 213 draws | 4 textures
+10-05 14:11:17.545  5377  5407 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 2
+10-05 14:11:17.550  5377  5407 I DH2Loader: MAP_FRAME_OK identity=DESERT_CAVE_03 procedural=1 seed=1 modules=10 meshes=205 draws=213 triangles=23016 textures=4 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=2 decor_meshes=2 decor_skipped=0
+10-05 14:11:21.408  5460  5484 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_01 stage=procedural_sources
+10-05 14:11:21.409  5460  5484 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_01 stage=blocks
+10-05 14:11:21.409  5460  5484 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_01 stage=connections
+10-05 14:11:21.409  5460  5484 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_01 stage=lists
+10-05 14:11:21.409  5460  5484 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_01 stage=rules
+10-05 14:11:21.409  5460  5484 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_01 stage=layout
+10-05 14:11:21.409  5460  5484 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_01 stage=modules
+10-05 14:11:21.411  5460  5484 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_01 stage=sources
+10-05 14:11:21.445  5460  5484 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_01 stage=map
+10-05 14:11:21.532  5460  5484 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_01 stage=declarations
+10-05 14:11:21.532  5460  5484 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_01 stage=publish_source
+10-05 14:11:21.537  5460  5484 I DH2Loader: STATIC_DECOR_INSPECTION identity=EARTH_TEMPLE_01 sources=69 skipped=0 runtime_objects=0 animation=0
+10-05 14:11:22.790  5460  5484 I DH2Loader: EARTH_TEMPLE_01 seed 0 | 7 modules | 471 mesh instances | 471 draws | 5 textures
+10-05 14:11:22.790  5460  5484 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1 | Static authored decor: 69
+10-05 14:11:22.797  5460  5484 I DH2Loader: MAP_FRAME_OK identity=EARTH_TEMPLE_01 procedural=1 seed=0 modules=7 meshes=471 draws=471 triangles=19894 textures=5 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=69 decor_meshes=136 decor_skipped=0
+10-05 14:11:26.437  5539  5560 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_01 stage=procedural_sources
+10-05 14:11:26.438  5539  5560 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_01 stage=blocks
+10-05 14:11:26.440  5539  5560 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_01 stage=connections
+10-05 14:11:26.440  5539  5560 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_01 stage=lists
+10-05 14:11:26.440  5539  5560 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_01 stage=rules
+10-05 14:11:26.440  5539  5560 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_01 stage=layout
+10-05 14:11:26.440  5539  5560 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_01 stage=modules
+10-05 14:11:26.441  5539  5560 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_01 stage=sources
+10-05 14:11:26.446  5539  5560 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_01 stage=map
+10-05 14:11:26.494  5539  5560 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_01 stage=declarations
+10-05 14:11:26.497  5539  5560 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_01 stage=publish_source
+10-05 14:11:26.502  5539  5560 I DH2Loader: STATIC_DECOR_INSPECTION identity=EARTH_TEMPLE_01 sources=64 skipped=0 runtime_objects=0 animation=0
+10-05 14:11:27.970  5539  5560 I DH2Loader: EARTH_TEMPLE_01 seed 1 | 6 modules | 417 mesh instances | 417 draws | 5 textures
+10-05 14:11:27.970  5539  5560 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1 | Static authored decor: 64
+10-05 14:11:27.976  5539  5560 I DH2Loader: MAP_FRAME_OK identity=EARTH_TEMPLE_01 procedural=1 seed=1 modules=6 meshes=417 draws=417 triangles=17904 textures=5 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=64 decor_meshes=126 decor_skipped=0
+10-05 14:11:32.135  5623  5647 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_02 stage=procedural_sources
+10-05 14:11:32.137  5623  5647 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_02 stage=blocks
+10-05 14:11:32.137  5623  5647 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_02 stage=connections
+10-05 14:11:32.137  5623  5647 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_02 stage=lists
+10-05 14:11:32.137  5623  5647 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_02 stage=rules
+10-05 14:11:32.138  5623  5647 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_02 stage=layout
+10-05 14:11:32.138  5623  5647 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_02 stage=modules
+10-05 14:11:32.139  5623  5647 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_02 stage=sources
+10-05 14:11:32.147  5623  5647 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_02 stage=map
+10-05 14:11:32.209  5623  5647 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_02 stage=declarations
+10-05 14:11:32.210  5623  5647 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_02 stage=publish_source
+10-05 14:11:32.215  5623  5647 I DH2Loader: STATIC_DECOR_INSPECTION identity=EARTH_TEMPLE_02 sources=55 skipped=0 runtime_objects=0 animation=0
+10-05 14:11:34.253  5623  5647 I DH2Loader: EARTH_TEMPLE_02 seed 0 | 8 modules | 441 mesh instances | 443 draws | 5 textures
+10-05 14:11:34.253  5623  5647 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 55
+10-05 14:11:34.269  5623  5647 I DH2Loader: MAP_FRAME_OK identity=EARTH_TEMPLE_02 procedural=1 seed=0 modules=8 meshes=441 draws=443 triangles=20396 textures=5 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=55 decor_meshes=107 decor_skipped=0
+10-05 14:11:38.343  5714  5737 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_02 stage=procedural_sources
+10-05 14:11:38.349  5714  5737 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_02 stage=blocks
+10-05 14:11:38.349  5714  5737 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_02 stage=connections
+10-05 14:11:38.349  5714  5737 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_02 stage=lists
+10-05 14:11:38.349  5714  5737 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_02 stage=rules
+10-05 14:11:38.349  5714  5737 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_02 stage=layout
+10-05 14:11:38.356  5714  5737 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_02 stage=modules
+10-05 14:11:38.359  5714  5737 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_02 stage=sources
+10-05 14:11:38.382  5714  5737 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_02 stage=map
+10-05 14:11:38.461  5714  5737 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_02 stage=declarations
+10-05 14:11:38.462  5714  5737 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_02 stage=publish_source
+10-05 14:11:38.465  5714  5737 I DH2Loader: STATIC_DECOR_INSPECTION identity=EARTH_TEMPLE_02 sources=47 skipped=0 runtime_objects=0 animation=0
+10-05 14:11:40.250  5714  5737 I DH2Loader: EARTH_TEMPLE_02 seed 1 | 7 modules | 388 mesh instances | 390 draws | 5 textures
+10-05 14:11:40.250  5714  5737 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 47
+10-05 14:11:40.255  5714  5737 I DH2Loader: MAP_FRAME_OK identity=EARTH_TEMPLE_02 procedural=1 seed=1 modules=7 meshes=388 draws=390 triangles=18521 textures=5 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=47 decor_meshes=91 decor_skipped=0
+10-05 14:11:44.054  5796  5820 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_03 stage=procedural_sources
+10-05 14:11:44.056  5796  5820 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_03 stage=blocks
+10-05 14:11:44.057  5796  5820 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_03 stage=connections
+10-05 14:11:44.057  5796  5820 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_03 stage=lists
+10-05 14:11:44.057  5796  5820 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_03 stage=rules
+10-05 14:11:44.057  5796  5820 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_03 stage=layout
+10-05 14:11:44.059  5796  5820 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_03 stage=modules
+10-05 14:11:44.060  5796  5820 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_03 stage=sources
+10-05 14:11:44.080  5796  5820 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_03 stage=map
+10-05 14:11:44.176  5796  5820 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_03 stage=declarations
+10-05 14:11:44.176  5796  5820 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_03 stage=publish_source
+10-05 14:11:44.183  5796  5820 I DH2Loader: STATIC_DECOR_INSPECTION identity=EARTH_TEMPLE_03 sources=36 skipped=0 runtime_objects=0 animation=0
+10-05 14:11:45.679  5796  5820 I DH2Loader: EARTH_TEMPLE_03 seed 0 | 5 modules | 296 mesh instances | 297 draws | 5 textures
+10-05 14:11:45.679  5796  5820 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 36
+10-05 14:11:45.685  5796  5820 I DH2Loader: MAP_FRAME_OK identity=EARTH_TEMPLE_03 procedural=1 seed=0 modules=5 meshes=296 draws=297 triangles=15298 textures=5 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=36 decor_meshes=70 decor_skipped=0
+10-05 14:11:50.060  5885  5907 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_03 stage=procedural_sources
+10-05 14:11:50.071  5885  5907 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_03 stage=blocks
+10-05 14:11:50.072  5885  5907 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_03 stage=connections
+10-05 14:11:50.072  5885  5907 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_03 stage=lists
+10-05 14:11:50.072  5885  5907 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_03 stage=rules
+10-05 14:11:50.072  5885  5907 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_03 stage=layout
+10-05 14:11:50.072  5885  5907 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_03 stage=modules
+10-05 14:11:50.073  5885  5907 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_03 stage=sources
+10-05 14:11:50.078  5885  5907 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_03 stage=map
+10-05 14:11:50.148  5885  5907 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_03 stage=declarations
+10-05 14:11:50.148  5885  5907 I DH2Loader: SOURCE_PREPARATION_STAGE identity=EARTH_TEMPLE_03 stage=publish_source
+10-05 14:11:50.152  5885  5907 I DH2Loader: STATIC_DECOR_INSPECTION identity=EARTH_TEMPLE_03 sources=36 skipped=0 runtime_objects=0 animation=0
+10-05 14:11:52.273  5885  5907 I DH2Loader: EARTH_TEMPLE_03 seed 1 | 5 modules | 296 mesh instances | 297 draws | 5 textures
+10-05 14:11:52.273  5885  5907 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 36
+10-05 14:11:52.282  5885  5907 I DH2Loader: MAP_FRAME_OK identity=EARTH_TEMPLE_03 procedural=1 seed=1 modules=5 meshes=296 draws=297 triangles=15298 textures=5 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=36 decor_meshes=70 decor_skipped=0
+10-05 14:11:57.752  5973  6000 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_AIR stage=procedural_sources
+10-05 14:11:57.755  5973  6000 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_AIR stage=blocks
+10-05 14:11:57.757  5973  6000 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_AIR stage=connections
+10-05 14:11:57.757  5973  6000 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_AIR stage=lists
+10-05 14:11:57.757  5973  6000 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_AIR stage=rules
+10-05 14:11:57.757  5973  6000 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_AIR stage=layout
+10-05 14:11:57.757  5973  6000 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_AIR stage=modules
+10-05 14:11:57.759  5973  6000 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_AIR stage=sources
+10-05 14:11:57.768  5973  6000 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_AIR stage=map
+10-05 14:11:57.855  5973  6000 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_AIR stage=declarations
+10-05 14:11:57.856  5973  6000 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_AIR stage=publish_source
+10-05 14:11:57.862  5973  6000 I DH2Loader: STATIC_DECOR_INSPECTION identity=ELEMENTAL_AIR sources=36 skipped=0 runtime_objects=0 animation=0
+10-05 14:11:59.693  5973  6000 I DH2Loader: TEXTURE_SOURCE_ALIAS authored=data/3d/textures/env_castle_alpha.tga resolved=data/3d/textures/pvr2_env_castle_alpha.tga
+10-05 14:12:00.280  5973  6000 I DH2Loader: ELEMENTAL_AIR seed 0 | 8 modules | 303 mesh instances | 342 draws | 5 textures
+10-05 14:12:00.280  5973  6000 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2 | Static authored decor: 36 | Decor providers pending: 42
+10-05 14:12:00.295  5973  6000 I DH2Loader: MAP_FRAME_OK identity=ELEMENTAL_AIR procedural=1 seed=0 modules=8 meshes=303 draws=342 triangles=21694 textures=5 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=36 decor_meshes=36 decor_skipped=42
+10-05 14:12:05.317  6067  6091 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_AIR stage=procedural_sources
+10-05 14:12:05.321  6067  6091 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_AIR stage=blocks
+10-05 14:12:05.321  6067  6091 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_AIR stage=connections
+10-05 14:12:05.321  6067  6091 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_AIR stage=lists
+10-05 14:12:05.321  6067  6091 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_AIR stage=rules
+10-05 14:12:05.321  6067  6091 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_AIR stage=layout
+10-05 14:12:05.322  6067  6091 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_AIR stage=modules
+10-05 14:12:05.323  6067  6091 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_AIR stage=sources
+10-05 14:12:05.333  6067  6091 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_AIR stage=map
+10-05 14:12:05.397  6067  6091 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_AIR stage=declarations
+10-05 14:12:05.397  6067  6091 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_AIR stage=publish_source
+10-05 14:12:05.402  6067  6091 I DH2Loader: STATIC_DECOR_INSPECTION identity=ELEMENTAL_AIR sources=32 skipped=0 runtime_objects=0 animation=0
+10-05 14:12:07.086  6067  6091 I DH2Loader: TEXTURE_SOURCE_ALIAS authored=data/3d/textures/env_castle_alpha.tga resolved=data/3d/textures/pvr2_env_castle_alpha.tga
+10-05 14:12:07.578  6067  6091 I DH2Loader: ELEMENTAL_AIR seed 1 | 7 modules | 271 mesh instances | 306 draws | 5 textures
+10-05 14:12:07.578  6067  6091 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2 | Static authored decor: 32 | Decor providers pending: 37
+10-05 14:12:07.583  6067  6091 I DH2Loader: MAP_FRAME_OK identity=ELEMENTAL_AIR procedural=1 seed=1 modules=7 meshes=271 draws=306 triangles=18692 textures=5 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=32 decor_meshes=32 decor_skipped=37
+10-05 14:12:12.432  6158  6181 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_EARTH stage=procedural_sources
+10-05 14:12:12.434  6158  6181 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_EARTH stage=blocks
+10-05 14:12:12.434  6158  6181 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_EARTH stage=connections
+10-05 14:12:12.434  6158  6181 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_EARTH stage=lists
+10-05 14:12:12.435  6158  6181 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_EARTH stage=rules
+10-05 14:12:12.435  6158  6181 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_EARTH stage=layout
+10-05 14:12:12.435  6158  6181 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_EARTH stage=modules
+10-05 14:12:12.436  6158  6181 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_EARTH stage=sources
+10-05 14:12:12.442  6158  6181 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_EARTH stage=map
+10-05 14:12:12.505  6158  6181 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_EARTH stage=declarations
+10-05 14:12:12.505  6158  6181 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_EARTH stage=publish_source
+10-05 14:12:12.511  6158  6181 I DH2Loader: STATIC_DECOR_INSPECTION identity=ELEMENTAL_EARTH sources=30 skipped=0 runtime_objects=0 animation=0
+10-05 14:12:14.167  6158  6181 I DH2Loader: TEXTURE_SOURCE_ALIAS authored=data/3d/textures/env_castle_alpha.tga resolved=data/3d/textures/pvr2_env_castle_alpha.tga
+10-05 14:12:14.667  6158  6181 I DH2Loader: ELEMENTAL_EARTH seed 0 | 7 modules | 263 mesh instances | 298 draws | 5 textures
+10-05 14:12:14.667  6158  6181 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2 | Static authored decor: 30 | Decor providers pending: 35
+10-05 14:12:14.687  6158  6181 I DH2Loader: MAP_FRAME_OK identity=ELEMENTAL_EARTH procedural=1 seed=0 modules=7 meshes=263 draws=298 triangles=18812 textures=5 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=30 decor_meshes=30 decor_skipped=35
+10-05 14:12:19.557  6247  6272 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_EARTH stage=procedural_sources
+10-05 14:12:19.559  6247  6272 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_EARTH stage=blocks
+10-05 14:12:19.559  6247  6272 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_EARTH stage=connections
+10-05 14:12:19.559  6247  6272 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_EARTH stage=lists
+10-05 14:12:19.559  6247  6272 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_EARTH stage=rules
+10-05 14:12:19.559  6247  6272 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_EARTH stage=layout
+10-05 14:12:19.559  6247  6272 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_EARTH stage=modules
+10-05 14:12:19.560  6247  6272 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_EARTH stage=sources
+10-05 14:12:19.573  6247  6272 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_EARTH stage=map
+10-05 14:12:19.648  6247  6272 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_EARTH stage=declarations
+10-05 14:12:19.648  6247  6272 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_EARTH stage=publish_source
+10-05 14:12:19.654  6247  6272 I DH2Loader: STATIC_DECOR_INSPECTION identity=ELEMENTAL_EARTH sources=32 skipped=0 runtime_objects=0 animation=0
+10-05 14:12:21.013  6247  6272 I DH2Loader: TEXTURE_SOURCE_ALIAS authored=data/3d/textures/env_castle_alpha.tga resolved=data/3d/textures/pvr2_env_castle_alpha.tga
+10-05 14:12:21.622  6247  6272 I DH2Loader: ELEMENTAL_EARTH seed 1 | 7 modules | 271 mesh instances | 306 draws | 5 textures
+10-05 14:12:21.622  6247  6272 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2 | Static authored decor: 32 | Decor providers pending: 37
+10-05 14:12:21.633  6247  6272 I DH2Loader: MAP_FRAME_OK identity=ELEMENTAL_EARTH procedural=1 seed=1 modules=7 meshes=271 draws=306 triangles=18692 textures=5 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=32 decor_meshes=32 decor_skipped=37
+10-05 14:12:26.150  6335  6359 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_FIRE stage=procedural_sources
+10-05 14:12:26.152  6335  6359 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_FIRE stage=blocks
+10-05 14:12:26.152  6335  6359 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_FIRE stage=connections
+10-05 14:12:26.152  6335  6359 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_FIRE stage=lists
+10-05 14:12:26.153  6335  6359 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_FIRE stage=rules
+10-05 14:12:26.153  6335  6359 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_FIRE stage=layout
+10-05 14:12:26.153  6335  6359 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_FIRE stage=modules
+10-05 14:12:26.160  6335  6359 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_FIRE stage=sources
+10-05 14:12:26.216  6335  6359 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_FIRE stage=map
+10-05 14:12:26.348  6335  6359 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_FIRE stage=declarations
+10-05 14:12:26.348  6335  6359 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_FIRE stage=publish_source
+10-05 14:12:26.353  6335  6359 I DH2Loader: STATIC_DECOR_INSPECTION identity=ELEMENTAL_FIRE sources=36 skipped=0 runtime_objects=0 animation=0
+10-05 14:12:27.821  6335  6359 I DH2Loader: TEXTURE_SOURCE_ALIAS authored=data/3d/textures/env_castle_alpha.tga resolved=data/3d/textures/pvr2_env_castle_alpha.tga
+10-05 14:12:28.363  6335  6359 I DH2Loader: ELEMENTAL_FIRE seed 0 | 8 modules | 303 mesh instances | 342 draws | 5 textures
+10-05 14:12:28.363  6335  6359 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2 | Static authored decor: 36 | Decor providers pending: 42
+10-05 14:12:28.371  6335  6359 I DH2Loader: MAP_FRAME_OK identity=ELEMENTAL_FIRE procedural=1 seed=0 modules=8 meshes=303 draws=342 triangles=21694 textures=5 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=36 decor_meshes=36 decor_skipped=42
+10-05 14:12:33.108  6422  6446 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_FIRE stage=procedural_sources
+10-05 14:12:33.121  6422  6446 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_FIRE stage=blocks
+10-05 14:12:33.121  6422  6446 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_FIRE stage=connections
+10-05 14:12:33.121  6422  6446 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_FIRE stage=lists
+10-05 14:12:33.121  6422  6446 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_FIRE stage=rules
+10-05 14:12:33.121  6422  6446 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_FIRE stage=layout
+10-05 14:12:33.121  6422  6446 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_FIRE stage=modules
+10-05 14:12:33.122  6422  6446 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_FIRE stage=sources
+10-05 14:12:33.129  6422  6446 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_FIRE stage=map
+10-05 14:12:33.243  6422  6446 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_FIRE stage=declarations
+10-05 14:12:33.243  6422  6446 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_FIRE stage=publish_source
+10-05 14:12:33.248  6422  6446 I DH2Loader: STATIC_DECOR_INSPECTION identity=ELEMENTAL_FIRE sources=36 skipped=0 runtime_objects=0 animation=0
+10-05 14:12:34.802  6422  6446 I DH2Loader: TEXTURE_SOURCE_ALIAS authored=data/3d/textures/env_castle_alpha.tga resolved=data/3d/textures/pvr2_env_castle_alpha.tga
+10-05 14:12:35.331  6422  6446 I DH2Loader: ELEMENTAL_FIRE seed 1 | 8 modules | 303 mesh instances | 342 draws | 5 textures
+10-05 14:12:35.331  6422  6446 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2 | Static authored decor: 36 | Decor providers pending: 42
+10-05 14:12:35.339  6422  6446 I DH2Loader: MAP_FRAME_OK identity=ELEMENTAL_FIRE procedural=1 seed=1 modules=8 meshes=303 draws=342 triangles=21694 textures=5 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=36 decor_meshes=36 decor_skipped=42
+10-05 14:12:39.935  6513  6536 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_LIGHT stage=procedural_sources
+10-05 14:12:39.937  6513  6536 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_LIGHT stage=blocks
+10-05 14:12:39.937  6513  6536 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_LIGHT stage=connections
+10-05 14:12:39.937  6513  6536 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_LIGHT stage=lists
+10-05 14:12:39.937  6513  6536 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_LIGHT stage=rules
+10-05 14:12:39.937  6513  6536 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_LIGHT stage=layout
+10-05 14:12:39.937  6513  6536 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_LIGHT stage=modules
+10-05 14:12:39.939  6513  6536 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_LIGHT stage=sources
+10-05 14:12:39.950  6513  6536 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_LIGHT stage=map
+10-05 14:12:40.005  6513  6536 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_LIGHT stage=declarations
+10-05 14:12:40.005  6513  6536 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_LIGHT stage=publish_source
+10-05 14:12:40.010  6513  6536 I DH2Loader: STATIC_DECOR_INSPECTION identity=ELEMENTAL_LIGHT sources=30 skipped=0 runtime_objects=0 animation=0
+10-05 14:12:41.497  6513  6536 I DH2Loader: TEXTURE_SOURCE_ALIAS authored=data/3d/textures/env_castle_alpha.tga resolved=data/3d/textures/pvr2_env_castle_alpha.tga
+10-05 14:12:42.078  6513  6536 I DH2Loader: ELEMENTAL_LIGHT seed 0 | 7 modules | 263 mesh instances | 298 draws | 5 textures
+10-05 14:12:42.078  6513  6536 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2 | Static authored decor: 30 | Decor providers pending: 35
+10-05 14:12:42.088  6513  6536 I DH2Loader: MAP_FRAME_OK identity=ELEMENTAL_LIGHT procedural=1 seed=0 modules=7 meshes=263 draws=298 triangles=18812 textures=5 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=30 decor_meshes=30 decor_skipped=35
+10-05 14:12:47.449  6603  6631 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_LIGHT stage=procedural_sources
+10-05 14:12:47.457  6603  6631 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_LIGHT stage=blocks
+10-05 14:12:47.457  6603  6631 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_LIGHT stage=connections
+10-05 14:12:47.458  6603  6631 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_LIGHT stage=lists
+10-05 14:12:47.458  6603  6631 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_LIGHT stage=rules
+10-05 14:12:47.458  6603  6631 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_LIGHT stage=layout
+10-05 14:12:47.459  6603  6631 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_LIGHT stage=modules
+10-05 14:12:47.460  6603  6631 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_LIGHT stage=sources
+10-05 14:12:47.468  6603  6631 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_LIGHT stage=map
+10-05 14:12:47.709  6603  6631 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_LIGHT stage=declarations
+10-05 14:12:47.710  6603  6631 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_LIGHT stage=publish_source
+10-05 14:12:47.713  6603  6631 I DH2Loader: STATIC_DECOR_INSPECTION identity=ELEMENTAL_LIGHT sources=32 skipped=0 runtime_objects=0 animation=0
+10-05 14:12:49.998  6603  6631 I DH2Loader: TEXTURE_SOURCE_ALIAS authored=data/3d/textures/env_castle_alpha.tga resolved=data/3d/textures/pvr2_env_castle_alpha.tga
+10-05 14:12:50.552  6603  6631 I DH2Loader: ELEMENTAL_LIGHT seed 1 | 7 modules | 271 mesh instances | 306 draws | 5 textures
+10-05 14:12:50.552  6603  6631 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2 | Static authored decor: 32 | Decor providers pending: 37
+10-05 14:12:50.565  6603  6631 I DH2Loader: MAP_FRAME_OK identity=ELEMENTAL_LIGHT procedural=1 seed=1 modules=7 meshes=271 draws=306 triangles=18692 textures=5 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=32 decor_meshes=32 decor_skipped=37
+10-05 14:12:54.918  6721  6745 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_WATER stage=procedural_sources
+10-05 14:12:54.919  6721  6745 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_WATER stage=blocks
+10-05 14:12:54.921  6721  6745 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_WATER stage=connections
+10-05 14:12:54.921  6721  6745 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_WATER stage=lists
+10-05 14:12:54.921  6721  6745 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_WATER stage=rules
+10-05 14:12:54.921  6721  6745 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_WATER stage=layout
+10-05 14:12:54.921  6721  6745 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_WATER stage=modules
+10-05 14:12:54.922  6721  6745 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_WATER stage=sources
+10-05 14:12:54.927  6721  6745 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_WATER stage=map
+10-05 14:12:55.016  6721  6745 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_WATER stage=declarations
+10-05 14:12:55.017  6721  6745 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_WATER stage=publish_source
+10-05 14:12:55.022  6721  6745 I DH2Loader: STATIC_DECOR_INSPECTION identity=ELEMENTAL_WATER sources=34 skipped=0 runtime_objects=0 animation=0
+10-05 14:12:56.679  6721  6745 I DH2Loader: TEXTURE_SOURCE_ALIAS authored=data/3d/textures/env_castle_alpha.tga resolved=data/3d/textures/pvr2_env_castle_alpha.tga
+10-05 14:12:57.145  6721  6745 I DH2Loader: ELEMENTAL_WATER seed 0 | 8 modules | 288 mesh instances | 325 draws | 5 textures
+10-05 14:12:57.145  6721  6745 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2 | Static authored decor: 34 | Decor providers pending: 40
+10-05 14:12:57.151  6721  6745 I DH2Loader: MAP_FRAME_OK identity=ELEMENTAL_WATER procedural=1 seed=0 modules=8 meshes=288 draws=325 triangles=21945 textures=5 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=34 decor_meshes=34 decor_skipped=40
+10-05 14:13:01.879  6811  6835 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_WATER stage=procedural_sources
+10-05 14:13:01.880  6811  6835 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_WATER stage=blocks
+10-05 14:13:01.880  6811  6835 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_WATER stage=connections
+10-05 14:13:01.880  6811  6835 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_WATER stage=lists
+10-05 14:13:01.880  6811  6835 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_WATER stage=rules
+10-05 14:13:01.880  6811  6835 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_WATER stage=layout
+10-05 14:13:01.880  6811  6835 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_WATER stage=modules
+10-05 14:13:01.881  6811  6835 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_WATER stage=sources
+10-05 14:13:01.887  6811  6835 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_WATER stage=map
+10-05 14:13:01.971  6811  6835 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_WATER stage=declarations
+10-05 14:13:01.971  6811  6835 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ELEMENTAL_WATER stage=publish_source
+10-05 14:13:01.984  6811  6835 I DH2Loader: STATIC_DECOR_INSPECTION identity=ELEMENTAL_WATER sources=36 skipped=0 runtime_objects=0 animation=0
+10-05 14:13:03.440  6811  6835 I DH2Loader: TEXTURE_SOURCE_ALIAS authored=data/3d/textures/env_castle_alpha.tga resolved=data/3d/textures/pvr2_env_castle_alpha.tga
+10-05 14:13:03.942  6811  6835 I DH2Loader: ELEMENTAL_WATER seed 1 | 8 modules | 310 mesh instances | 351 draws | 5 textures
+10-05 14:13:03.942  6811  6835 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2 | Static authored decor: 36 | Decor providers pending: 42
+10-05 14:13:03.946  6811  6835 I DH2Loader: MAP_FRAME_OK identity=ELEMENTAL_WATER procedural=1 seed=1 modules=8 meshes=310 draws=351 triangles=21563 textures=5 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=36 decor_meshes=36 decor_skipped=42
+10-05 14:13:08.572  6904  6927 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_01 stage=procedural_sources
+10-05 14:13:08.573  6904  6927 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_01 stage=blocks
+10-05 14:13:08.573  6904  6927 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_01 stage=connections
+10-05 14:13:08.573  6904  6927 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_01 stage=lists
+10-05 14:13:08.574  6904  6927 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_01 stage=rules
+10-05 14:13:08.574  6904  6927 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_01 stage=layout
+10-05 14:13:08.574  6904  6927 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_01 stage=modules
+10-05 14:13:08.575  6904  6927 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_01 stage=sources
+10-05 14:13:08.582  6904  6927 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_01 stage=map
+10-05 14:13:08.656  6904  6927 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_01 stage=declarations
+10-05 14:13:08.656  6904  6927 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_01 stage=publish_source
+10-05 14:13:08.661  6904  6927 I DH2Loader: STATIC_DECOR_INSPECTION identity=GOTHICUS_CASTLE_01 sources=20 skipped=0 runtime_objects=0 animation=0
+10-05 14:13:11.166  6904  6927 I DH2Loader: TEXTURE_SOURCE_ALIAS authored=data/3d/textures/env_castle_alpha.tga resolved=data/3d/textures/pvr2_env_castle_alpha.tga
+10-05 14:13:11.512  6904  6927 I DH2Loader: GOTHICUS_CASTLE_01 seed 0 | 7 modules | 235 mesh instances | 261 draws | 4 textures
+10-05 14:13:11.512  6904  6927 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1 | Static authored decor: 20 | Decor providers pending: 26
+10-05 14:13:11.520  6904  6927 I DH2Loader: MAP_FRAME_OK identity=GOTHICUS_CASTLE_01 procedural=1 seed=0 modules=7 meshes=235 draws=261 triangles=18679 textures=4 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=20 decor_meshes=19 decor_skipped=26
+10-05 14:13:15.777  7025  7049 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_01 stage=procedural_sources
+10-05 14:13:15.782  7025  7049 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_01 stage=blocks
+10-05 14:13:15.782  7025  7049 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_01 stage=connections
+10-05 14:13:15.782  7025  7049 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_01 stage=lists
+10-05 14:13:15.782  7025  7049 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_01 stage=rules
+10-05 14:13:15.782  7025  7049 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_01 stage=layout
+10-05 14:13:15.782  7025  7049 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_01 stage=modules
+10-05 14:13:15.783  7025  7049 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_01 stage=sources
+10-05 14:13:15.787  7025  7049 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_01 stage=map
+10-05 14:13:15.840  7025  7049 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_01 stage=declarations
+10-05 14:13:15.840  7025  7049 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_01 stage=publish_source
+10-05 14:13:15.848  7025  7049 I DH2Loader: STATIC_DECOR_INSPECTION identity=GOTHICUS_CASTLE_01 sources=20 skipped=0 runtime_objects=0 animation=0
+10-05 14:13:17.381  7025  7049 I DH2Loader: TEXTURE_SOURCE_ALIAS authored=data/3d/textures/env_castle_alpha.tga resolved=data/3d/textures/pvr2_env_castle_alpha.tga
+10-05 14:13:17.762  7025  7049 I DH2Loader: GOTHICUS_CASTLE_01 seed 1 | 7 modules | 235 mesh instances | 261 draws | 4 textures
+10-05 14:13:17.762  7025  7049 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1 | Static authored decor: 20 | Decor providers pending: 26
+10-05 14:13:17.771  7025  7049 I DH2Loader: MAP_FRAME_OK identity=GOTHICUS_CASTLE_01 procedural=1 seed=1 modules=7 meshes=235 draws=261 triangles=18679 textures=4 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=20 decor_meshes=19 decor_skipped=26
+10-05 14:13:21.861  7112  7134 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_02 stage=procedural_sources
+10-05 14:13:21.863  7112  7134 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_02 stage=blocks
+10-05 14:13:21.863  7112  7134 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_02 stage=connections
+10-05 14:13:21.863  7112  7134 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_02 stage=lists
+10-05 14:13:21.863  7112  7134 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_02 stage=rules
+10-05 14:13:21.863  7112  7134 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_02 stage=layout
+10-05 14:13:21.863  7112  7134 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_02 stage=modules
+10-05 14:13:21.868  7112  7134 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_02 stage=sources
+10-05 14:13:21.871  7112  7134 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_02 stage=map
+10-05 14:13:21.939  7112  7134 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_02 stage=declarations
+10-05 14:13:21.939  7112  7134 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_02 stage=publish_source
+10-05 14:13:21.943  7112  7134 I DH2Loader: STATIC_DECOR_INSPECTION identity=GOTHICUS_CASTLE_02 sources=23 skipped=1 runtime_objects=0 animation=0
+10-05 14:13:23.480  7112  7134 I DH2Loader: TEXTURE_SOURCE_ALIAS authored=data/3d/textures/env_castle_alpha.tga resolved=data/3d/textures/pvr2_env_castle_alpha.tga
+10-05 14:13:24.016  7112  7134 I DH2Loader: GOTHICUS_CASTLE_02 seed 0 | 7 modules | 239 mesh instances | 268 draws | 5 textures
+10-05 14:13:24.016  7112  7134 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1 | Static authored decor: 23 | Decor providers pending: 28
+10-05 14:13:24.021  7112  7134 I DH2Loader: MAP_FRAME_OK identity=GOTHICUS_CASTLE_02 procedural=1 seed=0 modules=7 meshes=239 draws=268 triangles=18822 textures=5 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=23 decor_meshes=23 decor_skipped=28
+10-05 14:13:28.372  7205  7228 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_02 stage=procedural_sources
+10-05 14:13:28.373  7205  7228 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_02 stage=blocks
+10-05 14:13:28.373  7205  7228 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_02 stage=connections
+10-05 14:13:28.373  7205  7228 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_02 stage=lists
+10-05 14:13:28.374  7205  7228 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_02 stage=rules
+10-05 14:13:28.374  7205  7228 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_02 stage=layout
+10-05 14:13:28.374  7205  7228 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_02 stage=modules
+10-05 14:13:28.375  7205  7228 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_02 stage=sources
+10-05 14:13:28.380  7205  7228 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_02 stage=map
+10-05 14:13:28.433  7205  7228 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_02 stage=declarations
+10-05 14:13:28.435  7205  7228 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CASTLE_02 stage=publish_source
+10-05 14:13:28.439  7205  7228 I DH2Loader: STATIC_DECOR_INSPECTION identity=GOTHICUS_CASTLE_02 sources=23 skipped=1 runtime_objects=0 animation=0
+10-05 14:13:29.643  7205  7228 I DH2Loader: TEXTURE_SOURCE_ALIAS authored=data/3d/textures/env_castle_alpha.tga resolved=data/3d/textures/pvr2_env_castle_alpha.tga
+10-05 14:13:30.164  7205  7228 I DH2Loader: GOTHICUS_CASTLE_02 seed 1 | 7 modules | 239 mesh instances | 268 draws | 5 textures
+10-05 14:13:30.164  7205  7228 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1 | Static authored decor: 23 | Decor providers pending: 28
+10-05 14:13:30.169  7205  7228 I DH2Loader: MAP_FRAME_OK identity=GOTHICUS_CASTLE_02 procedural=1 seed=1 modules=7 meshes=239 draws=268 triangles=18822 textures=5 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=23 decor_meshes=23 decor_skipped=28
+10-05 14:13:34.542  7289  7312 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_01 stage=procedural_sources
+10-05 14:13:34.544  7289  7312 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_01 stage=blocks
+10-05 14:13:34.544  7289  7312 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_01 stage=connections
+10-05 14:13:34.544  7289  7312 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_01 stage=lists
+10-05 14:13:34.544  7289  7312 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_01 stage=rules
+10-05 14:13:34.544  7289  7312 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_01 stage=layout
+10-05 14:13:34.545  7289  7312 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_01 stage=modules
+10-05 14:13:34.547  7289  7312 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_01 stage=sources
+10-05 14:13:34.556  7289  7312 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_01 stage=map
+10-05 14:13:34.627  7289  7312 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_01 stage=declarations
+10-05 14:13:34.627  7289  7312 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_01 stage=publish_source
+10-05 14:13:34.640  7289  7312 I DH2Loader: STATIC_DECOR_INSPECTION identity=GOTHICUS_CRYPT_01 sources=84 skipped=0 runtime_objects=0 animation=0
+10-05 14:13:37.351  7289  7312 I DH2Loader: GOTHICUS_CRYPT_01 seed 0 | 8 modules | 206 mesh instances | 206 draws | 6 textures
+10-05 14:13:37.351  7289  7312 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 82 | Static authored decor: 84 | Decor providers pending: 82
+10-05 14:13:37.376  7289  7312 I DH2Loader: MAP_FRAME_OK identity=GOTHICUS_CRYPT_01 procedural=1 seed=0 modules=8 meshes=206 draws=206 triangles=14469 textures=6 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=84 decor_meshes=109 decor_skipped=82
+10-05 14:13:41.743  7384  7408 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_01 stage=procedural_sources
+10-05 14:13:41.747  7384  7408 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_01 stage=blocks
+10-05 14:13:41.747  7384  7408 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_01 stage=connections
+10-05 14:13:41.747  7384  7408 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_01 stage=lists
+10-05 14:13:41.748  7384  7408 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_01 stage=rules
+10-05 14:13:41.748  7384  7408 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_01 stage=layout
+10-05 14:13:41.748  7384  7408 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_01 stage=modules
+10-05 14:13:41.749  7384  7408 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_01 stage=sources
+10-05 14:13:41.755  7384  7408 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_01 stage=map
+10-05 14:13:41.796  7384  7408 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_01 stage=declarations
+10-05 14:13:41.796  7384  7408 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_01 stage=publish_source
+10-05 14:13:41.813  7384  7408 I DH2Loader: STATIC_DECOR_INSPECTION identity=GOTHICUS_CRYPT_01 sources=89 skipped=0 runtime_objects=0 animation=0
+10-05 14:13:44.357  7384  7408 I DH2Loader: GOTHICUS_CRYPT_01 seed 1 | 8 modules | 220 mesh instances | 220 draws | 6 textures
+10-05 14:13:44.357  7384  7408 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 87 | Static authored decor: 89 | Decor providers pending: 87
+10-05 14:13:44.362  7384  7408 I DH2Loader: MAP_FRAME_OK identity=GOTHICUS_CRYPT_01 procedural=1 seed=1 modules=8 meshes=220 draws=220 triangles=15982 textures=6 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=89 decor_meshes=114 decor_skipped=87
+10-05 14:13:49.054  7485  7509 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_02 stage=procedural_sources
+10-05 14:13:49.056  7485  7509 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_02 stage=blocks
+10-05 14:13:49.058  7485  7509 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_02 stage=connections
+10-05 14:13:49.059  7485  7509 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_02 stage=lists
+10-05 14:13:49.059  7485  7509 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_02 stage=rules
+10-05 14:13:49.059  7485  7509 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_02 stage=layout
+10-05 14:13:49.059  7485  7509 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_02 stage=modules
+10-05 14:13:49.061  7485  7509 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_02 stage=sources
+10-05 14:13:49.094  7485  7509 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_02 stage=map
+10-05 14:13:49.186  7485  7509 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_02 stage=declarations
+10-05 14:13:49.186  7485  7509 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_02 stage=publish_source
+10-05 14:13:49.200  7485  7509 I DH2Loader: STATIC_DECOR_INSPECTION identity=GOTHICUS_CRYPT_02 sources=94 skipped=0 runtime_objects=0 animation=0
+10-05 14:13:51.830  7485  7509 I DH2Loader: GOTHICUS_CRYPT_02 seed 0 | 11 modules | 195 mesh instances | 195 draws | 10 textures
+10-05 14:13:51.830  7485  7509 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 89 | Static authored decor: 94 | Decor providers pending: 89
+10-05 14:13:51.836  7485  7509 I DH2Loader: MAP_FRAME_OK identity=GOTHICUS_CRYPT_02 procedural=1 seed=0 modules=11 meshes=195 draws=195 triangles=18571 textures=10 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=94 decor_meshes=129 decor_skipped=89
+10-05 14:13:56.522  7574  7595 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_02 stage=procedural_sources
+10-05 14:13:56.524  7574  7595 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_02 stage=blocks
+10-05 14:13:56.524  7574  7595 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_02 stage=connections
+10-05 14:13:56.525  7574  7595 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_02 stage=lists
+10-05 14:13:56.525  7574  7595 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_02 stage=rules
+10-05 14:13:56.525  7574  7595 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_02 stage=layout
+10-05 14:13:56.526  7574  7595 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_02 stage=modules
+10-05 14:13:56.528  7574  7595 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_02 stage=sources
+10-05 14:13:56.536  7574  7595 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_02 stage=map
+10-05 14:13:56.579  7574  7595 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_02 stage=declarations
+10-05 14:13:56.579  7574  7595 I DH2Loader: SOURCE_PREPARATION_STAGE identity=GOTHICUS_CRYPT_02 stage=publish_source
+10-05 14:13:56.605  7574  7595 I DH2Loader: STATIC_DECOR_INSPECTION identity=GOTHICUS_CRYPT_02 sources=95 skipped=0 runtime_objects=0 animation=0
+10-05 14:13:58.947  7574  7595 I DH2Loader: GOTHICUS_CRYPT_02 seed 1 | 11 modules | 199 mesh instances | 200 draws | 10 textures
+10-05 14:13:58.947  7574  7595 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 89 | Static authored decor: 95 | Decor providers pending: 89
+10-05 14:13:58.951  7574  7595 I DH2Loader: MAP_FRAME_OK identity=GOTHICUS_CRYPT_02 procedural=1 seed=1 modules=11 meshes=199 draws=200 triangles=17797 textures=10 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=95 decor_meshes=125 decor_skipped=89
+10-05 14:14:03.622  7666  7690 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_01 stage=procedural_sources
+10-05 14:14:03.653  7666  7690 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_01 stage=blocks
+10-05 14:14:03.654  7666  7690 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_01 stage=connections
+10-05 14:14:03.654  7666  7690 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_01 stage=lists
+10-05 14:14:03.654  7666  7690 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_01 stage=rules
+10-05 14:14:03.654  7666  7690 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_01 stage=layout
+10-05 14:14:03.654  7666  7690 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_01 stage=modules
+10-05 14:14:03.657  7666  7690 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_01 stage=sources
+10-05 14:14:03.672  7666  7690 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_01 stage=map
+10-05 14:14:03.733  7666  7690 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_01 stage=declarations
+10-05 14:14:03.733  7666  7690 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_01 stage=publish_source
+10-05 14:14:03.735  7666  7690 I DH2Loader: STATIC_DECOR_INSPECTION identity=ICY_CAVERN_01 sources=2 skipped=0 runtime_objects=0 animation=0
+10-05 14:14:05.400  7666  7690 I DH2Loader: ICY_CAVERN_01 seed 0 | 10 modules | 144 mesh instances | 150 draws | 4 textures
+10-05 14:14:05.400  7666  7690 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1 | Static authored decor: 2
+10-05 14:14:05.418  7666  7690 I DH2Loader: MAP_FRAME_OK identity=ICY_CAVERN_01 procedural=1 seed=0 modules=10 meshes=144 draws=150 triangles=30313 textures=4 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=2 decor_meshes=2 decor_skipped=0
+10-05 14:14:09.538  7756  7780 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_01 stage=procedural_sources
+10-05 14:14:09.540  7756  7780 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_01 stage=blocks
+10-05 14:14:09.540  7756  7780 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_01 stage=connections
+10-05 14:14:09.540  7756  7780 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_01 stage=lists
+10-05 14:14:09.540  7756  7780 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_01 stage=rules
+10-05 14:14:09.540  7756  7780 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_01 stage=layout
+10-05 14:14:09.540  7756  7780 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_01 stage=modules
+10-05 14:14:09.543  7756  7780 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_01 stage=sources
+10-05 14:14:09.549  7756  7780 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_01 stage=map
+10-05 14:14:09.585  7756  7780 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_01 stage=declarations
+10-05 14:14:09.585  7756  7780 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_01 stage=publish_source
+10-05 14:14:09.588  7756  7780 I DH2Loader: STATIC_DECOR_INSPECTION identity=ICY_CAVERN_01 sources=2 skipped=0 runtime_objects=0 animation=0
+10-05 14:14:11.202  7756  7780 I DH2Loader: ICY_CAVERN_01 seed 1 | 10 modules | 134 mesh instances | 141 draws | 4 textures
+10-05 14:14:11.202  7756  7780 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 2
+10-05 14:14:11.207  7756  7780 I DH2Loader: MAP_FRAME_OK identity=ICY_CAVERN_01 procedural=1 seed=1 modules=10 meshes=134 draws=141 triangles=29787 textures=4 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=2 decor_meshes=2 decor_skipped=0
+10-05 14:14:15.234  7838  7860 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_02 stage=procedural_sources
+10-05 14:14:15.235  7838  7860 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_02 stage=blocks
+10-05 14:14:15.235  7838  7860 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_02 stage=connections
+10-05 14:14:15.235  7838  7860 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_02 stage=lists
+10-05 14:14:15.235  7838  7860 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_02 stage=rules
+10-05 14:14:15.235  7838  7860 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_02 stage=layout
+10-05 14:14:15.235  7838  7860 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_02 stage=backup_sources
+10-05 14:14:15.245  7838  7860 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_02 stage=map
+10-05 14:14:15.282  7838  7860 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_02 stage=declarations
+10-05 14:14:15.283  7838  7860 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_02 stage=publish_source
+10-05 14:14:15.283  7838  7860 I DH2Loader: SOURCE_BACKUP_SELECTED identity=ICY_CAVERN_02 seed=0 definition=x27_icy_cavern_02_BACKUP.mlx
+10-05 14:14:15.287  7838  7860 I DH2Loader: STATIC_DECOR_INSPECTION identity=ICY_CAVERN_02 sources=2 skipped=21 runtime_objects=0 animation=0
+10-05 14:14:16.722  7838  7860 I DH2Loader: ICY_CAVERN_02 seed 0 [original backup] | 13 modules | 183 mesh instances | 192 draws | 4 textures
+10-05 14:14:16.722  7838  7860 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2 | Static authored decor: 2 | Decor providers pending: 21
+10-05 14:14:16.768  7838  7860 I DH2Loader: MAP_FRAME_OK identity=ICY_CAVERN_02 procedural=0 seed=0 modules=13 meshes=183 draws=192 triangles=40509 textures=4 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=2 decor_meshes=2 decor_skipped=21
+10-05 14:14:20.850  7922  7943 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_02 stage=procedural_sources
+10-05 14:14:20.851  7922  7943 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_02 stage=blocks
+10-05 14:14:20.851  7922  7943 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_02 stage=connections
+10-05 14:14:20.851  7922  7943 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_02 stage=lists
+10-05 14:14:20.851  7922  7943 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_02 stage=rules
+10-05 14:14:20.852  7922  7943 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_02 stage=layout
+10-05 14:14:20.852  7922  7943 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_02 stage=backup_sources
+10-05 14:14:20.874  7922  7943 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_02 stage=map
+10-05 14:14:20.922  7922  7943 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_02 stage=declarations
+10-05 14:14:20.922  7922  7943 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_02 stage=publish_source
+10-05 14:14:20.922  7922  7943 I DH2Loader: SOURCE_BACKUP_SELECTED identity=ICY_CAVERN_02 seed=1 definition=x27_icy_cavern_02_BACKUP.mlx
+10-05 14:14:20.925  7922  7943 I DH2Loader: STATIC_DECOR_INSPECTION identity=ICY_CAVERN_02 sources=2 skipped=21 runtime_objects=0 animation=0
+10-05 14:14:22.361  7922  7943 I DH2Loader: ICY_CAVERN_02 seed 1 [original backup] | 13 modules | 183 mesh instances | 192 draws | 4 textures
+10-05 14:14:22.361  7922  7943 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2 | Static authored decor: 2 | Decor providers pending: 21
+10-05 14:14:22.368  7922  7943 I DH2Loader: MAP_FRAME_OK identity=ICY_CAVERN_02 procedural=0 seed=1 modules=13 meshes=183 draws=192 triangles=40509 textures=4 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=2 decor_meshes=2 decor_skipped=21
+10-05 14:14:26.349  7996  8020 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_03 stage=procedural_sources
+10-05 14:14:26.350  7996  8020 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_03 stage=blocks
+10-05 14:14:26.350  7996  8020 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_03 stage=connections
+10-05 14:14:26.350  7996  8020 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_03 stage=lists
+10-05 14:14:26.351  7996  8020 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_03 stage=rules
+10-05 14:14:26.351  7996  8020 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_03 stage=layout
+10-05 14:14:26.351  7996  8020 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_03 stage=modules
+10-05 14:14:26.352  7996  8020 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_03 stage=sources
+10-05 14:14:26.379  7996  8020 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_03 stage=map
+10-05 14:14:26.420  7996  8020 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_03 stage=declarations
+10-05 14:14:26.420  7996  8020 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_03 stage=publish_source
+10-05 14:14:26.421  7996  8020 I DH2Loader: STATIC_DECOR_INSPECTION identity=ICY_CAVERN_03 sources=2 skipped=0 runtime_objects=0 animation=0
+10-05 14:14:27.676  7996  8020 I DH2Loader: ICY_CAVERN_03 seed 0 | 11 modules | 149 mesh instances | 157 draws | 4 textures
+10-05 14:14:27.676  7996  8020 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 2
+10-05 14:14:27.683  7996  8020 I DH2Loader: MAP_FRAME_OK identity=ICY_CAVERN_03 procedural=1 seed=0 modules=11 meshes=149 draws=157 triangles=33920 textures=4 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=2 decor_meshes=2 decor_skipped=0
+10-05 14:14:31.751  8080  8102 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_03 stage=procedural_sources
+10-05 14:14:31.759  8080  8102 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_03 stage=blocks
+10-05 14:14:31.759  8080  8102 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_03 stage=connections
+10-05 14:14:31.759  8080  8102 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_03 stage=lists
+10-05 14:14:31.759  8080  8102 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_03 stage=rules
+10-05 14:14:31.759  8080  8102 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_03 stage=layout
+10-05 14:14:31.760  8080  8102 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_03 stage=modules
+10-05 14:14:31.769  8080  8102 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_03 stage=sources
+10-05 14:14:31.787  8080  8102 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_03 stage=map
+10-05 14:14:31.899  8080  8102 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_03 stage=declarations
+10-05 14:14:31.899  8080  8102 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ICY_CAVERN_03 stage=publish_source
+10-05 14:14:31.900  8080  8102 I DH2Loader: STATIC_DECOR_INSPECTION identity=ICY_CAVERN_03 sources=2 skipped=0 runtime_objects=0 animation=0
+10-05 14:14:33.402  8080  8102 I DH2Loader: ICY_CAVERN_03 seed 1 | 11 modules | 143 mesh instances | 152 draws | 4 textures
+10-05 14:14:33.402  8080  8102 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 2
+10-05 14:14:33.416  8080  8102 I DH2Loader: MAP_FRAME_OK identity=ICY_CAVERN_03 procedural=1 seed=1 modules=11 meshes=143 draws=152 triangles=33214 textures=4 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=2 decor_meshes=2 decor_skipped=0
+10-05 14:14:37.615  8170  8192 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_01 stage=procedural_sources
+10-05 14:14:37.616  8170  8192 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_01 stage=blocks
+10-05 14:14:37.616  8170  8192 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_01 stage=connections
+10-05 14:14:37.616  8170  8192 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_01 stage=lists
+10-05 14:14:37.616  8170  8192 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_01 stage=rules
+10-05 14:14:37.616  8170  8192 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_01 stage=layout
+10-05 14:14:37.617  8170  8192 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_01 stage=modules
+10-05 14:14:37.617  8170  8192 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_01 stage=sources
+10-05 14:14:37.644  8170  8192 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_01 stage=map
+10-05 14:14:37.728  8170  8192 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_01 stage=declarations
+10-05 14:14:37.729  8170  8192 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_01 stage=publish_source
+10-05 14:14:37.730  8170  8192 I DH2Loader: STATIC_DECOR_INSPECTION identity=LIGHT_HOUSE_01 sources=9 skipped=1 runtime_objects=0 animation=0
+10-05 14:14:39.156  8170  8192 I DH2Loader: LIGHT_HOUSE_01 seed 0 | 5 modules | 403 mesh instances | 434 draws | 4 textures
+10-05 14:14:39.156  8170  8192 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 9 | Decor providers pending: 1
+10-05 14:14:39.169  8170  8192 I DH2Loader: MAP_FRAME_OK identity=LIGHT_HOUSE_01 procedural=1 seed=0 modules=5 meshes=403 draws=434 triangles=18205 textures=4 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=9 decor_meshes=9 decor_skipped=1
+10-05 14:14:42.957  8250  8275 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_01 stage=procedural_sources
+10-05 14:14:42.958  8250  8275 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_01 stage=blocks
+10-05 14:14:42.962  8250  8275 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_01 stage=connections
+10-05 14:14:42.962  8250  8275 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_01 stage=lists
+10-05 14:14:42.962  8250  8275 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_01 stage=rules
+10-05 14:14:42.962  8250  8275 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_01 stage=layout
+10-05 14:14:42.962  8250  8275 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_01 stage=modules
+10-05 14:14:42.963  8250  8275 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_01 stage=sources
+10-05 14:14:42.979  8250  8275 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_01 stage=map
+10-05 14:14:43.072  8250  8275 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_01 stage=declarations
+10-05 14:14:43.072  8250  8275 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_01 stage=publish_source
+10-05 14:14:43.075  8250  8275 I DH2Loader: STATIC_DECOR_INSPECTION identity=LIGHT_HOUSE_01 sources=9 skipped=1 runtime_objects=0 animation=0
+10-05 14:14:44.347  8250  8275 I DH2Loader: LIGHT_HOUSE_01 seed 1 | 5 modules | 410 mesh instances | 441 draws | 4 textures
+10-05 14:14:44.347  8250  8275 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 9 | Decor providers pending: 1
+10-05 14:14:44.352  8250  8275 I DH2Loader: MAP_FRAME_OK identity=LIGHT_HOUSE_01 procedural=1 seed=1 modules=5 meshes=410 draws=441 triangles=17430 textures=4 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=9 decor_meshes=9 decor_skipped=1
+10-05 14:14:48.347  8336  8359 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_02 stage=procedural_sources
+10-05 14:14:48.348  8336  8359 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_02 stage=blocks
+10-05 14:14:48.348  8336  8359 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_02 stage=connections
+10-05 14:14:48.348  8336  8359 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_02 stage=lists
+10-05 14:14:48.348  8336  8359 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_02 stage=rules
+10-05 14:14:48.348  8336  8359 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_02 stage=layout
+10-05 14:14:48.348  8336  8359 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_02 stage=modules
+10-05 14:14:48.348  8336  8359 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_02 stage=sources
+10-05 14:14:48.353  8336  8359 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_02 stage=map
+10-05 14:14:48.405  8336  8359 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_02 stage=declarations
+10-05 14:14:48.407  8336  8359 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_02 stage=publish_source
+10-05 14:14:48.409  8336  8359 I DH2Loader: STATIC_DECOR_INSPECTION identity=LIGHT_HOUSE_02 sources=10 skipped=0 runtime_objects=0 animation=0
+10-05 14:14:49.647  8336  8359 I DH2Loader: LIGHT_HOUSE_02 seed 0 | 5 modules | 447 mesh instances | 483 draws | 4 textures
+10-05 14:14:49.647  8336  8359 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 10
+10-05 14:14:49.670  8336  8359 I DH2Loader: MAP_FRAME_OK identity=LIGHT_HOUSE_02 procedural=1 seed=0 modules=5 meshes=447 draws=483 triangles=21662 textures=4 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=10 decor_meshes=10 decor_skipped=0
+10-05 14:14:53.874  8416  8440 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_02 stage=procedural_sources
+10-05 14:14:53.876  8416  8440 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_02 stage=blocks
+10-05 14:14:53.876  8416  8440 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_02 stage=connections
+10-05 14:14:53.876  8416  8440 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_02 stage=lists
+10-05 14:14:53.876  8416  8440 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_02 stage=rules
+10-05 14:14:53.876  8416  8440 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_02 stage=layout
+10-05 14:14:53.876  8416  8440 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_02 stage=modules
+10-05 14:14:53.877  8416  8440 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_02 stage=sources
+10-05 14:14:53.881  8416  8440 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_02 stage=map
+10-05 14:14:53.930  8416  8440 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_02 stage=declarations
+10-05 14:14:53.930  8416  8440 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_02 stage=publish_source
+10-05 14:14:53.931  8416  8440 I DH2Loader: STATIC_DECOR_INSPECTION identity=LIGHT_HOUSE_02 sources=10 skipped=0 runtime_objects=0 animation=0
+10-05 14:14:55.305  8416  8440 I DH2Loader: LIGHT_HOUSE_02 seed 1 | 5 modules | 463 mesh instances | 501 draws | 4 textures
+10-05 14:14:55.305  8416  8440 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 10
+10-05 14:14:55.356  8416  8440 I DH2Loader: MAP_FRAME_OK identity=LIGHT_HOUSE_02 procedural=1 seed=1 modules=5 meshes=463 draws=501 triangles=21703 textures=4 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=10 decor_meshes=10 decor_skipped=0
+10-05 14:14:59.240  8502  8523 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_03 stage=procedural_sources
+10-05 14:14:59.250  8502  8523 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_03 stage=blocks
+10-05 14:14:59.250  8502  8523 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_03 stage=connections
+10-05 14:14:59.250  8502  8523 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_03 stage=lists
+10-05 14:14:59.250  8502  8523 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_03 stage=rules
+10-05 14:14:59.250  8502  8523 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_03 stage=layout
+10-05 14:14:59.250  8502  8523 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_03 stage=modules
+10-05 14:14:59.250  8502  8523 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_03 stage=sources
+10-05 14:14:59.251  8502  8523 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_03 stage=map
+10-05 14:14:59.432  8502  8523 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_03 stage=declarations
+10-05 14:14:59.432  8502  8523 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_03 stage=publish_source
+10-05 14:14:59.432  8502  8523 I DH2Loader: STATIC_DECOR_INSPECTION identity=LIGHT_HOUSE_03 sources=1 skipped=0 runtime_objects=0 animation=0
+10-05 14:15:00.368  8502  8523 I DH2Loader: MATERIAL_TARGET_ALIAS symbol=ColorMaterial target=ColorMaterial_0057E157
+10-05 14:15:00.597  8502  8523 I DH2Loader: LIGHT_HOUSE_03 seed 0 | 1 modules | 33 mesh instances | 34 draws | 5 textures
+10-05 14:15:00.597  8502  8523 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 1
+10-05 14:15:00.605  8502  8523 I DH2Loader: MAP_FRAME_OK identity=LIGHT_HOUSE_03 procedural=1 seed=0 modules=1 meshes=33 draws=34 triangles=1853 textures=5 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=1 decor_meshes=1 decor_skipped=0
+10-05 14:15:04.954  8583  8606 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_03 stage=procedural_sources
+10-05 14:15:04.955  8583  8606 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_03 stage=blocks
+10-05 14:15:04.955  8583  8606 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_03 stage=connections
+10-05 14:15:04.955  8583  8606 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_03 stage=lists
+10-05 14:15:04.955  8583  8606 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_03 stage=rules
+10-05 14:15:04.955  8583  8606 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_03 stage=layout
+10-05 14:15:04.955  8583  8606 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_03 stage=modules
+10-05 14:15:04.955  8583  8606 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_03 stage=sources
+10-05 14:15:04.956  8583  8606 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_03 stage=map
+10-05 14:15:05.011  8583  8606 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_03 stage=declarations
+10-05 14:15:05.016  8583  8606 I DH2Loader: SOURCE_PREPARATION_STAGE identity=LIGHT_HOUSE_03 stage=publish_source
+10-05 14:15:05.017  8583  8606 I DH2Loader: STATIC_DECOR_INSPECTION identity=LIGHT_HOUSE_03 sources=1 skipped=0 runtime_objects=0 animation=0
+10-05 14:15:06.553  8583  8606 I DH2Loader: MATERIAL_TARGET_ALIAS symbol=ColorMaterial target=ColorMaterial_0057E157
+10-05 14:15:06.805  8583  8606 I DH2Loader: LIGHT_HOUSE_03 seed 1 | 1 modules | 33 mesh instances | 34 draws | 5 textures
+10-05 14:15:06.805  8583  8606 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 1
+10-05 14:15:06.809  8583  8606 I DH2Loader: MAP_FRAME_OK identity=LIGHT_HOUSE_03 procedural=1 seed=1 modules=1 meshes=33 draws=34 triangles=1853 textures=5 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=1 decor_meshes=1 decor_skipped=0
+10-05 14:15:11.360  8666  8691 I DH2Loader: SOURCE_PREPARATION_STAGE identity=QUESTTEST stage=procedural_sources
+10-05 14:15:11.362  8666  8691 I DH2Loader: SOURCE_PREPARATION_STAGE identity=QUESTTEST stage=blocks
+10-05 14:15:11.362  8666  8691 I DH2Loader: SOURCE_PREPARATION_STAGE identity=QUESTTEST stage=connections
+10-05 14:15:11.362  8666  8691 I DH2Loader: SOURCE_PREPARATION_STAGE identity=QUESTTEST stage=lists
+10-05 14:15:11.363  8666  8691 I DH2Loader: SOURCE_PREPARATION_STAGE identity=QUESTTEST stage=rules
+10-05 14:15:11.363  8666  8691 I DH2Loader: SOURCE_PREPARATION_STAGE identity=QUESTTEST stage=layout
+10-05 14:15:11.363  8666  8691 I DH2Loader: SOURCE_PREPARATION_STAGE identity=QUESTTEST stage=modules
+10-05 14:15:11.364  8666  8691 I DH2Loader: SOURCE_PREPARATION_STAGE identity=QUESTTEST stage=sources
+10-05 14:15:11.365  8666  8691 I DH2Loader: SOURCE_PREPARATION_STAGE identity=QUESTTEST stage=map
+10-05 14:15:11.402  8666  8691 I DH2Loader: SOURCE_PREPARATION_STAGE identity=QUESTTEST stage=declarations
+10-05 14:15:11.402  8666  8691 I DH2Loader: SOURCE_PREPARATION_STAGE identity=QUESTTEST stage=publish_source
+10-05 14:15:11.403  8666  8691 I DH2Loader: STATIC_DECOR_INSPECTION identity=QUESTTEST sources=0 skipped=0 runtime_objects=0 animation=0
+10-05 14:15:12.636  8666  8691 I DH2Loader: QUESTTEST seed 0 | 7 modules | 32 mesh instances | 32 draws | 3 textures
+10-05 14:15:12.636  8666  8691 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0
+10-05 14:15:12.641  8666  8691 I DH2Loader: MAP_FRAME_OK identity=QUESTTEST procedural=1 seed=0 modules=7 meshes=32 draws=32 triangles=12319 textures=3 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=0 decor_meshes=0 decor_skipped=0
+10-05 14:15:17.479  8745  8777 I DH2Loader: SOURCE_PREPARATION_STAGE identity=QUESTTEST stage=procedural_sources
+10-05 14:15:17.481  8745  8777 I DH2Loader: SOURCE_PREPARATION_STAGE identity=QUESTTEST stage=blocks
+10-05 14:15:17.481  8745  8777 I DH2Loader: SOURCE_PREPARATION_STAGE identity=QUESTTEST stage=connections
+10-05 14:15:17.481  8745  8777 I DH2Loader: SOURCE_PREPARATION_STAGE identity=QUESTTEST stage=lists
+10-05 14:15:17.481  8745  8777 I DH2Loader: SOURCE_PREPARATION_STAGE identity=QUESTTEST stage=rules
+10-05 14:15:17.482  8745  8777 I DH2Loader: SOURCE_PREPARATION_STAGE identity=QUESTTEST stage=layout
+10-05 14:15:17.482  8745  8777 I DH2Loader: SOURCE_PREPARATION_STAGE identity=QUESTTEST stage=modules
+10-05 14:15:17.482  8745  8777 I DH2Loader: SOURCE_PREPARATION_STAGE identity=QUESTTEST stage=sources
+10-05 14:15:17.484  8745  8777 I DH2Loader: SOURCE_PREPARATION_STAGE identity=QUESTTEST stage=map
+10-05 14:15:17.521  8745  8777 I DH2Loader: SOURCE_PREPARATION_STAGE identity=QUESTTEST stage=declarations
+10-05 14:15:17.521  8745  8777 I DH2Loader: SOURCE_PREPARATION_STAGE identity=QUESTTEST stage=publish_source
+10-05 14:15:17.521  8745  8777 I DH2Loader: STATIC_DECOR_INSPECTION identity=QUESTTEST sources=0 skipped=0 runtime_objects=0 animation=0
+10-05 14:15:18.404  8745  8777 I DH2Loader: QUESTTEST seed 1 | 7 modules | 32 mesh instances | 32 draws | 3 textures
+10-05 14:15:18.404  8745  8777 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0
+10-05 14:15:18.409  8745  8777 I DH2Loader: MAP_FRAME_OK identity=QUESTTEST procedural=1 seed=1 modules=7 meshes=32 draws=32 triangles=12319 textures=3 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=0 decor_meshes=0 decor_skipped=0
+10-05 14:15:22.841  8831  8854 I DH2Loader: SOURCE_PREPARATION_STAGE identity=RANDOMFORALEX stage=procedural_sources
+10-05 14:15:22.843  8831  8854 I DH2Loader: SOURCE_PREPARATION_STAGE identity=RANDOMFORALEX stage=blocks
+10-05 14:15:22.843  8831  8854 I DH2Loader: SOURCE_PREPARATION_STAGE identity=RANDOMFORALEX stage=connections
+10-05 14:15:22.843  8831  8854 I DH2Loader: SOURCE_PREPARATION_STAGE identity=RANDOMFORALEX stage=lists
+10-05 14:15:22.843  8831  8854 I DH2Loader: SOURCE_PREPARATION_STAGE identity=RANDOMFORALEX stage=rules
+10-05 14:15:22.843  8831  8854 I DH2Loader: SOURCE_PREPARATION_STAGE identity=RANDOMFORALEX stage=layout
+10-05 14:15:22.844  8831  8854 I DH2Loader: SOURCE_PREPARATION_STAGE identity=RANDOMFORALEX stage=modules
+10-05 14:15:22.844  8831  8854 I DH2Loader: SOURCE_PREPARATION_STAGE identity=RANDOMFORALEX stage=sources
+10-05 14:15:22.846  8831  8854 I DH2Loader: SOURCE_PREPARATION_STAGE identity=RANDOMFORALEX stage=map
+10-05 14:15:22.895  8831  8854 I DH2Loader: SOURCE_PREPARATION_STAGE identity=RANDOMFORALEX stage=declarations
+10-05 14:15:22.895  8831  8854 I DH2Loader: SOURCE_PREPARATION_STAGE identity=RANDOMFORALEX stage=publish_source
+10-05 14:15:22.899  8831  8854 I DH2Loader: STATIC_DECOR_INSPECTION identity=RANDOMFORALEX sources=19 skipped=0 runtime_objects=0 animation=0
+10-05 14:15:23.992  8831  8854 I DH2Loader: TEXTURE_SOURCE_ALIAS authored=data/3d/textures/env_castle_alpha.tga resolved=data/3d/textures/pvr2_env_castle_alpha.tga
+10-05 14:15:24.460  8831  8854 I DH2Loader: RANDOMFORALEX seed 0 | 5 modules | 180 mesh instances | 202 draws | 5 textures
+10-05 14:15:24.460  8831  8854 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1 | Static authored decor: 19 | Decor providers pending: 23
+10-05 14:15:24.468  8831  8854 I DH2Loader: MAP_FRAME_OK identity=RANDOMFORALEX procedural=1 seed=0 modules=5 meshes=180 draws=202 triangles=13603 textures=5 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=19 decor_meshes=19 decor_skipped=23
+10-05 14:15:28.607  8917  8939 I DH2Loader: SOURCE_PREPARATION_STAGE identity=RANDOMFORALEX stage=procedural_sources
+10-05 14:15:28.633  8917  8939 I DH2Loader: SOURCE_PREPARATION_STAGE identity=RANDOMFORALEX stage=blocks
+10-05 14:15:28.633  8917  8939 I DH2Loader: SOURCE_PREPARATION_STAGE identity=RANDOMFORALEX stage=connections
+10-05 14:15:28.634  8917  8939 I DH2Loader: SOURCE_PREPARATION_STAGE identity=RANDOMFORALEX stage=lists
+10-05 14:15:28.634  8917  8939 I DH2Loader: SOURCE_PREPARATION_STAGE identity=RANDOMFORALEX stage=rules
+10-05 14:15:28.634  8917  8939 I DH2Loader: SOURCE_PREPARATION_STAGE identity=RANDOMFORALEX stage=layout
+10-05 14:15:28.634  8917  8939 I DH2Loader: SOURCE_PREPARATION_STAGE identity=RANDOMFORALEX stage=modules
+10-05 14:15:28.635  8917  8939 I DH2Loader: SOURCE_PREPARATION_STAGE identity=RANDOMFORALEX stage=sources
+10-05 14:15:28.636  8917  8939 I DH2Loader: SOURCE_PREPARATION_STAGE identity=RANDOMFORALEX stage=map
+10-05 14:15:28.696  8917  8939 I DH2Loader: SOURCE_PREPARATION_STAGE identity=RANDOMFORALEX stage=declarations
+10-05 14:15:28.697  8917  8939 I DH2Loader: SOURCE_PREPARATION_STAGE identity=RANDOMFORALEX stage=publish_source
+10-05 14:15:28.701  8917  8939 I DH2Loader: STATIC_DECOR_INSPECTION identity=RANDOMFORALEX sources=19 skipped=0 runtime_objects=0 animation=0
+10-05 14:15:30.071  8917  8939 I DH2Loader: TEXTURE_SOURCE_ALIAS authored=data/3d/textures/env_castle_alpha.tga resolved=data/3d/textures/pvr2_env_castle_alpha.tga
+10-05 14:15:30.395  8917  8939 I DH2Loader: RANDOMFORALEX seed 1 | 5 modules | 180 mesh instances | 202 draws | 5 textures
+10-05 14:15:30.395  8917  8939 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1 | Static authored decor: 19 | Decor providers pending: 23
+10-05 14:15:30.403  8917  8939 I DH2Loader: MAP_FRAME_OK identity=RANDOMFORALEX procedural=1 seed=1 modules=5 meshes=180 draws=202 triangles=13603 textures=5 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=19 decor_meshes=19 decor_skipped=23
+10-05 14:15:34.449  9001  9026 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ROOT_DEN_01 stage=procedural_sources
+10-05 14:15:34.450  9001  9026 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ROOT_DEN_01 stage=blocks
+10-05 14:15:34.450  9001  9026 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ROOT_DEN_01 stage=connections
+10-05 14:15:34.451  9001  9026 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ROOT_DEN_01 stage=lists
+10-05 14:15:34.451  9001  9026 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ROOT_DEN_01 stage=rules
+10-05 14:15:34.451  9001  9026 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ROOT_DEN_01 stage=layout
+10-05 14:15:34.451  9001  9026 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ROOT_DEN_01 stage=modules
+10-05 14:15:34.452  9001  9026 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ROOT_DEN_01 stage=sources
+10-05 14:15:34.457  9001  9026 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ROOT_DEN_01 stage=map
+10-05 14:15:34.633  9001  9026 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ROOT_DEN_01 stage=declarations
+10-05 14:15:34.635  9001  9026 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ROOT_DEN_01 stage=publish_source
+10-05 14:15:34.636  9001  9026 I DH2Loader: STATIC_DECOR_INSPECTION identity=ROOT_DEN_01 sources=2 skipped=0 runtime_objects=0 animation=0
+10-05 14:15:35.903  9001  9026 I DH2Loader: ROOT_DEN_01 seed 0 | 8 modules | 170 mesh instances | 206 draws | 4 textures
+10-05 14:15:35.903  9001  9026 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1 | Static authored decor: 2
+10-05 14:15:35.919  9001  9026 I DH2Loader: MAP_FRAME_OK identity=ROOT_DEN_01 procedural=1 seed=0 modules=8 meshes=170 draws=206 triangles=23937 textures=4 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=2 decor_meshes=2 decor_skipped=0
+10-05 14:15:40.127  9085  9108 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ROOT_DEN_01 stage=procedural_sources
+10-05 14:15:40.135  9085  9108 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ROOT_DEN_01 stage=blocks
+10-05 14:15:40.138  9085  9108 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ROOT_DEN_01 stage=connections
+10-05 14:15:40.138  9085  9108 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ROOT_DEN_01 stage=lists
+10-05 14:15:40.138  9085  9108 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ROOT_DEN_01 stage=rules
+10-05 14:15:40.138  9085  9108 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ROOT_DEN_01 stage=layout
+10-05 14:15:40.139  9085  9108 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ROOT_DEN_01 stage=modules
+10-05 14:15:40.142  9085  9108 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ROOT_DEN_01 stage=sources
+10-05 14:15:40.160  9085  9108 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ROOT_DEN_01 stage=map
+10-05 14:15:40.220  9085  9108 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ROOT_DEN_01 stage=declarations
+10-05 14:15:40.220  9085  9108 I DH2Loader: SOURCE_PREPARATION_STAGE identity=ROOT_DEN_01 stage=publish_source
+10-05 14:15:40.221  9085  9108 I DH2Loader: STATIC_DECOR_INSPECTION identity=ROOT_DEN_01 sources=2 skipped=0 runtime_objects=0 animation=0
+10-05 14:15:41.792  9085  9108 I DH2Loader: ROOT_DEN_01 seed 1 | 8 modules | 170 mesh instances | 206 draws | 4 textures
+10-05 14:15:41.792  9085  9108 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1 | Static authored decor: 2
+10-05 14:15:41.803  9085  9108 I DH2Loader: MAP_FRAME_OK identity=ROOT_DEN_01 procedural=1 seed=1 modules=8 meshes=170 draws=206 triangles=23937 textures=4 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=2 decor_meshes=2 decor_skipped=0
+10-05 14:15:46.016  9163  9186 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SECRET_BASEMENT_01 stage=procedural_sources
+10-05 14:15:46.018  9163  9186 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SECRET_BASEMENT_01 stage=blocks
+10-05 14:15:46.018  9163  9186 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SECRET_BASEMENT_01 stage=connections
+10-05 14:15:46.019  9163  9186 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SECRET_BASEMENT_01 stage=lists
+10-05 14:15:46.019  9163  9186 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SECRET_BASEMENT_01 stage=rules
+10-05 14:15:46.019  9163  9186 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SECRET_BASEMENT_01 stage=layout
+10-05 14:15:46.019  9163  9186 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SECRET_BASEMENT_01 stage=modules
+10-05 14:15:46.020  9163  9186 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SECRET_BASEMENT_01 stage=sources
+10-05 14:15:46.023  9163  9186 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SECRET_BASEMENT_01 stage=map
+10-05 14:15:46.067  9163  9186 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SECRET_BASEMENT_01 stage=declarations
+10-05 14:15:46.068  9163  9186 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SECRET_BASEMENT_01 stage=publish_source
+10-05 14:15:46.068  9163  9186 I DH2Loader: STATIC_DECOR_INSPECTION identity=SECRET_BASEMENT_01 sources=2 skipped=0 runtime_objects=0 animation=0
+10-05 14:15:47.640  9163  9186 I DH2Loader: SECRET_BASEMENT_01 seed 0 | 8 modules | 51 mesh instances | 70 draws | 4 textures
+10-05 14:15:47.640  9163  9186 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 2
+10-05 14:15:47.648  9163  9186 I DH2Loader: MAP_FRAME_OK identity=SECRET_BASEMENT_01 procedural=1 seed=0 modules=8 meshes=51 draws=70 triangles=19860 textures=4 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=2 decor_meshes=2 decor_skipped=0
+10-05 14:15:51.961  9246  9269 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SECRET_BASEMENT_01 stage=procedural_sources
+10-05 14:15:51.963  9246  9269 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SECRET_BASEMENT_01 stage=blocks
+10-05 14:15:51.963  9246  9269 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SECRET_BASEMENT_01 stage=connections
+10-05 14:15:51.963  9246  9269 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SECRET_BASEMENT_01 stage=lists
+10-05 14:15:51.963  9246  9269 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SECRET_BASEMENT_01 stage=rules
+10-05 14:15:51.963  9246  9269 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SECRET_BASEMENT_01 stage=layout
+10-05 14:15:51.964  9246  9269 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SECRET_BASEMENT_01 stage=modules
+10-05 14:15:51.965  9246  9269 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SECRET_BASEMENT_01 stage=sources
+10-05 14:15:51.975  9246  9269 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SECRET_BASEMENT_01 stage=map
+10-05 14:15:52.019  9246  9269 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SECRET_BASEMENT_01 stage=declarations
+10-05 14:15:52.019  9246  9269 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SECRET_BASEMENT_01 stage=publish_source
+10-05 14:15:52.020  9246  9269 I DH2Loader: STATIC_DECOR_INSPECTION identity=SECRET_BASEMENT_01 sources=2 skipped=0 runtime_objects=0 animation=0
+10-05 14:15:53.465  9246  9269 I DH2Loader: SECRET_BASEMENT_01 seed 1 | 8 modules | 50 mesh instances | 69 draws | 4 textures
+10-05 14:15:53.465  9246  9269 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 2
+10-05 14:15:53.471  9246  9269 I DH2Loader: MAP_FRAME_OK identity=SECRET_BASEMENT_01 procedural=1 seed=1 modules=8 meshes=50 draws=69 triangles=18916 textures=4 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=2 decor_meshes=2 decor_skipped=0
+10-05 14:15:58.388  9330  9351 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=procedural_sources
+10-05 14:15:58.396  9330  9351 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=blocks
+10-05 14:15:58.396  9330  9351 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=connections
+10-05 14:15:58.397  9330  9351 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=lists
+10-05 14:15:58.397  9330  9351 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=rules
+10-05 14:15:58.431  9330  9351 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=layout
+10-05 14:15:58.432  9330  9351 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=modules
+10-05 14:15:58.452  9330  9351 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=sources
+10-05 14:15:58.512  9330  9351 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=map
+10-05 14:15:58.701  9330  9351 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=declarations
+10-05 14:15:58.701  9330  9351 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=publish_source
+10-05 14:15:58.725  9330  9351 I DH2Loader: STATIC_DECOR_INSPECTION identity=SWAMP_02 sources=63 skipped=2 runtime_objects=0 animation=0
+10-05 14:16:01.507  9330  9351 I DH2Loader: SWAMP_02 seed 0 | 11 modules | 648 mesh instances | 670 draws | 9 textures
+10-05 14:16:01.507  9330  9351 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 37 | Static authored decor: 63 | Decor providers pending: 2
+10-05 14:16:01.513  9330  9351 I DH2Loader: MAP_FRAME_OK identity=SWAMP_02 procedural=1 seed=0 modules=11 meshes=648 draws=670 triangles=27911 textures=9 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=63 decor_meshes=151 decor_skipped=2
+10-05 14:16:05.832  9421  9447 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=procedural_sources
+10-05 14:16:05.835  9421  9447 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=blocks
+10-05 14:16:05.835  9421  9447 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=connections
+10-05 14:16:05.836  9421  9447 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=lists
+10-05 14:16:05.836  9421  9447 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=rules
+10-05 14:16:05.836  9421  9447 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=layout
+10-05 14:16:05.838  9421  9447 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=modules
+10-05 14:16:05.840  9421  9447 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=sources
+10-05 14:16:05.849  9421  9447 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=map
+10-05 14:16:05.961  9421  9447 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=declarations
+10-05 14:16:05.961  9421  9447 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=publish_source
+10-05 14:16:05.975  9421  9447 I DH2Loader: STATIC_DECOR_INSPECTION identity=SWAMP_02 sources=61 skipped=2 runtime_objects=0 animation=0
+10-05 14:16:08.965  9421  9447 I DH2Loader: SWAMP_02 seed 1 | 12 modules | 683 mesh instances | 707 draws | 9 textures
+10-05 14:16:08.965  9421  9447 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 31 | Static authored decor: 61 | Decor providers pending: 2
+10-05 14:16:08.971  9421  9447 I DH2Loader: MAP_FRAME_OK identity=SWAMP_02 procedural=1 seed=1 modules=12 meshes=683 draws=707 triangles=30398 textures=9 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=61 decor_meshes=160 decor_skipped=2
+10-05 14:16:13.686  9524  9547 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_TROLL_A stage=procedural_sources
+10-05 14:16:13.690  9524  9547 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_TROLL_A stage=blocks
+10-05 14:16:13.690  9524  9547 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_TROLL_A stage=connections
+10-05 14:16:13.692  9524  9547 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_TROLL_A stage=lists
+10-05 14:16:13.692  9524  9547 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_TROLL_A stage=rules
+10-05 14:16:13.692  9524  9547 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_TROLL_A stage=layout
+10-05 14:16:13.692  9524  9547 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_TROLL_A stage=modules
+10-05 14:16:13.695  9524  9547 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_TROLL_A stage=sources
+10-05 14:16:13.701  9524  9547 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_TROLL_A stage=map
+10-05 14:16:13.750  9524  9547 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_TROLL_A stage=declarations
+10-05 14:16:13.752  9524  9547 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_TROLL_A stage=publish_source
+10-05 14:16:13.758  9524  9547 I DH2Loader: STATIC_DECOR_INSPECTION identity=SWAMP_CAVE_TROLL_A sources=11 skipped=0 runtime_objects=0 animation=0
+10-05 14:16:15.313  9524  9547 I DH2Loader: SWAMP_CAVE_TROLL_A seed 0 | 9 modules | 29 mesh instances | 36 draws | 5 textures
+10-05 14:16:15.313  9524  9547 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 11
+10-05 14:16:15.318  9524  9547 I DH2Loader: MAP_FRAME_OK identity=SWAMP_CAVE_TROLL_A procedural=1 seed=0 modules=9 meshes=29 draws=36 triangles=12901 textures=5 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=11 decor_meshes=11 decor_skipped=0
+10-05 14:16:20.034  9610  9634 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_TROLL_A stage=procedural_sources
+10-05 14:16:20.047  9610  9634 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_TROLL_A stage=blocks
+10-05 14:16:20.047  9610  9634 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_TROLL_A stage=connections
+10-05 14:16:20.048  9610  9634 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_TROLL_A stage=lists
+10-05 14:16:20.049  9610  9634 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_TROLL_A stage=rules
+10-05 14:16:20.049  9610  9634 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_TROLL_A stage=layout
+10-05 14:16:20.050  9610  9634 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_TROLL_A stage=modules
+10-05 14:16:20.055  9610  9634 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_TROLL_A stage=sources
+10-05 14:16:20.075  9610  9634 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_TROLL_A stage=map
+10-05 14:16:20.119  9610  9634 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_TROLL_A stage=declarations
+10-05 14:16:20.119  9610  9634 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_TROLL_A stage=publish_source
+10-05 14:16:20.124  9610  9634 I DH2Loader: STATIC_DECOR_INSPECTION identity=SWAMP_CAVE_TROLL_A sources=10 skipped=0 runtime_objects=0 animation=0
+10-05 14:16:21.833  9610  9634 I DH2Loader: SWAMP_CAVE_TROLL_A seed 1 | 8 modules | 26 mesh instances | 32 draws | 5 textures
+10-05 14:16:21.833  9610  9634 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 10
+10-05 14:16:21.838  9610  9634 I DH2Loader: MAP_FRAME_OK identity=SWAMP_CAVE_TROLL_A procedural=1 seed=1 modules=8 meshes=26 draws=32 triangles=11374 textures=5 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=10 decor_meshes=10 decor_skipped=0
+10-05 14:16:25.955  9693  9717 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_WITCH_A stage=procedural_sources
+10-05 14:16:25.959  9693  9717 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_WITCH_A stage=blocks
+10-05 14:16:25.959  9693  9717 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_WITCH_A stage=connections
+10-05 14:16:25.960  9693  9717 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_WITCH_A stage=lists
+10-05 14:16:25.960  9693  9717 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_WITCH_A stage=rules
+10-05 14:16:25.960  9693  9717 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_WITCH_A stage=layout
+10-05 14:16:25.960  9693  9717 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_WITCH_A stage=modules
+10-05 14:16:25.963  9693  9717 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_WITCH_A stage=sources
+10-05 14:16:25.967  9693  9717 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_WITCH_A stage=map
+10-05 14:16:25.988  9693  9717 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_WITCH_A stage=declarations
+10-05 14:16:25.988  9693  9717 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_WITCH_A stage=publish_source
+10-05 14:16:25.997  9693  9717 I DH2Loader: STATIC_DECOR_INSPECTION identity=SWAMP_CAVE_WITCH_A sources=8 skipped=0 runtime_objects=0 animation=0
+10-05 14:16:27.636  9693  9717 I DH2Loader: SWAMP_CAVE_WITCH_A seed 0 | 7 modules | 24 mesh instances | 29 draws | 6 textures
+10-05 14:16:27.636  9693  9717 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 8
+10-05 14:16:27.660  9693  9717 I DH2Loader: MAP_FRAME_OK identity=SWAMP_CAVE_WITCH_A procedural=1 seed=0 modules=7 meshes=24 draws=29 triangles=11146 textures=6 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=8 decor_meshes=10 decor_skipped=0
+10-05 14:16:32.315  9778  9799 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_WITCH_A stage=procedural_sources
+10-05 14:16:32.318  9778  9799 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_WITCH_A stage=blocks
+10-05 14:16:32.319  9778  9799 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_WITCH_A stage=connections
+10-05 14:16:32.320  9778  9799 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_WITCH_A stage=lists
+10-05 14:16:32.320  9778  9799 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_WITCH_A stage=rules
+10-05 14:16:32.320  9778  9799 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_WITCH_A stage=layout
+10-05 14:16:32.320  9778  9799 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_WITCH_A stage=modules
+10-05 14:16:32.323  9778  9799 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_WITCH_A stage=sources
+10-05 14:16:32.326  9778  9799 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_WITCH_A stage=map
+10-05 14:16:32.343  9778  9799 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_WITCH_A stage=declarations
+10-05 14:16:32.344  9778  9799 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_CAVE_WITCH_A stage=publish_source
+10-05 14:16:32.348  9778  9799 I DH2Loader: STATIC_DECOR_INSPECTION identity=SWAMP_CAVE_WITCH_A sources=8 skipped=0 runtime_objects=0 animation=0
+10-05 14:16:33.608  9778  9799 I DH2Loader: SWAMP_CAVE_WITCH_A seed 1 | 7 modules | 24 mesh instances | 29 draws | 6 textures
+10-05 14:16:33.608  9778  9799 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 8
+10-05 14:16:33.613  9778  9799 I DH2Loader: MAP_FRAME_OK identity=SWAMP_CAVE_WITCH_A procedural=1 seed=1 modules=7 meshes=24 draws=29 triangles=11146 textures=6 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=8 decor_meshes=10 decor_skipped=0
+10-05 14:16:38.485  9861  9883 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_01 stage=procedural_sources
+10-05 14:16:38.487  9861  9883 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_01 stage=blocks
+10-05 14:16:38.487  9861  9883 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_01 stage=connections
+10-05 14:16:38.487  9861  9883 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_01 stage=lists
+10-05 14:16:38.488  9861  9883 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_01 stage=rules
+10-05 14:16:38.488  9861  9883 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_01 stage=layout
+10-05 14:16:38.488  9861  9883 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_01 stage=modules
+10-05 14:16:38.490  9861  9883 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_01 stage=sources
+10-05 14:16:38.502  9861  9883 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_01 stage=map
+10-05 14:16:38.533  9861  9883 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_01 stage=declarations
+10-05 14:16:38.534  9861  9883 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_01 stage=publish_source
+10-05 14:16:38.585  9861  9883 I DH2Loader: STATIC_DECOR_INSPECTION identity=VOID_MAZE_01 sources=13 skipped=0 runtime_objects=0 animation=0
+10-05 14:16:38.929  9861  9883 I DH2Loader: VOID_MAZE_01 seed 0 | 9 modules | 49 mesh instances | 85 draws | 3 textures
+10-05 14:16:38.929  9861  9883 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 13
+10-05 14:16:38.933  9861  9883 I DH2Loader: MAP_FRAME_OK identity=VOID_MAZE_01 procedural=1 seed=0 modules=9 meshes=49 draws=85 triangles=13696 textures=3 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=13 decor_meshes=40 decor_skipped=0
+10-05 14:16:43.881  9933  9960 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_01 stage=procedural_sources
+10-05 14:16:43.883  9933  9960 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_01 stage=blocks
+10-05 14:16:43.883  9933  9960 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_01 stage=connections
+10-05 14:16:43.883  9933  9960 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_01 stage=lists
+10-05 14:16:43.883  9933  9960 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_01 stage=rules
+10-05 14:16:43.883  9933  9960 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_01 stage=layout
+10-05 14:16:43.883  9933  9960 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_01 stage=modules
+10-05 14:16:43.884  9933  9960 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_01 stage=sources
+10-05 14:16:43.887  9933  9960 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_01 stage=map
+10-05 14:16:43.893  9933  9960 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_01 stage=declarations
+10-05 14:16:43.893  9933  9960 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_01 stage=publish_source
+10-05 14:16:43.913  9933  9960 I DH2Loader: STATIC_DECOR_INSPECTION identity=VOID_MAZE_01 sources=13 skipped=0 runtime_objects=0 animation=0
+10-05 14:16:44.141  9933  9960 I DH2Loader: VOID_MAZE_01 seed 1 | 9 modules | 49 mesh instances | 85 draws | 3 textures
+10-05 14:16:44.141  9933  9960 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 13
+10-05 14:16:44.147  9933  9960 I DH2Loader: MAP_FRAME_OK identity=VOID_MAZE_01 procedural=1 seed=1 modules=9 meshes=49 draws=85 triangles=13696 textures=3 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=13 decor_meshes=40 decor_skipped=0
+10-05 14:16:48.909 10016 10039 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_02 stage=procedural_sources
+10-05 14:16:48.914 10016 10039 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_02 stage=blocks
+10-05 14:16:48.915 10016 10039 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_02 stage=connections
+10-05 14:16:48.915 10016 10039 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_02 stage=lists
+10-05 14:16:48.915 10016 10039 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_02 stage=rules
+10-05 14:16:48.915 10016 10039 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_02 stage=layout
+10-05 14:16:48.915 10016 10039 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_02 stage=modules
+10-05 14:16:48.917 10016 10039 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_02 stage=sources
+10-05 14:16:48.919 10016 10039 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_02 stage=map
+10-05 14:16:48.926 10016 10039 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_02 stage=declarations
+10-05 14:16:48.927 10016 10039 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_02 stage=publish_source
+10-05 14:16:48.949 10016 10039 I DH2Loader: STATIC_DECOR_INSPECTION identity=VOID_MAZE_02 sources=12 skipped=0 runtime_objects=0 animation=0
+10-05 14:16:49.167 10016 10039 I DH2Loader: VOID_MAZE_02 seed 0 | 11 modules | 56 mesh instances | 100 draws | 3 textures
+10-05 14:16:49.167 10016 10039 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 12
+10-05 14:16:49.170 10016 10039 I DH2Loader: MAP_FRAME_OK identity=VOID_MAZE_02 procedural=1 seed=0 modules=11 meshes=56 draws=100 triangles=16392 textures=3 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=12 decor_meshes=45 decor_skipped=0
+10-05 14:16:53.948 10086 10109 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_02 stage=procedural_sources
+10-05 14:16:53.950 10086 10109 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_02 stage=blocks
+10-05 14:16:53.950 10086 10109 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_02 stage=connections
+10-05 14:16:53.950 10086 10109 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_02 stage=lists
+10-05 14:16:53.950 10086 10109 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_02 stage=rules
+10-05 14:16:53.950 10086 10109 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_02 stage=layout
+10-05 14:16:53.950 10086 10109 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_02 stage=modules
+10-05 14:16:53.952 10086 10109 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_02 stage=sources
+10-05 14:16:53.955 10086 10109 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_02 stage=map
+10-05 14:16:53.967 10086 10109 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_02 stage=declarations
+10-05 14:16:53.968 10086 10109 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_02 stage=publish_source
+10-05 14:16:53.988 10086 10109 I DH2Loader: STATIC_DECOR_INSPECTION identity=VOID_MAZE_02 sources=12 skipped=0 runtime_objects=0 animation=0
+10-05 14:16:54.225 10086 10109 I DH2Loader: VOID_MAZE_02 seed 1 | 11 modules | 56 mesh instances | 100 draws | 3 textures
+10-05 14:16:54.225 10086 10109 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 12
+10-05 14:16:54.231 10086 10109 I DH2Loader: MAP_FRAME_OK identity=VOID_MAZE_02 procedural=1 seed=1 modules=11 meshes=56 draws=100 triangles=16392 textures=3 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=12 decor_meshes=45 decor_skipped=0
+10-05 14:16:59.171 10164 10188 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_03 stage=procedural_sources
+10-05 14:16:59.172 10164 10188 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_03 stage=blocks
+10-05 14:16:59.172 10164 10188 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_03 stage=connections
+10-05 14:16:59.172 10164 10188 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_03 stage=lists
+10-05 14:16:59.172 10164 10188 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_03 stage=rules
+10-05 14:16:59.174 10164 10188 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_03 stage=layout
+10-05 14:16:59.174 10164 10188 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_03 stage=modules
+10-05 14:16:59.175 10164 10188 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_03 stage=sources
+10-05 14:16:59.178 10164 10188 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_03 stage=map
+10-05 14:16:59.185 10164 10188 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_03 stage=declarations
+10-05 14:16:59.185 10164 10188 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_03 stage=publish_source
+10-05 14:16:59.206 10164 10188 I DH2Loader: STATIC_DECOR_INSPECTION identity=VOID_MAZE_03 sources=8 skipped=0 runtime_objects=0 animation=0
+10-05 14:16:59.378 10164 10188 I DH2Loader: VOID_MAZE_03 seed 0 | 7 modules | 36 mesh instances | 64 draws | 3 textures
+10-05 14:16:59.378 10164 10188 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2 | Static authored decor: 8
+10-05 14:16:59.383 10164 10188 I DH2Loader: MAP_FRAME_OK identity=VOID_MAZE_03 procedural=1 seed=0 modules=7 meshes=36 draws=64 triangles=10524 textures=3 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=8 decor_meshes=29 decor_skipped=0
+10-05 14:17:04.272 10233 10258 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_03 stage=procedural_sources
+10-05 14:17:04.284 10233 10258 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_03 stage=blocks
+10-05 14:17:04.284 10233 10258 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_03 stage=connections
+10-05 14:17:04.284 10233 10258 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_03 stage=lists
+10-05 14:17:04.284 10233 10258 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_03 stage=rules
+10-05 14:17:04.284 10233 10258 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_03 stage=layout
+10-05 14:17:04.285 10233 10258 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_03 stage=modules
+10-05 14:17:04.286 10233 10258 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_03 stage=sources
+10-05 14:17:04.294 10233 10258 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_03 stage=map
+10-05 14:17:04.312 10233 10258 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_03 stage=declarations
+10-05 14:17:04.314 10233 10258 I DH2Loader: SOURCE_PREPARATION_STAGE identity=VOID_MAZE_03 stage=publish_source
+10-05 14:17:04.314 10233 10258 I DH2Loader: SOURCE_REFERENCE_REPAIR identity=VOID_MAZE_03 tile=3 property=mgp authored=data/iphone/3d/modules/void_maze/mgp/vm011_corner_voidmaze_ne_00_01.mgp resolved=data/3d/modules/void_maze/mgp/vm01_corner_voidmaze_ne_00_01.mgp
+10-05 14:17:04.357 10233 10258 I DH2Loader: STATIC_DECOR_INSPECTION identity=VOID_MAZE_03 sources=8 skipped=0 runtime_objects=0 animation=0
+10-05 14:17:04.551 10233 10258 I DH2Loader: VOID_MAZE_03 seed 1 [source references repaired] | 7 modules | 36 mesh instances | 64 draws | 3 textures
+10-05 14:17:04.551 10233 10258 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 8
+10-05 14:17:04.556 10233 10258 I DH2Loader: MAP_FRAME_OK identity=VOID_MAZE_03 procedural=1 seed=1 modules=7 meshes=36 draws=64 triangles=10148 textures=3 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=8 decor_meshes=29 decor_skipped=0
+10-05 14:17:09.497 10309 10331 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WATER_TEMPLE_01 stage=procedural_sources
+10-05 14:17:09.502 10309 10331 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WATER_TEMPLE_01 stage=blocks
+10-05 14:17:09.502 10309 10331 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WATER_TEMPLE_01 stage=connections
+10-05 14:17:09.502 10309 10331 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WATER_TEMPLE_01 stage=lists
+10-05 14:17:09.502 10309 10331 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WATER_TEMPLE_01 stage=rules
+10-05 14:17:09.503 10309 10331 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WATER_TEMPLE_01 stage=layout
+10-05 14:17:09.503 10309 10331 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WATER_TEMPLE_01 stage=modules
+10-05 14:17:09.506 10309 10331 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WATER_TEMPLE_01 stage=sources
+10-05 14:17:09.514 10309 10331 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WATER_TEMPLE_01 stage=map
+10-05 14:17:09.682 10309 10331 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WATER_TEMPLE_01 stage=declarations
+10-05 14:17:09.682 10309 10331 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WATER_TEMPLE_01 stage=publish_source
+10-05 14:17:09.747 10309 10331 I DH2Loader: STATIC_DECOR_INSPECTION identity=WATER_TEMPLE_01 sources=14 skipped=1 runtime_objects=0 animation=0
+10-05 14:17:11.494 10309 10331 I DH2Loader: WATER_TEMPLE_01 seed 0 | 13 modules | 296 mesh instances | 297 draws | 6 textures
+10-05 14:17:11.494 10309 10331 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 14 | Decor providers pending: 1
+10-05 14:17:11.500 10309 10331 I DH2Loader: MAP_FRAME_OK identity=WATER_TEMPLE_01 procedural=1 seed=0 modules=13 meshes=296 draws=297 triangles=34608 textures=6 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=14 decor_meshes=13 decor_skipped=1
+10-05 14:17:16.197 10391 10415 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WATER_TEMPLE_01 stage=procedural_sources
+10-05 14:17:16.202 10391 10415 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WATER_TEMPLE_01 stage=blocks
+10-05 14:17:16.202 10391 10415 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WATER_TEMPLE_01 stage=connections
+10-05 14:17:16.202 10391 10415 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WATER_TEMPLE_01 stage=lists
+10-05 14:17:16.202 10391 10415 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WATER_TEMPLE_01 stage=rules
+10-05 14:17:16.202 10391 10415 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WATER_TEMPLE_01 stage=layout
+10-05 14:17:16.203 10391 10415 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WATER_TEMPLE_01 stage=modules
+10-05 14:17:16.206 10391 10415 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WATER_TEMPLE_01 stage=sources
+10-05 14:17:16.213 10391 10415 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WATER_TEMPLE_01 stage=map
+10-05 14:17:16.298 10391 10415 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WATER_TEMPLE_01 stage=declarations
+10-05 14:17:16.298 10391 10415 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WATER_TEMPLE_01 stage=publish_source
+10-05 14:17:16.318 10391 10415 I DH2Loader: STATIC_DECOR_INSPECTION identity=WATER_TEMPLE_01 sources=15 skipped=1 runtime_objects=0 animation=0
+10-05 14:17:18.209 10391 10415 I DH2Loader: WATER_TEMPLE_01 seed 1 | 13 modules | 288 mesh instances | 289 draws | 6 textures
+10-05 14:17:18.209 10391 10415 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 15 | Decor providers pending: 1
+10-05 14:17:18.217 10391 10415 I DH2Loader: MAP_FRAME_OK identity=WATER_TEMPLE_01 procedural=1 seed=1 modules=13 meshes=288 draws=289 triangles=35426 textures=6 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=15 decor_meshes=14 decor_skipped=1
+10-05 14:17:22.606 10483 10504 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WIND_TEMPLE_01 stage=procedural_sources
+10-05 14:17:22.609 10483 10504 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WIND_TEMPLE_01 stage=blocks
+10-05 14:17:22.610 10483 10504 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WIND_TEMPLE_01 stage=connections
+10-05 14:17:22.610 10483 10504 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WIND_TEMPLE_01 stage=lists
+10-05 14:17:22.610 10483 10504 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WIND_TEMPLE_01 stage=rules
+10-05 14:17:22.610 10483 10504 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WIND_TEMPLE_01 stage=layout
+10-05 14:17:22.610 10483 10504 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WIND_TEMPLE_01 stage=modules
+10-05 14:17:22.612 10483 10504 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WIND_TEMPLE_01 stage=sources
+10-05 14:17:22.620 10483 10504 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WIND_TEMPLE_01 stage=map
+10-05 14:17:22.861 10483 10504 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WIND_TEMPLE_01 stage=declarations
+10-05 14:17:22.861 10483 10504 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WIND_TEMPLE_01 stage=publish_source
+10-05 14:17:22.862 10483 10504 I DH2Loader: STATIC_DECOR_INSPECTION identity=WIND_TEMPLE_01 sources=1 skipped=0 runtime_objects=0 animation=0
+10-05 14:17:24.679 10483 10504 I DH2Loader: WIND_TEMPLE_01 seed 0 | 12 modules | 452 mesh instances | 464 draws | 5 textures
+10-05 14:17:24.679 10483 10504 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1 | Static authored decor: 1
+10-05 14:17:24.687 10483 10504 I DH2Loader: MAP_FRAME_OK identity=WIND_TEMPLE_01 procedural=1 seed=0 modules=12 meshes=452 draws=464 triangles=32941 textures=5 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=1 decor_meshes=1 decor_skipped=0
+10-05 14:17:29.515 10572 10594 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WIND_TEMPLE_01 stage=procedural_sources
+10-05 14:17:29.519 10572 10594 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WIND_TEMPLE_01 stage=blocks
+10-05 14:17:29.519 10572 10594 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WIND_TEMPLE_01 stage=connections
+10-05 14:17:29.519 10572 10594 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WIND_TEMPLE_01 stage=lists
+10-05 14:17:29.519 10572 10594 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WIND_TEMPLE_01 stage=rules
+10-05 14:17:29.519 10572 10594 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WIND_TEMPLE_01 stage=layout
+10-05 14:17:29.519 10572 10594 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WIND_TEMPLE_01 stage=modules
+10-05 14:17:29.521 10572 10594 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WIND_TEMPLE_01 stage=sources
+10-05 14:17:29.526 10572 10594 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WIND_TEMPLE_01 stage=map
+10-05 14:17:29.788 10572 10594 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WIND_TEMPLE_01 stage=declarations
+10-05 14:17:29.788 10572 10594 I DH2Loader: SOURCE_PREPARATION_STAGE identity=WIND_TEMPLE_01 stage=publish_source
+10-05 14:17:29.789 10572 10594 I DH2Loader: STATIC_DECOR_INSPECTION identity=WIND_TEMPLE_01 sources=1 skipped=0 runtime_objects=0 animation=0
+10-05 14:17:31.508 10572 10594 I DH2Loader: WIND_TEMPLE_01 seed 1 | 12 modules | 452 mesh instances | 464 draws | 5 textures
+10-05 14:17:31.508 10572 10594 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1 | Static authored decor: 1
+10-05 14:17:31.515 10572 10594 I DH2Loader: MAP_FRAME_OK identity=WIND_TEMPLE_01 procedural=1 seed=1 modules=12 meshes=452 draws=464 triangles=32941 textures=5 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=1 decor_meshes=1 decor_skipped=0
+10-05 14:17:36.071 10658 10681 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP stage=sources
+10-05 14:17:36.088 10658 10681 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP stage=map
+10-05 14:17:36.168 10658 10681 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP stage=declarations
+10-05 14:17:36.168 10658 10681 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP stage=publish_source
+10-05 14:17:36.190 10658 10681 I DH2Loader: STATIC_DECOR_INSPECTION identity=SWAMP sources=31 skipped=6 runtime_objects=0 animation=0
+10-05 14:17:38.743 10658 10681 I DH2Loader: SWAMP | 9 modules | 464 mesh instances | 480 draws | 8 textures
+10-05 14:17:38.743 10658 10681 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 23 | Static authored decor: 31 | Decor providers pending: 10
+10-05 14:17:38.753 10658 10681 I DH2Loader: MAP_FRAME_OK identity=SWAMP procedural=0 seed=0 modules=9 meshes=464 draws=480 triangles=28967 textures=8 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=31 decor_meshes=95 decor_skipped=10
+10-05 14:18:09.683 10749 10770 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DARKWOOD stage=sources
+10-05 14:18:09.716 10749 10770 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DARKWOOD stage=map
+10-05 14:18:10.105 10749 10770 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DARKWOOD stage=declarations
+10-05 14:18:10.110 10749 10770 I DH2Loader: SOURCE_PREPARATION_STAGE identity=DARKWOOD stage=publish_source
+10-05 14:18:10.115 10749 10770 I DH2Loader: STATIC_DECOR_INSPECTION identity=DARKWOOD sources=8 skipped=5 runtime_objects=0 animation=0
+10-05 14:18:12.506 10749 10770 I DH2Loader: DARKWOOD | 24 modules | 931 mesh instances | 944 draws | 6 textures
+10-05 14:18:12.506 10749 10770 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0 | Static authored decor: 8 | Decor providers pending: 5
+10-05 14:18:12.515 10749 10770 I DH2Loader: MAP_FRAME_OK identity=DARKWOOD procedural=0 seed=0 modules=24 meshes=931 draws=944 triangles=40158 textures=6 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=8 decor_meshes=8 decor_skipped=5
+10-05 14:18:17.826 10833 10858 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=procedural_sources
+10-05 14:18:17.829 10833 10858 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=blocks
+10-05 14:18:17.829 10833 10858 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=connections
+10-05 14:18:17.830 10833 10858 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=lists
+10-05 14:18:17.830 10833 10858 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=rules
+10-05 14:18:17.830 10833 10858 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=layout
+10-05 14:18:17.831 10833 10858 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=modules
+10-05 14:18:17.833 10833 10858 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=sources
+10-05 14:18:17.841 10833 10858 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=map
+10-05 14:18:17.926 10833 10858 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=declarations
+10-05 14:18:17.927 10833 10858 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP_02 stage=publish_source
+10-05 14:18:18.080 10833 10858 I DH2Loader: STATIC_DECOR_INSPECTION identity=SWAMP_02 sources=63 skipped=2 runtime_objects=0 animation=0
+10-05 14:18:21.019 10833 10858 I DH2Loader: SWAMP_02 seed 0 | 11 modules | 648 mesh instances | 670 draws | 9 textures
+10-05 14:18:21.019 10833 10858 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 37 | Static authored decor: 63 | Decor providers pending: 2
+10-05 14:18:21.027 10833 10858 I DH2Loader: MAP_FRAME_OK identity=SWAMP_02 procedural=1 seed=0 modules=11 meshes=648 draws=670 triangles=27911 textures=9 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=63 decor_meshes=151 decor_skipped=2
+10-05 14:18:26.241 10923 10943 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP stage=sources
+10-05 14:18:26.249 10923 10943 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP stage=map
+10-05 14:18:26.581 10923 10943 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP stage=declarations
+10-05 14:18:26.581 10923 10943 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP stage=publish_source
+10-05 14:18:26.607 10923 10943 I DH2Loader: STATIC_DECOR_INSPECTION identity=SWAMP sources=31 skipped=6 runtime_objects=0 animation=0
+10-05 14:18:29.236 10923 10943 I DH2Loader: SWAMP | 9 modules | 464 mesh instances | 480 draws | 8 textures
+10-05 14:18:29.236 10923 10943 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 23 | Static authored decor: 31 | Decor providers pending: 10
+10-05 14:18:29.251 10923 10943 I DH2Loader: MAP_FRAME_OK identity=SWAMP procedural=0 seed=0 modules=9 meshes=464 draws=480 triangles=28967 textures=8 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=31 decor_meshes=95 decor_skipped=10
+10-05 14:18:34.836 10923 10943 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP stage=sources
+10-05 14:18:34.856 10923 10943 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP stage=map
+10-05 14:18:35.068 10923 10943 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP stage=declarations
+10-05 14:18:35.069 10923 10943 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP stage=publish_source
+10-05 14:18:35.164 10923 10943 I DH2Loader: STATIC_DECOR_INSPECTION identity=SWAMP sources=31 skipped=6 runtime_objects=0 animation=0
+10-05 14:18:37.393 10923 10943 I DH2Loader: SWAMP | 9 modules | 464 mesh instances | 480 draws | 8 textures
+10-05 14:18:37.393 10923 10943 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 23 | Static authored decor: 31 | Decor providers pending: 10
+10-05 14:18:37.403 10923 10943 I DH2Loader: MAP_FRAME_OK identity=SWAMP procedural=0 seed=0 modules=9 meshes=464 draws=480 triangles=28967 textures=8 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=31 decor_meshes=95 decor_skipped=10
+10-05 14:18:40.647 10923 10943 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP stage=sources
+10-05 14:18:40.657 10923 10943 I DH2Loader: Preparation failed; previous map retained: sources: Missing authored XML: missing-loader-test.mlx
+10-05 14:18:40.657 10923 10943 I DH2Loader: MAP_FRAME_OK identity=SWAMP procedural=0 seed=0 modules=9 meshes=464 draws=480 triangles=28967 textures=8 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=31 decor_meshes=95 decor_skipped=10
+10-05 14:18:44.226 10923 10943 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP stage=sources
+10-05 14:18:44.236 10923 10943 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP stage=map
+10-05 14:18:44.355 10923 10943 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP stage=declarations
+10-05 14:18:44.357 10923 10943 I DH2Loader: SOURCE_PREPARATION_STAGE identity=SWAMP stage=publish_source
+10-05 14:18:44.376 10923 10943 I DH2Loader: STATIC_DECOR_INSPECTION identity=SWAMP sources=31 skipped=6 runtime_objects=0 animation=0
+10-05 14:18:46.351 10923 10943 I DH2Loader: SWAMP | 9 modules | 464 mesh instances | 480 draws | 8 textures
+10-05 14:18:46.351 10923 10943 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 23 | Static authored decor: 31 | Decor providers pending: 10
+10-05 14:18:46.353 10923 10943 I DH2Loader: MAP_FRAME_OK identity=SWAMP procedural=0 seed=0 modules=9 meshes=464 draws=480 triangles=28967 textures=8 viewport=2400x496 gameplay=0 objects=0 static_decor_sources=31 decor_meshes=95 decor_skipped=10
+10-05 14:18:48.994 10923 10943 I DH2Loader: Module 0 | obj_4of4_brdwalk_sw_00_0 | mobs/chests pending

@@ -1,0 +1,32 @@
+{
+  "validation": "PASS",
+  "module": "swf_texture",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_sha256": {
+    "port/scene-materials/swf_texture.hpp": "6013cd34295b1986d1af8327279051a242bfd20eb3f5add8e8580c46000402f7",
+    "port/scene-materials/swf_texture.cpp": "5e5fb0a1c31c7a79d212db678a4df71be84f40bdb1e3ecde192a009599801b85",
+    "port/scene-materials/tests/swf_texture.cpp": "3efbf778e5aaa5743e3d79712524357453bacafffc201b8efa8caa3fd7d67189",
+    "port/scene-materials/tests/swf_texture_differential.py": "63be8dfa2801e91ee1ce20593b1ced41e6cc60bf9260faac60dcf25a7c32ec9a",
+    "port/scene-materials/tests/swf_texture_host.py": "bfbe917ea75e8e4bcb5ae47767106a28f211d3048ff3a34c604f840d50e6229c",
+    "port/scene-materials/tests/swf_texture_resolver_probe.py": "69e2993c0457b643ead5f5d4115fc288a92b72a32a1f3e793f57c5b616bfda43",
+    "port/scene-materials/tests/swf_texture_connection_probe.py": "1c796e47d775a6c23e5e03801f5d4fb80ab960cb4ca18bcf36d5678ba8c808ec",
+    "port/scene-materials/tools/build_swf_texture_oracle.ps1": "df7cbe92a31750a348e192d225972c94dd819e42accf4a1af088015100149dda",
+    "port/scene-materials/reference/swf-render-connection/connection-probe.json": "a74f510415ca90fda63c6a45ceae255d980dd69ed642fadee39ea74cff5e2b62",
+    "port/scene-materials/reference/swf-render-connection/material-state-probe.json": "ea406096f31b499316d2c37277d66f126b8b012c64231061fa7adaebffb023c4",
+    "port/scene-materials/reference/swf-render-connection/NOTES.md": "d34b5c9570f4523c19c825ab0d2bcc37ab6baafc7d5bfdc82b2e9fea7501068e",
+    "port/scene-materials/reference/swf-render-connection/original-functions.asm": "b64a3b9c8f0b364d9557faf6deaf7f99035d9d31477d52e799aa2c38a1c598c3",
+    "port/scene-materials/reference/swf-render-connection/original-functions.json": "bcd811f93f23c3ae1393861eef27f19c5b79e9a4df8ecb9699683c147f3167a3",
+    "port/scene-materials/reference/swf-render-connection/swf-texture-fixtures.bin": "39074fb2e7379cf0eb2a987739e4cb4414c71e2b2fb98043b8ba56aaa0bc4f4a",
+    "port/scene-materials/reference/swf-render-connection/texture-resolver-probe.json": "353a1d32f323ae3aec6e615e21788f803bf00c7a3ff6f596ea5a08c572c1e88e",
+    "port/scene-materials/reports/swf-texture-arm64-differential.json": "c5e0f71db486d3c34155847118184caddda996b8248ea786634bc2b6443d4305",
+    "port/scene-materials/reports/swf-texture-host-audit.json": "6ce36542a456cc3100c45782144e05b9e75bac6d9860bd98adb2c6af452430d5"
+  },
+  "original_arm64_comparisons": 2879,
+  "host_dso_comparisons": 2879,
+  "atomic_guards": 11,
+  "sanitizer_findings": 0,
+  "arm64_library_sha256": "3edf2d48f8623efd04a25a3888e58eb1c8b87d656b596c9f913ed6f4cb10f61d",
+  "isolated_host_library_sha256": "dcce2c110a79a0ae1e4ed7aa9e38cdb86980bad4efeed9be7239e2a0404fee76",
+  "isolated_host_executable_sha256": "16f4fc0488946cc89aabbb2cd64f873e1af94b04d180d363296d6c45fe1a35b2",
+  "boundaries": "Logical texture filename/archive-key/wrap/render-state/color producers. Real cache/GL/resource/bitmap/mask/geometry services remain required; no complete SWF GPU parity claim."
+}

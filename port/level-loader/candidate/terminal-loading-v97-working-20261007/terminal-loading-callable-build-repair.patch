@@ -1,0 +1,27 @@
+--- a/port/level-loader/terminal_loading_v97.hpp
++++ b/port/level-loader/terminal_loading_v97.hpp
+@@ -4,6 +4,7 @@
+ #include <captured_menu_lease_v101.hpp>
+ #include <climits>
+ #include <exception>
++#include <functional>
+ #include <utility>
+ namespace dh2::loader {
+ struct TerminalPlayerBorrowV97 {
+@@ -35,12 +36,15 @@
+ inline void source_show_memory_stats_v97(const char*)noexcept{}
+ class TerminalLoadingV97 final {
+  TerminalLoadingServicesV97 services_;bool busy_{},failed_{};std::string error_;
++ // Services use optional std::function; captured receiver adapters are mandatory lambdas.
++ template<class R,class...P>static bool available(const std::function<R(P...)>& fn)noexcept{return static_cast<bool>(fn);}
++ template<class F>static bool available(const F&)noexcept{return true;}
+  template<class F,class...A>bool call(const char* leaf,const F& fn,A&&... args){
+   if(failed_)return false;
+   // A native callback may reenter this owner. Keep its first latched failure
+   // separate from the outer callback's mutable error receipt.
+   std::string receipt;bool accepted=false;
+-  try{if(fn)accepted=fn(std::forward<A>(args)...,receipt);}
++  try{if(available(fn))accepted=fn(std::forward<A>(args)...,receipt);}
+   catch(const std::exception& ex){receipt=ex.what();}
+   catch(...){receipt=std::string("Terminal loading callback threw: ")+leaf;}
+   if(failed_)return false;

@@ -1,0 +1,929 @@
+{
+  "schema": "dh2-character-parent-init-dependencies-v48",
+  "status": "Exact source/storage audit; NAME correction priority, typed parent bridge not yet implemented",
+  "fields": [
+    {
+      "offset": "0x28",
+      "name": "checkpoint byte",
+      "status": "missing actual actor storage",
+      "C1_value": 0,
+      "authority_required": "same fresh actor byte; original later checkpoint producer remains main",
+      "original_C1_store_pcs": [
+        "0x33f1dc",
+        "0x33f390"
+      ]
+    },
+    {
+      "offset": "0x10c",
+      "name": "optimization byte",
+      "status": "missing actual actor storage",
+      "C1_value": 0,
+      "authority_required": "same fresh actor byte; actual later network/optimization producer, never guessed1",
+      "original_C1_store_pcs": [
+        "0x33f2c4",
+        "0x33f478"
+      ]
+    },
+    {
+      "offset": "0xec",
+      "name": "min difficulty id",
+      "status": "missing actual actor storage",
+      "C1_value": -1,
+      "authority_required": "same fresh actor signed word; nonempty d4 assigns genuine difficulty catalog index",
+      "original_C1_store_pcs": [
+        "0x33f2dc",
+        "0x33f490"
+      ]
+    },
+    {
+      "offset": "0xa8",
+      "name": "activate compiled ConditionList identity",
+      "status": "missing actual actor storage/lifetime route",
+      "C1_value": 0,
+      "authority_required": "same ConditionData8c cell; main actual ConditionList allocation/AssignPyData/Clear ownership",
+      "original_C1_store_pcs": [
+        "0x33edc8"
+      ]
+    },
+    {
+      "offset": "0xac",
+      "name": "activate tested byte",
+      "status": "missing actual actor storage",
+      "C1_value": 0,
+      "authority_required": "same ConditionData8c byte; no inferred tested=true",
+      "original_C1_store_pcs": [
+        "0x33edc4"
+      ]
+    },
+    {
+      "offset": "0xcc",
+      "name": "deactivate compiled ConditionList identity",
+      "status": "missing actual actor storage/lifetime route",
+      "C1_value": 0,
+      "authority_required": "same ConditionDatab0 cell; main actual ConditionList allocation/AssignPyData/Clear ownership",
+      "original_C1_store_pcs": [
+        "0x33edc8"
+      ]
+    },
+    {
+      "offset": "0xd0",
+      "name": "deactivate tested byte",
+      "status": "missing actual actor storage",
+      "C1_value": 0,
+      "authority_required": "same ConditionDatab0 byte; no inferred tested=true",
+      "original_C1_store_pcs": [
+        "0x33edc4"
+      ]
+    },
+    {
+      "offset": "0x370",
+      "name": "idle sound id signed halfword",
+      "status": "missing actual actor storage",
+      "C1_value": -1,
+      "authority_required": "one signed16 actor cell; source only strh, no extra int32 shadow",
+      "original_C1_store_pcs": [
+        "0x38c5b4"
+      ]
+    },
+    {
+      "offset": "0x270/0x274",
+      "name": "spawn cached roll/probability",
+      "status": "existing actual actor V42 checked borrow",
+      "authority_required": "same live Name IsPlayer fix; second source check must retain cache and RNG ordering"
+    },
+    {
+      "offset": "0x120/0x160/0x16c/0x178",
+      "name": "scale/position/rotation/heading",
+      "status": "existing actual source scale/object position/runtime rotation+heading",
+      "authority_required": "borrow exact current fields, source degree->radian conversion once at reached38be5c"
+    },
+    {
+      "offset": "0x144/0x12c/0x1a8",
+      "name": "relative/absolute bounds/destination",
+      "status": "existing runtime and V7 constructor fields",
+      "authority_required": "same V7 SetPosition uses object position then publishes runtime semantic view; source bound scaling follows position"
+    },
+    {
+      "offset": "0x2dc/0x2e0",
+      "name": "physical/attached pointers",
+      "status": "existing CharacterPositionFieldsV7",
+      "authority_required": "same actual physical2dc reset by parent InitPost; attached2e0 is preserved"
+    },
+    {
+      "offset": "0x2d8",
+      "name": "visual pointer",
+      "status": "existing actual actor source_visual() and NPC field alias",
+      "authority_required": "reuse actual RetainedCharacterFamilyVisualV6; never second visual owner"
+    },
+    {
+      "offset": "0x15c",
+      "name": "skip_checkpoint/shared derived flat byte",
+      "status": "existing actual actor source_bounds_flat",
+      "authority_required": "same inherited cell, visual ApplyMeshBox Character dispatch can alter it before checkpoint clearing"
+    },
+    {
+      "offset": "0x60",
+      "name": "facultative",
+      "status": "existing PropertyMap bool map cell",
+      "authority_required": "actual declaration/default+override, read only reached low-performance branch"
+    },
+    {
+      "offset": "0x90/0xb4/0xd4/0x358",
+      "name": "condition/difficulty/sound CStrings",
+      "status": "existing actual PropertyMap source_strings cells",
+      "authority_required": "borrow existing strings, no inserted fallback/default projection"
+    }
+  ],
+  "missing_original_cells": 8,
+  "source_order": [
+    "ObjectBase.InitPost33ec0c: ConditionData8c Init thenb0 Init, nonempty difficulty lookup/storeec",
+    "same CheckSpawnProbability38bd64 (must keep prior successful cache)",
+    "physical2dc=NULL; normalize abs(scale)<bits38d1b717 to1",
+    "degree->radian eachrotation bybits3c8efa35; heading=rotationZ",
+    "whole qualified SetPosition393db4 with same Position160 alias and destination=true",
+    "relative6bounds*=scale axis; whole UpdateAbsoluteAABB38aac8",
+    "if visualNULL: live Device38174c ->3816a8; low+facultative60+optimization10c omits visual",
+    "otherwise actual LoadVisual394eb0; reread2d8; actual Visual.Sync38ba74 onlynonnull",
+    "if same byte15c nonzero, checkpoint28=0",
+    "nonempty idle_sound358 resolves genuine sound catalog; store signed16id370"
+  ],
+  "shared_kernel_requirement": "Existing GameObjectInitializationOwnerV1 and ConditionDataInitV3 hardcode CanonicalGameObjectBaseOwnerV1. Refactor their source control into one typed borrowed-storage kernel and retain adapters for actual generic base and actual Character cells. Do not allocate a CanonicalBase around actor.runtime or duplicate the control into a permanent engine.",
+  "root_existing_visual_producer": "RetainedCharacterFamilyVisualV6 uses CharacterVisualAssetOwnerV6 over actual source_visual(), visual_strings_v6 and actual scene/root/mesh-bound owner. Reuse at reachedLoadVisual and Sync; actual scene/PF/renderer providers remain main.",
+  "condition_actual_source_producer": {
+    "allocation_bytes": 12,
+    "constructor": "ConditionList::ConditionList4786f0",
+    "store": "ConditionData+1c at33ebc8 before init",
+    "tail": "ConditionList::AssignPyData478914",
+    "arguments": [
+      "original row+8",
+      "original row+4"
+    ],
+    "V3_comment_misnomer": "Existing callback/comment labels CCondition; actual ELF symbols are ConditionList. Empty/Invalid and real table miss are pure source branches, not authored predicate success.",
+    "clear_lifetime": "Actual ConditionData.Clear destructor/free must be provided for nonNULL compiled cell before borrowed World/row owner dies."
+  },
+  "device_producer": {
+    "entry": "38174c",
+    "tail": "3816a8",
+    "source_reads": "three actual process-wide disable bytes then existing renderer virtual mask0x78; no source constant"
+  },
+  "swamp_character_authored_count": 50,
+  "authored_condition_counts": {
+    "activate_cond": 10,
+    "deactivate_cond": 2
+  },
+  "authored_condition_names": {
+    "activate_cond:RENE_FOLLOW": 1,
+    "activate_cond:GameStartOnly": 2,
+    "activate_cond:Invalid": 1,
+    "deactivate_cond:Invalid": 1,
+    "deactivate_cond:IsBefore_Swamp_KillWitch": 1,
+    "activate_cond:IsAfter_Swamp_LizBlood": 1,
+    "activate_cond:IsBefore_Swamp_Escape": 4,
+    "activate_cond:EDWARD_FOLLOW": 1
+  },
+  "swamp_characters": [
+    {
+      "name": "_prim_NPC_PriestGood",
+      "module_occurrence": 0,
+      "runtime_module_id": "0",
+      "element": "3",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "source_module_name": "obj_4of4_brdwalk_sw_00_0",
+      "authored_conditions": {
+        "activate_cond": "RENE_FOLLOW"
+      },
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_NPC",
+      "module_occurrence": 0,
+      "runtime_module_id": "0",
+      "element": "13",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "source_module_name": "obj_4of4_brdwalk_sw_00_0",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_NPC01_001",
+      "module_occurrence": 0,
+      "runtime_module_id": "0",
+      "element": "14",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "source_module_name": "obj_4of4_brdwalk_sw_00_0",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_Faery",
+      "module_occurrence": 0,
+      "runtime_module_id": "0",
+      "element": "19",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "source_module_name": "obj_4of4_brdwalk_sw_00_0",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_ActorTroll",
+      "module_occurrence": 0,
+      "runtime_module_id": "0",
+      "element": "20",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "source_module_name": "obj_4of4_brdwalk_sw_00_0",
+      "authored_conditions": {
+        "activate_cond": "GameStartOnly"
+      },
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_ActorPrisoner",
+      "module_occurrence": 0,
+      "runtime_module_id": "0",
+      "element": "21",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "source_module_name": "obj_4of4_brdwalk_sw_00_0",
+      "authored_conditions": {
+        "activate_cond": "GameStartOnly"
+      },
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_MothTemplate_13",
+      "module_occurrence": 0,
+      "runtime_module_id": "0",
+      "element": "24",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "source_module_name": "obj_4of4_brdwalk_sw_00_0",
+      "authored_conditions": {
+        "activate_cond": "Invalid",
+        "deactivate_cond": "Invalid"
+      },
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_Monster_3_05_313_356_14_33_13_179_13_38",
+      "module_occurrence": 1,
+      "runtime_module_id": "1",
+      "element": "1",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "source_module_name": "obj_3of4_brdwalk_sw_00_1",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_Monster_LizManIntro1",
+      "module_occurrence": 1,
+      "runtime_module_id": "1",
+      "element": "3",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "source_module_name": "obj_3of4_brdwalk_sw_00_1",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_Monster_LizManIntro2",
+      "module_occurrence": 1,
+      "runtime_module_id": "1",
+      "element": "4",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "source_module_name": "obj_3of4_brdwalk_sw_00_1",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_Monster_FakeMoth_01",
+      "module_occurrence": 1,
+      "runtime_module_id": "1",
+      "element": "11",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "source_module_name": "obj_3of4_brdwalk_sw_00_1",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_Monster_FakeMoth_02",
+      "module_occurrence": 1,
+      "runtime_module_id": "1",
+      "element": "12",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "source_module_name": "obj_3of4_brdwalk_sw_00_1",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_LizTemplate_01",
+      "module_occurrence": 1,
+      "runtime_module_id": "1",
+      "element": "13",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "source_module_name": "obj_3of4_brdwalk_sw_00_1",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_LizTemplate_02",
+      "module_occurrence": 1,
+      "runtime_module_id": "1",
+      "element": "14",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "source_module_name": "obj_3of4_brdwalk_sw_00_1",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_LizTemplate_03",
+      "module_occurrence": 1,
+      "runtime_module_id": "1",
+      "element": "15",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "source_module_name": "obj_3of4_brdwalk_sw_00_1",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_MothTemplate_01",
+      "module_occurrence": 1,
+      "runtime_module_id": "1",
+      "element": "16",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "source_module_name": "obj_3of4_brdwalk_sw_00_1",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_MothTemplate_02",
+      "module_occurrence": 1,
+      "runtime_module_id": "1",
+      "element": "17",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "source_module_name": "obj_3of4_brdwalk_sw_00_1",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_Monster_54_chest2",
+      "module_occurrence": 2,
+      "runtime_module_id": "2",
+      "element": "1",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+      "source_module_name": "obj_1of4_brdwalk_nse_00_2",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_Monster_53_03_001",
+      "module_occurrence": 2,
+      "runtime_module_id": "2",
+      "element": "2",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+      "source_module_name": "obj_1of4_brdwalk_nse_00_2",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_Monster_54_chest1",
+      "module_occurrence": 2,
+      "runtime_module_id": "2",
+      "element": "4",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+      "source_module_name": "obj_1of4_brdwalk_nse_00_2",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_MothTemplate_05",
+      "module_occurrence": 2,
+      "runtime_module_id": "2",
+      "element": "8",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+      "source_module_name": "obj_1of4_brdwalk_nse_00_2",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_LizTemplate_05",
+      "module_occurrence": 2,
+      "runtime_module_id": "2",
+      "element": "9",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+      "source_module_name": "obj_1of4_brdwalk_nse_00_2",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_LizTemplate_06",
+      "module_occurrence": 2,
+      "runtime_module_id": "2",
+      "element": "10",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+      "source_module_name": "obj_1of4_brdwalk_nse_00_2",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_Monster_04_324",
+      "module_occurrence": 3,
+      "runtime_module_id": "3",
+      "element": "2",
+      "source_uri": "data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+      "source_module_name": "corner_ruin_ws_00_3",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_Monster_05_325",
+      "module_occurrence": 3,
+      "runtime_module_id": "3",
+      "element": "3",
+      "source_uri": "data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+      "source_module_name": "corner_ruin_ws_00_3",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_Monster_08_329",
+      "module_occurrence": 3,
+      "runtime_module_id": "3",
+      "element": "4",
+      "source_uri": "data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+      "source_module_name": "corner_ruin_ws_00_3",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_LizTemplate_07",
+      "module_occurrence": 3,
+      "runtime_module_id": "3",
+      "element": "8",
+      "source_uri": "data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+      "source_module_name": "corner_ruin_ws_00_3",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_LizTemplate_08",
+      "module_occurrence": 3,
+      "runtime_module_id": "3",
+      "element": "9",
+      "source_uri": "data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+      "source_module_name": "corner_ruin_ws_00_3",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_LizTemplate_09",
+      "module_occurrence": 3,
+      "runtime_module_id": "3",
+      "element": "10",
+      "source_uri": "data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+      "source_module_name": "corner_ruin_ws_00_3",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_NPC_04",
+      "module_occurrence": 4,
+      "runtime_module_id": "4",
+      "element": "1",
+      "source_uri": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "source_module_name": "merchantcamp_ruins_swe_00_4",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_NPC_05",
+      "module_occurrence": 4,
+      "runtime_module_id": "4",
+      "element": "2",
+      "source_uri": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "source_module_name": "merchantcamp_ruins_swe_00_4",
+      "authored_conditions": {
+        "deactivate_cond": "IsBefore_Swamp_KillWitch"
+      },
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_NPC_LizBlood",
+      "module_occurrence": 4,
+      "runtime_module_id": "4",
+      "element": "12",
+      "source_uri": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "source_module_name": "merchantcamp_ruins_swe_00_4",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_NPC_LizBloodPOST",
+      "module_occurrence": 4,
+      "runtime_module_id": "4",
+      "element": "16",
+      "source_uri": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "source_module_name": "merchantcamp_ruins_swe_00_4",
+      "authored_conditions": {
+        "activate_cond": "IsAfter_Swamp_LizBlood"
+      },
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_Monster_3_276",
+      "module_occurrence": 5,
+      "runtime_module_id": "5",
+      "element": "1",
+      "source_uri": "data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp",
+      "source_module_name": "corner_brdwalk_se_00_5",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_Monster_3",
+      "module_occurrence": 5,
+      "runtime_module_id": "5",
+      "element": "3",
+      "source_uri": "data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp",
+      "source_module_name": "corner_brdwalk_se_00_5",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_LizTemplate_10",
+      "module_occurrence": 5,
+      "runtime_module_id": "5",
+      "element": "5",
+      "source_uri": "data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp",
+      "source_module_name": "corner_brdwalk_se_00_5",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_LizTemplate_11",
+      "module_occurrence": 5,
+      "runtime_module_id": "5",
+      "element": "6",
+      "source_uri": "data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp",
+      "source_module_name": "corner_brdwalk_se_00_5",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_LizTemplate_13",
+      "module_occurrence": 5,
+      "runtime_module_id": "5",
+      "element": "7",
+      "source_uri": "data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp",
+      "source_module_name": "corner_brdwalk_se_00_5",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_LizTemplate_14",
+      "module_occurrence": 5,
+      "runtime_module_id": "5",
+      "element": "8",
+      "source_uri": "data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp",
+      "source_module_name": "corner_brdwalk_se_00_5",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_LizTemplate_21",
+      "module_occurrence": 6,
+      "runtime_module_id": "6",
+      "element": "8",
+      "source_uri": "data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+      "source_module_name": "deadend_brdwalk_w_00_7",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_LizTemplate_22",
+      "module_occurrence": 6,
+      "runtime_module_id": "6",
+      "element": "9",
+      "source_uri": "data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+      "source_module_name": "deadend_brdwalk_w_00_7",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_Monster_LizardFan01",
+      "module_occurrence": 7,
+      "runtime_module_id": "7",
+      "element": "10",
+      "source_uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "source_module_name": "bossroom_ruins_ns__8",
+      "authored_conditions": {
+        "activate_cond": "IsBefore_Swamp_Escape"
+      },
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_Monster_MisterSnack",
+      "module_occurrence": 7,
+      "runtime_module_id": "7",
+      "element": "11",
+      "source_uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "source_module_name": "bossroom_ruins_ns__8",
+      "authored_conditions": {
+        "activate_cond": "IsBefore_Swamp_Escape"
+      },
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_Monster_LizardFan03",
+      "module_occurrence": 7,
+      "runtime_module_id": "7",
+      "element": "12",
+      "source_uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "source_module_name": "bossroom_ruins_ns__8",
+      "authored_conditions": {
+        "activate_cond": "IsBefore_Swamp_Escape"
+      },
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_Boss_SwampKing_01",
+      "module_occurrence": 7,
+      "runtime_module_id": "7",
+      "element": "15",
+      "source_uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "source_module_name": "bossroom_ruins_ns__8",
+      "authored_conditions": {
+        "activate_cond": "IsBefore_Swamp_Escape"
+      },
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_NPC_Eddie",
+      "module_occurrence": 7,
+      "runtime_module_id": "7",
+      "element": "27",
+      "source_uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "source_module_name": "bossroom_ruins_ns__8",
+      "authored_conditions": {
+        "activate_cond": "EDWARD_FOLLOW"
+      },
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_NPC_Mothgiver",
+      "module_occurrence": 8,
+      "runtime_module_id": "8",
+      "element": "1",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp",
+      "source_module_name": "obj_2of4_brdwalk_sw_00_9",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_MothTemplate_06",
+      "module_occurrence": 8,
+      "runtime_module_id": "8",
+      "element": "2",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp",
+      "source_module_name": "obj_2of4_brdwalk_sw_00_9",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_MothTemplate_08",
+      "module_occurrence": 8,
+      "runtime_module_id": "8",
+      "element": "3",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp",
+      "source_module_name": "obj_2of4_brdwalk_sw_00_9",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    },
+    {
+      "name": "_prim_MothTemplate_10",
+      "module_occurrence": 8,
+      "runtime_module_id": "8",
+      "element": "4",
+      "source_uri": "data/3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp",
+      "source_module_name": "obj_2of4_brdwalk_sw_00_9",
+      "authored_conditions": {},
+      "authored_min_difficulty": null,
+      "authored_idle_sound": null,
+      "name_has_source_PlayerCharacter_prefix": false,
+      "runtime_property_borrow_authoritative": true,
+      "authored_inventory_is_not_activation": true
+    }
+  ],
+  "source_hashes": {
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\retained_character_actor_v1.hpp": "4ed1d1f2efecd76a4a60c753b7ca0a0a3bc09e88f13d5d55ac6a5d575ff8a719",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\retained_character_actor_v1.cpp": "c383a6f77b9f6527ea396ca2b9beb0831b479349d8a775df2a84452d1c94c586",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\game_object_initialization_owner_v1.hpp": "ff3becf37fad2a2bbb629dad1eec7806aa4515734e1233a93194701f8a6d6809",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\game_object_initialization_owner_v1.cpp": "2e93f9e784cead9e4be27f3f46a5d8957db4308052989fa5f971511a54ca1865",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\condition_data_init_v3.hpp": "02bded5b07434640a585a1fe39b158ee0a941b6e5b002bd62a06e9d5043bfdbe",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\condition_data_init_v3.cpp": "c6dd07c84e01052583a4ad8fcd4f27a6ddd8b7204548d31b0d01fdca0e028a29",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\canonical_property_declarations_v1.inc": "5525db00248e259892e569d240352ef154cbc9cc807f65022d6759d9211224a3",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\retained_character_family_visual_v6.hpp": "341c998433abf76f5a5716b373df3aa30ed3e0de4446c9d8c651743118bc1f00",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\retained_character_family_visual_v6.cpp": "42e22895456f3e165b6c5b2e4f4ea0d27e3f8d0b07cf762520250945b73f9d11",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_visual_asset_owner_v6.cpp": "692f8fa3ac1393d7d4ae5a6fbd3c9f114a01edc84c708ca71c9b86a40e5be8e3",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-parent-init-v48\\0x38be5c.asm": "72edaa8a47a174c939527b136e89bcd9069061efb27674bff43fb2babaf416fe",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-parent-init-v48\\0x33ec0c.asm": "5affd18e01346186f6accb7affa3384df4a59014c145e311d1331ab512376199",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\character-parent-init-v48\\0x33eb28.asm": "59a9a792eed90e7403f2ed40d31eb00c7167296bc4abf1aab55e7352dafd9ff2"
+  },
+  "NAME_correction": "Original type0 IsPlayer reads nameCString30 buffer44; prior archetype classification withdrawn; separate narrow V48 candidate pending native coherence.",
+  "whole_Character_InitPost_verified": false,
+  "rendered": false,
+  "playable": false,
+  "selected_graph_changed": false
+}

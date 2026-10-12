@@ -1,0 +1,3745 @@
+{
+  "validation": "PASS",
+  "scope": "Execute original ObjectManager::InitPost's resumable phase dispatcher.\n\nManager lists and int-keyed tree nodes are explicit fixtures. ObjectHandle,\nModule::LoadModule, per-object InitPost/IsUpdatable/conditions, RoomZone object\nlist initialization, allocation and list clear are service boundaries. The\nactual ARM dispatcher walks and mutates the supplied manager/list/tree state.\nNo constructors, factory, full object behavior, gameplay or persistence execute.\n",
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "script_sha256": "435b6c6ae66d85034e73dac22cf5641f8e22ed4b205fb444b250f6c68dbd1d85",
+  "cpu_helper_sha256": "04b7a600e9bfed2285ef273b9365780c5c86870b9350d796756673eeb1b41f4c",
+  "capture_sha256": {
+    "reference\\object-loading-lifecycle\\0034552c.asm": "9058131e83194cb2956a483f7370982196246b9d958ce5c0aa7f8fcf8bc53d4f",
+    "reference\\object-loading-lifecycle\\0034b520.asm": "e09c51833380aeba3ee7564e882d5ba5e135bcca45e2241cdfe367582f3034fe",
+    "reference\\object-loading-lifecycle\\0034b724.asm": "7b7cb3986444014d94b9bc7a45d015b0305faad0eb4e2552d6ff1a1fb5f5533e",
+    "reference\\object-loading-lifecycle\\003f01c8.asm": "34c204476ce9d9c4bc4551c13caae2e24cdb4ac1dfc2746fc363e3e4996377c8",
+    "reference\\object-loading-lifecycle\\symbols-and-strings.json": "02fba02b6d11372fb0c294f505d9cdf5bc05604dd9f6532649d3bc6e84b65587",
+    "reference\\object-manager-add\\0034a1e8.asm": "70afb569552d81fc9346b0136fdf3ff57fd3847338a87c285b0810729f9ccda3",
+    "reference\\object-manager-add\\0034b270.asm": "ae907ee40cd86ed5ce4a56cbc6bf154f8da643d82a1a6a3aca9d895b3c557277",
+    "reference\\object-manager-add\\symbols-and-strings.json": "4bce62f66ff73fba20a1793355b85635026bb2cbd23f30245338e2790df88c39"
+  },
+  "cases": [
+    {
+      "fixture": {
+        "name": "empty",
+        "objects": [],
+        "modules": []
+      },
+      "calls": [
+        {
+          "phase_before": 0,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 3
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 5,
+          "returned": true,
+          "event_count": 0
+        }
+      ],
+      "events": [
+        {
+          "call": 0,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x2c",
+          "objects": []
+        },
+        {
+          "call": 0,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x44",
+          "objects": []
+        },
+        {
+          "call": 0,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x34",
+          "objects": []
+        }
+      ],
+      "room_list": [],
+      "transient_lists": {
+        "0x2c": [],
+        "0x34": [],
+        "0x44": []
+      },
+      "module_list": [],
+      "allocation_count": 0
+    },
+    {
+      "fixture": {
+        "name": "single",
+        "objects": [
+          {
+            "label": "decor",
+            "type": "Decor"
+          }
+        ],
+        "modules": []
+      },
+      "calls": [
+        {
+          "phase_before": 0,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 3
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 5,
+          "returned": true,
+          "event_count": 0
+        }
+      ],
+      "events": [
+        {
+          "call": 0,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "decor"
+        },
+        {
+          "call": 0,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "decor",
+          "force": false
+        },
+        {
+          "call": 1,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x2c",
+          "objects": []
+        },
+        {
+          "call": 1,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x44",
+          "objects": []
+        },
+        {
+          "call": 1,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x34",
+          "objects": []
+        },
+        {
+          "call": 2,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "decor"
+        }
+      ],
+      "room_list": [],
+      "transient_lists": {
+        "0x2c": [],
+        "0x34": [],
+        "0x44": []
+      },
+      "module_list": [],
+      "allocation_count": 0
+    },
+    {
+      "fixture": {
+        "name": "updating",
+        "objects": [
+          {
+            "label": "npc",
+            "type": "Character",
+            "updating": true
+          }
+        ],
+        "modules": []
+      },
+      "calls": [
+        {
+          "phase_before": 0,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 3
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 5,
+          "returned": true,
+          "event_count": 0
+        }
+      ],
+      "events": [
+        {
+          "call": 0,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "npc"
+        },
+        {
+          "call": 0,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "npc",
+          "force": false
+        },
+        {
+          "call": 1,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x2c",
+          "objects": []
+        },
+        {
+          "call": 1,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x44",
+          "objects": []
+        },
+        {
+          "call": 1,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x34",
+          "objects": []
+        },
+        {
+          "call": 2,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "npc"
+        }
+      ],
+      "room_list": [],
+      "transient_lists": {
+        "0x2c": [
+          "npc"
+        ],
+        "0x34": [],
+        "0x44": []
+      },
+      "module_list": [],
+      "allocation_count": 1
+    },
+    {
+      "fixture": {
+        "name": "module_then_objects",
+        "objects": [
+          {
+            "label": "module",
+            "type": "Module"
+          },
+          {
+            "label": "npc",
+            "type": "Character",
+            "updating": true
+          },
+          {
+            "label": "chest",
+            "type": "OpenableContainer"
+          }
+        ],
+        "modules": [
+          "module"
+        ]
+      },
+      "calls": [
+        {
+          "phase_before": 0,
+          "phase_after": 1,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 1,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 3
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 5,
+          "returned": true,
+          "event_count": 0
+        }
+      ],
+      "events": [
+        {
+          "call": 0,
+          "phase": 1,
+          "kind": "load_module",
+          "object": "module"
+        },
+        {
+          "call": 1,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "module"
+        },
+        {
+          "call": 1,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "module",
+          "force": false
+        },
+        {
+          "call": 2,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "npc"
+        },
+        {
+          "call": 2,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "npc",
+          "force": false
+        },
+        {
+          "call": 3,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "chest"
+        },
+        {
+          "call": 3,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "chest",
+          "force": false
+        },
+        {
+          "call": 4,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x2c",
+          "objects": []
+        },
+        {
+          "call": 4,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x44",
+          "objects": []
+        },
+        {
+          "call": 4,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x34",
+          "objects": []
+        },
+        {
+          "call": 5,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "module"
+        },
+        {
+          "call": 6,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "npc"
+        },
+        {
+          "call": 7,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "chest"
+        }
+      ],
+      "room_list": [],
+      "transient_lists": {
+        "0x2c": [
+          "npc"
+        ],
+        "0x34": [],
+        "0x44": []
+      },
+      "module_list": [
+        "module"
+      ],
+      "allocation_count": 2
+    },
+    {
+      "fixture": {
+        "name": "dead_handle",
+        "objects": [
+          {
+            "label": "deleted",
+            "type": "Decor",
+            "deleted": true
+          },
+          {
+            "label": "live",
+            "type": "Decor"
+          }
+        ],
+        "modules": []
+      },
+      "calls": [
+        {
+          "phase_before": 0,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 0
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 3
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 5,
+          "returned": true,
+          "event_count": 0
+        }
+      ],
+      "events": [
+        {
+          "call": 1,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "live"
+        },
+        {
+          "call": 1,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "live",
+          "force": false
+        },
+        {
+          "call": 2,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x2c",
+          "objects": []
+        },
+        {
+          "call": 2,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x44",
+          "objects": []
+        },
+        {
+          "call": 2,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x34",
+          "objects": []
+        },
+        {
+          "call": 3,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "deleted"
+        },
+        {
+          "call": 4,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "live"
+        }
+      ],
+      "room_list": [],
+      "transient_lists": {
+        "0x2c": [],
+        "0x34": [],
+        "0x44": []
+      },
+      "module_list": [],
+      "allocation_count": 0
+    },
+    {
+      "fixture": {
+        "name": "room_flags",
+        "objects": [
+          {
+            "label": "room",
+            "type": "RoomZone",
+            "a8": 1
+          },
+          {
+            "label": "sound",
+            "type": "Sound",
+            "updating": true,
+            "cc": 1
+          },
+          {
+            "label": "suppressed_ac",
+            "type": "Decor",
+            "a8": 1,
+            "ac": 1
+          },
+          {
+            "label": "suppressed_d0",
+            "type": "Decor",
+            "cc": 1,
+            "d0": 1
+          },
+          {
+            "label": "updating_a8_cc",
+            "type": "Character",
+            "updating": true,
+            "a8": 1,
+            "cc": 1
+          }
+        ],
+        "modules": []
+      },
+      "calls": [
+        {
+          "phase_before": 0,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 3
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 5,
+          "returned": true,
+          "event_count": 0
+        }
+      ],
+      "events": [
+        {
+          "call": 0,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "room"
+        },
+        {
+          "call": 0,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "room",
+          "force": false
+        },
+        {
+          "call": 1,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "sound"
+        },
+        {
+          "call": 1,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "sound",
+          "force": false
+        },
+        {
+          "call": 2,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "suppressed_ac"
+        },
+        {
+          "call": 2,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "suppressed_ac",
+          "force": false
+        },
+        {
+          "call": 3,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "suppressed_d0"
+        },
+        {
+          "call": 3,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "suppressed_d0",
+          "force": false
+        },
+        {
+          "call": 4,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "updating_a8_cc"
+        },
+        {
+          "call": 4,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "updating_a8_cc",
+          "force": false
+        },
+        {
+          "call": 5,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x2c",
+          "objects": []
+        },
+        {
+          "call": 5,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x44",
+          "objects": []
+        },
+        {
+          "call": 5,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x34",
+          "objects": []
+        },
+        {
+          "call": 6,
+          "phase": 4,
+          "kind": "room_init_object_list",
+          "object": "room"
+        },
+        {
+          "call": 7,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "sound"
+        },
+        {
+          "call": 8,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "suppressed_ac"
+        },
+        {
+          "call": 9,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "suppressed_d0"
+        },
+        {
+          "call": 10,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "updating_a8_cc"
+        }
+      ],
+      "room_list": [
+        "room"
+      ],
+      "transient_lists": {
+        "0x2c": [
+          "sound",
+          "updating_a8_cc"
+        ],
+        "0x34": [],
+        "0x44": [
+          "room",
+          "sound",
+          "updating_a8_cc"
+        ]
+      },
+      "module_list": [],
+      "allocation_count": 6
+    },
+    {
+      "fixture": {
+        "name": "module_append",
+        "objects": [
+          {
+            "label": "first",
+            "type": "Module",
+            "append": "second"
+          },
+          {
+            "label": "second",
+            "type": "Module"
+          },
+          {
+            "label": "decor",
+            "type": "Decor"
+          }
+        ],
+        "modules": [
+          "first"
+        ]
+      },
+      "calls": [
+        {
+          "phase_before": 0,
+          "phase_after": 1,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 1,
+          "phase_after": 1,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 1,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 3
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 5,
+          "returned": true,
+          "event_count": 0
+        }
+      ],
+      "events": [
+        {
+          "call": 0,
+          "phase": 1,
+          "kind": "load_module",
+          "object": "first"
+        },
+        {
+          "call": 0,
+          "phase": 1,
+          "kind": "append_module",
+          "object": "second"
+        },
+        {
+          "call": 1,
+          "phase": 1,
+          "kind": "load_module",
+          "object": "second"
+        },
+        {
+          "call": 2,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "first"
+        },
+        {
+          "call": 2,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "first",
+          "force": false
+        },
+        {
+          "call": 3,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "second"
+        },
+        {
+          "call": 3,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "second",
+          "force": false
+        },
+        {
+          "call": 4,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "decor"
+        },
+        {
+          "call": 4,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "decor",
+          "force": false
+        },
+        {
+          "call": 5,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x2c",
+          "objects": []
+        },
+        {
+          "call": 5,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x44",
+          "objects": []
+        },
+        {
+          "call": 5,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x34",
+          "objects": []
+        },
+        {
+          "call": 6,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "first"
+        },
+        {
+          "call": 7,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "second"
+        },
+        {
+          "call": 8,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "decor"
+        }
+      ],
+      "room_list": [],
+      "transient_lists": {
+        "0x2c": [],
+        "0x34": [],
+        "0x44": []
+      },
+      "module_list": [
+        "first",
+        "second"
+      ],
+      "allocation_count": 2
+    },
+    {
+      "fixture": {
+        "name": "five_modules",
+        "objects": [
+          {
+            "label": "m0",
+            "type": "Module"
+          },
+          {
+            "label": "m1",
+            "type": "Module"
+          },
+          {
+            "label": "m2",
+            "type": "Module"
+          },
+          {
+            "label": "m3",
+            "type": "Module"
+          },
+          {
+            "label": "m4",
+            "type": "Module"
+          }
+        ],
+        "modules": [
+          "m0",
+          "m1",
+          "m2",
+          "m3",
+          "m4"
+        ]
+      },
+      "calls": [
+        {
+          "phase_before": 0,
+          "phase_after": 1,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 1,
+          "phase_after": 1,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 1,
+          "phase_after": 1,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 1,
+          "phase_after": 1,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 1,
+          "phase_after": 1,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 1,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 3
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 5,
+          "returned": true,
+          "event_count": 0
+        }
+      ],
+      "events": [
+        {
+          "call": 0,
+          "phase": 1,
+          "kind": "load_module",
+          "object": "m0"
+        },
+        {
+          "call": 1,
+          "phase": 1,
+          "kind": "load_module",
+          "object": "m1"
+        },
+        {
+          "call": 2,
+          "phase": 1,
+          "kind": "load_module",
+          "object": "m2"
+        },
+        {
+          "call": 3,
+          "phase": 1,
+          "kind": "load_module",
+          "object": "m3"
+        },
+        {
+          "call": 4,
+          "phase": 1,
+          "kind": "load_module",
+          "object": "m4"
+        },
+        {
+          "call": 5,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "m0"
+        },
+        {
+          "call": 5,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "m0",
+          "force": false
+        },
+        {
+          "call": 6,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "m1"
+        },
+        {
+          "call": 6,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "m1",
+          "force": false
+        },
+        {
+          "call": 7,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "m2"
+        },
+        {
+          "call": 7,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "m2",
+          "force": false
+        },
+        {
+          "call": 8,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "m3"
+        },
+        {
+          "call": 8,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "m3",
+          "force": false
+        },
+        {
+          "call": 9,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "m4"
+        },
+        {
+          "call": 9,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "m4",
+          "force": false
+        },
+        {
+          "call": 10,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x2c",
+          "objects": []
+        },
+        {
+          "call": 10,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x44",
+          "objects": []
+        },
+        {
+          "call": 10,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x34",
+          "objects": []
+        },
+        {
+          "call": 11,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "m0"
+        },
+        {
+          "call": 12,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "m1"
+        },
+        {
+          "call": 13,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "m2"
+        },
+        {
+          "call": 14,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "m3"
+        },
+        {
+          "call": 15,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "m4"
+        }
+      ],
+      "room_list": [],
+      "transient_lists": {
+        "0x2c": [],
+        "0x34": [],
+        "0x44": []
+      },
+      "module_list": [
+        "m0",
+        "m1",
+        "m2",
+        "m3",
+        "m4"
+      ],
+      "allocation_count": 5
+    },
+    {
+      "fixture": {
+        "name": "room_casefold",
+        "objects": [
+          {
+            "label": "room",
+            "type": "rOoMzOnE",
+            "a8": 1
+          }
+        ],
+        "modules": []
+      },
+      "calls": [
+        {
+          "phase_before": 0,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 3
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 5,
+          "returned": true,
+          "event_count": 0
+        }
+      ],
+      "events": [
+        {
+          "call": 0,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "room"
+        },
+        {
+          "call": 0,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "room",
+          "force": false
+        },
+        {
+          "call": 1,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x2c",
+          "objects": []
+        },
+        {
+          "call": 1,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x44",
+          "objects": []
+        },
+        {
+          "call": 1,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x34",
+          "objects": []
+        },
+        {
+          "call": 2,
+          "phase": 4,
+          "kind": "room_init_object_list",
+          "object": "room"
+        }
+      ],
+      "room_list": [
+        "room"
+      ],
+      "transient_lists": {
+        "0x2c": [],
+        "0x34": [],
+        "0x44": [
+          "room"
+        ]
+      },
+      "module_list": [],
+      "allocation_count": 2
+    },
+    {
+      "fixture": {
+        "name": "balanced_tree",
+        "tree": "balanced",
+        "objects": [
+          {
+            "label": "actor0",
+            "type": "Decor",
+            "updating": false
+          },
+          {
+            "label": "actor1",
+            "type": "Decor",
+            "updating": true
+          },
+          {
+            "label": "actor2",
+            "type": "Decor",
+            "updating": false
+          },
+          {
+            "label": "actor3",
+            "type": "Decor",
+            "updating": true
+          },
+          {
+            "label": "actor4",
+            "type": "Decor",
+            "updating": false
+          },
+          {
+            "label": "actor5",
+            "type": "Decor",
+            "updating": true
+          },
+          {
+            "label": "actor6",
+            "type": "Decor",
+            "updating": false
+          }
+        ],
+        "modules": []
+      },
+      "calls": [
+        {
+          "phase_before": 0,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 3
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 5,
+          "returned": true,
+          "event_count": 0
+        }
+      ],
+      "events": [
+        {
+          "call": 0,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "actor0"
+        },
+        {
+          "call": 0,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "actor0",
+          "force": false
+        },
+        {
+          "call": 1,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "actor1"
+        },
+        {
+          "call": 1,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "actor1",
+          "force": false
+        },
+        {
+          "call": 2,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "actor2"
+        },
+        {
+          "call": 2,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "actor2",
+          "force": false
+        },
+        {
+          "call": 3,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "actor3"
+        },
+        {
+          "call": 3,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "actor3",
+          "force": false
+        },
+        {
+          "call": 4,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "actor4"
+        },
+        {
+          "call": 4,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "actor4",
+          "force": false
+        },
+        {
+          "call": 5,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "actor5"
+        },
+        {
+          "call": 5,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "actor5",
+          "force": false
+        },
+        {
+          "call": 6,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "actor6"
+        },
+        {
+          "call": 6,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "actor6",
+          "force": false
+        },
+        {
+          "call": 7,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x2c",
+          "objects": []
+        },
+        {
+          "call": 7,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x44",
+          "objects": []
+        },
+        {
+          "call": 7,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x34",
+          "objects": []
+        },
+        {
+          "call": 8,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "actor0"
+        },
+        {
+          "call": 9,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "actor1"
+        },
+        {
+          "call": 10,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "actor2"
+        },
+        {
+          "call": 11,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "actor3"
+        },
+        {
+          "call": 12,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "actor4"
+        },
+        {
+          "call": 13,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "actor5"
+        },
+        {
+          "call": 14,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "actor6"
+        }
+      ],
+      "room_list": [],
+      "transient_lists": {
+        "0x2c": [
+          "actor1",
+          "actor3",
+          "actor5"
+        ],
+        "0x34": [],
+        "0x44": []
+      },
+      "module_list": [],
+      "allocation_count": 3
+    },
+    {
+      "fixture": {
+        "name": "all_flags",
+        "objects": [
+          {
+            "label": "flags0",
+            "type": "Decor",
+            "updating": false,
+            "a8": false,
+            "ac": false,
+            "cc": false,
+            "d0": false
+          },
+          {
+            "label": "flags1",
+            "type": "Decor",
+            "updating": true,
+            "a8": false,
+            "ac": false,
+            "cc": false,
+            "d0": false
+          },
+          {
+            "label": "flags2",
+            "type": "Decor",
+            "updating": false,
+            "a8": true,
+            "ac": false,
+            "cc": false,
+            "d0": false
+          },
+          {
+            "label": "flags3",
+            "type": "Decor",
+            "updating": true,
+            "a8": true,
+            "ac": false,
+            "cc": false,
+            "d0": false
+          },
+          {
+            "label": "flags4",
+            "type": "Decor",
+            "updating": false,
+            "a8": false,
+            "ac": true,
+            "cc": false,
+            "d0": false
+          },
+          {
+            "label": "flags5",
+            "type": "Decor",
+            "updating": true,
+            "a8": false,
+            "ac": true,
+            "cc": false,
+            "d0": false
+          },
+          {
+            "label": "flags6",
+            "type": "Decor",
+            "updating": false,
+            "a8": true,
+            "ac": true,
+            "cc": false,
+            "d0": false
+          },
+          {
+            "label": "flags7",
+            "type": "Decor",
+            "updating": true,
+            "a8": true,
+            "ac": true,
+            "cc": false,
+            "d0": false
+          },
+          {
+            "label": "flags8",
+            "type": "Decor",
+            "updating": false,
+            "a8": false,
+            "ac": false,
+            "cc": true,
+            "d0": false
+          },
+          {
+            "label": "flags9",
+            "type": "Decor",
+            "updating": true,
+            "a8": false,
+            "ac": false,
+            "cc": true,
+            "d0": false
+          },
+          {
+            "label": "flags10",
+            "type": "Decor",
+            "updating": false,
+            "a8": true,
+            "ac": false,
+            "cc": true,
+            "d0": false
+          },
+          {
+            "label": "flags11",
+            "type": "Decor",
+            "updating": true,
+            "a8": true,
+            "ac": false,
+            "cc": true,
+            "d0": false
+          },
+          {
+            "label": "flags12",
+            "type": "Decor",
+            "updating": false,
+            "a8": false,
+            "ac": true,
+            "cc": true,
+            "d0": false
+          },
+          {
+            "label": "flags13",
+            "type": "Decor",
+            "updating": true,
+            "a8": false,
+            "ac": true,
+            "cc": true,
+            "d0": false
+          },
+          {
+            "label": "flags14",
+            "type": "Decor",
+            "updating": false,
+            "a8": true,
+            "ac": true,
+            "cc": true,
+            "d0": false
+          },
+          {
+            "label": "flags15",
+            "type": "Decor",
+            "updating": true,
+            "a8": true,
+            "ac": true,
+            "cc": true,
+            "d0": false
+          },
+          {
+            "label": "flags16",
+            "type": "Decor",
+            "updating": false,
+            "a8": false,
+            "ac": false,
+            "cc": false,
+            "d0": true
+          },
+          {
+            "label": "flags17",
+            "type": "Decor",
+            "updating": true,
+            "a8": false,
+            "ac": false,
+            "cc": false,
+            "d0": true
+          },
+          {
+            "label": "flags18",
+            "type": "Decor",
+            "updating": false,
+            "a8": true,
+            "ac": false,
+            "cc": false,
+            "d0": true
+          },
+          {
+            "label": "flags19",
+            "type": "Decor",
+            "updating": true,
+            "a8": true,
+            "ac": false,
+            "cc": false,
+            "d0": true
+          },
+          {
+            "label": "flags20",
+            "type": "Decor",
+            "updating": false,
+            "a8": false,
+            "ac": true,
+            "cc": false,
+            "d0": true
+          },
+          {
+            "label": "flags21",
+            "type": "Decor",
+            "updating": true,
+            "a8": false,
+            "ac": true,
+            "cc": false,
+            "d0": true
+          },
+          {
+            "label": "flags22",
+            "type": "Decor",
+            "updating": false,
+            "a8": true,
+            "ac": true,
+            "cc": false,
+            "d0": true
+          },
+          {
+            "label": "flags23",
+            "type": "Decor",
+            "updating": true,
+            "a8": true,
+            "ac": true,
+            "cc": false,
+            "d0": true
+          },
+          {
+            "label": "flags24",
+            "type": "Decor",
+            "updating": false,
+            "a8": false,
+            "ac": false,
+            "cc": true,
+            "d0": true
+          },
+          {
+            "label": "flags25",
+            "type": "Decor",
+            "updating": true,
+            "a8": false,
+            "ac": false,
+            "cc": true,
+            "d0": true
+          },
+          {
+            "label": "flags26",
+            "type": "Decor",
+            "updating": false,
+            "a8": true,
+            "ac": false,
+            "cc": true,
+            "d0": true
+          },
+          {
+            "label": "flags27",
+            "type": "Decor",
+            "updating": true,
+            "a8": true,
+            "ac": false,
+            "cc": true,
+            "d0": true
+          },
+          {
+            "label": "flags28",
+            "type": "Decor",
+            "updating": false,
+            "a8": false,
+            "ac": true,
+            "cc": true,
+            "d0": true
+          },
+          {
+            "label": "flags29",
+            "type": "Decor",
+            "updating": true,
+            "a8": false,
+            "ac": true,
+            "cc": true,
+            "d0": true
+          },
+          {
+            "label": "flags30",
+            "type": "Decor",
+            "updating": false,
+            "a8": true,
+            "ac": true,
+            "cc": true,
+            "d0": true
+          },
+          {
+            "label": "flags31",
+            "type": "Decor",
+            "updating": true,
+            "a8": true,
+            "ac": true,
+            "cc": true,
+            "d0": true
+          }
+        ],
+        "modules": []
+      },
+      "calls": [
+        {
+          "phase_before": 0,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 3
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 5,
+          "returned": true,
+          "event_count": 0
+        }
+      ],
+      "events": [
+        {
+          "call": 0,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "flags0"
+        },
+        {
+          "call": 0,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "flags0",
+          "force": false
+        },
+        {
+          "call": 1,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "flags1"
+        },
+        {
+          "call": 1,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "flags1",
+          "force": false
+        },
+        {
+          "call": 2,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "flags2"
+        },
+        {
+          "call": 2,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "flags2",
+          "force": false
+        },
+        {
+          "call": 3,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "flags3"
+        },
+        {
+          "call": 3,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "flags3",
+          "force": false
+        },
+        {
+          "call": 4,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "flags4"
+        },
+        {
+          "call": 4,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "flags4",
+          "force": false
+        },
+        {
+          "call": 5,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "flags5"
+        },
+        {
+          "call": 5,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "flags5",
+          "force": false
+        },
+        {
+          "call": 6,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "flags6"
+        },
+        {
+          "call": 6,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "flags6",
+          "force": false
+        },
+        {
+          "call": 7,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "flags7"
+        },
+        {
+          "call": 7,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "flags7",
+          "force": false
+        },
+        {
+          "call": 8,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "flags8"
+        },
+        {
+          "call": 8,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "flags8",
+          "force": false
+        },
+        {
+          "call": 9,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "flags9"
+        },
+        {
+          "call": 9,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "flags9",
+          "force": false
+        },
+        {
+          "call": 10,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "flags10"
+        },
+        {
+          "call": 10,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "flags10",
+          "force": false
+        },
+        {
+          "call": 11,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "flags11"
+        },
+        {
+          "call": 11,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "flags11",
+          "force": false
+        },
+        {
+          "call": 12,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "flags12"
+        },
+        {
+          "call": 12,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "flags12",
+          "force": false
+        },
+        {
+          "call": 13,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "flags13"
+        },
+        {
+          "call": 13,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "flags13",
+          "force": false
+        },
+        {
+          "call": 14,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "flags14"
+        },
+        {
+          "call": 14,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "flags14",
+          "force": false
+        },
+        {
+          "call": 15,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "flags15"
+        },
+        {
+          "call": 15,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "flags15",
+          "force": false
+        },
+        {
+          "call": 16,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "flags16"
+        },
+        {
+          "call": 16,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "flags16",
+          "force": false
+        },
+        {
+          "call": 17,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "flags17"
+        },
+        {
+          "call": 17,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "flags17",
+          "force": false
+        },
+        {
+          "call": 18,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "flags18"
+        },
+        {
+          "call": 18,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "flags18",
+          "force": false
+        },
+        {
+          "call": 19,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "flags19"
+        },
+        {
+          "call": 19,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "flags19",
+          "force": false
+        },
+        {
+          "call": 20,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "flags20"
+        },
+        {
+          "call": 20,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "flags20",
+          "force": false
+        },
+        {
+          "call": 21,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "flags21"
+        },
+        {
+          "call": 21,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "flags21",
+          "force": false
+        },
+        {
+          "call": 22,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "flags22"
+        },
+        {
+          "call": 22,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "flags22",
+          "force": false
+        },
+        {
+          "call": 23,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "flags23"
+        },
+        {
+          "call": 23,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "flags23",
+          "force": false
+        },
+        {
+          "call": 24,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "flags24"
+        },
+        {
+          "call": 24,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "flags24",
+          "force": false
+        },
+        {
+          "call": 25,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "flags25"
+        },
+        {
+          "call": 25,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "flags25",
+          "force": false
+        },
+        {
+          "call": 26,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "flags26"
+        },
+        {
+          "call": 26,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "flags26",
+          "force": false
+        },
+        {
+          "call": 27,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "flags27"
+        },
+        {
+          "call": 27,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "flags27",
+          "force": false
+        },
+        {
+          "call": 28,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "flags28"
+        },
+        {
+          "call": 28,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "flags28",
+          "force": false
+        },
+        {
+          "call": 29,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "flags29"
+        },
+        {
+          "call": 29,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "flags29",
+          "force": false
+        },
+        {
+          "call": 30,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "flags30"
+        },
+        {
+          "call": 30,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "flags30",
+          "force": false
+        },
+        {
+          "call": 31,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "flags31"
+        },
+        {
+          "call": 31,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "flags31",
+          "force": false
+        },
+        {
+          "call": 32,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x2c",
+          "objects": []
+        },
+        {
+          "call": 32,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x44",
+          "objects": []
+        },
+        {
+          "call": 32,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x34",
+          "objects": []
+        },
+        {
+          "call": 33,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "flags0"
+        },
+        {
+          "call": 34,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "flags1"
+        },
+        {
+          "call": 35,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "flags2"
+        },
+        {
+          "call": 36,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "flags3"
+        },
+        {
+          "call": 37,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "flags4"
+        },
+        {
+          "call": 38,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "flags5"
+        },
+        {
+          "call": 39,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "flags6"
+        },
+        {
+          "call": 40,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "flags7"
+        },
+        {
+          "call": 41,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "flags8"
+        },
+        {
+          "call": 42,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "flags9"
+        },
+        {
+          "call": 43,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "flags10"
+        },
+        {
+          "call": 44,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "flags11"
+        },
+        {
+          "call": 45,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "flags12"
+        },
+        {
+          "call": 46,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "flags13"
+        },
+        {
+          "call": 47,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "flags14"
+        },
+        {
+          "call": 48,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "flags15"
+        },
+        {
+          "call": 49,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "flags16"
+        },
+        {
+          "call": 50,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "flags17"
+        },
+        {
+          "call": 51,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "flags18"
+        },
+        {
+          "call": 52,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "flags19"
+        },
+        {
+          "call": 53,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "flags20"
+        },
+        {
+          "call": 54,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "flags21"
+        },
+        {
+          "call": 55,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "flags22"
+        },
+        {
+          "call": 56,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "flags23"
+        },
+        {
+          "call": 57,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "flags24"
+        },
+        {
+          "call": 58,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "flags25"
+        },
+        {
+          "call": 59,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "flags26"
+        },
+        {
+          "call": 60,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "flags27"
+        },
+        {
+          "call": 61,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "flags28"
+        },
+        {
+          "call": 62,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "flags29"
+        },
+        {
+          "call": 63,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "flags30"
+        },
+        {
+          "call": 64,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "flags31"
+        }
+      ],
+      "room_list": [],
+      "transient_lists": {
+        "0x2c": [
+          "flags1",
+          "flags3",
+          "flags5",
+          "flags7",
+          "flags9",
+          "flags11",
+          "flags13",
+          "flags15",
+          "flags17",
+          "flags19",
+          "flags21",
+          "flags23",
+          "flags25",
+          "flags27",
+          "flags29",
+          "flags31"
+        ],
+        "0x34": [],
+        "0x44": [
+          "flags2",
+          "flags3",
+          "flags8",
+          "flags9",
+          "flags10",
+          "flags11",
+          "flags12",
+          "flags13",
+          "flags14",
+          "flags15",
+          "flags18",
+          "flags19",
+          "flags26",
+          "flags27"
+        ]
+      },
+      "module_list": [],
+      "allocation_count": 30
+    },
+    {
+      "fixture": {
+        "name": "clear_preexisting_lists",
+        "preseed": true,
+        "objects": [
+          {
+            "label": "actor",
+            "type": "Decor",
+            "updating": true,
+            "a8": 1
+          }
+        ],
+        "modules": []
+      },
+      "calls": [
+        {
+          "phase_before": 0,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 3
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 5,
+          "returned": true,
+          "event_count": 0
+        }
+      ],
+      "events": [
+        {
+          "call": 0,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "actor"
+        },
+        {
+          "call": 0,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "actor",
+          "force": false
+        },
+        {
+          "call": 1,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x2c",
+          "objects": [
+            "actor"
+          ]
+        },
+        {
+          "call": 1,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x44",
+          "objects": [
+            "actor"
+          ]
+        },
+        {
+          "call": 1,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x34",
+          "objects": [
+            "actor"
+          ]
+        },
+        {
+          "call": 2,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "actor"
+        }
+      ],
+      "room_list": [],
+      "transient_lists": {
+        "0x2c": [
+          "actor"
+        ],
+        "0x34": [],
+        "0x44": [
+          "actor"
+        ]
+      },
+      "module_list": [],
+      "allocation_count": 5
+    },
+    {
+      "fixture": {
+        "name": "registry_order",
+        "tree": "balanced",
+        "objects": [
+          {
+            "label": "last",
+            "type": "Decor",
+            "key": 200
+          },
+          {
+            "label": "first",
+            "type": "Decor",
+            "key": -42
+          },
+          {
+            "label": "middle",
+            "type": "Decor",
+            "key": 7
+          }
+        ],
+        "modules": []
+      },
+      "calls": [
+        {
+          "phase_before": 0,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 3
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 5,
+          "returned": true,
+          "event_count": 0
+        }
+      ],
+      "events": [
+        {
+          "call": 0,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "first"
+        },
+        {
+          "call": 0,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "first",
+          "force": false
+        },
+        {
+          "call": 1,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "middle"
+        },
+        {
+          "call": 1,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "middle",
+          "force": false
+        },
+        {
+          "call": 2,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "last"
+        },
+        {
+          "call": 2,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "last",
+          "force": false
+        },
+        {
+          "call": 3,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x2c",
+          "objects": []
+        },
+        {
+          "call": 3,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x44",
+          "objects": []
+        },
+        {
+          "call": 3,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x34",
+          "objects": []
+        },
+        {
+          "call": 4,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "first"
+        },
+        {
+          "call": 5,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "middle"
+        },
+        {
+          "call": 6,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "last"
+        }
+      ],
+      "room_list": [],
+      "transient_lists": {
+        "0x2c": [],
+        "0x34": [],
+        "0x44": []
+      },
+      "module_list": [],
+      "allocation_count": 0
+    },
+    {
+      "fixture": {
+        "name": "init_changes_membership",
+        "objects": [
+          {
+            "label": "actor",
+            "type": "Decor",
+            "init_a8": 1
+          }
+        ],
+        "modules": []
+      },
+      "calls": [
+        {
+          "phase_before": 0,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 3
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 5,
+          "returned": true,
+          "event_count": 0
+        }
+      ],
+      "events": [
+        {
+          "call": 0,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "actor"
+        },
+        {
+          "call": 0,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "actor",
+          "force": false
+        },
+        {
+          "call": 1,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x2c",
+          "objects": []
+        },
+        {
+          "call": 1,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x44",
+          "objects": []
+        },
+        {
+          "call": 1,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x34",
+          "objects": []
+        },
+        {
+          "call": 2,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "actor"
+        }
+      ],
+      "room_list": [],
+      "transient_lists": {
+        "0x2c": [],
+        "0x34": [],
+        "0x44": [
+          "actor"
+        ]
+      },
+      "module_list": [],
+      "allocation_count": 1
+    },
+    {
+      "fixture": {
+        "name": "room_changes_membership",
+        "objects": [
+          {
+            "label": "room",
+            "type": "RoomZone",
+            "room_cc": 1
+          }
+        ],
+        "modules": []
+      },
+      "calls": [
+        {
+          "phase_before": 0,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 3
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 5,
+          "returned": true,
+          "event_count": 0
+        }
+      ],
+      "events": [
+        {
+          "call": 0,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "room"
+        },
+        {
+          "call": 0,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "room",
+          "force": false
+        },
+        {
+          "call": 1,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x2c",
+          "objects": []
+        },
+        {
+          "call": 1,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x44",
+          "objects": []
+        },
+        {
+          "call": 1,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x34",
+          "objects": []
+        },
+        {
+          "call": 2,
+          "phase": 4,
+          "kind": "room_init_object_list",
+          "object": "room"
+        }
+      ],
+      "room_list": [
+        "room"
+      ],
+      "transient_lists": {
+        "0x2c": [],
+        "0x34": [],
+        "0x44": [
+          "room"
+        ]
+      },
+      "module_list": [],
+      "allocation_count": 2
+    },
+    {
+      "fixture": {
+        "name": "module_inserts_registry",
+        "objects": [
+          {
+            "label": "module1",
+            "type": "Module",
+            "key": 10,
+            "insert": "before"
+          },
+          {
+            "label": "module2",
+            "type": "Module",
+            "key": 15,
+            "insert": "after"
+          },
+          {
+            "label": "before",
+            "type": "Character",
+            "key": -5,
+            "deferred": true,
+            "updating": true
+          },
+          {
+            "label": "after",
+            "type": "OpenableContainer",
+            "key": 20,
+            "deferred": true
+          }
+        ],
+        "modules": [
+          "module1",
+          "module2"
+        ]
+      },
+      "calls": [
+        {
+          "phase_before": 0,
+          "phase_after": 1,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 1,
+          "phase_after": 1,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 1,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 3,
+          "returned": false,
+          "event_count": 2
+        },
+        {
+          "phase_before": 3,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 3
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 4,
+          "returned": false,
+          "event_count": 1
+        },
+        {
+          "phase_before": 4,
+          "phase_after": 5,
+          "returned": true,
+          "event_count": 0
+        }
+      ],
+      "events": [
+        {
+          "call": 0,
+          "phase": 1,
+          "kind": "load_module",
+          "object": "module1"
+        },
+        {
+          "call": 0,
+          "phase": 1,
+          "kind": "insert_object",
+          "object": "before"
+        },
+        {
+          "call": 1,
+          "phase": 1,
+          "kind": "load_module",
+          "object": "module2"
+        },
+        {
+          "call": 1,
+          "phase": 1,
+          "kind": "insert_object",
+          "object": "after"
+        },
+        {
+          "call": 2,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "before"
+        },
+        {
+          "call": 2,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "before",
+          "force": false
+        },
+        {
+          "call": 3,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "module1"
+        },
+        {
+          "call": 3,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "module1",
+          "force": false
+        },
+        {
+          "call": 4,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "module2"
+        },
+        {
+          "call": 4,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "module2",
+          "force": false
+        },
+        {
+          "call": 5,
+          "phase": 3,
+          "kind": "init_post",
+          "object": "after"
+        },
+        {
+          "call": 5,
+          "phase": 3,
+          "kind": "test_enable_condition",
+          "object": "after",
+          "force": false
+        },
+        {
+          "call": 6,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x2c",
+          "objects": []
+        },
+        {
+          "call": 6,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x44",
+          "objects": []
+        },
+        {
+          "call": 6,
+          "phase": 4,
+          "kind": "clear_list",
+          "list_offset": "0x34",
+          "objects": []
+        },
+        {
+          "call": 7,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "before"
+        },
+        {
+          "call": 8,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "module1"
+        },
+        {
+          "call": 9,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "module2"
+        },
+        {
+          "call": 10,
+          "phase": 4,
+          "kind": "is_updatable",
+          "object": "after"
+        }
+      ],
+      "room_list": [],
+      "transient_lists": {
+        "0x2c": [
+          "before"
+        ],
+        "0x34": [],
+        "0x44": []
+      },
+      "module_list": [
+        "module1",
+        "module2"
+      ],
+      "allocation_count": 3
+    }
+  ],
+  "original_import_calls": {
+    "strcasecmp": 70
+  },
+  "runtime_factory_verified": false,
+  "full_loader_verified": false
+}

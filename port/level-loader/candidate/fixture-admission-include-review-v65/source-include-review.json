@@ -1,0 +1,241 @@
+{
+  "schema": "dh2-fixture-admission-include-review-v65",
+  "status": "SOURCE_REVIEW_COMPLETE_NATIVE_VALIDATION_PENDING",
+  "recorded_utc": "2026-10-06T19:05:19.8480681Z",
+  "scope": "Only13adoptedV64target successors and transitive local includes against current selected773; parentV63excluded",
+  "method": "Lexical localinclude trace including conditional includes, selected include candidate directories and targeted CMake source ordering reads; not preprocessor/compiler evidence",
+  "roots": [
+    {
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\canonical_loading_context_source_probe_v37_admission_v64.cpp",
+      "sha256": "d2b0909e57535d5abd8b319a6cf9c441cdde19749583c2a4c8d0014787211435",
+      "targets": [
+        "dh2_loader_integrated_loading_v37_probe"
+      ]
+    },
+    {
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\canonical_loading_context_source_probe_v47_admission_v64.cpp",
+      "sha256": "24ea18b0bca4acc7e03a0ab43ae98b4cefd55ef044ac948c8b58b7791090670a",
+      "targets": [
+        "dh2_loader_integrated_loading_v47_probe"
+      ]
+    },
+    {
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\canonical_module_graph_source_probe_admission_v64.cpp",
+      "sha256": "76a638b87d2d815aa98bbb6c9762de39ea9542b3f20c06bbbf07dfea6d4a23ba",
+      "targets": [
+        "dh2_loader_module_graph_source_probe"
+      ]
+    },
+    {
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\character_swamp_model_v40_probe_admission_v64.cpp",
+      "sha256": "9a962068c867160f8225a139fd367ecd1615224096d7c34125151bde9493efc4",
+      "targets": [
+        "dh2_loader_character_swamp_model_v40_probe"
+      ]
+    },
+    {
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\dynamic_module_source_v44_admission_v64.cpp",
+      "sha256": "0fe8d9b6b3ffb7581769e75fa8ed062729ea9e241395e1ce427a66d538551a6d",
+      "targets": [
+        "dh2_loader_dynamic_module_v44"
+      ]
+    },
+    {
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\generic_actor_image_binding_v45_probe_admission_v64.cpp",
+      "sha256": "65bb2e5039b369eb6229c5fdf9aa3209b9af87aab2c1909e95cd768f69b0f239",
+      "targets": [
+        "dh2_loader_actor_image_v45_probe"
+      ]
+    },
+    {
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\generic_actor_image_lifetime_v48_probe_admission_v64.cpp",
+      "sha256": "45846b1cef78198540c3ea1e030a9264e47d90e716676e18dcc4d5c3c7d8f3b3",
+      "targets": [
+        "dh2_loader_actor_image_lifetime_v48_probe"
+      ]
+    },
+    {
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\source_stage_swamp_v40_admission_v64.cpp",
+      "sha256": "f6da8ff8e32084f887be5f9999ef5f4f3229f32f24ce59f59538fd40cc8349b0",
+      "targets": [
+        "dh2_loader_source_stage_swamp_v40"
+      ]
+    },
+    {
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\source_stage_swamp_v47_admission_v64.cpp",
+      "sha256": "3fd18b254efcb22df78e720cf738fc974ac1b0a84f632f4311d30880a89dd473",
+      "targets": [
+        "dh2_loader_source_stage_swamp_v47"
+      ]
+    },
+    {
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\source_visual_helper_v41_probe_admission_v64.cpp",
+      "sha256": "1239c1b0863a2b3643b601e3bb5b98bec03b69faf2a1174278b6d3a5299288f7",
+      "targets": [
+        "dh2_loader_source_visual_helper_v41_probe"
+      ]
+    },
+    {
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\canonical_level_constructor_v3_admission_v64.cpp",
+      "sha256": "42936de49b617a46f3c3cfbdbea6368afe8472579a68c9f7d7f0cd05b9104d3d",
+      "targets": [
+        "dh2_loader_same_level_ctor_probe"
+      ]
+    },
+    {
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\level_constructor_bindings_v4_admission_v64.cpp",
+      "sha256": "03097d8cae78c849a5144731e0ee19a3e94f36b6ca1426689a8242bb9774cd13",
+      "targets": [
+        "dh2_loader_native_ctor_bindings_probe"
+      ]
+    },
+    {
+      "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\canonical_preview_entity_export_v30_admission_v64.cpp",
+      "sha256": "90073c25987a5283e8afe883a1c6d68d034d17188bebc98d1ad168d123eb2ff9",
+      "targets": [
+        "dh2_loader_preview_entity_export_v30"
+      ]
+    }
+  ],
+  "transitive_files": 293,
+  "include_edges": 772,
+  "frozen_test_cpp_inclusions": [],
+  "private_canonical_context_inclusions": [],
+  "duplicate_physical_header_basenames": [
+    null
+  ],
+  "differing_private_quoted_shadow_headers": [],
+  "selected_context_edges": [
+    {
+      "from": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\canonical_loading_context_source_probe_v37_admission_v64.cpp",
+      "line": 25,
+      "include": "canonical_level_context_v1.hpp",
+      "to": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader\\canonical_level_context_v1.hpp",
+      "route": "selected_include_candidate"
+    },
+    {
+      "from": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\canonical_loading_context_source_probe_v47_admission_v64.cpp",
+      "line": 25,
+      "include": "canonical_level_context_v1.hpp",
+      "to": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader\\canonical_level_context_v1.hpp",
+      "route": "selected_include_candidate"
+    },
+    {
+      "from": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\canonical_module_graph_source_probe_admission_v64.cpp",
+      "line": 24,
+      "include": "canonical_level_context_v1.hpp",
+      "to": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader\\canonical_level_context_v1.hpp",
+      "route": "selected_include_candidate"
+    },
+    {
+      "from": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\character_swamp_model_v40_probe_admission_v64.cpp",
+      "line": 29,
+      "include": "canonical_level_context_v1.hpp",
+      "to": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader\\canonical_level_context_v1.hpp",
+      "route": "selected_include_candidate"
+    },
+    {
+      "from": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\dynamic_module_source_v44_admission_v64.cpp",
+      "line": 29,
+      "include": "canonical_level_context_v1.hpp",
+      "to": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader\\canonical_level_context_v1.hpp",
+      "route": "selected_include_candidate"
+    },
+    {
+      "from": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\generic_actor_image_binding_v45_probe_admission_v64.cpp",
+      "line": 27,
+      "include": "canonical_level_context_v1.hpp",
+      "to": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader\\canonical_level_context_v1.hpp",
+      "route": "selected_include_candidate"
+    },
+    {
+      "from": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\generic_actor_image_lifetime_v48_probe_admission_v64.cpp",
+      "line": 29,
+      "include": "canonical_level_context_v1.hpp",
+      "to": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader\\canonical_level_context_v1.hpp",
+      "route": "selected_include_candidate"
+    },
+    {
+      "from": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\source_stage_swamp_v40_admission_v64.cpp",
+      "line": 29,
+      "include": "canonical_level_context_v1.hpp",
+      "to": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader\\canonical_level_context_v1.hpp",
+      "route": "selected_include_candidate"
+    },
+    {
+      "from": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\source_stage_swamp_v47_admission_v64.cpp",
+      "line": 29,
+      "include": "canonical_level_context_v1.hpp",
+      "to": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader\\canonical_level_context_v1.hpp",
+      "route": "selected_include_candidate"
+    },
+    {
+      "from": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\source_visual_helper_v41_probe_admission_v64.cpp",
+      "line": 26,
+      "include": "canonical_level_context_v1.hpp",
+      "to": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader\\canonical_level_context_v1.hpp",
+      "route": "selected_include_candidate"
+    },
+    {
+      "from": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\canonical_level_constructor_v3_admission_v64.cpp",
+      "line": 1,
+      "include": "canonical_level_context_v1.hpp",
+      "to": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader\\canonical_level_context_v1.hpp",
+      "route": "selected_include_candidate"
+    },
+    {
+      "from": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\level_constructor_bindings_v4_admission_v64.cpp",
+      "line": 1,
+      "include": "canonical_level_context_v1.hpp",
+      "to": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader\\canonical_level_context_v1.hpp",
+      "route": "selected_include_candidate"
+    },
+    {
+      "from": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader\\canonical_module_files_v1.hpp",
+      "line": 3,
+      "include": "canonical_level_context_v1.hpp",
+      "to": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader\\canonical_level_context_v1.hpp",
+      "route": "quoted_local"
+    }
+  ],
+  "preview_edge": [
+    {
+      "from": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\canonical_preview_entity_export_v30_admission_v64.cpp",
+      "line": 1,
+      "include": "character_template_assets_v35.hpp",
+      "to": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\character_template_assets_v35.hpp",
+      "route": "selected_include_candidate"
+    },
+    {
+      "from": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\canonical_preview_entity_export_v30_admission_v64.cpp",
+      "line": 2,
+      "include": "character_scene.hpp",
+      "to": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\character_scene.hpp",
+      "route": "selected_include_candidate"
+    },
+    {
+      "from": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\canonical_preview_entity_export_v30_admission_v64.cpp",
+      "line": 4,
+      "include": "canonical_module_graph_source_probe_admission_v64.cpp",
+      "to": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\candidate\\fixture-admission-repair-v64\\successors\\canonical_module_graph_source_probe_admission_v64.cpp",
+      "route": "quoted_local"
+    }
+  ],
+  "constructor_ownership_review": "Rawfixture externalonceonlyLevelConstructorV3 uses SAME borrowed cells, applicationlease and selectedconstructorowner remainsnull; original constructorGuard clears borrowowner/services after synchronouscall. Existing fields/config/module/current borrows retain receiver until deliberate release.",
+  "cmake_order_evidence": [
+    "33-49:selected coherentcontext headerdirs and singlecontext/ctor owner target",
+    "289-291:rawprobe links coherentcontext",
+    "323-328:nativebindings probe links selectednative constructor dirs",
+    "369-376:preview inherits modulegraphincludes/links; wrapper points successor",
+    "401,448,496:selected dirs before private loader for renderer/source/actor targets"
+  ],
+  "concrete_errors_found": 0,
+  "repairs_needed": 0,
+  "guard_modified": false,
+  "source_files_modified": false,
+  "cmake_modified": false,
+  "native_jobs_launched": 0,
+  "native_validation": "PENDING",
+  "v64_manifest_sha256": "a57ebfa8133c80a4c9375efdd82ca77fceac2d4a6ed045536ea99006be83c2bc",
+  "selected_context_cpp_sha256": "ff00d5a08af914c89b95b81b4b6ee56b8babb7e3190b90cb14cf671e2ad11993"
+}

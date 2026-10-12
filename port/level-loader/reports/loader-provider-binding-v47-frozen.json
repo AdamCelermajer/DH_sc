@@ -1,0 +1,7 @@
+{
+  "validation": "PASS",
+  "archive": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\loader-provider-binding-v47-84a3e2d2e34cee75.zip",
+  "archive_sha256": "c336599fd2516603ca77c6aa375087c7f7009a38b1d35b062fb1e617e3a32e3b",
+  "payloads": 10,
+  "readback_verified": true
+}

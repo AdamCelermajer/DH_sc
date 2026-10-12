@@ -1,0 +1,116 @@
+--- a/port/android-native/app/src/main/java/com/example/dh2/NativeBridge.java
++++ b/port/android-native/app/src/main/java/com/example/dh2/NativeBridge.java
+@@ -14,6 +14,20 @@
+     // Original Android isSupportMM()I has one return register initialized -1;
+     // every manufacturer/model branch returns it (music-support-dex-v1.json).
+     static int isSupportMM(){return -1;}
++    // Original DungeonHunter2.isWifiAlive: NULL active NetworkInfo returns1;
++    // a nonnull network returns1 only for TYPE_WIFI. Preserve that source branch.
++    private static android.net.ConnectivityManager sourceConnectivityV114;
++    private static android.net.NetworkInfo sourceNetworkInfoV114;
++    static void bindSourceApplicationContextV114(android.content.Context context){
++        sourceConnectivityV114=(android.net.ConnectivityManager)context.getApplicationContext()
++            .getSystemService(android.content.Context.CONNECTIVITY_SERVICE);
++    }
++    static int isWifiAlive(){
++        if(sourceConnectivityV114==null)throw new IllegalStateException("Original ConnectivityManager owner unavailable");
++        sourceNetworkInfoV114=sourceConnectivityV114.getActiveNetworkInfo();
++        return sourceNetworkInfoV114==null||sourceNetworkInfoV114.getType()==1?1:0;
++    }
++
+     static native String loadTexture(byte[] encoded);
+     static native String loadModel(byte[] encoded,android.content.res.AssetManager assets);
+     static native String loadWorld(byte[] encoded,android.content.res.AssetManager assets,String filesDirectory,String selectedMlx);
+--- a/port/android-native/app/src/main/java/com/example/dh2/MainActivity.java
++++ b/port/android-native/app/src/main/java/com/example/dh2/MainActivity.java
+@@ -53,6 +53,7 @@
+     private BroadcastReceiver debugAttackReceiver;
+     @Override public void onCreate(Bundle state) {
+         setTheme(android.R.style.Theme_Material_NoActionBar);super.onCreate(state);
++        NativeBridge.bindSourceApplicationContextV114(getApplicationContext());
+         sharedAudio=new SharedAudioFocusV40(this,NativeBridge::audioActivityV40);
+         frontAudio=new FrontAudio(this,sharedAudio);
+         developerOpen=state!=null?state.getBoolean("developerOpen",false):getIntent().getBooleanExtra("developer",false);
+--- a/port/android-native/app/src/main/AndroidManifest.xml
++++ b/port/android-native/app/src/main/AndroidManifest.xml
+@@ -1,6 +1,8 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:tools="http://schemas.android.com/tools">
++
++    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+ 
+     <application
+         android:allowBackup="true"
+--- a/port/android-native/app/src/main/cpp/native_app.cpp
++++ b/port/android-native/app/src/main/cpp/native_app.cpp
+@@ -78,7 +78,7 @@
+ bool report_model_frame=true;
+ bool report_texture_frame=true;
+ struct MusicPlatformV1 {
+- JavaVM* vm{};jclass receiver{};jmethodID method{};
++ JavaVM* vm{};jclass receiver{};jmethodID method{},wifi_method{};
+  ~MusicPlatformV1(){JNIEnv* env{};if(receiver&&vm&&vm->GetEnv(reinterpret_cast<void**>(&env),JNI_VERSION_1_6)==JNI_OK)env->DeleteGlobalRef(receiver);}
+  bool query(std::int32_t& value,std::string& error){
+   JNIEnv* env{};
+@@ -87,6 +87,14 @@
+   if(env->ExceptionCheck()){env->ExceptionClear();error="Original Android isSupportMM JNI call failed";return false;}
+   __android_log_print(ANDROID_LOG_INFO,tag,"Original Android music support | JNI integer %d",value);return true;
+  }
++ bool query_wifi(std::int32_t& value,std::string& error){
++  JNIEnv* env{};
++  if(!vm||!receiver||!wifi_method||vm->GetEnv(reinterpret_cast<void**>(&env),JNI_VERSION_1_6)!=JNI_OK){error="Required attached SAME Android nativeIsWifiAlive JNI owner";return false;}
++  value=env->CallStaticIntMethod(receiver,wifi_method);
++  if(env->ExceptionCheck()){env->ExceptionClear();error="Original Android isWifiAlive JNI call failed";return false;}
++  error.clear();return true;
++ }
++
+ };
+ #include "native_character_menu_v4.inc"
+ std::string errors(const char* operation){
+@@ -218,8 +226,10 @@
+      if(env->GetJavaVM(&music->vm)!=JNI_OK)throw std::runtime_error("Required Android music JavaVM");
+      music->receiver=static_cast<jclass>(env->NewGlobalRef(bridge));
+      music->method=env->GetStaticMethodID(bridge,"isSupportMM","()I");
+-     if(!music->receiver||!music->method||env->ExceptionCheck()){env->ExceptionClear();throw std::runtime_error("Required original Android isSupportMM receiver");}
++     music->wifi_method=env->GetStaticMethodID(bridge,"isWifiAlive","()I");
++     if(!music->receiver||!music->method||!music->wifi_method||env->ExceptionCheck()){env->ExceptionClear();throw std::runtime_error("Required original Android isSupportMM receiver");}
+      original_ui.bind_platform_music([music](std::int32_t& value,std::string& error){return music->query(value,error);});
++     if(!bind_source_main_menu_platform_v114(music,[music](auto& value,auto& error){return music->query_wifi(value,error);},ui_error))throw std::runtime_error(ui_error);
+       if(!character_panel)character_panel=std::make_unique<dh2::android_ui::CharacterPanelSessionV1>(manager);
+   }catch(const std::exception& e){
+     model_renderer::invalidate_actual_device_context_v54();
+--- a/port/android-native/app/src/main/cpp/native_source_main_menu_v114.inc
++++ b/port/android-native/app/src/main/cpp/native_source_main_menu_v114.inc
+@@ -5,6 +5,17 @@
+ #include "source_main_menu_process_v114.hpp"
+ #include "source_android_notify_trophy_v114.hpp"
+ namespace {
++struct NativeMainMenuPlatformV114 {
++ std::shared_ptr<void> owner; // SAME retained Android JNI platform, no App/World
++ std::function<bool(std::int32_t&,std::string&)> wifi;
++};
++std::shared_ptr<NativeMainMenuPlatformV114> native_main_menu_platform_v114;
++bool bind_source_main_menu_platform_v114(std::shared_ptr<void> owner,
++ std::function<bool(std::int32_t&,std::string&)> wifi,std::string& e){
++ if(!owner||!wifi){e="Require actual Android nativeIsWifiAlive producer";return false;}
++ auto p=std::make_shared<NativeMainMenuPlatformV114>();p->owner=std::move(owner);p->wifi=std::move(wifi);
++ native_main_menu_platform_v114=std::move(p);e.clear();return true;
++}
+ using MainMenuStepV114=dh2::loader::AreaTransitionStepV114;
+ struct NativeSourceMainMenuV114 {
+  std::weak_ptr<dh2::application::ApplicationServicesOwnerV5> app;
+@@ -79,6 +90,13 @@
+   loan->trophy_count=static_cast<std::uint32_t>(actual.manager->catalog().rows().size());
+   pin=actual.owner;manager=actual.manager;count=&loan->trophy_count;return true;
+  };
++ s.internet_access=[loan](auto& out,auto& e){auto d=loan->delivery.lock();auto platform=native_main_menu_platform_v114;
++  if(!d||!d->current(e)||!platform||!platform->owner||!platform->wifi){if(e.empty())e="Required actual Android WiFi JNI facet";return false;}
++  return platform->wifi(out,e);};
++ s.cx_player_state5=[loan](auto& pin,auto*& out,auto& e){auto d=loan->delivery.lock();if(!d||!d->current(e))return false;
++  auto cx=d->app.lock()->source_cx_score_v114();pin=cx;out=cx->source_byte5();return true;};
++ s.upload_my_score=[loan](std::int32_t score,bool& uploaded,auto& e){auto d=loan->delivery.lock();if(!d||!d->current(e))return false;
++  return d->app.lock()->source_cx_score_v114()->upload(score,uploaded,e);};
+  return s;
+ }
+ std::shared_ptr<NativeSourceMainMenuV114> native_source_main_menu_v114;

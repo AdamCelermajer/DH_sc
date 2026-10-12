@@ -1,0 +1,11 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN8RenderFX13CreateContextERNS_24InitializationParametersE",
+      "elf_address": "0x7a9708",
+      "size": 164,
+      "sha256": "b246e353d247300b1ead6b99866fb4474dc65a1e1a02c4b7efd33f473ba16ed3"
+    }
+  ]
+}

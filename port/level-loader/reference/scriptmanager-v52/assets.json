@@ -1,0 +1,26 @@
+[
+  {
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts_pyscripts.bin",
+    "bytes": 1277,
+    "sha256": "39bd1a0c3c7b55c996688687b69504c0446175b3b3451bc1e7481ab18135551a",
+    "first_word": 15
+  },
+  {
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts_pyscriptnames.bin",
+    "bytes": 321,
+    "sha256": "96c9ba8b4cf6afef1318495f2fa18ca4e6e125b187f4bad086e109d22fcbf3bd",
+    "first_word": 15
+  },
+  {
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/001_swamp_pyscripts.bin",
+    "bytes": 18117,
+    "sha256": "144447bc17c9b5ac530e308cce86490c04191779b66f4b88914f2a6c8adde836",
+    "first_word": 55
+  },
+  {
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/001_swamp_pyscriptnames.bin",
+    "bytes": 1155,
+    "sha256": "7946d599ea1ca9c30081fe0b32f2ff6b70be6bbf93af2b88aa7f852e51a18045",
+    "first_word": 55
+  }
+]

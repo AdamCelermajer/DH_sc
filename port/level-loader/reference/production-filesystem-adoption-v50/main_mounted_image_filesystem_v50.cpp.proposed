@@ -1,0 +1,61 @@
+#include "main_mounted_image_filesystem_v50.hpp"
+#include "../../original_filename_policy_v49.hpp"
+#include "../../material_image_identity_v43.hpp"
+#include "main-source-snapshot/port/android-native/app/src/main/cpp/original_cache_assets_v1.hpp"
+#include "main-source-snapshot/port/asset-payloads/zip_asset_pack_v1.hpp"
+namespace dh2::loader {
+bool borrow_current_mounted_cache_v50(const android_ui::OriginalCacheAssetsV1& current,
+ std::shared_ptr<android_ui::OriginalCacheAssetsV1>& out,std::string& error){
+ std::size_t files{};
+ if(!current.mount(files,error))return false;
+ auto pin=std::make_shared<android_ui::OriginalCacheAssetsV1>(current);
+ out=std::move(pin);error.clear();return true;
+}
+bool resolve_main_mounted_image_filename_v50(const MainMountedImageFilesystemV50& fs,
+ const std::string& directory,const MaterialImageIdentityV43& image,
+ std::string& out,std::string& error){
+ auto runtime=fs.actual_renderer_owner.lock();
+ if(!runtime||!fs.actual_mounted_cache||!fs.actual_source_globals||!fs.require_current_renderer_owner){
+  error="Required same current renderer/mounted-cache/source-filesystem owners";return false;
+ }
+ if(!fs.require_current_renderer_owner(error))return false;
+ if(image.state!=MaterialImageStateV43::authored_image){
+  error="Source no-image must bypass filename/cache/admission services";return false;
+ }
+ const auto working=fs.actual_source_globals->value();
+ std::array<std::string,2> candidates;
+ if(!original_image_search_candidates_v49(directory,image.authored_uri,candidates,error))return false;
+ for(const auto& source:candidates){
+  OriginalFilenameResultV49 name;
+  if(!original_filename_policy_v49(working,source,name,error))return false;
+  // This is the current mounted ZIP's exact canonical namespace operation,
+  // NOT q:/iphone stripping or an original compressed-format filename policy.
+  std::string canonical;
+  if(!assets::ZipAssetPackV1::key(name.filename,canonical,error)){
+   error="Required source filesystem absolute/domain mount route: "+error;return false;
+  }
+  bool stop=false,found=false;std::vector<std::uint8_t> unused;
+  const std::string stopped="V50 owned metadata stop before payload";
+  const bool read=fs.actual_mounted_cache->read_admitted(canonical,found,unused,
+   [&](std::uint32_t,std::string& e){stop=true;e=stopped;return false;},error);
+  const auto lookup_error=error;
+  if(fs.actual_source_globals->value()!=working){
+   error="Source filesystem working-directory changed during filename scope";return false;
+  }
+  std::string owner_error;
+  if(!fs.require_current_renderer_owner(owner_error)){
+   error=owner_error.empty()?"Required current renderer owner after metadata probe":owner_error;return false;
+  }
+  if(stop){
+   if(read||found||lookup_error!=stopped||!unused.empty()||unused.capacity()!=0){
+    error="Actual cache metadata probe allocated/read payload or changed stop contract";return false;
+   }
+   out=std::move(canonical);error.clear();return true;
+  }
+  if(!read){error=lookup_error;return false;}
+  if(found||!unused.empty()||unused.capacity()!=0){error="Actual cache lookup unexpectedly bypassed before-payload probe";return false;}
+ }
+ error="Original filename candidates absent from actual mounted cache; source route/format provider remains required";
+ return false;
+}
+} // namespace dh2::loader

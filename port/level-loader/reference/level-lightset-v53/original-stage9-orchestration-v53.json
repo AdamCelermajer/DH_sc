@@ -1,0 +1,105 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "actual_original_outer_body": true,
+  "services": "Device::IsFixedPipeline and Level::LoadFile explicit endpoint fixtures; no XML/driver outcome supplied",
+  "rows": [
+    {
+      "fixed_pipeline": false,
+      "fixed_name": "fixed",
+      "regular_name": "regular",
+      "pending_polls": 1,
+      "queries": [
+        {
+          "filename": "regular",
+          "tag": "Module"
+        }
+      ]
+    },
+    {
+      "fixed_pipeline": true,
+      "fixed_name": "fixed",
+      "regular_name": "regular",
+      "pending_polls": 1,
+      "queries": [
+        {
+          "filename": "fixed",
+          "tag": "Module"
+        }
+      ]
+    },
+    {
+      "fixed_pipeline": true,
+      "fixed_name": "",
+      "regular_name": "regular",
+      "pending_polls": 1,
+      "queries": []
+    },
+    {
+      "fixed_pipeline": false,
+      "fixed_name": "fixed",
+      "regular_name": "",
+      "pending_polls": 1,
+      "queries": []
+    },
+    {
+      "fixed_pipeline": true,
+      "fixed_name": "fixed",
+      "regular_name": "",
+      "pending_polls": 1,
+      "queries": [
+        {
+          "filename": "fixed",
+          "tag": "Module"
+        }
+      ]
+    },
+    {
+      "fixed_pipeline": false,
+      "fixed_name": "",
+      "regular_name": "",
+      "pending_polls": 1,
+      "queries": []
+    },
+    {
+      "fixed_pipeline": false,
+      "fixed_name": "fixed",
+      "regular_name": "regular",
+      "pending_polls": 3,
+      "queries": [
+        {
+          "filename": "regular",
+          "tag": "Module"
+        },
+        {
+          "filename": "regular",
+          "tag": "Module"
+        },
+        {
+          "filename": "regular",
+          "tag": "Module"
+        }
+      ]
+    },
+    {
+      "fixed_pipeline": true,
+      "fixed_name": "fixed",
+      "regular_name": "regular",
+      "pending_polls": 3,
+      "queries": [
+        {
+          "filename": "fixed",
+          "tag": "Module"
+        },
+        {
+          "filename": "fixed",
+          "tag": "Module"
+        },
+        {
+          "filename": "fixed",
+          "tag": "Module"
+        }
+      ]
+    }
+  ]
+}

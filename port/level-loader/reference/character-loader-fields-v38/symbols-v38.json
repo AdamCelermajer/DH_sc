@@ -1,0 +1,77 @@
+[
+  {
+    "address": 3409920,
+    "size": 36,
+    "name": "ObjectBase* GetNewInstance<Character>()"
+  },
+  {
+    "address": 4128792,
+    "size": 432,
+    "name": "Level::_LoadPlayer()"
+  },
+  {
+    "address": 3992912,
+    "size": 352,
+    "name": "CharAI::CharAI()"
+  },
+  {
+    "address": 3992560,
+    "size": 352,
+    "name": "CharAI::CharAI()"
+  },
+  {
+    "address": 3860436,
+    "size": 376,
+    "name": "Character::SetFaeryState(unsigned int, int)"
+  },
+  {
+    "address": 3882296,
+    "size": 728,
+    "name": "Character::SafeGetCharPropsId()"
+  },
+  {
+    "address": 3880684,
+    "size": 176,
+    "name": "Character::SafeGetCharPropsTemplateId()"
+  },
+  {
+    "address": 3886432,
+    "size": 2164,
+    "name": "Character::InitPost()"
+  },
+  {
+    "address": 3842484,
+    "size": 1448,
+    "name": "Character::Character(ObjectBase::GO_IDS)"
+  },
+  {
+    "address": 3838784,
+    "size": 1448,
+    "name": "Character::Character(ObjectBase::GO_IDS)"
+  },
+  {
+    "address": 3861184,
+    "size": 540,
+    "name": "Character::GetCharFaery(int) const"
+  },
+  {
+    "address": 3813864,
+    "size": 64,
+    "name": "Character::GetCharModelId() const"
+  },
+  {
+    "address": 3822804,
+    "size": 464,
+    "name": "Character::GetCharModelName() const"
+  },
+  {
+    "address": 3914124,
+    "size": 76,
+    "name": "Character::SG_GetCurrentFaerieId(int) const"
+  },
+  {
+    "address": 3813524,
+    "size": 24,
+    "name": "Character::IsFaerie() const"
+  }
+]

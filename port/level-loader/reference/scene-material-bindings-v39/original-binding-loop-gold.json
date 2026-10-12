@@ -1,0 +1,101 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_constructGeometry_body": "0x61aeb8",
+  "cases": [
+    {
+      "material_catalog_ids": [],
+      "original_setMaterial_calls": []
+    },
+    {
+      "material_catalog_ids": [
+        0
+      ],
+      "original_setMaterial_calls": [
+        {
+          "primitive_slot": 0,
+          "material_catalog_id": 0
+        }
+      ]
+    },
+    {
+      "material_catalog_ids": [
+        1,
+        2
+      ],
+      "original_setMaterial_calls": [
+        {
+          "primitive_slot": 0,
+          "material_catalog_id": 1
+        },
+        {
+          "primitive_slot": 1,
+          "material_catalog_id": 2
+        }
+      ]
+    },
+    {
+      "material_catalog_ids": [
+        2,
+        0,
+        2
+      ],
+      "original_setMaterial_calls": [
+        {
+          "primitive_slot": 0,
+          "material_catalog_id": 2
+        },
+        {
+          "primitive_slot": 1,
+          "material_catalog_id": 0
+        },
+        {
+          "primitive_slot": 2,
+          "material_catalog_id": 2
+        }
+      ]
+    },
+    {
+      "material_catalog_ids": [
+        7,
+        3,
+        1,
+        0,
+        5,
+        2,
+        7
+      ],
+      "original_setMaterial_calls": [
+        {
+          "primitive_slot": 0,
+          "material_catalog_id": 7
+        },
+        {
+          "primitive_slot": 1,
+          "material_catalog_id": 3
+        },
+        {
+          "primitive_slot": 2,
+          "material_catalog_id": 1
+        },
+        {
+          "primitive_slot": 3,
+          "material_catalog_id": 0
+        },
+        {
+          "primitive_slot": 4,
+          "material_catalog_id": 5
+        },
+        {
+          "primitive_slot": 5,
+          "material_catalog_id": 2
+        },
+        {
+          "primitive_slot": 6,
+          "material_catalog_id": 7
+        }
+      ]
+    }
+  ],
+  "scope": "Original whole constructGeometry local-reference binding iteration and exact setMaterial slot assignment. Mesh/resource/GPU catalog/creation, vertex-map and reference-release endpoints are explicit fixtures. No native GPU readiness or original material creation claimed."
+}

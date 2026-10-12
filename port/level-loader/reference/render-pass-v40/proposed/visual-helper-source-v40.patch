@@ -1,0 +1,100 @@
+--- a/retained_gameobject_visual_v1.hpp
++++ b/retained_gameobject_visual_v1.hpp
+@@ -40,6 +40,10 @@
+  resources::BresView bres_{};
+  scene::Scene scene_;
+  std::vector<std::uint32_t> node_flags_;
++ // SAME semantic custom Mesh render field (rigid source+138); retained
++ // independently of node visibility, never filtered out of bounds geometry.
++ std::vector<std::uint8_t> source_mesh_render_enabled_v40_;
++ std::uint8_t source_colbox28_v40_{};
+  struct Visibility {std::uint8_t local120{1},parent121{1};};
+  Visibility root_visibility_;
+  std::vector<Visibility> node_visibility_;
+@@ -66,6 +70,7 @@
+  bool clips(std::string&);
+  bool sample(bool reset,std::string&);
+  bool load_skinned_meshes(std::string&);
++ bool suppress_source_helper_v40(std::string&);
+  bool update_skinned_meshes(std::string&);
+  void notify_node_visibility(std::size_t,bool);
+  void propagate_node_visibility(std::size_t);
+@@ -113,6 +118,8 @@
+  std::uint32_t& scene_flags()noexcept{return binding_.root.flags;}
+  const std::vector<std::uint32_t>& node_flags()const noexcept{return node_flags_;}
+  const std::vector<SkinnedMesh>& skinned_meshes()const noexcept{return skinned_;}
++ const std::vector<std::uint8_t>& source_mesh_render_enabled_v40()const noexcept{return source_mesh_render_enabled_v40_;}
++ std::uint8_t source_colbox28_v40()const noexcept{return source_colbox28_v40_;}
+  const physical::DecorSceneMarker& marker()const noexcept{return marker_;}
+  const std::array<float,6>& mesh_box()const noexcept{return mesh_box_;}
+  BaseNamedAnimationBorrowV1 named_animation(std::shared_ptr<void> real_visual_lease);
+--- a/retained_gameobject_visual_v1.cpp
++++ b/retained_gameobject_visual_v1.cpp
+@@ -62,6 +62,30 @@
+  for(auto& m:skinned_)if(!skinning::palette(m.skin,scene_,m.palette,e)||!skinning::positions(m.skin,m.palette,m.source_positions,m.positions,e))return false;
+  return true;
+ }
++
++bool RetainedGameObjectVisualV1::suppress_source_helper_v40(std::string& e){
++ // Original root SearchByName(prefix=true) returns the FIRST node. scene_
++ // retains original DFS order. Do not remove helper geometry: CalcMeshBox
++ // below still reads its actual source bounds and parent scale.
++ std::size_t node=scene_.graph.size();
++ for(std::size_t i=0;i<scene_.graph.size();++i)if(scene_.graph[i].name.compare(0,8,"_colbox_")==0){node=i;break;}
++ if(node==scene_.graph.size())return true;
++ source_colbox28_v40_=1; //472ba0 BEFORE required cast/mesh prefix.
++ std::size_t instance=scene_.instances.size();
++ for(std::size_t i=0;i<scene_.instances.size();++i)if(scene_.instances[i].node_index==node){
++  if(instance!=scene_.instances.size())return missing("source helper native Mesh(tag0x6d656164) topology",e);
++  instance=i;
++ }
++ // Source factory's regular geometry node has the exact custom Mesh type;
++ // a controller requires another actual type/cast producer. Do not pretend
++ // its source NULL cast was accepted or silently choose a later helper.
++ if(instance==scene_.instances.size()||scene_.instances[instance].controller>=0)return missing("source helper Mesh cast(tag0x6d656164)",e);
++ source_mesh_render_enabled_v40_[instance]=0; // source472bf0 byte138.
++ // setVisible(false) source472c04 uses the SAME local120/flags11c and
++ // descendant propagation, not a render-only list or a deleted instance.
++ return set_node_local_visibility(reinterpret_cast<std::uintptr_t>(node_handles_[node].get()),false,e);
++}
++
+ bool RetainedGameObjectVisualV1::initialize(const char* model,const char* xref,std::string& e){
+  if(ready_||root_present_||!bytes_.empty())return missing("fresh constructor candidate",e);
+  if(!model||!xref)return missing("source model/subscene strings",e);
+@@ -80,6 +104,7 @@
+  }
+  if(!binding_.bind(scene_,e))return false;
+  node_flags_.assign(scene_.graph.size(),0x60fu);
++ source_mesh_render_enabled_v40_.assign(scene_.instances.size(),1);
+  node_visibility_.assign(scene_.graph.size(),Visibility{});
+  for(std::size_t i=0;i<scene_.graph.size();++i)node_handles_.push_back(std::make_unique<NodeHandle>(NodeHandle{static_cast<std::uint32_t>(i)}));
+  root_present_=true;
+@@ -97,6 +122,7 @@
+  if(!services_.register_root||!services_.force_register)return missing("SceneManager registration services",e);
+  if(!services_.register_root(root_identity(),e)||!services_.force_register(root_identity(),e))return false;
+  if(!load_skinned_meshes(e))return false;
++ if(!suppress_source_helper_v40(e))return false;
+  if(!physical::decor_scene_marker(bres_,scene_,marker_,e))return false;
+  if(!calc_mesh_box(e)||!apply_mesh_box(e))return false;
+  animated_=dh2_bres_library_count(&bres_,resources::Library::animation)>0;
+@@ -128,9 +154,9 @@
+ }
+ bool RetainedGameObjectVisualV1::apply_mesh_box(std::string& e){
+  if(!root_present_)return true;
+- if(!base_){if(!fields_.receiver_lease)return missing("SAME derived SetRelativeAABB/PF owner",e);if(fields_.apply_mesh_box_v6)return fields_.apply_mesh_box_v6(mesh_box_.data(),marker_.found!=0,e);if(!fields_.apply_mesh_box)return missing("SAME derived SetRelativeAABB/PF owner",e);return fields_.apply_mesh_box(mesh_box_.data(),e);}
++ if(!base_){if(!fields_.receiver_lease)return missing("SAME derived SetRelativeAABB/PF owner",e);if(fields_.apply_mesh_box_v6)return fields_.apply_mesh_box_v6(mesh_box_.data(),source_colbox28_v40_!=0,e);if(!fields_.apply_mesh_box)return missing("SAME derived SetRelativeAABB/PF owner",e);return fields_.apply_mesh_box(mesh_box_.data(),e);}
+  auto* p=base_->vector3(0x160);auto* flat=base_->byte(0x15c);
+- bool handled=false;if(!visual_aabb_dispatch_v3(*base_,mesh_box_.data(),marker_.found!=0,handled,e))return false;if(handled)return true;
++ bool handled=false;if(!visual_aabb_dispatch_v3(*base_,mesh_box_.data(),source_colbox28_v40_!=0,handled,e))return false;if(handled)return true;
+  if(!p||!flat)return missing("SAME parent bounds/flat fields",e);
+  physical::DecorBodyInput input{};input.owner=reinterpret_cast<void*>(base_->identity());input.visual_present=1;
+  input.previous_flat=*flat;std::copy_n(mesh_box_.data(),6,input.mesh_box);std::copy_n(p,3,input.position);
+@@ -211,7 +237,7 @@
+   if(!services_.release_root(identity,e))return false;root_present_=false;
+  }if(!services_.force_register(identity,e))return false;
+  ready_=false;animated_=false;animation_=animation::Player{};scene_=scene::Scene{};
+- bytes_.clear();bres_={};clips_.clear();node_flags_.clear();node_visibility_.clear();node_handles_.clear();skinned_.clear();root_animator_present_=false;return true;
++ bytes_.clear();bres_={};clips_.clear();node_flags_.clear();node_visibility_.clear();node_handles_.clear();skinned_.clear();source_mesh_render_enabled_v40_.clear();root_animator_present_=false;return true;
+ }
+ bool RetainedGameObjectVisualV1::set_root_game_object(std::uintptr_t identity,std::string& e){
+  if(!root_present_||identity!=fields_.identity)return missing("SAME root+204 parent identity",e);

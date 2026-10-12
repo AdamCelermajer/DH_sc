@@ -1,0 +1,12 @@
+--- a/port/level-world/canonical_trigger_zone_v22.hpp
++++ b/port/level-world/canonical_trigger_zone_v22.hpp
+@@ -78,6 +78,9 @@
+  std::int32_t* source_integer(std::uint32_t)noexcept;
+  std::uint8_t* source_byte(std::uint32_t)noexcept;
+  const std::array<std::int32_t,5>& resolved_scripts()const noexcept{return resolved_;}
++ std::array<float,3>& source_dimensions374()noexcept{return dimensions_;}
++ bool physical()const noexcept{return physical380_;}bool trigger()const noexcept{return trigger381_;}
++ const std::shared_ptr<void>& source_colzone_lease_v91()const noexcept{return colzone_lease_;}
+  std::uintptr_t source_colzone384_v83()const noexcept{return colzone384_;}
+  bool set_updating(bool value,std::string& e){if(!base_.store_byte(0x85,value?1:0,e))return false;if(!value)active7b4_=0;return true;} // whole39b26c
+  static CanonicalClassReceiverV1 factory_receiver(std::shared_ptr<CanonicalTriggerZoneV22>,std::shared_ptr<const void>);

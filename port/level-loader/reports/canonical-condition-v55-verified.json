@@ -1,0 +1,20 @@
+{
+  "schema": "dh2-canonical-condition-v55-native",
+  "status": "PASS",
+  "stdout": "PASS ACTUAL canonical_constructor7_deletingD0_7_same_stub4_comparator0_1_2_only; real_Conditions118_154_lists_Assign_D1_using_ACTUAL_receivers; checked_alias_foreign_doubledelete_lifetime; owningWorld_no_cycle_expired_authority_borrow_guard; main_Eval_required_output_preserved; no_selected_graph_archives_no_Eval_callbacks\n",
+  "source_hashes": {
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\condition-list-v55\\condition_list_owner_v55.cpp": "0dd9833ce5ae6c072b984be15433c066411fdc09db9ce885abf33d1bd3fc4fd0",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\condition-list-v55\\canonical_condition_receivers_v55.cpp": "4d58fe0001df16bc98f098ace0c1a39a045318d5e3eccce6dd24f2fd7998c7d5",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\condition-list-v55\\canonical_condition_v55_test.cpp": "de8ce042ef97756a7f777a2459d208c0fc003f15a5c7d02d4c1a589665b0faf6",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\condition-list-v55\\condition_list_owner_v55.hpp": "e15c96f3ce44d68b3380457047aa60ab83b73c997621d8300a031724a5bdb7cf",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\condition-list-v55\\canonical_condition_receivers_v55.hpp": "6edf6b1eb01cf381faf11ef7240c069e15a278d1fbed893b4e6c75ddeda7ca8b"
+  },
+  "original_profiles_sha256": "af5aaed2b0b496e939ee148eb144f58277806a22fcc5d7a9399e6b635bc4815f",
+  "actual_constructor_receivers": true,
+  "control_constructor_fixtures_used": false,
+  "actual_cache_lists118_stubs154": true,
+  "main_Eval_required_not_called": true,
+  "selected_shared_writes": false,
+  "selected_archives_used": false,
+  "binary_sha256": "7f94bcaea5aa11f90f3b2f07e66b20b6fd71ebccdd0ac3221be1c3b408557a7f"
+}

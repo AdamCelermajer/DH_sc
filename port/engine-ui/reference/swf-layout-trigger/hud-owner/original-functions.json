@@ -1,0 +1,35 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN12GameSWFUtils10MoveBtnPosEPN7gameswf9characterEff",
+      "elf_address": "0x41684c",
+      "size": 412,
+      "sha256": "dfde81f2e4be1e72e0b3c30d64cc23c96b95e4267814b014cd4df017178700b1"
+    },
+    {
+      "original_symbol": "_ZN11HUDControls7OnEventERN8RenderFX5EventE",
+      "elf_address": "0x418d28",
+      "size": 3620,
+      "sha256": "c4bf0b63e28cdaec024011bc7f6913986894db3ff5342df85c42c84e6eb6b84f"
+    },
+    {
+      "original_symbol": "_ZN11HUDControlsC1Ev",
+      "elf_address": "0x41af1c",
+      "size": 512,
+      "sha256": "124b1afd56b34d313ae1e930b162db1e8dc503d64e03202ebf502a334189c0bd"
+    },
+    {
+      "original_symbol": "_ZN11HUDControls7onEventEPK6IEventPK12EventManager",
+      "elf_address": "0x418258",
+      "size": 212,
+      "sha256": "6c950162ae1abc4238793af433b155704d767ebb1bf086e9b4594dea27a1e2cc"
+    },
+    {
+      "original_symbol": "_ZN11HUDControls15initCachedCharsEv",
+      "elf_address": "0x419b4c",
+      "size": 3124,
+      "sha256": "d2b58b8d384b5d243efdb17ed73890798e6d582c86d1ba1f3a05ec1a5f1a70bc"
+    }
+  ]
+}

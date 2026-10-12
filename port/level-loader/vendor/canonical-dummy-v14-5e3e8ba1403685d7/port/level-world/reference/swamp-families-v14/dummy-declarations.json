@@ -1,0 +1,2426 @@
+{
+  "source": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\source-pipeline-swamp-declarations.json",
+  "sha256": "b2679ff9b5e49c73df83caa2a5b9cffb7b89a377fe30bf3c75faddd53148d615",
+  "scope": "actual parsed source declarations, not raw XML parser acceptance",
+  "declarations": [
+    {
+      "document": 1,
+      "element": 4,
+      "uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "tag": "GameObject",
+      "source_order": 3,
+      "origin": "gameplay",
+      "module": 0,
+      "module_name": "obj_4of4_brdwalk_sw_00_0",
+      "module_offset": [
+        0,
+        0,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_4",
+        "position": "1074.67,-128.625,319.466",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        1074.67004,
+        -128.625,
+        319.466003
+      ],
+      "translated_position": [
+        1074.67004,
+        -128.625,
+        319.466003
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_4",
+          "position": "1074.67,-128.625,319.466",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 1,
+      "element": 5,
+      "uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "tag": "GameObject",
+      "source_order": 4,
+      "origin": "gameplay",
+      "module": 0,
+      "module_name": "obj_4of4_brdwalk_sw_00_0",
+      "module_offset": [
+        0,
+        0,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_5",
+        "position": "0.0,0.0,0.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        0,
+        0,
+        0
+      ],
+      "translated_position": [
+        0,
+        0,
+        0
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_5",
+          "position": "0.0,0.0,0.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 1,
+      "element": 6,
+      "uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "tag": "GameObject",
+      "source_order": 5,
+      "origin": "gameplay",
+      "module": 0,
+      "module_name": "obj_4of4_brdwalk_sw_00_0",
+      "module_offset": [
+        0,
+        0,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_6",
+        "position": "1090.43,-257.302,258.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        1090.43005,
+        -257.302002,
+        258
+      ],
+      "translated_position": [
+        1090.43005,
+        -257.302002,
+        258
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_6",
+          "position": "1090.43,-257.302,258.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 1,
+      "element": 7,
+      "uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "tag": "GameObject",
+      "source_order": 6,
+      "origin": "gameplay",
+      "module": 0,
+      "module_name": "obj_4of4_brdwalk_sw_00_0",
+      "module_offset": [
+        0,
+        0,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_test",
+        "position": "791.785,-416.196,258.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        791.784973,
+        -416.196014,
+        258
+      ],
+      "translated_position": [
+        791.784973,
+        -416.196014,
+        258
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_test",
+          "position": "791.785,-416.196,258.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 1,
+      "element": 8,
+      "uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "tag": "GameObject",
+      "source_order": 7,
+      "origin": "gameplay",
+      "module": 0,
+      "module_name": "obj_4of4_brdwalk_sw_00_0",
+      "module_offset": [
+        0,
+        0,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_CamTroll",
+        "position": "391.952,1007.16,19.9029",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        391.951996,
+        1007.15997,
+        19.9029007
+      ],
+      "translated_position": [
+        391.951996,
+        1007.15997,
+        19.9029007
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_CamTroll",
+          "position": "391.952,1007.16,19.9029",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 1,
+      "element": 9,
+      "uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "tag": "GameObject",
+      "source_order": 8,
+      "origin": "gameplay",
+      "module": 0,
+      "module_name": "obj_4of4_brdwalk_sw_00_0",
+      "module_offset": [
+        0,
+        0,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_MoveTroll",
+        "position": "203.805,2219.39,133.904",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        203.804993,
+        2219.38989,
+        133.904007
+      ],
+      "translated_position": [
+        203.804993,
+        2219.38989,
+        133.904007
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_MoveTroll",
+          "position": "203.805,2219.39,133.904",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 1,
+      "element": 12,
+      "uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "tag": "GameObject",
+      "source_order": 11,
+      "origin": "gameplay",
+      "module": 0,
+      "module_name": "obj_4of4_brdwalk_sw_00_0",
+      "module_offset": [
+        0,
+        0,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_TrollStack",
+        "position": "2546.58,-2723.95,258.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        2546.58008,
+        -2723.94995,
+        258
+      ],
+      "translated_position": [
+        2546.58008,
+        -2723.94995,
+        258
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_TrollStack",
+          "position": "2546.58,-2723.95,258.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 1,
+      "element": 16,
+      "uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "tag": "GameObject",
+      "source_order": 15,
+      "origin": "gameplay",
+      "module": 0,
+      "module_name": "obj_4of4_brdwalk_sw_00_0",
+      "module_offset": [
+        0,
+        0,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_MoveTroll02",
+        "position": "234.462,1737.55,12.8057",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        234.462006,
+        1737.55005,
+        12.8057003
+      ],
+      "translated_position": [
+        234.462006,
+        1737.55005,
+        12.8057003
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_MoveTroll02",
+          "position": "234.462,1737.55,12.8057",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 1,
+      "element": 17,
+      "uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "tag": "GameObject",
+      "source_order": 16,
+      "origin": "gameplay",
+      "module": 0,
+      "module_name": "obj_4of4_brdwalk_sw_00_0",
+      "module_offset": [
+        0,
+        0,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_Faery_03",
+        "position": "794.067,-618.903,258.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        794.067017,
+        -618.903015,
+        258
+      ],
+      "translated_position": [
+        794.067017,
+        -618.903015,
+        258
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_Faery_03",
+          "position": "794.067,-618.903,258.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 1,
+      "element": 18,
+      "uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "tag": "GameObject",
+      "source_order": 17,
+      "origin": "gameplay",
+      "module": 0,
+      "module_name": "obj_4of4_brdwalk_sw_00_0",
+      "module_offset": [
+        0,
+        0,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_Faery_04",
+        "position": "549.822,-499.88,258.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        549.822021,
+        -499.880005,
+        258
+      ],
+      "translated_position": [
+        549.822021,
+        -499.880005,
+        258
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_Faery_04",
+          "position": "549.822,-499.88,258.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 1,
+      "element": 22,
+      "uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "tag": "GameObject",
+      "source_order": 21,
+      "origin": "gameplay",
+      "module": 0,
+      "module_name": "obj_4of4_brdwalk_sw_00_0",
+      "module_offset": [
+        0,
+        0,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_LookSpot",
+        "position": "0.0,-371.428,0.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        0,
+        -371.428009,
+        0
+      ],
+      "translated_position": [
+        0,
+        -371.428009,
+        0
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_LookSpot",
+          "position": "0.0,-371.428,0.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 3,
+      "element": 7,
+      "uri": "data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "tag": "GameObject",
+      "source_order": 6,
+      "origin": "gameplay",
+      "module": 1,
+      "module_name": "obj_3of4_brdwalk_sw_00_1",
+      "module_offset": [
+        -6000,
+        0,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_MothSpot_XYZ",
+        "position": "0.0,0.0,0.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        0,
+        0,
+        0
+      ],
+      "translated_position": [
+        -6000,
+        0,
+        0
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_MothSpot_XYZ",
+          "position": "0.0,0.0,0.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 3,
+      "element": 8,
+      "uri": "data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "tag": "GameObject",
+      "source_order": 7,
+      "origin": "gameplay",
+      "module": 1,
+      "module_name": "obj_3of4_brdwalk_sw_00_1",
+      "module_offset": [
+        -6000,
+        0,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_MothSpot01",
+        "position": "1154.99,-113.697,265.617",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        1154.98999,
+        -113.696999,
+        265.617004
+      ],
+      "translated_position": [
+        -4845.00977,
+        -113.696999,
+        265.617004
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_MothSpot01",
+          "position": "1154.99,-113.697,265.617",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 3,
+      "element": 9,
+      "uri": "data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "tag": "GameObject",
+      "source_order": 8,
+      "origin": "gameplay",
+      "module": 1,
+      "module_name": "obj_3of4_brdwalk_sw_00_1",
+      "module_offset": [
+        -6000,
+        0,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_MothSpot02",
+        "position": "1165.88,322.566,255.716",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        1165.88,
+        322.56601,
+        255.716003
+      ],
+      "translated_position": [
+        -4834.12012,
+        322.56601,
+        255.716003
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_MothSpot02",
+          "position": "1165.88,322.566,255.716",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 3,
+      "element": 10,
+      "uri": "data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "tag": "GameObject",
+      "source_order": 9,
+      "origin": "gameplay",
+      "module": 1,
+      "module_name": "obj_3of4_brdwalk_sw_00_1",
+      "module_offset": [
+        -6000,
+        0,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_MothSpotLookTo",
+        "position": "0.0,-556.896,0.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        0,
+        -556.895996,
+        0
+      ],
+      "translated_position": [
+        -6000,
+        -556.895996,
+        0
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_MothSpotLookTo",
+          "position": "0.0,-556.896,0.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 3,
+      "element": 18,
+      "uri": "data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "tag": "GameObject",
+      "source_order": 17,
+      "origin": "gameplay",
+      "module": 1,
+      "module_name": "obj_3of4_brdwalk_sw_00_1",
+      "module_offset": [
+        -6000,
+        0,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_NewCamSpot",
+        "position": "2236.86,314.78,255.716",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        2236.86011,
+        314.779999,
+        255.716003
+      ],
+      "translated_position": [
+        -3763.13989,
+        314.779999,
+        255.716003
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_NewCamSpot",
+          "position": "2236.86,314.78,255.716",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 5,
+      "element": 7,
+      "uri": "data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+      "tag": "GameObject",
+      "source_order": 6,
+      "origin": "gameplay",
+      "module": 2,
+      "module_name": "obj_1of4_brdwalk_nse_00_2",
+      "module_offset": [
+        -6000,
+        6000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_TrollWalkTo",
+        "position": "1202.25,-817.928,252.425",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        1202.25,
+        -817.927979,
+        252.425003
+      ],
+      "translated_position": [
+        -4797.75,
+        5182.07227,
+        252.425003
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_TrollWalkTo",
+          "position": "1202.25,-817.928,252.425",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 7,
+      "element": 6,
+      "uri": "data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+      "tag": "GameObject",
+      "source_order": 5,
+      "origin": "gameplay",
+      "module": 3,
+      "module_name": "corner_ruin_ws_00_3",
+      "module_offset": [
+        -6000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_LizMovie",
+        "position": "-604.478,-1572.2,269.098",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        -604.478027,
+        -1572.19995,
+        269.097992
+      ],
+      "translated_position": [
+        -6604.47803,
+        10427.7998,
+        269.097992
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_LizMovie",
+          "position": "-604.478,-1572.2,269.098",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 7,
+      "element": 7,
+      "uri": "data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+      "tag": "GameObject",
+      "source_order": 6,
+      "origin": "gameplay",
+      "module": 3,
+      "module_name": "corner_ruin_ws_00_3",
+      "module_offset": [
+        -6000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_CampTalk_03",
+        "position": "-3915.56,-47.0576,264.637",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        -3915.56006,
+        -47.0575981,
+        264.636993
+      ],
+      "translated_position": [
+        -9915.56055,
+        11952.9424,
+        264.636993
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_CampTalk_03",
+          "position": "-3915.56,-47.0576,264.637",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 9,
+      "element": 10,
+      "uri": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "tag": "GameObject",
+      "source_order": 9,
+      "origin": "gameplay",
+      "module": 4,
+      "module_name": "merchantcamp_ruins_swe_00_4",
+      "module_offset": [
+        -12000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_DoorCam",
+        "position": "-332.634,-403.889,248.865",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        -332.634003,
+        -403.889008,
+        248.865005
+      ],
+      "translated_position": [
+        -12332.6338,
+        11596.1113,
+        248.865005
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_DoorCam",
+          "position": "-332.634,-403.889,248.865",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 9,
+      "element": 11,
+      "uri": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "tag": "GameObject",
+      "source_order": 10,
+      "origin": "gameplay",
+      "module": 4,
+      "module_name": "merchantcamp_ruins_swe_00_4",
+      "module_offset": [
+        -12000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_PrinceStand",
+        "position": "489.537,237.817,248.865",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        489.536987,
+        237.817001,
+        248.865005
+      ],
+      "translated_position": [
+        -11510.4629,
+        12237.8174,
+        248.865005
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_PrinceStand",
+          "position": "489.537,237.817,248.865",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 9,
+      "element": 17,
+      "uri": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "tag": "GameObject",
+      "source_order": 16,
+      "origin": "gameplay",
+      "module": 4,
+      "module_name": "merchantcamp_ruins_swe_00_4",
+      "module_offset": [
+        -12000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_CampIntro_PRINCE",
+        "position": "2373.92,-55.3057,248.865",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        2373.91992,
+        -55.3056984,
+        248.865005
+      ],
+      "translated_position": [
+        -9626.08008,
+        11944.6943,
+        248.865005
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_CampIntro_PRINCE",
+          "position": "2373.92,-55.3057,248.865",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 9,
+      "element": 18,
+      "uri": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "tag": "GameObject",
+      "source_order": 17,
+      "origin": "gameplay",
+      "module": 4,
+      "module_name": "merchantcamp_ruins_swe_00_4",
+      "module_offset": [
+        -12000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_CampIntro_RENE",
+        "position": "2555.91,-354.411,248.865",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        2555.90991,
+        -354.411011,
+        248.865005
+      ],
+      "translated_position": [
+        -9444.08984,
+        11645.5889,
+        248.865005
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_CampIntro_RENE",
+          "position": "2555.91,-354.411,248.865",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 9,
+      "element": 19,
+      "uri": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "tag": "GameObject",
+      "source_order": 18,
+      "origin": "gameplay",
+      "module": 4,
+      "module_name": "merchantcamp_ruins_swe_00_4",
+      "module_offset": [
+        -12000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_CampIntro_FAERY",
+        "position": "2555.91,234.273,248.865",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        2555.90991,
+        234.272995,
+        248.865005
+      ],
+      "translated_position": [
+        -9444.08984,
+        12234.2734,
+        248.865005
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_CampIntro_FAERY",
+          "position": "2555.91,234.273,248.865",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 9,
+      "element": 20,
+      "uri": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "tag": "GameObject",
+      "source_order": 19,
+      "origin": "gameplay",
+      "module": 4,
+      "module_name": "merchantcamp_ruins_swe_00_4",
+      "module_offset": [
+        -12000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_CampCam",
+        "position": "976.61,-172.423,248.865",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        976.609985,
+        -172.423004,
+        248.865005
+      ],
+      "translated_position": [
+        -11023.3896,
+        11827.5771,
+        248.865005
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_CampCam",
+          "position": "976.61,-172.423,248.865",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 9,
+      "element": 25,
+      "uri": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "tag": "GameObject",
+      "source_order": 24,
+      "origin": "gameplay",
+      "module": 4,
+      "module_name": "merchantcamp_ruins_swe_00_4",
+      "module_offset": [
+        -12000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_BlueDoor",
+        "position": "50.7666,-1685.67,248.865",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        50.7666016,
+        -1685.67004,
+        248.865005
+      ],
+      "translated_position": [
+        -11949.2334,
+        10314.3301,
+        248.865005
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_BlueDoor",
+          "position": "50.7666,-1685.67,248.865",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 15,
+      "element": 2,
+      "uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "tag": "GameObject",
+      "source_order": 1,
+      "origin": "gameplay",
+      "module": 7,
+      "module_name": "bossroom_ruins_ns__8",
+      "module_offset": [
+        -18000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_Center",
+        "position": "0.0,0.0,0.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        0,
+        0,
+        0
+      ],
+      "translated_position": [
+        -18000,
+        12000,
+        0
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_Center",
+          "position": "0.0,0.0,0.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 15,
+      "element": 3,
+      "uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "tag": "GameObject",
+      "source_order": 2,
+      "origin": "gameplay",
+      "module": 7,
+      "module_name": "bossroom_ruins_ns__8",
+      "module_offset": [
+        -18000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_BossSpawnPoint_01",
+        "position": "35.9375,717.224,0.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        35.9375,
+        717.223999,
+        0
+      ],
+      "translated_position": [
+        -17964.0625,
+        12717.2236,
+        0
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_BossSpawnPoint_01",
+          "position": "35.9375,717.224,0.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 15,
+      "element": 4,
+      "uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "tag": "GameObject",
+      "source_order": 3,
+      "origin": "gameplay",
+      "module": 7,
+      "module_name": "bossroom_ruins_ns__8",
+      "module_offset": [
+        -18000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_BossSpawnPoint_02",
+        "position": "-697.457,680.198,0.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,7.25833",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        -697.45697,
+        680.197998,
+        0
+      ],
+      "translated_position": [
+        -18697.457,
+        12680.1982,
+        0
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        7.25832987
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_BossSpawnPoint_02",
+          "position": "-697.457,680.198,0.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,7.25833",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 15,
+      "element": 5,
+      "uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "tag": "GameObject",
+      "source_order": 4,
+      "origin": "gameplay",
+      "module": 7,
+      "module_name": "bossroom_ruins_ns__8",
+      "module_offset": [
+        -18000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_BossSpawnPoint_03",
+        "position": "-1398.31,-429.997,0.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        -1398.31006,
+        -429.997009,
+        0
+      ],
+      "translated_position": [
+        -19398.3105,
+        11570.0029,
+        0
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_BossSpawnPoint_03",
+          "position": "-1398.31,-429.997,0.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 15,
+      "element": 6,
+      "uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "tag": "GameObject",
+      "source_order": 5,
+      "origin": "gameplay",
+      "module": 7,
+      "module_name": "bossroom_ruins_ns__8",
+      "module_offset": [
+        -18000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_BossSpawnPoint_04",
+        "position": "-1380.17,-1598.86,0.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        -1380.17004,
+        -1598.85999,
+        0
+      ],
+      "translated_position": [
+        -19380.1699,
+        10401.1396,
+        0
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_BossSpawnPoint_04",
+          "position": "-1380.17,-1598.86,0.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 15,
+      "element": 7,
+      "uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "tag": "GameObject",
+      "source_order": 6,
+      "origin": "gameplay",
+      "module": 7,
+      "module_name": "bossroom_ruins_ns__8",
+      "module_offset": [
+        -18000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_Wall",
+        "position": "-1573.35,-1031.09,0.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        -1573.34998,
+        -1031.08997,
+        0
+      ],
+      "translated_position": [
+        -19573.3496,
+        10968.9102,
+        0
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_Wall",
+          "position": "-1573.35,-1031.09,0.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 15,
+      "element": 9,
+      "uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "tag": "GameObject",
+      "source_order": 8,
+      "origin": "gameplay",
+      "module": 7,
+      "module_name": "bossroom_ruins_ns__8",
+      "module_offset": [
+        -18000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_SwampKingLook",
+        "position": "-1991.31,-2474.6,0.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        -1991.31006,
+        -2474.6001,
+        0
+      ],
+      "translated_position": [
+        -19991.3105,
+        9525.40039,
+        0
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_SwampKingLook",
+          "position": "-1991.31,-2474.6,0.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 15,
+      "element": 13,
+      "uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "tag": "GameObject",
+      "source_order": 12,
+      "origin": "gameplay",
+      "module": 7,
+      "module_name": "bossroom_ruins_ns__8",
+      "module_offset": [
+        -18000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_PrinceSpot",
+        "position": "-985.924,-930.457,-112.516",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        -985.924011,
+        -930.45697,
+        -112.515999
+      ],
+      "translated_position": [
+        -18985.9238,
+        11069.543,
+        -112.515999
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_PrinceSpot",
+          "position": "-985.924,-930.457,-112.516",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 15,
+      "element": 16,
+      "uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "tag": "GameObject",
+      "source_order": 15,
+      "origin": "gameplay",
+      "module": 7,
+      "module_name": "bossroom_ruins_ns__8",
+      "module_offset": [
+        -18000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_SKLookTo",
+        "position": "0.0,-664.762,0.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        0,
+        -664.762024,
+        0
+      ],
+      "translated_position": [
+        -18000,
+        11335.2383,
+        0
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_SKLookTo",
+          "position": "0.0,-664.762,0.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 15,
+      "element": 17,
+      "uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "tag": "GameObject",
+      "source_order": 16,
+      "origin": "gameplay",
+      "module": 7,
+      "module_name": "bossroom_ruins_ns__8",
+      "module_offset": [
+        -18000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_BossSpawnPoint_05",
+        "position": "-1116.56,102.42,0.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        -1116.56006,
+        102.419998,
+        0
+      ],
+      "translated_position": [
+        -19116.5605,
+        12102.4199,
+        0
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_BossSpawnPoint_05",
+          "position": "-1116.56,102.42,0.0",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 15,
+      "element": 18,
+      "uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "tag": "GameObject",
+      "source_order": 17,
+      "origin": "gameplay",
+      "module": 7,
+      "module_name": "bossroom_ruins_ns__8",
+      "module_offset": [
+        -18000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_PriestSpot01",
+        "position": "-641.139,-1124.19,-112.516",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        -641.138977,
+        -1124.18994,
+        -112.515999
+      ],
+      "translated_position": [
+        -18641.1387,
+        10875.8105,
+        -112.515999
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_PriestSpot01",
+          "position": "-641.139,-1124.19,-112.516",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 15,
+      "element": 19,
+      "uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "tag": "GameObject",
+      "source_order": 18,
+      "origin": "gameplay",
+      "module": 7,
+      "module_name": "bossroom_ruins_ns__8",
+      "module_offset": [
+        -18000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_FaerySpot01",
+        "position": "-1053.5,-1241.23,-112.516",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        -1053.5,
+        -1241.22998,
+        -112.515999
+      ],
+      "translated_position": [
+        -19053.5,
+        10758.7695,
+        -112.515999
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_FaerySpot01",
+          "position": "-1053.5,-1241.23,-112.516",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 15,
+      "element": 28,
+      "uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "tag": "GameObject",
+      "source_order": 27,
+      "origin": "gameplay",
+      "module": 7,
+      "module_name": "bossroom_ruins_ns__8",
+      "module_offset": [
+        -18000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_PrinceEndingSpot",
+        "position": "-462.807,-463.779,-112.516",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        -462.807007,
+        -463.778992,
+        -112.515999
+      ],
+      "translated_position": [
+        -18462.8066,
+        11536.2207,
+        -112.515999
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_PrinceEndingSpot",
+          "position": "-462.807,-463.779,-112.516",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 15,
+      "element": 29,
+      "uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "tag": "GameObject",
+      "source_order": 28,
+      "origin": "gameplay",
+      "module": 7,
+      "module_name": "bossroom_ruins_ns__8",
+      "module_offset": [
+        -18000,
+        12000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint_kinghider",
+        "position": "-2822.64,2855.05,41.7373",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        -2822.63989,
+        2855.05005,
+        41.7373009
+      ],
+      "translated_position": [
+        -20822.6406,
+        14855.0498,
+        41.7373009
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint_kinghider",
+          "position": "-2822.64,2855.05,41.7373",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    },
+    {
+      "document": 17,
+      "element": 5,
+      "uri": "data/3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp",
+      "tag": "GameObject",
+      "source_order": 4,
+      "origin": "gameplay",
+      "module": 8,
+      "module_name": "obj_2of4_brdwalk_sw_00_9",
+      "module_offset": [
+        0,
+        6000,
+        0
+      ],
+      "attributes": {
+        "type": "Block",
+        "name": "_prim_Waypoint",
+        "position": "-2392.01,193.223,246.493",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "Dummy",
+        "_templateName": "Waypoint"
+      },
+      "authored_position": [
+        -2392.01001,
+        193.223007,
+        246.492996
+      ],
+      "translated_position": [
+        -2392.01001,
+        6193.22314,
+        246.492996
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "tree": {
+        "tag": "GameObject",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_Waypoint",
+          "position": "-2392.01,193.223,246.493",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,0.0,255.0",
+          "rotation": "0.0,0.0,0.0",
+          "gametype": "Dummy",
+          "_templateName": "Waypoint"
+        },
+        "children": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,164 @@
+{
+  "validation": "PASS",
+  "scope": "Source additional factory ownership, exact Crypt authored rows and bounded initial virtual/VCB source port; no full additional AIS/live/global namespace parity.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "factory_lifecycle_original_cases": 24,
+  "source_vcb_cases": 4100,
+  "complete_vtables": 6,
+  "original_captured_routines": 108,
+  "crypt_characters": [
+    {
+      "character": "CryptSlime",
+      "character_row": 33,
+      "authored_AI_index": 40,
+      "ai": {
+        "row": 40,
+        "name": "Monster",
+        "script_bytes": 7,
+        "script": "monster",
+        "delayed": 1,
+        "type": 4
+      }
+    },
+    {
+      "character": "CryptSlime_RE",
+      "character_row": 34,
+      "authored_AI_index": 40,
+      "ai": {
+        "row": 40,
+        "name": "Monster",
+        "script_bytes": 7,
+        "script": "monster",
+        "delayed": 1,
+        "type": 4
+      }
+    },
+    {
+      "character": "Crypt_Ghost",
+      "character_row": 35,
+      "authored_AI_index": 68,
+      "ai": {
+        "row": 68,
+        "name": "Ugly_Dog",
+        "script_bytes": 7,
+        "script": "monster",
+        "delayed": 1,
+        "type": 4
+      }
+    },
+    {
+      "character": "Crypt_Skeleton",
+      "character_row": 38,
+      "authored_AI_index": 40,
+      "ai": {
+        "row": 40,
+        "name": "Monster",
+        "script_bytes": 7,
+        "script": "monster",
+        "delayed": 1,
+        "type": 4
+      }
+    },
+    {
+      "character": "Crypt_SkeletonXL",
+      "character_row": 39,
+      "authored_AI_index": 40,
+      "ai": {
+        "row": 40,
+        "name": "Monster",
+        "script_bytes": 7,
+        "script": "monster",
+        "delayed": 1,
+        "type": 4
+      }
+    },
+    {
+      "character": "DefaultFairy",
+      "character_row": 97,
+      "authored_AI_index": 20,
+      "ai": {
+        "row": 20,
+        "name": "Faery",
+        "script_bytes": 8,
+        "script": "follower",
+        "delayed": 1,
+        "type": 3
+      }
+    },
+    {
+      "character": "WanderingPriest",
+      "character_row": 419,
+      "authored_AI_index": 50,
+      "ai": {
+        "row": 50,
+        "name": "Rene",
+        "script_bytes": 4,
+        "script": "rene",
+        "delayed": 0,
+        "type": 2
+      }
+    }
+  ],
+  "required_cache_resources": [
+    {
+      "requested": "_commons",
+      "resolved_path": "data/scripts/ai/_commons.luac",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/_commons.luac",
+      "size": 13535,
+      "sha256": "20d34968e9983e14c24223085ab40d55d47f9387dfdbbf3ff7e6b39aea91252c",
+      "header": "0d0a0d0a6c6f63616c20416e"
+    },
+    {
+      "requested": "monster",
+      "resolved_path": "data/scripts/ai/monster.luac",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/monster.luac",
+      "size": 7393,
+      "sha256": "84f07caaeb2c04f2024cc3e27d41f33806b2c53d6e8861bb3d8b371118fd0e1d",
+      "header": "6c6f63616c20534b494c4c54"
+    },
+    {
+      "requested": "follower",
+      "resolved_path": "data/scripts/ai/follower.luac",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/follower.luac",
+      "size": 1901,
+      "sha256": "2d281c3bc784bbc12356e37cff9e7bdcd44a13e1d45da1fcb21069b4fef48d9d",
+      "header": "0d0a0d0a2d2d205768656e20"
+    },
+    {
+      "requested": "rene",
+      "resolved_path": "data/scripts/ai/rene.luac",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/rene.luac",
+      "size": 9336,
+      "sha256": "631e7137c6ba49fca45e6cf0b37d1e45e4f42af4ca120106274e7e28d5f56fc7",
+      "header": "2d2d20232323232323232323"
+    }
+  ],
+  "arm64_comparisons": 4124,
+  "host_checks": 49244,
+  "sanitizer_findings": 0,
+  "evidence_sha256": {
+    "port\\level-world\\reference\\character-script-kinds\\authored-ai-rows.json": "2d1e53e42bbd9bfb0490b2ba9071c917f27160974b7a8e50cc4c3e2f8de04cd5",
+    "port\\level-world\\reference\\character-script-kinds\\capture.py": "8be29842841ac442079594eb3e635dd77a0fd05c2d11f2c83377313e8f099841",
+    "port\\level-world\\reference\\character-script-kinds\\freeze_report.py": "c223ab7948548c7122bf5fe7eda7b67b643630dbd11bb83ccb47bb1df472edca",
+    "port\\level-world\\reference\\character-script-kinds\\inspect_inputs.py": "ce3b9526ef3559b358c5a99d1a70b2706ea4173cd8b471bc352728cf9a050c40",
+    "port\\level-world\\reference\\character-script-kinds\\kind-probe.json": "93f471391ba5c61e38e75f6fb618953f2a527dba5502da3ef12daa5e9f439f8b",
+    "port\\level-world\\reference\\character-script-kinds\\NOTES.md": "311f0244dab9591ee9f74dcc2c8c79ce290ec6c612fea9e0472534ff502ab07a",
+    "port\\level-world\\reference\\character-script-kinds\\original-functions.json": "c1bf0055cffcf83bd0a25f87e04272eed24731b7462ca2c4d5ca801fa23f5fd1",
+    "port\\level-world\\reference\\character-script-kinds\\probe.py": "08c6a3682c6ac6e7fbe374bee58361a15f9a251e4267af26612d5178d76d4616",
+    "port\\level-world\\reference\\character-script-kinds\\virtual-fixtures.bin": "89e232ca0c97cf744debfde1024068c99bee8914f2088299c4319b86c3dda1e1",
+    "port\\level-world\\reference\\character-script-kinds\\vtables.json": "1de5e25abb25a3a19777a63602073ef34ef395106db5e6d2ed6dd10c6eb15e2b",
+    "port\\level-world\\reference\\character-script-kinds\\reference\\original-functions.asm": "eec4c9684b5f126baf83a56c3424eb8d3b5cbb90e05537993b81dc6839525f73",
+    "port\\level-world\\reference\\character-script-kinds\\virtual-dependencies\\original-functions.json": "867f5d21c0b58139002aea40e18e03447655a07a2601c4b6fc96dbda15d849b8",
+    "port\\level-world\\reference\\character-script-kinds\\virtual-dependencies\\reference\\original-functions.asm": "dd611314278b3a28297423d3efa7f28c2a93e2c4adbfb2b66402732e5e15e4d1"
+  },
+  "native_reports_sha256": {
+    "port\\level-world\\reports\\character-script-virtual-arm64-differential.json": "81758305e57384bf0486614ff3c12f705d17c58d8fa1ad2d3f4551a93a8c04b0",
+    "port\\level-world\\reports\\character-script-virtual-host-audit.json": "b5a18ffb43b2057ae23a56724d656017409bd2abe178e55a9d22f53509c87380"
+  },
+  "new_native_source_sha256": {
+    "port\\level-world\\character_script_virtual.hpp": "d8648e61d063878823b09d12ac6f3ab52281c207bb078ed31357493f75ee538b",
+    "port\\level-world\\character_script_virtual.cpp": "08c8dc9c57258227392a0afa1f44ab0551d5fa716533d1b5c743c2f7945608a3"
+  },
+  "owner_runtime_cmake_edited": false
+}

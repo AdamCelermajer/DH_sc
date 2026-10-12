@@ -1,0 +1,23 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK3sfc6script3lua5Value7getBoolEv",
+      "elf_address": "0x31bc80",
+      "size": 172,
+      "sha256": "d156e3ff80823923f19f40cf626e4923b00ba2889f114cc8f383dfc8b60158b0"
+    },
+    {
+      "original_symbol": "_ZN15VisualFXManager14DropAnimatedFXERP10AnimatedFX",
+      "elf_address": "0x494978",
+      "size": 316,
+      "sha256": "0243184adf121f184e5aca9df26d1411a054c982704d380da9cde135b6fb15f7"
+    },
+    {
+      "original_symbol": "_ZN9Character10RaiseEventEiPv",
+      "elf_address": "0x3a4d5c",
+      "size": 28,
+      "sha256": "2422a21cba16aea71f10939f0f32fe6326e27beb11fe6160b058426b0e2156e3"
+    }
+  ]
+}

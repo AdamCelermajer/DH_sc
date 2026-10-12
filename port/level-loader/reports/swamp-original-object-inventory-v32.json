@@ -1,0 +1,306 @@
+{
+  "scope": "Complete original SWAMP module-file direct authored object inventory, excluding template/config helper declarations",
+  "identity": "SWAMP",
+  "modules": 9,
+  "pairs": 9,
+  "total_authored_module_objects": 195,
+  "types": {
+    "OpenableContainer": 5,
+    "Character": 50,
+    "Dummy": 41,
+    "DestructibleContainer": 9,
+    "SpawnPoint": 11,
+    "TriggerZone": 18,
+    "AnimatedDecor": 37,
+    "Decor": 10,
+    "CheckpointZone": 4,
+    "Door": 4,
+    "TriggerObject": 1,
+    "TriggerZoneExitLevel": 3,
+    "QuestMoveInZone": 1,
+    "SoundEmitter": 1
+  },
+  "files": [
+    {
+      "module": "obj_4of4_brdwalk_sw_00_0",
+      "kind": "mgp",
+      "authored_uri": "data/iphone/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "cache_uri": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "sha256": "651eac91518c0a22362c22cb3ffe15972649e259a6af59d04ba028a90a7baf31",
+      "root_tag": "Module",
+      "direct_objects": 27,
+      "types": {
+        "OpenableContainer": 2,
+        "Character": 7,
+        "Dummy": 11,
+        "DestructibleContainer": 1,
+        "SpawnPoint": 1,
+        "TriggerZone": 5
+      },
+      "other_direct_tags": {}
+    },
+    {
+      "module": "obj_4of4_brdwalk_sw_00_0",
+      "kind": "mvp",
+      "authored_uri": "data/iphone/3d/modules/swamp/mvp/obj_4of4_brdwalk_sw_00.mvp",
+      "cache_uri": "data/3d/modules/swamp/mvp/obj_4of4_brdwalk_sw_00.mvp",
+      "sha256": "09d6d38f0a79f7c2655141cf965008a9330ec9b444d78542adb3d0b3d681baa9",
+      "root_tag": "Module",
+      "direct_objects": 6,
+      "types": {
+        "AnimatedDecor": 6
+      },
+      "other_direct_tags": {}
+    },
+    {
+      "module": "obj_3of4_brdwalk_sw_00_1",
+      "kind": "mgp",
+      "authored_uri": "data/iphone/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "cache_uri": "data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "sha256": "2ec6ce7053701e9903e4e41f7496f317b7ccf0257a10543797c51919f02a5c41",
+      "root_tag": "Module",
+      "direct_objects": 19,
+      "types": {
+        "Character": 10,
+        "TriggerZone": 2,
+        "DestructibleContainer": 2,
+        "Dummy": 5
+      },
+      "other_direct_tags": {}
+    },
+    {
+      "module": "obj_3of4_brdwalk_sw_00_1",
+      "kind": "mvp",
+      "authored_uri": "data/iphone/3d/modules/swamp/mvp/obj_3of4_brdwalk_sw_00.mvp",
+      "cache_uri": "data/3d/modules/swamp/mvp/obj_3of4_brdwalk_sw_00.mvp",
+      "sha256": "348ef39d30b8915a0b8c72093b8f5ed56bac5ac839f44c0b2ac0d3875f883244",
+      "root_tag": "Module",
+      "direct_objects": 9,
+      "types": {
+        "AnimatedDecor": 5,
+        "Decor": 4
+      },
+      "other_direct_tags": {}
+    },
+    {
+      "module": "obj_1of4_brdwalk_nse_00_2",
+      "kind": "mgp",
+      "authored_uri": "data/iphone/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+      "cache_uri": "data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+      "sha256": "cbc2c661b6eb393a024b8ecbf03a6ada2f7950fb35a5dfbf116ed8c444db69c2",
+      "root_tag": "Module",
+      "direct_objects": 13,
+      "types": {
+        "Character": 6,
+        "OpenableContainer": 1,
+        "DestructibleContainer": 1,
+        "TriggerZone": 3,
+        "Dummy": 1,
+        "CheckpointZone": 1
+      },
+      "other_direct_tags": {}
+    },
+    {
+      "module": "obj_1of4_brdwalk_nse_00_2",
+      "kind": "mvp",
+      "authored_uri": "data/iphone/3d/modules/swamp/mvp/obj_1of4_brdwalk_nse_00.mvp",
+      "cache_uri": "data/3d/modules/swamp/mvp/obj_1of4_brdwalk_nse_00.mvp",
+      "sha256": "19bdcfeb32789a324fe7d87d127680b865bca5643f63d2b9c5e5cd90baea3160",
+      "root_tag": "Module",
+      "direct_objects": 4,
+      "types": {
+        "AnimatedDecor": 3,
+        "Decor": 1
+      },
+      "other_direct_tags": {}
+    },
+    {
+      "module": "corner_ruin_ws_00_3",
+      "kind": "mgp",
+      "authored_uri": "data/iphone/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+      "cache_uri": "data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+      "sha256": "ab9614639a09446b5a8520abd703450a1e43dde9a6fc11ca0002646534ea820d",
+      "root_tag": "Module",
+      "direct_objects": 11,
+      "types": {
+        "DestructibleContainer": 1,
+        "Character": 6,
+        "TriggerZone": 1,
+        "Dummy": 2,
+        "OpenableContainer": 1
+      },
+      "other_direct_tags": {}
+    },
+    {
+      "module": "corner_ruin_ws_00_3",
+      "kind": "mvp",
+      "authored_uri": "data/iphone/3d/modules/swamp/mvp/corner_ruin_ws_00.mvp",
+      "cache_uri": "data/3d/modules/swamp/mvp/corner_ruin_ws_00.mvp",
+      "sha256": "967301df19a3ea818015c4da69b99a795d840fd9855de9f65d2fe8bb0f051628",
+      "root_tag": "Module",
+      "direct_objects": 2,
+      "types": {
+        "AnimatedDecor": 1,
+        "Decor": 1
+      },
+      "other_direct_tags": {}
+    },
+    {
+      "module": "merchantcamp_ruins_swe_00_4",
+      "kind": "mgp",
+      "authored_uri": "data/iphone/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "cache_uri": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "sha256": "e1083daa8f12d618fb00b8d489ddfcb6317ffe2e72a4915a56645245d28a13cf",
+      "root_tag": "Module",
+      "direct_objects": 26,
+      "types": {
+        "Character": 4,
+        "DestructibleContainer": 1,
+        "OpenableContainer": 1,
+        "Door": 3,
+        "TriggerZone": 4,
+        "TriggerObject": 1,
+        "Dummy": 7,
+        "SpawnPoint": 1,
+        "TriggerZoneExitLevel": 1,
+        "QuestMoveInZone": 1,
+        "CheckpointZone": 2
+      },
+      "other_direct_tags": {}
+    },
+    {
+      "module": "merchantcamp_ruins_swe_00_4",
+      "kind": "mvp",
+      "authored_uri": "data/iphone/3d/modules/swamp/mvp/merchantcamp_ruins_swe_00.mvp",
+      "cache_uri": "data/3d/modules/swamp/mvp/merchantcamp_ruins_swe_00.mvp",
+      "sha256": "22dc4cc9a7dcc0495f32d979ff2ef9d0080be6801d4d991295621b44129c5231",
+      "root_tag": "Module",
+      "direct_objects": 9,
+      "types": {
+        "AnimatedDecor": 7,
+        "Decor": 2
+      },
+      "other_direct_tags": {}
+    },
+    {
+      "module": "corner_brdwalk_se_00_5",
+      "kind": "mgp",
+      "authored_uri": "data/iphone/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp",
+      "cache_uri": "data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp",
+      "sha256": "927606bb1ac5683c6b6050f1b20955a889e0c480e400326c07da4de93ed19200",
+      "root_tag": "Module",
+      "direct_objects": 9,
+      "types": {
+        "Character": 6,
+        "DestructibleContainer": 2,
+        "TriggerZone": 1
+      },
+      "other_direct_tags": {}
+    },
+    {
+      "module": "corner_brdwalk_se_00_5",
+      "kind": "mvp",
+      "authored_uri": "data/iphone/3d/modules/swamp/mvp/corner_brdwalk_se_00.mvp",
+      "cache_uri": "data/3d/modules/swamp/mvp/corner_brdwalk_se_00.mvp",
+      "sha256": "11c95945c97393e604d79ad2706d6190ac492f703bf85ffc9e1f8dc352a6bd11",
+      "root_tag": "Module",
+      "direct_objects": 2,
+      "types": {
+        "AnimatedDecor": 2
+      },
+      "other_direct_tags": {}
+    },
+    {
+      "module": "deadend_brdwalk_w_00_7",
+      "kind": "mgp",
+      "authored_uri": "data/iphone/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+      "cache_uri": "data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+      "sha256": "152b6a3f3d8cb0df8306aca6bbb6975597e829770e7e98ce581eeaca8412b6a7",
+      "root_tag": "Module",
+      "direct_objects": 9,
+      "types": {
+        "DestructibleContainer": 1,
+        "TriggerZoneExitLevel": 1,
+        "SpawnPoint": 4,
+        "SoundEmitter": 1,
+        "Character": 2
+      },
+      "other_direct_tags": {}
+    },
+    {
+      "module": "deadend_brdwalk_w_00_7",
+      "kind": "mvp",
+      "authored_uri": "data/iphone/3d/modules/swamp/mvp/deadend_brdwalk_w_00.mvp",
+      "cache_uri": "data/3d/modules/swamp/mvp/deadend_brdwalk_w_00.mvp",
+      "sha256": "aeea232d27977b58615291d42d68120b7bf9c21858227510eab193d382492d18",
+      "root_tag": "Module",
+      "direct_objects": 7,
+      "types": {
+        "AnimatedDecor": 6,
+        "Decor": 1
+      },
+      "other_direct_tags": {}
+    },
+    {
+      "module": "bossroom_ruins_ns__8",
+      "kind": "mgp",
+      "authored_uri": "data/iphone/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "cache_uri": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "sha256": "b14672f175a742b36ae477391cdd41cd2d140eba877defffb6abea2673f1d7a4",
+      "root_tag": "Module",
+      "direct_objects": 29,
+      "types": {
+        "TriggerZone": 2,
+        "Dummy": 14,
+        "TriggerZoneExitLevel": 1,
+        "Character": 5,
+        "SpawnPoint": 5,
+        "Door": 1,
+        "CheckpointZone": 1
+      },
+      "other_direct_tags": {}
+    },
+    {
+      "module": "bossroom_ruins_ns__8",
+      "kind": "mvp",
+      "authored_uri": "data/iphone/3d/modules/swamp/mvp/bossroom_ruins_ns_.mvp",
+      "cache_uri": "data/3d/modules/swamp/mvp/bossroom_ruins_ns_.mvp",
+      "sha256": "bf689f385902d12730ab38fd730d448ecc105254bbcc0c2e7a7fbb0c92ce3797",
+      "root_tag": "Module",
+      "direct_objects": 4,
+      "types": {
+        "AnimatedDecor": 4
+      },
+      "other_direct_tags": {}
+    },
+    {
+      "module": "obj_2of4_brdwalk_sw_00_9",
+      "kind": "mgp",
+      "authored_uri": "data/iphone/3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp",
+      "cache_uri": "data/3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp",
+      "sha256": "303921023dfe9ad6bad75aba97ae2e18a5248be5089e2e79653a934282b8036c",
+      "root_tag": "Module",
+      "direct_objects": 5,
+      "types": {
+        "Character": 4,
+        "Dummy": 1
+      },
+      "other_direct_tags": {}
+    },
+    {
+      "module": "obj_2of4_brdwalk_sw_00_9",
+      "kind": "mvp",
+      "authored_uri": "data/iphone/3d/modules/swamp/mvp/obj_2of4_brdwalk_sw_00.mvp",
+      "cache_uri": "data/3d/modules/swamp/mvp/obj_2of4_brdwalk_sw_00.mvp",
+      "sha256": "f017049000a9b65c184e48a58aa9bcc1d71f365c597e5a1cc66ccb75fe7ca339",
+      "root_tag": "Module",
+      "direct_objects": 4,
+      "types": {
+        "AnimatedDecor": 3,
+        "Decor": 1
+      },
+      "other_direct_tags": {}
+    }
+  ],
+  "character_templates": []
+}

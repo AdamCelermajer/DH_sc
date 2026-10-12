@@ -1,0 +1,15 @@
+{
+  "validation": "PASS",
+  "sanitizers": [
+    "ASAN",
+    "UBSAN"
+  ],
+  "source_property_map_sha256": "adc9bbe8597161d69cc3741cdaba5c411aecf91a2b0687feb49a1d211f60166e",
+  "selected_includes_sha256": "46fdc0634865ec09d42dd81191268fb3fb0ef851ecff2292dbbd1dbf0a1adb93",
+  "actual_graph_archive_link": false,
+  "actual_canonical_property_map_source_with_unique_declaration_proposal": true,
+  "stage9_rows": 8,
+  "normalization_bit_exact_cases": 4,
+  "sync_data_exact_cases": 7,
+  "graphics_provider_bound": false
+}

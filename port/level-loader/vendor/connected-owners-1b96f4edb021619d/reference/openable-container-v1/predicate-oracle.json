@@ -1,0 +1,8 @@
+{
+  "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_IsLocked": "0x3a16a8",
+  "source_IsInteractive": "0x39f384",
+  "checks": 81,
+  "pass_": true,
+  "scope": "original ARM predicates vs source-translated arithmetic; not compiled whole owner"
+}

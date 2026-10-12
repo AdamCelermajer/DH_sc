@@ -1,0 +1,226 @@
+{
+  "schema": 1,
+  "status": "SOURCE_ONLY_NOT_RUN",
+  "coherent_source_batches": [
+    "selected-C1-admission-773",
+    "native-loadfile-v65",
+    "stage7-lifecycle-cancellation",
+    "script-command-complete-80",
+    "upper-cancel-forwarding",
+    "container-complete-precache-overlay",
+    "script-complete-bind-preflight"
+  ],
+  "cases": [
+    {
+      "id": "c1_admission",
+      "target": "dh2_loader_c1_admission_v63",
+      "category": "controlled_fixture",
+      "arguments": [],
+      "pass_marker": "PASS synthetic_optional_admission",
+      "coverage": "Selected request/name/raw seed admission; NULL service table atomic retry; completed owner error ordering."
+    },
+    {
+      "id": "fixed_swamp_native_file",
+      "target": "dh2_loader_swamp_native_milestone",
+      "category": "controlled_fixture",
+      "arguments": [
+        "{cache}",
+        "{design}",
+        "{private_save}"
+      ],
+      "required_paths": [
+        "cache",
+        "design",
+        "private_save"
+      ],
+      "fixture_metrics": {
+        "validation": "PASS",
+        "native_filename_kernel_bound": true,
+        "native_CFS_Stream_leaves_are_fixtures": true,
+        "authored_factories": 195,
+        "character_factories": 50,
+        "gameplay_ready": false
+      },
+      "coverage": "Preserved original SWAMP fixture using the coherent native filename/copy/TiXML/common journal and one authoritative native source composition; host IStream/CFS leaves remain fixtures."
+    },
+    {
+      "id": "assigned_seam_lifetimes",
+      "target": "dh2_loader_assigned_source_milestone",
+      "category": "controlled_fixture",
+      "arguments": [],
+      "pass_marker": "PASS",
+      "coverage": "Retained meaningful assigned seam fixtures: pending Read, metadata-only release retry, own facet independent of wrapper, sticky modes, recursion/mutation zero factories, no retired cells."
+    },
+    {
+      "id": "lifecycle_reentry",
+      "target": "dh2_loader_cancel_reentry_v43",
+      "category": "controlled_fixture",
+      "arguments": [],
+      "pass_marker": "LIFECYCLE_CANCEL_REENTRY_V43 PASS",
+      "coverage": "Controlled LifecycleV36 cancellation reentry preserves failed prefix/pins and final successful cleanup drops them."
+    },
+    {
+      "id": "script_data_storage",
+      "target": "dh2_loader_script_storage_milestone",
+      "category": "controlled_fixture",
+      "arguments": [
+        "{script_reference}"
+      ],
+      "required_paths": [
+        "script_reference"
+      ],
+      "fixture_metrics": {
+        "validation": "PASS",
+        "scripts": 70,
+        "original_data_records": 870,
+        "original_read_values": 3495,
+        "whole_command_execution_verified": false
+      },
+      "coverage": "Preserved original common/SWAMP70 script lists,870 Data records/3495 scalar/string/array reads and storage/name/context failures; Main command Init/release fixture."
+    },
+    {
+      "id": "script_commands_80",
+      "target": "dh2_loader_commands_80_milestone",
+      "category": "controlled_fixture",
+      "arguments": [
+        "{script_reference}"
+      ],
+      "required_paths": [
+        "script_reference"
+      ],
+      "fixture_metrics": {
+        "validation": "PASS",
+        "canonical_named_C1_classes": 80,
+        "independent_C1_gold_classes": 46,
+        "available_Data_types": 80,
+        "original_data_records": 870,
+        "original_read_values": 3495,
+        "Execute_calls": 0,
+        "whole_command_execution_verified": false
+      },
+      "coverage": "All80 actual named C1 factory/storage types,75 base Init slots/5 required Main slots; original46 C1 gold plus original870 Data records; native Menu/trap/plate weak pointer lifetime. Added unsampled readers/effects remain unverified."
+    },
+    {
+      "id": "typed_script_init",
+      "target": "dh2_loader_script_init_milestone",
+      "category": "controlled_fixture",
+      "arguments": [],
+      "fixture_metrics": {
+        "validation": "PASS",
+        "actual_Main_engine_leaves_are_fixtures": true,
+        "actual_Execute_calls": 0,
+        "whole_level_ready": false
+      },
+      "coverage": "Existing five typed Init contracts, exact callback order, alias mutation and missing owner/leaf stops; engine leaves remain fixtures."
+    },
+    {
+      "id": "script_app_ownership",
+      "target": "dh2_loader_script_binding_v63",
+      "category": "controlled_fixture",
+      "arguments": [],
+      "fixture_metrics": {
+        "validation": "PASS",
+        "weak_App_not_retained": true,
+        "direct_and_alias_App_owner_rejected": true,
+        "actual_Main_engine_effects_verified": false
+      },
+      "coverage": "Existing meaningful V63 weak App/control-block composition, atomic failed binding and explicit failing Execute transport fixture."
+    },
+    {
+      "id": "actor_image_lifetimes",
+      "target": "dh2_loader_image_lifetime_milestone",
+      "category": "controlled_fixture",
+      "arguments": [
+        "{cache}",
+        "{design}",
+        "{private_save}"
+      ],
+      "required_paths": [
+        "cache",
+        "design",
+        "private_save"
+      ],
+      "fixture_metrics": {
+        "validation": "PASS"
+      },
+      "coverage": "Existing repaired actor/image lifetime and byte-free observer fixture; post-release image/frame delivery and ownership."
+    },
+    {
+      "id": "runtime_menu_native_swamp",
+      "category": "runtime_gate",
+      "required": true,
+      "device": true,
+      "render_identity": "SWAMP",
+      "arguments": [
+        "--case",
+        "{case_id}",
+        "--run-id",
+        "{run_id}",
+        "--integration-id",
+        "{integration_id}",
+        "--receipt",
+        "{receipt}",
+        "--output",
+        "{output}",
+        "--private-save",
+        "{private_save}"
+      ],
+      "coverage": "ONE end-to-end actual menu→native SWAMP/player/camera/controls milestone, with per-source eligible mob/chest draws and integrated lifecycle diagnostics across repeated load/unload.",
+      "runtime_metrics": {
+        "level_identity": "SWAMP",
+        "menu_to_level_transition": true,
+        "same_current_level": true,
+        "whole_init_complete": true,
+        "player_spawned": true,
+        "camera_bound": true,
+        "controls_bound": true,
+        "module_draws": 9,
+        "authored_factories": 195,
+        "character_factories": 50,
+        "chest_factories": 5,
+        "actual_GPU_consumer": true,
+        "filename_stream_ownership_verified": true,
+        "Read_cancellation_verified": true,
+        "release_retry_verified": true,
+        "completed_load_unload_cycles": 3,
+        "normal_frames_during_cancel": 0,
+        "source_owner_leaks": 0
+      },
+      "unavailable_reason": "Main has no trustworthy genuine menu→native SWAMP/player/camera/controls device runner binding here; external milestone remains pending.",
+      "timeout_seconds": 900
+    },
+    {
+      "id": "runtime_generated_layouts",
+      "category": "runtime_gate",
+      "required": false,
+      "generated": true,
+      "render_identity": "SWAMP_02",
+      "arguments": [
+        "--case",
+        "{case_id}",
+        "--run-id",
+        "{run_id}",
+        "--integration-id",
+        "{integration_id}",
+        "--receipt",
+        "{receipt}",
+        "--output",
+        "{output}",
+        "--private-save",
+        "{private_save}"
+      ],
+      "coverage": "Optional same milestone extension ONLY when the original retained generator/serializer is genuinely bound: two original SWAMP_02 layouts, independent assigned source, cancellation/quiescence and actual source inventories.",
+      "runtime_metrics": {
+        "level_identity": "SWAMP_02",
+        "genuine_layouts_loaded": 2,
+        "generator_restarts": 0,
+        "raw_C1_request_seed_equal": true,
+        "assigned_copy_independent": true,
+        "Generate_cancellation_verified": true,
+        "whole_init_complete": true
+      },
+      "unavailable_reason": "Actual original generator/serializer and runtime provider are unavailable; historical inspection layouts do not qualify.",
+      "timeout_seconds": 900
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+# Actual no-room body and Stage34 live peer V89
+
+SOURCE READY, UNCOMPILED. Apply no-room-owner.patch to current owners and stage34-live-forwarding.patch to latest Main renderer composition; complete source successors preserve the V89 environment MarkForDeletion addition and current Root V102 Scene/V103 Level methods. No Root mutation/tests/build/runtime/hash/fixtures.
+
+Whole ObjectManager.HandleNoRoomObjects345954 clears its SAME88 linked list, invokes actual retained receiver virtual20, then rereads SAME2f4; unique list lookup precedes original AddNoRoomObject344184. Add skips nonzero source2f8, otherwise allocates/appends first and stores2f8=1 only after successful insertion. List clear does NOT reset those actor bytes. Failure retains clear/append/flag prefix and real leases. No fake GameObject type or room is inferred from class names.
+
+CanonicalObjectBorrowV1 gains two optional exact field views; existing generic base canonical() lends actual lifecycle2f4 and byte2f8. Fresh RetainedCharacterActorC1 alone produces inherited original C2 38c554/558 (C1 38c2ec/f0) in its existing source maps, and canonical() lends these cells. Observed/adopted actors require actual source production and remain NULL here; no second base/pose/Save. PF/AddCharacter/room providers must use these same actor field views when they publish native2f4/2f8.
+
+renderer_campaign_no_room_v89.inc installs only absent genuine no-room primitive on SAME SourceWorld.stage34_native_v80 at World enrollment. At delivery it pins current candidate/manager/receiver transport and uses its existing is_game_object service, then calls the loader-owned source body. Include after public helpers; invoke install_campaign_no_room_primitive_v89(world,error) at enrollment before Stage34 snapshot. Runtime fragment header closure: stage_loader_stage34_v1.hpp; canonical_receiver_transport_v1.hpp; canonical_object_manager_v1.hpp; source_campaign_runtime_v61.hpp/model_renderer.hpp. Existing manager/base/retained-actor TUs remain sole owners.
+
+The latest renderer_source_stage34_v80.inc successor changes ONLY currently absent handle_no_room_objects/fog_params58 to weak live primitive forwarding, because Main's snapshot precedes class/native composition. Add <tuple> and <utility> to source_campaign_runtime_v61.cpp (or its include closure). Existing Main V102/V103, genuine Character/Checkpoint/save callbacks and source order remain untouched. Guard rejects a mistakenly republished composed forwarding bag instead of recursive execution; no source field is manufactured.
+
+Actual PlayerLightTweaker C1/registration/XML/setValue body continues in the same larger primitive scope and will publish fog_params58 on the same bag. Its missing owner is not substituted by Scene frame fog fields.

@@ -1,0 +1,22 @@
+{
+  "validation": "PASS",
+  "comparisons": 1730,
+  "ordered_services": 27402,
+  "actual_nested_gold_cases": 80,
+  "failure_capacity_guards": 16,
+  "mismatches": 0,
+  "source_sha256": {
+    "port/engine-ui/hud_sprite_timeline.hpp": "4585e30a0aba44c1c9a2ea5430f0a4e59f624a7099cefc3eb15679c13f304e53",
+    "port/engine-ui/hud_sprite_timeline.cpp": "48d1a025d97395adf77b5cb5a93e4828e300b412b17493503e431aa9dd8dbbe6",
+    "port/engine-ui/tests/hud_sprite_timeline.cpp": "f31035764c594cfaca864cf7cbe454fc61062d1efa01a78ff7e1187f49ea2ba5"
+  },
+  "gold_sha256": "7fec8f5e63532570d6ee3fab3b780a01eaddd52f278b9e1df030ba0dd56b50d9",
+  "executable_sha256": "920315420da8b9d5242608707526feaf59ae2227fc0f3600d8b0b8b7e9645f49",
+  "sanitizers": [
+    "address",
+    "undefined",
+    "leak"
+  ],
+  "sanitizer_findings": 0,
+  "scope": "Actual full original caller-instruction scheduling gold, including80 original/native recursive cases. Tags/reverse/sound/weak dirty-notification are explicit required services. Fixed borrowed buffer domain, no full source SWF/AS/frame claim."
+}

@@ -1,0 +1,29 @@
+{
+  "validation": "PASS",
+  "scope": "Actual regen/DoT expiry instructions, property Add/resolve, ordered explicit virtual/attack services versus O2 ARM64.",
+  "comparisons": 1456,
+  "regen_cases": 1200,
+  "dot_cases": 256,
+  "positive_regen_adds": 1382,
+  "explicit_dot_applications": 408,
+  "cached_reset_cases": 32,
+  "actual_RemoveDot_noop_cases": 192,
+  "owner_query_cases": 72,
+  "mismatches": 0,
+  "original_property_get_add_resolver_unmocked": true,
+  "original_virtual_debug_attack_services_explicit": true,
+  "full_buff_registry_owned": false,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "9b4fb5a23806dabd8b44de4ff693372e0c67499ea9fe1d8228cb2ebdfb98980b",
+  "gold_sha256": "b4643101875410864a7f69e270939adfe94ac162aca9ee6cff801e68c5db14ee",
+  "reset_gold_sha256": "e65ab48d040d3dc48a9c3a9682c987ef5d3fa0fb4b888efb7e3d26c3b2f5c0b6",
+  "query_gold_sha256": "b469f1d31fbcbc584057a0245aa4a7d77518ce116b04e150acb687749c624b00",
+  "original_manifest_sha256": "54c81272176bdaea36ebc55fa41d3b1affd1f65a3fcbf069f5ee77470ec325eb",
+  "source_sha256": {
+    "port\\level-world\\character_timer_effects.hpp": "d0d1dcfa0ebb530a8c7fd302a6801357e6a36df9b16d0305c17d67201a0c684a",
+    "port\\level-world\\character_timer_effects.cpp": "b6937578a786cbbb2cc1a516611598941e76d32bac5441d57a4a88b5772bd0f5",
+    "port\\level-world\\tests\\character_timer_effects_differential.py": "2bcf7f57170fb352b8283d661c548ebf1f3a9748c34dcadbf5d03ff9118160da",
+    "port\\level-world\\tools\\build_character_timer_effects_oracle.ps1": "f8b3efbd580a4743cda2bb201645154a017a41c902163e7e11c5e19011b81bca"
+  },
+  "packaged_APK": false
+}

@@ -1,0 +1,63 @@
+{
+  "scope": "READ-ONLY production filesystem adoption audit + unique proposed source fields/adapter; no graph/main mutation",
+  "source_fields": {
+    "initial_shared_working_directory1024": "exact original zero initialized global; one process/engine owner accessor recovered",
+    "getter": "56c214 returns raw same global buffer",
+    "setter": "34e1d4/56c528 actual host chdir -> copy only status0; failure preserves bytes; no OS chdir performed in proof",
+    "C1_paths": "34f6f4/_getPaths34f068 root2c/copy130/save43c=actual RES_PATH; resources234 remains0; trace338=RES_PATH+data/",
+    "original_default_RES_PATH": "original ELF pointer to empty literal; not a current Android save directory",
+    "source_domain_repair": ">250-byte RES_PATH would overflow original256-byte trace stack temporary; reject atomically as explicitly outside source valid domain"
+  },
+  "main_available": {
+    "mounted_OriginalCache": "State retains actual ZipAssetPack/backing Descriptor; copy AFTER mount pins same fd/index",
+    "mount_root": "com.gameloft.android.GAND.GloftD2SS/files/ prefix trimmed by actual ZIP mount",
+    "canonical_key": "ZipAssetPackV1::key handles slash/case/leading./ and rejects colon/absolute/parent paths",
+    "payload_order": "read_admitted validates metadata/local name then callback before vector allocation"
+  },
+  "main_missing_or_not_adopted": [
+    "source global/path facets not yet attached to current main resource bootstrap",
+    "real source-workingdir chdir delivery (only if that source transition is reached)",
+    "later original Android RES_PATH/global delivery beyond original empty initializer (if reached)",
+    "SAME Scene/resource CResFactory directory producer not currently exposed in current Main cache API",
+    "current Android renderer/resource scope binding of proposal",
+    "encoded CPU/budget bridge V46 integration; decoded/GPU/backend remains main"
+  ],
+  "V45_actual_callback": "ActorImageOwnerBorrowV45.images.canonical_uri; parent phrase resolve_filename maps to this callback",
+  "proofs": {
+    "original_ARM_native_ctor_cases": 5,
+    "original_ARM_native_setter_cases": 16,
+    "source_fields_ASAN_UBSAN": "PASS",
+    "typed_adapter_syntax": "PASS",
+    "actual_current_Main_OriginalCache_body_host_metadata_source_probe": "PASS",
+    "main_host_endpoints": "Android AssetManager open/fd/log and renderer-identity are explicit host fixtures; original ZIP streamed through real pread and current cache/ZIP body",
+    "all_five_exact_missing_paths_remain_missing": true,
+    "production_Android_current_UI_scope": "not proven",
+    "budget_GPU_claim": false
+  },
+  "snapshot_main_hashes": {
+    "port/android-native/app/src/main/cpp/original_cache_assets_v1.hpp": "79db2a5dd189cdefe766c0ccf8f4330189c91637ebfb37ed1a626185dee51082",
+    "port/android-native/app/src/main/cpp/original_cache_assets_v1.cpp": "9105ee8da9a7673248654adaa0d286a2bf33b75cf4021e34b3efcf959243d820",
+    "port/android-native/app/src/main/cpp/model_renderer.hpp": "3ef25e73885b1b632fd46718e13890a86ff49d8c66beffaca625ffccbdce90d9",
+    "port/android-native/app/src/main/cpp/model_renderer.cpp": "f5e18dc288f614f7aaf0ce8dfff34da15acf0f2613d16edb3135a532396a5d62",
+    "port/android-native/app/src/main/cpp/renderer_native_level_c1_v25.inc": "a065bb6a91f5239106bd5518e877d7a313cb255a752aff3de4746a34c8b8f00e",
+    "port/android-native/app/src/main/cpp/native_app.cpp": "b51a1b56f0ea11c9c19d5e1a1b84ea8c75b8453305bb132386498ebd80639663",
+    "port/asset-payloads/zip_asset_pack_v1.hpp": "1f3b1b158d1f5ed92840fb88b8b789e063f1b461b3797eb724f45c177d64f9ad",
+    "port/asset-payloads/zip_asset_pack_v1.cpp": "04f0900b5272680b60c64434d769ae7e6b6bee6b7e162bd47dc911ae6608b7f4"
+  },
+  "post_audit_main_hashes": {
+    "port/android-native/app/src/main/cpp/original_cache_assets_v1.hpp": "79db2a5dd189cdefe766c0ccf8f4330189c91637ebfb37ed1a626185dee51082",
+    "port/android-native/app/src/main/cpp/original_cache_assets_v1.cpp": "9105ee8da9a7673248654adaa0d286a2bf33b75cf4021e34b3efcf959243d820",
+    "port/android-native/app/src/main/cpp/model_renderer.hpp": "7e51f55c7f72d2130613481eb419ecfff8bded2d7d40f518ef6ea03ae7e1ae6e",
+    "port/android-native/app/src/main/cpp/model_renderer.cpp": "db185068b38010ab880d7b246c37a6df460de14b2a36dbc031213767b4882426",
+    "port/android-native/app/src/main/cpp/renderer_native_level_c1_v25.inc": "a065bb6a91f5239106bd5518e877d7a313cb255a752aff3de4746a34c8b8f00e",
+    "port/android-native/app/src/main/cpp/native_app.cpp": "8759c5079c72f9d0492f5a53cf54cd52b40d7f0f4bcfd50cc667fc51bc5c8209",
+    "port/asset-payloads/zip_asset_pack_v1.hpp": "1f3b1b158d1f5ed92840fb88b8b789e063f1b461b3797eb724f45c177d64f9ad",
+    "port/asset-payloads/zip_asset_pack_v1.cpp": "04f0900b5272680b60c64434d769ae7e6b6bee6b7e162bd47dc911ae6608b7f4"
+  },
+  "moving_main_files": [
+    "port/android-native/app/src/main/cpp/model_renderer.hpp",
+    "port/android-native/app/src/main/cpp/model_renderer.cpp",
+    "port/android-native/app/src/main/cpp/native_app.cpp"
+  ],
+  "cache_API_body_stable_readback": true
+}

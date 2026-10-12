@@ -1,0 +1,217 @@
+{
+  "validation": "PASS",
+  "scope": "Visible fixed-map inspection, not full loader or gameplay",
+  "serial": "emulator-5590",
+  "app_id": "local.dh2.loader",
+  "pid": 3335,
+  "window": {
+    "avd": "DH2_Loader_API37",
+    "serial": "emulator-5590",
+    "booted": true,
+    "windows": [
+      {
+        "title": "Android Emulator - DH2_Loader_API37:5590",
+        "pid": 132836,
+        "visible": true,
+        "bounds": [
+          93,
+          100,
+          519,
+          1051
+        ]
+      }
+    ]
+  },
+  "apk_sha256": "e7317279653521609adb9b2067edfe4fee34fab0108f7662dec0113a8c7abef3",
+  "packaged_libraries": {
+    "lib/arm64-v8a/libdh2_loader_preview.so": "a5e7200eb87ca5d618841597c4187c487de64df1608c86a61ad47dc81cf049d4",
+    "lib/x86_64/libdh2_loader_preview.so": "555a6294ef0265ab90f51af562e69bb85980298ad77f1c6cbd826631ee6f1ceb"
+  },
+  "catalog": {
+    "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+    "coverage_sha256": "80919d0126a9203f0ecd694240ceaa75feaedaecb113b5034b935071177f150d",
+    "scope": "Fixed map geometry preview; runtime mobs/chests and procedural layouts pending",
+    "maps": [
+      {
+        "identity": "ABBEY_RUINS_01",
+        "definition": "009a_abbey.mlx"
+      },
+      {
+        "identity": "APPLETEMPLEBACKUP",
+        "definition": "x50_earth_temple_demo_BACKUP.mlx"
+      },
+      {
+        "identity": "DARKWOOD",
+        "definition": "003_darkwood.mlx"
+      },
+      {
+        "identity": "DARKWOOD_V2",
+        "definition": "003_darkwood.mlx"
+      },
+      {
+        "identity": "DARKWOOD_V3",
+        "definition": "003_darkwood.mlx"
+      },
+      {
+        "identity": "DARK_DUNGEON_TEMPLE_01",
+        "definition": "038_dark_temple.mlx"
+      },
+      {
+        "identity": "DARK_DUNGEON_TEMPLE_BOSSROOM",
+        "definition": "039_dark_temple_bossroom_01.mlx"
+      },
+      {
+        "identity": "FIRE_TEMPLE_01",
+        "definition": "031_firetemple.mlx"
+      },
+      {
+        "identity": "ICY_HUB",
+        "definition": "025_icy_hub.mlx"
+      },
+      {
+        "identity": "INFECTED_VILLAGE_01",
+        "definition": "005_infectedvillage.mlx"
+      },
+      {
+        "identity": "MACHINE_ROOMS_01",
+        "definition": "037_machine_rooms_01.mlx"
+      },
+      {
+        "identity": "MULTIPLAYER_TEST",
+        "definition": "101_debug_MachineRoomTestMultiPlayer.mlx"
+      },
+      {
+        "identity": "PORTAL_ROOM",
+        "definition": "003_darkwood.mlx"
+      },
+      {
+        "identity": "RED_DESERT_HUB",
+        "definition": "015_red_desert_hub.mlx"
+      },
+      {
+        "identity": "SWAMP",
+        "definition": "001_swamp.mlx"
+      },
+      {
+        "identity": "UNDERWORLD_HUB",
+        "definition": "036_underworld_hub.mlx"
+      }
+    ]
+  },
+  "source_sha256": {
+    "port/android-native/app/src/main/java/com/example/dh2/LoaderPreviewActivity.java": "c432d87e9839bc123eaf7f796c20815d2596bcbd8ff690fa82f758f6e5cc9db2",
+    "port/android-native/app/src/main/assets/loader-map-catalog.json": "af09aed0e767e57db484f593ed3275a874133cd94db576096f0bfd8b48faee07",
+    "port/android-native/app/build.gradle.kts": "1206b401fc94683f5f39e858ee44cbde59baf1f381f611d41b3d5578c5e12c4d",
+    "port/level-loader/android/loader_preview.cpp": "85b4581309c402458070b70e663677ff6e0b1db86cbdb5422dea6fac85e0c3c4",
+    "port/level-loader/VISIBLE-PREVIEW-HANDOFF.md": "46d0697022e6e5e3a9b1fc67620facacd017355d960f69fed4f317f14dce9378",
+    "port/level-loader/tools/build_preview.py": "13a6ce7f01e0ba18493d67ffe0d3a0a382d9946ec691943b385f99a0d69ce273",
+    "port/level-loader/tools/start_preview_emulator.py": "1ffb5ce3e8e0526ac22def1004d42e6361d74071122e22c0aa8011ae5fbb33d3",
+    "port/level-loader/tools/preview_device.py": "bd2e19bee98678c9b5dd537a0b6ac8b2cb7ee378b079197d2e98324dab3cfd06",
+    "port/level-loader/tools/check_visible_preview.py": "140bf9d7e653fcb2d2e669e0081acedbc9c03f11817e9274774ae02e3d8a68e1",
+    "port/level-loader/tools/capture_visible_preview_checkpoint.py": "4051c1a68ae295549b20235a16cb38b6846f29c3dad34c54b7c32706bca923c0"
+  },
+  "frame_log_sha256": "d9ed1020622ff64a446fe6cb6550d261865e74d5b273df9d8ea5d1176296398d",
+  "frames": [
+    [
+      "SWAMP",
+      "9",
+      "369",
+      "384",
+      "24676",
+      "3",
+      "2400",
+      "496"
+    ],
+    [
+      "RED_DESERT_HUB",
+      "6",
+      "205",
+      "224",
+      "19858",
+      "4",
+      "2400",
+      "496"
+    ],
+    [
+      "ICY_HUB",
+      "7",
+      "288",
+      "288",
+      "21313",
+      "3",
+      "2400",
+      "496"
+    ],
+    [
+      "ICY_HUB",
+      "7",
+      "288",
+      "288",
+      "21313",
+      "3",
+      "2400",
+      "496"
+    ],
+    [
+      "ICY_HUB",
+      "7",
+      "288",
+      "288",
+      "21313",
+      "3",
+      "2400",
+      "496"
+    ],
+    [
+      "SWAMP",
+      "9",
+      "369",
+      "384",
+      "24676",
+      "3",
+      "2400",
+      "496"
+    ]
+  ],
+  "pixels": [
+    {
+      "screenshot": "port\\level-loader\\reports\\visible-loader-swamp.png",
+      "sha256": "383fab29246909d9534eb5f257bbd008e3dca9c61ac481ab7e356418505e447c",
+      "surface_non_background_pixels": 41346
+    },
+    {
+      "screenshot": "port\\level-loader\\reports\\visible-loader-red-desert.png",
+      "sha256": "5f66318da479b98941998f93ca8d68095b15259712f535a5d3859f2eef827cec",
+      "surface_non_background_pixels": 39917
+    },
+    {
+      "screenshot": "port\\level-loader\\reports\\visible-loader-icy-hub.png",
+      "sha256": "cb204c9e87b7a36c215727dc55f8430da9cd7e63517697591a4743396c640533",
+      "surface_non_background_pixels": 44331
+    },
+    {
+      "screenshot": "port\\level-loader\\reports\\visible-loader-icy-module.png",
+      "sha256": "4c9f4e9d873aae7d03340d315be700edc38b489d3a232f402aa8f359d2c291a3",
+      "surface_non_background_pixels": 160700
+    },
+    {
+      "screenshot": "port\\level-loader\\reports\\visible-loader-failed-retains-icy.png",
+      "sha256": "9b000de2a8a5cede56a86dd68785b42100eee41dc5ec1ffdae844e6244b48ba6",
+      "surface_non_background_pixels": 160700
+    },
+    {
+      "screenshot": "port\\level-loader\\reports\\visible-loader-swamp-ready.png",
+      "sha256": "9f2c55f359538848be8383fa6c99576020dd44ddf12ce666ceaf0d1985cdebe3",
+      "surface_non_background_pixels": 105599
+    }
+  ],
+  "manual_ui_checks": [
+    "picker Swamp -> Red Desert Hub -> Icy Hub -> Swamp",
+    "module focus and zoom",
+    "failed load retains Icy Hub",
+    "reload uses selected Icy Hub"
+  ],
+  "procedural_layout_rendered": false,
+  "runtime_mobs_chests_rendered": false,
+  "full_loader_verified": false
+}

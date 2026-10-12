@@ -1,0 +1,31 @@
+{
+  "validation": "PASS",
+  "compiler": {
+    "path": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang.exe",
+    "sha256": "f2e1b93d9dd27b847773e7de61b00f1b49ae27eb20ba434297cc020f768a1dfb"
+  },
+  "ndk_version": "Pkg.Desc = Android NDK\nPkg.Revision = 29.0.14206865\nPkg.BaseRevision = 29.0.14206865\nPkg.ReleaseName = r29\n",
+  "arguments": [
+    "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang.exe",
+    "--target=aarch64-linux-android24",
+    "--sysroot=C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot",
+    "-shared",
+    "-fPIC",
+    "-O2",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-Wl,-z,max-page-size=16384",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\script-runtime\\script_scalar_bindings.c",
+    "-o",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\lua514-source\\scalar\\libscript_scalar_oracle.so"
+  ],
+  "library_sha256": "cc3cfc13379dc724d3d42cdfea6bb78f3418385f5f3f2de4d3c556dadf11c8a6",
+  "script_sha256": "e911079d43ff9378b7cc4d8ee9a5e59b21dc9964f01a9ef845a0988e78225f5b",
+  "test_script_sha256": "70da1328fc793f0cb3a0fd8c52f85b87e74faf9805a8f713abe48e86ffc86053",
+  "replay": {
+    "validation": "PASS",
+    "comparisons": 13978,
+    "ordered_imported_service_calls": 862,
+    "mismatches": 0
+  }
+}

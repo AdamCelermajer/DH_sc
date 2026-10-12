@@ -1,0 +1,48 @@
+--- a/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.hpp
++++ b/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.hpp
+@@ -24,6 +24,7 @@
+ namespace dh2::loader {struct LevelPlayerPlacementServicesV68;}
+ namespace dh2::loader {class GameEventTablesV50;}
+ namespace dh2::loader {class GameEventRuntimeV75;}
++namespace dh2::loader {struct Stage33RestoreServicesV1;struct Stage34ServicesV1;}
+ namespace model_renderer {
+ class SourceCampaignFxRuntimeV77;
+ struct SourceCampaignCandidateBorrowV55;
+@@ -75,6 +76,10 @@
+  std::shared_ptr<dh2::loader::LevelGameplayServicesV66> gameplay_services_v66;
+  std::shared_ptr<dh2::loader::LevelGameplayUpdateV66> gameplay_owner_v66;
+  std::shared_ptr<dh2::loader::LevelPlayerPlacementServicesV68> player_placement_v68;
++ // Existing genuine primitive bags supplied by Root's source World creator.
++ // Callbacks capture containing owners weakly; no stage/frame/save state here.
++ std::shared_ptr<dh2::loader::Stage33RestoreServicesV1> stage33_native_v80;
++ std::shared_ptr<dh2::loader::Stage34ServicesV1> stage34_native_v80;
+  std::shared_ptr<void> source_pm_update_provider_v70;
+  std::function<bool(std::string&)> source_pm_update_v70;
+  std::shared_ptr<dh2::world::CanonicalGameObjectGraphV68> gameobject_graph_v68;
+--- a/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp
++++ b/port/android-native/app/src/main/cpp/source_campaign_runtime_v61.cpp
+@@ -1,5 +1,8 @@
+ #include "source_campaign_runtime_v61.hpp"
+ #include "source_campaign_file_io_v65.hpp"
++#include "../level-loader/stage_loader_stage34_v1.hpp"
++#include "retained_character_position_owner_v7.hpp"
++#include "canonical_character_candidate_v60.hpp"
+ #include "source_campaign_events_v75.hpp"
+ #include "source_campaign_anchor_v75.hpp"
+ #include "source_campaign_fx_v77.hpp"
+@@ -358,6 +360,7 @@
+ }
+ 
+ #include "source_campaign_camera_v67.inc"
++#include "renderer_source_stage34_v80.inc"
+ 
+ bool connect_source_campaign_candidate_v55(RendererSourceCampaignV55& state,
+  const std::shared_ptr<dh2::loader::NativeGSLevelRuntimeV27>& gs,
+@@ -451,6 +454,7 @@
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native","Original loading step | %u",phase);e.clear();return true;
+  };
+  out.early_debug={current_world->debug,out.prefix.debug_instance_get_switch};
++ if(!bind_source_stage33_stage34_v80(current_world,state.candidate,actual,out.early_debug,out.source.external,error))return false;
+  auto libraries=application->source_fx_libraries_v63();
+  if(!libraries){
+   fx::VisualFxLibraryDebugV63 debug;debug.application=application;

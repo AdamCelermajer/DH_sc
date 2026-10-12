@@ -1,0 +1,28 @@
+--- a/port/level-world/module_pf_room_v3.cpp
++++ b/port/level-world/module_pf_room_v3.cpp
+@@ -86,7 +86,6 @@
+  unsigned minimap=UINT32_MAX;
+  for(const unsigned i:snapshot){
+   const auto& n=s.graph[s.instances[i].node_index];if(n.name.find("minimap")!=std::string::npos)minimap=i;}
+- if(minimap!=UINT32_MAX){error="Required actual minimap mesh AddNodeToMap continuation";return false;}
+  for(const unsigned i:snapshot){
+   const auto& instance=s.instances[i];const auto node_index=instance.node_index;
+   const auto& n=s.graph[node_index];
+@@ -111,6 +110,17 @@
+    if(tracing&&!debug_.clock_ms(end,error))return false;
+    if(room->floors.size()==1)room->bounds=actual->bounds;else extend(room->bounds,actual->bounds);
+    if(!map_->add(clone->map_node(),error))return false; // PFRoom::_LoadFloor
++   // Original523dfc completes _LoadFloor BEFORE523e00 tests the captured
++   // minimap. With no floor, this branch is never reached and the native
++   // room later returns NULL. Keep the real record/clone/first-map-add prefix.
++   if(minimap!=UINT32_MAX){
++    // The selected SAME authored mesh has no independent native child owner
++    // in this retained graph yet. A Visual/root alias or copied mesh/Scene is
++    // not an AddNodeToMap receiver; fail exactly at native523e24.
++    error="Required independent SAME authored minimap mesh AddNodeToMap receiver";return false;
++   }
++   // Native523eb4..523ed4 uses the last floor's freshly copied mesh only
++   // when the first search found no minimap. This is the actual clone above.
+    if(!map_->add(clone->map_node(),error))return false; // PFWorld::LoadRoom
+   }
+   if(n.name.find("_exit_")!=std::string::npos){

@@ -1,0 +1,20 @@
+{
+  "original_engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "actual_global_addresses": {
+    "size": "0x9a66e0",
+    "data": "0x9a66e4",
+    "names": "0x9a66e8"
+  },
+  "actual_global_symbols": {
+    "size": "009a66e0 B Arrays::v2Events::size",
+    "data": "009a66e4 B Arrays::v2Events::members",
+    "names": "009a66e8 B Arrays::v2Events::m_memberNames"
+  },
+  "zip_event_entries": [
+    "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/v2eventmanager_pycst.bin",
+    "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/v2eventmanager_pyarraynames.bin",
+    "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/v2eventmanager_pyarray.bin",
+    "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/v2eventmanager_pystructnames.bin"
+  ],
+  "zip_source": "original verified cache archive; extracted bytes only fixture evidence, production requires genuine initialized table borrow"
+}

@@ -1,0 +1,23 @@
+{
+  "validation": "PASS",
+  "source_sha256": {
+    "port/engine-animation/particle_emission.hpp": "068c6b40fffb2f48761eef6d07f72077631704ea5652120abd3292e1b96cae46",
+    "port/engine-animation/particle_emission.cpp": "01904fe5acf7d6beeca21088fb021131a511a18ccdd9505f90a301224cade035",
+    "port/engine-animation/tests/particle_emission.cpp": "df62e2997e768aa4bbd69939dceb421cc082b28f8e0c2c49357298315f1ae0c0",
+    "port/engine-animation/tests/particle_emission_differential.py": "e0a34c969ecf912a13347644a364b42e98433b4bce593d191749b07f39cbba7e",
+    "port/engine-animation/tests/particle_emission_host.py": "85dd07e5ec669c3acc24d2d44d5f686649582237fd637e3857e13a506f8449b7",
+    "port/engine-animation/tools/build_particle_emission_oracle.ps1": "41ba667f7e99fe7ddc2020ba3eb99f576071bb365bdbd09328e3b2e46298be44"
+  },
+  "evidence_sha256": {
+    "port/engine-animation/reference/fx-particle-emission/original-functions.json": "7d30fd06f21992cb9f24c68ddc560975e44a173ff3007606df1c680fb315e476",
+    "port/engine-animation/reference/fx-particle-emission/particle-emission-fixtures.bin": "dc899640d5d8f7fab5b5f44ece48da3445a02bdf1cf57624ed1eec7da5ab8125",
+    "port/engine-animation/reference/fx-particle-emission/NOTES.md": "60b58949b0a3e1beb09712845992f0d78aa1be0700cea3a9c1453b60f1ec9bdb",
+    "port/engine-animation/reference/fx-particle-database/original-functions.json": "0d585acbc1147bc068a284435ae0769368f07ff2db3775d4041ad52d392aad5b",
+    "port/engine-animation/reference/fx-particle-database/probe.py": "3d13649705e9c900df4cc79b7a1939e91c22300e4de4ac709b159827c52c7190",
+    "port/engine-animation/reference/fx-particle-database/probe.json": "0dadc4ef62ac2338396461749058257eea50688792ef5162d2e435806f43637b",
+    "port/engine-animation/reference/fx-particle-database/NOTES.md": "955fe064026db1bc55ddd35027cf4f9175d03dfcec41132cb5c00e1ad51ddd0a",
+    "port/engine-animation/reports/particle-emission-arm64-differential.json": "1e5860ff8b2f4e6cd0335b9574dcaa0e12d31e8dfe03825ef5eb3cf3f037bb0d",
+    "port/engine-animation/reports/particle-emission-host-audit.json": "4ca00dfb9ef5b5d9008d7bbe1dd9ed92922d0a25e871e13505314b50b8cd745e"
+  },
+  "scope": "Owned external FX77 type28 sampler\u2192retained generation fields\u2192source emitted storage. Complete internal streaming ownership, remaining model initialization/simulation/material/baker/render/attachment backends required."
+}

@@ -1,0 +1,234 @@
+--- a/port/level-loader/canonical_auxiliary_families_v16.cpp
++++ b/port/level-loader/canonical_auxiliary_families_v16.cpp
+@@ -1,4 +1,5 @@
+ #include "canonical_auxiliary_families_v16.hpp"
++#include "canonical_loading_receiver_v95.hpp"
+ #include <cstring>
+ #include <utility>
+ #include <type_traits>
+@@ -37,7 +38,9 @@
+  }catch(...){record->constructor_state=CanonicalConstructorStateV89::failed;throw;}
+  record->constructor_state=CanonicalConstructorStateV89::completed;
+  auto receiver=std::shared_ptr<Receiver>(record,record->owner.get());
+- auto candidate=Receiver::factory_receiver(std::move(receiver),source.source_lease);
++ auto candidate=Receiver::factory_receiver(receiver,source.source_lease);
++ constexpr bool updatable=!(std::is_same_v<Receiver,world::CanonicalDummyOwnerV14>||std::is_same_v<Receiver,world::CanonicalSpawnPointV15>||std::is_same_v<Receiver,world::CanonicalDecorV15>||std::is_same_v<Receiver,world::CanonicalAnimatedDecorV23>||std::is_same_v<Receiver,world::CanonicalDestructibleContainerV16>);
++ world::bind_gameobject_loading_v95(receiver,updatable,candidate);
+  retained.push_back(std::move(record));output=std::move(candidate);return true;
+ }
+ }
+--- a/port/level-loader/canonical_light_point_factory_v53.cpp
++++ b/port/level-loader/canonical_light_point_factory_v53.cpp
+@@ -14,6 +14,8 @@
+  record->constructor_state=CanonicalConstructorStateV89::completed;
+  auto receiver=std::shared_ptr<world::CanonicalLightPointV53>(record,record->owner.get());
+  auto candidate=world::canonical_class_receiver_v1(receiver);candidate.source_lease=source.source_lease;
++ candidate.source_loading_fields_v95=[receiver](auto& out,auto& e){return receiver->source_loading_fields_v95(receiver,out,e);};
++ candidate.source_is_updatable_v95=[receiver](bool& value,std::string& e){(void)receiver;value=true;e.clear();return true;};
+  candidate.init_post=[receiver](std::string& error){return receiver->init_post(error);};
+  candidate.is_game_object=[](bool& value,std::string& error){value=false;error.clear();return true;};
+  records_.push_back(std::move(record));out=std::move(candidate);e.clear();return true;
+--- a/port/level-loader/canonical_light_point_v53.cpp
++++ b/port/level-loader/canonical_light_point_v53.cpp
+@@ -39,6 +39,15 @@
+  if(!writable(e))return nullptr;
+  auto* value=at(bytes_,offset);if(!value)e="Required produced actual LightPoint ObjectBase save cell";
+  return value;
++}
++bool CanonicalLightPointV53::source_loading_fields_v95(std::shared_ptr<void> pin,CanonicalObjectLoadingFieldsV95& out,std::string& e){
++ if(!writable(e)||!pin){if(e.empty())e="Required live SAME LightPoint field lease";return false;}
++ CanonicalObjectLoadingFieldsV95 value;value.receiver=std::move(pin);value.archetype48=string(0x48);
++ value.enabled8a=at(bytes_,0x8a);value.minimum_ec=at(ints_,0xec);value.disabled_f1=byte(0xf1);
++ value.condition_a8=&condition_a8_v95_;value.tested_ac=&tested_ac_v95_;value.condition_cc=&condition_cc_v95_;value.tested_d0=&tested_d0_v95_;
++ //LightBase overrides SetVisible: do not substitute ObjectBase80-only stores.
++ //A changed enabled state requires the real LightBase resource setter.
++ out=std::move(value);e.clear();return true;
+ }
+ bool CanonicalLightPointV53::fail(const std::string& n,std::string& e){if(error_.empty())error_=n.empty()?"Actual LightPoint service failed":n;e=error_;return false;}
+ bool CanonicalLightPointV53::init_post(std::string& e){if(!writable(e))return false;
+--- a/port/level-loader/canonical_light_point_v53.hpp
++++ b/port/level-loader/canonical_light_point_v53.hpp
+@@ -1,5 +1,6 @@
+ #pragma once
+ #include <canonical_property_map_v1.hpp>
++#include <canonical_object_loading_fields_v95.hpp>
+ #include <light_set_name_owner_v3.hpp>
+ #include <memory>
+ namespace dh2::world {
+@@ -94,6 +95,8 @@
+  bool writable(std::string&)const;
+  std::shared_ptr<void> pin_;std::uintptr_t identity_;
+  target_providers::Handle16 handle_;std::uint32_t type_{19};std::int32_t room_{-1};const char* class_name_{};
++ std::uintptr_t condition_a8_v95_{},condition_cc_v95_{};
++ std::uint8_t tested_ac_v95_{},tested_d0_v95_{};
+  std::string template_;std::map<std::uint32_t,std::uint8_t> bytes_;
+  std::map<std::uint32_t,std::int32_t> ints_;std::map<std::uint32_t,float> floats_;
+  std::map<std::uint32_t,std::string> strings_;std::map<std::uint32_t,std::array<float,3>> vectors_;
+@@ -117,6 +120,7 @@
+  CanonicalObjectBorrowV1 canonical(std::shared_ptr<void>);
+  CanonicalPropertyActorV1 properties()noexcept;
+  bool init_post(std::string&);
++ bool source_loading_fields_v95(std::shared_ptr<void>,CanonicalObjectLoadingFieldsV95&,std::string&);
+  bool sync_data(const LightParameterFieldsV53&,std::string&);
+  const std::string* string(std::uint32_t)const noexcept;
+  const std::array<float,3>* vector(std::uint32_t)const noexcept;
+--- a/port/level-world/canonical_character_candidate_v60.cpp
++++ b/port/level-world/canonical_character_candidate_v60.cpp
+@@ -64,6 +64,17 @@
+  }
+  record->position=std::make_unique<character::RetainedCharacterPositionOwnerV7>(*record->actor,std::move(position));
+  CanonicalClassReceiverV1 result;result.object=record->actor->canonical(record);result.source_lease=source.source_lease;
++ result.source_loading_fields_v95=[record](CanonicalObjectLoadingFieldsV95& out,std::string& e){
++  if(!record->actor){e="Released SAME Character loading receiver";return false;}
++  GameObjectInitializationFieldsV62 fields;if(!record->actor->inherited_initialization_fields_v62(record,fields,e))return false;
++  CanonicalObjectLoadingFieldsV95 value;value.receiver=record;value.archetype48=&record->actor->source_archetype();
++  value.enabled8a=fields.byte(0x8a);value.minimum_ec=fields.integer(0xec);value.disabled_f1=fields.byte(0xf1);
++  value.condition_a8=fields.pointer(0xa8);value.tested_ac=fields.byte(0xac);value.condition_cc=fields.pointer(0xcc);value.tested_d0=fields.byte(0xd0);
++  if(!value.enabled8a||!value.minimum_ec||!value.disabled_f1||!value.condition_a8||!value.tested_ac||!value.condition_cc||!value.tested_d0){e="Unproduced SAME Character ObjectBase loading fields";return false;}
++  out=std::move(value);return true;
++ };
++ result.source_is_updatable_v95=[record](bool& value,std::string& e){if(!record->actor){e="Released Character virtual38 receiver";return false;}value=true;return true;};
++ result.source_init_final_v95=[record](std::string& e){return record->initialize_final_v70(e);};
+  result.properties=[record]{return record->actor->properties();};
+  result.init_post=[record](auto& error){return record->initialize(error);};
+  result.is_game_object=[](bool& value,auto& error){value=true;error.clear();return true;}; // Source GameObject virtual classification.
+--- a/port/level-world/canonical_class_receiver_bindings_v1.hpp
++++ b/port/level-world/canonical_class_receiver_bindings_v1.hpp
+@@ -1,5 +1,6 @@
+ #pragma once
+ #include "canonical_property_map_v1.hpp"
++#include "canonical_object_loading_fields_v95.hpp"
+ #include <functional>
+ namespace dh2::world {
+ // One retained receiver record per actual canonical identity. Allocation and
+@@ -12,6 +13,10 @@
+  std::function<bool(bool&,std::string&)> is_game_object;
+  std::function<bool(std::array<float,3>&,std::string&)> position;
+  std::function<bool(const std::array<float,3>&,bool,std::string&)> set_position;
++ // Original receiver virtual38/58 and SAME ObjectBase CString/condition cells.
++ std::function<bool(CanonicalObjectLoadingFieldsV95&,std::string&)> source_loading_fields_v95;
++ std::function<bool(bool&,std::string&)> source_is_updatable_v95;
++ std::function<bool(std::string&)> source_init_final_v95;
+ };
+ // Works directly with RetainedCharacterActorV1 and
+ // CanonicalOpenableContainerV1; both expose canonical(lease)/properties().
+--- a/port/level-world/canonical_item_candidate_transport_v57.cpp
++++ b/port/level-world/canonical_item_candidate_transport_v57.cpp
+@@ -1,4 +1,5 @@
+ #include "canonical_item_candidate_transport_v57.hpp"
++#include <canonical_loading_receiver_v95.hpp>
+ #include <cstring>
+ namespace dh2::world {
+ CanonicalItemCandidateTransportV57::CanonicalItemCandidateTransportV57(character::WorldItemLiveOwnerV5& items,
+@@ -28,6 +29,8 @@
+     receiver.object.shared_handle!=&item->base().shared_handle()){
+   e="Required SAME newly constructed actual Item/Handle/property/virtual receiver";out=std::move(receiver);return false;
+  }
++ bind_gameobject_loading_fields_v95(item,true,receiver);
++ receiver.source_init_final_v95=[owner=owner_,items=items_,id=item->base().identity()](std::string& e){auto pin=owner.lock();if(!pin){e="Actual Item owner expired before source InitFinal";return false;}bool eligible{};return items->init_final_v23(id,eligible,e);};
+  receiver.source_lease=request.source_lease;
+  const auto owner=owner_;
+  receiver.is_game_object=[owner,item](bool& result,std::string& error){
+--- a/port/level-world/canonical_level_config_module_v1.cpp
++++ b/port/level-world/canonical_level_config_module_v1.cpp
+@@ -46,6 +46,19 @@
+ const std::int32_t* CanonicalLevelConfigV1::integer(std::uint32_t o)const noexcept{return at(ints_,o);}
+ const float* CanonicalLevelConfigV1::scalar_float_v55(std::uint32_t o)const noexcept{return at(floats_,o);}
+ const std::uint8_t* CanonicalLevelConfigV1::byte(std::uint32_t o)const noexcept{return at(bytes_,o);}
++bool CanonicalLevelConfigV1::source_loading_fields_v95(std::shared_ptr<void> pin,CanonicalObjectLoadingFieldsV95& out,std::string& e){
++ if(!pin||pin.get()!=this){e="Required SAME LevelConfig loading receiver";return false;}
++ CanonicalObjectLoadingFieldsV95 value;value.receiver=pin;value.archetype48=string(0x48);
++ value.enabled8a=at(bytes_,0x8a);value.minimum_ec=integer(0xec);value.disabled_f1=byte(0xf1);
++ value.condition_a8=&condition_a8_v95_;value.tested_ac=&tested_ac_v95_;value.condition_cc=&condition_cc_v95_;value.tested_d0=&tested_d0_v95_;
++ value.objectbase_enabled_event=[this,pin](bool enabled,std::string& e){
++  //33de04/34 ordered virtual SetVisible/SetUpdating over SAME80/85.
++  if(!enabled)bytes_.at(0x85)=0;
++  bytes_[0x80]=enabled?bytes_.at(0x8a):0;
++  if(enabled)bytes_.at(0x85)=1;e.clear();return true;
++ };
++ out=std::move(value);e.clear();return true;
++}
+ bool CanonicalLevelConfigV1::init_post(std::string& e){
+  if(bytes_.at(0x29c))return true;bytes_[0x29c]=1;
+  if(strings_[0x24c].empty())strings_[0x24c]="data/3D/camera/CameraTests.bdae";
+--- a/port/level-world/canonical_level_config_module_v1.hpp
++++ b/port/level-world/canonical_level_config_module_v1.hpp
+@@ -15,6 +15,9 @@
+  target_providers::Handle16 handle_;
+  std::uint32_t type_{4};std::int32_t room_{-1};const char* class_name_{};
+  std::string template_;
++ // Original ConditionDataC1 compiled=NULL/tested=0, not GameObject fields.
++ std::uintptr_t condition_a8_v95_{},condition_cc_v95_{};
++ std::uint8_t tested_ac_v95_{},tested_d0_v95_{};
+  std::map<std::uint32_t,std::uint8_t> bytes_;
+  std::map<std::uint32_t,std::int32_t> ints_;
+  std::map<std::uint32_t,float> floats_;
+@@ -39,6 +42,7 @@
+  CanonicalObjectBorrowV1 canonical(std::shared_ptr<void>);
+  CanonicalPropertyActorV1 properties()noexcept;
+  bool init_post(std::string&);
++ bool source_loading_fields_v95(std::shared_ptr<void>,CanonicalObjectLoadingFieldsV95&,std::string&);
+  const std::string* string(std::uint32_t)const noexcept;
+  const std::array<float,3>* vector(std::uint32_t)const noexcept;
+  float* source_vector_component_v90(std::uint32_t offset,std::size_t component)noexcept{
+--- a/port/level-world/canonical_level_module_bindings_v2.cpp
++++ b/port/level-world/canonical_level_module_bindings_v2.cpp
+@@ -1,4 +1,5 @@
+ #include "canonical_level_module_bindings_v2.hpp"
++#include <canonical_loading_receiver_v95.hpp>
+ #include <cstring>
+ #include <algorithm>
+ namespace dh2::world {
+@@ -19,7 +20,10 @@
+  CanonicalClassReceiverV1 r;
+  if(config){
+   auto receiver=std::make_shared<CanonicalLevelConfigV1>(s.construction_.candidate,s.construction_.level_config);
+-  r=canonical_class_receiver_v1(receiver);r.init_post=[receiver](std::string& e){return receiver->init_post(e);};r.is_game_object=[](bool& value,std::string&){value=false;return true;};s.configs_.emplace(r.object.identity,std::move(receiver));
++  r=canonical_class_receiver_v1(receiver);
++  r.source_loading_fields_v95=[receiver](auto& out,auto& e){return receiver->source_loading_fields_v95(receiver,out,e);};
++  r.source_is_updatable_v95=[receiver](bool& value,std::string& e){(void)receiver;value=false;e.clear();return true;};
++  r.init_post=[receiver](std::string& e){return receiver->init_post(e);};r.is_game_object=[](bool& value,std::string&){value=false;return true;};s.configs_.emplace(r.object.identity,std::move(receiver));
+  }else{
+   if(!s.construction_.module_globals||!s.construction_.module_services){e="Required SAME Module static counter/concrete InitPost services";return false;}
+   auto record=std::make_shared<CanonicalModuleRecordV2>();record->declaration=q.source_lease;
+@@ -30,6 +34,7 @@
+   record->receiver=std::make_unique<CanonicalModuleV1>(s.construction_.candidate,record->runtime,*s.construction_.module_globals,init,derived);
+   r.object=record->receiver->canonical(record);
+   r.properties=[record]{return record->receiver->properties();};r.init_post=[record](std::string& e){return record->receiver->init_post(e);};r.is_game_object=[](bool& value,std::string&){value=true;return true;};
++  bind_gameobject_loading_v95(std::shared_ptr<CanonicalModuleV1>(record,record->receiver.get()),false,r);
+   r.position=[record](std::array<float,3>& v,std::string& e){const auto* position=record->receiver->base().vector3(0x160);if(!position){e="Required SAME Module position160";return false;}std::copy_n(position,3,v.begin());return true;};
+   r.set_position=[callback=init.set_position](const std::array<float,3>& v,bool update,std::string& e){if(!callback){e="Required SAME Module GameObject::SetPosition393db4";return false;}return callback(v.data(),update,e);};s.modules_.emplace(r.object.identity,std::move(record));
+  }
+--- a/port/level-world/canonical_openable_graph_v21.cpp
++++ b/port/level-world/canonical_openable_graph_v21.cpp
+@@ -1,4 +1,5 @@
+ #include "canonical_openable_graph_v21.hpp"
++#include <canonical_loading_receiver_v95.hpp>
+ #include <algorithm>
+ namespace dh2::world {
+ namespace {bool required(const char* name,std::string& e){e=std::string("Required actual OpenableContainer graph ")+name;return false;}}
+@@ -85,6 +86,8 @@
+ CanonicalClassReceiverV1 CanonicalOpenableGraphV21::factory_receiver(){
+  auto self=shared_from_this();auto alias=std::shared_ptr<CanonicalOpenableContainerV1>(self,&receiver_);
+  auto out=canonical_class_receiver_v1(alias);
++ bind_gameobject_loading_fields_v95(alias,false,out);
++ out.source_init_final_v95=[self](std::string& e){return self->init_final(e);};
+  out.init_post=[self](auto& e){return self->receiver_.receiver().init_post(e);};
+  out.is_game_object=[](bool& value,auto&){value=true;return true;}; // actual GameObject virtual
+  out.position=[self](auto& out,auto&){std::copy_n(self->runtime_.subobjects.position,3,out.begin());return true;};
+--- a/port/level-world/canonical_room_zone_factory_v3.cpp
++++ b/port/level-world/canonical_room_zone_factory_v3.cpp
+@@ -1,4 +1,5 @@
+ #include "canonical_room_zone_factory_v3.hpp"
++#include <canonical_loading_receiver_v95.hpp>
+ #include <algorithm>
+ #include <cstring>
+ namespace dh2::world {
+@@ -15,6 +16,7 @@
+  record->constructor_completed_v91=true;
+  auto& receiver=*record->receiver;receiver.base().class_name20()=entry.name;
+  CanonicalClassReceiverV1 result;result.object=receiver.canonical(record);
++ bind_gameobject_loading_v95(std::shared_ptr<CanonicalRoomZoneV3>(record,record->receiver.get()),true,result);
+  result.properties=[record]{return record->receiver->properties();};
+  result.init_post=[record](std::string& e){return record->receiver->init_post(e);};
+  result.is_game_object=[](bool& value,std::string& e){e.clear();value=true;return true;};

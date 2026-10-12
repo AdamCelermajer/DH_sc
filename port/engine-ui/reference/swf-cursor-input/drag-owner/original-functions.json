@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7gameswf4root9stop_dragEv",
+      "elf_address": "0x77415c",
+      "size": 12,
+      "sha256": "f401979445c0b5af273df30761bb0d4d35fe7d48f04055ab2dbe4f9b709b77e8"
+    },
+    {
+      "original_symbol": "_ZN7gameswf15sprite_instance14set_drag_stateERKNS_9character10drag_stateE",
+      "elf_address": "0x77fdd0",
+      "size": 64,
+      "sha256": "2a52035367bd718b6525d0c995da37e0532b6a878668eebd7b2c7eda7d66a81a"
+    },
+    {
+      "original_symbol": "_ZN7gameswf15sprite_instance14get_drag_stateEPNS_9character10drag_stateE",
+      "elf_address": "0x77e02c",
+      "size": 44,
+      "sha256": "c40d8d22dc82383d99e58a8e59cf4e88171c871e607e3ada6ea4c2388fed7e86"
+    },
+    {
+      "original_symbol": "_ZN7gameswf4root10start_dragEPNS_9characterEbbRNS_4rectE",
+      "elf_address": "0x775154",
+      "size": 104,
+      "sha256": "19fcbd703367a12eafb6bba1b701df7ffdee8dc2cd57781a22188799b7c807e6"
+    }
+  ]
+}

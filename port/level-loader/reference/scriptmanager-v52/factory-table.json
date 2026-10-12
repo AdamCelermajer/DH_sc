@@ -1,0 +1,566 @@
+{
+  "table_address": "0x968c00",
+  "source_bounds_unverified": "0x140 stride strongly suggests80 entries; confirm command kind count enum/domain before production",
+  "entries": [
+    {
+      "kind": 0,
+      "command_factory": "0x458d40",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ExecScript>()",
+      "data_factory": "0x4576d8",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::ExecScript>()"
+    },
+    {
+      "kind": 1,
+      "command_factory": "0x458cf8",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_EnterCutSceneMode>()",
+      "data_factory": "0x45769c",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::EnterCutSceneMode>()"
+    },
+    {
+      "kind": 2,
+      "command_factory": "0x458cb0",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ExitCutSceneMode>()",
+      "data_factory": "0x457660",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::ExitCutSceneMode>()"
+    },
+    {
+      "kind": 3,
+      "command_factory": "0x458c68",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_CONSOLE>()",
+      "data_factory": "0x457624",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::CONSOLE>()"
+    },
+    {
+      "kind": 4,
+      "command_factory": "0x458c20",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SetCamera>()",
+      "data_factory": "0x4575e4",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SetCamera>()"
+    },
+    {
+      "kind": 5,
+      "command_factory": "0x458bd8",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_PlayCamera>()",
+      "data_factory": "0x4575a0",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::PlayCamera>()"
+    },
+    {
+      "kind": 6,
+      "command_factory": "0x458b90",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SetCameraClip>()",
+      "data_factory": "0x45755c",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SetCameraClip>()"
+    },
+    {
+      "kind": 7,
+      "command_factory": "0x458b48",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_WaitCamera>()",
+      "data_factory": "0x457518",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::WaitCamera>()"
+    },
+    {
+      "kind": 8,
+      "command_factory": "0x458b00",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SetCameraTarget>()",
+      "data_factory": "0x4574dc",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SetCameraTarget>()"
+    },
+    {
+      "kind": 9,
+      "command_factory": "0x458ab8",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_EmptyImpl>()",
+      "data_factory": "0x4574a0",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::NilCmd>()"
+    },
+    {
+      "kind": 10,
+      "command_factory": "0x458a70",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_StartDialog>()",
+      "data_factory": "0x457458",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::StartDialog>()"
+    },
+    {
+      "kind": 11,
+      "command_factory": "0x458a28",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_StartDialogID>()",
+      "data_factory": "0x457418",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::StartDialogID>()"
+    },
+    {
+      "kind": 12,
+      "command_factory": "0x4589e0",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_WaitDialog>()",
+      "data_factory": "0x4573dc",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::WaitDialog>()"
+    },
+    {
+      "kind": 13,
+      "command_factory": "0x458998",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_PlaySound>()",
+      "data_factory": "0x457390",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::PlaySound>()"
+    },
+    {
+      "kind": 14,
+      "command_factory": "0x458950",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_StopSound>()",
+      "data_factory": "0x457348",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::StopSound>()"
+    },
+    {
+      "kind": 15,
+      "command_factory": "0x458908",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_PlayLevelMusic>()",
+      "data_factory": "0x457308",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::PlayLevelMusic>()"
+    },
+    {
+      "kind": 16,
+      "command_factory": "0x4588c0",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_EnterSafeZone>()",
+      "data_factory": "0x4572cc",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::EnterSafeZone>()"
+    },
+    {
+      "kind": 17,
+      "command_factory": "0x458878",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_LeaveSafeZone>()",
+      "data_factory": "0x457290",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::LeaveSafeZone>()"
+    },
+    {
+      "kind": 18,
+      "command_factory": "0x458830",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_PlayAnimById>()",
+      "data_factory": "0x457254",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::PlayAnimById>()"
+    },
+    {
+      "kind": 19,
+      "command_factory": "0x4587e8",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_PlayAnimByName>()",
+      "data_factory": "0x457214",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::PlayAnimByName>()"
+    },
+    {
+      "kind": 20,
+      "command_factory": "0x4587a0",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_PlayEffect>()",
+      "data_factory": "0x4571c4",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::PlayEffect>()"
+    },
+    {
+      "kind": 21,
+      "command_factory": "0x458758",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_StopEffect>()",
+      "data_factory": "0x457184",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::StopEffect>()"
+    },
+    {
+      "kind": 22,
+      "command_factory": "0x45870c",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ShowFlash>()",
+      "data_factory": "0x457148",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::ShowFlash>()"
+    },
+    {
+      "kind": 23,
+      "command_factory": "0x4586c0",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_HideFlash>()",
+      "data_factory": "0x45710c",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::HideFlash>()"
+    },
+    {
+      "kind": 24,
+      "command_factory": "0x458678",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_LockCharacter>()",
+      "data_factory": "0x4570d0",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::LockCharacter>()"
+    },
+    {
+      "kind": 25,
+      "command_factory": "0x458630",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_UnlockCharacter>()",
+      "data_factory": "0x457094",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::UnlockCharacter>()"
+    },
+    {
+      "kind": 26,
+      "command_factory": "0x4585e0",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_Wait>()",
+      "data_factory": "0x457054",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::Wait>()"
+    },
+    {
+      "kind": 27,
+      "command_factory": "0x458598",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SetFaeryState>()",
+      "data_factory": "0x457010",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SetFaeryState>()"
+    },
+    {
+      "kind": 28,
+      "command_factory": "0x458550",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_IncFaeryLevel>()",
+      "data_factory": "0x456fd0",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::IncFaeryLevel>()"
+    },
+    {
+      "kind": 29,
+      "command_factory": "0x458508",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_PutCharacterInLimbus>()",
+      "data_factory": "0x456f94",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::PutCharacterInLimbus>()"
+    },
+    {
+      "kind": 30,
+      "command_factory": "0x4584c0",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SpawnCharacter>()",
+      "data_factory": "0x456f58",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SpawnCharacter>()"
+    },
+    {
+      "kind": 31,
+      "command_factory": "0x458478",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_PutCharacterInIdle>()",
+      "data_factory": "0x456f1c",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::PutCharacterInIdle>()"
+    },
+    {
+      "kind": 32,
+      "command_factory": "0x458430",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_MarkCharacterAsScripted>()",
+      "data_factory": "0x456ee0",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::MarkCharacterAsScripted>()"
+    },
+    {
+      "kind": 33,
+      "command_factory": "0x4583e8",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_AIEnableTimer>()",
+      "data_factory": "0x456ea0",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::AIEnableTimer>()"
+    },
+    {
+      "kind": 34,
+      "command_factory": "0x4583a0",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_AIResetTimer>()",
+      "data_factory": "0x456e64",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::AIResetTimer>()"
+    },
+    {
+      "kind": 35,
+      "command_factory": "0x458358",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_AIDoSkill>()",
+      "data_factory": "0x456e28",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::AIDoSkill>()"
+    },
+    {
+      "kind": 36,
+      "command_factory": "0x458310",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_AISetHP>()",
+      "data_factory": "0x456de8",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::AISetHP>()"
+    },
+    {
+      "kind": 37,
+      "command_factory": "0x4582c8",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_AIChangeScript>()",
+      "data_factory": "0x456da8",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::AIChangeScript>()"
+    },
+    {
+      "kind": 38,
+      "command_factory": "0x458280",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_AISetInt>()",
+      "data_factory": "0x456d68",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::AISetInt>()"
+    },
+    {
+      "kind": 39,
+      "command_factory": "0x458238",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_StopActor>()",
+      "data_factory": "0x456d2c",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::StopActor>()"
+    },
+    {
+      "kind": 40,
+      "command_factory": "0x4581e4",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_MoveActor>()",
+      "data_factory": "0x456cec",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::MoveActor>()"
+    },
+    {
+      "kind": 41,
+      "command_factory": "0x45819c",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_LookActor>()",
+      "data_factory": "0x456cac",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::LookActor>()"
+    },
+    {
+      "kind": 42,
+      "command_factory": "0x458154",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ShowActor>()",
+      "data_factory": "0x456c70",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::ShowActor>()"
+    },
+    {
+      "kind": 43,
+      "command_factory": "0x45810c",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_HideActor>()",
+      "data_factory": "0x456c34",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::HideActor>()"
+    },
+    {
+      "kind": 44,
+      "command_factory": "0x4580c4",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_KillActor>()",
+      "data_factory": "0x456bf8",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::KillActor>()"
+    },
+    {
+      "kind": 45,
+      "command_factory": "0x4595c8",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_PlayActorAnim>()",
+      "data_factory": "0x456bbc",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::PlayActorAnim>()"
+    },
+    {
+      "kind": 46,
+      "command_factory": "0x45807c",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SetActorPosition>()",
+      "data_factory": "0x456b7c",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SetActorPosition>()"
+    },
+    {
+      "kind": 47,
+      "command_factory": "0x458034",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SetActorMaster>()",
+      "data_factory": "0x456b3c",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SetActorMaster>()"
+    },
+    {
+      "kind": 48,
+      "command_factory": "0x457fec",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_DropLoot>()",
+      "data_factory": "0x456afc",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::DropLoot>()"
+    },
+    {
+      "kind": 49,
+      "command_factory": "0x457fa4",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_AutoEquip>()",
+      "data_factory": "0x456ac0",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::AutoEquip>()"
+    },
+    {
+      "kind": 50,
+      "command_factory": "0x457f5c",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_UnEquipItemFromSlot>()",
+      "data_factory": "0x456a84",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::UnEquipItemFromSlot>()"
+    },
+    {
+      "kind": 51,
+      "command_factory": "0x457f14",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_UnEquipHands>()",
+      "data_factory": "0x456a48",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::UnEquipHands>()"
+    },
+    {
+      "kind": 52,
+      "command_factory": "0x457ecc",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ReEquipHands>()",
+      "data_factory": "0x456a0c",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::ReEquipHands>()"
+    },
+    {
+      "kind": 53,
+      "command_factory": "0x457e84",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SetStatic>()",
+      "data_factory": "0x4569d0",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SetStatic>()"
+    },
+    {
+      "kind": 54,
+      "command_factory": "0x457e34",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_OpenDoor>()",
+      "data_factory": "0x456994",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::OpenDoor>()"
+    },
+    {
+      "kind": 55,
+      "command_factory": "0x457de4",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_CloseDoor>()",
+      "data_factory": "0x456958",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::CloseDoor>()"
+    },
+    {
+      "kind": 56,
+      "command_factory": "0x457d98",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ActivateProjectileTrap>()",
+      "data_factory": "0x45691c",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::ActivateProjectileTrap>()"
+    },
+    {
+      "kind": 57,
+      "command_factory": "0x457d4c",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_DeactivateProjectileTrap>()",
+      "data_factory": "0x4568e0",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::DeactivateProjectileTrap>()"
+    },
+    {
+      "kind": 58,
+      "command_factory": "0x457d00",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ActivateTriggerPlate>()",
+      "data_factory": "0x4568a4",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::ActivateTriggerPlate>()"
+    },
+    {
+      "kind": 59,
+      "command_factory": "0x457cb4",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_DeactivateTriggerPlate>()",
+      "data_factory": "0x456868",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::DeactivateTriggerPlate>()"
+    },
+    {
+      "kind": 60,
+      "command_factory": "0x457c6c",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SpawnContainer>()",
+      "data_factory": "0x45682c",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SpawnContainer>()"
+    },
+    {
+      "kind": 61,
+      "command_factory": "0x457c24",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SetLevelState>()",
+      "data_factory": "0x4567e8",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SetLevelState>()"
+    },
+    {
+      "kind": 62,
+      "command_factory": "0x457bdc",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SetWorldMapLocationState>()",
+      "data_factory": "0x4567a4",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SetWorldMapLocationState>()"
+    },
+    {
+      "kind": 63,
+      "command_factory": "0x457b94",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_RestartLevel>()",
+      "data_factory": "0x456768",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::RestartLevel>()"
+    },
+    {
+      "kind": 64,
+      "command_factory": "0x457b4c",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ChangeLevel>()",
+      "data_factory": "0x45672c",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::ChangeLevel>()"
+    },
+    {
+      "kind": 65,
+      "command_factory": "0x457b04",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_EndGame>()",
+      "data_factory": "0x4566f0",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::EndGame>()"
+    },
+    {
+      "kind": 66,
+      "command_factory": "0x457abc",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_AwardTrophy>()",
+      "data_factory": "0x4566b0",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::AwardTrophy>()"
+    },
+    {
+      "kind": 67,
+      "command_factory": "0x457a74",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_AwardEndGameTrophies>()",
+      "data_factory": "0x456674",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::AwardEndGameTrophies>()"
+    },
+    {
+      "kind": 68,
+      "command_factory": "0x457a2c",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ShowTrophies>()",
+      "data_factory": "0x456638",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::ShowTrophies>()"
+    },
+    {
+      "kind": 69,
+      "command_factory": "0x4579e4",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SaveGame>()",
+      "data_factory": "0x4565fc",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SaveGame>()"
+    },
+    {
+      "kind": 70,
+      "command_factory": "0x45799c",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_BlockSaveGame>()",
+      "data_factory": "0x4565c0",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::BlockSaveGame>()"
+    },
+    {
+      "kind": 71,
+      "command_factory": "0x457954",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_EnqueueTutorialMessage>()",
+      "data_factory": "0x45657c",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::EnqueueTutorialMessage>()"
+    },
+    {
+      "kind": 72,
+      "command_factory": "0x45790c",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SkipTutorialMessage>()",
+      "data_factory": "0x456540",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SkipTutorialMessage>()"
+    },
+    {
+      "kind": 73,
+      "command_factory": "0x4578c4",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SkipAllTutorialMessages>()",
+      "data_factory": "0x456504",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SkipAllTutorialMessages>()"
+    },
+    {
+      "kind": 74,
+      "command_factory": "0x45787c",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_EnqueueCharMenuTutorialMessage>()",
+      "data_factory": "0x4564c4",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::EnqueueCharMenuTutorialMessage>()"
+    },
+    {
+      "kind": 75,
+      "command_factory": "0x457834",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SkipCharMenuTutorialMessage>()",
+      "data_factory": "0x456488",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SkipCharMenuTutorialMessage>()"
+    },
+    {
+      "kind": 76,
+      "command_factory": "0x4577ec",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SkipAllCharMenuTutorialMessages>()",
+      "data_factory": "0x45644c",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::SkipAllCharMenuTutorialMessages>()"
+    },
+    {
+      "kind": 77,
+      "command_factory": "0x4577a4",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_LockTutorial>()",
+      "data_factory": "0x45640c",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::LockTutorial>()"
+    },
+    {
+      "kind": 78,
+      "command_factory": "0x45775c",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_DoTutorial>()",
+      "data_factory": "0x4563d0",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::DoTutorial>()"
+    },
+    {
+      "kind": 79,
+      "command_factory": "0x457714",
+      "command_symbol": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_FlushMessages>()",
+      "data_factory": "0x456394",
+      "data_symbol": "Structs::ScriptCmd* GetNewScriptCmdDataInstance<Structs::FlushMessages>()"
+    }
+  ]
+}

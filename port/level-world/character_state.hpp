@@ -70,4 +70,15 @@ int dh2_character_state_event(dh2::character::State*,const dh2::character::Facts
 // machine stun/scare enforcement and general timers/AI are outside this API.
 int dh2_character_state_update(dh2::character::State*,const dh2::character::Facts*,
  std::uint32_t dt_ms,const dh2::character::Services*);
+// Individual recovered behavior bodies for a genuine StateInfo owner. They
+// perform no state selection, elapsed reset, predicate or outer notification.
+// Current must be one of 3/4/5/12; missing/full other behavior stays unsupported.
+int dh2_character_state_focus_body(dh2::character::State*,const dh2::character::Facts*,
+ std::int32_t previous,std::uint64_t payload,const dh2::character::Services*);
+int dh2_character_state_blur_body(dh2::character::State*,const dh2::character::Facts*,
+ const dh2::character::Services*);
+// Individual OnEvent only; the real machine clears timer gate bits and owns
+// registered transition predicates before/after this behavior call.
+int dh2_character_state_event_body(dh2::character::State*,const dh2::character::Facts*,
+ std::uint32_t event,const dh2::character::Services*);
 }

@@ -1,0 +1,24 @@
+{
+  "validation": "PASS",
+  "comparisons": 6000,
+  "ordered_services": 24774,
+  "original_recursive_reset_focus_calls": 14,
+  "operation_counts": {
+    "0": 1200,
+    "1": 1200,
+    "2": 1200,
+    "3": 1200,
+    "4": 1200
+  },
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "bdadbb2ca9f0c054418e184849b605bbca8de9daac4baf11e187349ec9b4e9e0",
+  "gold_sha256": "f3bba202b2db1806244f1be0d233c3426a6f9422e7bac0503844d46fd8045106",
+  "source_sha256": {
+    "port/engine-ui/swf_cursor_input.hpp": "c0425aa349ac0bfdb569dfe53f3a290a21065bf4925b55eece71111f99981d0f",
+    "port/engine-ui/swf_cursor_input.cpp": "921210ebadefa716cc95a63d7fea2d428652dee7317dee7078aebd6cd09c4dfc",
+    "port/engine-ui/tests/swf_cursor_input_differential.py": "170865ac36c5c10913ae447de1f1ec6bcafe36c68603e5158d6c8d0b845a5f77"
+  },
+  "scope": "Complete original four-slot input coordination; graph/virtual endpoints explicit.",
+  "whole_game_input_parity": false
+}

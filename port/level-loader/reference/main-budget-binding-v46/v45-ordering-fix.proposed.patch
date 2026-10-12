@@ -1,0 +1,12 @@
+--- a/generic_actor_image_binding_v45.cpp
++++ b/generic_actor_image_binding_v45.cpp
+@@
+ struct AdmittedImageBytes {
+- std::shared_ptr<const std::vector<std::uint8_t>> bytes;
+- std::shared_ptr<void> filesystem_owner,cpu_admission;
++ std::shared_ptr<void> cpu_admission,filesystem_owner;
++ std::shared_ptr<const std::vector<std::uint8_t>> bytes;
+ };
+@@
+-    auto allocation=std::make_shared<AdmittedImageBytes>(AdmittedImageBytes{binding.image.bytes,binding.image.resource_owner,binding.cpu_admission_pin});
++    auto allocation=std::make_shared<AdmittedImageBytes>(AdmittedImageBytes{binding.cpu_admission_pin,binding.image.resource_owner,binding.image.bytes});

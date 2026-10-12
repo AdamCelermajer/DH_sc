@@ -1,0 +1,31 @@
+{
+  "validation": "FROZEN",
+  "source_sha256": {
+    "port/engine-ui/swf_font_resolver.hpp": "c40655869b4dfe3b05fa226ed148b77ee984a45fbd70b70ba38ae3160b8a0462",
+    "port/engine-ui/swf_font_resolver.cpp": "1876dfb38e04eb4f31243d59d64a746ff5a3d3d62a8b1f0d44a72174d720e96a",
+    "port/engine-ui/tests/swf_font_resolver.cpp": "84806dc5a70c4c77c785a2392f50f7b5b6f922d8c64b33217c8182e5d65618d8",
+    "port/engine-ui/tests/swf_font_resolver_hud.cpp": "7f36a75a41695a8f0db34a6e992f59b0510dc9eaec2727ad9aa8d6855b9be7bd",
+    "port/engine-ui/tests/swf_font_resolver_differential.py": "d0edf6bfe9bffcee49558b84ce604d30daca70c8e9ce028979675b3f25c313d2",
+    "port/engine-ui/freetype237-hud.cmake": "ac8afc6d3cd246d9159e0ab67b5b2340f3b4c4afc84aed7497078a4c707d5804"
+  },
+  "proof_sha256": {
+    "port/engine-ui/reference/swf-font-resolver/hud-vendor-manifest.json": "f1313f1e35df20cde190bc330387943c37bf44cb101d18beacfec801f1eff917",
+    "port/engine-ui/reference/swf-font-resolver/NOTES.md": "d281f2a3f6ec80b50e336114be66af3a09619e5451e96ce5dc87f4b0fbed2445",
+    "port/engine-ui/reference/swf-font-resolver/source-fixtures.bin": "beaf3510617ba8d30753982676e5cbf7ca4fb42f7f4a417c6da449d0f5bc47a5",
+    "port/level-world/reference/font-text/font-resolver-corrected/original-probe.json": "28d1bcc7e43f339d483ecbf86f8be821dbb81cf76412c2fd36d07b5ceee58326",
+    "port/level-world/reference/font-text/font-resolver-corrected/NOTES.md": "d8875f248b88e1d96852ee9218afb7b52b0ba4533e72f2cda840ad1115ca83c9",
+    "port/engine-ui/reports/swf-font-resolver-arm64-differential.json": "1516d145e230ee3b883bb7859cae8e1fdd03304f106a6ccf181134d02ee283a9",
+    "port/engine-ui/reports/swf-font-resolver-host-audit.json": "5887bc20eecb51b96dc7d231076a2a864a50205c05d431c5f3d7248d2385a41c",
+    "port/engine-ui/reports/swf-font-resolver-hud-audit.json": "ad073875ee2187fe8145fc37cef7b25dfdbc9fd7d026e7e8143b5342101b8343",
+    "port/engine-ui/reports/freetype-hud-android-syntax.json": "154503cbf370cbfdb94620c34e35f4a1159d2490984816d1732baf58bb22a532",
+    "port/engine-ui/reports/freetype-hud-vendor-raster-audit.json": "c52768f3cb4155e4277dcaef8133529c5f0116f826025d2acc21e9ba246bcdf6"
+  },
+  "prior_fontin_freeze_sha256": "995efeb7b69c27e05ddd53b8787307fe0e0cf83caa7df6247478ca09e7feb42f",
+  "prior_vendor_unchanged": true,
+  "original_arm64_cases": 1152,
+  "ordered_services": 4544,
+  "actual_hud_alpha_uploads": 245,
+  "actual_hud_bitmap_quads": 1032,
+  "unresolved_fonts": [],
+  "script_sha256": "d885516ea5f8c702bbb05523db28df9b7623ca6faf83434ca3ea5739822bbdd6"
+}

@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN16MultiMenuManager11LoadSWFFileEPKci",
+      "elf_address": "0x437d68",
+      "size": 188,
+      "sha256": "59967728abf738d5330a478c4090dd93af32aeb59b4f046cf4aa1b38117f9a22"
+    },
+    {
+      "original_symbol": "_ZNK15SavegameManager9hasOptionEPKc",
+      "elf_address": "0x46d4a8",
+      "size": 48,
+      "sha256": "7c65d3095b378f2170591c06f1ec33abc34d96677c5c3b4e0ca6fc67f40add31"
+    },
+    {
+      "original_symbol": "_ZN11MenuManager4InitEv",
+      "elf_address": "0x42f304",
+      "size": 6096,
+      "sha256": "721a797c47d800c7afcf552a8672a17c17d2fed857a9a4f0a0f746c16c987089"
+    },
+    {
+      "original_symbol": "_ZN7gameswf9tu_stringC1EPKc",
+      "elf_address": "0x413a7c",
+      "size": 112,
+      "sha256": "0c405cd5a4705cc1e7079f6867c86929abd8b549ff59022d1ef65d58ae88d7bb"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+[
+  {
+    "path": "gameswf/gameswf.h",
+    "before_sha256": "e5357edfa275ab7736b3f51a9542ca82ebf592fcb9a9cf7538b4f0e1ba6a3b8e",
+    "after_sha256": "aa0f5071497c1cd051eea2658eca3216cced39171635aab3352e1a99d23607e8"
+  },
+  {
+    "path": "gameswf/gameswf_impl.cpp",
+    "before_sha256": "9c29d531429dd884b7e6884e16677ff4d67d5586303cbf434220b7c4f3aba9d3",
+    "after_sha256": "266ead7cc0441e157f53cc4e255b19ceba86c14152d9e454d2204fca21277508"
+  },
+  {
+    "path": "gameswf/gameswf_impl.cpp",
+    "before_sha256": "266ead7cc0441e157f53cc4e255b19ceba86c14152d9e454d2204fca21277508",
+    "after_sha256": "b33c4b45d26be047919c7c69005d2847231f036b0b4beb1222165af25b193168"
+  }
+]

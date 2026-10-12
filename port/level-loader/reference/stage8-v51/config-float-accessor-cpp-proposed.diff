@@ -1,0 +1,10 @@
+--- canonical_level_config_module_v1.cpp
++++ canonical_level_config_module_v1.cpp
+@@ -41,6 +41,7 @@
+ const std::string* CanonicalLevelConfigV1::string(std::uint32_t o)const noexcept{return at(strings_,o);}
+ const std::array<float,3>* CanonicalLevelConfigV1::vector(std::uint32_t o)const noexcept{return at(vectors_,o);}
+ const std::int32_t* CanonicalLevelConfigV1::integer(std::uint32_t o)const noexcept{return at(ints_,o);}
++const float* CanonicalLevelConfigV1::scalar_float_v51(std::uint32_t o)const noexcept{return at(floats_,o);}
+ const std::uint8_t* CanonicalLevelConfigV1::byte(std::uint32_t o)const noexcept{return at(bytes_,o);}
+ bool CanonicalLevelConfigV1::init_post(std::string& e){
+  if(bytes_.at(0x29c))return true;bytes_[0x29c]=1;

@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK9Character16SG_GetSkillLevelEj",
+      "elf_address": "0x3bbed0",
+      "size": 28,
+      "sha256": "088e8015a0ac9101edf9d9792cfdfd19a86fd3aa2c63533259106928ed3837bc"
+    },
+    {
+      "original_symbol": "_ZNK9Character16GetCharSkillListEv",
+      "elf_address": "0x3bc5fc",
+      "size": 48,
+      "sha256": "7711762aa425c1b5e34dd0b9ce1f2e0d9316ef3d7c0c7ad43a51b30e0dcd9210"
+    },
+    {
+      "original_symbol": "_ZNK9Character12GetCharSkillEi",
+      "elf_address": "0x3bc784",
+      "size": 220,
+      "sha256": "dc2d085f0cc0fd467f8bcf96357f3c2e4fe3bd99aaf38585eab36589e77020ad"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua12ReturnValues11pushIntegerEi",
+      "elf_address": "0x37cb24",
+      "size": 104,
+      "sha256": "f82c34ddaa9becff30d931e6ec79c8a9c3a73c1da5f7bf1980a70c750825eb68"
+    }
+  ]
+}

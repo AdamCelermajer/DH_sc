@@ -1,0 +1,70 @@
+--- a/port/level-world/retained_character_actor_v1.hpp
++++ b/port/level-world/retained_character_actor_v1.hpp
+@@ -10,9 +10,16 @@
+ #include "character_npc_initpost_owner_v1.hpp"
+ #include "gameobject_visual_field_borrow_v5.hpp"
+ #include "character_set_position_v7.hpp"
++#include "character_model_name_v38.hpp"
+ #include <array>
+ namespace dh2::character {
+ enum class RetainedCharacterConstructionV7 {existing_actor_adoption,fresh_canonical};
++struct CharacterLoaderFieldsV38 {
++ std::shared_ptr<const void> receiver_lease;
++ std::uintptr_t identity{};
++ std::int16_t* properties13c8{};std::int16_t* template13ca{};
++ std::uintptr_t* master418{};
++};
+ // Native retained ownership extracted from the renderer. No second properties,
+ // HP, target, FSM or timers: object is the same registry-published script object.
+ // This constructs the ownership graph, not a claim of complete InitPost.
+@@ -36,6 +43,8 @@
+  bool source_position_written_{},source_scale_written_{},source_rotation_written_{};
+  std::uint8_t init_post_called1394_{};
+  std::int16_t char_properties_id13c8_{-1};
++ std::int16_t char_template_id13ca_{-1}; // original C1 signed-halfword store3aa354
++ bool loader_fields_produced_v38_{};
+  std::int32_t self_fx_offset1488_{};
+  std::uintptr_t self_fx1484_{},visual2d8_{};
+  CharacterPositionFieldsV7 source_position_fields_v7_;
+@@ -80,6 +89,7 @@
+  // CharAI constructor's group pointer+34. Source Group/config publication
+  // writes this SAME field; absence is constructor NULL, not an inferred gate.
+  std::uintptr_t source_ai_group34{};
++ std::uintptr_t source_ai_master50{}; // SAME CharAI+50 / Character+418
+  std::uint8_t source_bounds_flat{0};
+  std::array<float,16> bounds_root_matrix{};bool bounds_root_ready{},source_bounds_ready{};
+  std::array<float,6> rendered_bounds{};bool rendered_bounds_ready{};
+@@ -122,6 +132,8 @@
+  std::uintptr_t& source_self_fx1484()noexcept{return self_fx1484_;}
+  std::uintptr_t& source_state_fx148c()noexcept{return state_fx148c_;}
+  std::uintptr_t& source_highlight14a0()noexcept{return highlight14a0_;}
++ bool loader_fields_v38(std::shared_ptr<const void>,CharacterLoaderFieldsV38&,std::string&);
++ bool model_name_fields_v38(std::shared_ptr<const void>,CharacterModelFieldsV38&,std::string&);
+  bool init_post_fields(NpcInitPostBorrowV1&,std::string&);
+  bool visual_fields_v5(std::shared_ptr<void> receiver_lease,
+   const std::function<bool(std::string&)>& actual_update_pf,
+--- a/port/level-world/retained_character_actor_v1.cpp
++++ b/port/level-world/retained_character_actor_v1.cpp
+@@ -13,6 +13,7 @@
+  // CharacterC1 3a9594 stores r6=-1 (3a93d8) into signed source byte14a8.
+  animation_ai.owner_byte14a8=-1;
+  if(construction==RetainedCharacterConstructionV7::fresh_canonical){
++  char_template_id13ca_=-1;source_ai_master50=0;loader_fields_produced_v38_=true;
+   if(!source_position_fields_v7_.construct(runtime,error_))throw std::logic_error(error_);
+   source_position_written_=true; // GameObjectC2 stores source Position160=0.
+  }
+@@ -113,4 +114,14 @@
+  result.apply_mesh_box=[apply](const float* box,std::string& error){return apply(box,false,error);};
+  out=std::move(result);return true;
+ }
++bool RetainedCharacterActorV1::loader_fields_v38(std::shared_ptr<const void> lease,CharacterLoaderFieldsV38& out,std::string& error){
++ if(!lease||lease.get()!=static_cast<const void*>(this)||!loader_fields_produced_v38_){error="Required SAME receiver alias lease and produced Character cache-master field authority";return false;}
++ out={std::move(lease),identity_,&char_properties_id13c8_,&char_template_id13ca_,&source_ai_master50};error.clear();return true;
+ }
++bool RetainedCharacterActorV1::model_name_fields_v38(std::shared_ptr<const void> lease,CharacterModelFieldsV38& out,std::string& error){
++ CharacterLoaderFieldsV38 fields;if(!loader_fields_v38(std::move(lease),fields,error))return false;
++ const auto* properties=initialization_properties_?initialization_properties_:(session?&session->property_view():nullptr);
++ if(!properties){error="Required SAME actual initialized Character PropertyView";return false;}
++ out={std::move(fields.receiver_lease),identity_,properties,fields.properties13c8,fields.master418};error.clear();return true;
++}
++}

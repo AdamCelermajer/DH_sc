@@ -1,0 +1,11 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_GLOBAL__I_.._.._sources_Game_Objects_Characters_StateMachine_CharStateMachine.cpp",
+      "elf_address": "0x3c1bec",
+      "size": 2740,
+      "sha256": "fdbe2613cb2831dffd2a37142492dedd6ff21b33518141b31a4ca995e14c11a2"
+    }
+  ]
+}

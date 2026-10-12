@@ -1,0 +1,15 @@
+--- a/port/android-native/app/src/main/cpp/native_menu_resources_v93.inc
++++ b/port/android-native/app/src/main/cpp/native_menu_resources_v93.inc
+@@ -114,7 +114,11 @@
+    auto* panel=character_panel?character_panel->authored_native_v4():nullptr;
+    if(slot!=1||!panel){e="Missing same character primary clear receiver";return false;}
+    if(!panel->clear_movie_slot_v93(e))return false;
+-   native->current_render=0;native->width=native->height=0;return retire();};
++   native->current_render=0;native->width=native->height=0;
++   if(!retire())return false;
++   //Qualified resource Unload/D0 and field/render retirement completed above.
++   //Drop only the Session's failed constructor pin, never synthesize native D0.
++   return character_panel->retire_failed_authored_prefix_v98(e);};
+   s.camera_slot=[self](auto slot,auto& out,auto& e){return self->camera_slot(slot,out,e);};
+   s.deleting_camera_virtual4=[self](auto slot,const auto& q,auto& e){auto native=self->resolve(e);if(!native)return false;
+    if(slot==0||slot==2)return front_ui.deleting_camera_v93(slot,q.identity,e);

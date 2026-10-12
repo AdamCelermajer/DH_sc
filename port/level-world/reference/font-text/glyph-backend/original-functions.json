@@ -1,0 +1,41 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN8RenderFX7SetTextEPKcS1_b",
+      "elf_address": "0x7a9390",
+      "size": 44,
+      "sha256": "d2553096a3e0c2414fe16419b02479072e6f8dbe7807c466df8ac60c0efdddde"
+    },
+    {
+      "original_symbol": "_ZN7gameswf21bitmap_glyph_provider15get_font_entityERKNS_9tu_stringEbb",
+      "elf_address": "0x7c6048",
+      "size": 944,
+      "sha256": "7249e0f355e368707d7262cf46f21b36b1b2885acd2a22e5c8a65ad827b9b90a"
+    },
+    {
+      "original_symbol": "_ZN7gameswf26default_bitmap_font_entity14get_char_imageEPNS_17bitmap_glyph_dataEtiPNS_20bitmap_glyph_metricsE",
+      "elf_address": "0x7c4698",
+      "size": 1040,
+      "sha256": "cf156ab53a51fce178728bea0fe78b8ddc1e6950b6e6db9ac738e6ab12b81cb2"
+    },
+    {
+      "original_symbol": "_ZN7gameswf29default_bitmap_glyph_provider20get_font_entity_implERKNS_9tu_stringE",
+      "elf_address": "0x7a9634",
+      "size": 48,
+      "sha256": "118cc062c06bf8b48b795abad3166c79c5cfc106d2bd34e5c6545df6f08cdb62"
+    },
+    {
+      "original_symbol": "_ZNK7gameswf4font9get_glyphEPNS_5glyphEti",
+      "elf_address": "0x7d01bc",
+      "size": 640,
+      "sha256": "98619dc71c85fe73fd5bed3099fa783a5a080ec867f41b59c4a808cd0c0d5026"
+    },
+    {
+      "original_symbol": "_ZN21render_handler_glitch11draw_bitmapERKN7gameswf6matrixEPNS0_11bitmap_infoERKNS0_4rectES8_NS0_4rgbaE",
+      "elf_address": "0x7d8df4",
+      "size": 1464,
+      "sha256": "717532f07d4fcd9df7ffe0c729c669f268b9aeaa746b57284b6bc9aa7875c407"
+    }
+  ]
+}

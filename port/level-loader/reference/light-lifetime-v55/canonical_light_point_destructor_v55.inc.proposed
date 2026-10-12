@@ -1,0 +1,24 @@
+// Add to the genuine CanonicalLightPointV53 class declaration:
+~CanonicalLightPointV53();
+
+// This is a SOURCE-ORDER proposal, not native SceneManager/driver teardown.
+// Precondition: Main already quiesced the owning runtime/render/update thread.
+// Node owner MUST own precisely the actor's genuine node intrusive reference,
+// separate from root-parent / LightSetManager / resource pins.
+CanonicalLightPointV53::~CanonicalLightPointV53(){
+ // LightPointD1_40bd1c -> CString180 deallocation before LightBaseD2.
+ {std::string empty;empty.swap(strings_.at(0x180));}
+ // LightBaseD2_40ab34 -> actual IReferenceCounted.drop, THEN node120 zero.
+ // Existing .owner may release ONLY if Main supplied that authentic node pin;
+ // this does not remove the node from its parent's graph or erase auto-list.
+ node_.owner.reset();node_.identity=0;node_.actual_light_identity=0;
+ // LightBaseD2 -> CString168 deallocation, then ObjectBase destruction.
+ {std::string empty;empty.swap(strings_.at(0x168));}
+ // Remaining source ObjectBase property strings/conditions/owner release is
+ // separate. Current V53 maps/services destructor is not full ObjectBase Dtor
+ // parity; source unordered/default member destruction was never proved.
+}
+// Do not call an unbound success callback from a C++ destructor or throw here.
+// Main's node-pin deleter/renderer owner must already implement the real drop.
+// Original LightPoint/ObjectHandle198 destructor performs NO detach/owning
+// Character release. The cached handle is a borrow, not player ownership.

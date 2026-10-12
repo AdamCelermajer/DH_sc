@@ -1,0 +1,35 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_GLOBAL__I_.._.._sources_Game_Objects_Characters_Properties_CharProperties.cpp",
+      "elf_address": "0x3df548",
+      "size": 408,
+      "sha256": "72ca84fa592893be5fb724eacf20d93cc675f3549e97afe26a02d4b2d7419954"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties23PROPS_ApplyClassToSheetEiPN7Structs19CharacterPropertiesE",
+      "elf_address": "0x3df314",
+      "size": 164,
+      "sha256": "bbc9c129ae6c640f43c683f3d9448b133ac26cd2586c2842a3df3085791c86d3"
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties12PROPS_GetIntEib",
+      "elf_address": "0x3df6e0",
+      "size": 56,
+      "sha256": "f0b419601b44bb6aa3bea1f6df7d7323364dc572daa7a7d5e660201ec9868342"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties16PROPS_ApplyClassEib",
+      "elf_address": "0x3df3b8",
+      "size": 56,
+      "sha256": "7f84917c9003e247ed0660438304df06bc8fb77070254f5737e73e2113c281d0"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties16RecalcPropertiesEb",
+      "elf_address": "0x3e0810",
+      "size": 68,
+      "sha256": "ee6c8e0297cd277d0de16726c029da676123d199fbda3421ffa72f174c8708c9"
+    }
+  ]
+}

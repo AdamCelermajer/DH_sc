@@ -1,0 +1,26 @@
+--- selected/port/level-world/retained_character_actor_v1.hpp
++++ candidate/port/level-world/retained_character_actor_v1.hpp
+@@
+ #include "character_parent_init_fields_v48.hpp"
++#include "character_enable_condition_fields_v58.hpp"
+ #include <array>
+@@
+  bool parent_init_fields_v48(std::shared_ptr<const void>,CharacterParentInitFieldsV48&,std::string&);
++ bool enable_condition_fields_v58(std::shared_ptr<const void>,CharacterEnableConditionFieldsV58&,std::string&);
+--- selected/port/level-world/retained_character_actor_v1.cpp
++++ candidate/port/level-world/retained_character_actor_v1.cpp
+@@
+  if(construction==RetainedCharacterConstructionV7::fresh_canonical){
++  source_bools_[0x8a]=1; // ObjectBase C2 MOV1 33f404 / STRB8a 33f408.
+   // Exact ObjectBase C2/ConditionData C1 and GameObject C2 producers.
+@@
++bool RetainedCharacterActorV1::enable_condition_fields_v58(std::shared_ptr<const void> lease,CharacterEnableConditionFieldsV58& out,std::string& error){
++ if(!lease||lease.get()!=static_cast<const void*>(this)||!loader_fields_produced_v38_){error="Required SAME fresh Character enable-condition field alias authority";return false;}
++ auto enabled=source_bools_.find(0x8a),disable=source_bools_.find(0xf1);
++ if(enabled==source_bools_.end()||disable==source_bools_.end()){error="Required actual enabled8a constructor and disablef1 PropertyMap producers";return false;}
++ CharacterEnableConditionFieldsV58 result;result.receiver_lease=std::move(lease);result.identity=identity_;
++ result.enabled8a=&enabled->second;result.minimum_difficulty_ec=&source_min_difficulty_ec_;result.disable_f1=&disable->second;
++ result.condition_a8=&source_activate_compiled_a8_;result.tested_ac=&source_activate_tested_ac_;
++ out=std::move(result);error.clear();return true;
++}
+ bool RetainedCharacterActorV1::parent_init_fields_v48(std::shared_ptr<const void> lease,CharacterParentInitFieldsV48& out,std::string& error){

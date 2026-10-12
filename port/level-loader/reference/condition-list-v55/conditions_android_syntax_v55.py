@@ -1,0 +1,4 @@
+from pathlib import Path
+import subprocess
+b=Path('C:/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader');r=b/'reference/condition-list-v55';sdk=Path('C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/bin')
+p=subprocess.run([str(sdk/'clang++.exe'),'--target=aarch64-linux-android26','-std=c++17','-Wall','-Wextra','-Werror','-Wno-misleading-indentation','-fsyntax-only','-I'+str(r),'-I'+str(b/'reference/character-parent-kernel-v51'),str(r/'condition_list_owner_v55.cpp'),str(r/'canonical_condition_receivers_v55.cpp')],capture_output=True,text=True);(b/'reports/condition-list-v55-android-syntax.log').write_text(p.stdout+p.stderr);print(p.stdout+p.stderr);assert p.returncode==0;print('PASS Android NDK aarch64 syntax actual table/list/constructor source4files; no link/runtime');(r/'conditions_android_syntax_v55.py').write_bytes(Path(__file__).read_bytes())

@@ -1,0 +1,23 @@
+{
+  "validation": "PASS",
+  "scope": "Original stun/scare Focus and event/random-heading bodies versus optimized native ARM64; effect services explicit.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_probe_sha256": "78bdfe3fd9d7f8a8092a46f8db1b2184f07b5d6a6c25c6c7005084c57b09d7f3",
+  "optimized_arm64_library_sha256": "c264f478d957a602624d8fcf51b243e08827afc8bb11a679058c1d448d0970b3",
+  "gold_sha256": "85a64a1b96be84b6182965d717df4bc1e1c39a886560453ffbaf309266a966bd",
+  "comparisons": 1176,
+  "focus_cases": 1152,
+  "event_cases": 24,
+  "ordered_services": 8943,
+  "native_atomic_rejections": 5,
+  "mismatches": 0,
+  "source_sha256": {
+    "port\\level-world\\character_native_effects.hpp": "159f79b89809057f44c9315e8b8c13dfb4c0c5706819654182cc6bc3c2361421",
+    "port\\level-world\\character_native_effects.cpp": "db96197a6d3edccabc7316ef9c3fb97ffa8498015d2d1d1b6c9780fa2f999d2d",
+    "port\\level-world\\tests\\character_native_effects_focus_differential.py": "c22f71103dea3f99f92b5533879597c990fa5fd82ff94d0bfeba3c1e3f1dad21",
+    "port\\level-world\\tools\\build_character_native_effects_oracle.ps1": "b81f94710455e1c2ad2030883032309831cff9fb4b1b7797a8ff0b3324839b08"
+  },
+  "registered_state_owner": false,
+  "RNG_provider_explicit": true,
+  "packaged_APK": false
+}

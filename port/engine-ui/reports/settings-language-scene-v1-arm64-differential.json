@@ -1,0 +1,14 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "64b69a8255e62de9d800b94ea1fd811752eb4f564ec626292904f7dede2e7387",
+  "comparisons": 162,
+  "mismatches": 0,
+  "corpus_sha256": "85555f63d1f15bb6ffa6554b0d643605b1080586ca9b8d07bbfd40ea4130baa4",
+  "source_sha256": {
+    "port/engine-ui/settings_language_scene_v1.hpp": "29d560ffd3c50eb87eb948f097f9a69822486b0480d249d2d38c84499a5d62a5",
+    "port/engine-ui/settings_language_scene_v1.cpp": "d94d0b06cc58e2df0094dc46603e7c6aa0ce11b60cc7d465cd79b8873d6d5fea"
+  },
+  "script_sha256": "6077b0722de2aefe4bf7d49019bdab00540cd6b356db7b0d6b5d4a6874581a7b",
+  "scope": "Original setLanguage live graph ordering versus O2 native graph prefix.\nOriginal IsPlayer/IsMerchant/IsGameObject wrappers execute; character type and\ninventory/item localization bodies are explicit caller services. No backend\ninventory reconstruction or fake refresh_scene success is claimed.\n"
+}

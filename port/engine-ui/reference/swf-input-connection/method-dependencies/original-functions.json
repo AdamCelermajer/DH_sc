@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7gameswf11call_methodEPNS_14as_environmentEPNS_9as_objectEPKcPKNS_8as_valueEi",
+      "elf_address": "0x7bbbfc",
+      "size": 500,
+      "sha256": "afb6a955fa3dfbfd3617ddf6d3a1fda8a16e1a206a0a239fd7e91f20990ad459"
+    },
+    {
+      "original_symbol": "_ZNK7gameswf8weak_ptrINS_9characterEE7get_ptrEv",
+      "elf_address": "0x438224",
+      "size": 84,
+      "sha256": "de27418d2afadf1656738d2be3a846b9109b8a3658e8e13b39a632a2502cb5f3"
+    },
+    {
+      "original_symbol": "_ZNK7gameswf11ref_counted7add_refEv",
+      "elf_address": "0x759c64",
+      "size": 16,
+      "sha256": "a46a6fff46a493c27a06d4b7153e368e40365be0c1ac19d6ac729d8862989cae"
+    },
+    {
+      "original_symbol": "_ZN7gameswf11ref_counted8drop_refEv",
+      "elf_address": "0x75a240",
+      "size": 24,
+      "sha256": "9cb1cfae4a3f1eaf571431813d1eaeb55af1f9624553eafaf0cbdb866084fa92"
+    }
+  ]
+}

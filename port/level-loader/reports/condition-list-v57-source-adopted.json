@@ -1,0 +1,17 @@
+{
+  "source_adopted": true,
+  "coherent_files": 766,
+  "four_original_constructor_storage_files": {
+    "condition_list_owner_v55.hpp": "e15c96f3ce44d68b3380457047aa60ab83b73c997621d8300a031724a5bdb7cf",
+    "condition_list_owner_v55.cpp": "0dd9833ce5ae6c072b984be15433c066411fdc09db9ce885abf33d1bd3fc4fd0",
+    "canonical_condition_receivers_v55.hpp": "6edf6b1eb01cf381faf11ef7240c069e15a278d1fbed893b4e6c75ddeda7ca8b",
+    "canonical_condition_receivers_v55.cpp": "4d58fe0001df16bc98f098ace0c1a39a045318d5e3eccce6dd24f2fd7998c7d5"
+  },
+  "source_packet_sha256": "d9d9cdb7ac83debcb480b0752baecb4634333a6326e9259725eb80556b0b5773",
+  "same_actor_init_assign_clear_component": true,
+  "Main_Eval_required": true,
+  "actual_qualified_parent_runtime_binding_pending": true,
+  "whole_Character_InitPost": false,
+  "selected_build_verified": false,
+  "shared_mutated": false
+}

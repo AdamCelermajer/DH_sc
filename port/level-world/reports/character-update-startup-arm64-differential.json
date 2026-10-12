@@ -1,0 +1,25 @@
+{
+  "validation": "PASS",
+  "comparisons": 1404,
+  "ordered_prefix_services": 14451,
+  "ordered_eligibility_services": 2616,
+  "explicit_continuation_stops": 9,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_sha256": "1c3816156ce52c35d574678b2bb3ade09c83dea7924b3e178db3b3ebf4fe7e7c",
+  "corpus_sha256": "f15eaa6b1d59641bd40795b9048d65c799d900ac8cdc735aa996c4ef8cfe5b0f",
+  "binary_corpus_sha256": "5c1894e838ca318eedbc23ace561a3eb6f2399f1e25a94e1d1812524573b0565",
+  "source_sha256": {
+    "port/level-world/character_update_startup.hpp": "6ebd3b16c4553ebd72cc318bc32fa83fd986bdbb9c66bea65dbc9250be516a6f",
+    "port/level-world/character_update_startup.cpp": "11b2966d9bf127f9fb924320708589340b624d294a37c738230b0fa3f0bf735a",
+    "port/level-world/tests/character_update_startup_differential.py": "51abe53c1a5fadf9da08885bad73dc3a0b7f4fff19428913f08b56120ad81d35",
+    "port/level-world/tools/build_character_update_startup_oracle.ps1": "f2ab59c3cd2c1d469a86322868572f6829abc858f59e520f1d98d61deab0a63f",
+    "port/level-world/character_can_update.hpp": "d78387cf87b2ca01a2b82ed6a79aab5e37b8cac45c9c39010df331a745f83ae2",
+    "port/level-world/character_can_update.cpp": "22565a3e5fdf23503b8ea0634459803b0aa031fecdedf7db54dfa85b7207f991",
+    "port/level-world/tests/character_can_update_differential.py": "090b37ca8b75948ec9b28c4838689c364708cfacdcaf06f5a76a096e8135b4de"
+  },
+  "manifest_sha256": "ec3107f843f770f67463d7409e0586656d01c4ab97e2ee4153ab63c9d0896b92",
+  "scope": "Original Character.Update startup/post-controller prefixes vs O2 ARM64.\n\nStops at the controller/timers boundary or a declared unowned queue/bot branch;\ndoes not execute or claim the whole Character frame. Deeper debug strings,\nproperty/inventory/manager/deferred-load queries are explicit synchronous services.\nFrozen actual CanUpdate executes on both sides with its own provider trace.\n",
+  "whole_character_frame": false,
+  "owned_queue": false
+}

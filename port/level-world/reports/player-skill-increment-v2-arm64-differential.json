@@ -1,0 +1,17 @@
+{
+  "validation": "PASS",
+  "comparisons": 768,
+  "ordered_requests": 5428,
+  "accepted_skill_checks": 68,
+  "mutating_grants": 47,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "b8c93c3e8bf02e36fb180462677fe098efa1ca79f394be85a37afac71a8605b9",
+  "gold_sha256": "7839953e897498b10efd3ae831e613870e8094a55dffb65a8ebb716052973c64",
+  "source_sha256": {
+    "port/level-world/player_initial_grants_v2.hpp": "bf6395009a9c11c59dae623313191dc203bfea7bd74f0c1619ee1c491a34e87d",
+    "port/level-world/player_initial_grants_v2.cpp": "fe57a885c2a6fed340caec32f6d22015f1ed1eadac5159c992c5928fecd6f9d0"
+  },
+  "script_sha256": "c8db0299227c1cbef93343132c44e28f1dfaabc090253d02e3bf387fc6b64394",
+  "scope": "Original IncSkill gates, ordered services and mutable save-row reread.\nUnderlying property/availability/cap/update services remain explicit. Source\nincrement/uint16 wrap, direct stored potion byte and branches run ARM32/O2.\nDebug string allocation and release are explicit discarded storage services.\n",
+  "mismatches": 0
+}

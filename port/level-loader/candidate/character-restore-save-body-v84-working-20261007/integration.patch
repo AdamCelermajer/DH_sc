@@ -1,0 +1,42 @@
+--- a/port/game-data/player_savegame_v1.hpp
++++ b/port/game-data/player_savegame_v1.hpp
+@@ -75,6 +75,18 @@
+  // Exact SG_SetLevelEntryPoint3bb89c target: same Save+40/+44/+48 cells.
+  // Character's NULL-save/default-difficulty gates precede this store.
+  bool source_store_level_entrypoint_v68(std::int32_t value,std::int32_t difficulty,std::string& error){if(difficulty<0||difficulty>=3){error="Original SG_SetLevelEntryPoint difficulty index outside retained Save cells";return false;}location_.entry_points[std::size_t(difficulty)]=value;error.clear();return true;}
++ // SG_SetUseSpawnPoint3bb798: actual Save4c + process difficulty byte.
++ // Receiver NULL/difficulty resolution stay on SAME Character source body.
++ bool source_store_use_spawn_point_v84(bool value,std::int32_t difficulty,std::string& error){
++  if(difficulty<0||difficulty>=3){error="Original SG_SetUseSpawnPoint index outside retained Save4c cells";return false;}
++  location_.use_spawn_point[std::size_t(difficulty)]=value?1:0;error.clear();return true;
++ }
++ // SG_SetLevelId3bb854: raw signed value at Save50 + 4*difficulty.
++ // This is retained location metadata, not player level/progression or disk IO.
++ bool source_store_level_id_v84(std::int32_t value,std::int32_t difficulty,std::string& error){
++  if(difficulty<0||difficulty>=3){error="Original SG_SetLevelId index outside retained Save50 cells";return false;}
++  location_.levels[std::size_t(difficulty)]=value;error.clear();return true;
++ }
+  void initialize_faeries()noexcept; // Source literal five rows, three difficulties.
+  bool load_current_faery(Bytes,std::size_t&,std::string&);
+  bool load_faeries(Bytes,std::size_t&,bool& source_count_mismatch,std::string&);
+--- a/port/android-native/app/src/main/cpp/renderer_character_campaign_v62.hpp
++++ b/port/android-native/app/src/main/cpp/renderer_character_campaign_v62.hpp
+@@ -36,6 +36,8 @@
+ bool source_campaign_character_look_at_v68(const std::shared_ptr<void>& actual_world,std::uintptr_t character,dh2::camera::PointV2&,std::string&);
+ bool source_campaign_character_visual_up_v68(const std::shared_ptr<void>& actual_world,std::uintptr_t character,dh2::camera::PointV2&,std::string&);
+ bool source_campaign_character_set_initial_position160_v68(const std::shared_ptr<void>& actual_world,std::uintptr_t character,std::string&);
++bool source_campaign_character_save_use_spawn_point_v84(const std::shared_ptr<void>& actual_world,std::uintptr_t character,bool value,std::string&);
++bool source_campaign_character_save_level_id_v84(const std::shared_ptr<void>& actual_world,std::uintptr_t character,std::int32_t value,std::int32_t difficulty,std::string&);
+ bool source_campaign_character_save_entrypoint_v68(const std::shared_ptr<void>& actual_world,std::uintptr_t character,std::int32_t value,std::int32_t difficulty,std::string&);
+ bool bind_campaign_character_providers_v62(AAssetManager*,const SourceCampaignCandidateBorrowV55&,std::string&);
+ bool borrow_source_campaign_character_v62(const std::shared_ptr<void>& actual_world,std::uintptr_t character,SourceCampaignCharacterBorrowV62&,std::string&);
+--- a/port/android-native/app/src/main/cpp/model_renderer.cpp
++++ b/port/android-native/app/src/main/cpp/model_renderer.cpp
+@@ -2639,6 +2639,7 @@
+ // Runtime lives in its own translation unit. The private adapter lends the
+ // actual renderer owners/slots; public exports do not shadow its namespace.
+ #include "renderer_character_campaign_lookup_v62.inc"
++#include "renderer_character_restore_save_v84.inc"
+ bool borrow_source_campaign_fx_camera_v77(const std::shared_ptr<void>& world,float view16[16],float position3[3],std::string& e){
+  SourceCampaignCandidateBorrowV55 actual;
+  if(!view16||!position3||!borrow_source_campaign_candidate_v55(actual,e)||actual.actual_world!=world)return false;

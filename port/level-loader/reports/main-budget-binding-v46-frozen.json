@@ -1,0 +1,35 @@
+{
+  "validation": "SOURCE_KERNEL_PROOFS_PASS_NOT_INTEGRATED",
+  "packet": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reports\\main-budget-binding-v46-f3cdd3db11c1f5e9.zip",
+  "sha256": "f9a687104d0a906fc1e232199526c6db157da3e166bbb2a66d1e9149e42b0ba6",
+  "member_count": 37,
+  "readback_verified": true,
+  "moving_main_snapshot_stable": false,
+  "changed_sources": [
+    {
+      "file": "port/android-native/app/src/main/cpp/native_resource_budget_v38.hpp",
+      "captured": "47eebfe8cbdf08deb3f4d7aee37b83473df2d2fa071415b33da85d44efae5295",
+      "now": "01620f9d67eff9980e193d234606efddcfe8aa1c739d8aac297a425b8d9a314c"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/native_resource_budget_v38.cpp",
+      "captured": "d5a818e9dce7be2aa9c6116126db6b847ebeebbe4b0812d75f77dff929f2cacf",
+      "now": "aa5f507b73528ee0577e9ce4e94d02d50b2d7b9aafb46a52f656819aad033927"
+    },
+    {
+      "file": "port/android-native/app/src/main/cpp/native_app.cpp",
+      "captured": "cff64489f020c96081cdd35bbc563b1ee16807400a342a1c09c99e77ec2065b2",
+      "now": "bd6444f3e85ed203e061a4868e8830c75dcf40f4a51d935ab0ebfb2ac004963c"
+    },
+    {
+      "file": "port/engine-resources/resource_budget_v37.hpp",
+      "captured": "17497774d82e05cb420003c2a0312c34e3092abd63d579a65d6e1ef879a6eba7",
+      "now": "bbdbfcbe7e8776dd7e50bbe6b88ffa5dbbc495f2933e650512c0f69014ff3d88"
+    },
+    {
+      "file": "port/engine-resources/resource_budget_v37.cpp",
+      "captured": "cb9fca1579fea9e751c8ca5889ad4b5ffcd6a9f04794a23ee51317c8a16f493f",
+      "now": "7d645543087042a76d08a3d49dfc977be0d467a3551979374e5629b2f04ac23d"
+    }
+  ]
+}

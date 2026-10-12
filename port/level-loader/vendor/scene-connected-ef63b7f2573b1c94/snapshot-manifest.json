@@ -1,0 +1,755 @@
+{
+  "validation": "PASS",
+  "scope": "Immutable base plus scene-V3 source layering only; not full loader acceptance",
+  "archives": [
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\canonical-connected-owners-handoff-1b96f4edb021619d.zip",
+      "sha256": "29bdb6fb795260087928f5523bb7c6c15ffec39918e4e2a87cefb2d08b0c924a",
+      "entries": 166
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\canonical-scene-v3-handoff-ef63b7f2573b1c94.zip",
+      "sha256": "93318b2beeade106c22fc8302117d5dce372c5b91caf586125fd973002419f6b",
+      "entries": 22
+    }
+  ],
+  "entries": {
+    "docs/CANONICAL-CONNECTED-OWNERS-HANDOFF-2026-10-05.md": {
+      "sha256": "c7a8d320fb9998cc5f01b28f45bc89fd6fbcaf49fae2234fb45a81d514d25f64",
+      "bytes": 5849
+    },
+    "port/game-data/CMakeLists.txt": {
+      "sha256": "2ebc349f333dcf534babf68f4644c0792d5a59f0a7db161747525118bf5492ab",
+      "bytes": 6889
+    },
+    "port/game-data/loot_audiovisual_v8.cpp": {
+      "sha256": "a7e38d8de2a1c7cf80f23c321bba62ca8a5df64474eae0a9cb1bd83929f0de17",
+      "bytes": 2057
+    },
+    "port/game-data/loot_audiovisual_v8.hpp": {
+      "sha256": "d1a214c822e07670c3e879299c28c25b0910c2c284143d1a2bdbd001f2139783",
+      "bytes": 691
+    },
+    "port/game-data/loot_creation_v8.cpp": {
+      "sha256": "3a1868ac2cf3b15f1598a224e0d0e9d53aa2b96bf3132e72a9ae1f0bd7cb18d0",
+      "bytes": 4301
+    },
+    "port/game-data/loot_creation_v8.hpp": {
+      "sha256": "83bfd41b2451b76409da7a3e5ce8d0c1aec339c128313ce44aa3d435b2e35eb8",
+      "bytes": 2292
+    },
+    "port/game-data/loot_entry_selection_v8.cpp": {
+      "sha256": "2481c63b4c47a49fdbac564c35be456e2273c6e588c5d9398a47c61119164e76",
+      "bytes": 3920
+    },
+    "port/game-data/loot_entry_selection_v8.hpp": {
+      "sha256": "10496da3c798a0f01f6c026a20efa91ee65b076b864dc05ecf241bb291039a56",
+      "bytes": 1406
+    },
+    "port/game-data/loot_item_selection_v8.cpp": {
+      "sha256": "94da6f656d8c2b7329e0c14aab2c4324616073862e7d1759ae03fa52b187df25",
+      "bytes": 2416
+    },
+    "port/game-data/loot_item_selection_v8.hpp": {
+      "sha256": "c71c699e918a85f36193f586a46cc3de94c2304dbdf2e1dc065aff7c82b264fd",
+      "bytes": 969
+    },
+    "port/game-data/loot_table_selection_v8.cpp": {
+      "sha256": "969bcf1b7ca738a2defdbba87e05d49116f7bbf981dc47809a8f4f8a9d5a0923",
+      "bytes": 3095
+    },
+    "port/game-data/loot_table_selection_v8.hpp": {
+      "sha256": "a2db9e8def398b1950a41d8d3a86354d9e0b8bb31008014b164251b743f558cd",
+      "bytes": 1294
+    },
+    "port/game-data/loot_temporary_inventory_v8.cpp": {
+      "sha256": "3d70154324d1a6b05c1c1e2209dbb103ce61f060b78929e05077a37dde88cdaf",
+      "bytes": 4116
+    },
+    "port/game-data/loot_temporary_inventory_v8.hpp": {
+      "sha256": "5290e6970719a916c4e181e2bbfc0a67200bb0839ce0a5b3af061616d1ff985b",
+      "bytes": 2731
+    },
+    "port/level-world/base_named_animation_controller_v1.cpp": {
+      "sha256": "c5ce416da97b92874843c0f85b3594e96dcb3a6e56132fe2f3809b9a8c4c14a6",
+      "bytes": 1662
+    },
+    "port/level-world/base_named_animation_controller_v1.hpp": {
+      "sha256": "016336a3f31af22cb1304c95b6ab2d9ccf574e4b6dffde6e36bb101a330e0f1f",
+      "bytes": 1346
+    },
+    "port/level-world/canonical_animated_decor_v1.cpp": {
+      "sha256": "3342bc3e2a9430073e2d871637524a0e4b855c63d551cbc2eb1cc501aee9405c",
+      "bytes": 6286
+    },
+    "port/level-world/canonical_animated_decor_v1.hpp": {
+      "sha256": "808d576ddbddba03e5876f7b081486a7008a0d07c626f6f01431940626002dcb",
+      "bytes": 3917
+    },
+    "port/level-world/canonical_class_receiver_bindings_v1.cpp": {
+      "sha256": "7a9f91e730a739462e7e1903e50e63e80090c21f345a89fd640b62c05b72adf3",
+      "bytes": 4673
+    },
+    "port/level-world/canonical_class_receiver_bindings_v1.hpp": {
+      "sha256": "bb8b1fb01df649723f670aaca953e6ddfa459eb8e1f5a267d1eda8a27953f233",
+      "bytes": 3252
+    },
+    "port/level-world/canonical_gameobject_base_owner_v1.cpp": {
+      "sha256": "d0817375765ac8c3e56aa98c3db05406bf2452e1c01746c109f7527fd1e30888",
+      "bytes": 6575
+    },
+    "port/level-world/canonical_gameobject_base_owner_v1.hpp": {
+      "sha256": "02cf1d5da5b10016f2649c5f32ff2484b187911e590937f39828fa36e07c8343",
+      "bytes": 3353
+    },
+    "port/level-world/canonical_object_factory_v1.cpp": {
+      "sha256": "84eb8a2eb9aa8909f8d3f9918ec0fde83d92e434d69a4ce64978a8259bb08463",
+      "bytes": 4510
+    },
+    "port/level-world/canonical_object_factory_v1.hpp": {
+      "sha256": "59b7b283e8c528e49d99778179d190a5d4a5abb176257ee7ffc0f02a74c65439",
+      "bytes": 2610
+    },
+    "port/level-world/canonical_object_manager_v1.cpp": {
+      "sha256": "061dc0e3625d67b2cc4c43edfea49a7e9743c5cae3985cb71da12c122710c9c9",
+      "bytes": 4562
+    },
+    "port/level-world/canonical_object_manager_v1.hpp": {
+      "sha256": "36f21ca8797c50d049f97fe997e7344a1d2e62b19fee477ed0422d48e5161797",
+      "bytes": 2879
+    },
+    "port/level-world/canonical_openable_container_v1.cpp": {
+      "sha256": "b930290fac48910afaf41410af4a04e5415f81367024a454e7f522884082ee09",
+      "bytes": 1365
+    },
+    "port/level-world/canonical_openable_container_v1.hpp": {
+      "sha256": "c72b0ba8c7e4e1cefa11cfaba63378bbf37923b71188e6626d8c70b077920dc9",
+      "bytes": 2885
+    },
+    "port/level-world/canonical_property_map_v1.cpp": {
+      "sha256": "7733cd95b5c8cfd4a7507498c2203e94f3e4621cba81635eed2021f3078377f1",
+      "bytes": 7964
+    },
+    "port/level-world/canonical_property_map_v1.hpp": {
+      "sha256": "eb1d9c6154a77d57201d7909ddf40df614f4351903c47ccf4969512ce7bccc84",
+      "bytes": 2906
+    },
+    "port/level-world/character_loot_drop_award_v8.cpp": {
+      "sha256": "5243bbc549cbc88a5ee3f843123e9b08006ad9920f6a85a4a168b3dc113b7dee",
+      "bytes": 2635
+    },
+    "port/level-world/character_loot_drop_award_v8.hpp": {
+      "sha256": "94e9732ccdda1300ed03fce2daecaae4664c5ef608ee4db123f8d6c81fcfb20a",
+      "bytes": 1497
+    },
+    "port/level-world/character_loot_drop_v8.cpp": {
+      "sha256": "7c56d81ab8679c8923666f39fb08ca94c5e90d715bd084eb73df8414d5b8fb72",
+      "bytes": 2873
+    },
+    "port/level-world/character_loot_drop_v8.hpp": {
+      "sha256": "0a123a22e129a51ccc60c16e1d268cd15a1e91e43f8bd8b48af328eaba2f4613",
+      "bytes": 2217
+    },
+    "port/level-world/character_loot_interact_v8.cpp": {
+      "sha256": "66d48bfb671b67d0ba95ef78bdbff555754db341c10ac4f6edac6d320317ef34",
+      "bytes": 6492
+    },
+    "port/level-world/character_loot_interact_v8.hpp": {
+      "sha256": "c12956651bb34c49c3740856f4854e5ba03819629c240f3afbd44f5125b52861",
+      "bytes": 3090
+    },
+    "port/level-world/character_loot_item_manager_v8.cpp": {
+      "sha256": "7b772c05a760cfcb174eb509745fcaabdcb94659ce9b457b169c2a1aa7f6a480",
+      "bytes": 5100
+    },
+    "port/level-world/character_loot_item_manager_v8.hpp": {
+      "sha256": "c1778bd318977e9c48d2d84ec7ddc61a0714908a757e70c900f438b6243b878b",
+      "bytes": 2452
+    },
+    "port/level-world/character_loot_scatter_v8.cpp": {
+      "sha256": "49d216de6d8ff30c4cf73161f766ebcad6dd4f727a7a29234f242bf230e95b48",
+      "bytes": 1971
+    },
+    "port/level-world/character_loot_scatter_v8.hpp": {
+      "sha256": "108f9c46a996b417775552b997f4cfe6c2451d7a765a664d5fa68faecd43cf80",
+      "bytes": 773
+    },
+    "port/level-world/character_npc_initpost_owner_v1.cpp": {
+      "sha256": "d54329cbe6352be13000af9b1db255da091ec332593c9f336280d559eb3d18a4",
+      "bytes": 4387
+    },
+    "port/level-world/character_npc_initpost_owner_v1.hpp": {
+      "sha256": "ffad39ec915724a968be4e834364aa31f6b6946640361b3d15b11da5e5f60ff6",
+      "bytes": 2395
+    },
+    "port/level-world/character_revive_owner_v1.cpp": {
+      "sha256": "0f28471b42cb20c2c01563708966553601e38ea8ccf205cba26afb1cd8f029e3",
+      "bytes": 1590
+    },
+    "port/level-world/character_revive_owner_v1.hpp": {
+      "sha256": "f0dcbb26ffa3c27eeae797c90008809fbf5a6854087f51b26623eb76fb998451",
+      "bytes": 1260
+    },
+    "port/level-world/CMakeLists.txt": {
+      "sha256": "36e53212be37cdb27ea509394c77d883f532d2901ae4bd827192a5a8341a8c61",
+      "bytes": 44930
+    },
+    "port/level-world/game_object_initialization_owner_v1.cpp": {
+      "sha256": "2e93f9e784cead9e4be27f3f46a5d8957db4308052989fa5f971511a54ca1865",
+      "bytes": 6382
+    },
+    "port/level-world/game_object_initialization_owner_v1.hpp": {
+      "sha256": "ff3becf37fad2a2bbb629dad1eec7806aa4515734e1233a93194701f8a6d6809",
+      "bytes": 2242
+    },
+    "port/level-world/game_object_spawn_probability_v1.cpp": {
+      "sha256": "6156de7e656d0b94678669a990a95cf348fcd37534b13610d46d9fa891673d1b",
+      "bytes": 1680
+    },
+    "port/level-world/game_object_spawn_probability_v1.hpp": {
+      "sha256": "ac474a9414a481802a63f95324e60c0253d3f1e1693f2ac509385255dfd9e87f",
+      "bytes": 965
+    },
+    "port/level-world/game_object_visual_asset_owner_v1.cpp": {
+      "sha256": "c824c60767dc82bf8c230c6dc64eea63faf69913898893084e8b065f7dab5cb3",
+      "bytes": 2611
+    },
+    "port/level-world/game_object_visual_asset_owner_v1.hpp": {
+      "sha256": "ffd3d1dc3e9d84d34c48a9c10e5071876b9e24fc869b37ed9ff9b43a1c626304",
+      "bytes": 1379
+    },
+    "port/level-world/gameobject_scene_binding_v1.cpp": {
+      "sha256": "915bf2bedc6c9cc7a1ffb7e292515b45417eba48cbd10163228dba78111ddbbf",
+      "bytes": 2095
+    },
+    "port/level-world/gameobject_scene_binding_v1.hpp": {
+      "sha256": "51fdb93b6c60cf60088d9236e4e142904de510fa3a4a2af2d2a0091ee6f0d945",
+      "bytes": 883
+    },
+    "port/level-world/openable_container_interaction_v2.cpp": {
+      "sha256": "8ee7faff7f0223f9195d7318aca43cda524b0f0641a7ad3efd58c8144210e54e",
+      "bytes": 2331
+    },
+    "port/level-world/openable_container_interaction_v2.hpp": {
+      "sha256": "ebbd350c20da59dfe61c3dc44c25dffd01a949d5ba98afa389b394781e17c9bf",
+      "bytes": 1567
+    },
+    "port/level-world/openable_container_loot_connection_v1.cpp": {
+      "sha256": "a25ced0c52dc4911e555d606623c8282e669909928f8f2571d110d05b5d0a7af",
+      "bytes": 3377
+    },
+    "port/level-world/openable_container_loot_connection_v1.hpp": {
+      "sha256": "4a2b711ea16853e7e363a76acb20e91090773511865a10efd8d576f2b4287bcf",
+      "bytes": 2047
+    },
+    "port/level-world/openable_container_owner_v1.cpp": {
+      "sha256": "a0a18238e2dbff40420096ce0aeb4f47f1a7a415afb59358b8a2f99932370d65",
+      "bytes": 9214
+    },
+    "port/level-world/openable_container_owner_v1.hpp": {
+      "sha256": "98fed8234fc1f15022d2b9852998dda5e59c17dcec4cc52590fe9d6b178bcbcf",
+      "bytes": 3857
+    },
+    "port/level-world/openable_container_property_connection_v1.cpp": {
+      "sha256": "b47d51ba0e259af0fe8fb0f444c4707951c5934a6fc2444c3ce2bd9a1e7897f2",
+      "bytes": 2566
+    },
+    "port/level-world/openable_container_property_connection_v1.hpp": {
+      "sha256": "a06cdda9f8738efab29d8063ae3b1d9f2b2c95df2ecb1f6c1bd8fafd3bab0bc1",
+      "bytes": 1188
+    },
+    "port/level-world/player_manager_loot_queries_v8.cpp": {
+      "sha256": "d6fe09b299b016510d6a3517dad46bcc6529b9d197106513e598ad2b7873d988",
+      "bytes": 1016
+    },
+    "port/level-world/player_manager_loot_queries_v8.hpp": {
+      "sha256": "1b07c1943f43ba329cec775e3400bc85014e8ae0890fb2c76836cba2f78a3263",
+      "bytes": 1468
+    },
+    "port/level-world/reference/animated-decor-v1/original-control-oracle.json": {
+      "sha256": "fafca80110ada381435118736e37c47580cf85d9bab00921c22ab245ad8d9e5e",
+      "bytes": 4615
+    },
+    "port/level-world/reference/animated-decor-v1/original-functions.json": {
+      "sha256": "fb35181a66a86b8e222c6d999b6e9a4cc00c943cfdcd3684b29bc68c41905ac9",
+      "bytes": 3137
+    },
+    "port/level-world/reference/animated-decor-v1/original-literals.json": {
+      "sha256": "0b71f4a4afb3f4d47f1b82ef86568111b1af85ec72499590a5e8fc9aa91b4873",
+      "bytes": 210
+    },
+    "port/level-world/reference/animated-decor-v1/original-source.asm": {
+      "sha256": "625d836fe4da4b03d768282550c8c690e1eb5e18bc2b85669bddf1d1a4c6262d",
+      "bytes": 17048
+    },
+    "port/level-world/reference/animated-decor-v1/renderer-integration.md": {
+      "sha256": "8170fdbb18e7793ece2d78f2e08374280ab8798f88b0e94bddc0685c3cb99a05",
+      "bytes": 3417
+    },
+    "port/level-world/reference/canonical-object-factory-v1/class-receiver-integration.md": {
+      "sha256": "2359920396280f84a0893d8a68bcc80c7b998a96cb69ae8b42ba9c6f94b69b8f",
+      "bytes": 2606
+    },
+    "port/level-world/reference/canonical-object-factory-v1/factory-catalog.json": {
+      "sha256": "8519654bc97c7362e3b2ccae704ab07eefcb204982490ff95c331d57aad04433",
+      "bytes": 3131
+    },
+    "port/level-world/reference/canonical-object-factory-v1/factory-literals.json": {
+      "sha256": "48a42f765dec5faad9656a7f418fd5285a3fad8b9bb2225703198a52908bc14b",
+      "bytes": 1939
+    },
+    "port/level-world/reference/canonical-object-factory-v1/object-base-constructor-original.json": {
+      "sha256": "3988ab1ebb711e0edb214c94ee4c3fb4042d9c2a5865e24a6dad51a6907243c3",
+      "bytes": 3943
+    },
+    "port/level-world/reference/canonical-object-factory-v1/original-functions.json": {
+      "sha256": "64df92b57e26d6bc30c04e734b959489c0e7b2464010c492f2de4ed29594521b",
+      "bytes": 54748
+    },
+    "port/level-world/reference/canonical-object-factory-v1/original-source.asm": {
+      "sha256": "cbe05a3acc759ed1175aadc6ab79d5e652348c1e364915b29bdb6d37accea41e",
+      "bytes": 442172
+    },
+    "port/level-world/reference/canonical-object-factory-v1/point3d-global-original.json": {
+      "sha256": "defbf9150c6dec11df82f7e0256ee699fd2abdd9cbb7c5c11cb445d3529e5b3c",
+      "bytes": 356
+    },
+    "port/level-world/reference/canonical-object-factory-v1/property-declarations-original.json": {
+      "sha256": "af723cffaf05bf022c742c3d8593acbb62b8f89e8851ed6b2dc05062cc379239",
+      "bytes": 31542
+    },
+    "port/level-world/reference/canonical-object-factory-v1/property-parse-source.asm": {
+      "sha256": "6eaf810d0e56c25d4285b7ecfa228a0436708cf434972ac8d0f3f71c8b68b4d4",
+      "bytes": 1174
+    },
+    "port/level-world/reference/canonical-object-factory-v1/property-receiver-vtables.json": {
+      "sha256": "374df8d826ccda36250dfc78d9f6c4345ec452e62fa0423f4e929287c0c867f1",
+      "bytes": 3891
+    },
+    "port/level-world/reference/canonical-object-factory-v1/property-receivers.asm": {
+      "sha256": "aeff33f817f596d04f5b0acd90af253cc5d17e12f05802c475d95facaf776ccf",
+      "bytes": 34535
+    },
+    "port/level-world/reference/canonical-object-factory-v1/renderer-integration.md": {
+      "sha256": "773d9268db58413e1587ddeeb360a2202ce6072a7e20185b7a98b6420ea18a17",
+      "bytes": 5761
+    },
+    "port/level-world/reference/canonical-object-factory-v1/vec3-origin-initializer.asm": {
+      "sha256": "dce4d6bcd5eebfc94e12a2fb2a76f0f6b7694f16259deaada159b29ab410d9fb",
+      "bytes": 1134
+    },
+    "port/level-world/reference/canonical-object-factory-v1/vec3-origin-symbols.json": {
+      "sha256": "d942c38730f637ac071985873d8166ddbb16ef6edbe9777b7a449f0e7ed7a5aa",
+      "bytes": 4344
+    },
+    "port/level-world/reference/character-initpost-owner-v1/integration.md": {
+      "sha256": "7fe3e1676d3e166e13cf495bf1305ff4af721d0c381ad6f6cb2430f574a1cf15",
+      "bytes": 4695
+    },
+    "port/level-world/reference/character-initpost-owner-v1/original-function.asm": {
+      "sha256": "fd4bbe36b3d8060d912461baec1fa0c132406d09bf0a3c585b4f44c5a013f16d",
+      "bytes": 14200
+    },
+    "port/level-world/reference/character-initpost-owner-v1/original-function.json": {
+      "sha256": "8d73bb98f9930884bd5f3158d1bb3e53eb09e73506b7371f8ca583adc2498afb",
+      "bytes": 973
+    },
+    "port/level-world/reference/character-initpost-owner-v1/staged-retained-binding.md": {
+      "sha256": "3b0951b24b53caea82646cf945a6f6defef458a89f7750e74e0fe46a1494752c",
+      "bytes": 1545
+    },
+    "port/level-world/reference/character-revive-owner-v1/integration.md": {
+      "sha256": "be830bbe5c9c5320b6ebedb813a2a473a3148f3bc97b399af77e3726e3a60dfe",
+      "bytes": 2587
+    },
+    "port/level-world/reference/character-revive-owner-v1/original-fixtures.bin": {
+      "sha256": "bfff8f23967e2cdd7ecccafaae5f7663525e397a66a538f88e9076938a3a380c",
+      "bytes": 31108
+    },
+    "port/level-world/reference/character-revive-owner-v1/original.json": {
+      "sha256": "0404f4d9d1cc5bbb1fcd9cae32585c81f7bd568670c96ef413ccbe8972c201fe",
+      "bytes": 574
+    },
+    "port/level-world/reference/game-object-visual-init-v1/literals.json": {
+      "sha256": "1d6d42a0e84799c5067bd4aec8c9294ad1dd01e18381de762ad4a78cae49e92e",
+      "bytes": 84
+    },
+    "port/level-world/reference/game-object-visual-init-v1/manifest.json": {
+      "sha256": "35ef7626d101f7dd32504c96a79189ef4c6eaf08dd367b5db0691b79f76d2162",
+      "bytes": 3148
+    },
+    "port/level-world/reference/game-object-visual-init-v1/original-functions.asm": {
+      "sha256": "8a9bec922f27fd6aa5c5a3e10c5dbd5494d9341ba03a743728b554420294e498",
+      "bytes": 42993
+    },
+    "port/level-world/reports/android-native-owner-tests/base-named-animation-v1/receipt.json": {
+      "sha256": "b398a028756a5b1116b09dca80e5af929dfe43366d4445de4b2175c137878be4",
+      "bytes": 2694
+    },
+    "port/level-world/reports/android-native-owner-tests/canonical-animated-decor-v1/receipt.json": {
+      "sha256": "cb0ff2d402ec26c7dc5428dcc37269c989337f7f66689ec475e0c925d5c93786",
+      "bytes": 4230
+    },
+    "port/level-world/reports/android-native-owner-tests/canonical-class-bindings-v1/receipt.json": {
+      "sha256": "63b2300bf19e89da3bc1e035ddf16146419888a7ea5ddfbaeb02fba204422872",
+      "bytes": 4247
+    },
+    "port/level-world/reports/android-native-owner-tests/canonical-openable-v1/receipt.json": {
+      "sha256": "30da58625f4a104b60d4689fc1529ba394cf0fd6e173b56d327a5ef1a61019cb",
+      "bytes": 3885
+    },
+    "port/level-world/reports/android-native-owner-tests/canonical-property-map-v1/receipt.json": {
+      "sha256": "d2e21aa94131fceaaa0827de5c9df5a5ab496e5aee6bb116c3e0f7fa5aa30463",
+      "bytes": 2410
+    },
+    "port/level-world/reports/android-native-owner-tests/character-revive-v1/receipt.json": {
+      "sha256": "1e521c06307a77ce692945c004fa1b7c3f5ac40a42b777319f3343935b6a3749",
+      "bytes": 4211
+    },
+    "port/level-world/reports/android-native-owner-tests/game-object-initialization-v1/receipt.json": {
+      "sha256": "797a5e61d44193a930502623622cdde65e1bac00784965ef6de0658f69a45dd3",
+      "bytes": 3948
+    },
+    "port/level-world/reports/android-native-owner-tests/npc-initpost-v1/receipt.json": {
+      "sha256": "4fcd0f31145ba80ab3a55fea9698793acd798e6ca511c276a43b20a75bd3b1ef",
+      "bytes": 3906
+    },
+    "port/level-world/reports/android-native-owner-tests/openable-property-connection-v1/receipt.json": {
+      "sha256": "18fe467d27b86642d65757a1e4ae600a408a8bd0f75229ee066f7b6dbb3cbf18",
+      "bytes": 2478
+    },
+    "port/level-world/reports/android-native-owner-tests/openable-real-cache-v1/receipt.json": {
+      "sha256": "b880c21f2436fcdf378706532533d639db76178314165f0f81d5194a15cdd838",
+      "bytes": 2436
+    },
+    "port/level-world/reports/android-native-owner-tests/openable-visual-cache-v1/receipt.json": {
+      "sha256": "cc1428524989db12e74d2f028977feed74b94480a368181a1d5254ec8865ff31",
+      "bytes": 4482
+    },
+    "port/level-world/reports/android-native-owner-tests/retained-chest-initialization-v1/receipt.json": {
+      "sha256": "e7be57f7659b5d057e405c6c8b66f0a45d9e999e7bee2d7e98e534dde5ebe37d",
+      "bytes": 4293
+    },
+    "port/level-world/reports/android-native-owner-tests/retained-chest-pipeline-v1/receipt.json": {
+      "sha256": "5f655ee1d936b15d90d8cc1a54e76a555575fcdc60c85d9f278b76259cc000b4",
+      "bytes": 4274
+    },
+    "port/level-world/retained_character_actor_v1.cpp": {
+      "sha256": "34507168f193c2d7e58a803284115402714be9182be7ed034937e85ac056c8e4",
+      "bytes": 10460
+    },
+    "port/level-world/retained_character_actor_v1.hpp": {
+      "sha256": "ec4e99ce012a16b65cd0dc23b34adc15b9c0aba0c08e92fe614eb07e736bafc2",
+      "bytes": 6630
+    },
+    "port/level-world/retained_gameobject_decor_v1.cpp": {
+      "sha256": "1d9286b1381883f3d80d6daabfc68424c716da12715aabec663f62bcfdbcde90",
+      "bytes": 5436
+    },
+    "port/level-world/retained_gameobject_decor_v1.hpp": {
+      "sha256": "7f4a406ee88de118b0515f6969e09a2223289d0eaec4b2ce7bf2ff490f3a1569",
+      "bytes": 2047
+    },
+    "port/level-world/retained_gameobject_visual_asset_connection_v1.cpp": {
+      "sha256": "6891571433a3ffdf2543c431a96fceea36f2f6e9387c03b099f392db05c96d2f",
+      "bytes": 2045
+    },
+    "port/level-world/retained_gameobject_visual_asset_connection_v1.hpp": {
+      "sha256": "ed4563081642491b538bbb7e627e01321bba2b91c141b8eecd38940650525cbb",
+      "bytes": 946
+    },
+    "port/level-world/retained_gameobject_visual_v1.cpp": {
+      "sha256": "469812688f22edb469aa4e04f5706c9705b110f83acd745c70fe62dded20f7c5",
+      "bytes": 15583
+    },
+    "port/level-world/retained_gameobject_visual_v1.hpp": {
+      "sha256": "58a8426a601d34887a9de15fba8af3f27e612d78d1e12dd06de7dee559cc9809",
+      "bytes": 5022
+    },
+    "port/level-world/tests/canonical_animated_decor_v1.cpp": {
+      "sha256": "6c28f1060572ac5ee73e505bc5050e9f9d930155dbdaa9325f845c0c378a9bb9",
+      "bytes": 5403
+    },
+    "port/level-world/tests/canonical_class_receiver_bindings_v1.cpp": {
+      "sha256": "64c9b61cabf22372664e1f3dcff3c151c1ea54a77ce0148a2fc3509e42d142f9",
+      "bytes": 2888
+    },
+    "port/level-world/tests/canonical_property_map_v1.cpp": {
+      "sha256": "f1831d3b45c26a35ab2fd480d0078deb93680ae21c99e83ef69b0dab5dad3d23",
+      "bytes": 4622
+    },
+    "port/level-world/tests/character_npc_initpost_owner_v1.cpp": {
+      "sha256": "ce38257aedcc574037a38ba9507269aacec68fd4e26e5beb362f9acbe3ce44ab",
+      "bytes": 5191
+    },
+    "port/level-world/tests/character_revive_owner_v1.cpp": {
+      "sha256": "9e883ac8ddda6161f7df582b8215b417dbc0e6770a3959c97f733f163b456142",
+      "bytes": 2747
+    },
+    "port/level-world/tests/game_object_initialization_owner_v1.cpp": {
+      "sha256": "a5cbda47481d2ef82c265d64bb18a06507ff7d0e43a5cbbde75f2aa0a6c44cf2",
+      "bytes": 7190
+    },
+    "port/level-world/tests/retained_gameobject_asset_initialization_v1.cpp": {
+      "sha256": "3eeaa67af996158864e7d950ec78648435cd3e9873cab01465532da3be6df78d",
+      "bytes": 5382
+    },
+    "port/level-world/tests/retained_gameobject_chest_pipeline_v1.cpp": {
+      "sha256": "86d190f8dfb739ad50cad862605a625becbf01662e96fd74ed776c3fd7f44526",
+      "bytes": 6141
+    },
+    "reference/openable-container-v1/actual-chest-clips-raw.json": {
+      "sha256": "26c01c06c421bc5086eff2f4057711e1387d7e143df45a58476784280aa3b83e",
+      "bytes": 1428
+    },
+    "reference/openable-container-v1/actual-openable-rows.json": {
+      "sha256": "963f6b88e2d5fcccf44d1f4e034f0cb7556570420d3d5346bf407f97a23cceae",
+      "bytes": 16372
+    },
+    "reference/openable-container-v1/base-visual-init-source.asm": {
+      "sha256": "abb9fd7d809f4b3563325347a6504d613eb32da6bf109460087f11aff130fb3e",
+      "bytes": 9914
+    },
+    "reference/openable-container-v1/cache/game_objects_dictionary_pyarray.bin": {
+      "sha256": "99ef357caa883a0f5ba0709d6fc4abcb6b8ab9741adc275ca9a295dd70b8be9a",
+      "bytes": 4144
+    },
+    "reference/openable-container-v1/cache/game_objects_dictionary_pyarraynames.bin": {
+      "sha256": "b01c74698bd0dcbcfb05d0d3a8ad645342bfed294bfa82c9c46185bb9dc0ccad",
+      "bytes": 2019
+    },
+    "reference/openable-container-v1/cache/game_objects_pyarray.bin": {
+      "sha256": "8b02cf1bd776621c18d82fd24ef0320d996b28ea77e3a24be3f986e84160e07d",
+      "bytes": 5326
+    },
+    "reference/openable-container-v1/cache/game_objects_pyarraynames.bin": {
+      "sha256": "f06d1dcc8bb754c14a42a66af1def8bf2b35dc4f6452d67f596ec2dc0a2baa53",
+      "bytes": 3846
+    },
+    "reference/openable-container-v1/cache/game_objects_pycst.bin": {
+      "sha256": "055dadeb6982ebfa47220574b10999a4f9eb78375dfd3f33f69a475313ee4597",
+      "bytes": 1570
+    },
+    "reference/openable-container-v1/cache/game_objects_pystructnames.bin": {
+      "sha256": "6e9a9f7087b9abe0d777270353149c3825a2a1135522f582146664345ad5e1ca",
+      "bytes": 921
+    },
+    "reference/openable-container-v1/chest-visual-cache-hashes.json": {
+      "sha256": "d9af61a53bcab7e4c71d3824bd03cea882fc02f79411226b9f73c2ce9a03c89e",
+      "bytes": 647
+    },
+    "reference/openable-container-v1/collada-node-ctor-source.asm": {
+      "sha256": "5fa2e634fc01c01d8a9194b767d82287e83822e94dc7c340e2cc0ca2ea09433c",
+      "bytes": 2810
+    },
+    "reference/openable-container-v1/container-base-source.asm": {
+      "sha256": "d0990a4858955dd11ea018aadbbd0c0f6869e0e242a9eecf0d01fa34508a2aba",
+      "bytes": 22923
+    },
+    "reference/openable-container-v1/controller-direct-xrefs.json": {
+      "sha256": "cbb0ecd508db3511f343057dbb5d0fbd1e1fe8a29597c34d60766c2e8d95c723",
+      "bytes": 1953
+    },
+    "reference/openable-container-v1/drop-and-outer-source.asm": {
+      "sha256": "65ee503010b7312267501c66a950cf51e142b5055d14c8f84d06e2afe3a34d5f",
+      "bytes": 9047
+    },
+    "reference/openable-container-v1/eligibility-source.asm": {
+      "sha256": "81e36f774278fe91994d5ad503122ada9964d16abd2e12a2ef2735b208b7ebc9",
+      "bytes": 2225
+    },
+    "reference/openable-container-v1/fixed-powers-source.asm": {
+      "sha256": "657be4683699e444401538ea909faed1cc844da373be101a52c4d0a724cd589e",
+      "bytes": 89
+    },
+    "reference/openable-container-v1/load-visual-body-source.asm": {
+      "sha256": "77ecdf3a294d7a4492891f1b52bdb16c1103fdfccb2ef15d7db242929f098c22",
+      "bytes": 3044
+    },
+    "reference/openable-container-v1/load-visual-source.asm": {
+      "sha256": "90969984b38199fe6ff5589823bf2d6851d8a535315b129324b069ddb06a98ba",
+      "bytes": 242
+    },
+    "reference/openable-container-v1/net-base-source.asm": {
+      "sha256": "2432ee7bdae32a189b477575bc84a374d90c617790787de14474f72f8073e431",
+      "bytes": 5599
+    },
+    "reference/openable-container-v1/net-struct-constructor-source.asm": {
+      "sha256": "f5a47bd2b22ee6d14eb06cb9b0e4cf2da8f4f6e324144b07dfbe3c19c56f680a",
+      "bytes": 3868
+    },
+    "reference/openable-container-v1/openable-source.asm": {
+      "sha256": "dc8b52838da260265430edcb67399fc19eecc9574efe166b4889ea12405064af",
+      "bytes": 16044
+    },
+    "reference/openable-container-v1/predicate-oracle.json": {
+      "sha256": "09655d35ecc2c5c073b5a4c3dd027b9d0775040a067215e3af9bd5a4dbde3734",
+      "bytes": 302
+    },
+    "reference/openable-container-v1/retained-animation-ending-source.asm": {
+      "sha256": "f69821547af72511a3e6348867f465615f9a28f6f307e46250b58418617d77e6",
+      "bytes": 1577
+    },
+    "reference/openable-container-v1/retained-animator-constructors.asm": {
+      "sha256": "b3ef8ffdfcc88d0fc07f9a0ee6b9555a6faafec6123b78a6c3c8fc097dbc092e",
+      "bytes": 8924
+    },
+    "reference/openable-container-v1/retained-applicator-source.asm": {
+      "sha256": "51ad94d7e320e671c9db9f8514466e6d4f4f6de5137ce60513af65cfa06af169",
+      "bytes": 909
+    },
+    "reference/openable-container-v1/retained-displacement-source.asm": {
+      "sha256": "6d509511f0b9b23c7b8bffd955a5e7d411fec1986121108c80e607cd7eda8488",
+      "bytes": 2852
+    },
+    "reference/openable-container-v1/retained-light-set-source.asm": {
+      "sha256": "60b952ceedafeef3624a5752444c9825ca08c8de8d911263ac8b38e960022df5",
+      "bytes": 505
+    },
+    "reference/openable-container-v1/retained-parent-source.asm": {
+      "sha256": "aa79e714fbfa8208c427503039de0fabfd86b0ba8e4ce78498a1b9924170d78c",
+      "bytes": 3801
+    },
+    "reference/openable-container-v1/retained-podecor-collision-source.asm": {
+      "sha256": "27ab49c2d958a587be58f7293a5dc9d2cd466d9919e26a4ba4b24f9e89c235db",
+      "bytes": 1506
+    },
+    "reference/openable-container-v1/retained-podecor-source.asm": {
+      "sha256": "612976f40ae395d5fa4844678d50ddb5cc6ed89f0aa39d05be802d080f6832cc",
+      "bytes": 3708
+    },
+    "reference/openable-container-v1/retained-visual-destructor-source.asm": {
+      "sha256": "5264626b3481564b26f3127737459ccc2c442596662de5fe587c883922c955be",
+      "bytes": 4647
+    },
+    "reference/openable-container-v1/retained-visual-replay-source.asm": {
+      "sha256": "46b358a26aa5ae0a4114af2b436f1b4be6556d46522244b7cc494d19c179a1c4",
+      "bytes": 1877
+    },
+    "reference/openable-container-v1/retained-visual-source.asm": {
+      "sha256": "50df84c99567892fa9860cc4b5739e62f585ddddb6f49741baf486803aecea72",
+      "bytes": 14636
+    },
+    "reference/openable-container-v1/root-scene-vtable.txt": {
+      "sha256": "cd1ac8d87eaafc8c765b16483e6af0ecd7e3856152f1ec00a47decd49575b335",
+      "bytes": 4777
+    },
+    "reference/openable-container-v1/scene-manager-registration-source.asm": {
+      "sha256": "3755f627992144bc9f546a2998d8cacbc24643464d693a837c06013d0f08e868",
+      "bytes": 8865
+    },
+    "reference/openable-container-v1/scene-node-ctor-source.asm": {
+      "sha256": "3ffea6478fd8e00630fc584d7f303dac6d81ae2d374e403a4cb9bec441f0fdef",
+      "bytes": 3792
+    },
+    "reference/openable-container-v1/scene-registration-source.asm": {
+      "sha256": "e466b92e4cdaef6be7e3a9c303265e8482043d3c0770f7488f51b79edbc204fa",
+      "bytes": 1358
+    },
+    "reference/openable-container-v1/selected-swamp-chests.json": {
+      "sha256": "c08294a6f27da98f1d931a4510731186d559eb34faad38aee238df6d32d77835",
+      "bytes": 8998
+    },
+    "reference/openable-container-v1/set-on-animate-source.asm": {
+      "sha256": "d2fa1cd06f1eeb4b0cd29c91dc86a738fbc0e51920ecd224fdd79f5323fdc9aa",
+      "bytes": 242
+    },
+    "reference/openable-container-v1/set-visual-source.asm": {
+      "sha256": "a5d42107645dbb2fb31a95d466525de764316bf9a21247bc38431eb861685583",
+      "bytes": 530
+    },
+    "reference/openable-container-v1/spawn-random-source.asm": {
+      "sha256": "0ce274db11b27a6c73fcff9fe6d350e9f3ffeb5275feb03ff411029db93c11ea",
+      "bytes": 2405
+    },
+    "reference/openable-container-v1/table-fixture-hashes.json": {
+      "sha256": "89b9b6a35615cd7c277b3d99bd29ee1be6aa0e23583355a227bd19bf3c4c6465",
+      "bytes": 301
+    },
+    "reference/openable-container-v1/timeline-vtable-source.txt": {
+      "sha256": "e6b96383fd093a030a80437c1742df3faa9c04a1b460f8bc633d52fd3618c970",
+      "bytes": 1745
+    },
+    "reference/openable-container-v1/visual-controller-source.asm": {
+      "sha256": "4713be3f4dd910cde19de107c695d4a8e5fd23250deb24db6e5c5331ea2e0c71",
+      "bytes": 9893
+    },
+    "reports/retained-gameobject-chest-pipeline-v1.md": {
+      "sha256": "39dddfa8e46ac1901c624c8385ae4571e4508e1d5b1d7365d418414600078fbe",
+      "bytes": 7529
+    },
+    "port/level-world/gameobject_scene_root_registry_v1.cpp": {
+      "sha256": "de48dd5e63ee3d238c7c2efee597d6b197fc41a6dffe603c9c250f20fb65c544",
+      "bytes": 2094
+    },
+    "port/level-world/gameobject_scene_root_registry_v1.hpp": {
+      "sha256": "e1f073cbda955a9d44e1537996655e124b39a50d2de1fc1629a1af23dc53abec",
+      "bytes": 1824
+    },
+    "port/level-world/reports/android-native-owner-tests/retained-scene-visual-v3/receipt.json": {
+      "sha256": "8709a4f52370905ecfda762272017e65b45c1316fc716f04bbcc004ede686d0e",
+      "bytes": 4230
+    },
+    "port/level-world/retained_gameobject_visual_asset_connection_v2.cpp": {
+      "sha256": "6e73a49104ef731f12ee20f759f07e868d2703d863103de986d0ba1ab35e2b4a",
+      "bytes": 3164
+    },
+    "port/level-world/retained_gameobject_visual_asset_connection_v2.hpp": {
+      "sha256": "e6d9ccd1b05d705514e5d84e98a66c0e590e796016f7a8993b83679d887e2060",
+      "bytes": 1556
+    },
+    "port/level-world/retained_scene_visual_connection_v3.cpp": {
+      "sha256": "d25f250e57c7af201e42246ff57e3cf90eefefdb9a4a8bcbd6936583b6ee0b1c",
+      "bytes": 2102
+    },
+    "port/level-world/retained_scene_visual_connection_v3.hpp": {
+      "sha256": "a63cfb1507bac2e5d6d2599998554270d340c05570acb2a58547f20d69bee4d5",
+      "bytes": 1209
+    },
+    "port/level-world/tests/retained_gameobject_visual_asset_connection_v2.cpp": {
+      "sha256": "ad2bd088a880b6b2aca49ad9944b5d0755dfec14bd7bc8fa7b0e6dff1ebcdb92",
+      "bytes": 3417
+    },
+    "port/level-world/tests/retained_scene_visual_connection_v3.cpp": {
+      "sha256": "6fab5393e174c687084b893b63c165046909beea3451c825738e3058c31c4d38",
+      "bytes": 4299
+    },
+    "reference/openable-container-v1/scene-animator-detach-source.asm": {
+      "sha256": "ce050f170d647d990229f2ff4914098774b32089ec47c2c1f05130df6b050342",
+      "bytes": 2200
+    },
+    "reference/openable-container-v1/scene-animator-tracks-release-source.asm": {
+      "sha256": "d8726c5833a30bff1162769a841ed5483238d207e393b6d68f6bac445fda23ab",
+      "bytes": 895
+    },
+    "reference/openable-container-v1/scene-local-visibility-source.asm": {
+      "sha256": "4835a50d5c0bfebd4348e7fb59928bb32dcb7eb25dafdfd7ba60a16cab049215",
+      "bytes": 1347
+    },
+    "reference/openable-container-v1/scene-parent-visibility-source.asm": {
+      "sha256": "6fbdfbe748f2e85da2b846d3c4f88d2cb6169a2f14e6465b59042072423f0be8",
+      "bytes": 2286
+    },
+    "reference/openable-container-v1/scene-render-list-dirty-source.asm": {
+      "sha256": "c0f49e1d7452a6bb4983d90ed098ba307460a6f52327345a98cc80602701cf9a",
+      "bytes": 144
+    },
+    "reference/openable-container-v1/scene-root-membership-source.asm": {
+      "sha256": "a78545a8f68823fee11ce69f73a0d37778650f7e91e703fc9b491a5fa6f35201",
+      "bytes": 6291
+    },
+    "reports/retained-gameobject-visual-registry-v2.md": {
+      "sha256": "7804d35375eeb0503ff542c8e1f08601a6c4d68df1f1db37251197f79e45e0cb",
+      "bytes": 4051
+    },
+    "reports/retained-scene-visual-connection-v3.md": {
+      "sha256": "83eaaff3b6a07991971de87907b8650530a835afc9cf2cbd243361c374821bed",
+      "bytes": 4202
+    },
+    "port/level-world/canonical_property_declarations_v1.inc": {
+      "sha256": "4e7b741b7e3588bfc9ca834a5a5f8e52ddce7c4f3cd8cefab178648e4e3eaa9c",
+      "bytes": 5906
+    }
+  },
+  "full_loader_verified": false
+}

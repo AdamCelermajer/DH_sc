@@ -1,0 +1,13 @@
+# Module/Block OBJS source integration V92
+
+SOURCE ONLY; no shared edits or validation jobs.
+
+The actual ModuleGraph-owned records now have a separate metadata/header and seven-byte payload route on the existing NonCharacterSaveDispatchV89. Generic auxiliary base borrowing cannot locate those records and must not silently use six GameObject bytes or skip Module metadata. LevelConfig keeps its distinct ObjectBase two-byte branch and exact ac/d0 C1 projection from the earlier narrow patches.
+
+Apply module-save-dispatch-v92.patch over the current V89 save INC after the Config additions, and module-restore-lender-v92.patch to the current V91 restore lender. Include source_campaign_module_rooms_v91.hpp globally, and renderer_campaign_module_rooms_v91.inc after V69 but BEFORE save INC/V91 lender. Existing Module save-kind/cells and renderer helper are supplied by candidate/module-roomzone-source/generated-room-owner-integration.patch. Keep native journals/factories and Main's current body changes; do not replace whole stale snapshots.
+
+Bind the generated RoomZone sibling immediately after V69 composition, then pass that SAME retained sibling as the optional final argument of bind_campaign_noncharacter_saved_objects_v89(actual, composition, journal, native, error, rooms). Existing callers compile with the default empty weak argument, but reached Module serialization requires the real sibling. Retain the connector through actual native unload/cleanup. The Save directory captures weak room ownership, not a second campaign/save registry.
+
+Module headers borrow actual checkpoint28/gametype48/name30/room64/disabled81 before native LevelSave filtering. Payload pins the actual original module record, serializes inherited six bytes then actual3fc, and restores actual400.GetObject(false) -> RoomZone.SetVisited using the raw-byte handoff. Runtime and journal identity validation remain active. V91 native restore lender now uses the same typed Module fallback when the auxiliary graph has no matching receiver; ordinary classes keep their existing class-specific native restoration.
+
+Positive Module VisualObject.SyncVisibility is now connected by the additive V94 module-visibility-save-invoke/runtime-export handoff to the SAME actual ModuleGraph source_sync_visibility_v94 body. Adopt that narrow owner/export patch after this V92 dispatch. Generic V69 visual lookup is never used for Module; genuine incoming native invoke overrides remain preserved. The original saved-archetype mismatch assertion remains a reached genuine dependency. Integrated saved-object/return-visit proof stays open.

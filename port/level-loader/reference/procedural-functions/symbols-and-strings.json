@@ -1,0 +1,1940 @@
+{
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "address": "0x3f07f8",
+      "size": 160,
+      "symbol": "_ZN5Level19GenerateRandomLevelER12StreamBufferj",
+      "capture": "003f07f8.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x483a94",
+      "size": 52,
+      "symbol": "_ZN3rnd15RandomGenerator7NextIntEv",
+      "capture": "00483a94.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x483ac8",
+      "size": 48,
+      "symbol": "_ZN3rnd15RandomGenerator6GetIntEii",
+      "capture": "00483ac8.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x483af8",
+      "size": 28,
+      "symbol": "_ZN3rnd15RandomGeneratorclEj",
+      "capture": "00483af8.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x483b14",
+      "size": 44,
+      "symbol": "_ZN3rnd15RandomGenerator4HashEPh",
+      "capture": "00483b14.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x4843a0",
+      "size": 36,
+      "symbol": "_ZN3rnd15RandomGenerator11UnloadTilesEv",
+      "capture": "004843a0.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x484438",
+      "size": 52,
+      "symbol": "_ZNK3rnd15RandomGenerator7GetListEPKc",
+      "capture": "00484438.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x484554",
+      "size": 124,
+      "symbol": "_ZN3rnd15RandomGenerator9ValidListEPKc",
+      "capture": "00484554.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x4845d0",
+      "size": 124,
+      "symbol": "_ZN3rnd15RandomGenerator10ValidBlockEPKc",
+      "capture": "004845d0.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x484820",
+      "size": 208,
+      "symbol": "_ZN3rnd15RandomGenerator8PrintMapEv",
+      "capture": "00484820.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x485a0c",
+      "size": 40,
+      "symbol": "_ZN3rnd8RoomPoolD1Ev",
+      "capture": "00485a0c.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x485a34",
+      "size": 108,
+      "symbol": "_ZN3rnd15RandomGenerator15UnloadRoomPoolsEv",
+      "capture": "00485a34.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x485cdc",
+      "size": 364,
+      "symbol": "_ZN3rnd15RandomGenerator13LoadRoomPoolsEP9TiXmlNode",
+      "capture": "00485cdc.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "485cec",
+          "address": "0x8d4be8",
+          "value": "pool"
+        }
+      ]
+    },
+    {
+      "address": "0x4865f0",
+      "size": 208,
+      "symbol": "_ZN3rnd15RandomGenerator13LoadListRulesEP9TiXmlNode",
+      "capture": "004865f0.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "486600",
+          "address": "0x8ed220",
+          "value": "list"
+        }
+      ]
+    },
+    {
+      "address": "0x487e84",
+      "size": 344,
+      "symbol": "_ZN3rnd15RandomGeneratorC1Ev",
+      "capture": "00487e84.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "487f58",
+          "address": "0x8c6be0",
+          "value": "data/scene/"
+        },
+        {
+          "instruction": "487fa8",
+          "address": "0x8c0478",
+          "value": "LevelConfig"
+        }
+      ]
+    },
+    {
+      "address": "0x487fdc",
+      "size": 344,
+      "symbol": "_ZN3rnd15RandomGeneratorC2Ev",
+      "capture": "00487fdc.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "4880b0",
+          "address": "0x8c6be0",
+          "value": "data/scene/"
+        },
+        {
+          "instruction": "488100",
+          "address": "0x8c0478",
+          "value": "LevelConfig"
+        }
+      ]
+    },
+    {
+      "address": "0x488134",
+      "size": 156,
+      "symbol": "_ZN3rnd15RandomGenerator8GenerateEi",
+      "capture": "00488134.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x4881d0",
+      "size": 176,
+      "symbol": "_ZN3rnd8ListElemD1Ev",
+      "capture": "004881d0.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x488300",
+      "size": 308,
+      "symbol": "_ZN3rnd15RandomGenerator11UnloadRulesEv",
+      "capture": "00488300.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x488504",
+      "size": 512,
+      "symbol": "_ZN3rnd15RandomGeneratorD1Ev",
+      "capture": "00488504.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x488704",
+      "size": 512,
+      "symbol": "_ZN3rnd15RandomGeneratorD2Ev",
+      "capture": "00488704.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x488904",
+      "size": 640,
+      "symbol": "_ZN3rnd15RandomGenerator8GetFilesEPKcRSt6vectorISsSaISsEE",
+      "capture": "00488904.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "488a10",
+          "address": "0x8cb9f8",
+          "value": "\n"
+        }
+      ]
+    },
+    {
+      "address": "0x488b84",
+      "size": 716,
+      "symbol": "_ZN3rnd15RandomGenerator24SaveModularLevelToStreamER12StreamBuffer",
+      "capture": "00488b84.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "488bd8",
+          "address": "0x8d4bf8",
+          "value": "utf-8"
+        },
+        {
+          "instruction": "488be0",
+          "address": "0x8d4bf0",
+          "value": "1.0"
+        },
+        {
+          "instruction": "488c20",
+          "address": "0x8d4c00",
+          "value": " This file was generated by the Dungeon Hunter random generator "
+        },
+        {
+          "instruction": "488c54",
+          "address": "0x8d4c48",
+          "value": " Software version 0.01 "
+        },
+        {
+          "instruction": "488c70",
+          "address": "0x8d4c60",
+          "value": " Source file: %s "
+        },
+        {
+          "instruction": "488cec",
+          "address": "0x8c67b8",
+          "value": "Level"
+        },
+        {
+          "instruction": "488d48",
+          "address": "0x8c0008",
+          "value": "\r\n"
+        }
+      ]
+    },
+    {
+      "address": "0x488e50",
+      "size": 1180,
+      "symbol": "_ZN3rnd15RandomGenerator19SaveModularLevelXmlEv",
+      "capture": "00488e50.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "488ec8",
+          "address": "0x8bf770",
+          "value": ".xml"
+        },
+        {
+          "instruction": "489050",
+          "address": "0x8c4528",
+          "value": "_"
+        },
+        {
+          "instruction": "489068",
+          "address": "0x8bf758",
+          "value": ".mlx"
+        },
+        {
+          "instruction": "48924c",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "489250",
+          "address": "0x8be5d0",
+          "value": "static_"
+        },
+        {
+          "instruction": "489254",
+          "address": "0x8c67c8",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources/Utils/StreamBuffer.h"
+        },
+        {
+          "instruction": "489274",
+          "address": "0x8be460",
+          "value": "basic_string"
+        },
+        {
+          "instruction": "48928c",
+          "address": "0x8be460",
+          "value": "basic_string"
+        }
+      ]
+    },
+    {
+      "address": "0x4892ec",
+      "size": 540,
+      "symbol": "_ZN3rnd15RandomGenerator10LoadBlocksEv",
+      "capture": "004892ec.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "489364",
+          "address": "0x8d4c78",
+          "value": "/mgx/mgxlist.txt"
+        },
+        {
+          "instruction": "4893b4",
+          "address": "0x8c6830",
+          "value": ".mgx"
+        }
+      ]
+    },
+    {
+      "address": "0x489508",
+      "size": 1152,
+      "symbol": "_ZN3rnd15RandomGenerator12LoadRuleFileEPKc",
+      "capture": "00489508.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "4896ec",
+          "address": "0x8d4ca0",
+          "value": "rules"
+        },
+        {
+          "instruction": "489738",
+          "address": "0x90c098",
+          "value": "target"
+        },
+        {
+          "instruction": "489770",
+          "address": "0x8d4ca8",
+          "value": "folder"
+        },
+        {
+          "instruction": "4897f0",
+          "address": "0x8d4cb0",
+          "value": "RootRule"
+        },
+        {
+          "instruction": "48983c",
+          "address": "0x8d4cc0",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\random\\rndApp.cpp"
+        },
+        {
+          "instruction": "489840",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "489844",
+          "address": "0x8be570",
+          "value": "false"
+        },
+        {
+          "instruction": "4898fc",
+          "address": "0x8d4c90",
+          "value": "data/scene/%s"
+        }
+      ]
+    },
+    {
+      "address": "0x489988",
+      "size": 92,
+      "symbol": "_ZNK3rnd5Block10IsStraightEv",
+      "capture": "00489988.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x4899e4",
+      "size": 72,
+      "symbol": "_ZNK3rnd5Block7GetFlagEv",
+      "capture": "004899e4.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x489aa4",
+      "size": 72,
+      "symbol": "_ZN3rnd9TryIsZeroEPKc",
+      "capture": "00489aa4.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "489aac",
+          "address": "0x8cd498",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "address": "0x489aec",
+      "size": 752,
+      "symbol": "_ZN3rnd5Block17LinkToOtherBlocksERKSt3mapIPKcPS0_4lstrSaISt4pairIKS3_S4_EEE",
+      "capture": "00489aec.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x489ddc",
+      "size": 176,
+      "symbol": "_ZN3rnd4Exit20GetBlockUnitPositionER7Point3DIfEPNS_5BlockE",
+      "capture": "00489ddc.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x489f58",
+      "size": 100,
+      "symbol": "_ZN3rnd5BlockD1Ev",
+      "capture": "00489f58.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x489fbc",
+      "size": 28,
+      "symbol": "_ZN3rnd5BlockD0Ev",
+      "capture": "00489fbc.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x489fd8",
+      "size": 100,
+      "symbol": "_ZN3rnd5BlockD2Ev",
+      "capture": "00489fd8.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48a03c",
+      "size": 92,
+      "symbol": "_ZN3rnd8MgxBlockD1Ev",
+      "capture": "0048a03c.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48a098",
+      "size": 28,
+      "symbol": "_ZN3rnd8MgxBlockD0Ev",
+      "capture": "0048a098.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48a0b4",
+      "size": 92,
+      "symbol": "_ZN3rnd8MgxBlockD2Ev",
+      "capture": "0048a0b4.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48a380",
+      "size": 84,
+      "symbol": "_ZN3rnd4ExitC1ERKNS_9DirectionEPNS_5BlockEiifiRSt6vectorISsSaISsEE",
+      "capture": "0048a380.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48a3d4",
+      "size": 84,
+      "symbol": "_ZN3rnd4ExitC2ERKNS_9DirectionEPNS_5BlockEiifiRSt6vectorISsSaISsEE",
+      "capture": "0048a3d4.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48a5d0",
+      "size": 828,
+      "symbol": "_ZN3rnd4Exit11LoadFromXmlE11TiXmlHandlePNS_5BlockEi",
+      "capture": "0048a5d0.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "48a614",
+          "address": "0x8d4d00",
+          "value": "linktype"
+        },
+        {
+          "instruction": "48a7bc",
+          "address": "0x8d4d10",
+          "value": "direction"
+        },
+        {
+          "instruction": "48a81c",
+          "address": "0x8c2230",
+          "value": "position"
+        }
+      ]
+    },
+    {
+      "address": "0x48a90c",
+      "size": 376,
+      "symbol": "_ZN3rnd8MgxBlock11LoadFromXmlER11TiXmlHandle",
+      "capture": "0048a90c.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "48a938",
+          "address": "0x8d4d20",
+          "value": "unit_width"
+        },
+        {
+          "instruction": "48a960",
+          "address": "0x8d4d30",
+          "value": "unit_height"
+        },
+        {
+          "instruction": "48a97c",
+          "address": "0x8d4d40",
+          "value": "block_width"
+        },
+        {
+          "instruction": "48a990",
+          "address": "0x8d4d50",
+          "value": "block_height"
+        },
+        {
+          "instruction": "48a9a4",
+          "address": "0x8c0270",
+          "value": "GameObject"
+        },
+        {
+          "instruction": "48a9c8",
+          "address": "0x8c0180",
+          "value": "gametype"
+        },
+        {
+          "instruction": "48a9cc",
+          "address": "0x8d4d60",
+          "value": "link"
+        }
+      ]
+    },
+    {
+      "address": "0x48aa84",
+      "size": 176,
+      "symbol": "_ZN3rnd8MgxBlock17LoadFromXmlStreamEP11IFileStream",
+      "capture": "0048aa84.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "48ab08",
+          "address": "0x8c0438",
+          "value": "Module"
+        }
+      ]
+    },
+    {
+      "address": "0x48ab34",
+      "size": 240,
+      "symbol": "_ZN3rnd5BlockC1Ev",
+      "capture": "0048ab34.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48ac24",
+      "size": 240,
+      "symbol": "_ZN3rnd5BlockC2Ev",
+      "capture": "0048ac24.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48ad14",
+      "size": 64,
+      "symbol": "_ZN3rnd8MgxBlockC1Ev",
+      "capture": "0048ad14.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48ad54",
+      "size": 948,
+      "symbol": "_ZN3rnd8MgxBlock12FromFilenameEPKcS2_S2_",
+      "capture": "0048ad54.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "48ad94",
+          "address": "0x8d4d68",
+          "value": "%s/mgx/%s"
+        },
+        {
+          "instruction": "48b07c",
+          "address": "0x8be460",
+          "value": "basic_string"
+        }
+      ]
+    },
+    {
+      "address": "0x48b108",
+      "size": 64,
+      "symbol": "_ZN3rnd8MgxBlockC2Ev",
+      "capture": "0048b108.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48b85c",
+      "size": 148,
+      "symbol": "_ZN3rnd8MgxBlock9FitsInMapER7Array2dIPNS_4TileEEii",
+      "capture": "0048b85c.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48b8f0",
+      "size": 360,
+      "symbol": "_ZN3rnd8MgxBlock13RemoveFromMapER7Array2dIPNS_4TileEES3_ii",
+      "capture": "0048b8f0.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "48b928",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "48b934",
+          "address": "0x8be570",
+          "value": "false"
+        },
+        {
+          "instruction": "48b940",
+          "address": "0x8d4d78",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\random\\rndBlock.cpp"
+        }
+      ]
+    },
+    {
+      "address": "0x48ba58",
+      "size": 356,
+      "symbol": "_ZN3rnd8MgxBlock10PlaceInMapER7Array2dIPNS_4TileEES3_ii",
+      "capture": "0048ba58.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "48ba90",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "48ba9c",
+          "address": "0x8be570",
+          "value": "false"
+        },
+        {
+          "instruction": "48baa8",
+          "address": "0x8d4d78",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\random\\rndBlock.cpp"
+        }
+      ]
+    },
+    {
+      "address": "0x48bbec",
+      "size": 12,
+      "symbol": "_ZN3rnd4Rule4Impl11GetRootRuleEv",
+      "capture": "0048bbec.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48bbf8",
+      "size": 8,
+      "symbol": "_ZN3rnd4Rule11GetRootRuleEv",
+      "capture": "0048bbf8.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48bc00",
+      "size": 32,
+      "symbol": "_ZN3rnd6RPElem9FillSizesEii",
+      "capture": "0048bc00.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48bc20",
+      "size": 116,
+      "symbol": "_ZN3rnd8RoomPool4FindEm",
+      "capture": "0048bc20.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48bc94",
+      "size": 96,
+      "symbol": "_ZN3rnd4Rule6UnloadEv",
+      "capture": "0048bc94.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48bcf4",
+      "size": 12,
+      "symbol": "_ZNK3rnd4Rule6GetAppEv",
+      "capture": "0048bcf4.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48bd00",
+      "size": 4,
+      "symbol": "_ZN3rnd8RootRule6UnloadEv",
+      "capture": "0048bd00.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48bd04",
+      "size": 4,
+      "symbol": "_ZN3rnd8RootRule4Impl11FilterExitsERSt6vectorISt4pairIPKNS_4ExitENS_8ListElemEESaIS8_EERPNS_8ListRuleE",
+      "capture": "0048bd04.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48bd08",
+      "size": 4,
+      "symbol": "_ZN3rnd8RootRule4Impl18WriteDebuggingInfoEv",
+      "capture": "0048bd08.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48bd0c",
+      "size": 44,
+      "symbol": "_ZNK3rnd4Path4Impl9IsDeadEndEv",
+      "capture": "0048bd0c.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48bd38",
+      "size": 8,
+      "symbol": "_ZN3rnd7EndPath4Impl7OneStepEPNS_4TileEPKNS_4ExitES6_",
+      "capture": "0048bd38.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48bd60",
+      "size": 348,
+      "symbol": "_ZN3rnd4Rule4ImplC1ERKS0_PS1_",
+      "capture": "0048bd60.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "48bde8",
+          "address": "0x8d4dc0",
+          "value": "north"
+        },
+        {
+          "instruction": "48be18",
+          "address": "0x8d4dc8",
+          "value": "east"
+        },
+        {
+          "instruction": "48be4c",
+          "address": "0x8d4dd0",
+          "value": "south"
+        },
+        {
+          "instruction": "48be7c",
+          "address": "0x8d4dd8",
+          "value": "west"
+        }
+      ]
+    },
+    {
+      "address": "0x48bebc",
+      "size": 348,
+      "symbol": "_ZN3rnd4Rule4ImplC2ERKS0_PS1_",
+      "capture": "0048bebc.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "48bf44",
+          "address": "0x8d4dc0",
+          "value": "north"
+        },
+        {
+          "instruction": "48bf74",
+          "address": "0x8d4dc8",
+          "value": "east"
+        },
+        {
+          "instruction": "48bfa8",
+          "address": "0x8d4dd0",
+          "value": "south"
+        },
+        {
+          "instruction": "48bfd8",
+          "address": "0x8d4dd8",
+          "value": "west"
+        }
+      ]
+    },
+    {
+      "address": "0x48c018",
+      "size": 60,
+      "symbol": "_ZN3rnd7EndPath4ImplC1ERKS0_PNS_4Rule4ImplE",
+      "capture": "0048c018.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48c054",
+      "size": 44,
+      "symbol": "_ZNK3rnd7EndPath7NewImplEPNS_4Rule4ImplE",
+      "capture": "0048c054.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48c080",
+      "size": 60,
+      "symbol": "_ZN3rnd7EndPath4ImplC2ERKS0_PNS_4Rule4ImplE",
+      "capture": "0048c080.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48c0bc",
+      "size": 116,
+      "symbol": "_ZN3rnd8ListElemaSERKS0_",
+      "capture": "0048c0bc.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48c130",
+      "size": 224,
+      "symbol": "_ZN3rnd4Path4ImplC1ERKS0_PNS_4Rule4ImplE",
+      "capture": "0048c130.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48c210",
+      "size": 44,
+      "symbol": "_ZNK3rnd4Path7NewImplEPNS_4Rule4ImplE",
+      "capture": "0048c210.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48c23c",
+      "size": 224,
+      "symbol": "_ZN3rnd4Path4ImplC2ERKS0_PNS_4Rule4ImplE",
+      "capture": "0048c23c.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48c374",
+      "size": 132,
+      "symbol": "_ZN3rnd8RootRule4Impl13PlaceRootTileEPNS_5BlockENS_8ListElemE",
+      "capture": "0048c374.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48c3f8",
+      "size": 32,
+      "symbol": "_ZN3rnd8RoomPool4FindEPh",
+      "capture": "0048c3f8.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48c48c",
+      "size": 144,
+      "symbol": "_ZN3rnd6RPElem11LoadFromXmlEP9TiXmlNode",
+      "capture": "0048c48c.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "48c4bc",
+          "address": "0x90b698",
+          "value": "id"
+        },
+        {
+          "instruction": "48c4e4",
+          "address": "0x8d4de8",
+          "value": "recursive"
+        },
+        {
+          "instruction": "48c4f8",
+          "address": "0x8be8f8",
+          "value": "true"
+        }
+      ]
+    },
+    {
+      "address": "0x48c51c",
+      "size": 284,
+      "symbol": "_ZN3rnd8ListElem11LoadFromXmlEP9TiXmlNode",
+      "capture": "0048c51c.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "48c544",
+          "address": "0x8e10f0",
+          "value": "name"
+        },
+        {
+          "instruction": "48c574",
+          "address": "0x8d4df8",
+          "value": "gameplay"
+        },
+        {
+          "instruction": "48c5a4",
+          "address": "0x8d4e08",
+          "value": "visual"
+        },
+        {
+          "instruction": "48c5d4",
+          "address": "0x8d4e10",
+          "value": "chances"
+        }
+      ]
+    },
+    {
+      "address": "0x48c638",
+      "size": 156,
+      "symbol": "_ZNK3rnd11BlockSearchclERNS_8ListElemE",
+      "capture": "0048c638.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48cac0",
+      "size": 708,
+      "symbol": "_ZN3rnd8RoomPool11LoadFromXmlEP9TiXmlNode",
+      "capture": "0048cac0.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "48caec",
+          "address": "0x8c56d8",
+          "value": "size"
+        },
+        {
+          "instruction": "48cb04",
+          "address": "0x8d4e18",
+          "value": "elem"
+        }
+      ]
+    },
+    {
+      "address": "0x48ce48",
+      "size": 200,
+      "symbol": "_ZN3rnd8RootRule4ImplC2ERKS0_",
+      "capture": "0048ce48.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48cf10",
+      "size": 188,
+      "symbol": "_ZN3rnd10ForceBlock4ImplC1ERKS0_PNS_4Rule4ImplE",
+      "capture": "0048cf10.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48cfcc",
+      "size": 44,
+      "symbol": "_ZNK3rnd10ForceBlock7NewImplEPNS_4Rule4ImplE",
+      "capture": "0048cfcc.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48cff8",
+      "size": 188,
+      "symbol": "_ZN3rnd10ForceBlock4ImplC2ERKS0_PNS_4Rule4ImplE",
+      "capture": "0048cff8.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48d0b4",
+      "size": 200,
+      "symbol": "_ZN3rnd8RootRule4ImplC1ERKS0_",
+      "capture": "0048d0b4.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48d17c",
+      "size": 36,
+      "symbol": "_ZNK3rnd8RootRule7NewImplEPNS_4Rule4ImplE",
+      "capture": "0048d17c.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48d1a0",
+      "size": 264,
+      "symbol": "_ZN3rnd4Rule4ImplD1Ev",
+      "capture": "0048d1a0.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48d2a8",
+      "size": 28,
+      "symbol": "_ZN3rnd4Rule4ImplD0Ev",
+      "capture": "0048d2a8.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48d2c4",
+      "size": 264,
+      "symbol": "_ZN3rnd4Rule4ImplD2Ev",
+      "capture": "0048d2c4.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48d3cc",
+      "size": 52,
+      "symbol": "_ZN3rnd8RootRule4ImplD1Ev",
+      "capture": "0048d3cc.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48d400",
+      "size": 52,
+      "symbol": "_ZN3rnd4Path4ImplD1Ev",
+      "capture": "0048d400.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48d434",
+      "size": 52,
+      "symbol": "_ZN3rnd10ForceBlock4ImplD1Ev",
+      "capture": "0048d434.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48d468",
+      "size": 52,
+      "symbol": "_ZN3rnd7EndPath4ImplD1Ev",
+      "capture": "0048d468.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48d49c",
+      "size": 60,
+      "symbol": "_ZN3rnd4Path4ImplD0Ev",
+      "capture": "0048d49c.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48d4d8",
+      "size": 60,
+      "symbol": "_ZN3rnd8RootRule4ImplD0Ev",
+      "capture": "0048d4d8.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48d514",
+      "size": 60,
+      "symbol": "_ZN3rnd7EndPath4ImplD0Ev",
+      "capture": "0048d514.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48d550",
+      "size": 60,
+      "symbol": "_ZN3rnd10ForceBlock4ImplD0Ev",
+      "capture": "0048d550.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48d58c",
+      "size": 120,
+      "symbol": "_ZN3rnd4RuleD2Ev",
+      "capture": "0048d58c.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48d604",
+      "size": 52,
+      "symbol": "_ZN3rnd4PathD1Ev",
+      "capture": "0048d604.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48d638",
+      "size": 52,
+      "symbol": "_ZN3rnd10ForceBlockD1Ev",
+      "capture": "0048d638.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48d66c",
+      "size": 52,
+      "symbol": "_ZN3rnd7EndPathD1Ev",
+      "capture": "0048d66c.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48d6a0",
+      "size": 60,
+      "symbol": "_ZN3rnd8RootRuleD1Ev",
+      "capture": "0048d6a0.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48d6dc",
+      "size": 28,
+      "symbol": "_ZN3rnd8RootRuleD0Ev",
+      "capture": "0048d6dc.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48d6f8",
+      "size": 60,
+      "symbol": "_ZN3rnd8RootRuleD2Ev",
+      "capture": "0048d6f8.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48d734",
+      "size": 60,
+      "symbol": "_ZN3rnd10ForceBlockD0Ev",
+      "capture": "0048d734.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48d770",
+      "size": 60,
+      "symbol": "_ZN3rnd4PathD0Ev",
+      "capture": "0048d770.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48d7ac",
+      "size": 60,
+      "symbol": "_ZN3rnd7EndPathD0Ev",
+      "capture": "0048d7ac.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48d7e8",
+      "size": 120,
+      "symbol": "_ZN3rnd4RuleD1Ev",
+      "capture": "0048d7e8.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48d860",
+      "size": 28,
+      "symbol": "_ZN3rnd4RuleD0Ev",
+      "capture": "0048d860.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48db5c",
+      "size": 172,
+      "symbol": "_ZN3rnd11BlockSearchD1Ev",
+      "capture": "0048db5c.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48dc08",
+      "size": 136,
+      "symbol": "_ZN3rnd4RuleC1ERNS_8RootRuleEPS0_",
+      "capture": "0048dc08.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48dc90",
+      "size": 136,
+      "symbol": "_ZN3rnd4RuleC2ERNS_8RootRuleEPS0_",
+      "capture": "0048dc90.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48dd18",
+      "size": 52,
+      "symbol": "_ZN3rnd7EndPathC1ERNS_8RootRuleEPNS_4RuleE",
+      "capture": "0048dd18.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48dd4c",
+      "size": 52,
+      "symbol": "_ZN3rnd7EndPathC2ERNS_8RootRuleEPNS_4RuleE",
+      "capture": "0048dd4c.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48dd80",
+      "size": 60,
+      "symbol": "_ZN3rnd10ForceBlockC1ERNS_8RootRuleEPNS_4RuleE",
+      "capture": "0048dd80.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48ddbc",
+      "size": 60,
+      "symbol": "_ZN3rnd10ForceBlockC2ERNS_8RootRuleEPNS_4RuleE",
+      "capture": "0048ddbc.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48ddf8",
+      "size": 76,
+      "symbol": "_ZN3rnd4PathC1ERNS_8RootRuleEPNS_4RuleE",
+      "capture": "0048ddf8.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48de44",
+      "size": 360,
+      "symbol": "_ZN3rnd4Rule7NewRuleEP9TiXmlNode",
+      "capture": "0048de44.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "48de58",
+          "address": "0x8d4e20",
+          "value": "rootrule"
+        },
+        {
+          "instruction": "48deac",
+          "address": "0x8d4e70",
+          "value": "path"
+        },
+        {
+          "instruction": "48dec4",
+          "address": "0x8d4e78",
+          "value": "forceblock"
+        },
+        {
+          "instruction": "48df1c",
+          "address": "0x8d4e88",
+          "value": "endpath"
+        },
+        {
+          "instruction": "48df64",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "48df6c",
+          "address": "0x8be570",
+          "value": "false"
+        },
+        {
+          "instruction": "48df70",
+          "address": "0x8d4e30",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\random\\rndRule.cpp"
+        }
+      ]
+    },
+    {
+      "address": "0x48dfac",
+      "size": 76,
+      "symbol": "_ZN3rnd4PathC2ERNS_8RootRuleEPNS_4RuleE",
+      "capture": "0048dfac.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48dff8",
+      "size": 68,
+      "symbol": "_ZN3rnd8RootRuleC1ERNS_15RandomGeneratorE",
+      "capture": "0048dff8.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48e03c",
+      "size": 68,
+      "symbol": "_ZN3rnd8RootRuleC2ERNS_15RandomGeneratorE",
+      "capture": "0048e03c.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48e080",
+      "size": 96,
+      "symbol": "_ZN3rnd8ListElemC1Ev",
+      "capture": "0048e080.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48e0e0",
+      "size": 72,
+      "symbol": "_ZN3rnd11BlockSearchC1EPKcS2_S2_",
+      "capture": "0048e0e0.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48e128",
+      "size": 92,
+      "symbol": "_ZN3rnd8ListElemC1EPNS_8ListRuleE",
+      "capture": "0048e128.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48e184",
+      "size": 240,
+      "symbol": "_ZNK3rnd15RandomGenerator8GetBlockEPKc",
+      "capture": "0048e184.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48e274",
+      "size": 12,
+      "symbol": "_ZNK3rnd4Rule8GetBlockEPKc",
+      "capture": "0048e274.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48e280",
+      "size": 64,
+      "symbol": "_ZN3rnd8ListElemC1ERKS0_",
+      "capture": "0048e280.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48e690",
+      "size": 304,
+      "symbol": "_ZN3rnd4Rule4Impl11FilterExitsERSt6vectorISt4pairIPKNS_4ExitENS_8ListElemEESaIS8_EERPNS_8ListRuleE",
+      "capture": "0048e690.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "48e6bc",
+          "address": "0x8d4e90",
+          "value": "_start"
+        }
+      ]
+    },
+    {
+      "address": "0x48e8ac",
+      "size": 676,
+      "symbol": "_ZN3rnd8RootRule4Impl8GenerateER7Array2dIPNS_4TileEE",
+      "capture": "0048e8ac.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48ec74",
+      "size": 184,
+      "symbol": "_ZN3rnd8ListRule7ReplaceERNS_8ListElemE",
+      "capture": "0048ec74.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "48ecf8",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "48ecfc",
+          "address": "0x8d4e98",
+          "value": "elem.mOwner == this"
+        },
+        {
+          "instruction": "48ed00",
+          "address": "0x8d4e30",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\random\\rndRule.cpp"
+        }
+      ]
+    },
+    {
+      "address": "0x48ed2c",
+      "size": 508,
+      "symbol": "_ZN3rnd8ListRule11LoadFromXmlEP9TiXmlNode",
+      "capture": "0048ed2c.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "48ed70",
+          "address": "0x8e10f0",
+          "value": "name"
+        },
+        {
+          "instruction": "48edb0",
+          "address": "0x8d4eb0",
+          "value": "replacement"
+        },
+        {
+          "instruction": "48edc8",
+          "address": "0x8be8f8",
+          "value": "true"
+        },
+        {
+          "instruction": "48ede4",
+          "address": "0x8d4e18",
+          "value": "elem"
+        },
+        {
+          "instruction": "48ee10",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "48ee1c",
+          "address": "0x8d4ec0",
+          "value": "mApp.ValidBlock(lelem.mBlockName.c_str())"
+        },
+        {
+          "instruction": "48ee28",
+          "address": "0x8d4e30",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\random\\rndRule.cpp"
+        }
+      ]
+    },
+    {
+      "address": "0x48f05c",
+      "size": 512,
+      "symbol": "_ZN3rnd4Path4Impl7AddExitERSt6vectorISt4pairIPKNS_4ExitENS_8ListElemEESaIS8_EES6_i",
+      "capture": "0048f05c.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48f25c",
+      "size": 544,
+      "symbol": "_ZN3rnd4Path4Impl11FilterExitsERSt6vectorISt4pairIPKNS_4ExitENS_8ListElemEESaIS8_EERPNS_8ListRuleE",
+      "capture": "0048f25c.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48f47c",
+      "size": 1240,
+      "symbol": "_ZN3rnd10ForceBlock4Impl11FilterExitsERSt6vectorISt4pairIPKNS_4ExitENS_8ListElemEESaIS8_EERPNS_8ListRuleE",
+      "capture": "0048f47c.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48f954",
+      "size": 1040,
+      "symbol": "_ZN3rnd4Rule4Impl4StepEPNS_4TileEPKNS_4ExitE",
+      "capture": "0048f954.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x48fd64",
+      "size": 1440,
+      "symbol": "_ZN3rnd4Path4Impl7OneStepEPNS_4TileEPKNS_4ExitES6_",
+      "capture": "0048fd64.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x490304",
+      "size": 540,
+      "symbol": "_ZN3rnd4Rule4Impl7OneStepEPNS_4TileEPKNS_4ExitES6_",
+      "capture": "00490304.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "4904f8",
+          "address": "0x8d4ef0",
+          "value": "[%d]"
+        }
+      ]
+    },
+    {
+      "address": "0x490520",
+      "size": 48,
+      "symbol": "_ZN3rnd11BlockSearchC1ERKS0_",
+      "capture": "00490520.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x4905d0",
+      "size": 236,
+      "symbol": "_ZN3rnd8ListRule4FindEPKcS2_S2_b",
+      "capture": "004905d0.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x4906bc",
+      "size": 172,
+      "symbol": "_ZN3rnd8RoomPool4FindESs",
+      "capture": "004906bc.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x490904",
+      "size": 728,
+      "symbol": "_ZN3rnd8RoomPool18ComputeSizeOfRulesEv",
+      "capture": "00490904.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x490bdc",
+      "size": 1780,
+      "symbol": "_ZN3rnd4Rule11LoadFromXmlEP9TiXmlNode",
+      "capture": "00490bdc.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "490c1c",
+          "address": "0x8e10f0",
+          "value": "name"
+        },
+        {
+          "instruction": "490c70",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "490c84",
+          "address": "0x8d4f70",
+          "value": "mRoot.mApp.ValidBlock(s.c_str())"
+        },
+        {
+          "instruction": "490c94",
+          "address": "0x8d4e30",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\random\\rndRule.cpp"
+        },
+        {
+          "instruction": "490dc8",
+          "address": "0x8d4fc0",
+          "value": "exit"
+        },
+        {
+          "instruction": "490e00",
+          "address": "0x90b698",
+          "value": "id"
+        },
+        {
+          "instruction": "491110",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "491114",
+          "address": "0x8d4f98",
+          "value": "mRoot.mApp.ValidBlock(startBlocks)"
+        },
+        {
+          "instruction": "491118",
+          "address": "0x8d4e30",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\random\\rndRule.cpp"
+        },
+        {
+          "instruction": "491174",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "491178",
+          "address": "0x8d4ef8",
+          "value": "mRoot.mApp.ValidList(listName.substr(1, bracket - 1).c_str())"
+        },
+        {
+          "instruction": "49117c",
+          "address": "0x8d4e30",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\random\\rndRule.cpp"
+        },
+        {
+          "instruction": "491264",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "491268",
+          "address": "0x8d4f38",
+          "value": "mRoot.mApp.ValidList(listName.substr(1).c_str())"
+        },
+        {
+          "instruction": "49126c",
+          "address": "0x8d4e30",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\random\\rndRule.cpp"
+        }
+      ]
+    },
+    {
+      "address": "0x4912d0",
+      "size": 60,
+      "symbol": "_ZN3rnd10ForceBlock11LoadFromXmlEP9TiXmlNode",
+      "capture": "004912d0.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "4912f0",
+          "address": "0x8d4fc8",
+          "value": "connectFrom"
+        }
+      ]
+    },
+    {
+      "address": "0x49130c",
+      "size": 192,
+      "symbol": "_ZN3rnd4Path11LoadFromXmlEP9TiXmlNode",
+      "capture": "0049130c.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "49133c",
+          "address": "0x8d4fd8",
+          "value": "dontGoBack"
+        },
+        {
+          "instruction": "491360",
+          "address": "0x8e9ee0",
+          "value": "length"
+        }
+      ]
+    },
+    {
+      "address": "0x4913cc",
+      "size": 4,
+      "symbol": "_ZN3rnd8RootRule11LoadFromXmlEP9TiXmlNode",
+      "capture": "004913cc.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x4913d0",
+      "size": 8,
+      "symbol": "_ZN3rnd4Tile12TryPlaceTileEii",
+      "capture": "004913d0.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x4913d8",
+      "size": 80,
+      "symbol": "_ZN3rnd4Tile9PlaceTileEiif",
+      "capture": "004913d8.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x491428",
+      "size": 24,
+      "symbol": "_ZN3rnd4Tile8AddChildEPS0_",
+      "capture": "00491428.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x491440",
+      "size": 108,
+      "symbol": "_ZN3rnd4Tile11RemoveChildEPS0_",
+      "capture": "00491440.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x4914ac",
+      "size": 60,
+      "symbol": "_ZN3rnd4Tile5PrintEv",
+      "capture": "004914ac.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x4914e8",
+      "size": 24,
+      "symbol": "_ZN3rnd4TileD1Ev",
+      "capture": "004914e8.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x491500",
+      "size": 24,
+      "symbol": "_ZN3rnd4TileD2Ev",
+      "capture": "00491500.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x491518",
+      "size": 736,
+      "symbol": "_ZN3rnd4Tile22SetModuleMVXPropertiesEP6Module",
+      "capture": "00491518.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "491548",
+          "address": "0x8c6838",
+          "value": "/mvx/"
+        },
+        {
+          "instruction": "491574",
+          "address": "0x8c6840",
+          "value": ".mvx"
+        },
+        {
+          "instruction": "491648",
+          "address": "0x8c0438",
+          "value": "Module"
+        },
+        {
+          "instruction": "491668",
+          "address": "0x8c0270",
+          "value": "GameObject"
+        },
+        {
+          "instruction": "491694",
+          "address": "0x8e5188",
+          "value": "scale"
+        },
+        {
+          "instruction": "4916a0",
+          "address": "0x8c24b0",
+          "value": "xrefmax"
+        },
+        {
+          "instruction": "4916cc",
+          "address": "0x8c24a0",
+          "value": "xrefobject"
+        },
+        {
+          "instruction": "4916f0",
+          "address": "0x8c98a0",
+          "value": "dae"
+        },
+        {
+          "instruction": "491714",
+          "address": "0x8c2348",
+          "value": "fog_color"
+        },
+        {
+          "instruction": "491738",
+          "address": "0x8c22f8",
+          "value": "is_solid"
+        }
+      ]
+    },
+    {
+      "address": "0x4917f8",
+      "size": 88,
+      "symbol": "_ZN3rnd4TileC1ERNS_15RandomGeneratorERNS_5BlockEPS0_RNS_8ListElemE",
+      "capture": "004917f8.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x491850",
+      "size": 88,
+      "symbol": "_ZN3rnd4TileC2ERNS_15RandomGeneratorERNS_5BlockEPS0_RNS_8ListElemE",
+      "capture": "00491850.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x4918a8",
+      "size": 128,
+      "symbol": "_ZN3rnd4Tile7UnspawnEv",
+      "capture": "004918a8.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x491928",
+      "size": 68,
+      "symbol": "_ZN3rnd4Tile15RemoveNeighborsEv",
+      "capture": "00491928.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x49196c",
+      "size": 68,
+      "symbol": "_ZN3rnd4Tile7NewRootERNS_15RandomGeneratorERNS_5BlockERNS_8ListElemE",
+      "capture": "0049196c.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x4919b0",
+      "size": 256,
+      "symbol": "_ZN3rnd4Tile5SpawnERNS_5BlockEiifRNS_8ListElemE",
+      "capture": "004919b0.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x491ab0",
+      "size": 308,
+      "symbol": "_ZN3rnd4Tile8TrySpawnEPKNS_4ExitES3_S3_RNS_8ListElemE",
+      "capture": "00491ab0.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x491d90",
+      "size": 1360,
+      "symbol": "_ZN3rnd4Tile15SaveAsModuleXMLEP12TiXmlElementi",
+      "capture": "00491d90.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "491de0",
+          "address": "0x8c0438",
+          "value": "Module"
+        },
+        {
+          "instruction": "491e1c",
+          "address": "0x8c98b0",
+          "value": "%s_%d"
+        },
+        {
+          "instruction": "491e58",
+          "address": "0x8e10f0",
+          "value": "name"
+        },
+        {
+          "instruction": "491e6c",
+          "address": "0x8c0180",
+          "value": "gametype"
+        },
+        {
+          "instruction": "491ea8",
+          "address": "0x8be378",
+          "value": "%f,%f,%f"
+        },
+        {
+          "instruction": "491f90",
+          "address": "0x8c2230",
+          "value": "position"
+        },
+        {
+          "instruction": "491fb0",
+          "address": "0x8c6bd8",
+          "value": "data/"
+        },
+        {
+          "instruction": "491ff0",
+          "address": "0x8c0c60",
+          "value": "/"
+        },
+        {
+          "instruction": "492078",
+          "address": "0x8d4fe8",
+          "value": "%s%s%s"
+        },
+        {
+          "instruction": "492080",
+          "address": "0x8c6848",
+          "value": "/mgp/"
+        },
+        {
+          "instruction": "4920b4",
+          "address": "0x8c2318",
+          "value": "mgp"
+        },
+        {
+          "instruction": "4920ec",
+          "address": "0x8d4fe8",
+          "value": "%s%s%s"
+        },
+        {
+          "instruction": "4920f4",
+          "address": "0x8c6850",
+          "value": "/mvp/"
+        },
+        {
+          "instruction": "492128",
+          "address": "0x8c2320",
+          "value": "mvp"
+        },
+        {
+          "instruction": "4921ec",
+          "address": "0x8c6bd8",
+          "value": "data/"
+        },
+        {
+          "instruction": "492230",
+          "address": "0x8be460",
+          "value": "basic_string"
+        }
+      ]
+    }
+  ],
+  "static_data": [
+    {
+      "address": "0x956a44",
+      "words": [
+        {
+          "value": "0x8cb810",
+          "string": null
+        },
+        {
+          "value": "0x8c6bd8",
+          "string": "data/"
+        },
+        {
+          "value": "0x8c6be0",
+          "string": "data/scene/"
+        },
+        {
+          "value": "0x8bf978",
+          "string": "data/3d/modules/"
+        }
+      ]
+    },
+    {
+      "address": "0x956a54",
+      "words": [
+        {
+          "value": "0x8c6bb8",
+          "string": "old/"
+        },
+        {
+          "value": "0x8c6bc0",
+          "string": "debug/"
+        },
+        {
+          "value": "0x8c6bc8",
+          "string": "ps3/"
+        },
+        {
+          "value": "0x8c6bd0",
+          "string": "iphone/"
+        },
+        {
+          "value": "0x8cb528",
+          "string": "data/menus/dqshared.swf"
+        },
+        {
+          "value": "0x8c9ff0",
+          "string": "data/menus/dqcharmenu.swf"
+        },
+        {
+          "value": "0x8ca088",
+          "string": "data/menus/dqmenus.swf"
+        },
+        {
+          "value": "0x8ca010",
+          "string": "data/menus/dqhud.swf"
+        }
+      ]
+    },
+    {
+      "address": "0x99b07c",
+      "words": [
+        {
+          "value": "0x8dc1e8",
+          "string": "No error"
+        },
+        {
+          "value": "0x8c9f20",
+          "string": "Error"
+        },
+        {
+          "value": "0x8dc1f8",
+          "string": "Failed to open file"
+        },
+        {
+          "value": "0x8dc210",
+          "string": "Memory allocation failed."
+        },
+        {
+          "value": "0x8dc230",
+          "string": "Error parsing Element."
+        },
+        {
+          "value": "0x8dc248",
+          "string": "Failed to read Element name"
+        },
+        {
+          "value": "0x8dc268",
+          "string": "Error reading Element value."
+        },
+        {
+          "value": "0x8dc288",
+          "string": "Error reading Attributes."
+        },
+        {
+          "value": "0x8dc2a8",
+          "string": "Error: empty tag."
+        },
+        {
+          "value": "0x8dc2c0",
+          "string": "Error reading end tag."
+        },
+        {
+          "value": "0x8dc2d8",
+          "string": "Error parsing Unknown."
+        },
+        {
+          "value": "0x8dc2f0",
+          "string": "Error parsing Comment."
+        },
+        {
+          "value": "0x8dc308",
+          "string": "Error parsing Declaration."
+        },
+        {
+          "value": "0x8dc328",
+          "string": "Error document empty."
+        },
+        {
+          "value": "0x8dc340",
+          "string": "Error null (0) or unexpected EOF found in input stream."
+        },
+        {
+          "value": "0x8dc378",
+          "string": "Error parsing CDATA."
+        },
+        {
+          "value": "0x8dc390",
+          "string": "Error when TiXmlDocument added to document, because TiXmlDocument can only be at the root."
+        },
+        {
+          "value": "0x8dc850",
+          "string": "&amp;"
+        },
+        {
+          "value": "0x5",
+          "string": null
+        },
+        {
+          "value": "0x26",
+          "string": null
+        }
+      ]
+    }
+  ]
+}

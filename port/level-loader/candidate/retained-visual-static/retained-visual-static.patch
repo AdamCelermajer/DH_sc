@@ -1,0 +1,397 @@
+--- a/port/scene-materials/scene.hpp
++++ b/port/scene-materials/scene.hpp
+@@ -33,6 +33,13 @@
+     std::vector<Node> graph;
+     unsigned nodes=0, ignored_instances=0;
+ };
++// Authored visibility is separate from mesh membership. The generic native
++// visual constructs hidden geometry too; existing visible-only consumers keep
++// their original load domain and do not change Character/camera semantics.
++struct AuthoredVisibilityV76 {
++ std::vector<std::uint8_t> node_local,node_effective,mesh_local,mesh_effective;
++};
++bool load_authored_v76(const resources::BresView&,Scene&,AuthoredVisibilityV76&,std::string& error);
+ // Checked reconstruction of serialized node, image and material links.
+ // Owns strings and matrices, borrows no file bytes. Does not create the
+ // original engine's shaders, lights, animation or runtime object ABI.
+--- a/port/scene-materials/scene.cpp
++++ b/port/scene-materials/scene.cpp
+@@ -61,7 +61,7 @@
+     }
+ };
+ struct Loader {
+-    Reader r;Scene& s;std::vector<unsigned> path;
++    Reader r;Scene& s;std::vector<unsigned> path;bool include_hidden{};AuthoredVisibilityV76* visibility{};
+     void materials(){
+         const unsigned n=dh2_bres_library_count(&r.v,Library::material);
+         if(n>4096)throw std::runtime_error("Too many materials");
+@@ -112,7 +112,8 @@
+         if(const auto properties=r.w(p+72))state.user_properties=r.field(properties,true);
+         std::copy(translation,translation+3,state.translation);std::copy(scale,scale+3,state.scale);std::copy(quaternion,quaternion+4,state.quaternion);
+         s.graph.push_back(std::move(state));
+-        visible=visible&&r.w(p+52)!=0;
++        const bool local_visible=r.w(p+52)!=0;visible=visible&&local_visible;
++        if(visibility){visibility->node_local.push_back(local_visible?1u:0u);visibility->node_effective.push_back(visible?1u:0u);}
+         auto count=r.w(p+64),base=r.w(p+68);r.array(base,count,8);
+         for(unsigned i=0;i<count;++i){
+             auto a=base+8*i;
+@@ -135,7 +136,7 @@
+                 if(r.w(b))throw std::runtime_error("External material binding not supported");
+                 instance.materials.push_back(r.find(Library::material,r.field(b+4)));
+             }
+-            if(visible)s.instances.push_back(std::move(instance));
++            if(visible||include_hidden){s.instances.push_back(std::move(instance));if(visibility){visibility->mesh_local.push_back(1);visibility->mesh_effective.push_back(visible?1u:0u);}}
+         }
+         count=r.w(p+56);base=r.w(p+60);r.array(base,count,80);
+         for(unsigned i=0;i<count;++i)node(base+80*i,world,visible,node_index);
+@@ -157,7 +158,7 @@
+             }
+             if(!found)throw std::runtime_error("Unresolved visual scene");
+         }
+-        if(s.instances.empty())throw std::runtime_error("Scene has no visible geometry");
++        if(s.instances.empty()&&!include_hidden)throw std::runtime_error("Scene has no visible geometry");
+     }
+ };
+ }
+@@ -176,6 +177,10 @@
+ bool load(const resources::BresView& v,Scene& out,std::string& error){
+     out={};error.clear();try{Scene candidate;Loader{{v},candidate,{}}.run();out=std::move(candidate);return true;}
+     catch(const std::exception& e){error=e.what();return false;}
++}
++bool load_authored_v76(const resources::BresView& v,Scene& out,AuthoredVisibilityV76& visibility,std::string& error){
++ out={};visibility={};error.clear();try{Scene candidate;AuthoredVisibilityV76 authored;Loader{{v},candidate,{},true,&authored}.run();out=std::move(candidate);visibility=std::move(authored);return true;}
++ catch(const std::exception& e){error=e.what();return false;}
+ }
+ bool update_world(Scene& scene,std::string& error){
+     error.clear();
+--- a/port/level-world/retained_gameobject_visual_v1.hpp
++++ b/port/level-world/retained_gameobject_visual_v1.hpp
+@@ -36,13 +36,26 @@
+  CanonicalGameObjectBaseOwnerV1* base_{};
+  GameObjectVisualFieldBorrowV5 fields_;
+  RetainedGameObjectVisualServicesV1 services_;
+- std::vector<std::uint8_t> bytes_;
++ // ONE immutable-after-read resource block; floor clones pin this independently.
++ std::shared_ptr<std::vector<std::uint8_t>> bytes_;
+  resources::BresView bres_{};
+  scene::Scene scene_;
+  std::vector<std::uint32_t> node_flags_;
+  struct Visibility {std::uint8_t local120{1},parent121{1};};
+  Visibility root_visibility_;
+  std::vector<Visibility> node_visibility_;
++ scene::AuthoredVisibilityV76 authored_visibility_v76_;
++ struct MeshFieldsV76 {
++  std::array<float,3> position{0,0,0};
++  std::array<float,4> quaternion{0,0,0,1};
++  std::array<float,3> scale{1,1,1}; // geometry child C1; OptimizeStatic leaves scale unchanged
++  std::uint32_t flags{0x721u};
++  Visibility visibility;
++ };
++ std::vector<MeshFieldsV76> mesh_fields_v76_;
++ std::vector<std::uint8_t> detached_nodes_v76_,detached_meshes_v76_;
++ std::array<float,16> root_cached_v76_{};
++ bool static_optimized_v76_{};
+  std::uintptr_t root_parentec_{};
+  std::vector<std::unique_ptr<NodeHandle>> node_handles_;
+  std::vector<SkinnedMesh> skinned_;
+@@ -72,6 +85,10 @@
+  bool update_skinned_meshes(std::string&);
+  void notify_node_visibility(std::size_t,bool);
+  void propagate_node_visibility(std::size_t);
++ void update_mesh_visibility_v76(std::size_t,bool);
++ bool update_root_cache_v76(std::string&);
++ void optimize_node_v76(unsigned);
++ bool optimize_static_v76(std::string&);
+ public:
+  RetainedGameObjectVisualV1(CanonicalGameObjectBaseOwnerV1&,RetainedGameObjectVisualServicesV1);
+  // Additive receiver-borrow constructor. Class layout changed: rebuild every
+@@ -98,6 +115,15 @@
+  std::int32_t light_set()const noexcept{return light_set40_;}
+  bool node_from_name(const char*,std::uintptr_t&,std::string&)const;
+  bool node_position(std::uintptr_t,float* out3,std::string&)const;
++ // SAME stable graph indices, including authored hidden children. Detach never erases/reindexes.
++ bool source_mesh_pose_v76(unsigned,std::array<float,4>&,std::array<float,3>&,std::string&)const;
++ bool mesh_attached_v76(unsigned)const noexcept;
++ bool node_attached_v76(unsigned)const noexcept;
++ bool mesh_visible_v76(unsigned)const noexcept;
++ bool remove_floor_mesh_v76(unsigned,std::string&);
++ bool remove_node_v76(unsigned,std::string&);
++ // Pins SAME actual read bytes, with no Visual/World/manager retention or copy.
++ std::shared_ptr<void> resource_owner_v76()const noexcept{return bytes_;}
+  bool notify_root_visibility(bool,std::string&);
+  bool set_root_local_visibility_v3(bool,std::string&);
+  bool commit_root_visibility_v3(const std::function<bool(std::string&)>& notify_visibility_changed,std::string&);
+--- a/port/level-world/retained_gameobject_visual_v1.cpp
++++ b/port/level-world/retained_gameobject_visual_v1.cpp
+@@ -5,6 +5,7 @@
+ #include "../engine-math/math.hpp"
+ #include <algorithm>
+ #include <cstring>
++#include <cmath>
+ #include <stdexcept>
+ namespace dh2::world {
+ namespace {
+@@ -63,36 +64,46 @@
+  return true;
+ }
+ bool RetainedGameObjectVisualV1::initialize(const char* model,const char* xref,std::string& e){
+- if(ready_||root_present_||!bytes_.empty())return missing("fresh constructor candidate",e);
++ if(ready_||root_present_||bytes_)return missing("fresh constructor candidate",e);
+  if(!model||!xref)return missing("source model/subscene strings",e);
+  if(!services_.owner||!services_.read_asset)return missing("asset resource owner",e);
+- bool found=false;if(!services_.read_asset(model,bytes_,found,e))return false;
+- if(!found){bytes_.clear();ready_=true;return true;} // original root==NULL branch
+- if(dh2_bres_open(&bres_,bytes_.data(),bytes_.size())!=resources::BresError::ok)return missing("valid source BRES",e);
+- if(!scene::load(bres_,scene_,e))return false;
++ bytes_=std::make_shared<std::vector<std::uint8_t>>();
++ bool found=false;if(!services_.read_asset(model,*bytes_,found,e))return false;
++ if(!found){bytes_.reset();ready_=true;return true;} // original root==NULL branch
++ if(dh2_bres_open(&bres_,bytes_->data(),bytes_->size())!=resources::BresError::ok)return missing("valid source BRES",e);
++ if(!scene::load_authored_v76(bres_,scene_,authored_visibility_v76_,e))return false;
+  if(*xref){
+   // Original getNode searches visualScene0 only. This complete-scene bridge
+   // currently proves that domain when the BRES has exactly one visualScene.
+   if(bres_.root_offset>bres_.size||bres_.size-bres_.root_offset<192||word(bres_.bytes+bres_.root_offset+152)!=1)return missing("multi-visual-scene source getNode(visualScene0)",e);
+-  scene::Scene selected;bool selected_found=false;if(!authored_scene_subtree_v2(scene_,xref,selected,selected_found,e))return false;
+-  if(!selected_found){scene_={};ready_=true;return true;}
+-  scene_=std::move(selected);
++  scene::Scene selected;scene::AuthoredVisibilityV76 visibility;bool selected_found=false;if(!authored_scene_subtree_v2(scene_,xref,selected,selected_found,e,&authored_visibility_v76_,&visibility))return false;
++  if(!selected_found){scene_={};authored_visibility_v76_={};ready_=true;return true;}
++  scene_=std::move(selected);authored_visibility_v76_=std::move(visibility);
+  }
+  if(!binding_.bind(scene_,e))return false;
+  node_flags_.assign(scene_.graph.size(),0x60fu);
+  node_visibility_.assign(scene_.graph.size(),Visibility{});
++ detached_nodes_v76_.assign(scene_.graph.size(),0);detached_meshes_v76_.assign(scene_.instances.size(),0);
++ mesh_fields_v76_.resize(scene_.instances.size());
++ for(std::size_t i=0;i<node_flags_.size();++i){
++  const auto parent=scene_.graph[i].parent;auto& v=node_visibility_[i];
++  v.local120=authored_visibility_v76_.node_local[i];v.parent121=parent<0?1u:authored_visibility_v76_.node_effective[parent];
++  if(!authored_visibility_v76_.node_effective[i])node_flags_[i]&=~1u;
++ }
++ for(std::size_t i=0;i<mesh_fields_v76_.size();++i){mesh_fields_v76_[i].visibility.local120=authored_visibility_v76_.mesh_local[i];update_mesh_visibility_v76(i,(node_flags_[scene_.instances[i].node_index]&1u)!=0);}
+  for(std::size_t i=0;i<scene_.graph.size();++i)node_handles_.push_back(std::make_unique<NodeHandle>(NodeHandle{static_cast<std::uint32_t>(i)}));
+  root_present_=true;
+- if(!sync(e))return false;
+  // SetParent47295c: dynamic receiver (or animated static receiver) recursively
+  // sets a source node bool. Optimized static transform baking is separate.
+  if(!fields_.static84)return missing("SAME parent source static84",e);
+  bool dynamic=*fields_.static84==0;
+  if(!dynamic){if(!services_.parent_is_animated)return missing("parent IsAnimated virtual",e);if(!services_.parent_is_animated(dynamic,e))return false;}
+- if(!dynamic)return missing("OptimizeStatic scene producer",e);
++ // Source IsAnimated precedes Sync in the static branch.
++ if(!sync(e))return false;
++ if(!dynamic){if(!optimize_static_v76(e))return false;}
+  // Exact recursive setOnAnimateEnabled50e46c: OR scene bit200 on root and
+  // every descendant; these are the retained node fields, not display flags.
+- binding_.root.flags|=0x200u;for(auto& flags:node_flags_)flags|=0x200u;
++ if(dynamic){binding_.root.flags|=0x200u;for(auto& flags:node_flags_)flags|=0x200u;for(auto& mesh:mesh_fields_v76_)mesh.flags|=0x200u;}
+  // Constructor explicitly registers root and forces SceneManager registration.
+  if(!services_.register_root||!services_.force_register)return missing("SceneManager registration services",e);
+  if(!services_.register_root(root_identity(),e)||!services_.force_register(root_identity(),e))return false;
+@@ -102,7 +113,7 @@
+  animated_=dh2_bres_library_count(&bres_,resources::Library::animation)>0;
+  // Original applyAnimationValues65d9c4..65da08 skips NULL target bindings;
+  // shared ItemDrops clips legitimately contain channels for other subtrees.
+- if(animated_&&!animation_.load(bytes_.data(),bytes_.size(),scene_,e,*xref?animation::MissingTargets::ignore:animation::MissingTargets::reject))return false;
++ if(animated_&&!animation_.load(bytes_->data(),bytes_->size(),scene_,e,*xref?animation::MissingTargets::ignore:animation::MissingTargets::reject))return false;
+  root_animator_present_=animated_;
+  if(!clips(e))return false;
+  // AnimController(root,false) installs literal DoNothing endpoints; its
+@@ -114,8 +125,81 @@
+  auto* p=fields_.position160;auto* r=fields_.rotation16c;auto* scale=fields_.scale120;
+  if(!p||!r||!scale)return missing("SAME parent pose/scale fields",e);
+  std::copy_n(p,3,binding_.root.position);std::copy_n(scale,3,binding_.root.scale);
+- if(!binding_.set_rotation(r)||!binding_.update_world(scene_,e))return false;
++ if(!binding_.set_rotation(r)||!update_root_cache_v76(e))return false;
++ // Optimized children retain their absolute caches: recomposition would apply
++ // the root again to already world-baked local position/quaternion fields.
++ if(!static_optimized_v76_){if(!binding_.update_world(scene_,e))return false;for(auto& flags:node_flags_)flags=(flags&~0xeu)|0x120u;for(auto& flags:node_flags_)flags&=~0x50u;}
+  return update_skinned_meshes(e);
++}
++bool RetainedGameObjectVisualV1::update_root_cache_v76(std::string& e){
++ dh2_node_matrix(root_cached_v76_.data(),binding_.root.position,binding_.root.quaternion,binding_.root.scale);
++ for(float value:root_cached_v76_)if(!std::isfinite(value))return missing("finite actual root TRS",e);
++ binding_.root.flags=(binding_.root.flags&~0xeu)|0x10u;
++ binding_.root.flags=(binding_.root.flags|0x120u)&~0x50u;return true;
++}
++void RetainedGameObjectVisualV1::optimize_node_v76(unsigned index){
++ auto& node=scene_.graph[index];auto& flags=node_flags_[index];
++ const auto parent_flags=node.parent<0?binding_.root.flags:node_flags_[node.parent];
++ // Exact ModuleStaticSceneV2/ISceneNode source updateAbsolutePosition control.
++ if((parent_flags&0x20u)||(flags&0x5eu)){
++  std::array<float,16> relative;dh2_node_matrix(relative.data(),node.translation,node.quaternion,node.scale);
++  flags=(flags&~0xeu)|0x10u;
++  node.world=scene::multiply(node.parent<0?root_cached_v76_:scene_.graph[node.parent].world,relative);
++  flags=(flags|0x120u)&~0x50u;
++ }
++ std::copy_n(node.world.data()+12,3,node.translation);flags|=8u;
++ math::Matrix4f matrix{};std::copy(node.world.begin(),node.world.end(),matrix.m);matrix.identity_hint=0;
++ math::Quaternion q{};dh2_quat_from_matrix(&q,&matrix);
++ node.quaternion[0]=q.x;node.quaternion[1]=q.y;node.quaternion[2]=q.z;node.quaternion[3]=q.w;
++ flags=(flags|4u)&~0x200u;
++ // Real geometry children precede child SNodes. Mesh C1 local scale stays1.
++ for(unsigned i=0;i<scene_.instances.size();++i){auto& instance=scene_.instances[i];if(instance.node_index!=index)continue;
++  instance.world=node.world;auto& fields=mesh_fields_v76_[i];
++  std::copy_n(instance.world.data()+12,3,fields.position.begin());
++  std::copy(instance.world.begin(),instance.world.end(),matrix.m);matrix.identity_hint=0;dh2_quat_from_matrix(&q,&matrix);
++  fields.quaternion={q.x,q.y,q.z,q.w};fields.flags=(fields.flags|0xcu)&~0x200u;
++ }
++ for(unsigned child=index+1;child<scene_.graph.size();++child)if(scene_.graph[child].parent==static_cast<std::int32_t>(index))optimize_node_v76(child);
++}
++bool RetainedGameObjectVisualV1::optimize_static_v76(std::string& e){
++ if(!root_present_||static_optimized_v76_)return missing("fresh SAME static OptimizeStatic receiver",e);
++ // SetParent47295c repeats root.setPosition(root.getPosition), retaining Sync's
++ // cache. OptimizeStatic50f220 changes local TRS/flags, never extracts scale.
++ binding_.root.flags=(binding_.root.flags|0xcu)&~0x200u;
++ math::Matrix4f matrix{};std::copy(root_cached_v76_.begin(),root_cached_v76_.end(),matrix.m);matrix.identity_hint=0;
++ math::Quaternion q{};dh2_quat_from_matrix(&q,&matrix);
++ binding_.root.quaternion[0]=q.x;binding_.root.quaternion[1]=q.y;binding_.root.quaternion[2]=q.z;binding_.root.quaternion[3]=q.w;
++ for(unsigned i=0;i<scene_.graph.size();++i)if(scene_.graph[i].parent<0)optimize_node_v76(i);
++ static_optimized_v76_=true;return true;
++}
++bool RetainedGameObjectVisualV1::node_attached_v76(unsigned i)const noexcept{return root_present_&&i<detached_nodes_v76_.size()&&!detached_nodes_v76_[i];}
++bool RetainedGameObjectVisualV1::mesh_attached_v76(unsigned i)const noexcept{return root_present_&&i<detached_meshes_v76_.size()&&!detached_meshes_v76_[i];}
++bool RetainedGameObjectVisualV1::mesh_visible_v76(unsigned i)const noexcept{return mesh_attached_v76(i)&&(binding_.root.flags&1u)&&(mesh_fields_v76_[i].flags&1u);}
++bool RetainedGameObjectVisualV1::source_mesh_pose_v76(unsigned i,std::array<float,4>& quaternion,std::array<float,3>& scale,std::string& e)const{
++ if(!root_present_||i>=mesh_fields_v76_.size())return missing("SAME actual mesh local TRS receiver",e);
++ quaternion=mesh_fields_v76_[i].quaternion;scale=mesh_fields_v76_[i].scale;e.clear();return true;
++}
++void RetainedGameObjectVisualV1::update_mesh_visibility_v76(std::size_t i,bool parent){
++ auto& mesh=mesh_fields_v76_[i];mesh.visibility.parent121=parent?1:0;
++ const bool visible=mesh.visibility.local120&&parent&&!detached_meshes_v76_[i];
++ if(visible)mesh.flags|=1u;else mesh.flags&=~1u;
++ authored_visibility_v76_.mesh_effective[i]=visible?1:0;
++}
++bool RetainedGameObjectVisualV1::remove_floor_mesh_v76(unsigned i,std::string& e){
++ if(!static_optimized_v76_||!mesh_attached_v76(i))return missing("attached actual static floor mesh",e);
++ // virtual48(false), then virtual68 detach: stable caches remain borrowed by
++ // the source search snapshot and clone; registry/draw membership is removed.
++ auto& mesh=mesh_fields_v76_[i];mesh.visibility.local120=0;mesh.flags&=~1u;
++ authored_visibility_v76_.mesh_effective[i]=0;detached_meshes_v76_[i]=1;e.clear();return true;
++}
++bool RetainedGameObjectVisualV1::remove_node_v76(unsigned i,std::string& e){
++ if(!static_optimized_v76_||!node_attached_v76(i))return missing("attached actual static exit node",e);
++ for(unsigned node=i;node<scene_.graph.size();++node){auto parent=static_cast<std::int32_t>(node);
++  while(parent>=0&&static_cast<unsigned>(parent)!=i)parent=scene_.graph[parent].parent;
++  if(parent<0)continue;detached_nodes_v76_[node]=1;node_flags_[node]&=~1u;authored_visibility_v76_.node_effective[node]=0;
++  for(unsigned mesh=0;mesh<scene_.instances.size();++mesh)if(scene_.instances[mesh].node_index==node){detached_meshes_v76_[mesh]=1;update_mesh_visibility_v76(mesh,false);}
++ }
++ e.clear();return true;
+ }
+ bool RetainedGameObjectVisualV1::calc_mesh_box(std::string& e){
+  if(!root_present_)return true;
+@@ -143,6 +227,7 @@
+ bool RetainedGameObjectVisualV1::sample(bool reset,std::string& e){
+  if(!animated_)return true;
+  if(reset)return missing("displacement-enabled reset on generic scene",e);
++ if(static_optimized_v76_)return missing("animation on static-baked graph requires actual source reparent/update producer",e);
+  if(!binding_.sample(scene_,animation_,timeline_.current_ms,e))return false;
+  return update_skinned_meshes(e);
+ }
+@@ -233,7 +318,8 @@
+   if(!services_.release_root(identity,e))return false;root_present_=false;
+  }if(!services_.force_register(identity,e))return false;
+  ready_=false;animated_=false;animation_=animation::Player{};scene_=scene::Scene{};
+- bytes_.clear();bres_={};clips_.clear();node_flags_.clear();node_visibility_.clear();node_handles_.clear();skinned_.clear();root_animator_present_=false;return true;
++ bytes_.reset();bres_={};clips_.clear();node_flags_.clear();node_visibility_.clear();node_handles_.clear();skinned_.clear();root_animator_present_=false;
++ authored_visibility_v76_={};mesh_fields_v76_.clear();detached_nodes_v76_.clear();detached_meshes_v76_.clear();static_optimized_v76_=false;return true;
+ }
+ bool RetainedGameObjectVisualV1::set_root_game_object(std::uintptr_t identity,std::string& e){
+  if(!root_present_||identity!=fields_.identity)return missing("SAME root+204 parent identity",e);
+@@ -242,7 +328,7 @@
+ bool RetainedGameObjectVisualV1::node_from_name(const char* name,std::uintptr_t& result,std::string& e)const{
+  result=0;if(!root_present_||!name)return missing("retained root/name lookup",e);
+  // Source search order is depth-first child order. Scene::load emits that order.
+- for(std::size_t i=0;i<scene_.graph.size();++i)if(scene_.graph[i].name==name){result=reinterpret_cast<std::uintptr_t>(node_handles_[i].get());break;}return true;
++ for(std::size_t i=0;i<scene_.graph.size();++i)if(node_attached_v76(static_cast<unsigned>(i))&&scene_.graph[i].name==name){result=reinterpret_cast<std::uintptr_t>(node_handles_[i].get());break;}return true;
+ }
+ bool RetainedGameObjectVisualV1::node_position(std::uintptr_t handle,float* out,std::string& e)const{
+  if(!out)return missing("node position output",e);
+@@ -250,11 +336,12 @@
+  return missing("SAME retained scene node identity",e);
+ }
+ void RetainedGameObjectVisualV1::propagate_node_visibility(std::size_t parent){
++ for(std::size_t m=0;m<scene_.instances.size();++m)if(scene_.instances[m].node_index==parent)update_mesh_visibility_v76(m,(node_flags_[parent]&1u)!=0);
+  for(std::size_t i=0;i<scene_.graph.size();++i)if(scene_.graph[i].parent==static_cast<std::int32_t>(parent))notify_node_visibility(i,(node_flags_[parent]&1u)!=0);
+ }
+ void RetainedGameObjectVisualV1::notify_node_visibility(std::size_t i,bool parent){
+  auto& v=node_visibility_[i];auto previous=node_flags_[i]&1u;v.parent121=parent?1:0;
+- if(v.local120&&parent)node_flags_[i]|=1u;else node_flags_[i]&=~1u;
++ if(v.local120&&parent&&!detached_nodes_v76_[i])node_flags_[i]|=1u;else node_flags_[i]&=~1u;
+  if(previous!=(node_flags_[i]&1u))propagate_node_visibility(i);
+ }
+ bool RetainedGameObjectVisualV1::notify_root_visibility(bool parent,std::string& e){
+@@ -289,7 +376,7 @@
+ }
+ bool RetainedGameObjectVisualV1::set_node_local_visibility(std::uintptr_t handle,bool local,std::string& e){
+  for(auto& h:node_handles_)if(reinterpret_cast<std::uintptr_t>(h.get())==handle){auto i=h->index;auto& v=node_visibility_[i];if(v.local120==std::uint8_t(local))return true;
+-  auto previous=node_flags_[i]&1u;v.local120=local?1:0;if(local&&v.parent121)node_flags_[i]|=1u;else node_flags_[i]&=~1u;
++  auto previous=node_flags_[i]&1u;v.local120=local?1:0;if(local&&v.parent121&&!detached_nodes_v76_[i])node_flags_[i]|=1u;else node_flags_[i]&=~1u;
+   if(previous!=(node_flags_[i]&1u))propagate_node_visibility(i);return true;
+  }
+  return missing("SAME node local visibility receiver",e);
+@@ -302,7 +389,8 @@
+  // writing the actual root, preserving source position argument semantics.
+  const std::array<float,3> snapshot{position[0],position[1],position[2]};
+  std::copy(snapshot.begin(),snapshot.end(),binding_.root.position);
+- if(!binding_.update_world(scene_,error))return false;
++ if(!update_root_cache_v76(error))return false;
++ if(!static_optimized_v76_&&!binding_.update_world(scene_,error))return false;
+  return update_skinned_meshes(error);
+ }
+ bool RetainedGameObjectVisualV1::remove_root_animators(std::string& e){
+--- a/port/level-world/authored_scene_subtree_v2.hpp
++++ b/port/level-world/authored_scene_subtree_v2.hpp
+@@ -4,5 +4,6 @@
+ // SceneManager LoadScene(nonempty xref) appends literal '-node', then getNode
+ // depth-first compares serialized SNode.id. ResetPositionFromFile resets the
+ // selected first child TRS before parenting it to the new actual root.
+-bool authored_scene_subtree_v2(const scene::Scene&,const char* xref,scene::Scene&,bool& found,std::string&);
++bool authored_scene_subtree_v2(const scene::Scene&,const char* xref,scene::Scene&,bool& found,std::string&,
++ const scene::AuthoredVisibilityV76* full_visibility=nullptr,scene::AuthoredVisibilityV76* selected_visibility=nullptr);
+ }
+--- a/port/level-world/authored_scene_subtree_v2.cpp
++++ b/port/level-world/authored_scene_subtree_v2.cpp
+@@ -1,8 +1,9 @@
+ #include "authored_scene_subtree_v2.hpp"
+ #include <algorithm>
+ namespace dh2::world {
+-bool authored_scene_subtree_v2(const scene::Scene& full,const char* xref,scene::Scene& out,bool& found,std::string& e){
+- found=false;if(!xref||!*xref){e="Required nonempty authored subscene xref";return false;}
++bool authored_scene_subtree_v2(const scene::Scene& full,const char* xref,scene::Scene& out,bool& found,std::string& e,
++ const scene::AuthoredVisibilityV76* visibility,scene::AuthoredVisibilityV76* selected_visibility){
++ found=false;if(selected_visibility)*selected_visibility={};if(bool(visibility)!=bool(selected_visibility)){e="Require paired SAME authored subtree visibility input/output";return false;}if(visibility&&(visibility->node_local.size()!=full.graph.size()||visibility->mesh_local.size()!=full.instances.size())){e="Authored subtree visibility differs from SAME full graph";return false;}if(!xref||!*xref){e="Required nonempty authored subscene xref";return false;}
+  const auto id=std::string(xref)+"-node";std::size_t selected=full.graph.size();
+  for(std::size_t i=0;i<full.graph.size();++i){const auto p=full.graph[i].parent;if(p< -1||p>=static_cast<std::int32_t>(i)){e="Invalid source node depth-first parent order";return false;}if(selected==full.graph.size()&&full.graph[i].id==id)selected=i;}
+  if(selected==full.graph.size()){out={};return true;}
+@@ -11,8 +12,9 @@
+   map[i]=static_cast<std::int32_t>(result.graph.size());auto n=full.graph[i];n.parent=i==selected?-1:map[static_cast<std::size_t>(p)];
+   if(i==selected){std::fill_n(n.translation,3,0.f);std::fill_n(n.quaternion,3,0.f);n.quaternion[3]=1.f;std::fill_n(n.scale,3,1.f);}
+   result.graph.push_back(std::move(n));
++  if(visibility){const auto local=visibility->node_local[i];const auto parent=result.graph.back().parent;const auto effective=local&&(parent<0||selected_visibility->node_effective[static_cast<std::size_t>(parent)]);selected_visibility->node_local.push_back(local);selected_visibility->node_effective.push_back(effective?1u:0u);}
+  }
+- for(const auto& i:full.instances){if(i.node_index>=map.size()){e="Invalid source mesh node index";return false;}if(map[i.node_index]<0)continue;auto instance=i;instance.node_index=static_cast<std::uint32_t>(map[i.node_index]);result.instances.push_back(std::move(instance));}
++ for(std::size_t original=0;original<full.instances.size();++original){const auto& i=full.instances[original];if(i.node_index>=map.size()){e="Invalid source mesh node index";return false;}if(map[i.node_index]<0)continue;auto instance=i;instance.node_index=static_cast<std::uint32_t>(map[i.node_index]);result.instances.push_back(std::move(instance));if(visibility){const auto local=visibility->mesh_local[original];selected_visibility->mesh_local.push_back(local);selected_visibility->mesh_effective.push_back(local&&selected_visibility->node_effective[result.instances.back().node_index]?1u:0u);}}
+  result.nodes=static_cast<unsigned>(result.graph.size());if(!scene::update_world(result,e))return false;out=std::move(result);found=true;return true;
+ }
+ }
+--- a/port/level-world/retained_visual_draw_v27.cpp
++++ b/port/level-world/retained_visual_draw_v27.cpp
+@@ -9,6 +9,7 @@
+  std::vector<RetainedVisualPartV27> candidate;
+  const auto& bres=actual->bres();const auto& scene=actual->scene();
+  for(std::size_t n=0;n<scene.instances.size();++n){
++  if(!actual->mesh_attached_v76(static_cast<unsigned>(n)))continue;
+   const auto& instance=scene.instances[n];assets::Mesh mesh{};
+   if(dh2_mesh_open(&mesh,&bres,instance.geometry)!=assets::Error::ok||mesh.primitives!=instance.materials.size()||mesh.vertices>65536){e="Retained visual mesh/material/index domain rejected";return false;}
+   for(std::uint32_t p=0;p<mesh.primitives;++p){
+@@ -44,7 +45,7 @@
+   if(part.instance>=scene.instances.size()||part.material>=scene.materials.size()){e="Retained visual draw graph topology changed";return false;}
+   const auto& instance=scene.instances[part.instance];
+   if(instance.node_index>=flags.size()){e="Actual retained visual visibility node unavailable";return false;}
+-  part.visible=(visual_->scene_flags()&1u)&&(flags[instance.node_index]&1u);
++  part.visible=visual_->mesh_visible_v76(part.instance);
+   part.matrix=instance.world;
+   if(part.skinned){
+    const RetainedGameObjectVisualV1::SkinnedMesh* skin{};

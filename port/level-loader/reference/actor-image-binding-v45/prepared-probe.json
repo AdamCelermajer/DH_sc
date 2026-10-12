@@ -1,0 +1,13 @@
+{
+  "validation": "PREPARED_NOT_LINKED_OR_RUN",
+  "base_probe_sha256": "8c1ebc765dd710e8509b0ca24369f25f82ff1272476dc05410e460db0659eb38",
+  "base_helper_hook_sha256": "382bbf23ab6dce832c14264167473c017bc14559bebffb1a8112d1635fb45e21",
+  "new_sources_sha256": {
+    "generic_actor_image_binding_v45.hpp": "5ccf8f82681a236de81b89fb3057e0707b3a8a7d1c26622d64b6933035befbfa",
+    "generic_actor_image_binding_v45.cpp": "4d248e9a0f645fa4d5a8eb9166228122c959fed6664921c0ef92971ff0353a37",
+    "tests/generic_actor_image_binding_v45_capture.inc": "fff9e221e3cba2d1e206dc3251f3aa89f0174895674afcf33cb7424eb6bc2124",
+    "tests/generic_actor_image_binding_v45_probe.cpp": "2cd3c95917da0748dd6134b7a0151210b65a989127da74315ea9097c2e479c3d"
+  },
+  "scope": "actual V41 chest producer fixture plus required callback/ownership failures; CPU admission is explicit host service fixture, not original engine budget/GPU proof",
+  "parent_coherent_rebuild_required": true
+}

@@ -1,0 +1,70 @@
+{
+  "validation": "PASS",
+  "recorded_utc": "2026-10-06T15:29:41+00:00",
+  "evidence": "Captured successful selected CMake target execution, tool chunk bfb7b5 exit0; independent agent proof is separate.",
+  "manifest_files_verified": 749,
+  "manifest_sha256": "bda9ece02c0cbc3e23800c28fcad46b912e4dedc2a1f10905040ed672cfd7da3",
+  "binary_sha256": "fd412207d75d688d513e946df01fe738acfc301d2d623ba7e78fd8f5f21b02c7",
+  "source_sha256": {
+    "native_gslevel_loading_connection_v49.hpp": "c4034c056fc841294a9b82b496a56ca468fb966ec46dc189a4d66cf8850fee4f",
+    "tests/native_gslevel_loading_v49.cpp": "e6a710f7ecda190e49c1378cc2def197401f5eb4b923f686e5c6d1f40b74deb5",
+    "tests/cmake-receiver-transport/CMakeLists.txt": "a74d54ac2ddce9f10f8aa2b5a0dc8ffa6b5c4c7a2eec97f3322462a03fea73a9"
+  },
+  "observed_stdout_json": {
+    "validation": "PASS",
+    "composition": "NativeGSLevelLoadingConnectionV49",
+    "actual_gs_cases": 2,
+    "source_publication_before_menu": true,
+    "logical_identity": "SWAMP",
+    "raw_name": "worlds/001_swamp.mlx",
+    "row3c": 41,
+    "seed114": 7,
+    "frame_states": [
+      1,
+      2,
+      3
+    ],
+    "same_c1_loading_pointer_aliases_per_case": 5,
+    "missing_per_call_prefix_stops_before_stage0": true,
+    "missing_clean_glitch_preserves_original_global_prefix": true,
+    "genuine_debug_missing_file_attempts": 1,
+    "create_rejections": 20,
+    "menu_updates": 4,
+    "source_manager_phase7c": 0,
+    "state130": 0,
+    "same_lua_save_owners": true,
+    "same_global_cleared_by_outer_dtor": true,
+    "sibling_cycle_free": true,
+    "flag_logging_menu_deep_cleanup_transports_are_fixtures": true,
+    "whole_load_process_prefix_verified": false,
+    "source_abort_teardown_verified": false,
+    "whole_level_init_verified": false,
+    "gameplay_ready": false
+  },
+  "build_command": [
+    "wsl.exe",
+    "-d",
+    "Ubuntu",
+    "--",
+    "cmake",
+    "--build",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host",
+    "--target",
+    "dh2_loader_native_gslevel_loading_v49",
+    "-j",
+    "1"
+  ],
+  "run_command": [
+    "wsl.exe",
+    "-d",
+    "Ubuntu",
+    "--",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/dh2_loader_native_gslevel_loading_v49",
+    "/mnt/c/Users/adamc/Downloads/dungeonhunter2/Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/tests/native-ctor-v4/design.bin",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/receiver-transport-v5-host/native-ctor-missing-saves"
+  ],
+  "whole_level_init_verified": false,
+  "emulator_launched": false,
+  "shared_source_modified": false
+}

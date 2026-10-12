@@ -1,0 +1,32 @@
+--- a/port/level-loader/catalog_auxiliary_v67.hpp
++++ b/port/level-loader/catalog_auxiliary_v67.hpp
+@@ -18,13 +18,15 @@
+ // Returned callbacks live only for the actual leaf delivery, not on the actor.
+ template<class Record,class Services>using AuxiliaryServicesLenderV67=std::function<bool(
+  const AuxiliaryDeliveryV67&,AuxiliaryReceiverV67<Record>&,Services&,std::string&)>;
++// Actual resource prefix retained by the existing admitted class journal.
++// backing precedes receiver so native destruction cannot outlive its world.
+ struct AuxiliaryResourcePrefixV82 {
+  std::shared_ptr<void> backing,receiver;
+- std::uintptr_t identity{};bool assigned{},released{};
++ std::uintptr_t identity{};const std::uintptr_t* source_owner8{};bool assigned{},released{};
+  std::function<bool(std::string&)> release_source;
+ };
+ struct AuxiliaryReleaseRecordV67 {
+- std::vector<std::shared_ptr<AuxiliaryResourcePrefixV82>> resources_v82;
++ std::vector<std::shared_ptr<AuxiliaryResourcePrefixV82>> resources_v82; // BEFORE native construct/assign
+  std::shared_ptr<void> record; // SAME runtime/declaration/unique canonical C1
+  const char* class_name{};
+  std::function<std::uintptr_t()> identity; //0 before that real C1 completes
+@@ -72,8 +74,10 @@
+   std::shared_ptr<CatalogAuxiliaryV67>&,PartV67&,std::string&);
+  bool construct(const world::CanonicalFactoryEntryV1&,const world::CanonicalSourceObjectRequestV1&,
+   world::CanonicalClassReceiverV1&,std::string&);
++ // Scoped alias of the already constructed/admitted SpawnPoint; no XML
++ // rescan, copied source fields or second receiver. Placement uses this SAME C1.
+  bool borrow_spawn_point(std::uintptr_t,std::shared_ptr<world::CanonicalSpawnPointV15>&,std::string&);
+  bool erase_after_source_release(std::uintptr_t,std::string&);
+ };
+ bool make_auxiliary_catalog_part_v67(ScopeV67,CatalogAuxiliaryServicesV67,PartV67&,std::string&);
+-}
++}

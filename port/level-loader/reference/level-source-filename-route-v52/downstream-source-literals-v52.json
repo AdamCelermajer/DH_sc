@@ -1,0 +1,28 @@
+{
+  "file_handle_marker": {
+    "address": "0x8c0788",
+    "literal": ".savegame"
+  },
+  "file_handle_RES_PATH_format": {
+    "address": "0x8c0b10",
+    "literal": "%s%s"
+  },
+  "uncompiled_mode_tokens": [
+    {
+      "address": "0x8bf758",
+      "literal": ".mlx"
+    },
+    {
+      "address": "0x8bf760",
+      "literal": ".mgp"
+    },
+    {
+      "address": "0x8bf768",
+      "literal": ".mvp"
+    },
+    {
+      "address": "0x8bf770",
+      "literal": ".xml"
+    }
+  ]
+}

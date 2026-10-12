@@ -1,0 +1,61 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "validation": "PASS",
+    "comparisons": 8532,
+    "present_glyphs": 272,
+    "checks": 60239,
+    "atomic_guards": 234,
+    "owned_snapshot_survives_inputs": true,
+    "advance_twips_verified": true,
+    "mismatches": 0
+  },
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "findings": 0
+  },
+  "source_sha256": {
+    "port/engine-ui/gfnt.hpp": "601646de8d663764cd35626df42ff652b9d1a64bd9de2699e414c1b14cfe319d",
+    "port/engine-ui/gfnt.cpp": "53e004d0ea9271205ae07f90d6b4efc98e024fc0ec6bf41e2d687d83c72de8f9",
+    "port/engine-ui/tests/gfnt.cpp": "40688b30d5a94d3dda6f88a1364f281d463c193bd7852a2d6bb3b8d7a9a6a5a0",
+    "port/engine-ui/tests/gfnt_differential.py": "05882334cf966c76c6dbec360326e4690e7706c6c0fd63ed59bb5b3d8864b146"
+  },
+  "executable_sha256": "6b5eb9c04a052cee5cabccea712554ef205310c7b41ec13c15818eadc7734465",
+  "input_sha256": {
+    "port/engine-ui/reference/gfnt/original-fixtures.bin": "0131e172216d44ee092495c52adc72fab35ace25e5e359b9d4811cb69083d7ed",
+    ".local-inputs/font-text-discovery/sct_font_3.fnt": "45a426d731ec69996de61a2c47290afa0a59f6a64079440e298339cdfa15656d"
+  },
+  "runner_sha256": "7a01bd9a84516217ef7dc1382e88efe2185ecdfa8200efdf19ab5aff62dce734",
+  "command": [
+    "wsl.exe",
+    "--",
+    "env",
+    "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+    "UBSAN_OPTIONS=halt_on_error=1",
+    ".local-inputs/font-text-discovery/gfnt-audit",
+    "port/engine-ui/reference/gfnt/original-fixtures.bin",
+    ".local-inputs/font-text-discovery/sct_font_3.fnt"
+  ],
+  "compile_command": [
+    "wsl.exe",
+    "--",
+    "g++",
+    "-std=c++17",
+    "-O2",
+    "-g",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "port/engine-ui/gfnt.cpp",
+    "port/engine-ui/tests/gfnt.cpp",
+    "-o",
+    ".local-inputs/font-text-discovery/gfnt-audit"
+  ],
+  "scope": "Standalone native owned GFNT resource and original raster/metrics fixture replay. No dependency DSO, GPU, authored full text layout, TTF or device claim."
+}

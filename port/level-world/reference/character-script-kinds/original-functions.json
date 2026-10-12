@@ -1,0 +1,653 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN10AISDefault21OnTargetInRangedRangeEv",
+      "elf_address": "0x3dc560",
+      "size": 312,
+      "sha256": "ea2ed4960c9cdf05eb6e6fc9147f391afbd3046a43827d1a73b4c4cb239dca50"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal6OnInitEv",
+      "elf_address": "0x3dcea4",
+      "size": 36,
+      "sha256": "ef4caf47ab701506950f666e8b37a3ad93a36bcf353c5982c2be2cf814e4d111"
+    },
+    {
+      "original_symbol": "_ZN11AISExternalC1Eb",
+      "elf_address": "0x3dd0e4",
+      "size": 68,
+      "sha256": "e71ffa6c1cd72616f2f6750112f8f7d6c08ca7068939c3edef875846222312ee"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault7OnTimerEPv",
+      "elf_address": "0x3dbedc",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault6OnInitEv",
+      "elf_address": "0x3dbe78",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN6CharAI16StepCreateScriptEv",
+      "elf_address": "0x3cf04c",
+      "size": 420,
+      "sha256": "ad256bfa0f385494fa34b0964afc4b74048199e8b65585c9b0b7bab91aa4ce4a"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal11OnTerminateEv",
+      "elf_address": "0x3dce34",
+      "size": 16,
+      "sha256": "657740ee813b64508f29a0b205ec5c6cb88f72ac43d2a1a8ab4b798a2baadc72"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault11OnPreAttackEi",
+      "elf_address": "0x3dbef8",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal18OnTargetOutOfSightEv",
+      "elf_address": "0x3dce14",
+      "size": 16,
+      "sha256": "7632d3bd6ffeb527621586908f566e2e63f481a57e4d72425354a65f6f688779"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault16OnNeutralSpottedEP9Character",
+      "elf_address": "0x3dbe9c",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault14OnCollisionEndEP10GameObjectb",
+      "elf_address": "0x3dbf40",
+      "size": 40,
+      "sha256": "d1ad62ec03bd1aa94bb69a3e393b964e232d2d1848cdf6831c38a35b20f5231a"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault13OnPreInteractEv",
+      "elf_address": "0x3dbef0",
+      "size": 8,
+      "sha256": "007f34a6c3441b0240da53f253e513b959105da2d8803255e1856aa48f48db47"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault13OnFearExpiredEv",
+      "elf_address": "0x3dbee4",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault18OnMasterOutOfSightEv",
+      "elf_address": "0x3dbec4",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal11OnInitFinalEv",
+      "elf_address": "0x3dce44",
+      "size": 16,
+      "sha256": "48239cfa097fc9dff6ae24ed2ca98f98c2c57b775f9033cf6f7f0ad68dad3e29"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal15OnTargetInSightEv",
+      "elf_address": "0x3dce04",
+      "size": 16,
+      "sha256": "65dd6ec44ba57428b4349e1edc383faba8ad767e5e0c9c92829cf3e545874dc8"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault18OnMasterOutOfRangeEv",
+      "elf_address": "0x3dbecc",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault6OnDiedEP10GameObject",
+      "elf_address": "0x3dbe90",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault20OnMasterInMeleeRangeEv",
+      "elf_address": "0x3dbed8",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault15OnTargetRevivedEv",
+      "elf_address": "0x3dbeb0",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault15OnProjectileHitEP10GameObject",
+      "elf_address": "0x3dbefc",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault15OnCombatResultsEP10GameObjectPv",
+      "elf_address": "0x3dbf04",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN10AISDefaultD0Ev",
+      "elf_address": "0x3dc968",
+      "size": 60,
+      "sha256": "69aadc338b0b01844c00f0a3053a019ef68db7dd79a33f4e99db7f469a82c078"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal18OnMasterOutOfRangeEv",
+      "elf_address": "0x3dcd48",
+      "size": 28,
+      "sha256": "53ec3f24366e24a846e2f725f813dd6a00bf5d4972aa3bedaf50fead64e10a53"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal21OnTargetInRangedRangeEv",
+      "elf_address": "0x3dcdcc",
+      "size": 28,
+      "sha256": "37bcf285df468aa1a96f6d127af5ed79ce91d92ef3fc4f499547ad6270c3363e"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault15OnCombatResultsEP9CharacterS1_Pv",
+      "elf_address": "0x3dc9a8",
+      "size": 168,
+      "sha256": "2a2d84fe40bbeac8643fea07fd1c255fe7ef8a62355c8a3bf558d633fbf92fdd"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal12OnMasterDiedEv",
+      "elf_address": "0x3dcd84",
+      "size": 16,
+      "sha256": "ea53452e1417437dc8a300b72ac445cdb4fbcf76101f9eb517098536d7e9d002"
+    },
+    {
+      "original_symbol": "_ZN8AISFaery20OnMasterInCloseRangeEv",
+      "elf_address": "0x3de2d0",
+      "size": 20,
+      "sha256": "815ba104110e6407f0ab296e8e2d1dd0991f3db9a6d86154254d6311eaa84ec3"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault12OnTargetDiedEv",
+      "elf_address": "0x3dbeac",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN8AISFaery15OnFriendSpottedEP9Character",
+      "elf_address": "0x3de4ec",
+      "size": 88,
+      "sha256": "ad55a6d031f8769db12cc2bcad33f7a7a9ba79a967aa3a0def1cefc8cb466171"
+    },
+    {
+      "original_symbol": "_ZN10AISMonster15OnTargetRevivedEv",
+      "elf_address": "0x3dd490",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault13OnStunExpiredEv",
+      "elf_address": "0x3dbee0",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal20OnMasterInCloseRangeEv",
+      "elf_address": "0x3dcd10",
+      "size": 28,
+      "sha256": "1b64eb1bdda26dade6f1e91ad9fb7be144a109904681415a1e3d32597eb2c844"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault7OnAggroEP9Character",
+      "elf_address": "0x3dbea4",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault11OnEndOfAnimEv",
+      "elf_address": "0x3dbeec",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault15OnMasterInSightEv",
+      "elf_address": "0x3dbec8",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN10AISMonster12OnTargetDiedEv",
+      "elf_address": "0x3dd550",
+      "size": 56,
+      "sha256": "d81fba70e35c8781b15edee27dbf4dfef5ab65bcae651893b575c8a21d79de01"
+    },
+    {
+      "original_symbol": "_ZN6CharAI9SetScriptI10AISDefaultEEvv",
+      "elf_address": "0x3cce14",
+      "size": 276,
+      "sha256": "b63d56cca95f5a8a9553a368240ba10139d3cd2be2a7f40ce08af3a821cc1a33"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal8OnUpdateEv",
+      "elf_address": "0x3dce64",
+      "size": 64,
+      "sha256": "47fc8c7829030778675408d02e0b1e3773f59a620bad5d373201c65fb0e61dc6"
+    },
+    {
+      "original_symbol": "_ZN8AISFaery18OnMasterOutOfRangeEv",
+      "elf_address": "0x3de450",
+      "size": 120,
+      "sha256": "8d84c1dae359406e21a2800c4ff512dd4e225e120d795439e93315b542ca577c"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal21OnMasterInRangedRangeEv",
+      "elf_address": "0x3dcd2c",
+      "size": 28,
+      "sha256": "665bff6550586bffe99004f14e719da0ebe7084df2d4a9d660fb3261d24800da"
+    },
+    {
+      "original_symbol": "_ZN6CharAI15SetScriptByNameEPKc",
+      "elf_address": "0x3ceeb0",
+      "size": 412,
+      "sha256": "aba86cd4816befa74b71cd3d2fd8a46b2e7a81ed9626a2ead5d1afc546291f90"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault9OnDeAggroEP9Character",
+      "elf_address": "0x3dbea8",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN10AISDefaultD1Ev",
+      "elf_address": "0x3dbf6c",
+      "size": 52,
+      "sha256": "c7e2c6d273c3fe00db97d7ded0fa1d159362b241357756b9c1238604052f1f96"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal14OnEnemySpottedEP9Character",
+      "elf_address": "0x3dd2f4",
+      "size": 80,
+      "sha256": "e6b68fac312e60dab7dddc4197346a003290bee760caff9dab9bde32ea2e2115"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal18OnTargetOutOfRangeEv",
+      "elf_address": "0x3dcde8",
+      "size": 28,
+      "sha256": "5751234e5efec051adc24d4613a982cfa444f7dc5ff526e71c7ace1e130d961a"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault20OnTargetInMeleeRangeEv",
+      "elf_address": "0x3dc284",
+      "size": 124,
+      "sha256": "8a34d440df6749395c304a903d70fbc5664cd9668b3f22be7527a78806c035ae"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault21OnMasterInRangedRangeEv",
+      "elf_address": "0x3dbed0",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN10AISMonsterD1Ev",
+      "elf_address": "0x3dd498",
+      "size": 52,
+      "sha256": "1d03093a6200fbf3449bb97b1338f2fdd4619bf85211f4a96140524d236ed8b2"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault6OnKillEP9Character",
+      "elf_address": "0x3dbf00",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN10AISMonster18OnTargetOutOfSightEv",
+      "elf_address": "0x3dd500",
+      "size": 80,
+      "sha256": "10641541c8bb1efcb857bb223d0e81b4b19ff272ae98578b6ab877e476cfa7c3"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault11OnTerminateEv",
+      "elf_address": "0x3dbe84",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault11OnInitFinalEv",
+      "elf_address": "0x3dbe80",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN8AISFaery8OnUpdateEv",
+      "elf_address": "0x3de544",
+      "size": 104,
+      "sha256": "3cfa83ea30e47bfda44ef1d9517249365a1f05842c808fbb2c63635d5ea0a05b"
+    },
+    {
+      "original_symbol": "_ZN11AISExternalD0Ev",
+      "elf_address": "0x3dd094",
+      "size": 28,
+      "sha256": "aa6019d8857e1420349f8b38e888cf4be10318fcb63a311548641a688b2948a1"
+    },
+    {
+      "original_symbol": "_ZN8AISFaeryD0Ev",
+      "elf_address": "0x3de688",
+      "size": 60,
+      "sha256": "6cd4baaf0234b35c08450c5d9722b82f12f902ba0323ec1b546726e68079317e"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault12OnMasterDiedEv",
+      "elf_address": "0x3dbebc",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal20OnTargetInMeleeRangeEv",
+      "elf_address": "0x3dcd94",
+      "size": 28,
+      "sha256": "90c8a218fcf3663c87b7418d6eaa9042fa2ee1386a4d285ea11f16824eb41a3f"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault14OnStateChangedEii",
+      "elf_address": "0x3dbe8c",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault9OnRevivedEP10GameObject",
+      "elf_address": "0x3dbe94",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN6CharAI9SetScriptI10AISMonsterEEvv",
+      "elf_address": "0x3ccbe4",
+      "size": 276,
+      "sha256": "f94a767c4316b78415ab77403f6c76e20d5f95dc1d5d8844dd2eaa4ea8088757"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault20OnTargetInCloseRangeEv",
+      "elf_address": "0x3dc300",
+      "size": 608,
+      "sha256": "d98c73ab3ee653ae33223344d0b73ae9ccc9b612d44a0c992960b35bb0b2760d"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault14OnEnemySpottedEP9Character",
+      "elf_address": "0x3dbea0",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal7InitVCBEv",
+      "elf_address": "0x3dcec8",
+      "size": 408,
+      "sha256": "a2a4d954371616e7a8892f874e218d4224da59344422ea1ca451cc077da676a4"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault10OnInitPostEv",
+      "elf_address": "0x3dbe7c",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal9OnRevivedEP10GameObject",
+      "elf_address": "0x3dd3f0",
+      "size": 80,
+      "sha256": "d10bb809378e4045cd17e0541aea0d97d2927b930a4050ad76c7c865e740b088"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal20OnMasterInMeleeRangeEv",
+      "elf_address": "0x3dccf4",
+      "size": 28,
+      "sha256": "acecbf7edf0ab2ff57745ff1b6d9fd906e3cbb24c69cb679a659cbfd2a5b0e51"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault7InitVCBEv",
+      "elf_address": "0x3dc7d8",
+      "size": 92,
+      "sha256": "6584dea7728e55ba8e9a1e9c080d3c951f2dc8375bbf0176459c8f439ffc5341"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal16OnNeutralSpottedEP9Character",
+      "elf_address": "0x3dd344",
+      "size": 80,
+      "sha256": "6510709aacb35ed77bc6fef1332b55b85d79d6d39773c7875db3992420000d65"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault8OnAttackEiib",
+      "elf_address": "0x3dc12c",
+      "size": 132,
+      "sha256": "abf287677368ac99b86a559eff86dbb007cb9bf8a57b94ac9355a7b1d7be961e"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault20OnAttackDelayExpiredEv",
+      "elf_address": "0x3dbee8",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal15OnCombatResultsEP10GameObjectPv",
+      "elf_address": "0x3dd250",
+      "size": 80,
+      "sha256": "aca58b1fb0c0dfda240db056267fb87d78ca3aa04fabea603f31303d59ea739d"
+    },
+    {
+      "original_symbol": "_ZN6CharAI9SetScriptI11AISExternalEEvv",
+      "elf_address": "0x3ccaf4",
+      "size": 240,
+      "sha256": "6446d8a68f471f7f81566e6d91c6dd84009e30619a236cfc9cb3942bf865bcc2"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal15OnFriendSpottedEP9Character",
+      "elf_address": "0x3dd394",
+      "size": 92,
+      "sha256": "31188c3e3ed35053c0f3ce677a7c06e3df8e29d81790cb31b9ab042e6318797d"
+    },
+    {
+      "original_symbol": "_ZN11AISExternalD1Ev",
+      "elf_address": "0x3dd060",
+      "size": 52,
+      "sha256": "5c019dee477bab8895bebf9b2a87c3644aa80beaec5d502d898b278041b1f8af"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault13OnScriptTimerEj",
+      "elf_address": "0x3dcc80",
+      "size": 80,
+      "sha256": "6d2591dc4edf41c812770f36a951dfe38ac03ed7cbf5a67bbdce73bf459bcbb6"
+    },
+    {
+      "original_symbol": "_ZN8AISFaeryD1Ev",
+      "elf_address": "0x3de2e4",
+      "size": 52,
+      "sha256": "2cd3ae10e012ab8b177d9f3e2c9b7737fdf7388762933d224997446b20b95b03"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal11OnEndOfAnimEv",
+      "elf_address": "0x3dccd0",
+      "size": 36,
+      "sha256": "35f25adde6f0a2e252ff71ddece3b95ff7fc879d80cecd609c72b65f512e4d33"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal15OnProjectileHitEP10GameObject",
+      "elf_address": "0x3dd2a0",
+      "size": 84,
+      "sha256": "9155fa2e13e58c97cf51bd2de59711b53631dd562631ca2428b175ffab088f49"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault18OnCollisionPersistEP10GameObjectb",
+      "elf_address": "0x3dbfa0",
+      "size": 396,
+      "sha256": "8856dcbbd7f710014b7f4339e341b836c0b17f04756c23e2feb2ca2b3e06df4f"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal10OnInitPostEv",
+      "elf_address": "0x3dce54",
+      "size": 16,
+      "sha256": "a57b02f11c1c0397a892a7f1b7984d5155623b4fb763dcec11d88d1197e172a7"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault10OnInteractEv",
+      "elf_address": "0x3dc1b0",
+      "size": 212,
+      "sha256": "640e91dcaeb6d83cb69d4809f6a3949bea2b03abea20207c6b19388ad69f98c4"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault16OnCollisionBeginEP10GameObjectb",
+      "elf_address": "0x3dbf08",
+      "size": 56,
+      "sha256": "3d393d7cb47dfcf5c66c769caa4fda3338f1d983d935171b37d12e36c7510de5"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault11OnAnimEventEPKc",
+      "elf_address": "0x3dca50",
+      "size": 560,
+      "sha256": "cd3b1256304d8161cbe4cb6fbd71fd42c06af54e618405102db06fc67a80e2f8"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault15OnMasterRevivedEv",
+      "elf_address": "0x3dbec0",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault17OnCollisionResultEP10GameObjectb",
+      "elf_address": "0x3dbf68",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN10AISMonster15OnTargetInSightEv",
+      "elf_address": "0x3dd494",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN6CharAI9SetScriptI8AISFaeryEEvv",
+      "elf_address": "0x3cccf8",
+      "size": 284,
+      "sha256": "004344a45a6b07f7c0a1c75768c8c7ab26e1f7ce1a2822ab23cf8060c6d2a433"
+    },
+    {
+      "original_symbol": "_ZN8AISFaery21OnMasterInRangedRangeEv",
+      "elf_address": "0x3de444",
+      "size": 12,
+      "sha256": "17aef120e6a774e72bd6d75435819d8b9173f4cbff380d0960a1bca6585b5977"
+    },
+    {
+      "original_symbol": "_ZN10AISMonsterD0Ev",
+      "elf_address": "0x3dd7b0",
+      "size": 60,
+      "sha256": "7ed706c0b4ee047e34297b81bdf883171a082c3ad54ac8c34685ec656a49f4ee"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault5OnMsgEiPKv",
+      "elf_address": "0x3dbe88",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN11AISExternalC2Eb",
+      "elf_address": "0x3dd128",
+      "size": 68,
+      "sha256": "68fdd9e38a0f766ae8be40045639838447a66a798beee51171bceb08f3a1a740"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault15OnTargetInSightEv",
+      "elf_address": "0x3dbeb8",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal18OnMasterOutOfSightEv",
+      "elf_address": "0x3dcd74",
+      "size": 16,
+      "sha256": "97a928b3e1797aa23525acecf1114b4536cfd3db3b40430a8230054755827616"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault15OnFriendSpottedEP9Character",
+      "elf_address": "0x3dbe98",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal15OnMasterInSightEv",
+      "elf_address": "0x3dcd64",
+      "size": 16,
+      "sha256": "a90463ca7f7069df6595805bc7e1ba72f675ee14e8439863c925cace73422a42"
+    },
+    {
+      "original_symbol": "_ZN10AISMonster8OnUpdateEv",
+      "elf_address": "0x3dd588",
+      "size": 332,
+      "sha256": "de66e651e5e5646d3cdccc0e9e344a8ab20d371e117fba1ccf3252f5a8900e62"
+    },
+    {
+      "original_symbol": "_ZN8AISFaery20OnMasterInMeleeRangeEv",
+      "elf_address": "0x3de318",
+      "size": 300,
+      "sha256": "1845b850e7b6eaa8824a8dd0545466508495f61c4fa4fe09566704fca407065d"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault8OnUpdateEv",
+      "elf_address": "0x3dc798",
+      "size": 64,
+      "sha256": "b4b2accbca71efc2e95e37357589e0c2e722873cac3f1395065000d8561a8913"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault18OnTargetOutOfSightEv",
+      "elf_address": "0x3dbeb4",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal12OnTargetDiedEv",
+      "elf_address": "0x3dce24",
+      "size": 16,
+      "sha256": "70cb6654610d181dc9d22fe67d39600603271d7cd7b4859d808364dc3959bec2"
+    },
+    {
+      "original_symbol": "_ZN11AISExternalD2Ev",
+      "elf_address": "0x3dd0b0",
+      "size": 52,
+      "sha256": "442b51ed0fb1ff2102356c02f856abb361363e35ce887cf11b92177b589bb6e2"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault20OnMasterInCloseRangeEv",
+      "elf_address": "0x3dbed4",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN10AISMonster14OnEnemySpottedEP9Character",
+      "elf_address": "0x3dd4cc",
+      "size": 52,
+      "sha256": "452a940a8d77c144e7c9789625eecaf2fdc92d56799b0cca58e5acb017a0e9ea"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal6OnDiedEP10GameObject",
+      "elf_address": "0x3dd440",
+      "size": 80,
+      "sha256": "7eff951a326b7fa2190fd415831c19dc46c12054c04487680ff9885e459224d2"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault18OnTargetOutOfRangeEv",
+      "elf_address": "0x3dc698",
+      "size": 256,
+      "sha256": "1c9025bc79c12a83ba162df8157c510964e7da360ef392aee231545afbf9da2b"
+    },
+    {
+      "original_symbol": "_ZN8AISFaery18OnMasterOutOfSightEv",
+      "elf_address": "0x3de4c8",
+      "size": 36,
+      "sha256": "3cd8ca6a4a8a0f3e29a44f8c4e541984f18e40f85a09068278d4ec40d21f26a3"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal20OnTargetInCloseRangeEv",
+      "elf_address": "0x3dcdb0",
+      "size": 28,
+      "sha256": "8b04f2e533a0fe094b832fb85f1afa1a35542864afa30650926383e9508dfa92"
+    }
+  ]
+}

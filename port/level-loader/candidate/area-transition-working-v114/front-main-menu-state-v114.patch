@@ -1,0 +1,83 @@
+--- a/port/android-native/app/src/main/cpp/front_ui_session_v87.hpp
++++ b/port/android-native/app/src/main/cpp/front_ui_session_v87.hpp
+@@ -8,6 +8,7 @@
+ #include "swf_menu_device_v1.hpp"
+ #include "front_selected_profile_v50.hpp"
+ #include "multi_menu_resource_v93.hpp"
++#include <menu_main_menu_state_v114.hpp>
+ #include <vector>
+ namespace dh2::ui {class SwfMovie;class OwnedHudSettingsV1;class HudTextV1;}
+ namespace dh2::application {class ApplicationServicesOwnerV5;}
+@@ -28,6 +29,14 @@
+     FrontUiSessionV87(const FrontUiSessionV87&)=delete;
+     FrontUiSessionV87& operator=(const FrontUiSessionV87&)=delete;
+     bool initialize(AAssetManager*,std::string&);
++    bool bind_main_menu_state_services_v114(ui::GSFlashMenuServicesV114,std::string&);
++    bool borrow_main_menu_state_v114(loader::MainMenuStateBorrowV114&,std::string&);
++    bool enter_main_menu_state_v114(const loader::MainMenuStateBorrowV114&,std::string&);
++    bool resume_main_menu_state_v114(std::string&);
++    // Call before SAME existing MenuManager frame Update, only while this
++    // actual GSFlashMenu state is active. Does not supply another movie clock.
++    bool update_main_menu_request_v114(std::string&);
++
+     bool bind_process_text_v101(ui::HudTextV1*,std::shared_ptr<void>,std::string&);
+     bool prepare_process_settings_v105(const std::shared_ptr<application::ApplicationServicesOwnerV5>&,
+         const std::string&,std::function<bool(std::uint32_t&,std::string&)>,std::string&);
+--- a/port/android-native/app/src/main/cpp/front_ui_session_v87.cpp
++++ b/port/android-native/app/src/main/cpp/front_ui_session_v87.cpp
+@@ -66,6 +66,10 @@
+ struct DebugDelete {void operator()(character::DebugSwitches* value)const{dh2_character_debug_destroy(value);}};
+ }
+ struct FrontUiSessionV87::Impl : std::enable_shared_from_this<Impl> {
++    ui::GSFlashMenuFieldsV114 main_menu_state_v114;
++    ui::GSFlashMenuServicesV114 main_menu_services_v114;
++    ui::GSFlashMenuEntryV114 main_menu_entry_v114;
++    bool main_menu_request_busy_v114{};std::string main_menu_request_failure_v114;
+     AAssetManager* manager{};
+     OriginalUiAssets assets;
+     SwfGpu gpu;
+@@ -1602,6 +1606,44 @@
+ void FrontUiSessionV87::bind_loading_state_services(const ui::LoadingMenuStateServicesV1& services){impl_->loading_state_services=services;}
+ void FrontUiSessionV87::bind_campaign_quest_services(const FrontCampaignQuestServicesV87& services){impl_->campaign_quests=services;}
+ void FrontUiSessionV87::bind_menu_avatar_services(const ui::MenuAvatarPreviewServicesV1& services){impl_->menu_avatar_services=services;}
++bool FrontUiSessionV87::bind_main_menu_state_services_v114(ui::GSFlashMenuServicesV114 services,std::string& e){
++ auto actual=impl_;if(!actual||!services.owner||!services.current){e="Required independent SAME Front state services";return false;}
++ if(!services.owner.owner_before(actual)&&!actual.owner_before(services.owner)){e="Front services cannot own containing Front Impl";return false;}
++ if(actual->main_menu_services_v114.owner){e="Retained process GSFlashMenu services already enrolled";return false;}
++ actual->main_menu_services_v114=std::move(services);e.clear();return true;
++}
++bool FrontUiSessionV87::borrow_main_menu_state_v114(loader::MainMenuStateBorrowV114& out,std::string& e){
++ out={};auto actual=impl_;if(!actual){e="Required actual retained Front Impl";return false;}
++ auto& fields=actual->main_menu_state_v114;
++ out.owner=actual;out.identity=reinterpret_cast<std::uintptr_t>(&fields);
++ out.menu_c=&fields.request_c;out.source29=&fields.source29;e.clear();return true;
++}
++bool FrontUiSessionV87::enter_main_menu_state_v114(const loader::MainMenuStateBorrowV114& expected,std::string& e){
++ auto actual=impl_;if(!actual||expected.owner.get()!=actual.get()||expected.owner.owner_before(actual)||actual.owner_before(expected.owner)||
++  expected.identity!=reinterpret_cast<std::uintptr_t>(&actual->main_menu_state_v114)||expected.menu_c!=&actual->main_menu_state_v114.request_c||expected.source29!=&actual->main_menu_state_v114.source29){
++  e="Replaced actual GSFlashMenu state/cell owner";return false;}
++ // No reset_failed, movie recreation, menu_Loading-ready synthesis or World
++ // capture. Ctor runs on the SAME process Front cells and native providers.
++ if(!actual->main_menu_entry_v114.enter(actual->main_menu_state_v114,actual->main_menu_services_v114,e))return false;
++ actual->selected=true;actual->live_player=false;actual->report_frame=true;e.clear();return true;
++}
++bool FrontUiSessionV87::resume_main_menu_state_v114(std::string& e){
++ auto actual=impl_;if(!actual){e="No retained actual Front state";return false;}
++ if(actual->main_menu_entry_v114.failure().empty()){e.clear();return true;}
++ if(!actual->main_menu_entry_v114.resume(actual->main_menu_state_v114,actual->main_menu_services_v114,e))return false;
++ actual->selected=true;actual->live_player=false;actual->report_frame=true;return true;
++}
++bool FrontUiSessionV87::update_main_menu_request_v114(std::string& e){
++ auto actual=impl_;if(!actual){e="No retained actual Front state";return false;}
++ if(actual->main_menu_request_busy_v114){if(actual->main_menu_request_failure_v114.empty())actual->main_menu_request_failure_v114="Recursive GSFlashMenu request delivery";e=actual->main_menu_request_failure_v114;return false;}
++ if(!actual->main_menu_request_failure_v114.empty()){e=actual->main_menu_request_failure_v114;return false;}
++ actual->main_menu_request_busy_v114=true;struct Busy{bool& b;~Busy(){b=false;}} busy{actual->main_menu_request_busy_v114};
++ auto services=actual->main_menu_services_v114;const auto current=services.current;
++ services.current=[actual,current](auto& x){if(!actual->main_menu_request_failure_v114.empty()){x=actual->main_menu_request_failure_v114;return false;}return current&&current(x);};
++ std::string local;const bool ok=ui::gs_flash_menu_request_v114(actual->main_menu_state_v114,services,local);
++ if(!actual->main_menu_request_failure_v114.empty()){e=actual->main_menu_request_failure_v114;return false;}
++ if(!ok){actual->main_menu_request_failure_v114=local.empty()?"Actual GSFlashMenu request failed":local;e=actual->main_menu_request_failure_v114;return false;}e.clear();return true;
++}
+ bool FrontUiSessionV87::load_front_screen(const std::string& directory,const std::string& screen,std::string& error) {
+     if(screen!="main"&&screen!="loading"){error="Unknown authored front screen";return false;}
+     if(directory.empty()||directory.front()!='/'){error="Required private UI files directory unavailable";return false;}

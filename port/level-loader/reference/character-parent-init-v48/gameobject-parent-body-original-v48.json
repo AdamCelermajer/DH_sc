@@ -1,0 +1,425 @@
+{
+  "schema": "dh2-gameobject-parent-body-original-v48",
+  "validation": "PASS original whole/required-stop branch control",
+  "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "entry": "0x38be5c",
+  "cases": [
+    {
+      "name": "genuine cached-rejection no transform/visual branch",
+      "arguments": {
+        "roll": 42,
+        "probability": 0
+      },
+      "whole_qualified_body_completed": true,
+      "required_service": null,
+      "calls": [
+        "0x33ec0c",
+        "0x33eb28",
+        "0x33eb28",
+        "0x38bd64"
+      ],
+      "fields": {
+        "physical2dc": 123,
+        "visual2d8": 0,
+        "checkpoint28": 1,
+        "difficulty_ec": -1,
+        "sound370_word": "0x6677fffe",
+        "scale": [
+          0.0,
+          -4.999999873689376e-05,
+          -3.0
+        ],
+        "rotation": [
+          90.0,
+          180.0,
+          -90.0
+        ],
+        "heading": 3.3961513649220713e+38,
+        "position": [
+          10.0,
+          20.0,
+          30.0
+        ],
+        "relative": [
+          -100.0,
+          -100.0,
+          -100.0,
+          100.0,
+          100.0,
+          100.0
+        ],
+        "absolute": [
+          3.3961513649220713e+38,
+          3.3961513649220713e+38,
+          3.3961513649220713e+38,
+          3.3961513649220713e+38,
+          3.3961513649220713e+38,
+          3.3961513649220713e+38
+        ],
+        "destination": [
+          3.3961513649220713e+38,
+          3.3961513649220713e+38,
+          3.3961513649220713e+38
+        ]
+      }
+    },
+    {
+      "name": "controlled post-C1 optimization1 genuine omitted-visual branch",
+      "arguments": {
+        "roll": -2,
+        "probability": 100,
+        "optimization": 1,
+        "skip": 0,
+        "idle": "",
+        "difficulty": ""
+      },
+      "whole_qualified_body_completed": true,
+      "required_service": null,
+      "calls": [
+        "0x33ec0c",
+        "0x33eb28",
+        "0x33eb28",
+        "0x38bd64",
+        "0x393db4",
+        "0x38aac8",
+        "0x38aac8",
+        "0x38174c",
+        "0x3816a8"
+      ],
+      "fields": {
+        "physical2dc": 0,
+        "visual2d8": 0,
+        "checkpoint28": 1,
+        "difficulty_ec": -1,
+        "sound370_word": "0x6677fffe",
+        "scale": [
+          1.0,
+          1.0,
+          -3.0
+        ],
+        "rotation": [
+          1.5707963705062866,
+          3.1415927410125732,
+          -1.5707963705062866
+        ],
+        "heading": -1.5707963705062866,
+        "position": [
+          10.0,
+          20.0,
+          30.0
+        ],
+        "relative": [
+          -100.0,
+          -100.0,
+          300.0,
+          100.0,
+          100.0,
+          -300.0
+        ],
+        "absolute": [
+          -90.0,
+          -80.0,
+          330.0,
+          110.0,
+          120.0,
+          -270.0
+        ],
+        "destination": [
+          10.0,
+          20.0,
+          30.0
+        ]
+      },
+      "scope": "Original omission branch verified over explicit post-C1 optimization/device/checkpoint/catalog inputs. Original constructor optimization10c=0, so this is NOT authentic first-SWAMP visual omission or gameplay activation."
+    },
+    {
+      "name": "controlled post-C1 optimization1 genuine omitted-visual branch",
+      "arguments": {
+        "roll": -2,
+        "probability": 100,
+        "optimization": 1,
+        "skip": 1,
+        "idle": "idle",
+        "difficulty": "Hard"
+      },
+      "whole_qualified_body_completed": true,
+      "required_service": null,
+      "calls": [
+        "0x33ec0c",
+        "0x33eb28",
+        "0x33eb28",
+        "0x38bd64",
+        "0x393db4",
+        "0x38aac8",
+        "0x38aac8",
+        "0x38174c",
+        "0x3816a8"
+      ],
+      "fields": {
+        "physical2dc": 0,
+        "visual2d8": 0,
+        "checkpoint28": 0,
+        "difficulty_ec": 2,
+        "sound370_word": "0x66770001",
+        "scale": [
+          1.0,
+          1.0,
+          -3.0
+        ],
+        "rotation": [
+          1.5707963705062866,
+          3.1415927410125732,
+          -1.5707963705062866
+        ],
+        "heading": -1.5707963705062866,
+        "position": [
+          10.0,
+          20.0,
+          30.0
+        ],
+        "relative": [
+          -100.0,
+          -100.0,
+          300.0,
+          100.0,
+          100.0,
+          -300.0
+        ],
+        "absolute": [
+          -90.0,
+          -80.0,
+          330.0,
+          110.0,
+          120.0,
+          -270.0
+        ],
+        "destination": [
+          10.0,
+          20.0,
+          30.0
+        ]
+      },
+      "scope": "Original omission branch verified over explicit post-C1 optimization/device/checkpoint/catalog inputs. Original constructor optimization10c=0, so this is NOT authentic first-SWAMP visual omission or gameplay activation."
+    },
+    {
+      "name": "controlled post-C1 optimization1 genuine omitted-visual branch",
+      "arguments": {
+        "roll": -2,
+        "probability": 100,
+        "optimization": 1,
+        "skip": 1,
+        "idle": "absent",
+        "difficulty": "absent"
+      },
+      "whole_qualified_body_completed": true,
+      "required_service": null,
+      "calls": [
+        "0x33ec0c",
+        "0x33eb28",
+        "0x33eb28",
+        "0x38bd64",
+        "0x393db4",
+        "0x38aac8",
+        "0x38aac8",
+        "0x38174c",
+        "0x3816a8"
+      ],
+      "fields": {
+        "physical2dc": 0,
+        "visual2d8": 0,
+        "checkpoint28": 0,
+        "difficulty_ec": -1,
+        "sound370_word": "0x6677ffff",
+        "scale": [
+          1.0,
+          1.0,
+          -3.0
+        ],
+        "rotation": [
+          1.5707963705062866,
+          3.1415927410125732,
+          -1.5707963705062866
+        ],
+        "heading": -1.5707963705062866,
+        "position": [
+          10.0,
+          20.0,
+          30.0
+        ],
+        "relative": [
+          -100.0,
+          -100.0,
+          300.0,
+          100.0,
+          100.0,
+          -300.0
+        ],
+        "absolute": [
+          -90.0,
+          -80.0,
+          330.0,
+          110.0,
+          120.0,
+          -270.0
+        ],
+        "destination": [
+          10.0,
+          20.0,
+          30.0
+        ]
+      },
+      "scope": "Original omission branch verified over explicit post-C1 optimization/device/checkpoint/catalog inputs. Original constructor optimization10c=0, so this is NOT authentic first-SWAMP visual omission or gameplay activation."
+    },
+    {
+      "name": "required actual visual/renderer producer stop",
+      "arguments": {
+        "roll": -2,
+        "probability": 100,
+        "optimization": 0
+      },
+      "whole_qualified_body_completed": false,
+      "required_service": {
+        "entry": "0x394eb0",
+        "reason": "actual main LoadVisual owner not supplied"
+      },
+      "calls": [
+        "0x33ec0c",
+        "0x33eb28",
+        "0x33eb28",
+        "0x38bd64",
+        "0x393db4",
+        "0x38aac8",
+        "0x38aac8",
+        "0x38174c",
+        "0x3816a8",
+        "0x394eb0"
+      ],
+      "fields": {
+        "physical2dc": 0,
+        "visual2d8": 0,
+        "checkpoint28": 1,
+        "difficulty_ec": -1,
+        "sound370_word": "0x6677fffe",
+        "scale": [
+          1.0,
+          1.0,
+          -3.0
+        ],
+        "rotation": [
+          1.5707963705062866,
+          3.1415927410125732,
+          -1.5707963705062866
+        ],
+        "heading": -1.5707963705062866,
+        "position": [
+          10.0,
+          20.0,
+          30.0
+        ],
+        "relative": [
+          -100.0,
+          -100.0,
+          300.0,
+          100.0,
+          100.0,
+          -300.0
+        ],
+        "absolute": [
+          -90.0,
+          -80.0,
+          330.0,
+          110.0,
+          120.0,
+          -270.0
+        ],
+        "destination": [
+          10.0,
+          20.0,
+          30.0
+        ]
+      }
+    },
+    {
+      "name": "required actual visual/renderer producer stop",
+      "arguments": {
+        "roll": -2,
+        "probability": 100,
+        "optimization": 1,
+        "device_disabled": false
+      },
+      "whole_qualified_body_completed": false,
+      "required_service": {
+        "entry": "0x3816f8",
+        "reason": "actual application renderer/mask owner not supplied"
+      },
+      "calls": [
+        "0x33ec0c",
+        "0x33eb28",
+        "0x33eb28",
+        "0x38bd64",
+        "0x393db4",
+        "0x38aac8",
+        "0x38aac8",
+        "0x38174c",
+        "0x3816a8"
+      ],
+      "fields": {
+        "physical2dc": 0,
+        "visual2d8": 0,
+        "checkpoint28": 1,
+        "difficulty_ec": -1,
+        "sound370_word": "0x6677fffe",
+        "scale": [
+          1.0,
+          1.0,
+          -3.0
+        ],
+        "rotation": [
+          1.5707963705062866,
+          3.1415927410125732,
+          -1.5707963705062866
+        ],
+        "heading": -1.5707963705062866,
+        "position": [
+          10.0,
+          20.0,
+          30.0
+        ],
+        "relative": [
+          -100.0,
+          -100.0,
+          300.0,
+          100.0,
+          100.0,
+          -300.0
+        ],
+        "absolute": [
+          -90.0,
+          -80.0,
+          330.0,
+          110.0,
+          120.0,
+          -270.0
+        ],
+        "destination": [
+          10.0,
+          20.0,
+          30.0
+        ]
+      }
+    }
+  ],
+  "executed_bodies": [
+    "ObjectBase.InitPost33ec0c",
+    "ConditionData.Init33eb28 empty/Invalid",
+    "CheckSpawnProbability38bd64 cached path",
+    "IsPlayer3a49f0 live NAME path",
+    "SetPosition393db4",
+    "UpdateAbsoluteAABB38aac8",
+    "Device.HighPerformance38174c/IsProgrammablePipeline3816a8"
+  ],
+  "explicit_domains": "Whole source ObjectBase C2 allocation leaves; manager/class handle conversion and type0 domain result; exact imported libc/float arithmetic leaves. Catalogs and live renderer-disable bytes are explicit fixture inputs. Required actual renderer mask/LoadVisual never reported success.",
+  "original_ctor_optimization10c": 0,
+  "first_swamp_nonvisual_or_complete_activation_proven": false,
+  "scope": "Full qualified38be5c body runs to return on cached-rejection and controlled genuinely omitted NULLvisual branches. Normal constructor optimization0 stops at actual visual service; no fake LoadVisual/Sync callback or forced InitFinal."
+}

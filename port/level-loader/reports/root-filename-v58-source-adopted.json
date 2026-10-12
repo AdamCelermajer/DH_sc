@@ -1,0 +1,13 @@
+{
+  "source_adopted": true,
+  "coherent_files": 772,
+  "production_semantics_changed": false,
+  "CFS_header_include_relocated_only": true,
+  "raw_LevelList_input": "001_swamp.mlx",
+  "invented_worlds_alias_removed": true,
+  "source_platform_mode_filesystem_fields_are_explicit_host_fixtures": true,
+  "source7_10_selected_phase_entry_fixtures_remain_explicit": true,
+  "build_verified": false,
+  "whole_Init": false,
+  "shared_mutated": false
+}

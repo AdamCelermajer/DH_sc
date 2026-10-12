@@ -1,0 +1,203 @@
+{
+  "schema": "original-device-provider-v54",
+  "status": "PASS",
+  "elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "flags": [
+    {
+      "name": "SHARP_DEVICES",
+      "address": "0x9f6404",
+      "scalar_initializer": 0,
+      "storage": "BSS byte"
+    },
+    {
+      "name": "HTC_DEVICES",
+      "address": "0x9f6403",
+      "scalar_initializer": 0,
+      "storage": "BSS byte"
+    },
+    {
+      "name": "Is_In_Multiplayer_Mode",
+      "address": "0x9a5b59",
+      "scalar_initializer": 0,
+      "storage": "BSS byte"
+    }
+  ],
+  "static_App_object": "0x99f72c",
+  "App_device_driver_offsets": [
+    "0x10",
+    "0x10"
+  ],
+  "concrete_driver_ctor_producer_cases": [
+    {
+      "ctor": "0x5b5d78",
+      "poison": 0,
+      "produced_vtable_address_point": "0x977b20",
+      "base_programmable_driver_ctor": "explicit required service leaf; no GL activation"
+    },
+    {
+      "ctor": "0x5b5d78",
+      "poison": 165,
+      "produced_vtable_address_point": "0x977b20",
+      "base_programmable_driver_ctor": "explicit required service leaf; no GL activation"
+    },
+    {
+      "ctor": "0x5b5d78",
+      "poison": 127,
+      "produced_vtable_address_point": "0x977b20",
+      "base_programmable_driver_ctor": "explicit required service leaf; no GL activation"
+    },
+    {
+      "ctor": "0x5b5e00",
+      "poison": 0,
+      "produced_vtable_address_point": "0x977b20",
+      "base_programmable_driver_ctor": "explicit required service leaf; no GL activation"
+    },
+    {
+      "ctor": "0x5b5e00",
+      "poison": 165,
+      "produced_vtable_address_point": "0x977b20",
+      "base_programmable_driver_ctor": "explicit required service leaf; no GL activation"
+    },
+    {
+      "ctor": "0x5b5e00",
+      "poison": 127,
+      "produced_vtable_address_point": "0x977b20",
+      "base_programmable_driver_ctor": "explicit required service leaf; no GL activation"
+    }
+  ],
+  "whole_original_cases": [
+    {
+      "driver_vtable": "0x977b18",
+      "getter": "0x5aefa4",
+      "flags": [
+        0,
+        0,
+        0
+      ],
+      "result": 1,
+      "genuine_driver_body_called": true
+    },
+    {
+      "driver_vtable": "0x977b18",
+      "getter": "0x5aefa4",
+      "flags": [
+        1,
+        0,
+        0
+      ],
+      "result": 0,
+      "genuine_driver_body_called": false
+    },
+    {
+      "driver_vtable": "0x977b18",
+      "getter": "0x5aefa4",
+      "flags": [
+        0,
+        1,
+        0
+      ],
+      "result": 0,
+      "genuine_driver_body_called": false
+    },
+    {
+      "driver_vtable": "0x977b18",
+      "getter": "0x5aefa4",
+      "flags": [
+        0,
+        0,
+        1
+      ],
+      "result": 0,
+      "genuine_driver_body_called": false
+    },
+    {
+      "driver_vtable": "0x977b18",
+      "getter": "0x5aefa4",
+      "flags": [
+        255,
+        0,
+        0
+      ],
+      "result": 0,
+      "genuine_driver_body_called": false
+    },
+    {
+      "driver_vtable": "0x977b18",
+      "getter": "0x5aefa4",
+      "flags": [
+        0,
+        0,
+        255
+      ],
+      "result": 0,
+      "genuine_driver_body_called": false
+    },
+    {
+      "driver_vtable": "0x977d40",
+      "getter": "0x5b90ac",
+      "flags": [
+        0,
+        0,
+        0
+      ],
+      "result": 0,
+      "genuine_driver_body_called": true
+    },
+    {
+      "driver_vtable": "0x977d40",
+      "getter": "0x5b90ac",
+      "flags": [
+        1,
+        0,
+        0
+      ],
+      "result": 0,
+      "genuine_driver_body_called": false
+    },
+    {
+      "driver_vtable": "0x977d40",
+      "getter": "0x5b90ac",
+      "flags": [
+        0,
+        1,
+        0
+      ],
+      "result": 0,
+      "genuine_driver_body_called": false
+    },
+    {
+      "driver_vtable": "0x977d40",
+      "getter": "0x5b90ac",
+      "flags": [
+        0,
+        0,
+        1
+      ],
+      "result": 0,
+      "genuine_driver_body_called": false
+    },
+    {
+      "driver_vtable": "0x977d40",
+      "getter": "0x5b90ac",
+      "flags": [
+        255,
+        0,
+        0
+      ],
+      "result": 0,
+      "genuine_driver_body_called": false
+    },
+    {
+      "driver_vtable": "0x977d40",
+      "getter": "0x5b90ac",
+      "flags": [
+        0,
+        0,
+        255
+      ],
+      "result": 0,
+      "genuine_driver_body_called": false
+    }
+  ],
+  "fixture_boundary": "Global flag bytes and static App/device/driver borrowed pointer chain supplied as fixtures; original Device body and actual original driver vtable/getter execute unchanged. No Android/device activation proof."
+}

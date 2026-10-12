@@ -1,0 +1,136 @@
+{
+  "version": 22,
+  "scope": "Actual retained TriggerZone constructor/schema/InitPost/update/contact typed owner; required downstream services remain explicit. Modern native network zero backing is a safety correction, not source allocator parity.",
+  "files": [
+    {
+      "path": "port/level-world/canonical_trigger_zone_v22.hpp",
+      "sha256": "8490f41569dc17fc5806afd1858c388c59feb0b5f8191103230aee5a8cad587d",
+      "bytes": 6955
+    },
+    {
+      "path": "port/level-world/canonical_trigger_zone_v22.cpp",
+      "sha256": "5dc3080f4e6e3ac4653c61640683ba012b47283b8b7ca29bf8345fadad85c792",
+      "bytes": 13922
+    },
+    {
+      "path": "port/level-world/canonical_trigger_zone_declarations_v22.inc",
+      "sha256": "e4ccda9fc5e2bbef6baac9bf15974c28851769d4518f843659467c7202506732",
+      "bytes": 780
+    },
+    {
+      "path": "port/level-world/canonical_property_map_v1.cpp",
+      "sha256": "c40d5514e19aa59c02a0bcbf0d911958230df68e41d307ef669db84b5e47b3a0",
+      "bytes": 10203
+    },
+    {
+      "path": "port/level-world/tests/canonical_trigger_zone_v22.cpp",
+      "sha256": "a2de8698e558dbd11a90a53fd755bb4039d8c7d1dfea68046dd1939c91cce8d2",
+      "bytes": 10625
+    },
+    {
+      "path": "port/level-world/tests/trigger_declarations_v22.inc",
+      "sha256": "d6b3b3edb22cd03433b78d090669d12d848bd42cb646294c0f8d90f20f72caed",
+      "bytes": 9279
+    },
+    {
+      "path": "port/level-world/tests/trigger_update_original_cases_v22.inc",
+      "sha256": "b2ea4c34b136f7cba68dae12a454f1a896a93105cbc01f0048b36bf8bbec1931",
+      "bytes": 254
+    },
+    {
+      "path": "port/level-world/tests/trigger_predicates_original_v22.inc",
+      "sha256": "745c34cb6c9bce0354347ce84fe527a22d5e8d508ea1c9e684e3cc99ac493265",
+      "bytes": 3993
+    },
+    {
+      "path": "port/level-world/reports/canonical-trigger-zone-v22-handoff.md",
+      "sha256": "28deefdf48587cb1170a002c44f2096d954e4192d272887731b67c150ade78f0",
+      "bytes": 6604
+    },
+    {
+      "path": "port/level-world/reports/trigger-zone-v22-arm64-syntax.json",
+      "sha256": "15d18beddc38f8a6e47356fe594a569fd3c52b4d33471e2481d36149982591fb",
+      "bytes": 302
+    },
+    {
+      "path": "port/level-world/reports/android-native-owner-tests/trigger-zone-v22/receipt.json",
+      "sha256": "ee3a001a727d76be206b5fbee4b5f08553f28e6674e7d2368d17f1132ec70bdb",
+      "bytes": 4918
+    },
+    {
+      "path": "port/level-world/reference/trigger-zone-v22/constructor-original.json",
+      "sha256": "ea33d053c0a130a7edd0f506e0e7623a33d5ed535d48b610a596591e40d10771",
+      "bytes": 4088
+    },
+    {
+      "path": "port/level-world/reference/trigger-zone-v22/literals.json",
+      "sha256": "9ebd7886e4895e76d30804b6d3cb731333b7f7c7483699f904e4b2823e1a4e14",
+      "bytes": 151
+    },
+    {
+      "path": "port/level-world/reference/trigger-zone-v22/network-constructor-original.json",
+      "sha256": "745a7be91dca867f0ef69d9349d79a3dbc06cfa2b99e3a521a29195ca6c6d8f6",
+      "bytes": 2010
+    },
+    {
+      "path": "port/level-world/reference/trigger-zone-v22/predicates-original.json",
+      "sha256": "a2859f2aa2c289b8e153f6725a0d85761badd751734ef0b34cb5852fca3bc054",
+      "bytes": 8911
+    },
+    {
+      "path": "port/level-world/reference/trigger-zone-v22/property-declarations-original.json",
+      "sha256": "3ce6a34d8997a63d43ba56c0e1d784d7dca3545d13f0a873bb90733f9836aee3",
+      "bytes": 16059
+    },
+    {
+      "path": "port/level-world/reference/trigger-zone-v22/source-functions.json",
+      "sha256": "89a52006dd0dc4f15e539e3795d667b54d66e73665ac2e96dbb3ac5781f72432",
+      "bytes": 141326
+    },
+    {
+      "path": "port/level-world/reference/trigger-zone-v22/swamp-declarations.json",
+      "sha256": "a76e482da9c10c00835fbb750d4c1d2ebd41c7ee83d759aab8248c4cff61fe8c",
+      "bytes": 37511
+    },
+    {
+      "path": "port/level-world/reference/trigger-zone-v22/update-original.json",
+      "sha256": "28dbc0db49872907e983e7d34e6b294c0cd88180d35603a22f335758fd3b2fb8",
+      "bytes": 3466
+    },
+    {
+      "path": ".local-inputs/capture_trigger_zone_v22.py",
+      "sha256": "a8bc698282aba48ab7bfe92360ecd97cc9c7c49fc408b30f8ea667364a023973",
+      "bytes": 1371
+    },
+    {
+      "path": ".local-inputs/capture_trigger_declarations_v22.py",
+      "sha256": "ac7a7e8d1218199efa6fd29c47fe4a942e8f2a822c9e4184d4f30ef66ebfc1f7",
+      "bytes": 624
+    },
+    {
+      "path": ".local-inputs/trigger_zone_ctor_original_v22.py",
+      "sha256": "38db08502a92b93d220482a45904e1bf9398609e3b1b20b250b654a8f40e0a25",
+      "bytes": 2475
+    },
+    {
+      "path": ".local-inputs/trigger_network_original_v22.py",
+      "sha256": "19b25911d858771362c138ae3ad804b5909faac82fc30733a40ae33bde6af691",
+      "bytes": 1645
+    },
+    {
+      "path": ".local-inputs/trigger_update_original_v22.py",
+      "sha256": "cd86d37a0531c2fdd9499bda596202dd7b246d901a009b91a79209399541833f",
+      "bytes": 2459
+    },
+    {
+      "path": ".local-inputs/trigger_predicates_original_v22.py",
+      "sha256": "8968a5e71390b29225529caf9c245c49e71a12beb94e7b5bd11fd91c673f4b56",
+      "bytes": 1797
+    },
+    {
+      "path": ".local-inputs/trigger_zone_v22_syntax.py",
+      "sha256": "0e6f8079625bd924624976323ebbfc0ea077a50565b5a9388b019144ccd38709",
+      "bytes": 525
+    }
+  ]
+}

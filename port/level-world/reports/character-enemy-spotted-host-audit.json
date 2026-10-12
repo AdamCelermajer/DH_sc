@@ -1,0 +1,50 @@
+{
+  "validation": "PASS",
+  "comparisons": 409,
+  "ordered_services": 4344,
+  "word_checks": 54582,
+  "authored_threat_bits": 1092616192,
+  "native_guards": 10,
+  "provider_failure_checks": 16,
+  "mismatches": 0,
+  "source_bindings": {
+    "port\\level-world\\character_enemy_spotted.cpp": "4cde740c42d5058bbd2420101f9d36dd978fe174efbd7b3f558201c4072f9372",
+    "port\\level-world\\character_enemy_spotted.hpp": "9b053078e0953c46dddbe2e52b8ab4a0a09fd216c4af684ed9e2e9cd2f4f2a44",
+    "port\\level-world\\tests\\character_enemy_spotted.cpp": "399ad02744fedecd7d762239c1873923d6a425f908e5e2736895ff1f51cc8972",
+    "port\\level-world\\tests\\character_enemy_spotted_host.py": "2441411d1f2288dd21bd329a2b9bc39167e719f75706215d106144d64afe33c7",
+    "port\\level-world\\tests\\character_enemy_spotted_differential.py": "187e2d1f4b5826746a5f633a28e2a75f18ddd334c36bb0db3024aefb3974f245",
+    "port\\level-world\\reference\\character-enemy-spotted\\enemy-spotted-fixtures.bin": "a3aaad19952cfd3964aeae83dee24fff2101738473afd80074ccbd1db6d86913",
+    "port\\level-world\\reports\\character-enemy-spotted-arm64-differential.json": "71f0043fa8433b24b045a9a3e07a84032c511458ff04494255e98cd076482d0e",
+    "port\\level-world\\character_target_bindings.hpp": "bead66304f3c4454813d2fcea8e679f0eb45d1625a4ee621f4ec96bfb6886e75",
+    "port\\level-world\\..\\script-runtime\\script_runtime.h": "6da3b8ae002da1eb75cd64d03120d37668ebec198ce3d3b5827096c43d08de14",
+    "port\\level-world\\reference\\character-enemy-spotted\\original-functions.json": "407819b383c8af8b561b7573dbec370715de5cb10dc1f6ec5ac71febf3257f77",
+    "port\\level-world\\reference\\character-enemy-spotted\\reference\\original-functions.asm": "150ac1ca0bcb2d27850150c1a5b51b2f8cf41cd12b8aadd0ccb44f9d3e38e359",
+    "port\\level-world\\character_target_events.hpp": "36ecab0282c65c34b782a09aececdf0249f0374afbdda34c5125a651a1df30cc",
+    ".local-inputs\\character-enemy-spotted\\design_pyarray.bin": "fd70c8be93cd3d5b7947309e22f00a7c5230a4a7541ec6f9ebfdac67335e6296",
+    ".local-inputs\\character-enemy-spotted\\design_pystructnames.bin": "d955c29a9ddeb091bc5382eff44002a93e6390228bbe0974769648cc58044dc6"
+  },
+  "binary_bindings": {
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\character-enemy-spotted\\character_enemy_spotted_host": "1fba6a2607c65d82f99a0e132677ec0e15d530402f5ec73fb16e1750648014ec"
+  },
+  "compiler_command": [
+    "wsl.exe",
+    "--",
+    "g++",
+    "-std=c++17",
+    "-O1",
+    "-g",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/character_enemy_spotted.cpp",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/tests/character_enemy_spotted.cpp",
+    "-o",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-enemy-spotted/character_enemy_spotted_host"
+  ],
+  "asan_ubsan": true,
+  "sanitizer_findings": 0,
+  "scope": "Replay complete original EnemySpotted prefix under ASan/UBSan.\n\nGroup/state/combat/player/aggro/active-AIS services remain borrowed providers. This proves source control,\nreload/store order and reentry, not full world, predicate or Lua ownership.\n",
+  "compiler_provenance": "standalone compiler command recorded"
+}

@@ -1,0 +1,18 @@
+004588c0 10402de9 push {r4, lr}
+004588c4 0010a0e3 mov r1, #0
+004588c8 1000a0e3 mov r0, #0x10
+004588cc 27dffaeb bl #0x310570
+004588d0 28409fe5 ldr r4, [pc, #0x28]
+004588d4 28209fe5 ldr r2, [pc, #0x28]
+004588d8 0010a0e3 mov r1, #0
+004588dc 04408fe0 add r4, pc, r4
+004588e0 022094e7 ldr r2, [r4, r2]
+004588e4 0c1080e5 str r1, [r0, #0xc]
+004588e8 0410c0e5 strb r1, [r0, #4]
+004588ec 082082e2 add r2, r2, #8
+004588f0 002080e5 str r2, [r0]
+004588f4 0020e0e3 mvn r2, #0
+004588f8 082080e5 str r2, [r0, #8]
+004588fc 1080bde8 pop {r4, pc}
+00458900 b4c15300 ldrheq ip, [r3], #-0x14
+00458904 88120000 andeq r1, r0, r8, lsl #5

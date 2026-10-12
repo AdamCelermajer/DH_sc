@@ -1,0 +1,40 @@
+{
+  "validation": "PASS",
+  "archive_sha256": "23b6a86dbd8fbac38dfb6aaa3dafe1f7d9c1af1a126ca73196e71e8133bf4ece",
+  "payloads_verified": 30,
+  "selected_sources": [
+    "port/level-world/generic_animation_callbacks_v21.hpp",
+    "port/level-world/generic_animation_callbacks_v21.cpp",
+    "port/level-world/base_index_animation_controller_v21.hpp",
+    "port/level-world/base_index_animation_controller_v21.cpp",
+    "port/level-world/retained_generic_animator_v21.hpp",
+    "port/level-world/retained_generic_animator_v21.cpp",
+    "port/level-world/container_animation_connection_v21.hpp",
+    "port/level-world/container_animation_connection_v21.cpp",
+    "port/level-world/canonical_openable_graph_v21.hpp",
+    "port/level-world/canonical_openable_graph_v21.cpp",
+    "port/level-world/retained_gameobject_visual_v1.hpp",
+    "port/level-world/retained_gameobject_visual_v1.cpp",
+    "port/level-world/canonical_destructible_container_v16.hpp",
+    "port/level-world/tests/canonical_openable_graph_v21.cpp"
+  ],
+  "original_assets": [
+    {
+      "path": "go_chest_swamp.bdae",
+      "original_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/gameobjects/go_chest_swamp.bdae",
+      "sha256": "3387a4e39ff726b01aac29b2788f6ab64c97e0f37ca034c7c5c00545b9155e00"
+    },
+    {
+      "path": "go_chest_swamp_big.bdae",
+      "original_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/gameobjects/go_chest_swamp_big.bdae",
+      "sha256": "ab6564c006ccb80864cf7f6e1720f3678c2cfbaa905608c05adf47ca3f680e43"
+    },
+    {
+      "path": "go_chest_swamp_rotten.bdae",
+      "original_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/gameobjects/go_chest_swamp_rotten.bdae",
+      "sha256": "ea7af6081a15fbc3f55d253d85cc28e8009981103f7ce4d6f06a8e4969bedc4d"
+    }
+  ],
+  "positive_fixture_delivery_is_not_live_loot": true,
+  "full_loader_verified": false
+}

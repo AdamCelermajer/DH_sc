@@ -1,0 +1,40 @@
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "identity": "0x2100000",
+      "go_id": 20,
+      "static84": 1,
+      "inherited_virtuals": {
+        "0x18": "0x38cee8",
+        "0x1c": "0x38be5c",
+        "0x58": "0x38cd48"
+      },
+      "constructor_snapshot_sha256": "03118217ee444205d6326bff145397a620d79a604242bb90e4318023ccb1006d"
+    },
+    {
+      "identity": "0x2103000",
+      "go_id": 20,
+      "static84": 1,
+      "inherited_virtuals": {
+        "0x18": "0x38cee8",
+        "0x1c": "0x38be5c",
+        "0x58": "0x38cd48"
+      },
+      "constructor_snapshot_sha256": "005ffca5f8002387b4616b4a04a005200b0f67ee0f2215513dde97f954f048d4"
+    },
+    {
+      "identity": "0x2105000",
+      "go_id": 20,
+      "static84": 1,
+      "inherited_virtuals": {
+        "0x18": "0x38cee8",
+        "0x1c": "0x38be5c",
+        "0x58": "0x38cd48"
+      },
+      "constructor_snapshot_sha256": "a60a504e8fe3b94bfa05109b024cd61a83080f05db1b2e24450f6fc45e577c56"
+    }
+  ],
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "scope": "Whole Dummy factory3410a4 plus original GameObject/ObjectBase constructor graph execute on poisoned allocation, four derived fixed virtuals and inherited DeclareProperties/InitPost/InitFinal vptr slots. Heap and inline CString reserve are explicit primitive fixtures."
+}

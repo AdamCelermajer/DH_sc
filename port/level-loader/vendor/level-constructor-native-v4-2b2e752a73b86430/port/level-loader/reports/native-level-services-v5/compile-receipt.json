@@ -1,0 +1,79 @@
+{
+  "status": "PASS",
+  "translation_units": [
+    {
+      "abi": "arm64-v8a",
+      "source": "port/level-loader/level_constructor_v3.cpp",
+      "sha256": "039c0c476f29314f7c2f87b04217b4b632575786563167143ad6ea23df00e5c6",
+      "status": "PASS"
+    },
+    {
+      "abi": "arm64-v8a",
+      "source": "port/level-loader/canonical_level_context_v1.cpp",
+      "sha256": "f6e8baab874f79bdecfc791cc8155cff2cb7f34348b1b176fc191dc66a0ac05f",
+      "status": "PASS"
+    },
+    {
+      "abi": "arm64-v8a",
+      "source": "port/level-loader/level_constructor_bindings_v4.cpp",
+      "sha256": "3645564435f812c021d9b3c8dfef3ca5b7c889accc850975e7e91671c1f84f15",
+      "status": "PASS"
+    },
+    {
+      "abi": "arm64-v8a",
+      "source": "port/level-world/application_services_owner_v5.cpp",
+      "sha256": "6f83250101738fab8173d56e6166cf383be70d747814f376fbdf57d1ae7958f4",
+      "status": "PASS"
+    },
+    {
+      "abi": "arm64-v8a",
+      "source": "port/android-native/app/src/main/cpp/native_app.cpp",
+      "sha256": "8144b87c612e52a29f10c5075c43df33053a26b5bf3c909176d8ff146690c194",
+      "status": "PASS"
+    },
+    {
+      "abi": "arm64-v8a",
+      "source": "port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "sha256": "e36537a8cf55a9fe7e66521152e74c4878c61e09bc15b8f92d3612bb99b2c2a7",
+      "status": "PASS"
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/level-loader/level_constructor_v3.cpp",
+      "sha256": "039c0c476f29314f7c2f87b04217b4b632575786563167143ad6ea23df00e5c6",
+      "status": "PASS"
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/level-loader/canonical_level_context_v1.cpp",
+      "sha256": "f6e8baab874f79bdecfc791cc8155cff2cb7f34348b1b176fc191dc66a0ac05f",
+      "status": "PASS"
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/level-loader/level_constructor_bindings_v4.cpp",
+      "sha256": "3645564435f812c021d9b3c8dfef3ca5b7c889accc850975e7e91671c1f84f15",
+      "status": "PASS"
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/level-world/application_services_owner_v5.cpp",
+      "sha256": "6f83250101738fab8173d56e6166cf383be70d747814f376fbdf57d1ae7958f4",
+      "status": "PASS"
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/android-native/app/src/main/cpp/native_app.cpp",
+      "sha256": "8144b87c612e52a29f10c5075c43df33053a26b5bf3c909176d8ff146690c194",
+      "status": "PASS"
+    },
+    {
+      "abi": "x86_64",
+      "source": "port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "sha256": "e36537a8cf55a9fe7e66521152e74c4878c61e09bc15b8f92d3612bb99b2c2a7",
+      "status": "PASS"
+    }
+  ],
+  "live_app_updated": false,
+  "whole_Application_PostInit": false
+}

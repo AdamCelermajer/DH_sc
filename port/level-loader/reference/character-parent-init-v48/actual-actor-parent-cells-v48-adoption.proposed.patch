@@ -1,0 +1,68 @@
+--- a/port/level-world/retained_character_actor_v1.hpp
++++ b/port/level-world/retained_character_actor_v1.hpp
+@@ -12,6 +12,7 @@
+ #include "character_set_position_v7.hpp"
+ #include "character_model_name_v38.hpp"
+ #include "character_is_player_v41.hpp"
++#include "character_parent_init_fields_v48.hpp"
+ #include <array>
+ namespace dh2::character {
+ enum class RetainedCharacterConstructionV7 {existing_actor_adoption,fresh_canonical};
+@@ -47,6 +48,12 @@
+  float spawn_view_radius_{};bool spawn_view_radius_written_{};
+  std::array<float,3> source_position_{},source_scale_{};
+  bool source_position_written_{},source_scale_written_{},source_rotation_written_{};
++ // SAME inherited ConditionData8c/b0 compiled/tested cells. Original
++ // ObjectBase C2 invokes ConditionDataC1; no condition object is allocated.
++ std::uintptr_t source_activate_compiled_a8_{},source_deactivate_compiled_cc_{};
++ std::uint8_t source_activate_tested_ac_{},source_deactivate_tested_d0_{};
++ std::int32_t source_min_difficulty_ec_{-1};
++ std::int16_t source_idle_sound370_{-1}; // GameObjectC2 STRH38c5b4
+  std::uint8_t init_post_called1394_{};
+  std::int16_t char_properties_id13c8_{-1};
+  std::int16_t char_template_id13ca_{-1}; // original C1 signed-halfword store3aa354
+@@ -142,6 +149,7 @@
+  bool is_player_fields_v41(std::shared_ptr<const void>,CharacterIsPlayerFieldsV41&,std::string&);
+  bool loader_fields_v38(std::shared_ptr<const void>,CharacterLoaderFieldsV38&,std::string&);
+  bool model_name_fields_v38(std::shared_ptr<const void>,CharacterModelFieldsV38&,std::string&);
++ bool parent_init_fields_v48(std::shared_ptr<const void>,CharacterParentInitFieldsV48&,std::string&);
+  bool init_post_fields(NpcInitPostBorrowV1&,std::string&);
+  bool visual_fields_v5(std::shared_ptr<void> receiver_lease,
+   const std::function<bool(std::string&)>& actual_update_pf,
+--- a/port/level-world/retained_character_actor_v1.cpp
++++ b/port/level-world/retained_character_actor_v1.cpp
+@@ -13,6 +13,12 @@
+  // CharacterC1 3a9594 stores r6=-1 (3a93d8) into signed source byte14a8.
+  animation_ai.owner_byte14a8=-1;
+  if(construction==RetainedCharacterConstructionV7::fresh_canonical){
++  // Exact ObjectBase C2/ConditionData C1 and GameObject C2 producers.
++  // Existing-actor adoption has no authority to reset these cells.
++  source_bools_[0x28]=0;source_bools_[0x10c]=0;
++  source_activate_compiled_a8_=0;source_activate_tested_ac_=0;
++  source_deactivate_compiled_cc_=0;source_deactivate_tested_d0_=0;
++  source_min_difficulty_ec_=-1;source_idle_sound370_=-1;
+   char_template_id13ca_=-1;source_ai_master50=0;loader_fields_produced_v38_=true;
+   if(!source_position_fields_v7_.construct(runtime,error_))throw std::logic_error(error_);
+   source_position_written_=true; // GameObjectC2 stores source Position160=0.
+@@ -124,6 +130,21 @@
+  if(!properties){error="Required SAME actual initialized Character PropertyView";return false;}
+  out={std::move(fields.receiver_lease),identity_,properties,fields.properties13c8,fields.master418};error.clear();return true;
+ }
++bool RetainedCharacterActorV1::parent_init_fields_v48(std::shared_ptr<const void> lease,CharacterParentInitFieldsV48& out,std::string& error){
++ if(!lease||lease.get()!=static_cast<const void*>(this)||!loader_fields_produced_v38_||!object||object->identity!=identity_||!source_position_fields_v7_.constructed||!spawn_probability_written_||!source_scale_written_||!source_rotation_written_){error="Required SAME fresh Character inherited InitPost field alias and constructor/property authority";return false;}
++ auto activate=source_strings_.find(0x90),deactivate=source_strings_.find(0xb4),difficulty=source_strings_.find(0xd4),idle=source_strings_.find(0x358);
++ auto checkpoint=source_bools_.find(0x28),optimization=source_bools_.find(0x10c),facultative=source_bools_.find(0x60);
++ if(activate==source_strings_.end()||deactivate==source_strings_.end()||difficulty==source_strings_.end()||idle==source_strings_.end()||checkpoint==source_bools_.end()||optimization==source_bools_.end()||facultative==source_bools_.end()){error="Required actual Character ConditionData/min-difficulty/idle/facultative PropertyMap fields";return false;}
++ CharacterParentInitFieldsV48 result;result.receiver_lease=std::move(lease);result.identity=identity_;
++ result.conditions={CharacterConditionDataFieldsV48{0x8c,&activate->second,&source_activate_compiled_a8_,&source_activate_tested_ac_},CharacterConditionDataFieldsV48{0xb0,&deactivate->second,&source_deactivate_compiled_cc_,&source_deactivate_tested_d0_}};
++ result.min_difficulty_d4=&difficulty->second;result.min_difficulty_ec=&source_min_difficulty_ec_;result.probability274=&spawn_probability_;
++ result.scale120=source_scale_.data();result.position160=object->position.data();result.rotation16c=runtime.rotation.rotation;result.heading178=&runtime.rotation.heading_angle;
++ result.relative144=runtime.subobjects.local_bounds;result.absolute12c=runtime.subobjects.absolute_bounds;result.destination1a8=runtime.controller.destination;
++ result.physical2dc=&source_position_fields_v7_.physical2dc;result.attached2e0=&source_position_fields_v7_.attached2e0;result.visual2d8=&visual2d8_;
++ result.facultative60=&facultative->second;result.optimization10c=&optimization->second;result.skip_checkpoint15c=&source_bounds_flat;result.checkpoint28=&checkpoint->second;
++ result.idle_sound358=&idle->second;result.idle_sound370=&source_idle_sound370_;
++ out=std::move(result);error.clear();return true;
++}
+ bool RetainedCharacterActorV1::spawn_fields_v42(std::shared_ptr<const void> lease,CharacterSpawnFieldsV42& out,std::string& error){
+  if(!lease||lease.get()!=static_cast<const void*>(this)||!loader_fields_produced_v38_||!spawn_probability_written_){error="Required SAME fresh Character cache270 alias and actual property-produced probability274";return false;}
+  out={std::move(lease),identity_,&source_cached_spawn270_,&spawn_probability_};error.clear();return true;

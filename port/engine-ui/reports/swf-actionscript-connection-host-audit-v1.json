@@ -1,0 +1,123 @@
+{
+  "validation": "PASS",
+  "scope": "Retained, typed native AS connection on the actual sanitized UI library.\n\nThe authored shared/HUD movies are genuine. Game callback bodies and GPU\nuploads in this host batch are fixtures; complete game/AS fork parity is not\nestablished here. Keep existing reports immutable.\n",
+  "source_sha256": {
+    "port/engine-ui/swf_movie.hpp": "e609bcf6218b3eec91a78de35546a9e649fbc6ab31feb0f58e5015b8fa996bd9",
+    "port/engine-ui/swf_movie.cpp": "499afc979e376f76582a439ec7f5df6cd1f35350784e61d78575eeffcba30301",
+    "port/engine-ui/swf_actionscript_connection.hpp": "3bab4140bdac7b6d797c953178fd4bc2ba63eb06e7303d58f822d0801065e915",
+    "port/engine-ui/swf_actionscript_connection.cpp": "4c0d0183641f5652d6f47937df9871fb7c29ad7112f9378e0ffdf36e07d0580f",
+    "port/engine-ui/renderfx_text_connection.hpp": "e791bd4384f6040fb629732f442c5403ae7983a7fd7789fef7847dbc19dedd5b",
+    "port/engine-ui/renderfx_text_connection.cpp": "d59f9d9a4b644483ab1152c868815be353fb246c70d03aeab264e56279d2e126",
+    "port/engine-ui/tests/swf_actionscript_connection.cpp": "e32a13c19f9b21b639e4d1ddb23f0258903b664c3c6890683db460970b983e6d",
+    "port/engine-ui/tests/run_swf_actionscript_connection_host.py": "b4c21998e2dc1f7c189267a9c020d8edb2020d56bc1f4c722b825c0ba65ab0ab"
+  },
+  "input_sha256": {
+    ".local-inputs/ui-layout-discovery/dqshared_droid.swf": "f0f9f119f2fe474d21c722e361ef9907ef2b885654705073e0cb956432f46263",
+    ".local-inputs/ui-layout-discovery/dqhud_droid.swf": "a4ffacd1abdf7c9b2ba19c46ebb81c60c100458731a4cdba5880391b9c11b238"
+  },
+  "binary_sha256": {
+    "/home/adampalace/dh2-world-build/engine-ui/libdh2_engine_ui.so": "9a051f6446a3f2bfe498f21d1dc98871eb28ad995d2785434178d1a1f965e1c6",
+    "/home/adampalace/dh2-world-build/engine-ui/libdh2_gameswf_core.a": "716420cd993c0cbeb5fb7cb165f125b70be69ea4647e0dedcb7b6545ccff3edd",
+    "/home/adampalace/dh2-world-build/engine-ui/libdh2_freetype237.a": "8ec5697b4fb880c0378d291d6d38c1497bdb2a90c8daae4ca211284981fe8c8b",
+    "/home/adampalace/dh2-world-build/engine-ui/swf_actionscript_connection_audit": "7c8813fd51f8b22a022cb4b172050eb9b162dcf9237eaf307011198a5253ad9b"
+  },
+  "compiler_records": [
+    {
+      "directory": "/home/adampalace/dh2-world-build",
+      "command": "/usr/bin/c++ -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem /mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem /mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -fsanitize=address,undefined -fno-omit-frame-pointer -g -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o engine-ui/CMakeFiles/dh2_engine_ui.dir/swf_movie.cpp.o -c /mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/swf_movie.cpp",
+      "file": "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/swf_movie.cpp",
+      "output": "/home/adampalace/dh2-world-build/engine-ui/CMakeFiles/dh2_engine_ui.dir/swf_movie.cpp.o"
+    },
+    {
+      "directory": "/home/adampalace/dh2-world-build",
+      "command": "/usr/bin/c++ -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem /mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem /mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -fsanitize=address,undefined -fno-omit-frame-pointer -g -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o engine-ui/CMakeFiles/dh2_engine_ui.dir/swf_actionscript_connection.cpp.o -c /mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/swf_actionscript_connection.cpp",
+      "file": "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/swf_actionscript_connection.cpp",
+      "output": "/home/adampalace/dh2-world-build/engine-ui/CMakeFiles/dh2_engine_ui.dir/swf_actionscript_connection.cpp.o"
+    },
+    {
+      "directory": "/home/adampalace/dh2-world-build",
+      "command": "/usr/bin/c++ -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem /mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem /mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -fsanitize=address,undefined -fno-omit-frame-pointer -g -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o engine-ui/CMakeFiles/dh2_engine_ui.dir/renderfx_text_connection.cpp.o -c /mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/renderfx_text_connection.cpp",
+      "file": "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/renderfx_text_connection.cpp",
+      "output": "/home/adampalace/dh2-world-build/engine-ui/CMakeFiles/dh2_engine_ui.dir/renderfx_text_connection.cpp.o"
+    },
+    {
+      "directory": "/home/adampalace/dh2-world-build",
+      "command": "/usr/bin/c++ -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem /mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -fsanitize=address,undefined -fno-omit-frame-pointer -g -o engine-ui/CMakeFiles/swf_actionscript_connection_audit.dir/tests/swf_actionscript_connection.cpp.o -c /mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/tests/swf_actionscript_connection.cpp",
+      "file": "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/tests/swf_actionscript_connection.cpp",
+      "output": "/home/adampalace/dh2-world-build/engine-ui/CMakeFiles/swf_actionscript_connection_audit.dir/tests/swf_actionscript_connection.cpp.o"
+    }
+  ],
+  "cmake_sha256": "1102c1518c542af9d7e24de006ab3394831406c5cc4fec8a06b89087b588ac33",
+  "commands": [
+    [
+      "wsl",
+      "-e",
+      "sha256sum",
+      "/home/adampalace/dh2-world-build/engine-ui/libdh2_engine_ui.so",
+      "/home/adampalace/dh2-world-build/engine-ui/libdh2_gameswf_core.a",
+      "/home/adampalace/dh2-world-build/engine-ui/libdh2_freetype237.a",
+      "/home/adampalace/dh2-world-build/engine-ui/swf_actionscript_connection_audit"
+    ],
+    [
+      "wsl",
+      "-e",
+      "ldd",
+      "/home/adampalace/dh2-world-build/engine-ui/swf_actionscript_connection_audit"
+    ],
+    [
+      "wsl",
+      "-e",
+      "env",
+      "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+      "UBSAN_OPTIONS=halt_on_error=1",
+      "/home/adampalace/dh2-world-build/engine-ui/swf_actionscript_connection_audit",
+      "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/ui-layout-discovery"
+    ],
+    [
+      "wsl",
+      "-e",
+      "cat",
+      "/home/adampalace/dh2-world-build/compile_commands.json"
+    ],
+    [
+      "wsl",
+      "-e",
+      "sha256sum",
+      "/home/adampalace/dh2-world-build/engine-ui/libdh2_engine_ui.so",
+      "/home/adampalace/dh2-world-build/engine-ui/libdh2_gameswf_core.a",
+      "/home/adampalace/dh2-world-build/engine-ui/libdh2_freetype237.a",
+      "/home/adampalace/dh2-world-build/engine-ui/swf_actionscript_connection_audit"
+    ]
+  ],
+  "linked_dependencies": "linux-vdso.so.1 (0x00007a2dbe9a6000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x00007a2dbde00000)\n\tlibdh2_engine_ui.so => /home/adampalace/dh2-world-build/engine-ui/libdh2_engine_ui.so (0x00007a2dbb000000)\n\tlibz.so.1 => /usr/lib/x86_64-linux-gnu/libz.so.1 (0x00007a2dbe97a000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007a2dbac00000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x00007a2dbe854000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x00007a2dba400000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007a2dbe824000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x00007a2dba000000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007a2dbe9a8000)",
+  "sanitizer_findings": 0,
+  "vendor_manifest_sha256": "4125cf08e4ee1139754f54a2a6735b0ccc28476187923d65a0a7434abdeb949b",
+  "vendor_files_unchanged": 282,
+  "host_audit": {
+    "validation": "PASS",
+    "startup_settings": 3,
+    "startup_multiplayer": 3,
+    "global_packages": 8,
+    "original_menu_methods": 20,
+    "member_operations": 16,
+    "typed_callbacks": 3,
+    "typed_arguments": 21,
+    "authored_potion_callbacks": 1,
+    "guards": 17,
+    "provider_lifetime_checks": 2,
+    "limits": {
+      "native_game_services_are_host_fixtures": true,
+      "texture_uploads_are_host_fixtures": true,
+      "full_actions_fork_parity": false
+    }
+  },
+  "pre_construction_hook_checks": 4,
+  "native_ownership_and_property_getter_timing": true,
+  "plain_text_bound_variable_and_maximum_length": true,
+  "native_upstream_plain_formatter": true,
+  "original_full_text_layout": false,
+  "HTML_backend": false,
+  "live_game_callbacks": false,
+  "packaged_APK": false,
+  "physical_arm64_verified": false
+}

@@ -1,0 +1,68 @@
+{
+  "validation": "PASS",
+  "scope": "Isolated actual-UI-DSO sanitizer viewport connection proof (run in WSL).",
+  "host_audit": {
+    "validation": "PASS",
+    "original_gold_comparisons": 4684,
+    "source_publications": 1583,
+    "actual_AS_final_rectangle_checks": 1583,
+    "ordered_driver_calls": 10752,
+    "ownership_and_failure_guards": 8,
+    "actual_Gameswf_core_executed": true,
+    "original_full_frame_parity": false,
+    "live_Android": false,
+    "mismatches": 0
+  },
+  "source_sha256": {
+    "port/engine-ui/swf_viewport_connection.hpp": "197c12cb1b34e05d93a2a74679c2de762b867aee9d491722438eaef78c32c966",
+    "port/engine-ui/swf_viewport_connection.cpp": "7f5278e000a91a79088be113a3b6f79354a22bc2845be2cbeab922ad17a2b813",
+    "port/engine-ui/tests/swf_viewport_connection.cpp": "f3fae0ebd3a88ccc32a6083f46d19f2a0f6b311be4a55cf58e9ea95fe2199838",
+    "port/engine-ui/tools/swf_viewport_connection_host.py": "4a5a9cb6a46f7d5cec46fb9860adce2207b01daaedf53bdbf96d4ae6a7d7df37"
+  },
+  "original_instruction_evidence": {
+    "port/engine-ui/reference/swf-viewport-connection/connection-gold.bin": "9cbc259abd09d27420215bc69c70c31743abf1b65f151e77c7a9bfc4a8a6f637",
+    "port/engine-ui/reference/swf-viewport-connection/connection-probe.json": "23864cbfab2845b1366aec20dba833b8d974f5a9f1ca0fff3a4aeead7816ad65",
+    "port/engine-ui/reference/swf-viewport-connection/original-functions.json": "dde0c120b9fcae23d83de1d15c88daa1d9daab053525ec03821dd91c71cc65a9",
+    "port/engine-ui/reference/viewport/viewport-gold.bin": "ba12fd0e90048d62c1dad24c5a011210538c0d39d7cc6126c70eedc9e4742e29",
+    "port/engine-ui/reports/viewport-arm64-differential.json": "6764b9a28556963e7e2f1495046312e7c600fcf30e5a083af50a5182c93da33e"
+  },
+  "ui_library": {
+    "path": "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/swf-viewport-connection-host/private/libdh2_engine_ui.so",
+    "sha256": "ead53a5d0d239ea15871acd766f554c2def6ddb5b8e319999225c94fb62b0deb",
+    "actual_library_executed": true
+  },
+  "executable_sha256": "3002a1bfdb257904112166383e2fc35f971f724e6539bdf4fb558449e89d004a",
+  "compiler": "c++ (Ubuntu 15.2.0-16ubuntu1) 15.2.0\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+  "command": [
+    "c++",
+    "-std=c++17",
+    "-O1",
+    "-g",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-DTU_CONFIG_LINK_TO_JPEGLIB=0",
+    "-DTU_CONFIG_LINK_TO_LIBPNG=0",
+    "-DTU_CONFIG_LINK_TO_FREETYPE=0",
+    "-DTU_CONFIG_LINK_TO_THREAD=0",
+    "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "-isystem",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/swf_viewport_connection.cpp",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/tests/swf_viewport_connection.cpp",
+    "-L.local-inputs/swf-viewport-connection-host/private",
+    "-ldh2_engine_ui",
+    "-Wl,-rpath,/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/swf-viewport-connection-host/private",
+    "-o",
+    ".local-inputs/swf-viewport-connection-host/audit"
+  ],
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer",
+    "LeakSanitizer"
+  ],
+  "sanitizer_findings": 0,
+  "whole_original_frame_parity": false,
+  "live_Android": false
+}

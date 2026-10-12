@@ -1,0 +1,25 @@
+// Surgical changes to the unique CanonicalLightPoint successor; not to frozenV53.
+// All receiver/factory/service spelling in this successor must useV56. It is an
+// adoption replacement for the SAME GO19 factory receiver, not another registry.
+// Replace LightNodeBorrowV53 with LightNodeBorrowV56 from the new interface.
+// Extend the genuine LightPointInitServices successor with:
+std::unique_ptr<MainLightObjectBaseDtorContinuationV56> objectbase_dtor;
+// Main binds this before canonical factory publication, including failed/no-node
+// candidates. No default provider or fallback native release is valid.
+
+// Add to the genuine CanonicalLightPoint successor private fields:
+std::shared_ptr<MainLightQuiescenceLeaseV56> dtor_lease_;
+bool source_dtor_armed_{};
+// services_.objectbase_dtor and node_.actor_reference are noncopyable capabilities.
+// Reject node replacement/re-init after any native reference has been produced.
+
+// Add to its public methods:
+~CanonicalLightPointV56()noexcept;
+bool arm_source_destruction(std::shared_ptr<MainLightQuiescenceLeaseV56>,std::string&);
+// Delete ordinary receiver copy/move; copying its native-reference capability or
+// registered identity is invalid. Existing factory transports keep shared_ptr to
+// the SAME receiver and therefore do not copy its source fields/capabilities.
+CanonicalLightPointV56(const CanonicalLightPointV56&)=delete;
+CanonicalLightPointV56& operator=(const CanonicalLightPointV56&)=delete;
+CanonicalLightPointV56(CanonicalLightPointV56&&)=delete;
+CanonicalLightPointV56& operator=(CanonicalLightPointV56&&)=delete;

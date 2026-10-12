@@ -1,0 +1,11 @@
+{
+  "validation": "PASS",
+  "archive_sha256": "d9e3b82a955e575d10926a19844068f76c5b74b591f1d1309776d46db613d1e5",
+  "source_entries_verified": 13,
+  "selected_sources": [
+    "port/level-world/canonical_dummy_owner_v14.hpp",
+    "port/level-world/canonical_dummy_owner_v14.cpp",
+    "port/level-world/canonical_property_map_v1.cpp"
+  ],
+  "named_template_repair_preserved": true
+}

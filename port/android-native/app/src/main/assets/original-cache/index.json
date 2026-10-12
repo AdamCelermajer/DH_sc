@@ -1,0 +1,315 @@
+{
+  "version": 1,
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "resources": {
+    "gameswf_effects.bdae": {
+      "uri": "gameswf_effects.bdae",
+      "asset": "original-cache/gameswf_effects.bdae",
+      "bytes": 3752,
+      "sha256": "8e9f5a3d59c2bac3d713f856a326e5556412f0bca1f2646feaa4be3a502895d9",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/gameswf_effects.bdae"
+    },
+    "data/3d/textures/menusgraphics_droid.tga": {
+      "uri": "data/3d/textures/MenusGraphics_droid.tga",
+      "asset": "original-cache/data/3d/textures/MenusGraphics_droid.tga",
+      "bytes": 524348,
+      "sha256": "c75e8f4df8a9b28fcca7aa819a05cd69e6206d27a391b4364fd67790aeea86c7",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/MenusGraphics_droid.tga"
+    },
+    "data/3d/textures/menusgraphics.tga": {
+      "uri": "data/3d/textures/MenusGraphics.tga",
+      "asset": "original-cache/data/3d/textures/MenusGraphics.tga",
+      "bytes": 4194348,
+      "sha256": "ddc6194e85381e07ecc9586040e0546fd3219a53fc054095277f6c0d7262ad74",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/MenusGraphics.tga"
+    },
+    "data/3d/textures/menusgraphics1.tga": {
+      "uri": "data/3d/textures/menusgraphics1.tga",
+      "asset": "original-cache/data/3d/textures/menusgraphics1.tga",
+      "bytes": 131132,
+      "sha256": "364498ef2145d5176e98694311aa3de90cb27f3c4d1480c892c451544b35f3b0",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/menusgraphics1.tga"
+    },
+    "data/3d/textures/menusgraphics_i9000.tga": {
+      "uri": "data/3d/textures/MenusGraphics_I9000.tga",
+      "asset": "original-cache/data/3d/textures/MenusGraphics_I9000.tga",
+      "bytes": 524348,
+      "sha256": "44d275f3e6ce9b06ed4870eba4a0d8e3e6707b3667203fa6b86f724a4356d282",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/MenusGraphics_I9000.tga"
+    },
+    "data/uncadis.ttf": {
+      "uri": "data/uncadis.ttf",
+      "asset": "original-cache/data/uncadis.ttf",
+      "bytes": 56260,
+      "sha256": "edc0d4d451b92d17062af875a365095fccfa6d00765a28eac956b31c19b37db0",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/uncadis.ttf"
+    },
+    "data/nanumgothic.ttf": {
+      "uri": "data/nanumgothic.ttf",
+      "asset": "original-cache/data/nanumgothic.ttf",
+      "bytes": 2346444,
+      "sha256": "8ee4e9fab0b4c65ecd2aa04a205a4b4b7770ed154b7290be027cec826c40f591",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/nanumgothic.ttf"
+    },
+    "data/wqy-zenhei.ttf": {
+      "uri": "data/wqy-zenhei.ttf",
+      "asset": "original-cache/data/wqy-zenhei.ttf",
+      "bytes": 10773492,
+      "sha256": "734b412c7aea22930d740a8edd9162f36f99aa343ca9271411ab501279fc7dd3",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/wqy-zenhei.ttf"
+    },
+    "data/japanese.ttf": {
+      "uri": "data/japanese.ttf",
+      "asset": "original-cache/data/japanese.ttf",
+      "bytes": 2733604,
+      "sha256": "792f186108fb8b082247928a8328f6a9b1554b0cd7114163c12cb7fa0d7c1d9e",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/japanese.ttf"
+    },
+    "data/arkham_reg.ttf": {
+      "uri": "data/arkham_reg.ttf",
+      "asset": "original-cache/data/arkham_reg.ttf",
+      "bytes": 38912,
+      "sha256": "86146a3d9a59cf55d3eb79288f99129182ad30f8031b12d8f6572c6bb9aab828",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/arkham_reg.ttf"
+    },
+    "data/arkham_bold.ttf": {
+      "uri": "data/arkham_bold.ttf",
+      "asset": "original-cache/data/arkham_bold.ttf",
+      "bytes": 39276,
+      "sha256": "864b81bc3014986063289eb67be492b19c4bc57da1d46035b4fe9c55ce346df1",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/arkham_bold.ttf"
+    },
+    "data/fontin smallcaps.ttf": {
+      "uri": "data/Fontin SmallCaps.ttf",
+      "asset": "original-cache/data/Fontin SmallCaps.ttf",
+      "bytes": 79836,
+      "sha256": "e0aa9854059f79a24dd9ced942c1add193d1ff83c3ff44685c6d5d8ff3ce53c4",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/Fontin SmallCaps.ttf"
+    },
+    "data/menus/dqmenus_kor.swf": {
+      "uri": "data/menus/dqmenus_kor.swf",
+      "asset": "original-cache/data/menus/dqmenus_kor.swf",
+      "bytes": 8083669,
+      "sha256": "e6ccbacd22325cf69b18db517d1a41cf0fae71b0e0e8b733b55524d1a07a3e81",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus_kor.swf"
+    },
+    "data/menus/dqcharmenu_i9000.swf": {
+      "uri": "data/menus/dqcharmenu_i9000.swf",
+      "asset": "original-cache/data/menus/dqcharmenu_i9000.swf",
+      "bytes": 248432,
+      "sha256": "54c22c02ac91134d58f281b29d4b54da3f5743c11289db16c06a92f280c33d93",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqcharmenu_i9000.swf"
+    },
+    "data/menus/dqhud_droid.swf": {
+      "uri": "data/menus/dqhud_droid.swf",
+      "asset": "original-cache/data/menus/dqhud_droid.swf",
+      "bytes": 224739,
+      "sha256": "a4ffacd1abdf7c9b2ba19c46ebb81c60c100458731a4cdba5880391b9c11b238",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqhud_droid.swf"
+    },
+    "data/menus/dqmenus2_i9000.swf": {
+      "uri": "data/menus/dqmenus2_i9000.swf",
+      "asset": "original-cache/data/menus/dqmenus2_i9000.swf",
+      "bytes": 20695,
+      "sha256": "308321c474491afd481186318d65a06b5b155a71699b504ce0a7ae54995d3566",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus2_i9000.swf"
+    },
+    "data/menus/dqmenus2.swf": {
+      "uri": "data/menus/dqmenus2.swf",
+      "asset": "original-cache/data/menus/dqmenus2.swf",
+      "bytes": 20689,
+      "sha256": "13cab94c9110dc19fd1e54a312d5b2639f4391c10d874381fb56336110ddc5fe",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus2.swf"
+    },
+    "data/menus/dqmenus_i9000_lg.swf": {
+      "uri": "data/menus/dqmenus_i9000_lg.swf",
+      "asset": "original-cache/data/menus/dqmenus_i9000_lg.swf",
+      "bytes": 315465,
+      "sha256": "f07af0c7187afcc1c5d8b95bcb313423590cb15adbb411a0ae143bd3ca1cd4db",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus_i9000_lg.swf"
+    },
+    "data/menus/dqsharedsssss.swf": {
+      "uri": "data/menus/dqsharedsssss.swf",
+      "asset": "original-cache/data/menus/dqsharedsssss.swf",
+      "bytes": 69872,
+      "sha256": "14c64cceda083aa51ce5b33ba969c3bbf4345ce77c3734d9da777b36a85b521e",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqsharedsssss.swf"
+    },
+    "data/menus/dqhud.swf": {
+      "uri": "data/menus/dqhud.swf",
+      "asset": "original-cache/data/menus/dqhud.swf",
+      "bytes": 10720682,
+      "sha256": "3ab455733367acf657df6eaaec39c93fed34cbcf519255e02cf488c07a96f2bb",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqhud.swf"
+    },
+    "data/menus/dqmenus_jp_i9000.swf": {
+      "uri": "data/menus/dqmenus_jp_i9000.swf",
+      "asset": "original-cache/data/menus/dqmenus_jp_i9000.swf",
+      "bytes": 182882,
+      "sha256": "4fe76a14377c5c49ca375768c0baf5bae5d5571d66780c370680e857b5a29bdf",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus_jp_i9000.swf"
+    },
+    "data/menus/dqmenus_i9000_htc.swf": {
+      "uri": "data/menus/dqmenus_i9000_htc.swf",
+      "asset": "original-cache/data/menus/dqmenus_i9000_htc.swf",
+      "bytes": 315732,
+      "sha256": "90b6ecdb484fe20265bb7194ed3a8399ff0913bfc3174f198ce3631982a53979",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus_i9000_htc.swf"
+    },
+    "data/menus/dqhud_jp_i9000.swf": {
+      "uri": "data/menus/dqhud_jp_i9000.swf",
+      "asset": "original-cache/data/menus/dqhud_jp_i9000.swf",
+      "bytes": 72942,
+      "sha256": "8e4053f029c47905e96442b404b200e950d33b701013ca17998e25b3fbd606be",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqhud_jp_i9000.swf"
+    },
+    "data/menus/loadanims_i9000.swf": {
+      "uri": "data/menus/loadanims_i9000.swf",
+      "asset": "original-cache/data/menus/loadanims_i9000.swf",
+      "bytes": 1456,
+      "sha256": "1089ccb7f77e4da014d47326a9cbe0bb6150b1439ebb04693154d997d678d2a3",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/loadanims_i9000.swf"
+    },
+    "data/menus/dqshared_droid.swf": {
+      "uri": "data/menus/dqshared_droid.swf",
+      "asset": "original-cache/data/menus/dqshared_droid.swf",
+      "bytes": 67525,
+      "sha256": "f0f9f119f2fe474d21c722e361ef9907ef2b885654705073e0cb956432f46263",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqshared_droid.swf"
+    },
+    "data/menus/dqmenus.swf": {
+      "uri": "data/menus/dqmenus.swf",
+      "asset": "original-cache/data/menus/dqmenus.swf",
+      "bytes": 10167265,
+      "sha256": "3c1a8ff1d43e89fa5608fb38dc1b27540b07dbd018206f02c6fb8d3ba061c6a5",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus.swf"
+    },
+    "data/menus/dqmenus_i9000.swf": {
+      "uri": "data/menus/dqmenus_i9000.swf",
+      "asset": "original-cache/data/menus/dqmenus_i9000.swf",
+      "bytes": 315771,
+      "sha256": "83f3530a66d3a668bcecc6b6e7d0aedfba1d9800341f1f874993ac0691d6dc20",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus_i9000.swf"
+    },
+    "data/menus/dqhud_i9000.swf": {
+      "uri": "data/menus/dqhud_i9000.swf",
+      "asset": "original-cache/data/menus/dqhud_i9000.swf",
+      "bytes": 224739,
+      "sha256": "366165170bba0de9e265903e112b8d86c9e68dfb53b74ab25c7e75fde4667938",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqhud_i9000.swf"
+    },
+    "data/menus/dqmenus2_droid.swf": {
+      "uri": "data/menus/dqmenus2_droid.swf",
+      "asset": "original-cache/data/menus/dqmenus2_droid.swf",
+      "bytes": 20695,
+      "sha256": "2e2712a9cc6901ab16d801716c24d4e01457e5edf88ac0b4789ab0591b0d1f94",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus2_droid.swf"
+    },
+    "data/menus/dqcharmenu_droid.swf": {
+      "uri": "data/menus/dqcharmenu_droid.swf",
+      "asset": "original-cache/data/menus/dqcharmenu_droid.swf",
+      "bytes": 248432,
+      "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqcharmenu_droid.swf"
+    },
+    "data/menus/loadanims.swf": {
+      "uri": "data/menus/loadanims.swf",
+      "asset": "original-cache/data/menus/loadanims.swf",
+      "bytes": 1563,
+      "sha256": "7242d0e9a563ddd2f97e9711b55fb273fea615d2f2f4dd20b59c6cf9bdd3eeff",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/loadanims.swf"
+    },
+    "data/menus/dqmenus_jp.swf": {
+      "uri": "data/menus/dqmenus_jp.swf",
+      "asset": "original-cache/data/menus/dqmenus_jp.swf",
+      "bytes": 7870181,
+      "sha256": "09957697ac16bd96114de6e7976f5a94a1550b6247860e0837ab17157c465c5d",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus_jp.swf"
+    },
+    "data/menus/dqmenusapple.swf": {
+      "uri": "data/menus/dqmenusapple.swf",
+      "asset": "original-cache/data/menus/dqmenusapple.swf",
+      "bytes": 257343,
+      "sha256": "9e021738f84e93cf4c192211bbb569dcd38077e8ed6690f6f2b7dcca01116d4a",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenusapple.swf"
+    },
+    "data/menus/dqcharmenu.swf": {
+      "uri": "data/menus/dqcharmenu.swf",
+      "asset": "original-cache/data/menus/dqcharmenu.swf",
+      "bytes": 10105982,
+      "sha256": "c781079110555b174d5006b0f9387e8dedb2572fe47f4eb1ec5e53e5f10e63ac",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqcharmenu.swf"
+    },
+    "data/menus/key.swf": {
+      "uri": "data/menus/key.swf",
+      "asset": "original-cache/data/menus/key.swf",
+      "bytes": 41739,
+      "sha256": "af1581bee019d51e4ea23e0ff1aa0a770dfff62e38f293fc5b7e47a7d37ae02f",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/key.swf"
+    },
+    "data/menus/dqhud_jp.swf": {
+      "uri": "data/menus/dqhud_jp.swf",
+      "asset": "original-cache/data/menus/dqhud_jp.swf",
+      "bytes": 72937,
+      "sha256": "6cdcc009a0d90614c6ed19296303d3b2e9c415337dc26e1b3434499ab450bfa4",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqhud_jp.swf"
+    },
+    "data/menus/sct_font_3.fnt": {
+      "uri": "data/menus/sct_font_3.fnt",
+      "asset": "original-cache/data/menus/sct_font_3.fnt",
+      "bytes": 120568,
+      "sha256": "45a426d731ec69996de61a2c47290afa0a59f6a64079440e298339cdfa15656d",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/sct_font_3.fnt"
+    },
+    "data/menus/dqmenus_jp_droid.swf": {
+      "uri": "data/menus/dqmenus_jp_droid.swf",
+      "asset": "original-cache/data/menus/dqmenus_jp_droid.swf",
+      "bytes": 183450,
+      "sha256": "3a00db9a9656f266f368527daa0a366ee6cc529e31b8d7455b08c3b92712d628",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus_jp_droid.swf"
+    },
+    "data/menus/dqshared.swf": {
+      "uri": "data/menus/dqshared.swf",
+      "asset": "original-cache/data/menus/dqshared.swf",
+      "bytes": 5634050,
+      "sha256": "c2c5f597b4697df9fe59accf72fbc9037bc4c8ad85be76f71b897e14e16e8513",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqshared.swf"
+    },
+    "data/menus/dqhud_jp_droid.swf": {
+      "uri": "data/menus/dqhud_jp_droid.swf",
+      "asset": "original-cache/data/menus/dqhud_jp_droid.swf",
+      "bytes": 72943,
+      "sha256": "b33af9ef8051914b51ee7aa4a141852da1249d70c331fcd51b7c1149fd1cf001",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqhud_jp_droid.swf"
+    },
+    "data/menus/loadanims_droid.swf": {
+      "uri": "data/menus/loadanims_droid.swf",
+      "asset": "original-cache/data/menus/loadanims_droid.swf",
+      "bytes": 1456,
+      "sha256": "ee12d5c1dd9791fe2d438eb931794ff78ee53618c084bf350b90ad33838f34d5",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/loadanims_droid.swf"
+    },
+    "data/menus/dqmenus_droid.swf": {
+      "uri": "data/menus/dqmenus_droid.swf",
+      "asset": "original-cache/data/menus/dqmenus_droid.swf",
+      "bytes": 315965,
+      "sha256": "c114c7d39b7fe0351a93a515c78f9457dda715d78aed6e3bcc3f4895120de421",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus_droid.swf"
+    },
+    "data/menus/.nomedia": {
+      "uri": "data/menus/.nomedia",
+      "asset": "original-cache/data/menus/.nomedia",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/.nomedia"
+    },
+    "data/menus/dqshared_i9000.swf": {
+      "uri": "data/menus/dqshared_i9000.swf",
+      "asset": "original-cache/data/menus/dqshared_i9000.swf",
+      "bytes": 67500,
+      "sha256": "297a420bbf548e4414c334d773250d6f36d9f8759662a7230dfc41b5d8b88631",
+      "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqshared_i9000.swf"
+    }
+  },
+  "matching": "Exact URI first, then unique casefold key after original filename projection"
+}

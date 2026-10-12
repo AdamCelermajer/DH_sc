@@ -1,0 +1,97 @@
+--- a/port/engine-ui/authored_shared_menu_roster_v27.hpp
++++ b/port/engine-ui/authored_shared_menu_roster_v27.hpp
+@@ -5,6 +5,7 @@
+ #include "authored_menu_drag_v68.hpp"
+ #include "menu_native_event_v1.hpp"
+ namespace dh2::ui {
++struct MenuFSCommandServicesV114;
+ struct AuthoredSharedMenuServicesV27 {
+  std::shared_ptr<void> owner;
+  AuthoredMenuApplicationFieldsV3* fields{};
+@@ -19,6 +20,9 @@
+ // pins each same CPU movie. Player/Save/actor initialization is not required.
+ class AuthoredSharedMenuRosterV27 {
+  struct Receiver;
++ struct FSLifetimeV114;
++ std::shared_ptr<FSLifetimeV114> fs_lifetime_v114_;
++ std::shared_ptr<MenuFSCommandServicesV114> fs_services_v114_;
+  std::shared_ptr<MenuStackOwnerV1> stack_;
+  AuthoredSharedMenuServicesV27 services_;
+  std::vector<std::shared_ptr<Receiver>> receivers_;
+@@ -32,6 +36,11 @@
+  bool post_load(SwfMovie&,std::shared_ptr<void> same_movie_lease,std::uint32_t source_flags,std::string&);
+  bool route(MenuStackV1&,MenuStackRequestV1&,bool& handled,std::string&);
+  MenuStackServicesV1 stack_services()noexcept{return {this,dispatch};}
++ bool bind_fs_command_services_v114(MenuFSCommandServicesV114,std::string&);
++ bool my_fs_command_v114(std::uintptr_t,const char*,const char*,bool& handled,std::string&);
++ bool on_fs_command_v114(std::uintptr_t,const char*,const char*,std::string&);
++ bool render_fs_command_v114(std::uintptr_t,const char*,const char*,std::string&);
++ bool manager_fs_command_v114(const char*,const char*,std::string&);
+  bool invoke(std::uintptr_t actual_menu,const char* method,std::string&);
+  bool check(std::uintptr_t actual_menu,std::string&);
+  AuthoredMenuFieldsV1* receiver_fields_v59(std::uintptr_t)noexcept;
+--- a/port/engine-ui/authored_shared_menu_roster_v27.cpp
++++ b/port/engine-ui/authored_shared_menu_roster_v27.cpp
+@@ -1,4 +1,5 @@
+ #include "authored_shared_menu_roster_v27.hpp"
++#include <menu_fs_command_v114.hpp>
+ #include <cstring>
+ #include <algorithm>
+ #include "gameswf/gameswf_character.h"
+@@ -22,7 +23,55 @@
+  }
+ };
+ AuthoredSharedMenuRosterV27::AuthoredSharedMenuRosterV27(std::shared_ptr<MenuStackOwnerV1> stack,AuthoredSharedMenuServicesV27 s):stack_(std::move(stack)),services_(std::move(s)){}
+-AuthoredSharedMenuRosterV27::~AuthoredSharedMenuRosterV27()=default;
++struct AuthoredSharedMenuRosterV27::FSLifetimeV114 {AuthoredSharedMenuRosterV27* roster{};};
++AuthoredSharedMenuRosterV27::~AuthoredSharedMenuRosterV27(){
++ if(fs_lifetime_v114_)fs_lifetime_v114_->roster=nullptr;
++ fs_services_v114_.reset();fs_lifetime_v114_.reset();
++}
++bool AuthoredSharedMenuRosterV27::bind_fs_command_services_v114(MenuFSCommandServicesV114 services,std::string& e){
++ if(!stack_||!services.owner||!services.current){e="Required actual roster/FS primitive authority";return false;}
++ if(!services.current(e))return false;
++ if(!fs_lifetime_v114_){fs_lifetime_v114_=std::make_shared<FSLifetimeV114>();fs_lifetime_v114_->roster=this;}
++ const auto weak=std::weak_ptr<FSLifetimeV114>(fs_lifetime_v114_);
++ if(!services.capture_menu)services.capture_menu=[weak](std::uintptr_t id,std::shared_ptr<void>& pin,std::string& e){
++  auto life=weak.lock();if(!life||!life->roster){e="Retired actual shared MenuBase roster";return false;}
++  std::function<bool(std::uintptr_t,bool&,std::string&)> visibility;
++  return life->roster->capture_receiver_v104(id,pin,visibility,e);
++ };
++ if(!services.virtual30)services.virtual30=[weak](std::uintptr_t id,const char* command,const char* args,std::string& e){
++  auto life=weak.lock();if(!life||!life->roster){e="Retired actual MenuBase virtual30";return false;}
++  return life->roster->on_fs_command_v114(id,command,args,e);
++ };
++ if(!services.virtual38)services.virtual38=[weak](std::uintptr_t id,const char* command,const char* args,bool& handled,std::string& e){
++  auto life=weak.lock();if(!life||!life->roster){e="Retired actual MenuBase virtual38";return false;}
++  return life->roster->my_fs_command_v114(id,command,args,handled,e);
++ };
++ fs_services_v114_=std::make_shared<MenuFSCommandServicesV114>(std::move(services));e.clear();return true;
++}
++bool AuthoredSharedMenuRosterV27::my_fs_command_v114(std::uintptr_t id,const char* command,const char* args,bool& handled,std::string& e){
++ auto services=fs_services_v114_;if(!services){e="Required bound actual MenuBase FS services";return false;}
++ std::shared_ptr<void> receiver_pin;std::function<bool(std::uintptr_t,bool&,std::string&)> visibility;
++ if(!capture_receiver_v104(id,receiver_pin,visibility,e))return false;
++ auto* actual=stack_->registered_menu_v27(id);if(!actual){e="Required SAME registered MenuBase FS projection";return false;}
++ std::shared_ptr<void> menu_pin,render_pin;if(!stack_->capture_storage_v101(actual,menu_pin,render_pin,e))return false;
++ // Copy the admitted projection before callbacks can mutate its directory.
++ // Its string/render storage stays pinned through the source terminal call.
++ auto loan=*actual;return menu_base_my_fs_command_v114(loan,command,args,*services,handled,e);
++}
++bool AuthoredSharedMenuRosterV27::on_fs_command_v114(std::uintptr_t id,const char* command,const char* args,std::string& e){
++ auto services=fs_services_v114_;if(!services){e="Required bound actual MenuBase OnFS services";return false;}
++ return menu_base_on_fs_command_v114(id,command,args,*services,e);
++}
++bool AuthoredSharedMenuRosterV27::render_fs_command_v114(std::uintptr_t id,const char* command,const char* args,std::string& e){
++ auto services=fs_services_v114_;auto* render=stack_?stack_->render(id):nullptr;
++ if(!services||!render){e="Required SAME actual MenuFX FS services/render";return false;}
++ return menu_fx_fs_command_v114(*render,command,args,*services,e);
++}
++bool AuthoredSharedMenuRosterV27::manager_fs_command_v114(const char* command,const char* args,std::string& e){
++ auto services=fs_services_v114_;auto* stack=stack_?stack_->view():nullptr;
++ if(!services||!stack){e="Required SAME actual MenuManager FS services/directory";return false;}
++ return menu_manager_fs_command_v114(*stack,command,args,*services,e);
++}
+ auto AuthoredSharedMenuRosterV27::receiver(std::uintptr_t id)noexcept->Receiver*{
+  for(auto& r:receivers_)if(r->fields.identity==id)return r.get();return nullptr;
+ }

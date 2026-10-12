@@ -1,0 +1,7 @@
+{
+  "fx_build_module_key": "AnimatedFX",
+  "fx_key_address": "0x8d5050",
+  "fast_travel_count_global_address": "0x9a65d8",
+  "fast_travel_count_global_symbol": "009a65d8 B Arrays::FastTravelList::size",
+  "debug_out_first_instruction": "0xe92d000f"
+}

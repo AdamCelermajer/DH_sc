@@ -1,0 +1,47 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN13ObjectManager15GetObjectByNameEPKcibS1_",
+      "elf_address": "0x34aca0",
+      "size": 964,
+      "sha256": "c91cab9b67405ec2ece1c06917cccff61f8e282a18d381da82a6e91d3b5c560a"
+    },
+    {
+      "original_symbol": "_ZNK9Character11IsCharacterEv",
+      "elf_address": "0x3a2e1c",
+      "size": 8,
+      "sha256": "007f34a6c3441b0240da53f253e513b959105da2d8803255e1856aa48f48db47"
+    },
+    {
+      "original_symbol": "_ZN6CharAI15RemoveFromGroupEv",
+      "elf_address": "0x3d2ff8",
+      "size": 300,
+      "sha256": "3b58c0bab4bed41e76d8ad712a829fee8b961fd4e31cc8a5bd9b39f66c4100b7"
+    },
+    {
+      "original_symbol": "_ZN13ObjectManager18RemoveNoRoomObjectEP10GameObject",
+      "elf_address": "0x3462b8",
+      "size": 92,
+      "sha256": "f2fc35ced90e4a07015f159bd64206db8c9bf64eced46fb01beb5beba0c0fd85"
+    },
+    {
+      "original_symbol": "_ZN13ObjectManager21AssignObjectNetworkIdEP10ObjectBase",
+      "elf_address": "0x3431c0",
+      "size": 312,
+      "sha256": "3d1ec0f5529329ea2e21f972c382a31d4a7ad1c610ea4ab34780bcba2307b414"
+    },
+    {
+      "original_symbol": "_ZNK10ObjectBase11IsCharacterEv",
+      "elf_address": "0x33dcd0",
+      "size": 8,
+      "sha256": "6dcd5e75586fe6683156c0d559d4827b73bd48d501fa5781a1c6099aacd7c877"
+    },
+    {
+      "original_symbol": "_ZNK10GameObject12IsGameObjectEv",
+      "elf_address": "0x340054",
+      "size": 8,
+      "sha256": "007f34a6c3441b0240da53f253e513b959105da2d8803255e1856aa48f48db47"
+    }
+  ]
+}

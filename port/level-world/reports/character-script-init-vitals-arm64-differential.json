@@ -1,0 +1,19 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "c308605215b01b7eb3eb11558fef7f8d74fc49f7f2275270ba93500c2040d04c",
+  "gold_sha256": "06b9126ea548b7977d90d625e86b2a53a31e2fe0097f1485d2072a5e2951caed",
+  "comparisons": 900,
+  "ordered_debug_property_services": 3333,
+  "live_debug_mutation_cases": 133,
+  "mismatches": 0,
+  "source_sha256": {
+    "port/level-world/character_script_init_vitals.hpp": "84570494ac2ce5deb39260a63a5345eec2e0e7822215c5c5e50fbe70c366b42a",
+    "port/level-world/character_script_init_vitals.cpp": "ece17f29fb0f3561c7f5a91bbc4c3c940d654e3b482c1bc25093cbe7714a61f2",
+    "port/level-world/tests/character_script_init_vitals_differential.py": "9d0b9b3e528998f7adddadb07372d2e2884e074d9162781c7c0ab335439818a8",
+    "port/game-data/properties.cpp": "f1a77dbcb075c04fecaf3ec1d61180eb0e123e8f5cab5f64090d43aea6aa7877",
+    "port/game-data/class_tables.cpp": "3960dbf2d35b895c3baa137cecf67dacd6fafb368352f74c89af4cc2f90d1595"
+  },
+  "original_capture_sha256": "71544de8799a54ffb2773776dc4ef2bdefff379b3e87bd11719a7d1889932bf4",
+  "scope": "Actual _InitHpMp\u2192RegenHP\u2192RegenMP and complete source property reads/AddProperty; named synchronous debug load/query/string services. Captured positive delta survives Debug mutations, later MP reads are live. No actual skill creation, whole InitScriptProcess, package or live proof."
+}

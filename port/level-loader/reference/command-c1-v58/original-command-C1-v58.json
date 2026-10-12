@@ -1,0 +1,1819 @@
+{
+  "validation": "PASS",
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_C1_classes": 46,
+  "allocation_service_fixture": true,
+  "actual_class_Init_Execute_verified": false,
+  "rows": [
+    {
+      "kind": 0,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ExecScript>()",
+      "factory": "0x458d40",
+      "original_size": 20,
+      "constructed_hex": "f08b960000a5a5a5ffffffff0000000000000000",
+      "defined_mask": "11111000111111111111",
+      "stores": [
+        {
+          "offset": 16,
+          "width": 4,
+          "value": 0,
+          "source": "0x458d64"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x458d68"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9866224,
+          "source": "0x458d70"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x458d78"
+        },
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x458d7c"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 1,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_EnterCutSceneMode>()",
+      "factory": "0x458cf8",
+      "original_size": 16,
+      "constructed_hex": "d88b960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x458d1c"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x458d20"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9866200,
+          "source": "0x458d28"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x458d30"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 2,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ExitCutSceneMode>()",
+      "factory": "0x458cb0",
+      "original_size": 16,
+      "constructed_hex": "c08b960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x458cd4"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x458cd8"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9866176,
+          "source": "0x458ce0"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x458ce8"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 3,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_CONSOLE>()",
+      "factory": "0x458c68",
+      "original_size": 16,
+      "constructed_hex": "a88b960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x458c8c"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x458c90"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9866152,
+          "source": "0x458c98"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x458ca0"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 5,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_PlayCamera>()",
+      "factory": "0x458bd8",
+      "original_size": 16,
+      "constructed_hex": "788b960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x458bfc"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x458c00"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9866104,
+          "source": "0x458c08"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x458c10"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 6,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SetCameraClip>()",
+      "factory": "0x458b90",
+      "original_size": 16,
+      "constructed_hex": "608b960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x458bb4"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x458bb8"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9866080,
+          "source": "0x458bc0"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x458bc8"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 8,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SetCameraTarget>()",
+      "factory": "0x458b00",
+      "original_size": 16,
+      "constructed_hex": "308b960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x458b24"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x458b28"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9866032,
+          "source": "0x458b30"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x458b38"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 10,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_StartDialog>()",
+      "factory": "0x458a70",
+      "original_size": 16,
+      "constructed_hex": "008b960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x458a94"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x458a98"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9865984,
+          "source": "0x458aa0"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x458aa8"
+        }
+      ],
+      "Init": "0x459034",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 12,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_WaitDialog>()",
+      "factory": "0x4589e0",
+      "original_size": 16,
+      "constructed_hex": "d08a960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x458a04"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x458a08"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9865936,
+          "source": "0x458a10"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x458a18"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 13,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_PlaySound>()",
+      "factory": "0x458998",
+      "original_size": 16,
+      "constructed_hex": "b88a960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x4589bc"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x4589c0"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9865912,
+          "source": "0x4589c8"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x4589d0"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 14,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_StopSound>()",
+      "factory": "0x458950",
+      "original_size": 16,
+      "constructed_hex": "a08a960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x458974"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x458978"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9865888,
+          "source": "0x458980"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x458988"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 15,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_PlayLevelMusic>()",
+      "factory": "0x458908",
+      "original_size": 16,
+      "constructed_hex": "888a960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x45892c"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x458930"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9865864,
+          "source": "0x458938"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x458940"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 16,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_EnterSafeZone>()",
+      "factory": "0x4588c0",
+      "original_size": 16,
+      "constructed_hex": "708a960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x4588e4"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x4588e8"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9865840,
+          "source": "0x4588f0"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x4588f8"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 17,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_LeaveSafeZone>()",
+      "factory": "0x458878",
+      "original_size": 16,
+      "constructed_hex": "588a960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x45889c"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x4588a0"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9865816,
+          "source": "0x4588a8"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x4588b0"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 19,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_PlayAnimByName>()",
+      "factory": "0x4587e8",
+      "original_size": 16,
+      "constructed_hex": "288a960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x45880c"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x458810"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9865768,
+          "source": "0x458818"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x458820"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 20,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_PlayEffect>()",
+      "factory": "0x4587a0",
+      "original_size": 16,
+      "constructed_hex": "108a960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x4587c4"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x4587c8"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9865744,
+          "source": "0x4587d0"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x4587d8"
+        }
+      ],
+      "Init": "0x4598b4",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 21,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_StopEffect>()",
+      "factory": "0x458758",
+      "original_size": 16,
+      "constructed_hex": "f889960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x45877c"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x458780"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9865720,
+          "source": "0x458788"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x458790"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 22,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ShowFlash>()",
+      "factory": "0x45870c",
+      "original_size": 20,
+      "constructed_hex": "e089960000a5a5a5ffffffff0000000000000000",
+      "defined_mask": "11111000111111111111",
+      "stores": [
+        {
+          "offset": 16,
+          "width": 4,
+          "value": 0,
+          "source": "0x458730"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x458734"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9865696,
+          "source": "0x45873c"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x458744"
+        },
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x458748"
+        }
+      ],
+      "Init": "0x45983c",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 23,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_HideFlash>()",
+      "factory": "0x4586c0",
+      "original_size": 20,
+      "constructed_hex": "c889960000a5a5a5ffffffff0000000000000000",
+      "defined_mask": "11111000111111111111",
+      "stores": [
+        {
+          "offset": 16,
+          "width": 4,
+          "value": 0,
+          "source": "0x4586e4"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x4586e8"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9865672,
+          "source": "0x4586f0"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x4586f8"
+        },
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x4586fc"
+        }
+      ],
+      "Init": "0x4597e8",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 24,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_LockCharacter>()",
+      "factory": "0x458678",
+      "original_size": 16,
+      "constructed_hex": "b089960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x45869c"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x4586a0"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9865648,
+          "source": "0x4586a8"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x4586b0"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 25,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_UnlockCharacter>()",
+      "factory": "0x458630",
+      "original_size": 16,
+      "constructed_hex": "9889960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x458654"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x458658"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9865624,
+          "source": "0x458660"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x458668"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 26,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_Wait>()",
+      "factory": "0x4585e0",
+      "original_size": 24,
+      "constructed_hex": "8089960000a5a5a5ffffffff000000000000000000000000",
+      "defined_mask": "111110001111111111111111",
+      "stores": [
+        {
+          "offset": 20,
+          "width": 4,
+          "value": 0,
+          "source": "0x458604"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x458608"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9865600,
+          "source": "0x458610"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x458618"
+        },
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x45861c"
+        },
+        {
+          "offset": 16,
+          "width": 4,
+          "value": 0,
+          "source": "0x458620"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 27,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SetFaeryState>()",
+      "factory": "0x458598",
+      "original_size": 16,
+      "constructed_hex": "6889960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x4585bc"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x4585c0"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9865576,
+          "source": "0x4585c8"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x4585d0"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 29,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_PutCharacterInLimbus>()",
+      "factory": "0x458508",
+      "original_size": 16,
+      "constructed_hex": "3889960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x45852c"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x458530"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9865528,
+          "source": "0x458538"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x458540"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 30,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SpawnCharacter>()",
+      "factory": "0x4584c0",
+      "original_size": 16,
+      "constructed_hex": "2089960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x4584e4"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x4584e8"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9865504,
+          "source": "0x4584f0"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x4584f8"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 31,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_PutCharacterInIdle>()",
+      "factory": "0x458478",
+      "original_size": 16,
+      "constructed_hex": "0889960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x45849c"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x4584a0"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9865480,
+          "source": "0x4584a8"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x4584b0"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 32,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_MarkCharacterAsScripted>()",
+      "factory": "0x458430",
+      "original_size": 16,
+      "constructed_hex": "f088960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x458454"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x458458"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9865456,
+          "source": "0x458460"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x458468"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 39,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_StopActor>()",
+      "factory": "0x458238",
+      "original_size": 16,
+      "constructed_hex": "4888960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x45825c"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x458260"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9865288,
+          "source": "0x458268"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x458270"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 40,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_MoveActor>()",
+      "factory": "0x4581e4",
+      "original_size": 28,
+      "constructed_hex": "3088960000a5a5a5ffffffff0000000000a5a5a50000000000a5a5a5",
+      "defined_mask": "1111100011111111100011111000",
+      "stores": [
+        {
+          "offset": 24,
+          "width": 1,
+          "value": 0,
+          "source": "0x458208"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x45820c"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9865264,
+          "source": "0x458214"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x45821c"
+        },
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x458220"
+        },
+        {
+          "offset": 16,
+          "width": 1,
+          "value": 0,
+          "source": "0x458224"
+        },
+        {
+          "offset": 20,
+          "width": 4,
+          "value": 0,
+          "source": "0x458228"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 41,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_LookActor>()",
+      "factory": "0x45819c",
+      "original_size": 16,
+      "constructed_hex": "1888960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x4581c0"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x4581c4"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9865240,
+          "source": "0x4581cc"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x4581d4"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 42,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ShowActor>()",
+      "factory": "0x458154",
+      "original_size": 16,
+      "constructed_hex": "0088960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x458178"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x45817c"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9865216,
+          "source": "0x458184"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x45818c"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 43,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_HideActor>()",
+      "factory": "0x45810c",
+      "original_size": 16,
+      "constructed_hex": "e887960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x458130"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x458134"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9865192,
+          "source": "0x45813c"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x458144"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 44,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_KillActor>()",
+      "factory": "0x4580c4",
+      "original_size": 16,
+      "constructed_hex": "d087960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x4580e8"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x4580ec"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9865168,
+          "source": "0x4580f4"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x4580fc"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 45,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_PlayActorAnim>()",
+      "factory": "0x4595c8",
+      "original_size": 28,
+      "constructed_hex": "b887960000a5a5a5ffffffff000000000000000000000000ffffffff",
+      "defined_mask": "1111100011111111111111111111",
+      "stores": [
+        {
+          "offset": 24,
+          "width": 4,
+          "value": 0,
+          "source": "0x4595f8"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x4595fc"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x459600"
+        },
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x459604"
+        },
+        {
+          "offset": 16,
+          "width": 4,
+          "value": 0,
+          "source": "0x459608"
+        },
+        {
+          "offset": 20,
+          "width": 4,
+          "value": 0,
+          "source": "0x45960c"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9865144,
+          "source": "0x459610"
+        },
+        {
+          "offset": 24,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x33f514"
+        },
+        {
+          "offset": 20,
+          "width": 4,
+          "value": 0,
+          "source": "0x33f518"
+        },
+        {
+          "offset": 16,
+          "width": 4,
+          "value": 0,
+          "source": "0x33f51c"
+        }
+      ],
+      "Init": "0x45a2ec",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 46,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SetActorPosition>()",
+      "factory": "0x45807c",
+      "original_size": 16,
+      "constructed_hex": "a087960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x4580a0"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x4580a4"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9865120,
+          "source": "0x4580ac"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x4580b4"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 51,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_UnEquipHands>()",
+      "factory": "0x457f14",
+      "original_size": 16,
+      "constructed_hex": "2887960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x457f38"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x457f3c"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9865000,
+          "source": "0x457f44"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x457f4c"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 52,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ReEquipHands>()",
+      "factory": "0x457ecc",
+      "original_size": 16,
+      "constructed_hex": "1087960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x457ef0"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x457ef4"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9864976,
+          "source": "0x457efc"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x457f04"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 54,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_OpenDoor>()",
+      "factory": "0x457e34",
+      "original_size": 24,
+      "constructed_hex": "e086960000a5a5a5ffffffff000000000000000000a5a5a5",
+      "defined_mask": "111110001111111111111000",
+      "stores": [
+        {
+          "offset": 20,
+          "width": 1,
+          "value": 0,
+          "source": "0x457e58"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x457e5c"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9864928,
+          "source": "0x457e64"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x457e6c"
+        },
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x457e70"
+        },
+        {
+          "offset": 16,
+          "width": 4,
+          "value": 0,
+          "source": "0x457e74"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 55,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_CloseDoor>()",
+      "factory": "0x457de4",
+      "original_size": 24,
+      "constructed_hex": "c886960000a5a5a5ffffffff000000000000000000a5a5a5",
+      "defined_mask": "111110001111111111111000",
+      "stores": [
+        {
+          "offset": 20,
+          "width": 1,
+          "value": 0,
+          "source": "0x457e08"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x457e0c"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9864904,
+          "source": "0x457e14"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x457e1c"
+        },
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x457e20"
+        },
+        {
+          "offset": 16,
+          "width": 4,
+          "value": 0,
+          "source": "0x457e24"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 63,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_RestartLevel>()",
+      "factory": "0x457b94",
+      "original_size": 16,
+      "constructed_hex": "0886960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x457bb8"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x457bbc"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9864712,
+          "source": "0x457bc4"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x457bcc"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 68,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ShowTrophies>()",
+      "factory": "0x457a2c",
+      "original_size": 16,
+      "constructed_hex": "9085960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x457a50"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x457a54"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9864592,
+          "source": "0x457a5c"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x457a64"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 69,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SaveGame>()",
+      "factory": "0x4579e4",
+      "original_size": 16,
+      "constructed_hex": "7885960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x457a08"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x457a0c"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9864568,
+          "source": "0x457a14"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x457a1c"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 70,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_BlockSaveGame>()",
+      "factory": "0x45799c",
+      "original_size": 16,
+      "constructed_hex": "6085960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x4579c0"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x4579c4"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9864544,
+          "source": "0x4579cc"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x4579d4"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 77,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_LockTutorial>()",
+      "factory": "0x4577a4",
+      "original_size": 16,
+      "constructed_hex": "b884960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x4577c8"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x4577cc"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9864376,
+          "source": "0x4577d4"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x4577dc"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 78,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_DoTutorial>()",
+      "factory": "0x45775c",
+      "original_size": 16,
+      "constructed_hex": "a084960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x457780"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x457784"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9864352,
+          "source": "0x45778c"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x457794"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    },
+    {
+      "kind": 79,
+      "class": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_FlushMessages>()",
+      "factory": "0x457714",
+      "original_size": 16,
+      "constructed_hex": "7084960000a5a5a5ffffffff00000000",
+      "defined_mask": "1111100011111111",
+      "stores": [
+        {
+          "offset": 12,
+          "width": 4,
+          "value": 0,
+          "source": "0x457738"
+        },
+        {
+          "offset": 4,
+          "width": 1,
+          "value": 0,
+          "source": "0x45773c"
+        },
+        {
+          "offset": 0,
+          "width": 4,
+          "value": 9864304,
+          "source": "0x457744"
+        },
+        {
+          "offset": 8,
+          "width": 4,
+          "value": 4294967295,
+          "source": "0x45774c"
+        }
+      ],
+      "Init": "0x455628",
+      "C1_only_no_Init": true,
+      "allocator_delivery_fixture": true
+    }
+  ]
+}

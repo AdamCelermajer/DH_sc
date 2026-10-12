@@ -1,0 +1,44 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "validation": "PASS",
+    "checks": 3729,
+    "record_comparisons": 208,
+    "list_comparisons": 100,
+    "table_checks": 33,
+    "atomic_guards": 1086,
+    "retained_after_owner_inputs_destroyed": true,
+    "actual_default_five_null_scripts": true
+  },
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "findings": 0
+  },
+  "source_sha256": {
+    "port/game-data/faery_tables.hpp": "b1c8cd5f5ac736f10e7ae09765bb0e567098d32ef74338ec5c0fca64c8cd779c",
+    "port/game-data/faery_tables.cpp": "ac646932288e65764ba7f66fe352966de734c56f6737df5f7bc18b47d91b1a79",
+    "port/game-data/tests/faery_tables.cpp": "fc0085272959206a6e701acf5daab1e47c815cfc4f9ca5e5a180981b06d1370f"
+  },
+  "executable_sha256": "ad16bbf23a09c4b885b9fcb4fc5ec81f8cc87974f4ea22bf8c069c5bf873f277",
+  "input_sha256": {
+    "port/level-world/reference/character-skills/faery-fixtures.bin": "9e2f8709603a85f4267e22b4efbdab50923b2a69f1601348d5422a1a5a63356b",
+    ".local-inputs/character-skills/faeries_pyarray.bin": "52fc30b0070f7ef2ed559bcf610997ac219342c2f6aabd461566c034d75aab9a",
+    ".local-inputs/character-skills/faeries_pyarraynames.bin": "ef422b17f75405685d3447b5717610a070380aecf744a3f861edb8c3948fdcff",
+    ".local-inputs/character-skills/faeries_pystructnames.bin": "f2f2c5dd7fb58074ddf4733a82bc02eb789463399072beb9c8877483b4828b7b"
+  },
+  "runner_sha256": "3e0aaf3f2a477f76b9911db5fbbb51a40ac161ce2ad1119a54dca0648b41707b",
+  "command": [
+    "wsl.exe",
+    "--",
+    "env",
+    "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+    "UBSAN_OPTIONS=halt_on_error=1",
+    ".local-inputs/character-skills/faery-audit",
+    "port/level-world/reference/character-skills/faery-fixtures.bin",
+    ".local-inputs/character-skills/faeries_pyarray.bin",
+    ".local-inputs/character-skills/faeries_pyarraynames.bin",
+    ".local-inputs/character-skills/faeries_pystructnames.bin"
+  ],
+  "scope": "Owned original-format Faery/List backing and reader gold under sanitizers; source engine allocation/string services remain explicit in original reader corpus."
+}

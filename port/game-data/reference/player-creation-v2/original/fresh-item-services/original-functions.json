@@ -1,0 +1,65 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6Random9GetRandomEib.clone.1",
+      "elf_address": "0x401afc",
+      "size": 148,
+      "sha256": "c9a2f24f7c691def06040a7dab766218420d67fe8ce514386961e4a9e33d0c86"
+    },
+    {
+      "original_symbol": "_ZNK9Character16GetCharSkillListEv",
+      "elf_address": "0x3bc5fc",
+      "size": 48,
+      "sha256": "7711762aa425c1b5e34dd0b9ce1f2e0d9316ef3d7c0c7ad43a51b30e0dcd9210"
+    },
+    {
+      "original_symbol": "_ZN12ItemInstance6SetQtyEi",
+      "elf_address": "0x3fa0e4",
+      "size": 152,
+      "sha256": "9296efe8b2004e4e9e1927cc4ff4c2d3e3a80d57f676093e325e25afe532f99b"
+    },
+    {
+      "original_symbol": "_ZNK9Character16IsSkillAvailableEi",
+      "elf_address": "0x3bca50",
+      "size": 52,
+      "sha256": "d70c8e494b0a1017bc05a3c207245e4aa109aa0ca102aeb78ea3fdbb54cf55ad"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory16IsItemEquippableEj",
+      "elf_address": "0x3fdeec",
+      "size": 180,
+      "sha256": "b204f34f6f818177acbef9167f1adb4d2f97e6e0a61add8e8fc7e90375639309"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory18_AddLootItemPowersEPKN7Structs9LootEntryEP12ItemInstanceiii",
+      "elf_address": "0x403310",
+      "size": 1680,
+      "sha256": "1839fe0e454f14f98ae9e60a7d8bcf0295a7d393df5a2204c362191bd75b419e"
+    },
+    {
+      "original_symbol": "_ZN9Character13EquipItemAutoEj",
+      "elf_address": "0x3a9fa8",
+      "size": 52,
+      "sha256": "f28e301b294aba0d3bb85e6a14c8d1d68d0be46f2839579911539ef8921b78b9"
+    },
+    {
+      "original_symbol": "_ZN12ItemInstanceC1Eij",
+      "elf_address": "0x3fc26c",
+      "size": 372,
+      "sha256": "ec2a17d01d6d6619865d181c05c5374c3dd83aebaeac635ae1013bc236f63f52"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory14_GetRandomItemERKN7Structs17ItemListEntryListE",
+      "elf_address": "0x401dbc",
+      "size": 380,
+      "sha256": "b42cba6619e87b2a79fb81b58e463388d3b01f34bacccf2e76e625308b8d3232"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory16_AddItemInstanceEP12ItemInstancebb",
+      "elf_address": "0x3ff5d4",
+      "size": 644,
+      "sha256": "4cbfefd1a8147801fe15f33419feb63e0c4c2185f630440de9ae4333e09c4e8d"
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character17SG_GetPlayerLevelEv",
+      "elf_address": "0x3bb828",
+      "size": 24,
+      "sha256": "4a8d1c4a21a7b7731ea86bdf389d4c4602d0bd7704447cd8fb7d7b4b76c0e51f"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager16GetHostingPlayerEv",
+      "elf_address": "0x36e09c",
+      "size": 112,
+      "sha256": "e00e77f9a58281185b7840208afbc95fb217efbdd0201f57ab830829b2da9be1"
+    },
+    {
+      "original_symbol": "_ZNK11Application15GetCurrentLevelEv",
+      "elf_address": "0x31f594",
+      "size": 32,
+      "sha256": "f3e5c31f7fb016c77dceb919b0c36b176f1599a562552770adbd2506651391c1"
+    },
+    {
+      "original_symbol": "_ZN9Character17SG_SetPlayerLevelEi",
+      "elf_address": "0x3bb840",
+      "size": 20,
+      "sha256": "74e1314c792bb6f25b38fa7ae38453fc13a9613e5ea55b9147be4f86dee75a9a"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame17__SavePlayerLevelEP11IStreamBasePv",
+      "elf_address": "0x468930",
+      "size": 8,
+      "sha256": "89db028713d37fe13e16d9775053cf082af4d30f5d949b77a04925b1e10cc9df"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame17__LoadPlayerLevelEP11IStreamBasePv",
+      "elf_address": "0x4689a0",
+      "size": 8,
+      "sha256": "9f5364742ddf2fce679aa7cfc6caaf0d1662df485f98fb42cbdc963568cb0416"
+    },
+    {
+      "original_symbol": "_ZNK3sfc6script3lua5Value9getNumberEv",
+      "elf_address": "0x31bbf0",
+      "size": 144,
+      "sha256": "5d9d11729a2e880bfe8a07d2cdd890279798aaea748b6047d799be79e1b0c8de"
+    }
+  ]
+}

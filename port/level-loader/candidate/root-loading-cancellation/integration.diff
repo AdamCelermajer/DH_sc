@@ -1,0 +1,83 @@
+--- a/port/level-loader/level_source_loading_update_v46.hpp
++++ b/port/level-loader/level_source_loading_update_v46.hpp
+@@ -21,6 +21,7 @@
+  std::shared_ptr<CanonicalLevelContextV1> level_;
+  std::shared_ptr<SourceLoadingV43> source_;
+  std::unique_ptr<LevelLoadingUpdateV46<CanonicalLevelContextV1>> update_;
++ bool cancel_requested_{};std::string cancel_error_;
+ public:
+  static bool create(std::shared_ptr<CanonicalLevelContextV1> level,SourceLoadingInputsV43 in,SourceLoadProcessPrefixV46 prefix,std::unique_ptr<LevelSourceLoadingUpdateV46>& out,std::string& error){
+   LifecycleBorrowV36 actual;if(!borrow_lifecycle_fields_v36(level,actual,error))return false;
+@@ -48,8 +49,22 @@
+   *bridge_slot=update.get();
+   auto next=std::make_unique<LevelSourceLoadingUpdateV46>();next->level_=std::move(level);next->source_=std::move(source);next->update_=std::move(update);out=std::move(next);error.clear();return true;
+  }
+- LevelLoadingUpdateResultV46 update(const std::shared_ptr<CanonicalLevelContextV1>& level,bool force){return update_->update(level,force);}
+- const std::string& error()const noexcept{return update_->error();}
++ // Cancellation is a separate adapter operation; it never invokes original
++ // loading/gameplay Update, its per-frame prefix, or the GS/Menu frame.
++ void request_cancel()noexcept{cancel_requested_=true;source_->request_cancel();}
++ bool cancellation_requested()const noexcept{return cancel_requested_;}
++ LifecycleStatusV36 drain_cancel(std::string& error){
++  if(!cancel_requested_){error="Request loader cancellation before draining teardown";return LifecycleStatusV36::failed;}
++  const auto status=source_->tick();
++  if(status==LifecycleStatusV36::failed){cancel_error_=source_->diagnostics().error;error=cancel_error_;return status;}
++  if(status!=LifecycleStatusV36::cancelling&&status!=LifecycleStatusV36::cancelled){cancel_error_="Cancellation drain returned a non-teardown lifecycle state";error=cancel_error_;return LifecycleStatusV36::failed;}
++  cancel_error_.clear();error.clear();return status;
++ }
++ LevelLoadingUpdateResultV46 update(const std::shared_ptr<CanonicalLevelContextV1>& level,bool force){
++  if(cancel_requested_){cancel_error_="Loading/gameplay Update stopped for loader cancellation";return LevelLoadingUpdateResultV46::failed;}
++  return update_->update(level,force);
++ }
++ const std::string& error()const noexcept{return cancel_error_.empty()?update_->error():cancel_error_;}
+  const std::string& required_service()const noexcept{return update_->required_service();}
+  const LifecycleDiagnosticsV36& diagnostics()const noexcept{return source_->diagnostics();}
+ };
+--- a/port/level-loader/native_gslevel_loading_connection_v49.hpp
++++ b/port/level-loader/native_gslevel_loading_connection_v49.hpp
+@@ -39,8 +39,16 @@
+   next->loading_=std::move(retained);next->frame_=std::move(frame);
+   out=std::move(next);error.clear();return true;
+  }
+- GSLevelUpdateResultV44 tick(){return frame_->tick();}
+- const std::string& error()const noexcept{return frame_->error();}
++ // Owner stops normal frames, drains real loader cleanup, then releases this
++ // sibling connection before destroying/unpublishing its retained GS owner.
++ void request_cancel()noexcept{loading_->request_cancel();}
++ bool cancellation_requested()const noexcept{return loading_->cancellation_requested();}
++ LifecycleStatusV36 drain_cancel(std::string& error){return loading_->drain_cancel(error);}
++ GSLevelUpdateResultV44 tick(){
++  if(cancellation_requested())return GSLevelUpdateResultV44::failed;
++  return frame_->tick();
++ }
++ const std::string& error()const noexcept{return cancellation_requested()?loading_->error():frame_->error();}
+  const std::string& required_service()const noexcept{return frame_->required_service();}
+  const LifecycleDiagnosticsV36& loading_diagnostics()const noexcept{return loading_->diagnostics();}
+ };
+--- a/port/level-loader/native_root_loading_connection_v50.hpp
++++ b/port/level-loader/native_root_loading_connection_v50.hpp
+@@ -102,8 +102,14 @@
+   next->level_=level;next->connected_=std::move(connection);
+   out=std::move(next);error.clear();return true;
+  }
++ // Teardown does not require the current GS/global publication to remain:
++ // the SAME retained Level/source owner is pinned by the connection. Keep the
++ // connection through failed cleanup; request_cancel enables an explicit retry.
++ void request_cancel()noexcept{connected_->request_cancel();}
++ bool cancellation_requested()const noexcept{return connected_->cancellation_requested();}
++ LifecycleStatusV36 drain_cancel(std::string& error){return connected_->drain_cancel(error);}
+  GSLevelUpdateResultV44 tick(){
+-  if(failed_)return GSLevelUpdateResultV44::failed;
++  if(cancellation_requested()||failed_)return GSLevelUpdateResultV44::failed;
+   if(!current_lifetime())return GSLevelUpdateResultV44::failed;
+   const auto result=connected_->tick();
+   // Preserve a source failure's first diagnostic. Otherwise reject callback
+@@ -112,7 +118,7 @@
+   if(!current_lifetime())return GSLevelUpdateResultV44::failed;
+   return result;
+  }
+- const std::string& error()const noexcept{return failed_?lifetime_error_:connected_->error();}
++ const std::string& error()const noexcept{return cancellation_requested()?connected_->error():(failed_?lifetime_error_:connected_->error());}
+  const std::string& required_service()const noexcept{
+   static const std::string lifetime="SAME root GS/current Level lifetime";
+   return failed_?lifetime:connected_->required_service();

@@ -1,0 +1,24 @@
+--- a/port/android-native/app/src/main/cpp/renderer_campaign_noncharacter_v69.inc
++++ b/port/android-native/app/src/main/cpp/renderer_campaign_noncharacter_v69.inc
+@@ -551,6 +551,21 @@
+  if(admit_destructible)classes.containers.admit_destructible=[weak,admit_destructible](const auto& scope,const auto& q,const auto& actual,std::string& e){auto self=weak.lock();if(!self||!admit_destructible(scope,q,actual,e)||!self->current(e))return false;
+   std::weak_ptr<dh2::world::CanonicalDestructibleContainerV16> receiver=actual;
+   self->borrows.push_back([weak,receiver](auto& pin,auto*& base,std::string& e){auto self=weak.lock();auto r=receiver.lock();if(!self||!r||!self->current(e))return false;pin=r;base=&r->base();return true;});return true;};
++ // Same independent V69 authority required by CatalogEnvironment exact-owner
++ // admission. Clone the service packet only; names/nodes/native owners remain
++ // SAME. All reached engine callbacks borrow V69 self weakly across delivery.
++ if(classes.lights){
++  auto lights=std::make_shared<dh2::loader::LightEnvironmentLeavesV67>(*classes.lights);lights->owner=self;
++  auto guard_light=[weak](auto original){return [weak,original=std::move(original)](auto&&... args)->bool{
++   std::string* error{};auto locate=[&](auto& value){if constexpr(std::is_same_v<decltype(value),std::string&>)error=&value;};(locate(args),...);
++   if(!error)return false;auto owner=weak.lock();if(!owner){*error="Required live SAME V69 light delivery authority";return false;}
++   if(!owner->current(*error)||!original(std::forward<decltype(args)>(args)...))return false;return owner->current(*error);
++  };};
++#define V69_LIGHT_LEAF(field) if(lights->field)lights->field=guard_light(std::move(lights->field))
++  V69_LIGHT_LEAF(validate_current);V69_LIGHT_LEAF(bind_objectbase_dtor);V69_LIGHT_LEAF(first_scene_light);V69_LIGHT_LEAF(construct_light_node);V69_LIGHT_LEAF(attach_root);V69_LIGHT_LEAF(add_automatic);V69_LIGHT_LEAF(borrow_light_parameters);V69_LIGHT_LEAF(debug_switch);V69_LIGHT_LEAF(set_type);V69_LIGHT_LEAF(refresh_attachment);V69_LIGHT_LEAF(retain_release_record);V69_LIGHT_LEAF(release_completed);
++#undef V69_LIGHT_LEAF
++  classes.lights=std::move(lights);
++ }
+  RendererCampaignNonCharacterCompositionV69 prepared;prepared.services=self;
+  if(!dh2::loader::make_source_campaign_noncharacter_factory_v67(actual,self,std::move(classes),self->native.required_types,prepared.catalog,prepared.factory,e,&prepared.owners))return false;
+  bind_campaign_base_admission_v78(weak,prepared.factory);

@@ -1,0 +1,17 @@
+{
+  "status": "SOURCE ADOPTED; native source-stage outcome pending",
+  "recorded_utc": "2026-10-06T14:43:23+00:00",
+  "elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_body_sha256": "f9afd5310f823cb39b052aeb39711f4c9a08bb4934435d5233768b8416515566",
+  "qualified_call_sites": [
+    "0x39f9b0",
+    "0x39fce8"
+  ],
+  "original_function": "0x38ab60 MOV r0,#1; BX LR",
+  "previous_graph_cpp_sha256": "57cb49cacedf05d7379d10e669c2d55f5cd58de4004817117731c7bfb2d6187b",
+  "current_graph_cpp_sha256": "bb61cd6ea189660fec9933d40fa32f5cac2d4c412d3d70e0b5baea97510ff4ea",
+  "authored_condition_evaluation_changed": false,
+  "coherent_files": 745,
+  "shared_root_changed": false,
+  "whole_init_verified": false
+}

@@ -1,0 +1,17 @@
+// Bind actual same Main resource bootstrap/cache/source FS fields and Application
+// cc/d0 + lowercaseA8 into MainLevelRootFilesystemV52; no defaults for absent fields.
+// WorkingDirectory and CFS map are SOURCE static globals, shared across instances;
+// initial map empty/working buffer zero are reconstructed constructor states, not
+// a per-callback fallback. Later original host/map initialization must update SAME
+// source owner. Actual RES_PATH delivery must not use private save files_directory.
+std::shared_ptr<LevelRootFilenameResolverV52> route;
+if(!bind_main_level_root_filename_v52(actual_root_filesystem,route,error))return false;
+inputs.filename_provider=route;
+inputs.resolve_filename=[route](const std::string& source_name,std::string& canonical,std::string& e){
+ return route->resolve(source_name,canonical,nullptr,e);
+};
+// C1 name is actual original LevelList.row.file (SWAMP001_swamp.mlx), NOT the
+// old diagnostic worlds/ prefix. Do not invent worlds->scene namespace translation.
+// Level140 assigned generated stream bypasses filename open in original LoadFile.
+// The generated-stream root parser needs its OWN actual retained stream transport,
+// rather than using this filename resolver on a rule XML and claiming a Level root.

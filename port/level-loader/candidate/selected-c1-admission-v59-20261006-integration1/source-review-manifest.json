@@ -1,0 +1,57 @@
+{
+  "schema": "dh2-selected-c1-admission-v59-optional-integration-source",
+  "status": "SOURCE_REVIEWED_UNCOMPILED",
+  "recorded_utc": "2026-10-06T18:16:51.5406638Z",
+  "selected_manifest_sha256": "5455733504332842ad97c98c5862a00b8cc7292bd463758e5c3b4195168e0c81",
+  "selected_file_count": 772,
+  "selected_context_baseline_sha256": "3db88aacfba913a5e0ed766a8207c76bc3bc526311b31089c853b49864aa01db",
+  "source_hashes": {
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader\\canonical_level_context_v1.cpp": "3db88aacfba913a5e0ed766a8207c76bc3bc526311b31089c853b49864aa01db",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\level_preparation_v1.hpp": "ee184f8b0624bd729cea77d09e14371d596c8ceeaefbc8d228f86efd8cd3a377",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader\\level_constructor_v3.cpp": "039c0c476f29314f7c2f87b04217b4b632575786563167143ad6ea23df00e5c6",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader\\native_level_application_v25.cpp": "dddbdb068f42ab8dc0a45f20c0e80e582c01b8acdc0ebe907d17481076e293fa",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader\\native_gslevel_connection_v26.hpp": "ebfbd9f6e2d5878075da0c075304241fca7b431e5cb8005247df494719adf9dc",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-loader\\gslevel_lifecycle_v2.hpp": "d4b10856113df5b8404f0326367757c0a41f44aa35923e946bf5eb5c1126ed1b",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\level-init-v36\\level-counter-producers-v36-3f3128.asm": "0b284ec141e79cc3c02c8a3dc56087dc66d3ba7ee7d72429053e1a0823f601f3",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\gslevel-lifecycle-v2-d4b10856113d\\port\\level-loader\\reports\\gslevel-lifecycle-v2\\ctor-original.asm": "2ada2e8080cf167026ac5931a7aedcd090047a10545e7ca406955115eda757f3",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\procedural-functions\\003f07f8.asm": "cc74b78da40f15760c98057ff832bd7a4ccfa18c0fa0ae8966645662d93c071c",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\procedural-functions\\00488134.asm": "c2455c4e33421741748c19c9ddcc034bad625562e8e93298eb89fc79659d76ea"
+  },
+  "files": {
+    "canonical_level_context_v1.cpp": "ff00d5a08af914c89b95b81b4b6ee56b8babb7e3190b90cb14cf671e2ad11993",
+    "HANDOFF.md": "b3d813a7dbe4d1ec8fc72e9f7711289fd286f4cff8f0aa33016e767e78005347",
+    "historical-fixture-input-audit.json": "bb9dc109be06e0e72711c57125edf40668503d00acd4dc772f8e797a005ff866",
+    "selected_c1_admission_v59_test.cpp": "5eed72380a50e044e3edb85db94ca9cf12492e6503e3feb7b612e49e4e2fe0fd",
+    "selected_c1_admission_v59.hpp": "c00fda349da238cdfb6102ad8f2d32d04b088b06adb46aa07e05a7602a37e215",
+    "selected-context-admission.diff": "4cb547b1c7ba856225bb522d39b6d3a8411a4c9ed08252f3c8f0642c98ad3fb7"
+  },
+  "production_files": [
+    "canonical_level_context_v1.cpp two additive lines",
+    "selected_c1_admission_v59.hpp new header"
+  ],
+  "native_C1_GS_request_API_changed": false,
+  "zero_seed": "0==0 accepted/forwarded unchanged;0/7 rejected; no reroll, wildcard, auto-selection or seed mutation introduced",
+  "source_guard_placement": "after existing owner replay guard, before borrow/make_unique/constructor field mutation or any source helper",
+  "pending_tests": [
+    "fixed SWAMP41",
+    "procedural SWAMP_0242",
+    "same shared asset lease and distinct IDs",
+    "null name",
+    "request identity mismatch",
+    "input seed mismatch",
+    "zero forwarded unchanged",
+    "original first substring precedence",
+    "completed C1 and out preserved"
+  ],
+  "fixture_audit_default0_ctor7_files": 16,
+  "historical_receipts_modified": false,
+  "existing_tests_modified": false,
+  "tests_executed": false,
+  "compiled": false,
+  "main_eval_called": false,
+  "new_campaign_save_world_owners": 0,
+  "native_jobs_launched": 0,
+  "shared_mutated": false,
+  "selected_vendor_mutated": false,
+  "device_mutated": false
+}

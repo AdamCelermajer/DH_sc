@@ -1,0 +1,71 @@
+{
+  "validation": "PASS original unconditional C2 producer prefix",
+  "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "GameObject_C2": "0x38c398",
+  "producer_prefix": [
+    "0x38c488",
+    "0x38c4ac"
+  ],
+  "prefix_sha256": "159a2894020a35d50de22e52a533ab9a100ba10c502b99dbfcf4991fd204b551",
+  "cases": [
+    {
+      "poison": 0,
+      "cached_roll270": -1,
+      "probability274": 100,
+      "writes": [
+        {
+          "pc": "0x38c494",
+          "offset": "0x274",
+          "value": "0x64",
+          "bytes": 4
+        },
+        {
+          "pc": "0x38c4a8",
+          "offset": "0x270",
+          "value": "0xffffffff",
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "poison": 165,
+      "cached_roll270": -1,
+      "probability274": 100,
+      "writes": [
+        {
+          "pc": "0x38c494",
+          "offset": "0x274",
+          "value": "0x64",
+          "bytes": 4
+        },
+        {
+          "pc": "0x38c4a8",
+          "offset": "0x270",
+          "value": "0xffffffff",
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "poison": 127,
+      "cached_roll270": -1,
+      "probability274": 100,
+      "writes": [
+        {
+          "pc": "0x38c494",
+          "offset": "0x274",
+          "value": "0x64",
+          "bytes": 4
+        },
+        {
+          "pc": "0x38c4a8",
+          "offset": "0x270",
+          "value": "0xffffffff",
+          "bytes": 4
+        }
+      ]
+    }
+  ],
+  "source_register_inputs": "r4=this established38c3a4; r5=0 established38c3bc; prefix writes r7=-1 itself; does not depend on GO_ID",
+  "scope": "Exact original unconditional GameObject C2 cache270=-1 and probability274=100 stores across3poisons. Source register authority explicit. This is a producer prefix, not whole C1/Character InitPost. Existing whole GameObject C2 audit covers GO7/20; standalone GO0 whole constructor additionally reaches uninitialized external array/helper domain and is not claimed here."
+}

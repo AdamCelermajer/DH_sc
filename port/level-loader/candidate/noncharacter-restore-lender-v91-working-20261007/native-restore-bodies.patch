@@ -1,0 +1,184 @@
+--- a/port/level-world/canonical_door_v27.hpp
++++ b/port/level-world/canonical_door_v27.hpp
+@@ -76,6 +76,7 @@
+  bool destroyed_{};
+  bool startup_spawn_gate_v77(bool&,std::string&);
+  bool startup_state_v77(bool opened,std::string&);
++ bool source_transition_v91(bool opened,bool skip_animation,std::string&);
+ public:
+  CanonicalDoorV27(std::shared_ptr<void>,actor::RuntimeState&,GameObjectInitializationServicesV1,DoorServicesV27);
+  CanonicalDoorV27(const CanonicalDoorV27&)=delete;
+@@ -102,6 +103,8 @@
+  DoorNetworkOwnerV27& source_network(unsigned i){return network_.at(i);}
+  bool init_post(std::string&);
+  bool init_final(std::string&);
++ bool source_opened_v91(bool skip_animation,std::string& e){return source_transition_v91(true,skip_animation,e);}
++ bool source_closed_v91(bool skip_animation,std::string& e){return source_transition_v91(false,skip_animation,e);}
+  bool set_position(const std::array<float,3>&,bool,std::string&);
+  bool destroy(std::string&);
+  static constexpr bool is_updatable()noexcept{return true;}
+--- a/port/level-world/canonical_door_v27.cpp
++++ b/port/level-world/canonical_door_v27.cpp
+@@ -96,11 +96,13 @@
+  row=door_row_v77(second,*table_id3a0_,e);if(!row)return false;
+  return sound.load_sound(row->sound_c,e); // sourcec second, even -1 UID
+ }
+-bool CanonicalDoorV27::startup_state_v77(bool opened,std::string& e){
++bool CanonicalDoorV27::startup_state_v77(bool opened,std::string& e){return source_transition_v91(opened,false,e);}
++bool CanonicalDoorV27::source_transition_v91(bool opened,bool skip_animation,std::string& e){
++ if(destroyed_){e="Door transition cannot use a native destruction prefix";return false;}
+  const auto& leaves=services_.startup;const auto* visual_slot=base_.pointer(0x2d8);const auto* physical_slot=base_.pointer(0x2dc);
+  if(!visual_slot||!physical_slot)return required_door_v77("SAME native visual/physical slots",e);
+  const auto visual=*visual_slot;state3a8_=opened?1:0;const auto physical=*physical_slot;
+- if(visual){if(!leaves.owner||!leaves.play_idle_animation)return required_door_v77("actual IdleOpened/IdleClosed controller",e);
++ if(visual&&!skip_animation){if(!leaves.owner||!leaves.play_idle_animation)return required_door_v77("actual IdleOpened/IdleClosed controller",e);
+   if(!leaves.play_idle_animation(*this,visual,opened?"IdleOpened":"IdleClosed",true,false,false,e))return false;
+  }
+  if(physical){if(!leaves.owner||!leaves.physical_filter)return required_door_v77("captured physical enable/disable filter",e);
+--- a/port/level-world/openable_container_owner_v1.hpp
++++ b/port/level-world/openable_container_owner_v1.hpp
+@@ -69,6 +69,10 @@
+     bool do_open(std::string&);
+     bool animation_event(const char*,std::string&);
+     bool animation_finished(bool timeline_active,std::string&);
++    // Same source Container/derived receiver, not a restoration field copy.
++    bool source_set_state_v91(std::uint8_t value,std::string& e){return set_state(value,e);}
++    bool source_keep_physics_v91(bool&,std::string&);
++    bool source_detach_physical_v91(std::string&);
+     bool is_locked() const;
+     bool is_interactive(bool disabled81) const;
+     static constexpr std::int32_t loot_fixed_num_powers() noexcept{return -1;} // source39f35c
+--- a/port/level-world/openable_container_owner_v1.cpp
++++ b/port/level-world/openable_container_owner_v1.cpp
+@@ -49,6 +49,15 @@
+     // Source SetState dereferences the actual visual scene. Mutation precedes state store.
+     if(!call(s_.scene_flags,"Container::SetState scene+11c",e,state==3?0x400u:0u,state==3?0u:0x400u))return false;
+     f_.state394=state;return true;
++}
++bool OpenableContainerOwnerV1::source_keep_physics_v91(bool& out,std::string& e){
++ // OpenableContainer3a177c fresh name lookup, not stored data374.
++ OpenableContainerRowV1 actual;std::int32_t id=-1;
++ if(!call(s_.resolve_row,"SAME original Arrays OpenableContainers KeepPhysics",e,f_.data_desc,id,actual))return false;
++ out=id!=-1&&actual.keep_physics;e.clear();return true;
++}
++bool OpenableContainerOwnerV1::source_detach_physical_v91(std::string& e){
++ return call(s_.detach_physical,"SAME original SetPhysicalObject(NULL,false)",e);
+ }
+ bool OpenableContainerOwnerV1::is_locked() const {
+     return std::uint32_t(f_.state394)-3u>1u && f_.key_id710!=-1;
+--- a/port/level-world/canonical_destructible_container_v16.hpp
++++ b/port/level-world/canonical_destructible_container_v16.hpp
+@@ -57,6 +57,9 @@
+  static constexpr bool is_animated()noexcept{return true;}
+  static constexpr bool is_updatable()noexcept{return false;}
+  static constexpr std::int32_t interaction_type()noexcept{return 8;}
++ bool source_set_state_v91(std::uint8_t value,std::string& e){return set_state(value,e);}
++ bool source_keep_physics_v91(bool&,std::string&);
++ bool source_detach_physical_v91(std::string&);
+  bool get_data_id(std::int32_t& out,std::string& e)const{if(!services_.table)return missing("SAME Arrays DestructibleContainers",e);out=data_id();return true;}
+  bool init_post(std::string&);bool init_final(std::string&);bool interact(std::uintptr_t,std::string&);bool animation_event(const char*,std::string&);bool animation_finished(bool,std::string&);bool spawn(std::string&);bool destroy(std::string&);bool set_position(const std::array<float,3>&,bool,std::string&);
+  // Additive V21 callback adapter: qualified Container callback before the
+--- a/port/level-world/canonical_destructible_container_v16.cpp
++++ b/port/level-world/canonical_destructible_container_v16.cpp
+@@ -13,6 +13,14 @@
+ bool CanonicalDestructibleContainerV16::write_string(std::uint32_t o,const std::string& v,std::string& e){if(o==0x378){data_desc378_=v;return true;}auto a=base_.properties().fields;return a.write_string(a.context,o,v,e);}
+ const DestructibleContainerRowV16* CanonicalDestructibleContainerV16::current_row()const{return services_.table?services_.table->row(data_id()):nullptr;}
+ bool CanonicalDestructibleContainerV16::set_state(std::int32_t v,std::string& e){if(!*base_.pointer(0x2d8))return missing("source SetState requires actual visual/root",e);if(!required(services_.common.scene_flags,"Container SetState39f3cc",e,v==3?0x400u:0u,v==3?0u:0x400u))return false;state394_=v;return true;}
++bool CanonicalDestructibleContainerV16::source_keep_physics_v91(bool& out,std::string& e){
++ // Destructible3a10f8 resolves actual CString378/38c at every call.
++ if(!services_.table)return missing("SAME Arrays DestructibleContainers KeepPhysics",e);
++ const auto* row=current_row();out=row&&row->keep_physics20;e.clear();return true;
++}
++bool CanonicalDestructibleContainerV16::source_detach_physical_v91(std::string& e){
++ return required(services_.common.detach_physical,"SAME SetPhysicalObject(NULL,false)",e);
++}
+ bool CanonicalDestructibleContainerV16::container_init_post(std::string& e){
+  std::int32_t roll{},prob{};if(!required(services_.common.spawn_roll_and_probability,"CheckSpawnProbability",e,roll,prob))return false;if(roll>=prob)return true;
+  if(!services_.table)return missing("SAME Arrays DestructibleContainers",e);data374_=data_id();data_produced_=true;auto* row=services_.table->row(data374_);
+--- a/port/level-world/canonical_trigger_object_v28.hpp
++++ b/port/level-world/canonical_trigger_object_v28.hpp
+@@ -9,8 +9,22 @@
+ #include "condition_data_init_v3.hpp"
+ #include "../game-data/game_object_dictionary_v11.hpp"
+ #include <script_manager_owner_v52.hpp>
++namespace dh2::data {class PlayerSavegameV1;}
+ namespace dh2::world {
+ class CanonicalTriggerObjectV28;
++struct TriggerObjectLocalPlayerV91 {
++ std::shared_ptr<void> receiver;std::uintptr_t identity{};const std::uintptr_t* character660{};
++};
++struct TriggerObjectSavedCharacterV91 {
++ std::shared_ptr<void> receiver;std::uintptr_t identity{};
++ const std::uintptr_t* save14e8{};std::shared_ptr<data::PlayerSavegameV1> save;
++};
++struct TriggerObjectRestoreServicesV91 {
++ std::shared_ptr<void> owner,condition_owner; // genuine independent native authorities
++ std::function<bool(std::int32_t,bool,TriggerObjectLocalPlayerV91&,std::string&)> local_player;
++ std::function<bool(std::uintptr_t,TriggerObjectSavedCharacterV91&,std::string&)> character_save;
++ std::function<bool(std::uintptr_t,bool&,std::string&)> evaluate_condition;
++};
+ // Only consumed fields from the SAME decoded source24-byte TriggerObjects
+ // row. Its native CStringc is not Door's signed soundc field or an ARM pointer.
+ struct TriggerObjectDeclarationRowV78 {std::int32_t raw4{};std::string external_script_c;std::int32_t sound10{},visual14{};};
+@@ -95,6 +109,8 @@
+  TriggerNetworkOwnerV22& source_network(unsigned index){return network_.at(index);}
+  bool init_post(std::string&);bool init_final(std::string&);bool update(std::string&);
+  bool interact(std::uintptr_t,std::string&);
++ bool source_test_interactive_condition_v91(const TriggerObjectRestoreServicesV91&,std::string&);
++ bool source_can_activate_v91(bool&,std::string&);
+  bool set_position(const std::array<float,3>&,bool,std::string&);
+  bool destroy(std::string&);
+  static CanonicalClassReceiverV1 factory_receiver(std::shared_ptr<CanonicalTriggerObjectV28>,std::shared_ptr<const void>);
+--- a/port/level-world/canonical_trigger_object_v28.cpp
++++ b/port/level-world/canonical_trigger_object_v28.cpp
+@@ -1,4 +1,5 @@
+ #include "canonical_trigger_object_v28.hpp"
++#include "../game-data/player_savegame_v1.hpp"
+ #include <algorithm>
+ #include <utility>
+ #include <cstring>
+@@ -118,6 +119,44 @@
+  // second outer roll gate exists in this original class inheritance.
+  bool eligible{};return initialization_.init_final(eligible,e);
+ }
++bool CanonicalTriggerObjectV28::source_can_activate_v91(bool& out,std::string& e){
++ if(destruction_started_){e="Trigger CanActivate cannot reuse native destruction prefix";return false;}
++ // Whole original3987ac: count/activated, timer, enabled8a in source order.
++ if(count3a8_>=0&&count3a8_<=activated3b4_){out=false;e.clear();return true;}
++ if(timer3b8_>0){out=false;e.clear();return true;}
++ const auto* enabled=base_.byte(0x8a);if(!enabled){e="Required SAME Trigger source8a";return false;}
++ out=*enabled!=0;e.clear();return true;
++}
++bool CanonicalTriggerObjectV28::source_test_interactive_condition_v91(const TriggerObjectRestoreServicesV91& s,std::string& e){
++ if(destruction_started_||!s.owner||!s.local_player){e="Required SAME live TriggerObject/player native authority";return false;}
++ TriggerObjectLocalPlayerV91 player;
++ if(!s.local_player(0,true,player,e))return false;
++ if(!player.receiver||!player.identity||!player.character660){e="Original GetLocalPlayer NULL before660 dereference";return false;}
++ const auto id=*player.character660;
++ if(id){TriggerObjectSavedCharacterV91 character;if(!s.character_save||!s.character_save(id,character,e))return false;
++  if(!character.receiver||character.identity!=id||!character.save14e8){e="Required SAME actual local Character14e8";return false;}
++  if(!*character.save14e8){byte784_=0;e.clear();return true;}
++  if(!character.save||*character.save14e8!=reinterpret_cast<std::uintptr_t>(character.save.get())){e="Required positive SAME genuine Save14e8 owner";return false;}
++  if(!character.save->source_quest_sync_ready14_v3()){byte784_=0;e.clear();return true;}
++ }
++ // Character NULL reaches Eval. Compiled NULL skips Eval and takes success.
++ const auto condition=condition788_;
++ if(condition){
++  if(!condition_lease_||!s.condition_owner||condition_lease_.owner_before(s.condition_owner)||s.condition_owner.owner_before(condition_lease_)||!s.evaluate_condition){e="Required SAME captured condition788 arena/Eval";return false;}
++  bool result{};if(!s.evaluate_condition(condition,result,e))return false;
++  if(destruction_started_){e="Native TriggerObject retired during condition evaluation";return false;}
++  if(!result){byte784_=0;e.clear();return true;} // retains373 exactly
++ }
++ byte784_=1; // original399434 BEFORE captured visual/controller call
++ const auto* slot=base_.pointer(0x2d8);if(!slot){e="Required actual TriggerObject visual2d8 slot";return false;}
++ const auto visual=*slot;
++ if(visual){const auto& leaves=services_.startup;
++  if(!leaves.owner||!leaves.play_idle_animation){e="Required SAME native TriggerObject Animator38 play";return false;}
++  if(!leaves.play_idle_animation(*this,visual,"idle",false,0,0,e))return false;
++ }
++ if(destruction_started_){e="Native TriggerObject retired during idle animation";return false;}
++ auto* disabled=base_.byte(0x373);if(!disabled){e="Required SAME TriggerObject373";return false;}*disabled=0;e.clear();return true;
++}
+ bool CanonicalTriggerObjectV28::update(std::string& e){if(destruction_started_){e="TriggerObject update requires an undestroyed source receiver";return false;}if(!services_.whole_update){e="Required actual TriggerObject Update3994a8";return false;}return services_.whole_update(*this,e);}
+ bool CanonicalTriggerObjectV28::interact(std::uintptr_t object,std::string& e){if(destruction_started_){e="TriggerObject interaction requires an undestroyed source receiver";return false;}if(!services_.whole_interact){e="Required actual TriggerObject Interact399af0";return false;}return services_.whole_interact(*this,object,e);}
+ bool CanonicalTriggerObjectV28::set_position(const std::array<float,3>& value,bool destination,std::string& e){if(!initialization_services_.set_position){e="Required SAME TriggerObject SetPosition";return false;}return initialization_services_.set_position(value.data(),destination,e);}

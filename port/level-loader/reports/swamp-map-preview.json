@@ -1,0 +1,131 @@
+{
+  "validation": "PASS",
+  "scope": "Isolated Swamp map mesh/material preview and Android lifecycle checks. Original lights/effects/helper visibility, mobs/chests, gameplay and saves remain unverified.",
+  "serial": "emulator-5590",
+  "avd": "DH2_Loader_API37",
+  "app_id": "local.dh2.loader",
+  "apk_sha256": "e45bf76e36c789e546bf16529a59d6401e340e6062b7c54aaf3d341c4f163acd",
+  "source_sha256": {
+    "port/level-loader/android/loader_preview.cpp": "85b4581309c402458070b70e663677ff6e0b1db86cbdb5422dea6fac85e0c3c4",
+    "port/android-native/app/src/main/java/com/example/dh2/LoaderPreviewActivity.java": "4b4726e22c5dd88eb324005966ef76de30e884eb68aedec8efb2229049230594",
+    "port/android-native/app/src/main/cpp/CMakeLists.txt": "33f00b7921879d4e01cba577c16fa0189d6f17ede50a086e5542f0a1d603ecda",
+    "port/android-native/app/build.gradle.kts": "1206b401fc94683f5f39e858ee44cbde59baf1f381f611d41b3d5578c5e12c4d",
+    "port/android-native/app/src/main/AndroidManifest.xml": "5681d4dd1f3305bf647ca28ee9263b0997d9ddeb244ed09f16f011af0c9edd47",
+    "port/level-loader/tools/audit_preview.py": "9ecda495b8b65a4c6b0be81afee951c7d497ae77f8160627bd4ad68f89c8e06e"
+  },
+  "map_mesh_render_verified": true,
+  "complete_authored_level_verified": false,
+  "runtime_objects_verified": false,
+  "gameplay_verified": false,
+  "full_loader_verified": false,
+  "native_frame_markers": 12,
+  "steps": [
+    {
+      "case": "initial_map",
+      "new_native_frame": true,
+      "screenshot": "swamp-map-overview.png"
+    },
+    {
+      "case": "module_focus",
+      "index": 0,
+      "status": "Module 0 | obj_4of4_brdwalk_sw_00_0 | mobs/chests pending",
+      "screenshot": "swamp-module-0.png"
+    },
+    {
+      "case": "module_focus",
+      "index": 1,
+      "status": "Module 1 | obj_3of4_brdwalk_sw_00_1 | mobs/chests pending",
+      "screenshot": "swamp-module-1.png"
+    },
+    {
+      "case": "module_focus",
+      "index": 2,
+      "status": "Module 2 | obj_1of4_brdwalk_nse_00_2 | mobs/chests pending",
+      "screenshot": "swamp-module-2.png"
+    },
+    {
+      "case": "module_focus",
+      "index": 3,
+      "status": "Module 3 | corner_ruin_ws_00_3 | mobs/chests pending",
+      "screenshot": "swamp-module-3.png"
+    },
+    {
+      "case": "module_focus",
+      "index": 4,
+      "status": "Module 4 | merchantcamp_ruins_swe_00_4 | mobs/chests pending",
+      "screenshot": "swamp-module-4.png"
+    },
+    {
+      "case": "module_focus",
+      "index": 5,
+      "status": "Module 5 | corner_brdwalk_se_00_5 | mobs/chests pending",
+      "screenshot": "swamp-module-5.png"
+    },
+    {
+      "case": "module_focus",
+      "index": 6,
+      "status": "Module 6 | deadend_brdwalk_w_00_7 | mobs/chests pending",
+      "screenshot": "swamp-module-6.png"
+    },
+    {
+      "case": "module_focus",
+      "index": 7,
+      "status": "Module 7 | bossroom_ruins_ns__8 | mobs/chests pending",
+      "screenshot": "swamp-module-7.png"
+    },
+    {
+      "case": "module_focus",
+      "index": 8,
+      "status": "Module 8 | obj_2of4_brdwalk_sw_00_9 | mobs/chests pending",
+      "screenshot": "swamp-module-8.png"
+    },
+    {
+      "case": "reload",
+      "iteration": 0,
+      "new_native_frame": true
+    },
+    {
+      "case": "reload",
+      "iteration": 1,
+      "new_native_frame": true
+    },
+    {
+      "case": "reload",
+      "iteration": 2,
+      "new_native_frame": true
+    },
+    {
+      "case": "missing_definition",
+      "new_native_frame": true,
+      "previous_map_pixels_unchanged": true,
+      "compared_rect": [
+        0,
+        143,
+        2400,
+        891
+      ]
+    },
+    {
+      "case": "home_resume_context_recreation",
+      "new_native_frame": true,
+      "map_pixels_unchanged": true
+    }
+  ],
+  "screenshots": {
+    "swamp-map-failed-load-retained.png": "972c287bf37eaa3fcc12e917ea4b61af111d2cf69e7cf19b6659515ce3172b1d",
+    "swamp-map-overview-zoom.png": "6b14bbb2a967a23b561d888220d70ea33373a7de7343fb86147cfc53c8cc1e54",
+    "swamp-map-overview.png": "92f9e2e4e0009e95aa87544a9c497ab785296cf9052c6c3874e11f207069497c",
+    "swamp-map-reloaded.png": "92f9e2e4e0009e95aa87544a9c497ab785296cf9052c6c3874e11f207069497c",
+    "swamp-map-resumed.png": "21e5f89ebf35a9fd98d6bb6e49dcaf300ae158eaf44b97d614fcb698c1cd09d5",
+    "swamp-module-0.png": "40e3b07317d1e16b1c1bcf294991df09ec11eb9c14ff1b4cf71a2cebb3e5687e",
+    "swamp-module-1.png": "6e435f63e4d1bd86d2976551910423736a5a82643806cb0ed1779c7e20298cac",
+    "swamp-module-2.png": "ad0bd2734303b0a8929ff8b2d9ceafbe2ba7277ed39581b861c78b9ac77b6f98",
+    "swamp-module-3.png": "c2d506c06e52fa9c140617f2dfe53b835893da132178892cd13f7a6d717e8ada",
+    "swamp-module-4.png": "4131a05c9a2f5258b738dfe601533975a4009b0d9599bf987a856a915df02b21",
+    "swamp-module-5.png": "94bb6869dae96dc7c9e930d943a90b59ab63d49402a160899daffaf4e0e24152",
+    "swamp-module-6.png": "908d9b1789d78cbee9f3e63842c0aa27cbbe40a93b14aa66d83f7b7afb5ffe88",
+    "swamp-module-7.png": "ae93a76b17c7793d32aa2570d98a7df1468360f1ff0461b74e871dc794d731d0",
+    "swamp-module-8.png": "b8b7ed548e7f5e6a4952f6ac2a1fe9e6bc0e1a7ca8bb0291f4beb3d244c85870"
+  },
+  "logcat_sha256": "d7459670f9d82d0fd7489263d09cbe56625a2f21f8e8679a48aa51d17017b3c4"
+}

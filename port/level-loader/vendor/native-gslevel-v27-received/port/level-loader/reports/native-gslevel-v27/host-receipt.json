@@ -1,0 +1,153 @@
+{
+  "status": "PASS",
+  "scope": "Actual cache/C1/current storage/Loading composition; explicitly declared Menu and animation-manager deeper fixtures, not live UI or Level.Init acceptance",
+  "receipts": [
+    {
+      "command": [
+        "cmake",
+        "-S",
+        "port/script-runtime",
+        "-B",
+        ".local-inputs/gslevel-v27-script-host",
+        "-DDH2_SCRIPT_SANITIZERS=ON"
+      ],
+      "exit_code": 0,
+      "stdout": "-- The C compiler identification is GNU 15.2.0\n-- The CXX compiler identification is GNU 15.2.0\n-- Detecting C compiler ABI info\n-- Detecting C compiler ABI info - done\n-- Check for working C compiler: /usr/bin/cc - skipped\n-- Detecting C compile features\n-- Detecting C compile features - done\n-- Detecting CXX compiler ABI info\n-- Detecting CXX compiler ABI info - done\n-- Check for working CXX compiler: /usr/bin/c++ - skipped\n-- Detecting CXX compile features\n-- Detecting CXX compile features - done\n-- Configuring done (4.2s)\n-- Generating done (1.6s)\n-- Build files have been written to: /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/gslevel-v27-script-host\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cmake",
+        "--build",
+        ".local-inputs/gslevel-v27-script-host",
+        "--target",
+        "dh2_script_runtime",
+        "--parallel",
+        "2"
+      ],
+      "exit_code": 0,
+      "stdout": "[  6%] Building C object CMakeFiles/dh2_script_runtime.dir/script_runtime_return_v3.c.o\n[  6%] Building C object CMakeFiles/dh2_script_runtime.dir/script_game_bindings.c.o\n[  9%] Building C object CMakeFiles/dh2_script_runtime.dir/lua/lapi.c.o\n[ 12%] Building C object CMakeFiles/dh2_script_runtime.dir/lua/lcode.c.o\n[ 15%] Building C object CMakeFiles/dh2_script_runtime.dir/lua/ldebug.c.o\n[ 18%] Building C object CMakeFiles/dh2_script_runtime.dir/lua/ldo.c.o\n[ 21%] Building C object CMakeFiles/dh2_script_runtime.dir/lua/ldump.c.o\n[ 24%] Building C object CMakeFiles/dh2_script_runtime.dir/lua/lfunc.c.o\n[ 27%] Building C object CMakeFiles/dh2_script_runtime.dir/lua/lgc.c.o\n[ 30%] Building C object CMakeFiles/dh2_script_runtime.dir/lua/llex.c.o\n[ 33%] Building C object CMakeFiles/dh2_script_runtime.dir/lua/lmem.c.o\n[ 36%] Building C object CMakeFiles/dh2_script_runtime.dir/lua/lobject.c.o\n[ 39%] Building C object CMakeFiles/dh2_script_runtime.dir/lua/lopcodes.c.o\n[ 42%] Building C object CMakeFiles/dh2_script_runtime.dir/lua/lparser.c.o\n[ 45%] Building C object CMakeFiles/dh2_script_runtime.dir/lua/lstate.c.o\n[ 48%] Building C object CMakeFiles/dh2_script_runtime.dir/lua/lstring.c.o\n[ 51%] Building C object CMakeFiles/dh2_script_runtime.dir/lua/ltable.c.o\n[ 54%] Building C object CMakeFiles/dh2_script_runtime.dir/lua/ltm.c.o\n[ 57%] Building C object CMakeFiles/dh2_script_runtime.dir/lua/lundump.c.o\n[ 60%] Building C object CMakeFiles/dh2_script_runtime.dir/lua/lvm.c.o\n[ 63%] Building C object CMakeFiles/dh2_script_runtime.dir/lua/lzio.c.o\n[ 66%] Building C object CMakeFiles/dh2_script_runtime.dir/lua/lauxlib.c.o\n[ 69%] Building C object CMakeFiles/dh2_script_runtime.dir/lua/lbaselib.c.o\n[ 72%] Building C object CMakeFiles/dh2_script_runtime.dir/lua/ltablib.c.o\n[ 75%] Building C object CMakeFiles/dh2_script_runtime.dir/lua/lstrlib.c.o\n[ 78%] Building C object CMakeFiles/dh2_script_runtime.dir/lua/lmathlib.c.o\n[ 81%] Building CXX object CMakeFiles/dh2_script_runtime.dir/script_function_alias.cpp.o\n[ 84%] Building C object CMakeFiles/dh2_script_runtime.dir/script_scalar_bindings.c.o\n[ 87%] Building C object CMakeFiles/dh2_script_runtime.dir/script_design_bindings.c.o\n[ 90%] Building CXX object CMakeFiles/dh2_script_runtime.dir/script_constants.cpp.o\n[ 93%] Building CXX object CMakeFiles/dh2_script_runtime.dir/script_int_bindings.cpp.o\n[ 96%] Building C object CMakeFiles/dh2_script_runtime.dir/script_object_bridge.c.o\n[100%] Linking CXX shared library libdh2_script_runtime.so\n[100%] Built target dh2_script_runtime\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-ffunction-sections",
+        "-fdata-sections",
+        "-Iport/level-world",
+        "-Iport/game-data",
+        "-Iport/script-runtime",
+        "-Iport/engine-ui",
+        "port/level-loader/tests/native_gslevel_runtime_v27.cpp",
+        "port/level-loader/native_gslevel_runtime_v27.cpp",
+        "port/level-loader/canonical_level_loading_v26.cpp",
+        "port/level-loader/native_level_application_v25.cpp",
+        "port/level-loader/canonical_level_context_v1.cpp",
+        "port/level-loader/level_constructor_bindings_v4.cpp",
+        "port/level-loader/level_constructor_v3.cpp",
+        "port/engine-ui/loading_menu_v1.cpp",
+        "port/level-world/generic_lua_script_owner_v13.cpp",
+        "port/level-world/event_manager_owner_v12.cpp",
+        "port/level-world/level_savegame_runtime_v1.cpp",
+        "port/level-world/level_savegame_owner_v1.cpp",
+        "port/level-world/level_savegame_cache_v1.cpp",
+        "-L.local-inputs/gslevel-v27-script-host",
+        "-L/home/adampalace/dh2-world-build",
+        "-L/home/adampalace/dh2-world-build/game-data",
+        "-L/home/adampalace/dh2-world-build/engine-ui",
+        "-L/home/adampalace/dh2-world-build/engine-skinning",
+        "-L/home/adampalace/dh2-world-build/engine-skinning/engine-animation",
+        "-Wl,--start-group",
+        "-ldh2_level_world",
+        "-ldh2_game_data",
+        "-ldh2_engine_ui",
+        "-ldh2_script_runtime",
+        "-Wl,--end-group",
+        "-Wl,--gc-sections",
+        "-lz",
+        "-o",
+        ".local-inputs/native_gslevel_v27_host"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "env",
+        "LD_LIBRARY_PATH=.local-inputs/gslevel-v27-script-host:/home/adampalace/dh2-world-build:/home/adampalace/dh2-world-build/game-data:/home/adampalace/dh2-world-build/engine-ui:/home/adampalace/dh2-world-build/engine-skinning:/home/adampalace/dh2-world-build/engine-skinning/engine-animation",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/native_gslevel_v27_host",
+        "port/level-world/reference/character-game-design/real-cache-inputs.bin",
+        ".local-inputs/character-script-assets-v1/bootstrap-cache/data/scripts/level",
+        "port/level-loader/reports/native-gslevel-v27/missing-save-files"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS real native GS publication/Loading and complete Level C1 with actual51 design rows, original Swamp selection, sole real script path/private states/shared file cache and staged native Save owner; checks=493 | selected=worlds/001_swamp.mlx\n",
+      "stderr": ""
+    }
+  ],
+  "sources": [
+    {
+      "path": "port/level-loader/tests/native_gslevel_runtime_v27.cpp",
+      "sha256": "c2d2277bf4d170fef541e8bc9f489ae2aa5865e279601ed9b11ade148d264e8f"
+    },
+    {
+      "path": "port/level-loader/native_gslevel_runtime_v27.cpp",
+      "sha256": "13e6fe707f5faa0e0d01455b71456bb139dd6b0386eae84a91c6697b1f90ef63"
+    },
+    {
+      "path": "port/level-loader/canonical_level_loading_v26.cpp",
+      "sha256": "24d0c981a9e883c7eb45a45fd3179b07e5c4a34c9e9d4e903eb4e918c6748dec"
+    },
+    {
+      "path": "port/level-loader/native_level_application_v25.cpp",
+      "sha256": "91ce2450bdebad1c44f248069eef5434a73187a76016abef6992eef31cfbfbfa"
+    },
+    {
+      "path": "port/level-loader/canonical_level_context_v1.cpp",
+      "sha256": "c9c17c15305e0d600a44b406a7b5e243b9f8a9535a55b80fa65b83ba01bc789a"
+    },
+    {
+      "path": "port/level-loader/level_constructor_bindings_v4.cpp",
+      "sha256": "3645564435f812c021d9b3c8dfef3ca5b7c889accc850975e7e91671c1f84f15"
+    },
+    {
+      "path": "port/level-loader/level_constructor_v3.cpp",
+      "sha256": "039c0c476f29314f7c2f87b04217b4b632575786563167143ad6ea23df00e5c6"
+    },
+    {
+      "path": "port/engine-ui/loading_menu_v1.cpp",
+      "sha256": "30ba37ebc50d0e3aedef2cb7d094ce588c4f6731c117ef0c731363c99a7fbe72"
+    },
+    {
+      "path": "port/level-world/generic_lua_script_owner_v13.cpp",
+      "sha256": "1129dfa0695977763ab1d3d2749e3771302f6c9c33d9b2072d30b4360e45c863"
+    },
+    {
+      "path": "port/level-world/event_manager_owner_v12.cpp",
+      "sha256": "b66a23fe43ce48e104cc0845431e541b4a757eee51baa6b18e5cdce81adeb459"
+    },
+    {
+      "path": "port/level-world/level_savegame_runtime_v1.cpp",
+      "sha256": "a96a52df3a2b87e94503611ce6be6e66441865c760cdd6195350168a5ae33e2f"
+    },
+    {
+      "path": "port/level-world/level_savegame_owner_v1.cpp",
+      "sha256": "bddb330a95b2d7443cea60c5ee5a5c276ba222db912d083c8e8da468b169af0b"
+    },
+    {
+      "path": "port/level-world/level_savegame_cache_v1.cpp",
+      "sha256": "561d938cdb6b207f3670ccb21a9e598fba17aea7ccb88a3429e1f939ffb4a0c9"
+    }
+  ]
+}

@@ -1,0 +1,412 @@
+{
+  "local_original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "supplied_original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "same_supplied_original": true,
+  "vtables": {
+    "0x95ca80": {
+      "0x0": {
+        "va": "0x0",
+        "symbol": null
+      },
+      "0x4": {
+        "va": "0x0",
+        "symbol": null
+      },
+      "0x8": {
+        "va": "0x34e480",
+        "symbol": "FileSystemBase::~FileSystemBase()"
+      },
+      "0xc": {
+        "va": "0x34e4b4",
+        "symbol": "FileSystemBase::~FileSystemBase()"
+      },
+      "0x10": {
+        "va": "0x31d5cc",
+        "symbol": "glitch::IReferenceCounted::onDelete()"
+      },
+      "0x14": {
+        "va": "0x34e688",
+        "symbol": "FileSystemBase::createAndOpenFile(char const*)"
+      },
+      "0x18": {
+        "va": "0x56c57c",
+        "symbol": "glitch::io::CFileSystem::createMemoryReadFile(void*, int, char const*, bool)"
+      },
+      "0x1c": {
+        "va": "0x56c570",
+        "symbol": "glitch::io::CFileSystem::createAndWriteFile(char const*, bool)"
+      },
+      "0x20": {
+        "va": "0x56d2c0",
+        "symbol": "glitch::io::CFileSystem::addZipFileArchive(char const*, bool, bool)"
+      },
+      "0x24": {
+        "va": "0x56d180",
+        "symbol": "glitch::io::CFileSystem::addFolderFileArchive(char const*, bool, bool)"
+      },
+      "0x28": {
+        "va": "0x56ca70",
+        "symbol": "glitch::io::CFileSystem::addPakFileArchive(char const*, bool, bool)"
+      },
+      "0x2c": {
+        "va": "0x56e6dc",
+        "symbol": "glitch::io::CFileSystem::addObfuscationFileMap(char const*, unsigned char, std::basic_string<char, std::char_traits<char>, glitch::core::SAllocator<char, (glitch::memory::E_MEMORY_HINT)0>>)"
+      },
+      "0x30": {
+        "va": "0x56ce60",
+        "symbol": "glitch::io::CFileSystem::removeFileArchive(char const*)"
+      },
+      "0x34": {
+        "va": "0x56c214",
+        "symbol": "glitch::io::CFileSystem::getWorkingDirectory()"
+      },
+      "0x38": {
+        "va": "0x34e1d4",
+        "symbol": "FileSystemBase::changeWorkingDirectoryTo(char const*)"
+      },
+      "0x3c": {
+        "va": "0x34e5f4",
+        "symbol": "FileSystemBase::getAbsolutePath(std::basic_string<char, std::char_traits<char>, glitch::core::SAllocator<char, (glitch::memory::E_MEMORY_HINT)0>> const&) const"
+      },
+      "0x40": {
+        "va": "0x56c6b4",
+        "symbol": "glitch::io::CFileSystem::getFileDir(std::basic_string<char, std::char_traits<char>, glitch::core::SAllocator<char, (glitch::memory::E_MEMORY_HINT)0>> const&) const"
+      },
+      "0x44": {
+        "va": "0x56c740",
+        "symbol": "glitch::io::CFileSystem::getFileBasename(std::basic_string<char, std::char_traits<char>, glitch::core::SAllocator<char, (glitch::memory::E_MEMORY_HINT)0>> const&, bool) const"
+      },
+      "0x48": {
+        "va": "0x56c4a4",
+        "symbol": "glitch::io::CFileSystem::createFileList() const"
+      },
+      "0x4c": {
+        "va": "0x56df38",
+        "symbol": "glitch::io::CFileSystem::existFile(char const*) const"
+      },
+      "0x50": {
+        "va": "0x34df7c",
+        "symbol": "glitch::io::CFileSystem::existFile(std::basic_string<char, std::char_traits<char>, glitch::core::SAllocator<char, (glitch::memory::E_MEMORY_HINT)0>> const&) const"
+      },
+      "0x54": {
+        "va": "0x56c230",
+        "symbol": "glitch::io::CFileSystem::createXMLReader(char const*)"
+      },
+      "0x58": {
+        "va": "0x56c480",
+        "symbol": "glitch::io::CFileSystem::createXMLReader(glitch::io::IReadFile*)"
+      },
+      "0x5c": {
+        "va": "0x56c44c",
+        "symbol": "glitch::io::CFileSystem::createXMLReaderUTF8(char const*)"
+      },
+      "0x60": {
+        "va": "0x56c43c",
+        "symbol": "glitch::io::CFileSystem::createXMLReaderUTF8(glitch::io::IReadFile*)"
+      },
+      "0x64": {
+        "va": "0x56c278",
+        "symbol": "glitch::io::CFileSystem::createXMLWriter(char const*)"
+      },
+      "0x68": {
+        "va": "0x56c414",
+        "symbol": "glitch::io::CFileSystem::createXMLWriter(glitch::io::IWriteFile*)"
+      },
+      "0x6c": {
+        "va": "0x56c3ec",
+        "symbol": "glitch::io::CFileSystem::createEmptyAttributes(glitch::video::IVideoDriver*)"
+      },
+      "0x70": {
+        "va": "0x56cb78",
+        "symbol": "glitch::io::CFileSystem::clear()"
+      },
+      "0x74": {
+        "va": "0x0",
+        "symbol": null
+      },
+      "0x78": {
+        "va": "0x0",
+        "symbol": null
+      },
+      "0x7c": {
+        "va": "0x0",
+        "symbol": null
+      },
+      "0x80": {
+        "va": "0x0",
+        "symbol": null
+      },
+      "0x84": {
+        "va": "0x0",
+        "symbol": null
+      },
+      "0x88": {
+        "va": "0x0",
+        "symbol": null
+      },
+      "0x8c": {
+        "va": "0x0",
+        "symbol": null
+      },
+      "0x90": {
+        "va": "0x0",
+        "symbol": null
+      },
+      "0x94": {
+        "va": "0x0",
+        "symbol": null
+      },
+      "0x98": {
+        "va": "0x0",
+        "symbol": null
+      },
+      "0x9c": {
+        "va": "0x0",
+        "symbol": null
+      },
+      "0xa0": {
+        "va": "0x0",
+        "symbol": null
+      },
+      "0xa4": {
+        "va": "0x0",
+        "symbol": null
+      },
+      "0xa8": {
+        "va": "0x0",
+        "symbol": null
+      },
+      "0xac": {
+        "va": "0x34e1ac",
+        "symbol": "FileSystemBase::formatFilePath(std::basic_string<char, std::char_traits<char>, glitch::core::SAllocator<char, (glitch::memory::E_MEMORY_HINT)0>> const&) const"
+      },
+      "0xb0": {
+        "va": "0x34df94",
+        "symbol": "FileSystemBase::doesFileExists(char const*)"
+      },
+      "0xb4": {
+        "va": "0x34dfe0",
+        "symbol": "FileSystemBase::doesResourceExists(char const*)"
+      },
+      "0xb8": {
+        "va": "0x34e150",
+        "symbol": "FileSystemBase::doesSavefileExists(char const*)"
+      },
+      "0xbc": {
+        "va": "0x0",
+        "symbol": null
+      },
+      "0xc0": {
+        "va": "0x34e96c",
+        "symbol": "FileSystemBase::ApplyFilenameHacks(char const*) const"
+      },
+      "0xc4": {
+        "va": "0x0",
+        "symbol": null
+      }
+    },
+    "0x95cb88": {
+      "0x0": {
+        "va": "0x0",
+        "symbol": null
+      },
+      "0x4": {
+        "va": "0x0",
+        "symbol": null
+      },
+      "0x8": {
+        "va": "0x34f670",
+        "symbol": "FileSystemWin32::~FileSystemWin32()"
+      },
+      "0xc": {
+        "va": "0x34f6a4",
+        "symbol": "FileSystemWin32::~FileSystemWin32()"
+      },
+      "0x10": {
+        "va": "0x31d5cc",
+        "symbol": "glitch::IReferenceCounted::onDelete()"
+      },
+      "0x14": {
+        "va": "0x34e688",
+        "symbol": "FileSystemBase::createAndOpenFile(char const*)"
+      },
+      "0x18": {
+        "va": "0x56c57c",
+        "symbol": "glitch::io::CFileSystem::createMemoryReadFile(void*, int, char const*, bool)"
+      },
+      "0x1c": {
+        "va": "0x56c570",
+        "symbol": "glitch::io::CFileSystem::createAndWriteFile(char const*, bool)"
+      },
+      "0x20": {
+        "va": "0x56d2c0",
+        "symbol": "glitch::io::CFileSystem::addZipFileArchive(char const*, bool, bool)"
+      },
+      "0x24": {
+        "va": "0x56d180",
+        "symbol": "glitch::io::CFileSystem::addFolderFileArchive(char const*, bool, bool)"
+      },
+      "0x28": {
+        "va": "0x56ca70",
+        "symbol": "glitch::io::CFileSystem::addPakFileArchive(char const*, bool, bool)"
+      },
+      "0x2c": {
+        "va": "0x56e6dc",
+        "symbol": "glitch::io::CFileSystem::addObfuscationFileMap(char const*, unsigned char, std::basic_string<char, std::char_traits<char>, glitch::core::SAllocator<char, (glitch::memory::E_MEMORY_HINT)0>>)"
+      },
+      "0x30": {
+        "va": "0x56ce60",
+        "symbol": "glitch::io::CFileSystem::removeFileArchive(char const*)"
+      },
+      "0x34": {
+        "va": "0x56c214",
+        "symbol": "glitch::io::CFileSystem::getWorkingDirectory()"
+      },
+      "0x38": {
+        "va": "0x34e1d4",
+        "symbol": "FileSystemBase::changeWorkingDirectoryTo(char const*)"
+      },
+      "0x3c": {
+        "va": "0x34e5f4",
+        "symbol": "FileSystemBase::getAbsolutePath(std::basic_string<char, std::char_traits<char>, glitch::core::SAllocator<char, (glitch::memory::E_MEMORY_HINT)0>> const&) const"
+      },
+      "0x40": {
+        "va": "0x56c6b4",
+        "symbol": "glitch::io::CFileSystem::getFileDir(std::basic_string<char, std::char_traits<char>, glitch::core::SAllocator<char, (glitch::memory::E_MEMORY_HINT)0>> const&) const"
+      },
+      "0x44": {
+        "va": "0x56c740",
+        "symbol": "glitch::io::CFileSystem::getFileBasename(std::basic_string<char, std::char_traits<char>, glitch::core::SAllocator<char, (glitch::memory::E_MEMORY_HINT)0>> const&, bool) const"
+      },
+      "0x48": {
+        "va": "0x56c4a4",
+        "symbol": "glitch::io::CFileSystem::createFileList() const"
+      },
+      "0x4c": {
+        "va": "0x56df38",
+        "symbol": "glitch::io::CFileSystem::existFile(char const*) const"
+      },
+      "0x50": {
+        "va": "0x34df7c",
+        "symbol": "glitch::io::CFileSystem::existFile(std::basic_string<char, std::char_traits<char>, glitch::core::SAllocator<char, (glitch::memory::E_MEMORY_HINT)0>> const&) const"
+      },
+      "0x54": {
+        "va": "0x56c230",
+        "symbol": "glitch::io::CFileSystem::createXMLReader(char const*)"
+      },
+      "0x58": {
+        "va": "0x56c480",
+        "symbol": "glitch::io::CFileSystem::createXMLReader(glitch::io::IReadFile*)"
+      },
+      "0x5c": {
+        "va": "0x56c44c",
+        "symbol": "glitch::io::CFileSystem::createXMLReaderUTF8(char const*)"
+      },
+      "0x60": {
+        "va": "0x56c43c",
+        "symbol": "glitch::io::CFileSystem::createXMLReaderUTF8(glitch::io::IReadFile*)"
+      },
+      "0x64": {
+        "va": "0x56c278",
+        "symbol": "glitch::io::CFileSystem::createXMLWriter(char const*)"
+      },
+      "0x68": {
+        "va": "0x56c414",
+        "symbol": "glitch::io::CFileSystem::createXMLWriter(glitch::io::IWriteFile*)"
+      },
+      "0x6c": {
+        "va": "0x56c3ec",
+        "symbol": "glitch::io::CFileSystem::createEmptyAttributes(glitch::video::IVideoDriver*)"
+      },
+      "0x70": {
+        "va": "0x56cb78",
+        "symbol": "glitch::io::CFileSystem::clear()"
+      },
+      "0x74": {
+        "va": "0x34eba4",
+        "symbol": "FileSystemWin32::getRootPath() const"
+      },
+      "0x78": {
+        "va": "0x34ebac",
+        "symbol": "FileSystemWin32::getResourcesPath() const"
+      },
+      "0x7c": {
+        "va": "0x34ebb4",
+        "symbol": "FileSystemWin32::getSavefilesPath() const"
+      },
+      "0x80": {
+        "va": "0x34ebcc",
+        "symbol": "FileSystemWin32::closeFile(IFileStream*&)"
+      },
+      "0x84": {
+        "va": "0x3505a0",
+        "symbol": "FileSystemWin32::getFiles(char const*, std::vector<std::string, std::allocator<std::string>>&) const"
+      },
+      "0x88": {
+        "va": "0x35041c",
+        "symbol": "FileSystemWin32::getFilesMatching(char const*, char const*, std::vector<std::string, std::allocator<std::string>>&) const"
+      },
+      "0x8c": {
+        "va": "0x34ebfc",
+        "symbol": "FileSystemWin32::getFolders(char const*, std::vector<std::string, std::allocator<std::string>>&) const"
+      },
+      "0x90": {
+        "va": "0x34ffb0",
+        "symbol": "FileSystemWin32::openFile(char const*, bool, bool)"
+      },
+      "0x94": {
+        "va": "0x34ff84",
+        "symbol": "FileSystemWin32::openTraceFile(char const*)"
+      },
+      "0x98": {
+        "va": "0x34ff28",
+        "symbol": "FileSystemWin32::openResource(char const*)"
+      },
+      "0x9c": {
+        "va": "0x34fee4",
+        "symbol": "FileSystemWin32::openSavefile(char const*, bool)"
+      },
+      "0xa0": {
+        "va": "0x34ebc0",
+        "symbol": "FileSystemWin32::copySavefile(char const*)"
+      },
+      "0xa4": {
+        "va": "0x34f274",
+        "symbol": "FileSystemWin32::deleteSavefile(char const*) const"
+      },
+      "0xa8": {
+        "va": "0x34f10c",
+        "symbol": "FileSystemWin32::backupSavefile(char const*, char const*) const"
+      },
+      "0xac": {
+        "va": "0x34f8a4",
+        "symbol": "FileSystemWin32::formatFilePath(std::basic_string<char, std::char_traits<char>, glitch::core::SAllocator<char, (glitch::memory::E_MEMORY_HINT)0>> const&) const"
+      },
+      "0xb0": {
+        "va": "0x34df94",
+        "symbol": "FileSystemBase::doesFileExists(char const*)"
+      },
+      "0xb4": {
+        "va": "0x34dfe0",
+        "symbol": "FileSystemBase::doesResourceExists(char const*)"
+      },
+      "0xb8": {
+        "va": "0x34e150",
+        "symbol": "FileSystemBase::doesSavefileExists(char const*)"
+      },
+      "0xbc": {
+        "va": "0x34ec00",
+        "symbol": "FileSystemWin32::isFileNewerThan(char const*, char const*) const"
+      },
+      "0xc0": {
+        "va": "0x34e96c",
+        "symbol": "FileSystemBase::ApplyFilenameHacks(char const*) const"
+      },
+      "0xc4": {
+        "va": "0x0",
+        "symbol": null
+      }
+    }
+  },
+  "literal_bytes_at_8c073c": "3a2000006174612f33642f74657874757265732f000000000000000023000000"
+}

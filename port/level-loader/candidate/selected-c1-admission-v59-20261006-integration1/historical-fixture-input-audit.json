@@ -1,0 +1,203 @@
+{
+  "scope": "All direct construct_source_v3 call sites in current isolated port/level-loader/tests, plus selected constructor-domain notes in HANDOFF.md",
+  "matching_files": 16,
+  "entries": [
+    {
+      "file": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\canonical_loading_context_source_probe_v37.cpp",
+      "request_seed": "0 from omitted aggregate fields",
+      "constructor_seed": 7,
+      "create_lines": [
+        100,
+        125
+      ],
+      "constructor_lines": [
+        112
+      ],
+      "required_correction": "Explicit LevelSourceKindV1::fixed,7 on constructor-bearing request; retain recorded original seed7; do not weaken admission or rewrite historical PASS receipts"
+    },
+    {
+      "file": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\canonical_loading_context_source_probe_v47.cpp",
+      "request_seed": "0 from omitted aggregate fields",
+      "constructor_seed": 7,
+      "create_lines": [
+        100,
+        125
+      ],
+      "constructor_lines": [
+        112
+      ],
+      "required_correction": "Explicit LevelSourceKindV1::fixed,7 on constructor-bearing request; retain recorded original seed7; do not weaken admission or rewrite historical PASS receipts"
+    },
+    {
+      "file": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\canonical_module_graph_source_probe.cpp",
+      "request_seed": "0 from omitted aggregate fields",
+      "constructor_seed": 7,
+      "create_lines": [
+        99
+      ],
+      "constructor_lines": [
+        111
+      ],
+      "required_correction": "Explicit LevelSourceKindV1::fixed,7 on constructor-bearing request; retain recorded original seed7; do not weaken admission or rewrite historical PASS receipts"
+    },
+    {
+      "file": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\character_swamp_model_v40_probe.cpp",
+      "request_seed": "0 from omitted aggregate fields",
+      "constructor_seed": 7,
+      "create_lines": [
+        104,
+        129
+      ],
+      "constructor_lines": [
+        116
+      ],
+      "required_correction": "Explicit LevelSourceKindV1::fixed,7 on constructor-bearing request; retain recorded original seed7; do not weaken admission or rewrite historical PASS receipts"
+    },
+    {
+      "file": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\dynamic_module_source_v44.cpp",
+      "request_seed": "0 from omitted aggregate fields",
+      "constructor_seed": 7,
+      "create_lines": [
+        104
+      ],
+      "constructor_lines": [
+        116
+      ],
+      "required_correction": "Explicit LevelSourceKindV1::fixed,7 on constructor-bearing request; retain recorded original seed7; do not weaken admission or rewrite historical PASS receipts"
+    },
+    {
+      "file": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\generic_actor_draw_submission_v38_probe.cpp",
+      "request_seed": "0 from omitted aggregate fields",
+      "constructor_seed": 7,
+      "create_lines": [
+        103
+      ],
+      "constructor_lines": [
+        115
+      ],
+      "required_correction": "Explicit LevelSourceKindV1::fixed,7 on constructor-bearing request; retain recorded original seed7; do not weaken admission or rewrite historical PASS receipts"
+    },
+    {
+      "file": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\generic_actor_image_binding_v45_probe.cpp",
+      "request_seed": "0 from omitted aggregate fields",
+      "constructor_seed": 7,
+      "create_lines": [
+        102
+      ],
+      "constructor_lines": [
+        114
+      ],
+      "required_correction": "Explicit LevelSourceKindV1::fixed,7 on constructor-bearing request; retain recorded original seed7; do not weaken admission or rewrite historical PASS receipts"
+    },
+    {
+      "file": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\generic_actor_image_lifetime_v48_probe.cpp",
+      "request_seed": "0 from omitted aggregate fields",
+      "constructor_seed": 7,
+      "create_lines": [
+        104
+      ],
+      "constructor_lines": [
+        116
+      ],
+      "required_correction": "Explicit LevelSourceKindV1::fixed,7 on constructor-bearing request; retain recorded original seed7; do not weaken admission or rewrite historical PASS receipts"
+    },
+    {
+      "file": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\generic_actor_visual_input_v37_probe.cpp",
+      "request_seed": "0 from omitted aggregate fields",
+      "constructor_seed": 7,
+      "create_lines": [
+        101
+      ],
+      "constructor_lines": [
+        113
+      ],
+      "required_correction": "Explicit LevelSourceKindV1::fixed,7 on constructor-bearing request; retain recorded original seed7; do not weaken admission or rewrite historical PASS receipts"
+    },
+    {
+      "file": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\generic_renderer_input_v36_probe.cpp",
+      "request_seed": "0 from omitted aggregate fields",
+      "constructor_seed": 7,
+      "create_lines": [
+        101
+      ],
+      "constructor_lines": [
+        113
+      ],
+      "required_correction": "Explicit LevelSourceKindV1::fixed,7 on constructor-bearing request; retain recorded original seed7; do not weaken admission or rewrite historical PASS receipts"
+    },
+    {
+      "file": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\gslevel_update_v44_real_c1.cpp",
+      "request_seed": "0 from omitted aggregate fields",
+      "constructor_seed": 7,
+      "create_lines": [
+        100
+      ],
+      "constructor_lines": [
+        112
+      ],
+      "required_correction": "Explicit LevelSourceKindV1::fixed,7 on constructor-bearing request; retain recorded original seed7; do not weaken admission or rewrite historical PASS receipts"
+    },
+    {
+      "file": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\level_update_loading_v46_real_c1.cpp",
+      "request_seed": "0 from omitted aggregate fields",
+      "constructor_seed": 7,
+      "create_lines": [
+        101
+      ],
+      "constructor_lines": [
+        113
+      ],
+      "required_correction": "Explicit LevelSourceKindV1::fixed,7 on constructor-bearing request; retain recorded original seed7; do not weaken admission or rewrite historical PASS receipts"
+    },
+    {
+      "file": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\source_stage_swamp_v40.cpp",
+      "request_seed": "0 from omitted aggregate fields",
+      "constructor_seed": 7,
+      "create_lines": [
+        104
+      ],
+      "constructor_lines": [
+        116
+      ],
+      "required_correction": "Explicit LevelSourceKindV1::fixed,7 on constructor-bearing request; retain recorded original seed7; do not weaken admission or rewrite historical PASS receipts"
+    },
+    {
+      "file": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\source_stage_swamp_v47.cpp",
+      "request_seed": "0 from omitted aggregate fields",
+      "constructor_seed": 7,
+      "create_lines": [
+        104
+      ],
+      "constructor_lines": [
+        116
+      ],
+      "required_correction": "Explicit LevelSourceKindV1::fixed,7 on constructor-bearing request; retain recorded original seed7; do not weaken admission or rewrite historical PASS receipts"
+    },
+    {
+      "file": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\source_stage_swamp_v58.cpp",
+      "request_seed": "0 from omitted aggregate fields",
+      "constructor_seed": 7,
+      "create_lines": [
+        105
+      ],
+      "constructor_lines": [
+        118
+      ],
+      "required_correction": "Explicit LevelSourceKindV1::fixed,7 on constructor-bearing request; retain recorded original seed7; do not weaken admission or rewrite historical PASS receipts"
+    },
+    {
+      "file": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\tests\\source_visual_helper_v41_probe.cpp",
+      "request_seed": "0 from omitted aggregate fields",
+      "constructor_seed": 7,
+      "create_lines": [
+        101
+      ],
+      "constructor_lines": [
+        113
+      ],
+      "required_correction": "Explicit LevelSourceKindV1::fixed,7 on constructor-bearing request; retain recorded original seed7; do not weaken admission or rewrite historical PASS receipts"
+    }
+  ],
+  "tests_changed": false,
+  "tests_run": false
+}

@@ -1,0 +1,31 @@
+{
+  "validation": "PASS",
+  "scope": "Owned frame directly executed as optimized ARM64; original complete Update\n1536-case trace. External effect mutations and unbounded bodies are explicit\nfixtures. Bounded bodies really execute with no-effect body services; their\nexact requests/state are separately proved by the 906-case bounded audit.\n",
+  "comparisons": 1536,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_probe": {
+    "path": "port\\level-world\\reference\\character-native-fsm\\native-fsm-probe.json",
+    "sha256": "e7a4d9db1e2e975643b6297cf8bcb792cdd2e8667aeb974cce80d8dce7dd47d0"
+  },
+  "source_registry": {
+    "path": "port\\level-world\\reference\\character-monster-state-ownership\\registration-plan.json",
+    "sha256": "9da95b34ff38af98629a136bb6c306f34eeedd5b1c8a539c2a1b2500203d0f4f"
+  },
+  "library_sha256": "28428c6ee0c30289e1a405bb156446635d8a53a7af5f7378b049838a213b9dbb",
+  "source_sha256": {
+    "port/level-world/character_state_owner_frame.cpp": "d506ba5eac38e2e9991957e586365eccfbe9eeff439b07ed8f4b015fe9eca851",
+    "port/level-world/character_state_owner_frame.hpp": "1c3e6b69e9e8e853ed7aba6bdb0466e99a9262a91bc0ec561320026c2d7fac51",
+    "port/level-world/character_native_fsm.cpp": "58f7544dc7c4d693f5e6b97a2165c1d645e161e46ab349de48627886ac56ebac",
+    "port/level-world/character_native_fsm.hpp": "525e057929c23b8ed8b45b71a3912b100457ca844b98b575ba11eacc310bdf1b",
+    "port/level-world/character_state.cpp": "73d08ae28e2fea576bfc03d5377c5d096be5fc07f1d33ae228227d06495d10c6",
+    "port/level-world/character_state.hpp": "9aaab47e7ff2cf762fca6d699b25178f69b206d6c6debe161a479ea12dc20f83",
+    "port/level-world/character_state_owner.hpp": "0d755e64ed5301e93e623d7825eeab5e87ea0a4f32f6eddbfb61c8f65f99cebd",
+    "port/level-world/tests/character_state_owner_frame_outer_differential.py": "24aa2589d58ce1aac283e7785e05943baf88bd801b2de51969c9cf307f6d6492"
+  },
+  "other_update_metadata_deliveries": 1104,
+  "bounded_body_fixture_deliveries": 216,
+  "virtual_dispatch_marker_not_part_of_public_adapter_trace": true,
+  "full_effect_backends": false,
+  "packaged_APK": false
+}

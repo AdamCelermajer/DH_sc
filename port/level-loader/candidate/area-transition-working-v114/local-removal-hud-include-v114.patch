@@ -1,0 +1,45 @@
+--- a/port/android-native/app/src/main/cpp/native_source_main_menu_v114.hpp
++++ b/port/android-native/app/src/main/cpp/native_source_main_menu_v114.hpp
+@@ -1,7 +1,9 @@
+ #pragma once
+ #include <cstdint>
+ #include <string>
++#include <memory>
+ namespace model_renderer {
++bool source_main_menu_refresh_hud_v114(const std::shared_ptr<void>& actual_world,std::string&);
+ // Accept one original Application.GoToMainMenu event. The owning native frame
+ // drains it after authored dispatch unwinds; acceptance is not completion.
+ bool request_source_main_menu_v114(std::int32_t original_event,std::string&);
+--- a/port/android-native/app/src/main/cpp/native_source_main_menu_v114.inc
++++ b/port/android-native/app/src/main/cpp/native_source_main_menu_v114.inc
+@@ -167,3 +167,20 @@
+ }
+ 
+ bool model_renderer::source_main_menu_transition_owned_v114()noexcept{return bool(native_source_main_menu_v114);}
++
++bool model_renderer::source_main_menu_refresh_hud_v114(const std::shared_ptr<void>& world,std::string& e){
++ NativeMenuResourcesV93 first;first.owner=authored_character_menu;first.world=world;
++ dh2::ui::MenuMovieBorrowV58 present;
++ if(!first.movie_slot(3,present,e))return false;
++ if(!present.identity){e.clear();return true;} // original genuine GetHUDRoot NULL
++ // Original fresh MenuManager.GetInstance/GetHUDRoot after positive first call.
++ NativeMenuResourcesV93 fresh;fresh.owner=authored_character_menu;fresh.world=world;
++ dh2::ui::MenuMovieBorrowV58 actual;
++ if(!fresh.movie_slot(3,actual,e))return false;
++ if(!actual.identity){e="HUD disappeared between original GetHUDRoot calls";return false;}
++ std::uint32_t slot{};dh2::ui::SwfMovie* movie{};std::shared_ptr<void> pin;
++ if(!fresh.typed_movie(actual,slot,movie,pin,e)||slot!=3||!movie)return false;
++ return movie->menu_action_script(nullptr,[](void*,dh2::ui::SwfAsGraph& graph,std::string& error){
++  return graph.invoke_renderfx("menu_HUD_0","completeRefresh",{},error);
++ },e);
++}
+--- a/port/android-native/app/src/main/cpp/model_renderer.cpp
++++ b/port/android-native/app/src/main/cpp/model_renderer.cpp
+@@ -81,6 +81,7 @@
+ #include "../level-loader/native_level_application_v25.hpp"
+ #include "../level-loader/native_root_loading_connection_v50.hpp"
+ #include "source_campaign_runtime_v61.hpp"
++#include "source_campaign_player_removal_v114.hpp"
+ #include "source_campaign_character_fsm_v101.hpp"
+ #include "game_event_manager_v50.hpp"
+ #include "renderer_character_campaign_v62.hpp"

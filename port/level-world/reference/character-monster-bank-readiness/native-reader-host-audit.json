@@ -1,0 +1,1252 @@
+{
+  "validation": "PASS",
+  "actual_shared_libraries_executed": true,
+  "libraries_sha256": {
+    "/home/adampalace/dh2-world-build/engine-skinning/engine-animation/libdh2_engine_animation.so": "05e35956a29b774459206298e54efb5c02afc3bdda0c1ed1a12ccd95877ae856",
+    "/home/adampalace/dh2-world-build/game-data/libdh2_game_data.so": "ac2e2f7c4b568db0d4bfee2ae6101aa38fef376fd6f8105739b2db76b65b056d",
+    "/home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.so": "92af10e1621174e64890d1d295d97cb9ba1c3947b712636997c42e1f4392ed07"
+  },
+  "executable_sha256": "c3a36a621db753ffa9f6a9591d2a4e6c13fe3a93bf4f7e726ae458cd9c927151",
+  "source_sha256": {
+    "port/level-world/reference/character-monster-bank-readiness/reader-probe.cpp": "6b60ff53969b57ff02e45a6d44a7fdab5a1326df3ded5264f995acff6e3fa551",
+    "port/level-world/reference/character-monster-bank-readiness/host-audit.py": "e7febc4dc8b7897d178f8817fd24251ba2b1406607a97f6e71b7cc602600aac2",
+    "port/engine-animation/animation.hpp": "876d1b7e6fe4d1bf9363d7bcb28b0e7ef2b253794bebaa3421f29d87bbd756b3",
+    "port/engine-animation/animation.cpp": "741a4df6e1c1753a9fbcf20192c2b1f09ed0d1bfc5701ab9ccd943e76713237f",
+    "port/engine-animation/animation_registration.hpp": "2a7d8c0f6cb887af5e2268c88e28fc5408441d9770d7fbc779efbcd897bca8b1",
+    "port/engine-animation/animation_registration.cpp": "74365756322d081aa171ca54802fbf5a94488f1e29a9b9a0260ff0bb2514f0ae",
+    "port/game-data/animation_bank.hpp": "6273ee6614948256576bfc6a1d741f2f605539dcc48b628f177709a7165abdcb",
+    "port/game-data/animation_bank.cpp": "157397a725c0c86e1f4e91a398402b459c1801992c56bf68f8075a5155d898ff",
+    "port/scene-materials/scene.hpp": "12d0a8b7487b26d2748ebc1e29325f28a99a2f410147f455a419324d56e9dd90",
+    "port/scene-materials/scene.cpp": "056638ec512ca2dcdcb684f334273d85b323716bc46506a360749fa79cab143d"
+  },
+  "producer_report_sha256": "2577a6b392ef2e009ea0b8a3a6df831db8c77233da6120675c68763a34bb6faa",
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer"
+  ],
+  "sanitizer_findings": 0,
+  "banks": {
+    "skeleton": {
+      "resources": [
+        {
+          "clip_id": 1203,
+          "tracks": 72,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 45,
+          "start": 0,
+          "end": 800
+        },
+        {
+          "clip_id": 1201,
+          "tracks": 27,
+          "segments": 3,
+          "skipped": 0,
+          "unbound": 3,
+          "start": 0,
+          "end": 4000
+        },
+        {
+          "clip_id": 1194,
+          "tracks": 23,
+          "segments": 6,
+          "skipped": 0,
+          "unbound": 3,
+          "start": 0,
+          "end": 9333
+        },
+        {
+          "clip_id": 1195,
+          "tracks": 23,
+          "segments": 3,
+          "skipped": 0,
+          "unbound": 3,
+          "start": 0,
+          "end": 6099
+        },
+        {
+          "clip_id": 1204,
+          "tracks": 26,
+          "segments": 2,
+          "skipped": 0,
+          "unbound": 3,
+          "start": 0,
+          "end": 2033
+        },
+        {
+          "clip_id": 1197,
+          "tracks": 23,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 3,
+          "start": 0,
+          "end": 1066
+        },
+        {
+          "clip_id": 1178,
+          "tracks": 25,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 3,
+          "start": 0,
+          "end": 1000
+        },
+        {
+          "clip_id": 1179,
+          "tracks": 25,
+          "segments": 2,
+          "skipped": 0,
+          "unbound": 3,
+          "start": 0,
+          "end": 2000
+        },
+        {
+          "clip_id": 1198,
+          "tracks": 23,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 3,
+          "start": 0,
+          "end": 1166
+        },
+        {
+          "clip_id": 1180,
+          "tracks": 25,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 3,
+          "start": 0,
+          "end": 566
+        },
+        {
+          "clip_id": 1181,
+          "tracks": 25,
+          "segments": 2,
+          "skipped": 0,
+          "unbound": 3,
+          "start": 0,
+          "end": 1966
+        },
+        {
+          "clip_id": 1199,
+          "tracks": 23,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 3,
+          "start": 0,
+          "end": 200
+        },
+        {
+          "clip_id": 1202,
+          "tracks": 22,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 3,
+          "start": 200,
+          "end": 1700
+        },
+        {
+          "clip_id": 1196,
+          "tracks": 23,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 3,
+          "start": 1700,
+          "end": 2500
+        },
+        {
+          "clip_id": 1200,
+          "tracks": 27,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 3,
+          "start": 0,
+          "end": 1133
+        },
+        {
+          "clip_id": 1188,
+          "tracks": 27,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 3,
+          "start": 0,
+          "end": 699
+        },
+        {
+          "clip_id": 1191,
+          "tracks": 27,
+          "segments": 4,
+          "skipped": 0,
+          "unbound": 3,
+          "start": 733,
+          "end": 4633
+        },
+        {
+          "clip_id": 1192,
+          "tracks": 23,
+          "segments": 2,
+          "skipped": 0,
+          "unbound": 3,
+          "start": 0,
+          "end": 1566
+        },
+        {
+          "clip_id": 1193,
+          "tracks": 23,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 3,
+          "start": 0,
+          "end": 1200
+        },
+        {
+          "clip_id": 1185,
+          "tracks": 27,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 3,
+          "start": 0,
+          "end": 899
+        },
+        {
+          "clip_id": 1182,
+          "tracks": 25,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 3,
+          "start": 0,
+          "end": 2000
+        },
+        {
+          "clip_id": 1190,
+          "tracks": 27,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 3,
+          "start": 733,
+          "end": 1200
+        },
+        {
+          "clip_id": 1189,
+          "tracks": 23,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 3,
+          "start": 0,
+          "end": 2000
+        }
+      ],
+      "validation": "PASS",
+      "scene_nodes": 28,
+      "occurrences": 44,
+      "unique_resources": 23,
+      "targets": 117,
+      "bound_targets": 72,
+      "samples": 15444,
+      "defaults": 3862,
+      "retained_bindings": 0,
+      "skipped": 0,
+      "unbound_tracks": 111,
+      "constructor_library0_start": 0,
+      "constructor_library0_end": 800,
+      "lookup": [
+        [
+          1178,
+          6
+        ],
+        [
+          1179,
+          7
+        ],
+        [
+          1180,
+          12
+        ],
+        [
+          1181,
+          13
+        ],
+        [
+          1182,
+          40
+        ],
+        [
+          1185,
+          39
+        ],
+        [
+          1188,
+          22
+        ],
+        [
+          1189,
+          43
+        ],
+        [
+          1190,
+          42
+        ],
+        [
+          1191,
+          23
+        ],
+        [
+          1192,
+          24
+        ],
+        [
+          1193,
+          27
+        ],
+        [
+          1194,
+          2
+        ],
+        [
+          1195,
+          3
+        ],
+        [
+          1196,
+          20
+        ],
+        [
+          1197,
+          5
+        ],
+        [
+          1198,
+          11
+        ],
+        [
+          1199,
+          18
+        ],
+        [
+          1200,
+          21
+        ],
+        [
+          1201,
+          1
+        ],
+        [
+          1202,
+          19
+        ],
+        [
+          1203,
+          0
+        ],
+        [
+          1204,
+          4
+        ]
+      ],
+      "metadata_sha256": "a5bbf6e617c9f2cca698193b568a4a8686f5ec57884a7ac073eea67cb2c72af6",
+      "model_sha256": "2cf63468a00c934f9b3d7b15b1c846ce575b9c62fc3aff83c7cd2bfbefacfb36",
+      "original_probe_sha256": "e6887368f0c24512badaaea526327552d359678ca7db75b2c6980f75d76f4ba4"
+    },
+    "slime": {
+      "resources": [
+        {
+          "clip_id": 1267,
+          "tracks": 18,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 3,
+          "start": 0,
+          "end": 2666
+        },
+        {
+          "clip_id": 1265,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 1066
+        },
+        {
+          "clip_id": 1258,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 1333
+        },
+        {
+          "clip_id": 1259,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 1333
+        },
+        {
+          "clip_id": 1268,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 1,
+          "start": 0,
+          "end": 1066
+        },
+        {
+          "clip_id": 1261,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 200
+        },
+        {
+          "clip_id": 1246,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 200,
+          "end": 500
+        },
+        {
+          "clip_id": 1247,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 500,
+          "end": 1500
+        },
+        {
+          "clip_id": 1262,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 200
+        },
+        {
+          "clip_id": 1248,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 200,
+          "end": 600
+        },
+        {
+          "clip_id": 1249,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 600,
+          "end": 1500
+        },
+        {
+          "clip_id": 1263,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 200
+        },
+        {
+          "clip_id": 1266,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 200,
+          "end": 1700
+        },
+        {
+          "clip_id": 1260,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 1700,
+          "end": 2500
+        },
+        {
+          "clip_id": 1264,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 1100
+        },
+        {
+          "clip_id": 1252,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 699
+        },
+        {
+          "clip_id": 1255,
+          "tracks": 11,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 699,
+          "end": 2400
+        },
+        {
+          "clip_id": 1256,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 833
+        },
+        {
+          "clip_id": 1257,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 866
+        },
+        {
+          "clip_id": 1251,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 2500
+        },
+        {
+          "clip_id": 1250,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 1000
+        },
+        {
+          "clip_id": 1254,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 699,
+          "end": 2466
+        },
+        {
+          "clip_id": 1253,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 1000
+        }
+      ],
+      "validation": "PASS",
+      "scene_nodes": 9,
+      "occurrences": 37,
+      "unique_resources": 23,
+      "targets": 22,
+      "bound_targets": 18,
+      "samples": 2442,
+      "defaults": 325,
+      "retained_bindings": 31,
+      "skipped": 0,
+      "unbound_tracks": 4,
+      "constructor_library0_start": 0,
+      "constructor_library0_end": 2666,
+      "lookup": [
+        [
+          1246,
+          12
+        ],
+        [
+          1247,
+          13
+        ],
+        [
+          1248,
+          15
+        ],
+        [
+          1249,
+          16
+        ],
+        [
+          1250,
+          33
+        ],
+        [
+          1251,
+          32
+        ],
+        [
+          1252,
+          24
+        ],
+        [
+          1253,
+          36
+        ],
+        [
+          1254,
+          35
+        ],
+        [
+          1255,
+          25
+        ],
+        [
+          1256,
+          26
+        ],
+        [
+          1257,
+          27
+        ],
+        [
+          1258,
+          2
+        ],
+        [
+          1259,
+          7
+        ],
+        [
+          1260,
+          22
+        ],
+        [
+          1261,
+          11
+        ],
+        [
+          1262,
+          14
+        ],
+        [
+          1263,
+          20
+        ],
+        [
+          1264,
+          23
+        ],
+        [
+          1265,
+          1
+        ],
+        [
+          1266,
+          21
+        ],
+        [
+          1267,
+          0
+        ],
+        [
+          1268,
+          8
+        ]
+      ],
+      "metadata_sha256": "248cfde99bde22b3c5267c195f5746c9727904ccd0ac5eb2b810c21ea5e95313",
+      "model_sha256": "6d54cdcbace41948f426a31bc8501fac78f26ae1c1f36b4553b916f54a5786a1",
+      "original_probe_sha256": "6c0e47d532161fdd99d0fdd9eeaf02504be1b4054d8a2da356aaec5eea813aad"
+    },
+    "slime-red": {
+      "resources": [
+        {
+          "clip_id": 1267,
+          "tracks": 18,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 3,
+          "start": 0,
+          "end": 2666
+        },
+        {
+          "clip_id": 1265,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 1066
+        },
+        {
+          "clip_id": 1258,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 1333
+        },
+        {
+          "clip_id": 1259,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 1333
+        },
+        {
+          "clip_id": 1268,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 1,
+          "start": 0,
+          "end": 1066
+        },
+        {
+          "clip_id": 1261,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 200
+        },
+        {
+          "clip_id": 1246,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 200,
+          "end": 500
+        },
+        {
+          "clip_id": 1247,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 500,
+          "end": 1500
+        },
+        {
+          "clip_id": 1262,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 200
+        },
+        {
+          "clip_id": 1248,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 200,
+          "end": 600
+        },
+        {
+          "clip_id": 1249,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 600,
+          "end": 1500
+        },
+        {
+          "clip_id": 1263,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 200
+        },
+        {
+          "clip_id": 1266,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 200,
+          "end": 1700
+        },
+        {
+          "clip_id": 1260,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 1700,
+          "end": 2500
+        },
+        {
+          "clip_id": 1264,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 1100
+        },
+        {
+          "clip_id": 1252,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 699
+        },
+        {
+          "clip_id": 1255,
+          "tracks": 11,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 699,
+          "end": 2400
+        },
+        {
+          "clip_id": 1256,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 833
+        },
+        {
+          "clip_id": 1257,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 866
+        },
+        {
+          "clip_id": 1251,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 2500
+        },
+        {
+          "clip_id": 1250,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 1000
+        },
+        {
+          "clip_id": 1254,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 699,
+          "end": 2466
+        },
+        {
+          "clip_id": 1253,
+          "tracks": 12,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 1000
+        }
+      ],
+      "validation": "PASS",
+      "scene_nodes": 9,
+      "occurrences": 37,
+      "unique_resources": 23,
+      "targets": 22,
+      "bound_targets": 18,
+      "samples": 2442,
+      "defaults": 325,
+      "retained_bindings": 31,
+      "skipped": 0,
+      "unbound_tracks": 4,
+      "constructor_library0_start": 0,
+      "constructor_library0_end": 2666,
+      "lookup": [
+        [
+          1246,
+          12
+        ],
+        [
+          1247,
+          13
+        ],
+        [
+          1248,
+          15
+        ],
+        [
+          1249,
+          16
+        ],
+        [
+          1250,
+          33
+        ],
+        [
+          1251,
+          32
+        ],
+        [
+          1252,
+          24
+        ],
+        [
+          1253,
+          36
+        ],
+        [
+          1254,
+          35
+        ],
+        [
+          1255,
+          25
+        ],
+        [
+          1256,
+          26
+        ],
+        [
+          1257,
+          27
+        ],
+        [
+          1258,
+          2
+        ],
+        [
+          1259,
+          7
+        ],
+        [
+          1260,
+          22
+        ],
+        [
+          1261,
+          11
+        ],
+        [
+          1262,
+          14
+        ],
+        [
+          1263,
+          20
+        ],
+        [
+          1264,
+          23
+        ],
+        [
+          1265,
+          1
+        ],
+        [
+          1266,
+          21
+        ],
+        [
+          1267,
+          0
+        ],
+        [
+          1268,
+          8
+        ]
+      ],
+      "metadata_sha256": "f8b6e6f5c6d592345d9eb1c2e19b1d25a6f601e26fd48e57ea62de6d452569d0",
+      "model_sha256": "6d54cdcbace41948f426a31bc8501fac78f26ae1c1f36b4553b916f54a5786a1",
+      "original_probe_sha256": "adb2ca7adeb2c3a93a89d86380acb2d5adb89bb07f63e4e5b34199ee51fa132c"
+    },
+    "ghost": {
+      "resources": [
+        {
+          "clip_id": 716,
+          "tracks": 69,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": -133,
+          "end": 1333
+        },
+        {
+          "clip_id": 714,
+          "tracks": 27,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 1700
+        },
+        {
+          "clip_id": 706,
+          "tracks": 24,
+          "segments": 3,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 6000
+        },
+        {
+          "clip_id": 717,
+          "tracks": 26,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 1333
+        },
+        {
+          "clip_id": 710,
+          "tracks": 26,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 366
+        },
+        {
+          "clip_id": 697,
+          "tracks": 26,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 366,
+          "end": 1033
+        },
+        {
+          "clip_id": 707,
+          "tracks": 26,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 1033,
+          "end": 1466
+        },
+        {
+          "clip_id": 712,
+          "tracks": 24,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 200
+        },
+        {
+          "clip_id": 715,
+          "tracks": 24,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 233,
+          "end": 1666
+        },
+        {
+          "clip_id": 709,
+          "tracks": 24,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 1700,
+          "end": 2500
+        },
+        {
+          "clip_id": 713,
+          "tracks": 26,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 2,
+          "start": 0,
+          "end": 899
+        },
+        {
+          "clip_id": 701,
+          "tracks": 28,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 166
+        },
+        {
+          "clip_id": 704,
+          "tracks": 28,
+          "segments": 2,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 166,
+          "end": 1899
+        },
+        {
+          "clip_id": 705,
+          "tracks": 24,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 2500
+        },
+        {
+          "clip_id": 700,
+          "tracks": 28,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 1033
+        },
+        {
+          "clip_id": 699,
+          "tracks": 25,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 0,
+          "end": 2000
+        },
+        {
+          "clip_id": 703,
+          "tracks": 28,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 0,
+          "start": 166,
+          "end": 1433
+        },
+        {
+          "clip_id": 702,
+          "tracks": 24,
+          "segments": 1,
+          "skipped": 0,
+          "unbound": 2,
+          "start": 0,
+          "end": 2000
+        }
+      ],
+      "validation": "PASS",
+      "scene_nodes": 45,
+      "occurrences": 28,
+      "unique_resources": 18,
+      "targets": 71,
+      "bound_targets": 69,
+      "samples": 5964,
+      "defaults": 1167,
+      "retained_bindings": 52,
+      "skipped": 0,
+      "unbound_tracks": 4,
+      "constructor_library0_start": -133,
+      "constructor_library0_end": 1333,
+      "lookup": [
+        [
+          697,
+          5
+        ],
+        [
+          699,
+          24
+        ],
+        [
+          700,
+          23
+        ],
+        [
+          701,
+          18
+        ],
+        [
+          702,
+          27
+        ],
+        [
+          703,
+          26
+        ],
+        [
+          704,
+          19
+        ],
+        [
+          705,
+          20
+        ],
+        [
+          706,
+          2
+        ],
+        [
+          707,
+          6
+        ],
+        [
+          709,
+          16
+        ],
+        [
+          710,
+          4
+        ],
+        [
+          712,
+          14
+        ],
+        [
+          713,
+          17
+        ],
+        [
+          714,
+          1
+        ],
+        [
+          715,
+          15
+        ],
+        [
+          716,
+          0
+        ],
+        [
+          717,
+          3
+        ]
+      ],
+      "metadata_sha256": "3d62a99bbcad88775fedb09bbde8f8b34b441fd12ce6c7f1a33371e481650060",
+      "model_sha256": "bbd26136f6141d0d319d090e20b99f12d29cce18efad134724bcd5bb008a2183",
+      "original_probe_sha256": "4475e2f6b4c336747786021c86454a3096fb80cfa07d96950044eb1784d48b2f"
+    }
+  },
+  "samples": 26292,
+  "original_instructions_executed_this_run": false,
+  "scope": "Native PAB1/Player/RegistrationSet/dynamic TransformSet compatibility against exact original-derived resource/occurrence/bounds probes. Finite raw-target samples and signed Ghost bounds. No original full-frame, FSM, resource manager or GPU parity claim."
+}

@@ -1,0 +1,32 @@
+{
+  "validation": "PASS",
+  "comparisons": 16,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "manifest_sha256": "720aacc20c195bd6aafd6dc49a70a1a7418f958b2553330cc8673badb883532c",
+  "assembly_sha256": "d8a4a861b96beecb4f20e4e0051f074a0197a24601f1f1bf3a321669a4eea0ff",
+  "library_sha256": "df71965b493727689d4dc3936c45dcdf4079ee7946c2a32f72a733dbd611c2e6",
+  "build_manifest_sha256": "92d10a7db35d861610a8ed0e5a0c7cbdda9550f39b051b332b4b3abc72fb1bc6",
+  "regression_report_sha256": "a9299a3e6ec27a1f444962b0d1ed501bff548074c74531526c08749e75a3b34e",
+  "regression_comparisons": 4371,
+  "teardown_reference_sha256": "cd0c3c3c2a24bdfea96626d37db775388b1904f484f75ffd2a0d35584df3d1bd",
+  "source_sha256": {
+    "port/script-runtime/script_function_alias.cpp": "28117cd5fbfe1c15ed14dc2ef5fbf8ec6a23379b5f9450d15e194f67ba2a0fec",
+    "port/script-runtime/script_function_alias.h": "18437e9ee37bc55cfc91cb162000cd237946b73a3940e0eb4fa9248ab47d170e",
+    "port/script-runtime/reference/function-alias/teardown/probe_arm64.py": "767b0395357f6c8a28a376056332b03e54006006325fbbf72f5f72ff66e51f25",
+    "port/script-runtime/tests/script_function_alias_differential.py": "56bbd13f6566fec5e27b9c3086996ba58990d3ec78fee3aef20747ea0ea443d7",
+    "port/script-runtime/reference/function-alias/probe_original.py": "a2b2b5adb0b39aff03b38f4b8d62b16663901b16f6ce31fb5ee021167eff4712"
+  },
+  "actual_original_destructor_to_instance_close": true,
+  "tracking_preserved": true,
+  "native_backup_before_main_delete_order": true,
+  "original_instance_close_observations": 16,
+  "explicit_services": [
+    "Original loaded-set/path/Arguments are empty fixture inputs",
+    "Original map allocation/tree shape and complete Instance destructor/VM close are services",
+    "Native operator new/delete and imported libc++ string primitives are services; native map clear/tree node destruction instructions execute"
+  ],
+  "original_complete_lua_close_executed": false,
+  "packaged_apk": false,
+  "scope": "Exact original LuaScriptD1 alias-clear phase/order/empty headers/tracking byte observed at Instance destruction versus optimized native clear_contents. Wrapper remains alive. Genuine Lua __gc callbacks are independently covered by teardown host report."
+}

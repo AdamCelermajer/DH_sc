@@ -1,0 +1,16 @@
+{
+  "validation": "PASS",
+  "comparisons": 766,
+  "ordered_requests": 1404,
+  "actual_modular_records": 172,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "1df9ffc0c6188075a0f0b9dd80f364037937c4b9e5237140d9ab9ba928edc706",
+  "gold_sha256": "6f6595f64005d9054b97f71936f8e1c370167e8cffafe254ad81c97ebdda7cd5",
+  "source_sha256": {
+    "port/engine-skinning/visual_skin_selection_v6.hpp": "d9293ee7d7bbbe38be513fe50dbcf891608a6d4e8d61889fbae3a7289cd2c3b3",
+    "port/engine-skinning/visual_skin_selection_v6.cpp": "5fd4136601821c8cdc1ab5bacd1f17f30d0aaedbe708dbd03a82de5ccd9d968d",
+    "port/engine-skinning/tests/visual_skin_selection_v6_differential.py": "1e93a61349bd1b4c6eb254d467c75fbc90638f02fb591bd33ecd8b5bda368308"
+  },
+  "scope": "Actual ordered modular/weapon source bodies versus optimized native kernels.\nController construction, GPU packing, scene search/attachment and intrusive\nstorage are explicit services here. The separate cache host audit constructs\ngenuine decoded resources; this instruction proof does not emulate a GPU.\n"
+}

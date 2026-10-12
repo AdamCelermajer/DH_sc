@@ -1,0 +1,18 @@
+{
+  "validation": "PASS",
+  "scope": "Replay original Level/FastTravel record gold against actual O2 ARM64 code.",
+  "record_cases": 212,
+  "compared_words": 2749,
+  "compared_strings": 327,
+  "gold_sha256": "dd8414bb525280da4b9ab51c8e080c8c24a54d677881ba25a3fd1d93659568cc",
+  "original_capture_sha256": "4e9d0763116c9a09e5f6be978c5338df1a66e0f674cd50219347a8765d253cd1",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "build_sha256": "8bee03f2f95c2fe5a60894bc7631198e8a71075c69cae84594503d057947fdc1",
+  "library_sha256": "246361580cc1d956421695690423a1b99d7ac69e437cbd52cab2c3e525301351",
+  "source_sha256": {
+    "port/game-data/level_tables.cpp": "43e3e130983b6ec3fd9dc9b1c5db1894012143851b21a4ef92993e9392e24ca4",
+    "port/game-data/level_tables.hpp": "ba2961fde528980f9d9d69d05a9d1bbc58ae29f34d3825af8e02465ca5c3a4d9",
+    "port/game-data/data.hpp": "ecc6a73c30c67685af8a3c9d5e70c5ddb9e74143da47abcd355592f791dd2901"
+  },
+  "source_Application_level_selection_verified": false
+}

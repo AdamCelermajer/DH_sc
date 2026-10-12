@@ -1,0 +1,19 @@
+Portable Projectile methods — finite source handoff
+
+Add projectile_methods_v112.hpp/.cpp to the SAME existing family/target. Adopt the additive canonical_projectile_v99.hpp/.cpp storage successor: source_pointer_v99 exposes native uintptr_t cells378/380/384/3a4/3b8/3bc/3c0/3cc and Laser3d4/3d8/3dc; none is also exposed as an ARM word. Proven C1 NULL stores remain exact;3bc/3c0 remain unwritten until SetInfo. Byte37c is a loan of the SAME source byte, not a copied state flag. Existing V99 C1/factory/resource files otherwise remain the authority.
+
+Public bodies:
+projectile_set_info_v112 — bool overload3e58cc: actual row count/assertions, source info/owner/target/callback cells, GetLookAtVec/target position, range square, real projectile_node lookup/absolute origin, speed/gravity/lifetime fields, actual visual selection, retained physical constructor/assignment, position/rotation/destination, Animator play/Sync/duration sentinel-666, SetFlying then SetSwimming.
+projectile_set_info_angle_v112 — float overload3e57cc: actual virtualc8 boolfalse dispatch, fresh source GetLookAtVec, exact radians constant0x3c8efa35/rotateXY, destination, optional visual rotation sync.
+projectile_update_v112 —3e51b0: real hit callback result semantics, fresh cached peer, actual effect and SAME manager DeSpawn, target virtual34/clear, previous target-position snapshot394, row35 following vs normalized destination extension, qualified GameObject.Update, SAME cached App two GetDt calls, source speed/lifetime/range stores/comparisons, real PF query/can-path/flags and exact expiry kinds.
+projectile_on_expire_v112 —3e5078: row34 snapping through current PFObject floor/room/world native query, live394/398 rereads, actual SetPosition, clear cached peer3cc/set pending3d1, fresh target position and actual HandleImpactFX(kind).
+
+ProjectileMethodServicesV112 lends ONLY actual Main process rows, GameObject/point/node/App/PF/visual/Animator/native callback/FX/physical/resource primitives. Main owns existing combat/physics/skill/FX/audio backend and actual queue/manager. Row byte/word callbacks are live SAME process-data views, not another table decode; returned point/node/PF leases pin SAME storage through immediate native reads. Bool generally means delivery: OnExpire deliberately ignores native query's semantic bool, retaining original initialized-zero height when genuine query leaves it unchanged. Current is an owner/epoch admission guard, not another update/clock.
+
+Physical constructor leaf is exact source PhysicalObjectC2(false,true,true,true,short0,u16 20,u16 51f,int0); retain its real prefix BEFORE C1. Successful C1/assignment completion is recorded BEFORE post-callback scope checks, so a failed suffix cannot replay/drop native ownership. Main must persist actual assigned body and retire constructor receipt only after real assignment. Missing positive primitive fails at its reached point.
+
+Math preserves each native single-float operation without FMA, including __aeabi_fcmpge/__aeabi_fcmple unordered behavior. Native normalize has no zero guard; no replacement direction or clamping/default range is manufactured. Invalid info index/NULL source invokes the supplied real assertion diagnostic, then reports the native unsafe continuation as unsupported; no guessed assertion mode or successful NULL receiver is substituted.
+
+Existing resource/D1 helper remains separate. Fixture adds Laser/OnCollision helper; condition adds SetTarget/GetSource/GetTarget/speed/field loans. Main must dispatch actual float/bool virtuals by original receiver type, including Laser overrides. Portable method completion is source readiness only: no hit/damage/skill/physics/FX/platform leaf or gameplay runtime success is claimed.
+
+No tests, compiler, build, hashes, proof/freezes, emulator/device or repeated source-audit jobs. Parent/Main supplies source linkage and validates only at the integrated milestone.

@@ -1,0 +1,628 @@
+[
+  {
+    "name": "_ZN9Container8InteractEP10GameObject",
+    "address": 3803960,
+    "size": 300,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZThn36_N21DestructibleContainerD1Ev",
+    "address": 3806224,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Container18NetStructContainerD0Ev",
+    "address": 3802020,
+    "size": 132,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9ContainerD2Ev",
+    "address": 3802520,
+    "size": 324,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNK9Container10IsAnimatedEv",
+    "address": 3797884,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN7Structs21DestructibleContainerD1Ev",
+    "address": 5087580,
+    "size": 64,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZTVN9Container18NetStructContainerE",
+    "address": 9853056,
+    "size": 80,
+    "type": "STT_OBJECT",
+    "words": [
+      "0x0",
+      "0x0",
+      "0x3a0324",
+      "0x3a03a4",
+      "0x814d00",
+      "0x814cd4",
+      "0x814cd8",
+      "0x8135f4",
+      "0x813264",
+      "0x8135e4",
+      "0x81383c",
+      "0x8137ec",
+      "0x81375c",
+      "0x813704",
+      "0x81334c",
+      "0x81349c",
+      "0x81329c",
+      "0x8132f0",
+      "0x814d28",
+      "0x814774"
+    ]
+  },
+  {
+    "name": "_ZNK9Container10IsObstacleEv",
+    "address": 3797928,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Container8InitPostEv",
+    "address": 3799312,
+    "size": 576,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9ContainerC1EN10ObjectBase6GO_IDSE",
+    "address": 3802844,
+    "size": 172,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZThn36_N9Container11DeserializeEP11IStreamBase",
+    "address": 3798760,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNK9Container21GetLootFixedNumPowersEv",
+    "address": 3797852,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNK9Container8GetSoundEv",
+    "address": 3797836,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZThn36_N9ContainerD1Ev",
+    "address": 3802152,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNK9Container19GetObstacleStrengthEv",
+    "address": 3797948,
+    "size": 12,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNK21DestructibleContainer9GetDataIdEv",
+    "address": 3805632,
+    "size": 28,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNK21DestructibleContainer9GetVisualEv",
+    "address": 3804456,
+    "size": 56,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN7Structs19GetMemberIDByStringINS_21DestructibleContainerEEEiPKc",
+    "address": 4908436,
+    "size": 88,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_Z14GetNewInstanceI21DestructibleContainerEP10ObjectBasev",
+    "address": 3411292,
+    "size": 36,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZThn4_N9Container17DeclarePropertiesEv",
+    "address": 3803188,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNK9Container13IsInteractiveEP10GameObject",
+    "address": 3797892,
+    "size": 36,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNK21DestructibleContainer9GetScriptEv",
+    "address": 3804396,
+    "size": 60,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN7Structs21DestructibleContainerD0Ev",
+    "address": 5087644,
+    "size": 28,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZThn4_N21DestructibleContainer17DeclarePropertiesEv",
+    "address": 3805800,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN21DestructibleContainerC1EN10ObjectBase6GO_IDSE",
+    "address": 3806396,
+    "size": 76,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZTV21DestructibleContainer",
+    "address": 9853432,
+    "size": 272,
+    "type": "STT_OBJECT",
+    "words": [
+      "0x0",
+      "0x0",
+      "0x3a1418",
+      "0x3a1460",
+      "0x340124",
+      "0x38d7ec",
+      "0x39f8e0",
+      "0x39f6f0",
+      "0x3a1270",
+      "0x3a11dc",
+      "0x340054",
+      "0x33dcd0",
+      "0x33dcd8",
+      "0x38cbe8",
+      "0x38c968",
+      "0x39f364",
+      "0x39f324",
+      "0x33dcf0",
+      "0x38b0f0",
+      "0x38ba38",
+      "0x38ba04",
+      "0x3a0110",
+      "0x39fd38",
+      "0x33dd10",
+      "0x39fc98",
+      "0x34005c",
+      "0x340064",
+      "0x34006c",
+      "0x340074",
+      "0x34007c",
+      "0x340084",
+      "0x34008c",
+      "0x34009c",
+      "0x3400a4",
+      "0x39f37c",
+      "0x3400b4",
+      "0x39f384",
+      "0x38ad30",
+      "0x3a0d60",
+      "0x38ad7c",
+      "0x3a0da0",
+      "0x38b110",
+      "0x3400c0",
+      "0x3400dc",
+      "0x3400e4",
+      "0x3400f0",
+      "0x3400fc",
+      "0x39f3a8",
+      "0x39f3b0",
+      "0x39f3bc",
+      "0x34011c",
+      "0x39f534",
+      "0x3a0cec",
+      "0x3a0d28",
+      "0x3a11c0",
+      "0x3a1180",
+      "0x3a1140",
+      "0x3a10f8",
+      "0x39f35c",
+      "0xfffffffc",
+      "0x0",
+      "0x3a1268",
+      "0xffffffdc",
+      "0x0",
+      "0x3a1410",
+      "0x3a1458",
+      "0x39f8d8",
+      "0x39f6e8"
+    ]
+  },
+  {
+    "name": "_ZThn36_N9ContainerD0Ev",
+    "address": 3802484,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNK9Container9GetDataIdEv",
+    "address": 3797820,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNK21DestructibleContainer11KeepPhysicsEv",
+    "address": 3805432,
+    "size": 72,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Container6DoOpenEv",
+    "address": 3803800,
+    "size": 160,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN21DestructibleContainer8InteractEP10GameObject",
+    "address": 3804576,
+    "size": 740,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Container18NetStructContainerC1Ev",
+    "address": 3800920,
+    "size": 440,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZThn36_N21DestructibleContainerD0Ev",
+    "address": 3806296,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Container9InitFinalEv",
+    "address": 3800216,
+    "size": 160,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Container15__EventCallbackERKN6glitch7collada15STriggeredEventEPv",
+    "address": 3804260,
+    "size": 132,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Container8SetStateENS_5StateE",
+    "address": 3797964,
+    "size": 36,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN21DestructibleContainer17DeclarePropertiesEv",
+    "address": 3805808,
+    "size": 4,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN21DestructibleContainer15__EventCallbackERKN6glitch7collada15STriggeredEventEPv",
+    "address": 3805812,
+    "size": 412,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN21DestructibleContainer8InitPostEv",
+    "address": 3805660,
+    "size": 140,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Container9SerializeEP11IStreamBase",
+    "address": 3799264,
+    "size": 48,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNK9Container17GetObstacleRadiusEv",
+    "address": 3797936,
+    "size": 12,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN21DestructibleContainerD0Ev",
+    "address": 3806304,
+    "size": 28,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN7Structs21DestructibleContainer4readEP11IStreamBase",
+    "address": 5235232,
+    "size": 1396,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Container5SpawnEv",
+    "address": 3798000,
+    "size": 92,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNK9Container9GetVisualEv",
+    "address": 3797812,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNK9Container7GetLootEv",
+    "address": 3797828,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9ContainerD0Ev",
+    "address": 3802492,
+    "size": 28,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNK21DestructibleContainer8GetSoundEv",
+    "address": 3805504,
+    "size": 64,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZTV9Container",
+    "address": 9853136,
+    "size": 272,
+    "type": "STT_OBJECT",
+    "words": [
+      "0x0",
+      "0x0",
+      "0x3a0430",
+      "0x3a057c",
+      "0x340124",
+      "0x38d7ec",
+      "0x39f8e0",
+      "0x39f6f0",
+      "0x3a083c",
+      "0x39f910",
+      "0x340054",
+      "0x33dcd0",
+      "0x33dcd8",
+      "0x38cbe8",
+      "0x38c968",
+      "0x39f364",
+      "0x39f324",
+      "0x33dcf0",
+      "0x38b0f0",
+      "0x38ba38",
+      "0x38ba04",
+      "0x3a0110",
+      "0x39fd38",
+      "0x33dd10",
+      "0x39fc98",
+      "0x34005c",
+      "0x340064",
+      "0x34006c",
+      "0x340074",
+      "0x34007c",
+      "0x340084",
+      "0x34008c",
+      "0x34009c",
+      "0x3400a4",
+      "0x39f37c",
+      "0x3400b4",
+      "0x39f384",
+      "0x38ad30",
+      "0x38ad74",
+      "0x38ad7c",
+      "0x3a0b38",
+      "0x38b110",
+      "0x3400c0",
+      "0x3400dc",
+      "0x3400e4",
+      "0x3400f0",
+      "0x3400fc",
+      "0x39f3a8",
+      "0x39f3b0",
+      "0x39f3bc",
+      "0x34011c",
+      "0x39f534",
+      "0x39f32c",
+      "0x39f334",
+      "0x39f33c",
+      "0x39f344",
+      "0x39f34c",
+      "0x39f354",
+      "0x39f35c",
+      "0xfffffffc",
+      "0x0",
+      "0x3a0834",
+      "0xffffffdc",
+      "0x0",
+      "0x3a0428",
+      "0x3a0574",
+      "0x39f8d8",
+      "0x39f6e8"
+    ]
+  },
+  {
+    "name": "_ZNK9Container6IsDeadEv",
+    "address": 3797860,
+    "size": 24,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNK21DestructibleContainer7GetLootEv",
+    "address": 3805568,
+    "size": 64,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNK9Container9IsZonableEv",
+    "address": 3798324,
+    "size": 4,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Container26InterpretIncomingNetStructEb",
+    "address": 3800376,
+    "size": 544,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN12ObjectHandlecvPT_I9ContainerEEv",
+    "address": 4559860,
+    "size": 180,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNK9Container11IsUpdatableEv",
+    "address": 3797796,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN21DestructibleContainerD1Ev",
+    "address": 3806232,
+    "size": 64,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZThn36_N9Container9SerializeEP11IStreamBase",
+    "address": 3799256,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNK9Container11KeepPhysicsEv",
+    "address": 3797844,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN7Structs21DestructibleContainerD2Ev",
+    "address": 5087672,
+    "size": 64,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN7Structs21DestructibleContainer13m_dataOffsetsE",
+    "address": 10068596,
+    "size": 60,
+    "type": "STT_OBJECT"
+  },
+  {
+    "name": "_ZN21DestructibleContainerC2EN10ObjectBase6GO_IDSE",
+    "address": 3806472,
+    "size": 76,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Container17DeclarePropertiesEv",
+    "address": 3803196,
+    "size": 604,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZTVN7Structs21DestructibleContainerE",
+    "address": 9876704,
+    "size": 24,
+    "type": "STT_OBJECT",
+    "words": [
+      "0x0",
+      "0x0",
+      "0x4da15c",
+      "0x4da19c",
+      "0x4da134",
+      "0x4fe220"
+    ]
+  },
+  {
+    "name": "_ZN7Structs21DestructibleContainer11m_dataNamesE",
+    "address": 10402372,
+    "size": 360,
+    "type": "STT_OBJECT"
+  },
+  {
+    "name": "_ZN9ContainerD1Ev",
+    "address": 3802160,
+    "size": 324,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN21DestructibleContainerD2Ev",
+    "address": 3806332,
+    "size": 64,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Container11DeserializeEP11IStreamBase",
+    "address": 3798768,
+    "size": 312,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN7Structs21DestructibleContainer8finalizeEv",
+    "address": 5087540,
+    "size": 40,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNK9Container9GetScriptEv",
+    "address": 3797804,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN21DestructibleContainer9DoEffectsEv",
+    "address": 3804520,
+    "size": 4,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Container18NetStructContainerD1Ev",
+    "address": 3801892,
+    "size": 124,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9ContainerC2EN10ObjectBase6GO_IDSE",
+    "address": 3803016,
+    "size": 172,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZNK21DestructibleContainer18GetInteractionTypeEP10GameObject",
+    "address": 3804512,
+    "size": 8,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Container10__CallbackEPN6glitch5scene19ITimelineControllerEPv",
+    "address": 3798092,
+    "size": 204,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "_ZN9Container25PopulateOutgoingNetStructEb",
+    "address": 3801360,
+    "size": 532,
+    "type": "STT_FUNC"
+  },
+  {
+    "name": "$a",
+    "address": 3411292,
+    "size": 0,
+    "type": "STT_NOTYPE"
+  }
+]

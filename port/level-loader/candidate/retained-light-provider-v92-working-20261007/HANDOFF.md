@@ -1,0 +1,37 @@
+# Retained LightPoint provider V92 — source only
+
+Candidate: C:/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc/port/level-loader/candidate/retained-light-provider-v92-working-20261007
+
+This adds the real native light/node/LightSet resource producer for the existing LightEnvironmentLeavesV67 packet. It uses the SAME canonical LightPoint53 receiver, Scene root registry, original Names facet and App58..64 tweaker owners. No Visual/ObjectBase/BRES-byte alias is used as a light node; no second Scene, manager/name table, receiver C1 or animator clock is created.
+
+Production additions:
+
+- `retained_light_resources_v92.hpp/.cpp`: owned CLight59fe08 cells, concrete CLightSceneNode5840f0 resource over actual V91 NodeStorage, original CRootSceneNode188 first-light order, static authored BRES light scene/mesh ownership, actual root attachment, Scene424 automatic actor entries, SAME LightSet78 four-by-five strong CLight slots +dirty64, active-light entries, unique actor-reference token and guarded parameter borrower.
+- `renderer_campaign_light_provider_v92.hpp/.inc`: actual current weak campaign delivery; fallback C1/first-authored-light/root/automatic/parameter/type/RefreshAttachment leaves; positive App tweaker source publication and setters. Include HPP globally and INC inside model_renderer after V69 input definition and BEFORE V89 environment.
+- `environment-light-packet-v92.patch`: call `prepare_campaign_light_resources_v92(actual,weak,inputs,error)` at the existing environment stage immediately after borrowing SAME Names and BEFORE journal binding. Existing genuine callbacks are preserved. Journal then appends the real admission/release callbacks; V89 typed lenders follow.
+- `light-owner-admission-v92.patch`: additive canonical LightNode typed resource receipts +same LightPoint mutable attachment/handle fields; final Scope.services_owner delivery (required after V69's authority rewrite); SAME Root scene resource facet; original App tweaker slot/vector/color publication method.
+- `light-node-disposal-setters-v92.patch`: source LightBase typed setters and final actor120 passive receipts disposed after authentic actor-reference drop. It preserves current source D0 ordering.
+- `tweaker-light-receiver-v92.patch`: public positive setter bridge in the existing V90 service bag, borrowing the same original manager entry with exact LightPoint19/class identity and aliasing its actual canonical C1 owner. No additional directory/registry.
+
+Link `retained_light_resources_v92.cpp` ONCE in the existing production level-world owner. Keep existing canonical_light_point_v53.cpp and player_light_tweaker_owner_v90.cpp compiled once; apply their narrow additions. Dependencies are current scene/materials, engine resources/math and V91 retained mesh/node owner. The V91 scene-storage ABI requires coherent dependent rebuilding only at Main's big milestone.
+
+Source controls recovered:
+
+- CLight59fe08: ambient(0,0,0,1), diffuse/specular(1,1,1,1), attenuation(1,0,0), radius bits7f7fffff, falloff0, outer45, inner2, type0, enabled1. CLightSceneNode5840f0 owns the SAME node matrix source; its bounds/culling helper583c18 uses the original radius-square/half branch. Recalculation happens through actual getBoundingBox583cf0 on type change, not an extra animation/frame tick.
+- ColladaLight6444ec: original four source kinds (ambient, point, spot, directional), packed source RGBA*multiplier/255, exact type mapping3/0/1/2 and relevant attenuation/cone scalars. Serialized scene instance tag4 calls constructLight61b664; root188 preserves depth-first source construction order. Actual no-file/no-light returns NULL and permits original fallback C1.
+- LightBase40b0c0: unique native actor reference, original root addChild/drop then actor grab semantics, separate automatic Scene424 entry, borrowed actual CLight fields. Radius threshold and RGB/attenuation conversion remain the existing canonical source body.
+- LightPoint40bac0: strncmp18 literal `_prim_PlayerLight_`; source attachment literal `PlayerCharacter_0`; actual GetLocalPlayer(0,true), optional SAME Character660 source name, AssignTweaker(0,0) reaches SAME LightSet.SetLight before App58 slots/color stores. General path uses original SAME manager name/room lookup, copies only a nonNULL handle, and respects actual1b0/1b1 plus reached EnablePlayerHeadLight Debug branch.
+- AssignTweaker40b828: SAME LightBase ID128 first, attenuation7c, ambient/diffuse/specular packed RGBA with original double*255/truncate-to-int/low-byte conversion. Exceptional imported conversion domain fails explicitly.
+- LightBase setters40b3c8/40b720/40b674/40b5c8 write actual source receiver and SAME CLight; attenuation setter divides source Y/Z by1000/1000000. They do not replay SyncData's DAE Debug branch.
+- Qualified LightNode last-owner lifetime uses independent shared node fields and CLight transformation resources; root/LightSet references survive actor120 release. No automatic-list removal is invented on LightPoint D0. The source Scene.clear LightSet assignment resets lightsets/dirty/active/static storage; the separate Scene424 automatic collection remains distinct.
+
+Remaining genuine Main integration:
+
+- Preserve/supply `LightEnvironmentLeavesV67.bind_objectbase_dtor(delivery,actorID,unique_ptr<LightObjectBaseContinuationV67>&,error)`. The source publication guard in `light-provider-publication-v92.patch` leaves the optional `.lights` packet NULL when that genuine continuation is absent. This preserves non-LightPoint level composition; an authored LightPoint still fails at the original unsupported-factory boundary. Once Main supplies this actual continuation, the same preparation function fills its concrete resource leaves; environment and journal fill their genuine later callbacks before CatalogEnvironment admission. No failure/success stand-in claims readiness.
+- Main status/unload owner must supply and retain the genuine owning-thread LightQuiescenceLeaseV67, call journal.prepare_lights before mutation, then journal.destroy_source with the SAME lease. `borrow_campaign_light_stamp_v92(actual,stamp,error)` lends metadata only, including actual scene resource identity/epoch; it never creates a barrier/lease. Runtime owner must match final V69 Scope.services_owner. Retain barrier through actual Scene.Clear/old automatic-list reader quiescence.
+- Actual driver/material LightSet.ApplySettings/Update consumers should borrow `source_lights78/source_dirty64/active11c/automatic424` from the SAME `roots->source_light_resources_v92()` facet. This packet creates native resource ownership/fields, not GPU readiness or a second shader/material policy.
+- Static authored light-scene domain accepts original light types0..3 and admitted static triangle mesh resources. Animated light assets, actual skinned light-scene controllers, camera/emitter/unknown scene kinds, malformed/external BRES references remain explicit positive failures. They are never treated as a genuine source NULL lookup.
+
+Parent-requested V91 fix is also written in its original candidate scene.hpp/child-storage-integration-v91.patch: Node and Instance copy/move assignments compare actual storage addresses so moved wrappers sharing one backing cannot self-move its strings/material vectors. Copy constructors still deep-copy actual scene clone storage.
+
+No shared Root writes, tests, compilation, syntax/build/apply-checks, hashes, fixture additions, emulators or native jobs were run. Main source adoption and the ONE integrated milestone remain pending.

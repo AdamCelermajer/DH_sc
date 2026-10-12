@@ -1,0 +1,10 @@
+{
+  "baseline_sha256": "29bdb6fb795260087928f5523bb7c6c15ffec39918e4e2a87cefb2d08b0c924a",
+  "scope": "missing local .inc dependencies; exact bytes verified against frozen bdaafe73 compiler input capture",
+  "entries": {
+    "port/level-world/canonical_property_declarations_v1.inc": {
+      "sha256": "4e7b741b7e3588bfc9ca834a5a5f8e52ddce7c4f3cd8cefab178648e4e3eaa9c",
+      "bytes": 5906
+    }
+  }
+}

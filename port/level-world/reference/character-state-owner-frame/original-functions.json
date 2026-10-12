@@ -1,0 +1,35 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6CSDead8OnUpdateEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c004c",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN6CSIdle8OnUpdateEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c0e80",
+      "size": 16,
+      "sha256": "cb75a2633d2bc15c4a0aaf7d11871fbefc2462a50bd63d2a31a4dc0f8ba2c757"
+    },
+    {
+      "original_symbol": "_ZN6CSMove8OnUpdateEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c1184",
+      "size": 260,
+      "sha256": "16521417b20a37f0fd00e6b4fd90b66117692d383954d6f11eac6e78bad5af67"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine6UpdateEv",
+      "elf_address": "0x3c628c",
+      "size": 264,
+      "sha256": "abfd28dd44b37cb6e711de13ac7a010767efbfd6faec0c925773240f77e45614"
+    },
+    {
+      "original_symbol": "_ZN8CSAttack8OnUpdateEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c14f8",
+      "size": 96,
+      "sha256": "95dac133891671629d1695f283c30f7d56dc92c61f1be6d46f584d07348fc92d"
+    }
+  ]
+}

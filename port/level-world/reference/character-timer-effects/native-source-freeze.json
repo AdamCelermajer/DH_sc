@@ -1,0 +1,30 @@
+{
+  "validation": "FROZEN",
+  "source_sha256": {
+    "port\\level-world\\character_timer_effects.hpp": "d0d1dcfa0ebb530a8c7fd302a6801357e6a36df9b16d0305c17d67201a0c684a",
+    "port\\level-world\\character_timer_effects.cpp": "b6937578a786cbbb2cc1a516611598941e76d32bac5441d57a4a88b5772bd0f5",
+    "port\\level-world\\tests\\character_timer_effects.cpp": "78594c004c5aa5dd1e96ca5dc50e3eb20182103f1f939312bc39e6ea71f02649",
+    "port\\level-world\\tests\\character_timer_effects_host.py": "0d116880902ab79f749cee44bc1babb33c59de669328ceaf6531cffd52aa7abf",
+    "port\\level-world\\tests\\character_timer_effects_differential.py": "2bcf7f57170fb352b8283d661c548ebf1f3a9748c34dcadbf5d03ff9118160da",
+    "port\\level-world\\tools\\build_character_timer_effects_oracle.ps1": "f8b3efbd580a4743cda2bb201645154a017a41c902163e7e11c5e19011b81bca",
+    "port\\level-world\\reference\\character-timer-effects\\NOTES.md": "cb7370802cdba764e606a7be7976d42e0995219f973033d034d81987aeb5c9a8"
+  },
+  "input_sha256": {
+    "port\\level-world\\reference\\character-timer-effects\\cached-reset-fixtures.bin": "e65ab48d040d3dc48a9c3a9682c987ef5d3fa0fb4b888efb7e3d26c3b2f5c0b6",
+    "port\\level-world\\reference\\character-timer-effects\\original-functions.json": "54c81272176bdaea36ebc55fa41d3b1affd1f65a3fcbf069f5ee77470ec325eb",
+    "port\\level-world\\reference\\character-timer-effects\\owner-query-fixtures.bin": "b469f1d31fbcbc584057a0245aa4a7d77518ce116b04e150acb687749c624b00",
+    "port\\level-world\\reference\\character-timer-effects\\timer-effects-fixtures.bin": "b4643101875410864a7f69e270939adfe94ac162aca9ee6cff801e68c5db14ee",
+    "port\\level-world\\reference\\character-timer-effects\\buff-lifecycle\\original-functions.json": "c344cea059591aca1c01ef765b2abe278152e14d3b1b45e114a6adb5a02ca6a9",
+    "port\\level-world\\reference\\character-timer-effects\\dot-producers\\original-functions.json": "0a3aa30697d31f04ae138a4b5eabcc226f11511efaa7a362c83b6b46eaedfe9c",
+    "port\\level-world\\reference\\character-timer-effects\\owner-queries\\original-functions.json": "dc20dd346be1e0d95d874a32b3c1e07d2b2479449a0ee9fd417a8b4464c36597",
+    "port\\level-world\\reference\\character-timer-effects\\reference\\original-functions.asm": "d69e9eb4e774f1776b6bd489fbb209b0118d9329a6291fbe526e8bc49a887ae5",
+    "port\\level-world\\reference\\character-timer-effects\\reset\\original-functions.json": "c74d38868f3c87445f7aede0bf520e89e262f6495d07d04df87cd640f88c5f0e",
+    "port\\level-world\\reference\\character-timer-effects\\buff-lifecycle\\reference\\original-functions.asm": "69400a21eacb22fd3569f56f03b802d0edad8c5933281844a4a425c12b848750",
+    "port\\level-world\\reference\\character-timer-effects\\dot-producers\\reference\\original-functions.asm": "3e6a8dcdffd806d22eaa5c3aa92b884090e2f34b212135d18195c4d37f64a4f8",
+    "port\\level-world\\reference\\character-timer-effects\\owner-queries\\reference\\original-functions.asm": "5a2cd9444da490750c08cc069b356848ec3b6d66cd9859a862c5d0917bb9e621",
+    "port\\level-world\\reference\\character-timer-effects\\reset\\reference\\original-functions.asm": "fb4e32e4f4e991955502e2f3bc4c0be3df2eb54a6647f1709d0d6e8c46e967a1",
+    "port\\android-native\\app\\src\\main\\assets\\data\\character_properties_pyarray.bin": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784"
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "full_DoT_buff_registry_or_application": false
+}

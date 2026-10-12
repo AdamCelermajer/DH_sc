@@ -1,0 +1,28 @@
+{
+  "schema": "dh2-condition-list-v55-native",
+  "status": "PASS",
+  "stdout": "PASS original_cache_rows118_stubs154; ctor_assign_D1_controlled_factory_fixtures118; malformed4; repeatedAssign/zero/negative/foreign; actual_selected_Character50_conditions100_authored12_Invalid2_required_factories10; same_actor_compiled_before_stop; no_eval_no_RNG_no_whole_InitPost_claim\n",
+  "selected_sources_unchanged": {
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\retained_character_actor_v1.hpp": "439a4d434712ab387e5d5dafb1e10e487b7145006cd857ab8bf2f5ebca74b43a",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\retained_character_actor_v1.cpp": "c6dd2b541605f8dbf5c83259721973b4a7ec3a08e4bf81342e145f7c7b107dcd",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\canonical_character_family_v4.hpp": "62b288d35da526ac1713e2a38095960c1bd19bc3aa87f96fc4e64ff7a42e1dac",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\vendor\\character-rng-integration-v5-loading\\port\\level-world\\canonical_character_family_v4.cpp": "8b25023efde915318219a55288412d66faf84c8f230ca790420b2ff6ece4b91a"
+  },
+  "native_code_hashes": {
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\condition-list-v55\\condition_list_owner_v55.cpp": "0dd9833ce5ae6c072b984be15433c066411fdc09db9ce885abf33d1bd3fc4fd0",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\condition-list-v55\\condition_list_v55_test.cpp": "79a444f042ace0019bb428c034700207e944e07d238ddaa4398eacb6c8234ff0",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\condition-list-v55\\condition_list_owner_v55.hpp": "e15c96f3ce44d68b3380457047aa60ab83b73c997621d8300a031724a5bdb7cf",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc\\port\\level-loader\\reference\\condition-list-v55\\character_factory_setup_v55.inc": "d20277f6b11f23183bd702e2b1cbbc3d5236c80e76439946dfc6217198e6cc20"
+  },
+  "actual_SWAMP_character_records": 50,
+  "actual_condition_cells": 100,
+  "empty_Invalid_no_allocations": 90,
+  "meaningful_required_factory_stops": 10,
+  "controlled_positive_factory_fixtures_not_gameplay": true,
+  "original_native_Eval_called": false,
+  "whole_Character_InitPost": false,
+  "no_RNG_consumed": true,
+  "binary_sha256": "02043df6c97e8efa1324dbba85048c9d00336c506c23981fc6442c575c9f0557",
+  "linkmap_sha256": "1b5aefd9f8e1500fb6a357daee211e784be37c819a02246832885a0d34df2de1",
+  "no_legacy_V4_graph_archive": true
+}

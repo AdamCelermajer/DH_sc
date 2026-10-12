@@ -1,0 +1,80 @@
+{
+  "validation": "PASS",
+  "scope": "Actual ARM32 load-stage dispatch, InitPost retry, and InitScriptProcess branch probes.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "script_sha256": "2458f5741ec0243e8c007e78906c5e5112f512e30192d076b75b4273e79fb42f",
+  "capture_sha256": {
+    "port/level-world/reference/character-pre-spawn/producers/original-functions.json": "c0dbf7b8ce319723be08096446b61df05d917c1f023634747ab4e6753448d32a",
+    "port/level-world/reference/character-pre-spawn/producers/reference/original-functions.asm": "10094fb43e387980ff7abbe1ba9288e410999117530a4cc48cd3dbad96f7594f",
+    "port/level-world/reference/character-pre-spawn/object-init/original-functions.json": "f33c7f97ecdab73725cfb27419c47a52377c547bf0b29ad139d397e453fcd394",
+    "port/level-world/reference/character-pre-spawn/object-init/reference/original-functions.asm": "d7913c30b2d2b131e3c163c45a8b0a9c13ce6e829aa55eb87e1343a8e8e0661f"
+  },
+  "load_stage_dispatch": [
+    {
+      "stage": 10,
+      "jump_table_entry": "0x3f6a60",
+      "target": "0x3f70cc"
+    },
+    {
+      "stage": 18,
+      "jump_table_entry": "0x3f6a80",
+      "target": "0x3f76c8"
+    }
+  ],
+  "init_post_retry_results": [
+    0,
+    0,
+    1
+  ],
+  "character_vtable": {
+    "symbol": "_ZTV9Character",
+    "address": "0x965f30",
+    "address_point": "0x965f38",
+    "slot": "0x1c",
+    "function": "0x3b4d60"
+  },
+  "character_script_init_branch": [
+    {
+      "character_3ec": 0,
+      "target": "0x3b54c8",
+      "calls_init_script_process": true,
+      "init_post_argument": 0
+    },
+    {
+      "character_3ec": 1,
+      "target": "0x3b5444",
+      "calls_init_script_process": false,
+      "init_post_argument": null
+    },
+    {
+      "character_3ec": 255,
+      "target": "0x3b5444",
+      "calls_init_script_process": false,
+      "init_post_argument": null
+    }
+  ],
+  "init_script_process": [
+    {
+      "init_post": 0,
+      "ordered_services": [
+        "0x3b3a70",
+        "0x3ce044",
+        "0x3d8894",
+        "0x3c0070"
+      ]
+    },
+    {
+      "init_post": 1,
+      "ordered_services": [
+        "0x3b3a70",
+        "0x3ce044",
+        "0x3d8894",
+        "0x3c0070",
+        "0x3c2810"
+      ]
+    }
+  ],
+  "services": "InitPost and deeper script/skill/virtual bodies are explicit return-only probe services; dispatch/retry/branch/order execute original instructions.",
+  "complete_level_load_executed": false,
+  "active_AIS_publication": "Must compose genuine lifecycle; these probes do not invent whether an active AIS is null."
+}

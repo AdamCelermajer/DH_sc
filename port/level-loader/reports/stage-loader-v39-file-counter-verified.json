@@ -1,0 +1,31 @@
+{
+  "validation": "PASS",
+  "recorded_utc": "2026-10-06T12:39:36.866951+00:00",
+  "command": [
+    "wsl.exe",
+    "-d",
+    "Ubuntu",
+    "--",
+    "/mnt/c/Users/adamc/.codex/worktrees/generic-level-loader/build/stage-file-counter-v39/dh2_file_counter_v39"
+  ],
+  "stdout": "PASS actual_word13c_shape_cases=9 native_add32_boundary_cases=7 field140_preserved=1 actual_production_C1_executed=0",
+  "returncode": 0,
+  "original_resets": 9,
+  "original_add32_cases": 7,
+  "native_shape_cases": 9,
+  "constructor_header_adopted": false,
+  "field140_preserved_pointer": true,
+  "source_sha256": {
+    "reference/level-init-v36/stage-loader-v39-file-counter-inventory.json": "72e3efaec316a4ff15a0d3d6b6a51101be20f18f4e30c823eb59e16d8ed3fabe",
+    "reference/level-init-v36/stage-loader-v39-file-counter-original.json": "9823bbb472410c5eda2307567ce805802630f609abcbf220f286da25bcfde9e7",
+    "reference/level-init-v36/stage-loader-v39-file-counter-proof.py": "a63962f96718112529fcafa5ff3d622dd5871706f5e79be53f2c2ea089bd7e93",
+    "reference/level-init-v36/stage-loader-v39-file-counter-proposed.diff": "6eb480d79652dcf2e22144c215fd1df9b4bbc7b82d26a86e2c6218c9c89164f1",
+    "reference/level-init-v36/stage-loader-v39-file-counter-proposed.hpp": "dfe08c0300629ca7c01289891e02bbd266a29efc966d26a1c715f4782d2781b1",
+    "reports/stage-loader-v39-file-counter-handoff.md": "d933350464d5786cb9f5c91b9f262ea44124c4c557f72b9a7f50dfc9772a1ec2",
+    "stage_loader_v39_file_counter.hpp": "44ab9229ad51bf82b025b55a926efd43883e2e2f08a4ab5a14503b941f19d201",
+    "tests/cmake-stage-file-counter-v39/CMakeLists.txt": "fd8b13eb4a67bb1dca244321d991e3ab9ca46ce287d0a2b0c4dd25268b432b46",
+    "tests/stage_loader_v39_file_counter_probe.cpp": "fde5f2ae4df57bce9d365661bcb6bb2148c4faa96edc47c82c6266c55a5dc548"
+  },
+  "production_C1_executed_in_probe": false,
+  "whole_level_init_verified": false
+}

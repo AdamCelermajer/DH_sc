@@ -1,0 +1,18 @@
+{
+  "status": "PASS bounded predicate; actual GetCharType provider remains main-owned",
+  "original_cases": 63,
+  "native_output": "PASS original_matched=63 native_predicate_cases=49 live_type_archetype_changes=1 missing_type0_archetype_preserves_out=1 nonzero_type_skips_archetype=1 missing_provider_explicit=1 service_calls=117\n",
+  "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "binary_sha256": "14858bdf7029345a0b530940bf1d96d1216480e4c8eab4c925250b626b389b24",
+  "files": {
+    "reference\\character-init-model-v41\\character-is-player-original-gold-v41.tsv": "ef0cb6807c69a67c9a53f1170b37bd6eabcff24ba2d2af56fa4e5188c6175ae4",
+    "reference\\character-init-model-v41\\character-is-player-original-v41.json": "b852c1b7e2a6e8fc134172efcf3853db9594296c6be584b77eeff8e478ada50f",
+    "reference\\character-init-model-v41\\character_is_player_v41.cpp": "3968a3d59a254344dece961d418927160d23fdbe1bb82818f83274a2f3a95e43",
+    "reference\\character-init-model-v41\\character_is_player_v41.hpp": "7b680c57314b04ba26f86a80946d012015f93eed5d38fff9027e1a50681074d9",
+    "reference\\character-init-model-v41\\character_is_player_v41_test.cpp": "f6cbea37b666c57f4590a346253433df89a6a75f325506f30b9a00b1c94dc4d1",
+    "reference\\character-init-model-v41\\prove_character_is_player_v41.py": "c928c18edae3c8bcc5bc3ea3ebb0795a777535a0fbe12d7db216050ea9edec5e"
+  },
+  "no_graph_archives_linked": true,
+  "no_existing_source_changed": true,
+  "emulator_launched": false
+}

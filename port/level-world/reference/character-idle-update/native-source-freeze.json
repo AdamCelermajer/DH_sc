@@ -1,0 +1,29 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_sha256": {
+    "port/level-world/character_idle_update.hpp": "97b98336bf2dbd82736fc4963f5be3beb3616f7dd37fbb2307171cf1b330fd88",
+    "port/level-world/character_idle_update.cpp": "db5d8a06ec37208d78fcaa5e7282873f6a06ef94f169fce7243d728a94b89dc0",
+    "port/level-world/tests/character_idle_update.cpp": "f9e5eb36c5a0c9ed7438c4ac0acccb9937030f33c5cfbc1fef02266bd9a2cf5d",
+    "port/level-world/tests/character_idle_update_differential.py": "af6baa190149da623c3a0f1a4a2384c3c84c2e836462fc92202ada721bc1a722",
+    "port/level-world/tests/character_idle_update_host.py": "64df748ce6fd616db0277cfd288deaa37b7366954aa0de88400a0cdaff9f14b0",
+    "port/level-world/tools/build_character_idle_update_oracle.ps1": "9b6ae2245457d92beaf44425b179f328b0aff652ee62fff09508d2f6a6a39732",
+    "port/level-world/reports/character-idle-update-arm64-differential.json": "7ec30dec868dba35d269ce003a6cacd9ba8cd1922eb15798183ea2d0d80b3af4",
+    "port/level-world/reports/character-idle-update-host-audit.json": "7ffe0267f6c1621f658cc2dc21acfbb7db05bc71365de6ce8482afa7ac5825c9",
+    "port/level-world/reference/character-idle-update/idle-fixtures.bin": "0190df0ad15567a7ed6432a642f20d360744ad9217713774d08758877b6bbef9",
+    "port/level-world/reference/character-idle-update/idle-fixtures.json": "c594fd58c9a5b7198b46e0afc177d57f7b904665578505dd34f65a40aec49361",
+    "port/level-world/reference/character-idle-update/NOTES.md": "f9c29a03018fea952ca9c21467cc3a7b7d19614b3bfbb280e098c60084a93ff5",
+    "port/level-world/reference/character-idle-update/original-functions.json": "a308a6834cf46a81c1e473a929a36caf69bfa819ac2078830d0f69c4207d9978",
+    "port/level-world/reference/character-idle-update/source-constants.json": "89493bb05b2dba534e3a9c91d3735900ef2806c70b0af5becccc647c8cb0641e",
+    "port/level-world/reference/character-idle-update/reference/original-functions.asm": "71541763aed9221609f09d912b5524a2de6c0054ef396d4db6cf418285aa6ca1"
+  },
+  "comparisons": 1800,
+  "ordered_requests": 10055,
+  "reentry_cases": 15,
+  "host_checks": 241943,
+  "sanitizer_findings": 0,
+  "native_world_snapshot_sha256": "a519e8cd20de2c0cf41c6791a1d48ab63c6d1afc2a09c7266387110481440870",
+  "production_source_frozen": true,
+  "packaged_APK": false,
+  "scope": "Complete IdleCommonUpdate coordinator with explicit required deep services; original-vs-O2 plus original-gold SAN/private actual world FSM-State-IsPlayer composition. No full original frame or complete player manager/controller backend claim."
+}

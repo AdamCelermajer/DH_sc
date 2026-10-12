@@ -1,0 +1,100 @@
+{
+  "scope": "applied shared Actor/Visual/physical hooks; fresh/adoption separated; original and native fixture boundaries explicit in applied-hooks.md; no live loader claim",
+  "files": [
+    {
+      "path": "port/level-world/character_set_position_v7.hpp",
+      "sha256": "15fe83a1b68ef5bc0bf2b68cbe3502b539ab9cc1d11d4d68ce025b31ab4296b7",
+      "bytes": 2111
+    },
+    {
+      "path": "port/level-world/character_set_position_v7.cpp",
+      "sha256": "98d0c388457c5cf49c4a5eda90bc285dd83ca8ca9bb2c03e9cee7d7cff260d7f",
+      "bytes": 3414
+    },
+    {
+      "path": "port/level-world/retained_character_position_owner_v7.hpp",
+      "sha256": "50b874868ce01ed101f82018680dc4f04484dc1bcc264a760718b757907f89b6",
+      "bytes": 1582
+    },
+    {
+      "path": "port/level-world/retained_character_position_owner_v7.cpp",
+      "sha256": "9e0ea0a115e76697693a00cfae97b8747163b70894091e1f9c9dc7e588b9426e",
+      "bytes": 3335
+    },
+    {
+      "path": "port/level-world/tests/character_set_position_v7.cpp",
+      "sha256": "702271dabbbfa15333c93b96dd107d3dd52acdf3805d360a7a7bc29bac5210fd",
+      "bytes": 4876
+    },
+    {
+      "path": "port/level-world/tests/retained_character_position_owner_v7.cpp",
+      "sha256": "8ae8dbd34064e394ed193d8edb62573b65bbd0ece0a6a98c34f1bed54e95b2e3",
+      "bytes": 5221
+    },
+    {
+      "path": "port/level-world/tools/produce_character_set_position_v7.py",
+      "sha256": "8b0faf16ec034bf2d62d6f39f821a4885e111229c73b79a411beeb0f9939d8fc",
+      "bytes": 3551
+    },
+    {
+      "path": "port/level-world/reference/character-set-position-v7/original-gold.bin",
+      "sha256": "fd76a55596bb86c701d0a92097871138bce8a48600994af00fd476951e35701f",
+      "bytes": 19972
+    },
+    {
+      "path": "port/level-world/retained_character_actor_v1.hpp",
+      "sha256": "0a1954ecb0d19f800de635c576fd3090e2ea361a8d57653d640e5de96018d0d1",
+      "bytes": 9286
+    },
+    {
+      "path": "port/level-world/retained_character_actor_v1.cpp",
+      "sha256": "6dce8ac669db1ecd139678a6e4f9c5729b7b061a48f810b467a6b8e113afa279",
+      "bytes": 14462
+    },
+    {
+      "path": "port/level-world/retained_gameobject_visual_v1.hpp",
+      "sha256": "910ddf0bfe24460b7b50e85df0d13572cad9e95141b8a5fb81276d154cab9ce9",
+      "bytes": 6087
+    },
+    {
+      "path": "port/level-world/retained_gameobject_visual_v1.cpp",
+      "sha256": "1a6813299b52f82b506fcbe0a1e4427b66108f553331fd6db94f02b5a35734f8",
+      "bytes": 20534
+    },
+    {
+      "path": "port/level-world/retained_character_family_visual_v6.hpp",
+      "sha256": "341c998433abf76f5a5716b373df3aa30ed3e0de4446c9d8c651743118bc1f00",
+      "bytes": 2564
+    },
+    {
+      "path": "port/level-world/retained_character_family_visual_v6.cpp",
+      "sha256": "42e22895456f3e165b6c5b2e4f4ea0d27e3f8d0b07cf762520250945b73f9d11",
+      "bytes": 3824
+    },
+    {
+      "path": "port/level-world/character_world_npc_physical_v1.hpp",
+      "sha256": "5033aec26ff2f6723a9e5ce81e5db2763bc3fbf79d9d91257fae505880f140a6",
+      "bytes": 4931
+    },
+    {
+      "path": "port/level-world/character_world_npc_physical_v1.cpp",
+      "sha256": "bf8df57842cd99293d9a74d2c1726ddfd4bb00d1407a399ab6dd32325910c19a",
+      "bytes": 9245
+    },
+    {
+      "path": "port/level-world/canonical_character_family_v4.cpp",
+      "sha256": "acb147c525ce736011fed21edd5fc52ede1b2b0469a501e87c439b2db1f4c33a",
+      "bytes": 6883
+    },
+    {
+      "path": "port/level-world/tests/canonical_character_position_prefix_v7.cpp",
+      "sha256": "d358b156ab14d16a55e699cb9af4a0d8a3418683ddebb2539bcac630ce670d65",
+      "bytes": 3906
+    },
+    {
+      "path": "port/level-world/tests/character_same_scene_animator_v6.cpp",
+      "sha256": "30d8ce46d94a34e0d2bbbb5844ed28834cf0d33a2dab1ec7d845a52259b3dc7a",
+      "bytes": 11296
+    }
+  ]
+}

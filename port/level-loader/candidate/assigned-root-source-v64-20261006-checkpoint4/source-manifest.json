@@ -1,0 +1,47 @@
+{
+  "status": "SOURCE_ONLY_UNCOMPILED_TESTS_NOT_RUN",
+  "checkpoint": "assigned-root-source-v64-20261006-checkpoint4",
+  "predecessor_manifest_sha256": "2d99d24e421511f7c930d8bce08edc8ae62c83bb27a8607197e89f37688f2621",
+  "files": [
+    {
+      "file": "assigned_root_source_v64.hpp",
+      "sha256": "ceb76320f17d9e07526465d3964382dd4cacb4b8926b2da87ca3a58a3b0cbe01"
+    },
+    {
+      "file": "cached_level_file_v1.hpp",
+      "sha256": "b72ad40ea7a3b445f7d3e359ed2df77def410859f2a7195377ae8a9f79dc9909"
+    },
+    {
+      "file": "cached_level_file_v1.cpp",
+      "sha256": "155c75fb058fae932bf60cb4c485e28f0415d43f62b24e09dc6e040a4d3849d6"
+    },
+    {
+      "file": "canonical_cached_file_v1.hpp",
+      "sha256": "b386879e128ccebf2d3c88650a5ba2bc91d0a6bf3a987b85f5492765c6bd2b70"
+    },
+    {
+      "file": "canonical_cached_file_v1.cpp",
+      "sha256": "0c0a8d451984f191c78785a210b336405dd48559fb75fd423abfdef40de4b482"
+    },
+    {
+      "file": "retained_level_module_graph_v1.hpp",
+      "sha256": "32a87d4ef9b8bb4287f7925332a3ea5f62eba9808635235abeb54e0ddacea350"
+    },
+    {
+      "file": "retained_level_module_graph_v1.cpp",
+      "sha256": "ae68554fe3df6f8b7f60e3cc50b476170d12dcd1fb4eb771c124abf5b28cb88f"
+    },
+    {
+      "file": "level_source_loading_v43.hpp",
+      "sha256": "c71d70b619bd6f0e267ee0e899e9710b2eb006928d80f537e77a2b915fdaa368"
+    },
+    {
+      "file": "level_source_loading_v43.cpp",
+      "sha256": "dad9f73d4bd190da98fae92d53a74cc655ea465056af5107a746f28c39276628"
+    },
+    {
+      "file": "assigned_root_source_v64_test.cpp",
+      "sha256": "05b1905993b6bba05ef71ca90bea8889200175edb2ef4b105cf303855ba952b6"
+    }
+  ]
+}
