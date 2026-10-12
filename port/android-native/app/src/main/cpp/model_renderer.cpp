@@ -15469,6 +15469,23 @@ void retire_native_monster_scripts(bool preserve) {
 }
 
 void clear_native_monster_outgoing_aggro(ObjectActor& actor);
+// CharAnimator::_SetAnim keeps the current animation when a sequence cannot be
+// selected. A sequence is accepted only when every clip it can reach is loaded
+// in the owning ObjectGroup bank, so render-time clip lookups cannot fault.
+bool sequence_clips_in_group_bank(const ObjectGroup& group,std::int32_t sequence,unsigned depth) {
+ if(depth>=3||sequence<0||static_cast<std::size_t>(sequence)>=actor_animation_tables.sequences.size())return false;
+ for(const auto& step:actor_animation_tables.sequences[static_cast<std::size_t>(sequence)].steps) {
+  if(step.redir==1) {if(!sequence_clips_in_group_bank(group,step.anim,depth+1))return false;}
+  else if(step.anim<0||!group.clips.count(step.anim))return false;
+ }
+ return true;
+}
+const ObjectGroup* object_group_owning_actor(const ObjectActor& actor) {
+ for(const auto& group:object_groups)
+  for(const auto& instance:group.instances)
+   if(&instance==&actor)return &group;
+ return nullptr;
+}
 void SpawnOwner::service(void* context,dh2::character::State* state,const dh2::character::Request* request) {
  using namespace dh2::character;
  auto& owner=*static_cast<SpawnOwner*>(context);
@@ -15501,6 +15518,15 @@ void SpawnOwner::service(void* context,dh2::character::State* state,const dh2::c
   // the active animation. CSDead deliberately calls SM_SetAnim(-1) when no
   // death override is selected; preserve that no-op in this actor owner.
   if(request->argument[0]<0)break;
+  // Keep the current animation when this sequence reaches a clip absent from the
+  // actor's bank (CharAnimator::_SetAnim ignores an absent anim id).
+  {
+   const auto* owner_group=object_group_owning_actor(actor);
+   if(owner_group&&!sequence_clips_in_group_bank(*owner_group,request->argument[0],0)) {
+    __android_log_print(ANDROID_LOG_WARN,"DH2Native","Actor animation skipped: clip absent from bank | %s | sequence %d",actor.name.c_str(),request->argument[0]);
+    break;
+   }
+  }
   if(actor.animator_processing_completion) {
    // CharAnimator::ANIM_Set stores one pending sequence (+0x50) during Update;
    // the Update common tail consumes the last request after event callbacks.
@@ -26351,7 +26377,9 @@ bool advance_ordered_actor_animation(ObjectActor& actor,ObjectGroup& group,
  }
  double remaining=frozen?0:double(dt_ms);unsigned events=0;
  while(!frozen&&actor.scheduler.active()) {
-  const auto& clip=group.clips.at(actor.scheduler.clip().anim);
+  const auto clip_found=group.clips.find(actor.scheduler.clip().anim);
+  if(clip_found==group.clips.end()){error="Actor animation clip absent from its ObjectGroup bank";return false;}
+  const auto& clip=clip_found->second;
   const double duration=clip.end-clip.start;
   const double speed=actor.scheduler.clip().speed*
       (actor.spawn_owner?actor.spawn_owner->animation_speed:1.f);
@@ -26439,7 +26467,9 @@ bool advance_ordered_actor_animation(ObjectActor& actor,ObjectGroup& group,
        reinterpret_cast<std::uintptr_t>(&actor.animator_sequence_closed_48));
   if(remaining<=0)break;
  }
- const auto& clip=group.clips.at(actor.scheduler.clip().anim);
+ const auto clip_found=group.clips.find(actor.scheduler.clip().anim);
+ if(clip_found==group.clips.end())return false;
+ const auto& clip=clip_found->second;
  const int ms=frozen?std::clamp(sampled_ms,clip.start,clip.end):
      clip.start+int(std::clamp(actor.cursor,0.,double(clip.end-clip.start)));
   sampled_clip=&clip;sampled_clip_ms=ms;
@@ -40418,21 +40448,28 @@ std::vector<dh2::world::EntryPoint> entrypoints;
             clip.empty()?nullptr:clip.data(),clip.size(),group.resource,error);
       if(!model_loaded)throw std::runtime_error(object.model+": "+error);
       if(object.kind==1){
-        std::set<int> ids;std::function<void(int,unsigned)> collect=[&](int id,unsigned depth){
+        std::set<int> ids,reaction_ids;std::function<void(int,unsigned,std::set<int>&)> collect=[&](int id,unsigned depth,std::set<int>& out){
           if(depth>=3||id<0||unsigned(id)>=animation_tables.sequences.size())throw std::runtime_error("Actor clip bank redirect outside limit");
-          for(const auto& step:animation_tables.sequences[id].steps){if(step.redir==1)collect(step.anim,depth+1);else if(step.anim>=0)ids.insert(step.anim);else throw std::runtime_error("Actor clip bank contains an empty clip");}
+          for(const auto& step:animation_tables.sequences[id].steps){if(step.redir==1)collect(step.anim,depth+1,out);else if(step.anim>=0)out.insert(step.anim);else throw std::runtime_error("Actor clip bank contains an empty clip");}
         };
         // Idle is required; non-combat rows (DARKWOOD NPCs) may omit Walk/Attack/Died.
-        for(const auto* state_name:{"Idle","Walk","Attack","Died","GreatKnockedBack","KnockedBack"}){const auto* state=dh2::data::animation_state(animation_tables,animation_table,state_name);
+        // Reaction states (dodge/block/hurt/fear/stun/knockback) are optional clips: an unusable one is
+        // dropped from the bank, and the guarded SetAnim keeps the current animation for it.
+        for(const auto* state_name:{"Idle","Walk","Attack","Died","Dodging","Blocking","Injured","Scared","Stunned","GreatKnockedBack","KnockedBack"}){const auto* state=dh2::data::animation_state(animation_tables,animation_table,state_name);
+          const bool reaction=std::strcmp(state_name,"Idle")&&std::strcmp(state_name,"Walk")&&std::strcmp(state_name,"Attack")&&std::strcmp(state_name,"Died");
           if(!state){if(!std::strcmp(state_name,"Idle"))throw std::runtime_error("Actor clip bank Idle state missing: "+object.model);
             __android_log_print(ANDROID_LOG_WARN,"DH2Native","Actor clip bank state absent | %s | AnimTable %d | %s",object.model.c_str(),animation_table,state_name);continue;}
-          collect(state-animation_tables.sequences.data(),0);}
+          collect(state-animation_tables.sequences.data(),0,reaction?reaction_ids:ids);}
         if(std::any_of(object_records.begin(),object_records.end(),[&](const auto& record){return record.gated_spawn&&record.model==object.model;})) {
           const auto* state=dh2::data::animation_state(animation_tables,animation_table,"Spawn");
-          if(!state)throw std::runtime_error("Gated actor Spawn sequence missing");collect(state-animation_tables.sequences.data(),0);
+          if(!state)throw std::runtime_error("Gated actor Spawn sequence missing");collect(state-animation_tables.sequences.data(),0,ids);
         }
+        std::set<int> optional_ids;for(int id:reaction_ids)if(!ids.count(id))optional_ids.insert(id);ids.insert(optional_ids.begin(),optional_ids.end());
         for(int id:ids){dh2::data::AnimationStep ref;ref.anim=id;const auto* path=dh2::data::animation_clip(ref,clip_table);if(!path)throw std::runtime_error("Actor clip bank path missing");const auto separator=path->find_last_of("/\\");auto raw_clip=read(assets,path->substr(separator==std::string::npos?0:separator+1),"actors");auto& playback=group.clips[id];
-          if(!playback.load(raw_clip.data(),raw_clip.size(),group.resource.rest_scene,error,dh2::animation::MissingTargets::ignore)||playback.end<=playback.start)throw std::runtime_error("Actor clip bank: "+error);
+          if(!playback.load(raw_clip.data(),raw_clip.size(),group.resource.rest_scene,error,dh2::animation::MissingTargets::ignore)||playback.end<=playback.start){
+            if(!optional_ids.count(id))throw std::runtime_error("Actor clip bank: "+error);
+            __android_log_print(ANDROID_LOG_WARN,"DH2Native","Actor reaction clip unusable | %s | clip %d | current animation kept",object.model.c_str(),id);
+            group.clips.erase(id);continue;}
           __android_log_print(ANDROID_LOG_INFO,"DH2Native","Actor event track ready | %s | clip %d | groups %u | attack_mainhand ms %d",object.model.c_str(),id,playback.events.view().count,dh2_events_time(&playback.events.view(),"attack_mainhand"));
         }
         __android_log_print(ANDROID_LOG_INFO,"DH2Native","Actor clip bank ready | %s | clips %zu | independent instance clocks",object.model.c_str(),group.clips.size());
@@ -43448,7 +43485,9 @@ void draw(int width,int height){
         // come from the development orbit camera.
         if(actor.spawn_owner){render_actor(actor,actor.spawn_owner.get());}
         else{
-          const auto& clip=group.clips.at(actor.scheduler.clip().anim);
+          const auto clip_found=group.clips.find(actor.scheduler.clip().anim);
+          if(clip_found==group.clips.end())continue;
+          const auto& clip=clip_found->second;
           const int ms=frozen?std::clamp(sampled_ms,clip.start,clip.end):
             clip.start+int(std::clamp(actor.cursor,0.,double(clip.end-clip.start)));
           if(!dh2::objects::sample(group.resource,clip,ms,error)){
@@ -43458,7 +43497,9 @@ void draw(int width,int height){
         }
         continue;
       }
-      const auto& clip=group.clips.at(actor.scheduler.clip().anim);const int ms=frozen?std::clamp(sampled_ms,clip.start,clip.end):clip.start+int(std::clamp(actor.cursor,0.,double(clip.end-clip.start)));
+      const auto clip_found=group.clips.find(actor.scheduler.clip().anim);
+      if(clip_found==group.clips.end())continue;
+      const auto& clip=clip_found->second;const int ms=frozen?std::clamp(sampled_ms,clip.start,clip.end):clip.start+int(std::clamp(actor.cursor,0.,double(clip.end-clip.start)));
       if(actor.spawn_owner){
         render_actor(actor,actor.spawn_owner.get());
       }else{
