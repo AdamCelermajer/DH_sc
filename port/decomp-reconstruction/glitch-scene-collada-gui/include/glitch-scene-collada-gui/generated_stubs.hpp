@@ -1,7 +1,9 @@
-// Generated-by-hand stubs for trivial glitch::collada bodies: each is either
-// an empty body or a single constant return in the original pseudocode. They
-// are not yet attached to their owning classes (see NOTES.md), so each is a
-// free function template named by its original address. Ledger status: partial.
+// Stubs for trivial glitch::collada bodies: each is either an empty body or a
+// single constant return in the Hex-Rays pseudocode (re-checked in the Hex-Rays
+// re-run; see NOTES.md). The first argument is the `this` pointer where the
+// original is a member. The bodies are complete, so their ledger rows are
+// reconstructed; they stay free function templates named by their original
+// address until each is attached to its owning class.
 #pragma once
 
 #include <cstdint>
