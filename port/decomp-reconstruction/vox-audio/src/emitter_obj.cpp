@@ -282,10 +282,10 @@ int EmitterObj::Resume(float time) {
 }
 
 // 0x866abc _ZN3vox10EmitterObj30SetInteractiveMusicStateChangeEPKc
-// partial: the original takes no lock. It sets the byte at +0x144 and strcpy()s the state name
-// to +0x146. That buffer has no bound in the original, so the port keeps the name in a std::string.
-// The one open path is a null name: the original crashes in strcpy, and the port stores an empty
-// string instead.
+// The original takes no lock. Its body is the flag byte at +0x144 set to 1 (the byte at +0x145 is
+// a separate flag, written elsewhere), then strcpy(this+0x146, name). The copy is unbounded and
+// no code in vox-audio reads the name back, so a std::string holds the same content.
+// Deviation: a null name crashes the original in strcpy; the port stores an empty string.
 void EmitterObj::SetInteractiveMusicStateChange(const char* state) {
     interactive_state_set_ = true;
     interactive_state_ = state != nullptr ? state : std::string();

@@ -1068,3 +1068,25 @@ Host build passes all 65 tests. No MinGW or Wine run in this slice.
   dereferences a null GetParam result.
 - KillEmitter: the driver call at +0x48 takes the driver as its only argument, so it is not the
   port's DestroyDriverSource (which takes a source). Left partial with the three named items.
+## Wave 13 (w13-c): layout gaps in VoxEngineInternal, PriorityBankManager and RandomGroup
+
+Rows are in ledger.parts/w13-c.csv. Offsets come from the Hex-Rays writes and reads. A scan of every
+Hex-Rays body for the member indices 271, 272, 339, 356 to 359 (+0x43c, +0x440, +0x54c, +0x590 to +0x598)
+finds only the VoxEngineInternal constructors and destructors as writers and readers of +0x43c, +0x440,
++0x598 and +0x59c. Other members used by the engine: +0x590 (next data slot) and +0x594 (suspend count).
+- VoxEngineInternal intrusive list sentinel: list_head_ at +0x43c and list_tail_ at +0x440 (VoxListNode,
+  next word at node +0x00). The original keeps the sentinel's own address in both words when empty; the
+  port uses nullptr for the empty list. No code in the binary links a node in.
+- VoxEngineInternal +0x598: side_buffer_, freed with VoxFree in the destructor when non-null (between
+  FileSystemInterface::DestroyInstance and the s_voxEngineInternal clear). +0x59c: side_word_, zeroed by the
+  constructor, never read.
+- PriorityBankManager bank count word at +0 (bank_count_): the default constructor (0x869858) does not write
+  it (asm). The member has no initializer now; the int constructor sets it.
+- RandomGroup: element count +0x38, current +0x44, cycle remaining +0x4c, prior index +0x50 and prior cycle
+  remaining +0x54 have no initializer in the header. The two-argument constructor (0x881ad0) does not write
+  them, and NativePlaylist::AddGroup (0x883c04) hands it VoxAlloc storage. The default constructor and the
+  copy constructor set all of them.
+- Open item kept partial: RandomGroup::SetToPreviousState (0x883404), reinsert with an empty removed list
+  (see the ledger note).
+- VoxEngine D1 (0x862990) and DestroyVoxEngine (0x8628f8) are reconstructed now that the VoxEngineInternal
+  destructor is complete. The D0 wrapper of VoxEngine (0x862a18) and D2 (0x862a34) are not in this slice.

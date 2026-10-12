@@ -42,7 +42,7 @@ struct DebugChunk_bank {
 class PriorityBankManager {
 public:
     explicit PriorityBankManager(int bank_count);  // 0x8697bc, 0x8698e8
-    PriorityBankManager();                         // 0x869858, 0x8698a0 (partial)
+    PriorityBankManager();                         // 0x869858, 0x8698a0 (leaves the count word alone)
     ~PriorityBankManager();                        // 0x86418c
 
     bool CanAddEmitter(int bank, int priority);    // 0x864b1c
@@ -57,7 +57,7 @@ public:
 private:
     bool CanAddEmitterLocked(int bank, int priority) const;  // 0x863578
 
-    int bank_count_ = 0;                  // +0
+    int bank_count_;                      // +0 (set by the bank-count constructor only)
     std::vector<PriorityBank> banks_;     // +4..+0xc
     Mutex mutex_;                         // +0x10
 };

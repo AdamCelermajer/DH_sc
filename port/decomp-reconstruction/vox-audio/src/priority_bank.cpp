@@ -12,9 +12,14 @@ PriorityBankManager::PriorityBankManager(int bank_count) : bank_count_(bank_coun
 }
 
 // 0x869858 _ZN3vox19PriorityBankManagerC1Ev and 0x8698a0 C2.
-// Partial: the binary does not write the bank count at +0 here (asm stores +4, +8 and +0xc
-// only), so its value is whatever the caller's storage held. The port sets it to 0.
-PriorityBankManager::PriorityBankManager() = default;
+// The original writes the vector words at +0x04..+0x0c to zero and constructs the mutex at +0x10.
+// It does not write the bank count at +0 (the asm stores +4, +8 and +0xc only), so the count
+// stays as the caller's storage left it. The port keeps that: bank_count_ has no initializer.
+// The original also builds a one-bank manager on the stack and destroys it at once; that pair
+// is kept here (its only effect is the heap allocation and release).
+PriorityBankManager::PriorityBankManager() {
+    PriorityBankManager scratch(1);
+}
 
 // 0x86418c _ZN3vox19PriorityBankManagerD1Ev
 PriorityBankManager::~PriorityBankManager() = default;

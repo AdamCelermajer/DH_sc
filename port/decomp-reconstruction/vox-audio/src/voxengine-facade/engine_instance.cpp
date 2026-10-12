@@ -55,9 +55,7 @@ VoxEngine::VoxEngine() {
     m_internal = VoxEngineInternal::GetVoxEngineInternal();
 }
 
-// 0x862990 _ZN3vox9VoxEngineD1Ev and 0x862a34 _ZN3vox9VoxEngineD2Ev (partial: the
-// VoxEngineInternal destructor, 0x86be68, does not yet reproduce FileSystemInterface::DestroyInstance
-// and the +0x598 buffer release)
+// 0x862990 _ZN3vox9VoxEngineD1Ev and 0x862a34 _ZN3vox9VoxEngineD2Ev.
 // The listing calls the engine's virtual destructor (slot 0) and frees it with VoxFree,
 // then destroys and frees the mutex.
 VoxEngine::~VoxEngine() {
@@ -86,7 +84,7 @@ VoxEngine* VoxEngine::GetVoxEngine() {
     return s_voxEngine;
 }
 
-// 0x8628f8 _ZN3vox9VoxEngine16DestroyVoxEngineEv (partial: the destructor it calls is partial, see above)
+// 0x8628f8 _ZN3vox9VoxEngine16DestroyVoxEngineEv
 void VoxEngine::DestroyVoxEngine() {
     if (s_voxEngine != nullptr) {
         s_voxEngine->~VoxEngine();

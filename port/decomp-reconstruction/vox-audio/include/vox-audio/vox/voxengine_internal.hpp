@@ -26,6 +26,11 @@ class PriorityBankManager;
 class DataObj;
 class FileSystemInterface;
 
+// Node of the intrusive list at +0x43c. The first word is the next node (the destructor reads it).
+struct VoxListNode {
+    VoxListNode* next = nullptr;
+};
+
 class VoxEngineInternal {
 public:
     VoxEngineInternal();                                                   // 0x869a94, 0x869d8c (partial)
@@ -194,6 +199,16 @@ private:
     // SetGainModifier call. The original keeps it at +0x374 (32 floats), right after the fades.
     float group_gains_[32] = {};               // +0x374
     int suspend_count_ = 0;                    // +0x594 (nested Suspend/Resume depth)
+    // Intrusive list sentinel at +0x43c (next) and +0x440 (prev). The original points both words at
+    // the sentinel itself when the list is empty; the port uses nullptr for that. Nothing in the
+    // binary links a node into this list (no writer outside the constructor and destructor).
+    VoxListNode* list_head_ = nullptr;         // +0x43c
+    VoxListNode* list_tail_ = nullptr;         // +0x440
+    // +0x598: a buffer pointer the destructor frees with VoxFree when it is non-null. No other
+    // code in the binary writes it; the constructor zeroes it.
+    void* side_buffer_ = nullptr;              // +0x598
+    // +0x59c: zeroed by the constructor; the binary never reads it.
+    std::int32_t side_word_ = 0;               // +0x59c
     // Factory tables with 31 slots each. Streams at +0x444 with the count at +0x4c4;
     // decoders at +0x4c8 with the count at +0x548.
     StreamInterface* (*stream_factories_[31])(void*) = {};    // +0x444
