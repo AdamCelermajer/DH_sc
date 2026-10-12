@@ -321,3 +321,28 @@ internal to the port, not binary-compatible with the original.
 - Structs (738 rows) and PyDataArrays/PyDataConstants (12 rows) are still queued. No Structs element-loop
   wave ran in this pass.
 
+## Wave 7b: Structs slices (worker output)
+
+- Kept and built: `src/w7_structs_0.cpp` (123 rows), `w7_structs_1.cpp` (123), `w7_structs_4.cpp` (123),
+  and `w7_structs_5.cpp` (123). Their ledger rows are in `ledger.csv`.
+  - Results: 0 = 99 reconstructed, 24 partial; 1 = 107 reconstructed, 14 partial, 2 skipped; 4 = 123
+    reconstructed; 5 = 115 reconstructed, 2 partial, 6 skipped.
+- Pending, not built: `pending-integration/w7_structs_2` and `w7_structs_3` (246 rows), and
+  `pending-integration/w7_arrays_03` (27 rows). Their rows are not in the ledger, so they stay queued.
+  - They define the same symbols as the kept slices. structs_2 and structs_3 both define about 54 of the
+    Item-family destructors and read/finalize; structs_1 and structs_2 share 3 symbols; arrays_03 and
+    arrays_00 share the ProjectileTable storage. A static library with both sets fails to link.
+  - Resolution: merge each of these into one class definition per name, then move the file back into
+    `src/` and add its ledger rows.
+- Findings to review before anything links these:
+  - Several Item-family destructors (ArmorRef, BeltRef, Valuable, Potion, GoldItem, Item) free m_w2 in
+    their own destructor and again in the base destructor. The listing shows the same double free, so it
+    is kept. Structs_4 also keeps a double free in the ItemPower destructors. Do not call those destructors
+    on a live object until the double frees are decided.
+  - structs_5's element tables copy the vptr with `sizeof(void*)` and use the 32-bit stride from the
+    listing. This is correct only where pointers are 4 bytes (ARM and Win32). On a 64-bit host the copy
+    overruns the stride.
+  - `ItemBase::read` (0x4ec47c) is not queued or ported, so 12 read bodies in structs_2 are partial.
+- Queue after this wave: pydata-accessors has about 500 rows remaining, mostly in the pending slices and
+  the v2 classes.
+
