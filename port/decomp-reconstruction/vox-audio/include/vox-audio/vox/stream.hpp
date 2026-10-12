@@ -10,8 +10,8 @@
 namespace vox {
 
 // Abstract read cursor over a stream. Vtable slots (original ABI):
-//   +0x08 Init, +0x0c Shutdown, +0x10 Seek, +0x14 EndOfStream,
-//   +0x18 Tell, +0x1c Read, +0x20 ReadRef, +0x24 IsSeekable, +0x28 AllowBufferReference.
+//   +0x08 Init, +0x0c Shutdown, +0x10 Seek, +0x14 IsSeekable,
+//   +0x18 Tell, +0x1c Read, +0x20 ReadRef, +0x24 EndOfStream, +0x28 AllowBufferReference.
 class StreamCursorInterface {
 public:
     virtual ~StreamCursorInterface() = default;

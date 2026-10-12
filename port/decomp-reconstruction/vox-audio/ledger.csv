@@ -136,3 +136,4 @@ elf_address,symbol,status,source_file,notes
 0x893e20,_ZN3vox11FileLimited4TellEv,reconstructed,vox-audio/include/vox-audio/vox/file_limited.hpp,Tell: returns +0x14 (inline)
 0x8939f0,_ZN3vox11FileLimitedD1Ev,reconstructed,vox-audio/include/vox-audio/vox/file_limited.hpp,Destructor: empty body (asm bx lr)
 0x893e74,_ZN3vox11FileLimitedD0Ev,reconstructed,vox-audio/include/vox-audio/vox/file_limited.hpp,Deleting destructor variant; storage released by the caller
+0x86fb44,DecoderCursorInterface::DecodeRef,partial,vox-audio/src/decoder.cpp,calls Decode(dst;count) here; original passes count only to slot +0x10
