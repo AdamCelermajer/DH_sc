@@ -4343,6 +4343,21 @@ bool OriginalUiSession::enqueue_source_dialog_id(std::int32_t dialog_id,
         return false;
     error.clear();return true;
 }
+bool OriginalUiSession::lock_source_tutorial(std::int32_t id,std::string& error){
+    auto& self=*impl_;
+    if(!self.settings){error="Script_LockTutorial requires the retained settings owner";return false;}
+    if(!self.settings->lock_tutorial(id)){error.clear();return true;}
+    return Impl::save_settings(impl_.get(),error);
+}
+bool OriginalUiSession::flush_source_messages(std::string& error){
+    auto& self=*impl_;
+    if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()){
+        error="Source message flush requires the retained gameplay HUD session";return false;
+    }
+    self.source_dialog_messages.flush();
+    self.source_status_messages.flush();
+    error.clear();return true;
+}
 bool OriginalUiSession::source_dialog_active(bool& active,std::string& error)const{
     const auto& self=*impl_;
     if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()){

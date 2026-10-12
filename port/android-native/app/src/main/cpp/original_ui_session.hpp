@@ -143,6 +143,11 @@ public:
     // MenuMessageManager<DialogMsg, 1> queue and starts it only if idle.
     bool enqueue_source_dialog_id(std::int32_t dialog_id,std::string& error);
     bool source_dialog_active(bool& active,std::string& error) const;
+    // Script_FlushMessages 0x460a58: flushes the DialogMsg and StatusMsg
+    // MenuMessageManagers (Achievement/OnlineStatus are not reconstructed).
+    bool flush_source_messages(std::string& error);
+    // Script_LockTutorial 0x45925c: clear the tutorial byte, then saveSettings.
+    bool lock_source_tutorial(std::int32_t id,std::string& error);
     // ScriptManager commands 74/75/76 and the authored Native callbacks share
     // the retained CharacterMenu tutorial queue owned by this UI session.
     bool enqueue_source_char_menu_tutorial(std::int32_t string_id,

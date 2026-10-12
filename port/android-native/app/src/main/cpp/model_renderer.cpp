@@ -23429,6 +23429,10 @@ bool native_level_script_host_supports(void*,const dh2_script_command* command){
       c.fields[1].kind==DH2_SCRIPT_VALUE_STRING&&
       c.fields[1].value.string.size<dh2_script_runtime::MAX_NAME_BYTES&&
       c.fields[2].kind==DH2_SCRIPT_VALUE_BOOL;
+ case 79: // FlushMessages()
+  return c.field_count==0;
+ case 77: // LockTutorial(I)
+  return c.field_count==1&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32;
  case 24: case 25: // LockCharacter/UnlockCharacter(S)
   return c.field_count==1&&native_script_name_field(c,0);
  case 31: case 39: case 42: case 43: // PutCharacterInIdle/StopActor/ShowActor/HideActor(S)
@@ -23533,6 +23537,18 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
    native_script_camera_blend_ms=c.fields[0].value.i32;
    native_script_camera_target_dirty=true;
    return 1;
+  }
+  case 77: {
+   // Script_LockTutorial::Execute 0x45925c.
+   if(!native_gameplay_ui)return 1;
+   std::string error;
+   return native_gameplay_ui->lock_source_tutorial(c.fields[0].value.i32,error)?1:-1;
+  }
+  case 79: {
+   // Script_FlushMessages::Execute 0x460a58.
+   if(!native_gameplay_ui)return 1;
+   std::string error;
+   return native_gameplay_ui->flush_source_messages(error)?1:-1;
   }
   case 24: case 25: {
    // Script_LockCharacter::Execute: "All" (case-insensitive) writes
@@ -23740,7 +23756,7 @@ void initialize_swamp_level_script_session(AAssetManager* assets,bool restore) {
       native_source_char_menu_tutorial_services.context,skip_all);}catch(...){return -1;}
  };
  const dh2::character::crypt_scripts::SpawnDispatch dispatch{
-     nullptr,crypt_script_spawn,nullptr,native_level_script_object_lookup,
+     nullptr,crypt_script_spawn,crypt_script_camera,native_level_script_object_lookup,
      native_level_script_actor_command,start_dialog,dialog_active,
      &native_level_dialog_dispatch_context,
      native_level_script_play_actor_animation,

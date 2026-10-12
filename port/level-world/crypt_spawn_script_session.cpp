@@ -106,6 +106,13 @@ bool spawn_program(const dh2_script& script,const SpawnDispatch& dispatch) {
                    dh2_script_runtime::MAX_NAME_BYTES)return false;
             continue;
         }
+        if(command.command_id==78){
+            // DoTutorial(name, flag): the runtime evaluates its source gate.
+            if(command.field_count!=2||
+               command.fields[0].kind!=DH2_SCRIPT_VALUE_STRING||
+               command.fields[1].kind!=DH2_SCRIPT_VALUE_I32)return false;
+            continue;
+        }
         if(dispatch.host_supports&&dispatch.host_command&&
            dispatch.host_supports(dispatch.context,&command))continue;
         if ((command.command_id != 26 && command.command_id != 30) ||
