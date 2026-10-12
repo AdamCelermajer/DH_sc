@@ -29,6 +29,28 @@ namespace glitch::core {
 template <typename T>
 struct vector2d {
     T X, Y;
+
+    // 0x420060 vector2d<float>::getAngle: the angle in degrees of the vector, measured as the
+    // original does (0 when Y or X is zero; quadrant offsets of 90 and 270 degrees). The
+    // original returns the float bits through an int register; here it returns a float.
+    float getAngle() const {
+        const float x = static_cast<float>(X);
+        const float y = static_cast<float>(Y);
+        if (y == 0.f) return 0.f;
+        if (x == 0.f) return 0.f;
+        const float len = std::sqrt(x * x + y * y);
+        const float ratio = y / len;
+        float angle = std::atan(std::sqrt(1.f - ratio * ratio) / ratio) * 57.2957795f;
+        if (x > 0.f) {
+            if (y > 0.f) return angle + 270.f;
+            if (y < 0.f) return angle + 90.f;
+        }
+        if (x < 0.f) {
+            if (y < 0.f) return 90.f - angle;
+            if (y > 0.f) return 270.f - angle;
+        }
+        return angle;
+    }
 };
 template <typename T>
 struct vector3d {
@@ -82,6 +104,24 @@ struct quaternion {
 template <typename T>
 struct triangle3d {
     vector3d<T> A, B, C;
+
+    // 0x6c3da0 triangle3d<float>::isPointInsideFast. Barycentric test with the sign-bit
+    // combination of the original: both numerators (X for v, Y for u) are non-negative and
+    // the sum minus the denominator is negative. Degenerate triangles give a false result.
+    bool isPointInsideFast(const vector3d<T>& p) const {
+        const T ux = B.X - A.X, uy = B.Y - A.Y, uz = B.Z - A.Z;
+        const T vx = C.X - A.X, vy = C.Y - A.Y, vz = C.Z - A.Z;
+        const T wx = p.X - A.X, wy = p.Y - A.Y, wz = p.Z - A.Z;
+        const T d00 = ux * ux + uy * uy + uz * uz;
+        const T d01 = ux * vx + uy * vy + uz * vz;
+        const T d11 = vx * vx + vy * vy + vz * vz;
+        const T d20 = wx * ux + wy * uy + wz * uz;
+        const T d21 = wx * vx + wy * vy + wz * vz;
+        const T x = d00 * d21 - d01 * d20;  // v numerator
+        const T y = d11 * d20 - d01 * d21;  // u numerator
+        const T z = (x + y) - (d00 * d11 - d01 * d01);
+        return !std::signbit(x) && !std::signbit(y) && std::signbit(z);
+    }
 };
 template <typename T>
 struct line2d {
@@ -117,6 +157,47 @@ struct aabbox3d {
         shrink(MinEdge.Z, p.Z);
     }
 
+    // 0x585970 intersectsWithLine_impl_1d (const): clips the parameter interval [tmin, tmax] of a
+    // segment start..end (1-d) against the slab bmin..bmax. Returns false when the slab misses.
+    bool intersectsWithLine_impl_1d(T bmin, T bmax, T start, T end, T& tmin, T& tmax) const {
+        const T d = end - start;
+        T enter = 0;
+        T leave = 0;
+        if (start >= end) {
+            if (!(end <= bmax && start >= bmin)) return false;
+            enter = start > bmax ? static_cast<T>((bmax - start) / d) : static_cast<T>(0);
+            if (end < bmin) {
+                leave = static_cast<T>((bmin - start) / (end - start));
+            } else {
+                leave = static_cast<T>(1);
+            }
+        } else {
+            if (start > bmax || end < bmin) return false;
+            enter = start < bmin ? static_cast<T>((bmin - start) / d) : static_cast<T>(0);
+            if (end <= bmax) {
+                leave = static_cast<T>(1);
+            } else {
+                leave = static_cast<T>((bmax - start) / (end - start));
+            }
+        }
+        if (tmin < enter) tmin = enter;
+        if (tmax > leave) {
+            tmax = leave;
+        } else {
+            leave = tmax;
+        }
+        return tmin <= leave;
+    }
+
+    // 0x585b08 intersectsWithSegment (const): clips the segment against the three slabs.
+    bool intersectsWithSegment(const line3d<T>& segment, T& tmin, T& tmax) const {
+        tmin = 0;
+        tmax = 1;
+        return intersectsWithLine_impl_1d(MinEdge.X, MaxEdge.X, segment.start.X, segment.end.X, tmin, tmax) &&
+               intersectsWithLine_impl_1d(MinEdge.Y, MaxEdge.Y, segment.start.Y, segment.end.Y, tmin, tmax) &&
+               intersectsWithLine_impl_1d(MinEdge.Z, MaxEdge.Z, segment.start.Z, segment.end.Z, tmin, tmax);
+    }
+
 private:
     static void grow(T& edge, T value) {
         if (value > edge) edge = value;
@@ -127,8 +208,28 @@ private:
 };
 template <typename T>
 struct plane3d {
-    vector3d<T> Normal;
-    T D;
+    vector3d<T> Normal;  // +0x00
+    T D;                 // +0x0c
+
+    // 0x561bdc PARTIAL: Normal = (c - a) x (b - a), normalized; D = -dot(a, Normal).
+    // The decompile's sign flips give exactly this cross product. The normalize step is assumed
+    // to be the usual length division; a zero-length normal is left as it is (the original's
+    // zero case is not visible in the listing).
+    void setPlane(const vector3d<T>& a, const vector3d<T>& b, const vector3d<T>& c) {
+        const T ux = b.X - a.X, uy = b.Y - a.Y, uz = b.Z - a.Z;  // edge a->b
+        const T wx = c.X - a.X, wy = c.Y - a.Y, wz = c.Z - a.Z;  // edge a->c
+        Normal.X = wy * uz - wz * uy;
+        Normal.Y = wz * ux - wx * uz;
+        Normal.Z = wx * uy - wy * ux;
+        const T length = static_cast<T>(std::sqrt(Normal.X * Normal.X + Normal.Y * Normal.Y +
+                                                  Normal.Z * Normal.Z));
+        if (length != T(0)) {
+            Normal.X /= length;
+            Normal.Y /= length;
+            Normal.Z /= length;
+        }
+        D = -(a.X * Normal.X + a.Y * Normal.Y + a.Z * Normal.Z);
+    }
 };
 template <typename T>
 struct CMatrix4 {
@@ -175,6 +276,52 @@ struct CMatrix4 {
         for (int i = 0; i < 16; ++i) out.M[i] = M[(i % 4) * 4 + i / 4];
         out.flag = flag;
     }
+
+    // 0x598ee4 getScale: the length of each of the three rows (elements 0..2, 4..6, 8..10).
+    vector3d<T> getScale() const {
+        return {static_cast<T>(std::sqrt(M[0] * M[0] + M[1] * M[1] + M[2] * M[2])),
+                static_cast<T>(std::sqrt(M[4] * M[4] + M[5] * M[5] + M[6] * M[6])),
+                static_cast<T>(std::sqrt(M[8] * M[8] + M[9] * M[9] + M[10] * M[10]))};
+    }
+
+    // 0x35dd08 transformPlane (const): plane.Normal becomes the rotation part of the matrix applied
+    // to the normal; plane.D becomes -(P' . N') where P' is the matrix applied to the point -D*N.
+    // The listing is row-major with the translation in elements 12..14.
+    void transformPlane(plane3d<T>& plane) const {
+        const T nx = plane.Normal.X, ny = plane.Normal.Y, nz = plane.Normal.Z;
+        const T d = static_cast<T>(-plane.D);
+        const T px = d * nx, py = d * ny, pz = d * nz;
+        // Transformed point P' = M * (-D * N) (translation included).
+        const T pX = px * M[0] + py * M[4] + pz * M[8] + M[12];
+        const T pY = px * M[1] + py * M[5] + pz * M[9] + M[13];
+        const T pZ = px * M[2] + py * M[6] + pz * M[10] + M[14];
+        // Transformed normal: M * N minus M * origin (the translation cancels).
+        const T tnX = nx * M[0] + ny * M[4] + nz * M[8];
+        const T tnY = nx * M[1] + ny * M[5] + nz * M[9];
+        const T tnZ = nx * M[2] + ny * M[6] + nz * M[10];
+        plane.Normal.X = tnX;
+        plane.Normal.Y = tnY;
+        plane.Normal.Z = tnZ;
+        plane.D = static_cast<T>(-(pX * tnX + pY * tnY + pZ * tnZ));
+    }
+
+    // 0x6c7cf0 setRotationRadians: writes the rotation part from angles (x, y, z) in radians. Elements
+    // 3, 7, 11 and 12..15 are not written by the listing and keep their values; the flag is cleared.
+    void setRotationRadians(const vector3d<T>& angles) {
+        const T cx = std::cos(angles.X), sx = std::sin(angles.X);
+        const T cy = std::cos(angles.Y), sy = std::sin(angles.Y);
+        const T cz = std::cos(angles.Z), sz = std::sin(angles.Z);
+        flag = false;
+        M[0] = cy * cz;
+        M[1] = cy * sz;
+        M[2] = -sy;
+        M[4] = sx * sy * cz - cx * sz;
+        M[5] = sx * sy * sz + cx * cz;
+        M[6] = sx * cy;
+        M[8] = cx * sy * cz + sx * sz;
+        M[9] = cx * sy * sz - sx * cz;
+        M[10] = cx * cy;
+    }
 };
 }  // namespace glitch::core
 
@@ -182,7 +329,12 @@ namespace glitch::video {
 // Stand-in for the driver interface; only its reference counting is used here.
 class IVideoDriver : public glitch::IReferenceCounted {};
 // Reference-counted video objects held through boost::intrusive_ptr by the io code.
-class ITexture : public glitch::IReferenceCounted {};
+// ITexture keeps a slot sub-type at +0x38; its low two bits pick the parameter code 12..15 that a
+// texture is stored under (see material_parameters.hpp, PtrTraits<ITexture>).
+class ITexture : public glitch::IReferenceCounted {
+public:
+    std::uint32_t slotType = 0;  // +0x38
+};
 class CLight : public glitch::IReferenceCounted {};
 // Video mode list of a device (glitch::video::CVideoModeList); only its storage is needed here.
 class CVideoModeList {

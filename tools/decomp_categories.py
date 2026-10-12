@@ -45,6 +45,11 @@ RESERVED = re.compile(
 # Free functions that are gameplay/UI callbacks (gameswf natives, Lua bindings, AI).
 GLOBAL_RESERVED = re.compile(r"^(?:\S+ )?(Native|Trophy|Lua|lua_|Get[A-Z]|Set[A-Z]|Is[A-Z]|Has[A-Z]|Do[A-Z]|On[A-Z]|Spawn|Kill|Quest|Level|Player|Char|Item|Menu|HUD|Script|AI|Anim|Camera|FX)")
 
+def head(d: str) -> str:
+    """The function name without its parameter list, so a parameter type never decides the category."""
+    return d.split("(", 1)[0]
+
+
 CATEGORY_RULES = [
     ("pydata-accessors", lambda o, d, b: b == "game" and re.match(r"^(Structs|Arrays|PyData)", o)),
     ("net-transport", lambda o, d, b: b == "game" and re.match(
@@ -59,15 +64,39 @@ CATEGORY_RULES = [
         or (b == "game" and o == "<global>" and re.match(r"^(__gl_|glu|gl[A-Z]|T42_|PCF_|BDF_|FNT_|PS_|II_|SS|NV|VZ|zlib|start_|process_|_W)", d))),
     ("vox-audio", lambda o, d, b: b == "lib-vox-audio" or (b == "game" and (re.match(r"^(AdpcmState)", o)
         or re.search(r"stb_vorbis|vox::", d)))),
-    ("glitch-core-io", lambda o, d, b: b == "engine-glitch" and re.match(r"^(?:\S+ )?(glitch::(core|io|os|memory|IReferenceCounted|ITimer|IDevice|CTimer|IEventReceiver|irr)|boost::)", d)),
-    ("glitch-video", lambda o, d, b: b == "engine-glitch" and re.match(r"^(?:\S+ )?glitch::(video|res)", d)),
+    ("glitch-core-io", lambda o, d, b: b == "engine-glitch" and re.match(r"^(?:\S+ )?(glitch::(core|io|os|memory|IReferenceCounted|ITimer|IDevice|CTimer|IEventReceiver|irr)|boost::)", head(d))),
+    ("glitch-video", lambda o, d, b: b == "engine-glitch" and re.match(r"^(?:\S+ )?glitch::(video|res)", head(d))),
     ("glitch-scene-collada-gui", lambda o, d, b: b == "engine-glitch"),
     ("core-platform", lambda o, d, b: b in ("game", "lib-libnativeinterface")),
 ]
 
 
+FUN_NAME = re.compile(r"^(?:thunk_)?FUN_([0-9a-fA-F]+)$")
+
+
+def fix_fun_addresses(rows: list[dict]) -> list[dict]:
+    """Move Ghidra FUN_ entries to the address in their name.
+
+    Ghidra's elf_address for these is 0x10000 below the address in the name, and IDA has the
+    function at the name's address (checked against the Hex-Rays export). Named entries are
+    already right. An entry whose address also holds a named entry is dropped, so the same
+    function is not queued twice. Owners are not changed here, so neighbouring queues stay put.
+    """
+    named = {int(r["elf_address"], 16) for r in rows if r["library"] == "libDungeonHunter2.so" and not FUN_NAME.match(r["name"])}
+    kept = []
+    for r in rows:
+        m = FUN_NAME.match(r["name"]) if r["library"] == "libDungeonHunter2.so" else None
+        if m:
+            a = int(m.group(1), 16)
+            if a in named:
+                continue
+            r = dict(r, elf_address=f"{a:x}")
+        kept.append(r)
+    return kept
+
+
 def main() -> int:
-    rows = list(csv.DictReader((REPORT / "inventory.csv").open(encoding="utf-8")))
+    rows = fix_fun_addresses(list(csv.DictReader((REPORT / "inventory.csv").open(encoding="utf-8"))))
     owner_claimed = Counter(r["owner"] for r in rows if r["claimed"] == "1" and r["bucket"] == "game")
     cats = defaultdict(list)
     for r in rows:

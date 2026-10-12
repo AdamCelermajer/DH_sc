@@ -46,11 +46,20 @@ int main() {
     using vox::DriverCallbackSourceInterface;
     using vox::DriverCallbackSourceInterfaceTestAccess;
 
-    static_assert(sizeof(DriverBuffer) == 0x18, "buffer stride is 0x18 bytes");
+    // The original stride is 0x18 bytes on 32-bit ARM; the port holds a data pointer, so only
+    // the fields it reads are checked here (ready flag at +0x14 in the original).
+    static_assert(sizeof(DriverBuffer) >= 0x15, "buffer holds the ready flag");
 
-    DriverCallbackSourceInterface source;
+    // The constructor takes a format (channels, rate, bits, one more word) and a buffer
+    // count pointer; a zero count gives no ring.
+    const std::int32_t kFormat[4] = {2, 44100, 16, 0};
+    const std::int32_t kNoBuffers = 0;
+
+    DriverCallbackSourceInterface source(kFormat, &kNoBuffers, 0);
     CHECK(source.AllowBufferReference() == 1);
     CHECK(source.GetBufferCount() == 0);
+    // The constructor leaves state 0; these checks start from the no-buffer state -1.
+    DriverCallbackSourceInterfaceTestAccess::SetState(source, -1);
     CHECK(source.GetState() == -1);
 
     // With state -1 nothing moves.
@@ -125,7 +134,7 @@ int main() {
 
     // GetNbAvailableSamples on three empty buffers of 4 blocks each (size 400, 100 bytes).
     {
-        DriverCallbackSourceInterface ring;
+        DriverCallbackSourceInterface ring(kFormat, &kNoBuffers, 0);
         DriverBuffer ringBuffers[3];
         for (DriverBuffer& b : ringBuffers) {
             b.size_ = 400;
@@ -147,7 +156,10 @@ int main() {
         ringBuffers[0].field_10_ = 1;                   // the count at +0x10 is subtracted
         CHECK(ring.GetNbAvailableSamples(3) == 3);      // 3 free in the first buffer
         CHECK(ring.GetNbAvailableSamples(4) == 4);      // 3 + 4 reaches 4 in the next buffer
+        // The destructor frees the ring, so detach the stack array first.
+        DriverCallbackSourceInterfaceTestAccess::SetBuffers(ring, nullptr, 0);
     }
+    DriverCallbackSourceInterfaceTestAccess::SetBuffers(source, nullptr, 0);
 
     std::printf("driver_callback_test: %s\n", g_failures == 0 ? "ok" : "FAILED");
     return g_failures == 0 ? 0 : 1;

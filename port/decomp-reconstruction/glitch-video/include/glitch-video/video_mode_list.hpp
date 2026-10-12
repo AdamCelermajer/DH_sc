@@ -23,6 +23,10 @@ public:
                    uint32_t desktopDepth);
     virtual ~CVideoModeList() = default;
 
+    // 0x6dae90: appends a mode unless the same resolution and depth are already listed.
+    // Partial: the original heapsorts the list after an insert with an operator< on
+    // SVideoMode that is not recovered, so the list is only appended here.
+    void addMode(const core::dimension2d<uint32_t>& resolution, uint32_t depth);
     uint32_t getVideoModeCount() const;
     core::dimension2d<uint32_t> getVideoModeResolution(int index) const;
     uint32_t getVideoModeDepth(int index) const;

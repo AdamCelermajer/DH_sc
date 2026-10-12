@@ -20,8 +20,6 @@ void CMatching::SetServerForTest(bool server) {
     g_matching.server_ = server;
 }
 
-// Stand-in bodies for the virtuals. Named CConnectionStandIn so they do not collide with the
-// real CConnection (connection.cpp), whose layout differs.
 int CConnectionStandIn::Connect(int member_id, CNetworkId& id) {
     (void)member_id;
     (void)id;

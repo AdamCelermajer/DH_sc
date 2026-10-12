@@ -87,4 +87,50 @@ void CXMLWriter::writeAttribute(const wchar_t* name, const wchar_t* value) {
     writeWords(file, L"\"");
 }
 
+// Shared body of both writeElement overloads: indentation, "<name", the attributes, then
+// either the empty-element close or ">" with one more indent level. Sets the flag.
+namespace {
+template <class Pairs>
+void writeElementBody(CXMLWriter& w, IWriteFile* file, int& indent, bool& flag, const wchar_t* name,
+                      bool empty, const Pairs& writeAttributes) {
+    if (indent > 0) {
+        for (int i = 0; i < indent; ++i) writeWords(file, L"\t");
+    }
+    writeWords(file, L"<");
+    writeWords(file, name);
+    writeAttributes(w);
+    if (empty) {
+        writeWords(file, L"/>\n");  // PARTIAL literal, see the header
+    } else {
+        writeWords(file, L">");
+        ++indent;
+    }
+    flag = false;
+}
+}  // namespace
+
+// 0x576988 _ZN6glitch2io10CXMLWriter12writeElementEPKwbS3_S3_S3_S3_S3_S3_S3_S3_S3_S3_
+void CXMLWriter::writeElement(const wchar_t* name, bool empty, const wchar_t* n1, const wchar_t* v1,
+                              const wchar_t* n2, const wchar_t* v2, const wchar_t* n3, const wchar_t* v3,
+                              const wchar_t* n4, const wchar_t* v4, const wchar_t* n5, const wchar_t* v5) {
+    if (!file || !name) return;
+    writeElementBody(*this, file, indent, flag, name, empty, [&](CXMLWriter& w) {
+        w.writeAttribute(n1, v1);
+        w.writeAttribute(n2, v2);
+        w.writeAttribute(n3, v3);
+        w.writeAttribute(n4, v4);
+        w.writeAttribute(n5, v5);
+    });
+}
+
+// 0x576758 _ZN6glitch2io10CXMLWriter12writeElementEPKwbRSt6vectorI...ES8_
+void CXMLWriter::writeElement(const wchar_t* name, bool empty, const std::vector<std::wstring>& names,
+                              const std::vector<std::wstring>& values) {
+    if (!file || !name) return;
+    writeElementBody(*this, file, indent, flag, name, empty, [&](CXMLWriter& w) {
+        const std::size_t pairs = names.size() < values.size() ? names.size() : values.size();
+        for (std::size_t i = 0; i < pairs; ++i) w.writeAttribute(names[i].c_str(), values[i].c_str());
+    });
+}
+
 }  // namespace glitch::io

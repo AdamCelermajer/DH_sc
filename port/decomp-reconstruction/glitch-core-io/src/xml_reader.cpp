@@ -201,4 +201,81 @@ const WideReader::SAttribute* WideReader::getAttributeByName(const wchar_t* name
     return nullptr;
 }
 
+// ---- convertTextData --------------------------------------------------------
+// The two encodings are compared through the same predicate the pseudocode uses: the code
+// units are byte-swapped when the parser format and the source format fall on different sides.
+namespace {
+bool isSwappedFormat(int format) {
+    return format <= 1 || format == 3 || format == 5;
+}
+std::uint32_t swap32(std::uint32_t v) {
+    return (v >> 24) | ((v >> 8) & 0xFF00u) | ((v << 8) & 0xFF0000u) | (v << 24);
+}
+std::uint16_t swap16(std::uint16_t v) {
+    return static_cast<std::uint16_t>((v >> 8) | (v << 8));
+}
+// Swaps each code unit up to the terminating zero (the zero itself is unchanged).
+void swapUnits(std::uint32_t* text) {
+    for (; text && *text; ++text) *text = swap32(*text);
+}
+void swapUnits(std::uint16_t* text) {
+    for (; text && *text; ++text) *text = swap16(*text);
+}
+}  // namespace
+
+// 0x572ca4 _ZN6glitch2io14CXMLReaderImplIcNS_17IReferenceCountedEE15convertTextDataImEEvPT_Pci
+// Copies the code units into a new char buffer (truncating), then releases the old owner.
+void CXMLReaderImpl<char, glitch::IReferenceCounted>::convertTextData(std::uint32_t* text, char* owner,
+                                                                    int length) {
+    if (isSwappedFormat(parserFormat) != isSwappedFormat(sourceFormat)) swapUnits(text);
+    char* buffer = new char[static_cast<std::size_t>(length)];
+    for (int i = 0; i < length; ++i) buffer[i] = static_cast<char>(text[i]);
+    delete[] owner;
+    textOwner = buffer;
+    textData = buffer;
+    textLength = length;
+}
+
+// 0x572d94 _ZN6glitch2io14CXMLReaderImplIcNS_17IReferenceCountedEE15convertTextDataItEEvPT_Pci
+void CXMLReaderImpl<char, glitch::IReferenceCounted>::convertTextData(std::uint16_t* text, char* owner,
+                                                                    int length) {
+    if (isSwappedFormat(parserFormat) != isSwappedFormat(sourceFormat)) swapUnits(text);
+    char* buffer = new char[static_cast<std::size_t>(length)];
+    for (int i = 0; i < length; ++i) buffer[i] = static_cast<char>(text[i]);
+    delete[] owner;
+    textOwner = buffer;
+    textData = buffer;
+    textLength = length;
+}
+
+// 0x57259c _ZN6glitch2io14CXMLReaderImplIwNS_17IReferenceCountedEE15convertTextDataImEEvPT_Pci
+// Keeps the caller's buffer as the owner; only the byte order is changed.
+void CXMLReaderImpl<wchar_t, glitch::IReferenceCounted>::convertTextData(std::uint32_t* text, char* owner,
+                                                                       int length) {
+    if (isSwappedFormat(parserFormat) != isSwappedFormat(sourceFormat)) swapUnits(text);
+    textOwner = owner;
+    textData = text;
+    textLength = length;
+}
+
+// 0x572fb0 _ZN6glitch2io14CXMLReaderImplIwNS_17IReferenceCountedEE15convertTextDataItEEvPT_Pci
+void CXMLReaderImpl<wchar_t, glitch::IReferenceCounted>::convertTextData(std::uint16_t* text, char* owner,
+                                                                       int length) {
+    if (isSwappedFormat(parserFormat) != isSwappedFormat(sourceFormat)) swapUnits(text);
+    textOwner = owner;
+    textData = text;
+    textLength = length;
+}
+
+// 0x573094 _ZN6glitch2io14CXMLReaderImplIwNS_17IReferenceCountedEE15convertTextDataIcEEvPT_Pci
+// Widens the text into a new wchar_t buffer (4 bytes per unit), then releases the old owner.
+void CXMLReaderImpl<wchar_t, glitch::IReferenceCounted>::convertTextData(char* text, char* owner, int length) {
+    wchar_t* buffer = new wchar_t[static_cast<std::size_t>(length)];
+    for (int i = 0; i < length; ++i) buffer[i] = static_cast<wchar_t>(text[i]);
+    delete[] owner;
+    textOwner = buffer;
+    textData = buffer;
+    textLength = length;
+}
+
 }  // namespace glitch::io

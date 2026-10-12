@@ -929,7 +929,6 @@ elf_address,body_bytes,owner,name,demangled
 88d344,28,lib-vox-audio,_ZN3vox15VoxSoundPackXML7LoadXMLEPKc,vox::VoxSoundPackXML::LoadXML(char const*)
 88ec4c,36,lib-vox-audio,_ZN3vox15VoxSoundPackXMLC1EPKc,vox::VoxSoundPackXML::VoxSoundPackXML(char const*)
 88ecc4,32,lib-vox-audio,_ZN3vox15VoxSoundPackXMLC2EPKc,vox::VoxSoundPackXML::VoxSoundPackXML(char const*)
-88ece4,88,lib-vox-audio,FUN_0089ece4,FUN_0089ece4
 88ed3c,4,lib-vox-audio,_ZN3vox21DriverSourceInterface15SetDSPParameterEiPv,"vox::DriverSourceInterface::SetDSPParameter(int, void*)"
 88ed40,4,lib-vox-audio,_ZN3vox15DriverInterface7RampOutEv,vox::DriverInterface::RampOut()
 88ed44,4,lib-vox-audio,_ZN3vox15DriverInterface6RampInEv,vox::DriverInterface::RampIn()
@@ -943,10 +942,8 @@ elf_address,body_bytes,owner,name,demangled
 88ed70,8,lib-vox-audio,_ZN3vox29DriverCallbackSourceInterface14GetBufferCountEv,vox::DriverCallbackSourceInterface::GetBufferCount()
 88ed8c,24,lib-vox-audio,_Z12VoxSetJavaVMP7_JavaVM,VoxSetJavaVM(_JavaVM*)
 88edac,80,lib-vox-audio,VoxSetDataThreshold,VoxSetDataThreshold
-88edfc,24,lib-vox-audio,FUN_0089edfc,FUN_0089edfc
 88ee1c,28,lib-vox-audio,VoxSetJavaVMC,VoxSetJavaVMC
 88ee38,20,lib-vox-audio,_Z21VoxSetAndroidAPILeveli,VoxSetAndroidAPILevel(int)
-88ee4c,4,lib-vox-audio,FUN_0089ee4c,FUN_0089ee4c
 88ee58,4,lib-vox-audio,_ZN3vox19DriverAndroidSource10PrintDebugEv,vox::DriverAndroidSource::PrintDebug()
 88ee5c,4,lib-vox-audio,_ZN3vox13DriverAndroid8_InitOSLEPv,vox::DriverAndroid::_InitOSL(void*)
 88ee60,4,lib-vox-audio,_ZN3vox13DriverAndroid12_ShutdownOSLEv,vox::DriverAndroid::_ShutdownOSL()
@@ -956,22 +953,16 @@ elf_address,body_bytes,owner,name,demangled
 88ee70,4,lib-vox-audio,_ZN3vox13DriverAndroid9_UpdateATEf,vox::DriverAndroid::_UpdateAT(float)
 88ee74,4,lib-vox-audio,_ZN3vox13DriverAndroid10_UpdateOSLEf,vox::DriverAndroid::_UpdateOSL(float)
 88ee78,28,lib-vox-audio,_ZN3vox13DriverAndroid6UpdateEf,vox::DriverAndroid::Update(float)
-88ef3c,48,lib-vox-audio,FUN_0089ef3c,FUN_0089ef3c
 88ef6c,24,lib-vox-audio,_ZN3vox13DriverAndroid9_ResumeATEv,vox::DriverAndroid::_ResumeAT()
 88f028,28,lib-vox-audio,_ZN3vox13DriverAndroid6ResumeEv,vox::DriverAndroid::Resume()
 88f044,16,lib-vox-audio,_ZN3vox13DriverAndroid10_SuspendATEv,vox::DriverAndroid::_SuspendAT()
-88f054,8,lib-vox-audio,FUN_0089f054,FUN_0089f054
 88f130,28,lib-vox-audio,_ZN3vox13DriverAndroid7SuspendEv,vox::DriverAndroid::Suspend()
 88f14c,220,lib-vox-audio,_ZN3vox13DriverAndroid12DoCallbackATERP7_jarray,vox::DriverAndroid::DoCallbackAT(_jarray*&)
-88f290,80,lib-vox-audio,FUN_0089f290,FUN_0089f290
 88f328,56,lib-vox-audio,_ZN3vox13DriverAndroid16UpdateThreadedATEPv,vox::DriverAndroid::UpdateThreadedAT(void*)
 88f59c,24,lib-vox-audio,_ZN3vox13DriverAndroid19DestroyDriverSourceEPNS_21DriverSourceInterfaceE,vox::DriverAndroid::DestroyDriverSource(vox::DriverSourceInterface*)
 88f618,36,lib-vox-audio,_ZN3vox13DriverAndroid11_ShutdownATEv,vox::DriverAndroid::_ShutdownAT()
 88f644,28,lib-vox-audio,_ZN3vox13DriverAndroid8ShutdownEv,vox::DriverAndroid::Shutdown()
 88f660,360,lib-vox-audio,_ZN3vox13DriverAndroid7_InitATEPv,vox::DriverAndroid::_InitAT(void*)
-88f7c8,200,lib-vox-audio,FUN_0089f7c8,FUN_0089f7c8
-88f890,16,lib-vox-audio,FUN_0089f890,FUN_0089f890
-88f8a0,144,lib-vox-audio,FUN_0089f8a0,FUN_0089f8a0
 88f9a0,24,lib-vox-audio,_ZN3vox13DriverAndroid4InitEPv,vox::DriverAndroid::Init(void*)
 88f9ec,52,lib-vox-audio,_ZN3vox13DriverAndroidD1Ev,vox::DriverAndroid::~DriverAndroid()
 88fa28,20,lib-vox-audio,_ZN3vox13DriverAndroidD0Ev,vox::DriverAndroid::~DriverAndroid()
@@ -979,7 +970,6 @@ elf_address,body_bytes,owner,name,demangled
 88fa80,60,lib-vox-audio,_ZN3vox13DriverAndroidC1Ev,vox::DriverAndroid::DriverAndroid()
 88fac4,16,lib-vox-audio,_ZN3vox12CreateDriverEv,vox::CreateDriver()
 88fae4,32,lib-vox-audio,_ZN3vox13DriverAndroidC2Ev,vox::DriverAndroid::DriverAndroid()
-88fb04,28,lib-vox-audio,FUN_0089fb04,FUN_0089fb04
 88fb28,44,lib-vox-audio,_ZN3vox19DriverAndroidSourceD1Ev,vox::DriverAndroidSource::~DriverAndroidSource()
 88fb5c,20,lib-vox-audio,_ZN3vox19DriverAndroidSourceD0Ev,vox::DriverAndroidSource::~DriverAndroidSource()
 88fb78,44,lib-vox-audio,_ZN3vox19DriverAndroidSourceD2Ev,vox::DriverAndroidSource::~DriverAndroidSource()
@@ -994,45 +984,20 @@ elf_address,body_bytes,owner,name,demangled
 88fce0,4,lib-vox-audio,_ZN3vox15DriverInterface6UpdateEf,vox::DriverInterface::Update(float)
 88fce4,24,lib-vox-audio,_ZN3vox29DriverCallbackSourceInterface6UpdateEf,vox::DriverCallbackSourceInterface::Update(float)
 88fd14,68,lib-vox-audio,_ZN3vox29DriverCallbackSourceInterface21GetNbAvailableSamplesEi,vox::DriverCallbackSourceInterface::GetNbAvailableSamples(int)
-88fd84,24,lib-vox-audio,FUN_0089fd84,FUN_0089fd84
 88fdd4,308,lib-vox-audio,_ZN3vox29DriverCallbackSourceInterface25FillBufferStereo16NoInterEPii,"vox::DriverCallbackSourceInterface::FillBufferStereo16NoInter(int*, int)"
-88feec,104,lib-vox-audio,FUN_0089feec,FUN_0089feec
-88ff54,88,lib-vox-audio,FUN_0089ff54,FUN_0089ff54
-88ffac,28,lib-vox-audio,FUN_0089ffac,FUN_0089ffac
-88ffc8,12,lib-vox-audio,FUN_0089ffc8,FUN_0089ffc8
-890020,256,lib-vox-audio,FUN_008a0020,FUN_008a0020
-890068,8,lib-vox-audio,FUN_008a0068,FUN_008a0068
-89013c,12,lib-vox-audio,FUN_008a013c,FUN_008a013c
 890148,60,lib-vox-audio,_ZN3vox29DriverCallbackSourceInterface13FreeAllBufferEv,vox::DriverCallbackSourceInterface::FreeAllBuffer()
-890184,8,lib-vox-audio,FUN_008a0184,FUN_008a0184
-89018c,8,lib-vox-audio,FUN_008a018c,FUN_008a018c
-890194,4,lib-vox-audio,FUN_008a0194,FUN_008a0194
 890198,4,lib-vox-audio,_ZN3vox29DriverCallbackSourceInterface15Set3DParametersENS_18ListenerParametersENS_22Vox3DGeneralParametersE,"vox::DriverCallbackSourceInterface::Set3DParameters(vox::ListenerParameters, vox::Vox3DGeneralParameters)"
-89019c,8,lib-vox-audio,FUN_008a019c,FUN_008a019c
-8901a4,8,lib-vox-audio,FUN_008a01a4,FUN_008a01a4
-8901ac,8,lib-vox-audio,FUN_008a01ac,FUN_008a01ac
-8901b4,64,lib-vox-audio,FUN_008a01b4,FUN_008a01b4
-8901f4,16,lib-vox-audio,FUN_008a01f4,FUN_008a01f4
-890220,4,lib-vox-audio,FUN_008a0220,FUN_008a0220
 890254,32,lib-vox-audio,_ZN3vox29DriverCallbackSourceInterface23SetDriverCallbackPeriodEf,vox::DriverCallbackSourceInterface::SetDriverCallbackPeriod(float)
 890288,24,lib-vox-audio,_ZN3vox29DriverCallbackSourceInterface19SetDriverSampleRateEi,vox::DriverCallbackSourceInterface::SetDriverSampleRate(int)
 8902a8,28,lib-vox-audio,_ZN3vox23DriverCallbackInterface4InitEPv,vox::DriverCallbackInterface::Init(void*)
-8902c4,20,lib-vox-audio,FUN_008a02c4,FUN_008a02c4
 8902e4,108,lib-vox-audio,_ZN3vox23DriverCallbackInterface15_Set3DParameterEiPv,"vox::DriverCallbackInterface::_Set3DParameter(int, void*)"
-890314,44,lib-vox-audio,FUN_008a0314,FUN_008a0314
-890364,28,lib-vox-audio,FUN_008a0364,FUN_008a0364
 89039c,32,lib-vox-audio,_ZN3vox23DriverCallbackInterface19SetDefaultParameterEv,vox::DriverCallbackInterface::SetDefaultParameter()
-8903bc,168,lib-vox-audio,FUN_008a03bc,FUN_008a03bc
 8904e8,24,lib-vox-audio,_ZN3vox23DriverCallbackInterface13GetWorkBufferEi,vox::DriverCallbackInterface::GetWorkBuffer(int)
-890500,28,lib-vox-audio,FUN_008a0500,FUN_008a0500
-89051c,36,lib-vox-audio,FUN_008a051c,FUN_008a051c
 890548,112,lib-vox-audio,_ZN3vox23DriverCallbackInterface11_FillBufferEPsi,"vox::DriverCallbackInterface::_FillBuffer(short*, int)"
-8905b8,224,lib-vox-audio,FUN_008a05b8,FUN_008a05b8
 8906a0,28,lib-vox-audio,_ZN3vox23DriverCallbackInterface10FillBufferEPsi,"vox::DriverCallbackInterface::FillBuffer(short*, int)"
 8906e4,28,lib-vox-audio,_ZN3vox23DriverCallbackInterface14Set3DParameterEiPv,"vox::DriverCallbackInterface::Set3DParameter(int, void*)"
 89071c,36,lib-vox-audio,_ZN3vox29DriverCallbackSourceInterface18FreeDisposableDataEiRiS1_,"vox::DriverCallbackSourceInterface::FreeDisposableData(int, int&, int&)"
 8909e8,28,lib-vox-audio,_ZN3vox29DriverCallbackSourceInterface14Set3DParameterEiPv,"vox::DriverCallbackSourceInterface::Set3DParameter(int, void*)"
-890af0,8,lib-vox-audio,FUN_008a0af0,FUN_008a0af0
 890af8,20,lib-vox-audio,_ZN3vox29DriverCallbackSourceInterface7CleanupEv,vox::DriverCallbackSourceInterface::Cleanup()
 890b28,24,lib-vox-audio,_ZN3vox29DriverCallbackSourceInterface13SetByteOffsetEi,vox::DriverCallbackSourceInterface::SetByteOffset(int)
 890b50,20,lib-vox-audio,_ZN3vox29DriverCallbackSourceInterface13GetByteOffsetEv,vox::DriverCallbackSourceInterface::GetByteOffset()
@@ -1059,93 +1024,29 @@ elf_address,body_bytes,owner,name,demangled
 891334,124,lib-vox-audio,_ZN3vox23DriverCallbackInterfaceC2Ev,vox::DriverCallbackInterface::DriverCallbackInterface()
 8913b8,192,lib-vox-audio,_ZN3vox29DriverCallbackSourceInterfaceC1EPvS1_j,"vox::DriverCallbackSourceInterface::DriverCallbackSourceInterface(void*, void*, unsigned int)"
 8914bc,120,lib-vox-audio,_ZN3vox29DriverCallbackSourceInterfaceC2EPvS1_j,"vox::DriverCallbackSourceInterface::DriverCallbackSourceInterface(void*, void*, unsigned int)"
-891534,72,lib-vox-audio,FUN_008a1534,FUN_008a1534
 8915c0,204,lib-vox-audio,_ZN3vox29DriverCallbackSourceInterface11GetWorkDataEPhii,"vox::DriverCallbackSourceInterface::GetWorkData(unsigned char*, int, int)"
 891860,172,lib-vox-audio,_ZN3vox29DriverCallbackSourceInterface18FillBufferStereo16EPii,"vox::DriverCallbackSourceInterface::FillBufferStereo16(int*, int)"
 891b80,80,lib-vox-audio,_ZN3vox29DriverCallbackSourceInterface16GetStereoPanningEPiS1_,"vox::DriverCallbackSourceInterface::GetStereoPanning(int*, int*)"
 891ed0,36,lib-vox-audio,_ZN3vox29DriverCallbackSourceInterface15GetDopplerPitchEv,vox::DriverCallbackSourceInterface::GetDopplerPitch()
 892114,72,lib-vox-audio,_ZN3vox29DriverCallbackSourceInterface15GetDistanceGainEv,vox::DriverCallbackSourceInterface::GetDistanceGain()
-892224,4,lib-vox-audio,FUN_008a2224,FUN_008a2224
-892228,4,lib-vox-audio,FUN_008a2228,FUN_008a2228
-89226c,16,lib-vox-audio,FUN_008a226c,FUN_008a226c
-89228c,76,lib-vox-audio,FUN_008a228c,FUN_008a228c
-8922f4,12,lib-vox-audio,FUN_008a22f4,FUN_008a22f4
-892328,8,lib-vox-audio,FUN_008a2328,FUN_008a2328
-892330,12,lib-vox-audio,FUN_008a2330,FUN_008a2330
-89233c,12,lib-vox-audio,FUN_008a233c,FUN_008a233c
-892370,16,lib-vox-audio,FUN_008a2370,FUN_008a2370
-8923a4,24,lib-vox-audio,FUN_008a23a4,FUN_008a23a4
-8923f8,8,lib-vox-audio,FUN_008a23f8,FUN_008a23f8
-892418,4,lib-vox-audio,FUN_008a2418,FUN_008a2418
 892460,12,lib-vox-audio,_ZN3vox29DriverCallbackSourceInterface18GetDirectionalGainEv,vox::DriverCallbackSourceInterface::GetDirectionalGain()
-89246c,16,lib-vox-audio,FUN_008a246c,FUN_008a246c
-8924e0,16,lib-vox-audio,FUN_008a24e0,FUN_008a24e0
-892548,12,lib-vox-audio,FUN_008a2548,FUN_008a2548
-892568,8,lib-vox-audio,FUN_008a2568,FUN_008a2568
-892588,8,lib-vox-audio,FUN_008a2588,FUN_008a2588
-89259c,16,lib-vox-audio,FUN_008a259c,FUN_008a259c
-8925f0,32,lib-vox-audio,FUN_008a25f0,FUN_008a25f0
-892644,8,lib-vox-audio,FUN_008a2644,FUN_008a2644
-892664,12,lib-vox-audio,FUN_008a2664,FUN_008a2664
-89275c,8,lib-vox-audio,FUN_008a275c,FUN_008a275c
 89278c,72,lib-vox-audio,_ZN3vox29DriverCallbackSourceInterface23FillBufferMono16NoInterEPii,"vox::DriverCallbackSourceInterface::FillBufferMono16NoInter(int*, int)"
-8927d4,116,lib-vox-audio,FUN_008a27d4,FUN_008a27d4
-892848,176,lib-vox-audio,FUN_008a2848,FUN_008a2848
-8928bc,12,lib-vox-audio,FUN_008a28bc,FUN_008a28bc
-8928e0,12,lib-vox-audio,FUN_008a28e0,FUN_008a28e0
-8928ec,12,lib-vox-audio,FUN_008a28ec,FUN_008a28ec
-8928f8,12,lib-vox-audio,FUN_008a28f8,FUN_008a28f8
-892904,44,lib-vox-audio,FUN_008a2904,FUN_008a2904
-892930,124,lib-vox-audio,FUN_008a2930,FUN_008a2930
-89296c,20,lib-vox-audio,FUN_008a296c,FUN_008a296c
-892980,60,lib-vox-audio,FUN_008a2980,FUN_008a2980
-8929bc,64,lib-vox-audio,FUN_008a29bc,FUN_008a29bc
-8929fc,16,lib-vox-audio,FUN_008a29fc,FUN_008a29fc
-892a3c,32,lib-vox-audio,FUN_008a2a3c,FUN_008a2a3c
-892a5c,92,lib-vox-audio,FUN_008a2a5c,FUN_008a2a5c
-892ae0,20,lib-vox-audio,FUN_008a2ae0,FUN_008a2ae0
-892af4,32,lib-vox-audio,FUN_008a2af4,FUN_008a2af4
-892b14,32,lib-vox-audio,FUN_008a2b14,FUN_008a2b14
-892b34,32,lib-vox-audio,FUN_008a2b34,FUN_008a2b34
-892b54,40,lib-vox-audio,FUN_008a2b54,FUN_008a2b54
-892b7c,8,lib-vox-audio,FUN_008a2b7c,FUN_008a2b7c
 892bd0,64,lib-vox-audio,_ZN3vox29DriverCallbackSourceInterface16FillBufferMono16EPii,"vox::DriverCallbackSourceInterface::FillBufferMono16(int*, int)"
-892c10,148,lib-vox-audio,FUN_008a2c10,FUN_008a2c10
-892ca4,20,lib-vox-audio,FUN_008a2ca4,FUN_008a2ca4
-892e64,16,lib-vox-audio,FUN_008a2e64,FUN_008a2e64
-892e80,28,lib-vox-audio,FUN_008a2e80,FUN_008a2e80
-892e9c,4,lib-vox-audio,FUN_008a2e9c,FUN_008a2e9c
-892ea0,4,lib-vox-audio,FUN_008a2ea0,FUN_008a2ea0
-892ea4,32,lib-vox-audio,FUN_008a2ea4,FUN_008a2ea4
-892ec4,44,lib-vox-audio,FUN_008a2ec4,FUN_008a2ec4
-892ef0,20,lib-vox-audio,FUN_008a2ef0,FUN_008a2ef0
-892f04,32,lib-vox-audio,FUN_008a2f04,FUN_008a2f04
 892f68,12,lib-vox-audio,_ZN3vox29DriverCallbackSourceInterface10FillBufferEPii,"vox::DriverCallbackSourceInterface::FillBuffer(int*, int)"
-892f74,12,lib-vox-audio,FUN_008a2f74,FUN_008a2f74
 892f80,4,lib-vox-audio,_ZN3vox5Mutex4LockEv,vox::Mutex::Lock()
 893108,32,lib-vox-audio,_ZN3vox29DriverCallbackSourceInterface4InitEv,vox::DriverCallbackSourceInterface::Init()
-89323c,232,lib-vox-audio,FUN_008a323c,FUN_008a323c
-893314,16,lib-vox-audio,FUN_008a3314,FUN_008a3314
-893430,28,lib-vox-audio,FUN_008a3430,FUN_008a3430
 893464,20,lib-vox-audio,_ZN3vox5Mutex7TryLockEv,vox::Mutex::TryLock()
 893478,4,lib-vox-audio,_ZN3vox5Mutex6UnlockEv,vox::Mutex::Unlock()
 89347c,4,lib-vox-audio,_ZN3vox5Mutex4LockEv,vox::Mutex::Lock()
 893480,20,lib-vox-audio,_ZN3vox16AccessController18ReleaseWriteAccessEv,vox::AccessController::ReleaseWriteAccess()
 8934ac,20,lib-vox-audio,_ZN3vox16AccessController14GetWriteAccessEv,vox::AccessController::GetWriteAccess()
-8934c0,4,lib-vox-audio,FUN_008a34c0,FUN_008a34c0
-8934c4,24,lib-vox-audio,FUN_008a34c4,FUN_008a34c4
-8934dc,20,lib-vox-audio,FUN_008a34dc,FUN_008a34dc
 89351c,20,lib-vox-audio,_ZN3vox16AccessController17ReleaseReadAccessEv,vox::AccessController::ReleaseReadAccess()
 893548,8,lib-vox-audio,_ZN3vox16AccessController13GetReadAccessEv,vox::AccessController::GetReadAccess()
-893550,12,lib-vox-audio,FUN_008a3550,FUN_008a3550
 893590,4,lib-vox-audio,_ZN3vox5MutexC1ERKS0_,vox::Mutex::Mutex(vox::Mutex const&)
-893594,8,lib-vox-audio,FUN_008a3594,FUN_008a3594
 89359c,12,lib-vox-audio,_ZN3vox5MutexC2ERKS0_,vox::Mutex::Mutex(vox::Mutex const&)
 8935a8,8,lib-vox-audio,_ZN3vox5MutexD1Ev,vox::Mutex::~Mutex()
-8935b0,12,lib-vox-audio,FUN_008a35b0,FUN_008a35b0
 8935bc,20,lib-vox-audio,_ZN3vox5MutexD2Ev,vox::Mutex::~Mutex()
 8935d0,4,lib-vox-audio,_ZN3vox5MutexC1Ev,vox::Mutex::Mutex()
-8935d4,12,lib-vox-audio,FUN_008a35d4,FUN_008a35d4
 8935e8,16,lib-vox-audio,_ZN3vox5MutexC2Ev,vox::Mutex::Mutex()
 893600,4,lib-vox-audio,_ZN3vox9VoxThread14GetCurThreadIdEv,vox::VoxThread::GetCurThreadId()
 893604,12,lib-vox-audio,_ZN3vox9VoxThread5SleepEj,vox::VoxThread::Sleep(unsigned int)
@@ -1153,32 +1054,20 @@ elf_address,body_bytes,owner,name,demangled
 893700,16,lib-vox-audio,_ZN3vox9VoxThread6UpdateEPv,vox::VoxThread::Update(void*)
 893710,4,lib-vox-audio,_ZN3vox10funcUpdateEPv,vox::funcUpdate(void*)
 893714,12,lib-vox-audio,_ZN3vox9VoxThread4StopEv,vox::VoxThread::Stop()
-893720,12,lib-vox-audio,FUN_008a3720,FUN_008a3720
 89374c,28,lib-vox-audio,_ZN3vox9VoxThreadD1Ev,vox::VoxThread::~VoxThread()
 893768,28,lib-vox-audio,_ZN3vox9VoxThreadD2Ev,vox::VoxThread::~VoxThread()
 893784,268,lib-vox-audio,_ZN3vox9VoxThreadC1EPFvPvS1_ES1_S1_Pc,"vox::VoxThread::VoxThread(void (*)(void*, void*), void*, void*, char*)"
-89386c,28,lib-vox-audio,FUN_008a386c,FUN_008a386c
 8938b4,16,lib-vox-audio,_ZN3vox9VoxThreadC2EPFvPvS1_ES1_S1_Pc,"vox::VoxThread::VoxThread(void (*)(void*, void*), void*, void*, char*)"
-8938c4,36,lib-vox-audio,FUN_008a38c4,FUN_008a38c4
-8938e8,20,lib-vox-audio,FUN_008a38e8,FUN_008a38e8
-8938fc,72,lib-vox-audio,FUN_008a38fc,FUN_008a38fc
-893920,64,lib-vox-audio,FUN_008a3920,FUN_008a3920
-893960,48,lib-vox-audio,FUN_008a3960,FUN_008a3960
-893990,40,lib-vox-audio,FUN_008a3990,FUN_008a3990
 8939e4,4,lib-vox-audio,_ZN3vox13FileInterfaceD1Ev,vox::FileInterface::~FileInterface()
 8939e8,8,lib-vox-audio,_ZN3vox13FileInterface10GetFilePtrEv,vox::FileInterface::GetFilePtr()
 8939f0,4,lib-vox-audio,_ZN3vox11FileLimitedD1Ev,vox::FileLimited::~FileLimited()
 8939f4,8,lib-vox-audio,_ZN3vox11FileLimited5WriteEPKvii,"vox::FileLimited::Write(void const*, int, int)"
 8939fc,80,lib-vox-audio,_ZN3vox13FileInterface4ReadEPvii,"vox::FileInterface::Read(void*, int, int)"
-893a50,4,lib-vox-audio,FUN_008a3a50,FUN_008a3a50
 893a54,12,lib-vox-audio,_ZN3vox13FileInterface4SeekEiNS_17VoxFileSeekOriginE,"vox::FileInterface::Seek(int, vox::VoxFileSeekOrigin)"
-893a60,48,lib-vox-audio,FUN_008a3a60,FUN_008a3a60
 893a98,60,lib-vox-audio,_ZN3vox13FileInterface4TellEv,vox::FileInterface::Tell()
 893adc,76,lib-vox-audio,_ZN3vox13FileInterface5WriteEPKvii,"vox::FileInterface::Write(void const*, int, int)"
-893b28,4,lib-vox-audio,FUN_008a3b28,FUN_008a3b28
 893b34,64,lib-vox-audio,_ZN3vox11FileLimitedC2Ev,vox::FileLimited::FileLimited()
 893b7c,64,lib-vox-audio,_ZN3vox11FileLimitedC1Ev,vox::FileLimited::FileLimited()
-893bbc,8,lib-vox-audio,FUN_008a3bbc,FUN_008a3bbc
 893bc4,104,lib-vox-audio,_ZN3vox11FileLimited4ReadEPvii,"vox::FileLimited::Read(void*, int, int)"
 893c74,244,lib-vox-audio,_ZN3vox11FileLimited4SeekEiNS_17VoxFileSeekOriginE,"vox::FileLimited::Seek(int, vox::VoxFileSeekOrigin)"
 893d70,80,lib-vox-audio,_ZN3vox11FileLimitedC1EPvii,"vox::FileLimited::FileLimited(void*, int, int)"
@@ -1187,22 +1076,18 @@ elf_address,body_bytes,owner,name,demangled
 893e60,12,lib-vox-audio,_ZN3vox13FileInterfaceD0Ev,vox::FileInterface::~FileInterface()
 893e74,12,lib-vox-audio,_ZN3vox11FileLimitedD0Ev,vox::FileLimited::~FileLimited()
 893e88,100,lib-vox-audio,_ZN3vox19FileSystemInterface12GetDirectoryEPciS1_,"vox::FileSystemInterface::GetDirectory(char*, int, char*)"
-893ed0,8,lib-vox-audio,FUN_008a3ed0,FUN_008a3ed0
 893f4c,68,lib-vox-audio,_ZN3vox19FileSystemInterface12PopDirectoryEv,vox::FileSystemInterface::PopDirectory()
 893ff0,92,lib-vox-audio,_ZN3vox19FileSystemInterface9CloseFileEPNS_13FileInterfaceE,vox::FileSystemInterface::CloseFile(vox::FileInterface*)
 89405c,84,lib-vox-audio,_ZN3vox19FileSystemInterfaceD1Ev,vox::FileSystemInterface::~FileSystemInterface()
 8940c0,20,lib-vox-audio,_ZN3vox19FileSystemInterfaceD0Ev,vox::FileSystemInterface::~FileSystemInterface()
 8940dc,84,lib-vox-audio,_ZN3vox19FileSystemInterfaceD2Ev,vox::FileSystemInterface::~FileSystemInterface()
 894140,72,lib-vox-audio,_ZN3vox19FileSystemInterface15DestroyInstanceEv,vox::FileSystemInterface::DestroyInstance()
-8941e4,8,lib-vox-audio,FUN_008a41e4,FUN_008a41e4
 8941ec,152,lib-vox-audio,_ZN3vox19FileSystemInterface13PushDirectoryEPc,vox::FileSystemInterface::PushDirectory(char*)
 894290,72,lib-vox-audio,_ZN3vox19FileSystemInterface10SetArchiveEPKcbbb,"vox::FileSystemInterface::SetArchive(char const*, bool, bool, bool)"
 894330,136,lib-vox-audio,_ZN3vox19FileSystemInterface8OpenFileEPcNS_17VoxFileAccessModeE,"vox::FileSystemInterface::OpenFile(char*, vox::VoxFileAccessMode)"
-894568,232,lib-vox-audio,FUN_008a4568,FUN_008a4568
 8945a4,48,lib-vox-audio,_ZN3vox19FileSystemInterface11GetInstanceEv,vox::FileSystemInterface::GetInstance()
 8945dc,132,lib-vox-audio,_ZN3vox15FileSystemStdioC2Ev,vox::FileSystemStdio::FileSystemStdio()
 894684,24,lib-vox-audio,_ZN3vox15FileSystemStdioC1Ev,vox::FileSystemStdio::FileSystemStdio()
-89469c,108,lib-vox-audio,FUN_008a469c,FUN_008a469c
 89472c,44,lib-vox-audio,_ZN3vox15FileSystemStdioD1Ev,vox::FileSystemStdio::~FileSystemStdio()
 894760,20,lib-vox-audio,_ZN3vox15FileSystemStdioD0Ev,vox::FileSystemStdio::~FileSystemStdio()
 89477c,44,lib-vox-audio,_ZN3vox15FileSystemStdioD2Ev,vox::FileSystemStdio::~FileSystemStdio()
@@ -1215,161 +1100,42 @@ elf_address,body_bytes,owner,name,demangled
 8948f8,4,lib-vox-audio,_ZN3vox9readStdIOEPviiS0_,"vox::readStdIO(void*, int, int, void*)"
 8948fc,8,lib-vox-audio,_ZN3vox10CZipReader12getFileCountEv,vox::CZipReader::getFileCount()
 894904,32,lib-vox-audio,_ZN3vox13SZipFileEntryC1ERKS0_,vox::SZipFileEntry::SZipFileEntry(vox::SZipFileEntry const&)
-894954,4,lib-vox-audio,FUN_008a4954,FUN_008a4954
-894958,20,lib-vox-audio,FUN_008a4958,FUN_008a4958
-89496c,20,lib-vox-audio,FUN_008a496c,FUN_008a496c
 894980,20,lib-vox-audio,_ZN3vox13SZipFileEntryC1Ev,vox::SZipFileEntry::SZipFileEntry()
-8949bc,20,lib-vox-audio,FUN_008a49bc,FUN_008a49bc
-8949d0,12,lib-vox-audio,FUN_008a49d0,FUN_008a49d0
-8949f8,8,lib-vox-audio,FUN_008a49f8,FUN_008a49f8
-894a20,20,lib-vox-audio,FUN_008a4a20,FUN_008a4a20
-894a34,8,lib-vox-audio,FUN_008a4a34,FUN_008a4a34
 894a3c,12,lib-vox-audio,_ZN3vox13SZipFileEntryaSERKS0_,vox::SZipFileEntry::operator=(vox::SZipFileEntry const&)
-894a48,12,lib-vox-audio,FUN_008a4a48,FUN_008a4a48
-894a54,8,lib-vox-audio,FUN_008a4a54,FUN_008a4a54
-894a60,12,lib-vox-audio,FUN_008a4a60,FUN_008a4a60
-894a6c,12,lib-vox-audio,FUN_008a4a6c,FUN_008a4a6c
-894a78,52,lib-vox-audio,FUN_008a4a78,FUN_008a4a78
-894aac,20,lib-vox-audio,FUN_008a4aac,FUN_008a4aac
-894b58,60,lib-vox-audio,FUN_008a4b58,FUN_008a4b58
-894b88,4,lib-vox-audio,FUN_008a4b88,FUN_008a4b88
 894bac,44,lib-vox-audio,_ZNK3vox10StringCompclERKSbIcSt11char_traitsIcENS_10SAllocatorIcLNS_10VoxMemHintE0EEEES8_,"vox::StringComp::operator()(std::basic_string<char, std::char_traits<char>, vox::SAllocator<char, (vox::VoxMemHint)0> > const&, std::basic_string<char, std::char_traits<char>, vox::SAllocator<char, (vox::VoxMemHint)0> > const&) const"
-894c58,24,lib-vox-audio,FUN_008a4c58,FUN_008a4c58
 894cec,28,lib-vox-audio,_ZN3vox13SZipFileEntryD1Ev,vox::SZipFileEntry::~SZipFileEntry()
-894d08,64,lib-vox-audio,FUN_008a4d08,FUN_008a4d08
-894d48,4,lib-vox-audio,FUN_008a4d48,FUN_008a4d48
-894d8c,16,lib-vox-audio,FUN_008a4d8c,FUN_008a4d8c
 894da8,36,lib-vox-audio,_ZN3vox10CZipReaderD1Ev,vox::CZipReader::~CZipReader()
-894dcc,56,lib-vox-audio,FUN_008a4dcc,FUN_008a4dcc
-894e04,36,lib-vox-audio,FUN_008a4e04,FUN_008a4e04
-894e28,20,lib-vox-audio,FUN_008a4e28,FUN_008a4e28
 894e44,20,lib-vox-audio,_ZN3vox10CZipReaderD0Ev,vox::CZipReader::~CZipReader()
 894e60,36,lib-vox-audio,_ZN3vox10CZipReaderD2Ev,vox::CZipReader::~CZipReader()
-894e84,32,lib-vox-audio,FUN_008a4e84,FUN_008a4e84
-894ea4,32,lib-vox-audio,FUN_008a4ea4,FUN_008a4ea4
-894ec4,32,lib-vox-audio,FUN_008a4ec4,FUN_008a4ec4
-894ee4,16,lib-vox-audio,FUN_008a4ee4,FUN_008a4ee4
 894efc,8,lib-vox-audio,_ZN3vox10CZipReader22deletePathFromFilenameERSbIcSt11char_traitsIcENS_10SAllocatorIcLNS_10VoxMemHintE0EEEE,"vox::CZipReader::deletePathFromFilename(std::basic_string<char, std::char_traits<char>, vox::SAllocator<char, (vox::VoxMemHint)0> >&)"
-894f04,60,lib-vox-audio,FUN_008a4f04,FUN_008a4f04
-894f24,20,lib-vox-audio,FUN_008a4f24,FUN_008a4f24
-894f64,12,lib-vox-audio,FUN_008a4f64,FUN_008a4f64
 894f74,16,lib-vox-audio,_ZN3vox10CZipReader15extractFilenameEPNS_13SZipFileEntryE,vox::CZipReader::extractFilename(vox::SZipFileEntry*)
-894f84,204,lib-vox-audio,FUN_008a4f84,FUN_008a4f84
-89529c,68,lib-vox-audio,FUN_008a529c,FUN_008a529c
-895318,24,lib-vox-audio,FUN_008a5318,FUN_008a5318
-895340,40,lib-vox-audio,FUN_008a5340,FUN_008a5340
-895368,8,lib-vox-audio,FUN_008a5368,FUN_008a5368
-895390,20,lib-vox-audio,FUN_008a5390,FUN_008a5390
-8953b8,40,lib-vox-audio,FUN_008a53b8,FUN_008a53b8
-8953e0,40,lib-vox-audio,FUN_008a53e0,FUN_008a53e0
-895408,28,lib-vox-audio,FUN_008a5408,FUN_008a5408
 89544c,4,lib-vox-audio,_ZN3vox10CZipReader11getFileInfoEPKcRiS3_,"vox::CZipReader::getFileInfo(char const*, int&, int&)"
-895450,44,lib-vox-audio,FUN_008a5450,FUN_008a5450
-89547c,20,lib-vox-audio,FUN_008a547c,FUN_008a547c
-8954a8,236,lib-vox-audio,FUN_008a54a8,FUN_008a54a8
-895584,8,lib-vox-audio,FUN_008a5584,FUN_008a5584
-8955d0,128,lib-vox-audio,FUN_008a55d0,FUN_008a55d0
-895630,8,lib-vox-audio,FUN_008a5630,FUN_008a5630
-8956d0,48,lib-vox-audio,FUN_008a56d0,FUN_008a56d0
-895700,8,lib-vox-audio,FUN_008a5700,FUN_008a5700
-8957f0,8,lib-vox-audio,FUN_008a57f0,FUN_008a57f0
-8958c0,16,lib-vox-audio,FUN_008a58c0,FUN_008a58c0
-895920,40,lib-vox-audio,FUN_008a5920,FUN_008a5920
-895a50,20,lib-vox-audio,FUN_008a5a50,FUN_008a5a50
-895ab4,132,lib-vox-audio,FUN_008a5ab4,FUN_008a5ab4
-895b74,20,lib-vox-audio,FUN_008a5b74,FUN_008a5b74
 895c64,4,lib-vox-audio,_ZN3vox10CZipReader15scanLocalHeaderEv,vox::CZipReader::scanLocalHeader()
-895c68,64,lib-vox-audio,FUN_008a5c68,FUN_008a5c68
-895ca8,200,lib-vox-audio,FUN_008a5ca8,FUN_008a5ca8
-895d70,28,lib-vox-audio,FUN_008a5d70,FUN_008a5d70
-895da8,64,lib-vox-audio,FUN_008a5da8,FUN_008a5da8
-895dc0,72,lib-vox-audio,FUN_008a5dc0,FUN_008a5dc0
-895e08,32,lib-vox-audio,FUN_008a5e08,FUN_008a5e08
-895e4c,40,lib-vox-audio,FUN_008a5e4c,FUN_008a5e4c
 895e80,68,lib-vox-audio,_ZN3vox10CZipReaderC1EPKcbb,"vox::CZipReader::CZipReader(char const*, bool, bool)"
 895f5c,60,lib-vox-audio,_ZN3vox10CZipReaderC2EPKcbb,"vox::CZipReader::CZipReader(char const*, bool, bool)"
-895f98,8,lib-vox-audio,FUN_008a5f98,FUN_008a5f98
 896068,4,lib-vox-audio,_ZN3vox18VoxMSWavSubDecoder17GoToNextDataChunkEv,vox::VoxMSWavSubDecoder::GoToNextDataChunk()
-89606c,136,lib-vox-audio,FUN_008a606c,FUN_008a606c
-89612c,40,lib-vox-audio,FUN_008a612c,FUN_008a612c
-896154,72,lib-vox-audio,FUN_008a6154,FUN_008a6154
 8961a4,16,lib-vox-audio,mpc_bits_read,mpc_bits_read
-8961b4,32,lib-vox-audio,FUN_008a61b4,FUN_008a61b4
-8961d4,76,lib-vox-audio,FUN_008a61d4,FUN_008a61d4
 896220,208,lib-vox-audio,mpc_bits_golomb_dec,mpc_bits_golomb_dec
-8962f0,28,lib-vox-audio,FUN_008a62f0,FUN_008a62f0
 89630c,100,lib-vox-audio,mpc_bits_log_dec,mpc_bits_log_dec
 896378,120,lib-vox-audio,mpc_bits_get_size,mpc_bits_get_size
 8963f0,128,lib-vox-audio,mpc_bits_get_block,mpc_bits_get_block
 896470,124,lib-vox-audio,mpc_bits_read,mpc_bits_read
 8964ec,108,lib-vox-audio,mpc_bits_can_dec,mpc_bits_can_dec
-89653c,92,lib-vox-audio,FUN_008a653c,FUN_008a653c
 8965b4,180,lib-vox-audio,mpc_bits_enum_dec,mpc_bits_enum_dec
 896678,32,lib-vox-audio,mpc_decoder_set_streaminfo,mpc_decoder_set_streaminfo
-896698,92,lib-vox-audio,FUN_008a6698,FUN_008a6698
 896708,408,lib-vox-audio,mpc_decoder_read_bitstream_sv8,mpc_decoder_read_bitstream_sv8
-896884,248,lib-vox-audio,FUN_008a6884,FUN_008a6884
-896a0c,400,lib-vox-audio,FUN_008a6a0c,FUN_008a6a0c
-896c94,52,lib-vox-audio,FUN_008a6c94,FUN_008a6c94
-896e28,12,lib-vox-audio,FUN_008a6e28,FUN_008a6e28
-896f58,204,lib-vox-audio,FUN_008a6f58,FUN_008a6f58
 897050,4,lib-vox-audio,mpc_decoder_exit,mpc_decoder_exit
 897054,8,lib-vox-audio,mpc_decoder_reset_scf,mpc_decoder_reset_scf
-89705c,36,lib-vox-audio,FUN_008a705c,FUN_008a705c
 897080,56,lib-vox-audio,mpc_decoder_setup,mpc_decoder_setup
 8970b8,16,lib-vox-audio,mpc_decoder_init,mpc_decoder_init
-8970c8,64,lib-vox-audio,FUN_008a70c8,FUN_008a70c8
 897110,388,lib-vox-audio,mpc_decoder_read_bitstream_sv7,mpc_decoder_read_bitstream_sv7
-897294,332,lib-vox-audio,FUN_008a7294,FUN_008a7294
-8973e0,108,lib-vox-audio,FUN_008a73e0,FUN_008a73e0
-89744c,1144,lib-vox-audio,FUN_008a744c,FUN_008a744c
-897470,36,lib-vox-audio,FUN_008a7470,FUN_008a7470
-8974dc,40,lib-vox-audio,FUN_008a74dc,FUN_008a74dc
-897504,68,lib-vox-audio,FUN_008a7504,FUN_008a7504
-897570,48,lib-vox-audio,FUN_008a7570,FUN_008a7570
-897598,108,lib-vox-audio,FUN_008a7598,FUN_008a7598
-897604,36,lib-vox-audio,FUN_008a7604,FUN_008a7604
-897628,84,lib-vox-audio,FUN_008a7628,FUN_008a7628
-89767c,168,lib-vox-audio,FUN_008a767c,FUN_008a767c
-897a94,132,lib-vox-audio,FUN_008a7a94,FUN_008a7a94
-897b34,592,lib-vox-audio,FUN_008a7b34,FUN_008a7b34
-897c14,8,lib-vox-audio,FUN_008a7c14,FUN_008a7c14
-897c58,40,lib-vox-audio,FUN_008a7c58,FUN_008a7c58
-897c9c,20,lib-vox-audio,FUN_008a7c9c,FUN_008a7c9c
-897ccc,24,lib-vox-audio,FUN_008a7ccc,FUN_008a7ccc
-897d20,36,lib-vox-audio,FUN_008a7d20,FUN_008a7d20
-897d84,116,lib-vox-audio,FUN_008a7d84,FUN_008a7d84
-897ddc,56,lib-vox-audio,FUN_008a7ddc,FUN_008a7ddc
-897e14,52,lib-vox-audio,FUN_008a7e14,FUN_008a7e14
-897e70,32,lib-vox-audio,FUN_008a7e70,FUN_008a7e70
-897e90,220,lib-vox-audio,FUN_008a7e90,FUN_008a7e90
-898088,36,lib-vox-audio,FUN_008a8088,FUN_008a8088
 898104,424,lib-vox-audio,mpc_decoder_decode_frame,mpc_decoder_decode_frame
-8982a0,4,lib-vox-audio,FUN_008a82a0,FUN_008a82a0
-8985ec,520,lib-vox-audio,FUN_008a85ec,FUN_008a85ec
-898634,44,lib-vox-audio,FUN_008a8634,FUN_008a8634
-898be4,32,lib-vox-audio,FUN_008a8be4,FUN_008a8be4
-898c80,48,lib-vox-audio,FUN_008a8c80,FUN_008a8c80
-898d9c,24,lib-vox-audio,FUN_008a8d9c,FUN_008a8d9c
-898dc8,144,lib-vox-audio,FUN_008a8dc8,FUN_008a8dc8
-898e3c,16,lib-vox-audio,FUN_008a8e3c,FUN_008a8e3c
 898e60,76,lib-vox-audio,mpc_synthese_filter_float_internal,mpc_synthese_filter_float_internal
-899060,8,lib-vox-audio,FUN_008a9060,FUN_008a9060
-89919c,8,lib-vox-audio,FUN_008a919c,FUN_008a919c
-8992ac,12,lib-vox-audio,FUN_008a92ac,FUN_008a92ac
-8992d8,16,lib-vox-audio,FUN_008a92d8,FUN_008a92d8
-899330,16,lib-vox-audio,FUN_008a9330,FUN_008a9330
-899388,16,lib-vox-audio,FUN_008a9388,FUN_008a9388
-899654,12,lib-vox-audio,FUN_008a9654,FUN_008a9654
-899848,16,lib-vox-audio,FUN_008a9848,FUN_008a9848
-8999ec,12,lib-vox-audio,FUN_008a99ec,FUN_008a99ec
-899b84,16,lib-vox-audio,FUN_008a9b84,FUN_008a9b84
-899d00,12,lib-vox-audio,FUN_008a9d00,FUN_008a9d00
-899d68,16,lib-vox-audio,FUN_008a9d68,FUN_008a9d68
 89a2c4,84,lib-vox-audio,mpc_random_int,mpc_random_int
 89a31c,40,lib-vox-audio,mpc_decoder_synthese_filter_float,mpc_decoder_synthese_filter_float
 89a3a4,180,lib-vox-audio,huff_fill_lut,huff_fill_lut
 89a458,4,lib-vox-audio,can_fill_lut,can_fill_lut
-89a45c,240,lib-vox-audio,FUN_008aa45c,FUN_008aa45c
 89a54c,172,lib-vox-audio,huff_init_lut,huff_init_lut
-89a5f8,196,lib-vox-audio,FUN_008aa5f8,FUN_008aa5f8
+8a0364,28,lib-vox-audio,FUN_008a0364,FUN_008a0364
+8a2330,12,lib-vox-audio,FUN_008a2330,FUN_008a2330
+8a7e90,220,lib-vox-audio,FUN_008a7e90,FUN_008a7e90

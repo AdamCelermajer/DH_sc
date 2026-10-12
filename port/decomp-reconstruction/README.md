@@ -37,6 +37,19 @@ Ledger `status` values:
 - `partial`: compiles, but part of the behaviour is stubbed or uncertain; `notes` says which part.
 - `skipped`: deliberately not rebuilt (`notes` says why, such as a compiler-generated thunk or a platform that is not a target).
 
+## Setup
+
+A fresh Debian or Ubuntu container needs the build tools once. This installs CMake,
+Ninja, the MinGW-w64 cross compiler, Wine (to run the Windows tests) and unar (for the
+nested RAR in the IDA export), then creates the Wine prefix:
+
+```sh
+tools/decomp_setup.sh
+```
+
+After that, `tools/decomp_build.sh host <category>` and `tools/decomp_build.sh windows <category>`
+work as shown under Tools. On a real Windows machine, build with CMake and MinGW or MSVC instead.
+
 ## Tools
 
 ```sh

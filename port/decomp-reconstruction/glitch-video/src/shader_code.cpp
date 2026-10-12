@@ -1,5 +1,7 @@
 #include "glitch-video/shader_code.hpp"
 
+#include <cstring>
+
 namespace glitch::video {
 
 // 0x6e2130 _ZN6glitch5video11IShaderCodeC1EPKc
@@ -59,6 +61,46 @@ void ICodeShaderManager::removeUnusedShaderCodes() {
 // The original calls the IShaderManager base version first (not modelled here).
 void ICodeShaderManager::removeUnusedShaders() {
     removeUnusedShaderCodes();
+}
+
+// 0x6e0a3c _ZN6glitch5video18ICodeShaderManager20initAdditionalConfigEPKc
+// Partial: the file read through the driver (vtable slots 12 and 32 of the file object) is not
+// ported. The "not found" warning is not logged. The loaded text would replace '^' by newline.
+void ICodeShaderManager::initAdditionalConfig(const char* /*name*/) {
+    if (m_additionalConfigLength != -1) {
+        return;
+    }
+}
+
+// 0x6e0b64 _ZN6glitch5video18ICodeShaderManager18makeShaderCodeNameEPKcjS3_jS3_jPj
+// Partial: the original returns a process buffer; the buffer's heap-excess flag is not modelled.
+std::string ICodeShaderManager::makeShaderCodeName(const char* a, uint32_t aLength, const char* b,
+                                                   uint32_t bLength, const char* c, uint32_t cLength,
+                                                   uint32_t* outLength) const {
+    std::string result;
+    result.reserve(aLength + bLength + cLength +
+                   (m_hasAdditionalConfig ? m_additionalConfig.size() : 0));
+    result.append(a, aLength);
+    result.append(b, bLength);
+    result.append(c, cLength);
+    if (m_hasAdditionalConfig) {
+        result.append(m_additionalConfig);
+    }
+    if (outLength) {
+        *outLength = static_cast<uint32_t>(result.size());
+    }
+    return result;
+}
+
+// 0x6e0c10 _ZN6glitch5video18ICodeShaderManager18makeShaderCodeNameEPKcS3_S3_Pj
+// Partial: see the overload above.
+std::string ICodeShaderManager::makeShaderCodeName(const char* a, const char* b, const char* c,
+                                                   uint32_t* outLength) const {
+    const char* bText = b ? b : "";
+    const char* cText = c ? c : "";
+    return makeShaderCodeName(a, static_cast<uint32_t>(std::char_traits<char>::length(a)), bText,
+                              static_cast<uint32_t>(std::char_traits<char>::length(bText)), cText,
+                              static_cast<uint32_t>(std::char_traits<char>::length(cText)), outLength);
 }
 
 // 0x6e0ca4 _ZN6glitch5video18ICodeShaderManagerC1Ev

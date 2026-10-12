@@ -583,3 +583,46 @@ Still partial (135), with the main reason:
 
 Not ledgered: 0x5cac8c (setParameterAt<SColorf>) is in queue.csv but has no ledger row. Its logic is the
 CvtCodec<SColor> path in video/material_parameters.hpp.
+
+## glitch-core-io-8 slice (86 rows: 7 reconstructed, 28 partial, 42 skipped, 9 upstream)
+- CLightAttribute ctor (0x566c90) now stores the light argument; the earlier partial note was wrong.
+- New class CUnzipReadFile (io/unzip_read_file.hpp, src/unzip_read_file.cpp, test tests/unzip_read_file_test.cpp).
+  Not yet in CMakeLists; the integrator must add src/unzip_read_file.cpp and the test.
+- 42 rows are classes owned by glitch-video or glitch-scene-collada-gui (CImage, CGUIListBox, CMeshSceneNode, ...)
+  and were skipped under the category lock. They need their owners' categories.
+
+## glitch-core-io-2 (slice glitch-core-io-2)
+- CMatrix4<float>::getScale, transformPlane, setRotationRadians and aabbox3d::intersectsWithLine_impl_1d /
+  intersectsWithSegment are inline in deps/glitch_core.hpp. setRotationRadians writes only elements
+  0,1,2,4,5,6,8,9,10 (the listing does not touch 3,7,11,12..15).
+- dual_quaternion::fromQuatAndTrans is in src/dual_quaternion.cpp. operator= needs quaternion::operator=(CMatrix4).
+- CColladaBinaryFileLoader C1/C2 constructor only; vtable off_9878B8 not reconstructed.
+- Open SIDedCollection rename/insert rows and the SShaderParameterDef remove (0x5c0f70) are skipped; see ledger notes.
+
+## glitch-core-io-4 (slice 4, this session)
+- `SStreamItrWriter` (io/stream_itr_writer.hpp): layout from the listing: 8-byte swap buffer at +0x00,
+  data pointer +0x10, count u16 +0x14, element size u16 +0x16, stride u16 +0x18. Swapped writes
+  reverse each element (sizes 2, 4, 8); block writes ignore the swap flag.
+- `plane3d::setPlane` (deps): normal = (c - a) x (b - a) normalized, D = -dot(a, normal). The normalize
+  step is assumed (see the row).
+- Blockers for the rest of this slice: CFileSystem archive containers (zip, pak, folder lists) and the
+  obfuscation map are not in the header; the IrrXML reader factory (createIXMLReader) and
+  video::getStringsInternal are not in the port; CEnumAttribute header puts the index at +0x38 while the
+  listing uses +0x38 as the text pointer and the choice table at +0x3c (layout conflict); ISceneNode and
+  the scene node base layouts are not in the port.
+- Gameplay-owned rows (menus/HUD, camera, animation, renderer) are ledgered skipped with that reason.
+
+## Slice glitch-core-io-1 (IMaterialParameters instances, 179 rows)
+- 58 open rows added to material_parameters.hpp: 48 intrusive_ptr instances (setPointer, getPointer,
+  setPointerArray, getPointerArray, and the Cvt forms), 9 setParameterElement, 1 setParameterAt<SColorf>.
+  Address map is in the header. Partial rows keep their earlier notes.
+- Pointer codes: CLight is code 18 only; ITexture is codes 12..15, and a non-null texture must be stored
+  under 12 + (slotType & 3). ITexture gained slotType (+0x38) in deps/glitch_core.hpp for that gate.
+- Open: ValueTypeBaseType / ValueTypeArraySize are still not in the container (setParameterElement uses
+  a derived table); codes 9 and 10 unconfirmed; setArrayParameter (pointer arrays) is not in the repo;
+  the matrix slot (type 11) is never released.
+
+## glitch-core-io-5 (slice worker)
+- Added SStreamItrLoader (include/glitch-core-io/io/stream_itr_loader.hpp), the mirror of SStreamItrWriter.
+- CAttributes binary and by-name setters (setAttribute char/wchar/void*/line3d/triangle3d, addBinary) and CStringAttribute hex ctor.
+- Skipped as other-category: gui, scene, collada, video, renderer copy helpers, input and animation rows. XML reader read/readAttributeFromXML need an IAttributes vtable slot map.

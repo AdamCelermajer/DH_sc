@@ -136,6 +136,22 @@ struct EventInfoXML {
     const char* const* custom_values = nullptr;
 };
 
+// Group definition the sound-pack loader fills (vox::GroupXMLDef, 56 bytes): uid at +0x00,
+// a string at +0x04 and a second string at +0x1c, the group type at +0x34. What the two
+// strings hold is not established. Only the constructors and the copy assignment are
+// reconstructed here; the loader is not ported.
+class GroupXMLDef {
+public:
+    GroupXMLDef();                                       // 0x88ade0
+    GroupXMLDef(const GroupXMLDef& other);               // 0x88ae2c
+    GroupXMLDef& operator=(const GroupXMLDef& other);    // 0x88b5f0
+
+    std::int32_t uid_ = 0;     // +0x00
+    std::string name_;         // +0x04
+    std::string label_;        // +0x1c
+    std::int32_t type_ = 0;    // +0x34
+};
+
 class VoxSoundPackXML {
 public:
     // Port-only: the original constructors (from an XML file name) are not reconstructed.

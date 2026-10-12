@@ -100,12 +100,18 @@ int EmitterObj::GetStatus() {
 }
 
 // 0x8638e4 _ZN3vox10EmitterObj9UpdateDSPEf
-// Partial: the owner of the buffer at +0xec is not identified. As in the original,
-// the pointer is freed without being cleared when +0xf0 is set, so a second call
-// frees it again.
+// partial: when a pending DSP name is set (+0xf0), the name in use (+0xec) is freed and replaced
+// by it. The original then calls a one-argument source slot (+0x40) that the port's
+// DriverSourceInterface does not model, so that call is skipped. The source Update(dt) (+0x44)
+// runs in both cases, and not at all when there is no source.
 void EmitterObj::UpdateDSP(float dt) {
-    if (dsp_buffer_size_ != 0) {
+    if (dsp_pending_ != nullptr) {
         VoxFree(dsp_buffer_);
+        dsp_buffer_ = dsp_pending_;
+        dsp_pending_ = nullptr;
+        if (dsp_source_ == nullptr) {
+            return;
+        }
     }
     if (dsp_source_ != nullptr) {
         dsp_source_->Update(dt);

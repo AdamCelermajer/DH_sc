@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+#include "glitch-video/deps/intrusive_ptr.hpp"
+
 #include "glitch-video/deps/glitch_video_types.hpp"
 #include "glitch-video/shader_attributes.hpp"
 #include "glitch-video/shader_code.hpp"
@@ -33,16 +35,26 @@ class CGLSLShader : public IShader {
 public:
     CGLSLShader() = default;
     // 0x6df0d4 (C1) / 0x6df130 (C2). Partial: the IShader base constructor (driver, empty name,
-    // id 0) is not ported, so the driver is not stored. The words at +0x44, +0x48 and the byte
-    // at +0x50 are zeroed here; +0x4c is IShader::m_glProgram and starts at zero.
+    // id 0) is not ported, so the driver is not stored. +0x4c is IShader::m_glProgram.
     explicit CGLSLShader(CProgrammableGLDriver* driver);
+    // 0x6df1f0 (C1) / 0x6df2c4 (C2). Partial: the IShader base constructor is not ported, so the
+    // id and name are not stored. The codes are kept, the program is created, and the two
+    // glAttachShader calls and the link step are not ported. The link result is ignored.
+    CGLSLShader(uint16_t id, const char* name, const boost::intrusive_ptr<CGLSLShaderCode>& first,
+                const boost::intrusive_ptr<CGLSLShaderCode>& second, CProgrammableGLDriver* driver,
+                bool link);
     void serializeAttributes(io::IAttributes* attributes) const;  // 0x6de878, empty
     void deserializeAttributes(io::IAttributes* attributes);      // 0x6de87c, empty
     bool createProgram();                                        // 0x6de8e0: glCreateProgram into +0x4c; returns true
+    // 0x6de880: drops both shader code references (+0x44 and +0x48). Reference counting is
+    // not modelled, so the references are cleared.
+    void releaseShaderCode();
+    // 0x6de8f8: deletes the GL program (+0x4c) when set, then releaseShaderCode().
+    void releaseDriverSpecificResources();
 
 private:
-    uint32_t m_unknown44 = 0;  // +0x44, not identified
-    uint32_t m_unknown48 = 0;  // +0x48, not identified
+    boost::intrusive_ptr<CGLSLShaderCode> m_firstCode;   // +0x44, first code argument
+    boost::intrusive_ptr<CGLSLShaderCode> m_secondCode;  // +0x48, second code argument
     uint8_t m_unknown50 = 0;   // +0x50, not identified
 };
 

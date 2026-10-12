@@ -120,7 +120,6 @@ elf_address,body_bytes,owner,name,demangled
 516004,64,<global>,_ZrsRSiR9TiXmlNode,"operator>>(std::basic_istream<char, std::char_traits<char> >&, TiXmlNode&)"
 5175e0,164,<global>,_ZlsRSoRK9TiXmlNode,"operator<<(std::basic_ostream<char, std::char_traits<char> >&, TiXmlNode const&)"
 517870,168,<global>,_ZlsRSsRK9TiXmlNode,"operator<<(std::basic_string<char, std::char_traits<char>, std::allocator<char> >&, TiXmlNode const&)"
-51eaf8,232,<global>,FUN_0052eaf8,FUN_0052eaf8
 52f0dc,4,<global>,appTrackBall,appTrackBall
 52f0e4,4,<global>,nativepauseAllMusic,nativepauseAllMusic
 52f0e8,8,<global>,getState,getState
@@ -284,24 +283,17 @@ elf_address,body_bytes,owner,name,demangled
 876e8c,696,<global>,_ZL21convert_samples_shortiPPsiiPPfii,"convert_samples_short(int, short**, int, int, float**, int, int)"
 8771bc,760,<global>,_ZL34convert_channels_short_interleavediPsiPPfii,"convert_channels_short_interleaved(int, short*, int, float**, int, int)"
 8784f4,52,<global>,_Z11dct_iv_slowPfi,"dct_iv_slow(float*, int)"
-89c04c,372,<global>,FUN_008ac04c,FUN_008ac04c
-89c1c0,80,<global>,FUN_008ac1c0,FUN_008ac1c0
 89c29c,48,<global>,LC_API_STRCHRFIND,LC_API_STRCHRFIND
-89c2cc,40,<global>,FUN_008ac2cc,FUN_008ac2cc
-89c2f4,4,<global>,FUN_008ac2f4,FUN_008ac2f4
 89c2f8,4,<global>,LC_API_STRCHR,LC_API_STRCHR
 89c2fc,4,<global>,LC_DEBUG_INIT,LC_DEBUG_INIT
 89c300,4,<global>,LC_DEBUG_FINALIZE,LC_DEBUG_FINALIZE
 89c304,12,<global>,LC_DEBUG_OUT,LC_DEBUG_OUT
 89c310,4,<global>,LC_API_FTOA,LC_API_FTOA
 89c314,180,<global>,LC_API_ITOA,LC_API_ITOA
-89c400,32,<global>,FUN_008ac400,FUN_008ac400
 89c42c,232,<global>,_Z22ConvertUnicodeToUTF8LCPcPKti,"ConvertUnicodeToUTF8LC(char*, unsigned short const*, int)"
 89c514,200,<global>,_Z22ConvertUTF8ToUnicodeLCPtPKci,"ConvertUTF8ToUnicodeLC(unsigned short*, char const*, int)"
 89c5dc,64,<global>,_Z19UTF8ToUnicode_OldLCPtPKc,"UTF8ToUnicode_OldLC(unsigned short*, char const*)"
-89c61c,144,<global>,FUN_008ac61c,FUN_008ac61c
 89c6ac,444,<global>,_Z26ConvertUnicodeToUTF8_OldLCPcPKt,"ConvertUnicodeToUTF8_OldLC(char*, unsigned short const*)"
-89c868,36,<global>,FUN_008ac868,FUN_008ac868
 89c88c,132,<global>,LC_API_PARSE_DATA,LC_API_PARSE_DATA
 89c99c,4,<global>,_Z21LC_API_GetNationalityPc,LC_API_GetNationality(char*)
 89c9a0,116,<global>,getValueLC,getValueLC
@@ -335,25 +327,7 @@ elf_address,body_bytes,owner,name,demangled
 89d264,92,<global>,_Z23TranslateUtf82UnicodeLCPPtPcii,"TranslateUtf82UnicodeLC(unsigned short**, char*, int, int)"
 89d2c0,92,<global>,_Z23TranslateUnicode2Utf8LCPPcPtii,"TranslateUnicode2Utf8LC(char**, unsigned short*, int, int)"
 89d368,60,<global>,_Z10OS_GetTimev,OS_GetTime()
-89e810,104,<global>,FUN_008ae810,FUN_008ae810
-89e8e0,168,<global>,FUN_008ae8e0,FUN_008ae8e0
-89ead0,20,<global>,FUN_008aead0,FUN_008aead0
-89ecbc,32,<global>,FUN_008aecbc,FUN_008aecbc
-89ecec,60,<global>,FUN_008aecec,FUN_008aecec
-89ed28,204,<global>,FUN_008aed28,FUN_008aed28
-89f0b8,268,<global>,FUN_008af0b8,FUN_008af0b8
-89f2a4,544,<global>,FUN_008af2a4,FUN_008af2a4
-89f2d4,20,<global>,FUN_008af2d4,FUN_008af2d4
-89f4b8,16,<global>,FUN_008af4b8,FUN_008af4b8
-89f4e8,4,<global>,FUN_008af4e8,FUN_008af4e8
-89f5d4,144,<global>,FUN_008af5d4,FUN_008af5d4
-89f858,48,<global>,FUN_008af858,FUN_008af858
 89f8a0,48,<global>,_Z28threadGetHostByNameProcessLCPv,threadGetHostByNameProcessLC(void*)
-89f8d0,44,<global>,FUN_008af8d0,FUN_008af8d0
-89fc74,4,<global>,FUN_008afc74,FUN_008afc74
-89fe78,92,<global>,FUN_008afe78,FUN_008afe78
-89ffd4,40,<global>,FUN_008affd4,FUN_008affd4
-89fffc,28,<global>,FUN_008afffc,FUN_008afffc
 52eaa8,32,ADevice,_ZN7ADevice15CallJNIFuncBoolEP7_jclassP10_jmethodID,"ADevice::CallJNIFuncBool(_jclass*, _jmethodID*)"
 52eac8,36,ADevice,_ZN7ADevice12isWifiEnableEv,ADevice::isWifiEnable()
 52eb2c,40,ADevice,_ZN7ADevice18CallJNIFuncSendIntEP7_jclassP10_jmethodIDi,"ADevice::CallJNIFuncSendInt(_jclass*, _jmethodID*, int)"

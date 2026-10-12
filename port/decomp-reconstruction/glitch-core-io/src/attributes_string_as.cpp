@@ -175,3 +175,16 @@ void CAttributes::addString(const char* name, const char* value, bool flag) {
 }
 
 }  // namespace glitch::io
+
+namespace glitch::io {
+
+// 0x56840c _ZN6glitch2io11CAttributes17addStringAsBinaryEPKcPKwb
+// PARTIAL: the original passes the bool argument as the byte count of a null buffer. This
+// version passes a zero count (a null buffer with a nonzero count is not reachable from a
+// valid call), then sets the hex text through setString(wchar_t).
+void CAttributes::addStringAsBinary(const char* name, const wchar_t* value, bool flag) {
+    (void)flag;
+    appendAndSetString(currentAttributes(), new CStringAttribute(name, static_cast<void*>(nullptr), 0, false), value);
+}
+
+}  // namespace glitch::io
