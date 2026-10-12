@@ -7,6 +7,18 @@
 
 namespace vox {
 
+// 0x869a38 _ZN3vox10EmitterObjD2Ev (same body as D1 0x8699c0)
+// 0x8699c0 _ZN3vox10EmitterObjD1Ev
+// Releases the buffer at +0xf4 when one is set; the Handlable base and its mutex follow.
+EmitterObj::~EmitterObj() {
+    if (owned_buffer_ != nullptr) {
+        VoxFree(owned_buffer_);
+    }
+}
+
+// 0x869a1c _ZN3vox10EmitterObjD0Ev
+// Deleting destructor variant; the compiler emits it for the class above.
+
 // 0x864ce0 _ZN3vox10EmitterObj28RegisterStateChangedCallbackEPFvRNS_13EmitterHandleEPvNS_18EmitterExternStateEES3_
 void EmitterObj::RegisterStateChangedCallback(EmitterStateCallback callback, void* user_data) {
     mutex.Lock();

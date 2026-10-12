@@ -16,6 +16,7 @@ class DriverSourceInterface;
 class EmitterObj : public Handlable {
 public:
     EmitterObj() = default;
+    ~EmitterObj() override;  // D1 0x8699c0 and D2 0x869a38 (same body); D0 0x869a1c is the deleting variant
 
     void SetGainModifier(float gain);       // 0x863528: stores +0x44, no lock
     bool IsReady();                         // 0x863530: returns (byte +0x1c) ^ 1, no lock
@@ -102,6 +103,7 @@ public:
     float float_params_[7] = {};            // +0xc4..+0xdc (parameters 1..7)
     std::uint8_t dirty_[11] = {};           // +0xe0..+0xea, one byte per parameter id
     std::uint8_t reset_flag_ = 0;           // +0x99, set by Reset
+    void* owned_buffer_ = nullptr;          // +0xf4, freed by the destructor (owner not identified)
     void* dsp_buffer_ = nullptr;            // +0xec, freed by UpdateDSP when dsp_buffer_size_ is set
     std::uint32_t dsp_buffer_size_ = 0;     // +0xf0
     EmitterStateCallback state_callback_ = nullptr;  // +0x138

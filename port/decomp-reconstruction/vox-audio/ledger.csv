@@ -522,3 +522,19 @@ elf_address,symbol,status,source_file,notes
 0x8709d8,_ZN3vox18DecoderMSWavCursorD1Ev,reconstructed,vox-audio/src/decoder_mswav_cursor.cpp,"destroys the sub-decoder through its virtual destructor, then VoxFree; D1 and D2 share the body"
 0x870a48,_ZN3vox18DecoderMSWavCursorD2Ev,reconstructed,vox-audio/src/decoder_mswav_cursor.cpp,D2 variant; same body as D1
 0x870a2c,_ZN3vox18DecoderMSWavCursorD0Ev,reconstructed,vox-audio/src/decoder_mswav_cursor.cpp,deleting destructor variant; the compiler emits it for the class above
+0x8699c0,_ZN3vox10EmitterObjD1Ev,reconstructed,vox-audio/src/emitter_obj_state.cpp,D1 body: frees the buffer at +0xf4 when set; the Handlable base and its mutex follow
+0x869a38,_ZN3vox10EmitterObjD2Ev,reconstructed,vox-audio/src/emitter_obj_state.cpp,D2 variant; same body as D1
+0x869a1c,_ZN3vox10EmitterObjD0Ev,reconstructed,vox-audio/src/emitter_obj_state.cpp,deleting destructor variant; the compiler emits it for the class above
+0x8754c8,_ZN3vox18VoxMSWavSubDecoderD0Ev,reconstructed,vox-audio/include/vox-audio/vox/decoder_mswav_cursor.hpp,deleting destructor variant of the WAV sub-decoder interface; compiler-generated
+0x875e24,_ZN3vox21VoxMSWavSubDecoderPCMD1Ev,reconstructed,vox-audio/src/mswav_sub_decoder_pcm.cpp,empty destructor of the PCM WAV sub-decoder
+0x875ec8,_ZN3vox21VoxMSWavSubDecoderPCMD0Ev,reconstructed,vox-audio/src/mswav_sub_decoder_pcm.cpp,deleting destructor variant; compiler-generated
+0x8841f8,_ZN3vox19VoxNativeSubDecoderD1Ev,reconstructed,vox-audio/src/native_sub_decoder.cpp,empty destructor of the native sub-decoder base
+0x8847d4,_ZN3vox19VoxNativeSubDecoderD0Ev,reconstructed,vox-audio/src/native_sub_decoder.cpp,deleting destructor variant; compiler-generated
+0x884468,_ZN3vox19VoxNativeSubDecoder7HasDataEv,reconstructed,vox-audio/src/native_sub_decoder.cpp,returns the flag at +0x16c
+0x887b0c,_ZN3vox22VoxNativeSubDecoderPCM4SeekEj,reconstructed,vox-audio/src/native_sub_decoder.cpp,stub in the original: returns 0
+0x887b14,_ZN3vox22VoxNativeSubDecoderPCM17GetDecodingBufferEv,reconstructed,vox-audio/src/native_sub_decoder.cpp,stub in the original: returns -1
+0x887b1c,_ZN3vox22VoxNativeSubDecoderPCM21ReleaseDecodingBufferEi,reconstructed,vox-audio/src/native_sub_decoder.cpp,empty in the original
+0x887b20,_ZN3vox22VoxNativeSubDecoderPCM34SetDecodingBufferToSegmentPositionEPNS_12SegmentStateE,reconstructed,vox-audio/src/native_sub_decoder.cpp,empty in the original
+0x887b24,_ZN3vox22VoxNativeSubDecoderPCMD2Ev,reconstructed,vox-audio/src/native_sub_decoder.cpp,D2 variant of the PCM destructor; empty
+0x887b28,_ZN3vox22VoxNativeSubDecoderPCMD1Ev,reconstructed,vox-audio/src/native_sub_decoder.cpp,D1 variant of the PCM destructor; empty
+0x887b2c,_ZN3vox22VoxNativeSubDecoderPCM31GetBytePositionFromSampleOffsetEj,reconstructed,vox-audio/src/native_sub_decoder.cpp,sample offset times the 16-bit bytes-per-sample word at +0x10
