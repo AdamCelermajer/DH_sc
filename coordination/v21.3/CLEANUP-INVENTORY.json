@@ -1,0 +1,750 @@
+{
+  "captured": "2026-10-12",
+  "worktreeCount": 67,
+  "worktrees": [
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_sc",
+      "branch": "windows-foundation",
+      "head": "d948811938f23fa2e2d43e3431dc6702ee8e2d7a",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 1,
+      "untracked": 19,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/.codex/worktrees/b117-chest-crash/DH_sc",
+      "branch": "codex/b117-chest-crash",
+      "head": "07854c969667decf1c7b20d8daf6170385fd24f6",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "task-attached-preserve-until-root-app-archive"
+    },
+    {
+      "path": "C:/Users/adamc/.codex/worktrees/b118-continue-crash/DH_sc",
+      "branch": "(detached)",
+      "head": "18e0a3e58f1c4d33387592ee14fa2a2f553a6891",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "task-attached-preserve-until-root-app-archive"
+    },
+    {
+      "path": "C:/Users/adamc/.codex/worktrees/generic-level-loader/DH_sc",
+      "branch": "(detached)",
+      "head": "45c5348e807607a2825211bb8f26248067ba9106",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 893,
+      "untracked": 1357,
+      "disposition": "other-chat-owned-preserve-snapshot-before-cleanup"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/b078",
+      "branch": "codex/b078-gameloft-audio",
+      "head": "a0062e71ade29cf1d069ff2b455cbb8a8178f821",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix068",
+      "branch": "fix/b068",
+      "head": "48c721f8556a38eef1c4228247f95e72ea19399a",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix069",
+      "branch": "fix/b069",
+      "head": "96c5d3ae2b19699e658463b8a989556e059c5dfd",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix070",
+      "branch": "fix/b070",
+      "head": "4a08d8c8cbb370905a6ca9f2e2ea99a10552f532",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix071",
+      "branch": "fix/b071",
+      "head": "8bd4019fa69cd29b3ef7967d0fcab136a7aeb93d",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix072",
+      "branch": "fix/b072",
+      "head": "6c76e90ffc61f3fb4f09b5ca64fdd9055a5de52f",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix073",
+      "branch": "fix/b073",
+      "head": "88847f66f8ce9d13a9bee8c9b50ef26e315cca40",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix074",
+      "branch": "fix/b074",
+      "head": "ecbabee7c7fae8c0c834988412500d4b0aeebe79",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix075",
+      "branch": "fix/b075",
+      "head": "51f2f31c73d968c52f0408d25a3634ac07b29546",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix076",
+      "branch": "fix/b076",
+      "head": "99827d880867a7b8b5b845c6b0b9ce522a86444c",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix077",
+      "branch": "fix/b077",
+      "head": "ed1c39b0d46d4e4755c56876572e220e52c81091",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix079",
+      "branch": "fix/b079",
+      "head": "45571237d7c162b8e0ac158b05bfb87204162dd2",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix080",
+      "branch": "fix/b080",
+      "head": "e39df81591657efb70e145e2955e0fdf91361968",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix081",
+      "branch": "fix/b081",
+      "head": "ca0c28a3f6b8888ec14da8f58a30dda96566a6f5",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix082",
+      "branch": "fix/b082",
+      "head": "97d9b87cf80d5a410d4993bc4fea0a4d2111dfe0",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix083",
+      "branch": "fix/b083",
+      "head": "2f994d0b59e12febc1417379f389e76fc5e29b9a",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix085",
+      "branch": "fix/b085",
+      "head": "c993bf1450dee3f7671dec27db0bbfef7b612ba7",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix086",
+      "branch": "fix/b086",
+      "head": "90565f73cb6bcd17e58e157da0808dd1a6af94c9",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix087",
+      "branch": "fix/b087",
+      "head": "f2f63772296a341e7ae2739ad8a03e1e7c3eeca0",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix088",
+      "branch": "fix/b088",
+      "head": "468e382f725e1dc9fe0419ada288573c87ced3f4",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix088fix",
+      "branch": "fix/b088-preserveverify",
+      "head": "2a95fed7bcc0114879a3d9db80ad5c685bd66252",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix089",
+      "branch": "fix/b089",
+      "head": "a9dea862320052890e29ed68fe435953cb3d00eb",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix091",
+      "branch": "fix/b091",
+      "head": "3a4aec63f785e855bb6ddc95bdd78aca9f98031d",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix092",
+      "branch": "fix/b092",
+      "head": "9934db35fc354041df92f4a0dae5022189a27543",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix093",
+      "branch": "fix/b093",
+      "head": "a2e1e5f7022a11851a116a67d1ddaf8bd4cd19b6",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix094",
+      "branch": "fix/b094",
+      "head": "5da46335c978b7a306247442f17ffab026bedaa2",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix095",
+      "branch": "fix/b095",
+      "head": "4a5f001265b2226e332a72238d619c832b501893",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix096",
+      "branch": "fix/b096",
+      "head": "5dc852ea6efd24ff2c34f34066863a90b60f42dc",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix097",
+      "branch": "fix/b097",
+      "head": "af2bf2cd90dd79024f038ce2fc4351b11733b3fa",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix100",
+      "branch": "fix/b100",
+      "head": "a66b7f9c2a9b2eddf51d9efcecb2bc6c0309d36f",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix101",
+      "branch": "fix/b101",
+      "head": "dfc67d8df4a2e77c9332c8403ffed4c18b95c010",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix102",
+      "branch": "fix/b102",
+      "head": "e40538b87d02fbadfa78394680241f2be65562d5",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix103",
+      "branch": "fix/b103",
+      "head": "1d69d39eb43b887d6c70d7d35c8eda55fe5a1c26",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix105",
+      "branch": "fix/b105",
+      "head": "51e9a43c49703573d9fc60a65f7197b95683ee94",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix106",
+      "branch": "fix/b106",
+      "head": "092b3501287dbabef4397b9247ed3ca59074a5ef",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix108",
+      "branch": "fix/b108",
+      "head": "ab1ee317eb7e1f68079b3ac17d0640ee8d73bcfa",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix109",
+      "branch": "fix/b109",
+      "head": "1a3e199fa9e75529a11c006bdb3ff305029df2db",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix110",
+      "branch": "fix/b110",
+      "head": "919a0a3d9b1048a01ffdc721683bd68345152021",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix111",
+      "branch": "fix/b111",
+      "head": "8903fff5bf0b17ded702e12b52f50a6d7767d82a",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix112",
+      "branch": "codex/b112",
+      "head": "3c802731c3d1750ab04c8abfc738ce2b5fdf143a",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix113",
+      "branch": "codex/b113",
+      "head": "9623f483cd3d0425c8a680e0c4e6bcd3a117c377",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix114",
+      "branch": "codex/b114",
+      "head": "61e5966a5d6f3dc47fa94fe4a1ea81d51190a96d",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fix115",
+      "branch": "codex/b115",
+      "head": "3243b32a6a9eecd8a63f9345b450badeb49a906d",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fixfx",
+      "branch": "fix/b101-b105",
+      "head": "f882ad8307ba23cbf7d8ea5e9dbb0a21f1e95890",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/fixsounds",
+      "branch": "fix/sounds",
+      "head": "758d970ac6f9e69b5221dd82d4c1307abfcd51d0",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/npc-marker-motion",
+      "branch": "codex/npc-marker-motion",
+      "head": "d9dbfc60ac9a97cee38535c0a10be6a0ad5dfa5b",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/p161int",
+      "branch": "p16.1/integrate",
+      "head": "2f0030e2d7bd8e5cec71b56fba93c32d12243cdc",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/p16lifecycle2",
+      "branch": "p16/lifecycle2",
+      "head": "3f5536746eaa6bb4641dd17e0bc29d2f2c87e0a9",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/p17fire3",
+      "branch": "p17/fire3",
+      "head": "e447e6687b98dd701b0d57b981b253dd8339d7d4",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/p17int",
+      "branch": "p17/integrate",
+      "head": "955d486bf3594572f7f764ecbb0b295d1b590559",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/v201int",
+      "branch": "v20.1/integrate",
+      "head": "4f7eb6b929de544522b53f8ee1c3ae71b60c5d4c",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 13,
+      "untracked": 2,
+      "disposition": "active-integration-preserve"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/v20cine",
+      "branch": "v20/cine",
+      "head": "9f0c698b2be377032f84e149d03f134a72e74046",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/v20death",
+      "branch": "codex/v20-death-flow",
+      "head": "afd9fca1bfcd27f9b91c5111c878161ab7ff4f39",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/v20deathwire",
+      "branch": "v20/deathwire",
+      "head": "612e96f82094cad8a509f3647d1ae144ca2f3b34",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/v20doorfix",
+      "branch": "v20/doorfix",
+      "head": "df50a082bf5de24a82af7bc465fb7f890b7879a8",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/v20doors",
+      "branch": "codex/v20-door-collision",
+      "head": "810f6a9adc2d25e26bfc9c53eb103cb554c06317",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/v20fxverify",
+      "branch": "v20/fxverify",
+      "head": "bacd123d8dd59ef0c52aa614264ae41bd45949c5",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/v20gatefx",
+      "branch": "codex/v20-gate-teleport-fx",
+      "head": "60e60e852df056ced281ad49b83a76e7a241f017",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/v20general",
+      "branch": "v20/general",
+      "head": "db64218b4daddfb5eed1fd9ba9d6bb8191f7ab7f",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/v20int",
+      "branch": "v20/integrate",
+      "head": "743c56f547851e6f82a62cf114cac456abdd9d3f",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/v20rene",
+      "branch": "v20/rene",
+      "head": "76b5e86c8cab4bf0b9d8e40f4065fee8102dadd6",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/v20savefix",
+      "branch": "v20/savefix",
+      "head": "0c66a57a631b9ef15867ede34b1f7c717b19ad7f",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    },
+    {
+      "path": "C:/Users/adamc/Desktop/workspace/DH_wt/v20scriptsvc",
+      "branch": "v20/scriptsvc",
+      "head": "63e1ac82f65c6ef2ecf0028c7e64300f35f39d3d",
+      "upstream": "unconfigured-or-not-recorded",
+      "dirtyTracked": 0,
+      "untracked": 0,
+      "disposition": "clean"
+    }
+  ],
+  "diskFreeBytes": 39096467456,
+  "rootLocalInputsDirectFileBytes": 11557352340,
+  "localInputsLargestImmediateSubdirs": [
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\ida-ghidra-review",
+      "immediateFilesBytes": 928121858,
+      "childDirectoryCount": 11
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-foundation-build",
+      "immediateFilesBytes": 437717653,
+      "childDirectoryCount": 12
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\emulator-guards-v36",
+      "immediateFilesBytes": 427820286,
+      "childDirectoryCount": 0
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-toolchain",
+      "immediateFilesBytes": 359681056,
+      "childDirectoryCount": 1
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\font-text-discovery",
+      "immediateFilesBytes": 318441111,
+      "childDirectoryCount": 8
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\b117-build",
+      "immediateFilesBytes": 314274629,
+      "childDirectoryCount": 3
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\runtime-test-20261009",
+      "immediateFilesBytes": 239098137,
+      "childDirectoryCount": 1
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\swampking-ai-target-host-build",
+      "immediateFilesBytes": 210748086,
+      "childDirectoryCount": 7
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\authored-fx-v32",
+      "immediateFilesBytes": 146872327,
+      "childDirectoryCount": 0
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\frontend-feature-build",
+      "immediateFilesBytes": 139332838,
+      "childDirectoryCount": 7
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\runtime-test-20261008",
+      "immediateFilesBytes": 133040402,
+      "childDirectoryCount": 0
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\combat-hit-fx-v1",
+      "immediateFilesBytes": 115121893,
+      "childDirectoryCount": 1
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\original-hud-packaged-1f2be85b",
+      "immediateFilesBytes": 108379739,
+      "childDirectoryCount": 0
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\original-hud-fixed-cef8471c",
+      "immediateFilesBytes": 108379652,
+      "childDirectoryCount": 3
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\original-hud-first-25ab5ce4",
+      "immediateFilesBytes": 103484378,
+      "childDirectoryCount": 0
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\loot-v44-host-objects",
+      "immediateFilesBytes": 95437640,
+      "childDirectoryCount": 0
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-source-clock-checkpoint-v18",
+      "immediateFilesBytes": 90465173,
+      "childDirectoryCount": 1
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-source-clock-v19-preview-1",
+      "immediateFilesBytes": 85720419,
+      "childDirectoryCount": 1
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\github-publication-2026-10-04",
+      "immediateFilesBytes": 84962896,
+      "childDirectoryCount": 0
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-source-clock-checkpoint-v17",
+      "immediateFilesBytes": 77942206,
+      "childDirectoryCount": 1
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\blender-player-study",
+      "immediateFilesBytes": 76418362,
+      "childDirectoryCount": 1
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\ui-layout-discovery",
+      "immediateFilesBytes": 71303181,
+      "childDirectoryCount": 0
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\character-menu-connected-v2-host",
+      "immediateFilesBytes": 71295061,
+      "childDirectoryCount": 0
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\character-kill-discovery",
+      "immediateFilesBytes": 67925080,
+      "childDirectoryCount": 2
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\windows-main-frontend-v1",
+      "immediateFilesBytes": 58207362,
+      "childDirectoryCount": 1
+    }
+  ],
+  "notes": [
+    "Per-worktree direct child scans only; no recursive scans. Immediate directory sizes are lower bounds because nested grandchildren were not enumerated.",
+    "Worktree status counts are from one read-only git status sweep; generic-level-loader long status had 893 tracked entries and 1357 untracked entries, omitted path list in this index.",
+    "Most worktrees have no upstream configured; no network/fetch attempted. Cached local branch refs listed in report.",
+    "Accepted Preview11/12/13 packages and user saves stay under root .local-inputs; preserve whole location.",
+    "Only root may archive the two task-attached app-managed worktrees; generic-level-loader belongs to another chat and requires snapshot/branch/source preservation before removal."
+  ],
+  "cachedPublicationRelation": {
+    "localAhead": 1,
+    "localBehind": 0,
+    "remoteFreshness": "cached local ref only; no fetch"
+  }
+}
