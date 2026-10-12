@@ -40,16 +40,16 @@ void closeStdIO(void* file) {
     std::fclose(static_cast<std::FILE*>(file));
 }
 
-// 0x8948f8 _ZN3vox9readStdIOEPviiS0_ (partial: see the header)
-void readStdIO(void* dst, int size, int count, void* file) {
-    std::fread(dst, static_cast<std::size_t>(size), static_cast<std::size_t>(count),
-               static_cast<std::FILE*>(file));
+// 0x8948f8 _ZN3vox9readStdIOEPviiS0_: tail call to fread, returns its count.
+std::size_t readStdIO(void* dst, int size, int count, void* file) {
+    return std::fread(dst, static_cast<std::size_t>(size), static_cast<std::size_t>(count),
+                      static_cast<std::FILE*>(file));
 }
 
-// 0x8948f4 _ZN3vox10writeStdIOEPKviiPv (partial: see the header)
-void writeStdIO(const void* src, int size, int count, void* file) {
-    std::fwrite(src, static_cast<std::size_t>(size), static_cast<std::size_t>(count),
-                static_cast<std::FILE*>(file));
+// 0x8948f4 _ZN3vox10writeStdIOEPKviiPv: tail call to fwrite, returns its count.
+std::size_t writeStdIO(const void* src, int size, int count, void* file) {
+    return std::fwrite(src, static_cast<std::size_t>(size), static_cast<std::size_t>(count),
+                       static_cast<std::FILE*>(file));
 }
 
 // 0x8948dc _ZN3vox9seekStdIOEPviNS_17VoxFileSeekOriginE
@@ -63,9 +63,9 @@ void seekStdIO(void* file, int offset, VoxFileSeekOrigin whence) {
     std::fseek(static_cast<std::FILE*>(file), offset, origin);
 }
 
-// 0x8948d8 _ZN3vox9tellStdIOEPv (partial: see the header)
-void tellStdIO(void* file) {
-    std::ftell(static_cast<std::FILE*>(file));
+// 0x8948d8 _ZN3vox9tellStdIOEPv: tail call to ftell, returns the position.
+long tellStdIO(void* file) {
+    return std::ftell(static_cast<std::FILE*>(file));
 }
 
 }  // namespace vox

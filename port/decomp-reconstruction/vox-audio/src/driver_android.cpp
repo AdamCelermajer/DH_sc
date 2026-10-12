@@ -51,8 +51,8 @@ void DriverAndroid::Suspend() {
     _SuspendOSL();
 }
 
-// 0x88f644 _ZN3vox13DriverAndroid8ShutdownEv (partial: _ShutdownAT is reconstructed, the
-// other two AT bodies are not)
+// 0x88f644 _ZN3vox13DriverAndroid8ShutdownEv: mode 1 runs the audio-thread shutdown, mode 2
+// the OSL shutdown, anything else does nothing.
 void DriverAndroid::Shutdown() {
     if (mode_ == 1) {
         _ShutdownAT();

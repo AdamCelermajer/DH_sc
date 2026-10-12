@@ -5,6 +5,24 @@
 
 namespace vox {
 
+namespace {
+
+// __aeabi_f2iz: truncation toward zero that saturates at the int32 limits; NaN gives 0.
+std::int32_t FloatToInt32Saturating(float value) {
+    if (value != value) {
+        return 0;
+    }
+    if (value >= 2147483648.0f) {
+        return INT32_MAX;
+    }
+    if (value <= -2147483648.0f) {
+        return INT32_MIN;
+    }
+    return static_cast<std::int32_t>(value);
+}
+
+}  // namespace
+
 std::int32_t DriverCallbackSourceInterface::s_driverSampleRate_ = 0;
 
 // 0x88ed68 _ZN3vox29DriverCallbackSourceInterface20AllowBufferReferenceEv
@@ -17,12 +35,16 @@ int DriverCallbackSourceInterface::GetBufferCount() const {
     return buffer_count_;
 }
 
-// 0x88fce4 _ZN3vox29DriverCallbackSourceInterface6UpdateEf (partial)
-// The pseudocode is a tail call to __aeabi_fmul(dt, 16384.0f), so the body multiplies
-// by 2^14 in the original. Whether that product is the function's result or is
-// dropped is not confirmed, so the port only scales the argument and discards it.
+// 0x88fce4 _ZN3vox29DriverCallbackSourceInterface6UpdateEf
+// ARM: dt * 16384.0f (__aeabi_fmul), truncated to int (__aeabi_f2iz); the stored word at
+// +0x04 moves by an eighth of the difference, arithmetic shift. The ARM also returns that
+// difference in r0, but the slot is void in DriverSourceInterface, so the caller never sees it.
 void DriverCallbackSourceInterface::Update(float dt) {
-    (void)(dt * 16384.0f);
+    const std::int32_t target = FloatToInt32Saturating(dt * 16384.0f);
+    const std::int32_t difference = static_cast<std::int32_t>(
+        static_cast<std::uint32_t>(target) - static_cast<std::uint32_t>(period_));
+    period_ = static_cast<std::int32_t>(static_cast<std::uint32_t>(period_) +
+                                        static_cast<std::uint32_t>(difference >> 3));
 }
 
 // 0x890148 _ZN3vox29DriverCallbackSourceInterface13FreeAllBufferEv
@@ -133,15 +155,17 @@ void DriverCallbackSourceInterface::Cleanup() {
     mutex_.Unlock();
 }
 
-// 0x88fd14 _ZN3vox29DriverCallbackSourceInterface21GetNbAvailableSamplesEi (partial)
+// 0x88fd14 _ZN3vox29DriverCallbackSourceInterface21GetNbAvailableSamplesEi (partial:
+// the zero buffer_bytes_ case, see below)
 // The ARM walks the ring from the write index. The free count of a buffer is its size
 // (+0x04) divided by buffer_bytes_, less the count at +0x10. The first buffer is checked
 // alone; if it is short, the walk moves on to the next buffers until one is ready or the
 // ring wraps. Return values, as the ARM shows them: 0 when the write buffer is ready,
 // the requested count when the first buffer has enough, the count gathered so far when a
 // ready buffer stops the walk, the requested count when the gathered total reaches it,
-// and -1 when the walk wraps the whole ring. The original divides with __aeabi_idiv and
-// does not guard a zero buffer_bytes_; the port yields 0 for that case instead.
+// and -1 when the walk wraps the whole ring. Missing: the result of __aeabi_idiv when
+// buffer_bytes_ is zero (the ARM divides without a check, and the runtime's __aeabi_idiv0
+// value is not in the binary listing). The port returns 0 for that case instead.
 int DriverCallbackSourceInterface::GetNbAvailableSamples(int samples) {
     if (buffer_count_ <= 0) {
         return -1;
@@ -175,26 +199,23 @@ int DriverCallbackSourceInterface::GetNbAvailableSamples(int samples) {
     }
 }
 
-// 0x890ccc _ZN3vox29DriverCallbackSourceInterface7SetGainEf (partial)
-// The ARM compares the argument with 1.0f and then with 0 through two float helpers
-// (0x30e2f8, 0x30e70c), not identified by name. A match stores 0x4000 (1.0) or 0. Any
-// other value stores the product with 2^14 truncated to an int (helper 0x30ed6c is the
-// multiply, 0x30e4cc the conversion).
+// 0x890ccc _ZN3vox29DriverCallbackSourceInterface7SetGainEf
+// ARM: gain > 1.0f stores 0x4000; gain < 0.0f stores 0; otherwise the product with 2^14
+// is truncated (__aeabi_f2iz). A NaN fails both compares and stores 0 through the conversion.
 void DriverCallbackSourceInterface::SetGain(float gain) {
     mutex_.Lock();
-    if (gain == 1.0f) {
+    if (gain > 1.0f) {
         field_28_ = 0x4000;
-    } else if (gain == 0.0f) {
+    } else if (gain < 0.0f) {
         field_28_ = 0;
     } else {
-        field_28_ = static_cast<std::int32_t>(gain * 16384.0f);
+        field_28_ = FloatToInt32Saturating(gain * 16384.0f);
     }
     mutex_.Unlock();
 }
 
-// 0x890b78 _ZN3vox29DriverCallbackSourceInterface8GetPitchEv (partial)
-// ARM: int-to-float of the word at +0x34 (helper 0x30e964), then a multiply by 2^-14
-// (0x38800000, helper 0x30ed6c). The inverse of the Q14 scale SetGain uses.
+// 0x890b78 _ZN3vox29DriverCallbackSourceInterface8GetPitchEv
+// ARM: __aeabi_i2f of the word at +0x34, then __aeabi_fmul by 0x38800000 (2^-14).
 float DriverCallbackSourceInterface::GetPitch() {
     mutex_.Lock();
     float pitch = static_cast<float>(field_34_) * (1.0f / 16384.0f);
@@ -202,7 +223,7 @@ float DriverCallbackSourceInterface::GetPitch() {
     return pitch;
 }
 
-// 0x890bb0 _ZN3vox29DriverCallbackSourceInterface7GetGainEv (partial)
+// 0x890bb0 _ZN3vox29DriverCallbackSourceInterface7GetGainEv
 // Same shape as GetPitch, on the word at +0x28 (ARM constant 0x38800000 = 2^-14).
 float DriverCallbackSourceInterface::GetGain() {
     mutex_.Lock();

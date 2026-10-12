@@ -101,7 +101,7 @@ public:
     int AllowBufferReference() override;
     // 0x88ed70: returns the buffer count (+0x44).
     int GetBufferCount() const;
-    // 0x88fce4: partial (see driver_callback.cpp).
+    // 0x88fce4: the +0x04 word moves an eighth of the way to dt * 16384.
     void Update(float dt) override;
     // 0x890148: every buffer is marked ready and the read and write indices reset.
     void FreeAllBuffer();
@@ -119,7 +119,7 @@ public:
     int NeedData();
     // 0x88fd14 (partial): samples available from the write buffer onward (see the .cpp).
     int GetNbAvailableSamples(int samples);
-    // 0x890ccc (partial): stores the gain word at +0x28 in Q14 fixed point.
+    // 0x890ccc: stores the gain word at +0x28 in Q14 fixed point.
     void SetGain(float gain);
     // 0x890b28: stores the byte offset (+0x58) under the lock.
     void SetByteOffset(int offset);
@@ -130,9 +130,9 @@ public:
     // 0x890288: stores the static driver sample rate.
     static void SetDriverSampleRate(int rate);
 
-    // 0x890b78 (partial): the pitch word at +0x34 converted to float.
+    // 0x890b78: the pitch word at +0x34 converted to float.
     float GetPitch();
-    // 0x890bb0 (partial): the gain word at +0x28 converted to float.
+    // 0x890bb0: the gain word at +0x28 converted to float.
     float GetGain();
 
     // 0x893108: resets the gains and 3D fields, and grows the ring to the buffer count.

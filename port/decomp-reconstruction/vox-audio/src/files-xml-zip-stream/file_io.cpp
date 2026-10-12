@@ -20,9 +20,9 @@ FileCloseFn g_file_close = nullptr;
 
 namespace {
 
-// The stdio slots. readStdIO, writeStdIO and tellStdIO discard the C library result
-// (see file_stdio.hpp), so the slots call the C library directly and keep the result.
-// seekStdIO maps the whence values the same way.
+// The stdio slots. They call the C library directly and keep its result; the same values
+// come back from readStdIO, writeStdIO and tellStdIO. seekStdIO maps the whence values
+// the same way.
 int ReadSlot(void* dst, int size, int count, void* file) {
     return static_cast<int>(std::fread(dst, static_cast<std::size_t>(size),
                                        static_cast<std::size_t>(count),
