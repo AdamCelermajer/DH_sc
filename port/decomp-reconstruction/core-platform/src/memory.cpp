@@ -144,13 +144,14 @@ void* operator new(std::size_t size, swf::MemHint hint) { return SwfAlloc(static
 void* operator new[](std::size_t size, swf::MemHint hint) { return SwfAlloc(static_cast<unsigned>(size), hint); }
 
 // 0x752b48 _ZnwjN3swf7MemHintEPKci
-// Partial: the decompiler dropped the forwarded arguments of this wrapper, so
-// the forwarding is reconstructed from the 4-argument SwfAlloc signature.
+// Partial: the listing is a thunk to gameswf::malloc_internal(size, hint, file, line),
+// which belongs to the gameswf category and is not declared here. SwfAlloc stands in
+// for it with the same four arguments.
 void* operator new(std::size_t size, swf::MemHint hint, const char* file, int line) {
     return SwfAlloc(static_cast<unsigned>(size), hint, file, line);
 }
 
-// 0x752b44 _ZnajN3swf7MemHintEPKci (same caveat as 0x752b48)
+// 0x752b44 _ZnajN3swf7MemHintEPKci (same partial reason as 0x752b48: thunk to gameswf::malloc_internal)
 void* operator new[](std::size_t size, swf::MemHint hint, const char* file, int line) {
     return SwfAlloc(static_cast<unsigned>(size), hint, file, line);
 }

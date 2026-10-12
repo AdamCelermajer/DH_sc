@@ -86,9 +86,9 @@ int LongAxis(double* a) {
 }
 
 // 0x7f5038 _ZL17ClipSegmentToLineP10ClipVertexS0_RK6b2Vec2f
-// Partial: the Box2D-style segment clip. The vertex copies and the crossing point
-// match the listing; the id selection on the crossing point is taken from the Hex-Rays
-// ternary and not cross-checked against the ARM listing.
+// Partial: the segment clip matches Hex-Rays: vertex copies, the crossing point, and the
+// id of the crossing point (v1.id when d0 <= 0, else v0.id). Uses the w7g3::ClipVertex and
+// w7g3::Vec2 stand-ins for ClipVertex and b2Vec2, which are defined outside this slice.
 int ClipSegmentToLine(ClipVertex* out, ClipVertex* in, const Vec2& normal, float offset) {
     const ClipVertex& v0 = in[0];
     const ClipVertex& v1 = in[1];
@@ -133,8 +133,9 @@ int InPoints(const Vec2& p, const Vec2* pts, int count) {
 }
 
 // 0x7f89e0 _ZL10ProcessTwoP6b2Vec2S0_S0_S0_S0_
-// Partial: the edge-projection case is transcribed from Hex-Rays. The normalize step
-// uses NormalizeVec, an assumed b2Vec2::Normalize (length, then scale by 1/length).
+// Partial: matches Hex-Rays. Uses the w7g3::Vec2 stand-in for b2Vec2 and NormalizeVec in
+// place of b2Vec2::Normalize (not in this tree). The scale only matters when the length is
+// at least FLT_EPSILON, the case where the normalized vector is used.
 int ProcessTwo(Vec2* a1, Vec2* a2, Vec2* a3, Vec2* a4, Vec2* a5) {
     Vec2 d{a5[0].x - a5[1].x, a5[0].y - a5[1].y};
     float len = NormalizeVec(d);
@@ -156,9 +157,8 @@ int ProcessTwo(Vec2* a1, Vec2* a2, Vec2* a3, Vec2* a4, Vec2* a5) {
 }
 
 // 0x7f8018 _ZL12ProcessThreeP6b2Vec2S0_S0_S0_S0_
-// Partial: control flow and expressions are transcribed from Hex-Rays. The three
-// return paths (1: vertex 2 kept, 2: edge reduction, 3: barycentric) are complete,
-// but the edge reductions are not cross-checked against the ARM listing.
+// Partial: control flow and expressions match Hex-Rays. The three return paths (1: vertex 2
+// kept, 2: edge reduction, 3: barycentric) are present. Uses the w7g3::Vec2 stand-in for b2Vec2.
 int ProcessThree(Vec2* a1, Vec2* a2, Vec2* a3, Vec2* a4, Vec2* a5) {
     const float x0 = a5[0].x, y0 = a5[0].y;
     const float x1 = a5[1].x, y1 = a5[1].y;

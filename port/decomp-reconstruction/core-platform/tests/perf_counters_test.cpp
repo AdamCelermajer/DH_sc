@@ -32,8 +32,9 @@ int main() {
             CHECK(e->value_ == 60.f && e->extra1_ == 1.f && e->extra2_ == 2.f);
             CHECK(e->history_.empty());
         }
-        CHECK(pc.GetEntry("missing") == nullptr);
-        pc.SetCounterValue("missing", 5.f, 0.f, 0.f);  // ignored, no crash
+        // A missing name is appended as a new entry (the listing inserts it), not a null result.
+        CHECK(pc.GetEntry("missing") != nullptr);
+        pc.SetCounterValue("missing", 5.f, 0.f, 0.f);
 
         pc.Update(0.5f);
         pc.SetCounterValue("fps", 30.f, 0.f, 0.f);

@@ -746,13 +746,11 @@ void StatAutoAssignTargetList::finalize() {
 }
 
 // 0x4dce90 _ZN7Structs24StatAutoAssignTargetList4readEP11IStreamBase
-// partial: the element class StatAutoAssignTarget (vtable 0x96b7a0, listing stride 16) is declared in
-// structs_records.hpp, so the stride is widened to sizeof(StatAutoAssignTarget). This read stores the count and
-// destroys the old elements; the new block, the element vtable install and the element reads are not ported.
+// Element stride is sizeof(StatAutoAssignTarget) (listing stride 16). StatAutoAssignTarget::read is defined in
+// structs_records.cpp.
 void StatAutoAssignTargetList::read(IStreamBase* stream) {
     m_w1 = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
-    if (m_w2 != nullptr) DestroyElements(m_w2, sizeof(StatAutoAssignTarget));  // +0x8
-    m_w2 = nullptr;
+    BuildAndReadTable<StatAutoAssignTarget>(stream, m_w1, m_w2, sizeof(StatAutoAssignTarget), kNoZeroWord);  // +0x8
 }
 
 // 0x4db12c _ZN7Structs13ClassFuncListD1Ev

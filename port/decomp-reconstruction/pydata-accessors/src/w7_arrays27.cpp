@@ -1,20 +1,20 @@
 // Arrays::X::read(IStreamBase*) for slice arrays_27 (27 tables). Declarations are in
 // include/pydata-accessors/w7_arrays27.hpp. Each function carries its address and mangled symbol.
 //
-// Shared body (ReadArrayTable), from the Hex-Rays pseudocode of every row:
+// Shared body, from the Hex-Rays pseudocode of every row (BuildArrayTable, then ReadArrayTable's dispatch):
 //   1. count = readAs<uint32>(stream)
 //   2. Table::finalize() on the old table
 //   3. size = count; one block of Stride * count + 8 bytes; header words (Stride, count); members = block + 8
 //   4. each element gets its vptr (the Elem class's vtable address point) and the listed zeroed words
 //   5. each element's read slot (+0xc) runs in order, with the stream
-// The stride of each table is sizeof(element) (host), per the port's element ABI decision. The ARM listing
-// stride is kept in each table's comment as a reference. Listing offsets of zeroed words are element-relative
-// (result[k] in the listing is byte 4k - 8). LevelList and FastTravelList keep the listing stride: their host
-// classes are smaller than a zeroed offset, so widening would write past the element (both are partial).
-// The finalize helpers in w7_arrays_01.cpp and w7_arrays_00.cpp still walk the listing stride; they must use
-// the same sizeof value for each table before these reads are used.
+// The stride of each table is sizeof(element) (host), per the port's element ABI decision; the listing stride
+// appears only in the comments. Listing offsets of zeroed words are element-relative (result[k] in the listing is
+// byte 4k - 8). The finalize helpers (w7_arrays_00.cpp, w7_arrays_01.cpp) already use sizeof for each table.
+// LevelList and FastTravelList are partial: their element classes declare no read slot, and one zeroed word lies
+// past the end of the host element, so those two only build the table (no read dispatch, out-of-range word skipped).
 #include "pydata-accessors/w7_arrays27.hpp"
 
+#include <cassert>
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
@@ -43,9 +43,11 @@ inline pydata::ArrayElement* ElementAt(std::uint8_t* p) {
     return reinterpret_cast<pydata::ArrayElement*>(p);
 }
 
+// Table build: count, finalize, block, header, element vptrs and zeroed words. Every zeroed word must lie inside
+// the element (offset + 4 <= Stride).
 template <class Elem, std::size_t Stride, class Finalize>
-void ReadArrayTable(std::uint8_t*& members, std::uint32_t& size, IStreamBase* stream, Finalize finalize,
-                    std::initializer_list<std::size_t> zeroed) {
+void BuildArrayTable(std::uint8_t*& members, std::uint32_t& size, IStreamBase* stream, Finalize finalize,
+                     std::initializer_list<std::size_t> zeroed) {
     const std::uint32_t count = StreamReader::readAs<std::uint32_t>(stream);
     finalize();
     size = count;
@@ -59,10 +61,18 @@ void ReadArrayTable(std::uint8_t*& members, std::uint32_t& size, IStreamBase* st
         std::uint8_t* element = members + Stride * i;
         std::memcpy(element, &vptr, sizeof vptr);
         for (std::size_t offset : zeroed) {
+            assert(offset + sizeof(std::uint32_t) <= Stride);
             const std::uint32_t zero = 0;
             std::memcpy(element + offset, &zero, sizeof zero);
         }
     }
+}
+
+// Full table read: BuildArrayTable, then each element's read slot (+0xc) in order with the stream.
+template <class Elem, std::size_t Stride, class Finalize>
+void ReadArrayTable(std::uint8_t*& members, std::uint32_t& size, IStreamBase* stream, Finalize finalize,
+                    std::initializer_list<std::size_t> zeroed) {
+    BuildArrayTable<Elem, Stride>(members, size, stream, finalize, zeroed);
     for (std::uint32_t i = 0; i < size; ++i) {
         ElementAt(members + Stride * i)->read(stream);
     }
@@ -147,19 +157,20 @@ void ReadItemAudioVisualTable(IStreamBase* stream) {
 }
 
 // 0x4ba794 _ZN6Arrays9LevelList4readEP11IStreamBase
-// Element Structs::LevelDeclaration (host 24, listing stride 72). Zeroed: +0xc, +0x20. Partial: the class declares
-// no read slot, so the vptr +0xc dispatch has no target in the port.
+// Element Structs::LevelDeclaration (host 24, listing stride 72). Zeroed: +0xc written; +0x20 not written (past the
+// 24-byte element). Partial: Structs::LevelDeclaration declares no read slot (vtable +0xc absent), so the per-element
+// read dispatch is not written; the table is built and the element reads are missing.
 void ReadLevelList(IStreamBase* stream) {
-    ReadArrayTable<Structs::LevelDeclaration, 72>(LevelList::members, LevelList::size, stream,
-                                                  [] { LevelList::finalize(); }, {12, 32});
+    BuildArrayTable<Structs::LevelDeclaration, sizeof(Structs::LevelDeclaration)>(LevelList::members, LevelList::size, stream,
+                                                  [] { LevelList::finalize(); }, {12});
 }
 
 // 0x4ba8e4 _ZN6Arrays14FastTravelList4readEP11IStreamBase
-// Element Structs::FastTravelDestination (host 16, listing stride 28). Zeroed: +0x10. Partial: the class declares
-// no read slot (as ReadLevelList).
+// Element Structs::FastTravelDestination (host 16, listing stride 28). Zeroed: +0x10 not written (past the 16-byte
+// element). Partial: no read slot on the class (as ReadLevelList), so the element read dispatch is not written.
 void ReadFastTravelList(IStreamBase* stream) {
-    ReadArrayTable<Structs::FastTravelDestination, 28>(FastTravelList::members, FastTravelList::size, stream,
-                                                       [] { FastTravelList::finalize(); }, {16});
+    BuildArrayTable<Structs::FastTravelDestination, sizeof(Structs::FastTravelDestination)>(FastTravelList::members,
+                                                       FastTravelList::size, stream, [] { FastTravelList::finalize(); }, {});
 }
 
 // ---- Tables declared in this slice (finalize from w7_arrays_01.hpp) ----

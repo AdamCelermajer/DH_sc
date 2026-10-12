@@ -5,6 +5,7 @@
 // but the string argument is register r1, which the preceding __put_num call
 // clobbers (Hex-Rays shows the same leftover). The separator text cannot be
 // recovered, so ',' is written as a placeholder.
+// (Hex-Rays re-run: the separator is an unrecovered clobbered register, not a literal.)
 std::ostream& operator<<(std::ostream& os, const glitch::core::vector3d<float>& v) {
     os << static_cast<double>(v.X) << ',';
     os << static_cast<double>(v.Y) << ',';

@@ -24,51 +24,55 @@ PerfCounters::CounterEntry::CounterEntry(const CounterEntry& other)
       extra2_(other.extra2_),
       history_(other.history_) {}
 
-// 0x3110c4 / 0x311118 PerfCounters::PerfCounters()
-// Partial: the original reserves the history vector and takes its 0x3e84-byte node
-// block with a memory hint. The block is taken here with CustomAlloc; std::list
-// allocates the entry nodes itself.
+// 0x3110c4 / 0x311118 _ZN12PerfCountersC2Ev / _ZN12PerfCountersC1Ev
+// Partial: the listing takes the 0x3e84-byte node block with operator new[] (hint 0,
+// the overload is not identified here) and reserves the history vector. The block is
+// taken here with CustomAlloc; std::list allocates the entry nodes itself.
 PerfCounters::PerfCounters() : buffer_(CustomAlloc(kNodeBlockSize)) {}
 
-// 0x3115c4 / 0x311620 PerfCounters::~PerfCounters()
-// Partial: frees the node block as the original does; the entries and the history are
-// released by the member destructors.
+// 0x3115c4 / 0x311620 _ZN12PerfCountersD1Ev / _ZN12PerfCountersD2Ev
+// Frees the node block, as the listing does; the entries and the history are released
+// by the member destructors (the listing clears the list and frees the history storage).
 PerfCounters::~PerfCounters() {
     if (buffer_ != nullptr) {
         CustomFree(buffer_);
     }
 }
 
-// 0x312584 PerfCounters::GetEntry(std::string const&)
-// Partial: the original compares the name lengths and then the bytes, and does not
-// handle a missing name (its search runs off the end). Here a missing name gives nullptr.
+// 0x312584 _ZN12PerfCounters8GetEntryERKSs
+// A name that is not present is created: appended to the list with its history sized to
+// the sample count (the number of Update calls, which is history_.size()), all zeros.
+// The listing's construction of the new entry's history is ambiguous in Hex-Rays, so
+// the value and extra fields are left at zero here. Partial for that reason.
 PerfCounters::CounterEntry* PerfCounters::GetEntry(const std::string& name) {
     for (CounterEntry& entry : entries_) {
         if (entry.name_ == name) {
             return &entry;
         }
     }
-    return nullptr;
+    entries_.emplace_back();
+    CounterEntry& created = entries_.back();
+    created.name_ = name;
+    created.history_.assign(history_.size(), 0.0f);
+    return &created;
 }
 
-// 0x312734 PerfCounters::SetCounterValue(std::string const&, float, float, float)
-// Partial: a missing counter is ignored here; the original uses the lookup result
-// without a check.
+// 0x312734 _ZN12PerfCounters15SetCounterValueERKSsfff
+// Gated by the EnablePerfCounters switch. Sets value_, extra1_ and extra2_ on the entry
+// for name, creating it when missing (GetEntry does that).
 void PerfCounters::SetCounterValue(const std::string& name, float value, float extra1, float extra2) {
     if (!perfCountersEnabled()) {
         return;
     }
-    if (CounterEntry* entry = GetEntry(name)) {
-        entry->value_ = value;
-        entry->extra1_ = extra1;
-        entry->extra2_ = extra2;
-    }
+    CounterEntry* entry = GetEntry(name);
+    entry->value_ = value;
+    entry->extra1_ = extra1;
+    entry->extra2_ = extra2;
 }
 
-// 0x31177c PerfCounters::Update(float)
-// Partial: the layout of the sampled histories is inferred from the loop. While the
-// switch is on, each counter appends its current value to its history, this object
-// appends its own time, and the time advances by dt.
+// 0x31177c _ZN12PerfCounters6UpdateEf
+// While the switch is on, each counter appends its current value to its history, this
+// object appends its own time to its history, and the time advances by dt.
 void PerfCounters::Update(float dt) {
     if (!perfCountersEnabled()) {
         return;
@@ -80,10 +84,11 @@ void PerfCounters::Update(float dt) {
     time_ = time_ + dt;
 }
 
-// 0x311914 PerfCounters::Draw()
+// 0x311914 _ZN12PerfCounters4DrawEv
 // Partial: the original binds the debug material and lays out the bars through the
-// glitch video driver, which is not part of this build. The visible checks are kept:
-// the switch must be on and at least one counter must exist before anything is drawn.
+// glitch video driver (the debug-draw owner, dword_99F73C, is in another category). Not
+// reproduced. The checks are kept: the switch must be on and at least one counter must
+// exist before anything is drawn.
 void PerfCounters::Draw() {
     if (!perfCountersEnabled() || entries_.empty()) {
         return;

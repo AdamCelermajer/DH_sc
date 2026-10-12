@@ -125,7 +125,9 @@ void ReleaseItemRefWords(T& self) {
     if (self.m_w20 != nullptr) CustomFree(self.m_w20);  // +0x50
 }
 
-// read body of the family, without the ItemBase::read call (not in the port).
+// read body of the family, without the ItemBase::read call (not in the port). The listing's readStringEx also
+// passes a 5th, 64-bit argument (high word 1, low word undefined), which the stand-in does not take, so the
+// string read is not exact for these rows either.
 template <class T>
 void ReadItemRefWords(T& self, IStreamBase* stream) {
     self.m_w17 = StreamReader::readAs<std::int32_t>(stream);  // +0x44

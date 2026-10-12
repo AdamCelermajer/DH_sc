@@ -71,11 +71,11 @@ int main() {
     std::string out;
     doc.writeNode(out, -1);
     const std::string expected =
-        "<root a=\"1\" b=\"two\">\n"
-        "\t<item id=\"x\">hello</item>\n"
-        "\t<item id=\"y\"/>\n"
-        "\t<!-- note -->\n"
-        "</root>\n";
+        "<root a=\"1\" b=\"two\">\r\n"
+        "\t<item id=\"x\">hello</item>\r\n"
+        "\t<item id=\"y\"/>\r\n"
+        "\t<!-- note -->\r\n"
+        "</root>\r\n";
     CHECK(out == expected);
 
     // Malformed input: mismatched closing tags leave an open element.

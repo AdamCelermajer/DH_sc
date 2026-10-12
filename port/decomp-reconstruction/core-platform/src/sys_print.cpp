@@ -10,12 +10,12 @@ void FormatMessage(char* buffer, unsigned size, const char* fmt, va_list args) {
     std::vsnprintf(buffer, size, fmt, args);
 }
 
-// Writes "[HH:MM:SS] " as the 32-byte timestamp prefix.
+// Writes "[HH:MM:SS] " as the timestamp prefix (strftime size 0x1e in the listing).
 void PrintTimestamp() {
     char stamp[32];
     std::time_t now = std::time(nullptr);
     const std::tm* tm = std::localtime(&now);
-    std::strftime(stamp, sizeof stamp, "[%H:%M:%S] ", tm);
+    std::strftime(stamp, 0x1e, "[%H:%M:%S] ", tm);
     sys::printNoFormat(stamp);
 }
 }  // namespace
@@ -23,13 +23,14 @@ void PrintTimestamp() {
 namespace sys {
 
 // 0x317848 sys::printNoFormat(char const*)
-// The original passes the text as the printf format string; this uses "%s" so
-// that a '%' in a message is printed literally.
+// Partial: the listing is a thunk to printf(format), which passes the text as the
+// format string. This uses "%s" instead, a deliberate change recorded in NOTES.md, so a
+// '%' in a message is printed literally rather than interpreted.
 void printNoFormat(const char* text) { std::printf("%s", text); }
 
 // 0x31784c sys::print(char const*, ...)
-// Partial: the message is formatted with "%s" in printNoFormat (see above), so
-// output differs from the original for messages containing '%'.
+// Partial: the listing matches this body except that the message goes through
+// printNoFormat, which uses "%s" (see above); output differs for messages containing '%'.
 void print(const char* fmt, ...) {
     char message[1024];
     va_list args;

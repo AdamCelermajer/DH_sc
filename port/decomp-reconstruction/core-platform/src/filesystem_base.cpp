@@ -67,32 +67,44 @@ bool fileExistsOnDisk(const char* name) {
 // Returns a copy of the path; the separator rewrite is FileSystemWin32's.
 std::string FileSystemBase::formatFilePath(const std::string& path) const { return path; }
 
-// 0x34df94 FileSystemBase::doesFileExists(char const*) const
-// Partial: stdio stand-in for the derived class's existence test (see the header).
+// 0x34df94 _ZN14FileSystemBase14doesFileExistsEPKc
+// Partial: the original opens the name through the virtual slot at +0x88 (with
+// read-only flags) and closes it through +0x78; those virtual calls are not in this
+// tree, so a stdio existence check stands in for them.
 bool FileSystemBase::doesFileExists(const char* name) const { return fileExistsOnDisk(name); }
 
-// 0x34dfe0 FileSystemBase::doesResourceExists(char const*) const
-// Partial: stdio stand-in; the resource-directory lookup is in the derived class.
+// 0x34dfe0 _ZN14FileSystemBase18doesResourceExistsEPKc
+// Partial: the original looks the name up through the virtual slot at +0x90; that
+// lookup is in the derived class and is not in this tree. A stdio existence check
+// stands in for it.
 bool FileSystemBase::doesResourceExists(const char* name) const { return fileExistsOnDisk(name); }
 
-// 0x34e150 FileSystemBase::doesSavefileExists(char const*) const
-// Partial: the Savegame job flush the original runs first is not reconstructed here.
+// 0x34e150 _ZN14FileSystemBase18doesSavefileExistsEPKc
+// Partial: the original calls Savegame::FlushJobs first (Savegame is not in this
+// tree, so it is omitted) and then the virtual slot at +0x94. A stdio existence check
+// stands in for the virtual call.
 bool FileSystemBase::doesSavefileExists(const char* name) const { return fileExistsOnDisk(name); }
 
-// 0x34e96c FileSystemBase::ApplyFilenameHacks(char const*) const
-// Partial: the name substitutions are not visible in the pseudocode; the name is kept.
+// 0x34e96c _ZNK14FileSystemBase18ApplyFilenameHacksEPKc
+// Partial: the original takes the working-directory prefix (virtual slot +0x2c,
+// CFileSystem::getWorkingDirectory), strips it from the name when present, rewrites
+// ".tga" names through CFileSystem::getFileBasename, and lower-cases the result with
+// ToLowerCase. Those helpers are not in this tree, so the name is returned unchanged.
 std::string FileSystemBase::ApplyFilenameHacks(const char* name) const { return std::string(name); }
 
-// 0x34e5f4 FileSystemBase::getAbsolutePath(std::string const&) const
-// Partial: the derived normalisation and CFileSystem::getAbsolutePath are not
-// reconstructed; the path is returned unchanged.
+// 0x34e5f4 _ZNK14FileSystemBase15getAbsolutePathERKSbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS2_6memory13E_MEMORY_HINTE0EEEE
+// Partial: the original calls a virtual on this for the normalised path (slot +0xb8)
+// and then glitch::io::CFileSystem::getAbsolutePath; neither is in this tree, so the
+// path is returned unchanged.
 std::string FileSystemBase::getAbsolutePath(const std::string& path) const { return path; }
 
-// 0x34e688 FileSystemBase::createAndOpenFile(char const*)
-// Partial: the derived normalisation (vtable +0xb8) is not reproduced, so the name is
-// used as given. A name without ".config" or ".glsl" that does not start with
-// "/sdcard/" is opened under RES_PATH. The original then calls
-// glitch::io::CFileSystem::createAndOpenFile; here the file is created with stdio.
+// 0x34e688 _ZN14FileSystemBase17createAndOpenFileEPKc
+// Partial: the original normalises the name through the virtual at +0xb8 before the
+// checks below; that is not reproduced, so the name is used as given. A name without
+// ".config" or ".glsl" that does not start with "/sdcard/" is opened under RES_PATH.
+// The original then calls glitch::io::CFileSystem::createAndOpenFile (and, when
+// Application::IsUsingUncompiledData is set, retries under "Q:\\"); here the file is
+// created with stdio and the uncompiled-data branch is omitted.
 void FileSystemBase::createAndOpenFile(const char* name) {
     std::string path(name);
     const bool underResPath = std::strstr(path.c_str(), ".config") == nullptr &&

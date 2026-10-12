@@ -187,12 +187,14 @@ void RectTable::read(IStreamBase* stream) {
 
 // 0x4b40a8 _ZN6Arrays13StatListTable4readEP11IStreamBase
 // listing stride 12; ElementVtable<Structs::StatListList> is declared only.
+// partial: StatListTable::finalize() and the members/size storage are not defined anywhere in the port.
 void StatListTable::read(IStreamBase* stream) {
     ReadArrayTable<StatListTable, sizeof(Structs::StatListList), Structs::StatListList>(stream, {8});
 }
 
 // 0x4b41f4 _ZN6Arrays25StatAutoAssignSchemeTable4readEP11IStreamBase
 // listing stride 12; ElementVtable<Structs::StatAutoAssignTargetList> is declared only.
+// partial: StatAutoAssignSchemeTable::finalize() and the members/size storage are not defined anywhere in the port.
 void StatAutoAssignSchemeTable::read(IStreamBase* stream) {
     ReadArrayTable<StatAutoAssignSchemeTable, sizeof(Structs::StatAutoAssignTargetList),
                    Structs::StatAutoAssignTargetList>(stream, {8});

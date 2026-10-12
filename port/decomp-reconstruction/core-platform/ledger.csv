@@ -34,9 +34,9 @@ elf_address,symbol,status,source_file,notes
 0x3106b8,_Z11GlitchAllocjN6glitch6memory13E_MEMORY_HINTEiPKciS3_,reconstructed,core-platform/src/memory.cpp,
 0x3106c4,_Znaj15MemoryHintStatePKcjS1_,reconstructed,core-platform/src/memory.cpp,
 0x3106d4,_Znwj15MemoryHintStatePKcjS1_,reconstructed,core-platform/src/memory.cpp,
-0x317848,_ZN3sys13printNoFormatEPKc,partial,core-platform/src/sys_print.cpp,"printf format string changed to ""%s"""
-0x31784c,_ZN3sys5printEPKcz,partial,core-platform/src/sys_print.cpp,"message printed with %s (format-string fix), see printNoFormat"
-0x317914,_ZN3sys7printlnEPKcz,partial,core-platform/src/sys_print.cpp,"message printed with %s (format-string fix), see printNoFormat"
+0x317848,_ZN3sys13printNoFormatEPKc,partial,core-platform/src/sys_print.cpp,"Listing is a thunk to printf(format); body uses ""%s"" instead, a deliberate change recorded in NOTES.md, so a % in a message differs"
+0x31784c,_ZN3sys5printEPKcz,partial,core-platform/src/sys_print.cpp,"Matches listing except output goes through printNoFormat, which uses ""%s"" (see 0x317848)"
+0x317914,_ZN3sys7printlnEPKcz,partial,core-platform/src/sys_print.cpp,"Matches listing except output goes through printNoFormat, which uses ""%s"" (see 0x317848)"
 0x317a04,_Z7strrstrPKcS0_,reconstructed,core-platform/src/util.cpp,"Hex-Rays re-run: backward scan from the haystack end, last occurrence; empty needle returns haystack"
 0x317a8c,_ZN9TimerUtilC2Ev,reconstructed,core-platform/src/timer_util.cpp,
 0x317aa0,_ZN9TimerUtilC1Ev,reconstructed,core-platform/src/timer_util.cpp,
@@ -94,7 +94,7 @@ elf_address,symbol,status,source_file,notes
 0x33d748,_ZN14EvAccelerationD0Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
 0x33d77c,_ZN17AccelerometerBaseD0Ev,skipped,core-platform/src/accelerometer.cpp,compiler-generated destructor
 0x33d798,_ZN17AccelerometerBase11_calcAnglesEv,reconstructed,core-platform/src/accelerometer.cpp,Hex-Rays re-run: three angle updates (atan2 or +-pi/2 by reference sign) transcribed; layout from the listing
-0x33d8dc,_ZN17AccelerometerBase5movedEfff,partial,core-platform/src/accelerometer.cpp,"Hex-Rays re-run: min/max tracking and angle update transcribed; EventManager::Raise of event type 6 (x, y, z) not reproduced"
+0x33d8dc,_ZN17AccelerometerBase5movedEfff,partial,core-platform/src/accelerometer.cpp,Min/max tracking and angle update match listing; EventManager::Raise (event vtable off_95C580) not declared in this category
 0x33da0c,_ZN17AccelerometerBaseC1Ev,reconstructed,core-platform/src/accelerometer.cpp,"Hex-Rays re-run: zeroed members, _calcAngles and clear, as listed"
 0x33da64,_ZN17AccelerometerBaseC2Ev,reconstructed,core-platform/src/accelerometer.cpp,Hex-Rays re-run: same body as the C1 constructor
 0x33db64,_ZN19AccelerometerIPhone5movedEfff,reconstructed,core-platform/src/accelerometer.cpp,
@@ -130,12 +130,12 @@ elf_address,symbol,status,source_file,notes
 0x34ee10,_ZN15FileSystemWin3211_FileHandle4seekEy,reconstructed,core-platform/src/filesystem_win32.cpp,
 0x34ee20,_ZNK15FileSystemWin3211_FileHandle4sizeEv,reconstructed,core-platform/src/filesystem_win32.cpp,
 0x34ee74,_ZN15FileSystemWin3211_FileHandle5writeEPKvy,reconstructed,core-platform/src/filesystem_win32.cpp,
-0x34eec8,_ZN15FileSystemWin3211_FileHandle4readEPvy,partial,core-platform/src/filesystem_win32.cpp,"Hex-Rays re-run: vtable open test, ftell, fread, then decodeObfuscatedData when the flag behind +8 is set and pos <= 3; flag and CFile stand in"
-0x34ef58,_ZNK15FileSystemWin3211_FileHandle4peekEPvy,partial,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: glitch CFile peek; stdio stand-in
+0x34eec8,_ZN15FileSystemWin3211_FileHandle4readEPvy,partial,core-platform/src/filesystem_win32.cpp,"Read gate is the vtable open test (canRead); decode runs on pos<=3 with the requested size. Partial: the obfuscation gate is the CFile byte at +0x24, stood in for by the obfuscated_ member set by the caller."
+0x34ef58,_ZNK15FileSystemWin3211_FileHandle4peekEPvy,partial,core-platform/src/filesystem_win32.cpp,Same body as read with a seek back by the bytes read. Partial: obfuscation gate is the obfuscated_ stand-in for the CFile byte.
 0x34f004,_ZN11IFileStreamD0Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
 0x34f068,_ZN15FileSystemWin329_getPathsEv,reconstructed,core-platform/src/filesystem_win32.cpp,
-0x34f10c,_ZNK15FileSystemWin3214backupSavefileEPKcS1_,partial,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: backup via glitch file objects; stdio stand-in
-0x34f274,_ZNK15FileSystemWin3214deleteSavefileEPKc,partial,core-platform/src/filesystem_win32.cpp,"Hex-Rays re-run: delete via glitch file system; stdio stand-in, trace logging omitted"
+0x34f10c,_ZNK15FileSystemWin3214backupSavefileEPKcS1_,reconstructed,core-platform/src/filesystem_win32.cpp,Unlink destination (ENOENT ok) then rename; trace-switch lookups on failure kept as DebugSwitches stand-in calls.
+0x34f274,_ZNK15FileSystemWin3214deleteSavefileEPKc,partial,core-platform/src/filesystem_win32.cpp,"Unlink RES_PATH+name with trace lookup on failure. Partial: header declares void; original returns 1 on success and 0 on failure, which cannot be reported."
 0x34f34c,_ZN15FileSystemWin3212makeFullPathEPKcS1_Pci,reconstructed,core-platform/src/filesystem_win32.cpp,
 0x34f35c,_ZN15FileSystemWin3212makeFullPathEPKwS1_Pwi,skipped,core-platform/src/filesystem_win32.cpp,wide-char makeFullPath overload not reconstructed
 0x34f670,_ZN15FileSystemWin32D1Ev,skipped,core-platform/src/filesystem_win32.cpp,compiler-generated destructor
@@ -143,21 +143,21 @@ elf_address,symbol,status,source_file,notes
 0x34f6c0,_ZN15FileSystemWin32D2Ev,skipped,core-platform/src/filesystem_win32.cpp,compiler-generated destructor
 0x34f6f4,_ZN15FileSystemWin32C1Ev,reconstructed,core-platform/src/filesystem_win32.cpp,"Hex-Rays re-run: five 0x104-byte path buffers zeroed, then _getPaths (confirmed by the listing)"
 0x34f788,_ZN15FileSystemWin32C2Ev,reconstructed,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: same body as the C1 constructor
-0x34f8a4,_ZNK15FileSystemWin3214formatFilePathERKSbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS2_6memory13E_MEMORY_HINTE0EEEE,partial,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: glitch path normalisation (676-byte listing) not reproduced; stdio stand-in
-0x34fb7c,_ZN15FileSystemWin3211_FileHandleD1Ev,partial,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: releases the glitch CFile (ISharedObject drop) and sets the vtable; FILE close stands in
-0x34fbbc,_ZN15FileSystemWin3211_FileHandleD0Ev,partial,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: deleting destructor (D1 then CustomFree); FILE close stands in for the CFile release
-0x34fbd8,_ZN15FileSystemWin3211_FileHandleD2Ev,partial,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: same body as D1; FILE close stands in for the CFile release
-0x34fc18,_ZN15FileSystemWin3211_FileHandleC1EPKcS2_bb,partial,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: glitch CFile open with the open modes inferred; stdio stand-in
+0x34f8a4,_ZNK15FileSystemWin3214formatFilePathERKSbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS2_6memory13E_MEMORY_HINTE0EEEE,reconstructed,core-platform/src/filesystem_win32.cpp,Hex-Rays loop reduces to replacing every '/' with '\'; glitch string return represented by std::string.
+0x34fb7c,_ZN15FileSystemWin3211_FileHandleD1Ev,partial,core-platform/src/filesystem_win32.cpp,Drops CFile (ISharedObject::drop) in the original; here the FILE is closed with fclose. D2 at 0x34fbd8 shares this body.
+0x34fbbc,_ZN15FileSystemWin3211_FileHandleD0Ev,partial,core-platform/src/filesystem_win32.cpp,Deleting destructor is compiler-generated from D1 here; the original's CustomFree after D1 is not reproduced.
+0x34fbd8,_ZN15FileSystemWin3211_FileHandleD2Ev,partial,core-platform/src/filesystem_win32.cpp,Same body as D1; FILE close stands in for the CFile release.
+0x34fc18,_ZN15FileSystemWin3211_FileHandleC1EPKcS2_bb,partial,core-platform/src/filesystem_win32.cpp,"Modes now follow Hex-Rays: read-only rb, writable+readwrite a+b, writable w+b. Partial: CFileSystem::open replaced by fopen; byte_99F7D4 lower-case flag not in tree. C2 at 0x35003c is the same body."
 0x34fe50,_ZN15FileSystemWin3213_createHandleEPKcS1_bb,reconstructed,core-platform/src/filesystem_win32.cpp,"Hex-Rays re-run: ""./"" or "".\"" prefix stripped from the directory argument; handle released when its file is null"
-0x34fee4,_ZN15FileSystemWin3212openSavefileEPKcb,partial,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: Savegame::FlushJobs before opening is not reproduced
+0x34fee4,_ZN15FileSystemWin3212openSavefileEPKcb,partial,core-platform/src/filesystem_win32.cpp,"Opens in savefiles dir with readwrite=0 as in Hex-Rays. Partial: Savegame::FlushJobs not in tree, omitted."
 0x34ff28,_ZN15FileSystemWin3212openResourceEPKc,reconstructed,core-platform/src/filesystem_win32.cpp,
 0x34ff84,_ZN15FileSystemWin3213openTraceFileEPKc,reconstructed,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: opens the trace file in the savefiles directory with writable and readwrite set
-0x34ffb0,_ZN15FileSystemWin328openFileEPKcbb,partial,core-platform/src/filesystem_win32.cpp,"Hex-Rays re-run: the uncompiled-data branch (Application::IsUsingUncompiledData, ""Q:\"" fallback) is not reproduced; root path always used"
-0x35003c,_ZN15FileSystemWin3211_FileHandleC2EPKcS2_bb,partial,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: same listing as the C1 constructor; glitch CFile stand-in
-0x35041c,_ZNK15FileSystemWin3216getFilesMatchingEPKcS1_RSt6vectorISsSaISsEE,partial,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: glitch directory listing not reproduced; <filesystem> used
-0x3505a0,_ZNK15FileSystemWin328getFilesEPKcRSt6vectorISsSaISsEE,partial,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: glitch directory listing not reproduced; <filesystem> used
+0x34ffb0,_ZN15FileSystemWin328openFileEPKcbb,partial,core-platform/src/filesystem_win32.cpp,"Root-path open only. Partial: Application::IsUsingUncompiledData not in tree, so the Q:\ attempt for uncompiled data is omitted."
+0x35003c,_ZN15FileSystemWin3211_FileHandleC2EPKcS2_bb,partial,core-platform/src/filesystem_win32.cpp,Same body as C1 (glitch CFileSystem::open replaced by fopen; lower-case flag not in tree).
+0x35041c,_ZNK15FileSystemWin3216getFilesMatchingEPKcS1_RSt6vectorISsSaISsEE,partial,core-platform/src/filesystem_win32.cpp,"Substring match on entry name (std::search in original) reproduced over dir. Partial: entry name from std::filesystem, not the platform dirent offset; . and .. not listed."
+0x3505a0,_ZNK15FileSystemWin328getFilesEPKcRSt6vectorISsSaISsEE,partial,core-platform/src/filesystem_win32.cpp,"Original lists RES_PATH and ignores dir, with no file-type filter; reproduced. Partial: dirent name offset and . / .. entries differ with std::filesystem."
 0x381668,_ZN6Device15IsFixedPipelineEv,reconstructed,core-platform/src/device.cpp,reads DeviceFeatureFlags() stand-in for the device vtable slot +0x5c
-0x3816a8,_ZN6Device22IsProgrammablePipelineEv,partial,core-platform/src/device.cpp,Hex-Rays re-run: the listing calls virtual slot +0x5c of the feature object; DeviceFeatureFlags stands in for it; mask 0x78 kept
+0x3816a8,_ZN6Device22IsProgrammablePipelineEv,partial,core-platform/src/device.cpp,"Virtual slot +0x5c of the Application-owned device object not reproducible; DeviceFeatureFlags() stand-in kept, mask 0x78 kept"
 0x38173c,_ZN6Device8GetModelEv,reconstructed,core-platform/src/device.cpp,
 0x381744,_ZN6Device21IsiOSVersionSupportedEPKc,reconstructed,core-platform/src/device.cpp,
 0x38174c,_ZN6Device17IsHighPerformanceEv,reconstructed,core-platform/src/device.cpp,"Hex-Rays re-run: thunk, returns IsProgrammablePipeline"
@@ -186,14 +186,14 @@ elf_address,symbol,status,source_file,notes
 0x5341a8,_ZnajN6glitch6memory13E_MEMORY_HINTE,reconstructed,core-platform/src/memory.cpp,
 0x5341ac,_ZnwjN6glitch6memory13E_MEMORY_HINTE,reconstructed,core-platform/src/memory.cpp,
 0x69f54c,_Z22util_number_is_power_2j,reconstructed,core-platform/src/util.cpp,
-0x752b44,_ZnajN3swf7MemHintEPKci,partial,core-platform/src/memory.cpp,"Hex-Rays re-run: thunk to gameswf::malloc_internal(size, hint, file, line), not in this category; forwards to SwfAlloc instead"
-0x752b48,_ZnwjN3swf7MemHintEPKci,partial,core-platform/src/memory.cpp,"Hex-Rays re-run: thunk to gameswf::malloc_internal(size, hint, file, line), not in this category; forwards to SwfAlloc instead"
+0x752b44,_ZnajN3swf7MemHintEPKci,partial,core-platform/src/memory.cpp,"Thunk to gameswf::malloc_internal (gameswf category, not in this build); SwfAlloc stand-in kept"
+0x752b48,_ZnwjN3swf7MemHintEPKci,partial,core-platform/src/memory.cpp,"Thunk to gameswf::malloc_internal (gameswf category, not in this build); SwfAlloc stand-in kept"
 0x752ba4,_ZnajN3swf7MemHintE,reconstructed,core-platform/src/memory.cpp,
 0x752ba8,_ZnwjN3swf7MemHintE,reconstructed,core-platform/src/memory.cpp,
 0x844180,_ZN4slim11XmlDocument14loadFromStreamERSi,reconstructed,core-platform/src/slim_text.cpp,
 0x844188,_ZNK4slim11XmlDocument4saveEPKcNS_6EncodeE,reconstructed,core-platform/src/slim_text.cpp,
 0x844190,_ZN4slim11utf8toutf16EPKcjPwj,reconstructed,core-platform/src/slim_text.cpp,code points held in uint32 (original wchar_t is 32-bit); 2-byte decode keeps original <<5 shift
-0x844270,_ZN4slim11utf16toutf8EPKwjPcj,partial,core-platform/src/slim_text.cpp,Hex-Rays re-run: exact byte stores not reproduced; standard UTF-8 emitted
+0x844270,_ZN4slim11utf16toutf8EPKwjPcj,partial,core-platform/src/slim_text.cpp,"Byte stores match listing (C0/E0 leads, 80 continuations); listing returns byte count but header declares void, so count not returned"
 0x844368,_ZN4slim10detectUtf8EPKcj,reconstructed,core-platform/src/slim_text.cpp,
 0x89bed0,_ZN10ConfigFileC2Ev,reconstructed,core-platform/src/config_file.cpp,
 0x89bed4,_ZN10ConfigFileC1Ev,reconstructed,core-platform/src/config_file.cpp,
@@ -219,8 +219,8 @@ elf_address,symbol,status,source_file,notes
 0x33bd2c,_ZNK15TouchScreenBase14getTouchIDListEv,reconstructed,core-platform/src/touch_screen_base.cpp,"std::list<long> of touched slot indices, sorted"
 0x33c298,_ZN15TouchScreenBaseC2Ess,reconstructed,core-platform/src/touch_screen_base.cpp,member initialisers replace the explicit zeroing loops
 0x33c3d8,_ZN15TouchScreenBaseC1Ess,reconstructed,core-platform/src/touch_screen_base.cpp,same as C2
-0x33c568,_ZN15TouchScreenBase13ProcessEventsEv,partial,core-platform/src/touch_screen_base.cpp,Hex-Rays re-run: drains the queue into EventManager with debug-switch checks; not reproduced
-0x33d4b4,_ZN16TouchScreenWin327onEventERKN6glitch6SEventE,partial,core-platform/src/touch_screen_win32.cpp,"Hex-Rays re-run: codes 3, 6 and 0 map to end, move and begin (ids 0); the began call has only two arguments in the listing"
+0x33c568,_ZN15TouchScreenBase13ProcessEventsEv,partial,core-platform/src/touch_screen_base.cpp,"Listing drains queue raising events via EventManager::Raise (not declared here) with DebugSwitches gating and returns int; header declares float, so the existing one-event stand-in body is kept"
+0x33d4b4,_ZN16TouchScreenWin327onEventERKN6glitch6SEventE,partial,core-platform/src/touch_screen_win32.cpp,"Codes 3/6/0 map to end/move/begin as in listing; begin slot is called with point only (no id), so id 0 is used"
 0x33d68c,_ZN16TouchScreenWin32C1Ess,reconstructed,core-platform/src/touch_screen_win32.cpp,base constructor; secondary interface vtable at +0x1b4 not recovered
 0x33d6d0,_ZN16TouchScreenWin32C2Ess,reconstructed,core-platform/src/touch_screen_win32.cpp,same as C1
 0x30eea0,_Z8ObjToStrPcRi,reconstructed,core-platform/src/obj_str.cpp,
@@ -233,10 +233,10 @@ elf_address,symbol,status,source_file,notes
 0x30f1dc,_Z8StrToObjPKcR7Point3DIfE,reconstructed,core-platform/src/obj_str.cpp,
 0x30f2a4,_Z8StrToObjPKcRN6glitch4core11dimension2dIfEE,reconstructed,core-platform/src/obj_str.cpp,"Hex-Rays re-run: Width at +0, Height at +4 confirmed; missing field leaves member unchanged"
 0x30f334,_Z8StrToObjPKcRN6glitch4core8vector3dIfEE,reconstructed,core-platform/src/obj_str.cpp,
-0x30fdd0,_ZlsRSoRKN6glitch4core8vector3dIfEE,partial,core-platform/src/stream_ops.cpp,"Hex-Rays re-run: separator write passes a register clobbered by __put_num; separator text not recoverable, "","" written"
-0x30ff48,_ZlsRSoRKN6glitch4core8vector3dIiEE,partial,core-platform/src/stream_ops.cpp,"Hex-Rays re-run: same unrecovered separator as the float overload; "","" written"
-0x310178,_ZlsRSoRKN6glitch5video6SColorE,partial,core-platform/src/stream_ops.cpp,"Hex-Rays re-run: channels as chars confirmed; separator writes pass a clobbered register, none written"
-0x3133e0,_ZlsRSoRKSt6vectorI7Point3DIfESaIS2_EE,partial,core-platform/src/stream_ops.cpp,"Hex-Rays re-run: separator between elements is "";"" (literal confirmed); element writer 0x313360 separators not recoverable"
+0x30fdd0,_ZlsRSoRKN6glitch4core8vector3dIfEE,partial,core-platform/src/stream_ops.cpp,"Separator between numbers is an unrecovered clobbered register; ',' placeholder kept"
+0x30ff48,_ZlsRSoRKN6glitch4core8vector3dIiEE,partial,core-platform/src/stream_ops.cpp,"Same unrecovered separator as the float overload; ',' placeholder kept"
+0x310178,_ZlsRSoRKN6glitch5video6SColorE,partial,core-platform/src/stream_ops.cpp,"Channels written as chars per listing; separator writes pass a clobbered register, so none written here"
+0x3133e0,_ZlsRSoRKSt6vectorI7Point3DIfESaIS2_EE,partial,core-platform/src/stream_ops.cpp,"Element separator ';' confirmed; element writer (0x313360, other unit) separators not recovered, ',' used"
 0x31026c,_ZrsRSiRN6glitch4core11dimension2dIiEE,reconstructed,core-platform/src/stream_ops.cpp,one separator character skipped between values
 0x3102b4,_ZrsRSiRN6glitch5video6SColorE,reconstructed,core-platform/src/stream_ops.cpp,"three ints, low byte stored, alpha set to 0"
 0x31032c,_ZrsRSiRN6glitch4core8vector3dIiEE,reconstructed,core-platform/src/stream_ops.cpp,X at +0 confirmed from the listing
@@ -325,8 +325,8 @@ elf_address,symbol,status,source_file,notes
 0x33d340,_ZN14TouchScreenPS3D1Ev,skipped,core-platform/src/touch_screen_ps3.cpp,"compiler-generated destructor, nothing to rebuild"
 0x33d390,_ZN14TouchScreenPS3D0Ev,skipped,core-platform/src/touch_screen_ps3.cpp,"compiler-generated destructor, nothing to rebuild"
 0x33d3ac,_ZN14TouchScreenPS3D2Ev,skipped,core-platform/src/touch_screen_ps3.cpp,"compiler-generated destructor, nothing to rebuild"
-0x33d3f4,_ZN14TouchScreenPS3C1Ev,partial,core-platform/src/touch_screen_ps3.cpp,Hex-Rays re-run: +0x1b4 receives the address off_95C4F0 (a table not recovered); nullptr stands in
-0x33d440,_ZN14TouchScreenPS3C2Ev,partial,core-platform/src/touch_screen_ps3.cpp,Hex-Rays re-run: same as the C1 constructor; +0x1b4 table address not recovered
+0x33d3f4,_ZN14TouchScreenPS3C1Ev,partial,core-platform/src/touch_screen_ps3.cpp,"Stores off_95C4F0 at +0x1b4 (eventReceiverVtable_); table not recovered, nullptr stands in"
+0x33d440,_ZN14TouchScreenPS3C2Ev,partial,core-platform/src/touch_screen_ps3.cpp,Same as the C1 constructor; +0x1b4 table address not recovered
 0x876364,_ZL11bit_reversej,reconstructed,core-platform/src/vorbis_util.cpp,
 0x8763e0,_ZL4ilogi,reconstructed,core-platform/src/vorbis_util.cpp,"bit-length table assumed to be 0,1,2,2,3,3,3,3,4..4 (the table is not readable here)"
 0x8764d8,_ZL14uint32_comparePKvS0_,reconstructed,core-platform/src/vorbis_util.cpp,
@@ -365,38 +365,38 @@ elf_address,symbol,status,source_file,notes
 0x844b44,_ZN4slim7XmlNodeD1Ev,reconstructed,core-platform/src/slim_xml.cpp,
 0x844bd8,_ZN4slim7XmlNode10clearChildEv,reconstructed,core-platform/src/slim_xml.cpp,
 0x844c8c,_ZN4slim7XmlNodeD2Ev,reconstructed,core-platform/src/slim_xml.cpp,same body as the D1 destructor
-0x844d20,_ZN4slim7XmlNode12addAttributeEPKcS2_,partial,core-platform/src/slim_xml.cpp,Hex-Rays re-run: 0x30-byte attribute object and list insertion at the sentinel (+0x34); member offsets of the attribute inferred
-0x844db8,_ZN4slim11XmlDocument10parseLabelEPNS_7XmlNodeEPKcj,partial,core-platform/src/slim_xml.cpp,Hex-Rays re-run: name and attribute scan visible; the attribute loop (= and quote handling) is only approximated; not fully transcribed
+0x844d20,_ZN4slim7XmlNode12addAttributeEPKcS2_,reconstructed,core-platform/src/slim_xml.cpp,"Name and value stored when given, attribute appended at list tail as in listing; node allocator replaced by container push_back"
+0x844db8,_ZN4slim11XmlDocument10parseLabelEPNS_7XmlNodeEPKcj,reconstructed,core-platform/src/slim_xml.cpp,"Name scan, attribute loop (empty name for '=' '/' '>' as listing), quoted value ranges match listing"
 0x844f44,_ZN4slim7XmlNode8addChildEPKcNS_8NodeTypeE,reconstructed,core-platform/src/slim_xml.cpp,other node types return null as in the original
 0x844fdc,_ZN4slim11XmlDocument5parseEPKcj,reconstructed,core-platform/src/slim_xml.cpp,"Hex-Rays re-run: walk, closing-tag text rule (element with no children), comment and self-closing checks match the listing; closing names not compared"
 0x8451dc,_ZN4slim11XmlDocument14loadFromMemoryEPKcj,reconstructed,core-platform/src/slim_xml.cpp,"clears children, rejects UTF-16 and UTF-8 byte-order marks, length 2 or less"
-0x845268,_ZNK4slim7XmlNode9writeNodeERSsi,partial,core-platform/src/slim_xml.cpp,"Hex-Rays re-run: tab indent per depth, ""<"" name, attributes as "" name=\""value\"""", comments as ""<!--body-->"" then CRLF; attribute loop and element tail not fully transcribed"
+0x845268,_ZNK4slim7XmlNode9writeNodeERSsi,reconstructed,core-platform/src/slim_xml.cpp,"Tab indent, attributes, CRLF literals (""-->\r\n"", ""/>\r\n"", "">\r\n"", ""</"") per listing; attribute-object null assert not reproduced"
 0x845518,_ZNK4slim7XmlNode15writeChildNodesERSsi,reconstructed,core-platform/src/slim_xml.cpp,
 0x311730,_ZN12PerfCounters12CounterEntryC1ERKS0_,reconstructed,core-platform/src/perf_counters.cpp,"copy of name, the three values and the history"
-0x3110c4,_ZN12PerfCountersC2Ev,partial,core-platform/src/perf_counters.cpp,"Hex-Rays re-run: node block of 0x3e84 bytes via operator new[], list head at +0x14; std containers differ"
-0x311118,_ZN12PerfCountersC1Ev,partial,core-platform/src/perf_counters.cpp,Hex-Rays re-run: same as the C2 constructor
-0x3115c4,_ZN12PerfCountersD1Ev,partial,core-platform/src/perf_counters.cpp,Hex-Rays re-run: frees the node block and clears the list; node allocator differs
-0x311620,_ZN12PerfCountersD2Ev,partial,core-platform/src/perf_counters.cpp,Hex-Rays re-run: same as the D1 destructor
-0x312584,_ZN12PerfCounters8GetEntryERKSs,partial,core-platform/src/perf_counters.cpp,"Hex-Rays re-run: a missing name is created (appended to the list, history sized to count + 1) and returned; the reconstruction returns nullptr"
-0x312734,_ZN12PerfCounters15SetCounterValueERKSsfff,partial,core-platform/src/perf_counters.cpp,"Hex-Rays re-run: gated by the EnablePerfCounters switch (DebugSwitches), which the reconstruction does not check; values stored at +0x18, +0x1c, +0x20"
-0x31177c,_ZN12PerfCounters6UpdateEf,partial,core-platform/src/perf_counters.cpp,Hex-Rays re-run: sampling layout inferred; time advances by dt
-0x311914,_ZN12PerfCounters4DrawEv,partial,core-platform/src/perf_counters.cpp,Hex-Rays re-run: glitch rendering not reproduced; checks kept
+0x3110c4,_ZN12PerfCountersC2Ev,partial,core-platform/src/perf_counters.cpp,"Node block of 0x3e84 bytes via operator new[] with hint 0 in listing; overload not identified, CustomAlloc used; history reserve not reproduced"
+0x311118,_ZN12PerfCountersC1Ev,partial,core-platform/src/perf_counters.cpp,Same as the C2 constructor; same node-block allocator caveat
+0x3115c4,_ZN12PerfCountersD1Ev,reconstructed,core-platform/src/perf_counters.cpp,Frees node block; entries and history released by member destructors (listing clears list and frees history)
+0x311620,_ZN12PerfCountersD2Ev,reconstructed,core-platform/src/perf_counters.cpp,Same as the D1 destructor
+0x312584,_ZN12PerfCounters8GetEntryERKSs,partial,core-platform/src/perf_counters.cpp,"Missing name is appended with history of sample-count zeros (history_.size()); listing's construction of the new entry's history is ambiguous, value/extra left at 0"
+0x312734,_ZN12PerfCounters15SetCounterValueERKSsfff,reconstructed,core-platform/src/perf_counters.cpp,"Gated by EnablePerfCounters switch; value, extra1, extra2 stored per listing; creation of a missing entry follows GetEntry (partial)"
+0x31177c,_ZN12PerfCounters6UpdateEf,reconstructed,core-platform/src/perf_counters.cpp,"Each counter's value pushed to its history, time pushed to the global history, time advanced by dt, as in listing"
+0x311914,_ZN12PerfCounters4DrawEv,partial,core-platform/src/perf_counters.cpp,"Glitch material and bar layout through debug-draw owner (dword_99F73C, other category) not reproduced; switch and empty checks kept"
 0x34ebcc,_ZN15FileSystemWin329closeFileERP11IFileStream,reconstructed,core-platform/src/filesystem_win32.cpp,deletes the stream (vtable slot +0x4 is the deleting destructor) and clears the pointer
 0x34ebfc,_ZNK15FileSystemWin3210getFoldersEPKcRSt6vectorISsSaISsEE,reconstructed,core-platform/src/filesystem_win32.cpp,empty in the original
 0x34e1ac,_ZNK14FileSystemBase14formatFilePathERKSbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS2_6memory13E_MEMORY_HINTE0EEEE,reconstructed,core-platform/src/filesystem_base.cpp,returns a copy of the path; the Win32 override does the separator rewrite
-0x34df94,_ZN14FileSystemBase14doesFileExistsEPKc,partial,core-platform/src/filesystem_base.cpp,Hex-Rays re-run: opens through virtual slot +0x88 and closes through +0x78 of the derived system; stdio existence check stands in
-0x34dfe0,_ZN14FileSystemBase18doesResourceExistsEPKc,partial,core-platform/src/filesystem_base.cpp,Hex-Rays re-run: resource lookup is virtual slot +0x90; stdio existence check stands in
-0x34e150,_ZN14FileSystemBase18doesSavefileExistsEPKc,partial,core-platform/src/filesystem_base.cpp,Hex-Rays re-run: Savegame::FlushJobs then virtual slot +0x94; flush and virtual lookup not reproduced
-0x34e96c,_ZNK14FileSystemBase18ApplyFilenameHacksEPKc,partial,core-platform/src/filesystem_base.cpp,"Hex-Rays re-run: builds a glitch string, applies a "".tga"" substitution with CFileSystem::getFileBasename; not reproduced"
-0x34e5f4,_ZNK14FileSystemBase15getAbsolutePathERKSbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS2_6memory13E_MEMORY_HINTE0EEEE,partial,core-platform/src/filesystem_base.cpp,Hex-Rays re-run: calls virtual slot +0xb8 for the normalised path and CFileSystem::getAbsolutePath; not reproduced
-0x34e688,_ZN14FileSystemBase17createAndOpenFileEPKc,partial,core-platform/src/filesystem_base.cpp,"Hex-Rays re-run: glitch string and uncompiled-data branch (Q:\ fallback, virtual slots +0x2c/+0x30) not reproduced; stdio create stands in"
+0x34df94,_ZN14FileSystemBase14doesFileExistsEPKc,partial,core-platform/src/filesystem_base.cpp,"Original opens via virtual slot +0x88 and closes via +0x78; virtual calls not in tree, stdio existence check stands in. Header declares this const; binary symbol is non-const."
+0x34dfe0,_ZN14FileSystemBase18doesResourceExistsEPKc,partial,core-platform/src/filesystem_base.cpp,"Original uses virtual resource lookup slot +0x90; not in tree, stdio existence check stands in."
+0x34e150,_ZN14FileSystemBase18doesSavefileExistsEPKc,partial,core-platform/src/filesystem_base.cpp,Savegame::FlushJobs omitted (not in tree); virtual slot +0x94 replaced by stdio existence check.
+0x34e96c,_ZNK14FileSystemBase18ApplyFilenameHacksEPKc,partial,core-platform/src/filesystem_base.cpp,"Original strips the working-directory prefix (virtual +0x2c), rewrites .tga names via CFileSystem::getFileBasename and lower-cases with ToLowerCase; those helpers are not in tree, so the name is returned unchanged."
+0x34e5f4,_ZNK14FileSystemBase15getAbsolutePathERKSbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS2_6memory13E_MEMORY_HINTE0EEEE,partial,core-platform/src/filesystem_base.cpp,"Original calls virtual slot +0xb8 and glitch CFileSystem::getAbsolutePath, neither in tree; path returned unchanged."
+0x34e688,_ZN14FileSystemBase17createAndOpenFileEPKc,partial,core-platform/src/filesystem_base.cpp,"RES_PATH prefix rule and .config/.glsl/sdcard checks reproduced on the raw name. Partial: normalisation via virtual +0xb8, uncompiled-data Q:\ retry, and glitch CFileSystem::createAndOpenFile are not in tree; stdio creates the file."
 0x31f78c,_ZN11GCSingletonI10GameCenterED1Ev,reconstructed,core-platform/include/core-platform/gc_singleton.hpp,empty destructor body
 0x31fbec,_ZN11GCSingletonI10GameCenterED0Ev,skipped,core-platform/include/core-platform/gc_singleton.hpp,compiler-generated deleting destructor; the original frees through CustomFree
 0x32bd08,_ZN11GCSingletonI10GameCenterE11GetInstanceEv,partial,core-platform/include/core-platform/gc_singleton.hpp,"Hex-Rays re-run: allocates CustomAlloc(0x7C) and runs the constructor before the null check; sizeof(T) used; assert text ""m_instance != 0"" at GameCenter.h:27 not reproduced"
 0x48b7fc,_ZN7Array2dIPN3rnd4TileEEclEii,reconstructed,core-platform/include/core-platform/array2d.hpp,rows_[y - minY_][x - minX_] after growing to include the cell
-0x487dd8,_ZN7Array2dIPN3rnd4TileEEC1Ev,partial,core-platform/include/core-platform/array2d.hpp,"Hex-Rays re-run: body builds an 8-slot deque map with one node at the middle; the STL map is not modelled, the grid starts empty"
-0x487bb0,_ZN7Array2dIPN3rnd4TileEE5ClearEv,partial,core-platform/include/core-platform/array2d.hpp,"Hex-Rays re-run: body is libstdc++ deque internals (_M_fill_insert, erase, map re-init); observable shape kept, map layout not reproduced"
-0x48b578,_ZN7Array2dIPN3rnd4TileEE14EnsurePositionEii,partial,core-platform/include/core-platform/array2d.hpp,"Hex-Rays re-run: body is libstdc++ deque growth (map reallocation, node allocation); growth rules kept, map layout not reproduced"
+0x487dd8,_ZN7Array2dIPN3rnd4TileEEC1Ev,reconstructed,core-platform/include/core-platform/array2d.hpp,"Empty grid with origin (0,0) and width 0. The original's 8-slot deque map pre-allocation is a libstdc++ detail not reproduced."
+0x487bb0,_ZN7Array2dIPN3rnd4TileEE5ClearEv,reconstructed,core-platform/include/core-platform/array2d.hpp,"Erases all rows and resets origin and width to 0, so the grid is empty afterwards. Replaces the earlier version that kept the shape."
+0x48b578,_ZN7Array2dIPN3rnd4TileEE14EnsurePositionEii,reconstructed,core-platform/include/core-platform/array2d.hpp,"Growth order and counts match Hex-Rays: x left/right, then y top/bottom, new rows at current width. The earlier empty-grid special case (origin at first cell) is removed; Hex-Rays starts from origin 0."
 0x33d71c,_ZN17AccelerometerBaseD1Ev,reconstructed,core-platform/include/core-platform/accelerometer.hpp,"empty destructor, compiler-generated in the header"
 0x33aebc,_ZNK15TouchScreenBase15isRegionPressedERKN6glitch4core4rectIfEE,skipped,core-platform/src/touch_screen_base.cpp,return value is a float product whose operands are only partly visible; no body reconstructed
 0x897b64,switchD_008a7b5c::caseD_ffffffef,skipped,core-platform/src,"Ghidra switch-case label inside a jump table, not a function body"
@@ -433,9 +433,9 @@ elf_address,symbol,status,source_file,notes
 0x32fdc0,_ZN7Console12_destroyListEv,skipped,core-platform/src/w7_console_00.cpp,"List-widget virtual interface: calls slots +0x98 and +0x1C on objects at Console+0x40 and +0x44, not named in this repo; list-widget category"
 0x32fe28,_ZN7Console11_createListERSt6vectorISsSaISsEEPc,skipped,core-platform/src/w7_console_00.cpp,List-widget category: uses the engine global chain (dword_99F73C) and unnamed virtual slots; vector element stride in the listing (24 bytes) does not match the declared std::string vector (12 bytes elsewhere)
 0x330198,_ZN7Console10_addToListEPKc,skipped,core-platform/src/w7_console_00.cpp,"List-widget virtual slot +0x84 on Console+0x40; the listing passes a static buffer and ignores the argument, buffer size unknown; list-widget category"
-0x3301c4,_ZN7Console17_setMenuLevelListEv,partial,core-platform/src/w7_console_00.cpp,"Wrapper matches the listing (vector at Console+0x10, title LEVELS). Depends on _createList, which is skipped in this slice"
+0x3301c4,_ZN7Console17_setMenuLevelListEv,partial,core-platform/src/w7_console_00.cpp,"Body matches the listing (lists_[0], ARM offset +0x10, title LEVELS). Console::_createList is declared in w7_console_01.hpp but not defined in this slice, so the call does not link yet."
 0x3301d8,_ZN7Console15_setMenuCamerasEv,reconstructed,core-platform/src/w7_console_00.cpp,Empty body in the listing
-0x3301dc,_ZN7Console25_setMenuLoadQuestProgressEv,partial,core-platform/src/w7_console_00.cpp,"Wrapper matches the listing (vector at Console+0x34, title Load Quest Progress). Depends on _createList, which is skipped in this slice"
+0x3301dc,_ZN7Console25_setMenuLoadQuestProgressEv,partial,core-platform/src/w7_console_00.cpp,"Body matches the listing (lists_[3], ARM offset +0x34, title Load Quest Progress). Console::_createList is declared but not defined in this slice."
 0x33026c,_ZN7Console24SetShowRoomDisplayedAnimEi,reconstructed,core-platform/src/w7_console_00.cpp,Empty body in the listing; argument unused
 0x330270,_ZN7Console6UpdateEd,skipped,core-platform/src/w7_console_00.cpp,Virtual slot +0xA0 on Console+0x40 and GlitchMemoryDebugger::s_isUsingGlitchMemoryDebugger from the glitch category; field at +0x0C not named
 0x3306a8,_ZN7Console19CreateQuestSaveFileEv,skipped,core-platform/src/w7_console_00.cpp,"Needs Character::__SaveQuests, PlayerManager and the player object (Character/gameplay category); file-stream vtable not declared"
@@ -475,22 +475,22 @@ elf_address,symbol,status,source_file,notes
 0x335b14,_ZN7Console7onEventEPK6IEventPK12EventManager,skipped,port/decomp-reconstruction/core-platform/src/w7_console_01.cpp,needs Application::GetCurrentLevel and the IEvent layout (app UI handler)
 0x30ef50,_Z8ObjToStrPcRN6glitch4core8vector3dIfEE,skipped,core-platform/src/w7_global_00.cpp,"Already reconstructed in core-platform/src/obj_str.cpp with the same %f,%f,%f body at the same address; not redefined here to avoid a duplicate symbol"
 0x310750,_ZdvRK8Vector3Df,reconstructed,core-platform/src/w7_global_00.cpp,Component-wise divide by scalar; Vector3D declared in w7_global_00.hpp
-0x313498,_ZrsRSiRSt6vectorI7Point3DIfESaIS2_EE,partial,core-platform/src/w7_global_00.cpp,"Compiles. Uncertain: char-read call used for separators (_M_formatted_get argument), handling of ' ' separator in loop condition, and the Point3D element reader (0x operator>><float>) is reimplemented as X,sep,Y,sep,Z"
+0x313498,_ZrsRSiRSt6vectorI7Point3DIfESaIS2_EE,partial,core-platform/src/w7_global_00.cpp,"Element read matches the vector3d<float> reader at 0x310380 (X, sep, Y, sep, Z) and the push_back path matches. Uncertain: the separator read call (_M_formatted_get argument), and the ; or space loop test (a whitespace-skipping char read never returns space)."
 0x3301f0,_Z25HideAllIrrlicheNodeExceptPN6glitch5scene10ISceneNodeE,skipped,core-platform/src/w7_global_00.cpp,"Needs Singleton<Application> instance layout (child list at +0x1C/+0xF4, node flags at +0x11C) and dword_99F73C, owned by the application/gameplay category; no declarations exist in core-platform"
-0x33971c,ClearSubtitles,partial,core-platform/src/w7_global_00.cpp,"Compiles. Deque-of-entries clear is reconstructed. Uncertain: node release uses CustomFree where the original calls the SGI node allocator (__node_alloc, 0x80 bytes), so it must match the unrecovered allocator used by LoadSubtitles. Globals g_SubtitlesQueue and g_CurrentSubtitle are defined in w7_global_00.cpp; drop them if the subtitle owner defines them"
+0x33971c,ClearSubtitles,partial,core-platform/src/w7_global_00.cpp,"Deque walk, node advance, entry and text frees match Hex-Rays. Uncertain: node release calls CustomFree, but the listing calls __node_alloc::_M_deallocate(node, 0x80); the matching allocator is not recovered."
 0x47fa34,_Z26TempHackScriptIDAreStringsPKc,skipped,core-platform/src/w7_global_01.cpp,needs ScriptManager::s_inst and ScriptManager::GetIDFromName; ScriptManager not declared in repo (another category)
 0x50e228,_Z36DBG_TraceAllLoadedResfileInformationv,skipped,core-platform/src/w7_global_01.cpp,"needs glitch::collada::CResFileManager::Inst (undeclared global); body is a tree walk whose trace output is stripped, so nothing observable to reproduce"
 0x50e2b8,_Z36DBG_TraceAllLoadedTextureInformationv,skipped,core-platform/src/w7_global_01.cpp,"needs dword_99F73C (undeclared global), SIDedCollection and IReferenceCounted layouts; refcount sweep only"
-0x50e3d8,_Z14RecursiveCountPN6glitch5scene10ISceneNodeE,partial,core-platform/src/w7_global_01.cpp,"traversal matches listing; child-list offsets 244 and 4 are 32-bit ARM layout, invalid for Windows port without ISceneNode declaration"
-0x50e46c,_Z19setOnAnimateEnabledPN6glitch5scene10ISceneNodeEb,partial,core-platform/src/w7_global_01.cpp,flag bit 0x200 at byte 284 is 32-bit ARM layout; pseudocode return of node arg treated as register residue so void
-0x50e484,_Z22RecursiveSetBoolOnNodePN6glitch5scene10ISceneNodeEbPFvS2_bE,partial,core-platform/src/w7_global_01.cpp,callback invoked as callback(node enable) from mangled signature since pseudocode shows no args; child-list offsets are ARM32 layout
-0x50e4d0,_Z21NodeRemoveAllChildrenPN6glitch5scene10ISceneNodeE,partial,core-platform/src/w7_global_01.cpp,"vtable slot 96 (byte offset, index 24 in ARM vtable) method name not recovered; child-list offsets are ARM32 layout; return value treated as void"
+0x50e3d8,_Z14RecursiveCountPN6glitch5scene10ISceneNodeE,partial,core-platform/src/w7_global_01.cpp,Traversal matches Hex-Rays. Child-list offsets 244 and 4 are the 32-bit ARM ISceneNode layout; ISceneNode is not defined in this tree.
+0x50e46c,_Z19setOnAnimateEnabledPN6glitch5scene10ISceneNodeEb,partial,core-platform/src/w7_global_01.cpp,"Flag bit 0x200 at byte 284 matches (32-bit ARM layout). Hex-Rays returns the node argument, treated as register residue, so the function is void."
+0x50e484,_Z22RecursiveSetBoolOnNodePN6glitch5scene10ISceneNodeEbPFvS2_bE,partial,core-platform/src/w7_global_01.cpp,"Traversal order matches Hex-Rays. Hex-Rays calls the callback with no visible arguments; callback(node, enable) is taken from the mangled signature. Child-list offsets are ARM32."
+0x50e4d0,_Z21NodeRemoveAllChildrenPN6glitch5scene10ISceneNodeE,partial,core-platform/src/w7_global_01.cpp,Loop matches the listing. The virtual call is at vtable byte offset 96 (ARM slot 24); the method name is not recovered. ARM32 layout.
 0x50e6a0,_Z29DBG_DrawGlitchNodeBoundingBoxPN6glitch5scene10ISceneNodeE,skipped,core-platform/src/w7_global_01.cpp,"needs dword_99F73C, driver and camera vtable slots, and bounding-box color packing; none declared in repo"
 0x50e7c4,_Z18DBG_TraceSceneNodePN6glitch5scene10ISceneNodeEiPFbS2_E,skipped,core-platform/src/w7_global_01.cpp,needs GetNodePolyCount (not declared in repo) and ARM32 child-list layout
 0x50e8a4,_Z45TraceEveryGlitchRefCountingShitKnownToManKindPKc,skipped,core-platform/src/w7_global_01.cpp,"5.7KB refcount sweep over undeclared collada, texture, material and shader managers; needs SIDedCollection and dword_99F73C"
 0x50eb90,_Z15ChangeMaterialsPN6glitch5scene10ISceneNodeENS_5video15E_MATERIAL_TYPEE,reconstructed,core-platform/src/w7_global_01.cpp,listing and pseudocode show only ASSERT(false) at irrutils.cpp:838; E_MATERIAL_TYPE opaque with int underlying type assumed
 0x50ec18,_Z15ChangeMaterialsPN6glitch5scene10ISceneNodeENS_5video15E_MATERIAL_TYPEES4_,reconstructed,core-platform/src/w7_global_01.cpp,listing and pseudocode show only ASSERT(false) at irrutils.cpp:805; E_MATERIAL_TYPE opaque with int underlying type assumed
-0x50eca0,_Z25DBG_TraverseAllGlitchNodePN6glitch5scene10ISceneNodeEPFvS2_EPFbS2_E,partial,core-platform/src/w7_global_01.cpp,assert path matches listing at irrutils.cpp:656; child-list offsets 244 and 4 are 32-bit ARM layout
+0x50eca0,_Z25DBG_TraverseAllGlitchNodePN6glitch5scene10ISceneNodeEPFvS2_EPFbS2_E,partial,core-platform/src/w7_global_01.cpp,"Assert path (irrutils.cpp:656), filter, visit and recursion match Hex-Rays. Child-list offsets are ARM32. Level-2 assert aborts where the original writes to address 0."
 0x50f220,_Z14OptimizeStaticPN6glitch5scene10ISceneNodeE,skipped,core-platform/src/w7_global_01.cpp,"needs ISceneNode::getAbsolutePosition, quaternion operator=, and vtable slots 184 164 156 56 (not named); none declared"
 0x50f2d0,_Z13AddToSceneMgrPN6glitch5scene10ISceneNodeES2_,skipped,core-platform/src/w7_global_01.cpp,"needs getAbsolutePosition, quaternion operator=, scene-manager vtable slot 92 and vtable slots 188 184 164 156 100 (not named)"
 0x50f3d4,_Z19PrintNodePropertiesPN6glitch5scene10ISceneNodeEbi,skipped,core-platform/src/w7_global_01.cpp,"needs getAnimators and many unnamed vtable slots; format string passes nullptr for a %s argument in the pseudocode, so the exact output is unclear"
@@ -529,25 +529,25 @@ elf_address,symbol,status,source_file,notes
 532b6c,NotifyTrophy,skipped,core-platform/src/w7_global_03.cpp,Android JNI bridge (calls a Java method through mEnv)
 58a75c,_ZN12_GLOBAL__N_16SStats5resetEPN6glitch2io11IAttributesE.clone.3,skipped,core-platform/src/w7_global_03.cpp,needs glitch::io::IAttributes (only the vtable slot at +84 is known) and the Stats/culled counters; neither declared in this tree
 7a7c30,_ZL11fs_callbackPN7gameswf9characterEPKcS3_,reconstructed,core-platform/src/w7_global_03.cpp,
-7a8420,_ZL11message_logPKc,partial,core-platform/src/w7_global_03.cpp,stream taken as stdout (listing: __sF + 0x54); Windows FILE mapping not checked
-7a846c,_ZL12log_callbackbPKc,partial,core-platform/src/w7_global_03.cpp,second stream taken as stderr (listing: __sF + 0xA8); see message_log
+7a8420,_ZL11message_logPKc,partial,core-platform/src/w7_global_03.cpp,Stream mapped to stdout (listing __sF+0x54). Hex-Rays passes the message as an argument to get_verbose_parse; the stand-in takes none. Windows FILE mapping not checked.
+7a846c,_ZL12log_callbackbPKc,partial,core-platform/src/w7_global_03.cpp,Stderr mapping (second stream) and dispatch match Hex-Rays. Same stdout caveat as message_log.
 7a8c6c,_Z19CanHandleMouseEventPN7gameswf9characterE,skipped,core-platform/src/w7_global_03.cpp,Character-type class (gameswf::character field offsets); LC_API_STRSTR_0 not declared in tree
-7a9954,_ZL11file_openerPKc,partial,core-platform/src/w7_global_03.cpp,"operator new(0x28, swf::MemHint) reduced to ::operator new(0x28); tu_file ctor declared locally"
+7a9954,_ZL11file_openerPKc,partial,core-platform/src/w7_global_03.cpp,"Object is created with ::operator new(0x28); the original passes an extra MemHint argument (0). tu_file is a stand-in with the same (name, ""rb"") constructor call; the real gameswf::tu_file is not in this tree."
 7ad81c,_ZL26fscommand_callback_handlerPN7gameswf9characterEPKcS3_,skipped,core-platform/src/w7_global_03.cpp,Character-type class (gameswf::character field offsets); RenderFX::FSCommand not declared in tree
 7dcb6c,_ZL8LongAxisPd,reconstructed,core-platform/src/w7_global_03.cpp,magnitude compare uses fabs; differs from the bit-key compare only for NaN
 7decbc,_ZL13TopLeftRegionP12ActiveRegion,skipped,core-platform/src/w7_global_03.cpp,libtess mesh and ActiveRegion types not declared in tree
-7f5038,_ZL17ClipSegmentToLineP10ClipVertexS0_RK6b2Vec2f,partial,core-platform/src/w7_global_03.cpp,"segment clip transcribed; id choice on the crossing point taken from Hex-Rays ternary, not checked against listing"
+7f5038,_ZL17ClipSegmentToLineP10ClipVertexS0_RK6b2Vec2f,partial,core-platform/src/w7_global_03.cpp,"Matches Hex-Rays: vertex copies, crossing point, crossing id (v1.id when d0 <= 0, else v0.id) and return count. Uses w7g3::ClipVertex and w7g3::Vec2 stand-ins for ClipVertex and b2Vec2, which are defined outside this slice."
 7f5234,_ZL14EdgeSeparationPK14b2PolygonShapeRK7b2XFormiS1_S4_,skipped,core-platform/src/w7_global_03.cpp,needs b2PolygonShape and b2XForm layouts and b2PolygonShape::Support; not declared in tree
 7f5544,_ZL17FindMaxSeparationPiPK14b2PolygonShapeRK7b2XFormS2_S5_,skipped,core-platform/src/w7_global_03.cpp,needs b2PolygonShape and b2XForm layouts; EdgeSeparation depends on the same types
-7f8018,_ZL12ProcessThreeP6b2Vec2S0_S0_S0_S0_,partial,core-platform/src/w7_global_03.cpp,three return paths transcribed from Hex-Rays; edge reductions not cross-checked against ARM listing
+7f8018,_ZL12ProcessThreeP6b2Vec2S0_S0_S0_S0_,partial,core-platform/src/w7_global_03.cpp,"All three return paths and the edge and barycentric expressions match Hex-Rays. Uses the w7g3::Vec2 stand-in for b2Vec2, which is defined outside this slice."
 7f881c,_ZL8InPointsRK6b2Vec2PS0_i,reconstructed,core-platform/src/w7_global_03.cpp,
-7f89e0,_ZL10ProcessTwoP6b2Vec2S0_S0_S0_S0_,partial,core-platform/src/w7_global_03.cpp,"b2Vec2::Normalize assumed (length, then scale by 1/length); body not in this slice"
+7f89e0,_ZL10ProcessTwoP6b2Vec2S0_S0_S0_S0_,partial,core-platform/src/w7_global_03.cpp,Matches Hex-Rays. Uses the w7g3::Vec2 stand-in and NormalizeVec in place of b2Vec2::Normalize (not in this tree); the scale matters only on the branch that uses the normalized vector.
 7f8bec,_Z15DistanceGenericI14b2PolygonShapeS0_EfP6b2Vec2S2_PKT_RK7b2XFormPKT0_S8_,skipped,core-platform/src/w7_global_03.cpp,needs b2PolygonShape::Support and b2XForm layout; not declared in tree
 7f91d4,_ZL10DistancePCP6b2Vec2S0_PK14b2PolygonShapeRK7b2XFormPK13b2CircleShapeS6_,skipped,core-platform/src/w7_global_03.cpp,"needs b2PolygonShape, b2CircleShape and b2XForm layouts; not declared in tree"
-0x8279d8,_Z24ParseDedicatedServerInfoR21_tDedicatedServerInfoP10DataPacket,partial,core-platform/src/w7_global_04.cpp,"Vtable slots 16/9/5 and field offsets 24/28/30/44 are the original byte offsets; no _tDedicatedServerInfo or DataPacket declaration in the port, so access is by offset. Return is bool (original returns the host pointer as truthy/null)"
-0x828b64,_Z8_DBG_OUTPKcz,partial,core-platform/src/w7_global_04.cpp,"__android_log_print(4,""WIFI"") mapped to appDebugLog with the same tag; return value approximated as formatted length (original returns the logger result)"
+0x8279d8,_Z24ParseDedicatedServerInfoR21_tDedicatedServerInfoP10DataPacket,partial,core-platform/src/w7_global_04.cpp,"Control flow, vtable slots (16, 9, 5) and field offsets (24, 28, 30, 44) match Hex-Rays. DataPacket and _tDedicatedServerInfo are forward declarations only, so fields are accessed by byte offset."
+0x828b64,_Z8_DBG_OUTPKcz,partial,core-platform/src/w7_global_04.cpp,"Formats, prints, and forwards to appDebugLog with tag WIFI as the listing calls __android_log_print. Return value is the text length, not the log-call result; formatting is bounded to 1024 bytes."
 0x82aa10,_Z24ConvertUnicodeToUTF8_OldPcPKt,reconstructed,core-platform/src/w7_global_04.cpp,Byte-pair reads for odd-aligned source are folded into one path (identical on little-endian)
-0x841ba8,_Z26threadGetHostByNameProcessPv,partial,core-platform/src/w7_global_04.cpp,"Request read at 32-bit layout offsets (flag ptr at 0, host at 4); XP_DEBUG_OUT trace routed to _DBG_OUT (XP_DEBUG_OUT 0x82b784 not reconstructed here); XP_API_STRNEW replaced by local new[] copy"
+0x841ba8,_Z26threadGetHostByNameProcessPv,partial,core-platform/src/w7_global_04.cpp,"Request layout (busy flag at 0, host at 4), host cache insert and address copy match Hex-Rays. XP_API_STRNEW and XP_DEBUG_OUT are not in this tree; replaced by DupCString and _DBG_OUT."
 0x843b2c,_Z11trimHTMLstrSs,reconstructed,core-platform/src/w7_global_04.cpp,"Entity replacement order and tag erase reproduced as found; erase count is (close+1) characters from the open bracket, as in the original (looks like a bug, kept)"
 0x8456e4,_Z9threadfunPv,skipped,core-platform/src/w7_global_04.cpp,"Needs Thread::Run from the threading category (no Thread declaration in this port) and pthread_exit (POSIX, not targeted)"
 0x876e8c,_ZL21convert_samples_shortiPPsiiPPfii,reconstructed,core-platform/src/w7_global_04.cpp,"channel_selector and channel_position tables taken from the IDA .rodata listing (no ELF in container). Copy path ignores in_offset as in the original. Original re-runs the identical downmix once per output channel; done once here. Return type int in Hex-Rays, made void"
@@ -571,7 +571,7 @@ elf_address,symbol,status,source_file,notes
 0x89f4e8,FUN_008af4e8,skipped,core-platform/src/w7_global_04.cpp,"4-byte stack-guard branch to __stack_chk_fail, part of LCAndroidSocket::Connect (IDA loc_89F4E8), not a thunk of its own"
 0x89f5d4,FUN_008af5d4,skipped,core-platform/src/w7_global_04.cpp,"LCAndroidSocket::ConnectByName; Android socket platform, not targeted"
 0x89f858,FUN_008af858,skipped,core-platform/src/w7_global_04.cpp,"LCAndroidSocket::SetNonBlocking error path; Android socket platform, not targeted"
-0x89f8a0,_Z28threadGetHostByNameProcessLCPv,partial,core-platform/src/w7_global_04.cpp,"LC_DEBUG_OUT (0x89c304) has an empty body in the binary, so its call is dropped; LC_API_STRNEW replaced by local new[] copy; request layout as threadGetHostByNameProcess"
+0x89f8a0,_Z28threadGetHostByNameProcessLCPv,partial,core-platform/src/w7_global_04.cpp,"Matches Hex-Rays. LC_DEBUG_OUT (0x89c304) has an empty body in the binary, so its call is dropped. LC_API_STRNEW and LC_API_MEMSET are replaced by DupCString and value-initialization."
 0x89f8d0,FUN_008af8d0,skipped,core-platform/src/w7_global_04.cpp,Compiler split of the host-slot capacity check in threadGetHostByNameProcessLC (IDA loc_ inside another function); no separate function
 0x89fc74,FUN_008afc74,skipped,core-platform/src/w7_global_04.cpp,"LCAndroidSocket::Clearup (frees the LC host cache); IDA range is a 4-byte stub; Android socket platform, not rebuilt here"
 0x89fe78,FUN_008afe78,skipped,core-platform/src/w7_global_04.cpp,"LCAndroidSocket interface enumeration via ioctl 0x8913; Android socket platform, not targeted"
@@ -662,19 +662,19 @@ elf_address,symbol,status,source_file,notes
 0x533a58,nativeGetPlaylistName,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
 0x533b2c,Java_com_gameloft_android_GAND_GloftD2SS_Musicplayer_nativeDisplayMusicTitle,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
 0x339830,LoadSubtitles,skipped,core-platform/src/w7_global_rem.cpp,"LoadSubtitles needs SavegameManager::getLanguage, GetSubtitleTimeInfo and the LC_API_STR*_0 helpers (none in tree). The queue push uses the deque node map (globals 0x9A1D80..0x9A1DA0), which SubtitleDeque in w7_global_00.hpp does not model; skipped until that layout is confirmed"
-0x340154,_Z21DBG_DisplayPointAsBoxRKN6glitch4core8vector3dIfEERKNS_5video6SColorEi,partial,core-platform/src/w7_global_rem.cpp,Rect extents and packed colour follow the listing. The driver call at vtable +0x28 is a stand-in (DbgDrawBoxViaDriverSlot28); the slot's method name is not recovered
-0x342478,_ZlsRSoR12ObjectHandle,partial,core-platform/src/w7_global_rem.cpp,ObjectHandle is a stand-in (GetObject not recovered). Name is read from object +0x44; written with operator<< instead of _M_put_nowiden (no width handling)
-0x34b170,_ZrsRSiR12ObjectHandle,partial,core-platform/src/w7_global_rem.cpp,"ObjectManager::GetObjectByName is a stand-in. Third argument is &dword_0 + 1 in the pseudocode (inside the ELF header); taken as the empty string, not confirmed"
+0x340154,_Z21DBG_DisplayPointAsBoxRKN6glitch4core8vector3dIfEERKNS_5video6SColorEi,partial,core-platform/src/w7_global_rem.cpp,Rect extents and packed colour match the listing. The driver call through owner+0x10 at vtable slot +0x28 is a stand-in (DbgDrawBoxViaDriverSlot28); the slot method name is not recovered. Returns the driver result.
+0x342478,_ZlsRSoR12ObjectHandle,partial,core-platform/src/w7_global_rem.cpp,Presence check and name read (+0x44) match Hex-Rays. ObjectHandle and GetObject are stand-ins not in this tree. Uses operator<< in place of _M_put_nowiden.
+0x34b170,_ZrsRSiR12ObjectHandle,partial,core-platform/src/w7_global_rem.cpp,"Name read, lookup and three-word copy match Hex-Rays. ObjectManager::GetObjectByName is a stand-in. The third argument (&dword_0 + 1) is taken as an empty string; not confirmed."
 0x381a10,_Z48TabarnakDeNodeHierarchyAvecDesEmptyNodeDuCalissePN6glitch5scene10ISceneNodeE,skipped,core-platform/src/w7_global_rem.cpp,"Needs ISceneNode vtable byte offsets 188, 248 and 28 and IReferenceCounted slot 16 (not named), plus the 32-bit ARM child list at +244; the ISceneNode layout is not in tree"
 0x3ef18c,_Z22DBG_GetLoadingStepNamei,skipped,core-platform/src/w7_global_rem.cpp,Needs the string table s_LoadingStepsNames (not recovered); the index guard alone is not a function
 0x3ef9fc,_Z25DBG_DisplayLoadLevelStatsPKc,reconstructed,core-platform/src/w7_global_rem.cpp,Global s_dbgLevelLoadCount declared extern in w7_global_rem.hpp; owner is the level-loading category
 0x3fda1c,_ZltRKN13ItemInventory4ItemES2_,skipped,core-platform/src/w7_global_rem.cpp,"Thunk to II_Item_sortbyvalue (not in tree); ItemInventory::Item is undeclared, so the forwarder cannot be written yet"
-0x41f834,_Z18playerClassAsStrIDi,partial,core-platform/src/w7_global_rem.cpp,Class ids 263/325/290 and the StrID offsets follow the listing. Local-character read is a stand-in (LocalCharacterClassId); PyDataConstants::getConstant is a stand-in
-0x4218e4,_Z16playerClassAsStrv,partial,core-platform/src/w7_global_rem.cpp,Names mage/rogue/warrior follow the listing. Local-character read is a stand-in (LocalCharacterClassId)
+0x41f834,_Z18playerClassAsStrIDi,skipped,core-platform/src/w7_global_rem.cpp,"Reads the local player Character class id through PlayerManager and Character, which are gameplay classes owned by the other session. Existing stand-in body left in place and not reviewed."
+0x4218e4,_Z16playerClassAsStrv,skipped,core-platform/src/w7_global_rem.cpp,"Reads the local player Character class id through PlayerManager and Character, which are gameplay classes owned by the other session. Existing stand-in body left in place and not reviewed."
 0x429c10,_Z24DisplayBuildInfoOnSplashv,reconstructed,core-platform/src/w7_global_rem.cpp,Empty body (BX LR); input body_bytes 4
 0x429c14,_Z21HideBuildInfoOnSplashv,reconstructed,core-platform/src/w7_global_rem.cpp,Empty body (BX LR); input body_bytes 4
-0x433d00,_Z15ParsePlayerNameRKSs,partial,core-platform/src/w7_global_rem.cpp,"Local player character, SG_GetPlayerName and StringManager::parse are stand-ins; the meaning of the ""^$"" pattern argument is not recovered"
-0x43a8f0,_Z17UpdateSavedValuesv,partial,core-platform/src/w7_global_rem.cpp,Reads AutoOrientation and applies it. Application::GetSavedOption and ResetOrientation are stand-ins
-0x43acb4,_Z21NatvieResumeAllSoundsRKN7gameswf7fn_callE,partial,core-platform/src/w7_global_rem.cpp,"VoxSoundManager is a stand-in; ResumeAllSounds return value is declared int, not confirmed"
+0x433d00,_Z15ParsePlayerNameRKSs,skipped,core-platform/src/w7_global_rem.cpp,Uses the local player Character (Character::SG_GetPlayerName) and StringManager; Character is owned by the other session. Existing stand-in body left in place and not reviewed.
+0x43a8f0,_Z17UpdateSavedValuesv,partial,core-platform/src/w7_global_rem.cpp,Reads AutoOrientation and resets orientation as the listing does. Application::GetSavedOption and ResetOrientation are stand-ins; Application is not in this tree.
+0x43acb4,_Z21NatvieResumeAllSoundsRKN7gameswf7fn_callE,partial,core-platform/src/w7_global_rem.cpp,"Null check and ResumeAllSounds call match Hex-Rays, returning 0 when there is no instance. VoxSoundManager is a stand-in; its return type is treated as int."
 0x441dcc,_Z15fillLeaderBoardv,skipped,core-platform/src/w7_global_rem.cpp,"Needs gameswf::as_value layout (set_string, drop_refs, operator=), RenderFX::InvokeASCallback, MenuManager, GLXPlayerLeaderboard accessors and CMatching; none in tree"
 0x47f6c8,_Z22DBG_GetStateNameFromIDi,skipped,core-platform/src/w7_global_rem.cpp,Needs the state name table s_DBGquestStateIDToName (not recovered); the range guard alone is not a function

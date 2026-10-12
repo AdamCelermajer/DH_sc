@@ -127,6 +127,8 @@ template ScriptCmd* GetNewScriptCmdDataInstance<ShowFlash>();
 // 0x457184 _Z27GetNewScriptCmdDataInstanceIN7Structs10StopEffectEEPNS0_9ScriptCmdEv
 template ScriptCmd* GetNewScriptCmdDataInstance<StopEffect>();
 // 0x4571c4 _Z27GetNewScriptCmdDataInstanceIN7Structs10PlayEffectEEPNS0_9ScriptCmdEv
+// partial: Hex-Rays also stores the vptr of an embedded object at +0xc (off_96AC48). No type for that object is
+// in the headers, so m_w3 stays 0 here. The +0x20 zero and the object's own vptr come from new T().
 template ScriptCmd* GetNewScriptCmdDataInstance<PlayEffect>();
 // 0x457214 _Z27GetNewScriptCmdDataInstanceIN7Structs14PlayAnimByNameEEPNS0_9ScriptCmdEv
 template ScriptCmd* GetNewScriptCmdDataInstance<PlayAnimByName>();
