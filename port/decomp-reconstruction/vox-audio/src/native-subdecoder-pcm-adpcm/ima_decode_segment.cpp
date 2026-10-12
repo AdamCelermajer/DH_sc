@@ -23,7 +23,7 @@ std::uint32_t UDivOrZero(std::uint32_t a, std::uint32_t b) { return b == 0 ? 0 :
 // block's decoding slot. A negative offset means the loop start.
 int VoxNativeSubDecoderIMAADPCM::Seek(int sample_offset, SegmentState* segment) {
     const int frame = sample_offset < 0 ? segment->loop_start : sample_offset;
-    const NativeChunk& chunk = chunks_->chunks[static_cast<std::size_t>(segment->chunk_index)];
+    const NativeChunk& chunk = (*chunks_)[static_cast<std::size_t>(segment->chunk_index)];
     if (frame > chunk.frame_count) {
         return -1;
     }

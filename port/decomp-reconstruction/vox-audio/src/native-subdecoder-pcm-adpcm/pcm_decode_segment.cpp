@@ -41,7 +41,7 @@ std::int32_t LastOf(const std::vector<std::int32_t>& list) {
 int VoxNativeSubDecoderPCM::DecodeSegment(void* dst, int bytes, SegmentState* segment) {
     auto* out = static_cast<std::uint8_t*>(dst);
     const int bps = static_cast<int>(bytes_per_sample_);
-    const NativeChunk& chunk = chunks_->chunks[static_cast<std::size_t>(segment->chunk_index)];
+    const NativeChunk& chunk = (*chunks_)[static_cast<std::size_t>(segment->chunk_index)];
     const int position = segment->byte_offset + chunk.byte_offset + base_offset_;
     if (position != stream_->Tell()) {
         stream_->Seek(position, 0);
@@ -133,7 +133,7 @@ int VoxNativeSubDecoderPCM::DecodeCurrentSegmentWithOffset(void* dst, int bytes)
         pending_seek_ = 0;
     }
 
-    const NativeChunk& chunk = chunks_->chunks[static_cast<std::size_t>(segment.chunk_index)];
+    const NativeChunk& chunk = (*chunks_)[static_cast<std::size_t>(segment.chunk_index)];
     const int position = chunk.byte_offset + segment.byte_offset + base_offset_;
     if (position != stream_->Tell()) {
         stream_->Seek(position, 0);

@@ -58,7 +58,7 @@ int main() {
     chunk.byte_offset = 0;
     chunk.byte_size = 100;
     chunk.frame_count = 300;
-    chunks.chunks.push_back(chunk);
+    chunks.push_back(chunk);
     ima.Setup(&chunks, 100, 36, 1);
     vox::SegmentState seg;
     seg.chunk_index = 0;

@@ -12,6 +12,7 @@
 
 #include "vox-audio/vox/decoder.hpp"
 #include "vox-audio/vox/mutex.hpp"
+#include "vox-audio/vox/native_containers.hpp"
 #include "vox-audio/vox/native_playlist.hpp"
 
 namespace vox {
@@ -19,10 +20,6 @@ namespace vox {
 class VoxNativeSubDecoder;
 class NativeSubDecoderState;
 class DecoderNativeCursor;
-
-// Stand-in for the native transition record (36 bytes in the 32-bit layout). Only the
-// container count is reproduced; the record fields are not ported.
-struct TransitionParams {};
 
 class DecoderNative : public DecoderInterface {
 public:
@@ -54,17 +51,13 @@ private:
     friend class DecoderNativeCursor;
     friend struct DecoderNativeTestAccess;
 
-    // +0x04..+0x2f: the VoxN file header block read by ParseFile (not ported as a struct).
-    // +0x18 and the halfwords at +0x2a..+0x2f are not identified. The format tag at +0x24
-    // is the first word of the 'fmt ' chunk body: 17 selects IMA ADPCM, anything else PCM.
-    std::uint16_t format_tag_ = 0;                          // +0x24 (halfword)
-    std::int32_t segments_count_ = 0;                       // +0x30 (word 12)
-    void* segments_info_ = nullptr;                         // +0x34 (word 13), 24-byte records
+    // The VoxN header words read by ParseFile and by the cursor (the block at +0x04..+0x2f).
+    // The format tag is the low half of format_word (+0x24): 17 selects IMA ADPCM, 1 PCM.
+    NativeHeaderWords header_words_;                        // +0x18, +0x24, +0x28, +0x2c
+    AudioSegments segments_;                                // +0x30, +0x34 (24-byte records)
     NativePlaylistsManager playlists_;                      // +0x38
-    std::int32_t states_count_ = 0;                         // +0x48 (word 18)
-    std::int32_t* states_ = nullptr;                        // +0x4c (word 19)
-    std::int32_t rules_count_ = 0;                          // +0x50 (word 20)
-    void* rules_ = nullptr;                                 // +0x54 (word 21), 36-byte records
+    States states_;                                         // +0x48, +0x4c (32-bit state ids)
+    TransitionRules rules_;                                 // +0x50, +0x54 (36-byte records)
     std::vector<std::vector<int>> segment_cues_;            // +0x58 (word 22)
     std::vector<std::vector<TransitionParams>> transitions_;  // +0x64 (word 25)
     std::map<std::string, int> interactive_states_;         // +0x70: the state-name table

@@ -8,44 +8,17 @@
 #include <cstdint>
 #include <vector>
 
+#include <map>
+#include <string>
+
 #include "vox-audio/vox/decoder.hpp"
+#include "vox-audio/vox/native_containers.hpp"
 #include "vox-audio/vox/native_playlist.hpp"
 
 namespace vox {
 
 class NativeSubDecoderPCMState;  // native_sub_decoder_state.hpp
 class NativeSubDecoderState;     // native_sub_decoder_state.hpp
-
-// One transition rule of the native decoder. 36 bytes in the original.
-struct TransitionRule {
-    std::int32_t kind_ = 0;      // +0x00: 1 starts a new segment
-    std::int32_t type_ = 0;      // +0x04: 0 plain, 6 looped (see IsExtraSegmentNeeded)
-    std::int32_t field_08_ = 0;  // +0x08
-    std::int32_t flag_0c_ = 0;   // +0x0c: 1 selects the reversed path
-    float start_ = 0.0f;         // +0x10
-    float end_ = 0.0f;           // +0x14
-    float length_ = 0.0f;        // +0x18: length in seconds (scaled by the base field_0c_)
-    std::int32_t field_1c_ = 0;  // +0x1c
-    std::int32_t field_20_ = 0;  // +0x20
-};
-
-// Stand-ins for the native segment layouts. The original NativeChunks, SegmentState and
-// AudioSegments containers are not ported; only the words the recovered sub-decoder code
-// reads are named. Offsets are the 32-bit ones from the pseudocode.
-
-// One entry of the chunk table, 24 bytes in the original.
-struct NativeChunk {
-    std::int32_t byte_offset = 0;   // +0x00: start of the chunk, relative to base_offset_
-    std::int32_t byte_size = 0;     // +0x04: size of the chunk in bytes
-    std::int32_t frame_count = 0;   // +0x08: frames in the chunk
-    std::int32_t reserved_0c[3] = {};  // +0x0c..+0x17: not read by the recovered code
-};
-
-// vox::NativeChunks stand-in. The chunk table is the vector at +0x04.
-struct NativeChunks {
-    std::int32_t unknown_00 = 0;    // +0x00: not read by the recovered code
-    std::vector<NativeChunk> chunks;  // +0x04
-};
 
 // vox::SegmentState: playback position of one segment (0x44 bytes). Field names come from
 // how the recovered code uses each word; their exact meaning is not confirmed.
@@ -84,6 +57,15 @@ struct SegmentState {
 //   +0x34 EmulateDecodeSegment. The IMA ADPCM class adds +0x38 EmulateSetDecodingBufferToSegmentPosition.
 class VoxNativeSubDecoder {
 public:
+    VoxNativeSubDecoder() = default;
+    // C1 0x885d44 and C2 0x885f10 (the same body). Argument order follows the mangled name:
+    // the stream, the VoxN header words, the state ids, the segment table, the loop lists,
+    // the transition rules, the transition parameters, the state-name table and the playlists.
+    VoxNativeSubDecoder(StreamCursorInterface* stream, const NativeHeaderWords& header,
+                        States* states, AudioSegments* segments,
+                        std::vector<std::vector<int>>* loop_lists, TransitionRules* rules,
+                        std::vector<std::vector<TransitionParams>>* transitions,
+                        std::map<std::string, int>* names, NativePlaylistsManager* playlists);
     virtual ~VoxNativeSubDecoder();  // D1 0x8841f8 (empty); D0 0x8847d4 is the deleting variant
     virtual bool HasData();          // +0x08, 0x884468: returns the flag at +0x16c
     virtual int Seek(unsigned int sample_offset) = 0;                           // +0x0c
@@ -162,11 +144,11 @@ protected:
     std::uint16_t mode_ = 0;                   // +0x08: 17 selects the extra path in StopSegment
     std::int16_t bytes_per_sample_ = 0;        // +0x10 (bytes per frame; the decoders multiply by it)
     std::int32_t base_offset_ = 0;             // +0x14: added to chunk offsets to get the stream position
-    NativeChunks* chunks_ = nullptr;           // +0x18
-    void* transition_rules_ = nullptr;         // +0x1c (TransitionRules*, not ported)
-    void* states_ = nullptr;                   // +0x20 (States*, not ported)
-    void* field_24_ = nullptr;                 // +0x24
-    void* field_28_ = nullptr;                 // +0x28
+    AudioSegments* chunks_ = nullptr;          // +0x18 (the segment table, see native_containers.hpp)
+    TransitionRules* transition_rules_ = nullptr;  // +0x1c
+    States* states_ = nullptr;                 // +0x20
+    std::vector<std::vector<TransitionParams>>* transitions_ = nullptr;  // +0x24
+    std::map<std::string, int>* state_names_ = nullptr;  // +0x28
     std::vector<std::vector<std::int32_t>>* loop_lists_ = nullptr;  // +0x2c (12-byte elements)
     NativePlaylistsManager* playlists_ = nullptr;  // +0x30
     std::int32_t field_34_ = -1;               // +0x34
@@ -193,6 +175,13 @@ protected:
 
 class VoxNativeSubDecoderPCM : public VoxNativeSubDecoder {
 public:
+    VoxNativeSubDecoderPCM() = default;
+    // C1 0x888514 and C2 0x888580: the base constructor, then the PCM vtable.
+    VoxNativeSubDecoderPCM(StreamCursorInterface* stream, const NativeHeaderWords& header,
+                           States* states, AudioSegments* segments,
+                           std::vector<std::vector<int>>* loop_lists, TransitionRules* rules,
+                           std::vector<std::vector<TransitionParams>>* transitions,
+                           std::map<std::string, int>* names, NativePlaylistsManager* playlists);
     ~VoxNativeSubDecoderPCM() override;  // D2 0x887b24 and D1 0x887b28 (both empty)
 
     int Seek(unsigned int sample_offset);                  // 0x887b0c: returns 0

@@ -20,6 +20,15 @@ struct DecodeBuffers {
 
 class VoxNativeSubDecoderIMAADPCM : public VoxNativeSubDecoder {
 public:
+    VoxNativeSubDecoderIMAADPCM() = default;
+    // C1 0x886bfc and C2 0x886dbc: the base constructor, then the decode buffers, the pending
+    // block and the ADPCM states (see the .cpp).
+    VoxNativeSubDecoderIMAADPCM(StreamCursorInterface* stream, const NativeHeaderWords& header,
+                                States* states, AudioSegments* segments,
+                                std::vector<std::vector<int>>* loop_lists, TransitionRules* rules,
+                                std::vector<std::vector<TransitionParams>>* transitions,
+                                std::map<std::string, int>* names,
+                                NativePlaylistsManager* playlists);
     ~VoxNativeSubDecoderIMAADPCM() override;  // D1 0x886a20 (D2 0x886b1c, D0 0x886b00)
 
     int Seek(unsigned int sample_offset);                       // 0x88635c: returns 0
