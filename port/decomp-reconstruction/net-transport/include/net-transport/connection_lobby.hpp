@@ -25,11 +25,23 @@
 #include <list>
 #include <string>
 
-#include "net-transport/deps/connection_base.hpp"
+#include "net-transport/connection_base.hpp"
 #include "net-transport/data_packet.hpp"
 
 class CLobbyParameterAndQuery;
 class DataPacketLobby;
+
+// The socket object that ConnectionLobby reads and writes. Slots +0x40, +0x44, +0x48, +0x4c.
+// Declared here; it was in the stand-in for Connection, which is removed (it had the same class name
+// as the real Connection, and its smaller layout let Connection::disconnect write past the object).
+class ConnectionSocket {
+public:
+    virtual ~ConnectionSocket() = default;
+    virtual int Select(int mode) = 0;                    // +0x40: 0 = read ready, 1 = write ready; <0 on error
+    virtual int Send(const void* data, int length) = 0;  // +0x44: bytes sent, <0 on error
+    virtual int Recv(void* data, int length) = 0;        // +0x48: bytes received, 0 when closed
+    virtual bool HasPendingData() const = 0;             // +0x4c: non-zero when data can be read
+};
 
 class ConnectionLobby : public Connection {
 public:
