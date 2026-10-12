@@ -45,6 +45,11 @@ RESERVED = re.compile(
 # Free functions that are gameplay/UI callbacks (gameswf natives, Lua bindings, AI).
 GLOBAL_RESERVED = re.compile(r"^(?:\S+ )?(Native|Trophy|Lua|lua_|Get[A-Z]|Set[A-Z]|Is[A-Z]|Has[A-Z]|Do[A-Z]|On[A-Z]|Spawn|Kill|Quest|Level|Player|Char|Item|Menu|HUD|Script|AI|Anim|Camera|FX)")
 
+def head(d: str) -> str:
+    """The function name without its parameter list, so a parameter type never decides the category."""
+    return d.split("(", 1)[0]
+
+
 CATEGORY_RULES = [
     ("pydata-accessors", lambda o, d, b: b == "game" and re.match(r"^(Structs|Arrays|PyData)", o)),
     ("net-transport", lambda o, d, b: b == "game" and re.match(
@@ -59,8 +64,8 @@ CATEGORY_RULES = [
         or (b == "game" and o == "<global>" and re.match(r"^(__gl_|glu|gl[A-Z]|T42_|PCF_|BDF_|FNT_|PS_|II_|SS|NV|VZ|zlib|start_|process_|_W)", d))),
     ("vox-audio", lambda o, d, b: b == "lib-vox-audio" or (b == "game" and (re.match(r"^(AdpcmState)", o)
         or re.search(r"stb_vorbis|vox::", d)))),
-    ("glitch-core-io", lambda o, d, b: b == "engine-glitch" and re.match(r"^(?:\S+ )?(glitch::(core|io|os|memory|IReferenceCounted|ITimer|IDevice|CTimer|IEventReceiver|irr)|boost::)", d)),
-    ("glitch-video", lambda o, d, b: b == "engine-glitch" and re.match(r"^(?:\S+ )?glitch::(video|res)", d)),
+    ("glitch-core-io", lambda o, d, b: b == "engine-glitch" and re.match(r"^(?:\S+ )?(glitch::(core|io|os|memory|IReferenceCounted|ITimer|IDevice|CTimer|IEventReceiver|irr)|boost::)", head(d))),
+    ("glitch-video", lambda o, d, b: b == "engine-glitch" and re.match(r"^(?:\S+ )?glitch::(video|res)", head(d))),
     ("glitch-scene-collada-gui", lambda o, d, b: b == "engine-glitch"),
     ("core-platform", lambda o, d, b: b in ("game", "lib-libnativeinterface")),
 ]

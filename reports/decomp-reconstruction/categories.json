@@ -108,32 +108,32 @@
   ]
  },
  "glitch-core-io": {
-  "functions": 1812,
-  "bytes": 293324,
+  "functions": 1566,
+  "bytes": 218460,
   "top_owners": [
    [
     "engine-glitch",
-    1812
+    1566
    ]
   ]
  },
  "glitch-scene-collada-gui": {
-  "functions": 4138,
-  "bytes": 528472,
+  "functions": 4354,
+  "bytes": 603288,
   "top_owners": [
    [
     "engine-glitch",
-    4138
+    4354
    ]
   ]
  },
  "glitch-video": {
-  "functions": 1345,
-  "bytes": 293580,
+  "functions": 1375,
+  "bytes": 293628,
   "top_owners": [
    [
     "engine-glitch",
-    1345
+    1375
    ]
   ]
  },
