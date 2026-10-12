@@ -1,8 +1,8 @@
 #pragma once
 
 // Arrays::X::read(IStreamBase*) for slice arrays_27 (27 tables, see NOTES.md "Arrays element ABI").
-// Layout: one byte block per table, stride from the listing (ARM), count word at members - 4, block base at
-// members - 8. Elements are pydata::ArrayElement records; the read slot is vtable +0xc.
+// Layout: one byte block per table, stride sizeof(element) (host; listing stride in the .cpp comments), count word
+// at members - 4, block base at members - 8. Elements are pydata::ArrayElement records; the read slot is vtable +0xc.
 //
 // Two shapes, following the existing headers:
 //  - 21 tables (not declared in w7_arrays_00.hpp): struct Arrays::X with the static storage `members` and

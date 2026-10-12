@@ -7,8 +7,12 @@
 //   3. size = count; one block of Stride * count + 8 bytes; header words (Stride, count); members = block + 8
 //   4. each element gets its vptr (the Elem class's vtable address point) and the listed zeroed words
 //   5. each element's read slot (+0xc) runs in order, with the stream
-// The stride is the listing's (ARM). The host sizes of the Structs classes differ from it; see the ledger
-// notes. Listing offsets of zeroed words are element-relative (result[k] in the listing is byte 4k - 8).
+// The stride of each table is sizeof(element) (host), per the port's element ABI decision. The ARM listing
+// stride is kept in each table's comment as a reference. Listing offsets of zeroed words are element-relative
+// (result[k] in the listing is byte 4k - 8). LevelList and FastTravelList keep the listing stride: their host
+// classes are smaller than a zeroed offset, so widening would write past the element (both are partial).
+// The finalize helpers in w7_arrays_01.cpp and w7_arrays_00.cpp still walk the listing stride; they must use
+// the same sizeof value for each table before these reads are used.
 #include "pydata-accessors/w7_arrays27.hpp"
 
 #include <cstddef>
@@ -117,33 +121,33 @@ std::uint32_t GameOptionTable::size = 0;
 // 0x4b9ab0 _ZN6Arrays15ProjectileTable4readEP11IStreamBase
 // Element Structs::Projectile (host 80 bytes, listing stride 72). Zeroed words: none.
 void ReadProjectileTable(IStreamBase* stream) {
-    ReadArrayTable<Structs::Projectile, 72>(ProjectileTable::members, ProjectileTable::size, stream,
+    ReadArrayTable<Structs::Projectile, sizeof(Structs::Projectile)>(ProjectileTable::members, ProjectileTable::size, stream,
                                             [] { ProjectileTable::finalize(); }, {});
 }
 
 // 0x4b9d40 _ZN6Arrays13MerchantTable4readEP11IStreamBase
-// Element Structs::Merchant (host 32, stride 20). Zeroed: +0x10.
+// Element Structs::Merchant (host 32, listing stride 20). Zeroed: +0x10.
 void ReadMerchantTable(IStreamBase* stream) {
-    ReadArrayTable<Structs::Merchant, 20>(MerchantTable::members, MerchantTable::size, stream,
+    ReadArrayTable<Structs::Merchant, sizeof(Structs::Merchant)>(MerchantTable::members, MerchantTable::size, stream,
                                           [] { MerchantTable::finalize(); }, {16});
 }
 
 // 0x4b9fe0 _ZN6Arrays12ItemTypeList4readEP11IStreamBase
-// Element Structs::ItemTypeListList (host 24, stride 12). Zeroed: +0x8.
+// Element Structs::ItemTypeListList (host 24, listing stride 12). Zeroed: +0x8.
 void ReadItemTypeList(IStreamBase* stream) {
-    ReadArrayTable<Structs::ItemTypeListList, 12>(ItemTypeList::members, ItemTypeList::size, stream,
+    ReadArrayTable<Structs::ItemTypeListList, sizeof(Structs::ItemTypeListList)>(ItemTypeList::members, ItemTypeList::size, stream,
                                                   [] { ItemTypeList::finalize(); }, {8});
 }
 
 // 0x4ba648 _ZN6Arrays20ItemAudioVisualTable4readEP11IStreamBase
-// Element Structs::ItemAudioVisual (host 32, stride 20). Zeroed: +0x10.
+// Element Structs::ItemAudioVisual (host 32, listing stride 20). Zeroed: +0x10.
 void ReadItemAudioVisualTable(IStreamBase* stream) {
-    ReadArrayTable<Structs::ItemAudioVisual, 20>(ItemAudioVisualTable::members, ItemAudioVisualTable::size, stream,
+    ReadArrayTable<Structs::ItemAudioVisual, sizeof(Structs::ItemAudioVisual)>(ItemAudioVisualTable::members, ItemAudioVisualTable::size, stream,
                                                  [] { ItemAudioVisualTable::finalize(); }, {16});
 }
 
 // 0x4ba794 _ZN6Arrays9LevelList4readEP11IStreamBase
-// Element Structs::LevelDeclaration (host 24, stride 72). Zeroed: +0xc, +0x20. Partial: the class declares
+// Element Structs::LevelDeclaration (host 24, listing stride 72). Zeroed: +0xc, +0x20. Partial: the class declares
 // no read slot, so the vptr +0xc dispatch has no target in the port.
 void ReadLevelList(IStreamBase* stream) {
     ReadArrayTable<Structs::LevelDeclaration, 72>(LevelList::members, LevelList::size, stream,
@@ -151,7 +155,7 @@ void ReadLevelList(IStreamBase* stream) {
 }
 
 // 0x4ba8e4 _ZN6Arrays14FastTravelList4readEP11IStreamBase
-// Element Structs::FastTravelDestination (host 16, stride 28). Zeroed: +0x10. Partial: the class declares
+// Element Structs::FastTravelDestination (host 16, listing stride 28). Zeroed: +0x10. Partial: the class declares
 // no read slot (as ReadLevelList).
 void ReadFastTravelList(IStreamBase* stream) {
     ReadArrayTable<Structs::FastTravelDestination, 28>(FastTravelList::members, FastTravelList::size, stream,
@@ -161,144 +165,144 @@ void ReadFastTravelList(IStreamBase* stream) {
 // ---- Tables declared in this slice (finalize from w7_arrays_01.hpp) ----
 
 // 0x4bab7c _ZN6Arrays14ItemPowerTable4readEP11IStreamBase
-// Element Structs::ItemPowerRef (host 56, stride 40). Zeroed: +0x10.
+// Element Structs::ItemPowerRef (host 56, listing stride 40). Zeroed: +0x10.
 void ItemPowerTable::read(IStreamBase* stream) {
-    ReadArrayTable<Structs::ItemPowerRef, 40>(members, size, stream,
+    ReadArrayTable<Structs::ItemPowerRef, sizeof(Structs::ItemPowerRef)>(members, size, stream,
                                               [] { FinalizeItemPowerTable(members, size); }, {16});
 }
 
 // 0x4bae14 _ZN6Arrays9HintPages4readEP11IStreamBase
-// Element Structs::HintPage (host 16, stride 12). Zeroed: none.
+// Element Structs::HintPage (host 16, listing stride 12). Zeroed: none.
 void HintPages::read(IStreamBase* stream) {
-    ReadArrayTable<Structs::HintPage, 12>(members, size, stream, [] { FinalizeHintPages(members, size); }, {});
+    ReadArrayTable<Structs::HintPage, sizeof(Structs::HintPage)>(members, size, stream, [] { FinalizeHintPages(members, size); }, {});
 }
 
 // 0x4baf58 _ZN6Arrays9HelpPages4readEP11IStreamBase
-// Element Structs::HelpPage (host 16, stride 12). Zeroed: none.
+// Element Structs::HelpPage (host 16, listing stride 12). Zeroed: none.
 void HelpPages::read(IStreamBase* stream) {
-    ReadArrayTable<Structs::HelpPage, 12>(members, size, stream, [] { FinalizeHelpPages(members, size); }, {});
+    ReadArrayTable<Structs::HelpPage, sizeof(Structs::HelpPage)>(members, size, stream, [] { FinalizeHelpPages(members, size); }, {});
 }
 
 // 0x4bb09c _ZN6Arrays12TriggerTraps4readEP11IStreamBase
-// Element Structs::TriggerTrap (host 40, stride 28). Zeroed: +0x10.
+// Element Structs::TriggerTrap (host 40, listing stride 28). Zeroed: +0x10.
 void TriggerTraps::read(IStreamBase* stream) {
-    ReadArrayTable<Structs::TriggerTrap, 28>(members, size, stream,
+    ReadArrayTable<Structs::TriggerTrap, sizeof(Structs::TriggerTrap)>(members, size, stream,
                                              [] { FinalizeTriggerTraps(members, size); }, {16});
 }
 
 // 0x4bb1e8 _ZN6Arrays13TriggerPlates4readEP11IStreamBase
-// Element Structs::TriggerPlate (host 40, stride 32). Zeroed: none.
+// Element Structs::TriggerPlate (host 40, listing stride 32). Zeroed: none.
 void TriggerPlates::read(IStreamBase* stream) {
-    ReadArrayTable<Structs::TriggerPlate, 32>(members, size, stream,
+    ReadArrayTable<Structs::TriggerPlate, sizeof(Structs::TriggerPlate)>(members, size, stream,
                                               [] { FinalizeTriggerPlates(members, size); }, {});
 }
 
 // 0x4bb320 _ZN6Arrays14TriggerObjects4readEP11IStreamBase
-// Element Structs::TriggerObject (host 32, stride 24). Zeroed: +0xc.
+// Element Structs::TriggerObject (host 32, listing stride 24). Zeroed: +0xc.
 void TriggerObjects::read(IStreamBase* stream) {
-    ReadArrayTable<Structs::TriggerObject, 24>(members, size, stream,
+    ReadArrayTable<Structs::TriggerObject, sizeof(Structs::TriggerObject)>(members, size, stream,
                                                [] { FinalizeTriggerObjects(members, size); }, {12});
 }
 
 // 0x4bb46c _ZN6Arrays10TimerTraps4readEP11IStreamBase
-// Element Structs::TimerTrap (host 40, stride 32). Zeroed: +0x14.
+// Element Structs::TimerTrap (host 40, listing stride 32). Zeroed: +0x14.
 void TimerTraps::read(IStreamBase* stream) {
-    ReadArrayTable<Structs::TimerTrap, 32>(members, size, stream,
+    ReadArrayTable<Structs::TimerTrap, sizeof(Structs::TimerTrap)>(members, size, stream,
                                            [] { FinalizeTimerTraps(members, size); }, {20});
 }
 
 // 0x4bb5ac _ZN6Arrays15ProjectileTraps4readEP11IStreamBase
-// Element Structs::ProjectileTrap (host 48, stride 40). Zeroed: +0x1c.
+// Element Structs::ProjectileTrap (host 48, listing stride 40). Zeroed: +0x1c.
 void ProjectileTraps::read(IStreamBase* stream) {
-    ReadArrayTable<Structs::ProjectileTrap, 40>(members, size, stream,
+    ReadArrayTable<Structs::ProjectileTrap, sizeof(Structs::ProjectileTrap)>(members, size, stream,
                                                 [] { FinalizeProjectileTraps(members, size); }, {28});
 }
 
 // 0x4bb6f8 _ZN6Arrays18OpenableContainers4readEP11IStreamBase
-// Element Structs::OpenableContainer (host 56, stride 40). Zeroed: +0x18.
+// Element Structs::OpenableContainer (host 56, listing stride 40). Zeroed: +0x18.
 void OpenableContainers::read(IStreamBase* stream) {
-    ReadArrayTable<Structs::OpenableContainer, 40>(members, size, stream,
+    ReadArrayTable<Structs::OpenableContainer, sizeof(Structs::OpenableContainer)>(members, size, stream,
                                                    [] { FinalizeOpenableContainers(members, size); }, {24});
 }
 
 // 0x4bb844 _ZN6Arrays15LiftableObjects4readEP11IStreamBase
-// Element Structs::LiftableObject (host 16, stride 8). Zeroed: none.
+// Element Structs::LiftableObject (host 16, listing stride 8). Zeroed: none.
 void LiftableObjects::read(IStreamBase* stream) {
-    ReadArrayTable<Structs::LiftableObject, 8>(members, size, stream,
+    ReadArrayTable<Structs::LiftableObject, sizeof(Structs::LiftableObject)>(members, size, stream,
                                                [] { FinalizeLiftableObjects(members, size); }, {});
 }
 
 // 0x4bb978 _ZN6Arrays17GameObjectDamager4readEP11IStreamBase
-// Element Structs::GameObjectDamage (host 32, stride 24). Zeroed: none.
+// Element Structs::GameObjectDamage (host 32, listing stride 24). Zeroed: none.
 void GameObjectDamager::read(IStreamBase* stream) {
-    ReadArrayTable<Structs::GameObjectDamage, 24>(members, size, stream,
+    ReadArrayTable<Structs::GameObjectDamage, sizeof(Structs::GameObjectDamage)>(members, size, stream,
                                                   [] { FinalizeGameObjectDamager(members, size); }, {});
 }
 
 // 0x4bbabc _ZN6Arrays14ExplosiveTraps4readEP11IStreamBase
-// Element Structs::ExplosiveTrap (host 40, stride 24). Zeroed: +0x10.
+// Element Structs::ExplosiveTrap (host 40, listing stride 24). Zeroed: +0x10.
 void ExplosiveTraps::read(IStreamBase* stream) {
-    ReadArrayTable<Structs::ExplosiveTrap, 24>(members, size, stream,
+    ReadArrayTable<Structs::ExplosiveTrap, sizeof(Structs::ExplosiveTrap)>(members, size, stream,
                                                [] { FinalizeExplosiveTraps(members, size); }, {16});
 }
 
 // 0x4bbc04 _ZN6Arrays5Doors4readEP11IStreamBase
-// Element Structs::Door (host 40, stride 24). Zeroed: +0x8.
+// Element Structs::Door (host 40, listing stride 24). Zeroed: +0x8.
 void Doors::read(IStreamBase* stream) {
-    ReadArrayTable<Structs::Door, 24>(members, size, stream, [] { FinalizeDoors(members, size); }, {8});
+    ReadArrayTable<Structs::Door, sizeof(Structs::Door)>(members, size, stream, [] { FinalizeDoors(members, size); }, {8});
 }
 
 // 0x4bbd50 _ZN6Arrays22DestructibleContainers4readEP11IStreamBase
-// Element Structs::DestructibleContainer (host 80, stride 68). Zeroed: +0x30.
+// Element Structs::DestructibleContainer (host 80, listing stride 68). Zeroed: +0x30.
 void DestructibleContainers::read(IStreamBase* stream) {
-    ReadArrayTable<Structs::DestructibleContainer, 68>(members, size, stream,
+    ReadArrayTable<Structs::DestructibleContainer, sizeof(Structs::DestructibleContainer)>(members, size, stream,
                                                        [] { FinalizeDestructibleContainers(members, size); }, {48});
 }
 
 // 0x4bbe9c _ZN6Arrays11FontPalette4readEP11IStreamBase
-// Element Structs::FontColorDef (host 16, stride 12). Zeroed: none.
+// Element Structs::FontColorDef (host 16, listing stride 12). Zeroed: none.
 void FontPalette::read(IStreamBase* stream) {
-    ReadArrayTable<Structs::FontColorDef, 12>(members, size, stream, [] { FinalizeFontPalette(members, size); }, {});
+    ReadArrayTable<Structs::FontColorDef, sizeof(Structs::FontColorDef)>(members, size, stream, [] { FinalizeFontPalette(members, size); }, {});
 }
 
 // 0x4bc278 _ZN6Arrays19FootstepEffectTable4readEP11IStreamBase
-// Element Structs::FootstepEffect (host 56, stride 32). Zeroed: +0xc, +0x14, +0x1c.
+// Element Structs::FootstepEffect (host 56, listing stride 32). Zeroed: +0xc, +0x14, +0x1c.
 void FootstepEffectTable::read(IStreamBase* stream) {
-    ReadArrayTable<Structs::FootstepEffect, 32>(members, size, stream,
+    ReadArrayTable<Structs::FootstepEffect, sizeof(Structs::FootstepEffect)>(members, size, stream,
                                                 [] { FinalizeFootstepEffectTable(members, size); }, {12, 20, 28});
 }
 
 // 0x4bc3c0 _ZN6Arrays15CharEffectTable4readEP11IStreamBase
-// Element Structs::CharEffect (host 32, stride 24). Zeroed: none.
+// Element Structs::CharEffect (host 32, listing stride 24). Zeroed: none.
 void CharEffectTable::read(IStreamBase* stream) {
-    ReadArrayTable<Structs::CharEffect, 24>(members, size, stream,
+    ReadArrayTable<Structs::CharEffect, sizeof(Structs::CharEffect)>(members, size, stream,
                                             [] { FinalizeCharEffectTable(members, size); }, {});
 }
 
 // 0x4bc504 _ZN6Arrays19AnimatedEffectTable4readEP11IStreamBase
-// Element Structs::AnimFXTpl (host 40, stride 24). Zeroed: +0x10.
+// Element Structs::AnimFXTpl (host 40, listing stride 24). Zeroed: +0x10.
 void AnimatedEffectTable::read(IStreamBase* stream) {
-    ReadArrayTable<Structs::AnimFXTpl, 24>(members, size, stream,
+    ReadArrayTable<Structs::AnimFXTpl, sizeof(Structs::AnimFXTpl)>(members, size, stream,
                                            [] { FinalizeAnimatedEffectTable(members, size); }, {16});
 }
 
 // 0x4bc64c _ZN6Arrays7Dialogs4readEP11IStreamBase
-// Element Structs::DialogStepList (host 24, stride 12). Zeroed: +0x8.
+// Element Structs::DialogStepList (host 24, listing stride 12). Zeroed: +0x8.
 void Dialogs::read(IStreamBase* stream) {
-    ReadArrayTable<Structs::DialogStepList, 12>(members, size, stream, [] { FinalizeDialogs(members, size); }, {8});
+    ReadArrayTable<Structs::DialogStepList, sizeof(Structs::DialogStepList)>(members, size, stream, [] { FinalizeDialogs(members, size); }, {8});
 }
 
 // 0x4bc798 _ZN6Arrays12DialogActors4readEP11IStreamBase
-// Element Structs::DialogActor (host 32, stride 20). Zeroed: +0xc.
+// Element Structs::DialogActor (host 32, listing stride 20). Zeroed: +0xc.
 void DialogActors::read(IStreamBase* stream) {
-    ReadArrayTable<Structs::DialogActor, 20>(members, size, stream,
+    ReadArrayTable<Structs::DialogActor, sizeof(Structs::DialogActor)>(members, size, stream,
                                              [] { FinalizeDialogActors(members, size); }, {12});
 }
 
 // 0x4bc8e0 _ZN6Arrays15GameOptionTable4readEP11IStreamBase
-// Element Structs::GameOption (host 40, stride 32). Zeroed: none.
+// Element Structs::GameOption (host 40, listing stride 32). Zeroed: none.
 void GameOptionTable::read(IStreamBase* stream) {
-    ReadArrayTable<Structs::GameOption, 32>(members, size, stream,
+    ReadArrayTable<Structs::GameOption, sizeof(Structs::GameOption)>(members, size, stream,
                                             [] { FinalizeGameOptionTable(members, size); }, {});
 }
 

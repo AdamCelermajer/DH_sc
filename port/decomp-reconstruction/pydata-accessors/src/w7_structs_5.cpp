@@ -55,9 +55,10 @@ void InstallVtables(void* members, std::uint32_t count, std::size_t stride) {
     }
 }
 
-// Original zeroing of one word of each element (ConditionalDialog +0xc, AnimFXTpl +0x2c).
+// Original zeroing of one pointer word of each element (ConditionalDialog +0xc, AnimFXTpl +0x2c, both char*
+// buffers). The offset is the host offsetof of that member, and the clear covers sizeof(void*) bytes.
 void ZeroElementWord(void* members, std::uint32_t count, std::size_t stride, std::size_t offset) {
-    const std::uint32_t zero = 0;
+    const void* zero = nullptr;
     for (std::uint32_t i = 0; i < count; ++i) {
         std::memcpy(static_cast<std::uint8_t*>(members) + stride * i + offset, &zero, sizeof zero);
     }
@@ -108,7 +109,7 @@ namespace Structs {
 // 0x4d9abc _ZN7Structs18ItemPowerEntryListD1Ev
 // 0x4d9b58 _ZN7Structs18ItemPowerEntryListD2Ev
 ItemPowerEntryList::~ItemPowerEntryList() {
-    if (m_w2 != nullptr) DestroyElements(m_w2, 12);  // +0x8, stride 12
+    if (m_w2 != nullptr) DestroyElements(m_w2, sizeof(ItemPowerEntry));  // +0x8, listing stride 12
 }
 
 // 0x4d9b3c _ZN7Structs18ItemPowerEntryListD0Ev
@@ -120,7 +121,7 @@ void DeletingDestructor(ItemPowerEntryList* self) {
 // 0x4d9a54 _ZN7Structs18ItemPowerEntryList8finalizeEv
 void ItemPowerEntryList::finalize() {
     if (m_w2 != nullptr) {
-        DestroyElements(m_w2, 12);
+        DestroyElements(m_w2, sizeof(ItemPowerEntry));
         m_w1 = 0;
         m_w2 = nullptr;
     }
@@ -129,7 +130,7 @@ void ItemPowerEntryList::finalize() {
 // 0x4dc8fc _ZN7Structs18ItemPowerEntryList4readEP11IStreamBase
 void ItemPowerEntryList::read(IStreamBase* stream) {
     m_w1 = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
-    BuildAndReadTable<ItemPowerEntry>(stream, m_w1, m_w2, 12, kNoZeroWord);  // +0x8
+    BuildAndReadTable<ItemPowerEntry>(stream, m_w1, m_w2, sizeof(ItemPowerEntry), kNoZeroWord);  // +0x8
 }
 
 // 0x4d9c00 _ZN7Structs11TriggerTrapD1Ev
@@ -506,7 +507,7 @@ void AnimFX::read(IStreamBase* stream) {
 // 0x4da5e8 _ZN7Structs9AnimFXTplD1Ev
 // 0x4da684 _ZN7Structs9AnimFXTplD2Ev
 AnimFXTpl::~AnimFXTpl() {
-    if (m_w4 != nullptr) DestroyElements(m_w4, 48);  // +0x10, stride 48
+    if (m_w4 != nullptr) DestroyElements(m_w4, sizeof(AnimFX));  // +0x10, listing stride 48
 }
 
 // 0x4da668 _ZN7Structs9AnimFXTplD0Ev
@@ -518,7 +519,7 @@ void DeletingDestructor(AnimFXTpl* self) {
 // 0x4da580 _ZN7Structs9AnimFXTpl8finalizeEv
 void AnimFXTpl::finalize() {
     if (m_w4 != nullptr) {
-        DestroyElements(m_w4, 48);
+        DestroyElements(m_w4, sizeof(AnimFX));
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -531,14 +532,14 @@ void AnimFXTpl::read(IStreamBase* stream) {
     m_w1 = StreamReader::readAs<bool>(stream);  // +0x4
     m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
     m_w3 = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
-    BuildAndReadTable<AnimFX>(stream, m_w3, m_w4, 48, 44);  // +0x10, zeroes element +0x2c
+    BuildAndReadTable<AnimFX>(stream, m_w3, m_w4, sizeof(AnimFX), offsetof(AnimFX, m_w11));  // +0x10, zeroes element +0x2c (m_w11)
     m_w5 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
 }
 
 // 0x4da830 _ZN7Structs14DialogStepListD1Ev
 // 0x4da8cc _ZN7Structs14DialogStepListD2Ev
 DialogStepList::~DialogStepList() {
-    if (m_w2 != nullptr) DestroyElements(m_w2, 20);  // +0x8, stride 20
+    if (m_w2 != nullptr) DestroyElements(m_w2, sizeof(DialogStep));  // +0x8, listing stride 20
 }
 
 // 0x4da8b0 _ZN7Structs14DialogStepListD0Ev
@@ -550,7 +551,7 @@ void DeletingDestructor(DialogStepList* self) {
 // 0x4da7c8 _ZN7Structs14DialogStepList8finalizeEv
 void DialogStepList::finalize() {
     if (m_w2 != nullptr) {
-        DestroyElements(m_w2, 20);
+        DestroyElements(m_w2, sizeof(DialogStep));
         m_w1 = 0;
         m_w2 = nullptr;
     }
@@ -559,13 +560,13 @@ void DialogStepList::finalize() {
 // 0x4dca68 _ZN7Structs14DialogStepList4readEP11IStreamBase
 void DialogStepList::read(IStreamBase* stream) {
     m_w1 = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
-    BuildAndReadTable<DialogStep>(stream, m_w1, m_w2, 20, kNoZeroWord);  // +0x8
+    BuildAndReadTable<DialogStep>(stream, m_w1, m_w2, sizeof(DialogStep), kNoZeroWord);  // +0x8
 }
 
 // 0x4da9b0 _ZN7Structs17ConditionalDialogD1Ev
 // 0x4daa48 _ZN7Structs17ConditionalDialogD2Ev
 ConditionalDialog::~ConditionalDialog() {
-    if (m_w2 != nullptr) DestroyElements(m_w2, 16);  // +0x8, stride 16
+    if (m_w2 != nullptr) DestroyElements(m_w2, sizeof(DialogCondition));  // +0x8, listing stride 16
 }
 
 // 0x4daa2c _ZN7Structs17ConditionalDialogD0Ev
@@ -577,7 +578,7 @@ void DeletingDestructor(ConditionalDialog* self) {
 // 0x4da94c _ZN7Structs17ConditionalDialog8finalizeEv
 void ConditionalDialog::finalize() {
     if (m_w2 != nullptr) {
-        DestroyElements(m_w2, 16);
+        DestroyElements(m_w2, sizeof(DialogCondition));
         m_w1 = 0;
         m_w2 = nullptr;
     }
@@ -586,7 +587,7 @@ void ConditionalDialog::finalize() {
 // 0x4dcbd4 _ZN7Structs17ConditionalDialog4readEP11IStreamBase
 void ConditionalDialog::read(IStreamBase* stream) {
     m_w1 = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
-    BuildAndReadTable<DialogCondition>(stream, m_w1, m_w2, 16, 12);  // +0x8, zeroes element +0xc
+    BuildAndReadTable<DialogCondition>(stream, m_w1, m_w2, sizeof(DialogCondition), offsetof(DialogCondition, m_w3));  // +0x8, zeroes element +0xc (m_w3)
 }
 
 // 0x4daaec _ZN7Structs15DialogConditionD1Ev
@@ -726,7 +727,7 @@ void StatListList::read(IStreamBase* stream) {
 // 0x4dafb0 _ZN7Structs24StatAutoAssignTargetListD1Ev
 // 0x4db048 _ZN7Structs24StatAutoAssignTargetListD2Ev
 StatAutoAssignTargetList::~StatAutoAssignTargetList() {
-    if (m_w2 != nullptr) DestroyElements(m_w2, 16);  // +0x8, stride 16
+    if (m_w2 != nullptr) DestroyElements(m_w2, sizeof(StatAutoAssignTarget));  // +0x8, listing stride 16
 }
 
 // 0x4db02c _ZN7Structs24StatAutoAssignTargetListD0Ev
@@ -738,19 +739,19 @@ void DeletingDestructor(StatAutoAssignTargetList* self) {
 // 0x4daf4c _ZN7Structs24StatAutoAssignTargetList8finalizeEv
 void StatAutoAssignTargetList::finalize() {
     if (m_w2 != nullptr) {
-        DestroyElements(m_w2, 16);
+        DestroyElements(m_w2, sizeof(StatAutoAssignTarget));
         m_w1 = 0;
         m_w2 = nullptr;
     }
 }
 
 // 0x4dce90 _ZN7Structs24StatAutoAssignTargetList4readEP11IStreamBase
-// partial: the element class StatAutoAssignTarget (vtable 0x96b7a0, stride 16) is not in any header. This
-// read stores the count and destroys the old elements; the new block, the element vtable install and the
-// element reads are not ported.
+// partial: the element class StatAutoAssignTarget (vtable 0x96b7a0, listing stride 16) is declared in
+// structs_records.hpp, so the stride is widened to sizeof(StatAutoAssignTarget). This read stores the count and
+// destroys the old elements; the new block, the element vtable install and the element reads are not ported.
 void StatAutoAssignTargetList::read(IStreamBase* stream) {
     m_w1 = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
-    if (m_w2 != nullptr) DestroyElements(m_w2, 16);  // +0x8
+    if (m_w2 != nullptr) DestroyElements(m_w2, sizeof(StatAutoAssignTarget));  // +0x8
     m_w2 = nullptr;
 }
 
@@ -799,7 +800,7 @@ void AnimTpl::finalize() {
 // 0x4db6bc _ZN7Structs10AIFactionsD1Ev
 // 0x4db758 _ZN7Structs10AIFactionsD2Ev
 AIFactions::~AIFactions() {
-    if (m_w2 != nullptr) DestroyElements(m_w2, 12);  // +0x8, stride 12
+    if (m_w2 != nullptr) DestroyElements(m_w2, sizeof(AIFaction));  // +0x8, listing stride 12
 }
 
 // 0x4db73c _ZN7Structs10AIFactionsD0Ev
@@ -811,7 +812,7 @@ void DeletingDestructor(AIFactions* self) {
 // 0x4db654 _ZN7Structs10AIFactions8finalizeEv
 void AIFactions::finalize() {
     if (m_w2 != nullptr) {
-        DestroyElements(m_w2, 12);
+        DestroyElements(m_w2, sizeof(AIFaction));
         m_w1 = 0;
         m_w2 = nullptr;
     }
@@ -820,7 +821,7 @@ void AIFactions::finalize() {
 // 0x4dd158 _ZN7Structs10AIFactions4readEP11IStreamBase
 void AIFactions::read(IStreamBase* stream) {
     m_w1 = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
-    BuildAndReadTable<AIFaction>(stream, m_w1, m_w2, 12, kNoZeroWord);  // +0x8
+    BuildAndReadTable<AIFaction>(stream, m_w1, m_w2, sizeof(AIFaction), kNoZeroWord);  // +0x8
 }
 
 }  // namespace Structs

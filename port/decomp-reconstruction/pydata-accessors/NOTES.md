@@ -361,3 +361,25 @@ internal to the port, not binary-compatible with the original.
   - Decision needed before these reads are used: either widen each table stride to the host sizeof, or
     build the Arrays code for a 32-bit pointer layout. Until then, do not call the Arrays reads on a 64-bit host.
   - The same overrun applies to the existing w7_arrays_02 tables and to structs_5's element tables.
+
+## Wave 7d: element strides widened to the host sizeof
+
+- Decision (lead, binding): an in-memory element table uses `sizeof(element)` as its stride, not the
+  32-bit stride from the ARM listing. The listing stride is kept in a comment on each table. Bytes that
+  come from a data file are read field by field at the file's 32-bit layout, never memcpy'd as a struct.
+- Applied to the Arrays tables in `w7_arrays_00.cpp` (30 of 33 tables), `w7_arrays_01.cpp` (26 of 32),
+  `w7_arrays_02.cpp` (24 of 27), `w7_arrays27.cpp` (25 of 27), and the element tables in `w7_structs_5.cpp`.
+  The finalize helpers use the same stride as the read, so the two agree per table.
+- Still on the listing stride, and partial, because no element class is declared for them:
+  ModelDict (12), DropTilePriorityTable (12), ItemPowerList, FaeryTable (36), FaeryListTable (12),
+  Charater_Templates, CharacterTable, ClassTable, CharAnimTable (160), CamAnimSetTable (28), AnimTable (20),
+  ClassFuncList (24), AnimTpl (56), CharTemplate (8). LevelList (listing 72) and FastTravelList (listing 28)
+  keep the listing stride because their element classes have no read slot, and the zeroed words would write
+  past a host element.
+- Zeroed-word guard: a listing offset is skipped when offset + 4 is past sizeof(element) (AITable +44,
+  WorldMap +16), so no zeroing writes past the element.
+- Name-matched, not confirmed: `ItemList` (element `Structs::ItemListEntry`) and `ItemBonusAttrMonopoly`
+  (element `Structs::ItemBonusAttrList`). Both finalize bodies step 12 bytes in Hex-Rays, so the element
+  is the listing's 12-byte record, and the host sizeof is used. Confirm against their read bodies before
+  relying on either.
+- Build: host passes 201 tests and the static library has no duplicate symbols.

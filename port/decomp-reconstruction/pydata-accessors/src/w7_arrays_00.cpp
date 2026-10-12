@@ -4,12 +4,18 @@
 //   2. if members is still set, the element vtable slot +0x0 (D1, the virtual destructor) runs from the last
 //      element back to the first, then the block at members - 8 is freed (CustomFree);
 //   3. members is cleared.
-// The stride is per table (the constant in each function's call). Hex-Rays gives every
-// stride; the ARM listing was checked for v2Quests (284) and InventoryTable (8).
+// The stride of each table is sizeof(its element class) in the port. The ARM listing stride of each table is
+// kept in the comment on its line (e.g. "listing stride 72"). Hex-Rays gives the listing strides; the ARM
+// listing was checked for v2Quests (284) and InventoryTable (8).
 #include <cstring>
 
 #include "pydata-accessors/array_element.hpp"
 #include "pydata-accessors/w7_arrays_00.hpp"
+#include "pydata-accessors/structs_records.hpp"
+#include "pydata-accessors/w7_structs_1.hpp"
+#include "pydata-accessors/w7_structs_2.hpp"
+#include "pydata-accessors/w7_structs_3.hpp"
+#include "pydata-accessors/w7_structs_5.hpp"
 
 namespace {
 
@@ -111,102 +117,135 @@ std::uint8_t* ItemBonusAttrMonopoly::members = nullptr;
 std::uint32_t ItemBonusAttrMonopoly::size = 0;
 
 // 0x4a38a4 _ZN6Arrays6Sounds8finalizeEv
-void Sounds::finalize() { FinalizeArrayTable<12>(members, size); }
+// listing stride 12; element Structs::SoundAutoGen
+void Sounds::finalize() { FinalizeArrayTable<sizeof(Structs::SoundAutoGen)>(members, size); }
 
 // 0x4a3a24 _ZN6Arrays15StrID_Languages8finalizeEv
-void StrID_Languages::finalize() { FinalizeArrayTable<12>(members, size); }
+// listing stride 12; element Structs::LangSheetList
+void StrID_Languages::finalize() { FinalizeArrayTable<sizeof(Structs::LangSheetList)>(members, size); }
 
 // 0x4a3ba4 _ZN6Arrays14GameObjectDict8finalizeEv
-void GameObjectDict::finalize() { FinalizeArrayTable<12>(members, size); }
+// listing stride 12; element Structs::ColladaFile
+void GameObjectDict::finalize() { FinalizeArrayTable<sizeof(Structs::ColladaFile)>(members, size); }
 
 // 0x4a3d24 _ZN6Arrays14ProjectileDict8finalizeEv
-void ProjectileDict::finalize() { FinalizeArrayTable<12>(members, size); }
+// listing stride 12; element Structs::ColladaFile
+void ProjectileDict::finalize() { FinalizeArrayTable<sizeof(Structs::ColladaFile)>(members, size); }
 
 // 0x4a3ea4 _ZN6Arrays10EffectDict8finalizeEv
-void EffectDict::finalize() { FinalizeArrayTable<12>(members, size); }
+// listing stride 12; element Structs::ColladaFile
+void EffectDict::finalize() { FinalizeArrayTable<sizeof(Structs::ColladaFile)>(members, size); }
 
 // 0x4a4024 _ZN6Arrays8AnimDict8finalizeEv
-void AnimDict::finalize() { FinalizeArrayTable<12>(members, size); }
+// listing stride 12; element Structs::ColladaFile
+void AnimDict::finalize() { FinalizeArrayTable<sizeof(Structs::ColladaFile)>(members, size); }
 
 // 0x4a41a4 _ZN6Arrays9ModelDict8finalizeEv
+// listing stride 12; PARTIAL: no element class declared for ModelDict, stride left at the listing value
 void ModelDict::finalize() { FinalizeArrayTable<12>(members, size); }
 
 // 0x4a4324 _ZN6Arrays15WorldMapLockers8finalizeEv
-void WorldMapLockers::finalize() { FinalizeArrayTable<12>(members, size); }
+// listing stride 12; element Structs::WorldMapLocker
+void WorldMapLockers::finalize() { FinalizeArrayTable<sizeof(Structs::WorldMapLocker)>(members, size); }
 
 // 0x4a44a4 _ZN6Arrays8WorldMap8finalizeEv
-void WorldMap::finalize() { FinalizeArrayTable<20>(members, size); }
+// listing stride 20; element Structs::WldMapLocation
+void WorldMap::finalize() { FinalizeArrayTable<sizeof(Structs::WldMapLocation)>(members, size); }
 
 // 0x4a4624 _ZN6Arrays8v2Quests8finalizeEv
-void v2Quests::finalize() { FinalizeArrayTable<284>(members, size); }
+// listing stride 284; element Structs::v2Quest
+void v2Quests::finalize() { FinalizeArrayTable<sizeof(Structs::v2Quest)>(members, size); }
 
 // 0x4a47a4 _ZN6Arrays8v2Events8finalizeEv
-void v2Events::finalize() { FinalizeArrayTable<24>(members, size); }
+// listing stride 24; element Structs::v2Event
+void v2Events::finalize() { FinalizeArrayTable<sizeof(Structs::v2Event)>(members, size); }
 
 // 0x4a4924 _ZN6Arrays12v2Conditions8finalizeEv
-void v2Conditions::finalize() { FinalizeArrayTable<16>(members, size); }
+// listing stride 16; element Structs::v2CondAnd
+void v2Conditions::finalize() { FinalizeArrayTable<sizeof(Structs::v2CondAnd)>(members, size); }
 
 // 0x4a4a98 _ZN6Arrays11TrophyTable8finalizeEv
-void TrophyTable::finalize() { FinalizeArrayTable<32>(members, size); }
+// listing stride 32; element Structs::Trophy
+void TrophyTable::finalize() { FinalizeArrayTable<sizeof(Structs::Trophy)>(members, size); }
 
 // 0x4a4c0c _ZN6Arrays11SpawnGroups8finalizeEv
-void SpawnGroups::finalize() { FinalizeArrayTable<20>(members, size); }
+// listing stride 20; element Structs::SpawnGroup
+void SpawnGroups::finalize() { FinalizeArrayTable<sizeof(Structs::SpawnGroup)>(members, size); }
 
 // 0x4a4d8c _ZN6Arrays10Sounds_bak8finalizeEv
-void Sounds_bak::finalize() { FinalizeArrayTable<44>(members, size); }
+// listing stride 44; element Structs::Sound
+void Sounds_bak::finalize() { FinalizeArrayTable<sizeof(Structs::Sound)>(members, size); }
 
 // 0x4a4f0c _ZN6Arrays18SoundGroupsRouting8finalizeEv
-void SoundGroupsRouting::finalize() { FinalizeArrayTable<16>(members, size); }
+// listing stride 16; element Structs::SoundGroup
+void SoundGroupsRouting::finalize() { FinalizeArrayTable<sizeof(Structs::SoundGroup)>(members, size); }
 
 // 0x4a5080 _ZN6Arrays17SoundBankPlayback8finalizeEv
-void SoundBankPlayback::finalize() { FinalizeArrayTable<12>(members, size); }
+// listing stride 12; element Structs::SoundBank
+void SoundBankPlayback::finalize() { FinalizeArrayTable<sizeof(Structs::SoundBank)>(members, size); }
 
 // 0x4a5200 _ZN6Arrays9Listeners8finalizeEv
-void Listeners::finalize() { FinalizeArrayTable<28>(members, size); }
+// listing stride 28; element Structs::Listener
+void Listeners::finalize() { FinalizeArrayTable<sizeof(Structs::Listener)>(members, size); }
 
 // 0x4a5380 _ZN6Arrays15CharSoundsTable8finalizeEv
-void CharSoundsTable::finalize() { FinalizeArrayTable<40>(members, size); }
+// listing stride 40; element Structs::CharSounds
+void CharSoundsTable::finalize() { FinalizeArrayTable<sizeof(Structs::CharSounds)>(members, size); }
 
 // 0x4a5500 _ZN6Arrays10SkillTable8finalizeEv
-void SkillTable::finalize() { FinalizeArrayTable<76>(members, size); }
+// listing stride 76; element Structs::Skill
+void SkillTable::finalize() { FinalizeArrayTable<sizeof(Structs::Skill)>(members, size); }
 
 // 0x4a5680 _ZN6Arrays14SkillListTable8finalizeEv
-void SkillListTable::finalize() { FinalizeArrayTable<12>(members, size); }
+// listing stride 12; element Structs::SkillList
+void SkillListTable::finalize() { FinalizeArrayTable<sizeof(Structs::SkillList)>(members, size); }
 
 // 0x4a5800 _ZN6Arrays15ProjectileTable8finalizeEv
-void ProjectileTable::finalize() { FinalizeArrayTable<72>(members, size); }
+// listing stride 72; element Structs::Projectile
+void ProjectileTable::finalize() { FinalizeArrayTable<sizeof(Structs::Projectile)>(members, size); }
 
 // 0x4a5980 _ZN6Arrays12NumProbArray8finalizeEv
-void NumProbArray::finalize() { FinalizeArrayTable<12>(members, size); }
+// listing stride 12; element Structs::NumProbList
+void NumProbArray::finalize() { FinalizeArrayTable<sizeof(Structs::NumProbList)>(members, size); }
 
 // 0x4a5b00 _ZN6Arrays13MerchantTable8finalizeEv
-void MerchantTable::finalize() { FinalizeArrayTable<20>(members, size); }
+// listing stride 20; element Structs::Merchant
+void MerchantTable::finalize() { FinalizeArrayTable<sizeof(Structs::Merchant)>(members, size); }
 
 // 0x4a5c80 _ZN6Arrays9LootTable8finalizeEv
-void LootTable::finalize() { FinalizeArrayTable<36>(members, size); }
+// listing stride 36; element Structs::Loot
+void LootTable::finalize() { FinalizeArrayTable<sizeof(Structs::Loot)>(members, size); }
 
 // 0x4a5e00 _ZN6Arrays12ItemTypeList8finalizeEv
-void ItemTypeList::finalize() { FinalizeArrayTable<12>(members, size); }
+// listing stride 12; element Structs::ItemTypeListList
+void ItemTypeList::finalize() { FinalizeArrayTable<sizeof(Structs::ItemTypeListList)>(members, size); }
 
 // 0x4a6100 _ZN6Arrays8ItemList8finalizeEv
-void ItemList::finalize() { FinalizeArrayTable<12>(members, size); }
+// listing stride 12; element Structs::ItemListEntry (matched by name; the element is not confirmed in the ledger)
+void ItemList::finalize() { FinalizeArrayTable<sizeof(Structs::ItemListEntry)>(members, size); }
 
 // 0x4a6280 _ZN6Arrays14InventoryTable8finalizeEv
-void InventoryTable::finalize() { FinalizeArrayTable<8>(members, size); }
+// listing stride 8; element Structs::Inventory
+void InventoryTable::finalize() { FinalizeArrayTable<sizeof(Structs::Inventory)>(members, size); }
 
 // 0x4a63f4 _ZN6Arrays21DropTilePriorityTable8finalizeEv
+// listing stride 12; PARTIAL: no element class declared for DropTilePriorityTable, stride left at the listing value
 void DropTilePriorityTable::finalize() { FinalizeArrayTable<12>(members, size); }
 
 // 0x4a6574 _ZN6Arrays20ItemAudioVisualTable8finalizeEv
-void ItemAudioVisualTable::finalize() { FinalizeArrayTable<20>(members, size); }
+// listing stride 20; element Structs::ItemAudioVisual
+void ItemAudioVisualTable::finalize() { FinalizeArrayTable<sizeof(Structs::ItemAudioVisual)>(members, size); }
 
 // 0x4a66f4 _ZN6Arrays9LevelList8finalizeEv
-void LevelList::finalize() { FinalizeArrayTable<72>(members, size); }
+// listing stride 72; element Structs::LevelDeclaration
+void LevelList::finalize() { FinalizeArrayTable<sizeof(Structs::LevelDeclaration)>(members, size); }
 
 // 0x4a6874 _ZN6Arrays14FastTravelList8finalizeEv
-void FastTravelList::finalize() { FinalizeArrayTable<28>(members, size); }
+// listing stride 28; element Structs::FastTravelDestination
+void FastTravelList::finalize() { FinalizeArrayTable<sizeof(Structs::FastTravelDestination)>(members, size); }
 
 // 0x4a69f4 _ZN6Arrays21ItemBonusAttrMonopoly8finalizeEv
-void ItemBonusAttrMonopoly::finalize() { FinalizeArrayTable<12>(members, size); }
+// listing stride 12; element Structs::ItemBonusAttrList (matched by name; the element is not confirmed in the ledger)
+void ItemBonusAttrMonopoly::finalize() { FinalizeArrayTable<sizeof(Structs::ItemBonusAttrList)>(members, size); }
 
 }  // namespace Arrays
