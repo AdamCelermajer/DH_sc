@@ -25,10 +25,13 @@ def norm(a: str) -> str:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true")
+    ap.add_argument("--categories", nargs="*", help="only these categories (default: all)")
     a = ap.parse_args()
     bad_total = merged_total = 0
     for q in sorted(PORT.glob("*/queue.csv")):
         cat = q.parent
+        if a.categories and cat.name not in a.categories:
+            continue
         parts = sorted((cat / "ledger.d").glob("*.csv"))
         if not parts:
             continue

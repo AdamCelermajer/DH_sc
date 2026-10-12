@@ -25,8 +25,10 @@ int main() {
     ICameraSceneNode base;
     CHECK(base.getTargetNode() == nullptr);
 
-    CCameraSceneNode camera;
+    CCameraSceneNode camera(0, glitch::core::vector3d<float>(), glitch::core::vector3d<float>(), false);
     CHECK(camera.getType() == 0x5f6d6163u);
+    CHECK(camera.isInputReceiverEnabled());  // the constructor sets inputReceiverEnabled (+0x165 = 1)
+    camera.setInputReceiverEnabled(false);
     CHECK(!camera.isInputReceiverEnabled());
     camera.setInputReceiverEnabled(true);
     CHECK(camera.isInputReceiverEnabled());

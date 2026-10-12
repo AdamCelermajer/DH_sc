@@ -5,6 +5,7 @@
 
 #include "glitch-video/deps/glitch_io.hpp"
 #include "glitch-video/deps/os_logging.hpp"
+#include "glitch-video/texture_loaders.hpp"
 
 namespace glitch::video {
 namespace {
@@ -15,24 +16,8 @@ constexpr uint32_t kPVRFlagMipMap = 0x100;
 constexpr uint32_t kPVRFlagCubeMap = 0x1000;
 constexpr uint32_t kPVRFlagVolume = 0x4000;  // the surface-count word is the depth then
 
-// The 52-byte PowerVR (version 2) header. Each field is decoded from the 32-bit little-endian
-// file layout; the struct is never cast from file bytes. Field names follow the PowerVR SDK
-// header layout, which the original's offsets match. The names are not in the binary.
-struct SPVRHeader {
-    uint32_t headerSize = 0;       // +0x00, must be 52
-    uint32_t height = 0;           // +0x04
-    uint32_t width = 0;            // +0x08
-    uint32_t mipMapCount = 0;      // +0x0c
-    uint32_t flags = 0;            // +0x10
-    uint32_t textureDataSize = 0;  // +0x14
-    uint32_t bitsPerPixel = 0;     // +0x18
-    uint32_t redBitMask = 0;       // +0x1c
-    uint32_t greenBitMask = 0;     // +0x20
-    uint32_t blueBitMask = 0;      // +0x24
-    uint32_t alphaBitMask = 0;     // +0x28
-    char pvrTag[4] = {};           // +0x2c, "PVR!"
-    uint32_t surfaceCount = 0;     // +0x30 (surface or cube-face count, or volume depth)
-};
+// SPVRHeader (52-byte PowerVR header) is declared in glitch-video/texture_loaders.hpp; each field is
+// decoded from the 32-bit little-endian file layout, never cast from file bytes.
 static_assert(kPVRHeaderSize == 52, "PVR header is 52 bytes");
 
 uint32_t readLE32(const uint8_t* p) {
@@ -54,12 +39,16 @@ uint32_t highestBitIndex(uint32_t value) {
     return index;
 }
 
+}  // namespace
+
 // 0x6058a4 _ZN6glitch5video12_GLOBAL__N_113readPVRHeaderEPNS_2io9IReadFileERNS1_10SPVRHeaderERb
 // Reads the header. A plain header is the 8 bytes of size and height followed by 44 more,
 // with "PVR!" at +0x2c. A "BTEXpvr" wrapper is 8 bytes followed by the 52-byte header.
 // Returns false on a short read, a wrong tag or size, a bad flag combination, or a mip
 // chain that does not match the dimensions. isBTEX is set once the wrapper tag is read.
-[[maybe_unused]] bool readPVRHeader(io::IReadFile* file, SPVRHeader& header, bool& isBTEX) {
+// The original keeps this in an anonymous namespace; it is exposed here as glitch::video::readPVRHeader
+// so CImageLoaderPVR::loadTextureHeader can call it.
+bool readPVRHeader(io::IReadFile* file, SPVRHeader& header, bool& isBTEX) {
     file->seek(0, false);
     isBTEX = false;
 
@@ -129,5 +118,4 @@ uint32_t highestBitIndex(uint32_t value) {
     return true;
 }
 
-}  // namespace
 }  // namespace glitch::video

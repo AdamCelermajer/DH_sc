@@ -66,7 +66,7 @@ int main() {
     CAnimationStreamingManager::Instance = nullptr;
 
     CAnimationSetTransformationTemplate transformTemplate("targets");
-    CHECK(transformTemplate.reserved04 == 0 && transformTemplate.reserved0c == 0);
+    CHECK(transformTemplate.targets.empty());
 
     std::printf("%s\n", failures ? "collada_misc: FAILED" : "collada_misc: ok");
     return failures != 0;
