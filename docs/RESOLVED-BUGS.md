@@ -139,3 +139,30 @@ These entries resolve the tested reported behavior, not every class/map/native-d
 | ID | Fix | Evidence and frozen build | Qualifications |
 |---|---|---|---|
 | B118 | Main-menu Continue reconciles restored dead summoned actors with their already-free transient pool slots. Unknown/failed slots and ordinary duplicate release remain strict. | Fresh worker/reviewer independently reproduced original12E7 crash and repaired3D61 saved-world Continue, movement, save/quit/reopen and no-world branch. Real slot owner tests plus22/22 save/spawn/despawn/death/lifecycle checks pass. Packaged4420-entry audit and4400-content equality pass. EXE SHA256 `3D61A74EC3451011DADB70219CF97D83F11FE80AF5B783CF2C5897566433F306`, production `11f82581f21b55861f0d59c11b9d9c94687fff5e`. Reports `coordination/v21/B118-hotfix.md`, `B118-review.md`. Original packages/saves preserved; continuation copies verified separately. | B116 remains separate. New v21.1 batch B119–B131 remains active, including distinct death/checkpoint restore failure; this hotfix does not claim those fixed. |
+
+### v21.3 — 2026-10-12
+
+Root accepted source51c4ac5c and shipping EXE SHA256 `276C83146351F41E879F296143F8F59F74A0D3552F224D9015AEF87C3037779A`; 177/177 complete tests and independent audio/menu/gameplay/package reviews pass. See `coordination/v21.3/FINAL-REVIEW.md`, which distinguishes frozen production proofs, reused unchanged-source evidence and diagnostic camera-only B126 rendering evidence. Original saves and accepted packages were preserved; seven progress files copied separately with hashes.
+
+| ID | Fix | Evidence | Build |
+|---|---|---|---|
+| B119 | Authentic admitted sale PickupGold callback, including native refusal/duplicate ordering. | `coordination/v21.3/B119-report.md` and final domain review. | v21.3 / 276C8314 |
+| B120 | Original purchase confirmation and post-attempt PickupGold, maximum-loop and refusal behavior. | `coordination/v21.3/B120-report.md` and final domain review. | v21.3 / 276C8314 |
+| B121 | Original point-allocation MenuSpending callback and admitted mutation ordering. | `coordination/v21.3/B121-report.md` and final domain review. | v21.3 / 276C8314 |
+| B122 | Confirmed reachable merchant/page/back/equipment/skill/Faery cue omissions wired with authentic samples. | `coordination/v21.3/B122-report.md` and final domain review. | v21.3 / 276C8314 |
+| B123 | Distinct append-generated merchant instances retain source values, identified state and ordered powers through trades and Continue. | `coordination/v21.3/B123-report.md` and final domain review. | v21.3 / 276C8314 |
+| B124 | PC wheel, key and vertical drag navigation with correct selection/details and outside/modal/release suppression. | `coordination/v21.3/B124-report.md` and final domain review. | v21.3 / 276C8314 |
+| B125 | Canonical powered Ring1/2 details, real gear effects and persistence; bare Rusted Ring base stats remain empty. | `coordination/v21.3/B125-report.md` and final domain review. | v21.3 / 276C8314 |
+| B126 | Authenticated ordinary old-v1 admission and captured v2 admission restore; native bodies/targetability return, disabled actors stay disabled; narrow dead-timer save exception. | `coordination/v21.3/B126-report.md` and final domain review. | v21.3 / 276C8314 |
+| B127 | Exact brown Champion source combat admission and per-placement legacy roster migration; foreign actors still reject. | `coordination/v21.3/B127-report.md` and final domain review. | v21.3 / 276C8314 |
+| B128 | Checkpoint native-body restoration makes source Conscript Armor walkover pickup work once after death/Continue. | `coordination/v21.3/B128-report.md` and final domain review. | v21.3 / 276C8314 |
+| B129 | Current Equipment consumer rebind and overview entry reset survive restore and close/reopen. | `coordination/v21.3/B129-report.md` and final domain review. | v21.3 / 276C8314 |
+| B130 | Current source potion vital/stock admission, typed PotionDrink output and postfight/postrevive consumption/regeneration. | `coordination/v21.3/B130-report.md` and final domain review. | v21.3 / 276C8314 |
+| B131 | Source CanRespawn/Limbus facts, atomic restore/rebind and native physical initialization restore checkpoint movement/combat/consumers. | `coordination/v21.3/B131-report.md` and final domain review. | v21.3 / 276C8314 |
+| B132 | Exact campaign lifecycle entry completes the typed skill registry; postfight BashDown Use/Post and duplicates remain strict. | `coordination/v21.3/B132-report.md` and final domain review. | v21.3 / 276C8314 |
+| B133 | Original Drop/Transmute Yes/No dialog, exact shade, full current-item lease, one-shot actions/cues and restore cancellation. | `coordination/v21.3/B133-report.md` and final domain review. | v21.3 / 276C8314 |
+| B134 | Authentic power-count FontPalette colors and existing markup parser; Equipment/Sell names render without literal tags. | `coordination/v21.3/B134-report.md` and final domain review. | v21.3 / 276C8314 |
+| B135 | Authenticated canonical powers project before initial selected equipment binding, preserving strict Save/Continue signatures. | `coordination/v21.3/B135-report.md` and final domain review. | v21.3 / 276C8314 |
+| B136 | Current source camera providers bind before any active original-camera consumer, including ordinary Continue without scripted commands. | `coordination/v21.3/B136-report.md` and final domain review. | v21.3 / 276C8314 |
+
+Qualifications remain in each report: no acoustic parity or all-Act1 completion claim; conditional/unreached audio and TypeN focus-in remain unproved; merchant post-exhaustion UI soak is future coverage; screenshot ring powers are unknown; B126 direct renderer observer did not kill its moth before restore and is combined with separate real production lethal/restore proofs. Earlier fire, lighting/water and F9 targeting caveats remain open.

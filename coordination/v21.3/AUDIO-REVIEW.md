@@ -1,6 +1,6 @@
 # B119–B122 independent audio review
 
-Reviewer: `/root/batch_audio_review`. Read-only shared source review; root owns integration and frozen builds. Final status: **B119/B120/B121 READY for source-faithful route/output repair**. **B122 reviewed output/loader audit and reachable merchant/page/Skills/Faery/Equipment cue repairs READY on their named freezes; B133 item-modal review and final combined-release regression remain pending**. No shared behavior file edited; no acoustic/ear-parity result claimed.
+Reviewer: `/root/batch_audio_review`. Read-only shared source review; root owns integration and frozen builds. Final status: **B119/B120/B121 READY for source-faithful route/output repair**. **B122 reviewed output/loader audit and reachable merchant/page/Skills/Faery/Equipment cue repairs READY on their named freezes; B133 audio/visible modal review READY on276C; bounded combined B119�122 sanity PASS; root release acceptance remains separate**. No shared behavior file edited; no acoustic/ear-parity result claimed.
 
 ## Independent source findings
 
@@ -191,3 +191,11 @@ SELL price2 one transfer/gold0→2 exactPickupGold155UID155token4; BUY price960 
 First stat launch erroneously passed a comment line from saved args to direct CLI and exited before input; log retained as invalid setup. Filtered comments and reran final-run.log successfully. No runtime defect inferred from that launch. All runner sessions finished; no active test/audio window.
 
 Root's177/177 CTest pass is integration-suite evidence, distinct from these normal frozen consumers. B133 combined modal proof still pending fresh owner/reviewer; root acceptance/release separate.
+
+## Final 276C B133 audio/visible cue review READY
+
+Reviewed exact matching276C owner runtime logs and pointer-up/semantic-click/outcome diagnostics for final276-physical-transmute/drop. Transmute outside outcome0 retains modal/no cue, No outcome1 dismisses/no cue; two admitted opens143/UID3tokens3/4, actual Yes outcome2 action1 bag-0-Ring01 then PickupGold155/UID155token5, matching complete voices. Drop No outcome1 no extra; two opens141/UID2tokens3/4, actual Yes action2 publishes one native world item source64/UID150 then authored MenuConfirm141/UID2token6; both exact voice lifecycles. Duplicate after acceptance adds no transaction/authored cue. Current Yes source call remains unconditional after native attempt and one-shot pending admission consumes action first.
+
+Owner open.png and yes.png independently viewed: original ornamental WarningBox/prompt above genuinely dimmed Equipment/avatar, exact source191/255 shade recovered rather than guessed; Transmute Broken Ring into27 gold; accepted result ring absent, gold27, modal dismissed. These final artifacts supersede DBD/input-miss, cinematic1 forced-open and5C8 old bright-overlay attempts. Source preflight/localization precedes the current Transmute cue but ordinary observable cue-before-visible-modal ordering preserved; no original broken-localization failure sequence established.
+
+B133 audio/visible cue review READY. Menu reviewer owns snapshot/source-lease/gameplay admission verdict; B136 source-camera restore/cancellation retest remains separate and unproved here. No ear/loopback parity claim. Root final combined acceptance/packages/commit cleanup separate. All independent tester processes closed.

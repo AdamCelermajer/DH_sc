@@ -1,0 +1,474 @@
+{
+  "primaryRoot": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc",
+  "worktrees": [
+    {
+      "path": "C:\\DHqa",
+      "head": "8945b2dbd290ee71c7ae954427323f19bd0dfc5a",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-dhqa",
+      "originalBranch": "refs/heads/codex/archive-b126-camera-qa-20261012",
+      "label": "DHqa"
+    },
+    {
+      "path": "C:\\Users\\adamc\\.codex\\worktrees\\b117-chest-crash\\DH_sc",
+      "head": "07854c969667decf1c7b20d8daf6170385fd24f6",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-b117-chest-crash",
+      "originalBranch": "refs/heads/codex/b117-chest-crash",
+      "label": "b117-chest-crash"
+    },
+    {
+      "path": "C:\\Users\\adamc\\.codex\\worktrees\\b118-continue-crash\\DH_sc",
+      "head": "18e0a3e58f1c4d33387592ee14fa2a2f553a6891",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-b118-continue-crash",
+      "originalBranch": null,
+      "label": "b118-continue-crash"
+    },
+    {
+      "path": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc",
+      "head": "8b322ec56fe2c778d7e759a3103838c4d0f5ca50",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-generic-level-loader",
+      "originalBranch": "refs/heads/codex/archive-generic-level-loader-20261012",
+      "label": "generic-level-loader"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\b078",
+      "head": "a0062e71ade29cf1d069ff2b455cbb8a8178f821",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-b078",
+      "originalBranch": "refs/heads/codex/b078-gameloft-audio",
+      "label": "b078"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix068",
+      "head": "48c721f8556a38eef1c4228247f95e72ea19399a",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix068",
+      "originalBranch": "refs/heads/fix/b068",
+      "label": "fix068"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix069",
+      "head": "96c5d3ae2b19699e658463b8a989556e059c5dfd",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix069",
+      "originalBranch": "refs/heads/fix/b069",
+      "label": "fix069"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix070",
+      "head": "4a08d8c8cbb370905a6ca9f2e2ea99a10552f532",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix070",
+      "originalBranch": "refs/heads/fix/b070",
+      "label": "fix070"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix071",
+      "head": "8bd4019fa69cd29b3ef7967d0fcab136a7aeb93d",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix071",
+      "originalBranch": "refs/heads/fix/b071",
+      "label": "fix071"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix072",
+      "head": "6c76e90ffc61f3fb4f09b5ca64fdd9055a5de52f",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix072",
+      "originalBranch": "refs/heads/fix/b072",
+      "label": "fix072"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix073",
+      "head": "88847f66f8ce9d13a9bee8c9b50ef26e315cca40",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix073",
+      "originalBranch": "refs/heads/fix/b073",
+      "label": "fix073"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix074",
+      "head": "ecbabee7c7fae8c0c834988412500d4b0aeebe79",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix074",
+      "originalBranch": "refs/heads/fix/b074",
+      "label": "fix074"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix075",
+      "head": "51f2f31c73d968c52f0408d25a3634ac07b29546",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix075",
+      "originalBranch": "refs/heads/fix/b075",
+      "label": "fix075"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix076",
+      "head": "99827d880867a7b8b5b845c6b0b9ce522a86444c",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix076",
+      "originalBranch": "refs/heads/fix/b076",
+      "label": "fix076"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix077",
+      "head": "ed1c39b0d46d4e4755c56876572e220e52c81091",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix077",
+      "originalBranch": "refs/heads/fix/b077",
+      "label": "fix077"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix079",
+      "head": "45571237d7c162b8e0ac158b05bfb87204162dd2",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix079",
+      "originalBranch": "refs/heads/fix/b079",
+      "label": "fix079"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix080",
+      "head": "e39df81591657efb70e145e2955e0fdf91361968",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix080",
+      "originalBranch": "refs/heads/fix/b080",
+      "label": "fix080"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix081",
+      "head": "ca0c28a3f6b8888ec14da8f58a30dda96566a6f5",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix081",
+      "originalBranch": "refs/heads/fix/b081",
+      "label": "fix081"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix082",
+      "head": "97d9b87cf80d5a410d4993bc4fea0a4d2111dfe0",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix082",
+      "originalBranch": "refs/heads/fix/b082",
+      "label": "fix082"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix083",
+      "head": "2f994d0b59e12febc1417379f389e76fc5e29b9a",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix083",
+      "originalBranch": "refs/heads/fix/b083",
+      "label": "fix083"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix085",
+      "head": "c993bf1450dee3f7671dec27db0bbfef7b612ba7",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix085",
+      "originalBranch": "refs/heads/fix/b085",
+      "label": "fix085"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix086",
+      "head": "90565f73cb6bcd17e58e157da0808dd1a6af94c9",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix086",
+      "originalBranch": "refs/heads/fix/b086",
+      "label": "fix086"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix087",
+      "head": "f2f63772296a341e7ae2739ad8a03e1e7c3eeca0",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix087",
+      "originalBranch": "refs/heads/fix/b087",
+      "label": "fix087"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix088",
+      "head": "468e382f725e1dc9fe0419ada288573c87ced3f4",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix088",
+      "originalBranch": "refs/heads/fix/b088",
+      "label": "fix088"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix088fix",
+      "head": "2a95fed7bcc0114879a3d9db80ad5c685bd66252",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix088fix",
+      "originalBranch": "refs/heads/fix/b088-preserveverify",
+      "label": "fix088fix"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix089",
+      "head": "a9dea862320052890e29ed68fe435953cb3d00eb",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix089",
+      "originalBranch": "refs/heads/fix/b089",
+      "label": "fix089"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix091",
+      "head": "3a4aec63f785e855bb6ddc95bdd78aca9f98031d",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix091",
+      "originalBranch": "refs/heads/fix/b091",
+      "label": "fix091"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix092",
+      "head": "9934db35fc354041df92f4a0dae5022189a27543",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix092",
+      "originalBranch": "refs/heads/fix/b092",
+      "label": "fix092"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix093",
+      "head": "a2e1e5f7022a11851a116a67d1ddaf8bd4cd19b6",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix093",
+      "originalBranch": "refs/heads/fix/b093",
+      "label": "fix093"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix094",
+      "head": "5da46335c978b7a306247442f17ffab026bedaa2",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix094",
+      "originalBranch": "refs/heads/fix/b094",
+      "label": "fix094"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix095",
+      "head": "4a5f001265b2226e332a72238d619c832b501893",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix095",
+      "originalBranch": "refs/heads/fix/b095",
+      "label": "fix095"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix096",
+      "head": "5dc852ea6efd24ff2c34f34066863a90b60f42dc",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix096",
+      "originalBranch": "refs/heads/fix/b096",
+      "label": "fix096"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix097",
+      "head": "af2bf2cd90dd79024f038ce2fc4351b11733b3fa",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix097",
+      "originalBranch": "refs/heads/fix/b097",
+      "label": "fix097"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix100",
+      "head": "a66b7f9c2a9b2eddf51d9efcecb2bc6c0309d36f",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix100",
+      "originalBranch": "refs/heads/fix/b100",
+      "label": "fix100"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix101",
+      "head": "dfc67d8df4a2e77c9332c8403ffed4c18b95c010",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix101",
+      "originalBranch": "refs/heads/fix/b101",
+      "label": "fix101"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix102",
+      "head": "e40538b87d02fbadfa78394680241f2be65562d5",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix102",
+      "originalBranch": "refs/heads/fix/b102",
+      "label": "fix102"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix103",
+      "head": "1d69d39eb43b887d6c70d7d35c8eda55fe5a1c26",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix103",
+      "originalBranch": "refs/heads/fix/b103",
+      "label": "fix103"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix105",
+      "head": "51e9a43c49703573d9fc60a65f7197b95683ee94",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix105",
+      "originalBranch": "refs/heads/fix/b105",
+      "label": "fix105"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix106",
+      "head": "092b3501287dbabef4397b9247ed3ca59074a5ef",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix106",
+      "originalBranch": "refs/heads/fix/b106",
+      "label": "fix106"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix108",
+      "head": "ab1ee317eb7e1f68079b3ac17d0640ee8d73bcfa",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix108",
+      "originalBranch": "refs/heads/fix/b108",
+      "label": "fix108"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix109",
+      "head": "1a3e199fa9e75529a11c006bdb3ff305029df2db",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix109",
+      "originalBranch": "refs/heads/fix/b109",
+      "label": "fix109"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix110",
+      "head": "919a0a3d9b1048a01ffdc721683bd68345152021",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix110",
+      "originalBranch": "refs/heads/fix/b110",
+      "label": "fix110"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix111",
+      "head": "8903fff5bf0b17ded702e12b52f50a6d7767d82a",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix111",
+      "originalBranch": "refs/heads/fix/b111",
+      "label": "fix111"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix112",
+      "head": "3c802731c3d1750ab04c8abfc738ce2b5fdf143a",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix112",
+      "originalBranch": "refs/heads/codex/b112",
+      "label": "fix112"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix113",
+      "head": "9623f483cd3d0425c8a680e0c4e6bcd3a117c377",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix113",
+      "originalBranch": "refs/heads/codex/b113",
+      "label": "fix113"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix114",
+      "head": "61e5966a5d6f3dc47fa94fe4a1ea81d51190a96d",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix114",
+      "originalBranch": "refs/heads/codex/b114",
+      "label": "fix114"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fix115",
+      "head": "3243b32a6a9eecd8a63f9345b450badeb49a906d",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fix115",
+      "originalBranch": "refs/heads/codex/b115",
+      "label": "fix115"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fixfx",
+      "head": "f882ad8307ba23cbf7d8ea5e9dbb0a21f1e95890",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fixfx",
+      "originalBranch": "refs/heads/fix/b101-b105",
+      "label": "fixfx"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\fixsounds",
+      "head": "758d970ac6f9e69b5221dd82d4c1307abfcd51d0",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-fixsounds",
+      "originalBranch": "refs/heads/fix/sounds",
+      "label": "fixsounds"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\npc-marker-motion",
+      "head": "d9dbfc60ac9a97cee38535c0a10be6a0ad5dfa5b",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-npc-marker-motion",
+      "originalBranch": "refs/heads/codex/npc-marker-motion",
+      "label": "npc-marker-motion"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\p161int",
+      "head": "2f0030e2d7bd8e5cec71b56fba93c32d12243cdc",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-p161int",
+      "originalBranch": "refs/heads/p16.1/integrate",
+      "label": "p161int"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\p16lifecycle2",
+      "head": "3f5536746eaa6bb4641dd17e0bc29d2f2c87e0a9",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-p16lifecycle2",
+      "originalBranch": "refs/heads/p16/lifecycle2",
+      "label": "p16lifecycle2"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\p17fire3",
+      "head": "e447e6687b98dd701b0d57b981b253dd8339d7d4",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-p17fire3",
+      "originalBranch": "refs/heads/p17/fire3",
+      "label": "p17fire3"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\p17int",
+      "head": "955d486bf3594572f7f764ecbb0b295d1b590559",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-p17int",
+      "originalBranch": "refs/heads/p17/integrate",
+      "label": "p17int"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\v201int",
+      "head": "51c4ac5c469b01969b39d6af1be45a68e5eb2c57",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-v201int",
+      "originalBranch": "refs/heads/v20.1/integrate",
+      "label": "v201int"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\v20cine",
+      "head": "9f0c698b2be377032f84e149d03f134a72e74046",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-v20cine",
+      "originalBranch": "refs/heads/v20/cine",
+      "label": "v20cine"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\v20death",
+      "head": "afd9fca1bfcd27f9b91c5111c878161ab7ff4f39",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-v20death",
+      "originalBranch": "refs/heads/codex/v20-death-flow",
+      "label": "v20death"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\v20deathwire",
+      "head": "612e96f82094cad8a509f3647d1ae144ca2f3b34",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-v20deathwire",
+      "originalBranch": "refs/heads/v20/deathwire",
+      "label": "v20deathwire"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\v20doorfix",
+      "head": "df50a082bf5de24a82af7bc465fb7f890b7879a8",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-v20doorfix",
+      "originalBranch": "refs/heads/v20/doorfix",
+      "label": "v20doorfix"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\v20doors",
+      "head": "810f6a9adc2d25e26bfc9c53eb103cb554c06317",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-v20doors",
+      "originalBranch": "refs/heads/codex/v20-door-collision",
+      "label": "v20doors"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\v20fxverify",
+      "head": "bacd123d8dd59ef0c52aa614264ae41bd45949c5",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-v20fxverify",
+      "originalBranch": "refs/heads/v20/fxverify",
+      "label": "v20fxverify"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\v20gatefx",
+      "head": "60e60e852df056ced281ad49b83a76e7a241f017",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-v20gatefx",
+      "originalBranch": "refs/heads/codex/v20-gate-teleport-fx",
+      "label": "v20gatefx"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\v20general",
+      "head": "db64218b4daddfb5eed1fd9ba9d6bb8191f7ab7f",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-v20general",
+      "originalBranch": "refs/heads/v20/general",
+      "label": "v20general"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\v20int",
+      "head": "743c56f547851e6f82a62cf114cac456abdd9d3f",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-v20int",
+      "originalBranch": "refs/heads/v20/integrate",
+      "label": "v20int"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\v20rene",
+      "head": "76b5e86c8cab4bf0b9d8e40f4065fee8102dadd6",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-v20rene",
+      "originalBranch": "refs/heads/v20/rene",
+      "label": "v20rene"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\v20savefix",
+      "head": "0c66a57a631b9ef15867ede34b1f7c717b19ad7f",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-v20savefix",
+      "originalBranch": "refs/heads/v20/savefix",
+      "label": "v20savefix"
+    },
+    {
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_wt\\v20scriptsvc",
+      "head": "63e1ac82f65c6ef2ecf0028c7e64300f35f39d3d",
+      "preservationRef": "refs/heads/codex/archive-wt-20261012-v20scriptsvc",
+      "originalBranch": "refs/heads/v20/scriptsvc",
+      "label": "v20scriptsvc"
+    }
+  ]
+}

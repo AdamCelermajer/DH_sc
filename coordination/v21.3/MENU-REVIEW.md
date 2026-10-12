@@ -136,3 +136,42 @@ B125/B135 true equipped5C8 frontendContinue independently inspected in normal-5c
 Current actual staged B125/B134 callback rebuilt independently from own copies of runner/test with current coherent integration headers/libs, output confined menu-review/current-ring-callback. PASS SHA6FBAEC7E7E1AB827D989CF70B2E37A89CB89EB6273282D1BF99B3DE162C1CE7E: actualEnglish mixedbare/sourceempty/powered Rusted/Broken white/green, genuine+5 details, exactrow/currentmetadata/omission/expiredowner rejection. This supersedes historical-only callback proof; renderer literalfree palette output remains separatelyunverified. B133 fresh owner recovered settled SWF shade alpha191/255 at frame5/depth5 rather than guessed .48; final shared renderer should apply authored shade after complete background before modal art/text.
 
 B123 reused fullbag production artifact independently viewed/hashverified: f9ed76a9 exe8DED82833D817693698988432D2570D23CDCA0D54744E845CCDF167FE2A8C34A; audio-review/cases/purchase-bag-full-profile/cap.png authoredInventoryFull dialog; run.log621 actualBUY frame140/result2/playerItems100/gold10000unchanged/stock81/changed0. Earlier fullbag refusal branch PASS, qualified as earlierfreeze; newmetadata/finalrenderer common regression still appropriate. No postexhaustion normalUI claim from componentrefill.
+
+## Final combined candidate verdicts
+
+Root/lead freeze source51c4ac5c469b01969b39d6af1be45a68e5eb2c57, independently hash-verified root integration/frozen-276C83146351F41E879F296143F8F59F74A0D3552F224D9015AEF87C3037779A.exe. Lead reports177/177CTest PASS. Per-bug acceptance below applies only to SHA276C83146351F41E879F296143F8F59F74A0D3552F224D9015AEF87C3037779A.
+
+B134 READY: source/native count mapping, genuine fontpalette/current resolver and rawname separation independently reviewed; actual current callback rebuilt with missingpalette negative PASS SHA39A7954A38DD8CA02ED77E2A0BC8A124EE5E5083210360F15981C5874A32D617 (failedbind installs no callbacks). Final Equipment green/gold/listpalette and Sell selectedblue/orderedwhitepowers directly viewed, Buy equippedgreen comparison versus rawwhite stock directf115, count5fallbackwhite after matching3file actualnativeContinue frame0/f75. No literalFONTtags. Fixture repeatedauthenticpower rows are transport tests, not RNG claims.
+
+B123 scoped READY: normal final trade-b actualBUY960/Sell96/buyback96 exactgold/stock; canonicalF5/matchingactualfrontendContinue-b PASS; continue-sell-c directf540/f600/f720 stable purpleConscript Armor10/+1allattributes/+2%fireresist/+2armor/UI96/gold8740. Owner's initial disappearingtextread was independently disproved with same unchangedPNG hashes and retracted. Actual persisted value480/identified1/orderedAllStats_01,ResistFire_01,Armor_01 survive destinationIDs, generatedforceappend/duplicatepayload component157B7F passed; prior realfullbag and zero-gold proofs qualified byfreeze. Root explicitly accepted postexhaustion normalUI soak as futurecoverage, notpackaginggate; sourceproducer/Shop refillcycle passes. No whole-label dedup occurs.
+
+B133 current Transmute partialPASS: final source191/255dim overcompletepage/bright modal directlyviewed open.png and yes.png; same admittednormalphysicaloutside/No/Yes/duplicate outcomes/cues. FinalDrop/currentlease/Escape acceptance pendingownerreceipt.
+
+B124 READY on final exact276C: own fresh empty-single-276C normal physical1200x701 branch exit0/1200, frames540singleSELLTorso/720emptyRing2/840reopenedBUYTorso/1020singleSELLrevisit inspected. Wheel/Down/PageDown/drag empty/single safe; Back771→Space reopens same81stock/gold9700, defaultmode/category correct. Prior independently reviewed reliable scaled multirow/keys/modal/offlist/dragrelease/Map tests unchanged. No final implementation blocker.
+
+B133 READY on final exact276C: actual source shade191/255 overcompletepage and brightmodal/literal-free text directopen/yes images; normalphysical Transmute/Drop outside/No/Yes/duplicate pass with native attempted-action cue order. Powered-source Drop exactAR_01 currentlease removes onlycount1 row, nextbluecount2 survivesduplicate/gold254 unchanged. ActualF5/F9 owner replacement whilemodal cancels pending/oldYes, f100Stats/all6source rows retained/no mutation; Escape cancels; empty/equipped admission rejects. Currenthelper staleid/qty/sourcepayload/visit/owner checks independently covered. Finalphysical cues submitted/audio reviewerREADY; earlyscript output_not_ready is qualified, not audibleproof. Item-specific original footage timing remains documenteduncertainty, no guessedrule.
+
+B125 and B129 owners resumed for bounded exactfinalfreeze consumer checks; their earlier verifiedsamebuild ringeffects/Continue and bothscale Equipment refusal/permittedrestore proofs remain valid. Root owns packaging and cleanup; all reviewer outputs confined ownreport/boundedscratch, source unchanged.
+
+B125 READY on final exact276C: own owner normal-276c-ring1-reload and ring2-reload actual matchingfrontendContinue, both strictrestoreframe0 logs independently inspected; eachf25 equipped/selected greenRusted+genuine5 attackrating/baseblank/no markup. FinalRing2f75 Stats79 afterpowered84; priorreversible/mixedbare/metadata/currentowner matrices accepted. Exact screenshot powers unknown remains disclosure; no inventedbase stats. Only B129 bounded final consumer receipt remains before all menu verdicts are complete.
+
+## Final independent approval — 2026-10-12
+
+All menu review assignments are READY for this exact frozen executable:
+
+`SHA256 276C83146351F41E879F296143F8F59F74A0D3552F224D9015AEF87C3037779A`
+
+Source commit: `51c4ac5c469b01969b39d6af1be45a68e5eb2c57`. Root owns release acceptance and cleanup. The integration lead reports 177/177 CTest checks passed. The reviewer independently checked the executable hash, source contracts, component tests, normal UI images and relevant runtime receipts.
+
+| Bug | Verdict | Final evidence |
+| --- | --- | --- |
+| B123 | Scoped READY | Authentic generated instances remain separate; same-label items retain different powers/prices. Normal Buy/Sell/buyback and matching F5 → frontend Continue preserve the exact saved payload and visible affixes. |
+| B124 | READY | Normal wheel/key/drag selection and details, modal/off-list/release isolation and Map preservation pass. Own final `empty-single-276C` verifies empty/single lists and merchant close/reopen. Earlier scaled proofs remain valid. |
+| B125 | READY | Final Ring 1 and Ring 2 matching frontend Continue show green Rusted Ring with genuine +5 power rows and blank base description; unequip reverses attack rating 84 → 79. |
+| B129 | READY | Earlier standard/scaled refusal and permitted death recovery pass. Final scaled consumer recheck shows Overview after reentry and Details only after the next slot click (`f660` → `f780`), with current readiness. |
+| B133 | READY | Exact authored dim layer, localized prompts, native cue order, physical outside/No/Yes/duplicate outcomes, powered-item Drop, Escape, disabled admissions and F9 stale-pending cancellation pass. |
+| B134 | READY | Authentic colors for counts 0–5 render without literal tags in Equipment/Sell and owned comparison. Descriptions and stock/raw names retain their proper roles. Matching Continue preserves the count-5 fallback and payload. Missing palette and stale owner/payload tests reject safely. |
+
+The screenshot's exact ring powers remain unknown; no base stats were invented. The original item-specific confirmation footage/timing gap remains documented. B123 post-exhaustion normal UI soak is future coverage explicitly accepted by root; the actual source producer and Shop refill cycle pass. Full-bag refusal uses a preserved earlier production receipt, and current normal trade/persistence proof uses the final build.
+
+The overwritten `merchant-DBD` raw PPM/save artifacts are excluded from original provenance; its retained PNGs/log/args and fresh transaction cases are clearly distinguished. User saves and accepted packages were not modified by this reviewer. No behavior/build files were edited; reviewer changes are confined to this report and bounded scratch tests/evidence.

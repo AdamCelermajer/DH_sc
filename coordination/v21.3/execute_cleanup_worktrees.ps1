@@ -41,6 +41,11 @@ function Test-PathUnder([string]$Path, [string]$Root) {
     return $fullPath.StartsWith($fullRoot, [System.StringComparison]::OrdinalIgnoreCase)
 }
 
+function Test-ApprovedWorktreeScope([string]$Path) {
+    if (Test-SamePath $Path 'C:\DHqa') { return $true }
+    return (@($approvedRoots | Where-Object { Test-PathUnder $Path $_ })).Count -gt 0
+}
+
 function Invoke-Git([string[]]$GitArgs, [switch]$AllowFailure) {
     $output = & git -C $script:root @GitArgs 2>&1
     $exit = $LASTEXITCODE
@@ -145,7 +150,7 @@ if (-not $Apply) {
         $branch = if ($null -ne $branchProperty) { [string]$branchProperty.Value } elseif ($null -ne $detachedProperty -and $detachedProperty.Value) { '(detached)' } else { '(unknown)' }
         $b117Path = Join-Path $env:USERPROFILE '.codex\worktrees\b117-chest-crash\DH_sc'
         $b118Path = Join-Path $env:USERPROFILE '.codex\worktrees\b118-continue-crash\DH_sc'
-        $gate = if ((Test-SamePath $path $b117Path) -or (Test-SamePath $path $b118Path)) { 'HOLD: app-managed worktree; archive through Codex after release' } elseif ($status.Count -gt 0) { 'HOLD: dirty tracked/untracked files' } elseif ($local.Kind -eq 'owned') { 'HOLD: worktree-owned ignored .local-inputs requires separate preservation' } elseif ($local.Kind -eq 'unexpected-reparse') { 'HOLD: unexpected .local-inputs reparse point' } elseif ($local.Kind -eq 'junction' -and -not (Test-SamePath $local.Target $primaryInputs)) { 'HOLD: junction target differs from protected primary .local-inputs' } elseif ($ignored.Count -gt 0) { 'HOLD: ignored nested data requires separate preservation' } elseif ((@($approvedRoots | Where-Object { Test-PathUnder $path $_ })).Count -eq 0) { 'HOLD: outside approved worktree roots' } else { 'READY FOR ROOT MANIFEST REVIEW ONLY' }
+        $gate = if ((Test-SamePath $path $b117Path) -or (Test-SamePath $path $b118Path)) { 'HOLD: app-managed worktree; archive through Codex after release' } elseif ($status.Count -gt 0) { 'HOLD: dirty tracked/untracked files' } elseif ($local.Kind -eq 'owned') { 'HOLD: worktree-owned ignored .local-inputs requires separate preservation' } elseif ($local.Kind -eq 'unexpected-reparse') { 'HOLD: unexpected .local-inputs reparse point' } elseif ($local.Kind -eq 'junction' -and -not (Test-SamePath $local.Target $primaryInputs)) { 'HOLD: junction target differs from protected primary .local-inputs' } elseif ($ignored.Count -gt 0) { 'HOLD: ignored nested data requires separate preservation' } elseif (-not (Test-ApprovedWorktreeScope $path)) { 'HOLD: outside approved worktree roots' } else { 'READY FOR ROOT MANIFEST REVIEW ONLY' }
         [pscustomobject]@{ Path = $path; Branch = $branch; Head = $head; GitStatusRows = $status.Count; IgnoredPaths = $ignored; LocalInputs = $local.Kind; JunctionTarget = $local.Target; Decision = $gate } | ConvertTo-Json -Compress
     }
     if (-not $ManifestPath) { Write-Output 'Execution requires -Apply and a fresh complete preservation manifest.' }
@@ -170,7 +175,7 @@ if ($expected.Count -ne $extras.Count -or $listed.Count -ne $extras.Count) { thr
 $liveMap = @{}
 foreach ($entry in $extras) {
     $path = Get-FullPath ([string]$entry.worktree)
-    if ((@($approvedRoots | Where-Object { Test-PathUnder $path $_ })).Count -eq 0) { throw "Live extra worktree falls outside approved roots: $path" }
+    if (-not (Test-ApprovedWorktreeScope $path)) { throw "Live extra worktree falls outside approved roots: $path" }
     if ($liveMap.ContainsKey($path)) { throw "Duplicate live worktree path: $path" }
     $liveMap[$path] = [pscustomobject]@{ Entry = $entry; Head = Get-Head $path }
 }

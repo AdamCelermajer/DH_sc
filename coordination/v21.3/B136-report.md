@@ -1,6 +1,6 @@
 # B136 — normal frontend Continue loses the current camera anchor provider
 
-**Status:** Independently reproduced on the requested immutable freeze. Root cause and a minimal integration proposal are identified. The report writer did not change production source. `/root/batch_integration` owns production integration; `/root/batch_gameplay_review` is the reviewer. Root retains tracker and release ownership.
+**Status:** Scoped READY on immutable integrated freeze `276C8314…7779A`. The independent gameplay reviewer reran the exact profile/world through normal Continue, physical movement, and duplicate F9 rebind, and confirmed the current camera anchor tracks the current hero. Root retains tracker and release ownership.
 
 ## Reproduction and visual evidence
 
@@ -32,9 +32,21 @@ Small reusable change proposal for the integration owner: bind the existing `Cam
 
 ## Remaining gaps
 
-- Production source has not yet integrated the proposed condition change in this worker session. The frozen reproduction is a source read/repro, not a fixed-build test.
-- The independent failure occurs before a rendered frame; current post-Continue camera image, movement, and replacement-owner behavior remain to be verified by integration.
-- Existing v1.0.3 footage provides normal gameplay camera-follow context but no Continue sequence. No more specific original Continue composition/timing is claimed.
+- The captured original v1.0.3 footage provides normal gameplay camera-follow context but no Continue sequence. No more specific original Continue composition/timing is claimed.
+- The missing-world control used an absent world file (`status=none`), rather than a wrong-level world payload. It demonstrates the fresh-start route and current-player provider; a wrong-level rejection was not separately rerun.
+- The strict adapter's stale-actor/missing-anchor rejection remains as before and was not re-tested in this end-to-end report; no fallback or guard change was introduced.
+
+## Integrated freeze verification
+
+- Integrated candidate: `C:/Users/adamc/Desktop/workspace/DH_wt/v201int/.local-inputs/v21.3/integration/frozen-276C83146351F41E879F296143F8F59F74A0D3552F224D9015AEF87C3037779A.exe`, SHA-256 `276C83146351F41E879F296143F8F59F74A0D3552F224D9015AEF87C3037779A`, source commit `51c4ac5c469b01969b39d6af1be45a68e5eb2c57`. The exact B123 profile and world hashes above were rechecked byte-for-byte in each run case. All runs used separate private windows and output paths under `B136/`.
+- Normal frontend Continue plus scripted movement, without an intervening restore: `.local-inputs/v21.3/B136/fixed-move-only-20261012e/`. `run.log` records `Continue level world status=valid ... actors=28`, `Continue restore frame=0`, and `Restored live checkpoint frame=0`; process exit is 0 and no `Foundation error` appears. `f1.png` visibly shows the restored swamp scene with the hero; `f900.png` shows the hero farther along the walkway with the camera framing the active encounter. The final current player position is `(-12468.5, 15002.1, 255)` and the final camera anchor is `(-12649.5, 15183.1, 255)`, with `globalControllerBlocked=0`; the current target ID remains the player ID. This verifies rendered continuity and that movement updates the live current-player anchor, rather than a stale saved spawn.
+- Duplicate restore/rebind: `.local-inputs/v21.3/B136/fixed-move-rebind-20261012d/` repeats normal menu Continue and physical F9 restores at frames 334 and 450 after frame-0 restore. All three `Restored live checkpoint` entries complete, the final current target/anchor are present, and the process exits 0 without the missing-provider failure. The dedicated no-F9 run above isolates movement from the expected checkpoint reset.
+- Admission failure/fresh start: `.local-inputs/v21.3/B136/fixed-missing-world-20261012f/` has the exact valid profile but intentionally omits the world file. Continue resolves `world status=none`; frames 1, 100, and 300 render, the current player target and anchor remain bound, and the process exits 0. This is an admission-failure control, not a wrong-level mismatch test.
+- The one-line provider-admission change proposed above is present in this integrated candidate. The successful runs preserve the existing strict `CampaignCameraAdapter::tick` guard and use the current player/anchor owner; there is no guessed anchor or spawn fallback.
+
+## Independent integrated review
+
+`/root/batch_gameplay_review` independently copied the exact B123 profile/world hashes into a fresh private case at `.local-inputs/v21.3/gameplay-review/B136-276C-Continue/` and reran the normal menu Continue on the same `276C` freeze. Physical W input at 4–7 seconds, D input at 12–13 seconds, and duplicate F9 restores at 9 and 9.2 seconds completed with exit 0 and no camera error. Captures at frames 1/300/600/900 show gameplay through movement and post-rebind tracking. Final hero position was `(-11499.5, 13615.5, 255)` and current auxiliary camera anchor `(-11406.8, 13854.1, 255)`, confirming the anchor follows the moved current actor after rebind. Reviewer approved callback lifetime/order and marked B136 scoped READY. The absent-world failure/fresh-start control above was reused; this does not add a wrong-level or stale-provider negative test.
 
 ## Independent review note
 
