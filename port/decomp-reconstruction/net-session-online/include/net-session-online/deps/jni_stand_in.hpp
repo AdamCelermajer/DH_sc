@@ -27,8 +27,11 @@ inline jmethodID JniGetStaticMethodID(jclass /*cls*/, const char* /*name*/, cons
 
 // _JNIEnv::CallStaticObjectMethod with a byte[] result: the byte array is copied into
 // `out` (at most `max` bytes). Here no array is produced, so `out` stays zeroed.
+// The overload with `arg` passes one NewStringUTF argument (ALicenseCheck::CallJNIFuncChar).
 inline void JniCopyStaticByteArray(jclass /*cls*/, jmethodID /*method*/, char* /*out*/,
                                    int /*max*/) {}
+inline void JniCopyStaticByteArray(jclass /*cls*/, jmethodID /*method*/, const char* /*arg*/,
+                                   char* /*out*/, int /*max*/) {}
 
 // _JNIEnv::CallStaticVoidMethod (no arguments).
 inline void JniCallStaticVoidMethod(jclass /*cls*/, jmethodID /*method*/) {}
