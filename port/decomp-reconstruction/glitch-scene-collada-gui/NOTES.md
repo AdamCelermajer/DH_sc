@@ -1,7 +1,7 @@
 # glitch-scene-collada-gui notes
 
-Queue: 4138 functions (all owner engine-glitch). Ledger: 170 rows
-(86 reconstructed, 80 partial, 4 skipped). Only collada functions are done so far.
+Queue: 4138 functions (all owner engine-glitch). Ledger: 187 rows
+(102 reconstructed, 81 partial, 4 skipped). Only collada functions are done so far.
 
 ## Classes and inferred layouts
 - CVisibilityEx: visible flag is a 32-bit word at +0x11c, bit 0 = visible. Base
@@ -37,6 +37,20 @@ Queue: 4138 functions (all owner engine-glitch). Ledger: 170 rows
   CSceneNodeAnimatorSynchronizedSet: empty or constant-return defaults, in
   track_defaults.hpp and generated_stubs.hpp.
 
+- CColladaDatabase (collada_database.hpp): the named-asset lookups reach the
+  table holder through two pointers (*this + 0x24, then +0x20). The holder is
+  modelled as SDatabaseTables with one std::vector of entry pointers per kind.
+  Original count/base offsets are in the header comments (animation +0x24/+0x28,
+  animationClip +0x34/+0x38, image +0x4c/+0x50, effect +0x54/+0x58, material
+  +0x5c/+0x60, geometry +0x68/+0x6c, controller +0x70/+0x74 (name at entry+4),
+  light +0x44/+0x48, camera +0x3c/+0x40, visualScene +0x98/+0x9c, force +0x88/+0x8c,
+  coronas +0x90/+0x94, gnpsEmitter +0x80/+0x84, emitter +0x78/+0x7c). Entry types
+  (SImage, SEffect, ...) are name-only stand-ins until the loader structs are mapped.
+  Segment table (holder +0x30) is ranges [begin, end) with a 0x18 stride.
+- CColladaDatabase constructors, construct* creators, getAnimation(int)/SChannel
+  overloads and getDefaultValue/getBlendableAnimation are not done: they forward
+  through SChannel and the ISceneNode/collada vtables.
+
 ## Partial status
 generated_stubs.hpp holds 80 empty or constant-return bodies from the collada queue.
 Each is a free function template named by its original address, not yet attached
@@ -51,7 +65,7 @@ to its owning class, so those ledger rows are `partial`.
   arithmetic is used.
 
 ## Remaining
-- CColladaDatabase (77), CRootSceneNode construct paths, CColladaFactory creators,
+- CColladaDatabase constructors and construct* creators (60 left), CRootSceneNode construct paths, CColladaFactory creators,
   CSkinnedMesh/CModularSkinnedMesh virtual paths, CSceneNodeAnimatorSynchronizedSet,
   animation_track::CVisibilityEx/CVector3dEx/CTextureTransformEx blend and key-based
   paths (need SAnimationAccessor and CApplicatorInfo), CParticleSystemSceneNode,

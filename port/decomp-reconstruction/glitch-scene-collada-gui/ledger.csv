@@ -169,3 +169,20 @@ elf_address,symbol,status,source_file,notes
 0x6e4db4,_ZNK6glitch7collada15animation_track9CWeightEx12getValueSizeEv,partial,glitch-scene-collada-gui/include/glitch-scene-collada-gui/generated_stubs.hpp,returns constant 4; owning class not yet attached
 0x6e5168,_ZNK6glitch7collada16CCameraSceneNode7getTypeEv,partial,glitch-scene-collada-gui/include/glitch-scene-collada-gui/generated_stubs.hpp,returns constant 1667588452; owning class not yet attached
 0x6e5a2c,_ZNK6glitch7collada17CCoronasSceneNode7getTypeEv,partial,glitch-scene-collada-gui/include/glitch-scene-collada-gui/generated_stubs.hpp,returns constant 1936618083; owning class not yet attached
+0x61be98,_ZNK6glitch7collada16CColladaDatabase16getAnimationClipEPKc,reconstructed,glitch-scene-collada-gui/src/collada_database.cpp,findByName over animationClips table; stand-in entry type
+0x61bef8,_ZNK6glitch7collada16CColladaDatabase12getAnimationEPKc,reconstructed,glitch-scene-collada-gui/src/collada_database.cpp,findByName over animations table; stand-in entry type
+0x61a574,_ZNK6glitch7collada16CColladaDatabase14getGNPSEmitterEPKc,reconstructed,glitch-scene-collada-gui/src/collada_database.cpp,findByName over gnpsEmitters table; stand-in entry type
+0x61a6f0,_ZNK6glitch7collada16CColladaDatabase10getCoronasEPKc,reconstructed,glitch-scene-collada-gui/src/collada_database.cpp,findByName over coronas table; stand-in entry type
+0x61a7f4,_ZNK6glitch7collada16CColladaDatabase10getEmitterEPKc,reconstructed,glitch-scene-collada-gui/src/collada_database.cpp,findByName over emitters table; stand-in entry type
+0x61a690,_ZNK6glitch7collada16CColladaDatabase14getVisualSceneEPKc,reconstructed,glitch-scene-collada-gui/src/collada_database.cpp,findByName over visualScenes table; stand-in entry type
+0x61a910,_ZNK6glitch7collada16CColladaDatabase8getForceEPKc,reconstructed,glitch-scene-collada-gui/src/collada_database.cpp,findByName over forces table; stand-in entry type
+0x61a9a0,_ZNK6glitch7collada16CColladaDatabase13getControllerEPKc,reconstructed,glitch-scene-collada-gui/src/collada_database.cpp,findByName over controllers table; name at entry+0x04; stand-in entry type
+0x61aa48,_ZNK6glitch7collada16CColladaDatabase11getGeometryEPKc,reconstructed,glitch-scene-collada-gui/src/collada_database.cpp,findByName over geometries table; stand-in entry type
+0x61ac28,_ZNK6glitch7collada16CColladaDatabase11getMaterialEPKc,reconstructed,glitch-scene-collada-gui/src/collada_database.cpp,findByName over materials table; stand-in entry type
+0x61b0ac,_ZNK6glitch7collada16CColladaDatabase9getEffectEPKc,reconstructed,glitch-scene-collada-gui/src/collada_database.cpp,findByName over effects table; stand-in entry type
+0x61b154,_ZNK6glitch7collada16CColladaDatabase8getImageEPKc,reconstructed,glitch-scene-collada-gui/src/collada_database.cpp,findByName over images table; stand-in entry type
+0x61b1ec,_ZNK6glitch7collada16CColladaDatabase8getLightEPKc,reconstructed,glitch-scene-collada-gui/src/collada_database.cpp,findByName over lights table; stand-in entry type
+0x61b270,_ZNK6glitch7collada16CColladaDatabase9getCameraEPKc,reconstructed,glitch-scene-collada-gui/src/collada_database.cpp,findByName over cameras table; stand-in entry type
+0x61bf58,_ZNK6glitch7collada16CColladaDatabase4findEPKcRj,reconstructed,glitch-scene-collada-gui/src/collada_database.cpp,probes getAnimation; getAnimationClip; getImage; getEffect; getMaterial; getGeometry; getController; getVisualScene in that order; mask returns matched bit
+0x60e2bc,_ZNK6glitch7collada16CColladaDatabase19getAnimationSegmentEi,partial,glitch-scene-collada-gui/src/collada_database.cpp,signed-count negative branch unrepresentable with std::vector; empty and found/last paths match
+0x60e28c,_ZNK6glitch7collada16CColladaDatabase20linkInstanceMaterialEPNS0_17SInstanceMaterialE,reconstructed,glitch-scene-collada-gui/src/collada_database.cpp,pushes onto intrusive list head at tables.instanceMaterials (+0x08); link at +0x38
