@@ -829,7 +829,7 @@ elf_address,symbol,status,source_file,notes
 0x5411d8,_ZNK6glitch3gui14CGUIInOutFader8getColorEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,the original repacks the colour bytes into the same order: identity
 0x552058,_ZN6glitch3gui7CGUITab18setBackgroundColorENS_5video6SColorE,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
 0x552080,_ZN6glitch3gui7CGUITab12setTextColorENS_5video6SColorE,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
-0x54aa24,_ZNK6glitch3gui8CGUISkin8getColorENS0_18EGUI_DEFAULT_COLORE,partial,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,out-of-range index: original returns caller register contents, zero used here
+0x54aa24,_ZNK6glitch3gui8CGUISkin8getColorENS0_18EGUI_DEFAULT_COLORE,partial,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,"out-of-range index: original returns caller register contents, zero used here"
 0x54aaa0,_ZNK6glitch3gui8CGUISkin7getSizeENS0_17EGUI_DEFAULT_SIZEE,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,
 0x54aab4,_ZN6glitch3gui8CGUISkin7setSizeENS0_17EGUI_DEFAULT_SIZEEi,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,
 0x54ab74,_ZNK6glitch3gui8CGUISkin7getIconENS0_17EGUI_DEFAULT_ICONE,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,
@@ -907,8 +907,8 @@ elf_address,symbol,status,source_file,notes
 0x578c28,_ZNK6glitch5scene10CBatchMesh18getMeshBufferCountEv,reconstructed,glitch-scene-collada-gui/src/scene_nodes.cpp,
 0x57aa8c,_ZNK6glitch5scene10CBatchMesh14getBoundingBoxEv,partial,glitch-scene-collada-gui/src/scene_nodes.cpp,dirty and source-pointer refresh call not reconstructed
 0x578c78,_ZN6glitch5scene10CBatchMesh14setBoundingBoxERKNS_4core8aabbox3dIfEE,partial,glitch-scene-collada-gui/src/scene_nodes.cpp,stores an unidentified global word at +0x6c; stamp left unchanged
-0x578d1c,_ZN6glitch5scene10CBatchMesh6SBatchC2Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_nodes.hpp,defaulted constructor, zeroed members
-0x578d3c,_ZN6glitch5scene10CBatchMesh6SBatchC1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_nodes.hpp,defaulted constructor, zeroed members
+0x578d1c,_ZN6glitch5scene10CBatchMesh6SBatchC2Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_nodes.hpp,"defaulted constructor, zeroed members"
+0x578d3c,_ZN6glitch5scene10CBatchMesh6SBatchC1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_nodes.hpp,"defaulted constructor, zeroed members"
 0x578d5c,_ZN6glitch5scene10CBatchMesh6SBatchC2Et,reconstructed,glitch-scene-collada-gui/src/scene_nodes.cpp,
 0x578d7c,_ZN6glitch5scene10CBatchMesh6SBatchC1Et,reconstructed,glitch-scene-collada-gui/src/scene_nodes.cpp,
 0x53c510,_ZN6glitch3gui18IGUIFileOpenDialogD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/gui_simple_accessors.hpp,empty D1 vtable stores and IGUIElement base destructor call implicit
@@ -985,7 +985,7 @@ elf_address,symbol,status,source_file,notes
 0x6be530,_ZNK6glitch5scene10CMeshCache12getMeshIndexERKN5boost13intrusive_ptrIKNS0_13IAnimatedMeshEEE,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,first entry whose mesh matches; -1 when none
 0x6bea64,_ZN6glitch5scene10CMeshCache5clearEv,partial,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,entries dropped without releasing mesh references
 0x6be474,_ZN6glitch5scene10CMeshCacheC2EPNS_5video12IVideoDriverE,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,driver constructor C2; reference count base set to 1
-0x6be4bc,_ZN6glitch5scene10CMeshCacheC1EPNS_5video12IVideoDriverE,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,driver constructor C1, same body
+0x6be4bc,_ZN6glitch5scene10CMeshCacheC1EPNS_5video12IVideoDriverE,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,"driver constructor C1, same body"
 0x644404,_ZNK6glitch7collada15CLightSceneNode10getLightIDEv,reconstructed,glitch-scene-collada-gui/src/collada_scene_accessors.cpp,light id word at +0x160
 0x64440c,_ZNK6glitch7collada15CLightSceneNode6getUIDEv,partial,glitch-scene-collada-gui/src/collada_scene_accessors.cpp,uid followed through the pointer at +0x160; pointee type inferred
 0x65cd28,_ZNK6glitch7collada10CSceneNode6getUIDEv,reconstructed,glitch-scene-collada-gui/src/collada_scene_accessors.cpp,uid from the property block; empty string when none
@@ -1004,14 +1004,14 @@ elf_address,symbol,status,source_file,notes
 0x66e778,_ZN6glitch7collada6detail36CColladaHardwareTextureSkinTechnique6attachEPNS_5scene10ISceneNodeE,reconstructed,glitch-scene-collada-gui/src/collada_misc.cpp,hardware texture skin attach stores node at +0x14
 0x368ebc,_ZNK6glitch7collada33CSceneNodeAnimatorSynchronizedSet29getSynchronizationElapsedTimeEv,reconstructed,glitch-scene-collada-gui/src/collada_misc.cpp,elapsed time truncated to int
 0x6a56ec,_ZN6glitch3gui25CDefaultGUIElementFactoryC2EPNS0_15IGUIEnvironmentE,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,factory constructor C2; reference count 1 and environment
-0x6a571c,_ZN6glitch3gui25CDefaultGUIElementFactoryC1EPNS0_15IGUIEnvironmentE,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,factory constructor C1, same body
+0x6a571c,_ZN6glitch3gui25CDefaultGUIElementFactoryC1EPNS0_15IGUIEnvironmentE,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,"factory constructor C1, same body"
 0x6fe974,_ZN6glitch5scene22CShadowVolumeSceneNode4loadEPNS_2io9IReadFileE,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,returns 0 (load not ported)
 0x6e21c0,_ZN6glitch7collada35CAnimationSetTransformationTemplateC2EPKc,partial,glitch-scene-collada-gui/src/collada_misc.cpp,transformation template C2(name); base IAnimationSetTemplate not ported
-0x6e21f4,_ZN6glitch7collada35CAnimationSetTransformationTemplateC1EPKc,partial,glitch-scene-collada-gui/src/collada_misc.cpp,transformation template C1(name), same body
+0x6e21f4,_ZN6glitch7collada35CAnimationSetTransformationTemplateC1EPKc,partial,glitch-scene-collada-gui/src/collada_misc.cpp,"transformation template C1(name), same body"
 0x6e2248,_ZN6glitch7collada35CAnimationSetTransformationTemplateD1Ev,partial,glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_misc.hpp,D1 defaulted; base destructor not called
 0x6e2298,_ZN6glitch7collada35CAnimationSetTransformationTemplateD2Ev,partial,glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_misc.hpp,D2 defaulted; base destructor not called
 0x60b3cc,_ZN6glitch7collada26CAnimationStreamingManagerC2Ev,reconstructed,glitch-scene-collada-gui/src/collada_misc.cpp,streaming manager C2; zeroes words and publishes Instance
-0x60b410,_ZN6glitch7collada26CAnimationStreamingManagerC1Ev,reconstructed,glitch-scene-collada-gui/src/collada_misc.cpp,streaming manager C1, same body
+0x60b410,_ZN6glitch7collada26CAnimationStreamingManagerC1Ev,reconstructed,glitch-scene-collada-gui/src/collada_misc.cpp,"streaming manager C1, same body"
 0x6c97f4,_ZN6glitch5scene28CSceneNodeAnimatorCameraMaya20updateAnimationStateEv,partial,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,returns stateA minus stateB (tail call to fsub)
 0x6cc330,_ZN6glitch5scene29CSceneNodeAnimatorFlyStraight25recalculateImidiateValuesEv,partial,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,returns minuend minus subtrahend (tail call to fsub)
 0x6bbedc,_ZN6glitch5scene5CMesh5clearEv,partial,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,buffers cleared without releasing elements
