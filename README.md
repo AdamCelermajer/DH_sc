@@ -16,7 +16,7 @@ provenance and the rights status of recovered material and assets.
 | Windows desktop build | Builds and runs (MinGW-w64 + SDL2 + ANGLE) |
 | Main menu | Original authored menu renders, including the character preview |
 | SWAMP and Crypt levels | Load and render with the player and HUD; gameplay is **not yet stable** |
-| Android | APKs (ARM64/x86_64, API 37) were built at earlier milestones; see Releases |
+| Android | Debug APKs (ARM64/x86_64, API 37) per milestone; see Releases |
 | Combat, AI, loot, quests, saves, campaign | Partial; many paths are incomplete or unverified |
 
 A checked function or a passing host test covers only its stated scope. It
@@ -93,6 +93,8 @@ See each module's README for the scope of its checks.
 
 Android debug builds from development milestones (prereleases, except the latest):
 
+- [native-combat-loop-2026-10-12](https://github.com/Noamcelermajer/DH_sc/releases/tag/native-combat-loop-2026-10-12): monster damage, death/revive, loot pickup, DARKWOOD (desktop-verified; Android reaches gameplay)
+- [native-gameplay-loop-2026-10-12](https://github.com/Noamcelermajer/DH_sc/releases/tag/native-gameplay-loop-2026-10-12): desktop gameplay loop, Android emulator reaches gameplay
 - [native-ui-gears-load-api37-2026-10-08](https://github.com/Noamcelermajer/DH_sc/releases/tag/native-ui-gears-load-api37-2026-10-08) (latest)
 - [native-ui-movement-api37-2026-10-08](https://github.com/Noamcelermajer/DH_sc/releases/tag/native-ui-movement-api37-2026-10-08)
 - [native-combat-quest-tail-api37-2026-10-08](https://github.com/Noamcelermajer/DH_sc/releases/tag/native-combat-quest-tail-api37-2026-10-08)
