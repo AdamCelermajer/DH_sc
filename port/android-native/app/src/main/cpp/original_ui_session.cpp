@@ -258,6 +258,7 @@ struct OriginalUiSession::Impl {
     bool gameplay_hud_bound=false;
     int gameplay_hud_pointer=-1;
     bool gameplay_ui_touch_owned=false;
+    bool source_cutscene_active=false;
     ui::AuthoredJoystickStateV1 authored_joystick{};
     bool authored_joystick_ready=false;
     unsigned authored_joystick_drag_trace_count=0;
@@ -3873,6 +3874,49 @@ bool OriginalUiSession::complete_source_hud_refresh(std::string& error){
             nested_error.clear();return true;
         },error);
 }
+bool OriginalUiSession::enter_source_cutscene(std::string& error){
+    // Script_EnterCutSceneMode 0x45a384 invokes StartCutscene on the HUD root, then sets byte_9A600C.
+    error.clear();
+    if(!impl_){error="Cutscene mode requires the UI session";return false;}
+    auto& self=*impl_;
+    if(self.loaded&&self.movie){
+        const bool invoked=self.movie->menu_action_script(&self,
+            [](void*,ui::SwfAsGraph& graph,std::string& nested_error){
+                ui::SwfAsValue root,result;
+                bool callable=false;
+                if(!graph.root_value(root,nested_error))return false;
+                // RenderFX::InvokeASCallback is a no-op when the member is absent.
+                if(!graph.invoke(root,root,"StartCutscene",{},result,callable,nested_error))return false;
+                nested_error.clear();return true;
+            },error);
+        if(!invoked)return false;
+    }
+    self.source_cutscene_active=true;
+    return true;
+}
+bool OriginalUiSession::exit_source_cutscene(std::string& error){
+    // Script_ExitCutSceneMode 0x4599ac invokes StopCutscene, then clears byte_9A600C.
+    error.clear();
+    if(!impl_){error="Cutscene mode requires the UI session";return false;}
+    auto& self=*impl_;
+    if(self.loaded&&self.movie){
+        const bool invoked=self.movie->menu_action_script(&self,
+            [](void*,ui::SwfAsGraph& graph,std::string& nested_error){
+                ui::SwfAsValue root,result;
+                bool callable=false;
+                if(!graph.root_value(root,nested_error))return false;
+                // RenderFX::InvokeASCallback is a no-op when the member is absent.
+                if(!graph.invoke(root,root,"StopCutscene",{},result,callable,nested_error))return false;
+                nested_error.clear();return true;
+            },error);
+        if(!invoked)return false;
+    }
+    self.source_cutscene_active=false;
+    return true;
+}
+bool OriginalUiSession::source_cutscene_active()const noexcept{
+    return impl_&&impl_->source_cutscene_active;
+}
 std::string OriginalUiSession::consume_menu_sound(){
     auto& queue=impl_->menu_sounds;
     if(queue.empty())return {};
@@ -4367,7 +4411,7 @@ bool OriginalUiSession::show_script_flash(const std::string& name,std::string& e
     if(name.find("HUD")!=std::string::npos){
         error="ShowFlash HUD-named branch is not reconstructed";return false;
     }
-    if(name.empty()||name.find(' ')!=std::string::npos){
+    if(name.empty()||name.find('\0')!=std::string::npos){
         error="ShowFlash requires a menu name";return false;
     }
     auto& self=*impl_;
@@ -4401,7 +4445,7 @@ bool OriginalUiSession::hide_script_flash(const std::string& name,std::string& e
     if(name.find("HUD")!=std::string::npos){
         error="HideFlash HUD-named branch is not reconstructed";return false;
     }
-    if(name.empty()||name.find(' ')!=std::string::npos){
+    if(name.empty()||name.find('\0')!=std::string::npos){
         error="HideFlash requires a menu name";return false;
     }
     auto& self=*impl_;
