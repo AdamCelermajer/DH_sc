@@ -276,3 +276,90 @@ Still open (533 queue entries, all inside glitch::video):
 - ICodeShaderManager: +0x7c additional config text, +0x80 its length (-1 until loaded).
 - Converter SAlphaIndexedPackedConverter (alpha_indexed_converter.hpp): masks at +0x00..+0x08 and +0x1c..+0x30,
   shifts in two groups, LUT pointer +0x3c, LUT mask +0x40; the constructor needs PFDTable (blocked).
+
+## PFDTable data (integrator decision, 2026-10-12)
+
+- The table bytes are in the original ELF: `ida.zip` contains `libDungeonHunter2.so` (15.9 MB). The
+  earlier note that the bytes were absent was wrong; they were only missing from the repo's listings.
+- `PFDTable` is at file vaddr 0x8e36c0, 1600 bytes, 40 rows of 0x28. The generated source is
+  `src/pixel_format_table.cpp`. Fields follow the layout in `include/glitch-video/pixel_format.hpp`.
+- Decision: the row layout is taken from the header as written. Bytes +0x18..+0x23 are kept as
+  `unknown18` and are not read by the helpers.
+- The pixel_format rows that were blocked on the table (getPackedType, getFormat, computePitch,
+  computeSizeInBytes, computeMipmapSizeInBytes, swapBytes, convert, converters) can now be rerun.
+
+## GL function table (dependency worker)
+
+Evidence: `libDungeonHunter2.so` is ARM32 (EABI5), not stripped. Method: parse `.rel.plt` and the `.plt`
+stubs (ARM PLT, 12-byte entries after PLT0, `add ip,pc / add ip,ip / ldr pc,[ip,#]!`), verify each stub's
+GOT address against its relocation, then scan every `.text` function (from `.symtab`) for BL/BLX/B into the stubs.
+
+- The original does not use a GL function table. `.dynsym` has no `dlsym` or `eglGetProcAddress`; GL is
+  linked directly (92 `gl*` imports). The GOT slot filled by the dynamic linker is the "slot" the original reads.
+  The port's `GLFunctionTable` is a test seam, not a copy of the original structure.
+- No `R_ARM_ABS32` or `GLOB_DAT` relocation points at a GL symbol, so there is no static GL pointer table.
+- glFinish is not imported by the original: the `finish` entry has no address.
+- Confirmed slots (PLT stub / GOT slot, verified against .rel.plt):
+  glCreateShader 0x30e538 / 0x994d34; glShaderSource 0x30ed84 / 0x994ff8 (called only as a tail branch from
+  CGLSLShaderCode::createShader at 0x6df5a0); glCompileShader 0x30e46c / 0x994cf0; glDeleteShader 0x30e628 / 0x994d84;
+  glGetShaderiv 0x30ed54 / 0x994fe8; glGetShaderInfoLog 0x30dfbc / 0x994b60; glAttachShader 0x30ebf8 / 0x994f74;
+  glLinkProgram 0x30ed78 / 0x994ff4; glGetProgramiv 0x30e28c / 0x994c50; glGetProgramInfoLog 0x30e214 / 0x994c28;
+  glGetUniformLocation 0x30e13c / 0x994be0; glGetAttribLocation 0x30e73c / 0x994de0; glGetActiveUniform 0x30e6d0 /
+  0x994dbc; glGetActiveAttrib 0x30e01c / 0x994b80; glGetIntegerv 0x30e568 / 0x994d44; glGetFloatv 0x30ec10 / 0x994f7c;
+  glHint 0x30e5a4 / 0x994d58; glGetString 0x30e280 / 0x994c4c; glGetError 0x30e1a8 / 0x994c04; glPixelStorei 0x30e16c /
+  0x994bf0.
+- Existing entries also confirmed by a stub: enable, disable, blendFunc, blendEquation, blendColor, clearColor,
+  createProgram, deleteProgram, useProgram, cullFace, depthFunc, depthMask, depthRangef, clearDepthf, frontFace,
+  lineWidth, polygonOffset, sampleCoverage, stencilFunc, stencilMask, stencilOp, clearStencil, colorMask, scissor,
+  flush, clear.
+- Caller addresses (function containing the call, from the BL/B scan):
+  glCreateShader at 0x6df584 (CGLSLShaderCode::createShader); glCompileShader at 0x6df3e8 (compileShader);
+  glGetShaderiv at 0x6df3fc/0x6df410/0x6df454/0x6df4e4 (compileShader); glGetShaderInfoLog at 0x6df4d4 (compileShader);
+  glDeleteShader at 0x6df608/0x6df674 (~CGLSLShaderCode); glGetIntegerv at 0x5b1ad4 (driverInit), 0x5b1c14, 0x5b3be8,
+  0x5b3c30; glHint at 0x5b1af8 (driverInit); glGetProgramiv/glGetProgramInfoLog/glLinkProgram/glGetUniformLocation/
+  glGetAttribLocation/glGetActiveUniform/glGetActiveAttrib in CGLSLShader::linkProgram (0x6de9f8 range, 0x6dea08-0x6ded84);
+  glGetString at 0x5b3b28, 0x5b3bbc, 0x5b469c, 0x5b47a4, 0x5b47b0, 0x5b4b70, 0x6dfa4c (doVersionCheck).
+- Signatures: GL ES 2.0 prototypes for the names above. Argument counts were not checked register by register;
+  open question for the Hex-Rays pass. Pointer parameters use the GL types as `uint32_t`/`int32_t`/`char`.
+- Ledger rows whose GL-entry blocker is now removed (the rows still need their other blockers):
+  0x6df3c0 compileShader (info-log path also needs os::Printer), 0x6df560 createShader, 0x6df9f8 doVersionCheck
+  (GL side only), 0x5b1ab4 driverInit (also needs initShaderHandler, which is reconstructed at 0x6df9d0),
+  0x6de9f8 linkProgram (still needs os::Printer), 0x6def9c compileAndLink, 0x6df5a4 rmRecompileShader (also needs
+  createShader and compileShader ported), 0x6df18c rmRegenerateShader (also needs linkProgram).
+- Open: CProgrammableGLDriver layout past +0x284 is not addressed here. It is a layout fact, not a GL entry.
+
+## Rerun glitch-video-3 (IShaderManager, CTextureManager, GL texture, render target, pixel_format conversions)
+
+- Reconstructed: SNewBufferAllocator<IVideoDriver>::allocate (include/glitch-video/s_new_buffer_allocator.hpp) and
+  CTextureManager::markTextureAsUnloadable (appends to m_textures when absent). Host test: tests/s_new_buffer_allocator_test.cpp.
+- Still blocked. The rerun note says SIDedCollection is available, but it lives only in glitch-core-io/include. glitch-video
+  deps have no SIDedCollection, IReferenceCounted, os::Printer, or glitch::core process buffer. Most of the 62 rows need one of these.
+- Also blocked: no IShaderManager class in the port; no CTexture nested class under CCommonGLDriver<CProgrammableGLDriver>;
+  STextureDesc in deps is an empty placeholder (ATC loadTextureHeader and loadImage write its fields); CRenderTargetBase has no
+  attachment layout.
+- Deferred (no external blocker found): convertPackedImpl specialisations and convertPacked (47 to 129 KB of pseudocode each).
+
+## Slice rerun-glitch-video-4 (61 rows: 1 reconstructed, 2 partial, 58 skipped)
+
+- SVertexAttributeTypeInspection::ValueTypeSize is in the ELF at 0x8e4ca4 (7 bytes: 1 1 2 2 4 4 4). It is now
+  defined in src/vertex_streams.cpp, which unblocks copyVertex (partial) and isVertexStreamHomolaced (still blocked).
+- isVertexStreamHomolaced and copyVertex whole-vertex branch read CVertexStreams word +0x22 (vertex stride). It is not in
+  the port layout; add it to CVertexStreams before those rows can be finished.
+- pixel_format convert (0x5f95ac): Hex-Rays header says 115097 bytes against the queue's 13320. Needs its own pass.
+- unpackPalettized (0x5ee104): the pseudocode steps the bit position with a right shift by bpp. Check the ARM before use.
+- CMaterialVertexAttributeMap (15 rows): all depend on totalMapCount, which reads a CMaterialRenderer technique table.
+
+## rerun-glitch-video-1 (IMaterialParameters matrix accessors, IRenderTarget::setViewport)
+
+- glitch_core.hpp gained glitch::core::CMatrix4<float> (M[16] then flag at +0x40; 68 bytes, the original stride).
+- material_parameters.hpp: SParameterEntry (type +0x06, count +0x08, valueOffset +0x0c) and SParameterBlockHeader
+  (count +0x0e, entries +0x20). CMaterial reaches its header through the block pointer at +0x04; CMaterialRenderer
+  holds it inline. Matrix slots are kept in m_matrixSlots, keyed by the original byte offset of the 4-byte slot.
+- 16 matrix rows reconstructed (getParameterDef, getParameter, setParameter and the Cvt forms for CMaterial and
+  CMaterialRenderer). Test: tests/material_matrix_parameters_test.cpp.
+- detail::getMatrixParameter (0x5ba62c) and setMatrixParameter (0x5badb8) are defined in material_parameters.cpp
+  without ledger rows of this slice. Pool is a free list with new in place of boost::pool growth (not recovered).
+- IRenderTarget (render_target.hpp, src/render_target.cpp): setViewport clamp reconstructed, partial. Driver hand-off
+  (vtable +0x1e8 and driver +0xcc current-target check) not identified.
+- Still blocked: CGlobalMaterialParameterManager rows (SIDedCollection), IAttributes serializers, grab/drop/init,
+  and the E_SHADER_PARAMETER_VALUE_TYPE dispatchers (need typed getParameter<T>/setParameter<T> in glitch-video).

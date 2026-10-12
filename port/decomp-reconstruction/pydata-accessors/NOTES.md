@@ -291,3 +291,95 @@ Evidence: Hex-Rays and the ARM listing of `Arrays::Sounds::finalize` (0x4a38a4) 
   (D1 and D0), `+0x8` is `reloadData(IStreamBase*, char const*)`. Decision: the port keeps that slot order.
   The PyDataArrays and PyDataConstants `_Rb_tree` (std::map) stand-in is still undecided, so those 12
   functions stay queued.
+
+## std::map stand-in (decided, wave 7)
+
+The Hex-Rays bodies use libstdc++-era `std::map` only through `operator[]` and `_M_find`. The port stores
+these maps in the same shape with the standard library, so no stand-in type is needed. The layout is
+internal to the port, not binary-compatible with the original.
+
+- `PyDataArrays::registerClassByName(name, factory)` (0x4bdccc) stores into `std::map<std::string,
+  int (*)(const char*)>`, at `this + 28`. A null factory triggers the gAssertLevel assert (line 70) and is
+  still stored, as in the listing.
+- `PyDataConstants` (0x4c4b08 getConstantName) is `std::map<std::string, std::map<std::string, int>>`:
+  the outer key is the class name, the inner key is the constant name. `getConstantName(name, value)`
+  returns the first inner key, in key order, whose int equals `value`, or "" if the class is absent or no
+  entry matches. The in-order walk of the listing is key order, so iterating a `std::map` gives the same
+  result.
+- Both are used in the port's own destructors and reload paths; no ABI is kept.
+
+## Wave 7 integration (worker output)
+
+- Arrays (121 rows, `src/w7_arrays_00..03.cpp`, `include/pydata-accessors/w7_arrays_*.hpp`): 89
+  reconstructed, 14 partial, 18 skipped. Layouts are host-approximate (ARM listing offsets for the
+  zeroed words). The four files define disjoint table storage. Their headers declare `Arrays::X` structs
+  that overlap `member_names.hpp`, so do not include both in one translation unit.
+- Partial Arrays rows (w7_arrays_02): read bodies whose element `Structs::X` is not in
+  `structs_records.hpp` yet. They compile, but they will not link until those classes exist.
+- Skipped Arrays rows (w7_arrays_03): elements without a read in the port (LevelList, FastTravelList),
+  and classes not yet in structs_records.hpp.
+- Structs (738 rows) and PyDataArrays/PyDataConstants (12 rows) are still queued. No Structs element-loop
+  wave ran in this pass.
+
+## Wave 7b: Structs slices (worker output)
+
+- Kept and built: `src/w7_structs_0.cpp` (123 rows), `w7_structs_1.cpp` (123), `w7_structs_4.cpp` (123),
+  and `w7_structs_5.cpp` (123). Their ledger rows are in `ledger.csv`.
+  - Results: 0 = 99 reconstructed, 24 partial; 1 = 107 reconstructed, 14 partial, 2 skipped; 4 = 123
+    reconstructed; 5 = 115 reconstructed, 2 partial, 6 skipped.
+- Pending, not built: `pending-integration/w7_structs_2` and `w7_structs_3` (246 rows), and
+  `pending-integration/w7_arrays_03` (27 rows). Their rows are not in the ledger, so they stay queued.
+  - They define the same symbols as the kept slices. structs_2 and structs_3 both define about 54 of the
+    Item-family destructors and read/finalize; structs_1 and structs_2 share 3 symbols; arrays_03 and
+    arrays_00 share the ProjectileTable storage. A static library with both sets fails to link.
+  - Resolution: merge each of these into one class definition per name, then move the file back into
+    `src/` and add its ledger rows.
+- Findings to review before anything links these:
+  - Several Item-family destructors (ArmorRef, BeltRef, Valuable, Potion, GoldItem, Item) free m_w2 in
+    their own destructor and again in the base destructor. The listing shows the same double free, so it
+    is kept. Structs_4 also keeps a double free in the ItemPower destructors. Do not call those destructors
+    on a live object until the double frees are decided.
+  - structs_5's element tables copy the vptr with `sizeof(void*)` and use the 32-bit stride from the
+    listing. This is correct only where pointers are 4 bytes (ARM and Win32). On a 64-bit host the copy
+    overruns the stride.
+  - `ItemBase::read` (0x4ec47c) is not queued or ported, so 12 read bodies in structs_2 are partial.
+- Queue after this wave: pydata-accessors has 285 rows remaining: 246 in the pending slices, 27 in arrays_03,
+  and 12 PyData constant and registry rows. core-platform has none left.
+
+
+## Wave 7c: PyData records and the Arrays stride blocker
+
+- PyDataArrays and PyDataConstants (12 rows, `src/w7_pydata12.cpp`): 9 reconstructed, 3 partial.
+  Decisions: the registry and the constant table use std::map as set out above. PyDataArrays::Load covers
+  all 70 file states, with a stand-in loader open and release. The C2 constructor sets the members, but
+  not the 142 addFuncsForFile/registerClassByName pairs. PyDataConstants::reloadData omits the DebugSwitches lookup.
+- Arrays slice 27 (`src/w7_arrays27.cpp`, 27 rows): all 27 are partial. The tables use the 32-bit stride
+  from the listing, as in w7_arrays_00 and w7_arrays_02. On a 64-bit host, sizeof(element) is larger than
+  the stride for 25 of them (Structs::Projectile is 80 bytes where the listing stride is 72, and
+  DestructibleContainer is 80 where the listing is 68), so a read writes past its slot. LevelList and
+  FastTravelList have element classes with no read slot.
+  - Decision needed before these reads are used: either widen each table stride to the host sizeof, or
+    build the Arrays code for a 32-bit pointer layout. Until then, do not call the Arrays reads on a 64-bit host.
+  - The same overrun applies to the existing w7_arrays_02 tables and to structs_5's element tables.
+
+## Wave 7d: element strides widened to the host sizeof
+
+- Decision (lead, binding): an in-memory element table uses `sizeof(element)` as its stride, not the
+  32-bit stride from the ARM listing. The listing stride is kept in a comment on each table. Bytes that
+  come from a data file are read field by field at the file's 32-bit layout, never memcpy'd as a struct.
+- Applied to the Arrays tables in `w7_arrays_00.cpp` (30 of 33 tables), `w7_arrays_01.cpp` (26 of 32),
+  `w7_arrays_02.cpp` (24 of 27), `w7_arrays27.cpp` (25 of 27), and the element tables in `w7_structs_5.cpp`.
+  The finalize helpers use the same stride as the read, so the two agree per table.
+- Still on the listing stride, and partial, because no element class is declared for them:
+  ModelDict (12), DropTilePriorityTable (12), ItemPowerList, FaeryTable (36), FaeryListTable (12),
+  Charater_Templates, CharacterTable, ClassTable, CharAnimTable (160), CamAnimSetTable (28), AnimTable (20),
+  ClassFuncList (24), AnimTpl (56), CharTemplate (8). LevelList (listing 72) and FastTravelList (listing 28)
+  keep the listing stride because their element classes have no read slot, and the zeroed words would write
+  past a host element.
+- Zeroed-word guard: a listing offset is skipped when offset + 4 is past sizeof(element) (AITable +44,
+  WorldMap +16), so no zeroing writes past the element.
+- Name-matched, not confirmed: `ItemList` (element `Structs::ItemListEntry`) and `ItemBonusAttrMonopoly`
+  (element `Structs::ItemBonusAttrList`). Both finalize bodies step 12 bytes in Hex-Rays, so the element
+  is the listing's 12-byte record, and the host sizeof is used. Confirm against their read bodies before
+  relying on either.
+- Build: host passes 201 tests and the static library has no duplicate symbols.

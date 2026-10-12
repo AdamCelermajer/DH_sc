@@ -113,7 +113,7 @@ void VoxEngineInternal::KillEmitter(EmitterObj* emitter) {
 
     data_objects_access_.GetReadAccess();
     if (DataObj* data = emitter->data_) {
-        data->UnregisterEmitter(emitter->id, emitter);
+        data->UnregisterEmitter(emitter->id);
     }
     data_objects_access_.ReleaseReadAccess();
 

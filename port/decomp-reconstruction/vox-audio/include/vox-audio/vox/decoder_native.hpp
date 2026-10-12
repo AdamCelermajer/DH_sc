@@ -55,7 +55,9 @@ private:
     friend struct DecoderNativeTestAccess;
 
     // +0x04..+0x2f: the VoxN file header block read by ParseFile (not ported as a struct).
-    // +0x18 and the halfwords at +0x24..+0x2f are not identified.
+    // +0x18 and the halfwords at +0x2a..+0x2f are not identified. The format tag at +0x24
+    // is the first word of the 'fmt ' chunk body: 17 selects IMA ADPCM, anything else PCM.
+    std::uint16_t format_tag_ = 0;                          // +0x24 (halfword)
     std::int32_t segments_count_ = 0;                       // +0x30 (word 12)
     void* segments_info_ = nullptr;                         // +0x34 (word 13), 24-byte records
     NativePlaylistsManager playlists_;                      // +0x38
@@ -82,12 +84,12 @@ public:
     // D1 0x872314, D2 0x872440 (partial: the playlist manager's array is not freed).
     ~DecoderNativeCursor() override;
 
-    int Decode(void* dst, int count) override;   // 0x872218 (partial)
+    int Decode(void* dst, int count) override;   // 0x872218
     bool HasData() override;                     // 0x8710a8
-    void Reset() override;                       // 0x8718cc (partial)
+    void Reset() override;                       // 0x8718cc
     int GetRewindLimit() override;               // 0x8710d4
-    void Rewind(int frames) override;            // 0x8720b8 (partial)
-    int Seek(unsigned int frame) override;       // 0x8710fc (partial)
+    void Rewind(int frames) override;            // 0x8720b8
+    int Seek(unsigned int frame) override;       // 0x8710fc
     void SetLoop(bool on) override;              // 0x871128 (empty in the original)
     // 0x872cf0 (partial): the segment cue table is not reproduced.
     void SetImplicitSegmentCues();
@@ -101,6 +103,9 @@ private:
     bool ParseFile();
     // 0x871954: pops the newest pending state index, or -1 when the list is empty.
     int GetStateIndex();
+    // True when the decoder's format tag selects the IMA ADPCM sub-decoder (tag 17). The
+    // original tests the same halfword (decoder +0x24) before each state copy and reset.
+    bool IsImaAdpcm() const;
 
     TrackParams params_;                                   // +0x04..+0x13
     // decoder_ (+0x14), stream_ (+0x18) and loop_ (+0x1c) are inherited.

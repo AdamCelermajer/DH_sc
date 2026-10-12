@@ -67,4 +67,14 @@ int computeSizeInBytes(E_PIXEL_FORMAT format, uint32_t width, uint32_t height, u
 // 0x5edc80: the same sum with depth 1. The ARM calls 0x5edc18 with depth 1.
 int computeSizeInBytes(E_PIXEL_FORMAT format, uint32_t width, uint32_t height, uint8_t levels, bool flag);
 
+// 0x5ed9d0 computeRelativeSwizzleTable(from, to, table): writes the byte-swizzle entries
+// of table for the row pair. Row bytes +0x20..+0x23 (unknown18[8..11]) are the source
+// of each entry, indexed by the destination row. Returns table, as the original does.
+uint8_t* computeRelativeSwizzleTable(E_PIXEL_FORMAT from, E_PIXEL_FORMAT to, uint8_t* table);
+
+// 0x5edd9c swapBytes(format, src, size, flag, dst): byte-swaps size bytes of src into dst
+// for packed types 1 and 3 (32-bit words) and fully reverses each 32-bit word for others.
+// Returns 1 when it copied, 0 when the format or flag rules out a swap (dst untouched).
+int swapBytes(E_PIXEL_FORMAT format, const void* src, uint32_t size, bool flag, void* dst);
+
 }  // namespace glitch::video::pixel_format

@@ -1,8 +1,9 @@
 // Native playlist containers: element reset, playlist accessors and the manager's
-// Init, count and flag. The manager calls that need unported NativePlaylist methods
-// are not linked here.
+// Init, count and flag. The element vector holds PlaylistElement* as the original does.
+// The manager calls that walk groups are checked in native_playlist_state_test.
 #include <cstdio>
 #include <cstdlib>
+#include <vector>
 
 #include "vox-audio/vox/memory.hpp"
 #include "vox-audio/vox/native_playlist.hpp"
@@ -18,18 +19,18 @@ struct PlaylistElementTestAccess {
             default: return e.field_10_;
         }
     }
+    static void SetId(PlaylistElement& e, std::int32_t id) { e.field_00_ = id; }
 };
 struct NativePlaylistTestAccess {
-    static void Set(NativePlaylist& p, bool valid, int current, std::int32_t* elements) {
+    static void Set(NativePlaylist& p, bool valid, int current,
+                    const std::vector<PlaylistElement*>& elements) {
         p.valid_ = valid;
         p.current_ = current;
         p.elements_ = elements;
-        p.elements_end_ = elements + 3;
     }
-    static void SetTable(NativePlaylist& p, std::int32_t* begin, std::int32_t* end) {
-        p.elements_ = begin;
-        p.elements_end_ = end;
-    }
+    // The elements in these tests live on the stack, so the playlist must drop them
+    // before its destructor runs (the destructor frees element blocks).
+    static void ClearElements(NativePlaylist& p) { p.elements_.clear(); }
     static void SetFlag(NativePlaylist& p, int flag) { p.field_14_ = flag; }
 };
 struct NativePlaylistsManagerTestAccess {
@@ -59,25 +60,29 @@ int main() {
     CHECK(vox::PlaylistElementTestAccess::Field(element, 0) == -1);
     CHECK(vox::PlaylistElementTestAccess::Field(element, 1) == 0);
 
-    // NativePlaylist accessors.
-    std::int32_t ids[3] = {7, 8, 9};
+    // NativePlaylist accessors. Elements are identified by their field_00 word.
+    vox::PlaylistElement e7, e8, e9;
+    vox::PlaylistElementTestAccess::SetId(e7, 7);
+    vox::PlaylistElementTestAccess::SetId(e8, 8);
+    vox::PlaylistElementTestAccess::SetId(e9, 9);
+    std::vector<vox::PlaylistElement*> elements = {&e7, &e8, &e9};
     vox::NativePlaylist playlist;
-    vox::NativePlaylistTestAccess::Set(playlist, true, 2, ids);
-    CHECK(playlist.GetCurrentElement() == 9);
+    vox::NativePlaylistTestAccess::Set(playlist, true, 2, elements);
+    CHECK(playlist.GetCurrentElement() == &e9);
     CHECK(playlist.GetCurrentPosition() == 2);
     CHECK(playlist.IsValid());
-    vox::NativePlaylistTestAccess::Set(playlist, false, 0, ids);
+    vox::NativePlaylistTestAccess::Set(playlist, false, 0, elements);
     CHECK(!playlist.IsValid());
-    CHECK(playlist.GetCurrentElement() == 7);
+    CHECK(playlist.GetCurrentElement() == &e7);
 
-    // GetPlaylistElement needs the int flag at +0x14 and an index inside [0, count).
-    vox::NativePlaylistTestAccess::SetTable(playlist, ids, ids + 3);
+    // GetPlaylistElement(int) needs the int flag at +0x14 and an index inside [0, count).
     vox::NativePlaylistTestAccess::SetFlag(playlist, 0);
-    CHECK(playlist.GetPlaylistElement(1) == 0);
+    CHECK(playlist.GetPlaylistElement(1) == nullptr);
     vox::NativePlaylistTestAccess::SetFlag(playlist, 1);
-    CHECK(playlist.GetPlaylistElement(1) == 8);
-    CHECK(playlist.GetPlaylistElement(3) == 0);
-    CHECK(playlist.GetPlaylistElement(-1) == 0);
+    CHECK(playlist.GetPlaylistElement(1) == &e8);
+    CHECK(playlist.GetPlaylistElement(3) == nullptr);
+    CHECK(playlist.GetPlaylistElement(-1) == nullptr);
+    vox::NativePlaylistTestAccess::ClearElements(playlist);
 
     // Manager: starts valid with no playlists; Init allocates the pointer array and
     // leaves the count alone.

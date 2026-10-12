@@ -82,22 +82,23 @@ void VoxNativeSubDecoderIMAADPCM::ReleaseDecodingBuffer(int buffer) {
     }
 }
 
-// 0x8864cc _ZN3vox27VoxNativeSubDecoderIMAADPCM5ResetEv (partial)
-// The original ends with a tail call to VoxNativeSubDecoder::Reset, which is not ported
-// in this slice; that call is omitted here.
+// 0x8864cc _ZN3vox27VoxNativeSubDecoderIMAADPCM5ResetEv
+// Clears the nine block words (block result, frames into block and decoding slot used,
+// three each), then tail-calls VoxNativeSubDecoder::Reset.
 void VoxNativeSubDecoderIMAADPCM::Reset() {
     for (int slot = 0; slot < 3; ++slot) {
         block_result_[slot] = 0;
         frames_into_block_[slot] = 0;
         decoding_slot_used_[slot] = 0;
     }
+    VoxNativeSubDecoder::Reset();
 }
 
-// 0x8864f8 _ZN3vox27VoxNativeSubDecoderIMAADPCM8SetStateEPNS_29NativeSubDecoderIMAADPCMStateE (partial)
-// The original first calls VoxNativeSubDecoder::SetState (not ported here, omitted). It then
-// copies the three slot words and sets each current segment's reset flag when that
-// segment's state is 3.
+// 0x8864f8 _ZN3vox27VoxNativeSubDecoderIMAADPCM8SetStateEPNS_29NativeSubDecoderIMAADPCMStateE
+// The base SetState runs first. The three decoding-slot words are copied from the state's
+// words 81..83 (+0x144..+0x14c), and each record whose state is 3 gets its reset flag set.
 void VoxNativeSubDecoderIMAADPCM::SetState(NativeSubDecoderIMAADPCMState* state) {
+    VoxNativeSubDecoder::SetState(state);
     for (int slot = 0; slot < 3; ++slot) {
         decoding_slot_used_[slot] = state->decoding_slot_used_[slot];
     }
@@ -108,9 +109,10 @@ void VoxNativeSubDecoderIMAADPCM::SetState(NativeSubDecoderIMAADPCMState* state)
     }
 }
 
-// 0x886554 _ZN3vox27VoxNativeSubDecoderIMAADPCM8GetStateEPNS_29NativeSubDecoderIMAADPCMStateE (partial)
-// The base GetState call the original makes first is omitted (see SetState).
+// 0x886554 _ZN3vox27VoxNativeSubDecoderIMAADPCM8GetStateEPNS_29NativeSubDecoderIMAADPCMStateE
+// The base GetState runs first, then the three decoding-slot words are written back.
 void VoxNativeSubDecoderIMAADPCM::GetState(NativeSubDecoderIMAADPCMState* state) {
+    VoxNativeSubDecoder::GetState(state);
     for (int slot = 0; slot < 3; ++slot) {
         state->decoding_slot_used_[slot] = decoding_slot_used_[slot];
     }

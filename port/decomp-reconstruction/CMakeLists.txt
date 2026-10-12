@@ -6,8 +6,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 enable_testing()
 
 # Each category is an independent static library plus its tests. Categories do
-# not link to each other yet; cross-category types are declared locally under
-# <category>/include/<category>/deps/ until integration.
+# not link to each other yet. Types that more than one category needs live in
+# shared/include/glitch-shared/ and every category includes that directory; the rest
+# are declared locally under <category>/include/<category>/deps/ until integration.
 set(DH2_DECOMP_CATEGORIES
   core-platform pydata-accessors net-transport net-session-online vox-audio
   tinyxml-and-c-libs glitch-core-io glitch-video glitch-scene-collada-gui)
@@ -20,7 +21,7 @@ foreach(cat IN LISTS DH2_DECOMP_CATEGORIES)
   endif()
   string(REPLACE "-" "_" lib dh2_${cat})
   add_library(${lib} STATIC ${srcs})
-  target_include_directories(${lib} PUBLIC ${dir}/include)
+  target_include_directories(${lib} PUBLIC ${dir}/include ${CMAKE_CURRENT_SOURCE_DIR}/shared/include)
   if(MSVC)
     target_compile_options(${lib} PRIVATE /W3)
   else()

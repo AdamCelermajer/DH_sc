@@ -71,8 +71,9 @@ int FileInterface::Write(const void* src, std::size_t size, std::size_t count) {
     return g_file_write(src, static_cast<int>(size), static_cast<int>(count), file_handle_);
 }
 
-// 0x893a54 _ZN3vox13FileInterface4SeekEiNS_17VoxFileSeekOriginE (partial): the
-// pseudocode drops the offset and the origin, so the port forwards its own arguments.
+// 0x893a54 _ZN3vox13FileInterface4SeekEiNS_17VoxFileSeekOriginE. The ARM listing loads the
+// handle into r0 and keeps r1 (offset) and r2 (origin) for the slot call, so the slot gets
+// (handle, offset, origin). The slot's owner is not identified (see NOTES.md).
 int FileInterface::Seek(int offset, int whence) {
     if (file_handle_ != nullptr && g_file_seek != nullptr) {
         return g_file_seek(file_handle_, offset, whence);
@@ -80,8 +81,7 @@ int FileInterface::Seek(int offset, int whence) {
     return -1;
 }
 
-// 0x893a98 _ZN3vox13FileInterface4TellEv (partial): the pseudocode calls the tell slot
-// with no visible arguments; the port passes the handle.
+// 0x893a98 _ZN3vox13FileInterface4TellEv. The listing passes the handle (r0) to the slot.
 int FileInterface::Tell() {
     if (file_handle_ != nullptr && g_file_tell != nullptr) {
         return g_file_tell(file_handle_);
@@ -238,9 +238,10 @@ FileInterface* FileSystemInterface::OpenFile(const char* name, VoxFileAccessMode
 }
 
 // 0x893ff0 _ZN3vox19FileSystemInterface9CloseFileEPNS_13FileInterfaceE (partial): the
-// original's tests the object's vtable slot +0x18 before it closes the handle; the
-// port closes any handle it holds. The original returns 0 or -1; the slot here returns
-// nothing (the overrides in the tests are void).
+// listing calls vtable slot +0x18 of the file, and when it returns nonzero it calls
+// off_A33EC0 with that result. Then it calls vtable slot 0 and VoxFree, and returns 0 (or -1
+// for a null file). The port has no slot +0x18, so it closes the handle directly and
+// returns nothing (the overrides in the tests are void).
 void FileSystemInterface::CloseFile(FileInterface* file) {
     if (file == nullptr) {
         return;

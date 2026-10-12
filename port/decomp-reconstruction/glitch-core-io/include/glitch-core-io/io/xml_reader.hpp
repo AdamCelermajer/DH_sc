@@ -1,8 +1,12 @@
-// glitch::io::CXMLReaderImpl<char / wchar_t, glitch::IReferenceCounted>: the accessors
-// of the XML reader. The parser (read(), vtable +0x0c) is implemented by derived readers
-// and is not reconstructed here. The two instantiations do not share a layout: the
-// attribute records are 0x30 bytes for char and 0x90 bytes for wchar_t, so each is an
-// explicit specialisation. Offsets are the original's, kept as comments.
+// glitch::io::CXMLReaderImpl<char / wchar_t, glitch::IReferenceCounted>: the IrrXML-style reader.
+// The two instantiations do not share a layout: the attribute records are 0x30 bytes for char and
+// 0x90 bytes for wchar_t, so each is an explicit specialisation. Offsets are the original's, kept as
+// comments. The parser bodies are shared through templates in src/xml_reader.cpp, but every original
+// entry point keeps its own member function.
+//
+// Text buffer: +0x08 owner (the allocation that is released with the text), +0x0c current read
+// position (P), +0x10 begin of the buffer, +0x14 buffer length (including the four zero bytes the
+// file read appends). Node name and node data share one string at +0x24.
 #pragma once
 
 #include <cstdint>
@@ -10,6 +14,7 @@
 #include <vector>
 
 #include "glitch-core-io/deps/glitch_core.hpp"
+#include "glitch-core-io/io/interfaces.hpp"
 
 namespace glitch::io {
 
@@ -19,18 +24,22 @@ class CXMLReaderImpl;
 template <>
 class CXMLReaderImpl<char, glitch::IReferenceCounted> : public glitch::IReferenceCounted {
 public:
+    using CharType = char;
+    using StringType = std::string;
+
     // One attribute record (0x30 bytes in the original).
     struct SAttribute {
-        std::string name;   // +0x14 (its c_str is returned)
-        std::string value;  // +0x2c (its c_str is returned)
+        std::string name;   // (its c_str is returned)
+        std::string value;  // (its c_str is returned)
     };
 
     // 0x573eb0 (D1): PARTIAL. As the wide reader: the defaulted destructor releases the std members
     // in place of the original buffer frees (layout differs).
     ~CXMLReaderImpl() override = default;
 
-    // Parser step (vtable +0x0c). Provided by the concrete reader.
-    virtual bool read() = 0;
+    // Parser step (vtable +0x0c). 0x576048: returns the pending closing node of an empty element, or
+    // parses the next node from the current position.
+    virtual bool read();
 
     // 0x572634 (vtable +0x10): reads until the node type is 1, false at the end.
     virtual bool readToNextElement();
@@ -50,42 +59,59 @@ public:
     virtual int getSourceFormat() const;                              // 0x572768 (+0x48)
     virtual int getParserFormat() const;                              // 0x572770 (+0x4c)
 
+    // 0x572e78: takes the whole file from the callback, detects a byte order mark and converts the
+    // text. The current position (P) is not set here, as in the original.
+    bool readFile(IFileReadCallBack* callback);
+
+    // Parser pieces (member functions of the original, same names).
+    bool parseCurrentNode();                 // 0x575f3c
+    void parseOpeningXMLElement();           // 0x575918
+    void parseClosingXMLElement();           // 0x573f54
+    void parseComment();                     // 0x57405c
+    bool parseCDATA();                       // 0x575d68
+    bool setText(char* begin, char* end);    // 0x5757f0
+    StringType replaceSpecialCharacters(const StringType& text) const;  // 0x57539c
+    void createSpecialCharacterList();       // 0x5760e4
+
     // First attribute with this name, or nullptr. 0x574164
     const SAttribute* getAttributeByName(const char* name) const;
 
-    // Text buffer set by convertTextData: +0x08 owner (the buffer the text lives in),
-    // +0x10 text, +0x14 length. +0x0c is not named by the code read so far.
-    void* textOwner = nullptr;   // +0x08
-    std::int32_t unknown0c = 0;  // +0x0c
-    void* textData = nullptr;    // +0x10
-    int textLength = 0;          // +0x14
-    int nodeType = 0;                    // +0x18
-    int sourceFormat = 0;                // +0x1c
-    int parserFormat = 0;                // +0x20
-    // 0x572ca4 (ulong), 0x572d94 (ushort): copies the code units into a new char buffer.
+    // 0x572ca4 (uint32 units, copies into a new char buffer), 0x572d94 (uint16 units, same copy).
     void convertTextData(std::uint32_t* text, char* owner, int length);
     void convertTextData(std::uint16_t* text, char* owner, int length);
 
-    std::string nodeName;                // +0x38 (the node data is the same string)
-    bool emptyElement = false;           // +0x54
-    std::string defaultValue;            // +0x50: returned by getAttributeValueSafe when missing
+    void* textOwner = nullptr;   // +0x08
+    char* current = nullptr;     // +0x0c (P)
+    char* textData = nullptr;    // +0x10
+    int textLength = 0;          // +0x14
+    int nodeType = 0;            // +0x18
+    int sourceFormat = 0;        // +0x1c
+    int parserFormat = 0;        // +0x20
+    std::string nodeName;        // +0x24: the node name, and the node data for text nodes
+    std::string defaultValue;    // +0x50: returned by getAttributeValueSafe when missing
+    std::vector<std::string> specialCharacters;  // +0x58: "&amp;", "<lt;", ">gt;", "\"quot;", "'apos;"
+    bool emptyElement = false;   // +0x54
     std::vector<SAttribute> attributes;  // +0x64 begin, +0x68 end
 };
 
 template <>
 class CXMLReaderImpl<wchar_t, glitch::IReferenceCounted> : public glitch::IReferenceCounted {
 public:
+    using CharType = wchar_t;
+    using StringType = std::wstring;
+
     // One attribute record (0x90 bytes in the original).
     struct SAttribute {
-        std::wstring name;   // +0x44 (its c_str is returned)
-        std::wstring value;  // +0x8c (its c_str is returned)
+        std::wstring name;   // (its c_str is returned)
+        std::wstring value;  // (its c_str is returned)
     };
 
     // 0x573928 (D1): PARTIAL. The original frees its text and attribute buffers in member
     // order; the defaulted destructor releases the std members the same way (layout differs).
     ~CXMLReaderImpl() override = default;
 
-    virtual bool read() = 0;  // vtable +0x0c
+    // 0x57506c: as the narrow reader; the wide text is read in 4-byte units (wchar_t on the target).
+    virtual bool read();
 
     virtual bool readToNextElement();                                    // 0x572778 (+0x10)
     virtual int getNodeType() const;                                     // 0x5727bc (+0x14)
@@ -106,28 +132,39 @@ public:
     virtual int getSourceFormat() const;                                 // 0x5728c4 (+0x48)
     virtual int getParserFormat() const;                                 // 0x5728cc (+0x4c)
 
+    // 0x573104: as the narrow reader. Without a byte order mark the bytes are widened (convertTextData<char>).
+    bool readFile(IFileReadCallBack* callback);
+
+    bool parseCurrentNode();                 // 0x574f48
+    void parseOpeningXMLElement();           // 0x5749a0
+    void parseClosingXMLElement();           // 0x573854
+    void parseComment();                     // 0x57378c
+    bool parseCDATA();                       // 0x574da8
+    bool setText(wchar_t* begin, wchar_t* end);  // 0x5748ac
+    StringType replaceSpecialCharacters(const StringType& text) const;  // 0x574520
+    void createSpecialCharacterList();       // 0x575108
+
     // First attribute with this name, or nullptr. 0x5739cc
     const SAttribute* getAttributeByName(const wchar_t* name) const;
 
-    // Text buffer set by convertTextData: +0x08 owner (the buffer the text lives in),
-    // +0x10 text, +0x14 length. +0x0c is not named by the code read so far.
-    void* textOwner = nullptr;   // +0x08
-    std::int32_t unknown0c = 0;  // +0x0c
-    void* textData = nullptr;    // +0x10
-    int textLength = 0;          // +0x14
-    int nodeType = 0;                    // +0x18
-    int sourceFormat = 0;                // +0x1c
-    int parserFormat = 0;                // +0x20
     // Converts a text buffer read from a file of the given encoding (see sourceFormat and
-    // parserFormat). 0x57259c (ulong), 0x572fb0 (ushort), 0x573094 (char): stores the
-    // buffer as the owner, byte-swapping the code units first when the two formats differ.
+    // parserFormat). 0x57259c (uint32), 0x572fb0 (uint16): the buffer is kept as the owner, byte-swapping
+    // the code units first when the two formats differ. 0x573094 (char): widens into a new buffer.
     void convertTextData(std::uint32_t* text, char* owner, int length);
     void convertTextData(std::uint16_t* text, char* owner, int length);
     void convertTextData(char* text, char* owner, int length);
 
-    std::wstring nodeName;               // +0x68 (the node data is the same string)
-    bool emptyElement = false;           // +0xb4
-    std::wstring defaultValue;           // +0xb0: returned by getAttributeValueSafe when missing
+    void* textOwner = nullptr;   // +0x08
+    wchar_t* current = nullptr;  // +0x0c (P)
+    wchar_t* textData = nullptr; // +0x10
+    int textLength = 0;          // +0x14
+    int nodeType = 0;            // +0x18
+    int sourceFormat = 0;        // +0x1c
+    int parserFormat = 0;        // +0x20
+    std::wstring nodeName;       // +0x24: the node name, and the node data for text nodes
+    std::wstring defaultValue;   // +0xb0: returned by getAttributeValueSafe when missing
+    std::vector<std::wstring> specialCharacters;  // +0x58
+    bool emptyElement = false;   // +0xb4
     std::vector<SAttribute> attributes;  // +0xc4 begin, +0xc8 end
 };
 

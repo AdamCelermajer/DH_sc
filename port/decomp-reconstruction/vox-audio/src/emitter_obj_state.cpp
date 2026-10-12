@@ -11,8 +11,8 @@ namespace vox {
 // 0x8699c0 _ZN3vox10EmitterObjD1Ev
 // Releases the buffer at +0xf4 when one is set; the Handlable base and its mutex follow.
 EmitterObj::~EmitterObj() {
-    if (owned_buffer_ != nullptr) {
-        VoxFree(owned_buffer_);
+    if (buffer_ring_ != nullptr) {
+        VoxFree(buffer_ring_);
     }
 }
 
@@ -100,18 +100,18 @@ int EmitterObj::GetStatus() {
 }
 
 // 0x8638e4 _ZN3vox10EmitterObj9UpdateDSPEf
-// partial: when a pending DSP name is set (+0xf0), the name in use (+0xec) is freed and replaced
-// by it. The original then calls a one-argument source slot (+0x40) that the port's
-// DriverSourceInterface does not model, so that call is skipped. The source Update(dt) (+0x44)
-// runs in both cases, and not at all when there is no source.
+// The listing (IDA asm) shows the pending path calls source +0x40 with r1 = 0 and r2 = the new
+// name, that is SetDSPParameter(0, name), and then returns. So the source Update (+0x44) runs only
+// when no name is pending, and not at all without a source.
 void EmitterObj::UpdateDSP(float dt) {
     if (dsp_pending_ != nullptr) {
         VoxFree(dsp_buffer_);
         dsp_buffer_ = dsp_pending_;
         dsp_pending_ = nullptr;
-        if (dsp_source_ == nullptr) {
-            return;
+        if (dsp_source_ != nullptr) {
+            dsp_source_->SetDSPParameter(0, dsp_buffer_);
         }
+        return;
     }
     if (dsp_source_ != nullptr) {
         dsp_source_->Update(dt);
