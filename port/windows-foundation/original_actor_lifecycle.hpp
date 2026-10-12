@@ -4,6 +4,7 @@
 #include <map>
 #include <optional>
 #include <string>
+#include <vector>
 namespace dh::foundation {
 enum class OriginalLifecycleState : int { limbus=0, spawn=1, idle=3, pre_spawn=17 };
 enum class OriginalLifecycleOperation {
@@ -57,9 +58,19 @@ public:
     bool combat_enabled(ActorId) const;
     void remove(ActorId);
     void clear(); // Required before actor/world replacement invalidates pointers.
+    // B141: a world restore replaces every ActorState, so the borrowed records are dropped. The authored facts of the preset
+    // PreSpawn/Limbus actors (the ones a script spawns later) are kept so they can be re-registered after the restore.
+    // clear() remains the full reset (level change).
+    void detach_for_restore();
+    std::vector<ActorId> pre_spawn_baseline_ids() const;
+    // B141: Character::Deserialize 0x3a6210 (restored state 1/17 -> SM_SetPreSpawnState; 0/2/12 -> Limbus; others Idle) maps a saved Spawn(1)/PreSpawn(17) state to
+    // SM_SetPreSpawnState. The restored actor already carries that state's effects (no physical body, collisions off), so this
+    // only registers the record at PreSpawn17; it replays none of the transition effects. Requires a kept baseline and no record.
+    bool restore_pre_spawn(ActorId,ActorState&,bool enabled,std::string& error);
 private:
     struct Record { ActorState* actor=nullptr;OriginalLifecycleFacts facts;OriginalLifecycleStatus status; };
     std::map<ActorId,Record> records_;
+    std::map<ActorId,OriginalLifecycleFacts> pre_spawn_baseline_;
     OriginalLifecycleServices services_;
     bool change(Record&,int target,std::string&);
     bool call(Record&,OriginalLifecycleOperation,int previous,std::string&);

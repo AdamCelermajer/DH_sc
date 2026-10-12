@@ -30,6 +30,31 @@ int main(){try{
        "Skipped Spawn must become targetable/combat-ready at its existing authored anchor");
  calls.clear();check(lifecycle.put_idle(actor.id,e),e);for(const auto&q:calls)check(q.operation!=OriginalLifecycleOperation::init_physical,
        "Duplicate skipped Idle must not create a second physical body");
+ // B141: a Continue/F9/death restore replaces every actor. Records drop, the preset PreSpawn baseline survives and registers the restored
+ // actor at PreSpawn17 without replaying effects, so a later Script_SpawnCharacter reaches the Spawn transition instead of
+ // "Unknown original lifecycle actor". Only preset PreSpawn/Limbus actors keep a baseline; clear() stays the full reset.
+ {OriginalActorLifecycle restored;ActorState first,plain,newer,third;first.id=77;plain.id=78;newer.id=77;third.id=77;
+  ActorState* expected=&first;std::vector<OriginalLifecycleRequest> log;OriginalLifecycleServices s2;
+  s2.floor_height=[](std::array<float,3>,bool&found,float&,std::string&){found=false;return true;};
+  s2.invoke=[&](const OriginalLifecycleRequest&q,std::string&){check(q.actor==expected,"Lifecycle must act on the restored actor");log.push_back(q);return true;};
+  restored.bind(s2);
+  OriginalLifecycleFacts idleFacts;idleFacts.initial_transform=facts.initial_transform;idleFacts.initially_enabled=true;
+  check(restored.add(first,facts,e),e);expected=&plain;check(restored.add(plain,idleFacts,e),e);
+  restored.detach_for_restore();
+  check(!restored.status(77)&&!restored.status(78),"Restore detach must drop the borrowed records");
+  check(restored.pre_spawn_baseline_ids()==std::vector<ActorId>{77},"Only the preset PreSpawn actor keeps a baseline across a restore");
+  expected=&newer;log.clear();
+  check(!restored.restore_pre_spawn(78,plain,true,e),"An Idle-preset actor has no PreSpawn baseline");
+  check(restored.restore_pre_spawn(77,newer,false,e),e);
+  check(log.empty(),"Restore registration must not replay lifecycle effects");
+  check(restored.status(77)->state==17&&restored.status(77)->flags==0x1300&&!restored.status(77)->enabled&&!restored.combat_enabled(77),"Restored actor must be PreSpawn17");
+  check(!restored.restore_pre_spawn(77,newer,false,e),"Duplicate restore registration must be refused");
+  check(restored.spawn(77,e),e);
+  check(restored.status(77)->state==1&&!log.empty(),"Script_SpawnCharacter must reach the Spawn transition on a restored actor");
+  restored.detach_for_restore();expected=&third;
+  check(restored.restore_pre_spawn(77,third,true,e),e);check(restored.status(77)->enabled,"Second restore keeps the baseline and takes the current enable fact");
+  restored.clear();check(restored.pre_spawn_baseline_ids().empty()&&!restored.status(77),"clear() is the full reset");
+ }
  lifecycle.clear();check(!lifecycle.status(actor.id),"Restore detach must clear lifecycle references");
  ActorState missing;missing.id=2;OriginalLifecycleFacts bad=facts;bad.pre_spawn_has_animation.reset();check(!lifecycle.add(missing,bad,e),"Unbound source PreSpawn fact accepted");
  std::cout<<"Original lifecycle tests passed preset0->state17->Spawn1->Idle3 sameActor=true sourceFlags=true\n";
