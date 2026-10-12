@@ -21,10 +21,14 @@ PriorityBankManager::PriorityBankManager() = default;
 PriorityBankManager::~PriorityBankManager() = default;
 
 // 0x863578 _ZN3vox19PriorityBankManager14_CanAddEmitterEii
-// True when the bank exists and either has room, or is full and its behaviour
-// allows a replacement (behaviour 1 needs an entry with priority below the
-// request, behaviour 2 needs one at or below it). Behaviour 0 always allows,
-// and other values refuse.
+// Gate order, from the pseudocode and asm:
+//   1. bank index must be in [0, bank count), else refuse.
+//   2. the request priority must be >= the bank's min priority, else refuse.
+//   3. while the bank has room (count < max), accept.
+//   4. when full: behaviour 1 accepts when some entry has a priority below the
+//      request (scan stops at the first such entry); behaviour 2 accepts when
+//      some entry has a priority at or below the request; behaviour 0 accepts;
+//      any other behaviour refuses. An empty full bank refuses for 1 and 2.
 bool PriorityBankManager::CanAddEmitterLocked(int bank_index, int priority) const {
     if (bank_index < 0 || bank_index >= bank_count_) {
         return false;
@@ -34,13 +38,32 @@ bool PriorityBankManager::CanAddEmitterLocked(int bank_index, int priority) cons
         return false;
     }
     int count = static_cast<int>(bank.entries.size());
-    if (bank.max_count < count) {
+    if (bank.max_count > count) {
         return true;
     }
-    if (bank.max_count == count) {
-        return true;  // the original's compare is "max <= count" for the checks below
+    if (bank.behaviour == 1) {
+        if (count < 1) {
+            return false;
+        }
+        for (const PriorityBankEntry& e : bank.entries) {
+            if (priority > e.priority) {
+                return true;
+            }
+        }
+        return false;
     }
-    return true;
+    if (bank.behaviour == 2) {
+        if (count < 1) {
+            return false;
+        }
+        for (const PriorityBankEntry& e : bank.entries) {
+            if (priority >= e.priority) {
+                return true;
+            }
+        }
+        return false;
+    }
+    return bank.behaviour == 0;
 }
 
 // 0x864b1c _ZN3vox19PriorityBankManager13CanAddEmitterEii

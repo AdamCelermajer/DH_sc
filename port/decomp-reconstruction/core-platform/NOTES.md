@@ -2,12 +2,13 @@
 
 ## Status
 
-131 ledger rows (58 reconstructed, 16 partial, 57 skipped). 548 queue rows remain.
-Host and Windows (MinGW under Wine) builds pass with 6 of 6 tests.
+224 ledger rows (103 reconstructed, 49 partial, 72 skipped). 455 queue rows remain.
+Host and Windows (MinGW under Wine) builds pass with 8 of 8 tests.
 
-Not yet started: Console (43 functions), FileSystemWin32 (39), TouchScreen*,
-Accelerometer*, PerfCounters, slim, ADevice, Array2d, GCSingleton, _JNIEnv and
-most of `<global>` (the Java/JNI helpers, gameswf and Box2D code, FUN_* stubs).
+Not yet started: Console (43 functions), slim XML parse/write (23), ADevice (17,
+JNI-bound), TouchScreenIPhone/PS3 (32), PerfCounters (9), Array2d (4), GCSingleton (3),
+and most of `<global>` (the Java/JNI helpers, gameswf and Box2D code, FUN_* stubs).
+TouchScreenBase and TouchScreenWin32 are finished in this pass.
 
 ## Layouts inferred
 
@@ -75,3 +76,40 @@ most of `<global>` (the Java/JNI helpers, gameswf and Box2D code, FUN_* stubs).
 - slim XML parse/write (`parse`, `parseLabel`, `writeNode`, `findChild` and friends).
 - PerfCounters (9), Array2d<rnd::Tile*> (4), ADevice (17, JNI-bound), Console (43).
 - Remaining FileSystemBase members (`doesFileExists` and related, `createAndOpenFile`).
+
+## TouchScreenBase layout (inferred from the decompiled handlers)
+
+- Slot records are 0x30 bytes, at index i: `+0x00` mark (written as 0/1/2 by the
+  handlers of slot i-1; the original writes one record past the touched slot),
+  `+0x08` begin point, `+0x0c` current point, `+0x10` previous point, `+0x18`
+  double time of the last sample, `+0x20` valid, `+0x24` swipe, `+0x28` touched,
+  `+0x2c` id. Nine records are kept because the handlers write slot i+1.
+- `+0x188` double `time_now_` (set by `update`), `+0x190` active count,
+  `+0x194` the queue vector (16 entries of 12 bytes: type, x, y, id), `+0x1a0`
+  head, `+0x1a4` tail, `+0x1a8` orientation (2 or 3 mirrors X), `+0x1ac`/`+0x1ae`
+  width and height, `+0x1b0` float scale (1.0).
+- Queue type values: 0 began, 1 moved, 2 ended (cancelled also uses 2).
+- Vtable (from `decomp_vtable.py`): +0x8..+0x14 are the four bounds (pure in the
+  base, supplied by TouchScreenWin32), +0x18/+0x1c the getDimension overloads,
+  +0x20..+0x2c the touch handlers, +0x50 hasTouch.
+- `Rct<short>` and `glitch::core::rect<float>` are stand-ins in deps/. The
+  original `Rct` begins with a vtable pointer that the stand-in omits.
+
+## TouchScreenWin32 notes
+
+- Base class is now `TouchScreenBase`. The `+0x1b4` secondary interface vtable
+  (an event receiver) is not recovered; it is a placeholder member.
+- `onEvent` maps mouse event codes 0/3/6 to began/ended/moved. The original
+  calls `touchBegan` with two arguments; the id is passed as 0 here.
+
+## Touch decisions and open items
+
+- `isRegionPressed` (0x33aebc) is not implemented. Its pseudocode mixes the rect
+  argument with constants and returns a float from a tail call, so it needs the
+  ARM listing before it can be rebuilt.
+- `getTouchPoint` and `getFirstTouchPoint` return the current point and keep
+  partial status. Their null-path check has not been checked against the listing.
+- `touchEnded` (0x33aeb8) is a 4-byte ELF symbol but its decompiled body is
+  complete and identical to `touchCancelled`. Marked partial.
+- Tests live in `tests/touch_screen_test.cpp` (queue order, coalescing, swipe,
+  displacement, region queries, timeout release, id list).

@@ -1,0 +1,74 @@
+#include "glitch-video/vertex_streams.hpp"
+
+namespace glitch::video {
+
+// 0x5a0a58 _ZNK6glitch5video14CVertexStreams22getActiveAttributeMaskEv
+uint32_t CVertexStreams::getActiveAttributeMask() const {
+    uint32_t mask = 0;
+    for (const SVertexStream& s : m_streams) {
+        if (s.buffer.get() != nullptr) {
+            mask |= 1u << (s.attribute & 0xff);
+        }
+    }
+    return mask;
+}
+
+// 0x5a0aac _ZNK6glitch5video14CVertexStreams9getStreamENS0_18E_VERTEX_ATTRIBUTEEPKNS0_13SVertexStreamES5_
+const SVertexStream* CVertexStreams::getStream(uint32_t attribute, const SVertexStream* first,
+                                               const SVertexStream* end) const {
+    for (const SVertexStream* p = first; p != end; ++p) {
+        if (static_cast<int>(attribute) <= static_cast<int>(p->attribute)) {
+            return attribute == p->attribute ? p : end;
+        }
+    }
+    return end;
+}
+
+// 0x5a0af0 _ZN6glitch5video14CVertexStreams9getStreamENS0_18E_VERTEX_ATTRIBUTEEPNS0_13SVertexStreamES4_
+SVertexStream* CVertexStreams::getStream(uint32_t attribute, SVertexStream* first, SVertexStream* end) {
+    for (SVertexStream* p = first; p != end; ++p) {
+        if (static_cast<int>(attribute) <= static_cast<int>(p->attribute)) {
+            return attribute == p->attribute ? p : end;
+        }
+    }
+    return end;
+}
+
+// 0x5a0b34 _ZN6glitch5video14CVertexStreams9addOffsetEi
+void CVertexStreams::addOffset(int32_t delta) {
+    for (SVertexStream& s : m_streams) {
+        s.offset += static_cast<uint32_t>(delta);
+    }
+}
+
+// 0x5a0b74 _ZNK6glitch5video14CVertexStreams13isHomogeneousEj
+// The original scans the bits of (mask & +0x04) and reads the buffer of each
+// matching stream. When a lookup misses, the original reads the sentinel
+// after the array; here a miss is treated as a null buffer. Partial for that
+// reason.
+bool CVertexStreams::isHomogeneous(uint32_t mask) const {
+    mask &= m_attributeMask;
+    if (mask == 0) return true;
+    const SVertexStream* first = m_streams.data();
+    const SVertexStream* end = first + m_streams.size();
+    IBuffer* common = nullptr;
+    bool haveCommon = false;
+    for (uint32_t bit = 0; mask != 0; ++bit) {
+        uint32_t b = 1u << (bit & 0x1f);
+        if ((b & mask) != 0) {
+            const SVertexStream* found = getStream(bit, first, end);
+            IBuffer* buf = (found == end) ? nullptr : found->buffer.get();
+            if (!haveCommon) {
+                common = buf;
+                haveCommon = true;
+            } else if (common != buf) {
+                return false;
+            }
+            first = (found == end) ? end : found + 1;
+            mask &= ~b;
+        }
+    }
+    return true;
+}
+
+}  // namespace glitch::video
