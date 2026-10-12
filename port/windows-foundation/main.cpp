@@ -6982,6 +6982,12 @@ int main(int argc,char** argv) {
             if(combatSession&&!exitZones.zones().empty()&&!pendingTransition) {
                 for(const auto& aid:options.playerToZoneFrames) if(aid.second==drawn) {
                     const auto zoneIndex=exitZones.find(aid.first);
+                    float rawX=0,rawY=0,rawZ=0;
+                    if(zoneIndex==f::transitions::ExitZoneSet::npos&&std::sscanf(aid.first.c_str(),"%f,%f,%f",&rawX,&rawY,&rawZ)==3) { // B137 test aid: explicit X,Y,Z through the same SetActorPosition owner
+                        std::string teleportError;
+                        const bool placed=hostServices.actor_verbs.teleport&&hostServices.actor_verbs.teleport(combatSession->player_id(),{rawX,rawY,rawZ},teleportError);
+                        std::cout<<"Player-to position="<<rawX<<','<<rawY<<','<<rawZ<<" frame="<<drawn<<" placed="<<placed<<" (test aid) "<<teleportError<<'\n';
+                    } else
                     if(zoneIndex==f::transitions::ExitZoneSet::npos) std::cout<<"Player-to zone="<<aid.first<<" status=unknown_zone frame="<<drawn<<'\n';
                     else if(motor) {
                         const auto c=exitZones.zones()[zoneIndex].box.centre;
