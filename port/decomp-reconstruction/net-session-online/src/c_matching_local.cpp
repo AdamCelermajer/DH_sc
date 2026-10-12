@@ -46,3 +46,22 @@ void CMatchingLocal::ProcessChangeServerMessage(std::int32_t /*from*/, NetBitStr
     serverMemberId_ = serverId;
     MatchingInternalEventQueue().AddEvent(0x80000b, &serverId, sizeof serverId);
 }
+
+// The matching object the static packet callbacks use (CMatching::s_Matching in the original).
+CMatchingLocal* CMatchingLocal::s_Matching = nullptr;
+
+// 0x807e44 _ZN14CMatchingLocalC1Ev
+// Partial: the original runs Reset() and constructs the NetStruct members (room info, member
+// and server-backup records) before the counters are final. Reset() is not in this port
+// yet, and the NetStruct members are not modelled, so only the counters and containers are set.
+CMatchingLocal::CMatchingLocal() {
+    nextPeerKey_ = 1;          // +0x3634
+    memberId_ = -1;            // +0x3638
+    serverMemberId_ = -2;      // +0x363c
+    roomOperationPending_ = false;  // +0x3630
+}
+
+// 0x807f80 _ZN14CMatchingLocalD1Ev
+// Partial: the original destroys the NetStruct members and clears the server map before the
+// base destructor. Here the members release themselves, so the body is empty.
+CMatchingLocal::~CMatchingLocal() = default;

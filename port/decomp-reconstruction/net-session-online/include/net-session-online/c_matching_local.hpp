@@ -111,11 +111,11 @@ public:
     // 0x805fa8 _ZN14CMatchingLocal21PacketReceiverCallbackEiPci
     void PacketReceiverCallback(std::int32_t from, char* data, std::uint32_t size);
     // 0x80601c _ZN14CMatchingLocal22sPacketReceiverCallbackEiPci
-    static void sPacketReceiverCallback(std::int32_t from, char* data, std::uint32_t size);
+    static void sPacketReceiverCallback(std::int32_t from, char* data, int size);
     // 0x8098cc _ZN14CMatchingLocal28BroadcastPacketReceiverCallbackER10CNetworkIdPci
     void BroadcastPacketReceiverCallback(CNetworkId& from, char* data, std::uint32_t size);
     // 0x80995c _ZN14CMatchingLocal29sBroadcastPacketReceiverCallbackER10CNetworkIdPci
-    static void sBroadcastPacketReceiverCallback(CNetworkId& from, char* data, std::uint32_t size);
+    static void sBroadcastPacketReceiverCallback(CNetworkId& from, char* data, int size);
     // 0x80890c _ZN14CMatchingLocal6UpdateEv (partial: see update.cpp)
     std::int32_t Update();
 

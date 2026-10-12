@@ -34,6 +34,7 @@ public:
 };
 
 class ThreadHandle;
+class ConnectionTransport;
 
 class GLXPlayerMPBase {
 public:
