@@ -44,7 +44,6 @@ bool load(const resources::BresView& view,const std::uint8_t* descriptor,std::si
    if(!end||end==record||(version==1&&word(record+124)))throw std::runtime_error("World room identifier rejected");
    const unsigned flags=version==2?word(record+148):1;
    if(flags!=1&&flags!=2)throw std::runtime_error("World room flags rejected");
-   const bool visual_only=flags==2;
    std::string id(reinterpret_cast<const char*>(record),end-record);auto root=std::find_if(source.graph.begin(),source.graph.end(),[&](const scene::Node& n){return n.id==id&&n.parent==-1;});
    if(root==source.graph.end())throw std::runtime_error("Missing room template: "+id);
    const unsigned root_index=root-source.graph.begin();
@@ -63,8 +62,8 @@ bool load(const resources::BresView& view,const std::uint8_t* descriptor,std::si
     else if(i->node_index==first||(i->node_index>=first&&i->node.find("/_exit_")!=std::string::npos))i=level.scene.instances.erase(i);
     else ++i;
    }
-   // A visual-only module (no MGP/MVP, e.g. MACHINE_ROOMS_01) owns no floor node.
-   if(!floors&&!visual_only)throw std::runtime_error("Room has no navigation root: "+id);
+   // A module without floor nodes has no navigation (PFWorld::LoadRoom drops the empty
+   // room); its visual still loads. Visual-only modules (MACHINE_ROOMS_01) take the same path.
   }
   if(level.floor.empty()||level.scene.instances.empty())throw std::runtime_error("World has no floor or visual geometry");
   if(!floors::build_graph(*level.native_floor,error))throw std::runtime_error(error);

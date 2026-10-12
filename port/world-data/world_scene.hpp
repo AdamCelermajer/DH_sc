@@ -3,11 +3,14 @@
 #include "../scene-payloads/scene.hpp"
 
 namespace dh2::world {
-// Copyable binding; no borrowed scene strings or buffer ownership. All nine
-// SWAMP placements use translation-only roots. Unsupported transforms fail.
+// Copyable binding; no borrowed scene strings or buffer ownership. Placement
+// matrices require a translation-only catalogue root; a rotated catalogue root
+// (catalogue_rotated) is recorded so that module-root bounds can undo it.
 struct ModuleBinding {
     std::uint32_t visual_index, node_record;
     float catalogue_origin[3], placement_delta[3];
+    float catalogue_rotation[4];  // catalogue root quaternion (x,y,z,w)
+    bool catalogue_rotated;
 };
 }
 extern "C" {

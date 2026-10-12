@@ -10321,9 +10321,18 @@ dh2::character::CombatFacts SpawnOwner::combat_facts(void* raw) {
   return sequence;
  };
  dh2::character::CombatFacts facts{};
- facts.scared_animation=selected(124/4,0x100u);
- facts.stunned_animation=selected(140/4,0x200u);
- facts.injured_animation=selected(60/4,0x1000u);
+ // Original Structs::CharAnim::read (0x4ef64c) lays the row out as vtable at +0,
+ // scalar k at +4(k+1) for k<=14, Interact array at +64/+68, scalar k in 16..30
+ // at +4(k+2), Spells array at +132/+136, scalar k in 32..36 at +4(k+3).
+ // Scared/Stunned/Injured are therefore fields 29/32/14, not dword 31/35/15.
+ const auto field_of=[&](const char* name)->std::size_t{
+  const auto& names=actor_animation_tables.state_names;
+  for(std::size_t i=0;i<names.size();++i)if(names[i]==name)return i;
+  throw std::logic_error("Spawn combat CharAnimTable field name is unavailable");
+ };
+ facts.scared_animation=selected(field_of("Scared"),0x100u);
+ facts.stunned_animation=selected(field_of("Stunned"),0x200u);
+ facts.injured_animation=selected(field_of("Injured"),0x1000u);
  facts.machine_flags_44=owner->character.source_machine_flags_44_528();
  facts.controller_present=owner->control_services.context==owner&&
       owner->control_services.invoke==SpawnOwner::controller_service?1u:0u;

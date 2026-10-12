@@ -41,9 +41,12 @@ struct Walk {
     const std::uint32_t* records;
     std::uint32_t record_count;
     float owner[3];
-    // Rotated or scaled Module: descendants are placed by root * T(-catalogue_origin) * serialized.
+    // Rotated or scaled Module: descendants are placed by root * to_root * serialized, where
+    // to_root undoes the catalogue root (inverse of T(origin) * R0), so the module root alone
+    // carries the placement transform.
     bool rotated = false;
     dh2::math::Matrix4f root{};
+    dh2::math::Matrix4f to_root{};
     Result result{};
     bool has_bounds = false;
     Status status = Status::complete;
@@ -71,10 +74,7 @@ bool visit(const dh2::scene_payload::Node* node,
 
     dh2::math::Matrix4f placed{};
     if (walk.rotated) {
-        dh2::math::Matrix4f to_root{};
-        for (unsigned i = 0; i < 16; ++i) to_root.m[i] = (i % 5 == 0) ? 1.0f : 0.0f;
-        for (unsigned axis = 0; axis != 3; ++axis) to_root.m[12 + axis] = -walk.binding->catalogue_origin[axis];
-        placed = multiply(walk.root, multiply(to_root, *serialized_world));
+        placed = multiply(walk.root, multiply(walk.to_root, *serialized_world));
         for (float value : placed.m)
             if (!std::isfinite(value)) {
                 walk.status = Status::transform_failure;
@@ -197,6 +197,8 @@ Status build(const dh2::world::Module* module,
     const auto& local = module->record.local;
     for (unsigned axis = 0; axis != 3; ++axis)
         if (local.rotation_degrees[axis] != 0.0f || local.scale[axis] != 1.0f) walk.rotated = true;
+    // Unrotated Modules place descendants by translation only, which needs an identity catalogue root.
+    if (!walk.rotated && binding.catalogue_rotated) return Status::unsupported_transform;
     if (walk.rotated) {
         float radians[3];
         float scale[3];
@@ -210,6 +212,22 @@ Status build(const dh2::world::Module* module,
         const float quaternion[4]{q.x, q.y, q.z, q.w};
         dh2_node_matrix(walk.root.m, owner_world_position, quaternion, scale);
         walk.root.identity_hint = 0;
+    }
+    // to_root = inverse(T(origin) * R0) = R0^T * T(-origin); R0 is a unit quaternion.
+    {
+        const float zero[3]{0, 0, 0}, unit[3]{1, 1, 1};
+        dh2::math::Matrix4f catalogue{};
+        dh2_node_matrix(catalogue.m, zero, binding.catalogue_rotation, unit);
+        dh2::math::Matrix4f transpose{};
+        for (unsigned c = 0; c != 3; ++c)
+            for (unsigned r = 0; r != 3; ++r) transpose.m[c * 4 + r] = catalogue.m[r * 4 + c];
+        transpose.m[15] = 1;
+        transpose.identity_hint = 0;
+        dh2::math::Matrix4f back{};
+        for (unsigned i = 0; i < 16; ++i) back.m[i] = (i % 5 == 0) ? 1.0f : 0.0f;
+        for (unsigned axis = 0; axis != 3; ++axis) back.m[12 + axis] = -binding.catalogue_origin[axis];
+        back.identity_hint = 0;
+        walk.to_root = multiply(transpose, back);
     }
     const auto walked = dh2_scene_walk_visual(&visual, visit, &walk, 65536);
     if (walked != dh2::scene_payload::Error::ok)
