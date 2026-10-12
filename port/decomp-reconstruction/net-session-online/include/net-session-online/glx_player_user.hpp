@@ -27,9 +27,9 @@
 //   +0x108 avatar keys (owned, array)       +0x10c avatar last updates (owned, array)
 //   +0x110 avatar status (array)            +0x114 avatar count
 //   +0x118 chat warning (owned)             +0x124 unknown owned string
-// Not modelled: vector<channel> at +0xe8 and +0xf8, the _LiveFeed array at +0x12c,
-// the request client object at +0x20 (see the ctor note), and fields at +0x3c..+0x3f,
-// +0x47, +0x49, +0xdc, +0xe4 and +0x128 (their roles are not identified).
+// +0x128 live feed count (int) and +0x12c the _LiveFeed array (owned entries).
+// Not modelled: vector<channel> at +0xe8 and +0xf8, the request client object at +0x20 (see the
+// ctor note), and fields at +0x3c..+0x3f, +0x47, +0x49 and +0xdc, +0xe4 (their roles are not identified).
 #pragma once
 
 #include <cstdint>
@@ -38,6 +38,7 @@
 #include <vector>
 
 #include "net-session-online/glx_player_web_component.hpp"
+#include "net-session-online/live_feed.hpp"
 
 class GLXPlayerUser : public GLXPlayerWebComponent {
 public:
@@ -89,7 +90,7 @@ public:
 
     // Response handlers (src/glx_player_user_responses.cpp). Partial where noted there.
     void setPassword(char* password);                                // 0x83b1ac
-    void processLiveFeeds(char* response);                           // 0x83adec (partial)
+    void processLiveFeeds(char* response);                           // 0x83adec
     void processUserChatWarning(char* text);                         // 0x83afb8
     void processPromoAttachment(char* text);                         // 0x83b028
     void processRssAttachment(char* text);                           // 0x83b074
@@ -212,4 +213,6 @@ private:
     std::unique_ptr<char[]> iconText1_;                              // +0xd0
     std::unique_ptr<char[]> chatWarning_;                            // +0x118
     std::unique_ptr<char[]> string124_;                              // +0x124
+    std::int32_t liveFeedCount_ = 0;                                 // +0x128
+    std::vector<std::unique_ptr<_LiveFeed>> liveFeeds_;              // +0x12c
 };

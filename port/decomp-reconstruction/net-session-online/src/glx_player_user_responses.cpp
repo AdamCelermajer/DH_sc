@@ -65,9 +65,23 @@ std::int32_t CountBars(const std::string& text) {
 void GLXPlayerUser::setPassword(char* password) { password_ = OwnedDup(password); }
 
 // 0x83adec _ZN13GLXPlayerUser15processLiveFeedsEPc
-// Partial: the live feed list (452 bytes) is parsed into the _LiveFeed array at +0x12c,
-// which is not modelled. Nothing is stored here.
-void GLXPlayerUser::processLiveFeeds(char* response) { (void)response; }
+// The count is field 0 (+0x128). When it is above zero the _LiveFeed array is rebuilt: entry i
+// takes field i+1 of the response, split on '^' into its two owned buffers. When the count is
+// not above zero the array is kept, as in the original. Deviation: a field that is not found
+// gives an empty buffer here; the original's buffer state for that case is not confirmed.
+void GLXPlayerUser::processLiveFeeds(char* response) {
+    const std::string body = response != nullptr ? std::string(response) : std::string();
+    liveFeedCount_ = IntField(body, 0);
+    if (liveFeedCount_ <= 0) {
+        return;
+    }
+    liveFeeds_.clear();
+    for (std::int32_t i = 0; i < liveFeedCount_; ++i) {
+        const std::string record = Field(body, i + 1);
+        liveFeeds_.push_back(std::make_unique<_LiveFeed>(OwnedField(record, 0, kCaret).release(),
+                                                         OwnedField(record, 1, kCaret).release()));
+    }
+}
 
 // 0x83afb8 _ZN13GLXPlayerUser22processUserChatWarningEPc
 void GLXPlayerUser::processUserChatWarning(char* text) { chatWarning_ = OwnedNonEmpty(text); }
