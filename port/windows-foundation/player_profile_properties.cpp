@@ -41,7 +41,13 @@ bool project_player_profile_properties(const OriginalPropertyDatabase& database,
     const auto authored=database.characters.rows[std::size_t(row-database.characters.names.begin())];
     auto recalc=[&](){
         candidate.sheets.base=authored;
-        candidate.sheets.base[19]=prepared.sheets.base[19];
+        // Source LevelUp keeps the CharacterDesign row level in base (it reloads base from the row on every LevelUp)
+        // and each gained level in saved, so a restored level must be stored as its delta over the row level.
+        // Placing the whole level in base made the first LevelUp after a restore reload the row, add one level
+        // and resolve to the same level (no level, FX, or points, and the XP was reset).
+        // resolved[19] is the level the validation above checks against the profile; it is the same before and after
+        // this projection, so re-projecting an already projected sheet keeps the level.
+        candidate.sheets.saved[19]=prepared.sheets.resolved[19]-authored[19];
         return dh2::data::recalc_properties_with_class(database.classes,rules,candidate.sheets,error);
     };
     auto set=[&](unsigned property,std::int32_t wanted){

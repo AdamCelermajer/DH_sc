@@ -501,6 +501,7 @@ struct Options {
     std::vector<f::spawn::SpawnNamedRequestV1> spawnDeclared; // P16 SPAWN: --spawn-declared NAME@FRAME (authored Limbus/PreSpawn declaration; implies --retain-hidden-actors)
     std::vector<f::spawn::SpawnNamedRequestV1> despawnTests;  // P16 SPAWN: --despawn-test NAME@FRAME (live pool slot by population name)
     std::vector<f::spawn::SpawnNamedRequestV1> killTests;     // P16 DESPAWN2: --kill-test NAME@FRAME (debug: authored actor to 0 HP)
+    std::vector<std::pair<int,std::int32_t>> testXpAwards;    // B157 TEST ONLY: --test-xp FRAME:AMOUNT (whole XP through the quest reward path)
     bool despawnClip=false;  // P16 DESPAWN2: --despawn-clip plays the Despawn clip on the dead actor (opt-in; the decoded original does not select it)
     std::map<std::string,f::OriginalAttackSelection> lifecycleSpawns;
     std::map<std::string,f::CombatSessionChoice> lifecyclePreSpawns;
@@ -586,6 +587,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--spawn-declared") {f::spawn::SpawnNamedRequestV1 request;std::string parseError;if(!f::spawn::parse_spawn_named_v1(value(),request,parseError))throw std::runtime_error("--spawn-declared: "+parseError);o.spawnDeclared.push_back(request);o.retainHiddenActors=true;} // P16 SPAWN
         else if(arg=="--container-script") {const auto text=value();const auto eq=text.find('=');if(eq==std::string::npos||eq==0||eq+1>=text.size())throw std::runtime_error("--container-script expects DECLARATION=SCRIPT");o.containerScriptOverrides.emplace_back(text.substr(0,eq),text.substr(eq+1));} // P16 CONTAINERS2 debug (plant/zombie OnOpen variants on Swamp)
         else if(arg=="--kill-test") {f::spawn::SpawnNamedRequestV1 request;std::string parseError;if(!f::spawn::parse_spawn_named_v1(value(),request,parseError))throw std::runtime_error("--kill-test: "+parseError);o.killTests.push_back(request);} // P16 DESPAWN2
+        else if(arg=="--test-xp") {const auto text=value();const auto colon=text.find(':');if(colon==std::string::npos||colon==0||colon+1>=text.size())throw std::runtime_error("--test-xp expects FRAME:AMOUNT");o.testXpAwards.emplace_back(std::stoi(text.substr(0,colon)),std::stoi(text.substr(colon+1)));} // B157 TEST ONLY
         else if(arg=="--despawn-clip") o.despawnClip=true; // P16 DESPAWN2
         else if(arg=="--despawn-test") {f::spawn::SpawnNamedRequestV1 request;std::string parseError;if(!f::spawn::parse_spawn_named_v1(value(),request,parseError))throw std::runtime_error("--despawn-test: "+parseError);o.despawnTests.push_back(request);} // P16 SPAWN
         else if(arg=="--enemy-ai") o.runtimeEnemyAI=true;
@@ -7116,6 +7118,18 @@ int main(int argc,char** argv) {
                 std::string killError;
                 if(!combatSession->script_kill_actor(victim->id,killError)){std::cout<<"KILL test refused name="<<request.name<<" reason="<<killError<<" frame="<<drawn<<'\n';continue;}
                 std::cout<<"KILL test actor="<<victim->id<<" name="<<request.name<<" frame="<<drawn<<'\n';
+            }
+            // B157 TEST ONLY: --test-xp FRAME:AMOUNT awards AMOUNT whole XP through the quest reward path
+            // (RuntimeSessionDeathRewardsV1::award_experience -> award_player_xp -> LevelUp -> FX/sound). Never in packaged args.
+            for(const auto& award:options.testXpAwards)if(award.first==int(drawn)&&combatSession&&deathRewards.bound()) {
+                std::string xpError;
+                const bool ok=deathRewards.award_experience(combatSession->player_id(),award.second,xpError);
+                const auto* sheet=combatSession->world()->combat_properties(combatSession->player_id());
+                std::cout<<"Test XP award frame="<<drawn<<" amount="<<award.second<<" ok="<<ok<<" xp="<<state.experience<<" level="<<state.stats.level
+                         <<" statPoints="<<state.source_stat_points<<" skillPoints="<<state.source_skill_points<<(xpError.empty()?"":" error="+xpError)
+                         <<" resolvedLevelRaw="<<(sheet?sheet->sheets.resolved[19]:-1)<<" resolvedXpRaw="<<(sheet?sheet->sheets.resolved[33]:-1)
+                         <<" resolvedXpNeededRaw="<<(sheet?sheet->sheets.resolved[34]:-1)<<" resolvedStatPtsRaw="<<(sheet?sheet->sheets.resolved[148]:-1)
+                         <<" resolvedSkillPtsRaw="<<(sheet?sheet->sheets.resolved[157]:-1)<<'\n';
             }
             for(const auto& request:options.despawnTests)if(request.frame==drawn&&combatSession) {
                 const auto placed=placedNamed(request.name);

@@ -361,7 +361,8 @@ int main(int argc,char** argv){try{
     check(threshold_raw>0,"Actual source Rogue XP threshold is unavailable");
     PropertyRules rules;check(load_property_rules(database.characters,rules,error),error);
     auto levelup_view=property_view(rules,levelup_source.sheets);
-    const auto xp_before_threshold=threshold_raw-1;
+    // B157: stage 10 XP above the threshold so the LevelUp must carry the excess (the kill adds on top of it).
+    const auto xp_before_threshold=threshold_raw+10*256;
     check(!dh2_property_set(&levelup_view,33,xp_before_threshold),
           "Could not stage source XP immediately below its authored threshold");
     check(world.update_combat_properties(1,levelup_source,*world.traits(1),error),error);
@@ -384,6 +385,9 @@ int main(int argc,char** argv){try{
           context.actors[1].character->stats.health==leveled_actor->health&&
           context.actors[1].character->stats.resource==leveled_actor->resource,
           "Actual source XP level-up failed to refill and publish same-world HP/MP");
+    // B157: the XP above the old threshold survives the LevelUp (it was reset to 0 before the carry was read).
+    check(asr8(leveled_source->sheets.resolved[33])>=10&&leveled_source->sheets.resolved[33]<leveled_source->sheets.resolved[34],
+          "B157: LevelUp dropped the XP carry above the threshold");
     const auto save_path=std::filesystem::temp_directory_path()/"dh2-runtime-death-rewards-v1-xp-vitals.dhsave";
     std::error_code ignored;std::filesystem::remove(save_path,ignored);
     check(save_character(save_path,*context.actors[1].character,error),error);
